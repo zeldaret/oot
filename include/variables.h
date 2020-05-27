@@ -4,9 +4,6 @@
 #include <z64.h>
 #include <segment_symbols.h>
 
-extern u8 D_00113070[];
-extern u8 D_001579A0[];
-
 extern u8 D_02000000[];
 extern u8 D_02000400[];
 extern u8 D_02000500[];
@@ -281,7 +278,6 @@ extern u16 D_8011FB40;
 //extern ? D_8011FE94;
 //extern ? D_8011FEC4;
 //extern ? D_8011FED0;
-//extern ? D_80120030;
 extern s32 gZeldaArenaLogSeverity;
 extern s16 D_80120130;
 //extern ? D_80120134;
@@ -622,8 +618,6 @@ extern u8 D_8012DBB0;
 extern u32 D_8012DBC0;
 extern volatile u32 gIrqMgrResetStatus;
 extern volatile OSTime gIrqMgrRetraceTime;
-extern u32 D_8012DBA0;
-extern u32 D_8012DBA4;
 extern s32 gDebugArenaLogSeverity;
 //extern ? D_8012DCA0;
 //extern ? D_8012DCF8;
@@ -3283,6 +3277,7 @@ extern char D_80146238[];
 //extern ? D_80155C70;
 extern u8 D_80155F50[];
 extern u8 D_80157580[];
+extern u8 D_801579A0[];
 extern u8 D_80157D30[];
 //extern ? D_8015BB90;
 //extern ? D_8015BC30;

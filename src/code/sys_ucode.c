@@ -1,5 +1,8 @@
 #include <global.h>
 
+u32 D_8012DBA0 = (u32)&D_80155F50;
+u32 D_8012DBA4 = (u32)&D_80157580;
+
 u32 SysUcode_GetUCodeBoot() {
     return &D_80009320;
 }

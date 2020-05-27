@@ -32,7 +32,7 @@ void TransitionTriforce_Start(TransitionTriforce* this) {
 
 TransitionTriforce* TransitionTriforce_Init(TransitionTriforce* this) {
     bzero(this, sizeof(*this));
-    func_801045A4(&this->projection, -160.0f, 160.0f, -120.0f, 120.0f, -1000.0f, 1000.0f, 1.0f);
+    guOrtho(&this->projection, -160.0f, 160.0f, -120.0f, 120.0f, -1000.0f, 1000.0f, 1.0f);
     this->transPos = 1.0f;
     this->state = 2;
     this->step = 0.015f;
