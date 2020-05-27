@@ -8509,7 +8509,6 @@ endseg
 beginseg
     name "syotes_scene"
     romalign 0x1000
-    //include "build/baserom/syotes_scene.o"
     include "build/scenes/test_levels/syotes/syotes_scene.o"
     address SEGMENT_SCENE
 endseg
@@ -8517,7 +8516,6 @@ endseg
 beginseg
     name "syotes_room_0"
     romalign 0x1000
-    //include "build/baserom/syotes_room_0.o"
     include "build/scenes/test_levels/syotes/syotes_room_0.o"
     address SEGMENT_ROOM
 endseg
@@ -9960,7 +9958,6 @@ endseg
 beginseg
     name "hairal_niwa2_scene"
     romalign 0x1000
-    //include "build/baserom/hairal_niwa2_scene.o"
     include "build/scenes/indoors/hairal_niwa2/hairal_niwa2_scene.o"
     address SEGMENT_SCENE
 endseg
@@ -9968,7 +9965,6 @@ endseg
 beginseg
     name "hairal_niwa2_room_0"
     romalign 0x1000
-    //include "build/baserom/hairal_niwa2_room_0.o"
     include "build/scenes/indoors/hairal_niwa2/hairal_niwa2_room_0.o"
     address SEGMENT_ROOM
 endseg
