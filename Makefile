@@ -35,9 +35,10 @@ ZAP2       := tools/ZAP2/ZAP2.out
 
 OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
+MIPS_VERSION := -mips2
 
 # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-CFLAGS  := -mips2 -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838
+CFLAGS  := -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838
 
 ifeq ($(shell getconf LONG_BIT), 32)
   # Work around memory allocation bug in QEMU
@@ -102,6 +103,8 @@ build/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
+build/src/libultra_code/llcvt.o: OPTFLAGS := -O1
+build/src/libultra_code/llcvt.o: MIPS_VERSION := -mips3 -32
 
 # Todo: split libultra_code into libultra_code_O1, etc..
 build/src/libultra_code/sqrt.o: OPTFLAGS := -O2 -g3
@@ -170,23 +173,30 @@ build/data/%.o: data/%.s
 #	cp $(<:.c=.xml) $@
 
 build/scenes/%.o: scenes/%.c
-	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
 	$(ZAP2) bovl -i $@ -cfg $^ -o $(@:.o=_reloc.s)
 	-test -f $(@:.o=_reloc.s) && $(AS) $(ASFLAGS) $(@:.o=_reloc.s) -o $(@:.o=_reloc.o)
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
-	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
+	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
+
+build/src/libultra_code/llcvt.o: src/libultra_code/llcvt.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+	$(CC_CHECK) $^
+	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 #build/assets/textures/%.o: assets/textures/%.zdata
