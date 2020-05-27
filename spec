@@ -288,8 +288,6 @@ beginseg
     include "build/data/z_effect_soft_sprite_old_init.data.o"
     include "build/src/code/z_effect_soft_sprite_dlftbls.o"
     include "build/src/code/flg_set.o"
-    include "build/data/flg_set.data.o"
-    include "build/data/flg_set.bss.o"
     include "build/src/code/z_DLF.o"
     include "build/src/code/z_actor.o"
     include "build/src/code/z_actor_dlftbls.o"
@@ -3553,8 +3551,7 @@ endseg
 beginseg
     name "ovl_End_Title"
     include "build/src/overlays/actors/ovl_End_Title/z_end_title.o"
-    include "build/data/overlays/actors/z_end_title.data.o"
-    include "build/data/overlays/actors/z_end_title.reloc.o"
+    include "build/src/overlays/actors/ovl_End_Title/z_end_title_reloc.o"
 endseg
 
 beginseg
