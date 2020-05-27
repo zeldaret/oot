@@ -292,7 +292,7 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
     i = globalCtx->objectCtx.unk_09;
     firstStatus = &globalCtx->objectCtx.status[0];
     status = &globalCtx->objectCtx.status[i];
-    
+
     while (i < globalCtx->objectCtx.num) {
         if (status->id != *objectEntry) {
             status2 = &globalCtx->objectCtx.status[i];
@@ -302,20 +302,20 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
             }
             globalCtx->objectCtx.num = i;
             func_80031A28(globalCtx, &globalCtx->actorCtx);
-            
+
             continue;
         }
-        
+
         i++;
         k++;
         objectEntry++;
         status++;
     }
-    
+
     if (cmd->objectList.num > OBJECT_EXCHANGE_BANK_MAX) {
         __assert("scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
     }
-    
+
     if (1) {}
 
     while (k < cmd->objectList.num) {
