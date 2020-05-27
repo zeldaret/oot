@@ -7,7 +7,7 @@
 
 .section .rodata
 
-.align 4
+.balign 16
 
 glabel D_8014B2F0
     .word 0x00000000
