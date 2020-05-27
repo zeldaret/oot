@@ -49,8 +49,8 @@ u32 D_808BD9C4[] = {
     0xC52BA000, 0x44084000, 0x4592B000, 0xC525E000, 0x43120000, 0x458DB000,
 };
 
-extern u32 D_060009D0;
-extern u32 D_06000E94;
+extern Gfx D_060009D0[];
+extern UNK_TYPE D_06000E94;
 
 void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc) {
     this->actionFunc = actionFunc;

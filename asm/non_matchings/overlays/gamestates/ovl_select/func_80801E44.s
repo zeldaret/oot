@@ -73,7 +73,7 @@ glabel func_80801E44
 /* 013CC 80801F5C AFA5002C */  sw      $a1, 0x002C($sp)
 /* 013D0 80801F60 AFA30030 */  sw      $v1, 0x0030($sp)
 /* 013D4 80801F64 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 013D8 80801F68 0C031521 */  jal     GameState_AllocEnd
+/* 013D8 80801F68 0C031521 */  jal     GameState_Alloc
 /* 013DC 80801F6C 2407045A */  addiu   $a3, $zero, 0x045A         ## $a3 = 0000045A
 /* 013E0 80801F70 AE020238 */  sw      $v0, 0x0238($s0)           ## 00000238
 /* 013E4 80801F74 3C078080 */  lui     $a3, %hi(D_808035DC)       ## $a3 = 80800000

@@ -1,0 +1,8 @@
+<Root>
+    <File Name="kokiri_home_scene">
+        <Scene Name="kokiri_home_scene"/>
+    </File>
+    <File Name="kokiri_home_room_0">
+        <Room Name="kokiri_home_room_0"/>
+    </File>
+</Root>

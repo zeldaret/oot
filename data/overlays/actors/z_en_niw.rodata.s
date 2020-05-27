@@ -3,9 +3,11 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
+
+.balign 16
 
 glabel D_80AB8720
     .asciz "[33m☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n[m"
@@ -19,13 +21,9 @@ glabel D_80AB8788
     .asciz "[33m 通常鶏index %d\n[m"
     .balign 4
 
-.balign 4
-
 glabel D_80AB87A4
     .asciz "[33m☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n[m"
     .balign 4
-
-.balign 4
 
 glabel D_80AB87D4
     .asciz "\n\n"
@@ -39,67 +37,45 @@ glabel D_80AB87DC
     .asciz "[32m ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n[m"
     .balign 4
 
-.balign 4
-
 glabel D_80AB880C
     .asciz "[32m☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n[m"
     .balign 4
-
-.balign 4
 
 glabel D_80AB8838
     .asciz "[31m☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
 
-.balign 4
-
 glabel D_80AB8868
     .asciz "[31m☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
-
-.balign 4
 
 glabel D_80AB8898
     .asciz "[31m☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
 
-.balign 4
-
 glabel D_80AB88C8
     .asciz "[32m☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
-
-.balign 4
 
 glabel D_80AB88F8
     .asciz "[32m☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
 
-.balign 4
-
 glabel D_80AB8928
     .asciz "[32m☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
-
-.balign 4
 
 glabel D_80AB8958
     .asciz "[33m☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
 
-.balign 4
-
 glabel D_80AB8988
     .asciz "[33m☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
 
-.balign 4
-
 glabel D_80AB89B8
     .asciz "[33m☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
-
-.balign 4
 
 glabel D_80AB89E8
     .asciz "\n\n"
@@ -112,8 +88,6 @@ glabel D_80AB89EC
 glabel D_80AB89F0
     .asciz "[33m☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n[m"
     .balign 4
-
-.balign 4
 
 glabel D_80AB8A1C
     .asciz "\n\n"
