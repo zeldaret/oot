@@ -290,7 +290,7 @@ void func_80A9D25C(EnKz* this, GlobalContext* globalCtx) {
             func_80A9CE44(this, globalCtx);
             gSaveContext.eventChkInf[3] |= 8;
             this->actor.speedXZ = 0.0;
-            this->actionFunc = &func_80A9D3C8;
+            this->actionFunc = func_80A9D3C8;
         }
     }
     if (this->skelanime.animCurrentFrame == 13.0f) {
