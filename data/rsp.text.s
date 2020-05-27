@@ -7,6 +7,8 @@
 
 .section .text
 
+.balign 16
+
 glabel D_801120C0
     .incbin "baserom.z64", 0xB89260, 0xFB0
 

@@ -1,7 +1,3 @@
-// rsp microcode symbols
-D_00113070 = 0x00113070;
-D_001579A0 = 0x001579A0;
-
 // libultra OS symbols
 D_80000000 = 0x80000000;
 D_80000002 = 0x80000002;
