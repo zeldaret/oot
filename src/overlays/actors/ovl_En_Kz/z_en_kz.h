@@ -13,11 +13,10 @@ typedef struct EnKz {
     /* 0x014C */ SkelAnime skelanime;
     /* 0x0190 */ EnKzActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ s16 nextBehavior; //name might be bad
-    /* 0x01E2 */ char unk_1E2[0x26];
+    /* 0x01E0 */ struct_80034A14_arg1 unk_1E0;
     /* 0x0208 */ u8 unk_208;
     /* 0x0209 */ u8 unk_209;
-    /* 0x020A */ s16 unk_20A;
+    /* 0x020A */ s16 waypoint;
     /* 0x020C */ s16 blinkTimer;
     /* 0x020E */ char unk_20E[0x2];
     /* 0x0210 */ s16 eyeIdx;
