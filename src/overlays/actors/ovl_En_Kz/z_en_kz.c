@@ -9,14 +9,14 @@ void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKz_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A9D0C0(EnKz* this, GlobalContext* globalCtx);
-void func_80A9D130(EnKz* this, GlobalContext* globalCtx);
-void func_80A9D25C(EnKz* this, GlobalContext* globalCtx);
-void func_80A9D3C8(EnKz* this, GlobalContext* globalCtx);
+void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx);
+void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx);
+void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx);
+void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx);
 
-void func_80A9D42C(EnKz* this, GlobalContext* globalCtx);
-void func_80A9D490(EnKz* this, GlobalContext* globalCtx);
-void func_80A9D520(EnKz* this, GlobalContext* globalCtx);
+void En_PostMweepWait(EnKz* this, GlobalContext* globalCtx);
+void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx);
+void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx);
 
 const ActorInit En_Kz_InitVars = {
     ACTOR_EN_KZ,
@@ -51,16 +51,9 @@ static struct_80034EC0_Entry sAnimations[] = {
     { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
 };
 
-static UNK_PTR sEyeSegments[] = {
-    0x06001470, 
-    0x06001870, 
-    0x06001C70,
-};
+extern SkeletonHeader D_060086D0;
 
-extern SkeletonHeader D_060186D0;
-
-//EnKz_GetTextNoMaskChild
-u16 func_80A9C550(GlobalContext* globalCtx, EnKz* this) {
+u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
 
     if (gBitFlags[20] & gSaveContext.questItems) { // has Zora's Sapphire
@@ -73,8 +66,7 @@ u16 func_80A9C550(GlobalContext* globalCtx, EnKz* this) {
     }
 }
 
-//EnKz_GetTextNoMaskAdult
-u16 func_80A9C5AC(GlobalContext* globalCtx, EnKz* this) {
+u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
@@ -93,8 +85,7 @@ u16 func_80A9C5AC(GlobalContext* globalCtx, EnKz* this) {
     }
 }
 
-//EnKz_GetText
-u16 func_80A9C658(GlobalContext* globalCtx, EnKz* this) {
+u16 EnKz_GetText(GlobalContext* globalCtx, EnKz* this) {
     u16 reactionText = Text_GetFaceReaction(globalCtx, 0x1E);
 
     if (reactionText != 0) {
@@ -102,9 +93,9 @@ u16 func_80A9C658(GlobalContext* globalCtx, EnKz* this) {
     }
 
     if (LINK_IS_ADULT) {
-        return func_80A9C5AC(globalCtx, this);
+        return EnKz_GetTextNoMaskAdult(globalCtx, this);
     } else {
-        return func_80A9C550(globalCtx, this);
+        return EnKz_GetTextNoMaskChild(globalCtx, this);
     }
 }
 
@@ -147,7 +138,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this) {
             }
             if (this->actor.textId == 0x4014) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
-                    func_80A9D490(this, globalCtx);
+                    EnKz_SetupGetItem(this, globalCtx);
                     ret = 2;
                 } else {
                     this->actor.textId = 0x4016;
@@ -171,9 +162,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this) {
     return ret;
 }
 
-
-//EnKz_UpdateEyes
-void func_80A9C8E4(EnKz* this) {
+void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx += 1;
         if (this->eyeIdx >= 3) {
@@ -230,7 +219,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf,
 void func_80A9CB18(EnKz *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
 
-    if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, func_80A9C658, func_80A9C6C0) != 0) {
+    if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0) != 0) {
         if (this->actor.textId == 0x401A) {
             if (!(gSaveContext.eventChkInf[3] & 8)) {
                 if (func_8002F368(globalCtx) == 0x1D) {
@@ -263,7 +252,7 @@ void func_80A9CB18(EnKz *this, GlobalContext *globalCtx) {
     }
 }
 
-s32 func_80A9CCD8(EnKz* this, GlobalContext* globalCtx) {
+s32 EnKz_FollowPath(EnKz* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s* pointPos;
     f32 pathDiffX;
@@ -292,7 +281,7 @@ s32 func_80A9CCD8(EnKz* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-s32 func_80A9CE44(EnKz* this, GlobalContext* globalCtx) {
+s32 EnKz_SetMovedPos(EnKz* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s* pointPos;
 
@@ -315,7 +304,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx){
     EnKz* this = THIS;
     s32 pad1;
     
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060186D0, NULL, &this->limbDrawTable, 
+    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, 
                      &this->transitionDrawTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -326,7 +315,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx){
     this->unk_1E0.unk_00 = 0;
     func_80034EC0(&this->skelanime, sAnimations, 0);
     if (gSaveContext.eventChkInf[3] & 8) {
-        func_80A9CE44(this, globalCtx);
+        EnKz_SetMovedPos(this, globalCtx);
     }
 
     if (LINK_IS_ADULT) {
@@ -335,30 +324,29 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx){
                                 this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
                                 0, 0, 0, 0x04FF);
         }
-        this->actionFunc = func_80A9D42C;
+        this->actionFunc = En_PostMweepWait;
     } else {
-        this->actionFunc = func_80A9D0C0;
+        this->actionFunc = EnKz_PreMweepWait;
     }
 }
 
 void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
+    
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-//EnKz_PreMweepWait
-void func_80A9D0C0(EnKz* this, GlobalContext* globalCtx){
+void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx){
     if (this->unk_1E0.unk_00 == 2) {
         func_80034EC0(&this->skelanime, sAnimations, 2);
         this->unk_1E0.unk_00 = 0;
-        this->actionFunc = func_80A9D130;
+        this->actionFunc = EnKz_SetupMweep;
     } else {
         func_80034F54(globalCtx, &this->unk_2A6, &this->unk_2BE, 12);
     }
 }
 
-//EnKz_SetupMweep
-void func_80A9D130(EnKz* this, GlobalContext* globalCtx) {
+void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
     s32 unused[] = {0, 0, 0};
     Vec3f pos;
     Vec3f initPos;
@@ -375,11 +363,10 @@ void func_80A9D130(EnKz* this, GlobalContext* globalCtx) {
     func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
     func_8002DF54(globalCtx, &this->actor, 8);
     this->actor.speedXZ = 0.1f;
-    this->actionFunc = func_80A9D25C;
+    this->actionFunc = EnKz_Mweep;
 }
 
-//EnKz_Mweep
-void func_80A9D25C(EnKz* this, GlobalContext* globalCtx) {
+void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     s32 unused[] = {0, 0, 0};
     Vec3f pos;
     Vec3f initPos;
@@ -390,14 +377,14 @@ void func_80A9D25C(EnKz* this, GlobalContext* globalCtx) {
     initPos.y += -100.0f;
     initPos.z += 260.0f;
     func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
-    if (func_80A9CCD8(this, globalCtx) == 1) {
+    if (EnKz_FollowPath(this, globalCtx) == 1) {
         if (this->waypoint == 0) {
             func_80034EC0(&this->skelanime, sAnimations, 1);
             Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
-            func_80A9CE44(this, globalCtx);
+            EnKz_SetMovedPos(this, globalCtx);
             gSaveContext.eventChkInf[3] |= 8;
             this->actor.speedXZ = 0.0;
-            this->actionFunc = func_80A9D3C8;
+            this->actionFunc = EnKz_StopMweep;
         }
     }
     if (this->skelanime.animCurrentFrame == 13.0f) {
@@ -405,26 +392,23 @@ void func_80A9D25C(EnKz* this, GlobalContext* globalCtx) {
     }
 }
 
-//EnKz_StopMweep
-void func_80A9D3C8(EnKz* this, GlobalContext* globalCtx) {
+void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, 7);
     Gameplay_ClearCamera(globalCtx, this->cutsceneCamera);
     func_8002DF54(globalCtx, &this->actor, 7);
-    this->actionFunc = func_80A9D42C;
+    this->actionFunc = En_PostMweepWait;
 }
 
-//En0
-void func_80A9D42C(EnKz* this, GlobalContext* globalCtx) {
+void En_PostMweepWait(EnKz* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        this->actionFunc = func_80A9D490;
-        func_80A9D490(this, globalCtx);
+        this->actionFunc = EnKz_SetupGetItem;
+        EnKz_SetupGetItem(this, globalCtx);
     } else {
         func_80034F54(globalCtx, &this->unk_2A6, &this->unk_2BE, 12);
     }
 }
 
-//EnKz_SetupGetItem
-void func_80A9D490(EnKz* this, GlobalContext* globalCtx) {
+void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
     s32 getItemID;
     f32 xzRange;
     f32 yRange;
@@ -432,7 +416,7 @@ void func_80A9D490(EnKz* this, GlobalContext* globalCtx) {
     if (func_8002F410(this, globalCtx)) {
         this->actor.attachedA = NULL;
         this->unk_1E0.unk_00 = 1;
-        this->actionFunc = func_80A9D520;
+        this->actionFunc = EnKz_StartTimer;
     } else {
         getItemID = this->unk_209 == 1 ? GI_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistanceFromLink) + 1.0f;
@@ -441,15 +425,14 @@ void func_80A9D490(EnKz* this, GlobalContext* globalCtx) {
     }
 }
 
-//EnKz_StartTimer
-void func_80A9D520(EnKz* this, GlobalContext* globalCtx) {
+void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
             gSaveContext.eventInf[1] &= ~1;
         }
         this->unk_1E0.unk_00 = 0;
-        this->actionFunc = func_80A9D42C;
+        this->actionFunc = En_PostMweepWait;
     }
 }
 
@@ -463,16 +446,15 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
-    func_80A9C8E4(this);
+    EnKz_UpdateEyes(this);
     Actor_MoveForward(&this->actor);
-    if (this->actionFunc != func_80A9D520) {
+    if (this->actionFunc != EnKz_StartTimer) {
         func_80A9CB18(this, globalCtx);
     }
     this->actionFunc(this, globalCtx);
 }
 
-//EnKz_OverrideLimbDraw
-s32 func_80A9D670(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     s32 limb = limbIndex;
 
     if (limb == 8 || limb == 9 || limb == 10) {
@@ -482,8 +464,7 @@ s32 func_80A9D670(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-//EnKz_PostLimbDraw
-void func_80A9D744(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     s32 limb = limbIndex;
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
@@ -493,6 +474,11 @@ void func_80A9D744(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 }
 
 void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_PTR sEyeSegments[] = {
+        0x06001470, 
+        0x06001870, 
+        0x06001C70,
+    };
     EnKz* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -502,7 +488,7 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, 
-                     this->skelanime.dListCount, func_80A9D670, func_80A9D744, &this->actor);
+                     this->skelanime.dListCount, EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, &this->actor);
     Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }
 
