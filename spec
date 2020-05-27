@@ -2641,7 +2641,7 @@ endseg
 beginseg
     name "ovl_En_Hata"
     include "build/src/overlays/actors/ovl_En_Hata/z_en_hata.o"
-    include "build/src/overlays/actors/ovl_En_Hata/z_en_hata_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hata/ovl_en_hata_reloc.o"
 endseg
 
 beginseg
