@@ -417,7 +417,6 @@ beginseg
     include "build/src/code/sys_math_atan.o"
     include "build/src/code/sys_matrix.o"
     include "build/src/code/sys_ucode.o"
-    include "build/data/sys_ucode.data.o"
     include "build/src/code/code_800D2E30.o"
     include "build/data/code_800D2E30.data.o"
     include "build/src/code/code_800D31A0.o"
