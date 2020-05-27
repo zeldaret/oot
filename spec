@@ -2623,8 +2623,7 @@ endseg
 beginseg
     name "ovl_En_Hata"
     include "build/src/overlays/actors/ovl_En_Hata/z_en_hata.o"
-    include "build/data/overlays/actors/z_en_hata.data.o"
-    include "build/data/overlays/actors/z_en_hata.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hata/z_en_hata_reloc.o"
 endseg
 
 beginseg
