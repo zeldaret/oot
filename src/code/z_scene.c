@@ -321,7 +321,6 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
     while (k < cmd->objectList.num) {
         nextPtr = func_800982FC(&globalCtx->objectCtx, i, *objectEntry);
         if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
-            // This pointer math matches while array access does not
             firstStatus[i + 1].segment = nextPtr;
         }
         i++;
