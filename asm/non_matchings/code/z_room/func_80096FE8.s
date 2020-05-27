@@ -171,7 +171,7 @@ glabel func_80096FE8
 /* B0E354 800971B4 24C6F1BC */  addiu $a2, %lo(D_8013F1BC) # addiu $a2, $a2, -0xe44
 /* B0E358 800971B8 8FA40040 */  lw    $a0, 0x40($sp)
 /* B0E35C 800971BC 02602825 */  move  $a1, $s3
-/* B0E360 800971C0 0C031521 */  jal   GameState_AllocEnd
+/* B0E360 800971C0 0C031521 */  jal   GameState_Alloc
 /* B0E364 800971C4 240703B2 */   li    $a3, 946
 /* B0E368 800971C8 8FAB0044 */  lw    $t3, 0x44($sp)
 /* B0E36C 800971CC 3C048014 */  lui   $a0, %hi(D_8013F1C8) # $a0, 0x8014

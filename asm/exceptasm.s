@@ -3,7 +3,7 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .data
 
@@ -67,7 +67,7 @@ glabel __osIntTable
 
 .section .text
 
-.align 4
+.balign 16
 
 glabel __osExceptionPreamble
 /* 0045D0 800039D0 3C1A8000 */  lui   $k0, %hi(__osException) # $k0, 0x8000

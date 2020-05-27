@@ -3,11 +3,11 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
 
-.align 4
+.balign 16
 
 glabel D_8013C240
     .asciz "\x1b[43;30m\n\nフィールド常駐以外、太陽設定！よって強制解除！\n\x1b[m"
