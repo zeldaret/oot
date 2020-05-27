@@ -1,0 +1,8 @@
+<Root>
+    <File Name="malon_stable_scene">
+        <Scene Name="malon_stable_scene"/>
+    </File>
+    <File Name="malon_stable_room_0">
+        <Room Name="malon_stable_room_0"/>
+    </File>
+</Root>

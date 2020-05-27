@@ -60,7 +60,7 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
     ctx->scTask.list.t = sJpegTask;
 
     osSendMesg(&gSchedContext.cmdQ, (OSMesg)&ctx->scTask, OS_MESG_BLOCK);
-    func_800C95F8(&gSchedContext); // osScKickEntryMsg
+    Sched_SendEntryMsg(&gSchedContext); // osScKickEntryMsg
     osRecvMesg(&ctx->mq, NULL, OS_MESG_BLOCK);
 }
 

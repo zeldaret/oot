@@ -72,7 +72,6 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     {
-        // Makes the screen sepia and draws the title cards
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];
         gfxCtx = globalCtx->state.gfxCtx;
@@ -139,7 +138,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 /*
  This function is never executed in normal gameplay because actor params are never set to 1
- Produces the same results as the sepia subroutine in the main draw function, except without the title cards on the
+ Produces the same results as the main draw function, except without the title cards on the
  end screen
 */
 void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {

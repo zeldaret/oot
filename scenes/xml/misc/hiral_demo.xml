@@ -1,0 +1,9 @@
+<Root>
+    <File Name="hiral_demo_scene">
+        <Scene Name="hiral_demo_scene"/>
+    </File>
+    <File Name="hiral_demo_room_0">
+        <Room Name="hiral_demo_room_0">
+        </Room>
+    </File>
+</Root>

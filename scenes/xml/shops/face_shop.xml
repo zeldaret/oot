@@ -1,0 +1,8 @@
+<Root>
+    <File Name="face_shop_scene">
+        <Scene Name="face_shop_scene"/>
+    </File>
+    <File Name="face_shop_room_0">
+        <Room Name="face_shop_room_0"/>
+    </File>
+</Root>
