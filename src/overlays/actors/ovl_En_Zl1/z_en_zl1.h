@@ -6,10 +6,12 @@
 
 struct EnZl1;
 
+typedef void (*EnZl1ActionFunc)(struct EnZl1*, GlobalContext*);
+
 typedef struct EnZl1 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ ActorFunc actionFunc;
+    /* 0x0190 */ EnZl1ActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ char unk_1E0[0x2];
     /* 0x01E2 */ s16 unk_1E2;
