@@ -288,8 +288,6 @@ beginseg
     include "build/data/z_effect_soft_sprite_old_init.data.o"
     include "build/src/code/z_effect_soft_sprite_dlftbls.o"
     include "build/src/code/flg_set.o"
-    include "build/data/flg_set.data.o"
-    include "build/data/flg_set.bss.o"
     include "build/src/code/z_DLF.o"
     include "build/src/code/z_actor.o"
     include "build/src/code/z_actor_dlftbls.o"
@@ -417,7 +415,6 @@ beginseg
     include "build/src/code/sys_math_atan.o"
     include "build/src/code/sys_matrix.o"
     include "build/src/code/sys_ucode.o"
-    include "build/data/sys_ucode.data.o"
     include "build/src/code/code_800D2E30.o"
     include "build/data/code_800D2E30.data.o"
     include "build/src/code/code_800D31A0.o"
@@ -547,11 +544,10 @@ beginseg
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
-    include "build/src/code/z_message_PAL.o"
     include "build/data/z_message_PAL.rodata.o"
+    include "build/src/code/z_message_PAL.o"
     include "build/data/z_message_PAL.bss.o"
     include "build/src/code/code_80110450.o"
-    include "build/data/code_80110450.rodata.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
@@ -3533,8 +3529,7 @@ endseg
 beginseg
     name "ovl_End_Title"
     include "build/src/overlays/actors/ovl_End_Title/z_end_title.o"
-    include "build/data/overlays/actors/z_end_title.data.o"
-    include "build/data/overlays/actors/z_end_title.reloc.o"
+    include "build/src/overlays/actors/ovl_End_Title/z_end_title_reloc.o"
 endseg
 
 beginseg

@@ -34,10 +34,19 @@ glabel D_80125C9B
     .incbin "baserom.z64", 0xB9CE3B, 0x1
 
 glabel D_80125C9C
-    .incbin "baserom.z64", 0xB9CE3C, 0xCC
+    .incbin "baserom.z64", 0xB9CE3C, 0x4C
+
+glabel D_80125CE8
+    .incbin "baserom.z64", 0xB9CE88, 0x40
+
+glabel D_80125D28
+    .incbin "baserom.z64", 0xB9CEC8, 0x40
 
 glabel D_80125D68
-    .incbin "baserom.z64", 0xB9CF08, 0x80
+    .incbin "baserom.z64", 0xB9CF08, 0x20
+
+glabel D_80125D88
+    .incbin "baserom.z64", 0xB9CF28, 0x60
 
 glabel D_80125DE8
     .incbin "baserom.z64", 0xB9CF88, 0x20
@@ -46,13 +55,52 @@ glabel D_80125E08
     .incbin "baserom.z64", 0xB9CFA8, 0x10
 
 glabel D_80125E18
-    .incbin "baserom.z64", 0xB9CFB8, 0x40
+    .incbin "baserom.z64", 0xB9CFB8, 0x10
+
+glabel D_80125E28
+    .incbin "baserom.z64", 0xB9CFC8, 0x10
+
+glabel D_80125E38
+    .incbin "baserom.z64", 0xB9CFD8, 0x10
+
+glabel D_80125E48
+    .incbin "baserom.z64", 0xB9CFE8, 0x10
 
 glabel D_80125E58
-    .incbin "baserom.z64", 0xB9CFF8, 0xA0
+    .incbin "baserom.z64", 0xB9CFF8, 0x10
+
+glabel D_80125E68
+    .incbin "baserom.z64", 0xB9D008, 0x10
+
+glabel D_80125E78
+    .incbin "baserom.z64", 0xB9D018, 0x10
+
+glabel D_80125E88
+    .incbin "baserom.z64", 0xB9D028, 0x10
+
+glabel D_80125E98
+    .incbin "baserom.z64", 0xB9D038, 0x10
+
+glabel D_80125EA8
+    .incbin "baserom.z64", 0xB9D048, 0x10
+
+glabel D_80125EB8
+    .incbin "baserom.z64", 0xB9D058, 0x10
+
+glabel D_80125EC8
+    .incbin "baserom.z64", 0xB9D068, 0x10
+
+glabel D_80125ED8
+    .incbin "baserom.z64", 0xB9D078, 0x10
+
+glabel D_80125EE8
+    .incbin "baserom.z64", 0xB9D088, 0x10
 
 glabel D_80125EF8
-    .incbin "baserom.z64", 0xB9D098, 0x20
+    .incbin "baserom.z64", 0xB9D098, 0x10
+
+glabel D_80125F08
+    .incbin "baserom.z64", 0xB9D0A8, 0x10
 
 glabel D_80125F18
     .incbin "baserom.z64", 0xB9D0B8, 0x8
@@ -70,7 +118,28 @@ glabel D_80125F38
     .incbin "baserom.z64", 0xB9D0D8, 0x8
 
 glabel D_80125F40
-    .incbin "baserom.z64", 0xB9D0E0, 0x58
+    .word D_80125E08
+    .word D_80125E18
+    .word D_80125E38
+    .word D_80125E28
+    .word D_80125DE8
+    .word D_80125EE8
+    .word D_80125EF8
+    .word D_80125F08
+    .word D_80125E48
+    .word D_80125E58
+    .word D_80125CE8
+    .word D_80125E68
+    .word D_80125EA8
+    .word D_80125EB8
+    .word D_80125EC8
+    .word D_80125ED8
+    .word D_80125E78
+    .word D_80125E88
+    .word D_80125D28
+    .word D_80125D88
+    .word D_80125E98
+    .word 0x00000000
 
 glabel D_80125F98
     .incbin "baserom.z64", 0xB9D138, 0x10
