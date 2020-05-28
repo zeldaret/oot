@@ -44,58 +44,12 @@ ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-UNK_TYPE D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
-UNK_TYPE D_80B4E62C[] = { 0x06007608 };
-
-typedef struct {
-    u8 unk_00[0x3];
-} u8_3;
-
-typedef struct {
-    u8 unk_00[0xA];
-} u8_A;
-
-typedef struct {
-    AnimationHeader* unk_00[0xA];
-} AH_A;
-
-Vec3f D_80B4E630 = { -460.0f, 118.0f, 0.0f };
-Vec3f D_80B4E63C = { -406.0f, 110.0f, 0.0f };
-Vec3f D_80B4E648 = { -398.0f, 84.0f, 0.0f };
-Vec3f D_80B4E654 = { -427.0f, 108.0, 26.0 };
-Vec3f D_80B4E660 = { -340.0f, 108.0f, 98.0f };
-Vec3f D_80B4E66C = { -434.0f, 84.0f, 0.0f };
-
-u8_3 D_80B4E678 = { 0, 0, 2 };
-
-AH_A D_80B4E67C = {
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
-};
-
-u8_A D_80B4E6A4 = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
-};
-
-Vec3f D_80B4E6B0 = { -421.0f, 143.0f, -5.0f };
-Vec3f D_80B4E6BC = { -512.0f, 105.0f, -4.0f };
-Vec3f D_80B4E6C8 = { 0.0f, 0.0f, 0.0f };
-
-AH_A D_80B4E6D4 = {
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
-};
-
-u8_A D_80B4E6FC = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
-};
-
-Vec3f D_80B4E708 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B4E714 = { 0.0f, 0.0f, 0.0f };
+UNK_PTR D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
+UNK_PTR D_80B4E62C[] = { 0x06007608 };
 
 extern AnimationHeader D_06000438;
-extern u32 D_06008848;
-extern u32 D_06008C48;
+extern UNK_TYPE D_06008848;
+extern UNK_TYPE D_06008C48;
 extern SkeletonHeader D_0600F5D8;
 extern AnimationHeader D_06010B38;
 extern AnimationHeader D_06011348;
@@ -209,9 +163,9 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad2;
     AnimationHeader* animationHeader;
     s32 pad;
-    Vec3f vec1 = D_80B4E630;
-    Vec3f vec2 = D_80B4E63C;
-    Vec3f playerPos = D_80B4E648;
+    Vec3f vec1 = { -460.0f, 118.0f, 0.0f };
+    Vec3f vec2 = { -406.0f, 110.0f, 0.0f };
+    Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -248,11 +202,11 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
-    Vec3f sp74 = D_80B4E654;
-    Vec3f sp68 = D_80B4E660;
+    Vec3f sp74 = { -427.0f, 108.0, 26.0 };
+    Vec3f sp68 = { -340.0f, 108.0f, 98.0f };
     s32 pad;
-    Vec3f sp58 = D_80B4E66C;
-    u8_3 sp54 = D_80B4E678;
+    Vec3f sp58 = { -434.0f, 84.0f, 0.0f };
+    u8 sp54[] = { 0x00, 0x00, 0x02 };
     s32 pad2;
     Player* player = PLAYER;
     AnimationHeader* animationHeader;
@@ -263,15 +217,15 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     switch (this->unk_1E2) {
         case 0:
             switch ((s16)this->skelAnime.animCurrentFrame) {
-                case 0xE:
+                case 14:
                     this->unk_1E4 = 0;
                     break;
-                case 0xF:
+                case 15:
                     if (DECR(this->unk_1E4) != 0) {
                         this->skelAnime.animCurrentFrame = 15.0f;
                     }
                     break;
-                case 0x40:
+                case 64:
                     animationHeader = &D_06011348;
                     sp3C = 1;
                     this->actor.textId = 0x702E;
@@ -378,7 +332,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     }
     if (sp3C != 0) {
         frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
-        SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f, frameCount, sp54.unk_00[sp3C], -10.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f, frameCount, sp54[sp3C], -10.0f);
     }
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.posRot2.pos);
 }
@@ -401,16 +355,21 @@ void func_80B4B874(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
-    AH_A spB0 = D_80B4E67C;
-    u8_A spA4 = D_80B4E6A4;
-    Vec3f sp98 = D_80B4E6B0;
-    Vec3f sp8C = D_80B4E6BC;
+    AnimationHeader* spB0[] = {
+        0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+        0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
+    };
+    u8 spA4[] = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
+    };
+    Vec3f sp98 = { -421.0f, 143.0f, -5.0f };
+    Vec3f sp8C = { -512.0f, 105.0f, -4.0f };
     s32 pad2;
     f32 actionLength;
     CsCmdActorAction* npcAction;
     Vec3f sp74;
     Vec3f sp68;
-    Vec3f velocity = D_80B4E6C8;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     s32 pad;
     f32 frameCount;
     Vec3f sp48;
@@ -432,9 +391,9 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
             this->actor.posRot.pos = sp48;
         }
         if (this->unk_1E6 != npcAction->action) {
-            frameCount = SkelAnime_GetFrameCount(&spB0.unk_00[npcAction->action]->genericHeader);
-            SkelAnime_ChangeAnim(&this->skelAnime, spB0.unk_00[npcAction->action], 1.0f, 0.0f, frameCount,
-                                 spA4.unk_00[npcAction->action], -10.0f);
+            frameCount = SkelAnime_GetFrameCount(&spB0[npcAction->action]->genericHeader);
+            SkelAnime_ChangeAnim(&this->skelAnime, spB0[npcAction->action], 1.0f, 0.0f, frameCount,
+                                 spA4[npcAction->action], -10.0f);
             this->unk_1E6 = npcAction->action;
         }
         this->actor.velocity = velocity;
@@ -469,13 +428,18 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
-    AH_A sp90 = D_80B4E6D4;
-    u8_A sp84 = D_80B4E6FC;
+    AnimationHeader* sp90[] = {
+        0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+        0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
+    };
+    u8 sp84[] = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
+    };
     s32 pad2;
     f32 actionLength;
     Vec3f sp70;
     Vec3f sp64;
-    Vec3f velocity = D_80B4E708;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     CsCmdActorAction* npcAction;
     s32 pad;
     f32 frameCount;
@@ -499,9 +463,9 @@ void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_1E6 != npcAction->action) {
-            frameCount = SkelAnime_GetFrameCount(&sp90.unk_00[npcAction->action]->genericHeader);
-            SkelAnime_ChangeAnim(&this->skelAnime, sp90.unk_00[npcAction->action], 1.0f, 0.0f, frameCount,
-                                 sp84.unk_00[npcAction->action], -10.0f);
+            frameCount = SkelAnime_GetFrameCount(&sp90[npcAction->action]->genericHeader);
+            SkelAnime_ChangeAnim(&this->skelAnime, sp90[npcAction->action], 1.0f, 0.0f, frameCount,
+                                 sp84[npcAction->action], -10.0f);
             this->unk_1E6 = npcAction->action;
         }
         this->actor.velocity = velocity;
@@ -556,7 +520,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
                 this->actor.attachedA = NULL;
                 this->unk_1E2 += 1;
             } else {
-                func_8002F434(this, globalCtx, 0xB, 120.0f, 10.0f);
+                func_8002F434(this, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
             }
             break;
         case 3:
@@ -586,7 +550,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
         case 6:
             if (func_8002F334(this, globalCtx) != 0) {
                 func_8002DF54(globalCtx, &this->actor, 7);
-                Interface_ChangeAlpha(0x32);
+                Interface_ChangeAlpha(50);
                 this->actor.flags &= ~0x100;
                 this->unk_1E2 = 4;
             }
@@ -615,7 +579,7 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80B4C340(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
-    EnZl1* this = (EnZl1*)thisx;
+    EnZl1* this = THIS;
 
     if ((limbIndex == 4) || (limbIndex == 3) || (limbIndex == 6) || (limbIndex == 5)) {
         *dList = NULL;
@@ -636,7 +600,7 @@ s32 func_80B4C340(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void func_80B4C400(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this) {
-    Vec3f vec = D_80B4E714;
+    Vec3f vec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
         Matrix_MultVec3f(&vec, &this->posRot2.pos);
