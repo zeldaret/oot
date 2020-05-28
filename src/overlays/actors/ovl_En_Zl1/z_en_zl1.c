@@ -107,11 +107,9 @@ extern AnimationHeader D_060138E0;
 extern AnimationHeader D_06013F10;
 extern AnimationHeader D_060143A8;
 
-void func_80B4AB40(){
-};
+void func_80B4AB40(){};
 
-void func_80B4AB48(){
-};
+void func_80B4AB48(){};
 
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
@@ -378,8 +376,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     }
     if (sp3C != 0) {
         frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
-        SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f,
-                             frameCount, sp54.unk_00[sp3C], -10.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f, frameCount, sp54.unk_00[sp3C], -10.0f);
     }
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.posRot2.pos);
 }
