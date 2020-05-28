@@ -13,8 +13,7 @@ void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx);
 void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx);
 void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx);
 void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx);
-
-void En_PostMweepWait(EnKz* this, GlobalContext* globalCtx);
+void EnKz_Wait(EnKz* this, GlobalContext* globalCtx);
 void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx);
 void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx);
 
@@ -56,13 +55,13 @@ extern SkeletonHeader D_060086D0;
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
 
-    if (gBitFlags[20] & gSaveContext.questItems) { // has Zora's Sapphire
-        return 0x402B; // "So, you saved the Princess, eh? I really appreciate it!"
+    if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
+        return 0x402B;
     } else if (gSaveContext.eventChkInf[3] & 8) {
-        return 0x401C; // "Please find my dear Princess Ruto immediately... Zora!"
+        return 0x401C;
     } else {
         player->exchangeItemId = 0x1D;
-        return 0x401A; // "Oh, my dear, sweet Princess Ruto... Where has she gone? I'm so worried..."
+        return 0x401A;
     }
 }
 
@@ -324,7 +323,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx){
                                 this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
                                 0, 0, 0, 0x04FF);
         }
-        this->actionFunc = En_PostMweepWait;
+        this->actionFunc = EnKz_Wait;
     } else {
         this->actionFunc = EnKz_PreMweepWait;
     }
@@ -347,7 +346,7 @@ void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx){
 }
 
 void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
-    s32 unused[] = {0, 0, 0};
+    Vec3f unused = {0.0f, 0.0f, 0.0f};
     Vec3f pos;
     Vec3f initPos;
 
@@ -367,7 +366,7 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
-    s32 unused[] = {0, 0, 0};
+    Vec3f unused = {0.0f, 0.0f, 0.0f};
     Vec3f pos;
     Vec3f initPos;
 
@@ -377,15 +376,13 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     initPos.y += -100.0f;
     initPos.z += 260.0f;
     func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
-    if (EnKz_FollowPath(this, globalCtx) == 1) {
-        if (this->waypoint == 0) {
-            func_80034EC0(&this->skelanime, sAnimations, 1);
-            Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
-            EnKz_SetMovedPos(this, globalCtx);
-            gSaveContext.eventChkInf[3] |= 8;
-            this->actor.speedXZ = 0.0;
-            this->actionFunc = EnKz_StopMweep;
-        }
+    if (EnKz_FollowPath(this, globalCtx) == 1 && (this->waypoint == 0)) {
+        func_80034EC0(&this->skelanime, sAnimations, 1);
+        Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
+        EnKz_SetMovedPos(this, globalCtx);
+        gSaveContext.eventChkInf[3] |= 8;
+        this->actor.speedXZ = 0.0;
+        this->actionFunc = EnKz_StopMweep;
     }
     if (this->skelanime.animCurrentFrame == 13.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_KZ_MOVE);
@@ -396,10 +393,10 @@ void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, 7);
     Gameplay_ClearCamera(globalCtx, this->cutsceneCamera);
     func_8002DF54(globalCtx, &this->actor, 7);
-    this->actionFunc = En_PostMweepWait;
+    this->actionFunc = EnKz_Wait;
 }
 
-void En_PostMweepWait(EnKz* this, GlobalContext* globalCtx) {
+void EnKz_Wait(EnKz* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, globalCtx);
@@ -432,7 +429,7 @@ void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
             gSaveContext.eventInf[1] &= ~1;
         }
         this->unk_1E0.unk_00 = 0;
-        this->actionFunc = En_PostMweepWait;
+        this->actionFunc = EnKz_Wait;
     }
 }
 
