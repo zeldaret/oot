@@ -1,3 +1,69 @@
+.rdata
+glabel D_801549EC
+    .asciz "msgno=%d\n"
+    .balign 4
+
+glabel D_801549F8
+    # Message found！！！ = %x
+    .asciz " メッセージが,見つかった！！！ = %x\n"
+    .balign 4
+
+glabel D_80154A20
+    .asciz "dxpos=%d   dypos=%d  dypos1  dypos2=%d\n"
+    .balign 4
+
+glabel D_80154A48
+    .asciz "message->msg_disp_type=%x\n"
+    .balign 4
+
+glabel D_80154A64
+    .asciz "OCARINA_MODE=%d -> "
+    .balign 4
+
+glabel D_80154A78
+    .asciz "InRaceSeq=%d(%d) OCARINA_MODE=%d  -->  "
+    .balign 4
+
+glabel D_80154AA0
+    .asciz "OCARINA_MODE=%d\n"
+    .balign 4
+
+glabel D_80154AB4
+    .asciz "select=%d\n"
+    .balign 4
+
+glabel D_80154AC0
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80154AC8
+    .asciz "day_time=%x  active_camera=%d  "
+    .balign 4
+
+glabel D_80154AE8
+    .asciz "=== day_time=%x "
+    .balign 4
+
+glabel D_80154AFC
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80154B00
+    .asciz "OCARINA_MODE=%d   chk_ocarina_no=%d\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80154CC4
+    .word L8010F8F8
+    .word L8010FCE0
+    .word L8010FCF0
+    .word L8010FD24
+    .word L8010FD80
+    .word L8010FDB0
+    .word L8010FE10
+    .word L8010FE58
+
+.text
 glabel func_8010F6F0
 /* B86890 8010F6F0 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B86894 8010F6F4 AFBF001C */  sw    $ra, 0x1c($sp)

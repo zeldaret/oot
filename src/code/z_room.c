@@ -362,7 +362,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
         if (sp98) {
             // gSPLoadUcodeL(gfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, D_00113070, D_001579A0, 0x800);
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             if (1) {
                 Vec3f sp60;
@@ -469,7 +469,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
         if (sp94) {
             // gSPLoadUcodeL(gfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, D_00113070, D_001579A0, 0x800);
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             if (1) {
                 Vec3f sp5C;

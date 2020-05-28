@@ -1,3 +1,13 @@
+.rdata
+glabel D_801549C4
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801549D8
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+.text
 glabel func_8010F58C
 /* B8672C 8010F58C 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B86730 8010F590 AFBF001C */  sw    $ra, 0x1c($sp)
