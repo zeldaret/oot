@@ -244,7 +244,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     cfb = sGraphCfbInfos + sGraphCfbInfoIdx++;
     cfb->fb1 = gfxCtx->curFrameBuffer;
-    cfb->swapbuffer = gfxCtx->curFrameBuffer;
+    cfb->swapBuffer = gfxCtx->curFrameBuffer;
     cfb->viMode = gfxCtx->viMode;
     cfb->features = gfxCtx->viFeatures;
     cfb->xScale = gfxCtx->xScale;
@@ -257,7 +257,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     gfxCtx->schedMsgQ = &gSchedContext.cmdQ;
 
     osSendMesg(&gSchedContext.cmdQ, scTask, OS_MESG_BLOCK);
-    func_800C95F8(&gSchedContext); // osScKickEntryMsg
+    Sched_SendEntryMsg(&gSchedContext); // osScKickEntryMsg
 }
 #else
 u32 D_8012D260 = 0;
@@ -374,12 +374,12 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     func_800F3054();
     time = osGetTime();
-    D_8016A538 = D_8016A568;
-    D_8016A530 = D_8016A560;
-    D_8016A540 = D_8016A580;
-    D_8016A568 = 0;
-    D_8016A560 = 0;
-    D_8016A580 = 0;
+    D_8016A538 = gRSPGFXTotalTime;
+    D_8016A530 = gRSPAudioTotalTime;
+    D_8016A540 = gRDPTotalTime;
+    gRSPGFXTotalTime = 0;
+    gRSPAudioTotalTime = 0;
+    gRDPTotalTime = 0;
 
     if (sGraphUpdateTime != 0) {
         D_8016A548 = time - sGraphUpdateTime;

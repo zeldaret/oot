@@ -299,7 +299,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     if ((fmt == G_IM_FMT_RGBA) && (SREG(26) == 0)) {
         bg->b.frameW = width * 4;
         bg->b.frameH = height * 4;
-        func_80104B00(bg);
+        guS2DInitBg(bg);
         gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
@@ -362,7 +362,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
         if (sp98) {
             // gSPLoadUcodeL(gfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, D_00113070, D_001579A0, 0x800);
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             if (1) {
                 Vec3f sp60;
@@ -469,7 +469,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
         if (sp94) {
             // gSPLoadUcodeL(gfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, D_00113070, D_001579A0, 0x800);
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             if (1) {
                 Vec3f sp5C;
@@ -566,7 +566,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "ROOM BUFFER SIZE=%08x(%5.1fK)"
     osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, (f64)(maxRoomSize * 0.0009765625f));
-    roomCtx->bufPtrs[0] = GameState_AllocEnd(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
+    roomCtx->bufPtrs[0] = GameState_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
     // Translates to: "ROOM BUFFER INITIAL POINTER=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((s32)roomCtx->bufPtrs[0] + maxRoomSize);

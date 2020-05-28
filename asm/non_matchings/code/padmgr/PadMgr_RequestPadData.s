@@ -67,7 +67,7 @@ glabel PadMgr_RequestPadData
 /* B3F0A4 800C7F04 00A25024 */  and   $t2, $a1, $v0
 /* B3F0A8 800C7F08 A60A000C */  sh    $t2, 0xc($s0)
 /* B3F0AC 800C7F0C A60B0012 */  sh    $t3, 0x12($s0)
-/* B3F0B0 800C7F10 0C03F31B */  jal   func_800FCC6C
+/* B3F0B0 800C7F10 0C03F31B */  jal   PadUtils_UpdateRelXY
 /* B3F0B4 800C7F14 A6090004 */   sh    $t1, 4($s0)
 /* B3F0B8 800C7F18 820C0002 */  lb    $t4, 2($s0)
 /* B3F0BC 800C7F1C 820D0008 */  lb    $t5, 8($s0)
