@@ -107,9 +107,11 @@ extern AnimationHeader D_060138E0;
 extern AnimationHeader D_06013F10;
 extern AnimationHeader D_060143A8;
 
-void func_80B4AB40(){};
+void func_80B4AB40(void) {
+}
 
-void func_80B4AB48(){};
+void func_80B4AB48(void) {
+}
 
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
