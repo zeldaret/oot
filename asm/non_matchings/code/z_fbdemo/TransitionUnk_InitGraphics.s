@@ -29,9 +29,9 @@ glabel TransitionUnk_InitGraphics
 /* B28A74 800B18D4 AFB30034 */  sw    $s3, 0x34($sp)
 /* B28A78 800B18D8 AFB20030 */  sw    $s2, 0x30($sp)
 /* B28A7C 800B18DC AFB1002C */  sw    $s1, 0x2c($sp)
-/* B28A80 800B18E0 0C040ED8 */  jal   func_80103B60
+/* B28A80 800B18E0 0C040ED8 */  jal   guMtxIdent
 /* B28A84 800B18E4 24840058 */   addiu $a0, $a0, 0x58
-/* B28A88 800B18E8 0C040ED8 */  jal   func_80103B60
+/* B28A88 800B18E8 0C040ED8 */  jal   guMtxIdent
 /* B28A8C 800B18EC 26040098 */   addiu $a0, $s0, 0x98
 /* B28A90 800B18F0 3C01C47A */  li    $at, 0xC47A0000 # 0.000000
 /* B28A94 800B18F4 44812000 */  mtc1  $at, $f4
@@ -47,7 +47,7 @@ glabel TransitionUnk_InitGraphics
 /* B28ABC 800B191C E7A40014 */  swc1  $f4, 0x14($sp)
 /* B28AC0 800B1920 E7A00010 */  swc1  $f0, 0x10($sp)
 /* B28AC4 800B1924 E7A60018 */  swc1  $f6, 0x18($sp)
-/* B28AC8 800B1928 0C041169 */  jal   func_801045A4
+/* B28AC8 800B1928 0C041169 */  jal   guOrtho
 /* B28ACC 800B192C E7A8001C */   swc1  $f8, 0x1c($sp)
 /* B28AD0 800B1930 0000F825 */  move  $ra, $zero
 /* B28AD4 800B1934 00009825 */  move  $s3, $zero

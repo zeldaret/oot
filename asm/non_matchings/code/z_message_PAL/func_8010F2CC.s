@@ -1,3 +1,13 @@
+.rdata
+glabel D_80154984
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_80154998
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+.text
 glabel func_8010F2CC
 /* B8646C 8010F2CC 27BDFF98 */  addiu $sp, $sp, -0x68
 /* B86470 8010F2D0 AFBF0014 */  sw    $ra, 0x14($sp)
@@ -20,13 +30,13 @@ glabel func_8010F2CC
 /* B864B4 8010F314 3C018015 */  lui   $at, %hi(D_80153CFC) # $at, 0x8015
 /* B864B8 8010F318 A4233CFC */  sh    $v1, %lo(D_80153CFC)($at)
 .L8010F31C:
-/* B864BC 8010F31C 3C038015 */  lui   $v1, %hi(D_8014FFFF) # $v1, 0x8015
+/* B864BC 8010F31C 3C038015 */  lui   $v1, %hi(D_80153CFC) # $v1, 0x8015
 /* B864C0 8010F320 84633CFC */  lh    $v1, %lo(D_80153CFC)($v1)
 /* B864C4 8010F324 3C018015 */  lui   $at, %hi(D_80153CFC) # $at, 0x8015
 /* B864C8 8010F328 3C04E700 */  lui   $a0, 0xe700
 /* B864CC 8010F32C 10600050 */  beqz  $v1, .L8010F470
 /* B864D0 8010F330 3C06E300 */   lui   $a2, (0xE3000A01 >> 16) # lui $a2, 0xe300
-/* B864D4 8010F334 2463FFFF */  addiu $v1, %lo(D_8014FFFF) # addiu $v1, $v1, -1
+/* B864D4 8010F334 2463FFFF */  addiu $v1, $v1, -1
 /* B864D8 8010F338 00031C00 */  sll   $v1, $v1, 0x10
 /* B864DC 8010F33C 00031C03 */  sra   $v1, $v1, 0x10
 /* B864E0 8010F340 A4233CFC */  sh    $v1, %lo(D_80153CFC)($at)

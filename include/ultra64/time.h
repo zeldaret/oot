@@ -23,6 +23,6 @@ typedef struct OSTimer_s
 OSTime osGetTime(void);
 
 int osSetTimer(OSTimer *timer, OSTime countdown, OSTime interval, OSMesgQueue *mq, OSMesg msg);
-void osStopTimer(OSTimer *timer);
+s32 osStopTimer(OSTimer *timer);
 
 #endif

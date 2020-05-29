@@ -1,0 +1,10 @@
+<Root>
+    <File Name="syotes2_scene">
+        <Scene Name="syotes2_scene">
+        </Scene>
+    </File>
+    <File Name="syotes2_room_0">
+        <Room Name="syotes2_room_0">
+        </Room>
+    </File>
+</Root>

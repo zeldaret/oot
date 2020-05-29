@@ -1,3 +1,10 @@
+.rdata
+glabel D_80153E74
+    # Message found!!! = %x (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)
+    .asciz " メッセージが,見つかった！！！ = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n"
+    .balign 4
+
+.text
 glabel func_80107628
 /* B7E7C8 80107628 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B7E7CC 8010762C 3C028015 */  lui   $v0, %hi(D_801538FC) # $v0, 0x8015

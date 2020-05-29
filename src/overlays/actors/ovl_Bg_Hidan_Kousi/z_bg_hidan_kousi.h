@@ -6,9 +6,12 @@
 
 struct BgHidanKousi;
 
+typedef void (*BgHidanKousiActionFunc)(struct BgHidanKousi*, GlobalContext*);
+
 typedef struct BgHidanKousi {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x20];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ BgHidanKousiActionFunc actionFunc;
+    /* 0x0168 */ s16 unk_168;
 } BgHidanKousi; // size = 0x016C
 
 extern const ActorInit Bg_Hidan_Kousi_InitVars;

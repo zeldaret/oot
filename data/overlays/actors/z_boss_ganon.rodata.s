@@ -3,9 +3,11 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
+
+.balign 16
 
 glabel D_808F7A50
     .asciz "../z_boss_ganon.c"
@@ -465,12 +467,12 @@ glabel jtbl_808F80EC
 .word L808DE980
 .word L808DE980
 .word L808DE980
-.word func_808DE784
-.word func_808DE7E0
-.word func_808DE828
-.word func_808DE884
-.word func_808DE8E0
-.word func_808DE928
+.word L808DE784
+.word L808DE7E0
+.word L808DE828
+.word L808DE884
+.word L808DE8E0
+.word L808DE928
 glabel D_808F812C
  .word 0x46EC7A00
 glabel D_808F8130

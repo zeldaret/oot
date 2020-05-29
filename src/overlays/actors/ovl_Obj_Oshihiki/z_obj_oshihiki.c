@@ -48,10 +48,6 @@ const ActorInit Obj_Oshihiki_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B62C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B668.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B678.s")
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B68C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/ObjOshihiki_Init.s")

@@ -21,6 +21,8 @@
 
 #define PLAYER ((Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)
 
+#define ACTIVE_CAM globalCtx->cameraPtrs[globalCtx->activeCamera]
+
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
 #define LINK_IS_CHILD (gSaveContext.linkAge != 0)
@@ -65,6 +67,16 @@
  * `cbnz` blue component of color vertex, or z component of normal vertex
  * `a` alpha
 */
-#define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a }, }, }
+#define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
+
+#define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
+
+#define VIEWPORT_INIT(viewport, by, rx, ty, lx) \
+     viewport.bottomY = by; \
+     viewport.rightX = rx; \
+     viewport.topY = ty; \
+     viewport.leftX = lx;
+
+#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 
 #endif

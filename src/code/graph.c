@@ -1,6 +1,5 @@
 #include <global.h>
 #include <ultra64/hardware.h>
-#include <sched.h>
 #include <vt.h>
 #include <PR/os_cont.h>
 
@@ -106,10 +105,10 @@ void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->unk_014 = 0;
 }
 
-GameStateOverlay* Graph_GetNextGameState() {
+GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     void* gameStateInitFunc;
 
-    gameStateInitFunc = func_800C546C();
+    gameStateInitFunc = GameState_GetInit(gameState);
     if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[0];
     }
@@ -245,7 +244,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     cfb = sGraphCfbInfos + sGraphCfbInfoIdx++;
     cfb->fb1 = gfxCtx->curFrameBuffer;
-    cfb->swapbuffer = gfxCtx->curFrameBuffer;
+    cfb->swapBuffer = gfxCtx->curFrameBuffer;
     cfb->viMode = gfxCtx->viMode;
     cfb->features = gfxCtx->viFeatures;
     cfb->xScale = gfxCtx->xScale;
@@ -258,7 +257,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     gfxCtx->schedMsgQ = &gSchedContext.cmdQ;
 
     osSendMesg(&gSchedContext.cmdQ, scTask, OS_MESG_BLOCK);
-    func_800C95F8(&gSchedContext); // osScKickEntryMsg
+    Sched_SendEntryMsg(&gSchedContext); // osScKickEntryMsg
 }
 #else
 u32 D_8012D260 = 0;
@@ -286,8 +285,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
     Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 975);
 
-    func_800C4A98(gameState); // Game_ReqPadData
-    func_800C4AC8(gameState); // Game_SetGameFrame
+    GameState_ReqPadData(gameState);
+    GameState_Update(gameState);
 
     Graph_OpenDisps(dispRefs2, gfxCtx, "../graph.c", 987);
     gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 終了", 0);
@@ -375,20 +374,20 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     func_800F3054();
     time = osGetTime();
-    D_8016A538 = D_8016A568;
-    D_8016A530 = D_8016A560;
-    D_8016A540 = D_8016A580;
-    D_8016A568 = 0;
-    D_8016A560 = 0;
-    D_8016A580 = 0;
+    D_8016A538 = gRSPGFXTotalTime;
+    D_8016A530 = gRSPAudioTotalTime;
+    D_8016A540 = gRDPTotalTime;
+    gRSPGFXTotalTime = 0;
+    gRSPAudioTotalTime = 0;
+    gRDPTotalTime = 0;
 
     if (sGraphUpdateTime != 0) {
         D_8016A548 = time - sGraphUpdateTime;
     }
     sGraphUpdateTime = time;
 
-    if (D_8012DBC0 && (!~(gameState->input[0].press.in.button | ~Z_TRIG)) &&
-        (!~(gameState->input[0].cur.in.button | ~(L_TRIG | R_TRIG)))) {
+    if (D_8012DBC0 && CHECK_PAD(gameState->input[0].press, Z_TRIG) &&
+        CHECK_PAD(gameState->input[0].cur, L_TRIG | R_TRIG)) {
         gSaveContext.gameMode = 0;
         SET_NEXT_GAMESTATE(gameState, func_80801E44, char[0x240]); // TODO : SelectContext
         gameState->running = false;
@@ -436,14 +435,14 @@ void Graph_ThreadEntry(void* arg0) {
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
         }
-        func_800C5080(gameState, ovl->init, &gfxCtx); // Game_Ct
+        GameState_Init(gameState, ovl->init, &gfxCtx);
 
-        while (func_800C547C(gameState)) { // Game_IsGameStateRunning
+        while (GameState_IsRunning(gameState)) {
             Graph_Update(&gfxCtx, gameState);
         }
 
         nextOvl = Graph_GetNextGameState(gameState);
-        func_800C5360(gameState); // Game_Dt
+        GameState_Destroy(gameState);
         SystemArena_FreeDebug(gameState, "../graph.c", 1227);
         Overlay_FreeGameState(ovl);
     }
