@@ -20,7 +20,7 @@ typedef struct EnReeba {
     /* 0x0274 */ s16 unk_274;
     /* 0x0276 */ s16 unk_276;
     /* 0x0278 */ s16 unk_278;
-    /* 0x027A */ s16 isMega;
+    /* 0x027A */ s16 isBig;
     /* 0x027C */ s16 unk_27C;
     /* 0x027E */ s16 unk_27E;
     /* 0x0280 */ s16 unk_280;

@@ -267,7 +267,7 @@ void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDep
                    s32 duration, s16 u3, s16 objectId, u32 dList);
 // ? func_80029F44(?);
 // ? func_80029FAC(?);
-// ? func_8002A140(?);
+void func_8002A140(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7, s16 arg8, s16 arg9, f32 arg10);
 // ? func_8002A1DC(?);
 // ? func_8002A2A4(?);
 // ? func_8002A32C(?);
