@@ -7,7 +7,7 @@
 
 .section .rodata
 
-.align 4
+.balign 16
 
 glabel D_8014B2F0
     .word 0x00000000
@@ -48,30 +48,27 @@ glabel D_8014B320
 
 # german message entry table
 glabel D_8014F548
-    .incbin "baserom.z64", 0xBC66E8, 0xAB7
-
-glabel D_8014FFFF
-    .incbin "baserom.z64", 0xBC719F, 0x1659
+    .incbin "baserom.z64", 0xBC66E8, 0x2110
 
 # french message entry table
 glabel D_80151658
     .incbin "baserom.z64", 0xBC87F8, 0x2110
 
-# ?
+# credits (staff) message entry table
 glabel D_80153768
     .incbin "baserom.z64", 0xBCA908, 0x188
 
 glabel D_801538F0
-    .word 0x8014B320
+    .word D_8014B320
 
 glabel D_801538F4
-    .word 0x8014F548
+    .word D_8014F548
 
 glabel D_801538F8
-    .word 0x80151658
+    .word D_80151658
 
 glabel D_801538FC
-    .word 0x80153768
+    .word D_80153768
 
 glabel D_80153900
     .word 0x00FF00FF, 0x00FF0032, 0x00140000, 0x00FF003C, 0x000000FF, 0x00FF00FF, 0x00FF00FF, 0x00FF00FF, 0x00FF00FF, 0x00FF00FF, 0x00FF00FF, 0x00FF00FF

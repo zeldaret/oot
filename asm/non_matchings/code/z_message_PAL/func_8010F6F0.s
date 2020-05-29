@@ -62,9 +62,6 @@ glabel jtbl_80154CC4
     .word L8010FDB0
     .word L8010FE10
     .word L8010FE58
-    .word 0x00000000
-    .word 0x00000000
-    .word 0x00000000
 
 .text
 glabel func_8010F6F0

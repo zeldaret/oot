@@ -505,7 +505,8 @@ void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDim
     Matrix_MultVec3f(&D_801260BC, &sp44);
     if (func_80090480(globalCtx, NULL, &player->swordDimensions, &trisInit->vtx[0], &sp2C) != 0 &&
         (s32)(player->stateFlags1 << 9) >= 0) {
-        EffectBlure_AddVertex(Effect_GetByIndex(player->swordEffectId), &player->swordDimensions.tip, &player->swordDimensions.base);
+        EffectBlure_AddVertex(Effect_GetByIndex(player->swordEffectId), &player->swordDimensions.tip,
+                              &player->swordDimensions.base);
     }
     if (player->swordState > 0 && ((player->swordAnimation < 0x18) || ((s32)(player->stateFlags2 << 0xE) < 0))) {
         func_80090480(globalCtx, &player->unk_4E4, &player->unk_8D0, &trisInit->vtx[1], &sp38);

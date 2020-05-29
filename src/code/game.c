@@ -88,8 +88,8 @@ void func_800C4344(GameState* gameState) {
         HREG(89) = selectedInput->cur.in.x;
         HREG(90) = selectedInput->cur.in.y;
         HREG(93) = (selectedInput->cur.in.button == hReg82);
-        HREG(94) = (~(selectedInput->cur.in.button | ~hReg82) == 0);
-        HREG(95) = (~(selectedInput->press.in.button | ~hReg82) == 0);
+        HREG(94) = CHECK_PAD(selectedInput->cur, hReg82);
+        HREG(95) = CHECK_PAD(selectedInput->press, hReg82);
     }
 
     if (D_8012DBC0 != 0) {
@@ -496,7 +496,7 @@ u32 GameState_IsRunning(GameState* gameState) {
     return gameState->running;
 }
 
-void* GameState_AllocEnd(GameState* gameState, size_t size, char* file, s32 line) {
+void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     void* ret;
 
     if (THA_IsCrash(&gameState->tha)) {

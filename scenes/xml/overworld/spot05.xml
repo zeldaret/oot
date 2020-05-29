@@ -1,0 +1,16 @@
+<Root>
+    <File Name="spot05_scene">
+        <Scene Name="spot05_scene">
+            <PathHint Address="0x69E0"/>
+            <PathHint Address="0x69E8"/>
+            <PathHint Address="0x69F0"/>
+            <PathHint Address="0x69F8"/>
+        </Scene>
+    </File>
+    <File Name="spot05_room_0">
+        <Room Name="spot05_room_0">
+            <DListHint Address="0x9A60"/>
+            <DListHint Address="0x9EE0"/>
+        </Room>
+    </File>
+</Root>

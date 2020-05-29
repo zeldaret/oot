@@ -3,11 +3,11 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .text
 
-.align 4
+.balign 16
 
 glabel func_800DDE20
 /* B54FC0 800DDE20 3C014380 */  li    $at, 0x43800000 # 0.000000
@@ -2201,7 +2201,7 @@ glabel func_800DFBF8
 /* B56DEC 800DFC4C 8C590000 */  lw    $t9, ($v0)
 /* B56DF0 800DFC50 AFA20068 */  sw    $v0, 0x68($sp)
 /* B56DF4 800DFC54 A6D9284A */  sh    $t9, 0x284a($s6)
-/* B56DF8 800DFC58 0C040FFC */  jal   func_80103FF0
+/* B56DF8 800DFC58 0C040FFC */  jal   osAiSetFrequency
 /* B56DFC 800DFC5C 3324FFFF */   andi  $a0, $t9, 0xffff
 /* B56E00 800DFC60 96C3284A */  lhu   $v1, 0x284a($s6)
 /* B56E04 800DFC64 8EC92964 */  lw    $t1, 0x2964($s6)

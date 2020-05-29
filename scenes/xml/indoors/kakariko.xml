@@ -1,0 +1,8 @@
+<Root>
+    <File Name="kakariko_scene">
+        <Scene Name="kakariko_scene"/>
+    </File>
+    <File Name="kakariko_room_0">
+        <Room Name="kakariko_room_0"/>
+    </File>
+</Root>

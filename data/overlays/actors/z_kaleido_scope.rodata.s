@@ -3,9 +3,11 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
+
+.balign 16
 
 glabel D_8082F420
     .asciz "../z_kaleido_collect.c"
@@ -32,8 +34,10 @@ glabel D_8082F484
     .balign 4
 
 glabel D_8082F4A0
-    .asciz "../z_kaleido_collect.c\x00\x00\x00\x00\x00\x00\x00\x00"
+    .asciz "../z_kaleido_collect.c"
     .balign 4
+
+.balign 16
 
 glabel D_8082F4C0
  .word 0x25730000
@@ -248,8 +252,10 @@ glabel D_8082FA28
     .balign 4
 
 glabel D_8082FA40
-    .asciz "../z_kaleido_map_PAL.c\x00\x00\x00\x00\x00\x00"
+    .asciz "../z_kaleido_map_PAL.c"
     .balign 4
+
+.balign 16
 
 glabel D_8082FA60
     .asciz "../z_kaleido_scope_PAL.c"

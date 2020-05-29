@@ -1,0 +1,8 @@
+<Root>
+    <File Name="tent_scene">
+        <Scene Name="tent_scene"/>
+    </File>
+    <File Name="tent_room_0">
+        <Room Name="tent_room_0"/>
+    </File>
+</Root>

@@ -36,7 +36,7 @@ glabel func_8010F2CC
 /* B864C8 8010F328 3C04E700 */  lui   $a0, 0xe700
 /* B864CC 8010F32C 10600050 */  beqz  $v1, .L8010F470
 /* B864D0 8010F330 3C06E300 */   lui   $a2, (0xE3000A01 >> 16) # lui $a2, 0xe300
-/* B864D4 8010F334 2463FFFF */  addiu $v1, $v1, -1 # addiu $v1, $v1, -1
+/* B864D4 8010F334 2463FFFF */  addiu $v1, $v1, -1
 /* B864D8 8010F338 00031C00 */  sll   $v1, $v1, 0x10
 /* B864DC 8010F33C 00031C03 */  sra   $v1, $v1, 0x10
 /* B864E0 8010F340 A4233CFC */  sh    $v1, %lo(D_80153CFC)($at)
