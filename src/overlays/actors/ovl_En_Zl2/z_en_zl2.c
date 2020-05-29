@@ -273,20 +273,20 @@ void func_80B4EDB8(EnZl2* this, GlobalContext* globalCtx, s32 arg2) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4EE38.s")
-/*void func_80B4EE38(EnZl2 *this, s16 arg1, s32 arg2) {
-    s16* unk_1AC = &this->unk_1AC[arg2];
-    s16* unk_1DC = &this->unk_1DC[arg2];
-    s16* unk_20C = &this->unk_20C[arg2];
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4EE38.s")
+void func_80B4EE38(EnZl2 *this, s16 arg1, s32 arg2) {
     s32 phi_a3;
     s32 temp_v1;
     s32 phi_v0;
-    s16 someSub16;
+    phi_v0 = arg2;
 
     if (this->unk_24C != 0) {
-        temp_v1 = (s16)(arg1 + *unk_1DC);
-        phi_a3 = arg1 - *unk_20C;
-        phi_v0 = *unk_1AC;
+        /*temp_v1 = (s16)(arg1 + this->unk_1DC[arg2]);
+        phi_a3 = arg1 - this->unk_20C[arg2];
+        phi_v0 = this->unk_1AC[arg2];*/
+        temp_v1 = (s16)(arg1 + this->unk_1DC[phi_v0]);
+        phi_a3 = arg1 - this->unk_20C[phi_v0];
+        phi_v0 = this->unk_1AC[phi_v0];
 
         if ((s32)fabsf((f32)phi_a3) >= 0x8001) {
             if (arg1 > 0) {
@@ -301,21 +301,19 @@ void func_80B4EDB8(EnZl2* this, GlobalContext* globalCtx, s32 arg2) {
         if (phi_v0 != 0) {
             phi_v0 -= (phi_v0 / 10);
         }
-        someSub16 = temp_v1 - arg1;
-        if (someSub16 != 0) {
-            phi_v0 -= (someSub16 / 50);
+        if ((s16)(temp_v1 - arg1) != 0) {
+            phi_v0 -= ((s16)(temp_v1 - arg1) / 50);
         }
         temp_v1 += phi_v0;
-        someSub16 = temp_v1 - arg1;
-        if (((*unk_1AC * phi_v0) <= 0) && (someSub16 >= -0x63) && (someSub16 < 0x64)) {
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - arg1) >= -0x63) && ((s16)(temp_v1 - arg1) < 0x64)) {
             temp_v1 = arg1;
             phi_v0 = 0;
         }
         this->unk_1AC[arg2] = phi_v0;
         this->unk_1DC[arg2] = temp_v1 - arg1;
     }
-    *unk_20C = arg1;
-}*/
+    this->unk_20C[arg2] = arg1;
+}
 
 void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4EF64.s")
@@ -337,7 +335,6 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2);
     s32 phi_v0_3;
     s16 phi_v0_4;
     s32 phi_v1_2;
-    s32 phi_t2_2;
     s32 phi_t1_2;
     s32 phi_t9;
     s32 phi_v0_5;
@@ -357,38 +354,36 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2);
         phi_t1 = 9;
         phi_a0 = 0x4000;
     } else if (arg2 == 0xE) {
-        phi_t1 = 0xC;
+        phi_t1 = 12;
         phi_a0 = 0x4000;
     } else if (arg2 == 0x11) {
-        phi_t1 = 0xF;
+        phi_t1 = 15;
         phi_a0 = 0x4000;
     } else {
-        phi_t1 = 0x12;
+        phi_t1 = 18;
         phi_a0 = 0x4000;
     }
 
     if (this->unk_24C != 0) {
-        temp_t2 = arg1 - this->unk_20C[arg2 * 2];
-        temp_v1 = arg1 + this->unk_1DC[arg2 * 2];
-        phi_t2_2 = temp_t2;
+        temp_t2 = arg1 - this->unk_20C[arg2];
+        temp_v1 = arg1 + this->unk_1DC[arg2];
         if ((s32)fabsf(temp_t2) >= 0x8001) {
-            phi_at_4 = 0x10000;
-            if ((s32)arg1 > 0) {
-                phi_at_4 = 0xFFFF0000;
+            if (arg1 > 0) {
+                temp_t2 -= 0x10000;
+            } else {
+                temp_t2 += 0x10000;
             }
-            phi_t2_2 = temp_t2 + phi_at_4;
         }
-        phi_t2 = phi_t2_2;
         if (phi_t1 >= 0) {
-            phi_t1_2 = 0 - this->unk_1AC[phi_t1 * 2];
-            if ((s32)this->unk_1AC[phi_t1 * 2] >= 0) {
-                phi_t1_2 = (s32)this->unk_1AC[phi_t1 * 2];
+            phi_t1_2 = 0 - this->unk_1AC[phi_t1];
+            if ((s32)this->unk_1AC[phi_t1] >= 0) {
+                phi_t1_2 = (s32)this->unk_1AC[phi_t1];
             }
-            phi_t2 = phi_t2_2 + (phi_t1_2 / 3);
+            phi_t2 = temp_t2 + (phi_t1_2 / 3);
         }
-        phi_v0 = (s32)this->unk_1AC[arg2 * 2];
+        phi_v0 = (s32)this->unk_1AC[arg2];
         if (phi_t2 != 0) {
-            temp_t7 = phi_t2 - this->unk_1AC[arg2 * 2];
+            temp_t7 = phi_t2 - this->unk_1AC[arg2];
             phi_t9 = temp_t7 >> 4;
             if (temp_t7 < 0) {
                 phi_t9 = (s32)(temp_t7 + 0xF) >> 4;
@@ -397,12 +392,12 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2);
         }
         phi_v0_5 = phi_v0;
         if (phi_v0 != 0) {
-            phi_v0_5 = phi_v0 - (phi_v0 / 0xA);
+            phi_v0_5 = phi_v0 - (phi_v0 / 10);
         }
         temp_t1 = temp_v1 - phi_a0;
         phi_v0_2 = phi_v0_5;
         if (temp_t1 != 0) {
-            phi_v0_2 = phi_v0_5 - (temp_t1 / 0x32);
+            phi_v0_2 = phi_v0_5 - (temp_t1 / 50);
         }
         temp_v1 = temp_v1 + phi_v0_2;
         temp_t1_2 = temp_v1 - phi_a0;
@@ -420,7 +415,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2);
         phi_v1_2 = phi_v1;
         if (arg2 == 2) {
             if ((this->action == 5) || (this->action == 30)) {
-                temp_t0 = (s32)((3500.0f * this->skelAnime.animCurrentFrame) / this->unk_278) + phi_a0;
+                temp_t0 = ((3500.0f * this->skelAnime.animCurrentFrame) / this->unk_278) + phi_a0;
                 phi_v0_4 = phi_v0_3;
                 phi_v1_2 = phi_v1;
                 if (temp_t0 >= phi_v1) {
@@ -458,129 +453,114 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2);
                 }
             }
         }
-        this->unk_1AC[arg2 * 2] = phi_v0_4;
-        this->unk_1DC[arg2 * 2] = phi_v1_2 - arg1;
+        this->unk_1AC[arg2] = phi_v0_4;
+        this->unk_1DC[arg2] = phi_v1_2 - arg1;
     }
-    this->unk_20C[arg2 * 2] = arg1;
+    this->unk_20C[arg2] = arg1;
 }*/
 
 void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F230.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F45C.s")
-/*void func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                    Gfx** gfx) {
-    void *sp74;
-    ? sp34;
-    s16 sp2C;
-    void *sp1C;
-    s32 temp_a0_2;
-    s32 temp_a1;
-    s32 temp_a2;
-    void *temp_a0;
-    Gfx* temp_ret;
-
+    s32 pad;
     EnZl2* this = THIS;
-    Gfx* displayList;
-    Gfx* displayListHead;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Mtx* sp74;
+    MtxF sp34;
+    Vec3s sp2C;
+    s16 pad2;
+    s16* unk_1DC = &this->unk_1DC;
 
     if (limbIndex == 0xE) {
-        temp_ret = Graph_Alloc(gfxCtx, 0x1C0);
-        sp74 = temp_ret;
-        temp_a0 = *arg6;
-        *arg6 = (void *) (temp_a0 + 8);
-        temp_a0->unk4 = temp_ret;
-        temp_a0->unk0 = 0xDB060030;
+        sp74 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
+        gSPSegment(gfx[0]++, 0x0C, sp74);
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_Get((MtxF *) &sp34);
-        func_800D20CC((MtxF *) &sp34, (Vec3s *) &sp2C, 0);
+        Matrix_Get(&sp34);
+        func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
-            func_80B4EE38(arg5, sp2E, 0);
-            func_80B4F230(arg5, sp2C, 1);
-            func_80B4EF64(arg5, sp30, 2);
+            func_80B4EE38(this, sp2C.y, 0);
+            func_80B4F230(this, sp2C.x, 1);
+            func_80B4EF64(this, sp2C.z, 2);
         }
-        temp_a0_2 = (kREG(31) + arg5->unk1DC) << 0x10;
-        temp_a1 = (kREG(32) + arg5->unk1DE) << 0x10;
-        temp_a2 = (kREG(33) + arg5->unk1E0) << 0x10;
-        sp1C = arg5 + 0x1DC;
-        Matrix_RotateRPY((s16) (temp_a0_2 >> 0x10), (s16) (temp_a1 >> 0x10), (s16) (temp_a2 >> 0x10), MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_1DC[0]+ kREG(31), unk_1DC[1] + kREG(32) , unk_1DC[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) sp74, "../z_en_zl2.c", 1056);
-        Matrix_Get((MtxF *) &sp34);
-        func_800D20CC((MtxF *) &sp34, (Vec3s *) &sp2C, 0);
+        Matrix_ToMtx(sp74, "../z_en_zl2.c", 1056);
+        Matrix_Get(&sp34);
+        func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
-            func_80B4EE38(arg5, sp2E, 3);
-            func_80B4F230(arg5, sp2C, 4);
+            func_80B4EE38(this, sp2C.y, 3);
+            func_80B4F230(this, sp2C.x, 4);
         }
-        Matrix_RotateRPY(kREG(34) + sp1C->unk6, kREG(35) + sp1C->unk8, kREG(36) + sp1C->unkA, MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_1DC[3] + kREG(34), unk_1DC[4] + kREG(35), unk_1DC[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp74 + 0x40), "../z_en_zl2.c", 1100);
-        Matrix_Get((MtxF *) &sp34);
-        func_800D20CC((MtxF *) &sp34, (Vec3s *) &sp2C, 0);
+        Matrix_ToMtx(sp74 + 1, "../z_en_zl2.c", 1100);
+        Matrix_Get(&sp34);
+        func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
-            func_80B4EE38(arg5, sp2E, 6);
-            func_80B4F230(arg5, sp2C, 7);
+            func_80B4EE38(this, sp2C.y, 6);
+            func_80B4F230(this, sp2C.x, 7);
         }
-        Matrix_RotateRPY(kREG(37) + sp1C->unkC, kREG(38) + sp1C->unkE, kREG(39) + sp1C->unk10, MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp74 + 0x80), "../z_en_zl2.c", 1120);
+        Matrix_ToMtx(sp74 + 2, "../z_en_zl2.c", 1120);
         Matrix_Pull();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
-        Matrix_Get((MtxF *) &sp34);
-        func_800D20CC((MtxF *) &sp34, (Vec3s *) &sp2C, 0);
+        Matrix_Get(&sp34);
+        func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
-            func_80B4EE38(arg5, sp2E, 9);
-            func_80B4F230(arg5, sp2C, 0xA);
-            func_80B4EF64(arg5, sp30, 0xB);
+            func_80B4EE38(this, sp2C.y, 9);
+            func_80B4F230(this, sp2C.x, 10);
+            func_80B4EF64(this, sp2C.z, 11);
         }
-        Matrix_RotateRPY(kREG(40) + sp1C->unk12, kREG(41) + sp1C->unk14, kREG(42) + sp1C->unk16, MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_1DC[9] + kREG(40), unk_1DC[10] + kREG(41), unk_1DC[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp74 + 0xC0), "../z_en_zl2.c", 1164);
-        Matrix_Get((MtxF *) &sp34);
-        func_800D20CC((MtxF *) &sp34, (Vec3s *) &sp2C, 0);
+        Matrix_ToMtx(sp74 + 3, "../z_en_zl2.c", 1145);
+        Matrix_Get(&sp34);
+        func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
-            func_80B4EE38(arg5, sp2E, 0xC);
-            func_80B4F230(arg5, sp2C, 0xD);
-            func_80B4EF64(arg5, sp30, 0xE);
+            func_80B4EE38(this, sp2C.y, 12);
+            func_80B4F230(this, sp2C.x, 13);
+            func_80B4EF64(this, sp2C.z, 14);
         }
-        Matrix_RotateRPY(kREG(43) + sp1C->unk18, kREG(44) + sp1C->unk1A, kREG(45)+ sp1C->unk1C, MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp74 + 0x100), "../z_en_zl2.c", 0x48C);
+        Matrix_ToMtx(sp74 + 4, "../z_en_zl2.c", 1164);
         Matrix_Pull();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
-        Matrix_Get((MtxF *) &sp34);
-        func_800D20CC((MtxF *) &sp34, (Vec3s *) &sp2C, 0);
+        Matrix_Get(&sp34);
+        func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
-            func_80B4EE38(arg5, sp2E, 0xF);
-            func_80B4F230(arg5, sp2C, 0x10);
-            func_80B4EF64(arg5, sp30, 0x11);
+            func_80B4EE38(this, sp2C.y, 15);
+            func_80B4F230(this, sp2C.x, 16);
+            func_80B4EF64(this, sp2C.z, 17);
         }
-        Matrix_RotateRPY(kREG(46) + sp1C->unk1E, kREG(47) + sp1C->unk20, kREG(48) + sp1C->unk22, MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_1DC[15] + kREG(46), unk_1DC[16] + kREG(47), unk_1DC[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp74 + 0x140), "../z_en_zl2.c", 1189);
-        Matrix_Get((MtxF *) &sp34);
-        func_800D20CC((MtxF *) &sp34, (Vec3s *) &sp2C, 0);
+        Matrix_ToMtx(sp74 + 5, "../z_en_zl2.c", 1189);
+        Matrix_Get(&sp34);
+        func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
-            func_80B4EE38(arg5, sp2E, 0x12);
-            func_80B4F230(arg5, sp2C, 0x13);
-            func_80B4EF64(arg5, sp30, 0x14);
+            func_80B4EE38(this, sp2C.y, 18);
+            func_80B4F230(this, sp2C.x, 19);
+            func_80B4EF64(this, sp2C.z, 20);
         }
-        Matrix_RotateRPY(kREG(49) + sp1C->unk24, kREG(50) + sp1C->unk26, kREG(51) + sp1C->unk28, MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp74 + 0x180), "../z_en_zl2.c", 1208);
+        Matrix_ToMtx(sp74 + 6, "../z_en_zl2.c", 1208);
         Matrix_Pull();
         Matrix_Pull();
         this->unk_24C = 1;
     }
-}*/
+    return 0;
+}
 
 void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4FB74.s")
