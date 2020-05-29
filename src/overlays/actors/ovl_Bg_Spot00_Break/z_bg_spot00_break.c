@@ -27,7 +27,7 @@ const ActorInit Bg_Spot00_Break_InitVars = {
     (ActorFunc)BgSpot00Break_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F8, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 2000, ICHAIN_CONTINUE),
@@ -44,7 +44,7 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 local_c = 0;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->actor, 0);
 
     if (this->actor.params == 1) {

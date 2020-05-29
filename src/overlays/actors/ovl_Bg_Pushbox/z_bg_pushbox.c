@@ -32,7 +32,7 @@ const ActorInit Bg_Pushbox_InitVars = {
 extern u32 D_06000000;
 extern u32 D_06000350;
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
@@ -46,7 +46,7 @@ void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
     s32 pad2;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06000350, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);

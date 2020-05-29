@@ -38,12 +38,12 @@ const ActorInit En_Dha_InitVars = {
     (ActorFunc)EnDha_Draw,
 };
 
-static DamageTable damageTable = { {
+static DamageTable sDamageTable = { {
     0x00, 0xF2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF2, 0xF4, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF4, 0xF2, 0xF4, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
 } };
 
-static ColliderJntSphItemInit colliderItemsInit[] = {
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 1, { { 0, 0, 0 }, 12 }, 100 },
@@ -69,10 +69,10 @@ static ColliderJntSphItemInit colliderItemsInit[] = {
 static ColliderJntSphInit colliderInit = {
     { COLTYPE_UNK6, 0x00, 0x09, 0x19, 0x10, COLSHAPE_JNTSPH },
     5,
-    &colliderItemsInit,
+    &sJntSphItemsInit,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x2E, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
@@ -85,8 +85,8 @@ void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
-    this->actor.colChkInfo.damageTable = &damageTable;
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
                      this->transitionDrawTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);

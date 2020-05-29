@@ -38,7 +38,7 @@ const ActorInit En_Cow_InitVars = {
     (ActorFunc)EnCow_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -112,9 +112,9 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                              this->transitionDrawTable, 6);
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060001CC);
             Collider_InitCylinder(globalCtx, &this->colliders[0]);
-            Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &cylinderInit);
+            Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &sCylinderInit);
             Collider_InitCylinder(globalCtx, &this->colliders[1]);
-            Collider_SetCylinder(globalCtx, &this->colliders[1], &this->actor, &cylinderInit);
+            Collider_SetCylinder(globalCtx, &this->colliders[1], &this->actor, &sCylinderInit);
             func_809DEE9C(this);
             this->actionFunc = func_809DF96C;
             if (globalCtx->sceneNum == SCENE_LINK_HOME) {

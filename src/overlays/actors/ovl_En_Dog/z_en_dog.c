@@ -34,13 +34,13 @@ const ActorInit En_Dog_InitVars = {
     (ActorFunc)EnDog_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK6, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 16, 20, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit2 colChkInfoInit = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -240,8 +240,8 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, 0, &colChkInfoInit);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;

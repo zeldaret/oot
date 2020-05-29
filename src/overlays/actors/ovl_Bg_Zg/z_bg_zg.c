@@ -24,12 +24,12 @@ void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
 void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
-static const BgZgActionFunc actionFuncs[] = {
+static const BgZgActionFunc sActionFuncs[] = {
     func_808C0CD4,
     func_808C0D08,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -93,11 +93,11 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
     s32 action = this->action;
 
-    if (((action < 0) || (1 < action)) || (actionFuncs[action] == NULL)) {
+    if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
         // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        actionFuncs[action](&this->dyna.actor, globalCtx);
+        sActionFuncs[action](&this->dyna.actor, globalCtx);
     }
 }
 
@@ -106,7 +106,7 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 local_c;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(thisx, DPM_UNK);
     local_c = 0;
     DynaPolyInfo_Alloc(&D_060011D4, &local_c);

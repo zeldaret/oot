@@ -68,7 +68,7 @@ const ActorInit En_Heishi2_InitVars = {
     (ActorFunc)EnHeishi2_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 33, 40, 0, { 0, 0, 0 } },
@@ -114,7 +114,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 17);
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
-        Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+        Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
         this->collider.dim.yShift = 0;
         this->collider.dim.radius = 0xF;
         this->collider.dim.height = 0x46;

@@ -41,14 +41,14 @@ static ColliderCylinderInit colliderInit = {
     { 10, 70, 0, { 0 } }
 };
 
-static CollisionCheckInfoInit colChkInfoInit = {
+static CollisionCheckInfoInit sColChkInfoInit = {
     0x0A,
     0x0023,
     0x0064,
     0xFF,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x19, ICHAIN_STOP),
 };
 
@@ -60,7 +60,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgTokiSwd* this = THIS;
     s32 pad;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     this->actor.shape.unk_08 = 800.0f;
     BgTokiSwd_SetupAction(thisx, func_808BAF40);
 
@@ -75,7 +75,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &colliderInit);
     Collider_CylinderUpdate(thisx, &this->collider);
-    func_80061ED4(&thisx->colChkInfo, 0, &colChkInfoInit);
+    func_80061ED4(&thisx->colChkInfo, 0, &sColChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {

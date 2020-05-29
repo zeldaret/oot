@@ -50,7 +50,7 @@ static ColliderCylinderInit D_8086CD70 = {
     { 0x00BB, 0x0050, 0x0000, { 0 } },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_STOP),
 };
 
@@ -101,7 +101,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 localC = 0;
 
-    Actor_ProcessInitChain(this, initChain);
+    Actor_ProcessInitChain(this, sInitChain);
     DynaPolyInfo_SetActorMove(this, 1);
     this->unk_168 = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;

@@ -31,7 +31,7 @@ const ActorInit Bg_Hidan_Syoku_InitVars = {
     (ActorFunc)BgHidanSyoku_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -43,7 +43,7 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 local_c = 0;
 
-    Actor_ProcessInitChain(&this->dyna.actor, initChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 1);
     DynaPolyInfo_Alloc(&D_0600E568, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);

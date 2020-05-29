@@ -34,7 +34,7 @@ DemoGeffInitFunc initFuncs[] = {
     func_80978030, func_80978030, func_80978030, func_80978030,
 };
 
-DemoGeffActionFunc actionFuncs[] = {
+DemoGeffActionFunc sActionFuncs[] = {
     func_809783D4,
     func_80978308,
 };
@@ -210,11 +210,11 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
 void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGeff* this = THIS;
 
-    if (this->action < 0 || this->action >= 2 || actionFuncs[this->action] == NULL) {
+    if (this->action < 0 || this->action >= 2 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    actionFuncs[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {

@@ -42,7 +42,7 @@ static ColliderCylinderInit cylinderInitData = {
     { 30, 83, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit colChkInfoInit = {
+static CollisionCheckInfoInit sColChkInfoInit = {
     0x01,
     0x0050,
     0x0064,
@@ -67,7 +67,7 @@ void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->collider.dim.pos.y = this->actor.posRot.pos.y;
 
-    func_80061ED4(&this->actor.colChkInfo, NULL, &colChkInfoInit);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     this->actionFunc = BgHidanFirewall_Wait;
 }

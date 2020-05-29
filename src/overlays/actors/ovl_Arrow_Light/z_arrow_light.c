@@ -35,7 +35,7 @@ const ActorInit Arrow_Light_InitVars = {
     (ActorFunc)ArrowLight_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
 };
 
@@ -46,7 +46,7 @@ void ArrowLight_SetupAction(ArrowLight* this, ArrowLightActionFunc actionFunc) {
 void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     ArrowLight* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
     this->unk_160 = 1.0f;
     ArrowLight_SetupAction(this, ArrowLight_Charge);

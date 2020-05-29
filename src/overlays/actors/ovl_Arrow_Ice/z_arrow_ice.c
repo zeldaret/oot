@@ -35,7 +35,7 @@ const ActorInit Arrow_Ice_InitVars = {
     (ActorFunc)ArrowIce_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
 };
 
@@ -46,7 +46,7 @@ void ArrowIce_SetupAction(ArrowIce* this, ArrowIceActionFunc actionFunc) {
 void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
     ArrowIce* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
     this->unk_160 = 1.0f;
     ArrowIce_SetupAction(this, ArrowIce_Charge);

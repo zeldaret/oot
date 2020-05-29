@@ -34,7 +34,7 @@ const ActorInit Bg_Hidan_Fslift_InitVars = {
     (ActorFunc)BgHidanFslift_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 300, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 350, ICHAIN_CONTINUE),
@@ -47,7 +47,7 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 local_c = 0;
     s32 pad2;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(thisx, 1);
     DynaPolyInfo_Alloc(&D_0600E1E8, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);

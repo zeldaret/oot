@@ -177,7 +177,7 @@ static ColliderCylinderInit D_80B1D508 = {
     { 0x001E, 0x0034, 0x0000, { 0 } },
 };
 
-static CollisionCheckInfoInit2 colChkInfoInit = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -508,7 +508,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B1D508);
 
-    func_80061EFC(&this->actor.colChkInfo, NULL, &colChkInfoInit);
+    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {

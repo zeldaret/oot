@@ -29,13 +29,13 @@ const ActorInit En_Boom_InitVars = {
     (ActorFunc)EnBoom_Draw,
 };
 
-static ColliderQuadInit col = {
+static ColliderQuadInit sQuadInit = {
     { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
     { 0x02, { 0x00000010, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x05, 0x00, 0x00 },
     { 0 },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(unk_1F, 5, ICHAIN_CONTINUE),
     ICHAIN_VEC3S(shape.rot, 0, ICHAIN_STOP),
 };
@@ -55,7 +55,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.room = -1;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
 
     trail.p1StartColor.r = 0xFF;
     trail.p1StartColor.g = 0xFF;
@@ -84,7 +84,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &trail);
 
     Collider_InitQuad(globalCtx, &this->collider);
-    Collider_SetQuad(globalCtx, &this->collider, this, &col);
+    Collider_SetQuad(globalCtx, &this->collider, this, &sQuadInit);
 
     EnBoom_SetupAction(this, EnBoom_Fly);
 }

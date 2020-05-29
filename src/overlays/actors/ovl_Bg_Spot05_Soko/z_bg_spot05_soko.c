@@ -33,7 +33,7 @@ const ActorInit Bg_Spot05_Soko_InitVars = {
     (ActorFunc)BgSpot05Soko_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -49,7 +49,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 pad2;
 
     sp24 = 0;
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     DynaPolyInfo_SetActorMove(thisx, DPM_UNK);

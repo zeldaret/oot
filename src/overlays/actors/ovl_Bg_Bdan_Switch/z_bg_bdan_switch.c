@@ -59,7 +59,7 @@ extern UNK_PTR D_06005CF8;
 extern UNK_PTR D_060061A0;
 extern UNK_PTR D_06005A20;
 
-static ColliderJntSphItemInit colliderItemsInit[] = {
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xEFC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0x0000, 0x0078, 0x0000 }, 370 }, 100 },
@@ -69,10 +69,10 @@ static ColliderJntSphItemInit colliderItemsInit[] = {
 static ColliderJntSphInit colliderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    &colliderItemsInit,
+    &sJntSphItemsInit,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F4, 1400, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1200, ICHAIN_STOP),
@@ -131,7 +131,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 flag;
 
     type = this->actor.params & 0xFF;
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     if (type == YELLOW_TALL_1 || type == YELLOW_TALL_2) {
         this->actor.scale.z = 0.05f;
         this->actor.scale.x = 0.05f;

@@ -31,7 +31,7 @@ const ActorInit Bg_Haka_Megane_InitVars = {
     NULL,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -50,7 +50,7 @@ extern UNK_TYPE D_06001250;
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaMegane* this = THIS;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
 
     if (thisx->params < 3) {

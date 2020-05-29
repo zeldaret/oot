@@ -58,20 +58,20 @@ const ActorInit En_Floormas_InitVars = {
     (ActorFunc)EnFloormas_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK0, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x04, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x05, 0x01 },
     { 25, 40, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit colCheckInfoInit = { 0x04, 0x001E, 0x0028, 0x96 };
+static CollisionCheckInfoInit sColChkInfoInit = { 0x04, 0x001E, 0x0028, 0x96 };
 
-static DamageTable damageTable = { {
+static DamageTable sDamageTable = { {
     0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x24, 0x02, 0x44, 0x04, 0x02,
     0x02, 0x24, 0x00, 0x44, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
 } };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x31, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 0x157C, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0xFC18, ICHAIN_STOP),
@@ -126,13 +126,13 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 invisble;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable,
                      &this->transitionDrawTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
-    func_80061ED4(&this->actor.colChkInfo, &damageTable, &colCheckInfoInit);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->zOffset = -1600;
     invisble = this->actor.params & SPAWN_INVISIBLE;
 
@@ -289,13 +289,13 @@ void EnFloormas_SplitBegin(EnFloormas* this) {
     this->actor.posRot.pos = this->actor.attachedA->posRot.pos;
     this->actor.params = 0x10;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC), 2, 0.0f);
-    this->collider.dim.radius = cylinderInit.dim.radius * 0.6f;
-    this->collider.dim.height = cylinderInit.dim.height * 0.6f;
+    this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
+    this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
     this->collider.body.bumperFlags &= ~4;
     this->actor.speedXZ = 4.0f;
     this->actor.velocity.y = 7.0f;
     // using div creates a signed check.
-    this->actor.colChkInfo.health = colCheckInfoInit.health >> 1;
+    this->actor.colChkInfo.health = sColChkInfoInit.health >> 1;
     this->actionFunc = EnFloormas_Split;
 }
 
@@ -904,8 +904,8 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_EXPAND);
     }
 
-    this->collider.dim.radius = (cylinderInit.dim.radius * 100.0f) * this->actor.scale.x;
-    this->collider.dim.height = (cylinderInit.dim.height * 100.0f) * this->actor.scale.x;
+    this->collider.dim.radius = (sCylinderInit.dim.radius * 100.0f) * this->actor.scale.x;
+    this->collider.dim.height = (sCylinderInit.dim.height * 100.0f) * this->actor.scale.x;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->actor.scale.x >= 0.01f) {
@@ -913,7 +913,7 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
             this->collider.body.bumperFlags |= 4;
-            this->actor.colChkInfo.health = colCheckInfoInit.health;
+            this->actor.colChkInfo.health = sColChkInfoInit.health;
             EnFloormas_StandBegin(this);
         } else {
             if (this->actionTimer == 0) {

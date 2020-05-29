@@ -36,14 +36,14 @@ static ColliderCylinderInit colliderInit = {
     { 55, 70, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit colChkInfoInit = {
+static CollisionCheckInfoInit sColChkInfoInit = {
     0x00,
     0x000C,
     0x003C,
     0xFF,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 0x7D0, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 0x15E, ICHAIN_CONTINUE),
@@ -65,12 +65,12 @@ void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     ObjBombiwa_InitCollision(thisx, globalCtx);
     if ((Flags_GetSwitch(globalCtx, thisx->params & 0x3F) != 0)) {
         Actor_Kill(thisx);
     } else {
-        func_80061ED4(&thisx->colChkInfo, NULL, &colChkInfoInit);
+        func_80061ED4(&thisx->colChkInfo, NULL, &sColChkInfoInit);
         if (thisx->shape.rot.y == 0) {
             s16 rand = (s16)Math_Rand_ZeroFloat(65536.0f);
             thisx->posRot.rot.y = rand;

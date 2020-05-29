@@ -956,7 +956,7 @@ f32 Math_Vec3f_DistXYZAndStoreDiff(Vec3f* a, Vec3f* b, Vec3f* dest);
 f32 Math_Vec3f_DistXZ(Vec3f* a, Vec3f* b);
 s16 Math_Vec3f_Yaw(Vec3f* a, Vec3f* b);
 s16 Math_Vec3f_Pitch(Vec3f* a, Vec3f* b);
-void Actor_ProcessInitChain(Actor* actor, InitChainEntry* initChain);
+void Actor_ProcessInitChain(Actor* actor, InitChainEntry* sInitChain);
 f32 Math_SmoothScaleMaxMinF(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep);
 void Math_SmoothScaleMaxF(f32* pValue, f32 target, f32 scale, f32 maxStep);
 void Math_SmoothDownscaleMaxF(f32* pValue, f32 scale, f32 maxStep);

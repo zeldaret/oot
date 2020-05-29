@@ -30,7 +30,7 @@ const ActorInit Bg_Umajump_InitVars = {
 extern D_06001438; // segmented address: 0x06001438
 extern D_06001220; // segmented address: 0x06001220
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -39,7 +39,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 sp24 = 0;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->actor, DPM_UNK);
     DynaPolyInfo_Alloc(&D_06001438, &sp24);
     this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp24);

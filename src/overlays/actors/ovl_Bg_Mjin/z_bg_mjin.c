@@ -35,7 +35,7 @@ extern u32 D_06000140;
 extern u32 D_06000330;
 extern u32 D_06000658;
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 400, ICHAIN_CONTINUE),
@@ -53,7 +53,7 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMjin* this = THIS;
     s8 objBankIndex;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
     this->objBankIndex = objBankIndex;
     if (objBankIndex < 0) {

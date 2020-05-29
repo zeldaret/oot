@@ -27,7 +27,7 @@ const ActorInit Bg_Menkuri_Kaiten_InitVars = {
     (ActorFunc)BgMenkuriKaiten_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -39,7 +39,7 @@ void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 local_c = 0;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->actor, 3);
     DynaPolyInfo_Alloc(&D_060042D8, &local_c);
     this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);

@@ -29,7 +29,7 @@ const ActorInit Bg_Spot01_Idosoko_InitVars = {
     (ActorFunc)BgSpot01Idosoko_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -46,7 +46,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
 
     DynaPolyInfo_SetActorMove(thisx, 1);
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_Alloc(&D_06003C64, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     if (LINK_IS_CHILD) {

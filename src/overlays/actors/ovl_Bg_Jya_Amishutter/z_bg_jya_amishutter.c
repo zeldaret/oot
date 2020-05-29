@@ -36,7 +36,7 @@ const ActorInit Bg_Jya_Amishutter_InitVars = {
     (ActorFunc)BgJyaAmishutter_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 200, ICHAIN_CONTINUE),
@@ -64,7 +64,7 @@ void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
     func_808932C0(this, globalCtx, &D_0600C4C8, 0);
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808933BC(this);
 }
 

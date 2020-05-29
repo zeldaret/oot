@@ -36,7 +36,7 @@ const ActorInit Bg_Spot12_Gate_InitVars = {
     (ActorFunc)BgSpot12Gate_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 2500, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
@@ -64,7 +64,7 @@ void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Gate* this = THIS;
 
     func_808B2F90(this, globalCtx, &D_060011EC, 0);
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         func_808B3274(this);

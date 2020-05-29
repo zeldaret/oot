@@ -32,7 +32,7 @@ const ActorInit Obj_Elevator_InitVars = {
     (ActorFunc)ObjElevator_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F4, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 600, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 2000, ICHAIN_STOP),
@@ -68,7 +68,7 @@ void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80B92B08(this, globalCtx, &D_06000360, 1);
     Actor_SetScale(thisx, sizes[thisx->params & 1]);
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     temp_f0 = (thisx->params >> 8) & 0xF;
     this->unk_16C = temp_f0 + temp_f0;
     func_80B92C5C(this);

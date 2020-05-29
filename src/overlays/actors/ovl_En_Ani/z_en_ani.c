@@ -50,7 +50,7 @@ static ColliderCylinderInit cylinderInitData = {
     { 30, 40, 0, { 0 } },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 850, ICHAIN_STOP),
 };
@@ -71,7 +71,7 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAni* this = THIS;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->limbDrawTable,
                      this->transitionDrawTable, 0x10);
