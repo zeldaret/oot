@@ -1073,6 +1073,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
 void func_80087680(GlobalContext* globalCtx);
 void func_800876C8(GlobalContext* globalCtx);
 s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2);
+void func_80088AA0(s16 seconds);
 void func_80088B34(s16 arg0);
 void Interface_Draw(GlobalContext* globalCtx);
 void Interface_Update(GlobalContext* globalCtx);
