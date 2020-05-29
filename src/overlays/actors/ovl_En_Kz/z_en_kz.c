@@ -1,3 +1,9 @@
+/*
+ * File: z_en_kz.c
+ * Overlay: ovl_En_Kz
+ * Description: King Zora
+ */
+
 #include "z_en_kz.h"
 
 #define FLAGS 0x00000009
@@ -213,17 +219,15 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0) != 0) {
-        if (this->actor.textId == 0x401A) {
-            if (!(gSaveContext.eventChkInf[3] & 8)) {
-                if (func_8002F368(globalCtx) == 0x1D) {
-                    this->actor.textId = 0x401B;
-                    this->sfxPlayed = false;
-                } else {
-                    this->actor.textId = 0x401A;
-                }
-                player->actor.textId = this->actor.textId;
-                return;
+        if ((this->actor.textId == 0x401A) && (!(gSaveContext.eventChkInf[3] & 8))) {
+            if (func_8002F368(globalCtx) == 0x1D) {
+                this->actor.textId = 0x401B;
+                this->sfxPlayed = false;
+            } else {
+                this->actor.textId = 0x401A;
             }
+            player->actor.textId = this->actor.textId;
+            return;
         }
         if (LINK_IS_ADULT) {
             if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) && (func_8002F368(globalCtx) == 0xC)) {
@@ -295,7 +299,7 @@ s32 EnKz_SetMovedPos(EnKz* this, GlobalContext* globalCtx) {
 
 void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
-    s32 pad1;
+    s32 pad;
 
     SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
                      12);
@@ -371,7 +375,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     initPos.y += -100.0f;
     initPos.z += 260.0f;
     func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
-    if (EnKz_FollowPath(this, globalCtx) == 1 && (this->waypoint == 0)) {
+    if ((EnKz_FollowPath(this, globalCtx) == 1) && (this->waypoint == 0)) {
         func_80034EC0(&this->skelanime, sAnimations, 1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
         EnKz_SetMovedPos(this, globalCtx);
@@ -430,7 +434,7 @@ void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
 
 void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
-    s32 pad2;
+    s32 pad;
 
     if (LINK_IS_ADULT && !(gSaveContext.infTable[19] & 0x100)) {
         gSaveContext.infTable[19] |= 0x100;
@@ -450,8 +454,8 @@ s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     s32 limb = limbIndex;
 
     if (limb == 8 || limb == 9 || limb == 10) {
-        rot->y += (Math_Sins(THIS->unk_2A6[limb]) * 200.0f);
-        rot->z += (Math_Coss(THIS->unk_2BE[limb]) * 200.0f);
+        rot->y += Math_Sins(THIS->unk_2A6[limb]) * 200.0f;
+        rot->z += Math_Coss(THIS->unk_2BE[limb]) * 200.0f;
     }
     return 0;
 }
