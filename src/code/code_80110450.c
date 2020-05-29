@@ -1,12 +1,12 @@
 #include <ultra64.h>
 #include <global.h>
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80110450.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/code/code_80110450/func_80110450.s")
 void func_80110450(GlobalContext* globalCtx) {
     globalCtx->unk_10A20 = 0;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80110460.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/code/code_80110450/func_80110460.s")
 void func_80110460(GlobalContext* globalCtx) {
     u16* temp_ptr = &globalCtx->unk_10A20;
     if (!(*temp_ptr < 2 || *temp_ptr >= 0x14) || 
@@ -17,7 +17,7 @@ void func_80110460(GlobalContext* globalCtx) {
 
 // void func_801104C8(GlobalContext* globalCtx);
 // Needs jtbl
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801104C8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_80110450/func_801104C8.s")
 /* void func_801104C8(GlobalContext* globalCtx) {
     static const s16 D_80153D80 = 0;
 
