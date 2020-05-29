@@ -107,7 +107,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         sp40.y = this->actor.posRot.pos.y + 4;
         sp40.z = this->actor.posRot.pos.z;
 
-        func_800297A4(globalCtx, &sp40, 0x40C00000, 0, 7, 3, 15, -1, 10, 0);
+        func_800297A4(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, -1, 10, 0);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
     } else {
