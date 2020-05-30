@@ -1510,7 +1510,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2);
 s32 func_800C0744(GlobalContext* globalCtx, s16 camId, s16 arg2);
 void func_800C078C(GlobalContext* globalCtx, s16 camId1, s16 camId2);
-void func_800C0808(GlobalContext* globalCtx, s16 camId, s32 arg2, s16 arg3);
+s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3);
 void func_800C0874(GlobalContext* globalCtx, s16 camId, s16 arg2);
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2);
 void Gameplay_SaveSceneFlags(GlobalContext* globalCtx);
