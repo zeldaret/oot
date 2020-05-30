@@ -71,7 +71,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 25, 60, 0, { 0, 0, 0 } },
 };
 
-static UNK_TYPE D_8011546C[] = {
+static UNK_PTR D_8011546C[] = {
     0x040394B0, 0x040394B0, 0x0403A120, 0x0403A480, 0x0403A7F0, 0x06000730,
 };
 

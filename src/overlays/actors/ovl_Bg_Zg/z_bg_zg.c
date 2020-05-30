@@ -23,7 +23,7 @@ void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
 void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
-static const BgZgActionFunc sActionFuncs[] = {
+static BgZgActionFunc sActionFuncs[] = {
     func_808C0CD4,
     func_808C0D08,
 };
@@ -32,7 +32,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static const BgZgDrawFunc sDrawFuncs[] = {
+static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 

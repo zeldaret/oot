@@ -490,7 +490,7 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, Gfx** dlist) {
+void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, Gfx* dlist) {
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->unk_1D0),
                   this->actor.posRot.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->unk_1D4, this->unk_1D0, this->unk_1D4, MTXMODE_APPLY);

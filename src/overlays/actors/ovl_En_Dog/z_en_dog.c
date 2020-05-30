@@ -126,19 +126,19 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
                 animation = 6;
                 break;
         }
-        func_80034EC0(&this->skelAnime, &sAnimations, animation);
+        func_80034EC0(&this->skelAnime, sAnimations, animation);
     }
 
     switch (this->behavior) {
         case DOG_SIT:
             if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
-                func_80034EC0(&this->skelAnime, &sAnimations, 5);
+                func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
             if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
-                func_80034EC0(&this->skelAnime, &sAnimations, 7);
+                func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
             break;

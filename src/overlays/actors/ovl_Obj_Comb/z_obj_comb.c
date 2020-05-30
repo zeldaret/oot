@@ -135,7 +135,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, &sInitChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, this, &sJntSphInit, &this->colliderItems);
     ObjComb_SetupWait(this);

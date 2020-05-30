@@ -47,7 +47,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     local_c = 0;
 
-    Actor_ProcessInitChain(thisx, &sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06000DB8, &local_c);
 

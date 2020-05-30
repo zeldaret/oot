@@ -74,8 +74,8 @@ const ActorInit En_Item00_InitVars = {
 };
 
 // TODO: Define this section of .data here and rename the symbols
-extern ColliderCylinderInit D_801154E0; // rename to D_801154E0 when data is moved
-extern InitChainEntry D_8011550C[];     // rename to D_8011550C when data is moved
+extern ColliderCylinderInit D_801154E0; // rename to sCylinderInit when data is moved
+extern InitChainEntry D_8011550C[];     // rename to sInitChain when data is moved
 extern Color_RGB8 D_80115510;
 extern Color_RGB8 D_80115514;
 extern UNK_TYPE D_80115518;

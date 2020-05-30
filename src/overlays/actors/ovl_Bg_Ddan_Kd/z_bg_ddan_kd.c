@@ -62,7 +62,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->previousCollidingExplosion = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, &sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);

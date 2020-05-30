@@ -119,12 +119,12 @@ s32 func_808B1C70(BgSpot09Obj* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B1CEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->dyna.actor, &sInitChain1);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain1);
     return 1;
 }
 
 s32 func_808B1D18(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->dyna.actor, &sInitChain2);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
     return 1;
 }
 
