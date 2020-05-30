@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot18_futa.c
  * Overlay: ovl_Bg_Spot18_Futa
- * Description: The lid to a goron jar.
+ * Description: The lid to the spinning goron vase.
  */
 
 #include "z_bg_spot18_futa.h"
@@ -34,8 +34,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
 };
 
-extern u32 DL_SPOT18_FUTA;  // 0x6000368
-extern u32 DL_SPOT18_FUTA2; // 0x6000150
+extern UNK_TYPE D_06000368;
+extern Gfx D_06000150[];
 
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
@@ -43,7 +43,7 @@ void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 sp1C = 0;
 
     DynaPolyInfo_SetActorMove(&this->actor, 0);
-    DynaPolyInfo_Alloc(&DL_SPOT18_FUTA, &sp1C);
+    DynaPolyInfo_Alloc(&D_06000368, &sp1C);
     this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
     Actor_ProcessInitChain(&this->actor, sInitChain);
 }
@@ -71,5 +71,5 @@ void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &DL_SPOT18_FUTA2);
+    Gfx_DrawDListOpa(globalCtx, D_06000150);
 }

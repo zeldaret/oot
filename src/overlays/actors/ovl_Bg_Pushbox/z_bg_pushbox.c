@@ -29,8 +29,8 @@ const ActorInit Bg_Pushbox_InitVars = {
     (ActorFunc)BgPushbox_Draw,
 };
 
-extern u32 D_06000000;
-extern u32 D_06000350;
+extern Gfx D_06000000[];
+extern UNK_TYPE D_06000350;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),

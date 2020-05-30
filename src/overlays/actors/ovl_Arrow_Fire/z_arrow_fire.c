@@ -1,11 +1,10 @@
 /*
  * File: z_arrow_fire.c
  * Overlay: ovl_Arrow_Fire
- * Description: Fire Arrow actor. Spawned by and attached to a normal arrow.
+ * Description: Fire Arrow. Spawned by and attached to a normal arrow.
  */
 
 #include "z_arrow_fire.h"
-
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
@@ -240,11 +239,11 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
         gSPDisplayList(gfxCtx->polyXlu.p++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
                                         255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
-        gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sVertexDL);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);
     }
 }

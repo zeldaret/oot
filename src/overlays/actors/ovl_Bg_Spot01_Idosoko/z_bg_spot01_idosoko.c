@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot01_idosoko.c
  * Overlay: Bg_Spot01_Idosoko
- * Description: Stone blocking entrance to Bottom of the Well
+ * Description: Stone that blocks the entrance to Bottom of the Well
  */
 
 #include "z_bg_spot01_idosoko.h"
@@ -33,7 +33,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern u32 D_06003C64;
+extern UNK_TYPE D_06003C64;
 
 void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFunc actionFunc) {
     this->actionFunc = actionFunc;

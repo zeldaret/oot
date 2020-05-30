@@ -36,17 +36,9 @@ const ActorInit En_Horse_Ganon_InitVars = {
     (ActorFunc)EnHorseGanon_Draw,
 };
 
-extern SkeletonHeader D_06008668;
+AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4 };
 
-extern AnimationHeader D_06004AA4;
-extern AnimationHeader D_06005264;
-extern AnimationHeader D_06005B78;
-extern AnimationHeader D_06002CE4;
-extern AnimationHeader D_06002650;
-extern AnimationHeader D_06003858;
-
-AnimationHeader* D_80A691B0[] = { &D_06004AA4, &D_06005264, &D_06005B78, &D_06002CE4 };
-AnimationHeader* D_80A691C0[] = { &D_06002650, &D_06003858 };
+AnimationHeader* D_80A691C0[] = { 0x06002650, 0x06003858 };
 
 static f32 sAnimPlaybackSpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
@@ -63,7 +55,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
     },
 };
 
-static ColliderJntSphInit sJntSphIInit = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x12, COLSHAPE_JNTSPH },
     1,
     sJntSphItemsInit,
@@ -93,6 +85,9 @@ static InitChainEntry sInitChain[] = {
 static EnHorseGanonActionFunc sActionFuncs[] = { func_80A68AF0, func_80A68DB0, NULL };
 
 const f32 D_80A692D0 = 10430.3779f;
+
+extern SkeletonHeader D_06008668;
+extern AnimationHeader D_06004AA4;
 
 void func_80A68660(unk_D_80A69248* data, s32 index, Vec3f* vec) {
     vec->x = data[index].unk_0.x;
@@ -176,7 +171,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
-    Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphIInit, &this->colliderSphereItem);
+    Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
 
     func_80061ED4(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     func_80A68AC4(this);

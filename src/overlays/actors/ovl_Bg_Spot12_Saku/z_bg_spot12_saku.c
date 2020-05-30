@@ -139,5 +139,5 @@ void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06002260);
+    Gfx_DrawDListOpa(globalCtx, D_06002260);
 }

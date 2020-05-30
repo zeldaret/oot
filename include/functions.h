@@ -445,8 +445,8 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
-void Gfx_DrawDListOpa(GlobalContext* globalCtx, u32 dlist);
-void Gfx_DrawDListXlu(GlobalContext* globalCtx, u32 dlist);
+void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist);
+void Gfx_DrawDListXlu(GlobalContext* globalCtx, Gfx* dlist);
 Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, u8 actorType, f32 range);
 s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
 void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3);
@@ -578,7 +578,7 @@ void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCt
 // ? func_80041510(?);
 // ? func_80041648(?);
 // ? func_800417A0(?);
-void DynaPolyInfo_Alloc(u32 collision, void* collisionPtr);
+void DynaPolyInfo_Alloc(UNK_TYPE collision, void* collisionPtr);
 // ? func_80041978(?);
 // ? func_800419B0(?);
 // ? func_80041A28(?);

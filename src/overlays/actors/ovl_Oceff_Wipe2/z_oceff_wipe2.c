@@ -106,10 +106,10 @@ void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0xFF, 0xAA, 0xFF);
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x64, 0x00, 0x80);
-    gSPDisplayList(gfxCtx->polyXlu.p++, textureDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 6, scroll * (-6), 64, 64,
                                                          1, scroll * (-6), 0, 64, 64));
-    gSPDisplayList(gfxCtx->polyXlu.p++, frustrumDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sFrustrumDl);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe2.c", 417);
 }

@@ -6,6 +6,8 @@
 
 struct BgSpot09Obj;
 
+typedef void (*BgSpot09ObjActionFunc)(struct BgSpot09Obj*, GlobalContext*);
+
 typedef struct BgSpot09Obj {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[0x04];

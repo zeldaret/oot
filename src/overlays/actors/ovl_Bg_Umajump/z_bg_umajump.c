@@ -27,8 +27,8 @@ const ActorInit Bg_Umajump_InitVars = {
     (ActorFunc)BgUmaJump_Draw,
 };
 
-extern D_06001438; // segmented address: 0x06001438
-extern D_06001220; // segmented address: 0x06001220
+extern UNK_TYPE D_06001438;
+extern Gfx D_06001220[];
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
@@ -63,5 +63,5 @@ void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06001220);
+    Gfx_DrawDListOpa(globalCtx, D_06001220);
 }

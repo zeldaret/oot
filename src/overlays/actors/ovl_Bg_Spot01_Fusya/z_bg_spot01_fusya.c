@@ -36,7 +36,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_FC, 1300, ICHAIN_STOP),
 };
 
-extern u32 D_06000100;
+extern Gfx D_06000100[];
 
 void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, BgSpot01FusyaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -86,7 +86,7 @@ void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000100);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000100);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
 }

@@ -1,7 +1,7 @@
 /*
  * File: z_bg_jya_amishutter.c
  * Overlay: Bg_Jya_Amishutter
- * Description: Circular Metal Grate (Spirit Temple)
+ * Description: Circular metal grate. Lifts up when you get close to it.
  */
 
 #include "z_bg_jya_amishutter.h"
@@ -44,7 +44,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern UNK_TYPE D_0600C4C8;
-extern UNK_TYPE D_0600C0A0;
+extern Gfx D_0600C0A0[];
 
 void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
     s16 pad1;
@@ -129,5 +129,5 @@ void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_0600C0A0);
+    Gfx_DrawDListOpa(globalCtx, D_0600C0A0);
 }

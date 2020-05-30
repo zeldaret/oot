@@ -1,7 +1,7 @@
 /*
  * File: z_en_bird.c
  * Overlay: ovl_En_Bird
- * Description: A brown bird. Tweet tweet.
+ * Description: An unused brown bird
  */
 
 #include "z_en_bird.h"

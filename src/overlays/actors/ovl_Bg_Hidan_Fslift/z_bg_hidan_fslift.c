@@ -1,7 +1,7 @@
 /*
  * File: z_bg_hidan_fslift.c
  * Overlay: Bg_Hidan_Fslift
- * Description:
+ * Description: Hookshot Elevator
  */
 
 #include "z_bg_hidan_fslift.h"
@@ -19,8 +19,8 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx);
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx);
 void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx);
 
-extern u32 D_0600B630;
-extern u32 D_0600E1E8;
+extern Gfx D_0600B630[];
+extern UNK_TYPE D_0600E1E8;
 
 const ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
@@ -83,23 +83,23 @@ void func_80886FB4(BgHidanFslift* this) {
 }
 
 void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
-    UNK_TYPE somebool;
+    s32 heightBool;
     Actor* thisx = &this->dyna.actor;
 
     DECR(this->unk_168);
 
     if (this->unk_168 == 0) {
-        somebool = 0;
+        heightBool = false;
         if ((thisx->posRot.pos.y - thisx->initPosRot.pos.y) < 0.5f) {
-            somebool = 1;
+            heightBool = true;
         }
         if (func_80043590(thisx)) {
-            if (somebool) {
+            if (heightBool) {
                 this->actionFunc = func_808870D8;
                 return;
             }
         }
-        if (!somebool) {
+        if (!heightBool) {
             this->actionFunc = func_8088706C;
         }
     }
@@ -142,9 +142,7 @@ void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_16A = 3;
         }
         func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
-        return;
-    }
-    if (func_8004356C(thisx) == 0) {
+    } else if (func_8004356C(thisx) == 0) {
         if (this->unk_16A != 0) {
             func_8005A77C(globalCtx->cameraPtrs[0], 3);
         }
@@ -153,5 +151,5 @@ void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanFslift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_0600B630);
+    Gfx_DrawDListOpa(globalCtx, D_0600B630);
 }

@@ -34,10 +34,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-extern D_06000AF0; // segmented address: 0x06000AF0
-extern D_06000908; // segmented address: 0x06000908
-extern D_06000980; // segmented address: 0x06000980
-extern D_06000440; // segmented address: 0x06000440
+extern UNK_TYPE D_06000AF0;
+extern UNK_TYPE D_06000908;
+extern Gfx D_06000980[];
+extern Gfx D_06000440[];
 
 void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
@@ -73,8 +73,8 @@ void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
 
     if (this->actor.params == 1) {
-        Gfx_DrawDListOpa(globalCtx, &D_06000980);
+        Gfx_DrawDListOpa(globalCtx, D_06000980);
     } else {
-        Gfx_DrawDListOpa(globalCtx, &D_06000440);
+        Gfx_DrawDListOpa(globalCtx, D_06000440);
     }
 }

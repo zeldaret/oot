@@ -1,7 +1,7 @@
 /*
  * File: z_en_pu_box.c
  * Overlay: ovl_En_Pu_Box
- * Description: An unused stone cube.
+ * Description: An unused stone cube
  */
 
 #include "z_en_pu_box.h"
@@ -27,8 +27,8 @@ const ActorInit En_Pu_box_InitVars = {
     (ActorFunc)EnPubox_Draw,
 };
 
-extern u32 D_06000380;
-extern u32 D_060006D0;
+extern Gfx D_06000380[];
+extern UNK_TYPE D_060006D0;
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;

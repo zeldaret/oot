@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot12_gate.c
  * Overlay: Bg_Spot12_Gate
- * Description:
+ * Description: Haunted Wasteland Gate
  */
 
 #include "z_bg_spot12_gate.h"
@@ -43,7 +43,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_FC, 1200, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06001080;
+extern Gfx D_06001080[];
 extern UNK_TYPE D_060011EC;
 
 void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, UNK_TYPE collision, DynaPolyMoveFlag flags) {
@@ -147,5 +147,5 @@ void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06001080);
+    Gfx_DrawDListOpa(globalCtx, D_06001080);
 }

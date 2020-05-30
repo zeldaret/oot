@@ -44,11 +44,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-Vec3f D_809E010C = {
-    0.0f,
-    -1300.0f,
-    1100.0f,
-};
+static Vec3f D_809E010C = { 0.0f, -1300.0f, 1100.0f };
 
 extern AnimationHeader D_060001CC;
 extern SkeletonHeader D_06004010;
@@ -91,9 +87,7 @@ void func_809DEE9C(EnCow* this) {
 void func_809DEF94(EnCow* this) {
     Vec3f vec;
 
-    // clang-format off
-    vec.x = 0.0f; vec.y = 57.0f; vec.z = -36.0f;
-    // clang-format on
+    VEC_SET(vec, 0.0f, 57.0f, -36.0f);
 
     func_809DEE00(&vec, this->actor.shape.rot.y);
     this->actor.posRot.pos.x += vec.x;

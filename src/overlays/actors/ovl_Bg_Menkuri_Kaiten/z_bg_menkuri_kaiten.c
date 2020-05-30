@@ -31,8 +31,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern u32 D_060038D0;
-extern u32 D_060042D8;
+extern Gfx D_060038D0[];
+extern UNK_TYPE D_060042D8;
 
 void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
@@ -61,5 +61,5 @@ void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMenkuriKaiten_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_060038D0);
+    Gfx_DrawDListOpa(globalCtx, D_060038D0);
 }

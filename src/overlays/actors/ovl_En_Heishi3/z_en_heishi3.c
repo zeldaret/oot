@@ -64,7 +64,7 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->limbDrawTable,
                    this->transitionDrawTable, 17);
-    this->actor.colChkInfo.mass = -1;
+    this->actor.colChkInfo.mass = 0xFF;
     this->actor.unk_1F = 6;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

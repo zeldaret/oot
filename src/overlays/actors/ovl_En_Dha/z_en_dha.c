@@ -23,9 +23,6 @@ void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_06000BD8;
-extern AnimationHeader D_060015B0;
-
 const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORTYPE_ENEMY,
@@ -66,7 +63,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
     },
 };
 
-static ColliderJntSphInit colliderInit = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK6, 0x00, 0x09, 0x19, 0x10, COLSHAPE_JNTSPH },
     5,
     &sJntSphItemsInit,
@@ -77,6 +74,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
+
+extern SkeletonHeader D_06000BD8;
+extern AnimationHeader D_060015B0;
 
 void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -96,7 +96,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.health = 8;
     this->unk_1CE = -0x4000;
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &colliderInit, &this->colliderItem);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     this->actor.flags &= ~1;
     func_809EC9C8(this);
 }
