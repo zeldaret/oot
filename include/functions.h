@@ -556,11 +556,11 @@ s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u3
 // ? func_8003E934(?);
 // ? func_8003E954(?);
 // ? func_8003E9A0(?);
-void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
-void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
-u32 DynaPolyInfo_RegisterActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, u32 arg3);
-DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, u32 dynaPolyId);
-void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
+void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
+void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
+u32 DynaPolyInfo_RegisterActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, UNK_TYPE arg3);
+DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, UNK_TYPE dynaPolyId);
+void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
 // ? func_8003EE80(?);
 // ? func_8003F8EC(?);
 // ? func_8003F984(?);
@@ -578,7 +578,7 @@ void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCt
 // ? func_80041510(?);
 // ? func_80041648(?);
 // ? func_800417A0(?);
-void DynaPolyInfo_Alloc(UNK_TYPE collision, void* collisionPtr);
+void DynaPolyInfo_Alloc(UNK_PTR arg0, UNK_PTR arg1);
 // ? func_80041978(?);
 // ? func_800419B0(?);
 // ? func_80041A28(?);
