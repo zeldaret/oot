@@ -108,7 +108,7 @@ EnRu1ActionFunc sActionFuncs[] = {
     func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1OverrideLimbDrawFunc sOverrideLimbDrawFuncs[] = {
+EnRu1OverrideLimbDrawFunc sPreLimbDrawFuncs[] = {
     func_80AF0278,
 };
 
@@ -2322,10 +2322,10 @@ s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                            Gfx** gfx) {
     EnRu1* this = THIS;
 
-    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sOverrideLimbDrawFuncs[this->unk_290] == NULL)) {
+    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        sOverrideLimbDrawFuncs[this->unk_290](this, globalCtx, limbIndex, rot);
+        sPreLimbDrawFuncs[this->unk_290](this, globalCtx, limbIndex, rot);
     }
     return 0;
 }

@@ -56,7 +56,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     // Draws the Triforce on Link's left hand
     {
-        
+
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];
         gfxCtx = globalCtx->state.gfxCtx;

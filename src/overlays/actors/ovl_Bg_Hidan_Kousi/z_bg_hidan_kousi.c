@@ -147,7 +147,7 @@ void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx) {
 
 void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
-    
+
     this->actionFunc(this, globalCtx);
 }
 
