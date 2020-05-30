@@ -108,7 +108,7 @@ EnRu1ActionFunc sActionFuncs[] = {
     func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1OverrideLimbDrawFunc sPreLimbDrawFuncs[] = {
+EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
     func_80AF0278,
 };
 
