@@ -1690,13 +1690,13 @@ void func_800C078C(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
     func_8005AE64(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
 }
 
-void func_800C0808(GlobalContext* globalCtx, s16 camId, s32 arg2, s16 arg3) {
+s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3) {
     Camera* camera;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    func_80058148(camera, arg2);
-    func_8005A77C(camera, arg3);
+    func_80058148(camera, player);
+    return func_8005A77C(camera, arg3);
 }
 
 void func_800C0874(GlobalContext* globalCtx, s16 camId, s16 arg2) {
