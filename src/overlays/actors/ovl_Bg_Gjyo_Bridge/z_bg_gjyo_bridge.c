@@ -38,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 
 extern Gfx D_06000600[];
 extern UNK_TYPE D_06000DB8;
-extern CutsceneData D_02002640;
+extern CutsceneData D_02002640[];
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
