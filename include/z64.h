@@ -969,7 +969,7 @@ typedef struct {
     /* 0x02 */ s8    backRoom;     // Room to switch to when triggered from the back of the object
     /* 0x03 */ s8    backEffects;  // How the camera reacts during the back transition
         };
-    /* 0x00 */ TransitionInfo info[2]; // En_Holl actors (and possibly others) access the above data as an array
+    /* 0x00 */ TransitionInfo info[2]; // Some transition actors access the above data in a variable manner
     };
     /* 0x04 */ s16   id;
     /* 0x06 */ Vec3s pos;

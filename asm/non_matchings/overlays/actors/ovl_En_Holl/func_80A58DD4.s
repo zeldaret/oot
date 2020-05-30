@@ -85,7 +85,7 @@ glabel func_80A58DD4
 /* 00300 80A58F10 01AFC021 */  addu    $t8, $t5, $t7              
 /* 00304 80A58F14 83190000 */  lb      $t9, 0x0000($t8)           ## 00000000
 /* 00308 80A58F18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0030C 80A58F1C 0C296346 */  jal     func_80A58D18              
+/* 0030C 80A58F1C 0C296346 */  jal     EnHoll_SwapRooms              
 /* 00310 80A58F20 A0F90003 */  sb      $t9, 0x0003($a3)           ## 00000003
 /* 00314 80A58F24 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00318 80A58F28 34211CBC */  ori     $at, $at, 0x1CBC           ## $at = 00011CBC
@@ -145,7 +145,7 @@ glabel func_80A58DD4
 /* 003DC 80A58FEC 806E1CBC */  lb      $t6, 0x1CBC($v1)           ## 00001CBC
 /* 003E0 80A58FF0 518E0004 */  beql    $t4, $t6, .L80A59004       
 /* 003E4 80A58FF4 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 003E8 80A58FF8 0C296346 */  jal     func_80A58D18              
+/* 003E8 80A58FF8 0C296346 */  jal     EnHoll_SwapRooms              
 /* 003EC 80A58FFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 003F0 80A59000 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80A59004:

@@ -10,7 +10,7 @@ typedef void (*EnHollActionFunc)(struct EnHoll*, GlobalContext*);
 
 typedef struct EnHoll {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s16 unk_14C;
+    /* 0x014C */ s16 planeAlpha;
     /* 0x014E */ u8 unk_14E;
     /* 0x014F */ u8 unk_14F;
     /* 0x0150 */ EnHollActionFunc actionFunc;
