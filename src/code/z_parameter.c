@@ -3554,7 +3554,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
             // Revert any spoiling trade quest items
             for (phi_s3 = 0; phi_s3 < ARRAY_COUNT(gSpoilingItems); phi_s3++) {
-                if (INV_CONTENT(ITEM_POCKET_EGG) == gSpoilingItems[phi_s3]) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[phi_s3]) {
                     gSaveContext.eventInf[0] &= 0x7F80;
                     osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[0]);
                     globalCtx->nextEntranceIndex = sSpoilingItemEntrances[phi_s3];
@@ -3979,13 +3979,13 @@ void Interface_Update(GlobalContext* globalCtx) {
     u16 action;
     Input* input = &globalCtx->state.input[2];
 
-    if (!~(input->press.in.button | ~L_JPAD)) {
+    if (CHECK_PAD(input->press, L_JPAD)) {
         gSaveContext.language = 0;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (!~(input->press.in.button | ~U_JPAD)) {
+    } else if (CHECK_PAD(input->press, U_JPAD)) {
         gSaveContext.language = 1;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (!~(input->press.in.button | ~R_JPAD)) {
+    } else if (CHECK_PAD(input->press, R_JPAD)) {
         gSaveContext.language = 2;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }

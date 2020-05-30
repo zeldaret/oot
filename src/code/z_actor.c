@@ -3088,16 +3088,6 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     return arg0[0];
 }
 
-typedef struct {
-    /* 0x00 */ MtxF* unk_00;
-    /* 0x04 */ s16* unk_04;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ char unk_0A[0x02];
-    /* 0x0C */ s32* unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-} struct_80032E24;
-
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
     u32 sp28;
     u32 sp24;
@@ -3647,8 +3637,8 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
     return func_8002EB44(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
 
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
-                  s16 (*unkFunc2)(GlobalContext*, Actor*)) {
+s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, callback1_800343CC unkFunc1,
+                  callback2_800343CC unkFunc2) {
     s16 sp26;
     s16 sp24;
 

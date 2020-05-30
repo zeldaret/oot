@@ -3,9 +3,11 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .data
+
+.balign 16
 
 glabel D_80970350
  .word 0x00C00088, 0x013300FC, 0x00FD010C, 0x01070115, 0x010D0121, 0x01220122, 0x01220122, 0x00FC00FD, 0x01160116, 0x011600FE, 0x00FF00FB, 0x00130013, 0x00130110, 0x0159013E, 0x015B0165, 0x00C900C9, 0x00C900C9, 0x00D00000

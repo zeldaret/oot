@@ -495,7 +495,7 @@ glabel Gameplay_Init
 /* B342B4 800BD114 24C64244 */  addiu $a2, %lo(D_80144244) # addiu $a2, $a2, 0x4244
 /* B342B8 800BD118 02202025 */  move  $a0, $s1
 /* B342BC 800BD11C 00402825 */  move  $a1, $v0
-/* B342C0 800BD120 0C031521 */  jal   GameState_AllocEnd
+/* B342C0 800BD120 0C031521 */  jal   GameState_Alloc
 /* B342C4 800BD124 24070B66 */   li    $a3, 2918
 /* B342C8 800BD128 8FA9007C */  lw    $t1, 0x7c($sp)
 /* B342CC 800BD12C 24460008 */  addiu $a2, $v0, 8

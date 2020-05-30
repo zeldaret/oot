@@ -40,7 +40,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     // Translates to: "Permanent PARAMETER Segment = %x"
     osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
 
-    interfaceCtx->parameterSegment = GameState_AllocEnd(&globalCtx->state, parameterSize, "../z_construct.c", 159);
+    interfaceCtx->parameterSegment = GameState_Alloc(&globalCtx->state, parameterSize, "../z_construct.c", 159);
 
     osSyncPrintf("parameter->parameterSegment=%x", interfaceCtx->parameterSegment);
 
@@ -50,7 +50,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     DmaMgr_SendRequest1(interfaceCtx->parameterSegment, parameterStart, parameterSize, "../z_construct.c", 162);
 
-    interfaceCtx->do_actionSegment = GameState_AllocEnd(&globalCtx->state, 0x480, "../z_construct.c", 166);
+    interfaceCtx->do_actionSegment = GameState_Alloc(&globalCtx->state, 0x480, "../z_construct.c", 166);
 
     // Translates to: "DO Action Texture Initialization"
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480);
@@ -84,7 +84,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     DmaMgr_SendRequest1((void*)((u32)interfaceCtx->do_actionSegment + 0x300), do_actionStart + do_actionOffset, 0x180,
                         "../z_construct.c", 178);
 
-    interfaceCtx->icon_itemSegment = GameState_AllocEnd(&globalCtx->state, 0x4000, "../z_construct.c", 190);
+    interfaceCtx->icon_itemSegment = GameState_Alloc(&globalCtx->state, 0x4000, "../z_construct.c", 190);
 
     // Translates to: "Icon Item Texture Initialization = %x"
     osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
@@ -201,7 +201,7 @@ void func_80110F68(GlobalContext* globalCtx) {
 
     View_Init(&msgCtx->view, globalCtx->state.gfxCtx);
 
-    msgCtx->textboxSegment = GameState_AllocEnd(&globalCtx->state, 0x2200, "../z_construct.c", 349);
+    msgCtx->textboxSegment = GameState_Alloc(&globalCtx->state, 0x2200, "../z_construct.c", 349);
 
     osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 

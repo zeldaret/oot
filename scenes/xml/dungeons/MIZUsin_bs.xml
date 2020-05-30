@@ -1,0 +1,11 @@
+<Root>
+    <File Name="MIZUsin_bs_scene">
+        <Scene Name="MIZUsin_bs_scene"/>
+    </File>
+    <File Name="MIZUsin_bs_room_0">
+        <Room Name="MIZUsin_bs_room_0"/>
+    </File>
+    <File Name="MIZUsin_bs_room_1">
+        <Room Name="MIZUsin_bs_room_1"/>
+    </File>
+</Root>
