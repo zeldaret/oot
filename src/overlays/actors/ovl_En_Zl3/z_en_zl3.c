@@ -92,7 +92,7 @@ static EnZl3ActionFunc sActionFuncs[] = {
     func_80B591BC, func_80B5922C, func_80B592A8, func_80B59340, func_80B593D0,
 };
 
-u32 D_80B5A560[] = {
+EnZl3OverrideLimbDraw2 D_80B5A560[] = {
     func_80B5458C,
     func_80B5944C,
 };
@@ -134,7 +134,9 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53468.s")
+void func_80B53468(void) {
+    Audio_SetBGM(NA_SE_PL_DUMMY_98);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53488.s")
 
@@ -144,7 +146,9 @@ void func_80B53554(EnZl3* this, s16 arg1) {
     this->unk_244 = arg1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53568.s")
+void func_80B53568(EnZl3* this, s16 arg1) {
+    this->unk_248 = arg1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5357C.s")
 
@@ -182,6 +186,7 @@ u8 func_80B5396C(EnZl3* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5458C.s")
 
+void func_80B54CE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54CE8.s")
 
 s32 func_80B54DB4(EnZl3* this) {
@@ -874,6 +879,18 @@ void func_80B59A80(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59AD0.s")
+/*void func_80B59AD0(EnZl3 *this, GlobalContext *globalCtx) {
+    Flags_SetSwitch(globalCtx, 0x36);
+    func_80088AA0(180);
+    func_80B54EA4(this, globalCtx);
+    func_80B53614(this, globalCtx);
+    gSaveContext.eventChkInf[12] &= ~0x80;
+    func_80B56F10(this, globalCtx);
+    gSaveContext.healthAccumulator = 320;
+    func_80087680(globalCtx);
+    this->action = 27;
+    this->drawConfig = 1;
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59B6C.s")
 
@@ -930,13 +947,67 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_ctは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59F74.s")
+s32 func_80B59F74(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx, Gfx **gfx) {
+    EnZl3* this = THIS;
+    
+    if (this->unk_308 < 0 || this->unk_308 >= 2 || D_80B5A560[this->unk_308] == NULL) {
+        osSyncPrintf(VT_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        return 0;
+    }
+    return D_80B5A560[this->unk_308](globalCtx, limbIndex, dList, pos, rot, this, gfx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59FE8.s")
+void func_80B59FE8(EnZl3 *this, GlobalContext *globalCtx) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59FF4.s")
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5A1D0.s")
+void func_80B59FF4(EnZl3 *this, GlobalContext *globalCtx) {
+    s32 pad[2];
+    s16 unk_244 = this->unk_244;
+    u32 sp78 = D_80B5A43C[unk_244];
+    s16 unk_248 = this->unk_248;
+    SkelAnime* skelAnime= &this->skelAnime;
+    u32 sp6C = D_80B5A45C[unk_248];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[5];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2165);
+    func_80093D18(globalCtx->state.gfxCtx);
+    
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
+
+    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80B59F74, func_80B54CE8, &this->actor, gfxCtx->polyOpa.p);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2190);
+}
+
+void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s16 unk_244 = this->unk_244;
+    u32 sp78 = D_80B5A43C[unk_244];
+    s16 unk_248 = this->unk_248;
+    SkelAnime* skelAnime= &this->skelAnime;
+    u32 sp6C = D_80B5A45C[unk_248];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[5];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2205);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(gfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_258);
+    gSPSegment(gfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
+
+    gfxCtx->polyXlu.p =
+        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          func_80B59F74, NULL, &this->actor, gfxCtx->polyXlu.p);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);
+}
 
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnZl3* this = THIS;

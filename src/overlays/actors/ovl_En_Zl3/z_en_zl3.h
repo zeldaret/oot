@@ -8,6 +8,8 @@ struct EnZl3;
 
 typedef void (*EnZl3ActionFunc)(struct EnZl3*, GlobalContext*);
 typedef void (*EnZl3DrawFunc)(struct EnZl3*, GlobalContext*);
+typedef s32 (*EnZl3OverrideLimbDraw2)(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot,
+                                      struct EnZl3 *thisx, Gfx **gfx);
 
 typedef struct EnZl3 {
     /* 0x0000 */ Actor actor;
@@ -15,10 +17,16 @@ typedef struct EnZl3 {
     /* 0x0190 */ Vec3s limbDrawTable[15];
     /* 0x01EA */ Vec3s transitionDrawTable[15];
     /* 0x0244 */ s16 unk_244;
-    /* 0x0246 */ char unk_246[0x6];
+    /* 0x0246 */ char unk_246[0x2];
+    /* 0x0248 */ s16 unk_248;
+    /* 0x024A */ char unk_24A[0x2];
     /* 0x024C */ s32 action;
     /* 0x0250 */ s32 drawConfig;
-    /* 0x0254 */ char unk_254[0xC4];
+    /* 0x0254 */ char unk_254[0x4];
+    /* 0x0258 */ s32 unk_258;
+    /* 0x025C */ char unk_25C[0xAC];
+    /* 0x0308 */ s32 unk_308;
+    /* 0x030C */ char unk_30C[0xC];
     /* 0x0318 */ s32 unk_318;
     /* 0x031C */ char unk_31C[0x5C];
     /* 0x0378 */ ColliderCylinder collider;
