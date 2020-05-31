@@ -29,21 +29,18 @@ const ActorInit En_Boom_InitVars = {
     (ActorFunc)EnBoom_Draw,
 };
 
-static ColliderQuadInit col = {
+static ColliderQuadInit sQuadInit = {
     { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
     { 0x02, { 0x00000010, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x05, 0x00, 0x00 },
     { 0 },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(unk_1F, 5, ICHAIN_CONTINUE),
     ICHAIN_VEC3S(shape.rot, 0, ICHAIN_STOP),
 };
 
-static Vec3f mult1 = { -960.0f, 0.0f, 0.0f };
-static Vec3f mult2 = { 960.0f, 0.0f, 0.0f };
-
-extern D_0400C808;
+extern Gfx D_0400C808[];
 
 void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -55,7 +52,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.room = -1;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
 
     trail.p1StartColor.r = 0xFF;
     trail.p1StartColor.g = 0xFF;
@@ -84,7 +81,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &trail);
 
     Collider_InitQuad(globalCtx, &this->collider);
-    Collider_SetQuad(globalCtx, &this->collider, this, &col);
+    Collider_SetQuad(globalCtx, &this->collider, this, &sQuadInit);
 
     EnBoom_SetupAction(this, EnBoom_Fly);
 }
@@ -240,6 +237,8 @@ void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Vec3f sMultVec1 = { -960.0f, 0.0f, 0.0f };
+    static Vec3f sMultVec2 = { 960.0f, 0.0f, 0.0f };
     EnBoom* this = THIS;
     Vec3f vec1;
     Vec3f vec2;
@@ -251,8 +250,8 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_RotateY(this->actor.posRot.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateZ(0.7669904f, MTXMODE_APPLY);
     Matrix_RotateX(this->actor.posRot.rot.x * 0.0000958738f, MTXMODE_APPLY);
-    Matrix_MultVec3f(&mult1, &vec1);
-    Matrix_MultVec3f(&mult2, &vec2);
+    Matrix_MultVec3f(&sMultVec1, &vec1);
+    Matrix_MultVec3f(&sMultVec2, &vec2);
 
     if (func_80090480(globalCtx, &this->collider, &this->unk_1DC, &vec1, &vec2) != 0) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &vec1, &vec2);
@@ -263,7 +262,7 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_0400C808);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_0400C808);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
 }

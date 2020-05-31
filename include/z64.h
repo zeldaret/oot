@@ -1073,7 +1073,7 @@ typedef struct GlobalContext {
     /* 0x11D4C */ s32 (*unk_11D4C)(struct GlobalContext*, Actor*);
     /* 0x11D50 */ char unk_11D50[0x8];
     /* 0x11D58 */ void (*unk_11D58)(struct GlobalContext*, s32);
-    /* 0x11D5C */ char unk_11D5C[0x4];
+    /* 0x11D5C */ void (*unk_11D5C)(struct GlobalContext*, Actor*);
     /* 0x11D60 */ MtxF mf_11D60;
     /* 0x11DA0 */ MtxF mf_11DA0;
     /* 0x11DE0 */ Mtx* unk_11DE0;

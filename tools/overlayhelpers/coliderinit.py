@@ -102,7 +102,7 @@ def GetItems(data, off, count, structf, fmt, size):
 def GetJntSphItems(data, off, count):
     items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x24)
     print('''
-ColliderJntSphItemInit jntsphItemsInit[{0}] = {{{1}
+static ColliderJntSphItemInit sJntSphItemsInit[{0}] = {{{1}
 }};
 '''.format(count, items))
 
@@ -111,7 +111,7 @@ def GetJntSph(data, off, type):
     cJntSph = struct.unpack_from(sf_JntSph, data, off + 8)
 
     print('''
-ColliderJntSphInit{0} jntsphInit = 
+static ColliderJntSphInit{0} sJntSphInit = 
 {{
     {1},
     {2},
@@ -122,7 +122,7 @@ ColliderJntSphInit{0} jntsphInit =
 def GetTrisItems(data, off, count):
     items = GetItems(data, off, count, sf_TrisItem, f_TrisItem, 0x24)
     print('''
-ColliderTrisItemInit trisItemsInit[{0}] = {{{1}
+static ColliderTrisItemInit sTrisItemsInit[{0}] = {{{1}
 }};
 '''.format(count, items))
 
@@ -133,7 +133,7 @@ def GetCylinder(data, off, type):
     cCyl16 = struct.unpack_from(sf_Cylinder16, data, off + 0x20)
 
     print('''
-ColliderCylinderInit{0} cylinderInit = 
+static ColliderCylinderInit{0} sCylinderInit = 
 {{
     {1},
     {2},
@@ -146,7 +146,7 @@ def GetTris(data, off, type):
     cTris = struct.unpack_from(sf_Tris, data, off + 8)
 
     print('''
-ColliderTrisInit{0} trisInit = 
+static ColliderTrisInit{0} sTrisInit = 
 {{
     {1},
     {2},
@@ -158,7 +158,7 @@ def GetQuad(data, off, type):
     cBody = struct.unpack_from(sf_ColliderBodyInit, data, off + 0x08)
     cQuad = struct.unpack_from(sf_Quad, data, off + 0x20)
     print('''
-ColliderQuadInit{0} quadInit = 
+static ColliderQuadInit{0} sQuadInit = 
 {{
     {1},
     {2},

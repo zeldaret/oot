@@ -3384,9 +3384,9 @@ extern GameInfo* gGameInfo; // 0x8015FA90
 //extern ? D_8015FA98;
 //extern ? D_8015FA9B;
 //extern ? D_8015FC18;
-//extern ? D_8015FCC0;
-//extern ? D_8015FCC2;
-//extern ? D_8015FCC4;
+extern u16 D_8015FCC0;
+extern u16 D_8015FCC2;
+extern u16 D_8015FCC4;
 //extern ? D_8015FCC6;
 //extern ? D_8015FCC8;
 //extern ? D_8015FCCA;

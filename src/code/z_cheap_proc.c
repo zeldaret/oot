@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-void Gfx_DrawDListOpa(GlobalContext* globalCtx, u32 dlist) {
+void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
@@ -15,7 +15,7 @@ void Gfx_DrawDListOpa(GlobalContext* globalCtx, u32 dlist) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_cheap_proc.c", 219);
 }
 
-void Gfx_DrawDListXlu(GlobalContext* globalCtx, u32 dlist) {
+void Gfx_DrawDListXlu(GlobalContext* globalCtx, Gfx* dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
