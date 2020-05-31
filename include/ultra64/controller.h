@@ -46,6 +46,7 @@
 #define PFS_LABEL_AREA 7
 
 #define PFS_ERR_NOPACK 1
+#define PFS_ERR_NEW_PACK 2
 #define PFS_ERR_CONTRFAIL 4
 
 
@@ -89,7 +90,7 @@ typedef struct
     u8 command; //0: get status, 1: read buttons, 2: read mempak, 3: write mempak, 4: read eeprom, 5: write eeprom, FF: reset controller
 } PIF_header_t;
 
-// Original name: __OSContRequestFormat
+// Original name: __OSContRequesFormat
 typedef struct {
 	u8	align;             
 	u8	txsize;		
@@ -100,6 +101,16 @@ typedef struct {
 	u8  status;
 	u8	align1;                 
 } __OSContRequestHeader; 
+
+// Original name: __OSContRequesHeaderFormatShort
+typedef struct {
+        u8      txsize;             
+        u8      rxsize;              
+        u8      poll;     
+        u8      typeh;
+        u8      typel;
+        u8      status;
+} __OSContRequestHeaderAligned;
 
 // Original Name: __OSContRamReadFormat
 typedef struct {
