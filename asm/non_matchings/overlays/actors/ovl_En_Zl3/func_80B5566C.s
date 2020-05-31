@@ -10,7 +10,7 @@ glabel func_80B5566C
 /* 022DC 80B5568C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 022E0 80B55690 0C2D4D33 */  jal     func_80B534CC              
 /* 022E4 80B55694 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 022E8 80B55698 0C2D4E53 */  jal     func_80B5394C              
+/* 022E8 80B55698 0C2D4E53 */  jal     EnZl3_FrameUpdateMatrix              
 /* 022EC 80B5569C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 022F0 80B556A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 022F4 80B556A4 0C2D54CD */  jal     func_80B55334              
