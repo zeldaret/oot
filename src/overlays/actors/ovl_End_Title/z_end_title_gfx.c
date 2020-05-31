@@ -423,7 +423,7 @@ static UNK_TYPE D_80B69660[] = {
     0x01F40195, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x00000500, 0x00000000, 0x00000000, 0xFFFFFFFF,
 };
 
-static Gfx triforceDL[] = {
+static Gfx sTriforceDList[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),

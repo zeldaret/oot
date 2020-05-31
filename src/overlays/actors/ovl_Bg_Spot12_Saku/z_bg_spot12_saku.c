@@ -34,7 +34,7 @@ const ActorInit Bg_Spot12_Saku_InitVars = {
     (ActorFunc)BgSpot12Saku_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
@@ -62,7 +62,7 @@ void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Saku* this = THIS;
 
     func_808B3420(this, globalCtx, &D_0600238C, 0);
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         func_808B3714(this);
     } else {
@@ -139,5 +139,5 @@ void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06002260);
+    Gfx_DrawDListOpa(globalCtx, D_06002260);
 }

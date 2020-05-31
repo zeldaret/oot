@@ -1,7 +1,7 @@
 /*
  * File: z_bg_gnd_nisekabe.c
  * Overlay: ovl_Bg_Gnd_Nisekabe
- * Description: 2D Stone Wall
+ * Description: Ganon's Castle Fake Wall
  */
 
 #include "z_bg_gnd_nisekabe.h"
@@ -27,7 +27,7 @@ const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     (ActorFunc)BgGndNisekabe_Draw,
 };
 
-static u32 segmentAddr[] = { 0x06009230, 0x0600A390, 0x0600B4A0 };
+static Gfx* sDLists[] = { 0x06009230, 0x0600A390, 0x0600B4A0 };
 
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = THIS;
@@ -54,8 +54,8 @@ void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 index = this->actor.params & 0xFF;
 
     if ((this->actor.flags & 0x80) == 0x80) {
-        Gfx_DrawDListXlu(globalCtx, segmentAddr[index]);
+        Gfx_DrawDListXlu(globalCtx, sDLists[index]);
     } else {
-        Gfx_DrawDListOpa(globalCtx, segmentAddr[index]);
+        Gfx_DrawDListOpa(globalCtx, sDLists[index]);
     }
 }

@@ -3,8 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
-
-#include "../ovl_En_Anubice/z_en_anubice.h"
+#include "overlays/actors/ovl_En_Anubice/z_en_anubice.h"
 
 struct EnAnubiceTag;
 

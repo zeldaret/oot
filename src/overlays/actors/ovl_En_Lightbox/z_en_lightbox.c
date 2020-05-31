@@ -27,8 +27,8 @@ const ActorInit En_Lightbox_InitVars = {
     (ActorFunc)EnLightbox_Draw,
 };
 
-extern u32 D_06000B70;
-extern u32 D_06001F10;
+extern Gfx D_06000B70[];
+extern UNK_TYPE D_06001F10;
 
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
@@ -111,5 +111,5 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06000B70);
+    Gfx_DrawDListOpa(globalCtx, D_06000B70);
 }

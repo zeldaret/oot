@@ -270,7 +270,6 @@ beginseg
     name "code"
     address 0x8001CE60
     include "build/src/code/z_en_a_keep.o"
-    include "build/data/z_en_a_keep.data.o"
     include "build/src/code/z_en_item00.o"
     include "build/data/z_en_item00.data.o"
     include "build/data/z_en_item00.bss.o"
