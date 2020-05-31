@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80101910
+glabel __osPfsGetStatus
 /* B78AB0 80101910 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B78AB4 80101914 AFA40030 */  sw    $a0, 0x30($sp)
 /* B78AB8 80101918 AFBF0014 */  sw    $ra, 0x14($sp)

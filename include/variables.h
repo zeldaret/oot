@@ -831,7 +831,7 @@ extern s32 gSystemArenaLogSeverity;
 //extern u32 gOsContInitialized = 0;
 //extern ? D_80134CF0;
 //extern ? D_80134CF4;
-extern s32 D_80134D20;
+extern s32 __osPfsLastChannel;
 //extern ? D_80135130;
 //extern ? D_80135158;
 //extern ? D_801351A8;

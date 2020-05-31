@@ -2425,7 +2425,7 @@ s16 sins(u16);
 // ? osSpTaskYield(?);
 // ? func_801014C0(?);
 // ? func_80101594(?);
-// ? func_80101910(?);
+// ? __osPfsGetStatus(?);
 // ? func_801019E0(?);
 // ? func_80101AA4(?);
 // ? guMtxIdentF(?);

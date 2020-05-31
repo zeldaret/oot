@@ -40,6 +40,15 @@
 #define DIR_STATUS_UNKNOWN 1
 #define DIR_STATUS_OCCUPIED 2
 
+#define PFS_FORCE 1
+#define PFS_DELETE 1
+
+#define PFS_LABEL_AREA 7
+
+#define PFS_ERR_NOPACK 1
+#define PFS_ERR_CONTRFAIL 4
+
+
 typedef struct
 {
     /* 0x00 */ union{
@@ -94,7 +103,7 @@ typedef struct {
 
 // Original Name: __OSContRamReadFormat
 typedef struct {
-	u8	pad;             
+	u8	unk_00;             
 	u8	txsize;	
 	u8	rxsize;		
 	u8	poll;			

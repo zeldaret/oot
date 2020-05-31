@@ -14,15 +14,15 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, u8* data) {
     __osSiGetAccess();
     do {
         bufptr = &pifMempakBuf;
-        if ((__osContLastPoll != 2) || (D_80134D20 != ctrlridx)) {
+        if ((__osContLastPoll != 2) || (__osPfsLastChannel != ctrlridx)) {
             
             __osContLastPoll = 2;
-            D_80134D20 = ctrlridx;
+            __osPfsLastChannel = ctrlridx;
             // clang-format off
             for (i = 0; i < ctrlridx; i++) { *bufptr++ = 0; }
             // clang-format on
             pifMempakBuf.status = 1;
-            ((__OSContRamHeader*)bufptr)->pad = 0xFF;
+            ((__OSContRamHeader*)bufptr)->unk_00 = 0xFF;
             ((__OSContRamHeader*)bufptr)->txsize = 3;
             ((__OSContRamHeader*)bufptr)->rxsize = 0x21;
             ((__OSContRamHeader*)bufptr)->poll = CONT_CMD_READ_MEMPACK; // read mempak; send byte 0
@@ -41,7 +41,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, u8* data) {
         ret = (((__OSContRamHeader *)bufptr)->rxsize & 0xC0) >> 4;
         if (!ret) {
             if (((__OSContRamHeader *)bufptr)->datacrc != osMempakDataCRC(bufptr + 6)) {
-                ret = func_80101910(ctrlrqueue, ctrlridx); // __osPfsGetStatus
+                ret = __osPfsGetStatus(ctrlrqueue, ctrlridx);
                 if (ret) {
                     break;
                 }
