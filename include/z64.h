@@ -348,7 +348,7 @@ typedef struct {
     /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
     /* 0x02B2 */ volatile u8 rumbleEnable[4];
     /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
-    /* 0x02BC */ unk_controller_t unk_controller[4];
+    /* 0x02BC */ OSPfs pfs[4];
     /* 0x045C */ volatile u8 rumbleOffFrames;
     /* 0x045D */ volatile u8 rumbleOnFrames;
     /* 0x045E */ u8 preNMIShutdown;

@@ -5,21 +5,21 @@
 
 #define BLOCKSIZE 32
 
-s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, u8* data) {
+s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
     s32 ret;
     s32 i;
     u8* bufptr;
-    s32 read_try_count = 2;
+    s32 retryCount = 2;
 
     __osSiGetAccess();
     do {
         bufptr = &pifMempakBuf;
-        if ((__osContLastPoll != 2) || (__osPfsLastChannel != ctrlridx)) {
+        if ((__osContLastPoll != 2) || (__osPfsLastChannel != channel)) {
 
             __osContLastPoll = 2;
-            __osPfsLastChannel = ctrlridx;
+            __osPfsLastChannel = channel;
             // clang-format off
-            for (i = 0; i < ctrlridx; i++) { *bufptr++ = 0; }
+            for (i = 0; i < channel; i++) { *bufptr++ = 0; }
             // clang-format on
             pifMempakBuf.status = 1;
             ((__OSContRamHeader*)bufptr)->unk_00 = 0xFF;
@@ -30,7 +30,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, u8* data) {
             // Received bytes are 6-26 inclusive
             bufptr[sizeof(__OSContRamHeader)] = CONT_CMD_END; // End of commands
         } else {
-            bufptr += ctrlridx;
+            bufptr += channel;
         }
         ((__OSContRamHeader*)bufptr)->hi = addr >> 3;                                 // send byte 1
         ((__OSContRamHeader*)bufptr)->lo = (s8)(osMempakAddrCRC(addr) | (addr << 5)); // send byte 2
@@ -41,7 +41,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, u8* data) {
         ret = (((__OSContRamHeader*)bufptr)->rxsize & 0xC0) >> 4;
         if (!ret) {
             if (((__OSContRamHeader*)bufptr)->datacrc != osMempakDataCRC(bufptr + 6)) {
-                ret = __osPfsGetStatus(ctrlrqueue, ctrlridx);
+                ret = __osPfsGetStatus(ctrlrqueue, channel);
                 if (ret) {
                     break;
                 }
@@ -55,7 +55,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, u8* data) {
         if (ret != 4) {
             break;
         }
-    } while (0 <= read_try_count--);
+    } while (0 <= retryCount--);
     __osSiRelAccess();
     return ret;
 }

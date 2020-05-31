@@ -67,7 +67,7 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
     ctrlrqueue = PadMgr_LockSerialMesgQueue(padmgr);
     triedRumbleComm = 0;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < MAXCONTROLLERS; i++) {
         if (padmgr->ctrlrIsConnected[i] != 0) {
             if (padmgr->pad_status[i].status & 1) {
                 if (padmgr->pakType[i] == temp) {
@@ -77,7 +77,7 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック ぶるぶるぶるぶる");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padmgr->unk_controller[i], temp) != 0) {
+                            if (osSetRumble(&padmgr->pfs[i], temp) != 0) {
                                 padmgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
@@ -94,7 +94,7 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padmgr->unk_controller[i], 0) != 0) {
+                            if (osSetRumble(&padmgr->pfs[i], 0) != 0) {
                                 padmgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
@@ -131,12 +131,12 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
 
         if ((padmgr->ctrlrIsConnected[ctrlr] != 0) && (padmgr->pad_status[ctrlr].status & 1) &&
             (padmgr->pakType[ctrlr] != 1)) {
-            var4 = osProbeRumblePak(ctrlrqueue, &padmgr->unk_controller[ctrlr], ctrlr);
+            var4 = osProbeRumblePak(ctrlrqueue, &padmgr->pfs[ctrlr], ctrlr);
 
             if (var4 == 0) {
                 padmgr->pakType[ctrlr] = 1;
-                osSetRumble(&padmgr->unk_controller[ctrlr], 1);
-                osSetRumble(&padmgr->unk_controller[ctrlr], 0);
+                osSetRumble(&padmgr->pfs[ctrlr], 1);
+                osSetRumble(&padmgr->pfs[ctrlr], 0);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("padmgr: %dコン: %s\n", ctrlr + 1, "振動パックを認識しました");
                 osSyncPrintf(VT_RST);
@@ -168,7 +168,7 @@ void PadMgr_RumbleStop(PadMgr* padmgr) {
     ctrlrqueue = PadMgr_LockSerialMesgQueue(padmgr);
 
     for (i = 0; i < 4; i++) {
-        if (osProbeRumblePak(ctrlrqueue, &padmgr->unk_controller[i], i) == 0) {
+        if (osProbeRumblePak(ctrlrqueue, &padmgr->pfs[i], i) == 0) {
             if ((gFaultStruct.msgId == 0) && (padmgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // EUC-JP: コン | 'Con'? , EUC-JP:  振動パック 停止 | Stop vibration pack
@@ -176,7 +176,7 @@ void PadMgr_RumbleStop(PadMgr* padmgr) {
                 osSyncPrintf(VT_RST);
             }
 
-            osSetRumble(&padmgr->unk_controller[i], 0);
+            osSetRumble(&padmgr->pfs[i], 0);
         }
     }
 
