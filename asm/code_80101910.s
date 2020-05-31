@@ -71,10 +71,10 @@ glabel func_801019E0
 /* B78B80 801019E0 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B78B84 801019E4 3C068017 */  lui   $a2, %hi(pifMempakBuf)
 /* B78B88 801019E8 240700FE */  li    $a3, 254
-/* B78B8C 801019EC 3C018017 */  lui   $at, %hi(_osCont_lastPollType) # $at, 0x8017
+/* B78B8C 801019EC 3C018017 */  lui   $at, %hi(__osContLastPoll) # $at, 0x8017
 /* B78B90 801019F0 24C25960 */  addiu $v0, $a2, %lo(pifMempakBuf)
 /* B78B94 801019F4 AFA5001C */  sw    $a1, 0x1c($sp)
-/* B78B98 801019F8 A0275810 */  sb    $a3, %lo(_osCont_lastPollType)($at)
+/* B78B98 801019F8 A0275810 */  sb    $a3, %lo(__osContLastPoll)($at)
 /* B78B9C 801019FC 240F0001 */  li    $t7, 1
 /* B78BA0 80101A00 AC4F003C */  sw    $t7, 0x3c($v0)
 /* B78BA4 80101A04 24180001 */  li    $t8, 1

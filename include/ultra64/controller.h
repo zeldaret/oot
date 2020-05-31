@@ -6,6 +6,8 @@
 #include <PR/os_cont.h>
 #include <PR/os_message.h>
 
+#define BLOCKSIZE 32
+
 #define CONT_CMD_REQUEST_STATUS 0
 #define CONT_CMD_READ_BUTTON 1
 #define CONT_CMD_READ_MEMPACK 2
@@ -65,6 +67,11 @@ typedef struct
     /* 0x03 */ s8  y;
 } PadInput; // size = 0x4
 
+typedef struct {
+	u32	ram[15];		/* RAM */
+	u32	status;		
+} OSPifRam;
+
 typedef struct
 {
     u8 slot_type; //0xFF for valid command, 0x00 for don't read this controller, 0xFE for end of commands
@@ -72,6 +79,30 @@ typedef struct
     u8 status_hi_bytes_rec_lo; //Status errors as defined in os_cont.h; bytes normally 4
     u8 command; //0: get status, 1: read buttons, 2: read mempak, 3: write mempak, 4: read eeprom, 5: write eeprom, FF: reset controller
 } PIF_header_t;
+
+// Original name: __OSContRequestFormat
+typedef struct {
+	u8	align;             
+	u8	txsize;		
+	u8	rxsize;			
+	u8	poll;			
+	u8  typeh;
+	u8  typel;
+	u8  status;
+	u8	align1;                 
+} __OSContRequestHeader; 
+
+// Original Name: __OSContRamReadFormat
+typedef struct {
+	u8	pad;             
+	u8	txsize;	
+	u8	rxsize;		
+	u8	poll;			
+	u8	hi;
+	u8	lo;
+	u8  data[BLOCKSIZE];
+	u8  datacrc;
+} __OSContRamHeader; 
 
 typedef struct
 {
@@ -126,9 +157,9 @@ extern OSMesg osSiMesgBuff[SIAccessQueueSize];
 extern OSMesgQueue gOsSiMessageQueue;
 extern u32 gOsSiAccessQueueCreated; // = 0
 
-extern pif_data_buffer_t _osPifInternalBuff;
-extern u8 _osCont_lastPollType;
-extern u8 _osCont_numControllers; //always 4
+extern pif_data_buffer_t __osPifInternalBuff;
+extern u8 __osContLastPoll;
+extern u8 __osMaxControllers; //always 4
 extern u32 gOsContInitialized; // = 0
 extern OSMesgQueue _osContMesgQueue;
 extern OSMesg _osContMesgBuff[4];
@@ -142,6 +173,9 @@ extern void __osSiRelAccess();
 extern s32 osContInit(OSMesgQueue *mq, u8 *ctl_present_bitfield, OSContStatus *status);
 extern void __osContGetInitData(u8 *ctl_present_bitfield, OSContStatus *status);
 extern void __osPackRequestData(u8 command);
+extern void __osPfsRequestData(u8 poll);
+extern void __osPfsGetInitData(u8 *pattern, OSContStatus* contData);
+extern s32 osContSetCh(u8 ch);
 
 extern s32 osContStartReadData(OSMesgQueue *mq);
 extern void osContGetReadData(OSContPad *pad);

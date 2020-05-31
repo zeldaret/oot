@@ -22,7 +22,7 @@ s32 osSetRumble(unk_controller_t* arg0, u32 vibrate) {
         ((PIF_mempak_wr_t*)buf)->data[i + 2] = vibrate;
     }
 
-    _osCont_lastPollType = 0xfe; // last controller poll type?
+    __osContLastPoll = 0xfe; // last controller poll type?
     __osSiRawStartDma(OS_WRITE, &osPifBuffers[arg0->ctrlridx]);
     osRecvMesg(arg0->ctrlrqueue, NULL, OS_MESG_BLOCK);
     __osSiRawStartDma(OS_READ, &osPifBuffers[arg0->ctrlridx]);

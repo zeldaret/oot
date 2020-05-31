@@ -435,7 +435,7 @@ void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQ, UNK_TYPE arg2, OSId id,
     func_800FCD40(siIntMsgQ, &padmgr->validCtrlrsMask, padmgr);
 
     padmgr->ncontrollers = 4;
-    func_80104D00(padmgr->ncontrollers);
+    osContSetCh(padmgr->ncontrollers);
 
     osCreateThread(&padmgr->thread, id, PadMgr_MainProc, padmgr, stack, priority);
     osStartThread(&padmgr->thread);

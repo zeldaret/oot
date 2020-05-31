@@ -46,10 +46,10 @@ glabel func_80105CF0
 /* B7CF0C 80105D6C 0010C0C3 */  sra   $t8, $s0, 3
 /* B7CF10 80105D70 0010C940 */  sll   $t9, $s0, 5
 /* B7CF14 80105D74 3C178013 */  lui   $s7, %hi(D_80134D20) # $s7, 0x8013
-/* B7CF18 80105D78 3C168017 */  lui   $s6, %hi(_osCont_lastPollType) # $s6, 0x8017
+/* B7CF18 80105D78 3C168017 */  lui   $s6, %hi(__osContLastPoll) # $s6, 0x8017
 /* B7CF1C 80105D7C 3C138017 */  lui   $s3, %hi(pifMempakBuf) # $s3, 0x8017
 /* B7CF20 80105D80 26735960 */  addiu $s3, %lo(pifMempakBuf) # addiu $s3, $s3, 0x5960
-/* B7CF24 80105D84 26D65810 */  addiu $s6, %lo(_osCont_lastPollType) # addiu $s6, $s6, 0x5810
+/* B7CF24 80105D84 26D65810 */  addiu $s6, %lo(__osContLastPoll) # addiu $s6, $s6, 0x5810
 /* B7CF28 80105D88 26F74D20 */  addiu $s7, %lo(D_80134D20) # addiu $s7, $s7, 0x4d20
 /* B7CF2C 80105D8C AFB90040 */  sw    $t9, 0x40($sp)
 /* B7CF30 80105D90 AFB80044 */  sw    $t8, 0x44($sp)

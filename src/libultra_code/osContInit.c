@@ -3,9 +3,9 @@
 
 #include <ultra64/controller.h>
 
-pif_data_buffer_t _osPifInternalBuff;
-u8 _osCont_lastPollType;
-u8 _osCont_numControllers; // always 4
+pif_data_buffer_t __osPifInternalBuff;
+u8 __osContLastPoll;
+u8 __osMaxControllers; // always 4
 
 // Not sure if the following is a struct together with the last two variables
 u16 unk_80175812;
@@ -34,14 +34,14 @@ s32 osContInit(OSMesgQueue* mq, u8* ctl_present_bitfield, OSContStatus* status) 
         osSetTimer(&timer, HALF_SECOND - currentTime, 0, &timerqueue, &mesg);
         osRecvMesg(&timerqueue, &mesg, OS_MESG_BLOCK);
     }
-    _osCont_numControllers = 4;
+    __osMaxControllers = 4;
     __osPackRequestData(0);
-    ret = __osSiRawStartDma(OS_WRITE, &_osPifInternalBuff);
+    ret = __osSiRawStartDma(OS_WRITE, &__osPifInternalBuff);
     osRecvMesg(mq, &mesg, OS_MESG_BLOCK);
-    ret = __osSiRawStartDma(OS_READ, &_osPifInternalBuff);
+    ret = __osSiRawStartDma(OS_READ, &__osPifInternalBuff);
     osRecvMesg(mq, &mesg, OS_MESG_BLOCK);
     __osContGetInitData(ctl_present_bitfield, status);
-    _osCont_lastPollType = 0;
+    __osContLastPoll = 0;
     __osSiCreateAccessQueue();
     osCreateMesgQueue(&_osContMesgQueue, _osContMesgBuff, 1);
     return ret;
@@ -53,8 +53,8 @@ void __osContGetInitData(u8* ctl_present_bitfield, OSContStatus* status) {
     s32 i;
     u8 bitfield_temp;
     bitfield_temp = 0;
-    slot_ptr = _osPifInternalBuff.slots;
-    for (i = 0; i < _osCont_numControllers; i++, slot_ptr++, status++) {
+    slot_ptr = __osPifInternalBuff.slots;
+    for (i = 0; i < __osMaxControllers; i++, slot_ptr++, status++) {
         slot = *slot_ptr;
         status->errno = (slot.hdr.status_hi_bytes_rec_lo & 0xc0) >> 4;
         if (status->errno == 0) {
@@ -71,9 +71,9 @@ void __osPackRequestData(u8 command) {
     PIF_IO_slot_t slot;
     s32 i;
     for (i = 0; i < 0xF; i++) {
-        _osPifInternalBuff.words[i] = 0;
+        __osPifInternalBuff.words[i] = 0;
     }
-    _osPifInternalBuff.status_control = 1;
+    __osPifInternalBuff.status_control = 1;
     slot.hdr.slot_type = 0xFF;
     slot.hdr.bytes_send = 1;
     slot.hdr.status_hi_bytes_rec_lo = 3;
@@ -82,8 +82,8 @@ void __osPackRequestData(u8 command) {
     slot.ctl_type_hi = 0xFF;
     slot.ctl_status = 0xFF;
     slot.dummy = 0xFF;
-    slot_ptr = _osPifInternalBuff.slots;
-    for (i = 0; i < _osCont_numControllers; i++) {
+    slot_ptr = __osPifInternalBuff.slots;
+    for (i = 0; i < __osMaxControllers; i++) {
         *slot_ptr++ = slot;
     }
     slot_ptr->hdr.slot_type = 254;
