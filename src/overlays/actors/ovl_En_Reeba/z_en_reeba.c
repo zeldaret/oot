@@ -26,9 +26,11 @@ void func_80AE58EC(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE5BC4(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE57F0(EnReeba* this, GlobalContext* globalCtx);
+void func_80AE5854(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE5854(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE5938(EnReeba* this, GlobalContext* globalCtx);
+void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx);
 
 static DamageTable sDamageTable = {
     0x00, 0xE2, 0xE1, 0xE2, 0xC1, 0xE2, 0xE2, 0xD2, 0xE1, 0xE4, 0xE6, 0xE2, 0x34, 0xE2, 0xE2, 0xE2, 
@@ -278,7 +280,17 @@ void func_80AE53AC(EnReeba *this, GlobalContext *globalCtx) {
 }
 */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE561C.s")
+void func_80AE561C(EnReeba *this, GlobalContext *globalCtx) {
+    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 0.3f);
+    if (this->unk_272 == 0) {
+        if (this->isBig) {
+            this->actionfunc = func_80AE538C;
+        } else {
+            this->actionfunc = func_80AE5688;
+        }
+    }
+}
+
 
 void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
     u32 temp_t7;
@@ -307,25 +319,72 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE57F0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE5854.s")
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE58EC.s")
-void func_80AE58EC(EnReeba *this, GlobalContext *globalCtx) {
-    u32 flagsTemp;
-
-    this->actor.flags = flagsTemp = this->actor.flags | 0x8000000;
-    this->actor.flags = flagsTemp & ~5;
-    this->unk_278 = 0xE;
-    this->actionfunc = func_80AE5938;
-    
+void func_80AE57F0(EnReeba *this, GlobalContext *globalCtx) {
+    this->unk_276 = 0xE;
     this->actor.speedXZ = -8.0f;
     this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
+    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+    this->actionfunc = func_80AE5854;
 }
 
+void func_80AE5854(EnReeba *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE5938.s")
+    if (this->actor.speedXZ < 0.0f) {
+        this->actor.speedXZ++;
+    }
+
+    if (this->unk_276 == 0) {
+        if (this->isBig) {
+            this->unk_270 = 0x1E;
+            this->actionfunc = func_80AE538C;
+            return;
+        } else {
+            this->actionfunc = func_80AE5688;
+        }
+        
+    }
+}
+
+void func_80AE58EC(EnReeba *this, GlobalContext *globalCtx) {
+    this->unk_278 = 0xE;
+    this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
+    this->actor.speedXZ = -8.0f;
+    this->actor.flags |=0x8000000;
+    this->actor.flags &= ~5;
+    this->actionfunc = func_80AE5938;
+}
+
+void func_80AE5938(EnReeba *this, GlobalContext *globalCtx) {
+    Vec3f pos;
+    f32 unkf;
+
+    if (this->unk_278 != 0) {
+        if (this->actor.speedXZ < 0.0f) {
+            this->actor.speedXZ = (f32) (this->actor.speedXZ + 1.0f);
+        }
+    } else {
+        this->actor.speedXZ = 0.0f;
+        if ((this->unk_27E == 4) || (this->actor.colChkInfo.health != 0)) {
+            if (this->unk_27E == 2) {
+                pos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+                pos.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+                pos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                unkf = 3.0f;
+                if (this->isBig != 0) {
+                    unkf = 6.0f;
+                }
+                func_8002A140(globalCtx, this, &pos, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, unkf);
+            }
+            this->unk_278 = 0x42;
+            this->actionfunc = func_80AE5E48;
+        } else {
+            this->unk_278 = 0x1E;
+            this->actionfunc = func_80AE5A9C;
+        }
+        
+    }
+}
 
 void func_80AE5A9C(EnReeba *this, GlobalContext *globalCtx) {
     Vec3f randPos;
@@ -563,4 +622,33 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
 */
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/EnReeba_Draw.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/EnReeba_Draw.s")
+void EnReeba_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    s32 pad;
+    s32 pad1;
+    GraphicsContext *gfxCtx;
+    Gfx* dispRefs[4];
+    EnReeba* this = THIS;
+    Vec3f debugPos;
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_reeba.c", 1062);
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    if (this->isBig) {
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0x01, 0x9B, 0x37, 0xFF, 0xFF);
+    } else {
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0x01, 0x00, 0x00, 0x00, 0xFF);
+    }
+
+    SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, 0, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_reeba.c", 1088);
+
+    if (BREG(0)) {
+        debugPos.x = (Math_Sins(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+        debugPos.y = this->actor.posRot.pos.y + 20.0f;
+        debugPos.z =  (Math_Coss(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+        DebugDisplay_AddObject(debugPos.x, debugPos.y, debugPos.z, this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 0xFF, 0, 0, 0xFF, 4, globalCtx->state.gfxCtx);
+    }
+}
+
