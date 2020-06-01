@@ -44,6 +44,7 @@ tools/*dSYM/
 *.i8.png
 *.ia4.png
 *.ia8.png
+*.ia16.png
 *.ci4.png
 *.ci8.png
 
