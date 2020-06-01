@@ -169,6 +169,7 @@ extern u8 D_80114930[];
 //extern ? D_80115920;
 //extern ? D_8011592C;
 //extern ? D_801159A4;
+//extern ? D_801159A5;
 //extern ? D_801159A6;
 //extern ? D_801159A8;
 //extern ? D_801159A9;

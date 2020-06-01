@@ -99,7 +99,7 @@ glabel func_80044ADC
 /* ABBDAC 80044C0C E7AE002C */  swc1  $f14, 0x2c($sp)
 /* ABBDB0 80044C10 E7B00030 */  swc1  $f16, 0x30($sp)
 /* ABBDB4 80044C14 46082200 */  add.s $f8, $f4, $f8
-/* ABBDB8 80044C18 E42ACE58 */  swc1  $f10, -0x31a8($at)
+/* ABBDB8 80044C18 E42ACE58 */  swc1  $f10, %lo(D_8015CE58)($at)
 /* ABBDBC 80044C1C 3C018016 */  lui   $at, %hi(D_8015CE60)
 /* ABBDC0 80044C20 0C010F46 */  jal   func_80043D18
 /* ABBDC4 80044C24 E428CE60 */   swc1  $f8, %lo(D_8015CE60)($at)
