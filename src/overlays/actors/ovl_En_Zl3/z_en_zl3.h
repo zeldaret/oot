@@ -24,16 +24,26 @@ typedef struct EnZl3 {
     /* 0x0250 */ s32 drawConfig;
     /* 0x0254 */ char unk_254[0x4];
     /* 0x0258 */ s32 unk_258;
-    /* 0x025C */ char unk_25C[0xAC];
+    /* 0x025C */ char unk_25C[0x9C];
+    /* 0x02F8 */ s32 unk_2F8;
+    /* 0x02FC */ char unk_2FC[0xC];
     /* 0x0308 */ s32 unk_308;
     /* 0x030C */ char unk_30C[0xC];
     /* 0x0318 */ s32 unk_318;
     /* 0x031C */ char unk_31C[0x5C];
     /* 0x0378 */ ColliderCylinder collider;
-    /* 0x03C4 */ char unk_3C4[0x4];
+    /* 0x03C4 */ s32 unk_3C4;
     /* 0x03C8 */ u8 unk_3C8;
     /* 0x03C9 */ char unk_3C9[0x3];
-    /* 0x03CC */ char unk_3CC[0x54];
+    /* 0x03CC */ char unk_3CC[0x10];
+    /* 0x03DC */ f32 unk_3DC;
+    /* 0x03E0 */ f32 unk_3E0;
+    /* 0x03E4 */ f32 unk_3E4;
+    /* 0x03E8 */ f32 unk_3E8;
+    /* 0x03EC */ f32 unk_3EC;
+    /* 0x03F0 */ f32 unk_3F0;
+    /* 0x03F4 */ f32 unk_3F4;
+    /* 0x03F8 */ char unk_3F8[0x28];
 } EnZl3; // size = 0x0420
 
 extern const ActorInit En_Zl3_InitVars;

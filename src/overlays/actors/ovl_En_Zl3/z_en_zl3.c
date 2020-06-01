@@ -115,7 +115,19 @@ const ActorInit En_Zl3_InitVars = {
     (ActorFunc)EnZl3_Draw,
 };
 
+// todo fix
+extern AnimationHeader D_06003D20;
+extern AnimationHeader D_06008AD0;
+extern u32 D_060091D8;
+extern AnimationHeader D_06009BE4;
+extern u32 D_06009FBC;
+extern u32 D_0600A598;
+extern u32 D_0600A334;
 extern SkeletonHeader D_06010D70;
+extern u32 D_06001110;
+extern u32 D_06001D8C;
+extern u32 D_06002348;
+extern u32 D_06002E54;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B533B0.s")
 /*void func_80B533B0(EnZl3 *this, GlobalContext *globalCtx) {
@@ -195,7 +207,11 @@ s32 func_80B54DB4(EnZl3* this) {
     return params & 0xFF;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54DC4.s")
+s32 func_80B54DC4(EnZl3 *this) {
+    s32 params = this->actor.params >> 4;
+
+    return params & 0xF;
+}
 
 s32 func_80B54DD4(EnZl3* this) {
     s32 params = this->actor.params;
@@ -209,15 +225,65 @@ void func_80B54DE0(EnZl3* this, GlobalContext* globalCtx) {
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[idx].segment);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54E14.s")
+void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
+    f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
+    f32 playbackSpeed;
+    f32 unk0;
+    f32 fc;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54EA4.s")
+    if (arg4 == 0) {
+        unk0 = 0.0f;
+        fc = frameCount;
+        playbackSpeed = 1.0f;
+    } else {
+        unk0 = frameCount;
+        fc = 0.0f;
+        playbackSpeed = -1.0f;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54EF4.s")
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54F18.s")
+void func_80B54EA4(EnZl3 *this, GlobalContext *globalCtx) {
+    f32 posX = this->actor.posRot.pos.x;
+    f32 posY = this->actor.posRot.pos.y;
+    f32 posZ = this->actor.posRot.pos.z;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54FB4.s")
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EG, posX, posY, posZ, 0, 0, 0, 0);
+}
+
+void func_80B54EF4(EnZl3 *this) {
+    func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_PAIN);
+}
+
+void func_80B54F18(EnZl3 *this, GlobalContext *globalCtx) {
+    f32 posX;
+    f32 posY;
+    f32 posZ;
+
+    if (this->unk_2F8 == 0) {
+        posX = this->actor.posRot.pos.x;
+        posY = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
+        posZ = this->actor.posRot.pos.z;
+
+        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000, 0, 3);
+        this->unk_2F8 = 1;
+    }
+}
+
+void func_80B54FB4(EnZl3 *this, GlobalContext *globalCtx) {
+    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_inFinal_Init通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    func_80B54E14(this, &D_06008AD0, 0, 0.0f, 0);
+    func_80B53554(this, 4);
+    func_80B53568(this, 2);
+    this->action = 1;
+    this->drawConfig = 1;
+    func_80B54F18(this, globalCtx);
+    this->actor.shape.rot.z = 0;
+    this->unk_3C4 = this->actor.posRot.rot.z;
+    this->actor.posRot.rot.z = this->actor.shape.rot.z;
+    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_inFinal_Initは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B55054.s")
 /*void func_80B55054(EnZl3 *this) {
@@ -688,7 +754,15 @@ void func_80B56D44(EnZl3* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58A1C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58A50.s")
+void func_80B58A50(EnZl3 *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    s8 invincibilityTimer = player->invincibilityTimer;
+
+    if ((invincibilityTimer <= 0) && (player->fallY < 51)) {
+        func_80B54E14(this, &D_06009BE4, 0, -11.0f, 0);
+        this->action = 34;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58AAC.s")
 
@@ -824,9 +898,30 @@ void func_80B5922C(EnZl3* this, GlobalContext* globalCtx) {
     func_80B58AAC(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B592A8.s")
+void func_80B592A8(EnZl3 *this, GlobalContext *globalCtx) {
+    func_80B54DE0(this, globalCtx);
+    func_80B536C4(this);
+    func_80B57298(this);
+    Actor_SetHeight(&this->actor, 60.0f);
+    func_80B533FC(this, globalCtx);
+    func_80B5366C(this, globalCtx);
+    func_80B534CC(this);
+    func_80B57AAC(this, EnZl3_FrameUpdateMatrix(this), &D_06003D20);
+    func_80B56DEC(this);
+    func_80B58AAC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59340.s")
+void func_80B59340(EnZl3 *this, GlobalContext *globalCtx) {
+    func_80B54DE0(this, globalCtx);
+    func_80B536C4(this);
+    func_80B57298(this);
+    Actor_SetHeight(&this->actor, 60.0f);
+    func_80B533FC(this, globalCtx);
+    func_80B5366C(this, globalCtx);
+    func_80B534CC(this);
+    func_80B57AAC(this, EnZl3_FrameUpdateMatrix(this), &D_06009FBC);
+    func_80B58AAC(this, globalCtx);
+}
 
 void func_80B593D0(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
@@ -892,7 +987,32 @@ void func_80B59A80(EnZl3* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
 }*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59B6C.s")
+void func_80B59B6C(EnZl3 *this, GlobalContext *globalCtx) {
+    s32 sp2C = func_80B54DD4(this);
+
+    this->unk_3DC = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_060091D8));
+    this->unk_3E0 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_0600A598));
+    this->unk_3E4 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_0600A334));
+    this->unk_3F4 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06001110));
+    this->unk_3EC = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06002348));
+    this->unk_3F0 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06002E54));
+    this->unk_3E8 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06001D8C));
+
+    switch (sp2C) {
+        case 0:
+            func_80B54FB4(this, globalCtx);
+            break;
+        case 1:
+            func_80B55780(this, globalCtx);
+            break;
+        case 3:
+            func_80B59828(this, globalCtx);
+            break;
+        default:
+            osSyncPrintf(VT_FGCOL(RED) " En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+            Actor_Kill(&this->actor);
+    }
+}
 
 void func_80B59DB8(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
