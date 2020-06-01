@@ -386,6 +386,7 @@ void func_80AE5938(EnReeba *this, GlobalContext *globalCtx) {
     }
 }
 
+
 void func_80AE5A9C(EnReeba *this, GlobalContext *globalCtx) {
     Vec3f randPos;
     f32 unkf;
