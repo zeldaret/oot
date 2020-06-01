@@ -1,3 +1,31 @@
+.late_rodata
+glabel jtbl_80154CF0
+    .word L80110520
+    .word L80110960
+    .word L80110748
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L80110960
+    .word L8011079C
+    .word L801107D8
+    .word L801108A4
+    .word L801108E8
+    .word L8011092C
+
+.text
 glabel func_801104C8
 /* B87668 801104C8 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* B8766C 801104CC 3C0E0001 */  lui   $t6, 1

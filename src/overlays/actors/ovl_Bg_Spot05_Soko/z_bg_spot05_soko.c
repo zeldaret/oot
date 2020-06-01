@@ -18,8 +18,8 @@ void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
 
-extern Gfx* D_060012C0;
-extern Gfx* D_06000918;
+extern UNK_TYPE D_060012C0;
+extern UNK_TYPE D_06000918;
 
 const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
@@ -33,11 +33,11 @@ const ActorInit Bg_Spot05_Soko_InitVars = {
     (ActorFunc)BgSpot05Soko_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static Gfx* dListTbl[] = {
+static Gfx* sDLists[] = {
     0x06000840,
     0x06001190,
 };
@@ -49,7 +49,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 pad2;
 
     sp24 = 0;
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     DynaPolyInfo_SetActorMove(thisx, DPM_UNK);
@@ -83,6 +83,7 @@ void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
 
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
+
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetHeight(thisx, 50.0f);
@@ -108,5 +109,5 @@ void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot05Soko_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, dListTbl[thisx->params]);
+    Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
 }

@@ -1,3 +1,20 @@
+.rdata
+glabel D_80153D90
+    # Message found!!! = %x (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)
+    .asciz " メッセージが,見つかった！！！ = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n"
+    .balign 4
+
+glabel D_80153DEC
+    # Message found!!! = %x (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)
+    .asciz " メッセージが,見つかった！！！ = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n"
+    .balign 4
+
+glabel D_80153E48
+    # Message not found!!! = %x
+    .asciz " メッセージが,見つからなかった！！！ = %x\n"
+    .balign 4
+
+.text
 glabel func_80107448
 /* B7E5E8 80107448 3C028016 */  lui   $v0, %hi(gSaveContext+0x1409) # $v0, 0x8016
 /* B7E5EC 8010744C 9042FA69 */  lbu   $v0, %lo(gSaveContext+0x1409)($v0)

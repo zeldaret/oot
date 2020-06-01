@@ -1,7 +1,7 @@
 /*
  * File: z_bg_bdan_switch.c
  * Overlay: Bg_Bdan_Switch
- * Description: Switches (Inside Lord Jabu-Jabu)
+ * Description: Switches Inside Lord Jabu-Jabu
  */
 
 #include "z_bg_bdan_switch.h"
@@ -56,23 +56,23 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
 };
 
 extern UNK_PTR D_06005CF8;
-extern UNK_PTR D_060061A0;
-extern UNK_PTR D_06005A20;
+extern Gfx D_060061A0[];
+extern Gfx D_06005A20[];
 
-static ColliderJntSphItemInit colliderItemsInit[] = {
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xEFC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0x0000, 0x0078, 0x0000 }, 370 }, 100 },
     },
 };
 
-static ColliderJntSphInit colliderInit = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    &colliderItemsInit,
+    &sJntSphItemsInit,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F4, 1400, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1200, ICHAIN_STOP),
@@ -97,7 +97,7 @@ void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, 
 void func_8086D098(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor* actor = &this->actor;
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, actor, &colliderInit, &this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, actor, &sJntSphInit, &this->colliderItems);
 }
 
 void func_8086D0EC(BgBdanSwitch* this) {
@@ -131,7 +131,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 flag;
 
     type = this->actor.params & 0xFF;
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     if (type == YELLOW_TALL_1 || type == YELLOW_TALL_2) {
         this->actor.scale.z = 0.05f;
         this->actor.scale.x = 0.05f;
@@ -490,11 +490,11 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
+void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, Gfx* dlist) {
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->unk_1D0),
                   this->actor.posRot.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->unk_1D4, this->unk_1D0, this->unk_1D4, MTXMODE_APPLY);
-    Gfx_DrawDListOpa(globalCtx, arg2);
+    Gfx_DrawDListOpa(globalCtx, dlist);
 }
 
 void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {

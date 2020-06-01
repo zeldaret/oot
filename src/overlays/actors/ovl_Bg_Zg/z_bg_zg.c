@@ -5,7 +5,6 @@
  */
 
 #include "z_bg_zg.h"
-
 #include <vt.h>
 
 #define FLAGS 0x00000010
@@ -24,16 +23,16 @@ void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
 void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
-static const BgZgActionFunc actionFuncs[] = {
+static BgZgActionFunc sActionFuncs[] = {
     func_808C0CD4,
     func_808C0D08,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static const BgZgDrawFunc drawFuncs[] = {
+static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 
@@ -49,8 +48,8 @@ const ActorInit Bg_Zg_InitVars = {
     (ActorFunc)BgZg_Draw,
 };
 
-extern u32 D_06001080;
-extern u32 D_060011D4;
+extern Gfx D_06001080[];
+extern UNK_TYPE D_060011D4;
 
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
@@ -65,11 +64,13 @@ void func_808C0C50(BgZg* this) {
 s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 flag = (thisx->params >> 8) & 0xFF;
+
     return Flags_GetSwitch(globalCtx, flag);
 }
 
 s32 func_808C0CC8(BgZg* this) {
     s32 flag = this->dyna.actor.params & 0xFF;
+
     return flag;
 }
 
@@ -93,11 +94,11 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
     s32 action = this->action;
 
-    if (((action < 0) || (1 < action)) || (actionFuncs[action] == NULL)) {
+    if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
         // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        actionFuncs[action](&this->dyna.actor, globalCtx);
+        sActionFuncs[action](&this->dyna.actor, globalCtx);
     }
 }
 
@@ -106,7 +107,7 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 local_c;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(thisx, DPM_UNK);
     local_c = 0;
     DynaPolyInfo_Alloc(&D_060011D4, &local_c);
@@ -137,18 +138,18 @@ void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001080);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_06001080);
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 320);
 }
 
 void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
-    s32 action = this->drawConfig;
+    s32 drawConfig = this->drawConfig;
 
-    if (((action < 0) || (action > 0)) || drawFuncs[action] == NULL) {
+    if (((drawConfig < 0) || (drawConfig > 0)) || sDrawFuncs[drawConfig] == NULL) {
         // Translates to: "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        drawFuncs[action](this, globalCtx);
+        sDrawFuncs[drawConfig](this, globalCtx);
     }
 }

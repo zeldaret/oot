@@ -371,4 +371,6 @@ typedef enum {
     /* 0x7D */ GI_TEXT_0 // no model appears over Link, shows text id 0 (pocket egg)
 } GetItemID;
 
+#define ITEM_TRADE_ADULT ITEM_POCKET_EGG
+
 #endif

@@ -1,3 +1,56 @@
+.rdata
+glabel D_80153ED0
+    # Recording Start / Recording Start / Recording Start / Recording Start ->
+    .asciz "録音開始 録音開始 録音開始 録音開始  -> "
+    .balign 4
+
+glabel D_80153EFC
+    # Recording Playback / Recording Playback / Recording Playback / Recording Playback ->
+    .asciz "録音再生 録音再生 録音再生 録音再生  -> "
+    .balign 4
+
+glabel D_80153F28
+    # 8 Note Recording Start / 8 Note Recording Start / 8 Note Recording Start ->
+    .asciz "８音録音開始 ８音録音開始 ８音録音開始  -> "
+    .balign 4
+
+glabel D_80153F54
+    # 8 Note Playback / 8 Note Playback / 8 Note Playback ->
+    .asciz "８音再生 ８音再生 ８音再生  -> "
+    .balign 4
+
+glabel D_80153F74
+    # Musical Round Start / Musical Round Start / Musical Round Start / Musical Round Start ->
+    .asciz "輪唱開始 輪唱開始 輪唱開始 輪唱開始  -> "
+    .balign 4
+
+glabel D_80153FA0
+    # Frog Chorus / Frog Chorus ->
+    .asciz "カエルの合唱 カエルの合唱  -> "
+    .balign 4
+
+glabel D_80153FC0
+    # Ocarina（%d）
+    .asciz "オカリナ（%d） "
+    .balign 4
+
+glabel D_80153FD0
+    .asciz "000000000000  -> "
+    .balign 4
+
+glabel D_80153FE4
+    .asciz "111111111111  -> "
+    .balign 4
+
+glabel D_80153FF8
+    .asciz "222222222222  -> "
+    .balign 4
+
+glabel D_8015400C
+    .asciz "msg_mode=%d\n"
+    .balign 4
+
+.text
 glabel func_801083F8
 /* B7F598 801083F8 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B7F59C 801083FC 3C0E0001 */  lui   $t6, 1
