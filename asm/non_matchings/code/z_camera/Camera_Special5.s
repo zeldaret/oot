@@ -117,7 +117,7 @@ glabel Camera_Special5
 /* ACDB04 80056964 E6100010 */  swc1  $f16, 0x10($s0)
 /* ACDB08 80056968 844C0000 */  lh    $t4, ($v0)
 /* ACDB0C 8005696C A60C0018 */  sh    $t4, 0x18($s0)
-/* ACDB10 80056970 8DADFA90 */  lw    $t5, -0x570($t5)
+/* ACDB10 80056970 8DADFA90 */  lw    $t5, %lo(gGameInfo)($t5)
 /* ACDB14 80056974 85A30314 */  lh    $v1, 0x314($t5)
 .L80056978:
 /* ACDB18 80056978 50600004 */  beql  $v1, $zero, .L8005698C
