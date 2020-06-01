@@ -26,7 +26,7 @@ const ActorInit En_Vase_InitVars = {
     (ActorFunc)EnVase_Draw,
 };
 
-extern Gfx D_06000000[];
+extern Gfx _object_vase_mesh[];
 
 void EnVase_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVase* this = THIS;
@@ -40,5 +40,5 @@ void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06000000);
+    Gfx_DrawDListOpa(globalCtx, &_object_vase_mesh);
 }

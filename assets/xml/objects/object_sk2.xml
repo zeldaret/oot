@@ -1,0 +1,49 @@
+<Root>
+    <File Name="object_sk2">
+        <DList Name="skelton_mesh_head" Address="0x53D0"/>
+        <DList Name="skelton_mesh_third_vertebrae" Address="0x5720"/>
+        <DList Name="skelton_mesh_right_shoulder_bone" Address="0x57B8"/>
+        <DList Name="skelton_mesh_fourth_vertebrae" Address="0x5890"/>
+        <DList Name="skelton_mesh_right_thigh" Address="0x5970"/>
+        <DList Name="skelton_mesh_right_fist" Address="0x5A18"/>
+        <DList Name="skelton_mesh_torso" Address="0x5AD8"/>
+        <DList Name="skelton_mesh_jaw" Address="0x5B90"/>
+        <DList Name="skelton_mesh_first_vertebrae" Address="0x5C78"/>
+        <DList Name="skelton_mesh_second_vertebrae" Address="0x5D08"/>
+        <DList Name="skelton_mesh_shield" Address="0x5DA0"/>
+        <DList Name="skelton_mesh_waist" Address="0x5EA0"/>
+        <DList Name="skelton_mesh_right_shin" Address="0x5FA8"/>
+        <DList Name="skelton_mesh_right_forearm" Address="0x6110"/>
+        <DList Name="skelton_mesh_right_foot" Address="0x6208"/>
+        <DList Name="skelton_mesh_right_shoulder_armor" Address="0x6308"/>
+        <DList Name="skelton_mesh_left_shoulder_bone" Address="0x63D8"/>
+        <DList Name="skelton_mesh_left_shoulder_armor" Address="0x64B0"/>
+        <DList Name="skelton_mesh_left_foot" Address="0x6580"/>
+        <DList Name="skelton_mesh_left_forearm" Address="0x6680"/>
+        <DList Name="skelton_mesh_left_shin" Address="0x6778"/>
+        <DList Name="skelton_mesh_left_thigh" Address="0x68E0"/>
+        <DList Name="skelton_mesh_left_fist" Address="0x6988"/>
+        <DList Name="skelton_mesh_sword" Address="0x6A48"/>
+        <Animation Name="skelton_back_damage" Address="0x444" LimbCount="59"/>
+        <Animation Name="skelton_back_down" Address="0x1420" LimbCount="59"/>
+        <Animation Name="skelton_back_jump" Address="0x1978" LimbCount="59"/>
+        <Animation Name="skelton_defend" Address="0x1C20" LimbCount="59"/>
+        <Animation Name="skelton_stand_upright" Address="0x2188" LimbCount="59"/>
+        <Animation Name="skelton_fighting_run" Address="0x26D4" LimbCount="59"/>
+        <Animation Name="skelton_fighting_wait" Address="0x316C" LimbCount="59"/>
+        <Animation Name="skelton_fighting_walk" Address="0x81B4" LimbCount="59"/>
+        <Animation Name="skelton_front_damage" Address="0x8604" LimbCount="59"/>
+        <Animation Name="skelton_front_down" Address="0x9A90" LimbCount="59"/>
+        <Animation Name="skelton_jump" Address="0x9E50" LimbCount="59"/>
+        <Animation Name="skelton_jump_kiru" Address="0xA324" LimbCount="59"/>
+        <Animation Name="skelton_jump_kiru_end" Address="0xA99C" LimbCount="59"/>
+        <Animation Name="skelton_kiru" Address="0xB00C" LimbCount="59"/>
+        <Animation Name="skelton_kiru_end" Address="0xB4E4" LimbCount="59"/>
+        <Animation Name="skelton_kiru_finsh" Address="0xBE4C" LimbCount="59"/>
+        <Animation Name="skelton_landing" Address="0xC438" LimbCount="59"/>
+        <Animation Name="skelton_laugh" Address="0xC8A0" LimbCount="59"/>
+        <Animation Name="skelton_fight_wait2wait" Address="0xDCF0" LimbCount="59"/>
+        <Animation Name="skelton_side_walk" Address="0xE2B0" LimbCount="59"/>
+        <Animation Name="skelton_standing2fighting" Address="0xE7E4" LimbCount="59"/>
+    </File>
+</Root>

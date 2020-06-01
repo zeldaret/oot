@@ -4,6 +4,7 @@
 
 #define SEGMENT_SCENE 0x02000000
 #define SEGMENT_ROOM 0x03000000
+#define SEGMENT_OBJECT 0x06000000
 
 beginseg
     name "makerom"
@@ -3936,7 +3937,9 @@ endseg
 beginseg
     name "object_sk2"
     romalign 0x1000
-    include "build/baserom/object_sk2.o"
+    //include "build/baserom/object_sk2.o"
+    include "build/assets/objects/object_sk2/object_sk2.o"
+    address SEGMENT_OBJECT
 endseg
 
 beginseg
@@ -4350,7 +4353,9 @@ endseg
 beginseg
     name "object_pu_box"
     romalign 0x1000
-    include "build/baserom/object_pu_box.o"
+    //include "build/baserom/object_pu_box.o"
+    include "build/assets/objects/object_pu_box/object_pu_box.o"
+    address SEGMENT_OBJECT
 endseg
 
 beginseg
@@ -4362,7 +4367,8 @@ endseg
 beginseg
     name "object_vase"
     romalign 0x1000
-    include "build/baserom/object_vase.o"
+    include "build/assets/objects/object_vase/object_vase.o"
+    address SEGMENT_OBJECT
 endseg
 
 beginseg

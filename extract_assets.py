@@ -13,7 +13,6 @@ def ExtractFile(xmlPath, outputPath):
 	#dirPath = os.path.dirname(xmlPath)
 	#copyfile(outputPath + "/" + fileName.replace(".xml", ".c"), outputPath + "/../" + fileName.replace(".xml", ".c"))
 
-
 # Textures
 ExtractFile("assets/textures/xml/icon_item_24_static.xml", "assets/textures/icon_item_24_static")
 ExtractFile("assets/textures/xml/icon_item_dungeon_static.xml", "assets/textures/icon_item_dungeon_static")
@@ -21,6 +20,12 @@ ExtractFile("assets/textures/xml/icon_item_field_static.xml", "assets/textures/i
 ExtractFile("assets/textures/xml/icon_item_gameover_static.xml", "assets/textures/icon_item_gameover_static")
 ExtractFile("assets/textures/xml/icon_item_nes_static.xml", "assets/textures/icon_item_nes_static")
 ExtractFile("assets/textures/xml/icon_item_static.xml", "assets/textures/icon_item_static")
+
+# Objects
+ExtractFile("assets/xml/objects/object_vase.xml", "assets/objects/object_vase")
+ExtractFile("assets/xml/objects/object_pu_box.xml", "assets/objects/object_pu_box")
+#ExtractFile("assets/xml/objects/gameplay_keep.xml", "assets/objects/gameplay_keep")
+ExtractFile("assets/xml/objects/object_sk2.xml", "assets/objects/object_sk2")
 
 # Scenes and Rooms
 ExtractFile("scenes/xml/test_levels/test01.xml", "scenes/test_levels/test01")

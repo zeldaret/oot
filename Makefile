@@ -58,11 +58,11 @@ SPEC := spec
 SRC_DIRS := $(shell find src -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
 SCENE_DIRS := $(shell find scenes -type d -not -path "scenes/xml*")
-TEXTURE_DIRS := assets/textures
-TEXTURE_BIN_DIRS := $(shell find assets/textures/* -type d -not -path "assets/textures/xml*")
+ASSET_DIRS := assets/objects assets/textures
+ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
 
 # source files
-C_FILES       := $(foreach dir,$(SRC_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),$(wildcard $(dir)/*.c))
+C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS) $(SCENE_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 #TEXTURE_FILES := $(foreach dir,$(TEXTURE_DIRS),$(wildcard $(dir)/*.xml))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
@@ -91,7 +91,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 
 # create build directories
 $(shell mkdir -p build/baserom)
-$(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),$(shell mkdir -p build/$(dir)))
+$(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS) $(SCENE_DIRS),$(shell mkdir -p build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
