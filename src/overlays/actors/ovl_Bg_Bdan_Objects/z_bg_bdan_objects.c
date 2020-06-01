@@ -348,7 +348,7 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (this->unk_168 == 0) {
         if (func_8004356C(&this->dyna.actor)) {
-            this->unk_1B8 = globalCtx->cameraPtrs[0]->unk_142;
+            this->unk_1B8 = globalCtx->cameraPtrs[0]->setting;
             func_8005A77C(globalCtx->cameraPtrs[0], 0x3A);
             func_8005AD1C(globalCtx->cameraPtrs[0], 4);
             this->unk_168 = 0xAU;

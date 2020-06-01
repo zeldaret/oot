@@ -293,7 +293,6 @@ beginseg
     include "build/src/code/code_800430A0.o"
     include "build/src/code/code_80043480.o"
     include "build/src/code/z_camera.o"
-    include "build/data/z_camera.data.o"
     include "build/data/z_camera.bss.o"
     include "build/src/code/z_collision_btltbls.o"
     include "build/src/code/z_collision_check.o"
@@ -380,8 +379,7 @@ beginseg
     include "build/data/db_camera.data.o"
     include "build/data/db_camera.rodata.o"
     include "build/data/db_camera.bss.o"
-    include "build/asm/code_800BB0A0.o"
-    include "build/data/code_800BB0A0.rodata.o"
+    include "build/src/code/code_800BB0A0.o"
     include "build/asm/code_800BB570.o"
     include "build/data/code_800BB570.data.o"
     include "build/data/code_800BB570.rodata.o"
@@ -8519,7 +8517,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/scenes/test_levels/syotes2/syotes2_scene.o"
-    address SEGMENT_SCENE   
+    address SEGMENT_SCENE
 endseg
 
 beginseg

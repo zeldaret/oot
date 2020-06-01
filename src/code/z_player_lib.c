@@ -248,7 +248,7 @@ void func_8008EEAC(GlobalContext* globalCtx, UNK_PTR arg1) {
     player->unk_664 = arg1;
     player->unk_684 = arg1;
     player->stateFlags1 |= 0x10000;
-    func_8005AA90(Gameplay_GetCamera(globalCtx, 0), 8, arg1);
+    Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, arg1);
     func_8005A444(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 #else

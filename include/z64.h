@@ -391,48 +391,122 @@ typedef struct {
 } View; // size = 0x128
 
 typedef struct {
-    /* 0x0000 */ s32 unk_00;
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ s16 unk_08;
+} Special9; // size = 0xC
+
+typedef struct {
+    /* 0x0000 */ Actor* door;
     /* 0x0004 */ s16 unk_04;
     /* 0x0006 */ s16 unk_06;
     /* 0x0008 */ s16 unk_08;
     /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ char unk_0C[0x16];
-    /* 0x0022 */ s16 unk_22;
-    /* 0x0024 */ char unk_24[0x2C];
+    /* 0x000C */ Special9 spec9;
+    /* 0x0018 */ s16 unk_18;
+} DoorCamera; // size = 0x1C
+
+typedef struct {
+    f32 unk_00;
+    s16 unk_04;
+} Special0;
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ s16 unk_04;
+} Demo1_unk_04; // size = 0x14
+
+typedef struct {
+    /* 0x0000 */ s16 unk_00;
+    /* 0x0002 */ s16 unk_02;
+    /* 0x0004 */ Demo1_unk_04 unk_04;
+} Demo1; // size = 0x18
+
+typedef struct {
+    char unk_00[0xC];
+    s32 unk_0C;
+    f32 unk_10;
+    s16 unk_14;
+    s16 unk_16;
+    s16 unk_18;
+    s16 unk_1A;
+    f32 unk_1C;
+    f32 unk_20;
+    s16 unk_24;
+    s16 unk_26;
+    s16 unk_28;
+    s16 unk_2A;
+} Normal3_Unk20;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04; // distance
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14; // fov
+    f32 unk_18;
+    s16 unk_1C; // theta
+    s16 unk_1E;
+    Normal3_Unk20 unk_20;
+} Normal3;
+
+typedef union {
+    char data[0x50];
+    s16 sh[2];
+    s32 w;
+    f32 f;
+    DoorCamera doorCam;
+    Special0 spec0;
+    Demo1 demo1;
+    Normal3 normal3;
+} camera_unk_00;
+
+typedef struct {
+    Vec3s unk_00;
+    Vec3s unk_06;
+    s16 unk_0C;
+    s16 unk_0E;
+} struct_80041C10_ret;
+
+typedef struct {
+    /* 0x0000 */ camera_unk_00 unk_00;
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
     /* 0x0068 */ Vec3f unk_68;
-    /* 0x0074 */ Vec3f unk_74;
+    /* 0x0074 */ Vec3f eyeNext;
     /* 0x0080 */ Vec3f unk_80;
     /* 0x008C */ struct GlobalContext* globalCtx;
     /* 0x0090 */ Player* player;
-    /* 0x0094 */ PosRot unk_94;
-    /* 0x00A8 */ Vec3f* unk_A8;
-    /* 0x00AC */ Vec3f unk_AC;
-    /* 0x00B8 */ char unk_B8[8];
-    /* 0x00C0 */ Vec3f unk_C0;
-    /* 0x00CC */ Vec3f unk_CC;
+    /* 0x0094 */ PosRot playerPosRot;
+    /* 0x00A8 */ Actor* target;
+    /* 0x00AC */ PosRot targetPosRot;
+    /* 0x00C0 */ Vec3f unk_C0; // has to do with how quickly the camera rotates link.
+    /* 0x00CC */ Vec3f unk_CC; // has to do with how quickly the camera zooms
     /* 0x00D8 */ f32 unk_D8;
-    /* 0x00DC */ f32 unk_DC; // possibly a Vec3f
+    /* 0x00DC */ f32 dist; // possibly a Vec3f
     /* 0x00E0 */ f32 unk_E0;
     /* 0x00E4 */ Vec3f unk_E4;
-    /* 0x00F0 */ char unk_F0[0x0C];
-    /* 0x00FC */ f32 unk_FC;
-    /* 0x0100 */ f32 unk_100;
+    /* 0x00F0 */ Vec3f unk_F0;
+    /* 0x00FC */ f32 fov;
+    /* 0x0100 */ f32 unk_100; // update rate of distance from link?
     /* 0x0104 */ f32 unk_104;
     /* 0x0108 */ Vec3f unk_108;
-    /* 0x0114 */ char unk_114[0x10];
-    /* 0x0124 */ s32 unk_124;
-    /* 0x0128 */ s32 unk_128;
-    /* 0x012C */ s16 unk_12C;
+    /* 0x0114 */ char unk_114[0x4];
+    /* 0x0118 */ s32 unk_118;
+    /* 0x011C */ s32 unk_11C;
+    /* 0x0120 */ char unk_120[0x4];
+    /* 0x0124 */ CutsceneCameraPoint* atPoints;
+    /* 0x0128 */ CutsceneCameraPoint* eyePoints;
+    /* 0x012C */ s16 relativeToPlayer; // camera Cutscene points are relative to player's position
     /* 0x012E */ s16 unk_12E;
     /* 0x0130 */ s16 uid;    // Unique identifier of the camera.
     /* 0x0132 */ char unk_132[0x02];
     /* 0x0134 */ Vec3s unk_134;
-    /* 0x013A */ Vec3s unk_13A;
+    /* 0x013A */ Vec3s unk_13A; // seems to be a copy of unk_134, but unused for anything different?
     /* 0x0140 */ s16 status;
-    /* 0x0142 */ s16 unk_142; // related to door camera (see func_8005AD40)
-    /* 0x0144 */ s16 unk_144;
+    /* 0x0142 */ s16 setting; // referred to as set
+    /* 0x0144 */ s16 mode;
     /* 0x0146 */ s16 unk_146; // unknown if used
     /* 0x0148 */ s16 unk_148; // ID for door camera? (see func_8005AD40)
     /* 0x014A */ s16 unk_14A; // unknown if used
@@ -440,12 +514,12 @@ typedef struct {
     /* 0x014E */ s16 unk_14E;
     /* 0x0150 */ s16 unk_150; // unknown if used
     /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ u16 unk_154;
+    /* 0x0154 */ u16 unk_154; // appears to be some clone of setting?
     /* 0x0156 */ s16 unk_156;
     /* 0x0158 */ s16 unk_158; // unknown if used
-    /* 0x015E */ s16 unk_15A;
-    /* 0x015E */ s16 unk_15C; // unknown if used
-    /* 0x015E */ u16 unk_15E;
+    /* 0x015A */ s16 roll;
+    /* 0x015C */ s16 unk_15C; // unknown if used
+    /* 0x015E */ s16 unk_15E;
     /* 0x0160 */ s16 unk_160;
     /* 0x0162 */ s16 unk_162;
     /* 0x0164 */ s16 unk_164;
@@ -453,6 +527,38 @@ typedef struct {
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 unk_16A; // unknown if used
 } Camera; // size = 0x16C
+
+typedef struct {
+    s32 unk_00;
+    char unk_04[0x30];
+    s32 unk_34;
+    s32 unk_38;
+    s32 unk_3C;
+    s32 unk_40;
+    s32 unk_44;
+    f32 unk_48;
+    s16 unk_4C;
+    f32 unk_50;
+    char unk_54[0x18];
+    f32 unk_6C;
+    f32 unk_70;
+    f32 unk_74;
+    s16 unk_78;
+    s16 unk_7A;
+    s16 unk_7C;
+    s16 unk_7E;
+    s16 unk_80;
+    s16 unk_82;
+    s16 unk_84;
+    s16 unk_86;
+    char unk_88[0x1038];
+    s16 unk_10C0;
+    s16 unk_10C2;
+    s16 unk_10C4;
+    s16 unk_10C6;
+    s16 unk_10C8;
+    s16 unk_10CA;
+} DbgCamera; // size = 0x10CC;
 
 typedef struct {
     /* 0x00 */ u8   musicSeq;
