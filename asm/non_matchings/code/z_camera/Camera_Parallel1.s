@@ -164,7 +164,7 @@ glabel Camera_Parallel1
 .L80049208:
 /* AC03A8 80049208 50400004 */  beql  $v0, $zero, .L8004921C
 /* AC03AC 8004920C 26050050 */   addiu $a1, $s0, 0x50
-/* AC03B0 80049210 0C011495 */  jal   func_80045254
+/* AC03B0 80049210 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC03B4 80049214 02002025 */   move  $a0, $s0
 /* AC03B8 80049218 26050050 */  addiu $a1, $s0, 0x50
 .L8004921C:

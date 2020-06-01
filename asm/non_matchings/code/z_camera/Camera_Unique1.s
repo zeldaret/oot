@@ -130,7 +130,7 @@ glabel Camera_Unique1
 .L80051738:
 /* AC88D8 80051738 50600004 */  beql  $v1, $zero, .L8005174C
 /* AC88DC 8005173C 240D0001 */   li    $t5, 1
-/* AC88E0 80051740 0C011495 */  jal   func_80045254
+/* AC88E0 80051740 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC88E4 80051744 02002025 */   move  $a0, $s0
 /* AC88E8 80051748 240D0001 */  li    $t5, 1
 .L8005174C:

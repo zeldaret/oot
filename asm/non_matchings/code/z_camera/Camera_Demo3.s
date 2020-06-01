@@ -113,7 +113,7 @@ glabel Camera_Demo3
 .L80054854:
 /* ACB9F4 80054854 10600004 */  beqz  $v1, .L80054868
 /* ACB9F8 80054858 02202025 */   move  $a0, $s1
-/* ACB9FC 8005485C 0C011495 */  jal   func_80045254
+/* ACB9FC 8005485C 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ACBA00 80054860 E7B0004C */   swc1  $f16, 0x4c($sp)
 /* ACBA04 80054864 C7B0004C */  lwc1  $f16, 0x4c($sp)
 .L80054868:

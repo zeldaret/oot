@@ -59,7 +59,7 @@ glabel Camera_Normal2
 /* ABF168 80047FC8 46065381 */   sub.s $f14, $f10, $f6
 /* ABF16C 80047FCC 02002025 */  move  $a0, $s0
 /* ABF170 80047FD0 E7AC0060 */  swc1  $f12, 0x60($sp)
-/* ABF174 80047FD4 0C011495 */  jal   func_80045254
+/* ABF174 80047FD4 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ABF178 80047FD8 E7AE005C */   swc1  $f14, 0x5c($sp)
 /* ABF17C 80047FDC 3C018014 */  lui   $at, %hi(D_80139EC8)
 /* ABF180 80047FE0 C4309EC8 */  lwc1  $f16, %lo(D_80139EC8)($at)
@@ -160,7 +160,7 @@ glabel Camera_Normal2
 .L80048154:
 /* ABF2F4 80048154 50600004 */  beql  $v1, $zero, .L80048168
 /* ABF2F8 80048158 860F001E */   lh    $t7, 0x1e($s0)
-/* ABF2FC 8004815C 0C011495 */  jal   func_80045254
+/* ABF2FC 8004815C 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ABF300 80048160 02002025 */   move  $a0, $s0
 /* ABF304 80048164 860F001E */  lh    $t7, 0x1e($s0)
 .L80048168:

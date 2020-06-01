@@ -127,88 +127,30 @@ typedef enum {
 /*==================================================================*/
 // Data
 s16 sOREGInit[] = {
-    0x0000, 0x0001, 0x0005, 0x0005, 0x0005, 0x38A4, 0x0014, 0x0010, 0x0096, 0x0019, 0x0096, 0x0006, 0x000A, 0x000A,
-    0x0000, 0x0000, 0x0001, 0x0064, 0x00FA, 0x0078, 0x0050, 0x001E, 0x0078, 0x0004, 0x0001, 0x0032, 0x0014, 0x0708,
-    0x0032, 0x0032, 0x0032, 0x0014, 0x0014, 0xFFF6, 0xEAAC, 0xDC74, 0xFFFA, 0x0008, 0x000F, 0x004B, 0x003C, 0x000C,
-    0x006E, 0x0028, 0x0032, 0x00FA, 0xFFF6, 0x001E, 0x001E, 0x0046, 0x0014, 0x0014, 0x0014,
+    0,   1,   5,  5,  5,   14500, 20,  16, 150, 25,   150, 6,  10, 10, 0,  0,   1,     100,
+    250, 120, 80, 30, 120, 4,     1,   50, 20,  1800, 50,  50, 50, 20, 20, -10, -5460, -9100,
+    -6,  8,   15, 75, 60,  12,    110, 40, 50,  250,  -10, 30, 30, 70, 20, 20,  20,
 };
 
 s16 sOREGInitCnt = 53;
 
 s16 sPREGInit[] = {
-    0xFFEC, 0x00C8, 0x012C, 0x000A, 0x000C, 0x000A, 0x0023, 0x003C, 0x003C, 0x0003, 0x0000, 0xFFD8, 0x0014, 0x0019,
-    0x002D, 0xFFFB, 0x000F, 0x000F, 0x0014, 0x0000, 0x0000, 0x0000, 0x0006, 0x003C, 0x001E, 0x0000, 0x0005,
+    -20, 200, 300, 10, 12, 10, 35, 60, 60, 3, 0, -40, 20, 25, 45, -5, 15, 15, 20, 0, 0, 0, 6, 60, 30, 0, 5,
 };
 
 s16 sPREGInitCnt = 27;
 
 char sCameraSettingNames[][12] = {
-    "NONE      ",
-    "NORMAL0    ",
-    "NORMAL1    ",
-    "DUNGEON0   ",
-    "DUNGEON1   ",
-    "NORMAL3    ",
-    "HORSE0     ",
-    "BOSS_GOMA  ",
-    "BOSS_DODO  ",
-    "BOSS_BARI  ",
-    "BOSS_FGANON",
-    "BOSS_BAL   ",
-    "BOSS_SHADES",
-    "BOSS_MOFA  ",
-    "BOSS_TWIN0 ",
-    "BOSS_TWIN1 ",
-    "BOSS_GANON1",
-    "BOSS_GANON2",
-    "TOWER0     ",
-    "TOWER1     ",
-    "FIXED0     ",
-    "FIXED1     ",
-    "CIRCLE0    ",
-    "CIRCLE2    ",
-    "CIRCLE3    ",
-    "PREREND0   ",
-    "PREREND1   ",
-    "PREREND3   ",
-    "DOOR0      ",
-    "DOORC      ",
-    "RAIL3      ",
-    "START0     ",
-    "START1     ",
-    "FREE0      ",
-    "FREE2      ",
-    "CIRCLE4    ",
-    "CIRCLE5    ",
-    "DEMO0      ",
-    "DEMO1      ",
-    "MORI1      ",
-    "ITEM0      ",
-    "ITEM1      ",
-    "DEMO3      ",
-    "DEMO4      ",
-    "UFOBEAN    ",
-    "LIFTBEAN   ",
-    "SCENE0     ",
-    "SCENE1     ",
-    "HIDAN1     ",
-    "HIDAN2     ",
-    "MORI2      ",
-    "MORI3      ",
-    "TAKO       ",
-    "SPOT05A    ",
-    "SPOT05B    ",
-    "HIDAN3     ",
-    "ITEM2      ",
-    "CIRCLE6    ",
-    "NORMAL2    ",
-    "FISHING    ",
-    "DEMOC      ",
-    "UO_FIBER   ",
-    "DUNGEON2   ",
-    "TEPPEN     ",
-    "CIRCLE7    ",
-    "NORMAL4    ",
+    "NONE      ",  "NORMAL0    ", "NORMAL1    ", "DUNGEON0   ", "DUNGEON1   ", "NORMAL3    ", "HORSE0     ",
+    "BOSS_GOMA  ", "BOSS_DODO  ", "BOSS_BARI  ", "BOSS_FGANON", "BOSS_BAL   ", "BOSS_SHADES", "BOSS_MOFA  ",
+    "BOSS_TWIN0 ", "BOSS_TWIN1 ", "BOSS_GANON1", "BOSS_GANON2", "TOWER0     ", "TOWER1     ", "FIXED0     ",
+    "FIXED1     ", "CIRCLE0    ", "CIRCLE2    ", "CIRCLE3    ", "PREREND0   ", "PREREND1   ", "PREREND3   ",
+    "DOOR0      ", "DOORC      ", "RAIL3      ", "START0     ", "START1     ", "FREE0      ", "FREE2      ",
+    "CIRCLE4    ", "CIRCLE5    ", "DEMO0      ", "DEMO1      ", "MORI1      ", "ITEM0      ", "ITEM1      ",
+    "DEMO3      ", "DEMO4      ", "UFOBEAN    ", "LIFTBEAN   ", "SCENE0     ", "SCENE1     ", "HIDAN1     ",
+    "HIDAN2     ", "MORI2      ", "MORI3      ", "TAKO       ", "SPOT05A    ", "SPOT05B    ", "HIDAN3     ",
+    "ITEM2      ", "CIRCLE6    ", "NORMAL2    ", "FISHING    ", "DEMOC      ", "UO_FIBER   ", "DUNGEON2   ",
+    "TEPPEN     ", "CIRCLE7    ", "NORMAL4    ",
 };
 
 char sCameraModeNames[][12] = {
@@ -1061,6 +1003,7 @@ CameraMode D_8011BE24[] = {
     { 22, 8, D_8011A5A4 },  { 30, 7, D_8011A61C }, { 2, 10, D_8011A638 },  { 7, 11, D_8011A660 },
 };
 
+// HORSE0 0x8500018F (10000101000000000000000110001111)
 CameraMode D_8011BEC4[] = {
     { 4, 9, D_8011AC8C }, { 4, 9, D_8011ACB0 }, { 12, 13, D_8011ACF8 }, { 14, 12, D_8011AD2C }, { 0, 0, NULL },
     { 0, 0, NULL },       { 0, 0, NULL },       { 19, 9, D_8011ACD4 },  { 19, 9, D_8011A4F4 },
@@ -1644,12 +1587,12 @@ char sCameraFunctionNames[][8] = {
     "SPEC9()", "",        "",        "",        "",        "",
 };
 
-char D_8011D658[] = {
+u8 D_8011D658[] = {
     0x42, 0x48, 0x00, 0x00, 0xEE, 0x3A, 0xD5, 0x58, 0x42, 0x96, 0x00, 0x00, 0x00, 0x00, 0x80, 0x08,
     0x42, 0xA0, 0x00, 0x00, 0xEE, 0x3A, 0x80, 0x08, 0x41, 0x70, 0x00, 0x00, 0xEE, 0x3A, 0x80, 0x08,
 };
 
-char D_8011D678[] = {
+u8 D_8011D678[] = {
     0x00, 0x00, 0x00, 0x00, 0x42, 0x20, 0x00, 0x00, 0x41, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x42, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x40, 0x00, 0x00,
     0xC0, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x40, 0x00, 0x00, 0xC0, 0x40, 0x00, 0x00,
@@ -1657,20 +1600,20 @@ char D_8011D678[] = {
 
 s32 D_8011D6A8 = -200;
 
-char D_8011D6AC[] = {
+u8 D_8011D6AC[] = {
     0x8F, 0xFF, 0x00, 0x02, 0x00, 0x01, 0x00, 0x00, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x81, 0xFF, 0x03, 0x03,
 };
 
-char D_8011D6D8[] = {
+u8 D_8011D6D8[] = {
     0x00, 0x13, 0x00, 0x00, 0x42, 0x34, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0xA0, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0xFF,
     0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF,
     0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011D724[] = {
+u8 D_8011D724[] = {
     0x8F, 0xFF, 0x24, 0x24, 0x00, 0x01, 0x00, 0x00, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0x20, 0x00, 0x00,
     0xC1, 0xA0, 0x00, 0x00, 0x81, 0xFF, 0x21, 0x21, 0x00, 0x13, 0x00, 0x00, 0x42, 0x48, 0x00, 0x00, 0x3F, 0x80,
@@ -1680,7 +1623,7 @@ char D_8011D724[] = {
     0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011D79C[] = {
+u8 D_8011D79C[] = {
     0xCF, 0xFF, 0x00, 0x02, 0x00, 0x01, 0x00, 0x00, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0xC1, 0xFF, 0x03, 0x03, 0x00, 0x13, 0x00, 0x00, 0x42, 0x34, 0x00, 0x00, 0x3F, 0x80,
@@ -1692,7 +1635,7 @@ char D_8011D79C[] = {
     0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011D83C[] = {
+u8 D_8011D83C[] = {
     0x83, 0xFF, 0x21, 0x41, 0x00, 0x14, 0x00, 0x00, 0x42, 0x34, 0x00, 0x00, 0x3E, 0x4C, 0xCC, 0xCD,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x41, 0x20, 0x00, 0x00, 0x12, 0xFF, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
@@ -1700,7 +1643,7 @@ char D_8011D83C[] = {
     0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011D88C[] = {
+u8 D_8011D88C[] = {
     0x81, 0xFF, 0x03, 0x03, 0x00, 0x14, 0x00, 0x00, 0x42, 0x34, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0xFF, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
@@ -1708,7 +1651,7 @@ char D_8011D88C[] = {
     0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011D8DC[] = {
+u8 D_8011D8DC[] = {
     0x8F, 0xFF, 0x04, 0x04, 0x00, 0x14, 0x00, 0x01, 0x42, 0x48, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x40, 0xA0, 0x00, 0x00, 0x41, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0x20, 0x00, 0x00,
     0xC2, 0xA0, 0x00, 0x00, 0x82, 0xFF, 0x21, 0x21, 0x00, 0x05, 0x00, 0x00, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80,
@@ -1718,7 +1661,7 @@ char D_8011D8DC[] = {
     0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011D954[] = {
+u8 D_8011D954[] = {
     0x0F, 0xFF, 0xC1, 0xC1, 0x00, 0x14, 0x00, 0x00, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0x48, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x43, 0x7A, 0x00, 0x00, 0x83, 0xFF, 0x05, 0xB1, 0x00, 0x05, 0x00, 0x00, 0x42, 0x70, 0x00, 0x00, 0x3D, 0xCC,
@@ -1730,7 +1673,7 @@ char D_8011D954[] = {
     0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011D9F4[] = {
+u8 D_8011D9F4[] = {
     0x8F, 0xFF, 0x05, 0x04, 0x00, 0x14, 0x00, 0x02, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x40, 0xA0, 0x00, 0x00, 0x42, 0x48, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0xA0, 0x00, 0x00,
     0x43, 0x96, 0x00, 0x00, 0x82, 0xFF, 0x21, 0x21, 0x00, 0x05, 0x00, 0x02, 0x42, 0x70, 0x00, 0x00, 0x3F, 0x80,
@@ -1740,37 +1683,37 @@ char D_8011D9F4[] = {
     0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00, 0xBF, 0x80, 0x00, 0x00,
 };
 
-char D_8011DA6C[] = {
+u8 D_8011DA6C[] = {
     0x45, 0x3E, 0xA0, 0x00, 0x44, 0x2F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0xDB, 0x60, 0x00,
     0x45, 0x55, 0x70, 0x00, 0xC3, 0xBE, 0x00, 0x00, 0xC5, 0x43, 0x00, 0x00, 0x45, 0x45, 0x80, 0x00,
     0x43, 0x75, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0x20, 0x00, 0x00, 0x43, 0x70, 0x00, 0x00,
 };
 
-char D_8011DA9C[] = {
+u8 D_8011DA9C[] = {
     0x45, 0x45, 0x80, 0x00, 0x45, 0x06, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0xBD, 0x60, 0x00,
     0x45, 0x81, 0x10, 0x00, 0xC4, 0x50, 0xC0, 0x00, 0xC5, 0x3E, 0x00, 0x00, 0x45, 0x81, 0x38, 0x00,
     0x43, 0x66, 0x00, 0x00, 0xC2, 0x48, 0x00, 0x00, 0x44, 0x16, 0x00, 0x00, 0xC2, 0x96, 0x00, 0x00,
 };
 
-char D_8011DACC[] = {
+u8 D_8011DACC[] = {
     0x44, 0xC4, 0x40, 0x00, 0x45, 0x66, 0x00, 0x00, 0x45, 0x67, 0x40, 0x00, 0x43, 0xC5, 0x80, 0x00,
 };
 
-char D_8011DADC[] = {
+u8 D_8011DADC[] = {
     0x43, 0xA0, 0x00, 0x00, 0x43, 0xA0, 0x00, 0x00, 0x43, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-char D_8011DAEC[] = {
+u8 D_8011DAEC[] = {
     0xF8, 0x30, 0xFC, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
 s16 D_8011DAFC[] = {
-    0x0001, 0x0002, 0x003A, 0x0003, 0x0004, 0x003E,
+    1, 2, 58, 3, 4, 62,
 };
 
-s16 D_8011DB08 = 0x03F0;
+s16 D_8011DB08 = 1008;
 
-s16 D_8011DB0C = 0x0156;
+s16 D_8011DB0C = 342;
 
 s32 D_8011DB10 = 0;
 
@@ -1778,7 +1721,7 @@ s32 D_8011DB14 = 0;
 
 // BSS
 extern GlobalContext* D_8015BD7C;
-extern s32 D_8015BD80;
+extern DbgCamera D_8015BD80;
 extern Vec3f D_8015BD84;
 extern Vec3f D_8015BD90;
 extern Vec3f D_8015BD9C;
@@ -1794,15 +1737,6 @@ typedef struct {
     char unk_1C[0x8];
     s32 unk_24;
 } struct_80043D18;
-
-// names for this struct's values come from a debug function, may want to rename
-typedef struct {
-    s8 code;
-    s8 z;
-    u16 T;
-    f32 zoom;
-    Vec3s pos;
-} SplineData; // originally called SplinedatZ
 
 f32 func_800437F0(f32 arg0, f32 arg1) {
     f32 percent = 0.4f;
@@ -2158,7 +2092,7 @@ f32 func_800450A4(Camera* camera, f32 arg1) {
 }
 
 #ifdef NON_MATCHING
-void func_80045128(Camera* camera, s16 mode) {
+void Camera_CopyModeValuesToPREG(Camera* camera, s16 mode) {
     s32 i;
 
     if (PREG(82)) {
@@ -2174,11 +2108,11 @@ void func_80045128(Camera* camera, s16 mode) {
     camera->unk_15E = 0;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045128.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_CopyModeValuesToPREG.s")
 #endif
 
 #ifdef NON_MATCHING
-s32 func_80045254(Camera* camera) {
+s32 Camera_CopyPREGToModeValues(Camera* camera) {
     CameraModeValue* phi_s0;
     s32 i;
 
@@ -2192,7 +2126,7 @@ s32 func_80045254(Camera* camera) {
     return true;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045254.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_CopyPREGToModeValues.s")
 #endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045350.s")
@@ -2244,7 +2178,7 @@ s32 func_800457A8(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     sp50.z = 0.f;
     sp50.y = temp_ret + arg2;
 
-    sp2C = &camera->unk_94;
+    sp2C = &camera->playerPosRot;
     if (arg3 != 0) {
         sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, arg1->theta, OREG(9)), temp_ret);
     }
@@ -2273,7 +2207,7 @@ s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     sp60.x = 0.0f;
     sp60.z = 0.0f;
 
-    temp_s1 = &camera->unk_94;
+    temp_s1 = &camera->playerPosRot;
     if (arg4 != 0) {
         sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, arg1->theta, OREG(9));
     }
@@ -2316,7 +2250,7 @@ s32 func_80045B08(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     sp48.z = 0.0f;
 
     temp_ret = Math_Sins(arg3);
-    temp_s1 = &camera->unk_94;
+    temp_s1 = &camera->playerPosRot;
 
     if (temp_ret < 0.0f) {
         phi_f2 = Math_Coss(temp_s1->rot.y - arg1->theta);
@@ -2372,7 +2306,7 @@ s32 func_800466F8(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     sp60.y = sp48 + arg2;
 
     if (arg4 != 0) {
-        sp60.y -= func_80045714(&camera->unk_108, camera->unk_94.rot.y, arg1->theta, OREG(9));
+        sp60.y -= func_80045714(&camera->unk_108, camera->playerPosRot.rot.y, arg1->theta, OREG(9));
     }
 
     func_80043A3C(&sp60, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
@@ -2401,10 +2335,10 @@ void func_800468CC(Camera* camera, f32 arg1, f32 arg2, f32 arg3) {
     }
 
     camera->unk_C0.x = func_8004389C(phi_f12, camera->unk_C0.x, OREG(25) * 0.01f, 0.1f);
-    func_8004389C(sp1C, camera->unk_DC, 1.f / camera->unk_C0.x, 0.2f);
+    func_8004389C(sp1C, camera->dist, 1.f / camera->unk_C0.x, 0.2f);
 }
 
-void func_800469C0(Camera* camera, f32 arg1, f32 arg2, f32 arg3, s16 arg4) {
+f32 func_800469C0(Camera* camera, f32 arg1, f32 arg2, f32 arg3, s16 arg4) {
     f32 sp1C;
     f32 phi_f12;
 
@@ -2435,7 +2369,7 @@ void func_800469C0(Camera* camera, f32 arg1, f32 arg2, f32 arg3, s16 arg4) {
     }
 
     camera->unk_C0.x = func_8004389C(phi_f12, camera->unk_C0.x, OREG(25) * 0.01f, 0.1f);
-    func_8004389C(sp1C, camera->unk_DC, 1.f / camera->unk_C0.x, 0.2f);
+    return func_8004389C(sp1C, camera->dist, 1.f / camera->unk_C0.x, 0.2f);
 }
 
 #ifdef NON_MATCHING
@@ -2500,8 +2434,193 @@ s32 func_80047394(Camera* camera) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Normal1.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Normal2.s")
+#define NEXTSETTING ((values++)->val)
+#ifdef NON_MATCHING
+s32 Camera_Normal3(Camera* camera) {
+    f32 sp98;
+    f32 sp94;
+    f32 sp90;
+    f32 sp8C;
+    VecSph sp84;
+    VecSph sp7C;
+    VecSph sp74;
+    Vec3f* sp48;
+    Vec3f* sp44;
+    Vec3f* sp40;
+    f32 temp_f0;
+    f32 temp_f0_3;
+    f32 temp_f16;
+    f32 temp_f16_2;
+    f32 temp_f2;
+    f32 temp_f6;
+    s16 temp_t3;
+    s16 temp_v0_2;
+    s16 temp_v0_3;
+    s16 temp_v0_4;
+    s32 temp_a0;
+    s16 phi_v1;
+    s32 phi_v1_2;
+    s32 phi_a0;
+    CameraModeValue* values;
+    Normal3* normal3 = &camera->unk_00.normal3;
+    Normal3_Unk20* unk20;
+    PosRot* playerPostRot;
 
+    temp_f2 = Player_GetCameraYOffset(camera->player);
+    if ((((camera->unk_15E == 0) || (camera->unk_15E == 0xA)) || (camera->unk_15E == 0x14)) || QREG(0)) {
+        temp_f2 *= 0.01f;
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        // temp_t2 = sCameraSettings[camera->setting].unk_00 + (camera->mode * 8);
+        // temp_t3 = *temp_t2->unk4;
+        // temp_v0 = temp_t2->unk4 + 0x20;
+        normal3->unk_00 = temp_f2 * NEXTSETTING;
+        // normal3->unk_00 = (f32) ((f32) temp_t3 * temp_f2);
+
+        normal3->unk_04 = temp_f2 * NEXTSETTING;
+        // normal3->unk_04 = (f32) ((f32) temp_v0->unk-1C * temp_f2);
+
+        normal3->unk_08 = temp_f2 * NEXTSETTING;
+        // normal3->unk_08 = (f32) ((f32) temp_v0->unk-18 * temp_f2);
+
+        normal3->unk_1C = (65535.0f / 360.0f) * NEXTSETTING + 0.5f;
+        // normal3->unk_1C = (s16) (s32) (((f32) temp_v0->unk-14 * 182.0416717529297f) + 0.5f);
+
+        normal3->unk_0C = NEXTSETTING;
+        // normal3->unk_0C = (f32) temp_v0->unk-10;
+
+        normal3->unk_10 = NEXTSETTING;
+        // normal3->unk_10 = (f32) temp_v0->unk-C;
+
+        normal3->unk_14 = NEXTSETTING;
+        // normal3->unk_14 = (f32) temp_v0->unk-8;
+
+        normal3->unk_18 = NEXTSETTING * 0.01f;
+        // normal3->unk_18 = (f32) ((f32) temp_v0->unk-4 * 0.009999999776482582f);
+
+        normal3->unk_1E = NEXTSETTING;
+        // normal3->unk_1E = (s16) temp_v0->unk0;
+    }
+
+    if (QREG(0)) {
+        Camera_CopyPREGToModeValues(camera);
+    }
+
+    sp48 = &camera->eye;
+    sp44 = &camera->at;
+    sp40 = &camera->eyeNext;
+    playerPostRot = &camera->playerPosRot;
+    func_8007C490(&sp7C, sp44, sp48);
+    func_8007C490(&sp74, sp44, sp40);
+    D_8011D3E8 = 1;
+    D_8011D3A0.w = normal3->unk_1E;
+    unk20 = &normal3->unk_20;
+
+    // ordering here.
+    switch (camera->unk_15E) {
+        case 0:
+        case 0xA:
+        case 0x14:
+        case 0x19:
+            unk20->unk_0C = 0;
+            unk20->unk_24 = 0;
+            unk20->unk_1C = 0;
+            unk20->unk_14 = unk20->unk_16 = unk20->unk_18 = 0;
+            // unk20->unk_14 = (s16) unk20->unk_18;
+            // unk20->unk_16 = (s16) unk20->unk_18;
+
+            unk20->unk_20 = camera->unk_104;
+            unk20->unk_10 = normal3->unk_0C;
+            unk20->unk_2A = 0xA;
+            unk20->unk_26 = (1.0f / OREG(23)) * (s16)(playerPostRot->rot.y - 0x7FFF - sp7C.theta);
+            unk20->unk_28 = OREG(23);
+            camera->unk_15E = 1;
+            unk20->unk_1A = 0;
+            break;
+        default:
+            break;
+    }
+    DECR(unk20->unk_2A);
+    /*temp_v0_2 = unk20->unk_2A;
+    if (temp_v0_2 != 0) {
+        unk20->unk_2A = (s16) (temp_v0_2 - 1);
+    }
+    */
+    temp_f6 = OREG(25) * 0.01f;
+    temp_f16 = temp_f6 * camera->unk_E0;
+    sp94 = (OREG(26) * 0.01f) * camera->unk_E0;
+    temp_v0_3 = unk20->unk_1A;
+    if (temp_v0_3 != 0) {
+        camera->unk_C0.z = func_8004389C(normal3->unk_0C + (temp_v0_3 * 2), camera->unk_C0.z, temp_f16, 0.1f);
+        camera->unk_C0.y = func_8004389C((f32)OREG(7) + (unk20->unk_1A * 2), camera->unk_C0.y, sp94, 0.1f);
+        unk20->unk_1A--;
+    } else {
+        camera->unk_C0.z = func_8004389C(normal3->unk_0C, camera->unk_C0.z, temp_f16, 0.1f);
+        camera->unk_C0.y = func_8004389C(OREG(7), camera->unk_C0.y, sp94, 0.1f);
+    }
+    camera->unk_CC.x = func_8004389C(OREG(2) * 0.01f, camera->unk_CC.x, temp_f16, 0.1f);
+    camera->unk_CC.y = func_8004389C(OREG(3) * 0.01f, camera->unk_CC.y, sp94, 0.1f);
+    camera->unk_CC.z = func_8004389C(OREG(4) * 0.01f, camera->unk_CC.z, sp94, 0.1f);
+    temp_f0 = (1.0f / normal3->unk_10) * 0.5f;
+    unk20->unk_24 = func_8004391C(func_80044ADC(camera, sp7C.theta - 0x7FFF, 1), unk20->unk_24,
+                                  temp_f0 + (temp_f0 * (1.0f - camera->unk_E0)), 0xF);
+    func_800466F8(camera, &sp74, normal3->unk_00, &unk20->unk_20, 1);
+    sp90 = (normal3->unk_08 + normal3->unk_04) * 0.5f;
+    func_8007C490(&sp84, sp44, sp40);
+    sp84.r = func_800469C0(camera, sp84.r, normal3->unk_04, normal3->unk_08, unk20->unk_2A);
+    camera->dist = sp84.r;
+    if (0.001f < camera->unk_D8) {
+        sp84.r += (sp90 - sp84.r) * 0.002f;
+    }
+    sp84.phi = func_8004391C(normal3->unk_1C - unk20->unk_24, sp74.phi, 1.0f / camera->unk_C0.y, 0xA);
+    if (OREG(5) < sp84.phi) {
+        sp84.phi = OREG(5);
+    }
+    if (sp84.phi < OREG(34)) {
+        sp84.phi = OREG(34);
+    }
+
+    // Probably some type of abs/clamp.
+    temp_a0 = playerPostRot->rot.y - (sp74.theta - 0x7FFF);
+    phi_v1_2 = -temp_a0;
+    if (temp_a0 >= 0) {
+        phi_v1_2 = temp_a0;
+    }
+    phi_a0 = temp_a0;
+    if (phi_v1_2 >= 0x2AF9) {
+        if (temp_a0 > 0) {
+            phi_a0 = 0x2AF8;
+        } else {
+            phi_a0 = -0x2AF8;
+        }
+    }
+    temp_f16_2 = (phi_a0 * ((camera->unk_E0 * (1.0f - 0.5f)) + 0.5f)) / camera->unk_C0.z;
+    if ((150.0f * (1.0f - camera->unk_E0)) < fabsf(temp_f16_2)) {
+        sp84.theta = sp74.theta + temp_f16_2;
+        // sp8A = sp74.theta + temp_f16_2;
+    } else {
+        sp84.theta = sp74.theta;
+        // sp8A = sp7A;
+    }
+    if (unk20->unk_28 > 0) {
+        sp84.theta += unk20->unk_26;
+        // sp8A = sp8A + unk20->unk_26;
+
+        unk20->unk_28--;
+    }
+    func_80043C28(sp40, sp44, &sp84);
+    if (camera->status == 7) {
+        func_80046E20(camera, &sp84, normal3->unk_04, normal3->unk_0C, &sp8C, &normal3->unk_20);
+    } else {
+        *sp48 = *sp40;
+    }
+    camera->fov = func_8004389C(normal3->unk_14, camera->fov, camera->unk_CC.z, 1.0f);
+    camera->roll = func_8004391C(0, camera->roll, 0.5f, 0xA);
+    camera->unk_100 = func_800450A4(camera, normal3->unk_18);
+    return 1;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Normal3.s")
+#endif
 
 s32 Camera_Normal4(Camera* camera) {
     return func_80047394(camera);
@@ -2647,7 +2766,7 @@ s32 Camera_Unique6(Camera* camera) {
     CameraModeValue* val;
     s32 pad;
     Vec3f sp2C;
-    Vec3f* unk_94;
+    Vec3f* playerPosRot;
     f32 offset;
 
     if (camera->unk_15E == 0 || camera->unk_15E == 0xA || camera->unk_15E == 0x14 || QREG(0)) {
@@ -2655,7 +2774,7 @@ s32 Camera_Unique6(Camera* camera) {
         camera->unk_00.sh[0] = val[0].val;
     }
     if (QREG(0)) {
-        func_80045254(camera);
+        Camera_CopyPREGToModeValues(camera);
     }
     D_8011D3A0.w = camera->unk_00.sh[0];
     if (camera->unk_15E == 0) {
@@ -2664,15 +2783,15 @@ s32 Camera_Unique6(Camera* camera) {
     }
     if (camera->player != NULL) {
         offset = Player_GetCameraYOffset(camera->player);
-        unk_94 = &camera->unk_94.pos;
-        sp2C = *unk_94;
+        playerPosRot = &camera->playerPosRot.pos;
+        sp2C = *playerPosRot;
         sp2C.y += offset;
-        camera->unk_DC = func_8007BF90(&sp2C, &camera->eye);
-        camera->unk_E4.x = camera->at.x - unk_94->x;
-        camera->unk_E4.y = camera->at.y - unk_94->y;
-        camera->unk_E4.z = camera->at.z - unk_94->z;
+        camera->dist = func_8007BF90(&sp2C, &camera->eye);
+        camera->unk_E4.x = camera->at.x - playerPosRot->x;
+        camera->unk_E4.y = camera->at.y - playerPosRot->y;
+        camera->unk_E4.z = camera->at.z - playerPosRot->z;
     } else {
-        camera->unk_DC = func_8007BF90(&camera->at, &camera->eye);
+        camera->dist = func_8007BF90(&camera->at, &camera->eye);
     }
     if (camera->unk_00.sh[0] & 1) {
         if (camera->unk_160 > 0) {
@@ -2682,63 +2801,7 @@ s32 Camera_Unique6(Camera* camera) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-s32 Camera_Unique7(Camera* camera) {
-    VecSph sp4C;
-    struct_80041C10_ret* sp44;
-    Vec3s sp3C;
-    CameraModeValue* temp_t2;
-    s32 phi_v1_2;
-    s32 phi_v1_3;
-    s16* t;
-
-    if (1) {
-        if (camera->unk_15E == 0 || camera->unk_15E == 0xA || camera->unk_15E == 0x14 || QREG(0)) {
-            temp_t2 = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-            camera->unk_00.f = temp_t2->val;
-            temp_t2++;
-            camera->unk_04 = temp_t2->val;
-        }
-        if (QREG(0)) {
-            func_80045254(camera);
-        }
-    }
-
-    sp44 = func_8004476C(camera);
-    func_80043BC4(&camera->unk_74, &sp44->unk_00);
-    camera->eye = camera->unk_74;
-    sp3C = sp44->unk_06;
-    func_8007C490(&sp4C, &camera->eye, &camera->unk_94.pos);
-    phi_v1_3 = sp44->unk_0C;
-    if (sp44->unk_0C == -1) {
-        phi_v1_3 = (s16)(camera->unk_00.f * 100.0f);
-    }
-
-    if (sp44->unk_0C < 0x169) {
-        phi_v1_3 = (s16)(sp44->unk_0C * 100);
-    }
-
-    D_8011D3A0.w = camera->unk_04;
-    if (camera->unk_15E == 0) {
-        camera->unk_15E++;
-        camera->unk_FC = phi_v1_3 * 0.01f;
-        camera->unk_15A = 0;
-        camera->unk_100 = 0.0f;
-        camera->unk_08 = sp4C.theta;
-    }
-    if (1) {
-        t = &camera->unk_08;
-    }
-    camera->unk_FC = 60.0f;
-    *t = func_800439AC(sp4C.theta, *t, 0.4f, 0x7D0);
-    sp4C.phi = Math_Coss(sp4C.theta - sp44->unk_06.y) * -sp44->unk_06.x;
-    func_80043C28(&camera->at, &camera->eye, &sp4C);
-    camera->unk_14C |= 0x400;
-    return true;
-}
-#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Unique7.s")
-#endif
 
 s32 Camera_Unique8(Camera* camera) {
     return func_80047394(camera);
@@ -2746,17 +2809,18 @@ s32 Camera_Unique8(Camera* camera) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Unique9.s")
 
-void Camera_DebugPrintSplineArray(char* name, s16 length, SplineData splines[]) {
+void Camera_DebugPrintSplineArray(char* name, s16 length, CutsceneCameraPoint cameraPoints[]) {
     s32 i;
 
     osSyncPrintf("static SplinedatZ  %s[] = {\n", name);
     for (i = 0; i < length; i++) {
         osSyncPrintf("    /* key frame %2d */ {\n", i);
-        osSyncPrintf("    /*     code     */ %d,\n", splines[i].code);
-        osSyncPrintf("    /*     z        */ %d,\n", splines[i].z);
-        osSyncPrintf("    /*     T        */ %d,\n", splines[i].T);
-        osSyncPrintf("    /*     zoom     */ %f,\n", splines[i].zoom);
-        osSyncPrintf("    /*     pos      */ { %d, %d, %d }\n", splines[i].pos.x, splines[i].pos.y, splines[i].pos.z);
+        osSyncPrintf("    /*     code     */ %d,\n", cameraPoints[i].continueFlag);
+        osSyncPrintf("    /*     z        */ %d,\n", cameraPoints[i].cameraRoll);
+        osSyncPrintf("    /*     T        */ %d,\n", cameraPoints[i].nextPointFrame);
+        osSyncPrintf("    /*     zoom     */ %f,\n", cameraPoints[i].viewAngle);
+        osSyncPrintf("    /*     pos      */ { %d, %d, %d }\n", cameraPoints[i].pos.x, cameraPoints[i].pos.y,
+                     cameraPoints[i].pos.z);
         osSyncPrintf("    },\n");
     }
     osSyncPrintf("};\n\n");
@@ -2768,22 +2832,89 @@ void Camera_Vec3fCopy(Vec3f* src, Vec3f* dst) {
     dst->z = src->z;
 }
 
-typedef struct {
-    Vec3f unk_00;
-    s16 unk_0C;
-    s16 unk_0E;
-} unk_80054478_a0;
-void func_80054478(unk_80054478_a0* arg0, Vec3f* arg1, Vec3f* arg2) {
+void func_80054478(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     VecSph sp28;
     Vec3f sp1C;
 
     Camera_Vec3fCopy(arg1, &sp1C);
     func_8007C3F4(&sp28, &sp1C);
-    sp28.theta += arg0->unk_0E;
-    func_80043C28(arg2, &arg0->unk_00, &sp28);
+    sp28.theta += arg0->rot.y;
+    func_80043C28(arg2, &arg0->pos, &sp28);
 }
 
+s32 func_800BB2B4(Vec3f*, f32*, f32*, CutsceneCameraPoint*, s16*, Demo1_unk_04*);
+
+#ifdef NON_MATCHING
+s32 Camera_Demo1(Camera* camera) {
+    Vec3f* at;
+    Vec3f* eyeNext;
+    Vec3f* eye;
+    char* t;
+    CutsceneCameraPoint* sp84;
+    CutsceneCameraPoint* sp80;
+    PosRot sp68;
+    Vec3f sp5C;
+    Vec3f sp50;
+    f32 sp4C;
+    s16* relativeToPlayer;
+    CameraModeValue* values;
+    Demo1_unk_04* unk_04;
+    s32 pad;
+
+    sp84 = camera->atPoints;
+    sp80 = camera->eyePoints;
+    if (camera->unk_15E == 0 || camera->unk_15E == 0xA || camera->unk_15E == 0x14 || QREG(0)) {
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        camera->unk_00.demo1.unk_00 = values->val;
+    }
+    D_8011D3A0.w = camera->unk_00.demo1.unk_00;
+    unk_04 = &camera->unk_00.demo1.unk_04;
+
+    relativeToPlayer = &camera->relativeToPlayer;
+    eyeNext = &camera->eyeNext;
+    at = &camera->at;
+    eye = &camera->eye;
+    switch (camera->unk_15E) {
+        case 0:
+            unk_04->unk_04 = 0;
+            unk_04->unk_00 = 0.0f;
+            camera->unk_15E++;
+            // absolute / relative
+            t = *relativeToPlayer == 0 ? "絶対" : "相対";
+            osSyncPrintf("\x1b[1m%06u:\x1b[m camera: spline demo: start %s \n", camera->globalCtx->state.frames, t);
+            if (PREG(93)) {
+                Camera_DebugPrintSplineArray("CENTER", 5, sp84);
+                Camera_DebugPrintSplineArray("   EYE", 5, sp80);
+            }
+        case 1:
+            // follow CutsceneCameraPoints.  function returns 1 if at the end.
+            // unk_15E appears to be some kind of state of the cutscene?  0 is init, 1 is update, anything else is stop.
+            if (func_800BB2B4(&sp5C, &sp4C, &camera->fov, sp80, &unk_04->unk_04, unk_04) ||
+                func_800BB2B4(&sp50, &sp4C, &camera->fov, sp84, &unk_04->unk_04, unk_04)) {
+                camera->unk_15E++;
+            }
+            if (*relativeToPlayer) {
+                if (camera->player != NULL && camera->player->actor.update != NULL) {
+                    func_8002EF14(&sp68, &camera->player->actor);
+                    func_80054478(&sp68, &sp5C, eyeNext);
+                    func_80054478(&sp68, &sp50, at);
+                } else {
+                    osSyncPrintf("\x1b[41;37mcamera: spline demo: owner dead\n\x1b[m");
+                }
+            } else {
+                Camera_Vec3fCopy(&sp5C, eyeNext);
+                Camera_Vec3fCopy(&sp50, at);
+            }
+            *eye = *eyeNext;
+            camera->roll = sp4C * 256.0f;
+            camera->dist = func_8007BF90(at, eye);
+            break;
+    }
+    return 1;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo1.s")
+#endif
 
 s32 Camera_Demo2(Camera* camera) {
     return func_80047394(camera);
@@ -2820,41 +2951,41 @@ s32 Camera_Demo0(Camera* camera) {
 s32 Camera_Special0(Camera* camera) {
     s32 pad;
     CameraModeValue* val;
-    Vec3f* unk_94;
+    Vec3f* playerPosRot;
 
     if (camera->unk_15E == 0 || camera->unk_15E == 0xA || camera->unk_15E == 0x14 || QREG(0)) {
         val = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        camera->unk_00.f = val->val * 0.01f;
+        camera->unk_00.spec0.unk_00 = val->val * 0.01f;
         val++;
-        camera->unk_04 = val->val;
+        camera->unk_00.spec0.unk_04 = val->val;
     }
 
     if (QREG(0)) {
-        func_80045254(camera);
+        Camera_CopyPREGToModeValues(camera);
     }
 
-    D_8011D3A0.w = camera->unk_04;
+    D_8011D3A0.w = camera->unk_00.spec0.unk_04;
 
     if (camera->unk_15E == 0) {
         camera->unk_15E++;
     }
-    if ((camera->unk_A8 == NULL) || (camera->unk_A8->update == NULL)) {
-        if (camera->unk_A8 == NULL) {
-            osSyncPrintf("\x1b[43;30mcamera: warning: circle: target is not valid, stop!\n\x1b[m");
+    if ((camera->target == NULL) || (camera->target->update == NULL)) {
+        if (camera->target == NULL) {
+            osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: circle: target is not valid, stop!\n" VT_RST);
         }
-        camera->unk_A8 = NULL;
+        camera->target = NULL;
         return true;
     }
 
-    func_8002EEE4(&camera->unk_AC, camera->unk_A8);
-    func_80043A3C(&camera->unk_AC, &camera->at, camera->unk_00.f, camera->unk_00.f, 0.1f);
+    func_8002EEE4(&camera->targetPosRot, camera->target);
+    func_80043A3C(&camera->targetPosRot, &camera->at, camera->unk_00.f, camera->unk_00.f, 0.1f);
     if (1) {
-        unk_94 = &camera->unk_94.pos;
+        playerPosRot = &camera->playerPosRot.pos;
     }
-    camera->unk_E4.x = camera->at.x - unk_94->x;
-    camera->unk_E4.y = camera->at.y - unk_94->y;
-    camera->unk_E4.z = camera->at.z - unk_94->z;
-    camera->unk_DC = func_8007BF90(&camera->at, &camera->eye);
+    camera->unk_E4.x = camera->at.x - playerPosRot->x;
+    camera->unk_E4.y = camera->at.y - playerPosRot->y;
+    camera->unk_E4.z = camera->at.z - playerPosRot->z;
+    camera->dist = func_8007BF90(&camera->at, &camera->eye);
     camera->unk_D8 = 0.0f;
     if (camera->unk_160 > 0) {
         camera->unk_160--;
@@ -2884,23 +3015,23 @@ s32 Camera_Special4(Camera* camera) {
     if (camera->unk_15E == 0) {
         D_8011D3A0.w = 0x3200;
         camera->unk_15E++;
-        camera->unk_FC = 40.0f;
+        camera->fov = 40.0f;
         camera->unk_00.sh[0] = *unk_160;
     }
-    camera->unk_FC = func_8004389C(80.0f, camera->unk_FC, 1.0f / *unk_160, 0.1f);
+    camera->fov = func_8004389C(80.0f, camera->fov, 1.0f / *unk_160, 0.1f);
     if ((camera->unk_00.sh[0] - *unk_160) < 0xF) {
         *unk_160 = *unk_160 - 1;
         return 0;
     }
-    camera->unk_15A = -0x1F4;
-    func_8002EF14(&sp3C, camera->unk_A8);
+    camera->roll = -0x1F4;
+    func_8002EF14(&sp3C, camera->target);
     camera->at = sp3C.pos;
     camera->at.y -= 150.0f;
     temp_v0 = (s16)(sp3C.rot.y - 0x7FFF) + 0x3E8;
     sp3A = temp_v0;
-    camera->unk_74.y = (f32)camera->at.y;
-    camera->eye.x = camera->unk_74.x = (Math_Sins(temp_v0) * 780.0f) + camera->at.x;
-    camera->eye.z = camera->unk_74.z = (Math_Coss(sp3A) * 780.0f) + camera->at.z;
+    camera->eyeNext.y = (f32)camera->at.y;
+    camera->eye.x = camera->eyeNext.x = (Math_Sins(temp_v0) * 780.0f) + camera->at.x;
+    camera->eye.z = camera->eyeNext.z = (Math_Coss(sp3A) * 780.0f) + camera->at.z;
     camera->eye.y = sp3C.pos.y;
     camera->eye.y = func_80044510(camera, &camera->eye) + 20.0f;
     camera->unk_160--;
@@ -2944,11 +3075,28 @@ void func_80057C14(Camera* camera) {
 
 #ifdef NON_MATCHING
 void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalContext* globalCtx) {
+    Camera* temp_v0;
+    s16 temp_a1;
+    s32 temp_a1_2;
+    s32 temp_v1;
+    s32 temp_v1_2;
+    s32 temp_v1_3;
+    s16* phi_a0;
+    s32 phi_v0;
+    s32 phi_v1;
+    s16* phi_a0_2;
+    s32 phi_v0_2;
+    s32 phi_v1_2;
+    s32 phi_a1;
+    s16 phi_v1_3;
+    s32 phi_v1_4;
+    s16 phi_a1_2;
     s32 i;
     s32 j;
     Camera* cam;
+    s16 t;
 
-    func_80106860(camera, 0, sizeof(*camera));
+    func_80106860((void*)camera, 0, 0x16CU);
     if (sInitRegs) {
         for (i = 0; i < sOREGInitCnt; i++) {
             OREG(i) = sOREGInit[i];
@@ -2958,64 +3106,67 @@ void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalC
             PREG(i) = sPREGInit[i];
         }
 
-        func_800B958C(camera, &D_8015BD80);
-        sInitRegs = 0;
+        func_800B958C(camera, &D_8015BD80, &gGameInfo);
+        sInitRegs = false;
         PREG(88) = -1;
     }
     camera->globalCtx = D_8015BD7C = globalCtx;
     func_800B4D58(&D_8015BD80, camera);
-    do {
-        i = D_8011D39C;
-        D_8011D39C++;
-        if (i == 0) {
-            break;
+    temp_a1 = D_8011D39C;
+    D_8011D39C++;
+    for (temp_a1 = D_8011D39C, D_8011D39C++; temp_a1 != 0; temp_a1 = D_8011D39C, D_8011D39C++) {
+        if (temp_a1 == 0) {
+            D_8011D39C++;
         }
-        if (i == 0) {
-            D_8011D39C += 2;
-        }
-        for (j = 0; j < 4; j++) {
-            cam = camera->globalCtx->cameraPtrs[j];
-            if (cam != NULL && cam->uid == i) {
+        for (phi_v1_3 = 0; phi_v1_3 < 4; phi_v1_3++) {
+            temp_v0 = camera->globalCtx->cameraPtrs[phi_v1_3];
+            if (temp_v0 != NULL && temp_a1 == temp_v0->uid) {
                 break;
             }
         }
-    } while (j != 4);
+
+        if (phi_v1_3 == 4) {
+            break;
+        }
+    }
+
     camera->unk_134.y = 0x3FFF;
     camera->unk_13A = camera->unk_134;
-    camera->uid = i;
+    camera->uid = temp_a1;
     camera->unk_C0.x = 10.0f;
-    camera->unk_C0.y = OREG(7);
     camera->unk_C0.z = 10.0f;
     camera->unk_68.y = 1.0f;
     camera->unk_68.x = 0.0f;
     camera->unk_68.z = 0.0f;
-    camera->unk_FC = 60.0f;
+    camera->fov = 60.0f;
+    D_8011D3A8 = 0x20;
+    D_8011D3A4 = 0;
+    camera->unk_C0.y = OREG(7);
     camera->unk_CC.x = OREG(2) * 0.01f;
     camera->unk_CC.y = OREG(3) * 0.01f;
     camera->unk_CC.z = OREG(4) * 0.01f;
-    D_8011D3A8 = 0x20;
-    D_8011D3A4 = 0;
+
     camera->unk_14C = 0;
     camera->unk_154 = 0x21U;
     camera->unk_166 = -1;
-    camera->mode = CAM_MODE_NORMAL;
+    camera->mode = 0;
     camera->unk_146 = 0x32;
     camera->unk_168 = 0x7FFF;
     camera->unk_160 = -1;
     camera->unk_14C |= 0x4000;
-    camera->unk_68.x = 0.0f;
     camera->unk_68.y = 1.0f;
     camera->unk_68.z = 0.0f;
+    camera->unk_68.x = 0.0f;
     camera->unk_80.x = 0.0f;
     camera->unk_80.y = 0.0f;
     camera->unk_80.z = 0.0f;
     camera->setting = camera->unk_154;
     camera->unk_148 = camera->unk_166;
     camera->unk_100 = 1.0f;
-    D_8011D3A0.sh[0] = 0xFF00;
+    D_8011D3A0.w = 0xFF00;
     D_8011D398 = -1;
     D_8011D3F0 = 3;
-    osSyncPrintf("\x1b[34mcamera: initialize --- \x1b[m UID %d\n", camera->uid);
+    osSyncPrintf(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C6C.s")
@@ -3067,9 +3218,9 @@ void func_80058148(Camera* camera, Player* player) {
     func_8002EF44(&sp54, &player->actor);
     temp_f0 = Player_GetCameraYOffset(player);
     camera->player = player;
-    camera->unk_94 = sp54;
+    camera->playerPosRot = sp54;
     sp4C.r = 180.0f;
-    camera->unk_DC = 180.0f;
+    camera->dist = 180.0f;
     camera->unk_134.y = sp54.rot.y;
     sp4C.phi = 0x71C;
     sp4C.theta = camera->unk_134.y - 0x7FFF;
@@ -3083,9 +3234,9 @@ void func_80058148(Camera* camera, Player* player) {
     camera->unk_E4.x = 0.0f;
     camera->unk_E4.z = 0.0f;
     camera->at.y += temp_f0;
-    func_80043C28(&camera->unk_74, &camera->at, &sp4C);
-    camera->eye = camera->unk_74;
-    camera->unk_15A = 0;
+    func_80043C28(&camera->eyeNext, &camera->at, &sp4C);
+    camera->eye = camera->eyeNext;
+    camera->roll = 0;
     camera->unk_68.z = 0.0f;
     camera->unk_68.x = 0.0f;
     camera->unk_68.y = 1.0f;
@@ -3105,9 +3256,9 @@ void func_80058148(Camera* camera, Player* player) {
     camera->unk_15C = 0;
     camera->unk_156 = -1;
     camera->unk_100 = 1.0f;
-    func_80045128(camera, camera->mode);
+    Camera_CopyModeValuesToPREG(camera, camera->mode);
     func_8005B044();
-    osSyncPrintf("\x1b[34mcamera: personalize ---\x1b[m\n");
+    osSyncPrintf(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
     if (camera->unk_164 == 0) {
         func_800588B4(camera);
     }
@@ -3254,8 +3405,6 @@ s32 func_8005A02C(Camera* camera) {
 }
 
 #ifdef NON_MATCHING
-extern char sCameraModeNames[21][12];
-extern char sCameraSettingNames[66][12];
 extern s32 D_8011DB14;
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
     s32 phi_v0;
@@ -3270,16 +3419,15 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
         camera->unk_14A |= 0x20;
         return -1;
     } else if (!(sCameraSettings[camera->setting].validModes & (1 << mode))) {
-        if (mode == 6) {
-            camera = camera;
-            osSyncPrintf("camera: error sound\n", camera);
+        if (mode == CAM_MODE_SUBJECT) {
+            osSyncPrintf("camera: error sound\n");
             func_80078884(NA_SE_SY_ERROR);
         }
         if (camera->mode != CAM_MODE_NORMAL) {
-            osSyncPrintf("\x1b[43;30mcamera: change camera mode: force NORMAL: %s %s refused\n\x1b[m",
+            osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: change camera mode: force NORMAL: %s %s refused\n" VT_RST,
                          sCameraSettingNames[camera->setting], sCameraModeNames[mode]);
             camera->mode = CAM_MODE_NORMAL;
-            func_80045128(camera, camera->mode);
+            Camera_CopyModeValuesToPREG(camera, camera->mode);
             func_8005A02C(camera);
             phi_at = 0xC0000000;
         } else {
@@ -3295,7 +3443,7 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
         camera->unk_14A |= 0x20;
         camera->unk_14A |= 2;
         camera = camera;
-        func_80045128(camera, mode);
+        Camera_CopyModeValuesToPREG(camera, mode);
         temp_t8 = mode - 1;
         phi_v0 = 0;
         switch (mode) {
@@ -3309,9 +3457,9 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
                 break;
             case 1: // switch 1
                 phi_v0 = 0;
-                if (camera->unk_A8 != NULL) {
+                if (camera->target != NULL) {
                     phi_v0 = 0;
-                    if (camera->unk_A8->id != ACTOR_EN_BOOM) {
+                    if (camera->target->id != ACTOR_EN_BOOM) {
                         phi_v0 = 8;
                     }
                 }
@@ -3420,7 +3568,7 @@ s32 func_8005A470(Camera* camera, s16 arg1) {
 #ifdef NON_MATCHING
 s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
     s16 temp_t1;
-    u32 t;
+    s32 t;
 
     if ((camera->unk_14A & 1) && (((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
                                   (sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
@@ -3435,7 +3583,7 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
     }
 
     if (setting == CAM_SET_NONE || setting >= CAM_SET_MAX) {
-        osSyncPrintf("\x1b[41;37mcamera: error: illegal camera set (%d) !!!!\n\x1b[m", setting);
+        osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, setting);
         return -0x63;
     }
 
@@ -3449,23 +3597,22 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
 
     camera->unk_14A |= 0x10;
 
-    if (!(arg2 & 2)) {
+    if (1 && !(arg2 & 2)) {
         camera->unk_14A |= 1;
     }
 
     camera->unk_14C |= (0x8 | 0x4);
     camera->unk_14C &= ~(0x1000 | 0x8);
-
-    t = 0x40000000;
-
     if (!(sCameraSettings[camera->setting].unk_bit1)) {
         camera->unk_154 = camera->setting;
     }
+
+    t = sCameraSettings[camera->setting].unk_00 & 0x40000000;
     if (arg2 & 8) {
         camera->unk_148 = camera->unk_166;
         camera->unk_166 = -1;
     } else if (!(arg2 & 4)) {
-        if (!(sCameraSettings[camera->setting].unk_00 & t)) {
+        if (!t) {
             camera->unk_166 = camera->unk_148;
         }
         camera->unk_148 = -1;
@@ -3474,10 +3621,10 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
     camera->setting = setting;
 
     if (Camera_ChangeMode(camera, camera->mode, 1) >= 0) {
-        func_80045128(camera, camera->mode);
+        Camera_CopyModeValuesToPREG(camera, camera->mode);
     }
 
-    osSyncPrintf("\x1b[1m%06u:\x1b[m camera: change camera[%d] set %s\n", camera->globalCtx->state.frames,
+    osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: change camera[%d] set %s\n", camera->globalCtx->state.frames,
                  camera->unk_164, sCameraSettingNames[camera->setting]);
 
     return setting;
@@ -3505,10 +3652,10 @@ s16 func_8005A7A8(Camera* arg0, s32 arg1) {
         if ((temp_v1 != 0) || sCameraSettings[arg0->setting].unk_00 & 0x80000000) {
             arg0->unk_148 = arg1;
             arg0->unk_14A |= 4;
-            func_80045128(arg0, arg0->mode);
+            Camera_CopyModeValuesToPREG(arg0, arg0->mode);
         } else if (temp_v1 < -1) {
-            osSyncPrintf("\x1b[41;37mcamera: error: illegal camera ID (%d) !! (%d|%d|%d)\n\x1b[m", arg1, arg0->unk_164,
-                         0x32, temp_v0);
+            osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, arg1,
+                         arg0->unk_164, 0x32, temp_v0);
         }
         return temp_v1;
     }
@@ -3583,40 +3730,40 @@ s32 func_8005AA1C(Camera* camera, s32 arg1, s16 y, s32 countdown) {
 
 #ifdef NON_MATCHING
 // additional move v0, zero added.
-s32 func_8005AA90(Camera* camera, s32 param, void* value) {
+s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
     s32 pad;
     Vec3f sp4;
 
     if (value != NULL) {
         switch (param) {
             case 1:
-                camera->unk_15C &= ~0x19;
+                camera->unk_15C &= ~(0x10 | 0x8 | 0x1);
                 camera->at = *(Vec3f*)value;
                 break;
             case 16:
-                camera->unk_15C &= ~0x19;
-                camera->unk_AC.pos = *(Vec3f*)value;
+                camera->unk_15C &= ~(0x10 | 0x8 | 0x1);
+                camera->targetPosRot.pos = *(Vec3f*)value;
                 break;
             case 8:
                 if (camera->setting == CAM_SET_DEMOC || camera->setting == CAM_SET_DEMO4) {
                     break;
                 }
-                camera->unk_A8 = (Actor*)value;
-                camera->unk_15C &= ~0x19;
+                camera->target = (Actor*)value;
+                camera->unk_15C &= ~(0x10 | 0x8 | 0x1);
                 break;
             case 2:
                 sp4 = *(Vec3f*)value;
-                camera->unk_74 = sp4;
+                camera->eyeNext = sp4;
                 camera->eye = sp4;
                 break;
             case 4:
                 camera->unk_68 = *(Vec3f*)value;
                 break;
             case 0x40:
-                camera->unk_15A = *(f32*)value * (M_PI / 180.0f) + 0.5f;
+                camera->roll = *(f32*)value * (M_PI / 180.0f) + 0.5f;
                 break;
             case 32:
-                camera->unk_FC = *(f32*)value;
+                camera->fov = *(f32*)value;
                 break;
             case 3:
             case 5:
@@ -3655,7 +3802,7 @@ s32 func_8005AA90(Camera* camera, s32 param, void* value) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005AA90.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_SetParam.s")
 #endif
 
 s32 func_8005AC24(Camera* camera, s16 arg1) {
@@ -3673,17 +3820,18 @@ s32 func_8005AC60(Camera* camera) {
     return 1;
 }
 
-s32 func_8005AC6C(Camera* camera, s32 arg1, s32 arg2, Player* player, s16 arg4) {
+s32 func_8005AC6C(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, Player* player,
+                  s16 relativeToPlayer) {
     PosRot sp24;
 
-    camera->unk_124 = arg1;
-    camera->unk_128 = arg2;
-    camera->unk_12C = arg4;
+    camera->atPoints = atPoints;
+    camera->eyePoints = eyePoints;
+    camera->relativeToPlayer = relativeToPlayer;
 
-    if (camera->unk_12C != 0) {
+    if (camera->relativeToPlayer != 0) {
         camera->player = player;
         func_8002EF44(&sp24, &player->actor);
-        camera->unk_94 = sp24;
+        camera->playerPosRot = sp24;
 
         camera->unk_156 = -1;
         camera->unk_D8 = 0.0f;
@@ -3708,14 +3856,14 @@ s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 arg2, f32 arg3, s16 arg4
         return 0;
     }
 
-    camera->unk_00.w = doorActor;
-    camera->unk_06 = arg4;
-    camera->unk_08 = arg5;
-    camera->unk_0A = arg6;
-    camera->unk_04 = arg2;
+    camera->unk_00.doorCam.door = doorActor;
+    camera->unk_00.doorCam.unk_06 = arg4;
+    camera->unk_00.doorCam.unk_08 = arg5;
+    camera->unk_00.doorCam.unk_0A = arg6;
+    camera->unk_00.doorCam.unk_04 = arg2;
 
     if (arg2 == -99) {
-        func_80045128(camera, camera->mode);
+        Camera_CopyModeValuesToPREG(camera, camera->mode);
         return -99;
     }
 
@@ -3734,7 +3882,7 @@ s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 arg2, f32 arg3, s16 arg4
         osSyncPrintf("....change door camera ID %d (set %d)\n", camera->unk_148, camera->setting);
     }
 
-    func_80045128(camera, camera->mode);
+    Camera_CopyModeValuesToPREG(camera, camera->mode);
     return -1;
 }
 
@@ -3749,20 +3897,20 @@ s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
     camera->at = otherCamera->at;
 
     sp30 = otherCamera->eye;
-    camera->unk_74 = sp30;
+    camera->eyeNext = sp30;
     camera->eye = sp30;
 
-    camera->unk_DC = func_8007BF90(&camera->at, &camera->eye);
-    camera->unk_FC = otherCamera->unk_FC;
-    camera->unk_15A = otherCamera->unk_15A;
+    camera->dist = func_8007BF90(&camera->at, &camera->eye);
+    camera->fov = otherCamera->fov;
+    camera->roll = otherCamera->roll;
     func_80043B60(camera);
 
     if (camera->player != NULL) {
-        func_8002EF14(&camera->unk_94, &camera->player->actor);
-        camera->unk_E4.x = camera->at.x - camera->unk_94.pos.x;
-        camera->unk_E4.y = camera->at.y - camera->unk_94.pos.y;
-        camera->unk_E4.z = camera->at.z - camera->unk_94.pos.z;
-        camera->unk_DC = func_8007BF90(&camera->unk_94.pos, &camera->eye);
+        func_8002EF14(&camera->playerPosRot, &camera->player->actor);
+        camera->unk_E4.x = camera->at.x - camera->playerPosRot.pos.x;
+        camera->unk_E4.y = camera->at.y - camera->playerPosRot.pos.y;
+        camera->unk_E4.z = camera->at.z - camera->playerPosRot.pos.z;
+        camera->dist = func_8007BF90(&camera->playerPosRot.pos, &camera->eye);
         camera->unk_CC.x = 1.0f;
         camera->unk_CC.y = 1.0f;
     }
@@ -3778,17 +3926,18 @@ Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera) {
     return dst;
 }
 
-void Camera_SetCameraData(Camera* camera, s16 arg1, s32 arg2, s32 arg3, s16 arg4, s16 arg5) {
+void Camera_SetCameraData(Camera* camera, s16 arg1, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
+                          s16 relativeToPlayer, s16 arg5) {
     if (arg1 & 0x1) {
-        camera->unk_124 = arg2;
+        camera->atPoints = atPoints;
     }
 
     if (arg1 & 0x2) {
-        camera->unk_128 = arg3;
+        camera->eyePoints = eyePoints;
     }
 
     if (arg1 & 0x4) {
-        camera->unk_12C = arg4;
+        camera->relativeToPlayer = relativeToPlayer;
     }
 
     if (arg1 & 0x8) {

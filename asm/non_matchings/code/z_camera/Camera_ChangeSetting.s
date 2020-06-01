@@ -140,7 +140,7 @@ glabel Camera_ChangeSetting
 /* AD18BC 8005A71C 02002025 */   move  $a0, $s0
 /* AD18C0 8005A720 04400003 */  bltz  $v0, .L8005A730
 /* AD18C4 8005A724 02002025 */   move  $a0, $s0
-/* AD18C8 8005A728 0C01144A */  jal   func_80045128
+/* AD18C8 8005A728 0C01144A */  jal   Camera_CopyModeValuesToPREG
 /* AD18CC 8005A72C 86050144 */   lh    $a1, 0x144($s0)
 .L8005A730:
 /* AD18D0 8005A730 86190142 */  lh    $t9, 0x142($s0)

@@ -140,7 +140,7 @@ glabel Camera_ChangeMode
 /* AD131C 8005A17C AFA70018 */   sw    $a3, 0x18($sp)
 /* AD1320 8005A180 8FA40018 */  lw    $a0, 0x18($sp)
 /* AD1324 8005A184 A4800144 */  sh    $zero, 0x144($a0)
-/* AD1328 8005A188 0C01144A */  jal   func_80045128
+/* AD1328 8005A188 0C01144A */  jal   Camera_CopyModeValuesToPREG
 /* AD132C 8005A18C 84850144 */   lh    $a1, 0x144($a0)
 /* AD1330 8005A190 0C01680B */  jal   func_8005A02C
 /* AD1334 8005A194 8FA40018 */   lw    $a0, 0x18($sp)
@@ -181,7 +181,7 @@ glabel Camera_ChangeMode
 /* AD13B4 8005A214 35AE0002 */  ori   $t6, $t5, 2
 /* AD13B8 8005A218 A4EE014A */  sh    $t6, 0x14a($a3)
 /* AD13BC 8005A21C AFA70018 */  sw    $a3, 0x18($sp)
-/* AD13C0 8005A220 0C01144A */  jal   func_80045128
+/* AD13C0 8005A220 0C01144A */  jal   Camera_CopyModeValuesToPREG
 /* AD13C4 8005A224 87A5001E */   lh    $a1, 0x1e($sp)
 /* AD13C8 8005A228 87AF001E */  lh    $t7, 0x1e($sp)
 /* AD13CC 8005A22C 8FA70018 */  lw    $a3, 0x18($sp)

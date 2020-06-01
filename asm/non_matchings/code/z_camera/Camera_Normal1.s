@@ -153,7 +153,7 @@ glabel Camera_Normal1
 .L80047558:
 /* ABE6F8 80047558 50600004 */  beql  $v1, $zero, .L8004756C
 /* ABE6FC 8004755C 86180022 */   lh    $t8, 0x22($s0)
-/* ABE700 80047560 0C011495 */  jal   func_80045254
+/* ABE700 80047560 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ABE704 80047564 02002025 */   move  $a0, $s0
 /* ABE708 80047568 86180022 */  lh    $t8, 0x22($s0)
 .L8004756C:

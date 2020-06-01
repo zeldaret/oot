@@ -120,7 +120,7 @@ glabel Camera_Unique9
 .L80052E90:
 /* ACA030 80052E90 10400003 */  beqz  $v0, .L80052EA0
 /* ACA034 80052E94 26300008 */   addiu $s0, $s1, 8
-/* ACA038 80052E98 0C011495 */  jal   func_80045254
+/* ACA038 80052E98 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ACA03C 80052E9C 02202025 */   move  $a0, $s1
 .L80052EA0:
 /* ACA040 80052EA0 86180000 */  lh    $t8, ($s0)

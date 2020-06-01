@@ -122,7 +122,7 @@ glabel Camera_Special5
 .L80056978:
 /* ACDB18 80056978 50600004 */  beql  $v1, $zero, .L8005698C
 /* ACDB1C 8005697C 26050050 */   addiu $a1, $s0, 0x50
-/* ACDB20 80056980 0C011495 */  jal   func_80045254
+/* ACDB20 80056980 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ACDB24 80056984 02002025 */   move  $a0, $s0
 /* ACDB28 80056988 26050050 */  addiu $a1, $s0, 0x50
 .L8005698C:

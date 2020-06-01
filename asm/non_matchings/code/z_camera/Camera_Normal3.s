@@ -121,7 +121,7 @@ glabel Camera_Normal3
 .L80048968:
 /* ABFB08 80048968 50600004 */  beql  $v1, $zero, .L8004897C
 /* ABFB0C 8004896C 26050050 */   addiu $a1, $s0, 0x50
-/* ABFB10 80048970 0C011495 */  jal   func_80045254
+/* ABFB10 80048970 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ABFB14 80048974 02002025 */   move  $a0, $s0
 /* ABFB18 80048978 26050050 */  addiu $a1, $s0, 0x50
 .L8004897C:

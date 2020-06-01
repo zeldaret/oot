@@ -54,7 +54,7 @@ glabel Camera_Demo9
 /* ACD1EC 8005604C 2603000C */   addiu $v1, $s0, 0xc
 /* ACD1F0 80056050 02002025 */  move  $a0, $s0
 /* ACD1F4 80056054 AFA30034 */  sw    $v1, 0x34($sp)
-/* ACD1F8 80056058 0C011495 */  jal   func_80045254
+/* ACD1F8 80056058 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ACD1FC 8005605C AFA6006C */   sw    $a2, 0x6c($sp)
 /* ACD200 80056060 8FA30034 */  lw    $v1, 0x34($sp)
 /* ACD204 80056064 8FA6006C */  lw    $a2, 0x6c($sp)

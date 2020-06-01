@@ -51,7 +51,7 @@ glabel Camera_Demo6
 .L80055D20:
 /* ACCEC0 80055D20 50400004 */  beql  $v0, $zero, .L80055D34
 /* ACCEC4 80055D24 8603015E */   lh    $v1, 0x15e($s0)
-/* ACCEC8 80055D28 0C011495 */  jal   func_80045254
+/* ACCEC8 80055D28 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ACCECC 80055D2C 02002025 */   move  $a0, $s0
 /* ACCED0 80055D30 8603015E */  lh    $v1, 0x15e($s0)
 .L80055D34:

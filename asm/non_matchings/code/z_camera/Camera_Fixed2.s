@@ -136,7 +136,7 @@ glabel Camera_Fixed2
 /* AC6D44 8004FBA4 26110014 */  addiu $s1, $s0, 0x14
 /* AC6D48 8004FBA8 53000004 */  beql  $t8, $zero, .L8004FBBC
 /* AC6D4C 8004FBAC 44801000 */   mtc1  $zero, $f2
-/* AC6D50 8004FBB0 0C011495 */  jal   func_80045254
+/* AC6D50 8004FBB0 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC6D54 8004FBB4 02002025 */   move  $a0, $s0
 /* AC6D58 8004FBB8 44801000 */  mtc1  $zero, $f2
 .L8004FBBC:

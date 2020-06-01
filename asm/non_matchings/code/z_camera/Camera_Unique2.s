@@ -99,7 +99,7 @@ glabel Camera_Unique2
 .L80051C6C:
 /* AC8E0C 80051C6C 50600004 */  beql  $v1, $zero, .L80051C80
 /* AC8E10 80051C70 8619000C */   lh    $t9, 0xc($s0)
-/* AC8E14 80051C74 0C011495 */  jal   func_80045254
+/* AC8E14 80051C74 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC8E18 80051C78 02002025 */   move  $a0, $s0
 /* AC8E1C 80051C7C 8619000C */  lh    $t9, 0xc($s0)
 .L80051C80:

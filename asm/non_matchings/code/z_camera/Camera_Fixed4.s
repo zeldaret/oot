@@ -106,7 +106,7 @@ glabel Camera_Fixed4
 /* AC737C 800501DC AFAC0044 */  sw    $t4, 0x44($sp)
 /* AC7380 800501E0 10600003 */  beqz  $v1, .L800501F0
 /* AC7384 800501E4 26120014 */   addiu $s2, $s0, 0x14
-/* AC7388 800501E8 0C011495 */  jal   func_80045254
+/* AC7388 800501E8 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC738C 800501EC 02002025 */   move  $a0, $s0
 .L800501F0:
 /* AC7390 800501F0 860D0010 */  lh    $t5, 0x10($s0)

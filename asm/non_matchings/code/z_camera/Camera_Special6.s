@@ -47,7 +47,7 @@ glabel Camera_Special6
 .L80056FEC:
 /* ACE18C 80056FEC 50400004 */  beql  $v0, $zero, .L80057000
 /* ACE190 80056FF0 2611005C */   addiu $s1, $s0, 0x5c
-/* ACE194 80056FF4 0C011495 */  jal   func_80045254
+/* ACE194 80056FF4 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ACE198 80056FF8 02002025 */   move  $a0, $s0
 /* ACE19C 80056FFC 2611005C */  addiu $s1, $s0, 0x5c
 .L80057000:

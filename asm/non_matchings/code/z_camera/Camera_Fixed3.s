@@ -97,7 +97,7 @@ glabel Camera_Fixed3
 /* AC70C8 8004FF28 51A00007 */  beql  $t5, $zero, .L8004FF48
 /* AC70CC 8004FF2C 860E015E */   lh    $t6, 0x15e($s0)
 /* AC70D0 8004FF30 AFA30028 */  sw    $v1, 0x28($sp)
-/* AC70D4 8004FF34 0C011495 */  jal   func_80045254
+/* AC70D4 8004FF34 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC70D8 8004FF38 AFA70050 */   sw    $a3, 0x50($sp)
 /* AC70DC 8004FF3C 8FA30028 */  lw    $v1, 0x28($sp)
 /* AC70E0 8004FF40 8FA70050 */  lw    $a3, 0x50($sp)

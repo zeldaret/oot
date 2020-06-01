@@ -98,7 +98,7 @@ glabel Camera_Special9
 .L8005756C:
 /* ACE70C 8005756C 10600003 */  beqz  $v1, .L8005757C
 /* ACE710 80057570 AFAC0038 */   sw    $t4, 0x38($sp)
-/* ACE714 80057574 0C011495 */  jal   func_80045254
+/* ACE714 80057574 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* ACE718 80057578 02002025 */   move  $a0, $s0
 .L8005757C:
 /* ACE71C 8005757C 8E050000 */  lw    $a1, ($s0)

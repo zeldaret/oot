@@ -163,7 +163,7 @@ glabel Camera_Jump2
 .L8004A42C:
 /* AC15CC 8004A42C 50600004 */  beql  $v1, $zero, .L8004A440
 /* AC15D0 8004A430 26050050 */   addiu $a1, $s0, 0x50
-/* AC15D4 8004A434 0C011495 */  jal   func_80045254
+/* AC15D4 8004A434 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC15D8 8004A438 02002025 */   move  $a0, $s0
 /* AC15DC 8004A43C 26050050 */  addiu $a1, $s0, 0x50
 .L8004A440:

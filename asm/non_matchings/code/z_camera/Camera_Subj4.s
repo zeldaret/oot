@@ -42,7 +42,7 @@ glabel Camera_Subj4
 .L80050BA8:
 /* AC7D48 80050BA8 50400004 */  beql  $v0, $zero, .L80050BBC
 /* AC7D4C 80050BAC 8E23008C */   lw    $v1, 0x8c($s1)
-/* AC7D50 80050BB0 0C011495 */  jal   func_80045254
+/* AC7D50 80050BB0 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC7D54 80050BB4 02202025 */   move  $a0, $s1
 /* AC7D58 80050BB8 8E23008C */  lw    $v1, 0x8c($s1)
 .L80050BBC:

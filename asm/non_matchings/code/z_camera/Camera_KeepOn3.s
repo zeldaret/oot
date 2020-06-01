@@ -183,7 +183,7 @@ glabel Camera_KeepOn3
 .L8004DC3C:
 /* AC4DDC 8004DC3C 50400004 */  beql  $v0, $zero, .L8004DC50
 /* AC4DE0 8004DC40 C7A60058 */   lwc1  $f6, 0x58($sp)
-/* AC4DE4 8004DC44 0C011495 */  jal   func_80045254
+/* AC4DE4 8004DC44 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC4DE8 8004DC48 02602025 */   move  $a0, $s3
 /* AC4DEC 8004DC4C C7A60058 */  lwc1  $f6, 0x58($sp)
 .L8004DC50:

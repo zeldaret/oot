@@ -208,7 +208,7 @@ glabel Camera_Jump3
 /* AC212C 8004AF8C 02002025 */  move  $a0, $s0
 /* AC2130 8004AF90 AFAC00C8 */  sw    $t4, 0xc8($sp)
 /* AC2134 8004AF94 862E0022 */  lh    $t6, 0x22($s1)
-/* AC2138 8004AF98 0C011495 */  jal   func_80045254
+/* AC2138 8004AF98 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC213C 8004AF9C A60E0144 */   sh    $t6, 0x144($s0)
 /* AC2140 8004AFA0 8FAD00C8 */  lw    $t5, 0xc8($sp)
 /* AC2144 8004AFA4 3C018014 */  lui   $at, %hi(D_80139FBC)

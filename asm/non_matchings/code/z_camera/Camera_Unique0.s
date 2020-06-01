@@ -49,7 +49,7 @@ glabel Camera_Unique0
 .L800524F4:
 /* AC9694 800524F4 10400004 */  beqz  $v0, .L80052508
 /* AC9698 800524F8 AFAF0030 */   sw    $t7, 0x30($sp)
-/* AC969C 800524FC 0C011495 */  jal   func_80045254
+/* AC969C 800524FC 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC96A0 80052500 E7A20084 */   swc1  $f2, 0x84($sp)
 /* AC96A4 80052504 C7A20084 */  lwc1  $f2, 0x84($sp)
 .L80052508:

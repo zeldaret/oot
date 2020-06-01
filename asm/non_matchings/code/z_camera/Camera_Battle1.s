@@ -247,7 +247,7 @@ glabel Camera_Battle1
 /* AC294C 8004B7AC C4309FD8 */  lwc1  $f16, %lo(D_80139FD8)($at)
 /* AC2950 8004B7B0 10600007 */  beqz  $v1, .L8004B7D0
 /* AC2954 8004B7B4 26110030 */   addiu $s1, $s0, 0x30
-/* AC2958 8004B7B8 0C011495 */  jal   func_80045254
+/* AC2958 8004B7B8 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC295C 8004B7BC 02002025 */   move  $a0, $s0
 /* AC2960 8004B7C0 3C018014 */  lui   $at, %hi(D_80139FDC)
 /* AC2964 8004B7C4 3C058016 */  lui   $a1, %hi(gGameInfo) # $a1, 0x8016

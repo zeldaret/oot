@@ -127,7 +127,7 @@ glabel Camera_Battle4
 .L8004C7B4:
 /* AC3954 8004C7B4 50600004 */  beql  $v1, $zero, .L8004C7C8
 /* AC3958 8004C7B8 26050050 */   addiu $a1, $s0, 0x50
-/* AC395C 8004C7BC 0C011495 */  jal   func_80045254
+/* AC395C 8004C7BC 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC3960 8004C7C0 02002025 */   move  $a0, $s0
 /* AC3964 8004C7C4 26050050 */  addiu $a1, $s0, 0x50
 .L8004C7C8:

@@ -128,7 +128,7 @@ glabel Camera_Data4
 /* AC85A0 80051400 AFAC0028 */  sw    $t4, 0x28($sp)
 /* AC85A4 80051404 10400003 */  beqz  $v0, .L80051414
 /* AC85A8 80051408 2611000C */   addiu $s1, $s0, 0xc
-/* AC85AC 8005140C 0C011495 */  jal   func_80045254
+/* AC85AC 8005140C 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC85B0 80051410 02002025 */   move  $a0, $s0
 .L80051414:
 /* AC85B4 80051414 860D0008 */  lh    $t5, 8($s0)

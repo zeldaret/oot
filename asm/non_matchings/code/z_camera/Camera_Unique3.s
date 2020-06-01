@@ -86,7 +86,7 @@ glabel Camera_Unique3
 /* AC9200 80052060 260A000C */  addiu $t2, $s0, 0xc
 /* AC9204 80052064 10600003 */  beqz  $v1, .L80052074
 /* AC9208 80052068 AFAA0028 */   sw    $t2, 0x28($sp)
-/* AC920C 8005206C 0C011495 */  jal   func_80045254
+/* AC920C 8005206C 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC9210 80052070 02002025 */   move  $a0, $s0
 .L80052074:
 /* AC9214 80052074 8FA90028 */  lw    $t1, 0x28($sp)
