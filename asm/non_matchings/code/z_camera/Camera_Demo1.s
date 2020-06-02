@@ -198,7 +198,7 @@ glabel Camera_Demo1
 /* ACB8E8 80054748 46083282 */  mul.s $f10, $f6, $f8
 /* ACB8EC 8005474C 4600540D */  trunc.w.s $f16, $f10
 /* ACB8F0 80054750 44198000 */  mfc1  $t9, $f16
-/* ACB8F4 80054754 0C01EFE4 */  jal   func_8007BF90
+/* ACB8F4 80054754 0C01EFE4 */  jal   OLib_Vec3fDist
 /* ACB8F8 80054758 A619015A */   sh    $t9, 0x15a($s0)
 /* ACB8FC 8005475C E60000DC */  swc1  $f0, 0xdc($s0)
 /* ACB900 80054760 8FBF0024 */  lw    $ra, 0x24($sp)

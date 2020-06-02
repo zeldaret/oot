@@ -71,7 +71,7 @@ glabel Camera_Unique7
 /* AC9E24 80052C84 AF090000 */  sw    $t1, ($t8)
 /* AC9E28 80052C88 9509000A */  lhu   $t1, 0xa($t0)
 /* AC9E2C 80052C8C A7090004 */  sh    $t1, 4($t8)
-/* AC9E30 80052C90 0C01F124 */  jal   func_8007C490
+/* AC9E30 80052C90 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC9E34 80052C94 AFA50024 */   sw    $a1, 0x24($sp)
 /* AC9E38 80052C98 8FAA0044 */  lw    $t2, 0x44($sp)
 /* AC9E3C 80052C9C 2401FFFF */  li    $at, -1
