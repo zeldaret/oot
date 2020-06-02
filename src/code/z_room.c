@@ -399,8 +399,8 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     s32 i;
 
     camera = ACTIVE_CAM;
-    camId = camera->unk_148;
-    camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)->unk_0E;
+    camId = camera->camDataIdx;
+    camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)->jfifId;
     if (camId2 >= 0) {
         camId = camId2;
     }

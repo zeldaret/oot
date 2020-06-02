@@ -269,7 +269,7 @@ glabel Camera_Battle4
 .L8004C9D4:
 /* AC3B74 8004C9D4 8FA4002C */  lw    $a0, 0x2c($sp)
 /* AC3B78 8004C9D8 8FA50030 */  lw    $a1, 0x30($sp)
-/* AC3B7C 8004C9DC 0C010F0A */  jal   func_80043C28
+/* AC3B7C 8004C9DC 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC3B80 8004C9E0 27A60064 */   addiu $a2, $sp, 0x64
 /* AC3B84 8004C9E4 8FAA002C */  lw    $t2, 0x2c($sp)
 /* AC3B88 8004C9E8 8FA90034 */  lw    $t1, 0x34($sp)

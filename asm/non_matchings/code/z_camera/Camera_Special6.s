@@ -60,7 +60,7 @@ glabel Camera_Special6
 /* ACE1B8 80057018 02002025 */   move  $a0, $s0
 /* ACE1BC 8005701C 27A400A0 */  addiu $a0, $sp, 0xa0
 /* ACE1C0 80057020 00402825 */  move  $a1, $v0
-/* ACE1C4 80057024 0C010EF1 */  jal   func_80043BC4
+/* ACE1C4 80057024 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* ACE1C8 80057028 AFA2006C */   sw    $v0, 0x6c($sp)
 /* ACE1CC 8005702C 8FA3006C */  lw    $v1, 0x6c($sp)
 /* ACE1D0 80057030 27B80064 */  addiu $t8, $sp, 0x64
@@ -198,7 +198,7 @@ glabel Camera_Special6
 /* ACE3CC 8005722C 27A50088 */  addiu $a1, $sp, 0x88
 /* ACE3D0 80057230 27A600AC */  addiu $a2, $sp, 0xac
 /* ACE3D4 80057234 E7A600AC */  swc1  $f6, 0xac($sp)
-/* ACE3D8 80057238 0C010F0A */  jal   func_80043C28
+/* ACE3D8 80057238 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACE3DC 8005723C A7AF00B2 */   sh    $t7, 0xb2($sp)
 /* ACE3E0 80057240 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* ACE3E4 80057244 44814000 */  mtc1  $at, $f8
@@ -314,7 +314,7 @@ glabel Camera_Special6
 /* ACE598 800573F8 02202825 */  move  $a1, $s1
 /* ACE59C 800573FC 27A600AC */  addiu $a2, $sp, 0xac
 /* ACE5A0 80057400 E7A600AC */  swc1  $f6, 0xac($sp)
-/* ACE5A4 80057404 0C010F0A */  jal   func_80043C28
+/* ACE5A4 80057404 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACE5A8 80057408 A7AD00B2 */   sh    $t5, 0xb2($sp)
 .L8005740C:
 /* ACE5AC 8005740C 8FBF0024 */  lw    $ra, 0x24($sp)

@@ -85,7 +85,7 @@ glabel Camera_Fixed4
 /* AC7330 80050190 A6080010 */   sh    $t0, 0x10($s0)
 /* AC7334 80050194 10400007 */  beqz  $v0, .L800501B4
 /* AC7338 80050198 00402825 */   move  $a1, $v0
-/* AC733C 8005019C 0C010EF1 */  jal   func_80043BC4
+/* AC733C 8005019C 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC7340 800501A0 26040014 */   addiu $a0, $s0, 0x14
 /* AC7344 800501A4 3C198016 */  lui   $t9, %hi(gGameInfo) # $t9, 0x8016
 /* AC7348 800501A8 8F39FA90 */  lw    $t9, %lo(gGameInfo)($t9)
@@ -238,7 +238,7 @@ glabel Camera_Fixed4
 /* AC7580 800503E0 A7A20076 */  sh    $v0, 0x76($sp)
 /* AC7584 800503E4 8FA40040 */  lw    $a0, 0x40($sp)
 /* AC7588 800503E8 02202825 */  move  $a1, $s1
-/* AC758C 800503EC 0C010F0A */  jal   func_80043C28
+/* AC758C 800503EC 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC7590 800503F0 27A60070 */   addiu $a2, $sp, 0x70
 /* AC7594 800503F4 8FA40040 */  lw    $a0, 0x40($sp)
 /* AC7598 800503F8 0C01EFE4 */  jal   OLib_Vec3fDist

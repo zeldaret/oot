@@ -1708,7 +1708,7 @@ u8 D_8011DAEC[] = {
 };
 
 s16 D_8011DAFC[] = {
-    1, 2, 58, 3, 4, 62,
+    CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
 };
 
 s16 D_8011DB08 = 1008;
@@ -1837,38 +1837,38 @@ void func_80043B60(Camera* camera) {
     camera->unk_CC.z = 0.001f;
 }
 
-Vec3f* func_80043BC4(Vec3f* arg0, Vec3s* arg1) {
-    Vec3f sp4;
+Vec3f* Camera_Vec3sToVec3f(Vec3f* dest, Vec3s* src) {
+    Vec3f copy;
 
-    sp4.x = arg1->x;
-    sp4.y = arg1->y;
-    sp4.z = arg1->z;
+    copy.x = src->x;
+    copy.y = src->y;
+    copy.z = src->z;
 
-    *arg0 = sp4;
-    return arg0;
+    *dest = copy;
+    return dest;
 }
 
-Vec3f* func_80043C28(Vec3f* arg0, Vec3f* arg1, VecSph* arg2) {
-    Vec3f sp24, sp18;
-    OLib_VecSphRot90ToVec3f(&sp18, arg2);
+Vec3f* Camera_Vec3fVecSphAdd(Vec3f* dest, Vec3f* a, VecSph* b) {
+    Vec3f copy, vecB;
+    OLib_VecSphRot90ToVec3f(&vecB, b);
 
-    sp24.x = arg1->x + sp18.x;
-    sp24.y = arg1->y + sp18.y;
-    sp24.z = arg1->z + sp18.z;
+    copy.x = a->x + vecB.x;
+    copy.y = a->y + vecB.y;
+    copy.z = a->z + vecB.z;
 
-    *arg0 = sp24;
-    return arg0;
+    *dest = copy;
+    return dest;
 }
 
-Vec3f* func_80043CAC(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3) {
-    Vec3f sp4;
+Vec3f* Camera_Vec3fScaleXYZFactor(Vec3f* dest, Vec3f* src, Vec3f* scale, f32 scaleFactor) {
+    Vec3f copy;
 
-    sp4.x = arg1->x + (arg2->x * arg3);
-    sp4.y = arg1->y + (arg2->y * arg3);
-    sp4.z = arg1->z + (arg2->z * arg3);
+    copy.x = src->x + (scale->x * scaleFactor);
+    copy.y = src->y + (scale->y * scaleFactor);
+    copy.z = src->z + (scale->z * scaleFactor);
 
-    *arg0 = sp4;
-    return arg0;
+    *dest = copy;
+    return dest;
 }
 
 s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
@@ -1882,7 +1882,7 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
     colCtx = &camera->globalCtx->colCtx;
     OLib_Vec3fDiffToVecSphRot90(&sp3C, arg1, &arg2->unk_00);
     sp3C.r += 8.0f;
-    func_80043C28(&sp5C, arg1, &sp3C);
+    Camera_Vec3fVecSphAdd(&sp5C, arg1, &sp3C);
 
     if (func_8003DD6C(colCtx, arg1, &sp5C, &sp68, &arg2->unk_18, 1, 1, 1, -1, &arg2->unk_24) == 0) {
         OLib_Vec3fDistNormalize(&sp50, arg1, &arg2->unk_00);
@@ -1983,15 +1983,45 @@ f32 func_80044510(Camera* camera, Vec3f* arg1) {
     return func_80044434(camera, &sp20, &sp2C, &sp1C);
 }
 
-// 125 lines (loop)
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044568.s")
+f32 func_80044568(Camera *camera, Vec3f *arg1, Vec3f *arg2, s32 *arg3) {
+    CollisionPoly *sp6C;
+    CollisionContext *colCtx = &camera->globalCtx->colCtx;
+    f32 temp_f0;
+    s32 i;
 
-s16 func_80044740(Camera* camera, s32 arg1) {
-    return func_80041A4C(&camera->globalCtx->colCtx, arg1, 50);
+    for(i = 3; i > 0; i--){
+        temp_f0 = func_8003CCA4(colCtx, &sp6C, arg3, arg2);
+        // ! is needed, inverting the conditional does not match
+        if (temp_f0 == -32000.0f || (camera->unk_104 < temp_f0 && !((sp6C->norm.y * (1.0f / 32767.0f)) > 0.5f))) {
+            arg1->x = 0.0f;
+            arg1->y = 1.0f;
+            arg1->z = 0.0f;
+            temp_f0 = -32000.0f;
+            break;
+            //return (s32) ((func_800419B0(arg0, arg1, arg2, 0) >> 0xD) & 0x1F);
+        } else if (func_80041D4C(colCtx, sp6C, *arg3) == 1) {
+            // poly behavior == 1, what is 1? grass in kokiri forest
+            arg2->y = temp_f0 - 10.0f;
+            continue;
+        } else {
+            arg1->x = sp6C->norm.x * (1.0f / 32767.0f);
+            arg1->y = sp6C->norm.y * (1.0f / 32767.0f);
+            arg1->z = sp6C->norm.z * (1.0f / 32767.0f);
+            break;
+        }
+    }
+    if (i == 0) {
+        osSyncPrintf("\x1b[43;30mcamera: foward check: too many layer!\n\x1b[m");
+    }
+    return temp_f0;
 }
 
-struct_80041C10_ret* func_8004476C(Camera* camera) {
-    return func_80041C10(&camera->globalCtx->colCtx, camera->unk_148, 50);
+s16 Camera_GetCamDataSetting(Camera* camera, s32 camDataIdx) {
+    return func_80041A4C(&camera->globalCtx->colCtx, camDataIdx, 50);
+}
+
+CamData* func_8004476C(Camera* camera) {
+    return func_80041C10(&camera->globalCtx->colCtx, camera->camDataIdx, 50);
 }
 
 s32 func_8004479C(Camera* camera, s32* arg1, Vec3f* arg2) {
@@ -2091,43 +2121,41 @@ f32 func_800450A4(Camera* camera, f32 arg1) {
     return ret;
 }
 
-#ifdef NON_MATCHING
 void Camera_CopyModeValuesToPREG(Camera* camera, s16 mode) {
+    CameraModeValue *values;
+    CameraModeValue *valueP;
     s32 i;
 
     if (PREG(82)) {
         osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->unk_164, camera->setting, mode);
     }
-    for (i = 0; i < sCameraSettings[camera->setting].cameraModes[mode].valueCnt; i++) {
-        CameraModeValue* phi_s0 = &sCameraSettings[camera->setting].cameraModes[mode].values[i];
-        PREG(phi_s0->param) = phi_s0->val;
+
+    values = sCameraSettings[camera->setting].cameraModes[mode].values;
+
+    for (i = 0;i < sCameraSettings[camera->setting].cameraModes[mode].valueCnt; i++) {
+        valueP = &values[i];
+        PREG(valueP->param) = valueP->val;
         if (PREG(82)) {
-            osSyncPrintf("camera: res: PREG(%02d) = %d\n", phi_s0->param, phi_s0->val);
+            osSyncPrintf("camera: res: PREG(%02d) = %d\n", valueP->param, valueP->val);
         }
     }
     camera->unk_15E = 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_CopyModeValuesToPREG.s")
-#endif
 
-#ifdef NON_MATCHING
 s32 Camera_CopyPREGToModeValues(Camera* camera) {
-    CameraModeValue* phi_s0;
+    CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+    CameraModeValue* valueP;
     s32 i;
 
     for (i = 0; i < sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt; i++) {
-        phi_s0 = &sCameraSettings[camera->setting].cameraModes[camera->mode].values[i];
-        phi_s0->val = PREG(phi_s0->param);
+        valueP = &values[i];
+        valueP->val = PREG(valueP->param);
         if (PREG(82)) {
-            osSyncPrintf("camera: res: %d = PREG(%02d)\n", phi_s0->val, phi_s0->param);
+            osSyncPrintf("camera: res: %d = PREG(%02d)\n", valueP->val, valueP->param);
         }
     }
     return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_CopyPREGToModeValues.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045350.s")
 
@@ -2607,7 +2635,7 @@ s32 Camera_Normal3(Camera* camera) {
 
         unk20->unk_28--;
     }
-    func_80043C28(sp40, sp44, &sp84);
+    Camera_Vec3fVecSphAdd(sp40, sp44, &sp84);
     if (camera->status == 7) {
         func_80046E20(camera, &sp84, normal3->unk_04, normal3->unk_0C, &sp8C, &normal3->unk_20);
     } else {
@@ -2839,7 +2867,7 @@ void func_80054478(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     Camera_Vec3fCopy(arg1, &sp1C);
     OLib_Vec3fToVecSphRot90(&sp28, &sp1C);
     sp28.theta += arg0->rot.y;
-    func_80043C28(arg2, &arg0->pos, &sp28);
+    Camera_Vec3fVecSphAdd(arg2, &arg0->pos, &sp28);
 }
 
 s32 func_800BB2B4(Vec3f*, f32*, f32*, CutsceneCameraPoint*, s16*, Demo1_unk_04*);
@@ -3161,7 +3189,7 @@ void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalC
     camera->unk_80.y = 0.0f;
     camera->unk_80.z = 0.0f;
     camera->setting = camera->unk_154;
-    camera->unk_148 = camera->unk_166;
+    camera->camDataIdx = camera->unk_166;
     camera->unk_100 = 1.0f;
     D_8011D3A0.w = 0xFF00;
     D_8011D398 = -1;
@@ -3220,32 +3248,35 @@ void func_80058148(Camera* camera, Player* player) {
     camera->player = player;
     camera->playerPosRot = sp54;
     sp4C.r = 180.0f;
-    camera->dist = 180.0f;
-    camera->unk_134.y = sp54.rot.y;
     sp4C.phi = 0x71C;
     sp4C.theta = camera->unk_134.y - 0x7FFF;
+    camera->dist = 180.0f;
     camera->unk_134.x = 0x71C;
+    camera->unk_134.y = sp54.rot.y;
     camera->unk_134.z = 0;
     camera->unk_13A = camera->unk_134;
     camera->unk_D8 = 0.0f;
     camera->unk_F0.y = 0.0f;
     camera->at = sp54.pos;
-    camera->unk_E4.y = temp_f0;
     camera->unk_E4.x = 0.0f;
+    camera->unk_E4.y = temp_f0;
     camera->unk_E4.z = 0.0f;
     camera->at.y += temp_f0;
-    func_80043C28(&camera->eyeNext, &camera->at, &sp4C);
+    Camera_Vec3fVecSphAdd(&camera->eyeNext, &camera->at, &sp4C);
     camera->eye = camera->eyeNext;
     camera->roll = 0;
-    camera->unk_68.z = 0.0f;
     camera->unk_68.x = 0.0f;
+    camera->unk_68.z = 0.0f;
     camera->unk_68.y = 1.0f;
+
     if (func_80044434(camera, &sp3C, &camera->at, &sp48) != -32000.0f) {
         camera->unk_146 = sp48;
     }
+
     camera->unk_118 = -1;
     camera->unk_11C = -1;
     camera->unk_14C |= 4;
+
     if (camera == &camera->globalCtx->cameras[0]) {
         D_8011D3A0.w = 0xB200;
     } else {
@@ -3253,11 +3284,11 @@ void func_80058148(Camera* camera, Player* player) {
     }
     func_80057FC4(camera);
     camera->unk_14A = 0;
-    camera->unk_15C = 0;
+    camera->paramFlags = 0;
     camera->unk_156 = -1;
     camera->unk_100 = 1.0f;
     Camera_CopyModeValuesToPREG(camera, camera->mode);
-    func_8005B044();
+    Camera_QRegInit();
     osSyncPrintf(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
     if (camera->unk_164 == 0) {
         func_800588B4(camera);
@@ -3267,49 +3298,121 @@ void func_80058148(Camera* camera, Player* player) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058148.s")
 #endif
 
-#ifdef NON_MATCHING
-void Camera_ChangeStatus(Camera* camera, s16 status) {
-    s32 temp_s1;
-    CameraMode* temp_v0;
-    s32 phi_a1;
-    s32 phi_a2;
-    s16 phi_v0;
-    CameraModeValue* phi_s0;
-    s32 phi_s1;
+s16 Camera_ChangeStatus(Camera* camera, s16 status) {
+    CameraModeValue* values;
+    CameraModeValue* valueP;
+    s32 i;
 
     if (PREG(82)) {
-        phi_a1 = status == 7 ? 0x6F : 0x78;
-        phi_a2 = camera->status != 7 ? 0x6F : 0x78;
-        osSyncPrintf("camera: change camera status: cond %c%c\n", phi_a1, phi_a2);
+        osSyncPrintf("camera: change camera status: cond %c%c\n", status == 7 ? 'o' : 'x', camera->status != 7 ? 'o' : 'x');
     }
+
     if (PREG(82)) {
         osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->unk_164, camera->setting, camera->mode);
     }
+
     if (status == 7 && camera->status != 7) {
-        temp_v0 = &sCameraSettings[camera->setting].cameraModes[camera->mode];
-        if (temp_v0->valueCnt > 0) {
-            phi_s0 = temp_v0->values;
-            phi_s1 = 0;
-        loop_12:
-            PREG(phi_s0->param) = phi_s0->val;
-            if (PREG(82) != 0) {
-                osSyncPrintf("camera: change camera status: PREG(%02d) = %d\n", phi_s0->param, phi_s0->val);
-            }
-            temp_s1 = phi_s1 + 1;
-            phi_s0 = phi_s0 + 4;
-            phi_s1 = temp_s1;
-            if (temp_s1 < sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt) {
-                goto loop_12;
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        for(i = 0; i <sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt; i++){
+            valueP = &values[i];
+            PREG(valueP->param) = valueP->val;
+            if(PREG(82)){
+                osSyncPrintf("camera: change camera status: PREG(%02d) = %d\n", valueP->param, valueP->val);
             }
         }
     }
     camera->status = status;
+    return camera->status;
+}
+
+#ifdef NON_MATCHING
+void func_800584E8(Camera *camera) {
+    char sp58[5];
+    char sp50[8];
+    char sp48[5];
+    s32 phi_a1;
+    char *phi_v1;
+    char *phi_t0;
+    char *endP;
+    s32 phi_v0;
+    Camera *camP;
+
+    if (OREG(0) & 1 && camera->unk_164 == camera->globalCtx->activeCamera && D_8011D394 == 0) {
+        phi_a1 = 0;
+        phi_v1 = sp58;
+        phi_t0 = sp48;
+        endP = &sp58[4];
+        for(phi_a1 = 0, phi_v1 = sp58, phi_t0 = sp48; phi_v1 != endP; phi_a1++, phi_v1++, phi_t0++)
+        {
+            camP = camera->globalCtx->cameraPtrs[phi_a1];
+            if(camP == NULL){
+                *phi_t0 = ' ';
+                *phi_v1 = '-';
+            } else {
+                switch(camP->status){
+                    case 0:
+                        *phi_v1 = 'c';
+                        *phi_t0 = ' ';
+                        break;
+                    case 1:
+                        *phi_v1 = 'w';
+                        *phi_t0 = ' ';
+                        break;
+                    case 3:
+                        *phi_v1 = 's';
+                        *phi_t0 = ' ';
+                        break;
+                    case 7:
+                        *phi_v1 = 'a';
+                        *phi_t0 = ' ';
+                        break;
+                    case 0x100:
+                        *phi_v1 = 'd';
+                        *phi_t0 = ' ';
+                        break;
+                    default:
+                        *phi_t0 = ' ';
+                        *phi_v1 = '*';
+                        break;
+                }
+            }
+
+        }
+
+        *phi_v1 = '\0';
+        *phi_t0 = '\0';
+
+        sp48[camera->globalCtx->activeCamera] = 'a';
+
+        func_8006376C(3, 22, 5, sp58);
+        func_8006376C(3, 22, 1, sp48);
+        func_8006376C(3, 23, 5, "S:");
+        func_8006376C(5, 23, 4, sCameraSettingNames[camera->setting]);
+        func_8006376C(3, 24, 5, "M:");
+        func_8006376C(5, 24, 4, sCameraModeNames[camera->mode]);
+        func_8006376C(3, 25, 5, "F:");
+        func_8006376C(5, 25, 4, sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
+        phi_v0 = 0;
+        if (camera->camDataIdx < 0) {
+            sp50[phi_v0++] = '-';
+        }
+        if (((s32) camera->camDataIdx / 0xA) != 0) {
+            sp50[phi_v0] = (phi_v0 / 0xA) + 0x30;
+            phi_v0++;
+        }
+        sp50[phi_v0++] = (phi_v0 % 0xA) + 0x30;
+        sp50[phi_v0++] = ' ';
+        sp50[phi_v0++] = ' ';
+        sp50[phi_v0++] = ' ';
+        sp50[phi_v0++] = ' ';
+        sp50[phi_v0++] = '\0';
+        func_8006376C(3, 26, 5, "I:");
+        func_8006376C(5, 26, 4, sp50);
+    }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeStatus.s")
-#endif
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800584E8.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800588B4.s")
 
@@ -3345,7 +3448,7 @@ s32 func_80058D34(Camera* camera) {
             }
             if (phi_a2 != 0) {
                 D_8011D398 = (D_8011D398 + phi_a2) % 6;
-                if (func_8005A77C(camera, D_8011DAFC[D_8011D398]) > 0) {
+                if (Camera_ChangeSettingDefaultFlags(camera, D_8011DAFC[D_8011D398]) > 0) {
                     osSyncPrintf("camera: force change SET to %s!\n", sCameraSettingNames[D_8011DAFC[D_8011D398]]);
                 }
             }
@@ -3405,7 +3508,6 @@ s32 func_8005A02C(Camera* camera) {
 }
 
 #ifdef NON_MATCHING
-extern s32 D_8011DB14;
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
     s32 phi_v0;
     u32 temp_t8;
@@ -3566,7 +3668,7 @@ s32 func_8005A470(Camera* camera, s16 arg1) {
 }
 
 #ifdef NON_MATCHING
-s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
+s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 flags) {
     s16 temp_t1;
     s32 t;
 
@@ -3587,9 +3689,9 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
         return -0x63;
     }
 
-    if (setting == camera->setting && !(arg2 & 1)) {
+    if (setting == camera->setting && !(flags & 1)) {
         camera->unk_14A |= 0x10;
-        if (!(arg2 & 2)) {
+        if (!(flags & 2)) {
             camera->unk_14A |= 1;
         }
         return -1;
@@ -3597,7 +3699,7 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
 
     camera->unk_14A |= 0x10;
 
-    if (1 && !(arg2 & 2)) {
+    if (1 && !(flags & 2)) {
         camera->unk_14A |= 1;
     }
 
@@ -3608,14 +3710,14 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
     }
 
     t = sCameraSettings[camera->setting].unk_00 & 0x40000000;
-    if (arg2 & 8) {
-        camera->unk_148 = camera->unk_166;
+    if (flags & 8) {
+        camera->camDataIdx = camera->unk_166;
         camera->unk_166 = -1;
-    } else if (!(arg2 & 4)) {
+    } else if (!(flags & 4)) {
         if (!t) {
-            camera->unk_166 = camera->unk_148;
+            camera->unk_166 = camera->camDataIdx;
         }
-        camera->unk_148 = -1;
+        camera->camDataIdx = -1;
     }
 
     camera->setting = setting;
@@ -3633,7 +3735,7 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeSetting.s")
 #endif
 
-s32 func_8005A77C(Camera* camera, s16 setting) {
+s32 Camera_ChangeSettingDefaultFlags(Camera* camera, s16 setting) {
     return Camera_ChangeSetting(camera, setting, 0);
 }
 
@@ -3642,15 +3744,15 @@ s16 func_8005A7A8(Camera* arg0, s32 arg1) {
     s16 temp_v0;
     s16 temp_v1;
 
-    if (arg1 == -1 || arg1 == arg0->unk_148) {
+    if (arg1 == -1 || arg1 == arg0->camDataIdx) {
         arg0->unk_14A |= 0x40;
         return -1;
     } else if (!(arg0->unk_14A & 0x40)) {
-        temp_v0 = func_80044740(arg0, arg1);
+        temp_v0 = Camera_GetCamDataSetting(arg0, arg1);
         arg0->unk_14A |= 0x40;
         temp_v1 = (Camera_ChangeSetting(arg0, temp_v0, 5) < 0) ^ 1;
         if ((temp_v1 != 0) || sCameraSettings[arg0->setting].unk_00 & 0x80000000) {
-            arg0->unk_148 = arg1;
+            arg0->camDataIdx = arg1;
             arg0->unk_14A |= 4;
             Camera_CopyModeValuesToPREG(arg0, arg0->mode);
         } else if (temp_v1 < -1) {
@@ -3737,11 +3839,11 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
     if (value != NULL) {
         switch (param) {
             case 1:
-                camera->unk_15C &= ~(0x10 | 0x8 | 0x1);
+                camera->paramFlags &= ~(0x10 | 0x8 | 0x1);
                 camera->at = *(Vec3f*)value;
                 break;
             case 16:
-                camera->unk_15C &= ~(0x10 | 0x8 | 0x1);
+                camera->paramFlags &= ~(0x10 | 0x8 | 0x1);
                 camera->targetPosRot.pos = *(Vec3f*)value;
                 break;
             case 8:
@@ -3749,7 +3851,7 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
                     break;
                 }
                 camera->target = (Actor*)value;
-                camera->unk_15C &= ~(0x10 | 0x8 | 0x1);
+                camera->paramFlags &= ~(0x10 | 0x8 | 0x1);
                 break;
             case 2:
                 sp4 = *(Vec3f*)value;
@@ -3795,7 +3897,7 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
             default:
                 return false;
         }
-        camera->unk_15C |= param;
+        camera->paramFlags |= param;
         return true;
     } else {
         return false;
@@ -3805,14 +3907,14 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_SetParam.s")
 #endif
 
-s32 func_8005AC24(Camera* camera, s16 arg1) {
-    camera->unk_15C &= ~arg1;
+s32 Camera_UnsetParam(Camera* camera, s16 param) {
+    camera->paramFlags &= ~param;
     return true;
 }
 
 s32 func_8005AC48(Camera* camera, s16 arg1) {
     camera->unk_14C = arg1;
-    return 1;
+    return true;
 }
 
 s32 func_8005AC60(Camera* camera) {
@@ -3822,7 +3924,7 @@ s32 func_8005AC60(Camera* camera) {
 
 s32 func_8005AC6C(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, Player* player,
                   s16 relativeToPlayer) {
-    PosRot sp24;
+    PosRot playerPosRot;
 
     camera->atPoints = atPoints;
     camera->eyePoints = eyePoints;
@@ -3830,8 +3932,8 @@ s32 func_8005AC6C(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraP
 
     if (camera->relativeToPlayer != 0) {
         camera->player = player;
-        func_8002EF44(&sp24, &player->actor);
-        camera->playerPosRot = sp24;
+        func_8002EF44(&playerPosRot, &player->actor);
+        camera->playerPosRot = playerPosRot;
 
         camera->unk_156 = -1;
         camera->unk_D8 = 0.0f;
@@ -3851,7 +3953,7 @@ s16 func_8005AD1C(Camera* camera, s16 arg1) {
     return camera->unk_14C;
 }
 
-s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 arg2, f32 arg3, s16 arg4, s16 arg5, s16 arg6) {
+s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 arg3, s16 arg4, s16 arg5, s16 arg6) {
     if ((camera->setting == CAM_SET_DEMO4) || (camera->setting == CAM_SET_DOORC)) {
         return 0;
     }
@@ -3860,26 +3962,26 @@ s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 arg2, f32 arg3, s16 arg4
     camera->unk_00.doorCam.unk_06 = arg4;
     camera->unk_00.doorCam.unk_08 = arg5;
     camera->unk_00.doorCam.unk_0A = arg6;
-    camera->unk_00.doorCam.unk_04 = arg2;
+    camera->unk_00.doorCam.unk_04 = camDataIdx;
 
-    if (arg2 == -99) {
+    if (camDataIdx == -99) {
         Camera_CopyModeValuesToPREG(camera, camera->mode);
         return -99;
     }
 
-    if (arg2 == -1) {
-        func_8005A77C(camera, CAM_SET_DOORC);
+    if (camDataIdx == -1) {
+        Camera_ChangeSettingDefaultFlags(camera, CAM_SET_DOORC);
         osSyncPrintf(".... change default door camera (set %d)\n", CAM_SET_DOORC);
     } else {
-        s32 ret = func_80044740(camera, arg2);
+        s32 setting = Camera_GetCamDataSetting(camera, camDataIdx);
         camera->unk_14A |= 0x40;
 
-        if (func_8005A77C(camera, ret) >= 0) {
-            camera->unk_148 = arg2;
+        if (Camera_ChangeSettingDefaultFlags(camera, setting) >= 0) {
+            camera->camDataIdx = camDataIdx;
             camera->unk_14A |= 4;
         }
 
-        osSyncPrintf("....change door camera ID %d (set %d)\n", camera->unk_148, camera->setting);
+        osSyncPrintf("....change door camera ID %d (set %d)\n", camera->camDataIdx, camera->setting);
     }
 
     Camera_CopyModeValuesToPREG(camera, camera->mode);
@@ -3888,7 +3990,7 @@ s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 arg2, f32 arg3, s16 arg4
 
 s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
     s32 unused;
-    Vec3f sp30;
+    Vec3f eyeTemp;
 
     camera->unk_E4.x = 0.0f;
     camera->unk_E4.y = 0.0f;
@@ -3896,9 +3998,9 @@ s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
     camera->unk_100 = 0.1f;
     camera->at = otherCamera->at;
 
-    sp30 = otherCamera->eye;
-    camera->eyeNext = sp30;
-    camera->eye = sp30;
+    eyeTemp = otherCamera->eye;
+    camera->eyeNext = eyeTemp;
+    camera->eye = eyeTemp;
 
     camera->dist = OLib_Vec3fDist(&camera->at, &camera->eye);
     camera->fov = otherCamera->fov;
@@ -3914,7 +4016,7 @@ s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
         camera->unk_CC.x = 1.0f;
         camera->unk_CC.y = 1.0f;
     }
-    return 1;
+    return true;
 }
 
 s32 func_8005AFA8() {
@@ -3926,30 +4028,30 @@ Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera) {
     return dst;
 }
 
-void Camera_SetCameraData(Camera* camera, s16 arg1, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
-                          s16 relativeToPlayer, s16 arg5) {
-    if (arg1 & 0x1) {
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
+                          s16 relativeToPlayer, s16 arg5, UNK_TYPE arg6) {
+    if (setDataFlags & 0x1) {
         camera->atPoints = atPoints;
     }
 
-    if (arg1 & 0x2) {
+    if (setDataFlags & 0x2) {
         camera->eyePoints = eyePoints;
     }
 
-    if (arg1 & 0x4) {
+    if (setDataFlags & 0x4) {
         camera->relativeToPlayer = relativeToPlayer;
     }
 
-    if (arg1 & 0x8) {
+    if (setDataFlags & 0x8) {
         camera->unk_12E = arg5;
     }
 
-    if (arg1 & 0x10) {
+    if (setDataFlags & 0x10) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera: setCameraData: last argument not alive!\n" VT_RST);
     }
 }
 
-s32 func_8005B044() {
+s32 Camera_QRegInit() {
     if (QREG(0) == 0) {
         QREG(2) = 1;
         QREG(10) = -1;
@@ -3981,7 +4083,7 @@ s32 func_8005B044() {
     }
 
     QREG(65) = 50;
-    return 1;
+    return true;
 }
 
 s32 func_8005B198() {

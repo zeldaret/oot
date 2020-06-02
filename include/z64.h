@@ -363,7 +363,6 @@ typedef struct {
    /* 0x000C */ s32 rightX;  // lrx (lower right x)
 } Viewport; // size = 0x10
 
-
 typedef struct {
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
@@ -463,13 +462,6 @@ typedef union {
 } camera_unk_00;
 
 typedef struct {
-    Vec3s unk_00;
-    Vec3s unk_06;
-    s16 unk_0C;
-    s16 unk_0E;
-} struct_80041C10_ret;
-
-typedef struct {
     /* 0x0000 */ camera_unk_00 unk_00;
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
@@ -508,7 +500,7 @@ typedef struct {
     /* 0x0142 */ s16 setting; // referred to as set
     /* 0x0144 */ s16 mode;
     /* 0x0146 */ s16 unk_146; // unknown if used
-    /* 0x0148 */ s16 unk_148; // ID for door camera? (see func_8005AD40)
+    /* 0x0148 */ s16 camDataIdx;
     /* 0x014A */ s16 unk_14A; // unknown if used
     /* 0x014C */ s16 unk_14C;
     /* 0x014E */ s16 unk_14E;
@@ -518,7 +510,7 @@ typedef struct {
     /* 0x0156 */ s16 unk_156;
     /* 0x0158 */ s16 unk_158; // unknown if used
     /* 0x015A */ s16 roll;
-    /* 0x015C */ s16 unk_15C; // unknown if used
+    /* 0x015C */ s16 paramFlags;
     /* 0x015E */ s16 unk_15E;
     /* 0x0160 */ s16 unk_160;
     /* 0x0162 */ s16 unk_162;

@@ -97,7 +97,7 @@ glabel Camera_Demo6
 /* ACCF6C 80055DCC A7AA0064 */  sh    $t2, 0x64($sp)
 /* ACCF70 80055DD0 AFA40034 */  sw    $a0, 0x34($sp)
 /* ACCF74 80055DD4 26050050 */  addiu $a1, $s0, 0x50
-/* ACCF78 80055DD8 0C010F0A */  jal   func_80043C28
+/* ACCF78 80055DD8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACCF7C 80055DDC 27A60060 */   addiu $a2, $sp, 0x60
 /* ACCF80 80055DE0 8FA40034 */  lw    $a0, 0x34($sp)
 /* ACCF84 80055DE4 860C015E */  lh    $t4, 0x15e($s0)

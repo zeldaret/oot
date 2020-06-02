@@ -82,7 +82,7 @@ glabel Camera_Data4
 /* AC84F4 80051354 2611000C */  addiu $s1, $s0, 0xc
 /* AC84F8 80051358 02202025 */  move  $a0, $s1
 /* AC84FC 8005135C 00402825 */  move  $a1, $v0
-/* AC8500 80051360 0C010EF1 */  jal   func_80043BC4
+/* AC8500 80051360 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC8504 80051364 AFA20054 */   sw    $v0, 0x54($sp)
 /* AC8508 80051368 8FA60054 */  lw    $a2, 0x54($sp)
 /* AC850C 8005136C 2401FFFF */  li    $at, -1
@@ -205,7 +205,7 @@ glabel Camera_Data4
 /* AC86C8 80051528 A7AE0070 */  sh    $t6, 0x70($sp)
 .L8005152C:
 /* AC86CC 8005152C 8FA40024 */  lw    $a0, 0x24($sp)
-/* AC86D0 80051530 0C010F0A */  jal   func_80043C28
+/* AC86D0 80051530 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC86D4 80051534 8FA50028 */   lw    $a1, 0x28($sp)
 /* AC86D8 80051538 8E180094 */  lw    $t8, 0x94($s0)
 /* AC86DC 8005153C 27A40048 */  addiu $a0, $sp, 0x48

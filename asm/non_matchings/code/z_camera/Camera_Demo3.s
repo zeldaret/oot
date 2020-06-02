@@ -249,7 +249,7 @@ glabel L800548B8
 /* ACBBF4 80054A54 02002825 */  move  $a1, $s0
 /* ACBBF8 80054A58 27A60080 */  addiu $a2, $sp, 0x80
 /* ACBBFC 80054A5C 016D7021 */  addu  $t6, $t3, $t5
-/* ACBC00 80054A60 0C010F0A */  jal   func_80043C28
+/* ACBC00 80054A60 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACBC04 80054A64 A7AE0086 */   sh    $t6, 0x86($sp)
 /* ACBC08 80054A68 3C038012 */  lui   $v1, %hi(D_8011D658) # $v1, 0x8012
 /* ACBC0C 80054A6C 2463D658 */  addiu $v1, %lo(D_8011D658) # addiu $v1, $v1, -0x29a8
@@ -315,7 +315,7 @@ glabel L80054AB4
 /* ACBCF4 80054B54 27A60080 */  addiu $a2, $sp, 0x80
 /* ACBCF8 80054B58 0000C012 */  mflo  $t8
 /* ACBCFC 80054B5C 03195021 */  addu  $t2, $t8, $t9
-/* ACBD00 80054B60 0C010F0A */  jal   func_80043C28
+/* ACBD00 80054B60 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACBD04 80054B64 A7AA0086 */   sh    $t2, 0x86($sp)
 /* ACBD08 80054B68 3C038012 */  lui   $v1, %hi(D_8011D658)
 /* ACBD0C 80054B6C 2463D658 */  addiu $v1, %lo(D_8011D658) # addiu $v1, $v1, -0x29a8
@@ -419,7 +419,7 @@ glabel L80054C40
 /* ACBE8C 80054CEC 27A60080 */  addiu $a2, $sp, 0x80
 /* ACBE90 80054CF0 00005812 */  mflo  $t3
 /* ACBE94 80054CF4 01697021 */  addu  $t6, $t3, $t1
-/* ACBE98 80054CF8 0C010F0A */  jal   func_80043C28
+/* ACBE98 80054CF8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACBE9C 80054CFC A7AE0086 */   sh    $t6, 0x86($sp)
 /* ACBEA0 80054D00 3C038012 */  lui   $v1, %hi(D_8011D658)
 /* ACBEA4 80054D04 2463D658 */  addiu $v1, %lo(D_8011D658) # addiu $v1, $v1, -0x29a8
@@ -522,7 +522,7 @@ glabel L80054DD8
 /* ACC020 80054E80 27A60080 */  addiu $a2, $sp, 0x80
 /* ACC024 80054E84 00005012 */  mflo  $t2
 /* ACC028 80054E88 014FC021 */  addu  $t8, $t2, $t7
-/* ACC02C 80054E8C 0C010F0A */  jal   func_80043C28
+/* ACC02C 80054E8C 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACC030 80054E90 A7B80086 */   sh    $t8, 0x86($sp)
 /* ACC034 80054E94 3C038012 */  lui   $v1, %hi(D_8011D658)
 /* ACC038 80054E98 2463D658 */  addiu $v1, %lo(D_8011D658) # addiu $v1, $v1, -0x29a8
@@ -760,7 +760,7 @@ glabel L8005508C
 /* ACC37C 800551DC A7A2008E */  sh    $v0, 0x8e($sp)
 /* ACC380 800551E0 02002025 */  move  $a0, $s0
 /* ACC384 800551E4 8FA50030 */  lw    $a1, 0x30($sp)
-/* ACC388 800551E8 0C010F0A */  jal   func_80043C28
+/* ACC388 800551E8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACC38C 800551EC 27A60088 */   addiu $a2, $sp, 0x88
 /* ACC390 800551F0 8FAC0034 */  lw    $t4, 0x34($sp)
 /* ACC394 800551F4 8E0D0000 */  lw    $t5, ($s0)

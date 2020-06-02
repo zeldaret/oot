@@ -52,7 +52,7 @@ glabel Camera_Unique7
 /* AC9DD8 80052C38 AFA20044 */  sw    $v0, 0x44($sp)
 /* AC9DDC 80052C3C 00E02025 */  move  $a0, $a3
 /* AC9DE0 80052C40 AFA70020 */  sw    $a3, 0x20($sp)
-/* AC9DE4 80052C44 0C010EF1 */  jal   func_80043BC4
+/* AC9DE4 80052C44 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC9DE8 80052C48 00402825 */   move  $a1, $v0
 /* AC9DEC 80052C4C 8FA70020 */  lw    $a3, 0x20($sp)
 /* AC9DF0 80052C50 2605005C */  addiu $a1, $s0, 0x5c
@@ -150,7 +150,7 @@ glabel Camera_Unique7
 /* AC9F54 80052DB4 46060202 */  mul.s $f8, $f0, $f6
 /* AC9F58 80052DB8 4600428D */  trunc.w.s $f10, $f8
 /* AC9F5C 80052DBC 440C5000 */  mfc1  $t4, $f10
-/* AC9F60 80052DC0 0C010F0A */  jal   func_80043C28
+/* AC9F60 80052DC0 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC9F64 80052DC4 A7AC0050 */   sh    $t4, 0x50($sp)
 /* AC9F68 80052DC8 860D014C */  lh    $t5, 0x14c($s0)
 /* AC9F6C 80052DCC 24020001 */  li    $v0, 1

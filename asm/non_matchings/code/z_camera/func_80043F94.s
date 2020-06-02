@@ -26,7 +26,7 @@ glabel func_80043F94
 /* ABB174 80043FD4 02202825 */  move  $a1, $s1
 /* ABB178 80043FD8 46062200 */  add.s $f8, $f4, $f6
 /* ABB17C 80043FDC 27A60040 */  addiu $a2, $sp, 0x40
-/* ABB180 80043FE0 0C010F0A */  jal   func_80043C28
+/* ABB180 80043FE0 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ABB184 80043FE4 E7A80040 */   swc1  $f8, 0x40($sp)
 /* ABB188 80043FE8 26190018 */  addiu $t9, $s0, 0x18
 /* ABB18C 80043FEC 24080001 */  li    $t0, 1

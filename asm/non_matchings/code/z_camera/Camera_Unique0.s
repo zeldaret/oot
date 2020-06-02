@@ -84,7 +84,7 @@ glabel Camera_Unique0
 /* AC9718 80052578 AFA40024 */  sw    $a0, 0x24($sp)
 /* AC971C 8005257C AFA7002C */  sw    $a3, 0x2c($sp)
 /* AC9720 80052580 00402825 */  move  $a1, $v0
-/* AC9724 80052584 0C010EF1 */  jal   func_80043BC4
+/* AC9724 80052584 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC9728 80052588 AFA20064 */   sw    $v0, 0x64($sp)
 /* AC972C 8005258C 8FAF0024 */  lw    $t7, 0x24($sp)
 /* AC9730 80052590 8FA60064 */  lw    $a2, 0x64($sp)

@@ -349,12 +349,12 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_168 == 0) {
         if (func_8004356C(&this->dyna.actor)) {
             this->unk_1B8 = globalCtx->cameraPtrs[0]->setting;
-            func_8005A77C(globalCtx->cameraPtrs[0], 0x3A);
+            Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], 0x3A);
             func_8005AD1C(globalCtx->cameraPtrs[0], 4);
             this->unk_168 = 0xAU;
         }
     } else {
-        func_8005A77C(globalCtx->cameraPtrs[0], 0x3A);
+        Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], 0x3A);
         if (!func_8004356C(&this->dyna.actor)) {
             if (this->unk_168 != 0) {
                 this->unk_168 -= 1;
@@ -363,7 +363,7 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             do {
             } while (0);
-            func_8005A77C(globalCtx->cameraPtrs[0], (s16)this->unk_1B8);
+            Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], (s16)this->unk_1B8);
             func_8005ACFC(globalCtx->cameraPtrs[0], 4);
         }
     }

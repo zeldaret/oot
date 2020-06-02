@@ -1057,7 +1057,7 @@ glabel Camera_Battle1
 /* AC3558 8004C3B8 A7A200B8 */  sh    $v0, 0xb8($sp)
 /* AC355C 8004C3BC 8FA40044 */  lw    $a0, 0x44($sp)
 /* AC3560 8004C3C0 8FA50048 */  lw    $a1, 0x48($sp)
-/* AC3564 8004C3C4 0C010F0A */  jal   func_80043C28
+/* AC3564 8004C3C4 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC3568 8004C3C8 27A600B4 */   addiu $a2, $sp, 0xb4
 /* AC356C 8004C3CC 8FB90044 */  lw    $t9, 0x44($sp)
 /* AC3570 8004C3D0 27A600BC */  addiu $a2, $sp, 0xbc

@@ -444,7 +444,7 @@ glabel Camera_KeepOn3
 /* AC51B8 8004E018 AFA70038 */  sw    $a3, 0x38($sp)
 /* AC51BC 8004E01C E7AE00B8 */  swc1  $f14, 0xb8($sp)
 /* AC51C0 8004E020 46083280 */  add.s $f10, $f6, $f8
-/* AC51C4 8004E024 0C010F0A */  jal   func_80043C28
+/* AC51C4 8004E024 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC51C8 8004E028 E7AA00D4 */   swc1  $f10, 0xd4($sp)
 /* AC51CC 8004E02C 3C013F00 */  li    $at, 0x3F000000 # 0.000000
 /* AC51D0 8004E030 C7AE00B8 */  lwc1  $f14, 0xb8($sp)
@@ -463,7 +463,7 @@ glabel Camera_KeepOn3
 /* AC5204 8004E064 27A6009C */  addiu $a2, $sp, 0x9c
 /* AC5208 8004E068 46065101 */  sub.s $f4, $f10, $f6
 /* AC520C 8004E06C 46062200 */  add.s $f8, $f4, $f6
-/* AC5210 8004E070 0C010F0A */  jal   func_80043C28
+/* AC5210 8004E070 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC5214 8004E074 E7A8009C */   swc1  $f8, 0x9c($sp)
 /* AC5218 8004E078 8679002A */  lh    $t9, 0x2a($s3)
 /* AC521C 8004E07C 332A0080 */  andi  $t2, $t9, 0x80
@@ -503,7 +503,7 @@ glabel Camera_KeepOn3
 /* AC529C 8004E0FC A7B900A0 */  sh    $t9, 0xa0($sp)
 /* AC52A0 8004E100 02402025 */  move  $a0, $s2
 /* AC52A4 8004E104 02202825 */  move  $a1, $s1
-/* AC52A8 8004E108 0C010F0A */  jal   func_80043C28
+/* AC52A8 8004E108 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC52AC 8004E10C 27A6009C */   addiu $a2, $sp, 0x9c
 /* AC52B0 8004E110 8FAA0084 */  lw    $t2, 0x84($sp)
 /* AC52B4 8004E114 26100001 */  addiu $s0, $s0, 1
@@ -622,7 +622,7 @@ glabel Camera_KeepOn3
 /* AC5470 8004E2D0 44093000 */  mfc1  $t1, $f6
 /* AC5474 8004E2D4 00000000 */  nop
 /* AC5478 8004E2D8 01696821 */  addu  $t5, $t3, $t1
-/* AC547C 8004E2DC 0C010F0A */  jal   func_80043C28
+/* AC547C 8004E2DC 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC5480 8004E2E0 A7AD00A0 */   sh    $t5, 0xa0($sp)
 /* AC5484 8004E2E4 8FAC0048 */  lw    $t4, 0x48($sp)
 /* AC5488 8004E2E8 8E4F0000 */  lw    $t7, ($s2)

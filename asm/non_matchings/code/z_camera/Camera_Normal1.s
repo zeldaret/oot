@@ -657,7 +657,7 @@ glabel Camera_Normal1
 /* ABEE60 80047CC0 A7A30080 */  sh    $v1, 0x80($sp)
 .L80047CC4:
 /* ABEE64 80047CC4 8FA40038 */  lw    $a0, 0x38($sp)
-/* ABEE68 80047CC8 0C010F0A */  jal   func_80043C28
+/* ABEE68 80047CC8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ABEE6C 80047CCC 8FA5003C */   lw    $a1, 0x3c($sp)
 /* ABEE70 80047CD0 860F0140 */  lh    $t7, 0x140($s0)
 /* ABEE74 80047CD4 24010007 */  li    $at, 7

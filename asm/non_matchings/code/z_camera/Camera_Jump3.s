@@ -501,7 +501,7 @@ glabel Camera_Jump3
 /* AC257C 8004B3DC A7A200AC */  sh    $v0, 0xac($sp)
 /* AC2580 8004B3E0 8FA40038 */  lw    $a0, 0x38($sp)
 .L8004B3E4:
-/* AC2584 8004B3E4 0C010F0A */  jal   func_80043C28
+/* AC2584 8004B3E4 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC2588 8004B3E8 8FA5003C */   lw    $a1, 0x3c($sp)
 /* AC258C 8004B3EC 860B0140 */  lh    $t3, 0x140($s0)
 /* AC2590 8004B3F0 24010007 */  li    $at, 7

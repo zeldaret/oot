@@ -366,7 +366,7 @@ glabel Camera_Unique1
 /* AC8C58 80051AB8 A7A20092 */  sh    $v0, 0x92($sp)
 /* AC8C5C 80051ABC 8FA40030 */  lw    $a0, 0x30($sp)
 /* AC8C60 80051AC0 8FA50034 */  lw    $a1, 0x34($sp)
-/* AC8C64 80051AC4 0C010F0A */  jal   func_80043C28
+/* AC8C64 80051AC4 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC8C68 80051AC8 27A6008C */   addiu $a2, $sp, 0x8c
 /* AC8C6C 80051ACC 8FAF0030 */  lw    $t7, 0x30($sp)
 /* AC8C70 80051AD0 8FA60038 */  lw    $a2, 0x38($sp)

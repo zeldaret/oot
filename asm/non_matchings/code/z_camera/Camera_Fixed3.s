@@ -51,7 +51,7 @@ glabel Camera_Fixed3
 /* AC7018 8004FE78 844C0000 */  lh    $t4, ($v0)
 /* AC701C 8004FE7C A60C0000 */  sh    $t4, ($s0)
 /* AC7020 8004FE80 AFA70050 */  sw    $a3, 0x50($sp)
-/* AC7024 8004FE84 0C010EF1 */  jal   func_80043BC4
+/* AC7024 8004FE84 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC7028 8004FE88 AFA6002C */   sw    $a2, 0x2c($sp)
 /* AC702C 8004FE8C 8FA6002C */  lw    $a2, 0x2c($sp)
 /* AC7030 8004FE90 8FAD0034 */  lw    $t5, 0x34($sp)
@@ -153,7 +153,7 @@ glabel Camera_Fixed3
 /* AC7194 8004FFF4 84780000 */  lh    $t8, ($v1)
 /* AC7198 8004FFF8 AFA30028 */  sw    $v1, 0x28($sp)
 /* AC719C 8004FFFC 0018C823 */  negu  $t9, $t8
-/* AC71A0 80050000 0C010F0A */  jal   func_80043C28
+/* AC71A0 80050000 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC71A4 80050004 A7B90058 */   sh    $t9, 0x58($sp)
 /* AC71A8 80050008 86090000 */  lh    $t1, ($s0)
 /* AC71AC 8005000C 3C088016 */  lui   $t0, %hi(gGameInfo) # $t0, 0x8016

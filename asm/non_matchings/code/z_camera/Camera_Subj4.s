@@ -78,7 +78,7 @@ glabel Camera_Subj4
 /* AC7DCC 80050C2C 26300004 */  addiu $s0, $s1, 4
 /* AC7DD0 80050C30 AFA200A4 */  sw    $v0, 0xa4($sp)
 /* AC7DD4 80050C34 02002025 */  move  $a0, $s0
-/* AC7DD8 80050C38 0C010EF1 */  jal   func_80043BC4
+/* AC7DD8 80050C38 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC7DDC 80050C3C 24450006 */   addiu $a1, $v0, 6
 /* AC7DE0 80050C40 97B900AA */  lhu   $t9, 0xaa($sp)
 /* AC7DE4 80050C44 8FAA00A4 */  lw    $t2, 0xa4($sp)
@@ -87,7 +87,7 @@ glabel Camera_Subj4
 /* AC7DF0 80050C50 01394823 */  subu  $t1, $t1, $t9
 /* AC7DF4 80050C54 00094840 */  sll   $t1, $t1, 1
 /* AC7DF8 80050C58 012A2821 */  addu  $a1, $t1, $t2
-/* AC7DFC 80050C5C 0C010EF1 */  jal   func_80043BC4
+/* AC7DFC 80050C5C 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC7E00 80050C60 24A5FFF4 */   addiu $a1, $a1, -0xc
 /* AC7E04 80050C64 3C014120 */  li    $at, 0x41200000 # 0.000000
 /* AC7E08 80050C68 44813000 */  mtc1  $at, $f6
@@ -173,7 +173,7 @@ glabel Camera_Subj4
 /* AC7F3C 80050D9C E7A60064 */  swc1  $f6, 0x64($sp)
 /* AC7F40 80050DA0 860D0030 */  lh    $t5, 0x30($s0)
 /* AC7F44 80050DA4 27A60064 */  addiu $a2, $sp, 0x64
-/* AC7F48 80050DA8 0C010F0A */  jal   func_80043C28
+/* AC7F48 80050DA8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC7F4C 80050DAC A7AD006A */   sh    $t5, 0x6a($sp)
 /* AC7F50 80050DB0 860E0032 */  lh    $t6, 0x32($s0)
 /* AC7F54 80050DB4 3C013F80 */  li    $at, 0x3F800000 # 0.000000
@@ -253,7 +253,7 @@ glabel Camera_Subj4
 /* AC8070 80050ED0 0006000D */  break 6
 .L80050ED4:
 /* AC8074 80050ED4 A7A90060 */  sh    $t1, 0x60($sp)
-/* AC8078 80050ED8 0C010F0A */  jal   func_80043C28
+/* AC8078 80050ED8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC807C 80050EDC 00000000 */   nop
 /* AC8080 80050EE0 8FA70034 */  lw    $a3, 0x34($sp)
 /* AC8084 80050EE4 00001025 */  move  $v0, $zero
@@ -313,7 +313,7 @@ glabel Camera_Subj4
 /* AC8154 80050FB4 860C0030 */  lh    $t4, 0x30($s0)
 /* AC8158 80050FB8 A7A80068 */  sh    $t0, 0x68($sp)
 /* AC815C 80050FBC E7AA0064 */  swc1  $f10, 0x64($sp)
-/* AC8160 80050FC0 0C010F0A */  jal   func_80043C28
+/* AC8160 80050FC0 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC8164 80050FC4 A7AC006A */   sh    $t4, 0x6a($sp)
 /* AC8168 80050FC8 860D002C */  lh    $t5, 0x2c($s0)
 /* AC816C 80050FCC 25A90BB8 */  addiu $t1, $t5, 0xbb8

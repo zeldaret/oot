@@ -100,7 +100,7 @@ glabel Camera_Fixed2
 /* AC6CC4 8004FB24 1040000B */  beqz  $v0, .L8004FB54
 /* AC6CC8 8004FB28 00402825 */   move  $a1, $v0
 /* AC6CCC 8004FB2C 02202025 */  move  $a0, $s1
-/* AC6CD0 8004FB30 0C010EF1 */  jal   func_80043BC4
+/* AC6CD0 8004FB30 0C010EF1 */  jal   Camera_Vec3sToVec3f
 /* AC6CD4 8004FB34 AFA20064 */   sw    $v0, 0x64($sp)
 /* AC6CD8 8004FB38 8FA50064 */  lw    $a1, 0x64($sp)
 /* AC6CDC 8004FB3C 2401FFFF */  li    $at, -1

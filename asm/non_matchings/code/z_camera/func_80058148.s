@@ -66,7 +66,7 @@ glabel func_80058148
 /* ACF3D0 80058230 E60E00EC */  swc1  $f14, 0xec($s0)
 /* ACF3D4 80058234 E6060054 */  swc1  $f6, 0x54($s0)
 /* ACF3D8 80058238 AFA50024 */  sw    $a1, 0x24($sp)
-/* ACF3DC 8005823C 0C010F0A */  jal   func_80043C28
+/* ACF3DC 8005823C 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ACF3E0 80058240 AFA40020 */   sw    $a0, 0x20($sp)
 /* ACF3E4 80058244 8FB80020 */  lw    $t8, 0x20($sp)
 /* ACF3E8 80058248 44801000 */  mtc1  $zero, $f2
@@ -124,7 +124,7 @@ glabel func_80058148
 /* ACF4AC 8005830C 86050144 */  lh    $a1, 0x144($s0)
 /* ACF4B0 80058310 0C01144A */  jal   Camera_CopyModeValuesToPREG
 /* ACF4B4 80058314 E6100100 */   swc1  $f16, 0x100($s0)
-/* ACF4B8 80058318 0C016C11 */  jal   func_8005B044
+/* ACF4B8 80058318 0C016C11 */  jal   Camera_QRegInit
 /* ACF4BC 8005831C 00000000 */   nop
 /* ACF4C0 80058320 3C048014 */  lui   $a0, %hi(D_801398C0) # $a0, 0x8014
 /* ACF4C4 80058324 0C00084C */  jal   osSyncPrintf

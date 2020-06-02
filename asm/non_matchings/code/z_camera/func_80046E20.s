@@ -116,7 +116,7 @@ glabel func_80046E20
 /* ABE150 80046FB0 C5480000 */  lwc1  $f8, ($t2)
 /* ABE154 80046FB4 8FA50034 */  lw    $a1, 0x34($sp)
 /* ABE158 80046FB8 27A60048 */  addiu $a2, $sp, 0x48
-/* ABE15C 80046FBC 0C010F0A */  jal   func_80043C28
+/* ABE15C 80046FBC 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ABE160 80046FC0 E7A80048 */   swc1  $f8, 0x48($sp)
 /* ABE164 80046FC4 8E0C0000 */  lw    $t4, ($s0)
 /* ABE168 80046FC8 3C068016 */  lui   $a2, %hi(D_8015CED0) # $a2, 0x8016
@@ -151,7 +151,7 @@ glabel func_80046E20
 /* ABE1DC 8004703C 000D7C03 */  sra   $t7, $t5, 0x10
 /* ABE1E0 80047040 000FC043 */  sra   $t8, $t7, 1
 /* ABE1E4 80047044 0178C821 */  addu  $t9, $t3, $t8
-/* ABE1E8 80047048 0C010F0A */  jal   func_80043C28
+/* ABE1E8 80047048 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ABE1EC 8004704C A7B9004C */   sh    $t9, 0x4c($sp)
 /* ABE1F0 80047050 3C0E8016 */  lui   $t6, %hi(D_8015CEA0) # $t6, 0x8016
 /* ABE1F4 80047054 85CECEA0 */  lh    $t6, %lo(D_8015CEA0)($t6)
@@ -204,7 +204,7 @@ glabel func_80046E20
 /* ABE2A8 80047108 8FA50034 */  lw    $a1, 0x34($sp)
 /* ABE2AC 8004710C C56A0000 */  lwc1  $f10, ($t3)
 /* ABE2B0 80047110 27A60048 */  addiu $a2, $sp, 0x48
-/* ABE2B4 80047114 0C010F0A */  jal   func_80043C28
+/* ABE2B4 80047114 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ABE2B8 80047118 E7AA0048 */   swc1  $f10, 0x48($sp)
 /* ABE2BC 8004711C 10000098 */  b     .L80047380
 /* ABE2C0 80047120 8FBF002C */   lw    $ra, 0x2c($sp)
@@ -278,7 +278,7 @@ glabel func_80046E20
 /* ABE3B4 80047214 02002025 */  move  $a0, $s0
 /* ABE3B8 80047218 3C073F80 */  lui   $a3, 0x3f80
 /* ABE3BC 8004721C E6320010 */  swc1  $f18, 0x10($s1)
-/* ABE3C0 80047220 0C010F2B */  jal   func_80043CAC
+/* ABE3C0 80047220 0C010F2B */  jal   Camera_Vec3fScaleXYZFactor
 /* ABE3C4 80047224 E7A20050 */   swc1  $f2, 0x50($sp)
 /* ABE3C8 80047228 C7A20050 */  lwc1  $f2, 0x50($sp)
 /* ABE3CC 8004722C AE20000C */  sw    $zero, 0xc($s1)
@@ -326,7 +326,7 @@ glabel func_80046E20
 /* ABE474 800472D4 46065202 */  mul.s $f8, $f10, $f6
 /* ABE478 800472D8 46028481 */  sub.s $f18, $f16, $f2
 /* ABE47C 800472DC 46124282 */  mul.s $f10, $f8, $f18
-/* ABE480 800472E0 0C010F0A */  jal   func_80043C28
+/* ABE480 800472E0 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* ABE484 800472E4 E7AA0040 */   swc1  $f10, 0x40($sp)
 /* ABE488 800472E8 10000025 */  b     .L80047380
 /* ABE48C 800472EC 8FBF002C */   lw    $ra, 0x2c($sp)

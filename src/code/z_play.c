@@ -1696,11 +1696,11 @@ s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3)
 
     camera = globalCtx->cameraPtrs[camIdx];
     func_80058148(camera, player);
-    return func_8005A77C(camera, arg3);
+    return Camera_ChangeSettingDefaultFlags(camera, arg3);
 }
 
 void func_800C0874(GlobalContext* globalCtx, s16 camId, s16 arg2) {
-    func_8005A77C(Gameplay_GetCamera(globalCtx, camId), arg2);
+    Camera_ChangeSettingDefaultFlags(Gameplay_GetCamera(globalCtx, camId), arg2);
 }
 
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {

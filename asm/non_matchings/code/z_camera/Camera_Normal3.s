@@ -496,7 +496,7 @@ glabel Camera_Normal3
 /* AC00B0 80048F10 A62A0028 */  sh    $t2, 0x28($s1)
 /* AC00B4 80048F14 8FA40040 */  lw    $a0, 0x40($sp)
 .L80048F18:
-/* AC00B8 80048F18 0C010F0A */  jal   func_80043C28
+/* AC00B8 80048F18 0C010F0A */  jal   Camera_Vec3fVecSphAdd
 /* AC00BC 80048F1C 8FA50044 */   lw    $a1, 0x44($sp)
 /* AC00C0 80048F20 860B0140 */  lh    $t3, 0x140($s0)
 /* AC00C4 80048F24 24010007 */  li    $at, 7

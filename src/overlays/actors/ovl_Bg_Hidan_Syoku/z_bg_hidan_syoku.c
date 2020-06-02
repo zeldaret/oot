@@ -116,10 +116,10 @@ void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
-        func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
+        Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], 0x30);
     } else if (!func_8004356C(&this->dyna.actor)) {
         if (this->unk_168 != 0) {
-            func_8005A77C(globalCtx->cameraPtrs[0], 3);
+            Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], 3);
         }
         this->unk_168 = 0;
     }

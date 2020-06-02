@@ -28,7 +28,7 @@ glabel func_8005A7A8
 /* AD1990 8005A7F0 33280040 */  andi  $t0, $t9, 0x40
 /* AD1994 8005A7F4 5500002F */  bnezl $t0, .L8005A8B4
 /* AD1998 8005A7F8 8FBF0024 */   lw    $ra, 0x24($sp)
-/* AD199C 8005A7FC 0C0111D0 */  jal   func_80044740
+/* AD199C 8005A7FC 0C0111D0 */  jal   Camera_GetCamDataSetting
 /* AD19A0 8005A800 02202825 */   move  $a1, $s1
 /* AD19A4 8005A804 A7A2002E */  sh    $v0, 0x2e($sp)
 /* AD19A8 8005A808 8609014A */  lh    $t1, 0x14a($s0)
