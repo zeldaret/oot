@@ -136,7 +136,7 @@ glabel Camera_Special9
 /* ACE794 800575F4 2606005C */  addiu $a2, $s0, 0x5c
 /* ACE798 800575F8 AFA60048 */  sw    $a2, 0x48($sp)
 /* ACE79C 800575FC AFA50044 */  sw    $a1, 0x44($sp)
-/* ACE7A0 80057600 0C01F124 */  jal   func_8007C490
+/* ACE7A0 80057600 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* ACE7A4 80057604 27A4009C */   addiu $a0, $sp, 0x9c
 /* ACE7A8 80057608 8FAA0038 */  lw    $t2, 0x38($sp)
 /* ACE7AC 8005760C 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
@@ -485,7 +485,7 @@ glabel L80057A38
 /* ACECD4 80057B34 C7B00098 */  lwc1  $f16, 0x98($sp)
 /* ACECD8 80057B38 8FA50048 */  lw    $a1, 0x48($sp)
 /* ACECDC 80057B3C 46104480 */  add.s $f18, $f8, $f16
-/* ACECE0 80057B40 0C01EFE4 */  jal   func_8007BF90
+/* ACECE0 80057B40 0C01EFE4 */  jal   OLib_Vec3fDist
 /* ACECE4 80057B44 E7B200B0 */   swc1  $f18, 0xb0($sp)
 /* ACECE8 80057B48 8FA3003C */  lw    $v1, 0x3c($sp)
 /* ACECEC 80057B4C E60000DC */  swc1  $f0, 0xdc($s0)

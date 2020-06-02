@@ -8,7 +8,6 @@
 .section .data
 
 .balign 16
-
 glabel D_8012CED0
     .incbin "baserom.z64", 0xBA4070, 0x4
 
@@ -19,127 +18,140 @@ glabel D_8012CED8
     .incbin "baserom.z64", 0xBA4078, 0x8
 
 glabel D_8012CEE0
-    .incbin "baserom.z64", 0xBA4080, 0x4
+    .word D_80143170
 
 glabel D_8012CEE4
-    .incbin "baserom.z64", 0xBA4084, 0x4
+    .word D_80143184
+
 
 glabel D_8012CEE8
-    .incbin "baserom.z64", 0xBA4088, 0x4
+    .word D_80143194
 
 glabel D_8012CEEC
-    .incbin "baserom.z64", 0xBA408C, 0x4
+    .word D_801431AC
 
 glabel D_8012CEF0
-    .incbin "baserom.z64", 0xBA4090, 0x4
+    .word D_801431C4
 
 glabel D_8012CEF4
-    .incbin "baserom.z64", 0xBA4094, 0x4
+    .word D_801431D8
 
 glabel D_8012CEF8
-    .incbin "baserom.z64", 0xBA4098, 0xC
+    .word D_801431EC
+    .word D_80143200
+    .word D_80143214
 
 glabel D_8012CF04
-    .incbin "baserom.z64", 0xBA40A4, 0x4
+    .word D_80143224
 
 glabel D_8012CF08
-    .incbin "baserom.z64", 0xBA40A8, 0x4
+    .word D_80143234
 
 glabel D_8012CF0C
-    .incbin "baserom.z64", 0xBA40AC, 0x4
+    .word D_80143244
 
 glabel D_8012CF10
-    .incbin "baserom.z64", 0xBA40B0, 0x4
+    .word D_80143254
 
 glabel D_8012CF14
-    .incbin "baserom.z64", 0xBA40B4, 0x4
+    .word D_80143264
 
 glabel D_8012CF18
-    .incbin "baserom.z64", 0xBA40B8, 0xC
+    .word D_80143278
+    .word D_80143290
+    .word D_801432A4
 
 glabel D_8012CF24
-    .incbin "baserom.z64", 0xBA40C4, 0xC
+    .word D_801432B8
+    .word D_801432C8
+    .word D_801432DC
 
 glabel D_8012CF30
-    .incbin "baserom.z64", 0xBA40D0, 0x4
+    .word D_801432F0
 
 glabel D_8012CF34
-    .incbin "baserom.z64", 0xBA40D4, 0x4
+    .word D_80143300
 
 glabel D_8012CF38
-    .incbin "baserom.z64", 0xBA40D8, 0x4
+    .word D_80143310
 
 glabel D_8012CF3C
-    .incbin "baserom.z64", 0xBA40DC, 0x4
+    .word D_80143320
 
 glabel D_8012CF40
-    .incbin "baserom.z64", 0xBA40E0, 0x4
+    .word D_80143330
 
 glabel D_8012CF44
-    .incbin "baserom.z64", 0xBA40E4, 0x4
+    .word D_80143340
 
 glabel D_8012CF48
-    .incbin "baserom.z64", 0xBA40E8, 0x4
+    .word D_80143350
 
 glabel D_8012CF4C
-    .incbin "baserom.z64", 0xBA40EC, 0x4
+    .word  D_80143368
 
 glabel D_8012CF50
-    .incbin "baserom.z64", 0xBA40F0, 0x10
+    .word D_8014336C
+    .word D_80143370
+    .word D_80143374
+    .word D_80143378
 
 glabel D_8012CF60
-    .incbin "baserom.z64", 0xBA4100, 0x4
+    .word D_8014337C
 
 glabel D_8012CF64
-    .incbin "baserom.z64", 0xBA4104, 0x4
+    .word D_8014338C
 
 glabel D_8012CF68
-    .incbin "baserom.z64", 0xBA4108, 0x4
+    .word D_80143398
 
 glabel D_8012CF6C
-    .incbin "baserom.z64", 0xBA410C, 0x4
+    .word D_801433A4
 
 glabel D_8012CF70
-    .incbin "baserom.z64", 0xBA4110, 0x4
+    .word D_801433B0
 
 glabel D_8012CF74
-    .incbin "baserom.z64", 0xBA4114, 0x4
+    .word D_801433C4
 
 glabel D_8012CF78
-    .incbin "baserom.z64", 0xBA4118, 0x4
+    .word D_801433D4
 
 glabel D_8012CF7C
-    .incbin "baserom.z64", 0xBA411C, 0x4
+    .word D_801433E4
 
 glabel D_8012CF80
-    .incbin "baserom.z64", 0xBA4120, 0x4
+    .word D_801433F8
 
 glabel D_8012CF84
-    .incbin "baserom.z64", 0xBA4124, 0x4
+    .word D_8014340C
 
 glabel D_8012CF88
-    .incbin "baserom.z64", 0xBA4128, 0xC
+    .word D_8014341C
+    .word D_80143434
+    .word D_80143454
 
 glabel D_8012CF94
-    .incbin "baserom.z64", 0xBA4134, 0x4
+    .word D_80143470
 
 glabel D_8012CF98
-    .incbin "baserom.z64", 0xBA4138, 0x4
+    .word D_80143478
 
 glabel D_8012CF9C
-    .incbin "baserom.z64", 0xBA413C, 0x8
+    .word D_80143480
+    .word D_8014348C
 
 glabel D_8012CFA4
-    .incbin "baserom.z64", 0xBA4144, 0x4
+    .word D_80143498
 
 glabel D_8012CFA8
-    .incbin "baserom.z64", 0xBA4148, 0x4
+    .word D_801434A4
 
 glabel D_8012CFAC
-    .incbin "baserom.z64", 0xBA414C, 0x4
+    .word D_801434B4
 
 glabel D_8012CFB0
-    .incbin "baserom.z64", 0xBA4150, 0x4
+    .word D_801434C4
 
 glabel D_8012CFB4
     .incbin "baserom.z64", 0xBA4154, 0x8

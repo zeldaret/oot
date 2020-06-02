@@ -22,7 +22,226 @@ glabel D_8014313C
     .balign 4
 
 glabel D_80143154
-    .incbin "baserom.z64", 0xBBA2F4, 0x384
+    .asciz "shrink_window_cleanup()\n"
+    .balign 4
+
+glabel D_80143170
+    .asciz "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ"
+    .balign 4
+
+glabel D_80143184
+    .asciz "\x8Dﾀﾘﾏｾﾝ｡"
+    .balign 4
+
+glabel D_80143194
+    .asciz "\x8Dｻｲｾｲﾃﾞｷﾏｾﾝ"
+    .balign 4
+
+glabel D_801431AC
+    .asciz "\x8Dｻｲｾｲｼｭｳﾘｮｳ"
+    .balign 4
+
+glabel D_801431C4
+    .asciz "\x8Dｻｲｾｲﾁｭｳ!"
+    .balign 4
+
+glabel D_801431D8
+    .asciz "DEMO CAMERA TOOL"
+    .balign 4
+
+glabel D_801431EC
+    .asciz "\x8Dﾓｳﾊｲﾘﾏｾﾝ"
+    .balign 4
+
+glabel D_80143200
+    .asciz "\x8Dﾄｳﾛｸ   ﾃﾝﾒ"
+    .balign 4
+
+glabel D_80143214
+    .asciz "\x8Dﾍﾝｺｳ   /  "
+    .balign 4
+
+glabel D_80143224
+    .asciz ">            >"
+    .balign 4
+
+glabel D_80143234
+    .asciz "<            <"
+    .balign 4
+
+glabel D_80143244
+    .asciz "<          >"
+    .balign 4
+
+glabel D_80143254
+    .asciz "\x8C*ﾌﾟﾚｲﾔ-*"
+    .balign 4
+
+glabel D_80143264
+    .byte 0x8C
+    .asciz "Eﾓ-ﾄﾞ\x8D ｿｳﾀｲ"
+    .balign 4
+
+glabel D_80143278
+    .byte 0x8C
+    .asciz "Eﾓ-ﾄﾞ\x8Dｾﾞｯﾀｲ"
+    .balign 4
+
+glabel D_80143290
+    .asciz "\x8Dｶﾞﾒﾝ\x8C   ﾃﾞﾓ"
+    .balign 4
+
+glabel D_801432A4
+    .asciz "\x8Dｶﾞﾒﾝ   ﾌﾂｳ"
+    .balign 4
+
+glabel D_801432B8
+    .asciz "\x8DPｼﾞｶﾝ  MAX"
+    .balign 4
+
+glabel D_801432C8
+    .asciz "\x8Cﾘﾝｸ\x8D    ｷｵｸ"
+    .balign 4
+
+glabel D_801432DC
+    .asciz "\x8Cﾘﾝｸ\x8D     ﾑｼ"
+    .balign 4
+
+glabel D_801432F0
+    .asciz "\x8D*ﾐﾃﾙｲﾁ*"
+    .balign 4
+
+glabel D_80143300
+    .asciz "\x8C*ｶﾒﾗ\x8Dｲﾁ*"
+    .balign 4
+
+glabel D_80143310
+    .asciz "DEBUG CAMERA"
+    .balign 4
+
+glabel D_80143320
+    .asciz "\x8Cｾﾝﾀ-/ﾛｯｸ"
+    .balign 4
+
+glabel D_80143330
+    .asciz "\x8Cｾﾝﾀ-/ﾌﾘ-"
+    .balign 4
+
+glabel D_80143340
+    .asciz "DEMO CONTROL"
+    .balign 4
+
+glabel D_80143350
+    .asciz "\x8Cﾒﾓﾘ\x8Dｶﾞﾀﾘﾏｾﾝ"
+    .balign 4
+
+glabel D_80143368
+    .asciz "p"
+    .balign 4
+
+glabel D_8014336C
+    .asciz "e"
+    .balign 4
+
+glabel D_80143370
+    .asciz "s"
+    .balign 4
+
+glabel D_80143374
+    .asciz "l"
+    .balign 4
+
+glabel D_80143378
+    .asciz "c"
+    .balign 4
+
+glabel D_8014337C
+    .asciz "\x8Cﾒﾓﾘﾊﾟｯｸ"
+    .balign 4
+
+glabel D_8014338C
+    .asciz "\x8Cｾｰﾌﾞ"
+    # Save
+    .balign 4
+
+glabel D_80143398
+    .asciz "\x8Cﾛｰﾄﾞ"
+    # Load
+    .balign 4
+
+glabel D_801433A4
+    .asciz "\x8Cｸﾘｱ-"
+    # Clear
+    .balign 4
+
+glabel D_801433B0
+    .asciz "\x8Dｦﾇｶﾅｲﾃﾞﾈ"
+    .balign 4
+
+glabel D_801433C4
+    .asciz "FREE      BYTE"
+    .balign 4
+
+glabel D_801433D4
+    .asciz "NEED      BYTE"
+    .balign 4
+
+glabel D_801433E4
+    .asciz "\x8C*ﾒﾓﾘ-ﾊﾟｯｸ*"
+    .balign 4
+
+glabel D_801433F8
+    .asciz "\x8Dｦﾐﾂｹﾗﾚﾏｾﾝ"
+    .balign 4
+
+glabel D_8014340C
+    .asciz "\x8Cﾌｧｲﾙ \x8Dｦ"
+    .balign 4
+
+glabel D_8014341C
+    .asciz "\x8Dｼﾃﾓｲｲﾃﾞｽｶ?"
+    .balign 4
+
+glabel D_80143434
+    .asciz "\x8Dｹﾞﾝｻﾞｲﾍﾝｼｭｳﾁｭｳﾉ"
+    .balign 4
+
+glabel D_80143454
+    .asciz "\x8Cﾌｧｲﾙ\x8Dﾊﾊｷｻﾚﾏｽ"
+    .balign 4
+
+glabel D_80143470
+    .asciz "\x8Dﾊｲ"
+    .balign 4
+
+glabel D_80143478
+    .asciz "\x8Dｲｲｴ"
+    .balign 4
+
+glabel D_80143480
+    .asciz "\x8Dｼﾃｲﾏｽ"
+    .balign 4
+
+glabel D_8014348C
+    .asciz "\x8Dｳﾜｶﾞｷ"
+    .balign 4
+
+glabel D_80143498
+    .asciz "\x8Dｼﾏｼﾀ"
+    .balign 4
+
+glabel D_801434A4
+    .asciz "USE       BYTE"
+    .balign 4
+
+glabel D_801434B4
+    .asciz "\x8Dﾆｼｯﾊﾟｲ"
+    .balign 4
+
+glabel D_801434C4
+    .byte 0x8C
+    .asciz "Eﾓ-ﾄﾞ\x8D  ｺﾃｲ"
+    .balign 4
 
 glabel D_801434D8
     .asciz "@@@static SplinedatZ  %s[] = {\n"
@@ -57,7 +276,7 @@ glabel D_801435C4
     .balign 4
 
 glabel D_801435D0
-    .asciz "@@@};\n@@@\n"    
+    .asciz "@@@};\n@@@\n"
     .balign 4
 
 glabel D_801435DC
@@ -69,7 +288,7 @@ glabel D_801435F0
     .balign 4
 
 glabel D_801435FC
-    .asciz "\n@@@%d,%d,"    
+    .asciz "\n@@@%d,%d,"
     .balign 4
 
 glabel D_80143608
@@ -89,7 +308,7 @@ glabel D_8014365C
     .balign 4
 
 glabel D_80143670
-    .asciz "\n@@@0,0,	/*  Dammy	*/\n@@@ "   
+    .asciz "\n@@@0,0,	/*  Dammy	*/\n@@@ "
     .balign 4
 
 glabel D_8014368C

@@ -19,7 +19,7 @@ glabel Camera_Fixed3
 /* AC6FA0 8004FE00 AFA60030 */  sw    $a2, 0x30($sp)
 /* AC6FA4 8004FE04 AFA50034 */  sw    $a1, 0x34($sp)
 /* AC6FA8 8004FE08 27A40048 */  addiu $a0, $sp, 0x48
-/* AC6FAC 8004FE0C 0C01F124 */  jal   func_8007C490
+/* AC6FAC 8004FE0C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC6FB0 8004FE10 AFA20050 */   sw    $v0, 0x50($sp)
 /* AC6FB4 8004FE14 8603015E */  lh    $v1, 0x15e($s0)
 /* AC6FB8 8004FE18 8FA70050 */  lw    $a3, 0x50($sp)
