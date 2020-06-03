@@ -32,11 +32,14 @@ typedef struct EnZl3 {
     /* 0x0308 */ s32 unk_308;
     /* 0x030C */ Path* unk_30C;
     /* 0x0310 */ s32 unk_310;
-    /* 0x0314 */ char unk_314[0x4];
+    /* 0x0314 */ s32 unk_314;
     /* 0x0318 */ s32 unk_318;
     /* 0x031C */ char unk_31C[0xC];
     /* 0x0328 */ s32 unk_328;
-    /* 0x032C */ char unk_32C[0x4C];
+    /* 0x032C */ char unk_32C[0x18];
+    /* 0x0344 */ u16 unk_344;
+    /* 0x0346 */ u16 unk_346;
+    /* 0x0348 */ char unk_348[0x30];
     /* 0x0378 */ ColliderCylinder collider;
     /* 0x03C4 */ s32 unk_3C4;
     /* 0x03C8 */ u8 unk_3C8;
