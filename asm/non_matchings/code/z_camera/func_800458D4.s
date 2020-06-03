@@ -55,7 +55,7 @@ glabel func_800458D4
 /* ABCB0C 8004596C AFA40030 */  sw    $a0, 0x30($sp)
 /* ABCB10 80045970 46049181 */  sub.s $f6, $f18, $f4
 /* ABCB14 80045974 2605005C */  addiu $a1, $s0, 0x5c
-/* ABCB18 80045978 0C01F00A */  jal   OLib_XZDist
+/* ABCB18 80045978 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* ABCB1C 8004597C E7A60048 */   swc1  $f6, 0x48($sp)
 /* ABCB20 80045980 C7AC0048 */  lwc1  $f12, 0x48($sp)
 /* ABCB24 80045984 0C03F494 */  jal   Math_atan2f

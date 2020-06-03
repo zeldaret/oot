@@ -17,7 +17,7 @@ f32 OLib_Vec3fDistOutDiff(Vec3f* a, Vec3f* b, Vec3f* dest) {
     return sqrtf(SQ(dest->x) + SQ(dest->y) + SQ(dest->z));
 }
 
-f32 OLib_XZDist(Vec3f* a, Vec3f* b) {
+f32 OLib_Vec3fDistXZ(Vec3f* a, Vec3f* b) {
     return sqrtf(SQ(a->x - b->x) + SQ(a->z - b->z));
 }
 

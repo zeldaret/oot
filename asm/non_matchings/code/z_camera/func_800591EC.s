@@ -121,7 +121,7 @@ glabel func_800591EC
 /* AD043C 8005929C 27A40080 */   addiu $a0, $sp, 0x80
 /* AD0440 800592A0 26050094 */  addiu $a1, $s0, 0x94
 /* AD0444 800592A4 AFA50050 */  sw    $a1, 0x50($sp)
-/* AD0448 800592A8 0C01F00A */  jal   OLib_XZDist
+/* AD0448 800592A8 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* AD044C 800592AC 27A40080 */   addiu $a0, $sp, 0x80
 /* AD0450 800592B0 E7A000A0 */  swc1  $f0, 0xa0($sp)
 /* AD0454 800592B4 E60000D8 */  swc1  $f0, 0xd8($s0)
