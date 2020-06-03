@@ -90,8 +90,20 @@ glabel D_80125594
 glabel D_80125794
     .incbin "baserom.z64", 0xB9C934, 0x50
 
-glabel D_801257E4
-    .incbin "baserom.z64", 0xB9C984, 0x14
+# Which floor has the skull symbol on the dungeon map, for each
+# of the 10 dungeons.
+# -99 if no dungeon map, otherwise (-14 * FloorNumber + 51)
+glabel gMapDataSkullFloorTable
+    .half -47
+    .half -47
+    .half -33
+    .half -47
+    .half -47
+    .half -5
+    .half -19
+    .half -47
+    .half -99
+    .half -99
 
 glabel gMapDataTable
     .word D_80123A70
@@ -121,4 +133,4 @@ glabel gMapDataTable
     .word D_80125394
     .word D_80125594
     .word D_80125794
-    .word D_801257E4
+    .word gMapDataSkullFloorTable
