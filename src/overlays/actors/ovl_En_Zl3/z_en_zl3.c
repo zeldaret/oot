@@ -122,6 +122,7 @@ extern AnimationHeader D_060004F4;
 extern AnimationHeader D_060014DC;
 extern AnimationHeader D_0600210C;
 extern AnimationHeader D_06002710;
+extern AnimationHeader D_060038C0;
 extern AnimationHeader D_06003D20;
 extern AnimationHeader D_06003FF8;
 extern AnimationHeader D_06004408;
@@ -1220,11 +1221,23 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B58624(EnZl3* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58624.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5884C.s")
+void func_80B5884C(EnZl3 *this, s32 arg1) {
+    func_80B54E14(this, &D_060038C0, 2, -8.0f, 0);
+    this->action = 37;
+    this->unk_36C = 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58898.s")
+void func_80B58898(EnZl3 *this, s32 arg1) {
+    func_80B54E14(this, &D_060038C0, 2, -8.0f, 1);
+    this->action = 38;
+    this->unk_374 = 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B588E8.s")
+void func_80B588E8(EnZl3 *this, s32 arg1) {
+    func_80B54E14(this, &D_06009BE4, 0, -8.0f, 0);
+    func_80B57AE0(this, arg1);
+    this->action = 39;
+}
 
 s32 func_80B58938(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B57C54(this)) {
