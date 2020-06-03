@@ -1306,7 +1306,7 @@ typedef enum {
     F_B6 = 14,
     F_B7 = 15,
     F_B8 = 16
-} FloorName;
+} FloorID;
 
 // All arrays pointed in this struct are indexed by "map indexes"
 // In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
@@ -1338,7 +1338,7 @@ typedef struct {
     /* 0x5C */ u8  (*switchFromRoom)[51]; // room to come from
     /* 0x60 */ u8  (*switchFromFloor)[51]; // floor to come from
     /* 0x64 */ u8  (*switchToRoom)[51]; // room to go to
-    /* 0x68 */ u8  (*floorNames)[8];
+    /* 0x68 */ u8  (*floorID)[8];
     /* 0x6C */ s16 *skullFloorIconY; // Y coord of big skull icon on map screen
 } MapData; // size = 0x70
 

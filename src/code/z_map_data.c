@@ -331,7 +331,7 @@ static u8 sSwitchToRoom[10 * 51 + 2] = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 };
 
-static u8 sFloorNames[10][8] = {
+static u8 sFloorID[10][8] = {
     /* clang-format off */
     {    0,    0,    0, F_3F, F_2F, F_1F, F_B1, F_B2 }, 
     {    0,    0,    0,    0,    0,    0, F_2F, F_1F },
@@ -380,6 +380,6 @@ MapData gMapDataTable = {
     (void*)sSwitchFromFloor,
     (void*)sSwitchToRoom,
 
-    sFloorNames,
+    sFloorID,
     sSkullFloorIconY,
 };
