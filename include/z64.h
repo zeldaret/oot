@@ -1290,22 +1290,22 @@ typedef struct PreNMIContext {
 } PreNMIContext; // size = 0xAC
 
 typedef enum {
-    F_8F = 1,
-    F_7F = 2,
-    F_6F = 3,
-    F_5F = 4,
-    F_4F = 5,
-    F_3F = 6,
-    F_2F = 7,
-    F_1F = 8,
-    F_B1 = 9,
-    F_B2 = 10,
-    F_B3 = 11,
-    F_B4 = 12,
-    F_B5 = 13,
-    F_B6 = 14,
-    F_B7 = 15,
-    F_B8 = 16
+    /*  1 */ F_8F = 1,
+    /*  2 */ F_7F,
+    /*  3 */ F_6F,
+    /*  4 */ F_5F,
+    /*  5 */ F_4F,
+    /*  6 */ F_3F,
+    /*  7 */ F_2F,
+    /*  8 */ F_1F,
+    /*  9 */ F_B1,
+    /* 10 */ F_B2,
+    /* 11 */ F_B3,
+    /* 12 */ F_B4,
+    /* 13 */ F_B5,
+    /* 14 */ F_B6,
+    /* 15 */ F_B7,
+    /* 16 */ F_B8,
 } FloorID;
 
 // All arrays pointed in this struct are indexed by "map indexes"
