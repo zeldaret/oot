@@ -422,33 +422,86 @@ typedef struct {
 } Demo1; // size = 0x18
 
 typedef struct {
-    char unk_00[0xC];
-    s32 unk_0C;
-    f32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ s32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ s16 unk_14;
+    /* 0x0016 */ s16 unk_16;
+    /* 0x0018 */ s16 unk_18;
+    /* 0x001A */ s16 unk_1A;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ s16 unk_20;
+    /* 0x0022 */ s16 unk_22;
+    /* 0x0024 */ s16 unk_24;
+    /* 0x0026 */ s16 unk_26;
+    /* 0x0028 */ s16 unk_28;
+    /* 0x002A */ s16 unk_2A;
+} Normal3_Unk20; // size = 0x2C
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04; // distance
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14; // fov
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ s16 unk_1C; // theta
+    /* 0x001E */ s16 unk_1E;
+    /* 0x0020 */ Normal3_Unk20 unk_20;
+} Normal3; // size = 0x4C
+
+typedef struct {
+    Vec3f unk_00;
+    Vec3f unk_0C;
+    f32 unk_18;
     f32 unk_1C;
-    f32 unk_20;
-    s16 unk_24;
-    s16 unk_26;
+    s16 unk_20;
+    s16 unk_22;
+    f32 unk_24;
     s16 unk_28;
-    s16 unk_2A;
-} Normal3_Unk20;
+} Normal2_20;
+
+typedef struct {
+    Vec3f unk_00;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    s16 unk_1C;
+    s16 unk_1E;
+    Normal2_20 unk_20;
+} Normal2;
+
+typedef struct {
+    Vec3f eye;
+    Vec3s rot;
+    char unk_12[0xA];
+    s16 fov;
+    s16 jfifId;
+} Data4_InitParams;
 
 typedef struct {
     f32 unk_00;
-    f32 unk_04; // distance
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14; // fov
-    f32 unk_18;
-    s16 unk_1C; // theta
-    s16 unk_1E;
-    Normal3_Unk20 unk_20;
-} Normal3;
+    f32 fov;
+    s16 unk_08;
+    Data4_InitParams initParams;
+} Data4;
+
+typedef struct {
+    s16 unk_00;
+    Vec3f unk_04;
+    char unk_10[0x18];
+    f32 unk_28;
+} Subj4;
+
+typedef struct {
+    s16 unk_00;
+} Unique6;
+
+typedef struct {
+    s16 unk_00;
+} Special4;
 
 typedef union {
     char data[0x50];
@@ -459,10 +512,15 @@ typedef union {
     Special0 spec0;
     Demo1 demo1;
     Normal3 normal3;
-} camera_unk_00;
+    Normal2 normal2;
+    Data4 data4;
+    Subj4 subj4;
+    Unique6 uniq6;
+    Special4 spec4;
+} CameraParams;
 
 typedef struct {
-    /* 0x0000 */ camera_unk_00 unk_00;
+    /* 0x0000 */ CameraParams params;
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
     /* 0x0068 */ Vec3f unk_68;
@@ -503,7 +561,7 @@ typedef struct {
     /* 0x0148 */ s16 camDataIdx;
     /* 0x014A */ s16 unk_14A; // unknown if used
     /* 0x014C */ s16 unk_14C;
-    /* 0x014E */ s16 unk_14E;
+    /* 0x014E */ s16 childCamIdx;
     /* 0x0150 */ s16 unk_150; // unknown if used
     /* 0x0152 */ s16 unk_152;
     /* 0x0154 */ u16 unk_154; // appears to be some clone of setting?
@@ -513,8 +571,8 @@ typedef struct {
     /* 0x015C */ s16 paramFlags;
     /* 0x015E */ s16 unk_15E;
     /* 0x0160 */ s16 unk_160;
-    /* 0x0162 */ s16 unk_162;
-    /* 0x0164 */ s16 unk_164;
+    /* 0x0162 */ s16 parentCamIdx;
+    /* 0x0164 */ s16 thisIdx;
     /* 0x0166 */ s16 unk_166; // unknown if used
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 unk_16A; // unknown if used

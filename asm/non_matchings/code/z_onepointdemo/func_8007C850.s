@@ -2571,7 +2571,7 @@ glabel L8007E5A0
 /* AF5750 8007E5B0 0C03021D */  jal   func_800C0874
 /* AF5754 8007E5B4 AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF5758 8007E5B8 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF575C 8007E5BC 0C016911 */  jal   func_8005A444
+/* AF575C 8007E5BC 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AF5760 8007E5C0 00002825 */   move  $a1, $zero
 /* AF5764 8007E5C4 02402025 */  move  $a0, $s2
 /* AF5768 8007E5C8 8FA500F4 */  lw    $a1, 0xf4($sp)
@@ -3463,7 +3463,7 @@ glabel L8007F31C
 /* AF64E0 8007F340 0C030202 */  jal   func_800C0808
 /* AF64E4 8007F344 2407003C */   li    $a3, 60
 /* AF64E8 8007F348 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF64EC 8007F34C 0C016911 */  jal   func_8005A444
+/* AF64EC 8007F34C 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AF64F0 8007F350 00002825 */   move  $a1, $zero
 /* AF64F4 8007F354 10000319 */  b     .L8007FFBC
 /* AF64F8 8007F358 8FBF0044 */   lw    $ra, 0x44($sp)
@@ -3478,7 +3478,7 @@ glabel L8007F35C
 /* AF6518 8007F378 0C00B7D5 */  jal   func_8002DF54
 /* AF651C 8007F37C 24060008 */   li    $a2, 8
 /* AF6520 8007F380 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6524 8007F384 0C016911 */  jal   func_8005A444
+/* AF6524 8007F384 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AF6528 8007F388 00002825 */   move  $a1, $zero
 /* AF652C 8007F38C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6530 8007F390 00052C03 */  sra   $a1, $a1, 0x10
@@ -3499,7 +3499,7 @@ glabel L8007F3AC
 /* AF6568 8007F3C8 0C00B7D5 */  jal   func_8002DF54
 /* AF656C 8007F3CC 24060008 */   li    $a2, 8
 /* AF6570 8007F3D0 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6574 8007F3D4 0C016911 */  jal   func_8005A444
+/* AF6574 8007F3D4 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AF6578 8007F3D8 00002825 */   move  $a1, $zero
 /* AF657C 8007F3DC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6580 8007F3E0 00052C03 */  sra   $a1, $a1, 0x10
@@ -3520,7 +3520,7 @@ glabel L8007F3FC
 /* AF65B8 8007F418 0C00B7D5 */  jal   func_8002DF54
 /* AF65BC 8007F41C 24060008 */   li    $a2, 8
 /* AF65C0 8007F420 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF65C4 8007F424 0C016911 */  jal   func_8005A444
+/* AF65C4 8007F424 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AF65C8 8007F428 00002825 */   move  $a1, $zero
 /* AF65CC 8007F42C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF65D0 8007F430 00052C03 */  sra   $a1, $a1, 0x10
@@ -3541,7 +3541,7 @@ glabel L8007F44C
 /* AF6608 8007F468 0C00B7CE */  jal   func_8002DF38
 /* AF660C 8007F46C 24060008 */   li    $a2, 8
 /* AF6610 8007F470 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6614 8007F474 0C016911 */  jal   func_8005A444
+/* AF6614 8007F474 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AF6618 8007F478 00002825 */   move  $a1, $zero
 /* AF661C 8007F47C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6620 8007F480 00052C03 */  sra   $a1, $a1, 0x10
@@ -3562,7 +3562,7 @@ glabel L8007F49C
 /* AF6658 8007F4B8 0C00B7CE */  jal   func_8002DF38
 /* AF665C 8007F4BC 24060008 */   li    $a2, 8
 /* AF6660 8007F4C0 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6664 8007F4C4 0C016911 */  jal   func_8005A444
+/* AF6664 8007F4C4 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AF6668 8007F4C8 00002825 */   move  $a1, $zero
 /* AF666C 8007F4CC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6670 8007F4D0 00052C03 */  sra   $a1, $a1, 0x10

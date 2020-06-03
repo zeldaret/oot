@@ -148,7 +148,7 @@ QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx) {
 
     func_80106860(req, 0, sizeof(QuakeRequest)); // memset
     req->cam = cam;
-    req->camPtrIdx = cam->unk_164;
+    req->camPtrIdx = cam->thisIdx;
     req->callbackIdx = callbackIdx;
     req->unk_1C = 1;
     req->randIdx = ((s16)(Math_Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
@@ -335,8 +335,8 @@ s16 Quake_Calc(Camera* camera, UnkQuakeCalcStruct* camData) {
                              req->camPtrIdx);
                 Quake_Remove(req);
             } else {
-                temp = &camera->unk_164;
-                eq = req->cam->unk_164 != *temp;
+                temp = &camera->thisIdx;
+                eq = req->cam->thisIdx != *temp;
                 absSpeedDiv = ABS(req->speed) / (f32)0x8000;
                 if (sQuakeCallbacks[req->callbackIdx](req, &shake) == 0) {
                     Quake_Remove(req);

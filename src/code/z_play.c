@@ -223,11 +223,11 @@ void Gameplay_Init(GlobalContext* globalCtx) {
         globalCtx->cameraPtrs[i] = NULL;
     }
 
-    func_80057C6C(&globalCtx->cameras[0], &globalCtx->view, &globalCtx->colCtx, globalCtx);
+    Camera_Init(&globalCtx->cameras[0], &globalCtx->view, &globalCtx->colCtx, globalCtx);
     Camera_ChangeStatus(&globalCtx->cameras[0], 7);
 
     for (i = 0; i < 3; i++) {
-        func_80057C6C(&globalCtx->cameras[i + 1], &globalCtx->view, &globalCtx->colCtx, globalCtx);
+        Camera_Init(&globalCtx->cameras[i + 1], &globalCtx->view, &globalCtx->colCtx, globalCtx);
         Camera_ChangeStatus(&globalCtx->cameras[i + 1], 0x100);
     }
 
@@ -386,7 +386,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     player = PLAYER;
     func_80058148(&globalCtx->cameras[0], player);
-    func_8005A444(&globalCtx->cameras[0], 0);
+    Camera_ChangeModeDefaultFlags(&globalCtx->cameras[0], 0);
 
     playerStartCamId = player->actor.params & 0xFF;
     if (playerStartCamId != 0xFF) {
@@ -1541,8 +1541,8 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
                  i);
 
     globalCtx->cameraPtrs[i] = &globalCtx->cameras[i];
-    func_80057C6C(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-    globalCtx->cameraPtrs[i]->unk_164 = i;
+    Camera_Init(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
+    globalCtx->cameraPtrs[i]->thisIdx = i;
 
     return i;
 }
@@ -1720,7 +1720,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 
     if (arg2 <= 0) {
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
-        globalCtx->cameraPtrs[0]->unk_14E = globalCtx->cameraPtrs[0]->unk_162 = 0;
+        globalCtx->cameraPtrs[0]->childCamIdx = globalCtx->cameraPtrs[0]->parentCamIdx = 0;
     } else {
         func_800800F8(globalCtx, 1020, arg2, NULL, 0);
     }

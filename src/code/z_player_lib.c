@@ -249,7 +249,7 @@ void func_8008EEAC(GlobalContext* globalCtx, UNK_PTR arg1) {
     player->unk_684 = arg1;
     player->stateFlags1 |= 0x10000;
     Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, arg1);
-    func_8005A444(Gameplay_GetCamera(globalCtx, 0), 2);
+    Camera_ChangeModeDefaultFlags(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EEAC.s")

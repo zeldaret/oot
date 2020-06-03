@@ -8,7 +8,7 @@ glabel D_8013A3F4
     .float 0.01
 
 .text
-glabel func_80057C6C
+glabel Camera_Init
 /* ACEE0C 80057C6C 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* ACEE10 80057C70 AFBF001C */  sw    $ra, 0x1c($sp)
 /* ACEE14 80057C74 AFB00018 */  sw    $s0, 0x18($sp)

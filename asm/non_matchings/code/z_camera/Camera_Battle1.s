@@ -483,7 +483,7 @@ glabel Camera_Battle1
 .L8004BB40:
 /* AC2CE0 8004BB40 AE0000A8 */  sw    $zero, 0xa8($s0)
 /* AC2CE4 8004BB44 02002025 */  move  $a0, $s0
-/* AC2CE8 8004BB48 0C016911 */  jal   func_8005A444
+/* AC2CE8 8004BB48 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AC2CEC 8004BB4C 24050001 */   li    $a1, 1
 /* AC2CF0 8004BB50 100002A3 */  b     .L8004C5E0
 /* AC2CF4 8004BB54 24020001 */   li    $v0, 1
@@ -524,7 +524,7 @@ glabel Camera_Battle1
 /* AC2D70 8004BBD0 248491E4 */   addiu $a0, %lo(D_801391E4)
 /* AC2D74 8004BBD4 AE0000A8 */  sw    $zero, 0xa8($s0)
 /* AC2D78 8004BBD8 02002025 */  move  $a0, $s0
-/* AC2D7C 8004BBDC 0C016911 */  jal   func_8005A444
+/* AC2D7C 8004BBDC 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AC2D80 8004BBE0 24050001 */   li    $a1, 1
 /* AC2D84 8004BBE4 1000027E */  b     .L8004C5E0
 /* AC2D88 8004BBE8 24020001 */   li    $v0, 1

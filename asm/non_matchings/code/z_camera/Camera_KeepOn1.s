@@ -87,7 +87,7 @@ glabel Camera_KeepOn1
 .L8004CAB4:
 /* AC3C54 8004CAB4 AE0000A8 */  sw    $zero, 0xa8($s0)
 /* AC3C58 8004CAB8 02002025 */  move  $a0, $s0
-/* AC3C5C 8004CABC 0C016911 */  jal   func_8005A444
+/* AC3C5C 8004CABC 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* AC3C60 8004CAC0 24050001 */   li    $a1, 1
 /* AC3C64 8004CAC4 100003BA */  b     .L8004D9B0
 /* AC3C68 8004CAC8 24020001 */   li    $v0, 1

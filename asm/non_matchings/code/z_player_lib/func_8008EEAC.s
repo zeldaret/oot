@@ -26,7 +26,7 @@ glabel func_8008EEAC
 /* B060AC 8008EF0C 0C030129 */  jal   Gameplay_GetCamera
 /* B060B0 8008EF10 00002825 */   move  $a1, $zero
 /* B060B4 8008EF14 00402025 */  move  $a0, $v0
-/* B060B8 8008EF18 0C016911 */  jal   func_8005A444
+/* B060B8 8008EF18 0C016911 */  jal   Camera_ChangeModeDefaultFlags
 /* B060BC 8008EF1C 24050002 */   li    $a1, 2
 /* B060C0 8008EF20 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B060C4 8008EF24 27BD0020 */  addiu $sp, $sp, 0x20

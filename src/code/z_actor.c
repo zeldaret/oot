@@ -2896,7 +2896,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
-        func_8005A444(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
+        Camera_ChangeModeDefaultFlags(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
     }
 
     if (actor == actorCtx->targetCtx.arrowPointedActor) {
