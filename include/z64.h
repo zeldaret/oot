@@ -618,11 +618,15 @@ typedef struct {
 } SubMessageContext_E2B8; // some kind of audio info?
 
 typedef struct {
+    u32 offset;
+    u32 size;
+    u8 xy;
+} MessageData;
+
+typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ u32    unk_128;
-    /* 0x012C */ u32    unk_12C;
-    /* 0x0130 */ u8     unk_130;
-    /* 0x0128 */ char   unk_131[0xE0A7];
+    /* 0x0128 */ MessageData unk_128;
+    /* 0x0134 */ char   unk_134[0xE0A4];
     /* 0xE1D8 */ s32    unk_E1D8;
     /* 0xE1DC */ u8     unk_E1DC;
     /* 0xE1DD */ char   unk_E1DD[0xC9];
@@ -647,7 +651,7 @@ typedef struct {
     /* 0xE2E4 */ char   unk_E2E4[0x14];
     /* 0xE2FA */ u16    unk_E2F8;
     /* 0xE2FA */ u16    unk_E2FA;
-    /* 0xE2FC */ char   unk_E2FC[0x01]; // original name : msg_disp_type
+    /* 0xE2FC */ u8     unk_E2FC; // original name : msg_disp_type
     /* 0xE2FD */ u8     unk_E2FD;
     /* 0xE2FE */ char   unk_E2FE[0x02];
     /* 0xE300 */ s32    unk_E300; // original name : msg_data

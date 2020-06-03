@@ -1,6 +1,8 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define NON_CONST(x, type) (*(type*)(&x))
+
 //#pragma GLOBAL_ASM("asm/non_matchings/code/code_80110450/func_80110450.s")
 void func_80110450(GlobalContext* globalCtx) {
     globalCtx->unk_10A20 = 0;
@@ -18,7 +20,7 @@ void func_80110460(GlobalContext* globalCtx) {
 // void func_801104C8(GlobalContext* globalCtx);
 // Needs jtbl
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_80110450/func_801104C8.s")
-/* void func_801104C8(GlobalContext* globalCtx) {
+/*void func_801104C8(GlobalContext* globalCtx) {
     static const s16 D_80153D80 = 0;
 
     s16 *temp_s1;
@@ -45,10 +47,10 @@ void func_80110460(GlobalContext* globalCtx) {
             gSaveContext.timer1State = 0;
             gSaveContext.timer2State = 0;
             gSaveContext.eventInf[1] &= 0xFFFE;
-            for (i = 0; i < 3; i++) { // search for spoiling items
+            for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) { // search for spoiling items
                 if (INV_CONTENT(ITEM_POCKET_EGG) == gSpoilingItems[i]) {
                     INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i]; // if a spoiling item is found, revert it
-                    for (j = 1; j < 4; j++) { // search c buttons for the found spoiling item
+                    for (j = 1; j < ARRAY_COUNT(gSaveContext.equips.buttonItems); j++) { // search c buttons for the found spoiling item
                         if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
                             gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i]; // if found on a c button, revert it
                             Interface_LoadItemIcon1(globalCtx, j);
@@ -61,7 +63,7 @@ void func_80110460(GlobalContext* globalCtx) {
                 gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER && 
                 gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS && 
                 gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE) {
-                if (gSaveContext.buttonStatus[0] != 0) {
+                if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
                     gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 } else {
                     gSaveContext.equips.buttonItems[0] = ITEM_NONE;
