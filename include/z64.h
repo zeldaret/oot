@@ -1305,7 +1305,7 @@ typedef enum {
     /* 13 */ F_B5,
     /* 14 */ F_B6,
     /* 15 */ F_B7,
-    /* 16 */ F_B8,
+    /* 16 */ F_B8
 } FloorID;
 
 // All arrays pointed in this struct are indexed by "map indexes"
