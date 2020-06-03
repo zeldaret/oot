@@ -212,7 +212,7 @@ glabel Camera_Unique0
 /* AC9900 80052760 01C37824 */  and   $t7, $t6, $v1
 /* AC9904 80052764 55E00098 */  bnezl $t7, .L800529C8
 /* AC9908 80052768 8FBF001C */   lw    $ra, 0x1c($sp)
-/* AC990C 8005276C 0C01F00A */  jal   OLib_XZDist
+/* AC990C 8005276C 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* AC9910 80052770 AFA60034 */   sw    $a2, 0x34($sp)
 /* AC9914 80052774 3C014120 */  li    $at, 0x41200000 # 0.000000
 /* AC9918 80052778 44814000 */  mtc1  $at, $f8

@@ -1018,7 +1018,7 @@ void PreNmiBuff_SetReset(PreNmiBuff* this);
 u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
 void MsgEvent_SendNullTask();
 f32 OLib_Vec3fDist(Vec3f*, Vec3f*);
-// ? OLib_XZDist(?);
+// ? OLib_Vec3fDistXZ(?);
 // ? func_8007C058(?);
 // ? func_8007C0A8(?);
 // ? OLib_Vec3fDistNormalize(?);

@@ -2242,7 +2242,7 @@ s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     }
 
     sp48 = temp_s1->pos.y - *arg3;
-    temp_ret = Math_atan2f(sp48, OLib_XZDist(&camera->at, &camera->eye)); // f2 and f14 are swapped
+    temp_ret = Math_atan2f(sp48, OLib_Vec3fDistXZ(&camera->at, &camera->eye)); // f2 and f14 are swapped
 
     if (OREG(32) * (M_PI / 180) < temp_ret) {
         phi_f2 = 1.0f - sinf(temp_ret - OREG(32) * (M_PI / 180));

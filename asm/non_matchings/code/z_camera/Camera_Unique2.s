@@ -225,7 +225,7 @@ glabel Camera_Unique2
 /* AC8FE4 80051E44 11A00029 */  beqz  $t5, .L80051EEC
 /* AC8FE8 80051E48 02202025 */   move  $a0, $s1
 /* AC8FEC 80051E4C 26050074 */  addiu $a1, $s0, 0x74
-/* AC8FF0 80051E50 0C01F00A */  jal   OLib_XZDist
+/* AC8FF0 80051E50 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* AC8FF4 80051E54 AFA50034 */   sw    $a1, 0x34($sp)
 /* AC8FF8 80051E58 C6040004 */  lwc1  $f4, 4($s0)
 /* AC8FFC 80051E5C 8FA60034 */  lw    $a2, 0x34($sp)

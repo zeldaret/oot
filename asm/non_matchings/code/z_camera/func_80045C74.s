@@ -134,7 +134,7 @@ glabel func_80045C74
 /* ABCFA4 80045E04 AFA8003C */  sw    $t0, 0x3c($sp)
 /* ABCFA8 80045E08 AFA40040 */  sw    $a0, 0x40($sp)
 /* ABCFAC 80045E0C 2605005C */  addiu $a1, $s0, 0x5c
-/* ABCFB0 80045E10 0C01F00A */  jal   OLib_XZDist
+/* ABCFB0 80045E10 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* ABCFB4 80045E14 46045501 */   sub.s $f20, $f10, $f4
 /* ABCFB8 80045E18 4600A306 */  mov.s $f12, $f20
 /* ABCFBC 80045E1C 46000386 */  mov.s $f14, $f0
@@ -188,7 +188,7 @@ glabel func_80045C74
 /* ABD06C 80045ECC C5260000 */  lwc1  $f6, ($t1)
 /* ABD070 80045ED0 AFA8003C */  sw    $t0, 0x3c($sp)
 /* ABD074 80045ED4 AFA40040 */  sw    $a0, 0x40($sp)
-/* ABD078 80045ED8 0C01F00A */  jal   OLib_XZDist
+/* ABD078 80045ED8 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* ABD07C 80045EDC 46062501 */   sub.s $f20, $f4, $f6
 /* ABD080 80045EE0 4600A306 */  mov.s $f12, $f20
 /* ABD084 80045EE4 0C03F494 */  jal   Math_atan2f
