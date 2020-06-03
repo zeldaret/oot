@@ -917,7 +917,9 @@ void func_80B56D44(EnZl3* this, GlobalContext* globalCtx) {
     func_80B564A8(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B56DA4.s")
+void func_80B56DA4(s32 arg0) {
+    func_800788CC(NA_SE_EV_ZELDA_POWER);
+}
 
 void func_80B56DC8(EnZl3* this) {
     func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_PAIN);
@@ -980,6 +982,12 @@ s32 func_80B56F8C(EnZl3* this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57104.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B571A8.s")
+/*s32 func_80B571A8(EnZl3 *this) {
+    if (func_80B56F8C(this, this->unk_314 + 1) == 0) {
+        return this->actor.shape.rot.y;
+    }
+    return func_80B57034(this, this->unk_314);
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B571FC.s")
 /*s32 func_80B571FC(EnZl3 *this) {
@@ -1000,7 +1008,7 @@ void func_80B57240(EnZl3* this) {
 
 void func_80B57298(EnZl3* this) {
     s16* rotY = &this->actor.posRot.rot.y;
-    s32 temp_a1 = func_80B571A8();
+    s32 temp_a1 = func_80B571A8(this);
 
     Math_SmoothScaleMaxMinS(rotY, temp_a1, 2, 6400, 1000);
     this->actor.shape.rot.y = *rotY;
@@ -1051,7 +1059,18 @@ s32 func_80B573C8(EnZl3* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B575D0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B575F0.s")
+s32 func_80B575F0(EnZl3* this, GlobalContext* globalCtx) {
+    s16 sceneNum = globalCtx->sceneNum;
+    s32 unk_314;
+
+    if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
+        unk_314 = this->unk_314;
+        if (unk_314 == 1) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5764C.s")
 
@@ -1063,6 +1082,10 @@ s32 func_80B573C8(EnZl3* this, GlobalContext* globalCtx) {
 }*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5772C.s")
+/*
+void func_80B5772C(EnZl3 *this, GlobalContext *globalCtx) {
+    Flags_UnsetSwitch(globalCtx, this->unk_3C4);
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57754.s")
 
@@ -1131,9 +1154,8 @@ void func_80B57EEC(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B57F1C(EnZl3* this, GlobalContext* globalCtx) {
-    EnZl3* temp_a0 = this;
     if (func_80B57D80(this) == 0) {
-        func_80B54E14(temp_a0, &D_06009BE4, 0, -8.0f, 0);
+        func_80B54E14(this, &D_06009BE4, 0, -8.0f, 0);
         this->action = 34;
         this->unk_314 -= 1;
         func_80B57AE0(this, globalCtx);
@@ -1221,19 +1243,19 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B58624(EnZl3* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58624.s")
 
-void func_80B5884C(EnZl3 *this, s32 arg1) {
+void func_80B5884C(EnZl3* this, s32 arg1) {
     func_80B54E14(this, &D_060038C0, 2, -8.0f, 0);
     this->action = 37;
     this->unk_36C = 1;
 }
 
-void func_80B58898(EnZl3 *this, s32 arg1) {
+void func_80B58898(EnZl3* this, s32 arg1) {
     func_80B54E14(this, &D_060038C0, 2, -8.0f, 1);
     this->action = 38;
     this->unk_374 = 1;
 }
 
-void func_80B588E8(EnZl3 *this, s32 arg1) {
+void func_80B588E8(EnZl3* this, s32 arg1) {
     func_80B54E14(this, &D_06009BE4, 0, -8.0f, 0);
     func_80B57AE0(this, arg1);
     this->action = 39;
