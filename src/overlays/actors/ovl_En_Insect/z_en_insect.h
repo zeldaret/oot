@@ -3,6 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
+#include "../ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
 struct EnInsect;
 
@@ -19,7 +20,7 @@ typedef struct EnInsect {
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
     /* 0x031E */ char unk_31E[0x002];
-    /* 0x0320 */ UNK_PTR unk_320;
+    /* 0x0320 */ ObjMakekinsuta* soilActor;
     /* 0x031E */ char unk_324[0x008];
 } EnInsect; // size = 0x032C
 

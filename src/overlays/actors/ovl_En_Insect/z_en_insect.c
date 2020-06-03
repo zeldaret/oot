@@ -64,17 +64,44 @@ void func_80A7BE20(EnInsect* this)
 
 f32 func_80A7BE40(Vec3f* v1, Vec3f* v2)
 {
-    return (v1->x - v2->x) * (v1->x - v2->x) + (v1->z - v2->z) * (v1->z - v2->z);
+    return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7BE6C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7BF58.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7BFA0.s")
-// s32 func_80A7BFA0(EnInsect* this, GlobalContext* globalCtx) {
+/**
+ * Find the nearest soft dirt patch within 6400 units in the xz plane and the current room
+ * Returns 1 if one was found, 0 otherwise
+ */
+s32 func_80A7BFA0(EnInsect* this, GlobalContext* globalCtx) {
+    Actor* currentActor;
+    f32 currentDistance;
+    f32 bestDistance;
+    s32 ret;
 
-// }
+    ret = 0;
+    currentActor = globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
+    bestDistance = 6400.0f;
+    this->soilActor = NULL;
+
+    while (currentActor != NULL) {
+        if (currentActor->id == ACTOR_OBJ_MAKEKINSUTA) {
+            currentDistance = func_800CB594(this->actor.posRot.pos.x, this->actor.posRot.pos.z, currentActor->posRot.pos.x, currentActor->posRot.pos.z);
+
+            if (currentDistance < bestDistance) {
+                if (currentActor->room == this->actor.room) {
+                    ret = 1;
+                    bestDistance = currentDistance;
+                    this->soilActor = (ObjMakekinsuta*) currentActor;
+                }
+            }
+        }
+        currentActor = currentActor->next;
+    }
+    return ret;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C058.s")
 
@@ -116,7 +143,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx)
 
             for (count = 0; count < 2; count++)
             {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, 32, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 3);
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 3);
                 if (globalCtx) {}
             }
         }
@@ -199,9 +226,9 @@ void EnInsect_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 //     }
 //     if (this->unk_31A <= 0) {
 //         if (this->unk_314 & 0x10) {
-//             if (this->unk_320 != NULL) {
-//                 if (func_800CB650(this->unk320 + 0x24, (Vec3f *) &this->actor.posRot) < 64.0f) {
-//                     this->unk320->unk152 = (u16)1;
+//             if (this->soilActor != NULL) {
+//                 if (func_800CB650(this->soilActor + 0x24, (Vec3f *) &this->actor.posRot) < 64.0f) {
+//                     this->soilActor->unk_152 = (u16)1;
 //                 }
 //             }
 //         }
