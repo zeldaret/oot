@@ -1339,7 +1339,7 @@ typedef struct {
     /* 0x60 */ u8  (*switchFromFloor)[51]; // floor to come from
     /* 0x64 */ u8  (*switchToRoom)[51]; // room to go to
     /* 0x68 */ u8  (*floorID)[8];
-    /* 0x6C */ s16 *skullFloorIconY; // Y coord of big skull icon on map screen
+    /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
 
 typedef struct {
