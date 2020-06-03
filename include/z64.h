@@ -1289,6 +1289,25 @@ typedef struct PreNMIContext {
     /* 0xA8 */ UNK_TYPE unk_A8;
 } PreNMIContext; // size = 0xAC
 
+typedef enum {
+    /*  1 */ F_8F = 1,
+    /*  2 */ F_7F,
+    /*  3 */ F_6F,
+    /*  4 */ F_5F,
+    /*  5 */ F_4F,
+    /*  6 */ F_3F,
+    /*  7 */ F_2F,
+    /*  8 */ F_1F,
+    /*  9 */ F_B1,
+    /* 10 */ F_B2,
+    /* 11 */ F_B3,
+    /* 12 */ F_B4,
+    /* 13 */ F_B5,
+    /* 14 */ F_B6,
+    /* 15 */ F_B7,
+    /* 16 */ F_B8
+} FloorID;
+
 // All arrays pointed in this struct are indexed by "map indexes"
 // In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
 // In overworld areas, the map index corresponds to the overworld area index (spot 00, 01, etc)
@@ -1319,8 +1338,8 @@ typedef struct {
     /* 0x5C */ u8  (*switchFromRoom)[51]; // room to come from
     /* 0x60 */ u8  (*switchFromFloor)[51]; // floor to come from
     /* 0x64 */ u8  (*switchToRoom)[51]; // room to go to
-    /* 0x68 */ UNK_PTR unk_68;
-    /* 0x6C */ UNK_PTR unk_6C;
+    /* 0x68 */ u8  (*floorID)[8];
+    /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
 
 typedef struct {
