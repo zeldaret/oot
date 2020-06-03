@@ -707,20 +707,22 @@ u8 D_80125594[512] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-u8 D_80125794[80] = {
-    0x00, 0x00, 0x00, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x07, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x09,
-    0x00, 0x00, 0x00, 0x00, 0x07, 0x08, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x04,
-    0x05, 0x06, 0x07, 0x08, 0x00, 0x00, 0x00, 0x00, 0x06, 0x07, 0x08, 0x09,
-    0x00, 0x00, 0x00, 0x00, 0x05, 0x06, 0x07, 0x08, 0x00, 0x00, 0x00, 0x00,
-    0x09, 0x0A, 0x0B, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x09, 0x0A, 0x0B,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08
+static u8 floorNames[10][8] = {
+   {0,    0,    0, F_3F, F_2F, F_1F, F_B1, F_B2},
+   {0,    0,    0,    0,    0,    0, F_2F, F_1F},
+   {0,    0,    0,    0,    0,    0, F_1F, F_B1},
+   {0,    0,    0,    0, F_2F, F_1F, F_B1, F_B2},
+   {0,    0,    0, F_5F, F_4F, F_3F, F_2F, F_1F},
+   {0,    0,    0,    0, F_3F, F_2F, F_1F, F_B1},
+   {0,    0,    0,    0, F_4F, F_3F, F_2F, F_1F},
+   {0,    0,    0,    0, F_B1, F_B2, F_B3, F_B4},
+   {0,    0,    0,    0,    0, F_B1, F_B2, F_B3},
+   {0,    0,    0,    0,    0,    0,    0, F_1F}
 };
 
-/* Which floor has the skull symbol on the dungeon map, for each
-   of the 10 dungeons.
-   -99 if no dungeon map, otherwise (-14 * FloorNumber + 51) */
-s16 gMapDataSkullFloorTable[10] = {
+/* Y coord of big skull icon on map screen, relative to center of screen.
+   -99 if no dungeon map, otherwise (51 - 14 * FloorNumber) */
+static s16 skullFloorIconY[10] = {
     -47,
     -47,
     -33,
@@ -761,6 +763,6 @@ MapData gMapDataTable = {
     (void*)D_80125194,
     (void*)D_80125394,
     (void*)D_80125594,
-    (void*)D_80125794,
-    gMapDataSkullFloorTable
+    floorNames,
+    skullFloorIconY
 };
