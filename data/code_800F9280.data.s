@@ -30,7 +30,6 @@ glabel D_80133414
 glabel D_80133418
     .incbin "baserom.z64", 0xBAA5B8, 0x8
 
-####
 glabel D_80133420
     .incbin "baserom.z64", 0xBAA5C0, 0x48
 
