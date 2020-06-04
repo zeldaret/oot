@@ -48,6 +48,7 @@
 #define R_FB_FILTER_ENV_COLOR(c)    SREG(85 + c)
 #define R_ENABLE_FB_FILTER          SREG(88)
 #define R_PAUSE_MENU_MODE           SREG(94)
+#define R_RELOAD_CAM_PARAMS         QREG(0)
 #define R_C_UP_ICON_X               YREG(88)
 #define R_C_UP_ICON_Y               YREG(89)
 #define R_MAGIC_FILL_COLOR(i)       ZREG(0 + i)

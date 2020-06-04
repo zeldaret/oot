@@ -503,6 +503,18 @@ typedef struct {
     s16 unk_00;
 } Special4;
 
+typedef struct {
+    Vec3s rot;
+    s16 fov;
+    s16 jfifId;
+    s16 unk_0A;
+} Fixed3_InitParams;
+
+typedef struct {
+    s16 unk_00;
+    Fixed3_InitParams initParams;
+} Fixed3;
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -517,6 +529,7 @@ typedef union {
     Subj4 subj4;
     Unique6 uniq6;
     Special4 spec4;
+    Fixed3 fixd3;
 } CameraParams;
 
 typedef struct {
