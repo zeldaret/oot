@@ -1,4 +1,4 @@
-glabel func_808262B8
+glabel KaleidoScope_Draw
 /* 12A98 808262B8 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 12A9C 808262BC AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 12AA0 808262C0 AFB10018 */  sw      $s1, 0x0018($sp)           
