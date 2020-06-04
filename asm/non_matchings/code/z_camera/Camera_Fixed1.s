@@ -144,7 +144,7 @@ glabel Camera_Fixed1
 /* AC6A1C 8004F87C 26060050 */  addiu $a2, $s0, 0x50
 /* AC6A20 8004F880 AFA60030 */  sw    $a2, 0x30($sp)
 /* AC6A24 8004F884 AFA50034 */  sw    $a1, 0x34($sp)
-/* AC6A28 8004F888 0C01F124 */  jal   func_8007C490
+/* AC6A28 8004F888 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC6A2C 8004F88C 27A40064 */   addiu $a0, $sp, 0x64
 /* AC6A30 8004F890 3C018014 */  lui   $at, %hi(D_8013A178)
 /* AC6A34 8004F894 C420A178 */  lwc1  $f0, %lo(D_8013A178)($at)
@@ -169,7 +169,7 @@ glabel Camera_Fixed1
 /* AC6A80 8004F8E0 AFA2002C */  sw    $v0, 0x2c($sp)
 /* AC6A84 8004F8E4 8FA50034 */  lw    $a1, 0x34($sp)
 /* AC6A88 8004F8E8 46105480 */  add.s $f18, $f10, $f16
-/* AC6A8C 8004F8EC 0C01EFE4 */  jal   func_8007BF90
+/* AC6A8C 8004F8EC 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC6A90 8004F8F0 E7B20058 */   swc1  $f18, 0x58($sp)
 /* AC6A94 8004F8F4 E60000DC */  swc1  $f0, 0xdc($s0)
 /* AC6A98 8004F8F8 E7A0006C */  swc1  $f0, 0x6c($sp)

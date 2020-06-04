@@ -330,7 +330,7 @@ beginseg
     include "build/src/code/z_moji.o"
     include "build/src/code/z_prenmi_buff.o"
     include "build/src/code/z_msgevent.o"
-    include "build/src/code/code_8007BF90.o"
+    include "build/src/code/z_olib.o"
     include "build/src/code/z_onepointdemo.o"
     include "build/data/z_onepointdemo.data.o"
     include "build/src/code/z_map_exp.o"

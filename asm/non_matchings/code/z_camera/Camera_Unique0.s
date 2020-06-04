@@ -145,7 +145,7 @@ glabel Camera_Unique0
 /* AC9804 80052664 01495821 */  addu  $t3, $t2, $t1
 /* AC9808 80052668 A4EB000C */  sh    $t3, 0xc($a3)
 .L8005266C:
-/* AC980C 8005266C 0C01EFE4 */  jal   func_8007BF90
+/* AC980C 8005266C 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC9810 80052670 AFA7002C */   sw    $a3, 0x2c($sp)
 /* AC9814 80052674 87AD005C */  lh    $t5, 0x5c($sp)
 /* AC9818 80052678 8FA7002C */  lw    $a3, 0x2c($sp)
@@ -155,7 +155,7 @@ glabel Camera_Unique0
 /* AC9828 80052688 A7AE006C */  sh    $t6, 0x6c($sp)
 /* AC982C 8005268C 27A50068 */  addiu $a1, $sp, 0x68
 /* AC9830 80052690 24E4001C */  addiu $a0, $a3, 0x1c
-/* AC9834 80052694 0C01F097 */  jal   func_8007C25C
+/* AC9834 80052694 0C01F097 */  jal   OLib_VecSphRot90ToVec3f
 /* AC9838 80052698 A7AC006E */   sh    $t4, 0x6e($sp)
 /* AC983C 8005269C 8FA40024 */  lw    $a0, 0x24($sp)
 /* AC9840 800526A0 8FA50034 */  lw    $a1, 0x34($sp)
@@ -212,7 +212,7 @@ glabel Camera_Unique0
 /* AC9900 80052760 01C37824 */  and   $t7, $t6, $v1
 /* AC9904 80052764 55E00098 */  bnezl $t7, .L800529C8
 /* AC9908 80052768 8FBF001C */   lw    $ra, 0x1c($sp)
-/* AC990C 8005276C 0C01F00A */  jal   func_8007C028
+/* AC990C 8005276C 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* AC9910 80052770 AFA60034 */   sw    $a2, 0x34($sp)
 /* AC9914 80052774 3C014120 */  li    $at, 0x41200000 # 0.000000
 /* AC9918 80052778 44814000 */  mtc1  $at, $f8
@@ -251,7 +251,7 @@ glabel Camera_Unique0
 /* AC999C 800527FC 55E00072 */  bnezl $t7, .L800529C8
 /* AC99A0 80052800 8FBF001C */   lw    $ra, 0x1c($sp)
 .L80052804:
-/* AC99A4 80052804 0C01EFE4 */  jal   func_8007BF90
+/* AC99A4 80052804 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC99A8 80052808 2605005C */   addiu $a1, $s0, 0x5c
 /* AC99AC 8005280C 8FA20034 */  lw    $v0, 0x34($sp)
 /* AC99B0 80052810 E60000DC */  swc1  $f0, 0xdc($s0)
@@ -341,7 +341,7 @@ glabel Camera_Unique0
 /* AC9AF0 80052950 55E0001D */  bnezl $t7, .L800529C8
 /* AC9AF4 80052954 8FBF001C */   lw    $ra, 0x1c($sp)
 .L80052958:
-/* AC9AF8 80052958 0C01EFE4 */  jal   func_8007BF90
+/* AC9AF8 80052958 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC9AFC 8005295C AFA60034 */   sw    $a2, 0x34($sp)
 /* AC9B00 80052960 E60000DC */  swc1  $f0, 0xdc($s0)
 /* AC9B04 80052964 8FB80034 */  lw    $t8, 0x34($sp)

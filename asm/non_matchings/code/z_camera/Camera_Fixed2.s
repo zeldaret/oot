@@ -244,7 +244,7 @@ glabel Camera_Fixed2
 /* AC6EE8 8004FD48 8DAF0008 */  lw    $t7, 8($t5)
 /* AC6EEC 8004FD4C AD8F0008 */  sw    $t7, 8($t4)
 /* AC6EF0 8004FD50 8FA5003C */  lw    $a1, 0x3c($sp)
-/* AC6EF4 8004FD54 0C01EFE4 */  jal   func_8007BF90
+/* AC6EF4 8004FD54 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC6EF8 8004FD58 8FA40038 */   lw    $a0, 0x38($sp)
 /* AC6EFC 8004FD5C 44808000 */  mtc1  $zero, $f16
 /* AC6F00 8004FD60 E60000DC */  swc1  $f0, 0xdc($s0)

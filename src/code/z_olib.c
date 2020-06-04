@@ -1,9 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-Vec3f* func_8007C1AC(Vec3f* dest, VecSph* arg1);
-
-f32 func_8007BF90(Vec3f* a, Vec3f* b) {
+f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b) {
     f32 dx = a->x - b->x;
     f32 dy = a->y - b->y;
     f32 dz = a->z - b->z;
@@ -11,7 +9,7 @@ f32 func_8007BF90(Vec3f* a, Vec3f* b) {
     return sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 }
 
-f32 func_8007BFD0(Vec3f* a, Vec3f* b, Vec3f* dest) {
+f32 OLib_Vec3fDistOutDiff(Vec3f* a, Vec3f* b, Vec3f* dest) {
     dest->x = a->x - b->x;
     dest->y = a->y - b->y;
     dest->z = a->z - b->z;
@@ -19,7 +17,7 @@ f32 func_8007BFD0(Vec3f* a, Vec3f* b, Vec3f* dest) {
     return sqrtf(SQ(dest->x) + SQ(dest->y) + SQ(dest->z));
 }
 
-f32 func_8007C028(Vec3f* a, Vec3f* b) {
+f32 OLib_Vec3fDistXZ(Vec3f* a, Vec3f* b) {
     return sqrtf(SQ(a->x - b->x) + SQ(a->z - b->z));
 }
 
@@ -31,7 +29,7 @@ f32 func_8007C0A8(f32 arg0, f32 arg1) {
     return (fabsf(arg0) <= arg1) ? arg0 : ((arg0 >= 0) ? arg1 : -arg1);
 }
 
-Vec3f* func_8007C0F8(Vec3f* dest, Vec3f* a, Vec3f* b) {
+Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
     Vec3f v1;
     Vec3f v2;
     f32 temp;
@@ -51,93 +49,93 @@ Vec3f* func_8007C0F8(Vec3f* dest, Vec3f* a, Vec3f* b) {
     return dest;
 }
 
-Vec3f* func_8007C1AC(Vec3f* dest, VecSph* arg1) {
+Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     Vec3f v;
-    f32 sin4;
-    f32 cos4;
-    f32 sin6;
-    f32 cos6;
+    f32 sinPhi;
+    f32 cosPhi;
+    f32 sinTheta;
+    f32 cosTheta;
 
-    cos4 = Math_Coss(arg1->phi);
-    cos6 = Math_Coss(arg1->theta);
-    sin4 = Math_Sins(arg1->phi);
-    sin6 = Math_Sins(arg1->theta);
+    cosPhi = Math_Coss(sph->phi);
+    cosTheta = Math_Coss(sph->theta);
+    sinPhi = Math_Sins(sph->phi);
+    sinTheta = Math_Sins(sph->theta);
 
-    v.x = arg1->r * sin4 * sin6;
-    v.y = arg1->r * cos4;
-    v.z = arg1->r * sin4 * cos6;
+    v.x = sph->r * sinPhi * sinTheta;
+    v.y = sph->r * cosPhi;
+    v.z = sph->r * sinPhi * cosTheta;
 
     *dest = v;
 
     return dest;
 }
 
-void func_8007C25C(Vec3f* dest, VecSph* arg1) {
-    VecSph var;
+void OLib_VecSphRot90ToVec3f(Vec3f* dest, VecSph* sph) {
+    VecSph src;
 
-    var.r = arg1->r;
-    var.phi = 0x3FFF - arg1->phi;
-    var.theta = arg1->theta;
+    src.r = sph->r;
+    src.phi = 0x3FFF - sph->phi;
+    src.theta = sph->theta;
 
-    func_8007C1AC(dest, &var);
+    OLib_VecSphToVec3f(dest, &src);
 }
 
-VecSph* func_8007C29C(VecSph* arg0, Vec3f* arg1) {
-    VecSph sp28;
+VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
+    VecSph sph;
 
     f32 distSquared;
     f32 dist;
 
-    distSquared = SQ(arg1->x) + SQ(arg1->z);
+    distSquared = SQ(vec->x) + SQ(vec->z);
     dist = sqrtf(distSquared);
 
-    if ((dist == 0.0f) && (arg1->y == 0.0f)) {
-        sp28.phi = 0;
+    if ((dist == 0.0f) && (vec->y == 0.0f)) {
+        sph.phi = 0;
     } else {
-        sp28.phi = Math_atan2f(dist, arg1->y) * 57.295776f * 182.04167f + 0.5f;
+        sph.phi = Math_atan2f(dist, vec->y) * 57.295776f * 182.04167f + 0.5f;
     }
 
-    sp28.r = sqrtf(SQ(arg1->y) + distSquared);
-    if ((arg1->x == 0.0f) && (arg1->z == 0.0f)) {
-        sp28.theta = 0;
+    sph.r = sqrtf(SQ(vec->y) + distSquared);
+    if ((vec->x == 0.0f) && (vec->z == 0.0f)) {
+        sph.theta = 0;
     } else {
-        sp28.theta = Math_atan2f(arg1->x, arg1->z) * 57.295776f * 182.04167f + 0.5f;
+        sph.theta = Math_atan2f(vec->x, vec->z) * 57.295776f * 182.04167f + 0.5f;
     }
 
-    *arg0 = sp28;
+    *dest = sph;
 
-    return arg0;
+    return dest;
 }
 
-VecSph* func_8007C3F4(VecSph* arg0, Vec3f* arg1) {
-    VecSph sp18;
+VecSph* OLib_Vec3fToVecSphRot90(VecSph* dest, Vec3f* vec) {
+    VecSph sph;
 
-    func_8007C29C(&sp18, arg1);
-    sp18.phi = 0x3FFF - sp18.phi;
+    OLib_Vec3fToVecSph(&sph, vec);
+    sph.phi = 0x3FFF - sph.phi;
 
-    *arg0 = sp18;
+    *dest = sph;
 
-    return arg0;
+    return dest;
 }
 
-void func_8007C440(VecSph* arg0, Vec3f* a, Vec3f* b) {
-    Vec3f var;
+VecSph* OLib_Vec3fDiffToVecSph(VecSph* dest, Vec3f* a, Vec3f* b) {
+    Vec3f sph;
 
-    var.x = b->x - a->x;
-    var.y = b->y - a->y;
-    var.z = b->z - a->z;
+    sph.x = b->x - a->x;
+    sph.y = b->y - a->y;
+    sph.z = b->z - a->z;
 
-    func_8007C29C(arg0, &var);
+    return OLib_Vec3fToVecSph(dest, &sph);
 }
 
-void func_8007C490(VecSph* arg0, Vec3f* a, Vec3f* b) {
-    Vec3f var;
+VecSph* OLib_Vec3fDiffToVecSphRot90(VecSph* dest, Vec3f* a, Vec3f* b) {
+    Vec3f sph;
 
-    var.x = b->x - a->x;
-    var.y = b->y - a->y;
-    var.z = b->z - a->z;
+    sph.x = b->x - a->x;
+    sph.y = b->y - a->y;
+    sph.z = b->z - a->z;
 
-    func_8007C3F4(arg0, &var);
+    return OLib_Vec3fToVecSphRot90(dest, &sph);
 }
 
 Vec3f* func_8007C4E0(Vec3f* dest, Vec3f* a, Vec3f* b) {

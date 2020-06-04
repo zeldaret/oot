@@ -1,22 +1,22 @@
 .late_rodata
 glabel D_80139DC0
     .float 0.01
-    
+
 glabel D_80139DC4
     .float 0.01
-    
+
 glabel D_80139DC8
     .float 57.295776
 
 glabel D_80139DCC
     .float 182.041672
-    
+
 glabel D_80139DD0
     .float 57.295776
 
 glabel D_80139DD4
     .float 182.041672
-    
+
 .text
 glabel func_80044ADC
 /* ABBC7C 80044ADC 27BDFF90 */  addiu $sp, $sp, -0x70
@@ -48,7 +48,7 @@ glabel func_80044ADC
 /* ABBCE4 80044B44 3C018016 */  lui   $at, %hi(D_8015CE5C)
 /* ABBCE8 80044B48 46805120 */  cvt.s.w $f4, $f10
 /* ABBCEC 80044B4C 46123202 */  mul.s $f8, $f6, $f18
-/* ABBCF0 80044B50 00000000 */  nop   
+/* ABBCF0 80044B50 00000000 */  nop
 /* ABBCF4 80044B54 46004082 */  mul.s $f2, $f8, $f0
 /* ABBCF8 80044B58 44984000 */  mtc1  $t8, $f8
 /* ABBCFC 80044B5C 46122182 */  mul.s $f6, $f4, $f18
@@ -82,7 +82,7 @@ glabel func_80044ADC
 /* ABBD6C 80044BCC 27A40064 */  addiu $a0, $sp, 0x64
 /* ABBD70 80044BD0 312A0001 */  andi  $t2, $t1, 1
 /* ABBD74 80044BD4 15400022 */  bnez  $t2, .L80044C60
-/* ABBD78 80044BD8 00000000 */   nop   
+/* ABBD78 80044BD8 00000000 */   nop
 .L80044BDC:
 /* ABBD7C 80044BDC C7B2003C */  lwc1  $f18, 0x3c($sp)
 /* ABBD80 80044BE0 C7AA0064 */  lwc1  $f10, 0x64($sp)
@@ -105,7 +105,7 @@ glabel func_80044ADC
 /* ABBDC4 80044C24 E428CE60 */   swc1  $f8, %lo(D_8015CE60)($at)
 /* ABBDC8 80044C28 87AB007A */  lh    $t3, 0x7a($sp)
 /* ABBDCC 80044C2C 11600006 */  beqz  $t3, .L80044C48
-/* ABBDD0 80044C30 00000000 */   nop   
+/* ABBDD0 80044C30 00000000 */   nop
 /* ABBDD4 80044C34 C6120104 */  lwc1  $f18, 0x104($s0)
 /* ABBDD8 80044C38 3C018016 */  lui   $at, %hi(D_8015CE54)
 /* ABBDDC 80044C3C E432CE54 */  swc1  $f18, %lo(D_8015CE54)($at)
@@ -119,7 +119,7 @@ glabel func_80044ADC
 /* ABBDF8 80044C58 10000048 */  b     .L80044D7C
 /* ABBDFC 80044C5C C6020104 */   lwc1  $f2, 0x104($s0)
 .L80044C60:
-/* ABBE00 80044C60 0C01F00A */  jal   func_8007C028
+/* ABBE00 80044C60 0C01F00A */  jal   OLib_Vec3fDistXZ
 /* ABBE04 80044C64 E7B00030 */   swc1  $f16, 0x30($sp)
 /* ABBE08 80044C68 3C0140A0 */  li    $at, 0x40A00000 # 0.000000
 /* ABBE0C 80044C6C 44811000 */  mtc1  $at, $f2
@@ -181,9 +181,9 @@ glabel func_80044ADC
 .L80044D48:
 /* ABBEE8 80044D48 3C01C6FA */  li    $at, 0xC6FA0000 # 0.000000
 /* ABBEEC 80044D4C 44816000 */  mtc1  $at, $f12
-/* ABBEF0 80044D50 00000000 */  nop   
+/* ABBEF0 80044D50 00000000 */  nop
 /* ABBEF4 80044D54 460C9032 */  c.eq.s $f18, $f12
-/* ABBEF8 80044D58 00000000 */  nop   
+/* ABBEF8 80044D58 00000000 */  nop
 /* ABBEFC 80044D5C 45020003 */  bc1fl .L80044D6C
 /* ABBF00 80044D60 460C0032 */   c.eq.s $f0, $f12
 /* ABBF04 80044D64 C6120104 */  lwc1  $f18, 0x104($s0)
@@ -191,7 +191,7 @@ glabel func_80044ADC
 .L80044D6C:
 /* ABBF0C 80044D6C C6020104 */  lwc1  $f2, 0x104($s0)
 /* ABBF10 80044D70 45000002 */  bc1f  .L80044D7C
-/* ABBF14 80044D74 00000000 */   nop   
+/* ABBF14 80044D74 00000000 */   nop
 /* ABBF18 80044D78 46009406 */  mov.s $f16, $f18
 .L80044D7C:
 /* ABBF1C 80044D7C 3C0C8016 */  lui   $t4, %hi(gGameInfo) # $t4, 0x8016
@@ -213,7 +213,7 @@ glabel func_80044ADC
 /* ABBF5C 80044DBC 46028201 */  sub.s $f8, $f16, $f2
 /* ABBF60 80044DC0 46005101 */  sub.s $f4, $f10, $f0
 /* ABBF64 80044DC4 46060302 */  mul.s $f12, $f0, $f6
-/* ABBF68 80044DC8 00000000 */  nop   
+/* ABBF68 80044DC8 00000000 */  nop
 /* ABBF6C 80044DCC 46082182 */  mul.s $f6, $f4, $f8
 /* ABBF70 80044DD0 0C03F494 */  jal   Math_atan2f
 /* ABBF74 80044DD4 E7A60040 */   swc1  $f6, 0x40($sp)
@@ -230,7 +230,7 @@ glabel func_80044ADC
 /* ABBFA0 80044E00 460A3100 */  add.s $f4, $f6, $f10
 /* ABBFA4 80044E04 4600220D */  trunc.w.s $f8, $f4
 /* ABBFA8 80044E08 44104000 */  mfc1  $s0, $f8
-/* ABBFAC 80044E0C 00000000 */  nop   
+/* ABBFAC 80044E0C 00000000 */  nop
 /* ABBFB0 80044E10 00108400 */  sll   $s0, $s0, 0x10
 /* ABBFB4 80044E14 0C03F494 */  jal   Math_atan2f
 /* ABBFB8 80044E18 00108403 */   sra   $s0, $s0, 0x10
@@ -246,7 +246,7 @@ glabel func_80044ADC
 /* ABBFE0 80044E40 46064280 */  add.s $f10, $f8, $f6
 /* ABBFE4 80044E44 4600510D */  trunc.w.s $f4, $f10
 /* ABBFE8 80044E48 44082000 */  mfc1  $t0, $f4
-/* ABBFEC 80044E4C 00000000 */  nop   
+/* ABBFEC 80044E4C 00000000 */  nop
 /* ABBFF0 80044E50 02081021 */  addu  $v0, $s0, $t0
 /* ABBFF4 80044E54 00021400 */  sll   $v0, $v0, 0x10
 /* ABBFF8 80044E58 8FB00018 */  lw    $s0, 0x18($sp)

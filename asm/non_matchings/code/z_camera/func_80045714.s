@@ -6,7 +6,7 @@ glabel func_80045714
 /* ABC8C4 80045724 AFA40028 */  sw    $a0, 0x28($sp)
 /* ABC8C8 80045728 AFA60030 */  sw    $a2, 0x30($sp)
 /* ABC8CC 8004572C AFA70034 */  sw    $a3, 0x34($sp)
-/* ABC8D0 80045730 0C01F0FD */  jal   func_8007C3F4
+/* ABC8D0 80045730 0C01F0FD */  jal   OLib_Vec3fToVecSphRot90
 /* ABC8D4 80045734 27A4001C */   addiu $a0, $sp, 0x1c
 /* ABC8D8 80045738 0C01DE0D */  jal   Math_Coss
 /* ABC8DC 8004573C 87A40020 */   lh    $a0, 0x20($sp)
@@ -32,8 +32,8 @@ glabel func_80045714
 /* ABC92C 8004578C 8FBF0014 */  lw    $ra, 0x14($sp)
 /* ABC930 80045790 27BD0028 */  addiu $sp, $sp, 0x28
 /* ABC934 80045794 46083282 */  mul.s $f10, $f6, $f8
-/* ABC938 80045798 00000000 */  nop   
+/* ABC938 80045798 00000000 */  nop
 /* ABC93C 8004579C 460A0002 */  mul.s $f0, $f0, $f10
 /* ABC940 800457A0 03E00008 */  jr    $ra
-/* ABC944 800457A4 00000000 */   nop   
+/* ABC944 800457A4 00000000 */   nop
 
