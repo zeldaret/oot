@@ -19,7 +19,7 @@ typedef struct EnInsect {
     /* 0x0316 */ char unk_316[4];
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
-    /* 0x031E */ char unk_31E[0x002];
+    /* 0x031E */ s16 unk_31E;
     /* 0x0320 */ ObjMakekinsuta* soilActor;
     /* 0x031E */ char unk_324[0x008];
 } EnInsect; // size = 0x032C

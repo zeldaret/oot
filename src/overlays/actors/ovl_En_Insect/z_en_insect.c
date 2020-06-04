@@ -67,9 +67,26 @@ f32 func_80A7BE40(Vec3f* v1, Vec3f* v2)
     return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7BE6C.s")
+s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
+    u32 pad;
+    Player* player = PLAYER;
+    Vec3f pos;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7BF58.s")
+    if (this->actor.xzDistanceFromLink < 32.0f) {
+        pos.x = Math_Sins(this->actor.rotTowardsLinkY + 0x8000) * 16.0f + player->actor.posRot.pos.x;
+        pos.y = player->actor.posRot.pos.y;
+        pos.z = Math_Coss(this->actor.rotTowardsLinkY + 0x8000) * 16.0f + player->actor.posRot.pos.z;
+        if (func_80A7BE40(&pos, &this->actor.posRot.pos) <= 400.0f) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void func_80A7BF58(EnInsect* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, 1, 0.0f);
+}
 
 /**
  * Find the nearest soft dirt patch within 6400 units in the xz plane and the current room
@@ -103,7 +120,19 @@ s32 func_80A7BFA0(EnInsect* this, GlobalContext* globalCtx) {
     return ret;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C058.s")
+void func_80A7C058(EnInsect *this) {
+    if (this->unk_31E > 0) {
+        this->unk_31E -= 1;
+        return;
+    }
+
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_WALK);
+
+    this->unk_31E = 3.0f / CLAMP_MIN(this->skelAnime.animPlaybackSpeed, 0.1f);
+    if (this->unk_31E < 2) {
+        this->unk_31E = 2;
+    }
+}
 
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx)
 {
@@ -164,9 +193,9 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx)
 
 void EnInsect_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     s16 temp_v0;
-    EnInsect* this = thisx;
+    EnInsect* this = THIS;
 
-    temp_v0 = thisx->params & 3;
+    temp_v0 = this->actor.params & 3;
     Collider_DestroyJntSph(globalCtx, &this->collider);
     if (temp_v0 == 2 || temp_v0 == 3) {
         if (D_80A7DEB8 > 0) {
@@ -193,48 +222,41 @@ void EnInsect_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7CBC8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7CC3C.s")
-// void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
-//     f32 sp3C;
-//     f32 sp38;
-//     f32 sp34;
-//     f32 sp2C;
-//     f32 temp_f0;
-//     f32 phi_f2;
+void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
+    u32 padding[2];
+    Vec3f sp34;
 
-//     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
-//     Math_ApproxS(&this->actor.shape.rot.x, (u16)0x2AAA, (u16)0x160);
-//     temp_f0 = this->actor.scale.x - 0.0002f;
-//     if (temp_f0 < 0.001f) {
-//         phi_f2 = 0.001f;
-//     } else {
-//         phi_f2 = temp_f0;
-//     }
-//     Actor_SetScale((Actor *) this, phi_f2);
-//     this->actor.shape.unk_08 = (f32) (this->actor.shape.unk_08 - 0.8f);
-//     this->actor.posRot.pos.x = (f32) ((Math_Rand_ZeroOne() + this->actor.initPosRot.pos.x) - 0.5f);
-//     this->actor.posRot.pos.z = (f32) ((Math_Rand_ZeroOne() + this->actor.initPosRot.pos.z) - 0.5f);
-//     SkelAnime_FrameUpdateMatrix(this + 0x1AC);
-//     if (this->unk_31A >= 0x15) {
-//         if (Math_Rand_ZeroOne() < 0.1f) {
-//             sp34 = Math_Sins(this->actor.shape.rot.y) * -0.6f;
-//             sp38 = Math_Sins(this->actor.shape.rot.x) * 0.6f;
-//             sp3C = Math_Coss(this->actor.shape.rot.y) * -0.6f;
-//             sp2C = Math_Rand_ZeroOne();
-//             func_800286CC(globalCtx, (Vec3f *) &this->actor.posRot, (Vec3f *) &sp34, &D_80A7DF28, (s32) ((sp2C * 5.0f) + 8.0f), (s32) ((Math_Rand_ZeroOne() * 5.0f) + 8.0f));
-//         }
-//     }
-//     if (this->unk_31A <= 0) {
-//         if (this->unk_314 & 0x10) {
-//             if (this->soilActor != NULL) {
-//                 if (func_800CB650(this->soilActor + 0x24, (Vec3f *) &this->actor.posRot) < 64.0f) {
-//                     this->soilActor->unk_152 = (u16)1;
-//                 }
-//             }
-//         }
-//         Actor_Kill((Actor *) this);
-//     }
-// }
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+    Math_ApproxS(&this->actor.shape.rot.x, 10922, 352);
+
+    Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.0002f, 0.001f));
+
+    this->actor.shape.unk_08 -= 0.8f;
+    this->actor.posRot.pos.x = Math_Rand_ZeroOne() + this->actor.initPosRot.pos.x - 0.5f;
+    this->actor.posRot.pos.z = Math_Rand_ZeroOne() + this->actor.initPosRot.pos.z - 0.5f;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
+    if (this->unk_31A >= 21) {
+        if (Math_Rand_ZeroOne() < 0.1f) {
+            sp34.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
+            sp34.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
+            sp34.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
+            func_800286CC(globalCtx, &this->actor.posRot.pos, &sp34, &D_80A7DF28, Math_Rand_ZeroOne() * 5.0f + 8.0f, Math_Rand_ZeroOne() * 5.0f + 8.0f);
+        }
+    }
+
+    if (this->unk_31A <= 0) {
+        if (this->unk_314 & 0x10) {
+            if (this->soilActor != NULL) {
+                if (func_800CB650(&this->soilActor->actor.posRot.pos, &this->actor.posRot.pos) < 64.0f) {
+                    this->soilActor->unk_152 = 1;
+                }
+            }
+        }
+        Actor_Kill(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7CE60.s")
 
