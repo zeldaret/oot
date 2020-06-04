@@ -16,13 +16,15 @@ glabel D_8012EE90
     .incbin "baserom.z64", 0xBA6030, 0x200
 
 glabel gWaveSamples
-    .incbin "baserom.z64", 0xBA6230, 0x8
-
-glabel D_8012F098
-    .incbin "baserom.z64", 0xBA6238, 0x18
-
-glabel D_8012F0B0
-    .incbin "baserom.z64", 0xBA6250, 0x4
+    .word D_8012E090
+    .word D_8012E290
+    .word D_8012E490
+    .word D_8012E690
+    .word D_8012E890
+    .word D_8012EA90
+    .word D_8012EC90
+    .word D_8012EE90
+    .word D_8012EE90
 
 glabel D_8012F0B4
     .incbin "baserom.z64", 0xBA6254, 0x200

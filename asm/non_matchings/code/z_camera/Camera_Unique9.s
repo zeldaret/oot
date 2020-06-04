@@ -52,30 +52,30 @@ glabel D_8013A250
     .float 182.041672 # 32768 / PI
 
 glabel jtbl_8013A254
-    .word 0x80053B74 # 1
-    .word 0x80053C60 # 2
-    .word 0x80053F00 # 3
-    .word 0x80053E60 # 4
-    .word 0x800541C8
-    .word 0x800541C8
-    .word 0x800541C8
-    .word 0x800541C8
-    .word 0x80053D18 # 9
-    .word 0x80053D18 # 10
-    .word 0x80053F54 # 11
-    .word 0x80053F54 # 12
-    .word 0x80053FE4 # 13
-    .word 0x800541C8
-    .word 0x80053A0C # 15
-    .word 0x80053AF4 # 16
-    .word 0x800541C8
-    .word 0x80054180 # 17
-    .word 0x80054150 # 18
-    .word 0x800541C8
-    .word 0x80053A68 # 20
-    .word 0x800541C8
-    .word 0x800541C8
-    .word 0x80054140 # 23
+    .word L80053B74 # 1
+    .word L80053C60 # 2
+    .word L80053F00 # 3
+    .word L80053E60 # 4
+    .word L800541C8
+    .word L800541C8
+    .word L800541C8
+    .word L800541C8
+    .word L80053D18 # 9
+    .word L80053D18 # 10
+    .word L80053F54 # 11
+    .word L80053F54 # 12
+    .word L80053FE4 # 13
+    .word L800541C8
+    .word L80053A0C # 15
+    .word L80053AF4 # 16
+    .word L800541C8
+    .word L80054180 # 17
+    .word L80054150 # 18
+    .word L800541C8
+    .word L80053A68 # 20
+    .word L800541C8
+    .word L800541C8
+    .word L80054140 # 23
 
 glabel D_8013A2B4
     .float 182.041672 # 32768 / PI
@@ -922,6 +922,8 @@ glabel Camera_Unique9
 /* ACABA0 80053A00 8C2DA254 */  lw    $t5, %lo(jtbl_8013A254)($at)
 /* ACABA4 80053A04 01A00008 */  jr    $t5
 /* ACABA8 80053A08 00000000 */   nop
+
+glabel L80053A0C
 /* ACABAC 80053A0C 8FAE0030 */  lw    $t6, 0x30($sp)
 /* ACABB0 80053A10 8E180004 */  lw    $t8, 4($s0)
 /* ACABB4 80053A14 2626005C */  addiu $a2, $s1, 0x5c
@@ -945,6 +947,8 @@ glabel Camera_Unique9
 /* ACABFC 80053A5C A62E014C */  sh    $t6, 0x14c($s1)
 /* ACAC00 80053A60 100001DE */  b     .L800541DC
 /* ACAC04 80053A64 A62C015A */   sh    $t4, 0x15a($s1)
+
+glabel L80053A68
 /* ACAC08 80053A68 860F0038 */  lh    $t7, 0x38($s0)
 /* ACAC0C 80053A6C 26070004 */  addiu $a3, $s0, 4
 /* ACAC10 80053A70 26020010 */  addiu $v0, $s0, 0x10
@@ -983,6 +987,8 @@ glabel Camera_Unique9
 /* ACAC88 80053AE8 860A0034 */  lh    $t2, 0x34($s0)
 /* ACAC8C 80053AEC 100001BB */  b     .L800541DC
 /* ACAC90 80053AF0 A62A015A */   sh    $t2, 0x15a($s1)
+
+glabel L80053AF4
 /* ACAC94 80053AF4 860C0038 */  lh    $t4, 0x38($s0)
 /* ACAC98 80053AF8 26070004 */  addiu $a3, $s0, 4
 /* ACAC9C 80053AFC 26020010 */  addiu $v0, $s0, 0x10
@@ -1018,6 +1024,8 @@ glabel Camera_Unique9
 /* ACAD08 80053B68 860E0034 */  lh    $t6, 0x34($s0)
 /* ACAD0C 80053B6C 1000019B */  b     .L800541DC
 /* ACAD10 80053B70 A62E015A */   sh    $t6, 0x15a($s1)
+
+glabel L80053B74
 /* ACAD14 80053B74 26070004 */  addiu $a3, $s0, 4
 /* ACAD18 80053B78 260F0010 */  addiu $t7, $s0, 0x10
 /* ACAD1C 80053B7C AFAF0024 */  sw    $t7, 0x24($sp)
@@ -1077,6 +1085,8 @@ glabel Camera_Unique9
 /* ACADF4 80053C54 A7AE00EA */   sh    $t6, 0xea($sp)
 /* ACADF8 80053C58 1000001A */  b     .L80053CC4
 /* ACADFC 80053C5C 8E180000 */   lw    $t8, ($s0)
+
+glabel L80053C60
 /* ACAE00 80053C60 860F003C */  lh    $t7, 0x3c($s0)
 /* ACAE04 80053C64 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* ACAE08 80053C68 44813000 */  mtc1  $at, $f6
@@ -1124,6 +1134,8 @@ glabel Camera_Unique9
 /* ACAEAC 80053D0C 8D86000C */   lw    $a2, 0xc($t4)
 /* ACAEB0 80053D10 E620007C */  swc1  $f0, 0x7c($s1)
 /* ACAEB4 80053D14 8E030000 */  lw    $v1, ($s0)
+
+glabel L80053D18
 /* ACAEB8 80053D18 860D003C */  lh    $t5, 0x3c($s0)
 /* ACAEBC 80053D1C 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* ACAEC0 80053D20 44819000 */  mtc1  $at, $f18
@@ -1208,6 +1220,8 @@ glabel Camera_Unique9
 /* ACAFF4 80053E54 A622015A */  sh    $v0, 0x15a($s1)
 /* ACAFF8 80053E58 100000E0 */  b     .L800541DC
 /* ACAFFC 80053E5C 2626005C */   addiu $a2, $s1, 0x5c
+
+glabel L80053E60
 /* ACB000 80053E60 26070004 */  addiu $a3, $s0, 4
 /* ACB004 80053E64 260E0010 */  addiu $t6, $s0, 0x10
 /* ACB008 80053E68 AFAE0024 */  sw    $t6, 0x24($sp)
@@ -1248,6 +1262,8 @@ glabel Camera_Unique9
 /* ACB094 80053EF4 27A600E4 */   addiu $a2, $sp, 0xe4
 /* ACB098 80053EF8 10000016 */  b     .L80053F54
 /* ACB09C 80053EFC 8E030000 */   lw    $v1, ($s0)
+
+glabel L80053F00
 /* ACB0A0 80053F00 C60C0010 */  lwc1  $f12, 0x10($s0)
 /* ACB0A4 80053F04 C62E0074 */  lwc1  $f14, 0x74($s1)
 /* ACB0A8 80053F08 8C66000C */  lw    $a2, 0xc($v1)
@@ -1269,6 +1285,8 @@ glabel Camera_Unique9
 /* ACB0E8 80053F48 8DA6000C */   lw    $a2, 0xc($t5)
 /* ACB0EC 80053F4C E620007C */  swc1  $f0, 0x7c($s1)
 /* ACB0F0 80053F50 8E030000 */  lw    $v1, ($s0)
+
+glabel L80053F54
 .L80053F54:
 /* ACB0F4 80053F54 C60C0004 */  lwc1  $f12, 4($s0)
 /* ACB0F8 80053F58 C62E0050 */  lwc1  $f14, 0x50($s1)
@@ -1306,6 +1324,8 @@ glabel Camera_Unique9
 /* ACB178 80053FD8 A622015A */  sh    $v0, 0x15a($s1)
 /* ACB17C 80053FDC 1000007F */  b     .L800541DC
 /* ACB180 80053FE0 2626005C */   addiu $a2, $s1, 0x5c
+
+glabel L80053FE4
 /* ACB184 80053FE4 C60C0004 */  lwc1  $f12, 4($s0)
 /* ACB188 80053FE8 C62E0050 */  lwc1  $f14, 0x50($s1)
 /* ACB18C 80053FEC 8C66000C */  lw    $a2, 0xc($v1)
@@ -1396,10 +1416,14 @@ glabel Camera_Unique9
 /* ACB2D4 80054134 A622015A */  sh    $v0, 0x15a($s1)
 /* ACB2D8 80054138 10000028 */  b     .L800541DC
 /* ACB2DC 8005413C 2626005C */   addiu $a2, $s1, 0x5c
+
+glabel L80054140
 /* ACB2E0 80054140 860E0034 */  lh    $t6, 0x34($s0)
 /* ACB2E4 80054144 2626005C */  addiu $a2, $s1, 0x5c
 /* ACB2E8 80054148 10000024 */  b     .L800541DC
 /* ACB2EC 8005414C A60E0036 */   sh    $t6, 0x36($s0)
+
+glabel L80054150
 /* ACB2F0 80054150 86220162 */  lh    $v0, 0x162($s1)
 /* ACB2F4 80054154 00002825 */  move  $a1, $zero
 /* ACB2F8 80054158 04410003 */  bgez  $v0, .L80054168
@@ -1413,6 +1437,8 @@ glabel Camera_Unique9
 /* ACB314 80054174 030A6021 */  addu  $t4, $t8, $t2
 /* ACB318 80054178 0C016813 */  jal   Camera_ChangeMode
 /* ACB31C 8005417C 8D840790 */   lw    $a0, 0x790($t4)
+
+glabel L80054180
 /* ACB320 80054180 86220162 */  lh    $v0, 0x162($s1)
 /* ACB324 80054184 8FAF0034 */  lw    $t7, 0x34($sp)
 /* ACB328 80054188 04410003 */  bgez  $v0, .L80054198
@@ -1432,6 +1458,8 @@ glabel Camera_Unique9
 /* ACB35C 800541BC 8DF80008 */  lw    $t8, 8($t7)
 /* ACB360 800541C0 0C016B99 */  jal   func_8005AE64
 /* ACB364 800541C4 AE380064 */   sw    $t8, 0x64($s1)
+
+glabel L800541C8
 .L800541C8:
 /* ACB368 800541C8 862A0164 */  lh    $t2, 0x164($s1)
 /* ACB36C 800541CC 2626005C */  addiu $a2, $s1, 0x5c

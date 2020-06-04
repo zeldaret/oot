@@ -28,7 +28,13 @@ glabel D_801333A4
     .incbin "baserom.z64", 0xBAA544, 0x4
 
 glabel D_801333A8
-    .incbin "baserom.z64", 0xBAA548, 0x1C
+    .word D_8016BAD0
+    .word D_8016BC80
+    .word D_8016BEC0
+    .word D_8016C2E0
+    .word D_8016C6A0
+    .word D_8016C820
+    .word D_8016C8B0
 
 glabel D_801333C4
     .incbin "baserom.z64", 0xBAA564, 0x8
