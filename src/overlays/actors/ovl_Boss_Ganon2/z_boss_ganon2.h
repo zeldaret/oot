@@ -8,7 +8,9 @@ struct BossGanon2;
 
 typedef struct BossGanon2 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x798];
+    /* 0x014C */ char unk_14C[0x1D8];
+    /* 0x0324 */ f32 unk_324;
+    /* 0x0328 */ char unk_328[0x5BC];
 } BossGanon2; // size = 0x08E4
 
 extern const ActorInit Boss_Ganon2_InitVars;
