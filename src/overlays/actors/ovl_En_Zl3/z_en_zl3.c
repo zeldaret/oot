@@ -1296,7 +1296,9 @@ s32 func_80B573FC(EnZl3* this, GlobalContext* globalCtx, f32 arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57564.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B575B0.s")
+void func_80B575B0(EnZl3* this, GlobalContext* globalCtx) {
+    func_80B573FC(this, globalCtx, 150.0f);
+}
 
 s32 func_80B575D0(EnZl3* this, GlobalContext* globalCtx) {
     return func_80B573FC(this, globalCtx, 50.0f);
@@ -1325,11 +1327,11 @@ void func_80B57704(EnZl3* this, GlobalContext* globalCtx) {
     Flags_SetSwitch(globalCtx, unk_3C4);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5772C.s")
-/*
-void func_80B5772C(EnZl3 *this, GlobalContext *globalCtx) {
-    Flags_UnsetSwitch(globalCtx, this->unk_3C4);
-}*/
+void func_80B5772C(EnZl3* this, GlobalContext* globalCtx) {
+    s32 unk_3C4 = this->unk_3C4;
+
+    Flags_UnsetSwitch(globalCtx, unk_3C4);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57754.s")
 
@@ -1371,7 +1373,9 @@ s32 func_80B57C54(EnZl3* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57C7C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57C8C.s")
+s32 func_80B57C8C(EnZl3* this) {
+    return !func_80B56F8C(this, this->unk_314 + 2);
+}
 
 void func_80B57CB4(EnZl3* this, GlobalContext* globalCtx) {
     Vec3f* unk_348 = &this->unk_348;
