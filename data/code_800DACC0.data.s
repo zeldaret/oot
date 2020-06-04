@@ -9,6 +9,12 @@
 
 .balign 16
 
+glabel D_8012E090
+    .incbin "baserom.z64", 0xBA5230, 0xE00
+
+glabel D_8012EE90
+    .incbin "baserom.z64", 0xBA6030, 0x200
+
 glabel gWaveSamples
     .incbin "baserom.z64", 0xBA6230, 0x8
 

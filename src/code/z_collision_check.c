@@ -1177,7 +1177,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
             // larger than the total number of data.
             return -1;
         }
-        // BUG: Should be colOc
+        //! @bug Should be colOc
         colChkCtx->colAt[index] = collider;
     } else {
         if (!(colChkCtx->colOcCount < COLLISION_CHECK_OC_MAX)) {
