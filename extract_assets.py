@@ -14,12 +14,12 @@ def ExtractFile(xmlPath, outputPath):
 	#copyfile(outputPath + "/" + fileName.replace(".xml", ".c"), outputPath + "/../" + fileName.replace(".xml", ".c"))
 
 # Textures
-ExtractFile("assets/textures/xml/icon_item_24_static.xml", "assets/textures/icon_item_24_static")
-ExtractFile("assets/textures/xml/icon_item_dungeon_static.xml", "assets/textures/icon_item_dungeon_static")
-ExtractFile("assets/textures/xml/icon_item_field_static.xml", "assets/textures/icon_item_field_static")
-ExtractFile("assets/textures/xml/icon_item_gameover_static.xml", "assets/textures/icon_item_gameover_static")
-ExtractFile("assets/textures/xml/icon_item_nes_static.xml", "assets/textures/icon_item_nes_static")
-ExtractFile("assets/textures/xml/icon_item_static.xml", "assets/textures/icon_item_static")
+ExtractFile("assets/xml/textures/icon_item_24_static.xml", "assets/textures/icon_item_24_static")
+ExtractFile("assets/xml/textures/icon_item_dungeon_static.xml", "assets/textures/icon_item_dungeon_static")
+ExtractFile("assets/xml/textures/icon_item_field_static.xml", "assets/textures/icon_item_field_static")
+ExtractFile("assets/xml/textures/icon_item_gameover_static.xml", "assets/textures/icon_item_gameover_static")
+ExtractFile("assets/xml/textures/icon_item_nes_static.xml", "assets/textures/icon_item_nes_static")
+ExtractFile("assets/xml/textures/icon_item_static.xml", "assets/textures/icon_item_static")
 
 # Objects
 ExtractFile("assets/xml/objects/object_vase.xml", "assets/objects/object_vase")
