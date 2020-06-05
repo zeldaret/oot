@@ -1363,8 +1363,8 @@ s32 func_80B57564(EnZl3* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80B575B0(EnZl3* this, GlobalContext* globalCtx) {
-    func_80B573FC(this, globalCtx, 150.0f);
+s32 func_80B575B0(EnZl3* this, GlobalContext* globalCtx) {
+    return func_80B573FC(this, globalCtx, 150.0f);
 }
 
 s32 func_80B575D0(EnZl3* this, GlobalContext* globalCtx) {
@@ -1430,7 +1430,55 @@ void func_80B57858(GlobalContext* globalCtx) {
     func_80B577BC(globalCtx, &D_80B5A4A4);
 }
 
+s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57890.s")
+/*s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx) {
+    u8 curSpawn = globalCtx->curSpawn;
+    s16 sceneNum = globalCtx->sceneNum;
+    s32 result = func_80B54DB4(this);
+
+    if (sceneNum == SCENE_GANON_SONOGO) {
+        if ((result == 0x24) && (curSpawn == 0)) {
+            return 1;
+        }
+        if ((result == 0x25) && (curSpawn == 2)) {
+            return 1;
+        }
+        if ((result == 0x26) && (curSpawn == 4)) {
+            return 1;
+        }
+        if ((result == 0x27) && (curSpawn == 6)) {
+            return 1;
+        }
+        if ((result == 0x28) && (curSpawn == 6)) {
+            return 1;
+        }
+    } else if (sceneNum == SCENE_GANON_FINAL) {
+        if ((result == 0x20) && (curSpawn == 0) && Flags_GetSwitch(globalCtx, 0x37)) {
+            if ((sceneNum == SCENE_GANON_DEMO) || (sceneNum == SCENE_GANON_FINAL) ||
+                (sceneNum == SCENE_GANON_SONOGO) || (sceneNum == SCENE_GANONTIKA_SONOGO)) {
+                return 1;
+            }
+        }
+        if ((result == 0x21) && (curSpawn == 2)) {
+            return 1;
+        }
+        if ((result == 0x22) && (curSpawn == 4)) {
+            return 1;
+        }
+        if ((result == 0x23) && (curSpawn == 6)) {
+            return 1;
+        }
+    } else if (sceneNum == SCENE_GANONTIKA_SONOGO) {
+        if ((result == 0x29) && (curSpawn == 0)) {
+            return 1;
+        }
+        if ((result == 0x2A) && (curSpawn == 0)) {
+            return 1;
+        }
+    }
+    return 0;
+}*/
 
 void func_80B57A74(GlobalContext* globalCtx) {
     Actor* actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
@@ -1514,14 +1562,13 @@ void func_80B57D60(EnZl3* this, GlobalContext* globalCtx) {
     func_80B57240(this);
 }
 
-s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57D80.s")
-/*s32 func_80B57D80(EnZl3 *this, GlobalContext *globalCtx) {
-    s32 pad[2];
+s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
+    s32 pad;
     s16* sp32 = &this->actor.shape.rot.y;
+    struct_80034A14_arg1* unk_3F8 = &this->unk_3F8;
     Player* player = PLAYER;
-    struct_80034A14_arg1 *unk_3F8 = &this->unk_3F8;
-    s16 temp_v0 = func_80B57104(this, this->unk_314);
+    s32 unk_314 = this->unk_314;
+    s16 temp_v0 = func_80B57104(this, unk_314);
     s32 temp_a0;
     s16 phi_v1;
 
@@ -1532,7 +1579,7 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx);
     func_80034A14(&this->actor, unk_3F8, kREG(17) + 0xC, 4);
 
     temp_a0 = temp_v0 - *sp32;
-    phi_v1 = ABS(temp_a0);
+    phi_v1 = ABS(temp_v0 - *sp32);
     if (phi_v1 < 0x321) {
         *sp32 = temp_v0;
         this->actor.posRot.rot.y = *sp32;
@@ -1540,7 +1587,7 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx);
     }
     this->actor.posRot.rot.y = *sp32;
     return phi_v1;
-}*/
+}
 
 void func_80B57EAC(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B57324(this, globalCtx)) {
@@ -1576,8 +1623,40 @@ s32 func_80B57F84(EnZl3* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80B58014(EnZl3* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58014.s")
+void func_80B58014(EnZl3* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Player* player = PLAYER;
+    s8 invincibilityTimer = player->invincibilityTimer;
+
+    if (func_80B57324(this, globalCtx)) {
+        func_80B54E14(this, &D_06003FF8, 0, -11.0f, 0);
+        this->action = 29;
+        func_80B538B0(this);
+    } else if (func_80B57C8C(this) && func_80B57F84(this, globalCtx)) {
+        func_800800F8(globalCtx, 0xFA0, -0x63, &this->actor, 0);
+        this->unk_3D0 = 0;
+    } else if (func_80B576C8(this, globalCtx) && func_80B575B0(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
+        this->action = 0x1F;
+        this->unk_3CC = 0.0f;
+        func_80B537E8(this);
+        this->unk_3D8 = 1;
+        func_800800F8(globalCtx, 0xFAA, -0x63, &this->actor, 0);
+    } else if (!func_80B57C8C(this) && !func_80B576C8(this, globalCtx) && func_80B57564(this, globalCtx)) {
+        func_80B54E14(this, &D_06009BE4, 0, -8.0f, 0);
+        func_80B5764C(this, globalCtx);
+        this->action = 34;
+        this->unk_3D0 = 0;
+        func_80B57AE0(this, globalCtx);
+    } else if ((invincibilityTimer > 0) || (player->fallY >= 0x33)) {
+        func_80B54E14(this, &D_06007664, 0, -11.0f, 0);
+        this->action = 30;
+        func_80B537E8(this);
+        func_80B56DC8(this);
+    } else {
+        func_80B57350(this, globalCtx);
+        func_80B538B0(this);
+    }
+}
 
 void func_80B58214(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B573C8(this, globalCtx)) {
