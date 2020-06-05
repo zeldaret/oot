@@ -265,7 +265,7 @@ typedef struct GraphicsContext {
     /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
     /* 0x0004 */ Gfx* polyXluBuffer; // Pointer to "Zelda 1"
     /* 0x0008 */ char unk_008[0x08]; // Unused, could this be pointers to "Zelda 2" / "Zelda 3"
-    /* 0x0010 */ Gfx* overlayBuffer;
+    /* 0x0010 */ Gfx* overlayBuffer; // Pointer to "Zelda 4"
     /* 0x0014 */ u32 unk_014;
     /* 0x0018 */ char unk_018[0x20];
     /* 0x0038 */ OSMesg msgBuff[0x08];
@@ -1497,8 +1497,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ char magic[4]; // Yaz0
     /* 0x04 */ u32 decSize;
-    /* 0x08 */ u32 compInfoOffset; // only used in mio0.c
-    /* 0x0C */ u32 uncompDataOffset; // only used in mio0.c
+    /* 0x08 */ u32 compInfoOffset; // only used in mio0
+    /* 0x0C */ u32 uncompDataOffset; // only used in mio0
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
@@ -1887,13 +1887,13 @@ typedef struct {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* setName;
     /* 0x08 */ const char* unsetName;
-} F3dzexFlag;
+} F3dzexFlag; // size = 0x0C
 
 typedef struct {
     /* 0x00 */ const char* name;
     /* 0x04 */ u32 value;
     /* 0x08 */ u32 mask;
-} F3dzexRenderMode;
+} F3dzexRenderMode; // size = 0x0C
 
 typedef struct {
     /* 0x00 */ const char* name;
