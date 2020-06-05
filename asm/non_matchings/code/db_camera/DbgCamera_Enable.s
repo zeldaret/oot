@@ -1,4 +1,4 @@
-glabel func_800B4DE4
+glabel DbgCamera_Enable
 /* B2BF84 800B4DE4 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B2BF88 800B4DE8 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B2BF8C 800B4DEC 8CAF0050 */  lw    $t7, 0x50($a1)
@@ -36,5 +36,5 @@ glabel func_800B4DE4
 /* B2C00C 800B4E6C 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B2C010 800B4E70 27BD0018 */  addiu $sp, $sp, 0x18
 /* B2C014 800B4E74 03E00008 */  jr    $ra
-/* B2C018 800B4E78 00000000 */   nop   
+/* B2C018 800B4E78 00000000 */   nop
 

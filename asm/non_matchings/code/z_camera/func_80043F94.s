@@ -133,7 +133,7 @@ glabel func_80043F94
 /* ABB318 80044178 45010007 */  bc1t  .L80044198
 /* ABB31C 8004417C E6080014 */   swc1  $f8, 0x14($s0)
 /* ABB320 80044180 C4309DAC */  lwc1  $f16, %lo(D_80139DAC)($at)
-/* ABB324 80044184 3C028016 */  lui   $v0, %hi(D_8015CE4C) # $v0, 0x8016
+/* ABB324 80044184 3C028016 */  lui   $v0, %hi(playerFloorPoly) # $v0, 0x8016
 /* ABB328 80044188 4610103C */  c.lt.s $f2, $f16
 /* ABB32C 8004418C 00000000 */  nop
 /* ABB330 80044190 4500000D */  bc1f  .L800441C8
@@ -152,7 +152,7 @@ glabel func_80043F94
 /* ABB360 800441C0 10000059 */  b     .L80044328
 /* ABB364 800441C4 E6040008 */   swc1  $f4, 8($s0)
 .L800441C8:
-/* ABB368 800441C8 8C42CE4C */  lw    $v0, %lo(D_8015CE4C)($v0)
+/* ABB368 800441C8 8C42CE4C */  lw    $v0, %lo(playerFloorPoly)($v0)
 /* ABB36C 800441CC 50400057 */  beql  $v0, $zero, .L8004432C
 /* ABB370 800441D0 24020001 */   li    $v0, 1
 /* ABB374 800441D4 844A0008 */  lh    $t2, 8($v0)
@@ -190,7 +190,7 @@ glabel func_80043F94
 /* ABB3F4 80044254 27A40060 */   addiu $a0, $sp, 0x60
 /* ABB3F8 80044258 27B90054 */  addiu $t9, $sp, 0x54
 /* ABB3FC 8004425C 8F290000 */  lw    $t1, ($t9)
-/* ABB400 80044260 3C0A8016 */  lui   $t2, %hi(D_8015CE4C) # $t2, 0x8016
+/* ABB400 80044260 3C0A8016 */  lui   $t2, %hi(playerFloorPoly) # $t2, 0x8016
 /* ABB404 80044264 AE09000C */  sw    $t1, 0xc($s0)
 /* ABB408 80044268 8F280004 */  lw    $t0, 4($t9)
 /* ABB40C 8004426C C606000C */  lwc1  $f6, 0xc($s0)
@@ -198,7 +198,7 @@ glabel func_80043F94
 /* ABB414 80044274 8F290008 */  lw    $t1, 8($t9)
 /* ABB418 80044278 C6040010 */  lwc1  $f4, 0x10($s0)
 /* ABB41C 8004427C AE090014 */  sw    $t1, 0x14($s0)
-/* ABB420 80044280 8D4ACE4C */  lw    $t2, %lo(D_8015CE4C)($t2)
+/* ABB420 80044280 8D4ACE4C */  lw    $t2, %lo(playerFloorPoly)($t2)
 /* ABB424 80044284 AE0A0018 */  sw    $t2, 0x18($s0)
 /* ABB428 80044288 8FAB0088 */  lw    $t3, 0x88($sp)
 /* ABB42C 8004428C 856C0146 */  lh    $t4, 0x146($t3)

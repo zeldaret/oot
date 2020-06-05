@@ -198,7 +198,7 @@ glabel Camera_Unique9
 /* ACA150 80052FB0 00042200 */  sll   $a0, $a0, 8
 /* ACA154 80052FB4 3484F000 */  ori   $a0, $a0, 0xf000
 /* ACA158 80052FB8 00042400 */  sll   $a0, $a0, 0x10
-/* ACA15C 80052FBC 0C0114D4 */  jal   func_80045350
+/* ACA15C 80052FBC 0C0114D4 */  jal   Camera_UpdateInterface
 /* ACA160 80052FC0 00042403 */   sra   $a0, $a0, 0x10
 /* ACA164 80052FC4 10000026 */  b     .L80053060
 /* ACA168 80052FC8 8E030000 */   lw    $v1, ($s0)

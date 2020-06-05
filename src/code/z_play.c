@@ -1014,7 +1014,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         LOG_NUM("1", 1, "../z_play.c", 3801);
     }
 
-    if ((sp80 == 0) || (D_8011D394 != 0)) {
+    if ((sp80 == 0) || (gDbgCamEnabled != 0)) {
         s32 i; // 0x54
         s32 camIdx;
         Vec3s sp48;
@@ -1031,12 +1031,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     LOG_NUM("1", 1, "../z_play.c", 3809);
                 }
 
-                func_800591EC(&sp48, globalCtx->cameraPtrs[i]);
+                Camera_Update(&sp48, globalCtx->cameraPtrs[i]);
                 camIdx = globalCtx->nextCamera;
             }
         }
 
-        func_800591EC(&sp48, globalCtx->cameraPtrs[camIdx]);
+        Camera_Update(&sp48, globalCtx->cameraPtrs[camIdx]);
 
         if (1 && HREG(63)) {
             LOG_NUM("1", 1, "../z_play.c", 3814);
@@ -1319,7 +1319,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     if (globalCtx->view.unk_124 != 0) {
         Vec3s sp50;
-        func_800591EC(&sp50, ACTIVE_CAM);
+        Camera_Update(&sp50, ACTIVE_CAM);
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
@@ -1615,11 +1615,11 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
 
     player = camera->player;
     if (player != NULL) {
-        camera->unk_E4.x = arg2->x - player->actor.posRot.pos.x;
-        camera->unk_E4.y = arg2->y - player->actor.posRot.pos.y;
-        camera->unk_E4.z = arg2->z - player->actor.posRot.pos.z;
+        camera->posOffset.x = arg2->x - player->actor.posRot.pos.x;
+        camera->posOffset.y = arg2->y - player->actor.posRot.pos.y;
+        camera->posOffset.z = arg2->z - player->actor.posRot.pos.z;
     } else {
-        camera->unk_E4.x = camera->unk_E4.y = camera->unk_E4.z = 0.0f;
+        camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
 
     camera->unk_100 = 0.01f;
@@ -1649,11 +1649,11 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 
     player = camera->player;
     if (player != NULL) {
-        camera->unk_E4.x = arg2->x - player->actor.posRot.pos.x;
-        camera->unk_E4.y = arg2->y - player->actor.posRot.pos.y;
-        camera->unk_E4.z = arg2->z - player->actor.posRot.pos.z;
+        camera->posOffset.x = arg2->x - player->actor.posRot.pos.x;
+        camera->posOffset.y = arg2->y - player->actor.posRot.pos.y;
+        camera->posOffset.z = arg2->z - player->actor.posRot.pos.z;
     } else {
-        camera->unk_E4.x = camera->unk_E4.y = camera->unk_E4.z = 0.0f;
+        camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
 
     camera->unk_100 = 0.01f;

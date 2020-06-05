@@ -70,7 +70,7 @@ glabel D_8013A44C
     .float 0.00549325 # (180 / 32767.5f)
 
 .text
-glabel func_800591EC
+glabel Camera_Update
 /* AD038C 800591EC 27BDFF20 */  addiu $sp, $sp, -0xe0
 /* AD0390 800591F0 AFBF0044 */  sw    $ra, 0x44($sp)
 /* AD0394 800591F4 AFB00040 */  sw    $s0, 0x40($sp)
@@ -166,10 +166,10 @@ glabel func_800591EC
 /* AD04F0 80059350 0C00B721 */  jal   Player_GetCameraYOffset
 /* AD04F4 80059354 8E040090 */   lw    $a0, 0x90($s0)
 /* AD04F8 80059358 C7AA00B0 */  lwc1  $f10, 0xb0($sp)
-/* AD04FC 8005935C 3C068016 */  lui   $a2, %hi(D_8015CE4C) # $a2, 0x8016
+/* AD04FC 8005935C 3C068016 */  lui   $a2, %hi(playerFloorPoly) # $a2, 0x8016
 /* AD0500 80059360 27AE00AC */  addiu $t6, $sp, 0xac
 /* AD0504 80059364 46005480 */  add.s $f18, $f10, $f0
-/* AD0508 80059368 24C6CE4C */  addiu $a2, %lo(D_8015CE4C) # addiu $a2, $a2, -0x31b4
+/* AD0508 80059368 24C6CE4C */  addiu $a2, %lo(playerFloorPoly) # addiu $a2, $a2, -0x31b4
 /* AD050C 8005936C 27A700A8 */  addiu $a3, $sp, 0xa8
 /* AD0510 80059370 E7B200B0 */  swc1  $f18, 0xb0($sp)
 /* AD0514 80059374 8E0D0090 */  lw    $t5, 0x90($s0)
@@ -180,11 +180,11 @@ glabel func_800591EC
 /* AD0528 80059388 248507C0 */   addiu $a1, $a0, 0x7c0
 /* AD052C 8005938C 3C01C6FA */  li    $at, 0xC6FA0000 # 0.000000
 /* AD0530 80059390 44818000 */  mtc1  $at, $f16
-/* AD0534 80059394 3C038016 */  lui   $v1, %hi(D_8015CE4C) # $v1, 0x8016
-/* AD0538 80059398 2463CE4C */  addiu $v1, %lo(D_8015CE4C) # addiu $v1, $v1, -0x31b4
+/* AD0534 80059394 3C038016 */  lui   $v1, %hi(playerFloorPoly) # $v1, 0x8016
+/* AD0538 80059398 2463CE4C */  addiu $v1, %lo(playerFloorPoly) # addiu $v1, $v1, -0x31b4
 /* AD053C 8005939C 46100032 */  c.eq.s $f0, $f16
 /* AD0540 800593A0 E7A000A4 */  swc1  $f0, 0xa4($sp)
-/* AD0544 800593A4 3C028012 */  lui   $v0, %hi(D_8011DB10) # $v0, 0x8012
+/* AD0544 800593A4 3C028012 */  lui   $v0, %hi(sOOBTimer) # $v0, 0x8012
 /* AD0548 800593A8 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* AD054C 800593AC 4501001D */  bc1t  .L80059424
 /* AD0550 800593B0 27AE0080 */   addiu $t6, $sp, 0x80
@@ -217,7 +217,7 @@ glabel func_800591EC
 /* AD05BC 8005941C 10000008 */  b     .L80059440
 /* AD05C0 80059420 A60C0146 */   sh    $t4, 0x146($s0)
 .L80059424:
-/* AD05C4 80059424 8C42DB10 */  lw    $v0, %lo(D_8011DB10)($v0)
+/* AD05C4 80059424 8C42DB10 */  lw    $v0, %lo(sOOBTimer)($v0)
 /* AD05C8 80059428 44800000 */  mtc1  $zero, $f0
 /* AD05CC 8005942C 44815000 */  mtc1  $at, $f10
 /* AD05D0 80059430 24420001 */  addiu $v0, $v0, 1
@@ -227,7 +227,7 @@ glabel func_800591EC
 .L80059440:
 /* AD05E0 80059440 8FAD0050 */  lw    $t5, 0x50($sp)
 /* AD05E4 80059444 8DD80000 */  lw    $t8, ($t6)
-/* AD05E8 80059448 3C018012 */  lui   $at, %hi(D_8011DB10) # $at, 0x8012
+/* AD05E8 80059448 3C018012 */  lui   $at, %hi(sOOBTimer) # $at, 0x8012
 /* AD05EC 8005944C ADB80000 */  sw    $t8, ($t5)
 /* AD05F0 80059450 8DCF0004 */  lw    $t7, 4($t6)
 /* AD05F4 80059454 ADAF0004 */  sw    $t7, 4($t5)
@@ -237,7 +237,7 @@ glabel func_800591EC
 /* AD0604 80059464 ADAF000C */  sw    $t7, 0xc($t5)
 /* AD0608 80059468 8DD80010 */  lw    $t8, 0x10($t6)
 /* AD060C 8005946C ADB80010 */  sw    $t8, 0x10($t5)
-/* AD0610 80059470 AC22DB10 */  sw    $v0, %lo(D_8011DB10)($at)
+/* AD0610 80059470 AC22DB10 */  sw    $v0, %lo(sOOBTimer)($at)
 /* AD0614 80059474 284100C8 */  slti  $at, $v0, 0xc8
 /* AD0618 80059478 10200052 */  beqz  $at, .L800595C4
 /* AD061C 8005947C 00000000 */   nop
@@ -249,8 +249,8 @@ glabel func_800591EC
 /* AD0634 80059494 02002025 */   move  $a0, $s0
 /* AD0638 80059498 0C01633E */  jal   func_80058CF8
 /* AD063C 8005949C 02002025 */   move  $a0, $s0
-/* AD0640 800594A0 3C038016 */  lui   $v1, %hi(D_8015CE4C) # $v1, 0x8016
-/* AD0644 800594A4 2463CE4C */  addiu $v1, %lo(D_8015CE4C) # addiu $v1, $v1, -0x31b4
+/* AD0640 800594A0 3C038016 */  lui   $v1, %hi(playerFloorPoly) # $v1, 0x8016
+/* AD0644 800594A4 2463CE4C */  addiu $v1, %lo(playerFloorPoly) # addiu $v1, $v1, -0x31b4
 /* AD0648 800594A8 8602014C */  lh    $v0, 0x14c($s0)
 .L800594AC:
 /* AD064C 800594AC 240AFFFF */  li    $t2, -1
@@ -383,8 +383,8 @@ glabel func_800591EC
 /* AD0828 80059688 0C00084C */  jal   osSyncPrintf
 /* AD082C 8005968C AFAE0010 */   sw    $t6, 0x10($sp)
 .L80059690:
-/* AD0830 80059690 3C028012 */  lui   $v0, %hi(D_8011DB10) # $v0, 0x8012
-/* AD0834 80059694 8C42DB10 */  lw    $v0, %lo(D_8011DB10)($v0)
+/* AD0830 80059690 3C028012 */  lui   $v0, %hi(sOOBTimer) # $v0, 0x8012
+/* AD0834 80059694 8C42DB10 */  lw    $v0, %lo(sOOBTimer)($v0)
 /* AD0838 80059698 284100C8 */  slti  $at, $v0, 0xc8
 /* AD083C 8005969C 50200014 */  beql  $at, $zero, .L800596F0
 /* AD0840 800596A0 8E0E0090 */   lw    $t6, 0x90($s0)
@@ -434,7 +434,7 @@ glabel func_800591EC
 /* AD08E8 80059748 3C028012 */   lui   $v0, %hi(D_8011D3A0) # $v0, 0x8012
 /* AD08EC 8005974C 2442D3A0 */  addiu $v0, %lo(D_8011D3A0) # addiu $v0, $v0, -0x2c60
 /* AD08F0 80059750 AC400000 */  sw    $zero, ($v0)
-/* AD08F4 80059754 0C0114D4 */  jal   func_80045350
+/* AD08F4 80059754 0C0114D4 */  jal   Camera_UpdateInterface
 /* AD08F8 80059758 84440002 */   lh    $a0, 2($v0)
 /* AD08FC 8005975C 1000002B */  b     .L8005980C
 /* AD0900 80059760 00000000 */   nop
@@ -450,7 +450,7 @@ glabel func_800591EC
 /* AD0924 80059784 240A3200 */  li    $t2, 12800
 /* AD0928 80059788 ACAA0000 */  sw    $t2, ($a1)
 /* AD092C 8005978C AC690000 */  sw    $t1, ($v1)
-/* AD0930 80059790 0C0114D4 */  jal   func_80045350
+/* AD0930 80059790 0C0114D4 */  jal   Camera_UpdateInterface
 /* AD0934 80059794 84A40002 */   lh    $a0, 2($a1)
 /* AD0938 80059798 1000001C */  b     .L8005980C
 /* AD093C 8005979C 00000000 */   nop
@@ -466,7 +466,7 @@ glabel func_800591EC
 /* AD095C 800597BC 51600007 */  beql  $t3, $zero, .L800597DC
 /* AD0960 800597C0 90CD1D6C */   lbu   $t5, 0x1d6c($a2)
 /* AD0964 800597C4 AC2CD3A0 */  sw    $t4, %lo(D_8011D3A0)($at)
-/* AD0968 800597C8 0C0114D4 */  jal   func_80045350
+/* AD0968 800597C8 0C0114D4 */  jal   Camera_UpdateInterface
 /* AD096C 800597CC 8484D3A2 */   lh    $a0,%lo(D_8011D3A0+2)($a0)
 /* AD0970 800597D0 1000000E */  b     .L8005980C
 /* AD0974 800597D4 00000000 */   nop
@@ -478,12 +478,12 @@ glabel func_800591EC
 /* AD0988 800597E8 3C048012 */   lui   $a0, %hi(D_8011D3A0)
 /* AD098C 800597EC AC39D3A0 */  sw    $t9, %lo(D_8011D3A0)($at)
 /* AD0990 800597F0 3C048012 */  lui   $a0, %hi(D_8011D3A0) # $a0, 0x8012
-/* AD0994 800597F4 0C0114D4 */  jal   func_80045350
+/* AD0994 800597F4 0C0114D4 */  jal   Camera_UpdateInterface
 /* AD0998 800597F8 8484D3A2 */   lh    $a0,%lo(D_8011D3A0+2)($a0)
 /* AD099C 800597FC 10000003 */  b     .L8005980C
 /* AD09A0 80059800 00000000 */   nop
 .L80059804:
-/* AD09A4 80059804 0C0114D4 */  jal   func_80045350
+/* AD09A4 80059804 0C0114D4 */  jal   Camera_UpdateInterface
 /* AD09A8 80059808 8484D3A2 */   lh    $a0,%lo(D_8011D3A0+2)($a0)
 .L8005980C:
 /* AD09AC 8005980C 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
@@ -540,9 +540,9 @@ glabel func_800591EC
 /* AD0A70 800598D0 3C0B8016 */  lui   $t3, %hi(D_8015BD7C) # $t3, 0x8016
 /* AD0A74 800598D4 8D6BBD7C */  lw    $t3, %lo(D_8015BD7C)($t3)
 /* AD0A78 800598D8 2401EFFF */  li    $at, -4097
-/* AD0A7C 800598DC 3C028012 */  lui   $v0, %hi(D_8011D394) # $v0, 0x8012
+/* AD0A7C 800598DC 3C028012 */  lui   $v0, %hi(gDbgCamEnabled) # $v0, 0x8012
 /* AD0A80 800598E0 956C0050 */  lhu   $t4, 0x50($t3)
-/* AD0A84 800598E4 2442D394 */  addiu $v0, %lo(D_8011D394) # addiu $v0, $v0, -0x2c6c
+/* AD0A84 800598E4 2442D394 */  addiu $v0, %lo(gDbgCamEnabled) # addiu $v0, $v0, -0x2c6c
 /* AD0A88 800598E8 01816827 */  nor   $t5, $t4, $at
 /* AD0A8C 800598EC 15A00012 */  bnez  $t5, .L80059938
 /* AD0A90 800598F0 00000000 */   nop
@@ -552,7 +552,7 @@ glabel func_800591EC
 /* AD0AA0 80059900 3B2E0001 */  xori  $t6, $t9, 1
 /* AD0AA4 80059904 11C00005 */  beqz  $t6, .L8005991C
 /* AD0AA8 80059908 AC4E0000 */   sw    $t6, ($v0)
-/* AD0AAC 8005990C 0C02D379 */  jal   func_800B4DE4
+/* AD0AAC 8005990C 0C02D379 */  jal   DbgCamera_Enable
 /* AD0AB0 80059910 02002825 */   move  $a1, $s0
 /* AD0AB4 80059914 10000008 */  b     .L80059938
 /* AD0AB8 80059918 00000000 */   nop
@@ -565,8 +565,8 @@ glabel func_800591EC
 /* AD0AD0 80059930 0C01914D */  jal   func_80064534
 /* AD0AD4 80059934 24C51D64 */   addiu $a1, $a2, 0x1d64
 .L80059938:
-/* AD0AD8 80059938 3C028012 */  lui   $v0, %hi(D_8011D394) # $v0, 0x8012
-/* AD0ADC 8005993C 2442D394 */  addiu $v0, %lo(D_8011D394) # addiu $v0, $v0, -0x2c6c
+/* AD0AD8 80059938 3C028012 */  lui   $v0, %hi(gDbgCamEnabled) # $v0, 0x8012
+/* AD0ADC 8005993C 2442D394 */  addiu $v0, %lo(gDbgCamEnabled) # addiu $v0, $v0, -0x2c6c
 /* AD0AE0 80059940 8C490000 */  lw    $t1, ($v0)
 /* AD0AE4 80059944 3C018016 */  lui   $at, %hi(D_8015BDC8)
 /* AD0AE8 80059948 3C048016 */  lui   $a0, %hi(D_8015BD80) # $a0, 0x8016

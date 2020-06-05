@@ -3896,7 +3896,7 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     Player* player = PLAYER;
     f32 var;
 
-    if ((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) {
+    if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         var = Math_Vec3f_DistXYZ(&actor->posRot.pos, &globalCtx->view.eye) * 0.25f;
     } else {
         var = Math_Vec3f_DistXYZ(&actor->posRot.pos, &player->actor.posRot.pos);
@@ -5539,7 +5539,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->posRot2.pos = actor->posRot.pos;
     actor->posRot2.pos.y += arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->rotTowardsLinkY - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5548,7 +5548,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp2C = globalCtx->view.eye;
     } else {
         sp2C = player->actor.posRot2.pos;
@@ -5568,7 +5568,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     actor->posRot2.pos = arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->rotTowardsLinkY - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5577,7 +5577,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp24 = globalCtx->view.eye;
     } else {
         sp24 = player->actor.posRot2.pos;

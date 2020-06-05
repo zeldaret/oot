@@ -865,7 +865,7 @@ glabel Gameplay_Draw
 /* B36BE8 800BFA48 000A5880 */  sll   $t3, $t2, 2
 /* B36BEC 800BFA4C 020B6821 */  addu  $t5, $s0, $t3
 /* B36BF0 800BFA50 8DA50790 */  lw    $a1, 0x790($t5)
-/* B36BF4 800BFA54 0C01647B */  jal   func_800591EC
+/* B36BF4 800BFA54 0C01647B */  jal   Camera_Update
 /* B36BF8 800BFA58 AFAC0040 */   sw    $t4, 0x40($sp)
 /* B36BFC 800BFA5C 0C02AE51 */  jal   func_800AB944
 /* B36C00 800BFA60 8FA40040 */   lw    $a0, 0x40($sp)

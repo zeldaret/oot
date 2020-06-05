@@ -106,7 +106,7 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if (CHECK_PAD(pad1->press, U_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.sceneSetupIndex >= 4) &&
-        (D_8011D394 == 0)) {
+        (gDbgCamEnabled == 0)) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;

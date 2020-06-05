@@ -549,8 +549,8 @@ typedef struct {
     /* 0x00D8 */ f32 unk_D8;
     /* 0x00DC */ f32 dist; // possibly a Vec3f
     /* 0x00E0 */ f32 unk_E0;
-    /* 0x00E4 */ Vec3f unk_E4;
-    /* 0x00F0 */ Vec3f unk_F0;
+    /* 0x00E4 */ Vec3f posOffset;
+    /* 0x00F0 */ Vec3f playerPosDelta;
     /* 0x00FC */ f32 fov;
     /* 0x0100 */ f32 unk_100; // update rate of distance from link?
     /* 0x0104 */ f32 unk_104;
@@ -1761,13 +1761,13 @@ typedef struct {
 } ShakeInfo; // size = 0x1E
 
 typedef struct {
-    /* 0x00 */ Vec3f vec1;
-    /* 0x0C */ Vec3f vec2;
+    /* 0x00 */ Vec3f atOffset;
+    /* 0x0C */ Vec3f eyeOffset;
     /* 0x18 */ s16 rotZ;
     /* 0x1A */ s16 unk_1A;
     /* 0x1C */ s16 zoom;
     /* 0x20 */ f32 unk_20;
-} UnkQuakeCalcStruct; // size = 0x24
+} QuakeCamCalc; // size = 0x24
 
 typedef struct {
     /* 0x00 */ u32 idx;

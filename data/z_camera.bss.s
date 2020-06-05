@@ -39,7 +39,7 @@ glabel D_8015BDC8
 glabel D_8015CE46
     .space 0x6
 
-glabel D_8015CE4C
+glabel playerFloorPoly
     .space 0x4
 
 glabel D_8015CE50

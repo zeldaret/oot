@@ -57,7 +57,7 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4D58.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4DE4.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/DbgCamera_Enable.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4E7C.s")
 
