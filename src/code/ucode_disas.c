@@ -6,13 +6,11 @@
     { set, #set, #unset }
 #define F3DZEX_RENDERMODE(name, mask) \
     { #name, name, mask }
-#define F3DZEX_SETRENDERMACRO(name, shift, len, value0, value1, value2, value3) \
-    {                                                                           \
-        name, shift, len, {                                                     \
-            { #value0, value0 }, { #value1, value1 }, { #value2, value2 }, {    \
-#value3, value3                                                 \
-            }                                                                   \
-        }                                                                       \
+#define F3DZEX_SETRENDERMACRO(name, shift, len, value0, value1, value2, value3)                 \
+    {                                                                                           \
+        name, shift, len, {                                                                     \
+            { #value0, value0 }, { #value1, value1 }, { #value2, value2 }, { #value3, value3 }, \
+        }                                                                                       \
     }
 
 #define DISAS_LOG        \
@@ -61,15 +59,13 @@ const char* UCodeDisas_ParseCombineColor(u32 value, u32 idx) {
         case G_CCMUX_ENVIRONMENT:
             ret = "ENVIRONMENT";
             break;
-        case 6: {
+        case 6:
             ret = (idx == 2) ? "CENTER" : (idx == 3) ? "SCALE" : "1";
             break;
-        }
-        case 7: {
+        case 7:
             ret = (idx == 1) ? "NOISE" : (idx == 2) ? "K4" : (idx == 3) ? "COMBINED_ALPHA" : "0";
             break;
-        }
-        default: {
+        default:
             if (idx == 3) {
                 switch (value) {
                     case G_CCMUX_TEXEL0_ALPHA:
@@ -103,7 +99,6 @@ const char* UCodeDisas_ParseCombineColor(u32 value, u32 idx) {
             } else {
                 ret = "0";
             }
-        }
     }
     return ret;
 }
@@ -111,10 +106,9 @@ const char* UCodeDisas_ParseCombineColor(u32 value, u32 idx) {
 const char* UCodeDisas_ParseCombineAlpha(u32 value, u32 idx) {
     const char* ret = "?";
     switch (value) {
-        case 0: {
+        case 0:
             ret = (idx == 3) ? "LOD_FRACTION" : "COMBINED";
             break;
-        }
         case G_ACMUX_TEXEL0:
             ret = "TEXEL0";
             break;
@@ -130,10 +124,9 @@ const char* UCodeDisas_ParseCombineAlpha(u32 value, u32 idx) {
         case G_ACMUX_ENVIRONMENT:
             ret = "ENVIRONMENT";
             break;
-        case 6: {
+        case 6:
             ret = (idx == 3) ? "PRIM_LOD_FRAC" : "1";
             break;
-        }
         case G_ACMUX_0:
             ret = "0";
             break;
@@ -175,7 +168,7 @@ void UCodeDisas_ParseGeometryMode(UCodeDisas* this, u32 mode) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sUCodeDisasGeometryModes); i++) {
-        if ((sUCodeDisasGeometryModes[i].value & mode)) {
+        if (sUCodeDisasGeometryModes[i].value & mode) {
             u32 cond = first;
             if (!cond) {
                 DISAS_LOG("|");
@@ -235,7 +228,7 @@ void UCodeDisas_ParseRenderMode(UCodeDisas* this, u32 mode) {
 
     if (1) {}
     // clang-format off
-    if (this->enableLog == 0){} else { osSyncPrintf("\nGBL_c1(%s, %s, %s, %s)|", D_8012DDDC[0][a >> 12 & 3], D_8012DDDC[1][a >> 8 & 3], D_8012DDDC[2][a >> 4 & 3], D_8012DDDC[3][a >> 0 & 3]);}
+    if (this->enableLog == 0) {} else { osSyncPrintf("\nGBL_c1(%s, %s, %s, %s)|", D_8012DDDC[0][a >> 12 & 3], D_8012DDDC[1][a >> 8 & 3], D_8012DDDC[2][a >> 4 & 3], D_8012DDDC[3][a >> 0 & 3]); }
     // clang-format on
 
     if (this->enableLog) {
