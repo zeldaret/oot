@@ -54,7 +54,7 @@ void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->envColorAlpha = 0xFF;
     params = this->actor.params;
     if (params == 1 || params == 2 || params == 3 || params == 4) {
-        Actor_SetScale(&this->actor, sScales[this->actor.params] * 9.999999747378752e-05f);
+        Actor_SetScale(&this->actor, sScales[this->actor.params] * 1.0e-4f);
         this->actor.draw = BgSpot16Doughnut_Draw2;
         this->actor.update = BgSpot16Doughnut_Update2;
     } else {
@@ -97,7 +97,7 @@ void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->envColorAlpha = 0xFF;
         }
     } else if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[2] != NULL &&
-               (u16)globalCtx->csCtx.npcActions[2]->action == 2) {
+               globalCtx->csCtx.npcActions[2]->action == 2) {
         if (this->envColorAlpha >= 6) {
             this->envColorAlpha -= 5;
         } else {
@@ -117,7 +117,7 @@ void BgSpot16Doughnut_Update2(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
     this->actor.shape.rot.y -= 0x20;
-    Actor_SetScale(&this->actor, this->actor.scale.x + 0.001999999862164259f);
+    Actor_SetScale(&this->actor, this->actor.scale.x + 0.0019999998f);
 }
 
 void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
