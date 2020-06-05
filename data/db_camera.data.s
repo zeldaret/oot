@@ -256,7 +256,9 @@ glabel D_8012D13C
     .incbin "baserom.z64", 0xBA42DC, 0x10
 
 glabel D_8012D14C
-    .incbin "baserom.z64", 0xBA42EC, 0xC
+    .word func_800B8DB0
+    .word func_800B8BB0
+    .word func_800B8F30
 
 glabel D_8012D158
     .incbin "baserom.z64", 0xBA42F8, 0x18
