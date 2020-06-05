@@ -49,7 +49,7 @@ void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 params;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    Actor_SetScale(&this->actor, 0.10000000149011612f);
+    Actor_SetScale(&this->actor, 0.1f);
     this->fireFlag = 0;
     this->envColorAlpha = 0xFF;
     params = this->actor.params;
@@ -62,15 +62,15 @@ void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
         // Death Mountain itself falls into the default case.
         switch (globalCtx->sceneNum) {
             case SCENE_SPOT01:
-                Actor_SetScale(&this->actor, 0.03999999910593033f);
+                Actor_SetScale(&this->actor, 0.04f);
                 break;
             case SCENE_SHRINE:
             case SCENE_SHRINE_N:
             case SCENE_SHRINE_R:
-                Actor_SetScale(&this->actor, 0.017999999225139618f);
+                Actor_SetScale(&this->actor, 0.018f);
                 break;
             default:
-                Actor_SetScale(&this->actor, 0.10000000149011612f);
+                Actor_SetScale(&this->actor, 0.1f);
                 break;
         }
         osSyncPrintf(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
