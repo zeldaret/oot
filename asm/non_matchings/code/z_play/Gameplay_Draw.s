@@ -357,8 +357,8 @@ glabel Gameplay_Draw
 .L800BF314:
 /* B364B4 800BF314 3C010001 */  lui   $at, (0x00012124 >> 16) # lui $at, 1
 /* B364B8 800BF318 34212124 */  ori   $at, (0x00012124 & 0xFFFF) # ori $at, $at, 0x2124
-/* B364BC 800BF31C 3C0A8017 */  lui   $t2, %hi(D_801759C0) # $t2, 0x8017
-/* B364C0 800BF320 254A59C0 */  addiu $t2, %lo(D_801759C0) # addiu $t2, $t2, 0x59c0
+/* B364BC 800BF31C 3C0A8017 */  lui   $t2, %hi(gZBuffer) # $t2, 0x8017
+/* B364C0 800BF320 254A59C0 */  addiu $t2, %lo(gZBuffer) # addiu $t2, $t2, 0x59c0
 /* B364C4 800BF324 02012021 */  addu  $a0, $s0, $at
 /* B364C8 800BF328 8E2702DC */  lw    $a3, 0x2dc($s1)
 /* B364CC 800BF32C AFA4003C */  sw    $a0, 0x3c($sp)
@@ -789,7 +789,7 @@ glabel Gameplay_Draw
 /* B36AD4 800BF934 24010001 */  li    $at, 1
 /* B36AD8 800BF938 3C0D8016 */  lui   $t5, %hi(gTrnsnUnkState) # $t5, 0x8016
 /* B36ADC 800BF93C 11610005 */  beq   $t3, $at, .L800BF954
-/* B36AE0 800BF940 3C0F8017 */   lui   $t7, %hi(D_801759C0) # $t7, 0x8017
+/* B36AE0 800BF940 3C0F8017 */   lui   $t7, %hi(gZBuffer) # $t7, 0x8017
 /* B36AE4 800BF944 8DAD1490 */  lw    $t5, %lo(gTrnsnUnkState)($t5)
 /* B36AE8 800BF948 24010001 */  li    $at, 1
 /* B36AEC 800BF94C 55A10030 */  bnel  $t5, $at, .L800BFA10
@@ -800,7 +800,7 @@ glabel Gameplay_Draw
 /* B36AFC 800BF95C 00300821 */  addu  $at, $at, $s0
 /* B36B00 800BF960 AFAC0070 */  sw    $t4, 0x70($sp)
 /* B36B04 800BF964 8E2E02DC */  lw    $t6, 0x2dc($s1)
-/* B36B08 800BF968 25EF59C0 */  addiu $t7, %lo(D_801759C0) # addiu $t7, $t7, 0x59c0
+/* B36B08 800BF968 25EF59C0 */  addiu $t7, %lo(gZBuffer) # addiu $t7, $t7, 0x59c0
 /* B36B0C 800BF96C 27A50070 */  addiu $a1, $sp, 0x70
 /* B36B10 800BF970 AC2E2134 */  sw    $t6, 0x2134($at)
 /* B36B14 800BF974 3C010001 */  lui   $at, 1

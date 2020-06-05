@@ -3773,7 +3773,7 @@ extern pif_data_buffer_t pifMempakBuf;
 //extern ? D_801759BA;
 //extern ? D_801759BC;
 //extern ? D_801759BE;
-extern u8 D_801759C0[]; // _codeSegmentEnd/_codeSegmentBssEnd or gZBuffer
+
 extern u16 gZBuffer[SCREEN_WIDTH * SCREEN_HEIGHT]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u8 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE]; // 0xC00 bytes
