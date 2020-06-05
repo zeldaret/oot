@@ -1750,7 +1750,7 @@ const char* DmaMgr_GetFileNameImpl(u32 vrom) {
         iter++;
         name++;
     }
-    // BUG: since the devs forgot to return in case the file isn't found, the return value will be a pointer to the end
+    //! @bug Since the devs forgot to return in case the file isn't found, the return value will be a pointer to the end
     // of gDmaDataTable
 }
 

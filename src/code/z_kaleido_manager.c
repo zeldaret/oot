@@ -84,7 +84,7 @@ void* KaleidoManager_GetRamAddr(void* vram) {
                 ovl = iter;
                 goto KaleidoManager_GetRamAddr_end;
             }
-            // BUG: devs probably forgot iter++ here
+            //! @bug Devs probably forgot iter++ here
         }
 
         osSyncPrintf("異常\n"); // Abnormal

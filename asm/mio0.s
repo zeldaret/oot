@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel Yaz0_Old_Decompress
+glabel Mio0_Decompress
 /* 0031B0 800025B0 8C870008 */  lw    $a3, 8($a0)
 /* 0031B4 800025B4 8C99000C */  lw    $t9, 0xc($a0)
 /* 0031B8 800025B8 8C980004 */  lw    $t8, 4($a0)

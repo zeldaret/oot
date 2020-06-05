@@ -262,10 +262,10 @@ typedef struct OSScTask {
 } OSScTask;
 
 typedef struct GraphicsContext {
-    /* 0x0000 */ Gfx* polyOpaBuffer;
-    /* 0x0004 */ Gfx* polyXluBuffer;
-    /* 0x0008 */ char unk_008[0x08];
-    /* 0x0010 */ Gfx* overlayBuffer;
+    /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
+    /* 0x0004 */ Gfx* polyXluBuffer; // Pointer to "Zelda 1"
+    /* 0x0008 */ char unk_008[0x08]; // Unused, could this be pointers to "Zelda 2" / "Zelda 3"
+    /* 0x0010 */ Gfx* overlayBuffer; // Pointer to "Zelda 4"
     /* 0x0014 */ u32 unk_014;
     /* 0x0018 */ char unk_018[0x20];
     /* 0x0038 */ OSMesg msgBuff[0x08];
@@ -278,10 +278,10 @@ typedef struct GraphicsContext {
     /* 0x01B4 */ TwoHeadGfxArena work;
     /* 0x01C4 */ char unk_01C4[0xC0];
     /* 0x0284 */ OSViMode* viMode;
-    /* 0x0288 */ char unk_0288[0x20];
-    /* 0x02A8 */ TwoHeadGfxArena overlay;
-    /* 0x02B8 */ TwoHeadGfxArena polyOpa;
-    /* 0x02C8 */ TwoHeadGfxArena polyXlu;
+    /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
+    /* 0x02A8 */ TwoHeadGfxArena    overlay; // "Zelda 4"
+    /* 0x02B8 */ TwoHeadGfxArena    polyOpa; // "Zelda 0"
+    /* 0x02C8 */ TwoHeadGfxArena    polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
     /* 0x02DC */ u16* curFrameBuffer;
     /* 0x02E0 */ char unk_2E0[0x04];
@@ -910,7 +910,7 @@ typedef struct {
     /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in bank
     /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in bank
     /* 0x000C */ ObjectStatus status[OBJECT_EXCHANGE_BANK_MAX];
-} ObjectContext; // size = 0x514
+} ObjectContext; // size = 0x518
 
 typedef struct {
     /* 0x00 */ Gfx* opa;
@@ -1497,8 +1497,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ char magic[4]; // Yaz0
     /* 0x04 */ u32 decSize;
-    /* 0x08 */ u32 compInfoOffset; // only used in yaz0_old.c
-    /* 0x0C */ u32 uncompDataOffset; // only used in yaz0_old.c
+    /* 0x08 */ u32 compInfoOffset; // only used in mio0
+    /* 0x0C */ u32 uncompDataOffset; // only used in mio0
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
@@ -1706,15 +1706,21 @@ typedef struct {
     /* 0x20 */ f32 unk_20;
 } UnkQuakeCalcStruct; // size = 0x24
 
+
+#define UCODE_NULL      0
+#define UCODE_F3DZEX    1
+#define UCODE_UNK       2
+#define UCODE_S2DEX     3
+
 typedef struct {
-    /* 0x00 */ u32 idx;
+    /* 0x00 */ u32 type;
     /* 0x04 */ void* ptr;
 } UCodeInfo; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u32 segments[NUM_SEGMENTS];
     /* 0x40 */ u32 dlStack[18];
-    /* 0x88 */ u32 dlDepth;
+    /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
     /* 0x90 */ u32 vtxCnt;
     /* 0x94 */ u32 spvtxCnt;
@@ -1727,9 +1733,9 @@ typedef struct {
     /* 0xB0 */ u32 tileSyncRequired;
     /* 0xB4 */ u32 loadSyncRequired;
     /* 0xB8 */ u32 syncErr;
-    /* 0xBC */ u32 enableLog;
-    /* 0xC0 */ u32 ucodeInfoIdx;
-    /* 0xC4 */ u32 ucodeInfoCount;
+    /* 0xBC */ s32 enableLog;
+    /* 0xC0 */ s32 ucodeType;
+    /* 0xC4 */ s32 ucodeInfoCount;
     /* 0xC8 */ UCodeInfo* ucodeInfo;
     /* 0xCC */ u32 modeH;
     /* 0xD0 */ u32 modeL;
@@ -1867,8 +1873,38 @@ typedef struct {
 } SpeedMeterTimeEntry; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ s16 intPart[4][4];
+    /* 0x00 */ u16 intPart[4][4];
     /* 0x20 */ u16 fracPart[4][4];
 } MatrixInternal; // size = 0x40
+
+
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* name;
+} F3dzexConst; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* setName;
+    /* 0x08 */ const char* unsetName;
+} F3dzexFlag; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+    /* 0x08 */ u32 mask;
+} F3dzexRenderMode; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+} F3dzexSetModeMacroValue; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 shift;
+    /* 0x08 */ u32 len;
+    /* 0x0C */ F3dzexSetModeMacroValue values[4];
+} F3dzexSetModeMacro; // size = 0x2C
 
 #endif
