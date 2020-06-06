@@ -305,6 +305,7 @@ void func_80B53974(EnZl3* this, u8 arg1) {
     this->unk_3C8 = arg1;
 }
 
+void func_80B53980(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53B64.s")
@@ -312,6 +313,114 @@ void func_80B53974(EnZl3* this, u8 arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54360.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5458C.s")
+/*s32 func_80B5458C(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, EnZl3 *thisx, Gfx
+**gfx) { void *sp78; MtxF sp38; Vec3s sp30; EnZl3 *sp20; void *temp_v0;
+
+    if (limbIndex == 14) {
+        temp_v0 = Graph_Alloc(globalCtx->state.gfxCtx, 0x1C0U);
+        sp78 = temp_v0;
+        rot->x += thisx->unk_3F8.unk_08.y;
+        rot->z += thisx->unk_3F8.unk_08.x;
+        temp_a0 = *gfx;
+        *gfx = (Gfx *) (temp_a0 + 8);
+        temp_a0->words.w1 = (u32) temp_v0;
+        temp_a0->words.w0 = 0xDB060030U;
+
+        gSPSegment(gfx[0]++, 0x0C, temp_v0)
+
+        Matrix_Push();
+        Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
+        Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
+        Matrix_Push();
+        Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_Get(&sp38);
+        func_800D20CC(&sp38, &sp30, 0);
+        if (!func_800C0D28(globalCtx)) {
+            func_80B53980(thisx, sp32, 0);
+            func_80B54360(thisx, sp30, 1);
+            func_80B53B64(thisx, sp34, 2);
+        }
+        temp_a0_2 = (gGameInfo->unk1492 + thisx->unk28C) << 0x10;
+        temp_a1 = (gGameInfo->unk1494 + thisx->unk28E) << 0x10;
+        temp_a2 = (gGameInfo->unk1496 + thisx->unk290) << 0x10;
+        sp20 = thisx + 0x28C;
+        Matrix_RotateRPY((s16) (temp_a0_2 >> 0x10), (s16) (temp_a1 >> 0x10), (s16) (temp_a2 >> 0x10), MTXMODE_APPLY);
+        Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_ToMtx((Mtx *) sp78, "../z_en_zl3.c", 1490);
+        Matrix_Get(&sp38);
+        func_800D20CC(&sp38, &sp30, 0);
+        if (!func_800C0D28(globalCtx)) {
+            func_80B53980(thisx, sp32, 3);
+        }
+        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk1498 + sp20->unk6) << 0x10) >> 0x10), (s16) ((s32)
+((gGameInfo->unk149A + (bitwise s16) sp20->actor.initPosRot.pos.x) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk149C
++ sp20->unkA) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_ToMtx((Mtx *) (sp78 + 0x40), "../z_en_zl3.c", 1534);
+        Matrix_Get(&sp38);
+        func_800D20CC(&sp38, &sp30, 0);
+        if (!func_800C0D28(globalCtx)) {
+            func_80B54360(thisx, sp30, 7);
+        }
+        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk149E + (bitwise s16) sp20->actor.initPosRot.pos.y) << 0x10) >>
+0x10), (s16) ((s32) ((gGameInfo->unk14A0 + sp20->unkE) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14A2 + (bitwise
+s16) sp20->actor.initPosRot.pos.z) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-1019.0f, -26.0f, 0.0f,
+MTXMODE_APPLY); Matrix_ToMtx((Mtx *) (sp78 + 0x80), "../z_en_zl3.c", 1554); Matrix_Pull(); Matrix_Push();
+        Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
+        Matrix_Get(&sp38);
+        func_800D20CC(&sp38, &sp30, 0);
+        if (!func_800C0D28(globalCtx)) {
+            func_80B53980(thisx, sp32, 9);
+            func_80B54360(thisx, sp30, 0xA);
+            func_80B53B64(thisx, sp34, 0xB);
+        }
+        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14A4 + sp20->unk12) << 0x10) >> 0x10), (s16) ((s32)
+((gGameInfo->unk14A6 + sp20->actor.initPosRot.rot.x) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14A8 +
+sp20->actor.initPosRot.rot.y) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
+        Matrix_ToMtx((Mtx *) (sp78 + 0xC0), "../z_en_zl3.c", 1579);
+        Matrix_Get(&sp38);
+        func_800D20CC(&sp38, &sp30, 0);
+        if (!func_800C0D28(globalCtx)) {
+            func_80B53980(thisx, sp32, 0xC);
+            func_80B54360(thisx, sp30, 0xD);
+            func_80B53B64(thisx, sp34, 0xE);
+        }
+        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14AA + sp20->actor.initPosRot.rot.z) << 0x10) >> 0x10), (s16)
+((s32) ((gGameInfo->unk14AC + sp20->unk1A) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14AE + sp20->actor.params) <<
+0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY); Matrix_ToMtx((Mtx *) (sp78 +
+0x100), "../z_en_zl3.c", 1598); Matrix_Pull(); Matrix_Push(); Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
+        Matrix_Get(&sp38);
+        func_800D20CC(&sp38, &sp30, 0);
+        if (!func_800C0D28(globalCtx)) {
+            func_80B53980(thisx, sp32, 0xF);
+            func_80B54360(thisx, sp30, 0x10);
+            func_80B53B64(thisx, sp34, 0x11);
+        }
+        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14B0 + (s16) sp20->actor.objBankIndex) << 0x10) >> 0x10), (s16)
+((s32) ((gGameInfo->unk14B2 + (s16) sp20->actor.soundEffect) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14B4 +
+(s16) sp20->actor.unk_22) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
+        Matrix_ToMtx((Mtx *) (sp78 + 0x140), "../z_en_zl3.c", 1623);
+        Matrix_Get(&sp38);
+        func_800D20CC(&sp38, &sp30, 0);
+        if (!func_800C0D28(globalCtx)) {
+            func_80B53980(thisx, sp32, 0x12);
+            func_80B54360(thisx, sp30, 0x13);
+            func_80B53B64(thisx, sp34, 0x14);
+        }
+        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14B6 + (bitwise s16) sp20->actor.posRot.pos.x) << 0x10) >> 0x10),
+(s16) ((s32) ((gGameInfo->unk14B8 + sp20->unk26) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14BA + (bitwise s16)
+sp20->actor.posRot.pos.y) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
+        Matrix_ToMtx((Mtx *) (sp78 + 0x180), "../z_en_zl3.c", 1642);
+        Matrix_Pull();
+        Matrix_Pull();
+        thisx->unk_2FC = 1;
+    } else {
+        if (limbIndex == 7) {
+            rot->x += thisx->unk_3F8.unk_0E.y;
+            rot->y -= thisx->unk_3F8.unk_0E.x;
+        }
+    }
+    return 0;
+}*/
 
 void func_80B54CE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     EnZl3* this = THIS;
@@ -423,21 +532,20 @@ void func_80B54FB4(EnZl3* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B55054.s")
 /*void func_80B55054(EnZl3 *this) {
-    struct Actor *attachedB;
-    void *temp_v0;
+    Actor* attachedB;
+    f32* temp_v0;
 
     if (this->unk328 != 0) {
         attachedB = this->actor.attachedB;
-        if (attachedB != 0) {
-            temp_v0 = this + 0x2EC;
-            if (this->unk2EC < 19.0f) {
+        if (attachedB != NULL) {
+            temp_v0 = &this_unk_2EC;
+            if (*temp_v0 < 19.0f) {
                 attachedB->unk1A8 = (f32) ((20.0f - *temp_v0) * 12.75f);
-                *temp_v0 = (f32) (*temp_v0 + 1.0f);
-                return;
+                *temp_v0 += 1.0f;
+            } else {
+                Actor_Kill(attachedB);
+                this->actor.attachedB = NULL;
             }
-            this = this;
-            Actor_Kill((Actor *) attachedB);
-            this->actor.attachedB = NULL;
         }
     }
 }*/
@@ -534,7 +642,7 @@ void func_80B55408(EnZl3* this) {
 /*void func_80B55444(EnZl3* this, GlobalContext* globalCtx) {
     s32 temp_v0 = func_80B5396C(this);
     if (temp_v0 >= 0) {
-        if (temp_v0 != this->unk_2F0) {
+        if (this->unk_2F0 != temp_v0) {
             switch (temp_v0) {
                 case 0:
                     func_80B551E0(this);
@@ -920,14 +1028,17 @@ void func_80B56474(EnZl3* this, s32 arg1) {
 void func_80B564A8(EnZl3* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B564A8.s")
 /*void func_80B564A8(EnZl3 *this, GlobalContext *globalCtx) {
+    s32* val = &D_80B5A494;
     s32 temp_v0 = func_80B5396C(this);
 
-    if (D_80B5A494 > 0) {
-        D_80B5A494 -= 1;
-    } else if (D_80B5A494 == 0) {
-        D_80B5A494 -= 1;
-        if (temp_v0 == 8) {
-            func_80B5604C(this);
+    if (*val > 0) {
+        *val -= 1;
+    } else {
+        if (*val == 0) {
+            *val -= 1;
+            if (temp_v0 == 8) {
+                func_80B5604C(this);
+            }
         }
     }
 
@@ -959,7 +1070,7 @@ void func_80B564A8(EnZl3* this, GlobalContext* globalCtx);
                     func_80B55EF0(this);
                     break;
                 case 8:
-                    D_80B5A494 = 10;
+                    *val = 10;
                     break;
                 case 9:
                     func_80B56160(this);
@@ -978,6 +1089,7 @@ void func_80B564A8(EnZl3* this, GlobalContext* globalCtx);
                     break;
                 case 14:
                     Actor_Kill(&this->actor);
+                    break;
                 default:
                     osSyncPrintf("En_Zl3_inFinal2_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
@@ -1234,9 +1346,10 @@ s16 func_80B57034(EnZl3* this, s32 arg1, s32 arg2);
     if ((vec2 != NULL) && (vec1 != NULL)) {
         xDiff = vec2->x - vec1->x;
         zDiff = vec2->z - vec1->z;
-        if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
-            return Math_atan2f(xDiff, zDiff) * 10430.3779296875f; // todo float
+        if ((xDiff == 0.0f) || (zDiff == 0.0f)) {
+            return 0;
         }
+        return Math_atan2f(xDiff, zDiff) * 10430.3779296875f; // todo float
     }
     return 0;
 }*/
@@ -2123,7 +2236,21 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59698.s")
+s32 func_80B59698(EnZl3* this, GlobalContext* globalCtx) {
+    s32 cond = Flags_GetSwitch(globalCtx, 0x37) &&
+               ((globalCtx->sceneNum == SCENE_GANON_DEMO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
+                (globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO));
+    u8 curSpawn;
+
+    if (cond) {
+        curSpawn = globalCtx->curSpawn;
+        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
+            ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 s32 func_80B59768(EnZl3* this, GlobalContext* globalCtx) {
     s32 cond = Flags_GetSwitch(globalCtx, 0x37) &&
