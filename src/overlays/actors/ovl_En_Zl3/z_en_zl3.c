@@ -75,9 +75,11 @@ ColliderCylinderInit_Set3 D_80B5A410 = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-u32 D_80B5A43C[] = { 0x060030C8, 0x06003C48, 0x06004048, 0x06004548, 0x06004948, 0x06004D48, 0x06005148, 0x00000000 };
-u32 D_80B5A45C[] = { 0x06003508, 0x06005548, 0x06005948 };
-u32 D_80B5A468[] = { 0x00000000 };
+UNK_TYPE D_80B5A43C[] = {
+    0x060030C8, 0x06003C48, 0x06004048, 0x06004548, 0x06004948, 0x06004D48, 0x06005148, 0x00000000
+};
+UNK_TYPE D_80B5A45C[] = { 0x06003508, 0x06005548, 0x06005948 };
+s32 D_80B5A468 = 0;
 Vec3f D_80B5A46C = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B5A478 = { 0.0f, 10.0f, 0.0f };
 f32 D_80B5A484 = 0.0f;
@@ -262,7 +264,7 @@ void func_80B53764(EnZl3* this, GlobalContext* globalCtx) {
     func_80034A14(&this->actor, &this->unk_3F8, kREG(17) + 0xC, 2);
 }
 
-void func_80B537E8(EnZl3* this) {
+s32 func_80B537E8(EnZl3* this) {
     s16 rotTowardsLinkY = this->actor.rotTowardsLinkY;
     s16* rotY = &this->actor.posRot.rot.y;
     s16* unk_3D0 = &this->unk_3D0;
@@ -271,10 +273,25 @@ void func_80B537E8(EnZl3* this) {
     Math_SmoothScaleMaxMinS(unk_3D0, ABS((s16)(rotTowardsLinkY - *rotY)), 5, 6200, 100);
     Math_SmoothScaleMaxMinS(rotY, rotTowardsLinkY, 5, *unk_3D0, 100);
     this->actor.shape.rot.y = *rotY;
+    return;
 }
 
-void func_80B538B0(EnZl3* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B538B0.s")
+void func_80B538B0(EnZl3* this) {
+    s16 rotTowardsLinkY = this->actor.rotTowardsLinkY;
+    s16* rotY = &this->actor.posRot.rot.y;
+
+    if (ABS((s16)(rotTowardsLinkY - *rotY)) >= 0x1556) {
+        D_80B5A468 = 1;
+    }
+
+    if (D_80B5A468 != 0) {
+        if (!func_80B537E8(this)) {
+            D_80B5A468 = 0;
+        }
+    } else {
+        this->unk_3D0 = 0;
+    }
+}
 
 s32 EnZl3_FrameUpdateMatrix(EnZl3* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -435,19 +452,22 @@ void func_80B550F0(EnZl3* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B55144.s")
-/*void func_80B55144(EnZl3 *this) {
-    //f32 one = 1.0f;
-    if (D_80B5A484 < 2.0f) {
-        D_80B5A484 += 1.0f;
+void func_80B55144(EnZl3* this) {
+    f32* fl = &D_80B5A484;
+    if (1) {
+        ; // necessary to match
+    }
+
+    if (*fl < 2.0f) {
+        *fl += 1.0f;
         func_80B53554(this, 2);
-    } else if (D_80B5A484 < 4.0f) {
-        D_80B5A484 += 1.0f;
+    } else if (*fl < 4.0f) {
+        *fl += 1.0f;
         func_80B53554(this, 1);
     } else {
         func_80B534CC(this);
     }
-}*/
+}
 
 void func_80B551E0(EnZl3* this) {
     func_80B54E14(this, &D_06008AD0, 0, 0.0f, 0);
@@ -1148,17 +1168,17 @@ void func_80B56DEC(EnZl3* this) {
     }
 }
 
-void func_80B56E38(EnZl3* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B56E38.s")
-/*void func_80B56E38(EnZl3 *this, GlobalContext *globalCtx) {
-    s32 pad[3];
-    SkelAnime *sp20 = &this->skelAnime;
+void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s32 sfxId;
+    SkelAnime* sp20 = &this->skelAnime;
 
     if ((func_800A56C8(sp20, 6.0f) || func_800A56C8(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
-        func_80078914(&this->actor.unk_E4, func_80041F34(&globalCtx->colCtx, this->actor.floorPoly,
-this->actor.floorPolySource) + 0x800);
+        sfxId = 0x800;
+        sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
+        func_80078914(&this->actor.unk_E4, sfxId);
     }
-}*/
+}
 
 void func_80B56EB8(EnZl3* this, GlobalContext* globalCtx) {
     Flags_SetSwitch(globalCtx, func_80B54DB4(this));
@@ -1168,23 +1188,20 @@ s32 func_80B56EE4(EnZl3* this, GlobalContext* globalCtx) {
     return Flags_GetSwitch(globalCtx, func_80B54DB4(this));
 }
 
-void func_80B56F10(EnZl3* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B56F10.s")
-/*void func_80B56F10(EnZl3 *this, GlobalContext *globalCtx) {
-    s32 pathIndex;
+void func_80B56F10(EnZl3* this, GlobalContext* globalCtx) {
+    s32 waypoint;
     Path* pathHead = globalCtx->setupPathList;
-    //Path* path;
 
     if (pathHead != NULL) {
-        pathIndex = func_80B54DC4(this);
-        pathHead = &pathHead[pathIndex];
+        waypoint = func_80B54DC4(this);
+        pathHead += waypoint;
         this->unk_30C = pathHead;
         this->unk_310 = pathHead->count;
-        osSyncPrintf("En_Zl3_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", pathIndex);
+        osSyncPrintf("En_Zl3_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", waypoint);
     } else {
         osSyncPrintf("En_Zl3_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
     }
-}*/
+}
 
 s32 func_80B56F8C(EnZl3* this, s32 arg1) {
     s32 unk_310 = this->unk_310;
@@ -1384,7 +1401,19 @@ s32 func_80B575F0(EnZl3* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5764C.s")
+void func_80B5764C(EnZl3* this, GlobalContext* globalCtx) {
+    s16 sceneNum = globalCtx->sceneNum;
+    s32 unk_314;
+
+    if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
+        unk_314 = this->unk_314 + 1;
+        if (unk_314 == 1) {
+            if (!Gameplay_InCsMode(globalCtx)) {
+                func_800800F8(globalCtx, 0x3E8, 0x28, &this->actor, 0);
+            }
+        }
+    }
+}
 
 s32 func_80B576C8(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B575F0(this, globalCtx) && (this->unk_3D8 == 0)) {
