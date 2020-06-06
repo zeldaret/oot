@@ -7,7 +7,7 @@ glabel func_800B3FF4
 /* B2B1A8 800B4008 0C02CFCE */  jal   func_800B3F38
 /* B2B1AC 800B400C 27A5001C */   addiu $a1, $sp, 0x1c
 /* B2B1B0 800B4010 27A40028 */  addiu $a0, $sp, 0x28
-/* B2B1B4 800B4014 0C01F0FD */  jal   func_8007C3F4
+/* B2B1B4 800B4014 0C01F0FD */  jal   OLib_Vec3fToVecSphRot90
 /* B2B1B8 800B4018 27A5001C */   addiu $a1, $sp, 0x1c
 /* B2B1BC 800B401C 8FA50030 */  lw    $a1, 0x30($sp)
 /* B2B1C0 800B4020 87AE002E */  lh    $t6, 0x2e($sp)
@@ -20,5 +20,5 @@ glabel func_800B3FF4
 /* B2B1DC 800B403C 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B2B1E0 800B4040 27BD0030 */  addiu $sp, $sp, 0x30
 /* B2B1E4 800B4044 03E00008 */  jr    $ra
-/* B2B1E8 800B4048 00000000 */   nop   
+/* B2B1E8 800B4048 00000000 */   nop
 

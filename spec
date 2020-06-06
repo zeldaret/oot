@@ -24,7 +24,7 @@ beginseg
     include "build/src/boot/assert.o"
     include "build/src/boot/is_debug.o"
     include "build/src/libultra_boot_O2/osDriveRomInit.o"
-    include "build/asm/yaz0_old.o"
+    include "build/asm/mio0.o"
     include "build/src/boot/stackcheck.o"
     include "build/src/boot/logutils.o"
     include "build/src/libultra_boot_O2/sprintf.o"
@@ -293,7 +293,6 @@ beginseg
     include "build/src/code/code_800430A0.o"
     include "build/src/code/code_80043480.o"
     include "build/src/code/z_camera.o"
-    include "build/data/z_camera.data.o"
     include "build/data/z_camera.bss.o"
     include "build/src/code/z_collision_btltbls.o"
     include "build/src/code/z_collision_check.o"
@@ -331,11 +330,11 @@ beginseg
     include "build/src/code/z_moji.o"
     include "build/src/code/z_prenmi_buff.o"
     include "build/src/code/z_msgevent.o"
-    include "build/src/code/code_8007BF90.o"
+    include "build/src/code/z_olib.o"
     include "build/src/code/z_onepointdemo.o"
     include "build/data/z_onepointdemo.data.o"
     include "build/src/code/z_map_exp.o"
-    include "build/data/z_map_data.data.o"
+    include "build/src/code/z_map_data.o"
     include "build/src/code/z_parameter.o"
     include "build/src/code/z_path.o"
     include "build/src/code//code_8008E6A0.o"
@@ -380,8 +379,7 @@ beginseg
     include "build/data/db_camera.data.o"
     include "build/data/db_camera.rodata.o"
     include "build/data/db_camera.bss.o"
-    include "build/asm/code_800BB0A0.o"
-    include "build/data/code_800BB0A0.rodata.o"
+    include "build/src/code/code_800BB0A0.o"
     include "build/asm/code_800BB570.o"
     include "build/data/code_800BB570.data.o"
     include "build/data/code_800BB570.rodata.o"
@@ -420,9 +418,7 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/data/fault_drawer.bss.o"
     include "build/asm/code_800D71F0.o"
-    include "build/asm/code_800D7CD0.o"
-    include "build/data/code_800D7CD0.data.o"
-    include "build/data/code_800D7CD0.rodata.o"
+    include "build/src/code/ucode_disas.o"
     include "build/asm/code_800DACC0.o"
     include "build/data/code_800DACC0.data.o"
     include "build/data/code_800DACC0.rodata.o"
@@ -8518,7 +8514,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/scenes/test_levels/syotes2/syotes2_scene.o"
-    address SEGMENT_SCENE   
+    address SEGMENT_SCENE
 endseg
 
 beginseg

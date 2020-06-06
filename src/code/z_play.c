@@ -1235,7 +1235,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (ACTIVE_CAM->unk_142 != 0x19) {
+                        if (ACTIVE_CAM->setting != 0x19) {
                             Vec3f sp74;
                             func_8005AFB4(&sp74, ACTIVE_CAM);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
@@ -1605,13 +1605,13 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
 
     camera = globalCtx->cameraPtrs[camIdx];
 
-    ret = func_8005AA90(camera, 1, arg2);
+    ret = Camera_SetParam(camera, 1, arg2);
     ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, arg3);
 
     if (1) {} // Necessary to match
 
-    camera->unk_DC = Math3D_Vec3f_DistXYZ(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1639,13 +1639,13 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 
     if (1) {} // Probably necessary to match
 
-    ret = func_8005AA90(camera, 1, arg2);
+    ret = Camera_SetParam(camera, 1, arg2);
     ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, arg3);
     ret *= 2;
-    ret |= func_8005AA90(camera, 4, arg4);
+    ret |= Camera_SetParam(camera, 4, arg4);
 
-    camera->unk_DC = func_800CB678(arg2, arg3);
+    camera->dist = func_800CB678(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1667,7 +1667,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 #ifdef NON_MATCHING
 // missing an extra move instruction
 s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2) {
-    return (func_8005AA90(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
+    return (Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0704.s")
@@ -1678,7 +1678,7 @@ s32 func_800C0744(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     Camera* camera;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    camera->unk_15A = arg2;
+    camera->roll = arg2;
 
     return 1;
 }
