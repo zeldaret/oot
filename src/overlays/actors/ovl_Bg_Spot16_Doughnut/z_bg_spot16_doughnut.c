@@ -16,8 +16,8 @@ void BgSpot16Doughnut_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgSpot16Doughnut_Update2(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot16Doughnut_Draw2(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
@@ -55,8 +55,8 @@ void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
     params = this->actor.params;
     if (params == 1 || params == 2 || params == 3 || params == 4) {
         Actor_SetScale(&this->actor, sScales[this->actor.params] * 1.0e-4f);
-        this->actor.draw = BgSpot16Doughnut_Draw2;
-        this->actor.update = BgSpot16Doughnut_Update2;
+        this->actor.draw = BgSpot16Doughnut_DrawExpanding;
+        this->actor.update = BgSpot16Doughnut_UpdateExpanding;
     } else {
         // Scales this actor for scenes where it is featured in the background,
         // Death Mountain itself falls into the default case.
@@ -108,7 +108,7 @@ void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // Update function for outwardly expanding and dissipating
-void BgSpot16Doughnut_Update2(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Doughnut* this = THIS;
 
     if (this->envColorAlpha >= 6) {
@@ -148,7 +148,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // Draw function for outwardly expanding and dissipating
-void BgSpot16Doughnut_Draw2(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Doughnut* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
