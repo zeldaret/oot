@@ -88,7 +88,6 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
-    /* "../z_kaleido_map_PAL.c" */
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, D_8082FD78, 3188);
 
     pauseCtx->inputX = input->rel.in.x;
@@ -124,7 +123,6 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
         func_808161AC(globalCtx);
     }
 
-    /* "../z_kaleido_map_PAL.c" */
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, D_8082FD94, 3254);
 }
 
