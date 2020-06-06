@@ -89,8 +89,9 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
         alpha = 0xFF;
     }
 
-    vtxPtr[1].v.cn[3] = vtxPtr[3].v.cn[3] = vtxPtr[5].v.cn[3] = vtxPtr[7].v.cn[3] = vtxPtr[9].v.cn[3] = vtxPtr[11].v.cn[3] =
-        vtxPtr[13].v.cn[3] = vtxPtr[15].v.cn[3] = vtxPtr[17].v.cn[3] = vtxPtr[19].v.cn[3] = vtxPtr[21].v.cn[3] = alpha;
+    vtxPtr[1].v.cn[3] = vtxPtr[3].v.cn[3] = vtxPtr[5].v.cn[3] = vtxPtr[7].v.cn[3] = vtxPtr[9].v.cn[3] =
+        vtxPtr[11].v.cn[3] = vtxPtr[13].v.cn[3] = vtxPtr[15].v.cn[3] = vtxPtr[17].v.cn[3] = vtxPtr[19].v.cn[3] =
+            vtxPtr[21].v.cn[3] = alpha;
 
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 343);
@@ -107,10 +108,10 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0xFF, 0xAA, 0xFF);
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0xC8, 0x00, 0x80);
-    gSPDisplayList(gfxCtx->polyXlu.p++, textureDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64,
                                                          64, 1, scroll * 8, scroll * (-8), 64, 64));
-    gSPDisplayList(gfxCtx->polyXlu.p++, frustrumDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sFrustrumDl);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 370);
 }

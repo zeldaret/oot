@@ -44,18 +44,18 @@ const ActorInit En_Ani_InitVars = {
     (ActorFunc)EnAni_Draw,
 };
 
-static ColliderCylinderInit cylinderInitData = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 30, 40, 0, { 0 } },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 850, ICHAIN_STOP),
 };
 
-static Vec3f EnAniVec = { 800.0f, 500.0f, 0.0f };
+static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
 
 UNK_PTR D_809B0F80[] = {
     0x06000408,
@@ -71,13 +71,13 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAni* this = THIS;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->limbDrawTable,
                      this->transitionDrawTable, 0x10);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060076EC);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
     if (LINK_IS_CHILD) {
         EnAni_SetupAction(this, func_809B064C);
@@ -211,7 +211,7 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     GenericAnimationHeader* objSegFrameCount = &D_060070F0.genericHeader;
     AnimationHeader* objSegChangeAnime = &D_060070F0;
 
-    if (globalCtx->csCtx.actorActions[0]->action == 4) {
+    if (globalCtx->csCtx.npcActions[0]->action == 4) {
         SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f,
                              (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -4.0f);
         this->unk_2AA += 1;
@@ -229,7 +229,7 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
-    if (globalCtx->csCtx.actorActions[0]->action == 2) {
+    if (globalCtx->csCtx.npcActions[0]->action == 2) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060067B8, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_060067B8.genericHeader), 2, 0.0f);
         this->actor.shape.shadowDrawFunc = NULL;
@@ -245,7 +245,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[0] != NULL)) {
+    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL)) {
         switch (this->unk_2AA) {
             case 0:
                 func_809B0A6C(this, globalCtx);
@@ -307,7 +307,7 @@ s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&EnAniVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
     }
 }
 

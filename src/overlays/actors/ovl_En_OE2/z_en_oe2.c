@@ -1,7 +1,7 @@
 /*
  * File: z_en_oe2.c
  * Overlay: ovl_En_Oe2
- * Description: Blue Navi Target. Probably unused since NPC's are blue and they do not use this actor.
+ * Description: Blue Navi Target Spot
  */
 
 #include "z_en_oe2.h"
@@ -15,7 +15,7 @@ void EnOE2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOE2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOE2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80ABE6DC(EnOE2* this, GlobalContext* globalCtx);
+void EnOE2_DoNothing(EnOE2* this, GlobalContext* globalCtx);
 
 const ActorInit En_OE2_InitVars = {
     ACTOR_EN_OE2,
@@ -36,13 +36,13 @@ void EnOE2_SetupAction(EnOE2* this, EnOE2ActionFunc actionFunc) {
 void EnOE2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnOE2* this = THIS;
 
-    EnOE2_SetupAction(this, func_80ABE6DC);
+    EnOE2_SetupAction(this, EnOE2_DoNothing);
 }
 
 void EnOE2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80ABE6DC(EnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_DoNothing(EnOE2* this, GlobalContext* globalCtx) {
 }
 
 void EnOE2_Update(Actor* thisx, GlobalContext* globalCtx) {

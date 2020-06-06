@@ -9,7 +9,7 @@ glabel EnSt_Destroy
 /* 01BBC 80B0644C AFB1001C */  sw      $s1, 0x001C($sp)           
 /* 01BC0 80B06450 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 01BC4 80B06454 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 01BC8 80B06458 0C009C27 */  jal     func_8002709C              
+/* 01BC8 80B06458 0C009C27 */  jal     Effect_Delete              
 /* 01BCC 80B0645C 8E650404 */  lw      $a1, 0x0404($s3)           ## 00000404
 /* 01BD0 80B06460 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
 /* 01BD4 80B06464 26710194 */  addiu   $s1, $s3, 0x0194           ## $s1 = 00000194

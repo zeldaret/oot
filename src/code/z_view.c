@@ -400,8 +400,8 @@ s32 func_800AB0A8(View* view) {
     LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 744);
     view->projectionPtr = projection;
 
-    func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+    guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
+            (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -438,8 +438,8 @@ s32 func_800AB2C4(View* view) {
     LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 791);
     view->projectionPtr = projection;
 
-    func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+    guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
+            (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -551,8 +551,8 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 921);
         view->projectionPtr = projection;
 
-        func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                      (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+        guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
+                (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
         view->projection = *projection;
 

@@ -1,3 +1,42 @@
+.rdata
+glabel D_80154230
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_80154238
+    .asciz "？？？？？？？？？？？？？？？？  z_message.c  ？？？？？？？？？？？？？？？？？？\n"
+    .balign 4
+
+glabel D_80154290
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80154294
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801542A8
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801542BC
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801542D0
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801542E4
+    # Text Box Type＝%d
+    .asciz "吹き出し種類＝%d\n"
+    .balign 4
+
+glabel D_801542F8
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+.text
 glabel func_8010B0C0
 /* B82260 8010B0C0 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B82264 8010B0C4 3C0F0001 */  lui   $t7, 1

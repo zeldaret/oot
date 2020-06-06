@@ -171,7 +171,7 @@ glabel func_800AB9EC
 /* B22DA4 800ABC04 C6060020 */  lwc1  $f6, 0x20($s0)
 /* B22DA8 800ABC08 E7A60018 */  swc1  $f6, 0x18($sp)
 /* B22DAC 800ABC0C C6080024 */  lwc1  $f8, 0x24($s0)
-/* B22DB0 800ABC10 0C041169 */  jal   func_801045A4
+/* B22DB0 800ABC10 0C041169 */  jal   guOrtho
 /* B22DB4 800ABC14 E7A8001C */   swc1  $f8, 0x1c($sp)
 /* B22DB8 800ABC18 02405825 */  move  $t3, $s2
 /* B22DBC 800ABC1C 02007025 */  move  $t6, $s0

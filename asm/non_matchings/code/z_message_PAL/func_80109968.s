@@ -1,3 +1,23 @@
+.rdata
+glabel D_80154054
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_80154068
+    # Item 32-0
+    .asciz "アイテム32-0\n"
+    .balign 4
+
+glabel D_80154078
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_8015408C
+    # Item 24＝%d (%d) {%d}
+    .asciz "アイテム24＝%d (%d) {%d}\n"
+    .balign 4
+
+.text
 glabel func_80109968
 /* B80B08 80109968 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B80B0C 8010996C AFB00020 */  sw    $s0, 0x20($sp)

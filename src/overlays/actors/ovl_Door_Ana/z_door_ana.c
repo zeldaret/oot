@@ -15,9 +15,9 @@ void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx);
-void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx);
-void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
@@ -31,8 +31,7 @@ const ActorInit Door_Ana_InitVars = {
     (ActorFunc)DoorAna_Draw,
 };
 
-// initial collision data
-static ColliderCylinderInit colliderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 50, 10, 0, { 0 } },
@@ -44,7 +43,6 @@ static s16 entrances[] = {
     0x05B0, 0x05B4, 0x05B8, 0x05BC, 0x05C0, 0x05C4, 0x05FC,
 };
 
-// display list
 extern Gfx D_05001390[];
 
 void DoorAna_SetupAction(DoorAna* this, DoorAnaActionFunc actionFunc) {
@@ -61,14 +59,14 @@ void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
         // only allocate collider for grottos that need bombing/hammering open
         if ((this->actor.params & 0x200) != 0) {
             Collider_InitCylinder(globalCtx, &this->collider);
-            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &colliderInit);
+            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         } else {
             this->actor.flags |= 0x10;
         }
         Actor_SetScale(&this->actor, 0);
-        DoorAna_SetupAction(this, DoorAna_Update_Hidden);
+        DoorAna_SetupAction(this, DoorAna_WaitClosed);
     } else {
-        DoorAna_SetupAction(this, DoorAna_Update_Open);
+        DoorAna_SetupAction(this, DoorAna_WaitOpen);
     }
     this->actor.unk_1F = 0;
 }
@@ -83,7 +81,7 @@ void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // update routine for grottos that are currently "hidden"/unopened
-void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     u32 openGrotto = false;
     if ((this->actor.params & 0x200) == 0) {
         // opening with song of storms
@@ -104,14 +102,14 @@ void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
     // open the grotto
     if (openGrotto) {
         this->actor.params &= ~0x0300;
-        DoorAna_SetupAction(this, DoorAna_Update_Open);
+        DoorAna_SetupAction(this, DoorAna_WaitOpen);
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
     func_8002F5F0(&this->actor, globalCtx);
 }
 
 // update routine for grottos that are open
-void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
     s32 destinationIdx;
 
@@ -128,7 +126,7 @@ void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
                 destinationIdx = this->actor.initPosRot.rot.z + 1;
             }
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
-            DoorAna_SetupAction(this, DoorAna_Update_Entering);
+            DoorAna_SetupAction(this, DoorAna_GrabLink);
         } else {
             if (!func_8008E988(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
                 this->actor.xzDistanceFromLink <= 15.0f && -50.0f <= this->actor.yDistanceFromLink &&
@@ -144,7 +142,7 @@ void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update function for after the player has triggered the grotto
-void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->actor.yDistanceFromLink <= 0.0f && 15.0f < this->actor.xzDistanceFromLink) {

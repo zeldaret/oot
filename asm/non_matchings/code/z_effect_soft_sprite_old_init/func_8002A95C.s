@@ -24,7 +24,7 @@ glabel func_8002A95C
 /* AA1B54 8002A9B4 8FA40048 */  lw    $a0, 0x48($sp)
 /* AA1B58 8002A9B8 24050023 */  li    $a1, 35
 /* AA1B5C 8002A9BC 24060064 */  li    $a2, 100
-/* AA1B60 8002A9C0 0C009DE6 */  jal   func_80027798
+/* AA1B60 8002A9C0 0C009DE6 */  jal   EffectSs_Spawn
 /* AA1B64 8002A9C4 27A70018 */   addiu $a3, $sp, 0x18
 /* AA1B68 8002A9C8 10000007 */  b     .L8002A9E8
 /* AA1B6C 8002A9CC 8FBF0014 */   lw    $ra, 0x14($sp)
@@ -32,7 +32,7 @@ glabel func_8002A95C
 /* AA1B70 8002A9D0 8FA40048 */  lw    $a0, 0x48($sp)
 /* AA1B74 8002A9D4 24050023 */  li    $a1, 35
 /* AA1B78 8002A9D8 2406007F */  li    $a2, 127
-/* AA1B7C 8002A9DC 0C009DE6 */  jal   func_80027798
+/* AA1B7C 8002A9DC 0C009DE6 */  jal   EffectSs_Spawn
 /* AA1B80 8002A9E0 27A70018 */   addiu $a3, $sp, 0x18
 /* AA1B84 8002A9E4 8FBF0014 */  lw    $ra, 0x14($sp)
 .L8002A9E8:

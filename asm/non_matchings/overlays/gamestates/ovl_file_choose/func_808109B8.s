@@ -78,7 +78,7 @@ glabel func_808109B8
 /* 0CD98 80810AD8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0CD9C 80810ADC E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 0CDA0 80810AE0 E7B00014 */  swc1    $f16, 0x0014($sp)          
-/* 0CDA4 80810AE4 0C02C431 */  jal     func_800B10C4              
+/* 0CDA4 80810AE4 0C02C431 */  jal     SkyboxDraw_Draw              
 /* 0CDA8 80810AE8 E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 0CDAC 80810AEC 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 0CDB0 80810AF0 3C0BE300 */  lui     $t3, 0xE300                ## $t3 = E3000000

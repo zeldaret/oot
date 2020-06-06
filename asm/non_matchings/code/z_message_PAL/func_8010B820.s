@@ -1,3 +1,53 @@
+.rdata
+glabel D_8015435C
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80154364
+    .asciz "ocarina_check_bit[%d]=%x\n"
+    .balign 4
+
+glabel D_80154380
+    .asciz "ocarina_bit = %x\n"
+    .balign 4
+
+glabel D_80154394
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80154398
+    # [31m☆☆☆☆☆ Ocarina Number＝%d(%d) ☆☆☆☆☆
+    .asciz "\x1b[31m☆☆☆☆☆ オカリナ番号＝%d(%d) ☆☆☆☆☆\n\x1b[m"
+    .balign 4
+
+glabel D_801543CC
+    .asciz "ocarina_set 000000000000000000  = %d\n"
+    .balign 4
+
+glabel D_801543F4
+    .asciz "222222222\n"
+    .balign 4
+
+glabel D_80154400
+    .asciz "333333333\n"
+    .balign 4
+
+glabel D_8015440C
+    # Ocarina Mode = %d (%x)
+    .asciz "オカリナモード = %d  (%x)\n"
+    .balign 4
+
+glabel D_80154428
+    # Music Performance Start
+    .asciz "演奏開始\n"
+    .balign 4
+
+glabel D_80154434
+    # ?????Recording Playback / Recording Playback / Recording Playback / Recording Playback ->
+    .asciz "?????録音再生 録音再生 録音再生 録音再生  -> "
+    .balign 4
+
+.text
 glabel func_8010B820
 /* B829C0 8010B820 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B829C4 8010B824 AFA40058 */  sw    $a0, 0x58($sp)

@@ -14,6 +14,7 @@ void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx);
 
 void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx);
@@ -68,8 +69,6 @@ void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// very close from matching, single regalloc difference
-#ifdef NON_MATCHING
 void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
     if (this->counter < 20) {
         this->primColorAlpha = (s8)(this->counter * 5.0f);
@@ -97,10 +96,9 @@ void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
     }
 
     if (this->counter > 60) {
-        f32 f = this->actor.posRot.pos.y + (this->posYOff * 0.1f);
+        this->actor.posRot.pos.y += this->posYOff * 0.01f;
         this->posYOff += this->posYOffAdd;
         this->posYOffAdd += 10;
-        this->actor.posRot.pos.y = f;
     }
 
     if (this->counter < 100) {
@@ -109,9 +107,6 @@ void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Oceff_Storm/OceffStorm_DefaultAction.s")
-#endif
 
 void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx) {
     if (this->primColorAlpha < 100) {
@@ -144,7 +139,7 @@ void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_NOISE);
     gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_NOISE);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 200, 200, 150, this->primColorAlpha);
-    gSPDisplayList(gfxCtx->polyXlu.p++, textureDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 8, scroll * 4, 64, 64, 1,
                                                          scroll * 4, scroll * 4, 64, 64));
     gSPTextureRectangle(gfxCtx->polyXlu.p++, 0, 0, (SCREEN_WIDTH << 2), (SCREEN_HEIGHT << 2), G_TX_RENDERTILE, 0, 0,
@@ -179,10 +174,10 @@ void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 498),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, cylinderTexDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sCylinderTexDl);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 4, (0 - scroll) * 8, 32,
                                                          32, 1, scroll * 8, (0 - scroll) * 12, 32, 32));
-    gSPDisplayList(gfxCtx->polyXlu.p++, cylinderDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sCylinderDl);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_storm.c", 512);
 
