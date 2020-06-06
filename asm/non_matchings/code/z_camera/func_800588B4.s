@@ -6,7 +6,7 @@ glabel D_80139970
 glabel D_80139984
     .asciz "kankyo changed water, sound on\n"
     .balign 4
-    
+
 glabel D_801399A4
     .asciz "kankyo changed water off, sound off\n"
     .balign 4
@@ -21,16 +21,16 @@ glabel func_800588B4
 /* ACFA68 800588C8 8C820090 */  lw    $v0, 0x90($a0)
 /* ACFA6C 800588CC 306E0002 */  andi  $t6, $v1, 2
 /* ACFA70 800588D0 11C0000A */  beqz  $t6, .L800588FC
-/* ACFA74 800588D4 00000000 */   nop   
+/* ACFA74 800588D4 00000000 */   nop
 /* ACFA78 800588D8 848F0142 */  lh    $t7, 0x142($a0)
-/* ACFA7C 800588DC 3C198012 */  lui   $t9, %hi(D_8011D064)
+/* ACFA7C 800588DC 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* ACFA80 800588E0 30690200 */  andi  $t1, $v1, 0x200
 /* ACFA84 800588E4 000FC0C0 */  sll   $t8, $t7, 3
 /* ACFA88 800588E8 0338C821 */  addu  $t9, $t9, $t8
-/* ACFA8C 800588EC 8F39D064 */  lw    $t9, %lo(D_8011D064)($t9)
+/* ACFA8C 800588EC 8F39D064 */  lw    $t9, %lo(sCameraSettings)($t9)
 /* ACFA90 800588F0 00194040 */  sll   $t0, $t9, 1
 /* ACFA94 800588F4 05010003 */  bgez  $t0, .L80058904
-/* ACFA98 800588F8 00000000 */   nop   
+/* ACFA98 800588F8 00000000 */   nop
 .L800588FC:
 /* ACFA9C 800588FC 100000F9 */  b     .L80058CE4
 /* ACFAA0 80058900 00001025 */   move  $v0, $zero
@@ -43,7 +43,7 @@ glabel func_800588B4
 /* ACFAB8 80058918 314B0800 */  andi  $t3, $t2, 0x800
 /* ACFABC 8005891C 11600009 */  beqz  $t3, .L80058944
 /* ACFAC0 80058920 000373C2 */   srl   $t6, $v1, 0xf
-/* ACFAC4 80058924 0C016952 */  jal   func_8005A548
+/* ACFAC4 80058924 0C016952 */  jal   Camera_ChangeSetting
 /* ACFAC8 80058928 24060006 */   li    $a2, 6
 /* ACFACC 8005892C 860C014C */  lh    $t4, 0x14c($s0)
 /* ACFAD0 80058930 24018000 */  li    $at, -32768
@@ -55,7 +55,7 @@ glabel func_800588B4
 /* ACFAE4 80058944 11C00008 */  beqz  $t6, .L80058968
 /* ACFAE8 80058948 02002025 */   move  $a0, $s0
 /* ACFAEC 8005894C 8605011E */  lh    $a1, 0x11e($s0)
-/* ACFAF0 80058950 0C016952 */  jal   func_8005A548
+/* ACFAF0 80058950 0C016952 */  jal   Camera_ChangeSetting
 /* ACFAF4 80058954 24060006 */   li    $a2, 6
 /* ACFAF8 80058958 860F014C */  lh    $t7, 0x14c($s0)
 /* ACFAFC 8005895C 31F87FFF */  andi  $t8, $t7, 0x7fff
@@ -92,7 +92,7 @@ glabel func_800588B4
 /* ACFB6C 800589CC 02002025 */  move  $a0, $s0
 /* ACFB70 800589D0 24050005 */  li    $a1, 5
 /* ACFB74 800589D4 46083032 */  c.eq.s $f6, $f8
-/* ACFB78 800589D8 00000000 */  nop   
+/* ACFB78 800589D8 00000000 */  nop
 /* ACFB7C 800589DC 4503004D */  bc1tl .L80058B14
 /* ACFB80 800589E0 02002025 */   move  $a0, $s0
 /* ACFB84 800589E4 860C0146 */  lh    $t4, 0x146($s0)
@@ -100,7 +100,7 @@ glabel func_800588B4
 /* ACFB8C 800589EC 24060002 */  li    $a2, 2
 /* ACFB90 800589F0 A7AC0032 */  sh    $t4, 0x32($sp)
 /* ACFB94 800589F4 A60D0146 */  sh    $t5, 0x146($s0)
-/* ACFB98 800589F8 0C016952 */  jal   func_8005A548
+/* ACFB98 800589F8 0C016952 */  jal   Camera_ChangeSetting
 /* ACFB9C 800589FC AFAE002C */   sw    $t6, 0x2c($sp)
 /* ACFBA0 80058A00 860F0142 */  lh    $t7, 0x142($s0)
 /* ACFBA4 80058A04 8FB8002C */  lw    $t8, 0x2c($sp)
@@ -130,7 +130,7 @@ glabel func_800588B4
 /* ACFBFC 80058A5C C6100098 */  lwc1  $f16, 0x98($s0)
 /* ACFC00 80058A60 C6120104 */  lwc1  $f18, 0x104($s0)
 /* ACFC04 80058A64 46128032 */  c.eq.s $f16, $f18
-/* ACFC08 80058A68 00000000 */  nop   
+/* ACFC08 80058A68 00000000 */  nop
 /* ACFC0C 80058A6C 45030029 */  bc1tl .L80058B14
 /* ACFC10 80058A70 02002025 */   move  $a0, $s0
 /* ACFC14 80058A74 860D0146 */  lh    $t5, 0x146($s0)
@@ -163,7 +163,7 @@ glabel func_800588B4
 /* ACFC7C 80058ADC 8E050118 */  lw    $a1, 0x118($s0)
 /* ACFC80 80058AE0 A60E0146 */  sh    $t6, 0x146($s0)
 /* ACFC84 80058AE4 04A10006 */  bgez  $a1, .L80058B00
-/* ACFC88 80058AE8 00000000 */   nop   
+/* ACFC88 80058AE8 00000000 */   nop
 /* ACFC8C 80058AEC 0C015FF1 */  jal   func_80057FC4
 /* ACFC90 80058AF0 02002025 */   move  $a0, $s0
 /* ACFC94 80058AF4 240FFFFF */  li    $t7, -1
@@ -185,7 +185,7 @@ glabel func_800588B4
 /* ACFCC4 80058B24 44812000 */  mtc1  $at, $f4
 /* ACFCC8 80058B28 E7A0004C */  swc1  $f0, 0x4c($sp)
 /* ACFCCC 80058B2C 46040032 */  c.eq.s $f0, $f4
-/* ACFCD0 80058B30 00000000 */  nop   
+/* ACFCD0 80058B30 00000000 */  nop
 /* ACFCD4 80058B34 45030056 */  bc1tl .L80058C90
 /* ACFCD8 80058B38 8603014C */   lh    $v1, 0x14c($s0)
 /* ACFCDC 80058B3C 8603014C */  lh    $v1, 0x14c($s0)
@@ -228,7 +228,7 @@ glabel func_800588B4
 /* ACFD68 80058BC8 50810006 */  beql  $a0, $at, .L80058BE4
 /* ACFD6C 80058BCC 02002025 */   move  $a0, $s0
 /* ACFD70 80058BD0 0C024B8F */  jal   Quake_GetCountdown
-/* ACFD74 80058BD4 00000000 */   nop   
+/* ACFD74 80058BD4 00000000 */   nop
 /* ACFD78 80058BD8 2401000A */  li    $at, 10
 /* ACFD7C 80058BDC 14410015 */  bne   $v0, $at, .L80058C34
 /* ACFD80 80058BE0 02002025 */   move  $a0, $s0
@@ -296,7 +296,7 @@ glabel func_800588B4
 /* ACFE64 80058CC4 50800004 */  beql  $a0, $zero, .L80058CD8
 /* ACFE68 80058CC8 A6000150 */   sh    $zero, 0x150($s0)
 /* ACFE6C 80058CCC 0C024BEB */  jal   Quake_RemoveFromIdx
-/* ACFE70 80058CD0 00000000 */   nop   
+/* ACFE70 80058CD0 00000000 */   nop
 /* ACFE74 80058CD4 A6000150 */  sh    $zero, 0x150($s0)
 .L80058CD8:
 /* ACFE78 80058CD8 A6000152 */  sh    $zero, 0x152($s0)
@@ -308,5 +308,5 @@ glabel func_800588B4
 /* ACFE88 80058CE8 8FB00020 */  lw    $s0, 0x20($sp)
 /* ACFE8C 80058CEC 27BD0050 */  addiu $sp, $sp, 0x50
 /* ACFE90 80058CF0 03E00008 */  jr    $ra
-/* ACFE94 80058CF4 00000000 */   nop   
+/* ACFE94 80058CF4 00000000 */   nop
 

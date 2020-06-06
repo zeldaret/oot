@@ -157,8 +157,8 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     R_PAUSE_MENU_MODE = 0;
 
     func_800C0F08(&globalCtx->preRenderCtx);
-    func_800271A8(globalCtx);
-    Effect_SS_Clear(globalCtx);
+    Effect_DeleteAll(globalCtx);
+    EffectSs_ClearAll(globalCtx);
     CollisionCheck_DestroyContext(globalCtx, &globalCtx->colChkCtx);
 
     if (gTrnsnUnkState == 3) {
@@ -240,8 +240,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     func_80110F68(globalCtx);
     func_80110450(globalCtx);
     func_8006BA00(globalCtx);
-    func_80026C2C(globalCtx);
-    func_800272B0(globalCtx, 0x55);
+    Effect_InitContext(globalCtx);
+    EffectSs_InitInfo(globalCtx, 0x55);
     func_8005D3BC(globalCtx, &globalCtx->colChkCtx);
     SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
     func_8006450C(globalCtx, &globalCtx->csCtx);
@@ -371,7 +371,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
     zAllocSize = THA_GetSize(&globalCtx->state.tha);
-    zAlloc = GameState_AllocEnd(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = GameState_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (void*)(((u32)zAlloc + 8) & ~0xF);
     ZeldaArena_Init(zAllocAligned, zAllocSize - (u32)zAllocAligned + (u32)zAlloc);
     osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
@@ -891,13 +891,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3651);
                     }
 
-                    func_80026F70(globalCtx);
+                    Effect_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3657);
                     }
 
-                    Effect_SS_UpdateAllParticles(globalCtx);
+                    EffectSs_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3662);
@@ -924,7 +924,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if (globalCtx->unk_1242B != 0) {
-                if (!~(input[0].press.in.button | ~8)) {
+                if (CHECK_PAD(input[0].press, U_CBUTTONS)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
@@ -1235,7 +1235,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (ACTIVE_CAM->unk_142 != 0x19) {
+                        if (ACTIVE_CAM->setting != 0x19) {
                             Vec3f sp74;
                             func_8005AFB4(&sp74, ACTIVE_CAM);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
@@ -1457,7 +1457,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     void* allocp;
 
     size = file->vromEnd - file->vromStart;
-    allocp = GameState_AllocEnd(&globalCtx->state, size, "../z_play.c", 4692);
+    allocp = GameState_Alloc(&globalCtx->state, size, "../z_play.c", 4692);
     DmaMgr_SendRequest1(allocp, file->vromStart, size, "../z_play.c", 4694);
 
     return allocp;
@@ -1605,13 +1605,13 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
 
     camera = globalCtx->cameraPtrs[camIdx];
 
-    ret = func_8005AA90(camera, 1, arg2);
+    ret = Camera_SetParam(camera, 1, arg2);
     ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, arg3);
 
     if (1) {} // Necessary to match
 
-    camera->unk_DC = Math3D_Vec3f_DistXYZ(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1639,13 +1639,13 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 
     if (1) {} // Probably necessary to match
 
-    ret = func_8005AA90(camera, 1, arg2);
+    ret = Camera_SetParam(camera, 1, arg2);
     ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, arg3);
     ret *= 2;
-    ret |= func_8005AA90(camera, 4, arg4);
+    ret |= Camera_SetParam(camera, 4, arg4);
 
-    camera->unk_DC = func_800CB678(arg2, arg3);
+    camera->dist = func_800CB678(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1667,7 +1667,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 #ifdef NON_MATCHING
 // missing an extra move instruction
 s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2) {
-    return (func_8005AA90(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
+    return (Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0704.s")
@@ -1678,7 +1678,7 @@ s32 func_800C0744(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     Camera* camera;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    camera->unk_15A = arg2;
+    camera->roll = arg2;
 
     return 1;
 }
@@ -1690,13 +1690,13 @@ void func_800C078C(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
     func_8005AE64(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
 }
 
-void func_800C0808(GlobalContext* globalCtx, s16 camId, s32 arg2, s16 arg3) {
+s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3) {
     Camera* camera;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    func_80058148(camera, arg2);
-    func_8005A77C(camera, arg3);
+    func_80058148(camera, player);
+    return func_8005A77C(camera, arg3);
 }
 
 void func_800C0874(GlobalContext* globalCtx, s16 camId, s16 arg2) {
@@ -1790,7 +1790,7 @@ void Gameplay_TriggerVoidOut(GlobalContext* globalCtx) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags = globalCtx->actorCtx.flags.tempCollect;
     gSaveContext.respawnFlag = 1;
     globalCtx->sceneLoadFlag = 0x14;
-    globalCtx->nextEntranceIndex = gSaveContext.respawn[0].entranceIndex;
+    globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
     globalCtx->fadeTransition = 2;
 }
 
@@ -1823,7 +1823,7 @@ s32 func_800C0CB8(GlobalContext* globalCtx) {
 }
 
 s32 func_800C0D28(GlobalContext* globalCtx) {
-    return (globalCtx->sub_7B8.unk_0 != 0);
+    return (globalCtx->sub_7B8.toggle != 0);
 }
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {

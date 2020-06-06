@@ -15,19 +15,6 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnDs_Talk(EnDs* this, GlobalContext* globalCtx);
-void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx);
-void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx);
-void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx);
-void EnDs_BrewOddPotion2(EnDs* this, GlobalContext* globalCtx);
-void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx);
-void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx);
-int EnDs_CheckRupeesAndBottle();
-void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx);
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ds_InitVars = {
@@ -44,8 +31,6 @@ const ActorInit En_Ds_InitVars = {
 
 extern SkeletonHeader D_06004768;
 extern AnimationHeader D_0600039C;
-
-Vec3f mtxSrc = { 1100.0f, 500.0f, 0.0f };
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
@@ -221,7 +206,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
 
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 unkAngle;
+    s16 yawDiff;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (func_8002F368(globalCtx) == 8) {
@@ -240,10 +225,10 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
             this->actionFunc = EnDs_Talk;
         }
     } else {
-        unkAngle = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+        yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
         this->actor.textId = 0x5048;
 
-        if ((ABS(unkAngle) < 0x2151) && (this->actor.xzDistanceFromLink < 200.0f)) {
+        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistanceFromLink < 200.0f)) {
             func_8002F298(this, globalCtx, 100.0f, 8);
             this->unk_1E8 |= 1;
         }
@@ -280,8 +265,10 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
+
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&mtxSrc, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
     }
 }
 

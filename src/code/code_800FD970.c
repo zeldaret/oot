@@ -22,8 +22,8 @@ void Math_Rand_Seed(u32 seed) {
 }
 
 /**
- * Returns a pseudo-random floating-point number between 0.0f and 1.0f, by generating 
- * the next integer and masking it to an IEEE-754 compliant floating-point number 
+ * Returns a pseudo-random floating-point number between 0.0f and 1.0f, by generating
+ * the next integer and masking it to an IEEE-754 compliant floating-point number
  * between 1.0f and 2.0f, returning the result subtract 1.0f.
  */
 f32 Math_Rand_ZeroOne() {

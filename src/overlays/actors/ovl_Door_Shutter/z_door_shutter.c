@@ -440,7 +440,7 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
         this->unk_16F = -0x64;
     } else if (func_809968D4(this, globalCtx) != 0) {
         player = PLAYER;
-        player->unk_690 = -0x202;
+        player->naviMessageId = -0x202;
     }
 }
 
@@ -575,7 +575,7 @@ void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx) {
             this->unk_16F = -0x64;
         } else if (func_809968D4(this, globalCtx)) {
             player = PLAYER;
-            player->unk_690 = (globalCtx->sceneNum == 2) ? -0x20B : -0x202;
+            player->naviMessageId = (globalCtx->sceneNum == 2) ? -0x20B : -0x202;
         }
     }
 }

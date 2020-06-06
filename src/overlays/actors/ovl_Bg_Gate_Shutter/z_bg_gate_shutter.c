@@ -5,7 +5,6 @@
  */
 
 #include "z_bg_gate_shutter.h"
-
 #include <vt.h>
 
 #define FLAGS 0x00000000
@@ -35,7 +34,7 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
 };
 
 extern Gfx D_06001CD0[];
-extern Gfx D_06001DA8[];
+extern UNK_TYPE D_06001DA8;
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGateShutter* this = THIS;
@@ -136,7 +135,7 @@ void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001CD0);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_06001CD0);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }

@@ -272,7 +272,7 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
         }
         input->press.in.button = input->cur.in.button & (input->prev.in.button ^ input->cur.in.button);
         input->rel.in.button = input->prev.in.button & (input->prev.in.button ^ input->cur.in.button);
-        func_800FCC6C(input);
+        PadUtils_UpdateRelXY(input);
         input->press.in.x = (input->cur.in.x - input->prev.in.x) + input->press.in.x;
         input->press.in.y = (input->cur.in.y - input->prev.in.y) + input->press.in.y;
     }
@@ -360,7 +360,7 @@ void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode) {
             newin->cur = pmInputs->cur;
             newin->press.in.button = newin->cur.in.button & (newin->prev.in.button ^ newin->cur.in.button);
             newin->rel.in.button = newin->prev.in.button & (newin->prev.in.button ^ newin->cur.in.button);
-            func_800FCC6C(newin);
+            PadUtils_UpdateRelXY(newin);
             newin->press.in.x = (newin->cur.in.x - newin->prev.in.x) + newin->press.in.x;
             newin->press.in.y = (newin->cur.in.y - newin->prev.in.y) + newin->press.in.y;
         }

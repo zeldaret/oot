@@ -27,13 +27,13 @@ const ActorInit Bg_Mizu_Uzu_InitVars = {
     (ActorFunc)BgMizuUzu_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_F8, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern u32 D_060074EC;
+extern UNK_TYPE D_060074EC;
 
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx);
 
@@ -43,7 +43,7 @@ void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 local_c = 0;
     s32 pad2;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(thisx, 0);
     DynaPolyInfo_Alloc(&D_060074EC, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);

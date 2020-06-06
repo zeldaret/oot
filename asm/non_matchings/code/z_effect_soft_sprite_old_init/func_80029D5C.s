@@ -17,7 +17,7 @@ glabel func_80029D5C
 /* AA0F38 80029D98 24060080 */  li    $a2, 128
 /* AA0F3C 80029D9C 27A70018 */  addiu $a3, $sp, 0x18
 /* AA0F40 80029DA0 A7AF003C */  sh    $t7, 0x3c($sp)
-/* AA0F44 80029DA4 0C009DE6 */  jal   func_80027798
+/* AA0F44 80029DA4 0C009DE6 */  jal   EffectSs_Spawn
 /* AA0F48 80029DA8 A3B8003E */   sb    $t8, 0x3e($sp)
 /* AA0F4C 80029DAC 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AA0F50 80029DB0 27BD0048 */  addiu $sp, $sp, 0x48

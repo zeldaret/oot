@@ -1,7 +1,7 @@
 /*
  * File: z_en_ma1.c
  * Overlay: En_Ma1
- * Description:
+ * Description: Child Malon
  */
 
 #include "z_en_ma1.h"
@@ -39,13 +39,13 @@ const ActorInit En_Ma1_InitVars = {
     (ActorFunc)EnMa1_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80AA166C = {
+CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -58,13 +58,13 @@ struct_D_80AA1678 D_80AA1678[] = {
 
 Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
 
-u32 D_80AA16C4[] = {
+UNK_PTR D_80AA16C4[] = {
     0x06001F18,
     0x06002B18,
     0x06002F18,
 };
 
-u32 D_80AA16D0[] = {
+UNK_PTR D_80AA16D0[] = {
     0x06001B18,
     0x06002318,
     0x06002718,
@@ -251,8 +251,8 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA166C);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
 
     if (!func_80AA08C4(this, globalCtx)) {
         Actor_Kill(&this->actor);
