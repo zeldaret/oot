@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot12_gate.c
  * Overlay: Bg_Spot12_Gate
- * Description:
+ * Description: Haunted Wasteland Gate
  */
 
 #include "z_bg_spot12_gate.h"
@@ -36,14 +36,14 @@ const ActorInit Bg_Spot12_Gate_InitVars = {
     (ActorFunc)BgSpot12Gate_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 2500, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1200, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06001080;
+extern Gfx D_06001080[];
 extern UNK_TYPE D_060011EC;
 
 void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, UNK_TYPE collision, DynaPolyMoveFlag flags) {
@@ -64,7 +64,7 @@ void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Gate* this = THIS;
 
     func_808B2F90(this, globalCtx, &D_060011EC, 0);
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         func_808B3274(this);
@@ -147,5 +147,5 @@ void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06001080);
+    Gfx_DrawDListOpa(globalCtx, D_06001080);
 }

@@ -22,11 +22,7 @@ void func_80889C18(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx);
 
-f32 D_80889E40[] = {
-    120.0f,
-    150.0f,
-    150.0f,
-};
+f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
 const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
@@ -40,22 +36,24 @@ const ActorInit Bg_Hidan_Kousi_InitVars = {
     (ActorFunc)BgHidanKousi_Draw,
 };
 
-static InitChainEntry D_80889E6C[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-u32 D_80889E70[] = {
+UNK_PTR D_80889E70[] = {
     0x0600E2CC,
     0x0600E380,
     0x0600E430,
 };
+
 s16 D_80889E7C[] = {
     0x4000,
     0xC000,
     0xC000,
     0x0000,
 };
-u32 D_80889E84[] = {
+
+Gfx* D_80889E84[] = {
     0x0600C798,
     0x0600BFA8,
     0x0600BB58,
@@ -75,7 +73,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
                  ((s32)thisx->params >> 8) & 0xFF);
 
-    Actor_ProcessInitChain(thisx, D_80889E6C);
+    Actor_ProcessInitChain(thisx, sInitChain);
     if (((thisx->params & 0xFF) < 0) || ((thisx->params & 0xFF) >= 3)) {
         osSyncPrintf("arg_data おかしい 【格子】\n");
     }
@@ -149,6 +147,7 @@ void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx) {
 
 void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 

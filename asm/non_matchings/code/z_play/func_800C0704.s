@@ -8,7 +8,7 @@ glabel func_800C0704
 /* B378BC 800C071C 008FC021 */  addu  $t8, $a0, $t7
 /* B378C0 800C0720 8F040790 */  lw    $a0, 0x790($t8)
 /* B378C4 800C0724 27A60020 */  addiu $a2, $sp, 0x20
-/* B378C8 800C0728 0C016AA4 */  jal   func_8005AA90
+/* B378C8 800C0728 0C016AA4 */  jal   Camera_SetParam
 /* B378CC 800C072C 24050020 */   li    $a1, 32
 /* B378D0 800C0730 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B378D4 800C0734 30430001 */  andi  $v1, $v0, 1

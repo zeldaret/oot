@@ -37,56 +37,28 @@ const ActorInit En_Ma3_InitVars = {
     (ActorFunc)EnMa3_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80AA383C = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
 
-struct_D_80AA1678 D_80AA3848[] = {
-    {
-        0x060007D4,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x060007D4,
-        1.0f,
-        0x00,
-        -10.0f,
-    },
-    {
-        0x060093BC,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x06009EE0,
-        1.0f,
-        0x00,
-        0.0f,
-    },
-    {
-        0x06009EE0,
-        1.0f,
-        0x00,
-        -10.0f,
-    },
+static struct_D_80AA1678 D_80AA3848[] = {
+    { 0x060007D4, 1.0f, 0x00, 0.0f }, { 0x060007D4, 1.0f, 0x00, -10.0f }, { 0x060093BC, 1.0f, 0x00, 0.0f },
+    { 0x06009EE0, 1.0f, 0x00, 0.0f }, { 0x06009EE0, 1.0f, 0x00, -10.0f },
 };
 
-Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
+static Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
 
-u32 D_80AA38A4[] = {
+static UNK_PTR D_80AA38A4[] = {
     0x06002970,
     0x06003570,
     0x06003770,
 };
 
-u32 D_80AA38B0[] = {
+static UNK_PTR D_80AA38B0[] = {
     0x06002570,
     0x06002C70,
     0x06003070,
@@ -271,8 +243,8 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA383C);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:

@@ -1,7 +1,7 @@
 /*
  * File: z_bg_ddan_kd.c
  * Overlay: ovl_Bg_Ddan_Kd
- * Description: Stone stairs in Dodongo's Cavern
+ * Description: Falling stairs in Dodongo's Cavern
  */
 
 #include "z_bg_ddan_kd.h"
@@ -31,13 +31,13 @@ const ActorInit Bg_Ddan_Kd_InitVars = {
     (ActorFunc)BgDdanKd_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x39, 0x00, 0x00, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 245, 180, -400, { 0, 0, 0 } },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 32767, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 32767, ICHAIN_CONTINUE),
@@ -49,7 +49,7 @@ static f32 D_80871904[] = { 0.0f };
 static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
 
 extern UNK_TYPE D_06004F30;
-extern UNK_TYPE D_060048A8;
+extern Gfx D_060048A8[];
 
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -62,10 +62,10 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->previousCollidingExplosion = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, &initChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &cylinderInit);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
     DynaPolyInfo_Alloc(&D_06004F30, &sp24);
 
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);

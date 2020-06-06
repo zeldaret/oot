@@ -22,7 +22,7 @@ glabel func_8007A9B4
 /* AF1B90 8007A9F0 F7B40018 */  sdc1  $f20, 0x18($sp)
 /* AF1B94 8007A9F4 AFA400A8 */  sw    $a0, 0xa8($sp)
 /* AF1B98 8007A9F8 8C9107A8 */  lw    $s1, 0x7a8($a0)
-/* AF1B9C 8007A9FC 3C178017 */  lui   $s7, %hi(D_801759C0) # $s7, 0x8017
+/* AF1B9C 8007A9FC 3C178017 */  lui   $s7, %hi(gZBuffer) # $s7, 0x8017
 /* AF1BA0 8007AA00 241E0001 */  li    $fp, 1
 /* AF1BA4 8007AA04 1220005C */  beqz  $s1, .L8007AB78
 /* AF1BA8 8007AA08 3C0142F0 */   li    $at, 0x42F00000 # 0.000000
@@ -35,7 +35,7 @@ glabel func_8007A9B4
 /* AF1BC4 8007AA24 4481B000 */  mtc1  $at, $f22
 /* AF1BC8 8007AA28 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* AF1BCC 8007AA2C 4481A000 */  mtc1  $at, $f20
-/* AF1BD0 8007AA30 26F759C0 */  addiu $s7, %lo(D_801759C0) # addiu $s7, $s7, 0x59c0
+/* AF1BD0 8007AA30 26F759C0 */  addiu $s7, %lo(gZBuffer) # addiu $s7, $s7, 0x59c0
 /* AF1BD4 8007AA34 27B60084 */  addiu $s6, $sp, 0x84
 /* AF1BD8 8007AA38 27B50088 */  addiu $s5, $sp, 0x88
 /* AF1BDC 8007AA3C 27B40094 */  addiu $s4, $sp, 0x94

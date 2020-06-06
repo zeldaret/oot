@@ -33,23 +33,23 @@ const ActorInit Bg_Jya_Kanaami_InitVars = {
     (ActorFunc)BgJyaKanaami_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 700, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
 };
 
-extern u32 D_0600F000;
-extern u32 D_0600F208;
+extern Gfx D_0600F000[];
+extern UNK_TYPE D_0600F208;
 
-void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, UNK_TYPE arg2, DynaPolyMoveFlag flag) {
     s32 pad;
     s32 local_c = 0;
     s32 pad2;
 
     DynaPolyInfo_SetActorMove(&this->actor, flag);
-    DynaPolyInfo_Alloc(collision, &local_c);
+    DynaPolyInfo_Alloc(arg2, &local_c);
     this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
     if (this->dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
@@ -61,7 +61,7 @@ void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaKanaami* this = THIS;
 
     func_80899740(this, globalCtx, &D_0600F208, 0);
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
         func_80899A08(this);
     } else {
@@ -127,5 +127,5 @@ void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_0600F000);
+    Gfx_DrawDListOpa(globalCtx, D_0600F000);
 }

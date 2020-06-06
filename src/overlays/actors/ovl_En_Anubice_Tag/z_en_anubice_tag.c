@@ -5,7 +5,6 @@
  */
 
 #include "z_en_anubice_tag.h"
-
 #include <vt.h>
 
 #define FLAGS 0x00000010
@@ -67,7 +66,6 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
 
     if (this->anubis != NULL) {
         anubis = this->anubis;
-
         if (anubis->actor.update == NULL) {
             return;
         }

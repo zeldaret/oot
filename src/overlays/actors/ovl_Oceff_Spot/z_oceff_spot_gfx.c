@@ -49,7 +49,7 @@ static Vtx vertices[] = {
     VTX(35, 500, 35, 768, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-static Gfx textureDl[] = {
+static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -70,7 +70,7 @@ static Gfx textureDl[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx cylinderDl[] = {
+static Gfx sCylinderDl[] = {
     gsSPVertex(vertices, 27, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(1, 4, 5, 0, 1, 5, 2, 0),

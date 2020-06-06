@@ -31,19 +31,19 @@ const ActorInit Bg_Hidan_Syoku_InitVars = {
     (ActorFunc)BgHidanSyoku_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_PTR D_0600A7E0;
-extern UNK_PTR D_0600E568;
+extern Gfx D_0600A7E0[];
+extern UNK_TYPE D_0600E568;
 
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSyoku* this = THIS;
     s32 pad;
     u32 local_c = 0;
 
-    Actor_ProcessInitChain(&this->dyna.actor, initChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 1);
     DynaPolyInfo_Alloc(&D_0600E568, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
@@ -117,9 +117,7 @@ void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_168 = 3;
         }
         func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
-        return;
-    }
-    if (!func_8004356C(&this->dyna.actor)) {
+    } else if (!func_8004356C(&this->dyna.actor)) {
         if (this->unk_168 != 0) {
             func_8005A77C(globalCtx->cameraPtrs[0], 3);
         }
@@ -128,5 +126,5 @@ void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_0600A7E0);
+    Gfx_DrawDListOpa(globalCtx, D_0600A7E0);
 }

@@ -31,8 +31,8 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
     (ActorFunc)BgSpot15Saku_Draw,
 };
 
-extern u32 D_060003C0;
-extern u32 D_060004D0;
+extern Gfx D_060003C0[];
+extern UNK_TYPE D_060004D0;
 
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Saku* this = THIS;
@@ -103,7 +103,7 @@ void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_060003C0);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_060003C0);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }
