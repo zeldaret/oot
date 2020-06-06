@@ -1,8 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
-
 #include <ultra64/controller.h>
-#include <PR/os_pfs.h>
 
 #define BANK_ADDR 0x400
 #define MOTOR_ID 0x80

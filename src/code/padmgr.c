@@ -1,9 +1,7 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
 #include <vt.h>
-
-#include <PR/os_cont.h>
-#include <ultra64/controller.h>
 
 s32 D_8012D280 = 1;
 

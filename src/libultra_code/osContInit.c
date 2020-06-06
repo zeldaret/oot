@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-
 #include <ultra64/controller.h>
 
 OSPifRam __osPifInternalBuff;
@@ -63,7 +62,7 @@ void __osContGetInitData(u8* ctlBitfield, OSContStatus* status) {
     *ctlBitfield = bitfieldTemp;
 }
 
-void __osPackRequestData(u8 command) {
+void __osPackRequestData(u8 poll) {
     u8* bufptr;
     __OSContRequestHeader req;
     s32 i;
@@ -77,7 +76,7 @@ void __osPackRequestData(u8 command) {
     req.align = 0xFF;
     req.txsize = 1;
     req.rxsize = 3;
-    req.poll = command;
+    req.poll = poll;
     req.typeh = 0xFF;
     req.typel = 0xFF;
     req.status = 0xFF;

@@ -1,6 +1,6 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
-#include <PR/os_cont.h>
 
 void Sample_HandleStateChange(SampleContext* this) {
     if (CHECK_PAD(this->state.input[0].press, START_BUTTON)) {

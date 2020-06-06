@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-
 #include <ultra64/controller.h>
 
 s32 osContStartReadData(OSMesgQueue* mq) {

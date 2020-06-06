@@ -1,6 +1,6 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
-#include <PR/os_cont.h>
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;

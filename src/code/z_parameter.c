@@ -1,7 +1,7 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
 #include <vt.h>
-#include <PR/os_cont.h>
 
 typedef struct {
     /* 0x00 */ u8 scene;
