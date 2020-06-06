@@ -1164,8 +1164,8 @@ void func_80B56EB8(EnZl3* this, GlobalContext* globalCtx) {
     Flags_SetSwitch(globalCtx, func_80B54DB4(this));
 }
 
-void func_80B56EE4(EnZl3* this, GlobalContext* globalCtx) {
-    Flags_GetSwitch(globalCtx, func_80B54DB4(this));
+s32 func_80B56EE4(EnZl3* this, GlobalContext* globalCtx) {
+    return Flags_GetSwitch(globalCtx, func_80B54DB4(this));
 }
 
 void func_80B56F10(EnZl3* this, GlobalContext* globalCtx);
@@ -1731,8 +1731,40 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B58624(EnZl3* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B58624.s")
+void func_80B58624(EnZl3* this, GlobalContext* globalCtx) {
+    s32 pad[4];
+    f32* unk_3CC = &this->unk_3CC;
+
+    if (*unk_3CC == (kREG(18) + 10.0f)) {
+        *unk_3CC += 1.0f;
+        func_80B54E14(this, &D_06008050, 0, -12.0f, 0);
+        func_80B5772C(this, globalCtx);
+    } else if (*unk_3CC == kREG(19) + 20.0f) {
+        *unk_3CC += 1.0f;
+        this->actor.textId = 0x71AC;
+        func_8010B680(globalCtx, this->actor.textId, 0);
+        func_80B54E14(this, &D_06003FF8, 0, -12.0f, 0);
+    } else if (*unk_3CC == ((kREG(19) + 20.0f) + 1.0f)) {
+        if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+            *unk_3CC += 1.0f;
+            func_80B5357C(this, globalCtx);
+            func_80B5357C(this, globalCtx);
+            func_80B5357C(this, globalCtx);
+            func_80B5357C(this, globalCtx);
+            func_80B5357C(this, globalCtx);
+            return;
+        }
+    } else {
+        if (*unk_3CC >= kREG(20) + 30.0f) {
+            this->action = 28;
+            func_8005B1A4(ACTIVE_CAM);
+            func_80B54E14(this, &D_06009FBC, 0, -12.0f, 0);
+            *unk_3CC = 0.0f;
+        } else {
+            *unk_3CC += 1.0f;
+        }
+    }
+}
 
 void func_80B5884C(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54E14(this, &D_060038C0, 2, -8.0f, 0);
@@ -2079,7 +2111,57 @@ s32 func_80B59768(EnZl3* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B59828.s")
+void func_80B59828(EnZl3* this, GlobalContext* globalCtx) {
+    s16 newRotY;
+    s32 cond;
+
+    if (func_80B59698(this, globalCtx) || (!func_80B56EE4(this, globalCtx) && func_80B57890(this, globalCtx))) {
+        func_80B54E14(this, &D_06009FBC, 0, 0.0f, 0);
+        this->actor.flags = (u32)(this->actor.flags | 9);
+        func_80B56F10(this, globalCtx);
+        newRotY = func_80B571A8(this);
+        this->actor.shape.rot.y = newRotY;
+        this->actor.posRot.rot.y = newRotY;
+        this->unk_3C4 = this->actor.posRot.rot.z;
+        this->actor.shape.rot.z = 0;
+        this->actor.posRot.rot.z = this->actor.shape.rot.z;
+        this->action = 28;
+        this->drawConfig = 1;
+    } else {
+        Actor_Kill(&this->actor);
+    }
+
+    if (func_80B59698(this, globalCtx) != 0) {
+        func_80088AA0(180);
+        func_80B53468();
+        gSaveContext.healthAccumulator = 320;
+        func_80087680(globalCtx);
+        if (Flags_GetSwitch(globalCtx, 0x20)) {
+            Flags_UnsetSwitch(globalCtx, 0x20);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_ZG, -144.0f, 3544.0f, -43.0f, 0, 0x2000, 0, 0x2000);
+        }
+        Flags_UnsetSwitch(globalCtx, 0x21);
+        Flags_UnsetSwitch(globalCtx, 0x22);
+        Flags_UnsetSwitch(globalCtx, 0x23);
+        Flags_UnsetSwitch(globalCtx, 0x24);
+        Flags_UnsetSwitch(globalCtx, 0x25);
+        Flags_UnsetSwitch(globalCtx, 0x26);
+        Flags_UnsetSwitch(globalCtx, 0x27);
+        Flags_UnsetSwitch(globalCtx, 0x28);
+        Flags_UnsetSwitch(globalCtx, 0x29);
+        Flags_UnsetSwitch(globalCtx, 0x2A);
+    }
+
+    if (func_80B54DB4(this) == 0x20) {
+        func_80B54EA4(this, globalCtx);
+        cond = Flags_GetSwitch(globalCtx, 0x37) &&
+               ((globalCtx->sceneNum == SCENE_GANON_DEMO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
+                (globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO));
+        if (cond) {
+            func_80B53614(this, globalCtx);
+        }
+    }
+}
 
 void func_80B59A80(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B59768(this, globalCtx)) {
