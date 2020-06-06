@@ -91,8 +91,8 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
     /* "../z_kaleido_map_PAL.c" */
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, D_8082FD78, 3188);
 
-    pauseCtx->inputX = (s16)input->rel.in.x;
-    pauseCtx->inputY = (s16)input->rel.in.y;
+    pauseCtx->inputX = input->rel.in.x;
+    pauseCtx->inputY = input->rel.in.y;
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x02, interfaceCtx->parameterSegment);
     gSPSegment(gfxCtx->polyOpa.p++, 0x07, pauseCtx->unk_13C);
