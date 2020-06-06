@@ -155,28 +155,3 @@ glabel func_8003C614
 /* AB39C8 8003C828 8FBE0060 */  lw    $fp, 0x60($sp)
 /* AB39CC 8003C82C 03E00008 */  jr    $ra
 /* AB39D0 8003C830 27BD00B8 */   addiu $sp, $sp, 0xb8
-
-/* AB39D4 8003C834 27BDFFC8 */  addiu $sp, $sp, -0x38
-/* AB39D8 8003C838 AFA60040 */  sw    $a2, 0x40($sp)
-/* AB39DC 8003C83C 3C013F80 */  li    $at, 0x3F800000 # 0.000000
-/* AB39E0 8003C840 44812000 */  mtc1  $at, $f4
-/* AB39E4 8003C844 8FAF0040 */  lw    $t7, 0x40($sp)
-/* AB39E8 8003C848 00A03825 */  move  $a3, $a1
-/* AB39EC 8003C84C 00802825 */  move  $a1, $a0
-/* AB39F0 8003C850 AFBF002C */  sw    $ra, 0x2c($sp)
-/* AB39F4 8003C854 AFA40038 */  sw    $a0, 0x38($sp)
-/* AB39F8 8003C858 27AE0034 */  addiu $t6, $sp, 0x34
-/* AB39FC 8003C85C 2418001C */  li    $t8, 28
-/* AB3A00 8003C860 AFB8001C */  sw    $t8, 0x1c($sp)
-/* AB3A04 8003C864 AFAE0010 */  sw    $t6, 0x10($sp)
-/* AB3A08 8003C868 00002025 */  move  $a0, $zero
-/* AB3A0C 8003C86C 24060001 */  li    $a2, 1
-/* AB3A10 8003C870 AFA00018 */  sw    $zero, 0x18($sp)
-/* AB3A14 8003C874 AFAF0014 */  sw    $t7, 0x14($sp)
-/* AB3A18 8003C878 0C00F185 */  jal   func_8003C614
-/* AB3A1C 8003C87C E7A40020 */   swc1  $f4, 0x20($sp)
-/* AB3A20 8003C880 8FBF002C */  lw    $ra, 0x2c($sp)
-/* AB3A24 8003C884 27BD0038 */  addiu $sp, $sp, 0x38
-/* AB3A28 8003C888 03E00008 */  jr    $ra
-/* AB3A2C 8003C88C 00000000 */   nop   
-

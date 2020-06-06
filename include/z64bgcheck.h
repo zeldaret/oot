@@ -170,11 +170,11 @@ typedef struct {
     /* 0x10 */ f32 unk_10;
     /* 0x14 */ Vec3f* unk_14;
     /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
+    /* 0x1C */ struct Actor* unk_1C;
     /* 0x20 */ u32 unk_20;
     /* 0x24 */ f32 unk_24;
     /* 0x28 */ DynaCollisionContext* dyna;
     /* 0x2C */ u16* unk_2C;
-} s8003FBF4;
+} s8003FBF4; 
 
 #endif
