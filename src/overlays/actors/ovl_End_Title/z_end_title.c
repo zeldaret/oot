@@ -53,8 +53,10 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 frameCount = globalCtx->csCtx.frames;
     Player* player = PLAYER;
     mf = &player->mf_9E0;
+
+    // Draws the Triforce on Link's left hand
     {
-        // Draws the Triforce on Link's left hand
+
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];
         gfxCtx = globalCtx->state.gfxCtx;
@@ -67,10 +69,11 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateZ(0.0f, MTXMODE_APPLY);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_end_title.c", 412), G_MTX_LOAD);
-        gSPDisplayList(gfxCtx->polyXlu.p++, triforceDL);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sTriforceDList);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_end_title.c", 417);
     }
 
+    // Draw title cards on the screen
     {
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];

@@ -32,7 +32,7 @@ const ActorInit Oceff_Spot_InitVars = {
 
 #include "z_oceff_spot_gfx.c"
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 1500, ICHAIN_STOP),
 };
@@ -45,7 +45,7 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 pad;
     OceffSpot* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     OceffSpot_SetupAction(this, OceffSpot_GrowCylinder);
 
     Lights_InitType0PositionalLight(&this->lightInfo1, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
@@ -160,10 +160,10 @@ void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, textureDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32,
                                                          1, 0, scroll * (-8), 32, 32));
-    gSPDisplayList(gfxCtx->polyXlu.p++, cylinderDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sCylinderDl);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_spot.c", 485);
 }

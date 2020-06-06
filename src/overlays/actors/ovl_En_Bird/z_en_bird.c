@@ -1,7 +1,7 @@
 /*
  * File: z_en_bird.c
  * Overlay: ovl_En_Bird
- * Description: A brown bird. Tweet tweet.
+ * Description: An unused brown bird
  */
 
 #include "z_en_bird.h"
@@ -32,7 +32,7 @@ const ActorInit En_Bird_InitVars = {
     (ActorFunc)EnBird_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
 };
 
@@ -46,7 +46,7 @@ void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {
 void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBird* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, 0, 0, 0);
     ActorShape_Init(&this->actor.shape, 5500, ActorShadow_DrawFunc_Circle, 4);

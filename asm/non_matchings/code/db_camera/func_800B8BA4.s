@@ -3,6 +3,7 @@ glabel func_800B8BA4
 /* B2FD48 800B8BA8 03E00008 */  jr    $ra
 /* B2FD4C 800B8BAC 8C4212EC */   lw    $v0, %lo(D_801612EC)($v0)
 
+glabel func_800B8BB0
 /* B2FD50 800B8BB0 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B2FD54 800B8BB4 AFB00020 */  sw    $s0, 0x20($sp)
 /* B2FD58 800B8BB8 AFB50034 */  sw    $s5, 0x34($sp)
@@ -142,6 +143,7 @@ glabel func_800B8BA4
 /* B2FF48 800B8DA8 03E00008 */  jr    $ra
 /* B2FF4C 800B8DAC 27BD0048 */   addiu $sp, $sp, 0x48
 
+glabel func_800B8DB0
 /* B2FF50 800B8DB0 27BDFFB0 */  addiu $sp, $sp, -0x50
 /* B2FF54 800B8DB4 AFB3002C */  sw    $s3, 0x2c($sp)
 /* B2FF58 800B8DB8 00809825 */  move  $s3, $a0
@@ -246,6 +248,7 @@ glabel func_800B8BA4
 /* B300C8 800B8F28 03E00008 */  jr    $ra
 /* B300CC 800B8F2C 27BD0050 */   addiu $sp, $sp, 0x50
 
+glabel func_800B8F30
 /* B300D0 800B8F30 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B300D4 800B8F34 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B300D8 800B8F38 00803025 */  move  $a2, $a0

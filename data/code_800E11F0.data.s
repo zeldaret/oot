@@ -10,7 +10,7 @@
 .balign 16
 
 glabel D_801304D0
-    .incbin "baserom.z64", 0xBA7670, 0x4
+    .word osEPiStartDma
 
 glabel D_801304D4
     .incbin "baserom.z64", 0xBA7674, 0x4

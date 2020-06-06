@@ -187,7 +187,28 @@ glabel D_8016BABC
     .space 0x4
 
 glabel D_8016BAC0
-    .space 0xEE0
+    .space 0x10
+
+glabel D_8016BAD0
+    .space 0x1B0
+
+glabel D_8016BC80
+    .space 0x240
+
+glabel D_8016BEC0
+    .space 0x420
+
+glabel D_8016C2E0
+    .space 0x3C0
+
+glabel D_8016C6A0
+    .space 0x180
+
+glabel D_8016C820
+    .space 0x90
+
+glabel D_8016C8B0
+    .space 0xF0
 
 glabel D_8016C9A0
     .space 0x1800

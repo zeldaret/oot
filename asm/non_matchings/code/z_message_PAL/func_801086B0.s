@@ -1,3 +1,55 @@
+.rdata
+glabel D_8015401C
+    # Timer (%x) (%x)
+    .asciz "タイマー (%x) (%x)"
+    .balign 4
+
+glabel D_80154030
+    # Total wct=%x(%d)
+    .asciz "合計wct=%x(%d)\n"
+    .balign 4
+
+glabel D_80154040
+    # Sound (SFX)
+    .asciz "サウンド（ＳＥ）\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80154B48
+    .word L801087EC
+    .word L801095F0
+    .word L801097E4
+    .word L801088E8
+    .word L8010887C
+    .word L80108984
+    .word L801089B8
+    .word L80108A2C
+    .word L80108AD4
+    .word L80109724
+    .word L8010977C
+    .word L80108B34
+    .word L80108AE0
+    .word L801096B4
+    .word L801097E4
+    .word L80109680
+    .word L80108B70
+    .word L80108C0C
+    .word L80108CB8
+    .word L801094E4
+    .word L80108D00
+    .word L801097E4
+    .word L801097E4
+    .word L801097E4
+    .word L801097E4
+    .word L80109510
+    .word L80109528
+    .word L8010958C
+    .word L801097E4
+    .word L801097E4
+    .word L801097E4
+    .word L801088CC
+
+.text
 glabel func_801086B0
 /* B7F850 801086B0 27BDFEC8 */  addiu $sp, $sp, -0x138
 /* B7F854 801086B4 AFB7003C */  sw    $s7, 0x3c($sp)

@@ -17,7 +17,7 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx);
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_SetWait(ObjComb* this);
+void ObjComb_SetupWait(ObjComb* this);
 void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Comb_InitVars = {
@@ -32,34 +32,34 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-ColliderJntSphItemInit colliderItemsInit[1] = {
+ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
-ColliderJntSphInit colliderInit = {
+ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
     1,
-    &colliderItemsInit,
+    &sJntSphItemsInit,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 900, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_050095B0;
-extern UNK_TYPE D_05009940;
+extern Gfx D_050095B0[];
+extern Gfx D_05009940[];
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f posSum;
     Vec3f pos2;
-    Gfx** dlist = &D_05009940;
+    Gfx** dlist = D_05009940;
     s16 scale;
     s16 angle = 0;
     s16 gravityInfluence;
@@ -135,17 +135,17 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, &initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, this, &colliderInit, &this->colliderItems);
-    ObjComb_SetWait(this);
+    Collider_SetJntSph(globalCtx, &this->collider, this, &sJntSphInit, &this->colliderItems);
+    ObjComb_SetupWait(this);
 }
 
 void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &THIS->collider);
 }
 
-void ObjComb_SetWait(ObjComb* this) {
+void ObjComb_SetupWait(ObjComb* this) {
     this->actionFunc = ObjComb_Wait;
 }
 
@@ -205,7 +205,7 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_050095B0);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_050095B0);
 
     func_800628A4(0, &this->collider);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);

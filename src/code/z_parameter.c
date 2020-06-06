@@ -3554,7 +3554,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
             // Revert any spoiling trade quest items
             for (phi_s3 = 0; phi_s3 < ARRAY_COUNT(gSpoilingItems); phi_s3++) {
-                if (INV_CONTENT(ITEM_POCKET_EGG) == gSpoilingItems[phi_s3]) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[phi_s3]) {
                     gSaveContext.eventInf[0] &= 0x7F80;
                     osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[0]);
                     globalCtx->nextEntranceIndex = sSpoilingItemEntrances[phi_s3];
