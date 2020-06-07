@@ -101,15 +101,15 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == 1) {
-        gSPDisplayList(gfxCtx->polyXlu.p++, textureDl1);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL1);
     } else {
-        gSPDisplayList(gfxCtx->polyXlu.p++, textureDl0);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL0);
     }
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, textureDl2);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL2);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64,
                                                          1, scroll * (-1), scroll, 32, 32));
-    gSPDisplayList(gfxCtx->polyXlu.p++, frustrumDl);
+    gSPDisplayList(gfxCtx->polyXlu.p++, sFrustrumDl);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 344);
 }

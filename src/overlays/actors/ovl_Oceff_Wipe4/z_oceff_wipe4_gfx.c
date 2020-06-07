@@ -76,7 +76,7 @@ static Vtx vertices[] = {
     VTX(143, -46, 0, 410, 1024, 0xFF, 0xFF, 0xFF, 0x00),   VTX(243, -176, 1000, 307, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-static Gfx textureDl0[] = {
+static Gfx sTextureDL0[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -87,7 +87,7 @@ static Gfx textureDl0[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx textureDl1[] = {
+static Gfx sTextureDL1[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -98,7 +98,7 @@ static Gfx textureDl1[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx textureDl2[] = {
+static Gfx sTextureDL2[] = {
     gsDPPipeSync(),
     gsDPLoadTextureBlock(tex0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                          G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 6, 14, 1),
@@ -111,7 +111,7 @@ static Gfx textureDl2[] = {
     //! @bug : gsSPEndDisplayList() is missing so the next dlist will execute as well
 };
 
-static Gfx frustrumDl[] = {
+static Gfx sFrustrumDl[] = {
     gsSPVertex(vertices, 22, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
     gsSP2Triangles(4, 5, 0, 0, 5, 1, 0, 0),

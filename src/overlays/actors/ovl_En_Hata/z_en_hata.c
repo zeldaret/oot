@@ -27,7 +27,7 @@ const ActorInit En_Hata_InitVars = {
     (ActorFunc)EnHata_Draw,
 };
 
-static UNK_TYPE4 sUnusedData[] = {
+static UNK_TYPE sUnusedData[] = {
     0x0A000939, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000080, 0x00000000,
     0x00050100, 0x001000F6, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xFF000000,
 };
@@ -45,7 +45,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
 
     temp = 0;
-    frameCount = (f32)SkelAnime_GetFrameCount(&D_06000444.genericHeader);
+    frameCount = SkelAnime_GetFrameCount(&D_06000444.genericHeader);
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
@@ -58,7 +58,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->invScale = 6;
     this->maxStep = 1000;
     this->minStep = 1;
-    this->unk_278 = (s16)(Math_Rand_ZeroOne() * 65535.0f);
+    this->unk_278 = Math_Rand_ZeroOne() * 65535.0f;
 }
 
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {

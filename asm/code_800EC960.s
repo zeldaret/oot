@@ -77,7 +77,7 @@ glabel func_800ECA00
 /* B63BF0 800ECA50 27BD0080 */  addiu $sp, $sp, 0x80
 /* B63BF4 800ECA54 A039BA08 */  sb    $t9, %lo(D_8016BA08)($at)
 /* B63BF8 800ECA58 03E00008 */  jr    $ra
-/* B63BFC 800ECA5C A028BA09 */   sb    $t0, -0x45f7($at)
+/* B63BFC 800ECA5C A028BA09 */   sb    $t0, %lo(D_8016BA09)($at)
 
 glabel func_800ECA60
 /* B63C00 800ECA60 AFA40000 */  sw    $a0, ($sp)
@@ -1025,13 +1025,13 @@ glabel func_800ED458
 /* B64930 800ED790 10C20021 */  beq   $a2, $v0, .L800ED818
 /* B64934 800ED794 3C0E8013 */   lui   $t6, %hi(D_80130F18) # $t6, 0x8013
 /* B64938 800ED798 91CE0F18 */  lbu   $t6, %lo(D_80130F18)($t6)
-/* B6493C 800ED79C 3C058013 */  lui   $a1, %hi(D_8012FFFF) # $a1, 0x8013
+/* B6493C 800ED79C 3C058013 */  lui   $a1, %hi(D_80130F10)
 /* B64940 800ED7A0 104E001D */  beq   $v0, $t6, .L800ED818
 /* B64944 800ED7A4 00000000 */   nop   
 /* B64948 800ED7A8 80A50F10 */  lb    $a1, %lo(D_80130F10)($a1)
 /* B6494C 800ED7AC 3C040602 */  lui   $a0, (0x06020D07 >> 16) # lui $a0, 0x602
 /* B64950 800ED7B0 34840D07 */  ori   $a0, (0x06020D07 & 0xFFFF) # ori $a0, $a0, 0xd07
-/* B64954 800ED7B4 24A5FFFF */  addiu $a1, %lo(D_8012FFFF) # addiu $a1, $a1, -1
+/* B64954 800ED7B4 24A5FFFF */  addiu $a1, $a1, -1
 /* B64958 800ED7B8 00052E00 */  sll   $a1, $a1, 0x18
 /* B6495C 800ED7BC 0C0396C8 */  jal   func_800E5B20
 /* B64960 800ED7C0 00052E03 */   sra   $a1, $a1, 0x18
@@ -1384,13 +1384,13 @@ glabel func_800EDA3C
 /* B64E44 800EDCA4 11C10025 */  beq   $t6, $at, .L800EDD3C
 /* B64E48 800EDCA8 00000000 */   nop   
 /* B64E4C 800EDCAC 952F0000 */  lhu   $t7, ($t1)
-/* B64E50 800EDCB0 3C058013 */  lui   $a1, %hi(D_8012FFFF) # $a1, 0x8013
+/* B64E50 800EDCB0 3C058013 */  lui   $a1, %hi(D_80130F10)
 /* B64E54 800EDCB4 3C040602 */  lui   $a0, (0x06020D07 >> 16) # lui $a0, 0x602
 /* B64E58 800EDCB8 25F80001 */  addiu $t8, $t7, 1
 /* B64E5C 800EDCBC A5380000 */  sh    $t8, ($t1)
 /* B64E60 800EDCC0 80A50F10 */  lb    $a1, %lo(D_80130F10)($a1)
 /* B64E64 800EDCC4 34840D07 */  ori   $a0, (0x06020D07 & 0xFFFF) # ori $a0, $a0, 0xd07
-/* B64E68 800EDCC8 24A5FFFF */  addiu $a1, %lo(D_8012FFFF) # addiu $a1, $a1, -1
+/* B64E68 800EDCC8 24A5FFFF */  addiu $a1, $a1, -1
 /* B64E6C 800EDCCC 00052E00 */  sll   $a1, $a1, 0x18
 /* B64E70 800EDCD0 0C0396C8 */  jal   func_800E5B20
 /* B64E74 800EDCD4 00052E03 */   sra   $a1, $a1, 0x18
@@ -2219,12 +2219,12 @@ glabel func_800EE824
 /* B659F0 800EE850 10000034 */  b     .L800EE924
 /* B659F4 800EE854 8FBF0014 */   lw    $ra, 0x14($sp)
 .L800EE858:
-/* B659F8 800EE858 3C038013 */  lui   $v1, %hi(D_8012FFFF) # $v1, 0x8013
+/* B659F8 800EE858 3C038013 */  lui   $v1, %hi(D_80131C88) # $v1, 0x8013
 /* B659FC 800EE85C 94631C88 */  lhu   $v1, %lo(D_80131C88)($v1)
 /* B65A00 800EE860 3C018013 */  lui   $at, %hi(D_80131C88) # $at, 0x8013
 /* B65A04 800EE864 3C0E8013 */  lui   $t6, %hi(D_80131C84) # $t6, 0x8013
 /* B65A08 800EE868 2C620001 */  sltiu $v0, $v1, 1
-/* B65A0C 800EE86C 2463FFFF */  addiu $v1, %lo(D_8012FFFF) # addiu $v1, $v1, -1
+/* B65A0C 800EE86C 2463FFFF */  addiu $v1, $v1, -1
 /* B65A10 800EE870 1040002B */  beqz  $v0, .L800EE920
 /* B65A14 800EE874 A4231C88 */   sh    $v1, %lo(D_80131C88)($at)
 /* B65A18 800EE878 91CE1C84 */  lbu   $t6, %lo(D_80131C84)($t6)
@@ -2518,7 +2518,7 @@ glabel func_800EEA50
 /* B65E3C 800EEC9C 0C03EF2D */  jal   GfxPrint_Printf
 /* B65E40 800EECA0 8FA400B0 */   lw    $a0, 0xb0($sp)
 /* B65E44 800EECA4 92840001 */  lbu   $a0, 1($s4)
-/* B65E48 800EECA8 3C1E8013 */  lui   $fp, %hi(D_8012FFFF) # $fp, 0x8013
+/* B65E48 800EECA8 3C1E8013 */  lui   $fp, %hi(D_80131ED4) # $fp, 0x8013
 /* B65E4C 800EECAC 83DE1ED4 */  lb    $fp, %lo(D_80131ED4)($fp)
 /* B65E50 800EECB0 24840001 */  addiu $a0, $a0, 1
 /* B65E54 800EECB4 18800074 */  blez  $a0, .L800EEE88
@@ -2541,7 +2541,7 @@ glabel func_800EEA50
 /* B65E90 800EECF0 10000004 */  b     .L800EED04
 /* B65E94 800EECF4 00129603 */   sra   $s2, $s2, 0x18
 .L800EECF8:
-/* B65E98 800EECF8 27DEFFFF */  addiu $fp, %lo(D_8012FFFF) # addiu $fp, $fp, -1
+/* B65E98 800EECF8 27DEFFFF */  addiu $fp, $fp, -1
 /* B65E9C 800EECFC 001EF600 */  sll   $fp, $fp, 0x18
 /* B65EA0 800EED00 001EF603 */  sra   $fp, $fp, 0x18
 .L800EED04:

@@ -14,15 +14,15 @@ FaultClient sGraphUcodeFaultClient;
 
 // clang-format off
 UCodeInfo D_8012D230[3] = {
-    { 1, D_80155F50 },
-    { 2, NULL },
-    { 3, D_80113070 },
+    { UCODE_F3DZEX, D_80155F50 },
+    { UCODE_UNK, NULL },
+    { UCODE_S2DEX, D_80113070 },
 };
 
 UCodeInfo D_8012D248[3] = {
-    { 1, D_80155F50 },
-    { 2, NULL },
-    { 3, D_80113070 },
+    { UCODE_F3DZEX, D_80155F50 },
+    { UCODE_UNK, NULL },
+    { UCODE_S2DEX, D_80113070 },
 };
 // clang-format on
 
@@ -42,11 +42,11 @@ void Graph_DisassembleUCode(void* arg0) {
     UCodeDisas disassembler;
 
     if (HREG(80) == 7 && HREG(81) != 0) {
-        func_800D7F5C(&disassembler);
+        UCodeDisas_Init(&disassembler);
         disassembler.enableLog = HREG(83);
-        func_800DAC80(&disassembler, 3, D_8012D230);
-        func_800DAC90(&disassembler, D_80155F50);
-        func_800D8400(&disassembler, arg0);
+        UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
+        UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
+        UCodeDisas_Disassemble(&disassembler, arg0);
         HREG(93) = disassembler.dlCnt;
         HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
         HREG(85) = disassembler.vtxCnt;
@@ -69,19 +69,19 @@ void Graph_DisassembleUCode(void* arg0) {
             osSyncPrintf("dl_depth=%d\n", disassembler.dlDepth);
             osSyncPrintf("dl_cnt=%d\n", disassembler.dlCnt);
         }
-        func_800D7FC4(&disassembler);
+        UCodeDisas_Destroy(&disassembler);
     }
 }
 
 void Graph_UCodeFaultClient(void* arg0) {
     UCodeDisas disassembler;
 
-    func_800D7F5C(&disassembler);
+    UCodeDisas_Init(&disassembler);
     disassembler.enableLog = true;
-    func_800DAC80(&disassembler, 3, D_8012D248);
-    func_800DAC90(&disassembler, D_80155F50);
-    func_800D8400(&disassembler, arg0);
-    func_800D7FC4(&disassembler);
+    UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D248), D_8012D248);
+    UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
+    UCodeDisas_Disassemble(&disassembler, arg0);
+    UCodeDisas_Destroy(&disassembler);
 }
 
 void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
@@ -221,7 +221,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->dram_stack = gGfxSPTaskStack;
     task->dram_stack_size = sizeof(gGfxSPTaskStack);
     task->output_buff = gGfxSPTaskOutputBuffer;
-    task->output_buff_size = gGfxSPTaskYieldBuffer; // ??
+    task->output_buff_size = gGfxSPTaskYieldBuffer; //! @bug (?) should be sizeof(gGfxSPTaskYieldBuffer), probably a typo
     task->data_ptr = gfxCtx->workBuffer;
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 828);
@@ -333,7 +333,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     problem = false;
     pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
     if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
-        // BUG (?) : devs might've forgotten "problem = true;"
+        /*! @bug (?) : devs might've forgotten "problem = true;" */
         osSyncPrintf("%c", 7);
         // Dynamic area head is destroyed
         osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);

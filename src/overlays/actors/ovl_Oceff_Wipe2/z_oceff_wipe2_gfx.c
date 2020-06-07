@@ -134,7 +134,7 @@ static Vtx vertices[] = {
     VTX(93, -285, 1000, 205, 0, 0xFF, 0xFF, 0xFF, 0xFF),   VTX(0, -150, 0, 0, 2048, 0xFF, 0xFF, 0xFF, 0x00),
 };
 
-static Gfx textureDl[] = {
+static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -165,7 +165,7 @@ static Gfx textureDl[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx frustrumDl[] = {
+static Gfx sFrustrumDl[] = {
     gsSPVertex(&vertices, 22, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
     gsSP2Triangles(4, 5, 0, 0, 5, 1, 0, 0),

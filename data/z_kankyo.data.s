@@ -37,7 +37,42 @@ glabel D_8011FC1C
     .incbin "baserom.z64", 0xB96DBC, 0x120
 
 glabel D_8011FD3C
-    .incbin "baserom.z64", 0xB96EDC, 0x90
+    .word _vr_fine0_staticSegmentRomStart
+    .word _vr_fine0_staticSegmentRomEnd
+    .word _vr_fine0_pal_staticSegmentRomStart
+    .word _vr_fine0_pal_staticSegmentRomEnd
+    .word _vr_fine1_staticSegmentRomStart
+    .word _vr_fine1_staticSegmentRomEnd
+    .word _vr_fine1_pal_staticSegmentRomStart
+    .word _vr_fine1_pal_staticSegmentRomEnd
+    .word _vr_fine2_staticSegmentRomStart
+    .word _vr_fine2_staticSegmentRomEnd
+    .word _vr_fine2_pal_staticSegmentRomStart
+    .word _vr_fine2_pal_staticSegmentRomEnd
+    .word _vr_fine3_staticSegmentRomStart
+    .word _vr_fine3_staticSegmentRomEnd
+    .word _vr_fine3_pal_staticSegmentRomStart
+    .word _vr_fine3_pal_staticSegmentRomEnd
+    .word _vr_cloud0_staticSegmentRomStart
+    .word _vr_cloud0_staticSegmentRomEnd
+    .word _vr_cloud0_pal_staticSegmentRomStart
+    .word _vr_cloud0_pal_staticSegmentRomEnd
+    .word _vr_cloud1_staticSegmentRomStart
+    .word _vr_cloud1_staticSegmentRomEnd
+    .word _vr_cloud1_pal_staticSegmentRomStart
+    .word _vr_cloud1_pal_staticSegmentRomEnd
+    .word _vr_cloud2_staticSegmentRomStart
+    .word _vr_cloud2_staticSegmentRomEnd
+    .word _vr_cloud2_pal_staticSegmentRomStart
+    .word _vr_cloud2_pal_staticSegmentRomEnd
+    .word _vr_cloud3_staticSegmentRomStart
+    .word _vr_cloud3_staticSegmentRomEnd
+    .word _vr_cloud3_pal_staticSegmentRomStart
+    .word _vr_cloud3_pal_staticSegmentRomEnd
+    .word _vr_holy0_staticSegmentRomStart
+    .word _vr_holy0_staticSegmentRomEnd
+    .word _vr_holy0_pal_staticSegmentRomStart
+    .word _vr_holy0_pal_staticSegmentRomEnd
 
 glabel D_8011FDCC
     .incbin "baserom.z64", 0xB96F6C, 0x4

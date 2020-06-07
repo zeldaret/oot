@@ -1,13 +1,11 @@
 /*
  * File: z_bg_bom_guard.c
  * Overlay: Bg_Bom_Guard
- * Description: Bombchu Bowling Alley Game
+ * Description: Bombchu Bowling Alley Walls
  */
 
 #include "z_bg_bom_guard.h"
-
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-
 #include <vt.h>
 
 #define FLAGS 0x00000010
@@ -32,7 +30,7 @@ const ActorInit Bg_Bom_Guard_InitVars = {
     NULL,
 };
 
-extern u32 D_06001C40;
+extern UNK_TYPE D_06001C40;
 
 void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
     this->actionFunc = actionFunc;

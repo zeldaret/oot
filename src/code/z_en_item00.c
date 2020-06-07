@@ -74,8 +74,8 @@ const ActorInit En_Item00_InitVars = {
 };
 
 // TODO: Define this section of .data here and rename the symbols
-extern ColliderCylinderInit D_801154E0;
-extern InitChainEntry D_8011550C[];
+extern ColliderCylinderInit D_801154E0; // rename to sCylinderInit when data is moved
+extern InitChainEntry D_8011550C[];     // rename to sInitChain when data is moved
 extern Color_RGB8 D_80115510;
 extern Color_RGB8 D_80115514;
 extern UNK_TYPE D_80115518;
@@ -478,9 +478,9 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
 
     this->actor.posRot.pos.y += 40.0f + Math_Sins(this->unk_15A * 15000) * (this->unk_15A * 0.3f);
 
-    if
-        LINK_IS_ADULT
-    this->actor.posRot.pos.y += 20.0f;
+    if (LINK_IS_ADULT) {
+        this->actor.posRot.pos.y += 20.0f;
+    }
 }
 
 extern s32 D_80157D90;
