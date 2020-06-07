@@ -70,7 +70,7 @@ glabel func_801014C0
 /* B7872C 8010158C 03E00008 */  jr    $ra
 /* B78730 80101590 00000000 */   nop   
 
-glabel func_80101594
+glabel osPfsReadWriteFile
 /* B78734 80101594 27BDFE90 */  addiu $sp, $sp, -0x170
 /* B78738 80101598 AFBF002C */  sw    $ra, 0x2c($sp)
 /* B7873C 8010159C AFB30028 */  sw    $s3, 0x28($sp)
