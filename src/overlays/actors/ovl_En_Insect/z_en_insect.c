@@ -117,12 +117,10 @@ s32 func_80A7BFA0(EnInsect* this, GlobalContext* globalCtx) {
         if (currentActor->id == ACTOR_OBJ_MAKEKINSUTA) {
             currentDistance = func_800CB594(this->actor.posRot.pos.x, this->actor.posRot.pos.z, currentActor->posRot.pos.x, currentActor->posRot.pos.z);
 
-            if (currentDistance < bestDistance) {
-                if (currentActor->room == this->actor.room) {
-                    ret = 1;
-                    bestDistance = currentDistance;
-                    this->soilActor = (ObjMakekinsuta*) currentActor;
-                }
+            if (currentDistance < bestDistance && currentActor->room == this->actor.room) {
+                ret = 1;
+                bestDistance = currentDistance;
+                this->soilActor = (ObjMakekinsuta*) currentActor;
             }
         }
         currentActor = currentActor->next;
@@ -207,10 +205,8 @@ void EnInsect_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
     temp_v0 = this->actor.params & 3;
     Collider_DestroyJntSph(globalCtx, &this->collider);
-    if (temp_v0 == 2 || temp_v0 == 3) {
-        if (D_80A7DEB8 > 0) {
-            D_80A7DEB8--;
-        }
+    if ((temp_v0 == 2 || temp_v0 == 3) && D_80A7DEB8 > 0) {
+        D_80A7DEB8--;
     }
 }
 
@@ -317,22 +313,17 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if (this->unk_31A >= 21) {
-        if (Math_Rand_ZeroOne() < 0.1f) {
-            sp34.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
-            sp34.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
-            sp34.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
-            func_800286CC(globalCtx, &this->actor.posRot.pos, &sp34, D_80A7DF28, Math_Rand_ZeroOne() * 5.0f + 8.0f, Math_Rand_ZeroOne() * 5.0f + 8.0f);
-        }
+    if (this->unk_31A >= 21 && Math_Rand_ZeroOne() < 0.1f) {
+        sp34.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
+        sp34.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
+        sp34.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
+        func_800286CC(globalCtx, &this->actor.posRot.pos, &sp34, D_80A7DF28, Math_Rand_ZeroOne() * 5.0f + 8.0f, Math_Rand_ZeroOne() * 5.0f + 8.0f);
     }
 
     if (this->unk_31A <= 0) {
-        if (this->unk_314 & 0x10) {
-            if (this->soilActor != NULL) {
-                if (func_800CB650(&this->soilActor->actor.posRot.pos, &this->actor.posRot.pos) < 64.0f) {
-                    this->soilActor->unk_152 = 1;
-                }
-            }
+        if (this->unk_314 & 0x10 && this->soilActor != NULL && func_800CB650(&this->soilActor->actor.posRot.pos, &this->actor.posRot.pos) < 64.0f)
+        {
+            this->soilActor->unk_152 = 1;
         }
         Actor_Kill(&this->actor);
     }
