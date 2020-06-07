@@ -146,7 +146,7 @@ static UNK_TYPE vertices2[] = {
     0x000002BC, 0x00000000, 0x07000800, 0x007800FF, 0xFFA30271, 0x00000000, 0x080006C2, 0xA95200FF,
 };
 
-static Gfx textureDL[] = {
+static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -162,7 +162,7 @@ static Gfx textureDL[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx vertexDL[] = {
+static Gfx sVertexDL[] = {
     gsSPVertex(vertices1, 32, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(3, 2, 4, 0, 3, 4, 5, 0),

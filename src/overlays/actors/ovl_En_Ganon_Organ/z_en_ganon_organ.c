@@ -5,7 +5,6 @@
  */
 
 #include "z_en_ganon_organ.h"
-
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
 #define FLAGS 0x00000030
@@ -29,8 +28,8 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Draw,
 };
 
-extern D_80A2CCA8; // remove when data is decompiled
-extern D_80A2EAB0; // remove when data is decompiled
+extern Gfx D_80A2CCA8[];
+extern Gfx D_80A2EAB0[];
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->flags &= ~1;
@@ -114,8 +113,8 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 221),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_80A2CCA8);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_80A2EAB0);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_80A2CCA8);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_80A2EAB0);
     osSyncPrintf("ORGAN DRAW  2\n");
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);
 }

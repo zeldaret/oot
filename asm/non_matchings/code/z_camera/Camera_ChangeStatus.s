@@ -39,7 +39,7 @@ glabel Camera_ChangeStatus
 /* ACF54C 800583AC 86780140 */  lh    $t8, 0x140($s3)
 /* ACF550 800583B0 24060078 */  li    $a2, 120
 /* ACF554 800583B4 12180003 */  beq   $s0, $t8, .L800583C4
-/* ACF558 800583B8 00000000 */   nop   
+/* ACF558 800583B8 00000000 */   nop
 /* ACF55C 800583BC 10000001 */  b     .L800583C4
 /* ACF560 800583C0 2406006F */   li    $a2, 111
 .L800583C4:
@@ -61,11 +61,11 @@ glabel Camera_ChangeStatus
 /* ACF598 800583F8 55100030 */  bnel  $t0, $s0, .L800584BC
 /* ACF59C 800583FC 87AC0036 */   lh    $t4, 0x36($sp)
 /* ACF5A0 80058400 86690140 */  lh    $t1, 0x140($s3)
-/* ACF5A4 80058404 3C158012 */  lui   $s5, %hi(D_8011D064) # $s5, 0x8012
+/* ACF5A4 80058404 3C158012 */  lui   $s5, %hi(sCameraSettings) # $s5, 0x8012
 /* ACF5A8 80058408 5209002C */  beql  $s0, $t1, .L800584BC
 /* ACF5AC 8005840C 87AC0036 */   lh    $t4, 0x36($sp)
 /* ACF5B0 80058410 866A0142 */  lh    $t2, 0x142($s3)
-/* ACF5B4 80058414 26B5D064 */  addiu $s5, %lo(D_8011D064) # addiu $s5, $s5, -0x2f9c
+/* ACF5B4 80058414 26B5D064 */  addiu $s5, %lo(sCameraSettings) # addiu $s5, $s5, -0x2f9c
 /* ACF5B8 80058418 866E0144 */  lh    $t6, 0x144($s3)
 /* ACF5BC 8005841C 000A58C0 */  sll   $t3, $t2, 3
 /* ACF5C0 80058420 02AB6021 */  addu  $t4, $s5, $t3

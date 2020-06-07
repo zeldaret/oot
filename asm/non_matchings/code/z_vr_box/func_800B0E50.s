@@ -102,7 +102,7 @@ glabel func_800B0E50
 /* B28068 800B0EC8 24C62C74 */  addiu $a2, %lo(D_80142C74) # addiu $a2, $a2, 0x2c74
 /* B2806C 800B0ECC 8FA40020 */  lw    $a0, 0x20($sp)
 /* B28070 800B0ED0 24052580 */  li    $a1, 9600
-/* B28074 800B0ED4 0C031521 */  jal   GameState_AllocEnd
+/* B28074 800B0ED4 0C031521 */  jal   GameState_Alloc
 /* B28078 800B0ED8 24070664 */   li    $a3, 1636
 /* B2807C 800B0EDC 14400007 */  bnez  $v0, .L800B0EFC
 /* B28080 800B0EE0 AE020134 */   sw    $v0, 0x134($s0)
@@ -117,7 +117,7 @@ glabel func_800B0E50
 /* B280A0 800B0F00 24C62CAC */  addiu $a2, %lo(D_80142CAC) # addiu $a2, $a2, 0x2cac
 /* B280A4 800B0F04 8FA40020 */  lw    $a0, 0x20($sp)
 /* B280A8 800B0F08 24051000 */  li    $a1, 4096
-/* B280AC 800B0F0C 0C031521 */  jal   GameState_AllocEnd
+/* B280AC 800B0F0C 0C031521 */  jal   GameState_Alloc
 /* B280B0 800B0F10 24070667 */   li    $a3, 1639
 /* B280B4 800B0F14 14400007 */  bnez  $v0, .L800B0F34
 /* B280B8 800B0F18 AE02013C */   sw    $v0, 0x13c($s0)
@@ -135,7 +135,7 @@ glabel func_800B0E50
 /* B280E4 800B0F44 00000000 */   nop
 .L800B0F48:
 /* B280E8 800B0F48 24C62CE4 */  addiu $a2, %lo(D_80142CE4)
-/* B280EC 800B0F4C 0C031521 */  jal   GameState_AllocEnd
+/* B280EC 800B0F4C 0C031521 */  jal   GameState_Alloc
 /* B280F0 800B0F50 2407066B */   li    $a3, 1643
 /* B280F4 800B0F54 14400007 */  bnez  $v0, .L800B0F74
 /* B280F8 800B0F58 AE020134 */   sw    $v0, 0x134($s0)
@@ -155,7 +155,7 @@ glabel func_800B0E50
 /* B2812C 800B0F8C 24C62D1C */  addiu $a2, %lo(D_80142D1C) # addiu $a2, $a2, 0x2d1c
 /* B28130 800B0F90 8FA40020 */  lw    $a0, 0x20($sp)
 /* B28134 800B0F94 24050C00 */  li    $a1, 3072
-/* B28138 800B0F98 0C031521 */  jal   GameState_AllocEnd
+/* B28138 800B0F98 0C031521 */  jal   GameState_Alloc
 /* B2813C 800B0F9C 24070670 */   li    $a3, 1648
 /* B28140 800B0FA0 14400007 */  bnez  $v0, .L800B0FC0
 /* B28144 800B0FA4 AE02013C */   sw    $v0, 0x13c($s0)
@@ -174,7 +174,7 @@ glabel func_800B0E50
 .L800B0FD4:
 /* B28174 800B0FD4 3C068014 */  lui   $a2, %hi(D_80142D54) # $a2, 0x8014
 /* B28178 800B0FD8 24C62D54 */  addiu $a2, %lo(D_80142D54) # addiu $a2, $a2, 0x2d54
-/* B2817C 800B0FDC 0C031521 */  jal   GameState_AllocEnd
+/* B2817C 800B0FDC 0C031521 */  jal   GameState_Alloc
 /* B28180 800B0FE0 24070675 */   li    $a3, 1653
 /* B28184 800B0FE4 14400007 */  bnez  $v0, .L800B1004
 /* B28188 800B0FE8 AE02013C */   sw    $v0, 0x13c($s0)

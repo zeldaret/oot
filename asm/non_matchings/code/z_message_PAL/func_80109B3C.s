@@ -1,3 +1,101 @@
+.rdata
+glabel D_801540A8
+    .asciz "ＪＪ＝%d\n"
+    .balign 4
+
+glabel D_801540B4
+    .asciz "NZ_NEXTMSG=%x, %x, %x\n"
+    .balign 4
+
+glabel D_801540CC
+    # Name ＝
+    .asciz "\n名前 ＝ "
+    .balign 4
+
+glabel D_801540D8
+    .asciz "%x "
+    .balign 4
+
+glabel D_801540DC
+    # ＥＶＥＮＴ TIMER ＝
+    .asciz "\nＥＶＥＮＴタイマー ＝ "
+    .balign 4
+
+glabel D_801540F4
+    # Horseback Archery Score ＝ %d
+    .asciz "\n流鏑馬スコア ＝ %d\n"
+    .balign 4
+
+glabel D_8015410C
+    # Total Gold Skulltula Tokens ＝ %d
+    .asciz "\n金スタ合計数 ＝ %d"
+    .balign 4
+
+glabel D_80154120
+    .asciz "%x(%x) "
+    .balign 4
+
+glabel D_80154128
+    # Fishing Pond Fish Size ＝
+    .asciz "\n釣り堀魚サイズ ＝ "
+    .balign 4
+
+glabel D_8015413C
+    .asciz "%x(%x) "
+    .balign 4
+
+glabel D_80154144
+    # Ranking＝%d
+    .asciz "ランキング＝%d\n"
+    .balign 4
+
+glabel D_80154154
+    .asciz "HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n"
+    .balign 4
+
+glabel D_8015419C
+    .asciz "score=%d\n"
+    .balign 4
+
+glabel D_801541A8
+    # Zelda Time ＝
+    .asciz "\nゼルダ時間 ＝ "
+    .balign 4
+
+glabel D_801541B8
+    .asciz "ITEM_NO=(%d) (%d)\n"
+    .balign 4
+
+glabel D_801541CC
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801541E0
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801541F4
+    .asciz "NZ_TIMER_END (key_off_flag=%d)\n"
+    .balign 4
+
+glabel D_80154214
+    .asciz "NZ_BGM (key_off_flag=%d)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80154BC8
+    .float 0.00359999993816
+
+glabel jtbl_80154BCC
+    .word L8010A6FC
+    .word L8010A6FC
+    .word L8010A6FC
+    .word L8010A850
+    .word L8010A850
+    .word L8010B06C
+    .word L8010A850
+
+.text
 glabel func_80109B3C
 /* B80CDC 80109B3C 27BDFF68 */  addiu $sp, $sp, -0x98
 /* B80CE0 80109B40 3C010001 */  lui   $at, 1
@@ -309,7 +407,7 @@ glabel func_80109B3C
 /* B8114C 80109FAC 10000003 */  b     .L80109FBC
 /* B81150 80109FB0 8442FA30 */   lh    $v0, %lo(gSaveContext+0x13d0)($v0)
 .L80109FB4:
-/* B81154 80109FB4 3C028016 */  lui   $v0, %hi(D_8015FFC4) # $v0, 0x8016
+/* B81154 80109FB4 3C028016 */  lui   $v0, %hi(gSaveContext+0x13d4)
 /* B81158 80109FB8 8442FA34 */  lh    $v0, %lo(gSaveContext+0x13d4)($v0)
 .L80109FBC:
 /* B8115C 80109FBC 2841003C */  slti  $at, $v0, 0x3c
@@ -322,7 +420,7 @@ glabel func_80109B3C
 /* B81174 80109FD4 00031C03 */  sra   $v1, $v1, 0x10
 /* B81178 80109FD8 2861000A */  slti  $at, $v1, 0xa
 /* B8117C 80109FDC 14200007 */  bnez  $at, .L80109FFC
-/* B81180 80109FE0 2442FFC4 */   addiu $v0, %lo(D_8015FFC4) # addiu $v0, $v0, -0x3c
+/* B81180 80109FE0 2442FFC4 */   addiu $v0, $v0, -0x3c
 /* B81184 80109FE4 24840001 */  addiu $a0, $a0, 1
 /* B81188 80109FE8 2463FFF6 */  addiu $v1, $v1, -0xa
 /* B8118C 80109FEC 00042400 */  sll   $a0, $a0, 0x10
@@ -431,7 +529,7 @@ glabel func_80109B3C
 /* B81308 8010A168 1420000A */  bnez  $at, .L8010A194
 /* B8130C 8010A16C A7A4007C */   sh    $a0, 0x7c($sp)
 .L8010A170:
-/* B81310 8010A170 2442FC18 */  addiu $v0, %lo(D_8015FA98 + (0x18*0x10)) # addiu $v0, $v0, -0x3e8
+/* B81310 8010A170 2442FC18 */  addiu $v0, $v0, -0x3e8
 /* B81314 8010A174 00021400 */  sll   $v0, $v0, 0x10
 /* B81318 8010A178 24840001 */  addiu $a0, $a0, 1
 /* B8131C 8010A17C 00021403 */  sra   $v0, $v0, 0x10
@@ -523,7 +621,7 @@ glabel func_80109B3C
 /* B8144C 8010A2AC 00009825 */  move  $s3, $zero
 /* B81450 8010A2B0 0C00084C */  jal   osSyncPrintf
 /* B81454 8010A2B4 00008825 */   move  $s1, $zero
-/* B81458 8010A2B8 3C058016 */  lui   $a1, %hi(sZeldaArena+0x1C) # $a1, 0x8016
+/* B81458 8010A2B8 3C058016 */  lui   $a1, %hi(gSaveContext+0xd0)
 /* B8145C 8010A2BC 84A5E730 */  lh    $a1, %lo(gSaveContext+0xd0)($a1)
 /* B81460 8010A2C0 00002400 */  sll   $a0, $zero, 0x10
 /* B81464 8010A2C4 00042403 */  sra   $a0, $a0, 0x10
@@ -532,7 +630,7 @@ glabel func_80109B3C
 /* B81470 8010A2D0 1420000A */  bnez  $at, .L8010A2FC
 /* B81474 8010A2D4 A7A4007C */   sh    $a0, 0x7c($sp)
 .L8010A2D8:
-/* B81478 8010A2D8 24A5FF9C */  addiu $a1, %lo(sZeldaArena+0x1C) # addiu $a1, $a1, -0x64
+/* B81478 8010A2D8 24A5FF9C */  addiu $a1, $a1, -0x64
 /* B8147C 8010A2DC 00052C00 */  sll   $a1, $a1, 0x10
 /* B81480 8010A2E0 24840001 */  addiu $a0, $a0, 1
 /* B81484 8010A2E4 00052C03 */  sra   $a1, $a1, 0x10

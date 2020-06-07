@@ -30,20 +30,21 @@ const ActorInit Bg_Mjin_InitVars = {
     NULL,
 };
 
-extern u32 D_06000000;
-extern u32 D_06000140;
-extern u32 D_06000330;
-extern u32 D_06000658;
+extern UNK_TYPE D_06000000;
+extern Gfx D_06000140[];
+extern Gfx D_06000330[];
+extern UNK_TYPE D_06000330_;
+extern UNK_TYPE D_06000658;
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 400, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 400, ICHAIN_STOP),
 };
 
-static s16 objectTbl[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
-                           OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
+static s16 sObjectIDs[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
+                            OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
 
 void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -53,7 +54,7 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMjin* this = THIS;
     s8 objBankIndex;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
     this->objBankIndex = objBankIndex;
     if (objBankIndex < 0) {
@@ -71,7 +72,7 @@ void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
     u32 local_c;
-    u32 collision;
+    UNK_TYPE arg0;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         local_c = 0;
@@ -79,8 +80,8 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
-        collision = this->dyna.actor.params != 0 ? &D_06000658 : &D_06000330;
-        DynaPolyInfo_Alloc(collision, &local_c);
+        arg0 = this->dyna.actor.params != 0 ? &D_06000658 : &D_06000330_;
+        DynaPolyInfo_Alloc(arg0, &local_c);
         this->dyna.dynaPolyId =
             DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
         BgMjin_SetupAction(this, func_808A0920);
@@ -106,14 +107,14 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
     if (thisx->params != 0) {
-        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[thisx->params - 1]);
+        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
         if (objBankIndex >= 0) {
             gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
-        dlist = &D_06000330;
+        dlist = D_06000330;
     } else {
-        dlist = &D_06000140;
+        dlist = D_06000140;
     }
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),

@@ -3,15 +3,17 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
 
+.balign 16
+
 glabel D_80812A60
-    .asciz "connect_alpha=%d  decision_alpha[%d]=%d\n\x00\x00\x00\x00"
+    .asciz "connect_alpha=%d  decision_alpha[%d]=%d\n"
     .balign 4
 
-.balign 4
+.balign 16
 
 glabel D_80812A90
     .asciz "../z_file_nameset_PAL.c"
@@ -121,7 +123,7 @@ glabel D_80812CE8
     .float 0.4
     .balign 4
 
-.align 4
+.balign 16
 
 glabel D_80812CF0
  .word 0xA3D3A3F2, 0xA3E1A3ED, 0x20A3D3A3, 0xF4A3E1A3, 0xF2A3F4A8, 0xA1A3CCA3, 0xEFA3E1A3, 0xE42020A1, 0xD5A1D5A1, 0xD5A1D5A1, 0xD5202000

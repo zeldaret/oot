@@ -21,7 +21,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit cylinderInitData = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
     { 9, 23, 0, { 0 } },
@@ -49,7 +49,7 @@ void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params); // "Urn Trap"
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     Actor_SetScale(&this->actor, 0.1f);
     this->actionFunc = EnTuboTrap_WaitForProximity;
 }
@@ -110,8 +110,8 @@ void EnTuboTrap_SpawnFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
             temp = 32;
         }
 
-        Effect_SpawnFragment(globalCtx, &spC8, &spBC, actorPos, -240, temp, 10, 10, 0,
-                             (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 60, -1, 3, addr);
+        func_80029E8C(globalCtx, &spC8, &spBC, actorPos, -240, temp, 10, 10, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
+                      0, 32, 60, -1, 3, addr);
     }
 
     func_80033480(globalCtx, actorPos, 30.0f, 4, 20, 50, 0);
@@ -164,8 +164,8 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
             temp = 32;
         }
 
-        Effect_SpawnFragment(globalCtx, &spC8, &spBC, actorPos, -180, temp, 30, 30, 0,
-                             (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 70, -1, 3, addr);
+        func_80029E8C(globalCtx, &spC8, &spBC, actorPos, -180, temp, 30, 30, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
+                      0, 32, 70, -1, 3, addr);
     }
 }
 #else

@@ -1,0 +1,14 @@
+<Root>
+    <File Name="spot02_scene">
+        <Scene Name="spot02_scene"/>
+    </File>
+    <File Name="spot02_room_0">
+        <Room Name="spot02_room_0">
+        <DListHint Address="0x26D0" Comment="This display list appears to be unused..."/>
+        </Room>
+    </File>
+    <File Name="spot02_room_1">
+        <Room Name="spot02_room_1">
+        </Room>
+    </File>
+</Root>

@@ -1,7 +1,7 @@
 /*
  * File: z_bg_hidan_firewall.c
  * Overlay: ovl_Bg_Hidan_Firewall
- * Description: Proximity Flame Wall
+ * Description: Proximity Triggered Flame Wall
  */
 
 #include "z_bg_hidan_firewall.h"
@@ -36,13 +36,13 @@ const ActorInit Bg_Hidan_Firewall_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit cylinderInitData = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x09, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x20000000, 0x01, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x01 },
     { 30, 83, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit colChkInfoInit = {
+static CollisionCheckInfoInit sColChkInfoInit = {
     0x01,
     0x0050,
     0x0064,
@@ -63,11 +63,11 @@ void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_150 = 0;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     this->collider.dim.pos.y = this->actor.posRot.pos.y;
 
-    func_80061ED4(&this->actor.colChkInfo, NULL, &colChkInfoInit);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     this->actionFunc = BgHidanFirewall_Wait;
 }

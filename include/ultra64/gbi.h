@@ -2762,12 +2762,12 @@ _DW({									\
 
 #else	/* F3DEX_GBI_2 */
 #define	gSPSetGeometryMode(pkt, word)					\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = _SHIFTL(G_SETGEOMETRYMODE, 24, 8);		\
 	_g->words.w1 = (unsigned int)(word);				\
-}
+})
 
 #define	gsSPSetGeometryMode(word)					\
 {									\
@@ -2775,12 +2775,12 @@ _DW({									\
 }
 
 #define	gSPClearGeometryMode(pkt, word)					\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = _SHIFTL(G_CLEARGEOMETRYMODE, 24, 8);		\
 	_g->words.w1 = (unsigned int)(word);				\
-}
+})
 
 #define	gsSPClearGeometryMode(word)					\
 {									\
@@ -4488,9 +4488,10 @@ _DW({									\
 #define gDPNoOpFloat(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 4)
 #define gDPNoOpQuiet(pkt)					gDma1p(pkt, G_NOOP, 0, 0, 5)
 #define gDPNoOpVerbose(pkt, n)				gDma1p(pkt, G_NOOP, 0, n, 5)
-#define gDPNoOpCallBack(pkt, callback)		gDma1p(pkt, G_NOOP, callback, 0, 6)
+#define gDPNoOpCallBack(pkt, callback, arg)	gDma1p(pkt, G_NOOP, callback, arg, 6)
 #define gDPNoOpOpenDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 7)
 #define gDPNoOpCloseDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 8)
+#define gDPNoOpTag3(pkt, type, data, n)		gDma1p(pkt, G_NOOP, data, n, type)
 
 #endif
 
