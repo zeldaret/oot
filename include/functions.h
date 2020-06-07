@@ -2554,4 +2554,12 @@ void Opening_Destroy(OpeningContext* this);
 void func_80811A20(GameState*); // FileChoose_Init
 void func_80811A18(GameState*); // FileChoose_Destroy
 
+void func_80823994(PauseContext*, f32, f32, f32);
+void func_800949A8(GraphicsContext*);
+void func_8082409C(GlobalContext*, GraphicsContext*);
+void func_80820434(GlobalContext*, GraphicsContext*);
+void func_80821C10(GlobalContext*);
+void func_80825C14(GlobalContext*);
+void func_808161AC(GlobalContext*);
+
 #endif
