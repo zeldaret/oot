@@ -588,7 +588,6 @@ beginseg
     name "ovl_kaleido_scope"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o"
     include "build/data/overlays/actors/z_kaleido_collect.data.o"
-    include "build/data/overlays/actors/z_kaleido_collect.rodata.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o"
     include "build/data/overlays/actors/z_kaleido_debug.data.o"
     include "build/data/overlays/actors/z_kaleido_debug.rodata.o"

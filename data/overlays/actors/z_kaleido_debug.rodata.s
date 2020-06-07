@@ -10,69 +10,133 @@
 .balign 16
 
 glabel D_8082F4C0
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F4C4
- .word 0x8C8ED98E, 0xCB8EDF8E, 0xB0000000
+    .asciz "\x8Cﾙﾋﾟｰ" 
+    .balign 4
+
 glabel D_8082F4D0
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F4D4
- .word 0x8C8ECA8E, 0xB08EC400
+    .asciz "\x8Cﾊｰﾄ"
+    .balign 4
+
 glabel D_8082F4DC
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F4E0
- .word 0x2F340000
+    .asciz "/4"
+    .balign 4
+
 glabel D_8082F4E4
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F4E8
- .word 0x8C8EB18E, 0xB28EC38E, 0xD1000000
+    .asciz "\x8Cｱｲﾃﾑ"
+    .balign 4
+
 glabel D_8082F4F4
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F4F8
- .word 0x4B455900
+    .asciz "KEY"
+    .balign 4
+
 glabel D_8082F4FC
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F500
- .word 0x8D8EBF8E, 0xB38ECB8E, 0xDE000000
+    .asciz "\x8Dｿｳﾋﾞ"
+    .balign 4
+
 glabel D_8082F50C
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F510
- .word 0x8C8EB98E, 0xDD000000
+    .asciz "\x8Cｹﾝ"
+    .balign 4
+
 glabel D_8082F518
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F51C
- .word 0x8C8EC08E, 0xC3000000
+    .asciz "\x8Cﾀﾃ"
+    .balign 4
+
 glabel D_8082F524
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F528
- .word 0x4D415000
+    .asciz "MAP"
+    .balign 4
+
 glabel D_8082F52C
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F530
- .word 0x8D8ECC8E, 0xB38EB28E, 0xDD000000
+    .asciz "\x8Dﾌｳｲﾝ"
+    .balign 4
+
 glabel D_8082F53C
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F540
- .word 0x8D8EBE8E, 0xB28EDA8E, 0xB28EBE8E, 0xB7000000
+    .asciz "\x8Dｾｲﾚｲｾｷ"
+    .balign 4
+
 glabel D_8082F550
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F554
- .word 0x8C8EB58E, 0xB68ED88E, 0xC5000000
+    .asciz "\x8Cｵｶﾘﾅ"
+    .balign 4
+
 glabel D_8082F560
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F564
- .word 0x8C8EBA8E, 0xDA8EB88E, 0xC4000000
+    .asciz "\x8Cｺﾚｸﾄ"
+    .balign 4
+
 glabel D_8082F570
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F574
- .word 0x8C8EB78E, 0xDD8EBD8E, 0xC0000000
+    .asciz "\x8Cｷﾝｽﾀ"
+    .balign 4
+
 glabel D_8082F580
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F584
- .word 0x8C8EB68E, 0xB98ED700
+    .asciz "\x8Cｶｹﾗ"
+    .balign 4
+
 glabel D_8082F58C
- .word 0x25730000
+    .asciz "%s"
+    .balign 4
+
 glabel D_8082F590
- .word 0x2F340000
+    .asciz "/4"
+    .balign 4
+
 glabel D_8082F594
     .asciz "../z_kaleido_debug.c"
     .balign 4
