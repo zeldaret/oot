@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80104D60
+glabel osPfsFileState
 /* B7BF00 80104D60 27BDFEA0 */  addiu $sp, $sp, -0x160
 /* B7BF04 80104D64 AFBF002C */  sw    $ra, 0x2c($sp)
 /* B7BF08 80104D68 AFB40028 */  sw    $s4, 0x28($sp)

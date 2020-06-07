@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80104F40
+glabel osPfsInitPak
 /* B7C0E0 80104F40 27BDFF90 */  addiu $sp, $sp, -0x70
 /* B7C0E4 80104F44 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B7C0E8 80104F48 AFB00018 */  sw    $s0, 0x18($sp)
