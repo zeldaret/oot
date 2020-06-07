@@ -1383,7 +1383,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot16_Doughnut"
     include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/z_bg_spot16_doughnut.o"
-    include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/z_bg_spot16_doughnut_reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/ovl_Bg_Spot16_Doughnut_reloc.o"
 endseg
 
 beginseg
@@ -1629,7 +1629,7 @@ beginseg
     name "ovl_Demo_Go"
     include "build/src/overlays/actors/ovl_Demo_Go/z_demo_go.o"
 #ifdef NON_MATCHING
-    include "build/src/overlays/actors/ovl_Demo_Go/z_demo_go_reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Go/ovl_Demo_Go_reloc.o"
 #else
     include "build/data/overlays/actors/z_demo_go.reloc.o"
 #endif
@@ -2646,7 +2646,7 @@ beginseg
     name "ovl_En_Heishi2"
     include "build/src/overlays/actors/ovl_En_Heishi2/z_en_heishi2.o"
 #ifdef NON_MATCHING
-    include "build/src/overlays/actors/ovl_En_Heishi2/z_en_heishi2_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi2/ovl_En_Heishi2_reloc.o"
 #else
     include "build/data/overlays/actors/z_en_heishi2.reloc.o"
 #endif
@@ -2703,7 +2703,7 @@ beginseg
     name "ovl_En_Horse_Ganon"
     include "build/src/overlays/actors/ovl_En_Horse_Ganon/z_en_horse_ganon.o"
 #ifdef NON_MATCHING
-    include "build/src/overlays/actors/ovl_En_Horse_Ganon/z_en_horse_ganon_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse_Ganon/ovl_En_Horse_Ganon_reloc.o"
 #else
     include "build/data/overlays/actors/z_en_horse_ganon.reloc.o"
 #endif
@@ -3375,7 +3375,7 @@ beginseg
     name "ovl_En_Tubo_Trap"
     include "build/src/overlays/actors/ovl_En_Tubo_Trap/z_en_tubo_trap.o"
 #ifdef NON_MATCHING
-    include "build/src/overlays/actors/ovl_En_Tubo_Trap/z_en_tubo_trap_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tubo_Trap/ovl_En_Tubo_Trap_reloc.o"
 #else
     include "build/data/overlays/actors/z_en_tubo_trap.reloc.o"
 #endif
