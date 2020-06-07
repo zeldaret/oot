@@ -1885,7 +1885,6 @@ typedef struct {
     /* 0x20 */ u16 fracPart[4][4];
 } MatrixInternal; // size = 0x40
 
-
 typedef struct {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* name;
@@ -1914,5 +1913,29 @@ typedef struct {
     /* 0x08 */ u32 len;
     /* 0x0C */ F3dzexSetModeMacroValue values[4];
 } F3dzexSetModeMacro; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ s32 status;
+    /* 0x04 */ OSMesgQueue* queue;
+    /* 0x08 */ s32 channel;
+    /* 0x0C */ u8 id[32];
+    /* 0x2C */ u8 label[32];
+    /* 0x4C */ s32 version;
+    /* 0x50 */ s32 dir_size;
+    /* 0x54 */ s32 inode_table;
+    /* 0x58 */ s32 minode_table;
+    /* 0x5C */ s32 dir_table;
+    /* 0x60 */ s32 inode_start_page;
+    /* 0x64 */ u8 banks;
+    /* 0x65 */ u8 activebank;
+} OSPfs; // size = 0x68
+
+typedef struct {
+	/* 0x00 */ u32 file_size;
+  	/* 0x04 */ u32 game_code;
+  	/* 0x08 */ u16 company_code;
+  	/* 0x0A */ char ext_name[4];
+  	/* 0x0E */ char game_name[16];
+} OSPfsState; // size = 0x20
 
 #endif
