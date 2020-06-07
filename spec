@@ -1363,8 +1363,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot16_Doughnut"
     include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/z_bg_spot16_doughnut.o"
-    include "build/data/overlays/actors/z_bg_spot16_doughnut.data.o"
-    include "build/data/overlays/actors/z_bg_spot16_doughnut.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/z_bg_spot16_doughnut_reloc.o"
 endseg
 
 beginseg
