@@ -183,8 +183,8 @@ build/assets/%.o: assets/%.c
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
-	$(ZAP2) bovl -i $@ -cfg $^ --outputpath $(@:.o=_reloc.s)
-	-test -f $(@:.o=_reloc.s) && $(AS) $(ASFLAGS) $(@:.o=_reloc.s) -o $(@:.o=_reloc.o)
+	$(ZAP2) bovl -i $@ -cfg $^ --outputpath $(@D)/$(notdir $(@D))_reloc.s
+	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
