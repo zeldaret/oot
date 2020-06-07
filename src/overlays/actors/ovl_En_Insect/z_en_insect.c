@@ -9,6 +9,16 @@ void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80A7C3A0(EnInsect* this);
+void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx);
+void func_80A7C598(EnInsect* this);
+void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx);
+void func_80A7C818(EnInsect* this);
+void func_80A7CBC8(EnInsect* this);
+void func_80A7CE60(EnInsect* this);
+void func_80A7D39C(EnInsect* this);
+
+
 f32 D_80A7DEB0 = 0.0f;
 s32 D_80A7DEB4 = 0;
 s16 D_80A7DEB8 = 0;
@@ -204,13 +214,83 @@ void EnInsect_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C3A0.s")
+void func_80A7C3A0(EnInsect *this) {
+    this->unk_31A = Math_Rand_S16Offset(5, 35);
+    func_80A7BF58(this);
+    this->actionFunc = &func_80A7C3F4;
+    this->unk_314 |= 0x100;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C3F4.s")
+void func_80A7C3F4(EnInsect *this, GlobalContext *globalCtx) {
+    u32 padding[2];
+    s16 sp2E;
+    f32 animPlaybackSpeed;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C598.s")
+    sp2E = this->actor.params & 3;
+
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+
+    animPlaybackSpeed = (Math_Rand_ZeroOne() * 0.8f) + (this->actor.speedXZ * 1.2f);
+    this->skelAnime.animPlaybackSpeed = CLAMP(animPlaybackSpeed, 0.0f, 1.9f);
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    if (this->unk_31A <= 0) {
+        func_80A7C598(this);
+    }
+
+    if ((this->unk_314 & 4 && this->unk_31C <= 0) ||
+        ((sp2E == 2 || sp2E == 3) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4))
+    {
+        func_80A7CBC8(this);
+    }
+    else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+        func_80A7CE60(this);
+    }
+    else if (this->actor.xzDistanceFromLink < 40.0f) {
+        func_80A7C818(this);
+    }
+}
+
+void func_80A7C598(EnInsect *this) {
+    this->unk_31A = Math_Rand_S16Offset(10, 45);
+    func_80A7BF58(this);
+    this->actionFunc = &func_80A7C5EC;
+    this->unk_314 |= 0x100;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C5EC.s")
+// void func_80A7C5EC(EnInsect *this, GlobalContext *globalCtx) {
+//     u32 padding[2];
+//     // misplaced to sp36 for some reason
+//     s16 sp34;
+
+//     sp34 = this->actor.params & 3;
+//     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
+//     if (1600.0f < func_80A7BE40(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || (this->unk_31A < 4)) {
+//         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
+//     } else if (this->actor.attachedB != NULL && (Actor*)this != this->actor.attachedB){
+//         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.attachedB->posRot.pos), 2000);
+//     }
+//     this->actor.shape.rot.y = this->actor.posRot.rot.y;
+//     this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.4f, 0.7f, 1.9f);
+//     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+//     if (this->unk_31A <= 0) {
+//         func_80A7C3A0(this);
+//     }
+    
+//     if ((this->unk_314 & 4 && this->unk_31C <= 0) ||
+//         ((sp34 == 2 || sp34 == 3) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4))
+//     {
+//         func_80A7CBC8(this);
+//     }
+//     else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+//         func_80A7CE60(this);
+//     }
+//     else if (this->actor.xzDistanceFromLink < 40.0f) {
+//         func_80A7C818(this);
+//     }
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C818.s")
 
@@ -242,7 +322,7 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
             sp34.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
             sp34.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
             sp34.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
-            func_800286CC(globalCtx, &this->actor.posRot.pos, &sp34, &D_80A7DF28, Math_Rand_ZeroOne() * 5.0f + 8.0f, Math_Rand_ZeroOne() * 5.0f + 8.0f);
+            func_800286CC(globalCtx, &this->actor.posRot.pos, &sp34, D_80A7DF28, Math_Rand_ZeroOne() * 5.0f + 8.0f, Math_Rand_ZeroOne() * 5.0f + 8.0f);
         }
     }
 
