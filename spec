@@ -121,6 +121,7 @@ endseg
 
 beginseg
     name "Audiobank"
+    address 0x10 // fake RAM address to avoid map lookup inaccuracies
     include "build/baserom/Audiobank.o"
 endseg
 
@@ -337,7 +338,7 @@ beginseg
     include "build/src/code/z_map_data.o"
     include "build/src/code/z_parameter.o"
     include "build/src/code/z_path.o"
-    include "build/src/code//code_8008E6A0.o"
+    include "build/src/code/code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
