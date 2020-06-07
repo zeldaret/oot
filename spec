@@ -1449,7 +1449,7 @@ endseg
 beginseg
     name "ovl_Bg_Treemouth"
     include "build/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth.o"
-    include "build/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth_reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Treemouth/ovl_Bg_Treemouth_reloc.o"
 endseg
 
 beginseg
@@ -2856,7 +2856,7 @@ endseg
 beginseg
     name "ovl_En_Kz"
     include "build/src/overlays/actors/ovl_En_Kz/z_en_kz.o"
-    include "build/src/overlays/actors/ovl_En_Kz/z_en_kz_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Kz/ovl_En_Kz_reloc.o"
 endseg
 
 beginseg
@@ -3497,7 +3497,7 @@ endseg
 beginseg
     name "ovl_En_Zl1"
     include "build/src/overlays/actors/ovl_En_Zl1/z_en_zl1.o"
-    include "build/src/overlays/actors/ovl_En_Zl1/z_en_zl1_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Zl1/ovl_En_Zl1_reloc.o"
 endseg
 
 beginseg
