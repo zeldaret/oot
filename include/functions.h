@@ -520,7 +520,7 @@ f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
 // ? func_8003C9A4(?);
 f32 func_8003CA0C(GlobalContext*, CollisionContext*, CollisionPoly**, u32*, Actor*, Vec3f*);
-f32 func_8003CB30(GlobalContext*, CollisionContext*, PosRot*, MtxF*);
+f32 func_8003CB30(CollisionContext*, CollisionPoly*, Vec3f*, MtxF*);
 f32 func_8003CCA4(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
 // ? func_8003CDD4(?);
 s32 func_8003D52C(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, f32, CollisionPoly**, u32*, Actor*, f32);
@@ -2553,5 +2553,13 @@ void Opening_Init(OpeningContext* this);
 void Opening_Destroy(OpeningContext* this);
 void func_80811A20(GameState*); // FileChoose_Init
 void func_80811A18(GameState*); // FileChoose_Destroy
+
+void func_80823994(PauseContext*, f32, f32, f32);
+void func_800949A8(GraphicsContext*);
+void func_8082409C(GlobalContext*, GraphicsContext*);
+void func_80820434(GlobalContext*, GraphicsContext*);
+void func_80821C10(GlobalContext*);
+void func_80825C14(GlobalContext*);
+void func_808161AC(GlobalContext*);
 
 #endif

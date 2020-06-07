@@ -817,16 +817,24 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ void*  unk_128;
-    /* 0x012C */ char   unk_12C[0x03C];
+    /* 0x012C */ void*  unk_12C;
+    /* 0x0130 */ void*  unk_130;
+    /* 0x0134 */ void*  unk_134;
+    /* 0x0138 */ void*  unk_138;
+    /* 0x013C */ void*  unk_13C;
+    /* 0x0140 */ char   unk_140[0x028];
     /* 0x0168 */ Vtx*   vtx_168;
     /* 0x016C */ char   unk_16C[0x068];
     /* 0x01D4 */ u16    state;
     /* 0x01D6 */ u16    flag;
-    /* 0x01D8 */ char   unk_1D8[0x00C];
+    /* 0x01D8 */ Vec3f  unk_1D8;
     /* 0x01E4 */ u16    unk_1E4;
     /* 0x01E6 */ char   unk_1E6[0x006];
     /* 0x01EC */ u16    unk_1EC;
-    /* 0x01EE */ char   unk_1EE[0x04A];
+    /* 0x01EE */ char   unk_1EE[0x026];
+    /* 0x0214 */ s16    inputX;
+    /* 0x0216 */ s16    inputY;
+    /* 0x0218 */ char   unk_21A[0x20];
     /* 0x0238 */ u16    unk_238;
     /* 0x023A */ char   unk_23A[0x004];
     /* 0x023E */ u16    unk_23E;

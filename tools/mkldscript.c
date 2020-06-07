@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-//#include "opts.h"
 #include "util.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -16,6 +15,7 @@ static FILE *fout;
 enum
 {
     STMT_address,
+    STMT_after,
     STMT_align,
     STMT_beginseg,
     STMT_endseg,
@@ -23,6 +23,7 @@ enum
     STMT_flags,
     STMT_include,
     STMT_name,
+    STMT_number,
     STMT_romalign,
     STMT_stack,
     STMT_increment,
@@ -39,6 +40,7 @@ struct Segment
 {
     uint32_t fields;
     char *name;
+    char *after;
     uint32_t flags;
     uint32_t address;
     uint32_t stack;
@@ -46,6 +48,7 @@ struct Segment
     uint32_t romalign;
     uint32_t increment;
     uint32_t entry;
+    uint32_t number;
     char **includes;
     int includesCount;
 };
@@ -165,17 +168,19 @@ static bool is_pow_of_2(unsigned int n)
 
 static const char *const stmtNames[] =
 {
-    [STMT_address]  = "address",
-    [STMT_align]    = "align",
-    [STMT_beginseg] = "beginseg",
-    [STMT_endseg]   = "endseg",
-    [STMT_entry]    = "entry",
-    [STMT_flags]    = "flags",
-    [STMT_include]  = "include",
-    [STMT_name]     = "name",
-    [STMT_romalign] = "romalign",
-    [STMT_stack]    = "stack",
-    [STMT_increment]    = "increment",
+    [STMT_address]   = "address",
+    [STMT_after]     = "after",
+    [STMT_align]     = "align",
+    [STMT_beginseg]  = "beginseg",
+    [STMT_endseg]    = "endseg",
+    [STMT_entry]     = "entry",
+    [STMT_flags]     = "flags",
+    [STMT_include]   = "include",
+    [STMT_name]      = "name",
+    [STMT_number]    = "number",
+    [STMT_romalign]  = "romalign",
+    [STMT_stack]     = "stack",
+    [STMT_increment] = "increment",
 };
 
 static void parse_rom_spec(char *spec)
@@ -228,9 +233,17 @@ static void parse_rom_spec(char *spec)
                     if (!parse_quoted_string(args, &currSeg->name))
                         util_fatal_error("line %i: invalid name", lineNum);
                     break;
+                case STMT_after:
+                    if (!parse_quoted_string(args, &currSeg->after))
+                        util_fatal_error("line %i: invalid name for 'after'", lineNum);
+                    break;
                 case STMT_address:
                     if (!parse_number(args, &currSeg->address))
                         util_fatal_error("line %i: expected number after 'address'", lineNum);
+                    break;
+                case STMT_number:
+                    if (!parse_number(args, &currSeg->number))
+                        util_fatal_error("line %i: expected number after 'number'", lineNum);
                     break;
                 case STMT_flags:
                     if (!parse_flags(args, &currSeg->flags))
@@ -242,23 +255,21 @@ static void parse_rom_spec(char *spec)
                     if (!is_pow_of_2(currSeg->align))
                         util_fatal_error("line %i: alignment is not a power of two", lineNum);
                     break;
-                case STMT_include:
-                    currSeg->includesCount++;
-                    currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
-                    if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1]))
-                        util_fatal_error("line %i: invalid filename", lineNum);
-                    break;
                 case STMT_romalign:
                     if (!parse_number(args, &currSeg->romalign))
                         util_fatal_error("line %i: expected number after 'romalign'", lineNum);
                     if (!is_pow_of_2(currSeg->romalign))
                         util_fatal_error("line %i: alignment is not a power of two", lineNum);
                     break;
+                case STMT_include:
+                    currSeg->includesCount++;
+                    currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+                    if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1]))
+                        util_fatal_error("line %i: invalid filename", lineNum);
+                    break;
                  case STMT_increment:
                     if (!parse_number(args, &currSeg->increment))
                         util_fatal_error("line %i: expected number after 'increment'", lineNum);
-                    //if (!is_pow_of_2(currSeg->romalign))
-                        //util_fatal_error("line %i: alignment is not a power of two", lineNum);
                     break;
                 default:
                     fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
@@ -314,10 +325,14 @@ static void write_ld_script(void)
 
         fprintf(fout, "    _%sSegmentRomStart = _RomSize;\n"
                   "    ..%s ", seg->name, seg->name);
-        if (seg->address != 0)
-        {
+
+        if (seg->fields & (1 << STMT_after))
+            fprintf(fout, "_%sSegmentEnd ", seg->after);
+        else if (seg->fields & (1 << STMT_number))
+            fprintf(fout, "0x%02X000000 ", seg->number);
+        else if (seg->fields & (1 << STMT_address))
             fprintf(fout, "0x%08X ", seg->address);
-        }
+
         // (AT(_RomSize) isn't necessary, but adds useful "load address" lines to the map file)
         fprintf(fout, ": AT(_RomSize)\n    {\n"
                   "        _%sSegmentStart = .;\n"

@@ -121,6 +121,7 @@ endseg
 
 beginseg
     name "Audiobank"
+    address 0x10 // fake RAM address to avoid map lookup inaccuracies
     include "build/baserom/Audiobank.o"
 endseg
 
@@ -268,7 +269,7 @@ endseg
 
 beginseg
     name "code"
-    address 0x8001CE60
+    after "dmadata"
     include "build/src/code/z_en_a_keep.o"
     include "build/src/code/z_en_item00.o"
     include "build/data/z_en_item00.data.o"
@@ -337,7 +338,7 @@ beginseg
     include "build/src/code/z_map_data.o"
     include "build/src/code/z_parameter.o"
     include "build/src/code/z_path.o"
-    include "build/src/code//code_8008E6A0.o"
+    include "build/src/code/code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
@@ -1382,8 +1383,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot16_Doughnut"
     include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/z_bg_spot16_doughnut.o"
-    include "build/data/overlays/actors/z_bg_spot16_doughnut.data.o"
-    include "build/data/overlays/actors/z_bg_spot16_doughnut.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot16_Doughnut/z_bg_spot16_doughnut_reloc.o"
 endseg
 
 beginseg
@@ -1628,7 +1628,11 @@ endseg
 beginseg
     name "ovl_Demo_Go"
     include "build/src/overlays/actors/ovl_Demo_Go/z_demo_go.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Demo_Go/z_demo_go_reloc.o"
+#else
     include "build/data/overlays/actors/z_demo_go.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2641,7 +2645,11 @@ endseg
 beginseg
     name "ovl_En_Heishi2"
     include "build/src/overlays/actors/ovl_En_Heishi2/z_en_heishi2.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Heishi2/z_en_heishi2_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_heishi2.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2694,7 +2702,11 @@ endseg
 beginseg
     name "ovl_En_Horse_Ganon"
     include "build/src/overlays/actors/ovl_En_Horse_Ganon/z_en_horse_ganon.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Horse_Ganon/z_en_horse_ganon_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_horse_ganon.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3362,7 +3374,11 @@ endseg
 beginseg
     name "ovl_En_Tubo_Trap"
     include "build/src/overlays/actors/ovl_En_Tubo_Trap/z_en_tubo_trap.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Tubo_Trap/z_en_tubo_trap_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_tubo_trap.reloc.o"
+#endif
 endseg
 
 beginseg

@@ -283,7 +283,7 @@ typedef struct Player {
     /* 0x0678 */ u32        ageProperties;
     /* 0x067C */ u32        stateFlags1;
     /* 0x0680 */ u32        stateFlags2;
-    /* 0x0684 */ s32        unk_684;
+    /* 0x0684 */ Actor*     unk_684;
     /* 0x0688 */ char       unk_688[0x004];
     /* 0x068C */ Actor*     navi;
     /* 0x0690 */ u16        naviMessageId;
