@@ -1,3 +1,23 @@
+.rdata
+
+glabel D_8082F9C0
+    .asciz "../z_kaleido_map_PAL.c"
+    .balign 4
+
+glabel D_8082F9D8
+    .asciz "kscope->cursor_point=%d\n"
+    .balign 4  
+
+glabel D_8082F9F4
+    .asciz "kscope->cursor_point====%d\n"
+    .balign 4
+
+
+glabel D_8082FA10
+    .asciz "../z_kaleido_map_PAL.c"
+    .balign 4
+
+.text
 glabel func_8081BB10
 /* 082F0 8081BB10 27BDFE10 */  addiu   $sp, $sp, 0xFE10           ## $sp = FFFFFE10
 /* 082F4 8081BB14 AFBF002C */  sw      $ra, 0x002C($sp)           

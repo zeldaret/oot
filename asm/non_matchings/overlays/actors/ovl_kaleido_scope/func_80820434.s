@@ -1,3 +1,121 @@
+.rdata
+
+glabel D_8082FB24
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FB40
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FB5C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FB78
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FB94
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FBB0
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FBCC
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FBE8
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FC04
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FC20
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FC3C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+.late_rodata
+
+glabel D_8083023C
+    .float 0.78
+
+glabel D_80830240
+    .float 0.78
+
+glabel D_80830244
+    .float 1.57
+
+glabel D_80830248
+    .float 0.78
+
+glabel D_8083024C
+    .float 3.14
+
+glabel D_80830250
+    .float 0.78
+
+glabel D_80830254
+    .float -1.57
+
+glabel D_80830258
+    .float 0.78
+
+glabel D_8083025C
+    .float 0.78
+
+glabel D_80830260
+    .float 0.78
+
+glabel D_80830264
+    .float 0.78
+
+glabel D_80830268
+    .float -1.57
+
+glabel D_8083026C
+    .float 0.78
+
+glabel D_80830270
+    .float 3.14
+
+glabel D_80830274
+    .float 0.78
+
+glabel D_80830278
+    .float 1.57
+
+glabel D_8083027C
+    .float 0.78
+
+glabel D_80830280
+    .float 0.78
+
+glabel D_80830284
+    .float -1.57
+
+glabel D_80830288
+    .float 0.78
+
+glabel D_8083028C
+    .float 3.14
+
+glabel D_80830290
+    .float 0.78
+
+glabel D_80830294
+    .float 1.57
+
+.text
 glabel func_80820434
 /* 0CC14 80820434 27BDFEE8 */  addiu   $sp, $sp, 0xFEE8           ## $sp = FFFFFEE8
 /* 0CC18 80820438 AFBF0024 */  sw      $ra, 0x0024($sp)           
