@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_8082FA28
+    .asciz "../z_kaleido_map_PAL.c"
+    .balign 4
+
+glabel D_8082FA40
+    .asciz "../z_kaleido_map_PAL.c"
+    .balign 4
+
+.text
 glabel func_8081D398
 /* 09B78 8081D398 27BDFD78 */  addiu   $sp, $sp, 0xFD78           ## $sp = FFFFFD78
 /* 09B7C 8081D39C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

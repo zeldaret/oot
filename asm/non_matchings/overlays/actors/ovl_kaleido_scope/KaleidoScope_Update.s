@@ -1,3 +1,355 @@
+.rdata
+
+glabel D_8082FDFC
+    .asciz "プレイヤー size1＝%x\n"
+    .balign 4
+
+glabel D_8082FE14
+    .asciz "icon_item size0=%x\n"
+    .balign 4
+
+glabel D_8082FE28
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FE44
+    .asciz "icon_item24 size=%x\n"
+    .balign 4
+
+glabel D_8082FE5C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FE78
+    .asciz "icon_item_dungeon dungeon-size2=%x\n"
+    .balign 4
+
+glabel D_8082FE9C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FEB8
+    .asciz "icon_item_field field-size2=%x\n"
+    .balign 4
+
+glabel D_8082FED8
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FEF4
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_8082FF18
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FF34
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_8082FF58
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FF74
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_8082FF98
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FFB4
+    .asciz "サイズ＝%x\n"
+    .balign 4
+
+glabel D_8082FFC0
+    .asciz "item_name I_N_PT=%x\n"
+    .balign 4
+
+glabel D_8082FFD8
+    .asciz "サイズ＝%x\n"
+    .balign 4
+
+glabel D_8082FFE4
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830000
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8083001C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830038
+    .asciz "icon_item size0=%x\n"
+    .balign 4
+
+glabel D_8083004C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830068
+    .asciz "icon_item24 size=%x\n"
+    .balign 4
+
+glabel D_80830080
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8083009C
+    .asciz "icon_item_dungeon gameover-size2=%x\n"
+    .balign 4
+
+glabel D_808300C4
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_808300E0
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_80830104
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830120
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_80830144
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830160
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_80830184
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_808301A0
+    .asciz "kscope->angle_s = %f\n"
+    .balign 4
+
+glabel D_808301B8
+    .asciz "[33m"
+    .balign 4
+
+glabel D_808301C0
+    .asciz "MAGIC_NOW=%d "
+    .balign 4
+
+glabel D_808301D0
+    .asciz "Z_MAGIC_NOW_NOW=%d   →  "
+    .balign 4
+
+glabel D_808301EC
+    .asciz "MAGIC_NOW=%d "
+    .balign 4
+
+glabel D_808301FC
+    .asciz "Z_MAGIC_NOW_NOW=%d\n"
+    .balign 4
+
+glabel D_80830210
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80830214
+    .asciz "[33m"
+    .balign 4
+
+glabel D_8083021C
+    .asciz "i=%d  LAST_TIME_TYPE=%d\n"
+    .balign 4
+
+glabel D_80830238
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+
+glabel jtbl_80830298
+.word L80826E00
+.word L808279D0
+.word L80827C1C
+.word L80827C90
+.word L80828098
+.word L80829940
+.word L80829940
+.word L808286FC
+.word L80828A38
+.word L80828E28
+.word L80828E54
+.word L808290DC
+.word L808291B8
+.word L80829264
+.word L80829484
+.word L808295F0
+.word L80829828
+
+glabel jtbl_808302DC
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+
+glabel jtbl_80830340
+.word L80827CB4
+.word L80827D78
+.word L80827D8C
+.word L80827DBC
+.word L80829940
+.word L80827DCC
+.word L80827F70
+.word L80829940
+.word L80827FB4
+.word L80829940
+
+glabel jtbl_80830368
+.word L808280BC
+.word L80828198
+.word L808284C0
+.word L808283CC
+.word L80828310
+.word L808284C0
+.word L808283CC
+
+glabel jtbl_80830384
+.word L808293F8
+.word L80829478
+.word L80829478
+.word L80829478
+.word L808293F0
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829434
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829420
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829440
+
+glabel jtbl_808303D8
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L8082940C
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+
+glabel jtbl_808304B8
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+
+.text
 glabel KaleidoScope_Update
 /* 13494 80826CB4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 13498 80826CB8 AFBF0024 */  sw      $ra, 0x0024($sp)           
