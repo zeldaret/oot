@@ -536,12 +536,98 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ f32 unk_00; // seems to be unused?
-    /* 0x0004 */ f32 unk_04;
+    /* 0x0004 */ f32 rotStep;
     /* 0x0008 */ f32 fov;
     /* 0x000C */ s16 unk_0C;
     /* 0x0010 */ Fixed1_InitParams initParams;
 } Fixed1; // size = 0x28
 
+typedef struct {
+    f32 unk_00;
+    s16 unk_04;
+} KeepOn0_UnkC;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    s16 unk_08;
+    s16 unk_0A;
+    KeepOn0_UnkC unk_0C;
+} KeepOn0;
+
+typedef struct {
+    char unk_00[0x14];
+    s32 unk_14;
+} KeepOn4_Unk20;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    s16 unk_1C;
+    s16 unk_1E;
+    KeepOn4_Unk20 unk_20;
+    char pad[0x18];
+} KeepOn4;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    Actor *unk_0C;
+    f32 unk_10;
+    s16 unk_14;
+    s16 unk_16;
+    s16 unk_18;
+    s16 unk_1A;
+    s16 unk_1C;
+} Battle1_Unk30;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    f32 unk_1C;
+    f32 unk_20;
+    f32 unk_24;
+    f32 unk_28;
+    s16 unk_2C;
+    Battle1_Unk30 unk_30;
+} Battle1;
+
+typedef struct {
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ s32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ s16 unk_14;
+    /* 0x0016 */ s16 unk_16;
+    /* 0x0018 */ s16 unk_18;
+    /* 0x001A */ s16 unk_1A;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ f32 unk_20;
+    /* 0x0024 */ s16 unk_24;
+    /* 0x0026 */ s16 unk_26;
+} Jump1_Unk20;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    s16 unk_1C;
+    Jump1_Unk20 unk_20;
+} Jump1;
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -559,6 +645,8 @@ typedef union {
     Fixed3 fixd3;
     Fixed2 fixd2;
     Fixed1 fixd1;
+    KeepOn0 keep0;
+    Jump1 jump1;
 } CameraParams;
 
 typedef struct {
