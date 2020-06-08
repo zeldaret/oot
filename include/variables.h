@@ -596,10 +596,6 @@ extern u8 gFontFF[]; // original name: "font_ff"
 //extern ? D_8012D158;
 //extern ? D_8012D170;
 //extern ? D_8012D172;
-//extern ? D_8012D180;
-//extern ? D_8012D184;
-//extern ? D_8012D188;
-//extern ? D_8012D198;
 extern KaleidoManagerOvl gKaleidoMgrOverlayTable[KALEIDO_OVL_COUNT];
 extern KaleidoManagerOvl* gKaleidoMgrCurOvl;
 extern void* D_8012D1F0;
@@ -620,12 +616,12 @@ extern u32 D_8012DBC0;
 extern volatile u32 gIrqMgrResetStatus;
 extern volatile OSTime gIrqMgrRetraceTime;
 extern s32 gDebugArenaLogSeverity;
-//extern ? D_8012DCA0;
-//extern ? D_8012DCF8;
-//extern ? D_8012DD1C;
+//extern ? sUCodeDisasGeometryModes;
+//extern ? sUCodeDisasMtxFlags;
+//extern ? sUCodeDisasRenderModeFlags;
 //extern ? D_8012DDDC;
-//extern ? D_8012DE1C;
-//extern ? D_8012E02C;
+//extern ? sUCodeDisasModeHMacros;
+//extern ? sUCodeDisasModeLMacros;
 extern s16* gWaveSamples[6];
 //extern ? D_8012F098;
 //extern ? D_8012F0B0;
@@ -3453,9 +3449,6 @@ extern u8 D_801610DA;
 //extern ? D_801612D2;
 //extern ? D_801612EA;
 //extern ? D_801612EC;
-//extern ? D_801612F0;
-//extern ? D_80161358;
-//extern ? D_80161360;
 extern s32 gTrnsnUnkState;
 extern Color_RGBA8 D_801614B0;
 extern SpeedMeter gSpeedMeter;
@@ -3773,7 +3766,7 @@ extern pif_data_buffer_t pifMempakBuf;
 //extern ? D_801759BA;
 //extern ? D_801759BC;
 //extern ? D_801759BE;
-extern u8 D_801759C0[]; // _codeSegmentEnd/_codeSegmentBssEnd or gZBuffer
+
 extern u16 gZBuffer[SCREEN_WIDTH * SCREEN_HEIGHT]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u8 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE]; // 0xC00 bytes

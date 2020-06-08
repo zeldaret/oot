@@ -262,10 +262,10 @@ typedef struct OSScTask {
 } OSScTask;
 
 typedef struct GraphicsContext {
-    /* 0x0000 */ Gfx* polyOpaBuffer;
-    /* 0x0004 */ Gfx* polyXluBuffer;
-    /* 0x0008 */ char unk_008[0x08];
-    /* 0x0010 */ Gfx* overlayBuffer;
+    /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
+    /* 0x0004 */ Gfx* polyXluBuffer; // Pointer to "Zelda 1"
+    /* 0x0008 */ char unk_008[0x08]; // Unused, could this be pointers to "Zelda 2" / "Zelda 3"
+    /* 0x0010 */ Gfx* overlayBuffer; // Pointer to "Zelda 4"
     /* 0x0014 */ u32 unk_014;
     /* 0x0018 */ char unk_018[0x20];
     /* 0x0038 */ OSMesg msgBuff[0x08];
@@ -278,10 +278,10 @@ typedef struct GraphicsContext {
     /* 0x01B4 */ TwoHeadGfxArena work;
     /* 0x01C4 */ char unk_01C4[0xC0];
     /* 0x0284 */ OSViMode* viMode;
-    /* 0x0288 */ char unk_0288[0x20];
-    /* 0x02A8 */ TwoHeadGfxArena overlay;
-    /* 0x02B8 */ TwoHeadGfxArena polyOpa;
-    /* 0x02C8 */ TwoHeadGfxArena polyXlu;
+    /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
+    /* 0x02A8 */ TwoHeadGfxArena    overlay; // "Zelda 4"
+    /* 0x02B8 */ TwoHeadGfxArena    polyOpa; // "Zelda 0"
+    /* 0x02C8 */ TwoHeadGfxArena    polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
     /* 0x02DC */ u16* curFrameBuffer;
     /* 0x02E0 */ char unk_2E0[0x04];
@@ -880,16 +880,24 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ void*  unk_128;
-    /* 0x012C */ char   unk_12C[0x03C];
+    /* 0x012C */ void*  unk_12C;
+    /* 0x0130 */ void*  unk_130;
+    /* 0x0134 */ void*  unk_134;
+    /* 0x0138 */ void*  unk_138;
+    /* 0x013C */ void*  unk_13C;
+    /* 0x0140 */ char   unk_140[0x028];
     /* 0x0168 */ Vtx*   vtx_168;
     /* 0x016C */ char   unk_16C[0x068];
     /* 0x01D4 */ u16    state;
     /* 0x01D6 */ u16    flag;
-    /* 0x01D8 */ char   unk_1D8[0x00C];
+    /* 0x01D8 */ Vec3f  unk_1D8;
     /* 0x01E4 */ u16    unk_1E4;
     /* 0x01E6 */ char   unk_1E6[0x006];
     /* 0x01EC */ u16    unk_1EC;
-    /* 0x01EE */ char   unk_1EE[0x04A];
+    /* 0x01EE */ char   unk_1EE[0x026];
+    /* 0x0214 */ s16    inputX;
+    /* 0x0216 */ s16    inputY;
+    /* 0x0218 */ char   unk_21A[0x20];
     /* 0x0238 */ u16    unk_238;
     /* 0x023A */ char   unk_23A[0x004];
     /* 0x023E */ u16    unk_23E;
@@ -973,7 +981,7 @@ typedef struct {
     /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in bank
     /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in bank
     /* 0x000C */ ObjectStatus status[OBJECT_EXCHANGE_BANK_MAX];
-} ObjectContext; // size = 0x514
+} ObjectContext; // size = 0x518
 
 typedef struct {
     /* 0x00 */ Gfx* opa;
@@ -1560,8 +1568,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ char magic[4]; // Yaz0
     /* 0x04 */ u32 decSize;
-    /* 0x08 */ u32 compInfoOffset; // only used in yaz0_old.c
-    /* 0x0C */ u32 uncompDataOffset; // only used in yaz0_old.c
+    /* 0x08 */ u32 compInfoOffset; // only used in mio0
+    /* 0x0C */ u32 uncompDataOffset; // only used in mio0
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
@@ -1769,15 +1777,21 @@ typedef struct {
     /* 0x20 */ f32 unk_20;
 } QuakeCamCalc; // size = 0x24
 
+
+#define UCODE_NULL      0
+#define UCODE_F3DZEX    1
+#define UCODE_UNK       2
+#define UCODE_S2DEX     3
+
 typedef struct {
-    /* 0x00 */ u32 idx;
+    /* 0x00 */ u32 type;
     /* 0x04 */ void* ptr;
 } UCodeInfo; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u32 segments[NUM_SEGMENTS];
     /* 0x40 */ u32 dlStack[18];
-    /* 0x88 */ u32 dlDepth;
+    /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
     /* 0x90 */ u32 vtxCnt;
     /* 0x94 */ u32 spvtxCnt;
@@ -1790,9 +1804,9 @@ typedef struct {
     /* 0xB0 */ u32 tileSyncRequired;
     /* 0xB4 */ u32 loadSyncRequired;
     /* 0xB8 */ u32 syncErr;
-    /* 0xBC */ u32 enableLog;
-    /* 0xC0 */ u32 ucodeInfoIdx;
-    /* 0xC4 */ u32 ucodeInfoCount;
+    /* 0xBC */ s32 enableLog;
+    /* 0xC0 */ s32 ucodeType;
+    /* 0xC4 */ s32 ucodeInfoCount;
     /* 0xC8 */ UCodeInfo* ucodeInfo;
     /* 0xCC */ u32 modeH;
     /* 0xD0 */ u32 modeL;
@@ -1930,8 +1944,61 @@ typedef struct {
 } SpeedMeterTimeEntry; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ s16 intPart[4][4];
+    /* 0x00 */ u16 intPart[4][4];
     /* 0x20 */ u16 fracPart[4][4];
 } MatrixInternal; // size = 0x40
+
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* name;
+} F3dzexConst; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* setName;
+    /* 0x08 */ const char* unsetName;
+} F3dzexFlag; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+    /* 0x08 */ u32 mask;
+} F3dzexRenderMode; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+} F3dzexSetModeMacroValue; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 shift;
+    /* 0x08 */ u32 len;
+    /* 0x0C */ F3dzexSetModeMacroValue values[4];
+} F3dzexSetModeMacro; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ s32 status;
+    /* 0x04 */ OSMesgQueue* queue;
+    /* 0x08 */ s32 channel;
+    /* 0x0C */ u8 id[32];
+    /* 0x2C */ u8 label[32];
+    /* 0x4C */ s32 version;
+    /* 0x50 */ s32 dir_size;
+    /* 0x54 */ s32 inode_table;
+    /* 0x58 */ s32 minode_table;
+    /* 0x5C */ s32 dir_table;
+    /* 0x60 */ s32 inode_start_page;
+    /* 0x64 */ u8 banks;
+    /* 0x65 */ u8 activebank;
+} OSPfs; // size = 0x68
+
+typedef struct {
+	/* 0x00 */ u32 file_size;
+  	/* 0x04 */ u32 game_code;
+  	/* 0x08 */ u16 company_code;
+  	/* 0x0A */ char ext_name[4];
+  	/* 0x0E */ char game_name[16];
+} OSPfsState; // size = 0x20
 
 #endif

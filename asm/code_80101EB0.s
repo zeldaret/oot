@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80101EB0
+glabel osPfsAllocateFile
 /* B79050 80101EB0 27BDFD68 */  addiu $sp, $sp, -0x298
 /* B79054 80101EB4 AFB70040 */  sw    $s7, 0x40($sp)
 /* B79058 80101EB8 AFB6003C */  sw    $s6, 0x3c($sp)
@@ -50,7 +50,7 @@ glabel func_80101EB0
 /* B790D8 80101F38 A7A5029E */  sh    $a1, 0x29e($sp)
 /* B790DC 80101F3C AFA602A0 */  sw    $a2, 0x2a0($sp)
 /* B790E0 80101F40 AFB80010 */  sw    $t8, 0x10($sp)
-/* B790E4 80101F44 0C040C04 */  jal   func_80103010
+/* B790E4 80101F44 0C040C04 */  jal   osPfsFindFile
 /* B790E8 80101F48 AFB90014 */   sw    $t9, 0x14($sp)
 /* B790EC 80101F4C 10400005 */  beqz  $v0, .L80101F64
 /* B790F0 80101F50 24010005 */   li    $at, 5
@@ -69,7 +69,7 @@ glabel func_80101EB0
 /* B7911C 80101F7C 1000008E */  b     .L801021B8
 /* B79120 80101F80 24020009 */   li    $v0, 9
 .L80101F84:
-/* B79124 80101F84 0C040010 */  jal   func_80100040
+/* B79124 80101F84 0C040010 */  jal   osPfsFreeBlocks
 /* B79128 80101F88 27A50054 */   addiu $a1, $sp, 0x54
 /* B7912C 80101F8C 8FAA0054 */  lw    $t2, 0x54($sp)
 /* B79130 80101F90 0151082A */  slt   $at, $t2, $s1
@@ -88,7 +88,7 @@ glabel func_80101EB0
 /* B7915C 80101FBC 00003025 */  move  $a2, $zero
 /* B79160 80101FC0 00003825 */  move  $a3, $zero
 /* B79164 80101FC4 AFA00010 */  sw    $zero, 0x10($sp)
-/* B79168 80101FC8 0C040C04 */  jal   func_80103010
+/* B79168 80101FC8 0C040C04 */  jal   osPfsFindFile
 /* B7916C 80101FCC AFAB0014 */   sw    $t3, 0x14($sp)
 /* B79170 80101FD0 10400005 */  beqz  $v0, .L80101FE8
 /* B79174 80101FD4 24010005 */   li    $at, 5

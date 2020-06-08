@@ -524,7 +524,7 @@ glabel Gameplay_Update
 /* B346C0 800BD520 0C02C7A1 */  jal   TransitionUnk_Init
 /* B346C4 800BD524 24060007 */   li    $a2, 7
 /* B346C8 800BD528 14400007 */  bnez  $v0, .L800BD548
-/* B346CC 800BD52C 3C0C8017 */   lui   $t4, %hi(D_801759C0) # $t4, 0x8017
+/* B346CC 800BD52C 3C0C8017 */   lui   $t4, %hi(gZBuffer) # $t4, 0x8017
 /* B346D0 800BD530 3C048014 */  lui   $a0, %hi(D_80144300) # $a0, 0x8014
 /* B346D4 800BD534 0C00084C */  jal   osSyncPrintf
 /* B346D8 800BD538 24844300 */   addiu $a0, %lo(D_80144300) # addiu $a0, $a0, 0x4300
@@ -532,7 +532,7 @@ glabel Gameplay_Update
 /* B346E0 800BD540 1000000E */  b     .L800BD57C
 /* B346E4 800BD544 AC201490 */   sw    $zero, %lo(gTrnsnUnkState)($at)
 .L800BD548:
-/* B346E8 800BD548 258C59C0 */  addiu $t4, %lo(D_801759C0) # addiu $t4, $t4, 0x59c0
+/* B346E8 800BD548 258C59C0 */  addiu $t4, %lo(gZBuffer) # addiu $t4, $t4, 0x59c0
 /* B346EC 800BD54C 3C018016 */  lui   $at, %hi(sTrnsnUnk+0xdc) # $at, 0x8016
 /* B346F0 800BD550 AC2C148C */  sw    $t4, %lo(sTrnsnUnk+0xdc)($at)
 /* B346F4 800BD554 3C0F8016 */  lui   $t7, %hi(gGameInfo) # $t7, 0x8016

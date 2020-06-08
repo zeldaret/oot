@@ -235,16 +235,25 @@ glabel D_80130F80
     .incbin "baserom.z64", 0xBA8120, 0x180
 
 glabel D_80131100
-    .incbin "baserom.z64", 0xBA82A0, 0x60C
+    .incbin "baserom.z64", 0xBA82A0, 0x600
+
+glabel D_80131700
+    .incbin "baserom.z64", 0xBA88A0, 0xC
 
 glabel D_8013170C
-    .incbin "baserom.z64", 0xBA88AC, 0x134
+    .incbin "baserom.z64", 0xBA88AC, 0x94
+
+glabel D_801317A0
+    .incbin "baserom.z64", 0xBA8940, 0xA0
 
 glabel D_80131840
-    .incbin "baserom.z64", 0xBA89E0, 0x14
+    .word D_80130F80
+
+glabel D_80131844
+    .incbin "baserom.z64", 0xBA89E4, 0x10
 
 glabel D_80131854
-    .incbin "baserom.z64", 0xBA89F4, 0x4
+    .word D_80131844
 
 glabel D_80131858
     .incbin "baserom.z64", 0xBA89F8, 0x4
@@ -286,13 +295,13 @@ glabel D_8013188C
     .incbin "baserom.z64", 0xBA8A2C, 0x358
 
 glabel D_80131BE4
-    .incbin "baserom.z64", 0xBA8D84, 0x4
+    .word D_80131884
 
 glabel D_80131BE8
-    .incbin "baserom.z64", 0xBA8D88, 0x4
+    .word D_80131700
 
 glabel D_80131BEC
-    .incbin "baserom.z64", 0xBA8D8C, 0x4
+    .word D_801317A0
 
 glabel D_80131BF0
     .incbin "baserom.z64", 0xBA8D90, 0x10
@@ -457,7 +466,35 @@ glabel D_80131F68
     .incbin "baserom.z64", 0xBA9108, 0x4
 
 glabel D_80131F6C
-    .incbin "baserom.z64", 0xBA910C, 0x13B0
+    .incbin "baserom.z64", 0xBA910C, 0x4
+
+glabel D_80131F70
+    .incbin "baserom.z64", 0xBA9110, 0x7CC
+
+glabel D_8013273C
+    .incbin "baserom.z64", 0xBA98DC, 0x380
+
+glabel D_80132ABC
+    .incbin "baserom.z64", 0xBA9C5C, 0x140
+
+glabel D_80132BFC
+    .incbin "baserom.z64", 0xBA9D9C, 0x3E0
+
+glabel D_80132FDC
+    .incbin "baserom.z64", 0xBAA17C, 0x120
+
+glabel D_801330FC
+    .incbin "baserom.z64", 0xBAA29C, 0x20
+
+glabel D_8013311C
+    .incbin "baserom.z64", 0xBAA2BC, 0x200
 
 glabel D_8013331C
-    .incbin "baserom.z64", 0xBAA4BC, 0x24
+    .word D_8013273C
+    .word D_80132ABC
+    .word D_80132BFC
+    .word D_80131F70
+    .word D_80132FDC
+    .word D_801330FC
+    .word D_8013311C
+    .incbin "baserom.z64", 0xBAA4D8, 0x8
