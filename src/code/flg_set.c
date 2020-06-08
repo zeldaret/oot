@@ -1,12 +1,7 @@
-#include <ultra64.h>
 #include <global.h>
+#include <PR/os_cont.h>
 
-typedef struct {
-    /* 0x0000 */ u16* flagsReferenced;
-    /* 0x0004 */ char* name;
-} FlagReference;
-
-FlagReference D_80115DC0[53] = {
+FlagSetEntryHolder sFlagSetEntries = { {
     { &gSaveContext.eventChkInf[0], "event_chk_inf[0]" },   { &gSaveContext.eventChkInf[1], "event_chk_inf[1]" },
     { &gSaveContext.eventChkInf[2], "event_chk_inf[2]" },   { &gSaveContext.eventChkInf[3], "event_chk_inf[3]" },
     { &gSaveContext.eventChkInf[4], "event_chk_inf[4]" },   { &gSaveContext.eventChkInf[5], "event_chk_inf[5]" },
@@ -33,12 +28,130 @@ FlagReference D_80115DC0[53] = {
     { &gSaveContext.infTable[28], "inf_table[28]" },        { &gSaveContext.infTable[29], "inf_table[29]" },
     { &gSaveContext.eventInf[0], "event_inf[0]" },          { &gSaveContext.eventInf[1], "event_inf[1]" },
     { &gSaveContext.eventInf[2], "event_inf[2]" },          { &gSaveContext.eventInf[3], "event_inf[3]" },
-};
+} };
 
-s32 D_80115F68 = 0;
-s32 D_80115F6C = 0;
-s32 D_80115F70 = 0;
+void func_8002AAB0(GlobalContext* globalCtx) {
+    static s32 entryIdx = 0;
+    static u32 curBit = 0;
+    static s32 timer = 0;
+    static s32 bitIdx;
 
-s32 D_8015BB90;
+    FlagSetEntryHolder holder;
+    GraphicsContext* gfxCtx;
+    u32 pad;
+    Gfx* gfx;
+    Gfx* polyOpa;
+    Gfx* dispRefs[5];
+    GfxPrint printer;
+    Input* input = &globalCtx->state.input[0];
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/flg_set/func_8002AAB0.s")
+    holder = sFlagSetEntries;
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, gfxCtx, "../flg_set.c", 131);
+    polyOpa = gfxCtx->polyOpa.p;
+    gfx = Graph_GfxPlusOne(polyOpa);
+    gSPDisplayList(gfxCtx->overlay.p++, gfx);
+
+    GfxPrint_Ctor(&printer);
+    GfxPrint_Open(&printer, gfx);
+    GfxPrint_SetColor(&printer, 0xFA, 0x32, 0x32, 0xFF);
+    GfxPrint_SetPos(&printer, 4, 13);
+    GfxPrint_Printf(&printer, holder.entries[entryIdx].name);
+    GfxPrint_SetPos(&printer, 4, 15);
+
+    bitIdx = 15;
+
+    while (bitIdx >= 0) {
+        if (bitIdx == curBit) {
+            GfxPrint_SetColor(&printer, 200, 200, 200, 255);
+        } else {
+            GfxPrint_SetColor(&printer, 100, 100, 100, 255);
+        }
+
+        if (*holder.entries[entryIdx].value & (1 << bitIdx)) {
+            GfxPrint_Printf(&printer, "1");
+        } else {
+            GfxPrint_Printf(&printer, "0");
+        }
+
+        if ((bitIdx % 4) == 0) {
+            GfxPrint_Printf(&printer, " ");
+        }
+
+        bitIdx--;
+    }
+
+    if (CHECK_PAD(input->press, L_JPAD)) {
+        timer = 10;
+        curBit++;
+    }
+    if (CHECK_PAD(input->press, R_JPAD)) {
+        curBit--;
+        timer = 10;
+    }
+
+    if (timer == 0) {
+        if (CHECK_PAD(input->cur, L_JPAD)) {
+            curBit++;
+            timer = 2;
+        }
+        if (CHECK_PAD(input->cur, R_JPAD)) {
+            curBit--;
+            timer = 2;
+        }
+    }
+
+    curBit %= 16;
+    if (CHECK_PAD(input->press, U_JPAD)) {
+        entryIdx--;
+        if (entryIdx < 0) {
+            entryIdx = 0;
+        }
+        timer = 10;
+    }
+    if (CHECK_PAD(input->press, D_JPAD)) {
+        timer = 10;
+        entryIdx++;
+        if (!holder.entries[entryIdx].value) {
+            entryIdx--;
+        }
+    }
+
+    if (timer == 0) {
+        if (CHECK_PAD(input->cur, U_JPAD)) {
+            entryIdx--;
+            timer = 2;
+            if (entryIdx < 0) {
+                entryIdx = 0;
+            }
+        }
+        if (CHECK_PAD(input->cur, D_JPAD)) {
+            timer = 2;
+            entryIdx++;
+            if (!holder.entries[entryIdx].value) {
+                entryIdx--;
+            }
+        }
+    }
+
+    if (CHECK_PAD(input->press, A_BUTTON)) {
+        *holder.entries[entryIdx].value ^= (1 << curBit);
+    }
+
+    if (timer != 0) {
+        timer--;
+    }
+
+    gfx = GfxPrint_Close(&printer);
+    GfxPrint_Dtor(&printer);
+    gSPEndDisplayList(gfx++);
+    Graph_BranchDlist(polyOpa, gfx);
+    gfxCtx->polyOpa.p = gfx;
+
+    if (CHECK_PAD(input->press, L_TRIG)) {
+        globalCtx->pauseCtx.flag = 0;
+    }
+
+    Graph_CloseDisps(dispRefs, gfxCtx, "../flg_set.c", 241);
+}

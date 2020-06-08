@@ -18,7 +18,7 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
 
     g = *gfxp;
     g = func_8009411C(g);
-    printer = alloca(0x30);
+    printer = alloca(sizeof(GfxPrint));
     GfxPrint_Ctor(printer);
     GfxPrint_Open(printer, g);
     GfxPrint_SetColor(printer, 0xFF, 0x9B, 0xFF, 0xFF);
