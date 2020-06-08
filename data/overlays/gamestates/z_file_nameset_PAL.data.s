@@ -85,6 +85,8 @@ glabel D_8081275C
  .word 0x00640096, 0x00FF0064, 0x00640064
 glabel D_80812768
  .word 0x3E3E3E3E, 0x3E3E3E3E
+
+
 glabel D_80812770
  .word func_8080B40C
 .word func_8080B494

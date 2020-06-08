@@ -238,9 +238,7 @@ void func_8008EE08(Player* player) {
     func_8008EDF0(player);
 }
 
-#ifdef NON_MATCHING
-// v1 instead of v0
-void func_8008EEAC(GlobalContext* globalCtx, UNK_PTR arg1) {
+void func_8008EEAC(GlobalContext* globalCtx, Actor* arg1) {
     Player* player;
 
     player = PLAYER;
@@ -251,9 +249,6 @@ void func_8008EEAC(GlobalContext* globalCtx, UNK_PTR arg1) {
     Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, arg1);
     func_8005A444(Gameplay_GetCamera(globalCtx, 0), 2);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EEAC.s")
-#endif
 
 s32 func_8008EF40(GlobalContext* globalCtx) {
     Player* player = PLAYER;
