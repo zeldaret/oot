@@ -165,9 +165,6 @@ build/asm/%.o: asm/%.s
 build/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
 
-#build/data/overlays/actors/z_kaleido_debug.rodata.o: data/overlays/actors/z_kaleido_debug.rodata.s
-#	iconv --from UTF-8 --to EUC-JISX0213 $^ | $(AS) $(ASFLAGS) -o $@
-
 #build/assets/%.o: assets/%.s
 #	$(AS) $(ASFLAGS) $^ -o $@
 #	$(OBJCOPY) -O binary $@ $@.bin
