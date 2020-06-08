@@ -30,7 +30,7 @@ FlagSetEntryHolder sFlagSetEntries = { {
     { &gSaveContext.eventInf[2], "event_inf[2]" },          { &gSaveContext.eventInf[3], "event_inf[3]" },
 } };
 
-void func_8002AAB0(GlobalContext* globalCtx) {
+void FlagSet_Update(GlobalContext* globalCtx) {
     static s32 entryIdx = 0;
     static u32 curBit = 0;
     static s32 timer = 0;
@@ -60,9 +60,7 @@ void func_8002AAB0(GlobalContext* globalCtx) {
     GfxPrint_Printf(&printer, holder.entries[entryIdx].name);
     GfxPrint_SetPos(&printer, 4, 15);
 
-    bitIdx = 15;
-
-    while (bitIdx >= 0) {
+    for (bitIdx = 15; bitIdx >= 0; bitIdx--) {
         if (bitIdx == curBit) {
             GfxPrint_SetColor(&printer, 200, 200, 200, 255);
         } else {
@@ -78,8 +76,6 @@ void func_8002AAB0(GlobalContext* globalCtx) {
         if ((bitIdx % 4) == 0) {
             GfxPrint_Printf(&printer, " ");
         }
-
-        bitIdx--;
     }
 
     if (CHECK_PAD(input->press, L_JPAD)) {

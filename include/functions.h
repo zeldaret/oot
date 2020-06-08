@@ -285,7 +285,7 @@ void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg
 // ? func_8002A95C(?);
 // ? func_8002A9F4(?);
 // ? func_8002AA44(?);
-// ? func_8002AAB0(?);
+void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
 void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
 void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3);
