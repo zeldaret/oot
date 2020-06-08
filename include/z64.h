@@ -1144,7 +1144,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ s32 unk_A4; // staticSegment?
+    /* 0x00A4 */ s32 unk_A4;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ s32 slotCount;
     /* 0x01D4 */ SelectSlot* slots;
@@ -1154,7 +1154,7 @@ typedef struct {
     /* 0x01FC */ s32 unk_1FC;
     /* 0x0200 */ s32 unk_200;
     /* 0x0204 */ s32 unk_204;
-    /* 0x0208 */ s32 unk_208;
+    /* 0x0208 */ s32 opt;
     /* 0x020C */ s32 unk_20C;
     /* 0x0210 */ s32 unk_210;
     /* 0x0214 */ s32 unk_214;
@@ -1166,7 +1166,7 @@ typedef struct {
     /* 0x022C */ s32 unk_22C;
     /* 0x0230 */ s32 unk_230;
     /* 0x0234 */ s32 unk_234;
-    /* 0x0238 */ void* unk_238;
+    /* 0x0238 */ void* staticSegment;
     /* 0x023C */ s32 unk_23C;
 } SelectContext; // size = 0x240
 

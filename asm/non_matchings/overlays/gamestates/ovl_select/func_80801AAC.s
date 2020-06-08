@@ -42,7 +42,7 @@ glabel func_80801AAC
 /* 00FBC 80801B4C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00FC0 80801B50 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFF60
 /* 00FC4 80801B54 27B00010 */  addiu   $s0, $sp, 0x0010           ## $s0 = FFFFFF70
-/* 00FC8 80801B58 0C03EEE3 */  jal     GfxPrint_Ctor              
+/* 00FC8 80801B58 0C03EEE3 */  jal     GfxPrint_Init              
 /* 00FCC 80801B5C 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFF70
 /* 00FD0 80801B60 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFF70
 /* 00FD4 80801B64 0C03EF07 */  jal     GfxPrint_Open              
@@ -64,7 +64,7 @@ glabel func_80801AAC
 /* 01014 80801BA4 0C03EF19 */  jal     GfxPrint_Close              
 /* 01018 80801BA8 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFF70
 /* 0101C 80801BAC AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
-/* 01020 80801BB0 0C03EF05 */  jal     GfxPrint_Dtor              
+/* 01020 80801BB0 0C03EF05 */  jal     GfxPrint_Destroy              
 /* 01024 80801BB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFF70
 /* 01028 80801BB8 3C068080 */  lui     $a2, %hi(D_80803540)       ## $a2 = 80800000
 /* 0102C 80801BBC 24C63540 */  addiu   $a2, $a2, %lo(D_80803540)  ## $a2 = 80803540

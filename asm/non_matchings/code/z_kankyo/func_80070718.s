@@ -5,7 +5,7 @@ glabel func_80070718
 /* AE78C4 80070724 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AE78C8 80070728 AFA40068 */  sw    $a0, 0x68($sp)
 /* AE78CC 8007072C AFA5006C */  sw    $a1, 0x6c($sp)
-/* AE78D0 80070730 0C03EEE3 */  jal   GfxPrint_Ctor
+/* AE78D0 80070730 0C03EEE3 */  jal   GfxPrint_Init
 /* AE78D4 80070734 02002025 */   move  $a0, $s0
 /* AE78D8 80070738 8FAE006C */  lw    $t6, 0x6c($sp)
 /* AE78DC 8007073C 02002025 */  move  $a0, $s0
@@ -333,7 +333,7 @@ glabel func_80070718
 /* AE7D9C 80070BFC 02002025 */   move  $a0, $s0
 /* AE7DA0 80070C00 8FAC006C */  lw    $t4, 0x6c($sp)
 /* AE7DA4 80070C04 02002025 */  move  $a0, $s0
-/* AE7DA8 80070C08 0C03EF05 */  jal   GfxPrint_Dtor
+/* AE7DA8 80070C08 0C03EF05 */  jal   GfxPrint_Destroy
 /* AE7DAC 80070C0C AD820000 */   sw    $v0, ($t4)
 /* AE7DB0 80070C10 8FBF0024 */  lw    $ra, 0x24($sp)
 /* AE7DB4 80070C14 8FB00020 */  lw    $s0, 0x20($sp)
