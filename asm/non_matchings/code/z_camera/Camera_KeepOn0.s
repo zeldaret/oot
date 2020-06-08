@@ -210,7 +210,7 @@ glabel Camera_KeepOn0
 /* AC6814 8004F674 C50C0000 */  lwc1  $f12, ($t0)
 /* AC6818 8004F678 C60E00FC */  lwc1  $f14, 0xfc($s0)
 /* AC681C 8004F67C 3C063F00 */  lui   $a2, 0x3f00
-/* AC6820 8004F680 0C010E27 */  jal   func_8004389C
+/* AC6820 8004F680 0C010E27 */  jal   Camera_LERPCeilF
 /* AC6824 8004F684 3C074120 */   lui   $a3, 0x4120
 /* AC6828 8004F688 E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC682C 8004F68C 24020001 */  li    $v0, 1

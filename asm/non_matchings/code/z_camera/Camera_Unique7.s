@@ -127,7 +127,7 @@ glabel Camera_Unique7
 /* AC9EF8 80052D58 E61200FC */  swc1  $f18, 0xfc($s0)
 /* AC9EFC 80052D5C 84650000 */  lh    $a1, ($v1)
 /* AC9F00 80052D60 AFA30020 */  sw    $v1, 0x20($sp)
-/* AC9F04 80052D64 0C010E6B */  jal   func_800439AC
+/* AC9F04 80052D64 0C010E6B */  jal   Camera_LERPFloorS
 /* AC9F08 80052D68 87A40052 */   lh    $a0, 0x52($sp)
 /* AC9F0C 80052D6C 8FA30020 */  lw    $v1, 0x20($sp)
 /* AC9F10 80052D70 A4620000 */  sh    $v0, ($v1)

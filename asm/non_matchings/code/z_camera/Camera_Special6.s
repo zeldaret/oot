@@ -185,7 +185,7 @@ glabel Camera_Special6
 /* ACE398 800571F8 C62E0004 */  lwc1  $f14, 4($s1)
 /* ACE39C 800571FC A7A80062 */  sh    $t0, 0x62($sp)
 /* ACE3A0 80057200 AFA30030 */  sw    $v1, 0x30($sp)
-/* ACE3A4 80057204 0C010E27 */  jal   func_8004389C
+/* ACE3A4 80057204 0C010E27 */  jal   Camera_LERPCeilF
 /* ACE3A8 80057208 C7AC0098 */   lwc1  $f12, 0x98($sp)
 /* ACE3AC 8005720C 87B80064 */  lh    $t8, 0x64($sp)
 /* ACE3B0 80057210 3C0142C8 */  li    $at, 0x42C80000 # 0.000000
@@ -301,7 +301,7 @@ glabel Camera_Special6
 /* ACE564 800573C4 8D4C0008 */  lw    $t4, 8($t2)
 /* ACE568 800573C8 C62E0004 */  lwc1  $f14, 4($s1)
 /* ACE56C 800573CC AE2C0008 */  sw    $t4, 8($s1)
-/* ACE570 800573D0 0C010E27 */  jal   func_8004389C
+/* ACE570 800573D0 0C010E27 */  jal   Camera_LERPCeilF
 /* ACE574 800573D4 C7AC0098 */   lwc1  $f12, 0x98($sp)
 /* ACE578 800573D8 E6200004 */  swc1  $f0, 4($s1)
 /* ACE57C 800573DC 87AE0064 */  lh    $t6, 0x64($sp)

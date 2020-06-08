@@ -223,7 +223,7 @@ glabel Camera_Fixed4
 /* AC7544 800503A4 C646000C */  lwc1  $f6, 0xc($s2)
 /* AC7548 800503A8 46083282 */  mul.s $f10, $f6, $f8
 /* AC754C 800503AC 44065000 */  mfc1  $a2, $f10
-/* AC7550 800503B0 0C010E47 */  jal   func_8004391C
+/* AC7550 800503B0 0C010E47 */  jal   Camera_LERPCeilS
 /* AC7554 800503B4 00000000 */   nop
 /* AC7558 800503B8 A7A20074 */  sh    $v0, 0x74($sp)
 /* AC755C 800503BC C60600E0 */  lwc1  $f6, 0xe0($s0)
@@ -233,7 +233,7 @@ glabel Camera_Fixed4
 /* AC756C 800503CC 46062202 */  mul.s $f8, $f4, $f6
 /* AC7570 800503D0 2407000A */  li    $a3, 10
 /* AC7574 800503D4 44064000 */  mfc1  $a2, $f8
-/* AC7578 800503D8 0C010E47 */  jal   func_8004391C
+/* AC7578 800503D8 0C010E47 */  jal   Camera_LERPCeilS
 /* AC757C 800503DC 00000000 */   nop
 /* AC7580 800503E0 A7A20076 */  sh    $v0, 0x76($sp)
 /* AC7584 800503E4 8FA40040 */  lw    $a0, 0x40($sp)

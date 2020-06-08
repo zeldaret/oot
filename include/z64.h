@@ -515,6 +515,33 @@ typedef struct {
     Fixed3_InitParams initParams;
 } Fixed3;
 
+typedef struct {
+    /* 0x0000 */ Vec3f eye;
+    /* 0x000C */ s16 fov;
+} Fixed2_InitParams; // size = 0xE
+
+typedef struct {
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ f32 fov;
+    /* 0x0010 */ s16 unk_10;
+    /* 0x0014 */ Fixed2_InitParams initParams;
+} Fixed2; // size = 0x22
+
+typedef struct {
+    /* 0x0000 */ Vec3f eyePos;
+    /* 0x000C */ Vec3s eyeRot;
+    /* 0x0012 */ s16 unk_12;
+    /* 0x0014 */ s16 fov;
+} Fixed1_InitParams; // size = 0x18
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00; // seems to be unused?
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 fov;
+    /* 0x000C */ s16 unk_0C;
+    /* 0x0010 */ Fixed1_InitParams initParams;
+} Fixed1; // size = 0x28
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -530,6 +557,8 @@ typedef union {
     Unique6 uniq6;
     Special4 spec4;
     Fixed3 fixd3;
+    Fixed2 fixd2;
+    Fixed1 fixd1;
 } CameraParams;
 
 typedef struct {

@@ -285,7 +285,7 @@ glabel L80052318
 /* AC94D8 80052338 AFB90024 */  sw    $t9, 0x24($sp)
 /* AC94DC 8005233C AFB8002C */  sw    $t8, 0x2c($sp)
 /* AC94E0 80052340 34E7CCCD */  ori   $a3, (0x3DCCCCCD & 0xFFFF) # ori $a3, $a3, 0xcccd
-/* AC94E4 80052344 0C010E27 */  jal   func_8004389C
+/* AC94E4 80052344 0C010E27 */  jal   Camera_LERPCeilF
 /* AC94E8 80052348 34C6CCCD */   ori   $a2, (0x3ECCCCCD & 0xFFFF) # ori $a2, $a2, 0xcccd
 /* AC94EC 8005234C E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC94F0 80052350 8FA60024 */  lw    $a2, 0x24($sp)
@@ -298,7 +298,7 @@ glabel L80052318
 /* AC950C 8005236C 3C073DCC */  li    $a3, 0x3DCC0000 # 0.000000
 /* AC9510 80052370 34E7CCCD */  ori   $a3, (0x3DCCCCCD & 0xFFFF) # ori $a3, $a3, 0xcccd
 /* AC9514 80052374 34C6CCCD */  ori   $a2, (0x3ECCCCCD & 0xFFFF) # ori $a2, $a2, 0xcccd
-/* AC9518 80052378 0C010E27 */  jal   func_8004389C
+/* AC9518 80052378 0C010E27 */  jal   Camera_LERPCeilF
 /* AC951C 8005237C C7AE0060 */   lwc1  $f14, 0x60($sp)
 /* AC9520 80052380 E7A00060 */  swc1  $f0, 0x60($sp)
 /* AC9524 80052384 8FA40020 */  lw    $a0, 0x20($sp)

@@ -242,7 +242,7 @@ glabel Camera_Unique2
 /* AC9028 80051E88 34C6CCCD */  ori   $a2, (0x3DCCCCCD & 0xFFFF) # ori $a2, $a2, 0xcccd
 /* AC902C 80051E8C 87A4006E */  lh    $a0, 0x6e($sp)
 /* AC9030 80051E90 87A50066 */  lh    $a1, 0x66($sp)
-/* AC9034 80051E94 0C010E47 */  jal   func_8004391C
+/* AC9034 80051E94 0C010E47 */  jal   Camera_LERPCeilS
 /* AC9038 80051E98 2407000A */   li    $a3, 10
 /* AC903C 80051E9C A7A2006E */  sh    $v0, 0x6e($sp)
 /* AC9040 80051EA0 C6060004 */  lwc1  $f6, 4($s0)
@@ -281,7 +281,7 @@ glabel Camera_Unique2
 /* AC90B8 80051F18 34E7CCCD */  ori   $a3, (0x3DCCCCCD & 0xFFFF) # ori $a3, $a3, 0xcccd
 /* AC90BC 80051F1C 34C6CCCD */  ori   $a2, (0x3E4CCCCD & 0xFFFF) # ori $a2, $a2, 0xcccd
 /* AC90C0 80051F20 C60C0008 */  lwc1  $f12, 8($s0)
-/* AC90C4 80051F24 0C010E27 */  jal   func_8004389C
+/* AC90C4 80051F24 0C010E27 */  jal   Camera_LERPCeilF
 /* AC90C8 80051F28 C60E00FC */   lwc1  $f14, 0xfc($s0)
 /* AC90CC 80051F2C E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC90D0 80051F30 02002025 */  move  $a0, $s0

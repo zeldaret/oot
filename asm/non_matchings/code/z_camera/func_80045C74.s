@@ -100,7 +100,7 @@ glabel func_80045C74
 /* ABCF20 80045D80 34E7CCCD */  ori   $a3, (0x3DCCCCCD & 0xFFFF) # ori $a3, $a3, 0xcccd
 /* ABCF24 80045D84 46143202 */  mul.s $f8, $f6, $f20
 /* ABCF28 80045D88 44064000 */  mfc1  $a2, $f8
-/* ABCF2C 80045D8C 0C010E27 */  jal   func_8004389C
+/* ABCF2C 80045D8C 0C010E27 */  jal   Camera_LERPCeilF
 /* ABCF30 80045D90 00000000 */   nop
 /* ABCF34 80045D94 8FAD008C */  lw    $t5, 0x8c($sp)
 /* ABCF38 80045D98 3C018014 */  lui   $at, %hi(D_80139E04)

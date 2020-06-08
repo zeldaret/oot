@@ -634,13 +634,13 @@ glabel Camera_KeepOn3
 /* AC54A0 8004E300 8E4F0008 */  lw    $t7, 8($s2)
 /* AC54A4 8004E304 AD8F0008 */  sw    $t7, 8($t4)
 /* AC54A8 8004E308 C66E00FC */  lwc1  $f14, 0xfc($s3)
-/* AC54AC 8004E30C 0C010E27 */  jal   func_8004389C
+/* AC54AC 8004E30C 0C010E27 */  jal   Camera_LERPCeilF
 /* AC54B0 8004E310 C66C0020 */   lwc1  $f12, 0x20($s3)
 /* AC54B4 8004E314 E66000FC */  swc1  $f0, 0xfc($s3)
 /* AC54B8 8004E318 00002025 */  move  $a0, $zero
 /* AC54BC 8004E31C 8665015A */  lh    $a1, 0x15a($s3)
 /* AC54C0 8004E320 3C063F00 */  lui   $a2, 0x3f00
-/* AC54C4 8004E324 0C010E47 */  jal   func_8004391C
+/* AC54C4 8004E324 0C010E47 */  jal   Camera_LERPCeilS
 /* AC54C8 8004E328 2407000A */   li    $a3, 10
 /* AC54CC 8004E32C A662015A */  sh    $v0, 0x15a($s3)
 /* AC54D0 8004E330 02602025 */  move  $a0, $s3

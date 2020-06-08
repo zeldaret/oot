@@ -180,7 +180,7 @@ glabel Camera_Battle4
 /* AC3A14 8004C874 00000000 */  nop
 /* AC3A18 8004C878 46045182 */  mul.s $f6, $f10, $f4
 /* AC3A1C 8004C87C 44063000 */  mfc1  $a2, $f6
-/* AC3A20 8004C880 0C010E27 */  jal   func_8004389C
+/* AC3A20 8004C880 0C010E27 */  jal   Camera_LERPCeilF
 /* AC3A24 8004C884 00000000 */   nop
 /* AC3A28 8004C888 3C01447A */  li    $at, 0x447A0000 # 0.000000
 /* AC3A2C 8004C88C 44811000 */  mtc1  $at, $f2
@@ -201,7 +201,7 @@ glabel Camera_Battle4
 /* AC3A68 8004C8C8 C60E00CC */  lwc1  $f14, 0xcc($s0)
 /* AC3A6C 8004C8CC 46128282 */  mul.s $f10, $f16, $f18
 /* AC3A70 8004C8D0 44065000 */  mfc1  $a2, $f10
-/* AC3A74 8004C8D4 0C010E27 */  jal   func_8004389C
+/* AC3A74 8004C8D4 0C010E27 */  jal   Camera_LERPCeilF
 /* AC3A78 8004C8D8 00000000 */   nop
 /* AC3A7C 8004C8DC E60000CC */  swc1  $f0, 0xcc($s0)
 /* AC3A80 8004C8E0 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
@@ -225,7 +225,7 @@ glabel Camera_Battle4
 /* AC3AC8 8004C928 00000000 */  nop
 /* AC3ACC 8004C92C 46062202 */  mul.s $f8, $f4, $f6
 /* AC3AD0 8004C930 44064000 */  mfc1  $a2, $f8
-/* AC3AD4 8004C934 0C010E27 */  jal   func_8004389C
+/* AC3AD4 8004C934 0C010E27 */  jal   Camera_LERPCeilF
 /* AC3AD8 8004C938 00000000 */   nop
 /* AC3ADC 8004C93C E60000D0 */  swc1  $f0, 0xd0($s0)
 /* AC3AE0 8004C940 3C018014 */  lui   $at, %hi(D_8013A074)
@@ -256,14 +256,14 @@ glabel Camera_Battle4
 .L8004C9A4:
 /* AC3B44 8004C9A4 8E06000C */  lw    $a2, 0xc($s0)
 /* AC3B48 8004C9A8 86040008 */  lh    $a0, 8($s0)
-/* AC3B4C 8004C9AC 0C010E47 */  jal   func_8004391C
+/* AC3B4C 8004C9AC 0C010E47 */  jal   Camera_LERPCeilS
 /* AC3B50 8004C9B0 87A50060 */   lh    $a1, 0x60($sp)
 /* AC3B54 8004C9B4 A7A20068 */  sh    $v0, 0x68($sp)
 /* AC3B58 8004C9B8 3C073A83 */  lui   $a3, (0x3A83126F >> 16) # lui $a3, 0x3a83
 /* AC3B5C 8004C9BC 34E7126F */  ori   $a3, (0x3A83126F & 0xFFFF) # ori $a3, $a3, 0x126f
 /* AC3B60 8004C9C0 8E06000C */  lw    $a2, 0xc($s0)
 /* AC3B64 8004C9C4 C60C0004 */  lwc1  $f12, 4($s0)
-/* AC3B68 8004C9C8 0C010E27 */  jal   func_8004389C
+/* AC3B68 8004C9C8 0C010E27 */  jal   Camera_LERPCeilF
 /* AC3B6C 8004C9CC C7AE005C */   lwc1  $f14, 0x5c($sp)
 /* AC3B70 8004C9D0 E7A00064 */  swc1  $f0, 0x64($sp)
 .L8004C9D4:
@@ -284,7 +284,7 @@ glabel Camera_Battle4
 /* AC3BAC 8004CA0C 8E06000C */  lw    $a2, 0xc($s0)
 /* AC3BB0 8004CA10 C60E00FC */  lwc1  $f14, 0xfc($s0)
 /* AC3BB4 8004CA14 C60C0010 */  lwc1  $f12, 0x10($s0)
-/* AC3BB8 8004CA18 0C010E27 */  jal   func_8004389C
+/* AC3BB8 8004CA18 0C010E27 */  jal   Camera_LERPCeilF
 /* AC3BBC 8004CA1C E60A00DC */   swc1  $f10, 0xdc($s0)
 /* AC3BC0 8004CA20 E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC3BC4 8004CA24 A600015A */  sh    $zero, 0x15a($s0)

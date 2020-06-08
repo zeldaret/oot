@@ -295,7 +295,7 @@ glabel Camera_Parallel1
 /* AC057C 800493DC E7A200B8 */  swc1  $f2, 0xb8($sp)
 /* AC0580 800493E0 448D2000 */  mtc1  $t5, $f4
 /* AC0584 800493E4 AFA80034 */  sw    $t0, 0x34($sp)
-/* AC0588 800493E8 0C010E27 */  jal   func_8004389C
+/* AC0588 800493E8 0C010E27 */  jal   Camera_LERPCeilF
 /* AC058C 800493EC 46802320 */   cvt.s.w $f12, $f4
 /* AC0590 800493F0 C7A200B8 */  lwc1  $f2, 0xb8($sp)
 /* AC0594 800493F4 3C073DCC */  lui   $a3, (0x3DCCCCCD >> 16) # lui $a3, 0x3dcc
@@ -303,7 +303,7 @@ glabel Camera_Parallel1
 /* AC059C 800493FC 44061000 */  mfc1  $a2, $f2
 /* AC05A0 80049400 34E7CCCD */  ori   $a3, (0x3DCCCCCD & 0xFFFF) # ori $a3, $a3, 0xcccd
 /* AC05A4 80049404 C60C0008 */  lwc1  $f12, 8($s0)
-/* AC05A8 80049408 0C010E27 */  jal   func_8004389C
+/* AC05A8 80049408 0C010E27 */  jal   Camera_LERPCeilF
 /* AC05AC 8004940C C60E00C8 */   lwc1  $f14, 0xc8($s0)
 /* AC05B0 80049410 3C014000 */  li    $at, 0x40000000 # 0.000000
 /* AC05B4 80049414 E60000C8 */  swc1  $f0, 0xc8($s0)
@@ -311,7 +311,7 @@ glabel Camera_Parallel1
 /* AC05BC 8004941C 3C073DCC */  lui   $a3, (0x3DCCCCCD >> 16) # lui $a3, 0x3dcc
 /* AC05C0 80049420 34E7CCCD */  ori   $a3, (0x3DCCCCCD & 0xFFFF) # ori $a3, $a3, 0xcccd
 /* AC05C4 80049424 8FA600B4 */  lw    $a2, 0xb4($sp)
-/* AC05C8 80049428 0C010E27 */  jal   func_8004389C
+/* AC05C8 80049428 0C010E27 */  jal   Camera_LERPCeilF
 /* AC05CC 8004942C C60E00C4 */   lwc1  $f14, 0xc4($s0)
 /* AC05D0 80049430 C7A200B8 */  lwc1  $f2, 0xb8($sp)
 /* AC05D4 80049434 E60000C4 */  swc1  $f0, 0xc4($s0)
@@ -327,7 +327,7 @@ glabel Camera_Parallel1
 /* AC05FC 8004945C C60E00CC */  lwc1  $f14, 0xcc($s0)
 /* AC0600 80049460 468032A0 */  cvt.s.w $f10, $f6
 /* AC0604 80049464 46085302 */  mul.s $f12, $f10, $f8
-/* AC0608 80049468 0C010E27 */  jal   func_8004389C
+/* AC0608 80049468 0C010E27 */  jal   Camera_LERPCeilF
 /* AC060C 8004946C 00000000 */   nop
 /* AC0610 80049470 E60000CC */  swc1  $f0, 0xcc($s0)
 /* AC0614 80049474 3C188016 */  lui   $t8, %hi(gGameInfo) # $t8, 0x8016
@@ -342,7 +342,7 @@ glabel Camera_Parallel1
 /* AC0638 80049498 C60E00D0 */  lwc1  $f14, 0xd0($s0)
 /* AC063C 8004949C 468021A0 */  cvt.s.w $f6, $f4
 /* AC0640 800494A0 460A3302 */  mul.s $f12, $f6, $f10
-/* AC0644 800494A4 0C010E27 */  jal   func_8004389C
+/* AC0644 800494A4 0C010E27 */  jal   Camera_LERPCeilF
 /* AC0648 800494A8 00000000 */   nop
 /* AC064C 800494AC E60000D0 */  swc1  $f0, 0xd0($s0)
 /* AC0650 800494B0 3C198016 */  lui   $t9, %hi(gGameInfo) # $t9, 0x8016
@@ -362,7 +362,7 @@ glabel Camera_Parallel1
 /* AC0688 800494E8 00000000 */  nop
 /* AC068C 800494EC 46085102 */  mul.s $f4, $f10, $f8
 /* AC0690 800494F0 44062000 */  mfc1  $a2, $f4
-/* AC0694 800494F4 0C010E27 */  jal   func_8004389C
+/* AC0694 800494F4 0C010E27 */  jal   Camera_LERPCeilF
 /* AC0698 800494F8 00000000 */   nop
 /* AC069C 800494FC 860B0024 */  lh    $t3, 0x24($s0)
 /* AC06A0 80049500 8FA80034 */  lw    $t0, 0x34($sp)
@@ -399,7 +399,7 @@ glabel Camera_Parallel1
 /* AC071C 8004957C 460A2302 */  mul.s $f12, $f4, $f10
 /* AC0720 80049580 460C1200 */  add.s $f8, $f2, $f12
 /* AC0724 80049584 44064000 */  mfc1  $a2, $f8
-/* AC0728 80049588 0C010E47 */  jal   func_8004391C
+/* AC0728 80049588 0C010E47 */  jal   Camera_LERPCeilS
 /* AC072C 8004958C 00000000 */   nop
 /* AC0730 80049590 8FA80034 */  lw    $t0, 0x34($sp)
 /* AC0734 80049594 10000002 */  b     .L800495A0
@@ -512,7 +512,7 @@ glabel Camera_Parallel1
 /* AC08C0 80049720 AFA80034 */  sw    $t0, 0x34($sp)
 /* AC08C4 80049724 3C074000 */  lui   $a3, 0x4000
 /* AC08C8 80049728 44063000 */  mfc1  $a2, $f6
-/* AC08CC 8004972C 0C010E27 */  jal   func_8004389C
+/* AC08CC 8004972C 0C010E27 */  jal   Camera_LERPCeilF
 /* AC08D0 80049730 00000000 */   nop
 /* AC08D4 80049734 E60000DC */  swc1  $f0, 0xdc($s0)
 /* AC08D8 80049738 8FA60038 */  lw    $a2, 0x38($sp)
@@ -534,14 +534,14 @@ glabel Camera_Parallel1
 /* AC0918 80049778 34C6999A */  ori   $a2, (0x3F19999A & 0xFFFF) # ori $a2, $a2, 0x999a
 /* AC091C 8004977C AFA80034 */  sw    $t0, 0x34($sp)
 /* AC0920 80049780 87A5009E */  lh    $a1, 0x9e($sp)
-/* AC0924 80049784 0C010E47 */  jal   func_8004391C
+/* AC0924 80049784 0C010E47 */  jal   Camera_LERPCeilS
 /* AC0928 80049788 2407000A */   li    $a3, 10
 /* AC092C 8004978C 8FA80034 */  lw    $t0, 0x34($sp)
 /* AC0930 80049790 10000006 */  b     .L800497AC
 /* AC0934 80049794 A7A200AE */   sh    $v0, 0xae($sp)
 .L80049798:
 /* AC0938 80049798 85040012 */  lh    $a0, 0x12($t0)
-/* AC093C 8004979C 0C010E47 */  jal   func_8004391C
+/* AC093C 8004979C 0C010E47 */  jal   Camera_LERPCeilS
 /* AC0940 800497A0 AFA80034 */   sw    $t0, 0x34($sp)
 /* AC0944 800497A4 8FA80034 */  lw    $t0, 0x34($sp)
 /* AC0948 800497A8 A7A200AE */  sh    $v0, 0xae($sp)
@@ -565,7 +565,7 @@ glabel Camera_Parallel1
 /* AC0988 800497E8 24070004 */  li    $a3, 4
 /* AC098C 800497EC 46085183 */  div.s $f6, $f10, $f8
 /* AC0990 800497F0 44063000 */  mfc1  $a2, $f6
-/* AC0994 800497F4 0C010E47 */  jal   func_8004391C
+/* AC0994 800497F4 0C010E47 */  jal   Camera_LERPCeilS
 /* AC0998 800497F8 00000000 */   nop
 /* AC099C 800497FC 3C038016 */  lui   $v1, %hi(gGameInfo) # $v1, 0x8016
 /* AC09A0 80049800 8C63FA90 */  lw    $v1, %lo(gGameInfo)($v1)
@@ -648,13 +648,13 @@ glabel Camera_Parallel1
 .L8004991C:
 /* AC0ABC 8004991C C60E00FC */  lwc1  $f14, 0xfc($s0)
 /* AC0AC0 80049920 8E0600D4 */  lw    $a2, 0xd4($s0)
-/* AC0AC4 80049924 0C010E27 */  jal   func_8004389C
+/* AC0AC4 80049924 0C010E27 */  jal   Camera_LERPCeilF
 /* AC0AC8 80049928 3C073F80 */   lui   $a3, 0x3f80
 /* AC0ACC 8004992C E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC0AD0 80049930 00002025 */  move  $a0, $zero
 /* AC0AD4 80049934 8605015A */  lh    $a1, 0x15a($s0)
 /* AC0AD8 80049938 3C063F00 */  lui   $a2, 0x3f00
-/* AC0ADC 8004993C 0C010E47 */  jal   func_8004391C
+/* AC0ADC 8004993C 0C010E47 */  jal   Camera_LERPCeilS
 /* AC0AE0 80049940 2407000A */   li    $a3, 10
 /* AC0AE4 80049944 A602015A */  sh    $v0, 0x15a($s0)
 /* AC0AE8 80049948 87AE006A */  lh    $t6, 0x6a($sp)

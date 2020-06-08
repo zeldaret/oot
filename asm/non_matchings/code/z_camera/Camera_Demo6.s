@@ -173,7 +173,7 @@ glabel Camera_Demo6
 /* ACD090 80055EF0 26080004 */  addiu $t0, $s0, 4
 /* ACD094 80055EF4 AFA80034 */  sw    $t0, 0x34($sp)
 /* ACD098 80055EF8 34E7D70A */  ori   $a3, (0x3C23D70A & 0xFFFF) # ori $a3, $a3, 0xd70a
-/* ACD09C 80055EFC 0C010E27 */  jal   func_8004389C
+/* ACD09C 80055EFC 0C010E27 */  jal   Camera_LERPCeilF
 /* ACD0A0 80055F00 34C6CCCD */   ori   $a2, (0x3E4CCCCD & 0xFFFF) # ori $a2, $a2, 0xcccd
 /* ACD0A4 80055F04 860C015E */  lh    $t4, 0x15e($s0)
 /* ACD0A8 80055F08 8FA80034 */  lw    $t0, 0x34($sp)

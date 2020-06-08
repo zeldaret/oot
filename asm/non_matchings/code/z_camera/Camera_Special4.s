@@ -31,7 +31,7 @@ glabel Camera_Special4
 /* ACD864 800566C4 C60E00FC */  lwc1  $f14, 0xfc($s0)
 /* ACD868 800566C8 460A3403 */  div.s $f16, $f6, $f10
 /* ACD86C 800566CC 44068000 */  mfc1  $a2, $f16
-/* ACD870 800566D0 0C010E27 */  jal   func_8004389C
+/* ACD870 800566D0 0C010E27 */  jal   Camera_LERPCeilF
 /* ACD874 800566D4 00000000 */   nop
 /* ACD878 800566D8 E60000FC */  swc1  $f0, 0xfc($s0)
 /* ACD87C 800566DC 86230000 */  lh    $v1, ($s1)
