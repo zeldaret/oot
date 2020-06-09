@@ -628,6 +628,81 @@ typedef struct {
     s16 unk_1C;
     Jump1_Unk20 unk_20;
 } Jump1;
+
+typedef struct {
+    f32 unk_00;
+    s16 unk_04;
+    s16 unk_06;
+    s16 unk_08;
+    s16 unk_0A;
+    s16 unk_0C;
+} Jump2_Unk24;
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ s16 unk_20;
+    /* 0x0024 */ Jump2_Unk24 unk_24;
+} Jump2; // size = 0x22
+
+typedef struct {
+    Vec3f unk_00;
+    s32 unk_0C;
+    f32 unk_10;
+    s16 unk_14;
+    s16 unk_16;
+    s16 unk_18;
+    s16 unk_1A;
+    f32 unk_1C;
+    s16 unk_20;
+    s16 unk_22;
+} Jump3_Unk24;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    f32 unk_1C;
+    s16 unk_20;
+    s16 unk_22;
+    Jump3_Unk24 unk_24;
+} Jump3;
+
+typedef struct {
+    Vec3f unk_00;
+    f32 unk_0C;
+    s16 unk_10;
+    s16 unk_12;
+    s16 unk_14;
+    s16 unk_16;
+    s16 unk_18;
+} Parallel1_Unk28;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    f32 unk_1C;
+    s16 unk_20;
+    s16 unk_22;
+    s16 unk_24;
+    Parallel1_Unk28 unk_28;
+} Parallel1;
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -647,6 +722,9 @@ typedef union {
     Fixed1 fixd1;
     KeepOn0 keep0;
     Jump1 jump1;
+    Jump2 jump2;
+    Jump3 jump3;
+    Parallel1 para1;
 } CameraParams;
 
 typedef struct {
@@ -672,7 +750,7 @@ typedef struct {
     /* 0x0100 */ f32 unk_100; // update rate of distance from link?
     /* 0x0104 */ f32 unk_104;
     /* 0x0108 */ Vec3f unk_108;
-    /* 0x0114 */ char unk_114[0x4];
+    /* 0x0114 */ f32 unk_114;
     /* 0x0118 */ s32 unk_118;
     /* 0x011C */ s32 unk_11C;
     /* 0x0120 */ char unk_120[0x4];
