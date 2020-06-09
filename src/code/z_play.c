@@ -1618,7 +1618,7 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
         camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
 
-    camera->unk_100 = 0.01f;
+    camera->atLERPStepScale = 0.01f;
 
     return ret;
 }
@@ -1652,7 +1652,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
         camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
 
-    camera->unk_100 = 0.01f;
+    camera->atLERPStepScale = 0.01f;
 
     return ret;
 }

@@ -103,9 +103,9 @@ glabel Camera_Unique2
 /* AC8E18 80051C78 02002025 */   move  $a0, $s0
 /* AC8E1C 80051C7C 8619000C */  lh    $t9, 0xc($s0)
 .L80051C80:
-/* AC8E20 80051C80 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC8E20 80051C80 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC8E24 80051C84 26020010 */  addiu $v0, $s0, 0x10
-/* AC8E28 80051C88 AC39D3A0 */  sw    $t9, %lo(D_8011D3A0)($at)
+/* AC8E28 80051C88 AC39D3A0 */  sw    $t9, %lo(sCameraInterfaceFlags)($at)
 /* AC8E2C 80051C8C 8603015E */  lh    $v1, 0x15e($s0)
 /* AC8E30 80051C90 240C0001 */  li    $t4, 1
 /* AC8E34 80051C94 02002025 */  move  $a0, $s0
@@ -217,7 +217,7 @@ glabel Camera_Unique2
 /* AC8FC8 80051E28 44070000 */  mfc1  $a3, $f0
 /* AC8FCC 80051E2C 27A40070 */  addiu $a0, $sp, 0x70
 /* AC8FD0 80051E30 8FA5003C */  lw    $a1, 0x3c($sp)
-/* AC8FD4 80051E34 0C010E8F */  jal   func_80043A3C
+/* AC8FD4 80051E34 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* AC8FD8 80051E38 E7A80010 */   swc1  $f8, 0x10($sp)
 /* AC8FDC 80051E3C 1000002C */  b     .L80051EF0
 /* AC8FE0 80051E40 02002025 */   move  $a0, $s0
@@ -263,7 +263,7 @@ glabel Camera_Unique2
 /* AC9078 80051ED8 C428A200 */  lwc1  $f8, %lo(D_8013A200)($at)
 /* AC907C 80051EDC 44060000 */  mfc1  $a2, $f0
 /* AC9080 80051EE0 44070000 */  mfc1  $a3, $f0
-/* AC9084 80051EE4 0C010E8F */  jal   func_80043A3C
+/* AC9084 80051EE4 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* AC9088 80051EE8 E7A80010 */   swc1  $f8, 0x10($sp)
 .L80051EEC:
 /* AC908C 80051EEC 02002025 */  move  $a0, $s0

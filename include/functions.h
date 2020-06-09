@@ -622,7 +622,7 @@ f32 func_800437F0(f32, f32);
 // ? Camera_LERPFloorF(?);
 // ? Camera_LERPCeilS(?);
 // ? Camera_LERPFloorS(?);
-// ? func_80043A3C(?);
+// ? Camera_LERPCeilVec3f(?);
 // ? func_80043ABC(?);
 // ? func_80043B60(?);
 // ? Camera_Vec3sToVec3f(?);

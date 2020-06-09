@@ -163,8 +163,8 @@ glabel Camera_Jump1
 /* AC0DB4 80049C14 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC0DB8 80049C18 8FA5003C */   lw    $a1, 0x3c($sp)
 /* AC0DBC 80049C1C 860C001C */  lh    $t4, 0x1c($s0)
-/* AC0DC0 80049C20 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
-/* AC0DC4 80049C24 AC2CD3A0 */  sw    $t4, %lo(D_8011D3A0)($at)
+/* AC0DC0 80049C20 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
+/* AC0DC4 80049C24 AC2CD3A0 */  sw    $t4, %lo(sCameraInterfaceFlags)($at)
 /* AC0DC8 80049C28 8603015E */  lh    $v1, 0x15e($s0)
 /* AC0DCC 80049C2C 10600004 */  beqz  $v1, .L80049C40
 /* AC0DD0 80049C30 2401000A */   li    $at, 10

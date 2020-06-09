@@ -294,28 +294,28 @@ typedef struct {
 } Jump3;
 
 typedef struct {
-    Vec3f unk_00;
-    f32 unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-} Parallel1_Unk28;
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ f32 yTarget;
+    /* 0x0010 */ s16 unk_10;
+    /* 0x0012 */ s16 thetaTarget;
+    /* 0x0014 */ s16 phiTarget;
+    /* 0x0016 */ s16 unk_16;
+    /* 0x0018 */ s16 animTimer;
+} Parallel1Anim; // size = 0x1A
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    f32 unk_1C;
-    s16 unk_20;
-    s16 unk_22;
-    s16 unk_24;
-    Parallel1_Unk28 unk_28;
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 distTarget;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 fovTarget;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ s16 phiTarget;
+    /* 0x0022 */ s16 thetaTarget;
+    /* 0x0024 */ s16 interfaceFlags;
+    /* 0x0028 */ Parallel1Anim anim;
 } Parallel1;
 
 typedef union {
@@ -357,12 +357,12 @@ typedef struct {
     /* 0x00C0 */ Vec3f unk_C0; // has to do with how quickly the camera rotates link.
     /* 0x00CC */ Vec3f unk_CC; // has to do with how quickly the camera zooms
     /* 0x00D8 */ f32 unk_D8;
-    /* 0x00DC */ f32 dist; // possibly a Vec3f
+    /* 0x00DC */ f32 dist;
     /* 0x00E0 */ f32 unk_E0;
     /* 0x00E4 */ Vec3f posOffset;
     /* 0x00F0 */ Vec3f playerPosDelta;
     /* 0x00FC */ f32 fov;
-    /* 0x0100 */ f32 unk_100; // update rate of distance from link?
+    /* 0x0100 */ f32 atLERPStepScale; // update rate of distance from link?
     /* 0x0104 */ f32 unk_104;
     /* 0x0108 */ Vec3f unk_108;
     /* 0x0114 */ f32 unk_114;

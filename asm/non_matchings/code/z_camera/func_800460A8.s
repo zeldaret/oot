@@ -278,7 +278,7 @@ glabel func_800460A8
 /* ABD5AC 8004640C E7AA009C */  swc1  $f10, 0x9c($sp)
 /* ABD5B0 80046410 8E0700CC */  lw    $a3, 0xcc($s0)
 /* ABD5B4 80046414 8E0600D0 */  lw    $a2, 0xd0($s0)
-/* ABD5B8 80046418 0C010E8F */  jal   func_80043A3C
+/* ABD5B8 80046418 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ABD5BC 8004641C E7A60010 */   swc1  $f6, 0x10($sp)
 /* ABD5C0 80046420 260A0050 */  addiu $t2, $s0, 0x50
 /* ABD5C4 80046424 10000097 */  b     .L80046684
@@ -422,7 +422,7 @@ glabel func_800460A8
 /* ABD7C8 80046628 C42A9E50 */  lwc1  $f10, %lo(D_80139E50)($at)
 /* ABD7CC 8004662C E7AA0010 */  swc1  $f10, 0x10($sp)
 /* ABD7D0 80046630 44072000 */  mfc1  $a3, $f4
-/* ABD7D4 80046634 0C010E8F */  jal   func_80043A3C
+/* ABD7D4 80046634 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ABD7D8 80046638 00000000 */   nop
 /* ABD7DC 8004663C 3C0A8016 */  lui   $t2, %hi(gGameInfo) # $t2, 0x8016
 /* ABD7E0 80046640 8D4AFA90 */  lw    $t2, %lo(gGameInfo)($t2)
@@ -464,7 +464,7 @@ glabel func_800460A8
 /* ABD86C 800466CC E7AA0010 */  swc1  $f10, 0x10($sp)
 /* ABD870 800466D0 44060000 */  mfc1  $a2, $f0
 /* ABD874 800466D4 44070000 */  mfc1  $a3, $f0
-/* ABD878 800466D8 0C010E8F */  jal   func_80043A3C
+/* ABD878 800466D8 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ABD87C 800466DC 00000000 */   nop
 /* ABD880 800466E0 8FBF0044 */  lw    $ra, 0x44($sp)
 /* ABD884 800466E4 D7B40038 */  ldc1  $f20, 0x38($sp)

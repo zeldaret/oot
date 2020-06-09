@@ -571,7 +571,7 @@ glabel L8004EB20
 /* AC5CE4 8004EB44 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
 /* AC5CE8 8004EB48 AC28D3E8 */  sw    $t0, %lo(D_8011D3E8)($at)
 /* AC5CEC 8004EB4C 862A001C */  lh    $t2, 0x1c($s1)
-/* AC5CF0 8004EB50 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC5CF0 8004EB50 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC5CF4 8004EB54 26250050 */  addiu $a1, $s1, 0x50
 /* AC5CF8 8004EB58 2626005C */  addiu $a2, $s1, 0x5c
 /* AC5CFC 8004EB5C AFA60044 */  sw    $a2, 0x44($sp)
@@ -579,7 +579,7 @@ glabel L8004EB20
 /* AC5D04 8004EB64 E7AE0088 */  swc1  $f14, 0x88($sp)
 /* AC5D08 8004EB68 27A400B0 */  addiu $a0, $sp, 0xb0
 /* AC5D0C 8004EB6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
-/* AC5D10 8004EB70 AC2AD3A0 */   sw    $t2, %lo(D_8011D3A0)($at)
+/* AC5D10 8004EB70 AC2AD3A0 */   sw    $t2, %lo(sCameraInterfaceFlags)($at)
 /* AC5D14 8004EB74 26260074 */  addiu $a2, $s1, 0x74
 /* AC5D18 8004EB78 AFA6003C */  sw    $a2, 0x3c($sp)
 /* AC5D1C 8004EB7C 27A400A8 */  addiu $a0, $sp, 0xa8
@@ -981,7 +981,7 @@ glabel L8004EB20
 /* AC62FC 8004F15C 44071000 */  mfc1  $a3, $f2
 /* AC6300 8004F160 2484BD50 */  addiu $a0, %lo(D_8015BD50) # addiu $a0, $a0, -0x42b0
 /* AC6304 8004F164 8FA50040 */  lw    $a1, 0x40($sp)
-/* AC6308 8004F168 0C010E8F */  jal   func_80043A3C
+/* AC6308 8004F168 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* AC630C 8004F16C E7A60010 */   swc1  $f6, 0x10($sp)
 /* AC6310 8004F170 C6200010 */  lwc1  $f0, 0x10($s1)
 /* AC6314 8004F174 44802000 */  mtc1  $zero, $f4
@@ -1051,7 +1051,7 @@ glabel L8004EB20
 /* AC640C 8004F26C A6280160 */   sh    $t0, 0x160($s1)
 /* AC6410 8004F270 8639014C */  lh    $t9, 0x14c($s1)
 .L8004F274:
-/* AC6414 8004F274 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC6414 8004F274 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC6418 8004F278 37380410 */  ori   $t8, $t9, 0x410
 /* AC641C 8004F27C A638014C */  sh    $t8, 0x14c($s1)
 /* AC6420 8004F280 862A014C */  lh    $t2, 0x14c($s1)
@@ -1063,7 +1063,7 @@ glabel L8004EB20
 /* AC6438 8004F298 51E00016 */  beql  $t7, $zero, .L8004F2F4
 /* AC643C 8004F29C 8464000C */   lh    $a0, 0xc($v1)
 .L8004F2A0:
-/* AC6440 8004F2A0 AC20D3A0 */  sw    $zero, %lo(D_8011D3A0)($at)
+/* AC6440 8004F2A0 AC20D3A0 */  sw    $zero, %lo(sCameraInterfaceFlags)($at)
 /* AC6444 8004F2A4 862B014C */  lh    $t3, 0x14c($s1)
 /* AC6448 8004F2A8 86250166 */  lh    $a1, 0x166($s1)
 /* AC644C 8004F2AC 02202025 */  move  $a0, $s1

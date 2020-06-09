@@ -125,9 +125,9 @@ glabel Camera_Demo3
 /* ACBA1C 8005487C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* ACBA20 80054880 E7B0004C */   swc1  $f16, 0x4c($sp)
 /* ACBA24 80054884 86390008 */  lh    $t9, 8($s1)
-/* ACBA28 80054888 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ACBA28 80054888 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ACBA2C 8005488C C7B0004C */  lwc1  $f16, 0x4c($sp)
-/* ACBA30 80054890 AC39D3A0 */  sw    $t9, %lo(D_8011D3A0)($at)
+/* ACBA30 80054890 AC39D3A0 */  sw    $t9, %lo(sCameraInterfaceFlags)($at)
 /* ACBA34 80054894 9628015E */  lhu   $t0, 0x15e($s1)
 /* ACBA38 80054898 2D01001F */  sltiu $at, $t0, 0x1f
 /* ACBA3C 8005489C 102001FB */  beqz  $at, .L8005508C
@@ -610,10 +610,10 @@ glabel L80054FAC
 /* ACC164 80054FC4 2630000C */  addiu $s0, $s1, 0xc
 /* ACC168 80054FC8 E7A80088 */  swc1  $f8, 0x88($sp)
 /* ACC16C 80054FCC A7AD008E */  sh    $t5, 0x8e($sp)
-/* ACC170 80054FD0 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ACC170 80054FD0 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ACC174 80054FD4 24193400 */  li    $t9, 13312
 /* ACC178 80054FD8 E60A000C */  swc1  $f10, 0xc($s0)
-/* ACC17C 80054FDC AC39D3A0 */  sw    $t9, %lo(D_8011D3A0)($at)
+/* ACC17C 80054FDC AC39D3A0 */  sw    $t9, %lo(sCameraInterfaceFlags)($at)
 /* ACC180 80054FE0 86060010 */  lh    $a2, 0x10($s0)
 /* ACC184 80054FE4 3C018014 */  lui   $at, %hi(D_8013A350)
 /* ACC188 80054FE8 04C20025 */  bltzl $a2, .L80055080
@@ -683,8 +683,8 @@ glabel L8005508C
 /* ACC270 800550D0 240EFFFF */  li    $t6, -1
 /* ACC274 800550D4 A62E0166 */  sh    $t6, 0x166($s1)
 .L800550D8:
-/* ACC278 800550D8 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
-/* ACC27C 800550DC AC20D3A0 */  sw    $zero, %lo(D_8011D3A0)($at)
+/* ACC278 800550D8 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
+/* ACC27C 800550DC AC20D3A0 */  sw    $zero, %lo(sCameraInterfaceFlags)($at)
 /* ACC280 800550E0 86060010 */  lh    $a2, 0x10($s0)
 /* ACC284 800550E4 240C0001 */  li    $t4, 1
 .L800550E8:

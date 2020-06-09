@@ -56,7 +56,7 @@ glabel Camera_Unique0
 /* AC96A8 80052508 26060094 */  addiu $a2, $s0, 0x94
 /* AC96AC 8005250C 8CCA0000 */  lw    $t2, ($a2)
 /* AC96B0 80052510 27B80070 */  addiu $t8, $sp, 0x70
-/* AC96B4 80052514 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC96B4 80052514 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC96B8 80052518 AF0A0000 */  sw    $t2, ($t8)
 /* AC96BC 8005251C 8CD90004 */  lw    $t9, 4($a2)
 /* AC96C0 80052520 02002025 */  move  $a0, $s0
@@ -68,7 +68,7 @@ glabel Camera_Unique0
 /* AC96D8 80052538 46022180 */  add.s $f6, $f4, $f2
 /* AC96DC 8005253C E7A60074 */  swc1  $f6, 0x74($sp)
 /* AC96E0 80052540 852B0000 */  lh    $t3, ($t1)
-/* AC96E4 80052544 AC2BD3A0 */  sw    $t3, %lo(D_8011D3A0)($at)
+/* AC96E4 80052544 AC2BD3A0 */  sw    $t3, %lo(sCameraInterfaceFlags)($at)
 /* AC96E8 80052548 860C015E */  lh    $t4, 0x15e($s0)
 /* AC96EC 8005254C 55800064 */  bnezl $t4, .L800526E0
 /* AC96F0 80052550 8FAB007C */   lw    $t3, 0x7c($sp)
@@ -284,11 +284,11 @@ glabel Camera_Unique0
 /* AC9A18 80052878 244AFFFF */   addiu $t2, $v0, -1
 /* AC9A1C 8005287C A4EA000C */  sh    $t2, 0xc($a3)
 /* AC9A20 80052880 84E9000C */  lh    $t1, 0xc($a3)
-/* AC9A24 80052884 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC9A24 80052884 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC9A28 80052888 5520000A */  bnezl $t1, .L800528B4
 /* AC9A2C 8005288C 8FAD007C */   lw    $t5, 0x7c($sp)
 /* AC9A30 80052890 10000007 */  b     .L800528B0
-/* AC9A34 80052894 AC20D3A0 */   sw    $zero, %lo(D_8011D3A0)($at)
+/* AC9A34 80052894 AC20D3A0 */   sw    $zero, %lo(sCameraInterfaceFlags)($at)
 .L80052898:
 /* AC9A38 80052898 8CCC0000 */  lw    $t4, ($a2)
 /* AC9A3C 8005289C ACEC0000 */  sw    $t4, ($a3)

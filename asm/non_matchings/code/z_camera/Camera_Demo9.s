@@ -60,8 +60,8 @@ glabel Camera_Demo9
 /* ACD204 80056064 8FA6006C */  lw    $a2, 0x6c($sp)
 .L80056068:
 /* ACD208 80056068 846F0000 */  lh    $t7, ($v1)
-/* ACD20C 8005606C 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
-/* ACD210 80056070 AC2FD3A0 */  sw    $t7, %lo(D_8011D3A0)($at)
+/* ACD20C 8005606C 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
+/* ACD210 80056070 AC2FD3A0 */  sw    $t7, %lo(sCameraInterfaceFlags)($at)
 /* ACD214 80056074 9618015E */  lhu   $t8, 0x15e($s0)
 /* ACD218 80056078 2F010005 */  sltiu $at, $t8, 5
 /* ACD21C 8005607C 102000E7 */  beqz  $at, .L8005641C
@@ -242,7 +242,7 @@ glabel L800560E4
 /* ACD4A8 80056308 44060000 */  mfc1  $a2, $f0
 /* ACD4AC 8005630C 44070000 */  mfc1  $a3, $f0
 /* ACD4B0 80056310 AFA8002C */  sw    $t0, 0x2c($sp)
-/* ACD4B4 80056314 0C010E8F */  jal   func_80043A3C
+/* ACD4B4 80056314 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ACD4B8 80056318 E7A60010 */   swc1  $f6, 0x10($sp)
 /* ACD4BC 8005631C 10000009 */  b     .L80056344
 /* ACD4C0 80056320 8FA8002C */   lw    $t0, 0x2c($sp)

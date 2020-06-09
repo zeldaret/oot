@@ -61,8 +61,8 @@ glabel Camera_Demo1
 /* ACB6EC 8005454C A60F0000 */  sh    $t7, ($s0)
 /* ACB6F0 80054550 86180000 */  lh    $t8, ($s0)
 .L80054554:
-/* ACB6F4 80054554 3C018012 */  lui   $at, %hi(D_8011D3A0)
-/* ACB6F8 80054558 AC38D3A0 */  sw    $t8, %lo(D_8011D3A0)($at)
+/* ACB6F4 80054554 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
+/* ACB6F8 80054558 AC38D3A0 */  sw    $t8, %lo(sCameraInterfaceFlags)($at)
 /* ACB6FC 8005455C 8606015E */  lh    $a2, 0x15e($s0)
 /* ACB700 80054560 24010001 */  li    $at, 1
 /* ACB704 80054564 50C00006 */  beql  $a2, $zero, .L80054580

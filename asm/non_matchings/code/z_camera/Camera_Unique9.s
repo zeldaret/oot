@@ -124,9 +124,9 @@ glabel Camera_Unique9
 /* ACA03C 80052E9C 02202025 */   move  $a0, $s1
 .L80052EA0:
 /* ACA040 80052EA0 86180000 */  lh    $t8, ($s0)
-/* ACA044 80052EA4 3C018012 */  lui   $at, %hi(D_8011D3A0)
+/* ACA044 80052EA4 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
 /* ACA048 80052EA8 27A40098 */  addiu $a0, $sp, 0x98
-/* ACA04C 80052EAC AC38D3A0 */  sw    $t8, %lo(D_8011D3A0)($at)
+/* ACA04C 80052EAC AC38D3A0 */  sw    $t8, %lo(sCameraInterfaceFlags)($at)
 /* ACA050 80052EB0 0C00BBC5 */  jal   func_8002EF14
 /* ACA054 80052EB4 8E250090 */   lw    $a1, 0x90($s1)
 /* ACA058 80052EB8 8623015E */  lh    $v1, 0x15e($s1)

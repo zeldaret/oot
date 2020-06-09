@@ -67,9 +67,9 @@ glabel Camera_Subj4
 /* AC7DA0 80050C00 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC7DA4 80050C04 27A4005C */   addiu $a0, $sp, 0x5c
 /* AC7DA8 80050C08 86380000 */  lh    $t8, ($s1)
-/* AC7DAC 80050C0C 3C018012 */  lui   $at, %hi(D_8011D3A0)
+/* AC7DAC 80050C0C 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
 /* AC7DB0 80050C10 02202025 */  move  $a0, $s1
-/* AC7DB4 80050C14 AC38D3A0 */  sw    $t8, %lo(D_8011D3A0)($at)
+/* AC7DB4 80050C14 AC38D3A0 */  sw    $t8, %lo(sCameraInterfaceFlags)($at)
 /* AC7DB8 80050C18 8628015E */  lh    $t0, 0x15e($s1)
 /* AC7DBC 80050C1C 55000056 */  bnezl $t0, .L80050D78
 /* AC7DC0 80050C20 26300004 */   addiu $s0, $s1, 4

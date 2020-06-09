@@ -227,8 +227,8 @@ glabel Camera_KeepOn1
 /* AC3E70 8004CCD0 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC3E74 8004CCD4 8FA50044 */   lw    $a1, 0x44($sp)
 /* AC3E78 8004CCD8 860E0030 */  lh    $t6, 0x30($s0)
-/* AC3E7C 8004CCDC 3C018012 */  lui   $at, %hi(D_8011D3A0)
-/* AC3E80 8004CCE0 AC2ED3A0 */  sw    $t6, %lo(D_8011D3A0)($at)
+/* AC3E7C 8004CCDC 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
+/* AC3E80 8004CCE0 AC2ED3A0 */  sw    $t6, %lo(sCameraInterfaceFlags)($at)
 /* AC3E84 8004CCE4 8604015E */  lh    $a0, 0x15e($s0)
 /* AC3E88 8004CCE8 260E0094 */  addiu $t6, $s0, 0x94
 /* AC3E8C 8004CCEC 10800005 */  beqz  $a0, .L8004CD04

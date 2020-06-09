@@ -99,7 +99,7 @@ glabel Camera_Special7
 /* ACDEE4 80056D44 46062201 */  sub.s $f8, $f4, $f6
 /* ACDEE8 80056D48 02402825 */  move  $a1, $s2
 /* ACDEEC 80056D4C E7AA0010 */  swc1  $f10, 0x10($sp)
-/* ACDEF0 80056D50 0C010E8F */  jal   func_80043A3C
+/* ACDEF0 80056D50 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ACDEF4 80056D54 E7A80060 */   swc1  $f8, 0x60($sp)
 /* ACDEF8 80056D58 86180000 */  lh    $t8, ($s0)
 /* ACDEFC 80056D5C 3C088012 */  lui   $t0, %hi(D_8011DA6C) # $t0, 0x8012
@@ -178,7 +178,7 @@ glabel Camera_Special7
 /* ACE01C 80056E7C 02402825 */  move  $a1, $s2
 /* ACE020 80056E80 46028100 */  add.s $f4, $f16, $f2
 /* ACE024 80056E84 E7B20010 */  swc1  $f18, 0x10($sp)
-/* ACE028 80056E88 0C010E8F */  jal   func_80043A3C
+/* ACE028 80056E88 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ACE02C 80056E8C E7A40060 */   swc1  $f4, 0x60($sp)
 /* ACE030 80056E90 860C0000 */  lh    $t4, ($s0)
 /* ACE034 80056E94 3C0E8012 */  lui   $t6, %hi(D_8011DA9C)

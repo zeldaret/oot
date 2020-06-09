@@ -210,7 +210,7 @@ glabel Camera_Init
 /* ACF0F8 80057F58 A60C0168 */  sh    $t4, 0x168($s0)
 /* ACF0FC 80057F5C A6090160 */  sh    $t1, 0x160($s0)
 /* ACF100 80057F60 A60D014C */  sh    $t5, 0x14c($s0)
-/* ACF104 80057F64 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ACF104 80057F64 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ACF108 80057F68 340FFF00 */  li    $t7, 65280
 /* ACF10C 80057F6C E60E006C */  swc1  $f14, 0x6c($s0)
 /* ACF110 80057F70 E6020070 */  swc1  $f2, 0x70($s0)
@@ -221,7 +221,7 @@ glabel Camera_Init
 /* ACF124 80057F84 A6180142 */  sh    $t8, 0x142($s0)
 /* ACF128 80057F88 A60A0148 */  sh    $t2, 0x148($s0)
 /* ACF12C 80057F8C E6040100 */  swc1  $f4, 0x100($s0)
-/* ACF130 80057F90 AC2FD3A0 */  sw    $t7, %lo(D_8011D3A0)($at)
+/* ACF130 80057F90 AC2FD3A0 */  sw    $t7, %lo(sCameraInterfaceFlags)($at)
 /* ACF134 80057F94 3C018012 */  lui   $at, %hi(D_8011D398) # $at, 0x8012
 /* ACF138 80057F98 AC29D398 */  sw    $t1, %lo(D_8011D398)($at)
 /* ACF13C 80057F9C 3C018012 */  lui   $at, %hi(D_8011D3F0) # $at, 0x8012

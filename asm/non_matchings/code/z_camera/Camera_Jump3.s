@@ -216,8 +216,8 @@ glabel Camera_Jump3
 /* AC214C 8004AFAC C4309FBC */  lwc1  $f16, %lo(D_80139FBC)($at)
 .L8004AFB0:
 /* AC2150 8004AFB0 860F0022 */  lh    $t7, 0x22($s0)
-/* AC2154 8004AFB4 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
-/* AC2158 8004AFB8 AC2FD3A0 */  sw    $t7, %lo(D_8011D3A0)($at)
+/* AC2154 8004AFB4 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
+/* AC2158 8004AFB8 AC2FD3A0 */  sw    $t7, %lo(sCameraInterfaceFlags)($at)
 /* AC215C 8004AFBC 8602015E */  lh    $v0, 0x15e($s0)
 /* AC2160 8004AFC0 10400007 */  beqz  $v0, .L8004AFE0
 /* AC2164 8004AFC4 2401000A */   li    $at, 10

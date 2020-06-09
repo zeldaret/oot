@@ -225,9 +225,9 @@ glabel Camera_KeepOn3
 /* AC4E7C 8004DCDC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC4E80 8004DCE0 E7AA00D4 */   swc1  $f10, 0xd4($sp)
 /* AC4E84 8004DCE4 866C002A */  lh    $t4, 0x2a($s3)
-/* AC4E88 8004DCE8 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC4E88 8004DCE8 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC4E8C 8004DCEC 27A500D0 */  addiu $a1, $sp, 0xd0
-/* AC4E90 8004DCF0 AC2CD3A0 */  sw    $t4, %lo(D_8011D3A0)($at)
+/* AC4E90 8004DCF0 AC2CD3A0 */  sw    $t4, %lo(sCameraInterfaceFlags)($at)
 /* AC4E94 8004DCF4 8663015E */  lh    $v1, 0x15e($s3)
 /* AC4E98 8004DCF8 8FA8003C */  lw    $t0, 0x3c($sp)
 /* AC4E9C 8004DCFC 2401000A */  li    $at, 10
@@ -662,13 +662,13 @@ glabel Camera_KeepOn3
 /* AC550C 8004E36C A669014C */  sh    $t1, 0x14c($s3)
 .L8004E370:
 /* AC5510 8004E370 866D014C */  lh    $t5, 0x14c($s3)
-/* AC5514 8004E374 3C018012 */  lui   $at, %hi(D_8011D3A0)
+/* AC5514 8004E374 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
 /* AC5518 8004E378 02602025 */  move  $a0, $s3
 /* AC551C 8004E37C 31AC0008 */  andi  $t4, $t5, 8
 /* AC5520 8004E380 51800030 */  beql  $t4, $zero, .L8004E444
 /* AC5524 8004E384 24020001 */   li    $v0, 1
 /* AC5528 8004E388 0C010ED8 */  jal   func_80043B60
-/* AC552C 8004E38C AC20D3A0 */   sw    $zero, %lo(D_8011D3A0)($at)
+/* AC552C 8004E38C AC20D3A0 */   sw    $zero, %lo(sCameraInterfaceFlags)($at)
 /* AC5530 8004E390 44804000 */  mtc1  $zero, $f8
 /* AC5534 8004E394 3C018014 */  lui   $at, %hi(D_8013A0D8)
 /* AC5538 8004E398 C66400D8 */  lwc1  $f4, 0xd8($s3)

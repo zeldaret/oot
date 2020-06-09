@@ -151,7 +151,7 @@ glabel Camera_Demo6
 /* ACD03C 80055E9C 25040004 */  addiu $a0, $t0, 4
 /* ACD040 80055EA0 AFA80034 */  sw    $t0, 0x34($sp)
 /* ACD044 80055EA4 26050050 */  addiu $a1, $s0, 0x50
-/* ACD048 80055EA8 0C010E8F */  jal   func_80043A3C
+/* ACD048 80055EA8 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ACD04C 80055EAC E7A40010 */   swc1  $f4, 0x10($sp)
 /* ACD050 80055EB0 8603015E */  lh    $v1, 0x15e($s0)
 /* ACD054 80055EB4 8FA80034 */  lw    $t0, 0x34($sp)

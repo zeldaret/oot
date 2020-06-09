@@ -68,7 +68,7 @@ glabel Camera_Special6
 /* ACE1D8 80057038 88790006 */  lwl   $t9, 6($v1)
 /* ACE1DC 8005703C 98790009 */  lwr   $t9, 9($v1)
 /* ACE1E0 80057040 26040074 */  addiu $a0, $s0, 0x74
-/* ACE1E4 80057044 3C098012 */  lui   $t1, %hi(D_8011D3A0) # $t1, 0x8012
+/* ACE1E4 80057044 3C098012 */  lui   $t1, %hi(sCameraInterfaceFlags) # $t1, 0x8012
 /* ACE1E8 80057048 AF190000 */  sw    $t9, ($t8)
 /* ACE1EC 8005704C 9479000A */  lhu   $t9, 0xa($v1)
 /* ACE1F0 80057050 A7190004 */  sh    $t9, 4($t8)
@@ -89,9 +89,9 @@ glabel Camera_Special6
 /* ACE228 80057088 00084403 */  sra   $t0, $t0, 0x10
 .L8005708C:
 /* ACE22C 8005708C 860C0000 */  lh    $t4, ($s0)
-/* ACE230 80057090 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ACE230 80057090 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ACE234 80057094 C7A400A0 */  lwc1  $f4, 0xa0($sp)
-/* ACE238 80057098 AC2CD3A0 */  sw    $t4, %lo(D_8011D3A0)($at)
+/* ACE238 80057098 AC2CD3A0 */  sw    $t4, %lo(sCameraInterfaceFlags)($at)
 /* ACE23C 8005709C C4860000 */  lwc1  $f6, ($a0)
 /* ACE240 800570A0 C7A800A4 */  lwc1  $f8, 0xa4($sp)
 /* ACE244 800570A4 46062032 */  c.eq.s $f4, $f6
@@ -115,7 +115,7 @@ glabel Camera_Special6
 /* ACE28C 800570EC 8E0F0090 */  lw    $t7, 0x90($s0)
 .L800570F0:
 /* ACE290 800570F0 240E000C */  li    $t6, 12
-/* ACE294 800570F4 2529D3A0 */  addiu $t1, %lo(D_8011D3A0) # addiu $t1, $t1, -0x2c60
+/* ACE294 800570F4 2529D3A0 */  addiu $t1, %lo(sCameraInterfaceFlags) # addiu $t1, $t1, -0x2c60
 /* ACE298 800570F8 A5EE0110 */  sh    $t6, 0x110($t7)
 /* ACE29C 800570FC 8D380000 */  lw    $t8, ($t1)
 /* ACE2A0 80057100 26030004 */  addiu $v1, $s0, 4
@@ -141,8 +141,8 @@ glabel Camera_Special6
 /* ACE2EC 8005714C 26030004 */  addiu $v1, $s0, 4
 .L80057150:
 /* ACE2F0 80057150 84650004 */  lh    $a1, 4($v1)
-/* ACE2F4 80057154 3C098012 */  lui   $t1, %hi(D_8011D3A0)
-/* ACE2F8 80057158 2529D3A0 */  addiu $t1, %lo(D_8011D3A0) # addiu $t1, $t1, -0x2c60
+/* ACE2F4 80057154 3C098012 */  lui   $t1, %hi(sCameraInterfaceFlags)
+/* ACE2F8 80057158 2529D3A0 */  addiu $t1, %lo(sCameraInterfaceFlags) # addiu $t1, $t1, -0x2c60
 /* ACE2FC 8005715C 18A00077 */  blez  $a1, .L8005733C
 /* ACE300 80057160 26020094 */   addiu $v0, $s0, 0x94
 /* ACE304 80057164 44855000 */  mtc1  $a1, $f10

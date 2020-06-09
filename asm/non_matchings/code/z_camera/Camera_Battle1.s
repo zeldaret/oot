@@ -489,8 +489,8 @@ glabel Camera_Battle1
 /* AC2CF4 8004BB54 24020001 */   li    $v0, 1
 /* AC2CF8 8004BB58 860F002C */  lh    $t7, 0x2c($s0)
 .L8004BB5C:
-/* AC2CFC 8004BB5C 3C018012 */  lui   $at, %hi(D_8011D3A0)
-/* AC2D00 8004BB60 AC2FD3A0 */  sw    $t7, %lo(D_8011D3A0)($at)
+/* AC2CFC 8004BB5C 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
+/* AC2D00 8004BB60 AC2FD3A0 */  sw    $t7, %lo(sCameraInterfaceFlags)($at)
 /* AC2D04 8004BB64 8602015E */  lh    $v0, 0x15e($s0)
 /* AC2D08 8004BB68 2401000A */  li    $at, 10
 /* AC2D0C 8004BB6C 50400006 */  beql  $v0, $zero, .L8004BB88

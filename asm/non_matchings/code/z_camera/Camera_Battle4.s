@@ -142,9 +142,9 @@ glabel Camera_Battle4
 /* AC3988 8004C7E8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC398C 8004C7EC 8FA50030 */   lw    $a1, 0x30($sp)
 /* AC3990 8004C7F0 860D0018 */  lh    $t5, 0x18($s0)
-/* AC3994 8004C7F4 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC3994 8004C7F4 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC3998 8004C7F8 240E0032 */  li    $t6, 50
-/* AC399C 8004C7FC AC2DD3A0 */  sw    $t5, %lo(D_8011D3A0)($at)
+/* AC399C 8004C7FC AC2DD3A0 */  sw    $t5, %lo(sCameraInterfaceFlags)($at)
 /* AC39A0 8004C800 8603015E */  lh    $v1, 0x15e($s0)
 /* AC39A4 8004C804 2401000A */  li    $at, 10
 /* AC39A8 8004C808 3C088016 */  lui   $t0, %hi(gGameInfo) # $t0, 0x8016

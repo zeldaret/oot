@@ -139,8 +139,8 @@ glabel Camera_Normal3
 /* ABFB48 800489A8 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
 /* ABFB4C 800489AC AC24D3E8 */  sw    $a0, %lo(D_8011D3E8)($at)
 /* ABFB50 800489B0 860D001E */  lh    $t5, 0x1e($s0)
-/* ABFB54 800489B4 3C018012 */  lui   $at, %hi(D_8011D3A0)
-/* ABFB58 800489B8 AC2DD3A0 */  sw    $t5, %lo(D_8011D3A0)($at)
+/* ABFB54 800489B4 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
+/* ABFB58 800489B8 AC2DD3A0 */  sw    $t5, %lo(sCameraInterfaceFlags)($at)
 /* ABFB5C 800489BC 8603015E */  lh    $v1, 0x15e($s0)
 /* ABFB60 800489C0 1060000A */  beqz  $v1, .L800489EC
 /* ABFB64 800489C4 2401000A */   li    $at, 10

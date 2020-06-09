@@ -139,9 +139,9 @@ glabel Camera_Special9
 /* ACE7A0 80057600 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* ACE7A4 80057604 27A4009C */   addiu $a0, $sp, 0x9c
 /* ACE7A8 80057608 8FAA0038 */  lw    $t2, 0x38($sp)
-/* ACE7AC 8005760C 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ACE7AC 8005760C 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ACE7B0 80057610 854D0008 */  lh    $t5, 8($t2)
-/* ACE7B4 80057614 AC2DD3A0 */  sw    $t5, %lo(D_8011D3A0)($at)
+/* ACE7B4 80057614 AC2DD3A0 */  sw    $t5, %lo(sCameraInterfaceFlags)($at)
 /* ACE7B8 80057618 8603015E */  lh    $v1, 0x15e($s0)
 /* ACE7BC 8005761C 2C610005 */  sltiu $at, $v1, 5
 /* ACE7C0 80057620 10200107 */  beqz  $at, .L80057A40
@@ -324,7 +324,7 @@ glabel L80057878
 /* ACEA64 800578C4 8FA50044 */  lw    $a1, 0x44($sp)
 /* ACEA68 800578C8 E7AA0010 */  swc1  $f10, 0x10($sp)
 /* ACEA6C 800578CC 46088480 */  add.s $f18, $f16, $f8
-/* ACEA70 800578D0 0C010E8F */  jal   func_80043A3C
+/* ACEA70 800578D0 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ACEA74 800578D4 E7B200B0 */   swc1  $f18, 0xb0($sp)
 /* ACEA78 800578D8 860F0008 */  lh    $t7, 8($s0)
 /* ACEA7C 800578DC 25F8FFFF */  addiu $t8, $t7, -1
@@ -367,7 +367,7 @@ glabel L80057910
 /* ACEB0C 8005796C 46104480 */  add.s $f18, $f8, $f16
 /* ACEB10 80057970 27A400AC */  addiu $a0, $sp, 0xac
 /* ACEB14 80057974 E7AA0010 */  swc1  $f10, 0x10($sp)
-/* ACEB18 80057978 0C010E8F */  jal   func_80043A3C
+/* ACEB18 80057978 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* ACEB1C 8005797C E7B200B0 */   swc1  $f18, 0xb0($sp)
 /* ACEB20 80057980 3C063E99 */  lui   $a2, (0x3E99999A >> 16) # lui $a2, 0x3e99
 /* ACEB24 80057984 34C6999A */  ori   $a2, (0x3E99999A & 0xFFFF) # ori $a2, $a2, 0x999a
@@ -420,11 +420,11 @@ glabel L80057A38
 /* ACEBDC 80057A3C A60F015E */  sh    $t7, 0x15e($s0)
 .L80057A40:
 /* ACEBE0 80057A40 8618014C */  lh    $t8, 0x14c($s0)
-/* ACEBE4 80057A44 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ACEBE4 80057A44 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ACEBE8 80057A48 3C0B8016 */  lui   $t3, %hi(D_8015BD7C) # $t3, 0x8016
 /* ACEBEC 80057A4C 37190410 */  ori   $t9, $t8, 0x410
 /* ACEBF0 80057A50 A619014C */  sh    $t9, 0x14c($s0)
-/* ACEBF4 80057A54 AC20D3A0 */  sw    $zero, %lo(D_8011D3A0)($at)
+/* ACEBF4 80057A54 AC20D3A0 */  sw    $zero, %lo(sCameraInterfaceFlags)($at)
 /* ACEBF8 80057A58 3C018014 */  lui   $at, %hi(D_8013A3F0)
 /* ACEBFC 80057A5C C426A3F0 */  lwc1  $f6, %lo(D_8013A3F0)($at)
 /* ACEC00 80057A60 C60400D8 */  lwc1  $f4, 0xd8($s0)

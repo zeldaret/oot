@@ -34,8 +34,8 @@ glabel Camera_Demo5
 /* ACC454 800552B4 27A40064 */   addiu $a0, $sp, 0x64
 /* ACC458 800552B8 8E0E0090 */  lw    $t6, 0x90($s0)
 /* ACC45C 800552BC 240F3200 */  li    $t7, 12800
-/* ACC460 800552C0 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
-/* ACC464 800552C4 AC2FD3A0 */  sw    $t7, %lo(D_8011D3A0)($at)
+/* ACC460 800552C0 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
+/* ACC464 800552C4 AC2FD3A0 */  sw    $t7, %lo(sCameraInterfaceFlags)($at)
 /* ACC468 800552C8 AFAE004C */  sw    $t6, 0x4c($sp)
 /* ACC46C 800552CC 8E0500A8 */  lw    $a1, 0xa8($s0)
 /* ACC470 800552D0 10A00005 */  beqz  $a1, .L800552E8

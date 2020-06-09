@@ -157,14 +157,14 @@ glabel Camera_Normal1
 /* ABE704 80047564 02002025 */   move  $a0, $s0
 /* ABE708 80047568 86180022 */  lh    $t8, 0x22($s0)
 .L8004756C:
-/* ABE70C 8004756C 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ABE70C 8004756C 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ABE710 80047570 26050050 */  addiu $a1, $s0, 0x50
 /* ABE714 80047574 2606005C */  addiu $a2, $s0, 0x5c
 /* ABE718 80047578 AFA60040 */  sw    $a2, 0x40($sp)
 /* ABE71C 8004757C AFA5003C */  sw    $a1, 0x3c($sp)
 /* ABE720 80047580 27A40074 */  addiu $a0, $sp, 0x74
 /* ABE724 80047584 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
-/* ABE728 80047588 AC38D3A0 */   sw    $t8, %lo(D_8011D3A0)($at)
+/* ABE728 80047588 AC38D3A0 */   sw    $t8, %lo(sCameraInterfaceFlags)($at)
 /* ABE72C 8004758C 26060074 */  addiu $a2, $s0, 0x74
 /* ABE730 80047590 AFA60038 */  sw    $a2, 0x38($sp)
 /* ABE734 80047594 27A4006C */  addiu $a0, $sp, 0x6c

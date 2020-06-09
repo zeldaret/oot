@@ -140,9 +140,9 @@ glabel Camera_Special5
 /* ACDB58 800569B8 0C00BBC5 */  jal   func_8002EF14
 /* ACDB5C 800569BC 8E0500A8 */   lw    $a1, 0xa8($s0)
 /* ACDB60 800569C0 860E0018 */  lh    $t6, 0x18($s0)
-/* ACDB64 800569C4 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* ACDB64 800569C4 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* ACDB68 800569C8 2606001C */  addiu $a2, $s0, 0x1c
-/* ACDB6C 800569CC AC2ED3A0 */  sw    $t6, %lo(D_8011D3A0)($at)
+/* ACDB6C 800569CC AC2ED3A0 */  sw    $t6, %lo(sCameraInterfaceFlags)($at)
 /* ACDB70 800569D0 8603015E */  lh    $v1, 0x15e($s0)
 /* ACDB74 800569D4 54600006 */  bnezl $v1, .L800569F0
 /* ACDB78 800569D8 84C20000 */   lh    $v0, ($a2)

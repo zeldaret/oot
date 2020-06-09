@@ -132,9 +132,9 @@ glabel Camera_Subj3
 /* AC77FC 8005065C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC7800 80050660 27A4007C */   addiu $a0, $sp, 0x7c
 /* AC7804 80050664 860D0020 */  lh    $t5, 0x20($s0)
-/* AC7808 80050668 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC7808 80050668 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC780C 8005066C C7AA007C */  lwc1  $f10, 0x7c($sp)
-/* AC7810 80050670 AC2DD3A0 */  sw    $t5, %lo(D_8011D3A0)($at)
+/* AC7810 80050670 AC2DD3A0 */  sw    $t5, %lo(sCameraInterfaceFlags)($at)
 /* AC7814 80050674 8603015E */  lh    $v1, 0x15e($s0)
 /* AC7818 80050678 2401000A */  li    $at, 10
 /* AC781C 8005067C 50600005 */  beql  $v1, $zero, .L80050694

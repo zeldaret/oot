@@ -164,8 +164,8 @@ glabel Camera_Normal2
 /* ABF300 80048160 02002025 */   move  $a0, $s0
 /* ABF304 80048164 860F001E */  lh    $t7, 0x1e($s0)
 .L80048168:
-/* ABF308 80048168 3C018012 */  lui   $at, %hi(D_8011D3A0)
-/* ABF30C 8004816C AC2FD3A0 */  sw    $t7, %lo(D_8011D3A0)($at)
+/* ABF308 80048168 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
+/* ABF30C 8004816C AC2FD3A0 */  sw    $t7, %lo(sCameraInterfaceFlags)($at)
 /* ABF310 80048170 8602015E */  lh    $v0, 0x15e($s0)
 /* ABF314 80048174 10400007 */  beqz  $v0, .L80048194
 /* ABF318 80048178 2401000A */   li    $at, 10

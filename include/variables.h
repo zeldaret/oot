@@ -198,7 +198,7 @@ extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDbgCamEnabled;
 //extern ? D_8011D398;
 //extern ? D_8011D39C;
-//extern ? D_8011D3A0;
+//extern ? sCameraInterfaceFlags;
 //extern ? D_8011D3A2;
 //extern ? D_8011D3A4;
 //extern ? D_8011D3A8;

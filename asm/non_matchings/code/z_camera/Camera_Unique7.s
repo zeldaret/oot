@@ -101,8 +101,8 @@ glabel Camera_Unique7
 /* AC9E98 80052CF8 00031C03 */  sra   $v1, $v1, 0x10
 .L80052CFC:
 /* AC9E9C 80052CFC 860C0004 */  lh    $t4, 4($s0)
-/* AC9EA0 80052D00 3C018012 */  lui   $at, %hi(D_8011D3A0)
-/* AC9EA4 80052D04 AC2CD3A0 */  sw    $t4, %lo(D_8011D3A0)($at)
+/* AC9EA0 80052D00 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags)
+/* AC9EA4 80052D04 AC2CD3A0 */  sw    $t4, %lo(sCameraInterfaceFlags)($at)
 /* AC9EA8 80052D08 8602015E */  lh    $v0, 0x15e($s0)
 /* AC9EAC 80052D0C 5440000F */  bnezl $v0, .L80052D4C
 /* AC9EB0 80052D10 3C014270 */   li    $at, 0x42700000 # 0.000000

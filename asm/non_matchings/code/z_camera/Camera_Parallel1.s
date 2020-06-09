@@ -241,7 +241,7 @@ glabel Camera_Parallel1
 /* AC04B8 80049318 A50B0012 */   sh    $t3, 0x12($t0)
 /* AC04BC 8004931C 86020024 */  lh    $v0, 0x24($s0)
 .L80049320:
-/* AC04C0 80049320 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC04C0 80049320 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC04C4 80049324 304C0020 */  andi  $t4, $v0, 0x20
 /* AC04C8 80049328 11800007 */  beqz  $t4, .L80049348
 /* AC04CC 8004932C 00000000 */   nop
@@ -252,7 +252,7 @@ glabel Camera_Parallel1
 /* AC04E0 80049340 A5190012 */  sh    $t9, 0x12($t0)
 /* AC04E4 80049344 86020024 */  lh    $v0, 0x24($s0)
 .L80049348:
-/* AC04E8 80049348 AC22D3A0 */  sw    $v0, %lo(D_8011D3A0)($at)
+/* AC04E8 80049348 AC22D3A0 */  sw    $v0, %lo(sCameraInterfaceFlags)($at)
 .L8004934C:
 /* AC04EC 8004934C 860A0020 */  lh    $t2, 0x20($s0)
 /* AC04F0 80049350 24010015 */  li    $at, 21

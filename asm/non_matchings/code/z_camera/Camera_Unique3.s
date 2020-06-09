@@ -90,9 +90,9 @@ glabel Camera_Unique3
 /* AC9210 80052070 02002025 */   move  $a0, $s0
 .L80052074:
 /* AC9214 80052074 8FA90028 */  lw    $t1, 0x28($sp)
-/* AC9218 80052078 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC9218 80052078 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC921C 8005207C 852B0008 */  lh    $t3, 8($t1)
-/* AC9220 80052080 AC2BD3A0 */  sw    $t3, %lo(D_8011D3A0)($at)
+/* AC9220 80052080 AC2BD3A0 */  sw    $t3, %lo(sCameraInterfaceFlags)($at)
 /* AC9224 80052084 960C015E */  lhu   $t4, 0x15e($s0)
 /* AC9228 80052088 2D810006 */  sltiu $at, $t4, 6
 /* AC922C 8005208C 102000D1 */  beqz  $at, .L800523D4

@@ -8,8 +8,8 @@ glabel Camera_Special4
 /* ACD80C 8005666C 240F3200 */  li    $t7, 12800
 /* ACD810 80056670 15C0000B */  bnez  $t6, .L800566A0
 /* ACD814 80056674 26110160 */   addiu $s1, $s0, 0x160
-/* ACD818 80056678 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
-/* ACD81C 8005667C AC2FD3A0 */  sw    $t7, %lo(D_8011D3A0)($at)
+/* ACD818 80056678 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
+/* ACD81C 8005667C AC2FD3A0 */  sw    $t7, %lo(sCameraInterfaceFlags)($at)
 /* ACD820 80056680 8498015E */  lh    $t8, 0x15e($a0)
 /* ACD824 80056684 3C014220 */  li    $at, 0x42200000 # 0.000000
 /* ACD828 80056688 44812000 */  mtc1  $at, $f4

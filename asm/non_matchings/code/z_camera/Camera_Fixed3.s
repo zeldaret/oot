@@ -158,8 +158,8 @@ glabel Camera_Fixed3
 /* AC71A8 80050008 86090000 */  lh    $t1, ($s0)
 /* AC71AC 8005000C 3C088016 */  lui   $t0, %hi(gGameInfo) # $t0, 0x8016
 /* AC71B0 80050010 8D08FA90 */  lw    $t0, %lo(gGameInfo)($t0)
-/* AC71B4 80050014 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
-/* AC71B8 80050018 AC29D3A0 */  sw    $t1, %lo(D_8011D3A0)($at)
+/* AC71B4 80050014 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
+/* AC71B8 80050018 AC29D3A0 */  sw    $t1, %lo(sCameraInterfaceFlags)($at)
 /* AC71BC 8005001C 8FA30028 */  lw    $v1, 0x28($sp)
 /* AC71C0 80050020 850A0262 */  lh    $t2, 0x262($t0)
 /* AC71C4 80050024 3C018014 */  lui   $at, %hi(D_8013A190)

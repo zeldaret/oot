@@ -141,9 +141,9 @@ glabel Camera_Fixed2
 /* AC6D58 8004FBB8 44801000 */  mtc1  $zero, $f2
 .L8004FBBC:
 /* AC6D5C 8004FBBC 86190010 */  lh    $t9, 0x10($s0)
-/* AC6D60 8004FBC0 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
+/* AC6D60 8004FBC0 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC6D64 8004FBC4 E7A2006C */  swc1  $f2, 0x6c($sp)
-/* AC6D68 8004FBC8 AC39D3A0 */  sw    $t9, %lo(D_8011D3A0)($at)
+/* AC6D68 8004FBC8 AC39D3A0 */  sw    $t9, %lo(sCameraInterfaceFlags)($at)
 /* AC6D6C 8004FBCC C6040000 */  lwc1  $f4, ($s0)
 /* AC6D70 8004FBD0 C7A60054 */  lwc1  $f6, 0x54($sp)
 /* AC6D74 8004FBD4 E7A20074 */  swc1  $f2, 0x74($sp)
@@ -157,7 +157,7 @@ glabel Camera_Fixed2
 /* AC6D94 8004FBF4 E7B00010 */  swc1  $f16, 0x10($sp)
 /* AC6D98 8004FBF8 44060000 */  mfc1  $a2, $f0
 /* AC6D9C 8004FBFC 44070000 */  mfc1  $a3, $f0
-/* AC6DA0 8004FC00 0C010E8F */  jal   func_80043A3C
+/* AC6DA0 8004FC00 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* AC6DA4 8004FC04 00000000 */   nop
 /* AC6DA8 8004FC08 26030094 */  addiu $v1, $s0, 0x94
 /* AC6DAC 8004FC0C C4720000 */  lwc1  $f18, ($v1)
@@ -224,7 +224,7 @@ glabel Camera_Fixed2
 /* AC6E98 8004FCF8 AFA50038 */  sw    $a1, 0x38($sp)
 /* AC6E9C 8004FCFC AFA30030 */  sw    $v1, 0x30($sp)
 /* AC6EA0 8004FD00 27A40078 */  addiu $a0, $sp, 0x78
-/* AC6EA4 8004FD04 0C010E8F */  jal   func_80043A3C
+/* AC6EA4 8004FD04 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* AC6EA8 8004FD08 E7A60010 */   swc1  $f6, 0x10($sp)
 /* AC6EAC 8004FD0C C6000004 */  lwc1  $f0, 4($s0)
 /* AC6EB0 8004FD10 3C018014 */  lui   $at, %hi(D_8013A188)
@@ -233,7 +233,7 @@ glabel Camera_Fixed2
 /* AC6EBC 8004FD1C 44070000 */  mfc1  $a3, $f0
 /* AC6EC0 8004FD20 02202025 */  move  $a0, $s1
 /* AC6EC4 8004FD24 8FA50034 */  lw    $a1, 0x34($sp)
-/* AC6EC8 8004FD28 0C010E8F */  jal   func_80043A3C
+/* AC6EC8 8004FD28 0C010E8F */  jal   Camera_LERPCeilVec3f
 /* AC6ECC 8004FD2C E7A80010 */   swc1  $f8, 0x10($sp)
 /* AC6ED0 8004FD30 8FAD0034 */  lw    $t5, 0x34($sp)
 /* AC6ED4 8004FD34 8FAC003C */  lw    $t4, 0x3c($sp)
