@@ -1944,8 +1944,4 @@ typedef struct {
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
 
-typedef struct {
-    /* 0x00 */ FlagSetEntry entries[53];
-} FlagSetEntryHolder; // size = 0x1A8
-
 #endif
