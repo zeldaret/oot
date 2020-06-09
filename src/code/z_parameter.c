@@ -3945,7 +3945,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     }
 
     if (pauseCtx->flag == 3) {
-        func_8002AAB0(globalCtx);
+        FlagSet_Update(globalCtx);
     }
 
     if (interfaceCtx->unk_244 != 0) {

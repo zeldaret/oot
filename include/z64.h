@@ -1453,7 +1453,8 @@ typedef struct GfxPrint {
     /* 0x0E */ u8 baseY;
     /* 0x0F */ u8 flag;
     /* 0x10 */ Color_RGBA8 color;
-} GfxPrint;
+    /* 0x14 */ char unk_14[0x1C]; // unused
+} GfxPrint; // size = 0x30
 
 typedef enum {
     GFXPRINT_FLAG1 = 1,
@@ -1937,5 +1938,10 @@ typedef struct {
   	/* 0x0A */ char ext_name[4];
   	/* 0x0E */ char game_name[16];
 } OSPfsState; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ u16* value;
+    /* 0x04 */ const char* name;
+} FlagSetEntry; // size = 0x08
 
 #endif

@@ -175,10 +175,6 @@ extern u8 D_80114930[];
 //extern ? D_801159A9;
 //extern ? D_801159AA;
 extern EffectSsOverlay gEffectSsOverlayTable[37];
-//extern ? D_80115DC0;
-//extern ? D_80115F68;
-//extern ? D_80115F6C;
-//extern ? D_80115F70;
 extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[471]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
@@ -3276,7 +3272,6 @@ extern u8 D_80155F50[];
 extern u8 D_80157580[];
 extern u8 D_801579A0[];
 extern u8 D_80157D30[];
-//extern ? D_8015BB90;
 //extern ? D_8015BC30;
 //extern ? D_8015BC3C;
 //extern ? D_8015BC48;
