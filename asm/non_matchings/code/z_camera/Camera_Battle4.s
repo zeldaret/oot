@@ -134,12 +134,12 @@ glabel Camera_Battle4
 /* AC3968 8004C7C8 2606005C */  addiu $a2, $s0, 0x5c
 /* AC396C 8004C7CC AFA60034 */  sw    $a2, 0x34($sp)
 /* AC3970 8004C7D0 AFA50030 */  sw    $a1, 0x30($sp)
-/* AC3974 8004C7D4 0C01F124 */  jal   func_8007C490
+/* AC3974 8004C7D4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC3978 8004C7D8 27A4005C */   addiu $a0, $sp, 0x5c
 /* AC397C 8004C7DC 26060074 */  addiu $a2, $s0, 0x74
 /* AC3980 8004C7E0 AFA6002C */  sw    $a2, 0x2c($sp)
 /* AC3984 8004C7E4 27A40054 */  addiu $a0, $sp, 0x54
-/* AC3988 8004C7E8 0C01F124 */  jal   func_8007C490
+/* AC3988 8004C7E8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC398C 8004C7EC 8FA50030 */   lw    $a1, 0x30($sp)
 /* AC3990 8004C7F0 860D0018 */  lh    $t5, 0x18($s0)
 /* AC3994 8004C7F4 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012

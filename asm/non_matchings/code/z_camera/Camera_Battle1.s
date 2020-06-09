@@ -462,12 +462,12 @@ glabel Camera_Battle1
 /* AC2C90 8004BAF0 AFA6004C */  sw    $a2, 0x4c($sp)
 /* AC2C94 8004BAF4 AFA50048 */  sw    $a1, 0x48($sp)
 /* AC2C98 8004BAF8 27A4009C */  addiu $a0, $sp, 0x9c
-/* AC2C9C 8004BAFC 0C01F124 */  jal   func_8007C490
+/* AC2C9C 8004BAFC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC2CA0 8004BB00 E7A80064 */   swc1  $f8, 0x64($sp)
 /* AC2CA4 8004BB04 26060074 */  addiu $a2, $s0, 0x74
 /* AC2CA8 8004BB08 AFA60044 */  sw    $a2, 0x44($sp)
 /* AC2CAC 8004BB0C 27A40094 */  addiu $a0, $sp, 0x94
-/* AC2CB0 8004BB10 0C01F124 */  jal   func_8007C490
+/* AC2CB0 8004BB10 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC2CB4 8004BB14 8FA50048 */   lw    $a1, 0x48($sp)
 /* AC2CB8 8004BB18 8E0300A8 */  lw    $v1, 0xa8($s0)
 /* AC2CBC 8004BB1C 10600004 */  beqz  $v1, .L8004BB30
@@ -662,7 +662,7 @@ glabel Camera_Battle1
 /* AC2F68 8004BDC8 8FA60038 */  lw    $a2, 0x38($sp)
 /* AC2F6C 8004BDCC A7A8008C */  sh    $t0, 0x8c($sp)
 /* AC2F70 8004BDD0 46044180 */  add.s $f6, $f8, $f4
-/* AC2F74 8004BDD4 0C01F124 */  jal   func_8007C490
+/* AC2F74 8004BDD4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC2F78 8004BDD8 E7A60120 */   swc1  $f6, 0x120($sp)
 /* AC2F7C 8004BDDC C7A000A4 */  lwc1  $f0, 0xa4($sp)
 /* AC2F80 8004BDE0 C7A20080 */  lwc1  $f2, 0x80($sp)
@@ -689,7 +689,7 @@ glabel Camera_Battle1
 /* AC2FCC 8004BE2C 8DAF0008 */  lw    $t7, 8($t5)
 /* AC2FD0 8004BE30 ACCF0008 */  sw    $t7, 8($a2)
 /* AC2FD4 8004BE34 A7A8008C */  sh    $t0, 0x8c($sp)
-/* AC2FD8 8004BE38 0C01F124 */  jal   func_8007C490
+/* AC2FD8 8004BE38 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC2FDC 8004BE3C 8FA50048 */   lw    $a1, 0x48($sp)
 /* AC2FE0 8004BE40 C7AC00AC */  lwc1  $f12, 0xac($sp)
 /* AC2FE4 8004BE44 C7A40080 */  lwc1  $f4, 0x80($sp)
@@ -763,7 +763,7 @@ glabel Camera_Battle1
 /* AC30F0 8004BF50 A7AF0086 */  sh    $t7, 0x86($sp)
 /* AC30F4 8004BF54 8FA50048 */  lw    $a1, 0x48($sp)
 /* AC30F8 8004BF58 8FA6004C */  lw    $a2, 0x4c($sp)
-/* AC30FC 8004BF5C 0C01F124 */  jal   func_8007C490
+/* AC30FC 8004BF5C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC3100 8004BF60 A7A8008C */   sh    $t0, 0x8c($sp)
 /* AC3104 8004BF64 87A8008C */  lh    $t0, 0x8c($sp)
 /* AC3108 8004BF68 3C038016 */  lui   $v1, %hi(gGameInfo)
@@ -1097,7 +1097,7 @@ glabel Camera_Battle1
 /* AC35F0 8004C450 10000010 */  b     .L8004C494
 /* AC35F4 8004C454 27B900BC */   addiu $t9, $sp, 0xbc
 .L8004C458:
-/* AC35F8 8004C458 0C01F03E */  jal   func_8007C0F8
+/* AC35F8 8004C458 0C01F03E */  jal   OLib_Vec3fDistNormalize
 /* AC35FC 8004C45C 8FA50048 */   lw    $a1, 0x48($sp)
 /* AC3600 8004C460 C7A400BC */  lwc1  $f4, 0xbc($sp)
 /* AC3604 8004C464 C7AA0128 */  lwc1  $f10, 0x128($sp)

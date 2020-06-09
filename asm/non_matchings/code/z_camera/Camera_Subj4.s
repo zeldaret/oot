@@ -64,7 +64,7 @@ glabel Camera_Subj4
 /* AC7D94 80050BF4 2633005C */  addiu $s3, $s1, 0x5c
 /* AC7D98 80050BF8 02603025 */  move  $a2, $s3
 /* AC7D9C 80050BFC 02402825 */  move  $a1, $s2
-/* AC7DA0 80050C00 0C01F124 */  jal   func_8007C490
+/* AC7DA0 80050C00 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC7DA4 80050C04 27A4005C */   addiu $a0, $sp, 0x5c
 /* AC7DA8 80050C08 86380000 */  lh    $t8, ($s1)
 /* AC7DAC 80050C0C 3C018012 */  lui   $at, %hi(D_8011D3A0)
@@ -100,11 +100,11 @@ glabel Camera_Subj4
 /* AC7E24 80050C84 26240094 */  addiu $a0, $s1, 0x94
 /* AC7E28 80050C88 A7A2006A */  sh    $v0, 0x6a($sp)
 /* AC7E2C 80050C8C AFA40034 */  sw    $a0, 0x34($sp)
-/* AC7E30 80050C90 0C01EFE4 */  jal   func_8007BF90
+/* AC7E30 80050C90 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC7E34 80050C94 02002825 */   move  $a1, $s0
 /* AC7E38 80050C98 8FA40034 */  lw    $a0, 0x34($sp)
 /* AC7E3C 80050C9C 27A50098 */  addiu $a1, $sp, 0x98
-/* AC7E40 80050CA0 0C01EFE4 */  jal   func_8007BF90
+/* AC7E40 80050CA0 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC7E44 80050CA4 E7A00088 */   swc1  $f0, 0x88($sp)
 /* AC7E48 80050CA8 C7A20088 */  lwc1  $f2, 0x88($sp)
 /* AC7E4C 80050CAC C7AA0098 */  lwc1  $f10, 0x98($sp)

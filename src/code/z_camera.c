@@ -1850,7 +1850,7 @@ Vec3f* func_80043BC4(Vec3f* arg0, Vec3s* arg1) {
 
 Vec3f* func_80043C28(Vec3f* arg0, Vec3f* arg1, VecSph* arg2) {
     Vec3f sp24, sp18;
-    func_8007C25C(&sp18, arg2);
+    OLib_VecSphRot90ToVec3f(&sp18, arg2);
 
     sp24.x = arg1->x + sp18.x;
     sp24.y = arg1->y + sp18.y;
@@ -1880,12 +1880,12 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
     VecSph sp3C;
 
     colCtx = &camera->globalCtx->colCtx;
-    func_8007C490(&sp3C, arg1, &arg2->unk_00);
+    OLib_Vec3fDiffToVecSphRot90(&sp3C, arg1, &arg2->unk_00);
     sp3C.r += 8.0f;
     func_80043C28(&sp5C, arg1, &sp3C);
 
     if (func_8003DD6C(colCtx, arg1, &sp5C, &sp68, &arg2->unk_18, 1, 1, 1, -1, &arg2->unk_24) == 0) {
-        func_8007C0F8(&sp50, arg1, &arg2->unk_00);
+        OLib_Vec3fDistNormalize(&sp50, arg1, &arg2->unk_00);
 
         arg2->unk_0C.x = -sp50.x;
         arg2->unk_0C.y = -sp50.y;
@@ -2152,7 +2152,7 @@ f32 func_80045714(Vec3f* arg0, s16 arg1, s16 arg2, f32 arg3) {
     VecSph sp1C;
     f32 sp18;
 
-    func_8007C3F4(&sp1C, arg0);
+    OLib_Vec3fToVecSphRot90(&sp1C, arg0);
     sp18 = Math_Coss(sp1C.phi);
     sp18 = fabsf(Math_Coss(arg1 - sp1C.theta) * sp18);
     return Math_Coss(arg1 - arg2) * (sp18 * arg3);
@@ -2213,7 +2213,7 @@ s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     }
 
     sp48 = temp_s1->pos.y - *arg3;
-    temp_ret = Math_atan2f(sp48, func_8007C028(&camera->at, &camera->eye)); // f2 and f14 are swapped
+    temp_ret = Math_atan2f(sp48, OLib_Vec3fDistXZ(&camera->at, &camera->eye)); // f2 and f14 are swapped
 
     if (OREG(32) * (M_PI / 180) < temp_ret) {
         phi_f2 = 1.0f - sinf(temp_ret - OREG(32) * (M_PI / 180));
@@ -2509,8 +2509,8 @@ s32 Camera_Normal3(Camera* camera) {
     sp44 = &camera->at;
     sp40 = &camera->eyeNext;
     playerPostRot = &camera->playerPosRot;
-    func_8007C490(&sp7C, sp44, sp48);
-    func_8007C490(&sp74, sp44, sp40);
+    OLib_Vec3fDiffToVecSphRot90(&sp7C, sp44, sp48);
+    OLib_Vec3fDiffToVecSphRot90(&sp74, sp44, sp40);
     D_8011D3E8 = 1;
     D_8011D3A0.w = normal3->unk_1E;
     unk20 = &normal3->unk_20;
@@ -2565,7 +2565,7 @@ s32 Camera_Normal3(Camera* camera) {
                                   temp_f0 + (temp_f0 * (1.0f - camera->unk_E0)), 0xF);
     func_800466F8(camera, &sp74, normal3->unk_00, &unk20->unk_20, 1);
     sp90 = (normal3->unk_08 + normal3->unk_04) * 0.5f;
-    func_8007C490(&sp84, sp44, sp40);
+    OLib_Vec3fDiffToVecSphRot90(&sp84, sp44, sp40);
     sp84.r = func_800469C0(camera, sp84.r, normal3->unk_04, normal3->unk_08, unk20->unk_2A);
     camera->dist = sp84.r;
     if (0.001f < camera->unk_D8) {
@@ -2786,12 +2786,12 @@ s32 Camera_Unique6(Camera* camera) {
         playerPosRot = &camera->playerPosRot.pos;
         sp2C = *playerPosRot;
         sp2C.y += offset;
-        camera->dist = func_8007BF90(&sp2C, &camera->eye);
+        camera->dist = OLib_Vec3fDist(&sp2C, &camera->eye);
         camera->unk_E4.x = camera->at.x - playerPosRot->x;
         camera->unk_E4.y = camera->at.y - playerPosRot->y;
         camera->unk_E4.z = camera->at.z - playerPosRot->z;
     } else {
-        camera->dist = func_8007BF90(&camera->at, &camera->eye);
+        camera->dist = OLib_Vec3fDist(&camera->at, &camera->eye);
     }
     if (camera->unk_00.sh[0] & 1) {
         if (camera->unk_160 > 0) {
@@ -2837,7 +2837,7 @@ void func_80054478(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     Vec3f sp1C;
 
     Camera_Vec3fCopy(arg1, &sp1C);
-    func_8007C3F4(&sp28, &sp1C);
+    OLib_Vec3fToVecSphRot90(&sp28, &sp1C);
     sp28.theta += arg0->rot.y;
     func_80043C28(arg2, &arg0->pos, &sp28);
 }
@@ -2907,7 +2907,7 @@ s32 Camera_Demo1(Camera* camera) {
             }
             *eye = *eyeNext;
             camera->roll = sp4C * 256.0f;
-            camera->dist = func_8007BF90(at, eye);
+            camera->dist = OLib_Vec3fDist(at, eye);
             break;
     }
     return 1;
@@ -2985,7 +2985,7 @@ s32 Camera_Special0(Camera* camera) {
     camera->unk_E4.x = camera->at.x - playerPosRot->x;
     camera->unk_E4.y = camera->at.y - playerPosRot->y;
     camera->unk_E4.z = camera->at.z - playerPosRot->z;
-    camera->dist = func_8007BF90(&camera->at, &camera->eye);
+    camera->dist = OLib_Vec3fDist(&camera->at, &camera->eye);
     camera->unk_D8 = 0.0f;
     if (camera->unk_160 > 0) {
         camera->unk_160--;
@@ -3900,7 +3900,7 @@ s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
     camera->eyeNext = sp30;
     camera->eye = sp30;
 
-    camera->dist = func_8007BF90(&camera->at, &camera->eye);
+    camera->dist = OLib_Vec3fDist(&camera->at, &camera->eye);
     camera->fov = otherCamera->fov;
     camera->roll = otherCamera->roll;
     func_80043B60(camera);
@@ -3910,7 +3910,7 @@ s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
         camera->unk_E4.x = camera->at.x - camera->playerPosRot.pos.x;
         camera->unk_E4.y = camera->at.y - camera->playerPosRot.pos.y;
         camera->unk_E4.z = camera->at.z - camera->playerPosRot.pos.z;
-        camera->dist = func_8007BF90(&camera->playerPosRot.pos, &camera->eye);
+        camera->dist = OLib_Vec3fDist(&camera->playerPosRot.pos, &camera->eye);
         camera->unk_CC.x = 1.0f;
         camera->unk_CC.y = 1.0f;
     }

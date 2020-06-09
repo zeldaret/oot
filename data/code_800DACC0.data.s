@@ -9,14 +9,40 @@
 
 .balign 16
 
+glabel D_8012E090
+    .incbin "baserom.z64", 0xBA5230, 0x200
+
+glabel D_8012E290
+    .incbin "baserom.z64", 0xBA5430, 0x200
+
+glabel D_8012E490
+    .incbin "baserom.z64", 0xBA5630, 0x200
+
+glabel D_8012E690
+    .incbin "baserom.z64", 0xBA5830, 0x200
+
+glabel D_8012E890
+    .incbin "baserom.z64", 0xBA5A30, 0x200
+
+glabel D_8012EA90
+    .incbin "baserom.z64", 0xBA5C30, 0x200
+
+glabel D_8012EC90
+    .incbin "baserom.z64", 0xBA5E30, 0x200
+
+glabel D_8012EE90
+    .incbin "baserom.z64", 0xBA6030, 0x200
+
 glabel gWaveSamples
-    .incbin "baserom.z64", 0xBA6230, 0x8
-
-glabel D_8012F098
-    .incbin "baserom.z64", 0xBA6238, 0x18
-
-glabel D_8012F0B0
-    .incbin "baserom.z64", 0xBA6250, 0x4
+    .word D_8012E090
+    .word D_8012E290
+    .word D_8012E490
+    .word D_8012E690
+    .word D_8012E890
+    .word D_8012EA90
+    .word D_8012EC90
+    .word D_8012EE90
+    .word D_8012EE90
 
 glabel D_8012F0B4
     .incbin "baserom.z64", 0xBA6254, 0x200

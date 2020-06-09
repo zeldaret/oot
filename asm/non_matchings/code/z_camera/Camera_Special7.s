@@ -212,7 +212,7 @@ glabel Camera_Special7
 /* ACE0A4 80056F04 ACAB0008 */  sw    $t3, 8($a1)
 /* ACE0A8 80056F08 E60600FC */  swc1  $f6, 0xfc($s0)
 .L80056F0C:
-/* ACE0AC 80056F0C 0C01EFE4 */  jal   func_8007BF90
+/* ACE0AC 80056F0C 0C01EFE4 */  jal   OLib_Vec3fDist
 /* ACE0B0 80056F10 02402025 */   move  $a0, $s2
 /* ACE0B4 80056F14 44804000 */  mtc1  $zero, $f8
 /* ACE0B8 80056F18 E60000DC */  swc1  $f0, 0xdc($s0)

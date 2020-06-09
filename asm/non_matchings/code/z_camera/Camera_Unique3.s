@@ -114,7 +114,7 @@ glabel L800520A8
 /* AC9264 800520C4 E4480000 */  swc1  $f8, ($v0)
 /* AC9268 800520C8 AFA2002C */  sw    $v0, 0x2c($sp)
 /* AC926C 800520CC 26040050 */  addiu $a0, $s0, 0x50
-/* AC9270 800520D0 0C01EFE4 */  jal   func_8007BF90
+/* AC9270 800520D0 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC9274 800520D4 2605005C */   addiu $a1, $s0, 0x5c
 /* AC9278 800520D8 8FA2002C */  lw    $v0, 0x2c($sp)
 /* AC927C 800520DC E4400004 */  swc1  $f0, 4($v0)
@@ -290,7 +290,7 @@ glabel L80052318
 /* AC94EC 8005234C E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC94F0 80052350 8FA60024 */  lw    $a2, 0x24($sp)
 /* AC94F4 80052354 8FA5002C */  lw    $a1, 0x2c($sp)
-/* AC94F8 80052358 0C01F124 */  jal   func_8007C490
+/* AC94F8 80052358 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC94FC 8005235C 27A40060 */   addiu $a0, $sp, 0x60
 /* AC9500 80052360 3C0142C8 */  li    $at, 0x42C80000 # 0.000000
 /* AC9504 80052364 44816000 */  mtc1  $at, $f12

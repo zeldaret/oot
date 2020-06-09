@@ -4488,9 +4488,10 @@ _DW({									\
 #define gDPNoOpFloat(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 4)
 #define gDPNoOpQuiet(pkt)					gDma1p(pkt, G_NOOP, 0, 0, 5)
 #define gDPNoOpVerbose(pkt, n)				gDma1p(pkt, G_NOOP, 0, n, 5)
-#define gDPNoOpCallBack(pkt, callback)		gDma1p(pkt, G_NOOP, callback, 0, 6)
+#define gDPNoOpCallBack(pkt, callback, arg)	gDma1p(pkt, G_NOOP, callback, arg, 6)
 #define gDPNoOpOpenDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 7)
 #define gDPNoOpCloseDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 8)
+#define gDPNoOpTag3(pkt, type, data, n)		gDma1p(pkt, G_NOOP, data, n, type)
 
 #endif
 

@@ -578,12 +578,12 @@ glabel L8004EB20
 /* AC5D00 8004EB60 AFA50040 */  sw    $a1, 0x40($sp)
 /* AC5D04 8004EB64 E7AE0088 */  swc1  $f14, 0x88($sp)
 /* AC5D08 8004EB68 27A400B0 */  addiu $a0, $sp, 0xb0
-/* AC5D0C 8004EB6C 0C01F124 */  jal   func_8007C490
+/* AC5D0C 8004EB6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC5D10 8004EB70 AC2AD3A0 */   sw    $t2, %lo(D_8011D3A0)($at)
 /* AC5D14 8004EB74 26260074 */  addiu $a2, $s1, 0x74
 /* AC5D18 8004EB78 AFA6003C */  sw    $a2, 0x3c($sp)
 /* AC5D1C 8004EB7C 27A400A8 */  addiu $a0, $sp, 0xa8
-/* AC5D20 8004EB80 0C01F124 */  jal   func_8007C490
+/* AC5D20 8004EB80 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC5D24 8004EB84 8FA50040 */   lw    $a1, 0x40($sp)
 /* AC5D28 8004EB88 26230094 */  addiu $v1, $s1, 0x94
 /* AC5D2C 8004EB8C 8C6C0000 */  lw    $t4, ($v1)

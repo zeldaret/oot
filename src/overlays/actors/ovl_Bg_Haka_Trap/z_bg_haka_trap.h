@@ -11,7 +11,14 @@ typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, GlobalContext*);
 typedef struct BgHakaTrap {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgHakaTrapActionFunc actionFunc;
-    /* 0x0168 */ char unk_168[0x134];
+    /* 0x0168 */ u8 actionTimer;
+    /* 0x0169 */ u8 unk_169;
+    /* 0x016A */ s16 unk_16A;
+    /* 0x016C */ Vec3f unk_16C;
+    /* 0x0178 */ ColliderCylinder colliderCylinder;
+    /* 0x01C4 */ ColliderTris colliderSpikes;
+    /* 0x01E4 */ ColliderTrisItem colliderSpikesItem;
+    /* 0x0240 */ u8 unk_240[0x5C];
 } BgHakaTrap; // size = 0x029C
 
 extern const ActorInit Bg_Haka_Trap_InitVars;

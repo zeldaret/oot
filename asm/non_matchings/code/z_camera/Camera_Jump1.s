@@ -155,12 +155,12 @@ glabel Camera_Jump1
 /* AC0D94 80049BF4 2606005C */  addiu $a2, $s0, 0x5c
 /* AC0D98 80049BF8 AFA60040 */  sw    $a2, 0x40($sp)
 /* AC0D9C 80049BFC AFA5003C */  sw    $a1, 0x3c($sp)
-/* AC0DA0 80049C00 0C01F124 */  jal   func_8007C490
+/* AC0DA0 80049C00 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC0DA4 80049C04 27A40090 */   addiu $a0, $sp, 0x90
 /* AC0DA8 80049C08 26060074 */  addiu $a2, $s0, 0x74
 /* AC0DAC 80049C0C AFA60038 */  sw    $a2, 0x38($sp)
 /* AC0DB0 80049C10 27A40088 */  addiu $a0, $sp, 0x88
-/* AC0DB4 80049C14 0C01F124 */  jal   func_8007C490
+/* AC0DB4 80049C14 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC0DB8 80049C18 8FA5003C */   lw    $a1, 0x3c($sp)
 /* AC0DBC 80049C1C 860C001C */  lh    $t4, 0x1c($s0)
 /* AC0DC0 80049C20 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
@@ -354,7 +354,7 @@ glabel Camera_Jump1
 /* AC10A0 80049F00 8DF80004 */  lw    $t8, 4($t7)
 /* AC10A4 80049F04 ADD80004 */  sw    $t8, 4($t6)
 /* AC10A8 80049F08 8FA60040 */  lw    $a2, 0x40($sp)
-/* AC10AC 80049F0C 0C01F124 */  jal   func_8007C490
+/* AC10AC 80049F0C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC10B0 80049F10 8FA5003C */   lw    $a1, 0x3c($sp)
 /* AC10B4 80049F14 3C198016 */  lui   $t9, %hi(gGameInfo) # $t9, 0x8016
 /* AC10B8 80049F18 8F39FA90 */  lw    $t9, %lo(gGameInfo)($t9)
@@ -508,7 +508,7 @@ glabel Camera_Jump1
 /* AC12F0 8004A150 10000008 */  b     .L8004A174
 /* AC12F4 8004A154 A6180136 */   sh    $t8, 0x136($s0)
 .L8004A158:
-/* AC12F8 8004A158 0C01F124 */  jal   func_8007C490
+/* AC12F8 8004A158 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
 /* AC12FC 8004A15C 8FA6003C */   lw    $a2, 0x3c($sp)
 /* AC1300 8004A160 87A80084 */  lh    $t0, 0x84($sp)
 /* AC1304 8004A164 A6080134 */  sh    $t0, 0x134($s0)
@@ -555,7 +555,7 @@ glabel Camera_Jump1
 .L8004A200:
 /* AC13A0 8004A200 8FA4003C */  lw    $a0, 0x3c($sp)
 .L8004A204:
-/* AC13A4 8004A204 0C01EFE4 */  jal   func_8007BF90
+/* AC13A4 8004A204 0C01EFE4 */  jal   OLib_Vec3fDist
 /* AC13A8 8004A208 8FA50040 */   lw    $a1, 0x40($sp)
 /* AC13AC 8004A20C E60000DC */  swc1  $f0, 0xdc($s0)
 /* AC13B0 8004A210 00002025 */  move  $a0, $zero
