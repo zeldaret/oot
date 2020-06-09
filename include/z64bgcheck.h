@@ -27,7 +27,7 @@ typedef struct {
 } CollisionPoly; // size = 0x10 //RoomPoly
 
 typedef struct {
-    s16 cameraSType;            // 0x00
+    u16 cameraSType;            // 0x00
     s16 numCameras;             // 0x02
     void* camPosDataSeg;  // 0x04
 } CamData;
@@ -51,7 +51,10 @@ typedef struct {
     /* 0x04 */ s16 zMin;
     /* 0x06 */ s16 xLength;
     /* 0x08 */ s16 zLength;
-    /* 0x0C */ s32 properties;
+    /* 0x0C */ u32 properties;
+
+    //0x0000_1F00 = ?
+    //0x0000_00FF = CamData index
 } WaterBox; // size = 0x10 //WaterBoxHeader
 
 
@@ -72,7 +75,7 @@ typedef struct {
     /* 0x18 */ CollisionPoly* polygonArray;
     /* 0x1C */ SurfaceType*   polygonTypes;
     /* 0x20 */ CamData*  cameraData;
-    /* 0x24 */ s16       nbWaterBoxes;
+    /* 0x24 */ u16       nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; //BGDataInfo
 

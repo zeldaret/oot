@@ -1771,7 +1771,7 @@ f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1) {
 #ifdef NON_MATCHING
 s32 func_80040BE4(CollisionContext* arg0, u16 arg1, DynaCollisionContext* arg2, u16* arg3, f32* arg4, Vec3f* arg5, f32 arg6, CollisionPoly** arg7) {
 
-    int polyId; //probably not saved, but w/e
+    s32 polyId;
     SSNode* phi_s1;
     CollisionPoly* temp_s0;
     Vec3f sp98;
@@ -1946,77 +1946,251 @@ void func_80041978(StaticList_s* arg0, int numPolys) {
 //Get SurfaceType property set
 u32 func_800419B0(CollisionContext* arg0, CollisionPoly* poly, s32 bgId, s32 surfacePropId) {
     CollisionHeader* colHeader;
-    SurfaceType* temp_v1;
+    SurfaceType* surfaceTypes;
 
     colHeader = func_8003C4C4(arg0, bgId);
     if (colHeader == NULL || poly == NULL) {
         return 0;
     }
-    temp_v1 = colHeader->polygonTypes;
-    if ((u32)temp_v1 == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    surfaceTypes = colHeader->polygonTypes;
+    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
-    return temp_v1[poly->type][surfacePropId];
+    return surfaceTypes[poly->type][surfacePropId];
 }
 
-//Collision, poly surface, return Camera Data Index 
+//SurfaceType, return CamData Index 
 u32 func_80041A28(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
 
-    return func_800419B0(arg0, poly, bgId, 0) & 0xff;
+    return func_800419B0(arg0, poly, bgId, 0) & 0xFF;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041A4C.s")
+u16 func_80041A4C(CollisionContext* arg0, u32 camId, s32 bgId) {
+    u16 result;
+    CollisionHeader* colHeader;
+    CamData* camData;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041B24.s")
+    colHeader = func_8003C4C4(arg0, bgId);
+    if (colHeader == NULL) {
+        return 0;
+    }
+    camData = colHeader->cameraData;
+    result = camData[camId].cameraSType;
+    return result;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041B80.s")
+u16 func_80041A94(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    CollisionHeader* colHeader;
+    CamData* camData;
+    SurfaceType* surfaceTypes;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041C10.s")
+    colHeader = func_8003C4C4(arg0, bgId);
+    if (colHeader == NULL) {
+        return 0;
+    }
+    camData = colHeader->cameraData;
+    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    surfaceTypes = colHeader->polygonTypes;
+    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    return func_80041A4C(arg0, func_80041A28(arg0, poly, bgId), bgId);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041C98.s")
+u16 func_80041B24(CollisionContext* arg0, u32 camId, s32 bgId) {
+    CollisionHeader* colHeader;
+    CamData* camData;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041D28.s")
+    colHeader = func_8003C4C4(arg0, bgId);
+    if (colHeader == NULL) {
+        return 0;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041D4C.s")
+    camData = colHeader->cameraData;
+    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    return camData[camId].numCameras;
+}
+
+u16 func_80041B80(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    CollisionHeader* colHeader;
+    CamData* camData;
+    SurfaceType* surfaceTypes;
+
+    colHeader = func_8003C4C4(arg0, bgId);
+    if (colHeader == NULL) {
+        return 0;
+    }
+    camData = colHeader->cameraData;
+    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    surfaceTypes = colHeader->polygonTypes;
+    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    return func_80041B24(arg0, func_80041A28(arg0, poly, bgId), bgId);
+}
+
+CamPosDataEntry* func_80041C10(CollisionContext* arg0, u32 camId, s32 bgId) {
+    CollisionHeader* colHeader;
+    CamData* camData;
+
+    colHeader = func_8003C4C4(arg0, bgId);
+    if (colHeader == NULL) {
+        return 0;
+    }
+    camData = colHeader->cameraData;
+    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    return (CamPosDataEntry*)SEGMENTED_TO_VIRTUAL(camData[camId].camPosDataSeg);
+}
+
+CamPosDataEntry* func_80041C98(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    CollisionHeader* colHeader;
+    CamData* camData;
+    SurfaceType* surfaceTypes;
+
+    colHeader = func_8003C4C4(arg0, bgId);
+    if (colHeader == NULL) {
+        return 0;
+    }
+    camData = colHeader->cameraData;
+    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    surfaceTypes = colHeader->polygonTypes;
+    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+    return func_80041C10(arg0, func_80041A28(arg0, poly, bgId), bgId);
+}
+
+u32 func_80041D28(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 0) >> 8 & 0x1F;
+}
+
+u32 func_80041D4C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 0) >> 0xD & 0x1F;
+}
+
+u32 func_80041D70(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 0) >> 0x12 & 7;
+}
 
 u32 func_80041D94(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
 
-    return func_800419B0(arg0, poly, bgId, 0) >> 0x15 & 0x1f;
+    return func_800419B0(arg0, poly, bgId, 0) >> 0x15 & 0x1F;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041DB8.s")
+extern s32 D_80119D90[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041DE4.s")
+s32 func_80041DB8(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return D_80119D90[func_80041D94(arg0, poly, bgId)];
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041E18.s")
+s32 func_80041DE4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return (func_80041DB8(arg0, poly, bgId) & 1) ? 1 : 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041E4C.s")
+s32 func_80041E18(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return (func_80041DB8(arg0, poly, bgId) & 2) ? 1 : 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041EC8.s")
+s32 func_80041E4C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return (func_80041DB8(arg0, poly, bgId) & 4) ? 1 : 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041EEC.s")
+//unused
+u32 func_80041E80(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 0) >> 0x1A & 0xF;
+}
+
+u32 func_80041EA4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 0) >> 0x1A & 0xF;
+}
+
+u32 func_80041EC8(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 0) >> 0x1E & 1;
+}
+
+u32 func_80041EEC(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 0) >> 0x1F & 1;
+}
 
 u32 func_80041F10(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
 
-    return func_800419B0(arg0, poly, bgId, 1) & 0xf;
+    return func_800419B0(arg0, poly, bgId, 1) & 0xF;
 }
 
-//sfxId = func_80041F34(&globalCtx->colCtx, actor->bgChkInfo.floorPoly, actor->bgChkInfo.floorPolySource, actor);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041F34.s")
+extern u16 D_80119E10[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041F7C.s")
+//Get Poly Sfx
+u16 func_80041F34(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    s32 temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041FA0.s")
+    temp_v0 = func_80041F10(arg0, poly, bgId);
+    if (temp_v0 < 0 || temp_v0 > 13) {
+        return 0;
+    }
+    return D_80119E10[temp_v0];
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041FC4.s")
+u32 func_80041F7C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 1) >> 4 & 3;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8004200C.s")
+u32 func_80041FA0(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 1) >> 6 & 0x1F;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042048.s")
+u32 func_80041FC4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 1) >> 0xB & 0x3F;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042084.s")
+u32 func_80041FE8(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 1) >> 0x11 & 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800420E4.s")
+s32 func_8004200C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    u32 flags;
+    if (func_8003C4C4(arg0, bgId) == 0) {
+        return 1;
+    }
+    flags = poly->flags_vIA & 0x4000;
+    return !!flags;
+}
+
+s32 func_80042048(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    u32 flags;
+    if (func_8003C4C4(arg0, bgId) == 0) {
+        return 1;
+    }
+    flags = poly->flags_vIA & 0x8000;
+    return !!flags;
+} 
+
+s32 func_80042084(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    u32 flags;
+    if (func_8003C4C4(arg0, bgId) == 0) {
+        return 1;
+    }
+    flags = poly->flags_vIB & 0x2000;
+    return !!flags;
+}
+
+u32 func_800420C0(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 1) >> 0x12 & 7;
+}
+
+u32 func_800420E4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(arg0, poly, bgId, 1) >> 0x15 & 0x3F;
+}
+
 
 u32 func_80042108(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
     return (func_800419B0(arg0, poly, bgId, 1) & 0x8000000) ? 1 : 0;
@@ -2026,15 +2200,94 @@ u32 func_80042108(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042244.s")
 
-u8 func_80042538(CollisionContext* colCtx, WaterBox* waterBox) {
-    u32 prop = waterBox->properties;
+#ifdef NON_MATCHING
+s32 func_8004239C(GlobalContext* arg0, CollisionContext* arg1, Vec3f* arg2, f32 arg3, WaterBox** arg4) {
+    f32 temp_f2;
+    s32 temp_a0;
+    u32 room; //a1
+    u32 temp_a2;
+    //WaterBox* temp_v1;
+    WaterBox* phi_v0;
+    WaterBox* test;
+    u16 nbWaterBoxes;
 
-    return prop;
+    s32 phi_a0;
+
+    nbWaterBoxes = arg1->stat.colHeader->nbWaterBoxes;
+    test = arg1->stat.colHeader->waterBoxes;
+    if (nbWaterBoxes == 0
+        || (u32)test == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    //block_2:
+        *arg4 = NULL;
+        return -1;
+    }
+
+    //if ((s32)(*arg1)->unk24 > 0) {
+    //    phi_v0 = (*arg1)->unk28;
+    //    phi_a0 = 0;
+    //loop_5:
+    for (phi_a0 = 0; phi_a0 < nbWaterBoxes; phi_a0++) {
+        temp_a2 = test[phi_a0].properties;
+        //temp_v1 = phi_v0;
+        room = (temp_a2 >> 0xD) & 0x3F;
+        if (room == arg0->roomCtx.curRoom.num || room == 0x3F) {
+            if ((temp_a2 & 0x80000) == 0) {
+                if ((f32)test[phi_a0].xMin < arg2->x && arg2->x < (f32)(test[phi_a0].xMin + test[phi_a0].xLength)) {
+                    if ((f32)test[phi_a0].zMin < arg2->z && arg2->z < (f32)(test[phi_a0].zMin + test[phi_a0].zLength)) {
+                        temp_f2 = (f32)test[phi_a0].ySurface;
+                        if ((arg2->y - arg3) < temp_f2 && temp_f2 < (arg2->y + arg3)) {
+                            *arg4 = &test[phi_a0];
+                            return phi_a0;
+                        }
+                    }
+                }
+            }
+        }
+        //else {
+
+        //}
+        //temp_a0 = phi_a0 + 1;
+        //phi_v0 = phi_v0 + 0x10;
+        //phi_a0 = temp_a0;
+        //if (temp_a0 < (s32)(*arg1)->unk24) {
+        //goto loop_5;
+        //}
+    }
+    *arg4 = NULL;
+    return -1;
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8004239C.s")
+#endif
+
+//Waterbox get CamData index
+u32 func_80042538(CollisionContext* colCtx, WaterBox* waterBox) {
+    u32 prop = waterBox->properties >> 0;
+    return prop & 0xFF;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042548.s")
+u16 func_80042548(CollisionContext* colCtx, WaterBox* waterBox) {
+    s32 v;
+    CamData* camData;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8004259C.s")
+    v = func_80042538(colCtx, waterBox);
+
+    camData = colCtx->stat.colHeader->cameraData;
+    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return 0;
+    }
+
+    return colCtx->stat.colHeader->cameraData[v].cameraSType;
+}
+
+u32 func_8004259C(CollisionContext* colCtx, WaterBox* waterBox) {
+    u32 prop = waterBox->properties >> 8;
+    return prop & 0x1F;
+}
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800425B0.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042708.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800427B4.s")
 
@@ -2042,7 +2295,18 @@ u8 func_80042538(CollisionContext* colCtx, WaterBox* waterBox) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042B2C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042C3C.s")
+void func_80042C3C(GlobalContext* arg0, CollisionContext* arg1) {
+    CollisionContext* phi_s1;
+    s32 phi_s0;
+
+    do {
+        for (phi_s0 = 0; phi_s0 < BG_ACTOR_MAX; phi_s0++) {
+            if ((arg1->dyna.flags[phi_s0] & 1) != 0) {
+                func_80042B2C(arg0, arg1, phi_s0);
+            }
+        }
+    } while (0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042CB8.s")
 

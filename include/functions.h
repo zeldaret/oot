@@ -552,7 +552,7 @@ void func_80041880(void* colHeader, CollisionHeader** arg1);
 // ? func_80041D4C(?);
 // ? func_80041D94(?);
 // ? func_80041DB8(?);
-s32 func_80041EC8(CollisionContext*, CollisionPoly*, s32);
+u32 func_80041EC8(CollisionContext*, CollisionPoly*, s32);
 // ? func_80041F10(?);
 // ? func_80041F34(?);
 // ? func_80042048(?);
