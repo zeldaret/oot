@@ -1,3 +1,30 @@
+.rdata
+
+glabel D_8082F638
+    .asciz "../z_kaleido_equipment.c"
+    .balign 4
+
+glabel D_8082F654
+    .asciz "H_arrowcase_1 + non_equip_item_table = %d\n"
+    .balign 4
+
+glabel D_8082F680
+    .asciz "大人 H_arrowcase_1 + non_equip_item_table = %d\n"
+    .balign 4
+
+glabel D_8082F6B0
+    .asciz "ccc=%d\n"
+    .balign 4
+
+glabel D_8082F6B8
+    .asciz "kscope->select_name[Display_Equipment] = %d\n"
+    .balign 4
+
+glabel D_8082F6E8
+    .asciz "../z_kaleido_equipment.c"
+    .balign 4
+
+.text
 glabel func_80818340
 /* 04B20 80818340 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 04B24 80818344 AFBF0044 */  sw      $ra, 0x0044($sp)           
