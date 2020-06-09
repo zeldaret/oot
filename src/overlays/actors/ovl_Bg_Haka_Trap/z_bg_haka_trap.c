@@ -109,7 +109,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         temp = &D_80881014;
         if ((thisx->params == TRAP_GUILLOTINE_SLOW) || (thisx->params == TRAP_GUILLOTINE_FAST)) {
-            this->actionTimer = 20;
+            this->timer = 20;
             this->colliderCylinder.dim.yShift = 10;
             thisx->velocity.y = 0.1f;
 
@@ -125,7 +125,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             if (thisx->params == TRAP_SPIKED_BOX) {
                 DynaPolyInfo_Alloc(&D_06009CD0, &sp2C);
-                this->actionTimer = 30;
+                this->timer = 30;
 
                 if ((*temp) != 0) {
                     this->actionFunc = func_808808F4;
@@ -165,7 +165,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp2C);
         }
     } else {
-        this->actionTimer = 40;
+        this->timer = 40;
         this->actionFunc = func_808809B0;
         thisx->unk_F8 = 500.0f;
     }
@@ -232,7 +232,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
     func_8087FFC0(this, globalCtx);
 
     if ((this->colliderSpikes.base.acFlags & 2) != 0) {
-        this->actionTimer = 20;
+        this->timer = 20;
         D_80880F30 = 1;
         this->actionFunc = func_808802D8;
     } else if (D_80881018 == 3) {
@@ -243,11 +243,11 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
 void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
     Vec3f vector;
-    f32 temp;
+    f32 xScale;
     s32 i;
 
-    if (this->actionTimer != 0) {
-        this->actionTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     func_8002F974(&this->dyna.actor, 0x205B);
@@ -255,9 +255,9 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
     for (i = 0; i < 2; i++) {
         f32 rand = Math_Rand_ZeroOne();
 
-        temp = (this->dyna.actor.params == TRAP_SPIKED_WALL) ? -30.0f : 30.0f;
+        xScale = (this->dyna.actor.params == TRAP_SPIKED_WALL) ? -30.0f : 30.0f;
 
-        vector.x = temp * rand + this->dyna.actor.posRot.pos.x;
+        vector.x = xScale * rand + this->dyna.actor.posRot.pos.x;
         vector.y = Math_Rand_ZeroOne() * 10.0f + this->dyna.actor.posRot.pos.y + 30.0f;
         vector.z = Math_Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
 
@@ -265,7 +265,7 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
                       9, 0);
     }
 
-    if (this->actionTimer == 0) {
+    if (this->timer == 0) {
         D_80880F30 = 0;
         Actor_Kill(&this->dyna.actor);
     }
@@ -273,7 +273,7 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
 void func_80880484(BgHakaTrap* this, GlobalContext* globalCtx) {
     s32 sp24;
-    s32 temp;
+    s32 timer;
 
     if (this->unk_16A) {
         this->dyna.actor.velocity.y *= 3.0f;
@@ -281,21 +281,21 @@ void func_80880484(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->dyna.actor.velocity.y *= 2.0f;
     }
 
-    if (this->actionTimer != 0) {
-        this->actionTimer -= 1;
+    if (this->timer != 0) {
+        this->timer -= 1;
     }
 
     sp24 = Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 185.0f,
                         this->dyna.actor.velocity.y);
-    temp = this->actionTimer;
+    timer = this->timer;
 
-    if ((temp == 10 && !this->unk_16A) || (temp == 13 && this->unk_16A)) {
+    if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
     }
 
-    if (this->actionTimer == 0) {
+    if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
-        this->actionTimer = (this->unk_16A) ? 10 : 40;
+        this->timer = (this->unk_16A) ? 10 : 40;
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         this->actionFunc = func_808805C0;
     }
@@ -308,26 +308,26 @@ void func_80880484(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_808805C0(BgHakaTrap* this, GlobalContext* globalCtx) {
-    if (this->actionTimer != 0) {
-        this->actionTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     if (this->unk_16A) {
         Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 27.0f);
     } else {
-        if (this->actionTimer > 20) {
+        if (this->timer > 20) {
             Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 90.0f, 9.0f);
         } else {
             Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 4.5f);
         }
 
-        if (this->actionTimer == 20) {
+        if (this->timer == 20) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         }
     }
 
-    if (this->actionTimer == 0) {
-        this->actionTimer = 20;
+    if (this->timer == 0) {
+        this->timer = 20;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
         this->dyna.actor.velocity.y = 0.1f;
         this->actionFunc = func_80880484;
@@ -345,8 +345,8 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.velocity.y *= 1.6f;
 
-    if (this->actionTimer != 0) {
-        this->actionTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     vector.x = this->dyna.actor.posRot.pos.x + 90.0f;
@@ -376,9 +376,9 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
         func_8002F974(&this->dyna.actor, 0x204D);
     }
 
-    if (this->actionTimer == 0) {
+    if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
-        this->actionTimer = 30;
+        this->timer = 30;
         this->unk_16A = (s16)this->dyna.actor.posRot.pos.y + 50.0f;
         this->unk_16A = CLAMP_MAX(this->unk_16A, this->dyna.actor.initPosRot.pos.y);
 
@@ -387,18 +387,18 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_808808F4(BgHakaTrap* this, GlobalContext* globalCtx) {
-    if (this->actionTimer != 0) {
-        this->actionTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (this->actionTimer > 20) {
+    if (this->timer > 20) {
         this->unk_169 = Math_ApproxF(&this->dyna.actor.posRot.pos.y, (f32)this->unk_16A, 15.0f);
     } else {
         this->unk_169 = Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 20.0f);
     }
 
-    if (this->actionTimer == 0) {
-        this->actionTimer = 30;
+    if (this->timer == 0) {
+        this->timer = 30;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
         this->dyna.actor.velocity.y = 0.5f;
         this->actionFunc = func_808806BC;
@@ -406,11 +406,11 @@ void func_808808F4(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_808809B0(BgHakaTrap* this, GlobalContext* globalCtx) {
-    if (this->actionTimer != 0) {
-        this->actionTimer -= 1;
+    if (this->timer != 0) {
+        this->timer -= 1;
     }
 
-    if (this->actionTimer == 0) {
+    if (this->timer == 0) {
         this->actionFunc = func_80880AE8;
     }
 }
@@ -428,14 +428,14 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
 }
 
 void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
-    if (this->actionTimer != 0) {
+    if (this->timer != 0) {
         if (Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.z, 0, this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
-            this->actionTimer = 40;
+            this->timer = 40;
             this->actionFunc = func_808809B0;
         }
     } else if (Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.z, 0x3A00,
                                         this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
-        this->actionTimer = 100;
+        this->timer = 100;
         this->actionFunc = func_80880C0C;
     }
 
@@ -448,14 +448,14 @@ void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
-    if (this->actionTimer != 0) {
-        this->actionTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     func_8002F974(&this->dyna.actor, 0x2057);
 
-    if (this->actionTimer == 0) {
-        this->actionTimer = 1;
+    if (this->timer == 0) {
+        this->timer = 1;
         this->actionFunc = func_80880AE8;
     }
 
@@ -505,7 +505,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp2C;
 
     if (this->actionFunc == func_808802D8) {
-        func_80026230(globalCtx, &D_8088103C, this->actionTimer + 20, 0x28);
+        func_80026230(globalCtx, &D_8088103C, this->timer + 20, 0x28);
     }
 
     Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);

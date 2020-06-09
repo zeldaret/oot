@@ -11,7 +11,7 @@ typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, GlobalContext*);
 typedef struct BgHakaTrap {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgHakaTrapActionFunc actionFunc;
-    /* 0x0168 */ u8 actionTimer;
+    /* 0x0168 */ u8 timer;
     /* 0x0169 */ u8 unk_169;
     /* 0x016A */ s16 unk_16A;
     /* 0x016C */ Vec3f unk_16C;
