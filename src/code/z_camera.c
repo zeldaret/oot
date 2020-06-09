@@ -2,7 +2,7 @@
 #include <global.h>
 #include <vt.h>
 
-#define NON_MATCHING
+//#define NON_MATCHING
 
 #define NEXTSETTING ((values++)->val)
 #define RELOAD_PARAMS (camera->unk_15E == 0 || camera->unk_15E == 0xA || camera->unk_15E == 0x14 || R_RELOAD_CAM_PARAMS)
@@ -123,6 +123,81 @@ typedef enum {
     CAM_MODE_PUSHPULL,
     CAM_MODE_BOOKEEPON
 } CameraModeType;
+
+typedef enum {
+    CAM_FUNC_NONE,
+    CAM_FUNC_NORM0,
+    CAM_FUNC_NORM1,
+    CAM_FUNC_NORM2,
+    CAM_FUNC_NORM3,
+    CAM_FUNC_NORM4,
+    CAM_FUNC_PARA0,
+    CAM_FUNC_PARA1,
+    CAM_FUNC_PARA2,
+    CAM_FUNC_PARA3,
+    CAM_FUNC_PARA4,
+    CAM_FUNC_KEEP0,
+    CAM_FUNC_KEEP1,
+    CAM_FUNC_KEEP2,
+    CAM_FUNC_KEEP3,
+    CAM_FUNC_KEEP4,
+    CAM_FUNC_SUBJ0,
+    CAM_FUNC_SUBJ1,
+    CAM_FUNC_SUBJ2,
+    CAM_FUNC_SUBJ3,
+    CAM_FUNC_SUBJ4,
+    CAM_FUNC_JUMP0,
+    CAM_FUNC_JUMP1,
+    CAM_FUNC_JUMP2,
+    CAM_FUNC_JUMP3,
+    CAM_FUNC_JUMP4,
+    CAM_FUNC_BATT0,
+    CAM_FUNC_BATT1,
+    CAM_FUNC_BATT2,
+    CAM_FUNC_BATT3,
+    CAM_FUNC_BATT4,
+    CAM_FUNC_FIXD0,
+    CAM_FUNC_FIXD1,
+    CAM_FUNC_FIXD2,
+    CAM_FUNC_FIXD3,
+    CAM_FUNC_FIXD4,
+    CAM_FUNC_DATA0,
+    CAM_FUNC_DATA1,
+    CAM_FUNC_DATA2,
+    CAM_FUNC_DATA3,
+    CAM_FUNC_DATA4,
+    CAM_FUNC_UNIQ0,
+    CAM_FUNC_UNIQ1,
+    CAM_FUNC_UNIQ2,
+    CAM_FUNC_UNIQ3,
+    CAM_FUNC_UNIQ4,
+    CAM_FUNC_UNIQ5,
+    CAM_FUNC_UNIQ6,
+    CAM_FUNC_UNIQ7,
+    CAM_FUNC_UNIQ8,
+    CAM_FUNC_UNIQ9,
+    CAM_FUNC_DEMO0,
+    CAM_FUNC_DEMO1,
+    CAM_FUNC_DEMO2,
+    CAM_FUNC_DEMO3,
+    CAM_FUNC_DEMO4,
+    CAM_FUNC_DEMO5,
+    CAM_FUNC_DEMO6,
+    CAM_FUNC_DEMO7,
+    CAM_FUNC_DEMO8,
+    CAM_FUNC_DEMO9,
+    CAM_FUNC_SPEC0,
+    CAM_FUNC_SPEC1,
+    CAM_FUNC_SPEC2,
+    CAM_FUNC_SPEC3,
+    CAM_FUNC_SPEC4,
+    CAM_FUNC_SPEC5,
+    CAM_FUNC_SPEC6,
+    CAM_FUNC_SPEC7,
+    CAM_FUNC_SPEC8,
+    CAM_FUNC_SPEC9,
+    CAM_FUNC_MAX
+};
 
 /*==================================================================*/
 // Data
@@ -596,12 +671,14 @@ CameraModeValue D_8011B1F8[] = {
     { -40, 0 }, { 50, 4 }, { 80, 5 }, { 60, 7 }, { 4, 9 },
 };
 
+#define CAM_IFACE_INIT(interfaceFlags) { interfaceFlags, 9 }
+
 CameraModeValue D_8011B20C[] = {
-    { 0, 9 },
+    CAM_IFACE_INIT(0),
 };
 
 CameraModeValue D_8011B210[] = {
-    { 8192, 9 },
+    CAM_IFACE_INIT(0x2000),
 };
 
 CameraModeValue D_8011B214[] = {
@@ -1153,22 +1230,25 @@ CameraMode D_8011C7CC[] = {
     { 12, 13, D_8011A68C },
 };
 
+#define CAM_MODE_INIT(funcIdx, modeValues) { funcIdx, ARRAY_COUNT(modeValues), modeValues, }
+#define CAM_MODE_NONE { CAM_FUNC_NONE, 0, NULL, }
+
 CameraMode D_8011C874[] = {
-    { 34, 1, D_8011B20C },
-    { 0, 0, NULL },
-    { 34, 1, D_8011B210 },
-    { 34, 1, D_8011B210 },
+    CAM_MODE_INIT(CAM_FUNC_FIXD3, D_8011B20C),
+    CAM_MODE_NONE,
+    CAM_MODE_INIT(CAM_FUNC_FIXD3, D_8011B210),
+    CAM_MODE_INIT(CAM_FUNC_FIXD3, D_8011B210),
 };
 
 CameraMode D_8011C894[] = {
-    { 48, 2, D_8011B214 },
-    { 0, 0, NULL },
-    { 48, 2, D_8011B21C },
-    { 11, 4, D_8011B224 },
+    CAM_MODE_INIT(CAM_FUNC_UNIQ7, D_8011B214),
+    CAM_MODE_NONE,
+    CAM_MODE_INIT(CAM_FUNC_UNIQ7, D_8011B21C),
+    CAM_MODE_INIT(CAM_FUNC_KEEP0, D_8011B224),
 };
 
 CameraMode D_8011C8B4[] = {
-    { 67, 1, D_8011B20C },
+    CAM_MODE_INIT(CAM_FUNC_SPEC6, D_8011B20C),
 };
 
 CameraMode D_8011C8BC[] = {
@@ -2983,7 +3063,7 @@ void Camera_Parallel1(Camera *camera) {
             unk28->unk_0C = camera->playerPosRot.pos.y - camera->playerPosDelta.y;
             camera->unk_15E++;
             break;
-        default: 
+        default:
             break;
     }
 
@@ -3517,7 +3597,7 @@ s32 Camera_Jump3(Camera *camera) {
         unk24->unk_1A = (u16)0;
         unk24->unk_20 = (u16)0xA;
         camera->unk_15E++;
-        
+
     } else if (unk24->unk_20 != 0) {
         unk24->unk_20--;
     }
