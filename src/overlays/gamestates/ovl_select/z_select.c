@@ -5,6 +5,42 @@
 
 void func_80800B90(SelectContext*);
 void func_80800BAC(SelectContext*, s32);
+// data starts at BD0EF0
+// Select_LoadTitleScreen
+void func_80800B90(SelectContext* this) {
+    this->state.running = 0;
+    SET_NEXT_GAMESTATE(&this->state, Title_Init, TitleContext);
+}
+
+// Select_LoadGame
+void func_80800BAC(SelectContext* this, s32 entranceIndex) {
+    osSyncPrintf(VT_FGCOL(BLUE));
+    osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
+    osSyncPrintf(VT_RST);
+    if (gSaveContext.fileNum == 0xFF) {
+        func_800A82C8();
+        gSaveContext.unk_13F6 = gSaveContext.magic;
+        gSaveContext.magic = 0;
+        gSaveContext.unk_13F4 = 0;
+        gSaveContext.magicLevel = gSaveContext.magic;
+    }
+    gSaveContext.buttonStatus[4] = BTN_ENABLED;
+    gSaveContext.buttonStatus[3] = BTN_ENABLED;
+    gSaveContext.buttonStatus[2] = BTN_ENABLED;
+    gSaveContext.buttonStatus[1] = BTN_ENABLED;
+    gSaveContext.buttonStatus[0] = BTN_ENABLED;
+    gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
+    Audio_SetBGM(NA_BGM_STOP);
+    gSaveContext.entranceIndex = entranceIndex;
+    gSaveContext.respawnFlag = 0;
+    gSaveContext.respawn[0].entranceIndex = -1;
+    gSaveContext.seqIndex = 0xFF;
+    gSaveContext.nightSeqIndex = 0xFF;
+    gSaveContext.unk_13C7 = 1;
+    D_8011FB30 = 0;
+    this->state.running = 0;
+    SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext)
+}
 
 static SelectSlot slotData[] = {
     { " 1:SPOT00", func_80800BAC, 0x000000CD },
@@ -134,73 +170,6 @@ static SelectSlot slotData[] = {
     { "125:・ﾊｲﾗﾙ・ﾆﾜ・ｹﾞｰﾑ2", func_80800BAC, 0x00000076 },
     { "title", func_80800B90, 0x00000000 },
 };
-
-static char* sLoadingMessages[12] = {
-    "ｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",          // "Please wait a minute"
-    "ﾁｮｯﾄ ﾏｯﾃﾈ",              // "Hold on a sec"
-    "ｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",           // "Wait a moment"
-    "ﾛｰﾄﾞﾁｭｳ",                // "Loading"
-    "ﾅｳ ﾜｰｷﾝｸﾞ",              // "Now working"
-    "ｲﾏ ﾂｸｯﾃﾏｽ",              // "Now creating"
-    "ｺｼｮｳｼﾞｬﾅｲﾖ",             // "It's not broken"
-    "ｺｰﾋｰ ﾌﾞﾚｲｸ",             // "Coffee Break"
-    "Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",         // "Please set B side"
-    "ｼﾞｯﾄｶﾞﾏﾝﾉｺﾃﾞｱｯﾀ",        // "Be patient, now"
-    "ｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",        // "Please wait just a minute"
-    "ｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡", // "Don't worry, don't worry. Take a break, take a break"
-};
-
-static char* sAgeLabels[] = {
-    "・17(ﾜｶﾓﾉ)", // "17(young)"
-    "・5(ﾜｶｽｷﾞ)", // "5(very young)"
-};
-
-// Select_LoadTitleScreen
-void func_80800B90(SelectContext* this) {
-    this->state.running = 0;
-    SET_NEXT_GAMESTATE(&this->state, Title_Init, TitleContext);
-}
-
-#ifdef NON_MATCHING
-// entranceIndex assignment uses t9 instead of t2. long long totally has to be fake, but it improves it...
-// Select_LoadGame
-void func_80800BAC(SelectContext* this, s32 entranceIndex) {
-    s16 temp_t7;
-
-    osSyncPrintf(VT_FGCOL(VT_COLOR_BLUE));
-    osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
-    osSyncPrintf(VT_RST);
-    if (gSaveContext.fileNum == 0xFF) {
-        func_800A82C8();
-        temp_t7 = gSaveContext.magic;
-        gSaveContext.magic = 0;
-        gSaveContext.unk_13F4 = 0;
-        gSaveContext.unk_13F6 = temp_t7 & 0xFFFF;
-        gSaveContext.magicLevel = gSaveContext.magic;
-    }
-    gSaveContext.buttonStatus[4] = 0;
-    gSaveContext.buttonStatus[3] = 0;
-    gSaveContext.buttonStatus[2] = 0;
-    gSaveContext.buttonStatus[1] = 0;
-    gSaveContext.buttonStatus[0] = 0;
-    gSaveContext.unk_13EC = 0;
-    gSaveContext.unk_13EA = 0;
-    gSaveContext.unk_13E8 = 0;
-    gSaveContext.unk_13E7 = 0;
-    Audio_SetBGM(0x100000FF);
-    gSaveContext.entranceIndex = (long long)entranceIndex;
-    gSaveContext.respawnFlag = 0;
-    gSaveContext.respawn[0].entranceIndex = -1;
-    gSaveContext.seqIndex = -1;
-    gSaveContext.nightSeqIndex = -1;
-    gSaveContext.unk_13C7 = 1;
-    D_8011FB30 = 0;
-    this->state.running = 0;
-    SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext)
-}
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_select/func_80800BAC.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_select/func_80800CB4.s")
 // stack, regalloc, instruction order
@@ -439,6 +408,21 @@ void func_80801614(SelectContext* this, GfxPrint* printer) {
     GfxPrint_Printf(printer, "OPT=%d", this->opt);
 }
 
+static char* sLoadingMessages[12] = {
+    "ｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",          // "Please wait a minute"
+    "ﾁｮｯﾄ ﾏｯﾃﾈ",              // "Hold on a sec"
+    "ｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",           // "Wait a moment"
+    "ﾛｰﾄﾞﾁｭｳ",                // "Loading"
+    "ﾅｳ ﾜｰｷﾝｸﾞ",              // "Now working"
+    "ｲﾏ ﾂｸｯﾃﾏｽ",              // "Now creating"
+    "ｺｼｮｳｼﾞｬﾅｲﾖ",             // "It's not broken"
+    "ｺｰﾋｰ ﾌﾞﾚｲｸ",             // "Coffee Break"
+    "Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",         // "Please set B side"
+    "ｼﾞｯﾄｶﾞﾏﾝﾉｺﾃﾞｱｯﾀ",        // "Be patient, now"
+    "ｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",        // "Please wait just a minute"
+    "ｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡", // "Don't worry, don't worry. Take a break, take a break"
+};
+
 // Select_PrintLoadingMessage
 void func_808017F0(SelectContext* this, GfxPrint* printer) {
     s32 randomMsg;
@@ -449,7 +433,12 @@ void func_808017F0(SelectContext* this, GfxPrint* printer) {
     GfxPrint_Printf(printer, "%s", sLoadingMessages[randomMsg]);
 }
 
-// Select_PrintAgeOptions
+static char* sAgeLabels[] = {
+    "・17(ﾜｶﾓﾉ)", // "17(young)"
+    "・5(ﾜｶｽｷﾞ)", // "5(very young)"
+};
+
+// Select_PrintAgeSetting
 void func_8080187C(SelectContext* this, GfxPrint* printer, s32 age) {
 
     GfxPrint_SetPos(printer, 4, 26);
@@ -457,7 +446,7 @@ void func_8080187C(SelectContext* this, GfxPrint* printer, s32 age) {
     GfxPrint_Printf(printer, "Age:%s", sAgeLabels[age]);
 }
 
-// Select_PrintCutsceneOptions
+// Select_PrintCutsceneSetting
 void func_808018F0(SelectContext* this, GfxPrint* printer, u16 csIndex) {
     char* label;
 
