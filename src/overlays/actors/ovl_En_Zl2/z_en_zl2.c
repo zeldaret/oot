@@ -420,60 +420,60 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
 void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F230.s")
 /*void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
-    s32 temp_a3;
+    s32 temp_v1;
     s32 temp_t0;
     s32 temp_t2;
     s32 temp_t3;
-    s32 temp_t9;
-    s32 temp_v1;
-    s32 phi_t4;
+    s32 index1AC;
     s32 phi_v0;
     s32 phi_t5;
+    s32 temp_1AC;
 
-    temp_a3 = arg1;
     if (this->unk_24C != 0) {
-        temp_v1 = this->unk_1DC[arg2] - temp_a3;
+        temp_v1 = this->unk_1DC[arg2] - arg1;
         temp_t0 = (s16)temp_v1;
         temp_t2 = temp_t0;
-        temp_t3 = temp_a3 - this->unk_20C[arg2];
+        temp_t3 = this->unk_1AC[arg2];
+        phi_v0 = temp_t3;
+        temp_1AC = phi_v0;
+        temp_t3 = arg1 - this->unk_20C[arg2];
 
         if (arg2 == 1) {
-            phi_t4 = 0;
-            phi_t5 = this->unk_1AC[0];
+            index1AC = 0;
+            phi_t5 = this->unk_1AC[index1AC];
         } else if (arg2 == 4) {
-            phi_t4 = 3;
-            phi_t5 = this->unk_1AC[3];
+            index1AC = 3;
+            phi_t5 = this->unk_1AC[index1AC];
         } else if (arg2 == 7) {
-            phi_t4 = 6;
-            phi_t5 = this->unk_1AC[6];
+            index1AC = 6;
+            phi_t5 = this->unk_1AC[index1AC];
         } else if (arg2 == 10) {
-            phi_t4 = 9;
-            phi_t5 = ABS(this->unk_1AC[9]);
+            index1AC = 9;
+            phi_t5 = ABS(this->unk_1AC[index1AC]);
         } else if (arg2 == 13) {
-            phi_t4 = 12;
-            phi_t5 = ABS(this->unk_1AC[12]);
+            index1AC = 12;
+            phi_t5 = ABS(this->unk_1AC[index1AC]);
         } else if (arg2 == 16) {
-            phi_t4 = 15;
-            phi_t5 = ABS(this->unk_1AC[15]);
+            index1AC = 15;
+            phi_t5 = ABS(this->unk_1AC[index1AC]);
         } else {
-            phi_t4 = 18;
-            phi_t5 = ABS(this->unk_1AC[18]);
+            index1AC = 18;
+            phi_t5 = ABS(this->unk_1AC[index1AC]);
         }
 
         if ((s32)fabsf((f32)temp_t3) >= 0x8001) {
-            if (temp_a3 > 0) {
+            if (arg1 > 0) {
                 temp_t3 -= 0x10000;
             } else {
                 temp_t3 += 0x10000;
             }
         }
-        if (phi_t4 >= 0) {
+        if (index1AC >= 0) {
             temp_t3 += phi_t5 / 3;
         }
-        temp_t9 = temp_t3 - this->unk_1AC[arg2];
-        phi_v0 = this->unk_1AC[arg2];
+
         if (temp_t3 != 0) {
-            phi_v0 += (temp_t9) / 16;
+            phi_v0 += (temp_t3 - temp_1AC) / 16;
         }
         if (phi_v0 != 0) {
             phi_v0 -= phi_v0 / 10;
@@ -482,14 +482,15 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
             phi_v0 -= temp_t0 / 50;
         }
         temp_v1 += phi_v0;
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
-            phi_v0 = 0;
+        if (((temp_1AC * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
+
             temp_v1 = 0;
+            phi_v0 = 0;
         }
         this->unk_1AC[arg2] = phi_v0;
-        this->unk_1DC[arg2] = temp_a3 + temp_v1;
+        this->unk_1DC[arg2] = arg1 + temp_v1;
     }
-    this->unk_20C[arg2] = temp_a3;
+    this->unk_20C[arg2] = arg1;
 }*/
 
 s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
