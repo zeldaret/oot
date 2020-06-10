@@ -175,22 +175,22 @@ static MapEntry sMaps[] = {
 //mostly regalloc, a good amount of instruction ordering. confirmed equivalent in game.
 #ifdef NON_MATCHING
 void Select_UpdateMenu(SelectContext* this) {
-    Input* pad1;
+    Input* controller1;
     s32 pad;
     MapEntry* selectedMap;
 
-    pad1 = &this->state.input[0];
+    controller1 = &this->state.input[0];
 
     if (this->unk_21C == 0) {
 
-        if (CHECK_PAD(pad1->press, A_BUTTON) || CHECK_PAD(pad1->press, START_BUTTON)) {
+        if (CHECK_PAD(controller1->press, A_BUTTON) || CHECK_PAD(controller1->press, START_BUTTON)) {
             selectedMap = &this->maps[this->currentMap];
             if (selectedMap->loadFunc != NULL) {
                 selectedMap->loadFunc(this, selectedMap->entranceIndex);
             }
         }
 
-        if (CHECK_PAD(pad1->press, B_BUTTON)) {
+        if (CHECK_PAD(controller1->press, B_BUTTON)) {
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 gSaveContext.linkAge = 1;
             } else {
@@ -198,7 +198,7 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(pad1->press, Z_TRIG)) {
+        if (CHECK_PAD(controller1->press, Z_TRIG)) {
             if (gSaveContext.cutsceneIndex == 0x8000) {
                 gSaveContext.cutsceneIndex = 0;
             } else if (gSaveContext.cutsceneIndex == 0) {
@@ -226,7 +226,7 @@ void Select_UpdateMenu(SelectContext* this) {
             } else if (gSaveContext.cutsceneIndex == 0xFFFA) {
                 gSaveContext.cutsceneIndex = 0x8000;
             } 
-        } else if (CHECK_PAD(pad1->press, R_TRIG)) {
+        } else if (CHECK_PAD(controller1->press, R_TRIG)) {
             if (gSaveContext.cutsceneIndex == 0x8000) {
                 gSaveContext.cutsceneIndex = 0xFFFA;
             } else if (gSaveContext.cutsceneIndex == 0) {
@@ -262,14 +262,14 @@ void Select_UpdateMenu(SelectContext* this) {
         }
 
         // user can change "opt", but it doesn't do anything
-        if (CHECK_PAD(pad1->press, U_CBUTTONS)) {
+        if (CHECK_PAD(controller1->press, U_CBUTTONS)) {
             this->opt--;
         }
-        if (CHECK_PAD(pad1->press, D_CBUTTONS)) {
+        if (CHECK_PAD(controller1->press, D_CBUTTONS)) {
             this->opt++;
         }
 
-        if (CHECK_PAD(pad1->press, U_JPAD)) {
+        if (CHECK_PAD(controller1->press, U_JPAD)) {
             if (this->unk_22C == 1) {
                 this->unk_224 = 0;
             }
@@ -281,12 +281,12 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(pad1->cur, U_JPAD) && this->unk_224 == 0) {
+        if (CHECK_PAD(controller1->cur, U_JPAD) && this->unk_224 == 0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30) * 3;
         }
 
-        if (CHECK_PAD(pad1->press, D_JPAD)) {
+        if (CHECK_PAD(controller1->press, D_JPAD)) {
             if (this->unk_230 == 1) {
                 this->unk_228 = 0;
             }
@@ -298,23 +298,23 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(pad1->cur, D_JPAD) && (this->unk_228 == 0)) {
+        if (CHECK_PAD(controller1->cur, D_JPAD) && (this->unk_228 == 0)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30) * 3;
         }
 
-        if (CHECK_PAD(pad1->press, L_JPAD) || CHECK_PAD(pad1->cur, L_JPAD)) {
+        if (CHECK_PAD(controller1->press, L_JPAD) || CHECK_PAD(controller1->cur, L_JPAD)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30);
         }
 
-        if (CHECK_PAD(pad1->press, R_JPAD) || CHECK_PAD(pad1->cur, R_JPAD)) {
+        if (CHECK_PAD(controller1->press, R_JPAD) || CHECK_PAD(controller1->cur, R_JPAD)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30);
         }
     }
 
-    if (CHECK_PAD(pad1->press, L_TRIG)) {
+    if (CHECK_PAD(controller1->press, L_TRIG)) {
         this->unk_1DC = (++this->unk_1DC + 7) % 7;
         this->currentMap = this->unk_20C = this->unk_1E0[this->unk_1DC];
     }
@@ -511,7 +511,7 @@ void Select_DrawMenu(SelectContext* this) {
     
     gSPSegment(gfxCtx->polyOpa.p++, 0x00, 0x00000000);
     func_80095248(gfxCtx, 0, 0, 0);
-    INIT_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view)
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
@@ -543,7 +543,7 @@ void Select_DrawLoadingScreen(SelectContext* this) {
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x00, 0x00000000);
     func_80095248(gfxCtx, 0, 0, 0);
-    INIT_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view)
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
@@ -565,7 +565,7 @@ void Select_Draw(SelectContext* this) {
     
     gSPSegment(gfxCtx->polyOpa.p++, 0x00, 0x00000000);
     func_80095248(gfxCtx, 0, 0, 0);
-    INIT_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view)
     func_800AAA50(&this->view, 0xF);
 
     if (this->state.running == false) {

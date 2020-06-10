@@ -1139,7 +1139,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;
 
-                INIT_FULLSCREEN_VIEWPORT(&view);
+                SET_FULLSCREEN_VIEWPORT(&view);
 
                 func_800AB9EC(&view, 15, &gfxP);
                 globalCtx->transitionCtx.draw(&globalCtx->transitionCtx.data, &gfxP);

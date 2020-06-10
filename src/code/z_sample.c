@@ -57,7 +57,7 @@ void Sample_SetupView(SampleContext* this) {
     gfxCtx = this->state.gfxCtx;
     
     View_Init(view, gfxCtx);
-    INIT_FULLSCREEN_VIEWPORT(view);
+    SET_FULLSCREEN_VIEWPORT(view);
     func_800AA460(view, 60, 10, 12800);
 
     {

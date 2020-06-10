@@ -72,7 +72,7 @@
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
-#define INIT_FULLSCREEN_VIEWPORT(view)     \
+#define SET_FULLSCREEN_VIEWPORT(view)     \
     {                                      \
         Viewport viewport;                 \
         viewport.bottomY = SCREEN_HEIGHT;  \

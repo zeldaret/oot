@@ -3094,7 +3094,7 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
 }
 
 void func_8008A994(InterfaceContext* interfaceCtx) {
-    INIT_FULLSCREEN_VIEWPORT(&interfaceCtx->view);
+    SET_FULLSCREEN_VIEWPORT(&interfaceCtx->view);
     func_800AB2C4(&interfaceCtx->view);
 }
 

@@ -77,7 +77,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     View_Init(&view, gfxCtx);
     view.flags = 0xA;
 
-    INIT_FULLSCREEN_VIEWPORT(&view);
+    SET_FULLSCREEN_VIEWPORT(&view);
 
     gfx = gfxCtx->overlay.p;
     func_800AB9EC(&view, 0xF, &gfx);
@@ -133,7 +133,7 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
         View_Init(&view, gfxCtx);
         view.flags = 0xA;
 
-        INIT_FULLSCREEN_VIEWPORT(&view);
+        SET_FULLSCREEN_VIEWPORT(&view);
 
         gfx = gfxCtx->overlay.p;
         func_800AB9EC(&view, 0xF, &gfx);
