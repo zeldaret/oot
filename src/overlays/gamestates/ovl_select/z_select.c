@@ -1,3 +1,9 @@
+/*
+ * File: z_select.c
+ * Overlay: ovl_select
+ * Description: Map Select
+ */
+
 #include <ultra64.h>
 #include <global.h>
 #include <vt.h>
@@ -152,7 +158,7 @@ static MapEntry sMaps[] = {
     { "112:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 11", Select_LoadGame, 0x000005C0 },
     { "113:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 12", Select_LoadGame, 0x000005C4 },
     { "114:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 13", Select_LoadGame, 0x000005FC },
-    { "115:\x8Cﾊｲﾗﾙ ﾃﾞﾓ", Select_LoadGame, 0x000000A0 }, // BD20F0
+    { "115:\x8Cﾊｲﾗﾙ ﾃﾞﾓ", Select_LoadGame, 0x000000A0 },
     { "116:\x8Dﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ\x8Cﾜｰﾌﾟ)", Select_LoadGame, 0x00000520 },
     { "117:\x8Dｻｻ\x8Cﾃｽﾄ", Select_LoadGame, 0x00000018 },
     { "118:\x8Cﾃｽﾄﾏｯﾌﾟ", Select_LoadGame, 0x00000094 },
@@ -297,7 +303,7 @@ void Select_UpdateMenu(SelectContext* this) {
             this->unk_220 = -SREG(30) * 3;
         }
 
-        if (CHECK_PAD(pad1->press, L_JPAD) || CHECK_PAD(pad1->cur, L_JPAD)) {//
+        if (CHECK_PAD(pad1->press, L_JPAD) || CHECK_PAD(pad1->cur, L_JPAD)) {
             Audio_PlaySoundGeneral(0x1800, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30);
         }
@@ -556,6 +562,7 @@ void Select_Draw(SelectContext* this) {
 
     gfxCtx = this->state.gfxCtx;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 1013);
+    
     gSPSegment(gfxCtx->polyOpa.p++, 0x00, 0x00000000);
     func_80095248(gfxCtx, 0, 0, 0);
     INIT_FULLSCREEN_VIEWPORT(&this->view)
