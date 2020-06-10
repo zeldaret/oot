@@ -1137,18 +1137,18 @@ typedef struct {
 } TitleContext; // size = 0x1E8
 
 typedef struct {
-    /* 0x00 */ char* locationName; //Display name of the location
-    /* 0x04 */ void (*functionPtr)(struct SelectContext*, s32);  //possibly custom function for initializing game state
-    /* 0x08 */ u32 entranceIndex;  //Location entrance index
-} SelectSlot; // size = 0xC
+    /* 0x00 */ char* name;
+    /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
+    /* 0x08 */ s32 entranceIndex;
+} MapEntry; // size = 0xC
 
 typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ s32 unk_A4;
     /* 0x00A8 */ View view;
-    /* 0x01D0 */ s32 slotCount;
-    /* 0x01D4 */ SelectSlot* slots;
-    /* 0x01D8 */ s32 currentSlot;
+    /* 0x01D0 */ s32 count;
+    /* 0x01D4 */ MapEntry* maps;
+    /* 0x01D8 */ s32 currentMap;
     /* 0x01DC */ s32 unk_1DC;
     /* 0x01E0 */ s32 unk_1E0[7];
     /* 0x01FC */ s32 unk_1FC;
