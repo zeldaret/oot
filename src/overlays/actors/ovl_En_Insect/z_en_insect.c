@@ -14,6 +14,7 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7C598(EnInsect* this);
 void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7C818(EnInsect* this);
+void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7CBC8(EnInsect* this);
 void func_80A7CE60(EnInsect* this);
 void func_80A7D39C(EnInsect* this);
@@ -288,9 +289,52 @@ void func_80A7C598(EnInsect *this) {
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C818.s")
+void func_80A7C818(EnInsect *this) {
+    this->unk_31A = Math_Rand_S16Offset(10, 40);
+    func_80A7BF58(this);
+    this->actionFunc = &func_80A7C86C;
+    this->unk_314 |= 0x100;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C86C.s")
+// void func_80A7C86C(EnInsect *this, GlobalContext *globalCtx) {
+//     s32 pad;
+//     f32 temp_f0;
+//     s16 phi_a1;
+//     s16 sp38;
+
+//     sp38 = 0;
+//     if (this->actor.xzDistanceFromLink < 40.0f) {
+//         sp38 = 1;
+//     }
+//     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
+//     if (25600.0f < func_80A7BE40(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || this->unk_31A < 4) {
+//         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
+//     } else {
+//         if (sp38 != 0) {
+//             phi_a1 = this->actor.rotTowardsLinkY + 0x8000;
+//             if ((s16)globalCtx->state.frames & 0x10) {
+//                 if ((s16)globalCtx->state.frames & 0x20) {
+//                     phi_a1 += 0x2000;
+//                 }
+//             } else {
+//                 if ((s16)globalCtx->state.frames & 0x20) {
+//                     phi_a1 -= 0x2000;
+//                 }
+//             }
+//             Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, phi_a1, (u16)0x7D0);
+//         }
+//     }
+//     this->actor.shape.rot.y = this->actor.posRot.rot.y;
+//     temp_f0 = this->actor.speedXZ * 1.6f;
+//     this->skelAnime.animPlaybackSpeed = CLAMP(temp_f0, 0.8f, 1.9f);
+//     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+//     if (this->unk_31A <= 0 || sp38 == 0) {
+//         func_80A7C3A0(this);
+//     } else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+//         func_80A7CE60(this);
+//     }
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7CA64.s")
 
