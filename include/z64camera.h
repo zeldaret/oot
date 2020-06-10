@@ -318,6 +318,41 @@ typedef struct {
     /* 0x0028 */ Parallel1Anim anim;
 } Parallel1;
 
+typedef struct {
+    Vec3f unk_00;
+    s32 unk_0C;
+    f32 unk_10;
+    s16 unk_14;
+    s16 unk_16;
+    s16 unk_18;
+    s16 unk_1A;
+    f32 unk_1C;
+    f32 unk_20;
+    s16 unk_24;
+    s16 unk_26;
+    s16 unk_28;
+    s16 unk_2A;
+} Normal1_Unk24;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    f32 unk_1C;
+    s16 unk_20;
+    s16 unk_22;
+    Normal1_Unk24 unk_24;
+} Normal1;
+
+typedef struct {
+    Vec3f unk_00;
+    s16 unk_0C;
+} Unique0;
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -340,6 +375,8 @@ typedef union {
     Jump2 jump2;
     Jump3 jump3;
     Parallel1 para1;
+    Normal1 norm1;
+    Unique0 uniq0;
 } CameraParams;
 
 typedef struct {
