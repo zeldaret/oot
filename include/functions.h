@@ -2547,8 +2547,8 @@ void func_80112098(GlobalContext* globalCtx);
 
 void Title_Init(TitleContext*);
 void Title_Destroy(TitleContext* this);
-void Select_Init(SelectContext*); // Select_Init
-void Select_Destroy(SelectContext*); // Select_Destroy
+void Select_Init(SelectContext*);
+void Select_Destroy(SelectContext*);
 void Opening_Init(OpeningContext* this);
 void Opening_Destroy(OpeningContext* this);
 void func_80811A20(GameState*); // FileChoose_Init
