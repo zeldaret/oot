@@ -218,10 +218,9 @@ void func_80063C04(GfxPrint* gfxPrint) {
 void func_80063D7C(GraphicsContext* gfxCtx) {
     Gfx* sp7C;
     Gfx* sp78;
-    Gfx* tempRet;
-    void* unk2[6];
     GfxPrint gfxPrint;
-    void* unk[2];
+    Gfx* tempRet;
+    u32 pad;
     Gfx* dispRefs[4]; // stores state of GfxCtx next ptrs
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_debug.c", 628);

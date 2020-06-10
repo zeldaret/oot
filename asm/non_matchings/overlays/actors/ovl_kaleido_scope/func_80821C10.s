@@ -1,3 +1,30 @@
+.rdata
+
+glabel D_8082FC58
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FC74
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FC90
+    .asciz "[33m"
+    .balign 4
+
+glabel D_8082FC98
+    .asciz "キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n"
+    .balign 4
+
+glabel D_8082FCC4
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_8082FCC8
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+.text
 glabel func_80821C10
 /* 0E3F0 80821C10 27BDFEF8 */  addiu   $sp, $sp, 0xFEF8           ## $sp = FFFFFEF8
 /* 0E3F4 80821C14 AFBF001C */  sw      $ra, 0x001C($sp)           
