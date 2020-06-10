@@ -276,13 +276,13 @@ void Select_UpdateMenu(SelectContext* this) {
             if (this->unk_224 == 0) {
                 this->unk_224 = 0x14;
                 this->unk_22C = 1;
-                Audio_PlaySoundGeneral(0x1800, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->unk_220 = SREG(30);
             }
         }
 
         if (CHECK_PAD(pad1->cur, U_JPAD) && this->unk_224 == 0) {
-            Audio_PlaySoundGeneral(0x1800, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30) * 3;
         }
 
@@ -293,23 +293,23 @@ void Select_UpdateMenu(SelectContext* this) {
             if (this->unk_228 == 0) {
                 this->unk_228 = 0x14;
                 this->unk_230 = 1;
-                Audio_PlaySoundGeneral(0x1800, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->unk_220 = -SREG(30);
             }
         }
 
         if (CHECK_PAD(pad1->cur, D_JPAD) && (this->unk_228 == 0)) {
-            Audio_PlaySoundGeneral(0x1800, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30) * 3;
         }
 
         if (CHECK_PAD(pad1->press, L_JPAD) || CHECK_PAD(pad1->cur, L_JPAD)) {
-            Audio_PlaySoundGeneral(0x1800, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30);
         }
 
         if (CHECK_PAD(pad1->press, R_JPAD) || CHECK_PAD(pad1->cur, R_JPAD)) {
-            Audio_PlaySoundGeneral(0x1800, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30);
         }
     }
