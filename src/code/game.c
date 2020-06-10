@@ -158,8 +158,8 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx* newDList;
     Gfx* polyOpaP;
     Gfx* dispRefs[5];
-    char pad[0x10];
-    GfxPrint printChars[2];
+    char pad[0x8];
+    GfxPrint printChars;
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../game.c", 746);
     newDList = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
@@ -175,11 +175,11 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
-        GfxPrint_Ctor(printChars);
-        GfxPrint_Open(printChars, newDList);
-        func_800EEA50(printChars);
-        newDList = GfxPrint_Close(printChars);
-        GfxPrint_Dtor(printChars);
+        GfxPrint_Ctor(&printChars);
+        GfxPrint_Open(&printChars, newDList);
+        func_800EEA50(&printChars);
+        newDList = GfxPrint_Close(&printChars);
+        GfxPrint_Dtor(&printChars);
     }
 
     if (R_ENABLE_ARENA_DBG < 0) {

@@ -40,8 +40,6 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_80825C14.s")
 
-extern const char D_8082FD78[], D_8082FD94[];
-
 void KaleidoScope_Draw(GlobalContext* globalCtx) {
     Input* input = &globalCtx->state.input[0];
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
@@ -49,7 +47,7 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, D_8082FD78, 3188);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
 
     pauseCtx->inputX = input->rel.in.x;
     pauseCtx->inputY = input->rel.in.y;
@@ -84,7 +82,7 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
         func_808161AC(globalCtx);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, D_8082FD94, 3254);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3254);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_8082650C.s")

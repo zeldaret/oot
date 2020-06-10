@@ -1453,7 +1453,8 @@ typedef struct GfxPrint {
     /* 0x0E */ u8 baseY;
     /* 0x0F */ u8 flag;
     /* 0x10 */ Color_RGBA8 color;
-} GfxPrint;
+    /* 0x14 */ char unk_14[0x1C]; // unused
+} GfxPrint; // size = 0x30
 
 typedef enum {
     GFXPRINT_FLAG1 = 1,
@@ -1913,5 +1914,10 @@ typedef struct {
     /* 0x08 */ u32 len;
     /* 0x0C */ F3dzexSetModeMacroValue values[4];
 } F3dzexSetModeMacro; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ u16* value;
+    /* 0x04 */ const char* name;
+} FlagSetEntry; // size = 0x08
 
 #endif
