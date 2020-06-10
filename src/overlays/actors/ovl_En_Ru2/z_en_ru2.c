@@ -5,7 +5,6 @@
  */
 
 #include "z_en_ru2.h"
-
 #include <vt.h>
 
 #define FLAGS 0x00000010
@@ -44,29 +43,29 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 
 void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit_Set3 colliderInit = {
+static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 30, 100, 0, { 0 } },
 };
 
-static u32 D_80AF410C[] = {
+static UNK_PTR D_80AF410C[] = {
     0x06000F20,
     0x060022E0,
     0x06002AE0,
 };
 
-static u32 D_80AF4118 = 0;
+static UNK_TYPE D_80AF4118 = 0;
 
 #include "z_en_ru2_cutscene_data.c" EARLY
 
-static EnRu2ActionFunc D_80AF50BC[] = {
+static EnRu2ActionFunc sActionFuncs[] = {
     func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C, func_80AF2D6C, func_80AF2DAC, func_80AF2DEC,
     func_80AF3144, func_80AF3174, func_80AF31C8, func_80AF3604, func_80AF3624, func_80AF366C, func_80AF36AC,
     func_80AF3BC8, func_80AF3C04, func_80AF3C64, func_80AF3CB8, func_80AF3D0C, func_80AF3D60,
 };
 
-static EnRu2DrawFunc D_80AF510C[] = {
+static EnRu2DrawFunc sDrawFuncs[] = {
     func_80AF3F14,
     func_80AF3F20,
     func_80AF321C,
@@ -97,7 +96,7 @@ void func_80AF2550(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &colliderInit);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
@@ -133,11 +132,13 @@ void func_80AF2608(EnRu2* this) {
 
 s32 func_80AF2690(EnRu2* this) {
     s32 params_shift = this->actor.params >> 8;
+
     return params_shift & 0xFF;
 }
 
 s32 func_80AF26A0(EnRu2* this) {
     s16 params = this->actor.params;
+
     return params & 0xFF;
 }
 
@@ -152,6 +153,7 @@ void func_80AF26AC(EnRu2* this) {
 
 void func_80AF26D0(EnRu2* this, GlobalContext* globalCtx) {
     s32 one; // Needed to match
+
     if (globalCtx->csCtx.state == 0) {
         if (D_80AF4118 != 0) {
             if (this->actor.params == 2) {
@@ -249,6 +251,7 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     f32 posX = thisx->posRot.pos.x;
     f32 posY = thisx->posRot.pos.y;
     f32 posZ = thisx->posRot.pos.z;
+
     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
@@ -283,6 +286,7 @@ void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF2B44(EnRu2* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* csCmdNPCAction;
+
     if (csCtx->state != 0) {
         csCmdNPCAction = csCtx->npcActions[3];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
@@ -303,6 +307,7 @@ void func_80AF2B94(EnRu2* this) {
 void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_0600D3DC;
     CsCmdActorAction* csCmdNPCAction;
+
     if (globalCtx->csCtx.state != 0) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[3];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 3) {
@@ -321,6 +326,7 @@ void func_80AF2C54(EnRu2* this, UNK_TYPE arg1) {
 
 void func_80AF2C68(EnRu2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdNPCAction;
+
     if (globalCtx->csCtx.state != 0) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[6];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
@@ -613,6 +619,7 @@ void func_80AF37AC() {
 
 void func_80AF37CC(EnRu2* this) {
     f32 funcFloat;
+
     this->unk_2C0 += 1;
     funcFloat = func_8006F9BC((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + (300.0f * funcFloat);
@@ -622,6 +629,7 @@ s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 thisPosX = this->actor.posRot.pos.x;
     f32 playerPosX = player->actor.posRot.pos.x;
+
     if (playerPosX - thisPosX >= -202.0f) {
         return 1;
     }
@@ -642,6 +650,7 @@ void func_80AF38D0(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
     f32* unk_2C4 = &this->unk_2C4;
+
     *unk_2C4 += 1.0f;
     if (*unk_2C4 == kREG(6) + 40.0f) {
         func_80AF37AC();
@@ -751,11 +760,11 @@ void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
 void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
-    if (this->action < 0 || this->action >= 20 || D_80AF50BC[this->action] == 0) {
+    if (this->action < 0 || this->action >= 20 || sActionFuncs[this->action] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_80AF50BC[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -812,9 +821,9 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
 void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF510C[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_80AF510C[this->drawConfig](this, globalCtx);
+    sDrawFuncs[this->drawConfig](this, globalCtx);
 }

@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_801041E0
+glabel osPfsDeleteFile
 /* B7B380 801041E0 27BDFE90 */  addiu $sp, $sp, -0x170
 /* B7B384 801041E4 AFB20024 */  sw    $s2, 0x24($sp)
 /* B7B388 801041E8 AFA50174 */  sw    $a1, 0x174($sp)
@@ -32,7 +32,7 @@ glabel func_801041E0
 /* B7B3C4 80104224 8FAF0180 */  lw    $t7, 0x180($sp)
 /* B7B3C8 80104228 27B8016C */  addiu $t8, $sp, 0x16c
 /* B7B3CC 8010422C AFB80014 */  sw    $t8, 0x14($sp)
-/* B7B3D0 80104230 0C040C04 */  jal   func_80103010
+/* B7B3D0 80104230 0C040C04 */  jal   osPfsFindFile
 /* B7B3D4 80104234 AFAF0010 */   sw    $t7, 0x10($sp)
 /* B7B3D8 80104238 50400004 */  beql  $v0, $zero, .L8010424C
 /* B7B3DC 8010423C 92590065 */   lbu   $t9, 0x65($s2)

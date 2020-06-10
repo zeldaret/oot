@@ -56,7 +56,6 @@ u8 D_8015FCE4;       // only written to, never read
 void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx);
 
 void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneContext* csCtx) {
-    u8 pad[0x1C];
     GfxPrint printer;
     u8 pad2[8];
 
@@ -1372,7 +1371,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, 7);
                 func_800C0874(globalCtx, csCtx->unk_14, 0x21);
                 sp28 = csCtx->cameraFocus->cameraRoll * 1.40625f;
-                func_8005AA90(sp2C, 64, &sp28);
+                Camera_SetParam(sp2C, 64, &sp28);
                 sp3C.x = csCtx->cameraFocus->pos.x;
                 sp3C.y = csCtx->cameraFocus->pos.y;
                 sp3C.z = csCtx->cameraFocus->pos.z;

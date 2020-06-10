@@ -1,3 +1,34 @@
+.rdata
+
+glabel D_8082F420
+    .asciz "../z_kaleido_collect.c"
+    .balign 4
+
+glabel D_8082F438
+    .asciz "000 ccc=%d\n"
+    .balign 4
+
+glabel D_8082F444
+    .asciz "111 ccc=%d\n"
+    .balign 4
+
+glabel D_8082F450
+    .asciz "222 ccc=%d (%d, %d, %d)\n"
+    .balign 4
+
+glabel D_8082F46C
+    .asciz "999 ccc=%d (%d,  %d)\n"
+    .balign 4
+
+glabel D_8082F484
+    .asciz "888 ccc=%d (%d,  %d,  %x)\n"
+    .balign 4
+
+glabel D_8082F4A0
+    .asciz "../z_kaleido_collect.c"
+    .balign 4
+
+.text
 glabel func_80813820
 /* 00000 80813820 27BDFDD0 */  addiu   $sp, $sp, 0xFDD0           ## $sp = FFFFFDD0
 /* 00004 80813824 AFB50034 */  sw      $s5, 0x0034($sp)           

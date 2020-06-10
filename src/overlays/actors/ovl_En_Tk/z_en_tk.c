@@ -171,13 +171,13 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 
 /** z_en_tk_eff.c ends here probably **/
 
-static ColliderCylinderInit D_80B1D508 = {
-    { 0x0A, 0x00, 0x00, 0x39, 0x20, 0x01 },
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 0x001E, 0x0034, 0x0000, { 0 } },
+    { 30, 52, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 colChkInfoInit = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -506,9 +506,9 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
                          0.f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B1D508);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&this->actor.colChkInfo, NULL, &colChkInfoInit);
+    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
@@ -599,7 +599,7 @@ void EnTk_Walk(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     Vec3f rewardOrigin;
     Vec3f rewardPos;
-    s32 rewardParams[] = {
+    s32 sRewardParams[] = {
         0x0000, /* Green rupee */
         0x0001, /* Blue rupee */
         0x0002, /* Red rupee */
@@ -639,7 +639,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                 }
             }
 
-            Item_DropCollectible(globalCtx, &rewardPos, rewardParams[this->currentReward]);
+            Item_DropCollectible(globalCtx, &rewardPos, sRewardParams[this->currentReward]);
         }
     }
 
@@ -742,12 +742,11 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR eyeImages[] = {
-        &D_06003B40,
-        &D_06004340,
-        &D_06004B40,
+    static UNK_PTR sEyesSegments[] = {
+        0x06003B40,
+        0x06004340,
+        0x06004B40,
     };
-
     EnTk* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -761,7 +760,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[this->eyeImageIdx]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
                      EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);

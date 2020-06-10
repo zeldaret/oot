@@ -28,6 +28,8 @@ typedef struct {
 } CollisionPoly; // size = 0x10
 
 typedef void (*ActorFunc)(struct Actor*, struct GlobalContext*);
+typedef u16 (*callback1_800343CC)(struct GlobalContext*, struct Actor*);
+typedef s16 (*callback2_800343CC)(struct GlobalContext*, struct Actor*);
 
 typedef struct {
     /* 0x00 */ s16 id;
@@ -281,7 +283,7 @@ typedef struct Player {
     /* 0x0678 */ u32        ageProperties;
     /* 0x067C */ u32        stateFlags1;
     /* 0x0680 */ u32        stateFlags2;
-    /* 0x0684 */ s32        unk_684;
+    /* 0x0684 */ Actor*     unk_684;
     /* 0x0688 */ char       unk_688[0x004];
     /* 0x068C */ Actor*     navi;
     /* 0x0690 */ u16        naviMessageId;

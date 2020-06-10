@@ -65,7 +65,7 @@ static UNK_PTR sMouthSegments[] = {
 extern AnimationHeader D_0600057C;
 extern AnimationHeader D_06000B04;
 extern SkeletonHeader D_06006C90;
-extern UNK_TYPE D_0200E080;
+extern CutsceneData D_0200E080[];
 
 typedef enum {
     /* 0x00 */ FU_FACE_CALM,

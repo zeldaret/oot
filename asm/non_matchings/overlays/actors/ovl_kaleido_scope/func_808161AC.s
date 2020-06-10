@@ -1,3 +1,18 @@
+.rdata
+
+glabel D_8082F5C4
+    .asciz "../z_kaleido_debug.c"
+    .balign 4
+
+glabel D_8082F5DC
+    .asciz "i=%d  j=%d\n"
+    .balign 4
+
+glabel D_8082F5E8
+    .asciz "../z_kaleido_debug.c"
+    .balign 4
+
+.text
 glabel func_808161AC
 /* 0298C 808161AC 27BDFF10 */  addiu   $sp, $sp, 0xFF10           ## $sp = FFFFFF10
 /* 02990 808161B0 AFBF003C */  sw      $ra, 0x003C($sp)           

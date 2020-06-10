@@ -54,7 +54,7 @@ extern AnimationHeader D_06005C30;
 extern AnimationHeader D_06005500;
 extern SkeletonHeader D_0600BAC8;
 extern Gfx D_0602B060[]; // Keaton Mask
-extern Gfx D_06002C10[];
+extern Gfx D_06002C10[]; // 2D Guard in Window
 
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
@@ -68,7 +68,7 @@ const ActorInit En_Heishi2_InitVars = {
     (ActorFunc)EnHeishi2_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 33, 40, 0, { 0, 0, 0 } },
@@ -80,7 +80,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
     this->initParams = this->actor.params & 0xFF;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = 255;
 
     if ((this->initParams == 6) || (this->initParams == 9)) {
         this->actor.draw = func_80A54C6C;
@@ -114,7 +114,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 17);
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
-        Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+        Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
         this->collider.dim.yShift = 0;
         this->collider.dim.radius = 0xF;
         this->collider.dim.height = 0x46;
@@ -678,91 +678,67 @@ void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
-// can't get this to match, i think it's mostly functionally equivalent
 void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
-    Actor* thisx;
     s16 yawDiff;
-    s16 yawDiffTemp;
-    s16 phi_v0;
 
-    thisx = &this->actor;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
     if (Text_GetFaceReaction(globalCtx, 5) != 0) {
         if (this->unk_30B == 0) {
             if (this->initParams == 2) {
                 this->actionFunc = func_80A53278;
                 return;
             }
-            if (this->initParams == ((((u16)5) & 0xFFu))) {
+            if (this->initParams == 5) {
                 this->actionFunc = func_80A5399C;
                 return;
             }
         }
-    } else {
-        if (this->unk_30B != 0) {
-            if (this->initParams == 2) {
-                this->actionFunc = func_80A53278;
-                return;
-            }
-            if (5 == this->initParams) {
-                this->actionFunc = func_80A5399C;
-                return;
-            }
+    } else if (this->unk_30B != 0) {
+        if (this->initParams == 2) {
+            this->actionFunc = func_80A53278;
+            return;
+        }
+        if (this->initParams == 5) {
+            this->actionFunc = func_80A5399C;
+            return;
         }
     }
-    if ((func_8002F194(thisx, globalCtx) != 0)) {
+
+    if (func_8002F194(&this->actor, globalCtx)) {
         if (this->initParams == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
                 return;
-            }
-            this->actionFunc = func_80A53278;
-            return;
-        }
-
-        if (this->initParams == 5) {
-            phi_v0 = this->unk_300;
-
-            if (phi_v0 == 6) {
-                this->actionFunc = func_80A5399C;
-                phi_v0 = this->unk_300;
-                do {
-                    phi_v0 = this->unk_300;
-                } while (0);
-            }
-
-            if (phi_v0 == 5) {
-                this->actionFunc = func_80A54954;
-                phi_v0 = this->unk_300;
-                do {
-                    phi_v0 = this->unk_300;
-                } while (0);
-            }
-
-            if (phi_v0 != 4) {
+            } else {
+                this->actionFunc = func_80A53278;
                 return;
             }
-            this->unk_309 = 1;
-            func_80078884(0x4807);
-            this->actionFunc = func_80A540C0;
+        } else if (this->initParams == 5) {
+            if (this->unk_300 == 6) {
+                this->actionFunc = func_80A5399C;
+            }
+
+            if (this->unk_300 == 5) {
+                this->actionFunc = func_80A54954;
+            }
+
+            if (this->unk_300 == 4) {
+                this->unk_309 = 1;
+                func_80078884(0x4807);
+                this->actionFunc = func_80A540C0;
+            }
             return;
         }
+    }
 
-        phi_v0 = this->initParams;
-    } else {
-        if (this->initParams == 2) {
-            yawDiffTemp = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
-            yawDiff = ABS(yawDiffTemp);
-            if ((!(120.0f < this->actor.xzDistanceFromLink)) && (yawDiff < 0x4300)) {
-                    func_8002F2F4(thisx, globalCtx);
-            }
-        }
+    if (((this->initParams != 2) && (this->initParams != 5)) ||
+        ((yawDiff = ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)),
+          !(this->actor.xzDistanceFromLink > 120.0f)) &&
+         (yawDiff < 0x4300))) {
+        func_8002F2F4(&this->actor, globalCtx);
     }
 }
-*/
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A5475C.s")
 
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
@@ -855,7 +831,7 @@ void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10); // 2D Guard in Window
+    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 
