@@ -724,15 +724,17 @@ typedef struct {
 } SubMessageContext_E2B8; // some kind of audio info?
 
 typedef struct {
-    u32 offset;
-    u32 size;
-    u8 xy;
+    /* 0x0000 */ u32 offset;
+    /* 0x0004 */ u32 size;
+    /* 0x0008 */ u8 xy;
 } MessageData;
 
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ MessageData unk_128;
-    /* 0x0134 */ char   unk_134[0xE0A4];
+    /* 0x0134 */ char   unk_134[0xDC7C];
+    /* 0xDDB0 */ void*  msgbuf;
+    /* 0xDDB4 */ char   unk_DDB4[0x0424];
     /* 0xE1D8 */ s32    unk_E1D8;
     /* 0xE1DC */ u8     unk_E1DC;
     /* 0xE1DD */ char   unk_E1DD[0xC9];
@@ -782,7 +784,7 @@ typedef struct {
     /* 0xE3EA */ char   unk_E3EA[0x04];
     /* 0xE3EE */ u16    unk_E3EE; // original name : ocarina_mode
     /* 0xE3F0 */ u16    unk_E3F0; // original name : ocarina_no
-    /* 0xE3F2 */ char   unk_E3F2[0x02]; // original name : chk_ocarina_no
+    /* 0xE3F2 */ s16    unk_E3F2; // original name : chk_ocarina_no
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x08];
     /* 0xE3FE */ s16    unk_E3FE;
@@ -793,7 +795,8 @@ typedef struct {
     /* 0xE408 */ Actor* unk_E408;
     /* 0xE40C */ u16    unk_E40C;
     /* 0xE40E */ s16    unk_E40E;
-    /* 0xE410 */ char   unk_E410[0x08];
+    /* 0xE410 */ s16    unk_E410;
+    /* 0xE412 */ char   unk_E412[0x06];
 } MessageContext; // size = 0xE418
 
 typedef struct {
