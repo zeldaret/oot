@@ -22,7 +22,7 @@ typedef struct BgHakaTrap {
     /* 0x0164 */ BgHakaTrapActionFunc actionFunc;
     /* 0x0168 */ u8 timer;
     /* 0x0169 */ u8 unk_169;
-    /* 0x016A */ s16 unk_16A;
+    /* 0x016A */ s16 unk_16A; // used as boolean for HAKA_TRAP_GUILLOTINE_SLOW/FAST, s16 for HAKA_TRAP_SPIKED_BOX
     /* 0x016C */ Vec3f unk_16C;
     /* 0x0178 */ ColliderCylinder colliderCylinder;
     /* 0x01C4 */ ColliderTris colliderSpikes;

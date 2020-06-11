@@ -77,7 +77,7 @@ extern UNK_TYPE D_06009CD0;
 
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881014 = 0;
-    
+
     BgHakaTrap* this = THIS;
     s32 pad;
     s32 sp28 = 0;
@@ -85,7 +85,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->params &= 0xFF;
 
-    if (thisx->params !=HAKA_TRAP_PROPELLER) {
+    if (thisx->params != HAKA_TRAP_PROPELLER) {
         Collider_InitCylinder(globalCtx, &this->colliderCylinder);
         Collider_SetCylinder(globalCtx, &this->colliderCylinder, thisx, &sCylinderInit);
 
@@ -417,7 +417,7 @@ void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
         }
     } else {
         if (Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.z, 0x3A00,
-                                            this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
+                                     this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
             this->timer = 100;
             this->actionFunc = func_80880C0C;
         }
