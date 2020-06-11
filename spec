@@ -1406,8 +1406,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Obj"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Obj/z_bg_spot18_obj.o"
-    include "build/data/overlays/actors/z_bg_spot18_obj.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_obj.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Obj/ovl_Bg_Spot18_Obj_reloc.o"
 endseg
 
 beginseg
