@@ -147,7 +147,6 @@ s32 func_808B8B08(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B8B38(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    BgSpot18ObjInitFunc* funcPtr;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(D_808B910C); i++) {
@@ -155,7 +154,6 @@ s32 func_808B8B38(BgSpot18Obj* this, GlobalContext* globalCtx) {
             return 0;
         }
     }
-
     return 1;
 }
 
