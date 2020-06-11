@@ -150,8 +150,8 @@ typedef struct {
     /* 0x13F8 */ DynaList_s     dyn_list;
     /* 0x1404 */ s32            dyn_list_max; //dyn_list_max
     /* 0x1408 */ s32            dyn_poly_max; //dyn_poly_max
-    /* 0x140C */ s32            unk_140C; //dyn_vtx_max
-    /* 0x1410 */ s32            unk_1410; //mem_size
+    /* 0x140C */ s32            dyn_vtx_max; //dyn_vtx_max
+    /* 0x1410 */ u32            unk_1410; //mem_size
 } DynaCollisionContext; // size = 0x1414 //810
 
 typedef struct {

@@ -14,10 +14,7 @@ glabel D_80119E10
     .incbin "baserom.z64", 0xB90FB0, 0x1C
 
 glabel D_80119E2C
-    .incbin "baserom.z64", 0xB90FCC, 0x26
-
-glabel D_80119E52
-    .incbin "baserom.z64", 0xB90FF2, 0x2
+    .incbin "baserom.z64", 0xB90FCC, 0x28 #size 0x26
 
 glabel D_80119E54
     .incbin "baserom.z64", 0xB90FF4, 0x40
