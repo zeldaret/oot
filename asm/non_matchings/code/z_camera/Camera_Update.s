@@ -91,7 +91,7 @@ glabel Camera_Update
 /* AD03D0 80059230 860A0140 */  lh    $t2, 0x140($s0)
 .L80059234:
 /* AD03D4 80059234 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
-/* AD03D8 80059238 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
+/* AD03D8 80059238 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
 /* AD03DC 8005923C 15400012 */  bnez  $t2, .L80059288
 /* AD03E0 80059240 00000000 */   nop
 /* AD03E4 80059244 8D6BFA90 */  lw    $t3, %lo(gGameInfo)($t3)
@@ -113,7 +113,7 @@ glabel Camera_Update
 /* AD0420 80059280 1000030C */  b     .L80059EB4
 /* AD0424 80059284 8FA200E0 */   lw    $v0, 0xe0($sp)
 .L80059288:
-/* AD0428 80059288 AC20D3E8 */  sw    $zero, %lo(D_8011D3E8)($at)
+/* AD0428 80059288 AC20D3E8 */  sw    $zero, %lo(sUpdateCameraDirection)($at)
 /* AD042C 8005928C 8E050090 */  lw    $a1, 0x90($s0)
 /* AD0430 80059290 10A000CC */  beqz  $a1, .L800595C4
 /* AD0434 80059294 00000000 */   nop
@@ -776,8 +776,8 @@ glabel Camera_Update
 /* AD0DF0 80059C50 0C02A8D6 */  jal   func_800AA358
 /* AD0DF4 80059C54 248400B8 */   addiu $a0, $a0, 0xb8
 /* AD0DF8 80059C58 87AB009C */  lh    $t3, 0x9c($sp)
-/* AD0DFC 80059C5C 3C038012 */  lui   $v1, %hi(D_8011D3E8) # $v1, 0x8012
-/* AD0E00 80059C60 2463D3E8 */  addiu $v1, %lo(D_8011D3E8) # addiu $v1, $v1, -0x2c18
+/* AD0DFC 80059C5C 3C038012 */  lui   $v1, %hi(sUpdateCameraDirection) # $v1, 0x8012
+/* AD0E00 80059C60 2463D3E8 */  addiu $v1, %lo(sUpdateCameraDirection) # addiu $v1, $v1, -0x2c18
 /* AD0E04 80059C64 A60B013A */  sh    $t3, 0x13a($s0)
 /* AD0E08 80059C68 87AC009E */  lh    $t4, 0x9e($sp)
 /* AD0E0C 80059C6C A600013E */  sh    $zero, 0x13e($s0)
@@ -820,9 +820,9 @@ glabel Camera_Update
 /* AD0E9C 80059CFC C420A444 */  lwc1  $f0, %lo(D_8013A444)($at)
 /* AD0EA0 80059D00 44869000 */  mtc1  $a2, $f18
 /* AD0EA4 80059D04 3C048014 */  lui   $a0, %hi(D_80139B08) # $a0, 0x8014
-/* AD0EA8 80059D08 3C058012 */  lui   $a1, %hi(D_8011D3E8) # $a1, 0x8012
+/* AD0EA8 80059D08 3C058012 */  lui   $a1, %hi(sUpdateCameraDirection) # $a1, 0x8012
 /* AD0EAC 80059D0C 46809420 */  cvt.s.w $f16, $f18
-/* AD0EB0 80059D10 8CA5D3E8 */  lw    $a1, %lo(D_8011D3E8)($a1)
+/* AD0EB0 80059D10 8CA5D3E8 */  lw    $a1, %lo(sUpdateCameraDirection)($a1)
 /* AD0EB4 80059D14 24849B08 */  addiu $a0, %lo(D_80139B08) # addiu $a0, $a0, -0x64f8
 /* AD0EB8 80059D18 46008102 */  mul.s $f4, $f16, $f0
 /* AD0EBC 80059D1C 46002221 */  cvt.d.s $f8, $f4

@@ -199,7 +199,7 @@ extern s32 gDbgCamEnabled;
 //extern ? D_8011D3A4;
 //extern ? D_8011D3A8;
 extern s32 D_8011D3AC;
-//extern ? D_8011D3E8;
+//extern ? sUpdateCameraDirection;
 //extern ? D_8011D3F0;
 //extern ? D_8011D3F4;
 //extern ? sCameraFunctionNames;

@@ -134,10 +134,10 @@ glabel Camera_Unique1
 /* AC88E4 80051744 02002025 */   move  $a0, $s0
 /* AC88E8 80051748 240D0001 */  li    $t5, 1
 .L8005174C:
-/* AC88EC 8005174C 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
+/* AC88EC 8005174C 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
 /* AC88F0 80051750 26050050 */  addiu $a1, $s0, 0x50
 /* AC88F4 80051754 2606005C */  addiu $a2, $s0, 0x5c
-/* AC88F8 80051758 AC2DD3E8 */  sw    $t5, %lo(D_8011D3E8)($at)
+/* AC88F8 80051758 AC2DD3E8 */  sw    $t5, %lo(sUpdateCameraDirection)($at)
 /* AC88FC 8005175C AFA60038 */  sw    $a2, 0x38($sp)
 /* AC8900 80051760 AFA50034 */  sw    $a1, 0x34($sp)
 /* AC8904 80051764 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90

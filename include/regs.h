@@ -51,6 +51,7 @@
 #define R_CAM_MAX_PHI               OREG(5)
 #define R_DEFA_CAM_ANIM_TIME        OREG(23)
 #define R_CAM_MIN_PHI               OREG(34)
+#define R_CAM_FIXED3_FOV            PREG(7)
 #define R_DBG_CAM_UPDATE            PREG(80)
 #define R_RELOAD_CAM_PARAMS         QREG(0)
 #define R_C_UP_ICON_X               YREG(88)

@@ -132,15 +132,15 @@ glabel Camera_Fixed3
 /* AC714C 8004FFAC 84620008 */  lh    $v0, 8($v1)
 .L8004FFB0:
 /* AC7150 8004FFB0 240E0001 */  li    $t6, 1
-/* AC7154 8004FFB4 3C018012 */  lui   $at, %hi(D_8011D3E8)
+/* AC7154 8004FFB4 3C018012 */  lui   $at, %hi(sUpdateCameraDirection)
 /* AC7158 8004FFB8 18400005 */  blez  $v0, .L8004FFD0
 /* AC715C 8004FFBC 244DFFFF */   addiu $t5, $v0, -1
 /* AC7160 8004FFC0 A46D0008 */  sh    $t5, 8($v1)
-/* AC7164 8004FFC4 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
+/* AC7164 8004FFC4 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
 /* AC7168 8004FFC8 10000002 */  b     .L8004FFD4
-/* AC716C 8004FFCC AC2ED3E8 */   sw    $t6, %lo(D_8011D3E8)($at)
+/* AC716C 8004FFCC AC2ED3E8 */   sw    $t6, %lo(sUpdateCameraDirection)($at)
 .L8004FFD0:
-/* AC7170 8004FFD0 AC20D3E8 */  sw    $zero, %lo(D_8011D3E8)($at)
+/* AC7170 8004FFD0 AC20D3E8 */  sw    $zero, %lo(sUpdateCameraDirection)($at)
 .L8004FFD4:
 /* AC7174 8004FFD4 3C014316 */  li    $at, 0x43160000 # 0.000000
 /* AC7178 8004FFD8 44812000 */  mtc1  $at, $f4

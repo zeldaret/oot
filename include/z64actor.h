@@ -336,7 +336,8 @@ typedef struct Player {
     /* 0x088C */ char       unk_88C[0x008];
     /* 0x0894 */ s16        dropY; // Truncated copy of y position that does not update while falling
     /* 0x0896 */ s16        fallY; // The truncated y distance link has moved in that frame, positive is down, negative is up
-    /* 0x0898 */ char       unk_898[0x008];
+    /* 0x0898 */ char       unk_898[0x006];
+    /* 0x089E */ s16        unk_89E;
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
     /* 0x08A2 */ u16        unk_8A2;
@@ -348,7 +349,8 @@ typedef struct Player {
     /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
     /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
     /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
-    /* 0x0908 */ char       unk_908[0xD8];
+    /* 0x0908 */ Vec3f      unk_908;
+    /* 0x0914 */ char       unk_914[0xCC];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       mf_A20;
     /* 0x0A60 */ char       unk_A60[0x08];

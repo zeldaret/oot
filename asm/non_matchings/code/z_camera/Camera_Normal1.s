@@ -209,7 +209,7 @@ glabel Camera_Normal1
 /* ABE7C4 80047624 A6230016 */  sh    $v1, 0x16($s1)
 /* ABE7C8 80047628 C606000C */  lwc1  $f6, 0xc($s0)
 /* ABE7CC 8004762C 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
-/* ABE7D0 80047630 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
+/* ABE7D0 80047630 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
 /* ABE7D4 80047634 E6260010 */  swc1  $f6, 0x10($s1)
 /* ABE7D8 80047638 C60A0098 */  lwc1  $f10, 0x98($s0)
 /* ABE7DC 8004763C E62A001C */  swc1  $f10, 0x1c($s1)
@@ -219,7 +219,7 @@ glabel Camera_Normal1
 /* ABE7EC 8004764C 87AC007A */  lh    $t4, 0x7a($sp)
 /* ABE7F0 80047650 A62C0026 */  sh    $t4, 0x26($s1)
 /* ABE7F4 80047654 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
-/* ABE7F8 80047658 AC20D3E8 */  sw    $zero, %lo(D_8011D3E8)($at)
+/* ABE7F8 80047658 AC20D3E8 */  sw    $zero, %lo(sUpdateCameraDirection)($at)
 /* ABE7FC 8004765C 844E01F8 */  lh    $t6, 0x1f8($v0)
 /* ABE800 80047660 844D01FA */  lh    $t5, 0x1fa($v0)
 /* ABE804 80047664 01AE7821 */  addu  $t7, $t5, $t6
@@ -227,8 +227,8 @@ glabel Camera_Normal1
 .L8004766C:
 /* ABE80C 8004766C 24030001 */  li    $v1, 1
 /* ABE810 80047670 A603015E */  sh    $v1, 0x15e($s0)
-/* ABE814 80047674 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
-/* ABE818 80047678 AC23D3E8 */  sw    $v1, %lo(D_8011D3E8)($at)
+/* ABE814 80047674 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
+/* ABE818 80047678 AC23D3E8 */  sw    $v1, %lo(sUpdateCameraDirection)($at)
 /* ABE81C 8004767C 86220028 */  lh    $v0, 0x28($s1)
 /* ABE820 80047680 3C018014 */  lui   $at, %hi(D_80139E9C)
 /* ABE824 80047684 10400002 */  beqz  $v0, .L80047690
@@ -788,10 +788,10 @@ glabel Camera_Normal1
 /* ABF04C 80047EAC C608000C */  lwc1  $f8, 0xc($s0)
 .L80047EB0:
 /* ABF050 80047EB0 A6200018 */  sh    $zero, 0x18($s1)
-/* ABF054 80047EB4 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
+/* ABF054 80047EB4 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
 /* ABF058 80047EB8 E6280010 */  swc1  $f8, 0x10($s1)
 /* ABF05C 80047EBC 8FB90038 */  lw    $t9, 0x38($sp)
-/* ABF060 80047EC0 AC20D3E8 */  sw    $zero, %lo(D_8011D3E8)($at)
+/* ABF060 80047EC0 AC20D3E8 */  sw    $zero, %lo(sUpdateCameraDirection)($at)
 /* ABF064 80047EC4 8FA80040 */  lw    $t0, 0x40($sp)
 /* ABF068 80047EC8 8F380000 */  lw    $t8, ($t9)
 /* ABF06C 80047ECC 3C028016 */  lui   $v0, %hi(gSaveContext+0x30) # $v0, 0x8016

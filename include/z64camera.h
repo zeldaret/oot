@@ -105,13 +105,6 @@ typedef struct {
 
 typedef struct {
     s16 unk_00;
-    Vec3f unk_04;
-    char unk_10[0x18];
-    f32 unk_28;
-} Subj4;
-
-typedef struct {
-    s16 unk_00;
 } Unique6;
 
 typedef struct {
@@ -121,13 +114,13 @@ typedef struct {
 typedef struct {
     Vec3s rot;
     s16 fov;
+    s16 updDirTimer;
     s16 jfifId;
-    s16 unk_0A;
-} Fixed3_InitParams;
+} Fixed3_UpdateParams;
 
 typedef struct {
-    s16 unk_00;
-    Fixed3_InitParams initParams;
+    s16 interfaceFlags;
+    Fixed3_UpdateParams updateParams;
 } Fixed3;
 
 typedef struct {
@@ -349,9 +342,127 @@ typedef struct {
 } Normal1;
 
 typedef struct {
-    Vec3f unk_00;
-    s16 unk_0C;
-} Unique0;
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ s16 unk_0C;
+    /* 0x0010 */ Linef unk_10;
+} Unique0_Unk10; // size = 0x28
+
+typedef struct {
+    /* 0x0000 */ char unk_00[0x6];
+    /* 0x0006 */ s16 unk_06;
+    /* 0x0008 */ s16 unk_08;
+    /* 0x000A */ s16 unk_0A;
+    /* 0x000C */ s16 unk_0C;
+    /* 0x0010 */ Unique0_Unk10 unk_10;
+    char pad[0x18];
+} Unique0; // size = 0x38
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ s16 unk_04;
+    /* 0x0006 */ s16 unk_06;
+    /* 0x0008 */ s16 unk_08;
+} Unique1_Unk1C; // size = 0xA
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ char unk_0C[4];
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ s16 unk_18;
+    /* 0x001A */ s16 unk_1A;
+    /* 0x001C */ Unique1_Unk1C unk_1C;
+} Unique1; // size = 0x26
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ s16 unk_04;
+} Unique2_Unk10; // size = 0x6
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ s16 unk_0C;
+    /* 0x0010 */ Unique2_Unk10 unk_10;
+} Unique2; // size = 0x6
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+} Unique3_Unk18;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    s16 unk_08;
+} Unique3_UnkC;
+
+typedef struct {
+    /* 0x0000 */ char unk_00[6];
+    /* 0x0006 */ s16 unk_06;
+    /* 0x0008 */ s16 unk_08;
+    /* 0x000A */ s16 unk_0A;
+    /* 0x000C */ Unique3_UnkC unk_0C;
+    /* 0x0018 */ Unique3_Unk18 unk_18;
+} Unique3; // Size = 0x20
+
+typedef struct {
+    Vec3s unk_00;
+} Unique7_Unk8;
+
+typedef struct {
+    f32 unk_00;
+    s16 unk_04;
+    s16 unk_06;
+    Unique7_Unk8 unk_08;
+} Unique7;
+
+typedef struct {
+    s16 unk_04;
+} Demo6_Unk4;
+
+typedef struct {
+    s16 unk_00;
+    s16 unk_02;
+    Demo6_Unk4 unk_04;
+} Demo6;
+
+typedef struct {
+    f32 unk_00;
+    s16 unk_04;
+    s16 unk_06;
+    s16 unk_08;
+} Subj3_Unk24;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    f32 unk_1C;
+    s16 unk_20;
+    Subj3_Unk24 unk_24;
+} Subj3;
+
+typedef struct {
+    Linef unk_00;
+    f32 unk_18;
+    f32 unk_20;
+    f32 unk_24;
+    f32 unk_28;
+    VecSph unk_2C;
+} Subj4_Unk04;
+
+typedef struct {
+    s16 unk_00;
+    Subj4_Unk04 unk_04;
+} Subj4;
 
 typedef union {
     char data[0x50];
@@ -364,7 +475,6 @@ typedef union {
     Normal3 normal3;
     Normal2 normal2;
     Data4 data4;
-    Subj4 subj4;
     Unique6 uniq6;
     Special4 spec4;
     Fixed3 fixd3;
@@ -377,6 +487,13 @@ typedef union {
     Parallel1 para1;
     Normal1 norm1;
     Unique0 uniq0;
+    Unique1 uniq1;
+    Unique2 uniq2;
+    Unique3 uniq3;
+    Unique7 uniq7;
+    Demo6 demo6;
+    Subj3 subj3;
+    Subj4 subj4;
 } CameraParams;
 
 typedef struct {
@@ -412,8 +529,8 @@ typedef struct {
     /* 0x012E */ s16 unk_12E;
     /* 0x0130 */ s16 uid;    // Unique identifier of the camera.
     /* 0x0132 */ char unk_132[0x02];
-    /* 0x0134 */ Vec3s unk_134;
-    /* 0x013A */ Vec3s unk_13A; // seems to be a copy of unk_134, but unused for anything different?
+    /* 0x0134 */ Vec3s direction;
+    /* 0x013A */ Vec3s unk_13A; // seems to be a copy of direction, but unused for anything different?
     /* 0x0140 */ s16 status;
     /* 0x0142 */ s16 setting; // referred to as set
     /* 0x0144 */ s16 mode;
@@ -429,7 +546,7 @@ typedef struct {
     /* 0x0158 */ s16 unk_158; // unknown if used
     /* 0x015A */ s16 roll;
     /* 0x015C */ s16 paramFlags;
-    /* 0x015E */ s16 unk_15E;
+    /* 0x015E */ s16 animState;
     /* 0x0160 */ s16 unk_160;
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;

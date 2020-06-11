@@ -542,9 +542,9 @@ glabel Camera_Jump1
 .L8004A1D0:
 /* AC1370 8004A1D0 C606000C */  lwc1  $f6, 0xc($s0)
 /* AC1374 8004A1D4 A6200018 */  sh    $zero, 0x18($s1)
-/* AC1378 8004A1D8 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
+/* AC1378 8004A1D8 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
 /* AC137C 8004A1DC E6260010 */  swc1  $f6, 0x10($s1)
-/* AC1380 8004A1E0 AC20D3E8 */  sw    $zero, %lo(D_8011D3E8)($at)
+/* AC1380 8004A1E0 AC20D3E8 */  sw    $zero, %lo(sUpdateCameraDirection)($at)
 /* AC1384 8004A1E4 8C690000 */  lw    $t1, ($v1)
 /* AC1388 8004A1E8 8FA80040 */  lw    $t0, 0x40($sp)
 /* AC138C 8004A1EC AD090000 */  sw    $t1, ($t0)

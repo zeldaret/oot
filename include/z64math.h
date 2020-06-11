@@ -31,7 +31,6 @@ typedef struct {
     f32 radius;
 } Spheref;
 
-
 typedef struct {
     Vec3f normal;
     f32 originDist;

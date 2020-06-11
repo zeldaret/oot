@@ -568,8 +568,8 @@ glabel L8004EB20
 /* AC5CDC 8004EB3C C7AE0088 */  lwc1  $f14, 0x88($sp)
 .L8004EB40:
 /* AC5CE0 8004EB40 24080001 */  li    $t0, 1
-/* AC5CE4 8004EB44 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
-/* AC5CE8 8004EB48 AC28D3E8 */  sw    $t0, %lo(D_8011D3E8)($at)
+/* AC5CE4 8004EB44 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
+/* AC5CE8 8004EB48 AC28D3E8 */  sw    $t0, %lo(sUpdateCameraDirection)($at)
 /* AC5CEC 8004EB4C 862A001C */  lh    $t2, 0x1c($s1)
 /* AC5CF0 8004EB50 3C018012 */  lui   $at, %hi(sCameraInterfaceFlags) # $at, 0x8012
 /* AC5CF4 8004EB54 26250050 */  addiu $a1, $s1, 0x50

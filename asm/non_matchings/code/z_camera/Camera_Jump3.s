@@ -567,10 +567,10 @@ glabel Camera_Jump3
 /* AC2674 8004B4D4 C608000C */  lwc1  $f8, 0xc($s0)
 .L8004B4D8:
 /* AC2678 8004B4D8 A6200018 */  sh    $zero, 0x18($s1)
-/* AC267C 8004B4DC 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
+/* AC267C 8004B4DC 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
 /* AC2680 8004B4E0 E6280010 */  swc1  $f8, 0x10($s1)
 /* AC2684 8004B4E4 8FAC0038 */  lw    $t4, 0x38($sp)
-/* AC2688 8004B4E8 AC20D3E8 */  sw    $zero, %lo(D_8011D3E8)($at)
+/* AC2688 8004B4E8 AC20D3E8 */  sw    $zero, %lo(sUpdateCameraDirection)($at)
 /* AC268C 8004B4EC 8FAB0040 */  lw    $t3, 0x40($sp)
 /* AC2690 8004B4F0 8D8D0000 */  lw    $t5, ($t4)
 /* AC2694 8004B4F4 AD6D0000 */  sw    $t5, ($t3)

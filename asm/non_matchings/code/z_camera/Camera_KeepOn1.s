@@ -271,8 +271,8 @@ glabel Camera_KeepOn1
 /* AC3F18 8004CD78 3C013F80 */   lui   $at, 0x3f80
 /* AC3F1C 8004CD7C 87B900C4 */  lh    $t9, 0xc4($sp)
 /* AC3F20 8004CD80 24180001 */  li    $t8, 1
-/* AC3F24 8004CD84 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
-/* AC3F28 8004CD88 AC38D3E8 */  sw    $t8, %lo(D_8011D3E8)($at)
+/* AC3F24 8004CD84 3C018012 */  lui   $at, %hi(sUpdateCameraDirection) # $at, 0x8012
+/* AC3F28 8004CD88 AC38D3E8 */  sw    $t8, %lo(sUpdateCameraDirection)($at)
 /* AC3F2C 8004CD8C 00195823 */  negu  $t3, $t9
 /* AC3F30 8004CD90 A60B0134 */  sh    $t3, 0x134($s0)
 /* AC3F34 8004CD94 87AA00C6 */  lh    $t2, 0xc6($sp)
