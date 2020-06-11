@@ -56,7 +56,6 @@ u8 D_8015FCE4;       // only written to, never read
 void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx);
 
 void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneContext* csCtx) {
-    u8 pad[0x1C];
     GfxPrint printer;
     u8 pad2[8];
 

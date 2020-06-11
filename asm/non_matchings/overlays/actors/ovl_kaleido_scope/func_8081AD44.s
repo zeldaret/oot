@@ -1,3 +1,50 @@
+.rdata
+
+glabel D_8082F7EC
+    .asciz "\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n"
+    .balign 4
+
+glabel D_8082F830
+    .asciz "Ｃ左sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F858
+    .asciz "Ｃ左sl_number=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F880
+    .asciz "Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F8A8
+    .asciz "Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F8D0
+    .asciz "Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F8F8
+    .asciz "Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F920
+    .asciz "Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F948
+    .asciz "Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F970
+    .asciz "Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+glabel D_8082F998
+    .asciz "Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n"
+    .balign 4
+
+.text
 glabel func_8081AD44
 /* 07524 8081AD44 3C098083 */  lui     $t1, %hi(D_8082A430)       ## $t1 = 80830000
 /* 07528 8081AD48 2529A430 */  addiu   $t1, $t1, %lo(D_8082A430)  ## $t1 = 8082A430
