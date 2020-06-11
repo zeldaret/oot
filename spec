@@ -821,8 +821,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Trap"
     include "build/src/overlays/actors/ovl_Bg_Haka_Trap/z_bg_haka_trap.o"
-    include "build/data/overlays/actors/z_bg_haka_trap.data.o"
-    include "build/data/overlays/actors/z_bg_haka_trap.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Trap/ovl_Bg_Haka_Trap_reloc.o"
 endseg
 
 beginseg
