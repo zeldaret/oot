@@ -3,7 +3,6 @@ import re
 import sys
 
 global_asm_regex = re.compile(r"#pragma GLOBAL_ASM((.)*)")
-functions_h = {}
 
 def repl_global_asm(cap):
     return "/// " + cap.group(0).replace("#pragma ","") + "\n? " + cap.group(0).split("/")[-1].split(".s")[0] + "(?);"
