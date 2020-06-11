@@ -5,8 +5,7 @@ This project uses [Doxygen](https://www.doxygen.nl/index.html) to generate docum
 ```diff
 - Note -
 As the codebase is constantly changing, only document what is complete, well-understood and not 
-already covered by good naming. This is especially true for function parameters and return 
-values.
+already covered by good naming. This is especially true for function parameters and return values.
 Also note that there is no obligation to completing the documentation steps for functions you 
 work on if you do not want to at the time.
 ```
