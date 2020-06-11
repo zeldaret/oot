@@ -1680,13 +1680,14 @@ void func_8010F2CC(s16 *arg0, GraphicsContext* gfxCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F494.s")
 void func_8010F494(GlobalContext* globalCtx, Gfx** p) {
-    char pad[0x20];
+    s32 pad;
     GfxPrint printer;
+    s32 pad1;
 
     GfxPrint_Ctor(&printer);
     GfxPrint_Open(&printer, *p);
     GfxPrint_SetPos(&printer, 6, 0x1A);
-    GfxPrint_SetColor(&printer, 0xFFU, 0x3CU, 0U, 0xFF);
+    GfxPrint_SetColor(&printer, 0xFF, 0x3C, 0x00, 0xFF);
     GfxPrint_Printf(&printer, "%s", "MESSAGE");
     GfxPrint_SetPos(&printer, 0xE, 0x1A);
     GfxPrint_Printf(&printer, "%s", "=");
