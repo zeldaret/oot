@@ -53,8 +53,7 @@ if mybin == basebin:
     exit(0)
 
 
-def search_address(target_addr):
-    is_ram = target_addr & 0x80000000
+def search_rom_address(target_addr):
     ram_offset = None
     prev_ram = 0
     prev_rom = 0
@@ -65,13 +64,15 @@ def search_address(target_addr):
     with open(mymap) as f:
         for line in f:
             if "load address" in line:
-                if "noload" in line or "noload" in prev_line:
+                # Ignore .bss sections since we're looking for a ROM address
+                if ".bss" in line or ".bss" in prev_line:
                     ram_offset = None
                     continue
                 ram = int(line[16 : 16 + 18], 0)
                 rom = int(line[59 : 59 + 18], 0)
                 ram_offset = ram - rom
                 continue
+
             prev_line = line
 
             if (
@@ -93,7 +94,7 @@ def search_address(target_addr):
                 cur_file = sym
                 continue
 
-            if rom > target_addr or (is_ram and ram > target_addr):
+            if rom > target_addr:
                 return f"{prev_sym} (RAM 0x{prev_ram:X}, ROM 0x{prev_rom:X}, {prev_file})"
 
             prev_ram = ram
@@ -113,13 +114,11 @@ def parse_map(map_fname):
     with open(map_fname) as f:
         for line in f:
             if "load address" in line:
-                if "noload" in line or "noload" in prev_line:
-                    ram_offset = None
-                    continue
                 ram = int(line[16 : 16 + 18], 0)
                 rom = int(line[59 : 59 + 18], 0)
                 ram_offset = ram - rom
                 continue
+
             prev_line = line
 
             if (
@@ -189,7 +188,7 @@ for i in range(24, len(mybin), 4):
         or mybin[i + 3] != basebin[i + 3]
     ):
         if diffs == 0:
-            print(f"First difference at ROM addr 0x{i:X}, {search_address(i)}")
+            print(f"First difference at ROM addr 0x{i:X}, {search_rom_address(i)}")
             print(
                 f"Bytes: {hexbytes(mybin[i : i + 4])} vs {hexbytes(basebin[i : i + 4])}"
             )
@@ -197,10 +196,10 @@ for i in range(24, len(mybin), 4):
     if (
         len(found_instr_diff) < diff_count
         and mybin[i] >> 2 != basebin[i] >> 2
-        and not search_address(i) in map_search_diff
+        and not search_rom_address(i) in map_search_diff
     ):
         found_instr_diff.append(i)
-        map_search_diff.append(search_address(i))
+        map_search_diff.append(search_rom_address(i))
 
 if diffs == 0:
     print("No differences but ROMs differ?")
@@ -208,7 +207,7 @@ if diffs == 0:
 
 if len(found_instr_diff) > 0:
     for i in found_instr_diff:
-        print(f"Instruction difference at ROM addr 0x{i:X}, {search_address(i)}")
+        print(f"Instruction difference at ROM addr 0x{i:X}, {search_rom_address(i)}")
         print(
             f"Bytes: {hexbytes(mybin[i : i + 4])} vs {hexbytes(basebin[i : i + 4])}"
         )
@@ -229,7 +228,7 @@ if diffs > 100:
         print(f"No ROM shift{' (!?)' if definite_shift else ''}")
 
 if args.diff_args:
-    diff_sym = search_address(found_instr_diff[0]).split()[0]
+    diff_sym = search_rom_address(found_instr_diff[0]).split()[0]
     if args.diff_args == "prompt":
         diff_args = input("Call diff.py with which arguments? ") or "--"
     else:
