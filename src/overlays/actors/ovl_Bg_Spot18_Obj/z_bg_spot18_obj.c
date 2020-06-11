@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot18_obj.c
  * Overlay: Bg_Spot18_Obj
- * Description:
+ * Description: Statue in Darunia's Room
  */
 
 #include "z_bg_spot18_obj.h"
