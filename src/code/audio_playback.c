@@ -292,9 +292,9 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
     return 0;
 }
 
-#if 0
-// This code is SM64 PAL's version with changes made to build here (and a couple legitimate changes made in the function).
-// This function needs massive work, hence why it is not set for NON_MATCHING
+#ifdef NON_EQUIVALENT
+// This code is SM64 PAL's version with changes made to build here (and a couple legitimate changes made in the
+// function). This function needs massive work, hence why it is not set for NON_MATCHING
 void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) {
     Note* note;
     NoteAttributes* attributes;
@@ -302,7 +302,7 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
     if (seqLayer == NO_LAYER) {
         return;
     }
-    
+
     seqLayer->unusedEu0b8 = 0;
 
     if (seqLayer->note == NULL) {
@@ -317,7 +317,8 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
     }
 
     if (note->playbackState.parentLayer != seqLayer) {
-        if (note->playbackState.parentLayer == NO_LAYER && note->playbackState.wantedParentLayer == NO_LAYER && note->playbackState.prevParentLayer == seqLayer && target != 6) {
+        if (note->playbackState.parentLayer == NO_LAYER && note->playbackState.wantedParentLayer == NO_LAYER &&
+            note->playbackState.prevParentLayer == seqLayer && target != 6) {
             note->playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
             note->playbackState.adsr.adsrAction.action |= 0x10;
         }
@@ -341,11 +342,14 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
         } else {
             note->playbackState.adsr.adsrAction.action |= 0x20;
             if (seqLayer->adsr.releaseRate == 0) {
-                note->playbackState.adsr.fadeOutVel = seqLayer->seqChannel->adsr.releaseRate * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
+                note->playbackState.adsr.fadeOutVel = seqLayer->seqChannel->adsr.releaseRate *
+                                                      gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
             } else {
-                note->playbackState.adsr.fadeOutVel = seqLayer->adsr.releaseRate * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
+                note->playbackState.adsr.fadeOutVel =
+                    seqLayer->adsr.releaseRate * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
             }
-            note->playbackState.adsr.sustain = ((f32) (s32) (seqLayer->seqChannel->adsr.sustain) * note->playbackState.adsr.current) / 256.0f;
+            note->playbackState.adsr.sustain =
+                ((f32)(s32)(seqLayer->seqChannel->adsr.sustain) * note->playbackState.adsr.current) / 256.0f;
         }
     }
 

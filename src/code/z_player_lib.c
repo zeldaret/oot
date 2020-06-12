@@ -128,20 +128,17 @@ s32 func_8008E9F8(Player* player, s32 arg1) {
 #ifdef NON_MATCHING
 // Regalloc only
 void func_8008EA40(Player* player) {
-    s8 temp;
-
-    if ((s32)(player->stateFlags1 << 9) < 0) {
-        temp = player->unk_154;
-        if ((temp < 0) || (player->heldItemActionParam == temp)) {
+    if (player->stateFlags1 & 0x400000) {
+        if ((player->unk_154 < 0) || (player->heldItemActionParam == player->unk_154)) {
             if (func_8008F1A0(player) == 0 && func_8008E9D0(player) == 0) {
                 player->unk_15D = 0xA;
-                player->unk_160 = gSaveContext.linkAge + D_80125F40[10];
+                player->unk_160 = gSaveContext.linkAge + &D_80125F40[10];
                 if (player->unk_15E == 0x12) {
                     player->unk_15E = 0x10;
                 } else if (player->unk_15E == 0x13) {
                     player->unk_15E = 0x11;
                 }
-                player->unk_168 = gSaveContext.linkAge + D_80125F40[player->unk_15E];
+                player->unk_168 = gSaveContext.linkAge + &D_80125F40[player->unk_15E];
                 player->unk_15B = 2;
                 player->unk_154 = -1;
             }
@@ -158,10 +155,10 @@ void func_8008EB2C(Player* player, s32 arg1) {
     player->unk_15C = D_80125C98[(arg1 * 5) + 1];
     player->unk_15D = D_80125C98[(arg1 * 5) + 2];
     player->unk_15E = D_80125C98[(arg1 * 5) + 3];
-    player->unk_164 = gSaveContext.linkAge + D_80125F40[D_80125C98[(arg1 * 5) + 1]];
-    player->unk_160 = gSaveContext.linkAge + D_80125F40[D_80125C98[(arg1 * 5) + 2]];
-    player->unk_168 = gSaveContext.linkAge + D_80125F40[D_80125C98[(arg1 * 5) + 3]];
-    player->unk_16C = gSaveContext.linkAge + D_80125F40[D_80125C98[(arg1 * 5) + 4]];
+    player->unk_164 = gSaveContext.linkAge + &D_80125F40[D_80125C98[(arg1 * 5) + 1]];
+    player->unk_160 = gSaveContext.linkAge + &D_80125F40[D_80125C98[(arg1 * 5) + 2]];
+    player->unk_168 = gSaveContext.linkAge + &D_80125F40[D_80125C98[(arg1 * 5) + 3]];
+    player->unk_16C = gSaveContext.linkAge + &D_80125F40[D_80125C98[(arg1 * 5) + 4]];
     func_8008EA40(player);
 }
 #else
@@ -187,32 +184,30 @@ void func_8008EC70(Player* player) {
     player->unk_6AD = 0;
 }
 
-#ifdef NON_MATCHING
-// Regalloc, ITEM_NONE immediate not reused
 void func_8008ECAC(GlobalContext* globalCtx, Player* player) {
-    s32 phi_v0;
+    s32 sword;
 
     if (player->action != 0x56) {
-        player->currentShield = ((gSaveContext.equips.equipment & gEquipMasks[1]) >> gEquipShifts[1]);
-        player->currentTunic = (((gSaveContext.equips.equipment & gEquipMasks[2]) >> gEquipShifts[2]) - 1);
-        player->currentBoots = (((gSaveContext.equips.equipment & gEquipMasks[3]) >> gEquipShifts[3]) - 1);
+        player->currentShield = CUR_EQUIP_VALUE(EQUIP_SHIELD);
+        player->currentTunic = CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1;
+        player->currentBoots = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
+
         if (gSaveContext.buttonStatus[EQUIP_SWORD] == ITEM_NONE) {
-            player->currentSword = ITEM_NONE;
+            sword = ITEM_NONE;
+            player->currentSword = sword;
         } else {
             if (gSaveContext.equips.buttonItems[EQUIP_SWORD] == ITEM_SWORD_KNIFE) {
-                phi_v0 = ITEM_SWORD_BGS;
+                sword = ITEM_SWORD_BGS;
             } else {
-                phi_v0 = gSaveContext.equips.buttonItems[EQUIP_SWORD];
+                sword = gSaveContext.equips.buttonItems[EQUIP_SWORD];
             }
-            player->currentSword = phi_v0;
+            player->currentSword = sword;
         }
+
         func_8008EC04(player, func_8008E9F8(player, player->heldItemActionParam));
         func_8008E750(globalCtx, player);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008ECAC.s")
-#endif
 
 void func_8008ED9C(GlobalContext* globalCtx, Player* player, s32 item, s32 arg2) {
     Inventory_UpdateBottleItem(globalCtx, item, player->heldItemCButtonIdx);
@@ -509,14 +504,10 @@ void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDim
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc, single stack difference
 void func_800907E4(GlobalContext* globalCtx, Player* player, Vec3f* arg2, s32 arg3) {
     f32 sp4C;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
-    s32 temp_at;
-    f32 sp28;
 
     sp4C = (player->exchangeItemId != 0) ? 6.0f : 14.0f;
     gfxCtx = globalCtx->state.gfxCtx;
@@ -526,19 +517,13 @@ void func_800907E4(GlobalContext* globalCtx, Player* player, Vec3f* arg2, s32 ar
     gSPSegment(gfxCtx->polyOpa.p++, 0x06, player->getItemModel);
     gSPSegment(gfxCtx->polyXlu.p++, 0x06, player->getItemModel);
 
-    sp28 = Math_Sins(player->actor.shape.rot.y);
-    Matrix_Translate((sp28 * 3.299999952316284f) + arg2->x, arg2->y + sp4C,
-                     (Math_Coss(player->actor.shape.rot.y) * (3.299999952316284f + (IREG(90) / 10.0f))) + arg2->z,
-                     MTXMODE_NEW);
-    temp_at = globalCtx->gameplayFrames;
-    Matrix_RotateZYX(0.0f, ((((globalCtx->gameplayFrames << 5) - temp_at) * 4) + temp_at) * 8, 0.0f, MTXMODE_APPLY);
-    Matrix_Scale(0.20000000298023224f, 0.20000000298023224f, 0.20000000298023224f, MTXMODE_APPLY);
+    Matrix_Translate(arg2->x + (Math_Sins(player->actor.shape.rot.y) * 3.3f), arg2->y + sp4C,
+                     arg2->z + ((3.3f + (IREG(90) / 10.0f)) * Math_Coss(player->actor.shape.rot.y)), MTXMODE_NEW);
+    Matrix_RotateRPY(0, globalCtx->gameplayFrames * 1000, 0, MTXMODE_APPLY);
+    Matrix_Scale(0.2f, 0.2f, 0.2f, MTXMODE_APPLY);
     func_800694A0(globalCtx, arg3 - 1);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0x975);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800907E4.s")
-#endif
 
 void func_800909B4(GlobalContext* globalCtx, Player* player) {
     if ((player->unk_170 == 0) || !osRecvMesg(&player->unk_194, NULL, OS_MESG_NOBLOCK)) {
