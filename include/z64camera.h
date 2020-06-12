@@ -431,11 +431,76 @@ typedef struct {
 } Demo6;
 
 typedef struct {
+    // This appears to be a VecSph, but theta and phi are swapped
+    // for some reason.
+    /* 0x0000 */ f32 r;
+    /* 0x0004 */ f32 theta;
+    /* 0x0006 */ f32 phi;
+    /* 0x0008 */ s16 animTimer;
+} Subj3_Anim; // size = 0xA
+
+typedef struct {
+    /* 0x0000 */ f32 eyeNextYOffset;
+    /* 0x0004 */ f32 eyeDist;
+    /* 0x0008 */ f32 eyeNextDist;
+    /* 0x000C */ f32 unk_0C; // unused
+    /* 0x0010 */ Vec3f atOffset;
+    /* 0x001C */ f32 fovTarget;
+    /* 0x0020 */ s16 interfaceFlags;
+    /* 0x0024 */ Subj3_Anim anim;
+} Subj3; // size = 0x2E
+
+typedef struct {
+    Linef unk_00;
+    f32 unk_18;
+    f32 unk_20;
+    f32 unk_24;
+    f32 unk_28;
+    VecSph unk_2C;
+} Subj4_Unk04;  
+
+typedef struct {
+    s16 unk_00;
+    Subj4_Unk04 unk_04;
+} Subj4;
+
+typedef struct {
+    s16 unk_00;
+} Special5_Unk1C;
+
+typedef struct {
     f32 unk_00;
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-} Subj3_Unk24;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    s16 unk_14;
+    s16 unk_16;
+    s16 unk_18;
+    s16 unk_1A;
+    Special5_Unk1C unk_1C;
+} Special5;
+
+typedef struct {
+    Vec3f unk_00;
+    f32 unk_0C;
+} Fixed4_Unk14;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    s16 unk_10;
+    Fixed4_Unk14 unk_14;
+} Fixed4;
+
+typedef struct {
+    Vec3f unk_00;
+    Actor* unk_0C;
+    Vec3f unk_10;
+    s16 unk_1C;
+} KeepOn3_Unk2C;
 
 typedef struct {
     f32 unk_00;
@@ -446,23 +511,12 @@ typedef struct {
     f32 unk_14;
     f32 unk_18;
     f32 unk_1C;
-    s16 unk_20;
-    Subj3_Unk24 unk_24;
-} Subj3;
-
-typedef struct {
-    Linef unk_00;
-    f32 unk_18;
     f32 unk_20;
     f32 unk_24;
-    f32 unk_28;
-    VecSph unk_2C;
-} Subj4_Unk04;
-
-typedef struct {
-    s16 unk_00;
-    Subj4_Unk04 unk_04;
-} Subj4;
+    s16 unk_28;
+    s16 unk_2A;
+    KeepOn3_Unk2C unk_2C;
+} KeepOn3;
 
 typedef union {
     char data[0x50];
@@ -494,6 +548,9 @@ typedef union {
     Demo6 demo6;
     Subj3 subj3;
     Subj4 subj4;
+    Special5 spec5;
+    Fixed4 fixd4;
+    KeepOn3 keep3;
 } CameraParams;
 
 typedef struct {
