@@ -492,7 +492,7 @@ typedef struct {
     /* 0x0100 */ f32 unk_100; // update rate of distance from link?
     /* 0x0104 */ f32 unk_104;
     /* 0x0108 */ Vec3f unk_108;
-    /* 0x0114 */ char dmgEffectTimer[0x4];
+    /* 0x0114 */ char unk_114[0x4];
     /* 0x0118 */ s32 unk_118;
     /* 0x011C */ s32 unk_11C;
     /* 0x0120 */ char unk_120[0x4];
