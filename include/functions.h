@@ -1465,7 +1465,7 @@ void DbgCamera_Enable(DBCamera* dbCamera, Camera* camera);
 // ? func_800B8F58(?);
 // ? func_800B9060(?);
 // ? func_800B91B0(?);
-// ? func_800B958C(?);
+void func_800B958C(Camera* camera, DBCamera* dbCamera);
 // ? func_800B9638(?);
 // ? func_800BB0A0(?);
 // ? func_800BB2B4(?);

@@ -5626,7 +5626,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
             PREG(i) = sPREGInit[i];
         }
 
-        func_800B958C(camera, &D_8015BD80, &gGameInfo);
+        func_800B958C(camera, &D_8015BD80);
         sInitRegs = false;
         PREG(88) = -1;
     }

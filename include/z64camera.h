@@ -617,8 +617,8 @@ typedef struct {
 */
 typedef struct {
     /* 0x0000 */ UNK_TYPE unk_00;
-    /* 0x0004 */ Vec3f unk_04;
-    /* 0x0010 */ Vec3f unk_10;
+    /* 0x0004 */ Vec3f at;
+    /* 0x0010 */ Vec3f eye;
     /* 0x001C */ Vec3f unk_1C;
     /* 0x0028 */ char unk_28[0xC];
     /* 0x0034 */ UNK_TYPE unk_34;
@@ -626,7 +626,7 @@ typedef struct {
     /* 0x003C */ UNK_TYPE unk_3C;
     /* 0x0040 */ UNK_TYPE unk_40;
     /* 0x0044 */ UNK_TYPE unk_44;
-    /* 0x0048 */ f32 unk_48;
+    /* 0x0048 */ f32 fov;
     /* 0x004C */ s16 unk_4C;
     /* 0x0050 */ f32 unk_50;
     /* 0x0054 */ char unk_54[0x18];
@@ -641,7 +641,8 @@ typedef struct {
     /* 0x0082 */ s16 unk_82;
     /* 0x0084 */ s16 unk_84;
     /* 0x0086 */ s16 unk_86;
-    /* 0x0088 */ char unk_88[0x1038];
+    /* 0x0088 */ s32 unk_88;
+    /* 0x008A */ char unk_8C[0x1034];
     /* 0x10C0 */ Vec3s unk_10C0;
     /* 0x10C6 */ Vec3s unk_10C6;
 } DBCamera; // size = 0x10CC
