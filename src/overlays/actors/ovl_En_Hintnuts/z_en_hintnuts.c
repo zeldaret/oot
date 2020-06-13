@@ -281,7 +281,7 @@ void EnHintnuts_Stand(EnHintnuts* this, GlobalContext* globalCtx) {
         this->animFlagAndTimer--;
     }
     if (!(this->animFlagAndTimer & 0x1000)) {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 2, 0xE38);
+        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     }
     if (this->actor.xzDistFromLink < 120.0f || this->animFlagAndTimer == 0x1000) {
         EnHintnuts_SetupBurrow(this);
@@ -293,7 +293,7 @@ void EnHintnuts_Stand(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
     Vec3f nutPos;
 
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 2, 0xE38);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     if (this->actor.xzDistFromLink < 120.0f) {
         EnHintnuts_SetupBurrow(this);
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
@@ -330,10 +330,10 @@ void EnHintnuts_Burrow(EnHintnuts* this, GlobalContext* globalCtx) {
 
 void EnHintnuts_BeginRun(EnHintnuts* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->unk_196 = this->actor.rotTowardsLinkY + 0x8000;
+        this->unk_196 = this->actor.yawTowardsLink + 0x8000;
         EnHintnuts_SetupRun(this);
     }
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 2, 0xE38);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
 }
 
 void EnHintnuts_BeginFreeze(EnHintnuts* this, GlobalContext* globalCtx) {
@@ -379,15 +379,15 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
             this->unk_196 = this->actor.wallPolyRot;
         } else if (this->animFlagAndTimer == 0) {
             diffRotInit = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
-            diffRot = diffRotInit - this->actor.rotTowardsLinkY;
+            diffRot = diffRotInit - this->actor.yawTowardsLink;
             if (ABS(diffRot) >= 0x2001) {
                 this->unk_196 = diffRotInit;
             } else {
                 phi_f0 = (0.0f <= (f32)diffRot) ? 1.0f : -1.0f;
-                this->unk_196 = (s16)((phi_f0 * -8192.0f) + (f32)this->actor.rotTowardsLinkY);
+                this->unk_196 = (s16)((phi_f0 * -8192.0f) + (f32)this->actor.yawTowardsLink);
             }
         } else {
-            this->unk_196 = (s16)(this->actor.rotTowardsLinkY + 0x8000);
+            this->unk_196 = (s16)(this->actor.yawTowardsLink + 0x8000);
         }
     }
 
@@ -410,7 +410,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
 
 void EnHintnuts_Talk(EnHintnuts* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0x3, 0x400, 0x100);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x3, 0x400, 0x100);
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
         EnHintnuts_SetupLeave(this, globalCtx);
     }
@@ -429,7 +429,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         temp_a1 = this->actor.wallPolyRot;
     } else {
-        temp_a1 = this->actor.rotTowardsLinkY - func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
+        temp_a1 = this->actor.yawTowardsLink - func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
         if (ABS(temp_a1) >= 0x4001) {
             temp_a1 = func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
         } else {

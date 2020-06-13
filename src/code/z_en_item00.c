@@ -413,9 +413,9 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
             }
             this->actor.initPosRot.rot.z += (s16)((this->actor.velocity.y + 3.0f) * 1000.0f);
             this->actor.posRot.pos.x +=
-                Math_Coss(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+                Math_Coss(this->actor.yawTowardsLink) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
             this->actor.posRot.pos.z +=
-                Math_Sins(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+                Math_Sins(this->actor.yawTowardsLink) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
         }
     }
 

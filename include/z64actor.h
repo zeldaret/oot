@@ -130,7 +130,7 @@ typedef struct Actor {
     /* 0x080 */ f32     groundY;
     /* 0x084 */ f32     waterY;
     /* 0x088 */ u16     bgCheckFlags;
-    /* 0x08A */ s16     rotTowardsLinkY;
+    /* 0x08A */ s16     yawTowardsLink;
     /* 0x08C */ f32     xyzDistFromLinkSq;
     /* 0x090 */ f32     xzDistFromLink;
     /* 0x094 */ f32     yDistFromLink;

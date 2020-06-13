@@ -261,7 +261,7 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx) {
 
     if (fabsf(this->actor.posRot.pos.y - this->targetY) < 10.0f) {
         this->actor.speedXZ = 10.0f;
-        this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
+        this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         this->actionFunc = EnTuboTrap_Fly;
     }
 }

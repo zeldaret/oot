@@ -110,7 +110,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
         return true;
     }
     this->actor.textId = textID;
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
     if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistFromLink < 100.0f)) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -217,7 +217,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     static s16 yawDiff;
     Player* player = PLAYER;
 
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     if ((gSaveContext.eventChkInf[5] & 0x800)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & 0x1000000) {

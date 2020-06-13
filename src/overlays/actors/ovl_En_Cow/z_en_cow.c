@@ -253,7 +253,7 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 DREG(53) = 0;
             } else {
                 if ((this->actor.xzDistFromLink < 150.0f) &&
-                    (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x61A8)) {
+                    (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
                     this->actor.flags |= 0x10000;
@@ -280,7 +280,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.xzDistFromLink < 150.0f) &&
-        (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
+        (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animCurrentSeg == &D_06004348) {
             this->unk_278 = 0;

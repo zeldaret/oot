@@ -179,7 +179,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
 
 void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
     // always face toward link
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
     if ((this->actor.xzDistFromLink <= 160.0f) && (this->actor.xzDistFromLink > 40.0f)) {
         EnSb_SetupOpen(this);
@@ -193,7 +193,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
         this->timer = 15;
         EnSb_SetupWaitOpen(this);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
         if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
             EnSb_SetupWaitClosed(this);
         }
@@ -203,7 +203,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
     s16 timer = this->timer;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
     if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
         EnSb_SetupWaitClosed(this);
@@ -213,7 +213,7 @@ void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
         this->timer = timer - 1;
     } else {
         this->timer = 0;
-        this->attackYaw = this->actor.rotTowardsLinkY;
+        this->attackYaw = this->actor.yawTowardsLink;
         this->actionFunc = EnSb_TurnAround;
     }
 }
@@ -361,7 +361,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
                     hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
-                    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+                    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
@@ -379,7 +379,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
                     hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
-                    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+                    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);

@@ -373,7 +373,7 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
 
     if (!(this->actor.xzDistFromLink > 400.0f)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.rotTowardsLinkY, 10, 1000, 1);
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 10, 1000, 1);
         this->actor.shape.rot = this->actor.posRot.rot;
     }
 }
@@ -381,7 +381,7 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
 void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 200.0f) {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (this->actor.rotTowardsLinkY ^ 0x8000), 10, 1000, 1);
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (this->actor.yawTowardsLink ^ 0x8000), 10, 1000, 1);
     } else {
         this->actionFunc = EnDog_FaceLink;
     }
@@ -399,7 +399,7 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
 
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
 
-        rotTowardLink = this->actor.rotTowardsLinkY;
+        rotTowardLink = this->actor.yawTowardsLink;
         prevRotY = this->actor.posRot.rot.y;
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, rotTowardLink, 10, 1000, 1);
 
@@ -419,7 +419,7 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
-    this->unusedAngle = (this->actor.rotTowardsLinkY - this->actor.shape.rot.y);
+    this->unusedAngle = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
 
     // If another dog is following Link and he gets within 200 units of waiting dog, run away
     if ((gSaveContext.dogParams != 0) && (this->actor.xzDistFromLink < 200.0f)) {

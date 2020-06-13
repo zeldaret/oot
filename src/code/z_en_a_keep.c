@@ -213,7 +213,7 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
     s16 var;
 
     if (this->dyna.actor.textId != 0) {
-        var = this->dyna.actor.rotTowardsLinkY - this->dyna.actor.shape.rot.y;
+        var = this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y;
         if ((ABS(var) < 0x2800) || ((this->dyna.actor.params == 0xA) && (ABS(var) > 0x5800))) {
             if (func_8002F194(&this->dyna.actor, globalCtx)) {
                 EnAObj_SetupAction(this, func_8001D204);
@@ -238,13 +238,13 @@ void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
             this->unk_16E++;
             this->unk_170 = 20;
 
-            if ((s16)(this->dyna.actor.rotTowardsLinkY + 0x4000) < 0) {
+            if ((s16)(this->dyna.actor.yawTowardsLink + 0x4000) < 0) {
                 this->unk_174 = -1000;
             } else {
                 this->unk_174 = 1000;
             }
 
-            if (this->dyna.actor.rotTowardsLinkY < 0) {
+            if (this->dyna.actor.yawTowardsLink < 0) {
                 this->unk_172 = -this->unk_174;
             } else {
                 this->unk_172 = this->unk_174;

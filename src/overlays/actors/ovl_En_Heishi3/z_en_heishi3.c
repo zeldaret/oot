@@ -102,7 +102,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
 
     player = PLAYER;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
     if (yawDiffNew < 0x4300) {
         if (gSaveContext.nightFlag == 0) {
@@ -174,7 +174,7 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
         this->actionFunc = EnHeishi3_ResetAnimationToIdle;
         this->actor.speedXZ = 0.0f;
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.rotTowardsLinkY, 5, 3000, 0);
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
     }
 }
 

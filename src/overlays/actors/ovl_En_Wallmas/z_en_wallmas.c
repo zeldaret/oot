@@ -315,7 +315,7 @@ void EnWallmas_Stand(EnWallmas* this, GlobalContext* globalCtx) {
         EnWallmas_SetupWalk(this);
     }
 
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.rotTowardsLinkY + 0x8000, 0xB6);
+    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0xB6);
 }
 
 void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
@@ -323,7 +323,7 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.rotTowardsLinkY + 0x8000), 0xB6);
+    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.yawTowardsLink + 0x8000), 0xB6);
 
     if ((func_800A56C8(&this->skelAnime, 0.0f) != 0) || (func_800A56C8(&this->skelAnime, 12.0f) != 0) ||
         (func_800A56C8(&this->skelAnime, 24.0f) != 0) || (func_800A56C8(&this->skelAnime, 36.0f) != 0)) {

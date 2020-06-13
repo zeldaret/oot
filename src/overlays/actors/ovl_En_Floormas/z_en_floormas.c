@@ -424,7 +424,7 @@ void EnFloormas_SetupFreeze(EnFloormas* this) {
 void EnFloormas_Die(EnFloormas* this, GlobalContext* globalCtx) {
     if (this->actor.scale.x > 0.004f) {
         // split
-        this->actor.shape.rot.y = this->actor.rotTowardsLinkY + 0x8000;
+        this->actor.shape.rot.y = this->actor.yawTowardsLink + 0x8000;
         EnFloormas_SetupSplit((EnFloormas*)this->actor.attachedB);
         EnFloormas_SetupSplit((EnFloormas*)this->actor.attachedA);
         EnFloormas_SetupSplit(this);
@@ -440,7 +440,7 @@ void EnFloormas_BigDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         // within 400 units of link and within 90 degrees rotation of him
         if (this->actor.xzDistFromLink < 400.0f && !func_8002E084(&this->actor, 0x4000)) {
-            this->actionTarget = this->actor.rotTowardsLinkY;
+            this->actionTarget = this->actor.yawTowardsLink;
             EnFloormas_SetupTurn(this);
             // within 280 units of link and within 45 degrees rotation of him
         } else if (this->actor.xzDistFromLink < 280.0f && func_8002E084(&this->actor, 0x2000)) {
@@ -486,7 +486,7 @@ void EnFloormas_BigWalk(EnFloormas* this, GlobalContext* globalCtx) {
         EnFloormas_SetupTurn(this);
     } else if ((this->actor.xzDistFromLink < 400.0f) && !func_8002E084(&this->actor, 0x4000)) {
         // set target rotation to link.
-        this->actionTarget = this->actor.rotTowardsLinkY;
+        this->actionTarget = this->actor.yawTowardsLink;
         EnFloormas_SetupTurn(this);
     } else if (this->actionTimer == 0) {
         EnFloormas_SetupBigStopWalk(this);
@@ -507,7 +507,7 @@ void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 3, 0x71C);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
 
     if ((this->actor.xzDistFromLink < 280.0f) && func_8002E084(&this->actor, 0x2000) &&
         !(this->actor.bgCheckFlags & 8)) {
@@ -553,7 +553,7 @@ void EnFloormas_Hover(EnFloormas* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.x += 0x140;
     this->actor.posRot.pos.y += 10.0f;
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 3, 2730);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 2730);
     Math_ApproxS(&this->zOffset, 1200, 100);
 }
 
@@ -686,7 +686,7 @@ void EnFloormas_SmWalk(EnFloormas* this, GlobalContext* globalCtx) {
         this->actionTarget = this->actor.wallPolyRot;
         EnFloormas_SetupTurn(this);
     } else if (this->actor.xzDistFromLink < 120.0f) {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY + 0x8000, 0x38E);
+        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0x38E);
     }
 }
 
@@ -720,7 +720,7 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
             EnFloormas_SetupSlaveJumpAtMaster(this);
         }
     } else {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 3, 0x71C);
+        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
         if (this->actor.xzDistFromLink < 80.0f) {
             EnFloormas_SetupJumpAtLink(this);
         }
@@ -740,7 +740,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->skelAnime.animCurrentFrame < 20.0f) {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 2, 0xE38);
+        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     } else if (func_800A56C8(&this->skelAnime, 20.0f)) {
         this->actor.speedXZ = 5.0f;
         this->actor.velocity.y = 7.0f;

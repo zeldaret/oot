@@ -225,7 +225,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
             this->actionFunc = EnDs_Talk;
         }
     } else {
-        yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         this->actor.textId = 0x5048;
 
         if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistFromLink < 200.0f)) {

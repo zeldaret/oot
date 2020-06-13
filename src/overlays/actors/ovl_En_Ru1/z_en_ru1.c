@@ -1017,19 +1017,19 @@ void func_80AECC84(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Vec3f* pos;
-    s16 rotTowardsLinkY;
+    s16 yawTowardsLink;
     f32 spawnX;
     f32 spawnY;
     f32 spawnZ;
     s32 pad[2];
 
-    rotTowardsLinkY = thisx->rotTowardsLinkY;
+    yawTowardsLink = thisx->yawTowardsLink;
     pos = &thisx->posRot.pos;
-    spawnX = ((kREG(1) + 12.0f) * Math_Sins(rotTowardsLinkY)) + pos->x;
+    spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
-    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(rotTowardsLinkY)) + pos->z;
+    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
     this->unk_278 = Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                        0, rotTowardsLinkY, 0, 5);
+                                        0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1118,8 +1118,8 @@ void func_80AED0C8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AED0D8(EnRu1* this, GlobalContext* globalCtx) {
     this->action = 17;
     this->drawConfig = 1;
-    this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
-    this->actor.shape.rot.y = this->actor.rotTowardsLinkY;
+    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.yawTowardsLink;
     func_80AECCB0(this, globalCtx);
 }
 

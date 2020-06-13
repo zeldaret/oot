@@ -151,7 +151,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
                                                            // "...all I can do is look at Death Mountain."
     }
 
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B04F0);
@@ -177,7 +177,7 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     u16 textId;
 
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B0524);

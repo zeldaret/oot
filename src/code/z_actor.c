@@ -1091,7 +1091,7 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
 
 s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 var = (s16)(actor->rotTowardsLinkY + 0x8000) - player->actor.shape.rot.y;
+    s16 var = (s16)(actor->yawTowardsLink + 0x8000) - player->actor.shape.rot.y;
 
     if (ABS(var) < arg1) {
         return 1;
@@ -1111,7 +1111,7 @@ s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
 }
 
 s32 func_8002E084(Actor* actor, s16 arg1) {
-    s16 var = actor->rotTowardsLinkY - actor->shape.rot.y;
+    s16 var = actor->yawTowardsLink - actor->shape.rot.y;
 
     if (ABS(var) < arg1) {
         return 1;
@@ -1131,7 +1131,7 @@ s32 func_8002E0D0(Actor* actorA, Actor* actorB, s16 arg2) {
 }
 
 s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
-    s16 var = actor->rotTowardsLinkY - actor->shape.rot.y;
+    s16 var = actor->yawTowardsLink - actor->shape.rot.y;
 
     if (ABS(var) < arg2) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistFromLink) + SQ(actor->yDistFromLink));
@@ -1445,7 +1445,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     s16 var;
     s16 abs_var;
 
-    var = (s16)(actor->rotTowardsLinkY - 0x8000) - arg2;
+    var = (s16)(actor->yawTowardsLink - 0x8000) - arg2;
     abs_var = ABS(var);
 
     if (player->unk_664 != NULL) {
@@ -1491,7 +1491,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     }
 
     if (!flag) {
-        var = (s16)(actor->rotTowardsLinkY - 0x8000) - player->actor.shape.rot.y;
+        var = (s16)(actor->yawTowardsLink - 0x8000) - player->actor.shape.rot.y;
         abs_var = ABS(var);
 
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
@@ -1586,7 +1586,7 @@ s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzR
              (getItemId < 0x7E)) ||
             (!(player->stateFlags1 & 0x20000800))) {
             if ((actor->xzDistFromLink < xzRange) && (fabsf(actor->yDistFromLink) < yRange)) {
-                var = actor->rotTowardsLinkY - player->actor.shape.rot.y;
+                var = actor->yawTowardsLink - player->actor.shape.rot.y;
                 abs_var = ABS(var);
                 if ((getItemId != 0) || (player->getItemDirection < abs_var)) {
                     player->getItemId = getItemId;
@@ -2115,7 +2115,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 actor->yDistFromLink = Actor_HeightDiff(actor, &player->actor);
                 actor->xyzDistFromLinkSq = SQ(actor->xzDistFromLink) + SQ(actor->yDistFromLink);
 
-                actor->rotTowardsLinkY = func_8002DA78(actor, &player->actor);
+                actor->yawTowardsLink = func_8002DA78(actor, &player->actor);
                 actor->flags &= ~0x1000000;
 
                 if ((DECR(actor->freeze) == 0) && (actor->flags & 0x50)) {
@@ -4004,8 +4004,8 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     s16 var1;
     s16 var2;
 
-    var1 = (s16)(actor->rotTowardsLinkY + 0x8000) - player->actor.shape.rot.y;
-    var2 = actor->rotTowardsLinkY - arg5;
+    var1 = (s16)(actor->yawTowardsLink + 0x8000) - player->actor.shape.rot.y;
+    var2 = actor->yawTowardsLink - arg5;
 
     if ((actor->xzDistFromLink <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) &&
         (arg3 >= ABS(var2))) {
@@ -5473,7 +5473,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         return 0;
     }
 
-    var = actor->rotTowardsLinkY - actor->shape.rot.y;
+    var = actor->yawTowardsLink - actor->shape.rot.y;
     abs_var = ABS(var);
 
     if (abs_var >= 0x4300) {
@@ -5540,7 +5540,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->posRot2.pos.y += arg4;
 
     if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
-        var = actor->rotTowardsLinkY - actor->shape.rot.y;
+        var = actor->yawTowardsLink - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
             func_80037F30(arg2, arg3);
@@ -5569,7 +5569,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->posRot2.pos = arg4;
 
     if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
-        var = actor->rotTowardsLinkY - actor->shape.rot.y;
+        var = actor->yawTowardsLink - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
             func_80037F30(arg2, arg3);
