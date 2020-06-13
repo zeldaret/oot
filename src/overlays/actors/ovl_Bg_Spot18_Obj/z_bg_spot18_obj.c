@@ -42,12 +42,7 @@ const ActorInit Bg_Spot18_Obj_InitVars = {
     (ActorFunc)BgSpot18Obj_Draw,
 };
 
-u8 D_808B90F0[] = {
-    0x01,
-    0x01,
-    0x01,
-    0x00,
-};
+u8 D_808B90F0[2][2] = { { 0x01, 0x01 }, { 0x01, 0x00 } };
 
 f32 D_808B90F4[] = {
     0.1f,
@@ -108,13 +103,13 @@ s32 func_808B8910(BgSpot18Obj* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    switch (D_808B90F0[((this->dyna.actor.params & 0xF) * 2) + isAdult]) {
+    switch (D_808B90F0[this->dyna.actor.params & 0xF][isAdult]) {
         case 0:
         case 1:
-            if (D_808B90F0[((this->dyna.actor.params & 0xF) * 2) + isAdult] == 0) {
+            if (D_808B90F0[this->dyna.actor.params & 0xF][isAdult] == 0) {
                 osSyncPrintf("出現しない Object (0x%04x)\n", this->dyna.actor.params);
             }
-            return D_808B90F0[((this->dyna.actor.params & 0xF) * 2) + isAdult];
+            return D_808B90F0[this->dyna.actor.params & 0xF][isAdult];
         case 2:
             osSyncPrintf("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 202,
                          this->dyna.actor.params);
@@ -127,7 +122,7 @@ s32 func_808B8910(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B8A5C(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    Actor_SetScale(&this->dyna.actor, D_808B90F4[(this->dyna.actor.params & 0xF)]);
+    Actor_SetScale(&this->dyna.actor, D_808B90F4[this->dyna.actor.params & 0xF]);
     return 1;
 }
 
@@ -136,13 +131,13 @@ s32 func_808B8A98(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 localC = 0;
 
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
-    DynaPolyInfo_Alloc(D_808B90FC[(this->dyna.actor.params & 0xF)], &localC);
+    DynaPolyInfo_Alloc(D_808B90FC[this->dyna.actor.params & 0xF], &localC);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
     return 1;
 }
 
 s32 func_808B8B08(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    this->dyna.actor.flags |= D_808B9104[(this->dyna.actor.params & 0xF)];
+    this->dyna.actor.flags |= D_808B9104[this->dyna.actor.params & 0xF];
     return 1;
 }
 
@@ -162,16 +157,14 @@ s32 func_808B8BB4(BgSpot18Obj* this, GlobalContext* globalCtx) {
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         func_808B9030(this);
+    } else if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
+        func_808B9030(this);
+        this->dyna.actor.posRot.pos.x =
+            (Math_Sins(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;
+        this->dyna.actor.posRot.pos.z =
+            (Math_Coss(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z;
     } else {
-        if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
-            func_808B9030(this);
-            this->dyna.actor.posRot.pos.x =
-                (f32)((Math_Sins(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x);
-            this->dyna.actor.posRot.pos.z =
-                (f32)((Math_Coss(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z);
-        } else {
-            func_808B8E64(this);
-        }
+        func_808B8E64(this);
     }
     return 1;
 }
@@ -295,5 +288,5 @@ void BgSpot18Obj_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, sDlists[THIS->dyna.actor.params & 0xF]);
+    Gfx_DrawDListOpa(globalCtx, sDlists[thisx->params & 0xF]);
 }
