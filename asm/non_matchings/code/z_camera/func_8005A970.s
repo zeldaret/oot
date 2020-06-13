@@ -1,8 +1,8 @@
 glabel func_8005A970
 /* AD1B10 8005A970 3C0E8012 */  lui   $t6, %hi(gDbgCamEnabled) # $t6, 0x8012
 /* AD1B14 8005A974 8DCED394 */  lw    $t6, %lo(gDbgCamEnabled)($t6)
-/* AD1B18 8005A978 3C0F8016 */  lui   $t7, %hi(D_8015CE46) # $t7, 0x8016
-/* AD1B1C 8005A97C 25EFCE46 */  addiu $t7, %lo(D_8015CE46) # addiu $t7, $t7, -0x31ba
+/* AD1B18 8005A978 3C0F8016 */  lui   $t7, %hi(D_8015BD80) # $t7, 0x8016
+/* AD1B1C 8005A97C 25EFCE46 */  addiu $t7, %lo(D_8015BD80+0x10C6) # addiu $t7, $t7, -0x31ba
 /* AD1B20 8005A980 51C0000A */  beql  $t6, $zero, .L8005A9AC
 /* AD1B24 8005A984 88A9013A */   lwl   $t1, 0x13a($a1)
 /* AD1B28 8005A988 89F90000 */  lwl   $t9, ($t7)

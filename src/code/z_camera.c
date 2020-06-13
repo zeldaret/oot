@@ -5,7 +5,7 @@
 s16 Camera_ChangeSetting(Camera*, s16, s16);
 void Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
 
-#define NON_MATCHING
+//#define NON_MATCHING
 
 /* Camera Setting Macros */
 #define CAM_MODE_INIT(funcIdx, modeValues) { funcIdx, ARRAY_COUNT(modeValues), modeValues, }
@@ -1813,29 +1813,35 @@ s32 sOOBTimer = 0;
 s32 D_8011DB14 = 0;
 
 // BSS
-extern GlobalContext* D_8015BD7C;
-extern DbgCamera D_8015BD80;
-extern Vec3f D_8015BD84;
-extern Vec3f D_8015BD90;
-extern Vec3f D_8015BD9C;
-
-extern f32 D_8015BDC8;
-//temporarily creating a struct for this data;
-typedef struct {
-    Vec3s unk_00;
-    char pad;
-}t_struct;
-extern t_struct D_8015CE46;
-extern CollisionPoly* playerFloorPoly;
-
-/*===============================================================*/
 typedef struct {
     Vec3f unk_00;
     Vec3f unk_0C;
     CollisionPoly* unk_18;
-    char unk_1C[0x8];
+    VecSph unk_1C;
     s32 unk_24;
 } struct_80043D18;
+
+Vec3f D_8015BD50; // 8015BD50
+// 8015BD5C
+char D_8015BD5C[0x10];
+Vec3f D_8015BD70; // 8015BD70
+GlobalContext* D_8015BD7C; // 8015BD7C
+DBCamera D_8015BD80; // 8015BD80
+CollisionPoly *playerFloorPoly;
+f32 D_8015CE50;
+f32 D_8015CE54;
+
+struct_80043D18 D_8015CE58;
+struct_80043D18 D_8015CE80;
+struct_80043D18 D_8015CEA8;
+struct_80043D18 D_8015CED0;
+
+extern DBCamera D_8015BD80;
+extern GlobalContext* D_8015BD7C;
+extern CollisionPoly* playerFloorPoly;
+
+/*===============================================================*/
+
 
 f32 func_800437F0(f32 arg0, f32 arg1) {
     f32 percent = 0.4f;
@@ -2219,7 +2225,7 @@ f32 func_800449AC(Camera* camera, Vec3f* arg1, s32* arg2) {
 }
 
 s16 func_80044A74(Vec3f* arg0, Vec3f* arg1) {
-    return Math_atan2f(arg1->x - arg0->x, arg1->z - arg0->z) * (180.0f / M_PI) * (32767.5f / 180.0f) + 0.5f;
+    return DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(arg1->x - arg0->x, arg1->z - arg0->z)));
 }
 
 s16 func_80044ADC(Camera* camera, s16, s32);
@@ -2397,12 +2403,12 @@ s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     }
 
     sp48 = playerPosRot->pos.y - *arg3;
-    temp_ret = Math_atan2f(sp48, OLib_Vec3fDistXZ(&camera->at, &camera->eye)); // f2 and f14 are swapped
-
-    if (OREG(32) * (M_PI / 180) < temp_ret) {
-        phi_f2 = 1.0f - sinf(temp_ret - OREG(32) * (M_PI / 180));
-    } else if (OREG(33) * (M_PI / 180) > temp_ret) {
-        phi_f2 = 1.0f - sinf(OREG(33) * (M_PI / 180) - temp_ret);
+    temp_ret = Math_atan2f(sp48, OLib_Vec3fDistXZ(&camera->at, &camera->eye));
+    
+    if (temp_ret > DEGF_TO_RADF(OREG(32))) {
+        phi_f2 = 1.0f - sinf(DEGF_TO_RADF(temp_ret - OREG(32)));
+    } else if (temp_ret < DEGF_TO_RADF(OREG(33))) {
+        phi_f2 = 1.0f - sinf(DEGF_TO_RADF(OREG(33)) - temp_ret);
     } else {
         phi_f2 = 1.0f;
     }
@@ -2589,11 +2595,11 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
     s16 temp;
 
     if (camera->unk_D8 > 0.001f) {
-        temp = arg1 - 0x7FFF;
+        temp = BINANG_ROT180(arg1);
         sp1C = arg2 - temp;
-        phi_f14 = (s16)(sp1C - 0x7FFF) * (1.0f / 32767.0f);
+        phi_f14 = BINANG_ROT180(sp1C) * (1.0f / 32767.0f);
     } else {
-        temp = arg1 - 0x7FFF;
+        temp = BINANG_ROT180(arg1);
         sp1C = arg2 - temp;
         phi_f14 = OREG(48) * 0.01f;
     }
@@ -2602,7 +2608,8 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
     if (sp34 < 0.0f) {
         sp34 = 0.0f;
     }
-    // ordering stuff here
+    
+    // This is probably some binary angle calculation.
     return arg1 + (s16)(sp1C * sp34 * (1.0f / camera->unk_C0.z) * func_800437F0(0.5f, camera->unk_E0)) + arg1;
 }
 #else
@@ -3958,8 +3965,6 @@ s32 Camera_KeepOn2(Camera* camera) {
 
 s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5);
 
-#define DEGF_TO_ZANG(angle) ((s32)(angle * (65535.0f / 360.0f) + 0.5f))
-#define ZANG_ROT180(angle) ((s32)(angle - (s16)0x7FFF))
 #ifdef NON_MATCHING
 s32 Camera_KeepOn3(Camera *camera) {
     KeepOn3* keep3 = &camera->params.keep3;
@@ -4007,6 +4012,8 @@ s32 Camera_KeepOn3(Camera *camera) {
     s32 phi_s0_2;
     CameraModeValue* values;
     f32 t;
+    s16* i;
+    const f32 zero6 = 0.6f;
 
     sp58 = Player_GetCameraYOffset(camera->player);
     if (camera->target == NULL || camera->target->update == NULL) {
@@ -4031,9 +4038,9 @@ s32 Camera_KeepOn3(Camera *camera) {
     camera->unk_14C &= ~0x10;
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        temp_f2 = (f32) (OREG(46) * 0.01f);
-        t = sp58 * ((1.0f + (OREG(46) * 0.01f)) - ((OREG(46) * 0.01f) * (68.0f / sp58)));
-        keep3->unk_00 = NEXTPCT * t;
+        //t = (1.0f + (OREG(46) * 0.01f)) - ((OREG(46) * 0.01f) * (68.0f / yOffset));
+        t = (1.0f + (OREG(46) * 0.01f)) - ((OREG(46) * 0.01f) * (68.0f / sp58));
+        keep3->unk_00 = (f32) (((((f32) NEXTSETTING) * 0.01f) * sp58) * t);
         keep3->unk_04 = NEXTSETTING;
         keep3->unk_08 = NEXTSETTING;
         keep3->unk_0C = NEXTSETTING;
@@ -4062,72 +4069,59 @@ s32 Camera_KeepOn3(Camera *camera) {
     sCameraInterfaceFlags = keep3->unk_2A;
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         spAC = camera->target;
-        spB0 = camera->player;
         camera->animState++;
-        unk2C->unk_0C = camera->target;
+        unk2C->unk_0C = spAC;
         phi_f12 = keep3->unk_08 < spA4.r ? 1.0f : spA4.r / keep3->unk_08;
         unk2C->unk_1C = keep3->unk_28;
-        spBC = ((1.0f - phi_f12) * spA4.r) / (f32) unk2C->unk_1C;
-        sp9C.phi = (s32) ((DEGF_TO_ZANG(keep3->unk_14 + ((keep3->unk_18 - keep3->unk_14) * phi_f12)) * ( 65535.0f / 360.0f )) + 0.5f) + (s32) -((f32) spA4.phi * keep3->unk_1C);
+        spBC = ((1.0f - phi_f12) * spA4.r) / unk2C->unk_1C;
+        sp9C.phi = DEGF_TO_BINANG(keep3->unk_14 + ((keep3->unk_18 - keep3->unk_14) * phi_f12)) + (s32)-(spA4.phi * keep3->unk_1C);
         temp_f14 = keep3->unk_0C + ((keep3->unk_10 - keep3->unk_0C) * phi_f12);
 
-        /**
-         *  This might be some huge ternary
-        
-        sp9C.theta = keep3->unk_2A & 0x10 ? 0 :
-            keep3->unk_2A & 0x20 ? 1 :
-            2;
-        */
-       if(keep3->unk_2A & 0x10){
-           sp9C.theta = ((spA4.theta - sp8C.theta) < 0 ?
-                    spA4.theta + (s16)DEGF_TO_ZANG(temp_f14) :
-                    spA4.theta - (s16)DEGF_TO_ZANG(temp_f14));
-       } else if(keep3->unk_2A & 0x20){
-           sp9C.theta = ((s16)(spA4.theta - sp9C.theta) < 0 ?
-                       (s16)ZANG_ROT180(spA4.theta) - (s16)DEGF_TO_ZANG(temp_f14) :
-                        (s16)ZANG_ROT180(spA4.theta) + (s16)DEGF_TO_ZANG(temp_f14));
-       }else {
-           if(ABS((s16)(spA4.theta - sp8C.theta)) < 0x3FFF){
-               sp9C.theta = ((spA4.theta - sp8C.theta) < 0 ? 
-                            spA4.theta + DEGF_TO_ZANG(temp_f14) :
-                            spA4.theta - DEGF_TO_ZANG(temp_f14));
-           } else {
-
-           
-           sp9C.theta = ((spA4.theta - sp8C.theta) < 0 ?
-                            (s16)ZANG_ROT180(spA4.theta) - (s16)DEGF_TO_ZANG(temp_f14) :
-                            (s16)ZANG_ROT180(spA4.theta) + (s16)DEGF_TO_ZANG(temp_f14));
-           }
-       }
+        if(keep3->unk_2A & 0x10){
+            sp9C.theta = (BINANG_SUB(spA4.theta, sp8C.theta) < 0 ?
+                spA4.theta + DEGF_TO_BINANG(temp_f14) :
+                spA4.theta - DEGF_TO_BINANG(temp_f14));
+        } else if(keep3->unk_2A & 0x20){
+            sp9C.theta = (BINANG_SUB(spA4.theta, sp9C.theta) < 0 ?
+                BINANG_ROT180(spA4.theta) - DEGF_TO_BINANG(temp_f14) :
+                BINANG_ROT180(spA4.theta) + DEGF_TO_BINANG(temp_f14));
+        } else {
+            if(ABS(BINANG_SUB(spA4.theta, sp8C.theta)) < 0x3FFF) {
+                sp9C.theta = BINANG_SUB(spA4.theta, sp8C.theta) < 0 ? 
+                    spA4.theta + DEGF_TO_BINANG(temp_f14) :
+                    spA4.theta - DEGF_TO_BINANG(temp_f14);
+            } else {
+                sp9C.theta = BINANG_SUB(spA4.theta, sp8C.theta) < 0 ?
+                BINANG_ROT180(spA4.theta) - DEGF_TO_BINANG(temp_f14) :
+                BINANG_ROT180(spA4.theta) + DEGF_TO_BINANG(temp_f14);
+            }
+        }
         temp_f14_2 = spA4.r;
         sp80 = sp9C.theta;
         sp82 = sp9C.phi;
-        spA4.r = (spBC * 0.6f) + (temp_f14_2 * (1.0f - 0.6f));
+        spA4.r = (spBC * zero6) + (temp_f14_2 * (1.0f - zero6));
         spD0 = sp3C->pos;
         spB8 = temp_f14_2;
         spD4 = spD4 + sp58;
         Camera_Vec3fVecSphAdd(temp_s1_2, &spD0, &spA4);
-        sp84 = 0xE;
+        sp84 = ARRAY_COUNT(D_8011D3B0);
+        phi_s0 = 0;
         spA4.r = temp_f14_2;
         sp9C.r = ((keep3->unk_04 + (temp_f14_2 * 0.5f)) - sp8C.r) + sp8C.r;
         Camera_Vec3fVecSphAdd(&spC4, temp_s1_2, &sp9C);
-        phi_s0 = 0;
-        phi_s0_2 = 0;
-        if ((keep3->unk_2A & 0x80) == 0) {
-loop_43:
-            if (func_800626B0(camera->globalCtx, &camera->globalCtx->colChkCtx, temp_s1_2, &spC4, &spAC, 2) || func_80043F34(camera, temp_s1_2, &spC4)) {
-                sp9C.theta = D_8011D3B0[phi_s0] + sp80;
-                sp9C.phi = D_8011D3CC[phi_s0] + sp82;
-                Camera_Vec3fVecSphAdd(&spC4, temp_s1_2, &sp9C);
-                temp_s0_2 = phi_s0 + 1;
-                phi_s0 = temp_s0_2;
-                phi_s0_2 = temp_s0_2;
-                if (temp_s0_2 < sp84) {
-                    goto loop_43;
+        if (!(keep3->unk_2A & 0x80)) {
+            while(phi_s0 < sp84){
+                if (func_800626B0(camera->globalCtx, &camera->globalCtx->colChkCtx, temp_s1_2, &spC4, &spAC, 2) || func_80043F34(camera, temp_s1_2, &spC4)) {
+                    sp9C.theta = D_8011D3B0[phi_s0] + sp80;
+                    sp9C.phi = D_8011D3CC[phi_s0] + sp82;
+                    Camera_Vec3fVecSphAdd(&spC4, temp_s1_2, &sp9C);
+                } else {
+                    break;
                 }
+                phi_s0++;
             }
-        }
-        osSyncPrintf("camera: talk: BG&collision check %d time(s)\n", phi_s0_2);
+        }   
+        osSyncPrintf("camera: talk: BG&collision check %d time(s)\n", phi_s0);
         camera->unk_14C &= ~4;
         temp_f0_2 = (f32) ((s32) ((unk2C->unk_1C + 1) * unk2C->unk_1C) >> 1);
         unk2C->unk_00.y = (f32) ((f32) ((s32) ((sp9C.theta - sp8C.theta) << 0x10) >> 0x10) / temp_f0_2);
@@ -4174,19 +4168,21 @@ loop_43:
 
 #ifdef NON_MATCHING
 s32 Camera_KeepOn0(Camera *camera) {
+    s32 pad;
+    KeepOn0 *keep0 = &camera->params.keep0;
+    CameraModeValue* values;
     VecSph sp5C;
     VecSph sp54;
+    s16 pad2;
+    s16 phi_a3;
+    KeepOn0_UnkC *keep0UnkC = &keep0->unk_0C;
+    Vec3f *sp30 = &camera->eye;
     CamPosData *sp44;
     Vec3s sp3C;
-    Vec3f *sp30;
-    Vec3f *sp2C;
-    Vec3f *sp28;
-    s16 temp_t6;
-    s16 phi_a3;
-    CameraModeValue* values;
-    KeepOn0 *keep0 = &camera->params.keep0;
-    KeepOn0_UnkC *keep0UnkC = &keep0->unk_0C;
-
+    Vec3f *sp2C = &camera->eyeNext;
+    PosRot *sp28 = &camera->targetPosRot;
+    
+   
     camera->unk_14C &= ~0x10;
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -4200,12 +4196,11 @@ s32 Camera_KeepOn0(Camera *camera) {
         Camera_CopyPREGToModeValues(camera);
     }
     sp44 = func_8004476C(camera);
-    sp2C = &camera->eyeNext;
-    Camera_Vec3sToVec3f(&camera->eyeNext, &sp44->pos);
-    camera->eye = camera->eyeNext;
+    Camera_Vec3sToVec3f(sp2C, &sp44->pos);
+    *sp30 = *sp2C;
     sp3C = sp44->rot;
     phi_a3 = sp44->fov;
-    if (sp44->fov == -1) {
+    if (phi_a3 == -1) {
         phi_a3 = 0x1770;
     }
     if ((camera->target == NULL) || (camera->target->update == NULL)) {
@@ -4217,17 +4212,15 @@ s32 Camera_KeepOn0(Camera *camera) {
         return true;
     }
 
-    sp28 = &camera->targetPosRot.pos;
-    sp30 = &camera->eye;
-    func_8002EEE4(sp28, camera->target);
+    func_8002EEE4(&sp28->pos, camera->target);
     sp2C = &camera->at;
-    OLib_Vec3fDiffToVecSphRot90(&sp54, sp30, &camera->at);
-    OLib_Vec3fDiffToVecSphRot90(&sp5C, sp30, sp28);
+    OLib_Vec3fDiffToVecSphRot90(&sp54, sp30, sp2C);
+    OLib_Vec3fDiffToVecSphRot90(&sp5C, sp30, &sp28->pos);
     sCameraInterfaceFlags = keep0->unk_0A;
     if (camera->animState == 0) {
         camera->animState++;
-        camera->roll = 0;
         camera->fov = phi_a3 * 0.01f;
+        camera->roll = 0;
         camera->atLERPStepScale = 0.0f;
         keep0UnkC->unk_04 = keep0->unk_08;
         keep0UnkC->unk_00 = camera->fov - (camera->fov * keep0->unk_00);
@@ -6119,13 +6112,13 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             }
         }
         if (gDbgCamEnabled) {
-            camera->globalCtx->view.fovy = D_8015BDC8;
+            camera->globalCtx->view.fovy = D_8015BD80.unk_48;
             func_800B4E7C(&D_8015BD80, camera);
-            func_800AA358(&camera->globalCtx->view, &D_8015BD90, &D_8015BD84, &D_8015BD9C);
+            func_800AA358(&camera->globalCtx->view, &D_8015BD80.unk_10, &D_8015BD80.unk_04, &D_8015BD80.unk_1C);
             if (R_DBG_CAM_UPDATE) {
                 osSyncPrintf("camera: debug out\n");
             }
-            *outVec = D_8015CE46.unk_00;
+            *outVec = D_8015BD80.unk_10C6;
             return outVec;
         }
         OREG(0) &= ~8;
@@ -6505,7 +6498,7 @@ s16 func_8005A7A8(Camera* arg0, s32 arg1) {
 
 Vec3s* func_8005A8C4(Vec3s* arg0, Camera* camera) {
     if (gDbgCamEnabled != 0) {
-        *arg0 = D_8015CE46.unk_00;
+        *arg0 = D_8015BD80.unk_10C6;
         return arg0;
     } else {
         *arg0 = camera->direction;
@@ -6528,7 +6521,7 @@ s16 func_8005A948(Camera* camera) {
 
 Vec3s* func_8005A970(Vec3s* arg0, Camera* arg1) {
     if (gDbgCamEnabled != 0) {
-        *arg0 = D_8015CE46.unk_00;
+        *arg0 = D_8015BD80.unk_10C6;
         return arg0;
     } else {
         *arg0 = arg1->unk_13A;

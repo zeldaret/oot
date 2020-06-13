@@ -612,4 +612,38 @@ typedef struct {
     /* 0x016A */ s16 unk_16A; // unknown if used
 } Camera; // size = 0x16C
 
+/**
+ * Debug Camera
+*/
+typedef struct {
+    /* 0x0000 */ UNK_TYPE unk_00;
+    /* 0x0004 */ Vec3f unk_04;
+    /* 0x0010 */ Vec3f unk_10;
+    /* 0x001C */ Vec3f unk_1C;
+    /* 0x0028 */ char unk_28[0xC];
+    /* 0x0034 */ UNK_TYPE unk_34;
+    /* 0x0038 */ UNK_TYPE unk_38;
+    /* 0x003C */ UNK_TYPE unk_3C;
+    /* 0x0040 */ UNK_TYPE unk_40;
+    /* 0x0044 */ UNK_TYPE unk_44;
+    /* 0x0048 */ f32 unk_48;
+    /* 0x004C */ s16 unk_4C;
+    /* 0x0050 */ f32 unk_50;
+    /* 0x0054 */ char unk_54[0x18];
+    /* 0x006C */ f32 unk_6C;
+    /* 0x0070 */ f32 unk_70;
+    /* 0x0074 */ f32 unk_74;
+    /* 0x0078 */ s16 unk_78;
+    /* 0x007A */ s16 unk_7A;
+    /* 0x007C */ s16 unk_7C;
+    /* 0x007E */ s16 unk_7E;
+    /* 0x0080 */ s16 unk_80;
+    /* 0x0082 */ s16 unk_82;
+    /* 0x0084 */ s16 unk_84;
+    /* 0x0086 */ s16 unk_86;
+    /* 0x0088 */ char unk_88[0x1038];
+    /* 0x10C0 */ Vec3s unk_10C0;
+    /* 0x10C6 */ Vec3s unk_10C6;
+} DBCamera; // size = 0x10CC
+
 #endif

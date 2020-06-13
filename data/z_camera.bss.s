@@ -22,22 +22,7 @@ glabel D_8015BD7C
     .space 0x4
 
 glabel D_8015BD80
-    .space 0x4
-
-glabel D_8015BD84
-    .space 0xC
-
-glabel D_8015BD90
-    .space 0xC
-
-glabel D_8015BD9C
-    .space 0x2C
-
-glabel D_8015BDC8
-    .space 0x107E
-
-glabel D_8015CE46
-    .space 0x6
+    .space 0x10CC
 
 glabel playerFloorPoly
     .space 0x4
@@ -49,43 +34,10 @@ glabel D_8015CE54
     .space 0x4
 
 glabel D_8015CE58
-    .space 0x4
-
-glabel D_8015CE5C
-    .space 0x4
-
-glabel D_8015CE60
-    .space 0x4
-
-glabel D_8015CE64
-    .space 0x4
-
-glabel D_8015CE68
-    .space 0x4
-
-glabel D_8015CE6C
-    .space 0x14
+    .space 0x28
 
 glabel D_8015CE80
-    .space 0x4
-
-glabel D_8015CE84
-    .space 0x4
-
-glabel D_8015CE88
-    .space 0x4
-
-glabel D_8015CE8C
-    .space 0x4
-
-glabel D_8015CE90
-    .space 0x4
-
-glabel D_8015CE94
-    .space 0xC
-
-glabel D_8015CEA0
-    .space 0x8
+    .space 0x28
 
 glabel D_8015CEA8
     .space 0xC

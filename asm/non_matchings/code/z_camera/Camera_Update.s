@@ -568,23 +568,23 @@ glabel Camera_Update
 /* AD0AD8 80059938 3C028012 */  lui   $v0, %hi(gDbgCamEnabled) # $v0, 0x8012
 /* AD0ADC 8005993C 2442D394 */  addiu $v0, %lo(gDbgCamEnabled) # addiu $v0, $v0, -0x2c6c
 /* AD0AE0 80059940 8C490000 */  lw    $t1, ($v0)
-/* AD0AE4 80059944 3C018016 */  lui   $at, %hi(D_8015BDC8)
+/* AD0AE4 80059944 3C018016 */  lui   $at, %hi(D_8015BD80)
 /* AD0AE8 80059948 3C048016 */  lui   $a0, %hi(D_8015BD80) # $a0, 0x8016
 /* AD0AEC 8005994C 11200022 */  beqz  $t1, .L800599D8
 /* AD0AF0 80059950 3C028016 */   lui   $v0, %hi(gGameInfo)
-/* AD0AF4 80059954 C42ABDC8 */  lwc1  $f10, %lo(D_8015BDC8)($at)
+/* AD0AF4 80059954 C42ABDC8 */  lwc1  $f10, %lo(D_8015BD80+0x48)($at)
 /* AD0AF8 80059958 8E0A008C */  lw    $t2, 0x8c($s0)
 /* AD0AFC 8005995C 2484BD80 */  addiu $a0, %lo(D_8015BD80) # addiu $a0, $a0, -0x4280
 /* AD0B00 80059960 02002825 */  move  $a1, $s0
 /* AD0B04 80059964 0C02D39F */  jal   func_800B4E7C
 /* AD0B08 80059968 E54A00D0 */   swc1  $f10, 0xd0($t2)
 /* AD0B0C 8005996C 8E04008C */  lw    $a0, 0x8c($s0)
-/* AD0B10 80059970 3C058016 */  lui   $a1, %hi(D_8015BD90) # $a1, 0x8016
-/* AD0B14 80059974 3C068016 */  lui   $a2, %hi(D_8015BD84) # $a2, 0x8016
-/* AD0B18 80059978 3C078016 */  lui   $a3, %hi(D_8015BD9C) # $a3, 0x8016
-/* AD0B1C 8005997C 24E7BD9C */  addiu $a3, %lo(D_8015BD9C) # addiu $a3, $a3, -0x4264
-/* AD0B20 80059980 24C6BD84 */  addiu $a2, %lo(D_8015BD84) # addiu $a2, $a2, -0x427c
-/* AD0B24 80059984 24A5BD90 */  addiu $a1, %lo(D_8015BD90) # addiu $a1, $a1, -0x4270
+/* AD0B10 80059970 3C058016 */  lui   $a1, %hi(D_8015BD80) # $a1, 0x8016
+/* AD0B14 80059974 3C068016 */  lui   $a2, %hi(D_8015BD80) # $a2, 0x8016
+/* AD0B18 80059978 3C078016 */  lui   $a3, %hi(D_8015BD80) # $a3, 0x8016
+/* AD0B1C 8005997C 24E7BD9C */  addiu $a3, %lo(D_8015BD80+0x1C) # addiu $a3, $a3, -0x4264
+/* AD0B20 80059980 24C6BD84 */  addiu $a2, %lo(D_8015BD80+0x4) # addiu $a2, $a2, -0x427c
+/* AD0B24 80059984 24A5BD90 */  addiu $a1, %lo(D_8015BD80+0x10) # addiu $a1, $a1, -0x4270
 /* AD0B28 80059988 0C02A8D6 */  jal   func_800AA358
 /* AD0B2C 8005998C 248400B8 */   addiu $a0, $a0, 0xb8
 /* AD0B30 80059990 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
@@ -596,8 +596,8 @@ glabel Camera_Update
 /* AD0B48 800599A8 0C00084C */  jal   osSyncPrintf
 /* AD0B4C 800599AC 24849AD4 */   addiu $a0, %lo(D_80139AD4) # addiu $a0, $a0, -0x652c
 .L800599B0:
-/* AD0B50 800599B0 3C0D8016 */  lui   $t5, %hi(D_8015CE46) # $t5, 0x8016
-/* AD0B54 800599B4 25ADCE46 */  addiu $t5, %lo(D_8015CE46) # addiu $t5, $t5, -0x31ba
+/* AD0B50 800599B0 3C0D8016 */  lui   $t5, %hi(D_8015BD80) # $t5, 0x8016
+/* AD0B54 800599B4 25ADCE46 */  addiu $t5, %lo(D_8015BD80+0x10C6) # addiu $t5, $t5, -0x31ba
 /* AD0B58 800599B8 89AE0000 */  lwl   $t6, ($t5)
 /* AD0B5C 800599BC 8FA200E0 */  lw    $v0, 0xe0($sp)
 /* AD0B60 800599C0 99AE0003 */  lwr   $t6, 3($t5)

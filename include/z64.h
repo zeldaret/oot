@@ -391,38 +391,6 @@ typedef struct {
 } View; // size = 0x128
 
 typedef struct {
-    s32 unk_00;
-    char unk_04[0x30];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    s32 unk_40;
-    s32 unk_44;
-    f32 unk_48;
-    s16 unk_4C;
-    f32 unk_50;
-    char unk_54[0x18];
-    f32 unk_6C;
-    f32 unk_70;
-    f32 unk_74;
-    s16 unk_78;
-    s16 unk_7A;
-    s16 unk_7C;
-    s16 unk_7E;
-    s16 unk_80;
-    s16 unk_82;
-    s16 unk_84;
-    s16 unk_86;
-    char unk_88[0x1038];
-    s16 unk_10C0;
-    s16 unk_10C2;
-    s16 unk_10C4;
-    s16 unk_10C6;
-    s16 unk_10C8;
-    s16 unk_10CA;
-} DbgCamera; // size = 0x10CC;
-
-typedef struct {
     /* 0x00 */ u8   musicSeq;
     /* 0x01 */ u8   nighttimeSFX;
     /* 0x02 */ char unk_02[0x2];

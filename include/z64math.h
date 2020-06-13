@@ -67,4 +67,13 @@ typedef struct {
     s16 theta;  // azimuthal angle
 } VecSph;
 
+/**
+ * binary angles
+*/
+#define DEGF_TO_BINANG(degreesf) ((s16)(degreesf * (65535.0f / 360.0f) + 0.5f))
+#define RADF_TO_DEGF(radf) (radf * (180.0f / M_PI))
+#define DEGF_TO_RADF(degf) (degf * (M_PI / 180.0f))
+#define BINANG_ROT180(angle) ((s16)(angle - 0x7FFF))
+#define BINANG_SUB(a, b) ((s16)(a - b))
+
 #endif
