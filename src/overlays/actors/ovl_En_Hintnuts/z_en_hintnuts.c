@@ -258,8 +258,7 @@ void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
             EnHintnuts_SetupStand(this);
         }
     }
-    if (hasSlowPlaybackSpeed && 160.0f < this->actor.xzDistFromLink &&
-        fabsf(this->actor.yDistFromLink) < 120.0f &&
+    if (hasSlowPlaybackSpeed && 160.0f < this->actor.xzDistFromLink && fabsf(this->actor.yDistFromLink) < 120.0f &&
         ((this->animFlagAndTimer == 0) || (this->actor.xzDistFromLink < 480.0f))) {
         this->skelAnime.animPlaybackSpeed = 1.0f;
     }

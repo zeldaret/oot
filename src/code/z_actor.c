@@ -1452,7 +1452,8 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         if ((abs_var > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            return actor->xyzDistFromLinkSq - actor->xyzDistFromLinkSq * 0.8f * ((0x4000 - abs_var) * 3.0517578125e-05f);
+            return actor->xyzDistFromLinkSq -
+                   actor->xyzDistFromLinkSq * 0.8f * ((0x4000 - abs_var) * 3.0517578125e-05f);
         }
     }
 
@@ -4007,8 +4008,7 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     var1 = (s16)(actor->yawTowardsLink + 0x8000) - player->actor.shape.rot.y;
     var2 = actor->yawTowardsLink - arg5;
 
-    if ((actor->xzDistFromLink <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) &&
-        (arg3 >= ABS(var2))) {
+    if ((actor->xzDistFromLink <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
         return 1;
     } else {
         return 0;
