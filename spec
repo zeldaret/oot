@@ -1245,7 +1245,6 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
-    include "build/data/overlays/actors/z_bg_spot01_idohashira.data.o"
     include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
 endseg
 
