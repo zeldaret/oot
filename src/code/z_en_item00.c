@@ -539,7 +539,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (sp3A || D_80157D94) {
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 15.0f, 15.0f, 0x1D);
 
-            if (this->actor.unk_80 <= -10000.0f) {
+            if (this->actor.groundY <= -10000.0f) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -564,8 +564,8 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (!((this->actor.xzDistanceFromLink <= 30.0f) && (this->actor.yDistanceFromLink >= -50.0f) &&
-          (this->actor.yDistanceFromLink <= 50.0f))) {
+    if (!((this->actor.xzDistFromLink <= 30.0f) && (this->actor.yDistFromLink >= -50.0f) &&
+          (this->actor.yDistFromLink <= 50.0f))) {
         if (!func_8002F410(&this->actor, globalCtx)) {
             return;
         }

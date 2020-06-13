@@ -228,7 +228,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
         yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
         this->actor.textId = 0x5048;
 
-        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistanceFromLink < 200.0f)) {
+        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistFromLink < 200.0f)) {
             func_8002F298(this, globalCtx, 100.0f, 8);
             this->unk_1E8 |= 1;
         }

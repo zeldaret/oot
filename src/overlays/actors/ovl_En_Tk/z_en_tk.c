@@ -229,7 +229,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.waterSurfaceDist > 10000.f) {
+    if (this->actor.xyzDistFromLinkSq > 10000.f) {
         return 0;
     }
 
@@ -263,7 +263,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        dy = prop->posRot.pos.y - this->actor.unk_80;
+        dy = prop->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, prop);
         if (dxz > 40.f || dy > 10.f) {
             prop = prop->next;
@@ -282,7 +282,7 @@ void EnTk_CheckCurrentSpot(EnTk* this) {
     f32 dy;
 
     if (this->currentSpot != NULL) {
-        dy = this->currentSpot->posRot.pos.y - this->actor.unk_80;
+        dy = this->currentSpot->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, this->currentSpot);
         if (dxz > 40.f || dy > 10.f) {
             this->currentSpot = NULL;
