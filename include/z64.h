@@ -188,7 +188,7 @@ typedef struct {
     /* 0x13F6 */ s16          unk_13F6;
     /* 0x13F8 */ s16          unk_13F8;
     /* 0x13FA */ u16          eventInf[4]; // "event_inf"
-    /* 0x1402 */ u16          mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
+    /* 0x1402 */ u16          mapIndex; // intended for scenes/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16          minigameState;
     /* 0x1406 */ u16          minigameScore; // "yabusame_total"
     /* 0x1408 */ char         unk_1408[0x0001];
@@ -1140,15 +1140,15 @@ typedef struct {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
     /* 0x08 */ s32 entranceIndex;
-} MapEntry; // size = 0xC
+} SceneSelectEntry; // size = 0xC
 
 typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ s32 unk_A4;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ s32 count;
-    /* 0x01D4 */ MapEntry* maps;
-    /* 0x01D8 */ s32 currentMap;
+    /* 0x01D4 */ SceneSelectEntry* scenes;
+    /* 0x01D8 */ s32 currentScene;
     /* 0x01DC */ s32 unk_1DC;
     /* 0x01E0 */ s32 unk_1E0[7];
     /* 0x01FC */ s32 unk_1FC;

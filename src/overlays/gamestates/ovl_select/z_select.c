@@ -1,7 +1,7 @@
 /*
  * File: z_select.c
  * Overlay: ovl_select
- * Description: Map Select
+ * Description: Debug Scene Select Menu
  */
 
 #include <ultra64.h>
@@ -43,7 +43,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext)
 }
 
-static MapEntry sMaps[] = {
+static SceneSelectEntry sScenes[] = {
     { " 1:SPOT00", Select_LoadGame, 0x000000CD },
     { " 2:SPOT01", Select_LoadGame, 0x000000DB },
     { " 3:SPOT02", Select_LoadGame, 0x000000E4 },
@@ -177,16 +177,16 @@ static MapEntry sMaps[] = {
 void Select_UpdateMenu(SelectContext* this) {
     Input* controller1;
     s32 pad;
-    MapEntry* selectedMap;
+    SceneSelectEntry* selectedScene;
 
     controller1 = &this->state.input[0];
 
     if (this->unk_21C == 0) {
 
         if (CHECK_PAD(controller1->press, A_BUTTON) || CHECK_PAD(controller1->press, START_BUTTON)) {
-            selectedMap = &this->maps[this->currentMap];
-            if (selectedMap->loadFunc != NULL) {
-                selectedMap->loadFunc(this, selectedMap->entranceIndex);
+            selectedScene = &this->scenes[this->currentScene];
+            if (selectedScene->loadFunc != NULL) {
+                selectedScene->loadFunc(this, selectedScene->entranceIndex);
             }
         }
 
@@ -316,7 +316,7 @@ void Select_UpdateMenu(SelectContext* this) {
 
     if (CHECK_PAD(controller1->press, L_TRIG)) {
         this->unk_1DC = (++this->unk_1DC + 7) % 7;
-        this->currentMap = this->unk_20C = this->unk_1E0[this->unk_1DC];
+        this->currentScene = this->unk_20C = this->unk_1E0[this->unk_1DC];
     }
 
     this->unk_21C += this->unk_220;
@@ -325,8 +325,8 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_220 = 0;
         this->unk_21C = 0;
 
-        this->currentMap = (++this->currentMap + this->count) % this->count;
-        if (this->currentMap == ((this->unk_20C + this->count + 0x13) % this->count)) {
+        this->currentScene = (++this->currentScene + this->count) % this->count;
+        if (this->currentScene == ((this->unk_20C + this->count + 0x13) % this->count)) {
             this->unk_20C = (++this->unk_20C + this->count) % this->count;
         }
     }
@@ -335,21 +335,21 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_220 = 0;
         this->unk_21C = 0;
 
-        if (this->currentMap == this->unk_20C) {
+        if (this->currentScene == this->unk_20C) {
             this->unk_20C = ((this->unk_20C - 2) + this->count) % this->count;
         }
 
-        this->currentMap = ((--this->currentMap) + this->count) % this->count;
+        this->currentScene = ((--this->currentScene) + this->count) % this->count;
 
-        if (this->currentMap == ((this->unk_20C + this->count) % this->count)) {
+        if (this->currentScene == ((this->unk_20C + this->count) % this->count)) {
             this->unk_20C = (--this->unk_20C + this->count) % this->count;
         }
     }
 
-    this->currentMap = (this->currentMap + this->count) % this->count;
+    this->currentScene = (this->currentScene + this->count) % this->count;
     this->unk_20C = (this->unk_20C + this->count) % this->count;
 
-    dREG(80) = this->currentMap;
+    dREG(80) = this->currentScene;
     dREG(81) = this->unk_20C;
     dREG(82) = this->unk_1DC;
 
@@ -374,7 +374,7 @@ void Select_UpdateMenu(SelectContext* this) {
 #endif
 
 void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
-    s32 map;
+    s32 scene;
     s32 i;
     char* name;
 
@@ -386,14 +386,14 @@ void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
     for (i = 0; i < 20; i++) {
         GfxPrint_SetPos(printer, 9, i + 4);
 
-        map = ((this->unk_20C + i) + this->count) % this->count;
-        if (map == this->currentMap) {
+        scene = ((this->unk_20C + i) + this->count) % this->count;
+        if (scene == this->currentScene) {
             GfxPrint_SetColor(printer, 255, 20, 20, 255);
         } else {
             GfxPrint_SetColor(printer, 200, 200, 55, 255);
         }
 
-        name = this->maps[map].name;
+        name = this->scenes[scene].name;
         if (name == NULL) {
             name = "**Null**";
         }
@@ -594,9 +594,9 @@ void Select_Init(SelectContext* this) {
 
     this->state.main = Select_Main;
     this->state.destroy = Select_Destroy;
-    this->maps = sMaps;
+    this->scenes = sScenes;
     this->unk_20C = 0;
-    this->currentMap = 0;
+    this->currentScene = 0;
     this->unk_1E0[0] = 0;
     this->unk_1E0[1] = 0x13;
     this->unk_1E0[2] = 0x25;
@@ -620,7 +620,7 @@ void Select_Init(SelectContext* this) {
     size = (u32)_z_select_staticSegmentRomEnd - (u32)_z_select_staticSegmentRomStart;
 
     if ((dREG(80) >= 0) && (dREG(80) < this->count)) {
-        this->currentMap = dREG(80);
+        this->currentScene = dREG(80);
         this->unk_20C = dREG(81);
         this->unk_1DC = dREG(82);
     }
