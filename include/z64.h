@@ -188,7 +188,7 @@ typedef struct {
     /* 0x13F6 */ s16          unk_13F6;
     /* 0x13F8 */ s16          unk_13F8;
     /* 0x13FA */ u16          eventInf[4]; // "event_inf"
-    /* 0x1402 */ u16          mapIndex; // intended for scenes/minimaps but commonly used as the dungeon index
+    /* 0x1402 */ u16          mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16          minigameState;
     /* 0x1406 */ u16          minigameScore; // "yabusame_total"
     /* 0x1408 */ char         unk_1408[0x0001];

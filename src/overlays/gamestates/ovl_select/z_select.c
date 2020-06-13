@@ -34,7 +34,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     Audio_SetBGM(NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
-    gSaveContext.respawn[0].entranceIndex = -1;
+    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
     gSaveContext.seqIndex = 0xFF;
     gSaveContext.nightSeqIndex = 0xFF;
     gSaveContext.unk_13C7 = 1;
@@ -44,136 +44,136 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
 }
 
 static SceneSelectEntry sScenes[] = {
-    { " 1:SPOT00", Select_LoadGame, 0x000000CD },
-    { " 2:SPOT01", Select_LoadGame, 0x000000DB },
-    { " 3:SPOT02", Select_LoadGame, 0x000000E4 },
-    { " 4:SPOT03", Select_LoadGame, 0x000000EA },
-    { " 5:SPOT04", Select_LoadGame, 0x000000EE },
-    { " 6:SPOT05", Select_LoadGame, 0x000000FC },
-    { " 7:SPOT06", Select_LoadGame, 0x00000102 },
-    { " 8:SPOT07", Select_LoadGame, 0x00000108 },
-    { " 9:SPOT08", Select_LoadGame, 0x0000010E },
-    { "10:SPOT09", Select_LoadGame, 0x00000117 },
-    { "11:SPOT10", Select_LoadGame, 0x0000011E },
-    { "12:SPOT11", Select_LoadGame, 0x00000123 },
-    { "13:SPOT12", Select_LoadGame, 0x00000129 },
-    { "14:SPOT13", Select_LoadGame, 0x00000130 },
-    { "15:SPOT15", Select_LoadGame, 0x00000138 },
-    { "16:SPOT16", Select_LoadGame, 0x0000013D },
-    { "17:SPOT17", Select_LoadGame, 0x00000147 },
-    { "18:SPOT18", Select_LoadGame, 0x0000014D },
-    { "19:SPOT20", Select_LoadGame, 0x00000157 },
-    { "20:\x8Dﾄｷﾉﾏ", Select_LoadGame, 0x00000053 },
-    { "21:\x8Dｹﾝｼﾞｬﾉﾏ", Select_LoadGame, 0x0000006B },
-    { "22:\x8Dｼｬﾃｷｼﾞｮｳ", Select_LoadGame, 0x0000003B },
-    { "23:\x8Cﾊｲﾗﾙ\x8Dﾆﾜ\x8Cｹﾞｰﾑ", Select_LoadGame, 0x0000007A },
-    { "24:\x8Dﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ", Select_LoadGame, 0x0000031C },
-    { "25:\x8Dﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, 0x0000004B },
-    { "26:\x8Dｵｳｹ ﾉ ﾊｶｱﾅ", Select_LoadGame, 0x0000002D },
-    { "27:\x8Dﾀﾞｲﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x00000315 },
-    { "28:\x8Dﾄﾋﾞｺﾐ ﾖｳｾｲ ｱﾅ", Select_LoadGame, 0x0000036D },
-    { "29:\x8Dﾏﾎｳｾｷ ﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x00000371 },
-    { "30:\x8Cｶﾞﾉﾝ\x8Dｻｲｼｭｳｾﾝ", Select_LoadGame, 0x0000043F },
-    { "31:\x8Cﾊｲﾗﾙ\x8Dﾅｶﾆﾜ", Select_LoadGame, 0x00000400 },
-    { "32:\x8Dﾂﾘﾎﾞﾘ", Select_LoadGame, 0x0000045F },
-    { "33:\x8Cﾎﾞﾑﾁｭｳﾎﾞｰﾘﾝｸﾞ", Select_LoadGame, 0x00000507 },
-    { "34:\x8Cﾛﾝﾛﾝ\x8Dﾎﾞｸｼﾞｮｳ ｿｳｺ 1", Select_LoadGame, 0x0000004F },
-    { "35:\x8Cﾛﾝﾛﾝ\x8Dﾎﾞｸｼﾞｮｳ ｿｳｺ 2", Select_LoadGame, 0x000005D0 },
-    { "36:\x8Dﾐﾊﾘ ｺﾞﾔ", Select_LoadGame, 0x0000007E },
-    { "37:\x8Dﾏﾎｳ ﾉ ｸｽﾘﾔ", Select_LoadGame, 0x00000072 },
-    { "38:\x8Dﾀｶﾗﾊﾞｺﾔ", Select_LoadGame, 0x00000063 },
-    { "39:\x8Dｷﾝ \x8Cｽﾀﾙﾁｭﾗ ﾊｳｽ", Select_LoadGame, 0x00000550 },
-    { "40:\x8Dｼﾞｮｳｶﾏﾁ ｲﾘｸﾞﾁ", Select_LoadGame, 0x00000033 },
-    { "41:\x8Dｼﾞｮｳｶﾏﾁ", Select_LoadGame, 0x000000B1 },
-    { "42:\x8Dｳﾗﾛｼﾞ", Select_LoadGame, 0x000000AD },
-    { "43:\x8Dﾄｷﾉｼﾝﾃﾞﾝ ﾏｴ", Select_LoadGame, 0x00000171 },
-    { "44:\x8Dﾘﾝｸﾉｲｴ", Select_LoadGame, 0x000000BB },
-    { "45:\x8Cｶｶﾘｺ\x8Dﾑﾗﾉﾅｶﾞﾔ", Select_LoadGame, 0x000002FD },
-    { "46:\x8Dｳﾗﾛｼﾞﾉ ｲｴ", Select_LoadGame, 0x0000043B },
-    { "47:\x8Dｺｷﾘﾉﾑﾗ ﾓﾉｼﾘｷｮｳﾀﾞｲﾉｲｴ", Select_LoadGame, 0x000000C9 },
-    { "48:\x8Dｺｷﾘﾉﾑﾗ ﾌﾀｺﾞﾉｲｴ", Select_LoadGame, 0x0000009C },
-    { "49:\x8Dｺｷﾘﾉﾑﾗ \x8Cﾐﾄﾞ\x8Dﾉｲｴ", Select_LoadGame, 0x00000433 },
-    { "50:\x8Dｺｷﾘﾉﾑﾗ \x8Cｻﾘｱ\x8Dﾉｲｴ", Select_LoadGame, 0x00000437 },
-    { "51:\x8Dｳﾏｺﾞﾔ", Select_LoadGame, 0x000002F9 },
-    { "52:\x8Dﾊｶﾓﾘﾉｲｴ", Select_LoadGame, 0x0000030D },
-    { "53:\x8Dｳﾗﾛｼﾞ ｲﾇｵﾊﾞｻﾝﾉｲｴ", Select_LoadGame, 0x00000398 },
-    { "54:\x8Dｶｶﾘｺﾑﾗ \x8Cｲﾝﾊﾟ\x8Dﾉｲｴ", Select_LoadGame, 0x0000039C },
-    { "55:\x8Cﾊｲﾘｱ\x8D ｹﾝｷｭｳｼﾞｮ", Select_LoadGame, 0x00000043 },
-    { "56:\x8Cﾃﾝﾄ", Select_LoadGame, 0x000003A0 },
-    { "57:\x8Dﾀﾃﾉﾐｾ", Select_LoadGame, 0x000000B7 },
-    { "58:\x8Dｺｷﾘｿﾞｸﾉﾐｾ", Select_LoadGame, 0x000000C1 },
-    { "59:\x8Cｺﾞﾛﾝ\x8Dﾉﾐｾ", Select_LoadGame, 0x0000037C },
-    { "60:\x8Cｿﾞｰﾗ\x8Dﾉﾐｾ", Select_LoadGame, 0x00000380 },
-    { "61:\x8Cｶｶﾘｺ\x8Dﾑﾗ  ｸｽﾘﾔ", Select_LoadGame, 0x00000384 },
-    { "62:\x8Dｼﾞｮｳｶﾏﾁ ｸｽﾘﾔ", Select_LoadGame, 0x00000388 },
-    { "63:\x8Dｳﾗﾛｼﾞ ﾖﾙﾉﾐｾ", Select_LoadGame, 0x00000390 },
-    { "64:\x8Dｵﾒﾝﾔ", Select_LoadGame, 0x00000530 },
-    { "65:\x8Cｹﾞﾙﾄﾞ\x8Dﾉｼｭｳﾚﾝｼﾞｮｳ", Select_LoadGame, 0x00000008 },
-    { "66:\x8Dﾖｳｾｲﾉｷﾉ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x00000000 },
-    { "67:\x8Dﾖｳｾｲﾉｷﾉ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x0000040F },
-    { "68:\x8Cﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x00000004 },
-    { "69:\x8Cﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x0000040B },
-    { "70:\x8Dｷｮﾀﾞｲｷﾞｮ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x00000028 },
-    { "71:\x8Dｷｮﾀﾞｲｷﾞｮ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x00000301 },
-    { "72:\x8Dﾓﾘﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x00000169 },
-    { "73:\x8Dﾓﾘﾉｼﾝﾃﾞﾝ \x8Cﾎﾞｽ", Select_LoadGame, 0x0000000C },
-    { "74:\x8Dｲﾄﾞｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x00000098 },
-    { "75:\x8Dﾊｶｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x00000037 },
-    { "76:\x8Dﾊｶｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x00000413 },
-    { "77:\x8Dﾋﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x00000165 },
-    { "78:\x8Dﾋﾉｼﾝﾃﾞﾝ \x8Cﾎﾞｽ", Select_LoadGame, 0x00000305 },
-    { "79:\x8Dﾐｽﾞﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x00000010 },
-    { "80:\x8Dﾐｽﾞﾉｼﾝﾃﾞﾝ \x8Cﾎﾞｽ", Select_LoadGame, 0x00000417 },
-    { "81:\x8Dｼﾞｬｼﾝｿﾞｳ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x00000082 },
-    { "82:\x8Dｼﾞｬｼﾝｿﾞｳ \x8Cﾀﾞﾝｼﾞｮﾝ ｱｲｱﾝﾅｯｸ", Select_LoadGame, 0x0000008D },
-    { "83:\x8Dｼﾞｬｼﾝｿﾞｳ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x000005EC },
-    { "84:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ", Select_LoadGame, 0x0000041B },
-    { "85:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ\x8Cﾎﾞｽ", Select_LoadGame, 0x0000041F },
-    { "86:\x8Dｺｵﾘﾉﾄﾞｳｸﾂ", Select_LoadGame, 0x00000088 },
-    { "87:\x8Dﾊｶｼﾀ\x8Cﾘﾚｰ", Select_LoadGame, 0x0000044F },
-    { "88:\x8Cｶﾞﾉﾝ\x8Dﾁｶ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x00000467 },
-    { "89:\x8Cｶﾞﾉﾝ\x8Dｻｲｼｭｳｾﾝ \x8Cﾃﾞﾓ & ﾊﾞﾄﾙ", Select_LoadGame, 0x00000517 },
-    { "90:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 1", Select_LoadGame, 0x00000179 },
-    { "91:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 2", Select_LoadGame, 0x000001B5 },
-    { "92:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 3", Select_LoadGame, 0x000003DC },
-    { "93:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 4", Select_LoadGame, 0x000003E4 },
-    { "94:\x8Cｶﾞﾉﾝ\x8Dﾁｶ ｿﾉｺﾞ", Select_LoadGame, 0x0000056C },
-    { "95:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 1-2", Select_LoadGame, 0x00000486 },
-    { "96:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 3-4 9-10", Select_LoadGame, 0x0000048E },
-    { "97:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 5-6", Select_LoadGame, 0x00000496 },
-    { "98:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 7-8", Select_LoadGame, 0x0000049E },
-    { "99:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 11-12", Select_LoadGame, 0x000004AE },
-    { "100:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 13", Select_LoadGame, 0x00000570 },
-    { "101:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 0", Select_LoadGame, 0x0000003F },
-    { "102:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 1", Select_LoadGame, 0x00000598 },
-    { "103:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, 0x0000059C },
-    { "104:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 3", Select_LoadGame, 0x000005A0 },
-    { "105:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 4", Select_LoadGame, 0x000005A4 },
-    { "106:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 5", Select_LoadGame, 0x000005A8 },
-    { "107:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 6", Select_LoadGame, 0x000005AC },
-    { "108:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 7", Select_LoadGame, 0x000005B0 },
-    { "109:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 8", Select_LoadGame, 0x000005B4 },
-    { "110:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 9", Select_LoadGame, 0x000005B8 },
-    { "111:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 10", Select_LoadGame, 0x000005BC },
-    { "112:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 11", Select_LoadGame, 0x000005C0 },
-    { "113:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 12", Select_LoadGame, 0x000005C4 },
-    { "114:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 13", Select_LoadGame, 0x000005FC },
-    { "115:\x8Cﾊｲﾗﾙ ﾃﾞﾓ", Select_LoadGame, 0x000000A0 },
-    { "116:\x8Dﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ\x8Cﾜｰﾌﾟ)", Select_LoadGame, 0x00000520 },
-    { "117:\x8Dｻｻ\x8Cﾃｽﾄ", Select_LoadGame, 0x00000018 },
-    { "118:\x8Cﾃｽﾄﾏｯﾌﾟ", Select_LoadGame, 0x00000094 },
-    { "119:\x8Cﾃｽﾄﾙｰﾑ", Select_LoadGame, 0x00000024 },
-    { "120:\x8Dﾁｭｳ\x8Cｽﾀﾛﾌｫｽ\x8Dﾍﾞﾔ", Select_LoadGame, 0x0000001C },
-    { "121:\x8Cﾎﾞｽｽﾀﾛﾌｫｽ\x8Dﾍﾞﾔ", Select_LoadGame, 0x00000020 },
-    { "122:Sutaru", Select_LoadGame, 0x00000047 },
-    { "123:jikkenjyou", Select_LoadGame, 0x000002EA },
-    { "124:depth\x8Cﾃｽﾄ", Select_LoadGame, 0x000000B6 },
-    { "125:\x8Cﾊｲﾗﾙ\x8Dﾆﾜ\x8Cｹﾞｰﾑ2", Select_LoadGame, 0x00000076 },
-    { "title", Select_LoadTitle, 0x00000000 },
+    { " 1:SPOT00", Select_LoadGame, 0x00CD },
+    { " 2:SPOT01", Select_LoadGame, 0x00DB },
+    { " 3:SPOT02", Select_LoadGame, 0x00E4 },
+    { " 4:SPOT03", Select_LoadGame, 0x00EA },
+    { " 5:SPOT04", Select_LoadGame, 0x00EE },
+    { " 6:SPOT05", Select_LoadGame, 0x00FC },
+    { " 7:SPOT06", Select_LoadGame, 0x0102 },
+    { " 8:SPOT07", Select_LoadGame, 0x0108 },
+    { " 9:SPOT08", Select_LoadGame, 0x010E },
+    { "10:SPOT09", Select_LoadGame, 0x0117 },
+    { "11:SPOT10", Select_LoadGame, 0x011E },
+    { "12:SPOT11", Select_LoadGame, 0x0123 },
+    { "13:SPOT12", Select_LoadGame, 0x0129 },
+    { "14:SPOT13", Select_LoadGame, 0x0130 },
+    { "15:SPOT15", Select_LoadGame, 0x0138 },
+    { "16:SPOT16", Select_LoadGame, 0x013D },
+    { "17:SPOT17", Select_LoadGame, 0x0147 },
+    { "18:SPOT18", Select_LoadGame, 0x014D },
+    { "19:SPOT20", Select_LoadGame, 0x0157 },
+    { "20:\x8Dﾄｷﾉﾏ", Select_LoadGame, 0x0053 },
+    { "21:\x8Dｹﾝｼﾞｬﾉﾏ", Select_LoadGame, 0x006B },
+    { "22:\x8Dｼｬﾃｷｼﾞｮｳ", Select_LoadGame, 0x003B },
+    { "23:\x8Cﾊｲﾗﾙ\x8Dﾆﾜ\x8Cｹﾞｰﾑ", Select_LoadGame, 0x007A },
+    { "24:\x8Dﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ", Select_LoadGame, 0x031C },
+    { "25:\x8Dﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, 0x004B },
+    { "26:\x8Dｵｳｹ ﾉ ﾊｶｱﾅ", Select_LoadGame, 0x002D },
+    { "27:\x8Dﾀﾞｲﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x0315 },
+    { "28:\x8Dﾄﾋﾞｺﾐ ﾖｳｾｲ ｱﾅ", Select_LoadGame, 0x036D },
+    { "29:\x8Dﾏﾎｳｾｷ ﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x0371 },
+    { "30:\x8Cｶﾞﾉﾝ\x8Dｻｲｼｭｳｾﾝ", Select_LoadGame, 0x043F },
+    { "31:\x8Cﾊｲﾗﾙ\x8Dﾅｶﾆﾜ", Select_LoadGame, 0x0400 },
+    { "32:\x8Dﾂﾘﾎﾞﾘ", Select_LoadGame, 0x045F },
+    { "33:\x8Cﾎﾞﾑﾁｭｳﾎﾞｰﾘﾝｸﾞ", Select_LoadGame, 0x0507 },
+    { "34:\x8Cﾛﾝﾛﾝ\x8Dﾎﾞｸｼﾞｮｳ ｿｳｺ 1", Select_LoadGame, 0x004F },
+    { "35:\x8Cﾛﾝﾛﾝ\x8Dﾎﾞｸｼﾞｮｳ ｿｳｺ 2", Select_LoadGame, 0x05D0 },
+    { "36:\x8Dﾐﾊﾘ ｺﾞﾔ", Select_LoadGame, 0x007E },
+    { "37:\x8Dﾏﾎｳ ﾉ ｸｽﾘﾔ", Select_LoadGame, 0x0072 },
+    { "38:\x8Dﾀｶﾗﾊﾞｺﾔ", Select_LoadGame, 0x0063 },
+    { "39:\x8Dｷﾝ \x8Cｽﾀﾙﾁｭﾗ ﾊｳｽ", Select_LoadGame, 0x0550 },
+    { "40:\x8Dｼﾞｮｳｶﾏﾁ ｲﾘｸﾞﾁ", Select_LoadGame, 0x0033 },
+    { "41:\x8Dｼﾞｮｳｶﾏﾁ", Select_LoadGame, 0x00B1 },
+    { "42:\x8Dｳﾗﾛｼﾞ", Select_LoadGame, 0x00AD },
+    { "43:\x8Dﾄｷﾉｼﾝﾃﾞﾝ ﾏｴ", Select_LoadGame, 0x0171 },
+    { "44:\x8Dﾘﾝｸﾉｲｴ", Select_LoadGame, 0x00BB },
+    { "45:\x8Cｶｶﾘｺ\x8Dﾑﾗﾉﾅｶﾞﾔ", Select_LoadGame, 0x02FD },
+    { "46:\x8Dｳﾗﾛｼﾞﾉ ｲｴ", Select_LoadGame, 0x043B },
+    { "47:\x8Dｺｷﾘﾉﾑﾗ ﾓﾉｼﾘｷｮｳﾀﾞｲﾉｲｴ", Select_LoadGame, 0x00C9 },
+    { "48:\x8Dｺｷﾘﾉﾑﾗ ﾌﾀｺﾞﾉｲｴ", Select_LoadGame, 0x009C },
+    { "49:\x8Dｺｷﾘﾉﾑﾗ \x8Cﾐﾄﾞ\x8Dﾉｲｴ", Select_LoadGame, 0x0433 },
+    { "50:\x8Dｺｷﾘﾉﾑﾗ \x8Cｻﾘｱ\x8Dﾉｲｴ", Select_LoadGame, 0x0437 },
+    { "51:\x8Dｳﾏｺﾞﾔ", Select_LoadGame, 0x02F9 },
+    { "52:\x8Dﾊｶﾓﾘﾉｲｴ", Select_LoadGame, 0x030D },
+    { "53:\x8Dｳﾗﾛｼﾞ ｲﾇｵﾊﾞｻﾝﾉｲｴ", Select_LoadGame, 0x0398 },
+    { "54:\x8Dｶｶﾘｺﾑﾗ \x8Cｲﾝﾊﾟ\x8Dﾉｲｴ", Select_LoadGame, 0x039C },
+    { "55:\x8Cﾊｲﾘｱ\x8D ｹﾝｷｭｳｼﾞｮ", Select_LoadGame, 0x0043 },
+    { "56:\x8Cﾃﾝﾄ", Select_LoadGame, 0x03A0 },
+    { "57:\x8Dﾀﾃﾉﾐｾ", Select_LoadGame, 0x00B7 },
+    { "58:\x8Dｺｷﾘｿﾞｸﾉﾐｾ", Select_LoadGame, 0x00C1 },
+    { "59:\x8Cｺﾞﾛﾝ\x8Dﾉﾐｾ", Select_LoadGame, 0x037C },
+    { "60:\x8Cｿﾞｰﾗ\x8Dﾉﾐｾ", Select_LoadGame, 0x0380 },
+    { "61:\x8Cｶｶﾘｺ\x8Dﾑﾗ  ｸｽﾘﾔ", Select_LoadGame, 0x0384 },
+    { "62:\x8Dｼﾞｮｳｶﾏﾁ ｸｽﾘﾔ", Select_LoadGame, 0x0388 },
+    { "63:\x8Dｳﾗﾛｼﾞ ﾖﾙﾉﾐｾ", Select_LoadGame, 0x0390 },
+    { "64:\x8Dｵﾒﾝﾔ", Select_LoadGame, 0x0530 },
+    { "65:\x8Cｹﾞﾙﾄﾞ\x8Dﾉｼｭｳﾚﾝｼﾞｮｳ", Select_LoadGame, 0x0008 },
+    { "66:\x8Dﾖｳｾｲﾉｷﾉ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0000 },
+    { "67:\x8Dﾖｳｾｲﾉｷﾉ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x040F },
+    { "68:\x8Cﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0004 },
+    { "69:\x8Cﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x040B },
+    { "70:\x8Dｷｮﾀﾞｲｷﾞｮ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0028 },
+    { "71:\x8Dｷｮﾀﾞｲｷﾞｮ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x0301 },
+    { "72:\x8Dﾓﾘﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x0169 },
+    { "73:\x8Dﾓﾘﾉｼﾝﾃﾞﾝ \x8Cﾎﾞｽ", Select_LoadGame, 0x000C },
+    { "74:\x8Dｲﾄﾞｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0098 },
+    { "75:\x8Dﾊｶｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0037 },
+    { "76:\x8Dﾊｶｼﾀ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x0413 },
+    { "77:\x8Dﾋﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x0165 },
+    { "78:\x8Dﾋﾉｼﾝﾃﾞﾝ \x8Cﾎﾞｽ", Select_LoadGame, 0x0305 },
+    { "79:\x8Dﾐｽﾞﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x0010 },
+    { "80:\x8Dﾐｽﾞﾉｼﾝﾃﾞﾝ \x8Cﾎﾞｽ", Select_LoadGame, 0x0417 },
+    { "81:\x8Dｼﾞｬｼﾝｿﾞｳ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0082 },
+    { "82:\x8Dｼﾞｬｼﾝｿﾞｳ \x8Cﾀﾞﾝｼﾞｮﾝ ｱｲｱﾝﾅｯｸ", Select_LoadGame, 0x008D },
+    { "83:\x8Dｼﾞｬｼﾝｿﾞｳ \x8Cﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x05EC },
+    { "84:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ", Select_LoadGame, 0x041B },
+    { "85:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ\x8Cﾎﾞｽ", Select_LoadGame, 0x041F },
+    { "86:\x8Dｺｵﾘﾉﾄﾞｳｸﾂ", Select_LoadGame, 0x0088 },
+    { "87:\x8Dﾊｶｼﾀ\x8Cﾘﾚｰ", Select_LoadGame, 0x044F },
+    { "88:\x8Cｶﾞﾉﾝ\x8Dﾁｶ \x8Cﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0467 },
+    { "89:\x8Cｶﾞﾉﾝ\x8Dｻｲｼｭｳｾﾝ \x8Cﾃﾞﾓ & ﾊﾞﾄﾙ", Select_LoadGame, 0x0517 },
+    { "90:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 1", Select_LoadGame, 0x0179 },
+    { "91:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 2", Select_LoadGame, 0x01B5 },
+    { "92:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 3", Select_LoadGame, 0x03DC },
+    { "93:\x8Cｶﾞﾉﾝ\x8Dﾉﾄｳ ｿﾉｺﾞ 4", Select_LoadGame, 0x03E4 },
+    { "94:\x8Cｶﾞﾉﾝ\x8Dﾁｶ ｿﾉｺﾞ", Select_LoadGame, 0x056C },
+    { "95:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 1-2", Select_LoadGame, 0x0486 },
+    { "96:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 3-4 9-10", Select_LoadGame, 0x048E },
+    { "97:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 5-6", Select_LoadGame, 0x0496 },
+    { "98:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 7-8", Select_LoadGame, 0x049E },
+    { "99:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 11-12", Select_LoadGame, 0x04AE },
+    { "100:\x8Cｹﾞﾙﾄﾞ\x8Dﾂｳﾛ 13", Select_LoadGame, 0x0570 },
+    { "101:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 0", Select_LoadGame, 0x003F },
+    { "102:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 1", Select_LoadGame, 0x0598 },
+    { "103:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, 0x059C },
+    { "104:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 3", Select_LoadGame, 0x05A0 },
+    { "105:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 4", Select_LoadGame, 0x05A4 },
+    { "106:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 5", Select_LoadGame, 0x05A8 },
+    { "107:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 6", Select_LoadGame, 0x05AC },
+    { "108:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 7", Select_LoadGame, 0x05B0 },
+    { "109:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 8", Select_LoadGame, 0x05B4 },
+    { "110:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 9", Select_LoadGame, 0x05B8 },
+    { "111:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 10", Select_LoadGame, 0x05BC },
+    { "112:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 11", Select_LoadGame, 0x05C0 },
+    { "113:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 12", Select_LoadGame, 0x05C4 },
+    { "114:\x8Dｶｸｼﾄﾋﾞｺﾐｱﾅ 13", Select_LoadGame, 0x05FC },
+    { "115:\x8Cﾊｲﾗﾙ ﾃﾞﾓ", Select_LoadGame, 0x00A0 },
+    { "116:\x8Dﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ\x8Cﾜｰﾌﾟ)", Select_LoadGame, 0x0520 },
+    { "117:\x8Dｻｻ\x8Cﾃｽﾄ", Select_LoadGame, 0x0018 },
+    { "118:\x8Cﾃｽﾄﾏｯﾌﾟ", Select_LoadGame, 0x0094 },
+    { "119:\x8Cﾃｽﾄﾙｰﾑ", Select_LoadGame, 0x0024 },
+    { "120:\x8Dﾁｭｳ\x8Cｽﾀﾛﾌｫｽ\x8Dﾍﾞﾔ", Select_LoadGame, 0x001C },
+    { "121:\x8Cﾎﾞｽｽﾀﾛﾌｫｽ\x8Dﾍﾞﾔ", Select_LoadGame, 0x0020 },
+    { "122:Sutaru", Select_LoadGame, 0x0047 },
+    { "123:jikkenjyou", Select_LoadGame, 0x02EA },
+    { "124:depth\x8Cﾃｽﾄ", Select_LoadGame, 0x00B6 },
+    { "125:\x8Cﾊｲﾗﾙ\x8Dﾆﾜ\x8Cｹﾞｰﾑ2", Select_LoadGame, 0x0076 },
+    { "title", Select_LoadTitle, 0x0000 },
 };
 
-//mostly regalloc, a good amount of instruction ordering. confirmed equivalent in game.
 #ifdef NON_MATCHING
+// mostly regalloc, a good amount of instruction ordering. confirmed equivalent in game.
 void Select_UpdateMenu(SelectContext* this) {
     Input* controller1;
     s32 pad;
@@ -225,7 +225,7 @@ void Select_UpdateMenu(SelectContext* this) {
                 gSaveContext.cutsceneIndex = 0xFFFA;
             } else if (gSaveContext.cutsceneIndex == 0xFFFA) {
                 gSaveContext.cutsceneIndex = 0x8000;
-            } 
+            }
         } else if (CHECK_PAD(controller1->press, R_TRIG)) {
             if (gSaveContext.cutsceneIndex == 0x8000) {
                 gSaveContext.cutsceneIndex = 0xFFFA;
@@ -407,16 +407,15 @@ void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
 }
 
 static char* sLoadingMessages[] = {
-    "\x8Dｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ", // "Please wait a minute"
-    "\x8Dﾁｮｯﾄ ﾏｯﾃﾈ",     // "Hold on a sec"
-    "\x8Cｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",  // "Wait a moment"
-    "\x8Cﾛｰﾄﾞ\x8Dﾁｭｳ",   // "Loading"
-    "\x8Dﾅｳ ﾜｰｷﾝｸﾞ",     // "Now working"
-    "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",     // "Now creating"
-    "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",    // "It's not broken"
-    "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",    // "Coffee Break"
-    "\x8C"
-    "Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                      // "Please set B side"
+    "\x8Dｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                   // "Please wait a minute"
+    "\x8Dﾁｮｯﾄ ﾏｯﾃﾈ",                       // "Hold on a sec"
+    "\x8Cｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",                    // "Wait a moment"
+    "\x8Cﾛｰﾄﾞ\x8Dﾁｭｳ",                     // "Loading"
+    "\x8Dﾅｳ ﾜｰｷﾝｸﾞ",                       // "Now working"
+    "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",                       // "Now creating"
+    "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",                      // "It's not broken"
+    "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",                      // "Coffee Break"
+    "\x8C\Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                 // "Please set B side"
     "\x8Dｼﾞｯﾄ\x8Cｶﾞﾏﾝ\x8Dﾉ\x8Cｺ\x8Dﾃﾞｱｯﾀ", // "Be patient, now"
     "\x8Dｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                 // "Please wait just a minute"
     "\x8Dｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡",          // "Don't worry, don't worry. Take a break, take a break"
@@ -502,14 +501,15 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
 }
 
 void Select_DrawMenu(SelectContext* this) {
-    GraphicsContext* gfxCtx;
+    s32 arg;
     GfxPrint* printer;
-    Gfx* dispRefs[5];
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
 
     gfxCtx = this->state.gfxCtx;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 930);
-    
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, 0x00000000);
+
+    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view)
     func_800AAA50(&this->view, 0xF);
@@ -518,15 +518,10 @@ void Select_DrawMenu(SelectContext* this) {
     GfxPrint_Init(printer);
     GfxPrint_Open(printer, gfxCtx->polyOpa.p);
     Select_PrintMenu(this, printer);
-    {
-        s32 arg;
-
-        arg = gSaveContext.linkAge;
-        Select_PrintAgeSetting(this, printer, arg);
-
-        arg = gSaveContext.cutsceneIndex & 0xFFFF;
-        Select_PrintCutsceneSetting(this, printer, arg);
-    }
+    arg = gSaveContext.linkAge;
+    Select_PrintAgeSetting(this, printer, arg);
+    arg = gSaveContext.cutsceneIndex;
+    Select_PrintCutsceneSetting(this, printer, arg);
     gfxCtx->polyOpa.p = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
@@ -534,14 +529,15 @@ void Select_DrawMenu(SelectContext* this) {
 }
 
 void Select_DrawLoadingScreen(SelectContext* this) {
-    GraphicsContext* gfxCtx;
+    s32 pad;
     GfxPrint* printer;
-    Gfx* dispRefs[5];
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
 
     gfxCtx = this->state.gfxCtx;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 977);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, 0x00000000);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view)
     func_800AAA50(&this->view, 0xF);
@@ -557,18 +553,19 @@ void Select_DrawLoadingScreen(SelectContext* this) {
 }
 
 void Select_Draw(SelectContext* this) {
+    s32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* dispRefs[5];
+    Gfx* dispRefs[4];
 
     gfxCtx = this->state.gfxCtx;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 1013);
-    
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, 0x00000000);
+
+    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view)
     func_800AAA50(&this->view, 0xF);
 
-    if (this->state.running == false) {
+    if (!this->state.running) {
         Select_DrawLoadingScreen(this);
     } else {
         Select_DrawMenu(this);
