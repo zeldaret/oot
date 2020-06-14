@@ -15,7 +15,9 @@ void func_80A7C598(EnInsect* this);
 void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7C818(EnInsect* this);
 void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx);
+void func_80A7CAD0(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7CBC8(EnInsect* this);
+void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7CE60(EnInsect* this);
 void func_80A7D39C(EnInsect* this);
 
@@ -83,10 +85,10 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f pos;
 
-    if (this->actor.xzDistanceFromLink < 32.0f) {
-        pos.x = Math_Sins(this->actor.rotTowardsLinkY + 0x8000) * 16.0f + player->actor.posRot.pos.x;
+    if (this->actor.xzDistFromLink < 32.0f) {
+        pos.x = Math_Sins(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y;
-        pos.z = Math_Coss(this->actor.rotTowardsLinkY + 0x8000) * 16.0f + player->actor.posRot.pos.z;
+        pos.z = Math_Coss(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.z;
         if (func_80A7BE40(&pos, &this->actor.posRot.pos) <= 400.0f) {
             return 1;
         }
@@ -244,7 +246,7 @@ void func_80A7C3F4(EnInsect *this, GlobalContext *globalCtx) {
     else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
         func_80A7CE60(this);
     }
-    else if (this->actor.xzDistanceFromLink < 40.0f) {
+    else if (this->actor.xzDistFromLink < 40.0f) {
         func_80A7C818(this);
     }
 }
@@ -284,7 +286,7 @@ void func_80A7C598(EnInsect *this) {
 //     else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
 //         func_80A7CE60(this);
 //     }
-//     else if (this->actor.xzDistanceFromLink < 40.0f) {
+//     else if (this->actor.xzDistFromLink < 40.0f) {
 //         func_80A7C818(this);
 //     }
 // }
@@ -301,18 +303,20 @@ void func_80A7C818(EnInsect *this) {
 //     s32 pad;
 //     f32 temp_f0;
 //     s16 phi_a1;
+//     // regalloc
 //     s16 sp38;
 
 //     sp38 = 0;
-//     if (this->actor.xzDistanceFromLink < 40.0f) {
+//     if (this->actor.xzDistFromLink < 40.0f) {
 //         sp38 = 1;
 //     }
+
 //     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
 //     if (25600.0f < func_80A7BE40(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || this->unk_31A < 4) {
 //         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
 //     } else {
 //         if (sp38 != 0) {
-//             phi_a1 = this->actor.rotTowardsLinkY + 0x8000;
+//             phi_a1 = this->actor.yawTowardsLink + 0x8000;
 //             if ((s16)globalCtx->state.frames & 0x10) {
 //                 if ((s16)globalCtx->state.frames & 0x20) {
 //                     phi_a1 += 0x2000;
@@ -336,11 +340,47 @@ void func_80A7C818(EnInsect *this) {
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7CA64.s")
+void func_80A7CA64(EnInsect *this) {
+    this->unk_31A = 0xC8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7CAD0.s")
+    Actor_SetScale(&this->actor, 0.001f);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7CBC8.s")
+    this->actor.draw = NULL;
+    this->actor.speedXZ = 0.0f;
+
+    func_80A7BF58(this);
+
+    this->skelAnime.animPlaybackSpeed = 0.3f;
+    this->actionFunc = &func_80A7CAD0;
+    this->unk_314 &= ~0x100;
+}
+
+void func_80A7CAD0(EnInsect *this, GlobalContext *globalCtx) {
+    if (this->unk_31A == 0x14 && !(this->unk_314 & 4)) {
+            this->actor.draw = EnInsect_Draw;
+    } else if (this->unk_31A == 0) {
+        if (this->unk_314 & 4) {
+            Actor_Kill(&this->actor);
+        } else {
+            Actor_SetScale(&this->actor, 0.01f);
+            func_80A7C3A0(this);
+        }
+    } else if (this->unk_31A < 0x14) {
+        Actor_SetScale(&this->actor, CLAMP_MAX(this->actor.scale.x + 0.001f, 0.01f));
+        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    }
+}
+
+void func_80A7CBC8(EnInsect *this) {
+    this->unk_31A = 0x3C;
+    func_80A7BF58(this);
+    this->skelAnime.animPlaybackSpeed = 1.9f;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_SINK);
+    Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+    this->actionFunc = func_80A7CC3C;
+    this->unk_314 &= ~0x100;
+    this->unk_314 |= 0x8;
+}
 
 void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
     u32 padding[2];
