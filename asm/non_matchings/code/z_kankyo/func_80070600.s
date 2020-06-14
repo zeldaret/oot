@@ -1,3 +1,10 @@
+.rdata
+glabel D_8013C390
+    .asciz "\x1b[43;30m\n水ポリゴンデータに水中カラーが設定されておりません!\x1b[m"
+    # EUC-JP: 水ポリゴンデータに水中カラーが設定されておりません | Underwater color is not set in the water poly data
+    .balign 4
+
+.text
 glabel func_80070600
 /* AE77A0 80070600 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AE77A4 80070604 2401001F */  li    $at, 31

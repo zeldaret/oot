@@ -1,3 +1,20 @@
+.rdata
+glabel D_8013C770
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C780
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_8013C830
+    .float 0.16666667
+
+glabel D_8013C834
+    .float 1.8333334
+
+.text
 glabel func_80076934
 /* AEDAD4 80076934 27BDFF48 */  addiu $sp, $sp, -0xb8
 /* AEDAD8 80076938 3C010001 */  lui   $at, 1
