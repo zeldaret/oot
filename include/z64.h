@@ -328,49 +328,19 @@ typedef struct
 } Input; // size = 0x18
 
 typedef struct {
-    /* 0x0000 */ OSContStatus pad_status[4];
-    /* 0x0010 */ OSMesg msgbuf1[1];
-    /* 0x0014 */ OSMesg msgbuf2[1];
-    /* 0x0018 */ OSMesg msgbuf3[4];
-    /* 0x0028 */ OSMesgQueue queue1;
-    /* 0x0040 */ OSMesgQueue queue2;
-    /* 0x0058 */ OSMesgQueue queue3;
-    /* 0x0070 */ UNK_TYPE unk_70;
-    /* 0x0074 */ UNK_TYPE unk_74;
-    /* 0x0078 */ UNK_TYPE unk_78;
-    /* 0x007C */ UNK_TYPE unk_7C;
-    /* 0x0080 */ OSThread thread;
-    /* 0x0230 */ Input inputs[4]; // 0x18 each = 0x60 total
-    /* 0x0290 */ PadState pads[4]; // 0x6 each = 0x18 total
-    /* 0x02A8 */ volatile u8 validCtrlrsMask;
-    /* 0x02A9 */ s8 ncontrollers;
-    /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
-    /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
-    /* 0x02B2 */ volatile u8 rumbleEnable[4];
-    /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
-    /* 0x02BC */ unk_controller_t unk_controller[4];
-    /* 0x045C */ volatile u8 rumbleOffFrames;
-    /* 0x045D */ volatile u8 rumbleOnFrames;
-    /* 0x045E */ u8 preNMIShutdown;
-    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
-    /* 0x0464 */ u32 retraceCallbackValue;
-} PadMgr; // size = 0x468
-
-typedef struct {
    /* 0x0000 */ s32 topY;    // uly (upper left y)
    /* 0x0004 */ s32 bottomY; // lry (lower right y)
    /* 0x0008 */ s32 leftX;   // ulx (upper left x)
    /* 0x000C */ s32 rightX;  // lrx (lower right x)
 } Viewport; // size = 0x10
 
-
 typedef struct {
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
     /* 0x0018 */ f32    fovy;  // vertical field of view in degrees
-    /* 0x001C */ f32    zNear;  // distance to near clipping plane
-    /* 0x0020 */ f32    zFar;   // distance to far clipping plane
+    /* 0x001C */ f32    zNear; // distance to near clipping plane
+    /* 0x0020 */ f32    zFar;  // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
     /* 0x0034 */ Vec3f  unk_34;
@@ -1568,6 +1538,33 @@ typedef struct {
     /* 0x258 */ OSTimer timer;
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
+
+typedef struct {
+    /* 0x0000 */ OSContStatus padStatus[4];
+    /* 0x0010 */ OSMesg serialMsgBuf[1];
+    /* 0x0014 */ OSMesg lockMsgBuf[1];
+    /* 0x0018 */ OSMesg interruptMsgBuf[4];
+    /* 0x0028 */ OSMesgQueue serialMsgQ;
+    /* 0x0040 */ OSMesgQueue lockMsgQ;
+    /* 0x0058 */ OSMesgQueue interruptMsgQ;
+    /* 0x0070 */ IrqMgrClient irqClient;
+    /* 0x0078 */ IrqMgr* irqMgr;
+    /* 0x0080 */ OSThread thread;
+    /* 0x0230 */ Input inputs[4];
+    /* 0x0290 */ PadState pads[4];
+    /* 0x02A8 */ volatile u8 validCtrlrsMask;
+    /* 0x02A9 */ u8 ncontrollers;
+    /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
+    /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
+    /* 0x02B2 */ volatile u8 rumbleEnable[4];
+    /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
+    /* 0x02BC */ unk_controller_t unk_controller[4];
+    /* 0x045C */ volatile u8 rumbleOffFrames;
+    /* 0x045D */ volatile u8 rumbleOnFrames;
+    /* 0x045E */ u8 preNMIShutdown;
+    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0464 */ u32 retraceCallbackValue;
+} PadMgr; // size = 0x468
 
 // == Previously sched.h
 

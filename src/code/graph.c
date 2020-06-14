@@ -221,7 +221,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->dram_stack = gGfxSPTaskStack;
     task->dram_stack_size = sizeof(gGfxSPTaskStack);
     task->output_buff = gGfxSPTaskOutputBuffer;
-    task->output_buff_size = gGfxSPTaskYieldBuffer; //! @bug (?) should be sizeof(gGfxSPTaskYieldBuffer), probably a typo
+    task->output_buff_size =
+        gGfxSPTaskYieldBuffer; //! @bug (?) should be sizeof(gGfxSPTaskYieldBuffer), probably a typo
     task->data_ptr = gfxCtx->workBuffer;
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 828);

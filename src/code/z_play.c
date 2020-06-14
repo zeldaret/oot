@@ -1365,7 +1365,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
     }
 
     if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4583)
+        LOG_NUM("1", 1, "../z_play.c", 4583);
     }
 
     Gameplay_Draw(globalCtx);
