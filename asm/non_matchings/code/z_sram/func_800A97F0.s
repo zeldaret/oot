@@ -1,3 +1,23 @@
+.rdata
+glabel D_80140E3C
+    .asciz "ＲＥＡＤ=%d(%x)  ＣＯＰＹ=%d(%x)\n"
+    # EUC-JP: ＲＥＡＤ=%d(%x) ＣＯＰＹ=%d
+    .balign 4
+
+glabel D_80140E60
+    .asciz "f_64dd[%d]=%d\n"
+    .balign 4
+
+glabel D_80140E70
+    .asciz "heart_status[%d]=%d\n"
+    .balign 4
+
+glabel D_80140E88
+    .asciz "ＣＯＰＹ終了\n"
+    # EUC-JP: ＣＯＰＹ終了 | Copy end
+    .balign 4
+
+.text
 glabel func_800A97F0
 /* B20990 800A97F0 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* B20994 800A97F4 AFB3002C */  sw    $s3, 0x2c($sp)

@@ -18,7 +18,7 @@ glabel D_8014845C
     .balign 4
 
 glabel D_80148480
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -27,7 +27,7 @@ glabel D_8014849C
     .balign 4
 
 glabel D_801484C0
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -99,7 +99,7 @@ glabel D_801485F4
     .balign 4
 
 glabel D_801485F8
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -108,7 +108,7 @@ glabel D_80148614
     .balign 4
 
 glabel D_80148638
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -157,7 +157,7 @@ glabel D_801486C0
     .balign 4
 
 glabel D_801486E4
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -166,7 +166,7 @@ glabel D_80148700
     .balign 4
 
 glabel D_80148724
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -175,7 +175,7 @@ glabel D_80148740
     .balign 4
 
 glabel D_80148764
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -184,7 +184,7 @@ glabel D_80148780
     .balign 4
 
 glabel D_8014879C
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -193,7 +193,7 @@ glabel D_801487B8
     .balign 4
 
 glabel D_801487D4
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -206,7 +206,7 @@ glabel D_8014881C
     .balign 4
 
 glabel D_8014882C
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。 | Is required.
     .balign 4
 
@@ -450,7 +450,7 @@ glabel D_80148EA8
     .balign 4
 
 glabel D_80148EC8
-    .asciz "	\x23 vscale=[%d %d %d %d], "
+    .asciz "	# vscale=[%d %d %d %d], "
     .balign 4
 
 glabel D_80148EE4

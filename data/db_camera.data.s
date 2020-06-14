@@ -8,6 +8,7 @@
 .section .data
 
 .balign 16
+
 glabel D_8012CED0
     .incbin "baserom.z64", 0xBA4070, 0x4
 
@@ -22,7 +23,6 @@ glabel D_8012CEE0
 
 glabel D_8012CEE4
     .word D_80143184
-
 
 glabel D_8012CEE8
     .word D_80143194

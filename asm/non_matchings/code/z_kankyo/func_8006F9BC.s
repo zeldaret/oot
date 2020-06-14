@@ -1,3 +1,14 @@
+.rdata
+glabel D_8013C280
+    .asciz "\x1b[41;37m\nend_frameとstart_frameのフレーム関係がおかしい!!!\x1b[m"
+    # EUC-JP: とstart_frameのフレーム関係がおかしい!!! | The frame relation between end_frame and start_frame is wrong
+    .balign 4
+
+glabel D_8013C2C0
+    .asciz "\x1b[41;37m\nby get_parcent_forAccelBrake!!!!!!!!!\x1b[m"
+    .balign 4
+
+.text
 glabel func_8006F9BC
 /* AE6B5C 8006F9BC 27BDFFC0 */  addiu $sp, $sp, -0x40
 /* AE6B60 8006F9C0 30A3FFFF */  andi  $v1, $a1, 0xffff
