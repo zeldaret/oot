@@ -2303,9 +2303,9 @@ void Camera_UpdateInterface(s16 arg0) {
         }
 
         if(arg0 & 0x8000){
-            func_800B38A4(D_8011D3A8, arg0);
+            func_800B38A4(D_8011D3A8);
         } else {
-            func_800B3840(D_8011D3A8, arg0);
+            func_800B3840(D_8011D3A8);
         }
     }
 
@@ -5655,8 +5655,8 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     camera->uid = temp_a1;
     camera->unk_C0.x = 10.0f;
     camera->unk_C0.z = 10.0f;
-    camera->unk_68.y = 1.0f;
     camera->unk_68.x = 0.0f;
+    camera->unk_68.y = 1.0f;
     camera->unk_68.z = 0.0f;
     camera->fov = 60.0f;
     D_8011D3A8 = 0x20;
@@ -5665,23 +5665,20 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     camera->unk_CC.x = OREG(2) * 0.01f;
     camera->unk_CC.y = OREG(3) * 0.01f;
     camera->unk_CC.z = OREG(4) * 0.01f;
-
     camera->unk_14C = 0;
-    camera->unk_154 = 0x21U;
-    camera->unk_166 = -1;
-    camera->mode = 0;
+    camera->setting = camera->unk_154 = CAM_SET_FREE0;
+    camera->camDataIdx = camera->unk_166 = -1;
+    camera->mode = CAM_MODE_NORMAL;
     camera->unk_146 = 0x32;
     camera->unk_168 = 0x7FFF;
     camera->unk_160 = -1;
     camera->unk_14C |= 0x4000;
+    camera->unk_68.x = 0.0f;
     camera->unk_68.y = 1.0f;
     camera->unk_68.z = 0.0f;
-    camera->unk_68.x = 0.0f;
     camera->unk_80.x = 0.0f;
     camera->unk_80.y = 0.0f;
     camera->unk_80.z = 0.0f;
-    camera->setting = camera->unk_154;
-    camera->camDataIdx = camera->unk_166;
     camera->atLERPStepScale = 1.0f;
     sCameraInterfaceFlags = 0xFF00;
     D_8011D398 = -1;
@@ -6112,9 +6109,9 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             }
         }
         if (gDbgCamEnabled) {
-            camera->globalCtx->view.fovy = D_8015BD80.unk_48;
+            camera->globalCtx->view.fovy = D_8015BD80.fov;
             func_800B4E7C(&D_8015BD80, camera);
-            func_800AA358(&camera->globalCtx->view, &D_8015BD80.unk_10, &D_8015BD80.unk_04, &D_8015BD80.unk_1C);
+            func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
             if (R_DBG_CAM_UPDATE) {
                 osSyncPrintf("camera: debug out\n");
             }
