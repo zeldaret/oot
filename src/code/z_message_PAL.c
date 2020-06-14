@@ -217,7 +217,7 @@ const s16 D_80153C48[] = {
     0x0048, 0x0048, 0x0048, 0x0000,
 };
 
-const u16 D_80153C50 = 0x00;
+const u16 D_80153C50 = 0x0000;
 
 const u16 D_80153C52 = 0x0001;
 
@@ -1040,14 +1040,14 @@ u16 func_801080B4(GlobalContext* globalCtx, u16 arg1, Gfx** p, u16 arg3) {
 }
 
 #ifdef NON_MATCHING
-// Stack, some regalloc, single reordering
+// Stack size, some regalloc
 void func_801083F8(GlobalContext* globalCtx) {
+    s32 new_var2;
+    s32 pad;
     MessageContext* msgCtx;
 
     msgCtx = &globalCtx->msgCtx;
     if (globalCtx->msgCtx.msgMode == 6) {
-        u16 new_var2;
-
         globalCtx->msgCtx.unk_E3EE = 1;
         new_var2 = msgCtx->unk_E3F0;
         if (new_var2 == 0x2A) {
@@ -1091,19 +1091,18 @@ void func_801083F8(GlobalContext* globalCtx) {
             // Frog Chorus / Frog Chorus ->
             osSyncPrintf("カエルの合唱 カエルの合唱  -> ", new_var2);
         } else {
-            s32 new_var;
             // Ocarina（%d）
             osSyncPrintf("オカリナ（%d） ", msgCtx->unk_E3F0);
-            new_var = msgCtx->unk_E3F0;
-            if (new_var == 0 || new_var == 1 || new_var >= 0x22) {
+            new_var2 = msgCtx->unk_E3F0;
+            if (new_var2 == 0 || new_var2 == 1 || new_var2 >= 0x22) {
                 msgCtx->msgMode = 9;
-                osSyncPrintf("000000000000  -> ", new_var);
-            } else if (new_var >= 2 && new_var < 0xE) {
+                osSyncPrintf("000000000000  -> ", new_var2);
+            } else if (new_var2 >= 2 && new_var2 < 0xE) {
                 msgCtx->msgMode = 0xA;
-                osSyncPrintf("111111111111  -> ", new_var);
+                osSyncPrintf("111111111111  -> ", new_var2);
             } else {
                 msgCtx->msgMode = 0xB;
-                osSyncPrintf("222222222222  -> ", new_var);
+                osSyncPrintf("222222222222  -> ", new_var2);
             }
         }
         osSyncPrintf("msg_mode=%d\n", msgCtx->msgMode);
@@ -1113,7 +1112,8 @@ void func_801083F8(GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801083F8.s")
 #endif
 
-// Needs jtbl
+extern s16 D_8014B308;
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801086B0.s")
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80109968.s")
@@ -1124,24 +1124,26 @@ void func_80109968(GlobalContext* globalCtx, u16 arg1, s16 arg2) {
     msgCtx = &globalCtx->msgCtx;
     interfaceCtx = &globalCtx->interfaceCtx;
     if (arg1 == 0x76) {
-        interfaceCtx->unk_140[0x1E] = 0xFF;
-        interfaceCtx->unk_140[0x1F] = 0xFF;
+        interfaceCtx->unk_140[30] = 0xFF;
+        interfaceCtx->unk_140[31] = 0xFF;
     }
     if (arg1 < 0x66) {
         YREG(71) = XREG(54) - D_80153C40[gSaveContext.language];
         YREG(72) = arg2 + 6;
-        YREG(75) = 0x20;
+        YREG(75) = 32;
         DmaMgr_SendRequest1((u32)msgCtx->textboxSegment + 0x1000, 
-                            (u32)_icon_item_staticSegmentRomStart + (arg1 << 0xC), 
-                            0x1000, "../z_message_PAL.c", 0x5C1);
+                            (u32)_icon_item_staticSegmentRomStart + (arg1 * 0x1000), 
+                            0x1000, "../z_message_PAL.c", 1473);
+        // Item 32-0
         osSyncPrintf("アイテム32-0\n");
     } else {
         YREG(71) = XREG(54) - D_80153C48[gSaveContext.language];
         YREG(72) = arg2 + 10;
-        YREG(75) = 0x18;
+        YREG(75) = 24;
         DmaMgr_SendRequest1((u32)msgCtx->textboxSegment + 0x1000, 
-                            (u32)_icon_item_24_staticSegmentRomStart + (arg1 * 0x900) + 0xFFFC6A00, 
-                            0x900, "../z_message_PAL.c", 0x5CA);
+                            (u32)_icon_item_24_staticSegmentRomStart + 0xFFFC6A00 + (arg1 * 0x900), 
+                            0x900, "../z_message_PAL.c", 1482);
+        // Item 24＝%d (%d) {%d}
         osSyncPrintf("アイテム24＝%d (%d) {%d}\n", arg1, arg1 - 0x6C, 0x54);
     }
     msgCtx->unk_E3CE++;
@@ -1150,33 +1152,32 @@ void func_80109968(GlobalContext* globalCtx, u16 arg1, s16 arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80109B3C.s")
 
+extern s8 D_8014B2F4;
+extern s8 D_8014B300;
+extern s16 D_8014B318;
+
 void func_8010B0C0(GlobalContext*, u16);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B0C0.s")
 /* void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
+    static const u16 D_80153C50[] = {
+        0x0000, 0x0001, 0x0003, 0x0002,
+    };
+
     s16 sp3E;
-    char *sp30;
-    void *sp2C;
-    char *temp_v0_3;
+    MessageData* sp30;
+    u16 *temp_v0_3;
     s32 temp_v0;
     u16 temp_a3;
     u16 temp_a3_2;
     u8 temp_v0_2;
-    void *temp_at;
-    void *temp_at_2;
-    void *temp_at_3;
-    void *temp_at_4;
-    void *temp_at_5;
-    void *temp_at_6;
     s32 phi_a3;
-    char *phi_v0;
     u16 phi_a3_2;
     u16 phi_a3_3;
-    MessageContext *phi_s0;
+    MessageContext *msgCtx;
     SaveContext *phi_a1;
-    void *phi_t0;
+    s32 *phi_t0;
     u16 phi_a3_4;
     SaveContext *phi_a1_2;
-    void *phi_at;
 
     if (globalCtx->msgCtx.msgMode == 0) {
         gSaveContext.unk_13EE = gSaveContext.unk_13EA;
@@ -1184,8 +1185,10 @@ void func_8010B0C0(GlobalContext*, u16);
     if (YREG(15) == 0x10) {
         Interface_ChangeAlpha(5);
     }
-    D_8014B318 = D_8014B2F4 = D_8014B300 = D_8014B308 = 0;
-    if (textId >= 0x500 && textId < 0x600) {
+    D_8014B308 = 0;
+    D_8014B2F4 = D_8014B300 = D_8014B308;
+    D_8014B318 = D_8014B308 & 0xFF;
+    if (textId >= 0x0500 && textId < 0x0600) { // text ids 0500 to 0600 are reserved for credits
         D_8014B308 = 1;
         XREG(57) = 0x55;
         XREG(56) = 6;
@@ -1196,16 +1199,17 @@ void func_8010B0C0(GlobalContext*, u16);
         XREG(56) = 0xC;
         XREG(54) = 0x41;
     }
+    msgCtx = &globalCtx->msgCtx;
     if (textId == 0xC2 || textId == 0xFA) { // C2 = One piece of heart , FA = WINNER One piece of heart
         // Increments text id based on piece of heart count, assumes the piece of heart text is all
         // in order and that you don't have more than the intended amount of heart pieces.
-        textId += (((gSaveContext.questItems & 0xF0000000) & 0xF0000000) >> 0x1C);
-    } else if ((globalCtx->msgCtx.unk_E1D0 == 0xC) && (((*(gBitFlags + 8) << gEquipShifts[0]) & gSaveContext.equipment))) {
+        textId += ((gSaveContext.questItems & 0xF0000000) >> 0x1C);
+    } else if (msgCtx->unk_E2F8 == 0xC && CHECK_OWNED_EQUIP(EQUIP_SWORD,2)) {
         textId = 0xB; // Traded Giant's Knife for Biggoron Sword
-    } else if (globalCtx->msgCtx.unk_E1D0 == 0xB4 && (gSaveContext.eventChkInf[9] & 0x40)) {
+    } else if (msgCtx->unk_E2F8 == 0xB4 && (gSaveContext.eventChkInf[9] & 0x00000040)) {
         textId = 0xB5; // Destroyed Gold Skulltula
     }
-    // Ocarina + Dialog
+    // Ocarina Staff + Dialog
     if (textId == 0x4077 || // Pierre?
         textId == 0x407A || // Pierre?
         textId == 0x2061 || // Learning Epona's Song
@@ -1213,7 +1217,7 @@ void func_8010B0C0(GlobalContext*, u16);
         textId == 0x40AC) { // Ocarina Frog Minigame
         Interface_ChangeAlpha(1);
     }
-    globalCtx->msgCtx.unk_E2F8 = textId;
+    msgCtx->unk_E2F8 = textId;
     if (textId == 0x2030) { // Talking to Ingo as adult in Lon Lon Ranch for the first time before freeing Epona
         osSyncPrintf("\x1b[33m");
         osSyncPrintf("？？？？？？？？？？？？？？？？  z_message.c  ？？？？？？？？？？？？？？？？？？\n");
@@ -1222,84 +1226,76 @@ void func_8010B0C0(GlobalContext*, u16);
         gSaveContext.eventInf[2] = 0;
         gSaveContext.eventInf[1] = 0;
         gSaveContext.eventInf[0] = 0;
-        phi_t0 = &D_8014B308;
     }
-    if (*phi_t0 != 0) {
+    if (D_8014B308 != 0) {
         func_80107628(globalCtx, textId);
-        globalCtx->msgCtx.unk_E300 = globalCtx->msgCtx.unk_128.size;
-        sp30 = globalCtx->msgCtx.unk_128;
-        DmaMgr_SendRequest1(globalCtx->msgCtx.msgbuf, 
-                        _staff_message_data_staticSegmentRomStart + globalCtx->msgCtx.unk_128.offset, 
-                        globalCtx->msgCtx.unk_128.size, "../z_message_PAL.c", 0x7A2);
+        msgCtx->unk_E300 = msgCtx->unk_128.size;
+        sp30 = &msgCtx->unk_128;
+        DmaMgr_SendRequest1(msgCtx->msgbuf, 
+                        _staff_message_data_staticSegmentRomStart + msgCtx->unk_128.offset, 
+                        msgCtx->unk_128.size, "../z_message_PAL.c", 1954);
     } else {
         temp_v0_2 = gSaveContext.language;
         if (temp_v0_2 == 0) {
             func_80107628(globalCtx, textId);
-            globalCtx->msgCtx.unk_E300 = globalCtx->msgCtx.unk_128.size;
-            sp30 = globalCtx->msgCtx.unk_128;
-            DmaMgr_SendRequest1(globalCtx->msgCtx.msgbuf, 
-                            _nes_message_data_staticSegmentRomStart + globalCtx->msgCtx.unk_128.offset,
-                            globalCtx->msgCtx.unk_128.size, "../z_message_PAL.c", 0x7AE);
+            msgCtx->unk_E300 = msgCtx->unk_128.size;
+            sp30 = &msgCtx->unk_128;
+            DmaMgr_SendRequest1(msgCtx->msgbuf, 
+                            _nes_message_data_staticSegmentRomStart + msgCtx->unk_128.offset,
+                            msgCtx->unk_128.size, "../z_message_PAL.c", 1966);
         } else if (temp_v0_2 == 1) {
             func_80107628(globalCtx, textId);
-            globalCtx->msgCtx.unk_E300 = globalCtx->msgCtx.unk_128.size;
-            sp30 = globalCtx->msgCtx.unk_128;
-            DmaMgr_SendRequest1(globalCtx->msgCtx.msgbuf, 
-                            _ger_message_data_staticSegmentRomStart + globalCtx->msgCtx.unk_128.offset, 
-                            globalCtx->msgCtx.unk_128.size, "../z_message_PAL.c", 0x7BA);
+            msgCtx->unk_E300 = msgCtx->unk_128.size;
+            sp30 = &msgCtx->unk_128;
+            DmaMgr_SendRequest1(msgCtx->msgbuf, 
+                            _ger_message_data_staticSegmentRomStart + msgCtx->unk_128.offset, 
+                            msgCtx->unk_128.size, "../z_message_PAL.c", 1978);
         } else {
             func_80107628(globalCtx, textId);
-            globalCtx->msgCtx.unk_E300 = globalCtx->msgCtx.unk_128.size;
-            sp30 = globalCtx->msgCtx.unk_128;
-            DmaMgr_SendRequest1(globalCtx->msgCtx.msgbuf, 
-                            _fra_message_data_staticSegmentRomStart + globalCtx->msgCtx.unk_128.offset, 
-                            globalCtx->msgCtx.unk_128.size, "../z_message_PAL.c", 0x7C6);
+            msgCtx->unk_E300 = msgCtx->unk_128.size;
+            sp30 = &msgCtx->unk_128;
+            DmaMgr_SendRequest1(msgCtx->msgbuf, 
+                            _fra_message_data_staticSegmentRomStart + msgCtx->unk_128.offset, 
+                            msgCtx->unk_128.size, "../z_message_PAL.c", 1990);
         }
     }
-    temp_at->unk62FD = (u8) sp30[8];
-    temp_at->unk62FE = (s8) ((s32) sp2C->unk62FC >> 4);
-    temp_at->unk62FF = (s8) (sp2C->unk62FC & 0xF);
-    sp3E = (s16) sp2C->unk62FD;
+    msgCtx->unk_E2FD = sp30->xy;
+    msgCtx->unk_E2FE = msgCtx->unk_E2FC >> 4;
+    msgCtx->unk_E2FF = msgCtx->unk_E2FC & 0xF;
     // Text Box Type＝%d
-    osSyncPrintf("吹き出し種類＝%d\n", sp2C->unk62FD);
-    if ((s32) sp3E < 4) {
-        temp_v0_3 = &D_80153C50[sp3E];
-        DmaMgr_SendRequest1(globalCtx->msgCtx.textboxSegment, (u32) ((*temp_v0_3 << 0xC) + _message_staticSegmentRomStart), 0x1000U, "../z_message_PAL.c", 0x7D6);
-        if (temp_v0_3 == &D_80153C50) {
-            temp_at_2 = phi_s0 + 0x7FFF;
-            globalCtx->msgCtx.unk_E3FE = 0;
-            globalCtx->msgCtx.unk_E400 = 0;
+    osSyncPrintf("吹き出し種類＝%d\n", msgCtx->unk_E2FD);
+    if (msgCtx->unk_E2FD < 4) {
+        temp_v0_3 = &D_80153C50[msgCtx->unk_E2FD];
+        DmaMgr_SendRequest1(msgCtx->textboxSegment, (u32)(_message_staticSegmentRomStart + (*temp_v0_3 * 0x1000)), 0x1000, "../z_message_PAL.c", 2006);
+        if (temp_v0_3 == &D_80153C50[0]) {
+            msgCtx->unk_E3FE = 0;
+            msgCtx->unk_E400 = 0;
 block_40:
-            globalCtx->msgCtx.unk_E402 = 0;
-        } else if (temp_v0_3 == &D_80153C52) {
-            globalCtx->msgCtx.unk_E3FE = 0x46;
-            globalCtx->msgCtx.unk_E400 = 0x32;
-            globalCtx->msgCtx.unk_E402 = 0x1E;
-        } else if (temp_v0_3 == &D_80153C54) {
-            temp_at_4 = phi_s0 + 0x7FFF;
-            globalCtx->msgCtx.unk_E3FE = 0;
-            globalCtx->msgCtx.unk_E400 = 0xA;
-            globalCtx->msgCtx.unk_E402 = 0x32;
+            msgCtx->unk_E402 = 0;
+        } else if (temp_v0_3 == &D_80153C50[1]) {
+            msgCtx->unk_E3FE = 0x46;
+            msgCtx->unk_E400 = 0x32;
+            msgCtx->unk_E402 = 0x1E;
+        } else if (temp_v0_3 == &D_80153C50[2]) {
+            msgCtx->unk_E3FE = 0;
+            msgCtx->unk_E400 = 0xA;
+            msgCtx->unk_E402 = 0x32;
         } else {
-            globalCtx->msgCtx.unk_E3FE = 0xFF;
-            globalCtx->msgCtx.unk_E400 = 0;
+            msgCtx->unk_E3FE = 0xFF;
+            msgCtx->unk_E400 = 0;
             goto block_40;
         }
-        if (temp_v0_3 == &D_80153C52) {
-            globalCtx->msgCtx.unk_E404 = 0xE6;
-        } else if (temp_v0_3 == &D_80153C56) {
-            globalCtx->msgCtx.unk_E404 = 0xB4;
+        if (temp_v0_3 == &D_80153C50[1]) {
+            msgCtx->unk_E404 = 0xE6;
+        } else if (temp_v0_3 == &D_80153C50[3]) {
+            msgCtx->unk_E404 = 0xB4;
         } else {
-            globalCtx->msgCtx.unk_E404 = 0xAA;
+            msgCtx->unk_E404 = 0xAA;
         }
-        globalCtx->msgCtx.unk_E406 = 0;
+        msgCtx->unk_E406 = 0;
     }
-    globalCtx->msgCtx.unk_E3E4 = 0;
-    globalCtx->msgCtx.unk_E3D2 = 0;
-    globalCtx->msgCtx.unk_E3D6 = globalCtx->msgCtx.unk_E3E4;
-    globalCtx->msgCtx.unk_E3E6 = globalCtx->msgCtx.unk_E3E4;
-    globalCtx->msgCtx.unk_E3D0 = globalCtx->msgCtx.unk_E3D2;
-    globalCtx->msgCtx.unk_E3CE = globalCtx->msgCtx.unk_E3D2;
+    msgCtx->unk_E3E6 = msgCtx->unk_E3D6 = msgCtx->unk_E3E4 = 0;
+    msgCtx->unk_E3CE = msgCtx->unk_E3D0 = msgCtx->unk_E3D2 = 0;
 } */
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B680.s")

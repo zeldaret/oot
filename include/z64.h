@@ -760,8 +760,9 @@ typedef struct {
     /* 0xE2FA */ u16    unk_E2F8;
     /* 0xE2FA */ u16    unk_E2FA;
     /* 0xE2FC */ u8     unk_E2FC; // original name : msg_disp_type
-    /* 0xE2FD */ u8     unk_E2FD;
-    /* 0xE2FE */ char   unk_E2FE[0x02];
+    /* 0xE2FD */ u8     unk_E2FD; // "text box type"
+    /* 0xE2FE */ u8     unk_E2FE;
+    /* 0xE2FF */ u8     unk_E2FF;
     /* 0xE300 */ s32    unk_E300; // original name : msg_data
     /* 0xE304 */ u8     msgMode;
     /* 0xE305 */ char   unk_E305[0xC9];
