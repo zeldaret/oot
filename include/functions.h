@@ -2272,8 +2272,8 @@ void GfxPrint_PrintCharImpl(GfxPrint*, u8);
 void GfxPrint_PrintChar(GfxPrint*, u8);
 void GfxPrint_PrintStringWithSize(GfxPrint*, const void*, size_t, size_t);
 GfxPrint* GfxPrint_Callback(GfxPrint*, const char*, size_t);
-void GfxPrint_Ctor(GfxPrint*);
-void GfxPrint_Dtor(GfxPrint*);
+void GfxPrint_Init(GfxPrint*);
+void GfxPrint_Destroy(GfxPrint*);
 void GfxPrint_Open(GfxPrint*, Gfx*);
 Gfx* GfxPrint_Close(GfxPrint*);
 void GfxPrint_VPrintf(GfxPrint*, const char*, va_list);
@@ -2548,8 +2548,8 @@ void func_80112098(GlobalContext* globalCtx);
 
 void Title_Init(TitleContext*);
 void Title_Destroy(TitleContext* this);
-void func_80801E44(GameState*); // Select_Init
-void func_80801E0C(GameState*); // Select_Destroy
+void Select_Init(SelectContext*);
+void Select_Destroy(SelectContext*);
 void Opening_Init(OpeningContext* this);
 void Opening_Destroy(OpeningContext* this);
 void func_80811A20(GameState*); // FileChoose_Init

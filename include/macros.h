@@ -72,11 +72,15 @@
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
-#define VIEWPORT_INIT(viewport, by, rx, ty, lx) \
-     viewport.bottomY = by; \
-     viewport.rightX = rx; \
-     viewport.topY = ty; \
-     viewport.leftX = lx;
+#define SET_FULLSCREEN_VIEWPORT(view)     \
+    {                                      \
+        Viewport viewport;                 \
+        viewport.bottomY = SCREEN_HEIGHT;  \
+        viewport.rightX = SCREEN_WIDTH;    \
+        viewport.topY = 0;                 \
+        viewport.leftX = 0;                \
+        View_SetViewport(view, &viewport); \
+    }
 
 #define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 

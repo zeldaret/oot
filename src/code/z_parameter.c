@@ -3094,14 +3094,7 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
 }
 
 void func_8008A994(InterfaceContext* interfaceCtx) {
-    Viewport viewport;
-
-    // clang-format off
-    viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
-    viewport.topY = 0; viewport.leftX = 0;
-    // clang-format on
-
-    View_SetViewport(&interfaceCtx->view, &viewport);
+    SET_FULLSCREEN_VIEWPORT(&interfaceCtx->view);
     func_800AB2C4(&interfaceCtx->view);
 }
 

@@ -175,11 +175,11 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
-        GfxPrint_Ctor(&printChars);
+        GfxPrint_Init(&printChars);
         GfxPrint_Open(&printChars, newDList);
         func_800EEA50(&printChars);
         newDList = GfxPrint_Close(&printChars);
-        GfxPrint_Dtor(&printChars);
+        GfxPrint_Destroy(&printChars);
     }
 
     if (R_ENABLE_ARENA_DBG < 0) {

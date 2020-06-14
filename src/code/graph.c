@@ -112,7 +112,7 @@ GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[0];
     }
-    if (gameStateInitFunc == func_80801E44) {
+    if (gameStateInitFunc == Select_Init) {
         return &gGameStateOverlayTable[1];
     }
     if (gameStateInitFunc == Title_Init) {
@@ -389,7 +389,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     if (D_8012DBC0 && CHECK_PAD(gameState->input[0].press, Z_TRIG) &&
         CHECK_PAD(gameState->input[0].cur, L_TRIG | R_TRIG)) {
         gSaveContext.gameMode = 0;
-        SET_NEXT_GAMESTATE(gameState, func_80801E44, char[0x240]); // TODO : SelectContext
+        SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
         gameState->running = false;
     }
 

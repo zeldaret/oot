@@ -56,7 +56,6 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     u32 pad2[3];
     Gfx* gfx;
     Gfx* dispRefs[5];
-    Viewport viewport;
 
     uly = this->y;
     lry = this->y + 2;
@@ -78,8 +77,8 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     View_Init(&view, gfxCtx);
     view.flags = 0xA;
 
-    VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
-    View_SetViewport(&view, &viewport);
+    SET_FULLSCREEN_VIEWPORT(&view);
+
     gfx = gfxCtx->overlay.p;
     func_800AB9EC(&view, 0xF, &gfx);
 
@@ -123,8 +122,6 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
     View view;
     Gfx* gfx;
     Gfx* dispRefs[5];
-    Viewport viewport;
-    u32 pad2;
 
     if (this->maxval == 0) {
         osSyncPrintf(VT_FGCOL(RED));
@@ -136,9 +133,8 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
         View_Init(&view, gfxCtx);
         view.flags = 0xA;
 
-        VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
+        SET_FULLSCREEN_VIEWPORT(&view);
 
-        View_SetViewport(&view, &viewport);
         gfx = gfxCtx->overlay.p;
         func_800AB9EC(&view, 0xF, &gfx);
 
