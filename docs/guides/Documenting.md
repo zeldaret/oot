@@ -62,7 +62,7 @@ File documentation should go near the top of the file, below includes. It should
 ### Documenting Bugs:
 Bugs should be documented on the line above where the bug begins.
 ```c
-//! @BUG description
+//! @bug description
 ```
 ### Linking related information:
 `@see` should be used to provide links to related information where appropriate, for example:
