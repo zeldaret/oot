@@ -156,8 +156,8 @@ typedef struct Actor {
     /* 0x11C */ struct Actor* attachedB; // Attached To?
     /* 0x120 */ struct Actor* prev; // Previous Actor of this type
     /* 0x124 */ struct Actor* next; // Next Actor of this type
-    /* 0x128 */ ActorFunc init; // Initialization Routine. All actors must have an init function.
-    /* 0x12C */ ActorFunc destroy; // Destruction Routine
+    /* 0x128 */ ActorFunc init; // Initialization Routine. Called by Actor_Init or Actor_UpdateAll
+    /* 0x12C */ ActorFunc destroy; // Destruction Routine. Called by Actor_Destroy
     /* 0x130 */ ActorFunc update; // Update Routine. Called by Actor_UpdateAll
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by Actor_Draw
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
