@@ -163,7 +163,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
                              SkelAnime_GetFrameCount(&D_060001CC.genericHeader), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistanceFromLink < 150.0f) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistFromLink < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animCurrentSeg == &D_060001CC) {
             this->unk_278 = 0;
@@ -252,8 +252,8 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 this->unk_276 &= ~0x4;
                 DREG(53) = 0;
             } else {
-                if ((this->actor.xzDistanceFromLink < 150.0f) &&
-                    (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x61A8)) {
+                if ((this->actor.xzDistFromLink < 150.0f) &&
+                    (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
                     this->actor.flags |= 0x10000;
@@ -279,8 +279,8 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
                              SkelAnime_GetFrameCount(&D_06004348.genericHeader), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistanceFromLink < 150.0f) &&
-        (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistFromLink < 150.0f) &&
+        (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animCurrentSeg == &D_06004348) {
             this->unk_278 = 0;
@@ -311,7 +311,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->actionFunc(this, globalCtx);
-    if ((thisx->xzDistanceFromLink < 150.0f) &&
+    if ((thisx->xzDistFromLink < 150.0f) &&
         (ABS(Math_Vec3f_Yaw(&thisx->posRot.pos, &player->actor.posRot.pos)) < 0xC000)) {
         targetX = Math_Vec3f_Pitch(&thisx->posRot2.pos, &player->actor.posRot2.pos);
         targetY = Math_Vec3f_Yaw(&thisx->posRot2.pos, &player->actor.posRot2.pos) - thisx->shape.rot.y;

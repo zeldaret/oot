@@ -225,7 +225,7 @@ void func_8008EDF0(Player* player) {
 
 void func_8008EE08(Player* player) {
     if ((player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x8A00000) ||
-        ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.unk_80) < 100.0f)) {
+        ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.groundY) < 100.0f)) {
         player->stateFlags1 &= 0xBFF07FFF;
     } else if ((player->stateFlags1 & 0x2C0000) == 0) {
         player->stateFlags1 |= 0x80000;

@@ -117,8 +117,8 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     thisx->velocity.y = 0.5f;
                 }
 
-                thisx->unk_80 = thisx->initPosRot.pos.y - 225.0f;
-                this->unk_16A = (thisx->unk_80 + 50.0f) - 25.0f;
+                thisx->groundY = thisx->initPosRot.pos.y - 225.0f;
+                this->unk_16A = (thisx->groundY + 50.0f) - 25.0f;
 
                 this->colliderCylinder.dim.radius = 10;
                 this->colliderCylinder.dim.height = 40;
@@ -335,7 +335,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     vector.y = (this->dyna.actor.posRot.pos.y + 1.0f) + 25.0f;
     vector.z = this->dyna.actor.posRot.pos.z;
 
-    tempf20 = this->dyna.actor.unk_80;
+    tempf20 = this->dyna.actor.groundY;
 
     for (i = 0; i < 3; i++) {
         temp =
