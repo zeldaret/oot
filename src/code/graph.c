@@ -112,7 +112,7 @@ GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[0];
     }
-    if (gameStateInitFunc == func_80801E44) {
+    if (gameStateInitFunc == Select_Init) {
         return &gGameStateOverlayTable[1];
     }
     if (gameStateInitFunc == Title_Init) {
@@ -221,7 +221,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->dram_stack = gGfxSPTaskStack;
     task->dram_stack_size = sizeof(gGfxSPTaskStack);
     task->output_buff = gGfxSPTaskOutputBuffer;
-    task->output_buff_size = gGfxSPTaskYieldBuffer; //! @bug (?) should be sizeof(gGfxSPTaskYieldBuffer), probably a typo
+    task->output_buff_size =
+        gGfxSPTaskYieldBuffer; //! @bug (?) should be sizeof(gGfxSPTaskYieldBuffer), probably a typo
     task->data_ptr = gfxCtx->workBuffer;
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 828);
@@ -389,7 +390,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     if (D_8012DBC0 && CHECK_PAD(gameState->input[0].press, Z_TRIG) &&
         CHECK_PAD(gameState->input[0].cur, L_TRIG | R_TRIG)) {
         gSaveContext.gameMode = 0;
-        SET_NEXT_GAMESTATE(gameState, func_80801E44, char[0x240]); // TODO : SelectContext
+        SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
         gameState->running = false;
     }
 

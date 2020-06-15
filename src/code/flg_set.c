@@ -50,7 +50,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
     gfx = Graph_GfxPlusOne(polyOpa);
     gSPDisplayList(gfxCtx->overlay.p++, gfx);
 
-    GfxPrint_Ctor(&printer);
+    GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, gfx);
     GfxPrint_SetColor(&printer, 0xFA, 0x32, 0x32, 0xFF);
     GfxPrint_SetPos(&printer, 4, 13);
@@ -137,7 +137,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
     }
 
     gfx = GfxPrint_Close(&printer);
-    GfxPrint_Dtor(&printer);
+    GfxPrint_Destroy(&printer);
     gSPEndDisplayList(gfx++);
     Graph_BranchDlist(polyOpa, gfx);
     gfxCtx->polyOpa.p = gfx;

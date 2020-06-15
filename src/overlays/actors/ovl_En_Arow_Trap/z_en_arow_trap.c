@@ -41,7 +41,7 @@ void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnArowTrap* this = THIS;
 
-    if (this->actor.xzDistanceFromLink <= 400) {
+    if (this->actor.xzDistFromLink <= 400) {
         this->attackTimer--;
 
         if (this->attackTimer == 0) {

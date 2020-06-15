@@ -140,8 +140,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             }
             sp5C.x += 80.0f + Math_Rand_ZeroOne() * 10.0f;
             sp50.x -= 80.0f + Math_Rand_ZeroOne() * 10.0f;
-            sp5C.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
-            sp50.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
+            sp5C.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
+            sp50.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
@@ -155,7 +155,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             sp5C = this->dyna.actor.posRot.pos;
             sp5C.z += 560.0f + Math_Rand_ZeroOne() * 5.0f;
             sp5C.x += (Math_Rand_ZeroOne() - 0.5f) * 160.0f;
-            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.unk_80 + 20.0f);
+            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.groundY + 20.0f);
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);

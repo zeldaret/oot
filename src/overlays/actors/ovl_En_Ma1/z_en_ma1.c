@@ -342,7 +342,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;
-        } else if (this->actor.xzDistanceFromLink < 30.0f + (f32)this->collider.dim.radius) {
+        } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
         }
     }

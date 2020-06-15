@@ -52,31 +52,31 @@ void Sample_Destroy(SampleContext* this) {
 void Sample_SetupView(SampleContext* this) {
     View* view;
     GraphicsContext* gfxCtx;
-    Viewport viewport;
-    Vec3f v1;
-    Vec3f v2;
-    Vec3f v3;
-
+    
     view = &this->view;
     gfxCtx = this->state.gfxCtx;
+    
     View_Init(view, gfxCtx);
-
-    VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
-
-    View_SetViewport(view, &viewport);
+    SET_FULLSCREEN_VIEWPORT(view);
     func_800AA460(view, 60, 10, 12800);
 
-    v1.x = 0;
-    v1.y = 0;
-    v2.x = 0;
-    v2.y = 0;
-    v2.z = 0;
-    v3.x = 0;
-    v3.z = 0;
-    v1.z = 3000;
-    v3.y = 1;
+    {
+        Vec3f v1;
+        Vec3f v2;
+        Vec3f v3;
 
-    func_800AA358(view, &v1, &v2, &v3);
+        v1.x = 0;
+        v1.y = 0;
+        v2.x = 0;
+        v2.y = 0;
+        v2.z = 0;
+        v3.x = 0;
+        v3.z = 0;
+        v1.z = 3000;
+        v3.y = 1;
+
+        func_800AA358(view, &v1, &v2, &v3);
+    }
 }
 
 void Sample_LoadTitleStatic(SampleContext* this) {

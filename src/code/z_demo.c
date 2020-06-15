@@ -59,7 +59,7 @@ void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneConte
     GfxPrint printer;
     u8 pad2[8];
 
-    GfxPrint_Ctor(&printer);
+    GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *dlist);
     GfxPrint_SetPos(&printer, 22, 25);
     GfxPrint_SetColor(&printer, 255, 255, 55, 32);
@@ -70,7 +70,7 @@ void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneConte
     GfxPrint_SetPos(&printer, 4, 26);
     GfxPrint_Printf(&printer, "%s", "SKIP=(START) or (Cursole Right)");
     *dlist = GfxPrint_Close(&printer);
-    GfxPrint_Dtor(&printer);
+    GfxPrint_Destroy(&printer);
 }
 
 void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
