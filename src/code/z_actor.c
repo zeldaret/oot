@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 #include <vt.h>
-#include "../overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
+#include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 
@@ -1022,13 +1022,13 @@ s32 func_8002DDF4(GlobalContext* globalCtx) {
 }
 
 void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
-    ArmsHook* hookActor;
+    ArmsHook* hookshot;
 
-    hookActor = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORTYPE_ITEMACTION);
-    hookActor->hookedActor = actorB;
-    hookActor->hookedActorDistDiff.x = 0.0f; // set initial distance diff to 0
-    hookActor->hookedActorDistDiff.y = 0.0f; // set initial distance diff to 0
-    hookActor->hookedActorDistDiff.z = 0.0f; // set initial distance diff to 0
+    hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORTYPE_ITEMACTION);
+    hookshot->hookedActor = actorB;
+    hookshot->hookedActorDistDiff.x = 0.0f;
+    hookshot->hookedActorDistDiff.y = 0.0f;
+    hookshot->hookedActorDistDiff.z = 0.0f;
     actorB->flags |= FLAG_HOOKSHOT_HOOKED;
     actorA->flags &= ~FLAG_HOOKSHOT_HOOKED;
 }
