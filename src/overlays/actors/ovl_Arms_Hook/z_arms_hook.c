@@ -141,7 +141,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaPolyActor;
     f32 sp94;
     f32 sp90;
-    s16 decr;
+    s32 pad;
     CollisionPoly* poly;
     u32 dynaPolyID;
     Vec3f sp78;
@@ -150,8 +150,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 sp5C;
     f32 sp58;
     f32 velocity;
-    Vec3f* hookBodyDistDiffVecPtr;
-    Vec3f* curPos;
+    s32 pad1;
 
     if ((this->actor.attachedA == NULL) || (!func_8008F104(player))) {
         ArmsHook_DetachHookFromActor(this);
@@ -159,7 +158,6 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         return;
     }
 
-    curPos = &this->actor.posRot.pos;
     func_8002F8F0(&player->actor, 0x100B);
     ArmsHook_CheckIfBusy(this);
 
@@ -180,10 +178,8 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    
-    decr = (this->timer == 0) ? 0 : --this->timer;
 
-    if (decr == 0) {
+    if (DECR(this->timer) == 0) {
         hookedActor = this->hookedActor;
         if (hookedActor != NULL) {
             if ((hookedActor->update == NULL) || (hookedActor->flags & FLAG_HOOKSHOT_HOOKED) != FLAG_HOOKSHOT_HOOKED) {
@@ -194,7 +190,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                     sp94 = func_8002DB48(this, hookedActor);
                     sp90 = sqrtf(SQ(this->hookedActorDistDiff.x) + SQ(this->hookedActorDistDiff.y) +
                                  SQ(this->hookedActorDistDiff.z));
-                    Math_Vec3f_Diff(&hookedActor->posRot.pos, &this->hookedActorDistDiff, curPos);
+                    Math_Vec3f_Diff(&hookedActor->posRot.pos, &this->hookedActorDistDiff, &this->actor.posRot.pos);
                     if (50.0f < (sp94 - sp90)) {
                         ArmsHook_DetachHookFromActor(this);
                         hookedActor = NULL;
@@ -226,21 +222,20 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         newPos.x = bodyDistDiffVec.x * velocity;
         newPos.y = bodyDistDiffVec.y * velocity;
         newPos.z = bodyDistDiffVec.z * velocity;
-        hookBodyDistDiffVecPtr = &bodyDistDiffVec;
         if (this->actor.attachedB == NULL) {
             if ((hookedActor != NULL) && (hookedActor->id == ACTOR_BG_SPOT06_OBJECTS)) {
-                Math_Vec3f_Diff(&hookedActor->posRot.pos, &this->hookedActorDistDiff, curPos);
+                Math_Vec3f_Diff(&hookedActor->posRot.pos, &this->hookedActorDistDiff, &this->actor.posRot.pos);
                 phi_f16 = 1.0f;
             } else {
-                Math_Vec3f_Sum(&player->unk_3C8, &newPos, curPos);
+                Math_Vec3f_Sum(&player->unk_3C8, &newPos, &this->actor.posRot.pos);
                 if (hookedActor != NULL) {
-                    Math_Vec3f_Sum(curPos, &this->hookedActorDistDiff, &hookedActor->posRot.pos);
+                    Math_Vec3f_Sum(&this->actor.posRot.pos, &this->hookedActorDistDiff, &hookedActor->posRot.pos);
                 }
             }
         } else {
-            Math_Vec3f_Diff(hookBodyDistDiffVecPtr, &newPos, &player->actor.velocity);
+            Math_Vec3f_Diff(&bodyDistDiffVec, &newPos, &player->actor.velocity);
             player->actor.posRot.rot.x =
-                atan2s(sqrtf(SQ(hookBodyDistDiffVecPtr->x) + SQ(hookBodyDistDiffVecPtr->z)), -bodyDistDiffVec.y);
+                atan2s(sqrtf(SQ(bodyDistDiffVec.x) + SQ(bodyDistDiffVec.z)), -bodyDistDiffVec.y);
         }
 
         if (phi_f16 < 50.0f) {
@@ -248,7 +243,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
             if (phi_f16 == 0.0f) {
                 ArmsHook_SetupAction(this, ArmsHook_Wait);
                 if (ArmsHook_AttachToPlayer(this, player) != 0) {
-                    Math_Vec3f_Diff(curPos, &player->actor.posRot.pos, &player->actor.velocity);
+                    Math_Vec3f_Diff(&this->actor.posRot.pos, &player->actor.posRot.pos, &player->actor.velocity);
                     player->actor.velocity.y -= 20.0f;
                     return;
                 }
@@ -266,7 +261,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
             if (func_8002F9EC(globalCtx, &this->actor, poly, dynaPolyID, &sp78) == 0) {
                 sp5C = poly->norm.x * (1 / SHT_MAX);
                 sp58 = poly->norm.z * (1 / SHT_MAX);
-                Math_Vec3f_Copy(curPos, &sp78);
+                Math_Vec3f_Copy(&this->actor.posRot.pos, &sp78);
                 this->actor.posRot.pos.x += 10.0f * sp5C;
                 this->actor.posRot.pos.z += 10.0f * sp58;
                 this->timer = 0;
@@ -282,7 +277,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                                            &D_801333E0, &D_801333E8);
                     return;
                 }
-                func_80062D60(globalCtx, curPos);
+                func_80062D60(globalCtx, &this->actor.posRot.pos);
                 Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
                 return;
