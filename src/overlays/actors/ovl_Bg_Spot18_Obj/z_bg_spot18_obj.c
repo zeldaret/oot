@@ -91,25 +91,25 @@ static Gfx* sDlists[] = {
 };
 
 s32 func_808B8910(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    s32 isAdult;
+    s32 age;
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        isAdult = 1;
+        age = 1;
     } else if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        isAdult = 0;
+        age = 0;
     } else {
         osSyncPrintf("Error : リンク年齢不詳 (%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 182,
                      this->dyna.actor.params);
         return 0;
     }
 
-    switch (D_808B90F0[this->dyna.actor.params & 0xF][isAdult]) {
+    switch (D_808B90F0[this->dyna.actor.params & 0xF][age]) {
         case 0:
         case 1:
-            if (D_808B90F0[this->dyna.actor.params & 0xF][isAdult] == 0) {
+            if (D_808B90F0[this->dyna.actor.params & 0xF][age] == 0) {
                 osSyncPrintf("出現しない Object (0x%04x)\n", this->dyna.actor.params);
             }
-            return D_808B90F0[this->dyna.actor.params & 0xF][isAdult];
+            return D_808B90F0[this->dyna.actor.params & 0xF][age];
         case 2:
             osSyncPrintf("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 202,
                          this->dyna.actor.params);
