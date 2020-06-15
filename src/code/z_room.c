@@ -299,7 +299,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     if ((fmt == G_IM_FMT_RGBA) && (SREG(26) == 0)) {
         bg->b.frameW = width * 4;
         bg->b.frameH = height * 4;
-        func_80104B00(bg);
+        guS2DInitBg(bg);
         gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
@@ -345,7 +345,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     camera = ACTIVE_CAM;
     polygon1 = &room->mesh->polygon1;
-    sp9C = (camera->unk_142 ^ 25) == 0;
+    sp9C = (camera->setting ^ 25) == 0;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
     sp94 = (flags & 1) && polygonDlist->opa && !(SREG(25) & 2);
@@ -362,7 +362,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
         if (sp98) {
             // gSPLoadUcodeL(gfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, D_00113070, D_001579A0, 0x800);
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             if (1) {
                 Vec3f sp60;
@@ -389,13 +389,6 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 691);
 }
-
-typedef struct {
-    char unk_00[0x0E];
-    s16 unk_0E;
-} struct_80041C10_ret;
-
-extern struct_80041C10_ret* func_80041C10(CollisionContext*, s32, s32);
 
 BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     Camera* camera;
@@ -450,7 +443,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = ACTIVE_CAM;
-    sp98 = (camera->unk_142 ^ 25) == 0;
+    sp98 = (camera->setting ^ 25) == 0;
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
@@ -469,7 +462,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
         if (sp94) {
             // gSPLoadUcodeL(gfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, D_00113070, D_001579A0, 0x800);
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             if (1) {
                 Vec3f sp5C;
@@ -566,7 +559,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "ROOM BUFFER SIZE=%08x(%5.1fK)"
     osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, (f64)(maxRoomSize * 0.0009765625f));
-    roomCtx->bufPtrs[0] = Game_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
+    roomCtx->bufPtrs[0] = GameState_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
     // Translates to: "ROOM BUFFER INITIAL POINTER=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((s32)roomCtx->bufPtrs[0] + maxRoomSize);

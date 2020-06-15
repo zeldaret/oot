@@ -36,6 +36,7 @@
 
 #define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
 #define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define CHECK_OWNED_EQUIP(equip, value) ((gBitFlags[value] << gEquipShifts[equip]) & gSaveContext.equipment)
 
 #define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
@@ -44,17 +45,20 @@
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-            (curState)->init = newInit;                  \
-            (curState)->size = sizeof(newStruct);
+    (curState)->init = newInit;                          \
+    (curState)->size = sizeof(newStruct);
 
-#define LOG(exp, value, format, file, line) \
-     LogUtils_LogThreadId(file, line); \
-     osSyncPrintf(exp " = " format "\n", value);
+#define LOG(exp, value, format, file, line)         \
+    do {                                            \
+        LogUtils_LogThreadId(file, line);           \
+        osSyncPrintf(exp " = " format "\n", value); \
+    } while (0)
 
 #define LOG_STRING(string, file, line) LOG(#string, string, "%s", file, line)
 #define LOG_ADDRESS(exp, value, file, line) LOG(exp, value, "%08x", file, line)
 #define LOG_TIME(exp, value, file, line) LOG(exp, value, "%lld", file, line)
 #define LOG_NUM(exp, value, file, line) LOG(exp, value, "%d", file, line)
+#define LOG_HEX(exp, value, file, line) LOG(exp, value, "%x", file, line)
 
 /*
  * `x` vertex x
@@ -66,7 +70,21 @@
  * `cgny` green component of color vertex, or y component of normal vertex
  * `cbnz` blue component of color vertex, or z component of normal vertex
  * `a` alpha
-*/
-#define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a }, }, }
+ */
+#define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
+
+#define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
+
+#define SET_FULLSCREEN_VIEWPORT(view)     \
+    {                                      \
+        Viewport viewport;                 \
+        viewport.bottomY = SCREEN_HEIGHT;  \
+        viewport.rightX = SCREEN_WIDTH;    \
+        viewport.topY = 0;                 \
+        viewport.leftX = 0;                \
+        View_SetViewport(view, &viewport); \
+    }
+
+#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 
 #endif

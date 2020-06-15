@@ -9,7 +9,7 @@ typedef struct {
 } struct_exceptionPreamble;
 
 u64 osClockRate = OS_CLOCK_RATE;
-u32 osViClock = VI_NTSC_CLOCK;
+s32 osViClock = VI_NTSC_CLOCK;
 u32 __osShutdown = 0;
 u32 __OSGlobalIntMask = 0x003FFF01;
 

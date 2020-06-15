@@ -17,9 +17,9 @@ glabel func_80862DBC
 /* 037A4 80862DF4 A6000014 */  sh      $zero, 0x0014($s0)         ## 00000014
 /* 037A8 80862DF8 05E20008 */  bltzl   $t7, .L80862E1C            
 /* 037AC 80862DFC 8E190004 */  lw      $t9, 0x0004($s0)           ## 00000004
-/* 037B0 80862E00 0C009AC3 */  jal     func_80026B0C              
+/* 037B0 80862E00 0C009AC3 */  jal     Effect_GetByIndex              
 /* 037B4 80862E04 8E04080C */  lw      $a0, 0x080C($s0)           ## 0000080C
-/* 037B8 80862E08 0C008048 */  jal     func_80020120              
+/* 037B8 80862E08 0C008048 */  jal     EffectBlure_AddSpace              
 /* 037BC 80862E0C 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 037C0 80862E10 2418FFFF */  addiu   $t8, $zero, 0xFFFF         ## $t8 = FFFFFFFF
 /* 037C4 80862E14 A2180808 */  sb      $t8, 0x0808($s0)           ## 00000808

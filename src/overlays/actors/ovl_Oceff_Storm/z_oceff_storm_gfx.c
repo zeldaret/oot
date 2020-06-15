@@ -120,7 +120,7 @@ static u32 tex0[] = {
     0x74AADCEF, 0xD7B4A497, 0x7E562D15, 0x1023405E, 0x7E9FB7B9, 0x95898F97, 0x90734619,
 };
 
-static Gfx textureDl[] = {
+static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsDPSetRenderMode(IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
@@ -153,7 +153,7 @@ static Vtx vertices[] = {
     VTX(35, 500, 35, 768, 0, 0xFF, 0xFF, 0xFF, 0x00),
 };
 
-static Gfx cylinderTexDl[] = {
+static Gfx sCylinderTexDl[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -170,7 +170,7 @@ static Gfx cylinderTexDl[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx cylinderDl[] = {
+static Gfx sCylinderDl[] = {
     gsSPVertex(vertices, 27, 0),
     gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
     gsSP2Triangles(6, 7, 8, 0, 6, 8, 4, 0),

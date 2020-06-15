@@ -74,8 +74,8 @@ const ActorInit En_Item00_InitVars = {
 };
 
 // TODO: Define this section of .data here and rename the symbols
-extern ColliderCylinderInit D_801154E0;
-extern InitChainEntry D_8011550C[];
+extern ColliderCylinderInit D_801154E0; // rename to sCylinderInit when data is moved
+extern InitChainEntry D_8011550C[];     // rename to sInitChain when data is moved
 extern Color_RGB8 D_80115510;
 extern Color_RGB8 D_80115514;
 extern UNK_TYPE D_80115518;
@@ -413,9 +413,9 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
             }
             this->actor.initPosRot.rot.z += (s16)((this->actor.velocity.y + 3.0f) * 1000.0f);
             this->actor.posRot.pos.x +=
-                Math_Coss(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+                Math_Coss(this->actor.yawTowardsLink) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
             this->actor.posRot.pos.z +=
-                Math_Sins(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+                Math_Sins(this->actor.yawTowardsLink) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
         }
     }
 
@@ -478,9 +478,9 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
 
     this->actor.posRot.pos.y += 40.0f + Math_Sins(this->unk_15A * 15000) * (this->unk_15A * 0.3f);
 
-    if
-        LINK_IS_ADULT
-    this->actor.posRot.pos.y += 20.0f;
+    if (LINK_IS_ADULT) {
+        this->actor.posRot.pos.y += 20.0f;
+    }
 }
 
 extern s32 D_80157D90;
@@ -539,7 +539,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (sp3A || D_80157D94) {
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 15.0f, 15.0f, 0x1D);
 
-            if (this->actor.unk_80 <= -10000.0f) {
+            if (this->actor.groundY <= -10000.0f) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -564,8 +564,8 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (!((this->actor.xzDistanceFromLink <= 30.0f) && (this->actor.yDistanceFromLink >= -50.0f) &&
-          (this->actor.yDistanceFromLink <= 50.0f))) {
+    if (!((this->actor.xzDistFromLink <= 30.0f) && (this->actor.yDistFromLink >= -50.0f) &&
+          (this->actor.yDistFromLink <= 50.0f))) {
         if (!func_8002F410(&this->actor, globalCtx)) {
             return;
         }

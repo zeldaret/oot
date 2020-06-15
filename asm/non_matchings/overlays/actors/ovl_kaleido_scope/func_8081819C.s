@@ -1,3 +1,13 @@
+.late_rodata
+
+glabel D_8082F704
+    .float 0.046
+glabel D_8082F708
+    .float 0.056
+glabel D_8082F70C
+    .float 0.047
+
+.text
 glabel func_8081819C
 /* 0497C 8081819C 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 04980 808181A0 2463E660 */  addiu   $v1, %lo(gSaveContext)

@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 
+import argparse
+import json
 import os
 import re
-import argparse
+import time
 
 parser = argparse.ArgumentParser(description="Computes current progress throughout the whole project.")
 parser.add_argument("-m", "--matching", dest='matching', action='store_true',
                     help="Output matching progress instead of decompilation progress")
+parser.add_argument("-j", "--json", dest="json", action="store_true",
+                    help="Output results as a json file at build/progress.json")
 args = parser.parse_args()
 
-NON_MATCHING_PATTERN = "#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
+NON_MATCHING_PATTERN = r"#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
 
 def GetNonMatchingFunctions(files):
     functions = []
@@ -110,19 +114,31 @@ ovlPct = 100 * ovl / ovlSize
 compiled_bytes = total
 bytesPerHeartPiece = compiled_bytes / 80
 
-adjective = "decompiled" if not args.matching else "matched"
-
-print(str(total) + " total bytes of decompilable code\n")
-print(str(src) + " bytes " + adjective + " in src " + str(srcPct) + "%\n")
-print(str(boot) + "/" + str(bootSize) + " bytes " + adjective + " in boot " + str(bootPct) + "%\n")
-print(str(code) + "/" + str(codeSize) + " bytes " + adjective + " in code " + str(codePct) + "%\n")
-print(str(ovl) + "/" + str(ovlSize) + " bytes " + adjective + " in overlays " + str(ovlPct) + "%\n")
-print("------------------------------------\n")
-
-heartPieces = int(src / bytesPerHeartPiece)
-rupees = int(((src % bytesPerHeartPiece) * 100) / bytesPerHeartPiece)
-
-if (rupees > 0):
-    print("You have " + str(heartPieces) + "/80 heart pieces and " + str(rupees) + " rupee(s).\n")
+if args.json:
+    timestamp = str(time.time())
+    json_dict = {"reports":{}}
+    json_dict["reports"][timestamp] = {
+        "total_percent": srcPct,
+        "boot_percent": bootPct,
+        "code_percent": codePct,
+        "overlay_percent": ovlPct
+    }
+    with open("build/progress.json", "w", newline="\n") as f:
+        json.dump(json_dict, f)
 else:
-    print("You have " + str(heartPieces) + "/80 heart pieces.\n")
+    adjective = "decompiled" if not args.matching else "matched"
+
+    print(str(total) + " total bytes of decompilable code\n")
+    print(str(src) + " bytes " + adjective + " in src " + str(srcPct) + "%\n")
+    print(str(boot) + "/" + str(bootSize) + " bytes " + adjective + " in boot " + str(bootPct) + "%\n")
+    print(str(code) + "/" + str(codeSize) + " bytes " + adjective + " in code " + str(codePct) + "%\n")
+    print(str(ovl) + "/" + str(ovlSize) + " bytes " + adjective + " in overlays " + str(ovlPct) + "%\n")
+    print("------------------------------------\n")
+
+    heartPieces = int(src / bytesPerHeartPiece)
+    rupees = int(((src % bytesPerHeartPiece) * 100) / bytesPerHeartPiece)
+
+    if (rupees > 0):
+        print("You have " + str(heartPieces) + "/80 heart pieces and " + str(rupees) + " rupee(s).\n")
+    else:
+        print("You have " + str(heartPieces) + "/80 heart pieces.\n")

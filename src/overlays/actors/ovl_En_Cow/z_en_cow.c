@@ -38,17 +38,13 @@ const ActorInit En_Cow_InitVars = {
     (ActorFunc)EnCow_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-Vec3f D_809E010C = {
-    0.0f,
-    -1300.0f,
-    1100.0f,
-};
+static Vec3f D_809E010C = { 0.0f, -1300.0f, 1100.0f };
 
 extern AnimationHeader D_060001CC;
 extern SkeletonHeader D_06004010;
@@ -91,9 +87,7 @@ void func_809DEE9C(EnCow* this) {
 void func_809DEF94(EnCow* this) {
     Vec3f vec;
 
-    // clang-format off
-    vec.x = 0.0f; vec.y = 57.0f; vec.z = -36.0f;
-    // clang-format on
+    VEC_SET(vec, 0.0f, 57.0f, -36.0f);
 
     func_809DEE00(&vec, this->actor.shape.rot.y);
     this->actor.posRot.pos.x += vec.x;
@@ -112,9 +106,9 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                              this->transitionDrawTable, 6);
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060001CC);
             Collider_InitCylinder(globalCtx, &this->colliders[0]);
-            Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &cylinderInit);
+            Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &sCylinderInit);
             Collider_InitCylinder(globalCtx, &this->colliders[1]);
-            Collider_SetCylinder(globalCtx, &this->colliders[1], &this->actor, &cylinderInit);
+            Collider_SetCylinder(globalCtx, &this->colliders[1], &this->actor, &sCylinderInit);
             func_809DEE9C(this);
             this->actionFunc = func_809DF96C;
             if (globalCtx->sceneNum == SCENE_LINK_HOME) {
@@ -169,7 +163,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
                              SkelAnime_GetFrameCount(&D_060001CC.genericHeader), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistanceFromLink < 150.0f) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistFromLink < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animCurrentSeg == &D_060001CC) {
             this->unk_278 = 0;
@@ -258,8 +252,8 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 this->unk_276 &= ~0x4;
                 DREG(53) = 0;
             } else {
-                if ((this->actor.xzDistanceFromLink < 150.0f) &&
-                    (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x61A8)) {
+                if ((this->actor.xzDistFromLink < 150.0f) &&
+                    (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
                     this->actor.flags |= 0x10000;
@@ -285,8 +279,8 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
                              SkelAnime_GetFrameCount(&D_06004348.genericHeader), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistanceFromLink < 150.0f) &&
-        (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistFromLink < 150.0f) &&
+        (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animCurrentSeg == &D_06004348) {
             this->unk_278 = 0;
@@ -317,7 +311,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->actionFunc(this, globalCtx);
-    if ((thisx->xzDistanceFromLink < 150.0f) &&
+    if ((thisx->xzDistFromLink < 150.0f) &&
         (ABS(Math_Vec3f_Yaw(&thisx->posRot.pos, &player->actor.posRot.pos)) < 0xC000)) {
         targetX = Math_Vec3f_Pitch(&thisx->posRot2.pos, &player->actor.posRot2.pos);
         targetY = Math_Vec3f_Yaw(&thisx->posRot2.pos, &player->actor.posRot2.pos) - thisx->shape.rot.y;

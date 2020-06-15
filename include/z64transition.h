@@ -13,7 +13,7 @@ typedef struct {
     /* 0x14 */ Vtx* vtxFrame2;
     /* 0x18 */ Mtx projection;
     /* 0x58 */ Mtx modelView;
-    /* 0x98 */ char unk_98[0x40];
+    /* 0x98 */ Mtx unk_98;
     /* 0xD8 */ Gfx* gfx; // "gfxtbl"
     /* 0xDC */ u16* zBuffer;
 } TransitionUnk; // size = 0xE0

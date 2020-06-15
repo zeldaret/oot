@@ -66,7 +66,7 @@ void Main(void* arg0) {
     DebugArena_Init(debugHeap, debugHeapSize);
     func_800636C0();
 
-    SREG(0) = 0;
+    R_ENABLE_ARENA_DBG = 0;
 
     osCreateMesgQueue(&sSiIntMsgQ, sSiIntMsgBuf, 1);
     osSetEventMesg(5, &sSiIntMsgQ, 0);
@@ -79,7 +79,7 @@ void Main(void* arg0) {
 
     osSyncPrintf("タスクスケジューラの初期化\n"); // Initialize the task scheduler
     StackCheck_Init(&sSchedStackInfo, sSchedStack, sSchedStack + sizeof(sSchedStack), 0, 0x100, "sched");
-    func_800C9874(&gSchedContext, &sAudioStack, 0xf, D_80013960, 1, &gIrqMgr);
+    Sched_Init(&gSchedContext, &sAudioStack, 0xf, D_80013960, 1, &gIrqMgr);
 
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQ);
 

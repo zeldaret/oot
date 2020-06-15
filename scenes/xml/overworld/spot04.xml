@@ -1,0 +1,24 @@
+<Root>
+    <File Name="spot04_scene">
+        <Scene Name="spot04_scene">
+            <PathHint Address="0x314"/>
+            <PathHint Address="0x31C"/>
+            <PathHint Address="0xD730"/>
+            <CutsceneHint Address="0x10E20"/>
+        </Scene>
+    </File>
+    <File Name="spot04_room_0">
+        <Room Name="spot04_room_0">
+        </Room>
+    </File>
+    <File Name="spot04_room_1">
+        <Room Name="spot04_room_1">
+        </Room>
+    </File>
+    <File Name="spot04_room_2">
+        <Room Name="spot04_room_2">
+            <DListHint Address="0x2BB8" Comment="This display list appears to be unused..."/>
+            <DListHint Address="0x5058" Comment="This display list appears to be unused..."/>
+        </Room>
+    </File>
+</Root>

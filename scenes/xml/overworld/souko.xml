@@ -1,0 +1,14 @@
+<Root>
+    <File Name="souko_scene">
+        <Scene Name="souko_scene"/>
+    </File>
+    <File Name="souko_room_0">
+        <Room Name="souko_room_0"/>
+    </File>
+    <File Name="souko_room_1">
+        <Room Name="souko_room_1"/>
+    </File>
+    <File Name="souko_room_2">
+        <Room Name="souko_room_2"/>
+    </File>
+</Root>

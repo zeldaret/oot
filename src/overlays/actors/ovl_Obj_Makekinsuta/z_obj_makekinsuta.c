@@ -1,11 +1,10 @@
 /*
  * File: z_obj_makekinsuta.c
  * Overlay: ovl_Obj_Makekinsuta
- * Description: Skulltula Sprouting from Bean Spot.
+ * Description: Skulltula Sprouting from Bean Spot
  */
 
 #include "z_obj_makekinsuta.h"
-
 #include <vt.h>
 
 #define FLAGS 0x00000010
@@ -16,7 +15,7 @@ void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx);
-void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx);
+void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Makekinsuta_InitVars = {
     ACTOR_OBJ_MAKEKINSUTA,
@@ -49,20 +48,20 @@ void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     if (this->unk_152 != 0) {
-        if (this->unk_150 >= 0x3C && !func_8002DEEC(PLAYER)) {
+        if (this->timer >= 60 && !func_8002DEEC(PLAYER)) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0,
                         (this->actor.params | 0x8000));
-            this->actionFunc = func_80B983D4;
-            return;
+            this->actionFunc = ObjMakekinsuta_DoNothing;
+        } else {
+            this->timer++;
         }
-        this->unk_150 = this->unk_150 + 1;
-        return;
+    } else {
+        this->timer = 0;
     }
-    this->unk_150 = 0;
 }
 
-void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx) {
+void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, GlobalContext* globalCtx) {
 }
 
 void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx) {

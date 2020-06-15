@@ -1,6 +1,10 @@
 #include <ultra64.h>
 #include <global.h>
 
+SaveContext gSaveContext;
+u32 D_8015FA88;
+u32 D_8015FA8C;
+
 void SaveContext_Init(void) {
     bzero(&gSaveContext, sizeof(gSaveContext));
     D_8015FA88 = 0;

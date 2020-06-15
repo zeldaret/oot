@@ -3,9 +3,11 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .data
+
+.balign 16
 
 glabel D_80133340
     .incbin "baserom.z64", 0xBAA4E0, 0x4
@@ -26,7 +28,13 @@ glabel D_801333A4
     .incbin "baserom.z64", 0xBAA544, 0x4
 
 glabel D_801333A8
-    .incbin "baserom.z64", 0xBAA548, 0x1C
+    .word D_8016BAD0
+    .word D_8016BC80
+    .word D_8016BEC0
+    .word D_8016C2E0
+    .word D_8016C6A0
+    .word D_8016C820
+    .word D_8016C8B0
 
 glabel D_801333C4
     .incbin "baserom.z64", 0xBAA564, 0x8

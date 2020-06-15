@@ -26,7 +26,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
 
         audioMgr->unk_5C = NULL;
         osSendMesg(&audioMgr->sched->cmdQ, &audioMgr->unk_8, OS_MESG_BLOCK);
-        func_800C95F8(audioMgr->sched);
+        Sched_SendEntryMsg(audioMgr->sched);
     }
     D_8016A550 = osGetTime();
     if (SREG(20) >= 2) {
