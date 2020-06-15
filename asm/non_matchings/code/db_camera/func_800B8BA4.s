@@ -1,3 +1,31 @@
+.rdata
+glabel D_80143A30
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A40
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_80143A6C
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A7C
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A8C
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_80143AB8
+    .asciz "../db_camera.c"
+    .balign 4
+
+.text
 glabel func_800B8BA4
 /* B2FD44 800B8BA4 3C028016 */  lui   $v0, %hi(D_801612EC)
 /* B2FD48 800B8BA8 03E00008 */  jr    $ra

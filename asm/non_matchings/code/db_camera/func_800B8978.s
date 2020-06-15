@@ -1,3 +1,13 @@
+.rdata
+glabel D_80143A10
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A20
+    .asciz "../db_camera.c"
+    .balign 4
+
+.text
 glabel func_800B8978
 /* B2FB18 800B8978 3C0F8016 */  lui   $t7, %hi(D_80161150) # $t7, 0x8016
 /* B2FB1C 800B897C 25EF1150 */  addiu $t7, %lo(D_80161150) # addiu $t7, $t7, 0x1150

@@ -1,44 +1,33 @@
 #include <ultra64.h>
 #include <global.h>
 
-//#define RODATA_DEF
-
 extern GlobalContext* D_80161100;
 extern s32 D_8012CED8;
 extern s32 D_8012CED4;
 extern s32 D_8012CED0;
 
-#ifdef RODATA_DEF
 void func_800B3840(s32 arg0) {
     if (HREG(80) == 0x13 && HREG(81) == 1) {
         osSyncPrintf("shrink_window_setval(%d)\n", arg0);
     }
     D_8012CED4 = arg0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3840.s")
-#endif
 
 s32 func_800B3898(void) {
     return D_8012CED4;
 }
 
-#ifdef RODATA_DEF
 void func_800B38A4(s32 arg0) {
     if (HREG(80) == 0x13 && HREG(81) == 1) {
         osSyncPrintf("shrink_window_setnowval(%d)\n", arg0);
     }
     D_8012CED8 = arg0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B38A4.s")
-#endif
 
 s32 func_800B38FC(void) {
     return D_8012CED8;
 }
 
-#ifdef RODATA_DEF
 void func_800B3908(void) {
     if (HREG(80) == 0x13 && HREG(81) == 1) {
         osSyncPrintf("shrink_window_init()\n");
@@ -47,20 +36,13 @@ void func_800B3908(void) {
     D_8012CED4 = 0;
     D_8012CED8 = 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3908.s")
-#endif
 
-#ifdef RODATA_DEF
 void func_800B3968(void) {
     if (HREG(80) == 0x13 && HREG(81) == 1) {
         osSyncPrintf("shrink_window_cleanup()\n");
     }
     D_8012CED8 = 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3968.s")
-#endif
 
 void func_800B39B8(s32 arg0) {
     s32 temp_a1;

@@ -1,3 +1,9 @@
+.rdata
+glabel D_801435F0
+    .asciz "\n@@@%d,%d,"
+    .balign 4
+
+.text
 glabel func_800B4AA8
 /* B2BC48 800B4AA8 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B2BC4C 800B4AAC 00803825 */  move  $a3, $a0

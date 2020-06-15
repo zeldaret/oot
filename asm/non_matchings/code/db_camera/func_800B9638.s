@@ -1,3 +1,37 @@
+.rdata
+glabel D_80143BE8
+    .asciz "PRESS B BUTTON"
+    .balign 4
+
+glabel D_80143BF8
+    .asciz "PRESS B BUTTON"
+    .balign 4
+
+glabel D_80143C08
+    .asciz "PRESS B BUTTON"
+    .balign 4
+
+glabel D_80143C18
+    .asciz "_"
+    .balign 4
+
+glabel D_80143C1C
+    .asciz ">"
+    .balign 4
+
+glabel D_80143C20
+    .asciz "###%2d:(%c) (%d %d) %d %d %d\n"
+    .balign 4
+
+glabel D_80143C40
+    .asciz "\n@@@ /* CUT [%d]	*/"
+    .balign 4
+
+.late_rodata
+glabel D_80143CD0
+    .float 182.04167
+
+.text
 glabel func_800B9638
 /* B307D8 800B9638 27BDFF58 */  addiu $sp, $sp, -0xa8
 /* B307DC 800B963C 3C0E8013 */  lui   $t6, %hi(D_8012D14C) # $t6, 0x8013

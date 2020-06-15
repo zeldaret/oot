@@ -374,7 +374,6 @@ beginseg
     include "build/src/code/z_fbdemo_fade.o"
     include "build/src/code/db_camera.o"
     include "build/data/db_camera.data.o"
-    include "build/data/db_camera.rodata.o"
     include "build/data/db_camera.bss.o"
     include "build/src/code/code_800BB0A0.o"
     include "build/src/code/mempak.o"

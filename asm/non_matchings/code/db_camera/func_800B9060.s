@@ -1,3 +1,37 @@
+.rdata
+glabel D_80143AC8
+    .asciz "@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n"
+    .balign 4
+
+glabel D_80143B0C
+    .asciz "@@@\n@@@/* ** %d ** */\n@@@\n"
+    .balign 4
+
+glabel D_80143B28
+    .asciz "Lookat"
+    .balign 4
+
+glabel D_80143B30
+    .asciz "Position"
+    .balign 4
+
+glabel D_80143B3C
+    .asciz "@@@static short  nPoints = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143B60
+    .asciz "@@@static short  nFrames = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143B84
+    .asciz "@@@static short  Mode = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143BA8
+    .asciz "@@@\n@@@\n@@@/* ****** spline point data ** finish! ***** */\n@@@\n"
+    .balign 4
+
+.text
 glabel func_800B9060
 /* B30200 800B9060 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B30204 800B9064 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
