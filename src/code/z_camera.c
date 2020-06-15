@@ -6,7 +6,7 @@ s16 Camera_ChangeSetting(Camera*, s16, s16);
 void Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
 s16 func_8005A7A8(Camera* arg0, s32 arg1);
 
-#define NON_MATCHING
+//#define NON_MATCHING
 
 /* Camera Setting Macros */
 #define CAM_MODE_INIT(funcIdx, modeValues) { funcIdx, ARRAY_COUNT(modeValues), modeValues, }
@@ -1822,10 +1822,10 @@ typedef struct {
     s32 unk_24;
 } struct_80043D18;
 
-//Vec3f D_8015BD50; // 8015BD50
+Vec3f D_8015BD50; // 8015BD50
 // 8015BD5C
-//char D_8015BD5C[0x10];
-//Vec3f D_8015BD70; // 8015BD70
+char D_8015BD5C[0x10];
+Vec3f D_8015BD70; // 8015BD70
 GlobalContext* D_8015BD7C; // 8015BD7C
 DBCamera D_8015BD80; // 8015BD80
 CollisionPoly *playerFloorPoly;

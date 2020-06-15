@@ -229,7 +229,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.waterSurfaceDist > 10000.f) {
+    if (this->actor.xyzDistFromLinkSq > 10000.f) {
         return 0;
     }
 
@@ -237,7 +237,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     v0 -= this->h_21E;
     v0 -= this->headRot;
 
-    v1 = this->actor.rotTowardsLinkY - v0;
+    v1 = this->actor.yawTowardsLink - v0;
     if (ABS(v1) < 0x1554) {
         return 1;
     } else {
@@ -263,7 +263,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        dy = prop->posRot.pos.y - this->actor.unk_80;
+        dy = prop->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, prop);
         if (dxz > 40.f || dy > 10.f) {
             prop = prop->next;
@@ -282,7 +282,7 @@ void EnTk_CheckCurrentSpot(EnTk* this) {
     f32 dy;
 
     if (this->currentSpot != NULL) {
-        dy = this->currentSpot->posRot.pos.y - this->actor.unk_80;
+        dy = this->currentSpot->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, this->currentSpot);
         if (dxz > 40.f || dy > 10.f) {
             this->currentSpot = NULL;
@@ -538,7 +538,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     if (this->h_1E0 != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         if (this->h_1E0 == 2) {
             EnTk_DigAnim(this, globalCtx);
@@ -552,7 +552,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (EnTk_CheckFacingPlayer(this) != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.f, func_80B1C54C,
@@ -560,7 +560,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         this->actionCountdown = 0;
         this->h_1E0 = 1;

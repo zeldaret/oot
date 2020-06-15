@@ -1,3 +1,40 @@
+.rdata
+glabel D_8013C59C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C5AC
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C5BC
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_8013C7B8
+    .float 630
+
+    .word 0 # forced padding
+glabel D_8013C7C0
+    .double 0.001
+
+glabel D_8013C7C8
+    .float 1.0E-4
+
+glabel D_8013C7CC
+    .float 0.001
+
+glabel D_8013C7D0
+    .float 0.001
+
+glabel D_8013C7D4
+    .float 0.1
+
+glabel D_8013C7D8
+    .float 0.1
+
+.text
 glabel func_80073A5C
 /* AEABFC 80073A5C 27BDFE50 */  addiu $sp, $sp, -0x1b0
 /* AEAC00 80073A60 3C0B8012 */  lui   $t3, %hi(D_8011FE00) # $t3, 0x8012

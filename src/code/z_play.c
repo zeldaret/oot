@@ -1135,14 +1135,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
                 View view;         // 0xA0
-                Viewport viewport; // 0x90
 
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;
 
-                VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
+                SET_FULLSCREEN_VIEWPORT(&view);
 
-                View_SetViewport(&view, &viewport);
                 func_800AB9EC(&view, 15, &gfxP);
                 globalCtx->transitionCtx.draw(&globalCtx->transitionCtx.data, &gfxP);
             }
@@ -1367,7 +1365,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
     }
 
     if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4583)
+        LOG_NUM("1", 1, "../z_play.c", 4583);
     }
 
     Gameplay_Draw(globalCtx);

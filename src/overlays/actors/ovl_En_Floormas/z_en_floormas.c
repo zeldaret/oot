@@ -347,10 +347,10 @@ void EnFloormas_SetupGrabLink(EnFloormas* this, Player* player) {
     this->actor.velocity.y = 0.0f;
     EnFloormas_MakeInvulnerable(this);
     if (LINK_IS_CHILD) {
-        yDelta = CLAMP(-this->actor.yDistanceFromLink, 20.0f, 30.0f);
+        yDelta = CLAMP(-this->actor.yDistFromLink, 20.0f, 30.0f);
         xzDelta = -10.0f;
     } else {
-        yDelta = CLAMP(-this->actor.yDistanceFromLink, 25.0f, 45.0f);
+        yDelta = CLAMP(-this->actor.yDistFromLink, 25.0f, 45.0f);
         xzDelta = -70.0f;
     }
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + yDelta;
@@ -424,7 +424,7 @@ void EnFloormas_SetupFreeze(EnFloormas* this) {
 void EnFloormas_Die(EnFloormas* this, GlobalContext* globalCtx) {
     if (this->actor.scale.x > 0.004f) {
         // split
-        this->actor.shape.rot.y = this->actor.rotTowardsLinkY + 0x8000;
+        this->actor.shape.rot.y = this->actor.yawTowardsLink + 0x8000;
         EnFloormas_SetupSplit((EnFloormas*)this->actor.attachedB);
         EnFloormas_SetupSplit((EnFloormas*)this->actor.attachedA);
         EnFloormas_SetupSplit(this);
@@ -439,11 +439,11 @@ void EnFloormas_Die(EnFloormas* this, GlobalContext* globalCtx) {
 void EnFloormas_BigDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         // within 400 units of link and within 90 degrees rotation of him
-        if (this->actor.xzDistanceFromLink < 400.0f && !func_8002E084(&this->actor, 0x4000)) {
-            this->actionTarget = this->actor.rotTowardsLinkY;
+        if (this->actor.xzDistFromLink < 400.0f && !func_8002E084(&this->actor, 0x4000)) {
+            this->actionTarget = this->actor.yawTowardsLink;
             EnFloormas_SetupTurn(this);
             // within 280 units of link and within 45 degrees rotation of him
-        } else if (this->actor.xzDistanceFromLink < 280.0f && func_8002E084(&this->actor, 0x2000)) {
+        } else if (this->actor.xzDistFromLink < 280.0f && func_8002E084(&this->actor, 0x2000)) {
             EnFloormas_SetupHover(this, globalCtx);
         } else {
             EnFloormas_SetupStand(this);
@@ -478,15 +478,15 @@ void EnFloormas_BigWalk(EnFloormas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
-    if ((this->actor.xzDistanceFromLink < 320.0f) && (func_8002E084(&this->actor, 0x4000))) {
+    if ((this->actor.xzDistFromLink < 320.0f) && (func_8002E084(&this->actor, 0x4000))) {
         EnFloormas_SetupRun(this);
     } else if (this->actor.bgCheckFlags & 8) {
         // set target rotation to the colliding wall's rotation
         this->actionTarget = this->actor.wallPolyRot;
         EnFloormas_SetupTurn(this);
-    } else if ((this->actor.xzDistanceFromLink < 400.0f) && !func_8002E084(&this->actor, 0x4000)) {
+    } else if ((this->actor.xzDistFromLink < 400.0f) && !func_8002E084(&this->actor, 0x4000)) {
         // set target rotation to link.
-        this->actionTarget = this->actor.rotTowardsLinkY;
+        this->actionTarget = this->actor.yawTowardsLink;
         EnFloormas_SetupTurn(this);
     } else if (this->actionTimer == 0) {
         EnFloormas_SetupBigStopWalk(this);
@@ -507,12 +507,12 @@ void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 3, 0x71C);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
 
-    if ((this->actor.xzDistanceFromLink < 280.0f) && func_8002E084(&this->actor, 0x2000) &&
+    if ((this->actor.xzDistFromLink < 280.0f) && func_8002E084(&this->actor, 0x2000) &&
         !(this->actor.bgCheckFlags & 8)) {
         EnFloormas_SetupHover(this, globalCtx);
-    } else if (this->actor.xzDistanceFromLink > 400.0f) {
+    } else if (this->actor.xzDistFromLink > 400.0f) {
         EnFloormas_SetupBigWalk(this);
     }
 }
@@ -553,7 +553,7 @@ void EnFloormas_Hover(EnFloormas* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.x += 0x140;
     this->actor.posRot.pos.y += 10.0f;
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 3, 2730);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 2730);
     Math_ApproxS(&this->zOffset, 1200, 100);
 }
 
@@ -563,7 +563,7 @@ void EnFloormas_Slide(EnFloormas* this, GlobalContext* globalCtx) {
 
     pos.x = this->actor.posRot.pos.x;
     pos.z = this->actor.posRot.pos.z;
-    pos.y = this->actor.unk_80;
+    pos.y = this->actor.groundY;
 
     pos2.y = 2.0f;
     pos2.x = Math_Sins(this->actor.shape.rot.y + 0x6000) * 7.0f;
@@ -591,9 +591,9 @@ void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx) {
     Math_ApproxF(&this->actor.speedXZ, 15.0f, SQ(this->actor.speedXZ) * (1.0f / 3.0f));
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x1680, 0x140);
 
-    distFromGround = this->actor.posRot.pos.y - this->actor.unk_80;
+    distFromGround = this->actor.posRot.pos.y - this->actor.groundY;
     if (distFromGround < 10.0f) {
-        this->actor.posRot.pos.y = this->actor.unk_80 + 10.0f;
+        this->actor.posRot.pos.y = this->actor.groundY + 10.0f;
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
     }
@@ -632,7 +632,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
         Math_ApproxF(&this->actor.speedXZ, 0.0f, 2.0f);
     }
 
-    if ((this->actor.speedXZ > 0.0f) && ((this->actor.posRot.pos.y - this->actor.unk_80) < 12.0f)) {
+    if ((this->actor.speedXZ > 0.0f) && ((this->actor.posRot.pos.y - this->actor.groundY) < 12.0f)) {
         EnFloormas_Slide(this, globalCtx);
     }
 
@@ -685,8 +685,8 @@ void EnFloormas_SmWalk(EnFloormas* this, GlobalContext* globalCtx) {
     } else if (this->actor.bgCheckFlags & 8) {
         this->actionTarget = this->actor.wallPolyRot;
         EnFloormas_SetupTurn(this);
-    } else if (this->actor.xzDistanceFromLink < 120.0f) {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY + 0x8000, 0x38E);
+    } else if (this->actor.xzDistFromLink < 120.0f) {
+        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0x38E);
     }
 }
 
@@ -720,8 +720,8 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
             EnFloormas_SetupSlaveJumpAtMaster(this);
         }
     } else {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 3, 0x71C);
-        if (this->actor.xzDistanceFromLink < 80.0f) {
+        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
+        if (this->actor.xzDistFromLink < 80.0f) {
             EnFloormas_SetupJumpAtLink(this);
         }
     }
@@ -740,7 +740,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->skelAnime.animCurrentFrame < 20.0f) {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 2, 0xE38);
+        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     } else if (func_800A56C8(&this->skelAnime, 20.0f)) {
         this->actor.speedXZ = 5.0f;
         this->actor.velocity.y = 7.0f;
@@ -749,7 +749,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
-    } else if ((this->actor.yDistanceFromLink < -10.0f) && this->collider.base.maskA & 2 &&
+    } else if ((this->actor.yDistFromLink < -10.0f) && this->collider.base.maskA & 2 &&
                (&player->actor == this->collider.base.oc)) {
         globalCtx->unk_11D4C(globalCtx, player);
         EnFloormas_SetupGrabLink(this, player);
@@ -776,10 +776,10 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
     }
 
     if (LINK_IS_CHILD) {
-        yDelta = CLAMP(-this->actor.yDistanceFromLink, 20.0f, 30.0f);
+        yDelta = CLAMP(-this->actor.yDistFromLink, 20.0f, 30.0f);
         xzDelta = -10.0f;
     } else {
-        yDelta = CLAMP(-this->actor.yDistanceFromLink, 25.0f, 45.0f);
+        yDelta = CLAMP(-this->actor.yDistFromLink, 25.0f, 45.0f);
         xzDelta = -30.0f;
     }
 

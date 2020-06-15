@@ -1,3 +1,101 @@
+.rdata
+glabel D_80140850
+    .asciz "個人Ｆｉｌｅ作成\n"
+    # EUC-JP: 個人Ｆｉｌｅ作成 | Create personal file
+    .balign 4
+
+glabel D_80140864
+    .asciz "ぽいんと＝%x(%d)\n"
+    # EUC-JP: ぽいんと＝ | Point=
+    .balign 4
+
+glabel D_80140878
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_80140880
+    .asciz "SCENE_DATA_ID = %d   SceneNo = %d\n"
+    .balign 4
+
+glabel D_801408A4
+    .asciz "scene_no = %d\n"
+    .balign 4
+
+glabel D_801408B4
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_801408B8
+    .asciz "\x1b[34m"
+    .balign 4
+
+glabel D_801408C0
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_80140908
+    .asciz "%d, "
+    .balign 4
+
+glabel D_80140910
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_80140958
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_8014095C
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80140964
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_801409AC
+    .asciz "%d, "
+    .balign 4
+
+glabel D_801409B4
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_801409FC
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80140FB8
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A854C
+    .word L800A85C0
+    .word L800A85C0
+    .word L800A85CC
+    .word L800A8564
+    .word L800A856C
+    .word L800A8578
+    .word L800A8584
+    .word L800A8590
+    .word L800A859C
+    .word L800A85A8
+    .word L800A85B4
+    .word L800A85C0
+    .word L800A85C0
+
+.text
 glabel func_800A8484
 /* B1F624 800A8484 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B1F628 800A8488 AFB00014 */  sw    $s0, 0x14($sp)

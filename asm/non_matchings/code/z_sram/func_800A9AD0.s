@@ -1,3 +1,44 @@
+.rdata
+glabel D_80140E98
+    .asciz "sram_initialize( Game *game, Sram *sram )\n"
+    .balign 4
+
+glabel D_80140EC4
+    .asciz "ＳＲＡＭ破壊！！！！！！\n"
+    # EUC-JP: ＳＲＡＭ破壊！！！！！！ | SRAM destruction! ! ! ! ! !
+    .balign 4
+
+glabel D_80140EE0
+    .asciz "ＳＲＡＭ破壊！！！！！！\n"
+    # EUC-JP: ＳＲＡＭ破壊！！！！！！ | SRAM destruction! ! ! ! ! !
+    .balign 4
+
+glabel D_80140EFC
+    .asciz "ＧＯＯＤ！ＧＯＯＤ！ サイズ＝%d + %d ＝ %d\n"
+    # EUC-JP: ＧＯＯＤ！ＧＯＯＤ！ サイズ＝%d + %d ＝ %d | GOOD! GOOD! Size =% d +% d =% d
+    .balign 4
+
+glabel D_80140F28
+    .asciz "\x1b[34m"
+    .balign 4
+
+glabel D_80140F30
+    .asciz "Na_SetSoundOutputMode = %d\n"
+    .balign 4
+
+glabel D_80140F4C
+    .asciz "Na_SetSoundOutputMode = %d\n"
+    .balign 4
+
+glabel D_80140F68
+    .asciz "Na_SetSoundOutputMode = %d\n"
+    .balign 4
+
+glabel D_80140F84
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel func_800A9AD0
 /* B20C70 800A9AD0 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B20C74 800A9AD4 AFA40030 */  sw    $a0, 0x30($sp)
