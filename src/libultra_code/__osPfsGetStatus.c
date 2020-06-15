@@ -3,10 +3,6 @@
 
 OSPifRam pifMempakBuf;
 
-extern u8 __osPfsInodeCacheBank;
-extern void __osPfsRequestOneChannel(s32 channel, u8 poll);
-extern void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData);
-
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel) {
     s32 ret = 0;
     OSMesg msg;
