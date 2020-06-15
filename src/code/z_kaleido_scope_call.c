@@ -35,13 +35,13 @@ void KaleidoScopeCall_Init(GlobalContext* globalCtx) {
     LOG_ADDRESS("kaleido_scope_move_func", sKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
     LOG_ADDRESS("kaleido_scope_draw", KaleidoScope_Draw, "../z_kaleido_scope_call.c", 100);
     LOG_ADDRESS("kaleido_scope_draw_func", sKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
-    func_8006ECF4(globalCtx);
+    PauseMgr_Init(globalCtx);
 }
 
 void KaleidoScopeCall_Destroy(GlobalContext* globalCtx) {
     // Kaleidoscope replacement
     osSyncPrintf("カレイド・スコープ入れ替え デストラクト \n");
-    func_8006EE48(globalCtx);
+    PauseMgr_Destroy(globalCtx);
 }
 
 // regalloc
