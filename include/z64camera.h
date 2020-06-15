@@ -164,25 +164,6 @@ typedef struct {
 } KeepOn0;
 
 typedef struct {
-    char unk_00[0x14];
-    s32 unk_14;
-} KeepOn4_Unk20;
-
-typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    s16 unk_1C;
-    s16 unk_1E;
-    KeepOn4_Unk20 unk_20;
-    char pad[0x18];
-} KeepOn4;
-
-typedef struct {
     f32 unk_00;
     f32 unk_04;
     f32 unk_08;
@@ -518,6 +499,30 @@ typedef struct {
     KeepOn3_Unk2C unk_2C;
 } KeepOn3;
 
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    s16 unk_0C;
+    s16 unk_0E;
+    s16 unk_10;
+    s16 unk_12;
+    s16 unk_14;
+} KeepOn4_Unk20;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    s16  unk_1C;
+    s16 unk_1E;
+    KeepOn4_Unk20 unk_20;
+} KeepOn4;
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -551,6 +556,7 @@ typedef union {
     Special5 spec5;
     Fixed4 fixd4;
     KeepOn3 keep3;
+    KeepOn4 keep4;
 } CameraParams;
 
 typedef struct {
