@@ -122,7 +122,7 @@ glabel D_80143CCC
     .float 0.02
 
 .text
-glabel func_800B4E7C
+glabel DbgCamera_Update
 /* B2C01C 800B4E7C 27BDFED8 */  addiu $sp, $sp, -0x128
 /* B2C020 800B4E80 AFB60064 */  sw    $s6, 0x64($sp)
 /* B2C024 800B4E84 248E0054 */  addiu $t6, $a0, 0x54

@@ -3431,7 +3431,7 @@ extern u8 D_801610DA;
 //extern ? D_80161144;
 //extern ? D_80161148;
 //extern ? D_8016114A;
-//extern ? D_80161150;
+//extern ? sDbgEditorSlots;
 //extern ? D_8016115E;
 //extern ? D_80161160;
 //extern ? D_8016116E;

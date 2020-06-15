@@ -5,8 +5,8 @@ glabel func_800B91B0
 /* B3035C 800B91BC 2610110C */  addiu $s0, %lo(D_8016110C) # addiu $s0, $s0, 0x110c
 /* B30360 800B91C0 86030000 */  lh    $v1, ($s0)
 /* B30364 800B91C4 AFB20028 */  sw    $s2, 0x28($sp)
-/* B30368 800B91C8 3C128016 */  lui   $s2, %hi(D_80161150)
-/* B3036C 800B91CC 26521150 */  addiu $s2, %lo(D_80161150) # addiu $s2, $s2, 0x1150
+/* B30368 800B91C8 3C128016 */  lui   $s2, %hi(sDbgEditorSlots)
+/* B3036C 800B91CC 26521150 */  addiu $s2, %lo(sDbgEditorSlots) # addiu $s2, $s2, 0x1150
 /* B30370 800B91D0 00037100 */  sll   $t6, $v1, 4
 /* B30374 800B91D4 024E1021 */  addu  $v0, $s2, $t6
 /* B30378 800B91D8 904F0000 */  lbu   $t7, ($v0)

@@ -59,7 +59,7 @@ glabel func_800B9060
 /* B3025C 800B90BC 3C048014 */  lui   $a0, %hi(D_80143AC8) # $a0, 0x8014
 /* B30260 800B90C0 0C00084C */  jal   osSyncPrintf
 /* B30264 800B90C4 24843AC8 */   addiu $a0, %lo(D_80143AC8) # addiu $a0, $a0, 0x3ac8
-/* B30268 800B90C8 3C108016 */  lui   $s0, %hi(D_80161150) # $s0, 0x8016
+/* B30268 800B90C8 3C108016 */  lui   $s0, %hi(sDbgEditorSlots) # $s0, 0x8016
 /* B3026C 800B90CC 3C178014 */  lui   $s7, %hi(D_80143B84) # $s7, 0x8014
 /* B30270 800B90D0 3C168014 */  lui   $s6, %hi(D_80143B60) # $s6, 0x8014
 /* B30274 800B90D4 3C158014 */  lui   $s5, %hi(D_80143B3C) # $s5, 0x8014
@@ -72,7 +72,7 @@ glabel func_800B9060
 /* B30290 800B90F0 26B53B3C */  addiu $s5, %lo(D_80143B3C) # addiu $s5, $s5, 0x3b3c
 /* B30294 800B90F4 26D63B60 */  addiu $s6, %lo(D_80143B60) # addiu $s6, $s6, 0x3b60
 /* B30298 800B90F8 26F73B84 */  addiu $s7, %lo(D_80143B84) # addiu $s7, $s7, 0x3b84
-/* B3029C 800B90FC 26101150 */  addiu $s0, %lo(D_80161150) # addiu $s0, $s0, 0x1150
+/* B3029C 800B90FC 26101150 */  addiu $s0, %lo(sDbgEditorSlots) # addiu $s0, $s0, 0x1150
 /* B302A0 800B9100 00008825 */  move  $s1, $zero
 /* B302A4 800B9104 241E000F */  li    $fp, 15
 .L800B9108:

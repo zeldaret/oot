@@ -60,7 +60,7 @@ glabel D_80161148
 glabel D_8016114A
     .space 0x6
 
-glabel D_80161150
+glabel sDbgEditorSlots
     .space 0xE
 
 glabel D_8016115E
@@ -90,7 +90,7 @@ glabel D_80161250
 glabel D_8016125C
     .space 0x33
 
-glabel D_8016128F
+glabel sDbgEditorStates
     .space 0x41
 
 glabel D_801612D0

@@ -1457,7 +1457,7 @@ void TransitionFade_SetType(TransitionFade* this, s32 type);
 // ? func_800B4B20(?);
 // ? func_800B4D58(?);
 void DbgCamera_Enable(DBCamera* dbCamera, Camera* camera);
-// ? func_800B4E7C(?);
+void DbgCamera_Update(DBCamera* dbCamera, Camera* camera);
 // ? func_800B8730(?);
 // ? func_800B87D8(?);
 // ? func_800B8978(?);

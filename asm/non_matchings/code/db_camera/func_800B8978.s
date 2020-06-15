@@ -9,8 +9,8 @@ glabel D_80143A20
 
 .text
 glabel func_800B8978
-/* B2FB18 800B8978 3C0F8016 */  lui   $t7, %hi(D_80161150) # $t7, 0x8016
-/* B2FB1C 800B897C 25EF1150 */  addiu $t7, %lo(D_80161150) # addiu $t7, $t7, 0x1150
+/* B2FB18 800B8978 3C0F8016 */  lui   $t7, %hi(sDbgEditorSlots) # $t7, 0x8016
+/* B2FB1C 800B897C 25EF1150 */  addiu $t7, %lo(sDbgEditorSlots) # addiu $t7, $t7, 0x1150
 /* B2FB20 800B8980 00047100 */  sll   $t6, $a0, 4
 /* B2FB24 800B8984 01CF1021 */  addu  $v0, $t6, $t7
 /* B2FB28 800B8988 90430000 */  lbu   $v1, ($v0)
@@ -18,10 +18,10 @@ glabel func_800B8978
 /* B2FB30 800B8990 2401003F */  li    $at, 63
 /* B2FB34 800B8994 10610005 */  beq   $v1, $at, .L800B89AC
 /* B2FB38 800B8998 AFBF0014 */   sw    $ra, 0x14($sp)
-/* B2FB3C 800B899C 3C018016 */  lui   $at, %hi(D_8016128F)
+/* B2FB3C 800B899C 3C018016 */  lui   $at, %hi(sDbgEditorStates)
 /* B2FB40 800B89A0 00230821 */  addu  $at, $at, $v1
 /* B2FB44 800B89A4 24180058 */  li    $t8, 88
-/* B2FB48 800B89A8 A038128F */  sb    $t8, %lo(D_8016128F)($at)
+/* B2FB48 800B89A8 A038128F */  sb    $t8, %lo(sDbgEditorStates)($at)
 .L800B89AC:
 /* B2FB4C 800B89AC 10A0000D */  beqz  $a1, .L800B89E4
 /* B2FB50 800B89B0 24060AE0 */   li    $a2, 2784

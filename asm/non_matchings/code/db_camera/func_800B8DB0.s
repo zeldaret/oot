@@ -1,0 +1,104 @@
+glabel func_800B8DB0
+/* B2FF50 800B8DB0 27BDFFB0 */  addiu $sp, $sp, -0x50
+/* B2FF54 800B8DB4 AFB3002C */  sw    $s3, 0x2c($sp)
+/* B2FF58 800B8DB8 00809825 */  move  $s3, $a0
+/* B2FF5C 800B8DBC AFBF003C */  sw    $ra, 0x3c($sp)
+/* B2FF60 800B8DC0 AFB60038 */  sw    $s6, 0x38($sp)
+/* B2FF64 800B8DC4 AFB50034 */  sw    $s5, 0x34($sp)
+/* B2FF68 800B8DC8 AFB40030 */  sw    $s4, 0x30($sp)
+/* B2FF6C 800B8DCC AFB20028 */  sw    $s2, 0x28($sp)
+/* B2FF70 800B8DD0 AFB10024 */  sw    $s1, 0x24($sp)
+/* B2FF74 800B8DD4 AFB00020 */  sw    $s0, 0x20($sp)
+/* B2FF78 800B8DD8 92650000 */  lbu   $a1, ($s3)
+/* B2FF7C 800B8DDC 0C02EF05 */  jal   Mempak_GetFileSize
+/* B2FF80 800B8DE0 24040002 */   li    $a0, 2
+/* B2FF84 800B8DE4 24040002 */  li    $a0, 2
+/* B2FF88 800B8DE8 0C02ED7A */  jal   Mempak_GetFreeBytes
+/* B2FF8C 800B8DEC AFA20044 */   sw    $v0, 0x44($sp)
+/* B2FF90 800B8DF0 8FA30044 */  lw    $v1, 0x44($sp)
+/* B2FF94 800B8DF4 3C068016 */  lui   $a2, %hi(D_801612EC) # $a2, 0x8016
+/* B2FF98 800B8DF8 8CC612EC */  lw    $a2, %lo(D_801612EC)($a2)
+/* B2FF9C 800B8DFC 00437021 */  addu  $t6, $v0, $v1
+/* B2FFA0 800B8E00 24040002 */  li    $a0, 2
+/* B2FFA4 800B8E04 00CE082B */  sltu  $at, $a2, $t6
+/* B2FFA8 800B8E08 1020003F */  beqz  $at, .L800B8F08
+/* B2FFAC 800B8E0C 00001025 */   move  $v0, $zero
+/* B2FFB0 800B8E10 0C02EE43 */  jal   Mempak_Alloc
+/* B2FFB4 800B8E14 02602825 */   move  $a1, $s3
+/* B2FFB8 800B8E18 14400003 */  bnez  $v0, .L800B8E28
+/* B2FFBC 800B8E1C 24040002 */   li    $a0, 2
+/* B2FFC0 800B8E20 10000039 */  b     .L800B8F08
+/* B2FFC4 800B8E24 00001025 */   move  $v0, $zero
+.L800B8E28:
+/* B2FFC8 800B8E28 92650000 */  lbu   $a1, ($s3)
+/* B2FFCC 800B8E2C 3C068016 */  lui   $a2, %hi(sDbgEditorSlots) # $a2, 0x8016
+/* B2FFD0 800B8E30 240F0100 */  li    $t7, 256
+/* B2FFD4 800B8E34 AFAF0010 */  sw    $t7, 0x10($sp)
+/* B2FFD8 800B8E38 24C61150 */  addiu $a2, %lo(sDbgEditorSlots) # addiu $a2, $a2, 0x1150
+/* B2FFDC 800B8E3C 0C02EDD9 */  jal   Mempak_Write
+/* B2FFE0 800B8E40 00003825 */   move  $a3, $zero
+/* B2FFE4 800B8E44 14400006 */  bnez  $v0, .L800B8E60
+/* B2FFE8 800B8E48 24120100 */   li    $s2, 256
+/* B2FFEC 800B8E4C 24040002 */  li    $a0, 2
+/* B2FFF0 800B8E50 0C02EEDB */  jal   Mempak_DeleteFile
+/* B2FFF4 800B8E54 92650000 */   lbu   $a1, ($s3)
+/* B2FFF8 800B8E58 1000002B */  b     .L800B8F08
+/* B2FFFC 800B8E5C 00001025 */   move  $v0, $zero
+.L800B8E60:
+/* B30000 800B8E60 3C118016 */  lui   $s1, %hi(sDbgEditorSlots) # $s1, 0x8016
+/* B30004 800B8E64 3C168016 */  lui   $s6, %hi(D_80161240) # $s6, 0x8016
+/* B30008 800B8E68 26D61240 */  addiu $s6, %lo(D_80161240) # addiu $s6, $s6, 0x1240
+/* B3000C 800B8E6C 26311150 */  addiu $s1, %lo(sDbgEditorSlots) # addiu $s1, $s1, 0x1150
+/* B30010 800B8E70 2415FFE0 */  li    $s5, -32
+/* B30014 800B8E74 2414003F */  li    $s4, 63
+.L800B8E78:
+/* B30018 800B8E78 92380000 */  lbu   $t8, ($s1)
+/* B3001C 800B8E7C 24040002 */  li    $a0, 2
+/* B30020 800B8E80 02403825 */  move  $a3, $s2
+/* B30024 800B8E84 52980016 */  beql  $s4, $t8, .L800B8EE0
+/* B30028 800B8E88 26310010 */   addiu $s1, $s1, 0x10
+/* B3002C 800B8E8C 8622000E */  lh    $v0, 0xe($s1)
+/* B30030 800B8E90 92650000 */  lbu   $a1, ($s3)
+/* B30034 800B8E94 8E260008 */  lw    $a2, 8($s1)
+/* B30038 800B8E98 00021100 */  sll   $v0, $v0, 4
+/* B3003C 800B8E9C 2459001F */  addiu $t9, $v0, 0x1f
+/* B30040 800B8EA0 03358024 */  and   $s0, $t9, $s5
+/* B30044 800B8EA4 0C02EDD9 */  jal   Mempak_Write
+/* B30048 800B8EA8 AFB00010 */   sw    $s0, 0x10($sp)
+/* B3004C 800B8EAC 1040000E */  beqz  $v0, .L800B8EE8
+/* B30050 800B8EB0 00401825 */   move  $v1, $v0
+/* B30054 800B8EB4 02509021 */  addu  $s2, $s2, $s0
+/* B30058 800B8EB8 92650000 */  lbu   $a1, ($s3)
+/* B3005C 800B8EBC AFB00010 */  sw    $s0, 0x10($sp)
+/* B30060 800B8EC0 02403825 */  move  $a3, $s2
+/* B30064 800B8EC4 24040002 */  li    $a0, 2
+/* B30068 800B8EC8 0C02EDD9 */  jal   Mempak_Write
+/* B3006C 800B8ECC 8E260004 */   lw    $a2, 4($s1)
+/* B30070 800B8ED0 10400005 */  beqz  $v0, .L800B8EE8
+/* B30074 800B8ED4 00401825 */   move  $v1, $v0
+/* B30078 800B8ED8 02509021 */  addu  $s2, $s2, $s0
+/* B3007C 800B8EDC 26310010 */  addiu $s1, $s1, 0x10
+.L800B8EE0:
+/* B30080 800B8EE0 1636FFE5 */  bne   $s1, $s6, .L800B8E78
+/* B30084 800B8EE4 24030001 */   li    $v1, 1
+.L800B8EE8:
+/* B30088 800B8EE8 10600003 */  beqz  $v1, .L800B8EF8
+/* B3008C 800B8EEC 24040002 */   li    $a0, 2
+/* B30090 800B8EF0 10000005 */  b     .L800B8F08
+/* B30094 800B8EF4 92620000 */   lbu   $v0, ($s3)
+.L800B8EF8:
+/* B30098 800B8EF8 0C02EEDB */  jal   Mempak_DeleteFile
+/* B3009C 800B8EFC 92650000 */   lbu   $a1, ($s3)
+/* B300A0 800B8F00 10000001 */  b     .L800B8F08
+/* B300A4 800B8F04 00001025 */   move  $v0, $zero
+.L800B8F08:
+/* B300A8 800B8F08 8FBF003C */  lw    $ra, 0x3c($sp)
+/* B300AC 800B8F0C 8FB00020 */  lw    $s0, 0x20($sp)
+/* B300B0 800B8F10 8FB10024 */  lw    $s1, 0x24($sp)
+/* B300B4 800B8F14 8FB20028 */  lw    $s2, 0x28($sp)
+/* B300B8 800B8F18 8FB3002C */  lw    $s3, 0x2c($sp)
+/* B300BC 800B8F1C 8FB40030 */  lw    $s4, 0x30($sp)
+/* B300C0 800B8F20 8FB50034 */  lw    $s5, 0x34($sp)
+/* B300C4 800B8F24 8FB60038 */  lw    $s6, 0x38($sp)
+/* B300C8 800B8F28 03E00008 */  jr    $ra
+/* B300CC 800B8F2C 27BD0050 */   addiu $sp, $sp, 0x50

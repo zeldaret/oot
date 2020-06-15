@@ -626,7 +626,7 @@ typedef struct {
     /* 0x0004 */ Vec3f at;
     /* 0x0010 */ Vec3f eye;
     /* 0x001C */ Vec3f unk_1C;
-    /* 0x0028 */ char unk_28[0xC];
+    /* 0x0028 */ Vec3f unk_28;
     /* 0x0034 */ UNK_TYPE unk_34;
     /* 0x0038 */ UNK_TYPE unk_38;
     /* 0x003C */ UNK_TYPE unk_3C;
@@ -635,7 +635,8 @@ typedef struct {
     /* 0x0048 */ f32 fov;
     /* 0x004C */ s16 unk_4C;
     /* 0x0050 */ f32 unk_50;
-    /* 0x0054 */ char unk_54[0x18];
+    /* 0x0054 */ Vec3f unk_54;
+    /* 0x0054 */ Vec3f unk_60;
     /* 0x006C */ f32 unk_6C;
     /* 0x0070 */ f32 unk_70;
     /* 0x0074 */ f32 unk_74;
