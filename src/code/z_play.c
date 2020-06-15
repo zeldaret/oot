@@ -793,7 +793,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0)) {
-                PauseMgr_Update(globalCtx);
+                KaleidoSetup_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {

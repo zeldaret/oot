@@ -1,45 +1,45 @@
 #include <global.h>
 #include <PR/os_cont.h>
 
-s16 sPauseMgrKscpPos0[] = {
+s16 sKaleidoSetupKscpPos0[] = {
     2,
     3,
     0,
     1,
 };
-f32 sPauseMgrEyeX0[] = {
+f32 sKaleidoSetupEyeX0[] = {
     0.0f,
     64.0f,
     0.0f,
     -64.0f,
 };
-f32 sPauseMgrEyeZ0[] = {
+f32 sKaleidoSetupEyeZ0[] = {
     -64.0f,
     0.0f,
     64.0f,
     0.0f,
 };
 
-s16 sPauseMgrKscpPos1[] = {
+s16 sKaleidoSetupKscpPos1[] = {
     1,
     2,
     3,
     0,
 };
-f32 sPauseMgrEyeX1[] = {
+f32 sKaleidoSetupEyeX1[] = {
     -64.0f,
     0.0f,
     64.0f,
     0.0f,
 };
-f32 sPauseMgrEyeZ1[] = {
+f32 sKaleidoSetupEyeZ1[] = {
     0.0f,
     -64.0f,
     0.0f,
     64.0f,
 };
 
-void PauseMgr_Update(GlobalContext* globalCtx) {
+void KaleidoSetup_Update(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     Input* input = &globalCtx->state.input[0];
 
@@ -60,13 +60,13 @@ void PauseMgr_Update(GlobalContext* globalCtx) {
             pauseCtx->unk_1EA = 0;
             pauseCtx->unk_1E4 = 1;
             if (ZREG(48) == 0) {
-                pauseCtx->eye.x = sPauseMgrEyeX0[pauseCtx->kscpPos];
-                pauseCtx->eye.z = sPauseMgrEyeZ0[pauseCtx->kscpPos];
-                pauseCtx->kscpPos = sPauseMgrKscpPos0[pauseCtx->kscpPos];
+                pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->kscpPos];
+                pauseCtx->eye.z = sKaleidoSetupEyeZ0[pauseCtx->kscpPos];
+                pauseCtx->kscpPos = sKaleidoSetupKscpPos0[pauseCtx->kscpPos];
             } else {
-                pauseCtx->eye.x = sPauseMgrEyeX1[pauseCtx->kscpPos];
-                pauseCtx->eye.z = sPauseMgrEyeZ1[pauseCtx->kscpPos];
-                pauseCtx->kscpPos = sPauseMgrKscpPos1[pauseCtx->kscpPos];
+                pauseCtx->eye.x = sKaleidoSetupEyeX1[pauseCtx->kscpPos];
+                pauseCtx->eye.z = sKaleidoSetupEyeZ1[pauseCtx->kscpPos];
+                pauseCtx->kscpPos = sKaleidoSetupKscpPos1[pauseCtx->kscpPos];
             }
 
             pauseCtx->mode = (u16)(pauseCtx->kscpPos * 2) + 1; // cast required
@@ -88,7 +88,7 @@ void PauseMgr_Update(GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // regalloc
-void PauseMgr_Init(GlobalContext* globalCtx) {
+void KaleidoSetup_Init(GlobalContext* globalCtx) {
 
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     s32 temp;
@@ -138,10 +138,10 @@ void PauseMgr_Init(GlobalContext* globalCtx) {
     View_Init(&pauseCtx->view, globalCtx->state.gfxCtx);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/pausemgr/PauseMgr_Init.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kaleido_setup/KaleidoSetup_Init.s")
 #endif
 
-void PauseMgr_Destroy(GlobalContext* globalCtx) {
+void KaleidoSetup_Destroy(GlobalContext* globalCtx) {
 }
 
 void func_8006EE50(UNK_PTR arg0, s16 arg1, s16 arg2) {
