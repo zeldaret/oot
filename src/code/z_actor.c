@@ -1029,8 +1029,8 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
     hookshot->hookedActorDistDiff.x = 0.0f;
     hookshot->hookedActorDistDiff.y = 0.0f;
     hookshot->hookedActorDistDiff.z = 0.0f;
-    actorB->flags |= FLAG_HOOKSHOT_HOOKED;
-    actorA->flags &= ~FLAG_HOOKSHOT_HOOKED;
+    actorB->flags |= 0x2000;
+    actorA->flags &= ~0x2000;
 }
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
