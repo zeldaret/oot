@@ -8,7 +8,6 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx);
-
 /*
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,

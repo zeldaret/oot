@@ -134,7 +134,7 @@ glabel func_80815CE0
 /* 024C8 80815CE8 27B00030 */  addiu   $s0, $sp, 0x0030           ## $s0 = FFFFFFD0
 /* 024CC 80815CEC AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 024D0 80815CF0 AFA40060 */  sw      $a0, 0x0060($sp)           
-/* 024D4 80815CF4 0C03EEE3 */  jal     GfxPrint_Ctor              
+/* 024D4 80815CF4 0C03EEE3 */  jal     GfxPrint_Init              
 /* 024D8 80815CF8 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
 /* 024DC 80815CFC 8FAE0060 */  lw      $t6, 0x0060($sp)           
 /* 024E0 80815D00 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
@@ -344,7 +344,7 @@ glabel func_80815CE0
 /* 0278C 80815FAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
 /* 02790 80815FB0 8FB80060 */  lw      $t8, 0x0060($sp)           
 /* 02794 80815FB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
-/* 02798 80815FB8 0C03EF05 */  jal     GfxPrint_Dtor              
+/* 02798 80815FB8 0C03EF05 */  jal     GfxPrint_Destroy              
 /* 0279C 80815FBC AF020000 */  sw      $v0, 0x0000($t8)           ## 00000000
 /* 027A0 80815FC0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 027A4 80815FC4 8FB00020 */  lw      $s0, 0x0020($sp)           

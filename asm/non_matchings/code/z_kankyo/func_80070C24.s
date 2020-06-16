@@ -1,3 +1,44 @@
+.rdata
+glabel D_8013C458
+    .asciz "\nnext_zelda_time=[%x]"
+    .balign 4
+
+glabel D_8013C470
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C480
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C490
+    .asciz "\x1b[41;37m\nカラーパレットの設定がおかしいようです！\x1b[m"
+    # EUC-JP: カラーパレットの設定がおかしいようです！ | The color palette settings seem to be wrong!
+    .balign 4
+
+glabel D_8013C4C8
+    .asciz "\x1b[41;37m\n設定パレット＝[%d] 最後パレット番号＝[%d]\n\x1b[m"
+    # EUC-JP: 設定パレット＝[%d] 最後パレット番号＝ | Set pallet = [% d] Last pallet number =
+    .balign 4
+
+glabel D_8013C500
+    .asciz "\n\x1b[31mカラーパレットがおかしいようです！"
+    # EUC-JP: カラーパレットがおかしいようです！ | The color palette seems strange!
+    .balign 4
+
+glabel D_8013C52C
+    .asciz "\n\x1b[33m設定パレット＝[%d] パレット数＝[%d]\n\x1b[m"
+    # EUC-JP: 設定パレット＝[%d] パレット数＝[%d] | Set pallet = [% d] Number of pallets = [% d]
+    .balign 4
+
+.late_rodata
+glabel D_8013C7A4
+    .float 0.001
+
+glabel D_8013C7A8
+    .float 0.005
+
+.text
 glabel func_80070C24
 /* AE7DC4 80070C24 27BDFF70 */  addiu $sp, $sp, -0x90
 /* AE7DC8 80070C28 3C0D8016 */  lui   $t5, %hi(gSaveContext) # $t5, 0x8016

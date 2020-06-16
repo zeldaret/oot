@@ -172,7 +172,7 @@ void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(thisx, collider2);
     if (this->unk_34C != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
-    } else if (thisx->xzDistanceFromLink > 32.0f) {
+    } else if (thisx->xzDistFromLink > 32.0f) {
         this->unk_34C = 1;
     }
 }
@@ -444,7 +444,7 @@ void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     Actor* thisx = &this->actor;
 
     sp24.x = thisx->posRot.pos.x;
-    sp24.y = thisx->posRot.pos.y + thisx->unk_84;
+    sp24.y = thisx->posRot.pos.y + thisx->waterY;
     sp24.z = thisx->posRot.pos.z;
     func_80029444(globalCtx, &sp24, 100, arg2, arg3);
 }
@@ -471,7 +471,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->posRot.pos.x;
-    pos.y = thisx->posRot.pos.y + thisx->unk_84;
+    pos.y = thisx->posRot.pos.y + thisx->waterY;
     pos.z = thisx->posRot.pos.z;
 
     func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
@@ -1017,19 +1017,19 @@ void func_80AECC84(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Vec3f* pos;
-    s16 rotTowardsLinkY;
+    s16 yawTowardsLink;
     f32 spawnX;
     f32 spawnY;
     f32 spawnZ;
     s32 pad[2];
 
-    rotTowardsLinkY = thisx->rotTowardsLinkY;
+    yawTowardsLink = thisx->yawTowardsLink;
     pos = &thisx->posRot.pos;
-    spawnX = ((kREG(1) + 12.0f) * Math_Sins(rotTowardsLinkY)) + pos->x;
+    spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
-    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(rotTowardsLinkY)) + pos->z;
+    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
     this->unk_278 = Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                        0, rotTowardsLinkY, 0, 5);
+                                        0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1118,8 +1118,8 @@ void func_80AED0C8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AED0D8(EnRu1* this, GlobalContext* globalCtx) {
     this->action = 17;
     this->drawConfig = 1;
-    this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
-    this->actor.shape.rot.y = this->actor.rotTowardsLinkY;
+    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.yawTowardsLink;
     func_80AECCB0(this, globalCtx);
 }
 
@@ -1159,7 +1159,7 @@ void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06002990, 1.0f, 0, SkelAnime_GetFrameCount(&D_06002990.genericHeader),
                              2, -8.0f);
         this->action = 21;
-        this->unk_27C = this->actor.xzDistanceFromLink;
+        this->unk_27C = this->actor.xzDistFromLink;
     }
 }
 
@@ -1257,7 +1257,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return 0;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (thisx->unk_84 > kREG(16) + 50.0f) && (this->action != 33)) {
+               (thisx->waterY > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->unk_2A8 = 0xFF;
@@ -1486,7 +1486,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.unk_84 - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.waterY - 10.0f) * 0.5f;
             this->unk_354 = this->actor.posRot.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1615,7 +1615,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
             func_8002F580(this, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
-        } else if (thisx->unk_84 > 0.0f) {
+        } else if (thisx->waterY > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }

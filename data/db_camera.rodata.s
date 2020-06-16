@@ -78,13 +78,11 @@ glabel D_80143254
     .balign 4
 
 glabel D_80143264
-    .byte 0x8C
-    .asciz "Eﾓ-ﾄﾞ\x8D ｿｳﾀｲ"
+    .asciz "\x8C\Eﾓ-ﾄﾞ\x8D ｿｳﾀｲ"
     .balign 4
 
 glabel D_80143278
-    .byte 0x8C
-    .asciz "Eﾓ-ﾄﾞ\x8Dｾﾞｯﾀｲ"
+    .asciz "\x8C\Eﾓ-ﾄﾞ\x8Dｾﾞｯﾀｲ"
     .balign 4
 
 glabel D_80143290
@@ -239,8 +237,7 @@ glabel D_801434B4
     .balign 4
 
 glabel D_801434C4
-    .byte 0x8C
-    .asciz "Eﾓ-ﾄﾞ\x8D  ｺﾃｲ"
+    .asciz "\x8C\Eﾓ-ﾄﾞ\x8D  ｺﾃｲ"
     .balign 4
 
 glabel D_801434D8
@@ -549,7 +546,6 @@ glabel D_80143C40
 
 glabel D_80143C54
     .float 0.15
-    .balign 4
 
 glabel D_80143C58
     .float 0.2

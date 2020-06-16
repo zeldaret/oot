@@ -1,3 +1,34 @@
+.rdata
+glabel D_8013C2F4
+    .asciz "\x1b[41;37m\n環境ＶＲデータ取得失敗！ ささきまでご報告を！\x1b[m"
+    # EUC-JP: 環境ＶＲデータ取得失敗！ ささきまでご報告を！ | Environment VR data acquisition failed! Report to Sasaki!
+    .balign 4
+
+glabel D_8013C330
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C340
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C350
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C360
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C370
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C380
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+.text
 glabel func_8006FC88
 /* AE6E28 8006FC88 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* AE6E2C 8006FC8C AFB00030 */  sw    $s0, 0x30($sp)

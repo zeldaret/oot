@@ -102,7 +102,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
 
     player = PLAYER;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
     if (yawDiffNew < 0x4300) {
         if (gSaveContext.nightFlag == 0) {
@@ -117,7 +117,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
             sightRange = 100.0f;
         }
     }
-    if ((this->actor.xzDistanceFromLink < sightRange) &&
+    if ((this->actor.xzDistFromLink < sightRange) &&
         (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
         func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"
@@ -174,7 +174,7 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
         this->actionFunc = EnHeishi3_ResetAnimationToIdle;
         this->actor.speedXZ = 0.0f;
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.rotTowardsLinkY, 5, 3000, 0);
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
     }
 }
 
