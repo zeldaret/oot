@@ -523,6 +523,20 @@ typedef struct {
     KeepOn4_Unk20 unk_20;
 } KeepOn4;
 
+typedef struct {
+    f32 unk_00;
+    s16 unk_04;
+} Special6_Unk04;
+
+typedef struct {
+    s16 unk_00;
+    Special6_Unk04 unk_04;
+} Special6;
+
+typedef struct {
+    s16 idx;
+} Special7;
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -557,6 +571,8 @@ typedef union {
     Fixed4 fixd4;
     KeepOn3 keep3;
     KeepOn4 keep4;
+    Special6 spec6;
+    Special7 spec7;
 } CameraParams;
 
 typedef struct {
