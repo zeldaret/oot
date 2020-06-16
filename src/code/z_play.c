@@ -1134,7 +1134,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
-                View view;         // 0xA0
+                View view; // 0xA0
 
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;

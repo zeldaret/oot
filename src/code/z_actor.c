@@ -1025,10 +1025,10 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
     ArmsHook* hookshot;
 
     hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORTYPE_ITEMACTION);
-    hookshot->hookedActor = actorB;
-    hookshot->hookedActorDistDiff.x = 0.0f;
-    hookshot->hookedActorDistDiff.y = 0.0f;
-    hookshot->hookedActorDistDiff.z = 0.0f;
+    hookshot->grabbed = actorB;
+    hookshot->grabbedDistDiff.x = 0.0f;
+    hookshot->grabbedDistDiff.y = 0.0f;
+    hookshot->grabbedDistDiff.z = 0.0f;
     actorB->flags |= 0x2000;
     actorA->flags &= ~0x2000;
 }

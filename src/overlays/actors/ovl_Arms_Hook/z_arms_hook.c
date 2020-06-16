@@ -64,8 +64,8 @@ void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ArmsHook* this = THIS;
 
-    if (this->hookedActor != NULL) {
-        this->hookedActor->flags &= ~0x2000;
+    if (this->grabbed != NULL) {
+        this->grabbed->flags &= ~0x2000;
     }
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
@@ -103,13 +103,13 @@ s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
 }
 
 void ArmsHook_DetachHookFromActor(ArmsHook* this) {
-    if (this->hookedActor != NULL) {
-        this->hookedActor->flags &= ~0x2000;
-        this->hookedActor = NULL;
+    if (this->grabbed != NULL) {
+        this->grabbed->flags &= ~0x2000;
+        this->grabbed = NULL;
     }
 }
 
-s32 ArmsHook_CheckIfBusy(ArmsHook* this) {
+s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.attachedA;
     if (func_8008F104(player)) {
         if ((player->unk_154 != player->heldItemActionParam) || ((player->actor.flags & 0x100)) ||
@@ -125,14 +125,14 @@ s32 ArmsHook_CheckIfBusy(ArmsHook* this) {
 
 void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
     actor->flags |= 0x2000;
-    this->hookedActor = actor;
-    Math_Vec3f_Diff(&actor->posRot.pos, &this->actor.posRot.pos, &this->hookedActorDistDiff);
+    this->grabbed = actor;
+    Math_Vec3f_Diff(&actor->posRot.pos, &this->actor.posRot.pos, &this->grabbedDistDiff);
 }
 
 void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* touchedActor;
-    Actor* hookedActor;
+    Actor* grabbed;
     Vec3f bodyDistDiffVec;
     Vec3f newPos;
     f32 bodyDistDiff;
@@ -158,7 +158,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     }
 
     func_8002F8F0(&player->actor, 0x100B);
-    ArmsHook_CheckIfBusy(this);
+    ArmsHook_CheckForCancel(this);
 
     if (this->timer != 0) {
         if ((this->collider.base.atFlags & 2) && (this->collider.body.atHitItem->flags != 4)) {
@@ -179,20 +179,20 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     }
 
     if (DECR(this->timer) == 0) {
-        hookedActor = this->hookedActor;
-        if (hookedActor != NULL) {
-            if ((hookedActor->update == NULL) || (hookedActor->flags & 0x2000) != 0x2000) {
-                hookedActor = NULL;
-                this->hookedActor = NULL;
+        grabbed = this->grabbed;
+        if (grabbed != NULL) {
+            if ((grabbed->update == NULL) || (grabbed->flags & 0x2000) != 0x2000) {
+                grabbed = NULL;
+                this->grabbed = NULL;
             } else {
                 if (this->actor.attachedB != NULL) {
-                    sp94 = func_8002DB48(this, hookedActor);
-                    sp90 = sqrtf(SQ(this->hookedActorDistDiff.x) + SQ(this->hookedActorDistDiff.y) +
-                                 SQ(this->hookedActorDistDiff.z));
-                    Math_Vec3f_Diff(&hookedActor->posRot.pos, &this->hookedActorDistDiff, &this->actor.posRot.pos);
+                    sp94 = func_8002DB48(this, grabbed);
+                    sp90 =
+                        sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
+                    Math_Vec3f_Diff(&grabbed->posRot.pos, &this->grabbedDistDiff, &this->actor.posRot.pos);
                     if (50.0f < (sp94 - sp90)) {
                         ArmsHook_DetachHookFromActor(this);
-                        hookedActor = NULL;
+                        grabbed = NULL;
                     }
                 }
             }
@@ -206,7 +206,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
             if (this->actor.attachedB != NULL) {
                 velocity = 30.0f;
             } else {
-                if (hookedActor != NULL) {
+                if (grabbed != NULL) {
                     velocity = 50.0f;
                 } else {
                     velocity = 200.0f;
@@ -224,13 +224,13 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         newPos.z = bodyDistDiffVec.z * velocity;
 
         if (this->actor.attachedB == NULL) {
-            if ((hookedActor != NULL) && (hookedActor->id == ACTOR_BG_SPOT06_OBJECTS)) {
-                Math_Vec3f_Diff(&hookedActor->posRot.pos, &this->hookedActorDistDiff, &this->actor.posRot.pos);
+            if ((grabbed != NULL) && (grabbed->id == ACTOR_BG_SPOT06_OBJECTS)) {
+                Math_Vec3f_Diff(&grabbed->posRot.pos, &this->grabbedDistDiff, &this->actor.posRot.pos);
                 phi_f16 = 1.0f;
             } else {
                 Math_Vec3f_Sum(&player->unk_3C8, &newPos, &this->actor.posRot.pos);
-                if (hookedActor != NULL) {
-                    Math_Vec3f_Sum(&this->actor.posRot.pos, &this->hookedActorDistDiff, &hookedActor->posRot.pos);
+                if (grabbed != NULL) {
+                    Math_Vec3f_Sum(&this->actor.posRot.pos, &this->grabbedDistDiff, &grabbed->posRot.pos);
                 }
             }
         } else {
@@ -243,7 +243,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
             ArmsHook_DetachHookFromActor(this);
             if (phi_f16 == 0.0f) {
                 ArmsHook_SetupAction(this, ArmsHook_Wait);
-                if (ArmsHook_AttachToPlayer(this, player) != 0) {
+                if (ArmsHook_AttachToPlayer(this, player)) {
                     Math_Vec3f_Diff(&this->actor.posRot.pos, &player->actor.posRot.pos, &player->actor.velocity);
                     player->actor.velocity.y -= 20.0f;
                     return;
@@ -286,7 +286,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         }
 
         if ((globalCtx->state.input[0].press.in.button &
-             (A_BUTTON | B_BUTTON | R_TRIG | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)) != 0) {
+             (A_BUTTON | B_BUTTON | R_TRIG | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS))) {
             this->timer = 0;
         }
     }
@@ -326,7 +326,7 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_MultVec3f(&D_80865BA0, &sp6C);
                 Matrix_MultVec3f(&D_80865BAC, &sp60);
             }
-            
+
             func_80090480(globalCtx, &this->collider.base, &this->unk_1CC, &sp6C, &sp60);
             func_80093D18(globalCtx->state.gfxCtx);
             gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),

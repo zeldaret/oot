@@ -52,10 +52,10 @@ void Sample_Destroy(SampleContext* this) {
 void Sample_SetupView(SampleContext* this) {
     View* view;
     GraphicsContext* gfxCtx;
-    
+
     view = &this->view;
     gfxCtx = this->state.gfxCtx;
-    
+
     View_Init(view, gfxCtx);
     SET_FULLSCREEN_VIEWPORT(view);
     func_800AA460(view, 60, 10, 12800);
