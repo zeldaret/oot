@@ -1,4 +1,4 @@
-glabel func_80800CB4
+glabel Select_UpdateMenu
 /* 00124 80800CB4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00128 80800CB8 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0012C 80800CBC AFB00020 */  sw      $s0, 0x0020($sp)           

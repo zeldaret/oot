@@ -51,3 +51,73 @@ glabel osSetIntMask
 /* 005BD4 80004FD4 00000000 */  nop   
 /* 005BD8 80004FD8 03E00008 */  jr    $ra
 /* 005BDC 80004FDC 00000000 */   nop   
+
+.section .rodata
+
+.balign 16
+
+glabel __osRcpImTable
+    .half 0x0555
+    .half 0x0556
+    .half 0x0559
+    .half 0x055A
+    .half 0x0565
+    .half 0x0566
+    .half 0x0569
+    .half 0x056A
+    .half 0x0595
+    .half 0x0596
+    .half 0x0599
+    .half 0x059A
+    .half 0x05A5
+    .half 0x05A6
+    .half 0x05A9
+    .half 0x05AA
+    .half 0x0655
+    .half 0x0656
+    .half 0x0659
+    .half 0x065A
+    .half 0x0665
+    .half 0x0666
+    .half 0x0669
+    .half 0x066A
+    .half 0x0695
+    .half 0x0696
+    .half 0x0699
+    .half 0x069A
+    .half 0x06A5
+    .half 0x06A6
+    .half 0x06A9
+    .half 0x06AA
+    .half 0x0955
+    .half 0x0956
+    .half 0x0959
+    .half 0x095A
+    .half 0x0965
+    .half 0x0966
+    .half 0x0969
+    .half 0x096A
+    .half 0x0995
+    .half 0x0996
+    .half 0x0999
+    .half 0x099A
+    .half 0x09A5
+    .half 0x09A6
+    .half 0x09A9
+    .half 0x09AA
+    .half 0x0A55
+    .half 0x0A56
+    .half 0x0A59
+    .half 0x0A5A
+    .half 0x0A65
+    .half 0x0A66
+    .half 0x0A69
+    .half 0x0A6A
+    .half 0x0A95
+    .half 0x0A96
+    .half 0x0A99
+    .half 0x0A9A
+    .half 0x0AA5
+    .half 0x0AA6
+    .half 0x0AA9
+    .half 0x0AAA

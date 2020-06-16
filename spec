@@ -53,7 +53,6 @@ beginseg
     include "build/src/libultra_boot_O2/__osSiRawReadIo.o"
     include "build/src/libultra_boot_O1/osGetThreadId.o"
     include "build/asm/osSetIntMask.o"
-    include "build/data/osSetIntMask.rodata.o"
     include "build/src/libultra_boot_O2/osViSetMode.o"
     include "build/asm/__osProbeTLB.o"
     include "build/src/libultra_boot_O1/osGetMemSize.o"
@@ -318,7 +317,6 @@ beginseg
     include "build/src/code/z_kanfont.o"
     include "build/src/code/z_kankyo.o"
     include "build/data/z_kankyo.data.o"
-    include "build/data/z_kankyo.rodata.o"
     include "build/data/z_kankyo.bss.o"
     include "build/src/code/z_lib.o"
     include "build/src/code/z_lifemeter.o"
@@ -358,7 +356,6 @@ beginseg
     include "build/data/z_skin_matrix.data.o"
     include "build/src/code/z_sram.o"
     include "build/data/z_sram.data.o"
-    include "build/data/z_sram.rodata.o"
     include "build/src/code/code_800A9D40.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/z_text.data.o"
@@ -559,9 +556,11 @@ endseg
 beginseg
     name "ovl_select"
     include "build/src/overlays/gamestates/ovl_select/z_select.o"
-    include "build/data/overlays/gamestates/z_select.data.o"
-    include "build/data/overlays/gamestates/z_select.rodata.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/gamestates/ovl_select/ovl_select_reloc.o"
+#else
     include "build/data/overlays/gamestates/z_select.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -821,8 +820,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Trap"
     include "build/src/overlays/actors/ovl_Bg_Haka_Trap/z_bg_haka_trap.o"
-    include "build/data/overlays/actors/z_bg_haka_trap.data.o"
-    include "build/data/overlays/actors/z_bg_haka_trap.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Trap/ovl_Bg_Haka_Trap_reloc.o"
 endseg
 
 beginseg

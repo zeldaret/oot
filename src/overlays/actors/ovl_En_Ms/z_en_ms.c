@@ -101,14 +101,14 @@ void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     EnMs_SetOfferText(&this->actor, globalCtx);
     if (func_8002F194(&this->actor, globalCtx) != 0) { // if talk is initiated
         this->actionFunc = EnMs_Talk;
         return;
     }
 
-    if ((this->actor.xzDistanceFromLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
+    if ((this->actor.xzDistFromLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         func_8002F2CC(&this->actor, globalCtx, 90.0f);
     }
 }

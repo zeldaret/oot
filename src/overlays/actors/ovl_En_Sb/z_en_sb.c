@@ -107,7 +107,7 @@ void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
     s32 i;
 
-    if (this->actor.unk_84 > 0) {
+    if (this->actor.waterY > 0) {
         for (i = 0; i < 10; i++) {
             func_800293E4(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
@@ -138,7 +138,7 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 
 void EnSb_SetupLunge(EnSb* this) {
     f32 frames = SkelAnime_GetFrameCount(&D_06000124.genericHeader);
-    f32 playbackSpeed = this->actor.unk_84 > 0.0f ? 1.0f : 0.0f;
+    f32 playbackSpeed = this->actor.waterY > 0.0f ? 1.0f : 0.0f;
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frames, 2, 0);
     this->behavior = SHELLBLADE_LUNGE;
@@ -161,7 +161,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
-        if (this->actor.unk_84 > 0.0f) {
+        if (this->actor.waterY > 0.0f) {
             this->actor.speedXZ = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 2.1f;
@@ -179,9 +179,9 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
 
 void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
     // always face toward link
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistanceFromLink <= 160.0f) && (this->actor.xzDistanceFromLink > 40.0f)) {
+    if ((this->actor.xzDistFromLink <= 160.0f) && (this->actor.xzDistFromLink > 40.0f)) {
         EnSb_SetupOpen(this);
     }
 }
@@ -193,8 +193,8 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
         this->timer = 15;
         EnSb_SetupWaitOpen(this);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
-        if ((this->actor.xzDistanceFromLink > 160.0f) || (this->actor.xzDistanceFromLink <= 40.0f)) {
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
+        if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
             EnSb_SetupWaitClosed(this);
         }
     }
@@ -203,9 +203,9 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
     s16 timer = this->timer;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistanceFromLink > 160.0f) || (this->actor.xzDistanceFromLink <= 40.0f)) {
+    if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
         EnSb_SetupWaitClosed(this);
     }
 
@@ -213,7 +213,7 @@ void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
         this->timer = timer - 1;
     } else {
         this->timer = 0;
-        this->attackYaw = this->actor.rotTowardsLinkY;
+        this->attackYaw = this->actor.yawTowardsLink;
         this->actionFunc = EnSb_TurnAround;
     }
 }
@@ -226,7 +226,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.posRot.rot.y = this->attackYaw;
-        if (this->actor.unk_84 > 0.0f) {
+        if (this->actor.waterY > 0.0f) {
             this->actor.velocity.y = 3.0f;
             this->actor.speedXZ = 5.0f;
             this->actor.gravity = -0.35f;
@@ -246,7 +246,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & 2))) {
-        if (!(this->actor.unk_84 > 0.0f)) {
+        if (!(this->actor.waterY > 0.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->actor.bgCheckFlags = this->actor.bgCheckFlags & ~2;
@@ -267,7 +267,7 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
         if (this->bouncesLeft != 0) {
             this->bouncesLeft--;
             this->timer = 1;
-            if (this->actor.unk_84 > 0.0f) {
+            if (this->actor.waterY > 0.0f) {
                 this->actor.velocity.y = 3.0f;
                 this->actor.speedXZ = 5.0f;
                 this->actor.gravity = -0.35f;
@@ -361,7 +361,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
                     hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
-                    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+                    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
@@ -379,7 +379,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
                     hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
-                    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+                    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
@@ -417,7 +417,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->isDead) {
-        if (this->actor.unk_84 > 0.0f) {
+        if (this->actor.waterY > 0.0f) {
             this->actor.params = 4;
         } else {
             this->actor.params = 1;
@@ -461,7 +461,7 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      EnSb_PostLimbDraw, &this->actor);
     if (this->fire != 0) {
-        this->actor.unk_114++;
+        this->actor.dmgEffectTimer++;
         fireDecr = this->fire - 1;
         // this is intended to draw flames after being burned, but the condition is never met to run this code
         // fire gets set to 4 when burned, decrements to 3 and fails the "& 1" check and never stores the decrement

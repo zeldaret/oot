@@ -518,7 +518,7 @@ f32 func_80038B7C(CollisionPoly*, Vec3f*);
 // ? func_8003C614(?);
 f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
-// ? func_8003C9A4(?);
+f32 func_8003C9A4(CollisionContext*, CollisionPoly**, UNK_PTR, Actor*, Vec3f*);
 f32 func_8003CA0C(GlobalContext*, CollisionContext*, CollisionPoly**, u32*, Actor*, Vec3f*);
 f32 func_8003CB30(CollisionContext*, CollisionPoly*, Vec3f*, MtxF*);
 f32 func_8003CCA4(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
@@ -831,6 +831,7 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
 // ? func_800626B0(?);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 // ? func_80062734(?);
+void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
 void func_80062A28(GlobalContext*, Vec3f*);
 void func_80062B80(GlobalContext*, Vec3f*);
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v);
@@ -1634,7 +1635,7 @@ void PadMgr_HandlePreNMI(PadMgr* padmgr);
 // This function must remain commented out, because it is called incorrectly in
 // fault.c (actual bug in game), and the compiler notices and won't compile it
 // void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
-void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQ, UNK_TYPE arg2, OSId id, OSPri priority, void* stack);
+void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);
 void Sched_SwapFrameBuffer(CfbInfo* cfbInfo);
 void func_800C84E4(SchedContext* sc, CfbInfo* cfbInfo);
 void Sched_HandleReset(SchedContext* sc);
@@ -2271,8 +2272,8 @@ void GfxPrint_PrintCharImpl(GfxPrint*, u8);
 void GfxPrint_PrintChar(GfxPrint*, u8);
 void GfxPrint_PrintStringWithSize(GfxPrint*, const void*, size_t, size_t);
 GfxPrint* GfxPrint_Callback(GfxPrint*, const char*, size_t);
-void GfxPrint_Ctor(GfxPrint*);
-void GfxPrint_Dtor(GfxPrint*);
+void GfxPrint_Init(GfxPrint*);
+void GfxPrint_Destroy(GfxPrint*);
 void GfxPrint_Open(GfxPrint*, Gfx*);
 Gfx* GfxPrint_Close(GfxPrint*);
 void GfxPrint_VPrintf(GfxPrint*, const char*, va_list);
@@ -2547,8 +2548,8 @@ void func_80112098(GlobalContext* globalCtx);
 
 void Title_Init(TitleContext*);
 void Title_Destroy(TitleContext* this);
-void func_80801E44(GameState*); // Select_Init
-void func_80801E0C(GameState*); // Select_Destroy
+void Select_Init(SelectContext*);
+void Select_Destroy(SelectContext*);
 void Opening_Init(OpeningContext* this);
 void Opening_Destroy(OpeningContext* this);
 void func_80811A20(GameState*); // FileChoose_Init
