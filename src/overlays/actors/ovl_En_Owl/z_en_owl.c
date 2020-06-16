@@ -16,7 +16,7 @@ extern AnimationHeader D_06001168;
 extern SkeletonHeader D_06003F18;
 extern SkeletonHeader D_060100B0;
 extern AnimationHeader D_060015CC;
-extern AnimationHeader D_06003760;
+extern AnimationHeader D_0600C8A0;
 extern AnimationHeader D_0600C684;
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -89,34 +89,28 @@ void func_80ACC460(EnOwl* this);
 
 void func_80ACBEA0(EnOwl*,GlobalContext*);
 
-//#define NON_MATCHING
+#define NON_MATCHING
 #ifdef NON_MATCHING
 // Close, stack alloc and using r0 instead of zero in unk_406 assignment
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
 {
     EnOwl* this = THIS;
     ColliderCylinder* collider;
-    u8 zero;
     u32 whichOwl;
     s32 switchFlag;
-    SkelAnime* skelAnime2;
+    s16 yRot;
 
     Actor_ProcessInitChain(&this->actor, sOwlInitChain);
     ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003F18, &D_060015CC, this->drawTbl, this->transitionTbl, 0x15);
-    skelAnime2 = &this->skelAnime2;
-    SkelAnime_InitSV(globalCtx, skelAnime2, &D_060100B0, &D_06003760, this->drawTbl2, this->transitionTbl2, 0x10);
-    collider = &this->collider;
-    ActorCollider_AllocCylinder(globalCtx, collider);
-    ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &sOwlCylinderInit);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->drawTbl2, this->transitionTbl2, 0x10);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sOwlCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.minVelocityY = -10.0f;
     this->actor.unk_4C = 500.0f;
-    EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, skelAnime2, &D_06003760, 0.0f);
-    zero = 0;
-    this->unk_406 = zero;
-    this->actionFlags = this->unk_406;
-    this->unk_409 = 0;
+    EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, &this->skelAnime2, &D_0600C8A0, 0.0f);
+    this->actionFlags = this->unk_406 = this->unk_409 = 0;
     this->unk_405 = 4;
     this->unk_407 = 0;
     this->unk_404 = 0;
@@ -143,19 +137,19 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
     switch(whichOwl){
         // Default, does nothing
         case OWL_DEFAULT:
-            this->actionFunc = &EnOwl_WaitDefault;
+            this->actionFunc = EnOwl_WaitDefault;
             this->actor.unk_F4 = 4000.0f;
             this->unk_40A = 0;
             break;
         // outside kokiri forest
         case OWL_OUTSIDE_KOKIRI:
-            this->actionFunc = &EnOwl_WaitOutsideKokiri;
+            this->actionFunc = EnOwl_WaitOutsideKokiri;
             break;
         // Entrance to Hyrule castle
         case OWL_HYRULE_CASTLE:
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
-            this->actionFunc = &EnOwl_WaitHyruleCastle;
+            this->actionFunc = EnOwl_WaitHyruleCastle;
             break;
         // In front of kakariko
         case OWL_KAKARIKO:
@@ -166,7 +160,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
                 return;
             }
 
-            this->actionFunc = &EnOwl_WaitKakariko;
+            this->actionFunc = EnOwl_WaitKakariko;
             break;
         // Between Lake Hylia and Gerudo Valley
         case OWL_HYLIA_GERUDO:
@@ -176,11 +170,11 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->actionFunc = &EnOwl_WaitGerudo;
+            this->actionFunc = EnOwl_WaitGerudo;
             break;
         // In front of Lake Hylia
         case OWL_LAKE_HYLIA:
-            this->actionFunc = &EnOwl_WaitLakeHylia;
+            this->actionFunc = EnOwl_WaitLakeHylia;
             break;
         // unknown
         case OWL_ZORA_RIVER:
@@ -192,24 +186,24 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
                 return;
             }
 
-            this->actionFunc = &EnOwl_WaitZoraRiver;
+            this->actionFunc = EnOwl_WaitZoraRiver;
             break;
         // Lake hylia shortcut
         case OWL_HYLIA_SHORTCUT:
-            this->actionFunc = &EnOwl_WaitHyliaShortcut;
+            this->actionFunc = EnOwl_WaitHyliaShortcut;
             Flags_UnsetSwitch(globalCtx, 0x23);
             return;
         // Death mountain shortcut
         case OWL_DEATH_MOUNTAIN:
-            this->actionFunc = &EnOwl_WaitDeathMountainShortcut;
+            this->actionFunc = EnOwl_WaitDeathMountainShortcut;
             break;
         // Death mountain shortcut
         case OWL_DEATH_MOUNTAIN2:
-            this->actionFunc = &EnOwl_WaitDeathMountainShortcut;
+            this->actionFunc = EnOwl_WaitDeathMountainShortcut;
             break;
         // Dessert Colossus
         case OWL_DESSERT_COLOSSUS:
-            this->actionFunc = &func_80ACB3E0;
+            this->actionFunc = func_80ACB3E0;
             break;
         // Lost woods before saria
         case OWL_LOST_WOODS_PRESARIA:
@@ -218,7 +212,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->actionFunc = &EnOwl_WaitLWPreSaria;
+            this->actionFunc = EnOwl_WaitLWPreSaria;
             break;
         // Lost woods after saria
         case OWL_LOST_WOODS_POSTSARIA:
@@ -227,7 +221,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->actionFunc = &EnOwl_WaitLWPostSaria;
+            this->actionFunc = EnOwl_WaitLWPostSaria;
             break;
         // Outside kokiri forest
         default:
@@ -237,7 +231,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
             osSyncPrintf(VT_RST);
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
-            this->actionFunc = &EnOwl_WaitOutsideKokiri;
+            this->actionFunc = EnOwl_WaitOutsideKokiri;
             break;
     }
 }
@@ -931,8 +925,6 @@ void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx)
     }
 }
 
-#ifdef NON_MATCHING
-// Actually matches, temporary for jtbl
 void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx)
 {
     switch(globalCtx->csCtx.npcActions[7]->action - 1){
@@ -941,7 +933,7 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx)
             break;
         case CS_STATE_SKIPPABLE_INIT:
             this->actor.draw = &EnOwl_Draw;
-            EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, &this->skelAnime, &D_06003760, 0.0f);
+            EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, &this->skelAnime, &D_0600C8A0, 0.0f);
             break;
         case CS_STATE_SKIPPABLE_EXEC:
             this->actor.draw = &EnOwl_Draw;
@@ -957,9 +949,6 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx)
     }
     this->unk_40A = globalCtx->csCtx.npcActions[7]->action;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBAB8.s")
-#endif
 
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx)
 {
@@ -1249,17 +1238,17 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
 {
     EnOwl* this = THIS;
     u32 phi_v0;
-    s32 phi_a1;
+    s16 phi_a1;
     s16 phi_return;
     AnimationHeader* curAnim;
     f32 curAnimFrame;
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 5);
     this->unk_410(this);
     this->actionFlags &= ~8;
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
     if (this->actor.update == NULL)
     {
         osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"); // Owl disappears !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1269,9 +1258,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
     {
         curAnim = this->skelAnime.animCurrentSeg;
         curAnimFrame = this->skelAnime.animCurrentFrame;
-        if(((&D_06001168 == this->skelAnime.animCurrentSeg) && (2.0f != this->skelAnime.animCurrentFrame) &&
-        ((9.0f == this->skelAnime.animCurrentFrame) || (23.0f == this->skelAnime.animCurrentFrame) || (40.0f == this->skelAnime.animCurrentFrame) || (58.0f == this->skelAnime.animCurrentFrame) || (&D_060015CC != this->skelAnime.animCurrentSeg) || (4.0f == this->skelAnime.animCurrentFrame))) ||
-        ((&D_060015CC == this->skelAnime.animCurrentSeg) && 4.0f == this->skelAnime.animCurrentFrame)){
+        if((this->skelAnime.animCurrentSeg == &D_06001168 && this->skelAnime.animCurrentFrame != 2.0f && (this->skelAnime.animCurrentFrame == 9.0f || this->skelAnime.animCurrentFrame == 23.0f || this->skelAnime.animCurrentFrame == 40.0f || this->skelAnime.animCurrentFrame == 58.0f)) || (this->skelAnime.animCurrentSeg == &D_060015CC && this->skelAnime.animCurrentFrame == 4.0f)){
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
@@ -1281,23 +1268,13 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
         Actor_MoveForward(&this->actor);
     }
 
-    if ((this->actionFlags & 2) != 0)
+    if (this->actionFlags & 2)
     {
         this->curDlistIdx = 2;
     }
     else
     {
-        if (this->nextDlistIdx == 0)
-        {
-            phi_v0 = 0;
-        }
-        else
-        {
-             this->nextDlistIdx--;
-             phi_v0 = this->nextDlistIdx;
-        }
-
-        if (phi_v0 == 0)
+        if (DECR(this->nextDlistIdx) == 0)
         {
             this->nextDlistIdx = Math_Rand_S16Offset(0x3C, 0x3C);
         }
@@ -1309,26 +1286,26 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
             this->curDlistIdx = 0;
         }
     }
+    
     if ((this->actionFlags & 8) == 0)
     {
         phi_a1 = 0;
-        if ((this->actionFlags & 0x10) != 0)
+        if (this->actionFlags & 0x10)
         {
             switch(this->unk_404){
                 case 0:
                     this->unk_404 = 1;
                     this->unk_405 = 6;
-                    phi_a1 = 0;
                     break;
                 case 1:
                     this->unk_405--;
                     if (this->unk_405 != 0)
                     {
-                        phi_a1 = (s16)(Math_Coss(this->unk_405 * 8192) * 4096.0f);
+                        phi_a1 = Math_Coss(this->unk_405 * 8192) * 4096.0f;
                     }
                     else
                     {
-                        if ((this->actionFlags & 2) != 0)
+                        if (this->actionFlags & 2)
                         {
                             this->unk_3EE = 0;
                         }
@@ -1336,7 +1313,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
                         {
                             this->unk_3EE = 0x20;
                         }
-                        if ((this->actionFlags & 0x20) != 0)
+                        if (this->actionFlags & 0x20)
                         {
                             this->unk_3EE -= 4;
                         }
@@ -1346,14 +1323,10 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
                         }
                         this->unk_404++;
                     }
-                    if ((this->actionFlags & 0x20) != 0)
-                    {
-                        phi_a1 = -phi_a1;
-                    }
+                    phi_a1 = this->actionFlags & 0x20 ? -phi_a1 : phi_a1;
                     break;
                 case 2:
-                    phi_a1 = 0;
-                    if (func_80ACC5CC(this) != 0)
+                    if (func_80ACC5CC(this))
                     {
                         this->actionFlags &= ~0x10;
                         this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
@@ -1424,7 +1397,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
                         break;
                 }
 
-                if ((this->actionFlags & 0x20) != 0)
+                if (this->actionFlags & 0x20)
                 {
                     phi_a1 = -phi_a1;
                 }
@@ -1471,7 +1444,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
     else
     {
         this->unk_3F2 = 0;
-        if ((this->actionFlags & 2) != 0)
+        if (this->actionFlags & 2)
         {
             this->unk_3F0 = -0x8000;
         }

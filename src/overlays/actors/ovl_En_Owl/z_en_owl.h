@@ -27,6 +27,7 @@ typedef enum {
 
 typedef struct EnOwl EnOwl;
 
+typedef void (*OwlFunc2)(EnOwl* this, GlobalContext* globalCtx);
 typedef void (*OwlFunc)(EnOwl* this);
 
 typedef struct EnOwl{
@@ -59,7 +60,7 @@ typedef struct EnOwl{
     /* 0x0409 */ u8 unk_409;
     /* 0x040A */ u8 unk_40A;
     /* 0x040B */ u8 unk_40B;
-    /* 0x040C */ ActorFunc actionFunc;
+    /* 0x040C */ OwlFunc2 actionFunc;
     /* 0x0410 */ OwlFunc unk_410;
 }; // size = 0x0414
 
