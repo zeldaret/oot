@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ObjBean;
+
+typedef struct ObjBean {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[0x94];
 } ObjBean; // size = 0x01F8

@@ -8,10 +8,12 @@
 
 #define FLAGS 0x04000010
 
-void ObjKibako_Init(ObjKibako* this, GlobalContext* globalCtx);
-void ObjKibako_Destroy(ObjKibako* this, GlobalContext* globalCtx);
-void ObjKibako_Update(ObjKibako* this, GlobalContext* globalCtx);
-void ObjKibako_Draw(ObjKibako* this, GlobalContext* globalCtx);
+#define THIS ((ObjKibako*)thisx)
+
+void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjKibako_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjKibako_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjKibako_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Kibako_InitVars = {

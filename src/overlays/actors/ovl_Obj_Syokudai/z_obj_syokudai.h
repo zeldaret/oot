@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ObjSyokudai;
+
+typedef struct ObjSyokudai {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0xB0];
 } ObjSyokudai; // size = 0x01FC

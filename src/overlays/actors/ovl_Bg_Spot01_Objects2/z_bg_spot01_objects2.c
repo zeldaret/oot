@@ -8,9 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgSpot01Objects2_Init(BgSpot01Objects2* this, GlobalContext* globalCtx);
-void BgSpot01Objects2_Destroy(BgSpot01Objects2* this, GlobalContext* globalCtx);
-void BgSpot01Objects2_Update(BgSpot01Objects2* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Objects2*)thisx)
+
+void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Objects2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Objects2_Update(Actor* thisx, GlobalContext* globalCtx);
+
 // func_808AC22C
 void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void func_808AC474(BgSpot01Objects2* this, GlobalContext* globalCtx);

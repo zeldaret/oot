@@ -3,13 +3,13 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .text
 
-.align 4
+.balign 16
 
-glabel func_80103010
+glabel osPfsFindFile
 /* B7A1B0 80103010 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B7A1B4 80103014 AFBF003C */  sw    $ra, 0x3c($sp)
 /* B7A1B8 80103018 AFBE0038 */  sw    $fp, 0x38($sp)

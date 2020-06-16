@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnSiofuki_Init(EnSiofuki* this, GlobalContext* globalCtx);
-void EnSiofuki_Destroy(EnSiofuki* this, GlobalContext* globalCtx);
-void EnSiofuki_Update(EnSiofuki* this, GlobalContext* globalCtx);
-void EnSiofuki_Draw(EnSiofuki* this, GlobalContext* globalCtx);
+#define THIS ((EnSiofuki*)thisx)
+
+void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSiofuki_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSiofuki_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSiofuki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Siofuki_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000005
 
-void EnEiyer_Init(EnEiyer* this, GlobalContext* globalCtx);
-void EnEiyer_Destroy(EnEiyer* this, GlobalContext* globalCtx);
-void EnEiyer_Update(EnEiyer* this, GlobalContext* globalCtx);
-void EnEiyer_Draw(EnEiyer* this, GlobalContext* globalCtx);
+#define THIS ((EnEiyer*)thisx)
+
+void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnEiyer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Eiyer_InitVars = {

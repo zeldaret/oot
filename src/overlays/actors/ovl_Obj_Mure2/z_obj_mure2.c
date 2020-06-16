@@ -8,8 +8,10 @@
 
 #define FLAGS 0x00000000
 
-void ObjMure2_Init(ObjMure2* this, GlobalContext* globalCtx);
-void ObjMure2_Update(ObjMure2* this, GlobalContext* globalCtx);
+#define THIS ((ObjMure2*)thisx)
+
+void ObjMure2_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjMure2_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Mure2_InitVars = {

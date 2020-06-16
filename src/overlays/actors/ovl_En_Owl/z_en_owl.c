@@ -3,6 +3,8 @@
 
 #define FLAGS 0x00000019
 
+#define THIS ((EnOwl*)thisx)
+
 extern Gfx D_060089A8;
 extern Gfx D_06008DA8;
 extern Gfx D_060091A8;
@@ -17,11 +19,12 @@ extern AnimationHeader D_060015CC;
 extern AnimationHeader D_06003760;
 extern AnimationHeader D_0600C684;
 
-void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx);
-void EnOwl_Destroy(EnOwl* this, GlobalContext* globalCtx);
-void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx);
-void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx);
-#define NON_MATCHING
+void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx);
+//#define NON_MATCHING
+
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORTYPE_NPC,
@@ -34,8 +37,11 @@ const ActorInit En_Owl_InitVars = {
     (ActorFunc)EnOwl_Draw,
 };
 
-ColliderCylinderInit sOwlColliderInit = {
-    0x0A, 0x00, 0x11, 0x39, 0x10, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00000000, 0x00, 0x00, 0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x001E, 0x0028, 0x0000, 0x0000, 0x0000, 0x0000,
+ColliderCylinderInit sOwlCylinderInit =
+{
+    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 30, 40, 0, { 0, 0, 0 } },
 };
 
 InitChainEntry sOwlInitChain[] = {
@@ -86,9 +92,10 @@ void func_80ACBEA0(EnOwl*,GlobalContext*);
 //#define NON_MATCHING
 #ifdef NON_MATCHING
 // Close, stack alloc and using r0 instead of zero in unk_406 assignment
-void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
+void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
 {
-    ColliderCylinderMain* colCylinder;
+    EnOwl* this = THIS;
+    ColliderCylinder* collider;
     u8 zero;
     u32 whichOwl;
     s32 switchFlag;
@@ -99,10 +106,10 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003F18, &D_060015CC, this->drawTbl, this->transitionTbl, 0x15);
     skelAnime2 = &this->skelAnime2;
     SkelAnime_InitSV(globalCtx, skelAnime2, &D_060100B0, &D_06003760, this->drawTbl2, this->transitionTbl2, 0x10);
-    colCylinder = &this->colCylinder;
-    ActorCollider_AllocCylinder(globalCtx, colCylinder);
-    ActorCollider_InitCylinder(globalCtx, colCylinder, &this->actor, &sOwlColliderInit);
-    this->actor.sub_98.mass = 0xFF;
+    collider = &this->collider;
+    ActorCollider_AllocCylinder(globalCtx, collider);
+    ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &sOwlCylinderInit);
+    this->actor.colChkInfo.mass = 0xFF;
     this->actor.minVelocityY = -10.0f;
     this->actor.unk_4C = 500.0f;
     EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, skelAnime2, &D_06003760, 0.0f);
@@ -238,10 +245,10 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Init.s")
 #endif
 
-void EnOwl_Destroy(EnOwl* this, GlobalContext* globalCtx)
+void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx)
 {
-    EnOwl* thisx = this;
-    ActorCollider_FreeCylinder(globalCtx, &thisx->colCylinder);
+    EnOwl* this = THIS;
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 /*
@@ -293,7 +300,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
 
     this->actor.textId = textId;
     distCheck = (flags & 2) ? 200.0f : 1000.0f;
-    if (this->actor.xzDistanceFromLink < targetDist)
+    if (this->actor.xzDistFromLink < targetDist)
     {
         this->actor.flags |= 0x10000;
         func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
@@ -308,7 +315,7 @@ s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId)
         return 1;
     }
     this->actor.textId = textId;
-    if (this->actor.xzDistanceFromLink < 120.0f)
+    if (this->actor.xzDistFromLink < 120.0f)
     {
         func_8002F1C4(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
     }
@@ -835,7 +842,7 @@ void func_80ACB748(EnOwl* this, GlobalContext* globalCtx)
     u32 whichOwl;
 
     whichOwl = (this->actor.params & 0xFC0) >> 6;
-    xyzDist = func_800CB678(&this->eye, &globalCtx->view.eye) / 45.0f;
+    xyzDist = Math3D_Vec3f_DistXYZ(&this->eye, &globalCtx->view.eye) / 45.0f;
     this->eye.x = globalCtx->view.eye.x;
     this->eye.y = globalCtx->view.eye.y;
     this->eye.z = globalCtx->view.eye.z;
@@ -870,9 +877,9 @@ void func_80ACB748(EnOwl* this, GlobalContext* globalCtx)
 
 void func_80ACB904(EnOwl* this, GlobalContext* globalCtx)
 {
-    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.actorActions[7] != NULL))
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.npcActions[7] != NULL))
     {
-        if (this->unk_40A != globalCtx->csCtx.actorActions[7]->action)
+        if (this->unk_40A != globalCtx->csCtx.npcActions[7]->action)
         {
             func_80ACD130(this, globalCtx, 7);
             func_80ACBAB8(this, globalCtx);
@@ -888,8 +895,8 @@ void func_80ACB904(EnOwl* this, GlobalContext* globalCtx)
 
 void func_80ACB994(EnOwl* this, GlobalContext* globalCtx)
 {
-    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.actorActions[7] != NULL)){
-        if (this->unk_40A != globalCtx->csCtx.actorActions[7]->action)
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.npcActions[7] != NULL)){
+        if (this->unk_40A != globalCtx->csCtx.npcActions[7]->action)
         {
             func_80ACD130(this, globalCtx, 7);
             func_80ACBAB8(this, globalCtx);
@@ -905,8 +912,8 @@ void func_80ACB994(EnOwl* this, GlobalContext* globalCtx)
 void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx)
 {
     u16 angle;
-    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.actorActions[7] != NULL)){
-        if (this->unk_40A != globalCtx->csCtx.actorActions[7]->action)
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.npcActions[7] != NULL)){
+        if (this->unk_40A != globalCtx->csCtx.npcActions[7]->action)
         {
             this->actionFlags |= 4;
             func_80ACD130(this, globalCtx, 7);
@@ -914,7 +921,7 @@ void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx)
         }
         else
         {
-             this->actor.posRot.rot.z = globalCtx->csCtx.actorActions[7]->pitch;
+            this->actor.posRot.rot.z = globalCtx->csCtx.npcActions[7]->urot.y;
         }
     }
 
@@ -928,7 +935,7 @@ void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx)
 // Actually matches, temporary for jtbl
 void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx)
 {
-    switch(globalCtx->csCtx.actorActions[7]->action - 1){
+    switch(globalCtx->csCtx.npcActions[7]->action - 1){
         case CS_STATE_IDLE:
             EnOwl_ChangeMode(this, &func_80ACB904, &func_80ACC540, &this->skelAnime, &D_060015CC, 0.0f);
             break;
@@ -948,21 +955,18 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx)
             Actor_Kill(&this->actor);
             break;
     }
-    this->unk_40A = globalCtx->csCtx.actorActions[7]->action;
+    this->unk_40A = globalCtx->csCtx.npcActions[7]->action;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBAB8.s")
 #endif
-extern f32 D_80ACD844;
-extern f32 D_80ACD848;
-extern f32 D_80ACD84C;
+
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx)
 {
     this->actor.flags |= 0x20;
-    if(D_80ACD844 < this->actor.xzDistanceFromLink)
-    //if (6000.0f < this->actor.xzDistanceFromLink)
+    if(this->actor.xzDistFromLink > 6000.0f)
     {
-        if ((this->actionFlags & 0x80) == 0)
+        if (!(this->actionFlags & 0x80))
         {
             Actor_Kill(&this->actor);
         }
@@ -975,18 +979,16 @@ void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx)
     }
     if ((this->unk_3F8 + 1000.0f) < this->actor.posRot.pos.y)
     {
-        if (0.0f < this->actor.velocity.y)
+        if (this->actor.velocity.y > 0.0f)
         {
-            //this->actor.velocity.y -= 0.4f;
-            this->actor.velocity.y -= D_80ACD848;
+            this->actor.velocity.y -= 0.4f;
         }
     }
     else
     {
         if (this->actor.velocity.y < 4.0f)
         {
-            this->actor.velocity.y += D_80ACD84C;
-            //this->actor.velocity.y += 0.2f;
+            this->actor.velocity.y += 0.2f;
         }
     }
     this->actionFlags |= 8;
@@ -1069,9 +1071,9 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx)
 
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    if (this->actor.xzDistanceFromLink < 50.0f)
+    if (this->actor.xzDistFromLink < 50.0f)
     {
-        if (func_800BFC84(globalCtx) == 0)
+        if (!Gameplay_InCsMode(globalCtx))
         {
             whichOwl = (this->actor.params & 0xFC0) >> 6;
             osSyncPrintf(VT_FGCOL(CYAN));
@@ -1144,7 +1146,6 @@ void func_80ACC23C(EnOwl* this, GlobalContext* globalCtx)
     this->actionFlags |= 8;
 }
 
-extern f32 D_80ACD850;
 void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx)
 {
     if ((this->actionFlags & 1) != 0)
@@ -1152,8 +1153,7 @@ void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx)
         this->unk_3FE = 3;
         EnOwl_ChangeMode(this, &func_80ACC23C, &func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
         this->unk_3F8 = this->actor.posRot.pos.y;
-        this->actor.velocity.y = D_80ACD850;
-        //this->actor.velocity.y = 0.2f;
+        this->actor.velocity.y = 0.2f;
     }
     this->actionFlags |= 8;
 }
@@ -1245,16 +1245,17 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx)
 }
 
 #ifdef NON_MATCHING
-void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
+void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
 {
+    EnOwl* this = THIS;
     u32 phi_v0;
     s32 phi_a1;
     s16 phi_return;
     AnimationHeader* curAnim;
     f32 curAnimFrame;
 
-    ActorCollider_Cylinder_Update(&this->actor, &this->colCylinder);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->colCylinder);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colCtx, &this->collider);
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 5);
     this->unk_410(this);
     this->actionFlags &= ~8;
@@ -1487,7 +1488,6 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
 
 #define NON_MATCHING
 
-// "mtxUpdate"
 s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, Actor* actor)
 {
     EnOwl* this = (EnOwl*)actor;
@@ -1518,7 +1518,6 @@ s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, V
     return 0;
 }
 
-// "appendDList"
 void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, Actor* actor)
 {
     EnOwl* this = (EnOwl*)actor;
@@ -1541,20 +1540,19 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
     }
 }
 
-extern char D_FN1[];
-extern char D_FN2[];
-void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx)
+void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx)
 {
-    char pad[8];
+    char pad[4];
+    EnOwl* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* gfx[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, D_FN1, 2247);
+    Graph_OpenDisps(gfx, globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
-    SkelAnime_DrawSV(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->actorDrawTbl, this->curSkelAnime->dListCount, &EnOwl_OverrideLimbDraw, &EnOwl_PostLimbUpdate, &this->actor);
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, D_FN2, 2264);
+    SkelAnime_DrawSV(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->limbDrawTbl, this->curSkelAnime->dListCount, &EnOwl_OverrideLimbDraw, &EnOwl_PostLimbUpdate, &this->actor);
+    Graph_CloseDisps(gfx, globalCtx->state.gfxCtx, "../z_en_owl.c", 2264);
 }
 
 void EnOwl_ChangeMode(EnOwl *this, ActorFunc actionFunc, OwlFunc arg2, SkelAnime* skelAnime, AnimationHeader* animation, f32 transitionRate)
@@ -1569,19 +1567,19 @@ void func_80ACD130(EnOwl* this, GlobalContext* globalCtx, s32 idx)
 {
     Vec3f startPos;
 
-    startPos.x = globalCtx->csCtx.actorActions[idx]->startPos.x;
-    startPos.y = globalCtx->csCtx.actorActions[idx]->startPos.y;
-    startPos.z = globalCtx->csCtx.actorActions[idx]->startPos.z;
+    startPos.x = globalCtx->csCtx.npcActions[idx]->startPos.x;
+    startPos.y = globalCtx->csCtx.npcActions[idx]->startPos.y;
+    startPos.z = globalCtx->csCtx.npcActions[idx]->startPos.z;
     this->actor.posRot.pos = startPos;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.actorActions[idx]->pitch;
-    this->actor.shape.rot.z = globalCtx->csCtx.actorActions[idx]->yaw;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.npcActions[idx]->rot.y;
+    this->actor.shape.rot.z = globalCtx->csCtx.npcActions[idx]->urot.z;
 }
 
 f32 func_80ACD1C4(GlobalContext* globalCtx, s32 idx)
 {
     f32 ret;
 
-    ret = func_8006F93C(globalCtx->csCtx.actorActions[idx]->endFrame, globalCtx->csCtx.actorActions[idx]->startFrame, globalCtx->csCtx.frames);
+    ret = func_8006F93C(globalCtx->csCtx.npcActions[idx]->endFrame, globalCtx->csCtx.npcActions[idx]->startFrame, globalCtx->csCtx.frames);
     if (ret > 1.0f)
     {
         ret = 1.0f;
@@ -1611,18 +1609,18 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx)
     f32 phi_f2;
 
     t = func_80ACD1C4(globalCtx, 7);
-    pos.x = globalCtx->csCtx.actorActions[7]->startPos.x;
-    pos.y = globalCtx->csCtx.actorActions[7]->startPos.y;
-    pos.z = globalCtx->csCtx.actorActions[7]->startPos.z;
-    angle = (s16)globalCtx->csCtx.actorActions[7]->pitch - this->actor.posRot.rot.z;
+    pos.x = globalCtx->csCtx.npcActions[7]->startPos.x;
+    pos.y = globalCtx->csCtx.npcActions[7]->startPos.y;
+    pos.z = globalCtx->csCtx.npcActions[7]->startPos.z;
+    angle = (s16)globalCtx->csCtx.npcActions[7]->rot.y - this->actor.posRot.rot.z;
     if(angle < 0){
         angle += 0x10000;
     }
     angle = (s16)((t * angle) + this->actor.posRot.rot.z);
     angle = (u16)angle;
-    if (this->actionFlags)
+    if (this->actionFlags & 4)
     {
-        phi_f2 = globalCtx->csCtx.actorActions[7]->roll;
+        phi_f2 = globalCtx->csCtx.npcActions[7]->urot.x;
         phi_f2 *= 0.054931640625f;
         if (phi_f2 < 0.0f)
         {
@@ -1650,10 +1648,10 @@ void func_80ACD4D4(EnOwl* this, GlobalContext* globalCtx)
     CsCmdActorAction* actorCmd;
 
     temp_ret = func_80ACD1C4(globalCtx, 7);
-    pos.x = globalCtx->csCtx.actorActions[7]->startPos.x;
-    pos.y = globalCtx->csCtx.actorActions[7]->startPos.y;
-    pos.z = globalCtx->csCtx.actorActions[7]->startPos.z;
-    actorCmd = globalCtx->csCtx.actorActions[7];
+    pos.x = globalCtx->csCtx.npcActions[7]->startPos.x;
+    pos.y = globalCtx->csCtx.npcActions[7]->startPos.y;
+    pos.z = globalCtx->csCtx.npcActions[7]->startPos.z;
+    actorCmd = globalCtx->csCtx.npcActions[7];
     endPosf.x = actorCmd->endPos.x;
     endPosf.y = actorCmd->endPos.y;
     endPosf.z = actorCmd->endPos.z;

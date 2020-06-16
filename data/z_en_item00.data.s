@@ -3,12 +3,11 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .data
 
-glabel En_Item00_InitVars
-    .incbin "baserom.z64", 0xB8C660, 0x20
+.balign 16
 
 glabel D_801154E0
     .incbin "baserom.z64", 0xB8C680, 0x2C

@@ -6,7 +6,13 @@
 
 #include "../ovl_Demo_Gt/z_demo_gt.h"
 
-typedef struct {
+struct DemoGeff;
+
+typedef void (*DemoGeffInitFunc)(struct DemoGeff*, GlobalContext*);
+typedef void (*DemoGeffActionFunc)(struct DemoGeff*, GlobalContext*);
+typedef void (*DemoGeffDrawFunc)(struct DemoGeff*, GlobalContext*);
+
+typedef struct DemoGeff {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
     /* 0x0150 */ s32 drawConfig;

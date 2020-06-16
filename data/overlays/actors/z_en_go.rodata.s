@@ -3,9 +3,11 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
+
+.balign 16
 
 glabel D_80A41C00
     .asciz "../z_en_go.c"
@@ -236,8 +238,8 @@ glabel jtbl_80A41F40
 .word L80A3EA1C
 .word L80A3EAD8
 .word L80A3EA38
-glabel D_80A41F84
- .word func_80A3F02C
+glabel jtbl_80A41F84
+ .word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -253,7 +255,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -269,7 +271,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F03C
+.word L80A3F03C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -285,7 +287,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -301,7 +303,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -317,7 +319,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 glabel D_80A420C8
  .word 0x462AA000
 glabel D_80A420CC

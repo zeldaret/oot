@@ -8,7 +8,9 @@
 
 #define FLAGS 0x00000000
 
-void EnTorch_Init(EnTorch* this, GlobalContext* globalCtx);
+#define THIS ((EnTorch*)thisx)
+
+void EnTorch_Init(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Torch_InitVars = {
     ACTOR_EN_TORCH,
@@ -26,7 +28,8 @@ static u8 sChestContents[] = {
     GI_RUPEE_BLUE, GI_RUPEE_RED, GI_RUPEE_GOLD, GI_BOMBS_20, GI_BOMBS_1, GI_BOMBS_1, GI_BOMBS_1, GI_BOMBS_1,
 };
 
-void EnTorch_Init(EnTorch* this, GlobalContext* globalCtx) {
+void EnTorch_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnTorch* this = THIS;
     s8 returnData = gSaveContext.respawn[RESPAWN_MODE_RETURN].data;
 
     /* Spawn chest with desired contents.

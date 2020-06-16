@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx);
-void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx);
-void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx);
-void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot09Obj*)thisx)
+
+void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot09Obj_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx);
 s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx);
@@ -29,7 +31,7 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-static u32 D_808B1F90[] = { 0x00000000, 0x06005520, 0x0600283C, 0x06008458, 0x06007580 };
+static UNK_PTR D_808B1F90[] = { NULL, 0x06005520, 0x0600283C, 0x06008458, 0x06007580 };
 
 static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
     func_808B1BEC,
@@ -37,21 +39,21 @@ static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
     func_808B1BA0,
 };
 
-static InitChainEntry initChain1[] = {
+static InitChainEntry sInitChain1[] = {
     ICHAIN_F32(unk_F4, 7200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 3000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 7200, ICHAIN_STOP),
 };
 
-static InitChainEntry initChain2[] = {
+static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(unk_F4, 7200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 800, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1500, ICHAIN_STOP),
 };
 
-static u32 dlists[] = { 0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210 };
+static Gfx* sDLists[] = { 0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210 };
 
-extern UNK_TYPE D_06008010;
+extern Gfx D_06008010[];
 
 s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 carpentersRescued;
@@ -83,6 +85,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
 
 s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
+
     if (thisx->params == 3) {
         Actor_SetScale(thisx, 0.1f);
     } else {
@@ -106,6 +109,7 @@ s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
 
 s32 func_808B1C70(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 i;
+
     for (i = 0; i < ARRAY_COUNT(D_808B1FA4); i++) {
         if (!D_808B1FA4[i](this, globalCtx)) {
             return 0;
@@ -115,12 +119,12 @@ s32 func_808B1C70(BgSpot09Obj* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B1CEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->dyna.actor, &initChain1);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain1);
     return 1;
 }
 
 s32 func_808B1D18(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->dyna.actor, &initChain2);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
     return 1;
 }
 
@@ -132,8 +136,8 @@ s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot09Obj* this = THIS;
 
     osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", thisx->params,
                  gSaveContext.eventChkInf[9] & 0xF);
@@ -150,24 +154,24 @@ void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx) {
+void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaCollisionContext* dynaColCtx = &globalCtx->colCtx.dyna;
-    Actor* thisx = &this->dyna.actor;
+    BgSpot09Obj* this = THIS;
 
     if (thisx->params != 0) {
         DynaPolyInfo_Free(globalCtx, dynaColCtx, this->dyna.dynaPolyId);
     }
 }
 
-void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx) {
+void BgSpot09Obj_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot09Obj* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[3];
 
-    Gfx_DrawDListOpa(globalCtx, dlists[thisx->params]);
+    Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
     if (thisx->params == 3) {
         gfxCtx = globalCtx->state.gfxCtx;
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
@@ -175,7 +179,7 @@ void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx) {
 
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, &D_06008010);
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_06008010);
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }

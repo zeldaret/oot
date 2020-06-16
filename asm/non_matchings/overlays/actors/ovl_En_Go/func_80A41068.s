@@ -46,7 +46,7 @@ glabel func_80A41068
 /* 02BA8 80A41118 010D0019 */  multu   $t0, $t5
 /* 02BAC 80A4111C 00002012 */  mflo    $a0
 /* 02BB0 80A41120 00042400 */  sll     $a0, $a0, 16
-/* 02BB4 80A41124 0C034421 */  jal     Matrix_RotateZYX
+/* 02BB4 80A41124 0C034421 */  jal     Matrix_RotateRPY
 /* 02BB8 80A41128 00042403 */  sra     $a0, $a0, 16
 /* 02BBC 80A4112C 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 02BC0 80A41130 3C0FDA38 */  lui     $t7, 0xDA38                ## $t7 = DA380000

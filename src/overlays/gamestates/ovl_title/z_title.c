@@ -18,8 +18,8 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
 
     g = *gfxp;
     g = func_8009411C(g);
-    printer = alloca(0x30);
-    GfxPrint_Ctor(printer);
+    printer = alloca(sizeof(GfxPrint));
+    GfxPrint_Init(printer);
     GfxPrint_Open(printer, g);
     GfxPrint_SetColor(printer, 0xFF, 0x9B, 0xFF, 0xFF);
     GfxPrint_SetPos(printer, 9, 21);
@@ -30,7 +30,7 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
     GfxPrint_SetPos(printer, 7, 24);
     GfxPrint_Printf(printer, "[Date:%s]", gBuildDate);
     g = GfxPrint_Close(printer);
-    GfxPrint_Dtor(printer);
+    GfxPrint_Destroy(printer);
     *gfxp = g;
 }
 
@@ -95,7 +95,7 @@ void Title_Draw(TitleContext* this) {
     func_80093D18(this->state.gfxCtx);
     Matrix_Translate(-53.0, -5.0, 0, MTXMODE_NEW);
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
-    Matrix_RotateZYX(0, sTitleRotY, 0, MTXMODE_APPLY);
+    Matrix_RotateRPY(0, sTitleRotY, 0, MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_01002720);
@@ -164,7 +164,7 @@ void Title_Init(TitleContext* this) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
     u32 pad;
 
-    this->staticSegment = Game_Alloc(&this->state, size, "../z_title.c", 611);
+    this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
     if (this->staticSegment == NULL) {
         __assert("this->staticSegment != NULL", "../z_title.c", 614);

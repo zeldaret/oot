@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgSpot01Idohashira_Init(BgSpot01Idohashira* this, GlobalContext* globalCtx);
-void BgSpot01Idohashira_Destroy(BgSpot01Idohashira* this, GlobalContext* globalCtx);
-void BgSpot01Idohashira_Update(BgSpot01Idohashira* this, GlobalContext* globalCtx);
-void BgSpot01Idohashira_Draw(BgSpot01Idohashira* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Idohashira*)thisx)
+
+void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idohashira_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot01_Idohashira_InitVars = {

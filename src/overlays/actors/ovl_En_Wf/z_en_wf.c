@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000015
 
-void EnWf_Init(EnWf* this, GlobalContext* globalCtx);
-void EnWf_Destroy(EnWf* this, GlobalContext* globalCtx);
-void EnWf_Update(EnWf* this, GlobalContext* globalCtx);
-void EnWf_Draw(EnWf* this, GlobalContext* globalCtx);
+#define THIS ((EnWf*)thisx)
+
+void EnWf_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWf_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wf_InitVars = {

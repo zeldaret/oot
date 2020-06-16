@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void DemoExt_Init(DemoExt* this, GlobalContext* globalCtx);
-void DemoExt_Destroy(DemoExt* this, GlobalContext* globalCtx);
-void DemoExt_Update(DemoExt* this, GlobalContext* globalCtx);
-void DemoExt_Draw(DemoExt* this, GlobalContext* globalCtx);
+#define THIS ((DemoExt*)thisx)
+
+void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Ext_InitVars = {

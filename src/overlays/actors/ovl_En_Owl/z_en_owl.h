@@ -31,7 +31,7 @@ typedef void (*OwlFunc)(EnOwl* this);
 
 typedef struct EnOwl{
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinderMain colCylinder;
+    /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
     /* 0x01DC */ Vec3s drawTbl[0x15];
     /* 0x025A */ Vec3s transitionTbl[0x15];

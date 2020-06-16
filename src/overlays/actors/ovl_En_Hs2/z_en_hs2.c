@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000009
 
-void EnHs2_Init(EnHs2* this, GlobalContext* globalCtx);
-void EnHs2_Destroy(EnHs2* this, GlobalContext* globalCtx);
-void EnHs2_Update(EnHs2* this, GlobalContext* globalCtx);
-void EnHs2_Draw(EnHs2* this, GlobalContext* globalCtx);
+#define THIS ((EnHs2*)thisx)
+
+void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHs2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHs2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Hs2_InitVars = {

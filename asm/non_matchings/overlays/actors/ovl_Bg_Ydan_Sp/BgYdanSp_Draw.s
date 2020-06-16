@@ -146,7 +146,7 @@ glabel BgYdanSp_Draw
 /* 01368 808C0778 00052C03 */  sra     $a1, $a1, 16
 /* 0136C 808C077C 2404FA60 */  addiu   $a0, $zero, 0xFA60         ## $a0 = FFFFFA60
 /* 01370 808C0780 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 01374 808C0784 0C034421 */  jal     Matrix_RotateZYX
+/* 01374 808C0784 0C034421 */  jal     Matrix_RotateRPY
 /* 01378 808C0788 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 0137C 808C078C 3C01442F */  lui     $at, 0x442F                ## $at = 442F0000
 /* 01380 808C0790 44817000 */  mtc1    $at, $f14                  ## $f14 = 700.00

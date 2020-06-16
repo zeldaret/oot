@@ -3,9 +3,11 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .data
+
+.balign 16
 
 glabel En_Niw_Lady_InitVars
  .word 0x013C0400, 0x00000019, 0x01100000, 0x000002FC

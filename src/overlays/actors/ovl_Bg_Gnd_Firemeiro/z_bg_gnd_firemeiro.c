@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void BgGndFiremeiro_Init(BgGndFiremeiro* this, GlobalContext* globalCtx);
-void BgGndFiremeiro_Destroy(BgGndFiremeiro* this, GlobalContext* globalCtx);
-void BgGndFiremeiro_Update(BgGndFiremeiro* this, GlobalContext* globalCtx);
-void BgGndFiremeiro_Draw(BgGndFiremeiro* this, GlobalContext* globalCtx);
+#define THIS ((BgGndFiremeiro*)thisx)
+
+void BgGndFiremeiro_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGndFiremeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGndFiremeiro_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGndFiremeiro_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_808795AC(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void func_80879668(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void func_80879808(BgGndFiremeiro* this, GlobalContext* globalCtx);

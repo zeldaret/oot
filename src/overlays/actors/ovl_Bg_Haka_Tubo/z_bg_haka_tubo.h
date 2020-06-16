@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgHakaTubo;
+
+typedef void (*BgHakaTuboActionFunc)(struct BgHakaTubo*, GlobalContext*);
+
+typedef struct BgHakaTubo {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0164 */ BgHakaTuboActionFunc actionFunc;
     /* 0x0168 */ char unk_168[0x9C];
 } BgHakaTubo; // size = 0x0204
 

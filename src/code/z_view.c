@@ -351,8 +351,8 @@ s32 func_800AAA9C(View* view) {
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAtReflect(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
-                    view->unk_40.x, view->unk_40.y, view->unk_40.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
+             view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
     view->viewing = *viewing;
 
@@ -400,8 +400,8 @@ s32 func_800AB0A8(View* view) {
     LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 744);
     view->projectionPtr = projection;
 
-    func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+    guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
+            (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -438,8 +438,8 @@ s32 func_800AB2C4(View* view) {
     LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 791);
     view->projectionPtr = projection;
 
-    func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+    guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
+            (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -500,8 +500,8 @@ s32 func_800AB560(View* view) {
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAtReflect(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
-                    view->unk_40.x, view->unk_40.y, view->unk_40.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
+             view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
     view->viewing = *viewing;
 
@@ -518,8 +518,8 @@ s32 func_800AB944(View* view) {
     Graph_OpenDisps(dispRefs, view->gfxCtx, "../z_view.c", 878);
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAtReflect(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y,
-                    view->unk_34.z, view->unk_40.x, view->unk_40.y, view->unk_40.z);
+    guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
+             view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
     Graph_CloseDisps(dispRefs, view->gfxCtx, "../z_view.c", 886);
 
@@ -551,8 +551,8 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 921);
         view->projectionPtr = projection;
 
-        func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                      (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+        guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
+                (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
         view->projection = *projection;
 
@@ -582,8 +582,8 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         view->viewingPtr = viewing;
 
         func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-        guLookAtReflect(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
-                        view->unk_40.x, view->unk_40.y, view->unk_40.z);
+        guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
+                 view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
         view->viewing = *viewing;
 

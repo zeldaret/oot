@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnTana;
+
+typedef struct EnTana {
     /* 0x0000 */ Actor actor;
 } EnTana; // size = 0x014C
 

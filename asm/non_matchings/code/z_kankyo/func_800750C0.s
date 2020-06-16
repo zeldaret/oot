@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_8013C7F8
+    .float 0.1
+
+glabel D_8013C7FC
+    .float 2.9
+
+.text
 glabel func_800750C0
 /* AEC260 800750C0 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AEC264 800750C4 3C010001 */  lui   $at, 1

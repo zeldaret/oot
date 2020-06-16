@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000005
 
-void EnOkuta_Init(EnOkuta* this, GlobalContext* globalCtx);
-void EnOkuta_Destroy(EnOkuta* this, GlobalContext* globalCtx);
-void EnOkuta_Update(EnOkuta* this, GlobalContext* globalCtx);
-void EnOkuta_Draw(EnOkuta* this, GlobalContext* globalCtx);
+#define THIS ((EnOkuta*)thisx)
+
+void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Okuta_InitVars = {

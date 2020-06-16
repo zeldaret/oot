@@ -8,14 +8,17 @@
 
 #define FLAGS 0x00000009
 
+#define THIS ((EnTk*)thisx)
+
+void EnTk_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTk_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTk_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx);
-void EnTk_Init(EnTk* this, GlobalContext* globalCtx);
-void EnTk_Destroy(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Rest(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Walk(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Dig(EnTk* this, GlobalContext* globalCtx);
-void EnTk_Update(EnTk* this, GlobalContext* globalCtx);
-void EnTk_Draw(EnTk* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_04051DB0;
 extern UNK_TYPE D_040521B0;
@@ -168,13 +171,13 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 
 /** z_en_tk_eff.c ends here probably **/
 
-static ColliderCylinderInit D_80B1D508 = {
-    { 0x0A, 0x00, 0x00, 0x39, 0x20, 0x01 },
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 0x001E, 0x0034, 0x0000, { 0 } },
+    { 30, 52, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 colChkInfoInit = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -226,7 +229,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.waterSurfaceDist > 10000.f) {
+    if (this->actor.xyzDistFromLinkSq > 10000.f) {
         return 0;
     }
 
@@ -234,7 +237,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     v0 -= this->h_21E;
     v0 -= this->headRot;
 
-    v1 = this->actor.rotTowardsLinkY - v0;
+    v1 = this->actor.yawTowardsLink - v0;
     if (ABS(v1) < 0x1554) {
         return 1;
     } else {
@@ -260,7 +263,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        dy = prop->posRot.pos.y - this->actor.unk_80;
+        dy = prop->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, prop);
         if (dxz > 40.f || dy > 10.f) {
             prop = prop->next;
@@ -279,7 +282,7 @@ void EnTk_CheckCurrentSpot(EnTk* this) {
     f32 dy;
 
     if (this->currentSpot != NULL) {
-        dy = this->currentSpot->posRot.pos.y - this->actor.unk_80;
+        dy = this->currentSpot->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, this->currentSpot);
         if (dxz > 40.f || dy > 10.f) {
             this->currentSpot = NULL;
@@ -346,7 +349,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     }
 }
 
-u16 func_80B1C54C(GlobalContext* globalCtx, Actor* a1) {
+u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
     u16 ret;
 
     ret = Text_GetFaceReaction(globalCtx, 14);
@@ -363,7 +366,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* a1) {
     }
 }
 
-s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
+s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
     s32 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -372,7 +375,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
             break;
         case 2:
             /* "I am the boss of the carpenters ..." (wtf?) */
-            if (actor->textId == 0x5028) {
+            if (thisx->textId == 0x5028) {
                 gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
@@ -380,25 +383,25 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
         case 3:
             break;
         case 4:
-            if (func_80106BC8(globalCtx) != 0 && (actor->textId == 0x5018 || actor->textId == 0x5019)) {
+            if (func_80106BC8(globalCtx) != 0 && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
-                    actor->textId = 0x0084;
+                    thisx->textId = 0x0084;
                 } else if (gSaveContext.rupees < 10) {
                     /* "You don't have enough Rupees!" */
-                    actor->textId = 0x0085;
+                    thisx->textId = 0x0085;
                 } else {
                     globalCtx->msgCtx.msgMode = 0x37;
                     Rupees_ChangeBy(-10);
                     gSaveContext.infTable[13] |= 0x0200;
                     return 2;
                 }
-                func_8010B720(globalCtx, actor->textId);
+                func_8010B720(globalCtx, thisx->textId);
                 gSaveContext.infTable[13] |= 0x0200;
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx) != 0 && (actor->textId == 0x0084 || actor->textId == 0x0085)) {
+            if (func_80106BC8(globalCtx) != 0 && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
                 func_80106CCC(globalCtx);
                 ret = 0;
             }
@@ -492,39 +495,40 @@ void EnTk_DigEff(EnTk* this) {
     }
 }
 
-void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
-    EnTk* thisAgain = this;
-    AnimationHeader* anim = &D_06002F84;
+void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnTk* this = THIS;
+    s32 pad;
 
-    ActorShape_Init(&thisAgain->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
-    SkelAnime_InitSV(globalCtx, &thisAgain->skelAnim, &D_0600BE40, NULL, thisAgain->hz_22A, thisAgain->hz_296, 18);
-    SkelAnime_ChangeAnim(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
+    SkelAnime_InitSV(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
+    SkelAnime_ChangeAnim(&this->skelAnim, &D_06002F84, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                          0.f);
 
-    Collider_InitCylinder(globalCtx, &thisAgain->collider);
-    Collider_SetCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&thisAgain->actor.colChkInfo, NULL, &colChkInfoInit);
+    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
-        Actor_Kill(&thisAgain->actor);
+        Actor_Kill(&this->actor);
         return;
     }
 
-    Actor_SetScale(&thisAgain->actor, 0.01f);
+    Actor_SetScale(&this->actor, 0.01f);
 
-    thisAgain->actor.unk_1F = 6;
-    thisAgain->actor.gravity = -0.1f;
-    thisAgain->currentReward = -1;
-    thisAgain->currentSpot = NULL;
-    thisAgain->actionFunc = EnTk_Rest;
+    this->actor.unk_1F = 6;
+    this->actor.gravity = -0.1f;
+    this->currentReward = -1;
+    this->currentSpot = NULL;
+    this->actionFunc = EnTk_Rest;
 }
 
-void EnTk_Destroy(EnTk* this, GlobalContext* globalCtx) {
-    EnTk* thisAgain = this;
-    Collider_DestroyCylinder(globalCtx, &thisAgain->collider);
+void EnTk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnTk* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
@@ -534,7 +538,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     if (this->h_1E0 != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         if (this->h_1E0 == 2) {
             EnTk_DigAnim(this, globalCtx);
@@ -548,7 +552,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (EnTk_CheckFacingPlayer(this) != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.f, func_80B1C54C,
@@ -556,7 +560,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         this->actionCountdown = 0;
         this->h_1E0 = 1;
@@ -595,7 +599,7 @@ void EnTk_Walk(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     Vec3f rewardOrigin;
     Vec3f rewardPos;
-    s32 rewardParams[] = {
+    s32 sRewardParams[] = {
         0x0000, /* Green rupee */
         0x0001, /* Blue rupee */
         0x0002, /* Red rupee */
@@ -635,7 +639,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                 }
             }
 
-            Item_DropCollectible(globalCtx, &rewardPos, rewardParams[this->currentReward]);
+            Item_DropCollectible(globalCtx, &rewardPos, sRewardParams[this->currentReward]);
         }
     }
 
@@ -670,24 +674,24 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
-    EnTk* thisAgain = this;
-    ColliderCylinder* collider = &thisAgain->collider;
+void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnTk* this = THIS;
+    s32 pad;
 
-    Collider_CylinderUpdate(&thisAgain->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 
-    SkelAnime_FrameUpdateMatrix(&thisAgain->skelAnim);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnim);
 
-    Actor_MoveForward(&thisAgain->actor);
+    Actor_MoveForward(&this->actor);
 
-    func_8002E4B4(globalCtx, &thisAgain->actor, 40.f, 10.f, 0.f, 5);
+    func_8002E4B4(globalCtx, &this->actor, 40.f, 10.f, 0.f, 5);
 
-    thisAgain->actionFunc(thisAgain, globalCtx);
+    this->actionFunc(this, globalCtx);
 
-    EnTkEff_Update(thisAgain);
+    EnTkEff_Update(this);
 
-    EnTk_UpdateEyes(thisAgain);
+    EnTk_UpdateEyes(this);
 }
 
 void func_80B1D200(GlobalContext* globalCtx) {
@@ -702,26 +706,26 @@ void func_80B1D200(GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
-s32 func_80B1D278(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnTk* tk = (EnTk*)actor;
+s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnTk* this = THIS;
 
     switch (limbIndex) {
         /* Limb 15 - Head */
         case 15:
-            tk->h_21E = rot->y;
+            this->h_21E = rot->y;
             break;
         /* Limb 16 - Jaw */
         case 16:
-            tk->h_21E += rot->y;
-            rot->y += tk->headRot;
+            this->h_21E += rot->y;
+            rot->y += this->headRot;
             break;
     }
 
     return 0;
 }
 
-void func_80B1D2E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
-    EnTk* this = (EnTk*)actor;
+void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnTk* this = THIS;
     Vec3f sp28 = { 0.f, 0.f, 4600.f };
     Vec3f sp1C = { 0.f, 0.f, 0.f };
 
@@ -737,19 +741,18 @@ void func_80B1D2E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
-    static UNK_PTR eyeImages[] = {
-        &D_06003B40,
-        &D_06004340,
-        &D_06004B40,
+void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_PTR sEyesSegments[] = {
+        0x06003B40,
+        0x06004340,
+        0x06004B40,
     };
-
-    EnTk* thisAgain = this;
+    EnTk* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
     Matrix_Push();
-    EnTkEff_Draw(thisAgain, globalCtx);
+    EnTkEff_Draw(this, globalCtx);
     Matrix_Pull();
 
     gfxCtx = globalCtx->state.gfxCtx;
@@ -757,10 +760,10 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[thisAgain->eyeImageIdx]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
 
-    SkelAnime_DrawSV(globalCtx, thisAgain->skelAnim.skeleton, thisAgain->skelAnim.limbDrawTbl,
-                     thisAgain->skelAnim.dListCount, func_80B1D278, func_80B1D2E4, &thisAgain->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
+                     EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

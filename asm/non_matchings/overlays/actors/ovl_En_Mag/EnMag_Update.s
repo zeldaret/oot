@@ -444,7 +444,7 @@ glabel EnMag_Update
 /* 00918 80AA4418 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 0091C 80AA441C 1460000A */  bne     $v1, $zero, .L80AA4448     
 /* 00920 80AA4420 00000000 */  nop
-/* 00924 80AA4424 0C01B129 */  jal     func_8006C4A4              
+/* 00924 80AA4424 0C01B129 */  jal     Flags_GetEnv              
 /* 00928 80AA4428 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0092C 80AA442C 1040000E */  beq     $v0, $zero, .L80AA4468     
 /* 00930 80AA4430 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
@@ -456,7 +456,7 @@ glabel EnMag_Update
 .L80AA4448:
 /* 00948 80AA4448 14610007 */  bne     $v1, $at, .L80AA4468       
 /* 0094C 80AA444C 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00950 80AA4450 0C01B129 */  jal     func_8006C4A4              
+/* 00950 80AA4450 0C01B129 */  jal     Flags_GetEnv              
 /* 00954 80AA4454 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004
 /* 00958 80AA4458 10400003 */  beq     $v0, $zero, .L80AA4468     
 /* 0095C 80AA445C 240C0003 */  addiu   $t4, $zero, 0x0003         ## $t4 = 00000003

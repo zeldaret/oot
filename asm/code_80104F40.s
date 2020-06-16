@@ -3,13 +3,13 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .text
 
-.align 4
+.balign 16
 
-glabel func_80104F40
+glabel osPfsInitPak
 /* B7C0E0 80104F40 27BDFF90 */  addiu $sp, $sp, -0x70
 /* B7C0E4 80104F44 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B7C0E8 80104F48 AFB00018 */  sw    $s0, 0x18($sp)

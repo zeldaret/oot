@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00001015
 
-void EnPoh_Init(EnPoh* this, GlobalContext* globalCtx);
-void EnPoh_Destroy(EnPoh* this, GlobalContext* globalCtx);
-void EnPoh_Update(EnPoh* this, GlobalContext* globalCtx);
+#define THIS ((EnPoh*)thisx)
+
+void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Poh_InitVars = {

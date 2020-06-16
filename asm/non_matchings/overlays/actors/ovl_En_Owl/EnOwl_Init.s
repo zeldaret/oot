@@ -69,7 +69,7 @@ glabel EnOwl_Init
 /* 00014 80AC9F34 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00018 80AC9F38 0C01E037 */  jal     Actor_ProcessInitChain
 
-/* 0001C 80AC9F3C 24A5D61C */  addiu   $a1, $a1, %lo(D_80ACD61C)  ## $a1 = 80ACD61C
+/* 0001C 80AC9F3C 24A5D61C */  addiu   $a1, $a1, %lo(sOwlInitChain)  ## $a1 = 80ACD61C
 /* 00020 80AC9F40 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00024 80AC9F44 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 80AC9F48 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -109,9 +109,9 @@ glabel EnOwl_Init
 /* 000AC 80AC9FCC 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000B0 80AC9FD0 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 000B4 80AC9FD4 3C0780AD */  lui     $a3, %hi(sOwlColliderInit)       ## $a3 = 80AD0000
+/* 000B4 80AC9FD4 3C0780AD */  lui     $a3, %hi(sOwlCylinderInit)       ## $a3 = 80AD0000
 /* 000B8 80AC9FD8 8FA50038 */  lw      $a1, 0x0038($sp)
-/* 000BC 80AC9FDC 24E7D5F0 */  addiu   $a3, $a3, %lo(sOwlColliderInit)  ## $a3 = 80ACD5F0
+/* 000BC 80AC9FDC 24E7D5F0 */  addiu   $a3, $a3, %lo(sOwlCylinderInit)  ## $a3 = 80ACD5F0
 /* 000C0 80AC9FE0 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 000C4 80AC9FE4 0C01712B */  jal     Collider_SetCylinder
 

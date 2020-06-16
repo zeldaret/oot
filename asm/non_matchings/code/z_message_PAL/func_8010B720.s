@@ -1,3 +1,18 @@
+.rdata
+glabel D_8015432C
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80154334
+    # Message＝%x message->msg_data
+    .asciz "めっせーじ＝%x  message->msg_data\n"
+    .balign 4
+
+glabel D_80154358
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel func_8010B720
 /* B828C0 8010B720 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B828C4 8010B724 AFA40020 */  sw    $a0, 0x20($sp)

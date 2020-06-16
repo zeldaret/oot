@@ -53,7 +53,7 @@ void KaleidoManager_Init(GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("KaleidoArea の最大サイズは %d バイトを確保します\n", largestOvl);
     osSyncPrintf(VT_RST);
-    sKaleidoAreaPtr = Game_Alloc(&globalCtx->state, largestOvl, "../z_kaleido_manager.c", 150);
+    sKaleidoAreaPtr = GameState_Alloc(&globalCtx->state, largestOvl, "../z_kaleido_manager.c", 150);
     LogUtils_CheckNullPointer("KaleidoArea_allocp", sKaleidoAreaPtr, "../z_kaleido_manager.c", 151);
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("KaleidoArea %08x - %08x\n", sKaleidoAreaPtr, (u32)sKaleidoAreaPtr + largestOvl);
@@ -84,7 +84,7 @@ void* KaleidoManager_GetRamAddr(void* vram) {
                 ovl = iter;
                 goto KaleidoManager_GetRamAddr_end;
             }
-            // BUG: devs probably forgot iter++ here
+            //! @bug Devs probably forgot iter++ here
         }
 
         osSyncPrintf("異常\n"); // Abnormal

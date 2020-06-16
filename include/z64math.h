@@ -14,6 +14,10 @@ typedef struct {
 } Vec3f;
 
 typedef struct {
+    u16 x, y, z;
+} Vec3us;
+
+typedef struct {
     s16 x, y, z;
 } Vec3s;
 
@@ -60,5 +64,12 @@ typedef struct {
     Vec3f a;
     Vec3f b;
 } Linef;
+
+// Defines a point in the spherical coordinate system
+typedef struct {
+    f32 r;      // radius
+    s16 phi;    // polar (zenith) angle
+    s16 theta;  // azimuthal angle
+} VecSph;
 
 #endif

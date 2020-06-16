@@ -30,7 +30,7 @@ glabel func_80B01360
 /* 03120 80B013D0 2404C000 */  addiu   $a0, $zero, 0xC000         ## $a0 = FFFFC000
 /* 03124 80B013D4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 03128 80B013D8 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 0312C 80B013DC 0C034421 */  jal     Matrix_RotateZYX
+/* 0312C 80B013DC 0C034421 */  jal     Matrix_RotateRPY
 /* 03130 80B013E0 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 03134 80B013E4 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 03138 80B013E8 3C0ADA38 */  lui     $t2, 0xDA38                ## $t2 = DA380000

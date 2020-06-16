@@ -4,7 +4,12 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnRu2;
+
+typedef void (*EnRu2ActionFunc)(struct EnRu2*, GlobalContext*);
+typedef void (*EnRu2DrawFunc)(struct EnRu2*, GlobalContext*);
+
+typedef struct EnRu2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[23];

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgHidanSima_Init(BgHidanSima* this, GlobalContext* globalCtx);
-void BgHidanSima_Destroy(BgHidanSima* this, GlobalContext* globalCtx);
-void BgHidanSima_Update(BgHidanSima* this, GlobalContext* globalCtx);
-void BgHidanSima_Draw(BgHidanSima* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanSima*)thisx)
+
+void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Sima_InitVars = {

@@ -24,7 +24,7 @@ glabel EnTest_Destroy
 .L8085F8F4:
 /* 002A4 8085F8F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L8085F8F8:
-/* 002A8 8085F8F8 0C009C27 */  jal     func_8002709C              
+/* 002A8 8085F8F8 0C009C27 */  jal     Effect_Delete              
 /* 002AC 8085F8FC 8E05080C */  lw      $a1, 0x080C($s0)           ## 0000080C
 /* 002B0 8085F900 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002B4 8085F904 0C0170EB */  jal     Collider_DestroyCylinder

@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_8082FDB0
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FDCC
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+.text
 glabel func_80826AEC
 /* 132CC 80826AEC 3C0F8016 */  lui     $t7, %hi(gGameInfo)
 /* 132D0 80826AF0 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)

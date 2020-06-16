@@ -8,10 +8,12 @@
 
 #define FLAGS 0x08000039
 
-void EnTakaraMan_Init(EnTakaraMan* this, GlobalContext* globalCtx);
-void EnTakaraMan_Destroy(EnTakaraMan* this, GlobalContext* globalCtx);
-void EnTakaraMan_Update(EnTakaraMan* this, GlobalContext* globalCtx);
-void EnTakaraMan_Draw(EnTakaraMan* this, GlobalContext* globalCtx);
+#define THIS ((EnTakaraMan*)thisx)
+
+void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Takara_Man_InitVars = {

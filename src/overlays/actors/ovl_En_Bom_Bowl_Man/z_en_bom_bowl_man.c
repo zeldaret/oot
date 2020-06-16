@@ -2,10 +2,12 @@
 
 #define FLAGS 0x08000039
 
-void EnBomBowlMan_Init(EnBomBowlMan* this, GlobalContext* globalCtx);
-void EnBomBowlMan_Destroy(EnBomBowlMan* this, GlobalContext* globalCtx);
-void EnBomBowlMan_Update(EnBomBowlMan* this, GlobalContext* globalCtx);
-void EnBomBowlMan_Draw(EnBomBowlMan* this, GlobalContext* globalCtx);
+#define THIS ((EnBomBowlMan*)thisx)
+
+void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bom_Bowl_Man_InitVars = {

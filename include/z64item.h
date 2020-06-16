@@ -48,6 +48,12 @@ typedef enum {
 } QuestItem;
 
 typedef enum {
+    /* 0x00 */ DUNGEON_KEY_BOSS,
+    /* 0x01 */ DUNGEON_COMPASS,
+    /* 0x02 */ DUNGEON_MAP
+} DungeonItem;
+
+typedef enum {
     /* 0x00 */ SLOT_STICK,
     /* 0x01 */ SLOT_NUT,
     /* 0x02 */ SLOT_BOMB,
@@ -364,5 +370,7 @@ typedef enum {
     /* 0x7C */ GI_ICE_TRAP, // freezes link when opened from a chest
     /* 0x7D */ GI_TEXT_0 // no model appears over Link, shows text id 0 (pocket egg)
 } GetItemID;
+
+#define ITEM_TRADE_ADULT ITEM_POCKET_EGG
 
 #endif
