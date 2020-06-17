@@ -175,15 +175,15 @@ void func_808AB18C(BgSpot01Idohashira* this) {
 f32 func_808AB1DC(f32 arg0, f32 arg1, u16 arg2, u16 arg3, u16 arg4) {
     f32 temp_f12;
     f32 regFloat;
-    f32 diff32;
+    f32 diff23;
     f32 diff43;
 
-    diff32 = arg2 - arg3;
-    if (diff32 != 0.0f) {
+    diff23 = arg2 - arg3;
+    if (diff23 != 0.0f) {
         regFloat = kREG(9) + 30.0f;
         diff43 = arg4 - arg3;
         temp_f12 = regFloat * diff43;
-        return (((((arg1 - arg0) - temp_f12) / SQ(diff32)) * diff43) * diff43) + temp_f12;
+        return (((((arg1 - arg0) - temp_f12) / SQ(diff23)) * diff43) * diff43) + temp_f12;
     }
     osSyncPrintf(VT_FGCOL(RED) "Bg_Spot01_Idohashira_Get_FreeFallで割り算出来ない!!!!!!!!!!!!!!\n" VT_RST);
     return 0.0f;
