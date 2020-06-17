@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80105CF0
+glabel __osContRamWrite
 /* B7CE90 80105CF0 27BDFF98 */  addiu $sp, $sp, -0x68
 /* B7CE94 80105CF4 8FAF0078 */  lw    $t7, 0x78($sp)
 /* B7CE98 80105CF8 AFB5002C */  sw    $s5, 0x2c($sp)

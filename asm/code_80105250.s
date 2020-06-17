@@ -162,7 +162,7 @@ glabel func_80105250
 /* B7C60C 8010546C 02602025 */  move  $a0, $s3
 /* B7C610 80105470 51C00008 */  beql  $t6, $zero, .L80105494
 /* B7C614 80105474 8E6D005C */   lw    $t5, 0x5c($s3)
-/* B7C618 80105478 0C041320 */  jal   func_80104C80
+/* B7C618 80105478 0C041320 */  jal   __osPfsSelectBank
 /* B7C61C 8010547C 00002825 */   move  $a1, $zero
 /* B7C620 80105480 50400004 */  beql  $v0, $zero, .L80105494
 /* B7C624 80105484 8E6D005C */   lw    $t5, 0x5c($s3)
@@ -176,7 +176,7 @@ glabel func_80105250
 /* B7C640 801054A0 30CFFFFF */  andi  $t7, $a2, 0xffff
 /* B7C644 801054A4 01E03025 */  move  $a2, $t7
 /* B7C648 801054A8 AFA00010 */  sw    $zero, 0x10($sp)
-/* B7C64C 801054AC 0C04173C */  jal   func_80105CF0
+/* B7C64C 801054AC 0C04173C */  jal   __osContRamWrite
 /* B7C650 801054B0 27A7029C */   addiu $a3, $sp, 0x29c
 /* B7C654 801054B4 10400003 */  beqz  $v0, .L801054C4
 /* B7C658 801054B8 8FB80074 */   lw    $t8, 0x74($sp)

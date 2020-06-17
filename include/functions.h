@@ -2475,7 +2475,7 @@ void osViSetEvent(OSMesgQueue* mq, OSMesg m, u32 retraceCount);
 // ? func_8010499C(?);
 // ? func_80104A50(?);
 void guS2DInitBg(uObjBg *bg);
-// ? func_80104C80(?);
+// ? __osPfsSelectBank(?);
 void func_80104D00(u8 a0);
 s32 osPfsFileState(OSPfs* pfs, s32 file_no, OSPfsState* state);
 s32 osPfsInitPak(OSMesgQueue* mq, OSPfs* pfs, s32 controller_no);
@@ -2485,7 +2485,7 @@ s32 osPfsInitPak(OSMesgQueue* mq, OSPfs* pfs, s32 controller_no);
 // ? func_80105A60(?);
 // ? osAiGetLength(?);
 void guTranslate(Mtx* m, f32 x, f32 y, f32 z);
-// ? func_80105CF0(?);
+// ? __osContRamWrite(?);
 // s32 osReadMempak(OSMesgQueue* ctrlrqueue, u32 ctrlridx, s16 addr, PIF_mempak_data_t* data)
 u8 osMempakAddrCRC(u16 addr);
 u8 osMempakDataCRC(u8* data);

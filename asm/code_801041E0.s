@@ -43,7 +43,7 @@ glabel osPfsDeleteFile
 /* B7B3EC 8010424C 02402025 */  move  $a0, $s2
 /* B7B3F0 80104250 53200008 */  beql  $t9, $zero, .L80104274
 /* B7B3F4 80104254 8E48005C */   lw    $t0, 0x5c($s2)
-/* B7B3F8 80104258 0C041320 */  jal   func_80104C80
+/* B7B3F8 80104258 0C041320 */  jal   __osPfsSelectBank
 /* B7B3FC 8010425C 00002825 */   move  $a1, $zero
 /* B7B400 80104260 50400004 */  beql  $v0, $zero, .L80104274
 /* B7B404 80104264 8E48005C */   lw    $t0, 0x5c($s2)
@@ -129,7 +129,7 @@ glabel osPfsDeleteFile
 /* B7B520 80104380 30CFFFFF */  andi  $t7, $a2, 0xffff
 /* B7B524 80104384 01E03025 */  move  $a2, $t7
 /* B7B528 80104388 AFA00010 */  sw    $zero, 0x10($sp)
-/* B7B52C 8010438C 0C04173C */  jal   func_80105CF0
+/* B7B52C 8010438C 0C04173C */  jal   __osContRamWrite
 /* B7B530 80104390 27A70048 */   addiu $a3, $sp, 0x48
 .L80104394:
 /* B7B534 80104394 8FBF0034 */  lw    $ra, 0x34($sp)

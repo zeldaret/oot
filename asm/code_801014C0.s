@@ -126,7 +126,7 @@ glabel osPfsReadWriteFile
 /* B787E4 80101644 02402025 */  move  $a0, $s2
 /* B787E8 80101648 51200008 */  beql  $t1, $zero, .L8010166C
 /* B787EC 8010164C 8E4A005C */   lw    $t2, 0x5c($s2)
-/* B787F0 80101650 0C041320 */  jal   func_80104C80
+/* B787F0 80101650 0C041320 */  jal   __osPfsSelectBank
 /* B787F4 80101654 00002825 */   move  $a1, $zero
 /* B787F8 80101658 50400004 */  beql  $v0, $zero, .L8010166C
 /* B787FC 8010165C 8E4A005C */   lw    $t2, 0x5c($s2)
@@ -244,7 +244,7 @@ glabel osPfsReadWriteFile
 /* B78978 801017D8 02402025 */  move  $a0, $s2
 /* B7897C 801017DC 53280008 */  beql  $t9, $t0, .L80101800
 /* B78980 801017E0 93A90049 */   lbu   $t1, 0x49($sp)
-/* B78984 801017E4 0C041320 */  jal   func_80104C80
+/* B78984 801017E4 0C041320 */  jal   __osPfsSelectBank
 /* B78988 801017E8 03202825 */   move  $a1, $t9
 /* B7898C 801017EC 50400004 */  beql  $v0, $zero, .L80101800
 /* B78990 801017F0 93A90049 */   lbu   $t1, 0x49($sp)
@@ -268,7 +268,7 @@ glabel osPfsReadWriteFile
 .L80101834:
 /* B789D4 80101834 8E440004 */  lw    $a0, 4($s2)
 /* B789D8 80101838 8E450008 */  lw    $a1, 8($s2)
-/* B789DC 8010183C 0C04173C */  jal   func_80105CF0
+/* B789DC 8010183C 0C04173C */  jal   __osContRamWrite
 /* B789E0 80101840 AFA00010 */   sw    $zero, 0x10($sp)
 /* B789E4 80101844 00401825 */  move  $v1, $v0
 .L80101848:
@@ -293,7 +293,7 @@ glabel osPfsReadWriteFile
 /* B78A28 80101888 02402025 */  move  $a0, $s2
 /* B78A2C 8010188C 53000008 */  beql  $t8, $zero, .L801018B0
 /* B78A30 80101890 8E48005C */   lw    $t0, 0x5c($s2)
-/* B78A34 80101894 0C041320 */  jal   func_80104C80
+/* B78A34 80101894 0C041320 */  jal   __osPfsSelectBank
 /* B78A38 80101898 00002825 */   move  $a1, $zero
 /* B78A3C 8010189C 50400004 */  beql  $v0, $zero, .L801018B0
 /* B78A40 801018A0 8E48005C */   lw    $t0, 0x5c($s2)
@@ -308,7 +308,7 @@ glabel osPfsReadWriteFile
 /* B78A60 801018C0 30C9FFFF */  andi  $t1, $a2, 0xffff
 /* B78A64 801018C4 01203025 */  move  $a2, $t1
 /* B78A68 801018C8 AFA00010 */  sw    $zero, 0x10($sp)
-/* B78A6C 801018CC 0C04173C */  jal   func_80105CF0
+/* B78A6C 801018CC 0C04173C */  jal   __osContRamWrite
 /* B78A70 801018D0 27A7014C */   addiu $a3, $sp, 0x14c
 /* B78A74 801018D4 50400004 */  beql  $v0, $zero, .L801018E8
 /* B78A78 801018D8 8E440004 */   lw    $a0, 4($s2)

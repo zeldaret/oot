@@ -225,7 +225,7 @@ glabel osPfsAllocateFile
 /* B79344 801021A4 03193021 */  addu  $a2, $t8, $t9
 /* B79348 801021A8 30C8FFFF */  andi  $t0, $a2, 0xffff
 /* B7934C 801021AC 01003025 */  move  $a2, $t0
-/* B79350 801021B0 0C04173C */  jal   func_80105CF0
+/* B79350 801021B0 0C04173C */  jal   __osContRamWrite
 /* B79354 801021B4 27A70060 */   addiu $a3, $sp, 0x60
 .L801021B8:
 /* B79358 801021B8 8FBF0044 */  lw    $ra, 0x44($sp)

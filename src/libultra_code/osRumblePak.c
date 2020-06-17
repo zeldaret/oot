@@ -76,9 +76,9 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controller, 
     unk_controller->bytes[0x65] = 0xff;
     unk_controller->unk0 = 0;
 
-    ret = func_80104C80(unk_controller, 0xfe);
+    ret = __osPfsSelectBank(unk_controller, 0xfe);
     if (ret == 2) {
-        ret = func_80104C80(unk_controller, 0x80);
+        ret = __osPfsSelectBank(unk_controller, 0x80);
     }
     if (ret != 0) {
         return ret;
@@ -94,7 +94,7 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controller, 
     if (sp24.unk[0x1F] == 0xfe) {
         return 0xb; // possibly controller pack? (Some other valid return value other than rumble pak)
     }
-    ret = func_80104C80(unk_controller, 0x80);
+    ret = __osPfsSelectBank(unk_controller, 0x80);
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
     }
