@@ -1,8 +1,8 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
 #include <alloca.h>
 #include <vt.h>
-#include <PR/os_cont.h>
 
 // data
 const char* sExceptionNames[] = {

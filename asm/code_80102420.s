@@ -650,8 +650,8 @@ glabel func_80102CC4
 /* B79E8C 80102CEC AFA60060 */  sw    $a2, 0x60($sp)
 /* B79E90 80102CF0 16800011 */  bnez  $s4, .L80102D38
 /* B79E94 80102CF4 AFA70064 */   sw    $a3, 0x64($sp)
-/* B79E98 80102CF8 3C0F8013 */  lui   $t7, %hi(D_80134CF4) # $t7, 0x8013
-/* B79E9C 80102CFC 91EF4CF4 */  lbu   $t7, %lo(D_80134CF4)($t7)
+/* B79E98 80102CF8 3C0F8013 */  lui   $t7, %hi(__osPfsInodeCacheBank) # $t7, 0x8013
+/* B79E9C 80102CFC 91EF4CF4 */  lbu   $t7, %lo(__osPfsInodeCacheBank)($t7)
 /* B79EA0 80102D00 93B80067 */  lbu   $t8, 0x67($sp)
 /* B79EA4 80102D04 3C198013 */  lui   $t9, %hi(D_80134CF0) # $t9, 0x8013
 /* B79EA8 80102D08 55F8000C */  bnel  $t7, $t8, .L80102D3C
@@ -813,13 +813,13 @@ glabel func_80102CC4
 .L80102F48:
 /* B7A0E8 80102F48 93AB0067 */  lbu   $t3, 0x67($sp)
 .L80102F4C:
-/* B7A0EC 80102F4C 3C018013 */  lui   $at, %hi(D_80134CF4) # $at, 0x8013
+/* B7A0EC 80102F4C 3C018013 */  lui   $at, %hi(__osPfsInodeCacheBank) # $at, 0x8013
 /* B7A0F0 80102F50 3C058017 */  lui   $a1, %hi(D_80175860) # $a1, 0x8017
 /* B7A0F4 80102F54 24A55860 */  addiu $a1, %lo(D_80175860) # addiu $a1, $a1, 0x5860
 /* B7A0F8 80102F58 8FA4005C */  lw    $a0, 0x5c($sp)
 /* B7A0FC 80102F5C 24060100 */  li    $a2, 256
 /* B7A100 80102F60 0C001BC4 */  jal   bcopy
-/* B7A104 80102F64 A02B4CF4 */   sb    $t3, %lo(D_80134CF4)($at)
+/* B7A104 80102F64 A02B4CF4 */   sb    $t3, %lo(__osPfsInodeCacheBank)($at)
 /* B7A108 80102F68 8E4E0008 */  lw    $t6, 8($s2)
 /* B7A10C 80102F6C 3C018013 */  lui   $at, %hi(D_80134CF0) # $at, 0x8013
 /* B7A110 80102F70 00001025 */  move  $v0, $zero

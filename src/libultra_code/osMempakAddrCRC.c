@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-
 #include <ultra64/controller.h>
 
 // Valid addr up to 0x7FF

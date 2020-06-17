@@ -1,9 +1,7 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
 #include <vt.h>
-
-#include <PR/os_cont.h>
-#include <ultra64/controller.h>
 
 s32 D_8012D280 = 1;
 
@@ -78,7 +76,7 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック ぶるぶるぶるぶる");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padmgr->unk_controller[i], temp) != 0) {
+                            if (osSetRumble(&padmgr->pfs[i], temp) != 0) {
                                 padmgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 // "A communication error has occurred with the vibraton pack"
@@ -100,7 +98,7 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padmgr->unk_controller[i], 0) != 0) {
+                            if (osSetRumble(&padmgr->pfs[i], 0) != 0) {
                                 padmgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 // "A communication error has occurred with the vibration pack"
@@ -139,12 +137,12 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
         i = frame % 4;
 
         if (padmgr->ctrlrIsConnected[i] && (padmgr->padStatus[i].status & 1) && (padmgr->pakType[i] != 1)) {
-            var4 = osProbeRumblePak(ctrlrQ, &padmgr->unk_controller[i], i);
+            var4 = osProbeRumblePak(ctrlrQ, &padmgr->pfs[i], i);
 
             if (var4 == 0) {
                 padmgr->pakType[i] = 1;
-                osSetRumble(&padmgr->unk_controller[i], 1);
-                osSetRumble(&padmgr->unk_controller[i], 0);
+                osSetRumble(&padmgr->pfs[i], 1);
+                osSetRumble(&padmgr->pfs[i], 0);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Recognized vibration pack"
                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックを認識しました");
@@ -172,14 +170,14 @@ void PadMgr_RumbleStop(PadMgr* padmgr) {
     ctrlrQ = PadMgr_LockSerialMesgQueue(padmgr);
 
     for (i = 0; i < 4; i++) {
-        if (osProbeRumblePak(ctrlrQ, &padmgr->unk_controller[i], i) == 0) {
+        if (osProbeRumblePak(ctrlrQ, &padmgr->pfs[i], i) == 0) {
             if ((gFaultStruct.msgId == 0) && (padmgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止"); // "Stop vibration pack"
                 osSyncPrintf(VT_RST);
             }
 
-            osSetRumble(&padmgr->unk_controller[i], 0);
+            osSetRumble(&padmgr->pfs[i], 0);
         }
     }
 
@@ -417,7 +415,7 @@ void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id
     func_800FCD40(siIntMsgQ, &padmgr->validCtrlrsMask, padmgr);
 
     padmgr->ncontrollers = 4;
-    func_80104D00(padmgr->ncontrollers);
+    osContSetCh(padmgr->ncontrollers);
 
     osCreateThread(&padmgr->thread, id, PadMgr_ThreadEntry, padmgr, stack, priority);
     osStartThread(&padmgr->thread);

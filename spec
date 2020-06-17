@@ -474,8 +474,7 @@ beginseg
     include "build/src/libultra_code/osSpTaskYield.o"
     include "build/asm/code_801014C0.o"
     include "build/data/code_801014C0.bss.o"
-    include "build/asm/code_80101910.o"
-    include "build/data/code_80101910.bss.o"
+    include "build/src/libultra_code/__osPfsGetStatus.o"
     include "build/asm/guMtxIdentF.o"
     include "build/src/libultra_code/guLookAt.o"
     include "build/asm/code_80101EB0.o"
@@ -502,10 +501,10 @@ beginseg
     include "build/src/libultra_code/cosf.o"
     include "build/src/libultra_code/coss.o"
     include "build/src/libultra_code/osViSetEvent.o"
-    include "build/asm/code_80104810.o"
+    include "build/src/libultra_code/osPfsIsPlug.o"
     include "build/src/libultra_code/guS2DInitBg.o"
     include "build/asm/code_80104C80.o"
-    include "build/asm/code_80104D00.o"
+    include "build/src/libultra_code/osContSetCh.o"
     include "build/asm/code_80104D60.o"
     include "build/asm/code_80104F40.o"
     include "build/asm/code_80105250.o"
@@ -1403,8 +1402,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Obj"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Obj/z_bg_spot18_obj.o"
-    include "build/data/overlays/actors/z_bg_spot18_obj.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_obj.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Obj/ovl_Bg_Spot18_Obj_reloc.o"
 endseg
 
 beginseg

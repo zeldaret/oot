@@ -132,7 +132,7 @@ glabel osPfsFileState
 /* B7C0A8 80104F08 0C001BC4 */  jal   bcopy
 /* B7C0AC 80104F0C 24A5000A */   addiu $a1, $a1, 0xa
 /* B7C0B0 80104F10 8E640004 */  lw    $a0, 4($s3)
-/* B7C0B4 80104F14 0C040644 */  jal   func_80101910
+/* B7C0B4 80104F14 0C040644 */  jal   __osPfsGetStatus
 /* B7C0B8 80104F18 8E650008 */   lw    $a1, 8($s3)
 .L80104F1C:
 /* B7C0BC 80104F1C 8FBF002C */  lw    $ra, 0x2c($sp)
