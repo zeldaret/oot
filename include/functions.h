@@ -2402,7 +2402,7 @@ u32 func_800FFA50(JpegDecoder* decoder, u16*, u32, u8, u32*);
 // ? func_800FFC78(?);
 // ? func_800FFE14(?);
 // ? func_800FFF50(?);
-s32 osPfsFreeBlocks(OSPfs* pfs, s32 *bytes_not_used);
+s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes);
 void guScale(Mtx* m, f32 x, f32 y, f32 z);
 f32 sinf(f32);
 s16 sins(u16);
