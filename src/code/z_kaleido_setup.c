@@ -47,7 +47,7 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
         globalCtx->transitionMode == 0 && gSaveContext.cutsceneIndex < 0xFFF0 &&
         gSaveContext.nextCutsceneIndex < 0xFFF0 && !Gameplay_InCsMode(globalCtx) && globalCtx->unk_11E5C < 2 &&
         gSaveContext.unk_13F0 != 8 && gSaveContext.unk_13F0 != 9 &&
-        (globalCtx->sceneNum != 0x4B || !Flags_GetSwitch(globalCtx, 0x38))) {
+        (globalCtx->sceneNum != SCENE_BOWLING || !Flags_GetSwitch(globalCtx, 0x38))) {
 
         if (CHECK_PAD(input->cur, L_TRIG) && CHECK_PAD(input->press, U_CBUTTONS)) {
             if (BREG(0)) {
