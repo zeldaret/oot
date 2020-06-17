@@ -1,5 +1,4 @@
 #include <global.h>
-#include <PR/os_cont.h>
 
 s16 sKaleidoSetupKscpPos0[] = {
     2,
