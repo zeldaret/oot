@@ -2432,7 +2432,7 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 file_no, u8 flag, s32 offset, s32 nbytes,
 // ? func_801019E0(?);
 // ? func_80101AA4(?);
 // ? guMtxIdentF(?);
-void guLookAtF(MtxF* mf, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
+void guLookAtF(float mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 void guLookAt(Mtx*, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 s32 osPfsAllocateFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name, s32 length, s32* file_no);
 // ? func_801021E4(?);
