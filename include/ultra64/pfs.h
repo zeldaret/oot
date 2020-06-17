@@ -3,30 +3,6 @@
 
 #include <ultra64.h>
 
-typedef struct {
-	int		status;
-	OSMesgQueue* queue;
-	int		channel;
-	u8		id[32];
-	u8		label[32];
-	int		version;
-	int		dir_size;
-	int		inode_table;		/* block location */
-	int		minode_table;		/* mirrioring inode_table */
-	int		dir_table;		    /* block location */
-	int		inode_start_page;	/* page # */
-	u8		banks;
-	u8		activebank;
-} OSPfs;
-
-typedef struct {
-	u32	    file_size;	/* bytes */
-  	u32 	game_code;
-  	u16 	company_code;
-  	char  	ext_name[4];
-  	char 	game_name[16];
-} OSPfsState;
-
 /* File System size */
 #define	OS_PFS_VERSION		0x0200
 #define	OS_PFS_VERSION_HI	(OS_PFS_VERSION >> 8)
@@ -51,6 +27,11 @@ typedef struct {
 #define PFS_MOTOR_INITIALIZED	0x8
 #define	PFS_GBPAK_INITIALIZED	0x10
 
+/* Definition for page usage */
+#define PFS_EOF					1
+#define PFS_PAGE_NOT_EXIST		2
+#define PFS_PAGE_NOT_USED		3
+
 /* File System error number */
 
 #define PFS_ERR_NOPACK		    1	/* no memory card is plugged or */
@@ -66,5 +47,52 @@ typedef struct {
 #define PFS_ERR_DEVICE		    11	/* wrong device type*/
 #define PFS_ERR_NO_GBCART	    12 	/* no gb cartridge (64GB-PAK) */
 #define PFS_ERR_NEW_GBCART	    13 	/* gb cartridge may be changed */
+
+typedef struct {
+	int		status;
+	OSMesgQueue* queue;
+	int		channel;
+	u8		id[32];
+	u8		label[32];
+	int		version;
+	int		dir_size;
+	int		inode_table;		/* block location */
+	int		minode_table;		/* mirrioring inode_table */
+	int		dir_table;		    /* block location */
+	int		inodeStartPage;	/* page # */
+	u8		banks;
+	u8		activebank;
+} OSPfs;
+
+typedef struct {
+	u32	    file_size;	/* bytes */
+  	u32 	game_code;
+  	u16 	company_code;
+  	char  	ext_name[4];
+  	char 	game_name[16];
+} OSPfsState;
+
+typedef union {
+	struct {
+		u8	bank;
+		u8	page;
+	} inode_t;
+	u16	ipage;
+} __OSInodeUnit;
+
+typedef struct {
+	__OSInodeUnit	inodePage[128];
+} __OSInode;
+
+typedef struct {
+	u32 			game_code;
+	u16     		company_code;
+	__OSInodeUnit   start_page;
+	u8      		status;
+	s8				reserved;
+	u16     		data_sum;
+	u8	    		ext_name[PFS_FILE_EXT_LEN];
+	u8	    		game_name[PFS_FILE_NAME_LEN];
+} __OSDir;
 
 #endif

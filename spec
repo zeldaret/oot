@@ -497,7 +497,7 @@ beginseg
     include "build/asm/guNormalize.o"
     include "build/src/libultra_code/osDpGetStatus.o"
     include "build/src/libultra_code/osDpSetStatus.o"
-    include "build/asm/code_801041E0.o"
+    include "build/src/libultra_code/osPfsDeleteFile.o"
     include "build/src/libultra_code/ortho.o"
     include "build/src/libultra_code/cosf.o"
     include "build/src/libultra_code/coss.o"

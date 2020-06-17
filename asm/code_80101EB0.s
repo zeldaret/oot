@@ -115,7 +115,7 @@ glabel osPfsAllocateFile
 /* B791B8 80102018 02602025 */  move  $a0, $s3
 /* B791BC 8010201C 02402825 */  move  $a1, $s2
 /* B791C0 80102020 00003025 */  move  $a2, $zero
-/* B791C4 80102024 0C040B31 */  jal   func_80102CC4
+/* B791C4 80102024 0C040B31 */  jal   __osPfsRWInode
 /* B791C8 80102028 320700FF */   andi  $a3, $s0, 0xff
 /* B791CC 8010202C 10400003 */  beqz  $v0, .L8010203C
 /* B791D0 80102030 02602025 */   move  $a0, $s3
@@ -151,7 +151,7 @@ glabel osPfsAllocateFile
 /* B7923C 8010209C 02602025 */  move  $a0, $s3
 /* B79240 801020A0 02202825 */  move  $a1, $s1
 /* B79244 801020A4 24060001 */  li    $a2, 1
-/* B79248 801020A8 0C040B31 */  jal   func_80102CC4
+/* B79248 801020A8 0C040B31 */  jal   __osPfsRWInode
 /* B7924C 801020AC 32E700FF */   andi  $a3, $s7, 0xff
 /* B79250 801020B0 50400004 */  beql  $v0, $zero, .L801020C4
 /* B79254 801020B4 8FA80290 */   lw    $t0, 0x290($sp)
@@ -178,7 +178,7 @@ glabel osPfsAllocateFile
 /* B7929C 801020FC 02602025 */  move  $a0, $s3
 /* B792A0 80102100 02402825 */  move  $a1, $s2
 /* B792A4 80102104 24060001 */  li    $a2, 1
-/* B792A8 80102108 0C040B31 */  jal   func_80102CC4
+/* B792A8 80102108 0C040B31 */  jal   __osPfsRWInode
 /* B792AC 8010210C 320700FF */   andi  $a3, $s0, 0xff
 /* B792B0 80102110 10400009 */  beqz  $v0, .L80102138
 /* B792B4 80102114 00000000 */   nop   

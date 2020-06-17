@@ -107,7 +107,7 @@ glabel func_80105250
 /* B7C544 801053A4 02602025 */  move  $a0, $s3
 /* B7C548 801053A8 02A02825 */  move  $a1, $s5
 /* B7C54C 801053AC 00003025 */  move  $a2, $zero
-/* B7C550 801053B0 0C040B31 */  jal   func_80102CC4
+/* B7C550 801053B0 0C040B31 */  jal   __osPfsRWInode
 /* B7C554 801053B4 332700FF */   andi  $a3, $t9, 0xff
 /* B7C558 801053B8 0040B825 */  move  $s7, $v0
 /* B7C55C 801053BC 32DE00FF */  andi  $fp, $s6, 0xff
@@ -243,7 +243,7 @@ glabel func_80105250
 /* B7C724 80105584 02602025 */  move  $a0, $s3
 /* B7C728 80105588 02A02825 */  move  $a1, $s5
 /* B7C72C 8010558C 00003025 */  move  $a2, $zero
-/* B7C730 80105590 0C040B31 */  jal   func_80102CC4
+/* B7C730 80105590 0C040B31 */  jal   __osPfsRWInode
 /* B7C734 80105594 32C700FF */   andi  $a3, $s6, 0xff
 /* B7C738 80105598 10400006 */  beqz  $v0, .L801055B4
 /* B7C73C 8010559C 27A804BC */   addiu $t0, $sp, 0x4bc
@@ -347,7 +347,7 @@ glabel func_80105250
 /* B7C890 801056F0 5420FFE3 */  bnezl $at, .L80105680
 /* B7C894 801056F4 90990000 */   lbu   $t9, ($a0)
 .L801056F8:
-/* B7C898 801056F8 0C040B31 */  jal   func_80102CC4
+/* B7C898 801056F8 0C040B31 */  jal   __osPfsRWInode
 /* B7C89C 801056FC 02602025 */   move  $a0, $s3
 /* B7C8A0 80105700 50400004 */  beql  $v0, $zero, .L80105714
 /* B7C8A4 80105704 926D0064 */   lbu   $t5, 0x64($s3)
@@ -434,7 +434,7 @@ glabel func_80105788
 .L80105820:
 /* B7C9C0 80105820 02A02825 */  move  $a1, $s5
 /* B7C9C4 80105824 00003025 */  move  $a2, $zero
-/* B7C9C8 80105828 0C040B31 */  jal   func_80102CC4
+/* B7C9C8 80105828 0C040B31 */  jal   __osPfsRWInode
 /* B7C9CC 8010582C 32E700FF */   andi  $a3, $s7, 0xff
 /* B7C9D0 80105830 10400005 */  beqz  $v0, .L80105848
 /* B7C9D4 80105834 24010003 */   li    $at, 3
@@ -660,7 +660,7 @@ glabel func_80105A60
 /* B7CCCC 80105B2C 02602825 */  move  $a1, $s3
 /* B7CCD0 80105B30 11E2000A */  beq   $t7, $v0, .L80105B5C
 /* B7CCD4 80105B34 00003025 */   move  $a2, $zero
-/* B7CCD8 80105B38 0C040B31 */  jal   func_80102CC4
+/* B7CCD8 80105B38 0C040B31 */  jal   __osPfsRWInode
 /* B7CCDC 80105B3C 324700FF */   andi  $a3, $s2, 0xff
 /* B7CCE0 80105B40 50400006 */  beql  $v0, $zero, .L80105B5C
 /* B7CCE4 80105B44 A2720100 */   sb    $s2, 0x100($s3)

@@ -636,7 +636,7 @@ glabel func_80102BF0
 /* B79E5C 80102CBC 03E00008 */  jr    $ra
 /* B79E60 80102CC0 00000000 */   nop   
 
-glabel func_80102CC4
+glabel __osPfsRWInode
 /* B79E64 80102CC4 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B79E68 80102CC8 AFB40030 */  sw    $s4, 0x30($sp)
 /* B79E6C 80102CCC 30D400FF */  andi  $s4, $a2, 0xff

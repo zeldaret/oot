@@ -45,7 +45,7 @@ glabel osPfsFreeBlocks
 /* B77254 801000B4 02802025 */  move  $a0, $s4
 /* B77258 801000B8 27A50048 */  addiu $a1, $sp, 0x48
 /* B7725C 801000BC 00003025 */  move  $a2, $zero
-/* B77260 801000C0 0C040B31 */  jal   func_80102CC4
+/* B77260 801000C0 0C040B31 */  jal   __osPfsRWInode
 /* B77264 801000C4 326700FF */   andi  $a3, $s3, 0xff
 /* B77268 801000C8 10400003 */  beqz  $v0, .L801000D8
 /* B7726C 801000CC 00000000 */   nop   

@@ -93,7 +93,7 @@ glabel osPfsFileState
 /* B7C01C 80104E7C 12190008 */  beq   $s0, $t9, .L80104EA0
 /* B7C020 80104E80 00003025 */   move  $a2, $zero
 /* B7C024 80104E84 03208025 */  move  $s0, $t9
-/* B7C028 80104E88 0C040B31 */  jal   func_80102CC4
+/* B7C028 80104E88 0C040B31 */  jal   __osPfsRWInode
 /* B7C02C 80104E8C 332700FF */   andi  $a3, $t9, 0xff
 /* B7C030 80104E90 50400004 */  beql  $v0, $zero, .L80104EA4
 /* B7C034 80104E94 93A80035 */   lbu   $t0, 0x35($sp)
