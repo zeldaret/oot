@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot01_idohashira.c
  * Overlay: Bg_Spot01_Idohashira
- * Description:
+ * Description: Wooden beam above well in Kakariko Village
  */
 
 #include "z_bg_spot01_idohashira.h"
@@ -53,11 +53,11 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
 extern Gfx D_06000420[];
 extern UNK_TYPE D_0600075C;
 
-void func_808AACE0(BgSpot01Idohashira* this) {
+void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
     func_80078914(&this->dyna.actor.unk_E4, NA_SE_EV_BOX_BREAK);
 }
 
-void func_808AAD04(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
+void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 0x3C, NA_SE_EV_WOODBOX_BREAK);
 }
 
@@ -117,7 +117,7 @@ void func_808AAE6C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     sp30.y += kREG(15);
     func_80033480(globalCtx, &sp30, kREG(11) + 350.0f, kREG(12) + 5, kREG(13) + 0x7D0, kREG(14) + 0x320, 0);
     func_808AAD3C(globalCtx, &sp30, 5);
-    func_808AAD04(this, globalCtx);
+    BgSpot01Idohashira_PlayBreakSfx2(this, globalCtx);
 }
 
 void func_808AAF34(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
@@ -139,7 +139,7 @@ void func_808AAF34(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
         func_80033480(globalCtx, &dest, kREG(16) + 80.0f, kREG(17) + 10, kREG(18) + 1000, kREG(19), 0);
         func_808AAD3C(globalCtx, &dest, 3);
         this->unk_170 = 0;
-        func_808AACE0(this);
+        BgSpot01Idohashira_PlayBreakSfx1(this);
     }
 }
 
@@ -243,12 +243,12 @@ void func_808AB414(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 void func_808AB444(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = BgSpot01Idohashira_GetNpcAction(globalCtx, 2);
     u32 action;
-    u32 thisNpcAction;
+    u32 currentNpcAction;
 
     if (npcAction != NULL) {
         action = npcAction->action;
-        thisNpcAction = this->npcAction;
-        if (action != thisNpcAction) {
+        currentNpcAction = this->npcAction;
+        if (action != currentNpcAction) {
             switch (action) {
                 case 1:
                     func_808AB3E8(this);
