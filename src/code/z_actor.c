@@ -2213,9 +2213,9 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     if (actor->flags & 0x1000) {
         camera = &globalCtx->cameras[0];
-        func_800D1694(actor->posRot.pos.x + camera->unk_80.x,
-                      actor->posRot.pos.y + (f32)((actor->shape.unk_08 * actor->scale.y) + camera->unk_80.y),
-                      actor->posRot.pos.z + camera->unk_80.z, &actor->shape.rot);
+        func_800D1694(actor->posRot.pos.x + camera->skyboxOffset.x,
+                      actor->posRot.pos.y + (f32)((actor->shape.unk_08 * actor->scale.y) + camera->skyboxOffset.y),
+                      actor->posRot.pos.z + camera->skyboxOffset.z, &actor->shape.rot);
     } else {
         func_800D1694(actor->posRot.pos.x, actor->posRot.pos.y + (actor->shape.unk_08 * actor->scale.y),
                       actor->posRot.pos.z, &actor->shape.rot);

@@ -222,7 +222,7 @@ void func_800B4920(char* varName, s16 pointCnt, CutsceneCameraPoint *csPoints) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4B20.s")
 
-void func_800B4D58(DBCamera *dbCamera, Camera *camera) {
+void DbgCamera_Init(DBCamera *dbCamera, Camera *camera) {
     dbCamera->unk_10C6.x = dbCamera->unk_10C6.y = dbCamera->unk_10C6.z = 0;
     dbCamera->unk_44 = 0;
     dbCamera->unk_00 = 0;
@@ -349,7 +349,7 @@ void func_800B9060(s32 arg0) {
 /**
  * Initalizes the custscene editor
 */
-void func_800B958C(Camera *camera, DBCamera *dbCamera) {
+void DbgCamera_FirstInit(Camera *camera, DBCamera *dbCamera) {
     s32 temp_s0;
     u32 temp_v0;
     u32 phi_v0;

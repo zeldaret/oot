@@ -1235,7 +1235,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                     if (globalCtx->skyboxCtx.unk_140 != 0) {
                         if (ACTIVE_CAM->setting != 0x19) {
                             Vec3f sp74;
-                            func_8005AFB4(&sp74, ACTIVE_CAM);
+                            Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
                                             globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
                                             globalCtx->view.eye.z + sp74.z);
@@ -1681,7 +1681,7 @@ void func_800C078C(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
     s16 camIdx2 = (camId2 == -1) ? globalCtx->activeCamera : camId2;
     s16 camIdx1 = (camId1 == -1) ? globalCtx->activeCamera : camId1;
 
-    func_8005AE64(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
+    Camera_Copy(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
 }
 
 s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3) {

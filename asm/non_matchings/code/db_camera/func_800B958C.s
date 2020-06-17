@@ -1,4 +1,4 @@
-glabel func_800B958C
+glabel DbgCamera_FirstInit
 /* B3072C 800B958C 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B30730 800B9590 AFA40020 */  sw    $a0, 0x20($sp)
 /* B30734 800B9594 240E002A */  li    $t6, 42

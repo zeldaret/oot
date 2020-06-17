@@ -1456,7 +1456,7 @@ glabel L80054180
 /* ACB354 800541B4 02202825 */  move  $a1, $s1
 /* ACB358 800541B8 AE2E0060 */  sw    $t6, 0x60($s1)
 /* ACB35C 800541BC 8DF80008 */  lw    $t8, 8($t7)
-/* ACB360 800541C0 0C016B99 */  jal   func_8005AE64
+/* ACB360 800541C0 0C016B99 */  jal   Camera_Copy
 /* ACB364 800541C4 AE380064 */   sw    $t8, 0x64($s1)
 
 glabel L800541C8

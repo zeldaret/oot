@@ -602,7 +602,7 @@ glabel Gameplay_Draw
 /* B36830 800BF690 84AA0142 */  lh    $t2, 0x142($a1)
 /* B36834 800BF694 51410016 */  beql  $t2, $at, .L800BF6F0
 /* B36838 800BF698 8FAD004C */   lw    $t5, 0x4c($sp)
-/* B3683C 800BF69C 0C016BED */  jal   func_8005AFB4
+/* B3683C 800BF69C 0C016BED */  jal   Camera_GetSkyboxOffset
 /* B36840 800BF6A0 AFAB0048 */   sw    $t3, 0x48($sp)
 /* B36844 800BF6A4 C60600E0 */  lwc1  $f6, 0xe0($s0)
 /* B36848 800BF6A8 C7A80074 */  lwc1  $f8, 0x74($sp)

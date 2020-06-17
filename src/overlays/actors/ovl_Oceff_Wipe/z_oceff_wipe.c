@@ -78,7 +78,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     scroll = globalCtx->state.frames & 0xFF;
 
     eye = ACTIVE_CAM->eye;
-    func_8005AFB4(&vec, ACTIVE_CAM);
+    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
     if (this->counter < 32) {

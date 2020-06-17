@@ -581,14 +581,18 @@ typedef struct {
     /* 0x005C */ Vec3f eye;
     /* 0x0068 */ Vec3f unk_68;
     /* 0x0074 */ Vec3f eyeNext;
-    /* 0x0080 */ Vec3f unk_80;
+    /* 0x0080 */ Vec3f skyboxOffset;
     /* 0x008C */ struct GlobalContext* globalCtx;
     /* 0x0090 */ struct Player* player;
     /* 0x0094 */ PosRot playerPosRot;
     /* 0x00A8 */ struct Actor* target;
     /* 0x00AC */ PosRot targetPosRot;
-    /* 0x00C0 */ Vec3f unk_C0; // has to do with how quickly the camera rotates link.
-    /* 0x00CC */ Vec3f unk_CC; // has to do with how quickly the camera zooms
+    /* 0x00C0 */ f32 unk_C0;
+    /* 0x00C4 */ f32 unk_C4;
+    /* 0x00C8 */ f32 unk_C8;
+    /* 0x00CC */ f32 unk_CC;
+    /* 0x00D0 */ f32 unk_D0;
+    /* 0x00D4 */ f32 unk_D4;
     /* 0x00D8 */ f32 unk_D8;
     /* 0x00DC */ f32 dist;
     /* 0x00E0 */ f32 unk_E0;
@@ -620,7 +624,7 @@ typedef struct {
     /* 0x014E */ s16 childCamIdx;
     /* 0x0150 */ s16 unk_150; // unknown if used
     /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ u16 unk_154; // appears to be some clone of setting?
+    /* 0x0154 */ s16 unk_154; // appears to be some clone of setting?
     /* 0x0156 */ s16 unk_156;
     /* 0x0158 */ s16 unk_158; // unknown if used
     /* 0x015A */ s16 roll;

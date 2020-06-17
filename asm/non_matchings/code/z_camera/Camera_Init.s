@@ -71,7 +71,7 @@ glabel Camera_Init
 .L80057D4C:
 /* ACEEEC 80057D4C 3C058016 */  lui   $a1, %hi(D_8015BD80) # $a1, 0x8016
 /* ACEEF0 80057D50 24A5BD80 */  addiu $a1, %lo(D_8015BD80) # addiu $a1, $a1, -0x4280
-/* ACEEF4 80057D54 0C02E563 */  jal   func_800B958C
+/* ACEEF4 80057D54 0C02E563 */  jal   DbgCamera_FirstInit
 /* ACEEF8 80057D58 02002025 */   move  $a0, $s0
 /* ACEEFC 80057D5C 3C078016 */  lui   $a3, %hi(gGameInfo) # $a3, 0x8016
 /* ACEF00 80057D60 3C018012 */  lui   $at, %hi(sInitRegs) # $at, 0x8012
@@ -88,10 +88,10 @@ glabel Camera_Init
 /* ACEF28 80057D88 AC4B0000 */  sw    $t3, ($v0)
 /* ACEF2C 80057D8C 2484BD80 */  addiu $a0, %lo(D_8015BD80) # addiu $a0, $a0, -0x4280
 /* ACEF30 80057D90 02002825 */  move  $a1, $s0
-/* ACEF34 80057D94 0C02D356 */  jal   func_800B4D58
+/* ACEF34 80057D94 0C02D356 */  jal   DbgCamera_Init
 /* ACEF38 80057D98 AE0B008C */   sw    $t3, 0x8c($s0)
-/* ACEF3C 80057D9C 3C068012 */  lui   $a2, %hi(D_8011D39C) # $a2, 0x8012
-/* ACEF40 80057DA0 24C6D39C */  addiu $a2, %lo(D_8011D39C) # addiu $a2, $a2, -0x2c64
+/* ACEF3C 80057D9C 3C068012 */  lui   $a2, %hi(sNextUID) # $a2, 0x8012
+/* ACEF40 80057DA0 24C6D39C */  addiu $a2, %lo(sNextUID) # addiu $a2, $a2, -0x2c64
 /* ACEF44 80057DA4 84C20000 */  lh    $v0, ($a2)
 /* ACEF48 80057DA8 3C078016 */  lui   $a3, %hi(gGameInfo) # $a3, 0x8016
 /* ACEF4C 80057DAC 24E7FA90 */  addiu $a3, %lo(gGameInfo) # addiu $a3, $a3, -0x570

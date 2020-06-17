@@ -178,7 +178,7 @@ glabel func_80096B6C
 /* B0DF58 80096DB8 AFA80048 */  sw    $t0, 0x48($sp)
 /* B0DF5C 80096DBC 8FA500AC */  lw    $a1, 0xac($sp)
 /* B0DF60 80096DC0 27A4005C */  addiu $a0, $sp, 0x5c
-/* B0DF64 80096DC4 0C016BED */  jal   func_8005AFB4
+/* B0DF64 80096DC4 0C016BED */  jal   Camera_GetSkyboxOffset
 /* B0DF68 80096DC8 AFAB00A8 */   sw    $t3, 0xa8($sp)
 /* B0DF6C 80096DCC C7A4005C */  lwc1  $f4, 0x5c($sp)
 /* B0DF70 80096DD0 C7A60064 */  lwc1  $f6, 0x64($sp)
