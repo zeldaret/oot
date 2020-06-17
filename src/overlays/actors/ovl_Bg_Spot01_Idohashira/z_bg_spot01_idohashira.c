@@ -23,18 +23,18 @@ void func_808AB530(BgSpot01Idohashira* this, GlobalContext* globalCtx);
 void func_808AB570(BgSpot01Idohashira* this, GlobalContext* globalCtx);
 void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx);
 
-BgSpot01IdohashiraActionFunc D_808AB830[] = {
+static BgSpot01IdohashiraActionFunc sActionFuncs[] = {
     func_808AB504,
     func_808AB510,
     func_808AB530,
     func_808AB570,
 };
 
-InitChainEntry D_808AB840[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-BgSpot01IdohashiraDrawFunc D_808AB844[] = {
+static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
     func_808AB700,
 };
 
@@ -50,7 +50,7 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
     (ActorFunc)BgSpot01Idohashira_Draw,
 };
 
-extern Gfx* D_06000420;
+extern Gfx D_06000420[];
 extern UNK_TYPE D_0600075C;
 
 void func_808AACE0(BgSpot01Idohashira* this) {
@@ -149,18 +149,18 @@ void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-s32 func_808AB124(GlobalContext* globalCtx) {
+s32 BgSpot01Idohashira_NotInCsMode(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
         return 1;
     }
     return 0;
 }
 
-CsCmdActorAction* func_808AB144(GlobalContext* globalCtx, s32 actionIdx) {
+CsCmdActorAction* BgSpot01Idohashira_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
     s32 pad[2];
     CsCmdActorAction* npcAction = NULL;
 
-    if (!func_808AB124(globalCtx)) {
+    if (!BgSpot01Idohashira_NotInCsMode(globalCtx)) {
         npcAction = globalCtx->csCtx.npcActions[actionIdx];
     }
     return npcAction;
@@ -200,7 +200,7 @@ s32 func_808AB29C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     f32 tempY;
     f32 tempZ;
 
-    npcAction = func_808AB144(globalCtx, 2);
+    npcAction = BgSpot01Idohashira_GetNpcAction(globalCtx, 2);
     if (npcAction != NULL) {
         temp_f0 = func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
         initPos = this->dyna.actor.initPosRot.pos;
@@ -241,14 +241,14 @@ void func_808AB414(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 }
 
 void func_808AB444(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_808AB144(globalCtx, 2);
+    CsCmdActorAction* npcAction = BgSpot01Idohashira_GetNpcAction(globalCtx, 2);
     u32 action;
-    u32 unk_16C;
+    u32 thisNpcAction;
 
     if (npcAction != NULL) {
         action = npcAction->action;
-        unk_16C = this->unk_16C;
-        if (action != unk_16C) {
+        thisNpcAction = this->npcAction;
+        if (action != thisNpcAction) {
             switch (action) {
                 case 1:
                     func_808AB3E8(this);
@@ -262,7 +262,7 @@ void func_808AB444(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
                 default:
                     osSyncPrintf("Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->unk_16C = action;
+            this->npcAction = action;
         }
     }
 }
@@ -288,11 +288,11 @@ void func_808AB570(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idohashira* this = THIS;
 
-    if (this->action < 0 || this->action >= 4 || D_808AB830[this->action] == NULL) {
+    if (this->action < 0 || this->action >= 4 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_808AB830[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -300,7 +300,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idohashira* this = THIS;
     s32 localC;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_808AB840);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     localC = 0;
     DynaPolyInfo_Alloc(&D_0600075C, &localC);
@@ -333,7 +333,7 @@ void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, globalCtx);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000420);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000420);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_spot01_idohashira.c", 708);
 }
@@ -344,9 +344,9 @@ void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 void BgSpot01Idohashira_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idohashira* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig > 0 || D_808AB844[this->drawConfig] == NULL) {
+    if (this->drawConfig < 0 || this->drawConfig > 0 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_808AB844[this->drawConfig](this, globalCtx);
+    sDrawFuncs[this->drawConfig](this, globalCtx);
 }
