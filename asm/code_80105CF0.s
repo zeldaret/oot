@@ -45,12 +45,12 @@ glabel func_80105CF0
 /* B7CF08 80105D68 A7A60072 */   sh    $a2, 0x72($sp)
 /* B7CF0C 80105D6C 0010C0C3 */  sra   $t8, $s0, 3
 /* B7CF10 80105D70 0010C940 */  sll   $t9, $s0, 5
-/* B7CF14 80105D74 3C178013 */  lui   $s7, %hi(D_80134D20) # $s7, 0x8013
-/* B7CF18 80105D78 3C168017 */  lui   $s6, %hi(_osCont_lastPollType) # $s6, 0x8017
+/* B7CF14 80105D74 3C178013 */  lui   $s7, %hi(__osPfsLastChannel) # $s7, 0x8013
+/* B7CF18 80105D78 3C168017 */  lui   $s6, %hi(__osContLastPoll) # $s6, 0x8017
 /* B7CF1C 80105D7C 3C138017 */  lui   $s3, %hi(pifMempakBuf) # $s3, 0x8017
 /* B7CF20 80105D80 26735960 */  addiu $s3, %lo(pifMempakBuf) # addiu $s3, $s3, 0x5960
-/* B7CF24 80105D84 26D65810 */  addiu $s6, %lo(_osCont_lastPollType) # addiu $s6, $s6, 0x5810
-/* B7CF28 80105D88 26F74D20 */  addiu $s7, %lo(D_80134D20) # addiu $s7, $s7, 0x4d20
+/* B7CF24 80105D84 26D65810 */  addiu $s6, %lo(__osContLastPoll) # addiu $s6, $s6, 0x5810
+/* B7CF28 80105D88 26F74D20 */  addiu $s7, %lo(__osPfsLastChannel) # addiu $s7, $s7, 0x4d20
 /* B7CF2C 80105D8C AFB90040 */  sw    $t9, 0x40($sp)
 /* B7CF30 80105D90 AFB80044 */  sw    $t8, 0x44($sp)
 /* B7CF34 80105D94 241E0003 */  li    $fp, 3
@@ -138,7 +138,7 @@ glabel func_80105CF0
 /* B7D064 80105EC4 02A02025 */  move  $a0, $s5
 /* B7D068 80105EC8 51720009 */  beql  $t3, $s2, .L80105EF0
 /* B7D06C 80105ECC 24010004 */   li    $at, 4
-/* B7D070 80105ED0 0C040644 */  jal   func_80101910
+/* B7D070 80105ED0 0C040644 */  jal   __osPfsGetStatus
 /* B7D074 80105ED4 02202825 */   move  $a1, $s1
 /* B7D078 80105ED8 14400009 */  bnez  $v0, .L80105F00
 /* B7D07C 80105EDC 00401825 */   move  $v1, $v0
