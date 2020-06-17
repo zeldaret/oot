@@ -2,9 +2,12 @@
 #define _ULTRA64_CONTROLLER_H_
 
 #include <ultra64.h>
-
-#include <PR/os_cont.h>
+#include <ultra64/pfs.h>
 #include <PR/os_message.h>
+
+#define SIAccessQueueSize 2
+#define BLOCKSIZE 32
+#define MAXCONTROLLERS  4
 
 #define CONT_CMD_REQUEST_STATUS 0
 #define CONT_CMD_READ_BUTTON 1
@@ -34,9 +37,83 @@
 #define CONT_CMD_END 0xFE // Indicates end of a command
 #define CONT_CMD_EXE 1    // Set pif ram status byte to this to do a command
 
+#define	CONT_ERR_NO_CONTROLLER		PFS_ERR_NOPACK 		/* 1 */
+#define	CONT_ERR_CONTRFAIL			CONT_OVERRUN_ERROR	/* 4 */
+#define	CONT_ERR_INVALID			PFS_ERR_INVALID		/* 5 */
+#define	CONT_ERR_DEVICE				PFS_ERR_DEVICE 		/* 11 */
+#define	CONT_ERR_NOT_READY			12
+#define	CONT_ERR_VOICE_MEMORY		13
+#define	CONT_ERR_VOICE_WORD			14
+#define	CONT_ERR_VOICE_NO_RESPONSE	15
+
+
 #define DIR_STATUS_EMPTY 0
 #define DIR_STATUS_UNKNOWN 1
 #define DIR_STATUS_OCCUPIED 2
+
+#define PFS_FORCE 1
+#define PFS_DELETE 1
+
+#define PFS_LABEL_AREA 7
+
+#define PFS_ERR_NOPACK 1
+
+/* controller errors */
+#define CONT_NO_RESPONSE_ERROR          0x8
+#define CONT_OVERRUN_ERROR              0x4
+
+/* Controller type */
+
+#define CONT_ABSOLUTE           0x0001
+#define CONT_RELATIVE           0x0002
+#define CONT_JOYPORT            0x0004
+#define CONT_EEPROM				0x8000
+#define CONT_EEP16K				0x4000
+#define	CONT_TYPE_MASK			0x1F07
+#define	CONT_TYPE_NORMAL		0x0005
+#define	CONT_TYPE_MOUSE			0x0002
+#define	CONT_TYPE_VOICE			0x0100
+
+/* Controller status */
+
+#define CONT_CARD_ON            0x01
+#define CONT_CARD_PULL          0x02
+#define CONT_ADDR_CRC_ER        0x04
+#define CONT_EEPROM_BUSY		0x80
+
+/* Buttons */
+
+#define CONT_A      0x8000
+#define CONT_B      0x4000
+#define CONT_G	    0x2000
+#define CONT_START  0x1000
+#define CONT_UP     0x0800
+#define CONT_DOWN   0x0400
+#define CONT_LEFT   0x0200
+#define CONT_RIGHT  0x0100
+#define CONT_L      0x0020
+#define CONT_R      0x0010
+#define CONT_E      0x0008
+#define CONT_D      0x0004
+#define CONT_C      0x0002
+#define CONT_F      0x0001
+
+/* Nintendo's official button names */
+
+#define A_BUTTON	CONT_A
+#define B_BUTTON	CONT_B
+#define L_TRIG		CONT_L
+#define R_TRIG		CONT_R
+#define Z_TRIG		CONT_G
+#define START_BUTTON	CONT_START
+#define U_JPAD		CONT_UP
+#define L_JPAD		CONT_LEFT
+#define R_JPAD		CONT_RIGHT
+#define D_JPAD		CONT_DOWN
+#define U_CBUTTONS	CONT_E
+#define L_CBUTTONS	CONT_C
+#define R_CBUTTONS	CONT_F
+#define D_CBUTTONS	CONT_D
 
 typedef struct
 {
@@ -65,88 +142,76 @@ typedef struct
     /* 0x03 */ s8  y;
 } PadInput; // size = 0x4
 
-typedef struct
-{
-    u8 slot_type; //0xFF for valid command, 0x00 for don't read this controller, 0xFE for end of commands
-    u8 bytes_send; //normally 1 (command)
-    u8 status_hi_bytes_rec_lo; //Status errors as defined in os_cont.h; bytes normally 4
-    u8 command; //0: get status, 1: read buttons, 2: read mempak, 3: write mempak, 4: read eeprom, 5: write eeprom, FF: reset controller
-} PIF_header_t;
-
-typedef struct
-{
-    PIF_header_t hdr;
-    union{
-        PadInput input;
-        struct{
-            u8 ctl_type_lo;
-            u8 ctl_type_hi;
-            u8 ctl_status;
-            u8 dummy;
-        };
-    };
-} PIF_IO_slot_t;
-
-typedef union
-{
-    u8 bytes[0x27];
-    struct{
-        PIF_header_t hdr;
-        u8 data[0x23]; //Yes, really 0x23 bytes of data
-    };
-} PIF_mempak_wr_t;
+typedef struct {
+	u32	ram[15];		/* RAM */
+	u32	status;		
+} OSPifRam;
 
 typedef struct {
-    u8 data[0x20];
-} PIF_mempak_data_t;
+	u16     type;                   /* Controller Type */
+	u8      status;                 /* Controller status */
+	u8	    errno;
+} OSContStatus;
 
-typedef union
-{
-    u8 bytes[0x40];
-    struct{
-        u32 words[0xF];
-        u32 status_control;
-    };
-    PIF_IO_slot_t slots[8];
-} pif_data_buffer_t;
+typedef struct {
+	u16     button;
+	s8      stick_x;		/* -80 <= stick_x <= 80 */
+	s8      stick_y;		/* -80 <= stick_y <= 80 */
+	u8	    errno;
+} OSContPad;
 
-typedef union {
-    struct {
-    /* 0x0000 */ u32 unk0; //0x8 is some flag that needs to be set
-    /* 0x0004 */ OSMesgQueue *ctrlrqueue;
-    /* 0x0008 */ u32 ctrlridx; //0 to 3
-    };
-    u8 bytes[0x68];
-} unk_controller_t; // size = 0x68
+typedef struct {
+	void    *address;               /* Ram pad Address:  11 bits */
+	u8      databuffer[32];         /* address of the data buffer */
+    u8      addressCrc;             /* CRC code for address */
+	u8      dataCrc;                /* CRC code for data */
+	u8	    errno;
+} OSContRamIo;
 
-extern pif_data_buffer_t osPifBuffers[4];
+// Original name: __OSContRequesFormat
+typedef struct {
+	u8	align;             
+	u8	txsize;		
+	u8	rxsize;			
+	u8	poll;			
+	u8  typeh;
+	u8  typel;
+	u8  status;
+	u8	align1;                 
+} __OSContRequestHeader; 
 
-#define SIAccessQueueSize 2
-extern OSMesg osSiMesgBuff[SIAccessQueueSize];
-extern OSMesgQueue gOsSiMessageQueue;
-extern u32 gOsSiAccessQueueCreated; // = 0
+// Original name: __OSContRequesHeaderFormatShort
+typedef struct {
+        u8      txsize;             
+        u8      rxsize;              
+        u8      poll;     
+        u8      typeh;
+        u8      typel;
+        u8      status;
+} __OSContRequestHeaderAligned;
 
-extern pif_data_buffer_t _osPifInternalBuff;
-extern u8 _osCont_lastPollType;
-extern u8 _osCont_numControllers; //always 4
-extern u32 gOsContInitialized; // = 0
-extern OSMesgQueue _osContMesgQueue;
-extern OSMesg _osContMesgBuff[4];
+// Original Name: __OSContRamReadFormat
+typedef struct {
+	u8	unk_00;             
+	u8	txsize;	
+	u8	rxsize;		
+	u8	poll;			
+	u8	hi;
+	u8	lo;
+	u8  data[BLOCKSIZE];
+	u8  datacrc;
+} __OSContRamHeader; 
 
-extern s32 osSetRumble(unk_controller_t *arg0, u32 vibrate);
-extern void osSetUpMempakWrite(s32 ctrlridx, pif_data_buffer_t* buf);
-extern s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t *unk_controller, u32 ctrlridx);
-extern void __osSiCreateAccessQueue();
-extern void __osSiGetAccess();
-extern void __osSiRelAccess();
-extern s32 osContInit(OSMesgQueue *mq, u8 *ctl_present_bitfield, OSContStatus *status);
-extern void __osContGetInitData(u8 *ctl_present_bitfield, OSContStatus *status);
-extern void __osPackRequestData(u8 command);
+// Original name: __OSContReadFormat
+typedef struct {
+	u8	align;
+	u8	txsize;	
+	u8	rxsize;		
+	u8	poll;	
+	u16 button;
+	s8  joyX;
+	s8  joyY;
+} __OSContReadHeader;
 
-extern s32 osContStartReadData(OSMesgQueue *mq);
-extern void osContGetReadData(OSContPad *pad);
-extern void __osPackReadData();
-
-extern s32 __osSiRawStartDma(s32 dir, void *addr);
 
 #endif //_ULTRA64_CONTROLLER_H_

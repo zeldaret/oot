@@ -317,7 +317,7 @@ glabel osPfsReadWriteFile
 .L801018E4:
 /* B78A84 801018E4 8E440004 */  lw    $a0, 4($s2)
 .L801018E8:
-/* B78A88 801018E8 0C040644 */  jal   func_80101910
+/* B78A88 801018E8 0C040644 */  jal   __osPfsGetStatus
 /* B78A8C 801018EC 8E450008 */   lw    $a1, 8($s2)
 .L801018F0:
 /* B78A90 801018F0 8FBF002C */  lw    $ra, 0x2c($sp)

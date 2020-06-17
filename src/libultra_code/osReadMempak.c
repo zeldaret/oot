@@ -1,50 +1,52 @@
 #include <ultra64.h>
 #include <global.h>
-
 #include <ultra64/controller.h>
 
-s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, PIF_mempak_data_t* data) {
+#define BLOCKSIZE 32
+
+s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
     s32 ret;
     s32 i;
     u8* bufptr;
-    s32 read_try_count = 2;
+    s32 retryCount = 2;
 
     __osSiGetAccess();
     do {
-        if ((_osCont_lastPollType != 2) || (ctrlridx != D_80134D20)) {
-            bufptr = &pifMempakBuf.bytes[0];
-            _osCont_lastPollType = 2;
-            D_80134D20 = ctrlridx;
+        bufptr = &pifMempakBuf;
+        if ((__osContLastPoll != 2) || (__osPfsLastChannel != channel)) {
+
+            __osContLastPoll = 2;
+            __osPfsLastChannel = channel;
             // clang-format off
-            for (i = 0; i < ctrlridx; i++) { *bufptr++ = 0; }
+            for (i = 0; i < channel; i++) { *bufptr++ = 0; }
             // clang-format on
-            pifMempakBuf.status_control = 1;
-            ((PIF_header_t*)bufptr)->slot_type = 0xff;
-            ((PIF_header_t*)bufptr)->bytes_send = 3;
-            ((PIF_header_t*)bufptr)->status_hi_bytes_rec_lo = 0x21;
-            ((PIF_header_t*)bufptr)->command = 2; // read mempak; send byte 0
+            pifMempakBuf.status = 1;
+            ((__OSContRamHeader*)bufptr)->unk_00 = 0xFF;
+            ((__OSContRamHeader*)bufptr)->txsize = 3;
+            ((__OSContRamHeader*)bufptr)->rxsize = 0x21;
+            ((__OSContRamHeader*)bufptr)->poll = CONT_CMD_READ_MEMPACK; // read mempak; send byte 0
+            ((__OSContRamHeader*)bufptr)->datacrc = 0xFF;               // read mempak; send byte 0
             // Received bytes are 6-26 inclusive
-            bufptr[0x26] = 0xff; // last byte of receive
-            bufptr[0x27] = 0xfe; // End of commands
+            bufptr[sizeof(__OSContRamHeader)] = CONT_CMD_END; // End of commands
         } else {
-            bufptr = &pifMempakBuf.bytes[ctrlridx];
+            bufptr += channel;
         }
-        bufptr[4] = addr >> 3;                                 // send byte 1
-        bufptr[5] = (s8)(osMempakAddrCRC(addr) | (addr << 5)); // send byte 2
-        __osSiRawStartDma(1, &pifMempakBuf);
-        osRecvMesg(ctrlrqueue, 0, 1);
-        __osSiRawStartDma(0, &pifMempakBuf);
-        osRecvMesg(ctrlrqueue, 0, 1);
-        ret = (((PIF_header_t*)bufptr)->status_hi_bytes_rec_lo & 0xc0) >> 4;
+        ((__OSContRamHeader*)bufptr)->hi = addr >> 3;                                 // send byte 1
+        ((__OSContRamHeader*)bufptr)->lo = (s8)(osMempakAddrCRC(addr) | (addr << 5)); // send byte 2
+        __osSiRawStartDma(OS_WRITE, &pifMempakBuf);
+        osRecvMesg(ctrlrqueue, NULL, OS_MESG_BLOCK);
+        __osSiRawStartDma(OS_READ, &pifMempakBuf);
+        osRecvMesg(ctrlrqueue, NULL, OS_MESG_BLOCK);
+        ret = (((__OSContRamHeader*)bufptr)->rxsize & 0xC0) >> 4;
         if (!ret) {
-            if (bufptr[0x26] != osMempakDataCRC(bufptr + 6)) {
-                ret = func_80101910(ctrlrqueue, ctrlridx);
+            if (((__OSContRamHeader*)bufptr)->datacrc != osMempakDataCRC(bufptr + 6)) {
+                ret = __osPfsGetStatus(ctrlrqueue, channel);
                 if (ret) {
                     break;
                 }
                 ret = 4; // Retry
             } else {
-                bcopy(bufptr + 6, data, 0x20);
+                bcopy(bufptr + 6, data, BLOCKSIZE);
             }
         } else {
             ret = 1; // Error
@@ -52,7 +54,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, PIF_mempak_dat
         if (ret != 4) {
             break;
         }
-    } while (0 <= read_try_count--);
+    } while (0 <= retryCount--);
     __osSiRelAccess();
     return ret;
 }
