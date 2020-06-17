@@ -44,7 +44,7 @@ glabel func_80102420
 /* B7962C 8010248C 03E00008 */  jr    $ra
 /* B79630 80102490 01201025 */   move  $v0, $t1
 
-glabel func_80102494
+glabel __osIdCheckSum
 /* B79634 80102494 A4C00000 */  sh    $zero, ($a2)
 /* B79638 80102498 A4A00000 */  sh    $zero, ($a1)
 /* B7963C 8010249C 94820000 */  lhu   $v0, ($a0)
@@ -110,7 +110,7 @@ glabel func_80102494
 /* B79728 80102588 03E00008 */  jr    $ra
 /* B7972C 8010258C 00001025 */   move  $v0, $zero
 
-glabel func_80102590
+glabel __osRepairPackId
 /* B79730 80102590 27BDFF60 */  addiu $sp, $sp, -0xa0
 /* B79734 80102594 AFBF003C */  sw    $ra, 0x3c($sp)
 /* B79738 80102598 AFB60038 */  sw    $s6, 0x38($sp)
@@ -265,7 +265,7 @@ glabel func_80102590
 /* B79948 801027A8 A68B0018 */  sh    $t3, 0x18($s4)
 /* B7994C 801027AC 92CC001B */  lbu   $t4, 0x1b($s6)
 /* B79950 801027B0 2686001E */  addiu $a2, $s4, 0x1e
-/* B79954 801027B4 0C040925 */  jal   func_80102494
+/* B79954 801027B4 0C040925 */  jal   __osIdCheckSum
 /* B79958 801027B8 A28C001B */   sb    $t4, 0x1b($s4)
 /* B7995C 801027BC 240D0001 */  li    $t5, 1
 /* B79960 801027C0 240E0003 */  li    $t6, 3
@@ -351,7 +351,7 @@ glabel func_80102590
 /* B79A78 801028D8 03E00008 */  jr    $ra
 /* B79A7C 801028DC 27BD00A0 */   addiu $sp, $sp, 0xa0
 
-glabel func_801028E0
+glabel __osCheckPackId
 /* B79A80 801028E0 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* B79A84 801028E4 AFBF003C */  sw    $ra, 0x3c($sp)
 /* B79A88 801028E8 AFB60038 */  sw    $s6, 0x38($sp)
@@ -398,7 +398,7 @@ glabel func_801028E0
 /* B79B24 80102984 8FBF003C */   lw    $ra, 0x3c($sp)
 .L80102988:
 /* B79B28 80102988 02802825 */  move  $a1, $s4
-/* B79B2C 8010298C 0C040925 */  jal   func_80102494
+/* B79B2C 8010298C 0C040925 */  jal   __osIdCheckSum
 /* B79B30 80102990 02C03025 */   move  $a2, $s6
 /* B79B34 80102994 97A90052 */  lhu   $t1, 0x52($sp)
 /* B79B38 80102998 964A001C */  lhu   $t2, 0x1c($s2)
@@ -480,7 +480,7 @@ glabel func_80102A44
 /* B79C3C 80102A9C 8FBF001C */   lw    $ra, 0x1c($sp)
 .L80102AA0:
 /* B79C40 80102AA0 27A5006E */  addiu $a1, $sp, 0x6e
-/* B79C44 80102AA4 0C040925 */  jal   func_80102494
+/* B79C44 80102AA4 0C040925 */  jal   __osIdCheckSum
 /* B79C48 80102AA8 27A6006C */   addiu $a2, $sp, 0x6c
 /* B79C4C 80102AAC 97AF006E */  lhu   $t7, 0x6e($sp)
 /* B79C50 80102AB0 97B80068 */  lhu   $t8, 0x68($sp)
@@ -492,14 +492,14 @@ glabel func_80102A44
 /* B79C68 80102AC8 53290015 */  beql  $t9, $t1, .L80102B20
 /* B79C6C 80102ACC 962A0018 */   lhu   $t2, 0x18($s1)
 .L80102AD0:
-/* B79C70 80102AD0 0C040A38 */  jal   func_801028E0
+/* B79C70 80102AD0 0C040A38 */  jal   __osCheckPackId
 /* B79C74 80102AD4 02002025 */   move  $a0, $s0
 /* B79C78 80102AD8 2401000A */  li    $at, 10
 /* B79C7C 80102ADC 1441000B */  bne   $v0, $at, .L80102B0C
 /* B79C80 80102AE0 00401825 */   move  $v1, $v0
 /* B79C84 80102AE4 02002025 */  move  $a0, $s0
 /* B79C88 80102AE8 27A5004C */  addiu $a1, $sp, 0x4c
-/* B79C8C 80102AEC 0C040964 */  jal   func_80102590
+/* B79C8C 80102AEC 0C040964 */  jal   __osRepairPackId
 /* B79C90 80102AF0 27A60028 */   addiu $a2, $sp, 0x28
 /* B79C94 80102AF4 10400003 */  beqz  $v0, .L80102B04
 /* B79C98 80102AF8 00000000 */   nop   
@@ -521,7 +521,7 @@ glabel func_80102A44
 /* B79CC8 80102B28 314B0001 */  andi  $t3, $t2, 1
 /* B79CCC 80102B2C 5560000D */  bnezl $t3, .L80102B64
 /* B79CD0 80102B30 02202025 */   move  $a0, $s1
-/* B79CD4 80102B34 0C040964 */  jal   func_80102590
+/* B79CD4 80102B34 0C040964 */  jal   __osRepairPackId
 /* B79CD8 80102B38 27A60028 */   addiu $a2, $sp, 0x28
 /* B79CDC 80102B3C 10400003 */  beqz  $v0, .L80102B4C
 /* B79CE0 80102B40 97AC0040 */   lhu   $t4, 0x40($sp)

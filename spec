@@ -507,7 +507,7 @@ beginseg
     include "build/src/libultra_code/__osPfsSelectBank.o"
     include "build/src/libultra_code/osContSetCh.o"
     include "build/asm/code_80104D60.o"
-    include "build/asm/code_80104F40.o"
+    include "build/src/libultra_code/pfsinitpak.o"
     include "build/asm/code_80105250.o"
     include "build/src/libultra_code/osAiGetLength.o"
     include "build/asm/guTranslate.o"

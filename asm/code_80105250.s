@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80105250
+glabel osPfsChecker
 /* B7C3F0 80105250 27BDFB38 */  addiu $sp, $sp, -0x4c8
 /* B7C3F4 80105254 AFBF0044 */  sw    $ra, 0x44($sp)
 /* B7C3F8 80105258 AFBE0040 */  sw    $fp, 0x40($sp)

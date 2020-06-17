@@ -49,12 +49,20 @@
 #define PFS_ERR_NO_GBCART	    12 	/* no gb cartridge (64GB-PAK) */
 #define PFS_ERR_NEW_GBCART	    13 	/* gb cartridge may be changed */
 
-#define PFS_WRITTEN				2
-
 /* Definition for bank */
 #define	PFS_ID_BANK_256K	0
 #define	PFS_ID_BANK_1M		4
 #define	PFS_BANKS_256K		1
+
+#define PFS_WRITTEN				2
+#define DEF_DIR_PAGES			2
+
+#define PFS_ID_0AREA            1
+#define PFS_ID_1AREA            3
+#define PFS_ID_2AREA            4
+#define PFS_ID_3AREA            6
+#define PFS_LABEL_AREA          7
+#define PFS_ID_PAGE             PFS_ONE_PAGE * 0
 
 typedef struct {
 	int		status;
@@ -102,5 +110,17 @@ typedef struct {
 	u8	    		ext_name[PFS_FILE_EXT_LEN];
 	u8	    		game_name[PFS_FILE_NAME_LEN];
 } __OSDir;
+
+typedef struct {
+	u32	repaired;
+	u32	random;
+	u64	serialMid;
+	u64	serialLow;
+	u16	deviceid;
+	u8	banks;
+	u8	version;
+	u16	checksum;
+	u16	invertedChecksum;
+} __OSPackId;
 
 #endif
