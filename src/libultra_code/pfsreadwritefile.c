@@ -74,7 +74,7 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
     }
 
     if ((flag == PFS_READ) && ((dir.status & PFS_WRITTEN) == 0)) {
-        return (PFS_ERR_BAD_DATA);
+        return PFS_ERR_BAD_DATA;
     }
 
     bank = 255;

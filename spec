@@ -459,7 +459,7 @@ beginseg
     include "build/src/code/jpegutils.o"
     include "build/asm/jpegdecoder.o"
     include "build/data/jpegdecoder.bss.o"
-    include "build/asm/code_80100040.o"
+    include "build/src/libultra_code/osPfsFreeBlocks.o"
     include "build/asm/guScale.o"
     include "build/src/libultra_code/sinf.o"
     include "build/src/libultra_code/sins.o"

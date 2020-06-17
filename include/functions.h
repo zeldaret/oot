@@ -2442,7 +2442,7 @@ s32 osPfsAllocateFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name
 // ? func_80102590(?);
 // ? func_801028E0(?);
 // ? func_80102A44(?);
-// ? __osCheckId(?);
+s32 __osCheckId(OSPfs* pfs);
 s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank);
 // ? func_80102FA0(?);
 s32 osPfsFindFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name, s32* file_no);

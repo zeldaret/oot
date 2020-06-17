@@ -8,6 +8,7 @@
 #define	OS_PFS_VERSION_HI	(OS_PFS_VERSION >> 8)
 #define	OS_PFS_VERSION_LO	(OS_PFS_VERSION & 255)
 
+#define PFS_INODE_SIZE_PER_PAGE	128
 #define PFS_FILE_NAME_LEN       16
 #define PFS_FILE_EXT_LEN        4
 #define BLOCKSIZE		        32
@@ -49,6 +50,11 @@
 #define PFS_ERR_NEW_GBCART	    13 	/* gb cartridge may be changed */
 
 #define PFS_WRITTEN				2
+
+/* Definition for bank */
+#define	PFS_ID_BANK_256K	0
+#define	PFS_ID_BANK_1M		4
+#define	PFS_BANKS_256K		1
 
 typedef struct {
 	int		status;
