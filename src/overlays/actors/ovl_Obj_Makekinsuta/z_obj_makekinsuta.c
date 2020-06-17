@@ -5,7 +5,6 @@
  */
 
 #include "z_obj_makekinsuta.h"
-#include <vt.h>
 
 #define FLAGS 0x00000010
 

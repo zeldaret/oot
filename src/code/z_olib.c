@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b) {

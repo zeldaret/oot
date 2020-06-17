@@ -1,6 +1,4 @@
-#include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused

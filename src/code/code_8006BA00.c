@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 void func_8006BA00(GlobalContext* globalCtx) {

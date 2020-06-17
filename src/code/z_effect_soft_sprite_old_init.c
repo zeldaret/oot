@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 // Draw utility for some G effects

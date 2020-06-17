@@ -1,5 +1,4 @@
 #include <global.h>
-#include <ultra64/hardware.h>
 
 void __osDevMgrMain(void* arg) {
     OSIoMesg* ioMesg;

@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 DamageTable D_8011DB20[] = {

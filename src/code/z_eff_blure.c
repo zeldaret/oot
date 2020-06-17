@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {

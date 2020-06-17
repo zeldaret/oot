@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 extern s16 D_8011FF10[3];

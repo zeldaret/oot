@@ -1,5 +1,4 @@
 #include <global.h>
-#include <vt.h>
 
 #define FILL_ALLOCBLOCK (1 << 0)
 #define FILL_FREEBLOCK (1 << 1)

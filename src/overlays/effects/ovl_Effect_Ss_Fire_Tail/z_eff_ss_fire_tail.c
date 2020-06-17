@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Fire_Tail/func_809A5740.s")

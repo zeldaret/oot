@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 // memcpy used in __osMalloc.c

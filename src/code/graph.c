@@ -1,7 +1,4 @@
 #include <global.h>
-#include <ultra64/hardware.h>
-#include <ultra64/controller.h>
-#include <vt.h>
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678

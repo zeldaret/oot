@@ -1,5 +1,4 @@
 #include <global.h>
-#include <ultra64/hardware.h>
 
 OSViContext vi[2] = { 0 };
 OSViContext* __osViCurr = &vi[0];

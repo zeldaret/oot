@@ -1,5 +1,3 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
 #include <global.h>
 
 void Sample_HandleStateChange(SampleContext* this) {

@@ -1,6 +1,6 @@
 #include <global.h>
 
-__OSEventState __osEventStateTab[16];
+__OSEventState __osEventStateTab[OS_NUM_EVENTS+1];
 
 u32 __osPreNMI = 0;
 

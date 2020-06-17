@@ -46,7 +46,7 @@ typedef struct {
     f32 cur;
     f32 speed;
     // f32 extent;
-    // struct Note *note; // Changed from extent to note? Shortened Struct maybe?
+    // struct Note* note; // Changed from extent to note? Shortened Struct maybe?
 } Portamento; // size = 0x0C
 
 typedef struct {
@@ -100,7 +100,7 @@ typedef struct {
     // u8 pan;
     // u8 loaded;
     // AudioBankSound sound;
-    // AdsrEnvelope *envelope;
+    // AdsrEnvelope* envelope;
 } Drum; // OOT size = 0x8, TODO figure out what is still used.
 
 typedef struct {
@@ -195,7 +195,7 @@ typedef struct {
     f32 fadeOutVel;
     f32 current;
     f32 target;
-    AdsrEnvelope *envelope;
+    AdsrEnvelope* envelope;
 } AdsrState;
 
 typedef struct {
@@ -366,7 +366,7 @@ typedef struct {
 typedef struct {
     union {
         struct {
-            /* 0x00 */ volatile u8 enabled : 1;
+            /* 0x00 */ vu8 enabled : 1;
             /* 0x00 */ u8 needsInit : 1;
             /* 0x00 */ u8 finished : 1;
             /* 0x00 */ u8 envMixerNeedsInit : 1;

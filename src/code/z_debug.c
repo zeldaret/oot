@@ -1,5 +1,3 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
 #include <global.h>
 
 typedef struct {
@@ -15,7 +13,7 @@ typedef struct {
 } InputCombo;
 
 GameInfo* gGameInfo;
-int D_8015FA94; // no known symbols
+s32 D_8015FA94; // no known symbols
 PrintTextBuffer D_8015FA98[0x16];
 
 s16 D_8011E0B0 = 0; // PrintTextBuffer index
@@ -54,7 +52,7 @@ void func_800636C0() {
 
 // Called when free movement is active.
 // 8011D394 to enable camera debugger
-void func_8006375C(s32 arg0, s32 arg1, float* d_80855320) {
+void func_8006375C(s32 arg0, s32 arg1, f32* d_80855320) {
 }
 
 // Copy Camera Debugger Text
@@ -114,11 +112,11 @@ void func_8006390C(Input* input) {
     s32 i;
 
     regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
-    dpad = input->cur.in.button & (U_JPAD | L_JPAD | R_JPAD | D_JPAD);
+    dpad = input->cur.button & (U_JPAD | L_JPAD | R_JPAD | D_JPAD);
     if (CHECK_PAD(input->cur, L_TRIG) || CHECK_PAD(input->cur, R_TRIG) || CHECK_PAD(input->cur, START_BUTTON)) {
         input_combo = inputCombos;
         for (i = 0; i < REG_GROUPS; i++) {
-            if (~(~input_combo->push | input->cur.in.button) || ~(~input_combo->held | input->press.in.button)) {
+            if (~(~input_combo->push | input->cur.button) || ~(~input_combo->held | input->press.button)) {
                 input_combo++;
             } else {
                 break;

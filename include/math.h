@@ -8,10 +8,4 @@
 #define SHT_MINV (1.0f / SHT_MAX)
 #define DEGTORAD(x) (x * M_PI / 180.0f)
 
-float sinf(float);
-double sin(double);
-float cosf(float);
-double cos(double);
-float sqrtf(float f);
-
 #endif

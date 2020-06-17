@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801069B0.s")

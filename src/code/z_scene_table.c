@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 #define ENTRANCE(scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut)                                     \

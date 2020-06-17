@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist) {

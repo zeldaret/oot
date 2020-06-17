@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 void Lib_MemSet(u8* dest, size_t size, u8 val) {

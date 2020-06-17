@@ -1,6 +1,4 @@
-#include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 s32 func_800A3D70(GlobalContext*, SkelAnime*);
 s32 func_800A3E0C(GlobalContext*, SkelAnime*);

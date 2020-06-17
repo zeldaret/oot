@@ -1,6 +1,4 @@
-#include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 typedef struct {
     s16 val;

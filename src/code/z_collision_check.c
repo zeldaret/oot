@@ -1,6 +1,4 @@
-#include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 
@@ -499,7 +497,7 @@ s32 Collider_DestroyTrisItemDim(GlobalContext* globalCtx, TriNorm* dim) {
 s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisItemDimInit* src) {
     Vec3f* d;
     Vec3f* s;
-    float nx, ny, nz, nd;
+    f32 nx, ny, nz, nd;
 
     d = dest->vtx;
     s = src->vtx;
@@ -2681,7 +2679,7 @@ void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     u32 flags;
     s32 i;
     f32 damage;
-    int tblLookup;
+    s32 tblLookup;
 
     if (collider->actor == NULL || !(collider->acFlags & 2)) {
         return;

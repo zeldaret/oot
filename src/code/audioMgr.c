@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 void func_800C3C80(AudioMgr* audioMgr) {
@@ -91,7 +90,7 @@ void AudioMgr_Unlock(AudioMgr* audioMgr) {
     osRecvMesg(&audioMgr->unk_C8, NULL, OS_MESG_BLOCK);
 }
 
-void AudioMgr_Start(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr) {
+void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr) {
     bzero(audioMgr, sizeof(AudioMgr));
 
     audioMgr->sched = sched;

@@ -1,6 +1,4 @@
-#include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 s32 func_800CA8E8(Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 s32 Math3D_TriLineIntersect(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, Vec3f* arg7,

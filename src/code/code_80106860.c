@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 // memset used in __osMalloc, z_quake, z_view, and z_camera

@@ -5,7 +5,6 @@
  */
 
 #include "z_en_guest.h"
-#include <vt.h>
 
 #define FLAGS 0x00000019
 

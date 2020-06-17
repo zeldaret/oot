@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 Gfx D_8012AFB0[] = {

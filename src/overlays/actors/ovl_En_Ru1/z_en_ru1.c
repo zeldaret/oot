@@ -6,8 +6,6 @@
 
 #include "z_en_ru1.h"
 
-#include <vt.h>
-
 #define FLAGS 0x04000011
 
 #define THIS ((EnRu1*)thisx)

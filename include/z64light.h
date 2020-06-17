@@ -2,7 +2,6 @@
 #define _Z64LIGHT_H_
 
 #include <ultra64.h>
-#include <ultra64/gbi.h>
 
 typedef struct z_Light_t {
     /* 0x0 */ struct LightInfo* info;
@@ -23,8 +22,8 @@ typedef struct {
 } LightingContext;
 
 typedef struct {
-    /* 0x000 */ int numOccupied;
-    /* 0x004 */ int nextFree;
+    /* 0x000 */ s32 numOccupied;
+    /* 0x004 */ s32 nextFree;
     /* 0x008 */ z_Light lights[32];
 } LightsList;
 

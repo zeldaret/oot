@@ -1,6 +1,4 @@
-#include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 #define MARKER_SOI 0xD8
 #define MARKER_SOF 0xC0

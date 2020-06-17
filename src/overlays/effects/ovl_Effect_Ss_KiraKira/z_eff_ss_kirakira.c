@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_KiraKira/func_809AA810.s")

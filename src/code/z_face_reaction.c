@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 u16 sReactionTextIds[][9] = {

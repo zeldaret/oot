@@ -1,5 +1,3 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
 #include <global.h>
 
 u16 D_8011E1C0 = 0;

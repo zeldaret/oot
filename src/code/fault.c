@@ -1,8 +1,4 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
 #include <global.h>
-#include <alloca.h>
-#include <vt.h>
 
 // data
 const char* sExceptionNames[] = {
@@ -73,7 +69,7 @@ void Fault_ProcessClientContext(FaultClientContext* ctx) {
 
     if (sFaultStructPtr->currClientThreadSp != 0) {
         thread = alloca(sizeof(OSThread));
-        osCreateThread(thread, 2, Fault_ClientProcessThread, ctx, sFaultStructPtr->currClientThreadSp, 0x7E);
+        osCreateThread(thread, 2, Fault_ClientProcessThread, ctx, sFaultStructPtr->currClientThreadSp, OS_PRIORITY_FAULTCLIENT);
         osStartThread(thread);
     } else {
         Fault_ClientProcessThread(ctx);
@@ -270,7 +266,7 @@ u32 Fault_WaitForInputImpl() {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
 
-            kDown = curInput->press.in.button;
+            kDown = curInput->press.button;
 
             if (kDown == 0x20) {
                 sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
@@ -591,7 +587,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         do {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-        } while (curInput->press.in.button == 0);
+        } while (curInput->press.button == 0);
 
         if (CHECK_PAD(curInput->press, START_BUTTON)) {
             return;
@@ -790,7 +786,7 @@ void Fault_SetFB(void* fb, u16 w, u16 h) {
     FaultDrawer_SetDrawerFB(fb, w, h);
 }
 
-void Fault_Start(void) {
+void Fault_Init(void) {
     sFaultStructPtr = &gFaultStruct;
     bzero(sFaultStructPtr, sizeof(FaultThreadStruct));
     FaultDrawer_SetDefault();
@@ -805,7 +801,7 @@ void Fault_Start(void) {
     gFaultStruct.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultStructPtr->queue, &sFaultStructPtr->msg, 1);
     StackCheck_Init(&sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack), 0x7f);
+    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack), OS_PRIORITY_FAULT);
     osStartThread(&sFaultStructPtr->thread);
 }
 

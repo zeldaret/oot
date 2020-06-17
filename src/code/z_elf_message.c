@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 // TODO: use macros to define elf messages once the format is fully documented

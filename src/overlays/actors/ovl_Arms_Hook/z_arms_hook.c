@@ -285,7 +285,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
             }
         }
 
-        if ((globalCtx->state.input[0].press.in.button &
+        if ((globalCtx->state.input[0].press.button &
              (A_BUTTON | B_BUTTON | R_TRIG | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS))) {
             this->timer = 0;
         }

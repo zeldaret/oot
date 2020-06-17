@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F0A0.s")

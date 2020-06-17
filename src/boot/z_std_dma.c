@@ -1,6 +1,4 @@
-#include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -1910,7 +1908,7 @@ s32 DmaMgr_SendRequest0(u32 ram, u32 vrom, u32 size) {
     return 0;
 }
 
-void DmaMgr_Start() {
+void DmaMgr_Init() {
     const char** name;
     s32 idx;
     DmaEntry* iter;
@@ -1952,7 +1950,7 @@ void DmaMgr_Start() {
 
     osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, sizeof(sDmaMgrMsgs) / sizeof(sDmaMgrMsgs[0]));
     StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, sDmaMgrStack + sizeof(sDmaMgrStack), 0, 0x100, "dmamgr");
-    osCreateThread(&sDmaMgrThread, 0x12, &DmaMgr_ThreadEntry, 0, sDmaMgrStack + sizeof(sDmaMgrStack), 0x10);
+    osCreateThread(&sDmaMgrThread, 0x12, &DmaMgr_ThreadEntry, 0, sDmaMgrStack + sizeof(sDmaMgrStack), OS_PRIORITY_DMAMGR);
     osStartThread(&sDmaMgrThread);
 }
 

@@ -1,4 +1,3 @@
-#include <ultra64.h>
 #include <global.h>
 
 StackEntry sBootThreadInfo;
@@ -25,6 +24,6 @@ void bootproc(void) {
     Locale_Init();
 
     StackCheck_Init(&sIdleThreadInfo, sIdleThreadStack, sIdleThreadStack + sizeof(sIdleThreadStack), 0, 256, "idle");
-    osCreateThread(&sIdleThread, 1, Idle_ThreadEntry, 0, sIdleThreadStack + sizeof(sIdleThreadStack), 10);
+    osCreateThread(&sIdleThread, 1, Idle_ThreadEntry, 0, sIdleThreadStack + sizeof(sIdleThreadStack), OS_PRIORITY_IDLE);
     osStartThread(&sIdleThread);
 }

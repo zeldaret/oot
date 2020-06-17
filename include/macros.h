@@ -85,6 +85,6 @@
         View_SetViewport(view, &viewport); \
     }
 
-#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
+#define CHECK_PAD(state, combo) (~(state.button | ~(combo)) == 0)
 
 #endif
