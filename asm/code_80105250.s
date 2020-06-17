@@ -23,7 +23,7 @@ glabel func_80105250
 /* B7C418 80105278 AFB10024 */  sw    $s1, 0x24($sp)
 /* B7C41C 8010527C AFB00020 */  sw    $s0, 0x20($sp)
 /* B7C420 80105280 AFA00074 */  sw    $zero, 0x74($sp)
-/* B7C424 80105284 0C040AFC */  jal   func_80102BF0
+/* B7C424 80105284 0C040AFC */  jal   __osCheckId
 /* B7C428 80105288 241E00FE */   li    $fp, 254
 /* B7C42C 8010528C 24010002 */  li    $at, 2
 /* B7C430 80105290 14410004 */  bne   $v0, $at, .L801052A4

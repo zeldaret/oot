@@ -37,7 +37,7 @@ glabel osPfsFileState
 /* B7BF58 80104DB8 10000058 */  b     .L80104F1C
 /* B7BF5C 80104DBC 24020005 */   li    $v0, 5
 .L80104DC0:
-/* B7BF60 80104DC0 0C040AFC */  jal   func_80102BF0
+/* B7BF60 80104DC0 0C040AFC */  jal   __osCheckId
 /* B7BF64 80104DC4 02602025 */   move  $a0, $s3
 /* B7BF68 80104DC8 50400004 */  beql  $v0, $zero, .L80104DDC
 /* B7BF6C 80104DCC 92790065 */   lbu   $t9, 0x65($s3)

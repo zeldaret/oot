@@ -48,6 +48,8 @@
 #define PFS_ERR_NO_GBCART	    12 	/* no gb cartridge (64GB-PAK) */
 #define PFS_ERR_NEW_GBCART	    13 	/* gb cartridge may be changed */
 
+#define PFS_WRITTEN				2
+
 typedef struct {
 	int		status;
 	OSMesgQueue* queue;

@@ -574,7 +574,7 @@ glabel func_80102A44
 /* B79D88 80102BE8 03E00008 */  jr    $ra
 /* B79D8C 80102BEC 27BD0070 */   addiu $sp, $sp, 0x70
 
-glabel func_80102BF0
+glabel __osCheckId
 /* B79D90 80102BF0 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B79D94 80102BF4 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B79D98 80102BF8 AFB00018 */  sw    $s0, 0x18($sp)
