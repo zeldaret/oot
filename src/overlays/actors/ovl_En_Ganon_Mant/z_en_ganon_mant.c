@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnGanonMant_Init(EnGanonMant* this, GlobalContext* globalCtx);
-void EnGanonMant_Destroy(EnGanonMant* this, GlobalContext* globalCtx);
-void EnGanonMant_Update(EnGanonMant* this, GlobalContext* globalCtx);
-void EnGanonMant_Draw(EnGanonMant* this, GlobalContext* globalCtx);
+#define THIS ((EnGanonMant*)thisx)
+
+void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ganon_Mant_InitVars = {

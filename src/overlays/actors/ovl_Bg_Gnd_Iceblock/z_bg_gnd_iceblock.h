@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgGndIceblock;
+
+typedef void (*BgGndIceblockActionFunc)(struct BgGndIceblock*, GlobalContext*);
+
+typedef struct BgGndIceblock {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0164 */ BgGndIceblockActionFunc actionFunc;
     /* 0x0168 */ Vec3f unk_168;
 } BgGndIceblock; // size = 0x0174
 

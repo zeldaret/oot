@@ -3,15 +3,15 @@
  # assembler directives
  .set noat      # allow manual use of $at
  .set noreorder # don't insert nops after branches
- .set gp=64     # allow use of 64-bit general purposee registers
+ .set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
+
+.balign 16
 
 glabel D_80B9CAF0
     .asciz "Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n"
     .balign 4
-
-.balign 4
 
 glabel D_80B9CB30
     .asciz "../z_obj_oshihiki.c"
@@ -82,12 +82,12 @@ glabel jtbl_80B9CCBC
 glabel jtbl_80B9CCDC
 .word L80B9B658
 .word L80B9B658
-.word func_80B9B668
-.word func_80B9B678
+.word L80B9B668
+.word L80B9B678
 .word L80B9B658
 .word L80B9B658
-.word func_80B9B668
-.word func_80B9B678
+.word L80B9B668
+.word L80B9B678
 glabel D_80B9CCFC
  .word 0xBA83126F
 glabel D_80B9CD00

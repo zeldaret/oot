@@ -1,6 +1,6 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
-#include <PR/os_cont.h>
 
 typedef struct {
     u8 x;
@@ -115,8 +115,7 @@ void func_8006390C(Input* input) {
 
     regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
     dpad = input->cur.in.button & (U_JPAD | L_JPAD | R_JPAD | D_JPAD);
-    if (!~(input->cur.in.button | ~L_TRIG) || !~(input->cur.in.button | ~R_TRIG) ||
-        !~(input->cur.in.button | ~START_BUTTON)) {
+    if (CHECK_PAD(input->cur, L_TRIG) || CHECK_PAD(input->cur, R_TRIG) || CHECK_PAD(input->cur, START_BUTTON)) {
         input_combo = inputCombos;
         for (i = 0; i < REG_GROUPS; i++) {
             if (~(~input_combo->push | input->cur.in.button) || ~(~input_combo->held | input->press.in.button)) {
@@ -157,16 +156,15 @@ void func_8006390C(Input* input) {
 
                 increment =
                     (dpad & R_JPAD)
-                        ? (!~(input->cur.in.button | ~(A_BUTTON | B_BUTTON))
+                        ? (CHECK_PAD(input->cur, A_BUTTON | B_BUTTON)
                                ? 1000
-                               : !~(input->cur.in.button | ~A_BUTTON) ? 100
-                                                                      : !~(input->cur.in.button | ~B_BUTTON) ? 10 : 1)
-                        : (dpad & L_JPAD) ? (!~(input->cur.in.button | ~(A_BUTTON | B_BUTTON))
-                                                 ? -1000
-                                                 : !~(input->cur.in.button | ~A_BUTTON)
-                                                       ? -100
-                                                       : !~(input->cur.in.button | ~B_BUTTON) ? -10 : -1)
-                                          : 0;
+                               : CHECK_PAD(input->cur, A_BUTTON) ? 100 : CHECK_PAD(input->cur, B_BUTTON) ? 10 : 1)
+                        : (dpad & L_JPAD)
+                              ? (CHECK_PAD(input->cur, A_BUTTON | B_BUTTON)
+                                     ? -1000
+                                     : CHECK_PAD(input->cur, A_BUTTON) ? -100
+                                                                       : CHECK_PAD(input->cur, B_BUTTON) ? -10 : -1)
+                              : 0;
 
                 gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
                 if (dpad & U_JPAD) {
@@ -220,14 +218,13 @@ void func_80063C04(GfxPrint* gfxPrint) {
 void func_80063D7C(GraphicsContext* gfxCtx) {
     Gfx* sp7C;
     Gfx* sp78;
-    Gfx* tempRet;
-    void* unk2[6];
     GfxPrint gfxPrint;
-    void* unk[2];
+    Gfx* tempRet;
+    u32 pad;
     Gfx* dispRefs[4]; // stores state of GfxCtx next ptrs
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_debug.c", 628);
-    GfxPrint_Ctor(&gfxPrint);
+    GfxPrint_Init(&gfxPrint);
     sp78 = gfxCtx->polyOpa.p;
     tempRet = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
     gSPDisplayList(gfxCtx->overlay.p++, tempRet);
@@ -248,5 +245,5 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     gfxCtx->polyOpa.p = sp7C;
     if (0) {}
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_debug.c", 664);
-    GfxPrint_Dtor(&gfxPrint);
+    GfxPrint_Destroy(&gfxPrint);
 }

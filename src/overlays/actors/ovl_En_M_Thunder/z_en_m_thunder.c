@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void EnMThunder_Init(EnMThunder* this, GlobalContext* globalCtx);
-void EnMThunder_Destroy(EnMThunder* this, GlobalContext* globalCtx);
-void EnMThunder_Update(EnMThunder* this, GlobalContext* globalCtx);
-void EnMThunder_Draw(EnMThunder* this, GlobalContext* globalCtx);
+#define THIS ((EnMThunder*)thisx)
+
+void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_M_Thunder_InitVars = {

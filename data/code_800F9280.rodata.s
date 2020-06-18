@@ -3,11 +3,11 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .rodata
 
-.align 4
+.balign 16
 
 glabel jtbl_8014A640
     .word L800F9588
@@ -44,7 +44,7 @@ glabel jtbl_8014A680
     .word L800FACD4
     .word L800FAC3C
 
-.align 4 # file split? const data below used in multiple files
+.balign 16 # file split? const data below used in multiple files
 
 glabel D_8014A6C0
     .half 0x1C00

@@ -149,7 +149,7 @@ glabel EnTuboTrap_SpawnWaterFragments
 /* 005A8 80B25E98 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 005AC 80B25E9C AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 005B0 80B25EA0 AFB7003C */  sw      $s7, 0x003C($sp)           
-/* 005B4 80B25EA4 0C00A7A3 */  jal     Effect_SpawnFragment
+/* 005B4 80B25EA4 0C00A7A3 */  jal     func_80029E8C
               
 /* 005B8 80B25EA8 AFAB0024 */  sw      $t3, 0x0024($sp)           
 /* 005BC 80B25EAC 26524E20 */  addiu   $s2, $s2, 0x4E20           ## $s2 = 00004E20

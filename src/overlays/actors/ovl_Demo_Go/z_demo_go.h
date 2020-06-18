@@ -4,7 +4,12 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct DemoGo;
+
+typedef void (*DemoGoActionFunc)(struct DemoGo*, GlobalContext*);
+typedef void (*DemoGoDrawFunc)(struct DemoGo*, GlobalContext*);
+
+typedef struct DemoGo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ s16 unk_190;

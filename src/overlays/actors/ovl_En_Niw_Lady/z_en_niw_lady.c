@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000019
 
-void EnNiwLady_Init(EnNiwLady* this, GlobalContext* globalCtx);
-void EnNiwLady_Destroy(EnNiwLady* this, GlobalContext* globalCtx);
-void EnNiwLady_Update(EnNiwLady* this, GlobalContext* globalCtx);
+#define THIS ((EnNiwLady*)thisx)
+
+void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Niw_Lady_InitVars = {

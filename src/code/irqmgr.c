@@ -3,7 +3,7 @@
 
 volatile u32 gIrqMgrResetStatus = 0;
 volatile OSTime sIrqMgrResetTime = 0;
-volatile OSTime sIrqMgrRetraceTime = 0;
+volatile OSTime gIrqMgrRetraceTime = 0;
 u32 sIrqMgrRetraceCount = 0;
 
 #define RETRACE_MSG 666
@@ -154,11 +154,11 @@ void IrqMgr_HandlePRENMI500(IrqMgr* this) {
 }
 
 void IrqMgr_HandleRetrace(IrqMgr* this) {
-    if (sIrqMgrRetraceTime == 0ull) {
+    if (gIrqMgrRetraceTime == 0ull) {
         if (this->retraceTime == 0) {
             this->retraceTime = osGetTime();
         } else {
-            sIrqMgrRetraceTime = osGetTime() - this->retraceTime;
+            gIrqMgrRetraceTime = osGetTime() - this->retraceTime;
         }
     }
     sIrqMgrRetraceCount++;

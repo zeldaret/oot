@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void EnSt_Init(EnSt* this, GlobalContext* globalCtx);
-void EnSt_Destroy(EnSt* this, GlobalContext* globalCtx);
-void EnSt_Update(EnSt* this, GlobalContext* globalCtx);
-void EnSt_Draw(EnSt* this, GlobalContext* globalCtx);
+#define THIS ((EnSt*)thisx)
+
+void EnSt_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSt_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_St_InitVars = {

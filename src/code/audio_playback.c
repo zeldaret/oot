@@ -1,62 +1,59 @@
 #include <ultra64.h>
 #include <global.h>
 
-#ifdef NON_MATCHING
-// 630 score, primarily regalloc left. Issues seem based around the usage of pan.
-// Currently the array of pan and reverb solves a lot, but doesn't make a ton of logical sense.
 void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     f32 volRight, volLeft;
-    // u16 unkMask = 0x7F;
-    s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
-    // u8 reverbT = reverb->reverb;
-    Note* tNote = note;
+    s32 smallPanIndex;
+    u64 pad;
+    u8 strongLeft;
+    u8 strongRight;
+    f32 vel;
+    u8 pan;
+    u8 reverbVol;
     ReverbBits sp24;
-    u8 pan[2];
-    f32 vel = reverb->unk_8;
-    u32 temp;
+    s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
+    vel = reverb->unk_8;
 
-    pan[1] = reverb->pan;
-    pan[0] = reverb->reverb;
+    pan = reverb->pan;
+    reverbVol = reverb->reverb;
     sp24 = reverb->reverbBits;
 
-    sub->bitField0.asByte = tNote->noteSubEu.bitField0.asByte & 0xFF;
-    sub->bitField1.asByte = tNote->noteSubEu.bitField1.asByte & 0xFF;
-    sub->sound.samples = tNote->noteSubEu.sound.samples;
-    sub->unk_06 = tNote->noteSubEu.unk_06;
+    sub->bitField0.asByte = note->noteSubEu.bitField0.asByte & 0xFF;
+    sub->bitField1.asByte = note->noteSubEu.bitField1.asByte & 0xFF;
+    sub->sound.samples = note->noteSubEu.sound.samples;
+    sub->unk_06 = note->noteSubEu.unk_06;
 
     Audio_NoteSetResamplingRate(sub, reverb->velocity);
 
-    pan[1] &= 0x7F;
+    pan &= 0x7F;
 
     sub->bitField0.asBitfields.stereoStrongRight = 0;
     sub->bitField0.asBitfields.stereoStrongLeft = 0;
     sub->bitField0.asBitfields.stereoHeadsetEffects = sp24.stereoHeadsetEffects;
     sub->bitField0.asBitfields.usesHeadsetPanEffects = sp24.usesHeadsetPanEffects;
     if (stereoHeadsetEffects && gSoundMode == 1) {
-        s32 smallPanIndex = pan[1] >> 1;
-        if (smallPanIndex >= 0x40) {
+        smallPanIndex = pan >> 1;
+        if (smallPanIndex > 0x3f) {
             smallPanIndex = 0x3f;
         }
 
         sub->headsetPanLeft = gHeadsetPanQuantization[smallPanIndex];
-        sub->headsetPanRight = gHeadsetPanQuantization[15 - smallPanIndex];
+        sub->headsetPanRight = gHeadsetPanQuantization[0x3f - smallPanIndex];
         sub->bitField1.asBitfields.hasTwoAdpcmParts = 1;
 
-        volLeft = gHeadsetPanVolume[pan[1]];
-        volRight = gHeadsetPanVolume[127 - pan[1]];
+        volLeft = gHeadsetPanVolume[pan];
+        volRight = gHeadsetPanVolume[0x7f - pan];
     } else if (stereoHeadsetEffects && gSoundMode == 0) {
-        u8 strongLeft = 0;
-        u8 strongRight = 0;
+        strongLeft = strongRight = 0;
         sub->headsetPanRight = 0;
         sub->headsetPanLeft = 0;
         sub->bitField1.asBitfields.hasTwoAdpcmParts = 0;
 
-        volLeft = gStereoPanVolume[pan[1]];
-        volRight = gStereoPanVolume[127 - pan[1]];
-        temp = pan[1];
-        if ((s32)temp < 0x20) {
+        volLeft = gStereoPanVolume[pan];
+        volRight = gStereoPanVolume[0x7f - pan];
+        if (pan < 0x20) {
             strongLeft = 1;
-        } else if ((s32)(u8)temp > 0x60) {
+        } else if (pan > 0x60) {
             strongRight = 1;
         }
 
@@ -88,8 +85,8 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     } else {
         sub->bitField0.asBitfields.stereoStrongRight = sp24.strongRight;
         sub->bitField0.asBitfields.stereoStrongLeft = sp24.strongLeft;
-        volLeft = gDefaultPanVolume[pan[1]];
-        volRight = gDefaultPanVolume[127 - pan[1]];
+        volLeft = gDefaultPanVolume[pan];
+        volRight = gDefaultPanVolume[0x7f - pan];
     }
 
     vel = 0.0f > vel ? 0.0f : vel;
@@ -102,11 +99,8 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     sub->unk_14 = reverb->unk_10;
     sub->unk_07 = reverb->unk_14;
     sub->unk_10 = reverb->unk_16;
-    sub->reverbVol = pan[1];
+    sub->reverbVol = reverbVol;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_playback/Audio_NoteSetVelPanReverb.s")
-#endif
 
 void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) {
     f32 resamplingRate = 0.0f;
@@ -134,10 +128,10 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
 void Audio_NoteInit(Note* note) {
     if (note->playbackState.parentLayer->adsr.releaseRate == 0) {
         Audio_AdsrInit(&note->playbackState.adsr, note->playbackState.parentLayer->seqChannel->adsr.envelope,
-                  &note->playbackState.adsrVolScale);
+                       &note->playbackState.adsrVolScale);
     } else {
         Audio_AdsrInit(&note->playbackState.adsr, note->playbackState.parentLayer->adsr.envelope,
-                  &note->playbackState.adsrVolScale);
+                       &note->playbackState.adsrVolScale);
     }
 
     note->playbackState.unk_04 = 0;
@@ -261,8 +255,6 @@ UnkInstrument* Audio_GetUnkInstrument(s32 bankId, s32 unkInstrumentId) {
     return unkInstrument;
 }
 
-#ifdef NON_MATCHING
-// Regalloc in case 1.
 s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
     UnkInstrument* temp_t7;
 
@@ -286,9 +278,7 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
             if (instId >= (gAudioContext.gCtlEntries[bankId].numUnkInstruments)) {
                 return -3;
             }
-            temp_t7 = &gAudioContext.gCtlEntries[bankId].unkInstruments[instId];
-            temp_t7->unk_0 = arg3->unk_0;
-            temp_t7->unk_4 = arg3->unk_4;
+            gAudioContext.gCtlEntries[bankId].unkInstruments[instId] = *arg3;
             break;
 
         default:
@@ -301,13 +291,10 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_playback/func_800E7744.s")
-#endif
 
-#if 0
-// This code is SM64 PAL's version with changes made to build here (and a couple legitimate changes made in the function).
-// This function needs massive work, hence why it is not set for NON_MATCHING
+#ifdef NON_EQUIVALENT
+// This code is SM64 PAL's version with changes made to build here (and a couple legitimate changes made in the
+// function). This function needs massive work, hence why it is not set for NON_MATCHING
 void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) {
     Note* note;
     NoteAttributes* attributes;
@@ -315,7 +302,7 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
     if (seqLayer == NO_LAYER) {
         return;
     }
-    
+
     seqLayer->unusedEu0b8 = 0;
 
     if (seqLayer->note == NULL) {
@@ -330,7 +317,8 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
     }
 
     if (note->playbackState.parentLayer != seqLayer) {
-        if (note->playbackState.parentLayer == NO_LAYER && note->playbackState.wantedParentLayer == NO_LAYER && note->playbackState.prevParentLayer == seqLayer && target != 6) {
+        if (note->playbackState.parentLayer == NO_LAYER && note->playbackState.wantedParentLayer == NO_LAYER &&
+            note->playbackState.prevParentLayer == seqLayer && target != 6) {
             note->playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
             note->playbackState.adsr.adsrAction.action |= 0x10;
         }
@@ -354,11 +342,14 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
         } else {
             note->playbackState.adsr.adsrAction.action |= 0x20;
             if (seqLayer->adsr.releaseRate == 0) {
-                note->playbackState.adsr.fadeOutVel = seqLayer->seqChannel->adsr.releaseRate * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
+                note->playbackState.adsr.fadeOutVel = seqLayer->seqChannel->adsr.releaseRate *
+                                                      gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
             } else {
-                note->playbackState.adsr.fadeOutVel = seqLayer->adsr.releaseRate * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
+                note->playbackState.adsr.fadeOutVel =
+                    seqLayer->adsr.releaseRate * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
             }
-            note->playbackState.adsr.sustain = ((f32) (s32) (seqLayer->seqChannel->adsr.sustain) * note->playbackState.adsr.current) / 256.0f;
+            note->playbackState.adsr.sustain =
+                ((f32)(s32)(seqLayer->seqChannel->adsr.sustain) * note->playbackState.adsr.current) / 256.0f;
         }
     }
 
@@ -576,8 +567,7 @@ Note* Audio_PopNodeWithValueLessEqual(AudioListItem* list, s32 limit) {
     }
 
     for (best = cur; cur != list; cur = cur->next) {
-        if (((Note*)best->u.value)->playbackState.priority >=
-            ((Note*)cur->u.value)->playbackState.priority) {
+        if (((Note*)best->u.value)->playbackState.priority >= ((Note*)cur->u.value)->playbackState.priority) {
             best = cur;
         }
     }

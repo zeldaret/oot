@@ -1,0 +1,8 @@
+<Root>
+    <File Name="ganon_demo_scene">
+        <Scene Name="ganon_demo_scene"/>
+    </File>
+    <File Name="ganon_demo_room_0">
+        <Room Name="ganon_demo_room_0"/>
+    </File>
+</Root>

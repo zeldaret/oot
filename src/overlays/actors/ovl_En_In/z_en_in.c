@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnIn_Init(EnIn* this, GlobalContext* globalCtx);
-void EnIn_Destroy(EnIn* this, GlobalContext* globalCtx);
-void EnIn_Update(EnIn* this, GlobalContext* globalCtx);
-void EnIn_Draw(EnIn* this, GlobalContext* globalCtx);
+#define THIS ((EnIn*)thisx)
+
+void EnIn_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnIn_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_In_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000005
 
-void EnKarebaba_Init(EnKarebaba* this, GlobalContext* globalCtx);
-void EnKarebaba_Destroy(EnKarebaba* this, GlobalContext* globalCtx);
-void EnKarebaba_Update(EnKarebaba* this, GlobalContext* globalCtx);
-void EnKarebaba_Draw(EnKarebaba* this, GlobalContext* globalCtx);
+#define THIS ((EnKarebaba*)thisx)
+
+void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Karebaba_InitVars = {

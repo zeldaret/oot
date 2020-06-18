@@ -5,11 +5,11 @@ glabel BgHakaSgami_Destroy
 /* 002B0 8087E790 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 002B4 8087E794 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 002B8 8087E798 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 002BC 8087E79C 0C009C27 */  jal     func_8002709C              
+/* 002BC 8087E79C 0C009C27 */  jal     Effect_Delete              
 /* 002C0 8087E7A0 8DC50154 */  lw      $a1, 0x0154($t6)           ## 00000154
 /* 002C4 8087E7A4 8FAF0018 */  lw      $t7, 0x0018($sp)           
 /* 002C8 8087E7A8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 002CC 8087E7AC 0C009C27 */  jal     func_8002709C              
+/* 002CC 8087E7AC 0C009C27 */  jal     Effect_Delete              
 /* 002D0 8087E7B0 8DE50158 */  lw      $a1, 0x0158($t7)           ## 00000158
 /* 002D4 8087E7B4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002D8 8087E7B8 8FA4001C */  lw      $a0, 0x001C($sp)           

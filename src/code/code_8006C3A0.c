@@ -1,10 +1,34 @@
 #include <ultra64.h>
 #include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8006C3A0/func_8006C3A0.s")
+void Flags_UnsetAllEnv(GlobalContext* globalCtx) {
+    u8 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8006C3A0/func_8006C3D0.s")
+    for (i = 0; i < 20; i++) {
+        globalCtx->envFlags[i] = 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8006C3A0/func_8006C438.s")
+void Flags_SetEnv(GlobalContext* globalCtx, s16 flag) {
+    s16 index = flag / 16;
+    s16 bit = flag % 16;
+    s16 mask = 1 << bit;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8006C3A0/func_8006C4A4.s")
+    globalCtx->envFlags[index] |= mask;
+}
+
+void Flags_UnsetEnv(GlobalContext* globalCtx, s16 flag) {
+    s16 index = flag / 16;
+    s16 bit = flag % 16;
+    s16 mask = (1 << bit) ^ 0xFFFF;
+
+    globalCtx->envFlags[index] &= mask;
+}
+
+s32 Flags_GetEnv(GlobalContext* globalCtx, s16 flag) {
+    s16 index = flag / 16;
+    s16 bit = flag % 16;
+    s16 mask = 1 << bit;
+
+    return globalCtx->envFlags[index] & mask;
+}

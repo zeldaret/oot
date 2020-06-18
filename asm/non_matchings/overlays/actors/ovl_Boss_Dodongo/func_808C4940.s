@@ -38,7 +38,7 @@ glabel func_808C4940
 /* 037C8 808C4958 AFA60058 */  sw      $a2, 0x0058($sp)
 .L808C495C:
 /* 037CC 808C495C 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 037D0 808C4960 0C0344D0 */  jal     Matrix_TranslateThenRotateZYX
+/* 037D0 808C4960 0C0344D0 */  jal     Matrix_JointPosition
 /* 037D4 808C4964 8FA50060 */  lw      $a1, 0x0060($sp)
 /* 037D8 808C4968 8FAF0058 */  lw      $t7, 0x0058($sp)
 /* 037DC 808C496C 3C06808D */  lui     $a2, %hi(D_808CA5A0)       ## $a2 = 808D0000

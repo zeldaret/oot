@@ -37,7 +37,7 @@ glabel func_8005A7A8
 /* AD19B4 8005A814 352A0040 */  ori   $t2, $t1, 0x40
 /* AD19B8 8005A818 A60A014A */  sh    $t2, 0x14a($s0)
 /* AD19BC 8005A81C 02002025 */  move  $a0, $s0
-/* AD19C0 8005A820 0C016952 */  jal   func_8005A548
+/* AD19C0 8005A820 0C016952 */  jal   Camera_ChangeSetting
 /* AD19C4 8005A824 24060005 */   li    $a2, 5
 /* AD19C8 8005A828 28430000 */  slti  $v1, $v0, 0
 /* AD19CC 8005A82C 38630001 */  xori  $v1, $v1, 1
@@ -46,20 +46,20 @@ glabel func_8005A7A8
 /* AD19D8 8005A838 1460000A */  bnez  $v1, .L8005A864
 /* AD19DC 8005A83C 02002025 */   move  $a0, $s0
 /* AD19E0 8005A840 860B0142 */  lh    $t3, 0x142($s0)
-/* AD19E4 8005A844 3C0D8012 */  lui   $t5, %hi(D_8011D064)
+/* AD19E4 8005A844 3C0D8012 */  lui   $t5, %hi(sCameraSettings)
 /* AD19E8 8005A848 2861FFFF */  slti  $at, $v1, -1
 /* AD19EC 8005A84C 000B60C0 */  sll   $t4, $t3, 3
 /* AD19F0 8005A850 01AC6821 */  addu  $t5, $t5, $t4
-/* AD19F4 8005A854 8DADD064 */  lw    $t5, %lo(D_8011D064)($t5)
+/* AD19F4 8005A854 8DADD064 */  lw    $t5, %lo(sCameraSettings)($t5)
 /* AD19F8 8005A858 000D7000 */  sll   $t6, $t5, 0
 /* AD19FC 8005A85C 05C10009 */  bgez  $t6, .L8005A884
-/* AD1A00 8005A860 00000000 */   nop   
+/* AD1A00 8005A860 00000000 */   nop
 .L8005A864:
 /* AD1A04 8005A864 860F014A */  lh    $t7, 0x14a($s0)
 /* AD1A08 8005A868 A6110148 */  sh    $s1, 0x148($s0)
 /* AD1A0C 8005A86C 86050144 */  lh    $a1, 0x144($s0)
 /* AD1A10 8005A870 35F80004 */  ori   $t8, $t7, 4
-/* AD1A14 8005A874 0C01144A */  jal   func_80045128
+/* AD1A14 8005A874 0C01144A */  jal   Camera_CopyModeValuesToPREG
 /* AD1A18 8005A878 A618014A */   sh    $t8, 0x14a($s0)
 /* AD1A1C 8005A87C 1000000B */  b     .L8005A8AC
 /* AD1A20 8005A880 3C018000 */   lui   $at, 0x8000

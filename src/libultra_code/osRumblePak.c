@@ -1,41 +1,43 @@
 #include <ultra64.h>
 #include <global.h>
-
 #include <ultra64/controller.h>
 
-pif_data_buffer_t osPifBuffers[4];
+#define BANK_ADDR 0x400
+#define MOTOR_ID 0x80
+
+OSPifRam osPifBuffers[MAXCONTROLLERS];
 
 // func_800CF990 in 1.0
-s32 osSetRumble(unk_controller_t* arg0, u32 vibrate) {
+s32 osSetRumble(OSPfs* pfs, u32 vibrate) {
     s32 i;
     s32 ret;
     u8* buf;
 
-    buf = (u8*)&osPifBuffers[arg0->ctrlridx];
-    if (!(arg0->unk0 & 8)) {
+    buf = (u8*)&osPifBuffers[pfs->channel];
+    if (!(pfs->status & 8)) {
         return 5;
     }
     __osSiGetAccess();
-    osPifBuffers[arg0->ctrlridx].status_control = 1;
-    buf += arg0->ctrlridx;
-    for (i = 0; i < 0x20; i++) {
-        ((PIF_mempak_wr_t*)buf)->data[i + 2] = vibrate;
+    osPifBuffers[pfs->channel].status = 1;
+    buf += pfs->channel;
+    for (i = 0; i < BLOCKSIZE; i++) {
+        ((__OSContRamHeader*)buf)->data[i] = vibrate;
     }
 
-    _osCont_lastPollType = 0xfe; // last controller poll type?
-    __osSiRawStartDma(OS_WRITE, &osPifBuffers[arg0->ctrlridx]);
-    osRecvMesg(arg0->ctrlrqueue, NULL, OS_MESG_BLOCK);
-    __osSiRawStartDma(OS_READ, &osPifBuffers[arg0->ctrlridx]);
-    osRecvMesg(arg0->ctrlrqueue, NULL, OS_MESG_BLOCK);
-    ret = ((PIF_mempak_wr_t*)buf)->hdr.status_hi_bytes_rec_lo & 0xc0;
+    __osContLastPoll = CONT_CMD_END;
+    __osSiRawStartDma(OS_WRITE, &osPifBuffers[pfs->channel]);
+    osRecvMesg(pfs->queue, NULL, OS_MESG_BLOCK);
+    __osSiRawStartDma(OS_READ, &osPifBuffers[pfs->channel]);
+    osRecvMesg(pfs->queue, NULL, OS_MESG_BLOCK);
+    ret = ((__OSContRamHeader*)buf)->rxsize & 0xC0;
     if (!ret) {
         if (!vibrate) {
-            if (((PIF_mempak_wr_t*)buf)->data[0x22] != 0) {
-                ret = 4;
+            if (((__OSContRamHeader*)buf)->datacrc != 0) {
+                ret = PFS_ERR_CONTRFAIL;
             }
         } else {
-            if (((PIF_mempak_wr_t*)buf)->data[0x22] != 0xeb) {
-                ret = 4;
+            if (((__OSContRamHeader*)buf)->datacrc != 0xEB) {
+                ret = PFS_ERR_CONTRFAIL;
             }
         }
     }
@@ -43,47 +45,43 @@ s32 osSetRumble(unk_controller_t* arg0, u32 vibrate) {
     return ret;
 }
 
-void osSetUpMempakWrite(s32 ctrlridx, pif_data_buffer_t* buf) {
-    u8* buf_ptr = (u8*)buf;
-    PIF_mempak_wr_t mempakwr;
+void osSetUpMempakWrite(s32 channel, OSPifRam* buf) {
+    u8* bufptr = (u8*)buf;
+    __OSContRamHeader mempakwr;
     s32 i;
-    mempakwr.hdr.slot_type = 0xFF;
-    mempakwr.hdr.bytes_send = 0x23;
-    mempakwr.hdr.status_hi_bytes_rec_lo = 1;
-    mempakwr.hdr.command = 3; // write mempak
-    mempakwr.data[0] = 0x600 >> 3;
-    mempakwr.data[1] = (u8)(osMempakAddrCRC(0x600) | (0x600 << 5));
-    if (ctrlridx != 0) {
-        for (i = 0; i < ctrlridx; ++i) {
-            *buf_ptr++ = 0;
+    mempakwr.unk_00 = 0xFF;
+    mempakwr.txsize = 0x23;
+    mempakwr.rxsize = 1;
+    mempakwr.poll = 3; // write mempak
+    mempakwr.hi = 0x600 >> 3;
+    mempakwr.lo = (u8)(osMempakAddrCRC(0x600) | (0x600 << 5));
+    if (channel != 0) {
+        for (i = 0; i < channel; ++i) {
+            *bufptr++ = 0;
         }
     }
-    *(PIF_mempak_wr_t*)buf_ptr = mempakwr;
-    buf_ptr += 0x27;
-    *buf_ptr = 0xFE;
+    *(__OSContRamHeader*)bufptr = mempakwr;
+    bufptr += sizeof(mempakwr);
+    *bufptr = 0xFE;
 }
 
-typedef struct {
-    u8 unk[0x20];
-} unk_sp24_t;
-
-s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controller, u32 ctrlridx) {
+s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel) {
     s32 ret;
-    unk_sp24_t sp24;
+    u8 sp24[BLOCKSIZE];
 
-    unk_controller->ctrlrqueue = ctrlrqueue;
-    unk_controller->ctrlridx = ctrlridx;
-    unk_controller->bytes[0x65] = 0xff;
-    unk_controller->unk0 = 0;
+    pfs->queue = ctrlrqueue;
+    pfs->channel = channel;
+    pfs->activebank = 0xFF;
+    pfs->status = 0;
 
-    ret = func_80104C80(unk_controller, 0xfe);
+    ret = func_80104C80(pfs, 0xFE);
     if (ret == 2) {
-        ret = func_80104C80(unk_controller, 0x80);
+        ret = func_80104C80(pfs, MOTOR_ID);
     }
     if (ret != 0) {
         return ret;
     }
-    ret = osReadMempak(ctrlrqueue, ctrlridx, 0x400, &sp24);
+    ret = osReadMempak(ctrlrqueue, channel, BANK_ADDR, sp24);
     ret = ret;
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
@@ -91,29 +89,29 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controller, 
     if (ret != 0) {
         return ret;
     }
-    if (sp24.unk[0x1F] == 0xfe) {
-        return 0xb; // possibly controller pack? (Some other valid return value other than rumble pak)
+    if (sp24[BLOCKSIZE - 1] == 0xFE) {
+        return 0xB;
     }
-    ret = func_80104C80(unk_controller, 0x80);
+    ret = func_80104C80(pfs, MOTOR_ID);
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
     }
     if (ret != 0) {
         return ret;
     }
-    ret = osReadMempak(ctrlrqueue, ctrlridx, 0x400, &sp24);
+    ret = osReadMempak(ctrlrqueue, channel, BANK_ADDR, sp24);
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
     }
     if (ret != 0) {
         return ret;
     }
-    if (sp24.unk[0x1F] != 0x80) {
-        return 0xb; // possibly controller pack? (Some other valid return value other than rumble pak)
+    if (sp24[BLOCKSIZE - 1] != MOTOR_ID) {
+        return 0xB;
     }
-    if ((unk_controller->unk0 & 8) == 0) {
-        osSetUpMempakWrite(ctrlridx, &osPifBuffers[ctrlridx]);
+    if ((pfs->status & PFS_MOTOR_INITIALIZED) == 0) {
+        osSetUpMempakWrite(channel, &osPifBuffers[channel]);
     }
-    unk_controller->unk0 = 8;
+    pfs->status = PFS_MOTOR_INITIALIZED;
     return 0; // "Recognized rumble pak"
 }

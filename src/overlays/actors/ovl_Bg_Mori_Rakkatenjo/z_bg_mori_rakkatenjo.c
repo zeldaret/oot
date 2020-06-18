@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000030
 
-void BgMoriRakkatenjo_Init(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
-void BgMoriRakkatenjo_Destroy(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
-void BgMoriRakkatenjo_Update(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriRakkatenjo*)thisx)
+
+void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Rakkatenjo_InitVars = {

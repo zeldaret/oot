@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void BgHaka_Init(BgHaka* this, GlobalContext* globalCtx);
-void BgHaka_Destroy(BgHaka* this, GlobalContext* globalCtx);
-void BgHaka_Update(BgHaka* this, GlobalContext* globalCtx);
-void BgHaka_Draw(BgHaka* this, GlobalContext* globalCtx);
+#define THIS ((BgHaka*)thisx)
+
+void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087B758(BgHaka* this, Player* player);
 void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx);
 void func_8087B938(BgHaka* this, GlobalContext* globalCtx);

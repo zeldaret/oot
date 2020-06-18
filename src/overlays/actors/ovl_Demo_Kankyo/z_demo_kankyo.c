@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void DemoKankyo_Init(DemoKankyo* this, GlobalContext* globalCtx);
-void DemoKankyo_Destroy(DemoKankyo* this, GlobalContext* globalCtx);
-void DemoKankyo_Update(DemoKankyo* this, GlobalContext* globalCtx);
-void DemoKankyo_Draw(DemoKankyo* this, GlobalContext* globalCtx);
+#define THIS ((DemoKankyo*)thisx)
+
+void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Kankyo_InitVars = {

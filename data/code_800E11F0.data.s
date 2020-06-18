@@ -3,12 +3,14 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .data
 
+.balign 16
+
 glabel D_801304D0
-    .incbin "baserom.z64", 0xBA7670, 0x4
+    .word osEPiStartDma
 
 glabel D_801304D4
     .incbin "baserom.z64", 0xBA7674, 0x4

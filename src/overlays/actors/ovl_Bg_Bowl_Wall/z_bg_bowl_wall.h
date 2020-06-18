@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgBowlWall;
+
+typedef void (*BgBowlWallActionFunc)(struct BgBowlWall*, GlobalContext*);
+
+typedef struct BgBowlWall {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0164 */ BgBowlWallActionFunc actionFunc;
     /* 0x0168 */ char unk_168[0x20];
 } BgBowlWall; // size = 0x0188
 

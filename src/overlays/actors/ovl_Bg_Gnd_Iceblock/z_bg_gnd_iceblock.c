@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void BgGndIceblock_Init(BgGndIceblock* this, GlobalContext* globalCtx);
-void BgGndIceblock_Destroy(BgGndIceblock* this, GlobalContext* globalCtx);
-void BgGndIceblock_Update(BgGndIceblock* this, GlobalContext* globalCtx);
-void BgGndIceblock_Draw(BgGndIceblock* this, GlobalContext* globalCtx);
+#define THIS ((BgGndIceblock*)thisx)
+
+void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGndIceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGndIceblock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087A0C8(BgGndIceblock* this, GlobalContext* globalCtx);
 void func_8087A184(BgGndIceblock* this, GlobalContext* globalCtx);
 void func_8087A248(BgGndIceblock* this, GlobalContext* globalCtx);

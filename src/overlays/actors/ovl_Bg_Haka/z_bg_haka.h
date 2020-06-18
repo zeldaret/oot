@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgHaka;
+
+typedef void (*BgHakaActionFunc)(struct BgHaka*, GlobalContext*);
+
+typedef struct BgHaka {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0164 */ BgHakaActionFunc actionFunc;
 } BgHaka; // size = 0x0168
 
 extern const ActorInit Bg_Haka_InitVars;

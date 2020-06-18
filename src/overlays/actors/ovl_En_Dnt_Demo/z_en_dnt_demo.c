@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000000
 
-void EnDntDemo_Init(EnDntDemo* this, GlobalContext* globalCtx);
-void EnDntDemo_Destroy(EnDntDemo* this, GlobalContext* globalCtx);
-void EnDntDemo_Update(EnDntDemo* this, GlobalContext* globalCtx);
+#define THIS ((EnDntDemo*)thisx)
+
+void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDntDemo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDntDemo_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dnt_Demo_InitVars = {
