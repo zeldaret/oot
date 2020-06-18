@@ -18,7 +18,8 @@ typedef struct EnInsect {
     /* 0x0280 */ Vec3s transitionDrawTable[24];
     /* 0x0310 */ EnInsectActionFunc actionFunc;
     /* 0x0314 */ u16 unk_314;
-    /* 0x0316 */ char unk_316[4];
+    /* 0x0316 */ s16 unk_316;
+    /* 0x0318 */ s16 unk_318;
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
     /* 0x031E */ s16 unk_31E;
