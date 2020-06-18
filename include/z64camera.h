@@ -587,12 +587,12 @@ typedef struct {
     /* 0x0094 */ PosRot playerPosRot;
     /* 0x00A8 */ struct Actor* target;
     /* 0x00AC */ PosRot targetPosRot;
-    /* 0x00C0 */ f32 unk_C0;
-    /* 0x00C4 */ f32 unk_C4;
-    /* 0x00C8 */ f32 unk_C8;
-    /* 0x00CC */ f32 unk_CC;
-    /* 0x00D0 */ f32 unk_D0;
-    /* 0x00D4 */ f32 unk_D4;
+    /* 0x00C0 */ f32 rUpdateRateInv;
+    /* 0x00C4 */ f32 phiUpdateRateInv;
+    /* 0x00C8 */ f32 thetaUpdateRateInv;
+    /* 0x00CC */ f32 xzOffsetUpdateRate;
+    /* 0x00D0 */ f32 yOffsetUpdateRate;
+    /* 0x00D4 */ f32 fovUpdateRate;
     /* 0x00D8 */ f32 unk_D8;
     /* 0x00DC */ f32 dist;
     /* 0x00E0 */ f32 unk_E0;

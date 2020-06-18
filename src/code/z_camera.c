@@ -8,7 +8,7 @@ s32 func_8005A7A8(Camera* arg0, s32 arg1);
 Vec3f *func_80044E68(Vec3f* arg0, s16 arg1, s16 arg2, s16 arg3);
 void Camera_UpdateInterface(s16);
 
-#define NON_MATCHING
+//#define NON_MATCHING
 
 /* Camera Setting Macros */
 #define CAM_MODE_INIT(funcIdx, modeValues) { funcIdx, ARRAY_COUNT(modeValues), modeValues, }
@@ -1850,7 +1850,7 @@ extern CollisionPoly* playerFloorPoly;
 
 
 f32 func_800437F0(f32 arg0, f32 arg1) {
-    f32 percent = 0.4f;
+    const f32 percent = 0.4f;
     f32 ret = fabsf(arg1);
 
     if (arg0 < ret) {
@@ -1951,21 +1951,21 @@ void Camera_LERPCeilVec3f(Vec3f* target, Vec3f* cur, f32 yStepScale, f32 xzStepS
 }
 
 void func_80043ABC(Camera* camera) {
-    camera->unk_C8 = 100.0f;
-    camera->unk_C4 = OREG(7);
-    camera->unk_C0 = OREG(6);
-    camera->unk_CC = OREG(2) * 0.01f;
-    camera->unk_D0 = OREG(3) * 0.01f;
-    camera->unk_D4 = OREG(4) * 0.01f;
+    camera->thetaUpdateRateInv = 100.0f;
+    camera->phiUpdateRateInv = OREG(7);
+    camera->rUpdateRateInv = OREG(6);
+    camera->xzOffsetUpdateRate = OREG(2) * 0.01f;
+    camera->yOffsetUpdateRate = OREG(3) * 0.01f;
+    camera->fovUpdateRate = OREG(4) * 0.01f;
 }
 
 void func_80043B60(Camera* camera) {
-    camera->unk_C0 = OREG(27);
-    camera->unk_C8 = OREG(27);
-    camera->unk_C4 = OREG(27);
-    camera->unk_CC = 0.001f;
-    camera->unk_D0 = 0.001f;
-    camera->unk_D4 = 0.001f;
+    camera->rUpdateRateInv = OREG(27);
+    camera->thetaUpdateRateInv = OREG(27);
+    camera->phiUpdateRateInv = OREG(27);
+    camera->xzOffsetUpdateRate = 0.001f;
+    camera->yOffsetUpdateRate = 0.001f;
+    camera->fovUpdateRate = 0.001f;
 }
 
 Vec3f* Camera_Vec3sToVec3f(Vec3f* dest, Vec3s* src) {
@@ -2378,7 +2378,7 @@ s32 func_800457A8(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     if (arg3 != 0) {
         sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, arg1->theta, OREG(9)), temp_ret);
     }
-    Camera_LERPCeilVec3f(&sp50, &camera->posOffset, camera->unk_D0, camera->unk_CC, 0.1f);
+    Camera_LERPCeilVec3f(&sp50, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
 
     sp44.x = sp2C->pos.x + camera->posOffset.x;
     sp44.y = sp2C->pos.y + camera->posOffset.y;
@@ -2455,7 +2455,7 @@ s32 func_80045B08(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     }
 
     sp48.y -= temp_ret * phi_f2 * OREG(9);
-    Camera_LERPCeilVec3f(&sp48, &camera->posOffset, camera->unk_D0, camera->unk_CC, 0.1f);
+    Camera_LERPCeilVec3f(&sp48, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
 
     sp3C.x = temp_s1->pos.x + camera->posOffset.x;
     sp3C.y = temp_s1->pos.y + camera->posOffset.y;
@@ -2490,7 +2490,7 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
     if (camera->unk_104 == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f || camera->player->stateFlags1 & 0x200000) {
         *arg3 = Camera_LERPCeilF(sp3C->pos.y, *arg3, OREG(43) * 0.01f, 0.1f);
         sp70.y-= sp3C->pos.y - *arg3;
-        Camera_LERPCeilVec3f(&sp70, &camera->posOffset, camera->unk_D0, camera->unk_CC, 0.1f);
+        Camera_LERPCeilVec3f(&sp70, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
     } else {
         if (PREG(75) == 0) {
             phi_f20 = sp3C->pos.y - *arg3;
@@ -2522,8 +2522,8 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
             sp70.y -= phi_f20 * phi_f16;
         }
         Camera_LERPCeilVec3f(&sp70, &camera->posOffset, OREG(29) * 0.01f, OREG(30) * 0.01f, 0.1f);
-        camera->unk_D0 = OREG(29) * 0.01f;
-        camera->unk_CC = OREG(30) * 0.01f;
+        camera->yOffsetUpdateRate = OREG(29) * 0.01f;
+        camera->xzOffsetUpdateRate = OREG(30) * 0.01f;
     }
     sp64.x = sp3C->pos.x + camera->posOffset.x;
     sp64.y = sp3C->pos.y + camera->posOffset.y;
@@ -2577,8 +2577,8 @@ s32 func_800460A8(Camera *camera, VecSph *arg1, Vec3f *arg2, f32 arg3, f32 arg4,
     }
     if (arg7 & 0x80) {
         sp74.r *= 0.2f;
-        camera->unk_CC = 0.01f;
-        camera->unk_D0 = 0.01f;
+        camera->xzOffsetUpdateRate = 0.01f;
+        camera->yOffsetUpdateRate = 0.01f;
     }
     OLib_VecSphRot90ToVec3f(&sp80, &sp74);
     if (PREG(89)) {
@@ -2590,7 +2590,7 @@ s32 func_800460A8(Camera *camera, VecSph *arg1, Vec3f *arg2, f32 arg3, f32 arg4,
     if (camera->playerPosRot.pos.y == camera->unk_104|| camera->player->actor.gravity > -0.1f || camera->player->stateFlags1 & 0x200000) {
         *arg5 = Camera_LERPCeilF(sp50->pos.y, *arg5, OREG(43) * 0.01f, 0.1f);;
         sp98.y -= sp50->pos.y - *arg5;
-        Camera_LERPCeilVec3f(&sp98, &camera->posOffset, camera->unk_D0, camera->unk_CC, 0.1f);
+        Camera_LERPCeilVec3f(&sp98, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
         sp54 = &camera->at;
     } else {
         if ((arg7 & 0x80) == 0) {
@@ -2627,8 +2627,8 @@ s32 func_800460A8(Camera *camera, VecSph *arg1, Vec3f *arg2, f32 arg3, f32 arg4,
             sp98.y -= phi_f20 * phi_f16;
         }
         Camera_LERPCeilVec3f(&sp98, &camera->posOffset, OREG(29) * 0.01f, OREG(30) * 0.01f, 0.1f);
-        camera->unk_D0 = OREG(29) * 0.01f;
-        camera->unk_CC = OREG(30) * 0.01f;
+        camera->yOffsetUpdateRate = OREG(29) * 0.01f;
+        camera->xzOffsetUpdateRate = OREG(30) * 0.01f;
     }
     sp8C.x = sp50->pos.x + camera->posOffset.x;
     sp8C.y = sp50->pos.y + camera->posOffset.y;
@@ -2676,7 +2676,7 @@ s32 func_800466F8(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
         sp60.y -= func_80045714(&camera->unk_108, camera->playerPosRot.rot.y, arg1->theta, OREG(9));
     }
 
-    Camera_LERPCeilVec3f(&sp60, &camera->posOffset, camera->unk_D0, camera->unk_CC, 0.1f);
+    Camera_LERPCeilVec3f(&sp60, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
 
     sp54.x = camera->posOffset.x + sp30.pos.x;
     sp54.y = camera->posOffset.y + sp30.pos.y;
@@ -2701,8 +2701,8 @@ f32 func_800468CC(Camera* camera, f32 arg1, f32 arg2, f32 arg3) {
         phi_f12 = 1.0f;
     }
 
-    camera->unk_C0 = Camera_LERPCeilF(phi_f12, camera->unk_C0, OREG(25) * 0.01f, 0.1f);
-    return Camera_LERPCeilF(sp1C, camera->dist, 1.f / camera->unk_C0, 0.2f);
+    camera->rUpdateRateInv = Camera_LERPCeilF(phi_f12, camera->rUpdateRateInv, OREG(25) * 0.01f, 0.1f);
+    return Camera_LERPCeilF(sp1C, camera->dist, 1.f / camera->rUpdateRateInv, 0.2f);
 }
 
 f32 func_800469C0(Camera* camera, f32 arg1, f32 arg2, f32 arg3, s16 arg4) {
@@ -2735,8 +2735,8 @@ f32 func_800469C0(Camera* camera, f32 arg1, f32 arg2, f32 arg3, s16 arg4) {
         }
     }
 
-    camera->unk_C0 = Camera_LERPCeilF(phi_f12, camera->unk_C0, OREG(25) * 0.01f, 0.1f);
-    return Camera_LERPCeilF(sp1C, camera->dist, 1.f / camera->unk_C0, 0.2f);
+    camera->rUpdateRateInv = Camera_LERPCeilF(phi_f12, camera->rUpdateRateInv, OREG(25) * 0.01f, 0.1f);
+    return Camera_LERPCeilF(sp1C, camera->dist, 1.f / camera->rUpdateRateInv, 0.2f);
 }
 
 #ifdef NON_MATCHING
@@ -2752,11 +2752,11 @@ s16 func_80046B44(Camera* camera, s16 arg1, s16 arg2, s16 arg3) {
     phi_v0 = arg3 > 0 ? (s16)(Math_Coss(arg3) * arg3) : arg3;
     sp1C = arg2 - phi_v0;
     if (ABS(sp1C) < phi_v1) {
-        phi_a2 = (1.0f / camera->unk_C4) * 3.0f;
+        phi_a2 = (1.0f / camera->phiUpdateRateInv) * 3.0f;
     } else {
-        phi_a2 = (1.0f / camera->unk_C4) * func_800437F0(0.8f, 1.0f - phi_v0 * (1.0f / R_CAM_MAX_PHI));
+        phi_a2 = (1.0f / camera->phiUpdateRateInv) * func_800437F0(0.8f, 1.0f - phi_v0 * (1.0f / R_CAM_MAX_PHI));
     }
-    return Camera_LERPCeilS(sp1C, arg1, phi_a2, 0xa);
+    return Camera_LERPCeilS(sp1C, arg1, phi_a2, 0xA);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046B44.s")
@@ -2788,7 +2788,7 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
     }
     
     // This is probably some binary angle calculation.
-    return arg1 + (s16)(sp1C * sp34 * sp1C * (1.0f / camera->unk_C8) * func_800437F0(0.5f, camera->unk_E0)) + arg1;
+    return arg1 + (s16)(sp1C * sp34 * sp1C * (1.0f / camera->thetaUpdateRateInv) * func_800437F0(0.5f, camera->unk_E0)) + arg1;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046CB4.s")
@@ -2869,8 +2869,8 @@ s32 Camera_Normal1(Camera *camera) {
     OLib_Vec3fDiffToVecSphRot90(&sp6C, &camera->at, &camera->eyeNext);
     switch(camera->animState){
         case 0x14:
-            camera->unk_C8 = (f32) OREG(27);
-            camera->unk_C4 = (f32) OREG(27);
+            camera->thetaUpdateRateInv = (f32) OREG(27);
+            camera->phiUpdateRateInv = (f32) OREG(27);
         case 0:
         case 0xA:
         case 0x19:
@@ -2924,21 +2924,21 @@ s32 Camera_Normal1(Camera *camera) {
     if (unk24->unk_1A != 0) {
         spA0 = temp_f16;
         sp94 = phi_f2_2;
-        camera->unk_C8 = Camera_LERPCeilF(unk24->unk_10 + (f32) (unk24->unk_1A * 2), camera->unk_C8, sp98, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF((f32) OREG(7) + (f32) (unk24->unk_1A * 2), camera->unk_C4, sp9C, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(unk24->unk_10 + (f32) (unk24->unk_1A * 2), camera->thetaUpdateRateInv, sp98, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF((f32) OREG(7) + (f32) (unk24->unk_1A * 2), camera->phiUpdateRateInv, sp9C, 0.1f);
         unk24->unk_1A--;
     } else {
         temp_f0_2 = unk24->unk_10;
         spA0 = temp_f16;
         sp94 = phi_f2_2;
-        camera->unk_C8 = Camera_LERPCeilF(temp_f0_2 - ((((f32) OREG(49) * 0.01f) * temp_f0_2) * phi_f2_2), camera->unk_C8, sp98, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF(OREG(7), camera->unk_C4, sp9C, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(temp_f0_2 - ((((f32) OREG(49) * 0.01f) * temp_f0_2) * phi_f2_2), camera->thetaUpdateRateInv, sp98, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF(OREG(7), camera->phiUpdateRateInv, sp9C, 0.1f);
     }
     spA0 = temp_f2_2 * camera->unk_E0;
-    camera->unk_C4 = Camera_LERPCeilF(OREG(7), camera->unk_C4, sp9C, 0.1f);
-    camera->unk_CC = Camera_LERPCeilF(OREG(2) * 0.01f, camera->unk_CC, temp_f2_2 * camera->unk_E0, 0.1f);
-    camera->unk_D0 = Camera_LERPCeilF(OREG(2) * 0.01f, camera->unk_D0, sp9C, 0.1f);
-    camera->unk_D4 = Camera_LERPCeilF(OREG(3) * 0.01f, camera->unk_D0, camera->unk_E0 * 0.05f, 0.1f);
+    camera->phiUpdateRateInv = Camera_LERPCeilF(OREG(7), camera->phiUpdateRateInv, sp9C, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->xzOffsetUpdateRate, temp_f2_2 * camera->unk_E0, 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->yOffsetUpdateRate, sp9C, 0.1f);
+    camera->fovUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
     if (norm1->unk_22 & 1) {
         s16 t = func_80044ADC(camera, sp74.theta - 0x7FFF, 0);
         temp_f0_4 = (1.0f / norm1->unk_10) * 0.5f;
@@ -2969,10 +2969,10 @@ s32 Camera_Normal1(Camera *camera) {
     camera->dist = sp7C.r;
     if (unk24->unk_2A <= 0) {
         sp7C.phi = sp6C.phi;
-        sp7C.theta = Camera_LERPCeilS(unk24->unk_26, sp6C.theta, 1.0f / camera->unk_C8, 0xA);
+        sp7C.theta = Camera_LERPCeilS(unk24->unk_26, sp6C.theta, 1.0f / camera->thetaUpdateRateInv, 0xA);
     } else if (unk24->unk_18 != 0) {
-        sp7C.theta = Camera_LERPCeilS(unk24->unk_16, sp6C.theta, 1.0f / camera->unk_C8, 0xA);
-        sp7C.phi = Camera_LERPCeilS(unk24->unk_14, sp6C.phi, 1.0f / camera->unk_C8, 0xA);
+        sp7C.theta = Camera_LERPCeilS(unk24->unk_16, sp6C.theta, 1.0f / camera->thetaUpdateRateInv, 0xA);
+        sp7C.phi = Camera_LERPCeilS(unk24->unk_14, sp6C.phi, 1.0f / camera->thetaUpdateRateInv, 0xA);
     } else {
         sp7C.theta = func_80046CB4(camera, sp6C.theta, camera->playerPosRot.rot.y, norm1->unk_14, sp94);
         sp7C.phi = func_80046B44(camera, sp6C.phi, norm1->unk_20, unk24->unk_24);
@@ -2991,7 +2991,7 @@ s32 Camera_Normal1(Camera *camera) {
         } else {
             sp88 = *sp38;
             temp_f0_7 = norm1->unk_0C + norm1->unk_0C;
-            camera->unk_C8 = temp_f0_7;
+            camera->thetaUpdateRateInv = temp_f0_7;
             unk24->unk_10 = temp_f0_7;
             if (func_80043F34(camera, sp3C, &sp88)) {
                 unk24->unk_2A = -1;
@@ -3024,7 +3024,7 @@ s32 Camera_Normal1(Camera *camera) {
         sUpdateCameraDirection = 0;
         *sp40 = *sp38;
     }
-    camera->fov = Camera_LERPCeilF(norm1->unk_18 * (gSaveContext.health <= 0x10 ? 0.8f : 1.0f), camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(norm1->unk_18 * (gSaveContext.health <= 0x10 ? 0.8f : 1.0f), camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = func_800450A4(camera, norm1->unk_1C);
     return 1;
@@ -3110,7 +3110,7 @@ s32 Camera_Normal2(Camera *camera) {
             OLib_VecSphRot90ToVec3f(&temp_s1->unk_0C, &sp88);
         }
         camera->animState = 1;
-        camera->unk_C8 = 50.0f;
+        camera->thetaUpdateRateInv = 50.0f;
     } else if (playerPosRot->pos.y == camera->unk_104) {
         camera->params.normal2.unk_20.unk_24 = playerPosRot->pos.y;
     }
@@ -3124,11 +3124,11 @@ s32 Camera_Normal2(Camera *camera) {
     camera->unk_E0 *= 0.5f;
     spA4 = OREG(25) * camera->unk_E0;
     spA0 = OREG(26) * 0.01f * camera->unk_E0;
-    camera->unk_C8 = Camera_LERPCeilF(camera->params.normal2.unk_0C, camera->unk_C8 * camera->unk_E0, OREG(25), 0.1f);
-    camera->unk_C4 = Camera_LERPCeilF(OREG(7), camera->unk_C4, spA0, 0.1f);
-    camera->unk_CC = Camera_LERPCeilF(OREG(2) * 0.1f, camera->unk_CC, spA4, 0.1f);
-    camera->unk_D0 = Camera_LERPCeilF(OREG(3) * 0.01f, camera->unk_D0, spA0, 0.1f);
-    camera->unk_D4 = Camera_LERPCeilF(OREG(4) * 0.01f, camera->unk_D0, camera->unk_E0 * 0.05f, 0.1f);
+    camera->thetaUpdateRateInv = Camera_LERPCeilF(camera->params.normal2.unk_0C, camera->thetaUpdateRateInv * camera->unk_E0, OREG(25), 0.1f);
+    camera->phiUpdateRateInv = Camera_LERPCeilF(OREG(7), camera->phiUpdateRateInv, spA0, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.1f, camera->xzOffsetUpdateRate, spA4, 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, spA0, 0.1f);
+    camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
     if (!(camera->params.normal2.unk_1E & 0x80)) {
         func_800457A8(camera, &sp78, camera->params.normal2.unk_00.x, camera->params.normal2.unk_1E & 1);
     } else {
@@ -3169,7 +3169,7 @@ block_43:
                     } else {
                         phi_a0 = phi_a1;
                     }
-                    sp98.theta = Camera_LERPCeilS(phi_a0 + sp88.theta, sp80.theta, (1.0f / camera->unk_C8) * camera->unk_E0, 0xA);
+                    sp98.theta = Camera_LERPCeilS(phi_a0 + sp88.theta, sp80.theta, (1.0f / camera->thetaUpdateRateInv) * camera->unk_E0, 0xA);
                     if (temp_s1->unk_28 & 1) {
                         sp98.phi = func_80046B44(camera, sp78.phi, temp_s1->unk_20, 0);
                     } else {
@@ -3220,7 +3220,7 @@ block_58:
             goto block_58;
         }
     }
-    camera->fov = Camera_LERPCeilF(temp_s1->unk_1C, camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(temp_s1->unk_1C, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = func_800450A4(camera, camera->params.normal2.unk_18);
     return 1;
@@ -3344,16 +3344,16 @@ s32 Camera_Normal3(Camera* camera) {
     sp94 = (OREG(26) * 0.01f) * camera->unk_E0;
     temp_v0_3 = unk20->unk_1A;
     if (temp_v0_3 != 0) {
-        camera->unk_C8 = Camera_LERPCeilF(normal3->unk_0C + (temp_v0_3 * 2), camera->unk_C8, temp_f16, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF((f32)OREG(7) + (unk20->unk_1A * 2), camera->unk_C4, sp94, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(normal3->unk_0C + (temp_v0_3 * 2), camera->thetaUpdateRateInv, temp_f16, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + (unk20->unk_1A * 2), camera->phiUpdateRateInv, sp94, 0.1f);
         unk20->unk_1A--;
     } else {
-        camera->unk_C8 = Camera_LERPCeilF(normal3->unk_0C, camera->unk_C8, temp_f16, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF(OREG(7), camera->unk_C4, sp94, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(normal3->unk_0C, camera->thetaUpdateRateInv, temp_f16, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF(OREG(7), camera->phiUpdateRateInv, sp94, 0.1f);
     }
-    camera->unk_CC = Camera_LERPCeilF(OREG(2) * 0.01f, camera->unk_CC, temp_f16, 0.1f);
-    camera->unk_D0 = Camera_LERPCeilF(OREG(3) * 0.01f, camera->unk_D0, sp94, 0.1f);
-    camera->unk_D4 = Camera_LERPCeilF(OREG(4) * 0.01f, camera->unk_D4, sp94, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->xzOffsetUpdateRate, temp_f16, 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, sp94, 0.1f);
+    camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->fovUpdateRate, sp94, 0.1f);
     temp_f0 = (1.0f / normal3->unk_10) * 0.5f;
     unk20->unk_24 = Camera_LERPCeilS(func_80044ADC(camera, sp7C.theta - 0x7FFF, 1), unk20->unk_24,
                                   temp_f0 + (temp_f0 * (1.0f - camera->unk_E0)), 0xF);
@@ -3365,7 +3365,7 @@ s32 Camera_Normal3(Camera* camera) {
     if (0.001f < camera->unk_D8) {
         sp84.r += (sp90 - sp84.r) * 0.002f;
     }
-    sp84.phi = Camera_LERPCeilS(normal3->unk_1C - unk20->unk_24, sp74.phi, 1.0f / camera->unk_C4, 0xA);
+    sp84.phi = Camera_LERPCeilS(normal3->unk_1C - unk20->unk_24, sp74.phi, 1.0f / camera->phiUpdateRateInv, 0xA);
     if (R_CAM_MAX_PHI < sp84.phi) {
         sp84.phi = R_CAM_MAX_PHI;
     }
@@ -3387,7 +3387,7 @@ s32 Camera_Normal3(Camera* camera) {
             phi_a0 = -0x2AF8;
         }
     }
-    temp_f16_2 = (phi_a0 * ((camera->unk_E0 * (1.0f - 0.5f)) + 0.5f)) / camera->unk_C8;
+    temp_f16_2 = (phi_a0 * ((camera->unk_E0 * (1.0f - 0.5f)) + 0.5f)) / camera->thetaUpdateRateInv;
     if ((150.0f * (1.0f - camera->unk_E0)) < fabsf(temp_f16_2)) {
         sp84.theta = sp74.theta + temp_f16_2;
         // sp8A = sp74.theta + temp_f16_2;
@@ -3407,7 +3407,7 @@ s32 Camera_Normal3(Camera* camera) {
     } else {
         *sp48 = *sp40;
     }
-    camera->fov = Camera_LERPCeilF(normal3->unk_14, camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(normal3->unk_14, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = func_800450A4(camera, normal3->unk_18);
     return 1;
@@ -3517,12 +3517,12 @@ void Camera_Parallel1(Camera *camera) {
     }
     spB8 = PCT(OREG(25)) * camera->unk_E0;
     spB4 = PCT(OREG(26)) * camera->unk_E0;
-    camera->unk_C0 = Camera_LERPCeilF(OREG(6), camera->unk_C0, spB8, 0.1f);
-    camera->unk_C8 = Camera_LERPCeilF(camera->params.para1.unk_08, camera->unk_C8, spB8, 0.1f);
-    camera->unk_C4 = Camera_LERPCeilF(2.0f, camera->unk_C4, spB4, 0.1f);
-    camera->unk_CC = Camera_LERPCeilF(OREG(2) * 0.01f, camera->unk_CC, spB8, 0.1f);
-    camera->unk_D0 = Camera_LERPCeilF(OREG(3) * 0.01f, camera->unk_D0, spB4, 0.1f);
-    camera->unk_D4 = Camera_LERPCeilF(OREG(4) * 0.01f, camera->unk_D4, camera->unk_E0 * 0.05f, 0.1f);
+    camera->rUpdateRateInv = Camera_LERPCeilF(OREG(6), camera->rUpdateRateInv, spB8, 0.1f);
+    camera->thetaUpdateRateInv = Camera_LERPCeilF(camera->params.para1.unk_08, camera->thetaUpdateRateInv, spB8, 0.1f);
+    camera->phiUpdateRateInv = Camera_LERPCeilF(2.0f, camera->phiUpdateRateInv, spB4, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->xzOffsetUpdateRate, spB8, 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, spB4, 0.1f);
+    camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->fovUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
     if (camera->params.para1.interfaceFlags & 1) {
         temp_f0_2 = 1.0f / camera->params.para1.unk_0C;
         sp34->unk_10 = Camera_LERPCeilS(func_80044ADC(camera, BINANG_ROT180(spA0.theta), 1), sp34->unk_10, (temp_f0_2 * 0.3f) + ((temp_f0_2 * 0.7f) * (1.0f - camera->unk_E0)), 0xF);
@@ -3553,14 +3553,14 @@ void Camera_Parallel1(Camera *camera) {
         sp34->animTimer--;
     } else {
         sp34->unk_16 = 0;
-        camera->dist = Camera_LERPCeilF(camera->params.para1.distTarget, camera->dist, 1.0f / camera->unk_C0, 2.0f);
+        camera->dist = Camera_LERPCeilF(camera->params.para1.distTarget, camera->dist, 1.0f / camera->rUpdateRateInv, 2.0f);
         OLib_Vec3fDiffToVecSphRot90(&spA8, &camera->at, &camera->eyeNext);
         spA8.r = camera->dist;
         spA8.theta = camera->params.para1.interfaceFlags & 0x40 ?
             Camera_LERPCeilS(sp34->thetaTarget, sp98.theta, 0.6f, 0xA) :
             Camera_LERPCeilS(sp34->thetaTarget, sp98.theta, 0.8f, 0xA);
 
-        spA8.phi = Camera_LERPCeilS(camera->params.para1.interfaceFlags & 1 ? BINANG_SUB(sp34->phiTarget, sp34->unk_10) : sp34->phiTarget, sp98.phi, 1.0f / camera->unk_C4, 4);
+        spA8.phi = Camera_LERPCeilS(camera->params.para1.interfaceFlags & 1 ? BINANG_SUB(sp34->phiTarget, sp34->unk_10) : sp34->phiTarget, sp98.phi, 1.0f / camera->phiUpdateRateInv, 4);
         spA8.phi = CLAMP(spA8.phi, OREG(34), OREG(5));
 
         /*if (OREG(5) < spA8.phi) {
@@ -3585,7 +3585,7 @@ void Camera_Parallel1(Camera *camera) {
             camera->direction.y = spA8.theta;
         }
     }
-    camera->fov = Camera_LERPCeilF(camera->params.para1.fovTarget, camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(camera->params.para1.fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     if (sp6A != 0) {
         phi_f0 = camera->params.para1.unk_1C;
@@ -3677,28 +3677,28 @@ s32 Camera_Jump1(Camera *camera) {
         unk20->unk_1C = camera->playerPosRot.pos.y - camera->playerPosDelta.y;
         unk20->unk_20 = sp90.r;
         camera->posOffset.y = camera->posOffset.y - camera->playerPosDelta.y;
-        camera->unk_CC = 9.999999747378752e-05f;
+        camera->xzOffsetUpdateRate = 9.999999747378752e-05f;
         camera->animState++;
     }
     if (unk20->unk_1A != 0) {
-        camera->unk_C8 = Camera_LERPCeilF(jump1->unk_0C + unk20->unk_1A, camera->unk_C8, OREG(26) * 0.01f, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF((f32)OREG(7) + unk20->unk_1A, camera->unk_C4, OREG(26) * 0.01f, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(jump1->unk_0C + unk20->unk_1A, camera->thetaUpdateRateInv, OREG(26) * 0.01f, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + unk20->unk_1A, camera->phiUpdateRateInv, OREG(26) * 0.01f, 0.1f);
         unk20->unk_1A--;
     } else {
-        camera->unk_C8 = Camera_LERPCeilF(jump1->unk_0C, camera->unk_C8, OREG(26) * 0.01f, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF((f32)OREG(7), camera->unk_C4, OREG(26) * 0.01f, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(jump1->unk_0C, camera->thetaUpdateRateInv, OREG(26) * 0.01f, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF((f32)OREG(7), camera->phiUpdateRateInv, OREG(26) * 0.01f, 0.1f);
     }
-    camera->unk_CC = Camera_LERPCeilF(OREG(2) * 0.01f, camera->unk_CC, OREG(25) * 0.01f, 0.1f);
-    camera->unk_D0 = Camera_LERPCeilF(OREG(3) * 0.01f, camera->unk_D0, OREG(26) * 0.01f, 0.1f);
-    camera->unk_D4 = Camera_LERPCeilF(OREG(4) * 0.01f, camera->unk_D0, 0.05f, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->xzOffsetUpdateRate, OREG(25) * 0.01f, 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, OREG(26) * 0.01f, 0.1f);
+    camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->yOffsetUpdateRate, 0.05f, 0.1f);
     func_800458D4(camera, &sp88, jump1->unk_00, &unk20->unk_20, 0);
     sp80 = sp90;
     OLib_Vec3fDiffToVecSphRot90(&sp78, sp3C, sp40);
     sp80.r = Camera_LERPCeilF(sp78.r, sp90.r, OREG(29) * 0.01f, 1.0f);
     sp80.phi = Camera_LERPCeilS(sp78.phi, sp90.phi, OREG(29) * 0.01f, 0xA);
     if (unk20->unk_18 != 0) {
-        sp80.theta = Camera_LERPCeilS(unk20->unk_16, sp88.theta, 1.0f / camera->unk_C8, 0xA);
-        sp80.phi = Camera_LERPCeilS(unk20->unk_14, sp88.phi, 1.0f / camera->unk_C8, 0xA);
+        sp80.theta = Camera_LERPCeilS(unk20->unk_16, sp88.theta, 1.0f / camera->thetaUpdateRateInv, 0xA);
+        sp80.phi = Camera_LERPCeilS(unk20->unk_14, sp88.phi, 1.0f / camera->thetaUpdateRateInv, 0xA);
     } else {
         sp80.theta = func_80046CB4(camera, sp78.theta, camera->playerPosRot.rot.y, jump1->unk_10, 0.0f);
     }
@@ -3850,11 +3850,11 @@ s32 Camera_Jump2(Camera *camera) {
         camera->animState++;
         camera->atLERPStepScale = jump2->unk_1C;
     }
-    camera->unk_C8 = Camera_LERPCeilF(jump2->unk_10, camera->unk_C8, (OREG(25) * 0.01f) * camera->unk_E0, 0.1f);
-    camera->unk_CC = Camera_LERPCeilF(jump2->unk_14, camera->unk_CC, (OREG(25) * 0.01f) * camera->unk_E0, 0.1f);
-    camera->unk_D0 = Camera_LERPCeilF(OREG(3) * 0.01f, camera->unk_D0, (OREG(26) * 0.01f) * camera->unk_E0, 0.1f);
-    camera->unk_D4 = Camera_LERPCeilF(OREG(4) * 0.01f, camera->unk_D0, camera->unk_E0 * 0.05f, 0.1f);
-    camera->unk_C0 = OREG(27);
+    camera->thetaUpdateRateInv = Camera_LERPCeilF(jump2->unk_10, camera->thetaUpdateRateInv, (OREG(25) * 0.01f) * camera->unk_E0, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(jump2->unk_14, camera->xzOffsetUpdateRate, (OREG(25) * 0.01f) * camera->unk_E0, 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, (OREG(26) * 0.01f) * camera->unk_E0, 0.1f);
+    camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
+    camera->rUpdateRateInv = OREG(27);
     func_800457A8(camera, &spA4, jump2->unk_00, 0);
     OLib_Vec3fDiffToVecSphRot90(&spB4, sp34, sp38);
 
@@ -3890,16 +3890,16 @@ s32 Camera_Jump2(Camera *camera) {
     spC8.z = (Math_Coss(temp_t0->rot.y) * 25.0f) + camera->playerPosRot.pos.z;
     temp_f0_4 = func_80044434(camera, &spBC, &spC8, &sp88);
     if ((temp_f0_4 != -32000.0f) && (camera->playerPosRot.pos.y < temp_f0_4)) {
-        camera->unk_C4 = Camera_LERPCeilF(20.0f, camera->unk_C4, OREG(26) * 0.01f, 0.1f);
-        camera->unk_C0 = Camera_LERPCeilF(20.0f, camera->unk_C0, OREG(26) * 0.01f, 0.1f);
-        spB4.phi = Camera_LERPCeilS(0x1F4, spA4.phi, 1.0f / camera->unk_C4, 0xA);
+        camera->phiUpdateRateInv = Camera_LERPCeilF(20.0f, camera->phiUpdateRateInv, OREG(26) * 0.01f, 0.1f);
+        camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, OREG(26) * 0.01f, 0.1f);
+        spB4.phi = Camera_LERPCeilS(0x1F4, spA4.phi, 1.0f / camera->phiUpdateRateInv, 0xA);
     } else if ((camera->playerPosRot.pos.y - unk24->unk_00) < sp48) {
-        camera->unk_C4 = Camera_LERPCeilF(20.0f, camera->unk_C4, OREG(26) * 0.01f, 0.1f);
-        camera->unk_C0 = Camera_LERPCeilF(20.0f, camera->unk_C0, OREG(26) * 0.01f, 0.1f);
-        spB4.theta = Camera_LERPCeilS(0x1F4, spA4.phi, 1.0f / camera->unk_C4, 0xA);
+        camera->phiUpdateRateInv = Camera_LERPCeilF(20.0f, camera->phiUpdateRateInv, OREG(26) * 0.01f, 0.1f);
+        camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, OREG(26) * 0.01f, 0.1f);
+        spB4.theta = Camera_LERPCeilS(0x1F4, spA4.phi, 1.0f / camera->phiUpdateRateInv, 0xA);
     } else {
-        camera->unk_C4 = 100.0f;
-        camera->unk_C0 = 100.0f;
+        camera->phiUpdateRateInv = 100.0f;
+        camera->rUpdateRateInv = 100.0f;
     }
     phi_v1_5 = spB4.phi;
     if (phi_v1_4 >= 0x2AF9) {
@@ -3928,7 +3928,7 @@ s32 Camera_Jump2(Camera *camera) {
         *sp38 = *sp30;
     }
     camera->dist = spB4.r;
-    camera->fov = Camera_LERPCeilF(jump2->unk_18, camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(jump2->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     return 1;
 }
@@ -4037,18 +4037,18 @@ s32 Camera_Jump3(Camera *camera) {
     }
     if (unk24->unk_1A != 0) {
         spC4 = temp_f18;
-        camera->unk_C8 = Camera_LERPCeilF(unk24->unk_10 + (f32) (unk24->unk_1A * 2), camera->unk_C8, temp_f18, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF((f32) (unk24->unk_1A * 2) + 40.0f, camera->unk_C4, spC0, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(unk24->unk_10 + (f32) (unk24->unk_1A * 2), camera->thetaUpdateRateInv, temp_f18, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF((f32) (unk24->unk_1A * 2) + 40.0f, camera->phiUpdateRateInv, spC0, 0.1f);
         unk24->unk_1A = (s16) (unk24->unk_1A - 1);
     } else {
         spC4 = temp_f18;
-        camera->unk_C8 = Camera_LERPCeilF(unk24->unk_10, camera->unk_C8, spBC, 0.1f);
-        camera->unk_C4 = Camera_LERPCeilF(40.0f, camera->unk_C4, spC0, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(unk24->unk_10, camera->thetaUpdateRateInv, spBC, 0.1f);
+        camera->phiUpdateRateInv = Camera_LERPCeilF(40.0f, camera->phiUpdateRateInv, spC0, 0.1f);
     }
-    camera->unk_CC = Camera_LERPCeilF((f32) OREG(2) * 0.01f, camera->unk_CC, spC4, 0.1f);
-    temp_f0_3 = Camera_LERPCeilF((f32) OREG(3) * 0.01f, camera->unk_D0, spC0, 0.1f);
-    camera->unk_D0 = temp_f0_3;
-    camera->unk_D4 = Camera_LERPCeilF((f32) OREG(4) * 0.01f, temp_f0_3, camera->unk_E0 * 0.05f, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF((f32) OREG(2) * 0.01f, camera->xzOffsetUpdateRate, spC4, 0.1f);
+    temp_f0_3 = Camera_LERPCeilF((f32) OREG(3) * 0.01f, camera->yOffsetUpdateRate, spC0, 0.1f);
+    camera->yOffsetUpdateRate = temp_f0_3;
+    camera->fovUpdateRate = Camera_LERPCeilF((f32) OREG(4) * 0.01f, temp_f0_3, camera->unk_E0 * 0.05f, 0.1f);
     func_800457A8(camera, (VecSph *) &sp90, jump3->unk_00, jump3->unk_22);
     OLib_Vec3fDiffToVecSphRot90(&spA8, sp3C, sp38);
     temp_f0_4 = func_800469C0(camera, spA8.r, jump3->unk_04, jump3->unk_08, unk24->unk_20);
@@ -4066,12 +4066,12 @@ s32 Camera_Jump3(Camera *camera) {
             phi_f2 = -(sp60.pos.y - camera->unk_114);
         }
         if (!(phi_f2 < 50.0f)) {
-            camera->unk_C4 = 100.0f;
+            camera->phiUpdateRateInv = 100.0f;
         }
     }
     if (unk24->unk_18 != 0) {
-        spA8.theta = Camera_LERPCeilS(unk24->unk_16, sp90.theta, 1.0f / camera->unk_C8, 0xA);
-        spA8.phi = Camera_LERPCeilS(unk24->unk_14, sp90.phi, 1.0f / camera->unk_C8, 0xA);
+        spA8.theta = Camera_LERPCeilS(unk24->unk_16, sp90.theta, 1.0f / camera->thetaUpdateRateInv, 0xA);
+        spA8.phi = Camera_LERPCeilS(unk24->unk_14, sp90.phi, 1.0f / camera->thetaUpdateRateInv, 0xA);
     } else {
         spA8.theta = func_80046CB4(camera, sp90.theta, camera->playerPosRot.rot.y, jump3->unk_14, 0.0f);
         spA8.phi = func_80046B44(camera, sp90.phi, jump3->unk_20, (u16)0);
@@ -4104,7 +4104,7 @@ s32 Camera_Jump3(Camera *camera) {
         sUpdateCameraDirection = 0;
         *sp40 = *sp38;
     }
-    camera->fov = Camera_LERPCeilF(jump3->unk_18, camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(jump3->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS((u16)0, camera->roll, 0.5f, (u16)0xA);
     camera->atLERPStepScale = func_800450A4(camera, jump3->unk_1C);
     return 1;
@@ -4608,8 +4608,8 @@ s32 Camera_KeepOn4(Camera *camera) {
         default:
             break;
     }
-    camera->unk_CC = 0.25f;
-    camera->unk_D0 = 0.25f;
+    camera->xzOffsetUpdateRate = 0.25f;
+    camera->yOffsetUpdateRate = 0.25f;
     camera->atLERPStepScale = 0.75f;
     Camera_LERPCeilVec3f(&D_8015BD50.unk_00, sp40, 0.5f, 0.5f, 0.2f);
     if (keep4->unk_10 != 0.0f) {
@@ -4651,7 +4651,7 @@ s32 Camera_KeepOn4(Camera *camera) {
     Camera_Vec3fVecSphAdd(sp3C, sp40, &spB8);
     *sp44 = *sp3C;
     func_80043F34(camera, sp40, sp44);
-    camera->fov = Camera_LERPCeilF(keep4->unk_18, camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(keep4->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
     temp_ret = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->roll = temp_ret;
     return (s32) temp_ret;
@@ -5092,7 +5092,7 @@ s32 Camera_Subj3(Camera *camera) {
         anim->animTimer = R_DEFA_CAM_ANIM_TIME;
         camera->dist = subj3->eyeNextDist;
         camera->animState++;
-        camera->unk_C0 = 1.0f;
+        camera->rUpdateRateInv = 1.0f;
         camera->dist = subj3->eyeNextDist;
     }
 
@@ -5314,15 +5314,15 @@ s32 Camera_Unique1(Camera *camera) {
         camera->animState++;
     }
     func_8002EEE4(&sp5C, &camera->player->actor);
-    camera->unk_C8 = Camera_LERPCeilF(100.0f, camera->unk_C8, OREG(25) * 0.01f, 0.1f);
-    camera->unk_C4 = Camera_LERPCeilF(100.0f, camera->unk_C4, OREG(25) * 0.01f, 0.1f);
-    camera->unk_CC = Camera_LERPCeilF(0.005f, camera->unk_CC, OREG(25) * 0.01f, 0.01f);
-    camera->unk_D0 = Camera_LERPCeilF(0.01f, camera->unk_D0, OREG(26) * 0.01f, 0.01f);
-    camera->unk_D4 = Camera_LERPCeilF(OREG(4) * 0.01f, camera->unk_D4, 0.05f, 0.1f);
+    camera->thetaUpdateRateInv = Camera_LERPCeilF(100.0f, camera->thetaUpdateRateInv, OREG(25) * 0.01f, 0.1f);
+    camera->phiUpdateRateInv = Camera_LERPCeilF(100.0f, camera->phiUpdateRateInv, OREG(25) * 0.01f, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(0.005f, camera->xzOffsetUpdateRate, OREG(25) * 0.01f, 0.01f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(0.01f, camera->yOffsetUpdateRate, OREG(26) * 0.01f, 0.01f);
+    camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->fovUpdateRate, 0.05f, 0.1f);
     func_800457A8(camera, &sp74, uniq1->unk_00, 1);
     OLib_Vec3fDiffToVecSphRot90(&sp8C, sp34, sp30);
     camera->dist = func_800468CC(camera, sp8C.r, uniq1->unk_04, uniq1->unk_08);
-    sp8C.phi = Camera_LERPCeilS(uniq1->unk_18, sp74.phi, 1.0f / camera->unk_C4, 0xA);
+    sp8C.phi = Camera_LERPCeilS(uniq1->unk_18, sp74.phi, 1.0f / camera->phiUpdateRateInv, 0xA);
     if (OREG(5) < sp8C.phi) {
         sp8C.phi = OREG(5);
     }
@@ -5337,7 +5337,7 @@ s32 Camera_Unique1(Camera *camera) {
     Camera_Vec3fVecSphAdd(sp30, sp34, &sp8C);
     *sp38 = *sp30;
     func_80043F34(camera, sp34, sp38);
-    camera->fov = Camera_LERPCeilF(uniq1->unk_10, camera->fov, camera->unk_D4, 1.0f);
+    camera->fov = Camera_LERPCeilF(uniq1->unk_10, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = 0;
     camera->atLERPStepScale = func_800450A4(camera, uniq1->unk_14);
     return 1;
@@ -6156,16 +6156,16 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
     camera->direction.y = 0x3FFF;
     camera->uid = curUID;
     camera->unk_13A = camera->direction;
-    camera->unk_C0 = 10.0f;
-    camera->unk_C8 = 10.0f;
+    camera->rUpdateRateInv = 10.0f;
+    camera->thetaUpdateRateInv = 10.0f;
     camera->unk_68.x = 0.0f;
     camera->unk_68.y = 1.0f;
     camera->unk_68.z = 0.0f;
     camera->fov = 60.0f;
-    camera->unk_C4 = OREG(7);
-    camera->unk_CC = PCT(OREG(2));
-    camera->unk_D0 = PCT(OREG(3));
-    camera->unk_D4 = PCT(OREG(4));
+    camera->phiUpdateRateInv = OREG(7);
+    camera->xzOffsetUpdateRate = PCT(OREG(2));
+    camera->yOffsetUpdateRate = PCT(OREG(3));
+    camera->fovUpdateRate = PCT(OREG(4));
     D_8011D3A8 = 0x20;
     D_8011D3A4 = 0;
     camera->unk_14C = 0;
@@ -7197,8 +7197,8 @@ s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera) {
         dstCamera->posOffset.y = dstCamera->at.y - dstCamera->playerPosRot.pos.y;
         dstCamera->posOffset.z = dstCamera->at.z - dstCamera->playerPosRot.pos.z;
         dstCamera->dist = OLib_Vec3fDist(&dstCamera->playerPosRot.pos, &dstCamera->eye);
-        dstCamera->unk_CC = 1.0f;
-        dstCamera->unk_D0 = 1.0f;
+        dstCamera->xzOffsetUpdateRate = 1.0f;
+        dstCamera->yOffsetUpdateRate = 1.0f;
     }
     return true;
 }
