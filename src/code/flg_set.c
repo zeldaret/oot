@@ -1,5 +1,5 @@
 #include <global.h>
-#include <PR/os_cont.h>
+#include <ultra64/controller.h>
 
 void FlagSet_Update(GlobalContext* globalCtx) {
     static s32 entryIdx = 0;
