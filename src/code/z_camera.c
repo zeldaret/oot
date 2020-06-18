@@ -8,7 +8,7 @@ s32 func_8005A7A8(Camera* arg0, s32 arg1);
 Vec3f *func_80044E68(Vec3f* arg0, s16 arg1, s16 arg2, s16 arg3);
 void Camera_UpdateInterface(s16);
 
-//#define NON_MATCHING
+#define NON_MATCHING
 
 /* Camera Setting Macros */
 #define CAM_MODE_INIT(funcIdx, modeValues) { funcIdx, ARRAY_COUNT(modeValues), modeValues, }
@@ -45,6 +45,18 @@ typedef struct {
     };
     CameraMode* cameraModes;
 } CameraSetting;
+
+typedef enum {
+    CAM_STATUS_UNK0,
+    CAM_STATUS_UNK1,
+    CAM_STATUS_UNK2,
+    CAM_STATUS_UNK3,
+    CAM_STATUS_UNK4,
+    CAM_STATUS_UNK5,
+    CAM_STATUS_UNK6,
+    CAM_STATUS_ACTIVE,
+    CAM_STATUS_UNK100 = 0x100
+} CameraStatusType;
 
 typedef enum {
     CAM_SET_NONE,
@@ -1809,14 +1821,6 @@ s16 D_8011DAEC[] = { -2000, -1000, 0, 0, 0, 0, 0, 0 };
 s16 D_8011DAFC[] = {
     CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
 };
-
-s16 D_8011DB08 = 1008;
-
-s16 D_8011DB0C = 342;
-
-s32 sOOBTimer = 0;
-
-s32 D_8011DB14 = 0;
 
 // BSS
 typedef struct {
@@ -4638,11 +4642,11 @@ s32 Camera_KeepOn4(Camera *camera) {
             sCameraInterfaceFlags = 0;
             camera->unk_14C |= (0x4 | 0x2);
             camera->unk_14C &= ~8;
-            if(camera->unk_166 < 0){
-                Camera_ChangeSetting(camera, camera->unk_154, 2);
+            if(camera->prevCamDataIdx < 0){
+                Camera_ChangeSetting(camera, camera->prevSetting, 2);
             } else{
-                func_8005A7A8(camera, camera->unk_166);
-                camera->unk_166 = -1;
+                func_8005A7A8(camera, camera->prevCamDataIdx);
+                camera->prevCamDataIdx = -1;
             }
         }
     }
@@ -5495,7 +5499,7 @@ s32 Camera_Unique0(Camera *camera) {
             camera->posOffset.z = camera->at.z - sp34->pos.z;
             camera->atLERPStepScale = 0.0f;
             camera->unk_14C |= 4;
-            Camera_ChangeSetting(camera, camera->unk_154, 2);
+            Camera_ChangeSetting(camera, camera->prevSetting, 2);
         }
     } else {
         if (unk10->unk_0C > 0) {
@@ -5512,7 +5516,7 @@ s32 Camera_Unique0(Camera *camera) {
             camera->posOffset.y = camera->at.y - sp34->pos.y;
             camera->posOffset.z = camera->at.z - sp34->pos.z;
             camera->atLERPStepScale = 0.0f;
-            Camera_ChangeSetting(camera, camera->unk_154, 2);
+            Camera_ChangeSetting(camera, camera->prevSetting, 2);
             camera->unk_14C |= 4;
         }
     }
@@ -6155,7 +6159,7 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
 
     camera->direction.y = 0x3FFF;
     camera->uid = curUID;
-    camera->unk_13A = camera->direction;
+    camera->realDir = camera->direction;
     camera->rUpdateRateInv = 10.0f;
     camera->thetaUpdateRateInv = 10.0f;
     camera->unk_68.x = 0.0f;
@@ -6169,8 +6173,8 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
     D_8011D3A8 = 0x20;
     D_8011D3A4 = 0;
     camera->unk_14C = 0;
-    camera->setting = camera->unk_154 = 0x21;
-    camera->camDataIdx = camera->unk_166 = -1;
+    camera->setting = camera->prevSetting = 0x21;
+    camera->camDataIdx = camera->prevCamDataIdx = -1;
     camera->mode = 0;
     camera->unk_146 = 0x32;
     camera->unk_168 = 0x7FFF;
@@ -6191,29 +6195,29 @@ s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 arg2, f32 arg3, s16 arg4
 
 void func_80057FC4(Camera* camera) {
     if (camera != &camera->globalCtx->cameras[0]) {
-        camera->unk_154 = camera->setting = CAM_SET_FREE0;
+        camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
     } else if (camera->globalCtx->roomCtx.curRoom.mesh->polygon.type != 1) {
         switch (camera->globalCtx->roomCtx.curRoom.unk_03) {
             case 1:
                 func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
-                camera->unk_154 = camera->setting = CAM_SET_DUNGEON0;
+                camera->prevSetting = camera->setting = CAM_SET_DUNGEON0;
                 break;
             case 0:
                 osSyncPrintf("camera: room type: default set field\n");
                 func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
-                camera->unk_154 = camera->setting = CAM_SET_NORMAL0;
+                camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 break;
             default:
                 osSyncPrintf("camera: room type: default set etc (%d)\n", camera->globalCtx->roomCtx.curRoom.unk_03);
                 func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
-                camera->unk_154 = camera->setting = CAM_SET_NORMAL0;
+                camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 camera->unk_14C |= 4;
                 break;
         }
     } else {
         osSyncPrintf("camera: room type: prerender\n");
-        camera->unk_154 = camera->setting = CAM_SET_FREE0;
+        camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
     }
 }
@@ -6241,7 +6245,7 @@ void func_80058148(Camera* camera, Player* player) {
     camera->direction.x = 0x71C;
     camera->direction.y = sp54.rot.y;
     camera->direction.z = 0;
-    camera->unk_13A = camera->direction;
+    camera->realDir = camera->direction;
     camera->unk_D8 = 0.0f;
     camera->playerPosDelta.y = 0.0f;
     camera->at = sp54.pos;
@@ -6298,7 +6302,8 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
         osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->thisIdx, camera->setting, camera->mode);
     }
 
-    if (status == 7 && camera->status != 7) {
+    if (status == CAM_STATUS_ACTIVE && camera->status != CAM_STATUS_ACTIVE) {
+        // if we're making the camera active, but it is not already active, update PREG values
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         for(i = 0; i <sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt; i++){
             valueP = &values[i];
@@ -6313,97 +6318,106 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
 }
 
 #ifdef NON_MATCHING
-void func_800584E8(Camera *camera) {
-    char sp58[5];
-    char sp50[8];
-    char sp48[5];
-    s32 phi_a1;
-    char *phi_v1;
-    char *phi_t0;
-    char *endP;
-    s32 phi_v0;
-    Camera *camP;
+void Camera_PrintSettings(Camera *camera) {
+    char allCamStatus[5];
+    char camDataIdx[8];
+    char activeCamStatus[5];
+    s32 i;
+    const char t = ' ';
 
     if (OREG(0) & 1 && camera->thisIdx == camera->globalCtx->activeCamera && gDbgCamEnabled == 0) {
-        phi_a1 = 0;
-        phi_v1 = sp58;
-        phi_t0 = sp48;
-        endP = &sp58[4];
-        for(phi_a1 = 0, phi_v1 = sp58, phi_t0 = sp48; phi_v1 != endP; phi_a1++, phi_v1++, phi_t0++)
-        {
-            camP = camera->globalCtx->cameraPtrs[phi_a1];
-            if(camP == NULL){
-                *phi_t0 = ' ';
-                *phi_v1 = '-';
-            } else {
-                switch(camP->status){
-                    case 0:
-                        *phi_v1 = 'c';
-                        *phi_t0 = ' ';
-                        break;
-                    case 1:
-                        *phi_v1 = 'w';
-                        *phi_t0 = ' ';
-                        break;
-                    case 3:
-                        *phi_v1 = 's';
-                        *phi_t0 = ' ';
-                        break;
-                    case 7:
-                        *phi_v1 = 'a';
-                        *phi_t0 = ' ';
-                        break;
-                    case 0x100:
-                        *phi_v1 = 'd';
-                        *phi_t0 = ' ';
-                        break;
-                    default:
-                        *phi_t0 = ' ';
-                        *phi_v1 = '*';
-                        break;
-                }
+        for(i = 0; i < ARRAY_COUNT(allCamStatus) - 1; i++){
+            if(camera->globalCtx->cameraPtrs[i] == NULL){
+                activeCamStatus[i] = t;
+                allCamStatus[i] = '-';
+                continue;
             }
-
+            // code is using beql over beq, and loading 0x20 each time.
+            switch(camera->globalCtx->cameraPtrs[i]->status){
+                default: 
+                    if(1){
+                        activeCamStatus[i] = ' '; 
+                        allCamStatus[i] = '*'; 
+                        break;
+                    }
+                case CAM_STATUS_UNK0: 
+                    if(1) {
+                        allCamStatus[i] = 'c';
+                        activeCamStatus[i] = ' ';
+                        break; 
+                    }
+                case CAM_STATUS_UNK1:
+                    if(1) 
+                        {allCamStatus[i] = 'w'; 
+                        activeCamStatus[i] = ' '; 
+                        break; 
+                    }
+                case CAM_STATUS_UNK3: 
+                    if(1) {
+                        allCamStatus[i] = 's'; 
+                        activeCamStatus[i] = ' '; 
+                        break; 
+                    }
+                case CAM_STATUS_ACTIVE:
+                    if(1) {
+                        allCamStatus[i] = 'a'; 
+                        activeCamStatus[i] = ' '; 
+                        break; 
+                    }
+                case CAM_STATUS_UNK100:
+                    if(1) {
+                        allCamStatus[i] = 'd'; 
+                        activeCamStatus[i] = ' '; 
+                        break; 
+                    }
+            }
+            
         }
 
-        *phi_v1 = '\0';
-        *phi_t0 = '\0';
-
-        sp48[camera->globalCtx->activeCamera] = 'a';
-
-        func_8006376C(3, 22, 5, sp58);
-        func_8006376C(3, 22, 1, sp48);
+        activeCamStatus[i + 1] = '\0';
+        allCamStatus[i + 1] = '\0';
+        
+        activeCamStatus[camera->globalCtx->activeCamera] = 'a';
+        
+        func_8006376C(3, 22, 5, allCamStatus);
+        func_8006376C(3, 22, 1, activeCamStatus);
         func_8006376C(3, 23, 5, "S:");
         func_8006376C(5, 23, 4, sCameraSettingNames[camera->setting]);
         func_8006376C(3, 24, 5, "M:");
         func_8006376C(5, 24, 4, sCameraModeNames[camera->mode]);
         func_8006376C(3, 25, 5, "F:");
         func_8006376C(5, 25, 4, sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
-        phi_v0 = 0;
+        
+        // there's some ordering issues here.  This might be some kind of macro?
+        i = 0;
         if (camera->camDataIdx < 0) {
-            sp50[phi_v0++] = '-';
+            camDataIdx[i++] = '-';
         }
-        if (((s32) camera->camDataIdx / 0xA) != 0) {
-            sp50[phi_v0] = (phi_v0 / 0xA) + 0x30;
-            phi_v0++;
+
+        if ((camera->camDataIdx / 10) != 0) {
+            camDataIdx[i++] = (i / 10) + '0';
         }
-        sp50[phi_v0++] = (phi_v0 % 0xA) + 0x30;
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = '\0';
+
+        camDataIdx[i++] = (i % 10) + '0';
+        camDataIdx[i++] = t;
+        camDataIdx[i++] = t;
+        camDataIdx[i++] = t;
+        camDataIdx[i++] = t;
+        camDataIdx[i++] = '\0';
         func_8006376C(3, 26, 5, "I:");
-        func_8006376C(5, 26, 4, sp50);
+        func_8006376C(5, 26, 4, camDataIdx);
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800584E8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_PrintSettings.s")
 #endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800588B4.s")
 
-s32 func_80058CF8(Camera* camera) {
+/**
+ * Sets the room to be hot camera quake flag
+*/
+s32 Camera_SetRoomHotFlag(Camera* camera) {
     camera->unk_152 &= ~1;
 
     if (camera->globalCtx->roomCtx.curRoom.unk_02 == 3) {
@@ -6444,11 +6458,97 @@ s32 func_80058D34(Camera* camera) {
     return 1;
 }
 
+#ifdef NON_MATCHING
+void func_80058E8C(Camera *camera) {
+    static s16 D_8011DB08 = 0x3F0;
+    static s16 D_8011DB0C = 0x156;
+
+    f32 sp60;
+    f32 sp40;
+    f32 sp3C;
+    f32 sp38;
+    f32 sp34;
+    f32 sp2C;
+    f32 sp28;
+    f32 temp_f12;
+    f32 temp_f20;
+    f32 nv;
+    f32 phi_f14;
+    f32 phi_f2;
+    f32 phi_f0;
+    f32 phi_f20;
+
+    if (camera->unk_152 != 0) {
+        if (camera->unk_152 & 4) {
+            sp3C = 0.01f;
+            phi_f2 = 170.0f;
+            sp38 = 0.0f;
+            sp40 = -0.01f;
+            sp34 = 0.6f;
+            phi_f20 = camera->unk_150 / 60.0f;
+            sp60 = 1.0f;
+            phi_f0 = 0.0f;
+        } else if(camera->unk_152 & 8){
+            sp3C = 0.3f;
+            phi_f2 = -90.0f;
+            sp38 = 0.2f;
+            sp40 = -0.3f;
+            sp34 = 0.2f;
+            phi_f20 = camera->unk_150 / 80.0f;
+            sp60 = 1.0f;
+            phi_f0 = 248.0f;
+        } else if(camera->unk_152 & 2){
+            sp3C = 0.09f;
+            phi_f2 = -18.5f;
+            sp38 = 0.001f;
+            sp40 = 0.09f;
+            sp34 = 0.08f;
+            temp_f12 = camera->unk_114 - camera->eye.y;
+            if (150.0f < temp_f12) {
+                phi_f14 = 1.0f;
+            } else {
+                phi_f14 = temp_f12 / 150.0f;
+            }
+            nv = camera->unk_E0 * 0.45f;
+            temp_f20 = (phi_f14 * 0.45f) + nv;
+            phi_f20 = temp_f20;
+            sp60 = temp_f20;
+            phi_f0 = 359.2f;
+        } else if(camera->unk_152 & 1){
+            sp3C = 0.01f;
+            phi_f2 = 150.0f;
+            sp38 = 0.01f;
+            sp40 = -0.01f;
+            sp34 = 0.6f;
+            phi_f20 = 1.0f;
+            sp60 = 1.0f;
+            phi_f0 = 0.0f;
+        } else {
+            return;
+        }
+        D_8011DB0C += DEGF_TO_BINANG(phi_f2);
+        D_8011DB08 += DEGF_TO_BINANG(phi_f0);
+        Math_Coss(D_8011DB08);
+        Math_Sins(D_8011DB08);
+        Math_Sins(D_8011DB0C);
+        func_800AA76C(&camera->globalCtx->view, 0.0f, 0.0f, 0.0f);
+
+        func_800AA78C(&camera->globalCtx->view, (Math_Sins(D_8011DB0C) * (sp40 * phi_f20)) + 1.0f, (Math_Coss(D_8011DB0C) * (sp3C * phi_f20)) + 1.0f, (Math_Coss(D_8011DB08) * (sp38 * phi_f20)) + 1.0f);
+        func_800AA7AC(&camera->globalCtx->view, sp34 * sp60);
+        camera->unk_14C |= 0x40;        
+    } else if (camera->unk_14C & 0x40) {
+        func_800AA814(&camera->globalCtx->view);
+        camera->unk_14C &= ~0x40;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058E8C.s")
+#endif
 
 
 #ifdef NON_MATCHING
 Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
+    static s32 sOOBTimer = 0;
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
@@ -6509,7 +6609,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             if (oobTimer < 0xC8) {
                 if (camera->status == 7) {
                     func_800588B4(camera);
-                    func_80058CF8(camera);
+                    Camera_SetRoomHotFlag(camera);
                 }
 
                 if (!(camera->unk_14C & 4)) {
@@ -6540,7 +6640,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             }
         }
 
-        func_800584E8(camera);
+        Camera_PrintSettings(camera);
         func_80058D34(camera);
 
         if (camera->status == 1) {
@@ -6653,9 +6753,9 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             }
             camera->globalCtx->view.fovy = spB8;
             func_800AA358(&camera->globalCtx->view, &spC8, &spD4, &spBC);
-            camera->unk_13A.x = sp98.phi;
-            camera->unk_13A.y = sp98.theta;
-            camera->unk_13A.z = 0;
+            camera->realDir.x = sp98.phi;
+            camera->realDir.y = sp98.theta;
+            camera->realDir.z = 0;
             if (sUpdateCameraDirection == 0) {
                 camera->direction.x = sp98.phi;
                 camera->direction.y = sp98.theta;
@@ -6663,7 +6763,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             }
             if (R_DBG_CAM_UPDATE) {
                 osSyncPrintf("dir  (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->direction.x, camera->direction.x * (360.0f / 65535.0f), camera->direction.y, camera->direction.y * (360.0f / 65535.0f));
-                osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->unk_13A.x, camera->unk_13A.x * (360.0f / 65535.0f), camera->unk_13A.y, camera->unk_13A.y * (360.0f / 65535.0f));
+                osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->realDir.x, camera->realDir.x * (360.0f / 65535.0f), camera->realDir.y, camera->realDir.y * (360.0f / 65535.0f));
             }
             if (camera->unk_160 != -1) {
                 if (CHECK_PAD(D_8015BD7C->state.input[0].press, CONT_RIGHT)) {
@@ -6683,6 +6783,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     return outVec;
 }
 #else
+s32 sOOBTimer = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Update.s")
 #endif
 
@@ -6734,6 +6835,7 @@ s32 func_8005A02C(Camera* camera) {
 
 #ifdef NON_MATCHING
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
+    static s32 D_8011DB14 = 0;
     s32 phi_v0;
     u32 temp_t8;
     s32 phi_at;
@@ -6869,6 +6971,7 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
     return mode | phi_at;
 }
 #else
+s32 D_8011DB14 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeMode.s")
 #endif
 
@@ -6929,16 +7032,16 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 flags) {
     camera->unk_14C |= (0x8 | 0x4);
     camera->unk_14C &= ~(0x1000 | 0x8);
     if (!(sCameraSettings[camera->setting].unk_bit1)) {
-        camera->unk_154 = camera->setting;
+        camera->prevSetting = camera->setting;
     }
 
     t = sCameraSettings[camera->setting].unk_00 & 0x40000000;
     if (flags & 8) {
-        camera->camDataIdx = camera->unk_166;
-        camera->unk_166 = -1;
+        camera->camDataIdx = camera->prevCamDataIdx;
+        camera->prevCamDataIdx = -1;
     } else if (!(flags & 4)) {
         if (!t) {
-            camera->unk_166 = camera->camDataIdx;
+            camera->prevCamDataIdx = camera->camDataIdx;
         }
         camera->camDataIdx = -1;
     }
@@ -7014,7 +7117,7 @@ Vec3s* func_8005A970(Vec3s* arg0, Camera* arg1) {
         *arg0 = D_8015BD80.unk_10C6;
         return arg0;
     } else {
-        *arg0 = arg1->unk_13A;
+        *arg0 = arg1->realDir;
         return arg0;
     }
 }

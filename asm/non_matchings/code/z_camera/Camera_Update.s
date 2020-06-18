@@ -247,7 +247,7 @@ glabel Camera_Update
 /* AD062C 8005948C 8602014C */   lh    $v0, 0x14c($s0)
 /* AD0630 80059490 0C01622D */  jal   func_800588B4
 /* AD0634 80059494 02002025 */   move  $a0, $s0
-/* AD0638 80059498 0C01633E */  jal   func_80058CF8
+/* AD0638 80059498 0C01633E */  jal   Camera_SetRoomHotFlag
 /* AD063C 8005949C 02002025 */   move  $a0, $s0
 /* AD0640 800594A0 3C038016 */  lui   $v1, %hi(playerFloorPoly) # $v1, 0x8016
 /* AD0644 800594A4 2463CE4C */  addiu $v1, %lo(playerFloorPoly) # addiu $v1, $v1, -0x31b4
@@ -329,7 +329,7 @@ glabel Camera_Update
 /* AD075C 800595BC 2418FFFF */  li    $t8, -1
 /* AD0760 800595C0 A6180156 */  sh    $t8, 0x156($s0)
 .L800595C4:
-/* AD0764 800595C4 0C01613A */  jal   func_800584E8
+/* AD0764 800595C4 0C01613A */  jal   Camera_PrintSettings
 /* AD0768 800595C8 02002025 */   move  $a0, $s0
 /* AD076C 800595CC 0C01634D */  jal   func_80058D34
 /* AD0770 800595D0 02002025 */   move  $a0, $s0

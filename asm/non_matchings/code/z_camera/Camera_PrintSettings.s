@@ -16,7 +16,7 @@ glabel D_8013996C
     .balign 4
 
 .text
-glabel func_800584E8
+glabel Camera_PrintSettings
 /* ACF688 800584E8 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* ACF68C 800584EC 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* ACF690 800584F0 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)

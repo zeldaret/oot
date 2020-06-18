@@ -675,9 +675,9 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
 // ? func_80057FC4(?);
 // ? func_80058148(?);
 s16 Camera_ChangeStatus(Camera* camera, s16 status);
-// ? func_800584E8(?);
+// ? Camera_PrintSettings(?);
  void func_800588B4(Camera* camera);
-// ? func_80058CF8(?);
+// ? Camera_SetRoomHotFlag(?);
 // ? func_80058D34(?);
 // ? func_80058E8C(?);
 // ? Camera_Update(?);

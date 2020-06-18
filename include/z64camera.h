@@ -613,7 +613,7 @@ typedef struct {
     /* 0x0130 */ s16 uid;    // Unique identifier of the camera.
     /* 0x0132 */ char unk_132[0x02];
     /* 0x0134 */ Vec3s direction;
-    /* 0x013A */ Vec3s unk_13A; // seems to be a copy of direction, but unused for anything different?
+    /* 0x013A */ Vec3s realDir; // updated regardless of sUpdateCameraDirection
     /* 0x0140 */ s16 status;
     /* 0x0142 */ s16 setting; // referred to as set
     /* 0x0144 */ s16 mode;
@@ -624,7 +624,7 @@ typedef struct {
     /* 0x014E */ s16 childCamIdx;
     /* 0x0150 */ s16 unk_150; // unknown if used
     /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ s16 unk_154; // appears to be some clone of setting?
+    /* 0x0154 */ s16 prevSetting; // appears to be some clone of setting?
     /* 0x0156 */ s16 unk_156;
     /* 0x0158 */ s16 unk_158; // unknown if used
     /* 0x015A */ s16 roll;
@@ -633,7 +633,7 @@ typedef struct {
     /* 0x0160 */ s16 unk_160;
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;
-    /* 0x0166 */ s16 unk_166; // unknown if used
+    /* 0x0166 */ s16 prevCamDataIdx;
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 unk_16A; // unknown if used
 } Camera; // size = 0x16C
