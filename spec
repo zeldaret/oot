@@ -478,7 +478,7 @@ beginseg
     include "build/src/libultra_code/__osPfsGetStatus.o"
     include "build/asm/guMtxIdentF.o"
     include "build/src/libultra_code/guLookAt.o"
-    include "build/asm/code_80101EB0.o"
+    include "build/src/libultra_code/pfsallocatefile.o"
     include "build/src/libultra_code/osStopTimer.o"
     include "build/asm/code_80102420.o"
     include "build/data/code_80102420.data.o"
