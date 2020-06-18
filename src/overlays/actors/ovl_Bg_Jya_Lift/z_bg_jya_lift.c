@@ -42,7 +42,6 @@ const ActorInit Bg_Jya_Lift_InitVars = {
     extern s32      D_8089A044;
     extern s32      D_0600D7E8;
     extern UNK_TYPE D_0600CCE0;
-  //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/func_80899BA0.s")
 
 void BgJyaLiftInitHelper(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag) { //seems to help set up the actor
     s32 pad1; // padding that makes everything match nicely
@@ -53,7 +52,6 @@ void BgJyaLiftInitHelper(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, Dy
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, localConst);
 }
 
-    //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/BgJyaLift_Init.s")
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
      BgJyaLift* this = THIS;
     THIS->unk16A = 0;
@@ -75,7 +73,6 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     THIS->unk16A = 1;
 }
 
-//prragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/BgJyaLift_Destroy.s")
 void BgJyaLift_Destroy(BgJyaLift* this, GlobalContext* globalCtx) {
     if (this->unk16A != 0) {
         osSyncPrintf("女神リフト DT\n");//Goddess Lift DT
@@ -84,7 +81,7 @@ void BgJyaLift_Destroy(BgJyaLift* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/func_80899D18.s")
+
 void BgJyaLiftSetInitPosY(BgJyaLift* this) {
     this->actionFunc = &func_80899D38;
     
@@ -92,7 +89,7 @@ void BgJyaLiftSetInitPosY(BgJyaLift* this) {
     this->unk168 = 0;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/func_80899D38.s")
+
 void func_80899D38(BgJyaLift* this, GlobalContext* globalCtx) {
     if ((Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0) || (this->unk168 > 0)) {
 
@@ -106,11 +103,10 @@ void func_80899D38(BgJyaLift* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/func_80899DBC.s")
 void func_80899DBC(BgJyaLift* this) {
     this->actionFunc = &BgJyaLiftMovementHandler;
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/func_80899DCC.s")
+
 void BgJyaLiftMovementHandler(BgJyaLift* this, GlobalContext* globalCtx) {
     f32 distFromBottom;
     {//Using a scope here made it match.  Not the best solution but it works.
@@ -133,14 +129,13 @@ void BgJyaLiftMovementHandler(BgJyaLift* this, GlobalContext* globalCtx) {
 }
 
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/func_80899EF0.s")
 void BgJyaLiftSetFinalPosY(BgJyaLift* this) { //Sets final position after it falls to the bottom of its travel
     this->actionFunc = 0;
     this->dyna.actor.posRot.pos.y = 973.0f;
 }
 
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/BgJyaLift_Update.s")
+
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
 
@@ -164,7 +159,6 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Lift/BgJyaLift_Draw.s")
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_0600CCE0); // 0x0601CCE0
 }
