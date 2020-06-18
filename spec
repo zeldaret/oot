@@ -312,8 +312,7 @@ beginseg
     include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
     include "build/src/code/z_jpeg.o"
-    include "build/src/code/code_8006EA30.o"
-    include "build/data/code_8006EA30.data.o"
+    include "build/src/code/z_kaleido_setup.o"
     include "build/src/code/z_kanfont.o"
     include "build/src/code/z_kankyo.o"
     include "build/data/z_kankyo.data.o"
@@ -623,8 +622,7 @@ endseg
 beginseg
     name "ovl_Arms_Hook"
     include "build/src/overlays/actors/ovl_Arms_Hook/z_arms_hook.o"
-    include "build/data/overlays/actors/z_arms_hook.data.o"
-    include "build/data/overlays/actors/z_arms_hook.reloc.o"
+    include "build/src/overlays/actors/ovl_Arms_Hook/ovl_Arms_Hook_reloc.o"
 endseg
 
 beginseg
