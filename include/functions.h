@@ -2437,11 +2437,11 @@ void guLookAt(Mtx*, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32
 s32 osPfsAllocateFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name, s32 length, s32* file_no);
 s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared, s32* finalPage);
 // ? osStopTimer(?);
-// ? func_80102420(?);
+u16 __osSumcalc(u8* ptr, s32 length);
 s32 __osIdCheckSum(u16 *ptr, u16 *csum, u16 *icsum);
 s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid);
 s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp);
-// ? func_80102A44(?);
+s32 __osGetId(OSPfs* pfs);
 s32 __osCheckId(OSPfs* pfs);
 s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank);
 // ? func_80102FA0(?);

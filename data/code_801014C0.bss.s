@@ -9,5 +9,5 @@
 
 .balign 16
 
-glabel D_80175860
+glabel __osPfsInodeCache
     .space 0x100
