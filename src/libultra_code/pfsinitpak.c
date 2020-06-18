@@ -4,9 +4,11 @@
 s32 __osPfsCheckRamArea(OSPfs* pfs);
 
 #ifdef NON_MATCHING
-s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, int channel) {
+// regalloc with temp registers
+s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     s32 ret = 0;
-    u16 sum, isum;
+    u16 sum;
+    u16 isum;
     u8 temp[BLOCKSIZE];
     __OSPackId* id;
     __OSPackId newid;
@@ -81,31 +83,33 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, int channel) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/pfsinitpak/osPfsInitPak.s")
 #endif
 
-s32 __osPfsCheckRamArea(OSPfs *pfs)
-{
-  s32	i, ret = 0;
-  u8	temp1[BLOCKSIZE], temp2[BLOCKSIZE], save[BLOCKSIZE];
-  
-  if ((ret = __osPfsSelectBank(pfs, PFS_ID_BANK_256K)) != 0) {
-    return(ret);
-  }
+s32 __osPfsCheckRamArea(OSPfs* pfs) {
+    s32 i = 0;
+    s32 ret = 0;
+    u8 temp1[BLOCKSIZE];
+    u8 temp2[BLOCKSIZE];
+    u8 saveReg[BLOCKSIZE];
 
-  if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, save)) != 0) {
-    return(ret);
-  }
-  for (i = 0 ; i < BLOCKSIZE ; i ++ ) {
-    temp1[i] = (u8)i;
-  }
-  if ((ret = __osContRamWrite(pfs->queue, pfs->channel, 0, temp1, 0)) != 0) {
-    return(ret);
-  }
-  if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, temp2)) != 0) {
-    return(ret);
-  }
-  if (bcmp(temp1, temp2, BLOCKSIZE) != 0) {
-    return(PFS_ERR_DEVICE);
-  }
-  ret = __osContRamWrite(pfs->queue, pfs->channel, 0, save, 0);
+    if ((ret = __osPfsSelectBank(pfs, PFS_ID_BANK_256K)) != 0) {
+        return ret;
+    }
 
-  return(ret);
+    if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, saveReg)) != 0) {
+        return (ret);
+    }
+    for (i = 0; i < BLOCKSIZE; i++) {
+        temp1[i] = i;
+    }
+    if ((ret = __osContRamWrite(pfs->queue, pfs->channel, 0, temp1, 0)) != 0) {
+        return ret;
+    }
+    if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, temp2)) != 0) {
+        return ret;
+    }
+    if (bcmp(temp1, temp2, BLOCKSIZE) != 0) {
+        return PFS_ERR_DEVICE;
+    }
+    ret = __osContRamWrite(pfs->queue, pfs->channel, 0, saveReg, 0);
+
+    return ret;
 }

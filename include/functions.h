@@ -2479,7 +2479,7 @@ void guS2DInitBg(uObjBg *bg);
 s32 __osPfsSelectBank(OSPfs *pfs, u8 bank); 
 s32 osContSetCh(u8 ch);
 s32 osPfsFileState(OSPfs* pfs, s32 file_no, OSPfsState* state);
-s32 osPfsInitPak(OSMesgQueue* mq, OSPfs* pfs, s32 controller_no);
+s32 osPfsInitPak(OSMesgQueue* mq, OSPfs* pfs, s32 channel);
 //s32 __osPfsCheckRamArea(OSPfs* pfs);
 s32 osPfsChecker(OSPfs* pfs);
 // ? func_80105788(?);
