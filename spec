@@ -482,7 +482,7 @@ beginseg
     include "build/src/libultra_code/osStopTimer.o"
     include "build/src/libultra_code/contpfs.o"
     include "build/asm/code_80102FA0.o"
-    include "build/asm/code_80103010.o"
+    include "build/src/libultra_code/osPfsFindFile.o"
     include "build/src/libultra_code/sqrtf.o"
     include "build/src/libultra_code/code_801031F0.o"
     include "build/src/libultra_code/guLookAtHilite.o"
