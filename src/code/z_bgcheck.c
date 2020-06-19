@@ -24,20 +24,17 @@ s32 func_80038600(Vec3f* pos, char* file, s32 line) {
     return false;
 }
 
-//mzxOK
 //Set SSNode
-void func_80038708(SSNode* arg0, s16* polyId, u16 next) {
-    arg0->polyId = *polyId;
-    arg0->next = next;
+void func_80038708(SSNode* node, s16* polyId, u16 next) {
+    node->polyId = *polyId;
+    node->next = next;
 }
 
-//mzxOK
 //Set SS_NULL
 void func_8003871C(u16* arg0) {
     *arg0 = SS_NULL;
 }
 
-//mzxOK
 //Set static StaticList_s
 void func_80038728(StaticList_s* arg0, u16* next, s16* polyId) {
     u16 newNode = func_8003E4DC(arg0); 
@@ -46,7 +43,6 @@ void func_80038728(StaticList_s* arg0, u16* next, s16* polyId) {
     *next = newNode;
 }
 
-//mzxOK
 //Set dynamic DynaList_s
 void func_80038780(DynaList_s* arg0, u16* next, s16* polyId) {
     u16 newNode = func_80038878(arg0); 
@@ -59,14 +55,12 @@ void func_80038780(DynaList_s* arg0, u16* next, s16* polyId) {
     *next = newNode;
 }
 
-//mzxOK
 //Init DynaList_s
 void func_800387FC(GlobalContext* globalCtx, DynaList_s* arg1) {
     arg1->tbl = NULL;
     arg1->count = 0;
 }
 
-//mzxOK
 //Initialize DynaList tbl
 void func_8003880C(GlobalContext* globalCtx, DynaList_s* arg1, s32 max) {
     arg1->tbl = THA_AllocEndAlign(&globalCtx->state.tha, max * 4, -2);
@@ -79,13 +73,11 @@ void func_8003880C(GlobalContext* globalCtx, DynaList_s* arg1, s32 max) {
     arg1->count = 0;
 }
 
-//mzxOK
 //Reset DynaList_s count
 void func_80038870(DynaList_s* arg0) {
     arg0->count = 0;
 }
 
-//mzxOK
 //Get next DynaList_s item
 u16 func_80038878(DynaList_s* arg0) {
     u16 var = arg0->count++;
@@ -135,7 +127,6 @@ s16 func_80038924(CollisionPoly* poly, Vec3s* vtxList) {
     return vtxList[c].y;
 }
 
-//mzxOK
 //CollisionPoly get unit normal
 void func_800389D4(CollisionPoly* poly, f32* unitNormX, f32* unitNormY, f32* unitNormZ) {
     *unitNormX = poly->norm.x * COLPOLY_NORM_FRAC;
@@ -143,7 +134,6 @@ void func_800389D4(CollisionPoly* poly, f32* unitNormX, f32* unitNormY, f32* uni
     *unitNormZ = poly->norm.z * COLPOLY_NORM_FRAC;
 }
 
-//mzxOK
 void func_80038A28(CollisionPoly* poly, f32 x, f32 y, f32 z, MtxF* mtxF) {
     f32 normX;
     f32 normY;
@@ -196,13 +186,11 @@ void func_80038A28(CollisionPoly* poly, f32 x, f32 y, f32 z, MtxF* mtxF) {
     mtxF->ww = 1.0f;
 }
 
-//mzxOk
 //Calculate point distance from plane
 f32 func_80038B7C(CollisionPoly* poly, Vec3f* point) {
     return (poly->norm.x * point->x + poly->norm.y * point->y + poly->norm.z * point->z) * COLPOLY_NORM_FRAC + poly->dist;
 }
 
-//mzxOK
 //Get Poly Verts
 void func_80038BE0(CollisionPoly* arg0, Vec3s* vtxList, Vec3f* dest) {
     func_800388A8(&vtxList[arg0->flags_vIA & 0x1FFF], &dest[0]);
@@ -210,7 +198,6 @@ void func_80038BE0(CollisionPoly* arg0, Vec3s* vtxList, Vec3f* dest) {
     func_800388A8(&vtxList[arg0->vIC], &dest[2]);
 }
 
-//mzxOK
 // original name: T_Polygon_GetVertex_bg_ai
 void func_80038C78(CollisionPoly* arg0, s32 bgId, CollisionContext* arg2, Vec3f* destPoly) {
     Vec3s* vtxList;
@@ -242,7 +229,6 @@ void func_80038C78(CollisionPoly* arg0, s32 bgId, CollisionContext* arg2, Vec3f*
     }
 }
 
-//mzxOK
 s32 func_80038D48(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* result, f32 arg5) {
     static Vec3f polyVtxs[3];
     f32 normX;
@@ -639,7 +625,6 @@ Lookup* func_8003AC54(StaticCollisionContext* arg0, Lookup* arg1, Vec3f* pos) {
         + sector.y * regFix;
 }
 
-//mzxOK
 //Get Lookup sector
 //Returns null if just outside the mesh bounding box
 Lookup* func_8003AD00(StaticCollisionContext* arg0, Lookup* arg1, Vec3f* pos) {
@@ -656,7 +641,6 @@ Lookup* func_8003AD00(StaticCollisionContext* arg0, Lookup* arg1, Vec3f* pos) {
         + sector.y * regFix;
 }
 
-//mzxOK
 //Get Lookup position
 void func_8003ADC8(StaticCollisionContext* arg0, Vec3f* pos, Vec3i* sector) {
     sector->x = (pos->x - arg0->minBounds.x) * arg0->inverseUnitSize.x;
@@ -682,7 +666,6 @@ void func_8003ADC8(StaticCollisionContext* arg0, Vec3f* pos, Vec3i* sector) {
     }
 }
 
-//mzxOK
 //Get Negative Bias Lookup position
 //decrements result Lookup coordinate if within 50 units of the negative boundary
 void func_8003AEA8(StaticCollisionContext* arg0, Vec3f* pos, s32* sx, s32* sy, s32* sz) {
@@ -706,7 +689,6 @@ void func_8003AEA8(StaticCollisionContext* arg0, Vec3f* pos, s32* sx, s32* sy, s
     }
 } 
 
-//mzxOK
 //Get Positive Bias Lookup position
 //increments result Lookup coordinate if within 50 units of the postive boundary
 void func_8003B04C(StaticCollisionContext* arg0, Vec3f* pos, s32* sx, s32* sy, s32* sz) {
@@ -730,7 +712,54 @@ void func_8003B04C(StaticCollisionContext* arg0, Vec3f* pos, s32* sx, s32* sy, s
     }
 } 
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003B218.s")
+//Calculate CollisionPoly's Lookup grid coordinate range
+void func_8003B218(CollisionContext* colCtx, Vec3s* vtxList, CollisionPoly* polyList, s32* gridMinX, s32* gridMinY, s32* gridMinZ, s32* gridMaxX, s32* gridMaxY, s32* gridMaxZ, s16 polyId) {
+    u16* vtxDataTemp;
+    Vec3f minVtx;
+    Vec3f maxVtx;
+
+    f32 x; 
+    f32 y;
+    f32 z; 
+
+    Vec3s* temp_v0;
+    s16 vtxId;
+
+    vtxId = polyList[polyId].vtxData[0] & 0x1FFF;
+
+    Math_Vec3s_ToVec3f(&maxVtx, &vtxList[vtxId]);
+    Math_Vec3f_Copy(&minVtx, &maxVtx);
+    for (vtxDataTemp = polyList[polyId].vtxData + 1; vtxDataTemp < polyList[polyId].vtxData + 3; vtxDataTemp++) {
+        vtxId = *vtxDataTemp & 0x1FFF;
+        temp_v0 = vtxId + vtxList;
+        x = temp_v0->x;
+        y = temp_v0->y;
+        z = temp_v0->z;
+
+        if (x < minVtx.x) {
+            minVtx.x = x;
+        }
+        else if (maxVtx.x < x) {
+            maxVtx.x = x;
+        }
+
+        if (y < minVtx.y) {
+            minVtx.y = y;
+        }
+        else if (maxVtx.y < y) {
+            maxVtx.y = y;
+        }
+
+        if (z < minVtx.z) {
+            minVtx.z = z;
+        }
+        else if (maxVtx.z < z) {
+            maxVtx.z = z;
+        }
+    }
+    func_8003AEA8(&colCtx->stat, &minVtx, gridMinX, gridMinY, gridMinZ);
+    func_8003B04C(&colCtx->stat, &maxVtx, gridMaxX, gridMaxY, gridMaxZ);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003B3C8.s")
 
@@ -1231,7 +1260,6 @@ void func_8003E350(CollisionContext* colCtx, Vec3f* center, f32 radius) {
     func_8003E214(colCtx, 0, &poly, &sp28, center, radius, NULL, COLPOLY_IGNORE_FLOOR | COLPOLY_IGNORE_CEILING);
 }
 
-//mzxOK
 //init StaticList_s
 void func_8003E398(StaticList_s* this) {
     this->max = 0;
@@ -1274,7 +1302,6 @@ SSNode* func_8003E458(StaticList_s* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E458.s")
 #endif //  NON_MATCHING
 
-//mzxOK
 //Get StaticList_s Next
 u16 func_8003E4DC(StaticList_s* arg0) {
     u16 new_index;
@@ -1342,7 +1369,6 @@ void func_8003E6EC(GlobalContext* globalCtx, ActorMesh* arg1) {
     arg1->unk_54.radius = 0;
 }
 
-//mzxOK
 //setActor internal
 void func_8003E750(ActorMesh* a0, DynaPolyActor* actor, CollisionHeader* colHeader)
 {
@@ -1357,12 +1383,10 @@ void func_8003E750(ActorMesh* a0, DynaPolyActor* actor, CollisionHeader* colHead
     a0->srp2.pos = actor->actor.posRot.pos;
 }
 
-//mzxOK
 s32 func_8003E804(ActorMesh* arg0) {
     return func_8003E5B4(&arg0->srp1, &arg0->srp2);
 }
 
-//mzxOK
 //null polyList
 void func_8003E82C(CollisionPoly** polyList) {
     *polyList = NULL;
@@ -1376,7 +1400,6 @@ void func_8003E834(GlobalContext* globalCtx, CollisionPoly** dyn_poly, s32 numPo
     }
 }
 
-//mzxOK
 //null vtxList 
 void func_8003E888(Vec3s** vtxList) {
     *vtxList = NULL;
@@ -1390,13 +1413,11 @@ void func_8003E890(GlobalContext* globalCtx, Vec3s** dyn_vtx, s32 numVtx) {
     }
 }
 
-//mzxOK
 void func_8003E8EC(GlobalContext* globalCtx, ActorMesh* arg1)
 {
     arg1->srp1 = arg1->srp2;
 }
 
-//mzxOK
 //Is BgActor/DynaPoly
 s32 func_8003E934(s32 bgId) {
     if (bgId < 0 || bgId >= BG_ACTOR_MAX) {
@@ -1406,7 +1427,6 @@ s32 func_8003E934(s32 bgId) {
     return true;
 }
 
-//mzxOK
 void func_8003E954(GlobalContext* globalCtx, DynaCollisionContext* arg1) {
     arg1->unk_00 = 1;
     func_8003E82C(&arg1->dyn_poly);
@@ -1433,7 +1453,6 @@ void func_8003E9A0(GlobalContext* globalCtx, DynaCollisionContext* arg1) {
     func_8003880C(globalCtx, &arg1->dyn_list, arg1->dyn_list_max);
 }
 
-//mzxOK
 // original name: DynaPolyInfo_setActor
 u32 func_8003EA74(GlobalContext* globalCtx, DynaCollisionContext* arg1, DynaPolyActor* arg2, CollisionHeader* arg3) {
     s32 i;
@@ -1976,7 +1995,7 @@ f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1) {
         }
         if ((arg1 & 6)
             && (arg0->unk_20 & 0x10)
-            && ((temp_v1->norm.y * COLPOLY_NORM_FRAC) < 0.0f)) {
+            && (temp_v1->norm.y * COLPOLY_NORM_FRAC < 0.0f)) {
 
             temp_v0 = phi_s0->next;
             if (SS_NULL == temp_v0) {
@@ -1985,7 +2004,7 @@ f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1) {
             phi_s0 = &arg0->dyna->dyn_list.tbl[temp_v0];
             continue;
         }
-        if (func_80038D48(&arg0->dyna->dyn_poly[id], arg0->dyna->dyn_vtx, arg0->unk_14->x, arg0->unk_14->z, &sp70, arg0->unk_24) == 1
+        if (func_80038D48(&arg0->dyna->dyn_poly[id], (Vec3s*)arg0->dyna->dyn_vtx, arg0->unk_14->x, arg0->unk_14->z, &sp70, arg0->unk_24) == 1
             && sp70 < arg0->unk_14->y
             && phi_f20 < sp70) {
 
@@ -2164,7 +2183,7 @@ s32 func_800413F8(CollisionContext* colCtx, u16 arg1, CollisionPoly** outPoly, V
             }
             break;
         }
-        if (func_8003937C(curPoly, dyna->dyn_vtx, center, radius) != 0) {
+        if (func_8003937C(curPoly, (Vec3s*)dyna->dyn_vtx, center, radius) != 0) {
             *outPoly = curPoly;
             return 1;
         }
@@ -2226,7 +2245,6 @@ s32 func_80041648(CollisionContext* colCtx, u16 arg1, CollisionPoly** outPoly, s
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041648.s")
 #endif
 
-//mzxOK
 void func_800417A0(CollisionHeader* colHeader) {
     colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
     colHeader->polygonArray = SEGMENTED_TO_VIRTUAL(colHeader->polygonArray);
@@ -2241,7 +2259,6 @@ void func_80041880(void* colHeader, CollisionHeader** dest) {
     func_800417A0(*dest);
 }
 
-//mzxOK
 void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
     DynaCollisionContext* dynaColCtx;
     s32 i;
@@ -2257,9 +2274,8 @@ void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
     }
 }
 
-//mzxOK
 //Reset StaticList_s polyCheckTbl
-void func_80041978(StaticList_s* arg0, int numPolys) {
+void func_80041978(StaticList_s* arg0, s32 numPolys) {
     u8* t;
 
     for (t = arg0->polyCheckTbl; t < arg0->polyCheckTbl + numPolys; t++)
@@ -2268,13 +2284,12 @@ void func_80041978(StaticList_s* arg0, int numPolys) {
     }
 }
 
-//mzxOK
 //Get SurfaceType property set
-u32 func_800419B0(CollisionContext* arg0, CollisionPoly* poly, s32 bgId, s32 surfacePropId) {
+u32 func_800419B0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId, s32 surfacePropId) {
     CollisionHeader* colHeader;
     SurfaceType* surfaceTypes;
 
-    colHeader = func_8003C4C4(arg0, bgId);
+    colHeader = func_8003C4C4(colCtx, bgId);
     if (colHeader == NULL || poly == NULL) {
         return 0;
     }
@@ -2286,17 +2301,17 @@ u32 func_800419B0(CollisionContext* arg0, CollisionPoly* poly, s32 bgId, s32 sur
 }
 
 //SurfaceType, return CamData Index 
-u32 func_80041A28(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+u32 func_80041A28(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 
-    return func_800419B0(arg0, poly, bgId, 0) & 0xFF;
+    return func_800419B0(colCtx, poly, bgId, 0) & 0xFF;
 }
 
-u16 func_80041A4C(CollisionContext* arg0, u32 camId, s32 bgId) {
+u16 func_80041A4C(CollisionContext* colCtx, u32 camId, s32 bgId) {
     u16 result;
     CollisionHeader* colHeader;
     CamData* camData;
 
-    colHeader = func_8003C4C4(arg0, bgId);
+    colHeader = func_8003C4C4(colCtx, bgId);
     if (colHeader == NULL) {
         return 0;
     }
@@ -2305,12 +2320,12 @@ u16 func_80041A4C(CollisionContext* arg0, u32 camId, s32 bgId) {
     return result;
 }
 
-u16 func_80041A94(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+u16 func_80041A94(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader;
     CamData* camData;
     SurfaceType* surfaceTypes;
 
-    colHeader = func_8003C4C4(arg0, bgId);
+    colHeader = func_8003C4C4(colCtx, bgId);
     if (colHeader == NULL) {
         return 0;
     }
@@ -2322,14 +2337,14 @@ u16 func_80041A94(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
     if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
-    return func_80041A4C(arg0, func_80041A28(arg0, poly, bgId), bgId);
+    return func_80041A4C(colCtx, func_80041A28(colCtx, poly, bgId), bgId);
 }
 
-u16 func_80041B24(CollisionContext* arg0, u32 camId, s32 bgId) {
+u16 func_80041B24(CollisionContext* colCtx, u32 camId, s32 bgId) {
     CollisionHeader* colHeader;
     CamData* camData;
 
-    colHeader = func_8003C4C4(arg0, bgId);
+    colHeader = func_8003C4C4(colCtx, bgId);
     if (colHeader == NULL) {
         return 0;
     }
@@ -2341,12 +2356,12 @@ u16 func_80041B24(CollisionContext* arg0, u32 camId, s32 bgId) {
     return camData[camId].numCameras;
 }
 
-u16 func_80041B80(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+u16 func_80041B80(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader;
     CamData* camData;
     SurfaceType* surfaceTypes;
 
-    colHeader = func_8003C4C4(arg0, bgId);
+    colHeader = func_8003C4C4(colCtx, bgId);
     if (colHeader == NULL) {
         return 0;
     }
@@ -2358,14 +2373,14 @@ u16 func_80041B80(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
     if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
-    return func_80041B24(arg0, func_80041A28(arg0, poly, bgId), bgId);
+    return func_80041B24(colCtx, func_80041A28(colCtx, poly, bgId), bgId);
 }
 
-CamPosDataEntry* func_80041C10(CollisionContext* arg0, u32 camId, s32 bgId) {
+CamPosDataEntry* func_80041C10(CollisionContext* colCtx, u32 camId, s32 bgId) {
     CollisionHeader* colHeader;
     CamData* camData;
 
-    colHeader = func_8003C4C4(arg0, bgId);
+    colHeader = func_8003C4C4(colCtx, bgId);
     if (colHeader == NULL) {
         return 0;
     }
@@ -2376,12 +2391,12 @@ CamPosDataEntry* func_80041C10(CollisionContext* arg0, u32 camId, s32 bgId) {
     return (CamPosDataEntry*)SEGMENTED_TO_VIRTUAL(camData[camId].camPosDataSeg);
 }
 
-CamPosDataEntry* func_80041C98(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+CamPosDataEntry* func_80041C98(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader;
     CamData* camData;
     SurfaceType* surfaceTypes;
 
-    colHeader = func_8003C4C4(arg0, bgId);
+    colHeader = func_8003C4C4(colCtx, bgId);
     if (colHeader == NULL) {
         return 0;
     }
@@ -2393,133 +2408,132 @@ CamPosDataEntry* func_80041C98(CollisionContext* arg0, CollisionPoly* poly, s32 
     if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
-    return func_80041C10(arg0, func_80041A28(arg0, poly, bgId), bgId);
+    return func_80041C10(colCtx, func_80041A28(colCtx, poly, bgId), bgId);
 }
 
-u32 func_80041D28(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 0) >> 8 & 0x1F;
+u32 func_80041D28(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 8 & 0x1F;
 }
 
-u32 func_80041D4C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 0) >> 0xD & 0x1F;
+u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 0xD & 0x1F;
 }
 
-u32 func_80041D70(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 0) >> 0x12 & 7;
+u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 0x12 & 7;
 }
 
-u32 func_80041D94(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-
-    return func_800419B0(arg0, poly, bgId, 0) >> 0x15 & 0x1F;
+u32 func_80041D94(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 0x15 & 0x1F;
 }
 
 extern s32 D_80119D90[];
 
-s32 func_80041DB8(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return D_80119D90[func_80041D94(arg0, poly, bgId)];
+s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return D_80119D90[func_80041D94(colCtx, poly, bgId)];
 }
 
-s32 func_80041DE4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return (func_80041DB8(arg0, poly, bgId) & 1) ? 1 : 0;
+s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return (func_80041DB8(colCtx, poly, bgId) & 1) ? 1 : 0;
 }
 
-s32 func_80041E18(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return (func_80041DB8(arg0, poly, bgId) & 2) ? 1 : 0;
+s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return (func_80041DB8(colCtx, poly, bgId) & 2) ? 1 : 0;
 }
 
-s32 func_80041E4C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return (func_80041DB8(arg0, poly, bgId) & 4) ? 1 : 0;
+s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return (func_80041DB8(colCtx, poly, bgId) & 4) ? 1 : 0;
 }
 
 //unused
-u32 func_80041E80(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 0) >> 0x1A & 0xF;
+u32 func_80041E80(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1A & 0xF;
 }
 
-u32 func_80041EA4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 0) >> 0x1A & 0xF;
+u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1A & 0xF;
 }
 
-u32 func_80041EC8(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 0) >> 0x1E & 1;
+u32 func_80041EC8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1E & 1;
 }
 
-u32 func_80041EEC(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 0) >> 0x1F & 1;
+u32 func_80041EEC(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1F & 1;
 }
 
-u32 func_80041F10(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+u32 func_80041F10(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 
-    return func_800419B0(arg0, poly, bgId, 1) & 0xF;
+    return func_800419B0(colCtx, poly, bgId, 1) & 0xF;
 }
 
 extern u16 D_80119E10[];
 
 //Get Poly Sfx
-u16 func_80041F34(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+u16 func_80041F34(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     s32 temp_v0;
 
-    temp_v0 = func_80041F10(arg0, poly, bgId);
+    temp_v0 = func_80041F10(colCtx, poly, bgId);
     if (temp_v0 < 0 || temp_v0 > 13) {
         return 0;
     }
     return D_80119E10[temp_v0];
 }
 
-u32 func_80041F7C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 1) >> 4 & 3;
+u32 func_80041F7C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 1) >> 4 & 3;
 }
 
-u32 func_80041FA0(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 1) >> 6 & 0x1F;
+u32 func_80041FA0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 1) >> 6 & 0x1F;
 }
 
-u32 func_80041FC4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 1) >> 0xB & 0x3F;
+u32 func_80041FC4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 1) >> 0xB & 0x3F;
 }
 
-u32 func_80041FE8(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 1) >> 0x11 & 1;
+u32 func_80041FE8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 1) >> 0x11 & 1;
 }
 
-s32 func_8004200C(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+s32 func_8004200C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     u32 flags;
-    if (func_8003C4C4(arg0, bgId) == 0) {
+    if (func_8003C4C4(colCtx, bgId) == 0) {
         return 1;
     }
     flags = poly->flags_vIA & 0x4000;
     return !!flags;
 }
 
-s32 func_80042048(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+s32 func_80042048(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     u32 flags;
-    if (func_8003C4C4(arg0, bgId) == 0) {
+    if (func_8003C4C4(colCtx, bgId) == 0) {
         return 1;
     }
     flags = poly->flags_vIA & 0x8000;
     return !!flags;
 } 
 
-s32 func_80042084(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
+s32 func_80042084(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     u32 flags;
-    if (func_8003C4C4(arg0, bgId) == 0) {
+    if (func_8003C4C4(colCtx, bgId) == 0) {
         return 1;
     }
     flags = poly->flags_vIB & 0x2000;
     return !!flags;
 }
 
-u32 func_800420C0(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 1) >> 0x12 & 7;
+u32 func_800420C0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 1) >> 0x12 & 7;
 }
 
-u32 func_800420E4(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(arg0, poly, bgId, 1) >> 0x15 & 0x3F;
+u32 func_800420E4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return func_800419B0(colCtx, poly, bgId, 1) >> 0x15 & 0x3F;
 }
 
 
-u32 func_80042108(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
-    return (func_800419B0(arg0, poly, bgId, 1) & 0x8000000) ? 1 : 0;
+u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    return (func_800419B0(colCtx, poly, bgId, 1) & 0x8000000) ? 1 : 0;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8004213C.s")
@@ -2613,21 +2627,98 @@ u32 func_8004259C(CollisionContext* colCtx, WaterBox* waterBox) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800425B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042708.s")
+s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* arg2, Vec3f* arg3) {
+    f32 n1X;
+    f32 n1Y;
+    f32 n1Z;
+    f32 n2X;
+    f32 n2Y;
+    f32 n2Z;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800427B4.s")
+    func_800389D4(polyA, &n1X, &n1Y, &n1Z);
+    func_800389D4(polyB, &n2X, &n2Y, &n2Z);
+    return func_800CAEE8(n1X, n1Y, n1Z, (f32)polyA->dist, n2X, n2Y, n2Z, (f32)polyB->dist, arg2, arg3);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042868.s")
+s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {
+    f32 n1X;
+    f32 n1Y;
+    f32 n1Z;
+    f32 n2X;
+    f32 n2Y;
+    f32 n2Z;
+    s32 result;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042B2C.s")
+    func_800389D4(polyA, &n1X, &n1Y, &n1Z);
+    func_800389D4(polyB, &n2X, &n2Y, &n2Z);
+    result = func_800CA7D0(n1X, n1Y, n1Z, (f32)polyA->dist, n2X, n2Y, n2Z, (f32)polyB->dist, arg2, arg3, arg4);
+    return result;
+}
 
-void func_80042C3C(GlobalContext* arg0, CollisionContext* arg1) {
+void func_80042868(GlobalContext* globalCtx, CollisionContext* colCtx, DynaCollisionContext* arg2, u16* arg3, u8 r, u8 g, u8 b) {
+    u16 nextId;
+    CollisionPoly* poly;
+    SSNode* curNode;
+    Vec3f vA;
+    Vec3f vB;
+    Vec3f vC;
+    f32 nX;
+    f32 nY;
+    f32 nZ;
+
+    nextId = *arg3;
+    if (nextId != SS_NULL) {
+        curNode = arg2->dyn_list.tbl + nextId;
+        while (true) {
+            s16 polyId = curNode->polyId;
+            poly = &arg2->dyn_poly[polyId];
+            func_800388A8((Vec3s*)((poly->flags_vIA & 0x1FFF) * sizeof(Vec3s) + arg2->dyn_vtx), &vA);
+            func_800388A8((Vec3s*)((poly->flags_vIB & 0x1FFF) * sizeof(Vec3s) + arg2->dyn_vtx), &vB);
+            func_800388A8((Vec3s*)((poly->vIC) * sizeof(Vec3s) + arg2->dyn_vtx), &vC);
+            if (AREG(26) != 0) {
+                nX = poly->norm.x * COLPOLY_NORM_FRAC;
+                nY = poly->norm.y * COLPOLY_NORM_FRAC;
+                nZ = poly->norm.z * COLPOLY_NORM_FRAC;
+                vA.x += AREG(26) * nX;
+                vA.y += AREG(26) * nY;
+                vA.z += AREG(26) * nZ;
+                vB.x += AREG(26) * nX;
+                vB.y += AREG(26) * nY;
+                vB.z += AREG(26) * nZ;
+                vC.x += AREG(26) * nX;
+                vC.y += AREG(26) * nY;
+                vC.z += AREG(26) * nZ;
+            }
+            func_8005B2AC(globalCtx->state.gfxCtx, &vA, &vB, &vC, r, g, b);
+            nextId = curNode->next;
+            if (nextId != SS_NULL) {
+                curNode = arg2->dyn_list.tbl + nextId;
+                continue;
+            }
+            break;
+        }
+    }
+}
+
+void func_80042B2C(GlobalContext* globalCtx, CollisionContext* colCtx, s32 bgId) {
+    if (AREG(21)) {
+        func_80042868(globalCtx, colCtx, &colCtx->dyna, &colCtx->dyna.bgActors[bgId].dynaLookup.unk_02, 255, 0, 0);
+    }
+    if (AREG(22)) {
+        func_80042868(globalCtx, colCtx, &colCtx->dyna, &colCtx->dyna.bgActors[bgId].dynaLookup.unk_04, 0, 255, 0);
+    }
+    if (AREG(23)) {
+        func_80042868(globalCtx, colCtx, &colCtx->dyna, &colCtx->dyna.bgActors[bgId].dynaLookup.unk_06, 0, 0, 255);
+    }
+}
+
+void func_80042C3C(GlobalContext* globalCtx, CollisionContext* colCtx) {
     s32 phi_s0;
 
     do {
         for (phi_s0 = 0; phi_s0 < BG_ACTOR_MAX; phi_s0++) {
-            if ((arg1->dyna.flags[phi_s0] & 1) != 0) {
-                func_80042B2C(arg0, arg1, phi_s0);
+            if ((colCtx->dyna.flags[phi_s0] & 1) != 0) {
+                func_80042B2C(globalCtx, colCtx, phi_s0);
             }
         }
     } while (0);
@@ -2685,17 +2776,17 @@ void func_80042EF8(GlobalContext* globalCtx, CollisionContext* colCtx, u16* ssNo
 //Draw scene collision
 void func_80042FC4(GlobalContext* globalCtx, CollisionContext* colCtx) {
     Player* player;
-    Lookup* sp28;
+    Lookup* lookup;
 
     player = PLAYER;
-    sp28 = func_8003AC54(&colCtx->stat, colCtx->stat.lookupTbl, &player->actor.posRot.pos);
+    lookup = func_8003AC54(&colCtx->stat, colCtx->stat.lookupTbl, &player->actor.posRot.pos);
     if (AREG(23) != 0) {
-        func_80042EF8(globalCtx, colCtx, &sp28->floor, 0, 0, 255);
+        func_80042EF8(globalCtx, colCtx, &lookup->floor, 0, 0, 255);
     }
     if (AREG(22) != 0) {
-        func_80042EF8(globalCtx, colCtx, &sp28->wall, 0, 255, 0);
+        func_80042EF8(globalCtx, colCtx, &lookup->wall, 0, 255, 0);
     }
     if (AREG(21) != 0) {
-        func_80042EF8(globalCtx, colCtx, &sp28->ceiling, 255, 0, 0);
+        func_80042EF8(globalCtx, colCtx, &lookup->ceiling, 255, 0, 0);
     }
 }

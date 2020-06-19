@@ -562,7 +562,7 @@ s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, UNK_PTR);
 // ? func_80042538(?);
 // ? func_80042548(?);
 // ? func_8004259C(?);
-s32 func_800427B4(CollisionPoly*, CollisionPoly*, s32, s32, Vec3f*);
+s32 func_800427B4(CollisionPoly*, CollisionPoly*, Vec3f*, Vec3f*, Vec3f*);
 // ? func_80042868(?);
 // ? func_80042B2C(?);
 void func_80042C3C(GlobalContext*, CollisionContext*);

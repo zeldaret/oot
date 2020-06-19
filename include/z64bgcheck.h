@@ -17,9 +17,14 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16    type;
-    /* 0x02 */ u16    flags_vIA; // 0xE000 is poly exclusion flags, 0x1FFF is vtxId
-    /* 0x04 */ u16    flags_vIB; // 0xE000 is ? flags, 0x1FFF is vtxId
-    /* 0x06 */ u16    vIC;
+    union {
+        u16 vtxData[3];
+        struct {
+            /* 0x02 */ u16    flags_vIA; // 0xE000 is poly exclusion flags, 0x1FFF is vtxId
+            /* 0x04 */ u16    flags_vIB; // 0xE000 is ? flags, 0x1FFF is vtxId
+            /* 0x06 */ u16    vIC;
+        };
+    };
     /* 0x08 */ Vec3s  norm;  // Unit normal vector.
                              //Value ranges from -0x7FFF to 0x7FFF, representing -1 to 1. 0x8000 is invalid
                             
@@ -145,8 +150,8 @@ typedef struct {
     /* 0x0000 */ u8             unk_00;
     /* 0x0004 */ ActorMesh      bgActors[50];
     /* 0x138C */ u16            flags[50];
-    /* 0x13F0 */ CollisionPoly* dyn_poly; //pbuf
-    /* 0x13F4 */ Vec3s*         dyn_vtx; //pbuf
+    /* 0x13F0 */ CollisionPoly* dyn_poly; //pbuf, possibly u8*
+    /* 0x13F4 */ u8*            dyn_vtx; //pbuf, type Vec3s*
     /* 0x13F8 */ DynaList_s     dyn_list;
     /* 0x1404 */ s32            dyn_list_max; //dyn_list_max
     /* 0x1408 */ s32            dyn_poly_max; //dyn_poly_max
