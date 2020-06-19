@@ -2062,8 +2062,70 @@ s32 func_80043F34(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
     return ret;
 }
 
-// 242 lines
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80043F94.s")
+s32 func_80043F94(Camera *camera, Vec3f *arg1, struct_80043D18 *arg2) {
+    CollisionContext* colCtx;
+    Vec3f sp78;
+    Vec3f sp6C;
+    Vec3f sp60;
+    Vec3f sp54;
+    f32 temp_f0;
+    CollisionPoly *sp4C;
+    s32 sp48;
+    VecSph sp40;
+    
+    colCtx = &camera->globalCtx->colCtx;
+    OLib_Vec3fDiffToVecSphRot90(&sp40, arg1, &arg2->unk_00);
+    sp40.r += 8.0f;
+    Camera_Vec3fVecSphAdd(&sp6C, arg1, &sp40);
+    if (!func_8003DD6C(colCtx, arg1, &sp6C, &sp78, &arg2->unk_18, 1, 1, 1, -1, &arg2->unk_24)) {
+        OLib_Vec3fDistNormalize(&sp60, arg1, arg2);
+        arg2->unk_0C.x = -sp60.x;
+        arg2->unk_0C.y = -sp60.y;
+        arg2->unk_0C.z = -sp60.z;
+        sp78 = arg2->unk_00;
+        sp78.y += 5.0f;
+        temp_f0 = func_8003CCA4(colCtx, &sp4C, &sp48, &sp78);
+        if ((arg2->unk_00.y - temp_f0) > 5.0f) {
+            arg2->unk_00.x += arg2->unk_0C.x;
+            arg2->unk_00.y += arg2->unk_0C.y;
+            arg2->unk_00.z += arg2->unk_0C.z;
+            return 0;
+        }
+        arg2->unk_18 = sp4C;
+        sp78.y = temp_f0 + 1.0f;;
+        arg2->unk_24 = sp48;
+    }
+    arg2->unk_0C.x = arg2->unk_18->norm.x * (1.0f / 32767.0f);
+    arg2->unk_0C.y = arg2->unk_18->norm.y * (1.0f / 32767.0f);
+    arg2->unk_0C.z = arg2->unk_18->norm.z * (1.0f / 32767.0f);
+    if ((0.5f < arg2->unk_0C.y) || (arg2->unk_0C.y < -0.8f)) {
+        arg2->unk_00.x = arg2->unk_0C.x + sp78.x;
+        arg2->unk_00.y = arg2->unk_0C.y + sp78.y;
+        arg2->unk_00.z = arg2->unk_0C.z + sp78.z;
+    } else if (playerFloorPoly != NULL) {
+        sp54.x = playerFloorPoly->norm.x * (1.0f / 32767.0f);
+        sp54.y = playerFloorPoly->norm.y * (1.0f / 32767.0f);
+        sp54.z = playerFloorPoly->norm.z * (1.0f / 32767.0f);
+        if (func_800CE15C(sp54.x, sp54.y, sp54.z, playerFloorPoly->dist, arg1, &sp6C, &sp78, 1)) {
+            arg2->unk_0C = sp54;
+            arg2->unk_18 = playerFloorPoly;
+            arg2->unk_24 = camera->unk_146;
+            arg2->unk_00.x = arg2->unk_0C.x + sp78.x;
+            arg2->unk_00.y = arg2->unk_0C.y + sp78.y;
+            arg2->unk_00.z = arg2->unk_0C.z + sp78.z;
+        } else {
+            OLib_Vec3fDistNormalize(&sp60, arg1, arg2);
+            arg2->unk_0C.x = -sp60.x;
+            arg2->unk_0C.y = -sp60.y;
+            arg2->unk_0C.z = -sp60.z;
+            arg2->unk_00.x += arg2->unk_0C.x;
+            arg2->unk_00.y += arg2->unk_0C.y;
+            arg2->unk_00.z += arg2->unk_0C.z;
+            return 0;
+        }
+    }
+    return 1;
+}
 
 void func_80044340(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
     struct_80043D18 sp20;
@@ -2331,7 +2393,7 @@ void Camera_UpdateInterface(s16 arg0) {
     }
 }
 
-void* func_8004545C(Vec3f* arg0, s32 arg1, s32 arg2, struct_80043D18* arg3, struct_80043D18* arg4) {
+Vec3f* func_8004545C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, struct_80043D18* arg3, struct_80043D18* arg4) {
     Vec3f sp24;
 
     if (func_800427B4(arg3->unk_18, arg4->unk_18, arg1, arg2, &sp24) == 0) {
@@ -6332,44 +6394,38 @@ void Camera_PrintSettings(Camera *camera) {
                 allCamStatus[i] = '-';
                 continue;
             }
+
             // code is using beql over beq, and loading 0x20 each time.
             switch(camera->globalCtx->cameraPtrs[i]->status){
                 default: 
-                    if(1){
                         activeCamStatus[i] = ' '; 
                         allCamStatus[i] = '*'; 
                         break;
-                    }
                 case CAM_STATUS_UNK0: 
-                    if(1) {
                         allCamStatus[i] = 'c';
                         activeCamStatus[i] = ' ';
                         break; 
-                    }
                 case CAM_STATUS_UNK1:
-                    if(1) 
-                        {allCamStatus[i] = 'w'; 
+                        allCamStatus[i] = 'w'; 
                         activeCamStatus[i] = ' '; 
                         break; 
-                    }
                 case CAM_STATUS_UNK3: 
-                    if(1) {
                         allCamStatus[i] = 's'; 
                         activeCamStatus[i] = ' '; 
                         break; 
-                    }
+                    
                 case CAM_STATUS_ACTIVE:
-                    if(1) {
+                    
                         allCamStatus[i] = 'a'; 
                         activeCamStatus[i] = ' '; 
                         break; 
-                    }
+                    
                 case CAM_STATUS_UNK100:
-                    if(1) {
+                    
                         allCamStatus[i] = 'd'; 
                         activeCamStatus[i] = ' '; 
                         break; 
-                    }
+                    
             }
             
         }
@@ -6542,6 +6598,8 @@ void func_80058E8C(Camera *camera) {
     }
 }
 #else
+s16 D_8011DB08 = 0x3F0;
+s16 D_8011DB0C = 0x156;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058E8C.s")
 #endif
 
