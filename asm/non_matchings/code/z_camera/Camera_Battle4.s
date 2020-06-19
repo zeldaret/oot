@@ -289,7 +289,7 @@ glabel Camera_Battle4
 /* AC3BC0 8004CA20 E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC3BC4 8004CA24 A600015A */  sh    $zero, 0x15a($s0)
 /* AC3BC8 8004CA28 02002025 */  move  $a0, $s0
-/* AC3BCC 8004CA2C 0C011429 */  jal   func_800450A4
+/* AC3BCC 8004CA2C 0C011429 */  jal   Camera_ClampLERPScale
 /* AC3BD0 8004CA30 8E050014 */   lw    $a1, 0x14($s0)
 /* AC3BD4 8004CA34 E6000100 */  swc1  $f0, 0x100($s0)
 /* AC3BD8 8004CA38 8FBF001C */  lw    $ra, 0x1c($sp)

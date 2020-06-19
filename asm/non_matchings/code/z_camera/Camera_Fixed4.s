@@ -248,7 +248,7 @@ glabel Camera_Fixed4
 /* AC75A8 80050408 A600015A */  sh    $zero, 0x15a($s0)
 /* AC75AC 8005040C 02002025 */  move  $a0, $s0
 /* AC75B0 80050410 3C053F80 */  lui   $a1, 0x3f80
-/* AC75B4 80050414 0C011429 */  jal   func_800450A4
+/* AC75B4 80050414 0C011429 */  jal   Camera_ClampLERPScale
 /* AC75B8 80050418 E60A00FC */   swc1  $f10, 0xfc($s0)
 /* AC75BC 8005041C E6000100 */  swc1  $f0, 0x100($s0)
 /* AC75C0 80050420 8FBF002C */  lw    $ra, 0x2c($sp)

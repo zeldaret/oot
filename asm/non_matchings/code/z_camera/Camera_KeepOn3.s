@@ -644,7 +644,7 @@ glabel Camera_KeepOn3
 /* AC54C8 8004E328 2407000A */   li    $a3, 10
 /* AC54CC 8004E32C A662015A */  sh    $v0, 0x15a($s3)
 /* AC54D0 8004E330 02602025 */  move  $a0, $s3
-/* AC54D4 8004E334 0C011429 */  jal   func_800450A4
+/* AC54D4 8004E334 0C011429 */  jal   Camera_ClampLERPScale
 /* AC54D8 8004E338 8E650024 */   lw    $a1, 0x24($s3)
 /* AC54DC 8004E33C E6600100 */  swc1  $f0, 0x100($s3)
 /* AC54E0 8004E340 8FA60048 */  lw    $a2, 0x48($sp)

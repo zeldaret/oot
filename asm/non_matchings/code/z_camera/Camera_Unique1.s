@@ -387,7 +387,7 @@ glabel Camera_Unique1
 /* AC8CAC 80051B0C E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC8CB0 80051B10 A600015A */  sh    $zero, 0x15a($s0)
 /* AC8CB4 80051B14 02002025 */  move  $a0, $s0
-/* AC8CB8 80051B18 0C011429 */  jal   func_800450A4
+/* AC8CB8 80051B18 0C011429 */  jal   Camera_ClampLERPScale
 /* AC8CBC 80051B1C 8E050014 */   lw    $a1, 0x14($s0)
 /* AC8CC0 80051B20 E6000100 */  swc1  $f0, 0x100($s0)
 /* AC8CC4 80051B24 8FBF001C */  lw    $ra, 0x1c($sp)

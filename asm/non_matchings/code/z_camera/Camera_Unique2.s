@@ -285,7 +285,7 @@ glabel Camera_Unique2
 /* AC90C8 80051F28 C60E00FC */   lwc1  $f14, 0xfc($s0)
 /* AC90CC 80051F2C E60000FC */  swc1  $f0, 0xfc($s0)
 /* AC90D0 80051F30 02002025 */  move  $a0, $s0
-/* AC90D4 80051F34 0C011429 */  jal   func_800450A4
+/* AC90D4 80051F34 0C011429 */  jal   Camera_ClampLERPScale
 /* AC90D8 80051F38 3C053F80 */   lui   $a1, 0x3f80
 /* AC90DC 80051F3C E6000100 */  swc1  $f0, 0x100($s0)
 /* AC90E0 80051F40 8FBF0024 */  lw    $ra, 0x24($sp)

@@ -593,7 +593,7 @@ glabel Camera_Jump3
 /* AC26D0 8004B530 2407000A */   li    $a3, 10
 /* AC26D4 8004B534 A602015A */  sh    $v0, 0x15a($s0)
 /* AC26D8 8004B538 02002025 */  move  $a0, $s0
-/* AC26DC 8004B53C 0C011429 */  jal   func_800450A4
+/* AC26DC 8004B53C 0C011429 */  jal   Camera_ClampLERPScale
 /* AC26E0 8004B540 8E05001C */   lw    $a1, 0x1c($s0)
 /* AC26E4 8004B544 E6000100 */  swc1  $f0, 0x100($s0)
 /* AC26E8 8004B548 8FBF0024 */  lw    $ra, 0x24($sp)

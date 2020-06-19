@@ -258,7 +258,7 @@ glabel Camera_Fixed2
 /* AC6F20 8004FD80 3C053F80 */  lui   $a1, 0x3f80
 /* AC6F24 8004FD84 468092A0 */  cvt.s.w $f10, $f18
 /* AC6F28 8004FD88 46045182 */  mul.s $f6, $f10, $f4
-/* AC6F2C 8004FD8C 0C011429 */  jal   func_800450A4
+/* AC6F2C 8004FD8C 0C011429 */  jal   Camera_ClampLERPScale
 /* AC6F30 8004FD90 E60600FC */   swc1  $f6, 0xfc($s0)
 /* AC6F34 8004FD94 8FA30030 */  lw    $v1, 0x30($sp)
 /* AC6F38 8004FD98 E6000100 */  swc1  $f0, 0x100($s0)

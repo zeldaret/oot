@@ -665,7 +665,7 @@ glabel Camera_Parallel1
 /* AC0AFC 8004995C C6000014 */  lwc1  $f0, 0x14($s0)
 .L80049960:
 /* AC0B00 80049960 44050000 */  mfc1  $a1, $f0
-/* AC0B04 80049964 0C011429 */  jal   func_800450A4
+/* AC0B04 80049964 0C011429 */  jal   Camera_ClampLERPScale
 /* AC0B08 80049968 02002025 */   move  $a0, $s0
 /* AC0B0C 8004996C E6000100 */  swc1  $f0, 0x100($s0)
 /* AC0B10 80049970 8FBF0024 */  lw    $ra, 0x24($sp)

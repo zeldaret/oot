@@ -534,7 +534,7 @@ glabel Camera_Normal3
 /* AC013C 80048F9C 2407000A */   li    $a3, 10
 /* AC0140 80048FA0 A602015A */  sh    $v0, 0x15a($s0)
 /* AC0144 80048FA4 02002025 */  move  $a0, $s0
-/* AC0148 80048FA8 0C011429 */  jal   func_800450A4
+/* AC0148 80048FA8 0C011429 */  jal   Camera_ClampLERPScale
 /* AC014C 80048FAC 8E050018 */   lw    $a1, 0x18($s0)
 /* AC0150 80048FB0 E6000100 */  swc1  $f0, 0x100($s0)
 /* AC0154 80048FB4 8FBF0024 */  lw    $ra, 0x24($sp)

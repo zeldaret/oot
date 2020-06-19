@@ -596,7 +596,7 @@ glabel Camera_Battle1
 /* AC2E7C 8004BCDC C6020020 */  lwc1  $f2, 0x20($s0)
 .L8004BCE0:
 /* AC2E80 8004BCE0 44051000 */  mfc1  $a1, $f2
-/* AC2E84 8004BCE4 0C011429 */  jal   func_800450A4
+/* AC2E84 8004BCE4 0C011429 */  jal   Camera_ClampLERPScale
 /* AC2E88 8004BCE8 A7A60084 */   sh    $a2, 0x84($sp)
 /* AC2E8C 8004BCEC 87A60084 */  lh    $a2, 0x84($sp)
 /* AC2E90 8004BCF0 E6000100 */  swc1  $f0, 0x100($s0)

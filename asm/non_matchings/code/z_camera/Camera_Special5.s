@@ -290,7 +290,7 @@ glabel Camera_Special5
 /* ACDD90 80056BF0 2407000A */   li    $a3, 10
 /* ACDD94 80056BF4 A602015A */  sh    $v0, 0x15a($s0)
 /* ACDD98 80056BF8 02002025 */  move  $a0, $s0
-/* ACDD9C 80056BFC 0C011429 */  jal   func_800450A4
+/* ACDD9C 80056BFC 0C011429 */  jal   Camera_ClampLERPScale
 /* ACDDA0 80056C00 8E050010 */   lw    $a1, 0x10($s0)
 /* ACDDA4 80056C04 E6000100 */  swc1  $f0, 0x100($s0)
 /* ACDDA8 80056C08 24020001 */  li    $v0, 1

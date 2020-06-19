@@ -196,27 +196,25 @@ typedef struct {
     /* 0x0000 */ Vec3f unk_00;
     /* 0x000C */ s32 unk_0C;
     /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ s16 unk_14;
-    /* 0x0016 */ s16 unk_16;
-    /* 0x0018 */ s16 unk_18;
-    /* 0x001A */ s16 unk_1A;
+    /* 0x0014 */ s16 phiTarget;
+    /* 0x0016 */ s16 thetaTarget;
+    /* 0x0018 */ s16 updateRot;
+    /* 0x001A */ s16 animTimer;
     /* 0x001C */ f32 unk_1C;
-    /* 0x0020 */ f32 unk_20;
-    /* 0x0024 */ s16 unk_24;
-    /* 0x0026 */ s16 unk_26;
-} Jump1_Unk20;
+    /* 0x0020 */ VecSph unk_20;
+} Jump1_Anim; // size = 0x28
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    s16 unk_1C;
-    Jump1_Unk20 unk_20;
-} Jump1;
+    /* 0x0000 */ f32 atYOffset;
+    /* 0x0004 */ f32 distMin;
+    /* 0x0008 */ f32 distMax;
+    /* 0x000C */ f32 thetaUpateRateTarget;
+    /* 0x0010 */ f32 maxThetaUpdate;
+    /* 0x0014 */ f32 unk_14; // never used.  
+    /* 0x0018 */ f32 atLERPScaleMax;
+    /* 0x001C */ s16 interfaceFlags;
+    /* 0x0020 */ Jump1_Anim anim;
+} Jump1; // size 0x48
 
 typedef struct {
     f32 unk_00;

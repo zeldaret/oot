@@ -646,7 +646,7 @@ f32 func_800437F0(f32, f32);
 // ? func_80044A74(?);
 // ? func_80044ADC(?);
 // ? func_80044E68(?);
-// ? func_800450A4(?);
+// ? Camera_ClampLERPScale(?);
 // ? Camera_CopyModeValuesToPREG(?);
 // ? Camera_CopyPREGToModeValues(?);
 // ? Camera_UpdateInterface(?);

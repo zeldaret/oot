@@ -606,7 +606,7 @@ glabel Camera_Normal2
 /* ABF974 800487D4 2407000A */   li    $a3, 10
 /* ABF978 800487D8 A602015A */  sh    $v0, 0x15a($s0)
 /* ABF97C 800487DC 02002025 */  move  $a0, $s0
-/* ABF980 800487E0 0C011429 */  jal   func_800450A4
+/* ABF980 800487E0 0C011429 */  jal   Camera_ClampLERPScale
 /* ABF984 800487E4 8E050018 */   lw    $a1, 0x18($s0)
 /* ABF988 800487E8 E6000100 */  swc1  $f0, 0x100($s0)
 /* ABF98C 800487EC 8FBF0024 */  lw    $ra, 0x24($sp)
