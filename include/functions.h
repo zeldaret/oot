@@ -664,7 +664,7 @@ f32 func_800437F0(f32, f32);
 // ? func_80046B44(?);
 // ? func_80046CB4(?);
 // ? func_80046E20(?);
-// ? func_80047394(?);
+// ? Camera_NOP(?);
 // ? Camera_Normal1(?);
 // ? Camera_Unique2(?);
 // ? Camera_Unique9(?);

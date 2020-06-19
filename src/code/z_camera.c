@@ -7,8 +7,10 @@ void Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
 s32 func_8005A7A8(Camera* arg0, s32 arg1);
 Vec3f *func_80044E68(Vec3f* arg0, s16 arg1, s16 arg2, s16 arg3);
 void Camera_UpdateInterface(s16);
+s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4);
+s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4);
 
-#define NON_MATCHING
+//#define NON_MATCHING
 
 /* Camera Setting Macros */
 #define CAM_MODE_INIT(funcIdx, modeValues) { funcIdx, ARRAY_COUNT(modeValues), modeValues, }
@@ -2801,8 +2803,8 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
 void func_80046E20(Camera *arg0, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, Vec3f *arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046E20.s")
 
-s32 func_80047394(Camera* camera) {
-    return 1;
+s32 Camera_NOP(Camera* camera) {
+    return true;
 }
 
 #ifdef NON_MATCHING
@@ -3421,11 +3423,11 @@ s32 Camera_Normal3(Camera* camera) {
 #endif
 
 s32 Camera_Normal4(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Normal0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #define Rot180Deg(x) ((s16)((s16)x - (s16)0x7FFF))
@@ -3603,7 +3605,7 @@ void Camera_Parallel1(Camera *camera) {
 #endif
 
 s32 Camera_Parallel2(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 void Camera_Parallel3(Camera* camera) {
@@ -3620,63 +3622,63 @@ void Camera_Parallel3(Camera* camera) {
 }
 
 s32 Camera_Parallel4(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Parallel0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
-#ifdef NON_MATCHING
+//#ifdef NON_MATCHING
 s32 Camera_Jump1(Camera *camera) {
+    s32 pad;
+    s32 pad2;
+    f32 temp_f2;
+    Jump1 *jump1 = &camera->params.jump1;
     f32 spA4;
     Vec3f sp98;
     VecSph sp90;
     VecSph sp88;
     VecSph sp80;
     VecSph sp78;
-    PosRot sp60;
-    Vec3f *sp40;
-    Vec3f *sp3C;
-    Vec3f *sp38;
     f32 temp_f0_2;
-    f32 temp_f2;
+    PosRot sp60;
+    Vec3f *sp40 = &camera->eye;
+    Vec3f *sp3C = &camera->at;
+    Vec3f *sp38 = &camera->eyeNext;
     f32 temp_f0;
     CameraModeValue* values;
-    Jump1 *jump1 = &camera->params.jump1;
+    s32 t;
     Jump1_Unk20 *unk20 = &jump1->unk_20;
 
     temp_f0 = Player_GetCameraYOffset(camera->player);
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         temp_f2 = (1.0f + (OREG(46) * 0.01f)) - ((OREG(46) * 0.01f) * (68.0f / temp_f0));
-        jump1->unk_00 = (f32) ((((f32) NEXTSETTING * 0.01f) * temp_f0) * temp_f2);
-        jump1->unk_04 = (f32) ((((f32) NEXTSETTING * 0.01f) * temp_f0) * temp_f2);
-        jump1->unk_08 = (f32) ((((f32) NEXTSETTING * 0.01f) * temp_f0) * temp_f2);
-        jump1->unk_0C = (f32) NEXTSETTING;
-        jump1->unk_10 = (f32) (NEXTSETTING * 0.01f);
-        jump1->unk_14 = (f32) NEXTSETTING;
-        jump1->unk_18 = (f32) (NEXTSETTING * 0.01f);
-        jump1->unk_1C = (s16) NEXTSETTING;
+        jump1->unk_00 = (PCT(NEXTSETTING) * temp_f0) * temp_f2;
+        jump1->unk_04 = (PCT(NEXTSETTING) * temp_f0) * temp_f2;
+        jump1->unk_08 = (PCT(NEXTSETTING) * temp_f0) * temp_f2;
+        jump1->unk_0C = NEXTSETTING;
+        jump1->unk_10 = PCT(NEXTSETTING);
+        jump1->unk_14 = NEXTSETTING;
+        jump1->unk_18 = PCT(NEXTSETTING);
+        jump1->unk_1C = NEXTSETTING;
     }
     if (R_RELOAD_CAM_PARAMS) {
         Camera_CopyPREGToModeValues(camera);
     }
 
     func_8002EEE4(&sp60, camera->player);
-    sp40 = &camera->eye;
-    sp3C = &camera->at;
-    OLib_Vec3fDiffToVecSphRot90(&sp90, &camera->at, &camera->eye);
-    sp38 = &camera->eyeNext;
-    OLib_Vec3fDiffToVecSphRot90(&sp88, &camera->at, &camera->eyeNext);
+    
+    OLib_Vec3fDiffToVecSphRot90(&sp90, sp3C, sp40);
+    OLib_Vec3fDiffToVecSphRot90(&sp88, sp3C, sp38);
     sCameraInterfaceFlags = jump1->unk_1C;
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
-        unk20->unk_18 = 0;
+        unk20->unk_16 = unk20->unk_18 = 0;
         unk20->unk_0C = 0;
         unk20->unk_24 = 0;
         unk20->unk_26 = 0xC8;
         unk20->unk_1A = 0;
-        unk20->unk_16 = unk20->unk_18;
         unk20->unk_10 = jump1->unk_0C;
         unk20->unk_1C = camera->playerPosRot.pos.y - camera->playerPosDelta.y;
         unk20->unk_20 = sp90.r;
@@ -3695,7 +3697,7 @@ s32 Camera_Jump1(Camera *camera) {
     camera->xzOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->xzOffsetUpdateRate, OREG(25) * 0.01f, 0.1f);
     camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, OREG(26) * 0.01f, 0.1f);
     camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->yOffsetUpdateRate, 0.05f, 0.1f);
-    func_800458D4(camera, &sp88, jump1->unk_00, &unk20->unk_20, 0);
+    func_800458D4(camera, &sp88, jump1->unk_00, &unk20->unk_1C, 0);
     sp80 = sp90;
     OLib_Vec3fDiffToVecSphRot90(&sp78, sp3C, sp40);
     sp80.r = Camera_LERPCeilF(sp78.r, sp90.r, OREG(29) * 0.01f, 1.0f);
@@ -3704,7 +3706,7 @@ s32 Camera_Jump1(Camera *camera) {
         sp80.theta = Camera_LERPCeilS(unk20->unk_16, sp88.theta, 1.0f / camera->thetaUpdateRateInv, 0xA);
         sp80.phi = Camera_LERPCeilS(unk20->unk_14, sp88.phi, 1.0f / camera->thetaUpdateRateInv, 0xA);
     } else {
-        sp80.theta = func_80046CB4(camera, sp78.theta, camera->playerPosRot.rot.y, jump1->unk_10, 0.0f);
+        sp80.theta = func_80046CB4(camera, sp88.theta, camera->playerPosRot.rot.y, jump1->unk_10, 0.0f);
     }
 
     if(sp80.r < jump1->unk_04){
@@ -3713,9 +3715,9 @@ s32 Camera_Jump1(Camera *camera) {
         sp80.r = jump1->unk_08;
     }
 
-    if(sp80.phi < R_CAM_MAX_PHI){
+    if(R_CAM_MAX_PHI < sp80.phi){
         sp80.phi = R_CAM_MAX_PHI;
-    } else if(sp80.phi > OREG(35)){
+    } else if(OREG(35) > sp80.phi){
         sp80.phi = OREG(35);
     }
 
@@ -3723,11 +3725,11 @@ s32 Camera_Jump1(Camera *camera) {
     sp38->x = sp98.x;
     sp38->z = sp98.z;
     sp38->y += (sp98.y - sp38->y) * (OREG(31) * 0.01f);
-    if ((camera->status == 7) && ((jump1->unk_1C & 0x10) == 0)) {
+    if ((camera->status == CAM_STATUS_ACTIVE) && ((jump1->unk_1C & 0x10) == 0)) {
         func_80046E20(camera, &sp80, jump1->unk_04, jump1->unk_0C, &spA4, &unk20->unk_00);
         if (jump1->unk_1C & 4) {
             camera->direction.x = -sp90.phi;
-            camera->direction.y = sp90.theta - 0x7FFF;
+            camera->direction.y = BINANG_ROT180(sp90.theta);
             camera->direction.z = 0;
         } else {
             OLib_Vec3fDiffToVecSphRot90(&sp80, sp40, sp3C);
@@ -3736,7 +3738,7 @@ s32 Camera_Jump1(Camera *camera) {
             camera->direction.z = 0;
         }
         if (unk20->unk_18 != 0) {
-            camera->direction.y = Camera_LERPCeilS(((unk20->unk_16 - 0x7FFF) - camera->direction.y) + camera->direction.y, camera->direction.y, 1.0f - (0.9900000095367432f * spA4), 0xA);
+            camera->direction.y = Camera_LERPCeilS(camera->direction.y + BINANG_SUB(BINANG_ROT180(unk20->unk_16), camera->direction.y), camera->direction.y, 1.0f - (0.99f * spA4), 0xA);
         }
     } else {
         unk20->unk_10 = jump1->unk_0C;
@@ -3747,11 +3749,8 @@ s32 Camera_Jump1(Camera *camera) {
     camera->dist = OLib_Vec3fDist(sp3C, sp40);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = func_800450A4(camera, jump1->unk_18);
-    return 1;
+    return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Jump1.s")
-#endif
 
 #ifdef NON_MATCHING
 s32 Camera_Jump2(Camera *camera) {
@@ -4118,33 +4117,33 @@ s32 Camera_Jump3(Camera *camera) {
 #endif
 
 s32 Camera_Jump4(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Jump0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Battle1.s")
 
 s32 Camera_Battle2(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Battle3(Camera* camera) {
-    func_80047394(camera);
+    Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Battle4.s")
 
 s32 Camera_Battle0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_KeepOn1.s")
 
 s32 Camera_KeepOn2(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5);
@@ -5023,15 +5022,15 @@ s32 Camera_Fixed4(Camera *camera) {
 #endif
 
 s32 Camera_Fixed0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Subj1(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Subj2(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #ifdef NON_MATCHING
@@ -5154,11 +5153,11 @@ s32 Camera_Subj3(Camera *camera) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Subj4.s")
 
 s32 Camera_Subj0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Data0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Data1(Camera* camera) {
@@ -5167,11 +5166,11 @@ s32 Camera_Data1(Camera* camera) {
 }
 
 s32 Camera_Data2(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Data3(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Data4(Camera *camera)
@@ -5527,11 +5526,11 @@ s32 Camera_Unique0(Camera *camera) {
 #endif
 
 s32 Camera_Unique4(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Unique5(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Unique6(Camera* camera) {
@@ -5625,7 +5624,7 @@ s32 Camera_Unique7(Camera *camera) {
 }
 
 s32 Camera_Unique8(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Unique9.s")
@@ -5733,13 +5732,13 @@ s32 Camera_Demo1(Camera* camera) {
 #endif
 
 s32 Camera_Demo2(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo3.s")
 
 s32 Camera_Demo4(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo5.s")
@@ -5755,14 +5754,14 @@ void Camera_Demo7(Camera* camera) {
 }
 
 s32 Camera_Demo8(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo9.s")
 
 
 s32 Camera_Demo0(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Special0(Camera* camera) {
@@ -5810,7 +5809,7 @@ s32 Camera_Special0(Camera* camera) {
 }
 
 s32 Camera_Special1(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Special2(Camera* camera) {
@@ -5818,7 +5817,7 @@ s32 Camera_Special2(Camera* camera) {
 }
 
 s32 Camera_Special3(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 s32 Camera_Special4(Camera* camera) {
@@ -6089,7 +6088,7 @@ s32 Camera_Special6(Camera *camera) {
 #endif
 
 s32 Camera_Special8(Camera* camera) {
-    return func_80047394(camera);
+    return Camera_NOP(camera);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Special9.s")
@@ -6330,46 +6329,34 @@ void Camera_PrintSettings(Camera *camera) {
             if(camera->globalCtx->cameraPtrs[i] == NULL){
                 activeCamStatus[i] = t;
                 allCamStatus[i] = '-';
-                continue;
+                break;
             }
             // code is using beql over beq, and loading 0x20 each time.
             switch(camera->globalCtx->cameraPtrs[i]->status){
                 default: 
-                    if(1){
-                        activeCamStatus[i] = ' '; 
-                        allCamStatus[i] = '*'; 
-                        break;
-                    }
+                    activeCamStatus[i] = ' '; 
+                    allCamStatus[i] = '*'; 
+                    break;
                 case CAM_STATUS_UNK0: 
-                    if(1) {
-                        allCamStatus[i] = 'c';
-                        activeCamStatus[i] = ' ';
-                        break; 
-                    }
+                    allCamStatus[i] = 'c';
+                    activeCamStatus[i] = ' ';
+                    break; 
                 case CAM_STATUS_UNK1:
-                    if(1) 
-                        {allCamStatus[i] = 'w'; 
-                        activeCamStatus[i] = ' '; 
-                        break; 
-                    }
+                    allCamStatus[i] = 'w'; 
+                    activeCamStatus[i] = ' '; 
+                    break; 
                 case CAM_STATUS_UNK3: 
-                    if(1) {
-                        allCamStatus[i] = 's'; 
-                        activeCamStatus[i] = ' '; 
-                        break; 
-                    }
+                    allCamStatus[i] = 's'; 
+                    activeCamStatus[i] = ' '; 
+                    break; 
                 case CAM_STATUS_ACTIVE:
-                    if(1) {
-                        allCamStatus[i] = 'a'; 
-                        activeCamStatus[i] = ' '; 
-                        break; 
-                    }
+                    allCamStatus[i] = 'a'; 
+                    activeCamStatus[i] = ' '; 
+                    break; 
                 case CAM_STATUS_UNK100:
-                    if(1) {
-                        allCamStatus[i] = 'd'; 
-                        activeCamStatus[i] = ' '; 
-                        break; 
-                    }
+                    allCamStatus[i] = 'd'; 
+                    activeCamStatus[i] = ' '; 
+                    break; 
             }
             
         }
@@ -6462,7 +6449,6 @@ s32 func_80058D34(Camera* camera) {
 void func_80058E8C(Camera *camera) {
     static s16 D_8011DB08 = 0x3F0;
     static s16 D_8011DB0C = 0x156;
-
     f32 sp60;
     f32 sp40;
     f32 sp3C;
@@ -6542,6 +6528,8 @@ void func_80058E8C(Camera *camera) {
     }
 }
 #else
+s16 D_8011DB08 = 0x3F0;
+s16 D_8011DB0C = 0x156;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058E8C.s")
 #endif
 
