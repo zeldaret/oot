@@ -1880,6 +1880,15 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
+typedef struct {
+    /* 0x00 */ u32 byteIdx;
+    /* 0x04 */ u8 bitIdx;
+    /* 0x05 */ u8 dontSkip;
+    /* 0x08 */ u32 curWord;
+    /* 0x0C */ s16 unk_0C;
+    /* 0x0E */ s16 unk_0E;
+    /* 0x10 */ s16 unk_10;
+} JpegDecoderState; // size = 0x14
 
 // Vis...
 typedef struct {

@@ -215,7 +215,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     JpegContext ctx;             // 0x208
     JpegHuffmanTable hTables[4]; // 0xB8
     JpegDecoder decoder;         // 0x9C
-    u32 unk[5];                  // 0x88
+    JpegDecoderState state;      // 0x88
     u16(*src)[0x180];
     OSTime diff; // 0x78
     OSTime time; // 0x70
@@ -323,7 +323,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     y = 0;
     x = 0;
     for (i = 0; i < 300; i += 4) {
-        if (func_800FFA50(&decoder, &workBuff->unk_6C0, 4, i != 0, unk)) {
+        if (JpegDecoder_Decode(&decoder, &workBuff->unk_6C0, 4, i != 0, &state)) {
             osSyncPrintf(VT_FGCOL(RED));
             osSyncPrintf("Error : Can't decode jpeg\n");
             osSyncPrintf(VT_RST);
