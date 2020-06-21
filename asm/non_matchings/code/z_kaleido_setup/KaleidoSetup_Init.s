@@ -1,4 +1,4 @@
-glabel func_8006ECF4
+glabel KaleidoSetup_Init
 /* AE5E94 8006ECF4 3C014320 */  li    $at, 0x43200000 # 0.000000
 /* AE5E98 8006ECF8 44810000 */  mtc1  $at, $f0
 /* AE5E9C 8006ECFC 3C010001 */  li    $at, 0x00010000 # 0.000000

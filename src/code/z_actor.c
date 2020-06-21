@@ -1,6 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 #include <vt.h>
+#include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 
@@ -1020,24 +1021,14 @@ s32 func_8002DDF4(GlobalContext* globalCtx) {
     return player->stateFlags2 & 0x1000;
 }
 
-typedef struct {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ char unk_14C[0xB4];
-    /* 0x200 */ Actor* unk_200;
-    /* 0x204 */ f32 unk_204;
-    /* 0x208 */ f32 unk_208;
-    /* 0x20C */ f32 unk_20C;
-    /* 0x210 */ s16 unk_210;
-} ActorArmsHook;
-
 void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
-    ActorArmsHook* hookActor;
+    ArmsHook* hookshot;
 
-    hookActor = (ActorArmsHook*)Actor_Find(&globalCtx->actorCtx, 0x0066, ACTORTYPE_ITEMACTION);
-    hookActor->unk_200 = actorB;
-    hookActor->unk_204 = 0.0f;
-    hookActor->unk_208 = 0.0f;
-    hookActor->unk_20C = 0.0f;
+    hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORTYPE_ITEMACTION);
+    hookshot->grabbed = actorB;
+    hookshot->grabbedDistDiff.x = 0.0f;
+    hookshot->grabbedDistDiff.y = 0.0f;
+    hookshot->grabbedDistDiff.z = 0.0f;
     actorB->flags |= 0x2000;
     actorA->flags &= ~0x2000;
 }
