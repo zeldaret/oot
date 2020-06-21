@@ -22,7 +22,7 @@ s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollo
 
     inc = 0;
     sJpegBitStreamPtr = decoder->imageData;
-    if (decoder->unk_04 == 0) {
+    if (decoder->mode == 0) {
         unkCount = 2;
     } else {
         unkCount = 4;

@@ -1566,7 +1566,7 @@ u32 THA_IsCrash(TwoHeadArena* tha);
 void THA_Init(TwoHeadArena* tha);
 void THA_Ct(TwoHeadArena* tha, void* ptr, u32 size);
 void THA_Dt(TwoHeadArena* tha);
-void func_800C3C20();
+void func_800C3C20(void);
 void func_800C3C80(AudioMgr* audioMgr);
 void AudioMgr_HandleRetrace(AudioMgr* audioMgr);
 void AudioMgr_HandlePRENMI(AudioMgr* audioMgr);
