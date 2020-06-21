@@ -97,7 +97,7 @@ u16 Jpeg_GetU16(u8* ptr) {
     if (((u32)ptr & 1) == 0) { // if the address is aligned to 2
         return *(u16*)ptr;
     } else {
-        return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // lbu crashes with unaligned addresses
+        return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // lhu crashes with unaligned addresses
     }
 }
 
