@@ -3745,11 +3745,7 @@ extern u8 __osContLastPoll;
 extern u8 __osMaxControllers;
 extern OSMesgQueue __osContMesgQueue;
 extern OSMesg __osContMesgBuff[4];
-<<<<<<< HEAD
 extern __OSInode __osPfsInodeCache;
-=======
-//extern ? D_80175860;
->>>>>>> 7c2072ee23679ae4dd45a3034bb62b96126f02c7
 extern OSPifRam pifMempakBuf;
 //extern ? D_801759A0;
 //extern ? D_801759A4;
