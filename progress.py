@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
+import csv
 import os
 import re
 import time
@@ -9,8 +9,8 @@ import time
 parser = argparse.ArgumentParser(description="Computes current progress throughout the whole project.")
 parser.add_argument("-m", "--matching", dest='matching', action='store_true',
                     help="Output matching progress instead of decompilation progress")
-parser.add_argument("-j", "--json", dest="json", action="store_true",
-                    help="Output results as a json file at build/progress.json")
+parser.add_argument("-c", "--csv", dest="csv", action="store_true",
+                    help="Output results in CSV format")
 args = parser.parse_args()
 
 NON_MATCHING_PATTERN = r"#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
@@ -114,17 +114,9 @@ ovlPct = 100 * ovl / ovlSize
 compiled_bytes = total
 bytesPerHeartPiece = compiled_bytes / 80
 
-if args.json:
+if args.csv:
     timestamp = str(time.time())
-    json_dict = {"reports":{}}
-    json_dict["reports"][timestamp] = {
-        "total_percent": srcPct,
-        "boot_percent": bootPct,
-        "code_percent": codePct,
-        "overlay_percent": ovlPct
-    }
-    with open("build/progress.json", "w", newline="\n") as f:
-        json.dump(json_dict, f)
+    print(timestamp + "," + str(srcPct) + "," + str(asmPct) + "," + str(bootPct) + "," + str(codePct) + "," + str(ovlPct))
 else:
     adjective = "decompiled" if not args.matching else "matched"
 

@@ -20,8 +20,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'python3 progress.py -j'
-                sh 'mv build/progress.json /var/www/html/reports/progress.json'
+                sh 'python3 progress.py -c >> /var/www/html/reports/progress.csv'
             }
         }
     }
