@@ -462,7 +462,6 @@ beginseg
     include "build/asm/guScale.o"
     include "build/src/libultra_code/sinf.o"
     include "build/src/libultra_code/sins.o"
-    include "build/data/sins.data.o"
     include "build/src/libultra_code/sptask.o"
     include "build/src/libultra_code/osRumblePak.o"
     include "build/src/libultra_code/__osSiCreateAccessQueue.o"
