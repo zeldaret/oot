@@ -1,15 +1,12 @@
 #include "libultra_internal.h"
 #include <global.h>
 
-s32 osAfterPreNMI(void) {
-    return __osSpSetPc(0);
-}
-
 /**
  * osContStartQuery:
  * Starts to read the values for SI device status and type which are connected to the controller port and joyport
  * connector.
  **/
+
 s32 osContStartQuery(OSMesgQueue* mq) {
     s32 ret;
     ret = 0;
