@@ -497,6 +497,7 @@ beginseg
     include "build/src/libultra_code/osPfsDeleteFile.o"
     include "build/src/libultra_code/ortho.o"
     include "build/src/libultra_code/cosf.o"
+    include "build/data/__libm_qnan_f.rodata.o"
     include "build/src/libultra_code/coss.o"
     include "build/src/libultra_code/osViSetEvent.o"
     include "build/src/libultra_code/osPfsIsPlug.o"
@@ -518,6 +519,7 @@ beginseg
     include "build/asm/osWritebackDCacheAll.o"
     include "build/src/libultra_code/__osGetCurrFaultedThread.o"
     include "build/asm/guMtxF2L.o"
+    
     include "build/src/libultra_code/llcvt.o"
     include "build/src/libultra_code/osViGetCurrentFramebuffer.o"
     include "build/src/libultra_code/__osSpSetPc.o"
@@ -525,7 +527,9 @@ beginseg
     include "build/src/libultra_code/absf.o"
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
+    
     include "build/src/code/code_801068B0.o"
+    
     include "build/data/z_message_PAL.rodata.o"
     include "build/src/code/z_message_PAL.o"
     include "build/data/z_message_PAL.bss.o"
