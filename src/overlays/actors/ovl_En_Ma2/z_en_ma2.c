@@ -267,7 +267,7 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
         player->stateFlags2 |= 0x2000000;
         func_8010BD58(globalCtx, 0x23);
         this->actionFunc = func_80AA20E4;
-    } else if (this->actor.xzDistanceFromLink < 30.0f + (f32)this->collider.dim.radius) {
+    } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.dim.radius) {
         player->stateFlags2 |= 0x800000;
     }
 }

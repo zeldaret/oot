@@ -328,49 +328,19 @@ typedef struct
 } Input; // size = 0x18
 
 typedef struct {
-    /* 0x0000 */ OSContStatus pad_status[4];
-    /* 0x0010 */ OSMesg msgbuf1[1];
-    /* 0x0014 */ OSMesg msgbuf2[1];
-    /* 0x0018 */ OSMesg msgbuf3[4];
-    /* 0x0028 */ OSMesgQueue queue1;
-    /* 0x0040 */ OSMesgQueue queue2;
-    /* 0x0058 */ OSMesgQueue queue3;
-    /* 0x0070 */ UNK_TYPE unk_70;
-    /* 0x0074 */ UNK_TYPE unk_74;
-    /* 0x0078 */ UNK_TYPE unk_78;
-    /* 0x007C */ UNK_TYPE unk_7C;
-    /* 0x0080 */ OSThread thread;
-    /* 0x0230 */ Input inputs[4]; // 0x18 each = 0x60 total
-    /* 0x0290 */ PadState pads[4]; // 0x6 each = 0x18 total
-    /* 0x02A8 */ volatile u8 validCtrlrsMask;
-    /* 0x02A9 */ s8 ncontrollers;
-    /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
-    /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
-    /* 0x02B2 */ volatile u8 rumbleEnable[4];
-    /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
-    /* 0x02BC */ unk_controller_t unk_controller[4];
-    /* 0x045C */ volatile u8 rumbleOffFrames;
-    /* 0x045D */ volatile u8 rumbleOnFrames;
-    /* 0x045E */ u8 preNMIShutdown;
-    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
-    /* 0x0464 */ u32 retraceCallbackValue;
-} PadMgr; // size = 0x468
-
-typedef struct {
    /* 0x0000 */ s32 topY;    // uly (upper left y)
    /* 0x0004 */ s32 bottomY; // lry (lower right y)
    /* 0x0008 */ s32 leftX;   // ulx (upper left x)
    /* 0x000C */ s32 rightX;  // lrx (lower right x)
 } Viewport; // size = 0x10
 
-
 typedef struct {
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
     /* 0x0018 */ f32    fovy;  // vertical field of view in degrees
-    /* 0x001C */ f32    zNear;  // distance to near clipping plane
-    /* 0x0020 */ f32    zFar;   // distance to far clipping plane
+    /* 0x001C */ f32    zNear; // distance to near clipping plane
+    /* 0x0020 */ f32    zFar;  // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
     /* 0x0034 */ Vec3f  unk_34;
@@ -827,24 +797,64 @@ typedef struct {
     /* 0x016C */ char   unk_16C[0x068];
     /* 0x01D4 */ u16    state;
     /* 0x01D6 */ u16    flag;
-    /* 0x01D8 */ Vec3f  unk_1D8;
+    /* 0x01D8 */ Vec3f  eye;
     /* 0x01E4 */ u16    unk_1E4;
-    /* 0x01E6 */ char   unk_1E6[0x006];
+    /* 0x01E6 */ u16    mode;
+    /* 0x01E8 */ u16    kscpPos; // "kscp_pos"; basically the page index (0=SELECT ITEM; 1=MAP; 2=QUEST STATUS; 3=EQUIPMENT)
+    /* 0x01EA */ u16    unk_1EA;
     /* 0x01EC */ u16    unk_1EC;
-    /* 0x01EE */ char   unk_1EE[0x026];
+    /* 0x01EE */ char   unk_1EE[0x2];
+    /* 0x01F0 */ f32    unk_1F0;
+    /* 0x01F4 */ f32    unk_1F4;
+    /* 0x01F8 */ f32    unk_1F8;
+    /* 0x01FC */ f32    unk_1FC;
+    /* 0x0200 */ f32    unk_200;
+    /* 0x0204 */ f32    unk_204;
+    /* 0x0208 */ s16    unk_208;
+    /* 0x020A */ char   unk_20A[0xA];
     /* 0x0214 */ s16    inputX;
     /* 0x0216 */ s16    inputY;
-    /* 0x0218 */ char   unk_21A[0x20];
-    /* 0x0238 */ u16    unk_238;
-    /* 0x023A */ char   unk_23A[0x004];
-    /* 0x023E */ u16    unk_23E;
-    /* 0x0240 */ char   unk_240[0x00E];
-    /* 0x024E */ u16    unk_24E;
-    /* 0x0250 */ char   unk_250[0x004];
+    /* 0x0218 */ s16    unk_218;
+    /* 0x021A */ s16    unk_21A;
+    /* 0x021C */ s16    unk_21C;
+    /* 0x021E */ s16    unk_21E;
+    /* 0x0220 */ s16    unk_220;
+    /* 0x0222 */ s16    unk_222;
+    /* 0x0224 */ s16    unk_224;
+    /* 0x0226 */ s16    unk_226;
+    /* 0x0228 */ s16    unk_228;
+    /* 0x022A */ s16    unk_22A;
+    /* 0x022C */ s16    unk_22C;
+    /* 0x022E */ s16    unk_22E;
+    /* 0x0230 */ s16    unk_230;
+    /* 0x0232 */ s16    unk_232;
+    /* 0x0234 */ s16    unk_234;
+    /* 0x0236 */ s16    unk_236;
+    /* 0x0238 */ s16    unk_238;
+    /* 0x023A */ s16    unk_23A;
+    /* 0x023C */ s16    unk_23C;
+    /* 0x023E */ s16    unk_23E;
+    /* 0x0240 */ s16    unk_240;
+    /* 0x0242 */ s16    unk_242;
+    /* 0x0244 */ s16    unk_244;
+    /* 0x0246 */ s16    unk_246;
+    /* 0x0248 */ s16    unk_248;
+    /* 0x024A */ s16    unk_24A;
+    /* 0x024C */ s16    unk_24C;
+    /* 0x024E */ s16    unk_24E;
+    /* 0x0250 */ s16    unk_250;
+    /* 0x0252 */ s16    unk_252;
     /* 0x0254 */ s16    unk_254;
     /* 0x0256 */ s16    unk_256;
     /* 0x0258 */ s16    unk_258;
-    /* 0x025A */ char   unk_25A[0x066];
+    /* 0x025A */ s16    unk_25A;
+    /* 0x025C */ s16    unk_25C;
+    /* 0x025E */ s16    unk_25E;
+    /* 0x0260 */ s16    unk_260;
+    /* 0x0262 */ s16    unk_262;
+    /* 0x0264 */ s16    unk_264;
+    /* 0x0266 */ s16    unk_266;
+    /* 0x0268 */ char   unk_268[0x58];
 } PauseContext; // size = 0x2C0
 
 typedef struct {
@@ -1135,6 +1145,40 @@ typedef struct {
     /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[0x06];
 } TitleContext; // size = 0x1E8
+
+typedef struct {
+    /* 0x00 */ char* name;
+    /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
+    /* 0x08 */ s32 entranceIndex;
+} SceneSelectEntry; // size = 0xC
+
+typedef struct {
+    /* 0x0000 */ GameState state;
+    /* 0x00A4 */ s32 unk_A4;
+    /* 0x00A8 */ View view;
+    /* 0x01D0 */ s32 count;
+    /* 0x01D4 */ SceneSelectEntry* scenes;
+    /* 0x01D8 */ s32 currentScene;
+    /* 0x01DC */ s32 unk_1DC;
+    /* 0x01E0 */ s32 unk_1E0[7];
+    /* 0x01FC */ s32 unk_1FC;
+    /* 0x0200 */ s32 unk_200;
+    /* 0x0204 */ s32 unk_204;
+    /* 0x0208 */ s32 opt;
+    /* 0x020C */ s32 unk_20C;
+    /* 0x0210 */ s32 unk_210;
+    /* 0x0214 */ s32 unk_214;
+    /* 0x0218 */ s32 unk_218;
+    /* 0x021C */ s32 unk_21C;
+    /* 0x0220 */ s32 unk_220;
+    /* 0x0224 */ s32 unk_224;
+    /* 0x0228 */ s32 unk_228;
+    /* 0x022C */ s32 unk_22C;
+    /* 0x0230 */ s32 unk_230;
+    /* 0x0234 */ s32 unk_234;
+    /* 0x0238 */ void* staticSegment;
+    /* 0x023C */ s32 unk_23C;
+} SelectContext; // size = 0x240
 
 typedef struct {
     /* 0x0000 */ GameState state;
@@ -1453,7 +1497,8 @@ typedef struct GfxPrint {
     /* 0x0E */ u8 baseY;
     /* 0x0F */ u8 flag;
     /* 0x10 */ Color_RGBA8 color;
-} GfxPrint;
+    /* 0x14 */ char unk_14[0x1C]; // unused
+} GfxPrint; // size = 0x30
 
 typedef enum {
     GFXPRINT_FLAG1 = 1,
@@ -1533,6 +1578,33 @@ typedef struct {
     /* 0x258 */ OSTimer timer;
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
+
+typedef struct {
+    /* 0x0000 */ OSContStatus padStatus[4];
+    /* 0x0010 */ OSMesg serialMsgBuf[1];
+    /* 0x0014 */ OSMesg lockMsgBuf[1];
+    /* 0x0018 */ OSMesg interruptMsgBuf[4];
+    /* 0x0028 */ OSMesgQueue serialMsgQ;
+    /* 0x0040 */ OSMesgQueue lockMsgQ;
+    /* 0x0058 */ OSMesgQueue interruptMsgQ;
+    /* 0x0070 */ IrqMgrClient irqClient;
+    /* 0x0078 */ IrqMgr* irqMgr;
+    /* 0x0080 */ OSThread thread;
+    /* 0x0230 */ Input inputs[4];
+    /* 0x0290 */ PadState pads[4];
+    /* 0x02A8 */ volatile u8 validCtrlrsMask;
+    /* 0x02A9 */ u8 ncontrollers;
+    /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
+    /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
+    /* 0x02B2 */ volatile u8 rumbleEnable[4];
+    /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
+    /* 0x02BC */ OSPfs pfs[4];
+    /* 0x045C */ volatile u8 rumbleOffFrames;
+    /* 0x045D */ volatile u8 rumbleOnFrames;
+    /* 0x045E */ u8 preNMIShutdown;
+    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0464 */ u32 retraceCallbackValue;
+} PadMgr; // size = 0x468
 
 // == Previously sched.h
 
@@ -1915,27 +1987,8 @@ typedef struct {
 } F3dzexSetModeMacro; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ s32 status;
-    /* 0x04 */ OSMesgQueue* queue;
-    /* 0x08 */ s32 channel;
-    /* 0x0C */ u8 id[32];
-    /* 0x2C */ u8 label[32];
-    /* 0x4C */ s32 version;
-    /* 0x50 */ s32 dir_size;
-    /* 0x54 */ s32 inode_table;
-    /* 0x58 */ s32 minode_table;
-    /* 0x5C */ s32 dir_table;
-    /* 0x60 */ s32 inode_start_page;
-    /* 0x64 */ u8 banks;
-    /* 0x65 */ u8 activebank;
-} OSPfs; // size = 0x68
-
-typedef struct {
-	/* 0x00 */ u32 file_size;
-  	/* 0x04 */ u32 game_code;
-  	/* 0x08 */ u16 company_code;
-  	/* 0x0A */ char ext_name[4];
-  	/* 0x0E */ char game_name[16];
-} OSPfsState; // size = 0x20
+    /* 0x00 */ u16* value;
+    /* 0x04 */ const char* name;
+} FlagSetEntry; // size = 0x08
 
 #endif

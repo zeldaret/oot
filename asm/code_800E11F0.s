@@ -4956,7 +4956,6 @@ glabel L800E569C
 /* B5C83C 800E569C 8E090004 */  lw    $t1, 4($s0)
 /* B5C840 800E56A0 3C078017 */  lui   $a3, %hi(gAudioContext) # $a3, 0x8017
 /* B5C844 800E56A4 24E7F180 */  addiu $a3, %lo(gAudioContext) # addiu $a3, $a3, -0xe80
-glabel L00E5944
 /* B5C848 800E56A8 100000A6 */  b     .L800E5944
 /* B5C84C 800E56AC A0E9289A */   sb    $t1, 0x289a($a3)
 glabel L800E56B0

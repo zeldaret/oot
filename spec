@@ -53,7 +53,6 @@ beginseg
     include "build/src/libultra_boot_O2/__osSiRawReadIo.o"
     include "build/src/libultra_boot_O1/osGetThreadId.o"
     include "build/asm/osSetIntMask.o"
-    include "build/data/osSetIntMask.rodata.o"
     include "build/src/libultra_boot_O2/osViSetMode.o"
     include "build/asm/__osProbeTLB.o"
     include "build/src/libultra_boot_O1/osGetMemSize.o"
@@ -313,12 +312,10 @@ beginseg
     include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
     include "build/src/code/z_jpeg.o"
-    include "build/src/code/code_8006EA30.o"
-    include "build/data/code_8006EA30.data.o"
+    include "build/src/code/z_kaleido_setup.o"
     include "build/src/code/z_kanfont.o"
     include "build/src/code/z_kankyo.o"
     include "build/data/z_kankyo.data.o"
-    include "build/data/z_kankyo.rodata.o"
     include "build/data/z_kankyo.bss.o"
     include "build/src/code/z_lib.o"
     include "build/src/code/z_lifemeter.o"
@@ -358,7 +355,6 @@ beginseg
     include "build/data/z_skin_matrix.data.o"
     include "build/src/code/z_sram.o"
     include "build/data/z_sram.data.o"
-    include "build/data/z_sram.rodata.o"
     include "build/src/code/code_800A9D40.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/z_text.data.o"
@@ -478,8 +474,7 @@ beginseg
     include "build/src/libultra_code/osSpTaskYield.o"
     include "build/asm/code_801014C0.o"
     include "build/data/code_801014C0.bss.o"
-    include "build/asm/code_80101910.o"
-    include "build/data/code_80101910.bss.o"
+    include "build/src/libultra_code/__osPfsGetStatus.o"
     include "build/asm/guMtxIdentF.o"
     include "build/src/libultra_code/guLookAt.o"
     include "build/asm/code_80101EB0.o"
@@ -506,10 +501,10 @@ beginseg
     include "build/src/libultra_code/cosf.o"
     include "build/src/libultra_code/coss.o"
     include "build/src/libultra_code/osViSetEvent.o"
-    include "build/asm/code_80104810.o"
+    include "build/src/libultra_code/osPfsIsPlug.o"
     include "build/src/libultra_code/guS2DInitBg.o"
     include "build/asm/code_80104C80.o"
-    include "build/asm/code_80104D00.o"
+    include "build/src/libultra_code/osContSetCh.o"
     include "build/asm/code_80104D60.o"
     include "build/asm/code_80104F40.o"
     include "build/asm/code_80105250.o"
@@ -559,9 +554,11 @@ endseg
 beginseg
     name "ovl_select"
     include "build/src/overlays/gamestates/ovl_select/z_select.o"
-    include "build/data/overlays/gamestates/z_select.data.o"
-    include "build/data/overlays/gamestates/z_select.rodata.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/gamestates/ovl_select/ovl_select_reloc.o"
+#else
     include "build/data/overlays/gamestates/z_select.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -585,22 +582,16 @@ beginseg
     name "ovl_kaleido_scope"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o"
     include "build/data/overlays/actors/z_kaleido_collect.data.o"
-    include "build/data/overlays/actors/z_kaleido_collect.rodata.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o"
     include "build/data/overlays/actors/z_kaleido_debug.data.o"
-    include "build/data/overlays/actors/z_kaleido_debug.rodata.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o"
     include "build/data/overlays/actors/z_kaleido_equipment.data.o"
-    include "build/data/overlays/actors/z_kaleido_equipment.rodata.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o"
     include "build/data/overlays/actors/z_kaleido_item.data.o"
-    include "build/data/overlays/actors/z_kaleido_item.rodata.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o"
     include "build/data/overlays/actors/z_kaleido_map_PAL.data.o"
-    include "build/data/overlays/actors/z_kaleido_map_PAL.rodata.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "build/data/overlays/actors/z_kaleido_scope_PAL.data.o"
-    include "build/data/overlays/actors/z_kaleido_scope_PAL.rodata.o"
     include "build/data/overlays/actors/z_kaleido_scope_PAL.bss.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
     include "build/data/overlays/actors/z_lmap_mark.data.o"
@@ -631,8 +622,7 @@ endseg
 beginseg
     name "ovl_Arms_Hook"
     include "build/src/overlays/actors/ovl_Arms_Hook/z_arms_hook.o"
-    include "build/data/overlays/actors/z_arms_hook.data.o"
-    include "build/data/overlays/actors/z_arms_hook.reloc.o"
+    include "build/src/overlays/actors/ovl_Arms_Hook/ovl_Arms_Hook_reloc.o"
 endseg
 
 beginseg
@@ -827,8 +817,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Trap"
     include "build/src/overlays/actors/ovl_Bg_Haka_Trap/z_bg_haka_trap.o"
-    include "build/data/overlays/actors/z_bg_haka_trap.data.o"
-    include "build/data/overlays/actors/z_bg_haka_trap.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Trap/ovl_Bg_Haka_Trap_reloc.o"
 endseg
 
 beginseg
@@ -1412,8 +1401,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Obj"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Obj/z_bg_spot18_obj.o"
-    include "build/data/overlays/actors/z_bg_spot18_obj.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_obj.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Obj/ovl_Bg_Spot18_Obj_reloc.o"
 endseg
 
 beginseg

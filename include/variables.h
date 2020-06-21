@@ -175,10 +175,6 @@ extern u8 D_80114930[];
 //extern ? D_801159A9;
 //extern ? D_801159AA;
 extern EffectSsOverlay gEffectSsOverlayTable[37];
-//extern ? D_80115DC0;
-//extern ? D_80115F68;
-//extern ? D_80115F6C;
-//extern ? D_80115F70;
 extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[471]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
@@ -824,11 +820,11 @@ extern s32 gOverlayLogSeverity;
 //extern ? D_80134484;
 extern s32 gSystemArenaLogSeverity;
 //extern ? D_801344C0;
-//extern u32 gOsSiAccessQueueCreated = 0;
-//extern u32 gOsContInitialized = 0;
+extern u32 gOSSiAccessQueueCreated; // = 0;
+extern u32 gOSContInitialized; // = 0
 //extern ? D_80134CF0;
-//extern ? D_80134CF4;
-extern s32 D_80134D20;
+extern u8 __osPfsInodeCacheBank;
+extern s32 __osPfsLastChannel;
 //extern ? D_80135130;
 //extern ? D_80135158;
 //extern ? D_801351A8;
@@ -3276,7 +3272,6 @@ extern u8 D_80155F50[];
 extern u8 D_80157580[];
 extern u8 D_801579A0[];
 extern u8 D_80157D30[];
-//extern ? D_8015BB90;
 //extern ? D_8015BC30;
 //extern ? D_8015BC3C;
 //extern ? D_8015BC48;
@@ -3742,16 +3737,16 @@ extern u32 __osMalloc_FreeBlockTest_Enable;
 //extern ? D_801756A0;
 //extern ? D_801756A8;
 extern Arena gSystemArena;
-//extern pif_data_buffer_t osPifBuffers[4];
-//extern OSMesg osSiMesgBuff[SIAccessQueueSize];
-//extern OSMesgQueue gOsSiMessageQueue;
-//extern pif_data_buffer_t _osPifInternalBuff;
-extern u8 _osCont_lastPollType;
-//extern u8 _osCont_numControllers;
-//extern OSMesgQueue _osContMesgQueue;
-//extern OSMesg _osContMesgBuff[4];
+extern OSPifRam osPifBuffers[MAXCONTROLLERS];
+extern OSMesg osSiMesgBuff[SIAccessQueueSize];
+extern OSMesgQueue gOSSiMessageQueue;
+extern OSPifRam __osPifInternalBuff;
+extern u8 __osContLastPoll;
+extern u8 __osMaxControllers;
+extern OSMesgQueue __osContMesgQueue;
+extern OSMesg __osContMesgBuff[4];
 //extern ? D_80175860;
-extern pif_data_buffer_t pifMempakBuf;
+extern OSPifRam pifMempakBuf;
 //extern ? D_801759A0;
 //extern ? D_801759A4;
 //extern ? D_801759A8;
@@ -3766,7 +3761,6 @@ extern pif_data_buffer_t pifMempakBuf;
 //extern ? D_801759BA;
 //extern ? D_801759BC;
 //extern ? D_801759BE;
-
 extern u16 gZBuffer[SCREEN_WIDTH * SCREEN_HEIGHT]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u8 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE]; // 0xC00 bytes
@@ -3775,7 +3769,6 @@ extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 extern u8 gSystemHeap[];
 extern MapMarksData* gMapMarkDataTable[];
-
 //extern ? D_A4040004;
 //extern ? D_A4040008;
 //extern ? D_A404000C;

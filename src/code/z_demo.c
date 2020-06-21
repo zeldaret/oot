@@ -1,6 +1,6 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
-#include <PR/os_cont.h>
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -56,11 +56,10 @@ u8 D_8015FCE4;       // only written to, never read
 void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx);
 
 void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneContext* csCtx) {
-    u8 pad[0x1C];
     GfxPrint printer;
     u8 pad2[8];
 
-    GfxPrint_Ctor(&printer);
+    GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *dlist);
     GfxPrint_SetPos(&printer, 22, 25);
     GfxPrint_SetColor(&printer, 255, 255, 55, 32);
@@ -71,7 +70,7 @@ void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneConte
     GfxPrint_SetPos(&printer, 4, 26);
     GfxPrint_Printf(&printer, "%s", "SKIP=(START) or (Cursole Right)");
     *dlist = GfxPrint_Close(&printer);
-    GfxPrint_Dtor(&printer);
+    GfxPrint_Destroy(&printer);
 }
 
 void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx) {

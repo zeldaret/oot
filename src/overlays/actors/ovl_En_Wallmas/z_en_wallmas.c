@@ -132,7 +132,7 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y;
-    this->actor.unk_80 = player->actor.unk_80;
+    this->actor.groundY = player->actor.groundY;
     this->actor.draw = EnWallmas_Draw;
     this->actionFunc = EnWallmas_WaitToDrop;
 }
@@ -147,7 +147,7 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     this->unk_2c4 = player->actor.posRot.pos.y;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
     this->actor.posRot.rot.y = player->actor.shape.rot.y + 0x8000;
-    this->actor.unk_80 = player->actor.unk_80;
+    this->actor.groundY = player->actor.groundY;
     this->actor.flags |= 1;
     this->actor.flags &= ~0x20;
     this->actionFunc = EnWallmas_Drop;
@@ -234,7 +234,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    this->unk_2c4 = this->actor.yDistanceFromLink;
+    this->unk_2c4 = this->actor.yDistFromLink;
     func_8002DF38(globalCtx, &this->actor, 0x25);
     func_800800F8(globalCtx, 0x251C, 0x270F, &this->actor, 0);
 }
@@ -272,7 +272,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
     player = PLAYER;
     playerPos = &player->actor.posRot.pos;
     this->actor.posRot.pos = *playerPos;
-    this->actor.unk_80 = player->actor.unk_80;
+    this->actor.groundY = player->actor.groundY;
     this->actor.floorPoly = player->actor.floorPoly;
 
     if (this->timer != 0) {
@@ -298,8 +298,8 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->invincibilityTimer >= 0) &&
-        (this->actor.xzDistanceFromLink < 30.0f) && (this->actor.yDistanceFromLink < -5.0f) &&
-        (-(f32)(player->unk_4DA + 0xA) < this->actor.yDistanceFromLink)) {
+        (this->actor.xzDistFromLink < 30.0f) && (this->actor.yDistFromLink < -5.0f) &&
+        (-(f32)(player->unk_4DA + 0xA) < this->actor.yDistFromLink)) {
         EnWallmas_SetupTakePlayer(this, globalCtx);
     }
 }
@@ -315,7 +315,7 @@ void EnWallmas_Stand(EnWallmas* this, GlobalContext* globalCtx) {
         EnWallmas_SetupWalk(this);
     }
 
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.rotTowardsLinkY + 0x8000, 0xB6);
+    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0xB6);
 }
 
 void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
@@ -323,7 +323,7 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.rotTowardsLinkY + 0x8000), 0xB6);
+    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.yawTowardsLink + 0x8000), 0xB6);
 
     if ((func_800A56C8(&this->skelAnime, 0.0f) != 0) || (func_800A56C8(&this->skelAnime, 12.0f) != 0) ||
         (func_800A56C8(&this->skelAnime, 24.0f) != 0) || (func_800A56C8(&this->skelAnime, 36.0f) != 0)) {
@@ -349,7 +349,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
     }
 
-    if (this->actor.yDistanceFromLink < -900.0f) {
+    if (this->actor.yDistFromLink < -900.0f) {
         if (this->actor.params == WMT_FLAG) {
             Actor_Kill(&this->actor);
             return;
@@ -571,7 +571,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
 
-    func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.unk_80, this->actor.posRot.pos.z, &mf);
+    func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 
     if ((this->actionFunc != EnWallmas_WaitToDrop) && (this->actionFunc != EnWallmas_ReturnToCeiling) &&

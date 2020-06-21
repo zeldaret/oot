@@ -42,13 +42,15 @@ def search_address(target_addr):
     with open(mymap) as f:
         for line in f:
             if "load address" in line:
-                if "noload" in line or "noload" in prev_line:
+                # Ignore .bss sections if we're looking for a ROM address
+                if not is_ram and (".bss" in line or ".bss" in prev_line):
                     ram_offset = None
                     continue
                 ram = int(line[16 : 16 + 18], 0)
                 rom = int(line[59 : 59 + 18], 0)
                 ram_offset = ram - rom
                 continue
+
             prev_line = line
 
             if (
@@ -91,13 +93,11 @@ def search_symbol(target_sym):
     with open(mymap) as f:
         for line in f:
             if "load address" in line:
-                if "noload" in line or "noload" in prev_line:
-                    ram_offset = None
-                    continue
                 ram = int(line[16 : 16 + 18], 0)
                 rom = int(line[59 : 59 + 18], 0)
                 ram_offset = ram - rom
                 continue
+
             prev_line = line
 
             if (
