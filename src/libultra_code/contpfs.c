@@ -53,7 +53,7 @@ s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid) {
             return ret;
         }
 
-        if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, temp)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, 0, temp)) != 0) {
             return ret;
         }
         temp[0] = j | 0x80;
@@ -64,7 +64,7 @@ s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid) {
         if ((ret = __osContRamWrite(pfs->queue, pfs->channel, 0, temp, 0)) != 0) {
             return ret;
         }
-        if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, comp)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, 0, comp)) != 0) {
             return (ret);
         }
         for (i = 0; i < BLOCKSIZE; i++) {
@@ -80,7 +80,7 @@ s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid) {
             if ((ret = __osPfsSelectBank(pfs, 0)) != 0) {
                 return ret;
             }
-            if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, temp)) != 0) {
+            if ((ret = __osContRamRead(pfs->queue, pfs->channel, 0, temp)) != 0) {
                 return ret;
             }
             if (temp[0] != 0x80) {
@@ -110,7 +110,7 @@ s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid) {
             return ret;
         }
     }
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
         return ret;
     }
     for (i = 0; i < BLOCKSIZE; i++) {
@@ -139,7 +139,7 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp) {
     index[2] = PFS_ID_2AREA;
     index[3] = PFS_ID_3AREA;
     for (i = 1; i < 4; i++) {
-        if ((ret = osReadMempak(pfs->queue, pfs->channel, index[i], temp)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, index[i], temp)) != 0) {
             return ret;
         }
         __osIdCheckSum(temp, &sum, &idSum);
@@ -177,7 +177,7 @@ s32 __osGetId(OSPfs* pfs) {
         }
     }
 
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
         return ret;
     }
     __osIdCheckSum((u16*)temp, &sum, &isum);
@@ -215,7 +215,7 @@ s32 __osGetId(OSPfs* pfs) {
     pfs->inode_table = 1 * PFS_ONE_PAGE;
     pfs->minode_table = (1 + pfs->banks) * PFS_ONE_PAGE;
     pfs->dir_table = pfs->minode_table + (pfs->banks * PFS_ONE_PAGE);
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, PFS_LABEL_AREA, pfs->label)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_LABEL_AREA, pfs->label)) != 0) {
         return ret;
     }
 
@@ -239,11 +239,11 @@ s32 __osCheckId(OSPfs* pfs) {
         }
     }
 
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
         if (ret != PFS_ERR_NEW_PACK) {
             return ret;
         }
-        if ((ret = osReadMempak(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
             return ret;
         }
     }
@@ -286,7 +286,7 @@ s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank) {
             ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->minode_table + (bank * PFS_ONE_PAGE) + j, addr,
                                    0); // why is this called twice??
         } else {
-            ret = osReadMempak(pfs->queue, pfs->channel, pfs->inode_table + (bank * PFS_ONE_PAGE) + j, addr);
+            ret = __osContRamRead(pfs->queue, pfs->channel, pfs->inode_table + (bank * PFS_ONE_PAGE) + j, addr);
         }
         if (ret) {
             return ret;
@@ -299,7 +299,7 @@ s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank) {
             for (j = 0; j < PFS_ONE_PAGE; j++) {
                 addr = (u8*)(((u8*)inode) + (j * BLOCKSIZE));
                 ret =
-                    osReadMempak(pfs->queue, pfs->channel, pfs->minode_table + (bank * PFS_ONE_PAGE) + j, addr);
+                    __osContRamRead(pfs->queue, pfs->channel, pfs->minode_table + (bank * PFS_ONE_PAGE) + j, addr);
             }
             sum = __osSumcalc(inode->inodePage + offset, (PFS_INODE_SIZE_PER_PAGE - offset) * 2);
             if (sum != inode->inodePage[0].inode_t.page) {

@@ -38,7 +38,7 @@ glabel osPfsInitPak
 .L80104FC8:
 /* B7C168 80104FC8 8E040004 */  lw    $a0, 4($s0)
 /* B7C16C 80104FCC 8E050008 */  lw    $a1, 8($s0)
-/* B7C170 80104FD0 0C0417D0 */  jal   osReadMempak
+/* B7C170 80104FD0 0C0417D0 */  jal   __osContRamRead
 /* B7C174 80104FD4 27A70048 */   addiu $a3, $sp, 0x48
 /* B7C178 80104FD8 10400003 */  beqz  $v0, .L80104FE8
 /* B7C17C 80104FDC 27A40048 */   addiu $a0, $sp, 0x48
@@ -122,7 +122,7 @@ glabel osPfsInitPak
 /* B7C29C 801050FC AE180060 */  sw    $t8, 0x60($s0)
 /* B7C2A0 80105100 AE080058 */  sw    $t0, 0x58($s0)
 /* B7C2A4 80105104 AE0A005C */  sw    $t2, 0x5c($s0)
-/* B7C2A8 80105108 0C0417D0 */  jal   osReadMempak
+/* B7C2A8 80105108 0C0417D0 */  jal   __osContRamRead
 /* B7C2AC 8010510C A20E0064 */   sb    $t6, 0x64($s0)
 /* B7C2B0 80105110 10400003 */  beqz  $v0, .L80105120
 /* B7C2B4 80105114 00000000 */   nop   

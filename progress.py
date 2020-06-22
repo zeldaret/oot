@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
+import csv
+import git
 import os
 import re
-import time
 
 parser = argparse.ArgumentParser(description="Computes current progress throughout the whole project.")
 parser.add_argument("-m", "--matching", dest='matching', action='store_true',
                     help="Output matching progress instead of decompilation progress")
-parser.add_argument("-j", "--json", dest="json", action="store_true",
-                    help="Output results as a json file at build/progress.json")
+parser.add_argument("-c", "--csv", dest="csv", action="store_true",
+                    help="Output results in CSV format")
 args = parser.parse_args()
 
 NON_MATCHING_PATTERN = r"#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
@@ -114,17 +114,13 @@ ovlPct = 100 * ovl / ovlSize
 compiled_bytes = total
 bytesPerHeartPiece = compiled_bytes / 80
 
-if args.json:
-    timestamp = str(time.time())
-    json_dict = {"reports":{}}
-    json_dict["reports"][timestamp] = {
-        "total_percent": srcPct,
-        "boot_percent": bootPct,
-        "code_percent": codePct,
-        "overlay_percent": ovlPct
-    }
-    with open("build/progress.json", "w", newline="\n") as f:
-        json.dump(json_dict, f)
+if args.csv:
+    version = 1
+    git_object = git.Repo().head.object
+    timestamp = str(git_object.committed_date)
+    git_hash = git_object.hexsha
+    csv_list = [str(version), timestamp, git_hash, str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(src), str(asm), str(len(nonMatchingFunctions))]
+    print(",".join(csv_list))
 else:
     adjective = "decompiled" if not args.matching else "matched"
 

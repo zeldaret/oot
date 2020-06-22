@@ -35,7 +35,7 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
         return ret;
     }
 
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
         return (ret);
     }
     __osIdCheckSum((u16*)temp, &sum, &isum);
@@ -71,7 +71,7 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     pfs->minode_table = (1 + pfs->banks) * PFS_ONE_PAGE;
     pfs->dir_table = pfs->minode_table + (pfs->banks * PFS_ONE_PAGE);
 
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, PFS_LABEL_AREA, (u8*)pfs->label)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_LABEL_AREA, (u8*)pfs->label)) != 0) {
         return ret;
     }
 
@@ -94,7 +94,7 @@ s32 __osPfsCheckRamArea(OSPfs* pfs) {
         return ret;
     }
 
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, saveReg)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, 0, saveReg)) != 0) {
         return (ret);
     }
     for (i = 0; i < BLOCKSIZE; i++) {
@@ -103,7 +103,7 @@ s32 __osPfsCheckRamArea(OSPfs* pfs) {
     if ((ret = __osContRamWrite(pfs->queue, pfs->channel, 0, temp1, 0)) != 0) {
         return ret;
     }
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, 0, temp2)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, 0, temp2)) != 0) {
         return ret;
     }
     if (bcmp(temp1, temp2, BLOCKSIZE) != 0) {

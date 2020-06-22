@@ -39,12 +39,12 @@ s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 
             ptr += channel;
         }
         ((__OSContRamHeader*)ptr)->hi = address >> 3;
-        ((__OSContRamHeader*)ptr)->lo = ((address << 5) | osMempakAddrCRC(address));
+        ((__OSContRamHeader*)ptr)->lo = ((address << 5) | __osContAddressCrc(address));
 
         bcopy(buffer, ((__OSContRamHeader*)ptr)->data, BLOCKSIZE);
 
         ret = __osSiRawStartDma(OS_WRITE, &pifMempakBuf);
-        crc = osMempakDataCRC(buffer);
+        crc = __osContDataCrc(buffer);
         osRecvMesg(mq, (OSMesg*)NULL, OS_MESG_BLOCK);
 
         ret = __osSiRawStartDma(OS_READ, &pifMempakBuf);

@@ -21,7 +21,7 @@ s32 osPfsDeleteFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, 
         return ret;
     }
 
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, pfs->dir_table + file_no, (u8*)&dir)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + file_no, (u8*)&dir)) != 0) {
         return ret;
     }
     startpage = dir.start_page.inode_t.page;

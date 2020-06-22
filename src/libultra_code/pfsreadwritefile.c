@@ -58,7 +58,7 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
             return ret;
         }
     }
-    if ((ret = osReadMempak(pfs->queue, pfs->channel, pfs->dir_table + fileNo, &dir)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + fileNo, &dir)) != 0) {
         return ret;
     }
 
@@ -108,7 +108,7 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
 
         blockno = curPage.inode_t.page * PFS_ONE_PAGE + curBlock;
         if (flag == PFS_READ) {
-            ret = osReadMempak(pfs->queue, pfs->channel, blockno, buffer);
+            ret = __osContRamRead(pfs->queue, pfs->channel, blockno, buffer);
         } else {
             ret = __osContRamWrite(pfs->queue, pfs->channel, blockno, buffer, 0);
         }

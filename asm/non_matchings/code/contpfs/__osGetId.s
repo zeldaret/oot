@@ -17,7 +17,7 @@ glabel __osGetId
 .L80102A80:
 /* B79C20 80102A80 8E050008 */  lw    $a1, 8($s0)
 /* B79C24 80102A84 24060001 */  li    $a2, 1
-/* B79C28 80102A88 0C0417D0 */  jal   osReadMempak
+/* B79C28 80102A88 0C0417D0 */  jal   __osContRamRead
 /* B79C2C 80102A8C 27A7004C */   addiu $a3, $sp, 0x4c
 /* B79C30 80102A90 10400003 */  beqz  $v0, .L80102AA0
 /* B79C34 80102A94 27A4004C */   addiu $a0, $sp, 0x4c
@@ -104,7 +104,7 @@ glabel __osGetId
 /* B79D54 80102BB4 8E050008 */  lw    $a1, 8($s0)
 /* B79D58 80102BB8 24060007 */  li    $a2, 7
 /* B79D5C 80102BBC 2607002C */  addiu $a3, $s0, 0x2c
-/* B79D60 80102BC0 0C0417D0 */  jal   osReadMempak
+/* B79D60 80102BC0 0C0417D0 */  jal   __osContRamRead
 /* B79D64 80102BC4 A20F0064 */   sb    $t7, 0x64($s0)
 /* B79D68 80102BC8 50400004 */  beql  $v0, $zero, .L80102BDC
 /* B79D6C 80102BCC 00001025 */   move  $v0, $zero

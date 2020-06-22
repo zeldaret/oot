@@ -33,7 +33,7 @@ s32 osPfsChecker(OSPfs* pfs) {
     }
 
     for (j = 0; j < pfs->dir_size; j++) {
-        if ((ret = osReadMempak(pfs->queue, pfs->channel, pfs->dir_table + j, &tempDir)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, &tempDir)) != 0) {
             return ret;
         }
 
@@ -47,7 +47,6 @@ s32 osPfsChecker(OSPfs* pfs) {
                 bank = 255;
 
                 while (CHECK_IPAGE(next)) {
-
                     if (bank != next.inode_t.bank) {
                         bank = next.inode_t.bank;
                         if (prevBank != bank) {
@@ -85,7 +84,7 @@ s32 osPfsChecker(OSPfs* pfs) {
         }
     }
     for (j = 0; j < pfs->dir_size; j++) {
-        if ((ret = osReadMempak(pfs->queue, pfs->channel, pfs->dir_table + j, &tempDir)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, &tempDir)) != 0) {
             return ret;
         }
 

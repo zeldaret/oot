@@ -54,7 +54,7 @@ void osSetUpMempakWrite(s32 channel, OSPifRam* buf) {
     mempakwr.rxsize = 1;
     mempakwr.poll = 3; // write mempak
     mempakwr.hi = 0x600 >> 3;
-    mempakwr.lo = (u8)(osMempakAddrCRC(0x600) | (0x600 << 5));
+    mempakwr.lo = (u8)(__osContAddressCrc(0x600) | (0x600 << 5));
     if (channel != 0) {
         for (i = 0; i < channel; ++i) {
             *bufptr++ = 0;
@@ -81,7 +81,7 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel) {
     if (ret != 0) {
         return ret;
     }
-    ret = osReadMempak(ctrlrqueue, channel, BANK_ADDR, sp24);
+    ret = __osContRamRead(ctrlrqueue, channel, BANK_ADDR, sp24);
     ret = ret;
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
@@ -99,7 +99,7 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel) {
     if (ret != 0) {
         return ret;
     }
-    ret = osReadMempak(ctrlrqueue, channel, BANK_ADDR, sp24);
+    ret = __osContRamRead(ctrlrqueue, channel, BANK_ADDR, sp24);
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
     }
