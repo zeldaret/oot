@@ -3825,8 +3825,9 @@ s32 Camera_Jump1(Camera *camera) {
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, jump1->atLERPScaleMax);
     return true;
 }
-
+#define NON_MATCHING
 #ifdef NON_MATCHING
+// Climbing ladders/vines
 s32 Camera_Jump2(Camera *camera) {
     Vec3f spC8;
     Vec3f spBC;
@@ -3839,21 +3840,16 @@ s32 Camera_Jump2(Camera *camera) {
     s32 sp88;
     struct_80043D18 sp60;
     f32 sp48;
-    Vec3f *sp38;
-    Vec3f *sp34;
-    Vec3f *sp30;
-    PosRot *sp2C;
-    void *sp28;
-    PosRot *temp_t0;
-    PosRot *temp_t0_2;
+    Vec3f *sp38 = &camera->eye;
+    Vec3f *sp34 = &camera->at;
+    Vec3f *sp30 = &camera->eyeNext;
+    PosRot *sp2C = &camera->playerPosRot;
     f32 *temp_a2;
-    f32 temp_f0;
     f32 temp_f0_2;
     f32 temp_f0_3;
     f32 temp_f0_4;
     f32 temp_f12;
     f32 temp_f16;
-    f32 temp_f2;
     f32 temp_f2_2;
     f32 temp_f2_3;
     s16 temp_t2;
@@ -3862,53 +3858,48 @@ s32 Camera_Jump2(Camera *camera) {
     s32 temp_cond;
     s32 temp_lo;
     s32 temp_v0_2;
-    void *temp_t1;
-    void *temp_t1_2;
-    void *temp_t5;
-    void *temp_v0;
     f32 phi_f2;
     s16 phi_v1;
     s32 phi_t5;
     s32 phi_v1_2;
     s32 phi_v1_3;
-    s16 phi_v0;
+    s32 phi_v0;
     s32 phi_v1_4;
     s32 phi_v1_5;
-    Jump2 *jump2 = &camera->params.jump2;
-    Jump2_Unk24 *unk24 = &jump2->unk_24;
-    CameraModeValue *values;
+    Jump2* jump2 = &camera->params.jump2;
+    Jump2_Unk24* unk24 = &jump2->unk_24;
+    CameraModeValue* values;
 
     sp48 = Player_GetCameraYOffset(camera->player);
     if (RELOAD_PARAMS) {
-        temp_f12 = (1.0f + (OREG(46) * 0.01f)) - ((OREG(46) * 0.01f) * (68.0f / sp48));
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        phi_f2 = camera->playerPosDelta.y > 0.0f ? -10.0f : 10.0f;
-        jump2->unk_00 = (f32) (((((f32) NEXTSETTING + phi_f2) * 0.01f) * sp48) * temp_f12);
-        jump2->unk_04 = (f32) ((((f32) NEXTSETTING * 0.01f) * sp48) * temp_f12);
-        jump2->unk_08 = (f32) ((((f32) NEXTSETTING * 0.01f) * sp48) * temp_f12);
-        jump2->unk_0C = (f32) ((f32) NEXTSETTING * 0.01f);
-        jump2->unk_10 = (f32) NEXTSETTING;
-        jump2->unk_14 = (f32) ((f32) NEXTSETTING * 0.01f);
-        jump2->unk_18 = (f32) NEXTSETTING;
-        jump2->unk_1C = (f32) ((f32) NEXTSETTING * 0.01f);
-        jump2->unk_20 = (s16) NEXTSETTING;
+        temp_f12 = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / sp48));
+        jump2->unk_00 = (NEXTPCT + camera->playerPosDelta.y > 0.0f ? -10.0f : 10.0f) * sp48 * temp_f12;
+        jump2->unk_04 = NEXTPCT * sp48 * temp_f12;
+        jump2->unk_08 = NEXTPCT * sp48 * temp_f12;
+        jump2->unk_0C = NEXTPCT;
+        jump2->unk_10 = NEXTSETTING;
+        jump2->unk_14 = NEXTPCT;
+        jump2->unk_18 = NEXTSETTING;
+        jump2->unk_1C = NEXTPCT;
+        jump2->unk_20 = NEXTSETTING;
     }
+
     if (R_RELOAD_CAM_PARAMS) {
         Camera_CopyPREGToModeValues(camera);
     }
-    sp38 = &camera->eye;
-    sp34 = &camera->at;
-    OLib_Vec3fDiffToVecSphRot90((VecSph *) &sp9C, &camera->at, &camera->eye);
-    sp30 = &camera->eyeNext;
-    OLib_Vec3fDiffToVecSphRot90((VecSph *) &spA4, &camera->at, &camera->eyeNext);
+
+    
+    
+    OLib_Vec3fDiffToVecSphRot90(&sp9C, sp34, &camera->eye);
+    OLib_Vec3fDiffToVecSphRot90(&spA4, sp34, &camera->eyeNext);
     sCameraInterfaceFlags = jump2->unk_20;
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
-        spC8 = camera->playerPosRot.pos;
-        temp_f0_2 = func_80044510(camera, &spC8);
-        unk24->unk_00 = temp_f0_2;
-        unk24->unk_04 = spA4.theta;
+        spC8 = sp2C->pos;
+        unk24->unk_00 = func_80044510(camera, &spC8);
         unk24->unk_06 = 0;
-        if (temp_f0_2 == -32000.0f) {
+        unk24->unk_04 = spA4.theta;
+        if (unk24->unk_00 == -32000.0f) {
             osSyncPrintf("\x1b[43;30mcamera: climb: no floor \n\x1b[m");
             unk24->unk_0A = -1;
             unk24->unk_00 = camera->playerPosRot.pos.y - 1000.0f;
@@ -3917,84 +3908,104 @@ s32 Camera_Jump2(Camera *camera) {
         } else {
             unk24->unk_0A = -1;
         }
-        phi_t5 = ((s16)((s16)(camera->playerPosRot.rot.y - 0x7FFF) - spA4.theta) / R_DEFA_CAM_ANIM_TIME) / 4;
-        unk24->unk_06 = (s16) ((phi_t5 * 4) - phi_t5);
-        unk24->unk_08 = jump2->unk_20 & 2 ? 0xA : 0x2710;
-        camera->playerPosRot.pos.x = camera->playerPosRot.pos.x - camera->playerPosDelta.x;
-        camera->playerPosRot.pos.y = camera->playerPosRot.pos.y - camera->playerPosDelta.y;
-        camera->playerPosRot.pos.z = camera->playerPosRot.pos.z - camera->playerPosDelta.z;
-        unk24->unk_0C = R_DEFA_CAM_ANIM_TIME;
+
+        unk24->unk_06 = BINANG_SUB(BINANG_ROT180(sp2C->rot.y), spA4.theta) / OREG(23);
+        
+        if ((jump2->unk_20 & 2) != 0) {
+            unk24->unk_08 = (u16)0xA;
+        } else {
+            unk24->unk_08 = (u16)0x2710;
+        }
+
+        camera->playerPosRot.pos.x -= camera->playerPosDelta.x;
+        camera->playerPosRot.pos.y -= camera->playerPosDelta.y;
+        camera->playerPosRot.pos.z -= camera->playerPosDelta.z;
+        unk24->unk_0C = OREG(23);
         camera->animState++;
         camera->atLERPStepScale = jump2->unk_1C;
     }
-    camera->thetaUpdateRateInv = Camera_LERPCeilF(jump2->unk_10, camera->thetaUpdateRateInv, (OREG(25) * 0.01f) * camera->unk_E0, 0.1f);
-    camera->xzOffsetUpdateRate = Camera_LERPCeilF(jump2->unk_14, camera->xzOffsetUpdateRate, (OREG(25) * 0.01f) * camera->unk_E0, 0.1f);
-    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, (OREG(26) * 0.01f) * camera->unk_E0, 0.1f);
-    camera->fovUpdateRate = Camera_LERPCeilF(OREG(4) * 0.01f, camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
-    camera->rUpdateRateInv = OREG(27);
+
+    // I'm guessing this is some kind of macro? 
+    {
+        sp90 = PCT(OREG(25)) * camera->unk_E0;
+        sp8C = PCT(OREG(26)) * camera->unk_E0;
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(jump2->unk_10, camera->thetaUpdateRateInv, sp90, 0.1f);
+        camera->xzOffsetUpdateRate = Camera_LERPCeilF(jump2->unk_14, camera->xzOffsetUpdateRate, sp90, 0.1f);
+
+        camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, sp8C, 0.1f);
+        camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
+        camera->rUpdateRateInv = OREG(27);
+    }
+
     func_800457A8(camera, &spA4, jump2->unk_00, 0);
     OLib_Vec3fDiffToVecSphRot90(&spB4, sp34, sp38);
-
-    if(spB4.r < jump2->unk_08 + (jump2->unk_08 * jump2->unk_0C)){
-        spB4.r = jump2->unk_08 + (jump2->unk_08 * jump2->unk_0C);
-    } else if(spB4.r < jump2->unk_04 - (jump2->unk_04 * jump2->unk_0C)){
-        spB4.r = jump2->unk_04 - (jump2->unk_04 * jump2->unk_0C);
-    }
-
-    temp_t2 = camera->playerPosRot.rot.y - 0x7FFF;
-    temp_v0_2 = temp_t2 - spB4.theta;
-    if (unk24->unk_0C != 0) {
-        unk24->unk_04 = temp_t2;
-        unk24->unk_0C--;
-        phi_v0 = Camera_LERPCeilS(unk24->unk_04, spA4.theta, 0.5f, 0xA);
+    
+    //spB4.r = CLAMP(spB4.r, jump2->unk_08 - (jump2->unk_08 * jump2->unk_0C), jump2->unk_04 + (jump2->unk_04 * jump2->unk_0C));
+    temp_f2_3 = jump2->unk_08 + (jump2->unk_08 * jump2->unk_0C);
+    temp_f16 = jump2->unk_04 - (jump2->unk_04 * jump2->unk_0C);
+    
+    if (temp_f2_3 < spB4.r) {
+        spB4.r = temp_f2_3;
     } else {
-        phi_v1_2 = ABS(temp_v0_2);
-        if (unk24->unk_08 < phi_v1_2) {
-            temp_a1 = temp_t2;
-            if (temp_v0_2 < 0) {
-                phi_v1_3 = temp_a1 + unk24->unk_08;
-            } else {
-                phi_v1_3 = temp_a1 - unk24->unk_08;
-            }
-            phi_v0 = Camera_LERPFloorS(phi_v1_3, spA4.theta, 0.1f, 0xA);
-        } else {
-            phi_v0 = Camera_LERPCeilS(spB4.theta, spA4.theta, 0.25f, 0xA);
+        if (spB4.r < temp_f16) {
+            spB4.r = temp_f16;
         }
     }
-    spB4.theta = phi_v0;
-    spC8.x = (Math_Sins(camera->playerPosRot.rot.y) * 25.0f) + camera->playerPosRot.pos.x;
-    spC8.y = camera->playerPosRot.pos.y + (sp48 * 2.2f);
-    spC8.z = (Math_Coss(temp_t0->rot.y) * 25.0f) + camera->playerPosRot.pos.z;
+
+    
+    temp_v0_2 = BINANG_SUB(BINANG_ROT180(sp2C->rot.y), spB4.theta);
+    if (unk24->unk_0C != 0) {
+        unk24->unk_04 = BINANG_ROT180(sp2C->rot.y);
+        unk24->unk_0C--;
+        spB4.theta = Camera_LERPCeilS(unk24->unk_04, spA4.theta, 0.5f, 0xA);
+    } else if (unk24->unk_08 < ABS(temp_v0_2)) {
+        phi_v1_3 = temp_v0_2 < 0 ? 
+            BINANG_ROT180(sp2C->rot.y) + unk24->unk_08 :
+            BINANG_ROT180(sp2C->rot.y) - unk24->unk_08;
+
+        spB4.theta = Camera_LERPFloorS(phi_v1_3, spA4.theta, 0.1f, 0xA);
+    } else {
+        spB4.theta = Camera_LERPCeilS(spB4.theta, spA4.theta, 0.25f, 0xA);
+    }
+    
+    spC8.x = sp2C->pos.x + (Math_Sins(sp2C->rot.y) * 25.0f);
+    spC8.y = sp2C->pos.y + (sp48 * 2.2f);
+    spC8.z = sp2C->pos.z + (Math_Coss(sp2C->rot.y) * 25.0f);
+    
     temp_f0_4 = func_80044434(camera, &spBC, &spC8, &sp88);
-    if ((temp_f0_4 != -32000.0f) && (camera->playerPosRot.pos.y < temp_f0_4)) {
-        camera->phiUpdateRateInv = Camera_LERPCeilF(20.0f, camera->phiUpdateRateInv, OREG(26) * 0.01f, 0.1f);
-        camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, OREG(26) * 0.01f, 0.1f);
+    if ((temp_f0_4 != -32000.0f) && (sp2C->pos.y < temp_f0_4)) {
+        camera->phiUpdateRateInv = Camera_LERPCeilF(20.0f, camera->phiUpdateRateInv, PCT(OREG(26)), 0.1f);
+        camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, PCT(OREG(26)), 0.1f);
         spB4.phi = Camera_LERPCeilS(0x1F4, spA4.phi, 1.0f / camera->phiUpdateRateInv, 0xA);
-    } else if ((camera->playerPosRot.pos.y - unk24->unk_00) < sp48) {
-        camera->phiUpdateRateInv = Camera_LERPCeilF(20.0f, camera->phiUpdateRateInv, OREG(26) * 0.01f, 0.1f);
-        camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, OREG(26) * 0.01f, 0.1f);
-        spB4.theta = Camera_LERPCeilS(0x1F4, spA4.phi, 1.0f / camera->phiUpdateRateInv, 0xA);
+    } else if ((sp2C->pos.y - unk24->unk_00) < sp48) {
+        camera->phiUpdateRateInv = Camera_LERPCeilF(20.0f, camera->phiUpdateRateInv, PCT(OREG(26)), 0.1f);
+        camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, PCT(OREG(26)), 0.1f);
+        spB4.phi = Camera_LERPCeilS(0x1F4, spA4.phi, 1.0f / camera->phiUpdateRateInv, 0xA);
     } else {
         camera->phiUpdateRateInv = 100.0f;
         camera->rUpdateRateInv = 100.0f;
     }
-    phi_v1_5 = spB4.phi;
-    if (phi_v1_4 >= 0x2AF9) {
-        phi_v1_5 = 0x2AF8;
+
+    
+    if (spB4.phi >= 0x2AF9) {
+        spB4.phi = 0x2AF8;
     }
-    spB4.phi = (s16) phi_v1_5;
-    if (phi_v1_5 < -0x2AF8) {
+
+    if (spB4.phi < -0x2AF8) {
         spB4.phi = -0x2AF8;
     }
+
     Camera_Vec3fVecSphAdd(sp30, sp34, &spB4);
     sp60.unk_00 = *sp30;
-    if (func_80043D18(camera, sp34, &sp60) != 0) {
+
+    if (func_80043D18(camera, sp34, &sp60)) {
         spC8 = sp60.unk_00;
+        
         spAC.r = spB4.r;
-        spAC.phi = (u16)0;
+        spAC.phi = 0;
         spAC.theta = spB4.theta;
         Camera_Vec3fVecSphAdd(&sp60.unk_00, sp34, &spAC);
-        if (func_80043D18(camera, sp34, &sp60) != 0) {
+        if (func_80043D18(camera, sp34, &sp60)) {
             *sp38 = spC8;
         } else {
             spB4.phi = Camera_LERPCeilS(0, spB4.phi, 0.2f, 0xA);
@@ -4012,6 +4023,7 @@ s32 Camera_Jump2(Camera *camera) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Jump2.s")
 #endif
+#undef NON_MATCHING
 
 #ifdef NON_MATCHING
 s32 Camera_Jump3(Camera *camera) {
