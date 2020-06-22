@@ -1,8 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-s32 __osPfsCheckRamArea(OSPfs* pfs);
-
 #ifdef NON_MATCHING
 // regalloc with temp registers
 s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {

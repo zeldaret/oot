@@ -1,3 +1,5 @@
+#include <ultra64/types.h>
+
 static s16 sintable[0x400] = {
 	0x0000,
 	0x0032,

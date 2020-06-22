@@ -2480,7 +2480,7 @@ s32 __osPfsSelectBank(OSPfs *pfs, u8 bank);
 s32 osContSetCh(u8 ch);
 s32 osPfsFileState(OSPfs* pfs, s32 file_no, OSPfsState* state);
 s32 osPfsInitPak(OSMesgQueue* mq, OSPfs* pfs, s32 channel);
-//s32 __osPfsCheckRamArea(OSPfs* pfs);
+s32 __osPfsCheckRamArea(OSPfs* pfs);
 s32 osPfsChecker(OSPfs* pfs);
 s32 func_80105788(OSPfs* pfs, __OSInodeCache* cache);
 s32 func_80105A60(OSPfs* pfs, __OSInodeUnit fpage, __OSInodeCache* cache);
