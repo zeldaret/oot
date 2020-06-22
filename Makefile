@@ -112,13 +112,11 @@ build/src/libultra_code/osSetTimer.o: OPTFLAGS := -O1
 build/src/libultra_code/osStopTimer.o: OPTFLAGS := -O1
 build/src/libultra_code/llcvt.o: OPTFLAGS := -O1
 build/src/libultra_code/llcvt.o: MIPS_VERSION := -mips3 -32
-build/src/libultra_code/code_80102FA0.o: OPTFLAGS := -O3
 
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
 
 build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
-build/src/libultra_code/code_80102FA0.o: CC := $(CC_OLD)
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegdecoder.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
@@ -167,7 +165,6 @@ build/asm/%.o: asm/%.s
 
 build/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
-	
 #build/assets/%.o: assets/%.s
 #	$(AS) $(ASFLAGS) $^ -o $@
 #	$(OBJCOPY) -O binary $@ $@.bin
