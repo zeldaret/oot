@@ -18,7 +18,7 @@ void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag);
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
-void func_80899D38(BgJyaLift* this, GlobalContext* globalCtx);
+void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
 void BgJyaLift_SetupMove(BgJyaLift* this);
 void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx);
 
@@ -92,12 +92,12 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaLift_SetInitPosY(BgJyaLift* this) {
-    this->actionFunc = func_80899D38;
+    this->actionFunc = BgJyaLift_DelayMove;
     this->dyna.actor.posRot.pos.y = 1613.0f;
     this->moveDelay = 0;
 }
 
-void func_80899D38(BgJyaLift* this, GlobalContext* globalCtx) {
+void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) { 
@@ -123,9 +123,9 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x287A);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
-        func_8002F974((Actor*)this, 0x200C);
+        func_8002F974(&this->dyna.actor, 0x200C);
     }
 }
 
