@@ -21,6 +21,7 @@ pipeline {
             }
             steps {
                 sh 'python3 progress.py -c >> /var/www/html/reports/progress.csv'
+                sh 'python3 progress.py -mc >> /var/www/html/reports/progress_matching.csv'
             }
         }
     }
