@@ -44,15 +44,15 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_FC, 2500, ICHAIN_STOP),
 };
 
-extern s32 D_0600D7E8;
+extern UNK_TYPE D_0600D7E8;
 extern Gfx D_0600CCE0[];
 
 void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag) {
     s32 pad1;
-    u32 localConst = 0;
+    s32 localConst = 0;
 
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(arg2, (void*)&localConst);
+    DynaPolyInfo_Alloc(arg2, &localConst);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, localConst);
 }
 
@@ -60,7 +60,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
     this->unk_16A = 0;
 
-    if ((D_8089A020)) {
+    if (D_8089A020) {
         Actor_Kill(thisx);
         return;
     }
@@ -94,13 +94,13 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaLift_SetInitPosY(BgJyaLift* this) {
     this->actionFunc = func_80899D38;
     this->dyna.actor.posRot.pos.y = 1613.0f;
-    this->unk_168 = 0;
+    this->moveDelay = 0;
 }
 
 void func_80899D38(BgJyaLift* this, GlobalContext* globalCtx) {
-    if ((Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0) || (this->unk_168 > 0)) {
-        this->unk_168++;
-        if (this->unk_168 >= 0x14) {
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
+        this->moveDelay++;
+        if (this->moveDelay >= 20) { 
             func_800800F8(globalCtx, 0xD66, -0x63, &this->dyna.actor, 0);
             BgJyaLift_SetupMove(this);
         }
@@ -139,13 +139,12 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     if (this->actionFunc) {
-        (this->actionFunc)(this);
+        this->actionFunc(this);
     }
-    if ((((this->dyna.unk_160) & 4) != 0) && ((this->unk_16B & 4) == 0)) {
+    if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
         func_8005A77C(globalCtx2->cameraPtrs[0], 0x3F);
     } else {
-        if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4) != 0) &&
-            (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
+        if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) && (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
             func_8005A77C(globalCtx2->cameraPtrs[0], 3);
         }
     }
@@ -158,5 +157,5 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600CCE0); //
+    Gfx_DrawDListOpa(globalCtx, D_0600CCE0);
 }
