@@ -6624,9 +6624,6 @@ s16 D_8011DB0C = 0x156;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058E8C.s")
 #endif
 
-
-#define NON_MATCHING
-#ifdef NON_MATCHING
 Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     static s32 sOOBTimer = 0;
 
@@ -6816,7 +6813,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
         spC8.z = camera->eye.z + quake.eyeOffset.z;
         OLib_Vec3fDiffToVecSphRot90(&sp98, &spC8, &spD4);
         func_80044E68(&spBC, sp98.phi + quake.rotZ, sp98.theta + quake.unk_1A, camera->roll);
-        spB8 = camera->fov + (quake.zoom * (360.0001525f / 65535.0f));
+        spB8 = camera->fov + BINANG_TO_DEGF(quake.zoom);
     } else {
         spD4 = camera->at;
         spC8 = camera->eye;
@@ -6851,8 +6848,8 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
         camera->direction.z = 0;
     }
     if (PREG(81)) {
-        osSyncPrintf("dir  (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->direction.x, camera->direction.x * (360.0001525f / 65535.0f), camera->direction.y, camera->direction.y * (360.0001525f / 65535.0f));
-        osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->realDir.x, camera->realDir.x * (360.0001525f / 65535.0f), camera->realDir.y, camera->realDir.y * (360.0001525f / 65535.0f));
+        osSyncPrintf("dir  (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->direction.x, BINANG_TO_DEGF(camera->direction.x), camera->direction.y, BINANG_TO_DEGF(camera->direction.y));
+        osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->realDir.x, BINANG_TO_DEGF(camera->realDir.x), camera->realDir.y, BINANG_TO_DEGF(camera->realDir.y));
     }
     if (camera->unk_160 != -1) {
         if (CHECK_PAD(D_8015BD7C->state.input[0].press, CONT_RIGHT)) {
@@ -6861,7 +6858,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     }
     if (R_DBG_CAM_UPDATE) {
         osSyncPrintf("camera: out (%f %f %f) (%f %f %f)\n", camera->at.x, camera->at.y, camera->at.z, camera->eye.x, camera->eye.y, camera->eye.z);
-        osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", sp98.r, sp98.phi, sp98.phi * (360.0001525f / 65535.0f), sp98.theta, sp98.theta * (360.0001525f / 65535.0f), camera->fov);
+        osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", sp98.r, sp98.phi, BINANG_TO_DEGF(sp98.phi), sp98.theta, BINANG_TO_DEGF(sp98.theta), camera->fov);
         if (camera->player != NULL) {
             osSyncPrintf("camera: foot(%f %f %f) dist (%f)\n", curPlayerPosRot.pos.x, curPlayerPosRot.pos.y, curPlayerPosRot.pos.z, camera->dist);
         }
@@ -6869,11 +6866,6 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     *outVec = camera->direction;
     return outVec;
 }
-#else
-s32 sOOBTimer = 0;
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Update.s")
-#endif
-#undef NON_MATCHING
 
 void func_80059EC8(Camera* camera) {
     Camera* sp24 = camera->globalCtx->cameraPtrs[0];
@@ -7081,11 +7073,11 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
     }
 }
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 flags) {
-    s16 temp_t1;
-    s32 t;
-
+    u32 t;
+    s32 t2;
     if ((camera->unk_14A & 1) && (((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
                                   (sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
         camera->unk_14A |= 0x10;
@@ -7113,25 +7105,31 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 flags) {
 
     camera->unk_14A |= 0x10;
 
-    if (1 && !(flags & 2)) {
+    if (!(flags & 2)) {
         camera->unk_14A |= 1;
     }
-
+    t2 = 0x40000000;
     camera->unk_14C |= (0x8 | 0x4);
     camera->unk_14C &= ~(0x1000 | 0x8);
+
+    if(!camera){}
+    t = sCameraSettings[camera->setting].unk_00 & t2;
+
     if (!(sCameraSettings[camera->setting].unk_bit1)) {
         camera->prevSetting = camera->setting;
     }
 
-    t = sCameraSettings[camera->setting].unk_00 & 0x40000000;
     if (flags & 8) {
-        camera->camDataIdx = camera->prevCamDataIdx;
+        s16 prevIdx = camera->prevCamDataIdx;
+        camera->camDataIdx = prevIdx;
         camera->prevCamDataIdx = -1;
-    } else if (!(flags & 4)) {
-        if (!t) {
-            camera->prevCamDataIdx = camera->camDataIdx;
+    } else {
+        if (!(flags & 4)) {
+            if (!t) {
+                camera->prevCamDataIdx = camera->camDataIdx;
+            }
+            camera->camDataIdx = -1;
         }
-        camera->camDataIdx = -1;
     }
 
     camera->setting = setting;
@@ -7148,6 +7146,7 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 flags) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeSetting.s")
 #endif
+#undef NON_MATCHING
 
 s32 Camera_ChangeSettingDefaultFlags(Camera* camera, s16 setting) {
     return Camera_ChangeSetting(camera, setting, 0);

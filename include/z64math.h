@@ -76,5 +76,6 @@ typedef struct {
 #define BINANG_ROT180(angle) ((s16)(angle - 0x7FFF))
 #define BINANG_SUB(a, b) ((s16)(a - b))
 #define DEG_TO_RAD(degrees) (degrees * (M_PI / 180.0f))
+#define BINANG_TO_DEGF(binang) ((f32)binang * (360.0001525f / 65535.0f))
 
 #endif
