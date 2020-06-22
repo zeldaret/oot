@@ -2,9 +2,9 @@
 
 import argparse
 import csv
+import git
 import os
 import re
-import time
 
 parser = argparse.ArgumentParser(description="Computes current progress throughout the whole project.")
 parser.add_argument("-m", "--matching", dest='matching', action='store_true',
@@ -115,8 +115,12 @@ compiled_bytes = total
 bytesPerHeartPiece = compiled_bytes / 80
 
 if args.csv:
-    timestamp = str(time.time())
-    print(timestamp + "," + str(srcPct) + "," + str(asmPct) + "," + str(bootPct) + "," + str(codePct) + "," + str(ovlPct))
+    version = 1
+    git_object = git.Repo().head.object
+    timestamp = str(git_object.committed_date)
+    git_hash = git_object.hexsha
+    csv_list = [str(version), timestamp, git_hash, str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(src), str(asm), str(len(nonMatchingFunctions))]
+    print(",".join(csv_list))
 else:
     adjective = "decompiled" if not args.matching else "matched"
 
