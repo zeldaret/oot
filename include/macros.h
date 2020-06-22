@@ -87,6 +87,11 @@
         View_SetViewport(view, &viewport); \
     }
 
+#define	CHECK_IPAGE(p) (((p).ipage >= pfs->inodeStartPage) && \
+				 ((p).inode_t.bank < pfs->banks) && \
+				 ((p).inode_t.page >= 0x01) && \
+				 ((p).inode_t.page < 0x80))
+
 #define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 
 #endif

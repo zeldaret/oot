@@ -64,6 +64,11 @@
 #define PFS_LABEL_AREA          7
 #define PFS_ID_PAGE             PFS_ONE_PAGE * 0
 
+#define	PFS_BANK_LAPPED_BY	8	/* => u8 */
+#define	PFS_SECTOR_PER_BANK	32
+#define	PFS_INODE_DIST_MAP	(PFS_BANK_LAPPED_BY * PFS_SECTOR_PER_BANK)
+#define	PFS_SECTOR_SIZE		(PFS_INODE_SIZE_PER_PAGE/PFS_SECTOR_PER_BANK)
+
 typedef struct {
 	int		status;
 	OSMesgQueue* queue;
@@ -122,5 +127,11 @@ typedef struct {
 	u16	checksum;
 	u16	invertedChecksum;
 } __OSPackId;
+
+typedef	struct {
+  __OSInode	inode;
+  u8		bank;
+  u8		map[PFS_INODE_DIST_MAP];
+} __OSInodeCache;
 
 #endif

@@ -507,11 +507,10 @@ beginseg
     include "build/src/libultra_code/osContSetCh.o"
     include "build/asm/code_80104D60.o"
     include "build/src/libultra_code/pfsinitpak.o"
-    include "build/asm/code_80105250.o"
+    include "build/src/libultra_code/pfschecker.o"
     include "build/src/libultra_code/osAiGetLength.o"
     include "build/asm/guTranslate.o"
-    include "build/asm/code_80105CF0.o"
-    include "build/data/code_80105CF0.data.o"
+    include "build/src/libultra_code/__osContRamWrite.o"
     include "build/src/libultra_code/osReadMempak.o"
     include "build/src/libultra_code/osMempakAddrCRC.o"
     include "build/src/libultra_code/osSetTimer.o"
@@ -520,7 +519,6 @@ beginseg
     include "build/asm/osWritebackDCacheAll.o"
     include "build/src/libultra_code/__osGetCurrFaultedThread.o"
     include "build/asm/guMtxF2L.o"
-    
     include "build/src/libultra_code/llcvt.o"
     include "build/src/libultra_code/osViGetCurrentFramebuffer.o"
     include "build/src/libultra_code/__osSpSetPc.o"
@@ -528,9 +526,7 @@ beginseg
     include "build/src/libultra_code/absf.o"
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
-    
     include "build/src/code/code_801068B0.o"
-    
     include "build/data/z_message_PAL.rodata.o"
     include "build/src/code/z_message_PAL.o"
     include "build/data/z_message_PAL.bss.o"

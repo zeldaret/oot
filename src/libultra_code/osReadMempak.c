@@ -4,6 +4,8 @@
 
 #define BLOCKSIZE 32
 
+s32 __osPfsLastChannel = -1;
+
 s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
     s32 ret;
     s32 i;
