@@ -49,15 +49,15 @@ typedef struct {
 } CameraSetting;
 
 typedef enum {
-    CAM_STATUS_UNK0,
-    CAM_STATUS_UNK1,
+    CAM_STATUS_CUT,
+    CAM_STATUS_WAIT,
     CAM_STATUS_UNK2,
     CAM_STATUS_UNK3,
     CAM_STATUS_UNK4,
     CAM_STATUS_UNK5,
     CAM_STATUS_UNK6,
     CAM_STATUS_ACTIVE,
-    CAM_STATUS_UNK100 = 0x100
+    CAM_STATUS_UNKT = 0x100
 } CameraStatusType;
 
 typedef enum {
@@ -6428,11 +6428,11 @@ void Camera_PrintSettings(Camera *camera) {
                     activeCamStatus[i] = ' '; 
                     allCamStatus[i] = '*'; 
                     break;
-                case CAM_STATUS_UNK0: 
+                case CAM_STATUS_CUT: 
                     allCamStatus[i] = 'c';
                     activeCamStatus[i] = ' ';
                     break; 
-                case CAM_STATUS_UNK1:
+                case CAM_STATUS_WAIT:
                     allCamStatus[i] = 'w'; 
                     activeCamStatus[i] = ' '; 
                     break; 
@@ -6444,7 +6444,7 @@ void Camera_PrintSettings(Camera *camera) {
                     allCamStatus[i] = 'a'; 
                     activeCamStatus[i] = ' '; 
                     break; 
-                case CAM_STATUS_UNK100:
+                case CAM_STATUS_UNKT:
                     allCamStatus[i] = 'd'; 
                     activeCamStatus[i] = ' '; 
                     break; 
@@ -6625,9 +6625,11 @@ s16 D_8011DB0C = 0x156;
 #endif
 
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     static s32 sOOBTimer = 0;
+
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
@@ -6641,65 +6643,69 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     PosRot curPlayerPosRot;
     QuakeCamCalc quake;
     Player *player;
-    s32 oobTimer;
 
     player = camera->globalCtx->cameraPtrs[0]->player;
+
     if (R_DBG_CAM_UPDATE) {
         osSyncPrintf("camera: in %x\n", camera);
     }
-    if (camera->status == 0) {
+    
+    if (camera->status == CAM_STATUS_CUT) {
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: cut out %x\n", camera);
         }
         *outVec = camera->direction;
         return outVec;
-    } else {
-        sUpdateCameraDirection = 0;
-        if (camera->player != NULL) {
-            func_8002EF44(&curPlayerPosRot, &camera->player->actor);
-            playerXZDiff = OLib_Vec3fDistXZ(&curPlayerPosRot, &camera->playerPosRot);
-            camera->unk_D8 = playerXZDiff;
-            camera->unk_E0 = func_8007C0A8(playerXZDiff / (func_8002DCE4(camera->player) * (OREG(8) * 0.01f)), 1.0f);
-            camera->playerPosDelta.x = curPlayerPosRot.pos.x - camera->playerPosRot.pos.x;
-            camera->playerPosDelta.y = curPlayerPosRot.pos.y - camera->playerPosRot.pos.y;
-            camera->playerPosDelta.z = curPlayerPosRot.pos.z - camera->playerPosRot.pos.z;
-            spAC = curPlayerPosRot.pos;
-            spAC.y += Player_GetCameraYOffset(camera->player);
+    }
 
-            // This has to do with out of bounds Camera
-            spA4 = func_8003CA0C(camera->globalCtx, &camera->globalCtx->colCtx, &playerFloorPoly, &spA8, camera->player, &spAC);
-            if (spA4 != -32000.0f) {
-                oobTimer = 0;
-                camera->unk_108.x = playerFloorPoly->norm.x * (1.0f / 32767.0f);
-                camera->unk_108.y = playerFloorPoly->norm.y * (1.0f / 32767.0f);
-                camera->unk_108.z = playerFloorPoly->norm.z * (1.0f / 32767.0f);
-                camera->unk_146 = spA8;
-                camera->unk_104 = spA4;
-            } else {
-                oobTimer = sOOBTimer + 1;
-                // an extra mtc1 zero, fx is being generated.
-                camera->unk_108.x = 0.0f;
-                camera->unk_108.z = 0.0f;
-                camera->unk_108.y = 1.0f;
+    sUpdateCameraDirection = 0;
+
+    if (camera->player != NULL) {
+        func_8002EF44(&curPlayerPosRot, &camera->player->actor);
+        camera->unk_D8 = playerXZDiff = OLib_Vec3fDistXZ(&curPlayerPosRot.pos, &camera->playerPosRot.pos);
+        
+        camera->unk_E0 = func_8007C0A8(playerXZDiff / (func_8002DCE4(camera->player) * (OREG(8) * 0.01f)), 1.0f);
+        camera->playerPosDelta.x = curPlayerPosRot.pos.x - camera->playerPosRot.pos.x;
+        camera->playerPosDelta.y = curPlayerPosRot.pos.y - camera->playerPosRot.pos.y;
+        camera->playerPosDelta.z = curPlayerPosRot.pos.z - camera->playerPosRot.pos.z;
+        spAC = curPlayerPosRot.pos;
+        spAC.y += Player_GetCameraYOffset(camera->player);
+
+        // This has to do with out of bounds Camera
+        spA4 = func_8003CA0C(camera->globalCtx, &camera->globalCtx->colCtx, &playerFloorPoly, &spA8, camera->player, &spAC);
+        if (spA4 != -32000.0f) {
+            sOOBTimer = 0;
+            camera->unk_108.x = playerFloorPoly->norm.x * (1.0f / 32767.0f);
+            camera->unk_108.y = playerFloorPoly->norm.y * (1.0f / 32767.0f);
+            camera->unk_108.z = playerFloorPoly->norm.z * (1.0f / 32767.0f);
+            camera->unk_146 = spA8;
+            camera->unk_104 = spA4;
+        } else {
+            sOOBTimer = sOOBTimer + 1;
+            if(1){
+            camera->unk_108.x = 0.0;
+            camera->unk_108.y = 1.0f;
+            camera->unk_108.z = 0.0;
+            }
+        }
+
+        camera->playerPosRot = curPlayerPosRot;
+        
+        if (sOOBTimer < 200) {
+            if (camera->status == CAM_STATUS_ACTIVE) {
+                func_800588B4(camera);
+                Camera_SetRoomHotFlag(camera);
             }
 
-            camera->playerPosRot = curPlayerPosRot;
-            sOOBTimer = oobTimer;
-            if (oobTimer < 0xC8) {
-                if (camera->status == 7) {
-                    func_800588B4(camera);
-                    Camera_SetRoomHotFlag(camera);
-                }
+            if (!(camera->unk_14C & 4)) {
+                camera->unk_156 = -1;
+            }
 
-                if (!(camera->unk_14C & 4)) {
-                    camera->unk_156 = -1;
-                }
-
-                if (camera->unk_14C & 1) {
-                    if ((camera->unk_14C & 4) && (!(camera->unk_14C & 0x400)) &&
-                        (!(camera->unk_14C & 0x200) || (player->currentBoots == 1)) &&
-                        // cast to u32 is needed to prevent sra over srl
-                        (!((u32)camera->unk_14C >> 0xF)) && (spA4 != -32000.0f)) {
+            if (camera->unk_14C & 1) {
+                if ((camera->unk_14C & 4) && (!(camera->unk_14C & 0x400)) &&
+                    (!(camera->unk_14C & 0x200) || (player->currentBoots == 1)) &&
+                    // cast to u32 is needed to prevent sra over srl
+                    (!((u32)camera->unk_14C >> 0xF)) && (spA4 != -32000.0f)) {
                         temp_v1 = func_8004479C(camera, &spA8, playerFloorPoly);
                         if (temp_v1 != -1) {
                             camera->unk_158 = spA8;
@@ -6707,164 +6713,167 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
                                 camera->unk_156 = temp_v1;
                             }
                         }
-                    }
-                }
-
-                if (camera->unk_156 != -1 && (fabsf(curPlayerPosRot.pos.y - spA4) < 2.0f) &&
-                    (!(camera->unk_14C & 0x200) || (player->currentBoots == 1))) {
-                    camera->unk_146 = camera->unk_158;
-                    func_8005A7A8(camera, camera->unk_156);
-                    camera->unk_156 = -1;
                 }
             }
-        }
 
-        Camera_PrintSettings(camera);
-        func_80058D34(camera);
-
-        if (camera->status == 1) {
-            if (R_DBG_CAM_UPDATE) {
-                osSyncPrintf("camera: wait out %x\n", camera);
+            if (camera->unk_156 != -1 && (fabsf(curPlayerPosRot.pos.y - spA4) < 2.0f) &&
+                (!(camera->unk_14C & 0x200) || (player->currentBoots == 1))) {
+                camera->unk_146 = camera->unk_158;
+                func_8005A7A8(camera, camera->unk_156);
+                camera->unk_156 = -1;
             }
-            *outVec = camera->direction;
-            return outVec;
-        }
-
-        camera->unk_14A = 0;
-        camera->unk_14C &= ~(0x400 | 0x20);
-        camera->unk_14C |= 0x10;
-
-        if (R_DBG_CAM_UPDATE) {
-            osSyncPrintf("camera: engine (%d %d %d) %04x \n", camera->setting, camera->mode, sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx, camera->unk_14C);
-        }
-
-        oobTimer = sOOBTimer;
-        if (oobTimer < 0xC8) {
-            sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera);
-        } else if (camera->player != NULL) {
-            OLib_Vec3fDiffToVecSphRot90(&sp98, &camera->at, &camera->eye);
-            func_800457A8(camera, &sp98, 0.0f, 0);
-        }
-
-        if (camera->status == 7) {
-            if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3)) {
-                sCameraInterfaceFlags = 0;
-                Camera_UpdateInterface(sCameraInterfaceFlags);
-            } else if ((D_8011D3F0 != 0) && (camera->thisIdx == 0)) {
-                D_8011D3F0--;
-                sCameraInterfaceFlags = 0x3200;
-                Camera_UpdateInterface(sCameraInterfaceFlags);
-            } else if (camera->globalCtx->transitionMode != 0) {
-                sCameraInterfaceFlags = 0xF200;
-                Camera_UpdateInterface(sCameraInterfaceFlags);
-            } else if (camera->globalCtx->csCtx.state != 0) {
-                sCameraInterfaceFlags = 0x3200;
-                Camera_UpdateInterface(sCameraInterfaceFlags);
-            } else {
-                Camera_UpdateInterface(sCameraInterfaceFlags);
-            }
-        }
-
-        if (R_DBG_CAM_UPDATE) {
-            osSyncPrintf("camera: shrink_and_bitem %x(%d)\n", sCameraInterfaceFlags, camera->globalCtx->transitionMode);
-        }
-
-        if (R_DBG_CAM_UPDATE) {
-            osSyncPrintf("camera: engine (%s(%d) %s(%d) %s(%d)) ok!\n", &sCameraSettingNames[camera->setting], camera->setting, &sCameraModeNames[camera->mode], camera->mode, &sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx], sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx);
-        }
-
-        if (CHECK_PAD(D_8015BD7C->state.input[2].press, CONT_START)) {
-            gDbgCamEnabled ^= 1;
-            if (gDbgCamEnabled) {
-                DbgCamera_Enable(&D_8015BD80, camera);
-            } else {
-                if (camera->globalCtx->csCtx.state != 0) {
-                    func_80064534(camera->globalCtx, &camera->globalCtx->csCtx);
-                }
-            }
-        }
-        if (gDbgCamEnabled) {
-            camera->globalCtx->view.fovy = D_8015BD80.fov;
-            DbgCamera_Update(&D_8015BD80, camera);
-            func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
-            if (R_DBG_CAM_UPDATE) {
-                osSyncPrintf("camera: debug out\n");
-            }
-            *outVec = D_8015BD80.unk_10C6;
-            return outVec;
-        }
-        OREG(0) &= ~8;
-        if (camera->status == 3) {
-            *outVec = camera->direction;
-            return outVec;
-        } else {
-            if ((Quake_Calc(camera, &quake) != 0) && (camera->setting != 0x38)) {
-                spD4.x = camera->at.x + quake.atOffset.x;
-                spD4.y = camera->at.y + quake.atOffset.y;
-                spD4.z = camera->at.z + quake.atOffset.z;
-                spC8.x = camera->eye.x + quake.eyeOffset.x;
-                spC8.y = camera->eye.y + quake.eyeOffset.y;
-                spC8.z = camera->eye.z + quake.eyeOffset.z;
-                OLib_Vec3fDiffToVecSphRot90(&sp98, &spC8, &spD4);
-                func_80044E68(&spBC, sp98.phi + quake.zoom, sp98.theta + quake.unk_1A, camera->roll);
-                spB8 = camera->fov + (quake.zoom * (360.0f / 65535.0f));
-            } else {
-                spD4 = camera->at;
-                spC8 = camera->eye;
-                OLib_Vec3fDiffToVecSphRot90(&sp98, &spC8, &spD4);
-                func_80044E68(&spBC, sp98.phi, sp98.theta, camera->roll);
-                spB8 = camera->fov;
-            }
-            if (camera->paramFlags & 4) {
-                camera->paramFlags &= ~4;
-                spBC = camera->unk_68;
-            } else {
-                camera->unk_68 = spBC;
-            }
-
-            camera->skyboxOffset = quake.eyeOffset;
-
-            func_80058E8C(camera);
-            if ((camera->globalCtx->sceneNum == 0x51) && (camera->fov < 59.0f)) {
-                View_SetScale(&camera->globalCtx->view, 0.79f);
-            } else {
-                View_SetScale(&camera->globalCtx->view, 1.0f);
-            }
-            camera->globalCtx->view.fovy = spB8;
-            func_800AA358(&camera->globalCtx->view, &spC8, &spD4, &spBC);
-            camera->realDir.x = sp98.phi;
-            camera->realDir.y = sp98.theta;
-            camera->realDir.z = 0;
-            if (sUpdateCameraDirection == 0) {
-                camera->direction.x = sp98.phi;
-                camera->direction.y = sp98.theta;
-                camera->direction.z = 0;
-            }
-            if (R_DBG_CAM_UPDATE) {
-                osSyncPrintf("dir  (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->direction.x, camera->direction.x * (360.0f / 65535.0f), camera->direction.y, camera->direction.y * (360.0f / 65535.0f));
-                osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->realDir.x, camera->realDir.x * (360.0f / 65535.0f), camera->realDir.y, camera->realDir.y * (360.0f / 65535.0f));
-            }
-            if (camera->unk_160 != -1) {
-                if (CHECK_PAD(D_8015BD7C->state.input[0].press, CONT_RIGHT)) {
-                    camera->unk_160 = 0;
-                }
-            }
-            if (R_DBG_CAM_UPDATE) {
-                osSyncPrintf("camera: out (%f %f %f) (%f %f %f)\n", camera->at.x, camera->at.y, camera->at.z, camera->eye.x, camera->eye.y, camera->eye.z);
-                osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", sp98.r, sp98.phi, sp98.phi * (360.0f / 65535.0f), sp98.theta, sp98.theta * (360.0f / 65535.0f), camera->fov);
-                if (camera->player != NULL) {
-                    osSyncPrintf("camera: foot(%f %f %f) dist (%f)\n", curPlayerPosRot.pos.x, curPlayerPosRot.pos.y, curPlayerPosRot.pos.z, camera->dist);
-                }
-            }
-            *outVec = camera->direction;
         }
     }
+    Camera_PrintSettings(camera);
+    func_80058D34(camera);
+
+    if (camera->status == CAM_STATUS_WAIT) {
+        if (R_DBG_CAM_UPDATE) {
+            osSyncPrintf("camera: wait out %x\n", camera);
+        }
+        *outVec = camera->direction;
+        return outVec;
+    }
+
+    camera->unk_14A = 0;
+    camera->unk_14C &= ~(0x400 | 0x20);
+    camera->unk_14C |= 0x10;
+
+    if (R_DBG_CAM_UPDATE) {
+        osSyncPrintf("camera: engine (%d %d %d) %04x \n", camera->setting, camera->mode, sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx, camera->unk_14C);
+    }
+
+    if (sOOBTimer < 200) {
+        // camera is supposed to be moved from s0 to a0 
+        sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera);
+    } else if (camera->player != NULL) {
+        OLib_Vec3fDiffToVecSphRot90(&sp98, &camera->at, &camera->eye);
+        func_800457A8(camera, &sp98, 0.0f, 0);
+    }
+
+    if (camera->status == CAM_STATUS_ACTIVE) {
+        if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3)) {
+            sCameraInterfaceFlags = 0;
+            Camera_UpdateInterface(sCameraInterfaceFlags);
+        } else if ((D_8011D3F0 != 0) && (camera->thisIdx == 0)) {
+            D_8011D3F0--;
+            sCameraInterfaceFlags = 0x3200;
+            Camera_UpdateInterface(sCameraInterfaceFlags);
+        } else if (camera->globalCtx->transitionMode != 0) {
+            sCameraInterfaceFlags = 0xF200;
+            Camera_UpdateInterface(sCameraInterfaceFlags);
+        } else if (camera->globalCtx->csCtx.state != 0) {
+            sCameraInterfaceFlags = 0x3200;
+            Camera_UpdateInterface(sCameraInterfaceFlags);
+        } else {
+            Camera_UpdateInterface(sCameraInterfaceFlags);
+        }
+    }
+
+    if (R_DBG_CAM_UPDATE) {
+        osSyncPrintf("camera: shrink_and_bitem %x(%d)\n", sCameraInterfaceFlags, camera->globalCtx->transitionMode);
+    }
+
+    if (R_DBG_CAM_UPDATE) {
+        osSyncPrintf("camera: engine (%s(%d) %s(%d) %s(%d)) ok!\n", &sCameraSettingNames[camera->setting], camera->setting, &sCameraModeNames[camera->mode], camera->mode, &sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx], sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx);
+    }
+
+    // enable/disable debug cam
+    if (CHECK_PAD(D_8015BD7C->state.input[2].press, CONT_START)) {
+        gDbgCamEnabled ^= 1;
+        if (gDbgCamEnabled) {
+            DbgCamera_Enable(&D_8015BD80, camera);
+        } else if (camera->globalCtx->csCtx.state != 0) {
+            func_80064534(camera->globalCtx, &camera->globalCtx->csCtx);
+        }
+    }
+
+    // Debug cam update
+    if (gDbgCamEnabled) {
+        camera->globalCtx->view.fovy = D_8015BD80.fov;
+        DbgCamera_Update(&D_8015BD80, camera);
+        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
+        if (R_DBG_CAM_UPDATE) {
+            osSyncPrintf("camera: debug out\n");
+        }
+        *outVec = D_8015BD80.unk_10C6;
+        return outVec;
+    }
+
+    OREG(0) &= ~8;
+
+    if (camera->status == 3) {
+        *outVec = camera->direction;
+        return outVec;
+    }
+
+    if ((spA8 = Quake_Calc(camera, &quake), spA8 != 0) && (camera->setting != 0x38)) {
+        spD4.x = camera->at.x + quake.atOffset.x;
+        spD4.y = camera->at.y + quake.atOffset.y;
+        spD4.z = camera->at.z + quake.atOffset.z;
+        spC8.x = camera->eye.x + quake.eyeOffset.x;
+        spC8.y = camera->eye.y + quake.eyeOffset.y;
+        spC8.z = camera->eye.z + quake.eyeOffset.z;
+        OLib_Vec3fDiffToVecSphRot90(&sp98, &spC8, &spD4);
+        func_80044E68(&spBC, sp98.phi + quake.rotZ, sp98.theta + quake.unk_1A, camera->roll);
+        spB8 = camera->fov + (quake.zoom * (360.0001525f / 65535.0f));
+    } else {
+        spD4 = camera->at;
+        spC8 = camera->eye;
+        OLib_Vec3fDiffToVecSphRot90(&sp98, &spC8, &spD4);
+        func_80044E68(&spBC, sp98.phi, sp98.theta, camera->roll);
+        spB8 = camera->fov;
+    }
+
+    if (camera->paramFlags & 4) {
+        camera->paramFlags &= ~4;
+        spBC = camera->unk_68;
+    } else {
+        camera->unk_68 = spBC;
+    }
+
+    camera->skyboxOffset = quake.eyeOffset;
+
+    func_80058E8C(camera);
+    if ((camera->globalCtx->sceneNum == 0x51) && (camera->fov < 59.0f)) {
+        View_SetScale(&camera->globalCtx->view, 0.79f);
+    } else {
+        View_SetScale(&camera->globalCtx->view, 1.0f);
+    }
+    camera->globalCtx->view.fovy = spB8;
+    func_800AA358(&camera->globalCtx->view, &spC8, &spD4, &spBC);
+    camera->realDir.x = sp98.phi;
+    camera->realDir.y = sp98.theta;
+    camera->realDir.z = 0;
+    if (sUpdateCameraDirection == 0) {
+        camera->direction.x = sp98.phi;
+        camera->direction.y = sp98.theta;
+        camera->direction.z = 0;
+    }
+    if (PREG(81)) {
+        osSyncPrintf("dir  (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->direction.x, camera->direction.x * (360.0001525f / 65535.0f), camera->direction.y, camera->direction.y * (360.0001525f / 65535.0f));
+        osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->realDir.x, camera->realDir.x * (360.0001525f / 65535.0f), camera->realDir.y, camera->realDir.y * (360.0001525f / 65535.0f));
+    }
+    if (camera->unk_160 != -1) {
+        if (CHECK_PAD(D_8015BD7C->state.input[0].press, CONT_RIGHT)) {
+            camera->unk_160 = 0;
+        }
+    }
+    if (R_DBG_CAM_UPDATE) {
+        osSyncPrintf("camera: out (%f %f %f) (%f %f %f)\n", camera->at.x, camera->at.y, camera->at.z, camera->eye.x, camera->eye.y, camera->eye.z);
+        osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", sp98.r, sp98.phi, sp98.phi * (360.0001525f / 65535.0f), sp98.theta, sp98.theta * (360.0001525f / 65535.0f), camera->fov);
+        if (camera->player != NULL) {
+            osSyncPrintf("camera: foot(%f %f %f) dist (%f)\n", curPlayerPosRot.pos.x, curPlayerPosRot.pos.y, curPlayerPosRot.pos.z, camera->dist);
+        }
+    }
+    *outVec = camera->direction;
     return outVec;
 }
 #else
 s32 sOOBTimer = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Update.s")
 #endif
+#undef NON_MATCHING
 
 void func_80059EC8(Camera* camera) {
     Camera* sp24 = camera->globalCtx->cameraPtrs[0];
