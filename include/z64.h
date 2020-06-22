@@ -160,7 +160,8 @@ typedef struct {
     /* 0x1360 */ s32          sceneSetupIndex;
     /* 0x1364 */ s32          respawnFlag; // "restart_flag"
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
-    /* 0x13BC */ char         unk_13BC[0x0008];
+    /* 0x13BC */ char         unk_13BC[0x0007];
+    /* 0x13C3 */ u8           unk_13C3;
     /* 0x13C4 */ s16          dogParams;
     /* 0x13C6 */ u8           unk_13C6;
     /* 0x13C7 */ u8           unk_13C7;
@@ -821,9 +822,11 @@ typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
     /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ char     unk_10[0x03];
+    /* 0x10 */ u8       unk_10;
+    /* 0x11 */ u8       unk_11;
+    /* 0x12 */ char     unk_12;
     /* 0x13 */ u8       unk_13;
-    /* 0x14 */ char     unk_14[0x01];
+    /* 0x14 */ char     unk_14;
     /* 0x15 */ u8       skyDisabled;
     /* 0x16 */ u8       sunMoonDisabled;
     /* 0x17 */ u8       gloomySky;
@@ -841,7 +844,11 @@ typedef struct {
     /* 0x2A */ s8       unk_2A;
     /* 0x2B */ s8       unk_2B;
     /* 0x2C */ s8       unk_2C;
-    /* 0x2D */ char     unk_2D[0x5E];
+    /* 0x2D */ char     unk_2D[0x17];
+    /* 0x44 */ u8       unk_44;
+    /* 0x45 */ char     unk_45[0x3F];
+    /* 0x84 */ float    unk_84;
+    /* 0x88 */ float    unk_88;
     /* 0x8C */ s16      unk_8C[6];
     /* 0x98 */ char     unk_98[0x08];
     /* 0xA0 */ s16      unk_A0;
@@ -852,7 +859,9 @@ typedef struct {
     /* 0xB0 */ f32      unk_B0;
     /* 0xB4 */ u8       nbLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ char     unk_BC[0x03];
+    /* 0xBC */ char     unk_BC;
+    /* 0xBD */ u8       unk_BD;
+    /* 0xBE */ char     unk_BE;
     /* 0xBF */ u8       unk_BF;
     /* 0xC0 */ char     unk_C0[0x18];
     /* 0xD8 */ f32      unk_D8;
@@ -1105,6 +1114,140 @@ typedef struct {
     /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[0x06];
 } TitleContext; // size = 0x1E8
+
+typedef struct {
+    s8 unk_0[128];
+} KanFont_unk3C88; // size = 0x80
+
+typedef struct {
+    /* 0x0000 */ s32 unk_0[0xF22];
+    /* 0x3C88 */ KanFont_unk3C88 unk_3C88[1];
+    /* 0x3D08 */ s32 unk_3D08[0x2920];
+} KanFont; // size = 0xE188
+
+typedef struct {
+    u8 unk_0[8];
+} ChooseContext_unk1C9FC; // size = 0x8
+
+typedef struct {
+    /* 0x00000 */ GameState state;
+    /* 0x000A4 */ Vtx_t* allocVtx1;
+    /* 0x000A8 */ void* staticSegment;
+    /* 0x000AC */ void* parameterSegment;
+    /* 0x000B0 */ s32 unk_B0[2];
+    /* 0x000B8 */ View view;
+    /* 0x001E0 */ Sram sram;
+    /* 0x001E4 */ s32 unk_1E4[1];
+    /* 0x001E8 */ SkyboxContext skybox;
+    /* 0x00338 */ s32 unk_338[0x390A];
+    /* 0x0E760 */ KanFont kanfont;
+    /* 0x1C8E8 */ EnvironmentContext kankyo;
+    /* 0x1C9E4 */ s32 unk_1C9E4;
+    /* 0x1C9E8 */ Vtx_t* allocVtx2;
+    /* 0x1C9EC */ Vtx_t* allocVtx3;
+    /* 0x1C9F0 */ s32 unk_1C9F0;
+    /* 0x1C9F4 */ u8  unk_1C9F4;
+    /* 0x1C9F5 */ u8  unk_1C9F5;
+    /* 0x1C9F6 */ u16  unk_1C9F6[3];
+    /* 0x1C9FC */ ChooseContext_unk1C9FC unk_1C9FC[3];
+    ///* 0x1C9FF */ s8  unk_1C9FF;
+    ///* 0x1CA00 */ s32 unk_1CA00[5];
+    /* 0x1CA14 */ u16 unk_1CA14;
+    /* 0x1CA16 */ s16 unk_1CA16;
+    /* 0x1CA18 */ s32 unk_1CA18;
+    /* 0x1CA1C */ s32 unk_1CA1C[3];
+    ///* 0x1CA20 */ s32 unk_1CA20;
+    ///* 0x1CA24 */ s32 unk_1CA24;
+    /* 0x1CA28 */ s16 unk_1CA28[3];
+    ///* 0x1CA2A */ s16 unk_1CA2A;
+    ///* 0x1CA2C */ s16 unk_1CA2C;
+    /* 0x1CA2E */ s8  unk_1CA2E[3];
+    /* 0x1CA31 */ s8  unk_1CA31;
+    /* 0x1CA32 */ s16 unk_1CA32;
+    /* 0x1CA34 */ s16 unk_1CA34;
+    /* 0x1CA36 */ s16 unk_1CA36;
+    /* 0x1CA38 */ s16 unk_1CA38;
+    /* 0x1CA3A */ s16 unk_1CA3A;
+    /* 0x1CA3C */ s16 menuIdx;
+    /* 0x1CA3E */ s16 fileSelectStateIdx;
+    /* 0x1CA40 */ s16 unkActionIndex;
+    /* 0x1CA42 */ s16 unk_1CA42;
+    /* 0x1CA44 */ s16 openFileStateIdx;
+    /* 0x1CA46 */ s16 unk_1CA46;
+    /* 0x1CA48 */ s16 unk_1CA48;
+    /* 0x1CA4A */ s16 unk_1CA4A[3];
+    ///* 0x1CA4C */ s16 unk_1CA4C;
+    ///* 0x1CA4E */ s16 unk_1CA4E;
+    /* 0x1CA50 */ s16 unk_1CA50;
+    /* 0x1CA52 */ s16 unk_1CA52[3];
+    /* 0x1CA58 */ s16 unk_1CA58[2];
+    /* 0x1CA5C */ s16 unk_1CA5C;
+    /* 0x1CA5E */ s16 unk_1CA5E;
+    /* 0x1CA60 */ s16 decisionAlphaIdx;
+    /* 0x1CA62 */ s16 unk_1CA62;
+    /* 0x1CA64 */ s16 unk_1CA64;
+    /* 0x1CA66 */ s16 unk_1CA66;
+    /* 0x1CA68 */ s16 rgb[3];
+    ///* 0x1CA68 */ s16 colorR;
+    ///* 0x1CA6A */ s16 colorG;
+    ///* 0x1CA6C */ s16 colorB;
+    /* 0x1CA6E */ s16 colorAlpha[2];
+    ///* 0x1CA70 */ s16 unk_1CA70;
+    /* 0x1CA72 */ s16 colorAlpha2;
+    /* 0x1CA74 */ s16 unk_1CA74[3];
+    ///* 0x1CA76 */ s16 unk_1CA76;
+    ///* 0x1CA78 */ s16 unk_1CA78;
+    /* 0x1CA7A */ s16 unk_1CA7A[3];
+    ///* 0x1CA7C */ s16 unk_1CA7C;
+    ///* 0x1CA7E */ s16 unk_1CA7E;
+    /* 0x1CA80 */ s16 unk_1CA80[3];
+    ///* 0x1CA82 */ s16 unk_1CA82;
+    ///* 0x1CA84 */ s16 unk_1CA84;
+    /* 0x1CA86 */ s16 unk_1CA86[3];
+    ///* 0x1CA88 */ s16 unk_1CA88;
+    ///* 0x1CA8A */ s16 unk_1CA8A;
+    /* 0x1CA8C */ s16 unk_1CA8C[3];
+    ///* 0x1CA8E */ s16 unk_1CA8E;
+    ///* 0x1CA90 */ s16 unk_1CA90;
+    /* 0x1CA92 */ s16 unk_1CA92[2];
+    ///* 0x1CA94 */ s16 unk_1CA94;
+    /* 0x1CA96 */ s16 unk_1CA96[2];
+    ///* 0x1CA98 */ s16 unk_1CA98;
+    /* 0x1CA9A */ s16 unk_1CA9A;
+    /* 0x1CA9C */ s16 unk_1CA9C;
+    /* 0x1CA9E */ s16 unk_1CA9E;
+    /* 0x1CAA0 */ s16 unk_1CAA0;
+    /* 0x1CAA2 */ s16 unk_1CAA2[2];
+    ///* 0x1CAA4 */ s16 unk_1CAA4;
+    /* 0x1CAA6 */ s16 unk_1CAA6[2];
+    ///* 0x1CAA8 */ s16 unk_1CAA8;
+    /* 0x1CAAA */ s16 unk_1CAAA;
+    /* 0x1CAAC */ s16 unk_1CAAC;
+    /* 0x1CAAE */ s16 unk_1CAAE[2];
+    ///* 0x1CAB0 */ s16 unk_1CAB0;
+    /* 0x1CAB2 */ s16 unk_1CAB2;
+    /* 0x1CAB4 */ s16 unk_1CAB4;
+    /* 0x1CAB6 */ s16 unk_1CAB6;
+    /* 0x1CAB8 */ s16 unk_1CAB8;
+    /* 0x1CABA */ s16 unk_1CABA;
+    /* 0x1CABC */ s16 unk_1CABC;
+    /* 0x1CABE */ s16 unk_1CABE;
+    /* 0x1CAC0 */ s16 unk_1CAC0;
+    /* 0x1CAC2 */ s16 unk_1CAC2;
+    /* 0x1CAC4 */ float rotX;
+    /* 0x1CAC8 */ s16 unk_1CAC8;
+    /* 0x1CACA */ s16 unk_1CACA;
+    /* 0x1CACC */ s16 unk_1CACC;
+    /* 0x1CACE */ s16 unk_1CACE;
+    /* 0x1CAD0 */ s16 unk_1CAD0;
+    /* 0x1CAD2 */ s16 unk_1CAD2;
+    /* 0x1CAD4 */ s16 unk_1CAD4;
+    /* 0x1CAD6 */ s16 unk_1CAD6[5];
+    ///* 0x1CAD8 */ s16 unk_1CAD8;
+    ///* 0x1CADA */ s16 unk_1CADA;
+    ///* 0x1CADC */ s16 unk_1CADC;
+    ///* 0x1CADE */ s16 unk_1CADE;
+} ChooseContext; // size = 0x1CAE0
 
 typedef struct {
     /* 0x00 */ char* name;
