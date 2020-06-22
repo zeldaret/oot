@@ -61,7 +61,7 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0D, pauseCtx->unk_134);
 
     if (pauseCtx->flag == 0) {
-        func_80823994(pauseCtx, pauseCtx->unk_1D8.x, pauseCtx->unk_1D8.y, pauseCtx->unk_1D8.z);
+        func_80823994(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
         func_800949A8(globalCtx->state.gfxCtx);
         func_8082409C(globalCtx, globalCtx->state.gfxCtx);
         func_80820434(globalCtx, globalCtx->state.gfxCtx);

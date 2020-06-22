@@ -793,7 +793,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0)) {
-                func_8006EA30(globalCtx);
+                KaleidoSetup_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {
@@ -1134,7 +1134,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
-                View view;         // 0xA0
+                View view; // 0xA0
 
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;

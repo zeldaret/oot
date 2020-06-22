@@ -1,9 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-// Note : This file is related to z_vismono, the original name was probably z_vis<something before "mono"
-// alphabetically>
-
 // (Note: 80 = SCREEN_HEIGHT/3, see VisMono_DrawTexture)
 // Did the devs forget to update this? 1+1+1+80*(7+2+2+3)+1+1 makes more sense
 #define DLSIZE (1 + 3 + 1 + 1 + 80 * (7 + 2 + 2 + 3) + 1)

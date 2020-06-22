@@ -311,8 +311,7 @@ beginseg
     include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
     include "build/src/code/z_jpeg.o"
-    include "build/src/code/code_8006EA30.o"
-    include "build/data/code_8006EA30.data.o"
+    include "build/src/code/z_kaleido_setup.o"
     include "build/src/code/z_kanfont.o"
     include "build/src/code/z_kankyo.o"
     include "build/data/z_kankyo.data.o"
@@ -383,8 +382,7 @@ beginseg
     include "build/asm/PreRender.o"
     include "build/data/PreRender.rodata.o"
     include "build/src/code/TwoHeadArena.o"
-    include "build/asm/code_800C3C20.o"
-    include "build/data/code_800C3C20.data.o"
+    include "build/src/code/code_800C3C20.o"
     include "build/src/code/audioMgr.o"
     include "build/src/code/title_setup.o"
     include "build/src/code/game.o"
@@ -446,7 +444,7 @@ beginseg
     include "build/src/code/relocation.o"
     include "build/src/code/code_800FC620.o"
     include "build/src/code/padutils.o"
-    include "build/asm/code_800FCD40.o"
+    include "build/src/code/padsetup.o"
     include "build/src/code/code_800FCE80.o"
     include "build/asm/fp.o"
     include "build/src/code/system_malloc.o"
@@ -455,8 +453,7 @@ beginseg
     include "build/src/code/printutils.o"
     include "build/src/code/sleep.o"
     include "build/src/code/jpegutils.o"
-    include "build/asm/jpegdecoder.o"
-    include "build/data/jpegdecoder.bss.o"
+    include "build/src/code/jpegdecoder.o"
     include "build/asm/code_80100040.o"
     include "build/asm/guScale.o"
     include "build/src/libultra_code/sinf.o"
@@ -621,8 +618,7 @@ endseg
 beginseg
     name "ovl_Arms_Hook"
     include "build/src/overlays/actors/ovl_Arms_Hook/z_arms_hook.o"
-    include "build/data/overlays/actors/z_arms_hook.data.o"
-    include "build/data/overlays/actors/z_arms_hook.reloc.o"
+    include "build/src/overlays/actors/ovl_Arms_Hook/ovl_Arms_Hook_reloc.o"
 endseg
 
 beginseg
@@ -1241,7 +1237,6 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
-    include "build/data/overlays/actors/z_bg_spot01_idohashira.data.o"
     include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
 endseg
 

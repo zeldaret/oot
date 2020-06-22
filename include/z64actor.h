@@ -241,7 +241,9 @@ typedef struct Player {
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char       unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ char       unk_3B0[0x084];
+    /* 0x03B0 */ char       unk_3B0[0x018];
+    /* 0x03C8 */ Vec3f      unk_3C8;
+    /* 0x03D4 */ char       unk_3D4[0x060];
     /* 0x0434 */ u8         getItemId;
     /* 0x0435 */ char       unk_435[0x001];
     /* 0x0436 */ u16        getItemDirection;

@@ -412,7 +412,7 @@ void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id
     PadMgr_UnlockSerialMesgQueue(padmgr, siIntMsgQ);
     osCreateMesgQueue(&padmgr->lockMsgQ, padmgr->lockMsgBuf, 1);
     PadMgr_UnlockPadData(padmgr);
-    func_800FCD40(siIntMsgQ, &padmgr->validCtrlrsMask, padmgr);
+    PadSetup_Init(siIntMsgQ, &padmgr->validCtrlrsMask, padmgr->padStatus);
 
     padmgr->ncontrollers = 4;
     osContSetCh(padmgr->ncontrollers);
