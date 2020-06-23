@@ -417,17 +417,16 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
     this->unk_20C[arg2] = arg1;
 }
 
-void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F230.s")
-/*void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
+#ifdef NON_MATCHING
+void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_v1;
     s32 temp_t0;
     s32 temp_t2;
     s32 temp_t3;
-    s32 index1AC;
     s32 phi_v0;
-    s32 phi_t5;
     s32 temp_1AC;
+    s32 index1AC;
+    s32 phi_t5;
 
     if (this->unk_24C != 0) {
         temp_v1 = this->unk_1DC[arg2] - arg1;
@@ -483,7 +482,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
         }
         temp_v1 += phi_v0;
         if (((temp_1AC * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
-
             temp_v1 = 0;
             phi_v0 = 0;
         }
@@ -491,7 +489,10 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
         this->unk_1DC[arg2] = arg1 + temp_v1;
     }
     this->unk_20C[arg2] = arg1;
-}*/
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F230.s")
+#endif
 
 s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                   Gfx** gfx) {
@@ -593,9 +594,9 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4FB74.s")
-/*void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx);
+#ifdef NON_MATCHING
+void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     EnZl2* this = THIS;
     Player* player;
 
@@ -617,7 +618,10 @@ void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         }
         Matrix_Pull();
     }
-}*/
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4FB74.s")
+#endif
 
 void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
     s32 unk_274 = this->unk_274;
