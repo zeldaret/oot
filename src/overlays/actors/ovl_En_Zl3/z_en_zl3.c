@@ -265,22 +265,22 @@ void func_80B53764(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B537E8(EnZl3* this) {
-    s16 rotTowardsLinkY = this->actor.rotTowardsLinkY;
+    s16 yawTowardsLink = this->actor.yawTowardsLink;
     s16* rotY = &this->actor.posRot.rot.y;
     s16* unk_3D0 = &this->unk_3D0;
     s16 pad[3];
 
-    Math_SmoothScaleMaxMinS(unk_3D0, ABS((s16)(rotTowardsLinkY - *rotY)), 5, 6200, 100);
-    Math_SmoothScaleMaxMinS(rotY, rotTowardsLinkY, 5, *unk_3D0, 100);
+    Math_SmoothScaleMaxMinS(unk_3D0, ABS((s16)(yawTowardsLink - *rotY)), 5, 6200, 100);
+    Math_SmoothScaleMaxMinS(rotY, yawTowardsLink, 5, *unk_3D0, 100);
     this->actor.shape.rot.y = *rotY;
     return;
 }
 
 void func_80B538B0(EnZl3* this) {
-    s16 rotTowardsLinkY = this->actor.rotTowardsLinkY;
+    s16 yawTowardsLink = this->actor.yawTowardsLink;
     s16* rotY = &this->actor.posRot.rot.y;
 
-    if (ABS((s16)(rotTowardsLinkY - *rotY)) >= 0x1556) {
+    if (ABS((s16)(yawTowardsLink - *rotY)) >= 0x1556) {
         D_80B5A468 = 1;
     }
 
@@ -848,7 +848,7 @@ void func_80B55CCC(EnZl3* this, s32 arg1) {
 void func_80B55D00(EnZl3* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = 13;
-    } else if (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x4301) {
+    } else if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x4301) {
         this->actor.flags |= 9;
         this->actor.flags |= 1;
         this->actor.textId = 0x70D5;
@@ -906,7 +906,7 @@ void func_80B55F6C(EnZl3* this, GlobalContext* globalCtx) {
 
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = 0x12;
-    } else if (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x4301) {
+    } else if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x4301) {
         bossGanon2 = func_80B53488(this, globalCtx);
         if ((bossGanon2 != NULL) && (bossGanon2->unk_324 <= 0.12345679104328156f)) {
             this->actor.flags |= 9;
@@ -968,7 +968,7 @@ void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
 
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = 21;
-    } else if (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x4301) {
+    } else if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x4301) {
         bossGanon2 = func_80B53488(this, globalCtx);
         if (bossGanon2 != NULL) {
             if (bossGanon2->unk_324 <= 0.12345679104328156f) {
@@ -1428,7 +1428,7 @@ s32 func_80B57324(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B57350(EnZl3* this, GlobalContext* globalCtx) {
-    s16 temp_v0 = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    s16 temp_v0 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
     if (ABS(temp_v0) < 0x4301) {
         this->actor.flags |= 9;
@@ -1715,8 +1715,8 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
     s16 phi_v1;
 
     unk_3F8->unk_18.y = player->actor.posRot.pos.y;
-    unk_3F8->unk_18.x = (Math_Sins(temp_v0) * this->actor.xzDistanceFromLink) + this->actor.posRot.pos.x;
-    unk_3F8->unk_18.z = (Math_Coss(temp_v0) * this->actor.xzDistanceFromLink) + this->actor.posRot.pos.z;
+    unk_3F8->unk_18.x = (Math_Sins(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.x;
+    unk_3F8->unk_18.z = (Math_Coss(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.z;
     unk_3F8->unk_14 = kREG(16) - 16.0f;
     func_80034A14(&this->actor, unk_3F8, kREG(17) + 0xC, 4);
 
