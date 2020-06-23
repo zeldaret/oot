@@ -61,11 +61,11 @@ void func_80B523BC(Actor* thisx, GlobalContext* globalCtx);
 void func_80B523C8(Actor* thisx, GlobalContext* globalCtx);
 void func_80B525D4(Actor* thisx, GlobalContext* globalCtx);
 
-u32 D_80B52810[] = {
+UNK_TYPE D_80B52810[] = {
     0x060030C8, 0x06003C48, 0x06004048, 0x06004548, 0x06004948, 0x06004D48, 0x06005148, 0x06005D48, 0x06006148,
 };
 
-u32 D_80B52834[] = {
+UNK_TYPE D_80B52834[] = {
     0x06003508,
     0x06005548,
     0x06005948,
@@ -260,14 +260,14 @@ CsCmdActorAction* func_80B4ED94(GlobalContext* globalCtx, s32 idx) {
 }
 
 void func_80B4EDB8(EnZl2* this, GlobalContext* globalCtx, s32 arg2) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, arg2);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, arg2);
     s16 temp_v1;
 
-    if (actorAction != NULL) {
-        this->actor.posRot.pos.x = actorAction->startPos.x;
-        this->actor.posRot.pos.y = actorAction->startPos.y;
-        this->actor.posRot.pos.z = actorAction->startPos.z;
-        temp_v1 = actorAction->rot.y;
+    if (npcAction != NULL) {
+        this->actor.posRot.pos.x = npcAction->startPos.x;
+        this->actor.posRot.pos.y = npcAction->startPos.y;
+        this->actor.posRot.pos.z = npcAction->startPos.z;
+        temp_v1 = npcAction->rot.y;
         this->actor.shape.rot.y = temp_v1;
         this->actor.posRot.rot.y = temp_v1;
     }
@@ -746,7 +746,7 @@ void func_80B5008C(EnZl2* this) {
 }
 
 void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     Vec3f* thisPos = &this->actor.posRot.pos;
     f32 startX;
     f32 startY;
@@ -756,14 +756,14 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
     f32 endZ;
     f32 someFloat;
 
-    if (actorAction != NULL) {
-        someFloat = func_8006F9BC(actorAction->endFrame, actorAction->startFrame, globalCtx->csCtx.frames, 8, 8);
-        startX = actorAction->startPos.x;
-        startY = actorAction->startPos.y;
-        startZ = actorAction->startPos.z;
-        endX = actorAction->endPos.x;
-        endY = actorAction->endPos.y;
-        endZ = actorAction->endPos.z;
+    if (npcAction != NULL) {
+        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 8);
+        startX = npcAction->startPos.x;
+        startY = npcAction->startPos.y;
+        startZ = npcAction->startPos.z;
+        endX = npcAction->endPos.x;
+        endY = npcAction->endPos.y;
+        endZ = npcAction->endPos.z;
         thisPos->x = ((endX - startX) * someFloat) + startX;
         thisPos->y = ((endY - startY) * someFloat) + startY;
         thisPos->z = ((endZ - startZ) * someFloat) + startZ;
@@ -777,12 +777,12 @@ void func_80B501C4(EnZl2* this, s32 arg1) {
 }
 
 void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     s32 temp_f16;
 
-    if (actorAction != NULL) {
+    if (npcAction != NULL) {
         temp_f16 =
-            (1.0f - func_8006F93C(actorAction->endFrame, actorAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
+            (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
         this->unk_1A8 = temp_f16;
         this->actor.shape.unk_14 = temp_f16;
         func_80B501C4(this, temp_f16);
@@ -796,13 +796,13 @@ void func_80B50260(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B50278(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     s16 actionRotY;
 
-    this->actor.posRot.pos.x = actorAction->startPos.x;
-    this->actor.posRot.pos.y = actorAction->startPos.y;
-    this->actor.posRot.pos.z = actorAction->startPos.z;
-    actionRotY = actorAction->rot.y;
+    this->actor.posRot.pos.x = npcAction->startPos.x;
+    this->actor.posRot.pos.y = npcAction->startPos.y;
+    this->actor.posRot.pos.z = npcAction->startPos.z;
+    actionRotY = npcAction->rot.y;
     this->actor.shape.unk_14 = 0xFF;
     this->action = 2;
     this->drawConfig = 1;
@@ -813,13 +813,13 @@ void func_80B50278(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     ActorShape* actorShape = &this->actor.shape;
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     f32 actionXDelta;
     f32 actionZDelta;
     s32 temp_f6;
 
-    actionXDelta = actorAction->endPos.x - actorAction->startPos.x;
-    actionZDelta = actorAction->endPos.z - actorAction->startPos.z;
+    actionXDelta = npcAction->endPos.x - npcAction->startPos.x;
+    actionZDelta = npcAction->endPos.z - npcAction->startPos.z;
     func_80B4FD00(this, &D_060003BC, 0, -12.0f, 0);
     this->action = 3;
     this->drawConfig = 1;
@@ -831,9 +831,9 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
 
-    if ((actorAction != NULL) && (globalCtx->csCtx.frames >= actorAction->endFrame)) {
+    if ((npcAction != NULL) && (globalCtx->csCtx.frames >= npcAction->endFrame)) {
         this->action = 4;
     }
 }
@@ -976,10 +976,10 @@ void func_80B50980(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B509A0(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
 
-    if (actorAction != NULL) {
-        if (globalCtx->csCtx.frames >= actorAction->endFrame) {
+    if (npcAction != NULL) {
+        if (globalCtx->csCtx.frames >= npcAction->endFrame) {
             this->action = 24;
             this->drawConfig = 0;
             func_80B4FE6C(this);
@@ -988,12 +988,12 @@ void func_80B509A0(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B50A04(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     s32 newAction;
     s32 unk_240;
 
-    if (actorAction != NULL) {
-        newAction = actorAction->action;
+    if (npcAction != NULL) {
+        newAction = npcAction->action;
         unk_240 = this->unk_240;
         if (newAction != unk_240) {
             switch (newAction) {
@@ -1442,12 +1442,12 @@ void func_80B518C0(EnZl2* this) {
 }
 
 void func_80B51948(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     s32 newAction;
     s32 unk_240;
 
-    if (actorAction != NULL) {
-        newAction = actorAction->action;
+    if (npcAction != NULL) {
+        newAction = npcAction->action;
         unk_240 = this->unk_240;
         if (newAction != unk_240) {
             switch (newAction) {
@@ -1579,7 +1579,7 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B51DA4(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     Vec3f* thisPos = &this->actor.posRot.pos;
     f32 startX;
     f32 startY;
@@ -1589,18 +1589,18 @@ void func_80B51DA4(EnZl2* this, GlobalContext* globalCtx) {
     f32 endZ;
     f32 someFloat;
 
-    if (actorAction != NULL) {
-        someFloat = func_8006F9BC(actorAction->endFrame, actorAction->startFrame, globalCtx->csCtx.frames, 0, 8);
-        startX = actorAction->startPos.x;
-        startY = actorAction->startPos.y;
-        startZ = actorAction->startPos.z;
-        endX = actorAction->endPos.x;
-        endY = actorAction->endPos.y;
-        endZ = actorAction->endPos.z;
+    if (npcAction != NULL) {
+        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 8);
+        startX = npcAction->startPos.x;
+        startY = npcAction->startPos.y;
+        startZ = npcAction->startPos.z;
+        endX = npcAction->endPos.x;
+        endY = npcAction->endPos.y;
+        endZ = npcAction->endPos.z;
         thisPos->x = ((endX - startX) * someFloat) + startX;
         thisPos->y = ((endY - startY) * someFloat) + startY;
         thisPos->z = ((endZ - startZ) * someFloat) + startZ;
-        if (actorAction->endFrame < globalCtx->csCtx.frames) {
+        if (npcAction->endFrame < globalCtx->csCtx.frames) {
             Actor_Kill(&this->actor);
         }
     }
@@ -1626,9 +1626,10 @@ void func_80B51EBC(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B51F38(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
-    if (actorAction != NULL) {
-        if (globalCtx->csCtx.frames - 8 >= actorAction->endFrame) {
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+
+    if (npcAction != NULL) {
+        if (globalCtx->csCtx.frames - 8 >= npcAction->endFrame) {
             func_80B4FD00(this, &D_0600B5FC, 0, -8.0f, 0);
             this->action = 35;
         }
@@ -1636,12 +1637,12 @@ void func_80B51F38(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B51FA8(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
     s32 action;
     s32 unk_240;
 
-    if (actorAction != NULL) {
-        action = actorAction->action;
+    if (npcAction != NULL) {
+        action = npcAction->action;
         unk_240 = this->unk_240;
         if (action != unk_240) {
             switch (action) {
