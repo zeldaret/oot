@@ -33,7 +33,7 @@ typedef struct EnZl2 {
     /* 0x0250 */ s32 unk_250;
     /* 0x0254 */ s32 unk_254;
     /* 0x0258 */ char unk_258[0xC];
-    /* 0x0264 */ s32 unk_264;
+    /* 0x0264 */ s32 overrideLimbDrawConfig;
     /* 0x0268 */ char unk_268[0xC];
     /* 0x0274 */ s32 unk_274;
     /* 0x0278 */ f32 unk_278;

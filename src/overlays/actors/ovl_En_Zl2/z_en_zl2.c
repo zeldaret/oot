@@ -71,7 +71,7 @@ UNK_TYPE D_80B52834[] = {
     0x06005948,
 };
 
-ActorFunc D_80B52840[] = {
+static ActorFunc sActionFuncs[] = {
     func_80B521A0, func_80B50BBC, func_80B50BEC, func_80B50C40, func_80B50CA8, func_80B50CFC,
     func_80B50D50, func_80B50D94, func_80B50DE8, func_80B50E3C, func_80B50E90, func_80B50EE4,
     func_80B50F38, func_80B50F8C, func_80B50FE8, func_80B51034, func_80B51080, func_80B510CC,
@@ -80,11 +80,11 @@ ActorFunc D_80B52840[] = {
     func_80B51C0C, func_80B51C64, func_80B51CA8, func_80B52068, func_80B52098, func_80B52108,
 };
 
-EnZl2PreLimbDrawFunc D_80B528D0[] = {
+EnZl2PreLimbDrawFunc sOverrideLimbDrawFuncs[] = {
     func_80B4F45C,
 };
 
-ActorFunc D_80B528D4[] = {
+static ActorFunc sDrawFuncs[] = {
     func_80B523BC,
     func_80B523C8,
     func_80B525D4,
@@ -503,7 +503,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     MtxF sp34;
     Vec3s sp2C;
     s16 pad2;
-    s16* unk_1DC = &this->unk_1DC;
+    s16* unk_1DC = this->unk_1DC;
 
     if (limbIndex == 0xE) {
         sp74 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
@@ -595,10 +595,10 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx);
+void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx);
 #ifdef NON_MATCHING
 // Stack issue in two instructions - made much better with the pad
-void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     s32 pad[2];
     EnZl2* this = THIS;
     Player* player;
@@ -623,11 +623,12 @@ void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4FB74.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/EnZl2_PostLimbDraw.s")
 #endif
 
 void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
     s32 unk_274 = this->unk_274;
+
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[unk_274].segment);
 }
 
@@ -781,8 +782,7 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
     s32 temp_f16;
 
     if (npcAction != NULL) {
-        temp_f16 =
-            (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
+        temp_f16 = (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
         this->unk_1A8 = temp_f16;
         this->actor.shape.unk_14 = temp_f16;
         func_80B501C4(this, temp_f16);
@@ -1725,11 +1725,11 @@ void func_80B521A0(Actor* thisx, GlobalContext* globalCtx) {
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnZl2* this = THIS;
 
-    if (this->action < 0 || this->action >= 0x24 || D_80B52840[this->action] == NULL) {
+    if (this->action < 0 || this->action >= 0x24 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_80B52840[this->action](thisx, globalCtx);
+    sActionFuncs[this->action](thisx, globalCtx);
 }
 
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -1751,15 +1751,16 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_80B52348(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
-                  Gfx** gfx) {
+s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+                           Gfx** gfx) {
     EnZl2* this = THIS;
 
-    if (this->unk_264 < 0 || this->unk_264 > 0 || D_80B528D0[this->unk_264] == NULL) {
+    if (this->overrideLimbDrawConfig < 0 || this->overrideLimbDrawConfig > 0 ||
+        sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return 0;
     }
-    return D_80B528D0[this->unk_264](globalCtx, limbIndex, dList, pos, rot, thisx, gfx);
+    return sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig](globalCtx, limbIndex, dList, pos, rot, thisx, gfx);
 }
 
 void func_80B523BC(Actor* thisx, GlobalContext* globalCtx) {
@@ -1788,7 +1789,7 @@ void func_80B523C8(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80B52348, func_80B4FB74, thisx, gfxCtx->polyOpa.p);
+                                          EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, thisx, gfxCtx->polyOpa.p);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl2.c", 1648);
 }
 
@@ -1813,16 +1814,16 @@ void func_80B525D4(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80B52348, NULL, thisx, gfxCtx->polyXlu.p);
+                                          EnZl2_OverrideLimbDraw, NULL, thisx, gfxCtx->polyXlu.p);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl2.c", 1692);
 }
 
 void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnZl2* this = THIS;
 
-    if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (D_80B528D4[this->drawConfig] == NULL)) {
+    if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_80B528D4[this->drawConfig](thisx, globalCtx);
+    sDrawFuncs[this->drawConfig](thisx, globalCtx);
 }
