@@ -159,13 +159,13 @@ extern AnimationHeader D_06001D8C;
 extern AnimationHeader D_06002348;
 extern AnimationHeader D_06002E54;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B533B0.s")
-/*void func_80B533B0(EnZl3 *this, GlobalContext *globalCtx) {
-    ColliderCylinder* collider = &this->collider;
+void func_80B533B0(EnZl3* this, GlobalContext* globalCtx) {
+    s32 pad;
+    if (this) {} // Needed to match
 
-    Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder_Set3(globalCtx, collider, &this->actor, &D_80B5A410);
-}*/
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &D_80B5A410);
+}
 
 void func_80B533FC(EnZl3* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
@@ -297,7 +297,7 @@ s32 EnZl3_FrameUpdateMatrix(EnZl3* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-u8 func_80B5396C(EnZl3* this) {
+s32 func_80B5396C(EnZl3* this) {
     return this->unk_3C8;
 }
 
@@ -535,12 +535,12 @@ void func_80B54FB4(EnZl3* this, GlobalContext* globalCtx) {
     Actor* attachedB;
     f32* temp_v0;
 
-    if (this->unk328 != 0) {
+    if (this->unk_328 != 0) {
         attachedB = this->actor.attachedB;
         if (attachedB != NULL) {
-            temp_v0 = &this_unk_2EC;
+            temp_v0 = &this->unk_2EC;
             if (*temp_v0 < 19.0f) {
-                attachedB->unk1A8 = (f32) ((20.0f - *temp_v0) * 12.75f);
+                attachedB->unk_1A8 = (f32) ((20.0f - *temp_v0) * 12.75f);
                 *temp_v0 += 1.0f;
             } else {
                 Actor_Kill(attachedB);
@@ -638,11 +638,12 @@ void func_80B55408(EnZl3* this) {
     Actor_Kill(&this->actor);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B55444.s")
-/*void func_80B55444(EnZl3* this, GlobalContext* globalCtx) {
+void func_80B55444(EnZl3* this, GlobalContext* globalCtx) {
     s32 temp_v0 = func_80B5396C(this);
+    s32 unk_2F0;
     if (temp_v0 >= 0) {
-        if (this->unk_2F0 != temp_v0) {
+        unk_2F0 = this->unk_2F0;
+        if (temp_v0 != unk_2F0) {
             switch (temp_v0) {
                 case 0:
                     func_80B551E0(this);
@@ -677,7 +678,7 @@ void func_80B55408(EnZl3* this) {
             this->unk_2F0 = temp_v0;
         }
     }
-}*/
+}
 
 void func_80B55550(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
@@ -1025,25 +1026,25 @@ void func_80B56474(EnZl3* this, s32 arg1) {
     }
 }
 
-void func_80B564A8(EnZl3* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B564A8.s")
-/*void func_80B564A8(EnZl3 *this, GlobalContext *globalCtx) {
+void func_80B564A8(EnZl3* this, GlobalContext* globalCtx) {
+    s32 temp_v0;
     s32* val = &D_80B5A494;
-    s32 temp_v0 = func_80B5396C(this);
+    s32 unk_2F0;
+
+    temp_v0 = func_80B5396C(this);
 
     if (*val > 0) {
         *val -= 1;
-    } else {
-        if (*val == 0) {
-            *val -= 1;
-            if (temp_v0 == 8) {
-                func_80B5604C(this);
-            }
+    } else if (*val == 0) {
+        *val -= 1;
+        if (temp_v0 == 8) {
+            func_80B5604C(this);
         }
     }
 
     if (temp_v0 >= 0) {
-        if (temp_v0 != this->unk_2F0) {
+        unk_2F0 = this->unk_2F0;
+        if (temp_v0 != unk_2F0) {
             switch (temp_v0) {
                 case 0:
                     func_80B55A84(this);
@@ -1096,7 +1097,7 @@ void func_80B564A8(EnZl3* this, GlobalContext* globalCtx);
             this->unk_2F0 = temp_v0;
         }
     }
-}*/
+}
 
 void func_80B56658(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
@@ -1342,11 +1343,12 @@ s16 func_80B57034(EnZl3* this, s32 arg1, s32 arg2);
     Vec3s *vec2 = func_80B56FAC(this, arg2);
     f32 xDiff;
     f32 zDiff;
+    s16 ret;
 
     if ((vec2 != NULL) && (vec1 != NULL)) {
         xDiff = vec2->x - vec1->x;
         zDiff = vec2->z - vec1->z;
-        if ((xDiff == 0.0f) || (zDiff == 0.0f)) {
+        if ((xDiff == 0.0f) && (zDiff == 0.0f)) {
             return 0;
         }
         return Math_atan2f(xDiff, zDiff) * 10430.3779296875f; // todo float
@@ -1407,18 +1409,19 @@ void func_80B57298(EnZl3* this) {
     this->actor.shape.rot.y = *rotY;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B572F0.s")
-/*u16 func_80B572F0(GlobalContext *globalCtx) {
+u16 func_80B572F0(GlobalContext* globalCtx) {
     s16 sceneNum = globalCtx->sceneNum;
+    u16 ret;
 
     if (sceneNum == SCENE_GANON_SONOGO) {
-        return 0x71A8;
+        ret = 0x71A8;
     } else if (sceneNum == SCENE_GANON_FINAL) {
-        return 0x71A9;
+        ret = 0x71A9;
     } else {
-        return 0x71AB;
+        ret = 0x71AB;
     }
-}*/
+    return ret;
+}
 
 s32 func_80B57324(EnZl3* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -1575,6 +1578,7 @@ void func_80B57858(GlobalContext* globalCtx) {
 s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B57890.s")
 /*s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx) {
+    s8 pad[2];
     u8 curSpawn = globalCtx->curSpawn;
     s16 sceneNum = globalCtx->sceneNum;
     s32 result = func_80B54DB4(this);
@@ -1597,8 +1601,8 @@ s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx);
         }
     } else if (sceneNum == SCENE_GANON_FINAL) {
         if ((result == 0x20) && (curSpawn == 0) && Flags_GetSwitch(globalCtx, 0x37)) {
-            if ((sceneNum == SCENE_GANON_DEMO) || (sceneNum == SCENE_GANON_FINAL) ||
-                (sceneNum == SCENE_GANON_SONOGO) || (sceneNum == SCENE_GANONTIKA_SONOGO)) {
+            if ((globalCtx->sceneNum == SCENE_GANON_DEMO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
+                (globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO)) {
                 return 1;
             }
         }
@@ -1611,7 +1615,7 @@ s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx);
         if ((result == 0x23) && (curSpawn == 6)) {
             return 1;
         }
-    } else if (sceneNum == SCENE_GANONTIKA_SONOGO) {
+    } else if (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO) {
         if ((result == 0x29) && (curSpawn == 0)) {
             return 1;
         }
