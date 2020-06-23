@@ -3,6 +3,16 @@
 #include <vt.h>
 #include <alloca.h>
 
+s16 D_80812480[5] = { 
+    0xFFD0, 0xFFD0, 0xFFD0, 0xFFE8, 0xFFE8 
+};
+
+s16 D_8081248C[3][3] = { 
+    {0x0000, 0xFFD0, 0xFFD0},
+    {0xFFC0, 0x0010, 0xFFD0},
+    {0xFFC0, 0xFFC0, 0x0020},
+};
+
 s16 D_80812724 = 0x00FF;
 
 u32 D_80812728[5][2] = {
@@ -150,9 +160,17 @@ void (*D_80812A18[8])(FileChooseContext*) = {
     func_80810698, func_808106F4
 };
 
+void func_8080B224(FileChooseContext*);
+void func_8080F560(FileChooseContext*);
+void func_808109B8(FileChooseContext*);
+
 void (*D_80812A38[3])(FileChooseContext*) = {
     func_8080B224, func_8080F560, func_808109B8
 };
+
+void func_8080B1A8(FileChooseContext*);
+void func_8080C2F4(FileChooseContext*);
+void func_8081097C(FileChooseContext*);
 
 void (*D_80812A44[3])(FileChooseContext*) = {
     func_8080B1A8, func_8080C2F4, func_8081097C
@@ -165,9 +183,6 @@ u32 D_80812A50[3] = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803D40.s")
 #if 0
-static s16 D_80812480[5] = { 
-    0xFFD0, 0xFFD0, 0xFFD0, 0xFFE8, 0xFFE8 
-};
 
 void func_80803D40(FileChooseContext* this) {
     s16 temp_a2_2;
@@ -234,13 +249,7 @@ void func_80803ED8(FileChooseContext* this) {
     }
 
     if (controller1->press.in.button & (A_BUTTON | START_BUTTON)) {
-        temp_v0 = &((u8*)this->sram.read_buff)[D_8012A4E0[this->btnIdx]];
-        if ((temp_v0[0x1C] == 'Z') ||
-            (temp_v0[0x1D] == 'E') ||
-            (temp_v0[0x1E] == 'L') ||
-            (temp_v0[0x1F] == 'D') ||
-            (temp_v0[0x20] == 'A') ||
-            (temp_v0[0x21] == 'Z')) {
+        if (!IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
                 this->actionTimer = 8;
                 this->selectedFileIdx = this->btnIdx;
                 this->fileSelectStateIdx = 5;
@@ -269,15 +278,10 @@ void func_80803ED8(FileChooseContext* this) {
 
     if (this->btnIdx != 3) {
         temp_v0 = &((u8*)this->sram.read_buff)[D_8012A4E0[this->btnIdx]];
-        if ((temp_v0[0x1C] != 'Z') &&
-            (temp_v0[0x1D] != 'E') &&
-            (temp_v0[0x1E] != 'L') &&
-            (temp_v0[0x1F] != 'D') &&
-            (temp_v0[0x20] != 'A') &&
-            (temp_v0[0x21] != 'Z')) {
-                this->fileWarningTexIdx = 3;
-                this->warningFileIdx = this->btnIdx;
-                this->fileEmptyTextA = 0xFF;
+        if (IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
+            this->fileWarningTexIdx = 3;
+            this->warningFileIdx = this->btnIdx;
+            this->fileEmptyTextA = 0xFF;
         } else {
             this->fileWarningTexIdx = -1;
         }
@@ -287,19 +291,13 @@ void func_80803ED8(FileChooseContext* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804248.s")
 #if 0
-static s16 arr[][3] = { 
-    {0x0000, 0xFFD0, 0xFFD0},
-    {0xFFC0, 0x0010, 0xFFD0},
-    {0xFFC0, 0xFFC0, 0x0020},
-};
-
 void func_80804248(FileChooseContext* this) {
     s16 temp_a1_2;
     s16 i;
 
     for (i = 0; i < 3; i++) {
-        temp_a1_2 = ABS(this->buttonsFile[i] - arr[this->btnIdx][i]) / this->actionTimer;
-        if (arr[this->btnIdx][i] >= this->buttonsFile[i]) {
+        temp_a1_2 = ABS(this->buttonsFile[i] - D_8081248C[this->btnIdx][i]) / this->actionTimer;
+        if (D_8081248C[this->btnIdx][i] >= this->buttonsFile[i]) {
             this->buttonsFile[i] += temp_a1_2;
         } else {
             this->buttonsFile[i] -= temp_a1_2;
@@ -312,7 +310,7 @@ void func_80804248(FileChooseContext* this) {
 
     this->actionTimer -= 1;
     if (this->actionTimer == 0) {
-        this->buttonsFile[this->btnIdx] = arr[this->btnIdx][this->btnIdx];
+        this->buttonsFile[this->btnIdx] = D_8081248C[this->btnIdx][this->btnIdx];
         this->titleTexIdx = this->nextTitleTexIdx;
         this->fileSelectOpenTitleA[0] = 0xFF;
         this->fileSelectOpenTitleA[1] = 0;
@@ -322,9 +320,86 @@ void func_80804248(FileChooseContext* this) {
 }
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808043D8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808043D8.s")
+// OK
+void func_808043D8(FileChooseContext* this) {
+    this->fileNameBoxesA[this->btnIdx] -= 0x19;
+    this->fileInfoA[this->btnIdx] += 0x19;
+    this->actionTimer -= 1;
+    if (this->actionTimer == 0) {
+        this->fileNameBoxesA[this->btnIdx] = 0;
+        this->fileInfoA[this->btnIdx] = 0xC8;
+        this->btnIdx = 3;
+        this->actionTimer = 8;
+        this->fileSelectStateIdx = 7;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808044A0.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808044A0.s")
+// OK
+void func_808044A0(FileChooseContext* this) {
+    s32 pad;
+    Input* controller1 = &this->state.input[0];
+    s32 stickAbs;
+    u8* sram;
+
+    if (((this->btnIdx == 3) && CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON))) || 
+        CHECK_PAD(controller1->press, B_BUTTON)) {
+            this->btnIdx = this->selectedFileIdx;
+            this->nextTitleTexIdx = 2;
+            this->actionTimer = 8;
+            this->fileSelectStateIdx = 8;
+            Audio_PlaySoundGeneral(0x483C, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+    }
+
+    if (CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON))) {
+        if (IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
+            this->copyDsFiletIdx = this->btnIdx;
+            this->nextTitleTexIdx = 4;
+            this->actionTimer = 8;
+            this->fileSelectStateIdx = 10;
+            Audio_PlaySoundGeneral(0x483B, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        }
+        Audio_PlaySoundGeneral(0x483D, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+
+    stickAbs = ABS(this->stickY);
+    if (stickAbs >= 30) {
+        Audio_PlaySoundGeneral(0x4839, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        if (this->stickY >= 30) {
+            this->btnIdx -= 1;
+            if ((this->btnIdx == this->selectedFileIdx)) {
+                this->btnIdx -= 1;
+                if (this->btnIdx < 0)
+                    this->btnIdx = 3;
+            } else {
+                if (this->btnIdx < 0)
+                    this->btnIdx = 3;
+            }
+        } else {
+            this->btnIdx += 1;
+            if (this->btnIdx >= 4) {
+                this->btnIdx = 0;
+            }
+            if (this->btnIdx == this->selectedFileIdx) {
+                this->btnIdx += 1;
+            }
+        }
+    }
+
+    if (this->btnIdx != 3) {
+        if (!IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
+            this->fileWarningTexIdx = 4;
+            this->warningFileIdx = this->btnIdx;
+            this->fileEmptyTextA = 0xFF;
+        } else {
+            this->fileWarningTexIdx = -1;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804858.s")
 
