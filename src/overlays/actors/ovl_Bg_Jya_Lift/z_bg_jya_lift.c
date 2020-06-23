@@ -34,7 +34,6 @@ const ActorInit Bg_Jya_Lift_InitVars = {
     (ActorFunc)BgJyaLift_Destroy,
     (ActorFunc)BgJyaLift_Update,
     (ActorFunc)BgJyaLift_Draw,
-
 };
 
 static InitChainEntry sInitChain[] = {
@@ -138,15 +137,13 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
 
-    if (this->actionFunc) {
+    if (this->actionFunc != NULL) {
         this->actionFunc(this);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
         func_8005A77C(globalCtx2->cameraPtrs[0], 0x3F);
-    } else {
-        if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) && (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
+    } else if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) && (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
             func_8005A77C(globalCtx2->cameraPtrs[0], 3);
-        }
     }
     this->unk_16B = this->dyna.unk_160;
 
