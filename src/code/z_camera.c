@@ -1849,10 +1849,6 @@ struct_80043D18 D_8015CE80;
 struct_80043D18 D_8015CEA8;
 struct_80043D18 D_8015CED0;
 
-extern DBCamera D_8015BD80;
-extern GlobalContext* D_8015BD7C;
-extern CollisionPoly* playerFloorPoly;
-
 /*===============================================================*/
 
 
@@ -2419,7 +2415,7 @@ f32 func_80045714(Vec3f* arg0, s16 arg1, s16 arg2, f32 arg3) {
 
     OLib_Vec3fToVecSphRot90(&sp1C, arg0);
     sp18 = Math_Coss(sp1C.phi);
-    sp18 = fabsf(Math_Coss(arg1 - sp1C.theta) * sp18);
+    sp18 = fabsf(sp18 * Math_Coss(arg1 - sp1C.theta));
     return Math_Coss(arg1 - arg2) * (sp18 * arg3);
 }
 #else
@@ -2871,76 +2867,63 @@ s32 Camera_NOP(Camera* camera) {
     return true;
 }
 
+#define LERP(v0,v1,t) ((1.0f - t) * v0 + t * v1)
+
+#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_Normal1(Camera *camera) {
+    Normal1* norm1 = &camera->params.norm1;
+    CameraModeValue* values;
+    f32 temp_f0;
     f32 spA0;
     f32 sp9C;
     f32 sp98;
     f32 sp94;
     Vec3f sp88;
+    f32 temp_f0_4;
+
     VecSph sp7C;
     VecSph sp74;
     VecSph sp6C;
-    Vec3f *sp40;
-    Vec3f *sp3C;
-    Vec3f *sp38;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f0_3;
-    f32 temp_f0_4;
     f32 temp_f0_5;
-    f32 temp_f0_6;
-    f32 temp_f0_7;
-    f32 temp_f12;
-    f32 temp_f16;
     f32 temp_f2;
-    f32 temp_f2_2;
-    f32 temp_f2_3;
-    s16 temp_t5;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 phi_v1;
-    f32 phi_f2;
-    f32 phi_f2_2;
     f32 phi_f16;
-    s32 phi_v1_2;
-    s32 phi_v1_3;
-    s32 phi_v0;
-    f32 phi_f16_2;
-    s32 phi_v1_4;
-    Normal1* norm1 = &camera->params.norm1;
+    Vec3f *sp40 = &camera->eye;
+    Vec3f *sp3C = &camera->at;
+    Vec3f *sp38 = &camera->eyeNext;
     Normal1_Unk24* unk24 = &norm1->unk_24;
-    CameraModeValue* values;
 
     temp_f0 = Player_GetCameraYOffset(camera->player);
     if(RELOAD_PARAMS){
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        temp_f2 = (temp_f0 * 0.01f) * ((1.0f + (OREG(46) * 0.01f)) - ((OREG(46) * 0.01f) * (68.0f / temp_f0)));
-        norm1->unk_00 = (f32) ((f32) NEXTSETTING * temp_f2);
-        norm1->unk_04 = (f32) ((f32) NEXTSETTING * temp_f2);
-        norm1->unk_08 = (f32) ((f32) NEXTSETTING * temp_f2);
-        norm1->unk_20 = (s16) (s32) (((f32) NEXTSETTING * (65535.0f / 360.0f)) + 0.5f);
-        norm1->unk_0C = (f32) NEXTSETTING;
-        norm1->unk_10 = (f32) NEXTSETTING;
-        norm1->unk_14 = (f32) ((f32) NEXTSETTING * 0.01f);
-        norm1->unk_18 = (f32) NEXTSETTING;
-        norm1->unk_1C = (f32) ((f32) NEXTSETTING * 0.01f);
-        norm1->unk_22 = (s16) NEXTSETTING;
+        phi_f16 = 1.0f + PCT(OREG(46)) - PCT(OREG(46)) * (68.0f / temp_f0);
+        temp_f2 = PCT(temp_f0) * phi_f16;
+        norm1->unk_00 = NEXTSETTING * temp_f2;
+        norm1->unk_04 = NEXTSETTING * temp_f2;
+        if(1){}
+        norm1->unk_08 = NEXTSETTING * temp_f2;
+        norm1->unk_20 = DEGF_TO_BINANG(NEXTSETTING);
+        norm1->unk_0C = NEXTSETTING;
+        norm1->unk_10 = NEXTSETTING;
+        norm1->unk_14 = NEXTPCT;
+        norm1->unk_18 = NEXTSETTING;
+        norm1->unk_1C = NEXTPCT;
+        norm1->unk_22 = NEXTSETTING;
     }
+
     if (R_RELOAD_CAM_PARAMS) {
         Camera_CopyPREGToModeValues(camera);
     }
-    sp40 = &camera->eye;
-    sp3C = &camera->at;
+
     sCameraInterfaceFlags = norm1->unk_22;
-    OLib_Vec3fDiffToVecSphRot90(&sp74, &camera->at, &camera->eye);
-    sp38 = &camera->eyeNext;
-    OLib_Vec3fDiffToVecSphRot90(&sp6C, &camera->at, &camera->eyeNext);
+
+    OLib_Vec3fDiffToVecSphRot90(&sp74, sp3C, sp40);
+    OLib_Vec3fDiffToVecSphRot90(&sp6C, sp3C, sp38);
+
     switch(camera->animState){
         case 0x14:
-            camera->thetaUpdateRateInv = (f32) OREG(27);
-            camera->phiUpdateRateInv = (f32) OREG(27);
+            camera->thetaUpdateRateInv = OREG(27);
+            camera->phiUpdateRateInv = OREG(27);
         case 0:
         case 0xA:
         case 0x19:
@@ -2956,87 +2939,89 @@ s32 Camera_Normal1(Camera *camera) {
             unk24->unk_1A = 0;
             unk24->unk_26 = sp74.theta;
             sUpdateCameraDirection = 0;
-            unk24->unk_2A = OREG(51) + OREG(50);
+            unk24->unk_2A = OREG(50) + OREG(51);
             break;
         default:
-        break;
+            break;
     }
+
     camera->animState = 1;
     sUpdateCameraDirection = 1;
+
     if (unk24->unk_28 != 0) {
         unk24->unk_28--;
     }
+
     if (camera->unk_D8 > 0.001f) {
-        unk24->unk_2A = (s16) (OREG(51) + OREG(50));
+        unk24->unk_2A = OREG(50) + OREG(51);
     } else if (unk24->unk_2A > 0) {
         if (unk24->unk_2A > OREG(50)) {
-            unk24->unk_26 = sp74.theta + ((s16)((s16)(camera->playerPosRot.rot.y - 0x7FFF) - sp74.theta) / unk24->unk_2A);
+            unk24->unk_26 = sp74.theta + (BINANG_SUB(BINANG_ROT180(camera->playerPosRot.rot.y), sp74.theta) / unk24->unk_2A);
         }
         unk24->unk_2A--;
     }
-    temp_f16 = (OREG(25) * 0.01f) * camera->unk_E0;
-    sp9C = ((f32) OREG(26) * 0.01f) * camera->unk_E0;
-    if (unk24->unk_18 != 0) {
-        sp98 = (OREG(25) * 0.01f);
-    } else {
-        sp98 = temp_f16;
+
+    spA0 = PCT(OREG(25)) * camera->unk_E0;
+    sp9C = camera->unk_E0 * PCT(OREG(26));
+    sp98 = unk24->unk_18 != 0 ? PCT(OREG(25)) : spA0;
+    
+    temp_f2 = (camera->unk_D8 - unk24->unk_20) * (1.0f / 3.0f);
+    sp94 = temp_f2;
+    if(sp94 > 1.0f){
+        sp94 = 1.0f;
     }
-    temp_f2_3 = (camera->unk_D8 - unk24->unk_20) * (1.0f / 3.0f);
-    phi_f2 = temp_f2_3;
-    if (1.0f < temp_f2_3) {
-        phi_f2 = 1.0f;
+    if(sp94 > -1.0f){
+        sp94 = -1.0f;
     }
-    phi_f2_2 = phi_f2;
-    if (-1.0f < phi_f2) {
-        phi_f2_2 = -1.0f;
-    }
+
     unk24->unk_20 = camera->unk_D8;
+    
     if (unk24->unk_1A != 0) {
-        spA0 = temp_f16;
-        sp94 = phi_f2_2;
         camera->thetaUpdateRateInv = Camera_LERPCeilF(unk24->unk_10 + (f32) (unk24->unk_1A * 2), camera->thetaUpdateRateInv, sp98, 0.1f);
         camera->phiUpdateRateInv = Camera_LERPCeilF((f32) R_CAM_DEFA_PHI_UPDRATE + (f32) (unk24->unk_1A * 2), camera->phiUpdateRateInv, sp9C, 0.1f);
         unk24->unk_1A--;
     } else {
-        temp_f0_2 = unk24->unk_10;
-        spA0 = temp_f16;
-        sp94 = phi_f2_2;
-        camera->thetaUpdateRateInv = Camera_LERPCeilF(temp_f0_2 - ((((f32) OREG(49) * 0.01f) * temp_f0_2) * phi_f2_2), camera->thetaUpdateRateInv, sp98, 0.1f);
+        camera->thetaUpdateRateInv = Camera_LERPCeilF(unk24->unk_10 - ((OREG(49) * 0.01f) * unk24->unk_10 * sp94), camera->thetaUpdateRateInv, sp98, 0.1f);
         camera->phiUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->phiUpdateRateInv, sp9C, 0.1f);
     }
-    spA0 = temp_f2_2 * camera->unk_E0;
+
+    //spA0 = sp94 * camera->unk_E0;
+
     camera->phiUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->phiUpdateRateInv, sp9C, 0.1f);
-    camera->xzOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->xzOffsetUpdateRate, temp_f2_2 * camera->unk_E0, 0.1f);
-    camera->yOffsetUpdateRate = Camera_LERPCeilF(OREG(2) * 0.01f, camera->yOffsetUpdateRate, sp9C, 0.1f);
-    camera->fovUpdateRate = Camera_LERPCeilF(OREG(3) * 0.01f, camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(2)), camera->xzOffsetUpdateRate, spA0, 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, sp9C, 0.1f);
+    camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
+
+
     if (norm1->unk_22 & 1) {
-        s16 t = func_80044ADC(camera, sp74.theta - 0x7FFF, 0);
-        temp_f0_4 = (1.0f / norm1->unk_10) * 0.5f;
-        unk24->unk_24 = Camera_LERPCeilS(t, unk24->unk_24, temp_f0_4 + (temp_f0_4 * (1.0f - camera->unk_E0)), 0xF);
+        unk24->unk_24 = Camera_LERPCeilS(func_80044ADC(camera, BINANG_ROT180(sp74.theta), 0), unk24->unk_24, ((1.0f / norm1->unk_10) * 0.5f) + (((1.0f / norm1->unk_10) * 0.5f) * (1.0f - camera->unk_E0)), 0xF);
     } else {
-        unk24->unk_24 = (u16)0;
-        if (camera->playerPosRot.pos.y == camera->unk_104) {
+        unk24->unk_24 = 0;
+        if (camera->unk_104 == camera->playerPosRot.pos.y) {
             unk24->unk_1C = camera->playerPosRot.pos.y;
         }
     }
+
+    
     if ((unk24->unk_18 != 0) && (norm1->unk_00 > -40.0f)) {
         temp_f0_5 = Math_Sins(unk24->unk_14);
-        phi_f16 = (-40.0f * temp_f0_5) + (norm1->unk_00 * (1.0f - temp_f0_5));
+        phi_f16 = LERP(norm1->unk_00, -40.0f, temp_f0_5);
     } else {
         phi_f16 = norm1->unk_00;
     }
+
     if (norm1->unk_22 & 0x80) {
-        func_800458D4(camera, &sp6C, phi_f16, &norm1->unk_24 + 0x1C, norm1->unk_22 & 1);
+        func_800458D4(camera, &sp6C, phi_f16, &unk24->unk_1C, norm1->unk_22 & 1);
+    } else if (norm1->unk_22 & 0x20) {
+        func_80045B08(camera, &sp6C, phi_f16, unk24->unk_24);
     } else {
-        if (norm1->unk_22 & 0x20) {
-            func_80045B08(camera, &sp6C, phi_f16, unk24->unk_24);
-        } else {
-            func_800457A8(camera, &sp6C, phi_f16, norm1->unk_22 & 1);
-        }
+        func_800457A8(camera, &sp6C, phi_f16, norm1->unk_22 & 1);
     }
+
     OLib_Vec3fDiffToVecSphRot90(&sp7C, sp3C, sp38);
-    sp7C.r = func_800469C0(camera, sp7C.r, norm1->unk_04, norm1->unk_08, unk24->unk_28);
-    camera->dist = sp7C.r;
+    
+    camera->dist = sp7C.r = func_800469C0(camera, sp7C.r, norm1->unk_04, norm1->unk_08, unk24->unk_28);
+    
     if (unk24->unk_2A <= 0) {
         sp7C.phi = sp6C.phi;
         sp7C.theta = Camera_LERPCeilS(unk24->unk_26, sp6C.theta, 1.0f / camera->thetaUpdateRateInv, 0xA);
@@ -3047,53 +3032,59 @@ s32 Camera_Normal1(Camera *camera) {
         sp7C.theta = func_80046CB4(camera, sp6C.theta, camera->playerPosRot.rot.y, norm1->unk_14, sp94);
         sp7C.phi = func_80046B44(camera, sp6C.phi, norm1->unk_20, unk24->unk_24);
     }
+
     if (sp7C.phi >= 0x38A5) {
         sp7C.phi = 0x38A4;
     }
     if (sp7C.phi < -0x3C8C) {
         sp7C.phi = -0x3C8C;
     }
+
     Camera_Vec3fVecSphAdd(sp38, sp3C, &sp7C);
     if ((camera->status == 7) &&  (!(norm1->unk_22 & 0x10))) {
-        unk24->unk_26 = camera->playerPosRot.rot.y - 0x7FFF;
+        unk24->unk_26 = BINANG_ROT180(camera->playerPosRot.rot.y);
         if (unk24->unk_2A > 0) {
             func_80046E20(camera, &sp7C, norm1->unk_04, norm1->unk_0C, &sp98, &unk24->unk_00);
         } else {
             sp88 = *sp38;
-            temp_f0_7 = norm1->unk_0C + norm1->unk_0C;
-            camera->thetaUpdateRateInv = temp_f0_7;
-            unk24->unk_10 = temp_f0_7;
+            spA0 = norm1->unk_0C + norm1->unk_0C;
+            unk24->unk_10 = camera->thetaUpdateRateInv = spA0;
             if (func_80043F34(camera, sp3C, &sp88)) {
-                unk24->unk_2A = -1;
                 unk24->unk_26 = sp6C.theta;
+                unk24->unk_2A = -1;
             } else {
                 *sp40 = *sp38;
             }
             unk24->unk_18 = 0;
         }
         if (unk24->unk_18 != 0) {
-            camera->direction.y = Camera_LERPCeilS(camera->direction.y + ((unk24->unk_16 - 0x7FFF) - camera->direction.y), camera->direction.y, 1.0f - (0.99f * sp98), 0xA);
+            camera->direction.y = Camera_LERPCeilS(camera->direction.y + BINANG_SUB(BINANG_ROT180(unk24->unk_16), camera->direction.y), camera->direction.y, 1.0f - (0.99f * sp98), 0xA);
         }
+
         if (norm1->unk_22 & 4) {
             camera->direction.x = -sp74.phi;
+            camera->direction.y = BINANG_ROT180(sp74.theta);
             camera->direction.z = 0;
-            camera->direction.y = sp74.theta - 0x7FFF;
         } else {
             OLib_Vec3fDiffToVecSphRot90(&sp7C, sp40, sp3C);
             camera->direction.x = sp7C.phi;
-            camera->direction.z = 0;
             camera->direction.y = sp7C.theta;
+            camera->direction.z = 0;
         }
-        // crit wiggle
-        if (gSaveContext.health <= 0x10 && ((camera->globalCtx->state.frames & 0xFF) == 0)) {
-            camera->direction.y += Math_Rand_ZeroOne() * 10000.0f;
+
+        if(1){
+            // crit wiggle
+            if (gSaveContext.health <= 0x10 && ((camera->globalCtx->state.frames & 0xFF) == 0)) {
+                camera->direction.y += (s16)(Math_Rand_ZeroOne() * 10000.0f);
+            }
         }
     } else {
-        unk24->unk_18 = (u16)0;
-        unk24->unk_10 = (f32) norm1->unk_0C;
+        unk24->unk_10 = norm1->unk_0C;
+        unk24->unk_18 = 0;
         sUpdateCameraDirection = 0;
         *sp40 = *sp38;
     }
+
     camera->fov = Camera_LERPCeilF(norm1->unk_18 * (gSaveContext.health <= 0x10 ? 0.8f : 1.0f), camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, norm1->unk_1C);
@@ -3102,6 +3093,7 @@ s32 Camera_Normal1(Camera *camera) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Normal1.s")
 #endif
+#undef NON_MATCHING
 
 
 #ifdef NON_MATCHING
@@ -3735,9 +3727,10 @@ s32 Camera_Jump1(Camera *camera) {
 
     // playerPosRot2 never gets used.
     func_8002EEE4(&playerPosRot2, camera->player);
-    
+
     OLib_Vec3fDiffToVecSphRot90(&eyeAtOffset, at, eye);
     OLib_Vec3fDiffToVecSphRot90(&eyeNextAtOffset, at, eyeNext);
+    
     sCameraInterfaceFlags = jump1->interfaceFlags;
 
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
@@ -5036,7 +5029,7 @@ s32 Camera_Fixed3(Camera *camera) {
     atSph.r = 150.0f;
     atSph.theta = updateParams->rot.y;
     atSph.phi = -updateParams->rot.x;
-
+    
     Camera_Vec3fVecSphAdd(at, eye, &atSph);
     sCameraInterfaceFlags = fixd3->interfaceFlags;
     updateParams->fov = R_CAM_FIXED3_FOV;
@@ -6868,6 +6861,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             osSyncPrintf("camera: foot(%f %f %f) dist (%f)\n", curPlayerPosRot.pos.x, curPlayerPosRot.pos.y, curPlayerPosRot.pos.z, camera->dist);
         }
     }
+
     *outVec = camera->direction;
     return outVec;
 }
