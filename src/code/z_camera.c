@@ -6914,7 +6914,7 @@ s32 func_8005A02C(Camera* camera) {
     return true;
 }
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
     static s32 D_8011DB14 = 0;
@@ -7076,7 +7076,7 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
     }
 }
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
     s32 f5;
@@ -7111,7 +7111,7 @@ s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
 
     camera->unk_14A |= 0x10;
     
-    if (!(flags & 2)) {
+    if (!(2 & flags)) {
         camera->unk_14A |= 1;
     }
     
@@ -7127,18 +7127,22 @@ s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
     }
     
     if (flags & 8) {
-        camera->camDataIdx = camera->prevCamDataIdx;
+        s16 prevIdx = camera->prevCamDataIdx;
+        camera->camDataIdx = prevIdx;
         camera->prevCamDataIdx = -1;
-    } else if(!(flags & 4)){
-        f5 = sCameraSettings[camera->setting].unk_00 & f5;
-        if (!f5) {
-            camera->prevCamDataIdx = camera->camDataIdx;
+    } else {
+        if(!(flags & 4)){
+            f5 = sCameraSettings[camera->setting].unk_00 & f5;
+            if (!(f5 & 0xFFFFFFFFU)) {
+                camera->prevCamDataIdx = camera->camDataIdx & 0xFFFFU;
+            }
+            camera->camDataIdx = -1;
         }
-        camera->camDataIdx = -1;
     }
+    
 
     camera->setting = setting;
-    if (Camera_ChangeMode(camera, camera->mode, 1) >= 0) {
+    if (Camera_ChangeMode(camera, camera->mode, 1) > -1) {
         Camera_CopyModeValuesToPREG(camera, camera->mode);
     }
     osSyncPrintf("\x1b[1m%06u:\x1b[m camera: change camera[%d] set %s\n", camera->globalCtx->state.frames, camera->thisIdx, sCameraSettingNames[camera->setting]);
@@ -7237,11 +7241,8 @@ s32 func_8005AA1C(Camera* camera, s32 arg1, s16 y, s32 countdown) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-//Missing extra branch
 s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
-    Vec3f sp4;
-
+    s32 pad[3];
     if (value != NULL) {
         switch (param) {
             case 1:
@@ -7260,15 +7261,13 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
                 camera->paramFlags &= ~(0x10 | 0x8 | 0x1);
                 break;
             case 2:
-                sp4 = *(Vec3f*)value;
-                camera->eyeNext = sp4;
-                camera->eye = sp4;
+                 camera->eye = camera->eyeNext = *(Vec3f*)value;
                 break;
             case 4:
                 camera->unk_68 = *(Vec3f*)value;
                 break;
             case 0x40:
-                camera->roll = *(f32*)value * (M_PI / 180.0f) + 0.5f;
+                camera->roll = DEGF_TO_BINANG(*(f32*)value);
                 break;
             case 32:
                 camera->fov = *(f32*)value;
@@ -7277,13 +7276,11 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
                 return false;
         }
         camera->paramFlags |= param;
-        return true;
+    } else {
+        return false;
     }
-    return false;
+    return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_SetParam.s")
-#endif
 
 s32 Camera_UnsetParam(Camera* camera, s16 param) {
     camera->paramFlags &= ~param;
