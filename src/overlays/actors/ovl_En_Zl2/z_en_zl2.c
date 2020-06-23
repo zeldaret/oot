@@ -418,6 +418,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
 }
 
 #ifdef NON_MATCHING
+// Some missing ABS instructions near the bottom of the section on lines 454-461
 void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_v1;
     s32 temp_t0;
@@ -596,7 +597,9 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
 void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx);
 #ifdef NON_MATCHING
+// Stack issue in two instructions - made much better with the pad
 void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+    s32 pad[2];
     EnZl2* this = THIS;
     Player* player;
 
