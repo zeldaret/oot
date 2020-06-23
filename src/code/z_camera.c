@@ -3,7 +3,8 @@
 #include <vt.h>
 
 s16 Camera_ChangeSetting(Camera*, s16, s16);
-void Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
+s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags);
+s32 Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
 s32 func_8005A7A8(Camera* arg0, s32 arg1);
 Vec3f *func_80044E68(Vec3f* arg0, s16 arg1, s16 arg2, s16 arg3);
 void Camera_UpdateInterface(s16);
@@ -6913,6 +6914,7 @@ s32 func_8005A02C(Camera* camera) {
     return true;
 }
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
     static s32 D_8011DB14 = 0;
@@ -6938,7 +6940,7 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
             camera->mode = CAM_MODE_NORMAL;
             Camera_CopyModeValuesToPREG(camera, camera->mode);
             func_8005A02C(camera);
-            phi_at = 0xC0000000;
+            return 0xC0000000 | mode;
         } else {
             camera->unk_14A = (s16)(camera->unk_14A | 0x20);
             camera->unk_14A = (s16)(camera->unk_14A | 2);
@@ -6958,13 +6960,13 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
         switch (mode) {
             default:
                 break;
-            case 5: // switch 1
+            case 6: // switch 1
                 phi_v0 = 0x20;
                 break;
-            case 3: // switch 1
+            case 4: // switch 1
                 phi_v0 = 4;
                 break;
-            case 1: // switch 1
+            case 2: // switch 1
                 phi_v0 = 0;
                 if (camera->target != NULL) {
                     phi_v0 = 0;
@@ -6973,11 +6975,11 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
                     }
                 }
                 break;
-            case 0:  // switch 1
-            case 2:  // switch 1
-            case 7:  // switch 1
-            case 14: // switch 1
-            case 18: // switch 1
+            case 1:  // switch 1
+            case 3:  // switch 1
+            case 8:  // switch 1
+            case 15: // switch 1
+            case 19: // switch 1
                 phi_v0 = 2;
                 break;
         }
@@ -7046,17 +7048,18 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
         }
         func_8005A02C(camera);
         camera->mode = mode;
-        phi_at = 0x80000000;
+        phi_at = 0x80000000 | mode;
     }
-    return mode | phi_at;
+    return phi_at;
 }
 #else
 s32 D_8011DB14 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeMode.s")
 #endif
+#undef NON_MATCHING
 
-void Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode) {
-    Camera_ChangeMode(camera, mode, 0);
+s32 Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode) {
+    return Camera_ChangeMode(camera, mode, 0);
 }
 
 s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
@@ -7075,27 +7078,30 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
 
 #define NON_MATCHING
 #ifdef NON_MATCHING
-s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 flags) {
-    u32 t;
-    s32 t2;
-    if ((camera->unk_14A & 1) && (((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
-                                  (sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
+s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
+    s32 f5;
+    
+    if (((camera->unk_14A & 1) != 0) && ((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18 >= (sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
         camera->unk_14A |= 0x10;
         return -2;
     }
 
-    if ((setting == CAM_SET_SPOT05A || setting == CAM_SET_SPOT05B) && LINK_IS_ADULT &&
-        (camera->globalCtx->sceneNum == 0x56)) {
-        camera->unk_14A |= 0x10;
-        return -5;
+    switch(setting){
+        case 0x35:
+        case 0x36:
+            if (gSaveContext.linkAge == 0 && camera->globalCtx->sceneNum == 0x56) {
+                camera->unk_14A |= 0x10;
+                return -5;
+            }
+            break;
     }
-
-    if (setting == CAM_SET_NONE || setting >= CAM_SET_MAX) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, setting);
+    
+    if (setting == 0 || setting >=0x42) {
+        osSyncPrintf("\x1b[41;37mcamera: error: illegal camera set (%d) !!!!\n\x1b[m", setting);
         return -0x63;
     }
-
-    if (setting == camera->setting && !(flags & 1)) {
+    
+    if ((setting == camera->setting) && (!(flags & 1))) {
         camera->unk_14A |= 0x10;
         if (!(flags & 2)) {
             camera->unk_14A |= 1;
@@ -7104,43 +7110,38 @@ s16 Camera_ChangeSetting(Camera* camera, s16 setting, s16 flags) {
     }
 
     camera->unk_14A |= 0x10;
-
+    
     if (!(flags & 2)) {
         camera->unk_14A |= 1;
     }
-    t2 = 0x40000000;
-    camera->unk_14C |= (0x8 | 0x4);
+    
+    camera->unk_14C |= (8 | 4);
     camera->unk_14C &= ~(0x1000 | 0x8);
-
-    if(!camera){}
-    t = sCameraSettings[camera->setting].unk_00 & t2;
-
-    if (!(sCameraSettings[camera->setting].unk_bit1)) {
+    
+    if(1){
+        f5 = 0x40000000;
+    }
+    
+    if (!sCameraSettings[camera->setting].unk_bit1) {
         camera->prevSetting = camera->setting;
     }
-
+    
     if (flags & 8) {
-        s16 prevIdx = camera->prevCamDataIdx;
-        camera->camDataIdx = prevIdx;
+        camera->camDataIdx = camera->prevCamDataIdx;
         camera->prevCamDataIdx = -1;
-    } else {
-        if (!(flags & 4)) {
-            if (!t) {
-                camera->prevCamDataIdx = camera->camDataIdx;
-            }
-            camera->camDataIdx = -1;
+    } else if(!(flags & 4)){
+        f5 = sCameraSettings[camera->setting].unk_00 & f5;
+        if (!f5) {
+            camera->prevCamDataIdx = camera->camDataIdx;
         }
+        camera->camDataIdx = -1;
     }
 
     camera->setting = setting;
-
     if (Camera_ChangeMode(camera, camera->mode, 1) >= 0) {
         Camera_CopyModeValuesToPREG(camera, camera->mode);
     }
-
-    osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: change camera[%d] set %s\n", camera->globalCtx->state.frames,
-                 camera->thisIdx, sCameraSettingNames[camera->setting]);
-
+    osSyncPrintf("\x1b[1m%06u:\x1b[m camera: change camera[%d] set %s\n", camera->globalCtx->state.frames, camera->thisIdx, sCameraSettingNames[camera->setting]);
     return setting;
 }
 #else
