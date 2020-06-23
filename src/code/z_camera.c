@@ -3494,11 +3494,10 @@ s32 Camera_Normal0(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#define Rot180Deg(x) ((s16)((s16)x - (s16)0x7FFF))
-#define SETTINGPCT (NEXTSETTING * 0.01f)
-#define SETTINGANGLE ((NEXTSETTING * (65535.0f / 360.0f)) + x)
-
 #ifdef NON_MATCHING
+/**
+ * Z-Targeting
+*/
 void Camera_Parallel1(Camera *camera) {
     f32 spB8;
     f32 spB4;
@@ -3693,6 +3692,9 @@ s32 Camera_Parallel0(Camera* camera) {
     return Camera_NOP(camera);
 }
 
+/**
+ * Generic jump, jumping off ledges
+*/
 s32 Camera_Jump1(Camera *camera) {
     s32 pad;
     s32 pad2;
@@ -4974,6 +4976,9 @@ s32 Camera_Fixed2(Camera *camera) {
     return true;
 }
 
+/**
+ * Camera's position is fixed, does not move, or rotate
+*/
 s32 Camera_Fixed3(Camera *camera) {
     s32 pad;
     Fixed3 *fixd3 = &camera->params.fixd3;
@@ -6679,11 +6684,11 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             camera->unk_146 = spA8;
             camera->unk_104 = spA4;
         } else {
-            sOOBTimer = sOOBTimer + 1;
+            sOOBTimer++;
             if(1){
-            camera->unk_108.x = 0.0;
-            camera->unk_108.y = 1.0f;
-            camera->unk_108.z = 0.0;
+                camera->unk_108.x = 0.0;
+                camera->unk_108.y = 1.0f;
+                camera->unk_108.z = 0.0;
             }
         }
 
@@ -6742,7 +6747,6 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     }
 
     if (sOOBTimer < 200) {
-        // camera is supposed to be moved from s0 to a0 
         sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera);
     } else if (camera->player != NULL) {
         OLib_Vec3fDiffToVecSphRot90(&sp98, &camera->at, &camera->eye);
