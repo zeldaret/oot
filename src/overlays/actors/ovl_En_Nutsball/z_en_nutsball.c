@@ -1,7 +1,7 @@
 /*
  * File: z_en_nutsball.c
  * Overlay: ovl_En_Nutsball
- * Description: The projectile fired by deku scrubs and octoroks.
+ * Description: Projectile fired by deku scrubs
  */
 
 #include "z_en_nutsball.h"
@@ -30,14 +30,15 @@ const ActorInit En_Nutsball_InitVars = {
     (ActorFunc)NULL,
 };
 
-static ColliderCylinderInit cylinderInitData = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x11, 0x01, 0x01 },
     { 13, 13, 0, { 0 } },
 };
 
-static s16 objectTbl[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };
-static u32 dListTbl[] = { 0x06002028, 0x060012F0, 0x06004008, 0x06002410, 0x06001890 };
+static s16 sObjectIDs[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };
+
+static Gfx* sDLists[] = { 0x06002028, 0x060012F0, 0x06004008, 0x06002410, 0x06001890 };
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNutsball* this = THIS;
@@ -45,8 +46,8 @@ void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawFunc_Circle, 13.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[this->actor.params]);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[this->actor.params]);
 
     if (this->objBankIndex < 0) {
         Actor_Kill(&this->actor);
@@ -80,7 +81,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
     this->timer--;
 
     if (this->timer == 0) {
-        this->actor.gravity = -1;
+        this->actor.gravity = -1.0f;
     }
 
     this->actor.initPosRot.rot.z += 0x2AA8;
@@ -126,7 +127,7 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
 
         Actor_MoveForward(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 10, cylinderInitData.dim.radius, cylinderInitData.dim.height, 5);
+        func_8002E4B4(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height, 5);
         Collider_CylinderUpdate(&this->actor, &this->collider);
 
         this->actor.flags |= 0x1000000;
@@ -148,7 +149,7 @@ void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_RotateZ(thisx->initPosRot.rot.z * 9.58738e-05f, MTXMODE_APPLY);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[thisx->params]);
+    gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[thisx->params]);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
 }

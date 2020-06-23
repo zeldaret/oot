@@ -1,7 +1,7 @@
 /*
  * File: z_item_inbox.c
  * Overlay: ovl_Item_Inbox
- * Description: Zelda's magic to open gates.
+ * Description: Zelda's magic effect when opening gates in castle collapse
  */
 
 #include "z_item_inbox.h"
@@ -15,7 +15,7 @@ void ItemInbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemInbox_Update(Actor* thisx, GlobalContext* globalCtx);
 void ItemInbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B86020(ItemInbox* this, GlobalContext* globalCtx);
+void ItemInbox_Wait(ItemInbox* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Inbox_InitVars = {
     ACTOR_ITEM_INBOX,
@@ -32,14 +32,14 @@ const ActorInit Item_Inbox_InitVars = {
 void ItemInbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     ItemInbox* this = THIS;
 
-    this->actionFunc = func_80B86020;
+    this->actionFunc = ItemInbox_Wait;
     Actor_SetScale(&this->actor, 0.2);
 }
 
 void ItemInbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80B86020(ItemInbox* this, GlobalContext* globalCtx) {
+void ItemInbox_Wait(ItemInbox* this, GlobalContext* globalCtx) {
     if (Flags_GetTreasure(globalCtx, (this->actor.params >> 8) & 0x1F)) {
         Actor_Kill(&this->actor);
     }

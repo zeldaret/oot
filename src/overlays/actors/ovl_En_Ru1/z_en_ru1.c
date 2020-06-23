@@ -70,35 +70,35 @@ void func_80AF03F4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF0400(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx);
 
-ColliderCylinderInit_Set3 D_80AF0800 = {
+ColliderCylinderInit_Set3 sCylinderInit1 = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0 } },
 };
 
-ColliderCylinderInit_Set3 D_80AF082C = {
+ColliderCylinderInit_Set3 sCylinderInit2 = {
     { COLTYPE_UNK0, 0x09, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
     { 20, 30, 0, { 0 } },
 };
 
-u32 D_80AF0858[] = {
+UNK_PTR D_80AF0858[] = {
     0x0600E3B8, 0x0600F238, 0x0600F638, 0x0600FE38, 0x06010238, 0x06010A38,
 };
 
-u32 D_80AF0870[] = {
+UNK_PTR D_80AF0870[] = {
     0x0600E838,
     0x0600FA38,
     0x06010638,
 };
 
-s32 D_80AF087C = 0;
+s32 sUnused = 0;
 
 #include "z_en_ru1_cutscene_data.c" EARLY
 
 u32 D_80AF1938 = 0;
 
-EnRu1ActionFunc D_80AF193C[] = {
+EnRu1ActionFunc sActionFuncs[] = {
     func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
     func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
     func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
@@ -108,13 +108,13 @@ EnRu1ActionFunc D_80AF193C[] = {
     func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1PreLimbDrawFunc D_80AF19F4[] = {
+EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
     func_80AF0278,
 };
 
-Vec3f D_80AF19F8 = { 0.0f, 10.0f, 0.0f };
+Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
 
-EnRu1DrawFunc D_80AF1A04[] = {
+EnRu1DrawFunc sDrawFuncs[] = {
     func_80AF03F4,
     func_80AF0400,
     func_80AF05D4,
@@ -172,7 +172,7 @@ void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(thisx, collider2);
     if (this->unk_34C != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
-    } else if (thisx->xzDistanceFromLink > 32.0f) {
+    } else if (thisx->xzDistFromLink > 32.0f) {
         this->unk_34C = 1;
     }
 }
@@ -190,10 +190,10 @@ void func_80AEAD20(EnRu1* this, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     if (!thisx) {} // necessary to match
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &D_80AF0800);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &sCylinderInit1);
 
     Collider_InitCylinder(globalCtx, &this->collider2);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider2, thisx, &D_80AF082C);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider2, thisx, &sCylinderInit2);
 }
 
 void func_80AEAD98(EnRu1* this, GlobalContext* globalCtx) {
@@ -207,11 +207,13 @@ void func_80AEADD8(EnRu1* this) {
 
 u8 func_80AEADE0(EnRu1* this) {
     u8 params = this->actor.params >> 8;
+
     return params;
 }
 
 u8 func_80AEADF0(EnRu1* this) {
     s16 params = this->actor.params;
+
     return params;
 }
 
@@ -272,6 +274,7 @@ CsCmdActorAction* func_80AEAF58(GlobalContext* globalCtx, s32 npcActionIdx) {
 
 s32 func_80AEAFA0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction = func_80AEAF58(globalCtx, npcActionIdx);
+
     if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == action)) {
         return 1;
     }
@@ -280,6 +283,7 @@ s32 func_80AEAFA0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
 
 s32 func_80AEAFE0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction = func_80AEAF58(globalCtx, npcActionIdx);
+
     if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action != action)) {
         return 1;
     }
@@ -440,7 +444,7 @@ void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     Actor* thisx = &this->actor;
 
     sp24.x = thisx->posRot.pos.x;
-    sp24.y = thisx->posRot.pos.y + thisx->unk_84;
+    sp24.y = thisx->posRot.pos.y + thisx->waterY;
     sp24.z = thisx->posRot.pos.z;
     func_80029444(globalCtx, &sp24, 100, arg2, arg3);
 }
@@ -467,7 +471,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->posRot.pos.x;
-    pos.y = thisx->posRot.pos.y + thisx->unk_84;
+    pos.y = thisx->posRot.pos.y + thisx->waterY;
     pos.z = thisx->posRot.pos.z;
 
     func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
@@ -591,6 +595,7 @@ void func_80AEBB3C(EnRu1* this) {
 
 void func_80AEBB78(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
+
     if ((((func_800A56C8(skelAnime, 4.0f)) || (func_800A56C8(skelAnime, 13.0f))) ||
          (func_800A56C8(skelAnime, 22.0f))) ||
         (func_800A56C8(skelAnime, 31.0f))) {
@@ -727,6 +732,7 @@ void func_80AEC100(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEC130(EnRu1* this, GlobalContext* globalCtx) {
     s32 something = EnRu1_FrameUpdateMatrix(this);
+
     func_80AEAECC(this, globalCtx);
     func_80AEBB3C(this);
     func_80AEBE3C(this, globalCtx, something);
@@ -807,6 +813,7 @@ void func_80AEC320(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEC40C(EnRu1* this) {
     Actor* thisx = &this->actor;
     f32 unk_26C = this->unk_26C;
+
     if (unk_26C < 8.0f) {
         thisx->speedXZ = (((kREG(3) * 0.01f) + 2.7f) * 0.125f) * unk_26C;
     } else {
@@ -843,6 +850,7 @@ s32 func_80AEC5FC(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     f32 thisPosZ = thisx->posRot.pos.z;
     f32 playerPosZ = player->actor.posRot.pos.z;
+
     if ((playerPosZ - thisPosZ <= 265.0f) && (player->actor.posRot.pos.y >= thisx->posRot.pos.y)) {
         return 1;
     }
@@ -890,6 +898,7 @@ void func_80AEC81C(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     CsCmdActorAction* csCmdNPCAction;
     s16 newRotY;
+
     if (func_80AEAFE0(globalCtx, 1, 3)) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[3];
         thisx->posRot.pos.x = csCmdNPCAction->startPos.x;
@@ -1008,19 +1017,19 @@ void func_80AECC84(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Vec3f* pos;
-    s16 rotTowardsLinkY;
+    s16 yawTowardsLink;
     f32 spawnX;
     f32 spawnY;
     f32 spawnZ;
     s32 pad[2];
 
-    rotTowardsLinkY = thisx->rotTowardsLinkY;
+    yawTowardsLink = thisx->yawTowardsLink;
     pos = &thisx->posRot.pos;
-    spawnX = ((kREG(1) + 12.0f) * Math_Sins(rotTowardsLinkY)) + pos->x;
+    spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
-    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(rotTowardsLinkY)) + pos->z;
+    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
     this->unk_278 = Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                        0, rotTowardsLinkY, 0, 5);
+                                        0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1109,8 +1118,8 @@ void func_80AED0C8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AED0D8(EnRu1* this, GlobalContext* globalCtx) {
     this->action = 17;
     this->drawConfig = 1;
-    this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
-    this->actor.shape.rot.y = this->actor.rotTowardsLinkY;
+    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.yawTowardsLink;
     func_80AECCB0(this, globalCtx);
 }
 
@@ -1150,7 +1159,7 @@ void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06002990, 1.0f, 0, SkelAnime_GetFrameCount(&D_06002990.genericHeader),
                              2, -8.0f);
         this->action = 21;
-        this->unk_27C = this->actor.xzDistanceFromLink;
+        this->unk_27C = this->actor.xzDistFromLink;
     }
 }
 
@@ -1248,7 +1257,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return 0;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (thisx->unk_84 > kREG(16) + 50.0f) && (this->action != 33)) {
+               (thisx->waterY > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->unk_2A8 = 0xFF;
@@ -1259,12 +1268,14 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AED6DC(EnRu1* this, GlobalContext* globalCtx) {
     s8 curRoomNum = globalCtx->roomCtx.curRoom.num;
+
     this->roomNum2 = curRoomNum;
     this->unk_288 = 0.0f;
 }
 
 void func_80AED6F8(GlobalContext* globalCtx) {
     s8 curRoomNum;
+
     if ((!(gSaveContext.infTable[20] & 0x80))) {
         curRoomNum = globalCtx->roomCtx.curRoom.num;
         if (curRoomNum == 2) {
@@ -1475,7 +1486,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.unk_84 - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.waterY - 10.0f) * 0.5f;
             this->unk_354 = this->actor.posRot.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1539,6 +1550,7 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dyna;
     u32 floorPolySource;
+
     if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != 0x32)) {
         floorPolySource = this->actor.floorPolySource;
         dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, floorPolySource);
@@ -1603,7 +1615,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
             func_8002F580(this, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
-        } else if (thisx->unk_84 > 0.0f) {
+        } else if (thisx->waterY > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }
@@ -1839,6 +1851,7 @@ void func_80AEF080(EnRu1* this) {
 
 s32 func_80AEF0BC(EnRu1* this, GlobalContext* globalCtx) {
     s32 frameCount;
+
     if (gSaveContext.infTable[20] & 4) {
         frameCount = SkelAnime_GetFrameCount(&D_06007534.genericHeader);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06007534, 1.0f, 0, frameCount, 2, -8.0f);
@@ -1955,6 +1968,7 @@ void func_80AEF540(EnRu1* this) {
 
 void func_80AEF5B8(EnRu1* this) {
     f32 animCurrentFrame;
+
     if (D_80AF1938 == 0) {
         animCurrentFrame = this->skelAnime.animCurrentFrame;
         if (animCurrentFrame >= 60.0f) {
@@ -2241,11 +2255,11 @@ void func_80AF0050(EnRu1* this, GlobalContext* globalCtx) {
 void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRu1* this = THIS;
 
-    if (this->action < 0 || this->action >= 46 || D_80AF193C[this->action] == NULL) {
+    if (this->action < 0 || this->action >= 46 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_80AF193C[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -2308,10 +2322,10 @@ s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                            Gfx** gfx) {
     EnRu1* this = THIS;
 
-    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*D_80AF19F4[this->unk_290] == NULL)) {
+    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        D_80AF19F4[this->unk_290](this, globalCtx, limbIndex, rot);
+        sPreLimbDrawFuncs[this->unk_290](this, globalCtx, limbIndex, rot);
     }
     return 0;
 }
@@ -2322,7 +2336,7 @@ void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Vec3f vec2;
 
     if (limbIndex == 15) {
-        vec1 = D_80AF19F8;
+        vec1 = sMultVec;
         Matrix_MultVec3f(&vec1, &vec2);
         thisx->posRot2.pos.x = vec2.x;
         thisx->posRot2.pos.y = vec2.y;
@@ -2389,9 +2403,9 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
 void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRu1* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF1A04[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    D_80AF1A04[this->drawConfig](this, globalCtx);
+    sDrawFuncs[this->drawConfig](this, globalCtx);
 }

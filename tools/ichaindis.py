@@ -30,10 +30,10 @@ def main():
         with open(args.filename, 'rb') as f:
             romData = f.read()
     except IOError:
-        print('failed to read file' + args.filename)
+        print('failed to read file ' + args.filename)
         sys.exit(1)
 
-    print ('static InitChainEntry initChain[] = {')
+    print ('static InitChainEntry sInitChain[] = {')
     while True:
         entry = struct.unpack('>I', romData[romOff:romOff+4])[0]
         romOff += 4

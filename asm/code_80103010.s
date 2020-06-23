@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80103010
+glabel osPfsFindFile
 /* B7A1B0 80103010 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B7A1B4 80103014 AFBF003C */  sw    $ra, 0x3c($sp)
 /* B7A1B8 80103018 AFBE0038 */  sw    $fp, 0x38($sp)
@@ -61,7 +61,7 @@ glabel func_80103010
 /* B7A264 801030C4 8FBF003C */   lw    $ra, 0x3c($sp)
 /* B7A268 801030C8 8E440004 */  lw    $a0, 4($s2)
 .L801030CC:
-/* B7A26C 801030CC 0C040644 */  jal   func_80101910
+/* B7A26C 801030CC 0C040644 */  jal   __osPfsGetStatus
 /* B7A270 801030D0 8E450008 */   lw    $a1, 8($s2)
 /* B7A274 801030D4 10400003 */  beqz  $v0, .L801030E4
 /* B7A278 801030D8 00403025 */   move  $a2, $v0

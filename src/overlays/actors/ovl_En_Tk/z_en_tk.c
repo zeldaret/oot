@@ -171,13 +171,13 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 
 /** z_en_tk_eff.c ends here probably **/
 
-static ColliderCylinderInit D_80B1D508 = {
-    { 0x0A, 0x00, 0x00, 0x39, 0x20, 0x01 },
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 0x001E, 0x0034, 0x0000, { 0 } },
+    { 30, 52, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 colChkInfoInit = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -229,7 +229,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.waterSurfaceDist > 10000.f) {
+    if (this->actor.xyzDistFromLinkSq > 10000.f) {
         return 0;
     }
 
@@ -237,7 +237,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     v0 -= this->h_21E;
     v0 -= this->headRot;
 
-    v1 = this->actor.rotTowardsLinkY - v0;
+    v1 = this->actor.yawTowardsLink - v0;
     if (ABS(v1) < 0x1554) {
         return 1;
     } else {
@@ -263,7 +263,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        dy = prop->posRot.pos.y - this->actor.unk_80;
+        dy = prop->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, prop);
         if (dxz > 40.f || dy > 10.f) {
             prop = prop->next;
@@ -282,7 +282,7 @@ void EnTk_CheckCurrentSpot(EnTk* this) {
     f32 dy;
 
     if (this->currentSpot != NULL) {
-        dy = this->currentSpot->posRot.pos.y - this->actor.unk_80;
+        dy = this->currentSpot->posRot.pos.y - this->actor.groundY;
         dxz = func_8002DB8C(&this->actor, this->currentSpot);
         if (dxz > 40.f || dy > 10.f) {
             this->currentSpot = NULL;
@@ -506,9 +506,9 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
                          0.f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B1D508);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&this->actor.colChkInfo, NULL, &colChkInfoInit);
+    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
@@ -538,7 +538,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     if (this->h_1E0 != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         if (this->h_1E0 == 2) {
             EnTk_DigAnim(this, globalCtx);
@@ -552,7 +552,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (EnTk_CheckFacingPlayer(this) != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.f, func_80B1C54C,
@@ -560,7 +560,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.rotTowardsLinkY - v1;
+        v1 = this->actor.yawTowardsLink - v1;
 
         this->actionCountdown = 0;
         this->h_1E0 = 1;
@@ -599,7 +599,7 @@ void EnTk_Walk(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     Vec3f rewardOrigin;
     Vec3f rewardPos;
-    s32 rewardParams[] = {
+    s32 sRewardParams[] = {
         0x0000, /* Green rupee */
         0x0001, /* Blue rupee */
         0x0002, /* Red rupee */
@@ -639,7 +639,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                 }
             }
 
-            Item_DropCollectible(globalCtx, &rewardPos, rewardParams[this->currentReward]);
+            Item_DropCollectible(globalCtx, &rewardPos, sRewardParams[this->currentReward]);
         }
     }
 
@@ -742,12 +742,11 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR eyeImages[] = {
-        &D_06003B40,
-        &D_06004340,
-        &D_06004B40,
+    static UNK_PTR sEyesSegments[] = {
+        0x06003B40,
+        0x06004340,
+        0x06004B40,
     };
-
     EnTk* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -761,7 +760,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[this->eyeImageIdx]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
                      EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);

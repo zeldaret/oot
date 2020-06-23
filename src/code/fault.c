@@ -1,8 +1,8 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
 #include <alloca.h>
 #include <vt.h>
-#include <PR/os_cont.h>
 
 // data
 const char* sExceptionNames[] = {
@@ -249,7 +249,7 @@ void Fault_Sleep(u32 duration) {
 }
 
 void Fault_PadCallback(Input* input) {
-    // BUG: this function is not called correctly and thus will crash from reading a bad pointer at 0x800C7E4C
+    //! @bug This function is not called correctly and thus will crash from reading a bad pointer at 0x800C7E4C
     PadMgr_RequestPadData(input, 0);
 }
 

@@ -793,7 +793,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0)) {
-                func_8006EA30(globalCtx);
+                KaleidoSetup_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {
@@ -1071,7 +1071,7 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// regalloc, stakc usage and minor ordering differences
+// regalloc, stack usage and minor ordering differences
 void Gameplay_Draw(GlobalContext* globalCtx) {
     LightMapper* sp228;
     Vec3f sp21C;
@@ -1134,15 +1134,13 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
-                View view;         // 0xA0
-                Viewport viewport; // 0x90
+                View view; // 0xA0
 
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;
 
-                VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
+                SET_FULLSCREEN_VIEWPORT(&view);
 
-                View_SetViewport(&view, &viewport);
                 func_800AB9EC(&view, 15, &gfxP);
                 globalCtx->transitionCtx.draw(&globalCtx->transitionCtx.data, &gfxP);
             }
@@ -1235,7 +1233,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (ACTIVE_CAM->unk_142 != 0x19) {
+                        if (ACTIVE_CAM->setting != 0x19) {
                             Vec3f sp74;
                             func_8005AFB4(&sp74, ACTIVE_CAM);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
@@ -1367,7 +1365,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
     }
 
     if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4583)
+        LOG_NUM("1", 1, "../z_play.c", 4583);
     }
 
     Gameplay_Draw(globalCtx);
@@ -1382,47 +1380,46 @@ s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
     return (globalCtx->csCtx.state != 0) || func_8008E988(globalCtx);
 }
 
-#ifdef NON_MATCHING
-// saved register usage differences and possibly stack usage or regalloc differences
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
-    PosRot sp50;
-    f32 temp_f0;
-    f32 phi_f12;
-    f32 phi_f16;
+    CollisionPoly sp50;
+    f32 temp1;
+    f32 temp2;
+    f32 temp3;
     f32 sp40;
     f32 sp3C;
     f32 sp38;
     f32 sp34;
+    s32 pad[5];
 
-    sp40 = func_8003CB30(globalCtx, &globalCtx->colCtx, &sp50, mf);
+    sp40 = func_8003CB30(&globalCtx->colCtx, &sp50, vec, mf);
 
     if (sp40 > -32000.0f) {
-        sp3C = sp50.rot.x * (1.0f / 32767.0f);
-        sp38 = sp50.rot.y * (1.0f / 32767.0f);
-        sp34 = sp50.rot.z * (1.0f / 32767.0f);
+        sp3C = sp50.norm.x * (1.0f / 32767.0f);
+        sp38 = sp50.norm.y * (1.0f / 32767.0f);
+        sp34 = sp50.norm.z * (1.0f / 32767.0f);
 
-        temp_f0 = sqrtf(1.0f - SQ(sp3C));
+        temp1 = sqrtf(1.0f - SQ(sp3C));
 
-        if (temp_f0 != 0.0f) {
-            phi_f12 = sp38 * temp_f0;
-            phi_f16 = -sp34 * temp_f0;
+        if (temp1 != 0.0f) {
+            temp2 = sp38 * temp1;
+            temp3 = -sp34 * temp1;
         } else {
-            phi_f12 = 0.0f;
-            phi_f16 = 0.0f;
+            temp3 = 0.0f;
+            temp2 = 0.0f;
         }
 
-        mf->xx = temp_f0;
-        mf->xy = -sp3C * phi_f12;
-        mf->xz = sp3C * phi_f16;
+        mf->xx = temp1;
+        mf->xy = -sp3C * temp2;
+        mf->xz = sp3C * temp3;
         mf->yx = sp3C;
         mf->yy = sp38;
-        mf->zy = phi_f16;
-        mf->zz = phi_f12;
+        mf->yz = sp34;
+        mf->zy = temp3;
+        mf->zz = temp2;
         mf->xw = 0.0f;
         mf->yw = 0.0f;
         mf->zx = 0.0f;
         mf->zw = 0.0f;
-        mf->yz = sp34;
         mf->wx = vec->x;
         mf->wy = sp40;
         mf->wz = vec->z;
@@ -1448,9 +1445,6 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
 
     return sp40;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BFCB8.s")
-#endif
 
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     u32 size;
@@ -1605,13 +1599,13 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
 
     camera = globalCtx->cameraPtrs[camIdx];
 
-    ret = func_8005AA90(camera, 1, arg2);
+    ret = Camera_SetParam(camera, 1, arg2);
     ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, arg3);
 
     if (1) {} // Necessary to match
 
-    camera->unk_DC = Math3D_Vec3f_DistXYZ(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1639,13 +1633,13 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 
     if (1) {} // Probably necessary to match
 
-    ret = func_8005AA90(camera, 1, arg2);
+    ret = Camera_SetParam(camera, 1, arg2);
     ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, arg3);
     ret *= 2;
-    ret |= func_8005AA90(camera, 4, arg4);
+    ret |= Camera_SetParam(camera, 4, arg4);
 
-    camera->unk_DC = func_800CB678(arg2, arg3);
+    camera->dist = func_800CB678(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1667,7 +1661,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 #ifdef NON_MATCHING
 // missing an extra move instruction
 s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2) {
-    return (func_8005AA90(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
+    return (Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0704.s")
@@ -1678,7 +1672,7 @@ s32 func_800C0744(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     Camera* camera;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    camera->unk_15A = arg2;
+    camera->roll = arg2;
 
     return 1;
 }

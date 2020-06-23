@@ -117,33 +117,31 @@ void func_800C4344(GameState* gameState) {
 }
 
 #ifdef NON_MATCHING
-// Regalloc mostly
+// regalloc differences
 void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
     static const u16 sInpDispBtnColors[] = {
-        GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(31, 31, 0, 1),
-        GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1),
-        GPACK_RGBA5551(31, 0, 31, 1),  GPACK_RGBA5551(0, 31, 31, 1),  GPACK_RGBA5551(15, 15, 15, 1),
-        GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1),
-        GPACK_RGBA5551(31, 0, 0, 1),   GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(0, 31, 15, 1),
-        GPACK_RGBA5551(0, 0, 31, 1),
+        GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1), GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1), GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1),
+        GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1),
+        GPACK_RGBA5551(0x00, 0xFF, 0xFF, 1), GPACK_RGBA5551(0xFF, 0x00, 0xFF, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1),
+        GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1),
+        GPACK_RGBA5551(0xFF, 0x00, 0x00, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x00, 0xFF, 0x00, 1),
+        GPACK_RGBA5551(0x00, 0x00, 0xFF, 1),
     };
-    s32 i, j;
-    s32 lrx, lry, ulx, uly;
+    s32 i, j, k;
     Gfx* gfxP = *gfx;
+
     gDPPipeSync(gfxP++);
     gDPSetOtherMode(gfxP++,
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
 
-    for (i = 0, j = 1; i < 0x10; i++, j++) {
+    for (i = 0; i < 16; i++) {
+        j = i;
+        k = i + 1;
         if (input & (1 << i)) {
             gDPSetFillColor(gfxP++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
-            ulx = i * 4 + 226;
-            uly = 220;
-            lrx = j * 4 + 225;
-            lry = 223;
-            gDPFillRectangle(gfxP++, ulx, uly, lrx, lry);
+            gDPFillRectangle(gfxP++, (j * 4) + 226, 220, (k * 4) + 225, 223);
             gDPPipeSync(gfxP++);
         }
     };
@@ -158,8 +156,8 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx* newDList;
     Gfx* polyOpaP;
     Gfx* dispRefs[5];
-    char pad[0x10];
-    GfxPrint printChars[2];
+    char pad[0x8];
+    GfxPrint printChars;
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../game.c", 746);
     newDList = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
@@ -175,11 +173,11 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
-        GfxPrint_Ctor(printChars);
-        GfxPrint_Open(printChars, newDList);
-        func_800EEA50(printChars);
-        newDList = GfxPrint_Close(printChars);
-        GfxPrint_Dtor(printChars);
+        GfxPrint_Init(&printChars);
+        GfxPrint_Open(&printChars, newDList);
+        func_800EEA50(&printChars);
+        newDList = GfxPrint_Close(&printChars);
+        GfxPrint_Destroy(&printChars);
     }
 
     if (R_ENABLE_ARENA_DBG < 0) {
@@ -428,7 +426,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
     startTime = endTime;
     GameState_InitArena(gameState, 0x100000);
-    SREG(30) = 3;
+    R_UPDATE_RATE = 3;
     init(gameState);
 
     endTime = osGetTime();

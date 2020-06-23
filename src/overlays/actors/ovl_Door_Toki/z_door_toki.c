@@ -1,7 +1,7 @@
 /*
  * File: z_door_toki.c
  * Overlay: ovl_Door_Toki
- * Description: Manages collision for the Door of Time.
+ * Description: Door of Time Collision
  */
 
 #include "z_door_toki.h"
@@ -26,10 +26,9 @@ const ActorInit Door_Toki_InitVars = {
     NULL,
 };
 
-// This has to be defined in the linker to produce a proper lui addiu pair
-extern u32 DOOR_TOKI_COLLISION_DATA;
+extern UNK_TYPE D_06007888;
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -38,9 +37,9 @@ void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 sp1C = 0;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->actor, 0);
-    DynaPolyInfo_Alloc(&DOOR_TOKI_COLLISION_DATA, &sp1C);
+    DynaPolyInfo_Alloc(&D_06007888, &sp1C);
     this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
 }
 

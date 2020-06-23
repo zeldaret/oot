@@ -1,7 +1,7 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
 #include <vt.h>
-#include <PR/os_cont.h>
 
 typedef struct {
     /* 0x00 */ u8 scene;
@@ -2775,9 +2775,9 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             // Start Button Texture, Color & Label
             gDPPipeSync(gfxCtx->overlay.p++);
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x78, 0x78, 0x78, interfaceCtx->startAlpha);
-            gSPTextureRectangle(gfxCtx->overlay.p++, sStartButtonLeftPos[gSaveContext.language] << 2, 156,
-                                (sStartButtonLeftPos[gSaveContext.language] + 22) << 2, 68, G_TX_RENDERTILE, 0, 0, 1462,
-                                1462);
+            gSPTextureRectangle(gfxCtx->overlay.p++, sStartButtonLeftPos[gSaveContext.language] << 2, 68,
+                                (sStartButtonLeftPos[gSaveContext.language] + 22) << 2, 156, G_TX_RENDERTILE, 0, 0,
+                                1462, 1462);
             gDPPipeSync(gfxCtx->overlay.p++);
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->startAlpha);
             gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0x00);
@@ -2795,14 +2795,14 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_4b, 3, 0, G_TX_RENDERTILE, 0,
                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                        G_TX_NOLOD);
-            gDPSetTileSize(gfxCtx->overlay.p++, G_TX_RENDERTILE, 0, 0, 48, 16);
+            gDPSetTileSize(gfxCtx->overlay.p++, G_TX_RENDERTILE, 0, 0, 188, 60);
 
             temp = R_START_LABEL_DD(gSaveContext.language) / 100.0f;
             gSPTextureRectangle(gfxCtx->overlay.p++, R_START_LABEL_X(gSaveContext.language) << 2,
                                 R_START_LABEL_Y(gSaveContext.language) << 2,
-                                (R_START_LABEL_X(gSaveContext.language) + (s16)(16 / temp)) << 2,
-                                (R_START_LABEL_Y(gSaveContext.language) + (s16)(48 / temp)) << 2, G_TX_RENDERTILE, 0, 0,
-                                (s16)(1024 / temp), (s16)(1024 / temp));
+                                (R_START_LABEL_X(gSaveContext.language) + (s16)(16.0f / temp)) << 2,
+                                (R_START_LABEL_Y(gSaveContext.language) + (s16)(48.0f / temp)) << 2, G_TX_RENDERTILE, 0,
+                                0, (s16)(1024.0f / temp), (s16)(1024.0f / temp));
         }
     }
 
@@ -2844,8 +2844,8 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                        G_TX_NOLOD);
             gDPSetTileSize(gfxCtx->overlay.p++, G_TX_RENDERTILE, 0, 0, 124, 28);
 
-            gSPTextureRectangle(gfxCtx->overlay.p++, R_C_UP_ICON_X << 2, R_C_UP_ICON_Y << 2, (R_C_UP_ICON_X + 8) << 2,
-                                (R_C_UP_ICON_Y + 32) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
+            gSPTextureRectangle(gfxCtx->overlay.p++, R_C_UP_ICON_X << 2, R_C_UP_ICON_Y << 2, (R_C_UP_ICON_X + 32) << 2,
+                                (R_C_UP_ICON_Y + 8) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
         }
 
         sCUpTimer--;
@@ -3094,14 +3094,7 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
 }
 
 void func_8008A994(InterfaceContext* interfaceCtx) {
-    Viewport viewport;
-
-    // clang-format off
-    viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
-    viewport.topY = 0; viewport.leftX = 0;
-    // clang-format on
-
-    View_SetViewport(&interfaceCtx->view, &viewport);
+    SET_FULLSCREEN_VIEWPORT(&interfaceCtx->view);
     func_800AB2C4(&interfaceCtx->view);
 }
 
@@ -3317,7 +3310,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             R_B_LABEL_DD = 1024.0f / (WREG(37 + gSaveContext.language) / 100.0f);
             gSPTextureRectangle(gfxCtx->overlay.p++, R_B_LABEL_X(gSaveContext.language) << 2,
                                 R_B_LABEL_Y(gSaveContext.language) << 2, (R_B_LABEL_X(gSaveContext.language) + 48) << 2,
-                                R_B_LABEL_Y(gSaveContext.language) << 2, G_TX_RENDERTILE, 0, 0, R_B_LABEL_DD,
+                                (R_B_LABEL_Y(gSaveContext.language) + 16) << 2, G_TX_RENDERTILE, 0, 0, R_B_LABEL_DD,
                                 R_B_LABEL_DD);
         }
 
@@ -3945,7 +3938,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     }
 
     if (pauseCtx->flag == 3) {
-        func_8002AAB0(globalCtx);
+        FlagSet_Update(globalCtx);
     }
 
     if (interfaceCtx->unk_244 != 0) {
