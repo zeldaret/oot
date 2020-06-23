@@ -1166,6 +1166,100 @@ typedef struct {
 } KanFont; // size = 0xE188
 
 typedef struct {
+    /* 0x00000 */ GameState state;
+    /* 0x000A4 */ Vtx_t* allocVtx1;
+    /* 0x000A8 */ void* staticSegment;
+    /* 0x000AC */ void* parameterSegment;
+    /* 0x000B0 */ char unk_B0[0x8];
+    /* 0x000B8 */ View view;
+    /* 0x001E0 */ Sram sram;
+    /* 0x001E4 */ char unk_1E4[0x4];
+    /* 0x001E8 */ SkyboxContext skybox;
+    /* 0x00338 */ char unk_338[0xE428];
+    /* 0x0E760 */ KanFont kanfont;
+    /* 0x1C8E8 */ EnvironmentContext kankyo;
+    /* 0x1C9E4 */ char unk_1C9E4[0x4];
+    /* 0x1C9E8 */ Vtx_t* allocVtx2;
+    /* 0x1C9EC */ Vtx_t* allocVtx3;
+    /* 0x1C9F0 */ Vtx_t* allocVtx4;
+    /* 0x1C9F4 */ u8 n64ddFlag;
+    /* 0x1C9F5 */ char unk_1C9F5;
+    /* 0x1C9F6 */ u16 unk_1C9F6[3];
+    /* 0x1C9FC */ u8 fileNames[3][8];
+    /* 0x1CA14 */ u16 healthCapacities[3];
+    /* 0x1CA1A */ u16 pad_1CA1A;
+    /* 0x1CA1C */ u32 questItems[3];
+    /* 0x1CA28 */ s16 n64ddFlags[3];
+    /* 0x1CA2E */ u8 heartStatus[3];
+    /* 0x1CA32 */ u16 nowLife[3];
+    /* 0x1CA38 */ s16 btnIdx;
+    /* 0x1CA3A */ s16 yesNoButtonIdx;
+    /* 0x1CA3C */ s16 menuIdx;
+    /* 0x1CA3E */ s16 fileSelectStateIdx;
+    /* 0x1CA40 */ s16 unkActionIndex;
+    /* 0x1CA42 */ s16 nextFileSelectStateIdx;
+    /* 0x1CA44 */ s16 openFileStateIdx;
+    /* 0x1CA46 */ s16 selectedFileIdx;
+    /* 0x1CA48 */ char unk_1CA48[0x2];
+    /* 0x1CA4A */ s16 fileNamesY[3];
+    /* 0x1CA50 */ s16 actionTimer;
+    /* 0x1CA52 */ s16 buttonsFile[3];
+    /* 0x1CA58 */ s16 buttonsCopyErase[2];
+    ///* 0x1CA58 */ u16 buttonsErase;
+    /* 0x1CA5C */ s16 buttonsOption;
+    /* 0x1CA5E */ s16 copyDsFiletIdx;
+    /* 0x1CA60 */ s16 fileWarningTexIdx;
+    /* 0x1CA62 */ s16 warningFileIdx;
+    /* 0x1CA64 */ s16 titleTexIdx;
+    /* 0x1CA66 */ s16 nextTitleTexIdx;
+    /* 0x1CA68 */ s16 windowRGB[3];
+    ///* 0x1CA6A */ s16 windowG;
+    ///* 0x1CA6C */ s16 windowB;
+    /* 0x1CA6E */ s16 fileSelectOpenTitleA[2];
+    ///* 0x1CA70 */ s16 openFileTitleA;
+    /* 0x1CA72 */ s16 windowA;
+    /* 0x1CA74 */ s16 fileButtonsA[3];
+    /* 0x1CA7A */ s16 fileNameBoxesA[3];
+    /* 0x1CA80 */ s16 fileNamesA[3];
+    /* 0x1CA86 */ s16 metalJointsA[3];
+    /* 0x1CA8C */ s16 fileInfoA[3];
+    ///* 0x1CA8E */ u16 targetFileInfoBoxA;
+    ///* 0x1CA90 */ u16 unkFileInfoBoxA;
+    /* 0x1CA92 */ s16 buttonCopyEraseA[2];
+    ///* 0x1CA94 */ s16 buttonEraseA;
+    /* 0x1CA96 */ s16 buttonYesQuitA[2];
+    ///* 0x1CA98 */ s16 buttonQuitA;
+    /* 0x1CA9A */ s16 buttonOptionsA;
+    /* 0x1CA9C */ s16 newFileNameBoxA;
+    /* 0x1CA9E */ s16 decideCancelTextA;
+    /* 0x1CAA0 */ s16 fileEmptyTextA;
+    /* 0x1CAA2 */ s16 highlightColorRGBA[4];
+    ///* 0x1CAA4 */ s16 highlightColorG;
+    ///* 0x1CAA6 */ s16 highlightColorB;
+    ///* 0x1CAA8 */ s16 highlightColorA;
+    /* 0x1CAAA */ s16 highlightColorAIncrease;
+    /* 0x1CAAC */ s16 unk_1CAAC;
+    /* 0x1CAAE */ s16 unk_1CAAE[2];
+    /* 0x1CAB2 */ s16 stickXTimer;
+    /* 0x1CAB4 */ s16 stickYTimer;
+    /* 0x1CAB6 */ s16 idxXOff;
+    /* 0x1CAB8 */ s16 idxYOff;
+    /* 0x1CABA */ s16 stickX;
+    /* 0x1CABC */ s16 stickY;
+    /* 0x1CABE */ u16 newFileNameBoxX;
+    /* 0x1CAC0 */ s16 windowX;
+    /* 0x1CAC4 */ float windowRotX;
+    /* 0x1CAC8 */ u16 kbdButtonIdx;
+    /* 0x1CACA */ u16 unk_1CACA;
+    /* 0x1CACC */ u16 kbdCharBoxA;
+    /* 0x1CACE */ s16 kbdCharIdx;
+    /* 0x1CAD0 */ s16 kbdCharX;
+    /* 0x1CAD2 */ s16 kbdCharY;
+    /* 0x1CAD4 */ s16 newFileNameCharCount;
+    /* 0x1CAD6 */ u16 unk_1CAD6[5];
+} FileChooseContext; // size = 0x1CAE0
+
+typedef struct {
     u8 unk_0[8];
 } ChooseContext_unk1C9FC; // size = 0x8
 
@@ -1287,7 +1381,7 @@ typedef struct {
     ///* 0x1CADA */ s16 unk_1CADA;
     ///* 0x1CADC */ s16 unk_1CADC;
     ///* 0x1CADE */ s16 unk_1CADE;
-} ChooseContext; // size = 0x1CAE0
+} ChooseContextOld; // size = 0x1CAE0
 
 typedef struct {
     /* 0x00 */ char* name;

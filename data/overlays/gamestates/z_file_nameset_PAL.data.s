@@ -189,7 +189,7 @@ glabel D_80812A18
 .word func_80810698
 .word func_808106F4
 glabel jtbl_80812A38
-.word L8080B224
+.word func_8080B224
 .word func_8080F560
 .word func_808109B8
 glabel D_80812A44

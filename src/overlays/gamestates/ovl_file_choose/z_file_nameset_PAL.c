@@ -47,8 +47,9 @@ void func_80803D40(ChooseContext* chooseCtx) {
 }
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803ED8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803ED8.s")
 // OK
+#if 0
 void func_80803ED8(ChooseContext* chooseCtx) {
     Input* controller1;
     u8* temp_v0;
@@ -117,6 +118,7 @@ void func_80803ED8(ChooseContext* chooseCtx) {
         }
     }
 }
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804248.s")
 #if 0
@@ -234,7 +236,7 @@ void func_80804248(ChooseContext* chooseCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B1A8.s")
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B224.s")
-void func_8080B224(ChooseContext* this) {
+void func_8080B224(FileChooseContext* this) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B22C.s")
