@@ -21,45 +21,45 @@ void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx);
 s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                   Gfx** gfx);
 
-void func_80B50BBC(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50BEC(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50C40(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50CA8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50CFC(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50D50(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50D94(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50DE8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50E3C(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50E90(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50EE4(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50F38(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50F8C(Actor* thisx, GlobalContext* globalCtx);
-void func_80B50FE8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51034(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51080(Actor* thisx, GlobalContext* globalCtx);
-void func_80B510CC(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51118(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51164(Actor* thisx, GlobalContext* globalCtx);
-void func_80B511B0(Actor* thisx, GlobalContext* globalCtx);
-void func_80B511FC(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51250(Actor* thisx, GlobalContext* globalCtx);
-void func_80B512B8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51310(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51A5C(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51A8C(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51AE4(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51B44(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51BA8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51C0C(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51C64(Actor* thisx, GlobalContext* globalCtx);
-void func_80B51CA8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B52068(Actor* thisx, GlobalContext* globalCtx);
-void func_80B52098(Actor* thisx, GlobalContext* globalCtx);
-void func_80B52108(Actor* thisx, GlobalContext* globalCtx);
-void func_80B521A0(Actor* thisx, GlobalContext* globalCtx);
-void func_80B523BC(Actor* thisx, GlobalContext* globalCtx);
-void func_80B523C8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B525D4(Actor* thisx, GlobalContext* globalCtx);
+void func_80B50BBC(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50BEC(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50C40(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50CA8(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50CFC(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50D50(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50D94(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50DE8(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50E3C(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50E90(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50EE4(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50F38(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50F8C(EnZl2* this, GlobalContext* globalCtx);
+void func_80B50FE8(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51034(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51080(EnZl2* this, GlobalContext* globalCtx);
+void func_80B510CC(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51118(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51164(EnZl2* this, GlobalContext* globalCtx);
+void func_80B511B0(EnZl2* this, GlobalContext* globalCtx);
+void func_80B511FC(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51250(EnZl2* this, GlobalContext* globalCtx);
+void func_80B512B8(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51310(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51A5C(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51A8C(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51AE4(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51B44(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51BA8(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51C0C(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51C64(EnZl2* this, GlobalContext* globalCtx);
+void func_80B51CA8(EnZl2* this, GlobalContext* globalCtx);
+void func_80B52068(EnZl2* this, GlobalContext* globalCtx);
+void func_80B52098(EnZl2* this, GlobalContext* globalCtx);
+void func_80B52108(EnZl2* this, GlobalContext* globalCtx);
+void func_80B521A0(EnZl2* this, GlobalContext* globalCtx);
+void func_80B523BC(EnZl2* this, GlobalContext* globalCtx);
+void func_80B523C8(EnZl2* this, GlobalContext* globalCtx);
+void func_80B525D4(EnZl2* this, GlobalContext* globalCtx);
 
 UNK_TYPE D_80B52810[] = {
     0x060030C8, 0x06003C48, 0x06004048, 0x06004548, 0x06004948, 0x06004D48, 0x06005148, 0x06005D48, 0x06006148,
@@ -71,7 +71,7 @@ UNK_TYPE D_80B52834[] = {
     0x06005948,
 };
 
-static ActorFunc sActionFuncs[] = {
+static EnZl2ActionFunc sActionFuncs[] = {
     func_80B521A0, func_80B50BBC, func_80B50BEC, func_80B50C40, func_80B50CA8, func_80B50CFC,
     func_80B50D50, func_80B50D94, func_80B50DE8, func_80B50E3C, func_80B50E90, func_80B50EE4,
     func_80B50F38, func_80B50F8C, func_80B50FE8, func_80B51034, func_80B51080, func_80B510CC,
@@ -1050,16 +1050,12 @@ void func_80B50A04(EnZl2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B50BBC(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50BBC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50BEC(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50BEC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1067,9 +1063,7 @@ void func_80B50BEC(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50C40(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50C40(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FDD4(this);
     func_80B4ED2C(this, globalCtx);
@@ -1079,9 +1073,7 @@ void func_80B50C40(Actor* thisx, GlobalContext* globalCtx) {
     func_80B503DC(this, globalCtx);
 }
 
-void func_80B50CA8(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50CA8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1089,36 +1081,28 @@ void func_80B50CA8(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50CFC(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50CFC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4EA40(this);
     func_80B50488(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B50D50(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50D50(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_FrameUpdateMatrix(this);
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50D94(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50D94(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4EAF4(this);
     func_80B5053C(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B50DE8(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50DE8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1126,18 +1110,14 @@ void func_80B50DE8(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50E3C(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50E3C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
     func_80B505D4(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B50E90(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50E90(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1145,9 +1125,7 @@ void func_80B50E90(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50EE4(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50EE4(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1155,9 +1133,7 @@ void func_80B50EE4(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50F38(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50F38(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1165,9 +1141,7 @@ void func_80B50F38(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50F8C(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50F8C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
@@ -1176,18 +1150,14 @@ void func_80B50F8C(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B50FE8(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B50FE8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B5073C(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B51034(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51034(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
@@ -1195,18 +1165,14 @@ void func_80B51034(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B51080(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51080(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B507E8(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B510CC(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B510CC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
@@ -1214,18 +1180,14 @@ void func_80B510CC(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B51118(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51118(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B50880(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B51164(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51164(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
@@ -1233,18 +1195,14 @@ void func_80B51164(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B511B0(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B511B0(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE10(globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B50928(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B511FC(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B511FC(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_FrameUpdateMatrix(this);
@@ -1252,9 +1210,7 @@ void func_80B511FC(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B51250(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51250(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4FE48(this);
     func_80B4ED2C(this, globalCtx);
@@ -1264,9 +1220,7 @@ void func_80B51250(Actor* thisx, GlobalContext* globalCtx) {
     func_80B50A04(this, globalCtx);
 }
 
-void func_80B512B8(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B512B8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_FrameUpdateMatrix(this);
@@ -1274,12 +1228,15 @@ void func_80B512B8(Actor* thisx, GlobalContext* globalCtx) {
     func_80B509A0(this, globalCtx);
 }
 
-void func_80B51310(Actor* thisx, GlobalContext* globalCtx) {
+void func_80B51310(EnZl2* this, GlobalContext* globalCtx) {
+    Actor* attachedB;
+
     if (func_80B4ED94(globalCtx, 0) == NULL) {
-        if (thisx->attachedB != NULL) {
-            Actor_Kill(thisx->attachedB);
+        attachedB = this->actor.attachedB;
+        if (attachedB != NULL) {
+            Actor_Kill(attachedB);
         }
-        Actor_Kill(thisx);
+        Actor_Kill(&this->actor);
     }
 }
 
@@ -1483,16 +1440,12 @@ void func_80B51948(EnZl2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B51A5C(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51A5C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B51948(this, globalCtx);
 }
 
-void func_80B51A8C(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51A8C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B51418(this, globalCtx);
@@ -1500,9 +1453,7 @@ void func_80B51A8C(Actor* thisx, GlobalContext* globalCtx) {
     func_80B51948(this, globalCtx);
 }
 
-void func_80B51AE4(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51AE4(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1510,9 +1461,7 @@ void func_80B51AE4(Actor* thisx, GlobalContext* globalCtx) {
     func_80B51948(this, globalCtx);
 }
 
-void func_80B51B44(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51B44(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B5149C(this, globalCtx);
@@ -1520,9 +1469,7 @@ void func_80B51B44(Actor* thisx, GlobalContext* globalCtx) {
     func_80B51948(this, globalCtx);
 }
 
-void func_80B51BA8(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51BA8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B514F8(this, globalCtx);
@@ -1530,27 +1477,21 @@ void func_80B51BA8(Actor* thisx, GlobalContext* globalCtx) {
     func_80B51948(this, globalCtx);
 }
 
-void func_80B51C0C(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51C0C(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B5146C(this, globalCtx);
     func_80B517E0(this, EnZl2_FrameUpdateMatrix(this));
 }
 
-void func_80B51C64(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51C64(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     EnZl2_FrameUpdateMatrix(this);
     func_80B51948(this, globalCtx);
 }
 
-void func_80B51CA8(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B51CA8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B5154C(this, globalCtx);
@@ -1664,16 +1605,12 @@ void func_80B51FA8(EnZl2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B52068(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B52068(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B51FA8(this, globalCtx);
 }
 
-void func_80B52098(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl2* this = THIS;
-
+void func_80B52098(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4FCCC(this, globalCtx);
     func_80B4ED2C(this, globalCtx);
     func_80B4E9B0(this);
@@ -1683,7 +1620,7 @@ void func_80B52098(Actor* thisx, GlobalContext* globalCtx) {
     func_80B51DA4(this, globalCtx);
 }
 
-void func_80B52108(Actor* thisx, GlobalContext* globalCtx) {
+void func_80B52108(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B52114(EnZl2* this, GlobalContext* globalCtx) {
@@ -1703,11 +1640,11 @@ void func_80B52114(EnZl2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B521A0(Actor* thisx, GlobalContext* globalCtx) {
+void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad;
     ObjectContext* objectCtx = &globalCtx->objectCtx;
     s32 bankIndex = Object_GetIndex(objectCtx, OBJECT_ZL2_ANIME1);
-    EnZl2* this = THIS;
+    s32 pad2;
 
     if (bankIndex < 0) {
         osSyncPrintf(VT_FGCOL(RED) "En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
@@ -1763,12 +1700,11 @@ s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig](globalCtx, limbIndex, dList, pos, rot, thisx, gfx);
 }
 
-void func_80B523BC(Actor* thisx, GlobalContext* globalCtx) {
+void func_80B523BC(EnZl2* this, GlobalContext* globalCtx) {
 }
 
-void func_80B523C8(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad[2];
-    EnZl2* this = THIS;
+void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
+    s32 pad[3];
     s16 unk_190 = this->unk_190;
     s16 unk_194 = this->unk_194;
     u32 sp74 = D_80B52810[unk_190];
@@ -1789,13 +1725,12 @@ void func_80B523C8(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, thisx, gfxCtx->polyOpa.p);
+                                          EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl2.c", 1648);
 }
 
-void func_80B525D4(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
-    EnZl2* this = THIS;
+void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
+    s32 pad[2];
     s16 unk_190 = this->unk_190;
     u32 sp78 = D_80B52810[unk_190];
     s16 unk_198 = this->unk_198;
@@ -1814,7 +1749,7 @@ void func_80B525D4(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnZl2_OverrideLimbDraw, NULL, thisx, gfxCtx->polyXlu.p);
+                                          EnZl2_OverrideLimbDraw, NULL, &this->actor, gfxCtx->polyXlu.p);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl2.c", 1692);
 }
 
