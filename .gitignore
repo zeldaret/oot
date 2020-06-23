@@ -45,3 +45,10 @@ ctx.c
 
 # Per-user configuration
 .python-version
+
+TMP/
+bin/
+tools/mips_to_c/
+tools/mips_to_c_single/
+tools/gfxdis.f3dex2
+find.py

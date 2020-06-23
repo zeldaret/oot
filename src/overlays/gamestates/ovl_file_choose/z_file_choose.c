@@ -3,9 +3,47 @@
 #include <vt.h>
 #include <alloca.h>
 
-void func_8080AF50(FileChooseContext*, f32, f32, f32);
-Gfx* func_8080AFD0(Gfx*, s32, s16, s16);
-void func_80806DB0(GraphicsContext*, KanFont_unk3C88*, s16);
+//void func_8080AF50(FileChooseContext*, f32, f32, f32);
+//Gfx* func_8080AFD0(Gfx*, s32, s16, s16);
+//void func_80806DB0(GraphicsContext*, KanFont_unk3C88*, s16);
+
+extern s16 D_80812724;
+extern u32 D_80812728[5][2];
+
+extern s16 D_80812750[5];
+extern s16 D_8081275C[2][3];
+extern s16 D_80812818[4];
+extern s16 D_80812820[4];
+extern s16 D_80812828[4];
+extern s16 D_80812830[6];
+extern s16 D_8081283C[4];
+extern s16 D_80812844[4];
+extern s16 D_80812848[2];
+
+extern s16 D_8081284C[3];
+extern s32 D_80812854[9];
+extern s16 D_80812878[9];
+extern s16 D_8081288C[9];
+extern s16 D_808128A0[9];
+extern s16 D_808128B4[9];
+extern s16 D_808128C8[2][3];
+extern s32 D_808128D4[2];
+extern s16 D_808128DC[2][3];
+extern s16 D_808128E8[2][3];
+
+extern s32 D_808128F4[5];
+extern s32 D_80812908[3][9];
+extern s32 D_80812974[3][9];
+extern s32 D_808129B0[3][5];
+extern s32 D_808129D4[3][4];
+extern s32 D_80812A04[3];
+
+extern s16 D_80812A10[3];
+extern void (*D_80812A18[8])(FileChooseContext*);
+extern void (*D_80812A38[3])(FileChooseContext*);
+extern void (*D_80812A44[3])(FileChooseContext*);
+extern u32 D_80812A50[3];
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C330.s")
 #if 0
@@ -90,38 +128,6 @@ void func_8080C330(FileChooseContext* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C60C.s")
 #if 0
-static s16 D_80812750[5] = {
-    0x0024, 0x0024, 0x0024, 0x0024, 0x0018
-};
-
-static s16 D_80812818[4] = {
-    0x001A, 0x000A, 0x000A, 0x000A
-};
-
-static s16 D_80812820[4] = {
-    0x0020, 0x000C, 0x000C, 0x000C
-};
-
-static s16 D_80812828[4] = {
-    0x0010, 0x000C, 0x000C, 0x000C
-};
-
-static s16 D_80812830[6] = {
-    0x0040, 0x0054, 0x0068, 0x0274, 0x0278, 0x027C
-};
-
-static s16 D_8081283C[4] = {
-    0x0040, 0x0054, 0x0068, 0x0278
-};
-
-static s16 D_80812844[4] = {
-    0x0274, 0x0278
-};
-
-static s16 D_80812848[2] = {
-    0x0274,0x0278
-};
-
 void func_8080C60C(FileChooseContext* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     s16 i;
@@ -466,7 +472,7 @@ void func_8080C60C(FileChooseContext* this) {
     this->allocVtx2[x+3].ob[0] = this->allocVtx2[x].ob[0] + 0x40;
 
     this->allocVtx2[x].ob[1] = 
-    this->allocVtx2[x+1].ob[1] = this->buttonsOption - 0x34;
+    this->allocVtx2[x+1].ob[1] = this->buttonsOption[0] - 0x34;
 
     this->allocVtx2[x+2].ob[1] = 
     this->allocVtx2[x+3].ob[1] = this->allocVtx2[x].ob[1] - 0x10;
@@ -527,54 +533,6 @@ void func_8080C60C(FileChooseContext* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080D8CC.s")
 #if 0
-static u16 D_8081284C[3] = {
-    0x007C, 0x0124, 0x01CC
-};
-
-static s32 D_80812854[9] = {
-    0x0101C880, 0x0101CC80, 0x0101D080, 
-    0x01000180, 0x01000280, 0x01000380,
-    0x01000480, 0x01000580, 0x01000680
-};
-
-static s16 D_80812878[9] = {
-    0x00FF, 0x00FF, 0x00FF, 0x0000, 0x00FF, 
-    0x0000, 0x00FF, 0x00C8, 0x00C8
-};
-
-static s16 D_8081288C[9] = {
-    0x00FF, 0x00FF, 0x00FF, 0x00FF, 0x003C, 
-    0x0064, 0x0082, 0x0032, 0x00C8
-};
-
-static s16 D_808128A0[9] = {
-    0x00FF, 0x00FF, 0x00FF, 0x0000, 0x0000, 
-    0x00FF, 0x0000, 0x00FF, 0x0000
-};
-
-static s16 D_808128B4[9] = {
-    0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 
-    0x0002, 0x0003, 0x0004, 0x0005
-};
-
-static s16 D_808128C8[2][3] = {
-    {0x00FF, 0x00FF, 0x00FF},
-    {0x0064, 0x0064, 0x0064}
-};
-
-static s32 D_808128D4[2] = {
-    0x02000400, 0x02000900
-};
-
-static s16 D_808128DC[2][3] = {
-    {0x00FF, 0x0046, 0x0032}, 
-    {0x00C8, 0x0000, 0x0000}
-};
-
-static s16 D_808128E8[2][3] = {
-    {0x0032, 0x0028, 0x003C},
-    {0x00FF, 0x00FF, 0x00FF}
-};
 
 void func_8080B394(u16, s16*, s16*, s16*);
 
@@ -675,47 +633,6 @@ void func_8080D8CC(FileChooseContext* this, s16 fileSlot, s16 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080E074.s")
 // Good luck Fig
 #if 0
-static s16 D_80812750[5] = {
-    0x0024, 0x0024, 0x0024, 0x0024, 0x0018
-};
-
-static s16 D_8081275C[2][3] = {
-    {0x0064, 0x0096, 0x00FF}, 
-    {0x0064, 0x0064, 0x0064}
-};
-
-static s32 D_808128F4[5] = {
-    0x01016380, 0x01017340, 0x01018300, 0x010192C0, 0x0101A280
-};
-
-static s32 D_80812908[3][9] = {
-    {0x0102AC80, 0x0102B480, 0x01024C80, 0x01025480, 0x01025C80, 0x01026480, 0x0102DC80, 0x0102E480, 0x0102EC80}, 
-    {0x0102BC80, 0x0102C480, 0x01026C80, 0x01027480, 0x01027C80, 0x01028480, 0x0102F480, 0x0102FC80, 0x01030480}, 
-    {0x0102CC80, 0x0102D480, 0x01028C80, 0x01029480, 0x01029C80, 0x0102A480, 0x01030C80, 0x01031480, 0x01031C80}
-};
-
-static s32 D_80812974[3][5] = {
-    {0x0101D480, 0x0101DC80, 0x0101E480, 0x0101EC80, 0x0101F480}, 
-    {0x0101FC80, 0x01020480, 0x01020C80, 0x01021480, 0x01021C80}, 
-    {0x01022480, 0x01022C80, 0x01023480, 0x01023C80, 0x01024480}
-};
-
-static s32 D_808129B0[3][3] = {
-    {0x01037200, 0x01037A00, 0x01038200}, 
-    {0x01038A00, 0x01039200, 0x01039A00},
-    {0x0103A200, 0x0103AA00, 0x0103B200}
-};
-
-static s32 D_808129D4[3][4] = {
-    {0x01035A00, 0x0103D200, 0x0103BA00, 0x0103EA00}, 
-    {0x01036200, 0x0103DA00, 0x0103C200, 0x0103F200},
-    {0x01036A00, 0x0103E200, 0x0103CA00, 0x0103FA00}
-};
-
-static s32 D_80812A04[3] = {
-    0x01045E00, 0x01046600, 0x01045E00
-};
-
 extern Gfx D_01000000[];
 extern Gfx D_01015600[];
 extern Gfx D_0101AD00[];
@@ -1022,6 +939,13 @@ void func_8080E074(FileChooseContext* this) {
 extern Gfx D_01046F00[];
 extern Gfx D_01047118[];
 extern Gfx D_01047328[];
+
+/*f32 D_80813008 = 0.77999997139f;
+f32 D_8081300C = 0.77999997139f;
+f32 D_80813010 = 0.77999997139f;
+f32 D_80813014 = 0.77999997139f;
+f32 D_80813018 = 0.77999997139f;*/
+
 void func_8080F560(FileChooseContext* this) {
     GraphicsContext* gfxCtx;
     f32 temp_f10;
@@ -1173,11 +1097,9 @@ void func_8080FE2C(FileChooseContext* this) {
 }
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080FF98.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080FF98.s")
 // OK
-static s16 D_80812A10[3] = {
-    0x0000, 0x0010, 0x0020
-};
+#if 0
 
 void func_8080FF98(FileChooseContext* this) {
     s16 tmp;
@@ -1192,9 +1114,11 @@ void func_8080FF98(FileChooseContext* this) {
             this->openFileStateIdx += 1;
     }
 }
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8081009C.s")
 // OK
+
 void func_8081009C(FileChooseContext* this) {
     s16 tmp;
 
@@ -1218,6 +1142,7 @@ void func_8081009C(FileChooseContext* this) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8081017C.s")
 // OK
+
 void func_8081017C(FileChooseContext* this) {
     u32 pad;
     Input* controller1 = &this->state.input[0];
@@ -1248,8 +1173,10 @@ void func_8081017C(FileChooseContext* this) {
     }
 }
 
+
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80810354.s")
 // OK
+
 void func_80810354(FileChooseContext* this) {
     s16 tmp;
 
@@ -1268,8 +1195,8 @@ void func_80810354(FileChooseContext* this) {
     tmp = this->fileInfoA[this->btnIdx];
     this->buttonYesQuitA[1] = tmp;
     this->buttonYesQuitA[0] = tmp;
-    
 }
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80810440.s")
 #if 0
@@ -1328,9 +1255,9 @@ void func_80810440(FileChooseContext* this) {
 }
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80810698.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80810698.s")
 // OK
-static s16 D_80812724 = 0x00FF;
+#if 0
 
 void func_80810698(FileChooseContext* this) {
     D_80812724 += VREG(10);
@@ -1339,6 +1266,7 @@ void func_80810698(FileChooseContext* this) {
         this->openFileStateIdx += 1;
     }
 }
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808106F4.s")
 #if 0
@@ -1424,20 +1352,10 @@ void func_808106F4(FileChooseContext* this) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8081097C.s")
 // OK
-void func_8080FE2C(FileChooseContext*);
-void func_8081009C(FileChooseContext*);
-void func_80810440(FileChooseContext*);
-void func_808106F4(FileChooseContext*);
-
-static void (*funcs_9B8[])(FileChooseContext*) = {
-    func_8080FE2C, func_8080FF98, func_8081009C,
-    func_8081017C, func_80810354, func_80810440,
-    func_80810698, func_808106F4
-};
-
 void func_8081097C(FileChooseContext* this) {
-    funcs_9B8[this->openFileStateIdx](this);
+    D_80812A18[this->openFileStateIdx](this);
 }
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808109B8.s")
 #if 0
@@ -1498,41 +1416,14 @@ void func_808109B8(FileChooseContext* this) {
 }
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80810DAC.s")
-#if 0
-void func_8080B1A8(FileChooseContext*);
-void func_8080C2F4(FileChooseContext*);
-void func_8081097C(FileChooseContext*);
-void func_8080B224(FileChooseContext*);
-void func_8080F560(FileChooseContext*);
-void func_808109B8(FileChooseContext*);
-
-static void (*funcs_DAC_1[3])(FileChooseContext*) = {
-    func_8080B1A8, func_8080C2F4, func_8081097C
-};
-
-static void (*funcs_DAC_2[3])(FileChooseContext*) = {
-    func_8080B224, func_8080F560, func_808109B8
-};
-
-static u32 arr_DAC[3] = {
-    0x01033F00, 0x01034800, 0x01035100
-};
-
-static u32 D_80812728[][2] = {
-    {0xE7000000, 0x00000000},
-    {0xD9C0F9FA, 0x00000000}, 
-    {0xEF802C30, 0x00504340}, 
-    {0xFCFFFFFF, 0xFFFDF6FB}, 
-    {0xDF000000, 0x00000000}
-};
-
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80810DAC.s")
+// OK
 void func_80810DAC(FileChooseContext* this) {
+    s32 pad;
+    Input* controller1 = &this->state.input[0];
     GraphicsContext* gfxCtx = this->state.gfxCtx;
-    Input* controller1;
-    Gfx* dispRefs[5];
+    Gfx* dispRefs[4];
 
-    controller1 = &this->state.input[0];
     Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_file_choose.c", 0xB52);
     this->n64ddFlag = 0;
 
@@ -1545,7 +1436,7 @@ void func_80810DAC(FileChooseContext* this) {
     this->stickX = controller1->rel.in.x;
     this->stickY = controller1->rel.in.y;
 
-    if (this->stickX < -0x1E) {
+    if (this->stickX < -30) {
         if (this->idxXOff == -1) {
             this->stickXTimer -= 1;
             if (this->stickXTimer < 0) {
@@ -1554,11 +1445,11 @@ void func_80810DAC(FileChooseContext* this) {
                 this->stickX = 0;
             }
         } else {
-            this->stickXTimer = 0xA;
+            this->stickXTimer = 10;
             this->idxXOff = -1;
         }
     } else {
-        if (this->stickX >= 0x1F) {
+        if (this->stickX >= 31) {
             if (this->idxXOff == 1) {
                 this->stickXTimer -= 1;
                 if (this->stickXTimer < 0) {
@@ -1567,7 +1458,7 @@ void func_80810DAC(FileChooseContext* this) {
                     this->stickX = 0;
                 }
             } else {
-                this->stickXTimer = 0xA;
+                this->stickXTimer = 10;
                 this->idxXOff = 1;
             }
         } else {
@@ -1575,7 +1466,7 @@ void func_80810DAC(FileChooseContext* this) {
         }
     }
 
-    if (this->stickY < -0x1E) {
+    if (this->stickY < -30) {
         if (this->idxYOff == -1) {
             this->stickYTimer -= 1;
             if (this->stickYTimer < 0) {
@@ -1584,11 +1475,11 @@ void func_80810DAC(FileChooseContext* this) {
                 this->stickY = 0;
             }
         } else {
-            this->stickYTimer = 0xA;
+            this->stickYTimer = 10;
             this->idxYOff = -1;
         }
     } else {
-        if (this->stickY >= 0x1F) {
+        if (this->stickY >= 31) {
             if (this->idxYOff == 1) {
                 this->stickYTimer -= 1;
                 if (this->stickYTimer < 0) {
@@ -1597,7 +1488,7 @@ void func_80810DAC(FileChooseContext* this) {
                     this->stickY = 0;
                 }
             } else {
-                this->stickYTimer = 0xA;
+                this->stickYTimer = 10;
                 this->idxYOff = 1;
             }
         } else {
@@ -1607,17 +1498,17 @@ void func_80810DAC(FileChooseContext* this) {
 
     this->fileEmptyTextA = 0;
     func_8080BFE4(this);
-    funcs_DAC_1[this->menuIdx](this);
-    funcs_DAC_2[this->menuIdx](this);
+    D_80812A44[this->menuIdx](this);
+    D_80812A38[this->menuIdx](this);
 
     if ((this->fileSelectStateIdx < 0x24) || (this->fileSelectStateIdx >= 0x28)) {
         func_800944C4(this->state.gfxCtx);
 
         gDPSetCombineLERP(gfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0x64, 0xFF, 0xFF, this->decideCancelTextA & 0xFF);
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0x64, 0xFF, 0xFF, this->decideCancelTextA);
         gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0x00);
 
-        gDPLoadTextureBlock(gfxCtx->polyOpa.p++, arr_DAC[gSaveContext.language], G_IM_FMT_IA,
+        gDPLoadTextureBlock(gfxCtx->polyOpa.p++, D_80812A50[gSaveContext.language], G_IM_FMT_IA,
                             G_IM_SIZ_8b, 0x90, 0x10, 0, G_TX_NOMIRROR | G_TX_WRAP, 
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             
@@ -1636,22 +1527,22 @@ void func_80810DAC(FileChooseContext* this) {
 
     gDPPipeSync(gfxCtx->polyOpa.p++);
     gSPDisplayList(gfxCtx->polyOpa.p++, D_80812728);
-    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0x00, 0x00, 0x00, D_80812724 & 0xFF);
+    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0x00, 0x00, 0x00, D_80812724);
     gDPFillRectangle(gfxCtx->polyOpa.p++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
 
     Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_file_choose.c", 0xBDB);
 }
-#endif
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808113A8.s")
 #if 0
+void func_8006FC88(s32, EnvironmentContext*, SkyboxContext*);
+
 void func_808113A8(FileChooseContext* this) {
     Sram* sram = &this->sram;
-    s16 tmp;
-    s16 tmp_var;
     EnvironmentContext* kankyo = &this->kankyo;
 
-    func_800A9CD4(sram);
+    func_800A9CD4(this, sram);
 
     ZREG(7) = 0x20;
     ZREG(8) = 0x16;
@@ -1729,7 +1620,11 @@ void func_808113A8(FileChooseContext* this) {
     this->menuIdx = 0;
     this->yesNoButtonIdx = 0;
 
-    this->btnIdx = this->openFileStateIdx = this->selectedFileIdx = this->copyDsFiletIdx = this->yesNoButtonIdx;
+    this->btnIdx = 
+    this->openFileStateIdx = 
+    this->selectedFileIdx = 
+    this->copyDsFiletIdx = 
+    this->yesNoButtonIdx;
     
     this->unk_1CAAE[0] = 2;
     this->unk_1CAAE[1] = 3;
@@ -1758,63 +1653,49 @@ void func_808113A8(FileChooseContext* this) {
     this->windowRGB[0] = 0x64;
     this->windowRGB[1] = 0x96;
     this->windowRGB[2] = 0xFF;
+    
+    this->windowA = 
+    this->fileSelectOpenTitleA[0] = this->fileSelectOpenTitleA[1] = 
+    this->fileButtonsA[0] = this->fileButtonsA[1] = this->fileButtonsA[2] = 
+    this->fileNameBoxesA[0] = this->fileNameBoxesA[1] = this->fileNameBoxesA[2] = 
+    this->fileNamesA[0] = this->fileNamesA[1] = this->fileNamesA[2] = 
+    this->metalJointsA[0] = this->metalJointsA[1] = this->metalJointsA[2] = 
+    this->fileInfoA[0] = this->fileInfoA[1] = this->fileInfoA[2] = 
+    this->buttonCopyEraseA[0] = this->buttonCopyEraseA[1] = 
+    this->buttonYesQuitA[0] = this->buttonYesQuitA[1] = 
+    this->buttonOptionsA = 
+    this->newFileNameBoxA = 
+    this->decideCancelTextA = 
     this->fileEmptyTextA = 0;
-
-    tmp_var = this->fileEmptyTextA;
-    this->decideCancelTextA = tmp_var;
-    this->newFileNameBoxA = tmp_var;
-    this->buttonOptionsA = tmp_var;
-    this->fileInfoA[1] = tmp_var;
-    this->fileInfoA[2] = tmp_var;
-    this->buttonCopyEraseA[0] = tmp_var;
-    this->buttonCopyEraseA[1] = tmp_var;
-    this->buttonYesQuitA[0] = tmp_var;
-    this->buttonYesQuitA[1] = tmp_var;
-    this->fileInfoA[0] = tmp_var;
-    this->metalJointsA[2] = tmp_var;
-    this->metalJointsA[1] = tmp_var;
-    this->metalJointsA[0] = tmp_var;
-    this->fileNamesA[2] = tmp_var;
-    this->fileNamesA[1] = tmp_var;
-    this->fileNamesA[0] = tmp_var;
-    this->fileNameBoxesA[2] = tmp_var;
-    this->fileNameBoxesA[1] = tmp_var;
-    this->fileNameBoxesA[0] = tmp_var;
-    this->fileButtonsA[2] = tmp_var;
-    this->fileButtonsA[1] = tmp_var;
-    this->fileButtonsA[0] = tmp_var;
-    this->fileSelectOpenTitleA[1] = tmp_var;
-    this->fileSelectOpenTitleA[0] = tmp_var;
-    this->windowA = tmp_var;
 
     this->windowX = 6;
     this->actionTimer = 8;
     this->fileWarningTexIdx = -1;
+    
+    this->warningFileIdx = 
+    this->buttonsFile[0] = 
+    this->buttonsFile[1] = 
+    this->buttonsFile[2] = 
+    this->buttonsCopyErase[0] = 
+    this->buttonsCopyErase[1] = 
+    this->buttonsOption[0] = 
+    this->fileNamesY[0] = 
+    this->fileNamesY[1] = 
     this->fileNamesY[2] = 0;
 
-    tmp_var = this->fileNamesY[2];
-    this->fileNamesY[1] = tmp_var;
-    this->fileNamesY[0] = tmp_var;
-    this->buttonsOption    = tmp_var;
-    this->buttonsCopyErase[1] = tmp_var;
-    this->buttonsCopyErase[0] = tmp_var;
-    this->buttonsFile[2] = tmp_var;
-    this->buttonsFile[1] = tmp_var;
-    this->buttonsFile[0] = tmp_var;
-    this->warningFileIdx    = tmp_var;
 
     this->unk_1CAD6[0] = 0;
     this->unk_1CAD6[1] = 3;
     this->unk_1CAD6[2] = 6;
     this->unk_1CAD6[3] = 8;
-    this->unk_1CAD6[4] = 0xA;
+    this->unk_1CAD6[4] = 10;
     func_800B3840(0);
 
     gSaveContext.environmentTime = 0;
     gSaveContext.dayTime = 0;
     func_800B0E50(this, &this->skybox, 1);
 
-    D_8011FB40 = 0xA;
+    D_8011FB40 = 10;
     kankyo->unk_19 = 0;
     kankyo->unk_1A = 0;
     kankyo->unk_21 = 0;
@@ -1833,20 +1714,21 @@ void func_808113A8(FileChooseContext* this) {
 
     func_8006FC88(1, &this->kankyo, &this->skybox);
 
+    gSaveContext.buttonStatus[0] =
+    gSaveContext.buttonStatus[1] = 
+    gSaveContext.buttonStatus[2] = 
+    gSaveContext.buttonStatus[3] = 
     gSaveContext.buttonStatus[4] = 0;
-    gSaveContext.buttonStatus[3] = 0;
-    gSaveContext.buttonStatus[2] = 0;
-    gSaveContext.buttonStatus[1] = 0;
-    
-    this->heartStatus[1] = 
-    this->heartStatus[0] = 
-    this->n64ddFlags[2] = 
+
+    this->n64ddFlags[0] = 
     this->n64ddFlags[1] = 
-    this->n64ddFlags[0] = gSaveContext.buttonStatus[0] = 0;
+    this->n64ddFlags[2] = 
+    this->heartStatus[0] = 
+    this->heartStatus[1] = 
     this->heartStatus[2] = 0;
 
     Sram_ReadWrite(0x8000000, sram->read_buff, 0x8000, 0);
-    gSaveContext.language = *((u8*)sram->read_buff + 0x2);
+    gSaveContext.language = ((u8*)sram->read_buff)[2];
     if (gSaveContext.language >= 3) {
         gSaveContext.language = 0;
         ((u8*)sram->read_buff)[2] = 0;
@@ -1859,8 +1741,9 @@ void func_808113A8(FileChooseContext* this) {
 void func_80811A18(FileChooseContext* this) {
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80811A20.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80811A20.s")
 // OK
+#if 0
 void func_80810DAC(FileChooseContext*);
 void func_80811A18(FileChooseContext*);
 
@@ -1897,3 +1780,4 @@ void func_80811A20(FileChooseContext* this) {
     Audio_SetBGM(0xF000000A);
     func_800F5E18(0, 0x57, 0, 7, 1);
 }
+#endif

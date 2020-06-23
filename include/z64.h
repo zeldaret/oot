@@ -862,8 +862,8 @@ typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
     /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ u8       unk_10;
-    /* 0x11 */ u8       unk_11;
+    /* 0x10 */ s8       unk_10;
+    /* 0x11 */ s8       unk_11;
     /* 0x12 */ char     unk_12;
     /* 0x13 */ u8       unk_13;
     /* 0x14 */ char     unk_14;
@@ -1206,7 +1206,7 @@ typedef struct {
     /* 0x1CA52 */ s16 buttonsFile[3];
     /* 0x1CA58 */ s16 buttonsCopyErase[2];
     ///* 0x1CA58 */ u16 buttonsErase;
-    /* 0x1CA5C */ s16 buttonsOption;
+    /* 0x1CA5C */ s16 buttonsOption[1];
     /* 0x1CA5E */ s16 copyDsFiletIdx;
     /* 0x1CA60 */ s16 fileWarningTexIdx;
     /* 0x1CA62 */ s16 warningFileIdx;
@@ -1256,7 +1256,7 @@ typedef struct {
     /* 0x1CAD0 */ s16 kbdCharX;
     /* 0x1CAD2 */ s16 kbdCharY;
     /* 0x1CAD4 */ s16 newFileNameCharCount;
-    /* 0x1CAD6 */ u16 unk_1CAD6[5];
+    /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileChooseContext; // size = 0x1CAE0
 
 typedef struct {
