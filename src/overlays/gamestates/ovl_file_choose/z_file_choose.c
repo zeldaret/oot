@@ -137,7 +137,6 @@ void func_8080C60C(FileChooseContext* this) {
     s16 tmp2;
     s16 tmp4;
     s16 tmp5;
-    u8* tmp_sram;
 
     this->allocVtx2 = Graph_Alloc(this->state.gfxCtx, 0x2880);
 
@@ -332,14 +331,7 @@ void func_8080C60C(FileChooseContext* this) {
 
     tmp4 = 0x2C;
     for (i = 0; i < 3; i++) {
-        tmp_sram = (u8*)this->sram.read_buff + D_8012A4E0[i];
-        if ((tmp_sram[0x1C] == 'Z') ||
-            (tmp_sram[0x1D] == 'E') ||
-            (tmp_sram[0x1E] == 'L') ||
-            (tmp_sram[0x1F] == 'D') ||
-            (tmp_sram[0x20] == 'A') ||
-            (tmp_sram[0x21] == 'Z')) {
-
+        if (IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][i])) {
             // c18
             tmp5 = this->windowX - WREG(39);
             if ((this->fileSelectStateIdx == 0xF) && (this->copyDsFiletIdx == i)) {
@@ -1060,11 +1052,10 @@ void func_8080F560(FileChooseContext* this) {
 }
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080FE2C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080FE2C.s")
 #if 0
 void func_8080FE2C(FileChooseContext* this) {
     s16 i;
-    u8* temp_v0;
 
     for (i = 0; i < 3; i++) {
         if (i != this->btnIdx) {
@@ -1073,15 +1064,9 @@ void func_8080FE2C(FileChooseContext* this) {
             this->buttonCopyEraseA[1] =
             this->buttonOptionsA = this->fileButtonsA[i];
 
-            temp_v0 = (u8*)this->sram.read_buff + D_8012A4E0[i];
-            if ((temp_v0[0x1C] == 'Z') ||
-                (temp_v0[0x1D] == 'E') ||
-                (temp_v0[0x1E] == 'L') ||
-                (temp_v0[0x1F] == 'D') ||
-                (temp_v0[0x20] == 'A') ||
-                (temp_v0[0x21] == 'Z')) {
-                    this->fileNamesA[i] = this->fileNameBoxesA[i] = this->fileButtonsA[i];
-                    this->metalJointsA[i] -= 0x1F;
+            if (IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][i])) {
+                this->fileNamesA[i] = this->fileNameBoxesA[i] = this->fileButtonsA[i];
+                this->metalJointsA[i] -= 0x1F;
             }
         }
     }
@@ -1203,7 +1188,6 @@ void func_80810354(FileChooseContext* this) {
 void func_80810440(FileChooseContext* this) {
     s32 tmp1;
     s16 temp;
-    u8* temp_v0;
     s16 i;
     Sram* sram = &this->sram;
 
@@ -1225,13 +1209,7 @@ void func_80810440(FileChooseContext* this) {
             this->buttonOptionsA = tmp1;
             this->buttonCopyEraseA[0] = tmp1;
             this->buttonCopyEraseA[1] = tmp1;
-            temp_v0 = D_8012A4E0[i] + (u8*)sram->read_buff;//*(u8*)this->sram.read_buff;
-            if ((*(temp_v0 + 0x1C) == 'Z') ||
-                (*(temp_v0 + 0x1D) == 'E') ||
-                (*(temp_v0 + 0x1E) == 'L') ||
-                (*(temp_v0 + 0x1F) == 'D') ||
-                (*(temp_v0 + 0x20) == 'A') ||
-                (*(temp_v0 + 0x21) == 'Z')) {
+            if (IS_VALID_SAVE(sram->read_buff + D_8012A4E0[0][i])) {
                     this->fileNamesA[i] = this->fileButtonsA[i];
                     this->metalJointsA[i] += 0x1F;
                     this->fileNameBoxesA[i] = this->fileButtonsA[i];

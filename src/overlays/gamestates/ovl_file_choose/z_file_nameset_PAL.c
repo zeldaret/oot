@@ -13,6 +13,10 @@ s16 D_8081248C[3][3] = {
     {0xFFC0, 0xFFC0, 0x0020},
 };
 
+s16 D_808124A4[3] = {
+    0xFFC8, 0xFFD8, 0xFFE8
+};
+
 s16 D_80812724 = 0x00FF;
 
 u32 D_80812728[5][2] = {
@@ -181,59 +185,58 @@ u32 D_80812A50[3] = {
 };
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803D40.s")
-#if 0
-
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803D40.s")
+// OK
 void func_80803D40(FileChooseContext* this) {
+    FileChooseContext* this2 = this;
     s16 temp_a2_2;
     s16 i;
 
     for (i = 0; i < 5; i++) {
-        temp_a2_2 = ((this->buttonsFile[i] - D_80812480[i] >= 0) ? 
-                        (this->buttonsFile[i] - D_80812480[i]) : 
-                       -(this->buttonsFile[i] - D_80812480[i])) 
-                    / this->actionTimer;
+        temp_a2_2 = ((this2->buttonsFile[i] - D_80812480[i] >= 0) ? 
+                        (this2->buttonsFile[i] - D_80812480[i]) : 
+                       -(this2->buttonsFile[i] - D_80812480[i])) 
+                    / this2->actionTimer;
 
-        if (this->buttonsFile[i] >= D_80812480[i]) {
-            this->buttonsFile[i] = this->buttonsFile[i] - temp_a2_2;
+        if (this2->buttonsFile[i] >= D_80812480[i]) {
+            this2->buttonsFile[i] = this2->buttonsFile[i] - temp_a2_2;
         } else {
-            this->buttonsFile[i] = this->buttonsFile[i] + temp_a2_2;
+            this2->buttonsFile[i] = this2->buttonsFile[i] + temp_a2_2;
         }
     }
     
-    this->buttonCopyEraseA[0] -= 0x19;
-    this->buttonCopyEraseA[1] -= 0x19;
-    this->buttonOptionsA -= 0x19;
-    this->buttonYesQuitA[1] += 0x19;
+    this2->buttonCopyEraseA[0] -= 0x19;
+    this2->buttonCopyEraseA[1] -= 0x19;
+    this2->buttonOptionsA -= 0x19;
+    this2->buttonYesQuitA[1] += 0x19;
 
-    this->fileSelectOpenTitleA[0] -= 0x1F;
-    this->fileSelectOpenTitleA[1] += 0x1F;
+    this2->fileSelectOpenTitleA[0] -= 0x1F;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
     
-    this->actionTimer -= 1;
-    if (this->actionTimer == 0) {
-        this->actionTimer = 8;
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        this2->actionTimer = 8;
 
-        this->buttonCopyEraseA[0] = 
-        this->buttonCopyEraseA[1] = this->buttonOptionsA = 0;
+        this2->buttonCopyEraseA[0] = 
+        this2->buttonCopyEraseA[1] = this2->buttonOptionsA = 0;
         
-        this->buttonYesQuitA[1] = 0xC8;
-        this->titleTexIdx = this->nextTitleTexIdx;
+        this2->buttonYesQuitA[1] = 0xC8;
+        this2->titleTexIdx = this2->nextTitleTexIdx;
         
-        this->fileSelectOpenTitleA[0] = 0xFF;
-        this->fileSelectOpenTitleA[1] = 0;
-        this->btnIdx = 3;
-        this->fileSelectStateIdx += 1;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->btnIdx = 3;
+        this2->fileSelectStateIdx += 1;
     }
 }
-#endif
+
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803ED8.s")
 // OK
-
 void func_80803ED8(FileChooseContext* this) {
     Input* controller1;
-    u8* temp_v0;
-    u32 pad;
+    s32 pad;
+    s32 pad1;
 
     controller1 = &this->state.input[0];
     if ((this->btnIdx == 3 &&
@@ -249,7 +252,7 @@ void func_80803ED8(FileChooseContext* this) {
     }
 
     if (controller1->press.in.button & (A_BUTTON | START_BUTTON)) {
-        if (!IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
+        if (IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][this->btnIdx])) {
                 this->actionTimer = 8;
                 this->selectedFileIdx = this->btnIdx;
                 this->fileSelectStateIdx = 5;
@@ -261,9 +264,9 @@ void func_80803ED8(FileChooseContext* this) {
         return;
     }
 
-    if ((this->stickY >= 0 ? this->stickY : -this->stickY) >= 0x1E) {
+    if ((this->stickY >= 0 ? this->stickY : -this->stickY) >= 30) {
         Audio_PlaySoundGeneral(0x4839, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        if (this->stickY >= 0x1E) {
+        if (this->stickY >= 30) {
             this->btnIdx -= 1;
             if (this->btnIdx < 0) {
                 this->btnIdx = 3;
@@ -277,8 +280,7 @@ void func_80803ED8(FileChooseContext* this) {
     }
 
     if (this->btnIdx != 3) {
-        temp_v0 = &((u8*)this->sram.read_buff)[D_8012A4E0[this->btnIdx]];
-        if (IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
+        if (!IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][this->btnIdx])) {
             this->fileWarningTexIdx = 3;
             this->warningFileIdx = this->btnIdx;
             this->fileEmptyTextA = 0xFF;
@@ -289,36 +291,37 @@ void func_80803ED8(FileChooseContext* this) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804248.s")
-#if 0
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804248.s")
+// OK
 void func_80804248(FileChooseContext* this) {
+    FileChooseContext* this2 = this;
     s16 temp_a1_2;
     s16 i;
 
     for (i = 0; i < 3; i++) {
-        temp_a1_2 = ABS(this->buttonsFile[i] - D_8081248C[this->btnIdx][i]) / this->actionTimer;
-        if (D_8081248C[this->btnIdx][i] >= this->buttonsFile[i]) {
-            this->buttonsFile[i] += temp_a1_2;
+        temp_a1_2 = ABS(this2->buttonsFile[i] - D_8081248C[this2->btnIdx][i]) / this2->actionTimer;
+        if (D_8081248C[this2->btnIdx][i] >= this2->buttonsFile[i]) {
+            this2->buttonsFile[i] += temp_a1_2;
         } else {
-            this->buttonsFile[i] -= temp_a1_2;
+            this2->buttonsFile[i] -= temp_a1_2;
         }
     }
 
-    this->fileSelectOpenTitleA[0] -= 0x1F;
-    this->fileSelectOpenTitleA[1] += 0x1F;
-    this->fileNameBoxesA[this->btnIdx] -= 0x19;
+    this2->fileSelectOpenTitleA[0] -= 0x1F;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
+    this2->fileNameBoxesA[this2->btnIdx] -= 0x19;
 
-    this->actionTimer -= 1;
-    if (this->actionTimer == 0) {
-        this->buttonsFile[this->btnIdx] = D_8081248C[this->btnIdx][this->btnIdx];
-        this->titleTexIdx = this->nextTitleTexIdx;
-        this->fileSelectOpenTitleA[0] = 0xFF;
-        this->fileSelectOpenTitleA[1] = 0;
-        this->actionTimer = 8;
-        this->fileSelectStateIdx += 1;
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        this2->buttonsFile[this2->btnIdx] = D_8081248C[this2->btnIdx][this2->btnIdx];
+        this2->titleTexIdx = this2->nextTitleTexIdx;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->actionTimer = 8;
+        this2->fileSelectStateIdx += 1;
     }
 }
-#endif
+
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808043D8.s")
 // OK
@@ -339,9 +342,9 @@ void func_808043D8(FileChooseContext* this) {
 // OK
 void func_808044A0(FileChooseContext* this) {
     s32 pad;
+    s32 pad1;
     Input* controller1 = &this->state.input[0];
     s32 stickAbs;
-    u8* sram;
 
     if (((this->btnIdx == 3) && CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON))) || 
         CHECK_PAD(controller1->press, B_BUTTON)) {
@@ -354,7 +357,7 @@ void func_808044A0(FileChooseContext* this) {
     }
 
     if (CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON))) {
-        if (IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
+        if (!IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][this->btnIdx])) {
             this->copyDsFiletIdx = this->btnIdx;
             this->nextTitleTexIdx = 4;
             this->actionTimer = 8;
@@ -391,7 +394,7 @@ void func_808044A0(FileChooseContext* this) {
     }
 
     if (this->btnIdx != 3) {
-        if (!IS_INVALID_SAVE(this->sram.read_buff + D_8012A4E0[this->btnIdx])) {
+        if (IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][this->btnIdx])) {
             this->fileWarningTexIdx = 4;
             this->warningFileIdx = this->btnIdx;
             this->fileEmptyTextA = 0xFF;
@@ -401,33 +404,451 @@ void func_808044A0(FileChooseContext* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804858.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804858.s")
+// OK
+void func_80804858(FileChooseContext* this) {
+    this->fileInfoA[this->btnIdx] -= 0x19;
+    this->fileNameBoxesA[this->btnIdx] += 0x19;
+    this->actionTimer -= 1;
+    if (this->actionTimer == 0) {
+        this->nextTitleTexIdx = 2;
+        this->fileNameBoxesA[this->btnIdx] = 0xC8;
+        this->fileInfoA[this->btnIdx] = 0;
+        this->actionTimer = 8;
+        this->fileSelectStateIdx += 1;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804924.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804924.s")
+// OK
+void func_80804924(FileChooseContext* this) {
+    s16 i;
+    FileChooseContext* this2 = this;
+    s16 tmp;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804A50.s")
+    for (i = 0; i < 3; i++) {
+        tmp = ABS(this2->buttonsFile[i] - D_80812480[i]) / this2->actionTimer;
+        if (this2->buttonsFile[i] >= D_80812480[i]) {
+            this2->buttonsFile[i] -= tmp;
+        } else {
+            this2->buttonsFile[i] += tmp;
+        }
+    }
+    this2->fileSelectOpenTitleA[0] -= 0x1F;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        this2->titleTexIdx = this2->nextTitleTexIdx;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->btnIdx = 3;
+        this2->fileSelectStateIdx = 4;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804C74.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804A50.s")
+// OK
+void func_80804A50(FileChooseContext* this) {
+    s16 i;
+    s32 tmp;
+    s16 tmp2;
+    FileChooseContext* this2 = this;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804CD0.s")
+    this2->fileSelectOpenTitleA[0] -= 0x1F;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
+    for (i = 0; i < 3; i++) {
+        if ((i != this2->copyDsFiletIdx) && (i != this2->selectedFileIdx)) {
+            this2->fileButtonsA[i] -= 0x19;
+            if (IS_VALID_SAVE(this2->sram.read_buff + D_8012A4E0[0][i])) {
+                this2->metalJointsA[i] -= 0x1F;
+                this2->fileNamesA[i] = this2->fileButtonsA[i];
+                this2->fileNameBoxesA[i] = this2->fileButtonsA[i];
+            }
+        } else {
+            if (this2->copyDsFiletIdx == i) {
+                tmp = ABS(this2->buttonsFile[i] - D_808124A4[i]);
+                tmp2 = tmp / this2->actionTimer;
+                this2->buttonsFile[i] += tmp2;
+                if (this2->buttonsFile[i] >= D_808124A4[i]) {
+                    this2->buttonsFile[i] = D_808124A4[i];
+                }
+            }
+        }
+    }
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        this2->titleTexIdx = this2->nextTitleTexIdx;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->btnIdx = 8;
+        this2->fileSelectStateIdx++;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804ED8.s")
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080510C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804C74.s")
+// OK
+void func_80804C74(FileChooseContext* this) {
+    this->buttonYesQuitA[0] += 0x19;
+    this->actionTimer -= 1;
+    if (this->actionTimer == 0) {
+        this->fileSelectStateIdx = 0xC;
+        this->btnIdx = 1;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808051C8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804CD0.s")
+// OK
+void func_80804CD0(FileChooseContext* this) {
+    s32 pad;
+    Input* controller1 = &this->state.input[0];
+    s32 stickY;
+    u16 oldDay;
+    s32 pad1;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805318.s")
+    if (((this->btnIdx != 0) && CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON))) ||
+        CHECK_PAD(controller1->press, B_BUTTON)) {
+        this->actionTimer = 8;
+        this->nextTitleTexIdx = 3;
+        this->fileSelectStateIdx = 0xD;
+        Audio_PlaySoundGeneral(0x483C, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+    if (CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON))) {
+        oldDay = gSaveContext.dayTime;
+        func_800A97F0(this, &this->sram);
+        gSaveContext.dayTime = oldDay;
+        this->fileInfoA[this->copyDsFiletIdx] = 
+        this->fileNamesA[this->copyDsFiletIdx] = 0;
+        this->nextTitleTexIdx = 5;
+        this->actionTimer = 8;
+        this->fileSelectStateIdx = 0xE;
+        func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+        Audio_PlaySoundGeneral(0x483B, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+    stickY = ABS(this->stickY);
+    if (stickY >= 30) {
+        Audio_PlaySoundGeneral(0x4839, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        this->btnIdx ^= 1;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805434.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804ED8.s")
+// OK
+void func_80804ED8(FileChooseContext* this) {
+    FileChooseContext* this2 = this;
+    s16 i;
+    s32 tmp;
+    s16 tmp2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805524.s")
+    this2->fileSelectOpenTitleA[0] -= 0x1F;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
+    this2->buttonYesQuitA[0] -= 0x19;
+    for (i = 0; i < 3; i++) {
+        if ((i != this2->copyDsFiletIdx) && (i != this2->selectedFileIdx)) {
+            this2->fileButtonsA[i] += 0x19;
+            if (IS_VALID_SAVE(this2->sram.read_buff + D_8012A4E0[0][i])) {
+                this2->fileNamesA[i] = this2->fileButtonsA[i];
+                this2->metalJointsA[i] += 0x1F;
+                this2->fileNameBoxesA[i] = this2->fileButtonsA[i];
+            }
+        }
+        tmp = ABS(this2->buttonsFile[i] - D_8081248C[this2->selectedFileIdx][i]);
+        tmp2 = (tmp / this2->actionTimer);
+        if (D_8081248C[this2->selectedFileIdx][i] >= this2->buttonsFile[i]) {
+            this2->buttonsFile[i] += tmp2;
+        } else {
+            this2->buttonsFile[i] -= tmp2;
+        }
+    }
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        this2->titleTexIdx = this2->nextTitleTexIdx;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->actionTimer = 8;
+        this2->btnIdx = 3;
+        this2->fileSelectStateIdx = 7;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805824.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080510C.s")
+// OK
+void func_8080510C(FileChooseContext* this) {
+    this->fileSelectOpenTitleA[0] -= 0x1F;
+    this->buttonYesQuitA[0] -= 0x19;
+    this->buttonYesQuitA[1] -= 0x19;
+    this->actionTimer -= 1;
+    if (this->actionTimer == 0) {
+        this->fileSelectOpenTitleA[0] = 0;
+        this->actionTimer = 8;
+        this->fileSelectStateIdx += 1;
+        osSyncPrintf("connect_alpha=%d  decision_alpha[%d]=%d\n", this->metalJointsA[this->copyDsFiletIdx], this->copyDsFiletIdx, this->fileInfoA[this->copyDsFiletIdx]);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080595C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808051C8.s")
+// OK
+void func_808051C8(FileChooseContext* this) {
+    s32 tmp;
+    s16 tmp2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805B2C.s")
+    this->fileInfoA[this->copyDsFiletIdx] += 0x19;
+    this->fileNamesA[this->copyDsFiletIdx] += 0x19;
+    this->fileSelectOpenTitleA[1] += 0x1F;
+    tmp = ABS(this->fileNamesY[this->copyDsFiletIdx] + 0x38);
+    tmp2 = tmp / this->actionTimer;
+    this->fileNamesY[this->copyDsFiletIdx] -= tmp2;
+    if (this->fileNamesY[this->copyDsFiletIdx] < -0x37) {
+        this->fileNamesY[this->copyDsFiletIdx] = -0x38;
+    }
+    this->actionTimer -= 1;
+    if (this->actionTimer == 0) {
+        this->actionTimer = 0x5A;
+        this->titleTexIdx = this->nextTitleTexIdx;
+        this->fileSelectOpenTitleA[0] = 0xFF;
+        this->fileSelectOpenTitleA[1] = 0;
+        this->fileSelectStateIdx++;
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805318.s")
+// OK
+void func_80805318(FileChooseContext* this) {
+    s32 pad;
+    s32 pad2;
+
+    if (this->actionTimer == 0x4B) {
+        this->metalJointsA[this->copyDsFiletIdx] = 0xFF;
+        Audio_PlaySoundGeneral(0x28BA, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+    this->actionTimer -= 1;
+    if (this->actionTimer < 0x4A) {
+        if (CHECK_BTN_ALL(this->state.input[0].press, (A_BUTTON | B_BUTTON | START_BUTTON)) || (this->actionTimer == 0)) {
+            this->actionTimer = 8;
+            this->nextTitleTexIdx = 0;
+            this->fileSelectStateIdx++;
+            Audio_PlaySoundGeneral(0x483B, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805434.s")
+// OK
+void func_80805434(FileChooseContext* this) {
+    this->fileInfoA[this->selectedFileIdx] -= 0x19;
+    this->fileInfoA[this->copyDsFiletIdx] -= 0x19;
+    this->fileNameBoxesA[this->selectedFileIdx] += 0x19;
+    this->fileNameBoxesA[this->copyDsFiletIdx] += 0x19;
+    this->fileSelectOpenTitleA[0] -= 0x1F;
+    this->actionTimer -= 1;
+    if (this->actionTimer == 0) {
+        this->fileNamesY[this->copyDsFiletIdx] = 
+        this->buttonsCopyErase[0] = 0;
+        this->actionTimer = 8;
+        this->fileSelectOpenTitleA[0] = 0;
+        this->fileSelectStateIdx++;
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805524.s")
+// OK
+void func_80805524(FileChooseContext* this) {
+    Sram* sram = &this->sram;
+    FileChooseContext* this2 = this;
+    s16 i;
+    s32 tmp;
+    s16 tmp2;
+
+    for (i = 0; i < 5; i++) {
+        tmp = ABS(this2->buttonsFile[i]);
+        tmp2 = tmp / this2->actionTimer;
+        if (this2->buttonsFile[i] >= 0) {
+            this2->buttonsFile[i] -= tmp2;
+        } else {
+            this2->buttonsFile[i] += tmp2;
+        }
+    }
+    for (i = 0; i < 3; i++) {
+        if (i != this2->btnIdx) {
+            this2->fileButtonsA[i] += 0x19;
+            if (IS_VALID_SAVE(sram->read_buff + D_8012A4E0[0][i])) {
+                this2->fileNameBoxesA[i] = 
+                this2->fileNamesA[i] = this2->fileButtonsA[i];
+                this2->metalJointsA[i] += 0x1F;
+            }
+        }
+    }
+    this2->buttonCopyEraseA[0] += 0x19;
+    this2->buttonCopyEraseA[1] += 0x19;
+    this2->buttonOptionsA += 0x19;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        for (i = 0; i < 3; i++) {
+            this2->metalJointsA[i] = 0;
+            this2->fileButtonsA[i] = 0xC8;
+            this2->fileNameBoxesA[i] = 
+            this2->fileNamesA[i] = this2->metalJointsA[i];
+            //this2->metalJointsA[i];
+            if (IS_VALID_SAVE(sram->read_buff + D_8012A4E0[0][i])) {
+                this2->metalJointsA[i] = 0xFF;
+                this2->fileNameBoxesA[i] = 
+                this2->fileNamesA[i] = this2->fileButtonsA[i];
+            }
+        }
+        this2->fileNamesY[this2->selectedFileIdx] = 0;
+        this2->highlightColorRGBA[3] = 0x46;
+        this2->highlightColorAIncrease = 1;
+        XREG(35) = XREG(36);
+        this2->titleTexIdx = this2->nextTitleTexIdx;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->fileSelectStateIdx = 2;
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805824.s")
+// OK
+void func_80805824(FileChooseContext* this) {
+    FileChooseContext* this2 = this;
+    s16 i;
+    s32 tmp;
+    s16 tmp2;
+
+    for (i = 0; i < 5; i++) {
+        tmp = ABS(this2->buttonsFile[i]);
+        tmp2 = tmp / this2->actionTimer;
+        if (this2->buttonsFile[i] >= 0) {
+            this2->buttonsFile[i] -= tmp2;
+        } else {
+            this2->buttonsFile[i] += tmp2;
+        }
+    }
+    this2->buttonCopyEraseA[0] += 0x19;
+    this2->buttonYesQuitA[1] -= 0x19;
+    this2->fileSelectOpenTitleA[0] -= 0x1F;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
+
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        this2->buttonCopyEraseA[0] = 0xC8;
+        this2->buttonYesQuitA[1] = 0;
+        this2->titleTexIdx = this2->nextTitleTexIdx;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->fileSelectStateIdx = 2;
+    }
+    this2->buttonOptionsA =
+    this2->buttonCopyEraseA[1] = this2->buttonCopyEraseA[0];
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080595C.s")
+// OK
+void func_8080595C(FileChooseContext* this) {
+    FileChooseContext* this2 = this;
+    s16 i;
+    s32 tmp;
+    s16 tmp2;
+
+    for (i = 0; i < 5; i++) {
+        tmp = ABS(this2->buttonsFile[i] - D_80812480[i]);
+        tmp2 = tmp / this2->actionTimer;
+        if (this2->buttonsFile[i] >= D_80812480[i]) {
+            this2->buttonsFile[i] -= tmp2;
+        } else {
+            this2->buttonsFile[i] += tmp2;
+        }
+    }
+    this2->buttonCopyEraseA[0] -= 0x32;
+    this2->buttonCopyEraseA[1] -= 0x32;
+    this2->buttonOptionsA -= 0x32;
+    this2->buttonYesQuitA[1] += 0x19;
+    if (this2->buttonCopyEraseA[0] <= 0) {
+        this2->buttonCopyEraseA[0] = 
+        this2->buttonCopyEraseA[1] = 
+        this2->buttonOptionsA = 0;
+    }
+    this2->fileSelectOpenTitleA[0] -= 0x1F;
+    this2->fileSelectOpenTitleA[1] += 0x1F;
+    this2->actionTimer -= 1;
+    if (this2->actionTimer == 0) {
+        this2->highlightColorRGBA[3] = 0x46;
+        this2->highlightColorAIncrease = 1;
+        XREG(35) = XREG(36);
+        this2->buttonOptionsA = 0;
+        //this2->buttonYesQuitA[1] = 0;
+        this2->buttonYesQuitA[1] = 0xC8;
+        this2->buttonCopyEraseA[0] = 
+        this2->buttonCopyEraseA[1] = this2->buttonOptionsA;
+        this2->titleTexIdx = this2->nextTitleTexIdx;
+        this2->fileSelectOpenTitleA[0] = 0xFF;
+        this2->fileSelectOpenTitleA[1] = 0;
+        this2->btnIdx = 3;
+        this2->fileSelectStateIdx++;
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805B2C.s")
+// OK
+void func_80805B2C(FileChooseContext* this) {
+    s32 pad;
+    Input* controller1 = &this->state.input[0];
+    s32 stickY;
+    s32 pad2;
+
+    if ((this->btnIdx == 3) && CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON)) || 
+        CHECK_PAD(controller1->press, B_BUTTON)) {
+        
+        this->btnIdx = 4;
+        this->actionTimer = 8;
+        this->nextTitleTexIdx = 0;
+        this->fileSelectStateIdx = 0x1E;
+        this->fileWarningTexIdx = -1;
+        Audio_PlaySoundGeneral(0x483C, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+    if (CHECK_BTN_ALL(controller1->press, (A_BUTTON | START_BUTTON))) {
+        if (IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][this->btnIdx])) {
+            this->actionTimer = 8;
+            this->selectedFileIdx = this->btnIdx;
+            this->fileSelectStateIdx = 0x16;
+            this->nextTitleTexIdx = 7;
+            Audio_PlaySoundGeneral(0x483B, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        } else {
+            Audio_PlaySoundGeneral(0x483D, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        }
+    }
+    stickY = ABS(this->stickY);
+    if (stickY >= 30) {
+        Audio_PlaySoundGeneral(0x4839, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        if (this->stickY >= 30) {
+            this->btnIdx--;
+            if (this->btnIdx < 0) {
+                this->btnIdx = 3;
+            }
+        } else {
+            this->btnIdx++;
+            if (this->btnIdx >= 4) {
+                this->btnIdx = 0;
+            }
+        }
+    }
+    if (this->btnIdx != 3) {
+        if (!IS_VALID_SAVE(this->sram.read_buff + D_8012A4E0[0][this->btnIdx])) {
+            this->fileWarningTexIdx = 3;
+            this->warningFileIdx = this->btnIdx;
+            this->fileEmptyTextA = 0xFF;
+        } else {
+            this->fileWarningTexIdx = -1;
+        }
+    } else {
+        this->fileWarningTexIdx = -1;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805EB8.s")
 

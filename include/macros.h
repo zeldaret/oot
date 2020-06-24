@@ -88,22 +88,13 @@
 #define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 #define CHECK_BTN_ALL(state, combo) ((state.in.button & combo) != 0)
 
-#define IS_INVALID_SAVE(buff) (                     \
-                    (((u8*)buff)[0x1C] != 'Z') &&   \
-                    (((u8*)buff)[0x1D] != 'E') &&   \
-                    (((u8*)buff)[0x1E] != 'L') &&   \
-                    (((u8*)buff)[0x1F] != 'D') &&   \
-                    (((u8*)buff)[0x20] != 'A') &&   \
-                    (((u8*)buff)[0x21] != 'Z')      \
-                  )
 #define IS_VALID_SAVE(buff) (                     \
-                    (((u8*)buff)[0x1C] == 'Z') && \
-                    (((u8*)buff)[0x1D] == 'E') && \
-                    (((u8*)buff)[0x1E] == 'L') && \
-                    (((u8*)buff)[0x1F] == 'D') && \
-                    (((u8*)buff)[0x20] == 'A') && \
-                    (((u8*)buff)[0x21] == 'Z')    \
+                    (((u8*)buff)[0x1C] == 'Z') ||   \
+                    (((u8*)buff)[0x1D] == 'E') ||   \
+                    (((u8*)buff)[0x1E] == 'L') ||   \
+                    (((u8*)buff)[0x1F] == 'D') ||   \
+                    (((u8*)buff)[0x20] == 'A') ||   \
+                    (((u8*)buff)[0x21] == 'Z')      \
                   )
-
 
 #endif
