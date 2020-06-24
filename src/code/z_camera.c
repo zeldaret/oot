@@ -6035,74 +6035,72 @@ void func_80054478(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     Camera_Vec3fVecSphAdd(arg2, &arg0->pos, &sp28);
 }
 
-s32 func_800BB2B4(Vec3f*, f32*, f32*, CutsceneCameraPoint*, s16*, Demo1_unk_04*);
+s32 func_800BB2B4(Vec3f*, f32*, f32*, CutsceneCameraPoint*, s16*, f32*);
 
-#ifdef NON_MATCHING
 s32 Camera_Demo1(Camera* camera) {
     s32 pad;
     Demo1* demo1 = &camera->params.demo1;
-    Demo1_unk_04* unk_04 = &demo1->unk_04;
     CameraModeValue* values;
-    CutsceneCameraPoint* sp84;
-    CutsceneCameraPoint* sp80;
-    PosRot sp68;
-    Vec3f sp5C;
-    Vec3f sp50;
+    Vec3f* at = &camera->at;
+    CutsceneCameraPoint* csAtPoints = camera->atPoints;
+    CutsceneCameraPoint* csEyePoints = camera->eyePoints;
+    Vec3f* eye = &camera->eye;
+    PosRot curPlayerPosRot;
+    Vec3f csEyeUpdate;
+    Vec3f csAtUpdate;
+    // type of sp4C is probably wrong
+    // func_800BB0A0 will load 4 floats
     f32 sp4C;
+    Vec3f* eyeNext = &camera->eyeNext;
     f32* fov = &camera->fov;
     s16* relativeToPlayer = &camera->unk_12C;
-    Vec3f* eye = &camera->eye;
-    Vec3f* at = &camera->at; // sp34
-    Vec3f* eyeNext = &camera->eyeNext; //sp30
+    Demo1_unk_04* unk_04 = &demo1->unk_04;
 
-    sp84 = camera->atPoints;
-    sp80 = camera->eyePoints;
+    
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        demo1->unk_00 = values->val;
+        demo1->interfaceFlags = NEXTSETTING;
     }
-    sCameraInterfaceFlags = demo1->unk_00;
+
+    sCameraInterfaceFlags = demo1->interfaceFlags;
 
     switch (camera->animState) {
         case 0:
-            unk_04->unk_04 = 0;
+            unk_04->keyframe = 0;
             unk_04->unk_00 = 0.0f;
             camera->animState++;
             // absolute / relative
             osSyncPrintf("\x1b[1m%06u:\x1b[m camera: spline demo: start %s \n", camera->globalCtx->state.frames, *relativeToPlayer == 0 ? "絶対" : "相対");
             if (PREG(93)) {
-                Camera_DebugPrintSplineArray("CENTER", 5, sp84);
-                Camera_DebugPrintSplineArray("   EYE", 5, sp80);
+                Camera_DebugPrintSplineArray("CENTER", 5, csAtPoints);
+                Camera_DebugPrintSplineArray("   EYE", 5, csEyePoints);
             }
         case 1:
             // follow CutsceneCameraPoints.  function returns 1 if at the end.
             // animState appears to be some kind of state of the cutscene?  0 is init, 1 is update, anything else is stop.
-            if (func_800BB2B4(&sp5C, &sp4C, fov, sp80, &unk_04->unk_04, unk_04) ||
-                func_800BB2B4(&sp50, &sp4C, fov, sp84, &unk_04->unk_04, unk_04)) {
+            if (func_800BB2B4(&csEyeUpdate, &sp4C, fov, csEyePoints, &unk_04->keyframe, &unk_04->unk_00) ||
+                func_800BB2B4(&csAtUpdate, &sp4C, fov, csAtPoints, &unk_04->keyframe, &unk_04->unk_00)) {
                 camera->animState++;
             }
             if (*relativeToPlayer) {
                 if (camera->player != NULL && camera->player->actor.update != NULL) {
-                    func_8002EF14(&sp68, &camera->player->actor);
-                    func_80054478(&sp68, &sp5C, eyeNext);
-                    func_80054478(&sp68, &sp50, at);
+                    func_8002EF14(&curPlayerPosRot, &camera->player->actor);
+                    func_80054478(&curPlayerPosRot.pos, &csEyeUpdate, eyeNext);
+                    func_80054478(&curPlayerPosRot, &csAtUpdate, at);
                 } else {
                     osSyncPrintf("\x1b[41;37mcamera: spline demo: owner dead\n\x1b[m");
                 }
             } else {
-                Camera_Vec3fCopy(&sp5C, eyeNext);
-                Camera_Vec3fCopy(&sp50, at);
+                Camera_Vec3fCopy(&csEyeUpdate, eyeNext);
+                Camera_Vec3fCopy(&csAtUpdate, at);
             }
             *eye = *eyeNext;
             camera->roll = sp4C * 256.0f;
             camera->dist = OLib_Vec3fDist(at, eye);
             break;
     }
-    return 1;
+    return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo1.s")
-#endif
 
 s32 Camera_Demo2(Camera* camera) {
     return Camera_NOP(camera);
@@ -6782,7 +6780,7 @@ void Camera_PrintSettings(Camera *camera) {
  * Sets the room to be hot camera quake flag
 */
 s32 Camera_SetRoomHotFlag(Camera* camera) {
-     camera->unk_152 &= ~1;
+    camera->unk_152 &= ~1;
     if (camera->globalCtx->roomCtx.curRoom.unk_02 == 3) {
         camera->unk_152 |= 1;
     }
