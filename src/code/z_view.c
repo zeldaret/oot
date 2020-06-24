@@ -63,21 +63,21 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     func_800AA7B8(view);
 }
 
-void func_800AA358(View* view, Vec3f* eye, Vec3f* vec2, Vec3f* vec3) {
-    if (eye->x == vec2->x && eye->z == vec2->z) {
+void func_800AA358(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
+    if (eye->x == lookAt->x && eye->z == lookAt->z) {
         eye->x += 0.1f;
     }
 
     view->eye = *eye;
-    view->lookAt = *vec2;
-    view->up = *vec3;
+    view->lookAt = *lookAt;
+    view->up = *up;
     view->flags |= 1;
 }
 
-void func_800AA3F0(View* view, Vec3f* eye, Vec3f* vec2, Vec3f* vec3) {
+void func_800AA3F0(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
     view->eye = *eye;
-    view->lookAt = *vec2;
-    view->up = *vec3;
+    view->lookAt = *lookAt;
+    view->up = *up;
 }
 
 void View_SetScale(View* view, f32 scale) {
