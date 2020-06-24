@@ -1053,9 +1053,9 @@ beginseg
 endseg
 
 beginseg
-	name "ovl_Bg_Jya_Lift"
-	include "build/src/overlays/actors/ovl_Bg_Jya_Lift/z_bg_jya_lift.o"
-	include "build/src/overlays/actors/ovl_Bg_Jya_Lift/ovl_Bg_Jya_Lift_reloc.o"
+    name "ovl_Bg_Jya_Lift"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Lift/z_bg_jya_lift.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Lift/ovl_Bg_Jya_Lift_reloc.o"
 endseg
 
 beginseg
