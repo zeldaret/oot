@@ -28,9 +28,9 @@ const ActorInit Bg_Spot00_Break_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_F8, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 

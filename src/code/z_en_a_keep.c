@@ -126,8 +126,8 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = -1;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
-    thisx->unk_FC = 1200.0f;
-    thisx->unk_F8 = 200.0f;
+    thisx->uncullZoneDownward = 1200.0f;
+    thisx->uncullZoneScale = 200.0f;
 
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
@@ -301,8 +301,8 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void func_8001D5C8(EnAObj* this, s16 params) {
-    this->dyna.actor.unk_FC = 1200.0f;
-    this->dyna.actor.unk_F8 = 720.0f;
+    this->dyna.actor.uncullZoneDownward = 1200.0f;
+    this->dyna.actor.uncullZoneScale = 720.0f;
     EnAObj_SetupAction(this, func_8001D608);
 }
 

@@ -437,7 +437,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     }
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, temp_a1, 0x800);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if ((this->animFlagAndTimer == 0) || (this->actor.unk_E4.z < 0.0f)) {
+    if ((this->animFlagAndTimer == 0) || (this->actor.projectedPos.z < 0.0f)) {
         func_80106CCC(globalCtx);
         if (this->actor.params == 3) {
             Flags_SetClear(globalCtx, this->actor.room);
