@@ -151,16 +151,16 @@ typedef struct {
 } Fixed1; // size = 0x28
 
 typedef struct {
-    f32 unk_00;
-    s16 unk_04;
-} KeepOn0_UnkC;
+    f32 fovTarget;
+    s16 animTimer;
+} KeepOn0Anim;
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    s16 unk_08;
-    s16 unk_0A;
-    KeepOn0_UnkC unk_0C;
+    f32 fovScale;
+    f32 thetaScale;
+    s16 timerInit;
+    s16 interfaceFlags;
+    KeepOn0Anim anim;
 } KeepOn0;
 
 typedef struct {
