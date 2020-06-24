@@ -535,6 +535,34 @@ typedef struct {
     s16 idx;
 } Special7;
 
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    Actor* unk_0C;
+    s16 unk_10;
+    s16 unk_12;
+    s16 unk_14;
+    s16 unk_16;
+} Keep1_Unk34;
+
+typedef struct {
+    f32 unk_00;
+    f32 unk_04;
+    f32 unk_08;
+    f32 unk_0C;
+    f32 unk_10;
+    f32 unk_14;
+    f32 unk_18;
+    f32 unk_1C;
+    f32 unk_20;
+    f32 unk_24;
+    f32 unk_28;
+    f32 unk_2C;
+    s16 unk_30;
+    Keep1_Unk34 unk_34;
+} KeepOn1;
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -567,6 +595,7 @@ typedef union {
     Subj4 subj4;
     Special5 spec5;
     Fixed4 fixd4;
+    KeepOn1 keep1;
     KeepOn3 keep3;
     KeepOn4 keep4;
     Special6 spec6;
