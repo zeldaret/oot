@@ -546,7 +546,7 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     f32 phi_f2;
     f32 phi_f2_2;
     f32 phi_f0_2;
-    u16 phi_a2;
+    u32 phi_a2;
     s32 phi_a3;
     f32 phi_f0_3;
     s32 sp50;
@@ -556,12 +556,14 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     s16 sp38;
     // f32 sp34;
     Vec3f* sp2C;
+    Vec3f* new_var;
 
     sp50 = 0;
     sp3A = this->actor.params & 3;
 
     if (this->soilActor != NULL) {
-        sp40 = func_800CB650(&this->actor.posRot.pos, &this->soilActor->actor.posRot.pos);
+        new_var = &this->actor.posRot.pos;
+        sp40 = func_800CB650(new_var, &this->soilActor->actor.posRot.pos);
     } else {
         if (this->unk_314 & 0x10) {
             osSyncPrintf("\x1b[43;30m");
@@ -597,10 +599,10 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     }
 
     if (0.999f < D_80A7DEB0) {
-        this->unk_328 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
+        this->unk_328 = Math_Vec3f_Yaw(new_var, &this->actor.initPosRot.pos);
         this->unk_324 = Math_Rand_ZeroOne() * 0.6f + 0.6f;
     } else if (Math_Rand_ZeroOne(&this->actor.posRot) < 0.07f) {
-        sp2C = &this->actor.posRot.pos;
+        sp2C = new_var;
         if (1.0f < this->unk_324) {
             this->unk_324 = 0.1f;
         } else {
@@ -609,6 +611,7 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         temp_f2_2 = 1.3f - D_80A7DEB0;
         if (temp_f2_2 < 0.0f) {
             phi_f2_2 = 0.0f;
+            if (1) {}
         } else {
             if (1.0f < temp_f2_2) {
                 phi_f0_3 = 1.0f;
@@ -634,17 +637,17 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
         this->actor.speedXZ = this->actor.speedXZ + (Math_Rand_ZeroOne() - 0.5f) * 0.14f;
         // temp_f10 = Math_Rand_ZeroOne() * 0.12f;
+        this->actor.velocity.y += Math_Rand_ZeroOne() * 0.12f;
         this->actor.posRot.rot.y = this->actor.posRot.rot.y + this->unk_316;
         this->actor.shape.rot.x = this->actor.shape.rot.x - 0x7D0;
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
-        this->actor.velocity.y += Math_Rand_ZeroOne() * 0.12f;
     }
 
     temp_f2_4 = Math_Rand_ZeroOne() * 0.5f + this->actor.speedXZ * 1.3f;
     if (temp_f2_4 < 0.0f) {
         this->skelAnime.animPlaybackSpeed = 0.0f;
     } else {
-        if (1.9f < temp_f2_4) {
+        if (1.9f < temp_f2_4) {if (phi_a2 & 0x10) {}
             phi_f0_2 = 1.9f;
         } else {
             phi_f0_2 = temp_f2_4;
@@ -665,81 +668,46 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         }
     }
     
-    if (sp3A == 2) {
-        if (phi_a2 & 0x10) {
-            if (!(phi_a2 & 0x80)) {
-                if (this->unk_32A >= 0xF) {
-                    if (this->soilActor != NULL) {
-                        temp_a0 = ((this->soilActor->actor.params >> 8) & 0x1F) - 1;
-                        temp_a1 = temp_a0 & 3;
-                        
-                        if ((((u32) (((s32*)gSaveContext.gsFlags)[temp_a0 >> 2] & D_8012723C[temp_a1]) >> D_8012724C[temp_a1]) & (this->soilActor->actor.params & 0xFF)) == 0) {
-                            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-                            phi_a2 = this->unk_314;
-                        }
-                    }
-                    temp_t7 = phi_a2 | 0x80;
-                    this->unk_314 = temp_t7;
-                    phi_a2 = temp_t7 & 0xFFFF;
-                } else {
-                    this->unk_32A++;
+    if (sp3A == 2 && phi_a2 & 0x10 && !(phi_a2 & 0x80)) {
+        if (this->unk_32A >= 0xF) {
+            if (this->soilActor != NULL) {
+                temp_a0 = ((this->soilActor->actor.params >> 8) & 0x1F) - 1;
+                temp_a1 = temp_a0 & 3;
+                
+                if ((((u32) (((s32*)gSaveContext.gsFlags)[temp_a0 >> 2] & D_8012723C[temp_a1]) >> D_8012724C[temp_a1]) & (this->soilActor->actor.params & 0xFF)) == 0) {
+                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                     phi_a2 = this->unk_314;
                 }
             }
+            temp_t7 = phi_a2 | 0x80;
+            this->unk_314 = temp_t7;
+            phi_a2 = temp_t7 & 0xFFFF;
+        } else {
+            this->unk_32A++;
+            phi_a2 = this->unk_314;
         }
     }
     phi_a3 = 2;
 
     temp_v0 = phi_a2 & 1;
+
+    if (phi_a2 & 0x10) {}
+
     if (temp_v0 != 0 && this->actor.bgCheckFlags & 0x40) {
         func_80A7CE60(this);
     } else if (phi_a2 & 0x10) {
-        // if (!(sp40 < 9.0f)) {
-        //         if ((this->unk_31A > 0 && this->unk_31C > 0) &&
-        //                 (temp_v0 == 0 || !(this->actor.bgCheckFlags & 1) || D_80A7DEB8 < 4 || (sp3A != phi_a3 && sp3A != 3))) {
-        //             if (!(sp40 < 900.0f)) {
-        //                 this->unk_31A = (u16)0x64;
-        //             } else {
-        //                 this->unk_31C++;
-        //                 this->unk_314 = (u16) (phi_a2 | 0x20);
-        //             }
-                
-        //     } else {
-        //         func_80A7CBC8(this);
-        //     }
-        // } else {
-        //     func_80A7CBC8(this);
-        // }
-        if (!(sp40 < 9.0f)) {
-            if (this->unk_31A > 0) {
-                if (this->unk_31C > 0) {
-                    if (temp_v0 == 0) {
-block_67:
-                        if (!(sp40 < 900.0f)) {
-                            this->unk_31A = (u16)0x64;
-                            return;
-                        }
-                        this->unk_31C++;
-                        this->unk_314 = (u16) (phi_a2 | 0x20);
-                        return;
-                    }
-                    if ((this->actor.bgCheckFlags & 1) == 0) {
-                        goto block_67;
-                    }
-                    if (D_80A7DEB8 < 4) {
-                        goto block_67;
-                    }
-                    if (sp3A != phi_a3) {
-                        if (sp3A != 3) {
-                            goto block_67;
-                        }
-                    }
-                }
-            }
+        if (sp40 < 9.0f) {
             func_80A7CBC8(this);
-            return;
+        } else if (!((this->unk_31A > 0 && this->unk_31C > 0) &&
+                (temp_v0 == 0 || !(this->actor.bgCheckFlags & 1) || D_80A7DEB8 < 4 || (sp3A != phi_a3 && sp3A != 3)))) {
+            func_80A7CBC8(this);
         } else {
-            func_80A7CBC8(this);
+            if (sp40 < 900.0f) {
+                this->unk_31C++;
+                this->unk_314 = (u16) (phi_a2 | 0x20);
+            } else {
+                this->unk_31A = (u16)0x64;
+            }
         }
     } else if (sp50 != 0) {
         func_80A7C3A0(this);
