@@ -1,3 +1,31 @@
+.rdata
+glabel D_8013C55C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C56C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C57C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C58C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_8013C7AC
+    .float 0.8
+
+glabel D_8013C7B0
+    .float 0.8
+
+glabel D_8013C7B4
+    .float 0.8
+
+.text
 glabel func_800730DC
 /* AEA27C 800730DC 27BDFF78 */  addiu $sp, $sp, -0x88
 /* AEA280 800730E0 AFBF0024 */  sw    $ra, 0x24($sp)

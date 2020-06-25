@@ -85,7 +85,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     u32 openGrotto = false;
     if ((this->actor.params & 0x200) == 0) {
         // opening with song of storms
-        if (this->actor.waterSurfaceDist < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
+        if (this->actor.xyzDistFromLinkSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
             this->actor.flags &= ~0x10;
         }
@@ -129,8 +129,8 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
             DoorAna_SetupAction(this, DoorAna_GrabLink);
         } else {
             if (!func_8008E988(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
-                this->actor.xzDistanceFromLink <= 15.0f && -50.0f <= this->actor.yDistanceFromLink &&
-                this->actor.yDistanceFromLink <= 15.0f) {
+                this->actor.xzDistFromLink <= 15.0f && -50.0f <= this->actor.yDistFromLink &&
+                this->actor.yDistFromLink <= 15.0f) {
                 player->stateFlags1 |= 0x80000000;
                 this->actor.unk_1F = 1;
             } else {
@@ -145,10 +145,10 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->actor.yDistanceFromLink <= 0.0f && 15.0f < this->actor.xzDistanceFromLink) {
+    if (this->actor.yDistFromLink <= 0.0f && 15.0f < this->actor.xzDistFromLink) {
         player = PLAYER;
-        player->actor.posRot.pos.x = Math_Sins(this->actor.rotTowardsLinkY) * 15.0f + this->actor.posRot.pos.x;
-        player->actor.posRot.pos.z = Math_Coss(this->actor.rotTowardsLinkY) * 15.0f + this->actor.posRot.pos.z;
+        player->actor.posRot.pos.x = Math_Sins(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
+        player->actor.posRot.pos.z = Math_Coss(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
     }
 }
 

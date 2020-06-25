@@ -1,3 +1,17 @@
+.rdata
+glabel D_80140F88
+    .asciz "../z_sram.c"
+    .balign 4
+
+glabel D_80140F94
+    .asciz "sram->read_buff != NULL"
+    .balign 4
+
+glabel D_80140FAC
+    .asciz "../z_sram.c"
+    .balign 4
+
+.text
 glabel func_800A9CD4
 /* B20E74 800A9CD4 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B20E78 800A9CD8 AFBF0014 */  sw    $ra, 0x14($sp)

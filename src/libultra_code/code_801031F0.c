@@ -15,13 +15,13 @@ s32 osContStartQuery(OSMesgQueue* mq) {
     ret = 0;
 
     __osSiGetAccess();
-    if (_osCont_lastPollType != CONT_CMD_REQUEST_STATUS) {
+    if (__osContLastPoll != CONT_CMD_REQUEST_STATUS) {
         __osPackRequestData(CONT_CMD_REQUEST_STATUS);
-        ret = __osSiRawStartDma(OS_WRITE, &_osPifInternalBuff);
+        ret = __osSiRawStartDma(OS_WRITE, &__osPifInternalBuff);
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
     }
-    ret = __osSiRawStartDma(OS_READ, &_osPifInternalBuff);
-    _osCont_lastPollType = CONT_CMD_REQUEST_STATUS;
+    ret = __osSiRawStartDma(OS_READ, &__osPifInternalBuff);
+    __osContLastPoll = CONT_CMD_REQUEST_STATUS;
     __osSiRelAccess();
     return ret;
 }

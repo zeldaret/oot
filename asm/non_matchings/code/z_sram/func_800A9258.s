@@ -1,3 +1,64 @@
+.rdata
+glabel D_80140CDC
+    .asciz "６４ＤＤフラグ=%d\n"
+    # EUC-JP: ６４ＤＤフラグ | 64DD flag
+    .balign 4
+
+glabel D_80140CF0
+    .asciz "newf=%x,%x,%x,%x,%x,%x\n"
+    .balign 4
+
+glabel D_80140D08
+    .asciz "\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n"
+    .balign 4
+
+glabel D_80140D58
+    .asciz "%x "
+    .balign 4
+
+glabel D_80140D5C
+    .asciz "\n"
+    .balign 4
+
+glabel D_80140D60
+    .asciz "\nチェックサム＝%x\n"
+    # EUC-JP: チェックサム＝%x | Checksum
+    .balign 4
+
+glabel D_80140D74
+    .asciz "I=%x no=%d\n"
+    .balign 4
+
+glabel D_80140D80
+    .asciz "I=%x no=%d\n"
+    .balign 4
+
+glabel D_80140D8C
+    .asciz "ＳＡＶＥ終了\n"
+    # EUC-JP: ＳＡＶＥ終了 | SAVE end
+    .balign 4
+
+glabel D_80140D9C
+    .asciz "z_common_data.file_no = %d\n"
+    .balign 4
+
+glabel D_80140DB8
+    .asciz "SAVECT=%x, NAME=%x, LIFE=%x, ITEM=%x,  SAVE_64DD=%x\n"
+    .balign 4
+
+glabel D_80140DF0
+    .asciz "f_64dd[%d]=%d\n"
+    .balign 4
+
+glabel D_80140E00
+    .asciz "heart_status[%d]=%d\n"
+    .balign 4
+
+glabel D_80140E18
+    .asciz "now_life[%d]=%d\n"
+    .balign 4
+
+.text
 glabel func_800A9258
 /* B203F8 800A9258 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B203FC 800A925C AFB60040 */  sw    $s6, 0x40($sp)

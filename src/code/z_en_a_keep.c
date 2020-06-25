@@ -126,8 +126,8 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = -1;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
-    thisx->unk_FC = 1200.0f;
-    thisx->unk_F8 = 200.0f;
+    thisx->uncullZoneDownward = 1200.0f;
+    thisx->uncullZoneScale = 200.0f;
 
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
@@ -213,7 +213,7 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
     s16 var;
 
     if (this->dyna.actor.textId != 0) {
-        var = this->dyna.actor.rotTowardsLinkY - this->dyna.actor.shape.rot.y;
+        var = this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y;
         if ((ABS(var) < 0x2800) || ((this->dyna.actor.params == 0xA) && (ABS(var) > 0x5800))) {
             if (func_8002F194(&this->dyna.actor, globalCtx)) {
                 EnAObj_SetupAction(this, func_8001D204);
@@ -238,13 +238,13 @@ void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
             this->unk_16E++;
             this->unk_170 = 20;
 
-            if ((s16)(this->dyna.actor.rotTowardsLinkY + 0x4000) < 0) {
+            if ((s16)(this->dyna.actor.yawTowardsLink + 0x4000) < 0) {
                 this->unk_174 = -1000;
             } else {
                 this->unk_174 = 1000;
             }
 
-            if (this->dyna.actor.rotTowardsLinkY < 0) {
+            if (this->dyna.actor.yawTowardsLink < 0) {
                 this->unk_172 = -this->unk_174;
             } else {
                 this->unk_172 = this->unk_174;
@@ -301,8 +301,8 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void func_8001D5C8(EnAObj* this, s16 params) {
-    this->dyna.actor.unk_FC = 1200.0f;
-    this->dyna.actor.unk_F8 = 720.0f;
+    this->dyna.actor.uncullZoneDownward = 1200.0f;
+    this->dyna.actor.uncullZoneScale = 720.0f;
     EnAObj_SetupAction(this, func_8001D608);
 }
 

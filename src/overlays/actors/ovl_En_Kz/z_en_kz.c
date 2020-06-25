@@ -176,7 +176,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     Player* player = PLAYER;
     s16 sp32;
     s16 sp30;
-    f32 xzDistanceFromLink;
+    f32 xzDistFromLink;
     f32 yaw;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
@@ -191,7 +191,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 
     yaw = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     yaw -= this->actor.shape.rot.y;
-    if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistanceFromLink < 265.0f)) {
+    if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistFromLink < 265.0f)) {
         this->actor.flags &= ~1;
         return 0;
     }
@@ -203,13 +203,13 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
         return 0;
     }
 
-    xzDistanceFromLink = this->actor.xzDistanceFromLink;
-    this->actor.xzDistanceFromLink = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
+    xzDistFromLink = this->actor.xzDistFromLink;
+    this->actor.xzDistFromLink = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     if (func_8002F2CC(&this->actor, globalCtx, unkf) == 0) {
-        this->actor.xzDistanceFromLink = xzDistanceFromLink;
+        this->actor.xzDistFromLink = xzDistFromLink;
         return 0;
     }
-    this->actor.xzDistanceFromLink = xzDistanceFromLink;
+    this->actor.xzDistFromLink = xzDistFromLink;
     this->actor.textId = callback1(globalCtx, this);
 
     return 0;
@@ -415,8 +415,8 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
         this->actionFunc = EnKz_StartTimer;
     } else {
         getItemID = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
-        yRange = fabsf(this->actor.yDistanceFromLink) + 1.0f;
-        xzRange = this->actor.xzDistanceFromLink + 1.0f;
+        yRange = fabsf(this->actor.yDistFromLink) + 1.0f;
+        xzRange = this->actor.xzDistFromLink + 1.0f;
         func_8002F434(&this->actor, globalCtx, getItemID, xzRange, yRange);
     }
 }

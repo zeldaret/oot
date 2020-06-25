@@ -9,5 +9,5 @@
 
 .balign 16
 
-glabel D_80134D20
+glabel __osPfsLastChannel
     .incbin "baserom.z64", 0xBABEC0, 0x10

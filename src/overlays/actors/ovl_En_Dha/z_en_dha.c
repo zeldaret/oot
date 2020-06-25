@@ -140,7 +140,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     } else {
         playerPos.y += 56.0f;
     }
-    if (this->actor.xzDistanceFromLink <= 100.0f) {
+    if (this->actor.xzDistFromLink <= 100.0f) {
         this->unk_1D0.y = 0;
         this->unk_1D0.z = this->unk_1D0.y;
         this->unk_1D6.x = this->unk_1D0.y;

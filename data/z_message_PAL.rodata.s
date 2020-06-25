@@ -86,28 +86,28 @@ glabel D_8015394C
     .word 0x00000000, 0x00000000, 0x00000000
 
 glabel D_80153958
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_8015395A
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_8015395C
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_8015395E
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_80153960
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_80153962
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_80153964
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_80153966
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_80153968
     .word 0x00000000
@@ -164,16 +164,16 @@ glabel D_80153C48
     .word 0x00480048, 0x00480000
 
 glabel D_80153C50
-    .hword 0x0000
+    .half 0x0000
 
 glabel D_80153C52
-    .hword 0x0001
+    .half 0x0001
 
 glabel D_80153C54
-    .hword 0x0003
+    .half 0x0003
 
 glabel D_80153C56
-    .hword 0x0002
+    .half 0x0002
 
 glabel D_80153C58
     .word 0x00010002, 0x00040008, 0x00100020, 0x01000080
@@ -234,8 +234,9 @@ glabel D_80153D74
 
 glabel D_80153D78
     .word 0x00000000
-    .balign 16
+
+glabel D_80153D7C
+    .word 0x00000000
 
 glabel D_80153D80
     .word 0x00000000
-    .balign 16
