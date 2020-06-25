@@ -40,15 +40,15 @@ static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
 };
 
 static InitChainEntry sInitChain1[] = {
-    ICHAIN_F32(unk_F4, 7200, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 7200, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 7200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 7200, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChain2[] = {
-    ICHAIN_F32(unk_F4, 7200, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 800, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1500, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 7200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
 static Gfx* sDLists[] = { 0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210 };

@@ -54,7 +54,7 @@ extern Gfx D_06000420[];
 extern UNK_TYPE D_0600075C;
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
-    func_80078914(&this->dyna.actor.unk_E4, NA_SE_EV_BOX_BREAK);
+    func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_BOX_BREAK);
 }
 
 void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
