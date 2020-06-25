@@ -40,8 +40,8 @@ const ActorInit Bg_Treemouth_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 8000, ICHAIN_CONTINUE), ICHAIN_F32(unk_F8, 300, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 300, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
 // unused

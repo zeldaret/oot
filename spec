@@ -384,8 +384,7 @@ beginseg
     include "build/asm/PreRender.o"
     include "build/data/PreRender.rodata.o"
     include "build/src/code/TwoHeadArena.o"
-    include "build/asm/code_800C3C20.o"
-    include "build/data/code_800C3C20.data.o"
+    include "build/src/code/code_800C3C20.o"
     include "build/src/code/audioMgr.o"
     include "build/src/code/title_setup.o"
     include "build/src/code/game.o"
@@ -447,7 +446,7 @@ beginseg
     include "build/src/code/relocation.o"
     include "build/src/code/code_800FC620.o"
     include "build/src/code/padutils.o"
-    include "build/asm/code_800FCD40.o"
+    include "build/src/code/padsetup.o"
     include "build/src/code/code_800FCE80.o"
     include "build/asm/fp.o"
     include "build/src/code/system_malloc.o"
@@ -456,8 +455,7 @@ beginseg
     include "build/src/code/printutils.o"
     include "build/src/code/sleep.o"
     include "build/src/code/jpegutils.o"
-    include "build/asm/jpegdecoder.o"
-    include "build/data/jpegdecoder.bss.o"
+    include "build/src/code/jpegdecoder.o"
     include "build/asm/code_80100040.o"
     include "build/asm/guScale.o"
     include "build/src/libultra_code/sinf.o"
@@ -1055,8 +1053,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Lift"
     include "build/src/overlays/actors/ovl_Bg_Jya_Lift/z_bg_jya_lift.o"
-    include "build/data/overlays/actors/z_bg_jya_lift.data.o"
-    include "build/data/overlays/actors/z_bg_jya_lift.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Lift/ovl_Bg_Jya_Lift_reloc.o"
 endseg
 
 beginseg
@@ -1241,7 +1238,6 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
-    include "build/data/overlays/actors/z_bg_spot01_idohashira.data.o"
     include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
 endseg
 

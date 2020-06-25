@@ -39,9 +39,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 32767, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneScale, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
 };
 
 static f32 D_808718FC[] = { 0.0f, 5.0f };
@@ -161,7 +161,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
         }
         func_8005AA1C(&globalCtx->cameras, 0, sp4C * 0.6f, 3);
-        Audio_PlaySoundGeneral(0x2027, &this->dyna.actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(0x2027, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }
 
