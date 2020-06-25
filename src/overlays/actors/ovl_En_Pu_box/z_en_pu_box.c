@@ -52,8 +52,8 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_164 = 1;
     thisx->colChkInfo.unk_10 = 0x14;
     thisx->colChkInfo.unk_12 = 0x32;
-    thisx->unk_FC = 1200.0f;
-    thisx->unk_F8 = 720.0f;
+    thisx->uncullZoneDownward = 1200.0f;
+    thisx->uncullZoneScale = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
@@ -77,7 +77,7 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->speedXZ = (thisx->speedXZ < -2.5f) ? -2.5f : ((thisx->speedXZ > 2.5f) ? 2.5f : thisx->speedXZ);
     Math_SmoothScaleMaxMinF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speedXZ != 0.0f) {
-        Audio_PlaySoundGeneral(0x200A, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(0x200A, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;
