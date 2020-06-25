@@ -306,7 +306,7 @@ void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->actionFunc = func_8086C6EC;
     } else {
         this->dyna.actor.shape.rot.y += this->dyna.actor.posRot.rot.y;
-        func_800F436C(&this->dyna.actor.unk_E4, 0x2063, ABS(this->dyna.actor.posRot.rot.y) / 512.0f);
+        func_800F436C(&this->dyna.actor.projectedPos, 0x2063, ABS(this->dyna.actor.posRot.rot.y) / 512.0f);
     }
 }
 

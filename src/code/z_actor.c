@@ -842,9 +842,9 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->minVelocityY = -20.0f;
     actor->xyzDistFromLinkSq = FLT_MAX;
     actor->naviEnemyId = 0xFF;
-    actor->unk_F4 = 1000.0f;
-    actor->unk_F8 = 350.0f;
-    actor->unk_FC = 700.0f;
+    actor->uncullZoneForward = 1000.0f;
+    actor->uncullZoneScale = 350.0f;
+    actor->uncullZoneDownward = 700.0f;
     func_80061E48(&actor->colChkInfo);
     actor->floorPolySource = 0x32;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
@@ -1685,11 +1685,11 @@ void func_8002F7A0(GlobalContext* globalCtx, u32 arg1, f32 arg2, s16 arg3, f32 a
 }
 
 void func_8002F7DC(Actor* actor, u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, &actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, &actor->projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
 void Audio_PlayActorSound2(Actor* actor, u16 sfxId) {
-    func_80078914(&actor->unk_E4, sfxId);
+    func_80078914(&actor->projectedPos, sfxId);
 }
 
 void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
@@ -1705,8 +1705,8 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
         sfxId = func_80041F34(&globalCtx->colCtx, actor->floorPoly, actor->floorPolySource, actor);
     }
 
-    func_80078914(&actor->unk_E4, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->unk_E4, sfxId + 0x800);
+    func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
+    func_80078914(&actor->projectedPos, sfxId + 0x800);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -2095,7 +2095,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 func_80061E8C(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
-                if (!actor->activelyDrawn) {
+                if (!actor->isDrawn) {
                     actor = Actor_Delete(&globalCtx->actorCtx, actor, globalCtx);
                 } else {
                     Actor_Destroy(actor, globalCtx);
@@ -2257,7 +2257,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
 void func_80030ED8(Actor* actor) {
     if (actor->flags & 0x80000) {
-        Audio_PlaySoundGeneral(actor->sfx, &actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(actor->sfx, &actor->projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (actor->flags & 0x100000) {
         func_80078884(actor->sfx);
     } else if (actor->flags & 0x200000) {
@@ -2265,7 +2265,7 @@ void func_80030ED8(Actor* actor) {
     } else if (actor->flags & 0x10000000) {
         func_800F4C58(&D_801333D4, 0x2021, (s8)(actor->sfx - 1));
     } else {
-        func_80078914(&actor->unk_E4, actor->sfx);
+        func_80078914(&actor->projectedPos, actor->sfx);
     }
 }
 
@@ -2361,17 +2361,17 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
 }
 
 s32 func_800314B0(GlobalContext* globalCtx, Actor* actor) {
-    return func_800314D4(globalCtx, actor, &actor->unk_E4, actor->unk_F0);
+    return func_800314D4(globalCtx, actor, &actor->projectedPos, actor->projectedW);
 }
 
 s32 func_800314D4(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3) {
     f32 var;
 
-    if ((arg2->z > -actor->unk_F8) && (arg2->z < (actor->unk_F4 + actor->unk_F8))) {
+    if ((arg2->z > -actor->uncullZoneScale) && (arg2->z < (actor->uncullZoneForward + actor->uncullZoneScale))) {
         var = (arg3 < 1.0f) ? 1.0f : 1.0f / arg3;
 
-        if ((((fabsf(arg2->x) - actor->unk_F8) * var) < 1.0f) && (((arg2->y + actor->unk_FC) * var) > -1.0f) &&
-            (((arg2->y - actor->unk_F8) * var) < 1.0f)) {
+        if ((((fabsf(arg2->x) - actor->uncullZoneScale) * var) < 1.0f) && (((arg2->y + actor->uncullZoneDownward) * var) > -1.0f) &&
+            (((arg2->y - actor->uncullZoneScale) * var) < 1.0f)) {
             return 1;
         }
     }
@@ -2409,7 +2409,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             HREG(66) = i;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                func_800A6E10(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->unk_E4, &actor->unk_F0);
+                func_800A6E10(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->projectedPos, &actor->projectedW);
             }
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
@@ -2426,7 +2426,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 }
             }
 
-            actor->activelyDrawn = 0;
+            actor->isDrawn = 0;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & 0x60)) {
@@ -2441,7 +2441,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     } else {
                         if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(72) == 0)) {
                             Actor_Draw(globalCtx, actor);
-                            actor->activelyDrawn = 1;
+                            actor->isDrawn = 1;
                         }
                     }
                 }
@@ -2524,7 +2524,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
         while (actor != NULL) {
             if ((actor->room >= 0) && (actor->room != globalCtx->roomCtx.curRoom.num) &&
                 (actor->room != globalCtx->roomCtx.prevRoom.num)) {
-                if (!actor->activelyDrawn) {
+                if (!actor->isDrawn) {
                     actor = Actor_Delete(actorCtx, actor, globalCtx);
                 } else {
                     Actor_Kill(actor);
@@ -2903,7 +2903,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
         actorCtx->targetCtx.unk_90 = NULL;
     }
 
-    func_800F89E8(&actor->unk_E4);
+    func_800F89E8(&actor->projectedPos);
     Actor_Destroy(actor, globalCtx);
 
     newFirstActor = Actor_RemoveFromTypeList(globalCtx, actorCtx, actor);
