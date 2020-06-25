@@ -6043,6 +6043,10 @@ void Camera_RotateAroundPoint(PosRot* at, Vec3f* pos, Vec3f* dst) {
     Camera_Vec3fVecSphAdd(dst, &at->pos, &posSph);
 }
 
+/**
+ * Camera follows points specified at camera + 0x124 and camera + 0x128
+ * until all keyFrames have been exhausted.
+*/
 s32 Camera_Demo1(Camera* camera) {
     s32 pad;
     Demo1* demo1 = &camera->params.demo1;
@@ -6054,7 +6058,7 @@ s32 Camera_Demo1(Camera* camera) {
     PosRot curPlayerPosRot;
     Vec3f csEyeUpdate;
     Vec3f csAtUpdate;
-    f32 roll;
+    f32 newRoll;
     Vec3f* eyeNext = &camera->eyeNext;
     f32* cameraFOV = &camera->fov;
     s16* relativeToPlayer = &camera->unk_12C;
@@ -6070,6 +6074,7 @@ s32 Camera_Demo1(Camera* camera) {
 
     switch (camera->animState) {
         case 0:
+            // initalize camera state
             anim->keyframe = 0;
             anim->curFrame = 0.0f;
             camera->animState++;
@@ -6084,24 +6089,27 @@ s32 Camera_Demo1(Camera* camera) {
             }
         case 1:
             // follow CutsceneCameraPoints.  function returns 1 if at the end.
-            if (func_800BB2B4(&csEyeUpdate, &roll, cameraFOV, csEyePoints, &anim->keyframe, &anim->curFrame) ||
-                func_800BB2B4(&csAtUpdate, &roll, cameraFOV, csAtPoints, &anim->keyframe, &anim->curFrame)) {
+            if (func_800BB2B4(&csEyeUpdate, &newRoll, cameraFOV, csEyePoints, &anim->keyframe, &anim->curFrame) ||
+                func_800BB2B4(&csAtUpdate, &newRoll, cameraFOV, csAtPoints, &anim->keyframe, &anim->curFrame)) {
                 camera->animState++;
             }
             if (*relativeToPlayer) {
+                // if the camera is set to be relative to the player, move the interpolated points
+                // relative to the player's position
                 if (camera->player != NULL && camera->player->actor.update != NULL) {
                     func_8002EF14(&curPlayerPosRot, &camera->player->actor);
                     Camera_RotateAroundPoint(&curPlayerPosRot, &csEyeUpdate, eyeNext);
                     Camera_RotateAroundPoint(&curPlayerPosRot, &csAtUpdate, at);
                 } else {
-                    osSyncPrintf("\x1b[41;37mcamera: spline demo: owner dead\n\x1b[m");
+                    osSyncPrintf(VT_COL(RED, WHITE) "camera: spline demo: owner dead\n" VT_RST);
                 }
             } else {
+                // simply copy the interpolated values to the eye and at
                 Camera_Vec3fCopy(&csEyeUpdate, eyeNext);
                 Camera_Vec3fCopy(&csAtUpdate, at);
             }
             *eye = *eyeNext;
-            camera->roll = roll * 256.0f;
+            camera->roll = newRoll * 256.0f;
             camera->dist = OLib_Vec3fDist(at, eye);
             break;
     }
@@ -6134,21 +6142,26 @@ s32 Camera_Demo8(Camera* camera) {
     return Camera_NOP(camera);
 }
 
+/**
+ * Camera follows points specified by demo9.atPoints and demo9.eyePoints, allows finer control
+ * over the final eye and at points than Camera_Demo1, by allowing the interpolated at and eye points
+ * to be relative to the main camera's player, the current camera's player, or the main camera's target
+*/
 s32 Camera_Demo9(Camera *camera) {
     s32 pad;
-    s32 phi_v0;
-    s16 phi_a2;
+    s32 finishAction;
+    s16 onePointParam;
     Demo9* demo9 = &camera->params.demo9;
-    Vec3f sp9C;
-    Vec3f sp90;
-    Vec3f sp84;
-    Vec3f sp78;
-    f32 sp74;
+    Vec3f csEyeUpdate;
+    Vec3f csAtUpdate;
+    Vec3f newEye;
+    Vec3f newAt;
+    f32 newRoll;
     CameraModeValue* values;
     Camera *cam0;
     Vec3f* eye = &camera->eye;
     PosRot *cam0PlayerPosRot;
-    PosRot sp50;
+    PosRot focusPosRot;
     s32 pad3;
     Vec3f* eyeNext = &camera->eyeNext;
     s16* iflags = &demo9->interfaceFlags;
@@ -6171,79 +6184,99 @@ s32 Camera_Demo9(Camera *camera) {
     
     switch(camera->animState){
         case 0:
-            anim->unk_04 = 0;
-            anim->unk_08 = 0;
-            anim->unk_00 = 0.0f;
+            // initalize the camera state
+            anim->keyframe = 0;
+            anim->finishAction = 0;
+            anim->curFrame = 0.0f;
             camera->animState++;
-            anim->unk_06 = 0;
-            phi_v0 = demo9->unk_08 & 0xF000;
-            if (phi_v0 != 0) {
-                anim->unk_08 = phi_v0;
-                demo9->unk_08 &= 0xFFF;
+            anim->doLERPAt = false;
+            finishAction = demo9->actionParameters & 0xF000;
+            if (finishAction != 0) {
+                anim->finishAction = finishAction;
+
+                // Clear finish parameters
+                demo9->actionParameters &= 0xFFF;
             }
-            anim->unk_0A = demo9->unk_0A;
+            anim->animTimer = demo9->initTimer;
         case 1:
-            if (anim->unk_0A > 0) {
-                if (func_800BB2B4(&sp9C, &sp74, camFOV, demo9->unk_04, &anim->unk_04, &anim->unk_00) != 0 ||
-                    func_800BB2B4(&sp90, &sp74, camFOV, demo9->unk_00, &anim->unk_04, &anim->unk_00) != 0)
+            // Run the camera state
+            if (anim->animTimer > 0) {
+                // if the animation timer is still running, run the demo logic
+                // if it is not, then the case will fallthrough to the finish logic.
+
+                // Run the at and eye cs interpoloation functions, if either of them return 1 (that no more points exist)
+                // change the animation state to 2 (standby)
+                if (func_800BB2B4(&csEyeUpdate, &newRoll, camFOV, demo9->atEyePoints, &anim->keyframe, &anim->curFrame) != 0 ||
+                    func_800BB2B4(&csAtUpdate, &newRoll, camFOV, demo9->atPoints, &anim->keyframe, &anim->curFrame) != 0)
                 {
                     camera->animState = 2;
                 }
 
-                if (demo9->unk_08 == 1) {
-                    Camera_RotateAroundPoint(cam0PlayerPosRot, &sp9C, &sp84);
-                    Camera_RotateAroundPoint(cam0PlayerPosRot, &sp90, &sp78);
-                } else if (demo9->unk_08 == 4) {
-                    func_8002EF14(&sp50, &camera->player->actor);
-                    Camera_RotateAroundPoint(&sp50, &sp9C, &sp84);
-                    Camera_RotateAroundPoint(&sp50, &sp90, &sp78);
-                } else if (demo9->unk_08 == 8) {
+                if (demo9->actionParameters == 1) {
+                    // rotate around cam0's player
+                    Camera_RotateAroundPoint(cam0PlayerPosRot, &csEyeUpdate, &newEye);
+                    Camera_RotateAroundPoint(cam0PlayerPosRot, &csAtUpdate, &newAt);
+                } else if (demo9->actionParameters == 4) {
+                    // rotate around the current camera's player
+                    func_8002EF14(&focusPosRot, &camera->player->actor);
+                    Camera_RotateAroundPoint(&focusPosRot, &csEyeUpdate, &newEye);
+                    Camera_RotateAroundPoint(&focusPosRot, &csAtUpdate, &newAt);
+                } else if (demo9->actionParameters == 8) {
+                    // rotate around the current camera's target
                     if (camera->target != NULL && camera->target->update != NULL) {
-                        func_8002EF14(&sp50, camera->target);
-                        Camera_RotateAroundPoint(&sp50, &sp9C, &sp84);
-                        Camera_RotateAroundPoint(&sp50, &sp90, &sp78);
+                        func_8002EF14(&focusPosRot, camera->target);
+                        Camera_RotateAroundPoint(&focusPosRot, &csEyeUpdate, &newEye);
+                        Camera_RotateAroundPoint(&focusPosRot, &csAtUpdate, &newAt);
                     } else {
                         camera->target = NULL;
-                        sp84 = *eye;
-                        sp78 = *at;
+                        newEye = *eye;
+                        newAt = *at;
                     }
                 } else {
-                    Camera_Vec3fCopy(&sp9C, &sp84);
-                    Camera_Vec3fCopy(&sp90, &sp78);
+                    // simple copy
+                    Camera_Vec3fCopy(&csEyeUpdate, &newEye);
+                    Camera_Vec3fCopy(&csAtUpdate, &newAt);
                 }
 
-                *eyeNext = sp84;
+                *eyeNext = newEye;
                 *eye = *eyeNext;
-                if (anim->unk_06 != 0) {
-                    Camera_LERPCeilVec3f(&sp78, at, 0.5f, 0.5f, 0.1f);
+                if (anim->doLERPAt) {
+                    Camera_LERPCeilVec3f(&newAt, at, 0.5f, 0.5f, 0.1f);
                 } else {
-                    *at = sp78;
-                    anim->unk_06 = 1;
+                    *at = newAt;
+                    anim->doLERPAt = true;
                 }
-                camera->roll = sp74 * 256.0f;
-                anim->unk_0A--;
+                camera->roll = newRoll * 256.0f;
+                anim->animTimer--;
                 break;
             }
         case 3:
+            // the cs is finished, decide the next action
             camera->unk_160 = 0;
-            if (demo9->anim.unk_08 != 0) {
-                if (demo9->anim.unk_08 != 0x1000) {
-                    if (demo9->anim.unk_08 == 0x2000) {
-                        phi_a2 = demo9->unk_0A < 0x32 ? 5 : demo9->unk_0A / 5;
-                        func_800800F8(camera->globalCtx, 0x3FC, phi_a2, NULL, camera->parentCamIdx);
+            if (demo9->anim.finishAction != 0) {
+                if (demo9->anim.finishAction != 0x1000) {
+                    if (demo9->anim.finishAction == 0x2000) {
+                        // finish action = 0x2000, run OnePointDemo 0x3FC (Dramatic Return to Link)
+                        onePointParam = demo9->initTimer < 0x32 ? 5 : demo9->initTimer / 5;
+                        func_800800F8(camera->globalCtx, 0x3FC, onePointParam, NULL, camera->parentCamIdx);
                     }
                 } else {
+                    // finish action = 0x1000, copy the current camera's values to the
+                    // default camera.
                     Camera_Copy(cam0, camera);
                 }
             }
             break;
         case 2:
-            anim->unk_0A--;
-            if (anim->unk_0A < 0) {
+            // standby while the timer finishes, change the animState to finish when
+            // the timer runs out.
+            anim->animTimer--;
+            if (anim->animTimer < 0) {
                 camera->animState++;
             }
             break;
         case 4:
+            // do nothing.
             break;
 
     }

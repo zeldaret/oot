@@ -36,18 +36,18 @@ typedef struct {
 } Demo1; // size = 0x18
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ s16 unk_04;
-    /* 0x0006 */ s16 unk_06;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000A */ s16 unk_0A;
+    /* 0x0000 */ f32 curFrame;
+    /* 0x0004 */ s16 keyframe;
+    /* 0x0006 */ s16 doLERPAt;
+    /* 0x0008 */ s16 finishAction;
+    /* 0x000A */ s16 animTimer;
 } Demo9Anim; // size = 0xC
 
 typedef struct {
-    /* 0x0000 */ CutsceneCameraPoint* unk_00;
-    /* 0x0004 */ CutsceneCameraPoint *unk_04;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000A */ s16 unk_0A;
+    /* 0x0000 */ CutsceneCameraPoint* atPoints;
+    /* 0x0004 */ CutsceneCameraPoint* atEyePoints;
+    /* 0x0008 */ s16 actionParameters;
+    /* 0x000A */ s16 initTimer;
     /* 0x000C */ s16 interfaceFlags;
     /* 0x0010 */ Demo9Anim anim;
 } Demo9;
