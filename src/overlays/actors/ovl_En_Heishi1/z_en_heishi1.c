@@ -62,6 +62,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi1* this = THIS;
     Vec3f rupeePos;
     s32 i;
+    u16 time;
 
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->limbDrawTable,
@@ -104,10 +105,11 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) "(頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
 
     // "current time"
-    osSyncPrintf(VT_FGCOL(GREEN) "今時間 %d\n" VT_RST, gSaveContext.dayTime);
+    time = gSaveContext.dayTime; osSyncPrintf(VT_FGCOL(GREEN) "今時間 %d\n" VT_RST, time);
 
-    // "check time"
+    // "check time" 
     osSyncPrintf(VT_FGCOL(YELLOW) "チェック時間 %d\n" VT_RST, 0xBAAA);
+
     osSyncPrintf("\n\n");
 
     if (this->path == 3) {
@@ -131,8 +133,6 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     }
-
-    
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi1/EnHeishi1_Destroy.s")
