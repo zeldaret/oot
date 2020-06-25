@@ -26,15 +26,31 @@ typedef struct {
 } Special0; // size = 0x8
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ s16 unk_04;
-} Demo1_unk_04; // size = 0x14
+    /* 0x0000 */ f32 curFrame;
+    /* 0x0004 */ s16 keyframe;
+} Demo1Anim; // size = 0x14
 
 typedef struct {
-    /* 0x0000 */ s16 unk_00;
-    /* 0x0002 */ s16 unk_02;
-    /* 0x0004 */ Demo1_unk_04 unk_04;
+    /* 0x0000 */ s16 interfaceFlags;
+    /* 0x0004 */ Demo1Anim anim;
 } Demo1; // size = 0x18
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ s16 unk_04;
+    /* 0x0006 */ s16 unk_06;
+    /* 0x0008 */ s16 unk_08;
+    /* 0x000A */ s16 unk_0A;
+} Demo9Anim; // size = 0xC
+
+typedef struct {
+    /* 0x0000 */ CutsceneCameraPoint* unk_00;
+    /* 0x0004 */ CutsceneCameraPoint *unk_04;
+    /* 0x0008 */ s16 unk_08;
+    /* 0x000A */ s16 unk_0A;
+    /* 0x000C */ s16 interfaceFlags;
+    /* 0x0010 */ Demo9Anim anim;
+} Demo9;
 
 typedef struct {
     /* 0x0000 */ Vec3f unk_00;
@@ -600,6 +616,7 @@ typedef union {
     KeepOn4 keep4;
     Special6 spec6;
     Special7 spec7;
+    Demo9 demo9;
 } CameraParams;
 
 typedef struct {

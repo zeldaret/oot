@@ -6019,23 +6019,29 @@ void Camera_DebugPrintSplineArray(char* name, s16 length, CutsceneCameraPoint ca
     osSyncPrintf("};\n\n");
 }
 
+/**
+ * Copies `src` to `dst`, used in Camera_Demo1
+ * Name from AC map: Camera2_SetPos_Demo
+*/
 void Camera_Vec3fCopy(Vec3f* src, Vec3f* dst) {
     dst->x = src->x;
     dst->y = src->y;
     dst->z = src->z;
 }
 
-void func_80054478(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
-    VecSph sp28;
-    Vec3f sp1C;
+/**
+ * Calculates new position from `at` to `pos`, outputs to `dst
+ * Name from AC map: Camera2_CalcPos_Demo
+*/
+void Camera_RotateAroundPoint(PosRot* at, Vec3f* pos, Vec3f* dst) {
+    VecSph posSph;
+    Vec3f posCopy;
 
-    Camera_Vec3fCopy(arg1, &sp1C);
-    OLib_Vec3fToVecSphRot90(&sp28, &sp1C);
-    sp28.theta += arg0->rot.y;
-    Camera_Vec3fVecSphAdd(arg2, &arg0->pos, &sp28);
+    Camera_Vec3fCopy(pos, &posCopy);
+    OLib_Vec3fToVecSphRot90(&posSph, &posCopy);
+    posSph.theta += at->rot.y;
+    Camera_Vec3fVecSphAdd(dst, &at->pos, &posSph);
 }
-
-s32 func_800BB2B4(Vec3f*, f32*, f32*, CutsceneCameraPoint*, s16*, f32*);
 
 s32 Camera_Demo1(Camera* camera) {
     s32 pad;
@@ -6048,13 +6054,11 @@ s32 Camera_Demo1(Camera* camera) {
     PosRot curPlayerPosRot;
     Vec3f csEyeUpdate;
     Vec3f csAtUpdate;
-    // type of sp4C is probably wrong
-    // func_800BB0A0 will load 4 floats
-    f32 sp4C;
+    f32 roll;
     Vec3f* eyeNext = &camera->eyeNext;
-    f32* fov = &camera->fov;
+    f32* cameraFOV = &camera->fov;
     s16* relativeToPlayer = &camera->unk_12C;
-    Demo1_unk_04* unk_04 = &demo1->unk_04;
+    Demo1Anim* anim = &demo1->anim;
 
     
     if (RELOAD_PARAMS) {
@@ -6066,27 +6070,29 @@ s32 Camera_Demo1(Camera* camera) {
 
     switch (camera->animState) {
         case 0:
-            unk_04->keyframe = 0;
-            unk_04->unk_00 = 0.0f;
+            anim->keyframe = 0;
+            anim->curFrame = 0.0f;
             camera->animState++;
             // absolute / relative
-            osSyncPrintf("\x1b[1m%06u:\x1b[m camera: spline demo: start %s \n", camera->globalCtx->state.frames, *relativeToPlayer == 0 ? "絶対" : "相対");
+            osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n",
+                camera->globalCtx->state.frames, 
+                *relativeToPlayer == 0 ? "絶対" : "相対");
+
             if (PREG(93)) {
                 Camera_DebugPrintSplineArray("CENTER", 5, csAtPoints);
                 Camera_DebugPrintSplineArray("   EYE", 5, csEyePoints);
             }
         case 1:
             // follow CutsceneCameraPoints.  function returns 1 if at the end.
-            // animState appears to be some kind of state of the cutscene?  0 is init, 1 is update, anything else is stop.
-            if (func_800BB2B4(&csEyeUpdate, &sp4C, fov, csEyePoints, &unk_04->keyframe, &unk_04->unk_00) ||
-                func_800BB2B4(&csAtUpdate, &sp4C, fov, csAtPoints, &unk_04->keyframe, &unk_04->unk_00)) {
+            if (func_800BB2B4(&csEyeUpdate, &roll, cameraFOV, csEyePoints, &anim->keyframe, &anim->curFrame) ||
+                func_800BB2B4(&csAtUpdate, &roll, cameraFOV, csAtPoints, &anim->keyframe, &anim->curFrame)) {
                 camera->animState++;
             }
             if (*relativeToPlayer) {
                 if (camera->player != NULL && camera->player->actor.update != NULL) {
                     func_8002EF14(&curPlayerPosRot, &camera->player->actor);
-                    func_80054478(&curPlayerPosRot.pos, &csEyeUpdate, eyeNext);
-                    func_80054478(&curPlayerPosRot, &csAtUpdate, at);
+                    Camera_RotateAroundPoint(&curPlayerPosRot, &csEyeUpdate, eyeNext);
+                    Camera_RotateAroundPoint(&curPlayerPosRot, &csAtUpdate, at);
                 } else {
                     osSyncPrintf("\x1b[41;37mcamera: spline demo: owner dead\n\x1b[m");
                 }
@@ -6095,7 +6101,7 @@ s32 Camera_Demo1(Camera* camera) {
                 Camera_Vec3fCopy(&csAtUpdate, at);
             }
             *eye = *eyeNext;
-            camera->roll = sp4C * 256.0f;
+            camera->roll = roll * 256.0f;
             camera->dist = OLib_Vec3fDist(at, eye);
             break;
     }
@@ -6128,8 +6134,122 @@ s32 Camera_Demo8(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo9.s")
+s32 Camera_Demo9(Camera *camera) {
+    s32 pad;
+    s32 phi_v0;
+    s16 phi_a2;
+    Demo9* demo9 = &camera->params.demo9;
+    Vec3f sp9C;
+    Vec3f sp90;
+    Vec3f sp84;
+    Vec3f sp78;
+    f32 sp74;
+    CameraModeValue* values;
+    Camera *cam0;
+    Vec3f* eye = &camera->eye;
+    PosRot *cam0PlayerPosRot;
+    PosRot sp50;
+    s32 pad3;
+    Vec3f* eyeNext = &camera->eyeNext;
+    s16* iflags = &demo9->interfaceFlags;
+    Vec3f* at = &camera->at;
+    f32* camFOV = &camera->fov;
+    Demo9Anim* anim = &demo9->anim;
 
+    cam0 = Gameplay_GetCamera(camera->globalCtx, 0);
+    cam0PlayerPosRot = &cam0->playerPosRot;
+    if(RELOAD_PARAMS){
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        *iflags = NEXTSETTING;
+    }
+
+    if (R_RELOAD_CAM_PARAMS) {
+        Camera_CopyPREGToModeValues(camera);
+    }
+    
+    sCameraInterfaceFlags = *iflags;
+    
+    switch(camera->animState){
+        case 0:
+            anim->unk_04 = 0;
+            anim->unk_08 = 0;
+            anim->unk_00 = 0.0f;
+            camera->animState++;
+            anim->unk_06 = 0;
+            phi_v0 = demo9->unk_08 & 0xF000;
+            if (phi_v0 != 0) {
+                anim->unk_08 = phi_v0;
+                demo9->unk_08 &= 0xFFF;
+            }
+            anim->unk_0A = demo9->unk_0A;
+        case 1:
+            if (anim->unk_0A > 0) {
+                if (func_800BB2B4(&sp9C, &sp74, camFOV, demo9->unk_04, &anim->unk_04, &anim->unk_00) != 0 ||
+                    func_800BB2B4(&sp90, &sp74, camFOV, demo9->unk_00, &anim->unk_04, &anim->unk_00) != 0)
+                {
+                    camera->animState = 2;
+                }
+
+                if (demo9->unk_08 == 1) {
+                    Camera_RotateAroundPoint(cam0PlayerPosRot, &sp9C, &sp84);
+                    Camera_RotateAroundPoint(cam0PlayerPosRot, &sp90, &sp78);
+                } else if (demo9->unk_08 == 4) {
+                    func_8002EF14(&sp50, &camera->player->actor);
+                    Camera_RotateAroundPoint(&sp50, &sp9C, &sp84);
+                    Camera_RotateAroundPoint(&sp50, &sp90, &sp78);
+                } else if (demo9->unk_08 == 8) {
+                    if (camera->target != NULL && camera->target->update != NULL) {
+                        func_8002EF14(&sp50, camera->target);
+                        Camera_RotateAroundPoint(&sp50, &sp9C, &sp84);
+                        Camera_RotateAroundPoint(&sp50, &sp90, &sp78);
+                    } else {
+                        camera->target = NULL;
+                        sp84 = *eye;
+                        sp78 = *at;
+                    }
+                } else {
+                    Camera_Vec3fCopy(&sp9C, &sp84);
+                    Camera_Vec3fCopy(&sp90, &sp78);
+                }
+
+                *eyeNext = sp84;
+                *eye = *eyeNext;
+                if (anim->unk_06 != 0) {
+                    Camera_LERPCeilVec3f(&sp78, at, 0.5f, 0.5f, 0.1f);
+                } else {
+                    *at = sp78;
+                    anim->unk_06 = 1;
+                }
+                camera->roll = sp74 * 256.0f;
+                anim->unk_0A--;
+                break;
+            }
+        case 3:
+            camera->unk_160 = 0;
+            if (demo9->anim.unk_08 != 0) {
+                if (demo9->anim.unk_08 != 0x1000) {
+                    if (demo9->anim.unk_08 == 0x2000) {
+                        phi_a2 = demo9->unk_0A < 0x32 ? 5 : demo9->unk_0A / 5;
+                        func_800800F8(camera->globalCtx, 0x3FC, phi_a2, NULL, camera->parentCamIdx);
+                    }
+                } else {
+                    Camera_Copy(cam0, camera);
+                }
+            }
+            break;
+        case 2:
+            anim->unk_0A--;
+            if (anim->unk_0A < 0) {
+                camera->animState++;
+            }
+            break;
+        case 4:
+            break;
+
+    }
+
+    return true;
+}
 
 s32 Camera_Demo0(Camera* camera) {
     return Camera_NOP(camera);
