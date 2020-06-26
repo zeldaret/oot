@@ -1,4 +1,4 @@
-glabel EnNb_OverrideLimbDraw
+glabel func_80AB3FE8
 /* 03258 80AB3FE8 AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 0325C 80AB3FEC 8FA40014 */  lw      $a0, 0x0014($sp)           
 /* 03260 80AB3FF0 AFA60008 */  sw      $a2, 0x0008($sp)           

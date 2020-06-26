@@ -49,7 +49,7 @@ void func_80AB23A8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB23D8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB242C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2484(EnNb* this, GlobalContext* globalCtx);
-s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+s32 func_80AB3FE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 void func_80AB285C(EnNb* this);
 
 extern ColliderCylinderInit_Set3 D_80AB42E0;
@@ -889,7 +889,7 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/EnNb_Init.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/EnNb_OverrideLimbDraw.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB3FE8.s")
 
 void EnNb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     EnNb* this = THIS;
