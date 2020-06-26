@@ -5,7 +5,7 @@ glabel func_80AB2C60
 /* 01EDC 80AB2C6C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01EE0 80AB2C70 0C2AC459 */  jal     func_80AB1164              
 /* 01EE4 80AB2C74 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 01EE8 80AB2C78 0C2AC4B3 */  jal     func_80AB12CC              
+/* 01EE8 80AB2C78 0C2AC4B3 */  jal     EnNb_FrameUpdateMatrix              
 /* 01EEC 80AB2C7C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01EF0 80AB2C80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01EF4 80AB2C84 0C2AC9FC */  jal     func_80AB27F0              

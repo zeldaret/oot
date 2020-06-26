@@ -8,7 +8,7 @@ glabel func_80AB3C1C
 /* 02EA4 80AB3C34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02EA8 80AB3C38 0C2AC3D4 */  jal     func_80AB0F50              
 /* 02EAC 80AB3C3C 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 02EB0 80AB3C40 0C2AC4B3 */  jal     func_80AB12CC              
+/* 02EB0 80AB3C40 0C2AC4B3 */  jal     EnNb_FrameUpdateMatrix              
 /* 02EB4 80AB3C44 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02EB8 80AB3C48 AFA20024 */  sw      $v0, 0x0024($sp)           
 /* 02EBC 80AB3C4C 0C2AC459 */  jal     func_80AB1164              

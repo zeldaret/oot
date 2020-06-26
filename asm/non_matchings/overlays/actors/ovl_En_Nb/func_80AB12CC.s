@@ -1,4 +1,4 @@
-glabel func_80AB12CC
+glabel EnNb_FrameUpdateMatrix
 /* 0053C 80AB12CC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00540 80AB12D0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00544 80AB12D4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

@@ -3,7 +3,7 @@ glabel func_80AB197C
 /* 00BF0 80AB1980 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00BF4 80AB1984 0C2AC4A1 */  jal     func_80AB1284              
 /* 00BF8 80AB1988 AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 00BFC 80AB198C 0C2AC4B3 */  jal     func_80AB12CC              
+/* 00BFC 80AB198C 0C2AC4B3 */  jal     EnNb_FrameUpdateMatrix              
 /* 00C00 80AB1990 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 00C04 80AB1994 AFA2001C */  sw      $v0, 0x001C($sp)           
 /* 00C08 80AB1998 0C2AC459 */  jal     func_80AB1164              

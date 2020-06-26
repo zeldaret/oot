@@ -4,7 +4,7 @@ glabel func_80AB3428
 /* 026A0 80AB3430 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 026A4 80AB3434 0C2AC4A1 */  jal     func_80AB1284              
 /* 026A8 80AB3438 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 026AC 80AB343C 0C2AC4B3 */  jal     func_80AB12CC              
+/* 026AC 80AB343C 0C2AC4B3 */  jal     EnNb_FrameUpdateMatrix              
 /* 026B0 80AB3440 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 026B4 80AB3444 0C2AC459 */  jal     func_80AB1164              
 /* 026B8 80AB3448 8FA40018 */  lw      $a0, 0x0018($sp)           
