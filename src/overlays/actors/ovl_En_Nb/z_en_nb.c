@@ -1,4 +1,5 @@
 #include "z_en_nb.h"
+#include <vt.h>
 
 #define FLAGS 0x00000010
 
@@ -13,7 +14,10 @@ s32 func_80AB0F04(Actor* thisx, GlobalContext* globalCtx);
 s32 func_80AB0DA0(EnNb* this);
 void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx);
+void func_80AB1164(EnNb* this);
 s32 EnNb_FrameUpdateMatrix(EnNb* this);
+void func_80AB11EC(EnNb* this);
+CsCmdActorAction* func_80AB12EC(GlobalContext* globalCtx, s32 npcActionIdx);
 void func_80AB14A0(EnNb* this, AnimationHeader* animationHeader, u8 mode, f32 arg3, s32 arg4);
 void func_80AB1650(EnNb* this, GlobalContext* globalCtx);
 void func_80AB166C(EnNb* this, GlobalContext* globalCtx);
@@ -45,6 +49,8 @@ void func_80AB23A8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB23D8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB242C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2484(EnNb* this, GlobalContext* globalCtx);
+s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+void func_80AB285C(EnNb* this);
 
 extern ColliderCylinderInit_Set3 D_80AB42E0;
 extern AnimationHeader* D_06009694;
@@ -55,8 +61,17 @@ extern AnimationHeader* D_06001E7C;
 extern AnimationHeader* D_06001350;
 extern AnimationHeader* D_06001104;
 extern AnimationHeader* D_06008BD0;
+extern AnimationHeader* D_060046A8;
+extern AnimationHeader* D_06003954;
+extern AnimationHeader* D_06004030;
+extern AnimationHeader* D_06002DBC;
+extern AnimationHeader* D_060035A8;
+extern AnimationHeader* D_06006320;
 extern CutsceneData D_80AB431C[];
+extern UNK_TYPE D_80AB4318;
 extern UNK_PTR D_80AB430C[];
+extern Vec3f D_80AB4F48;
+extern EnNbDrawFunc D_80AB4F54[];
 
 /*
 const ActorInit En_Nb_InitVars = {
@@ -71,7 +86,10 @@ const ActorInit En_Nb_InitVars = {
     (ActorFunc)EnNb_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB0D90.s")
+s32 func_80AB0D90(EnNb* this) {
+    s32 paramsShifted = this->actor.params >> 8;
+    return paramsShifted & 0xFF;
+}
 
 s32 func_80AB0DA0(EnNb* this) {
     s32 params = this->actor.params;
@@ -110,29 +128,134 @@ void func_80AB1040(EnNb* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB10C4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB1164.s")
+void func_80AB1164(EnNb* this) {
+    s32 pad[3];
+    s16* unk_276 = &this->unk_276;
+    s16* unk_274 = &this->unk_274;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB11EC.s")
+    if (!DECR(*unk_276)) {
+        *unk_276 = Math_Rand_S16Offset(60, 60);
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB1210.s")
+    *unk_274 = *unk_276;
+    if (*unk_274 >= 3) {
+        *unk_274 = 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB1284.s")
+void func_80AB11EC(EnNb* this) {
+    this->action = 7;
+    this->drawConfig = 0;
+    this->unk_284 = 0;
+    this->unk_288 = 0;
+    this->actor.shape.unk_14 = 0;
+    this->unk_280 = 0.0f;
+}
+
+void func_80AB1210(EnNb* this, GlobalContext* globalCtx) {
+    s32 one; // required to match
+    if (globalCtx->csCtx.state == 0) {
+        if (D_80AB4318 != 0) {
+            if ((this->actor.params) == 2) {
+                func_80AB11EC(this);
+            }
+
+            D_80AB4318 = 0;
+        }
+    } else {
+        one = 1;
+        if (D_80AB4318 == 0) {
+            D_80AB4318 = one;
+        }
+    }
+}
+
+void func_80AB1284(EnNb* this, GlobalContext* globalCtx) {
+    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
+}
 
 s32 EnNb_FrameUpdateMatrix(EnNb* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB12EC.s")
+CsCmdActorAction* func_80AB12EC(GlobalContext* globalCtx, s32 npcActionIdx) {
+    if (globalCtx->csCtx.state != 0) {
+        return globalCtx->csCtx.npcActions[npcActionIdx];
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB1310.s")
+    return NULL;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB1390.s")
+void func_80AB1310(EnNb* this, GlobalContext* globalCtx, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction = func_80AB12EC(globalCtx, npcActionIdx);
+    s16 newRotY;
+    Actor* thisx = &this->actor;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB13D8.s")
+    if (csCmdNPCAction != NULL) {
+        thisx->posRot.pos.x = csCmdNPCAction->startPos.x;
+        thisx->posRot.pos.y = csCmdNPCAction->startPos.y;
+        thisx->posRot.pos.z = csCmdNPCAction->startPos.z;
+        newRotY = csCmdNPCAction->rot.y;
+        thisx->shape.rot.y = newRotY;
+        thisx->posRot.rot.y = newRotY;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB1420.s")
+s32 func_80AB1390(EnNb* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction;
+    if ((globalCtx->csCtx.state != 0) &&
+        (csCmdNPCAction = globalCtx->csCtx.npcActions[npcActionIdx], csCmdNPCAction != NULL) &&
+        (csCmdNPCAction->action == arg2)) {
+        return 1;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB14A0.s")
+    return 0;
+}
+
+s32 func_80AB13D8(EnNb* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction;
+    if ((globalCtx->csCtx.state != 0) &&
+        (csCmdNPCAction = globalCtx->csCtx.npcActions[npcActionIdx], csCmdNPCAction != NULL) &&
+        (csCmdNPCAction->action != arg2)) {
+        return 1;
+    }
+
+    return 0;
+}
+
+void func_80AB1420(EnNb* this, GlobalContext* globalCtx, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction = func_80AB12EC(globalCtx, npcActionIdx);
+    s16 newRotY;
+    Actor* thisx = &this->actor;
+
+    if (csCmdNPCAction != NULL) {
+        thisx->posRot.pos.x = csCmdNPCAction->startPos.x;
+        thisx->posRot.pos.y = csCmdNPCAction->startPos.y;
+        thisx->posRot.pos.z = csCmdNPCAction->startPos.z;
+        newRotY = csCmdNPCAction->rot.y;
+        thisx->shape.rot.y = newRotY;
+        thisx->posRot.rot.y = newRotY;
+    }
+}
+
+void func_80AB14A0(EnNb* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4) {
+    f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
+    f32 playbackSpeed;
+    f32 unk0;
+    f32 fc;
+
+    if (arg4 == 0) {
+        unk0 = 0.0f;
+        fc = frameCount;
+        playbackSpeed = 1.0f;
+    } else {
+        unk0 = frameCount;
+        fc = 0.0f;
+        playbackSpeed = -1.0f;
+    }
+
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, mode, transitionRate);
+}
 
 void func_80AB1530(EnNb* this, GlobalContext* globalCtx) {
     func_80AB14A0(this, &D_06009694, 0, 0, 0);
@@ -492,7 +615,7 @@ void func_80AB23D8(EnNb* this, GlobalContext* globalCtx) {
 void func_80AB242C(EnNb* this, GlobalContext* globalCtx) {
     UNK_TYPE something;
 
-    func_80AB1164(this, globalCtx);
+    func_80AB1164(this);
     something = EnNb_FrameUpdateMatrix(this);
     func_80AB2180(this, something);
     func_80AB2064(this, globalCtx);
@@ -532,37 +655,134 @@ void func_80AB24CC(EnNb* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2774.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB27F0.s")
+void func_80AB27F0(EnNb* this, UNK_TYPE arg1) {
+    AnimationHeader* animation = &D_060046A8;
+    if (arg1 != 0) {
+        SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
+        this->drawConfig = 3;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB285C.s")
+void func_80AB285C(EnNb* this) {
+    AnimationHeader* animation = &D_06003954;
+    f32 frames = SkelAnime_GetFrameCount(&animation->genericHeader);
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
+    this->action = 16;
+    this->drawConfig = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB28DC.s")
+void func_80AB28DC(EnNb* this, UNK_TYPE arg1) {
+    AnimationHeader* animation = &D_06004030;
+    if (arg1 != 0) {
+        SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
+        this->drawConfig = 4;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2948.s")
+void func_80AB2948(EnNb* this) {
+    AnimationHeader* animation = &D_06002DBC;
+    f32 frames = SkelAnime_GetFrameCount(&animation->genericHeader);
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
+    this->action = 17;
+    this->drawConfig = 4;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB29C8.s")
+void func_80AB29C8(EnNb* this, UNK_TYPE arg1) {
+    AnimationHeader* animation = &D_060035A8;
+    if (arg1 != 0) {
+        SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2A28.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2A68.s")
+void func_80AB2A68(EnNb* this) {
+    AnimationHeader* animation = &D_06006320;
+    f32 frames = SkelAnime_GetFrameCount(&animation->genericHeader);
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
+    this->action = 18;
+    this->drawConfig = 4;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2AE8.s")
+void func_80AB2AE8(EnNb* this) {
+    this->action = 19;
+    this->drawConfig = 0;
+    this->actor.shape.unk_14 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2AFC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2BF8.s")
+void func_80AB2BF8(EnNb* this, GlobalContext* globalCtx) {
+    func_80AB2AFC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2C18.s")
+void func_80AB2C18(EnNb* this, GlobalContext* globalCtx) {
+    func_80AB1164(this);
+    func_80AB2688(this, globalCtx);
+    func_80AB1284(this, globalCtx);
+    func_80AB2AFC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2C60.s")
+void func_80AB2C60(EnNb* this, GlobalContext* globalCtx) {
+    UNK_TYPE something;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2CCC.s")
+    func_80AB1164(this);
+    something = EnNb_FrameUpdateMatrix(this);
+    func_80AB27F0(this, something);
+    func_80AB250C(this);
+    func_80AB2688(this, globalCtx);
+    func_80AB1284(this, globalCtx);
+    func_80AB2AFC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2D38.s")
+void func_80AB2CCC(EnNb* this, GlobalContext* globalCtx) {
+    UNK_TYPE something;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2D9C.s")
+    func_80AB1164(this);
+    something = EnNb_FrameUpdateMatrix(this);
+    func_80AB28DC(this, something);
+    func_80AB2570(this);
+    func_80AB2688(this, globalCtx);
+    func_80AB1284(this, globalCtx);
+    func_80AB2AFC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2E1C.s")
+void func_80AB2D38(EnNb* this, GlobalContext* globalCtx) {
+    UNK_TYPE something;
+
+    func_80AB1164(this);
+    something = EnNb_FrameUpdateMatrix(this);
+    func_80AB29C8(this, something);
+    func_80AB2688(this, globalCtx);
+    func_80AB1284(this, globalCtx);
+    func_80AB2AFC(this, globalCtx);
+}
+
+void func_80AB2D9C(EnNb* this, GlobalContext* globalCtx) {
+    UNK_TYPE something;
+
+    func_80AB24CC(this, globalCtx);
+    func_80AB1164(this);
+    something = EnNb_FrameUpdateMatrix(this);
+    func_80AB25BC(this);
+    func_80AB2688(this, globalCtx);
+    func_80AB1284(this, globalCtx);
+    func_80AB2A28(this, globalCtx, something);
+    func_80AB2AFC(this, globalCtx);
+}
+
+void func_80AB2E1C(EnNb* this, GlobalContext* globalCtx) {
+    this->unk_290++;
+    if (this->unk_290 > 60.0f) {
+        Actor_Kill(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2E70.s")
 
@@ -640,9 +860,9 @@ extern SkeletonHeader D_060181C8;
 void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80AB0F04(this, globalCtx);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060181C8, NULL, this->limbDrawTable, this->transitionDrawTable,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060181C8, NULL, &this->limbDrawTable, &this->transitionDrawTable,
                      19);
     switch (func_80AB0DA0(this)) {
         case 2:
@@ -662,18 +882,44 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         default:
             func_80AB1530(this, globalCtx);
+            break;
     }
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/EnNb_Init.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB3FE8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/EnNb_OverrideLimbDraw.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB4074.s")
+void EnNb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnNb* this = THIS;
+    Vec3f vec1;
+    Vec3f vec2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB4100.s")
+    if (limbIndex == 15) {
+        vec1 = D_80AB4F48;
+        Matrix_MultVec3f(&vec1, &vec2);
+        thisx->posRot2.pos.x = vec2.x;
+        thisx->posRot2.pos.y = vec2.y;
+        thisx->posRot2.pos.z = vec2.z;
+        thisx->posRot2.rot.x = thisx->posRot.rot.x;
+        thisx->posRot2.rot.y = thisx->posRot.rot.y;
+        thisx->posRot2.rot.z = thisx->posRot.rot.z;
+    }
+}
+
+void func_80AB4100(EnNb* this, GlobalContext* globalCtx) {
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB410C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/EnNb_Draw.s")
+void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnNb* this = THIS;
+
+    if (this->drawConfig < 0 || this->drawConfig >= 5 || D_80AB4F54[this->drawConfig] == 0) {
+        // "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        D_80AB4F54[this->drawConfig](this, globalCtx);
+    }
+}

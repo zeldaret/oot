@@ -78,14 +78,14 @@ glabel func_80AB410C
 /* 03484 80AB4214 AC4B0004 */  sw      $t3, 0x0004($v0)           ## 00000004
 /* 03488 80AB4218 AC4A0000 */  sw      $t2, 0x0000($v0)           ## 00000000
 /* 0348C 80AB421C 8FA30070 */  lw      $v1, 0x0070($sp)
-/* 03490 80AB4220 3C0D80AB */  lui     $t5, %hi(func_80AB4074)    ## $t5 = 80AB0000
-/* 03494 80AB4224 3C0C80AB */  lui     $t4, %hi(func_80AB3FE8)    ## $t4 = 80AB0000
+/* 03490 80AB4220 3C0D80AB */  lui     $t5, %hi(EnNb_PostLimbDraw)    ## $t5 = 80AB0000
+/* 03494 80AB4224 3C0C80AB */  lui     $t4, %hi(EnNb_OverrideLimbDraw)    ## $t4 = 80AB0000
 /* 03498 80AB4228 2462014C */  addiu   $v0, $v1, 0x014C           ## $v0 = 0000014C
 /* 0349C 80AB422C 8C450004 */  lw      $a1, 0x0004($v0)           ## 00000150
 /* 034A0 80AB4230 8C460020 */  lw      $a2, 0x0020($v0)           ## 0000016C
 /* 034A4 80AB4234 90470002 */  lbu     $a3, 0x0002($v0)           ## 0000014E
-/* 034A8 80AB4238 258C3FE8 */  addiu   $t4, $t4, %lo(func_80AB3FE8) ## $t4 = 80AB3FE8
-/* 034AC 80AB423C 25AD4074 */  addiu   $t5, $t5, %lo(func_80AB4074) ## $t5 = 80AB4074
+/* 034A8 80AB4238 258C3FE8 */  addiu   $t4, $t4, %lo(EnNb_OverrideLimbDraw) ## $t4 = 80AB3FE8
+/* 034AC 80AB423C 25AD4074 */  addiu   $t5, $t5, %lo(EnNb_PostLimbDraw) ## $t5 = 80AB4074
 /* 034B0 80AB4240 AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 034B4 80AB4244 AFAC0010 */  sw      $t4, 0x0010($sp)
 /* 034B8 80AB4248 8FA40074 */  lw      $a0, 0x0074($sp)
