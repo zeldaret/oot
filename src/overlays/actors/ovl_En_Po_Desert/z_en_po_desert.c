@@ -130,21 +130,36 @@ void func_80AD305C(EnPoDesert* this) {
 /* void func_80AD30D0(EnPoDesert* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, 0x3071);
     if (this->actor.xzDistFromLink < 200.0f) {
-        if (this->unk_198 != 2 || globalCtx->actorCtx.unk_03 != 0) {
-            if (this->unk_198 != 2) {
+        if (2 != this->unk_198 || globalCtx->actorCtx.unk_03 != 0) {
+            if (2 != this->unk_198) {
+block_7:
                 func_80AD2FBC(this);
                 return;
             }
             if (Gameplay_InCsMode(globalCtx) == 0) {
                 func_8010B680(globalCtx, 0x600B, 0);
-                func_80AD2FBC(this);
-                return;
+                goto block_7;
             }
-            this->actor.shape.rot.y += 0x800;
-            return;
         }
     }
     this->actor.shape.rot.y += 0x800;
+} */
+/* void func_80AD30D0(EnPoDesert* this, GlobalContext* globalCtx) {
+    func_8002F974(&this->actor, 0x3071);
+    if (this->actor.xzDistFromLink < 200.0f && this->unk_198 != 2 || globalCtx->actorCtx.unk_03 != 0) {
+        if (this->unk_198 != 2) {
+            func_80AD2FBC(this);
+            return;
+        }
+        if (Gameplay_InCsMode(globalCtx) == 0) {
+            func_8010B680(globalCtx, 0x600B, 0);
+            func_80AD2FBC(this);
+            return;
+        }
+        this->actor.shape.rot.y += 0x800;
+    } else {
+        this->actor.shape.rot.y += 0x800;
+    }
 } */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3194.s")
@@ -161,11 +176,11 @@ void func_80AD305C(EnPoDesert* this) {
     if (this->unk_194 == 0) {
         this->unk_194 = 0x28;
     }
-    temp_f20_2 = func_8002DBB0(this, &this->actor.initPosRot.pos);
-    this->actor.posRot.rot.y = func_8002DAC0(this, &this->actor.initPosRot.pos);
+    temp_f20_2 = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
+    this->actor.posRot.rot.y = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
     this->actor.speedXZ = sinf(this->unk_196 * 0.09817477315664291f) * 2.5f + 5.5f;
-    func_8002F974(this, 0x3071);
+    func_8002F974(&this->actor, 0x3071);
     this->unk_1A4 = this->actor.initPosRot.pos.y - ((temp_f20_2 * this->unk_1A0) / this->unk_19C);
     if (temp_f20_2 < 40.0f) {
         if (this->unk_198 != 0) {

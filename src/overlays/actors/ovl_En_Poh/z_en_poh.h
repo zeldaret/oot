@@ -22,7 +22,7 @@ typedef struct {
     /* 0x000C */ AnimationHeader* unk_C;
     /* 0x0010 */ AnimationHeader* unk_10;
     /* 0x0014 */ u32 unk_14;
-    /* 0x0018 */ u32 unk_18;
+    /* 0x0018 */ AnimationHeader* unk_18;
     /* 0x001C */ Gfx* unk_1C;
     /* 0x0020 */ Gfx* unk_20;
     /* 0x0024 */ Gfx* unk_24;

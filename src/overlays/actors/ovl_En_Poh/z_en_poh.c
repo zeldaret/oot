@@ -862,7 +862,7 @@ void func_80AE03C4(EnPoh* this) {
 }
 
 #ifdef NON_MATCHING
-// Regalloc around this->colliderSph.list
+// Single regalloc
 void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = THIS;
 
@@ -891,17 +891,20 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/EnPoh_Update.s")
 #endif
 
-#ifdef NON_MATCHING
-// Regalloc
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE067C.s")
 void func_80AE067C(EnPoh* this) {
+    s16 temp_var; // required for matching
+
     if (this->actionFunc == func_80ADEDFC) {
         this->unk_29A = CLAMP_MAX((s16)(this->unk_29A + 5), 0xFF);
         this->unk_29B = CLAMP_MIN((s16)(this->unk_29B - 5), 0x32);
-        this->unk_29C = CLAMP_MIN((s16)(this->unk_29C - 5), 0x00);
+        temp_var = this->unk_29C - 5;
+        this->unk_29C = CLAMP_MIN(temp_var, 0x00);
     } else if (this->actionFunc == func_80ADF894) {
         this->unk_29A = CLAMP_MAX((s16)(this->unk_29A + 5), 0x50);
         this->unk_29B = CLAMP_MAX((s16)(this->unk_29B + 5), 0xFF);
-        this->unk_29C = CLAMP_MAX((s16)(this->unk_29C + 5), 0xE1);
+        temp_var = this->unk_29C + 5;
+        this->unk_29C = CLAMP_MAX(temp_var, 0xE1);
     } else if (this->actionFunc == func_80ADEECC) {
         if (this->actor.dmgEffectTimer & 2) {
             this->unk_29A = 0;
@@ -916,15 +919,14 @@ void func_80AE067C(EnPoh* this) {
         this->unk_29A = CLAMP_MAX((s16)(this->unk_29A + 5), 0xFF);
         this->unk_29B = CLAMP_MAX((s16)(this->unk_29B + 5), 0xFF);
         if (this->unk_29C >= 0xD3) {
-            this->unk_29C = CLAMP_MIN((s16)(this->unk_29C - 5), 0xD2);
+            temp_var = this->unk_29C - 5;
+            this->unk_29C = CLAMP_MIN(temp_var, 0xD2);
         } else {
-            this->unk_29C = CLAMP_MAX((s16)(this->unk_29C + 5), 0xD2);
+            temp_var = this->unk_29C + 5;
+            this->unk_29C = CLAMP_MAX(temp_var, 0xD2);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE067C.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE089C.s")
 void func_80AE089C(EnPoh* this) {
@@ -1039,7 +1041,7 @@ void func_80AE0CE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 void func_80AE0EE4(Actor* thisx, GlobalContext *globalCtx) {
     EnPoh* this;
     GraphicsContext* gfxCtx;
-    Gfx dispRefs[2]; // 2???
+    Gfx* dispRefs[4];
 
     this = THIS;
     gfxCtx = globalCtx->state.gfxCtx;
@@ -1066,14 +1068,13 @@ void func_80AE0EE4(Actor* thisx, GlobalContext *globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_poh.c", 0xA79);
 }
 
-#ifdef NON_MATCHING
-// Stack only
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE1148.s")
 void func_80AE1148(Actor* thisx, GlobalContext *globalCtx) {
-    Color_RGBA8 *sp90;
-    Gfx dispRefs[4];
-    GraphicsContext *gfxCtx;
-    Color_RGBA8 *phi_t0;
     EnPoh* this;
+    Color_RGBA8 *sp90;
+    Color_RGBA8 *phi_t0;
+    GraphicsContext *gfxCtx;
+    Gfx* dispRefs[4];
 
     this = THIS;
     gfxCtx = globalCtx->state.gfxCtx;
@@ -1113,9 +1114,6 @@ void func_80AE1148(Actor* thisx, GlobalContext *globalCtx) {
     gSPDisplayList(gfxCtx->polyOpa.p++, D_06004530);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_poh.c", 0xAF2);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE1148.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE1600.s")
 void func_80AE1600(Actor* thisx, GlobalContext* globalCtx) {
@@ -1128,16 +1126,12 @@ void func_80AE1600(Actor* thisx, GlobalContext* globalCtx) {
     func_80AE089C(this);
 }
 
-#ifdef NON_MATCHING
-// Stack only
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE1654.s")
 void func_80AE1654(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoh* this;    
-    GraphicsContext* gfxCtx;
-    Gfx dispRefs[2];
-    Color_RGBA8* envColor;
+    EnPoh* this = THIS;  
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    this = THIS;
-    gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_poh.c", 0xB11);
     if (this->actionFunc == func_80ADF994) {
         func_80093D18(globalCtx->state.gfxCtx);
@@ -1147,7 +1141,8 @@ void func_80AE1654(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 0xB26), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyOpa.p++, this->unk_2A4->unk_1C);
         if (this->unk_197 == 1) {
-            envColor = (this->actor.params == 2) ? &D_80AE1B4C : &D_80AE1B50;
+            Color_RGBA8* envColor = (this->actor.params == 2) ? &D_80AE1B4C : &D_80AE1B50;
+            s32 pad;
             gSPDisplayList(gfxCtx->polyOpa.p++, D_06004498);
             gDPPipeSync(gfxCtx->polyOpa.p++);
             gDPSetEnvColor(gfxCtx->polyOpa.p++, envColor->r, envColor->g, envColor->b, 0xFF);
@@ -1165,6 +1160,3 @@ void func_80AE1654(Actor* thisx, GlobalContext* globalCtx) {
     }
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_poh.c", 0xB64);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE1654.s")
-#endif

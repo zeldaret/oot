@@ -58,6 +58,7 @@ extern CollisionCheckInfoInit D_80ADD75C;
 extern Vec3f D_80ADD790;
 extern s16 D_80ADD79C[];
 extern Vec3s D_80ADD7A4[];
+extern Vec3f D_80ADD7BC;
 
 extern s32 D_80ADD784;
 
@@ -436,6 +437,7 @@ void func_80ADA094(EnPoSisters* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80ADBC88;
 }
 
+void func_80ADA10C(EnPoSisters* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADA10C.s")
 /* s32 func_80ADA10C(EnPoSisters* this) {
     s32 temp_v0;
@@ -885,27 +887,277 @@ void func_80ADB4B0(EnPoSisters* this, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, 40.0f);
 }
 
+#ifdef NON_MATCHING
+// Regalloc, single reordering
+void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
+    f32 temp_f2;
+    s16 phi_v0;
+    s16 phi_a2;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    temp_f2 = this->skelAnime.animFrameCount * 0.5f;
+    this->unk_231 = (fabsf(temp_f2 - this->skelAnime.animCurrentFrame) * 255.0f) / temp_f2;
+    if (this->unk_19A != 0) {
+        this->unk_19A--;
+    }
+    if (this->unk_19A == 0) {
+        this->actor.posRot.rot.y = this->actor.shape.rot.y += (s16)(Math_Rand_ZeroOne() * 4.0f) * 0x4000;
+        if (this->unk_195 == 0) {
+            func_800F5ACC(0x38);
+        }
+        func_80AD9F1C(this);
+    } else {
+        this->actor.posRot.pos.y += 0.1f;
+        if (this->unk_195 != 0) {
+            if (this->unk_19A >= 0x5B) {
+                phi_v0 = 1;
+                phi_a2 = 0x40;
+            } else  if (this->unk_19A >= 0x47) {
+                phi_v0 = 0;
+                phi_a2 = 0x40;
+            } else if (this->unk_19A >= 0x38) {
+                phi_v0 = 1;
+                phi_a2 = 0x60;
+            } else if (this->unk_19A >= 0x29) {
+                phi_v0 = 0;
+                phi_a2 = 0x60;
+            } else {
+                phi_v0 = 1;
+                phi_a2 = 0x100;
+            }
+            if (this->unk_195 == 2) {
+                phi_a2 *= 2;
+            }
+            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.attachedA->shape.rot.y + ((this->unk_195 * 0x4000) * phi_v0), phi_a2);
+        } else if (this->unk_19A == 0x46 || this->unk_19A == 0x28) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);
+        }
+    }
+    func_80AD97C8(this, globalCtx);
+    Actor_SetHeight(&this->actor, 40.0f);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADB51C.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADB770.s")
+/* void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
+    s32 temp_v0;
+    s32 phi_a0;
 
+    if (this->unk_19A != 0) {
+        this->unk_19A--;
+    }
+    if (this->unk_19C > 0) {
+        if (this->unk_19A >= 0x10) {
+            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            if (this->unk_195 == 0) {
+                if (ABS((s16)(0x10 - this->unk_196)) < 0xE) {
+                    this->actor.shape.rot.y = (0x580 - (this->unk_19C * 0x180)) * fabsf(Math_Sins(this->unk_196 << 0xB));
+                }
+                if (this->unk_19A >= 0x11C || this->unk_19A < 0x1F) {
+                    this->unk199 |= 0x40;
+                } else {
+                    this->unk199 &= 0xFFBF;
+                }
+            } else {
+                this->actor.shape.rot.y = (s16)(this->unk118->unkB6 + (this->unk195 * 0x4000));
+            }
+        }
+    }
+    if (this->unk_195 == 0) {
+        if (this->unk_19A < 0x11C) {
+            if (this->unk_19A < 0x1F) {
+                if (this->unk_19A >= 0x10) {
+block_18:
+                    this->unk199 |= 0x40;
+                } else {
+block_19:
+                    this->unk199 &= 0xFFBF;
+                }
+            } else {
+                goto block_19;
+            }
+        } else {
+            goto block_18;
+        }
+    }
+    if (600.0f < func_8002DBB0(PLAYER, &this->actor.initPosRot.pos)) {
+        this->unk_199 &= 0xFFBF;
+        func_80AD9C24(this, globalCtx);
+    } else if (this->unk_19A == 0) {
+        if (this->unk_195 == 0) {
+            func_80AD94E0(this);
+        } else {
+            func_80AD9C24(this, globalCtx);
+        }
+    } else if (this->unk_195 != 0) {
+        if (this->unk118->unk190 == func_80ADAAA4) {
+            func_80AD95D8(this);
+        }
+    } else if (this->unk_19C == 0) {
+        this->unk_19C = -0xF;
+    } else if (this->unk_19C < 0) {
+        this->unk_19C++;
+        if (this->unk_19C == 0) {
+            func_80AD94E0(this);
+        }
+    }
+    func_80AD97C8(this, globalCtx);
+} */
+
+#ifdef NON_MATCHING
+// Regalloc
+void func_80ADB9F0(EnPoSisters* this, GlobalContext* globalCtx) {
+    SkelAnime* skelAnime = &this->skelAnime;
+
+    if (SkelAnime_FrameUpdateMatrix(skelAnime) != 0) {
+        this->unk_231 = 0xFF;
+        if (this->unk_194 == 3) {
+            this->actor.flags |= 1;
+            this->actor.initPosRot.pos.x = 1992.0f;
+            this->actor.initPosRot.pos.z = -1440.0f;
+            this->unk_199 |= 0x18;
+            func_80AD93C4(this);
+        } else {
+            func_80AD9F90(this);
+        }
+    } else {
+        this->unk_231 = 255.0f * (this->skelAnime.animCurrentFrame / this->skelAnime.animFrameCount);
+    }
+    if (this->unk_194 != 3 && func_800A56C8(skelAnime, 1.0f) != 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
+    }
+    Actor_SetHeight(&this->actor, 40.0f);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADB9F0.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBB6C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBB6C.s")
+void func_80ADBB6C(EnPoSisters* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) < 10.0f) {
+        func_80ADA028(this);
+    } else {
+        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x71C);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBBF4.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBBF4.s")
+void func_80ADBBF4(EnPoSisters* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x71C);
+    if (this->actor.xzDistFromLink < 240.0f && fabsf(this->actor.yDistFromLink + 5.0f) < 30.0f) {
+        func_80AD93C4(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBC88.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBC88.s")
+void func_80ADBC88(EnPoSisters* this, GlobalContext* globalCtx) {
+    if (D_80ADD784 != 0 || func_8008E988(globalCtx) == 0) {
+        if (this->unk_19A != 0) {
+            this->unk_19A--;
+        }
+        if (this->unk_19A == 0x1E) {
+            if (this->unk_194 == 0) {
+                func_800800F8(globalCtx, 0xC44, 0x3E7, NULL, 0);
+            }
+            D_80ADD784 = 1;
+        }
+        if (this->unk_19A == 0) {
+            func_80ADA10C(this);
+        }
+    }
+    func_8002F974(&this->actor, NA_SE_EV_TORCH & ~0x0800);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBD38.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBD38.s")
+void func_80ADBD38(EnPoSisters* this, GlobalContext* globalCtx) {
+    this->unk_19A++;
+    func_80AD9240(this, this->unk_19A, &this->actor.initPosRot.pos);
+    if (this->unk_19A == 0x20) {
+        func_80ADA1B8(this);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBD8C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBEE8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBF58.s")
+
+
+
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBEE8.s")
+void func_80ADBEE8(EnPoSisters* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (this->unk_19A != 0) {
+        this->unk_19A--;
+    }
+    func_80AD9240(this, this->unk_19A, &this->actor.initPosRot.pos);
+    if (this->unk_19A == 0) {
+        func_80ADA2BC(this, globalCtx);
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADBF58.s")
+void func_80ADBF58(EnPoSisters* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    this->unk_19A--;
+    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 0x500);
+    if (this->unk_19A == 0 && this->unk_194 == 0) {
+        globalCtx->envCtx.unk_BF = 4;
+    }
+    if (this->unk_19A < 0) {
+        Math_ApproxF(&this->actor.speedXZ, 5.0f, 0.2f);
+    }
+    if (this->unk_19A == -0x46 && this->unk_194 == 1) {
+        Audio_PlaySoundAtPosition(globalCtx, &D_80ADD7BC, 0x28, NA_SE_EN_PO_LAUGH);
+    }
+    if (this->unk_19A < -0x78) {
+        Actor_Kill(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC034.s")
+/* s32 func_80ADC034(void *arg0) {
+    s32 phi_return;
+
+    if ((arg0->unk10C != 0) && (arg0->unk231 == 0xFF)) {
+        if (arg0->unk197 != 0) {
+            arg0->unk197 = (u8) (arg0->unk197 - 1);
+block_5:
+        }
+    } else {
+        arg0->unk197 = (u8)0x14U;
+        goto block_5;
+    }
+    if (arg0->unk231 == 0) {
+        if (arg0->unk19C != 0) {
+            arg0->unk19C = (s16) (arg0->unk19C - 1);
+        }
+    }
+    phi_return = arg0->unk190;
+    if (&func_80ADA7F0 != arg0->unk190) {
+        phi_return = arg0->unk190;
+        if (&func_80ADA8C0 != arg0->unk190) {
+            phi_return = arg0->unk190;
+            if (&func_80ADAAA4 != arg0->unk190) {
+                if (arg0->unk197 == 0) {
+                    return func_80AD9718();
+                }
+                phi_return = arg0->unk190;
+                if (arg0->unk19C == 0) {
+                    phi_return = arg0->unk190;
+                    if (arg0->unk231 == 0) {
+                        phi_return = func_80AD98F4();
+                    }
+                }
+            }
+        }
+    }
+    return phi_return;
+} */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC10C.s")
 

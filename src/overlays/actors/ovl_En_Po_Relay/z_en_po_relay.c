@@ -234,7 +234,7 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) {
         }
     }
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
-    func_8002F974(&this->actor, 0x3072);
+    func_8002F974(&this->actor, NA_SE_EN_PO_AWAY & ~0x0800);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7C64.s")
@@ -367,7 +367,7 @@ void func_80AD88D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         f32 rand;
         Vec3f vec;
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx dispRefs[2];
+        Gfx* dispRefs[4];
 
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_po_relay.c", 0x375);
         rand = Math_Rand_ZeroOne();
@@ -384,7 +384,7 @@ void func_80AD88D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         Lights_InitType0PositionalLight(&this->lightInfo, vec.x, vec.y, vec.z, this->unk_278, this->unk_279, this->unk_27A, 0xC8);
     } else if (limbIndex == 8) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx dispRefs[2];
+        Gfx* dispRefs[4];
 
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_po_relay.c", 0x394);
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 0x396), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -397,7 +397,7 @@ void func_80AD88D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnPoRelay* this;
     GraphicsContext* gfxCtx;
-    Gfx dispRefs[2];
+    Gfx* dispRefs[4];
 
     this = THIS;
     gfxCtx = globalCtx->state.gfxCtx;
