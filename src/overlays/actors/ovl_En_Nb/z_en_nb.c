@@ -36,6 +36,15 @@ void func_80AB1D84(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1DD8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1E2C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1FA4(EnNb* this, GlobalContext* globalCtx);
+void func_80AB1FFC(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2030(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2148(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2180(EnNb* this, UNK_TYPE arg1);
+void func_80AB22CC(EnNb* this, GlobalContext* globalCtx);
+void func_80AB23A8(EnNb* this, GlobalContext* globalCtx);
+void func_80AB23D8(EnNb* this, GlobalContext* globalCtx);
+void func_80AB242C(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2484(EnNb* this, GlobalContext* globalCtx);
 
 extern ColliderCylinderInit_Set3 D_80AB42E0;
 extern AnimationHeader* D_06009694;
@@ -43,6 +52,9 @@ extern AnimationHeader* D_0600274C;
 extern AnimationHeader* D_06002B4C;
 extern AnimationHeader* D_06000410;
 extern AnimationHeader* D_06001E7C;
+extern AnimationHeader* D_06001350;
+extern AnimationHeader* D_06001104;
+extern AnimationHeader* D_06008BD0;
 extern CutsceneData D_80AB431C[];
 extern UNK_PTR D_80AB430C[];
 
@@ -324,9 +336,8 @@ void func_80AB1B68(EnNb* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = something;
 }
 
-void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx)
-{
-    if (func_80AB13D8(this, globalCtx, 4,1)) {
+void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx) {
+    if (func_80AB13D8(this, globalCtx, 4, 1)) {
         this->action = 8;
         this->drawConfig = 2;
         this->unk_280 = kREG(5) + 10.0f;
@@ -340,14 +351,12 @@ void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx)
     }
 }
 
-void func_80AB1D54(EnNb* this, GlobalContext* globalCtx)
-{
+void func_80AB1D54(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1B14(this, globalCtx);
     func_80AB1210(this, globalCtx);
 }
 
-void func_80AB1D84(EnNb* this, GlobalContext* globalCtx)
-{
+void func_80AB1D84(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_FrameUpdateMatrix(this);
     func_80AB1164(this);
@@ -355,8 +364,7 @@ void func_80AB1D84(EnNb* this, GlobalContext* globalCtx)
     func_80AB1210(this, globalCtx);
 }
 
-void func_80AB1DD8(EnNb* this, GlobalContext* globalCtx)
-{
+void func_80AB1DD8(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_FrameUpdateMatrix(this);
     func_80AB1164(this);
@@ -364,8 +372,7 @@ void func_80AB1DD8(EnNb* this, GlobalContext* globalCtx)
     func_80AB1210(this, globalCtx);
 }
 
-void func_80AB1E2C(EnNb* this, GlobalContext* globalCtx)
-{
+void func_80AB1E2C(EnNb* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_274;
     UNK_PTR addr = D_80AB430C[temp];
@@ -381,43 +388,133 @@ void func_80AB1E2C(EnNb* this, GlobalContext* globalCtx)
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_284);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL, NULL, gfxCtx->polyXlu.p);
+    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                          NULL, NULL, NULL, gfxCtx->polyXlu.p);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nb_inKenjyanomaDemo02.c", 290);
 }
 
-void func_80AB1FA4(EnNb* this, GlobalContext* globalCtx)
-{
+void func_80AB1FA4(EnNb* this, GlobalContext* globalCtx) {
     func_80AB14A0(this, &D_06001E7C, 0, 0.0f, 0);
     this->action = 10;
     this->actor.shape.unk_14 = 0;
     gSaveContext.eventChkInf[9] |= 32;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB1FFC.s")
+void func_80AB1FFC(EnNb* this, GlobalContext* globalCtx) {
+    if (globalCtx->csCtx.frames == 3) {
+        func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2030.s")
+void func_80AB2030(EnNb* this, GlobalContext* globalCtx) {
+    if (globalCtx->csCtx.frames == 420) {
+        func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_AGONY);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2064.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2148.s")
+void func_80AB2148(EnNb* this, GlobalContext* globalCtx) {
+    func_80AB1310(this, globalCtx, 1);
+    this->action = 10;
+    this->drawConfig = 0;
+    this->actor.shape.unk_14 = 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2180.s")
+void func_80AB2180(EnNb* this, UNK_TYPE arg1) {
+    AnimationHeader* animation = &D_06001350;
+    if (arg1 != 0) {
+        SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB21E0.s")
+void func_80AB21E0(EnNb* this) {
+    AnimationHeader* animation = &D_06001E7C;
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 0,
+                         -8.0f);
+    this->action = 11;
+    this->drawConfig = 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2254.s")
+void func_80AB2254(EnNb* this) {
+    AnimationHeader* animation = &D_06001104;
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 2,
+                         -8.0f);
+    this->action = 12;
+    this->drawConfig = 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB22CC.s")
+void func_80AB22CC(EnNb* this, GlobalContext* globalCtx) {
+    CsCmdActorAction* csCmdNPCAction = func_80AB12EC(globalCtx, 1);
+    s32 action;
+    s32 unk_28C;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB23A8.s")
+    if (csCmdNPCAction != NULL) {
+        action = csCmdNPCAction->action;
+        unk_28C = this->unk_28C;
+        if (action != unk_28C) {
+            switch (action) {
+                case 1:
+                    func_80AB2148(this, globalCtx);
+                    break;
+                case 7:
+                    func_80AB21E0(this);
+                    break;
+                case 8:
+                    func_80AB2254(this);
+                    break;
+                case 9:
+                    Actor_Kill(&this->actor);
+                    break;
+                default:
+                    osSyncPrintf("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    break;
+            }
+            this->unk_28C = action;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB23D8.s")
+void func_80AB23A8(EnNb* this, GlobalContext* globalCtx) {
+    func_80AB1FFC(this, globalCtx);
+    func_80AB22CC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB242C.s")
+void func_80AB23D8(EnNb* this, GlobalContext* globalCtx) {
+    func_80AB1FFC(this, globalCtx);
+    func_80AB2030(this, globalCtx);
+    func_80AB1164(this);
+    EnNb_FrameUpdateMatrix(this);
+    func_80AB22CC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB2484.s")
+void func_80AB242C(EnNb* this, GlobalContext* globalCtx) {
+    UNK_TYPE something;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB24CC.s")
+    func_80AB1164(this, globalCtx);
+    something = EnNb_FrameUpdateMatrix(this);
+    func_80AB2180(this, something);
+    func_80AB2064(this, globalCtx);
+    func_80AB22CC(this, globalCtx);
+}
+
+void func_80AB2484(EnNb* this, GlobalContext* globalCtx) {
+    AnimationHeader* animation = &D_06008BD0;
+    func_80AB14A0(this, animation, 0, 0.0f, 0);
+    this->action = 13;
+    this->actor.shape.unk_14 = 0;
+}
+
+void func_80AB24CC(EnNb* this, GlobalContext* globalCtx) {
+    Vec3f* projectedPos = &this->actor.projectedPos;
+    s32 pad;
+
+    if (globalCtx->csCtx.frames == 548) {
+        func_80078914(projectedPos, NA_SE_VO_NB_CRY_0);
+        func_80078914(projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB250C.s")
 

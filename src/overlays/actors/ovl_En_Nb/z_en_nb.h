@@ -18,7 +18,8 @@ typedef struct EnNb {
     /* 0x0280 */ f32 unk_280;
     /* 0x0284 */ u32 unk_284;
     /* 0x0288 */ s32 unk_288;
-    /* 0x028C */ char unk_28C[0x8];
+    /* 0x028C */ s32 unk_28C;
+    /* 0x0290 */ char unk_290[0x4];
     /* 0x0294 */ ColliderCylinder collider;
     /* 0x02E0 */ char unk_2E0[0x20];
     /* 0x0300 */ struct_80034A14_arg1 struct_300;
