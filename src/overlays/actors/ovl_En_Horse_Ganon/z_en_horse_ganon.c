@@ -79,7 +79,7 @@ unk_D_80A69248 D_80A69248[] = { { 0x09B8, 0x0126, 0x0E2C, 0x07 }, { 0x0C11, 0x01
 s32 D_80A692B8[] = { 0, 0x00000010 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_F8, 1200, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
 };
 
 static EnHorseGanonActionFunc sActionFuncs[] = { func_80A68AF0, func_80A68DB0, NULL };
@@ -138,7 +138,7 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
 void func_80A68870(EnHorseGanon* this) {
     if (this->skin.skelAnime.animCurrentFrame > D_80A692B8[this->soundCount]) {
         if (D_80A692B8[this->soundCount] != 0 || !(this->skin.skelAnime.animCurrentFrame > D_80A692B8[1])) {
-            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
             this->soundCount += 1;
             if (this->soundCount >= 2) {
@@ -222,10 +222,10 @@ void func_80A68B20(EnHorseGanon* this) {
         sp30 = this->actor.speedXZ / 3.0f;
     } else if (this->currentAnimation == 3) {
         sp30 = this->actor.speedXZ / 5.0f;
-        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (this->currentAnimation == 4) {
         sp30 = this->actor.speedXZ / 7.0f;
-        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else {
         sp30 = 1.0f;
     }

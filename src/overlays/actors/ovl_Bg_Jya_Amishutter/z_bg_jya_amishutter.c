@@ -38,9 +38,9 @@ const ActorInit Bg_Jya_Amishutter_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
 extern UNK_TYPE D_0600C4C8;
@@ -79,8 +79,8 @@ void func_808933BC(BgJyaAmishutter* this) {
 }
 
 void func_808933CC(BgJyaAmishutter* this) {
-    if (this->actor.xzDistanceFromLink < 60.0f) {
-        if (fabsf(this->actor.yDistanceFromLink) < 30.0f) {
+    if (this->actor.xzDistFromLink < 60.0f) {
+        if (fabsf(this->actor.yDistFromLink) < 30.0f) {
             func_80893428(this);
         }
     }
@@ -104,7 +104,7 @@ void func_808934B0(BgJyaAmishutter* this) {
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
-    if (this->actor.xzDistanceFromLink > 300.0f) {
+    if (this->actor.xzDistFromLink > 300.0f) {
         func_808934FC(this);
     }
 }

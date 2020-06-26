@@ -405,9 +405,9 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
-        yawDiffTemp = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+        yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
-        if (!(120.0f < this->actor.xzDistanceFromLink) && (yawDiff < 0x4300)) {
+        if (!(120.0f < this->actor.xzDistFromLink) && (yawDiff < 0x4300)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, 1);
         }
     }
@@ -653,7 +653,7 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
         pos.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
         pos.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
         pos.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
-        rotY = Math_Rand_CenteredFloat(7000.0f) + thisx->rotTowardsLinkY;
+        rotY = Math_Rand_CenteredFloat(7000.0f) + thisx->yawTowardsLink;
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, pos.x, pos.y, pos.z, 0, rotY, 0, 0);
         if (bomb != NULL) {
             bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
@@ -733,8 +733,8 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 
     if (((this->initParams != 2) && (this->initParams != 5)) ||
-        ((yawDiff = ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)),
-          !(this->actor.xzDistanceFromLink > 120.0f)) &&
+        ((yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)),
+          !(this->actor.xzDistFromLink > 120.0f)) &&
          (yawDiff < 0x4300))) {
         func_8002F2F4(&this->actor, globalCtx);
     }

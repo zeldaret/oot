@@ -39,12 +39,12 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
     JpegWork* workBuf = ctx->workBuf;
     u32 pad[2];
 
-    workBuf->taskData.unk_00 = PHYSICAL_TO_VIRTUAL(&workBuf->unk_6C0);
-    workBuf->taskData.unk_08 = ctx->unk_28;
-    workBuf->taskData.unk_04 = 4;
-    workBuf->taskData.qTablePtrs[0] = PHYSICAL_TO_VIRTUAL(&workBuf->qTables[0]);
-    workBuf->taskData.qTablePtrs[1] = PHYSICAL_TO_VIRTUAL(&workBuf->qTables[1]);
-    workBuf->taskData.qTablePtrs[2] = PHYSICAL_TO_VIRTUAL(&workBuf->qTables[2]);
+    workBuf->taskData.address = PHYSICAL_TO_VIRTUAL(&workBuf->unk_6C0);
+    workBuf->taskData.mode = ctx->mode;
+    workBuf->taskData.mbCount = 4;
+    workBuf->taskData.qTableYPtr = PHYSICAL_TO_VIRTUAL(&workBuf->qTableY);
+    workBuf->taskData.qTableUPtr = PHYSICAL_TO_VIRTUAL(&workBuf->qTableU);
+    workBuf->taskData.qTableVPtr = PHYSICAL_TO_VIRTUAL(&workBuf->qTableV);
 
     sJpegTask.flags = 0;
     sJpegTask.ucode_boot = SysUcode_GetUCodeBoot();
@@ -97,7 +97,7 @@ u16 Jpeg_GetU16(u8* ptr) {
     if (((u32)ptr & 1) == 0) { // if the address is aligned to 2
         return *(u16*)ptr;
     } else {
-        return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // ?? it's exactly like *(16*)ptr
+        return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // lhu crashes with unaligned addresses
     }
 }
 
@@ -174,10 +174,10 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
 
                     if (ptr[9] == 0x21) // component Y : V0 == 1
                     {
-                        ctx->unk_28 = 0;
+                        ctx->mode = 0;
                     } else if (ptr[9] == 0x22) // component Y : V0 == 2
                     {
-                        ctx->unk_28 = 2;
+                        ctx->mode = 2;
                     }
                     ptr += Jpeg_GetU16(ptr);
                     break;
@@ -215,7 +215,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     JpegContext ctx;             // 0x208
     JpegHuffmanTable hTables[4]; // 0xB8
     JpegDecoder decoder;         // 0x9C
-    u32 unk[5];                  // 0x88
+    JpegDecoderState state;      // 0x88
     u16(*src)[0x180];
     OSTime diff; // 0x78
     OSTime time; // 0x70
@@ -248,19 +248,19 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
 
     switch (ctx.dqtCount) {
         case 1: {
-            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTables[0], 3);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTableY, 3);
             break;
         }
         case 2: {
-            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTables[0], 1);
-            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTables[1], 1);
-            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTables[2], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTableY, 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTableU, 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTableV, 1);
             break;
         }
         case 3: {
-            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTables[0], 1);
-            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTables[1], 1);
-            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[2], &workBuff->qTables[2], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTableY, 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTableU, 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[2], &workBuff->qTableV, 1);
             break;
         }
         default:
@@ -318,12 +318,12 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     if (1) {}
     decoder.unk_18 = 0;
     decoder.imageData = ctx.imageData;
-    decoder.unk_04 = ctx.unk_28;
+    decoder.mode = ctx.mode;
 
     y = 0;
     x = 0;
     for (i = 0; i < 300; i += 4) {
-        if (func_800FFA50(&decoder, &workBuff->unk_6C0, 4, i != 0, unk)) {
+        if (JpegDecoder_Decode(&decoder, &workBuff->unk_6C0, 4, i != 0, &state)) {
             osSyncPrintf(VT_FGCOL(RED));
             osSyncPrintf("Error : Can't decode jpeg\n");
             osSyncPrintf(VT_RST);

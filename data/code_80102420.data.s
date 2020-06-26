@@ -12,5 +12,5 @@
 glabel D_80134CF0
     .incbin "baserom.z64", 0xBABE90, 0x4
 
-glabel D_80134CF4
+glabel __osPfsInodeCacheBank
     .incbin "baserom.z64", 0xBABE94, 0xC

@@ -514,7 +514,6 @@ void SkelAnime_AnimateFrame(AnimationHeader* animationSeg, s32 currentFrame, s32
 
     for (i = 0; i < limbCount; i++, dst++, index++) {
         if ((dst == NULL) || (index == NULL) || (frameRotationValueTable == NULL) || (rotationValueTable == NULL)) {
-            if (1) {} // Necessary to match.
             LOG_ADDRESS("out", dst, "../z_skelanime.c", 1392);
             LOG_ADDRESS("ref_tbl", index, "../z_skelanime.c", 1393);
             LOG_ADDRESS("frame_tbl", frameRotationValueTable, "../z_skelanime.c", 1394);
