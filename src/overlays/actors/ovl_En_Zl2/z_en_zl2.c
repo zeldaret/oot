@@ -5,7 +5,7 @@
  */
 
 #include "z_en_zl2.h"
-#include "vt.h"
+#include <vt.h>
 
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -84,7 +84,7 @@ EnZl2PreLimbDrawFunc sOverrideLimbDrawFuncs[] = {
     func_80B4F45C,
 };
 
-static ActorFunc sDrawFuncs[] = {
+static EnZl2DrawFunc sDrawFuncs[] = {
     func_80B523BC,
     func_80B523C8,
     func_80B525D4,
@@ -128,7 +128,7 @@ extern AnimationHeader D_0600AAD4;
 extern AnimationHeader D_0600AFE0;
 extern AnimationHeader D_0600B224;
 extern AnimationHeader D_0600B5FC;
-extern AnimationHeader D_0600BAE8;
+extern Gfx D_0600BAE8[];
 extern SkeletonHeader D_06010D70;
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -252,7 +252,7 @@ s32 EnZl2_FrameUpdateMatrix(EnZl2* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-CsCmdActorAction* func_80B4ED94(GlobalContext* globalCtx, s32 idx) {
+CsCmdActorAction* EnZl2_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
     if (globalCtx->csCtx.state != 0) {
         return globalCtx->csCtx.npcActions[idx];
     }
@@ -260,16 +260,16 @@ CsCmdActorAction* func_80B4ED94(GlobalContext* globalCtx, s32 idx) {
 }
 
 void func_80B4EDB8(EnZl2* this, GlobalContext* globalCtx, s32 arg2) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, arg2);
-    s16 temp_v1;
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, arg2);
+    s16 actionRotY;
 
     if (npcAction != NULL) {
         this->actor.posRot.pos.x = npcAction->startPos.x;
         this->actor.posRot.pos.y = npcAction->startPos.y;
         this->actor.posRot.pos.z = npcAction->startPos.z;
-        temp_v1 = npcAction->rot.y;
-        this->actor.shape.rot.y = temp_v1;
-        this->actor.posRot.rot.y = temp_v1;
+        actionRotY = npcAction->rot.y;
+        this->actor.shape.rot.y = actionRotY;
+        this->actor.posRot.rot.y = actionRotY;
     }
 }
 
@@ -658,7 +658,7 @@ void func_80B4FD90(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B4FDD4(EnZl2* this) {
     if (func_800A56C8(&this->skelAnime, 14.0f)) {
-        func_80078914(&this->actor.unk_E4, 0x802);
+        func_80078914(&this->actor.projectedPos, 0x802);
     }
 }
 
@@ -669,26 +669,26 @@ void func_80B4FE10(GlobalContext* globalCtx) {
 }
 
 void func_80B4FE48(EnZl2* this) {
-    func_80078914(&this->actor.unk_E4, 0x2086);
+    func_80078914(&this->actor.projectedPos, 0x2086);
 }
 
 void func_80B4FE6C(EnZl2* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_EN_GANON_LAUGH);
+    func_80078914(&this->actor.projectedPos, NA_SE_EN_GANON_LAUGH);
 }
 
 void func_80B4FE90(EnZl2* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_SURPRISE);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_SURPRISE);
 }
 
 void func_80B4FEB4(EnZl2* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_PAIN);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B4FED8(EnZl2* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_CRY_0);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_CRY_0);
 }
 
-void func_80B4FEFC(EnZl2* this, GlobalContext* globalCtx) {
+void EnZl2_GiveLightArrows(EnZl2* this, GlobalContext* globalCtx) {
     Player* player;
     f32 posX;
     f32 posY;
@@ -747,7 +747,7 @@ void func_80B5008C(EnZl2* this) {
 }
 
 void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     Vec3f* thisPos = &this->actor.posRot.pos;
     f32 startX;
     f32 startY;
@@ -778,7 +778,7 @@ void func_80B501C4(EnZl2* this, s32 arg1) {
 }
 
 void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     s32 temp_f16;
 
     if (npcAction != NULL) {
@@ -796,7 +796,7 @@ void func_80B50260(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B50278(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     s16 actionRotY;
 
     this->actor.posRot.pos.x = npcAction->startPos.x;
@@ -813,7 +813,7 @@ void func_80B50278(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     ActorShape* actorShape = &this->actor.shape;
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     f32 actionXDelta;
     f32 actionZDelta;
     s32 temp_f6;
@@ -831,7 +831,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
 
     if ((npcAction != NULL) && (globalCtx->csCtx.frames >= npcAction->endFrame)) {
         this->action = 4;
@@ -885,7 +885,7 @@ void func_80B505D4(EnZl2* this, s32 arg1) {
 }
 
 void func_80B50618(EnZl2* this, GlobalContext* globalCtx) {
-    func_80B4FEFC(this, globalCtx);
+    EnZl2_GiveLightArrows(this, globalCtx);
     this->action = 11;
 }
 
@@ -976,7 +976,7 @@ void func_80B50980(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B509A0(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
 
     if (npcAction != NULL) {
         if (globalCtx->csCtx.frames >= npcAction->endFrame) {
@@ -988,7 +988,7 @@ void func_80B509A0(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B50A04(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     s32 newAction;
     s32 unk_240;
 
@@ -1231,7 +1231,7 @@ void func_80B512B8(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B51310(EnZl2* this, GlobalContext* globalCtx) {
     Actor* attachedB;
 
-    if (func_80B4ED94(globalCtx, 0) == NULL) {
+    if (EnZl2_GetNpcAction(globalCtx, 0) == NULL) {
         attachedB = this->actor.attachedB;
         if (attachedB != NULL) {
             Actor_Kill(attachedB);
@@ -1399,7 +1399,7 @@ void func_80B518C0(EnZl2* this) {
 }
 
 void func_80B51948(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     s32 newAction;
     s32 unk_240;
 
@@ -1514,13 +1514,13 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = 0x800;
             sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
-            func_80078914(&this->actor.unk_E4, sfxId);
+            func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
 }
 
 void func_80B51DA4(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     Vec3f* thisPos = &this->actor.posRot.pos;
     f32 startX;
     f32 startY;
@@ -1555,7 +1555,7 @@ void func_80B51EA8(EnZl2* this) {
 
 void func_80B51EBC(EnZl2* this, GlobalContext* globalCtx) {
     ActorShape* shape = &this->actor.shape;
-    s16 rotY = func_80B4ED94(globalCtx, 0)->rot.y;
+    s16 rotY = EnZl2_GetNpcAction(globalCtx, 0)->rot.y;
     s32 pad[3];
 
     shape->rot.y = rotY;
@@ -1567,7 +1567,7 @@ void func_80B51EBC(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B51F38(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
 
     if (npcAction != NULL) {
         if (globalCtx->csCtx.frames - 8 >= npcAction->endFrame) {
@@ -1578,7 +1578,7 @@ void func_80B51F38(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B51FA8(EnZl2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B4ED94(globalCtx, 0);
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     s32 action;
     s32 unk_240;
 
