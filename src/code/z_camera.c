@@ -5779,38 +5779,40 @@ s32 Camera_Unique1(Camera *camera) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Unique1.s")
 #endif
 
-#ifdef NON_MATCHING
 s32 Camera_Unique2(Camera *camera) {
+    Unique2* uniq2 = &camera->params.uniq2;
+    s32 pad;
+    f32 phi_f16;
     Vec3f sp70;
     VecSph sp68;
     VecSph sp60;
-    f32 sp48;
-    Vec3f *sp3C;
-    Vec3f *sp34;
-    Vec3f *temp_s1;
-    f32 phi_f16;
-    Unique2* uniq2 = &camera->params.uniq2;
+    Vec3f *sp3C = &camera->eye;
+    Vec3f *temp_s1 = &camera->at;
+    Vec3f *sp34 = &camera->eyeNext;
     Unique2_Unk10* unk10 = &uniq2->unk_10;
     CameraModeValue* values;
-    Vec3f *eyeNext;
-
-    temp_s1 = &camera->at;
+    f32 sp48;
+    s32 pad2;
+    f32 t;
+    
     sp48 = Player_GetCameraYOffset(camera->player);
-    sp3C = &camera->eye;
-    sp34 = &camera->eyeNext;
+    
     OLib_Vec3fDiffToVecSphRot90(&sp60, temp_s1, sp3C);
+
     if (RELOAD_PARAMS) {
-        f32 t = ((1.0f + (OREG(46) * 0.01f)) - ((OREG(46) * 0.01f) * (68.0f / sp48)));
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        uniq2->unk_00 = (f32) ((((f32) NEXTSETTING * 0.01f) * sp48) * t);
-        uniq2->unk_04 = (f32) NEXTSETTING;
-        uniq2->unk_08 = (f32) NEXTSETTING;
-        uniq2->unk_0C = (s16) NEXTSETTING;
+        t = ((1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / sp48)));
+        uniq2->unk_00 = (NEXTPCT * sp48) * t;
+        uniq2->unk_04 = NEXTSETTING;
+        uniq2->unk_08 = NEXTSETTING;
+        uniq2->unk_0C = NEXTSETTING;
     }
     if (R_RELOAD_CAM_PARAMS != 0) {
         Camera_CopyPREGToModeValues(camera);
     }
+    
     sCameraInterfaceFlags = uniq2->unk_0C;
+
     if ((camera->animState == 0) || (unk10->unk_04 != uniq2->unk_0C)) {
         unk10->unk_04 = uniq2->unk_0C;
     }
@@ -5824,10 +5826,15 @@ s32 Camera_Unique2(Camera *camera) {
     }
     sp70 = camera->playerPosRot.pos;
     phi_f16 = (uniq2->unk_0C & 1 ? 1.0f : camera->unk_E0);
-    temp_s1->x += (((sp70.x - temp_s1->x) * phi_f16) * 0.6f);
+    /* temp_s1->x += (((sp70.x - temp_s1->x) * phi_f16) * 0.6f);
     temp_s1->y += ((((sp70.y + sp48) + uniq2->unk_00) - temp_s1->y) * 0.4f);
     temp_s1->z += (((sp70.z - temp_s1->z) * phi_f16) * 0.6f);
-    unk10->unk_00 = (f32) (unk10->unk_00 + ((2.0f - unk10->unk_00) * 0.05f));
+     */
+    // VEC3F_LERPIMP(temp_s1, &sp70, phi_f16, 0.4f, sp48 + uniq2->unk_00);
+    temp_s1->x = F32_LERPIMP(temp_s1->x, sp70.x, phi_f16 * 0.6f);
+    temp_s1->y = F32_LERPIMP(temp_s1->y, sp70.y + sp48 + uniq2->unk_00, 0.4f);
+    temp_s1->z = F32_LERPIMP(temp_s1->z, sp70.z, phi_f16 * 0.6f);
+    unk10->unk_00 = F32_LERPIMP(unk10->unk_00, 2.0f, 0.05f);
     if (uniq2->unk_0C & 1) {
         OLib_Vec3fDiffToVecSphRot90(&sp68, temp_s1, sp34);
         sp68.r = uniq2->unk_04;
@@ -5847,14 +5854,11 @@ s32 Camera_Unique2(Camera *camera) {
     }
     func_80043F34(camera, temp_s1, sp3C);
     camera->dist = OLib_Vec3fDist(temp_s1, sp3C);
-    camera->roll = (u16)0;
+    camera->roll = 0;
     camera->fov = Camera_LERPCeilF(uniq2->unk_08, camera->fov, 0.2f, 0.1f);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, 1.0f);
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Unique2.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Unique3.s")
 
