@@ -3366,7 +3366,7 @@ void func_80059EC8(Camera* camera) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->unk_162, 7);
 
         if ((camera->unk_162 == 0) && (camera->unk_168 != 0)) {
-            player->actor.freeze = 0;
+            player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
             if (player->action != 0) {

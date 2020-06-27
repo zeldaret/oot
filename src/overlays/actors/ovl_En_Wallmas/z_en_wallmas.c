@@ -539,7 +539,7 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 
         if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & 1) != 0 &&
-            (this->actor.freeze == 0)) {
+            (this->actor.freezeTimer == 0)) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
     }

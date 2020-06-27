@@ -215,7 +215,7 @@ typedef struct EffectSs {
     /* 0x28 */ void (*draw)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x2C */ Vec3f unk_2C;
     /* 0x38 */ u32 unk_38;
-    /* 0x3C */ u32 unk_3C;
+    /* 0x3C */ u32* unk_3C;
     /* 0x40 */ s16 regs[13]; // specific per effect
     /* 0x5A */ u16 flags;
     /* 0x5C */ s16 life; // -1 means this entry is free
@@ -269,5 +269,14 @@ typedef enum {
     /* 0x24 */ EFFECT_SS_ICE_SMOKE,
     /* 0x25 */ EFFECT_SS_TYPE_MAX // originally "EFFECT_SS2_TYPE_LAST_LABEL"
 } EffectSsType;
+
+//probably move somewhere else
+typedef struct {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ Vec3f velocity;
+    /* 0x18 */ Vec3f accel;
+    /* 0x24 */ s16 unk_24;
+    /* 0x28 */ UNK_PTR unk_28;
+} SearchBallInitParams;
 
 #endif

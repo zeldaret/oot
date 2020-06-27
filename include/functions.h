@@ -536,6 +536,7 @@ s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u3
 // ? func_8003E0FC(?);
 // ? func_8003E188(?);
 // ? func_8003E214(?);
+s32 func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius);
 // ? func_8003E398(?);
 // ? func_8003E3AC(?);
 // ? func_8003E4DC(?);
@@ -2525,7 +2526,7 @@ void func_80106CCC(GlobalContext*);
 // ? func_80109968(?);
 // ? func_80109B3C(?);
 // ? func_8010B0C0(?);
-void func_8010B680(GlobalContext*, u16, s32);
+void func_8010B680(GlobalContext*, u16 textID, Actor* actor);
 void func_8010B720(GlobalContext* globalCtx, u16 textId);
 // ? func_8010B820(?);
 // ? func_8010BD58(?);
