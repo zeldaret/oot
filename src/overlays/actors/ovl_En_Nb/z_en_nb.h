@@ -28,7 +28,7 @@ typedef struct EnNb {
     /* 0x02E4 */ Vec3f vec_2E4;
     /* 0x02F0 */ Vec3f vec_2F0;
     /* 0x02FC */ s16 unk_2FC;
-    /* 0x02FE */ char unk_2FE[0x2];
+    /* 0x02FE */ u16 unk_2FE;
     /* 0x0300 */ struct_80034A14_arg1 struct_300;
 } EnNb; // size = 0x0328
 
