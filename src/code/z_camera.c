@@ -4231,7 +4231,74 @@ s32 Camera_Battle3(Camera* camera) {
     Camera_NOP(camera);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Battle4.s")
+s32 Camera_Battle4(Camera *camera) {
+    Battle4* batt4 = &camera->params.batt4;
+    f32 temp_f2;
+    f32 temp_f0;
+    VecSph sp64;
+    VecSph sp5C;
+    VecSph sp54;
+    CameraModeValue* values;
+    Vec3f *sp34 = &camera->eye;
+    Vec3f *sp30 = &camera->at;
+    Vec3f *sp2C = &camera->eyeNext;
+    Battle4Anim* anim = &batt4->anim;
+    s32 pad;
+
+    temp_f0 = Player_GetCameraYOffset((Player *) camera->player);
+    if (RELOAD_PARAMS) {
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        temp_f2 = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / temp_f0));
+        batt4->unk_00 = (f32) ((NEXTPCT * temp_f0) * temp_f2);
+        batt4->unk_04 = (f32) ((NEXTPCT * temp_f0) * temp_f2);
+        batt4->unk_08 = DEGF_TO_BINANG(NEXTSETTING);
+        batt4->unk_0C = NEXTPCT;
+        batt4->unk_10 = NEXTSETTING;
+        batt4->unk_14 = NEXTPCT;
+        batt4->interfaceFlags = NEXTSETTING;
+    }
+
+    if (R_RELOAD_CAM_PARAMS){
+        Camera_CopyPREGToModeValues(camera);
+    }
+    
+    
+    OLib_Vec3fDiffToVecSphRot90(&sp5C, sp30, sp34);
+    OLib_Vec3fDiffToVecSphRot90(&sp54, sp30, sp2C);
+    sCameraInterfaceFlags = batt4->interfaceFlags;
+    switch(camera->animState){
+        case 0:
+        case 0xA:
+        case 0x14:
+            anim->animTimer = 50;
+            camera->animState++;
+    }
+
+    camera->thetaUpdateRateInv = Camera_LERPCeilF(batt4->unk_0C, camera->thetaUpdateRateInv, PCT(OREG(25)) * camera->unk_E0, 0.1f);
+    camera->rUpdateRateInv = 1000.0f;
+    camera->phiUpdateRateInv = 1000.0f;
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(0.025f, camera->xzOffsetUpdateRate, PCT(OREG(25)), 0.1f);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, PCT(OREG(26)) * camera->unk_E0, 0.1f);
+    camera->fovUpdateRate = 0.0001f;
+    func_800457A8(camera, &sp54, batt4->unk_00, 1);
+    if (anim->animTimer != 0) {
+        sp64.theta = sp5C.theta;
+        sp64.phi = sp5C.phi;
+        sp64.r = sp5C.r;
+        anim->animTimer--;
+    } else {
+        sp64.theta = sp5C.theta;
+        sp64.phi = Camera_LERPCeilS(batt4->unk_08, sp5C.phi, batt4->unk_0C, 2);
+        sp64.r = Camera_LERPCeilF(batt4->unk_04, sp5C.r, batt4->unk_0C, 0.001f);
+    }
+    Camera_Vec3fVecSphAdd(sp2C, sp30, &sp64);
+    *sp34 = *sp2C;
+    camera->dist = sp64.r;
+    camera->fov = Camera_LERPCeilF(batt4->unk_10, camera->fov, batt4->unk_0C, 1.0f);
+    camera->roll = 0;
+    camera->atLERPStepScale = Camera_ClampLERPScale(camera, batt4->unk_14);
+    return true;
+}
 
 s32 Camera_Battle0(Camera* camera) {
     return Camera_NOP(camera);
@@ -6123,7 +6190,7 @@ s32 Camera_Demo2(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 /**
  * Opening large chests. 
@@ -6821,7 +6888,7 @@ s32 Camera_Special7(Camera *camera) {
     return true;
 }
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 // Very close, minor regalloc around -sp64.x
 s32 Camera_Special6(Camera *camera) {
@@ -6923,7 +6990,7 @@ s32 Camera_Special8(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_Special9(Camera *camera) {
     DoorCamera* doorc = &camera->params.doorCam;

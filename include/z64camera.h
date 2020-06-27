@@ -594,6 +594,22 @@ typedef struct {
     Keep1_Unk34 unk_34;
 } KeepOn1;
 
+typedef struct {
+    /* 0x0000 */ s16 animTimer;
+} Battle4Anim; // size = 0x2
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ s16 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ s16 interfaceFlags;
+    /* 0x001A */ s16 unk_1A;
+    /* 0x001C */ Battle4Anim anim;
+} Battle4; // size = 0x20
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -633,6 +649,7 @@ typedef union {
     Demo9 demo9;
     Demo6 demo6;
     Demo3 demo3;
+    Battle4 batt4;
 } CameraParams;
 
 typedef struct {
