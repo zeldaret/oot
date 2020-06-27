@@ -261,7 +261,6 @@ void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CF0(?);
 // ? func_80029D5C(?);
 // ? func_80029DBC(?);
-// ? func_80029E24(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
                    s16 gravityInfluence, s16 u0, s16 rotSpeed, s16 burstVel, u8 u1, s16 scale, u8 u2, s16 jitter,
                    s32 duration, s16 u3, s16 objectId, u32 dList);

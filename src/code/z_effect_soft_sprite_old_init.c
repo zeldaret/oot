@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 
 // Draw utility for some G effects
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80027F80.s")
@@ -168,14 +169,14 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029DBC.s")
 
-func_80029E24(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, UNK_PTR arg5) {
-    SearchBallInitParams initParams;
+EffSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, s16* arg5) {
+    EffSsSolderSrchBallInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.unk_24 = arg4;
-    initParams.unk_28 = arg5;
+    initParams.seenLink = arg5;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_SOLDER_SRCH_BALL, 0x80, &initParams);
 }

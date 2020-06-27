@@ -19,14 +19,14 @@ void func_80A52290(EnHeishi1* this, GlobalContext* globalCtx);
 void func_80A51C4C(EnHeishi1* this, GlobalContext* globalCtx);
 void func_80A51D18(EnHeishi1* this, GlobalContext* globalCtx);
 
-void func_80A51A98(EnHeishi1* this, GlobalContext* globalCtx); // catch
+void func_80A51A98(EnHeishi1* this, GlobalContext* globalCtx);
 void func_80A51B54(EnHeishi1* this, GlobalContext* globalCtx);
 void func_80A51F50(EnHeishi1* this, GlobalContext* globalCtx);
 void func_80A51FEC(EnHeishi1* this, GlobalContext* globalCtx);
 void func_80A52098(EnHeishi1* this, GlobalContext* globalCtx);
 void func_80A5212C(EnHeishi1* this, GlobalContext* globalCtx);
 
-s32 sIsCaught = 0;
+s32 sIsCaught = false;
 
 const ActorInit En_Heishi1_InitVars = {
     ACTOR_PLAYER,
@@ -40,7 +40,7 @@ const ActorInit En_Heishi1_InitVars = {
     (ActorFunc)EnHeishi1_Draw,
 };
 
-f32 D_80A527C4[][8] = {
+f32 sAnimParamsInit[][8] = {
     { 1.0f, -10.0f, 3.0f, 0.5f, 1000.0f, 200.0f, 0.3f, 1000.0f },
     { 3.0f, -3.0f, 6.0f, 0.8f, 2000.0f, 400.0f, 0.5f, 2000.0f },
     { 1.0f, -10.0f, 3.0f, 0.5f, 1000.0f, 200.0f, 0.3f, 1000.0f },
@@ -49,7 +49,7 @@ f32 D_80A527C4[][8] = {
 
 s16 sHeadTimers[] = { 20, 10, 20, 10, 13, 0 };
 
-Vec3f D_80A52850[] = {
+Vec3f sRupeePositions[] = {
     { 0.0f, 0.0f, 90.0f },  { -55.0f, 0.0f, 90.0f }, { -55.0f, 0.0f, 30.0f }, { -55.0f, 0.0f, -30.0f },
     { 0.0f, 0.0f, -30.0f }, { 55.0f, 0.0f, -30.0f }, { 55.0f, 0.0f, 30.0f },  { 55.0f, 0.0f, 90.0f },
 };
@@ -64,7 +64,7 @@ Vec3f sSearchBallAccel = { 0.0f, 0.0f, 0.0f };
 
 Vec3f sSearchBallMult = { 0.0f, 0.0f, 20.0f };
 
-Vec3f D_80A52918 = { 0.3f, 0.3f, 0.3f };
+Vec3f sMatrixScale = { 0.3f, 0.3f, 0.3f };
 
 extern AnimationHeader D_06005880;
 extern AnimationHeader D_06005C30;
@@ -84,8 +84,8 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->type = (this->actor.params >> 8) & 0xFF;
     this->path = this->actor.params & 0xFF;
 
-    for (i = 0; i < ARRAY_COUNT(D_80A527C4[0]); i++) {
-        this->animParams[i] = D_80A527C4[this->type][i];
+    for (i = 0; i < ARRAY_COUNT(sAnimParamsInit[0]); i++) {
+        this->animParams[i] = sAnimParamsInit[this->type][i];
     }
 
     // "type"
@@ -116,8 +116,8 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
 
     if (this->path == 3) {
-        for (i = 0; i < ARRAY_COUNT(D_80A52850); i++) {
-            rupeePos = D_80A52850[i];
+        for (i = 0; i < ARRAY_COUNT(sRupeePositions); i++) {
+            rupeePos = sRupeePositions[i];
             Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY, rupeePos.x,
                                 rupeePos.y, rupeePos.z, 0, 0, 0, 3);
         }
@@ -435,7 +435,8 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pull();
-                        func_80029E24(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2, &this->seenLink);
+                        EffSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
+                                                  &this->seenLink);
 
                         if (this->actor.xzDistFromLink < 60.0f) {
                             this->seenLink = true;
@@ -467,8 +468,8 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// EnHeishi1_OverrideLimbDraw
-s32 func_80A5263C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               Actor* thisx) {
     EnHeishi1* this = THIS;
 
     if (limbIndex == 16) {
@@ -481,10 +482,11 @@ s32 func_80A5263C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnHeishi1* this = THIS;
-    Vec3f matrixScale = D_80A52918;
+    Vec3f matrixScale = sMatrixScale;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80A5263C, NULL, &this->actor);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi1_OverrideLimbDraw, NULL,
+                   &this->actor);
     func_80033C30(&this->actor.posRot.pos, &matrixScale, 0xFF, globalCtx);
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 100.0f, this->actor.posRot.pos.z,
