@@ -74,3 +74,27 @@ Bugs should be documented on the line above where the bug begins.
 SaveContext gSaveContext;
 ```
 In the case of functions, `@see` should come before the first `@param`.
+### HTML
+You can include html tags in your doc comments, however it is strongly advised against doing this if it greatly reduces readability of the code comments.
+```c
+/**
+ * My<br>
+ * Newline<br>
+ * Doc Comment
+ */
+```
+### LaTeX
+You can embed [LaTeX](https://wikipedia.org/wiki/LaTeX) in your doc comments if useful to do so.
+
+For inline rendering:
+```c
+/**
+ * \f$ \textrm{Your LaTeX Here} \f$
+ */
+```
+For centered rendering on a separate line:
+```c
+/**
+ * \f[ \textrm{Your LaTeX Here} \f]
+ */
+```
