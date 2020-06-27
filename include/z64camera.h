@@ -444,8 +444,8 @@ typedef struct {
     // This appears to be a VecSph, but theta and phi are swapped
     // for some reason.
     /* 0x0000 */ f32 r;
-    /* 0x0004 */ f32 theta;
-    /* 0x0006 */ f32 phi;
+    /* 0x0004 */ s16 theta;
+    /* 0x0006 */ s16 phi;
     /* 0x0008 */ s16 animTimer;
 } Subj3_Anim; // size = 0xA
 

@@ -5464,6 +5464,7 @@ s32 Camera_Subj2(Camera* camera) {
     return Camera_NOP(camera);
 }
 
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 /** 
  * First person view
@@ -5518,7 +5519,9 @@ s32 Camera_Subj3(Camera *camera) {
     sp98.y += subj3->eyeNextYOffset;
     Camera_Vec3fVecSphAdd(&sp8C, &sp98, &sp84);
     OLib_Vec3fDiffToVecSphRot90(&sp7C, temp_s1, sp38);
+
     sCameraInterfaceFlags = subj3->interfaceFlags;
+    
     if (((camera->animState == 0) || (camera->animState == 0xA)) || (camera->animState == 0x14)) {
         anim->r = sp7C.r;
         anim->theta = sp7C.theta;
@@ -5532,11 +5535,12 @@ s32 Camera_Subj3(Camera *camera) {
 
 
     if (anim->animTimer != 0) {
-        temp_s1->x += (sp98.x - temp_s1->x) * (1.0f / anim->animTimer);
-        temp_s1->y += (sp98.y - temp_s1->y) * (1.0f / anim->animTimer);
-        temp_s1->z += (sp98.z - temp_s1->z) * (1.0f / anim->animTimer);
-        sp50 = (s16)(anim->phi - sp84.phi) * (1.0f / R_DEFA_CAM_ANIM_TIME);
-        sp52 = ((s16)(anim->theta - sp84.theta)) * (1.0f / R_DEFA_CAM_ANIM_TIME);
+        temp_s1->x = F32_LERPIMP(temp_s1->x, sp98.x, 1.0f / anim->animTimer);
+        temp_s1->y = F32_LERPIMP(temp_s1->y, sp98.y, 1.0f / anim->animTimer);
+        temp_s1->z = F32_LERPIMP(temp_s1->z, sp98.z, 1.0f / anim->animTimer);
+
+        sp50 = BINANG_LERPIMP(sp84.phi, anim->phi, (1.0f / R_DEFA_CAM_ANIM_TIME));
+        sp52 = BINANG_LERPIMP(sp84.theta, anim->theta, (1.0f / R_DEFA_CAM_ANIM_TIME));
         sp7C.r = Camera_LERPCeilF(anim->animTimer * (anim->r - sp84.r) * (1.0f / R_DEFA_CAM_ANIM_TIME) + sp84.r, sp7C.r, PCT(OREG(28)), 1.0f);
         sp7C.theta = Camera_LERPCeilS(sp84.theta + (sp52 * anim->animTimer), sp7C.theta, PCT(OREG(28)), 0xA);
         sp7C.phi = Camera_LERPCeilS(sp84.phi + (sp50 * anim->animTimer), sp7C.phi, PCT(OREG(28)), 0xA);
@@ -5554,8 +5558,8 @@ s32 Camera_Subj3(Camera *camera) {
         sp98.x = subj3->atOffset.x;
         sp98.y = (subj3->atOffset.y * temp_f0_3) - (subj3->atOffset.z * sp58);
         sp98.z = (subj3->atOffset.y * sp58) + (subj3->atOffset.z * temp_f0_3);
-        sp58 = Math_Sins(sp60.rot.y - 0x7FFF);
-        temp_f0_3 = Math_Coss(sp60.rot.y - 0x7FFF);
+        sp58 = Math_Sins(BINANG_ROT180(sp60.rot.y));
+        temp_f0_3 = Math_Coss(BINANG_ROT180(sp60.rot.y));
         subj3->atOffset.x = (sp98.z * sp58) + (sp98.x * temp_f0_3);
         subj3->atOffset.y = sp98.y;
         subj3->atOffset.z = (sp98.z * temp_f0_3) - (subj3->atOffset.x * sp58);
@@ -5564,7 +5568,7 @@ s32 Camera_Subj3(Camera *camera) {
         temp_s1->z = subj3->atOffset.z + sp60.pos.z;
         sp7C.r = subj3->eyeNextDist;
         sp7C.phi = sp60.rot.x;
-        sp7C.theta = sp60.rot.y - 0x7FFF;        
+        sp7C.theta = BINANG_ROT180(sp60.rot.y);
         Camera_Vec3fVecSphAdd(sp30, temp_s1, &sp7C);
         sp7C.r = subj3->eyeDist;
         Camera_Vec3fVecSphAdd(sp38, temp_s1, &sp7C);
@@ -5580,6 +5584,7 @@ s32 Camera_Subj3(Camera *camera) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Subj3.s")
 #endif
+#undef NON_MATCHING
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Subj4.s")
 
@@ -6996,9 +7001,6 @@ s32 Camera_Special7(Camera *camera) {
     return true;
 }
 
-// Very close, minor regalloc around -sp64.x
-//#define NON_MATCHING
-#ifdef NON_MATCHING
 s32 Camera_Special6(Camera *camera) {
     s32 pad;
     Vec3f *at = &camera->at;
@@ -7083,16 +7085,12 @@ s32 Camera_Special6(Camera *camera) {
         *eye = sp94;
         eye->y = Camera_LERPCeilF(sp94.y, eye->y, 0.5f, 0.01f);
         spAC.r = 100.0f;
-        spAC.phi = -sceneCamRot.x;
         spAC.theta = sceneCamRot.y;
+        spAC.phi = -sceneCamRot.x;
         Camera_Vec3fVecSphAdd(at, eye, &spAC);
     }
     return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Special6.s")
-#endif
-#undef NON_MATCHING
 
 s32 Camera_Special8(Camera* camera) {
     return Camera_NOP(camera);
