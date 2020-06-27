@@ -14,7 +14,7 @@ venv/
 build/
 notes/
 baserom/
-doxygen/doxygen/
+docs/doxygen/
 *.elf
 *.sra
 *.z64
