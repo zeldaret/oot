@@ -3,7 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include "../ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
+#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
 struct EnInsect;
 
