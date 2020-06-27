@@ -1115,7 +1115,7 @@ void func_80AB34A8(EnNb* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-void func_80AB359C(EnNb *this) {
+void func_80AB359C(EnNb* this) {
     PosRot* posRot = &this->actor.posRot;
     Vec3f* vec_2E4 = &this->vec_2E4;
     Vec3f* vec_2F0 = &this->vec_2F0;
@@ -1131,10 +1131,9 @@ void func_80AB359C(EnNb *this) {
         posRot->pos.z = vec_2E4->z + (f0 * (vec_2F0->z - vec_2E4->z));
     }
 }
-#else 
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB359C.s")
 #endif
-
 
 void func_80AB3660(EnNb* this) {
     func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_NOTICE);
@@ -1358,33 +1357,36 @@ void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // same non-matching in func_800BC5E0
+// tried for horus on this one...couldn't figure it out
 void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
+    SkelAnime* skelAnime = &this->skelAnime;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80AB0F04(this, globalCtx);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060181C8, NULL, &this->limbDrawTable, &this->transitionDrawTable,
-                     19);
+    SkelAnime_InitSV(globalCtx, skelAnime, &D_060181C8, NULL, &this->limbDrawTable, &this->transitionDrawTable, 19);
+
     switch (func_80AB0DA0(this)) {
         case 2:
             func_80AB1A2C(this, globalCtx);
-            break;
+            return;
         case 3:
             func_80AB1FA4(this, globalCtx);
-            break;
+            return;
         case 4:
             func_80AB2484(this, globalCtx);
-            break;
+            return;
         case 5:
             func_80AB3150(this, globalCtx);
-            break;
+            return;
         case 6:
             func_80AB34A8(this, globalCtx);
-            break;
+            return;
         default:
-            func_80AB1530(this, globalCtx);
             break;
     }
+
+    func_80AB1530(this, globalCtx);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/EnNb_Init.s")
