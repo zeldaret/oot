@@ -1,6 +1,7 @@
 #include "z_eff_ss_solder_srch_ball.h"
 
-u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, EffSsSolderSrchBallInitParams* initParams);
+u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this,
+                             EffSsSolderSrchBallInitParams* initParams);
 void EffSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Solder_Srch_Ball_InitVars = {
@@ -9,7 +10,8 @@ EffectSsInit Effect_Ss_Solder_Srch_Ball_InitVars = {
 
 };
 
-u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, EffSsSolderSrchBallInitParams* initParams) {
+u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this,
+                             EffSsSolderSrchBallInitParams* initParams) {
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
