@@ -416,7 +416,7 @@ typedef struct {
 typedef struct {
     f32 unk_00;
     f32 unk_04;
-    s16 unk_08;
+    s16 interfaceFlags;
 } Unique3_UnkC;
 
 typedef struct {

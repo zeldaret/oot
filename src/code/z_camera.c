@@ -5860,7 +5860,111 @@ s32 Camera_Unique2(Camera *camera) {
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Unique3.s")
+s32 Camera_Unique3(Camera *camera) {
+    VecSph sp60;
+    f32 sp5C;
+    Unique3* uniq3 = &camera->params.uniq3;
+    CamPosData *temp_v0_2;
+    Vec3s sp4C;
+    Unique3_Unk18* unk18 = &uniq3->unk_18;
+    Unique3_UnkC* unkC = &uniq3->unk_0C;
+    Vec3f* at = &camera->at;
+    CameraModeValue *values;
+    PosRot* cameraPlayerPosRot = &camera->playerPosRot;
+    f32 t;
+
+    sp5C = Player_GetCameraYOffset(camera->player);
+    camera->unk_14C &= ~0x10;
+    if(RELOAD_PARAMS){
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        t = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / sp5C));
+        unkC->unk_00 = (NEXTPCT * sp5C) * t;
+        unkC->unk_04 = NEXTSETTING;
+        unkC->interfaceFlags = NEXTSETTING;
+    }
+    if (R_RELOAD_CAM_PARAMS != 0) {
+        Camera_CopyPREGToModeValues(camera);
+    }
+    sCameraInterfaceFlags = unkC->interfaceFlags;
+    switch(camera->animState){
+        case 0:
+            func_80043B60(camera);
+            camera->unk_14C &= ~(0x8 | 0x4);
+            unk18->unk_00 = camera->fov;
+            unk18->unk_04 = OLib_Vec3fDist(at, &camera->eye);
+            camera->animState++;
+        case 1:
+            if(uniq3->unk_06-- > 0){
+                break;
+            }
+            temp_v0_2 = func_8004476C(camera);
+            Camera_Vec3sToVec3f(&camera->eyeNext, &temp_v0_2->pos);
+            camera->eye = camera->eyeNext;
+            sp4C = temp_v0_2->rot;
+            sp60.r = 100.0f;
+            sp60.theta = sp4C.y;
+            sp60.phi = -sp4C.x;
+            Camera_Vec3fVecSphAdd(at, &camera->eye, &sp60);
+            camera->animState++;
+            
+        case 2:
+            if ((unkC->interfaceFlags & 4) != 0) {
+                camera->at = cameraPlayerPosRot->pos;
+                camera->at.y += sp5C + unkC->unk_00;
+            }
+            if(uniq3->unk_08-- > 0){
+                break;
+            }
+            camera->animState++;
+            
+        case 3:
+            camera->unk_14C |= (0x400 | 0x10);
+            if ((camera->unk_14C & 8) != 0) {
+                camera->animState++;
+            } else {
+                break;
+            }
+        case 4:
+            if ((unkC->interfaceFlags & 2) != 0) {
+                camera->unk_14C |= 4;
+                camera->unk_14C &= ~8;
+                Camera_ChangeSetting(camera, CAM_SET_CIRCLE3, 2);
+                break;
+            }
+            uniq3->unk_0A = 5;
+            if(camera->unk_D8 > 0.001f || CHECK_PAD(D_8015BD7C->state.input[0].press, A_BUTTON) ||
+                CHECK_PAD(D_8015BD7C->state.input[0].press, B_BUTTON) || CHECK_PAD(D_8015BD7C->state.input[0].press, L_CBUTTONS) ||
+                CHECK_PAD(D_8015BD7C->state.input[0].press, D_CBUTTONS) || CHECK_PAD(D_8015BD7C->state.input[0].press, U_CBUTTONS) ||
+                CHECK_PAD(D_8015BD7C->state.input[0].press, R_CBUTTONS) || CHECK_PAD(D_8015BD7C->state.input[0].press, R_TRIG) || 
+                CHECK_PAD(D_8015BD7C->state.input[0].press, Z_TRIG)){
+                camera->animState++;
+            } else {
+                break;
+            }
+        case 5:
+            camera->fov = Camera_LERPCeilF(uniq3->unk_18.unk_00, camera->fov, 0.4f, 0.1f);
+            OLib_Vec3fDiffToVecSphRot90(&sp60, at, &camera->eye);
+            sp60.r = Camera_LERPCeilF(100.0f, sp60.r, 0.4f, 0.1f);
+            Camera_Vec3fVecSphAdd(&camera->eyeNext, at, &sp60);
+            camera->eye = camera->eyeNext;
+            if(uniq3->unk_0A-- > 0){
+                break;
+            }
+            camera->animState++;
+        default:
+            camera->unk_14C |= 4;
+            camera->unk_14C &= ~8;
+            camera->fov = unkC->unk_04;
+            Camera_ChangeSetting(camera, camera->prevSetting, 2);
+            camera->atLERPStepScale = 0.0f;
+            camera->posOffset.x = camera->at.x - cameraPlayerPosRot->pos.x;
+            camera->posOffset.y = camera->at.y - cameraPlayerPosRot->pos.y;
+            camera->posOffset.z = camera->at.z - cameraPlayerPosRot->pos.z;
+            break;
+    }
+            
+    return true;
+}
 
 #ifdef NON_MATCHING
 s32 Camera_Unique0(Camera *camera) {
@@ -6892,9 +6996,9 @@ s32 Camera_Special7(Camera *camera) {
     return true;
 }
 
+// Very close, minor regalloc around -sp64.x
 //#define NON_MATCHING
 #ifdef NON_MATCHING
-// Very close, minor regalloc around -sp64.x
 s32 Camera_Special6(Camera *camera) {
     s32 pad;
     Vec3f *at = &camera->at;
@@ -6959,8 +7063,8 @@ s32 Camera_Special6(Camera *camera) {
         sp88 = sp94;
         sp88.y = Camera_LERPCeilF(sp94.y, eye->y, 0.5f, 0.01f);
         spAC.r = 100.0f;
-        spAC.phi = -sceneCamRot.x;
         spAC.theta = sceneCamRot.y;
+        spAC.phi = -sceneCamRot.x;
         Camera_Vec3fVecSphAdd(&sp7C, &sp88, &spAC);
         timerDivisor = 1.0f / timerF;
         eye->x += (sp88.x - eye->x) * timerDivisor;
