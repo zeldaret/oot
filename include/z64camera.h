@@ -53,6 +53,31 @@ typedef struct {
 } Demo9;
 
 typedef struct {
+    /* 0x0000 */ s16 animTimer;
+    /* 0x0004 */ Vec3f atTarget;
+} Demo6Anim; // size = 0x10
+
+typedef struct {
+    /* 0x0000 */ s16 interfaceFlags;
+    /* 0x0002 */ s16 unk_02;
+    /* 0x0004 */ Demo6Anim anim; 
+} Demo6; // size = 0x14
+
+typedef struct {
+    /* 0x0000 */ Vec3f initialAt;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ s16 animFrame;
+    /* 0x0012 */ s16 thetaDir;
+} Demo3Anim; // size = 0x14
+
+typedef struct {
+    /* 0x0000 */ f32 fov;
+    /* 0x0004 */ f32 unk_04; // unused
+    /* 0x0008 */ s16 interfaceFlags;
+    /* 0x000C */ Demo3Anim anim;
+} Demo3; // size = 0x20
+
+typedef struct {
     /* 0x0000 */ Vec3f unk_00;
     /* 0x000C */ s32 unk_0C;
     /* 0x0010 */ f32 unk_10;
@@ -416,16 +441,6 @@ typedef struct {
 } Unique7; // size = 0x10
 
 typedef struct {
-    s16 unk_04;
-} Demo6_Unk4;
-
-typedef struct {
-    s16 unk_00;
-    s16 unk_02;
-    Demo6_Unk4 unk_04;
-} Demo6;
-
-typedef struct {
     // This appears to be a VecSph, but theta and phi are swapped
     // for some reason.
     /* 0x0000 */ f32 r;
@@ -606,7 +621,6 @@ typedef union {
     Unique2 uniq2;
     Unique3 uniq3;
     Unique7 uniq7;
-    Demo6 demo6;
     Subj3 subj3;
     Subj4 subj4;
     Special5 spec5;
@@ -617,6 +631,8 @@ typedef union {
     Special6 spec6;
     Special7 spec7;
     Demo9 demo9;
+    Demo6 demo6;
+    Demo3 demo3;
 } CameraParams;
 
 typedef struct {
@@ -643,8 +659,8 @@ typedef struct {
     /* 0x00E4 */ Vec3f posOffset;
     /* 0x00F0 */ Vec3f playerPosDelta;
     /* 0x00FC */ f32 fov;
-    /* 0x0100 */ f32 atLERPStepScale; // update rate of distance from link?
-    /* 0x0104 */ f32 unk_104;
+    /* 0x0100 */ f32 atLERPStepScale;
+    /* 0x0104 */ f32 playerGroundY;
     /* 0x0108 */ Vec3f unk_108;
     /* 0x0114 */ f32 unk_114;
     /* 0x0118 */ s32 unk_118;

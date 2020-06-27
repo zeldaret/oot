@@ -6,7 +6,7 @@ glabel func_80A9DD50
 /* 00220 80A9DD60 000E7880 */  sll     $t7, $t6,  2               
 /* 00224 80A9DD64 00AFC021 */  addu    $t8, $a1, $t7              
 /* 00228 80A9DD68 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
-/* 0022C 80A9DD6C 0C016A7D */  jal     func_8005A9F4              
+/* 0022C 80A9DD6C 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00230 80A9DD70 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00234 80A9DD74 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 00238 80A9DD78 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000

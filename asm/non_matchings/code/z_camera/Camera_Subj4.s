@@ -95,7 +95,7 @@ glabel Camera_Subj4
 /* AC7E10 80050C70 A7AB0068 */  sh    $t3, 0x68($sp)
 /* AC7E14 80050C74 27A40098 */  addiu $a0, $sp, 0x98
 /* AC7E18 80050C78 02002825 */  move  $a1, $s0
-/* AC7E1C 80050C7C 0C01129D */  jal   func_80044A74
+/* AC7E1C 80050C7C 0C01129D */  jal   Camera_XZAngle
 /* AC7E20 80050C80 E7A60064 */   swc1  $f6, 0x64($sp)
 /* AC7E24 80050C84 26240094 */  addiu $a0, $s1, 0x94
 /* AC7E28 80050C88 A7A2006A */  sh    $v0, 0x6a($sp)

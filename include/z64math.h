@@ -67,6 +67,9 @@ typedef struct {
     s16 theta;  // azimuthal angle
 } VecSph;
 
+#define F32_LERPIMP(v0, v1, t) (v0 + ((v1 - v0) * t))
+#define BINANG_LERPIMP(v0, v1, t) (v0 + (s16)(BINANG_SUB(v1, v0) * t))
+
 /**
  * Trig macros
 */
@@ -75,6 +78,7 @@ typedef struct {
 #define DEGF_TO_RADF(degf) (degf * (M_PI / 180.0f))
 #define BINANG_ROT180(angle) ((s16)(angle - 0x7FFF))
 #define BINANG_SUB(a, b) ((s16)(a - b))
+#define BINANG_ADD(a, b) ((s16)(a + b))
 #define DEG_TO_RAD(degrees) (degrees * (M_PI / 180.0f))
 #define BINANG_TO_DEGF(binang) ((f32)binang * (360.0001525f / 65535.0f))
 

@@ -29,7 +29,7 @@ glabel func_80840058
 .L808400C0:
 /* 0DEB0 808400C0 0018C880 */  sll     $t9, $t8,  2               
 /* 0DEB4 808400C4 00F94021 */  addu    $t0, $a3, $t9              
-/* 0DEB8 808400C8 0C016A52 */  jal     func_8005A948              
+/* 0DEB8 808400C8 0C016A52 */  jal     Camera_GetDirYaw              
 /* 0DEBC 808400CC 8D040790 */  lw      $a0, 0x0790($t0)           ## 00000790
 /* 0DEC0 808400D0 8FA90020 */  lw      $t1, 0x0020($sp)           
 /* 0DEC4 808400D4 8FAE0018 */  lw      $t6, 0x0018($sp)           

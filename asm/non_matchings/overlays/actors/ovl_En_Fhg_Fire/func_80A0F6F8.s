@@ -34,7 +34,7 @@ glabel func_80A0F6F8
 /* 00500 80A0F760 100000BF */  beq     $zero, $zero, .L80A0FA60   
 /* 00504 80A0F764 A62F0150 */  sh      $t7, 0x0150($s1)           ## 00000150
 .L80A0F768:
-/* 00508 80A0F768 0C016A52 */  jal     func_8005A948              
+/* 00508 80A0F768 0C016A52 */  jal     Camera_GetDirYaw              
 /* 0050C 80A0F76C 00000000 */  nop
 /* 00510 80A0F770 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00514 80A0F774 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00
@@ -147,7 +147,7 @@ glabel func_80A0F6F8
 /* 006A4 80A0F904 10000057 */  beq     $zero, $zero, .L80A0FA64   
 /* 006A8 80A0F908 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80A0F90C:
-/* 006AC 80A0F90C 0C016A52 */  jal     func_8005A948              
+/* 006AC 80A0F90C 0C016A52 */  jal     Camera_GetDirYaw              
 /* 006B0 80A0F910 00000000 */  nop
 /* 006B4 80A0F914 86380156 */  lh      $t8, 0x0156($s1)           ## 00000156
 /* 006B8 80A0F918 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

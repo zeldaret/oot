@@ -166,7 +166,7 @@ glabel ObjSyokudai_Draw
 /* 00A58 80B9FD08 864F07A0 */  lh      $t7, 0x07A0($s2)           ## 000007A0
 /* 00A5C 80B9FD0C 000FC080 */  sll     $t8, $t7,  2               
 /* 00A60 80B9FD10 0258C821 */  addu    $t9, $s2, $t8              
-/* 00A64 80B9FD14 0C016A7D */  jal     func_8005A9F4              
+/* 00A64 80B9FD14 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00A68 80B9FD18 8F240790 */  lw      $a0, 0x0790($t9)           ## 00000790
 /* 00A6C 80B9FD1C 862800B6 */  lh      $t0, 0x00B6($s1)           ## 000000B6
 /* 00A70 80B9FD20 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000

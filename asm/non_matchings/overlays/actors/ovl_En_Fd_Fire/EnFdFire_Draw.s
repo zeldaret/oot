@@ -89,7 +89,7 @@ glabel EnFdFire_Draw
 /* 00814 80A0ECC4 862A07A0 */  lh      $t2, 0x07A0($s1)           ## 000007A0
 /* 00818 80A0ECC8 000A5880 */  sll     $t3, $t2,  2               
 /* 0081C 80A0ECCC 022B6021 */  addu    $t4, $s1, $t3              
-/* 00820 80A0ECD0 0C016A7D */  jal     func_8005A9F4              
+/* 00820 80A0ECD0 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00824 80A0ECD4 8D840790 */  lw      $a0, 0x0790($t4)           ## 00000790
 /* 00828 80A0ECD8 87AD0052 */  lh      $t5, 0x0052($sp)           
 /* 0082C 80A0ECDC 01A21823 */  subu    $v1, $t5, $v0              
@@ -116,7 +116,7 @@ glabel EnFdFire_Draw
 /* 00874 80A0ED24 862E07A0 */  lh      $t6, 0x07A0($s1)           ## 000007A0
 /* 00878 80A0ED28 000E7880 */  sll     $t7, $t6,  2               
 /* 0087C 80A0ED2C 022FC021 */  addu    $t8, $s1, $t7              
-/* 00880 80A0ED30 0C016A7D */  jal     func_8005A9F4              
+/* 00880 80A0ED30 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00884 80A0ED34 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
 /* 00888 80A0ED38 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 0088C 80A0ED3C 0041C821 */  addu    $t9, $v0, $at              

@@ -175,7 +175,7 @@ glabel EnLight_Draw
 /* 00BC4 80A9E704 844C07A0 */  lh      $t4, 0x07A0($v0)           ## 000007A0
 /* 00BC8 80A9E708 000C5080 */  sll     $t2, $t4,  2               
 /* 00BCC 80A9E70C 004A5821 */  addu    $t3, $v0, $t2              
-/* 00BD0 80A9E710 0C016A7D */  jal     func_8005A9F4              
+/* 00BD0 80A9E710 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00BD4 80A9E714 8D640790 */  lw      $a0, 0x0790($t3)           ## 00000798
 /* 00BD8 80A9E718 8FAD0090 */  lw      $t5, 0x0090($sp)           
 /* 00BDC 80A9E71C 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000

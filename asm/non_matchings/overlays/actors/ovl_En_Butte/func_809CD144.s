@@ -66,7 +66,7 @@ glabel func_809CD144
 /* 00164 809CD1D4 845907A0 */  lh      $t9, 0x07A0($v0)           ## 000007A0
 /* 00168 809CD1D8 00194080 */  sll     $t0, $t9,  2               
 /* 0016C 809CD1DC 00484821 */  addu    $t1, $v0, $t0              
-/* 00170 809CD1E0 0C016A5C */  jal     func_8005A970              
+/* 00170 809CD1E0 0C016A5C */  jal     Camera_GetRealDir              
 /* 00174 809CD1E4 8D250790 */  lw      $a1, 0x0790($t1)           ## 00000790
 /* 00178 809CD1E8 87AA0052 */  lh      $t2, 0x0052($sp)           
 /* 0017C 809CD1EC 3C01809D */  lui     $at, %hi(D_809CE480)       ## $at = 809D0000

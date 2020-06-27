@@ -316,7 +316,7 @@ glabel BgPoSyokudai_Draw
 /* 007C4 808A8874 863907A0 */  lh      $t9, 0x07A0($s1)           ## 000007A0
 /* 007C8 808A8878 0019C080 */  sll     $t8, $t9,  2               
 /* 007CC 808A887C 02384821 */  addu    $t1, $s1, $t8              
-/* 007D0 808A8880 0C016A7D */  jal     func_8005A9F4              
+/* 007D0 808A8880 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 007D4 808A8884 8D240790 */  lw      $a0, 0x0790($t1)           ## 00000790
 /* 007D8 808A8888 8FAC0090 */  lw      $t4, 0x0090($sp)           
 /* 007DC 808A888C 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000

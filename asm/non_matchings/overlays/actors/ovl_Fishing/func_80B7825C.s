@@ -1994,7 +1994,7 @@ glabel L80B7955C
 /* 103BC 80B79D5C 44815000 */  mtc1    $at, $f10                  ## $f10 = 1.00
 /* 103C0 80B79D60 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 103C4 80B79D64 E7A40058 */  swc1    $f4, 0x0058($sp)           
-/* 103C8 80B79D68 0C016A52 */  jal     func_8005A948              
+/* 103C8 80B79D68 0C016A52 */  jal     Camera_GetDirYaw              
 /* 103CC 80B79D6C E7AA005C */  swc1    $f10, 0x005C($sp)          
 /* 103D0 80B79D70 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
 /* 103D4 80B79D74 3C0180B8 */  lui     $at, %hi(D_80B7B8DC)       ## $at = 80B80000

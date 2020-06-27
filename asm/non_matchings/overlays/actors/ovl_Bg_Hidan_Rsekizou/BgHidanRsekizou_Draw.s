@@ -65,7 +65,7 @@ glabel BgHidanRsekizou_Draw
 /* 00900 8088CB00 86A907A0 */  lh      $t1, 0x07A0($s5)           ## 000007A0
 /* 00904 8088CB04 00095080 */  sll     $t2, $t1,  2               
 /* 00908 8088CB08 02AA5821 */  addu    $t3, $s5, $t2              
-/* 0090C 8088CB0C 0C016A7D */  jal     func_8005A9F4              
+/* 0090C 8088CB0C 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00910 8088CB10 8D640790 */  lw      $a0, 0x0790($t3)           ## 00000790
 /* 00914 8088CB14 868C00B6 */  lh      $t4, 0x00B6($s4)           ## 000000B6
 /* 00918 8088CB18 24100003 */  addiu   $s0, $zero, 0x0003         ## $s0 = 00000003

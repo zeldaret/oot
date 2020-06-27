@@ -790,7 +790,7 @@ glabel L8004EB20
 /* AC602C 8004EE8C 46022200 */  add.s $f8, $f4, $f2
 /* AC6030 8004EE90 4600428D */  trunc.w.s $f10, $f8
 /* AC6034 8004EE94 440A5000 */  mfc1  $t2, $f10
-/* AC6038 8004EE98 0C01129D */  jal   func_80044A74
+/* AC6038 8004EE98 0C01129D */  jal   Camera_XZAngle
 /* AC603C 8004EE9C A7AA00A2 */   sh    $t2, 0xa2($sp)
 /* AC6040 8004EEA0 87AB00AE */  lh    $t3, 0xae($sp)
 /* AC6044 8004EEA4 3C018014 */  lui   $at, %hi(D_8013A154)

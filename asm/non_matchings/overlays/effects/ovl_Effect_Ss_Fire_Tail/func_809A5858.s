@@ -54,7 +54,7 @@ glabel func_809A5858
 /* 001E4 809A5924 862907A0 */  lh      $t1, 0x07A0($s1)           ## 000007A0
 /* 001E8 809A5928 00095080 */  sll     $t2, $t1,  2               
 /* 001EC 809A592C 022A5821 */  addu    $t3, $s1, $t2              
-/* 001F0 809A5930 0C016A7D */  jal     func_8005A9F4              
+/* 001F0 809A5930 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 001F4 809A5934 8D640790 */  lw      $a0, 0x0790($t3)           ## 00000790
 /* 001F8 809A5938 00022400 */  sll     $a0, $v0, 16               
 /* 001FC 809A593C 0C01DE1C */  jal     Math_Sins
@@ -78,7 +78,7 @@ glabel func_809A5858
 /* 00240 809A5980 000FC080 */  sll     $t8, $t7,  2               
 /* 00244 809A5984 0238C821 */  addu    $t9, $s1, $t8              
 /* 00248 809A5988 8F240790 */  lw      $a0, 0x0790($t9)           ## 00000790
-/* 0024C 809A598C 0C016A7D */  jal     func_8005A9F4              
+/* 0024C 809A598C 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00250 809A5990 AFA30054 */  sw      $v1, 0x0054($sp)           
 /* 00254 809A5994 00022400 */  sll     $a0, $v0, 16               
 /* 00258 809A5998 0C01DE0D */  jal     Math_Coss
@@ -115,7 +115,7 @@ glabel func_809A5858
 /* 002C4 809A5A04 862907A0 */  lh      $t1, 0x07A0($s1)           ## 000007A0
 /* 002C8 809A5A08 00095080 */  sll     $t2, $t1,  2               
 /* 002CC 809A5A0C 022A5821 */  addu    $t3, $s1, $t2              
-/* 002D0 809A5A10 0C016A7D */  jal     func_8005A9F4              
+/* 002D0 809A5A10 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 002D4 809A5A14 8D640790 */  lw      $a0, 0x0790($t3)           ## 00000790
 /* 002D8 809A5A18 87AD005E */  lh      $t5, 0x005E($sp)           
 /* 002DC 809A5A1C 01A21823 */  subu    $v1, $t5, $v0              
@@ -146,7 +146,7 @@ glabel func_809A5858
 /* 00334 809A5A74 862E07A0 */  lh      $t6, 0x07A0($s1)           ## 000007A0
 /* 00338 809A5A78 000E7880 */  sll     $t7, $t6,  2               
 /* 0033C 809A5A7C 022FC021 */  addu    $t8, $s1, $t7              
-/* 00340 809A5A80 0C016A7D */  jal     func_8005A9F4              
+/* 00340 809A5A80 0C016A7D */  jal     Camera_GetRealDirYaw              
 /* 00344 809A5A84 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
 /* 00348 809A5A88 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 0034C 809A5A8C 0041C821 */  addu    $t9, $v0, $at              
