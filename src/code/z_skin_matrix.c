@@ -21,7 +21,25 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7894.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7A24.s")
+// SkinMatrix_Translate 
+void func_800A7A24(MtxF* mf, float dx, float dy, float dz) {
+    mf->xy = 0.0f;
+    mf->xz = 0.0f;
+    mf->xw = 0.0f;
+    mf->yx = 0.0f;
+    mf->yz = 0.0f;
+    mf->yw = 0.0f;
+    mf->zx = 0.0f;
+    mf->zy = 0.0f;
+    mf->zw = 0.0f;
+    mf->xx = 1.0f;
+    mf->yy = 1.0f;
+    mf->zz = 1.0f;
+    mf->ww = 1.0f;
+    mf->wx = dx;
+    mf->wy = dy;
+    mf->wz = dz;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7A84.s")
 
