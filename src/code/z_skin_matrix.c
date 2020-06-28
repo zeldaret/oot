@@ -1,7 +1,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A6E10.s")
+// SkinMatrix_Vec3fMtxFMult
+void func_800A6E10(MtxF* mf, Vec3f* src, Vec3f* dest, f32* destw) {
+    dest->x = mf->wx + ((src->x * mf->xx) + (src->y * mf->yx) + (src->z * mf->zx));
+    dest->y = mf->wy + ((src->x * mf->xy) + (src->y * mf->yy) + (src->z * mf->zy));
+    dest->z = mf->wz + ((src->x * mf->xz) + (src->y * mf->yz) + (src->z * mf->zz));
+    *destw = mf->ww + ((src->x * mf->xw) + (src->y * mf->yw) + (src->z * mf->zw));
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A6EF4.s")
 
@@ -17,7 +23,7 @@
 
 // SkinMatrix_Scale
 // (output matrix scales x,y,z components of vector or x,y,z columns of matrix if applied on RHS)
-void func_800A76A4(MtxF *mf, float xScale, float yScale, float zScale) {
+void func_800A76A4(MtxF* mf, f32 xScale, f32 yScale, f32 zScale) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
     mf->xw = 0.0f;
@@ -41,7 +47,7 @@ void func_800A76A4(MtxF *mf, float xScale, float yScale, float zScale) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7894.s")
 
 // SkinMatrix_Translate 
-void func_800A7A24(MtxF* mf, float dx, float dy, float dz) {
+void func_800A7A24(MtxF* mf, f32 dx, f32 dy, f32 dz) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
     mf->xw = 0.0f;
