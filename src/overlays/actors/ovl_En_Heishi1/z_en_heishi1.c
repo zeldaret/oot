@@ -54,11 +54,11 @@ Vec3f sRupeePositions[] = {
     { 0.0f, 0.0f, -30.0f }, { 55.0f, 0.0f, -30.0f }, { 55.0f, 0.0f, 30.0f },  { 55.0f, 0.0f, 90.0f },
 };
 
-s32 D_80A528B0[] = {
+s32 sCamDataIdxs[] = {
     7, 7, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 4, 4, 5, 6,
 };
 
-s16 D_80A528F0[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
+s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
 Vec3f sSearchBallAccel = { 0.0f, 0.0f, 0.0f };
 
@@ -287,13 +287,13 @@ void func_80A51D18(EnHeishi1* this, GlobalContext* globalCtx) {
                                 this->waypoint = 0;
                             }
                         } else {
-                            for (i = 0; i < ARRAY_COUNT(D_80A528F0); i++) {
-                                if (this->waypoint == D_80A528F0[i]) {
+                            for (i = 0; i < ARRAY_COUNT(sWaypoints); i++) {
+                                if (this->waypoint == sWaypoints[i]) {
                                     i++;
-                                    if (i >= ARRAY_COUNT(D_80A528F0)) {
+                                    if (i >= ARRAY_COUNT(sWaypoints)) {
                                         i = 0;
                                     }
-                                    this->waypoint = D_80A528F0[i];
+                                    this->waypoint = sWaypoints[i];
                                     break;
                                 }
                             }
@@ -350,7 +350,7 @@ void func_80A52098(EnHeishi1* this, GlobalContext* globalCtx) {
 void func_80A5212C(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (!this->loadStarted) {
-        // if dialog state is 5 and player has advanced the textbox
+        // if dialog state is 5 and textbox has been advanced, kick player out
         if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx))) {
             func_80106CCC(globalCtx);
             if (!this->loadStarted) {
@@ -422,7 +422,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->type != 5) {
             path = this->path * 2;
-            if ((D_80A528B0[path] == activeCam->unk_148) || (D_80A528B0[path + 1] == activeCam->unk_148)) {
+            if ((sCamDataIdxs[path] == activeCam->unk_148) || (sCamDataIdxs[path + 1] == activeCam->unk_148)) {
                 if (!sIsCaught) {
                     if ((this->actionFunc == func_80A516E4) || (this->actionFunc == func_80A51D18)) {
                         searchBallAccel = sSearchBallAccel;
