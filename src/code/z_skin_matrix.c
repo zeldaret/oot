@@ -15,7 +15,26 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A73E0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A76A4.s")
+// SkinMatrix_Scale
+// (output matrix scales x,y,z components of vector or x,y,z columns of matrix if applied on RHS)
+void func_800A76A4(MtxF *mf, float xScale, float yScale, float zScale) {
+    mf->xy = 0.0f;
+    mf->xz = 0.0f;
+    mf->xw = 0.0f;
+    mf->yx = 0.0f;
+    mf->yz = 0.0f;
+    mf->yw = 0.0f;
+    mf->zx = 0.0f;
+    mf->zy = 0.0f;
+    mf->zw = 0.0f;
+    mf->wx = 0.0f;
+    mf->wy = 0.0f;
+    mf->wz = 0.0f;
+    mf->ww = 1.0f;
+    mf->xx = xScale;
+    mf->yy = yScale;
+    mf->zz = zScale;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7704.s")
 
