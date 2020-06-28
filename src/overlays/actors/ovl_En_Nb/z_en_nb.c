@@ -99,8 +99,8 @@ extern AnimationHeader* D_06004BB4;
 extern AnimationHeader* D_06006E78;
 extern AnimationHeader* D_06004E60;
 extern AnimationHeader* D_06004BB4;
+extern AnimationHeader* D_06009238;
 extern Gfx D_06013158;
-
 
 ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
@@ -1201,7 +1201,28 @@ s32 func_80AB3684(EnNb* this, GlobalContext* globalCtx) {
     return 0;
 }
 
+#ifdef NON_MATCHING
+// regalloc
+s32 func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
+
+    s16 newTemp;
+    u16 temp = kREG(17) + 0x19;
+    if (this->unk_2FE < (u16)(temp - 4)) {
+        newTemp = 4 - this->unk_2FE;
+        if (newTemp > 0) {
+            return Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_2FC, newTemp, 0x1838, 0x64);
+        }
+    } else {
+        newTemp = temp - this->unk_2FE;
+        if (newTemp > 0) {
+            return Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, newTemp, 0x1838,
+                                           0x64);
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB36DC.s")
+#endif
 
 void func_80AB378C(EnNb* this, GlobalContext* globalCtx) {
     if (func_80AB3684(this, globalCtx) != 0) {
@@ -1301,7 +1322,17 @@ void func_80AB3914(EnNb* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB3A7C.s")
+void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
+    u16 unk_2FE = this->unk_2FE;
+    if ((((kREG(17) + 0x19) & 0xFFFF) > unk_2FE)) {
+        if (arg2 != 0) {
+            func_80AB14A0(this, &D_06009238, 0, 0.0f, 0);
+        }
+    } else {
+        func_80AB14A0(this, &D_06004BB4, 0, -8.0f, 0);
+        this->action = 29;
+    }
+}
 
 void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
     u16 maskReaction;
@@ -1404,9 +1435,6 @@ void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// same non-matching in func_800BC5E0
-// tried for horus on this one...couldn't figure it out
 void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
     SkelAnime* skelAnime = &this->skelAnime;
@@ -1418,30 +1446,46 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (func_80AB0DA0(this)) {
         case 2:
             func_80AB1A2C(this, globalCtx);
-            return;
+            break;
         case 3:
             func_80AB1FA4(this, globalCtx);
-            return;
+            break;
         case 4:
             func_80AB2484(this, globalCtx);
-            return;
+            break;
         case 5:
             func_80AB3150(this, globalCtx);
-            return;
+            break;
         case 6:
             func_80AB34A8(this, globalCtx);
-            return;
+            break;
         default:
+            func_80AB1530(this, globalCtx);
             break;
     }
-
-    func_80AB1530(this, globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/EnNb_Init.s")
-#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB3FE8.s")
+s32 func_80AB3FE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnNb* this = THIS;
+    struct_80034A14_arg1* struct_300 = &this->struct_300;
+
+    s32 ret = 0;
+    if (this->unk_2E0 != 0) {
+
+        if (limbIndex == 8) {
+            rot->x += struct_300->unk_0E.y;
+            rot->y -= struct_300->unk_0E.x;
+            ret = 0;
+        }
+
+        else if (limbIndex == 15) {
+            rot->x += struct_300->unk_08.y;
+            rot->z += struct_300->unk_08.x;
+            ret = 0;
+        }
+    }
+    return ret;
+}
 
 void EnNb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     EnNb* this = THIS;
