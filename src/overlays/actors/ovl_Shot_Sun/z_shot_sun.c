@@ -58,7 +58,15 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/ShotSun_Destroy.s")
+void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    ShotSun* this = THIS;
+    s32 temp_v0;
+
+    temp_v0 = this->actor.params & 0xFF;
+    if (!(temp_v0 == 0x40 || temp_v0 == 0x41)) {
+        Collider_DestroyCylinder(globalCtx, &this->collider);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BADDCC.s")
 
