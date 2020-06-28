@@ -1156,13 +1156,13 @@ typedef struct {
 } TitleContext; // size = 0x1E8
 
 typedef struct {
-    s8 unk_0[128];
+    u32 unk_0[0x20];
 } KanFont_unk3C88; // size = 0x80
 
 typedef struct {
     /* 0x0000 */ s32 unk_0[0xF22];
-    /* 0x3C88 */ KanFont_unk3C88 unk_3C88[1];
-    /* 0x3D08 */ s32 unk_3D08[0x2920];
+    /* 0x3C88 */ u32 unk_3C88[64][32];
+    /* 0x5C88 */ s32 unk_3D08[0x2140];
 } KanFont; // size = 0xE188
 
 typedef struct {
@@ -1184,7 +1184,9 @@ typedef struct {
     /* 0x1C9F0 */ Vtx_t* allocVtx4;
     /* 0x1C9F4 */ u8 n64ddFlag;
     /* 0x1C9F5 */ char unk_1C9F5;
-    /* 0x1C9F6 */ u16 unk_1C9F6[3];
+    /* 0x1C9F6 */ u16 unk_1C9F6[2];
+    /* 0x1C9FA */ u8 unk_1C9FA;
+    /* 0x1C9FB */ u8 unk_1C9FB;
     /* 0x1C9FC */ u8 fileNames[3][8];
     /* 0x1CA14 */ u16 healthCapacities[3];
     /* 0x1CA1A */ u16 pad_1CA1A;
@@ -1246,12 +1248,12 @@ typedef struct {
     /* 0x1CAB8 */ s16 idxYOff;
     /* 0x1CABA */ s16 stickX;
     /* 0x1CABC */ s16 stickY;
-    /* 0x1CABE */ u16 newFileNameBoxX;
+    /* 0x1CABE */ s16 newFileNameBoxX;
     /* 0x1CAC0 */ s16 windowX;
     /* 0x1CAC4 */ float windowRotX;
-    /* 0x1CAC8 */ u16 kbdButtonIdx;
-    /* 0x1CACA */ u16 unk_1CACA;
-    /* 0x1CACC */ u16 kbdCharBoxA;
+    /* 0x1CAC8 */ s16 kbdButtonIdx;
+    /* 0x1CACA */ s16 unk_1CACA;
+    /* 0x1CACC */ s16 kbdCharBoxA;
     /* 0x1CACE */ s16 kbdCharIdx;
     /* 0x1CAD0 */ s16 kbdCharX;
     /* 0x1CAD2 */ s16 kbdCharY;

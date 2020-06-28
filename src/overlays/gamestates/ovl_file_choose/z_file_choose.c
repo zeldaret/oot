@@ -550,7 +550,7 @@ void func_8080D8CC(FileChooseContext* this, s16 fileSlot, s16 arg2) {
         gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, D_808128C8[arg2][0], D_808128C8[arg2][1], D_808128C8[arg2][2], this->fileNamesA[fileSlot]);
 
         for (i = 0, j = 0; i < 32; i += 4, j++) {
-            func_80806DB0(this->state.gfxCtx, &kanfont->unk_3C88[this->fileNames[fileSlot][j]], i);
+            func_80806DB0(this->state.gfxCtx, kanfont->unk_3C88[this->fileNames[fileSlot][j]], i);
         }
     }
 
@@ -563,7 +563,7 @@ void func_8080D8CC(FileChooseContext* this, s16 fileSlot, s16 arg2) {
         func_8080B394(this->unk_1C9F6[fileSlot], &spD8[0], &spD8[1], &spD8[2]);
 
         for (i = 0, j = 0; i < 3; i++, j += 4) {
-            func_80806DB0(this->state.gfxCtx, &kanfont->unk_3C88[spD8[i]], i);
+            func_80806DB0(this->state.gfxCtx, kanfont->unk_3C88[spD8[i]], i);
         }
 
         gDPPipeSync(gfxCtx->polyOpa.p++);
