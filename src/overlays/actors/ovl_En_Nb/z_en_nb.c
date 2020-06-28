@@ -26,6 +26,7 @@ void func_80AB1878(EnNb* this, GlobalContext* globalCtx);
 void func_80AB18C4(EnNb* this, GlobalContext* globalCtx);
 void func_80AB18E4(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1904(EnNb* this, GlobalContext* globalCtx);
+void func_80AB193C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB197C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB19BC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB19FC(EnNb* this, GlobalContext* globalCtx);
@@ -49,12 +50,33 @@ void func_80AB23A8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB23D8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB242C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2484(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2BF8(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2C18(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2C60(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2D38(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2D9C(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2E1C(EnNb* this, GlobalContext* globalCtx);
+void func_80AB33C0(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3BC8(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3C1C(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3CD4(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3D34(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3E10(EnNb* this, GlobalContext* globalCtx);
 s32 func_80AB3FE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+void func_80AB4100(EnNb* this, GlobalContext* globalCtx);
+void func_80AB410C(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2CCC(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2E70(EnNb* this, GlobalContext* globalCtx);
+void func_80AB2FE4(EnNb* this, GlobalContext* globalCtx);
 void func_80AB285C(EnNb* this);
+void func_80AB33E0(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3428(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3468(EnNb* this, GlobalContext* globalCtx);
 void func_80AB34A8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB359C(EnNb* this);
+void func_80AB3C74(EnNb* this, GlobalContext* globalCtx);
+void func_80AB3DB0(EnNb* this, GlobalContext* globalCtx);
 
-extern ColliderCylinderInit_Set3 D_80AB42E0;
 extern SkeletonHeader D_060181C8;
 extern AnimationHeader* D_06009694;
 extern AnimationHeader* D_0600274C;
@@ -78,23 +100,50 @@ extern AnimationHeader* D_06006E78;
 extern AnimationHeader* D_06004E60;
 extern AnimationHeader* D_06004BB4;
 extern Gfx D_06013158;
-extern CutsceneData D_80AB431C[];
-extern UNK_TYPE D_80AB4318;
-extern UNK_PTR D_80AB430C[];
-extern Vec3f D_80AB4F48;
-extern EnNbActionFunc D_80AB4ECC[];
-extern EnNbDrawFunc D_80AB4F54[];
 
-/*
+
+ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 25, 80, 0, { 0, 0, 0 } },
+};
+
+UNK_PTR D_80AB430C[] = {
+    0x0600B428,
+    0x0600D0E8,
+    0x0600D4E8,
+};
+
+UNK_TYPE D_80AB4318 = 0;
+
+#include "z_en_nb_cutscene_data.c" EARLY
+
+EnNbActionFunc D_80AB4ECC[] = {
+    func_80AB18C4, func_80AB18E4, func_80AB1904, func_80AB193C, func_80AB197C, func_80AB19BC, func_80AB19FC,
+    func_80AB1D54, func_80AB1D84, func_80AB1DD8, func_80AB23A8, func_80AB23D8, func_80AB242C, func_80AB2BF8,
+    func_80AB2C18, func_80AB2C60, func_80AB2CCC, func_80AB2D38, func_80AB2D9C, func_80AB2E1C, func_80AB33C0,
+    func_80AB33E0, func_80AB3428, func_80AB3468, func_80AB3BC8, func_80AB3C1C, func_80AB3C74, func_80AB3CD4,
+    func_80AB3D34, func_80AB3DB0, func_80AB3E10,
+};
+
+Vec3f D_80AB4F48 = { 0.0f, 10.0f, 0.0f };
+
+EnNbDrawFunc D_80AB4F54[] = {
+    func_80AB4100, func_80AB410C, func_80AB1E2C, func_80AB2E70, func_80AB2FE4,
+};
+
 const ActorInit En_Nb_InitVars = {
     ACTOR_EN_NB,
     ACTORTYPE_NPC,
     FLAGS,
     OBJECT_NB,
     sizeof(EnNb),
-    (ActorFunc)&this->actorctorFunc)EnNb_Draw,
+    (ActorFunc)EnNb_Init,
+    (ActorFunc)EnNb_Destroy,
+    (ActorFunc)EnNb_Update,
+    (ActorFunc)EnNb_Draw,
 };
-*/
+
 s32 func_80AB0D90(EnNb* this) {
     s32 paramsShifted = this->actor.params >> 8;
     return paramsShifted & 0xFF;
@@ -135,7 +184,7 @@ void func_80AB0F04(EnNb* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Collider_InitCylinder(globalCtx, &this->collider);
     if (!thisx) {} // required to match
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &D_80AB42E0);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &sCylinderInit);
 }
 
 void func_80AB0F50(EnNb* this, GlobalContext* globalCtx) {

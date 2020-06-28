@@ -38,14 +38,14 @@ const ActorInit En_Zl1_InitVars = {
     (ActorFunc)EnZl1_Draw,
 };
 
-ColliderCylinderInit sCylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x01, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-UNK_PTR D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
-UNK_PTR D_80B4E62C[] = { 0x06007608 };
+static UNK_PTR D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
+static UNK_PTR D_80B4E62C[] = { 0x06007608 };
 
 extern AnimationHeader D_06000438;
 extern UNK_TYPE D_06008848;
