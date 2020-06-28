@@ -29,9 +29,19 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7B84.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7BE4.s")
+// Called "Math_Vec3f_ToVec3s" in in z_lib.c:
+void func_800A7BE4(Vec3f* src, Vec3s* dest) {
+    dest->x = src->x;
+    dest->y = src->y;
+    dest->z = src->z;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7C20.s")
+// Called "Math_Vec3s_ToVec3f" in z_lib.c:
+void func_800A7C20(Vec3s* src, Vec3f* dest) {
+    dest->x = src->x;
+    dest->y = src->y;
+    dest->z = src->z;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7C60.s")
 
