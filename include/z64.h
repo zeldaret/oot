@@ -1192,7 +1192,8 @@ typedef struct {
     /* 0x1CA1A */ u16 pad_1CA1A;
     /* 0x1CA1C */ u32 questItems[3];
     /* 0x1CA28 */ s16 n64ddFlags[3];
-    /* 0x1CA2E */ u8 heartStatus[3];
+    /* 0x1CA2E */ s8 heartStatus[3];
+    /* 0x1CA31 */ u8 pad;
     /* 0x1CA32 */ u16 nowLife[3];
     /* 0x1CA38 */ s16 btnIdx;
     /* 0x1CA3A */ s16 yesNoButtonIdx;

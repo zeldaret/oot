@@ -355,6 +355,71 @@ u8 D_80812768[] = {
     0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E
 };
 
+void func_8080B40C(FileChooseContext*);
+void func_8080B494(FileChooseContext*);
+void func_8080B52C(FileChooseContext*);
+void func_80803D40(FileChooseContext*);
+void func_80803ED8(FileChooseContext*);
+
+void func_80804248(FileChooseContext*);
+void func_808043D8(FileChooseContext*);
+void func_808044A0(FileChooseContext*);
+void func_80804858(FileChooseContext*);
+void func_80804924(FileChooseContext*);
+
+void func_80804A50(FileChooseContext*);
+void func_80804C74(FileChooseContext*);
+void func_80804CD0(FileChooseContext*);
+void func_80804ED8(FileChooseContext*);
+void func_8080510C(FileChooseContext*);
+
+void func_808051C8(FileChooseContext*);
+void func_80805318(FileChooseContext*);
+void func_80805434(FileChooseContext*);
+void func_80805524(FileChooseContext*);
+void func_80805824(FileChooseContext*);
+
+void func_8080595C(FileChooseContext*);
+void func_80805B2C(FileChooseContext*);
+void func_80805EB8(FileChooseContext*);
+void func_80806180(FileChooseContext*);
+void func_8080625C(FileChooseContext*);
+
+void func_80806444(FileChooseContext*);
+void func_808064F4(FileChooseContext*);
+void func_80806710(FileChooseContext*);
+void func_808068F0(FileChooseContext*);
+void func_808069B4(FileChooseContext*);
+
+void func_80806C20(FileChooseContext*);
+void func_8080BE28(FileChooseContext*);
+void func_8080BE84(FileChooseContext*);
+void func_80809038(FileChooseContext*);
+void func_80808F84(FileChooseContext*);
+
+void func_8080BF6C(FileChooseContext*);
+void func_8080BEF8(FileChooseContext*);
+void func_8080969C(FileChooseContext*);
+void func_8080960C(FileChooseContext*);
+void func_8080BF6C(FileChooseContext*);
+
+void func_8080BE30(FileChooseContext*);
+
+void (*D_80812770[])(FileChooseContext*) = {
+    func_8080B40C, func_8080B494, func_8080B52C, func_80803D40, func_80803ED8, 
+    func_80804248, func_808043D8, func_808044A0, func_80804858, func_80804924, 
+    func_80804A50, func_80804C74, func_80804CD0, func_80804ED8, func_8080510C, 
+    func_808051C8, func_80805318, func_80805434, func_80805524, func_80805824,
+    func_8080595C, func_80805B2C, func_80805EB8, func_80806180, func_8080625C, 
+    func_80806444, func_808064F4, func_80806710, func_808068F0, func_808069B4, 
+    func_80806C20, func_8080BE28, func_8080BE84, func_80809038, func_80808F84, 
+    func_8080BF6C, func_8080BEF8, func_8080969C, func_8080960C, func_8080BF6C, 
+    func_8080BE30
+};
+
+s16 D_80812814[2] = {
+    0x0046, 0x00C8
+};
 s16 D_80812818[4] = {
     0x001A, 0x000A, 0x000A, 0x000A
 };
@@ -468,10 +533,6 @@ s16 D_80812A10[3] = {
     0x0000, 0x0010, 0x0020
 };
 
-f32 D_80812CE0 = 0.1f;
-f32 D_80812CE4 = 0.2f;
-f32 D_80812CE8 = 0.4f;
-
 void func_8080FE2C(FileChooseContext*);
 void func_8080FF98(FileChooseContext*);
 void func_8081009C(FileChooseContext*);
@@ -506,6 +567,10 @@ void (*D_80812A44[3])(FileChooseContext*) = {
 u32 D_80812A50[3] = {
     0x01033F00, 0x01034800, 0x01035100
 };
+
+static f32 D_80812CE0 = 0.1f;
+static f32 D_80812CE4 = 0.2f;
+static f32 D_80812CE8 = 0.4f;
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803D40.s")
 // OK
@@ -1308,6 +1373,7 @@ void func_808064F4(FileChooseContext* this) {
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80806710.s")
+// OK
 void func_80806710(FileChooseContext* this) {
     static s16 D_80813800;
     s16 tmp = D_808124A0;
@@ -1474,8 +1540,7 @@ void func_80806DB0(GraphicsContext* gfxCtx, u32* arg1, s16 arg2) {
     Graph_CloseDisps(disprefs, gfxCtx, "../z_file_nameset_PAL.c", 0x77);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80806F34.s")
-#if 0
+#ifdef NON_MATCHING
 void func_80806F34(FileChooseContext* this) {
     FileChooseContext* thisx = this;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
@@ -1553,10 +1618,11 @@ void func_80806F34(FileChooseContext* this) {
         }
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80806F34.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080723C.s")
-#if 0
+#ifdef NON_MATCHING
 void func_8080723C(FileChooseContext* this) {
     FileChooseContext* thisx = this;
     GraphicsContext* gfxCtx = thisx->state.gfxCtx;
@@ -1755,10 +1821,12 @@ void func_8080723C(FileChooseContext* this) {
 
     Graph_CloseDisps(dispRefs, thisx->state.gfxCtx, "../z_file_nameset_PAL.c", 0x133);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080723C.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80807DCC.s")
-#if 0
+
+#ifdef NON_MATCHING
 void func_80807DCC(FileChooseContext* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     KanFont* kanfont = &this->kanfont;
@@ -1785,10 +1853,11 @@ void func_80807DCC(FileChooseContext* this) {
     func_80806DB0(this->state.gfxCtx, kanfont->unk_3C88[D_808123F0[i]], 0);
     Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_file_nameset_PAL.c", 0x15B);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80807DCC.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
-#if 0
+#ifdef NON_MATCHING
 void func_80808000(FileChooseContext* this) {
     FileChooseContext* thisx = this;
     Input* cont1 = &thisx->state.input[0];
@@ -2042,6 +2111,8 @@ void func_80808000(FileChooseContext* this) {
     gDPSetCombineMode(gfxCtx->polyOpa.p++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
     Graph_CloseDisps(dispRefs, thisx->state.gfxCtx, "../z_file_nameset_PAL.c", 0x226);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
 #endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808F84.s")
@@ -2254,8 +2325,8 @@ void func_8080969C(FileChooseContext* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808099C8.s")
-#if 0
+
+#ifdef NON_MATCHING
 void func_808099C8(FileChooseContext* this) {
     FileChooseContext* thisx = this;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
@@ -2502,6 +2573,8 @@ void func_808099C8(FileChooseContext* this) {
 
     Graph_CloseDisps(dispRefs, thisx->state.gfxCtx, "../z_file_nameset_PAL.c", 0x410);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808099C8.s")
 #endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AF30.s")
@@ -2587,21 +2660,21 @@ void func_8080B22C(FileChooseContext* this) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B394.s")
 // OK
 void func_8080B394(u16 arg0, s16* arg1, s16* arg2, s16* arg3) {
-    arg1[0] = 0;
-    arg2[0] = 0;
-    arg3[0] = arg0;
+    *arg1 = 0;
+    *arg2 = 0;
+    *arg3 = arg0;
 
 loop1:
-    while ((arg3[0] - 100) >= 0) {
-        arg1[0]++;
-        arg3[0] -= 100;
+    while ((*arg3 - 100) >= 0) {
+        *arg1 = *arg1 + 1;
+        *arg3 = *arg3 - 100;
         goto loop1;
     }
 
 loop2:
-    while ((arg3[0] - 10) >= 0) {
-        arg2[0]++;
-        arg3[0] -= 10;
+    while ((*arg3 - 10) >= 0) {
+        *arg2 = *arg2 + 1;
+        *arg3 = *arg3 - 10;
         goto loop2;
     }
 }
@@ -2634,8 +2707,7 @@ void func_8080B494(FileChooseContext* this) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B52C.s")
-
+#ifdef NON_MATCHING
 void func_8080B52C(FileChooseContext* this) {
     //FileChooseContext* thisx = this;
     Input* cont1 = &this->state.input[0];
@@ -2762,15 +2834,125 @@ void func_8080B52C(FileChooseContext* this) {
         this->fileWarningTexIdx = -1;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B52C.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE30.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE28.s")
+// OK
+void func_8080BE28(FileChooseContext* this) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE84.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE30.s")
+// OK
+void func_8080BE30(FileChooseContext* this) {
+    XREG(73) += 2;
+    if (XREG(73) == 0xFE) {
+        this->fileSelectStateIdx = this->nextFileSelectStateIdx;
+        XREG(73) = 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BEF8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE84.s")
+// OK
+void func_8080BE84(FileChooseContext* this) {
+    this->windowRotX += VREG(16);
+    if (this->windowRotX >= 314.0f) {
+        this->windowRotX = 314.0f;
+        this->fileSelectStateIdx = 0x22;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BF6C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BEF8.s")
+// OK
+void func_8080BEF8(FileChooseContext* this) {
+    this->windowRotX += VREG(16);
+    if (this->windowRotX >= 314.0f) {
+        this->windowRotX = 314.0f;
+        this->fileSelectStateIdx = 0x26;
+    }
+}
 
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BF6C.s")
+// OK
+void func_8080BF6C(FileChooseContext* this) {
+    this->windowRotX += VREG(16);
+    if (this->windowRotX >= 628.0f) {
+        this->windowRotX = 0.0f;
+        this->fileSelectStateIdx = 2;
+    }
+}
+
+#ifdef NON_MATCHING
+void func_8080BFE4(FileChooseContext* this) {
+    extern u8 D_80000002;
+
+    FileChooseContext* thisx = this;
+    Input* cont1 = &this->state.input[2];
+    Sram* sram = &this->sram;
+    s16 tmp;
+    s32 tmp32;
+
+    tmp32 = ~(cont1->press.in.button | -0x201);
+    //CHECK_PAD(cont1->press, L_JPAD);
+    if (!tmp32) {
+        D_80000002 = 
+        ((u8*)sram->read_buff)[2] = 
+        gSaveContext.language = 0;
+        Sram_ReadWrite(0x8000000, sram->read_buff, 3, 1);
+        osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", ((u8*)sram->read_buff)[0], ((u8*)sram->read_buff)[1], ((u8*)sram->read_buff)[2], ((u8*)sram->read_buff)[3]);
+        Sram_ReadWrite(0x8000000, sram->read_buff, 0x8000, 0);
+        osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", ((u8*)sram->read_buff)[0], ((u8*)sram->read_buff)[1], ((u8*)sram->read_buff)[2], ((u8*)sram->read_buff)[3]);
+    
+    } else {
+        tmp32 = ~(cont1->press.in.button | -0x801);
+        //if (CHECK_PAD(cont1->press, U_JPAD)) {
+        if (!tmp32 & 0xFFFFFFFF) {
+            //D_80000002 = 
+            *(u8*)0x80000002 = 
+            ((u8*)sram->read_buff)[2] = 
+            gSaveContext.language = 1;
+
+            Sram_ReadWrite(0x8000000, sram->read_buff, 3, 1);
+            osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", ((u8*)sram->read_buff)[0], ((u8*)sram->read_buff)[1], ((u8*)sram->read_buff)[2], ((u8*)sram->read_buff)[3]);
+            Sram_ReadWrite(0x8000000, sram->read_buff, 0x8000, 0);
+            osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", ((u8*)sram->read_buff)[0], ((u8*)sram->read_buff)[1], ((u8*)sram->read_buff)[2], ((u8*)sram->read_buff)[3]);
+        } else {
+
+            //if (CHECK_PAD(cont1->press, R_JPAD)) {
+            tmp32 = ~(cont1->press.in.button | -0x101);
+            if (!tmp32) {
+                D_80000002 = 
+                ((u8*)sram->read_buff)[2] = 
+                gSaveContext.language = 2;
+                Sram_ReadWrite(0x8000000, sram->read_buff, 3, 1);
+                osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", ((u8*)sram->read_buff)[0], ((u8*)sram->read_buff)[1], ((u8*)sram->read_buff)[2], ((u8*)sram->read_buff)[3]);
+                Sram_ReadWrite(0x8000000, sram->read_buff, 0x8000, 0);
+                osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", ((u8*)sram->read_buff)[0], ((u8*)sram->read_buff)[1], ((u8*)sram->read_buff)[2], ((u8*)sram->read_buff)[3]);
+            }
+        }
+    }
+
+    tmp = ABS(thisx->highlightColorRGBA[3] - D_80812814[thisx->highlightColorAIncrease]) / XREG(35);
+    if (thisx->highlightColorRGBA[3] >= D_80812814[thisx->highlightColorAIncrease]) {
+        thisx->highlightColorRGBA[3] -= tmp;
+    } else {
+        thisx->highlightColorRGBA[3] += tmp;
+    }
+
+    XREG(35)--;
+    if (XREG(35) == 0) {
+        this->highlightColorRGBA[3] = D_80812814[this->highlightColorAIncrease];
+        XREG(35) = XREG(this->highlightColorAIncrease + 36);
+        this->highlightColorAIncrease ^= 1;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C2F4.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C2F4.s")
+// OK
+void func_8080C2F4(FileChooseContext* this) {
+    D_80812770[this->fileSelectStateIdx](this);
+}
