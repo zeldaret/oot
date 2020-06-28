@@ -2242,7 +2242,7 @@ s32 func_8004479C(Camera* camera, u32* arg1, CollisionPoly* arg2) {
     return ret;
 }
 
-CamPosData* func_8004481C(Camera* camera, s16* arg1) {
+Vec3s* func_8004481C(Camera* camera, s16* cameraCnt) {
     CollisionPoly* sp44;
     s32 sp40; // unused
     s32 sp3C;
@@ -2251,9 +2251,9 @@ CamPosData* func_8004481C(Camera* camera, s16* arg1) {
     func_8002EF44(&sp28, &camera->player->actor);
     sp28.pos.y += Player_GetCameraYOffset(camera->player);
     if (func_8003C940(&camera->globalCtx->colCtx, &sp44, &sp3C, &sp28.pos) == -32000.0f) {
-        return 0;
+        return NULL;
     }
-    *arg1 = func_80041B80(&camera->globalCtx->colCtx, sp44, sp3C);
+    *cameraCnt = func_80041B80(&camera->globalCtx->colCtx, sp44, sp3C);
     return func_80041C98(&camera->globalCtx->colCtx, sp44, sp3C);
 }
 
@@ -5586,7 +5586,133 @@ s32 Camera_Subj3(Camera *camera) {
 #endif
 #undef NON_MATCHING
 
+#define NON_MATCHING
+s32 Camera_Subj4(Camera *camera) {
+    u16 spAA;
+    Vec3s *spA4;
+    Vec3f sp98;
+    Vec3f sp8C;
+    f32 sp88;
+    f32 sp80;
+    PosRot sp6C;
+    VecSph sp64;
+    VecSph sp5C;
+    s16 sp5A;
+    Vec3f *sp34;
+    Subj4Anim *temp_s0 = &camera->params.subj4.anim;
+    Vec3f *temp_s2 = &camera->at;
+    Vec3f *temp_s3 = &camera->eye;
+    Vec3s *temp_v0;
+    f32 *temp_a2;
+    f32 *temp_a2_2;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f16;
+    f32 temp_f2;
+    s32 temp_a0;
+    s16 phi_v0;
+    CameraModeValue* values;
+
+    if (RELOAD_PARAMS) {
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        camera->params.subj4.interfaceFlags = NEXTSETTING;
+    }
+
+    if (R_RELOAD_CAM_PARAMS) {
+        Camera_CopyPREGToModeValues(camera);
+    }
+    if (camera->globalCtx->view.unk_124 == 0) {
+        camera->globalCtx->view.unk_124 = (s32) (camera->thisIdx | 0x50);
+        camera->params.subj4.anim.unk_24 = (f32) camera->unk_D8;
+        return true;
+    }
+
+    func_8002EF44((PosRot *) &sp6C, (Actor *) camera->player);
+    
+    OLib_Vec3fDiffToVecSphRot90(&sp5C, temp_s2, temp_s3);
+    sCameraInterfaceFlags = (s32) camera->params.subj4.interfaceFlags;
+    if (camera->animState == 0) {
+        spA4 = func_8004481C(camera, &spAA);
+        Camera_Vec3sToVec3f(temp_s0, &spA4[1]);
+        Camera_Vec3sToVec3f(&sp98, &spA4[spAA - 2]);
+        sp64.phi = (u16)0x238C;
+        sp64.r = 10.0f;
+        sp64.theta = Camera_XZAngle(&sp98, &temp_s0->unk_00.a);
+        if (OLib_Vec3fDist((Vec3f *) &camera->playerPosRot, (Vec3f *) &temp_s0->unk_00.a) > OLib_Vec3fDist((Vec3f *) &camera->playerPosRot, (Vec3f *) &sp98)) {
+            temp_s0->unk_00.b.x = (f32) (temp_s0->unk_00.a.x - sp98.x);
+            temp_s0->unk_00.b.y = (f32) (temp_s0->unk_00.a.y - sp98.y);
+            temp_s0->unk_00.b.z = (f32) (temp_s0->unk_00.a.z - sp98.z);
+            temp_s0->unk_00.a = sp98;
+        } else {
+            temp_s0->unk_00.b.x = (f32) (sp98.x - temp_s0->unk_00.a.x);
+            temp_s0->unk_00.b.y = (f32) (sp98.y - temp_s0->unk_00.a.y);
+            temp_s0->unk_00.b.z = (f32) (sp98.z - temp_s0->unk_00.a.z);
+            sp64.theta = BINANG_ROT180(sp64.theta);
+        }
+        temp_s0->unk32 = (u16)0xA;
+        temp_s0->unk_28.phi = (u16)0;
+        temp_s0->unk_28.theta = (u16)0;
+        temp_s0->unk30 = sp64.theta;
+        temp_s0->unk_28.r = 0.0f;
+        camera->animState++;
+    }
+    if (temp_s0->unk32 != 0) {
+        sp64.phi = 0x238C;
+        sp64.r = 10.0f;
+        sp64.theta = temp_s0->unk30;
+        Camera_Vec3fVecSphAdd((Vec3f *) &sp8C, (Vec3f *) &sp6C, (VecSph *) &sp64);
+        temp_f2 = (f32) temp_s0->unk32 + 1.0f;
+        temp_s2->x = (f32) (temp_s2->x + ((sp8C.x - temp_s2->x) / temp_f2));
+        temp_s2->y = (f32) (temp_s2->y + ((sp8C.y - temp_s2->y) / temp_f2));
+        temp_s2->z = (f32) (temp_s2->z + ((sp8C.z - temp_s2->z) / temp_f2));
+        sp5C.r = sp5C.r - (sp5C.r / temp_f2);
+        sp5C.theta += BINANG_SUB(BINANG_ROT180(sp6C.rot.y), sp5C.theta) / temp_s0->unk32;
+        sp5C.phi = sp5C.phi + ((s32) ((s32) ((sp6C.rot.x - sp5C.phi) << 0x10) >> 0x10) / (s32) temp_s0->unk32);
+        Camera_Vec3fVecSphAdd(&camera->eyeNext, temp_s2, &sp5C);
+        *temp_s3 = camera->eyeNext;
+        temp_s0->unk32--;
+        return false;
+    }
+    if (temp_s0->unk_24 < 0.5f) {
+        return false;
+    }
+    func_8002EF44((PosRot *) &sp6C, (Actor *) camera->player);
+    Math3D_LineVsPos((Linef *) temp_s0, (Vec3f *) &sp6C.pos, &camera->eyeNext);
+    temp_s2->x = (f32) (sp34->x + temp_s0->unk_00.b.x);
+    temp_s2->y = (f32) (sp34->y + temp_s0->unk_00.b.y);
+    temp_s2->z = (f32) (sp34->z + temp_s0->unk_00.b.z);
+    *temp_s3 = *sp34;
+    sp64.phi = (u16)0x238C;
+    sp64.r = 5.0f;
+    sp64.theta = temp_s0->unk30;
+    Camera_Vec3fVecSphAdd((Vec3f *) &sp98, (Vec3f *) sp34, &sp64);
+    temp_s0->unk_28.phi += 0xBB8;
+    temp_f16 = Math_Coss(temp_s0->unk_28.phi);
+    temp_s3->x = F32_LERPIMP(temp_s3->x, sp98.x, fabsf(temp_f16));
+    temp_s3->y = F32_LERPIMP(temp_s3->y, sp98.y, fabsf(temp_f16));
+    temp_s3->z = F32_LERPIMP(temp_s3->z, sp98.z, fabsf(temp_f16));
+    if ((temp_s0->unk_28.r < temp_f16) && (temp_s0->unk_28.theta == 0)) {
+        temp_s0->unk_28.theta = 1;
+        func_800F4010(&camera->player->actor.projectedPos, ((u16) camera->player->unk_89E + 0x8B0) & 0xFFFF, 4.0f);
+    } else if (temp_f16 < temp_s0->unk_28.r) {
+        temp_s0->unk_28.theta = 0;
+    }
+    temp_s0->unk_28.r = temp_f16;
+    camera->player->actor.posRot.pos = camera->eyeNext;
+    camera->player->actor.posRot.pos.y = (f32) camera->playerGroundY;
+    camera->player->actor.shape.rot.y = sp64.theta;
+    temp_a0 = (s16)(temp_s0->unk30 + (240.0f * temp_f16) * (temp_s0->unk_24 * 0.416667f));
+    temp_s2->x = (f32) ((Math_Sins(temp_a0) * 10.0f) + temp_s3->x);
+    temp_s2->y = (f32) temp_s3->y;
+    temp_s2->z = (f32) ((Math_Coss(temp_a0) * 10.0f) + temp_s3->z);
+    camera->roll = Camera_LERPCeilS((u16)0, camera->roll, 0.5f, (u16)0xA);
+    return 1;
+}
+#ifdef NON_MATCHING
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Subj4.s")
+#endif
+#undef NON_MATCHING
 
 s32 Camera_Subj0(Camera* camera) {
     return Camera_NOP(camera);

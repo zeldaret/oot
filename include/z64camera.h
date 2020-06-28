@@ -463,15 +463,17 @@ typedef struct {
 typedef struct {
     Linef unk_00;
     f32 unk_18;
+    f32 unk_1C;
     f32 unk_20;
     f32 unk_24;
-    f32 unk_28;
-    VecSph unk_2C;
-} Subj4_Unk04;  
+    VecSph unk_28;
+    s16 unk30;
+    s16 unk32;
+} Subj4Anim;
 
 typedef struct {
-    s16 unk_00;
-    Subj4_Unk04 unk_04;
+    s16 interfaceFlags;
+    Subj4Anim anim;
 } Subj4;
 
 typedef struct {
