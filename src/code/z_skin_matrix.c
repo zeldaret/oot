@@ -1,15 +1,37 @@
 #include <ultra64.h>
 #include <global.h>
 
-// SkinMatrix_Vec3fMtxFMult
-void func_800A6E10(MtxF* mf, Vec3f* src, Vec3f* dest, f32* destw) {
-    dest->x = mf->wx + ((src->x * mf->xx) + (src->y * mf->yx) + (src->z * mf->zx));
-    dest->y = mf->wy + ((src->x * mf->xy) + (src->y * mf->yy) + (src->z * mf->zy));
-    dest->z = mf->wz + ((src->x * mf->xz) + (src->y * mf->yz) + (src->z * mf->zz));
-    *destw = mf->ww + ((src->x * mf->xw) + (src->y * mf->yw) + (src->z * mf->zw));
+// SkinMatrix_Vec3fMtxFMultFull (same as function below but also gives w component)
+void func_800A6E10(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
+    xyzDest->x = mf->wx + ((src->x * mf->xx) + (src->y * mf->yx) + (src->z * mf->zx));
+    xyzDest->y = mf->wy + ((src->x * mf->xy) + (src->y * mf->yy) + (src->z * mf->zy));
+    xyzDest->z = mf->wz + ((src->x * mf->xz) + (src->y * mf->yz) + (src->z * mf->zz));
+    *wDest = mf->ww + ((src->x * mf->xw) + (src->y * mf->yw) + (src->z * mf->zw));
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A6EF4.s")
+// SkinMatrix_Vec3fMtxFMult
+void func_800A6EF4(MtxF* mf, Vec3f* src, Vec3f* dest) {
+    f32 mx;
+    f32 my;
+    f32 mz;
+    f32 mw;
+
+    mx = mf->xx;
+    my = mf->yx;
+    mz = mf->zx;
+    mw = mf->wx;
+    dest->x = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
+    mx = mf->xy;
+    my = mf->yy;
+    mz = mf->zy;
+    mw = mf->wy;
+    dest->y = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
+    mx = mf->xz;
+    my = mf->yz;
+    mz = mf->zz;
+    mw = mf->wz;
+    dest->z = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A6FA0.s")
 
@@ -22,7 +44,7 @@ void func_800A6E10(MtxF* mf, Vec3f* src, Vec3f* dest, f32* destw) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A73E0.s")
 
 // SkinMatrix_Scale
-// (output matrix scales x,y,z components of vector or x,y,z columns of matrix if applied on RHS)
+// (output matrix scales x,y,z components of vector or x,y,z columns of matrix if applied on RHS)/
 void func_800A76A4(MtxF* mf, f32 xScale, f32 yScale, f32 zScale) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
@@ -72,14 +94,14 @@ void func_800A7A24(MtxF* mf, f32 dx, f32 dy, f32 dz) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7B84.s")
 
-// Called "Math_Vec3f_ToVec3s" in in z_lib.c:
+// Called "Math_Vec3fToVec3s" in in z_lib.c:
 void func_800A7BE4(Vec3f* src, Vec3s* dest) {
     dest->x = src->x;
     dest->y = src->y;
     dest->z = src->z;
 }
 
-// Called "Math_Vec3s_ToVec3f" in z_lib.c:
+// Called "Math_Vec3sToVec3f" in z_lib.c:
 void func_800A7C20(Vec3s* src, Vec3f* dest) {
     dest->x = src->x;
     dest->y = src->y;
