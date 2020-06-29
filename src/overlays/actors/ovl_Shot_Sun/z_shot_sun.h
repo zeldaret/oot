@@ -12,7 +12,9 @@ typedef struct ShotSun {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ ShotSunActionFunc actionFunc;
-    /* 0x019C */ char unk_19C[0xC];
+    /* 0x019C */ char unk_19C[6];
+    /* 0x01A2 */ s16 spawnTimer;
+    /* 0x01A4 */ char unk_1A4[4];
 } ShotSun; // size = 0x01A8
 
 extern const ActorInit Shot_Sun_InitVars;

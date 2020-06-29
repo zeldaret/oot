@@ -15,9 +15,9 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx);
-// void func_80BADE74();
-void func_80BADF0C(struct ShotSun*, GlobalContext*);
-void func_80BAE05C(struct ShotSun*, GlobalContext*);
+void func_80BADE74(ShotSun* this, GlobalContext* globalCtx);
+void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
+void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx);
 
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
@@ -45,7 +45,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
     temp_v0 = this->actor.params & 0xFF;
     if (temp_v0 == 0x40 || temp_v0 == 0x41) {
-        this->unk_19C[8] = 0;
+        this->unk_1A4[0] = 0;
         this->actor.flags |= 0x10;
         this->actor.flags |= 0x2000000;
         this->actionFunc = &func_80BADF0C;
@@ -72,8 +72,8 @@ void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
     s32 temp_v0 = this->actor.params & 0xFF;
     s32 sp38;
 
-    if (*((s16*)&this->unk_19C[6]) > 0) {
-        *((s16*)&this->unk_19C[6]) -= 1;
+    if (this->spawnTimer > 0) {
+        this->spawnTimer -= 1;
         return;
     }
 
