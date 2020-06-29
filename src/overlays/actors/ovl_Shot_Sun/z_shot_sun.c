@@ -96,7 +96,21 @@ void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
     Actor_Kill(&this->actor);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BADE74.s")
+void func_80BADE74(ShotSun* this, GlobalContext* globalCtx) {
+    if (func_8005B198() == this->actor.type || this->spawnTimer != 0) {
+        this->actionFunc = &func_80BADDCC;
+        this->spawnTimer = 50;
+
+        Actor_Spawn(
+            &globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO,
+            this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z,
+            0, 0, 0,
+            0x11
+        );
+
+        func_80078914(&this->actor.projectedPos, 0x287B);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BADF0C.s")
 
@@ -104,5 +118,5 @@ void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
 
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
