@@ -40,6 +40,8 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx);
 extern s32 func_8005B198();
 extern void func_80078884(u16 sfxId);
 
+extern UNK_TYPE D_02007020;
+
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
     ACTORTYPE_PROP,
@@ -130,7 +132,7 @@ void func_80BADE74(ShotSun* this, GlobalContext* globalCtx) {
             0x11
         );
 
-        func_80078914(&this->actor.projectedPos, 0x287B);
+        func_80078914(&this->actor.projectedPos, NA_SE_EV_TRE_BOX_APPEAR);
     }
 }
 
@@ -205,17 +207,16 @@ block_14:
 // Runs every frame when Link is near the pedestal in Lake Hylia, sun update
 void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
     Vec3f spawnPos;
-    Vec3s temp_a1;
     EnItem00* collectible;
     s32 dayTime;
 
     if ((this->collider.base.acFlags & 2) != 0) {
-        func_80078884(0x4802);
+        func_80078884(NA_SE_SY_CORRECT_CHIME);
         osSyncPrintf("\x1b[36mSHOT_SUN HIT!!!!!!!\n\x1b[m");
-        if (gSaveContext.items[gItemSlots[4]] == 0xFF) {
+        if (INV_CONTENT(SLOT_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
 
-            globalCtx->csCtx.segment = (void*) ((*(&gSegments + (((u32) (0x2007020 * 0x10) >> 0x1C) * 4)) + (0x2007020 & 0xFFFFFF)) + 0x80000000);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02007020);
             gSaveContext.cutsceneTrigger = 1;
         } else {
             spawnPos.x = 700.0f;
@@ -234,16 +235,11 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
         if (!(120.0f < this->actor.xzDistFromLink)) {
             if (dayTime >= 0x4555) {
                 if (dayTime < 0x5000) {
-                    
-                    temp_a1.x = (u16) (s32) (*(f32*)(&PLAYER->unk_908[0x54]) + (globalCtx->envCtx.unk_04.x * 0.16666667f));
-                    temp_a1.y = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x58]) - 30.0f) + (globalCtx->envCtx.unk_04.y * 0.16666667f);
-                    temp_a1.z = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x5C]) + (globalCtx->envCtx.unk_04.z * 0.16666667f));
+                    this->unk_19C.x = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x54]) + (globalCtx->envCtx.unk_04.x * 0.16666667f));
+                    this->unk_19C.y = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x58]) - 30.0f) + (globalCtx->envCtx.unk_04.y * 0.16666667f);
+                    this->unk_19C.z = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x5C]) + (globalCtx->envCtx.unk_04.z * 0.16666667f));
 
-                    this->unk_19C.x = temp_a1.x;
-                    this->unk_19C.y = temp_a1.y;
-                    this->unk_19C.z = temp_a1.z;
-
-                    func_80062718(&this->collider, &temp_a1);
+                    func_80062718(&this->collider.base, &this->unk_19C);
                     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
                 }
             }
