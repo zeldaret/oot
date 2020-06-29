@@ -166,7 +166,6 @@ void func_800A6FA0(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     dest->ww = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 }
 
-extern MtxF D_8012A4A0;
 MtxF D_8012A4A0 = {1.0f, 0.0f, 0.0f, 0.0f,
                    0.0f, 1.0f, 0.0f, 0.0f,
                    0.0f, 0.0f, 1.0f, 0.0f,
