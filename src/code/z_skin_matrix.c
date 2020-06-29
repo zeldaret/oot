@@ -171,11 +171,30 @@ MtxF D_8012A4A0 = {1.0f, 0.0f, 0.0f, 0.0f,
                    0.0f, 0.0f, 1.0f, 0.0f,
                    0.0f, 0.0f, 0.0f, 1.0f};
 
-void func_800A72FC(MtxF** arg0) {
-    *arg0 = &D_8012A4A0;
+// SkinMatrix_Ident
+void func_800A72FC(MtxF** mf) {
+    *mf = &D_8012A4A0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A730C.s")
+// SkinMatrix_Ident2
+void func_800A730C(MtxF* mf) {
+    mf->xx = 1.0f;
+    mf->yy = 1.0f;
+    mf->zz = 1.0f;
+    mf->ww = 1.0f;
+    mf->xy = 0.0f;
+    mf->xz = 0.0f;
+    mf->xw = 0.0f;
+    mf->yx = 0.0f;
+    mf->yz = 0.0f;
+    mf->yw = 0.0f;
+    mf->zx = 0.0f;
+    mf->zy = 0.0f;
+    mf->zw = 0.0f;
+    mf->wx = 0.0f;
+    mf->wy = 0.0f;
+    mf->wz = 0.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A735C.s")
 
