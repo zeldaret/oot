@@ -196,7 +196,26 @@ void func_800A730C(MtxF* mf) {
     mf->wz = 0.0f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A735C.s")
+//SkinMatrix_Copy
+void func_800A735C(MtxF* src, MtxF* dest) {
+    dest->xx = src->xx;
+    dest->xy = src->xy;
+    dest->xz = src->xz;
+    dest->xw = src->xw;
+    dest->yx = src->yx;
+    dest->yy = src->yy;
+    dest->yz = src->yz;
+    dest->yw = src->yw;
+    dest->zx = src->zx;
+    dest->zy = src->zy;
+    dest->zz = src->zz;
+    dest->zw = src->zw;
+    dest->wx = src->wx;
+    dest->wy = src->wy;
+    dest->wz = src->wz;
+    dest->ww = src->ww;
+}
+
 
 // This one is inverse matrix, quite an intricate 1
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A73E0.s")
