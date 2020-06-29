@@ -1,7 +1,7 @@
 /*
  * File: z_shot_sun.c
  * Overlay: ovl_Shot_Sun
- * Description: Song of Storms Fairy
+ * Description: Song of Storms Fairy and Sun at Lake Hylia
  */
 
 #include "z_shot_sun.h"
@@ -14,7 +14,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
 
-// void func_80BADDCC();
+void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx);
 // void func_80BADE74();
 void func_80BADF0C(struct ShotSun*, GlobalContext*);
 void func_80BAE05C(struct ShotSun*, GlobalContext*);
@@ -63,12 +63,38 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 temp_v0;
 
     temp_v0 = this->actor.params & 0xFF;
-    if (!(temp_v0 == 0x40 || temp_v0 == 0x41)) {
+    if (temp_v0 != 0x40 && temp_v0 != 0x41) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BADDCC.s")
+void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
+    s32 temp_v0 = this->actor.params & 0xFF;
+    s32 sp38;
+
+    if (*((s16*)&this->unk_19C[6]) > 0) {
+        *((s16*)&this->unk_19C[6]) -= 1;
+        return;
+    }
+
+    switch (temp_v0) {
+        case 0x40:
+            sp38 = 7;
+            break;
+        case 0x41:
+            sp38 = 7;
+            break;
+    }
+
+    Actor_Spawn(
+        &globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF,
+        this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z,
+        0, 0, 0,
+        sp38
+    );
+
+    Actor_Kill(&this->actor);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BADE74.s")
 
