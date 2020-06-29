@@ -183,7 +183,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_E1 = 1;
         func_800C04D8(globalCtx, this->unk_1E8, &vec1, &vec2);
         func_800C0704(globalCtx, this->unk_1E8, 30.0f);
-        func_800B3840(0x20);
+        ShrinkWindow_SetVal(0x20);
         Interface_ChangeAlpha(2);
         player->actor.posRot.pos = playerPos;
         player->actor.speedXZ = 0.0f;

@@ -372,6 +372,7 @@ beginseg
     include "build/src/code/z_fbdemo_wipe1.o"
     include "build/src/code/z_fbdemo_circle.o"
     include "build/src/code/z_fbdemo_fade.o"
+    include "build/src/code/shrink_window.o"
     include "build/src/code/db_camera.o"
     include "build/data/db_camera.data.o"
     include "build/data/db_camera.rodata.o"

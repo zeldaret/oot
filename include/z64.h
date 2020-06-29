@@ -1146,6 +1146,8 @@ typedef struct {
     /* 0x01E2 */ char unk_1E2[0x06];
 } TitleContext; // size = 0x1E8
 
+struct SelectContext;
+
 typedef struct {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
