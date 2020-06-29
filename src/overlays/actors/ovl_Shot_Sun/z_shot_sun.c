@@ -1,10 +1,28 @@
 /*
  * File: z_shot_sun.c
  * Overlay: ovl_Shot_Sun
- * Description: Song of Storms Fairy and Sun at Lake Hylia
+ * Description: Song of Storms Fairy spawner and Lake Hylia Sun Hitbox
  */
 
 #include "z_shot_sun.h"
+
+// TODO: Remove when `EnItem00` gets moved to a header file
+struct EnItem00;
+
+typedef void (*EnItem00ActionFunc)(struct EnItem00*, GlobalContext*);
+
+typedef struct EnItem00 {
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnItem00ActionFunc actionFunc;
+    /* 0x150 */ s16 collectibleFlag;
+    /* 0x152 */ s16 unk_152;
+    /* 0x154 */ s16 unk_154;
+    /* 0x156 */ s16 unk_156;
+    /* 0x158 */ s16 unk_158;
+    /* 0x15A */ s16 unk_15A;
+    /* 0x15C */ f32 unk_15C;
+    /* 0x160 */ ColliderCylinder collider;
+} EnItem00; // size = 0x1AC
 
 #define FLAGS 0x00000009
 
@@ -18,6 +36,9 @@ void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADE74(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
 void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx);
+
+extern s32 func_8005B198();
+extern void func_80078884(u16 sfxId);
 
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
@@ -68,6 +89,7 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+// Fairy tick, counts down until fairy spawn
 void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
     s32 temp_v0 = this->actor.params & 0xFF;
     s32 sp38;
@@ -97,7 +119,7 @@ void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void func_80BADE74(ShotSun* this, GlobalContext* globalCtx) {
-    if (func_8005B198() == this->actor.type || this->spawnTimer != 0) {
+    if ((func_8005B198() == this->actor.type) || (this->spawnTimer != 0)) {
         this->actionFunc = &func_80BADDCC;
         this->spawnTimer = 50;
 
@@ -112,9 +134,122 @@ void func_80BADE74(ShotSun* this, GlobalContext* globalCtx) {
     }
 }
 
+/*
+void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
+    void* sp24;
+    s32 sp1C;
+    s16 temp_t0;
+    void* temp_a2;
+    void* temp_a2_2;
+    void* temp_a3;
+    ActorListEntry* temp_v1;
+    u8 phi_v0;
+    void* phi_a2;
+
+    temp_v1 = &globalCtx->actorCtx.actorList[???];
+    temp_a2 = &this->actor;
+    temp_a3 = &globalCtx;
+    temp_t0 = arg0->unk1C & 0xFF;
+    sp1C = (s32) temp_t0;
+    arg1 = temp_a3;
+    arg0 = temp_a2;
+    sp24 = temp_v1;
+    temp_a2_2 = arg0;
+    if (22500.0f < func_800CB650(&this->actor->posRot, temp_v1 + 0x24, temp_a2, temp_a3)) {
+        phi_a2 = temp_a2_2;
+block_15:
+        phi_a2->unk1A4 = (u8)0;
+    } else {
+        phi_v0 = temp_a2_2->unk1A4;
+        if (temp_a2_2->unk1A4 == 0) {
+            if ((temp_v1->unk680 << 7) >= 0) {
+                temp_v1->unk680 = (s32) (temp_v1->unk680 | 0x800000);
+                return;
+            }
+            temp_a2_2->unk1A4 = (u8)1U;
+            phi_v0 = (u8)1U & 0xFF;
+        }
+        if (phi_v0 == 1) {
+            arg0 = temp_a2_2;
+            func_8010BD58(arg1, 1, temp_a2_2, arg1);
+            arg0->unk1A4 = (u8)2;
+            return;
+        }
+        if (phi_v0 == 2) {
+            if (arg1->unk104C6 == 4) {
+                if ((temp_t0 != 0x40) || (arg1->unk104C4 != 9)) {
+                    phi_a2 = temp_a2_2;
+                    if (temp_t0 == 0x41) {
+                        phi_a2 = temp_a2_2;
+                        if (arg1->unk104C4 == 0xB) {
+block_14:
+                            temp_a2_2->unk198 = &func_80BADE74;
+                            arg0 = temp_a2_2;
+                            func_80080480(arg1, temp_a2_2, temp_a2_2, arg1);
+                            arg0->unk1A2 = (u16)0;
+                            phi_a2 = arg0;
+                        }
+                    }
+                } else {
+                    goto block_14;
+                }
+                goto block_15;
+            }
+        }
+    }
+}
+*/
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BADF0C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BAE05C.s")
+// Runs every frame when Link is near the pedestal in Lake Hylia, sun update
+void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
+    Vec3f spawnPos;
+    Vec3s temp_a1;
+    EnItem00* collectible;
+    s32 dayTime;
+
+    if ((this->collider.base.acFlags & 2) != 0) {
+        func_80078884(0x4802);
+        osSyncPrintf("\x1b[36mSHOT_SUN HIT!!!!!!!\n\x1b[m");
+        if (gSaveContext.items[gItemSlots[4]] == 0xFF) {
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
+
+            globalCtx->csCtx.segment = (void*) ((*(&gSegments + (((u32) (0x2007020 * 0x10) >> 0x1C) * 4)) + (0x2007020 & 0xFFFFFF)) + 0x80000000);
+            gSaveContext.cutsceneTrigger = 1;
+        } else {
+            spawnPos.x = 700.0f;
+            spawnPos.y = -800.0f;
+            spawnPos.z = 7261.0f;
+
+            collectible = (EnItem00*)Item_DropCollectible(globalCtx, &spawnPos, 0xE);
+            if (collectible != NULL) {
+                collectible->unk_15A = 6000;
+                collectible->actor.speedXZ = 0.0f;
+            }
+        }
+        Actor_Kill(&this->actor);
+    } else {
+        dayTime = gSaveContext.dayTime;
+        if (!(120.0f < this->actor.xzDistFromLink)) {
+            if (dayTime >= 0x4555) {
+                if (dayTime < 0x5000) {
+                    
+                    temp_a1.x = (u16) (s32) (*(f32*)(&PLAYER->unk_908[0x54]) + (globalCtx->envCtx.unk_04.x * 0.16666667f));
+                    temp_a1.y = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x58]) - 30.0f) + (globalCtx->envCtx.unk_04.y * 0.16666667f);
+                    temp_a1.z = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x5C]) + (globalCtx->envCtx.unk_04.z * 0.16666667f));
+
+                    this->unk_19C.x = temp_a1.x;
+                    this->unk_19C.y = temp_a1.y;
+                    this->unk_19C.z = temp_a1.z;
+
+                    func_80062718(&this->collider, &temp_a1);
+                    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+                }
+            }
+        }
+    }
+}
 
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
