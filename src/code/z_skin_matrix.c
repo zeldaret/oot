@@ -33,63 +33,7 @@ void func_800A6EF4(MtxF* mf, Vec3f* src, Vec3f* dest) {
     dest->z = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
 }
 
-/*
-    dest->xx =  ((((row1 * mtxA->xx) + (row2 * mtxA->xy)) + (row3 * mtxA->xz)) + (row4 * mtxA->xw));
-    dest->yx =  ((((row1 * mtxA->yx) + (row2 * mtxA->yy)) + (row3 * mtxA->yz)) + (row4 * mtxA->yw));
-    dest->zx =  ((((row1 * mtxA->zx) + (row2 * mtxA->zy)) + (row3 * mtxA->zz)) + (row4 * mtxA->zw));
-    dest->wx =  ((((row1 * mtxA->wx) + (row2 * mtxA->wy)) + (row3 * mtxA->wz)) + (row4 * mtxA->ww));
-    dest->xy =  ((((mtxB->xy * mtxA->xx) + (mtxB->yy * mtxA->xy)) + (mtxB->zy * mtxA->xz)) + (mtxB->wy * mtxA->xw));
-    dest->yy =  ((((mtxB->xy * mtxA->yx) + (mtxB->yy * mtxA->yy)) + (mtxB->zy * mtxA->yz)) + (mtxB->wy * mtxA->yw));
-    dest->zy =  ((((mtxB->xy * mtxA->zx) + (mtxB->yy * mtxA->zy)) + (mtxB->zy * mtxA->zz)) + (mtxB->wy * mtxA->zw));
-    dest->wy =  ((((mtxB->xy * mtxA->wx) + (mtxB->yy * mtxA->wy)) + (mtxB->zy * mtxA->wz)) + (mtxB->wy * mtxA->ww));
-    dest->xz =  ((((mtxB->xz * mtxA->xx) + (mtxB->yz * mtxA->xy)) + (mtxB->zz * mtxA->xz)) + (mtxB->wz * mtxA->xw));
-    dest->yz =  ((((mtxB->xz * mtxA->yx) + (mtxB->yz * mtxA->yy)) + (mtxB->zz * mtxA->yz)) + (mtxB->wz * mtxA->yw));
-    dest->zz =  ((((mtxB->xz * mtxA->zx) + (mtxB->yz * mtxA->zy)) + (mtxB->zz * mtxA->zz)) + (mtxB->wz * mtxA->zw));
-    dest->wz =  ((((mtxB->xz * mtxA->wx) + (mtxB->yz * mtxA->wy)) + (mtxB->zz * mtxA->wz)) + (mtxB->wz * mtxA->ww));
-    dest->xw =  ((((mtxB->xw * mtxA->xx) + (mtxB->yw * mtxA->xy)) + (mtxB->zw * mtxA->xz)) + (mtxB->ww * mtxA->xw));
-    dest->yw =  ((((mtxB->xw * mtxA->yx) + (mtxB->yw * mtxA->yy)) + (mtxB->zw * mtxA->yz)) + (mtxB->ww * mtxA->yw));
-    dest->zw =  ((((mtxB->xw * mtxA->zx) + (mtxB->yw * mtxA->zy)) + (mtxB->zw * mtxA->zz)) + (mtxB->ww * mtxA->zw));
-    dest->ww =  ((((mtxB->xw * mtxA->wx) + (mtxB->yw * mtxA->wy)) + (mtxB->zw * mtxA->wz)) + (mtxB->ww * mtxA->ww));
-*/
-/*
-    f32 row1;
-    f32 row2;
-    f32 row3;
-    f32 row4;
-
-    row1 = mfB->xx;
-    row2 = mfB->yx;
-    row3 = mfB->zx;
-    row4 = mfB->wx; 
-    dest->xx =  ((((row1 * mfA->xx) + (row2 * mfA->xy)) + (row3 * mfA->xz)) + (row4 * mfA->xw));
-    dest->yx =  ((((row1 * mfA->yx) + (row2 * mfA->yy)) + (row3 * mfA->yz)) + (row4 * mfA->yw));
-    dest->zx =  ((((row1 * mfA->zx) + (row2 * mfA->zy)) + (row3 * mfA->zz)) + (row4 * mfA->zw));
-    dest->wx =  ((((row1 * mfA->wx) + (row2 * mfA->wy)) + (row3 * mfA->wz)) + (row4 * mfA->ww));
-    row1 = mfB->xy; 
-    row2 = mfB->yy; 
-    row3 = mfB->zy; 
-    row4 = mfB->wy;
-    dest->xy =  ((((row1 * mfA->xx) + (row2 * mfA->xy)) + (row3 * mfA->xz)) + (row4 * mfA->xw));
-    dest->yy =  ((((row1 * mfA->yx) + (row2 * mfA->yy)) + (row3 * mfA->yz)) + (row4 * mfA->yw));
-    dest->zy =  ((((row1 * mfA->zx) + (row2 * mfA->zy)) + (row3 * mfA->zz)) + (row4 * mfA->zw));
-    dest->wy =  ((((row1 * mfA->wx) + (row2 * mfA->wy)) + (row3 * mfA->wz)) + (row4 * mfA->ww));
-    row1 = mfB->xz;
-    row2 = mfB->yz;
-    row3 = mfB->zz;
-    row4 = mfB->wz;
-    dest->xz =  ((((row1 * mfA->xx) + (row2 * mfA->xy)) + (row3 * mfA->xz)) + (row4 * mfA->xw));
-    dest->yz =  ((((row1 * mfA->yx) + (row2 * mfA->yy)) + (row3 * mfA->yz)) + (row4 * mfA->yw));
-    dest->zz =  ((((row1 * mfA->zx) + (row2 * mfA->zy)) + (row3 * mfA->zz)) + (row4 * mfA->zw));
-    dest->wz =  ((((row1 * mfA->wx) + (row2 * mfA->wy)) + (row3 * mfA->wz)) + (row4 * mfA->ww));
-    row1 = mfB->xw;
-    row2 = mfB->yw;
-    row3 = mfB->zw;
-    row4 = mfB->ww;
-    dest->xw =  ((((row1 * mfA->xx) + (row2 * mfA->xy)) + (row3 * mfA->xz)) + (row4 * mfA->xw));
-    dest->yw =  ((((row1 * mfA->yx) + (row2 * mfA->yy)) + (row3 * mfA->yz)) + (row4 * mfA->yw));
-    dest->zw =  ((((row1 * mfA->zx) + (row2 * mfA->zy)) + (row3 * mfA->zz)) + (row4 * mfA->zw));
-    dest->ww =  ((((row1 * mfA->wx) + (row2 * mfA->wy)) + (row3 * mfA->wz)) + (row4 * mfA->ww));
-*/
+//SkinMatrix_MtxFMtxFMult
 void func_800A6FA0(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     f32 rx;
     f32 ry;
@@ -111,25 +55,25 @@ void func_800A6FA0(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->xx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->yx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->zx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->wx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->wx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
     
     //---COL2---
     cx = mfB->xy;
@@ -141,25 +85,25 @@ void func_800A6FA0(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->xy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->yy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->zy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->wy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->wy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---COL3---
     cx = mfB->xz;
@@ -171,25 +115,25 @@ void func_800A6FA0(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->xz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->yz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->zz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->wz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->wz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     //---COL4---
     cx = mfB->xw;
@@ -201,30 +145,36 @@ void func_800A6FA0(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xw = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->xw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yw =  (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->yw =  (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zw = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    dest->zw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->ww = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
-
+    dest->ww = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 }
 
+extern MtxF D_8012A4A0;
+MtxF D_8012A4A0 = {1.0f, 0.0f, 0.0f, 0.0f,
+                   0.0f, 1.0f, 0.0f, 0.0f,
+                   0.0f, 0.0f, 1.0f, 0.0f,
+                   0.0f, 0.0f, 0.0f, 1.0f};
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A72FC.s")
+void func_800A72FC(MtxF** arg0) {
+    *arg0 = &D_8012A4A0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A730C.s")
 
