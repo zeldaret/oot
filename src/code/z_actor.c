@@ -3824,26 +3824,20 @@ Gfx* func_80034B28(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-#ifdef NON_MATCHING
-// doesn't generate the 2 useless move instructions before returning
 Gfx* func_80034B54(GraphicsContext* gfxCtx) {
-    Gfx* displayList;
     Gfx* displayListHead;
+    Gfx* displayList;
 
-    displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    displayListHead = displayList;
+    displayList = displayListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A,
                      AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
                          GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
 
-    gSPEndDisplayList(displayListHead);
+    gSPEndDisplayList(displayListHead++);
 
     return displayList;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_80034B54.s")
-#endif
 
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha) {
