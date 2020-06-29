@@ -102,4 +102,7 @@ void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BAE05C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/ShotSun_Update.s")
+void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ShotSun* this = THIS;
+    this->actionFunc(&this->actor, globalCtx);
+}
