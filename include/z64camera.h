@@ -466,9 +466,11 @@ typedef struct {
     f32 unk_1C;
     f32 unk_20;
     f32 unk_24;
-    VecSph unk_28;
-    s16 unk30;
-    s16 unk32;
+    f32 unk_28;
+    s16 unk_2C;
+    s16 unk_2E;
+    s16 unk_30;
+    s16 unk_32;
 } Subj4Anim;
 
 typedef struct {

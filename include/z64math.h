@@ -68,7 +68,9 @@ typedef struct {
 } VecSph;
 
 #define F32_LERPIMP(v0, v1, t) (v0 + ((v1 - v0) * t))
+#define F32_LERPIMPINV(v0, v1, t) (v0 + ((v1 - v0) / (t)))
 #define BINANG_LERPIMP(v0, v1, t) (v0 + (s16)(BINANG_SUB(v1, v0) * t))
+#define BINANG_LERPIMPINV(v0, v1, t) (v0 + BINANG_SUB(v1, v0) / (t))
 
 #define VEC3F_LERPIMP(v0, v1, xzt, yt, v1yoffset) { \
     (v0)->x = (v0)->x + (((v1)->x - (v0)->x) * xzt); \
