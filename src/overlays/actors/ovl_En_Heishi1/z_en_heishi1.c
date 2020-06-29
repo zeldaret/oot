@@ -10,23 +10,23 @@ void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A5162C(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A516E4(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A51D18(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx);
 
-void func_80A521FC(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A52290(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A51C4C(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A51D18(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx);
 
-void func_80A51A98(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A51B54(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A51F50(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A51FEC(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A52098(EnHeishi1* this, GlobalContext* globalCtx);
-void func_80A5212C(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_StartCatch(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx);
 
-s32 sIsCaught = false;
+s32 sPlayerIsCaught = false;
 
 const ActorInit En_Heishi1_InitVars = {
     ACTOR_PLAYER,
@@ -104,7 +104,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "(body) maximum turning angle speed"
     osSyncPrintf(VT_FGCOL(PURPLE) " (体)反転アングルスピード最大☆ %f\n" VT_RST, this->bodyTurnSpeedMax);
     // "(head) targeted turning angle speed value"
-    osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedTarget);
+    osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
     // "(head) maximum turning angle speed"
     osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
     // "current time"
@@ -124,14 +124,14 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.dayTime < 0xB888) || (gSaveContext.nightFlag == 0)) && !(gSaveContext.eventChkInf[8] & 1)) {
-            this->actionFunc = func_80A5162C;
+        if (((gSaveContext.dayTime < 0xB888) || (!gSaveContext.nightFlag)) && !(gSaveContext.eventChkInf[8] & 1)) {
+            this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.dayTime >= 0xB889) || (gSaveContext.nightFlag != 0) || (gSaveContext.eventChkInf[8] & 1)) {
-            this->actionFunc = func_80A521FC;
+        if ((gSaveContext.dayTime >= 0xB889) || (gSaveContext.nightFlag) || (gSaveContext.eventChkInf[8] & 1)) {
+            this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);
         }
@@ -141,17 +141,17 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80A5162C(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005880.genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, this->animSpeed, 0.0f, frameCount, 0, this->transitionRate);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
-    this->unk_262 = Math_Rand_ZeroFloat(1.99f);
-    this->actionFunc = func_80A516E4;
+    this->headDirection = Math_Rand_ZeroFloat(1.99f);
+    this->actionFunc = EnHeishi1_Walk;
 }
 
-void func_80A516E4(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s* pointPos;
     f32 pathDiffX;
@@ -164,45 +164,49 @@ void func_80A516E4(EnHeishi1* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
 
-    if (!sIsCaught) {
+    if (!sPlayerIsCaught) {
         path = &globalCtx->setupPathList[this->path];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
 
         Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, pointPos->x, 1.0f, this->moveSpeed);
         Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, pointPos->z, 1.0f, this->moveSpeed);
+
         Math_SmoothScaleMaxF(&this->moveSpeed, this->moveSpeedTarget, 1.0f, this->moveSpeedMax);
 
         pathDiffX = pointPos->x - this->actor.posRot.pos.x;
         pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(pathDiffX, pathDiffZ) * 10430.378f), 3,
                                 this->bodyTurnSpeed, 0);
+
         Math_SmoothScaleMaxF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);
 
         if (this->headTimer == 0) {
-            this->unk_262++;
-            this->unk_280 = 8192.0f;
-            if ((this->unk_262 & 1) != 0) {
-                this->unk_280 *= -1.0f;
+            this->headDirection++;
+            this->headAngleTarget = 8192.0f;
+            // if headDirection is odd, face 45 degrees left
+            if ((this->headDirection & 1) != 0) {
+                this->headAngleTarget *= -1.0f;
             }
             randOffset = Math_Rand_ZeroFloat(30.0f);
             this->headTimer = sHeadTimers[this->type] + randOffset;
         }
 
-        Math_SmoothScaleMaxF(&this->unk_27C, this->unk_280, this->headTurnSpeedTarget, this->headTurnSpeedMax);
+        Math_SmoothScaleMaxF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
 
         if ((this->path == BREG(1)) && (BREG(0) != 0)) {
             osSyncPrintf(VT_FGCOL(RED) " 種類  %d\n" VT_RST, this->path);
             osSyncPrintf(VT_FGCOL(RED) " ぱす  %d\n" VT_RST, this->waypoint);
             osSyncPrintf(VT_FGCOL(RED) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
-            osSyncPrintf(VT_FGCOL(RED) " 時間  %d\n" VT_RST, this->unkTimer2);
+            osSyncPrintf(VT_FGCOL(RED) " 時間  %d\n" VT_RST, this->waypointTimer);
             osSyncPrintf(VT_FGCOL(RED) " 点座  %d\n" VT_RST, path->count);
             osSyncPrintf("\n\n");
         }
 
         if ((fabsf(pathDiffX) < 20.0f) && (fabsf(pathDiffZ) < 20.0f)) {
-            if (this->unkTimer2 == 0) {
+            if (this->waypointTimer == 0) {
                 if (this->type >= 2) {
+                    // skip middle waypoint if random condition is met
                     if ((this->waypoint >= 4) && (Math_Rand_ZeroFloat(1.99f) > 1.0f)) {
                         if (this->waypoint == 7) {
                             this->waypoint = 0;
@@ -210,18 +214,17 @@ void func_80A516E4(EnHeishi1* this, GlobalContext* globalCtx) {
                         if (this->waypoint >= 4) {
                             this->waypoint -= 3;
                         }
-                        this->unkTimer2 = 5;
+                        this->waypointTimer = 5;
                         return;
                     }
                 }
-                this->actionFunc = func_80A51C4C;
+                this->actionFunc = EnHeishi1_SetupWait;
             }
         }
     }
 }
 
-// EnHeishi1_StartCatch
-void func_80A51A98(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_StartCatch(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005880.genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 3.0f, 0.0f, frameCount, 0, -3.0f);
@@ -229,11 +232,10 @@ void func_80A51A98(EnHeishi1* this, GlobalContext* globalCtx) {
     this->moveSpeed = 0.0f;
     func_8010B680(globalCtx, 0x702D, &this->actor);
     Interface_SetDoAction(globalCtx, 0x12);
-    this->actionFunc = func_80A51B54;
+    this->actionFunc = EnHeishi1_MoveToLink;
 }
 
-// EnHeishi1_MoveToLink
-void func_80A51B54(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -242,45 +244,42 @@ void func_80A51B54(EnHeishi1* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->moveSpeed, 6.0f, 1.0f, 0.4f);
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
     Math_SmoothScaleMaxF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
-    Math_SmoothDownscaleMaxF(&this->unk_27C, 0.5f, 2000.0f);
+    Math_SmoothDownscaleMaxF(&this->headAngle, 0.5f, 2000.0f);
     if (this->actor.xzDistFromLink < 70.0f) {
-        this->actionFunc = func_80A51F50;
+        this->actionFunc = EnHeishi1_SetupTurnTowardLink;
     }
 }
 
-void func_80A51C4C(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 rand;
     s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, frameCount, 0, this->transitionRate);
-    this->unk_264 = 0;
-    this->unk_262 = Math_Rand_ZeroFloat(1.99f);
+    this->headBehaviorDecided = false;
+    this->headDirection = Math_Rand_ZeroFloat(1.99f);
     rand = Math_Rand_ZeroFloat(50.0f);
-    this->moveTimer = rand + 50;
-    this->actionFunc = func_80A51D18;
+    this->waitTimer = rand + 50;
+    this->actionFunc = EnHeishi1_Wait;
 }
 
-void func_80A51D18(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 randOffset;
     s32 i;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (!sIsCaught) {
-        switch (this->unk_264) {
-            case 0:
-                this->unk_262++;
-                if ((this->unk_262 & 1) != 0) {
-                    this->unk_280 = 9472.0f;
-                } else {
-                    this->unk_280 = -9472.0f;
-                }
+    if (!sPlayerIsCaught) {
+        switch (this->headBehaviorDecided) {
+            case false:
+                this->headDirection++;
+                // if headDirection is odd, face 52 degrees left
+                this->headAngleTarget = (this->headDirection & 1) ? 9472.0f : -9472.0f;
                 randOffset = Math_Rand_ZeroFloat(30.0f);
                 this->headTimer = sHeadTimers[this->type] + randOffset;
-                this->unk_264 = 1;
+                this->headBehaviorDecided = true;
                 break;
-            case 1:
+            case true:
                 if (this->headTimer == 0) {
-                    if (this->moveTimer == 0) {
+                    if (this->waitTimer == 0) {
                         if ((this->type == 0) || (this->type == 1)) {
                             this->waypoint++;
                             if (this->waypoint >= 4) {
@@ -297,57 +296,59 @@ void func_80A51D18(EnHeishi1* this, GlobalContext* globalCtx) {
                                     break;
                                 }
                             }
-                            this->unkTimer2 = 5;
+                            this->waypointTimer = 5;
                         }
-                        this->actionFunc = func_80A5162C;
+                        this->actionFunc = EnHeishi1_SetupWalk;
                     } else {
-                        this->unk_264 = 0;
+                        this->headBehaviorDecided = false;
                     }
                 }
                 break;
         }
-        Math_SmoothScaleMaxF(&this->unk_27C, this->unk_280, this->headTurnSpeedTarget,
+        Math_SmoothScaleMaxF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale,
                              this->headTurnSpeedMax + this->headTurnSpeedMax);
+
         if ((this->path == BREG(1)) && (BREG(0) != 0)) {
             osSyncPrintf(VT_FGCOL(GREEN) " 種類  %d\n" VT_RST, this->path);
             osSyncPrintf(VT_FGCOL(GREEN) " ぱす  %d\n" VT_RST, this->waypoint);
             osSyncPrintf(VT_FGCOL(GREEN) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
-            osSyncPrintf(VT_FGCOL(GREEN) " 時間  %d\n" VT_RST, this->unkTimer2);
+            osSyncPrintf(VT_FGCOL(GREEN) " 時間  %d\n" VT_RST, this->waypointTimer);
             osSyncPrintf("\n\n");
         }
     }
 }
 
-void func_80A51F50(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, frameCount, 0, -10.0f);
-    this->unkTimer = 30;
-    this->actionFunc = func_80A51FEC;
+    this->kickTimer = 30;
+    this->actionFunc = EnHeishi1_TurnTowardLink;
 }
 
-void func_80A51FEC(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (this->type != 5) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
         Math_SmoothScaleMaxF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
-        Math_SmoothDownscaleMaxF(&this->unk_27C, 0.5f, 2000.0f);
+        Math_SmoothDownscaleMaxF(&this->headAngle, 0.5f, 2000.0f);
     }
 
-    if (this->unkTimer == 0) {
-        this->actionFunc = func_80A52098;
+    // wait 1.5 seconds after reaching link before allowing the text to be advanced
+    if (this->kickTimer == 0) {
+        this->actionFunc = EnHeishi1_SetupKick;
     }
 }
 
-void func_80A52098(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, frameCount, 0, -10.0f);
-    this->actionFunc = func_80A5212C;
+    this->actionFunc = EnHeishi1_Kick;
 }
 
-void func_80A5212C(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (!this->loadStarted) {
         // if dialog state is 5 and textbox has been advanced, kick player out
@@ -358,7 +359,7 @@ void func_80A5212C(EnHeishi1* this, GlobalContext* globalCtx) {
                 globalCtx->nextEntranceIndex = 0x4FA;
                 globalCtx->sceneLoadFlag = 0x14;
                 this->loadStarted = true;
-                sIsCaught = false;
+                sPlayerIsCaught = false;
                 globalCtx->fadeTransition = 0x2E;
                 gSaveContext.nextTransition = 0x2E;
             }
@@ -366,22 +367,23 @@ void func_80A5212C(EnHeishi1* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A521FC(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, frameCount, 0, -10.0f);
-    this->actionFunc = func_80A52290;
+    this->actionFunc = EnHeishi1_WaitNight;
 }
 
-void func_80A52290(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
     if (this->actor.xzDistFromLink < 100.0f) {
         func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         // "Discovered!"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
         func_8002DF54(globalCtx, &this->actor, 1);
-        this->actionFunc = func_80A52098;
+        this->actionFunc = EnHeishi1_SetupKick;
     }
 }
 
@@ -406,8 +408,8 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unkTimer2 != 0) {
-        this->unkTimer2--;
+    if (this->waypointTimer != 0) {
+        this->waypointTimer--;
     }
 
     activeCam = ACTIVE_CAM;
@@ -423,32 +425,32 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->type != 5) {
             path = this->path * 2;
             if ((sCamDataIdxs[path] == activeCam->unk_148) || (sCamDataIdxs[path + 1] == activeCam->unk_148)) {
-                if (!sIsCaught) {
-                    if ((this->actionFunc == func_80A516E4) || (this->actionFunc == func_80A51D18)) {
+                if (!sPlayerIsCaught) {
+                    if ((this->actionFunc == EnHeishi1_Walk) || (this->actionFunc == EnHeishi1_Wait)) {
                         searchBallAccel = sSearchBallAccel;
                         searchBallMult = sSearchBallMult;
                         searchBallPos.x = this->actor.posRot.pos.x;
                         searchBallPos.y = this->actor.posRot.pos.y + 60.0f;
                         searchBallPos.z = this->actor.posRot.pos.z;
                         Matrix_Push();
-                        Matrix_RotateY(((this->actor.shape.rot.y + this->unk_27C) / 32768.0f) * M_PI, 0);
+                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pull();
                         EffSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
-                                                  &this->seenLink);
+                                                  &this->linkDetected);
 
                         if (this->actor.xzDistFromLink < 60.0f) {
-                            this->seenLink = true;
+                            this->linkDetected = true;
                         } else if (this->actor.xzDistFromLink < 70.0f) {
                             if (player->actor.velocity.y > -4.0f) {
-                                this->seenLink = true;
+                                this->linkDetected = true;
                             }
                         }
 
-                        if (this->seenLink) {
+                        if (this->linkDetected) {
                             if (!(player->actor.velocity.y > -3.9f)) {
-                                this->seenLink = false;
+                                this->linkDetected = false;
                                 // make sure link is within 60 units of gaurd height
                                 // this is so he doesnt get caught when going on upper path
                                 if (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 60.0f) {
@@ -456,8 +458,8 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                                     // "Discovered!"
                                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
                                     func_8002DF54(globalCtx, &this->actor, 1);
-                                    sIsCaught = true;
-                                    this->actionFunc = func_80A51A98;
+                                    sPlayerIsCaught = true;
+                                    this->actionFunc = EnHeishi1_StartCatch;
                                 }
                             }
                         }
@@ -473,7 +475,7 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     EnHeishi1* this = THIS;
 
     if (limbIndex == 16) {
-        rot->x += (s16)this->unk_27C;
+        rot->x += (s16)this->headAngle;
     }
 
     return 0;

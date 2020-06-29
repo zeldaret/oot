@@ -176,7 +176,7 @@ EffSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.unk_24 = arg4;
-    initParams.seenLink = arg5;
+    initParams.linkDetected = arg5;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_SOLDER_SRCH_BALL, 0x80, &initParams);
 }

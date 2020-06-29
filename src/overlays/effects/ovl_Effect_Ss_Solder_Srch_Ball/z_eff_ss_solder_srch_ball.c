@@ -18,7 +18,7 @@ u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this
     this->update = EffSsSolderSrchBall_Update;
     this->life = 100;
     this->regs[1] = initParams->unk_24;
-    this->unk_3C = initParams->seenLink;
+    this->unk_3C = initParams->linkDetected;
     return 1;
 }
 
@@ -27,10 +27,10 @@ void EffSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* t
     f32 playerPosDiffX;
     f32 playerPosDiffY;
     f32 playerPosDiffZ;
-    s16* seenLink;
+    s16* linkDetected;
     Player* player = PLAYER;
 
-    seenLink = this->unk_3C;
+    linkDetected = this->unk_3C;
 
     playerPosDiffX = player->actor.posRot.pos.x - this->pos.x;
     playerPosDiffY = player->actor.posRot.pos.y - this->pos.y;
@@ -39,7 +39,7 @@ void EffSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* t
     // if the ball does not hit a wall (something blocks it) and the ball is within 70 units of link, set seen to true
     if (!func_8003E30C(&globalCtx->colCtx, &this->pos, 30.0f)) {
         if (sqrtf(SQ(playerPosDiffX) + SQ(playerPosDiffY) + SQ(playerPosDiffZ)) < 70.0f) {
-            *seenLink = true;
+            *linkDetected = true;
         }
     } else {
         if (this->life > 1) {
