@@ -208,6 +208,7 @@ block_14:
 
 // Runs every frame when Link is near the pedestal in Lake Hylia, sun update
 void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
     Vec3f spawnPos;
     EnItem00* collectible;
     s32 dayTime;
@@ -234,17 +235,13 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         dayTime = gSaveContext.dayTime;
-        if (!(120.0f < this->actor.xzDistFromLink)) {
-            if (dayTime >= 0x4555) {
-                if (dayTime < 0x5000) {
-                    this->unk_19C.x = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x54]) + (globalCtx->envCtx.unk_04.x * 0.16666667f));
-                    this->unk_19C.y = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x58]) - 30.0f) + (globalCtx->envCtx.unk_04.y * 0.16666667f);
-                    this->unk_19C.z = (s16) (s32) (*(f32*)(&PLAYER->unk_908[0x5C]) + (globalCtx->envCtx.unk_04.z * 0.16666667f));
+        if (this->actor.xzDistFromLink <= 120.0f && dayTime >= 0x4555 && dayTime < 0x5000) {
+            this->unk_19C.x = (s16) (s32) (*(f32*)(player->unk_908[0x54]) + (globalCtx->envCtx.unk_04.x * 0.16666667f));
+            this->unk_19C.y = (s16) (s32) (*(f32*)(player->unk_908[0x58]) - 30.0f) + (globalCtx->envCtx.unk_04.y * 0.16666667f);
+            this->unk_19C.z = (s16) (s32) (*(f32*)(player->unk_908[0x5C]) + (globalCtx->envCtx.unk_04.z * 0.16666667f));
 
-                    func_80062718(&this->collider.base, &this->unk_19C);
-                    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                }
-            }
+            func_80062718(&this->collider.base, &this->unk_19C);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }
