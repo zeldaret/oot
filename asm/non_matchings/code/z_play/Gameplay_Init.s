@@ -560,7 +560,7 @@ glabel Gameplay_Init
 /* B343B0 800BD210 0C00084C */  jal   osSyncPrintf
 /* B343B4 800BD214 02002825 */   move  $a1, $s0
 /* B343B8 800BD218 8FA40038 */  lw    $a0, 0x38($sp)
-/* B343BC 800BD21C 0C0169EA */  jal   func_8005A7A8
+/* B343BC 800BD21C 0C0169EA */  jal   Camera_ChangeDataIdx
 /* B343C0 800BD220 02002825 */   move  $a1, $s0
 .L800BD224:
 /* B343C4 800BD224 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016

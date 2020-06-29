@@ -696,7 +696,7 @@ typedef struct {
     /* 0x0140 */ s16 status;
     /* 0x0142 */ s16 setting; // referred to as set
     /* 0x0144 */ s16 mode;
-    /* 0x0146 */ s16 unk_146; // unknown if used
+    /* 0x0146 */ s16 bgCheckId; // unknown if used
     /* 0x0148 */ s16 camDataIdx;
     /* 0x014A */ s16 unk_14A; // unknown if used
     /* 0x014C */ s16 unk_14C;
@@ -704,8 +704,8 @@ typedef struct {
     /* 0x0150 */ s16 unk_150; // unknown if used
     /* 0x0152 */ s16 unk_152;
     /* 0x0154 */ s16 prevSetting; // appears to be some clone of setting?
-    /* 0x0156 */ s16 unk_156;
-    /* 0x0158 */ s16 unk_158; // unknown if used
+    /* 0x0156 */ s16 nextCamDataIdx;
+    /* 0x0158 */ s16 nextBGCheckId;
     /* 0x015A */ s16 roll;
     /* 0x015C */ s16 paramFlags;
     /* 0x015E */ s16 animState;

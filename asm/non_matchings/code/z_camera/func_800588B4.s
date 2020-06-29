@@ -138,7 +138,7 @@ glabel func_800588B4
 /* ACFC1C 80058A7C 02002025 */  move  $a0, $s0
 /* ACFC20 80058A80 A7AD0032 */  sh    $t5, 0x32($sp)
 /* ACFC24 80058A84 A60E0146 */  sh    $t6, 0x146($s0)
-/* ACFC28 80058A88 0C0169EA */  jal   func_8005A7A8
+/* ACFC28 80058A88 0C0169EA */  jal   Camera_ChangeDataIdx
 /* ACFC2C 80058A8C AFAF002C */   sw    $t7, 0x2c($sp)
 /* ACFC30 80058A90 86180142 */  lh    $t8, 0x142($s0)
 /* ACFC34 80058A94 8FB9002C */  lw    $t9, 0x2c($sp)
@@ -170,7 +170,7 @@ glabel func_800588B4
 /* ACFC98 80058AF8 10000003 */  b     .L80058B08
 /* ACFC9C 80058AFC A60F0148 */   sh    $t7, 0x148($s0)
 .L80058B00:
-/* ACFCA0 80058B00 0C0169EA */  jal   func_8005A7A8
+/* ACFCA0 80058B00 0C0169EA */  jal   Camera_ChangeDataIdx
 /* ACFCA4 80058B04 02002025 */   move  $a0, $s0
 .L80058B08:
 /* ACFCA8 80058B08 87B80032 */  lh    $t8, 0x32($sp)

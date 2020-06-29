@@ -687,7 +687,7 @@ void func_80059EC8(Camera* camera);
 // ? Camera_ChangeModeDefaultFlags(?);
 // ? Camera_ChangeSetting(?);
 s32 Camera_ChangeSettingDefaultFlags(Camera* camera, s16 button);
-// ? func_8005A7A8(?);
+// ? Camera_ChangeDataIdx(?);
 // ? func_8005A8C4(?);
 Vec3s* func_8005A970(Vec3s*, Camera*);
 s16 func_8005A9F4(Camera* camera);
