@@ -555,13 +555,13 @@ typedef struct {
 } KeepOn4;
 
 typedef struct {
-    f32 unk_00;
-    s16 unk_04;
-} Special6_Unk04;
+    f32 initalPlayerY;
+    s16 animTimer;
+} Special6Anim;
 
 typedef struct {
-    s16 unk_00;
-    Special6_Unk04 unk_04;
+    s16 interfaceFlags;
+    Special6Anim anim;
 } Special6;
 
 typedef struct {

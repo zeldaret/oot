@@ -5586,7 +5586,8 @@ s32 Camera_Subj3(Camera *camera) {
 #endif
 #undef NON_MATCHING
 
-#define NON_MATCHING
+//#define NON_MATCHING
+#ifdef NON_MATCHING
 s32 Camera_Subj4(Camera *camera) {
     u16 spAA;
     Vec3s *spA4;
@@ -5708,7 +5709,6 @@ s32 Camera_Subj4(Camera *camera) {
     camera->roll = Camera_LERPCeilS((u16)0, camera->roll, 0.5f, (u16)0xA);
     return 1;
 }
-#ifdef NON_MATCHING
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Subj4.s")
 #endif
@@ -7126,43 +7126,50 @@ s32 Camera_Special7(Camera *camera) {
     return true;
 }
 
+/**
+ * Courtyard.
+ * Camera's eye is fixed on the z plane, slides on the xy plane with link
+ * When the camera's scene data changes the animation to the next "screen"
+ * happens for 12 frames.  The camera's eyeNext is the scene's camera data's position
+*/
 s32 Camera_Special6(Camera *camera) {
     s32 pad;
     Vec3f *at = &camera->at;
     Special6 *spec6 = &camera->params.spec6;
-    VecSph spAC;
-    Vec3f spA0;
-    Vec3f sp94;
-    Vec3f sp88;
-    Vec3f sp7C;
-    VecSph sp74;
+    VecSph atOffset;
+    Vec3f sceneCamPos;
+    Vec3f eyePosCalc;
+    Vec3f eyeAnim;
+    Vec3f atAnim;
+    VecSph eyeAtOffset;
     CameraModeValue *values;
-    CamPosData *sceneCamPos;
+    CamPosData *sceneCamData;
     Vec3s sceneCamRot;
     s16 fov;
     Vec3f *eye = &camera->eye;
     f32 timerF;
     f32 timerDivisor;
     f32 sp54;
-    
+
     Vec3f *eyeNext = &camera->eyeNext;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Special6_Unk04* unk04 = &spec6->unk_04;
+    Special6Anim* anim = &spec6->anim;
 
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        spec6->unk_00 = NEXTSETTING;
+        spec6->interfaceFlags = NEXTSETTING;
     }
 
     if (R_RELOAD_CAM_PARAMS) {
         Camera_CopyPREGToModeValues(camera);
     }
 
-    OLib_Vec3fDiffToVecSphRot90(&sp74, eye, at);
-    sceneCamPos = func_8004476C(camera);
-    Camera_Vec3sToVec3f(&spA0, &sceneCamPos->pos);
-    sceneCamRot = sceneCamPos->rot;
-    fov = sceneCamPos->fov;
+    OLib_Vec3fDiffToVecSphRot90(&eyeAtOffset, eye, at);
+
+    sceneCamData = func_8004476C(camera);
+    Camera_Vec3sToVec3f(&sceneCamPos, &sceneCamData->pos);
+    sceneCamRot = sceneCamData->rot;
+    fov = sceneCamData->fov;
     if (fov == -1) {
         fov = 6000;
     }
@@ -7170,49 +7177,61 @@ s32 Camera_Special6(Camera *camera) {
     if (fov < 361) {
         fov *= 100;
     }
-    sCameraInterfaceFlags = spec6->unk_00;
-    if (eyeNext->x != spA0.x || eyeNext->y != spA0.y || eyeNext->z != spA0.z || camera->animState == 0) {
+
+    sCameraInterfaceFlags = spec6->interfaceFlags;
+
+    if (eyeNext->x != sceneCamPos.x || eyeNext->y != sceneCamPos.y || eyeNext->z != sceneCamPos.z || camera->animState == 0) {
+        // A change in the current scene's camera positon has been detected,
+        // Change "screens"
         camera->player->actor.freeze = 12;
         sCameraInterfaceFlags = (sCameraInterfaceFlags & 0xF0FF) | 0x300;
-        unk04->unk_00 = playerPosRot->pos.y;
-        unk04->unk_04 = 12;
-        *eyeNext = spA0;
+        anim->initalPlayerY = playerPosRot->pos.y;
+        anim->animTimer = 12;
+        *eyeNext = sceneCamPos;
         if (camera->animState == 0) {
             camera->animState++;
         }
     }
 
-    if (unk04->unk_04 > 0) {
-        timerF = unk04->unk_04;
-        sp94 = *eyeNext;
-        sp94.x += (playerPosRot->pos.x - sp94.x) * 0.5f;
-        sp94.y += (playerPosRot->pos.y - unk04->unk_00) * 0.2f;
-        sp88 = sp94;
-        sp88.y = Camera_LERPCeilF(sp94.y, eye->y, 0.5f, 0.01f);
-        spAC.r = 100.0f;
-        spAC.theta = sceneCamRot.y;
-        spAC.phi = -sceneCamRot.x;
-        Camera_Vec3fVecSphAdd(&sp7C, &sp88, &spAC);
+    if (anim->animTimer > 0) {
+        // In transition between "screens"
+        timerF = anim->animTimer;
+        eyePosCalc = *eyeNext;
+        eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
+        eyePosCalc.y += (playerPosRot->pos.y - anim->initalPlayerY) * 0.2f;
+        eyeAnim = eyePosCalc;
+        eyeAnim.y = Camera_LERPCeilF(eyePosCalc.y, eye->y, 0.5f, 0.01f);
+
+        // set the at point to be 100 units from the eye looking at the 
+        // direction specified in the scene's camera data. 
+        atOffset.r = 100.0f;
+        atOffset.theta = sceneCamRot.y;
+        atOffset.phi = -sceneCamRot.x;
+        Camera_Vec3fVecSphAdd(&atAnim, &eyeAnim, &atOffset);
         timerDivisor = 1.0f / timerF;
-        eye->x += (sp88.x - eye->x) * timerDivisor;
-        eye->y += (sp88.y - eye->y) * timerDivisor;
-        eye->z += (sp88.z - eye->z) * timerDivisor;
-        at->x += (sp7C.x - at->x) * timerDivisor;
-        at->y += (sp7C.y - at->y) * timerDivisor;
-        at->z += (sp7C.z - at->z) * timerDivisor;
-        camera->fov += (PCT(fov) - camera->fov) / unk04->unk_04;
-        unk04->unk_04--;
+        eye->x += (eyeAnim.x - eye->x) * timerDivisor;
+        eye->y += (eyeAnim.y - eye->y) * timerDivisor;
+        eye->z += (eyeAnim.z - eye->z) * timerDivisor;
+        at->x += (atAnim.x - at->x) * timerDivisor;
+        at->y += (atAnim.y - at->y) * timerDivisor;
+        at->z += (atAnim.z - at->z) * timerDivisor;
+        camera->fov += (PCT(fov) - camera->fov) / anim->animTimer;
+        anim->animTimer--;
     } else {
+        // Camera following link on the x axis.
         sCameraInterfaceFlags &= 0xF0FF;
-        sp94 = *eyeNext;
-        sp94.x += (playerPosRot->pos.x - sp94.x) * 0.5f;
-        sp94.y += (playerPosRot->pos.y - unk04->unk_00) * 0.2f;
-        *eye = sp94;
-        eye->y = Camera_LERPCeilF(sp94.y, eye->y, 0.5f, 0.01f);
-        spAC.r = 100.0f;
-        spAC.theta = sceneCamRot.y;
-        spAC.phi = -sceneCamRot.x;
-        Camera_Vec3fVecSphAdd(at, eye, &spAC);
+        eyePosCalc = *eyeNext;
+        eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
+        eyePosCalc.y += (playerPosRot->pos.y - anim->initalPlayerY) * 0.2f;
+        *eye = eyePosCalc;
+        eye->y = Camera_LERPCeilF(eyePosCalc.y, eye->y, 0.5f, 0.01f);
+        
+        // set the at point to be 100 units from the eye looking at the 
+        // direction specified in the scene's camera data. 
+        atOffset.r = 100.0f;
+        atOffset.theta = sceneCamRot.y;
+        atOffset.phi = -sceneCamRot.x;
+        Camera_Vec3fVecSphAdd(at, eye, &atOffset);
     }
     return true;
 }
