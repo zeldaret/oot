@@ -172,8 +172,6 @@ static SceneSelectEntry sScenes[] = {
     { "title", Select_LoadTitle, 0x0000 },
 };
 
-#ifdef NON_MATCHING
-// mostly regalloc, a good amount of instruction ordering. confirmed equivalent in game.
 void Select_UpdateMenu(SelectContext* this) {
     Input* controller1;
     s32 pad;
@@ -315,7 +313,8 @@ void Select_UpdateMenu(SelectContext* this) {
     }
 
     if (CHECK_PAD(controller1->press, L_TRIG)) {
-        this->unk_1DC = (++this->unk_1DC + 7) % 7;
+        this->unk_1DC++;
+        this->unk_1DC = (this->unk_1DC + 7) % 7;
         this->currentScene = this->unk_20C = this->unk_1E0[this->unk_1DC];
     }
 
@@ -324,10 +323,13 @@ void Select_UpdateMenu(SelectContext* this) {
     if (this->unk_21C < -7) {
         this->unk_220 = 0;
         this->unk_21C = 0;
+        
+        this->currentScene++;
+        this->currentScene = (this->currentScene + this->count) % this->count;
 
-        this->currentScene = (++this->currentScene + this->count) % this->count;
         if (this->currentScene == ((this->unk_20C + this->count + 0x13) % this->count)) {
-            this->unk_20C = (++this->unk_20C + this->count) % this->count;
+            this->unk_20C++;
+            this->unk_20C = (this->unk_20C + this->count) % this->count;
         }
     }
 
@@ -336,13 +338,16 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_21C = 0;
 
         if (this->currentScene == this->unk_20C) {
-            this->unk_20C = ((this->unk_20C - 2) + this->count) % this->count;
+            this->unk_20C -= 2;
+            this->unk_20C = (this->unk_20C + this->count) % this->count;
         }
 
-        this->currentScene = ((--this->currentScene) + this->count) % this->count;
+        this->currentScene--;
+        this->currentScene = (this->currentScene + this->count) % this->count;
 
         if (this->currentScene == ((this->unk_20C + this->count) % this->count)) {
-            this->unk_20C = (--this->unk_20C + this->count) % this->count;
+            this->unk_20C--;
+            this->unk_20C = (this->unk_20C + this->count) % this->count;
         }
     }
 
@@ -369,9 +374,6 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_230 = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_select/Select_UpdateMenu.s")
-#endif
 
 void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
     s32 scene;
