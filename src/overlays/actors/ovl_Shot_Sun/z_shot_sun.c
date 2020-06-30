@@ -33,10 +33,10 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx);
-void func_80BADE74(ShotSun* this, GlobalContext* globalCtx);
+void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx);
+void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
-void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx);
+void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx);
 
 extern s32 func_8005B198();
 extern void func_80062718(ColliderCylinder* collider, Vec3s* pos);
@@ -78,7 +78,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        this->actionFunc = &func_80BAE05C;
+        this->actionFunc = &ShotSun_HyliaSunUpdate;
         this->actor.flags &= ~1;
     }
 }
@@ -93,8 +93,7 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// Fairy tick, counts down until fairy spawn
-void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
+void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
     s32 temp_v0 = this->actor.params & 0xFF;
     s32 sp38;
 
@@ -122,9 +121,9 @@ void func_80BADDCC(ShotSun* this, GlobalContext* globalCtx) {
     Actor_Kill(&this->actor);
 }
 
-void func_80BADE74(ShotSun* this, GlobalContext* globalCtx) {
+void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
     if ((func_8005B198() == this->actor.type) || (this->spawnTimer != 0)) {
-        this->actionFunc = &func_80BADDCC;
+        this->actionFunc = &ShotSun_FairyCountdown;
         this->spawnTimer = 50;
 
         Actor_Spawn(
@@ -163,7 +162,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
         if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
             if (((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9))
                 || ((temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
-                    this->actionFunc = &func_80BADE74;
+                    this->actionFunc = &ShotSun_StartFairyCountdown;
                     func_80080480(globalCtx, this);
                     this->spawnTimer = 0;
             } else {
@@ -175,8 +174,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     }
 }
 
-// Runs every frame when Link is near the pedestal in Lake Hylia, sun update
-void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
+void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx) {
     Vec3s cylinderPos;
     Player* player = PLAYER;
     EnItem00* collectible;
@@ -201,7 +199,6 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
 
             collectible = (EnItem00*)Item_DropCollectible(globalCtx, &spawnPos, 0xE);
             if (collectible != NULL) {
-                // Maybe length of drop animation?
                 collectible->unk_15A = 6000;
                 collectible->actor.speedXZ = 0.0f;
             }
