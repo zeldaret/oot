@@ -351,8 +351,8 @@ s32 func_800AAA9C(View* view) {
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
-             view->up.x, view->up.y, view->up.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+             view->up.y, view->up.z);
 
     view->viewing = *viewing;
 
@@ -500,8 +500,8 @@ s32 func_800AB560(View* view) {
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
-             view->up.x, view->up.y, view->up.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+             view->up.y, view->up.z);
 
     view->viewing = *viewing;
 

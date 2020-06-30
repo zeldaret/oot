@@ -169,14 +169,15 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029DBC.s")
 
-EffSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, s16* arg5) {
+EffSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4,
+                          s16* linkDetected) {
     EffSsSolderSrchBallInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.unk_24 = arg4;
-    initParams.linkDetected = arg5;
+    initParams.linkDetected = linkDetected;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_SOLDER_SRCH_BALL, 0x80, &initParams);
 }

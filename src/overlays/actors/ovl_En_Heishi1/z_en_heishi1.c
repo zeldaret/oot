@@ -10,21 +10,19 @@ void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx);
-
-void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx);
 void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx);
-
-void EnHeishi1_StartCatch(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx);
 void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
 void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx);
+
+void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
 void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx);
 
 s32 sPlayerIsCaught = false;
 
@@ -47,7 +45,7 @@ f32 sAnimParamsInit[][8] = {
     { 3.0f, -3.0f, 6.0f, 0.8f, 2000.0f, 400.0f, 0.5f, 2000.0f },
 };
 
-s16 sHeadTimers[] = { 20, 10, 20, 10, 13, 0 };
+s16 sBaseHeadTimers[] = { 20, 10, 20, 10, 13, 0 };
 
 Vec3f sRupeePositions[] = {
     { 0.0f, 0.0f, 90.0f },  { -55.0f, 0.0f, 90.0f }, { -55.0f, 0.0f, 30.0f }, { -55.0f, 0.0f, -30.0f },
@@ -189,7 +187,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
                 this->headAngleTarget *= -1.0f;
             }
             randOffset = Math_Rand_ZeroFloat(30.0f);
-            this->headTimer = sHeadTimers[this->type] + randOffset;
+            this->headTimer = sBaseHeadTimers[this->type] + randOffset;
         }
 
         Math_SmoothScaleMaxF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
@@ -203,10 +201,10 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
             osSyncPrintf("\n\n");
         }
 
+        // when 20 units away from a middle waypoint, decide whether or not to skip it
         if ((fabsf(pathDiffX) < 20.0f) && (fabsf(pathDiffZ) < 20.0f)) {
             if (this->waypointTimer == 0) {
                 if (this->type >= 2) {
-                    // skip middle waypoint if random condition is met
                     if ((this->waypoint >= 4) && (Math_Rand_ZeroFloat(1.99f) > 1.0f)) {
                         if (this->waypoint == 7) {
                             this->waypoint = 0;
@@ -224,7 +222,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHeishi1_StartCatch(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005880.genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 3.0f, 0.0f, frameCount, 0, -3.0f);
@@ -245,6 +243,7 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
     Math_SmoothScaleMaxF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
     Math_SmoothDownscaleMaxF(&this->headAngle, 0.5f, 2000.0f);
+
     if (this->actor.xzDistFromLink < 70.0f) {
         this->actionFunc = EnHeishi1_SetupTurnTowardLink;
     }
@@ -274,7 +273,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                 // if headDirection is odd, face 52 degrees left
                 this->headAngleTarget = (this->headDirection & 1) ? 9472.0f : -9472.0f;
                 randOffset = Math_Rand_ZeroFloat(30.0f);
-                this->headTimer = sHeadTimers[this->type] + randOffset;
+                this->headTimer = sBaseHeadTimers[this->type] + randOffset;
                 this->headBehaviorDecided = true;
                 break;
             case true:
@@ -286,6 +285,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                                 this->waypoint = 0;
                             }
                         } else {
+                            // set next waypoint to the closest one
                             for (i = 0; i < ARRAY_COUNT(sWaypoints); i++) {
                                 if (this->waypoint == sWaypoints[i]) {
                                     i++;
@@ -443,23 +443,31 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         if (this->actor.xzDistFromLink < 60.0f) {
                             this->linkDetected = true;
                         } else if (this->actor.xzDistFromLink < 70.0f) {
+                            // this case probably exists to detect link making a sidhop or backflip sound
+                            // from slightly further away than the previous 60 unit check
                             if (player->actor.velocity.y > -4.0f) {
                                 this->linkDetected = true;
                             }
                         }
 
                         if (this->linkDetected) {
+                            // ! @bug This appears to be a check to make sure that link is standing on flat ground
+                            // before getting caught. However this is an issue for two reasons:
+                            // 1: When doing a backflip or falling from the upper path, links y velocity will reach
+                            // less than -4.0 before even touching the ground.
+                            // 2: There is one frame when landing from a sidehop where you can sidehop again without
+                            // letting y velocity reach -4.0 or less. This enables the player to do frame perfect
+                            // sidehops onto the next screen and prevent getting caught.
                             if (!(player->actor.velocity.y > -3.9f)) {
                                 this->linkDetected = false;
-                                // make sure link is within 60 units of gaurd height
-                                // this is so he doesnt get caught when going on upper path
+                                // this 60 unit height check is so the player doesnt get caught when going on upper path
                                 if (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 60.0f) {
                                     func_80078884(NA_SE_SY_FOUND);
                                     // "Discovered!"
                                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
                                     func_8002DF54(globalCtx, &this->actor, 1);
                                     sPlayerIsCaught = true;
-                                    this->actionFunc = EnHeishi1_StartCatch;
+                                    this->actionFunc = EnHeishi1_SetupMoveToLink;
                                 }
                             }
                         }
@@ -474,6 +482,7 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
                                Actor* thisx) {
     EnHeishi1* this = THIS;
 
+    // turn the guards head to match the direction he is looking
     if (limbIndex == 16) {
         rot->x += (s16)this->headAngle;
     }
@@ -490,6 +499,7 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi1_OverrideLimbDraw, NULL,
                    &this->actor);
     func_80033C30(&this->actor.posRot.pos, &matrixScale, 0xFF, globalCtx);
+
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 100.0f, this->actor.posRot.pos.z,
                                0x4268, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
