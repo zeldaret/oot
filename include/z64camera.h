@@ -86,8 +86,7 @@ typedef struct {
     /* 0x0018 */ s16 unk_18;
     /* 0x001A */ s16 unk_1A;
     /* 0x001C */ f32 unk_1C;
-    /* 0x0020 */ s16 unk_20;
-    /* 0x0022 */ s16 unk_22;
+    /* 0x0020 */ f32 unk_20;
     /* 0x0024 */ s16 unk_24;
     /* 0x0026 */ s16 unk_26;
     /* 0x0028 */ s16 unk_28;
@@ -203,34 +202,6 @@ typedef struct {
     KeepOn0Anim anim;
 } KeepOn0;
 
-typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    struct Actor *unk_0C;
-    f32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-} Battle1_Unk30;
-
-typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    f32 unk_1C;
-    f32 unk_20;
-    f32 unk_24;
-    f32 unk_28;
-    s16 unk_2C;
-    Battle1_Unk30 unk_30;
-} Battle1;
 
 typedef struct {
     /* 0x0000 */ Vec3f unk_00;
@@ -614,6 +585,35 @@ typedef struct {
     /* 0x001C */ Battle4Anim anim;
 } Battle4; // size = 0x20
 
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ Actor* target;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ s16 unk_14;
+    /* 0x0016 */ s16 unk_16;
+    /* 0x0018 */ s16 unk_18;
+    /* 0x001A */ s16 unk_1A;
+    /* 0x001C */ s16 unk_1C;
+} Battle1Anim; // size = 0x1E
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ f32 unk_20;
+    /* 0x0024 */ f32 unk_24;
+    /* 0x0028 */ f32 unk_28;
+    /* 0x002C */ s16 interfaceFlags;
+    /* 0x0030 */ Battle1Anim anim;
+} Battle1; // size = 0x50
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -622,7 +622,7 @@ typedef union {
     DoorCamera doorCam;
     Special0 spec0;
     Demo1 demo1;
-    Normal3 normal3;
+    Normal3 norm3;
     Normal2 normal2;
     Data4 data4;
     Unique6 uniq6;
@@ -654,6 +654,7 @@ typedef union {
     Demo6 demo6;
     Demo3 demo3;
     Battle4 batt4;
+    Battle1 batt1;
 } CameraParams;
 
 typedef struct {
