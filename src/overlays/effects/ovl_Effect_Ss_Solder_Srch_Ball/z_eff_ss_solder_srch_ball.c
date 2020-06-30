@@ -1,3 +1,9 @@
+/*
+ * File: z_eff_ss_solder_srch_ball.c
+ * Overlay: ovl_Effect_Ss_Solder_Srch_Ball
+ * Description: Vision sphere for courtyard guards
+ */
+
 #include "z_eff_ss_solder_srch_ball.h"
 
 u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this,
