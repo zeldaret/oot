@@ -479,8 +479,8 @@ Mtx* func_800A7E70(GraphicsContext* gfxCtx, MtxF* src) {
 }
 
 #ifdef NON_MATCHING
-// Rotate by angle t around the axis defined by the vector (x,y,z)
-// Can't get blocks in right order. Functional but not very close to matching.
+// Rotation matrix rotates by angle t around the vector with components (x,y,z)
+// Can't get blocks in right order. Should be functional but not very close to matching.
 void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
     f32 sin;
     f32 cos;
@@ -531,4 +531,56 @@ void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7EC0.s")
 #endif
 
+#ifdef NON_MATCHING
+// Function looks a lot like the second argument should be a vec4f but I don't think that type exists
+// VERY close to matching. there's an add.s with the registers around the wrong way
+void func_800A8030(MtxF* mf, f32* arg1) {
+    f32 n;
+    f32 xNorm;
+    f32 yNorm;
+    f32 zNorm;
+    f32 wxNorm;
+    f32 wyNorm;
+    f32 wzNorm;
+    f32 xxNorm;
+    f32 xyNorm;
+    f32 xzNorm;
+    f32 yyNorm;
+    f32 yzNorm;
+    f32 zzNorm;
+    
+    n = 2.0f / ((arg1[0] * arg1[0]) + (arg1[1] * arg1[1]) + (arg1[2] * arg1[2]) + (arg1[3] * arg1[3]));
+    xNorm = arg1[0] * n;
+    yNorm = arg1[1] * n;
+    zNorm = arg1[2] * n;
+
+    wxNorm = arg1[3] * xNorm;
+    wyNorm = arg1[3] * yNorm;
+    wzNorm = arg1[3] * zNorm;
+    xxNorm = arg1[0] * xNorm;
+    xyNorm = arg1[0] * yNorm;
+    xzNorm = arg1[0] * zNorm;
+    yyNorm = arg1[1] * yNorm;
+    yzNorm = arg1[1] * zNorm;
+    zzNorm = arg1[2] * zNorm;
+
+    mf->xx = (1.0f - (yyNorm + zzNorm));
+    mf->xy = (xyNorm + wzNorm);
+    mf->xz = (xzNorm - wyNorm);
+    mf->xw = 0.0f;
+    mf->yx = (xyNorm - wzNorm);
+    mf->yy = (1.0f - (xxNorm + zzNorm));
+    mf->yz = (yzNorm + wxNorm);
+    mf->yw = 0.0f;
+    mf->zx = (yzNorm + wyNorm);
+    mf->zy = (yzNorm - wxNorm);
+    mf->zz = (1.0f - (xxNorm + yyNorm));
+    mf->zw = 0.0f;
+    mf->wx = 0.0f;
+    mf->wy = 0.0f;
+    mf->ww = 1.0f;
+    mf->wz = 0.0f;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A8030.s")
+#endif
