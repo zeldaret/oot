@@ -1,7 +1,7 @@
 /*
  * File: z_shot_sun.c
  * Overlay: ovl_Shot_Sun
- * Description: Song of Storms Fairy spawner and Lake Hylia Sun Hitbox
+ * Description: Song of Storms Fairy spawner and Lake Hylia Sun hitbox
  */
 
 #include "z_shot_sun.h"
@@ -209,9 +209,9 @@ block_14:
 // Runs every frame when Link is near the pedestal in Lake Hylia, sun update
 void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3f spawnPos;
     EnItem00* collectible;
     s32 dayTime;
+    Vec3f spawnPos;
 
     if ((this->collider.base.acFlags & 2) != 0) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -240,8 +240,8 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
             this->unk_19C.y = (s16) (s32) (*(f32*)(player->unk_908[0x58]) - 30.0f) + (globalCtx->envCtx.unk_04.y * 0.16666667f);
             this->unk_19C.z = (s16) (s32) (*(f32*)(player->unk_908[0x5C]) + (globalCtx->envCtx.unk_04.z * 0.16666667f));
 
-            func_80062718(&this->collider.base, &this->unk_19C);
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            func_80062718(&this->collider, &this->unk_19C);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
     }
 }
