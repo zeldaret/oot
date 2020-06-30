@@ -139,73 +139,42 @@ void func_80BADE74(ShotSun* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
-    void* sp24;
-    s32 sp1C;
-    s16 temp_t0;
-    void* temp_a2;
-    void* temp_a2_2;
-    void* temp_a3;
-    ActorListEntry* temp_v1;
-    u8 phi_v0;
-    void* phi_a2;
+    s32 temp_t0;
+    Player* player = PLAYER;
+    s32 phi_v0;
 
-    temp_v1 = &globalCtx->actorCtx.actorList[???];
-    temp_a2 = &this->actor;
-    temp_a3 = &globalCtx;
-    temp_t0 = arg0->unk1C & 0xFF;
-    sp1C = (s32) temp_t0;
-    arg1 = temp_a3;
-    arg0 = temp_a2;
-    sp24 = temp_v1;
-    temp_a2_2 = arg0;
-    if (22500.0f < func_800CB650(&this->actor->posRot, temp_v1 + 0x24, temp_a2, temp_a3)) {
-        phi_a2 = temp_a2_2;
-block_15:
-        phi_a2->unk1A4 = (u8)0;
+    temp_t0 = this->actor.params & 0xFF;
+
+    if (22500.0f < func_800CB650(&this->actor.posRot.pos, &player->actor.posRot.pos)) {
+        this->unk_1A4[0] = 0;
     } else {
-        phi_v0 = temp_a2_2->unk1A4;
-        if (temp_a2_2->unk1A4 == 0) {
-            if ((temp_v1->unk680 << 7) >= 0) {
-                temp_v1->unk680 = (s32) (temp_v1->unk680 | 0x800000);
+        phi_v0 = this->unk_1A4[0];
+        if (phi_v0 == 0) {
+            if (((s32)player->stateFlags2 << 7) >= 0) {
+                player->stateFlags2 |= 0x800000;
                 return;
+            } else {
+                phi_v0 = this->unk_1A4[0] = 1;
             }
-            temp_a2_2->unk1A4 = (u8)1U;
-            phi_v0 = (u8)1U & 0xFF;
         }
         if (phi_v0 == 1) {
-            arg0 = temp_a2_2;
-            func_8010BD58(arg1, 1, temp_a2_2, arg1);
-            arg0->unk1A4 = (u8)2;
+            func_8010BD58(globalCtx, 1U);
+            this->unk_1A4[0] = 2;
             return;
         }
-        if (phi_v0 == 2) {
-            if (arg1->unk104C6 == 4) {
-                if ((temp_t0 != 0x40) || (arg1->unk104C4 != 9)) {
-                    phi_a2 = temp_a2_2;
-                    if (temp_t0 == 0x41) {
-                        phi_a2 = temp_a2_2;
-                        if (arg1->unk104C4 == 0xB) {
-block_14:
-                            temp_a2_2->unk198 = &func_80BADE74;
-                            arg0 = temp_a2_2;
-                            func_80080480(arg1, temp_a2_2, temp_a2_2, arg1);
-                            arg0->unk1A2 = (u16)0;
-                            phi_a2 = arg0;
-                        }
-                    }
-                } else {
-                    goto block_14;
-                }
-                goto block_15;
+        if (phi_v0 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
+            if ((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9)
+                || (temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB)) {
+                    this->actionFunc = &func_80BADE74;
+                    func_80080480(globalCtx, this);
+                    this->spawnTimer = 0;
             }
         }
     }
-}
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BADF0C.s")
+    this->unk_1A4[0] = 0;
+}
 
 // Runs every frame when Link is near the pedestal in Lake Hylia, sun update
 void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
