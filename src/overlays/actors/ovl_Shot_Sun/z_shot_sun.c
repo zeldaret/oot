@@ -160,7 +160,6 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_1A4[0] = 0;
             }
-
             this->unk_1A4[0] = 0;
         }
     }
