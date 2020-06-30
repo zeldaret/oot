@@ -38,9 +38,9 @@ void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx);
 
-extern s32 func_8005B198();
-extern void func_80062718(ColliderCylinder* collider, Vec3s* pos);
-extern void func_80078884(u16 sfxId);
+s32 func_8005B198();
+void func_80062718(ColliderCylinder* collider, Vec3s* pos);
+void func_80078884(u16 sfxId);
 
 extern UNK_TYPE D_02007020;
 
