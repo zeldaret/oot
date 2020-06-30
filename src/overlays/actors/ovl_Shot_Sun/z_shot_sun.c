@@ -40,6 +40,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
 void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx);
 
 extern s32 func_8005B198();
+extern void func_80062718(ColliderCylinder* collider, Vec3s* pos);
 extern void func_80078884(u16 sfxId);
 
 extern UNK_TYPE D_02007020;
@@ -208,9 +209,10 @@ block_14:
 
 // Runs every frame when Link is near the pedestal in Lake Hylia, sun update
 void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
+    Vec3s cylinderPos;
     Player* player = PLAYER;
     EnItem00* collectible;
-    s32 dayTime;
+    s32 pad;
     Vec3f spawnPos;
 
     if ((this->collider.base.acFlags & 2) != 0) {
@@ -218,8 +220,11 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(VT_COLOR_CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
         if (INV_CONTENT(SLOT_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
-
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02007020);
+
+            // Helps to match
+            do {} while(false);
+
             gSaveContext.cutsceneTrigger = 1;
         } else {
             spawnPos.x = 700.0f;
@@ -228,20 +233,22 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
 
             collectible = (EnItem00*)Item_DropCollectible(globalCtx, &spawnPos, 0xE);
             if (collectible != NULL) {
+                // Maybe length of drop animation?
                 collectible->unk_15A = 6000;
                 collectible->actor.speedXZ = 0.0f;
             }
         }
         Actor_Kill(&this->actor);
     } else {
-        dayTime = gSaveContext.dayTime;
-        if (this->actor.xzDistFromLink <= 120.0f && dayTime >= 0x4555 && dayTime < 0x5000) {
-            this->unk_19C.x = (s16) (s32) (*(f32*)(player->unk_908[0x54]) + (globalCtx->envCtx.unk_04.x * 0.16666667f));
-            this->unk_19C.y = (s16) (s32) (*(f32*)(player->unk_908[0x58]) - 30.0f) + (globalCtx->envCtx.unk_04.y * 0.16666667f);
-            this->unk_19C.z = (s16) (s32) (*(f32*)(player->unk_908[0x5C]) + (globalCtx->envCtx.unk_04.z * 0.16666667f));
+        if (!(120.0f < this->actor.xzDistFromLink) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
+            cylinderPos.x = *(f32*)(&player->unk_908[0x54]) + globalCtx->envCtx.unk_04.x * 0.16666667f;
+            cylinderPos.y = *(f32*)(&player->unk_908[0x58]) - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
+            cylinderPos.z = *(f32*)(&player->unk_908[0x5C]) + globalCtx->envCtx.unk_04.z * 0.16666667f;
 
-            func_80062718(&this->collider, &this->unk_19C);
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            this->unk_19C = cylinderPos;
+
+            func_80062718(&this->collider, &cylinderPos);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }
