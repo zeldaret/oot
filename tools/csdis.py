@@ -355,7 +355,9 @@ def format_arg(arg, words):
         unsigned_value = get_word_unsigned(word)
         pad_len = 8
     else:
-        print("Something went wrong!") # TODO more debug info
+        print("Something went wrong with determining arg type! Arg being formatted: " + arg + ", type: " + arg_type + ", type_num: " + arg_type_num)
+        print("Words: ")
+        print(words)
         os._exit(1)
     format_type = arg_part(arg, 2).strip() # the format type, how to express the final value
     result = ""
@@ -367,6 +369,11 @@ def format_arg(arg, words):
             result = cutscene_terminator_destinations[unsigned_value]
         elif enum_no == 2:
             result = ocarina_action_ids[unsigned_value]
+        else:
+            print("Something went wrong with determining enumeration to use! No such enumeration for enum_no: " + enum_no)
+            print("Arg being formatted: " + arg + ", type: " + arg_type + "value: " + value + ", format type: " + format_type)
+            print("Words: ")
+            print(words)
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
@@ -376,7 +383,9 @@ def format_arg(arg, words):
     elif format_type == "f":
         result = str(get_float(value))+"f"
     else:
-        print("Something went wrong!") # TODO more debug info
+        print("Something went wrong with determining format type! Arg being formatted: " + arg + ", type: " + arg_type + "value: " + value + ", format type: " + format_type)
+        print("Words: ")
+        print(words)
         os._exit(1)
     return result
 
