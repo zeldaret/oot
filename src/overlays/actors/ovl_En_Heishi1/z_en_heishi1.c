@@ -91,7 +91,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "path data"
     osSyncPrintf(VT_FGCOL(YELLOW) " れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->path);
     osSyncPrintf(VT_FGCOL(PURPLE) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
-    // "transitionRate frames"
+    // "interpolation frame"
     osSyncPrintf(VT_FGCOL(PURPLE) " 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n" VT_RST, this->transitionRate);
     // "targeted movement speed value between points"
     osSyncPrintf(VT_FGCOL(PURPLE) " point間の移動スピード目標値 ☆ %f\n" VT_RST, this->moveSpeedTarget);
@@ -285,7 +285,8 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                                 this->waypoint = 0;
                             }
                         } else {
-                            // set next waypoint to the closest one
+                            // waypoints are defined with corners as 0-3 and middle points as 4-7
+                            // to choose the next waypoint they hardcoded the order "04152637" in an array
                             for (i = 0; i < ARRAY_COUNT(sWaypoints); i++) {
                                 if (this->waypoint == sWaypoints[i]) {
                                     i++;
