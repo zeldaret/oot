@@ -5,7 +5,6 @@
  */
 
 #include "z_shot_sun.h"
-
 #include <vt.h>
 
 // TODO: Remove when `EnItem00` gets moved to a header file
@@ -186,7 +185,7 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
 
     if ((this->collider.base.acFlags & 2) != 0) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        osSyncPrintf(VT_FGCOL(VT_COLOR_CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
+        osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
         if (INV_CONTENT(SLOT_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02007020);
