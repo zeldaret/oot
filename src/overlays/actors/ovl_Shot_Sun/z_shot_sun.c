@@ -167,10 +167,10 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
                     func_80080480(globalCtx, this);
                     this->spawnTimer = 0;
             }
+
+            this->unk_1A4[0] = 0;
         }
     }
-
-    this->unk_1A4[0] = 0;
 }
 
 // Runs every frame when Link is near the pedestal in Lake Hylia, sun update
@@ -188,7 +188,7 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02007020);
 
-            // Helps to match
+            // Helps to match somehow
             do {} while(false);
 
             gSaveContext.cutsceneTrigger = 1;
