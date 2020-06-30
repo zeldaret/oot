@@ -140,32 +140,29 @@ void func_80BADE74(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
-    s32 temp_t0;
     Player* player = PLAYER;
-    s32 phi_v0;
-
-    temp_t0 = this->actor.params & 0xFF;
+    s32 pad;
+    s32 temp_t0 = this->actor.params & 0xFF;
 
     if (22500.0f < func_800CB650(&this->actor.posRot.pos, &player->actor.posRot.pos)) {
         this->unk_1A4[0] = 0;
     } else {
-        phi_v0 = this->unk_1A4[0];
-        if (phi_v0 == 0) {
+        if (this->unk_1A4[0] == 0) {
             if (((s32)player->stateFlags2 << 7) >= 0) {
                 player->stateFlags2 |= 0x800000;
                 return;
             } else {
-                phi_v0 = this->unk_1A4[0] = 1;
+                this->unk_1A4[0] = 1;
             }
         }
-        if (phi_v0 == 1) {
+        if (this->unk_1A4[0] == 1) {
             func_8010BD58(globalCtx, 1U);
             this->unk_1A4[0] = 2;
             return;
         }
-        if (phi_v0 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if ((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9)
-                || (temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB)) {
+        if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
+            if (((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9))
+                || ((temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
                     this->actionFunc = &func_80BADE74;
                     func_80080480(globalCtx, this);
                     this->spawnTimer = 0;
