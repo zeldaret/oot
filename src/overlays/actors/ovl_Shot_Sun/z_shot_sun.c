@@ -111,12 +111,8 @@ void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
             break;
     }
 
-    Actor_Spawn(
-        &globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF,
-        this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z,
-        0, 0, 0,
-        params
-    );
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.initPosRot.pos.x,
+                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, params);
 
     Actor_Kill(&this->actor);
 }
@@ -126,12 +122,8 @@ void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
         this->actionFunc = ShotSun_FairyCountdown;
         this->timer = 50;
 
-        Actor_Spawn(
-            &globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO,
-            this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z,
-            0, 0, 0,
-            0x11
-        );
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.initPosRot.pos.x,
+                    this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, 0x11);
 
         func_80078914(&this->actor.projectedPos, NA_SE_EV_TRE_BOX_APPEAR);
     }
@@ -158,13 +150,13 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             this->unk_1A4[0] = 2;
             return;
         }
-        
+
         if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if (((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9))
-                || ((temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
-                    this->actionFunc = ShotSun_StartFairyCountdown;
-                    func_80080480(globalCtx, this);
-                    this->timer = 0;
+            if (((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9)) ||
+                ((temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
+                this->actionFunc = ShotSun_StartFairyCountdown;
+                func_80080480(globalCtx, this);
+                this->timer = 0;
             } else {
                 this->unk_1A4[0] = 0;
             }
