@@ -160,12 +160,15 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             this->unk_1A4[0] = 2;
             return;
         }
+        
         if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
             if (((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9))
                 || ((temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
                     this->actionFunc = &func_80BADE74;
                     func_80080480(globalCtx, this);
                     this->spawnTimer = 0;
+            } else {
+                this->unk_1A4[0] = 0;
             }
 
             this->unk_1A4[0] = 0;
