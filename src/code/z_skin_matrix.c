@@ -319,7 +319,13 @@ void func_800A7704(MtxF* arg0, s16 arg1, s16 arg2, s16 arg3) {
 
 // This function is identical to the last but with x->z, z->y, y->x
 // and arg3-> arg2, arg2->arg1, arg1->arg3
+#ifdef NON_MATCHING
+void func_800A7894(MtxF* arg0, s16 arg1, s16 arg2, s16 arg3) {
+    
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7894.s")
+#endif
 
 // SkinMatrix_Translate 
 void func_800A7A24(MtxF* mf, f32 dx, f32 dy, f32 dz) {
@@ -390,80 +396,75 @@ void func_800A7C20(Vec3s* src, Vec3f* dest) {
 
 
 //MtxF to Mtx
-void func_800A7C60(MtxF* src, u16* m1) {
+void func_800A7C60(MtxF* src, Mtx* dest) {
     s32 temp; 
-    u16* m2 = &m1[16];
-    s16 ffff_temp;
-    
-    ffff_temp = 0xFFFF;
+    u16* m1 = (u16*)&dest->m[0][0];
+    u16* m2 = (u16*)&dest->m[2][0];
+
     temp = src->xx * 0x10000;
-    m1[0] = (temp >> 0x10) & ffff_temp;
-    m1[16+0] = temp & ffff_temp;
+    m1[0] = (temp >> 0x10);
+    m1[16+0] = temp & 0xFFFF;
 
     temp = src->xy * 0x10000;
-    m1[1] = (temp >> 0x10) & ffff_temp;
-    m1[16+1] = temp & ffff_temp;
+    m1[1] = (temp >> 0x10);
+    m1[16+1] = temp & 0xFFFF;
 
     temp = src->xz * 0x10000;
-    m1[2] = (temp >> 0x10) & ffff_temp;
-    m1[16+2] = temp & ffff_temp;
+    m1[2] = (temp >> 0x10);
+    m1[16+2] = temp & 0xFFFF;
 
     temp = src->xw * 0x10000;
-    m1[3] = (temp >> 0x10) & ffff_temp;
-    m1[16+3] = temp & ffff_temp;
+    m1[3] = (temp >> 0x10);
+    m1[16+3] = temp & 0xFFFF;
 
-    ffff_temp = 0xFFFF;
     temp = src->yx * 0x10000;
-    m1[4] = (temp >> 0x10) & ffff_temp;
-    m1[16+4] = temp & ffff_temp;
+    m1[4] = (temp >> 0x10);
+    m1[16+4] = temp & 0xFFFF;
 
     temp = src->yy * 0x10000;
-    m1[5] = (temp >> 0x10) & ffff_temp;
-    m1[16+5] = temp & ffff_temp;
+    m1[5] = (temp >> 0x10);
+    m1[16+5] = temp & 0xFFFF;
 
     temp = src->yz * 0x10000;
-    m1[6] = (temp >> 0x10) & ffff_temp;
-    m1[16+6] = temp & ffff_temp;
+    m1[6] = (temp >> 0x10);
+    m1[16+6] = temp & 0xFFFF;
 
     temp = src->yw * 0x10000;
-    m1[7] = (temp >> 0x10) & ffff_temp;
-    m1[16+7] = temp & ffff_temp;
+    m1[7] = (temp >> 0x10);
+    m1[16+7] = temp & 0xFFFF;
 
-    ffff_temp = 0xFFFF;
     temp = src->zx * 0x10000;
-    m1[8] = (temp >> 0x10) & ffff_temp;
-    m1[16+8] = temp & ffff_temp;
+    m1[8] = (temp >> 0x10);
+    m1[16+8] = temp & 0xFFFF;
 
     temp = src->zy * 0x10000;
-    m1[9] = (temp >> 0x10) & ffff_temp;
-    m2[9] = temp & ffff_temp;
+    m1[9] = (temp >> 0x10);
+    m2[9] = temp & 0xFFFF;
 
     temp = src->zz * 0x10000;
-    m1[10] = (temp >> 0x10) & ffff_temp;
-    m2[10] = temp & ffff_temp;
+    m1[10] = (temp >> 0x10);
+    m2[10] = temp & 0xFFFF;
 
     temp = src->zw * 0x10000;
-    m1[11] = (temp >> 0x10) & ffff_temp;
-    m2[11] = temp & ffff_temp;
+    m1[11] = (temp >> 0x10);
+    m2[11] = temp & 0xFFFF;
 
-    ffff_temp = 0xFFFF;
     temp = src->wx * 0x10000;
-    m1[12] = (temp >> 0x10) & ffff_temp;
-    m2[12] = temp & ffff_temp;
+    m1[12] = (temp >> 0x10);
+    m2[12] = temp & 0xFFFF;
 
     temp = src->wy * 0x10000;
-    m1[13] = (temp >> 0x10) & ffff_temp;
-    m2[13] = temp & ffff_temp;
+    m1[13] = (temp >> 0x10);
+    m2[13] = temp & 0xFFFF;
 
     temp = src->wz * 0x10000;
-    m1[14] = (temp >> 0x10) & ffff_temp;
-    m2[14] = temp & ffff_temp;
+    m1[14] = (temp >> 0x10);
+    m2[14] = temp & 0xFFFF;
 
     temp = src->ww * 0x10000;
-    m1[15] = (temp >> 0x10) & ffff_temp;
-    m2[15] = temp & ffff_temp;
+    m1[15] = (temp >> 0x10);
+    m2[15] = temp & 0xFFFF;
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7C60.s")
 
 /*char D_80140810[] = "Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n";*/
 Mtx* func_800A7E70(GraphicsContext* gfxCtx, MtxF* src) {
