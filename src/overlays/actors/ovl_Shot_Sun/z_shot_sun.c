@@ -188,8 +188,8 @@ void func_80BAE05C(ShotSun* this, GlobalContext* globalCtx) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02007020);
 
-            // Helps to match somehow
-            do {} while(false);
+            // Maybe something was optimized out here?
+            if (1) {}
 
             gSaveContext.cutsceneTrigger = 1;
         } else {
