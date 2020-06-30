@@ -42,7 +42,7 @@ s32 func_8005B198();
 void func_80062718(ColliderCylinder* collider, Vec3s* pos);
 void func_80078884(u16 sfxId);
 
-extern UNK_TYPE D_02007020;
+extern CutsceneData D_02007020[];
 
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
@@ -64,12 +64,12 @@ static ColliderCylinderInit sCylinderInit = {
 
 void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
-    s32 temp_v0;
+    s32 params;
 
     // Translation: Ocarina secret occurrence
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
-    temp_v0 = this->actor.params & 0xFF;
-    if (temp_v0 == 0x40 || temp_v0 == 0x41) {
+    params = this->actor.params & 0xFF;
+    if (params == 0x40 || params == 0x41) {
         this->unk_1A4[0] = 0;
         this->actor.flags |= 0x10;
         this->actor.flags |= 0x2000000;
@@ -95,19 +95,19 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
     s32 temp_v0 = this->actor.params & 0xFF;
-    s32 sp38;
+    s32 params;
 
-    if (this->spawnTimer > 0) {
-        this->spawnTimer -= 1;
+    if (this->timer > 0) {
+        this->timer--;
         return;
     }
 
     switch (temp_v0) {
         case 0x40:
-            sp38 = 7;
+            params = 7;
             break;
         case 0x41:
-            sp38 = 7;
+            params = 7;
             break;
     }
 
@@ -115,16 +115,16 @@ void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
         &globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF,
         this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z,
         0, 0, 0,
-        sp38
+        params
     );
 
     Actor_Kill(&this->actor);
 }
 
 void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
-    if ((func_8005B198() == this->actor.type) || (this->spawnTimer != 0)) {
+    if ((func_8005B198() == this->actor.type) || (this->timer != 0)) {
         this->actionFunc = ShotSun_FairyCountdown;
-        this->spawnTimer = 50;
+        this->timer = 50;
 
         Actor_Spawn(
             &globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO,
@@ -164,7 +164,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
                 || ((temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
                     this->actionFunc = ShotSun_StartFairyCountdown;
                     func_80080480(globalCtx, this);
-                    this->spawnTimer = 0;
+                    this->timer = 0;
             } else {
                 this->unk_1A4[0] = 0;
             }
@@ -187,10 +187,7 @@ void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx) {
         if (INV_CONTENT(SLOT_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02007020);
-
-            // Maybe something was optimized away?
             if (1) {}
-
             gSaveContext.cutsceneTrigger = 1;
         } else {
             spawnPos.x = 700.0f;
@@ -210,7 +207,7 @@ void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx) {
             cylinderPos.y = *(f32*)(&player->unk_908[0x58]) - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
             cylinderPos.z = *(f32*)(&player->unk_908[0x5C]) + globalCtx->envCtx.unk_04.z * 0.16666667f;
 
-            this->unk_19C = cylinderPos;
+            this->hitboxPos = cylinderPos;
 
             func_80062718(&this->collider, &cylinderPos);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
