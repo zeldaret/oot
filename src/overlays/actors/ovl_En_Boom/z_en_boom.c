@@ -48,37 +48,37 @@ void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
 
 void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = THIS;
-    EffectBlureInit1 trail;
+    EffectBlureInit1 blure;
 
     this->actor.room = -1;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    trail.p1StartColor.r = 0xFF;
-    trail.p1StartColor.g = 0xFF;
-    trail.p1StartColor.b = 0x64;
-    trail.p1StartColor.a = 0xFF;
+    blure.p1StartColor.r = 0xFF;
+    blure.p1StartColor.g = 0xFF;
+    blure.p1StartColor.b = 0x64;
+    blure.p1StartColor.a = 0xFF;
 
-    trail.p2StartColor.r = 0xFF;
-    trail.p2StartColor.g = 0xFF;
-    trail.p2StartColor.b = 0x64;
-    trail.p2StartColor.a = 0x40;
+    blure.p2StartColor.r = 0xFF;
+    blure.p2StartColor.g = 0xFF;
+    blure.p2StartColor.b = 0x64;
+    blure.p2StartColor.a = 0x40;
 
-    trail.p1EndColor.r = 0xFF;
-    trail.p1EndColor.g = 0xFF;
-    trail.p1EndColor.b = 0x64;
-    trail.p1EndColor.a = 0x00;
+    blure.p1EndColor.r = 0xFF;
+    blure.p1EndColor.g = 0xFF;
+    blure.p1EndColor.b = 0x64;
+    blure.p1EndColor.a = 0x00;
 
-    trail.p2EndColor.r = 0xFF;
-    trail.p2EndColor.g = 0xFF;
-    trail.p2EndColor.b = 0x64;
-    trail.p2EndColor.a = 0x00;
+    blure.p2EndColor.r = 0xFF;
+    blure.p2EndColor.g = 0xFF;
+    blure.p2EndColor.b = 0x64;
+    blure.p2EndColor.a = 0x00;
 
-    trail.elemDuration = 8;
-    trail.unkFlag = 0;
-    trail.calcMode = 0;
+    blure.elemDuration = 8;
+    blure.unkFlag = 0;
+    blure.calcMode = 0;
 
-    Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &trail);
+    Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &blure);
 
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, this, &sQuadInit);
