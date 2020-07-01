@@ -85,34 +85,33 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
-    s32 temp_v0;
+    s32 params = this->actor.params & 0xFF;
 
-    temp_v0 = this->actor.params & 0xFF;
-    if (temp_v0 != 0x40 && temp_v0 != 0x41) {
+    if (params != 0x40 && params != 0x41) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 
 void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
-    s32 temp_v0 = this->actor.params & 0xFF;
-    s32 params;
+    s32 params = this->actor.params & 0xFF;
+    s32 fairyParams;
 
     if (this->timer > 0) {
         this->timer--;
         return;
     }
 
-    switch (temp_v0) {
+    switch (params) {
         case 0x40:
-            params = 7;
+            fairyParams = 7;
             break;
         case 0x41:
-            params = 7;
+            fairyParams = 7;
             break;
     }
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.initPosRot.pos.x,
-                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, params);
+                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyParams);
 
     Actor_Kill(&this->actor);
 }
@@ -132,7 +131,7 @@ void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad;
-    s32 temp_t0 = this->actor.params & 0xFF;
+    s32 params = this->actor.params & 0xFF;
 
     if (func_800CB650(&this->actor.posRot.pos, &player->actor.posRot.pos) > 22500.0f) {
         this->unk_1A4[0] = 0;
@@ -152,8 +151,8 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if (((temp_t0 == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9)) ||
-                ((temp_t0 == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
+            if (((params == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9)) ||
+                ((params == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
                 this->actionFunc = ShotSun_StartFairyCountdown;
                 func_80080480(globalCtx, this);
                 this->timer = 0;
