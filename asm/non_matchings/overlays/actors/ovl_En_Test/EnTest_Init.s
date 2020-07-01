@@ -4,11 +4,11 @@ glabel EnTest_Init
 /* 00010 8085F660 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00014 8085F664 AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 00018 8085F668 AFB00024 */  sw      $s0, 0x0024($sp)           
-/* 0001C 8085F66C 3C058086 */  lui     $a1, %hi(D_80864638)       ## $a1 = 80860000
+/* 0001C 8085F66C 3C058086 */  lui     $a1, %hi(sInitChain)       ## $a1 = 80860000
 /* 00020 8085F670 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00024 8085F674 0C01E037 */  jal     Actor_ProcessInitChain
               
-/* 00028 8085F678 24A54638 */  addiu   $a1, $a1, %lo(D_80864638)  ## $a1 = 80864638
+/* 00028 8085F678 24A54638 */  addiu   $a1, $a1, %lo(sInitChain)  ## $a1 = 80864638
 /* 0002C 8085F67C 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
 /* 00030 8085F680 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
 /* 00034 8085F684 260E01CC */  addiu   $t6, $s0, 0x01CC           ## $t6 = 000001CC
@@ -53,10 +53,10 @@ glabel EnTest_Init
 /* 000C4 8085F714 AE0D0038 */  sw      $t5, 0x0038($s0)           ## 00000038
 /* 000C8 8085F718 8E0D002C */  lw      $t5, 0x002C($s0)           ## 0000002C
 /* 000CC 8085F71C 46062200 */  add.s   $f8, $f4, $f6              
-/* 000D0 8085F720 3C0E8086 */  lui     $t6, %hi(D_80864618)       ## $t6 = 80860000
+/* 000D0 8085F720 3C0E8086 */  lui     $t6, %hi(sDamageTable)       ## $t6 = 80860000
 /* 000D4 8085F724 240A0028 */  addiu   $t2, $zero, 0x0028         ## $t2 = 00000028
 /* 000D8 8085F728 240B0064 */  addiu   $t3, $zero, 0x0064         ## $t3 = 00000064
-/* 000DC 8085F72C 25CE4618 */  addiu   $t6, $t6, %lo(D_80864618)  ## $t6 = 80864618
+/* 000DC 8085F72C 25CE4618 */  addiu   $t6, $t6, %lo(sDamageTable)  ## $t6 = 80864618
 /* 000E0 8085F730 A60A00A8 */  sh      $t2, 0x00A8($s0)           ## 000000A8
 /* 000E4 8085F734 A60B00AA */  sh      $t3, 0x00AA($s0)           ## 000000AA
 /* 000E8 8085F738 E608003C */  swc1    $f8, 0x003C($s0)           ## 0000003C
@@ -67,9 +67,9 @@ glabel EnTest_Init
 /* 000FC 8085F74C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00100 8085F750 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00104 8085F754 3C078086 */  lui     $a3, %hi(D_80864570)       ## $a3 = 80860000
+/* 00104 8085F754 3C078086 */  lui     $a3, %hi(sBodyCylinderInit)       ## $a3 = 80860000
 /* 00108 8085F758 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 0010C 8085F75C 24E74570 */  addiu   $a3, $a3, %lo(D_80864570)  ## $a3 = 80864570
+/* 0010C 8085F75C 24E74570 */  addiu   $a3, $a3, %lo(sBodyCylinderInit)  ## $a3 = 80864570
 /* 00110 8085F760 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00114 8085F764 0C01712B */  jal     Collider_SetCylinder
               
@@ -79,9 +79,9 @@ glabel EnTest_Init
 /* 00124 8085F774 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00128 8085F778 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0012C 8085F77C 3C078086 */  lui     $a3, %hi(D_8086459C)       ## $a3 = 80860000
+/* 0012C 8085F77C 3C078086 */  lui     $a3, %hi(sShieldCylinderInit)       ## $a3 = 80860000
 /* 00130 8085F780 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 00134 8085F784 24E7459C */  addiu   $a3, $a3, %lo(D_8086459C)  ## $a3 = 8086459C
+/* 00134 8085F784 24E7459C */  addiu   $a3, $a3, %lo(sShieldCylinderInit)  ## $a3 = 8086459C
 /* 00138 8085F788 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0013C 8085F78C 0C01712B */  jal     Collider_SetCylinder
               
@@ -90,9 +90,9 @@ glabel EnTest_Init
 /* 00148 8085F798 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 0014C 8085F79C 0C017406 */  jal     Collider_InitQuad              
 /* 00150 8085F7A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00154 8085F7A4 3C078086 */  lui     $a3, %hi(D_808645C8)       ## $a3 = 80860000
+/* 00154 8085F7A4 3C078086 */  lui     $a3, %hi(sQuadInit)       ## $a3 = 80860000
 /* 00158 8085F7A8 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 0015C 8085F7AC 24E745C8 */  addiu   $a3, $a3, %lo(D_808645C8)  ## $a3 = 808645C8
+/* 0015C 8085F7AC 24E745C8 */  addiu   $a3, $a3, %lo(sQuadInit)  ## $a3 = 808645C8
 /* 00160 8085F7B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00164 8085F7B4 0C017441 */  jal     Collider_SetQuad              
 /* 00168 8085F7B8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
