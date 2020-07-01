@@ -134,7 +134,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 temp_t0 = this->actor.params & 0xFF;
 
-    if (22500.0f < func_800CB650(&this->actor.posRot.pos, &player->actor.posRot.pos)) {
+    if (func_800CB650(&this->actor.posRot.pos, &player->actor.posRot.pos) > 22500.0f) {
         this->unk_1A4[0] = 0;
     } else {
         if (this->unk_1A4[0] == 0) {
