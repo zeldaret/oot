@@ -531,8 +531,7 @@ void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7EC0.s")
 #endif
 
-// Function looks a lot like the second argument should be a vec4f but I don't think that type exists
-// VERY close to matching. there's an add.s with the registers around the wrong way
+//no idea what this does
 void func_800A8030(MtxF* mf, f32* arg1) {
     f32 n;
     f32 xNorm;
