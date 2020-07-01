@@ -531,7 +531,6 @@ void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7EC0.s")
 #endif
 
-#ifdef NON_MATCHING
 // Function looks a lot like the second argument should be a vec4f but I don't think that type exists
 // VERY close to matching. there's an add.s with the registers around the wrong way
 void func_800A8030(MtxF* mf, f32* arg1) {
@@ -549,7 +548,7 @@ void func_800A8030(MtxF* mf, f32* arg1) {
     f32 yzNorm;
     f32 zzNorm;
     
-    n = 2.0f / ((arg1[0] * arg1[0]) + (arg1[1] * arg1[1]) + (arg1[2] * arg1[2]) + (arg1[3] * arg1[3]));
+    n = 2.0f / ((arg1[3] * arg1[3]) + ((arg1[2] * arg1[2]) + ((arg1[1] * arg1[1]) + (arg1[0] * arg1[0]))));
     xNorm = arg1[0] * n;
     yNorm = arg1[1] * n;
     zNorm = arg1[2] * n;
@@ -581,6 +580,3 @@ void func_800A8030(MtxF* mf, f32* arg1) {
     mf->ww = 1.0f;
     mf->wz = 0.0f;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A8030.s")
-#endif
