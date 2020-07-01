@@ -6,8 +6,6 @@ s16 Camera_ChangeSetting(Camera*, s16, s16);
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags);
 s32 Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
 s32 Camera_ChangeDataIdx(Camera* arg0, s32 arg1);
-Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f* arg0, s16 arg1, s16 arg2, s16 arg3);
-void Camera_UpdateInterface(s16);
 s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4);
 s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4);
 
@@ -2552,7 +2550,64 @@ Vec3f* func_8004545C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, struct_80043D18* arg
     return arg0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045508.s")
+s32 func_80045508(Camera *camera, VecSph *arg1, struct_80043D18 *arg2, struct_80043D18 *arg3, s16 arg4) {
+    Vec3f* at = &camera->at;
+    Vec3f* eye = &camera->eye;
+    Vec3f* eyeNext = &camera->eyeNext;
+
+    Vec3f sp40;
+    s32 sp3C;
+    s32 sp38;
+    s32 ret;
+    f32 temp_f0;
+
+    arg2->unk_00 = camera->eyeNext;
+    
+    ret = 0;
+    sp3C = func_80043D18(camera, at, arg2);
+    if (sp3C != 0) {
+        arg3->unk_00 = camera->at;
+        OLib_Vec3fToVecSphRot90(&arg2->unk_1C, &arg2->unk_0C);
+        if (arg2->unk_1C.phi >= 0x2EE1) {
+            arg2->unk_1C.theta = arg1->theta;
+        }
+        sp38 = func_80043D18(camera, eyeNext, arg3);
+        if (sp38 == 0) {
+            if (arg4 & 1) {
+            
+                arg3->unk_00 = *at;
+                sp40 = *eye;
+                
+                if (func_80043D18(camera, &sp40, arg3) == 0) {
+                    return 3;
+                } else if (arg2->unk_18 == arg3->unk_18) {
+                    return 3;
+                }
+            } else {
+                return 3;
+            }
+        } else if (arg2->unk_18 == arg3->unk_18) {
+            return 3;
+        }
+        OLib_Vec3fToVecSphRot90(&arg3->unk_1C, &arg3->unk_0C);
+        if (arg3->unk_1C.phi >= 0x2EE1) {
+            arg3->unk_1C.theta = BINANG_ROT180(arg1->theta);
+        }
+        if (sp3C != sp38) {
+            ret = 3;
+        } else {
+            temp_f0 = Math3D_DotProduct(&arg2->unk_0C, &arg3->unk_0C);
+            if (temp_f0 < -0.5f) {
+                ret = 6;
+            } else if (temp_f0 > 0.5f) {
+                ret = 3;
+            } else {
+                ret = 2;
+            }
+        }
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 // CLOSE: stack is 4 bytes too big
@@ -3008,7 +3063,152 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046CB4.s")
 #endif
 
+
 #ifdef NON_MATCHING
+void func_80046E20(Camera *arg0, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, Vec3f *arg5) {
+    f32 sp60;
+    f32 sp5C;
+    f32 sp58;
+    f32 sp50;
+    s16 sp4E;
+    s16 sp4C;
+    f32 sp48;
+    s16 sp46;
+    s16 sp44;
+    f32 sp40;
+    Vec3f *sp34;
+    Vec3f *sp30;
+    Vec3f *temp_s0;
+    Vec3f *temp_s0_2;
+    f32 *temp_a2;
+    f32 *temp_a2_2;
+    f32 *temp_a2_3;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    s32 temp_v0;
+    struct_80043D18 *temp_t2;
+    struct_80043D18 *temp_t6;
+    struct_80043D18 *phi_t2;
+    struct_80043D18 *phi_t6;
+
+    temp_v0 = func_80045508(&D_8015CE80, &D_8015CEA8, (?32) (arg5->unk18 == 0));
+    if (temp_v0 != 1) {
+        if (temp_v0 != 2) {
+            if (temp_v0 != 3) {
+                if (temp_v0 != 6) {
+                    if (arg5->unk18 != 0) {
+                        arg5->unk1A = (s16) gGameInfo->unk1FC;
+                        arg0->eyeNext.x = (bitwise f32) (bitwise s32) arg0->eye.x;
+                        arg0->eyeNext.y = (bitwise f32) (bitwise s32) arg0->eye.y;
+                        arg0->eyeNext.z = (bitwise f32) (bitwise s32) arg0->eye.z;
+                        arg5->unk18 = (u16)0;
+                    }
+                    arg5->unkC = 0;
+                    arg5->unk10 = arg3;
+                    arg0->eye.x = (f32) (D_8015CE80.unk_00.x + D_8015CE80.unk_00.x);
+                    arg0->eye.y = (f32) (D_8015CE80.unk_00.x + D_8015CE80.unk_00.x);
+                    arg0->eye.z = (f32) (D_8015CE80.unk_00.x + D_8015CE80.unk_00.x);
+                } else {
+block_16:
+                    temp_s0 = &arg0->eye;
+                    if (arg5->unk18 != 0) {
+                        arg5->unk18 = (u16)0;
+                        arg5->unk1A = (s16) gGameInfo->unk1FC;
+                        arg0->eyeNext.x = (bitwise f32) (bitwise s32) temp_s0->x;
+                        arg0->eyeNext.y = (bitwise f32) (bitwise s32) temp_s0->y;
+                        arg0->eyeNext.z = (bitwise f32) (bitwise s32) temp_s0->z;
+                    }
+                    temp_f0 = OLib_Vec3fDist(&arg0->at, (Vec3f *) &D_8015CE80);
+                    if (arg2 < temp_f0) {
+                        *arg4 = 1.0f;
+                    } else {
+                        *arg4 = (f32) (temp_f0 / arg2);
+                    }
+                    arg5->unk10 = (f32) (*arg4 * arg3);
+                    sp50 = temp_f0;
+                    Camera_Vec3fScaleXYZFactor(temp_s0, (Vec3f *) &D_8015CE80, (Vec3f *) &D_8015CE80, 1.0f);
+                    arg5->unkC = 0;
+                    if (temp_f0 < (f32) gGameInfo->unk1BE) {
+                        sp50 = temp_f0;
+                        sp46 = arg1->theta;
+                        temp_a2 = &sp40;
+                        sp44 = (s16) (s32) (Math_Sins((s16) ((s32) (((bitwise s16) D_8015CE80.unk_00.x + 0x3FFF) << 0x10) >> 0x10)) * 16380.0f);
+                        sp40 = ((f32) gGameInfo->unk1C0 * 0.01f) * ((f32) gGameInfo->unk1BE - temp_f0);
+                        Camera_Vec3fVecSphAdd(temp_s0, temp_s0, (VecSph *) temp_a2);
+                        return;
+                    }
+                }
+            } else {
+                goto block_16;
+            }
+        } else {
+block_5:
+            sp30 = &arg0->eyeNext;
+            sp34 = &arg0->at;
+            func_8004545C(arg5, &arg0->at, &arg0->eyeNext, &D_8015CE80, &D_8015CEA8);
+            sp58 = arg5->x + (D_8015CE80.unk_00.x + D_8015CEA8.unk_00.x);
+            sp5C = arg5->y + (D_8015CE80.unk_00.x + D_8015CEA8.unk_00.x);
+            sp60 = arg5->z + (D_8015CE80.unk_0C.z + D_8015CEA8.unk_00.x);
+            temp_f0_2 = OLib_Vec3fDist(sp34, (Vec3f *) &D_8015CE80);
+            if (arg2 < temp_f0_2) {
+                *arg4 = 1.0f;
+            } else {
+                *arg4 = (f32) (temp_f0_2 / arg2);
+            }
+            arg5->unk18 = (u16)1;
+            arg5->unk10 = (f32) ((f32) gGameInfo->unk1A8 * 0.01f);
+            arg5->unkC = (bitwise s32) D_8015CEA8.unk_00.x;
+            OLib_Vec3fDiffToVecSphRot90((VecSph *) &sp48, sp34, (Vec3f *) &sp58);
+            temp_s0_2 = &arg0->eye;
+            temp_a2_2 = &sp48;
+            sp48 = arg1->r;
+            Camera_Vec3fVecSphAdd(temp_s0_2, sp34, (VecSph *) temp_a2_2);
+            D_8015CED0.unk_00.x = (bitwise f32) (bitwise s32) temp_s0_2->x;
+            D_8015CED0.unk_00.y = (bitwise f32) (bitwise s32) temp_s0_2->y;
+            D_8015CED0.unk_00.z = (bitwise f32) (bitwise s32) temp_s0_2->z;
+            if (func_80043D18(arg0, sp34, &D_8015CED0) == 0) {
+                sp4E = sp4E + ((s32) ((s32) ((arg1->theta - sp4E) << 0x10) >> 0x10) >> 1);
+                sp4C = sp4C + ((s32) ((s32) ((arg1->phi - sp4C) << 0x10) >> 0x10) >> 1);
+                Camera_Vec3fVecSphAdd(temp_s0_2, sp34, (VecSph *) &sp48);
+                if ((s32) D_8015CE80.unk_1C.phi < 0x2AA8) {
+                    arg5->unk16 = sp4E;
+                    arg5->unk14 = sp4C;
+                } else {
+                    arg5->unk16 = (s16) arg1->theta;
+                    arg5->unk14 = (s16) arg1->phi;
+                }
+                sp58 = arg5->x - (D_8015CE80.unk_00.x + D_8015CEA8.unk_00.x);
+                sp5C = arg5->y - (D_8015CE80.unk_00.x + D_8015CEA8.unk_00.x);
+                sp60 = arg5->z - (D_8015CE80.unk_00.x + D_8015CEA8.unk_00.x);
+                OLib_Vec3fDiffToVecSphRot90((VecSph *) &sp48, sp34, (Vec3f *) &sp58);
+                temp_a2_3 = &sp48;
+                sp48 = arg1->r;
+                Camera_Vec3fVecSphAdd(sp30, sp34, (VecSph *) temp_a2_3);
+                return;
+            }
+            temp_s0_2->x = (bitwise f32) (bitwise s32) D_8015CED0.unk_00.x;
+            temp_s0_2->y = (bitwise f32) (bitwise s32) D_8015CED0.unk_00.y;
+            temp_s0_2->z = (bitwise f32) (bitwise s32) D_8015CED0.unk_00.z;
+            phi_t2 = &D_8015CED0;
+            phi_t6 = &D_8015CE80;
+loop_14:
+            temp_t2 = phi_t2 + 0xC;
+            temp_t6 = phi_t6 + 0xC;
+            temp_t6->unk-C = (s32) phi_t2->unk_00.x;
+            temp_t6->unk-8 = (s32) temp_t2->unk-8;
+            temp_t6->unk-4 = (s32) temp_t2->unk-4;
+            phi_t2 = temp_t2;
+            phi_t6 = temp_t6;
+            if (temp_t2 != &D_8015CED0.unk_24) {
+                goto loop_14;
+            }
+            temp_t6->unk_00.x = (s32) temp_t2->unk_00.x;
+            goto block_16;
+        }
+    } else {
+        goto block_5;
+    }
+}
 #else
 void func_80046E20(Camera *arg0, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, Vec3f *arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046E20.s")
