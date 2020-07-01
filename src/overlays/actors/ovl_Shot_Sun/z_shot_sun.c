@@ -137,7 +137,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
         this->unk_1A4[0] = 0;
     } else {
         if (this->unk_1A4[0] == 0) {
-            if (((s32)player->stateFlags2 << 7) >= 0) {
+            if (!(player->stateFlags2 & 0x1000000)) {
                 player->stateFlags2 |= 0x800000;
                 return;
             } else {
