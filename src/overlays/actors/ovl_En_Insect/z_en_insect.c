@@ -306,7 +306,7 @@ void func_80A7C818(EnInsect *this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C86C.s")
 // void func_80A7C86C(EnInsect *this, GlobalContext *globalCtx) {
-//     s32 pad[2];
+//     s32 pad[3];
 //     s16 phi_a1;
 //     // regalloc
 //     s16 sp38;
@@ -534,20 +534,16 @@ void func_80A7D39C(EnInsect *this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7D460.s")
 void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     s32 temp_a0;
-    s32 temp_a1;
-    // s32 temp_v0;
-    // u16 temp_t4;
-    // u16 temp_t7;
-    f32 phi_f2;
-    f32 phi_f0;
-    // u32 phi_a2;
     s32 sp50;
+    s32 temp_a1;
+    f32 phi_f0;
+    Vec3f* sp2C;
     f32 sp40;
-    // f32 sp3C;
+    f32 phi_f2;
     s16 sp3A;
     s16 sp38;
     // f32 sp34;
-    Vec3f* sp2C;
+    EnInsect* thisTemp = this;
 
     sp50 = 0;
     sp3A = this->actor.params & 3;
@@ -577,22 +573,25 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
             phi_f2 = (1.0f - D_80A7DEB0) * 10.0f;
         }
     }
-    if (this->soilActor != NULL && Math_Rand_ZeroOne(1.0f) < 0.07f) {
-        this->actor.initPosRot.pos.x = (Math_Rand_ZeroOne() - 0.5f) * phi_f2 + this->soilActor->actor.posRot.pos.x;
-        this->actor.initPosRot.pos.y = this->soilActor->actor.posRot.pos.y;
-        this->actor.initPosRot.pos.z = (Math_Rand_ZeroOne() - 0.5f) * phi_f2 + this->soilActor->actor.posRot.pos.z;
+    if (this->soilActor != NULL && Math_Rand_ZeroOne() < 0.07f) {
+        this->actor.initPosRot.pos.x = (Math_Rand_ZeroOne() - 0.5f) * phi_f2 + thisTemp->soilActor->actor.posRot.pos.x;
+        this->actor.initPosRot.pos.y = thisTemp->soilActor->actor.posRot.pos.y;
+        this->actor.initPosRot.pos.z = (Math_Rand_ZeroOne() - 0.5f) * phi_f2 + thisTemp->soilActor->actor.posRot.pos.z;
     }
+
 
     if (0.999f < D_80A7DEB0) {
         this->unk_328 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         this->unk_324 = Math_Rand_ZeroOne() * 0.6f + 0.6f;
-    } else if (Math_Rand_ZeroOne(&this->actor.posRot) < 0.07f) {
+    } else if (Math_Rand_ZeroOne() < 0.07f) {
         sp2C = &this->actor.posRot.pos;
+
         if (1.0f < this->unk_324) {
             this->unk_324 = 0.1f;
         } else {
-            this->unk_324 = Math_Rand_ZeroOne(1.0f) * 0.8f + 1.0f;
+            this->unk_324 = Math_Rand_ZeroOne() * 0.8f + 1.0f;
         }
+
         phi_f2 = 1.3f - D_80A7DEB0;
         if (phi_f2 < 0.0f) {
             phi_f2 = 0.0f;
@@ -604,7 +603,8 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
             }
             phi_f2 = phi_f0;
         }
-        sp38 = (Math_Rand_ZeroOne(1.0f) - 0.5f) * 65535.0f * phi_f2;
+        // sp34 = phi_f2;
+        sp38 = (Math_Rand_ZeroOne() - 0.5f) * 65535.0f * phi_f2;
         this->unk_328 = Math_Vec3f_Yaw(sp2C, &this->actor.initPosRot.pos) + sp38;
     }
 
@@ -639,13 +639,9 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     }
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if ((this->unk_314 & 0x40) == 0) {
-        if ((this->unk_314 & 1) != 0) {
-            if ((this->actor.bgCheckFlags & 1) != 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
-                this->unk_314 |= 0x40;
-            }
-        }
+    if (!(this->unk_314 & 0x40) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
+        this->unk_314 |= 0x40;
     }
     
     if (sp3A == 2 && this->unk_314 & 0x10 && !(this->unk_314 & 0x80)) {
@@ -664,7 +660,7 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         }
     }
 
-    if (this->unk_314 & 1 != 0 && this->actor.bgCheckFlags & 0x40) {
+    if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
         func_80A7CE60(this);
     } else if (this->unk_314 & 0x10) {
         if (sp40 < 9.0f) {
