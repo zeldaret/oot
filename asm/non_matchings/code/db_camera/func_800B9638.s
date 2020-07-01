@@ -1,3 +1,255 @@
+.rdata
+
+glabel D_8014386C
+    .asciz "@@@\n@@@\n@@@/* *** spline point data ** start here *** */\n@@@\n"
+    .balign 4
+
+glabel D_801438AC
+    .asciz "Lookat"
+    .balign 4
+
+glabel D_801438B4
+    .asciz "Position"
+    .balign 4
+
+glabel D_801438C0
+    .asciz "@@@static short  nPoints = %d;\n@@@\n"
+    .balign 4
+
+glabel D_801438E4
+    .asciz "@@@static short  nFrames = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143908
+    .asciz "@@@static short  Mode = %d;\n@@@\n"
+    .balign 4
+
+glabel D_8014392C
+    .asciz "@@@\n@@@\n@@@/* *** spline point data ** finish! *** */\n@@@\n"
+    .balign 4
+
+glabel D_80143968
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143978
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_801439A4
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_801439B4
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_801439C4
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_801439F0
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A00
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A10
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A20
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A30
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A40
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_80143A6C
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A7C
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A8C
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_80143AB8
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143AC8
+    .asciz "@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n"
+    .balign 4
+
+glabel D_80143B0C
+    .asciz "@@@\n@@@/* ** %d ** */\n@@@\n"
+    .balign 4
+
+glabel D_80143B28
+    .asciz "Lookat"
+    .balign 4
+
+glabel D_80143B30
+    .asciz "Position"
+    .balign 4
+
+glabel D_80143B3C
+    .asciz "@@@static short  nPoints = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143B60
+    .asciz "@@@static short  nFrames = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143B84
+    .asciz "@@@static short  Mode = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143BA8
+    .asciz "@@@\n@@@\n@@@/* ****** spline point data ** finish! ***** */\n@@@\n"
+    .balign 4
+
+glabel D_80143BE8
+    .asciz "PRESS B BUTTON"
+    .balign 4
+
+glabel D_80143BF8
+    .asciz "PRESS B BUTTON"
+    .balign 4
+
+glabel D_80143C08
+    .asciz "PRESS B BUTTON"
+    .balign 4
+
+glabel D_80143C18
+    .asciz "_"
+    .balign 4
+
+glabel D_80143C1C
+    .asciz ">"
+    .balign 4
+
+glabel D_80143C20
+    .asciz "###%2d:(%c) (%d %d) %d %d %d\n"
+    .balign 4
+
+glabel D_80143C40
+    .asciz "\n@@@ /* CUT [%d]	*/"
+    .balign 4
+
+glabel D_80143C54
+    .float 0.15
+
+glabel D_80143C58
+    .float 0.2
+
+glabel D_80143C5C
+    .float 30000
+
+glabel D_80143C60
+    .float 30000
+
+glabel D_80143C64
+    .float 0.8
+
+glabel D_80143C68
+    .float 182.04167
+
+glabel D_80143C6C
+    .float 0.8
+
+glabel D_80143C70
+    .float 182.04167
+
+glabel D_80143C74 # unused
+    .float 182.04167
+
+glabel D_80143C78
+    .float 0.8
+
+glabel D_80143C7C
+    .float 182.04167
+
+glabel D_80143C80
+    .float 0.8
+
+glabel D_80143C84
+    .float 182.04167
+
+glabel D_80143C88 # unused
+    .float 182.04167
+
+glabel D_80143C8C
+    .float 182.04167
+
+glabel D_80143C90
+    .float 0.00549325
+
+glabel D_80143C94
+    .float 0.00549325
+
+glabel D_80143C98
+    .float 0.2
+
+glabel D_80143C9C
+    .float 0.2
+
+glabel D_80143CA0
+    .float 0.00549325
+
+glabel D_80143CA4
+    .float 0.00549325
+
+glabel D_80143CA8
+    .float 0.00549325
+
+glabel D_80143CAC
+    .float 0.00549325
+
+glabel D_80143CB0
+    .float 0.02
+
+glabel D_80143CB4
+    .float 0.02
+
+glabel D_80143CB8
+    .float 0.02
+
+glabel D_80143CBC
+    .float 0.00549325
+
+glabel D_80143CC0
+    .float 0.00549325
+
+glabel D_80143CC4
+    .float 0.02
+
+glabel D_80143CC8
+    .float 0.02
+
+glabel D_80143CCC
+    .float 0.02
+
+glabel D_80143CD0
+    .float 182.04167
+
+
+.text
 glabel func_800B9638
 /* B307D8 800B9638 27BDFF58 */  addiu $sp, $sp, -0xa8
 /* B307DC 800B963C 3C0E8013 */  lui   $t6, %hi(D_8012D14C) # $t6, 0x8013
@@ -703,8 +955,8 @@ glabel func_800B9638
 /* B31220 800BA080 3C0F8013 */  lui   $t7, %hi(D_8012D170) # $t7, 0x8013
 /* B31224 800BA084 8DEFD170 */  lw    $t7, %lo(D_8012D170)($t7)
 /* B31228 800BA088 11E00010 */  beqz  $t7, .L800BA0CC
-/* B3122C 800BA08C 3C048013 */   lui   $a0, %hi(D_8012D172) # $a0, 0x8013
-/* B31230 800BA090 8484D172 */  lh    $a0, %lo(D_8012D172)($a0)
+/* B3122C 800BA08C 3C048013 */   lui   $a0, %hi(D_8012D170+2) # $a0, 0x8013
+/* B31230 800BA090 8484D172 */  lh    $a0, %lo(D_8012D170+2)($a0)
 /* B31234 800BA094 27A50074 */  addiu $a1, $sp, 0x74
 /* B31238 800BA098 0C02CF7E */  jal   func_800B3DF8
 /* B3123C 800BA09C 24060006 */   li    $a2, 6
@@ -1764,31 +2016,3 @@ glabel func_800B9638
 /* B321D0 800BB030 8FB20030 */  lw    $s2, 0x30($sp)
 /* B321D4 800BB034 03E00008 */  jr    $ra
 /* B321D8 800BB038 27BD00A8 */   addiu $sp, $sp, 0xa8
-
-/* B321DC 800BB03C 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* B321E0 800BB040 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B321E4 800BB044 3C058016 */  lui   $a1, %hi(D_80161108) # $a1, 0x8016
-/* B321E8 800BB048 0C02E46C */  jal   func_800B91B0
-/* B321EC 800BB04C 8CA51108 */   lw    $a1, %lo(D_80161108)($a1)
-/* B321F0 800BB050 8FBF0014 */  lw    $ra, 0x14($sp)
-/* B321F4 800BB054 27BD0018 */  addiu $sp, $sp, 0x18
-/* B321F8 800BB058 03E00008 */  jr    $ra
-/* B321FC 800BB05C 00000000 */   nop
-
-/* B32200 800BB060 3C018016 */  lui   $at, %hi(D_8016111A)
-/* B32204 800BB064 03E00008 */  jr    $ra
-/* B32208 800BB068 A420111A */   sh    $zero, %lo(D_8016111A)($at)
-
-/* B3220C 800BB06C 3C0E8016 */  lui   $t6, %hi(D_80161108) # $t6, 0x8016
-/* B32210 800BB070 8DCE1108 */  lw    $t6, %lo(D_80161108)($t6)
-/* B32214 800BB074 8DC20000 */  lw    $v0, ($t6)
-/* B32218 800BB078 38420002 */  xori  $v0, $v0, 2
-/* B3221C 800BB07C 2C420001 */  sltiu $v0, $v0, 1
-/* B32220 800BB080 10400004 */  beqz  $v0, .L800BB094
-/* B32224 800BB084 00000000 */   nop
-/* B32228 800BB088 3C028016 */  lui   $v0, %hi(D_8016111A) # $v0, 0x8016
-/* B3222C 800BB08C 8442111A */  lh    $v0, %lo(D_8016111A)($v0)
-/* B32230 800BB090 0002102B */  sltu  $v0, $zero, $v0
-.L800BB094:
-/* B32234 800BB094 03E00008 */  jr    $ra
-/* B32238 800BB098 00000000 */   nop

@@ -181,8 +181,8 @@ glabel func_800B44E0
 /* B2B92C 800B478C 44812000 */  mtc1  $at, $f4
 /* B2B930 800B4790 E6080048 */  swc1  $f8, 0x48($s0)
 /* B2B934 800B4794 C62A0028 */  lwc1  $f10, 0x28($s1)
-/* B2B938 800B4798 3C058013 */  lui   $a1, %hi(D_8012CFBC) # $a1, 0x8013
-/* B2B93C 800B479C 24A5CFBC */  addiu $a1, %lo(D_8012CFBC) # addiu $a1, $a1, -0x3044
+/* B2B938 800B4798 3C058013 */  lui   $a1, %hi(D_8012CFB4+8) # $a1, 0x8013
+/* B2B93C 800B479C 24A5CFBC */  addiu $a1, %lo(D_8012CFB4+8) # addiu $a1, $a1, -0x3044
 /* B2B940 800B47A0 4600540D */  trunc.w.s $f16, $f10
 /* B2B944 800B47A4 24060004 */  li    $a2, 4
 /* B2B948 800B47A8 440F8000 */  mfc1  $t7, $f16
