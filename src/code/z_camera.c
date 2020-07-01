@@ -6,7 +6,7 @@ s16 Camera_ChangeSetting(Camera*, s16, s16);
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags);
 s32 Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
 s32 Camera_ChangeDataIdx(Camera* arg0, s32 arg1);
-Vec3f *func_80044E68(Vec3f* arg0, s16 arg1, s16 arg2, s16 arg3);
+Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f* arg0, s16 arg1, s16 arg2, s16 arg3);
 void Camera_UpdateInterface(s16);
 s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4);
 s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4);
@@ -1847,9 +1847,10 @@ Vec3f D_8015BD70; // 8015BD70
 GlobalContext* D_8015BD7C; // 8015BD7C
 DBCamera D_8015BD80; // 8015BD80
 CollisionPoly *playerFloorPoly;
+
+// probably statics.
 f32 D_8015CE50;
 f32 D_8015CE54;
-
 struct_80043D18 D_8015CE58;
 struct_80043D18 D_8015CE80;
 struct_80043D18 D_8015CEA8;
@@ -2308,10 +2309,147 @@ s16 Camera_XZAngle(Vec3f* to, Vec3f* from) {
     return DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(from->x - to->x, from->z - to->z)));
 }
 
+//#define NON_MATCHING
+#ifdef NON_MATCHING
+s16 func_80044ADC(Camera *camera, s16 arg1, s16 arg2) {
+    static f32 D_8015CE50;
+    static f32 D_8015CE54;
+    static struct_80043D18 D_8015CE58;
+
+    Vec3f sp64;
+    Vec3f sp58;
+    Vec3f sp4C;
+    f32 sp40;
+    f32 sinAngle;
+    f32 cosAngle;
+    s32 sp34;
+    f32 sp30;
+    f32 sp2C;
+    f32 temp_f0;
+    f32 phi_f18;
+    f32 phi_f0;
+    f32 phi_f16;
+    f32 temp_f2;
+    s16 t1, t2;
+    f32 t3;
+
+    sinAngle = Math_Sins(arg1);
+    cosAngle = Math_Coss(arg1);
+    temp_f0 = Player_GetCameraYOffset(camera->player);
+    temp_f2 = PCT(OREG(19)) * temp_f0;
+    sp30 = PCT(OREG(17)) * temp_f0;
+    sp2C = PCT(OREG(18)) * temp_f0;
+    sp64.x = camera->playerPosRot.pos.x;
+    sp64.y = camera->playerGroundY + temp_f2;
+    sp64.z = camera->playerPosRot.pos.z;
+    sp58.x = (sp30 * sinAngle) + sp64.x;
+    sp58.y = sp64.y;
+    sp58.z = (sp30 * cosAngle) + sp64.z;
+    if (arg2 || !(camera->globalCtx->state.frames & 1)) {
+        D_8015CE58.unk_00.x = (sp2C * sinAngle) + sp64.x;
+        D_8015CE58.unk_00.y = sp64.y;
+        D_8015CE58.unk_00.z = (sp2C * cosAngle) + sp64.z;
+        func_80043D18(camera, &sp64, &D_8015CE58);
+        if (arg2) {
+            D_8015CE54 = camera->playerGroundY;
+            D_8015CE50 = camera->playerGroundY;
+        }
+        phi_f16 = D_8015CE54;
+        phi_f18 = D_8015CE50;
+    } else {
+        sp2C = OLib_Vec3fDistXZ(&sp64, &D_8015CE58);
+        D_8015CE58.unk_00.x += D_8015CE58.unk_0C.x * 5.0f;
+        D_8015CE58.unk_00.y += D_8015CE58.unk_0C.y * 5.0f;
+        D_8015CE58.unk_00.z += D_8015CE58.unk_0C.z * 5.0f;
+        if (sp2C < sp30) {
+            sp30 = sp2C;
+            phi_f18 = func_80044568(camera, &sp4C, &D_8015CE58.unk_00, &sp34);
+            phi_f0 = phi_f18;
+            phi_f16 = phi_f18;
+        } else {
+            D_8015CE50 = func_80044568(camera, &sp4C, &sp58, &sp34);
+            phi_f0 = func_80044568(camera, &sp4C, &D_8015CE58.unk_00, &sp34);
+            phi_f18 = D_8015CE50;
+            phi_f16 = phi_f0;
+        }
+
+        if (phi_f18 == -32000.0f) {
+            phi_f18 = camera->playerGroundY;
+        }
+
+        if (phi_f0 == -32000.0f) {
+            phi_f16 = phi_f18;
+        }
+    }
+
+    t3 = PCT(OREG(20)) * (phi_f18 - camera->playerGroundY);
+    sp40 = (1.0f - PCT(OREG(20))) * (phi_f16 - camera->playerGroundY);
+    D_8015CE54 = phi_f16;
+    D_8015CE50 = phi_f18;
+    t1 = DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(t3, sp30)));
+    t2 = DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(sp40, sp2C)));
+    return t1 + t2;
+}
+#else
 s16 func_80044ADC(Camera* camera, s16, s32);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044ADC.s")
+#endif
+#undef NON_MATCHING
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044E68.s")
+Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f *dest, s16 pitch, s16 yaw, s16 roll) {
+    f32 sinPitch;
+    f32 cosPitch;
+    f32 sinYaw;
+    f32 cosYaw;
+    f32 sinNegRoll;
+    f32 cosNegRoll;
+    Vec3f spA4;
+    f32 pad;
+    f32 sp54;
+    f32 sp4C;
+    f32 sp44;
+    f32 sp28;
+    f32 temp_f10_2;
+    f32 temp_f12;
+    f32 temp_f14;
+    f32 temp_f16;
+    f32 temp_f18;
+    f32 temp_f2;
+    f32 temp_f4_2;
+    f32 temp_f6;
+    f32 temp_f8;
+    f32 temp_f8_2;
+    f32 temp_f8_3;
+
+    sinPitch = Math_Sins(pitch);
+    cosPitch = Math_Coss(pitch);
+    sinYaw = Math_Sins(yaw);
+    cosYaw = Math_Coss(yaw);
+    sp28 = -sinPitch;
+    sinNegRoll = Math_Sins(-roll);
+    cosNegRoll = Math_Coss(-roll);
+    temp_f16 = sp28 * sinYaw;
+    temp_f14 = 1.0f - cosNegRoll;
+    temp_f2 = cosPitch * sinYaw;
+    sp54 = SQ(temp_f2);
+    sp4C = (temp_f2 * sinPitch) * temp_f14;
+    temp_f12 = cosPitch * cosYaw;
+    temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
+    sp44 = temp_f12 * sinNegRoll;
+    temp_f18 = sp28 * cosYaw;
+    temp_f6 = (temp_f12 * temp_f2) * temp_f14;
+    temp_f10_2 = sinPitch * sinNegRoll;
+    spA4.x = ((temp_f16 * temp_f4_2) + (cosPitch * (sp4C - sp44))) + (temp_f18 * (temp_f6 + temp_f10_2));
+    sp54 = SQ(sinPitch);
+    temp_f4_2 = (sinPitch * temp_f12) * temp_f14;
+    temp_f8_3 = temp_f2 * sinNegRoll;
+    temp_f8 = sp4C + sp44;
+    spA4.y = ((temp_f16 * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) + (temp_f18 * (temp_f4_2 - temp_f8_3));
+    temp_f8_2 = temp_f6 - temp_f10_2;
+    spA4.z = ((temp_f16 * temp_f8_2) + (cosPitch * (temp_f4_2 + temp_f8_3))) + (temp_f18 * (((1.0f - SQ(temp_f12)) * cosNegRoll) + SQ(temp_f12)));
+    *dest = spA4;
+    return dest;
+}
 
 f32 Camera_ClampLERPScale(Camera* camera, f32 maxLERPScale) {
     f32 ret;
@@ -2870,15 +3008,18 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046CB4.s")
 #endif
 
+#ifdef NON_MATCHING
+#else
 void func_80046E20(Camera *arg0, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, Vec3f *arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046E20.s")
+#endif
 
 s32 Camera_NOP(Camera* camera) {
     return true;
 }
 s16 func_80046B44(Camera*, s16, s16, s16);
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_Normal1(Camera *camera) {
     Normal1* norm1 = &camera->params.norm1;
@@ -3981,7 +4122,7 @@ s32 Camera_Jump0(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_Battle1(Camera *camera) {
     Vec3f sp128;
@@ -7492,9 +7633,9 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
     camera->realDir = camera->direction;
     camera->rUpdateRateInv = 10.0f;
     camera->thetaUpdateRateInv = 10.0f;
-    camera->unk_68.x = 0.0f;
-    camera->unk_68.y = 1.0f;
-    camera->unk_68.z = 0.0f;
+    camera->up.x = 0.0f;
+    camera->up.y = 1.0f;
+    camera->up.z = 0.0f;
     camera->fov = 60.0f;
     camera->phiUpdateRateInv = R_CAM_DEFA_PHI_UPDRATE;
     camera->xzOffsetUpdateRate = PCT(OREG(2));
@@ -7511,8 +7652,8 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
     camera->unk_160 = -1;
     camera->unk_14C |= 0x4000;
 
-    camera->unk_68.y = 1.0f;
-    camera->unk_68.z = camera->unk_68.x = 0.0f;
+    camera->up.y = 1.0f;
+    camera->up.z = camera->up.x = 0.0f;
     camera->skyboxOffset.x = camera->skyboxOffset.y = camera->skyboxOffset.z = 0;
     camera->atLERPStepScale = 1;
     sCameraInterfaceFlags = 0xFF00;
@@ -7586,9 +7727,9 @@ void func_80058148(Camera* camera, Player* player) {
     Camera_Vec3fVecSphAdd(&camera->eyeNext, &camera->at, &sp4C);
     camera->eye = camera->eyeNext;
     camera->roll = 0;
-    camera->unk_68.x = 0.0f;
-    camera->unk_68.z = 0.0f;
-    camera->unk_68.y = 1.0f;
+    camera->up.x = 0.0f;
+    camera->up.z = 0.0f;
+    camera->up.y = 1.0f;
 
     if (func_80044434(camera, &sp3C, &camera->at, &sp48) != -32000.0f) {
         camera->bgCheckId = sp48;
@@ -7869,15 +8010,15 @@ void func_80058E8C(Camera *camera);
 Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     static s32 sOOBTimer = 0;
 
-    Vec3f spD4;
-    Vec3f spC8;
-    Vec3f spBC;
-    f32 spB8;
+    Vec3f viewAt;
+    Vec3f viewEye;
+    Vec3f viewUp;
+    f32 viewFov;
     Vec3f spAC;
     u32 bgCheckId;
     f32 playerGroundY;
     f32 playerXZDiff;
-    VecSph sp98;
+    VecSph eyeAtAngle;
     s16 camDataIdx;
     PosRot curPlayerPosRot;
     QuakeCamCalc quake;
@@ -7984,8 +8125,8 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     if (sOOBTimer < 200) {
         sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera);
     } else if (camera->player != NULL) {
-        OLib_Vec3fDiffToVecSphRot90(&sp98, &camera->at, &camera->eye);
-        func_800457A8(camera, &sp98, 0.0f, 0);
+        OLib_Vec3fDiffToVecSphRot90(&eyeAtAngle, &camera->at, &camera->eye);
+        func_800457A8(camera, &eyeAtAngle, 0.0f, 0);
     }
 
     if (camera->status == CAM_STATUS_ACTIVE) {
@@ -8047,28 +8188,28 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     // setting bgCheckId to the ret of Quake_Calc, and checking that 
     // is required, it doesn't make too much sense though.
     if ((bgCheckId = Quake_Calc(camera, &quake), bgCheckId != 0) && (camera->setting != CAM_SET_ITEM2)) {
-        spD4.x = camera->at.x + quake.atOffset.x;
-        spD4.y = camera->at.y + quake.atOffset.y;
-        spD4.z = camera->at.z + quake.atOffset.z;
-        spC8.x = camera->eye.x + quake.eyeOffset.x;
-        spC8.y = camera->eye.y + quake.eyeOffset.y;
-        spC8.z = camera->eye.z + quake.eyeOffset.z;
-        OLib_Vec3fDiffToVecSphRot90(&sp98, &spC8, &spD4);
-        func_80044E68(&spBC, sp98.phi + quake.rotZ, sp98.theta + quake.unk_1A, camera->roll);
-        spB8 = camera->fov + BINANG_TO_DEGF(quake.zoom);
+        viewAt.x = camera->at.x + quake.atOffset.x;
+        viewAt.y = camera->at.y + quake.atOffset.y;
+        viewAt.z = camera->at.z + quake.atOffset.z;
+        viewEye.x = camera->eye.x + quake.eyeOffset.x;
+        viewEye.y = camera->eye.y + quake.eyeOffset.y;
+        viewEye.z = camera->eye.z + quake.eyeOffset.z;
+        OLib_Vec3fDiffToVecSphRot90(&eyeAtAngle, &viewEye, &viewAt);
+        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.phi + quake.rotZ, eyeAtAngle.theta + quake.unk_1A, camera->roll);
+        viewFov = camera->fov + BINANG_TO_DEGF(quake.zoom);
     } else {
-        spD4 = camera->at;
-        spC8 = camera->eye;
-        OLib_Vec3fDiffToVecSphRot90(&sp98, &spC8, &spD4);
-        func_80044E68(&spBC, sp98.phi, sp98.theta, camera->roll);
-        spB8 = camera->fov;
+        viewAt = camera->at;
+        viewEye = camera->eye;
+        OLib_Vec3fDiffToVecSphRot90(&eyeAtAngle, &viewEye, &viewAt);
+        Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.phi, eyeAtAngle.theta, camera->roll);
+        viewFov = camera->fov;
     }
 
     if (camera->paramFlags & 4) {
         camera->paramFlags &= ~4;
-        spBC = camera->unk_68;
+        viewUp = camera->up;
     } else {
-        camera->unk_68 = spBC;
+        camera->up = viewUp;
     }
 
     camera->skyboxOffset = quake.eyeOffset;
@@ -8079,14 +8220,14 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     } else {
         View_SetScale(&camera->globalCtx->view, 1.0f);
     }
-    camera->globalCtx->view.fovy = spB8;
-    func_800AA358(&camera->globalCtx->view, &spC8, &spD4, &spBC);
-    camera->realDir.x = sp98.phi;
-    camera->realDir.y = sp98.theta;
+    camera->globalCtx->view.fovy = viewFov;
+    func_800AA358(&camera->globalCtx->view, &viewEye, &viewAt, &viewUp);
+    camera->realDir.x = eyeAtAngle.phi;
+    camera->realDir.y = eyeAtAngle.theta;
     camera->realDir.z = 0;
     if (sUpdateCameraDirection == 0) {
-        camera->direction.x = sp98.phi;
-        camera->direction.y = sp98.theta;
+        camera->direction.x = eyeAtAngle.phi;
+        camera->direction.y = eyeAtAngle.theta;
         camera->direction.z = 0;
     }
     if (PREG(81)) {
@@ -8098,7 +8239,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     }
     if (R_DBG_CAM_UPDATE) {
         osSyncPrintf("camera: out (%f %f %f) (%f %f %f)\n", camera->at.x, camera->at.y, camera->at.z, camera->eye.x, camera->eye.y, camera->eye.z);
-        osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", sp98.r, sp98.phi, BINANG_TO_DEGF(sp98.phi), sp98.theta, BINANG_TO_DEGF(sp98.theta), camera->fov);
+        osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", eyeAtAngle.r, eyeAtAngle.phi, BINANG_TO_DEGF(eyeAtAngle.phi), eyeAtAngle.theta, BINANG_TO_DEGF(eyeAtAngle.theta), camera->fov);
         if (camera->player != NULL) {
             osSyncPrintf("camera: foot(%f %f %f) dist (%f)\n", curPlayerPosRot.pos.x, curPlayerPosRot.pos.y, curPlayerPosRot.pos.z, camera->dist);
         }
@@ -8505,7 +8646,7 @@ s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
                  camera->eye = camera->eyeNext = *(Vec3f*)value;
                 break;
             case 4:
-                camera->unk_68 = *(Vec3f*)value;
+                camera->up = *(Vec3f*)value;
                 break;
             case 0x40:
                 camera->roll = DEGF_TO_BINANG(*(f32*)value);

@@ -661,7 +661,7 @@ typedef struct {
     /* 0x0000 */ CameraParams params;
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
-    /* 0x0068 */ Vec3f unk_68;
+    /* 0x0068 */ Vec3f up;
     /* 0x0074 */ Vec3f eyeNext;
     /* 0x0080 */ Vec3f skyboxOffset;
     /* 0x008C */ struct GlobalContext* globalCtx;
