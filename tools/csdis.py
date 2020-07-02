@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+from overlayhelpers import filemap
 
 import argparse
 import struct
@@ -355,9 +358,7 @@ def format_arg(arg, words):
         unsigned_value = get_word_unsigned(word)
         pad_len = 8
     else:
-        print("Something went wrong with determining arg type! Arg being formatted: " + arg + ", type: " + arg_type + ", type_num: " + arg_type_num)
-        print("Words: ")
-        print(words)
+        print("Something went wrong!") # TODO more debug info
         os._exit(1)
     format_type = arg_part(arg, 2).strip() # the format type, how to express the final value
     result = ""
@@ -369,11 +370,6 @@ def format_arg(arg, words):
             result = cutscene_terminator_destinations[unsigned_value]
         elif enum_no == 2:
             result = ocarina_action_ids[unsigned_value]
-        else:
-            print("Something went wrong with determining enumeration to use! No such enumeration for enum_no: " + enum_no)
-            print("Arg being formatted: " + arg + ", type: " + arg_type + "value: " + value + ", format type: " + format_type)
-            print("Words: ")
-            print(words)
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
@@ -383,9 +379,7 @@ def format_arg(arg, words):
     elif format_type == "f":
         result = str(get_float(value))+"f"
     else:
-        print("Something went wrong with determining format type! Arg being formatted: " + arg + ", type: " + arg_type + "value: " + value + ", format type: " + format_type)
-        print("Words: ")
-        print(words)
+        print("Something went wrong!") # TODO more debug info
         os._exit(1)
     return result
 
@@ -405,6 +399,9 @@ def format_cmd(cmd, words):
 
 """
 Cutscene parser
+
+Note that this isn't protected against indexing errors since a cutscene should always
+end before the end of the file it's in.
 """
 
 def disassemble_cutscene(cs_in):
@@ -415,17 +412,21 @@ def disassemble_cutscene(cs_in):
     i+=1
     if (total_entries < 0 or cutscene_end_frame < 0):
         print("This cutscene would abort if played in-engine")
+        if total_entries < 0:
+            return "Could not disassemble cutscene: Number of commands is negative"
     macros = format_cmd(begin_cutscene_entry[0], [total_entries, cutscene_end_frame])+line_end
     for k in range(0,total_entries+1):
         cmd_type = cs_in[i]
         if (cmd_type == 0xFFFFFFFF):
             macros += multi_key(-1)[0]+line_end
-            for p in range(len(cs_in)-i-1):
+            # since this now takes an address instead of pre-disassembled data, the amount of padding
+            # cannot (and does not need to be) figured out by the script
+            """for p in range(len(cs_in)-i-1):
                 v = cs_in[i+p+1]
                 if v == 0:
                     macros += "CS_PAD()"+line_end
                 else:
-                    macros += "0x" + pad(hex(v), 8).upper() + line_end
+                    macros += "0x" + pad(hex(v), 8).upper() + line_end"""
             return macros
         entry = multi_key(cmd_type)
         if entry is None:
@@ -461,21 +462,31 @@ def disassemble_cutscene(cs_in):
     print("Warning: cutscene reached maximum entries without encountering a CS_END command")
     return macros
 
+def hex_parse(s):
+    return int(s, 16)
+
 def main():
     parser = argparse.ArgumentParser(description="Disassembles cutscenes for OoT")
-    parser.add_argument('path', help="The path to the disassembled data file relative to this script's working dir")
-    parser.add_argument('symbol', help="Symbol name as it appears in the disassembled data file")
+    parser.add_argument('address', help="VRAM or ROM address to disassemble at", type=hex_parse)
     args = parser.parse_args()
-    data_file = open(args.path, "r")
-    full_data = data_file.read()
-    data_file.close()
-    if ("glabel " + args.symbol) not in full_data:
-        print("Symbol not found in file. Is it missing a glabel?")
-    elif ("glabel " + args.symbol + linesep + " .word ") not in full_data:
-        print("This symbol does not appear to be an array of 32-bit words.")
+
+    file_result = None
+    if args.address >= 0x80000000:
+        file_result = filemap.GetFromVRam(args.address)
     else:
-        cs_data = [int(x,16) for x in full_data.split("glabel " + args.symbol + linesep + " .word ")[1].split("glabel ")[0].strip().split(", ")]
-        print(disassemble_cutscene(cs_data))
+        file_result = filemap.GetFromRom(args.address)
+    if file_result is None:
+        print("Invalid address")
+        os._exit(1)
+    print(file_result)
+    print()
+
+    cs_data = None
+    with open("baserom/" + file_result.name, "rb") as ovl_file:
+        ovl_file.seek(file_result.offset)
+        cs_data = [i[0] for i in struct.iter_unpack(">I",  bytearray(ovl_file.read()))]
+    if cs_data is not None:
+        print("static CutsceneData D_" + hex(args.address).replace("0x","").upper() + "[] = {\n" + indent+disassemble_cutscene(cs_data).replace(linesep,linesep+indent).rstrip()+"\n};")
 
 if __name__ == "__main__":
     main()
