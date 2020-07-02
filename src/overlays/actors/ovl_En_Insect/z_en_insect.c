@@ -531,19 +531,17 @@ void func_80A7D39C(EnInsect *this) {
     this->unk_314 |= 0x100;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7D460.s")
 void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     s32 temp_a0;
     s32 sp50;
-    s32 temp_a1;
     f32 phi_f0;
-    Vec3f* sp2C;
+    EnInsect* thisTemp = this;
+    s32 temp_a1;
     f32 sp40;
     f32 phi_f2;
     s16 sp3A;
     s16 sp38;
-    // f32 sp34;
-    EnInsect* thisTemp = this;
+    f32 sp34;
 
     sp50 = 0;
     sp3A = this->actor.params & 3;
@@ -559,6 +557,8 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         }
         sp40 = 40.0f;
     }
+    
+    if (!this->soilActor->actor.params) {}
 
     D_80A7DEB0 += 0.0033333332f;
     if (1.0f < D_80A7DEB0) {
@@ -584,32 +584,29 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         this->unk_328 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         this->unk_324 = Math_Rand_ZeroOne() * 0.6f + 0.6f;
     } else if (Math_Rand_ZeroOne() < 0.07f) {
-        sp2C = &this->actor.posRot.pos;
-
         if (1.0f < this->unk_324) {
             this->unk_324 = 0.1f;
         } else {
             this->unk_324 = Math_Rand_ZeroOne() * 0.8f + 1.0f;
         }
 
-        phi_f2 = 1.3f - D_80A7DEB0;
-        if (phi_f2 < 0.0f) {
-            phi_f2 = 0.0f;
+        sp34 = 1.3f - D_80A7DEB0;
+        if (sp34 < 0.0f) {
+            sp34 = 0.0f;
         } else {
-            if (1.0f < phi_f2) {
+            if (1.0f < sp34) {
                 phi_f0 = 1.0f;
             } else {
-                phi_f0 = phi_f2;
+                phi_f0 = sp34;
             }
-            phi_f2 = phi_f0;
+            sp34 = phi_f0;
         }
-        // sp34 = phi_f2;
-        sp38 = (Math_Rand_ZeroOne() - 0.5f) * 65535.0f * phi_f2;
-        this->unk_328 = Math_Vec3f_Yaw(sp2C, &this->actor.initPosRot.pos) + sp38;
+        sp38 = (Math_Rand_ZeroOne() - 0.5f) * 65535.0f * sp34;
+        this->unk_328 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos) + sp38;
     }
 
-    Actor_SetScale(&this->actor, CLAMP_MAX(this->actor.scale.x + 0.0008f, 0.01f));
-
+    Actor_SetScale(&this->actor, CLAMP_MAX(thisTemp->actor.scale.x + 0.0008f, 0.01f));
+    
     if (this->actor.bgCheckFlags & 1) {
         Math_SmoothScaleMaxMinF(&this->actor.speedXZ, this->unk_324, 0.1f, 0.5f, 0.0f);
         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_328, 2000);
@@ -618,12 +615,11 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         this->actor.shape.rot.x = this->actor.posRot.rot.x;
     } else {
         Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
-        this->actor.speedXZ = this->actor.speedXZ + (Math_Rand_ZeroOne() - 0.5f) * 0.14f;
-        // temp_f10 = Math_Rand_ZeroOne() * 0.12f;
+        this->actor.speedXZ += (Math_Rand_ZeroOne() - 0.5f) * 0.14f;
         this->actor.velocity.y += Math_Rand_ZeroOne() * 0.12f;
-        this->actor.posRot.rot.y = this->actor.posRot.rot.y + this->unk_316;
-        this->actor.shape.rot.x = this->actor.shape.rot.x - 0x7D0;
+        this->actor.posRot.rot.y += this->unk_316;
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        this->actor.shape.rot.x -= 2000;
     }
 
     phi_f2 = Math_Rand_ZeroOne() * 0.5f + this->actor.speedXZ * 1.3f;
