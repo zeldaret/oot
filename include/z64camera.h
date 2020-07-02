@@ -5,20 +5,35 @@
 #include <z64cutscene.h>
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ s16 unk_08;
-} Special9; // size = 0xC
+    /* 0x0000 */ CutsceneCameraPoint* atPoints;
+    /* 0x0004 */ CutsceneCameraPoint* eyePoints;
+    /* 0x0008 */ s16 actionParameters;
+    /* 0x000A */ s16 initTimer;
+} OnePointDemoCamera; // size = 0xC
 
 typedef struct {
-    /* 0x0000 */ struct Actor* door;
+    /* 0x0000 */ struct Actor* actor;
     /* 0x0004 */ s16 unk_04;
     /* 0x0006 */ s16 unk_06;
     /* 0x0008 */ s16 unk_08;
     /* 0x000A */ s16 unk_0A;
+} PersonalizeParams; // size = 0xC
+
+typedef struct {
+    /* 0x0000 */ s16 unk_00;
+} Special9_Unk18; // size = 0x2
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ s16 unk_08;
+    /* 0x000C */ Special9_Unk18;
+} Special9; // size = 0x10
+
+typedef struct {
+    /* 0x0000 */ PersonalizeParams* personalizeParams;
     /* 0x000C */ Special9 spec9;
-    /* 0x0018 */ s16 unk_18;
-} DoorCamera; // size = 0x1C
+} PersonalizedDoor; // size = 0x1C
 
 typedef struct {
     /* 0x0000 */ f32 lerpAtScale;
@@ -44,13 +59,14 @@ typedef struct {
 } Demo9Anim; // size = 0xC
 
 typedef struct {
-    /* 0x0000 */ CutsceneCameraPoint* atPoints;
-    /* 0x0004 */ CutsceneCameraPoint* atEyePoints;
-    /* 0x0008 */ s16 actionParameters;
-    /* 0x000A */ s16 initTimer;
-    /* 0x000C */ s16 interfaceFlags;
-    /* 0x0010 */ Demo9Anim anim;
+    /* 0x0000 */ s16 interfaceFlags;
+    /* 0x0004 */ Demo9Anim anim;
 } Demo9;
+
+typedef struct {
+    /* 0x0000 */ OnePointDemoCamera onePointDemo;
+    /* 0x000C */ Demo9 demo9;
+} Demo9OnePointDemo; // size = 0x1C
 
 typedef struct {
     /* 0x0000 */ s16 animTimer;
@@ -190,18 +206,17 @@ typedef struct {
 } Fixed1; // size = 0x28
 
 typedef struct {
-    f32 fovTarget;
-    s16 animTimer;
-} KeepOn0Anim;
+    /* 0x0000 */ f32 fovTarget;
+    /* 0x0004 */ s16 animTimer;
+} KeepOn0Anim; // size = 0x6
 
 typedef struct {
-    f32 fovScale;
-    f32 thetaScale;
-    s16 timerInit;
-    s16 interfaceFlags;
-    KeepOn0Anim anim;
-} KeepOn0;
-
+    /* 0x0000 */ f32 fovScale;
+    /* 0x0004 */ f32 thetaScale;
+    /* 0x0008 */ s16 timerInit;
+    /* 0x000A */ s16 interfaceFlags;
+    /* 0x000C */ KeepOn0Anim anim;
+} KeepOn0; // size = 0x12
 
 typedef struct {
     /* 0x0000 */ Vec3f unk_00;
@@ -332,51 +347,52 @@ typedef struct {
 } Normal1;
 
 typedef struct {
-    /* 0x0000 */ Vec3f unk_00;
-    /* 0x000C */ s16 unk_0C;
-    /* 0x0010 */ Linef unk_10;
-} Unique0_Unk10; // size = 0x28
+    /* 0x0000 */ Vec3f initalPos;
+    /* 0x000C */ s16 animTimer;
+    /* 0x0010 */ Linef sceneCamPosPlayerLine;
+} Unique0Anim; // size = 0x28
 
 typedef struct {
-    /* 0x0000 */ char unk_00[0x6];
-    /* 0x0006 */ s16 unk_06;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ s16 unk_0C;
-    /* 0x0010 */ Unique0_Unk10 unk_10;
-    char pad[0x18];
-} Unique0; // size = 0x38
+    /* 0x0000 */ s16 interfaceFlags;
+    /* 0x0004 */ Unique0Anim anim;
+} Unique0; // size = 0x2C
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ s16 unk_04;
-    /* 0x0006 */ s16 unk_06;
-    /* 0x0008 */ s16 unk_08;
-} Unique1_Unk1C; // size = 0xA
+    /* 0x0000 */ PersonalizeParams personalizeParams;
+    /* 0x000C */ Unique0 uniq0;
+} PersonalizedUnique0; // size = 0x38
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ f32 unk_08;
-    /* 0x000C */ char unk_0C[4];
-    /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ f32 unk_14;
-    /* 0x0018 */ s16 unk_18;
-    /* 0x001A */ s16 unk_1A;
-    /* 0x001C */ Unique1_Unk1C unk_1C;
+    /* 0x0000 */ f32 unk_00; // unused
+    /* 0x0004 */ s16 thetaTarget;
+    /* 0x0006 */ s16 thetaTargetAdj;
+    /* 0x0008 */ s16 timer;
+} Unique1Anim; // size = 0xA
+
+typedef struct {
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 distClampMin;
+    /* 0x0008 */ f32 distClampMax;
+    /* 0x000C */ char unk_0C[4]; // unused
+    /* 0x0010 */ f32 fovTarget;
+    /* 0x0014 */ f32 atLERPScaleMax;
+    /* 0x0018 */ s16 phiTarget;
+    /* 0x001A */ s16 interfaceFlags;
+    /* 0x001C */ Unique1Anim anim;
 } Unique1; // size = 0x26
 
+// Seems to go unused
 typedef struct {
     /* 0x0000 */ f32 unk_00;
     /* 0x0004 */ s16 unk_04;
 } Unique2_Unk10; // size = 0x6
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ f32 unk_08;
-    /* 0x000C */ s16 unk_0C;
-    /* 0x0010 */ Unique2_Unk10 unk_10;
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 distTarget;
+    /* 0x0008 */ f32 fovTarget;
+    /* 0x000C */ s16 interfaceFlags;
+    /* 0x0010 */ Unique2_Unk10 unk_10; // unused, values set but not read.
 } Unique2; // size = 0x6
 
 typedef struct {
@@ -450,21 +466,21 @@ typedef struct {
 } Subj4;
 
 typedef struct {
-    s16 unk_00;
-} Special5_Unk1C;
+    /* 0x0000 */ s16 animTimer;
+} Special5Anim; // size = 0x2
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    Special5_Unk1C unk_1C;
-} Special5;
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 eyeDist;
+    /* 0x0008 */ f32 minDistForRot;
+    /* 0x000C */ f32 fovTarget;
+    /* 0x0010 */ f32 atMaxLERPScale;
+    /* 0x0014 */ s16 timerInit;
+    /* 0x0016 */ s16 phi;
+    /* 0x0018 */ s16 interfaceFlags;
+    /* 0x001A */ s16 unk_1A;
+    /* 0x001C */ Special5Anim anim;
+} Special5; // size = 0x20
 
 typedef struct {
     Vec3f unk_00;
@@ -619,7 +635,8 @@ typedef union {
     s16 sh[2];
     s32 w;
     f32 f;
-    DoorCamera doorCam;
+    PersonalizeParams personalize;
+    PersonalizedDoor doorCam;
     Special0 spec0;
     Demo1 demo1;
     Normal3 norm3;
@@ -636,7 +653,7 @@ typedef union {
     Jump3 jump3;
     Parallel1 para1;
     Normal1 norm1;
-    Unique0 uniq0;
+    PersonalizedUnique0 uniq0;
     Unique1 uniq1;
     Unique2 uniq2;
     Unique3 uniq3;
@@ -650,7 +667,7 @@ typedef union {
     KeepOn4 keep4;
     Special6 spec6;
     Special7 spec7;
-    Demo9 demo9;
+    Demo9OnePointDemo demo9;
     Demo6 demo6;
     Demo3 demo3;
     Battle4 batt4;

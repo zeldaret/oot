@@ -659,7 +659,7 @@ f32 func_800437F0(f32, f32);
 // ? func_80045C74(?);
 // ? func_800460A8(?);
 // ? func_800466F8(?);
-// ? func_800468CC(?);
+// ? Camera_LERPClampDist(?);
 // ? func_800469C0(?);
 // ? func_80046B44(?);
 // ? func_80046CB4(?);
