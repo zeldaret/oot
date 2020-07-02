@@ -13,11 +13,11 @@ typedef struct EnPoSisters {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnPoSistersActionFunc actionFunc;
     /* 0x0194 */ u8 unk_194;
-    /* 0x0194 */ u8 unk_195;
-    /* 0x0194 */ u8 unk_196;
-    /* 0x0194 */ u8 unk_197;
-    /* 0x0194 */ u8 unk_198;
-    /* 0x0194 */ u8 unk_199;
+    /* 0x0195 */ u8 unk_195;
+    /* 0x0196 */ u8 unk_196;
+    /* 0x0197 */ u8 unk_197;
+    /* 0x0198 */ u8 unk_198;
+    /* 0x0199 */ u8 unk_199;
     /* 0x019A */ s16 unk_19A;
     /* 0x019A */ s16 unk_19C;
     /* 0x019E */ Vec3s unk_19E;
@@ -39,7 +39,7 @@ typedef struct EnPoSisters {
     /* 0x029C */ LightInfoPositional lightInfo;
     /* 0x02AA */ char unk_2AA[0x002];
     /* 0x02AC */ ColliderCylinder collider;
-    /* 0x02F8 */ char unk_2F8[0x040];
+    /* 0x02F8 */ MtxF unk_2F8;
 } EnPoSisters; // size = 0x0338
 
 extern const ActorInit En_Po_Sisters_InitVars;

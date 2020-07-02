@@ -79,8 +79,8 @@ void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD2E64.s")
-/* void func_80AD2E64(EnPoDesert* this, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD2E64.s")
+void func_80AD2E64(EnPoDesert* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s *temp_v0;
 
@@ -90,15 +90,16 @@ void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.initPosRot.pos.x = temp_v0->x;
     this->actor.initPosRot.pos.y = temp_v0->y;
     this->actor.initPosRot.pos.z = temp_v0->z;
-    this->unk_19C = CLAMP_MIN(func_8002DBB0(&this->actor, &this->actor.initPosRot.pos), 1.0f);
+    this->unk_19C = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
+    this->unk_19C = CLAMP_MIN(this->unk_19C, 1.0f);
     this->unk_198++;
-    this->actor.speedXZ = 0.0f;
     this->unk_1A0 = this->actor.initPosRot.pos.y - this->actor.posRot.pos.y;
-    if (this->unk_198 == path->count) {
+    this->actor.speedXZ = 0.0f;
+    if (path->count == this->unk_198) {
         this->unk_198 = 0;
     }
     this->actionFunc = func_80AD30D0;
-} */
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD2FBC.s")
 void func_80AD2FBC(EnPoDesert* this) {
@@ -289,7 +290,7 @@ void func_80AD3594(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this;
     GraphicsContext *gfxCtx;
-    Gfx dispRefs[2];
+    Gfx* dispRefs[4];
 
     this = THIS;
     gfxCtx = globalCtx->state.gfxCtx;

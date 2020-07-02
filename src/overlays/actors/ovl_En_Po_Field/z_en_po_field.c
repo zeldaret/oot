@@ -345,13 +345,90 @@ f32 func_80AD4554(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4664.s")
+/* void func_80AD4664(Actor *arg0, GlobalContext *arg1) {
+    ? sp88;
+    Actor *temp_s1;
+    CollisionContext *temp_s2;
+    CollisionPoly **temp_s3;
+    f32 temp_f0;
+    s32 temp_cond;
+    s32 temp_s5;
+    void *temp_s4;
+    void *phi_s6;
+    s8 phi_s5;
+    f32 phi_f20;
+    CollisionContext *phi_s2;
+    CollisionPoly **phi_s3;
+    void *phi_s4;
+    s32 phi_v0;
+    s32 phi_v0_2;
 
-
-
-
-
-
-
+    temp_s1 = arg1->unk1C44;
+    if (arg0->unk196 != 0) {
+        arg0->unk196 = (s16) (arg0->unk196 - 1);
+    }
+    if (arg0->unk196 == 0) {
+        if (D_80AD7100 > 0) {
+            phi_s6 = &D_80AD76B0;
+            phi_s5 = (u8)0;
+            phi_v0_2 = D_80AD7100;
+loop_5:
+            phi_v0 = phi_v0_2;
+            if ((fabsf((f32) phi_s6->unk0 - temp_s1->posRot.pos.x) < 150.0f) && (phi_v0 = phi_v0_2, (fabsf((f32) phi_s6->unk4 - temp_s1->posRot.pos.z) < 150.0f))) {
+                if (Flags_GetSwitch(arg1, (s32) *(&D_80AD76F0 + phi_s5)) != 0) {
+                    if ((temp_s1->unk67C & 0x800000) == 0) {
+                        arg0->params = (u16)0;
+                        phi_s2 = &arg1->colCtx;
+                        phi_s3 = arg0 + 0x78;
+                        phi_s4 = arg0 + 0x24;
+block_14:
+                        phi_f20 = 300.0f;
+block_15:
+                        arg0->posRot.pos.x = (f32) ((Math_Sins(temp_s1->shape.rot.y) * phi_f20) + temp_s1->posRot.pos.x);
+                        arg0->posRot.pos.z = (f32) ((Math_Coss(temp_s1->shape.rot.y) * phi_f20) + temp_s1->posRot.pos.z);
+                        arg0->posRot.pos.y = (f32) (temp_s1->posRot.pos.y + 1000.0f);
+                        temp_f0 = func_8003C9A4(phi_s2, phi_s3, (void *) &sp88, arg0, phi_s4);
+                        arg0->posRot.pos.y = temp_f0;
+                        if (temp_f0 != -32000.0f) {
+                            arg0->shape.rot.y = func_8002DA78(arg0, temp_s1);
+                            func_80AD3E2C(arg0);
+                            phi_v0 = D_80AD7100;
+block_17:
+                            temp_s5 = phi_s5 + 1;
+                            phi_s6 = phi_s6 + 6;
+                            phi_s5 = (s8) temp_s5;
+                            phi_v0_2 = phi_v0;
+                            if (temp_s5 < phi_v0) {
+                                goto loop_5;
+                            }
+                        }
+                    }
+                } else {
+                    temp_s2 = &arg1->colCtx;
+                    temp_s3 = arg0 + 0x78;
+                    temp_s4 = arg0 + 0x24;
+                    if (((temp_s1->unk67C & 0x800000) != 0) || (Math_Rand_ZeroOne() < 0.4f)) {
+                        arg0->params = (u16)1;
+                        arg0->unk195 = phi_s5;
+                        phi_f20 = 480.0f;
+                        phi_s2 = temp_s2;
+                        phi_s3 = temp_s3;
+                        phi_s4 = temp_s4;
+                    } else {
+                        arg0->params = (u16)0;
+                        phi_s2 = temp_s2;
+                        phi_s3 = temp_s3;
+                        phi_s4 = temp_s4;
+                        goto block_14;
+                    }
+                    goto block_15;
+                }
+            } else {
+                goto block_17;
+            }
+        }
+    }
+} */
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD48CC.s")
 void func_80AD48CC(EnPoField* this, GlobalContext* globalCtx) {
@@ -738,16 +815,16 @@ void func_80AD5D60(EnPoField* this, GlobalContext* globalCtx) {
         gSPSegment(gfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, ((-globalCtx->gameplayFrames) * 0x14) & 0x1FF, 0x20, 0x80));
         temp_a0 = this->unk_220 * 85000.0f;
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0x00, temp_a0);
-        Matrix_Translate(this->unk_224.x, this->unk_224.y, this->unk_224.z, 0);
-        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738019107841e-05f, 1);
+        Matrix_Translate(this->unk_224.x, this->unk_224.y, this->unk_224.z, MTXMODE_NEW);
+        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738019107841e-05f, MTXMODE_APPLY);
         if (this->unk_19A >= 0x14) {
             gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x00);
-            Matrix_Scale(this->unk_220, this->unk_220, this->unk_220, 1);
+            Matrix_Scale(this->unk_220, this->unk_220, this->unk_220, MTXMODE_APPLY);
         } else {
             gDPSetEnvColor(gfxCtx->polyXlu.p++, temp_a0, 0x00, 0x00, 0x00);
             Matrix_Scale((this->unk_220 * 0.699999988079071f) + 0.0009000000427477062f, 
                         (0.003000000026077032f - this->unk_220) + 0.003000000026077032f, 
-                        0.003000000026077032f, 1);
+                        0.003000000026077032f, MTXMODE_APPLY);
         }
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 0x6AD), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyXlu.p++, D_0404D4E0);

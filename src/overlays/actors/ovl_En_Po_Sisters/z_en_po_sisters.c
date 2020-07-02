@@ -60,6 +60,14 @@ extern s16 D_80ADD79C[];
 extern Vec3s D_80ADD7A4[];
 extern Vec3f D_80ADD7BC;
 
+extern Color_RGBA8 D_80ADD6F0[];
+
+extern Vec3f D_80ADD7F8;
+
+extern Gfx* D_80ADD7C8[];
+extern Gfx* D_80ADD7D8[];
+extern Color_RGBA8 D_80ADD7E8[];
+
 extern s32 D_80ADD784;
 
 // TODO external
@@ -72,6 +80,9 @@ extern AnimationHeader D_060008C0;
 extern AnimationHeader D_06000A54;
 extern AnimationHeader D_0600119C;
 extern AnimationHeader D_06000680;
+
+extern Gfx D_060027B0[];
+extern Gfx D_060046E0[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/EnPoSisters_Init.s")
 /* void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -1160,13 +1171,418 @@ block_5:
 } */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC10C.s")
+/* void func_80ADC10C(EnPoSisters* this, GlobalContext *globalCtx) {
+    Vec3f sp24;
 
+    if (this->collider.base.acFlags & 2) {
+        this->collider.base.acFlags &= 0xFFFD;
+        func_80035650(&this->actor, &this->collider.body, 1);
+        if (this->unk_195 != 0) {
+            ((EnPoSisters*)this->actor.attachedA)->unk_19C--;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);
+            func_80AD9C24(this, globalCtx);
+            if (Math_Rand_ZeroOne() < 0.2f) {
+                sp24 = this->actor.posRot.pos;
+                Item_DropCollectible(globalCtx, &sp24, 8);
+            }
+        } else if ((this->collider.base.type != 9 && this->actor.colChkInfo.damageEffect == 0 && this->actor.colChkInfo.damage == 0 && this->unk_194 == 0) || this->unk_194 == 0) {
+            this->actor.freeze = 0;
+        } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+            this->unk_199 |= 2;
+            this->actor.posRot.rot.y = this->actor.shape.rot.y;
+            func_80AD98F4(this, globalCtx);
+        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageEffect == 0xE && this->actionFunc == func_80ADB770) {
+            if (this->unk_19C == 0) {
+                this->unk_19C = -0x2D;
+            }
+        } else {
+            if (Actor_ApplyDamage(&this->actor) != 0) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DAMAGE);
+            } else {
+                func_80032C7C(globalCtx, &this->actor);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_SISTER_DEAD);
+            }
+            func_80AD95D8(this);
+        }
+    }
+} */
+
+#ifdef NON_MATCHING
+// Regalloc, branch likely
+void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnPoSisters* this;
+    Vec3f sp38;
+    UNK_TYPE sp34;
+    ColliderCylinder* collider;
+
+    this = THIS;
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags &= 0xFFFD;
+        func_80AD9568(this);
+    }
+    func_80ADC10C(this, globalCtx);
+    if (this->unk_199 & 4) {
+        func_80ADC034(this, globalCtx);
+    }
+    this->actionFunc(this, globalCtx);
+    if (this->unk_199 & 0x1F) {
+        if (this->unk_199 & 8) {
+            func_80ADA35C(this, globalCtx);
+        }
+        Actor_MoveForward(&this->actor);
+        if (this->unk_199 & 0x10) {
+            func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);
+        } else {
+            sp38.x = this->actor.posRot.pos.x;
+            sp38.y = this->actor.posRot.pos.y + 10.0f;
+            sp38.z = this->actor.posRot.pos.z;
+            this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &sp38);
+        }
+        collider = &this->collider;
+        Collider_CylinderUpdate(&this->actor, collider);
+        if (this->actionFunc == func_80ADA8C0 || this->actionFunc == func_80ADA7F0) {
+            this->unk_198 = CLAMP_MAX((u8)(this->unk_198 + 1), 8);
+        } else if (this->actionFunc != func_80ADAFC0) {
+            this->unk_198 = CLAMP_MIN((s16)(this->unk_198 - 1), 1);
+        }
+        if (this->actionFunc == func_80ADA8C0) {
+            this->actor.flags |= 0x1000000;
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
+        }
+        if (this->unk_199 & 1) {
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+        }
+        if (this->actionFunc != func_80ADB338) {
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+        }
+        Actor_SetHeight(&this->actor, 40.0f);
+        if (this->actionFunc == func_80ADAC70) {
+            this->actor.shape.rot.y = this->actor.posRot.rot.y + 0x8000;
+        } else if (this->unk_199 & 2) {
+            this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/EnPoSisters_Update.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC55C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC55C.s")
+void func_80ADC55C(EnPoSisters* this) {
+    s16 temp_var; // required for matching
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC77C.s")
+    if (this->skelAnime.animCurrentSeg == &D_06000114) {
+        this->unk_22E = CLAMP_MAX((s16)(this->unk_22E + 5), 0xFF);
+        this->unk_22F = CLAMP_MIN((s16)(this->unk_22F - 5), 0x32);
+        temp_var = this->unk_230 - 5;
+        this->unk_230 = CLAMP_MIN(temp_var, 0x00);
+    } else if (this->skelAnime.animCurrentSeg == &D_06000A54) {
+        this->unk_22E = CLAMP_MAX((s16)(this->unk_22E + 5), 0x50);
+        this->unk_22F = CLAMP_MAX((s16)(this->unk_22F + 5), 0xFF);
+        temp_var = this->unk_230 + 5;
+        this->unk_230 = CLAMP_MAX(temp_var, 0xE1);
+    } else if (this->skelAnime.animCurrentSeg == &D_060008C0) {
+        if (this->actor.dmgEffectTimer & 2) {
+            this->unk_22E = 0;
+            this->unk_22F = 0;
+            this->unk_230 = 0;
+        } else {
+            this->unk_22E = 0x50;
+            this->unk_22F = 0xFF;
+            this->unk_230 = 0xE1;
+        }
+    } else {
+        this->unk_22E = CLAMP_MAX((s16)(this->unk_22E + 5), 0xFF);
+        this->unk_22F = CLAMP_MAX((s16)(this->unk_22F + 5), 0xFF);
+        if (this->unk_230 >= 0xD3) {
+            temp_var = this->unk_230 - 5;
+            this->unk_230 = CLAMP_MIN(temp_var, 0xD2);
+        } else {
+            temp_var = this->unk_230 + 5;
+            this->unk_230 = CLAMP_MAX(temp_var, 0xD2);
+        }
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC77C.s")
+// OverrideLimbDraw2
+s32 func_80AE0BF8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+    EnPoSisters* this = THIS;
+    Color_RGBA8* color;
+
+    if (limbIndex == 1 && (this->unk_199 & 0x40)) {
+        if (this->unk_19A >= 0x11C) {
+            rot->x += (this->unk_19A * 0x1000) + 0xFFEE4000;
+        } else {
+            rot->x += (this->unk_19A * 0x1000) + 0xFFFF1000;
+        }
+    }
+    if (this->unk_231 == 0) {
+        *dList = NULL;
+    } else if (limbIndex == 8) {
+        *dList = NULL;
+    } else if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8) {
+        *dList = NULL;
+    } else if (limbIndex == 9) {
+        *dList = D_80ADD7C8[this->unk_194];
+    } else if (limbIndex == 0xA) {
+        *dList = D_80ADD7D8[this->unk_194];
+        gDPPipeSync((*gfxP)++);
+        gDPSetEnvColor((*gfxP)++, this->unk_22E, this->unk_22F, this->unk_230, this->unk_231);
+    } else if (limbIndex == 0xB) {
+        gDPPipeSync((*gfxP)++);
+        color = &D_80ADD7E8[this->unk_194];
+        gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->unk_231);
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC970.s")
+// PostLimbDraw2
+/* void func_80AE0CE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+    EnPoSisters* this;
+
+    void *sp38;
+    void *sp30;
+    LightInfoPositional *temp_a0_2;
+    f32 temp_f10;
+    f32 temp_f16;
+    f32 temp_f2;
+    s32 temp_v0_4;
+    u8 temp_v0_3;
+    void *temp_a0;
+    void *temp_a1;
+    void *temp_v0;
+    void *temp_v0_2;
+    void *temp_v1;
+    Color_RGB8 *temp_v1_2;
+    void *phi_a0;
+    void *phi_v1;
+    s32 phi_v0;
+    f32 phi_f10;
+    f32 phi_f16;
+
+    this = THIS;
+    if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8 && limbIndex == 9) {
+        gSPMatrix((*gfxP)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 0xB3C), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList((*gfxP)++, D_060046E0);
+    }
+    if (limbIndex == 8 && this->actionFunc != func_80ADB2B8) {
+        if ((this->unk_199 & 0x20) != 0) {
+
+            temp_v0_3 = this->unk_198 - 1;
+            if (temp_v0_3 > 0) {
+                temp_a1 = this + (temp_v0_3 * 0xC);
+                phi_a0 = temp_a1 + 0x228;
+                phi_v1 = temp_a1 + 0x234;
+                phi_v0 = (s32) temp_v0_3;
+loop_9:
+                temp_v0_4 = phi_v0 - 1;
+                temp_v1 = phi_v1 - 0xC;
+                temp_v1->unkC = (s32) phi_a0->unk0;
+                temp_a0 = phi_a0 - 0xC;
+                temp_v1->unk10 = (s32) phi_a0->unk4;
+                temp_v1->unk14 = (s32) temp_a0->unk14;
+                phi_a0 = temp_a0;
+                phi_v1 = temp_v1;
+                phi_v0 = temp_v0_4;
+                if (temp_v0_4 > 0) {
+                    goto loop_9;
+                }
+            }
+
+            Matrix_MultVec3f(&D_80ADD7F8, &this->unk_234);
+        } else if (this->actionFunc == func_80ADBD8C) {
+            Matrix_MultVec3f(&D_80ADD7F8, &this->actor.initPosRot.pos);
+        }
+        if (this->unk_198 > 0) {
+            temp_v1_2 = &D_80ADD6F0[this->unk_194];
+            temp_f2 = Math_Rand_ZeroOne() * 0.3f + 0.7f;
+            if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38 || this->actionFunc == func_80ADBEE8) {
+                Lights_InitType0PositionalLight(&this->lightInfo, 
+                                this->unk_234.x, this->unk_234.y + 15.0f, this->unk_234.z, 
+                                temp_v1_2->r * temp_f2, temp_v1_2->g * temp_f2, temp_v1_2->b * temp_f2, 
+                                0xC8);
+            } else {
+                Lights_InitType2PositionalLight(&this->lightInfo, 
+                                this->unk_234.x, this->unk_234.y + 15.0f, this->unk_234.z, 
+                                temp_v1_2->r * temp_f2, temp_v1_2->g * temp_f2, temp_v1_2->b * temp_f2, 
+                                0xC8);
+            }
+        } else {
+            Lights_SetPositionalLightColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
+        }
+        if (!(this->unk_199 & 0x80)) {
+            Matrix_Get(&this->unk_2F8);
+        }
+    }
+} */
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/EnPoSisters_Draw.s")
+/* void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnPoSisters* this;
+    void *spF4;
+    Gfx *spC4;
+    void *sp84;
+    void *sp7C;
+    u32 sp78;
+    Gfx *temp_v0_10;
+    Gfx *temp_v0_11;
+    Gfx *temp_v0_12;
+    Gfx *temp_v0_13;
+    Gfx *temp_v0_2;
+    Gfx *temp_v0_3;
+    Gfx *temp_v0_4;
+    Gfx *temp_v0_5;
+    Gfx *temp_v0_6;
+    Gfx *temp_v0_7;
+    Gfx *temp_v0_8;
+    Gfx *temp_v0_9;
+    GraphicsContext *gfxCtx;
+    f32 temp_f20;
+    s32 temp_lo;
+    s32 temp_lo_2;
+    s32 temp_lo_3;
+    s32 temp_s1_2;
+    s32 temp_s5;
+    u8 temp_s5_2;
+    u8 temp_v0;
+    void *temp_s1;
+    void *temp_s7;
+    u8 phi_s5;
+    void *phi_s2;
+    s32 phi_s1;
+    f32 phi_f20;
+    u8 phi_s5_2;
+    f32 phi_f0;
+    f32 phi_f2;
+    s32 phi_at;
+    s32 phi_at_2;
+    s32 phi_at_3;
+    s32 phi_at_4;
+
+    this = THIS;
+
+    temp_v0 = this->unk_194 * 4;
+    temp_s1 = temp_v0 + &D_80ADD700;
+    temp_s7 = temp_v0 + &D_80ADD6F0;
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(&spC4, globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 0xBAD);
+    func_80ADC55C(this);
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
+    if (this->unk231 == 0xFF || this->unk231 == 0) {
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, this->unk22E, this->unk22F, this->unk230, this->unk231);
+        gSPSegment(gfxCtx->polyOpa.p++, 0x09, D_80116280 + 2);
+        gfxCtx->polyOpa.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->unk16C, func_80ADC77C, func_80ADC970, &this->actor, gfxCtx->polyOpa.p);
+    } else {
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0xFF, 0xFF, this->unk231);
+        gSPSegment(gfxCtx->polyXlu.p++, 0x09, D_80116280);
+        gfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->unk16C, func_80ADC77C, func_80ADC970, &this->actor, gfxCtx->polyXlu.p);
+    }
+    if (!(this->unk_199 & 0x80)) {
+        Matrix_Put(&this->unk_2F8);
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 0xBDA), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_060027B0)
+    }
+    temp_v0_8 = gfxCtx->polyXlu.p;
+    gfxCtx->polyXlu.p = (Gfx *) (temp_v0_8 + 8);
+    temp_v0_8->words.w0 = 0xDB060020U;
+    temp_v0_8->words.w1 = Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, 0U, 0x20, 0x40, 1, 0, ((0 - globalCtx->gameplayFrames) * 0x14) & 0x1FF, 0x20, 0x80);
+    temp_v0_9 = gfxCtx->polyXlu.p;
+    gfxCtx->polyXlu.p = (Gfx *) (temp_v0_9 + 8);
+    temp_v0_9->words.w0 = 0xFB000000U;
+    temp_v0_9->words.w1 = (u32) ((((temp_s1->unk0 << 0x18) | (temp_s1->unk1 << 0x10)) | (temp_s1->unk2 << 8)) | temp_s1->unk3);
+    if (this->actionFunc == func_80ADB17C) {
+        if (this->unk19A < 0x20) {
+            temp_lo = (0x20 - this->unk19A) * 0xFF;
+            phi_at_4 = temp_lo;
+            if (temp_lo < 0) {
+                phi_at_4 = temp_lo + 0x1F;
+            }
+            phi_s5_2 = (u8) ((phi_at_4 >> 5) & 0xFF);
+            phi_f20 = 0.0056000003f;
+        } else {
+            temp_s5 = (this->unk19A * 0xFF) - 0x1FE0;
+            phi_at_3 = temp_s5;
+            if (temp_s5 < 0) {
+                phi_at_3 = temp_s5 + 0x1F;
+            }
+            phi_s5_2 = (u8) ((phi_at_3 >> 5) & 0xFF);
+            phi_f20 = 0.0027f;
+        }
+    } else if (this->actionFunc == func_80ADBD38) {
+        temp_lo_2 = (0x20 - this->unk19A) * 0xFF;
+        phi_at_2 = temp_lo_2;
+        if (temp_lo_2 < 0) {
+            phi_at_2 = temp_lo_2 + 0x1F;
+        }
+        phi_s5_2 = (u8) ((phi_at_2 >> 5) & 0xFF);
+        phi_f20 = 0.0027f;
+    } else if (this->actionFunc == func_80ADBEE8) {
+        temp_lo_3 = (0x20 - this->unk19A) * 0xFF;
+        phi_at = temp_lo_3;
+        if (temp_lo_3 < 0) {
+            phi_at = temp_lo_3 + 0x1F;
+        }
+        phi_s5_2 = (u8) ((phi_at >> 5) & 0xFF);
+        phi_f20 = 0.0035f;
+    } else if (this->actionFunc == func_80ADBC88) {
+        phi_s5_2 = spE7;
+        phi_f20 = 0.0027f;
+    } else {
+        phi_s5_2 = spE7;
+        phi_f20 = this->unk50 * 0.5f;
+    }
+    if (this->unk198 > 0) {
+        sp78 = 0x404D4E0U;
+        sp7C = &func_80ADAFC0;
+        sp84 = &func_80ADB17C;
+        phi_s2 = this;
+        phi_s1 = 0;
+loop_27:
+        phi_s5 = phi_s5_2;
+        if (sp84 != this->actionFunc) {
+            phi_s5 = phi_s5_2;
+            if (this->actionFunc != func_80ADBD38) {
+                phi_s5 = phi_s5_2;
+                if (this->actionFunc != func_80ADBEE8) {
+                    temp_s5_2 = 0 - phi_s1;
+                    phi_s5 = (((temp_s5_2 << 5) - temp_s5_2) + 0xF8) & 0xFF;
+                }
+            }
+        }
+        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, temp_s7->unk0, temp_s7->unk1, temp_s7->unk2, phi_s5);
+
+        Matrix_Translate(phi_s2->unk234, phi_s2->unk238, phi_s2->unk23C, MTXMODE_NEW);
+        Matrix_RotateRPY(0, (s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000), 0, MTXMODE_APPLY);
+        if (sp7C == this->actionFunc) {
+            temp_f20 = ((f32) (this->unk19A - phi_s1) * 0.025f) + 0.5f;
+            if (temp_f20 < 0.5f) {
+                phi_f0 = 0.5f;
+            } else {
+                if (0.8f < temp_f20) {
+                    phi_f2 = 0.8f;
+                } else {
+                    phi_f2 = temp_f20;
+                }
+                phi_f0 = phi_f2;
+            }
+            phi_f20 = phi_f0 * 0.007f;
+        }
+        Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 0xC3C), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sp78);
+
+        temp_s1_2 = phi_s1 + 1;
+        phi_s2 = phi_s2 + 0xC;
+        phi_s1 = temp_s1_2;
+        phi_s5_2 = phi_s5;
+        if (temp_s1_2 < this->unk_198) {
+            goto loop_27;
+        }
+    }
+    Graph_CloseDisps(&spC4, globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 0xC43);
+} */
