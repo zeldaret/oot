@@ -55,6 +55,7 @@
 #define R_CAM_MIN_PHI2              OREG(35)
 #define R_AT_LERP_MIN               OREG(41)
 #define R_AT_LERP_SCALE             OREG(42)
+#define R_CAM_YINV_OFFSET           OREG(46)
 #define R_CAM_FIXED3_FOV            PREG(7)
 #define R_DBG_CAM_UPDATE            PREG(80)
 #define R_DBG_REG_UPDATE            PREG(82)

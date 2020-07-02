@@ -574,12 +574,12 @@ typedef struct {
 } Battle4Anim; // size = 0x2
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000C */ f32 unk_0C;
-    /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ f32 unk_14;
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 rTarget;
+    /* 0x0008 */ s16 phiTarget;
+    /* 0x000C */ f32 lerpUpdateRate;
+    /* 0x0010 */ f32 fovTarget;
+    /* 0x0014 */ f32 atLERPTarget;
     /* 0x0018 */ s16 interfaceFlags;
     /* 0x001A */ s16 unk_1A;
     /* 0x001C */ Battle4Anim anim;
