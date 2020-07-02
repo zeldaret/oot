@@ -240,82 +240,70 @@ void func_800A76A4(MtxF* mf, f32 xScale, f32 yScale, f32 zScale) {
     mf->zz = zScale;
 }
 
-#ifdef NON_MATCHING
 // SkinMatrix_Rotation
 void func_800A7704(MtxF* mf, s16 arg1, s16 arg2, s16 arg3) {
-    f32 sin3;
-    f32 cos3;
-    f32 sin2;
     f32 cos2;
-    f32 sin1;
-    f32 cos1;
-
-    f32 zx;
+    f32 sin;
+    f32 cos;
     f32 yx;
-    f32 zy;
+    f32 sin2;
+    f32 zx;
     f32 yy;
-    f32 zz;
+    f32 zy;
 
-    sin3 = Math_Sins(arg3);
-    cos3 = Math_Coss(arg3);
-    mf->yy = cos3;
-    mf->yx = -sin3;
-
-    mf->zw = 0.0f;
-    mf->yw = 0.0f;
-    mf->xw = 0.0f;
-
-    mf->wz = 0.0f;
-    mf->wy = 0.0f;
-    mf->wx = 0.0f;
-    mf->ww = 1.0f;
-
+    sin = Math_Sins(arg3);
+    cos = Math_Coss(arg3);
+    mf->yy = cos;
+    mf->yx = -sin;
+    mf->xw = mf->yw = mf->zw = 0; 
+    mf->wx = mf->wy = mf->wz = 0;
+    mf->ww = 1;
+    
     if (arg2 != 0) {
         sin2 = Math_Sins(arg2);
         cos2 = Math_Coss(arg2);
 
-        mf->xz = -sin2;
-        mf->xy = cos2 * sin3;
-        mf->xx = cos2 * cos3;
-        
-        mf->zz = cos2;
-        mf->zy = sin2 * sin3;
-        mf->zx = sin2 * cos3;
-                
-    } else {
-        mf->xx = cos3;
-        mf->xy = sin3;
-        mf->zy = 0.0f;
-        mf->zx = 0.0f;
-        mf->xz = 0.0f;
-        mf->zz = 1.0f;
-    }
-    if (arg1 != 0) {
-        sin1 = Math_Sins(arg1);
-        cos1 = Math_Coss(arg1);
+        mf->xx = cos * cos2;
+        mf->zx = cos * sin2;
 
-        zx = mf->zx;
+        mf->xy = sin * cos2;
+        mf->zy = sin * sin2;
+        mf->xz = -sin2;
+        mf->zz = cos2;
+        
+    } else {
+        zx = cos;
+        mf->xx = zx;
+        zx = sin;
+        if (1) {} // required to match
+        if (1) {} // required to match
+        mf->xy = zx;
+        mf->xz = mf->zx = mf->zy = 0;
+        mf->zz = 1;
+    }
+
+    if (arg1 != 0) {
+        sin2 = Math_Sins(arg1);
+        cos2 = Math_Coss(arg1);
+
         yx = mf->yx;
+        zx = mf->zx;
+        mf->yx = (yx * cos2) + (zx * sin2);
+        mf->zx = (zx * cos2) - (yx * sin2);
+
+        if (1) {} // required to match
         zy = mf->zy;
         yy = mf->yy;
+        mf->yy = (yy * cos2) + (zy * sin2);
+        mf->zy = (zy * cos2) - (yy * sin2);
 
-        mf->yx = (f32) ((yx * cos1) + (zx * sin1));
-        mf->zx = (f32) ((zx * cos1) - (yx * sin1));
-        mf->yy = (f32) (yy * cos1 + zy * sin1);
-        mf->zy = (f32) (zy * cos1 - yy * sin1);
-        mf->yz = (f32) (mf->zz * sin1);
-        mf->zz = (f32) (mf->zz * cos1);
-
-
-        return;
-
+        if (cos2) {} // required to match
+        mf->yz = mf->zz * sin2;
+        mf->zz = mf->zz * cos2;
     } else {
-        mf->yz = 0.0f;
+        mf->yz = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7704.s")
-#endif
 
 // This function is identical to the last but with x->z, z->y, y->x
 // and arg3-> arg2, arg2->arg1, arg1->arg3
@@ -478,9 +466,10 @@ Mtx* func_800A7E70(GraphicsContext* gfxCtx, MtxF* src) {
     return displayList;
 }
 
-#ifdef NON_MATCHING
 // Rotation matrix rotates by angle t around the vector with components (x,y,z)
 // Can't get blocks in right order. Should be functional but not very close to matching.
+
+#ifdef NON_MATCHING
 void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
     f32 sin;
     f32 cos;
@@ -510,22 +499,26 @@ void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
     yz = y*z;
     zz = z*z;
 
-    mf->xx = (f32) (((1.0f - xx) * cos) + (xx));
+    mf->xx = (f32) ct * xx + cos;
     mf->xy = (f32) ((ct * xy) + sz);
-    mf->xw = 0.0f;
     mf->xz = (f32) ((ct * xz) - sy);
+    mf->xw = 0.0f;
+    
     mf->yx = (f32) ((ct * (xy)) - sz);
-    mf->yy = (f32) (((1.0f - yy) * cos) + (yy));
-    mf->yw = 0.0f;
+    mf->yy = (f32) ct * yy + cos;
     mf->yz = (f32) ((ct * (yz)) + sx);
+    mf->yw = 0.0f;
+    
     mf->zx = (f32) ((ct * (xz)) + sy);
+    mf->zy = (f32) ((ct * (yz)) - sx);
+    mf->zz = (f32) ct * zz + cos;;
     mf->zw = 0.0f;
+    
     mf->wx = 0.0f;
     mf->wy = 0.0f;
     mf->wz = 0.0f;
-    mf->zy = (f32) ((ct * (yz)) - sx);
     mf->ww = 1.0f;
-    mf->zz = (f32) (((1.0f - zz) * cos) + (zz));
+    
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7EC0.s")
