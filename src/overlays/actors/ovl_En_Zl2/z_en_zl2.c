@@ -496,7 +496,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (limbIndex == 0xE) {
         sp74 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
-        gSPSegment(gfx[0]++, 0x0C, sp74);
+        gSPSegment((*gfx)++, 0x0C, sp74);
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
@@ -594,7 +594,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 10) {
         if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 900)) {
-            gSPDisplayList(gfx[0]++, &D_0600BAE8);
+            gSPDisplayList((*gfx)++, &D_0600BAE8);
         }
 
         player = PLAYER;
@@ -770,7 +770,8 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
 
     if (npcAction != NULL) {
-        this->actor.shape.unk_14 = this->unk_1A8 = (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;;;
+        this->actor.shape.unk_14 = this->unk_1A8 =
+            (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
         func_80B501C4(this, this->unk_1A8);
     }
 }
@@ -791,7 +792,6 @@ void func_80B50278(EnZl2* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = 0xFF;
     this->action = 2;
     this->drawConfig = 1;
-    
 }
 
 void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
