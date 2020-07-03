@@ -387,7 +387,7 @@ void func_8098EEA8(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098EEFC(DemoSa* this, GlobalContext* globalCtx) {
-    s32 ff = 0xFF;
+    s32 alpha = 0xFF;
     f32* unk_1A0 = &this->unk_1A0;
 
     if (func_8098E654(this, globalCtx, 4, 4)) {
@@ -396,8 +396,8 @@ void func_8098EEFC(DemoSa* this, GlobalContext* globalCtx) {
             this->action = 9;
             this->drawConfig = 1;
             *unk_1A0 = kREG(5) + 10.0f;
-            this->unk_1A4 = ff;
-            this->actor.shape.unk_14 = ff;
+            this->unk_1A4 = alpha;
+            this->actor.shape.unk_14 = alpha;
             return;
         }
     } else {
@@ -494,7 +494,7 @@ void func_8098F420(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098F480(DemoSa* this) {
-    s32 ff = 0xFF;
+    s32 alpha = 0xFF;
     f32* unk_1A0 = &this->unk_1A0;
     f32 temp_f0;
 
@@ -502,7 +502,7 @@ void func_8098F480(DemoSa* this) {
     temp_f0 = kREG(17) + 10.0f;
 
     if (temp_f0 <= *unk_1A0) {
-        this->actor.shape.unk_14 = this->unk_1A4 = ff;
+        this->actor.shape.unk_14 = this->unk_1A4 = alpha;
     } else {
         this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / temp_f0) * 255.0f;
     }
@@ -614,7 +614,7 @@ void func_8098F83C(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098F8F8(DemoSa* this) {
-    s32 ff = 0xFF;
+    s32 alpha = 0xFF;
     f32* unk_1A0 = &this->unk_1A0;
     f32 temp_f0;
 
@@ -622,7 +622,7 @@ void func_8098F8F8(DemoSa* this) {
     temp_f0 = kREG(17) + 10.0f;
 
     if (temp_f0 <= *unk_1A0) {
-        this->actor.shape.unk_14 = this->unk_1A4 = ff;
+        this->actor.shape.unk_14 = this->unk_1A4 = alpha;
     } else {
         this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / temp_f0) * 255.0f;
     }
