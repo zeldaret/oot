@@ -244,7 +244,6 @@ void func_8098E944(DemoSa* this, GlobalContext* globalCtx) {
 void func_8098E960(DemoSa* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Player* player;
-    s16 newRotY;
 
     if ((gSaveContext.chamberCutsceneNum == 0) && (gSaveContext.sceneSetupIndex < 4)) {
         player = PLAYER;
@@ -252,10 +251,7 @@ void func_8098E960(DemoSa* this, GlobalContext* globalCtx) {
         globalCtx->csCtx.segment = D_8099010C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(globalCtx, ITEM_MEDALLION_FOREST);
-
-        newRotY = this->actor.posRot.rot.y + 0x8000;
-        player->actor.shape.rot.y = newRotY;
-        player->actor.posRot.rot.y = newRotY;
+        player->actor.posRot.rot.y = player->actor.shape.rot.y = this->actor.posRot.rot.y + 0x8000;
     }
 }
 
@@ -393,7 +389,6 @@ void func_8098EEA8(DemoSa* this, GlobalContext* globalCtx) {
 void func_8098EEFC(DemoSa* this, GlobalContext* globalCtx) {
     s32 ff = 0xFF;
     f32* unk_1A0 = &this->unk_1A0;
-    s32 temp_f4;
 
     if (func_8098E654(this, globalCtx, 4, 4)) {
         *unk_1A0 += 1.0f;
@@ -416,9 +411,7 @@ void func_8098EEFC(DemoSa* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    temp_f4 = (s32)((*unk_1A0 / (kREG(5) + 10.0f)) * 255.0f);
-    this->unk_1A4 = temp_f4;
-    this->actor.shape.unk_14 = temp_f4;
+    this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / (kREG(5) + 10.0f)) * 255.0f;
 }
 
 void func_8098F050(DemoSa* this, GlobalContext* globalCtx) {
@@ -504,18 +497,14 @@ void func_8098F480(DemoSa* this) {
     s32 ff = 0xFF;
     f32* unk_1A0 = &this->unk_1A0;
     f32 temp_f0;
-    s32 temp_f18;
 
     *unk_1A0 += 1.0f;
     temp_f0 = kREG(17) + 10.0f;
 
     if (temp_f0 <= *unk_1A0) {
-        this->unk_1A4 = ff;
-        this->actor.shape.unk_14 = ff;
+        this->actor.shape.unk_14 = this->unk_1A4 = ff;
     } else {
-        temp_f18 = ((*unk_1A0 / temp_f0) * 255.0f);
-        this->unk_1A4 = temp_f18;
-        this->actor.shape.unk_14 = temp_f18;
+        this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / temp_f0) * 255.0f;
     }
 }
 
@@ -628,18 +617,14 @@ void func_8098F8F8(DemoSa* this) {
     s32 ff = 0xFF;
     f32* unk_1A0 = &this->unk_1A0;
     f32 temp_f0;
-    s32 temp_f18;
 
     *unk_1A0 += 1.0f;
     temp_f0 = kREG(17) + 10.0f;
 
     if (temp_f0 <= *unk_1A0) {
-        this->unk_1A4 = ff;
-        this->actor.shape.unk_14 = ff;
+        this->actor.shape.unk_14 = this->unk_1A4 = ff;
     } else {
-        temp_f18 = ((*unk_1A0 / temp_f0) * 255.0f);
-        this->unk_1A4 = temp_f18;
-        this->actor.shape.unk_14 = temp_f18;
+        this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / temp_f0) * 255.0f;
     }
 }
 
