@@ -488,14 +488,14 @@ s32 func_8003CDD4(CollisionContext*, s32, Vec3f*, Vec3f*, Vec3f*, f32, Collision
 s32 func_8003D52C(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, f32, CollisionPoly**, u32*, Actor*, f32);
 s32 func_8003D594(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, f32, CollisionPoly**, u32*, Actor*, f32);
 // ? func_8003D600(?);
-s32 func_8003D7A0(CollisionContext* arg0, f32* arg1, Vec3f* arg2, f32 arg3, CollisionPoly** arg4, UNK_TYPE* arg5, Actor* arg6);
+s32 func_8003D7A0(CollisionContext* colCtx, f32* arg1, Vec3f* arg2, f32 arg3, CollisionPoly** arg4, u32* arg5, Actor* arg6);
 // ? func_8003D7F0(?);
 // ? func_8003DD28(?);
 // ? func_8003DD6C(?);
-s32 func_8003DE84(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*);
-s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*);
+s32 func_8003DE84(CollisionContext* colCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, u32 arg5, u32 arg6, u32 arg7, u32 arg8, u32* bgId);
+s32 func_8003DF10(CollisionContext* colCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, u32* bgId, Actor* actor);
 // ? func_8003DFA0(?);
-void func_8003E0FC(CollisionContext* arg0, Vec3f* arg1, s32 arg2, Vec3f* arg3, Vec3f* arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
+s32 func_8003E0FC(CollisionContext* colCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 // ? func_8003E188(?);
 // ? func_8003E214(?);
 void func_8003E398(StaticList_s*);
@@ -541,7 +541,7 @@ s32 func_80040E40(CollisionContext* arg0, u16 arg1, f32* arg2, Vec3f* arg3, f32 
 s32 func_80041648(CollisionContext* colCtx, u16 arg1, CollisionPoly** outPoly, s32* arg3, Vec3f* center, f32 radius, DynaPolyActor* actor, u16 arg7);
 // ? func_800417A0(?);
 void func_80041880(void* colHeader, CollisionHeader** arg1);
-// ? func_80041978(?);
+void func_80041978(StaticList_s* arg0, s32 numPolys);
 // ? func_800419B0(?);
 // ? func_80041A28(?);
 // ? func_80041A4C(?);

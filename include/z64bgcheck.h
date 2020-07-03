@@ -111,9 +111,9 @@ typedef struct {
 
 typedef struct {
     u16 unk_00; //dyna ? index start?
-    u16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
+    u16 ceiling; 
+    u16 wall; 
+    u16 floor;
 } DynaLookup;
 
 typedef struct {
@@ -127,7 +127,7 @@ typedef struct {
     /* 0x00 */ struct DynaPolyActor* actor;
     /* 0x04 */ CollisionHeader* colHeader;
     /* 0x08 */ DynaLookup dynaLookup;
-    /* 0x10 */ u16 unk_10; //dyna ? index start
+    /* 0x10 */ u16 unk_10; //dyna vtx index start
     /* 0x14 */ ScaleRotPos srp1;
     /* 0x34 */ ScaleRotPos srp2;
     /* 0x54 */ Sphere16  unk_54;
@@ -149,7 +149,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ u8             unk_00;
     /* 0x0004 */ ActorMesh      bgActors[50];
-    /* 0x138C */ u16            flags[50];
+    /* 0x138C */ u16            flags[50]; // & 0x0008 = no dyna ceiling
     /* 0x13F0 */ CollisionPoly* dyn_poly; //pbuf, possibly u8*
     /* 0x13F4 */ u8*            dyn_vtx; //pbuf, type Vec3s*
     /* 0x13F8 */ DynaList_s     dyn_list;
