@@ -80,7 +80,7 @@ static EnZl2ActionFunc sActionFuncs[] = {
     func_80B51C0C, func_80B51C64, func_80B51CA8, func_80B52068, func_80B52098, func_80B52108,
 };
 
-EnZl2PreLimbDrawFunc sOverrideLimbDrawFuncs[] = {
+static EnZl2PreLimbDrawFunc sOverrideLimbDrawFuncs[] = {
     func_80B4F45C,
 };
 
@@ -159,16 +159,14 @@ void func_80B4EA40(EnZl2* this) {
 
     if (*unk_27C < 3.0f) {
         *unk_190 = 0;
+    } else if (*unk_27C < 6.0f) {
+        *unk_190 = 1;
+    } else if (*unk_27C < 9.0f) {
+        *unk_190 = 2;
     } else {
-        if (*unk_27C < 6.0f) {
-            *unk_190 = 1;
-        } else if (*unk_27C < 9.0f) {
-            *unk_190 = 2;
-        } else {
-            *unk_190 = 5;
-            this->unk_194 = *unk_190;
-            return;
-        }
+        *unk_190 = 5;
+        this->unk_194 = *unk_190;
+        return;
     }
     *unk_27C += 1.0f;
     this->unk_194 = *unk_190;
@@ -180,15 +178,13 @@ void func_80B4EAF4(EnZl2* this) {
 
     if (*unk_27C < 2.0f) {
         *unk_190 = 5;
+    } else if (*unk_27C < 4.0f) {
+        *unk_190 = 2;
+    } else if (*unk_27C < 6.0f) {
+        *unk_190 = 1;
     } else {
-        if (*unk_27C < 4.0f) {
-            *unk_190 = 2;
-        } else if (*unk_27C < 6.0f) {
-            *unk_190 = 1;
-        } else {
-            func_80B4E9B0(this);
-            return;
-        }
+        func_80B4E9B0(this);
+        return;
     }
     *unk_27C += 1.0f;
     this->unk_194 = *unk_190;
@@ -200,14 +196,12 @@ void func_80B4EBB8(EnZl2* this) {
 
     if (*unk_27C < 2.0f) {
         *unk_190 = 0;
+    } else if (*unk_27C < 4.0f) {
+        *unk_190 = 1;
     } else {
-        if (*unk_27C < 4.0f) {
-            *unk_190 = 1;
-        } else {
-            *unk_190 = 2;
-            this->unk_194 = *unk_190;
-            return;
-        }
+        *unk_190 = 2;
+        this->unk_194 = *unk_190;
+        return;
     }
     *unk_27C += 1.0f;
     this->unk_194 = *unk_190;
@@ -219,13 +213,11 @@ void func_80B4EC48(EnZl2* this) {
 
     if (*unk_27C < 2.0f) {
         *unk_190 = 2;
+    } else if (*unk_27C < 4.0f) {
+        *unk_190 = 1;
     } else {
-        if (*unk_27C < 4.0f) {
-            *unk_190 = 1;
-        } else {
-            func_80B4E9B0(this);
-            return;
-        }
+        func_80B4E9B0(this);
+        return;
     }
     *unk_27C += 1.0f;
     this->unk_194 = *unk_190;
@@ -261,15 +253,12 @@ CsCmdActorAction* EnZl2_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
 
 void func_80B4EDB8(EnZl2* this, GlobalContext* globalCtx, s32 arg2) {
     CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, arg2);
-    s16 actionRotY;
 
     if (npcAction != NULL) {
         this->actor.posRot.pos.x = npcAction->startPos.x;
         this->actor.posRot.pos.y = npcAction->startPos.y;
         this->actor.posRot.pos.z = npcAction->startPos.z;
-        actionRotY = npcAction->rot.y;
-        this->actor.shape.rot.y = actionRotY;
-        this->actor.posRot.rot.y = actionRotY;
+        this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
     }
 }
 
@@ -523,7 +512,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Matrix_RotateRPY(unk_1DC[0] + kREG(31), unk_1DC[1] + kREG(32), unk_1DC[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(sp74, "../z_en_zl2.c", 1056);
+        Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
@@ -532,7 +521,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Matrix_RotateRPY(unk_1DC[3] + kREG(34), unk_1DC[4] + kREG(35), unk_1DC[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(sp74 + 1, "../z_en_zl2.c", 1100);
+        Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
@@ -541,7 +530,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Matrix_RotateRPY(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(sp74 + 2, "../z_en_zl2.c", 1120);
+        Matrix_ToMtx(&sp74[2], "../z_en_zl2.c", 1120);
         Matrix_Pull();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
@@ -554,7 +543,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Matrix_RotateRPY(unk_1DC[9] + kREG(40), unk_1DC[10] + kREG(41), unk_1DC[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(sp74 + 3, "../z_en_zl2.c", 1145);
+        Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
@@ -564,7 +553,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Matrix_RotateRPY(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(sp74 + 4, "../z_en_zl2.c", 1164);
+        Matrix_ToMtx(&sp74[4], "../z_en_zl2.c", 1164);
         Matrix_Pull();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
@@ -577,7 +566,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Matrix_RotateRPY(unk_1DC[15] + kREG(46), unk_1DC[16] + kREG(47), unk_1DC[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(sp74 + 5, "../z_en_zl2.c", 1189);
+        Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
         if (func_800C0D28(globalCtx) == 0) {
@@ -587,7 +576,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Matrix_RotateRPY(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(sp74 + 6, "../z_en_zl2.c", 1208);
+        Matrix_ToMtx(&sp74[6], "../z_en_zl2.c", 1208);
         Matrix_Pull();
         Matrix_Pull();
         this->unk_24C = 1;
@@ -604,7 +593,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Player* player;
 
     if (limbIndex == 10) {
-        if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 0x384)) {
+        if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 900)) {
             gSPDisplayList(gfx[0]++, &D_0600BAE8);
         }
 
@@ -663,7 +652,7 @@ void func_80B4FDD4(EnZl2* this) {
 }
 
 void func_80B4FE10(GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.frames >= 0x33E) && (globalCtx->csCtx.frames < 0x439)) {
+    if ((globalCtx->csCtx.frames >= 830) && (globalCtx->csCtx.frames < 1081)) {
         func_800788CC(0x2098);
     }
 }
@@ -779,13 +768,10 @@ void func_80B501C4(EnZl2* this, s32 arg1) {
 
 void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
-    s32 temp_f16;
 
     if (npcAction != NULL) {
-        temp_f16 = (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
-        this->unk_1A8 = temp_f16;
-        this->actor.shape.unk_14 = temp_f16;
-        func_80B501C4(this, temp_f16);
+        this->actor.shape.unk_14 = this->unk_1A8 = (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;;;
+        func_80B501C4(this, this->unk_1A8);
     }
 }
 
@@ -797,17 +783,15 @@ void func_80B50260(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B50278(EnZl2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
-    s16 actionRotY;
 
     this->actor.posRot.pos.x = npcAction->startPos.x;
     this->actor.posRot.pos.y = npcAction->startPos.y;
     this->actor.posRot.pos.z = npcAction->startPos.z;
-    actionRotY = npcAction->rot.y;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
     this->actor.shape.unk_14 = 0xFF;
     this->action = 2;
     this->drawConfig = 1;
-    this->actor.shape.rot.y = actionRotY;
-    this->actor.posRot.rot.y = actionRotY;
+    
 }
 
 void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
@@ -816,7 +800,6 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
     f32 actionXDelta;
     f32 actionZDelta;
-    s32 temp_f6;
 
     actionXDelta = npcAction->endPos.x - npcAction->startPos.x;
     actionZDelta = npcAction->endPos.z - npcAction->startPos.z;
@@ -825,9 +808,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
     this->unk_23C = 0.0f;
     actorShape->unk_14 = 0xFF;
-    temp_f6 = Math_atan2f(actionXDelta, actionZDelta) * 10430.3779296875f;
-    actorShape->rot.y = temp_f6;
-    this->actor.posRot.rot.y = temp_f6;
+    this->actor.posRot.rot.y = actorShape->rot.y = Math_atan2f(actionXDelta, actionZDelta) * 10430.3779296875f;
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {
@@ -1264,7 +1245,7 @@ void func_80B513A8(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B51418(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4E9B0(this);
-    if (globalCtx->csCtx.frames < 0x1AF) {
+    if (globalCtx->csCtx.frames < 431) {
         func_80B4ED18(this, 1);
     } else {
         func_80B4ED18(this, 0);
@@ -1277,7 +1258,7 @@ void func_80B5146C(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B5149C(EnZl2* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.frames < 0x3DC) {
+    if (globalCtx->csCtx.frames < 988) {
         func_80B4ECE8(this, 7);
         func_80B4ED04(this, 8);
     } else {
@@ -1288,7 +1269,7 @@ void func_80B5149C(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B514F8(EnZl2* this, GlobalContext* globalCtx) {
     func_80B4E9B0(this);
-    if (globalCtx->csCtx.frames < 0x4A6) {
+    if (globalCtx->csCtx.frames < 1190) {
         func_80B4ED18(this, 1);
     } else {
         func_80B4ED18(this, 0);
@@ -1555,11 +1536,10 @@ void func_80B51EA8(EnZl2* this) {
 
 void func_80B51EBC(EnZl2* this, GlobalContext* globalCtx) {
     ActorShape* shape = &this->actor.shape;
-    s16 rotY = EnZl2_GetNpcAction(globalCtx, 0)->rot.y;
-    s32 pad[3];
+    CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
+    s32 pad[2];
 
-    shape->rot.y = rotY;
-    this->actor.posRot.rot.y = rotY;
+    this->actor.posRot.rot.y = shape->rot.y = npcAction->rot.y;
     func_80B4FD00(this, &D_0600B224, 0, 0.0f, 0);
     this->action = 34;
     this->drawConfig = 1;
@@ -1666,7 +1646,7 @@ void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    sActionFuncs[this->action](thisx, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -1760,5 +1740,5 @@ void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    sDrawFuncs[this->drawConfig](thisx, globalCtx);
+    sDrawFuncs[this->drawConfig](this, globalCtx);
 }

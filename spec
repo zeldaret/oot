@@ -3501,7 +3501,7 @@ beginseg
     name "ovl_En_Zl2"
     include "build/src/overlays/actors/ovl_En_Zl2/z_en_zl2.o"
 #ifdef NON_MATCHING
-    include "build/src/overlays/actors/ovl_En_Zl2/z_en_zl2_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Zl2/ovl_En_Zl2_reloc.o"
 #else
     include "build/data/overlays/actors/z_en_zl2.reloc.o"
 #endif
