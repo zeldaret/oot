@@ -411,7 +411,7 @@ void EffectBlure_SetupSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* elem, s32 index,
                                          GraphicsContext* gfxCtx) {
     static Vtx_t baseVtx = VTX_T(0, 0, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-    Vtx_t* vtx;
+    Vtx* vtx;
     Vec3s sp8C;
     Vec3s sp84;
     f32 ratio;
@@ -426,15 +426,15 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
 
     Math_Vec3s_ToVec3f(&sp6C, &this->elements[0].p2);
 
-    vtx = Graph_Alloc(gfxCtx, sizeof(Vtx_t[4]));
+    vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[4]));
     if (vtx == NULL) {
         // Translates to: "Vertices cannot be secured."
         osSyncPrintf("z_eff_blure.c::SQ_NoInterpolate_disp() 頂点確保できず。\n");
     } else {
-        vtx[0] = baseVtx;
-        vtx[1] = baseVtx;
-        vtx[2] = baseVtx;
-        vtx[3] = baseVtx;
+        vtx[0].v = baseVtx;
+        vtx[1].v = baseVtx;
+        vtx[2].v = baseVtx;
+        vtx[3].v = baseVtx;
 
         ratio = (f32)elem->timer / (f32)this->elemDuration;
         EffectBlure_GetComputedValues(this, index, ratio, &sp8C, &sp84, &sp7C, &sp78);
@@ -444,13 +444,13 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         sp60.z = sp84.z;
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[0].ob[0] = sp54.x;
-        vtx[0].ob[1] = sp54.y;
-        vtx[0].ob[2] = sp54.z;
-        vtx[0].cn[0] = sp78.r;
-        vtx[0].cn[1] = sp78.g;
-        vtx[0].cn[2] = sp78.b;
-        vtx[0].cn[3] = sp78.a;
+        vtx[0].v.ob[0] = sp54.x;
+        vtx[0].v.ob[1] = sp54.y;
+        vtx[0].v.ob[2] = sp54.z;
+        vtx[0].v.cn[0] = sp78.r;
+        vtx[0].v.cn[1] = sp78.g;
+        vtx[0].v.cn[2] = sp78.b;
+        vtx[0].v.cn[3] = sp78.a;
 
         if (1) {} // Necessary to match
 
@@ -459,13 +459,13 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         sp60.z = sp8C.z;
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[1].ob[0] = sp54.x;
-        vtx[1].ob[1] = sp54.y;
-        vtx[1].ob[2] = sp54.z;
-        vtx[1].cn[0] = sp7C.r;
-        vtx[1].cn[1] = sp7C.g;
-        vtx[1].cn[2] = sp7C.b;
-        vtx[1].cn[3] = sp7C.a;
+        vtx[1].v.ob[0] = sp54.x;
+        vtx[1].v.ob[1] = sp54.y;
+        vtx[1].v.ob[2] = sp54.z;
+        vtx[1].v.cn[0] = sp7C.r;
+        vtx[1].v.cn[1] = sp7C.g;
+        vtx[1].v.cn[2] = sp7C.b;
+        vtx[1].v.cn[3] = sp7C.a;
 
         ratio = (f32)(elem + 1)->timer / (f32)this->elemDuration;
         EffectBlure_GetComputedValues(this, index + 1, ratio, &sp8C, &sp84, &sp7C, &sp78);
@@ -475,13 +475,13 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         sp60.z = sp8C.z;
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[2].ob[0] = sp54.x;
-        vtx[2].ob[1] = sp54.y;
-        vtx[2].ob[2] = sp54.z;
-        vtx[2].cn[0] = sp7C.r;
-        vtx[2].cn[1] = sp7C.g;
-        vtx[2].cn[2] = sp7C.b;
-        vtx[2].cn[3] = sp7C.a;
+        vtx[2].v.ob[0] = sp54.x;
+        vtx[2].v.ob[1] = sp54.y;
+        vtx[2].v.ob[2] = sp54.z;
+        vtx[2].v.cn[0] = sp7C.r;
+        vtx[2].v.cn[1] = sp7C.g;
+        vtx[2].v.cn[2] = sp7C.b;
+        vtx[2].v.cn[3] = sp7C.a;
 
         if (1) {} // Necessary to match
 
@@ -490,13 +490,13 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         sp60.z = sp84.z;
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[3].ob[0] = sp54.x;
-        vtx[3].ob[1] = sp54.y;
-        vtx[3].ob[2] = sp54.z;
-        vtx[3].cn[0] = sp78.r;
-        vtx[3].cn[1] = sp78.g;
-        vtx[3].cn[2] = sp78.b;
-        vtx[3].cn[3] = sp78.a;
+        vtx[3].v.ob[0] = sp54.x;
+        vtx[3].v.ob[1] = sp54.y;
+        vtx[3].v.ob[2] = sp54.z;
+        vtx[3].v.cn[0] = sp78.r;
+        vtx[3].v.cn[1] = sp78.g;
+        vtx[3].v.cn[2] = sp78.b;
+        vtx[3].v.cn[3] = sp78.a;
 
         gSPVertex(gfxCtx->polyXlu.p++, vtx, 4, 0);
         gSP2Triangles(gfxCtx->polyXlu.p++, 0, 1, 2, 0, 0, 2, 3, 0);
@@ -510,7 +510,7 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
 void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElement* elem, s32 index,
                                               GraphicsContext* gfxCtx) {
     static Vtx_t baseVtx = VTX_T(0, 0, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-    Vtx_t* vtx;
+    Vtx* vtx;
     Vec3s sp1EC;
     Vec3s sp1E4;
     f32 ratio;
@@ -595,7 +595,7 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
     Math_Vec3f_Scale(&sp174, 0.5f);
     Math_Vec3f_Scale(&sp168, 0.5f);
 
-    vtx = Graph_Alloc(gfxCtx, sizeof(Vtx_t[16]));
+    vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[16]));
     if (vtx == NULL) {
         // Translates to: "Vertices cannot be secured."
         osSyncPrintf("z_eff_blure.c::SQ_HermiteInterpolate_disp() 頂点確保できず。\n");
@@ -608,23 +608,23 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         Color_RGBA8_Copy(&sp148, &sp1A4);
         Color_RGBA8_Copy(&sp144, &sp1A0);
 
-        vtx[0] = baseVtx;
-        vtx[1] = baseVtx;
+        vtx[0].v = baseVtx;
+        vtx[1].v = baseVtx;
 
-        vtx[0].ob[0] = Math_nearbyintf(sp158.x);
-        vtx[0].ob[1] = Math_nearbyintf(sp158.y);
-        vtx[0].ob[2] = Math_nearbyintf(sp158.z);
-        vtx[0].cn[0] = sp148.r;
-        vtx[0].cn[1] = sp148.g;
-        vtx[0].cn[2] = sp148.b;
-        vtx[0].cn[3] = sp148.a;
-        vtx[1].ob[0] = Math_nearbyintf(sp14C.x);
-        vtx[1].ob[1] = Math_nearbyintf(sp14C.y);
-        vtx[1].ob[2] = Math_nearbyintf(sp14C.z);
-        vtx[1].cn[0] = sp144.r;
-        vtx[1].cn[1] = sp144.g;
-        vtx[1].cn[2] = sp144.b;
-        vtx[1].cn[3] = sp144.a;
+        vtx[0].v.ob[0] = Math_nearbyintf(sp158.x);
+        vtx[0].v.ob[1] = Math_nearbyintf(sp158.y);
+        vtx[0].v.ob[2] = Math_nearbyintf(sp158.z);
+        vtx[0].v.cn[0] = sp148.r;
+        vtx[0].v.cn[1] = sp148.g;
+        vtx[0].v.cn[2] = sp148.b;
+        vtx[0].v.cn[3] = sp148.a;
+        vtx[1].v.ob[0] = Math_nearbyintf(sp14C.x);
+        vtx[1].v.ob[1] = Math_nearbyintf(sp14C.y);
+        vtx[1].v.ob[2] = Math_nearbyintf(sp14C.z);
+        vtx[1].v.cn[0] = sp144.r;
+        vtx[1].v.cn[1] = sp144.g;
+        vtx[1].v.cn[2] = sp144.b;
+        vtx[1].v.cn[3] = sp144.a;
 
         for (i = 1, j1 = 2, j2 = 3; i < 8; i++, j1 += 2, j2 += 2) {
             f32 temp_f28 = i / 7.0f;                                 // t
@@ -650,24 +650,24 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             Math_Vec3f_Diff(&spE0, &sp138, &sp14C);
             Math_Vec3f_Scale(&sp14C, 10.0f);
 
-            vtx[j1] = baseVtx;
-            vtx[j2] = baseVtx;
+            vtx[j1].v = baseVtx;
+            vtx[j2].v = baseVtx;
 
-            vtx[j1].ob[0] = Math_nearbyintf(sp158.x);
-            vtx[j1].ob[1] = Math_nearbyintf(sp158.y);
-            vtx[j1].ob[2] = Math_nearbyintf(sp158.z);
-            vtx[j1].cn[0] = func_80027E84(sp1A4.r, sp19C.r, temp_f28);
-            vtx[j1].cn[1] = func_80027E84(sp1A4.g, sp19C.g, temp_f28);
-            vtx[j1].cn[2] = func_80027E84(sp1A4.b, sp19C.b, temp_f28);
-            vtx[j1].cn[3] = func_80027E84(sp1A4.a, sp19C.a, temp_f28);
+            vtx[j1].v.ob[0] = Math_nearbyintf(sp158.x);
+            vtx[j1].v.ob[1] = Math_nearbyintf(sp158.y);
+            vtx[j1].v.ob[2] = Math_nearbyintf(sp158.z);
+            vtx[j1].v.cn[0] = func_80027E84(sp1A4.r, sp19C.r, temp_f28);
+            vtx[j1].v.cn[1] = func_80027E84(sp1A4.g, sp19C.g, temp_f28);
+            vtx[j1].v.cn[2] = func_80027E84(sp1A4.b, sp19C.b, temp_f28);
+            vtx[j1].v.cn[3] = func_80027E84(sp1A4.a, sp19C.a, temp_f28);
 
-            vtx[j2].ob[0] = Math_nearbyintf(sp14C.x);
-            vtx[j2].ob[1] = Math_nearbyintf(sp14C.y);
-            vtx[j2].ob[2] = Math_nearbyintf(sp14C.z);
-            vtx[j2].cn[0] = func_80027E84(sp1A0.r, sp198.r, temp_f28);
-            vtx[j2].cn[1] = func_80027E84(sp1A0.g, sp198.g, temp_f28);
-            vtx[j2].cn[2] = func_80027E84(sp1A0.b, sp198.b, temp_f28);
-            vtx[j2].cn[3] = func_80027E84(sp1A0.a, sp198.a, temp_f28);
+            vtx[j2].v.ob[0] = Math_nearbyintf(sp14C.x);
+            vtx[j2].v.ob[1] = Math_nearbyintf(sp14C.y);
+            vtx[j2].v.ob[2] = Math_nearbyintf(sp14C.z);
+            vtx[j2].v.cn[0] = func_80027E84(sp1A0.r, sp198.r, temp_f28);
+            vtx[j2].v.cn[1] = func_80027E84(sp1A0.g, sp198.g, temp_f28);
+            vtx[j2].v.cn[2] = func_80027E84(sp1A0.b, sp198.b, temp_f28);
+            vtx[j2].v.cn[3] = func_80027E84(sp1A0.a, sp198.a, temp_f28);
         }
 
         gSPVertex(gfxCtx->polyXlu.p++, vtx, 16, 0);
@@ -748,7 +748,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 #endif
 
 // EffectBlure_SetupSimple
-void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx_t* vtx) {
+void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_eff_blure.c", 1280);
@@ -758,7 +758,7 @@ void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx_t* 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_eff_blure.c", 1285);
 }
 
-void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, Vtx_t* vtx) {
+void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_eff_blure.c", 1294);
@@ -786,7 +786,7 @@ void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, Vtx_
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_eff_blure.c", 1329);
 }
 
-void (*sSetupHandlers[])(GraphicsContext* gfxCtx, EffectBlure* this, Vtx_t* vtx) = {
+void (*sSetupHandlers[])(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) = {
     EffectBlure_SetupSimple,
     EffectBlure_SetupSimpleAlt,
 };
@@ -794,7 +794,7 @@ void (*sSetupHandlers[])(GraphicsContext* gfxCtx, EffectBlure* this, Vtx_t* vtx)
 s32 D_80115788 = 0; // unused
 
 // original name: "EffectBlureInfo2_disp_makeDisplayList"
-void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, Vtx_t* vtx) {
+void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     f32 alphaRatio;
     Gfx* dispRefs[5];
     f32 scale;
@@ -830,12 +830,12 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
         gSP2Triangles(gfxCtx->polyXlu.p++, 0, 1, 3, 0, 0, 3, 2, 0);
 
         if (this->flags & 4) {
-            sp1B0.x = ((f32)vtx[4 * i + 0].ob[0] + (f32)vtx[4 * i + 1].ob[0]) * 0.5f;
-            sp1B0.y = ((f32)vtx[4 * i + 0].ob[1] + (f32)vtx[4 * i + 1].ob[1]) * 0.5f;
-            sp1B0.z = ((f32)vtx[4 * i + 0].ob[2] + (f32)vtx[4 * i + 1].ob[2]) * 0.5f;
-            sp1A4.x = ((f32)vtx[4 * i + 2].ob[0] + (f32)vtx[4 * i + 3].ob[0]) * 0.5f;
-            sp1A4.y = ((f32)vtx[4 * i + 2].ob[1] + (f32)vtx[4 * i + 3].ob[1]) * 0.5f;
-            sp1A4.z = ((f32)vtx[4 * i + 2].ob[2] + (f32)vtx[4 * i + 3].ob[2]) * 0.5f;
+            sp1B0.x = ((f32)vtx[4 * i + 0].v.ob[0] + (f32)vtx[4 * i + 1].v.ob[0]) * 0.5f;
+            sp1B0.y = ((f32)vtx[4 * i + 0].v.ob[1] + (f32)vtx[4 * i + 1].v.ob[1]) * 0.5f;
+            sp1B0.z = ((f32)vtx[4 * i + 0].v.ob[2] + (f32)vtx[4 * i + 1].v.ob[2]) * 0.5f;
+            sp1A4.x = ((f32)vtx[4 * i + 2].v.ob[0] + (f32)vtx[4 * i + 3].v.ob[0]) * 0.5f;
+            sp1A4.y = ((f32)vtx[4 * i + 2].v.ob[1] + (f32)vtx[4 * i + 3].v.ob[1]) * 0.5f;
+            sp1A4.z = ((f32)vtx[4 * i + 2].v.ob[2] + (f32)vtx[4 * i + 3].v.ob[2]) * 0.5f;
 
             Math_Vec3f_Diff(&sp1A4, &sp1B0, &sp198);
             scale = sqrtf(SQ(sp198.x) + SQ(sp198.y) + SQ(sp198.z));
@@ -886,8 +886,8 @@ Vtx_t D_801157CC[] = {
 
 #ifdef NON_MATCHING
 void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
-    Vtx_t* vtx;
-    Vtx_t* vtxIter;
+    Vtx* vtx;
+    Vtx* vtxIter;
     EffectBlureElement* elem;
     s32 vtxCount;
     s32 i;
@@ -903,7 +903,7 @@ void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
     vtxCount = this->numElements * 4;
 
     if (this->numElements >= 2) {
-        vtx = Graph_Alloc(gfxCtx, vtxCount * sizeof(Vtx_t));
+        vtx = Graph_Alloc(gfxCtx, vtxCount * sizeof(Vtx));
         if (vtx == NULL) {
             // Translates to: "Vertices cannot be secured. Forced termination"
             osSyncPrintf("ブラ─表示:頂点確保できず。強制終了\n");
@@ -911,18 +911,18 @@ void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
         }
 
         vtxIter = vtx;
-        vtxIter[0] = D_8011578C[0];
-        vtxIter[1] = D_8011578C[1];
-        vtxIter[2] = D_8011578C[2];
-        vtxIter[3] = D_8011578C[3];
+        vtxIter[0].v = D_8011578C[0];
+        vtxIter[1].v = D_8011578C[1];
+        vtxIter[2].v = D_8011578C[2];
+        vtxIter[3].v = D_8011578C[3];
         vtxIter = vtx + 4;
 
         if (this->numElements >= 2) {
             for (elem = &this->elements[1]; elem < &this->elements[this->numElements - 2]; elem++) {
-                vtxIter[0] = D_801157CC[0];
-                vtxIter[1] = D_801157CC[1];
-                vtxIter[2] = D_801157CC[2];
-                vtxIter[3] = D_801157CC[3];
+                vtxIter[0].v = D_801157CC[0];
+                vtxIter[1].v = D_801157CC[1];
+                vtxIter[2].v = D_801157CC[2];
+                vtxIter[3].v = D_801157CC[3];
                 vtxIter += 4;
             }
         }
@@ -936,46 +936,46 @@ void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
             EffectBlure_GetComputedValues(this, i, ratio, &sp74, &sp6C, &sp64, &sp60);
 
             if (j1 >= 0) {
-                vtx[j1].ob[0] = sp74.x;
-                vtx[j1].ob[1] = sp74.y;
-                vtx[j1].ob[2] = sp74.z;
-                vtx[j1].cn[0] = sp64.r;
-                vtx[j1].cn[1] = sp64.g;
-                vtx[j1].cn[2] = sp64.b;
-                vtx[j1].cn[3] = sp64.a;
+                vtx[j1].v.ob[0] = sp74.x;
+                vtx[j1].v.ob[1] = sp74.y;
+                vtx[j1].v.ob[2] = sp74.z;
+                vtx[j1].v.cn[0] = sp64.r;
+                vtx[j1].v.cn[1] = sp64.g;
+                vtx[j1].v.cn[2] = sp64.b;
+                vtx[j1].v.cn[3] = sp64.a;
             }
 
             j3 = j2;
             if (j3 >= 0) {
-                vtx[j3].ob[0] = sp6C.x;
-                vtx[j3].ob[1] = sp6C.y;
-                vtx[j3].ob[2] = sp6C.z;
-                vtx[j3].cn[0] = sp60.r;
-                vtx[j3].cn[1] = sp60.g;
-                vtx[j3].cn[2] = sp60.b;
-                vtx[j3].cn[3] = sp60.a;
+                vtx[j3].v.ob[0] = sp6C.x;
+                vtx[j3].v.ob[1] = sp6C.y;
+                vtx[j3].v.ob[2] = sp6C.z;
+                vtx[j3].v.cn[0] = sp60.r;
+                vtx[j3].v.cn[1] = sp60.g;
+                vtx[j3].v.cn[2] = sp60.b;
+                vtx[j3].v.cn[3] = sp60.a;
             }
 
             j3++;
             if (vtxCount >= j3) {
-                vtx[j3].ob[0] = sp74.x;
-                vtx[j3].ob[1] = sp74.y;
-                vtx[j3].ob[2] = sp74.z;
-                vtx[j3].cn[0] = sp64.r;
-                vtx[j3].cn[1] = sp64.g;
-                vtx[j3].cn[2] = sp64.b;
-                vtx[j3].cn[3] = sp64.a;
+                vtx[j3].v.ob[0] = sp74.x;
+                vtx[j3].v.ob[1] = sp74.y;
+                vtx[j3].v.ob[2] = sp74.z;
+                vtx[j3].v.cn[0] = sp64.r;
+                vtx[j3].v.cn[1] = sp64.g;
+                vtx[j3].v.cn[2] = sp64.b;
+                vtx[j3].v.cn[3] = sp64.a;
             }
 
             j3++;
             if (vtxCount >= j3) {
-                vtx[j3].ob[0] = sp6C.x;
-                vtx[j3].ob[1] = sp6C.y;
-                vtx[j3].ob[2] = sp6C.z;
-                vtx[j3].cn[0] = sp60.r;
-                vtx[j3].cn[1] = sp60.g;
-                vtx[j3].cn[2] = sp60.b;
-                vtx[j3].cn[3] = sp60.a;
+                vtx[j3].v.ob[0] = sp6C.x;
+                vtx[j3].v.ob[1] = sp6C.y;
+                vtx[j3].v.ob[2] = sp6C.z;
+                vtx[j3].v.cn[0] = sp60.r;
+                vtx[j3].v.cn[1] = sp60.g;
+                vtx[j3].v.cn[2] = sp60.b;
+                vtx[j3].v.cn[3] = sp60.a;
             }
 
             j1 += 4;
@@ -991,7 +991,7 @@ void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
 
 void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
     EffectBlure* this = (EffectBlure*)thisx;
-    Vtx_t* vtx;
+    Vtx* vtx;
     EffectBlureElement* elem;
     s32 i;
     s32 j;
@@ -1008,7 +1008,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
             func_800942F0(gfxCtx);
             gDPPipeSync(gfxCtx->polyXlu.p++);
 
-            vtx = Graph_Alloc(gfxCtx, sizeof(Vtx_t[32]));
+            vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[32]));
             if (vtx == NULL) {
                 // Translates to: "Blure display: Vertex table could not be secured"
                 osSyncPrintf("ブラ─表示:頂点テーブル確保できず\n");
@@ -1022,58 +1022,58 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
                         switch (this->calcMode) {
                             case 1:
-                                vtx[j].ob[0] = func_80027E34(elem->p1.x, elem->p2.x, ratio);
-                                vtx[j].ob[1] = func_80027E34(elem->p1.y, elem->p2.y, ratio);
-                                vtx[j].ob[2] = func_80027E34(elem->p1.z, elem->p2.z, ratio);
-                                vtx[j + 1].ob[0] = elem->p2.x;
-                                vtx[j + 1].ob[1] = elem->p2.y;
-                                vtx[j + 1].ob[2] = elem->p2.z;
+                                vtx[j].v.ob[0] = func_80027E34(elem->p1.x, elem->p2.x, ratio);
+                                vtx[j].v.ob[1] = func_80027E34(elem->p1.y, elem->p2.y, ratio);
+                                vtx[j].v.ob[2] = func_80027E34(elem->p1.z, elem->p2.z, ratio);
+                                vtx[j + 1].v.ob[0] = elem->p2.x;
+                                vtx[j + 1].v.ob[1] = elem->p2.y;
+                                vtx[j + 1].v.ob[2] = elem->p2.z;
                                 break;
                             case 2:
-                                vtx[j].ob[0] = elem->p1.x;
-                                vtx[j].ob[1] = elem->p1.y;
-                                vtx[j].ob[2] = elem->p1.z;
-                                vtx[j + 1].ob[0] = func_80027E34(elem->p2.x, elem->p1.x, ratio);
-                                vtx[j + 1].ob[1] = func_80027E34(elem->p2.y, elem->p1.y, ratio);
-                                vtx[j + 1].ob[2] = func_80027E34(elem->p2.z, elem->p1.z, ratio);
+                                vtx[j].v.ob[0] = elem->p1.x;
+                                vtx[j].v.ob[1] = elem->p1.y;
+                                vtx[j].v.ob[2] = elem->p1.z;
+                                vtx[j + 1].v.ob[0] = func_80027E34(elem->p2.x, elem->p1.x, ratio);
+                                vtx[j + 1].v.ob[1] = func_80027E34(elem->p2.y, elem->p1.y, ratio);
+                                vtx[j + 1].v.ob[2] = func_80027E34(elem->p2.z, elem->p1.z, ratio);
                                 break;
                             case 3:
                                 ratio = ratio * 0.5f;
-                                vtx[j].ob[0] = func_80027E34(elem->p1.x, elem->p2.x, ratio);
-                                vtx[j].ob[1] = func_80027E34(elem->p1.y, elem->p2.y, ratio);
-                                vtx[j].ob[2] = func_80027E34(elem->p1.z, elem->p2.z, ratio);
-                                vtx[j + 1].ob[0] = func_80027E34(elem->p2.x, elem->p1.x, ratio);
-                                vtx[j + 1].ob[1] = func_80027E34(elem->p2.y, elem->p1.y, ratio);
-                                vtx[j + 1].ob[2] = func_80027E34(elem->p2.z, elem->p1.z, ratio);
+                                vtx[j].v.ob[0] = func_80027E34(elem->p1.x, elem->p2.x, ratio);
+                                vtx[j].v.ob[1] = func_80027E34(elem->p1.y, elem->p2.y, ratio);
+                                vtx[j].v.ob[2] = func_80027E34(elem->p1.z, elem->p2.z, ratio);
+                                vtx[j + 1].v.ob[0] = func_80027E34(elem->p2.x, elem->p1.x, ratio);
+                                vtx[j + 1].v.ob[1] = func_80027E34(elem->p2.y, elem->p1.y, ratio);
+                                vtx[j + 1].v.ob[2] = func_80027E34(elem->p2.z, elem->p1.z, ratio);
                                 ratio = ratio + ratio;
                                 break;
                             case 0:
                             default:
-                                vtx[j].ob[0] = elem->p1.x;
-                                vtx[j].ob[1] = elem->p1.y;
-                                vtx[j].ob[2] = elem->p1.z;
-                                vtx[j + 1].ob[0] = elem->p2.x;
-                                vtx[j + 1].ob[1] = elem->p2.y;
-                                vtx[j + 1].ob[2] = elem->p2.z;
+                                vtx[j].v.ob[0] = elem->p1.x;
+                                vtx[j].v.ob[1] = elem->p1.y;
+                                vtx[j].v.ob[2] = elem->p1.z;
+                                vtx[j + 1].v.ob[0] = elem->p2.x;
+                                vtx[j + 1].v.ob[1] = elem->p2.y;
+                                vtx[j + 1].v.ob[2] = elem->p2.z;
                                 break;
                         }
 
-                        vtx[j].flag = 0;
-                        vtx[j].tc[0] = 0;
-                        vtx[j].tc[1] = 0;
-                        vtx[j].cn[0] = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
-                        vtx[j].cn[1] = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);
-                        vtx[j].cn[2] = func_80027E84(this->p1StartColor.b, this->p1EndColor.b, ratio);
-                        vtx[j].cn[3] = func_80027E84(this->p1StartColor.a, this->p1EndColor.a, ratio);
+                        vtx[j].v.flag = 0;
+                        vtx[j].v.tc[0] = 0;
+                        vtx[j].v.tc[1] = 0;
+                        vtx[j].v.cn[0] = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
+                        vtx[j].v.cn[1] = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);
+                        vtx[j].v.cn[2] = func_80027E84(this->p1StartColor.b, this->p1EndColor.b, ratio);
+                        vtx[j].v.cn[3] = func_80027E84(this->p1StartColor.a, this->p1EndColor.a, ratio);
                         j++;
 
-                        vtx[j].flag = 0;
-                        vtx[j].tc[0] = 0;
-                        vtx[j].tc[1] = 0;
-                        vtx[j].cn[0] = func_80027E84(this->p2StartColor.r, this->p2EndColor.r, ratio);
-                        vtx[j].cn[1] = func_80027E84(this->p2StartColor.g, this->p2EndColor.g, ratio);
-                        vtx[j].cn[2] = func_80027E84(this->p2StartColor.b, this->p2EndColor.b, ratio);
-                        vtx[j].cn[3] = func_80027E84(this->p2StartColor.a, this->p2EndColor.a, ratio);
+                        vtx[j].v.flag = 0;
+                        vtx[j].v.tc[0] = 0;
+                        vtx[j].v.tc[1] = 0;
+                        vtx[j].v.cn[0] = func_80027E84(this->p2StartColor.r, this->p2EndColor.r, ratio);
+                        vtx[j].v.cn[1] = func_80027E84(this->p2StartColor.g, this->p2EndColor.g, ratio);
+                        vtx[j].v.cn[2] = func_80027E84(this->p2StartColor.b, this->p2EndColor.b, ratio);
+                        vtx[j].v.cn[3] = func_80027E84(this->p2StartColor.a, this->p2EndColor.a, ratio);
                         j++;
                     }
                 }
