@@ -15,6 +15,10 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80B874E4(Actor* thisx, GlobalContext* globalCtx);
+void func_80B8772C(MagicDark* this, GlobalContext* globalCtx);
+void func_80B87A18(Actor* thisx, GlobalContext* globalCtx);
+
 /*
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
@@ -28,7 +32,31 @@ const ActorInit Magic_Dark_InitVars = {
     (ActorFunc)MagicDark_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/MagicDark_Init.s")
+
+void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
+    MagicDark* this = THIS;
+    Player* player = PLAYER;
+
+    if (gSaveContext.linkAge != 0) {
+        this->unk_15C = 0.4f;
+    } else {
+        this->unk_15C = 0.6f;
+    }
+    this->actor.posRot.pos = player->actor.posRot.pos;
+    Actor_SetScale(&this->actor, 0.0f);
+    this->actor.room = -1;
+    if (gSaveContext.nayrusLoveTimer != 0) {
+        this->actor.update = func_80B874E4;
+        this->actor.draw = func_80B87A18;
+        this->actor.scale.x = this->actor.scale.z = this->unk_15C * 1.6f;
+        this->actor.scale.y = THIS->unk_15C * 0.8f; // TODO: probably find a way to remove THIS here
+        *(u16*)(&this->unk_14C[0]) = 0;
+        *(u8*)(&this->unk_14C[2]) = 0;
+    } else {
+        *(u16*)(&this->unk_14C[0]) = 0;
+        gSaveContext.nayrusLoveTimer = 0;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/MagicDark_Destroy.s")
 
