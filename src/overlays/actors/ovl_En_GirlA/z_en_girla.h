@@ -26,9 +26,9 @@ typedef struct EnGirlA {
     /* 0x01B6 */ s16 unk_1B6;
     /* 0x01B8 */ s16 unk_1B8;
     /* 0x01BA */ s16 unk_1BA;
-    /* 0x01BC */ void* unk_1BC;
-    /* 0x01C0 */ void* unk_1C0;
-    /* 0x01C4 */ void* unk_1C4;
+    /* 0x01BC */ s32 (*unk_1BC)(GlobalContext*, struct EnGirlA*);
+    /* 0x01C0 */ void (*unk_1C0)(GlobalContext*, struct EnGirlA*);
+    /* 0x01C4 */ void (*unk_1C4)(GlobalContext*, struct EnGirlA*);
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ s16 unk_1CA;
     /* 0x01CC */ s16 unk_1CC;
