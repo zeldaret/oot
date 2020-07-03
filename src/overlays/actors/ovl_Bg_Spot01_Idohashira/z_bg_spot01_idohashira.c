@@ -323,6 +323,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
+// regalloc differences
 void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
