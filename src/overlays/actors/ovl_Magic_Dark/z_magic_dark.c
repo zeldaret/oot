@@ -42,18 +42,21 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->unk_15C = 0.6f;
     }
+
     this->actor.posRot.pos = player->actor.posRot.pos;
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.room = -1;
+
     if (gSaveContext.nayrusLoveTimer != 0) {
         this->actor.update = func_80B874E4;
         this->actor.draw = func_80B87A18;
         this->actor.scale.x = this->actor.scale.z = this->unk_15C * 1.6f;
-        this->actor.scale.y = THIS->unk_15C * 0.8f; // TODO: probably find a way to remove THIS here
-        *(u16*)(&this->unk_14C[0]) = 0;
-        *(u8*)(&this->unk_14C[2]) = 0;
+        // THIS needed below to match
+        this->actor.scale.y = THIS->unk_15C * 0.8f;
+        this->unk_14C = 0;
+        this->unk_14E = 0;
     } else {
-        *(u16*)(&this->unk_14C[0]) = 0;
+        this->unk_14C = 0;
         gSaveContext.nayrusLoveTimer = 0;
     }
 }
