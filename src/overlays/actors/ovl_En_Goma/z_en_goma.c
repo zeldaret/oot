@@ -4,7 +4,7 @@
 
 #define THIS ((EnGoma*)thisx)
 
-void EnGoma_Init(Actor*, GlobalContext*);
+void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
