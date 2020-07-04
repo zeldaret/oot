@@ -405,6 +405,9 @@ u32 D_80AC8EE4[] = {
     0x06003968, 0x06003D68, 0x06004168
 };
 
+//const char* D_80AC94EC = "../z_en_oB1.c";
+
+
 void func_80AC2CA0(EnOssan* this, void* arg1) {
     this->actionFunc = arg1;
 }
@@ -944,13 +947,12 @@ void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
     this->unk_1FC = 1;
 }
 
-#ifdef NON_MATCHING
 void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Input* cont1 = &globalCtx->state.input[0];
 
     u8 msg = func_8010BDBC(&globalCtx->msgCtx);
     if ((this->actor.params == 10) && (msg == 4)) {
-        if (!func_80AC3884(this, globalCtx, cont1) && (func_80106BC8(globalCtx))) {
+        if ((func_80AC3884(this, globalCtx, cont1) == 0) && (func_80106BC8(globalCtx))) {
             switch(globalCtx->msgCtx.choiceIndex) {
                 case 0:
                     func_80AC39AC(globalCtx, this);
@@ -959,6 +961,8 @@ void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                     func_80AC37A8(globalCtx, this);
                     break;
             }
+        } else {
+            return;
         }
     } else {
         if (msg == 5) {
@@ -996,9 +1000,6 @@ void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC4074.s")
-#endif
 
 s32 func_80AC4220(EnOssan* this, GlobalContext* globalCtx) {
     switch(globalCtx->msgCtx.choiceIndex) {
@@ -2429,12 +2430,14 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 0x1060);
     if (arg5) {
         func_80094520(globalCtx->state.gfxCtx);
+
+        #pragma _permuter sameline start
         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, this->unk_23C, this->unk_240, this->unk_244, this->unk_248);
         
         gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CDC0, G_IM_FMT_IA,
                             G_IM_SIZ_4b, 0x10, 0x10, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
                             4, 4, G_TX_NOLOD, G_TX_NOLOD);
-
+        #pragma _permuter sameline end
         /*
         gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, 0x0400CDC0);
         gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_MIRROR | G_TX_WRAP, 4, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
@@ -2447,7 +2450,7 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
 
         temp_f0 = (16.0f * arg4);
         tmp2 = (1.0f / arg4) * 1024.0f;
-        
+        #pragma _permuter sameline start
         gSPTextureRectangle(gfxCtx->overlay.p++, 
                 (arg2 - temp_f0) * 4, 
                 (arg3 - temp_f0) * 4, 
@@ -2456,7 +2459,7 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
                 G_TX_RENDERTILE, 0, 0, 
                 tmp2,
                 tmp2);
-
+        #pragma _permuter sameline end
         /*
         gTexRect(gfxCtx->overlay.p++, (arg2 - temp_f0) * 4.0f, (arg3 - temp_f0) * 4.0f, (arg2 + temp_f0) * 4.0f, (arg3 + temp_f0) * 4.0f, G_TX_RENDERTILE);
         gDPHalf1(gfxCtx->overlay.p++, 0x00000000);
@@ -2468,6 +2471,7 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7528.s")
 #endif
+#undef NON_MATCHING
 
 #ifdef NON_MATCHING
 void func_80AC77CC(GlobalContext* globalCtx, 
@@ -2745,7 +2749,6 @@ void func_80AC8668(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC8668.s")
 #endif
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_80AC8784(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
