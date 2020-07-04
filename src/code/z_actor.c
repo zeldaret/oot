@@ -1702,7 +1702,7 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
             sfxId = NA_SE_PL_WALK_WATER1;
         }
     } else {
-        sfxId = func_80041F34(&globalCtx->colCtx, actor->floorPoly, actor->floorPolySource, actor);
+        sfxId = func_80041F34(&globalCtx->colCtx, actor->floorPoly, actor->floorPolySource);
     }
 
     func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
