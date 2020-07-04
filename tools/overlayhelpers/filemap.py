@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import struct
 import json
 
@@ -119,7 +120,7 @@ def GetFromRom(addr):
     return FileResult(key, vrom, None, offset)
 
 #CreateTable()
-with open("filetable.json", "r") as table:
+with open(os.path.join(os.path.dirname(__file__), 'filetable.json'), "r") as table:
     table = json.load(table)
 table["va"] = {int(k):v for k,v in table["va"].items()}
 table["ra"] = {int(k):v for k,v in table["ra"].items()}
