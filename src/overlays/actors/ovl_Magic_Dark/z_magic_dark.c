@@ -67,6 +67,7 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+/*
 void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     Player* player = PLAYER;
@@ -84,18 +85,16 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     player->invincibilityTimer = -100;
-    this->actor.scale.z = this->unk_15C;
-    this->actor.scale.x = this->unk_15C;
+    this->actor.scale.x = this->actor.scale.z = this->unk_15C;
     if (this->unk_14C < 20) {
         this->actor.scale.x = this->actor.scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->unk_15C;
-        this->actor.scale.y = ((this->unk_14C * 0.01f) + 0.8f) * this->unk_15C;
+        this->actor.scale.y = ((THIS->unk_14C * 0.01f) + 0.8f) * THIS->unk_15C;
     } else {
-        this->actor.scale.z = this->unk_15C;
-        this->actor.scale.x = this->unk_15C;
-        this->actor.scale.y = this->unk_15C;
+        this->actor.scale.x = this->actor.scale.z = this->unk_15C;
+        this->actor.scale.y = THIS->unk_15C;
     }
-    this->actor.scale.x = this->actor.scale.x * 1.3f;
-    this->actor.scale.z = this->actor.scale.z * 1.3f;
+    this->actor.scale.x *= 1.3f;
+    this->actor.scale.z *= 1.3f;
     phi_a0 = 0xFF;
     if (this->unk_14C < 20) {
         phi_a0 = (this->unk_14C * 0xC) & 0xFF;
@@ -104,7 +103,7 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
         temp_t2 = 0x3CEB - (gSaveContext.nayrusLoveTimer * 0xD);
         this->unk_14E = temp_t2;
         if ((gSaveContext.nayrusLoveTimer & 1) != 0) {
-            this->unk_14E = (s32)(temp_t2 & 0xFF) >> 1;
+            this->unk_14E = (temp_t2 & 0xFF) >> 1;
         }
     } else {
         if (gSaveContext.nayrusLoveTimer >= 1100) {
@@ -127,6 +126,9 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_FLASH);
     }
 }
+*/
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B8772C.s")
 
