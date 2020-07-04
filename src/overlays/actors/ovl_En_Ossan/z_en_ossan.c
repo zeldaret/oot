@@ -237,7 +237,7 @@ s32 func_80AC2CA8(s16); s32 func_80AC2CB8(s16); s32 func_80AC2CE8(s16);
 s32 func_80AC2D18(s16); s32 func_80AC2D48(s16); s32 func_80AC2D78(s16);
 s32 func_80AC2DA8(s16);
 
-s16 (*D_80AC8C9C[])(s16) = {
+s32 (*D_80AC8C9C[])(s16) = {
     func_80AC2CA8,
     func_80AC2CA8,
     func_80AC2CA8,
@@ -472,7 +472,7 @@ void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, OssanStruct1* arg2) 
             this->unk_200[i] = NULL;
             continue;
         }
-        this->unk_200[i] = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, 
+        this->unk_200[i] = (EnGirlA*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, 
                             arg2[i].pos.x + this->tana->actor.posRot.pos.x, 
                             arg2[i].pos.y + this->tana->actor.posRot.pos.y, 
                             arg2[i].pos.z + this->tana->actor.posRot.pos.z, 
@@ -498,7 +498,7 @@ void func_80AC2F2C(EnOssan* this, GlobalContext* globalCtx) {
             if ((sp24[i].funcIdx >= 0) && (this->unk_200[i] == NULL)) {
                 temp_v0 = D_80AC8C9C[sp24[i].funcIdx](sp24[i].funcIdx);
                 if (temp_v0 >= 0) {
-                    this->unk_200[i] = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, 
+                    this->unk_200[i] = (EnGirlA*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, 
                         sp24[i].pos.x + this->tana->actor.posRot.pos.x, 
                         sp24[i].pos.y + this->tana->actor.posRot.pos.y, 
                         sp24[i].pos.z + this->tana->actor.posRot.pos.z, 
@@ -1240,6 +1240,8 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* cont1) {
     return 0;
 }
 
+s32 func_80AC652C(EnOssan*);
+
 void func_80AC4978(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     s32 pad;
     s32 idx;
@@ -1571,6 +1573,8 @@ void func_80AC54F4(GlobalContext* globalCtx, EnOssan* this) {
     }
 }
 
+s32 func_80AC6490(EnOssan*);
+
 void func_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Input* cont1 = &globalCtx->state.input[0];
 
@@ -1819,9 +1823,9 @@ void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                         player->actor.shape.rot.y += 0x8000;
                         player->stateFlags2 |= 0x20000000;
                         func_800BC490(globalCtx, 2);
-                        func_8010B680(globalCtx, this->actor.textId, this);
+                        func_8010B680(globalCtx, this->actor.textId, &this->actor);
                         func_80AC3928(globalCtx, this, 1);
-                        func_8002F298(this, globalCtx, 100.0f, -1);
+                        func_8002F298(&this->actor, globalCtx, 100.0f, -1);
                         break;
                     case 1:
                     default:
@@ -1839,9 +1843,9 @@ void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             player->actor.shape.rot.y += 0x8000;
             player->stateFlags2 |= 0x20000000;
             func_800BC490(globalCtx, 2);
-            func_8010B680(globalCtx, this->actor.textId, this);
+            func_8010B680(globalCtx, this->actor.textId, &this->actor);
             func_80AC3928(globalCtx, this, 1);
-            func_8002F298(this, globalCtx, 100.0f, -1U);
+            func_8002F298(&this->actor, globalCtx, 100.0f, -1U);
         }
     }
 }
@@ -1961,7 +1965,7 @@ s32 func_80AC652C(EnOssan* this) {
 }
 
 void func_80AC65B8(EnOssan* this) {
-    EnGirlA** actor = &this->unk_200;
+    EnGirlA** actor = this->unk_200;
     EnGirlA* actor2;
     s32 i;
     
@@ -2164,7 +2168,7 @@ void func_80AC6B3C(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060004A8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060004A8.genericHeader), 0, 0.0f);
     this->actor.draw = func_80AC80B4;
     this->unk_194 = func_80AC7380;
-    Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, 0x18, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
+    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, 0x18, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
 }
 
 void func_80AC8244(Actor*, GlobalContext*);
@@ -2741,6 +2745,7 @@ void func_80AC8668(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC8668.s")
 #endif
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_80AC8784(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -2749,9 +2754,9 @@ void func_80AC8784(Actor* thisx, GlobalContext* globalCtx) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 0x1203);
     func_80093D18(globalCtx->state.gfxCtx);
-
+    #pragma _permuter sameline start
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EE4[this->unk_1F2]));
-
+    #pragma _permuter sameline end
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL, NULL, &this->actor);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);

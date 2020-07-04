@@ -2525,7 +2525,7 @@ void func_80106CCC(GlobalContext*);
 // ? func_80109968(?);
 // ? func_80109B3C(?);
 // ? func_8010B0C0(?);
-void func_8010B680(GlobalContext*, u16, s32);
+void func_8010B680(GlobalContext*, u16, Actor*);
 void func_8010B720(GlobalContext* globalCtx, u16 textId);
 // ? func_8010B820(?);
 // ? func_8010BD58(?);
