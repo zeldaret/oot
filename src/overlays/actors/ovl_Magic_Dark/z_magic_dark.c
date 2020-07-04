@@ -61,7 +61,11 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/MagicDark_Destroy.s")
+void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    if (gSaveContext.nayrusLoveTimer == 0) {
+        func_800876C8(globalCtx);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
 
