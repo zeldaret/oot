@@ -67,7 +67,66 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
+void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
+    MagicDark* this = THIS;
+    Player* player = PLAYER;
+    u8 temp_t2;
+    s32 phi_a0;
+
+    if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
+        Actor_Kill(&this->actor);
+        return;
+    }
+    if (gSaveContext.nayrusLoveTimer >= 1200) {
+        player->invincibilityTimer = 0;
+        gSaveContext.nayrusLoveTimer = 0;
+        Actor_Kill(&this->actor);
+        return;
+    }
+    player->invincibilityTimer = -100;
+    this->actor.scale.z = this->unk_15C;
+    this->actor.scale.x = this->unk_15C;
+    if (this->unk_14C < 20) {
+        this->actor.scale.x = this->actor.scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->unk_15C;
+        this->actor.scale.y = ((this->unk_14C * 0.01f) + 0.8f) * this->unk_15C;
+    } else {
+        this->actor.scale.z = this->unk_15C;
+        this->actor.scale.x = this->unk_15C;
+        this->actor.scale.y = this->unk_15C;
+    }
+    this->actor.scale.x = this->actor.scale.x * 1.3f;
+    this->actor.scale.z = this->actor.scale.z * 1.3f;
+    phi_a0 = 0xFF;
+    if (this->unk_14C < 20) {
+        phi_a0 = (this->unk_14C * 0xC) & 0xFF;
+    }
+    if (gSaveContext.nayrusLoveTimer >= 1180) {
+        temp_t2 = 0x3CEB - (gSaveContext.nayrusLoveTimer * 0xD);
+        this->unk_14E = temp_t2;
+        if ((gSaveContext.nayrusLoveTimer & 1) != 0) {
+            this->unk_14E = (s32)(temp_t2 & 0xFF) >> 1;
+        }
+    } else {
+        if (gSaveContext.nayrusLoveTimer >= 1100) {
+            this->unk_14E = (gSaveContext.nayrusLoveTimer << 7) + 0x7F;
+        } else {
+            this->unk_14E = 0xFF;
+        }
+    }
+    if (phi_a0 < this->unk_14E) {
+        this->unk_14E = phi_a0;
+    }
+    this->actor.posRot.rot.y += 1000;
+    this->actor.shape.rot.y =
+        func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) + this->actor.posRot.rot.y;
+    this->unk_14C += 1;
+    gSaveContext.nayrusLoveTimer += 1;
+    if (gSaveContext.nayrusLoveTimer < 1100) {
+        func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_NORMAL);
+    } else {
+        func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_FLASH);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B8772C.s")
 
