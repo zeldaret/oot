@@ -647,18 +647,18 @@ void func_80B4FD90(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B4FDD4(EnZl2* this) {
     if (func_800A56C8(&this->skelAnime, 14.0f)) {
-        func_80078914(&this->actor.projectedPos, 0x802);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
 
 void func_80B4FE10(GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.frames >= 830) && (globalCtx->csCtx.frames < 1081)) {
-        func_800788CC(0x2098);
+        func_800788CC(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
     }
 }
 
 void func_80B4FE48(EnZl2* this) {
-    func_80078914(&this->actor.projectedPos, 0x2086);
+    func_80078914(&this->actor.projectedPos, NA_SE_EV_GOTO_HEAVEN - SFX_FLAG);
 }
 
 void func_80B4FE6C(EnZl2* this) {
@@ -1493,7 +1493,7 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
 
     if ((func_800A56C8(skelAnime, 6.0f)) || (func_800A56C8(skelAnime, 0.0f))) {
         if (this->actor.bgCheckFlags & 1) {
-            sfxId = 0x800;
+            sfxId = SFX_FLAG;
             sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
