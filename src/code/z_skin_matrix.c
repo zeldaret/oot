@@ -217,7 +217,133 @@ void func_800A735C(MtxF* src, MtxF* dest) {
 }
 
 // This one is inverse matrix, quite an intricate 1
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A73E0.s")
+// not sure if it's actually an int
+int func_800A73E0(MtxF* mf) {
+    MtxF mf_copy;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f2;
+    s32 temp_s0;
+    s32 temp_t0;
+    s32 temp_t0_2;
+    s32 temp_t1;
+    s32 col_idx;
+    s32 temp_t1_3;
+    s32 temp_t2;
+    s32 transposed_row_offset;
+    void *temp_a0;
+    void *temp_a1;
+    void *temp_a2;
+    void *temp_a3;
+    void *diag_ele_ptr;
+    void *row_ptr;
+    void *row_ptr_2;
+    void *temp_t9;
+    void *temp_v0;
+    void *temp_v0_2;
+    void *temp_v1;
+    void *temp_v1_2;
+    s32 this_row;
+    s32 this_col;
+    s32 element_number_in_this_row;
+    void *ptr_x_r_c;
+    void *ptr_x_c_c;
+    void *ptr_x_r_o;
+    void *ptr_x_c_o;
+    s32 phi_t2;
+    s32 phi_t1_3;
+
+    func_800A735C(mf,&mf_copy); // copy input matrix (mf) to mf_copy
+    func_800A730C(mf);// turn input matrix (mf) into 
+
+    for (this_row = 0, this_row != 4, this_row++)
+    {
+        if (this_row < 4) {
+            row_ptr = &mf_copy + (this_row * 0x10);
+            this_col = this_row;
+            if (fabsf(*(row_ptr + (this_row * 4))) < 0.0005f) { // is the diagonal entry for this row 0?? if yes:
+                while (this_col < 4){
+                    if (fabsf(*(row_ptr + (this_col * 4))) < 0.0005f){
+                        this_col++ // if this element in this row is 0, check the next element along
+                    }
+                    else
+                    {
+                        break; // if this element isn't 0, continue.
+                    }
+                }
+            }
+        }
+        if (this_col == 4) { // if this col = 0 then we know we've got all 0 row (0 determinant)
+            osSyncPrintf(0.0005f, "\x1b[43;30m");
+            osSyncPrintf("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
+            osSyncPrintf("\x1b[m");
+            return 2;
+        }
+        transposed_row_offset = this_row * 4; // this is treating the row offset as if it was a column offset
+        row_ptr_2 = &mf_copy + (this_row * 0x10);
+        diag_ele_ptr = row_ptr_2 + transposed_row_offset;
+        temp_a0 = &mf_copy + transposed_row_offset; //ptr to mf_copy[x][row]
+        temp_a1 = mf + transposed_row_offset; //ptr to mf[x][row]
+
+        if (this_col != this_row) { //if not on diagonal
+            col_offset = this_col * 4;
+            ptr_x_r_c = transposed_row_offset + &mf_copy; // ptr to [x][row], (for mf_copy) same as temp_a0
+            ptr_x_c_c = col_offset + &mf_copy;            // ptr to [x][col], (for mf_copy)
+            ptr_x_r_o = mf + transposed_row_offset;  //ptr to [x][row] (for mf original), same as temp_a1
+            ptr_x_c_o = mf + col_offset;             //ptr to [x][col] (for mf original)
+
+            for (i = 0, i != 4, i = i + 2) // continue looping of loop var is not 4. only two loops (changes x and y then z and w?)
+            {
+                temp_f0 = *ptr_x_c_c; // = mf_copy[x][col]
+                i = i + 2; // loop var
+                *ptr_x_c_c = (f32) ptr_x_r_c->unk0; //= mf_copy[x][row]
+                ptr_x_r_c->unk0 = temp_f0; // = mf_copy[x][col]
+                temp_f2 = ptr_x_c_o->unk0; // = mf[x][col]
+                temp_v0 = ptr_x_c_c + 0x20; // = ptr to mf_copy[z][col]
+                ptr_x_c_o->unk0 = ptr_x_r_o->unk0; // = mf[x][row] 
+                ptr_x_r_o->unk0 = temp_f2; // 
+                temp_f0_2 = temp_v0->unk-10; // = mf_copy[y][col]
+                temp_v1 = ptr_x_r_c + 0x20; // = mf_copy[z][row]
+                temp_v0->unk-10 = (f32) ptr_x_r_c->unk10; // mf_copy[y][col] = mf_copy[y][col] ???
+                temp_v1->unk-10 = temp_f0_2; // mf_copy[y][row] = mf_copy[y][col]
+                temp_a2 = ptr_x_c_o + 0x20; // = ptr to mf[z][col]
+                temp_a2->unk-10 = (f32) ptr_x_r_o->unk10;  // mf[y][col] = mf[y][row]
+                temp_a3 = ptr_x_r_o + 0x20;  // = ptr to mf[z][row]
+                temp_a3->unk-10 = (f32) ptr_x_c_o->unk10; // mf[y][row] = mf[y][col]
+                ptr_x_r_c = temp_v1; // = ptr to mf_copy[z][row]
+                ptr_x_c_c = temp_v0; // = ptr to mf_copy[z][col]
+                ptr_x_r_o = temp_a3; // = ptr to mf[z][row]
+                ptr_x_c_o = temp_a2; // = ptr to mf[z][col]
+            } 
+        }
+        temp_a0->unk0 = (f32) (temp_a0->xx / *diag_ele_ptr); // mf_copy[x][row] = mf_copy[x][row] / mf_copy[x][x]
+        temp_a1->unk0 = (f32) (temp_a1->xx / *diag_ele_ptr); // mf[x][row] = mf[x][row] / mf_copy[x][x]
+        temp_a0->unk10 = (f32) (temp_a0->yx / *diag_ele_ptr); // mf_copy[y][row] = mf_copy[y][row] / mf_copy[y][y]
+        temp_a1->unk10 = (f32) (temp_a1->yx / *diag_ele_ptr); // mf[y][row] = mf[y][row] / mf_copy[y][y]
+        temp_a0->unk20 = (f32) (temp_a0->zx / *diag_ele_ptr); // mf_copy[z][row] = mf_copy[z][row] / mf_copy[z][z]
+        temp_a1->unk20 = (f32) (temp_a1->zx / *diag_ele_ptr); // mf[z][row] = mf[z][row] / mf_copy[z][z]
+        temp_a0->unk30 = (f32) (temp_a0->wx / *diag_ele_ptr); // mf_copy[w][row] = mf_copy[w][row] / mf_copy[w][w]
+        temp_a1->unk30 = (f32) (temp_a1->wx / *diag_ele_ptr); // mf[w][row] = mf[w][row] / mf_copy[w][w]
+        k = 0; // loop var
+        for (k = 0, k != 4, k++){
+            if (k != this_row){
+                temp_t0_2 = k * 4; // k*4
+                temp_t9 = row_ptr_2 + temp_t0_2;  // ptr to mf_copy[this_row][k]
+                temp_v0_2 = &mf_copy + temp_t0_2; // ptr to mf_copy[x][k]
+                temp_v1_2 = mf + temp_t0_2; // ptr to mf[x][k]
+                temp_v0_2->unk0 = (f32) (temp_v0_2->unk0 - (temp_a0->unk0 * *temp_t9)); // mf_copy[x][k] = mf_copy[x][k] - mf_copy[x][row] * mf_copy[this_row][k]
+                temp_v1_2->unk0 = (f32) (temp_v1_2->unk0 - (temp_a1->unk0 * *temp_t9)); // mf[x][k] = mf[x][k] - mf[x][row] * mf[this_row][k]
+                temp_v0_2->unk10 = (f32) (temp_v0_2->unk10 - (temp_a0->unk10 * *temp_t9)); // mf_copy[y][k] = mf_copy[y][k] - mf_copy[y][row] * mf_copy[this_row][k]
+                temp_v1_2->unk10 = (f32) (temp_v1_2->unk10 - (temp_a1->unk10 * *temp_t9)); // mf[y][k] = mf[y][k] - mf[y][row] * mf[this_row][k]
+                temp_v0_2->unk20 = (f32) (temp_v0_2->unk20 - (temp_a0->unk20 * *temp_t9)); // mf_copy[z][k] = mf_copy[z][k] - mf_copy[z][row] * mf_copy[this_row][k]
+                temp_v1_2->unk20 = (f32) (temp_v1_2->unk20 - (temp_a1->unk20 * *temp_t9)); // mf[z][k] = mf[z][k] - mf[z][row] * mf[this_row][k]
+                temp_v0_2->unk30 = (f32) (temp_v0_2->unk30 - (temp_a0->unk30 * *temp_t9)); // mf_copy[w][k] = mf_copy[w][k] - mf_copy[w][row] * mf_copy[this_row][k]
+                temp_v1_2->unk30 = (f32) (temp_v1_2->unk30 - (temp_a1->unk30 * *temp_t9)); // mf[w][k] = mf[w][k] - mf[w][row] * mf[this_row][k]
+            }
+        }
+    }
+    return 0;
+}
 
 // SkinMatrix_Scale
 // (output matrix scales x,y,z components of vector or x,y,z columns of matrix if applied on RHS)/
