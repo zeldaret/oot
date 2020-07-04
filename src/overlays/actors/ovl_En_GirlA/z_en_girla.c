@@ -5,9 +5,9 @@
 
 #define THIS ((EnGirlA*)thisx)
 
-void EnGirlA_Init(Actor*, GlobalContext*);
-void EnGirlA_Destroy(Actor*, GlobalContext*);
-void EnGirlA_Update(Actor*, GlobalContext*);
+void EnGirlA_Init(Actor* this, GlobalContext* globalCtx);
+void EnGirlA_Destroy(Actor* this, GlobalContext* globalCtx);
+void EnGirlA_Update(Actor* this, GlobalContext* globalCtx);
 
 const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
@@ -86,7 +86,7 @@ u16 D_80A3C668[5] = {
 typedef struct {
     /* 0x00 */ s16 objID;
     /* 0x02 */ s16 unk_02;
-    /* 0x04 */ void (*unk_04)(EnGirlA*, GlobalContext*, s32);
+    /* 0x04 */ void (*unk_04)(Actor*, GlobalContext*, s32);
     /* 0x08 */ s16 unk_08;
     /* 0x0A */ s16 unk_0A;
     /* 0x0C */ u16 unk_0C;
@@ -99,7 +99,7 @@ typedef struct {
 
 // void func_8002ED80(EnGirlA*, GlobalContext*, s32); 
 // void func_8002EBCC(EnGirlA*, GlobalContext*, s32);
-void func_80A3C498(EnGirlA*, GlobalContext*, s32); 
+void func_80A3C498(Actor*, GlobalContext*, s32); 
 
 s32 func_80A3AAA8(GlobalContext*, EnGirlA*); s32 func_80A3AB58(GlobalContext*, EnGirlA*); s32 func_80A3ABF8(GlobalContext*, EnGirlA*); 
 s32 func_80A3ACAC(GlobalContext*, EnGirlA*); s32 func_80A3AD60(GlobalContext*, EnGirlA*);
@@ -775,7 +775,7 @@ void func_80A3BC6C(GlobalContext* globalCtx, EnGirlA* this) {
 void func_80A3BD80(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
-void func_80A3C4D4(EnGirlA*, GlobalContext*);
+void func_80A3C4D4(Actor*, GlobalContext*);
 void func_80A3BEAC(GlobalContext*, EnGirlA*);
 
 void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
@@ -990,16 +990,16 @@ void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_198(this, globalCtx);
 }
 
-void func_80A3C498(EnGirlA* this, GlobalContext* globalCtx, s32 flags) {
+void func_80A3C498(Actor* this, GlobalContext* globalCtx, s32 flags) {
     func_8002EBCC(this, globalCtx, 0);
     func_8002ED80(this, globalCtx, 0);
 }
 
-void func_80A3C4D4(EnGirlA* thisx, GlobalContext* globalCtx) {
+void func_80A3C4D4(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = THIS;
     Matrix_RotateY(((this->unk_1B8 * 360.0f) / 65536.0f) * 0.017453292f, MTXMODE_APPLY);
-    if (this->unk_1D0 != 0) {
-        this->unk_1D0(this, globalCtx, 0);
+    if (this->unk_1D0 != NULL) {
+        this->unk_1D0(thisx, globalCtx, 0);
     }
     func_800694A0(globalCtx, this->unk_1CC);
 }

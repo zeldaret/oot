@@ -33,7 +33,7 @@ typedef struct EnGirlA {
     /* 0x01CA */ s16 unk_1CA;
     /* 0x01CC */ s16 unk_1CC;
     /* 0x01CE */ s16 unk_1CE;
-    /* 0x01D0 */ void (*unk_1D0)(struct EnGirlA*, GlobalContext*, s32);
+    /* 0x01D0 */ void (*unk_1D0)(Actor*, GlobalContext*, s32);
 } EnGirlA; // size = 0x01D4
 
 extern const ActorInit En_Girla_InitVars;
