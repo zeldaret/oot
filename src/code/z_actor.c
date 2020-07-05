@@ -1697,16 +1697,16 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
 
     if (actor->bgCheckFlags & 0x20) {
         if (actor->waterY < 20.0f) {
-            sfxId = NA_SE_PL_WALK_WATER0;
+            sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
         } else {
-            sfxId = NA_SE_PL_WALK_WATER1;
+            sfxId = NA_SE_PL_WALK_WATER1 - SFX_FLAG;
         }
     } else {
         sfxId = func_80041F34(&globalCtx->colCtx, actor->floorPoly, actor->floorPolySource);
     }
 
     func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->projectedPos, sfxId + 0x800);
+    func_80078914(&actor->projectedPos, sfxId + SFX_FLAG);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -1732,15 +1732,15 @@ void func_8002F974(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
 }
 
-void func_8002F994(Actor* actor, s32 sfxId) {
+void func_8002F994(Actor* actor, s32 arg1) {
     actor->flags |= 0x10000000;
     actor->flags &= ~0x00380000;
-    if (sfxId < NA_SE_PL_LAND_GRASS) {
-        actor->sfx = NA_SE_PL_WALK_DIRT;
-    } else if (sfxId < NA_SE_PL_DIVE_BUBBLE) {
-        actor->sfx = NA_SE_PL_WALK_CONCRETE;
+    if (arg1 < 40) {
+        actor->sfx = NA_SE_PL_WALK_DIRT - SFX_FLAG;
+    } else if (arg1 < 100) {
+        actor->sfx = NA_SE_PL_WALK_CONCRETE - SFX_FLAG;
     } else {
-        actor->sfx = NA_SE_PL_WALK_SAND;
+        actor->sfx = NA_SE_PL_WALK_SAND - SFX_FLAG;
     }
 }
 
@@ -2263,7 +2263,7 @@ void func_80030ED8(Actor* actor) {
     } else if (actor->flags & 0x200000) {
         func_800788CC(actor->sfx);
     } else if (actor->flags & 0x10000000) {
-        func_800F4C58(&D_801333D4, 0x2021, (s8)(actor->sfx - 1));
+        func_800F4C58(&D_801333D4, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
         func_80078914(&actor->projectedPos, actor->sfx);
     }

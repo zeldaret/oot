@@ -161,7 +161,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
         }
         func_8005AA1C(&globalCtx->cameras, 0, sp4C * 0.6f, 3);
-        Audio_PlaySoundGeneral(0x2027, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                               &D_801333E0, &D_801333E8);
     }
 }
 

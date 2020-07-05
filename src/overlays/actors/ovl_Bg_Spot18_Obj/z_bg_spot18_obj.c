@@ -263,10 +263,10 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
-        func_80078884(0x4802);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x2835);
+        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
-        func_8002F974(&this->dyna.actor, 0x200A);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 }
 

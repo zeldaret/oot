@@ -100,7 +100,7 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
                 globalCtx->csCtx.segment = D_808BB7A0;
             }
             Audio_SetBGM(NA_BGM_STOP);
-            Audio_SetBGM(NA_SE_PL_BOUND_DIRT);
+            Audio_SetBGM(0x53);
             gSaveContext.cutsceneTrigger = 1;
             this->actor.attachedA = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);

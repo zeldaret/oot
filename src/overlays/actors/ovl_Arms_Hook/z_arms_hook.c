@@ -157,7 +157,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         return;
     }
 
-    func_8002F8F0(&player->actor, 0x100B);
+    func_8002F8F0(&player->actor, NA_SE_IT_HOOKSHOT_CHAIN - SFX_FLAG);
     ArmsHook_CheckForCancel(this);
 
     if (this->timer != 0) {
