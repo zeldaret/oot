@@ -1430,34 +1430,30 @@ PosRot* func_8002EF44(PosRot* arg0, Actor* actor) {
     return arg0;
 }
 
-#ifdef NON_MATCHING
-// single regalloc difference
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
-    s16 var;
-    s16 abs_var;
+    s16 yawTemp;
+    s16 yawTempAbs;
+    f32 ret;
 
-    var = (s16)(actor->yawTowardsLink - 0x8000) - arg2;
-    abs_var = ABS(var);
+    yawTemp = (s16)(actor->yawTowardsLink - 0x8000) - arg2;
+    yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
-        if ((abs_var > 0x4000) || (actor->flags & 0x8000000)) {
+        if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            return actor->xyzDistFromLinkSq -
-                   actor->xyzDistFromLinkSq * 0.8f * ((0x4000 - abs_var) * 3.0517578125e-05f);
+            ret = actor->xyzDistFromLinkSq -
+                  actor->xyzDistFromLinkSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
+            return ret;
         }
     }
 
-    if (abs_var > 0x2AAA) {
+    if (yawTempAbs > 0x2AAA) {
         return FLT_MAX;
     }
 
     return actor->xyzDistFromLinkSq;
 }
-#else
-extern f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002EFC0.s")
-#endif
 
 typedef struct {
     f32 unk_0, unk_4;
@@ -2370,7 +2366,8 @@ s32 func_800314D4(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3)
     if ((arg2->z > -actor->uncullZoneScale) && (arg2->z < (actor->uncullZoneForward + actor->uncullZoneScale))) {
         var = (arg3 < 1.0f) ? 1.0f : 1.0f / arg3;
 
-        if ((((fabsf(arg2->x) - actor->uncullZoneScale) * var) < 1.0f) && (((arg2->y + actor->uncullZoneDownward) * var) > -1.0f) &&
+        if ((((fabsf(arg2->x) - actor->uncullZoneScale) * var) < 1.0f) &&
+            (((arg2->y + actor->uncullZoneDownward) * var) > -1.0f) &&
             (((arg2->y - actor->uncullZoneScale) * var) < 1.0f)) {
             return 1;
         }
