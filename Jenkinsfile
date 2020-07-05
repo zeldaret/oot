@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Check for unused asm') {
+            steps {
+                sh './tools/find_unused_asm.sh'
+            }
+        }
         stage('Setup') {
             steps {
                 echo 'Setting up...'

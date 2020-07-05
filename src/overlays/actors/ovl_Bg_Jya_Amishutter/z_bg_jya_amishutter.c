@@ -38,9 +38,9 @@ const ActorInit Bg_Jya_Amishutter_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
 extern UNK_TYPE D_0600C4C8;
@@ -95,7 +95,7 @@ void func_80893438(BgJyaAmishutter* this) {
         func_808934B0(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->actor, 0x2036);
+        func_8002F974(&this->actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -118,7 +118,7 @@ void func_8089350C(BgJyaAmishutter* this) {
         func_808933BC(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->actor, 0x2036);
+        func_8002F974(&this->actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 

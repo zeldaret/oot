@@ -126,8 +126,8 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = -1;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
-    thisx->unk_FC = 1200.0f;
-    thisx->unk_F8 = 200.0f;
+    thisx->uncullZoneDownward = 1200.0f;
+    thisx->uncullZoneScale = 200.0f;
 
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
@@ -301,8 +301,8 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void func_8001D5C8(EnAObj* this, s16 params) {
-    this->dyna.actor.unk_FC = 1200.0f;
-    this->dyna.actor.unk_F8 = 720.0f;
+    this->dyna.actor.uncullZoneDownward = 1200.0f;
+    this->dyna.actor.uncullZoneScale = 720.0f;
     EnAObj_SetupAction(this, func_8001D608);
 }
 
@@ -317,7 +317,7 @@ void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (this->dyna.actor.speedXZ != 0.0f) {
-        Audio_PlayActorSound2(&this->dyna.actor, 0x200A);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 
     this->dyna.unk_154 = 0.0f;
