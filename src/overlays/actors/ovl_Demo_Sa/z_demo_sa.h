@@ -15,7 +15,6 @@ typedef struct DemoSa {
     /* 0x0190 */ s16 unk_190;
     /* 0x0192 */ s16 unk_192;
     /* 0x0194 */ s16 unk_194;
-    /* 0x0196 */ char unk_196[0x2];
     /* 0x0198 */ s32 action;
     /* 0x019C */ s32 drawConfig;
     /* 0x01A0 */ f32 unk_1A0;
