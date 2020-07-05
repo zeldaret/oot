@@ -3518,7 +3518,7 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
         if (camera->status == 7) {
             switch (phi_v0) {
                 case 1:
-                    func_80078884(NA_SE_PL_WALK_GROUND);
+                    func_80078884(NA_SE_PL_WALK_GROUND - SFX_FLAG);
                     break;
                 case 2:
                     if (1 == camera->globalCtx->roomCtx.curRoom.unk_03) {

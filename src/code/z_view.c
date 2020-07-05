@@ -351,8 +351,8 @@ s32 func_800AAA9C(View* view) {
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
-             view->up.x, view->up.y, view->up.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+             view->up.y, view->up.z);
 
     view->viewing = *viewing;
 
@@ -500,8 +500,8 @@ s32 func_800AB560(View* view) {
     }
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
-             view->up.x, view->up.y, view->up.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+             view->up.y, view->up.z);
 
     view->viewing = *viewing;
 
@@ -527,17 +527,23 @@ s32 func_800AB944(View* view) {
 }
 
 #ifdef NON_MATCHING
-// saved register usage is wrong, relatively minor reorderings, regalloc
+// regalloc differences
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
-    GraphicsContext* gfxCtx = view->gfxCtx;
     Gfx* gfx = *gfxp;
+    GraphicsContext* gfxCtx = view->gfxCtx;
+    s32 width;
+    s32 height;
+    Vp* vp;
+    Mtx* projection;
+    Mtx* viewing;
 
-    arg1 = (view->flags & arg1) | arg1 >> 4;
+    arg1 = (arg1 & view->flags) | (arg1 >> 4);
 
     if (arg1 & 2) {
-        Vp* vp = Graph_Alloc(view->gfxCtx, sizeof(Vp));
+        vp = Graph_Alloc(view->gfxCtx, sizeof(Vp));
         LogUtils_CheckNullPointer("vp", vp, "../z_view.c", 910);
         View_ViewportToVp(vp, &view->viewport);
+
         view->vp = *vp;
 
         gDPPipeSync(gfx++);
@@ -547,7 +553,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     }
 
     if (arg1 & 8) {
-        Mtx* projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
+        projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
         LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 921);
         view->projectionPtr = projection;
 
@@ -558,9 +564,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
 
         gSPMatrix(gfx++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     } else if (arg1 & 6) {
-        s32 width;
-        s32 height;
-        Mtx* projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
+        projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
         LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 932);
         view->projectionPtr = projection;
 
@@ -577,7 +581,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     }
 
     if (arg1 & 1) {
-        Mtx* viewing = Graph_Alloc(gfxCtx, sizeof(Mtx));
+        viewing = Graph_Alloc(gfxCtx, sizeof(Mtx));
         LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 948);
         view->viewingPtr = viewing;
 
