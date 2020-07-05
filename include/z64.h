@@ -531,8 +531,8 @@ typedef struct {
 } DbgCamera; // size = 0x10CC;
 
 typedef struct {
-    /* 0x00 */ u8   musicSeq;
-    /* 0x01 */ u8   nighttimeSFX;
+    /* 0x00 */ u8   seqIndex;
+    /* 0x01 */ u8   nightSeqIndex;
     /* 0x02 */ char unk_02[0x2];
 } SoundContext; // size = 0x4
 
