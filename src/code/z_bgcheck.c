@@ -10,6 +10,70 @@
 #define COLPOLY_IGNORE_WALL 2
 #define COLPOLY_IGNORE_FLOOR 4
 
+//func_80041DB8, SurfaceType wall properties
+s32 D_80119D90[32] = {
+    0,
+    1,
+    3,
+    5,
+
+    8,
+    16,
+    32,
+    64,
+
+    0,
+    0,
+    0,
+    0,
+
+    0,
+    0,
+    0,
+    0,
+
+    0,
+    0,
+    0,
+    0,
+
+    0,
+    0,
+    0,
+    0,
+
+    0,
+    0,
+    0,
+    0,
+
+    0,
+    0,
+    0,
+    0,
+};
+
+//func_80041F34
+u16 D_80119E10[14] = {
+    NA_SE_PL_WALK_GROUND & 0x1FF,
+    NA_SE_PL_WALK_SAND & 0x1FF,
+    NA_SE_PL_WALK_CONCRETE & 0x1FF,
+    NA_SE_PL_WALK_DIRT & 0x1FF,
+
+    NA_SE_PL_WALK_WATER0 & 0x1FF,
+    NA_SE_PL_WALK_WATER1 & 0x1FF,
+    NA_SE_PL_WALK_WATER2 & 0x1FF,
+    NA_SE_PL_WALK_MAGMA & 0x1FF,
+
+    NA_SE_PL_WALK_GRASS & 0x1FF,
+    NA_SE_PL_WALK_GLASS & 0x1FF,
+    NA_SE_PL_WALK_LADDER & 0x1FF,
+    NA_SE_PL_WALK_GROUND & 0x1FF,
+
+    NA_SE_PL_WALK_ICE & 0x1FF,
+    NA_SE_PL_WALK_IRON & 0x1FF,
+};
+
 // original name: T_BGCheck_PosErrorCheck
 s32 func_80038600(Vec3f* pos, char* file, s32 line) {
     if ((pos->x >= 32760.0f) || (pos->x <= -32760.0f) || (pos->y >= 32760.0f) || (pos->y <= -32760.0f) ||
@@ -924,14 +988,33 @@ void func_8003B218(CollisionContext* colCtx, Vec3s* vtxList, CollisionPoly* poly
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003BB18.s")
 u16 func_8003BB18(CollisionContext* colCtx, GlobalContext* globalCtx, Lookup* arg2);
 
-extern s16 D_80119E2C[19]; //SpotXX Scene Ids
+s16 spotScenes[19] = {
+    /* 0x51 */ SCENE_SPOT00,
+    /* 0x52 */ SCENE_SPOT01,
+    /* 0x53 */ SCENE_SPOT02,
+    /* 0x54 */ SCENE_SPOT03,
+    /* 0x55 */ SCENE_SPOT04,
+    /* 0x56 */ SCENE_SPOT05,
+    /* 0x57 */ SCENE_SPOT06,
+    /* 0x58 */ SCENE_SPOT07,
+    /* 0x59 */ SCENE_SPOT08,
+    /* 0x5A */ SCENE_SPOT09,
+    /* 0x5B */ SCENE_SPOT10,
+    /* 0x5C */ SCENE_SPOT11,
+    /* 0x5D */ SCENE_SPOT12,
+    /* 0x5E */ SCENE_SPOT13,
+    /* 0x5F */ SCENE_SPOT15,
+    /* 0x60 */ SCENE_SPOT16,
+    /* 0x61 */ SCENE_SPOT17,
+    /* 0x62 */ SCENE_SPOT18,
+    /* 0x63 */ SCENE_SPOT20,
+};
+
 s32 func_8003BF18(GlobalContext* globalCtx) {
     s16* i;
 
-    for (i = D_80119E2C; i < D_80119E2C + 19; i++)
-    {
-        if (globalCtx->sceneNum == *i)
-        {
+    for (i = spotScenes; i < spotScenes + ARRAY_COUNT(spotScenes); i++) {
+        if (globalCtx->sceneNum == *i) {
             return true;
         }
     }
@@ -944,7 +1027,16 @@ struct BgChkMem
     u32 size;
 };
 
-extern struct BgChkMem D_80119E54[8];
+struct BgChkMem D_80119E54[8] = {
+    { SCENE_SPOT00, 0xB798 },
+    { SCENE_GANON_FINAL, 0x78C8 },
+    { SCENE_GANON_DEMO, 0x70C8 },
+    { SCENE_JYASINBOSS, 0xACC8 },
+    { SCENE_KENJYANOMA, 0x70C8 },
+    { SCENE_JYASINZOU, 0x16CC8 },
+    { SCENE_HIDAN, 0x198C8 },
+    { SCENE_GANON_BOSS, 0x84C8 }
+};
 
 s32 func_8003BF5C(s32 sceneId, u32* size) {
     s32 i;
@@ -981,7 +1073,10 @@ struct BgChkMemDungeon
     u32 unk_0x08;
 };
 
-extern struct BgChkMemDungeon D_80119E94[2];
+struct BgChkMemDungeon D_80119E94[2] = {
+    { SCENE_HAKADAN, { 23, 7, 14 }, -1 },
+    { SCENE_BMORI1, {38, 1, 38 }, -1 }
+};
 
 void func_8003C078(CollisionContext* colCtx, GlobalContext* globalCtx, CollisionHeader* arg2) {
     u32 phi_a2;
@@ -2346,6 +2441,7 @@ f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1) {
     u16 phi_a1;
     f32 phi_f20;
     //SSNode* phi_a0;
+    s16 id;
 
     phi_f20 = arg0->unk_10;
     temp_v0 = *arg0->unk_2C;
@@ -2354,54 +2450,50 @@ f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1) {
         return phi_f20;
     }
     //polyList = arg0->dyna->dyn_poly;
-    phi_s0 = &arg0->dyna->dyn_list.tbl[temp_v0];
+    phi_s0 = arg0->dyna->dyn_list.tbl + temp_v0;
     //pos = arg0->unk_14;
     //phi_a1 = (arg0->unk_08 & 7) << 0xD;
     //phi_t0 = arg0->dyna;
     //phi_f20 = arg0->unk_10;
     //phi_a0 = arg0->dyna->dyn_list.tbl;
     while (true) {
-        s32 id = phi_s0->polyId;
-        //temp_s2 = phi_s0->unk0 * 0x10;
+        id = phi_s0->polyId;
         temp_v1 = arg0->dyna->dyn_poly + id; //temp_s2;
         if ((arg0->dyna->dyn_poly[id].flags_vIA & ((arg0->unk_08 & 7) << 0xD)) != 0) {
             //goto block_6;
 
             temp_v0 = phi_s0->next;
-            if (SS_NULL == temp_v0) { //76A4
-                break;
+            if (SS_NULL != temp_v0) { //76A4
+                phi_s0 = arg0->dyna->dyn_list.tbl + temp_v0;
+                continue;
             }
-            phi_s0 = &arg0->dyna->dyn_list.tbl[temp_v0];
-            continue;
         }
-        if ((arg1 & 6)
+        else if ((arg1 & 6)
             && (arg0->unk_20 & 0x10)
             && (temp_v1->norm.y * COLPOLY_NORM_FRAC < 0.0f)) {
 
             temp_v0 = phi_s0->next;
-            if (SS_NULL == temp_v0) {
-                break;
+            if (SS_NULL != temp_v0) {
+                phi_s0 = arg0->dyna->dyn_list.tbl + temp_v0;
+                continue;
             }
-            phi_s0 = &arg0->dyna->dyn_list.tbl[temp_v0];
-            continue;
         }
-        if (func_80038D48(&arg0->dyna->dyn_poly[id], (Vec3s*)arg0->dyna->dyn_vtx, arg0->unk_14->x, arg0->unk_14->z, &sp70, arg0->unk_24) == 1
-            && sp70 < arg0->unk_14->y
-            && phi_f20 < sp70) {
+        else {
+            if (func_80038D48(arg0->dyna->dyn_poly + id, (Vec3s*)arg0->dyna->dyn_vtx, arg0->unk_14->x, arg0->unk_14->z, &sp70, arg0->unk_24) == 1
+                && sp70 < arg0->unk_14->y
+                && phi_f20 < sp70) {
 
-            phi_f20 = sp70;
-            *arg0->unk_0C = &arg0->dyna->dyn_poly[id];
-        }
-        temp_v0 = phi_s0->next;
-        if (SS_NULL == temp_v0) {
-            break;
-        }
-        phi_s0 = &arg0->dyna->dyn_list.tbl[temp_v0];
-        //phi_a1 = (arg0->unk_08 & 7) << 0xD;
-        //phi_t0 = arg0->dyna;
-        //phi_f20 = phi_f20;
-        //phi_a0 = arg0->dyna->dyn_list.tbl;
+                phi_f20 = sp70;
+                *arg0->unk_0C = arg0->dyna->dyn_poly + id;
+            }
+            temp_v0 = phi_s0->next;
+            if (SS_NULL != temp_v0) {
+                phi_s0 = arg0->dyna->dyn_list.tbl + temp_v0;
+                continue;
+            }
 
+        }
+        break;
     }
     return phi_f20;
 }
@@ -2534,9 +2626,91 @@ s32 func_80040E40(CollisionContext* colCtx, u16 arg1, f32* arg2, Vec3f* arg3, f3
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80040E40.s")
 #endif 
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80040FA4.s")
+s32 func_80040FA4(s80041128* arg0) {
+    f32 temp_f0;
+    u16 nodeId;
+    CollisionPoly* curPoly;
+    SSNode* phi_s2;
+    Vec3f sp5C;
+    s16 polyId;
+    s32 result;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041128.s")
+    nodeId = *arg0->dynaLookupId;
+    if (SS_NULL == nodeId) {
+        return false;
+    }
+
+    phi_s2 = arg0->dyna->dyn_list.tbl + nodeId;
+    result = false;
+
+    while (true)
+    {
+        polyId = phi_s2->polyId;
+        curPoly = arg0->dyna->dyn_poly + polyId;
+        if ((curPoly->flags_vIA & ((arg0->xpFlags & 7) << 0xD)) != 0) {
+            nodeId = phi_s2->next;
+            if (SS_NULL != nodeId) {
+                phi_s2 = arg0->dyna->dyn_list.tbl + nodeId;
+                continue;
+            }
+        }
+        else {
+            if (func_800390A0(curPoly, (Vec3s*)arg0->dyna->dyn_vtx, arg0->pointA, arg0->pointB, &sp5C, arg0->unk20, arg0->unk28) != 0) {
+                temp_f0 = func_800CB650(arg0->pointA, &sp5C);
+                if (temp_f0 < *arg0->unk24) {
+                    *arg0->unk24 = temp_f0;
+                    *arg0->unk18 = sp5C;
+                    *arg0->pointB = sp5C;
+                    *arg0->unk1C = curPoly;
+                    result = 1;
+                }
+            }
+            nodeId = phi_s2->next;
+            if (SS_NULL != nodeId) {
+                phi_s2 = arg0->dyna->dyn_list.tbl + nodeId;
+                continue;
+            }
+        }
+        break;
+    }
+    return result;
+}
+
+s32 func_80041128(CollisionContext* arg0, u16 xpFlags, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4, CollisionPoly** arg5, f32* arg6, s32 bgId, f32 arg8, s32 arg9) {
+    s32 sp4C = false;
+    s80041128 sp20;
+
+    sp20.colCtx = arg0;
+    sp20.xpFlags = xpFlags;
+    sp20.dyna = &arg0->dyna;
+    sp20.pointA = arg2;
+    sp20.pointB = arg3;
+    sp20.unk18 = arg4;
+    sp20.unk1C = arg5;
+    sp20.unk20 = (arg9 & 8) != 0;
+    sp20.unk24 = arg6;
+    sp20.unk28 = arg8;
+
+    sp20.dynaLookupId = &arg0->dyna.bgActors[bgId].dynaLookup.wall;
+    if (arg9 & 1) {
+        if (func_80040FA4(&sp20)) {
+            sp4C = true;
+        }
+    }
+    sp20.dynaLookupId = &arg0->dyna.bgActors[bgId].dynaLookup.floor;
+    if (arg9 & 2) {
+        if (func_80040FA4(&sp20)) {
+            sp4C = true;
+        }
+    }
+    sp20.dynaLookupId = &arg0->dyna.bgActors[bgId].dynaLookup.ceiling;
+    if (arg9 & 4) {
+        if (func_80040FA4(&sp20)) {
+            sp4C = true;
+        }
+    }
+    return sp4C;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041240.s")
 
@@ -2852,19 +3026,18 @@ u32 func_80041D28(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 }
 
 u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(colCtx, poly, bgId, 0) >> 0xD & 0x1F;
+    return func_800419B0(colCtx, poly, bgId, 0) >> 13 & 0x1F;
 }
 
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(colCtx, poly, bgId, 0) >> 0x12 & 7;
+    return func_800419B0(colCtx, poly, bgId, 0) >> 18 & 7;
 }
 
 u32 func_80041D94(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(colCtx, poly, bgId, 0) >> 0x15 & 0x1F;
+    return func_800419B0(colCtx, poly, bgId, 0) >> 21 & 0x1F;
 }
 
-extern s32 D_80119D90[];
-
+//Get Wall Property
 s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return D_80119D90[func_80041D94(colCtx, poly, bgId)];
 }
@@ -2883,27 +3056,25 @@ s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 
 //unused
 u32 func_80041E80(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1A & 0xF;
+    return func_800419B0(colCtx, poly, bgId, 0) >> 26 & 0xF;
 }
 
 u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1A & 0xF;
+    return func_800419B0(colCtx, poly, bgId, 0) >> 26 & 0xF;
 }
 
 u32 func_80041EC8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1E & 1;
+    return func_800419B0(colCtx, poly, bgId, 0) >> 30 & 1;
 }
 
 u32 func_80041EEC(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    return func_800419B0(colCtx, poly, bgId, 0) >> 0x1F & 1;
+    return func_800419B0(colCtx, poly, bgId, 0) >> 31 & 1;
 }
 
 u32 func_80041F10(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 
     return func_800419B0(colCtx, poly, bgId, 1) & 0xF;
 }
-
-extern u16 D_80119E10[];
 
 //Get Poly Sfx
 u16 func_80041F34(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
@@ -2972,65 +3143,96 @@ u32 func_80042108(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return (func_800419B0(colCtx, poly, bgId, 1) & 0x8000000) ? 1 : 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8004213C.s")
+// Zora's Domain WaterBox in King Zora's Room
+WaterBox zdWaterBox = { -348, 877, -1746, 553, 780, 0x2104 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042244.s")
+// WaterBox's effective bounding box
+f32 zdWaterBoxMinX = -348.0f;
+f32 zdWaterBoxMinY = 777.0f;
+f32 zdWaterBoxMinZ = -1746.0f;
+f32 zdWaterBoxMaxX = 205.0f;
+f32 zdWaterBoxMaxY = 977.0f;
+f32 zdWaterBoxMaxZ = -967.0f;
+
+//Tests if xyz position is within the x/z boundaries of a waterbox, returning the ySurface and WaterBox if true
+//ySurface doubles as position y input
+s32 func_8004213C(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox) {
+    if (globalCtx->sceneNum == SCENE_SPOT07) {
+        if (zdWaterBoxMinX < x && x < zdWaterBoxMaxX
+            && zdWaterBoxMinY < *ySurface && *ySurface < zdWaterBoxMaxY
+            && zdWaterBoxMinZ < z && z < zdWaterBoxMaxZ) {
+            *outWaterBox = &zdWaterBox;
+            *ySurface = zdWaterBox.ySurface;
+            return true;
+        }
+    }
+    return func_80042244(globalCtx, colCtx, x, z, ySurface, outWaterBox);
+}
+
+s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox) {
+    CollisionHeader* colHeader;
+    u32 room;
+    WaterBox* curWaterBox;
+
+    colHeader = colCtx->stat.colHeader;
+    if (colHeader->nbWaterBoxes == 0 || (u32)colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return false;
+    }
+
+    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->nbWaterBoxes; curWaterBox++) {
+        room = (curWaterBox->properties >> 13) & 0x3F;
+        if (room == globalCtx->roomCtx.curRoom.num || room == 0x3F) {
+            if ((curWaterBox->properties & 0x80000) == 0) {
+                if (curWaterBox->xMin < x && x < curWaterBox->xMin + curWaterBox->xLength) {
+                    if (curWaterBox->zMin < z && z < curWaterBox->zMin + curWaterBox->zLength) {
+                        *outWaterBox = curWaterBox;
+                        *ySurface = curWaterBox->ySurface;
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 
 #ifdef NON_MATCHING
 s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg2, f32 arg3, WaterBox** arg4) {
-    f32 temp_f2;
+    CollisionHeader* colHeader;
     s32 temp_a0;
-    u32 room; //a1
-    u32 temp_a2;
-    //WaterBox* temp_v1;
-    WaterBox* phi_v0;
-    WaterBox* test;
-    u16 nbWaterBoxes;
+    s32 room; //a1
 
     s32 phi_a0;
 
-    nbWaterBoxes = colCtx->stat.colHeader->nbWaterBoxes;
-    test = colCtx->stat.colHeader->waterBoxes;
-    if (nbWaterBoxes == 0
-        || (u32)test == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
-    //block_2:
+    colHeader = colCtx->stat.colHeader;
+    if (colHeader->nbWaterBoxes == 0 
+        || (u32)colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         *arg4 = NULL;
         return -1;
     }
 
-    //if ((s32)(*colCtx)->unk24 > 0) {
-    //    phi_v0 = (*colCtx)->unk28;
-    //    phi_a0 = 0;
-    //loop_5:
-    for (phi_a0 = 0; phi_a0 < nbWaterBoxes; phi_a0++) {
-        temp_a2 = test[phi_a0].properties;
-        //temp_v1 = phi_v0;
-        room = (temp_a2 >> 0xD) & 0x3F;
+    for (phi_a0 = 0; phi_a0 < colHeader->nbWaterBoxes; phi_a0++) {
+        WaterBox* phi_v0 = colHeader->waterBoxes + phi_a0;
+
+        room = (phi_v0->properties >> 13) & 0x3F;
         if (room == globalCtx->roomCtx.curRoom.num || room == 0x3F) {
-            if ((temp_a2 & 0x80000) == 0) {
-                if ((f32)test[phi_a0].xMin < arg2->x && arg2->x < (f32)(test[phi_a0].xMin + test[phi_a0].xLength)) {
-                    if ((f32)test[phi_a0].zMin < arg2->z && arg2->z < (f32)(test[phi_a0].zMin + test[phi_a0].zLength)) {
-                        temp_f2 = (f32)test[phi_a0].ySurface;
-                        if ((arg2->y - arg3) < temp_f2 && temp_f2 < (arg2->y + arg3)) {
-                            *arg4 = &test[phi_a0];
+            if ((phi_v0->properties & 0x80000) == 0) {
+                if (!colHeader->nbWaterBoxes) {}
+                if (phi_v0->xMin < arg2->x && arg2->x < phi_v0->xMin + phi_v0->xLength) {
+                    if (phi_v0->zMin < arg2->z && arg2->z < phi_v0->zMin + phi_v0->zLength) {
+                        if (arg2->y - arg3 < phi_v0->ySurface && phi_v0->ySurface < arg2->y + arg3) {
+                            *arg4 = phi_v0;
                             return phi_a0;
                         }
                     }
                 }
             }
         }
-        //else {
-
-        //}
-        //temp_a0 = phi_a0 + 1;
-        //phi_v0 = phi_v0 + 0x10;
-        //phi_a0 = temp_a0;
-        //if (temp_a0 < (s32)(*colCtx)->unk24) {
-        //goto loop_5;
-        //}
     }
+
     *arg4 = NULL;
-    return -1;
+    phi_a0 = -1;
+    return phi_a0;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8004239C.s")
@@ -3061,7 +3263,33 @@ u32 func_8004259C(CollisionContext* colCtx, WaterBox* waterBox) {
     return prop & 0x1F;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800425B0.s")
+//same as 80042244, but tests if WaterBox properties & 0x80000 != 0
+s32 func_800425B0(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox) {
+    CollisionHeader* colHeader;
+    u32 room;
+    WaterBox* curWaterBox;
+
+    colHeader = colCtx->stat.colHeader;
+    if (colHeader->nbWaterBoxes == 0 || (u32)colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+        return false;
+    }
+
+    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->nbWaterBoxes; curWaterBox++) {
+        room = (curWaterBox->properties >> 0xD) & 0x3F;
+        if ((room == globalCtx->roomCtx.curRoom.num) || (room == 0x3F)) {
+            if ((curWaterBox->properties & 0x80000) != 0) {
+                if (curWaterBox->xMin < x && x < (curWaterBox->xMin + curWaterBox->xLength)) {
+                    if (curWaterBox->zMin < z && z < (curWaterBox->zMin + curWaterBox->zLength)) {
+                        *outWaterBox = curWaterBox;
+                        *ySurface = curWaterBox->ySurface;
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* arg2, Vec3f* arg3) {
     f32 n1X;

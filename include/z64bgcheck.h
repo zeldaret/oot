@@ -57,7 +57,9 @@ typedef struct {
     /* 0x06 */ s16 xLength;
     /* 0x08 */ s16 zLength;
     /* 0x0C */ u32 properties;
-
+    
+    //0x0008_0000 = ?
+    //0x0007_E000 = Room Index, 0x3F = all rooms
     //0x0000_1F00 = ?
     //0x0000_00FF = CamData index
 } WaterBox; // size = 0x10 //WaterBoxHeader
@@ -184,5 +186,20 @@ typedef struct {
     /* 0x28 */ DynaCollisionContext* dyna;
     /* 0x2C */ u16* unk_2C;
 } s8003FBF4; 
+
+typedef struct {
+    /* 0x00 */ struct CollisionContext* colCtx;
+    /* 0x04 */ u16 xpFlags; 
+    /* 0x08 */ DynaCollisionContext* dyna;
+    /* 0x0C */ u16* dynaLookupId;
+    /* 0x10 */ Vec3f* pointA;
+    /* 0x14 */ Vec3f* pointB;
+    /* 0x18 */ Vec3f* unk18;
+    /* 0x1C */ CollisionPoly** unk1C;
+    /* 0x20 */ s32 unk20; // flag & 0x8
+    /* 0x24 */ f32* unk24;
+    /* 0x28 */ f32 unk28;
+
+} s80041128;
 
 #endif
