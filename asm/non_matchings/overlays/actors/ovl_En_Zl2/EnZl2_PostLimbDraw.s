@@ -10,7 +10,7 @@ glabel D_80B52BD4
     .float 1.2
 
 .text
-glabel func_80B4FB74
+glabel EnZl2_PostLimbDraw
 /* 011E4 80B4FB74 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 011E8 80B4FB78 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
 /* 011EC 80B4FB7C AFBF0014 */  sw      $ra, 0x0014($sp)

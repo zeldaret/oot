@@ -124,7 +124,7 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
         BgJyaLift_SetFinalPosY(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, 0x200C);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }
 }
 
