@@ -118,7 +118,7 @@ void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     s16 params;
 
     if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
-        player->actor.freeze = 0xA;
+        player->actor.freeze = 10;
     } else {
         params = this->actor.params;
         temp = (params & 0x1F00) >> 8;
