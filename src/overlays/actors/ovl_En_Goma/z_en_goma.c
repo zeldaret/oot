@@ -665,7 +665,7 @@ void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
                     this->actor.velocity.y = 0.0f;
                     return;
                 } else {
-                    Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * 3.1415927f, 0);
+                    Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, 0);
                     Matrix_MultVec3f(&D_80A4B830, &this->unk_2FC);
                     this->unk_2CA = 5;
                     return;
@@ -715,9 +715,9 @@ void func_80A4A964(EnGoma* this) {
     f32 z;
 
     if (this->actor.floorPoly != NULL) {
-        x = this->actor.floorPoly->norm.x * 0.00003051851f;
-        y = this->actor.floorPoly->norm.y * 0.00003051851f;
-        z = this->actor.floorPoly->norm.z * 0.00003051851f;
+        x = this->actor.floorPoly->norm.x * (1.0f / 32767);
+        y = this->actor.floorPoly->norm.y * (1.0f / 32767);
+        z = this->actor.floorPoly->norm.z * (1.0f / 32767);
         Math_SmoothScaleMaxS(&this->unk_2B4,-Math_atan2f(-(z) * y, 1.0f) * 10430.378f, 1, 0x3E8);
         Math_SmoothScaleMaxS(&this->unk_2B6, Math_atan2f(-(x) * y, 1.0f) * 10430.378f, 1, 0x3E8);
     }
@@ -831,17 +831,17 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
                             thisx->posRot.pos.y + ((thisx->shape.unk_08 * thisx->scale.y) + globalCtx->cameras[0].unk_80.y), 
                             thisx->posRot.pos.z, 
                             0);
-            Matrix_RotateX((this->unk_2B4 / 32768.0f) * 3.1415927f, 1);
-            Matrix_RotateZ((this->unk_2B6 / 32768.0f) * 3.1415927f, 1);
-            Matrix_RotateY((thisx->shape.rot.y / 32768.0f) * 3.1415927f, 1);
-            Matrix_RotateX((thisx->shape.rot.x / 32768.0f) * 3.1415927f, 1);
-            Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * 3.1415927f, 1);
+            Matrix_RotateX((this->unk_2B4 / 32768.0f) * M_PI, 1);
+            Matrix_RotateZ((this->unk_2B6 / 32768.0f) * M_PI, 1);
+            Matrix_RotateY((thisx->shape.rot.y / 32768.0f) * M_PI, 1);
+            Matrix_RotateX((thisx->shape.rot.x / 32768.0f) * M_PI, 1);
+            Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * M_PI, 1);
             Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, 1);
             SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80A4ACC0, 0, &this->actor);
             break;
         case 1:
             thisx->naviEnemyId = 2;
-            tmp = sinf(((this->unk_2C0 * 5.0f) * 3.1415f) / 180.0f) * 31.9f;
+            tmp = sinf(((this->unk_2C0 * 5.0f) * M_PI) / 180.0f) * 31.9f;
             tmp += 0x1F;
             #pragma _permuter sameline start
             gSPSegment(gfxCtx->polyOpa.p++, 0x08, 
