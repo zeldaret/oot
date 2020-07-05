@@ -1,0 +1,11 @@
+digraph "src/overlays/effects/ovl_Effect_Ss_Fhg_Flash" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_d7d63ed29fdd4206bb68b2cd46ee04ef {
+    graph [ bgcolor="#ddddee", pencolor="black", label="effects" fontname="Helvetica", fontsize="10", URL="dir_d7d63ed29fdd4206bb68b2cd46ee04ef.html"]
+  dir_b694af84a3b5199546f4376ae80553e7 [shape=box, label="ovl_Effect_Ss_Fhg_Flash", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_b694af84a3b5199546f4376ae80553e7.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_b694af84a3b5199546f4376ae80553e7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000456_000000.html"];
+}

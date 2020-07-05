@@ -1,0 +1,11 @@
+digraph "src/overlays/actors/ovl_Bg_Spot11_Oasis" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e93473484be31ce7bcb356bd643a22f8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="actors" fontname="Helvetica", fontsize="10", URL="dir_e93473484be31ce7bcb356bd643a22f8.html"]
+  dir_de27998dd14ad9c66b420bc87bc6fb13 [shape=box, label="ovl_Bg_Spot11_Oasis", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_de27998dd14ad9c66b420bc87bc6fb13.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_de27998dd14ad9c66b420bc87bc6fb13->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000116_000000.html"];
+}

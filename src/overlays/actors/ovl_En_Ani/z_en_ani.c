@@ -52,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 850, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
 };
 
 static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };

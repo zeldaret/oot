@@ -148,7 +148,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->timer = 40;
         this->actionFunc = func_808809B0;
-        thisx->unk_F8 = 500.0f;
+        thisx->uncullZoneScale = 500.0f;
     }
 
     func_80061ED4(&thisx->colChkInfo, 0, &sColChkInfoInit);

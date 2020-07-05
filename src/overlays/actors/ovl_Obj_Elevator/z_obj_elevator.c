@@ -33,9 +33,9 @@ const ActorInit Obj_Elevator_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_F4, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 600, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 2000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
 static f32 sScales[] = { 0.1f, 0.05f };

@@ -45,9 +45,9 @@ static CollisionCheckInfoInit sColChkInfoInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 0x7D0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 0x15E, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 0x3E8, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 0x7D0, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 0x15E, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 0x3E8, ICHAIN_STOP),
 };
 
 static s16 sEffectScales[] = {

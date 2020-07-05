@@ -31,23 +31,17 @@ const ActorInit Bg_Heavy_Block_InitVars = {
     (ActorFunc)BgHeavyBlock_Draw,
 };
 
-
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 400, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
 
 Vec3f D_80884E80[] = {
-        {0.0f, 300.0f, -20.0f}, 
-        {50.0f, 200.0f, -20.0f}, 
-        {-50.0f, 200.0f, -20.0f}, 
-        {0.0f, 100.0f, 30.0f}, 
-        {0.0f, 100.0f, -70.0f}, 
-        {0.0f, 0.0f, -20.0f},
+    { 0.0f, 300.0f, -20.0f }, { 50.0f, 200.0f, -20.0f }, { -50.0f, 200.0f, -20.0f },
+    { 0.0f, 100.0f, 30.0f },  { 0.0f, 100.0f, -70.0f },  { 0.0f, 0.0f, -20.0f },
 };
-
 
 extern UNK_TYPE D_0600169C;
 extern Gfx D_060013C0;
@@ -65,7 +59,7 @@ void func_80883820(BgHeavyBlock* this, f32 scale) {
     f32 sp20;
     f32 randFloat;
 
-    this->dyna.actor.gravity = -0.6000000238418579f; //try to use beter float
+    this->dyna.actor.gravity = -0.6000000238418579f; // try to use beter float
     this->dyna.actor.minVelocityY = -12.0f;
     randFloat = Math_Rand_CenteredFloat(12.0f * scale);
     if (randFloat < 0.0f) {
@@ -76,13 +70,13 @@ void func_80883820(BgHeavyBlock* this, f32 scale) {
     this->dyna.actor.velocity.y = (Math_Rand_ZeroFloat(8.0f) + 4.0f) * scale;
     this->dyna.actor.velocity.z = Math_Rand_ZeroFloat(-8.0f * scale);
     sp20 = Math_Coss(this->dyna.actor.posRot.rot.y);
-    this->dyna.actor.velocity.x = (Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + 
-                                  (sp20 * randScale));
+    this->dyna.actor.velocity.x =
+        (Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + (sp20 * randScale));
     sp20 = Math_Sins(this->dyna.actor.posRot.rot.y);
-    this->dyna.actor.velocity.z = (Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + 
-                                  (-sp20 * randScale);
+    this->dyna.actor.velocity.z =
+        (Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + (-sp20 * randScale);
     func_80883790(this, scale);
-    Actor_SetScale(&this->dyna.actor, Math_Rand_CenteredFloat(0.20000000298023224f) + 1.0f); //try to use beter float
+    Actor_SetScale(&this->dyna.actor, Math_Rand_CenteredFloat(0.20000000298023224f) + 1.0f); // try to use beter float
 }
 
 // BgHeavyBlock_SetupDynapoly
@@ -157,12 +151,12 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
     // Translates to: "Largest Block Save Bit %x"
-    osSyncPrintf(VT_FGCOL(CYAN)" 最大 ブロック セーブビット %x\n"VT_RST, thisx->params);
+    osSyncPrintf(VT_FGCOL(CYAN) " 最大 ブロック セーブビット %x\n" VT_RST, thisx->params);
 }
 
 void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHeavyBlock* this = THIS;
-    switch(this->dyna.actor.params & 0xFF) {
+    switch (this->dyna.actor.params & 0xFF) {
         case 2:
             break;
         case 3:
@@ -172,14 +166,14 @@ void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80883C90(BgHeavyBlock *this, GlobalContext *globalCtx) {
+void func_80883C90(BgHeavyBlock* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->velocity.y += thisx->gravity;
     if (thisx->velocity.y < thisx->minVelocityY) {
         thisx->velocity.y = thisx->minVelocityY;
     }
-    thisx->velocity.x *= 0.98f; //0.9800000190734863
+    thisx->velocity.x *= 0.98f; // 0.9800000190734863
     thisx->velocity.z *= 0.98f;
     func_8002D7EC(thisx); // updates position based on speed and displacement
     thisx->shape.rot.x += thisx->posRot.rot.x;
@@ -199,7 +193,7 @@ void func_80883C90(BgHeavyBlock *this, GlobalContext *globalCtx) {
             func_80883790(this, 1.0f);
             Audio_PlayActorSound2(thisx, 0x2852);
             // rumble
-            func_800AA000(thisx->xzDistanceFromLink, 0x96, 0xA, 8);
+            func_800AA000(thisx->xzDistFromLink, 0x96, 0xA, 8);
         }
     }
     if (this->timer > 0) {
@@ -214,51 +208,48 @@ void func_80883C90(BgHeavyBlock *this, GlobalContext *globalCtx) {
 void func_80883E54(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 arg4, f32 arg5, f32 arg6, s32 arg7);
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_808841B8.s")
-//BgHeavyBlock_SpawnPieces
+// BgHeavyBlock_SpawnPieces
 void func_808841B8(BgHeavyBlock* this, GlobalContext* globalCtx) {
-    
-    Vec3f spA4[6];
-    f32 sp8C;
-    f32 sp88;
-    f32 sp7C;
-    f32 temp_f12;
-    f32 temp_f20;
-    f32 temp_f20_2;
-    f32 temp_f22;
-    f32 temp_f24;
-    f32 temp_f28;
-    f32 temp_f30;
-    Vec3f *phi_t7;
-    Vec3f *phi_t6;
-    Vec3f *phi_s0;
-    
-    phi_t7 = D_80884E80;
-    phi_t6 = spA4;
 
-    while(phi_t7 != D_80884E80 + 6){
-        *phi_t6++ = *phi_t7++;
+    Vec3f spA4[6];
+    f32 cosX;
+    f32 sinY;
+    f32 sinYNeg;
+    f32 scale;
+    f32 z;
+    f32 x;
+    f32 y;
+    f32 cosY;
+    f32 sinX;
+    s16 i;
+
+    for (i = 0; i != ARRAY_COUNT(D_80884E80); i++) {
+        spA4[i] = D_80884E80[i];
     }
-    
-    temp_f30 = Math_Sins(this->dyna.actor.posRot.rot.x);
-    sp8C = Math_Coss(this->dyna.actor.posRot.rot.x);
-    sp88 = Math_Sins(this->dyna.actor.posRot.rot.y);
-    temp_f28 = Math_Coss(this->dyna.actor.posRot.rot.y);
-    sp7C = -sp88;
-    phi_s0 = spA4;
-    while(phi_s0 < spA4 + 6){
-        temp_f20 = (phi_s0->z * sp8C) + (phi_s0->y * temp_f30);
-        temp_f22 = ((phi_s0->x * temp_f28) + this->dyna.actor.posRot.pos.x) + (sp88 * temp_f20);
-        temp_f24 = (-phi_s0->z * temp_f30) + (this->dyna.actor.posRot.pos.y + (phi_s0->y * sp8C));
-        temp_f20_2 = ((phi_s0->x * sp7C) + this->dyna.actor.posRot.pos.z) + (temp_f28 * temp_f20);
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx,  ACTOR_BG_HEAVY_BLOCK, temp_f22, temp_f24, temp_f20_2, this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 2);
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_HEAVY_BLOCK, temp_f22, temp_f24, temp_f20_2, this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 3);
-        func_80883E54(globalCtx, temp_f22, temp_f24, temp_f20_2, 0.0f, 0.0f, 0.0f, 0);
-        phi_s0++;
+
+    sinX = Math_Sins(this->dyna.actor.posRot.rot.x);
+    cosX = Math_Coss(this->dyna.actor.posRot.rot.x);
+    sinY = Math_Sins(this->dyna.actor.posRot.rot.y);
+    cosY = Math_Coss(this->dyna.actor.posRot.rot.y);
+    sinYNeg = -sinY;
+
+    for (i = 0; i != ARRAY_COUNT(spA4); i++) {
+        scale = (spA4[i].z * cosX) + (spA4[i].y * sinX);
+        x = ((spA4[i].x * cosY) + this->dyna.actor.posRot.pos.x) + (sinY * scale);
+        y = (-spA4[i].z * sinX) + (this->dyna.actor.posRot.pos.y + (spA4[i].y * cosX));
+        z = ((spA4[i].x * sinYNeg) + this->dyna.actor.posRot.pos.z) + (cosY * scale);
+
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_HEAVY_BLOCK, x, y, z,
+                    this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 2);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_HEAVY_BLOCK, x, y, z,
+                    this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 3);
+
+        func_80883E54(globalCtx, x, y, z, 0.0f, 0.0f, 0.0f, 0);
     }
 }
 // BgHeavyBlock_Wait
 void func_808843B0(BgHeavyBlock* this, GlobalContext* globalCtx) {
-    s32 quakeIndex; //s16?
+    s32 quakeIndex; // s16?
 
     // if attached A is set, start onepointdemo (cutscene)
     if (func_8002F410(&this->dyna.actor, globalCtx)) {
@@ -283,7 +274,7 @@ void func_808843B0(BgHeavyBlock* this, GlobalContext* globalCtx) {
 }
 
 // BgHeavyBlock_Lift
-void func_808844D0(BgHeavyBlock *this, GlobalContext *globalCtx) {
+void func_808844D0(BgHeavyBlock* this, GlobalContext* globalCtx) {
     Player* player;
     s32 pad;
     s32 pad1;
@@ -294,19 +285,18 @@ void func_808844D0(BgHeavyBlock *this, GlobalContext *globalCtx) {
     player = PLAYER;
     if (this->timer == 11) {
         func_800AA000(0.0f, 0xFF, 0x14, 0x14); // related to controller rumble
-        func_8002F7DC(player, 0x86C); // play rock lifting sound
+        func_8002F7DC(player, 0x86C);          // play rock lifting sound
         LOG_STRING("NA_SE_PL_PULL_UP_BIGROCK", "../z_bg_heavy_block.c", 691);
     }
 
-    //draw dust as rock is being lifted
+    // draw dust as rock is being lifted
     if (this->timer < 40) {
         xOffset = Math_Rand_CenteredFloat(110.0f);
         xScale = Math_Sins(this->dyna.actor.shape.rot.y);
         zOffset = Math_Rand_CenteredFloat(110.0f);
-        func_80883E54(globalCtx, 
-                      (xScale * -70.0f) + (this->dyna.actor.posRot.pos.x + xOffset), 
-                      this->dyna.actor.posRot.pos.y + 10.0f, 
-                      (Math_Coss(this->dyna.actor.shape.rot.y) * -70.0f) + (this->dyna.actor.posRot.pos.z + zOffset), 
+        func_80883E54(globalCtx, (xScale * -70.0f) + (this->dyna.actor.posRot.pos.x + xOffset),
+                      this->dyna.actor.posRot.pos.y + 10.0f,
+                      (Math_Coss(this->dyna.actor.shape.rot.y) * -70.0f) + (this->dyna.actor.posRot.pos.z + zOffset),
                       0.0f, -1.0f, 0.0f, 0xC);
     }
 
@@ -320,7 +310,7 @@ void func_808844D0(BgHeavyBlock *this, GlobalContext *globalCtx) {
     }
 }
 
-//BgHeavyBlock_Fly
+// BgHeavyBlock_Fly
 void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx) {
     UNK_PTR raycast_arg2;
     s32 quakeIndex;
@@ -331,9 +321,9 @@ void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx) {
     pos.x = this->dyna.actor.initPosRot.pos.x;
     pos.y = this->dyna.actor.initPosRot.pos.y + 1000.0f;
     pos.z = this->dyna.actor.initPosRot.pos.z;
-    raycastResult = func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &raycast_arg2, 
-                                  &this->dyna.actor, &pos);
-    this->dyna.actor.unk_80 = raycastResult;
+    raycastResult =
+        func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &raycast_arg2, &this->dyna.actor, &pos);
+    this->dyna.actor.groundY = raycastResult;
     if (this->dyna.actor.initPosRot.pos.y <= raycastResult) {
         func_800AA000(0.0f, 0xFF, 0x3C, 4); // related to controller rumble
         switch (this->dyna.actor.params & 0xFF) {
@@ -352,7 +342,7 @@ void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx) {
                 Quake_SetQuakeValues(quakeIndex, 5, 0, 0, 0);
                 Quake_SetCountdown(quakeIndex, 999);
 
-                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, 0x28E1); //breaking sound?
+                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, 0x28E1); // breaking sound?
                 return;
             case 4:
                 Audio_PlayActorSound2(&this->dyna.actor, 0x281D);
@@ -387,15 +377,14 @@ void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.x = atan2s(this->dyna.actor.velocity.y, this->dyna.actor.speedXZ);
 }
 
-//BgHeavyBlock_DoNothing
+// BgHeavyBlock_DoNothing
 void func_8088496C(BgHeavyBlock* this, GlobalContext* globalCtx) {
-
 }
 
-//BgHeavyBlock_Land
-void func_80884978(BgHeavyBlock *this, GlobalContext *globalCtx) {
+// BgHeavyBlock_Land
+void func_80884978(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 pad;
-    
+
     if (Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, 0x8AD0, 6, 2000, 100) != 0) {
         Math_ApproxF(&this->dyna.actor.speedXZ, 0.0f, 20.0f);
         Math_ApproxF(&this->dyna.actor.velocity.y, 0.0f, 3.0f);
@@ -405,15 +394,14 @@ void func_80884978(BgHeavyBlock *this, GlobalContext *globalCtx) {
         this->dyna.actor.initPosRot.pos = this->dyna.actor.posRot.pos;
         switch (this->dyna.actor.params & 0xFF) {
             case 4:
-                func_80883E54(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1678.0f, 
-                              Math_Rand_ZeroFloat(100.0f) + 1286.0f, Math_Rand_CenteredFloat(30.0f) + 552.0f, 
-                              0.0f, 0.0f, 0.0f, 0);
-                func_80883E54(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1729.0f, 
-                              Math_Rand_ZeroFloat(80.0f) + 1269.0f, Math_Rand_CenteredFloat(30.0f) + 600.0f, 
-                              0.0f, 0.0f, 0.0f, 0);
+                func_80883E54(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1678.0f,
+                              Math_Rand_ZeroFloat(100.0f) + 1286.0f, Math_Rand_CenteredFloat(30.0f) + 552.0f, 0.0f,
+                              0.0f, 0.0f, 0);
+                func_80883E54(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1729.0f, Math_Rand_ZeroFloat(80.0f) + 1269.0f,
+                              Math_Rand_CenteredFloat(30.0f) + 600.0f, 0.0f, 0.0f, 0.0f, 0);
                 break;
             case 0:
-                func_80883E54(globalCtx, Math_Rand_CenteredFloat(100.0f) + -735.0f, 29.0f, 
+                func_80883E54(globalCtx, Math_Rand_CenteredFloat(100.0f) + -735.0f, 29.0f,
                               Math_Rand_CenteredFloat(100.0f) + -3418.0f, 0.0f, 0.0f, 0.0f, 3);
                 break;
         }
@@ -429,8 +417,8 @@ void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Vec3f D_80884ED4 = {0.0f, 0.0f, 0.0f};
-    static Vec3f D_80884EC8 = {0.0f, 0.0f, 0.0f};
+    static Vec3f D_80884ED4 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_80884EC8 = { 0.0f, 0.0f, 0.0f };
     BgHeavyBlock* this;
     s32 pad;
     Player* player;
@@ -451,14 +439,14 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&D_80884EC8, &thisx->posRot);
     Matrix_MultVec3f(&D_80884ED4, &thisx->initPosRot);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931), 
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_060013C0);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);    
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);
 }
 
-//BgHeavyBlock_DrawPieces
-void func_80884DB4(Actor* thisx, GlobalContext *globalCtx) {
+// BgHeavyBlock_DrawPieces
+void func_80884DB4(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params & 0xFF) {
         case 2:
             Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);

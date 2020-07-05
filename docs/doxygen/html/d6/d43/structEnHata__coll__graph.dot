@@ -1,0 +1,52 @@
+digraph "EnHata"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="EnHata",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" dyna" ,fontname="Helvetica"];
+  Node2 [label="DynaPolyActor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/dc7/structDynaPolyActor.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" actor" ,fontname="Helvetica"];
+  Node3 [label="Actor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da2/structActor.html",tooltip=" "];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" draw\nprev\nnext\nattachedA\nattachedB\nupdate\ndestroy\ninit" ,fontname="Helvetica"];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" posRot\ninitPosRot\nposRot2" ,fontname="Helvetica"];
+  Node4 [label="PosRot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/dba/structPosRot.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rot" ,fontname="Helvetica"];
+  Node5 [label="Vec3s",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d79/structVec3s.html",tooltip=" "];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pos" ,fontname="Helvetica"];
+  Node6 [label="Vec3f",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/dc7/structVec3f.html",tooltip=" "];
+  Node7 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" overlayEntry" ,fontname="Helvetica"];
+  Node7 [label="ActorOverlay",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d76/structActorOverlay.html",tooltip=" "];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" initInfo" ,fontname="Helvetica"];
+  Node8 [label="ActorInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/dc9/structActorInit.html",tooltip=" "];
+  Node3 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" draw\nupdate\ndestroy\ninit" ,fontname="Helvetica"];
+  Node9 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" shape" ,fontname="Helvetica"];
+  Node9 [label="ActorShape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d09/structActorShape.html",tooltip=" "];
+  Node5 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rot" ,fontname="Helvetica"];
+  Node10 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" colChkInfo" ,fontname="Helvetica"];
+  Node10 [label="CollisionCheckInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d20/structCollisionCheckInfo.html",tooltip=" "];
+  Node11 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" damageTable" ,fontname="Helvetica"];
+  Node11 [label="DamageTable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/da9/structDamageTable.html",tooltip=" "];
+  Node6 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" displacement" ,fontname="Helvetica"];
+  Node12 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" floorPoly\nwallPoly" ,fontname="Helvetica"];
+  Node12 [label="CollisionPoly",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/de9/structCollisionPoly.html",tooltip=" "];
+  Node5 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" norm" ,fontname="Helvetica"];
+  Node6 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pos4\nscale\nvelocity\nunk_E4\nunk_CC" ,fontname="Helvetica"];
+  Node13 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" skelAnime" ,fontname="Helvetica"];
+  Node13 [label="SkelAnime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d4e/structSkelAnime.html",tooltip=" "];
+  Node14 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" genericSeg" ,fontname="Helvetica"];
+  Node14 [label="GenericAnimationHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/da2/structGenericAnimationHeader.html",tooltip=" "];
+  Node15 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" linkAnimetionSeg" ,fontname="Helvetica"];
+  Node15 [label="LinkAnimetionEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/db2/structLinkAnimetionEntry.html",tooltip=" "];
+  Node14 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" genericHeader" ,fontname="Helvetica"];
+  Node16 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" animCurrentSeg" ,fontname="Helvetica"];
+  Node16 [label="AnimationHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/dd2/structAnimationHeader.html",tooltip=" "];
+  Node14 -> Node16 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" genericHeader" ,fontname="Helvetica"];
+  Node17 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" skeleton" ,fontname="Helvetica"];
+  Node17 [label="Skeleton",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d1b/structSkeleton.html",tooltip=" "];
+  Node18 -> Node17 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" limbs" ,fontname="Helvetica"];
+  Node18 [label="SkelLimbEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d8c/structSkelLimbEntry.html",tooltip=" "];
+  Node5 -> Node18 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" translation" ,fontname="Helvetica"];
+  Node5 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" limbDrawTbl\nprevFramePos\ntransitionDrawTbl\nunk_3E" ,fontname="Helvetica"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" limbs" ,fontname="Helvetica"];
+}

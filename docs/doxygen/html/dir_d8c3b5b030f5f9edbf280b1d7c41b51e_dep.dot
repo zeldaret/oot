@@ -1,0 +1,11 @@
+digraph "src/overlays/actors/ovl_Bg_Spot01_Fusya" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e93473484be31ce7bcb356bd643a22f8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="actors" fontname="Helvetica", fontsize="10", URL="dir_e93473484be31ce7bcb356bd643a22f8.html"]
+  dir_d8c3b5b030f5f9edbf280b1d7c41b51e [shape=box, label="ovl_Bg_Spot01_Fusya", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_d8c3b5b030f5f9edbf280b1d7c41b51e.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_d8c3b5b030f5f9edbf280b1d7c41b51e->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000102_000000.html"];
+}

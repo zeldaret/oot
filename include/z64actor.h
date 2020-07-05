@@ -137,11 +137,11 @@ typedef struct Actor {
     /* 0x098 */ CollisionCheckInfo colChkInfo;
     /* 0x0B4 */ ActorShape shape;
     /* 0x0CC */ Vec3f   unk_CC[2];
-    /* 0x0E4 */ Vec3f   unk_E4; // Stores result of some vector transformation involving actor xyz vector and mf_11D60
-    /* 0x0F0 */ f32     unk_F0; // Related to above
-    /* 0x0F4 */ f32     unk_F4;
-    /* 0x0F8 */ f32     unk_F8;
-    /* 0x0FC */ f32     unk_FC;
+    /* 0x0E4 */ Vec3f   projectedPos; // actor position in projected space
+    /* 0x0F0 */ f32     projectedW; // w component of the projected actor position vector
+    /* 0x0F4 */ f32     uncullZoneForward; // amount to increase the uncull zone forward by (in projected space)
+    /* 0x0F8 */ f32     uncullZoneScale; // amount to increase the uncull zone scale by (in projected space)
+    /* 0x0FC */ f32     uncullZoneDownward; // amount to increase uncull zone downward by (in projected space)
     /* 0x100 */ Vec3f   pos4;
     /* 0x10C */ u8      unk_10C; // Z-Target related
     /* 0x10D */ u8      unk_10D; // Z-Target related
@@ -149,7 +149,7 @@ typedef struct Actor {
     /* 0x110 */ u16     freeze;
     /* 0x112 */ u16     dmgEffectParams; // Specifies damage effect color (white/red/blue) and if opaque or translucent
     /* 0x114 */ u8      dmgEffectTimer;
-    /* 0x115 */ u8      activelyDrawn; // Indicates whether the actor is currently being drawn (but not through lens)
+    /* 0x115 */ u8      isDrawn; // Indicates whether the actor is currently being drawn (but not seen through lens)
     /* 0x116 */ u8      unk_116;
     /* 0x117 */ u8      naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
     /* 0x118 */ struct Actor* attachedA; // Attached By?
@@ -241,8 +241,10 @@ typedef struct Player {
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char       unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ Vec3f      unk_3B0; // related to links hands        
-    /* 0x03BC */ char       unk_3BC[0x078];
+    /* 0x03B0 */ Vec3f      unk_3B0; // related to links hands
+    /* 0x03BC */ char       unk_3BC[0xC];
+    /* 0x03C8 */ Vec3f      unk_3C8;
+    /* 0x03D4 */ char       unk_3D4[0x060];
     /* 0x0434 */ u8         getItemId;
     /* 0x0435 */ char       unk_435[0x001];
     /* 0x0436 */ u16        getItemDirection;

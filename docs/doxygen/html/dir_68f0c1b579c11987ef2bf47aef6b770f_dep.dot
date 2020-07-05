@@ -1,0 +1,11 @@
+digraph "src/overlays/effects/ovl_Effect_Ss_Stone1" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_d7d63ed29fdd4206bb68b2cd46ee04ef {
+    graph [ bgcolor="#ddddee", pencolor="black", label="effects" fontname="Helvetica", fontsize="10", URL="dir_d7d63ed29fdd4206bb68b2cd46ee04ef.html"]
+  dir_68f0c1b579c11987ef2bf47aef6b770f [shape=box, label="ovl_Effect_Ss_Stone1", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_68f0c1b579c11987ef2bf47aef6b770f.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_68f0c1b579c11987ef2bf47aef6b770f->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000476_000000.html"];
+}
