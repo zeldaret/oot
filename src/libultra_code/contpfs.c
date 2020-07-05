@@ -2,8 +2,8 @@
 #include <global.h>
 
 extern __OSInode __osPfsInodeCache; // bss
-s32 	  __osPfsInodeCacheChannel = -1;
-u8		  __osPfsInodeCacheBank = 250;
+s32 __osPfsInodeCacheChannel = -1;
+u8 __osPfsInodeCacheBank = 250;
 
 u16 __osSumcalc(u8* ptr, s32 length) {
     s32 i;
@@ -24,7 +24,7 @@ s32 __osIdCheckSum(u16* ptr, u16* checkSum, u16* idSum) {
 
     *checkSum = *idSum = 0;
     for (i = 0; i < ((sizeof(__OSPackId) - sizeof(u32)) / sizeof(u8)); i += 2) {
-        data = *((u16*)((u32)ptr + i)); // Cast to u32 required to match
+        data = *((u16*)((u32)ptr + i));
         *checkSum += data;
         *idSum += ~data;
     }
@@ -114,7 +114,7 @@ s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid) {
         return ret;
     }
     for (i = 0; i < BLOCKSIZE; i++) {
-        if (temp[i] != *(u8*)((s32)newid + i)) { // Cast to s32 required to match here
+        if (temp[i] != *(u8*)((s32)newid + i)) {
             return PFS_ERR_DEVICE;
         }
     }
@@ -162,7 +162,6 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp) {
 }
 
 #ifdef NON_MATCHING
-// functionally equivalent, just regalloc with temps and v1/v0
 s32 __osGetId(OSPfs* pfs) {
 
     u16 sum, isum;
@@ -281,10 +280,8 @@ s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank) {
     for (j = 0; j < PFS_ONE_PAGE; j++) {
         addr = (u8*)(((u8*)inode) + (j * BLOCKSIZE));
         if (flag == PFS_WRITE) {
-            ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->inode_table + (bank * PFS_ONE_PAGE) + j, addr,
-                                   0);
-            ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->minode_table + (bank * PFS_ONE_PAGE) + j, addr,
-                                   0); // why is this called twice??
+            ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->inode_table + (bank * PFS_ONE_PAGE) + j, addr, 0);
+            ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->minode_table + (bank * PFS_ONE_PAGE) + j, addr, 0);
         } else {
             ret = __osContRamRead(pfs->queue, pfs->channel, pfs->inode_table + (bank * PFS_ONE_PAGE) + j, addr);
         }
@@ -298,8 +295,7 @@ s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank) {
         if (sum != inode->inodePage[0].inode_t.page) {
             for (j = 0; j < PFS_ONE_PAGE; j++) {
                 addr = (u8*)(((u8*)inode) + (j * BLOCKSIZE));
-                ret =
-                    __osContRamRead(pfs->queue, pfs->channel, pfs->minode_table + (bank * PFS_ONE_PAGE) + j, addr);
+                ret = __osContRamRead(pfs->queue, pfs->channel, pfs->minode_table + (bank * PFS_ONE_PAGE) + j, addr);
             }
             sum = __osSumcalc(inode->inodePage + offset, (PFS_INODE_SIZE_PER_PAGE - offset) * 2);
             if (sum != inode->inodePage[0].inode_t.page) {

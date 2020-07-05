@@ -470,7 +470,6 @@ beginseg
     include "build/src/libultra_code/__osSiRawStartDma.o"
     include "build/src/libultra_code/osSpTaskYield.o"
     include "build/src/libultra_code/pfsreadwritefile.o"
-    include "build/data/contpfs.bss.o"
     include "build/src/libultra_code/__osPfsGetStatus.o"
     include "build/asm/guMtxIdentF.o"
     include "build/src/libultra_code/guLookAt.o"

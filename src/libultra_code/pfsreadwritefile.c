@@ -5,6 +5,8 @@
     (((p).ipage >= (pfs).inodeStartPage) && ((p).inode_t.bank < (pfs).banks) && ((p).inode_t.page >= 0x01) && \
      ((p).inode_t.page < 0x80))
 
+__OSInode __osPfsInodeCache;
+
 s32 __osPfsGetNextPage(OSPfs* pfs, u8* bank, __OSInode* inode, __OSInodeUnit* page) {
     s32 ret;
 
@@ -128,8 +130,7 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
                 return ret;
             }
         }
-        if ((ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + fileNo, &dir, 0)) !=
-            0) {
+        if ((ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + fileNo, &dir, 0)) != 0) {
             return ret;
         }
     }

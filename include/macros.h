@@ -11,7 +11,6 @@
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 
 #define SQ(x) ((x)*(x))
-#define ROUND(x) (s32)(((x) >= 0.0) ? ((x) + 0.5) : ((x) - 0.5))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define	ULTRA_ABS(x) ((x) > 0) ? (x) : -(x)
 #define DECR(x) ((x) == 0 ? 0 : ((x) -= 1))
@@ -86,11 +85,6 @@
         viewport.leftX = 0;                \
         View_SetViewport(view, &viewport); \
     }
-
-#define	CHECK_IPAGE(p) (((p).ipage >= pfs->inodeStartPage) && \
-				 ((p).inode_t.bank < pfs->banks) && \
-				 ((p).inode_t.page >= 0x01) && \
-				 ((p).inode_t.page < 0x80))
 
 #define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 

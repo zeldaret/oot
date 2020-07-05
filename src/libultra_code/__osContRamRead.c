@@ -33,7 +33,7 @@ s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
         } else {
             bufptr += channel;
         }
-        ((__OSContRamHeader*)bufptr)->hi = addr >> 3;                                 // send byte 1
+        ((__OSContRamHeader*)bufptr)->hi = addr >> 3;                                    // send byte 1
         ((__OSContRamHeader*)bufptr)->lo = (s8)(__osContAddressCrc(addr) | (addr << 5)); // send byte 2
         __osSiRawStartDma(OS_WRITE, &pifMempakBuf);
         osRecvMesg(ctrlrqueue, NULL, OS_MESG_BLOCK);

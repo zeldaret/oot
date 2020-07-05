@@ -1,4 +1,5 @@
 #include <ultra64.h>
+
 #include "sintable.c"
 
 s16 sins(u16 x) {
