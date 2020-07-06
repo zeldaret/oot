@@ -123,7 +123,7 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
         Quake_SetCountdown(var, 0xC);
         Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
-        func_8002F974(thisx, 0x2067);
+        func_8002F974(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 

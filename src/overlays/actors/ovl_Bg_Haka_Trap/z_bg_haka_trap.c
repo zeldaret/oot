@@ -202,7 +202,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     if ((D_80880F30 == 0) && (func_8008E988(globalCtx) == 0)) {
         if (!Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x, 0.5f)) {
-            func_8002F974(&this->dyna.actor, 0x2058);
+            func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) {
             D_80881018 |= 1;
         } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2) {
@@ -232,7 +232,7 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    func_8002F974(&this->dyna.actor, 0x205B);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
 
     for (i = 0; i < 2; i++) {
         f32 rand = Math_Rand_ZeroOne();
@@ -355,7 +355,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     }
 
     if (this->dyna.actor.velocity.y >= 0.01f) {
-        func_8002F974(&this->dyna.actor, 0x204D);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
 
     if (this->timer == 0) {
@@ -425,7 +425,7 @@ void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.shape.rot.z += this->dyna.actor.posRot.rot.z;
     if (this->dyna.actor.posRot.rot.z >= 0x1801) {
-        func_8002F974(&this->dyna.actor, 0x2057);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     }
 
     func_808809E4(this, globalCtx, this->dyna.actor.posRot.rot.z);
@@ -436,7 +436,7 @@ void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    func_8002F974(&this->dyna.actor, 0x2057);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
 
     if (this->timer == 0) {
         this->timer = 1;
@@ -512,6 +512,6 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp2C.y = thisx->posRot.pos.y + 110.0f;
 
         func_800A6EF4(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
-        func_80078914(&this->unk_16C, 0x200D);
+        func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

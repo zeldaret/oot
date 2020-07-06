@@ -420,7 +420,7 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, 0, 0.0f);
     func_8002DF54(globalCtx, &this->actor, 1);
-    func_8002F7DC(&player->actor, 0x6836);
+    func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
     func_8010B680(globalCtx, this->actor.textId, 0);
     this->unk_1E2 = 0;
