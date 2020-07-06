@@ -6529,7 +6529,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
         DbgCamera_Update(&D_8015BD80, camera);
-        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
+        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.up);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
@@ -6769,7 +6769,7 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
         if (camera->status == 7) {
             switch (phi_v0) {
                 case 1:
-                    func_80078884(NA_SE_PL_WALK_GROUND);
+                    func_80078884(NA_SE_PL_WALK_GROUND - SFX_FLAG);
                     break;
                 case 2:
                     if (1 == camera->globalCtx->roomCtx.curRoom.unk_03) {

@@ -157,8 +157,8 @@ typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  bgmId;
     /* 0x02 */ char pad[4];
-    /* 0x06 */ u8  nighttimeSFX;
-    /* 0x07 */ u8  musicSeq;
+    /* 0x06 */ u8  nightSeqIndex;
+    /* 0x07 */ u8  seqIndex;
 } SCmdSoundSettings;
 
 typedef struct {

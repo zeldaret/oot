@@ -550,11 +550,7 @@ endseg
 beginseg
     name "ovl_select"
     include "build/src/overlays/gamestates/ovl_select/z_select.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/gamestates/ovl_select/ovl_select_reloc.o"
-#else
-    include "build/data/overlays/gamestates/z_select.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3498,8 +3494,11 @@ endseg
 beginseg
     name "ovl_En_Zl2"
     include "build/src/overlays/actors/ovl_En_Zl2/z_en_zl2.o"
-    include "build/data/overlays/actors/z_en_zl2.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Zl2/ovl_En_Zl2_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_zl2.reloc.o"
+#endif
 endseg
 
 beginseg

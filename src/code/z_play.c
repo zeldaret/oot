@@ -404,8 +404,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     Interface_SetSceneRestrictions(globalCtx);
     func_800758AC(globalCtx);
-    gSaveContext.seqIndex = globalCtx->soundCtx.musicSeq;
-    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nighttimeSFX;
+    gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
+    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
     func_8002DF18(globalCtx, PLAYER);
     func_800A390C(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
@@ -714,7 +714,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 13:
-                    Audio_PlaySoundGeneral(0x20C0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 < 0x6E) {
                             gTrnsnUnkState = 0;
@@ -747,7 +747,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 15:
-                    Audio_PlaySoundGeneral(0x20C0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 <= 0) {
                             gTrnsnUnkState = 0;

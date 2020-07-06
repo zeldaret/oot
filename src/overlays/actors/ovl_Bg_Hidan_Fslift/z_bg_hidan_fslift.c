@@ -112,7 +112,7 @@ void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
     } else {
-        func_8002F974(thisx, 0x20b9);
+        func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
     func_80886F24(this);
 }
@@ -125,7 +125,7 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
             func_80886FB4(this);
         } else {
-            func_8002F974(thisx, 0x20b9);
+            func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
         func_80886FB4(this);

@@ -744,7 +744,7 @@ typedef struct {
     /* 0x0000 */ UNK_TYPE unk_00;
     /* 0x0004 */ Vec3f at;
     /* 0x0010 */ Vec3f eye;
-    /* 0x001C */ Vec3f unk_1C;
+    /* 0x001C */ Vec3f up;
     /* 0x0028 */ Vec3f unk_28;
     /* 0x0034 */ UNK_TYPE unk_34;
     /* 0x0038 */ UNK_TYPE unk_38;

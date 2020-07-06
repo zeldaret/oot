@@ -210,7 +210,7 @@ void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx) {
             func_800AA000(0.0f, 0x78, 0x14, 0xA);
             this->unk_16A = 0xB;
         }
-        func_8002F974(&this->dyna.actor, 0x208F);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_RISING - SFX_FLAG);
     }
 }
 
@@ -246,7 +246,7 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
                      this->dyna.actor.velocity.y)) {
         this->dyna.actor.posRot.rot.y = 0;
         this->unk_16A = 0x3C;
-        Audio_PlayActorSound2(&this->dyna.actor, 0x289F);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.attachedB->posRot.pos.y = this->dyna.actor.posRot.pos.y + 140.0f;
         this->actionFunc = func_8086C5BC;
         func_800800F8(globalCtx, 0xC08, -0x63, this->dyna.actor.attachedB, 0);
@@ -257,7 +257,7 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
         player->actor.posRot.rot.y = player->actor.shape.rot.y;
         func_800AA000(0.0f, 0xFF, 0x1E, 0x96);
     } else {
-        func_8002F974(&this->dyna.actor, 0x2090);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
         if (this->unk_16A != 0) {
             this->unk_16A -= 1;
         }
@@ -335,7 +335,7 @@ void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_DoNothing;
     } else {
-        func_8002F974(&this->dyna.actor, 0x208F);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_RISING - SFX_FLAG);
     }
 }
 
@@ -387,12 +387,12 @@ void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
             Flags_UnsetSwitch(globalCtx, this->unk_168);
             this->actionFunc = func_8086C9A8;
         }
-        func_8002F948(this, 0x205E);
+        func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
         if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 75.0f, 0.5f)) {
             this->actionFunc = func_8086CABC;
         }
-        func_8002F948(this, 0x205E);
+        func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
     globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = this->dyna.actor.posRot.pos.y;
 }
@@ -427,7 +427,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->actionFunc = BgBdanObjects_DoNothing;
         func_800C078C(globalCtx, 0, -1);
     } else {
-        func_8002F974(&this->dyna.actor, 0x2090);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
     }
 }
 

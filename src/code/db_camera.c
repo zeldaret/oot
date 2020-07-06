@@ -251,7 +251,7 @@ void DbgCamera_Init(DBCamera *dbCamera, Camera *camera) {
 void DbgCamera_Enable(DBCamera *dbCamera, Camera *camera) {
     dbCamera->at = camera->at;
     dbCamera->eye = camera->eye;
-    dbCamera->unk_1C = camera->unk_68;
+    dbCamera->up = camera->up;
     dbCamera->fov = camera->fov;
     dbCamera->unk_4C = 0;
     dbCamera->unk_80 = 1;

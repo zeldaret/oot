@@ -78,7 +78,7 @@ void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, 0x20b9);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -90,7 +90,7 @@ void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, 0x20b9);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
