@@ -83,7 +83,7 @@ typedef struct {
     /* 0x0000 */ Vec3f initialAt;
     /* 0x000C */ f32 unk_0C;
     /* 0x0010 */ s16 animFrame;
-    /* 0x0012 */ s16 thetaDir;
+    /* 0x0012 */ s16 yawDir;
 } Demo3Anim; // size = 0x14
 
 typedef struct {
@@ -111,13 +111,13 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04; // distance
+    /* 0x0004 */ f32 unk_04;
     /* 0x0008 */ f32 unk_08;
     /* 0x000C */ f32 unk_0C;
     /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ f32 unk_14; // fov
+    /* 0x0014 */ f32 unk_14;
     /* 0x0018 */ f32 unk_18;
-    /* 0x001C */ s16 unk_1C; // theta
+    /* 0x001C */ s16 unk_1C;
     /* 0x001E */ s16 unk_1E;
     /* 0x0020 */ Normal3_Unk20 unk_20;
 } Normal3; // size = 0x4C
@@ -212,7 +212,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ f32 fovScale;
-    /* 0x0004 */ f32 thetaScale;
+    /* 0x0004 */ f32 yawScale;
     /* 0x0008 */ s16 timerInit;
     /* 0x000A */ s16 interfaceFlags;
     /* 0x000C */ KeepOn0Anim anim;
@@ -222,8 +222,8 @@ typedef struct {
     /* 0x0000 */ Vec3f unk_00;
     /* 0x000C */ s32 unk_0C;
     /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ s16 phiTarget;
-    /* 0x0016 */ s16 thetaTarget;
+    /* 0x0014 */ s16 pitchTarget;
+    /* 0x0016 */ s16 yawTarget;
     /* 0x0018 */ s16 updateRot;
     /* 0x001A */ s16 animTimer;
     /* 0x001C */ f32 unk_1C;
@@ -234,8 +234,8 @@ typedef struct {
     /* 0x0000 */ f32 atYOffset;
     /* 0x0004 */ f32 distMin;
     /* 0x0008 */ f32 distMax;
-    /* 0x000C */ f32 thetaUpateRateTarget;
-    /* 0x0010 */ f32 maxThetaUpdate;
+    /* 0x000C */ f32 yawUpateRateTarget;
+    /* 0x0010 */ f32 maxYawUpdate;
     /* 0x0014 */ f32 unk_14; // never used.  
     /* 0x0018 */ f32 atLERPScaleMax;
     /* 0x001C */ s16 interfaceFlags;
@@ -295,8 +295,8 @@ typedef struct {
     /* 0x0000 */ Vec3f unk_00;
     /* 0x000C */ f32 yTarget;
     /* 0x0010 */ s16 unk_10;
-    /* 0x0012 */ s16 thetaTarget;
-    /* 0x0014 */ s16 phiTarget;
+    /* 0x0012 */ s16 yawTarget;
+    /* 0x0014 */ s16 pitchTarget;
     /* 0x0016 */ s16 unk_16;
     /* 0x0018 */ s16 animTimer;
 } Parallel1Anim; // size = 0x1A
@@ -310,8 +310,8 @@ typedef struct {
     /* 0x0014 */ f32 unk_14;
     /* 0x0018 */ f32 unk_18;
     /* 0x001C */ f32 unk_1C;
-    /* 0x0020 */ s16 phiTarget;
-    /* 0x0022 */ s16 thetaTarget;
+    /* 0x0020 */ s16 pitchTarget;
+    /* 0x0022 */ s16 yawTarget;
     /* 0x0024 */ s16 interfaceFlags;
     /* 0x0028 */ Parallel1Anim anim;
 } Parallel1;
@@ -364,8 +364,8 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ f32 unk_00; // unused
-    /* 0x0004 */ s16 thetaTarget;
-    /* 0x0006 */ s16 thetaTargetAdj;
+    /* 0x0004 */ s16 yawTarget;
+    /* 0x0006 */ s16 yawTargetAdj;
     /* 0x0008 */ s16 timer;
 } Unique1Anim; // size = 0xA
 
@@ -376,7 +376,7 @@ typedef struct {
     /* 0x000C */ char unk_0C[4]; // unused
     /* 0x0010 */ f32 fovTarget;
     /* 0x0014 */ f32 atLERPScaleMax;
-    /* 0x0018 */ s16 phiTarget;
+    /* 0x0018 */ s16 pitchTarget;
     /* 0x001A */ s16 interfaceFlags;
     /* 0x001C */ Unique1Anim anim;
 } Unique1; // size = 0x26
@@ -428,11 +428,9 @@ typedef struct {
 } Unique7; // size = 0x10
 
 typedef struct {
-    // This appears to be a VecSph, but theta and phi are swapped
-    // for some reason.
     /* 0x0000 */ f32 r;
-    /* 0x0004 */ s16 theta;
-    /* 0x0006 */ s16 phi;
+    /* 0x0004 */ s16 yaw;
+    /* 0x0006 */ s16 pitch;
     /* 0x0008 */ s16 animTimer;
 } Subj3_Anim; // size = 0xA
 
@@ -476,7 +474,7 @@ typedef struct {
     /* 0x000C */ f32 fovTarget;
     /* 0x0010 */ f32 atMaxLERPScale;
     /* 0x0014 */ s16 timerInit;
-    /* 0x0016 */ s16 phi;
+    /* 0x0016 */ s16 pitch;
     /* 0x0018 */ s16 interfaceFlags;
     /* 0x001A */ s16 unk_1A;
     /* 0x001C */ Special5Anim anim;
@@ -592,7 +590,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ f32 yOffset;
     /* 0x0004 */ f32 rTarget;
-    /* 0x0008 */ s16 phiTarget;
+    /* 0x0008 */ s16 pitchTarget;
     /* 0x000C */ f32 lerpUpdateRate;
     /* 0x0010 */ f32 fovTarget;
     /* 0x0014 */ f32 atLERPTarget;
@@ -687,8 +685,8 @@ typedef struct {
     /* 0x00A8 */ struct Actor* target;
     /* 0x00AC */ PosRot targetPosRot;
     /* 0x00C0 */ f32 rUpdateRateInv;
-    /* 0x00C4 */ f32 phiUpdateRateInv;
-    /* 0x00C8 */ f32 thetaUpdateRateInv;
+    /* 0x00C4 */ f32 pitchUpdateRateInv;
+    /* 0x00C8 */ f32 yawUpdateRateInv;
     /* 0x00CC */ f32 xzOffsetUpdateRate;
     /* 0x00D0 */ f32 yOffsetUpdateRate;
     /* 0x00D4 */ f32 fovUpdateRate;

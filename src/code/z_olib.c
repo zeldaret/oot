@@ -51,19 +51,19 @@ Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
 
 Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     Vec3f v;
-    f32 sinPhi;
-    f32 cosPhi;
-    f32 sinTheta;
-    f32 cosTheta;
+    f32 sinPitch;
+    f32 cosPitch;
+    f32 sinYaw;
+    f32 cosYaw;
 
-    cosPhi = Math_Coss(sph->phi);
-    cosTheta = Math_Coss(sph->theta);
-    sinPhi = Math_Sins(sph->phi);
-    sinTheta = Math_Sins(sph->theta);
+    cosPitch = Math_Coss(sph->pitch);
+    cosYaw = Math_Coss(sph->yaw);
+    sinPitch = Math_Sins(sph->pitch);
+    sinYaw = Math_Sins(sph->yaw);
 
-    v.x = sph->r * sinPhi * sinTheta;
-    v.y = sph->r * cosPhi;
-    v.z = sph->r * sinPhi * cosTheta;
+    v.x = sph->r * sinPitch * sinYaw;
+    v.y = sph->r * cosPitch;
+    v.z = sph->r * sinPitch * cosYaw;
 
     *dest = v;
 
@@ -74,8 +74,8 @@ void OLib_VecSphRot90ToVec3f(Vec3f* dest, VecSph* sph) {
     VecSph src;
 
     src.r = sph->r;
-    src.phi = 0x3FFF - sph->phi;
-    src.theta = sph->theta;
+    src.pitch = 0x3FFF - sph->pitch;
+    src.yaw = sph->yaw;
 
     OLib_VecSphToVec3f(dest, &src);
 }
@@ -90,16 +90,16 @@ VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     dist = sqrtf(distSquared);
 
     if ((dist == 0.0f) && (vec->y == 0.0f)) {
-        sph.phi = 0;
+        sph.pitch = 0;
     } else {
-        sph.phi = Math_atan2f(dist, vec->y) * 57.295776f * 182.04167f + 0.5f;
+        sph.pitch = Math_atan2f(dist, vec->y) * 57.295776f * 182.04167f + 0.5f;
     }
 
     sph.r = sqrtf(SQ(vec->y) + distSquared);
     if ((vec->x == 0.0f) && (vec->z == 0.0f)) {
-        sph.theta = 0;
+        sph.yaw = 0;
     } else {
-        sph.theta = Math_atan2f(vec->x, vec->z) * 57.295776f * 182.04167f + 0.5f;
+        sph.yaw = Math_atan2f(vec->x, vec->z) * 57.295776f * 182.04167f + 0.5f;
     }
 
     *dest = sph;
@@ -111,7 +111,7 @@ VecSph* OLib_Vec3fToVecSphRot90(VecSph* dest, Vec3f* vec) {
     VecSph sph;
 
     OLib_Vec3fToVecSph(&sph, vec);
-    sph.phi = 0x3FFF - sph.phi;
+    sph.pitch = 0x3FFF - sph.pitch;
 
     *dest = sph;
 

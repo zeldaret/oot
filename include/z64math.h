@@ -63,8 +63,8 @@ typedef struct {
 // Defines a point in the spherical coordinate system
 typedef struct {
     f32 r;      // radius
-    s16 phi;    // polar (zenith) angle
-    s16 theta;  // azimuthal angle
+    s16 pitch;  // polar (zenith) angle
+    s16 yaw;    // azimuthal angle
 } VecSph;
 
 #define F32_LERP(v0,v1,t) ((1.0f - t) * v0 + t * v1)
