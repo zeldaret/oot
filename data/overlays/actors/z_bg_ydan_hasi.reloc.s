@@ -9,5 +9,5 @@
 
 .balign 16
 
-#glabel D_808BEC80
-#    .incbin "baserom/ovl_Bg_Ydan_Hasi", 0x780, 0x000000C0
+glabel D_808BEC80
+    .incbin "baserom/ovl_Bg_Ydan_Hasi", 0x780, 0x000000C0
