@@ -4,7 +4,9 @@
 
 #define BLOCKSIZE 32
 
-s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
+s32 __osPfsLastChannel = -1;
+
+s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
     s32 ret;
     s32 i;
     u8* bufptr;
@@ -31,15 +33,15 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
         } else {
             bufptr += channel;
         }
-        ((__OSContRamHeader*)bufptr)->hi = addr >> 3;                                 // send byte 1
-        ((__OSContRamHeader*)bufptr)->lo = (s8)(osMempakAddrCRC(addr) | (addr << 5)); // send byte 2
+        ((__OSContRamHeader*)bufptr)->hi = addr >> 3;                                    // send byte 1
+        ((__OSContRamHeader*)bufptr)->lo = (s8)(__osContAddressCrc(addr) | (addr << 5)); // send byte 2
         __osSiRawStartDma(OS_WRITE, &pifMempakBuf);
         osRecvMesg(ctrlrqueue, NULL, OS_MESG_BLOCK);
         __osSiRawStartDma(OS_READ, &pifMempakBuf);
         osRecvMesg(ctrlrqueue, NULL, OS_MESG_BLOCK);
         ret = (((__OSContRamHeader*)bufptr)->rxsize & 0xC0) >> 4;
         if (!ret) {
-            if (((__OSContRamHeader*)bufptr)->datacrc != osMempakDataCRC(bufptr + 6)) {
+            if (((__OSContRamHeader*)bufptr)->datacrc != __osContDataCrc(bufptr + 6)) {
                 ret = __osPfsGetStatus(ctrlrqueue, channel);
                 if (ret) {
                     break;

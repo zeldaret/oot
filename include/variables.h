@@ -822,7 +822,7 @@ extern s32 gSystemArenaLogSeverity;
 //extern ? D_801344C0;
 extern u32 gOSSiAccessQueueCreated; // = 0;
 extern u32 gOSContInitialized; // = 0
-//extern ? D_80134CF0;
+extern s32 __osPfsInodeCacheChannel;
 extern u8 __osPfsInodeCacheBank;
 extern s32 __osPfsLastChannel;
 //extern ? D_80135130;
@@ -3740,7 +3740,7 @@ extern u8 __osContLastPoll;
 extern u8 __osMaxControllers;
 extern OSMesgQueue __osContMesgQueue;
 extern OSMesg __osContMesgBuff[4];
-//extern ? D_80175860;
+extern __OSInode __osPfsInodeCache;
 extern OSPifRam pifMempakBuf;
 //extern ? D_801759A0;
 //extern ? D_801759A4;
