@@ -461,6 +461,7 @@ extern u32 gUpgradeNegMasks[8];
 extern u8 gEquipShifts[4];
 extern u8 gUpgradeShifts[8];
 extern u16 gUpgradeCapacities[8][4];
+extern u32 D_8012724C[4];
 extern u32 gItemIcons[0x82];
 extern u8 gItemSlots[56];
 extern void (*gSceneCmdHandlers[26])(GlobalContext*, SceneCmd*);

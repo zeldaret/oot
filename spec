@@ -3174,8 +3174,7 @@ endseg
 beginseg
     name "ovl_En_Si"
     include "build/src/overlays/actors/ovl_En_Si/z_en_si.o"
-    include "build/data/overlays/actors/z_en_si.data.o"
-    include "build/data/overlays/actors/z_en_si.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Si/ovl_En_Si_reloc.o"
 endseg
 
 beginseg
