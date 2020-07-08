@@ -64,11 +64,8 @@ s32 sCamDataIdxs[] = {
 
 s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
-Vec3f sSearchBallAccel = { 0.0f, 0.0f, 0.0f };
 
-Vec3f sSearchBallMult = { 0.0f, 0.0f, 20.0f };
 
-Vec3f sMatrixScale = { 0.3f, 0.3f, 0.3f };
 
 extern AnimationHeader D_06005880;
 extern AnimationHeader D_06005C30;
@@ -402,10 +399,6 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad2;
     Camera* activeCam;
-    Vec3f searchBallVel;
-    Vec3f searchBallAccel;
-    Vec3f searchBallMult;
-    Vec3f searchBallPos;
 
     this->activeTimer++;
 
@@ -434,19 +427,23 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
             if ((sCamDataIdxs[path] == activeCam->unk_148) || (sCamDataIdxs[path + 1] == activeCam->unk_148)) {
                 if (!sPlayerIsCaught) {
                     if ((this->actionFunc == EnHeishi1_Walk) || (this->actionFunc == EnHeishi1_Wait)) {
-                        searchBallAccel = sSearchBallAccel;
-                        searchBallMult = sSearchBallMult;
-                        searchBallPos.x = this->actor.posRot.pos.x;
-                        searchBallPos.y = this->actor.posRot.pos.y + 60.0f;
-                        searchBallPos.z = this->actor.posRot.pos.z;
-                        Matrix_Push();
-                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
-                        searchBallMult.z = 30.0f;
-                        Matrix_MultVec3f(&searchBallMult, &searchBallVel);
-                        Matrix_Pull();
-                        EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
-                                                  &this->linkDetected);
+                        {
+                            Vec3f searchBallVel;
+                            Vec3f searchBallAccel = { 0.0f, 0.0f, 0.0f };
+                            Vec3f searchBallMult = { 0.0f, 0.0f, 20.0f };
+                            Vec3f searchBallPos;
 
+                            searchBallPos.x = this->actor.posRot.pos.x;
+                            searchBallPos.y = this->actor.posRot.pos.y + 60.0f;
+                            searchBallPos.z = this->actor.posRot.pos.z;
+                            Matrix_Push();
+                            Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
+                            searchBallMult.z = 30.0f;
+                            Matrix_MultVec3f(&searchBallMult, &searchBallVel);
+                            Matrix_Pull();
+                            EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
+                                                      &this->linkDetected);
+                        }
                         if (this->actor.xzDistFromLink < 60.0f) {
                             this->linkDetected = true;
                         } else if (this->actor.xzDistFromLink < 70.0f) {
@@ -500,7 +497,7 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnHeishi1* this = THIS;
-    Vec3f matrixScale = sMatrixScale;
+    Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi1_OverrideLimbDraw, NULL,
