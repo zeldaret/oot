@@ -939,26 +939,26 @@ void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
 
     temp = (s32)(arg1 * 65536.0f);
     m2[0] = temp & 0xFFFF;
-    m1[0] = (temp >> 16);
+    m1[0] = (temp >> 16) & 0xFFFF;
 
     temp = (s32)(arg1 * 65536.0f);
-    m1[5] = (temp >> 16);
+    m1[5] = (temp >> 16) & 0xFFFF;
     m2[5] = temp & 0xFFFF;
 
     temp = (s32)(arg1 * 65536.0f);
-    m1[10] = (temp >> 16);
+    m1[10] = (temp >> 16) & 0xFFFF;
     m2[10] = temp & 0xFFFF;
 
     temp = (s32)(arg2 * 65536.0f);
-    m1[12] = (temp >> 16);
+    m1[12] = (temp >> 16) & 0xFFFF;
     m2[12] = temp & 0xFFFF;
 
     temp = (s32)(arg3 * 65536.0f);
-    m1[13] = (temp >> 16);
+    m1[13] = (temp >> 16) & 0xFFFF;
     m2[13] = temp & 0xFFFF;
 
     temp = (s32)(arg4 * 65536.0f);
-    m1[14] = (temp >> 16);
+    m1[14] = (temp >> 16) & 0xFFFF;
     m2[14] = temp & 0xFFFF;
 
     m1[1] = 0;
@@ -990,27 +990,27 @@ void func_800D2BD0(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
     u32 temp;
 
     temp = (s32)(arg1 * 65536.0f);
-    m1[0] = (temp >> 16);
+    m1[0] = (temp >> 16) & 0xFFFF;
     m2[0] = temp & 0xFFFF;
 
     temp = (s32)(arg2 * 65536.0f);
-    m1[5] = (temp >> 16);
+    m1[5] = (temp >> 16) & 0xFFFF;
     m2[5] = temp & 0xFFFF;
 
     temp = (s32)(arg3 * 65536.0f);
-    m1[10] = (temp >> 16);
+    m1[10] = (temp >> 16) & 0xFFFF;
     m2[10] = temp & 0xFFFF;
 
     temp = (s32)(arg4 * 65536.0f);
-    m1[12] = (temp >> 16);
+    m1[12] = (temp >> 16) & 0xFFFF;
     m2[12] = temp & 0xFFFF;
 
     temp = (s32)(arg5 * 65536.0f);
-    m1[13] = (temp >> 16);
+    m1[13] = (temp >> 16) & 0xFFFF;
     m2[13] = temp & 0xFFFF;
 
     temp = (s32)(arg6 * 65536.0f);
-    m1[14] = (temp >> 16);
+    m1[14] = (temp >> 16) & 0xFFFF;
     m2[14] = temp & 0xFFFF;
 
     m1[1] = 0;
@@ -1067,15 +1067,15 @@ void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
     mtx->m[3][1] = temp << 16;
 
     temp = (s32)(arg4 * 65536.0f);
-    m1[12] = (temp >> 16);
+    m1[12] = (temp >> 16) & 0xFFFF;
     m2[12] = temp & 0xFFFF;
 
     temp = (s32)(arg5 * 65536.0f);
-    m1[13] = (temp >> 16);
+    m1[13] = (temp >> 16) & 0xFFFF;
     m2[13] = temp & 0xFFFF;
 
     temp = (s32)(arg6 * 65536.0f);
-    m1[14] = (temp >> 16);
+    m1[14] = (temp >> 16) & 0xFFFF;
     mtx->m[3][3] = temp << 16;
 
     m1[15] = 1;
