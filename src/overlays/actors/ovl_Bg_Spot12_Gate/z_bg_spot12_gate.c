@@ -38,9 +38,9 @@ const ActorInit Bg_Spot12_Gate_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 2500, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1200, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 2500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
 extern Gfx D_06001080[];
@@ -123,7 +123,7 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
         Quake_SetCountdown(var, 0xC);
         Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
-        func_8002F974(thisx, 0x2067);
+        func_8002F974(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 

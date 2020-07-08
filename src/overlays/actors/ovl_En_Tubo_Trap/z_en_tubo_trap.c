@@ -210,7 +210,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
         if (this->collider.base.at == &player->actor) {
             EnTuboTrap_SpawnFragments(this, globalCtx);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
-            Audio_PlaySoundAtPosition(globalCtx, &player->actor.posRot.pos, 40, 0x83E);
+            Audio_PlaySoundAtPosition(globalCtx, &player->actor.posRot.pos, 40, NA_SE_PL_BODY_HIT);
             EnTuboTrap_DropCollectible(this, globalCtx);
             Actor_Kill(&this->actor);
             return;
@@ -271,7 +271,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
     f32 dy = this->originPos.y - this->actor.posRot.pos.y;
     f32 dz = this->originPos.z - this->actor.posRot.pos.z;
 
-    Audio_PlayActorSound2(&this->actor, 0x3037);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
 
     if (240.0f < sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) {
         Math_SmoothScaleMaxF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);

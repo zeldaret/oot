@@ -842,9 +842,9 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->minVelocityY = -20.0f;
     actor->xyzDistFromLinkSq = FLT_MAX;
     actor->naviEnemyId = 0xFF;
-    actor->unk_F4 = 1000.0f;
-    actor->unk_F8 = 350.0f;
-    actor->unk_FC = 700.0f;
+    actor->uncullZoneForward = 1000.0f;
+    actor->uncullZoneScale = 350.0f;
+    actor->uncullZoneDownward = 700.0f;
     func_80061E48(&actor->colChkInfo);
     actor->floorPolySource = 0x32;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
@@ -1430,34 +1430,30 @@ PosRot* func_8002EF44(PosRot* arg0, Actor* actor) {
     return arg0;
 }
 
-#ifdef NON_MATCHING
-// single regalloc difference
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
-    s16 var;
-    s16 abs_var;
+    s16 yawTemp;
+    s16 yawTempAbs;
+    f32 ret;
 
-    var = (s16)(actor->yawTowardsLink - 0x8000) - arg2;
-    abs_var = ABS(var);
+    yawTemp = (s16)(actor->yawTowardsLink - 0x8000) - arg2;
+    yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
-        if ((abs_var > 0x4000) || (actor->flags & 0x8000000)) {
+        if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            return actor->xyzDistFromLinkSq -
-                   actor->xyzDistFromLinkSq * 0.8f * ((0x4000 - abs_var) * 3.0517578125e-05f);
+            ret = actor->xyzDistFromLinkSq -
+                  actor->xyzDistFromLinkSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
+            return ret;
         }
     }
 
-    if (abs_var > 0x2AAA) {
+    if (yawTempAbs > 0x2AAA) {
         return FLT_MAX;
     }
 
     return actor->xyzDistFromLinkSq;
 }
-#else
-extern f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002EFC0.s")
-#endif
 
 typedef struct {
     f32 unk_0, unk_4;
@@ -1685,11 +1681,11 @@ void func_8002F7A0(GlobalContext* globalCtx, u32 arg1, f32 arg2, s16 arg3, f32 a
 }
 
 void func_8002F7DC(Actor* actor, u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, &actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, &actor->projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
 void Audio_PlayActorSound2(Actor* actor, u16 sfxId) {
-    func_80078914(&actor->unk_E4, sfxId);
+    func_80078914(&actor->projectedPos, sfxId);
 }
 
 void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
@@ -1697,16 +1693,16 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
 
     if (actor->bgCheckFlags & 0x20) {
         if (actor->waterY < 20.0f) {
-            sfxId = NA_SE_PL_WALK_WATER0;
+            sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
         } else {
-            sfxId = NA_SE_PL_WALK_WATER1;
+            sfxId = NA_SE_PL_WALK_WATER1 - SFX_FLAG;
         }
     } else {
         sfxId = func_80041F34(&globalCtx->colCtx, actor->floorPoly, actor->floorPolySource);
     }
 
-    func_80078914(&actor->unk_E4, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->unk_E4, sfxId + 0x800);
+    func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
+    func_80078914(&actor->projectedPos, sfxId + SFX_FLAG);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -1732,15 +1728,15 @@ void func_8002F974(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
 }
 
-void func_8002F994(Actor* actor, s32 sfxId) {
+void func_8002F994(Actor* actor, s32 arg1) {
     actor->flags |= 0x10000000;
     actor->flags &= ~0x00380000;
-    if (sfxId < NA_SE_PL_LAND_GRASS) {
-        actor->sfx = NA_SE_PL_WALK_DIRT;
-    } else if (sfxId < NA_SE_PL_DIVE_BUBBLE) {
-        actor->sfx = NA_SE_PL_WALK_CONCRETE;
+    if (arg1 < 40) {
+        actor->sfx = NA_SE_PL_WALK_DIRT - SFX_FLAG;
+    } else if (arg1 < 100) {
+        actor->sfx = NA_SE_PL_WALK_CONCRETE - SFX_FLAG;
     } else {
-        actor->sfx = NA_SE_PL_WALK_SAND;
+        actor->sfx = NA_SE_PL_WALK_SAND - SFX_FLAG;
     }
 }
 
@@ -2095,7 +2091,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 func_80061E8C(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
-                if (!actor->activelyDrawn) {
+                if (!actor->isDrawn) {
                     actor = Actor_Delete(&globalCtx->actorCtx, actor, globalCtx);
                 } else {
                     Actor_Destroy(actor, globalCtx);
@@ -2257,15 +2253,15 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
 void func_80030ED8(Actor* actor) {
     if (actor->flags & 0x80000) {
-        Audio_PlaySoundGeneral(actor->sfx, &actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(actor->sfx, &actor->projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (actor->flags & 0x100000) {
         func_80078884(actor->sfx);
     } else if (actor->flags & 0x200000) {
         func_800788CC(actor->sfx);
     } else if (actor->flags & 0x10000000) {
-        func_800F4C58(&D_801333D4, 0x2021, (s8)(actor->sfx - 1));
+        func_800F4C58(&D_801333D4, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
-        func_80078914(&actor->unk_E4, actor->sfx);
+        func_80078914(&actor->projectedPos, actor->sfx);
     }
 }
 
@@ -2361,17 +2357,18 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
 }
 
 s32 func_800314B0(GlobalContext* globalCtx, Actor* actor) {
-    return func_800314D4(globalCtx, actor, &actor->unk_E4, actor->unk_F0);
+    return func_800314D4(globalCtx, actor, &actor->projectedPos, actor->projectedW);
 }
 
 s32 func_800314D4(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3) {
     f32 var;
 
-    if ((arg2->z > -actor->unk_F8) && (arg2->z < (actor->unk_F4 + actor->unk_F8))) {
+    if ((arg2->z > -actor->uncullZoneScale) && (arg2->z < (actor->uncullZoneForward + actor->uncullZoneScale))) {
         var = (arg3 < 1.0f) ? 1.0f : 1.0f / arg3;
 
-        if ((((fabsf(arg2->x) - actor->unk_F8) * var) < 1.0f) && (((arg2->y + actor->unk_FC) * var) > -1.0f) &&
-            (((arg2->y - actor->unk_F8) * var) < 1.0f)) {
+        if ((((fabsf(arg2->x) - actor->uncullZoneScale) * var) < 1.0f) &&
+            (((arg2->y + actor->uncullZoneDownward) * var) > -1.0f) &&
+            (((arg2->y - actor->uncullZoneScale) * var) < 1.0f)) {
             return 1;
         }
     }
@@ -2409,7 +2406,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             HREG(66) = i;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                func_800A6E10(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->unk_E4, &actor->unk_F0);
+                func_800A6E10(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->projectedPos, &actor->projectedW);
             }
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
@@ -2426,7 +2423,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 }
             }
 
-            actor->activelyDrawn = 0;
+            actor->isDrawn = 0;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & 0x60)) {
@@ -2441,7 +2438,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     } else {
                         if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(72) == 0)) {
                             Actor_Draw(globalCtx, actor);
-                            actor->activelyDrawn = 1;
+                            actor->isDrawn = 1;
                         }
                     }
                 }
@@ -2524,7 +2521,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
         while (actor != NULL) {
             if ((actor->room >= 0) && (actor->room != globalCtx->roomCtx.curRoom.num) &&
                 (actor->room != globalCtx->roomCtx.prevRoom.num)) {
-                if (!actor->activelyDrawn) {
+                if (!actor->isDrawn) {
                     actor = Actor_Delete(actorCtx, actor, globalCtx);
                 } else {
                     Actor_Kill(actor);
@@ -2903,7 +2900,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
         actorCtx->targetCtx.unk_90 = NULL;
     }
 
-    func_800F89E8(&actor->unk_E4);
+    func_800F89E8(&actor->projectedPos);
     Actor_Destroy(actor, globalCtx);
 
     newFirstActor = Actor_RemoveFromTypeList(globalCtx, actorCtx, actor);
@@ -3824,26 +3821,20 @@ Gfx* func_80034B28(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-#ifdef NON_MATCHING
-// doesn't generate the 2 useless move instructions before returning
 Gfx* func_80034B54(GraphicsContext* gfxCtx) {
-    Gfx* displayList;
     Gfx* displayListHead;
+    Gfx* displayList;
 
-    displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    displayListHead = displayList;
+    displayList = displayListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A,
                      AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
                          GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
 
-    gSPEndDisplayList(displayListHead);
+    gSPEndDisplayList(displayListHead++);
 
     return displayList;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_80034B54.s")
-#endif
 
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha) {

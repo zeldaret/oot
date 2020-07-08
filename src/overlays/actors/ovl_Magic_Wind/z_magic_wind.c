@@ -147,7 +147,7 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
             // "Indicates start" = %s
             // Means start
             LOG_STRING("表示開始", "../z_magic_wind.c", 486);
-            func_8002F7DC(player, 0x087B);
+            func_8002F7DC(player, NA_SE_PL_MAGIC_WIND_WARP);
             break;
     }
 }
@@ -177,7 +177,7 @@ void MagicWind_WaitForTimer(MagicWind* this, GlobalContext* globalCtx) {
 
     // Means start
     LOG_STRING("表示開始", "../z_magic_wind.c", 539);
-    func_8002F7DC(&player->actor, 0x87A);
+    func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_WIND_NORMAL);
     MagicWind_UpdateAlpha(1.0f);
     MagicWind_SetupAction(this, MagicWind_Grow);
     SkelCurve_Update(globalCtx, &this->skelCurve);
