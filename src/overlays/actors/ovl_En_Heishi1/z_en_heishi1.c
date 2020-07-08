@@ -503,7 +503,7 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 100.0f, this->actor.posRot.pos.z,
-                               0x4268, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
+                               17000, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
                                255, 4, globalCtx->state.gfxCtx);
     }
 }
