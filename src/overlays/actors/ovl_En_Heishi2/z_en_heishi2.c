@@ -725,7 +725,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 
             if (this->unk_300 == 4) {
                 this->unk_309 = 1;
-                func_80078884(0x4807);
+                func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->actionFunc = func_80A540C0;
             }
             return;

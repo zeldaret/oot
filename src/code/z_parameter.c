@@ -2422,7 +2422,8 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             gSaveContext.magic += 4;
 
             if (gSaveContext.gameMode == 0 && gSaveContext.sceneSetupIndex < 4) {
-                Audio_PlaySoundGeneral(0x401F, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                       &D_801333E8);
             }
 
             // Translates to: "Storage MAGIC_NOW=%d (%d)"
@@ -2550,7 +2551,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             break;
         case 10:
             gSaveContext.magic += 4;
-            Audio_PlaySoundGeneral(0x401F, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             if (gSaveContext.magic >= gSaveContext.unk_13F8) {
                 gSaveContext.magic = gSaveContext.unk_13F8;
                 gSaveContext.unk_13F0 = gSaveContext.unk_13F2;

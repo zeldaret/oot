@@ -317,7 +317,7 @@ void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (this->dyna.actor.speedXZ != 0.0f) {
-        Audio_PlayActorSound2(&this->dyna.actor, 0x200A);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 
     this->dyna.unk_154 = 0.0f;

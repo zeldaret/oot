@@ -925,7 +925,7 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
             }
         }
     }
-    func_8002F974(&this->actor, 0x3133);
+    func_8002F974(&this->actor, NA_SE_EN_FLOORMASTER_RESTORE - SFX_FLAG);
 }
 
 void EnFloormas_SmWait(EnFloormas* this, GlobalContext* globalCtx) {

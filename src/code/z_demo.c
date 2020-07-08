@@ -358,7 +358,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 globalCtx->envCtx.unk_E6 = 1;
             }
-            func_800788CC(0x20C0);
+            func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
         case 33:
             gSaveContext.unk_1422 = 1;

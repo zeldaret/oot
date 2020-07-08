@@ -111,9 +111,9 @@ void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx) {
         this->dyna.actor.initPosRot.pos.z - (Math_Coss(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
     if (fabsf(temp_ret) < 0.0001f) {
         func_808B3714(this);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x280E);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, 0x2067);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 
