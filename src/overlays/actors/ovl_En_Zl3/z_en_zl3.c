@@ -182,7 +182,7 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B53468(void) {
-    Audio_SetBGM(NA_SE_PL_DUMMY_98);
+    Audio_SetBGM(NA_SE_PL_DUMMY_98 - SFX_FLAG);
 }
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {
@@ -497,7 +497,7 @@ void func_80B54EA4(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B54EF4(EnZl3* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_PAIN);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
@@ -741,7 +741,7 @@ void func_80B55780(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B55808(EnZl3* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_PAIN);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B5582C(EnZl3* this) {
@@ -752,7 +752,7 @@ void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if ((skelAnime->mode == 2) && func_800A56C8(skelAnime, 4.0f)) {
-        func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_PAIN);
+        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
 
@@ -1271,13 +1271,13 @@ void func_80B56DA4(EnZl3* this) {
 }
 
 void func_80B56DC8(EnZl3* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_PAIN);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
     if ((skelAnime->mode == 2) && func_800A56C8(skelAnime, 9.0f) != 0) {
-        func_80078914(&this->actor.unk_E4, NA_SE_VO_Z1_OPENDOOR);
+        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
 
@@ -1289,7 +1289,7 @@ void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
     if ((func_800A56C8(sp20, 6.0f) || func_800A56C8(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
         sfxId = 0x800;
         sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
-        func_80078914(&this->actor.unk_E4, sfxId);
+        func_80078914(&this->actor.projectedPos, sfxId);
     }
 }
 
