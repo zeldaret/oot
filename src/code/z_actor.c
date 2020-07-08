@@ -2406,7 +2406,8 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             HREG(66) = i;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->projectedPos, &actor->projectedW);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->projectedPos,
+                                             &actor->projectedW);
             }
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {

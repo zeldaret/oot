@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-// multiplies the 4-element vector (src, 1) by the matrix mf and returns the x,y,z,w components of the resulting vector 
+// multiplies the 4-element vector (src, 1) by the matrix mf and returns the x,y,z,w components of the resulting vector
 void Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
     xyzDest->x = mf->wx + ((src->x * mf->xx) + (src->y * mf->yx) + (src->z * mf->zx));
     xyzDest->y = mf->wy + ((src->x * mf->xy) + (src->y * mf->yy) + (src->z * mf->zy));
@@ -9,7 +9,7 @@ void Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
     *wDest = mf->ww + ((src->x * mf->xw) + (src->y * mf->yw) + (src->z * mf->zw));
 }
 
-// multiplies the 4-element vector (src, 1) by the matrix mf and returns the x,y,z components of the resulting vector 
+// multiplies the 4-element vector (src, 1) by the matrix mf and returns the x,y,z components of the resulting vector
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
     f32 mx;
     f32 my;
@@ -40,7 +40,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     f32 ry;
     f32 rz;
     f32 rw;
-    
+
     f32 cx;
     f32 cy;
     f32 cz;
@@ -75,7 +75,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     rz = mfA->wz;
     rw = mfA->ww;
     dest->wx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
-    
+
     //---COL2---
     cx = mfB->xy;
     cy = mfB->yy;
@@ -152,7 +152,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yw =  (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->yw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 
     rx = mfA->zx;
     ry = mfA->zy;
@@ -167,10 +167,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     dest->ww = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
 }
 
-MtxF D_8012A4A0 = {1.0f, 0.0f, 0.0f, 0.0f,
-                   0.0f, 1.0f, 0.0f, 0.0f,
-                   0.0f, 0.0f, 1.0f, 0.0f,
-                   0.0f, 0.0f, 0.0f, 1.0f};
+MtxF D_8012A4A0 = { 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
 
 void SkinMatrix_GlobalIdentity(MtxF** mf) {
     *mf = &D_8012A4A0;
@@ -227,30 +224,24 @@ int func_800A73E0(MtxF* src, MtxF* dest) {
     s32 this_row;
     s32 this_col;
     u32 pad;
-    
-    SkinMatrix_Copy(src,&mf_copy); // copy input matrix (mf) to mf_copy 
-    SkinMatrix_SetToIdentity(dest);// turn input matrix (mf) into identity
-    for (this_row = 0; this_row != 4; this_row++)
-    {
-        for (this_col = this_row; (this_col < 4) && (fabsf(mf_copy.mf[this_row][this_col]) < 0.0005f); this_col++){     
-              
-        }
+
+    SkinMatrix_Copy(src, &mf_copy); // copy input matrix (mf) to mf_copy
+    SkinMatrix_SetToIdentity(dest); // turn input matrix (mf) into identity
+    for (this_row = 0; this_row != 4; this_row++) {
+        for (this_col = this_row; (this_col < 4) && (fabsf(mf_copy.mf[this_row][this_col]) < 0.0005f); this_col++) {}
         this_col = this_col;
-        if (this_col == 4) { 
+        if (this_col == 4) {
             // reaching col = 4 means the row is either all 0 or a duplicate row.
             // therefore singular matrix (0 determinant).
-            
+
             osSyncPrintf("\x1b[43;30m");
             osSyncPrintf("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
             osSyncPrintf("\x1b[m");
             return 2;
         }
-        
-        
 
         if (this_col != this_row) { // responsible for swapping columns if zero diagonal
-            for (i = 0; i != 4; i++)
-            {
+            for (i = 0; i != 4; i++) {
                 temp1 = mf_copy.mf[i][this_col];
                 mf_copy.mf[i][this_col] = mf_copy.mf[i][this_row];
                 mf_copy.mf[i][this_row] = temp1;
@@ -258,37 +249,34 @@ int func_800A73E0(MtxF* src, MtxF* dest) {
                 temp1 = dest->mf[i][this_col];
                 dest->mf[i][this_col] = dest->mf[i][this_row];
                 dest->mf[i][this_row] = temp1;
-            } 
+            }
         }
-        
+
         diag_element = mf_copy.mf[this_row][this_row];
         // Scale this whole column s.t. the diag element = 1
         mf_copy.mf[0][this_row] = mf_copy.mf[0][this_row] / diag_element;
-        dest->mf[0][this_row]= dest->mf[0][this_row]/ diag_element;
+        dest->mf[0][this_row] = dest->mf[0][this_row] / diag_element;
         mf_copy.mf[1][this_row] = mf_copy.mf[1][this_row] / diag_element;
-        dest->mf[1][this_row]= dest->mf[1][this_row]/ diag_element;
+        dest->mf[1][this_row] = dest->mf[1][this_row] / diag_element;
         mf_copy.mf[2][this_row] = mf_copy.mf[2][this_row] / diag_element;
-        dest->mf[2][this_row]= dest->mf[2][this_row]/ diag_element;
+        dest->mf[2][this_row] = dest->mf[2][this_row] / diag_element;
         mf_copy.mf[3][this_row] = mf_copy.mf[3][this_row] / diag_element;
-        dest->mf[3][this_row]= dest->mf[3][this_row]/ diag_element;
-        
+        dest->mf[3][this_row] = dest->mf[3][this_row] / diag_element;
 
-        // col i = col i - a * col j  
-        for (k = 0; k != 4; k++){//
-            if (k != this_row){
+        // col i = col i - a * col j
+        for (k = 0; k != 4; k++) { //
+            if (k != this_row) {
                 temp2 = mf_copy.mf[this_row][k];
-                mf_copy.mf[0][k] = mf_copy.mf[0][k] - (mf_copy.mf[0][this_row]  * temp2);
-                dest->mf[0][k]= dest->mf[0][k]- (dest->mf[0][this_row] * temp2);
-                mf_copy.mf[1][k] = mf_copy.mf[1][k] - (mf_copy.mf[1][this_row]  * temp2);
-                dest->mf[1][k]= dest->mf[1][k]- (dest->mf[1][this_row] * temp2);
-                mf_copy.mf[2][k] = mf_copy.mf[2][k] - (mf_copy.mf[2][this_row]  * temp2);
-                dest->mf[2][k]= dest->mf[2][k]- (dest->mf[2][this_row] * temp2);
-                mf_copy.mf[3][k] = mf_copy.mf[3][k] - (mf_copy.mf[3][this_row]  * temp2);
-                dest->mf[3][k]= dest->mf[3][k]- (dest->mf[3][this_row] * temp2);
+                mf_copy.mf[0][k] = mf_copy.mf[0][k] - (mf_copy.mf[0][this_row] * temp2);
+                dest->mf[0][k] = dest->mf[0][k] - (dest->mf[0][this_row] * temp2);
+                mf_copy.mf[1][k] = mf_copy.mf[1][k] - (mf_copy.mf[1][this_row] * temp2);
+                dest->mf[1][k] = dest->mf[1][k] - (dest->mf[1][this_row] * temp2);
+                mf_copy.mf[2][k] = mf_copy.mf[2][k] - (mf_copy.mf[2][this_row] * temp2);
+                dest->mf[2][k] = dest->mf[2][k] - (dest->mf[2][this_row] * temp2);
+                mf_copy.mf[3][k] = mf_copy.mf[3][k] - (mf_copy.mf[3][this_row] * temp2);
+                dest->mf[3][k] = dest->mf[3][k] - (dest->mf[3][this_row] * temp2);
             }
-            
         }
-        
     }
     return 0;
 }
@@ -331,10 +319,10 @@ void SkinMatrix_RotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     cos = Math_Coss(yaw);
     mf->yy = cos;
     mf->yx = -sin;
-    mf->xw = mf->yw = mf->zw = 0; 
+    mf->xw = mf->yw = mf->zw = 0;
     mf->wx = mf->wy = mf->wz = 0;
     mf->ww = 1;
-    
+
     if (pitch != 0) {
         sin2 = Math_Sins(pitch);
         cos2 = Math_Coss(pitch);
@@ -346,7 +334,7 @@ void SkinMatrix_RotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
         mf->zy = sin * sin2;
         mf->xz = -sin2;
         mf->zz = cos2;
-        
+
     } else {
         mf->xx = cos;
         if (1) {} // required to match
@@ -394,14 +382,14 @@ void SkinMatrix_RotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     cos = Math_Coss(roll);
     mf->xx = cos;
     mf->xz = -sin;
-    mf->zw = 0; 
+    mf->zw = 0;
     mf->yw = 0;
     mf->xw = 0;
-    mf->wz = 0; 
+    mf->wz = 0;
     mf->wy = 0;
     mf->wx = 0;
     mf->ww = 1;
-    
+
     if (yaw != 0) {
         sin2 = Math_Sins(yaw);
         cos2 = Math_Coss(yaw);
@@ -413,7 +401,7 @@ void SkinMatrix_RotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
         mf->yx = sin * sin2;
         mf->zy = -sin2;
         mf->yy = cos2;
-        
+
     } else {
         mf->zz = cos;
         if (1) {} // required to match
@@ -435,8 +423,8 @@ void SkinMatrix_RotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
         yz = mf->yz;
         xz = mf->xz;
         mf->xz = (xz * cos2) + (yz * sin2);
-        mf->yz = (yz * cos2) - (xz * sin2);  
-        if(cos2){}  // required to match
+        mf->yz = (yz * cos2) - (xz * sin2);
+        if (cos2) {} // required to match
         mf->xy = mf->yy * sin2;
         mf->yy = mf->yy * cos2;
     } else {
@@ -465,26 +453,28 @@ void SkinMatrix_Translate(MtxF* mf, f32 dx, f32 dy, f32 dz) {
 }
 
 // output matrix scales, then rotates (RPY), then translates the vector
-void SkinMatrix_ScaleRotateRPYTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz) {
+void SkinMatrix_ScaleRotateRPYTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 roll, s16 pitch, s16 yaw,
+                                        f32 dx, f32 dy, f32 dz) {
     MtxF mft1;
     MtxF mft2;
 
-    SkinMatrix_Translate(mf, dx, dy, dz); // translation matrix
-    SkinMatrix_RotateRPY(&mft1, roll, pitch, yaw); // rotation matrix
-    SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);// MtxFMtxFMult
+    SkinMatrix_Translate(mf, dx, dy, dz);            // translation matrix
+    SkinMatrix_RotateRPY(&mft1, roll, pitch, yaw);   // rotation matrix
+    SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);       // MtxFMtxFMult
     SkinMatrix_Scale(&mft1, scaleX, scaleY, scaleZ); // scale matrix
-    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf); // MtxFMtxFMult
+    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);       // MtxFMtxFMult
 }
 // output matrix scales, then rotates (YRP), then translates the vector
-void SkinMatrix_ScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch, f32 dx, f32 dy, f32 dz) {
+void SkinMatrix_ScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch,
+                                        f32 dx, f32 dy, f32 dz) {
     MtxF mft1;
     MtxF mft2;
 
     SkinMatrix_Translate(mf, dx, dy, dz);
     SkinMatrix_RotateYRP(&mft1, yaw, roll, pitch);
     SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
-    SkinMatrix_Scale(&mft1, scaleX, scaleY, scaleZ); 
-    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf); 
+    SkinMatrix_Scale(&mft1, scaleX, scaleY, scaleZ);
+    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
 }
 
 // output matrix rotates (YRP), then translates the vector
@@ -492,8 +482,8 @@ void SkinMatrix_RotateRPYTranslate(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f32 d
     MtxF mft1;
     MtxF mft2;
 
-    SkinMatrix_Translate(&mft2, dx, dy, dz); 
-    SkinMatrix_RotateRPY(&mft1, roll, pitch, yaw); 
+    SkinMatrix_Translate(&mft2, dx, dy, dz);
+    SkinMatrix_RotateRPY(&mft1, roll, pitch, yaw);
     SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
 }
 
@@ -510,47 +500,47 @@ void SkinMatrix_Vec3sToVec3f(Vec3s* src, Vec3f* dest) {
     dest->z = src->z;
 }
 
-//SkinMatrix_MtxFToMtx
+// SkinMatrix_MtxFToMtx
 void SkinMatrix_MtxFToMtx(MtxF* src, Mtx* dest) {
-    s32 temp; 
+    s32 temp;
     u16* m1 = (u16*)&dest->m[0][0];
     u16* m2 = (u16*)&dest->m[2][0];
 
     temp = src->xx * 0x10000;
     m1[0] = (temp >> 0x10);
-    m1[16+0] = temp & 0xFFFF;
+    m1[16 + 0] = temp & 0xFFFF;
 
     temp = src->xy * 0x10000;
     m1[1] = (temp >> 0x10);
-    m1[16+1] = temp & 0xFFFF;
+    m1[16 + 1] = temp & 0xFFFF;
 
     temp = src->xz * 0x10000;
     m1[2] = (temp >> 0x10);
-    m1[16+2] = temp & 0xFFFF;
+    m1[16 + 2] = temp & 0xFFFF;
 
     temp = src->xw * 0x10000;
     m1[3] = (temp >> 0x10);
-    m1[16+3] = temp & 0xFFFF;
+    m1[16 + 3] = temp & 0xFFFF;
 
     temp = src->yx * 0x10000;
     m1[4] = (temp >> 0x10);
-    m1[16+4] = temp & 0xFFFF;
+    m1[16 + 4] = temp & 0xFFFF;
 
     temp = src->yy * 0x10000;
     m1[5] = (temp >> 0x10);
-    m1[16+5] = temp & 0xFFFF;
+    m1[16 + 5] = temp & 0xFFFF;
 
     temp = src->yz * 0x10000;
     m1[6] = (temp >> 0x10);
-    m1[16+6] = temp & 0xFFFF;
+    m1[16 + 6] = temp & 0xFFFF;
 
     temp = src->yw * 0x10000;
     m1[7] = (temp >> 0x10);
-    m1[16+7] = temp & 0xFFFF;
+    m1[16 + 7] = temp & 0xFFFF;
 
     temp = src->zx * 0x10000;
     m1[8] = (temp >> 0x10);
-    m1[16+8] = temp & 0xFFFF;
+    m1[16 + 8] = temp & 0xFFFF;
 
     temp = src->zy * 0x10000;
     m1[9] = (temp >> 0x10);
@@ -582,13 +572,13 @@ void SkinMatrix_MtxFToMtx(MtxF* src, Mtx* dest) {
 }
 
 Mtx* func_800A7E70(GraphicsContext* gfxCtx, MtxF* src) {
-    Mtx* displayList = Graph_Alloc(gfxCtx,0x40);
+    Mtx* displayList = Graph_Alloc(gfxCtx, 0x40);
 
     if (displayList == 0) {
         osSyncPrintf("Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n", displayList);
         return 0;
     }
-    SkinMatrix_MtxFToMtx(src,displayList);
+    SkinMatrix_MtxFToMtx(src, displayList);
     return displayList;
 }
 
@@ -598,7 +588,7 @@ My impression is that this is functionally correct but I cannot be 100% sure of
 equivalence because diff output is not very close to matching.
 */
 #ifdef NON_EQUIVALENT
-void func_800A7EC0(MtxF *mf, s16 a, f32 x, f32 y, f32 z) {
+void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
     f32 sin;
     f32 cos;
     f32 ct;
@@ -620,33 +610,33 @@ void func_800A7EC0(MtxF *mf, s16 a, f32 x, f32 y, f32 z) {
     sy = sin * y;
     sz = sin * z;
 
-    xx = x*x;
-    xy = x*y;
-    xz = x*z;
-    yy = y*y;
-    yz = y*z;
-    zz = z*z;
+    xx = x * x;
+    xy = x * y;
+    xz = x * z;
+    yy = y * y;
+    yz = y * z;
+    zz = z * z;
 
-    mf->xx = (f32) ct * xx + cos;
-    mf->xy = (f32) ((ct * xy) + sz);
-    mf->xz = (f32) ((ct * xz) - sy);
+    mf->xx = (f32)ct * xx + cos;
+    mf->xy = (f32)((ct * xy) + sz);
+    mf->xz = (f32)((ct * xz) - sy);
     mf->xw = 0.0f;
-    
-    mf->yx = (f32) ((ct * (xy)) - sz);
-    mf->yy = (f32) ct * yy + cos;
-    mf->yz = (f32) ((ct * (yz)) + sx);
+
+    mf->yx = (f32)((ct * (xy)) - sz);
+    mf->yy = (f32)ct * yy + cos;
+    mf->yz = (f32)((ct * (yz)) + sx);
     mf->yw = 0.0f;
-    
-    mf->zx = (f32) ((ct * (xz)) + sy);
-    mf->zy = (f32) ((ct * (yz)) - sx);
-    mf->zz = (f32) ct * zz + cos;;
+
+    mf->zx = (f32)((ct * (xz)) + sy);
+    mf->zy = (f32)((ct * (yz)) - sx);
+    mf->zz = (f32)ct * zz + cos;
+    ;
     mf->zw = 0.0f;
-    
+
     mf->wx = 0.0f;
     mf->wy = 0.0f;
     mf->wz = 0.0f;
     mf->ww = 1.0f;
-    
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7EC0.s")
@@ -667,7 +657,7 @@ void func_800A8030(MtxF* mf, f32* arg1) {
     f32 yyNorm;
     f32 yzNorm;
     f32 zzNorm;
-    
+
     n = 2.0f / ((arg1[3] * arg1[3]) + ((arg1[2] * arg1[2]) + ((arg1[1] * arg1[1]) + (arg1[0] * arg1[0]))));
     xNorm = arg1[0] * n;
     yNorm = arg1[1] * n;
