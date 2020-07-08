@@ -6,28 +6,28 @@
 
 #include "z_eff_ss_solder_srch_ball.h"
 
-u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this,
-                             EffSsSolderSrchBallInitParams* initParams);
-void EffSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Solder_Srch_Ball_InitVars = {
     EFFECT_SS_SOLDER_SRCH_BALL,
-    EffSsSolderSrchBall_Init,
+    EffectSsSolderSrchBall_Init,
 };
 
-u32 EffSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this,
-                             EffSsSolderSrchBallInitParams* initParams) {
+u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsSolderSrchBallInitParams* initParams = (EffectSsSolderSrchBallInitParams*)initParamsx;
+
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->update = EffSsSolderSrchBall_Update;
+    this->update = EffectSsSolderSrchBall_Update;
     this->life = 100;
     this->regs[1] = initParams->unk_24;
     this->unk_3C = initParams->linkDetected;
     return 1;
 }
 
-void EffSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     f32 playerPosDiffX;
     f32 playerPosDiffY;

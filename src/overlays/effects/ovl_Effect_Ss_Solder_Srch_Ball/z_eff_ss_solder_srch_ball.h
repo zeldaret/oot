@@ -10,6 +10,6 @@ typedef struct {
     /* 0x18 */ Vec3f accel;
     /* 0x24 */ s16 unk_24;
     /* 0x28 */ s16* linkDetected;
-} EffSsSolderSrchBallInitParams;
+} EffectSsSolderSrchBallInitParams;
 
 #endif

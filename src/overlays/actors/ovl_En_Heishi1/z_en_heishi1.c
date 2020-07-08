@@ -187,10 +187,10 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 
         if (this->headTimer == 0) {
             this->headDirection++;
-            this->headAngleTarget = 8192.0f;
+            this->headAngleTarget = 0x2000;
             // if headDirection is odd, face 45 degrees left
             if ((this->headDirection & 1) != 0) {
-                this->headAngleTarget *= -1.0f;
+                this->headAngleTarget *= -1;
             }
             randOffset = Math_Rand_ZeroFloat(30.0f);
             this->headTimer = sBaseHeadTimers[this->type] + randOffset;
@@ -277,7 +277,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
             case false:
                 this->headDirection++;
                 // if headDirection is odd, face 52 degrees left
-                this->headAngleTarget = (this->headDirection & 1) ? 9472.0f : -9472.0f;
+                this->headAngleTarget = (this->headDirection & 1) ? 0x2500 : -0x2500;
                 randOffset = Math_Rand_ZeroFloat(30.0f);
                 this->headTimer = sBaseHeadTimers[this->type] + randOffset;
                 this->headBehaviorDecided = true;
@@ -292,7 +292,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                             }
                         } else {
                             // waypoints are defined with corners as 0-3 and middle points as 4-7
-                            // to choose the next waypoint they hardcoded the order "04152637" in an array
+                            // to choose the next waypoint, the order "04152637" is hardcoded in an array
                             for (i = 0; i < ARRAY_COUNT(sWaypoints); i++) {
                                 if (this->waypoint == sWaypoints[i]) {
                                     i++;
@@ -342,7 +342,7 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
         Math_SmoothDownscaleMaxF(&this->headAngle, 0.5f, 2000.0f);
     }
 
-    // wait 1.5 seconds after reaching link before allowing the text to be advanced
+    
     if (this->kickTimer == 0) {
         this->actionFunc = EnHeishi1_SetupKick;
     }
@@ -444,7 +444,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pull();
-                        EffSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
+                        EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
                                                   &this->linkDetected);
 
                         if (this->actor.xzDistFromLink < 60.0f) {
@@ -467,7 +467,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                             // sidehops onto the next screen and prevent getting caught.
                             if (!(player->actor.velocity.y > -3.9f)) {
                                 this->linkDetected = false;
-                                // this 60 unit height check is so the player doesnt get caught when going on upper path
+                                // this 60 unit height check is so the player doesnt get caught when on the upper path
                                 if (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 60.0f) {
                                     func_80078884(NA_SE_SY_FOUND);
                                     // "Discovered!"
