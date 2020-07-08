@@ -27,9 +27,9 @@ glabel func_800A73E0
 /* B1E598 800A73F8 AFB20020 */  sw    $s2, 0x20($sp)
 /* B1E59C 800A73FC AFB1001C */  sw    $s1, 0x1c($sp)
 /* B1E5A0 800A7400 AFB00018 */  sw    $s0, 0x18($sp)
-/* B1E5A4 800A7404 0C029CD7 */  jal   func_800A735C
+/* B1E5A4 800A7404 0C029CD7 */  jal   SkinMatrix_Copy
 /* B1E5A8 800A7408 02802825 */   move  $a1, $s4
-/* B1E5AC 800A740C 0C029CC3 */  jal   func_800A730C
+/* B1E5AC 800A740C 0C029CC3 */  jal   SkinMatrix_SetToIdentity
 /* B1E5B0 800A7410 02602025 */   move  $a0, $s3
 /* B1E5B4 800A7414 3C018014 */  lui   $at, %hi(D_80140844)
 /* B1E5B8 800A7418 C42C0844 */  lwc1  $f12, %lo(D_80140844)($at)

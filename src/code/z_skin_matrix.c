@@ -2,17 +2,15 @@
 #include <global.h>
 
 // multiplies the 4-element vector (src, 1) by the matrix mf and returns the x,y,z,w components of the resulting vector 
-// Vec3fMtxFMultXYZW
-void func_800A6E10(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
+void Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
     xyzDest->x = mf->wx + ((src->x * mf->xx) + (src->y * mf->yx) + (src->z * mf->zx));
     xyzDest->y = mf->wy + ((src->x * mf->xy) + (src->y * mf->yy) + (src->z * mf->zy));
     xyzDest->z = mf->wz + ((src->x * mf->xz) + (src->y * mf->yz) + (src->z * mf->zz));
     *wDest = mf->ww + ((src->x * mf->xw) + (src->y * mf->yw) + (src->z * mf->zw));
 }
 
-// SkinMatrix_Vec3fMtxFMultXYZ
 // multiplies the 4-element vector (src, 1) by the matrix mf and returns the x,y,z components of the resulting vector 
-void func_800A6EF4(MtxF* mf, Vec3f* src, Vec3f* dest) {
+void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
     f32 mx;
     f32 my;
     f32 mz;
@@ -35,10 +33,9 @@ void func_800A6EF4(MtxF* mf, Vec3f* src, Vec3f* dest) {
     dest->z = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
 }
 
-//SkinMatrix_MtxFMtxFMult
 // Matrix multiplication, dest = mfA * mfB
 // Note that mfB and dest may be the same matrix thanks to use of temp variables.
-void func_800A6FA0(MtxF* mfB, MtxF* mfA, MtxF* dest) {
+void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     f32 rx;
     f32 ry;
     f32 rz;
@@ -175,13 +172,11 @@ MtxF D_8012A4A0 = {1.0f, 0.0f, 0.0f, 0.0f,
                    0.0f, 0.0f, 1.0f, 0.0f,
                    0.0f, 0.0f, 0.0f, 1.0f};
 
-// SkinMatrix_GetIdentity
-void func_800A72FC(MtxF** mf) {
+void SkinMatrix_GlobalIdentity(MtxF** mf) {
     *mf = &D_8012A4A0;
 }
 
-// SkinMatrix_SetToIdentity
-void func_800A730C(MtxF* mf) {
+void SkinMatrix_SetToIdentity(MtxF* mf) {
     mf->xx = 1.0f;
     mf->yy = 1.0f;
     mf->zz = 1.0f;
@@ -200,8 +195,7 @@ void func_800A730C(MtxF* mf) {
     mf->wz = 0.0f;
 }
 
-//SkinMatrix_Copy
-void func_800A735C(MtxF* src, MtxF* dest) {
+void SkinMatrix_Copy(MtxF* src, MtxF* dest) {
     dest->xx = src->xx;
     dest->xy = src->xy;
     dest->xz = src->xz;
@@ -234,8 +228,8 @@ int func_800A73E0(MtxF* src, MtxF* dest) {
     s32 this_col;
     u32 pad;
     
-    func_800A735C(src,&mf_copy); // copy input matrix (mf) to mf_copy 
-    func_800A730C(dest);// turn input matrix (mf) into identity
+    SkinMatrix_Copy(src,&mf_copy); // copy input matrix (mf) to mf_copy 
+    SkinMatrix_SetToIdentity(dest);// turn input matrix (mf) into identity
     for (this_row = 0; this_row != 4; this_row++)
     {
         for (this_col = this_row; (this_col < 4) && (fabsf(mf_copy.mf[this_row][this_col]) < 0.0005f); this_col++){     
@@ -279,7 +273,7 @@ int func_800A73E0(MtxF* src, MtxF* dest) {
         dest->mf[3][this_row]= dest->mf[3][this_row]/ diag_element;
         
 
-        // Row i = Row i - a * Row j  
+        // col i = col i - a * col j  
         for (k = 0; k != 4; k++){//
             if (k != this_row){
                 temp2 = mf_copy.mf[this_row][k];
@@ -302,9 +296,8 @@ int func_800A73E0(MtxF* src, MtxF* dest) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A73E0.s")
 #endif
 
-// SkinMatrix_Scale
-// (output matrix scales x,y,z components of vector or x,y,z rows of matrix when applied on LHS)
-void func_800A76A4(MtxF* mf, f32 xScale, f32 yScale, f32 zScale) {
+// Output matrix scales x,y,z components of vector or x,y,z rows of matrix when applied on LHS
+void SkinMatrix_Scale(MtxF* mf, f32 xScale, f32 yScale, f32 zScale) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
     mf->xw = 0.0f;
@@ -323,9 +316,8 @@ void func_800A76A4(MtxF* mf, f32 xScale, f32 yScale, f32 zScale) {
     mf->zz = zScale;
 }
 
-// SkinMatrix_RotateRPY
 // output is (roll rotation matrix) * (pitch rotation matrix) * (yaw rotation matrix)
-void func_800A7704(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
+void SkinMatrix_RotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     f32 cos2;
     f32 sin;
     f32 cos;
@@ -388,9 +380,8 @@ void func_800A7704(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     }
 }
 
-// SkinMatrix_RotateYRP
 // output is (yaw rotation matrix) * (roll rotation matrix) * (pitch rotation matrix)
-void func_800A7894(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
+void SkinMatrix_RotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     f32 cos2;
     f32 sin;
     f32 cos;
@@ -453,9 +444,8 @@ void func_800A7894(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     }
 }
 
-// SkinMatrix_Translate 
 // Output matrix translates vector by dx in x direction, dy in y direction, dz in z direction
-void func_800A7A24(MtxF* mf, f32 dx, f32 dy, f32 dz) {
+void SkinMatrix_Translate(MtxF* mf, f32 dx, f32 dy, f32 dz) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
     mf->xw = 0.0f;
@@ -474,57 +464,54 @@ void func_800A7A24(MtxF* mf, f32 dx, f32 dy, f32 dz) {
     mf->wz = dz;
 }
 
-//SkinMatrix_ScaleRotateRPYTranslate
 // output matrix scales, then rotates (RPY), then translates the vector
-void func_800A7A84(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz) {
+void SkinMatrix_ScaleRotateRPYTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz) {
     MtxF mft1;
     MtxF mft2;
 
-    func_800A7A24(mf, dx, dy, dz); // translation matrix
-    func_800A7704(&mft1, roll, pitch, yaw); // rotation matrix
-    func_800A6FA0(mf, &mft1, &mft2);// MtxFMtxFMult
-    func_800A76A4(&mft1, scaleX, scaleY, scaleZ); // scale matrix
-    func_800A6FA0(&mft2, &mft1, mf); // MtxFMtxFMult
+    SkinMatrix_Translate(mf, dx, dy, dz); // translation matrix
+    SkinMatrix_RotateRPY(&mft1, roll, pitch, yaw); // rotation matrix
+    SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);// MtxFMtxFMult
+    SkinMatrix_Scale(&mft1, scaleX, scaleY, scaleZ); // scale matrix
+    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf); // MtxFMtxFMult
 }
-//SkinMatrix_ScaleRotateYRPTranslate
 // output matrix scales, then rotates (YRP), then translates the vector
-void func_800A7B04(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch, f32 dx, f32 dy, f32 dz) {
+void SkinMatrix_ScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch, f32 dx, f32 dy, f32 dz) {
     MtxF mft1;
     MtxF mft2;
 
-    func_800A7A24(mf, dx, dy, dz); // translation matrix
-    func_800A7894(&mft1, yaw, roll, pitch); // rotation matrix (the other one)
-    func_800A6FA0(mf, &mft1, &mft2);// MtxFMtxFMult
-    func_800A76A4(&mft1, scaleX, scaleY, scaleZ); // scale matrix
-    func_800A6FA0(&mft2, &mft1, mf); // MtxFMtxFMult
+    SkinMatrix_Translate(mf, dx, dy, dz);
+    SkinMatrix_RotateYRP(&mft1, yaw, roll, pitch);
+    SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
+    SkinMatrix_Scale(&mft1, scaleX, scaleY, scaleZ); 
+    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf); 
 }
 
-//SkinMatrix_RotateRPYTranslate
-void func_800A7B84(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz) {
+// output matrix rotates (YRP), then translates the vector
+void SkinMatrix_RotateRPYTranslate(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz) {
     MtxF mft1;
     MtxF mft2;
 
-    func_800A7A24(&mft2, dx, dy, dz); // translation matrix
-    func_800A7704(&mft1, roll, pitch, yaw); // rotation matrix
-    func_800A6FA0(&mft2, &mft1, mf); // MtxFMtxFMult
+    SkinMatrix_Translate(&mft2, dx, dy, dz); 
+    SkinMatrix_RotateRPY(&mft1, roll, pitch, yaw); 
+    SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
 }
 
-// SkinMatrix_Vec3fToVec3s
-void func_800A7BE4(Vec3f* src, Vec3s* dest) {
+void SkinMatrix_Vec3fToVec3s(Vec3f* src, Vec3s* dest) {
     dest->x = src->x;
     dest->y = src->y;
     dest->z = src->z;
 }
 
 // SkinMatrix_Vec3sToVec3f
-void func_800A7C20(Vec3s* src, Vec3f* dest) {
+void SkinMatrix_Vec3sToVec3f(Vec3s* src, Vec3f* dest) {
     dest->x = src->x;
     dest->y = src->y;
     dest->z = src->z;
 }
 
 //SkinMatrix_MtxFToMtx
-void func_800A7C60(MtxF* src, Mtx* dest) {
+void SkinMatrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     s32 temp; 
     u16* m1 = (u16*)&dest->m[0][0];
     u16* m2 = (u16*)&dest->m[2][0];
@@ -601,14 +588,17 @@ Mtx* func_800A7E70(GraphicsContext* gfxCtx, MtxF* src) {
         osSyncPrintf("Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n", displayList);
         return 0;
     }
-    func_800A7C60(src,displayList);
+    SkinMatrix_MtxFToMtx(src,displayList);
     return displayList;
 }
 
-// Rotation matrix rotates by angle t around the vector with components (x,y,z)
-// I cannot be 100% sure that this function is equivalent as diff output is not very close to matching.
+// Rotation matrix rotates by angle a around the vector with components (x,y,z)
+/*
+My impression is that this is functionally correct but I cannot be 100% sure of
+equivalence because diff output is not very close to matching.
+*/
 #ifdef NON_EQUIVALENT
-void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
+void func_800A7EC0(MtxF *mf, s16 a, f32 x, f32 y, f32 z) {
     f32 sin;
     f32 cos;
     f32 ct;
@@ -622,8 +612,8 @@ void func_800A7EC0(MtxF *mf, s16 t, f32 x, f32 y, f32 z) {
     f32 sy;
     f32 sz;
 
-    sin = Math_Sins(t);
-    cos = Math_Coss(t);
+    sin = Math_Sins(a);
+    cos = Math_Coss(a);
 
     ct = 1.0f - cos;
     sx = sin * x;

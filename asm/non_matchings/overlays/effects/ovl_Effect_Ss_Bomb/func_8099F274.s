@@ -23,25 +23,25 @@ glabel func_8099F274
 /* 00118 8099F2C8 27A4012C */  addiu   $a0, $sp, 0x012C           ## $a0 = FFFFFFBC
 /* 0011C 8099F2CC 468021A0 */  cvt.s.w $f6, $f4                   
 /* 00120 8099F2D0 46083003 */  div.s   $f0, $f6, $f8              
-/* 00124 8099F2D4 0C029E89 */  jal     func_800A7A24              
+/* 00124 8099F2D4 0C029E89 */  jal     SkinMatrix_Translate              
 /* 00128 8099F2D8 E7A00060 */  swc1    $f0, 0x0060($sp)           
 /* 0012C 8099F2DC C7A00060 */  lwc1    $f0, 0x0060($sp)           
 /* 00130 8099F2E0 27A400EC */  addiu   $a0, $sp, 0x00EC           ## $a0 = FFFFFF7C
 /* 00134 8099F2E4 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 00138 8099F2E8 44050000 */  mfc1    $a1, $f0                   
 /* 0013C 8099F2EC 44060000 */  mfc1    $a2, $f0                   
-/* 00140 8099F2F0 0C029DA9 */  jal     func_800A76A4              
+/* 00140 8099F2F0 0C029DA9 */  jal     SkinMatrix_Scale              
 /* 00144 8099F2F4 00000000 */  nop
 /* 00148 8099F2F8 8FA50170 */  lw      $a1, 0x0170($sp)           
 /* 0014C 8099F2FC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00150 8099F300 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
 /* 00154 8099F304 27A4012C */  addiu   $a0, $sp, 0x012C           ## $a0 = FFFFFFBC
 /* 00158 8099F308 27A6006C */  addiu   $a2, $sp, 0x006C           ## $a2 = FFFFFEFC
-/* 0015C 8099F30C 0C029BE8 */  jal     func_800A6FA0              
+/* 0015C 8099F30C 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 00160 8099F310 00A12821 */  addu    $a1, $a1, $at              
 /* 00164 8099F314 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFEFC
 /* 00168 8099F318 27A500EC */  addiu   $a1, $sp, 0x00EC           ## $a1 = FFFFFF7C
-/* 0016C 8099F31C 0C029BE8 */  jal     func_800A6FA0              
+/* 0016C 8099F31C 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 00170 8099F320 27A600AC */  addiu   $a2, $sp, 0x00AC           ## $a2 = FFFFFF3C
 /* 00174 8099F324 8E0302D0 */  lw      $v1, 0x02D0($s0)           ## 000002D0
 /* 00178 8099F328 3C19DA38 */  lui     $t9, 0xDA38                ## $t9 = DA380000

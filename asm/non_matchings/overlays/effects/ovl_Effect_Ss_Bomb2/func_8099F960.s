@@ -36,25 +36,25 @@ glabel func_8099F960
 /* 00398 8099F9E8 8E860004 */  lw      $a2, 0x0004($s4)           ## 00000004
 /* 0039C 8099F9EC 46807620 */  cvt.s.w $f24, $f14                 
 /* 003A0 8099F9F0 46109502 */  mul.s   $f20, $f18, $f16           
-/* 003A4 8099F9F4 0C029E89 */  jal     func_800A7A24              
+/* 003A4 8099F9F4 0C029E89 */  jal     SkinMatrix_Translate              
 /* 003A8 8099F9F8 8E870008 */  lw      $a3, 0x0008($s4)           ## 00000008
 /* 003AC 8099F9FC 27B10174 */  addiu   $s1, $sp, 0x0174           ## $s1 = FFFFFF7C
 /* 003B0 8099FA00 4405A000 */  mfc1    $a1, $f20                  
 /* 003B4 8099FA04 4406A000 */  mfc1    $a2, $f20                  
 /* 003B8 8099FA08 02202025 */  or      $a0, $s1, $zero            ## $a0 = FFFFFF7C
-/* 003BC 8099FA0C 0C029DA9 */  jal     func_800A76A4              
+/* 003BC 8099FA0C 0C029DA9 */  jal     SkinMatrix_Scale              
 /* 003C0 8099FA10 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 003C4 8099FA14 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 003C8 8099FA18 27B300F4 */  addiu   $s3, $sp, 0x00F4           ## $s3 = FFFFFEFC
 /* 003CC 8099FA1C 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
 /* 003D0 8099FA20 02C12821 */  addu    $a1, $s6, $at              
 /* 003D4 8099FA24 02603025 */  or      $a2, $s3, $zero            ## $a2 = FFFFFEFC
-/* 003D8 8099FA28 0C029BE8 */  jal     func_800A6FA0              
+/* 003D8 8099FA28 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 003DC 8099FA2C 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFBC
 /* 003E0 8099FA30 27B00134 */  addiu   $s0, $sp, 0x0134           ## $s0 = FFFFFF3C
 /* 003E4 8099FA34 02003025 */  or      $a2, $s0, $zero            ## $a2 = FFFFFF3C
 /* 003E8 8099FA38 02602025 */  or      $a0, $s3, $zero            ## $a0 = FFFFFEFC
-/* 003EC 8099FA3C 0C029BE8 */  jal     func_800A6FA0              
+/* 003EC 8099FA3C 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 003F0 8099FA40 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFF7C
 /* 003F4 8099FA44 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 003F8 8099FA48 0C029F9C */  jal     func_800A7E70              

@@ -16,7 +16,7 @@ glabel func_809A824C
 /* 00134 809A8284 27A4011C */  addiu   $a0, $sp, 0x011C           ## $a0 = FFFFFFBC
 /* 00138 809A8288 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 0013C 809A828C 8E260004 */  lw      $a2, 0x0004($s1)           ## 00000004
-/* 00140 809A8290 0C029E89 */  jal     func_800A7A24              
+/* 00140 809A8290 0C029E89 */  jal     SkinMatrix_Translate              
 /* 00144 809A8294 8E270008 */  lw      $a3, 0x0008($s1)           ## 00000008
 /* 00148 809A8298 862F0050 */  lh      $t7, 0x0050($s1)           ## 00000050
 /* 0014C 809A829C 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
@@ -28,18 +28,18 @@ glabel func_809A824C
 /* 00164 809A82B4 46083003 */  div.s   $f0, $f6, $f8              
 /* 00168 809A82B8 44050000 */  mfc1    $a1, $f0                   
 /* 0016C 809A82BC 44060000 */  mfc1    $a2, $f0                   
-/* 00170 809A82C0 0C029DA9 */  jal     func_800A76A4              
+/* 00170 809A82C0 0C029DA9 */  jal     SkinMatrix_Scale              
 /* 00174 809A82C4 00000000 */  nop
 /* 00178 809A82C8 8FA50160 */  lw      $a1, 0x0160($sp)           
 /* 0017C 809A82CC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00180 809A82D0 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
 /* 00184 809A82D4 27A4011C */  addiu   $a0, $sp, 0x011C           ## $a0 = FFFFFFBC
 /* 00188 809A82D8 27A6005C */  addiu   $a2, $sp, 0x005C           ## $a2 = FFFFFEFC
-/* 0018C 809A82DC 0C029BE8 */  jal     func_800A6FA0              
+/* 0018C 809A82DC 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 00190 809A82E0 00A12821 */  addu    $a1, $a1, $at              
 /* 00194 809A82E4 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFEFC
 /* 00198 809A82E8 27A500DC */  addiu   $a1, $sp, 0x00DC           ## $a1 = FFFFFF7C
-/* 0019C 809A82EC 0C029BE8 */  jal     func_800A6FA0              
+/* 0019C 809A82EC 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 001A0 809A82F0 27A6009C */  addiu   $a2, $sp, 0x009C           ## $a2 = FFFFFF3C
 /* 001A4 809A82F4 8E0302D0 */  lw      $v1, 0x02D0($s0)           ## 000002D0
 /* 001A8 809A82F8 3C19DA38 */  lui     $t9, 0xDA38                ## $t9 = DA380000

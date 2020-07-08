@@ -53,7 +53,7 @@ void Matrix_Mult(MtxF* mf, u8 mode) {
     MtxF* cmf = Matrix_GetCurrent();
 
     if (mode == MTXMODE_APPLY) {
-        func_800A6FA0(cmf, mf, cmf);
+        SkinMatrix_MtxFMtxFMult(cmf, mf, cmf);
     } else {
         Matrix_MtxFCopy(sCurrentMatrix, mf);
     }
@@ -78,7 +78,7 @@ void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
         ty = cmf->yw;
         cmf->ww += tx * x + ty * y + cmf->zw * z;
     } else {
-        func_800A7A24(cmf, x, y, z);
+        SkinMatrix_Translate(cmf, x, y, z);
     }
 }
 
@@ -99,7 +99,7 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
         cmf->yw *= y;
         cmf->zw *= z;
     } else {
-        func_800A76A4(cmf, x, y, z);
+        SkinMatrix_Scale(cmf, x, y, z);
     }
 }
 
@@ -382,7 +382,7 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
             cmf->zw = temp2 * cos - temp1 * sin;
         }
     } else {
-        func_800A7704(cmf, x, y, z);
+        SkinMatrix_RotateRPY(cmf, x, y, z);
     }
 }
 
