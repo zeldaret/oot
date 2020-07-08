@@ -56,25 +56,25 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->xx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->yx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->zx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->wx = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->wx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     //---COL2---
     cx = mfB->xy;
@@ -86,25 +86,25 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->xy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->yy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->zy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->wy = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->wy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     //---COL3---
     cx = mfB->xz;
@@ -116,25 +116,25 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->xz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->yz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->zz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->wz = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->wz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     //---COL4---
     cx = mfB->xw;
@@ -146,25 +146,25 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     ry = mfA->xy;
     rz = mfA->xz;
     rw = mfA->xw;
-    dest->xw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->xw = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->yx;
     ry = mfA->yy;
     rz = mfA->yz;
     rw = mfA->yw;
-    dest->yw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->yw = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->zx;
     ry = mfA->zy;
     rz = mfA->zz;
     rw = mfA->zw;
-    dest->zw = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->zw = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
     rx = mfA->wx;
     ry = mfA->wy;
     rz = mfA->wz;
     rw = mfA->ww;
-    dest->ww = (rx * cx) + (ry * cy) + (rz * cz) + (rw * cw);
+    dest->ww = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 }
 
 MtxF D_8012A4A0 = { 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
