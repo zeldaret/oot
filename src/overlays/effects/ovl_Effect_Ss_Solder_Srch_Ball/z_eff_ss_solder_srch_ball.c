@@ -41,13 +41,11 @@ void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs
     playerPosDiffY = player->actor.posRot.pos.y - this->pos.y;
     playerPosDiffZ = player->actor.posRot.pos.z - this->pos.z;
 
-    // if the sphere does not hit a wall (something blocks it) and is within 70 units of link, he has been detected
     if (!func_8003E30C(&globalCtx->colCtx, &this->pos, 30.0f)) {
         if (sqrtf(SQ(playerPosDiffX) + SQ(playerPosDiffY) + SQ(playerPosDiffZ)) < 70.0f) {
             *linkDetected = true;
         }
     } else {
-        // dont let life reach -1 so that it keeps going until it hits a wall or gets blocked
         if (this->life > 1) {
             this->life = 1;
         }

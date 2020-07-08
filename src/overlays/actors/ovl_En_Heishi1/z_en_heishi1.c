@@ -64,9 +64,6 @@ s32 sCamDataIdxs[] = {
 
 s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
-
-
-
 extern AnimationHeader D_06005880;
 extern AnimationHeader D_06005C30;
 extern SkeletonHeader D_0600BAC8;
@@ -339,7 +336,6 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
         Math_SmoothDownscaleMaxF(&this->headAngle, 0.5f, 2000.0f);
     }
 
-    
     if (this->kickTimer == 0) {
         this->actionFunc = EnHeishi1_SetupKick;
     }
@@ -427,27 +423,28 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
             if ((sCamDataIdxs[path] == activeCam->unk_148) || (sCamDataIdxs[path + 1] == activeCam->unk_148)) {
                 if (!sPlayerIsCaught) {
                     if ((this->actionFunc == EnHeishi1_Walk) || (this->actionFunc == EnHeishi1_Wait)) {
-                        {
-                            Vec3f searchBallVel;
-                            Vec3f searchBallAccel = { 0.0f, 0.0f, 0.0f };
-                            Vec3f searchBallMult = { 0.0f, 0.0f, 20.0f };
-                            Vec3f searchBallPos;
+                        Vec3f searchBallVel;
+                        Vec3f searchBallAccel = { 0.0f, 0.0f, 0.0f };
+                        Vec3f searchBallMult = { 0.0f, 0.0f, 20.0f };
+                        Vec3f searchBallPos;
 
-                            searchBallPos.x = this->actor.posRot.pos.x;
-                            searchBallPos.y = this->actor.posRot.pos.y + 60.0f;
-                            searchBallPos.z = this->actor.posRot.pos.z;
-                            Matrix_Push();
-                            Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
-                            searchBallMult.z = 30.0f;
-                            Matrix_MultVec3f(&searchBallMult, &searchBallVel);
-                            Matrix_Pull();
-                            EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
-                                                      &this->linkDetected);
-                        }
+                        searchBallPos.x = this->actor.posRot.pos.x;
+                        searchBallPos.y = this->actor.posRot.pos.y + 60.0f;
+                        searchBallPos.z = this->actor.posRot.pos.z;
+
+                        Matrix_Push();
+                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
+                        searchBallMult.z = 30.0f;
+                        Matrix_MultVec3f(&searchBallMult, &searchBallVel);
+                        Matrix_Pull();
+
+                        EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
+                                                     &this->linkDetected);
+
                         if (this->actor.xzDistFromLink < 60.0f) {
                             this->linkDetected = true;
                         } else if (this->actor.xzDistFromLink < 70.0f) {
-                            // this case probably exists to detect link making a sidhop or backflip sound
+                            // this case probably exists to detect link making a jump sound
                             // from slightly further away than the previous 60 unit check
                             if (player->actor.velocity.y > -4.0f) {
                                 this->linkDetected = true;
