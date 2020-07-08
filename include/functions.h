@@ -1291,7 +1291,7 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 // ? func_800A5E28(?);
 // ? func_800A5F60(?);
 // ? func_800A60D8(?);
-void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void* callback, s32);
+void func_800A6330(Actor* this, GlobalContext *globalCtx, PSkinAwb* arg2, SkinCallback callback, s32 arg4);
 // ? func_800A6460(?);
 void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
 void func_800A6888(GlobalContext*, PSkinAwb*);

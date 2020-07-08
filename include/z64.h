@@ -1936,10 +1936,20 @@ typedef struct {
 } UnkRumbleStruct; // size = 0x10E
 
 typedef struct {
-    char unk_00[0x48];
+    u32 unk_0;
+    u32 unk_4;
+} UnkPSkinAwb_0;
+
+typedef struct {
+    UnkPSkinAwb_0* unk_0;
+    MtxF mtx;
+    char unk_44[0x04];
     void* avbTbl;
     SkelAnime skelAnime;
 } PSkinAwb; // size = 0x90
+
+typedef void (*SkinCallback)(Actor*, GlobalContext*, PSkinAwb*);
+typedef s32 (*SkinCallback2)(Actor*, GlobalContext*, s32, PSkinAwb*);
 
 typedef struct {
     /* 0x00 */ char unk_00[0x18];
