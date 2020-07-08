@@ -5,9 +5,7 @@
 .set noreorder # don't insert nops after branches
 .set gp=64     # allow use of 64-bit general purpose registers
 
-.section .bss
+.section .rodata
 
-.balign 16
-
-glabel D_80175860
-    .space 0x100
+glabel __libm_qnan_f
+        .word   0x7F810000

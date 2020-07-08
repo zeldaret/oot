@@ -142,7 +142,7 @@ typedef struct {
         /* 0x0E88 */ s32  tempCollectFlags;
     }                         fw;
     /* 0x0E8C */ char         unk_E8C[0x0010];
-    /* 0x0E9C */ u8           gsFlags[24];
+    /* 0x0E9C */ u32          gsFlags[6];
     /* 0x0EB4 */ char         unk_EB4[0x0010];
     /* 0x0EC4 */ s32          unk_EC4;
     /* 0x0EC8 */ char         unk_EC8[0x000C];
