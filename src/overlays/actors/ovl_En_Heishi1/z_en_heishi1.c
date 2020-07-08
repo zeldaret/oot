@@ -33,7 +33,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx);
 s32 sPlayerIsCaught = false;
 
 const ActorInit En_Heishi1_InitVars = {
-    ACTOR_PLAYER,
+    0,
     ACTORTYPE_NPC,
     FLAGS,
     OBJECT_SD,
