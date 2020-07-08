@@ -5,7 +5,7 @@
 // Valid addr up to 0x7FF
 // It's the address of a block of 0x20 bytes in the mempak
 // So that means the whole mempak has a 16-bit address space
-u8 osMempakAddrCRC(u16 addr) {
+u8 __osContAddressCrc(u16 addr) {
     u32 addr32 = addr;
     u32 ret = 0;
     u32 bit;
@@ -34,7 +34,7 @@ u8 osMempakAddrCRC(u16 addr) {
     return ret & 0x1f;
 }
 
-u8 osMempakDataCRC(u8* data) {
+u8 __osContDataCrc(u8* data) {
     s32 ret;
     u32 bit;
     u32 byte;
