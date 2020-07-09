@@ -1146,13 +1146,15 @@ typedef struct {
     /* 0x01E2 */ char unk_1E2[0x06];
 } TitleContext; // size = 0x1E8
 
+struct SelectContext;
+
 typedef struct {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
     /* 0x08 */ s32 entranceIndex;
 } SceneSelectEntry; // size = 0xC
 
-typedef struct {
+typedef struct SelectContext {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ s32 unk_A4;
     /* 0x00A8 */ View view;

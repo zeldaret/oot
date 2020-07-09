@@ -56,7 +56,7 @@ glabel L80B5DE84
 /* 02708 80B5DEB8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0270C 80B5DEBC 0C020978 */  jal     Interface_ChangeAlpha              
 /* 02710 80B5DEC0 24040002 */  addiu   $a0, $zero, 0x0002         ## $a0 = 00000002
-/* 02714 80B5DEC4 0C02CE10 */  jal     func_800B3840              ## letterbox_target_addr
+/* 02714 80B5DEC4 0C02CE10 */  jal     ShrinkWindow_SetVal              ## letterbox_target_addr
 /* 02718 80B5DEC8 24040020 */  addiu   $a0, $zero, 0x0020         ## $a0 = 00000020
 /* 0271C 80B5DECC 920A0209 */  lbu     $t2, 0x0209($s0)           ## 00000209
 /* 02720 80B5DED0 A2000208 */  sb      $zero, 0x0208($s0)         ## 00000208

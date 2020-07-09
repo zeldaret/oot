@@ -138,7 +138,7 @@ void func_800AA550(View* view) {
 
     gfxCtx = view->gfxCtx;
 
-    varY = func_800B38FC();
+    varY = ShrinkWindow_GetCurrentVal();
 
     varX = -1; // The following is optimized to varX = 0 but affects codegen
 

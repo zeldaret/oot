@@ -172,7 +172,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
         globalCtx->transitionMode = 0;
     }
 
-    func_800B3968();
+    ShrinkWindow_Destroy();
     TransitionFade_Destroy(&globalCtx->transitionFade);
     VisMono_Destroy(&D_80161498);
 
@@ -360,7 +360,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
         globalCtx->fadeTransition = 6;
     }
 
-    func_800B3908();
+    ShrinkWindow_Init();
     TransitionFade_Init(&globalCtx->transitionFade);
     TransitionFade_SetType(&globalCtx->transitionFade, 3);
     TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
@@ -998,7 +998,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);
             }
 
-            func_800B39B8(R_UPDATE_RATE);
+            ShrinkWindow_Update(R_UPDATE_RATE);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3783);

@@ -137,7 +137,7 @@ u32 func_8006472C(GlobalContext* globalCtx, CutsceneContext* csCtx, f32 target) 
 
 void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -148,7 +148,7 @@ void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     func_80068C3C(globalCtx, csCtx);
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -1964,8 +1964,8 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
             if (gSaveContext.cutsceneTrigger == 0) {
                 Interface_ChangeAlpha(1);
-                func_800B3840(0x20);
-                func_800B38A4(0x20);
+                ShrinkWindow_SetVal(0x20);
+                ShrinkWindow_SetCurrentVal(0x20);
                 csCtx->state++;
             }
 
