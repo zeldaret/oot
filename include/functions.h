@@ -258,7 +258,7 @@ void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 // ? func_80029C50(?);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);
-// ? func_80029CF0(?);
+void func_80029CF0(GlobalContext*, PosRot*, Vec3f*, Vec3f*, s32, s32); // unsure about last two, could be floats
 // ? func_80029D5C(?);
 // ? func_80029DBC(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
@@ -691,6 +691,7 @@ void func_80059EC8(Camera* camera);
 s32 func_8005A77C(Camera* camera, s16 button);
 // ? func_8005A7A8(?);
 // ? func_8005A8C4(?);
+s16 func_8005A948(Camera* camera);
 Vec3s* func_8005A970(Vec3s*, Camera*);
 s16 func_8005A9F4(Camera* camera);
 s32 func_8005AA1C(Camera* camera, s32, s16, s32);

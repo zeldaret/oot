@@ -16,7 +16,7 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnFhgFire_SetActionFunc(EnFhgFire *this, EnFhgFireActionFunc func);
-void func_80A0F6F8(EnFhgFire*);
+void func_80A0F6F8(EnFhgFire *this, GlobalContext *globalCtx);
 void func_80A0FA90(EnFhgFire*);
 void func_80A0FC48(EnFhgFire*);
 void func_80A0FD8C(EnFhgFire*);
@@ -25,6 +25,7 @@ void func_80A10220(EnFhgFire*);
 void func_80A10F18(EnFhgFire*);
 
 extern ColliderCylinderInit D_80A11790;
+extern Vec3f D_80A117BC;
 
 /*
 const ActorInit En_Fhg_Fire_InitVars = {
@@ -62,7 +63,7 @@ void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
     Actor_SetScale(thisx, 0.0f);
 
     if (thisx->params == 0x01) {
-        EnFhgFire_SetActionFunc(this, func_80A0F6F8);
+        EnFhgFire_SetActionFunc(this, (EnFhgFireActionFunc) func_80A0F6F8);
         Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_THUNDER);
     } else if (thisx->params >= 0x64) {
         EnFhgFire_SetActionFunc(this, func_80A0FA90);
@@ -99,7 +100,7 @@ void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
         EnFhgFire_SetActionFunc(this, func_80A10008);
         osSyncPrintf("yari hikari ct 2\n");
         this->unk_150.x = thisx->posRot.rot.x;
-        this->unk_158 = thisx->posRot.rot.y;
+        this->unk_156.y = thisx->posRot.rot.y;
         return;
     }
 
@@ -111,7 +112,7 @@ void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
         Actor_SetScale(thisx, 7.0f);
         EnFhgFire_SetActionFunc(this, func_80A10F18);
         if (thisx->params == 0x29) {
-            this->unk_150.x = 0x1B8;
+            this->unk_150.x = 0x01B8;
             thisx->scale.z = 1.0f;
         } else {
             this->unk_150.x = 0x4C;
@@ -154,7 +155,98 @@ void EnFhgFire_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0F6F8.s")
+void func_80A0F6F8(EnFhgFire *this, GlobalContext *globalCtx) {
+    Camera *camera;
+    char pad0[0x02];
+    Vec3f randVec; // 0x70
+    Vec3f tmpVec; // 0x7C
+    s16 i;
+    s16 randY;
+    s16 *tmp;
+
+    tmp = &this->unk_156.x;
+    camera = Gameplay_GetCamera(globalCtx, 0);
+
+    switch (this->unk_156.y) {
+        case 0x00:
+            this->unk_156.y = 0x0A;
+            this->unk_150.x = 0x07;
+            break;
+
+        case 0x0A:
+            this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
+            Math_SmoothScaleMaxF(&this->unk_16C, 1.0f, 1.0f, 0.2f);
+
+            if (this->unk_150.x == 0) {
+                this->unk_156.y = 0x0B;
+                this->actor.shape.rot.z += 0x8000;
+                this->unk_150.x = 0x25;
+                this->actor.posRot.pos.y -= 200.0f;
+
+                Actor_SpawnAttached(
+                    &globalCtx->actorCtx, (Actor *) this, globalCtx,
+                    ACTOR_EN_FHG_FIRE,
+                    this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
+                    500, 0, 0, 0x24
+                );
+
+                tmpVec = D_80A117BC;
+
+                for (i = 0; i <= (0x23 - 1); i++) {
+                    randVec.x = Math_Rand_CenteredFloat(30.f);
+                    randVec.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
+                    randVec.z = Math_Rand_CenteredFloat(30.f);
+                    tmpVec.y = -0.2f;
+                    func_80029CF0(
+                        globalCtx, &this->actor.posRot, &randVec, &tmpVec,
+                        ((s32) ((s16) (Math_Rand_ZeroOne() * 100.0f))) + 0xF0,
+                        0
+                    );
+                }
+
+                func_80033E88((Actor *) this, globalCtx, 4, (u16) 0xA);
+            }
+
+            break;
+
+        case 0x0B:
+            this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
+
+            Math_SmoothScaleMaxF(&this->unk_16C, 0.0f, 1.0f, 0.2f);
+            if (this->unk_150.x == 0x1E) {
+                randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
+
+                for (i = 0; i < 8; i++) {
+                    if (1) { do { } while (0);
+                    Actor_SpawnAttached(
+                        &globalCtx->actorCtx, (Actor *) this, globalCtx,
+                        ACTOR_EN_FHG_FIRE,
+                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
+                        0, (i * 8192) + randY, 0x4000,
+                        i + 0x64
+                    );
+                    }
+                }
+
+                for (i = 0; i < 8; i++) {
+                    Actor_SpawnAttached(
+                        &globalCtx->actorCtx, (Actor *) this, globalCtx,
+                        ACTOR_EN_FHG_FIRE,
+                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
+                        0, (i * 8192) + randY, 0,
+                        0x23
+                    );
+                }
+
+            }
+
+            if (this->unk_150.x == 0) {
+                Actor_Kill((Actor *) this);
+            }
+    }
+
+    Actor_SetScale((Actor *) this, this->unk_16C);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0FA90.s")
 
