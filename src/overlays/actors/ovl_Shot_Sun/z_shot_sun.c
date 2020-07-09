@@ -162,7 +162,7 @@ void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx) {
             spawnPos.y = -800.0f;
             spawnPos.z = 7261.0f;
 
-            collectible = (EnItem00*)Item_DropCollectible(globalCtx, &spawnPos, 0xE);
+            collectible = Item_DropCollectible(globalCtx, &spawnPos, 0xE);
             if (collectible != NULL) {
                 collectible->unk_15A = 6000;
                 collectible->actor.speedXZ = 0.0f;

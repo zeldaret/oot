@@ -869,7 +869,7 @@ s16 func_8001F404(s16 dropId) {
 
 // External functions used by other actors to drop collectibles, which usually results in spawning an En_Item00 actor.
 
-Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params) {
+EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params) {
     s32 pad[2];
     EnItem00* spawnedActor = NULL;
     s16 param4000 = params & 0x4000;
@@ -909,10 +909,10 @@ Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 param
         }
     }
 
-    return (Actor*)spawnedActor;
+    return spawnedActor;
 }
 
-Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params) {
+EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params) {
     EnItem00* spawnedActor = NULL;
     s32 pad;
     s16 param4000 = params & 0x4000;
@@ -941,7 +941,7 @@ Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 para
         }
     }
 
-    return (Actor*)spawnedActor;
+    return spawnedActor;
 }
 
 void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3f* spawnPos, s16 params) {
