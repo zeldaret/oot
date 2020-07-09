@@ -183,7 +183,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_E1 = 1;
         func_800C04D8(globalCtx, this->unk_1E8, &vec1, &vec2);
         func_800C0704(globalCtx, this->unk_1E8, 30.0f);
-        func_800B3840(0x20);
+        ShrinkWindow_SetVal(0x20);
         Interface_ChangeAlpha(2);
         player->actor.posRot.pos = playerPos;
         player->actor.speedXZ = 0.0f;
@@ -229,7 +229,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                     animationHeader = &D_06011348;
                     sp3C = 1;
                     this->actor.textId = 0x702E;
-                    func_8010B680(globalCtx, this->actor.textId, 0);
+                    func_8010B680(globalCtx, this->actor.textId, NULL);
                     this->unk_1E2 += 1;
                     break;
             }
@@ -420,9 +420,9 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, 0, 0.0f);
     func_8002DF54(globalCtx, &this->actor, 1);
-    func_8002F7DC(&player->actor, 0x6836);
+    func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
-    func_8010B680(globalCtx, this->actor.textId, 0);
+    func_8010B680(globalCtx, this->actor.textId, NULL);
     this->unk_1E2 = 0;
     this->actionFunc = func_80B4BF2C;
 }

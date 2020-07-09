@@ -3366,7 +3366,7 @@ void func_80059EC8(Camera* camera) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->unk_162, 7);
 
         if ((camera->unk_162 == 0) && (camera->unk_168 != 0)) {
-            player->actor.freeze = 0;
+            player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
             if (player->action != 0) {
@@ -3518,7 +3518,7 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
         if (camera->status == 7) {
             switch (phi_v0) {
                 case 1:
-                    func_80078884(NA_SE_PL_WALK_GROUND);
+                    func_80078884(NA_SE_PL_WALK_GROUND - SFX_FLAG);
                     break;
                 case 2:
                     if (1 == camera->globalCtx->roomCtx.curRoom.unk_03) {

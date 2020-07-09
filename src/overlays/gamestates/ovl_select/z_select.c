@@ -323,7 +323,7 @@ void Select_UpdateMenu(SelectContext* this) {
     if (this->unk_21C < -7) {
         this->unk_220 = 0;
         this->unk_21C = 0;
-        
+
         this->currentScene++;
         this->currentScene = (this->currentScene + this->count) % this->count;
 
