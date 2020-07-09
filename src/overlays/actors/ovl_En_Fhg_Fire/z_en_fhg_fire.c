@@ -5,6 +5,7 @@
  */
 
 #include "z_en_fhg_fire.h"
+#include "../ovl_En_fHG/z_en_fhg.h"
 
 #define FLAGS 0x00000030
 
@@ -26,6 +27,8 @@ void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx);
 
 extern ColliderCylinderInit D_80A11790;
 extern Vec3f D_80A117BC;
+extern Vec3f D_80A117C8;
+extern Vec3f D_80A117D4;
 
 /*
 const ActorInit En_Fhg_Fire_InitVars = {
@@ -300,9 +303,116 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0FD8C.s")
+void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    s32 pad;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A10008.s")
+    globalCtx->envCtx.unk_E1 = 0x01;
+    this->actor.shape.rot.y += 0x1000;
+
+    if (this->unk_150.y == 0x31) {
+        globalCtx->envCtx.unk_BF = 1;
+        globalCtx->envCtx.unk_D6 = 0xFF;
+    }
+    if (this->unk_150.y == 0x1F) {
+        globalCtx->envCtx.unk_BF = 0x00;
+        globalCtx->envCtx.unk_D6 = 0x14;
+    }
+    if (this->unk_150.y >= 0x30) {
+        globalCtx->envCtx.unk_E2[2] = 0xFF;
+        globalCtx->envCtx.unk_E2[1] = 0xFF;
+        globalCtx->envCtx.unk_E2[0] = 0xFF;
+
+        if (((this->unk_150.x & 0xFF) % 2) != 0) {
+            globalCtx->envCtx.unk_E2[3] = 0x46;
+        } else {
+            globalCtx->envCtx.unk_E2[3] = 0x00;
+        }
+    } else {
+        globalCtx->envCtx.unk_E2[3] = 0x00;
+    }
+
+    if (this->unk_150.x < 0x15) {
+        Math_SmoothDownscaleMaxF(&this->unk_160, 1.0f, 45.0f);
+        Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.5f);
+    } else {
+        Math_SmoothScaleMaxF(&this->scale, this->unk_18C, 0.5f, 3.0f);
+    }
+
+    Actor_SetScale(&this->actor, this->scale);
+    if (3.0f < this->unk_18C) {
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        if (player->invincibilityTimer == 0) {
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, (Collider*)&this->collider);
+        }
+    }
+
+    if (this->unk_150.x == 0) {
+        Actor_Kill(&this->actor);
+        globalCtx->envCtx.unk_E1 = 0;
+    }
+    if (this->unk_1FE != 0) {
+        this->unk_1FE--;
+        this->unk_1FC = 1;
+        Math_SmoothScaleMaxF(&this->unk_200, 40.0f, 0.3f, 10.0f);
+    } else {
+        Math_SmoothDownscaleMaxF(&this->unk_200, 1.0f, 5.0f);
+        if (this->unk_200 == 0.0f) {
+            this->unk_1FC = 0;
+        }
+    }
+
+    D_8015FCF0 = this->unk_1FC;
+
+    D_8015FCF8 = this->actor.posRot.pos;
+    D_8015FD06 = this->unk_200;
+    D_8015FD08 = 10.0f;
+    D_8015FD0C = 0;
+}
+
+void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
+    EnfHG* horse;
+    s16 i;
+    Vec3f sp6C;
+    Vec3f tmp;
+    Vec3f sp54;
+
+    osSyncPrintf("yari hikari 1\n");
+    horse = (EnfHG*)this->actor.attachedA;
+    if ((this->unk_156.x % 2) != 0) {
+        Actor_SetScale(&this->actor, 6.0f);
+    } else {
+        Actor_SetScale(&this->actor, 5.25f);
+    }
+
+    this->actor.posRot.pos = horse->unk_200;
+    this->actor.shape.rot.z += ((s16)(Math_Rand_ZeroOne() * 20000.0f)) + 0x4000;
+
+    osSyncPrintf("yari hikari 2\n");
+    if (this->unk_156.y == 0) {
+        tmp = D_80A117C8;
+        sp54 = D_80A117D4;
+        osSyncPrintf("FLASH !!\n");
+
+        for (i = 0; i < 2; i++) {
+            sp6C.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+            sp6C.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+            sp6C.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+            sp54.y = -0.08f;
+
+            func_80029CF0(
+                globalCtx,
+                &sp6C, &tmp, &sp54,
+                (((s16) (Math_Rand_ZeroOne() * 80.0f))) + 0x96,
+                0
+            );
+        }
+    }
+
+    if (this->unk_150.x == 0) {
+        Actor_Kill(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A10220.s")
 
