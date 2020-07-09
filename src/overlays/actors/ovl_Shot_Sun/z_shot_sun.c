@@ -129,8 +129,8 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if (((params == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9)) ||
-                ((params == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
+            if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
+                (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
                 this->actionFunc = ShotSun_TriggerFairy;
                 func_80080480(globalCtx, this);
                 this->timer = 0;
