@@ -183,7 +183,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->unk_150.x = 0x25;
                 this->actor.posRot.pos.y -= 200.0f;
 
-                Actor_SpawnAttached(&globalCtx->actorCtx, (Actor*)this, globalCtx, ACTOR_EN_FHG_FIRE,
+                Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                     this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500,
                                     0, 0, 0x24);
 
@@ -198,7 +198,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                                   ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 0xF0, 0);
                 }
 
-                func_80033E88((Actor*)this, globalCtx, 4, (u16)0xA);
+                func_80033E88(&this->actor, globalCtx, 4, (u16)0xA);
             }
 
             break;
@@ -214,14 +214,14 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                     if (1) {
                         do {
                         } while (0);
-                        Actor_SpawnAttached(&globalCtx->actorCtx, (Actor*)this, globalCtx, ACTOR_EN_FHG_FIRE,
+                        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                             this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                             this->actor.posRot.pos.z, 0, (i * 8192) + randY, 0x4000, i + 0x64);
                     }
                 }
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnAttached(&globalCtx->actorCtx, (Actor*)this, globalCtx, ACTOR_EN_FHG_FIRE,
+                    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                         this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
                                         (i * 8192) + randY, 0, 0x23);
                 }
@@ -232,20 +232,20 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             }
     }
 
-    Actor_SetScale((Actor*)this, this->scale);
+    Actor_SetScale(&this->actor, this->scale);
 }
 
 void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
     f32 temp_f6;
 
     osSyncPrintf("FF MOVE 1\n");
-    this->actor.shape.rot.x += ((s16) (Math_Rand_ZeroOne() * 4000.0f) + 0x4000);
+    this->actor.shape.rot.x += ((s16)(Math_Rand_ZeroOne() * 4000.0f) + 0x4000);
 
-    switch(this->unk_156.y) {
-        case  0:
+    switch (this->unk_156.y) {
+        case 0:
             this->unk_156.y = 1;
-            this->unk_150.x = ((s16) (Math_Rand_ZeroOne() * 7.0f)) + 0x07;
-        case  1:
+            this->unk_150.x = ((s16)(Math_Rand_ZeroOne() * 7.0f)) + 0x07;
+        case 1:
             Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
 
             if (this->unk_150.x == 0) {
@@ -273,7 +273,32 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
     osSyncPrintf("FF MOVE 2\n");
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0FC48.s")
+void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    Vec3f pos; // SP30
+
+    if ((this->collider.base.atFlags & 2) != 0) {
+        this->collider.base.atFlags = this->collider.base.atFlags & 0xFFFD;
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
+    }
+
+    if (Math_Rand_ZeroOne() < 0.5f) {
+        pos = this->actor.posRot.pos;
+        pos.y -= 20.0f;
+        func_80029D5C(globalCtx, &this->actor, &pos, 0xC8, 0);
+    }
+
+    Actor_MoveForward(&this->actor);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    if (player->invincibilityTimer == 0) {
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    }
+
+    func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 1);
+    if ((this->actor.bgCheckFlags & 8) != 0) {
+        Actor_Kill(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0FD8C.s")
 
