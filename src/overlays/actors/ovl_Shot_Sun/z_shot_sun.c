@@ -1,7 +1,7 @@
 /*
  * File: z_shot_sun.c
  * Overlay: ovl_Shot_Sun
- * Description: Song of Storms Fairy spawner and Lake Hylia Sun hitbox
+ * Description: Lake Hylia Sun hitbox and Song of Storms Fairy spawner
  */
 
 #include "z_shot_sun.h"
