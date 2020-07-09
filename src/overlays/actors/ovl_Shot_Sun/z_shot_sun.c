@@ -16,7 +16,7 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx);
-void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx);
+void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx);
 
@@ -94,7 +94,7 @@ void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
     Actor_Kill(&this->actor);
 }
 
-void ShotSun_StartFairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
+void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
     if ((func_8005B198() == this->actor.type) || (this->timer != 0)) {
         this->actionFunc = ShotSun_FairyCountdown;
         this->timer = 50;
@@ -131,7 +131,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
         if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
             if (((params == 0x40) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 9)) ||
                 ((params == 0x41) && (*(u16*)(&globalCtx->msgCtx.unk_E3E8[4]) == 0xB))) {
-                this->actionFunc = ShotSun_StartFairyCountdown;
+                this->actionFunc = ShotSun_TriggerFairy;
                 func_80080480(globalCtx, this);
                 this->timer = 0;
             } else {
