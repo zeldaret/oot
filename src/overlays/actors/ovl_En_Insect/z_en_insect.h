@@ -26,7 +26,7 @@ typedef struct EnInsect {
     /* 0x0320 */ ObjMakekinsuta* soilActor;
     /* 0x0324 */ f32 unk_324;
     /* 0x0328 */ s16 unk_328;
-    /* 0x0328 */ u8 unk_32A;
+    /* 0x032A */ u8 unk_32A;
 } EnInsect; // size = 0x032C
 
 extern const ActorInit En_Insect_InitVars;

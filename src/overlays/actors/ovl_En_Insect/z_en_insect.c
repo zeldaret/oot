@@ -45,7 +45,7 @@ const ActorInit En_Insect_InitVars = {
 extern SkeletonHeader D_04035590;
 extern AnimationHeader D_040341FC;
 
-ColliderJntSphItemInit sColliderItemInit[1] = {
+static ColliderJntSphItemInit sColliderItemInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
         { 0, { { 0, 0, 0 }, 5 }, 100 },
@@ -79,7 +79,7 @@ void func_80A7BE20(EnInsect* this)
     this->unk_314 = D_80A7DF10[this->actor.params & 3];
 }
 
-f32 func_80A7BE40(Vec3f* v1, Vec3f* v2)
+f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2)
 {
     return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
@@ -93,7 +93,8 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
         pos.x = Math_Sins(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y;
         pos.z = Math_Coss(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.z;
-        if (func_80A7BE40(&pos, &this->actor.posRot.pos) <= 400.0f) {
+
+        if (EnInsect_XZDistanceSquared(&pos, &this->actor.posRot.pos) <= 400.0f) {
             return 1;
         }
     }
@@ -109,7 +110,7 @@ void func_80A7BF58(EnInsect* this) {
  * Find the nearest soft dirt patch within 6400 units in the xz plane and the current room
  * Returns 1 if one was found, 0 otherwise
  */
-s32 func_80A7BFA0(EnInsect* this, GlobalContext* globalCtx) {
+s32 EnInsect_FindNearestSoil(EnInsect* this, GlobalContext* globalCtx) {
     Actor* currentActor;
     f32 currentDistance;
     f32 bestDistance;
@@ -171,16 +172,18 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx)
         this->actor.gravity = -0.2f;
         this->actor.minVelocityY = -2.0f;
     }
+
     if (this->unk_314 & 4) {
         this->unk_31C = Math_Rand_S16Offset(200, 40);
         this->actor.flags |= 0x10;
     }
 
     if (temp_s2 == 2 || temp_s2 == 3) {
-        if (func_80A7BFA0(this, globalCtx) != 0) {
+        if (EnInsect_FindNearestSoil(this, globalCtx) != 0) {
             this->unk_314 |= 0x10;
             D_80A7DEB0 = 0.0f;
         }
+
         if (temp_s2 == 2) {
             this->actor.posRot.rot.z = 0;
             this->actor.shape.rot.z = this->actor.posRot.rot.z;
@@ -188,14 +191,19 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx)
             for (count = 0; count < 2; count++)
             {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 3);
+                
                 if (globalCtx) {}
             }
         }
+
         func_80A7D39C(this);
+
         if (1) {}
+
         D_80A7DEB8++;
     } else {
         randomResult = Math_Rand_ZeroOne();
+
         if (randomResult < 0.3f) {
             func_80A7C3A0(this);
         } else if (randomResult < 0.4f) {
@@ -262,40 +270,44 @@ void func_80A7C598(EnInsect *this) {
     this->unk_314 |= 0x100;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C5EC.s")
-// void func_80A7C5EC(EnInsect *this, GlobalContext *globalCtx) {
-//     u32 padding[2];
-//     // misplaced to sp36 for some reason
-//     s16 sp34 = this->actor.params & 3;
+#ifdef NON_MATCHING
+// a stack offset is wrong
+void func_80A7C5EC(EnInsect *this, GlobalContext *globalCtx) {
+    s32 padding1;
+    s32 padding2;
+    s16 sp34 = this->actor.params & 3;
 
-//     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
 
-//     if (1600.0f < func_80A7BE40(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || (this->unk_31A < 4)) {
-//         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
-//     } else if (this->actor.attachedB != NULL && &this->actor != this->actor.attachedB){
-//         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.attachedB->posRot.pos), 2000);
-//     }
+    if (1600.0f < EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || (this->unk_31A < 4)) {
+        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
+    } else if (this->actor.attachedB != NULL && &this->actor != this->actor.attachedB){
+        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.attachedB->posRot.pos), 2000);
+    }
 
-//     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-//     this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.4f, 0.7f, 1.9f);
-//     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.4f, 0.7f, 1.9f);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-//     if (this->unk_31A <= 0) {
-//         func_80A7C3A0(this);
-//     }
+    if (this->unk_31A <= 0) {
+        func_80A7C3A0(this);
+    }
     
-//     if ((this->unk_314 & 4 && this->unk_31C <= 0) ||
-//         ((sp34 == 2 || sp34 == 3) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4))
-//     {
-//         func_80A7CBC8(this);
-//     }
-//     else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
-//         func_80A7CE60(this);
-//     }
-//     else if (this->actor.xzDistFromLink < 40.0f) {
-//         func_80A7C818(this);
-//     }
-// }
+    if ((this->unk_314 & 4 && this->unk_31C <= 0) ||
+        ((sp34 == 2 || sp34 == 3) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4))
+    {
+        func_80A7CBC8(this);
+    }
+    else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+        func_80A7CE60(this);
+    }
+    else if (this->actor.xzDistFromLink < 40.0f) {
+        func_80A7C818(this);
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C5EC.s")
+#endif
 
 void func_80A7C818(EnInsect *this) {
     this->unk_31A = Math_Rand_S16Offset(10, 40);
@@ -304,44 +316,49 @@ void func_80A7C818(EnInsect *this) {
     this->unk_314 |= 0x100;
 }
 
+#ifdef NON_MATCHING
+// regalloc, minor reordering
+void func_80A7C86C(EnInsect *this, GlobalContext *globalCtx) {
+    s32 pad[3];
+    s16 phi_a1;
+    s16 sp38;
+
+    sp38 = 0;
+    if (this->actor.xzDistFromLink < 40.0f) {
+        sp38 = 1;
+    }
+
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
+
+    if (EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 25600.0f || this->unk_31A < 4) {
+        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
+    } else if (sp38 != 0) {
+        phi_a1 = this->actor.yawTowardsLink + 0x8000;
+
+        if ((s16)globalCtx->state.frames & 0x10) {
+            if ((s16)globalCtx->state.frames & 0x20) {
+                phi_a1 += 0x2000;
+            }
+        } else if ((s16)globalCtx->state.frames & 0x20) {
+            phi_a1 -= 0x2000;
+        }
+
+        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, phi_a1, 2000);
+    }
+
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.6f, 0.8f, 1.9f);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
+    if (this->unk_31A <= 0 || sp38 == 0) {
+        func_80A7C3A0(this);
+    } else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+        func_80A7CE60(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C86C.s")
-// void func_80A7C86C(EnInsect *this, GlobalContext *globalCtx) {
-//     s32 pad[3];
-//     s16 phi_a1;
-//     // regalloc
-//     s16 sp38;
-
-//     sp38 = 0;
-//     if (this->actor.xzDistFromLink < 40.0f) {
-//         sp38 = 1;
-//     }
-
-//     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
-
-//     if (25600.0f < func_80A7BE40(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || this->unk_31A < 4) {
-//         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
-//     } else if (sp38 != 0) {
-//         phi_a1 = this->actor.yawTowardsLink + 0x8000;
-//         if ((s16)globalCtx->state.frames & 0x10) {
-//             if ((s16)globalCtx->state.frames & 0x20) {
-//                 phi_a1 += 0x2000;
-//             }
-//         } else if ((s16)globalCtx->state.frames & 0x20) {
-//             phi_a1 -= 0x2000;
-//         }
-//         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, phi_a1, 2000);
-//     }
-
-//     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-//     this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.6f, 0.8f, 1.9f);
-//     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-
-//     if (this->unk_31A <= 0 || sp38 == 0) {
-//         func_80A7C3A0(this);
-//     } else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
-//         func_80A7CE60(this);
-//     }
-// }
+#endif
 
 void func_80A7CA64(EnInsect *this) {
     this->unk_31A = 200;
@@ -434,6 +451,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     s32 phi_v0_2;
 
     sp4E = this->actor.params & 3;
+
     if (this->unk_31A >= 81) {
         Math_ApproxF(&this->actor.speedXZ, 0.6f, 0.08f);
     } else {
@@ -442,12 +460,16 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.pos.y += this->actor.waterY;
     this->skelAnime.animPlaybackSpeed = CLAMP(this->unk_31A * 0.018f, 0.1f, 1.9f);
+
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
     if (this->unk_31A >= 81) {
         this->unk_316 += Math_Rand_S16Offset(-50, 100);
         this->unk_318 += Math_Rand_S16Offset(-300, 600);
     }
+
     temp_v1 = this->skelAnime.animPlaybackSpeed * 200.0f;
+
     if (this->unk_316 < -temp_v1) {
         this->unk_316 = -temp_v1;
     } else {
@@ -459,6 +481,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         this->unk_316 = phi_v0;
     }
     this->actor.posRot.rot.y += this->unk_316;
+
     temp_v1 = this->skelAnime.animPlaybackSpeed * 1000.0f;
     if (this->unk_318 < -temp_v1) {
         this->unk_318 = -temp_v1;
@@ -471,6 +494,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         this->unk_318 = phi_v0_2;
     }
     this->actor.shape.rot.y += this->unk_318;
+
     Math_ApproxUpdateScaledS(&this->actor.posRot.rot.x, 0, 3000);
     this->actor.shape.rot.x = this->actor.posRot.rot.x;
 
@@ -481,6 +505,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         func_80029444(globalCtx, &sp40, 20, 100, 4);
         func_80029444(globalCtx, &sp40, 40, 200, 8);
     }
+
     if (this->unk_31A <= 0 || (this->unk_314 & 4 && this->unk_31C <= 0) || ((sp4E == 2 || sp4E == 3) && this->unk_314 & 1 && D_80A7DEB8 >= 4)) {
         func_80A7D1F4(this);
     } else if (!(this->actor.bgCheckFlags & 0x40)) {
@@ -550,10 +575,10 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         sp40 = func_800CB650(&this->actor.posRot.pos, &this->soilActor->actor.posRot.pos);
     } else {
         if (this->unk_314 & 0x10) {
-            osSyncPrintf("\x1b[43;30m");
+            osSyncPrintf(VT_COL(YELLOW, BLACK));
             // warning: target Actor is NULL
             osSyncPrintf("warning:目標 Actor が NULL (%s %d)\n", "../z_en_mushi.c", 1046);
-            osSyncPrintf("\x1b[m");
+            osSyncPrintf(VT_RST);
         }
         sp40 = 40.0f;
     }
@@ -561,30 +586,31 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     if (!this->soilActor->actor.params) {}
 
     D_80A7DEB0 += 0.0033333332f;
-    if (1.0f < D_80A7DEB0) {
+    if (D_80A7DEB0 > 1.0f) {
         D_80A7DEB0 = 1.0f;
     }
-    if (0.999f < D_80A7DEB0) {
+
+    if (D_80A7DEB0 > 0.999f) {
         phi_f2 = 0.0f;
     } else {
-        if (900.0f < sp40) {
+        if (sp40 > 900.0f) {
             phi_f2 = ((1.1f - D_80A7DEB0) * 100.0f) + 20.0f;
         } else {
             phi_f2 = (1.0f - D_80A7DEB0) * 10.0f;
         }
     }
+
     if (this->soilActor != NULL && Math_Rand_ZeroOne() < 0.07f) {
         this->actor.initPosRot.pos.x = (Math_Rand_ZeroOne() - 0.5f) * phi_f2 + thisTemp->soilActor->actor.posRot.pos.x;
         this->actor.initPosRot.pos.y = thisTemp->soilActor->actor.posRot.pos.y;
         this->actor.initPosRot.pos.z = (Math_Rand_ZeroOne() - 0.5f) * phi_f2 + thisTemp->soilActor->actor.posRot.pos.z;
     }
 
-
-    if (0.999f < D_80A7DEB0) {
+    if (D_80A7DEB0 > 0.999f) {
         this->unk_328 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         this->unk_324 = Math_Rand_ZeroOne() * 0.6f + 0.6f;
     } else if (Math_Rand_ZeroOne() < 0.07f) {
-        if (1.0f < this->unk_324) {
+        if (this->unk_324 > 1.0f) {
             this->unk_324 = 0.1f;
         } else {
             this->unk_324 = Math_Rand_ZeroOne() * 0.8f + 1.0f;
@@ -594,13 +620,14 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
         if (sp34 < 0.0f) {
             sp34 = 0.0f;
         } else {
-            if (1.0f < sp34) {
+            if (sp34 > 1.0f) {
                 phi_f0 = 1.0f;
             } else {
                 phi_f0 = sp34;
             }
             sp34 = phi_f0;
         }
+
         sp38 = (Math_Rand_ZeroOne() - 0.5f) * 65535.0f * sp34;
         this->unk_328 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos) + sp38;
     }
@@ -626,7 +653,7 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     if (phi_f2 < 0.0f) {
         this->skelAnime.animPlaybackSpeed = 0.0f;
     } else {
-        if (1.9f < phi_f2) {
+        if (phi_f2 > 1.9f) {
             phi_f0 = 1.9f;
         } else {
             phi_f0 = phi_f2;
@@ -641,7 +668,7 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     }
     
     if (sp3A == 2 && this->unk_314 & 0x10 && !(this->unk_314 & 0x80)) {
-        if (this->unk_32A >= 0xF) {
+        if (this->unk_32A >= 15) {
             if (this->soilActor != NULL) {
                 temp_a0 = ((this->soilActor->actor.params >> 8) & 0x1F) - 1;
                 temp_a1 = temp_a0 & 3;
@@ -661,24 +688,24 @@ void func_80A7D460(EnInsect *this, GlobalContext *globalCtx) {
     } else if (this->unk_314 & 0x10) {
         if (sp40 < 9.0f) {
             func_80A7CBC8(this);
-        } else if (!((this->unk_31A > 0 && this->unk_31C > 0) &&
-                (!(this->unk_314 & 1) || !(this->actor.bgCheckFlags & 1) || D_80A7DEB8 < 4 || (sp3A != 2 && sp3A != 3)))) {
+        } else if (this->unk_31A <= 0 || this->unk_31C <= 0 ||
+                (this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4 && (sp3A == 2 || sp3A == 3))) {
             func_80A7CBC8(this);
         } else {
             if (sp40 < 900.0f) {
                 this->unk_31C++;
                 this->unk_314 |= 0x20;
             } else {
-                this->unk_31A = (u16)0x64;
+                this->unk_31A = 100;
             }
         }
     } else if (sp50 != 0) {
         func_80A7C3A0(this);
     } else if ((sp3A == 2 || sp3A == 3) && this->unk_314 & 1 && this->unk_31C <= 0 && this->unk_31A <= 0 && this->actor.groundY < -31990.0f) {
-        osSyncPrintf("\x1b[43;30m");
-        // BG missing? 
+        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        // BG missing? To do Actor_delete
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         Actor_Kill(&this->actor);
     }
 }
@@ -735,6 +762,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext *globalCtx) {
         if (func_8002F410(&this->actor, globalCtx) != 0) {
             this->actor.attachedA = NULL;
             phi_v0 = this->actor.params & 3;
+
             if (phi_v0 == 2 || phi_v0 == 3) {
                 Actor_Kill(&this->actor);
             } else {
@@ -744,6 +772,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext *globalCtx) {
             if (!(this->unk_314 & 0x20) && this->unk_31C < 180) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
+
             if (!(this->unk_314 & 8) && D_80A7DEB4 < 4 && func_80A7BE6C(this, globalCtx) != 0 && func_8002F434(&this->actor, globalCtx, 0x7E, 60.0f, 30.0f) != 0) {
                 D_80A7DEB4++;
             }
