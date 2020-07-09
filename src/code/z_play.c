@@ -323,7 +323,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
-                func_8010B680(globalCtx, 0x3066, 0);
+                func_8010B680(globalCtx, 0x3066, NULL);
             }
             gSaveContext.nextDayTime = 0xFFFE;
         } else {

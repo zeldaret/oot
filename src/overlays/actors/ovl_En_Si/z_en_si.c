@@ -83,7 +83,7 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
             if (this->collider.base.maskB & 0x1) {
                 this->collider.base.maskB &= ~0x1;
                 Item_Give(globalCtx, ITEM_SKULL_TOKEN);
-                player->actor.freeze = 10;
+                player->actor.freezeTimer = 10;
                 func_8010B680(globalCtx, 0xB4, 0);
                 func_800F5C64(0x39);
                 this->actionFunc = func_80AFB950;
@@ -105,7 +105,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
 
     if ((this->actor.flags & 0x2000) != 0x2000) {
         Item_Give(globalCtx, ITEM_SKULL_TOKEN);
-        player->actor.freeze = 10;
+        player->actor.freezeTimer = 10;
         func_8010B680(globalCtx, 0xB4, 0);
         func_800F5C64(0x39);
         this->actionFunc = func_80AFB950;
@@ -118,7 +118,7 @@ void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     s16 params;
 
     if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
-        player->actor.freeze = 10;
+        player->actor.freezeTimer = 10;
     } else {
         params = this->actor.params;
         temp = (params & 0x1F00) >> 8;

@@ -1440,11 +1440,11 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             if (D_8011E1C0 != cmd->base) {
                 D_8011E1C0 = cmd->base;
                 if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else {
-                    func_8010B680(globalCtx, cmd->base, 0);
+                    func_8010B680(globalCtx, cmd->base, NULL);
                 }
                 return;
             }

@@ -1989,8 +1989,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Solder_Srch_Ball"
     include "build/src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.o"
-    include "build/data/overlays/effects/z_eff_ss_solder_srch_ball.data.o"
-    include "build/data/overlays/effects/z_eff_ss_solder_srch_ball.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/ovl_Effect_Ss_Solder_Srch_Ball_reloc.o"
 endseg
 
 beginseg
@@ -2613,8 +2612,7 @@ endseg
 beginseg
     name "ovl_En_Heishi1"
     include "build/src/overlays/actors/ovl_En_Heishi1/z_en_heishi1.o"
-    include "build/data/overlays/actors/z_en_heishi1.data.o"
-    include "build/data/overlays/actors/z_en_heishi1.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi1/ovl_En_Heishi1_reloc.o"
 endseg
 
 beginseg

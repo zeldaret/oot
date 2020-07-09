@@ -229,7 +229,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                     animationHeader = &D_06011348;
                     sp3C = 1;
                     this->actor.textId = 0x702E;
-                    func_8010B680(globalCtx, this->actor.textId, 0);
+                    func_8010B680(globalCtx, this->actor.textId, NULL);
                     this->unk_1E2 += 1;
                     break;
             }
@@ -422,7 +422,7 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
     func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
-    func_8010B680(globalCtx, this->actor.textId, 0);
+    func_8010B680(globalCtx, this->actor.textId, NULL);
     this->unk_1E2 = 0;
     this->actionFunc = func_80B4BF2C;
 }

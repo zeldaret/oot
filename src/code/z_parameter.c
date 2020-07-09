@@ -3829,7 +3829,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                                 gSaveContext.timer2State = 5;
                                                 gSaveContext.cutsceneIndex = 0;
                                                 D_8015FFE6 = 40;
-                                                func_8010B680(globalCtx, 0x71B0, 0);
+                                                func_8010B680(globalCtx, 0x71B0, NULL);
                                                 func_8002DF54(globalCtx, 0, 8);
                                             } else {
                                                 gSaveContext.timer2State = 6;
@@ -3855,7 +3855,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                         gSaveContext.timer2Value++;
                                         if (gSaveContext.eventInf[1] & 1) {
                                             if (gSaveContext.timer2Value == 240) {
-                                                func_8010B680(globalCtx, 0x6083, 0);
+                                                func_8010B680(globalCtx, 0x6083, NULL);
                                                 gSaveContext.timer2State = 0;
                                                 gSaveContext.eventInf[1] &= ~1;
                                             }

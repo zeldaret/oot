@@ -261,10 +261,11 @@ void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CF0(?);
 // ? func_80029D5C(?);
 // ? func_80029DBC(?);
-// ? func_80029E24(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
                    s16 gravityInfluence, s16 u0, s16 rotSpeed, s16 burstVel, u8 u1, s16 scale, u8 u2, s16 jitter,
                    s32 duration, s16 u3, s16 objectId, u32 dList);
+void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4,
+                                  s16* linkDetected);
 // ? func_80029F44(?);
 // ? func_80029FAC(?);
 // ? func_8002A140(?);
@@ -536,6 +537,7 @@ s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u3
 // ? func_8003E0FC(?);
 // ? func_8003E188(?);
 // ? func_8003E214(?);
+s32 func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius);
 // ? func_8003E398(?);
 // ? func_8003E3AC(?);
 // ? func_8003E4DC(?);
@@ -2525,7 +2527,7 @@ void func_80106CCC(GlobalContext*);
 // ? func_80109968(?);
 // ? func_80109B3C(?);
 // ? func_8010B0C0(?);
-void func_8010B680(GlobalContext*, u16, s32);
+void func_8010B680(GlobalContext*, u16 textID, Actor* actor);
 void func_8010B720(GlobalContext* globalCtx, u16 textId);
 // ? func_8010B820(?);
 // ? func_8010BD58(?);
