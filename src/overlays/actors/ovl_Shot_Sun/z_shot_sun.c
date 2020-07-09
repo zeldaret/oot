@@ -18,7 +18,7 @@ void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
-void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx);
+void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx);
 
 extern CutsceneData D_02007020[];
 
@@ -56,7 +56,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        this->actionFunc = ShotSun_HyliaSunUpdate;
+        this->actionFunc = ShotSun_UpdateHyliaSun;
         this->actor.flags &= ~1;
     }
 }
@@ -142,7 +142,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     }
 }
 
-void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx) {
+void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     Vec3s cylinderPos;
     Player* player = PLAYER;
     EnItem00* collectible;
