@@ -82,8 +82,8 @@ void EnHeishi3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_SetupGuardType(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     if (this->unk_278 == 0) {
         this->actionFunc = EnHeishi3_StandSentinelInGrounds;
     } else {
@@ -157,8 +157,9 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
 }
 
 void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->caughtTimer = 20;
     this->actionFunc = func_80A55BD4;
     this->actor.speedXZ = 2.5f;
@@ -179,8 +180,9 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A55D00;
 }
 
