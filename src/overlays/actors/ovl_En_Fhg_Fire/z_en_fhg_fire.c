@@ -15,8 +15,8 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnFhgFire_SetActionFunc(EnFhgFire *this, EnFhgFireActionFunc func);
-void func_80A0F6F8(EnFhgFire *this, GlobalContext *globalCtx);
+void EnFhgFire_SetActionFunc(EnFhgFire* this, EnFhgFireActionFunc func);
+void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx);
 void func_80A0FA90(EnFhgFire*);
 void func_80A0FC48(EnFhgFire*);
 void func_80A0FD8C(EnFhgFire*);
@@ -41,11 +41,11 @@ const ActorInit En_Fhg_Fire_InitVars = {
 };
 */
 
-void EnFhgFire_SetActionFunc(EnFhgFire *this, EnFhgFireActionFunc func) {
+void EnFhgFire_SetActionFunc(EnFhgFire* this, EnFhgFireActionFunc func) {
     this->actionFunc = func;
 }
 
-void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
+void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 tempf0;
     EnFhgFire* this = THIS;
     Player* player = PLAYER;
@@ -63,7 +63,7 @@ void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
     Actor_SetScale(thisx, 0.0f);
 
     if (thisx->params == 0x01) {
-        EnFhgFire_SetActionFunc(this, (EnFhgFireActionFunc) func_80A0F6F8);
+        EnFhgFire_SetActionFunc(this, (EnFhgFireActionFunc)func_80A0F6F8);
         Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_THUNDER);
     } else if (thisx->params >= 0x64) {
         EnFhgFire_SetActionFunc(this, func_80A0FA90);
@@ -104,22 +104,21 @@ void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
         return;
     }
 
-
     switch (thisx->params) {
-    case 0x27:
-    case 0x28:
-    case 0x29:
-        Actor_SetScale(thisx, 7.0f);
-        EnFhgFire_SetActionFunc(this, func_80A10F18);
-        if (thisx->params == 0x29) {
-            this->unk_150.x = 0x01B8;
-            thisx->scale.z = 1.0f;
-        } else {
-            this->unk_150.x = 0x4C;
-            Audio_PlayActorSound2(thisx, NA_SE_EV_FANTOM_WARP_S);
-            Audio_PlayActorSound2(thisx, NA_SE_EV_FANTOM_WARP_S2);
-        }
-        return;
+        case 0x27:
+        case 0x28:
+        case 0x29:
+            Actor_SetScale(thisx, 7.0f);
+            EnFhgFire_SetActionFunc(this, func_80A10F18);
+            if (thisx->params == 0x29) {
+                this->unk_150.x = 0x01B8;
+                thisx->scale.z = 1.0f;
+            } else {
+                this->unk_150.x = 0x4C;
+                Audio_PlayActorSound2(thisx, NA_SE_EV_FANTOM_WARP_S);
+                Audio_PlayActorSound2(thisx, NA_SE_EV_FANTOM_WARP_S2);
+            }
+            return;
     }
 
     if (thisx->params == 0x32) {
@@ -138,12 +137,13 @@ void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
-        this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, (void *) (&this->unk_1A0));
-        Lights_InitType0PositionalLight(&this->unk_1A0, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 0xFF, 0xFF, 0xFF, 0xFF);
+        this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, (void*)(&this->unk_1A0));
+        Lights_InitType0PositionalLight(&this->unk_1A0, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
+                                        0xFF, 0xFF, 0xFF, 0xFF);
     }
 }
 
-void EnFhgFire_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;
 
     if (((thisx->params == 0x23) || (thisx->params == 0x24)) || (thisx->params == 0x32)) {
@@ -155,14 +155,14 @@ void EnFhgFire_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A0F6F8(EnFhgFire *this, GlobalContext *globalCtx) {
-    Camera *camera;
+void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
+    Camera* camera;
     char pad0[0x02];
     Vec3f randVec; // 0x70
-    Vec3f tmpVec; // 0x7C
+    Vec3f tmpVec;  // 0x7C
     s16 i;
     s16 randY;
-    s16 *tmp;
+    s16* tmp;
 
     tmp = &this->unk_156.x;
     camera = Gameplay_GetCamera(globalCtx, 0);
@@ -183,12 +183,9 @@ void func_80A0F6F8(EnFhgFire *this, GlobalContext *globalCtx) {
                 this->unk_150.x = 0x25;
                 this->actor.posRot.pos.y -= 200.0f;
 
-                Actor_SpawnAttached(
-                    &globalCtx->actorCtx, (Actor *) this, globalCtx,
-                    ACTOR_EN_FHG_FIRE,
-                    this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                    500, 0, 0, 0x24
-                );
+                Actor_SpawnAttached(&globalCtx->actorCtx, (Actor*)this, globalCtx, ACTOR_EN_FHG_FIRE,
+                                    this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500,
+                                    0, 0, 0x24);
 
                 tmpVec = D_80A117BC;
 
@@ -197,14 +194,11 @@ void func_80A0F6F8(EnFhgFire *this, GlobalContext *globalCtx) {
                     randVec.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
                     randVec.z = Math_Rand_CenteredFloat(30.f);
                     tmpVec.y = -0.2f;
-                    func_80029CF0(
-                        globalCtx, &this->actor.posRot, &randVec, &tmpVec,
-                        ((s32) ((s16) (Math_Rand_ZeroOne() * 100.0f))) + 0xF0,
-                        0
-                    );
+                    func_80029CF0(globalCtx, &this->actor.posRot, &randVec, &tmpVec,
+                                  ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 0xF0, 0);
                 }
 
-                func_80033E88((Actor *) this, globalCtx, 4, (u16) 0xA);
+                func_80033E88((Actor*)this, globalCtx, 4, (u16)0xA);
             }
 
             break;
@@ -217,35 +211,28 @@ void func_80A0F6F8(EnFhgFire *this, GlobalContext *globalCtx) {
                 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
-                    if (1) { do { } while (0);
-                    Actor_SpawnAttached(
-                        &globalCtx->actorCtx, (Actor *) this, globalCtx,
-                        ACTOR_EN_FHG_FIRE,
-                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                        0, (i * 8192) + randY, 0x4000,
-                        i + 0x64
-                    );
+                    if (1) {
+                        do {
+                        } while (0);
+                        Actor_SpawnAttached(&globalCtx->actorCtx, (Actor*)this, globalCtx, ACTOR_EN_FHG_FIRE,
+                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                                            this->actor.posRot.pos.z, 0, (i * 8192) + randY, 0x4000, i + 0x64);
                     }
                 }
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnAttached(
-                        &globalCtx->actorCtx, (Actor *) this, globalCtx,
-                        ACTOR_EN_FHG_FIRE,
-                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                        0, (i * 8192) + randY, 0,
-                        0x23
-                    );
+                    Actor_SpawnAttached(&globalCtx->actorCtx, (Actor*)this, globalCtx, ACTOR_EN_FHG_FIRE,
+                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                        (i * 8192) + randY, 0, 0x23);
                 }
-
             }
 
             if (this->unk_150.x == 0) {
-                Actor_Kill((Actor *) this);
+                Actor_Kill((Actor*)this);
             }
     }
 
-    Actor_SetScale((Actor *) this, this->unk_16C);
+    Actor_SetScale((Actor*)this, this->unk_16C);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0FA90.s")
