@@ -137,12 +137,22 @@ void EnFhgFire_Init(Actor *thisx, GlobalContext *globalCtx) {
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
-        this->unk_19C = Lights_Insert(globalCtx, &globalCtx->lightCtx, (void *) (&this->unk_1A0));
+        this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, (void *) (&this->unk_1A0));
         Lights_InitType0PositionalLight(&this->unk_1A0, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 0xFF, 0xFF, 0xFF, 0xFF);
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/EnFhgFire_Destroy.s")
+void EnFhgFire_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    EnFhgFire* this = THIS;
+
+    if (((thisx->params == 0x23) || (thisx->params == 0x24)) || (thisx->params == 0x32)) {
+        Collider_DestroyCylinder(globalCtx, &this->collider);
+    }
+
+    if (thisx->params == 0x32) {
+        Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0F6F8.s")
 
