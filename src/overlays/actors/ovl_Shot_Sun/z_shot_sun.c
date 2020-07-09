@@ -15,7 +15,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx);
+void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx);
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_HyliaSunUpdate(ShotSun* this, GlobalContext* globalCtx);
@@ -70,7 +70,7 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
+void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
     s32 params = this->actor.params & 0xFF;
     s32 fairyParams;
 
@@ -96,7 +96,7 @@ void ShotSun_FairyCountdown(ShotSun* this, GlobalContext* globalCtx) {
 
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
     if ((func_8005B198() == this->actor.type) || (this->timer != 0)) {
-        this->actionFunc = ShotSun_FairyCountdown;
+        this->actionFunc = ShotSun_SpawnFairy;
         this->timer = 50;
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.initPosRot.pos.x,
