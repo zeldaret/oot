@@ -17,12 +17,12 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnFhgFire_SetActionFunc(EnFhgFire* this, EnFhgFireActionFunc func);
 void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx);
-void func_80A0FA90(EnFhgFire*);
-void func_80A0FC48(EnFhgFire*);
-void func_80A0FD8C(EnFhgFire*);
-void func_80A10008(EnFhgFire*);
-void func_80A10220(EnFhgFire*);
-void func_80A10F18(EnFhgFire*);
+void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx);
+void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx);
+void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx);
+void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx);
+void func_80A10220(EnFhgFire* this, GlobalContext* globalCtx);
+void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx);
 
 extern ColliderCylinderInit D_80A11790;
 extern Vec3f D_80A117BC;
@@ -63,7 +63,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(thisx, 0.0f);
 
     if (thisx->params == 0x01) {
-        EnFhgFire_SetActionFunc(this, (EnFhgFireActionFunc)func_80A0F6F8);
+        EnFhgFire_SetActionFunc(this, func_80A0F6F8);
         Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_THUNDER);
     } else if (thisx->params >= 0x64) {
         EnFhgFire_SetActionFunc(this, func_80A0FA90);
@@ -175,7 +175,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 
         case 0x0A:
             this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
-            Math_SmoothScaleMaxF(&this->unk_16C, 1.0f, 1.0f, 0.2f);
+            Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
 
             if (this->unk_150.x == 0) {
                 this->unk_156.y = 0x0B;
@@ -206,7 +206,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
         case 0x0B:
             this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
 
-            Math_SmoothScaleMaxF(&this->unk_16C, 0.0f, 1.0f, 0.2f);
+            Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
             if (this->unk_150.x == 0x1E) {
                 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
@@ -228,14 +228,50 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_150.x == 0) {
-                Actor_Kill((Actor*)this);
+                Actor_Kill(&this->actor);
             }
     }
 
-    Actor_SetScale((Actor*)this, this->unk_16C);
+    Actor_SetScale((Actor*)this, this->scale);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0FA90.s")
+void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
+    f32 temp_f6;
+
+    osSyncPrintf("FF MOVE 1\n");
+    this->actor.shape.rot.x += ((s16) (Math_Rand_ZeroOne() * 4000.0f) + 0x4000);
+
+    switch(this->unk_156.y) {
+        case  0:
+            this->unk_156.y = 1;
+            this->unk_150.x = ((s16) (Math_Rand_ZeroOne() * 7.0f)) + 0x07;
+        case  1:
+            Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
+
+            if (this->unk_150.x == 0) {
+                this->unk_156.y = 0x02;
+                this->unk_150.x = 0x0A;
+                this->actor.posRot.pos.z += Math_Sins(this->actor.shape.rot.y) * -200.0f * this->scale;
+                temp_f6 = Math_Coss(this->actor.shape.rot.y) * 200.0f;
+                this->actor.posRot.pos.x += temp_f6 * this->scale;
+                this->actor.shape.rot.y += 0x8000;
+            }
+            break;
+        case 2:
+            Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.34f);
+            if (this->unk_150.x == 0) {
+                Actor_Kill(&this->actor);
+            }
+            break;
+    }
+
+    Actor_SetScale(&this->actor, this->scale);
+    if (1.0f < this->actor.scale.x) {
+        this->actor.scale.x = 1.0f;
+    }
+
+    osSyncPrintf("FF MOVE 2\n");
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A0FC48.s")
 
