@@ -76,8 +76,8 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     u16 time;
 
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->limbDrawTable,
-                   &this->transitionDrawTable, 17);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->limbDrawTable,
+                   this->transitionDrawTable, 17);
 
     this->type = (this->actor.params >> 8) & 0xFF;
     this->path = this->actor.params & 0xFF;
