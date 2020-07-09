@@ -149,7 +149,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f spawnPos;
 
-    if ((this->collider.base.acFlags & 2) != 0) {
+    if (this->collider.base.acFlags & 2) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
         if (INV_CONTENT(SLOT_ARROW_FIRE) == ITEM_NONE) {
