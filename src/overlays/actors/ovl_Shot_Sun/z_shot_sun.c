@@ -123,7 +123,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             }
         }
         if (this->unk_1A4[0] == 1) {
-            func_8010BD58(globalCtx, 1U);
+            func_8010BD58(globalCtx, 1);
             this->unk_1A4[0] = 2;
             return;
         }
@@ -162,7 +162,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
             spawnPos.y = -800.0f;
             spawnPos.z = 7261.0f;
 
-            collectible = Item_DropCollectible(globalCtx, &spawnPos, 0xE);
+            collectible = Item_DropCollectible(globalCtx, &spawnPos, ITEM00_MAGIC_LARGE);
             if (collectible != NULL) {
                 collectible->unk_15A = 6000;
                 collectible->actor.speedXZ = 0.0f;
