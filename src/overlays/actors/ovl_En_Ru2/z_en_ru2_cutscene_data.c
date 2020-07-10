@@ -220,6 +220,5 @@ static CutsceneData D_80AF411C[] = {
     CS_FADE_BGM_LIST(1),
         CS_FADE_BGM(0x0004, 800, 850, 0x0000, 0x00000000, 0x00000000, 0xFFFFFFC6, 0x00000030, 0x00000000, 0xFFFFFFC6, 0x00000030),
     CS_END(),
-    CS_PAD(),
 };
 // clang-format on
