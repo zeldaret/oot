@@ -925,7 +925,7 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
             }
         }
     }
-    func_8002F974(&this->actor, 0x3133);
+    func_8002F974(&this->actor, NA_SE_EN_FLOORMASTER_RESTORE - SFX_FLAG);
 }
 
 void EnFloormas_SmWait(EnFloormas* this, GlobalContext* globalCtx) {
@@ -1053,7 +1053,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->actionFunc != EnFloormas_GrabLink) {
             if (this->actionFunc != EnFloormas_Split && this->actionFunc != EnFloormas_TakeDamage &&
-                this->actor.freeze == 0) {
+                this->actor.freezeTimer == 0) {
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
             }
 

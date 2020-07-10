@@ -1408,14 +1408,14 @@ s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &left->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
             } else if (rightBody->flags == 1) {
-                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &left->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
-            } else if (2 == rightBody->flags) {
-                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
+            } else if (rightBody->flags == 2) {
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
             } else if (rightBody->flags == 3) {
-                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
             }
         }
     }
