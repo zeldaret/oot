@@ -517,8 +517,8 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     s16 temp2;
     s16 yawDiff;
 
-    if (this->actor.xzDistanceFromLink < 170.0f) {
-        yawDiff = (f32)this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    if (this->actor.xzDistFromLink < 170.0f) {
+        yawDiff = (f32)this->actor.yawTowardsLink - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
         temp = (absYawDiff <= func_800347E8(2)) ? 2 : 1;
@@ -701,8 +701,8 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     func_80AAAA24(this);
 
     if (this->unk_1E0.unk_00 == 0) {          
-        this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
-        this->actor.shape.rot.y = this->actor.rotTowardsLinkY;
+        this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+        this->actor.shape.rot.y = this->actor.yawTowardsLink;
 
         yaw = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &actorToBlock->posRot.pos);
 
@@ -712,7 +712,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
         this->actor.posRot.pos.z += 60.0f * Math_Coss(yaw);
 
-        temp = fabsf((f32)this->actor.rotTowardsLinkY - yaw) * 0.001f * 3.0f;
+        temp = fabsf((f32)this->actor.yawTowardsLink - yaw) * 0.001f * 3.0f;
         this->skelAnime.animPlaybackSpeed = CLAMP(temp, 1.0f, 3.0f);
     }
     
@@ -751,7 +751,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (this->actor.xzDistanceFromLink < (30.0f + this->collider.dim.radius)) {
+        if (this->actor.xzDistFromLink < (30.0f + this->collider.dim.radius)) {
             player->stateFlags2 |= 0x800000;
         }
     }
