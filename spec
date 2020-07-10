@@ -372,6 +372,7 @@ beginseg
     include "build/src/code/z_fbdemo_wipe1.o"
     include "build/src/code/z_fbdemo_circle.o"
     include "build/src/code/z_fbdemo_fade.o"
+    include "build/src/code/shrink_window.o"
     include "build/src/code/db_camera.o"
     include "build/data/db_camera.data.o"
     include "build/data/db_camera.rodata.o"
@@ -1649,8 +1650,7 @@ endseg
 beginseg
     name "ovl_Demo_Sa"
     include "build/src/overlays/actors/ovl_Demo_Sa/z_demo_sa.o"
-    include "build/data/overlays/actors/z_demo_sa.data.o"
-    include "build/data/overlays/actors/z_demo_sa.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Sa/ovl_Demo_Sa_reloc.o"
 endseg
 
 beginseg
@@ -1989,8 +1989,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Solder_Srch_Ball"
     include "build/src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.o"
-    include "build/data/overlays/effects/z_eff_ss_solder_srch_ball.data.o"
-    include "build/data/overlays/effects/z_eff_ss_solder_srch_ball.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/ovl_Effect_Ss_Solder_Srch_Ball_reloc.o"
 endseg
 
 beginseg
@@ -2613,8 +2612,7 @@ endseg
 beginseg
     name "ovl_En_Heishi1"
     include "build/src/overlays/actors/ovl_En_Heishi1/z_en_heishi1.o"
-    include "build/data/overlays/actors/z_en_heishi1.data.o"
-    include "build/data/overlays/actors/z_en_heishi1.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi1/ovl_En_Heishi1_reloc.o"
 endseg
 
 beginseg

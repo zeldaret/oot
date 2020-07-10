@@ -511,9 +511,6 @@ extern u8 gFontFF[]; // original name: "font_ff"
 //extern ? D_8012C7A8;
 //extern ? D_8012CDC8;
 //extern ? D_8012CEA0;
-//extern ? D_8012CED0;
-//extern ? D_8012CED4;
-//extern ? D_8012CED8;
 //extern ? D_8012CEE0;
 //extern ? D_8012CEE4;
 //extern ? D_8012CEE8;

@@ -1,20 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3840.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3898.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B38A4.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B38FC.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3908.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3968.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B39B8.s")
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3B50.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3BD4.s")
