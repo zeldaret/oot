@@ -197,7 +197,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                     randVec.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
                     randVec.z = Math_Rand_CenteredFloat(30.f);
                     tmpVec.y = -0.2f;
-                    EffectSsFhgFlash_Spawn(globalCtx, &this->actor.posRot, &randVec, &tmpVec,
+                    EffectSsFhgFlash_Spawn(globalCtx, &this->actor.posRot.pos, &randVec, &tmpVec,
                                   ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 240, 0);
                 }
 
@@ -288,7 +288,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     if (Math_Rand_ZeroOne() < 0.5f) {
         pos = this->actor.posRot.pos;
         pos.y -= 20.0f;
-        func_80029D5C(globalCtx, &this->actor, &pos, 0xC8, 0);
+        EffectSsFhgFlash_Spawn2(globalCtx, &this->actor, &pos, 0xC8, 0);
     }
 
     Actor_MoveForward(&this->actor);

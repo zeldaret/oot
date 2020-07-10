@@ -175,7 +175,17 @@ void EffectSsFhgFlash_Spawn(GlobalContext *globalCtx, Vec3f *pos, Vec3f *velocit
     EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029D5C.s")
+
+void EffectSsFhgFlash_Spawn2(GlobalContext *globalCtx, Actor *arg1, Vec3f *pos, s16 arg3, u8 arg4) {
+    EffectFhgFlashInitParams initParams;
+
+    initParams.unk_28 = arg1;
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.unk_24 = arg3;
+    initParams.unk_26 = arg4;
+    initParams.unk_2C = 1;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
+}
 
 // EffectSsKFire Spawn Functions
 

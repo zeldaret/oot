@@ -259,7 +259,7 @@ void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);
 void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
-// ? func_80029D5C(?);
+void EffectSsFhgFlash_Spawn2(GlobalContext *, Actor *, Vec3f *, s16, u8);
 // ? func_80029DBC(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
                    s16 gravityInfluence, s16 u0, s16 rotSpeed, s16 burstVel, u8 u1, s16 scale, u8 u2, s16 jitter,
