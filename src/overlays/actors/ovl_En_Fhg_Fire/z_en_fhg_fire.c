@@ -197,8 +197,8 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                     randVec.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
                     randVec.z = Math_Rand_CenteredFloat(30.f);
                     tmpVec.y = -0.2f;
-                    func_80029CF0(globalCtx, &this->actor.posRot, &randVec, &tmpVec,
-                                  ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 0xF0, 0);
+                    EffectSsFhgFlash_Spawn(globalCtx, &this->actor.posRot, &randVec, &tmpVec,
+                                  ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 240, 0);
                 }
 
                 func_80033E88(&this->actor, globalCtx, 4, (u16)0xA);
@@ -400,10 +400,10 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
             sp6C.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
             sp54.y = -0.08f;
 
-            func_80029CF0(
+            EffectSsFhgFlash_Spawn(
                 globalCtx,
                 &sp6C, &tmp, &sp54,
-                (((s16) (Math_Rand_ZeroOne() * 80.0f))) + 0x96,
+                (((s16) (Math_Rand_ZeroOne() * 80.0f))) + 150,
                 0
             );
         }

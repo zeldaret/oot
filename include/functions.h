@@ -258,9 +258,7 @@ void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 // ? func_80029C50(?);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);
-// second argument suspected to be a Vec3f instead of PosRot,
-// unsure about last two, could be floats.
-void func_80029CF0(GlobalContext*, PosRot*, Vec3f*, Vec3f*, s32, s32);
+void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
 // ? func_80029D5C(?);
 // ? func_80029DBC(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
