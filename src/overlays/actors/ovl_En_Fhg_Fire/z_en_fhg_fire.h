@@ -11,12 +11,21 @@ typedef struct EnFhgFire {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnFhgFireActionFunc actionFunc;
     /* 0x0150 */ Vec3s unk_150; // rotation
-    /* 0x0156 */ Vec3s unk_156; // x used as a flag, y as a rotation
-    /* 0x015C */ char unk_15C[0x04];
+    /* 0x0156 */ s16 unk_156;
+    /* 0x0158 */ s16 fireMode;
+    /* 0x015a */ s16 unk_15A;
+    /* 0x015C */ s16 unk_15C;
+    /* 0x015E */ char unk_15E[0x02];
     /* 0x0160 */ f32 unk_160;
     /* 0x0164 */ char unk_164[0x08];
     /* 0x016C */ f32 scale;
-    /* 0x0170 */ char unk_170[0x1C];
+    /* 0x0170 */ char unk_170[0x04];
+    /* 0x0174 */ f32 unk_174;
+    /* 0x0178 */ f32 unk_178;
+    /* 0x017C */ f32 unk_17C;
+    /* 0x0180 */ f32 unk_180;
+    /* 0x0184 */ char unk_184[0x04];
+    /* 0x0188 */ f32 unk_188;
     /* 0x018C */ f32 unk_18C;
     /* 0x0190 */ char unk_190[0x0C];
     /* 0x019C */ z_Light* light;

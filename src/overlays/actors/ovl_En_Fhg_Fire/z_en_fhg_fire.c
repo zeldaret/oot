@@ -30,6 +30,11 @@ extern Vec3f D_80A117BC;
 extern Vec3f D_80A117C8;
 extern Vec3f D_80A117D4;
 
+extern Gfx D_0600FAA0[];
+extern Gfx D_0600FCF8[];
+extern Gfx D_060105E0[];
+extern Gfx D_06012160[];
+
 /*
 const ActorInit En_Fhg_Fire_InitVars = {
     0,
@@ -103,7 +108,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnFhgFire_SetActionFunc(this, func_80A10008);
         osSyncPrintf("yari hikari ct 2\n");
         this->unk_150.x = thisx->posRot.rot.x;
-        this->unk_156.y = thisx->posRot.rot.y;
+        this->fireMode = thisx->posRot.rot.y;
         return;
     }
 
@@ -135,7 +140,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         tempf2 = player->actor.posRot.pos.y + 30.0f - thisx->posRot.pos.y;
         tempf3 = player->actor.posRot.pos.z - thisx->posRot.pos.z;
         thisx->posRot.rot.y = Math_atan2f(tempf1, tempf3) * 10430.378f; // 65536/(2*M_PI)
-        tempf0 = sqrtf((tempf1 * tempf1) + (tempf3 * tempf3));
+        tempf0 = sqrtf(SQ(tempf1) + SQ(tempf3));
         thisx->posRot.rot.x = Math_atan2f(tempf2, tempf0) * 10430.378f; // 65536/(2*M_PI)
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
@@ -167,12 +172,12 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
     s16 randY;
     s16* tmp;
 
-    tmp = &this->unk_156.x;
+    tmp = &this->unk_156;
     camera = Gameplay_GetCamera(globalCtx, 0);
 
-    switch (this->unk_156.y) {
+    switch (this->fireMode) {
         case 0x00:
-            this->unk_156.y = 0x0A;
+            this->fireMode = 0x0A;
             this->unk_150.x = 0x07;
             break;
 
@@ -181,7 +186,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
 
             if (this->unk_150.x == 0) {
-                this->unk_156.y = 0x0B;
+                this->fireMode = 0x0B;
                 this->actor.shape.rot.z += 0x8000;
                 this->unk_150.x = 0x25;
                 this->actor.posRot.pos.y -= 200.0f;
@@ -198,7 +203,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                     randVec.z = Math_Rand_CenteredFloat(30.f);
                     tmpVec.y = -0.2f;
                     EffectSsFhgFlash_Spawn(globalCtx, &this->actor.posRot.pos, &randVec, &tmpVec,
-                                  ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 240, 0);
+                                           ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 240, 0);
                 }
 
                 func_80033E88(&this->actor, globalCtx, 4, (u16)0xA);
@@ -244,15 +249,15 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
     osSyncPrintf("FF MOVE 1\n");
     this->actor.shape.rot.x += ((s16)(Math_Rand_ZeroOne() * 4000.0f) + 0x4000);
 
-    switch (this->unk_156.y) {
+    switch (this->fireMode) {
         case 0:
-            this->unk_156.y = 1;
+            this->fireMode = 1;
             this->unk_150.x = ((s16)(Math_Rand_ZeroOne() * 7.0f)) + 0x07;
         case 1:
             Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
 
             if (this->unk_150.x == 0) {
-                this->unk_156.y = 0x02;
+                this->fireMode = 0x02;
                 this->unk_150.x = 0x0A;
                 this->actor.posRot.pos.z += Math_Sins(this->actor.shape.rot.y) * -200.0f * this->scale;
                 temp_f6 = Math_Coss(this->actor.shape.rot.y) * 200.0f;
@@ -362,8 +367,9 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
         }
     }
 
+    // Related to scene draw config 30, only used in BossGanon_Update and
+    // loaded in z_kankyo
     D_8015FCF0 = this->unk_1FC;
-
     D_8015FCF8 = this->actor.posRot.pos;
     D_8015FD06 = this->unk_200;
     D_8015FD08 = 10.0f;
@@ -379,7 +385,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("yari hikari 1\n");
     horse = (EnfHG*)this->actor.attachedA;
-    if ((this->unk_156.x % 2) != 0) {
+    if ((this->unk_156 % 2) != 0) {
         Actor_SetScale(&this->actor, 6.0f);
     } else {
         Actor_SetScale(&this->actor, 5.25f);
@@ -389,7 +395,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.z += ((s16)(Math_Rand_ZeroOne() * 20000.0f)) + 0x4000;
 
     osSyncPrintf("yari hikari 2\n");
-    if (this->unk_156.y == 0) {
+    if (this->fireMode == 0) {
         tmp = D_80A117C8;
         sp54 = D_80A117D4;
         osSyncPrintf("FLASH !!\n");
@@ -400,12 +406,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
             sp6C.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
             sp54.y = -0.08f;
 
-            EffectSsFhgFlash_Spawn(
-                globalCtx,
-                &sp6C, &tmp, &sp54,
-                (((s16) (Math_Rand_ZeroOne() * 80.0f))) + 150,
-                0
-            );
+            EffectSsFhgFlash_Spawn(globalCtx, &sp6C, &tmp, &sp54, (((s16)(Math_Rand_ZeroOne() * 80.0f))) + 150, 0);
         }
     }
 
@@ -429,4 +430,85 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
+// Unsolved regalloc
+#ifdef NON_MATCHING
+void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnFhgFire* this = THIS;
+    char pad[0x04];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[3];
+
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_fhg_fire.c", 0x6BB);
+    if (thisx->params == 0x24) {
+        func_80093D84(globalCtx->state.gfxCtx);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xA5, 0xFF, 0x4B, 0x00);
+        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x6D1),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
+    } else {
+        if ((thisx->params == 0x26) || (thisx->params == 0x32)) {
+            osSyncPrintf("yari hikari draw 1\n");
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            func_80093D84(globalCtx->state.gfxCtx);
+
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
+
+            if (this->fireMode > 0) {
+                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0xFF, 0xFF, 0x00);
+            } else {
+                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xA5, 0xFF, 0x4B, 0x00);
+            }
+
+            gDPPipeSync(gfxCtx->polyXlu.p++);
+
+            Matrix_RotateZ(((f32)thisx->shape.rot.z / 32768.0f) * M_PI, 1);
+            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x709),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+            gSPDisplayList(gfxCtx->polyXlu.p++, D_06012160);
+        } else {
+            if (((thisx->params == 0x27) || (thisx->params == 0x28)) || (thisx->params == 0x29)) {
+                func_80093D84(globalCtx->state.gfxCtx);
+                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0,
+                                ((u32)this->unk_188 & 0xFF)); // sic u32
+                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x5A, 0x32, 0x5F, (s32)(this->unk_188 * 0.5f));
+                gDPPipeSync(gfxCtx->polyXlu.p++);
+                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x729),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+                // clang-format off
+                gSPSegment(
+                    gfxCtx->polyXlu.p++,
+                    0x08,
+                    Gfx_TwoTexScroll(
+                        globalCtx->state.gfxCtx,
+                        0, (s16) this->unk_174, (s16) this->unk_178, 0x40, 0x40,
+                        1, (s16) this->unk_17C, (s16) this->unk_180, 0x40, 0x40
+                    )
+                );
+                // clang-format on
+
+                gSPDisplayList(gfxCtx->polyXlu.p++, D_0600FAA0);
+            } else {
+                osSyncPrintf("FF DRAW 1\n");
+                Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
+                func_80093D84(globalCtx->state.gfxCtx);
+
+                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
+                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x1E, 0x00, 0xFF);
+                gDPPipeSync(gfxCtx->polyXlu.p++);
+                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x764),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(gfxCtx->polyXlu.p++, D_060105E0);
+                osSyncPrintf("FF DRAW 2\n");
+            }
+        }
+    }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x76C);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/EnFhgFire_Draw.s")
+#endif
