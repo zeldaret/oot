@@ -35,7 +35,6 @@ extern Gfx D_0600FCF8[];
 extern Gfx D_060105E0[];
 extern Gfx D_06012160[];
 
-/*
 const ActorInit En_Fhg_Fire_InitVars = {
     0,
     ACTORTYPE_BOSS,
@@ -47,7 +46,6 @@ const ActorInit En_Fhg_Fire_InitVars = {
     (ActorFunc)EnFhgFire_Update,
     (ActorFunc)EnFhgFire_Draw,
 };
-*/
 
 void EnFhgFire_SetActionFunc(EnFhgFire* this, EnFhgFireActionFunc func) {
     this->actionFunc = func;
