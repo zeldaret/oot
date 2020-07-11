@@ -55,7 +55,9 @@ InitChainEntry D_809C3490[] = {
 
 s32 D_809C34B4[] = { 0x00000000, 0x00000000, 0x00000000 };
 s32 D_809C34C0[] = { 0x00000000, 0x3F19999A, 0x00000000 };
-s32 D_809C34CC = 0xFFFFFFFF;
+
+extern Gfx D_04007A50[]; // gold fuse cap
+extern Gfx D_04007860[]; // bomb
 
 // EnBom_SetupAction
 void func_809C26D0(EnBom* this, EnBomActionFunc* actionFunc) {
@@ -186,16 +188,15 @@ void func_809C2A38(EnBom* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom/EnBom_Update.s")
-void EnBom_Update(EnBom* this, GlobalContext* globalCtx) {
+void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp78 = { 0.0f, 0.1f, 0.0f };
     Vec3f sp6C = { 0.0f, 0.0f, 0.0f };
-    Vec3f posCopy; // 60
+    Vec3f posCopy;
     Vec3f sp54 = { 0.0f, 0.0f, 0.0f };
-    s32 sp50;
-
-    sp50 = D_809C34CC;
+    Color_RGBA8_n dustColor = { 0xFF, 0xFF, 0xFF, 0xFF };
+    s32 pad[2];
+    EnBom* this = THIS;
 
     this->actor.gravity = -1.2f;
 
@@ -209,10 +210,8 @@ void EnBom_Update(EnBom* this, GlobalContext* globalCtx) {
     }
 
     // activate bump collider if link is 20 or more units away from the bomb in the xz plane
-    // or if the height difference is 80 or more units
-
-    // use an or?
-    if (!(this->actor.xzDistFromLink >= 20.0f) || (ABS(this->actor.yDistFromLink) >= 80.0f)) {
+    // or if the height difference between link and the bomb is 80 or more units
+    if ((this->actor.xzDistFromLink >= 20.0f) || (ABS(this->actor.yDistFromLink) >= 80.0f)) {
         this->bump = true;
     }
 
@@ -224,67 +223,45 @@ void EnBom_Update(EnBom* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         if (this->timer < 63) {
             sp54.y = 0.2f;
-            posCopy = this->actor.posRot.pos;
-            posCopy.y += 17.0f;
 
             // spawn spark effect on even frames
+            posCopy = this->actor.posRot.pos;
+            posCopy.y += 17.0f;
             if ((globalCtx->gameplayFrames % 2) == 0) {
                 func_80029184(globalCtx, this, &posCopy, &sp84, &sp6C);
             }
 
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
-            posCopy.y += 3.0f;
 
-            func_8002829C(globalCtx, &posCopy, &sp84, &sp54, &sp50, &sp50, 0x32, 5);
+            posCopy.y += 3.0f;
+            func_8002829C(globalCtx, &posCopy, &sp84, &sp54, &dustColor, &dustColor, 0x32, 5);
         }
 
-        if (!(this->bombCollider.base.acFlags & 2)) {
-            if ((this->bombCollider.base.maskA & 2) != 0) {
-                if (this->bombCollider.base.oc->type == 5) {
-                block_18:
-                    this->timer = (u16)0;
-                    this->actor.shape.rot.z = (u16)0;
-                } else {
-                block_19:
-                    if ((s32)this->timer >= 0x65) {
-                        if (func_8008EF5C(globalCtx, &this->actor.posRot, 0x41F00000, 0x42480000) != 0) {
-                            this->timer = (u16)0x64;
-                        }
-                    }
-                }
-            } else {
-                goto block_19;
-            }
+        if ((this->bombCollider.base.acFlags & 2) ||
+            (((this->bombCollider.base.maskA & 2) != 0) && (this->bombCollider.base.oc->type == 5))) {
+            this->timer = 0;
+            this->actor.shape.rot.z = 0;
         } else {
-            goto block_18;
+            // if a lit stick touches the bomb, set timer to 100
+            // copy paste from bomb flower? normal bombs timer starts at 70
+            if ((this->timer >= 101) && (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f))) {
+                this->timer = 100;
+            }
         }
 
         sp54.y = 0.2f;
         posCopy = this->actor.posRot.pos;
         posCopy.y += 10.0f;
-        if (this->timer != 3) {
-            if (this->timer != 0x14) {
-                if (this->timer == 0x28) {
-                block_25:
-                    this->actor.shape.rot.z = (u16)0;
-                    this->unk_1FA = (s16)((s32)this->unk_1FA >> 1);
-                }
-            } else {
-                goto block_25;
-            }
-        } else {
-            goto block_25;
+
+        if ((this->timer == 3) || (this->timer == 20) || (this->timer == 40)) {
+            this->actor.shape.rot.z = 0;
+            this->unk_1FA >>= 1;
         }
 
-        if ((s32)this->timer < 0x64) {
-            if (((s32)this->timer & (this->unk_1FA + 1)) != 0) {
-                Math_SmoothScaleMaxMinF((f32*)this->unk_1FC, 140.0f, 1.0f, 140.0f / (f32)this->unk_1FA, 0.0f);
-            } else {
-            block_29:
-                Math_SmoothScaleMaxMinF((f32*)this->unk_1FC, 0.0f, 1.0f, 140.0f / (f32)this->unk_1FA, 0.0f);
-            }
+        if ((this->timer < 100) && ((this->timer & (this->unk_1FA + 1)) != 0)) {
+            Math_SmoothScaleMaxMinF(&this->redIntensity, 140.0f, 1.0f, 140.0f / this->unk_1FA, 0.0f);
         } else {
-            goto block_29;
+            Math_SmoothScaleMaxMinF(&this->redIntensity, 0.0f, 1.0f, 140.0f / this->unk_1FA, 0.0f);
         }
 
         if (this->timer < 3) {
@@ -308,11 +285,12 @@ void EnBom_Update(EnBom* this, GlobalContext* globalCtx) {
 
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
 
-            // order might be wrong. might also be one chain
+            if (globalCtx) {};
+
             globalCtx->envCtx.unk_8C[3] = globalCtx->envCtx.unk_8C[4] = globalCtx->envCtx.unk_8C[5] = 0xFA;
             globalCtx->envCtx.unk_8C[0] = globalCtx->envCtx.unk_8C[1] = globalCtx->envCtx.unk_8C[2] = 0xFA;
 
-            func_8005AA1C(globalCtx->cameras, 2, 0xB, 8);
+            func_8005AA1C(&globalCtx->cameras[0], 2, 0xB, 8);
             this->actor.params = 1;
             this->timer = 10;
             this->actor.flags |= 0x20;
@@ -326,14 +304,14 @@ void EnBom_Update(EnBom* this, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(&this->actor, &this->bombCollider);
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to bump
         if ((!func_8002F410(&this->actor, globalCtx)) && (this->bump)) {
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider.base);
         }
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider.base);
     }
 
     if ((this->actor.scale.x >= 0.01f) && (this->actor.params != 1)) {
         if (this->actor.waterY >= 20.0f) {
-            func_8002A9F4(globalCtx, &this->actor.projectedPos, 0x180F, 1, 1, 0xA);
+            func_8002A9F4(globalCtx, &this->actor.projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 0xA);
             Actor_Kill(&this->actor);
             return;
         }
@@ -344,4 +322,34 @@ void EnBom_Update(EnBom* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom/EnBom_Draw.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom/EnBom_Draw.s")
+void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnBom* this = THIS;
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
+
+    if (1){}
+    gfxCtx = globalCtx->state.gfxCtx;  
+    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 913);
+
+    if (this->actor.params == 0) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        func_800D1FD4(&globalCtx->mf_11DA0);
+        func_8002EBCC(&this->actor, globalCtx, 0);
+        
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_04007A50);
+        Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPPipeSync(gfxCtx->polyOpa.p++);
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s32)this->redIntensity, 0, 40, 255);
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, (s32)this->redIntensity, 0x00, 0x28, 0xFF);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_04007860);
+        func_800628A4(0, &this->jntSphList);
+    }
+    
+    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 951);
+}

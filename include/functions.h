@@ -1098,6 +1098,7 @@ void func_8008ECAC(GlobalContext*, Player* player);
 void func_8008EDF0(Player*);
 // ? func_8008EE08(?);
 s32 func_8008EF44(GlobalContext*, s32);
+s32 func_8008EF5C(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 arg3);
 // ? func_8008F034(?);
 u8 func_8008F080(GlobalContext*);
 Player* func_8008F08C(GlobalContext*);

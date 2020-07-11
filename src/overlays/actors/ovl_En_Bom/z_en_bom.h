@@ -15,8 +15,8 @@ typedef struct EnBom {
     /* 0x01B8 */ ColliderJntSphItem explosionCollider[1];
     /* 0x01F8 */ s16 timer;
     /* 0x01FA */ s16 unk_1FA;
-    /* 0x01FC */ char unk_1FC[4];
-    /* 0x0200 */ s8 bump;
+    /* 0x01FC */ f32 redIntensity;
+    /* 0x0200 */ u8 bump;
     /* 0x0203 */ char unk_203[3];
     /* 0x0204 */ EnBomActionFunc actionFunc;
 } EnBom; // size = 0x0208
