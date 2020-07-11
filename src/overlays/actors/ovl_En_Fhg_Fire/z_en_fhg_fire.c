@@ -418,6 +418,15 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A10F18.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/EnFhgFire_Update.s")
+void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnFhgFire* this = THIS;
+
+    this->unk_156++;
+
+    DECR(this->unk_150.x);
+    DECR(this->unk_150.y);
+
+    this->actionFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/EnFhgFire_Draw.s")
