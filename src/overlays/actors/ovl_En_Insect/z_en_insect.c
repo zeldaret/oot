@@ -271,7 +271,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
 
-    if (1600.0f < EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) ||
+    if (EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 1600.0f  ||
         (this->unk_31A < 4)) {
         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y,
                                  Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
@@ -531,7 +531,7 @@ void func_80A7D26C(EnInsect* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 200;
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.00005f, 0.001f));
 
-    if (5.0f < this->actor.waterY && this->actor.waterY < 30.0f && Math_Rand_ZeroOne() < 0.3f) {
+    if (this->actor.waterY > 5.0f && this->actor.waterY < 30.0f && Math_Rand_ZeroOne() < 0.3f) {
         func_800293E4(globalCtx, &this->actor.posRot.pos, -5.0f, 5.0f, 5.0f, (Math_Rand_ZeroOne() * 0.04f) + 0.02f);
     }
 
