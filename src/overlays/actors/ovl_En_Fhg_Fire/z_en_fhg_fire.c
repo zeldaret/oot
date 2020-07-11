@@ -417,7 +417,49 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A10220.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A10F18.s")
+void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx) {
+    EnfHG* horse = (EnfHG*)this->actor.attachedA;
+    f32 phi_f0;
+    s32 tmp;
+
+    this->unk_174 = (this->unk_174 + (25.0f * this->unk_184));
+    this->unk_178 = (this->unk_178 - (40.0f * this->unk_184));
+    this->unk_17C = (this->unk_17C + (5.0f * this->unk_184));
+    this->unk_180 = (this->unk_180 - (30.0f * this->unk_184));
+
+    if (this->actor.params == 0x29) {
+        if (this->unk_150.x >= 0x47) {
+            Audio_PlayActorSound2(&this->actor, 0x2040);
+            Audio_PlayActorSound2(&this->actor, 0x2054);
+        }
+
+        if (this->unk_150.x == 0x46) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_S);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_S2);
+        }
+    }
+
+    if (this->unk_150.x >= 0x33) {
+        phi_f0 = 1.0f;
+        if (this->actor.params >= 0x28) {
+            phi_f0 = -1.0f;
+        }
+
+        Math_SmoothScaleMaxF(&this->unk_184, phi_f0, 1.0f, 0.04f);
+        Math_SmoothScaleMaxF(&this->unk_188, 255.0f, 1.0f, 10.2f);
+    } else {
+        if (this->unk_150.x < 0x1A) {
+            Math_SmoothDownscaleMaxF(&this->unk_184, 1.0f, 0.04f);
+            Math_SmoothDownscaleMaxF(&this->unk_188, 1.0f, 10.2f);
+        }
+    }
+
+    osSyncPrintf("EFC 1\n");
+    if ((this->unk_150.x == 0) || ((this->actor.params == 0x27) && (horse->unk_14F != 0))) {
+        Actor_Kill(&this->actor);
+    }
+    osSyncPrintf("EFC 2\n");
+}
 
 void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;

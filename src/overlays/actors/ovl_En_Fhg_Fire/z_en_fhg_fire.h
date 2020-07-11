@@ -24,7 +24,7 @@ typedef struct EnFhgFire {
     /* 0x0178 */ f32 unk_178;
     /* 0x017C */ f32 unk_17C;
     /* 0x0180 */ f32 unk_180;
-    /* 0x0184 */ char unk_184[0x04];
+    /* 0x0184 */ f32 unk_184;
     /* 0x0188 */ f32 unk_188;
     /* 0x018C */ f32 unk_18C;
     /* 0x0190 */ char unk_190[0x0C];
