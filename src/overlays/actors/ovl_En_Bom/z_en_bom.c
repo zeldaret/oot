@@ -9,8 +9,8 @@ void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809C282C(EnBom* this, GlobalContext* globalCtx);
-void func_809C29F4(EnBom* this, GlobalContext* globalCtx);
+void EnBom_Move(EnBom* this, GlobalContext* globalCtx);
+void EnBom_Wait(EnBom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
@@ -52,7 +52,7 @@ static InitChainEntry sInitChain[] = {
 extern Gfx D_04007A50[]; // gold fuse cap
 extern Gfx D_04007860[]; // bomb
 
-void EnBom_SetupAction(EnBom* this, EnBomActionFunc* actionFunc) {
+void EnBom_SetupAction(EnBom* this, EnBomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -69,7 +69,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->bombCollider);
     Collider_InitJntSph(globalCtx, &this->jntSphList);
     Collider_SetCylinder(globalCtx, &this->bombCollider, &this->actor, &sCylinderInit);
-    Collider_SetJntSph(globalCtx, &this->jntSphList, &this->actor, &sJntSphInit, &this->explosionCollider);
+    Collider_SetJntSph(globalCtx, &this->jntSphList, &this->actor, &sJntSphInit, &this->explosionCollider[0]);
     this->explosionCollider[0].body.toucher.damage += (THIS->actor.shape.rot.z & 0xFF00) >> 8;
 
     this->actor.shape.rot.z &= 0xFF;
@@ -77,7 +77,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.z |= 0xFF00;
     }
 
-    EnBom_SetupAction(this, func_809C282C);
+    EnBom_SetupAction(this, EnBom_Move);
 }
 
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -87,9 +87,10 @@ void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
 }
 
-void func_809C282C(EnBom* this, GlobalContext* globalCtx) {
+void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
+    // if attached A is not null, the bomb hasnt been released yet
     if (func_8002F410(&this->actor, globalCtx)) {
-        EnBom_SetupAction(this, func_809C29F4);
+        EnBom_SetupAction(this, EnBom_Wait);
         this->actor.room = -1;
         return;
     }
@@ -98,8 +99,9 @@ void func_809C282C(EnBom* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = -this->actor.velocity.y;
     }
 
+    // rebound bomb off the wall it hits
     if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
-        if (ABS((s16)(this->actor.wallPolyRot - this->actor.posRot.rot.y)) >= 0x4001) {
+        if (ABS((s16)(this->actor.wallPolyRot - this->actor.posRot.rot.y)) > 0x4000) {
             this->actor.posRot.rot.y =
                 ((this->actor.wallPolyRot - this->actor.posRot.rot.y) + this->actor.wallPolyRot) - 0x8000;
         }
@@ -125,10 +127,11 @@ void func_809C282C(EnBom* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
-void func_809C29F4(EnBom* this, GlobalContext* globalCtx) {
+void EnBom_Wait(EnBom* this, GlobalContext* globalCtx) {
+    // if attachedA is NULL bomb has been released
     if (func_8002F5A0(&this->actor, globalCtx)) {
-        EnBom_SetupAction(this, func_809C282C);
-        func_809C282C(this, globalCtx);
+        EnBom_SetupAction(this, EnBom_Move);
+        EnBom_Move(this, globalCtx);
     }
 }
 
@@ -234,13 +237,13 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
-            (((this->bombCollider.base.maskA & 2) != 0) && (this->bombCollider.base.oc->type == 5))) {
+            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == 5))) {
             this->timer = 0;
             this->actor.shape.rot.z = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
             // copy/paste from bomb flower, normal bombs never have a timer over 70
-            if ((this->timer >= 101) && (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f))) {
+            if ((this->timer > 100) && (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f))) {
                 this->timer = 100;
             }
         }
@@ -269,7 +272,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             posCopy = this->actor.posRot.pos;
 
             posCopy.y += 10.0f;
-            if (func_8002F410(&this->actor, globalCtx) != 0) {
+            if (func_8002F410(&this->actor, globalCtx)) {
                 posCopy.y += 30.0f;
             }
 
@@ -326,7 +329,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 913);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 913);
 
     if (this->actor.params == 0) {
         func_80093D18(globalCtx->state.gfxCtx);
@@ -346,5 +349,5 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800628A4(0, &this->jntSphList);
     }
 
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 951);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 951);
 }
