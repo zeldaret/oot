@@ -718,7 +718,7 @@ void func_80AD5B18(EnPoField* this, GlobalContext* globalCtx) {
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
         if (func_80106BC8(globalCtx) != 0) {
-            func_800F8A44(&this->actor.unk_E4, NA_SE_EN_PO_BIG_CRY & ~0x0800);
+            func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY & ~0x0800);
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_BIG_GET);
@@ -971,7 +971,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(gfxCtx->polyOpa.p++, 0x0A, Gfx_EnvColor(globalCtx->state.gfxCtx, info->unk_6, info->unk_7, info->unk_8, 0xFF));
         if (this->unk_217 == 0xFF || this->unk_217 == 0) {
             gSPSegment(gfxCtx->polyOpa.p++, 0x08, Gfx_EnvColor(globalCtx->state.gfxCtx, this->unk_214, this->unk_215, this->unk_216, this->unk_217));
-            gSPSegment(gfxCtx->polyOpa.p++, 0x0C, D_80116280 + 0x10);
+            gSPSegment(gfxCtx->polyOpa.p++, 0x0C, D_80116280 + 0x2);
             gfxCtx->polyOpa.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80AD65C8, func_80AD66D0, &this->actor, gfxCtx->polyOpa.p);
         } else {
             gSPSegment(gfxCtx->polyXlu.p++, 0x08, Gfx_EnvColor(globalCtx->state.gfxCtx, this->unk_214, this->unk_215, this->unk_216, this->unk_217));

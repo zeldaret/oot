@@ -1304,9 +1304,9 @@ void func_80ADC55C(EnPoSisters* this) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC77C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC77C.s")
 // OverrideLimbDraw2
-s32 func_80AE0BF8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+/* s32 func_80ADC77C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
     EnPoSisters* this = THIS;
     Color_RGBA8* color;
 
@@ -1335,11 +1335,11 @@ s32 func_80AE0BF8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->unk_231);
     }
     return 0;
-}
+} */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC970.s")
 // PostLimbDraw2
-/* void func_80AE0CE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+/* void func_80ADC970(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
     EnPoSisters* this;
 
     void *sp38;
@@ -1417,7 +1417,6 @@ loop_9:
         }
     }
 } */
-
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/EnPoSisters_Draw.s")
 /* void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {

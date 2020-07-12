@@ -376,7 +376,7 @@ void func_80ADE7C0(EnPoh* this, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80ADE950.s")
 void func_80ADE950(EnPoh* this, s32 arg1) {
     if (arg1) {
-        func_800F8A44(&this->actor.unk_E4, 0x31E8);
+        func_800F8A44(&this->actor.projectedPos, 0x31E8);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     }
     this->actionFunc = func_80AE009C;
@@ -762,7 +762,7 @@ void func_80AE00DC(EnPoh* this, GlobalContext* globalCtx) {
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
         if (func_80106BC8(globalCtx) != 0) {
-            func_800F8A44(&this->actor.unk_E4, 0x31E8);
+            func_800F8A44(&this->actor.projectedPos, 0x31E8);
             if (globalCtx->msgCtx.choiceIndex == 0) { // Yes
                 if (Inventory_HasEmptyBottle()) { // If empty bottle in inventory, give bottled poe item
                     // You caught a Poe!
