@@ -5,7 +5,7 @@
 #include <global.h>
 
 struct BgJyaLift;
-typedef void (*BgJyaLiftActionFunc)(struct BgJyaLift*);
+typedef void (*BgJyaLiftActionFunc)(struct BgJyaLift*, struct GlobalContext*);
 
 typedef struct BgJyaLift {
     /* 0x000 */ DynaPolyActor dyna;
