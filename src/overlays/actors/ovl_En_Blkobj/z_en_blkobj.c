@@ -39,23 +39,23 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
-UNK_TYPE D_809C2590[] = {
+Gfx D_809C2590[] = {
     0xE200001C,
     0xC8112078,
     0xDF000000,
     0x00000000,
 };
 
-UNK_TYPE D_809C25A0[] = {
+Gfx D_809C25A0[] = {
     0xE200001C,
     0xC81049D8,
     0xDF000000,
     0x00000000,
 };
 
-extern UNK_PTR D_060014E0;
-extern UNK_PTR D_060053D0;
-extern UNK_PTR D_06007564;
+extern Gfx D_060014E0[];
+extern Gfx D_060053D0[];
+extern UNK_TYPE D_06007564;
 
 void func_809C2060(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -115,11 +115,11 @@ void func_809C2218(EnBlkobj* this, GlobalContext* globalCtx) {
     } else {
         if ((this->unk_166++ < 0x65) ^ 1) {
             temp = (this->unk_166 - 0x64) >> 2;
-            if (temp >= 6) {
+            if (temp > 5) {
                 temp = 5;
             }
             this->unk_164 += temp;
-            if (this->unk_164 >= 0x100) {
+            if (this->unk_164 > 0xFF) {
                 this->unk_164 = 0xFF;
                 func_809C2060(this, func_809C22F4);
                 DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -137,22 +137,22 @@ void EnBlkobj_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void func_809C2324(GlobalContext* globalCtx, UNK_PTR arg1, s32 alpha) {
-    u32 phi_a0;
+void func_809C2324(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
+    Gfx* segment;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_blkobj.c", 322);
 
     if (alpha == 0xFF) {
-        phi_a0 = D_809C2590;
+        segment = D_809C2590;
     } else {
-        phi_a0 = D_809C25A0;
+        segment = D_809C25A0;
     }
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, phi_a0);
+    gSPSegment(gfxCtx->polyXlu.p++, 0x08, segment);
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, alpha);
-    gSPDisplayList(gfxCtx->polyXlu.p++, arg1);
+    gSPDisplayList(gfxCtx->polyXlu.p++, dList);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_blkobj.c", 330);
 }
@@ -169,18 +169,17 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gameplayFrames = globalCtx->gameplayFrames % 128;
 
-    gSPSegment(
-        gfxCtx->polyXlu.p++, 0x0D,
-        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, 0, 0x20, 0x20, 1, gameplayFrames, 0, 0x20, 0x20));
+    gSPSegment(gfxCtx->polyXlu.p++, 0x0D,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, 0, 32, 32, 1, gameplayFrames, 0, 32, 32));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 363),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->unk_164 != 0) {
-        func_809C2324(globalCtx, &D_060014E0, this->unk_164);
+        func_809C2324(globalCtx, D_060014E0, this->unk_164);
     }
     temp_a3 = 0xFF - this->unk_164;
     if (temp_a3 != 0) {
-        func_809C2324(globalCtx, &D_060053D0, temp_a3);
+        func_809C2324(globalCtx, D_060053D0, temp_a3);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_blkobj.c", 375);
