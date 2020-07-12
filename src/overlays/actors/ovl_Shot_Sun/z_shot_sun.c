@@ -48,7 +48,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
     params = this->actor.params & 0xFF;
     if (params == 0x40 || params == 0x41) {
-        this->unk_1A4[0] = 0;
+        this->unk_1A4 = 0;
         this->actor.flags |= 0x10;
         this->actor.flags |= 0x2000000;
         this->actionFunc = func_80BADF0C;
@@ -113,32 +113,32 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     s32 params = this->actor.params & 0xFF;
 
     if (func_800CB650(&this->actor.posRot.pos, &player->actor.posRot.pos) > 22500.0f) {
-        this->unk_1A4[0] = 0;
+        this->unk_1A4 = 0;
     } else {
-        if (this->unk_1A4[0] == 0) {
+        if (this->unk_1A4 == 0) {
             if (!(player->stateFlags2 & 0x1000000)) {
                 player->stateFlags2 |= 0x800000;
                 return;
             } else {
-                this->unk_1A4[0] = 1;
+                this->unk_1A4 = 1;
             }
         }
-        if (this->unk_1A4[0] == 1) {
+        if (this->unk_1A4 == 1) {
             func_8010BD58(globalCtx, 1);
-            this->unk_1A4[0] = 2;
+            this->unk_1A4 = 2;
             return;
         }
 
-        if (this->unk_1A4[0] == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
+        if (this->unk_1A4 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
             if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
                 (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
                 this->actionFunc = ShotSun_TriggerFairy;
                 func_80080480(globalCtx, this);
                 this->timer = 0;
             } else {
-                this->unk_1A4[0] = 0;
+                this->unk_1A4 = 0;
             }
-            this->unk_1A4[0] = 0;
+            this->unk_1A4 = 0;
         }
     }
 }
