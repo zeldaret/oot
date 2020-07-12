@@ -1,3 +1,13 @@
+.late_rodata
+glabel jtbl_8014A620
+    .word L800F7534
+    .word L800F7560
+    .word L800F759C
+    .word L800F75C0
+    .word L800F75F4
+    .word L800F7628
+
+.text
 glabel func_800F74E0
 /* B6E680 800F74E0 3C028013 */  lui   $v0, %hi(D_801333A0) # $v0, 0x8013
 /* B6E684 800F74E4 3C038013 */  lui   $v1, %hi(D_801333A0) # $v1, 0x8013

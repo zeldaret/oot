@@ -7,6 +7,8 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F731C.s")
 
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/Audio_PlaySoundGeneral.s")
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F74E0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F7680.s")
@@ -21,13 +23,19 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F8884.s")
 
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F89A0.s")
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F89E8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F8A44.s")
 
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F8BA0.s")
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F8D04.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F8E3C.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F8EA0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F8F34.s")
 
