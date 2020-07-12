@@ -435,8 +435,6 @@
 /**
  * Marks the end of a cutscene
  */
-#define CS_END() 0xFFFFFFFF
-
-#define CS_PAD() 0x00000000
+#define CS_END() 0xFFFFFFFF, 0x00000000
 
 #endif
