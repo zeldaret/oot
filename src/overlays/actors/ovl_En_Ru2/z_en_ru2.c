@@ -656,7 +656,7 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
         func_80AF37AC();
     } else if (*unk_2C4 > kREG(4) + 50.0f) {
         this->actor.textId = 0x403E;
-        func_8010B680(globalCtx, this->actor.textId, 0);
+        func_8010B680(globalCtx, this->actor.textId, NULL);
         this->action = 17;
     }
 }
