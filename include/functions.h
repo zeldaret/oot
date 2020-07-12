@@ -1647,8 +1647,8 @@ s32 func_800CCF98(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 normMagni
                   f32 arg8, f32* pointDist, f32 argA);
 s32 func_800CD044(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
                   f32* arg9, f32 argA);
-s32 Math3D_TriVtxCylTouching(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7,
-                             f32 arg8, f32* arg9, f32 argA, f32 argB);
+s32 Math3D_TriVtxCylTouching(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 cylZ,
+                  f32 cylX, f32* yIntercept, f32 cylBottom, f32 cylTop);
 s32 func_800CD2D8(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f32 arg6);
 s32 func_800CD6B0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
                   f32* arg9);
