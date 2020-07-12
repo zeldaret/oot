@@ -88,6 +88,7 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
             break;
     }
 
+    // UB: fairyParams may be uninitialized
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.initPosRot.pos.x,
                 this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyParams);
 
