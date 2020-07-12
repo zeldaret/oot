@@ -1,3 +1,93 @@
+.rdata
+glabel D_8013C3D0
+    .asciz "T%03d "
+    .balign 4
+
+glabel D_8013C3D8
+    .asciz "E%03d"
+    .balign 4
+
+glabel D_8013C3E0
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C3E4
+    .asciz "ZELDATIME "
+    .balign 4
+
+glabel D_8013C3F0
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C3F8
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C3FC
+    .asciz ":"
+    .balign 4
+
+glabel D_8013C400
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C404
+    .asciz " "
+    .balign 4
+
+glabel D_8013C408
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C410
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C414
+    .asciz "VRBOXTIME "
+    .balign 4
+
+glabel D_8013C420
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C428
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C42C
+    .asciz ":"
+    .balign 4
+
+glabel D_8013C430
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C434
+    .asciz " "
+    .balign 4
+
+glabel D_8013C438
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C440
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C444
+    .asciz "YORU"
+    .balign 4
+
+glabel D_8013C44C
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C450
+    .asciz "HIRU"
+    .balign 4
+
+.text
 glabel func_80070718
 /* AE78B8 80070718 27BDFF98 */  addiu $sp, $sp, -0x68
 /* AE78BC 8007071C AFB00020 */  sw    $s0, 0x20($sp)

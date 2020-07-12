@@ -52,9 +52,9 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
     DynaPolyInfo_Alloc(&D_060000C0, &temp);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
-    this->dyna.actor.unk_F8 = 500.0f;
-    this->dyna.actor.unk_FC = 550.0f;
-    this->dyna.actor.unk_F4 = 2200.0f;
+    this->dyna.actor.uncullZoneScale = 500.0f;
+    this->dyna.actor.uncullZoneDownward = 550.0f;
+    this->dyna.actor.uncullZoneForward = 2200.0f;
     this->invScale = 6;
     this->maxStep = 1000;
     this->minStep = 1;

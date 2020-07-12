@@ -1,4 +1,3 @@
-
 .rdata
 glabel D_80147E58
     .asciz "%08x:"
@@ -49,7 +48,7 @@ glabel D_80147F5C
     .balign 4
 
 glabel D_80147F90
-    .asciz "\x23\x23\x23 TileSyncが必要です。\n"
+    .asciz "### TileSyncが必要です。\n"
     # EUC-JP: が必要です。| Is required.
     .balign 4
 
@@ -62,7 +61,7 @@ glabel D_80147FCC
     .balign 4
 
 glabel D_80147FEC
-    .asciz "\x23\x23\x23 LoadSyncが必要です。\n"
+    .asciz "### LoadSyncが必要です。\n"
     # EUC-JP: が必要です。| Is required.
     .balign 4
 
@@ -79,6 +78,6 @@ glabel D_80148044
     .balign 4
 
 glabel D_8014808C
-    .asciz "\x23\x23\x23 PipeSyncが必要です。\n"
+    .asciz "### PipeSyncが必要です。\n"
     # EUC-JP: が必要です。| Is required.
     .balign 4

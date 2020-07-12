@@ -461,6 +461,7 @@ extern u32 gUpgradeNegMasks[8];
 extern u8 gEquipShifts[4];
 extern u8 gUpgradeShifts[8];
 extern u16 gUpgradeCapacities[8][4];
+extern u32 D_8012724C[4];
 extern u32 gItemIcons[0x82];
 extern u8 gItemSlots[56];
 extern void (*gSceneCmdHandlers[26])(GlobalContext*, SceneCmd*);
@@ -510,9 +511,6 @@ extern u8 gFontFF[]; // original name: "font_ff"
 //extern ? D_8012C7A8;
 //extern ? D_8012CDC8;
 //extern ? D_8012CEA0;
-//extern ? D_8012CED0;
-//extern ? D_8012CED4;
-//extern ? D_8012CED8;
 //extern ? D_8012CEE0;
 //extern ? D_8012CEE4;
 //extern ? D_8012CEE8;
@@ -820,11 +818,11 @@ extern s32 gOverlayLogSeverity;
 //extern ? D_80134484;
 extern s32 gSystemArenaLogSeverity;
 //extern ? D_801344C0;
-//extern u32 gOsSiAccessQueueCreated = 0;
-//extern u32 gOsContInitialized = 0;
-//extern ? D_80134CF0;
-//extern ? D_80134CF4;
-extern s32 D_80134D20;
+extern u32 gOSSiAccessQueueCreated; // = 0;
+extern u32 gOSContInitialized; // = 0
+extern s32 __osPfsInodeCacheChannel;
+extern u8 __osPfsInodeCacheBank;
+extern s32 __osPfsLastChannel;
 //extern ? D_80135130;
 //extern ? D_80135158;
 //extern ? D_801351A8;
@@ -3723,11 +3721,6 @@ extern NotePool gNoteFreeLists;
 //extern ? D_801755D0;
 extern u32 __osMalloc_FreeBlockTest_Enable;
 //extern ? D_80175640;
-//extern ? D_80175660;
-//extern ? D_80175664;
-//extern ? D_80175668;
-//extern ? D_80175669;
-//extern ? D_8017566C;
 //extern ? D_80175670;
 //extern ? D_80175680;
 //extern ? D_80175688;
@@ -3737,16 +3730,16 @@ extern u32 __osMalloc_FreeBlockTest_Enable;
 //extern ? D_801756A0;
 //extern ? D_801756A8;
 extern Arena gSystemArena;
-//extern pif_data_buffer_t osPifBuffers[4];
-//extern OSMesg osSiMesgBuff[SIAccessQueueSize];
-//extern OSMesgQueue gOsSiMessageQueue;
-//extern pif_data_buffer_t _osPifInternalBuff;
-extern u8 _osCont_lastPollType;
-//extern u8 _osCont_numControllers;
-//extern OSMesgQueue _osContMesgQueue;
-//extern OSMesg _osContMesgBuff[4];
-//extern ? D_80175860;
-extern pif_data_buffer_t pifMempakBuf;
+extern OSPifRam osPifBuffers[MAXCONTROLLERS];
+extern OSMesg osSiMesgBuff[SIAccessQueueSize];
+extern OSMesgQueue gOSSiMessageQueue;
+extern OSPifRam __osPifInternalBuff;
+extern u8 __osContLastPoll;
+extern u8 __osMaxControllers;
+extern OSMesgQueue __osContMesgQueue;
+extern OSMesg __osContMesgBuff[4];
+extern __OSInode __osPfsInodeCache;
+extern OSPifRam pifMempakBuf;
 //extern ? D_801759A0;
 //extern ? D_801759A4;
 //extern ? D_801759A8;
@@ -3761,7 +3754,6 @@ extern pif_data_buffer_t pifMempakBuf;
 //extern ? D_801759BA;
 //extern ? D_801759BC;
 //extern ? D_801759BE;
-
 extern u16 gZBuffer[SCREEN_WIDTH * SCREEN_HEIGHT]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u8 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE]; // 0xC00 bytes
@@ -3770,7 +3762,6 @@ extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 extern u8 gSystemHeap[];
 extern MapMarksData* gMapMarkDataTable[];
-
 //extern ? D_A4040004;
 //extern ? D_A4040008;
 //extern ? D_A404000C;

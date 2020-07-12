@@ -437,7 +437,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     }
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, temp_a1, 0x800);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if ((this->animFlagAndTimer == 0) || (this->actor.unk_E4.z < 0.0f)) {
+    if ((this->animFlagAndTimer == 0) || (this->actor.projectedPos.z < 0.0f)) {
         func_80106CCC(globalCtx);
         if (this->actor.params == 3) {
             Flags_SetClear(globalCtx, this->actor.room);
@@ -514,7 +514,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetHeight(&this->actor, this->skelAnime.animCurrentFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
             Actor_SetHeight(&this->actor, 20.0f - ((this->skelAnime.animCurrentFrame * 20.0f) /
-                                                   (f32)SkelAnime_GetFrameCount(&D_060024CC.genericHeader)));
+                                                   SkelAnime_GetFrameCount(&D_060024CC.genericHeader)));
         } else {
             Actor_SetHeight(&this->actor, 20.0f);
         }

@@ -1,3 +1,18 @@
+.rdata
+glabel D_8013C240
+    .asciz "\x1b[43;30m\n\nフィールド常駐以外、太陽設定！よって強制解除！\n\x1b[m"
+    # EUC-JP: フィールド常駐以外、太陽設定！よって強制解除！ | "Sun setting except field resident! So forced release!"?
+    .balign 4
+
+.late_rodata
+glabel jtbl_8013C790
+    .word L8006F4A8
+    .word L8006F4CC
+    .word L8006F4CC
+    .word L8006F4CC
+    .word L8006F4F0
+
+.text
 glabel func_8006F140
 /* AE62E0 8006F140 3C088016 */  lui   $t0, %hi(gSaveContext) # $t0, 0x8016
 /* AE62E4 8006F144 2508E660 */  addiu $t0, %lo(gSaveContext) # addiu $t0, $t0, -0x19a0
