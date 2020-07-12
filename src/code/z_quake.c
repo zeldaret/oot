@@ -36,20 +36,20 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
         vec.z = 0;
         OLib_Vec3fDiffToVecSphRot90(&struc1, unk5C, unk50);
         struc2.r = req->y * y;
-        struc2.phi = struc1.phi + req->unk_14.unk_00 + 0x4000;
-        struc2.theta = struc1.theta + req->unk_14.unk_02;
+        struc2.pitch = struc1.pitch + req->unk_14.unk_00 + 0x4000;
+        struc2.yaw = struc1.yaw + req->unk_14.unk_02;
         Quake_AddVec(&vec, &vec, &struc2);
         struc2.r = req->x * x;
-        struc2.phi = struc1.phi + req->unk_14.unk_00;
-        struc2.theta = struc1.theta + req->unk_14.unk_02 + 0x4000;
+        struc2.pitch = struc1.pitch + req->unk_14.unk_00;
+        struc2.yaw = struc1.yaw + req->unk_14.unk_02 + 0x4000;
         Quake_AddVec(&vec, &vec, &struc2);
     } else {
         vec.x = 0;
         vec.y = req->y * y;
         vec.z = 0;
         struc2.r = req->x * x;
-        struc2.phi = req->unk_14.unk_00;
-        struc2.theta = req->unk_14.unk_02;
+        struc2.pitch = req->unk_14.unk_00;
+        struc2.yaw = req->unk_14.unk_02;
         Quake_AddVec(&vec, &vec, &struc2);
     }
 

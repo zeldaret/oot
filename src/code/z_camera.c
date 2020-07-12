@@ -679,9 +679,9 @@ void Camera_UpdateInterface(s16 arg0) {
         }
 
         if(arg0 & 0x8000){
-            func_800B38A4(D_8011D3A8);
+            ShrinkWindow_SetCurrentVal(D_8011D3A8);
         } else {
-            func_800B3840(D_8011D3A8);
+            ShrinkWindow_SetVal(D_8011D3A8);
         }
     }
 
@@ -4864,7 +4864,6 @@ s32 Camera_Unique8(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_Unique9(Camera *camera) {
     f32 sp114;
@@ -6296,7 +6295,7 @@ s32 Camera_Special6(Camera *camera) {
     if (eyeNext->x != sceneCamPos.x || eyeNext->y != sceneCamPos.y || eyeNext->z != sceneCamPos.z || camera->animState == 0) {
         // A change in the current scene's camera positon has been detected,
         // Change "screens"
-        camera->player->actor.freeze = 12;
+        camera->player->actor.freezeTimer = 12;
         sCameraInterfaceFlags = (sCameraInterfaceFlags & 0xF0FF) | 0x300;
         anim->initalPlayerY = playerPosRot->pos.y;
         anim->animTimer = 12;
@@ -7190,7 +7189,7 @@ void func_80059EC8(Camera* camera) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, 7);
 
         if ((camera->parentCamIdx == 0) && (camera->unk_168 != 0)) {
-            player->actor.freeze = 0;
+            player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
             if (player->action != 0) {

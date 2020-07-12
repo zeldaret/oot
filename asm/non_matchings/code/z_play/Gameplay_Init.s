@@ -458,7 +458,7 @@ glabel Gameplay_Init
 /* B34224 800BD084 240F0006 */  li    $t7, 6
 /* B34228 800BD088 A02F1E5E */  sb    $t7, 0x1e5e($at)
 .L800BD08C:
-/* B3422C 800BD08C 0C02CE42 */  jal   func_800B3908
+/* B3422C 800BD08C 0C02CE42 */  jal   ShrinkWindow_Init
 /* B34230 800BD090 00000000 */   nop
 /* B34234 800BD094 3C010001 */  lui   $at, (0x0001241C >> 16) # lui $at, 1
 /* B34238 800BD098 3421241C */  ori   $at, (0x0001241C & 0xFFFF) # ori $at, $at, 0x241c

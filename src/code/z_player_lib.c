@@ -389,7 +389,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
         if (temp_a3->unk_0 != 0 && !(gSaveContext.unk_13C6 & temp_a3->unk_0) &&
             ((phi_v1 == 0 && player->currentTunic != 1) ||
              ((phi_v1 == 1 || phi_v1 == 3) && player->currentBoots == 1 && player->currentTunic != 2))) {
-            func_8010B680(globalCtx, temp_a3->unk_2, 0);
+            func_8010B680(globalCtx, temp_a3->unk_2, NULL);
             gSaveContext.unk_13C6 |= temp_a3->unk_0;
         }
     }

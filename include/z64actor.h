@@ -146,7 +146,7 @@ typedef struct Actor {
     /* 0x10C */ u8      unk_10C; // Z-Target related
     /* 0x10D */ u8      unk_10D; // Z-Target related
     /* 0x10E */ u16     textId; // Text id to pass to link/display when interacting with an actor
-    /* 0x110 */ u16     freeze;
+    /* 0x110 */ u16     freezeTimer;
     /* 0x112 */ u16     dmgEffectParams; // Specifies damage effect color (white/red/blue) and if opaque or translucent
     /* 0x114 */ u8      dmgEffectTimer;
     /* 0x115 */ u8      isDrawn; // Indicates whether the actor is currently being drawn (but not seen through lens)

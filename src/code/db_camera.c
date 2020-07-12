@@ -25,97 +25,6 @@ typedef struct {
 extern DBCSEditorSlot sDbgEditorSlots[];
 extern char sDbgEditorStates[];
 
-
-void func_800B3840(s32 arg0) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_setval(%d)\n", arg0);
-    }
-    D_8012CED4 = arg0;
-}
-
-s32 func_800B3898(void) {
-    return D_8012CED4;
-}
-
-void func_800B38A4(s32 arg0) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_setnowval(%d)\n", arg0);
-    }
-    D_8012CED8 = arg0;
-}
-
-s32 func_800B38FC(void) {
-    return D_8012CED8;
-}
-
-void func_800B3908(void) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_init()\n");
-    }
-    D_8012CED0 = 0;
-    D_8012CED4 = 0;
-    D_8012CED8 = 0;
-}
-
-void func_800B3968(void) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_cleanup()\n");
-    }
-    D_8012CED8 = 0;
-}
-
-void func_800B39B8(s32 arg0) {
-    s32 temp_a1;
-    s32 temp_a1_2;
-    s32 phi_v0;
-
-    phi_v0 = arg0 == 3 ? 0xA : (0x1E / arg0);
-
-    if (D_8012CED8 < D_8012CED4) {
-        if (D_8012CED0 != 1) {
-            D_8012CED0 = 1;
-        }
-        temp_a1 = D_8012CED8 + phi_v0;
-        if (temp_a1 < D_8012CED4) {
-            D_8012CED8 = temp_a1;
-        } else {
-            D_8012CED8 = (s32) D_8012CED4;
-        }
-    } else {
-        if (D_8012CED4 < D_8012CED8) {
-            if (D_8012CED0 != 2) {
-                D_8012CED0 = 2;
-            }
-            temp_a1_2 = D_8012CED8 - phi_v0;
-            if (D_8012CED4 < temp_a1_2) {
-                D_8012CED8 = temp_a1_2;
-            } else {
-                D_8012CED8 = (s32) D_8012CED4;
-            }
-        } else {
-            D_8012CED0 = 0;
-        }
-    }
-    if (HREG(80) == 0x13) {
-        if (HREG(94) != 0x13){
-            HREG(94) = (u16)0x13;
-            HREG(81) = (u16)0;
-            HREG(82) = (u16)0;
-            HREG(83) = (u16)0;
-            HREG(84) = (u16)0;
-            HREG(85) = (u16)0;
-            HREG(86) = (u16)0;
-            HREG(87) = (u16)0;
-            HREG(88) = (u16)0;
-            HREG(89) = (u16)0;
-        }
-        HREG(83) = (s16) D_8012CED0;
-        HREG(84) = (s16) D_8012CED8;
-        HREG(85) = (s16) D_8012CED4;
-        HREG(86) = phi_v0;
-    }
-}
-
 // DbgCamera_Vec3fVecSphAdd
 Vec3f *func_800B3B50(Vec3f *dest, Vec3f *a, VecSph *b) {
     Vec3f copy, vecB;
@@ -162,7 +71,7 @@ void func_800B3F94(PosRot *arg0, Vec3f *arg1, Vec3s* arg2) {
     Vec3f sp1C;
 
     OLib_Vec3fDiffToVecSphRot90(&sp28, &arg0->pos, arg1);
-    sp28.theta -= arg0->rot.y;
+    sp28.yaw -= arg0->rot.y;
     OLib_VecSphRot90ToVec3f((Vec3f *) &sp1C, &sp28);
     func_800B3EFC(&sp1C, arg2);
 }
@@ -173,7 +82,7 @@ void func_800B3FF4(PosRot *arg0, Vec3f* arg1, Vec3f *arg2) {
 
     func_800B3F38(arg1, &sp1C);
     OLib_Vec3fToVecSphRot90(&sp28, &sp1C);
-    sp28.theta += arg0->rot.y;
+    sp28.yaw += arg0->rot.y;
     func_800B3B50(arg2, arg0, &sp28);
 }
 

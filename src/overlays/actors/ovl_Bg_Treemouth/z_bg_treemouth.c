@@ -24,7 +24,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx);
 void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx);
 void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx);
 
-#include "z_bg_treemouth_cutscene_data.c"
+#include "z_bg_treemouth_cutscene_data.c" EARLY
 
 const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
@@ -39,8 +39,10 @@ const ActorInit Bg_Treemouth_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
