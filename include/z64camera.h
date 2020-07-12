@@ -628,6 +628,51 @@ typedef struct {
     /* 0x0030 */ Battle1Anim anim;
 } Battle1; // size = 0x50
 
+typedef struct {
+    Vec3f unk_00;
+    Vec3f unk_0C;
+    CollisionPoly* unk_18;
+    VecSph unk_1C;
+    s32 unk_24;
+} struct_80043D18;
+
+typedef struct {
+    u8 unk_00;
+    u8 unk_01;
+    s16 unk_02;
+    s16 unk_04;
+    s16 unk_06;
+    f32 unk_08;
+    f32 unk_0C;
+    Vec3f unk_10;
+    Vec3f unk_1C;
+} unk_uniq9;
+
+typedef struct {
+    /* 0x0000 */ unk_uniq9* unk_00;
+    /* 0x0004 */ Vec3f unk_04;
+    /* 0x0010 */ Vec3f unk_10;
+    /* 0x001C */ Vec3f unk_1C;
+    /* 0x0028 */ f32 unk_28;
+    /* 0x002C */ VecSph unk_2C;
+    /* 0x0034 */ s16 unk_34;
+    /* 0x0036 */ s16 unk_36;
+    /* 0x0038 */ s16 unk_38;
+    /* 0x003A */ s16 unk_3A;
+    /* 0x003C */ s16 unk_3C;
+} Unique9Anim; // size = 0x3E
+
+typedef struct {
+    /* 0x0008 */ s16 interfaceFlags;
+    /* 0x000C */ Unique9Anim anim;
+} Unique9; // size = 0x4C
+
+typedef struct {
+    s32 unk_00;
+    unk_uniq9* unk_04;
+    Unique9 uniq9;
+} Unique9Wrapper;
+
 typedef union {
     char data[0x50];
     s16 sh[2];
@@ -670,6 +715,7 @@ typedef union {
     Demo3 demo3;
     Battle4 batt4;
     Battle1 batt1;
+    Unique9Wrapper uniq9;
 } CameraParams;
 
 typedef struct {

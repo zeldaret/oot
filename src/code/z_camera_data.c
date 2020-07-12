@@ -1443,7 +1443,7 @@ s32 Camera_Normal2(Camera* camera);
 s32 Camera_Normal3(Camera* camera);
 s32 Camera_Normal4(Camera* camera);
 s32 Camera_Parallel0(Camera* camera);
-void Camera_Parallel1(Camera* camera);
+s32 Camera_Parallel1(Camera* camera);
 s32 Camera_Parallel2(Camera* camera);
 void Camera_Parallel3(Camera* camera);
 s32 Camera_Parallel4(Camera* camera);
@@ -1748,14 +1748,6 @@ s16 D_8011DAFC[] = {
     CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
 };
 
-// BSS
-typedef struct {
-    Vec3f unk_00;
-    Vec3f unk_0C;
-    CollisionPoly* unk_18;
-    VecSph unk_1C;
-    s32 unk_24;
-} struct_80043D18;
 
 typedef struct {
     Vec3f unk_00;
