@@ -165,7 +165,6 @@ build/asm/%.o: asm/%.s
 
 build/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
-
 #build/assets/%.o: assets/%.s
 #	$(AS) $(ASFLAGS) $^ -o $@
 #	$(OBJCOPY) -O binary $@ $@.bin

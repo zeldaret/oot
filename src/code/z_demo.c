@@ -137,7 +137,7 @@ u32 func_8006472C(GlobalContext* globalCtx, CutsceneContext* csCtx, f32 target) 
 
 void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -148,7 +148,7 @@ void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     func_80068C3C(globalCtx, csCtx);
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -358,7 +358,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 globalCtx->envCtx.unk_E6 = 1;
             }
-            func_800788CC(0x20C0);
+            func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
         case 33:
             gSaveContext.unk_1422 = 1;
@@ -1440,11 +1440,11 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             if (D_8011E1C0 != cmd->base) {
                 D_8011E1C0 = cmd->base;
                 if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else {
-                    func_8010B680(globalCtx, cmd->base, 0);
+                    func_8010B680(globalCtx, cmd->base, NULL);
                 }
                 return;
             }
@@ -1964,8 +1964,8 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
             if (gSaveContext.cutsceneTrigger == 0) {
                 Interface_ChangeAlpha(1);
-                func_800B3840(0x20);
-                func_800B38A4(0x20);
+                ShrinkWindow_SetVal(0x20);
+                ShrinkWindow_SetCurrentVal(0x20);
                 csCtx->state++;
             }
 
