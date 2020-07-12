@@ -192,7 +192,7 @@ void func_8098E6EC(DemoSa* this, GlobalContext* globalCtx, s32 actionIdx) {
 
 void func_8098E76C(DemoSa* this, AnimationHeader* animationHeader, u8 arg2, f32 transitionRate, s32 arg4) {
     s32 pad[2];
-    s16 frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;

@@ -141,7 +141,7 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     AnimationHeader* objSegChangeAnime = &D_0600299C;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f, (f32)SkelAnime_GetFrameCount(&D_0600299C), 2,
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f, SkelAnime_GetFrameCount(&D_0600299C), 2,
                          0.0f);
 
     this->unk_2c4 = player->actor.posRot.pos.y;
@@ -188,8 +188,8 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f,
-                         (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount), 2,
+                         -3.0f);
 
     this->actionFunc = EnWallmas_ReturnToCeiling;
 }
