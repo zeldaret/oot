@@ -140,10 +140,9 @@ void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
+    s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005880.genericHeader);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, this->animSpeed, 0.0f, (s16)frameCount, 0,
-                         this->transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, this->animSpeed, 0.0f, frameCount, 0, this->transitionRate);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
     this->headDirection = Math_Rand_ZeroFloat(1.99f);
@@ -224,9 +223,9 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
+    s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005880.genericHeader);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 3.0f, 0.0f, (s16)frameCount, 0, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 3.0f, 0.0f, frameCount, 0, -3.0f);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
     func_8010B680(globalCtx, 0x702D, &this->actor);
@@ -252,10 +251,9 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
 
 void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 rand;
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, (s16)frameCount, 0,
-                         this->transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, frameCount, 0, this->transitionRate);
     this->headBehaviorDecided = false;
     this->headDirection = Math_Rand_ZeroFloat(1.99f);
     rand = Math_Rand_ZeroFloat(50.0f);
@@ -322,9 +320,9 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, frameCount, 0, -10.0f);
     this->kickTimer = 30;
     this->actionFunc = EnHeishi1_TurnTowardLink;
 }
@@ -344,9 +342,9 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, frameCount, 0, -10.0f);
     this->actionFunc = EnHeishi1_Kick;
 }
 
@@ -370,9 +368,9 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    s16 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, frameCount, 0, -10.0f);
     this->actionFunc = EnHeishi1_WaitNight;
 }
 
