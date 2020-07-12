@@ -5,7 +5,7 @@
 #include <global.h>
 
 struct BgYdanHasi;
-typedef void (*BgYdanHasiActionFunc)(struct BgYdanHasi*);
+typedef void (*BgYdanHasiActionFunc)(struct BgYdanHasi*, struct GlobalCtx*);
 
 typedef struct BgYdanHasi {
     /* 0x0000 */ DynaPolyActor dyna;
