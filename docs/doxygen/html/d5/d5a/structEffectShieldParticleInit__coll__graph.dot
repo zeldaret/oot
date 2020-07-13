@@ -1,0 +1,13 @@
+digraph "EffectShieldParticleInit"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="EffectShieldParticleInit",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" envColorEnd\nprimColorStart\nprimColorMid\nprimColorEnd\nenvColorStart\nenvColorMid" ,fontname="Helvetica"];
+  Node2 [label="Color_RGBA8_n",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d72/structColor__RGBA8__n.html",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" lightParams" ,fontname="Helvetica"];
+  Node3 [label="LightInfoPositionalParams",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d37/structLightInfoPositionalParams.html",tooltip=" "];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" position" ,fontname="Helvetica"];
+  Node4 [label="Vec3s",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d79/structVec3s.html",tooltip=" "];
+}

@@ -1,0 +1,13 @@
+digraph "StaticCollisionContext"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="StaticCollisionContext",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" colHeader" ,fontname="Helvetica"];
+  Node2 [label="CollisionHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/ddf/structCollisionHeader.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" colAbsMax\ncolAbsMin" ,fontname="Helvetica"];
+  Node3 [label="Vec3s",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d79/structVec3s.html",tooltip=" "];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" waterBoxes" ,fontname="Helvetica"];
+  Node4 [label="WaterBox",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d13/structWaterBox.html",tooltip=" "];
+}

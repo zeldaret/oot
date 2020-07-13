@@ -1,0 +1,15 @@
+digraph "src/overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/overlays/actors\l/ovl_En_Arrow/z_en_arrow.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/overlays/actors\l/ovl_Arrow_Fire/z_arrow\l_fire.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d9e/z__arrow__fire_8c.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/overlays/actors\l/ovl_Arrow_Ice/z_arrow_ice.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d42/z__arrow__ice_8c.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/overlays/actors\l/ovl_Arrow_Light/z_arrow\l_light.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/df3/z__arrow__light_8c.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/overlays/actors\l/ovl_En_Arrow/z_en_arrow.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df1/z__en__arrow_8c.html",tooltip=" "];
+}

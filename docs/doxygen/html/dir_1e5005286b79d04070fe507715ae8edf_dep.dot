@@ -1,0 +1,11 @@
+digraph "src/overlays/actors/ovl_Obj_Kibako" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e93473484be31ce7bcb356bd643a22f8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="actors" fontname="Helvetica", fontsize="10", URL="dir_e93473484be31ce7bcb356bd643a22f8.html"]
+  dir_1e5005286b79d04070fe507715ae8edf [shape=box, label="ovl_Obj_Kibako", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_1e5005286b79d04070fe507715ae8edf.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_1e5005286b79d04070fe507715ae8edf->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000415_000000.html"];
+}

@@ -1,0 +1,19 @@
+digraph "uObjTxSprite"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="uObjTxSprite",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sprite" ,fontname="Helvetica"];
+  Node2 [label="uObjSprite",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d8b/unionuObjSprite.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" s" ,fontname="Helvetica"];
+  Node3 [label="uObjSprite_t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dd9/structuObjSprite__t.html",tooltip=" "];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" txtr" ,fontname="Helvetica"];
+  Node4 [label="uObjTxtr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d1a/unionuObjTxtr.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" block" ,fontname="Helvetica"];
+  Node5 [label="uObjTxtrBlock_t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d8d/structuObjTxtrBlock__t.html",tooltip=" "];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" tile" ,fontname="Helvetica"];
+  Node6 [label="uObjTxtrTile_t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/def/structuObjTxtrTile__t.html",tooltip=" "];
+  Node7 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" tlut" ,fontname="Helvetica"];
+  Node7 [label="uObjTxtrTLUT_t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d77/structuObjTxtrTLUT__t.html",tooltip=" "];
+}

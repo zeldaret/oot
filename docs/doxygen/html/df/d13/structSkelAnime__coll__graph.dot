@@ -1,0 +1,22 @@
+digraph "SkelAnime"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="SkelAnime",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" genericSeg" ,fontname="Helvetica"];
+  Node2 [label="GenericAnimationHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/da2/structGenericAnimationHeader.html",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" linkAnimetionSeg" ,fontname="Helvetica"];
+  Node3 [label="LinkAnimetionEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/db2/structLinkAnimetionEntry.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" genericHeader" ,fontname="Helvetica"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" animCurrentSeg" ,fontname="Helvetica"];
+  Node4 [label="AnimationHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/dd2/structAnimationHeader.html",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" genericHeader" ,fontname="Helvetica"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" skeleton" ,fontname="Helvetica"];
+  Node5 [label="Skeleton",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d1b/structSkeleton.html",tooltip=" "];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" limbs" ,fontname="Helvetica"];
+  Node6 [label="SkelLimbEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d8c/structSkelLimbEntry.html",tooltip=" "];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" translation" ,fontname="Helvetica"];
+  Node7 [label="Vec3s",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d79/structVec3s.html",tooltip=" "];
+  Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" limbDrawTbl\nprevFramePos\ntransitionDrawTbl\nunk_3E" ,fontname="Helvetica"];
+}

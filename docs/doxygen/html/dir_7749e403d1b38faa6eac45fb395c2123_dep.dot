@@ -1,0 +1,11 @@
+digraph "src/overlays/actors/ovl_Boss_Ganondrof" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e93473484be31ce7bcb356bd643a22f8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="actors" fontname="Helvetica", fontsize="10", URL="dir_e93473484be31ce7bcb356bd643a22f8.html"]
+  dir_7749e403d1b38faa6eac45fb395c2123 [shape=box, label="ovl_Boss_Ganondrof", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_7749e403d1b38faa6eac45fb395c2123.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_7749e403d1b38faa6eac45fb395c2123->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000144_000000.html"];
+}

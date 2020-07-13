@@ -1,0 +1,11 @@
+digraph "src/overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/overlays/actors\l/ovl_Bg_Spot15_Saku\l/z_bg_spot15_saku.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/overlays/actors\l/ovl_Bg_Spot15_Saku\l/z_bg_spot15_saku.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d0d/z__bg__spot15__saku_8c.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/overlays/actors\l/ovl_En_Heishi2/z_en\l_heishi2.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d9b/z__en__heishi2_8c.html",tooltip=" "];
+}

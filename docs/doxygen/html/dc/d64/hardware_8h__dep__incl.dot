@@ -1,0 +1,55 @@
+digraph "include/ultra64/hardware.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="include/ultra64/hardware.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/code/graph.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d2a/graph_8c.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/libultra_boot_O1\l/initialize.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/dda/initialize_8c.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/libultra_boot_O2\l/__osDevMgrMain.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d72/____osDevMgrMain_8c.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/libultra_boot_O2\l/__osEPiRawReadIo.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/ded/____osEPiRawReadIo_8c.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="src/libultra_boot_O2\l/__osEPiRawStartDma.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d55/____osEPiRawStartDma_8c.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="src/libultra_boot_O2\l/__osEPiRawWriteIo.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d65/____osEPiRawWriteIo_8c.html",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="src/libultra_boot_O2\l/__osPiRawStartDma.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc3/____osPiRawStartDma_8c.html",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="src/libultra_boot_O2\l/__osSiDeviceBusy.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/dc2/____osSiDeviceBusy_8c.html",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="src/libultra_boot_O2\l/__osSiRawReadIo.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d1f/____osSiRawReadIo_8c.html",tooltip=" "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="src/libultra_boot_O2\l/__osSiRawWriteIo.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d2f/____osSiRawWriteIo_8c.html",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="src/libultra_boot_O2\l/__osViInit.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/da0/____osViInit_8c.html",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="src/libultra_boot_O2\l/__osViSwapContext.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/dab/____osViSwapContext_8c.html",tooltip=" "];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="src/libultra_boot_O2\l/osCartRomInit.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d84/osCartRomInit_8c.html",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="src/libultra_boot_O2\l/osDriveRomInit.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d50/osDriveRomInit_8c.html",tooltip=" "];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="src/libultra_code/\l__osSiRawStartDma.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/df9/____osSiRawStartDma_8c.html",tooltip=" "];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="src/libultra_code/\l__osSpGetStatus.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/da6/____osSpGetStatus_8c.html",tooltip=" "];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="src/libultra_code/\l__osSpRawStartDma.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d5a/____osSpRawStartDma_8c.html",tooltip=" "];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="src/libultra_code/\l__osSpSetPc.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d91/____osSpSetPc_8c.html",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="src/libultra_code/\l__osSpSetStatus.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dc1/____osSpSetStatus_8c.html",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="src/libultra_code/osAiGet\lLength.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/df0/osAiGetLength_8c.html",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="src/libultra_code/osAiSet\lFrequency.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/df1/osAiSetFrequency_8c.html",tooltip=" "];
+  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="src/libultra_code/osAiSet\lNextBuffer.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d81/osAiSetNextBuffer_8c.html",tooltip=" "];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="src/libultra_code/sp.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d06/sp_8c.html",tooltip=" "];
+  Node1 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="src/libultra_code/sptask.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d3f/sptask_8c.html",tooltip=" "];
+}

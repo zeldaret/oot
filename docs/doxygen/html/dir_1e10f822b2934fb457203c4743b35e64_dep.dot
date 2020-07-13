@@ -1,0 +1,11 @@
+digraph "src/overlays/actors/ovl_Bg_Spot08_Bakudankabe" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e93473484be31ce7bcb356bd643a22f8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="actors" fontname="Helvetica", fontsize="10", URL="dir_e93473484be31ce7bcb356bd643a22f8.html"]
+  dir_1e10f822b2934fb457203c4743b35e64 [shape=box, label="ovl_Bg_Spot08_Bakudankabe", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_1e10f822b2934fb457203c4743b35e64.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_1e10f822b2934fb457203c4743b35e64->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000112_000000.html"];
+}
