@@ -20,10 +20,8 @@ typedef struct EnPoSisters {
     /* 0x0199 */ u8 unk_199;
     /* 0x019A */ s16 unk_19A;
     /* 0x019A */ s16 unk_19C;
-    /* 0x019E */ Vec3s unk_19E;
-    /* 0x01A4 */ char unk_1A4[0x042];
-    /* 0x01E6 */ Vec3s unk_1E6;
-    /* 0x01EC */ char unk_1EC[0x042];
+    /* 0x019E */ Vec3s unk_19E[12];
+    /* 0x01E6 */ Vec3s unk_1E6[12];
     /* 0x022E */ u8 unk_22E;
     /* 0x022F */ u8 unk_22F;
     /* 0x0230 */ u8 unk_230;

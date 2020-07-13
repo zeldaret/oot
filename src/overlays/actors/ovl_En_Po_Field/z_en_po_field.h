@@ -31,10 +31,8 @@ typedef struct EnPoField {
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
-    /* 0x019C */ Vec3s unk_19C;
-    /* 0x01A2 */ char unk_1A2[0x036];
-    /* 0x01D8 */ Vec3s unk_1D8;
-    /* 0x01DE */ char unk_1DE[0x036];
+    /* 0x019C */ Vec3s unk_19C[10];
+    /* 0x01D8 */ Vec3s unk_1D8[10];
     /* 0x0214 */ u8 unk_214;
     /* 0x0215 */ u8 unk_215;
     /* 0x0216 */ u8 unk_216;

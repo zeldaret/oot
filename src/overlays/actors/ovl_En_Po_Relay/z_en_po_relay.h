@@ -19,17 +19,14 @@ typedef struct EnPoRelay {
     /* 0x019A */ s16 unk_19A;
     /* 0x019C */ u16 unk_19C;
     /* 0x019E */ u16 unk_19E;
-    /* 0x01A0 */ Vec3s unk_1A0;
-    /* 0x01A6 */ char unk_1A6[0x066];
-    /* 0x020C */ Vec3s unk_20C;
-    /* 0x0212 */ char unk_212[0x066];
+    /* 0x01A0 */ Vec3s unk_1A0[18];
+    /* 0x020C */ Vec3s unk_20C[18];
     /* 0x0278 */ u8 unk_278;
     /* 0x0279 */ u8 unk_279;
     /* 0x027A */ u8 unk_27A;
     /* 0x027B */ u8 unk_27B;
     /* 0x027C */ z_Light* light;
     /* 0x0280 */ LightInfoPositional lightInfo;
-    /* 0x028E */ char unk_28E[0x02];
     /* 0x0290 */ ColliderCylinder collider;
 } EnPoRelay; // size = 0x02DC
 

@@ -38,10 +38,8 @@ typedef struct EnPoh {
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
     /* 0x019C */ s16 unk_19C;
-    /* 0x019E */ Vec3s limbDrawTbl; // array, size currently unknown
-    /* 0x01A4 */ char unk_1A0[0x078];
-    /* 0x021C */ Vec3s unk_21C; // array, size currently unknown
-    /* 0x0222 */ char unk_222[0x078];
+    /* 0x019E */ Vec3s limbDrawTbl[21];
+    /* 0x021C */ Vec3s unk_21C[21];
     /* 0x029A */ u8 unk_29A;
     /* 0x029B */ u8 unk_29B;
     /* 0x029C */ u8 unk_29C;
@@ -50,7 +48,6 @@ typedef struct EnPoh {
     /* 0x029F */ u8 unk_29F;
     /* 0x02A0 */ u8 unk_2A0;
     /* 0x02A1 */ u8 unk_2A1;
-    /* 0x02A2 */ char unk_2A2[0x002];
     /* 0x02A4 */ UnkEnPohStruct* unk_2A4;
     /* 0x02A8 */ z_Light* light;
     /* 0x02AC */ LightInfoPositional lightInfo;
