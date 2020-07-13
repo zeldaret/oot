@@ -37,12 +37,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
-
+/*
 Vec3f D_80884E80[] = {
     { 0.0f, 300.0f, -20.0f }, { 50.0f, 200.0f, -20.0f }, { -50.0f, 200.0f, -20.0f },
     { 0.0f, 100.0f, 30.0f },  { 0.0f, 100.0f, -70.0f },  { 0.0f, 0.0f, -20.0f },
 };
-
+*/
 extern UNK_TYPE D_0600169C;
 extern Gfx D_060013C0;
 extern Gfx D_06001A30;
@@ -210,8 +210,10 @@ void func_80883E54(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 arg4, f32 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_808841B8.s")
 // BgHeavyBlock_SpawnPieces
 void func_808841B8(BgHeavyBlock* this, GlobalContext* globalCtx) {
-
-    Vec3f spA4[6];
+    Vec3f spA4[] = {
+        { 0.0f, 300.0f, -20.0f }, { 50.0f, 200.0f, -20.0f }, { -50.0f, 200.0f, -20.0f },
+        { 0.0f, 100.0f, 30.0f },  { 0.0f, 100.0f, -70.0f },  { 0.0f, 0.0f, -20.0f },
+    };
     f32 cosX;
     f32 sinY;
     f32 sinYNeg;
@@ -221,11 +223,7 @@ void func_808841B8(BgHeavyBlock* this, GlobalContext* globalCtx) {
     f32 y;
     f32 cosY;
     f32 sinX;
-    s16 i;
-
-    for (i = 0; i != ARRAY_COUNT(D_80884E80); i++) {
-        spA4[i] = D_80884E80[i];
-    }
+    s32 i;
 
     sinX = Math_Sins(this->dyna.actor.posRot.rot.x);
     cosX = Math_Coss(this->dyna.actor.posRot.rot.x);
