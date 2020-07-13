@@ -1446,7 +1446,7 @@ beginseg
     name "ovl_Bg_Ydan_Hasi"
     include "build/src/overlays/actors/ovl_Bg_Ydan_Hasi/z_bg_ydan_hasi.o"
 
-    include "build/data/overlays/actors/z_bg_ydan_hasi.reloc.o"
+
 endseg
 
 beginseg

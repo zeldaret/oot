@@ -33,11 +33,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx     D_808BEC24[];
+extern Gfx D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
+extern Gfx D_808BEC30[];
+extern Gfx D_808BEC80[];
 extern UNK_PTR D_06005780;
 extern UNK_TYPE D_06007798;
 extern UNK_TYPE D_06005DE0;
-//extern Gfx D_808BEC24[];
+
 
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 pad1;
@@ -140,7 +142,7 @@ void func_808BE8DC(BgYdanHasi* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A--;
     }
-    func_8002F994(this, this->unk_16A);
+    func_8002F994(&this->dyna.actor, this->unk_16A);
     if (this->unk_16A == 0) {
         this->actionFunc = &func_808BE810;
     }
@@ -188,19 +190,21 @@ void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);   
 }
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ydan_Hasi/BgYdanHasi_Draw.s")
+
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s64 pad;
-    Gfx* temp_v0;
-    Gfx* temp_v0_2;
+   // s64 pad;
+    u8 pad;
     Gfx* temp_v0_3;
     Gfx* sp50;
-    
     GraphicsContext* temp_s0;
-    s32 pad3;
-
+    s16 pad1;
+    Gfx* temp_v0;
+    Gfx* temp_v0_2;
+    Gfx* tempG;
+    //Gfx* temp ;
     if (thisx->params == 0 || thisx->params == 2) {
-
-        Gfx_DrawDListOpa(globalCtx, (D_808BEC24 + (thisx->params * 4)));
+        if (!temp_v0_2) {}
+         Gfx_DrawDListOpa(globalCtx, D_808BEC30  /*+ (thisx->params)*/);
         return;
     }
 
@@ -208,22 +212,27 @@ void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(&sp50, globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 0x241);
     func_80093D84(globalCtx->state.gfxCtx);
     temp_v0 = temp_s0->polyXlu.p;
-    temp_s0->polyXlu.p = (Gfx*)(temp_v0 + 8);
+   
+   // temp_s0->polyXlu.p = (Gfx*)(temp_s0->polyXlu.p + 8);
+    temp_v0_2 = temp_s0 -> polyXlu.p + 8;
+    temp_s0->polyXlu.p = (Gfx*)temp_v0_2;
     temp_v0->words.w0 = 0xDB060020;
-    
-    //sp4C = temp_v0;
     temp_v0->words.w1 = Gfx_TwoTexScroll(
         globalCtx->state.gfxCtx, 0, ((0 - globalCtx->gameplayFrames) & 0x7F), globalCtx->gameplayFrames & 0x7F, 0x20,
         0x20, 1, globalCtx->gameplayFrames & 0x7F, globalCtx->gameplayFrames & 0x7F, 0x20, 0x20);
 
-    temp_v0_2 = temp_s0->polyXlu.p;
-    temp_s0->polyXlu.p = (Gfx*)(temp_v0_2 + 8);
-    temp_v0_2->words.w0 = 0xDA380003;
-    //sp48 = temp_v0_2;
-    temp_v0_2->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 0x250);
-    temp_v0_3 = temp_s0->polyXlu.p;
+    tempG = temp_s0->polyXlu.p;
+    temp_v0_2 = tempG;
+    if (!globalCtx) {}
     temp_s0->polyXlu.p = (Gfx*)(temp_v0_3 + 8);
+    temp_s0->polyXlu.p = (Gfx*)(temp_v0_2 + 8);
+    if (!temp_s0->polyXlu.p) {}
+    temp_v0_2->words.w0 = 0xDA380003;
+    temp_v0_2->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 0x250);
+    temp_v0_3 = tempG;
     temp_v0_3->words.w1 = D_06005DE0;
+    if (!D_06005DE0) {}
     temp_v0_3->words.w0 = 0xDE000000;
+
     Graph_CloseDisps(&sp50, globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 0x255);
 }
