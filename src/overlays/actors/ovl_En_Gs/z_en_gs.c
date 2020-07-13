@@ -404,7 +404,6 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     }
 }
 
-//#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     f32 sp44;
@@ -511,7 +510,6 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gs/func_80A4F13C.s")
 #endif
-#undef NON_MATCHING
 
 void func_80A4F700(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_200-- <= 0) {
