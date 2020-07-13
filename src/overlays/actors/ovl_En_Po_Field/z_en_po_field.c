@@ -1,3 +1,9 @@
+/*
+ * File: z_en_po_field.c
+ * Overlay: ovl_En_Po_Field
+ * Description: Field Poe
+ */
+
 #include "z_en_po_field.h"
 
 #define FLAGS 0x00001035
@@ -13,6 +19,7 @@ void func_80AD6BF4(Actor* thisx, GlobalContext* globalCtx); // update
 
 void func_80AD6C4C(Actor* thisx, GlobalContext* globalCtx); // draw
 
+void func_80AD3D68(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD4664(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD48CC(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD4A68(EnPoField* this, GlobalContext* globalCtx);
@@ -25,6 +32,8 @@ void func_80AD587C(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD5AD8(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD5B18(EnPoField* this, GlobalContext* globalCtx);
+
+void func_80AD5D0C(EnPoField* this);
 
 const ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
@@ -97,24 +106,19 @@ extern Gfx D_060023B0[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/EnPoField_Init.s")
 /* void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 temp_t6;
-    s32 temp_v1;
-    void *temp_v0;
+    Vec3s *temp_v0;
     s32 phi_v1;
     EnPoField* this;
 
     this = THIS;
     phi_v1 = D_80AD7100;
-    if (D_80AD7100 != 0xA) {
-        temp_v0 = (D_80AD7100 * 6) + &D_80AD76B0;
-        temp_v0->unk0 = (s16) (s32) this->actor.posRot.pos.x;
-        temp_t6 = D_80AD7100 + 1;
-        temp_v1 = temp_t6;
-        temp_v0->unk2 = (s16) (s32) this->actor.posRot.pos.y;
-        temp_v0->unk4 = (s16) (s32) this->actor.posRot.pos.z;
-        *(&D_80AD76F0 + D_80AD7100) = (s8) this->actor.params;
-        D_80AD7100 = temp_t6;
-        phi_v1 = temp_v1;
+    if (phi_v1 != 0xA) {
+        temp_v0 = &D_80AD76B0[phi_v1];
+        temp_v0->x = this->actor.posRot.pos.x;
+        temp_v0->y = this->actor.posRot.pos.y;
+        temp_v0->z = this->actor.posRot.pos.z;
+        D_80AD76F0[phi_v1] = this->actor.params;
+        D_80AD7100 = phi_v1;
     }
     if (phi_v1 >= 2) {
         this->actor.params = 0xFF;
@@ -365,91 +369,46 @@ f32 func_80AD4554(EnPoField* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 12.0f);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4664.s")
-/* void func_80AD4664(Actor *arg0, GlobalContext *arg1) {
-    ? sp88;
-    Actor *temp_s1;
-    CollisionContext *temp_s2;
-    CollisionPoly **temp_s3;
-    f32 temp_f0;
-    s32 temp_cond;
-    s32 temp_s5;
-    void *temp_s4;
-    void *phi_s6;
-    s8 phi_s5;
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4664.s")
+void func_80AD4664(EnPoField* this, GlobalContext* globalCtx) {
+    Player* player;
+    Vec3s* spawn;
+    s32 i;
+    UNK_TYPE sp88;
     f32 phi_f20;
-    CollisionContext *phi_s2;
-    CollisionPoly **phi_s3;
-    void *phi_s4;
-    s32 phi_v0;
-    s32 phi_v0_2;
 
-    temp_s1 = arg1->unk1C44;
-    if (arg0->unk196 != 0) {
-        arg0->unk196 = (s16) (arg0->unk196 - 1);
+    player = PLAYER;
+    if (this->unk_196 != 0) {
+        this->unk_196--;
     }
-    if (arg0->unk196 == 0) {
-        if (D_80AD7100 > 0) {
-            phi_s6 = &D_80AD76B0;
-            phi_s5 = (u8)0;
-            phi_v0_2 = D_80AD7100;
-loop_5:
-            phi_v0 = phi_v0_2;
-            if ((fabsf((f32) phi_s6->unk0 - temp_s1->posRot.pos.x) < 150.0f) && (phi_v0 = phi_v0_2, (fabsf((f32) phi_s6->unk4 - temp_s1->posRot.pos.z) < 150.0f))) {
-                if (Flags_GetSwitch(arg1, (s32) *(&D_80AD76F0 + phi_s5)) != 0) {
-                    if ((temp_s1->unk67C & 0x800000) == 0) {
-                        arg0->params = (u16)0;
-                        phi_s2 = &arg1->colCtx;
-                        phi_s3 = arg0 + 0x78;
-                        phi_s4 = arg0 + 0x24;
-block_14:
+    if (this->unk_196 == 0) {
+        for (spawn = &D_80AD76B0[0], i = 0; i < D_80AD7100; spawn++, i++) {
+            if (fabsf(spawn->x - player->actor.posRot.pos.x) < 150.0f && fabsf(spawn->z - player->actor.posRot.pos.z) < 150.0f) {
+                if (Flags_GetSwitch(globalCtx, D_80AD76F0[i]) != 0) {
+                    if (!(player->stateFlags1 & 0x800000)) {
+                        this->actor.params = 0;
                         phi_f20 = 300.0f;
-block_15:
-                        arg0->posRot.pos.x = (f32) ((Math_Sins(temp_s1->shape.rot.y) * phi_f20) + temp_s1->posRot.pos.x);
-                        arg0->posRot.pos.z = (f32) ((Math_Coss(temp_s1->shape.rot.y) * phi_f20) + temp_s1->posRot.pos.z);
-                        arg0->posRot.pos.y = (f32) (temp_s1->posRot.pos.y + 1000.0f);
-                        temp_f0 = func_8003C9A4(phi_s2, phi_s3, (void *) &sp88, arg0, phi_s4);
-                        arg0->posRot.pos.y = temp_f0;
-                        if (temp_f0 != -32000.0f) {
-                            arg0->shape.rot.y = func_8002DA78(arg0, temp_s1);
-                            func_80AD3E2C(arg0);
-                            phi_v0 = D_80AD7100;
-block_17:
-                            temp_s5 = phi_s5 + 1;
-                            phi_s6 = phi_s6 + 6;
-                            phi_s5 = (s8) temp_s5;
-                            phi_v0_2 = phi_v0;
-                            if (temp_s5 < phi_v0) {
-                                goto loop_5;
-                            }
-                        }
-                    }
+                    } else return;
+                } else if (player->stateFlags1 & 0x800000 || Math_Rand_ZeroOne() < 0.4f) {
+                    this->actor.params = 1;
+                    this->unk_195 = i;
+                    phi_f20 = 480.0f;
                 } else {
-                    temp_s2 = &arg1->colCtx;
-                    temp_s3 = arg0 + 0x78;
-                    temp_s4 = arg0 + 0x24;
-                    if (((temp_s1->unk67C & 0x800000) != 0) || (Math_Rand_ZeroOne() < 0.4f)) {
-                        arg0->params = (u16)1;
-                        arg0->unk195 = phi_s5;
-                        phi_f20 = 480.0f;
-                        phi_s2 = temp_s2;
-                        phi_s3 = temp_s3;
-                        phi_s4 = temp_s4;
-                    } else {
-                        arg0->params = (u16)0;
-                        phi_s2 = temp_s2;
-                        phi_s3 = temp_s3;
-                        phi_s4 = temp_s4;
-                        goto block_14;
-                    }
-                    goto block_15;
+                    this->actor.params = 0;
+                    phi_f20 = 300.0f;
                 }
-            } else {
-                goto block_17;
+                this->actor.posRot.pos.x = Math_Sins(player->actor.shape.rot.y) * phi_f20 + player->actor.posRot.pos.x;
+                this->actor.posRot.pos.z = Math_Coss(player->actor.shape.rot.y) * phi_f20 + player->actor.posRot.pos.z;
+                this->actor.posRot.pos.y = player->actor.posRot.pos.y + 1000.0f;
+                this->actor.posRot.pos.y = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp88, &this->actor, &this->actor.posRot.pos);
+                if (this->actor.posRot.pos.y != -32000.0f) {
+                    this->actor.shape.rot.y = func_8002DA78(&this->actor, &player->actor);
+                    func_80AD3E2C(this);
+                } else return;
             }
         }
     }
-} */
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD48CC.s")
 void func_80AD48CC(EnPoField* this, GlobalContext* globalCtx) {
@@ -476,11 +435,8 @@ void func_80AD48CC(EnPoField* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Stack only
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4A68.s")
 void func_80AD4A68(EnPoField* this, GlobalContext* globalCtx) {
-    f32 dx;
-    f32 dz;
     Player* player;
     s32 temp_v1;
 
@@ -497,16 +453,14 @@ void func_80AD4A68(EnPoField* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.initPosRot.pos.x, player->actor.posRot.pos.x, 0.20000000298023224f, 6.0f);
     Math_SmoothScaleMaxF(&this->actor.initPosRot.pos.z, player->actor.posRot.pos.z, 0.20000000298023224f, 6.0f);
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 1, 0x800, 0x200);
-    dx = this->actor.initPosRot.pos.x - player->actor.posRot.pos.x;
-    if (dx > 100.0f) {
+    if (this->actor.initPosRot.pos.x - player->actor.posRot.pos.x > 100.0f) {
         this->actor.initPosRot.pos.x = player->actor.posRot.pos.x + 100.0f;
-    } else if (dx < -100.0f) {
+    } else if (this->actor.initPosRot.pos.x - player->actor.posRot.pos.x < -100.0f) {
         this->actor.initPosRot.pos.x = player->actor.posRot.pos.x + -100.0f;
     }
-    dz = this->actor.initPosRot.pos.z - player->actor.posRot.pos.z;
-    if (dz > 100.0f) {
+    if (this->actor.initPosRot.pos.z - player->actor.posRot.pos.z > 100.0f) {
         this->actor.initPosRot.pos.z = player->actor.posRot.pos.z + 100.0f;
-    } else if (dz < -100.0f) {
+    } else if (this->actor.initPosRot.pos.z - player->actor.posRot.pos.z < -100.0f) {
         this->actor.initPosRot.pos.z = player->actor.posRot.pos.z + -100.0f;
     }
     this->actor.posRot.pos.x = this->actor.initPosRot.pos.x - (Math_Sins(this->actor.posRot.rot.y) * this->unk_21C);
@@ -519,9 +473,6 @@ void func_80AD4A68(EnPoField* this, GlobalContext* globalCtx) {
     func_80AD4470(this, globalCtx);
     func_8002F974(&this->actor, 0x3071);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4A68.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4CA4.s")
 void func_80AD4CA4(EnPoField* this, GlobalContext* globalCtx) {
@@ -565,8 +516,7 @@ void func_80AD4E48(EnPoField* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Some reorderings at the top, Regalloc
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4ED8.s")
 void func_80AD4ED8(EnPoField* this, GlobalContext* globalCtx) {
     Vec3f sp6C;
     f32 sp68;
@@ -577,7 +527,7 @@ void func_80AD4ED8(EnPoField* this, GlobalContext* globalCtx) {
     this->unk_196++;
     if (this->unk_196 < 8) {
         if (this->unk_196 < 5) {
-            sp6C.y = Math_Sins(this->unk_196 * 0x1000 - 0x4000) * 23.0f + this->actor.posRot.pos.y + 40.0f;
+            sp6C.y = Math_Sins(this->unk_196 * 0x1000 - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
             sp68 = Math_Coss(this->unk_196 * 0x1000 - 0x4000) * 23.0f;
             sp6C.x = Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.x;
             sp6C.z = Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.z;
@@ -609,26 +559,20 @@ void func_80AD4ED8(EnPoField* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD2);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD4ED8.s")
-#endif
 
-#ifdef NON_MATCHING
-// Single regalloc
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD52F0.s")
 void func_80AD52F0(EnPoField* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
     this->actor.shape.rot.y += 0x1000;
-    this->actor.shape.unk_14 = this->unk_217 = this->unk_196 * 15.9375f;
+    this->unk_217 = this->unk_196 * 15.9375f;
+    this->actor.shape.unk_14 = this->unk_217;
     if (this->unk_196 == 0) {
         func_80AD3D68(this, globalCtx);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD52F0.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD53F0.s")
 void func_80AD53F0(EnPoField* this, GlobalContext* globalCtx) {
@@ -823,35 +767,36 @@ void func_80AD5D60(EnPoField* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD5E8C.s")
-/* void func_80AD5E8C(EnPoField* this, GlobalContext* globalCtx) {
-    GraphicsContext *gfxCtx;
-    Gfx* dispRefs[4];
-    s8 temp_a0;
+#ifdef NON_MATCHING
+// Regalloc, heavy reorderings around gDPSetPrimColor
+void func_80AD5E8C(EnPoField* this, GlobalContext* globalCtx) {
+    u8 sp4C;
+    u8 temp_a0;
 
     if (this->unk_19A != 0) {
-        gfxCtx = globalCtx->state.gfxCtx;
+        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+        Gfx* dispRefs[4];
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_po_field.c", 0x685);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(gfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, ((-globalCtx->gameplayFrames) * 0x14) & 0x1FF, 0x20, 0x80));
-        temp_a0 = this->unk_220 * 85000.0f;
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0x00, temp_a0);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0x00, sp4C = this->unk_220 * 85000.0f);
         Matrix_Translate(this->unk_224.x, this->unk_224.y, this->unk_224.z, MTXMODE_NEW);
-        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738019107841e-05f, MTXMODE_APPLY);
+        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 0.0000958738f, MTXMODE_APPLY);
         if (this->unk_19A >= 0x14) {
             gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x00);
             Matrix_Scale(this->unk_220, this->unk_220, this->unk_220, MTXMODE_APPLY);
         } else {
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, temp_a0, 0x00, 0x00, 0x00);
-            Matrix_Scale((this->unk_220 * 0.699999988079071f) + 0.0009000000427477062f, 
-                        (0.003000000026077032f - this->unk_220) + 0.003000000026077032f, 
-                        0.003000000026077032f, MTXMODE_APPLY);
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, sp4C, 0x00, 0x00, 0x00);
+            Matrix_Scale((this->unk_220 * 0.7f) + 0.00090000004f, (0.003f - this->unk_220) + 0.003f, 0.003f, MTXMODE_APPLY);
         }
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 0x6AD), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyXlu.p++, D_0404D4E0);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_po_field.c", 0x6B0);
     }
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD5E8C.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD619C.s")
 void func_80AD619C(EnPoField* this) {

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_po_relay.c
+ * Overlay: ovl_En_Po_Relay
+ * Description: Dampé's Ghost
+ */
+
 #include "z_en_po_relay.h"
 
 #define FLAGS 0x00011019
@@ -67,7 +73,7 @@ ColliderCylinderInit D_80AD8CF8 = {
     { 30, 52, 0, { 0, 0, 0 } },
 };
 
-s32 D_80AD8D24 = 0x00000000;
+s32 D_80AD8D24 = 0;
 
 InitChainEntry D_80AD8D28[] = {
     ICHAIN_S8(naviEnemyId, 0x4F, ICHAIN_CONTINUE),
@@ -89,35 +95,31 @@ extern AnimationHeader D_06003768;
 extern Gfx D_0600B838[];
 extern Gfx D_0600BBA0[];
 
-#ifdef NON_MATCHING
-// data loads
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/EnPoRelay_Init.s")
 void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoRelay* this;
-    ColliderCylinder* collider;
+    s32 temp;
 
     this = THIS;
     Actor_ProcessInitChain(&this->actor, D_80AD8D28);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, &this->unk_1A0, &this->unk_20C, 0x12);
-    collider = &this->collider;
-    Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &D_80AD8CF8);
+    Collider_InitCylinder(globalCtx,  &this->collider);
+    Collider_SetCylinder(globalCtx,  &this->collider, &this->actor, &D_80AD8CF8);
     this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_InitType0PositionalLight(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0xFF, 0xFF, 0xFF, 0xC8);
     this->unk_27B = 0xFF;
+    temp = 1;
     if (D_80AD8D24 != 0) {
         Actor_Kill(&this->actor);
     } else {
-        D_80AD8D24 = 1;
+        D_80AD8D24 = temp;
         Actor_SetTextWithPrefix(globalCtx, &this->actor, 0x41);
         this->unk_19C = this->actor.textId;
         func_80AD790C(this);
     }
     this->actor.params &= 0x3F;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/EnPoRelay_Init.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/EnPoRelay_Destroy.s")
 void EnPoRelay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -146,12 +148,12 @@ void func_80AD7944(Vec3f* dest, Vec3s* in) {
 }
 
 #ifdef NON_MATCHING
-// Regalloc
+// Single Regalloc
 void func_80AD7984(EnPoRelay* this) {
     Vec3f vec;
 
     func_80AD7944(&vec, &D_80AD8C30[this->unk_198]);
-    this->unk_196 = ((this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000) >> 0xB) & 0x1F;
+    this->unk_196 = (u16)((u16)(this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000U) >> 0xB) & 0x1F;
     func_80088B34(0);
     this->unk_194 = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
@@ -203,14 +205,14 @@ void func_80AD7BF0(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Stack only
-void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) {
-    Player* player;
-    Vec3f vec;
+// Stack size, f regalloc
+void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     f32 temp_f12_2;
     f32 rand;
-    f32 flameDirection;
+    Player* player; // sp5C
+    Vec3f vec; // sp50
     f32 speed;
+    f32 flameDirection; // sp48
 
     player = PLAYER;
     if (this->unk_196 != 0) {

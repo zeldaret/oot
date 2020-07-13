@@ -132,89 +132,67 @@ void func_80AD305C(EnPoDesert* this) {
     this->actor.posRot.pos.y = Math_Sins(this->unk_196 * 0x800) * 13.0f + this->unk_1A4;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD30D0.s")
-/* void func_80AD30D0(EnPoDesert* this, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD30D0.s")
+void func_80AD30D0(EnPoDesert* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, 0x3071);
     if (this->actor.xzDistFromLink < 200.0f) {
         if (2 != this->unk_198 || globalCtx->actorCtx.unk_03 != 0) {
-            if (2 != this->unk_198) {
-block_7:
-                func_80AD2FBC(this);
-                return;
+            if (2 == this->unk_198) {
+                if (Gameplay_InCsMode(globalCtx) != 0) {
+                    this->actor.shape.rot.y += 0x800;
+                    return;
+                }
+                func_8010B680(globalCtx, 0x600B, NULL);
             }
-            if (Gameplay_InCsMode(globalCtx) == 0) {
-                func_8010B680(globalCtx, 0x600B, 0);
-                goto block_7;
-            }
+            func_80AD2FBC(this);
+            return;
         }
     }
     this->actor.shape.rot.y += 0x800;
-} */
-/* void func_80AD30D0(EnPoDesert* this, GlobalContext* globalCtx) {
-    func_8002F974(&this->actor, 0x3071);
-    if (this->actor.xzDistFromLink < 200.0f && this->unk_198 != 2 || globalCtx->actorCtx.unk_03 != 0) {
-        if (this->unk_198 != 2) {
-            func_80AD2FBC(this);
-            return;
-        }
-        if (Gameplay_InCsMode(globalCtx) == 0) {
-            func_8010B680(globalCtx, 0x600B, 0);
-            func_80AD2FBC(this);
-            return;
-        }
-        this->actor.shape.rot.y += 0x800;
-    } else {
-        this->actor.shape.rot.y += 0x800;
-    }
-} */
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3194.s")
-/* void func_80AD3194(EnPoDesert* this, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3194.s")
+void func_80AD3194(EnPoDesert* this, GlobalContext* globalCtx) {
     f32 temp_f20;
-    f32 temp_f20_2;
 
     if (this->unk_194 != 0) {
         this->unk_194--;
     }
-    temp_f20 = sinf(this->unk_194 * 0.15707963705062866f) * 5.0f;
+    temp_f20 = sinf(this->unk_194 * 0.15707964f) * 5.0f;
     this->actor.posRot.pos.x += temp_f20 * Math_Coss(this->actor.shape.rot.y);
     this->actor.posRot.pos.z += temp_f20 * Math_Sins(this->actor.shape.rot.y);
     if (this->unk_194 == 0) {
         this->unk_194 = 0x28;
     }
-    temp_f20_2 = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
-    this->actor.posRot.rot.y = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
+    temp_f20 = func_8002DBB0(this, &this->actor.initPosRot.pos);
+    this->actor.posRot.rot.y = func_8002DAC0(this, &this->actor.initPosRot.pos);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
-    this->actor.speedXZ = sinf(this->unk_196 * 0.09817477315664291f) * 2.5f + 5.5f;
+    this->actor.speedXZ = sinf(this->unk_196 * 0.09817477f) * 2.5f + 5.5f;
     func_8002F974(&this->actor, 0x3071);
-    this->unk_1A4 = this->actor.initPosRot.pos.y - ((temp_f20_2 * this->unk_1A0) / this->unk_19C);
-    if (temp_f20_2 < 40.0f) {
+    this->unk_1A4 = this->actor.initPosRot.pos.y - ((temp_f20 * this->unk_1A0) / this->unk_19C);
+    if (temp_f20 < 40.0f) {
         if (this->unk_198 != 0) {
             func_80AD2E64(this, globalCtx);
         } else {
             func_80AD2FFC(this);
         }
     }
-} */
+}
 
-#ifdef NON_MATCHING
-// Single regalloc
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3328.s")
 void func_80AD3328(EnPoDesert* this, GlobalContext* globalCtx) {
     if (this->unk_194 != 0) {
         this->unk_194--;
     }
     this->actor.shape.rot.y += 0x2000;
-    this->actor.shape.unk_14 = this->unk_223 = this->unk_194 * 15.9375f;
+    this->unk_223 = this->unk_194 * 15.9375f;
+    this->actor.shape.unk_14 = this->unk_223;
     if (this->unk_194 == 0) {
         Actor_Kill(&this->actor);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3328.s")
-#endif
 
-#ifdef NON_MATCHING
-// Regalloc
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/EnPoDesert_Update.s")
 void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this;
     ColliderCylinder* collider;
@@ -230,16 +208,13 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(this, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
     if (globalCtx->actorCtx.unk_03 != 0) {
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
         this->actor.flags |= 0x81;
+        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     } else {
         this->actor.shape.shadowDrawFunc = NULL;
         this->actor.flags &= -0x82;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/EnPoDesert_Update.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3504.s")
 s32 func_80AD3504(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
@@ -257,39 +232,32 @@ s32 func_80AD3504(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-#ifdef NON_MATCHING
-// Stack only
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3594.s")
 void func_80AD3594(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
     EnPoDesert* this;
-    Vec3f vec;
-    u8 red;
-    u8 green;
-    u8 blue;
     f32 rand;
+    Color_RGBA8 color;
+    Vec3f vec;
 
     this = THIS;
     if (limbIndex == 7) {
         Matrix_MultVec3f(&D_80AD39D8, &vec);
         rand = Math_Rand_ZeroOne();
-        red = (s16)(rand * 30.0f) + 0xE1;
-        green = (s16)(rand * 100.0f) + 0x9B;
-        blue = (s16)(rand * 160.0f) + 0x5F;
+        color.r = (s16)(rand * 30.0f) + 0xE1;
+        color.g = (s16)(rand * 100.0f) + 0x9B;
+        color.b = (s16)(rand * 160.0f) + 0x5F;
         if ((this->actor.flags & 0x80) == 0x80) {
             gDPPipeSync((*gfxP)++);
-            gDPSetEnvColor((*gfxP)++, red, green, blue, 0xFF);
+            gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 0xFF);
             gSPMatrix((*gfxP)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 0x20B), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList((*gfxP)++, D_06004BA0);
             gSPDisplayList((*gfxP)++, D_06004CC0);
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, this->unk_220, this->unk_221 , this->unk_222, this->unk_223);
         }
-        Lights_InitType0PositionalLight(&this->lightInfo, vec.x, vec.y, vec.z, red, green, blue, 0xC8);
+        Lights_InitType0PositionalLight(&this->lightInfo, vec.x, vec.y, vec.z, color.r, color.g, color.b, 0xC8);
     }
 }
-#else
-void func_80AD3594(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/func_80AD3594.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Desert/EnPoDesert_Draw.s")
 void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {

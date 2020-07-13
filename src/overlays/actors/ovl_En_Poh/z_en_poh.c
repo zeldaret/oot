@@ -1,3 +1,9 @@
+/*
+ * File: z_en_poh.c
+ * Overlay: ovl_En_Poh
+ * Description: Graveyard Poe
+ */
+
 #include "z_en_poh.h"
 
 #define FLAGS 0x00001015
