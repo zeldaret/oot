@@ -52,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 850, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
 };
 
 static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
@@ -212,8 +212,8 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     AnimationHeader* objSegChangeAnime = &D_060070F0;
 
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f,
-                             (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount),
+                             2, -4.0f);
         this->unk_2AA += 1;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     }

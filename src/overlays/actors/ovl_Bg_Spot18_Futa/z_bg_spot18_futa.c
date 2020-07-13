@@ -29,9 +29,9 @@ const ActorInit Bg_Spot18_Futa_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
 extern UNK_TYPE D_06000368;

@@ -11,7 +11,7 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fhg_Fire_InitVars = {
-    ACTOR_PLAYER,
+    0,
     ACTORTYPE_BOSS,
     FLAGS,
     OBJECT_FHG,

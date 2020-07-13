@@ -1031,7 +1031,7 @@ glabel func_800B9638
 /* B31708 800BA568 A420111A */  sh    $zero, %lo(D_8016111A)($at)
 /* B3170C 800BA56C 0C020978 */  jal   Interface_ChangeAlpha
 /* B31710 800BA570 24040002 */   li    $a0, 2
-/* B31714 800BA574 0C02CE10 */  jal   func_800B3840
+/* B31714 800BA574 0C02CE10 */  jal   ShrinkWindow_SetVal
 /* B31718 800BA578 00002025 */   move  $a0, $zero
 /* B3171C 800BA57C 3C018016 */  lui   $at, %hi(D_8016110C) # $at, 0x8016
 /* B31720 800BA580 A420110C */  sh    $zero, %lo(D_8016110C)($at)
@@ -1045,7 +1045,7 @@ glabel func_800B9638
 /* B3173C 800BA59C 27A4005C */   addiu $a0, $sp, 0x5c
 /* B31740 800BA5A0 0C020978 */  jal   Interface_ChangeAlpha
 /* B31744 800BA5A4 24040002 */   li    $a0, 2
-/* B31748 800BA5A8 0C02CE10 */  jal   func_800B3840
+/* B31748 800BA5A8 0C02CE10 */  jal   ShrinkWindow_SetVal
 /* B3174C 800BA5AC 00002025 */   move  $a0, $zero
 /* B31750 800BA5B0 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
 /* B31754 800BA5B4 3C0C8013 */  lui   $t4, %hi(D_801333E8) # $t4, 0x8013
@@ -1706,7 +1706,7 @@ glabel func_800B9638
 /* B320F8 800BAF58 A420111C */  sh    $zero, %lo(D_8016111C)($at)
 /* B320FC 800BAF5C 0C020978 */  jal   Interface_ChangeAlpha
 /* B32100 800BAF60 24040032 */   li    $a0, 50
-/* B32104 800BAF64 0C02CE10 */  jal   func_800B3840
+/* B32104 800BAF64 0C02CE10 */  jal   ShrinkWindow_SetVal
 /* B32108 800BAF68 24040020 */   li    $a0, 32
 /* B3210C 800BAF6C 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
 /* B32110 800BAF70 3C0B8013 */  lui   $t3, %hi(D_801333E8) # $t3, 0x8013
