@@ -405,13 +405,13 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
+// Regalloc
 void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
-    f32 sp44;
-    f32 sp40;
-    f32 sp3C;
+    f32 tmpf1;
+    f32 tmpf2;
+    f32 tmpf3;
     s32 tmp;
     s16 tmp2 = this->unk_1A0[0].y;
-    f32 tmpf1;
 
     if (this->unk_19F == 0) {
         this->unk_1E8 = 0.0f;
@@ -431,7 +431,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_19F == 2) {
-        this->unk_1A0[0].y += (s16)(this->unk_1E8 * 182.04445f);
+        this->unk_1A0[0].y = this->unk_1A0[0].y + (s32)(this->unk_1E8 * 182.04445f);
         if ((this->unk_200++ < 0x29) ^ 1) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 1.5f;
@@ -443,11 +443,11 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     }
     if (this->unk_19F == 3) {
         this->unk_1A0[0].y += 0x4000;
-        sp44 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.2f, 0.001f);
+        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.2f, 0.001f);
         Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.2f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
-        if (sp44 == 0.0f) {
+        if (tmpf1 == 0.0f) {
             this->unk_1E8 = 0.6981317f;
             this->unk_1EC = 0.34906584f;
             this->unk_19F = 4;
@@ -473,10 +473,10 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         if (tmp > 0) {
             tmp += 0xFFFF0001;
         }
-        
         this->unk_1E8 = tmp;
+        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f);
         this->unk_1A0[0].y = this->unk_1E8;
-        if (Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f) == 0.0f) {
+        if (tmpf1 == 0.0f) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 0;
             this->unk_1A0[0].y = 0;
@@ -490,15 +490,15 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_19F == 6) {
-        sp44 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f,  0.1f, 0.001f);
-        sp40 = Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 0.8f,  0.1f, 0.001f);
-        sp3C = Math_SmoothScaleMaxMinF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
+        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f,  0.1f, 0.001f);
+        tmpf2 = Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 0.8f,  0.1f, 0.001f);
+        tmpf3 = Math_SmoothScaleMaxMinF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         this->unk_1B4[0].x += sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8;
         this->unk_1B4[0].y = this->unk_1B4[0].y + (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
         this->unk_200++;
-        if ((sp44 == 0.0f) && (sp40 == 0.0f) && (sp3C == 0.0f)) {
+        if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f) && (tmpf3 == 0.0f)) {
             this->unk_19C = 0;
             this->actionFunc = func_80A4F734;
         }
