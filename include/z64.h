@@ -704,7 +704,7 @@ typedef struct {
     /* 0xE3E8 */ char   unk_E3E8[0x6];
     /* 0xE3EE */ u16    unk_E3EE;
     /* 0xE3F0 */ u16    unk_E3F0;
-    /* 0xE3F2 */ char   unk_E3F2[0x02];
+    /* 0xE3F2 */ u16    unk_E3F2;
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;

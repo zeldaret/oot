@@ -205,7 +205,7 @@ u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
 // ? func_800281E8(?);
 // ? func_8002829C(?);
 // ? func_80028304(?);
-// ? func_8002836C(?);
+void func_8002836C(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, Color_RGBA8*, Color_RGBA8*, s16, s32, s32);
 // ? func_800283D4(?);
 // ? func_8002843C(?);
 // ? func_800284A4(?);
@@ -227,7 +227,7 @@ void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_
 // ? func_80028CEC(?);
 // ? func_80028DC4(?);
 // ? func_80028E1C(?);
-// ? func_80028E84(?);
+void func_80028E84(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s32, s32);
 // ? func_80028EF4(?);
 // ? func_80028F84(?);
 // ? func_80028FD8(?);
