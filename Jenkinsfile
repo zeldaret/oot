@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Check for unused asm') {
+            steps {
+                sh './tools/find_unused_asm.sh'
+            }
+        }
         stage('Setup') {
             steps {
                 echo 'Setting up...'
@@ -20,8 +25,8 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'python3 progress.py -j'
-                sh 'mv build/progress.json /var/www/html/reports/progress.json'
+                sh 'python3 progress.py -c >> /var/www/html/reports/progress.csv'
+                sh 'python3 progress.py -mc >> /var/www/html/reports/progress_matching.csv'
             }
         }
     }

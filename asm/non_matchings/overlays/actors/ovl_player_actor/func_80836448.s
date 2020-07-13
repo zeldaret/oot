@@ -95,7 +95,7 @@ glabel func_80836448
 /* 04390 808365A0 00063403 */  sra     $a2, $a2, 16               
 /* 04394 808365A4 0C02003E */  jal     func_800800F8              
 /* 04398 808365A8 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 0439C 808365AC 0C02CE10 */  jal     func_800B3840              ## letterbox_target_addr
+/* 0439C 808365AC 0C02CE10 */  jal     ShrinkWindow_SetVal              ## letterbox_target_addr
 /* 043A0 808365B0 24040020 */  addiu   $a0, $zero, 0x0020         ## $a0 = 00000020
 /* 043A4 808365B4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L808365B8:

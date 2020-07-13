@@ -172,7 +172,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
         globalCtx->transitionMode = 0;
     }
 
-    func_800B3968();
+    ShrinkWindow_Destroy();
     TransitionFade_Destroy(&globalCtx->transitionFade);
     VisMono_Destroy(&D_80161498);
 
@@ -323,7 +323,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
-                func_8010B680(globalCtx, 0x3066, 0);
+                func_8010B680(globalCtx, 0x3066, NULL);
             }
             gSaveContext.nextDayTime = 0xFFFE;
         } else {
@@ -360,7 +360,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
         globalCtx->fadeTransition = 6;
     }
 
-    func_800B3908();
+    ShrinkWindow_Init();
     TransitionFade_Init(&globalCtx->transitionFade);
     TransitionFade_SetType(&globalCtx->transitionFade, 3);
     TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
@@ -404,8 +404,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     Interface_SetSceneRestrictions(globalCtx);
     func_800758AC(globalCtx);
-    gSaveContext.seqIndex = globalCtx->soundCtx.musicSeq;
-    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nighttimeSFX;
+    gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
+    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
     func_8002DF18(globalCtx, PLAYER);
     func_800A390C(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
@@ -714,7 +714,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 13:
-                    Audio_PlaySoundGeneral(0x20C0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 < 0x6E) {
                             gTrnsnUnkState = 0;
@@ -747,7 +748,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 15:
-                    Audio_PlaySoundGeneral(0x20C0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 <= 0) {
                             gTrnsnUnkState = 0;
@@ -793,7 +795,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0)) {
-                func_8006EA30(globalCtx);
+                KaleidoSetup_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {
@@ -996,7 +998,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);
             }
 
-            func_800B39B8(R_UPDATE_RATE);
+            ShrinkWindow_Update(R_UPDATE_RATE);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3783);
@@ -1071,7 +1073,7 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// regalloc, stakc usage and minor ordering differences
+// regalloc, stack usage and minor ordering differences
 void Gameplay_Draw(GlobalContext* globalCtx) {
     LightMapper* sp228;
     Vec3f sp21C;
@@ -1134,15 +1136,13 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
-                View view;         // 0xA0
-                Viewport viewport; // 0x90
+                View view; // 0xA0
 
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;
 
-                VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
+                SET_FULLSCREEN_VIEWPORT(&view);
 
-                View_SetViewport(&view, &viewport);
                 func_800AB9EC(&view, 15, &gfxP);
                 globalCtx->transitionCtx.draw(&globalCtx->transitionCtx.data, &gfxP);
             }
@@ -1367,7 +1367,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
     }
 
     if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4583)
+        LOG_NUM("1", 1, "../z_play.c", 4583);
     }
 
     Gameplay_Draw(globalCtx);
@@ -1382,47 +1382,46 @@ s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
     return (globalCtx->csCtx.state != 0) || func_8008E988(globalCtx);
 }
 
-#ifdef NON_MATCHING
-// saved register usage differences and possibly stack usage or regalloc differences
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
-    PosRot sp50;
-    f32 temp_f0;
-    f32 phi_f12;
-    f32 phi_f16;
+    CollisionPoly sp50;
+    f32 temp1;
+    f32 temp2;
+    f32 temp3;
     f32 sp40;
     f32 sp3C;
     f32 sp38;
     f32 sp34;
+    s32 pad[5];
 
-    sp40 = func_8003CB30(globalCtx, &globalCtx->colCtx, &sp50, mf);
+    sp40 = func_8003CB30(&globalCtx->colCtx, &sp50, vec, mf);
 
     if (sp40 > -32000.0f) {
-        sp3C = sp50.rot.x * (1.0f / 32767.0f);
-        sp38 = sp50.rot.y * (1.0f / 32767.0f);
-        sp34 = sp50.rot.z * (1.0f / 32767.0f);
+        sp3C = sp50.norm.x * (1.0f / 32767.0f);
+        sp38 = sp50.norm.y * (1.0f / 32767.0f);
+        sp34 = sp50.norm.z * (1.0f / 32767.0f);
 
-        temp_f0 = sqrtf(1.0f - SQ(sp3C));
+        temp1 = sqrtf(1.0f - SQ(sp3C));
 
-        if (temp_f0 != 0.0f) {
-            phi_f12 = sp38 * temp_f0;
-            phi_f16 = -sp34 * temp_f0;
+        if (temp1 != 0.0f) {
+            temp2 = sp38 * temp1;
+            temp3 = -sp34 * temp1;
         } else {
-            phi_f12 = 0.0f;
-            phi_f16 = 0.0f;
+            temp3 = 0.0f;
+            temp2 = 0.0f;
         }
 
-        mf->xx = temp_f0;
-        mf->xy = -sp3C * phi_f12;
-        mf->xz = sp3C * phi_f16;
+        mf->xx = temp1;
+        mf->xy = -sp3C * temp2;
+        mf->xz = sp3C * temp3;
         mf->yx = sp3C;
         mf->yy = sp38;
-        mf->zy = phi_f16;
-        mf->zz = phi_f12;
+        mf->yz = sp34;
+        mf->zy = temp3;
+        mf->zz = temp2;
         mf->xw = 0.0f;
         mf->yw = 0.0f;
         mf->zx = 0.0f;
         mf->zw = 0.0f;
-        mf->yz = sp34;
         mf->wx = vec->x;
         mf->wy = sp40;
         mf->wz = vec->z;
@@ -1448,9 +1447,6 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
 
     return sp40;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BFCB8.s")
-#endif
 
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     u32 size;

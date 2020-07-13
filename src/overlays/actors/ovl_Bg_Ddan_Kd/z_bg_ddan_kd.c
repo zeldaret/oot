@@ -39,9 +39,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 32767, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneScale, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
 };
 
 static f32 D_808718FC[] = { 0.0f, 5.0f };
@@ -140,8 +140,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             }
             sp5C.x += 80.0f + Math_Rand_ZeroOne() * 10.0f;
             sp50.x -= 80.0f + Math_Rand_ZeroOne() * 10.0f;
-            sp5C.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
-            sp50.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
+            sp5C.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
+            sp50.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
@@ -155,13 +155,14 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             sp5C = this->dyna.actor.posRot.pos;
             sp5C.z += 560.0f + Math_Rand_ZeroOne() * 5.0f;
             sp5C.x += (Math_Rand_ZeroOne() - 0.5f) * 160.0f;
-            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.unk_80 + 20.0f);
+            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.groundY + 20.0f);
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
         }
         func_8005AA1C(&globalCtx->cameras, 0, sp4C * 0.6f, 3);
-        Audio_PlaySoundGeneral(0x2027, &this->dyna.actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                               &D_801333E0, &D_801333E8);
     }
 }
 

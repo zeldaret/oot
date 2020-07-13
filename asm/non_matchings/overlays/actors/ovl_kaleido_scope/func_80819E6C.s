@@ -1,3 +1,26 @@
+.rdata
+
+glabel D_8082F738
+    .asciz "../z_kaleido_item.c"
+    .balign 4
+
+glabel D_8082F74C
+    .asciz "now=%d  ccc=%d\n"
+    .balign 4
+
+glabel D_8082F75C
+    .asciz "【Ｘ cursor=%d(%) (cur_xpt=%d)(ok_fg=%d)(ccc=%d)(key_angle=%d)】  "
+    .balign 4
+
+glabel D_8082F7A0
+    .asciz "【Ｙ cursor=%d(%) (cur_ypt=%d)(ok_fg=%d)(ccc=%d)】  "
+    .balign 4
+
+glabel D_8082F7D8
+    .asciz "../z_kaleido_item.c"
+    .balign 4
+
+.text
 glabel func_80819E6C
 /* 0664C 80819E6C 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 06650 80819E70 AFBF0034 */  sw      $ra, 0x0034($sp)           

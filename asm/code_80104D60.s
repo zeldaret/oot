@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel func_80104D60
+glabel osPfsFileState
 /* B7BF00 80104D60 27BDFEA0 */  addiu $sp, $sp, -0x160
 /* B7BF04 80104D64 AFBF002C */  sw    $ra, 0x2c($sp)
 /* B7BF08 80104D68 AFB40028 */  sw    $s4, 0x28($sp)
@@ -37,7 +37,7 @@ glabel func_80104D60
 /* B7BF58 80104DB8 10000058 */  b     .L80104F1C
 /* B7BF5C 80104DBC 24020005 */   li    $v0, 5
 .L80104DC0:
-/* B7BF60 80104DC0 0C040AFC */  jal   func_80102BF0
+/* B7BF60 80104DC0 0C040AFC */  jal   __osCheckId
 /* B7BF64 80104DC4 02602025 */   move  $a0, $s3
 /* B7BF68 80104DC8 50400004 */  beql  $v0, $zero, .L80104DDC
 /* B7BF6C 80104DCC 92790065 */   lbu   $t9, 0x65($s3)
@@ -48,7 +48,7 @@ glabel func_80104D60
 /* B7BF7C 80104DDC 02602025 */  move  $a0, $s3
 /* B7BF80 80104DE0 53200008 */  beql  $t9, $zero, .L80104E04
 /* B7BF84 80104DE4 8E68005C */   lw    $t0, 0x5c($s3)
-/* B7BF88 80104DE8 0C041320 */  jal   func_80104C80
+/* B7BF88 80104DE8 0C041320 */  jal   __osPfsSelectBank
 /* B7BF8C 80104DEC 00002825 */   move  $a1, $zero
 /* B7BF90 80104DF0 50400004 */  beql  $v0, $zero, .L80104E04
 /* B7BF94 80104DF4 8E68005C */   lw    $t0, 0x5c($s3)
@@ -61,7 +61,7 @@ glabel func_80104D60
 /* B7BFAC 80104E0C 01103021 */  addu  $a2, $t0, $s0
 /* B7BFB0 80104E10 30C9FFFF */  andi  $t1, $a2, 0xffff
 /* B7BFB4 80104E14 01203025 */  move  $a2, $t1
-/* B7BFB8 80104E18 0C0417D0 */  jal   osReadMempak
+/* B7BFB8 80104E18 0C0417D0 */  jal   __osContRamRead
 /* B7BFBC 80104E1C 27A70038 */   addiu $a3, $sp, 0x38
 /* B7BFC0 80104E20 10400003 */  beqz  $v0, .L80104E30
 /* B7BFC4 80104E24 97AA003C */   lhu   $t2, 0x3c($sp)
@@ -93,7 +93,7 @@ glabel func_80104D60
 /* B7C01C 80104E7C 12190008 */  beq   $s0, $t9, .L80104EA0
 /* B7C020 80104E80 00003025 */   move  $a2, $zero
 /* B7C024 80104E84 03208025 */  move  $s0, $t9
-/* B7C028 80104E88 0C040B31 */  jal   func_80102CC4
+/* B7C028 80104E88 0C040B31 */  jal   __osPfsRWInode
 /* B7C02C 80104E8C 332700FF */   andi  $a3, $t9, 0xff
 /* B7C030 80104E90 50400004 */  beql  $v0, $zero, .L80104EA4
 /* B7C034 80104E94 93A80035 */   lbu   $t0, 0x35($sp)
@@ -132,7 +132,7 @@ glabel func_80104D60
 /* B7C0A8 80104F08 0C001BC4 */  jal   bcopy
 /* B7C0AC 80104F0C 24A5000A */   addiu $a1, $a1, 0xa
 /* B7C0B0 80104F10 8E640004 */  lw    $a0, 4($s3)
-/* B7C0B4 80104F14 0C040644 */  jal   func_80101910
+/* B7C0B4 80104F14 0C040644 */  jal   __osPfsGetStatus
 /* B7C0B8 80104F18 8E650008 */   lw    $a1, 8($s3)
 .L80104F1C:
 /* B7C0BC 80104F1C 8FBF002C */  lw    $ra, 0x2c($sp)

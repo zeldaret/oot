@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_8082FDE8
+    .asciz "ＭＡＰ ＤＭＡ = %d\n"
+    .balign 4
+
+.text
 glabel func_80826BA8
 /* 13388 80826BA8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 1338C 80826BAC AFB00018 */  sw      $s0, 0x0018($sp)           

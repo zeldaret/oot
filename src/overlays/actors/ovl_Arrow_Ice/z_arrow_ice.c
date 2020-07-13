@@ -36,7 +36,7 @@ const ActorInit Arrow_Ice_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
 };
 
 void ArrowIce_SetupAction(ArrowIce* this, ArrowIceActionFunc actionFunc) {
@@ -78,7 +78,7 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
-    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE);
+    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE - SFX_FLAG);
 
     // If arrow's attached is null, Link has fired the arrow
     if (arrow->actor.attachedA == NULL) {
@@ -100,13 +100,13 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx) {
     f32 offset;
     u16 timer;
 
-    if (this->actor.unk_F0 < 50.0f) {
+    if (this->actor.projectedW < 50.0f) {
         scale = 10.0f;
     } else {
-        if (950.0f < this->actor.unk_F0) {
+        if (950.0f < this->actor.projectedW) {
             scale = 310.0f;
         } else {
-            scale = this->actor.unk_F0;
+            scale = this->actor.projectedW;
             scale = ((scale - 50.0f) * (1.0f / 3.0f)) + 10.0f;
         }
     }

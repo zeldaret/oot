@@ -473,13 +473,13 @@ glabel func_800B9638
 /* B30EC0 800B9D20 100004C0 */  b     .L800BB024
 /* B30EC4 800B9D24 24020001 */   li    $v0, 1
 .L800B9D28:
-/* B30EC8 800B9D28 0C02ED5C */  jal   func_800BB570
+/* B30EC8 800B9D28 0C02ED5C */  jal   Mempak_Init
 /* B30ECC 800B9D2C 24040002 */   li    $a0, 2
 /* B30ED0 800B9D30 10400172 */  beqz  $v0, .L800BA2FC
 /* B30ED4 800B9D34 2404000C */   li    $a0, 12
 /* B30ED8 800B9D38 24040002 */  li    $a0, 2
 /* B30EDC 800B9D3C 24050041 */  li    $a1, 65
-/* B30EE0 800B9D40 0C02ED7E */  jal   func_800BB5F8
+/* B30EE0 800B9D40 0C02ED7E */  jal   Mempak_FindFile
 /* B30EE4 800B9D44 24060045 */   li    $a2, 69
 /* B30EE8 800B9D48 3C018016 */  lui   $at, %hi(D_80161104) # $at, 0x8016
 /* B30EEC 800B9D4C AC221104 */  sw    $v0, %lo(D_80161104)($at)
@@ -497,7 +497,7 @@ glabel func_800B9638
 /* B30F1C 800B9D7C 3C018013 */   lui   $at, %hi(D_8012D170)
 /* B30F20 800B9D80 25050041 */  addiu $a1, $t0, 0x41
 /* B30F24 800B9D84 30A500FF */  andi  $a1, $a1, 0xff
-/* B30F28 800B9D88 0C02EF05 */  jal   func_800BBC14
+/* B30F28 800B9D88 0C02EF05 */  jal   Mempak_GetFileSize
 /* B30F2C 800B9D8C 24040002 */   li    $a0, 2
 /* B30F30 800B9D90 3C018013 */  lui   $at, %hi(D_8012D170) # $at, 0x8013
 /* B30F34 800B9D94 AC22D170 */  sw    $v0, %lo(D_8012D170)($at)
@@ -574,7 +574,7 @@ glabel func_800B9638
 /* B31034 800B9E94 3C018013 */   lui   $at, %hi(D_8012D170)
 /* B31038 800B9E98 25050041 */  addiu $a1, $t0, 0x41
 /* B3103C 800B9E9C 30A500FF */  andi  $a1, $a1, 0xff
-/* B31040 800B9EA0 0C02EF05 */  jal   func_800BBC14
+/* B31040 800B9EA0 0C02EF05 */  jal   Mempak_GetFileSize
 /* B31044 800B9EA4 24040002 */   li    $a0, 2
 /* B31048 800B9EA8 3C018013 */  lui   $at, %hi(D_8012D170) # $at, 0x8013
 /* B3104C 800B9EAC AC22D170 */  sw    $v0, %lo(D_8012D170)($at)
@@ -628,7 +628,7 @@ glabel func_800B9638
 /* B310FC 800B9F5C 3C018013 */   lui   $at, %hi(D_8012D170)
 /* B31100 800B9F60 25050041 */  addiu $a1, $t0, 0x41
 /* B31104 800B9F64 30A500FF */  andi  $a1, $a1, 0xff
-/* B31108 800B9F68 0C02EF05 */  jal   func_800BBC14
+/* B31108 800B9F68 0C02EF05 */  jal   Mempak_GetFileSize
 /* B3110C 800B9F6C 24040002 */   li    $a0, 2
 /* B31110 800B9F70 3C018013 */  lui   $at, %hi(D_8012D170) # $at, 0x8013
 /* B31114 800B9F74 AC22D170 */  sw    $v0, %lo(D_8012D170)($at)
@@ -682,7 +682,7 @@ glabel func_800B9638
 /* B311CC 800BA02C 24060004 */  li    $a2, 4
 /* B311D0 800BA030 0C018DDB */  jal   func_8006376C
 /* B311D4 800BA034 27A70074 */   addiu $a3, $sp, 0x74
-/* B311D8 800BA038 0C02ED7A */  jal   func_800BB5E8
+/* B311D8 800BA038 0C02ED7A */  jal   Mempak_GetFreeBytes
 /* B311DC 800BA03C 24040002 */   li    $a0, 2
 /* B311E0 800BA040 00022400 */  sll   $a0, $v0, 0x10
 /* B311E4 800BA044 00042403 */  sra   $a0, $a0, 0x10
@@ -1031,7 +1031,7 @@ glabel func_800B9638
 /* B31708 800BA568 A420111A */  sh    $zero, %lo(D_8016111A)($at)
 /* B3170C 800BA56C 0C020978 */  jal   Interface_ChangeAlpha
 /* B31710 800BA570 24040002 */   li    $a0, 2
-/* B31714 800BA574 0C02CE10 */  jal   func_800B3840
+/* B31714 800BA574 0C02CE10 */  jal   ShrinkWindow_SetVal
 /* B31718 800BA578 00002025 */   move  $a0, $zero
 /* B3171C 800BA57C 3C018016 */  lui   $at, %hi(D_8016110C) # $at, 0x8016
 /* B31720 800BA580 A420110C */  sh    $zero, %lo(D_8016110C)($at)
@@ -1045,7 +1045,7 @@ glabel func_800B9638
 /* B3173C 800BA59C 27A4005C */   addiu $a0, $sp, 0x5c
 /* B31740 800BA5A0 0C020978 */  jal   Interface_ChangeAlpha
 /* B31744 800BA5A4 24040002 */   li    $a0, 2
-/* B31748 800BA5A8 0C02CE10 */  jal   func_800B3840
+/* B31748 800BA5A8 0C02CE10 */  jal   ShrinkWindow_SetVal
 /* B3174C 800BA5AC 00002025 */   move  $a0, $zero
 /* B31750 800BA5B0 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
 /* B31754 800BA5B4 3C0C8013 */  lui   $t4, %hi(D_801333E8) # $t4, 0x8013
@@ -1706,7 +1706,7 @@ glabel func_800B9638
 /* B320F8 800BAF58 A420111C */  sh    $zero, %lo(D_8016111C)($at)
 /* B320FC 800BAF5C 0C020978 */  jal   Interface_ChangeAlpha
 /* B32100 800BAF60 24040032 */   li    $a0, 50
-/* B32104 800BAF64 0C02CE10 */  jal   func_800B3840
+/* B32104 800BAF64 0C02CE10 */  jal   ShrinkWindow_SetVal
 /* B32108 800BAF68 24040020 */   li    $a0, 32
 /* B3210C 800BAF6C 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
 /* B32110 800BAF70 3C0B8013 */  lui   $t3, %hi(D_801333E8) # $t3, 0x8013

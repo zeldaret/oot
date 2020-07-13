@@ -513,12 +513,12 @@ glabel Graph_Update
 /* B3D940 800C67A0 00000000 */   nop
 /* B3D944 800C67A4 944A0014 */  lhu   $t2, 0x14($v0)
 /* B3D948 800C67A8 2401FFCF */  li    $at, -49
-/* B3D94C 800C67AC 3C0C8080 */  lui   $t4, %hi(func_80801E44) # $t4, 0x8080
+/* B3D94C 800C67AC 3C0C8080 */  lui   $t4, %hi(Select_Init) # $t4, 0x8080
 /* B3D950 800C67B0 01415827 */  nor   $t3, $t2, $at
 /* B3D954 800C67B4 15600009 */  bnez  $t3, .L800C67DC
 /* B3D958 800C67B8 3C018016 */   lui   $at, %hi(gSaveContext+0x135c) # $at, 0x8016
 /* B3D95C 800C67BC AC20F9BC */  sw    $zero, %lo(gSaveContext+0x135c)($at)
-/* B3D960 800C67C0 258C1E44 */  addiu $t4, %lo(func_80801E44) # addiu $t4, $t4, 0x1e44
+/* B3D960 800C67C0 258C1E44 */  addiu $t4, %lo(Select_Init) # addiu $t4, $t4, 0x1e44
 /* B3D964 800C67C4 240D0240 */  li    $t5, 576
 /* B3D968 800C67C8 AC4D0010 */  sw    $t5, 0x10($v0)
 /* B3D96C 800C67CC AC4C000C */  sw    $t4, 0xc($v0)
