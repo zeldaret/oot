@@ -20,7 +20,6 @@ void func_80AD30D0(EnPoDesert* this, GlobalContext* globalCtx);
 void func_80AD3194(EnPoDesert* this, GlobalContext* globalCtx);
 void func_80AD3328(EnPoDesert* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORTYPE_BG,
@@ -32,19 +31,25 @@ const ActorInit En_Po_Desert_InitVars = {
     (ActorFunc)EnPoDesert_Update,
     (ActorFunc)EnPoDesert_Draw,
 };
-*/
 
-// TODO data
+ColliderCylinderInit D_80AD39A0 = {
+    { COLTYPE_UNK3, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 25, 50, 20, { 0, 0, 0 } },
+};
 
-extern InitChainEntry D_80AD39CC[];
-extern ColliderCylinderInit D_80AD39A0;
-extern Vec3f D_80AD39D8;
+InitChainEntry D_80AD39CC[3] = {
+    ICHAIN_S8(naviEnemyId, 0x5C, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
+};
 
-// TODO external
+Vec3f D_80AD39D8 = { 0.0f, 1400.0f, 0.0f };
 
 extern SkeletonHeader D_06006A30;
 extern AnimationHeader D_06000924;
 extern AnimationHeader D_06001360;
+
 extern Gfx D_06004BA0[];
 extern Gfx D_06004CC0[];
 

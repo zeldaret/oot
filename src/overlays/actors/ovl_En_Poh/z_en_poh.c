@@ -35,7 +35,8 @@ void func_80AE009C(EnPoh* this, GlobalContext* globalCtx);
 void func_80AE00DC(EnPoh* this, GlobalContext* globalCtx);
 void func_80AE0204(EnPoh* this, GlobalContext* globalCtx);
 
-/*
+s16 D_80AE1A50 = 0;
+
 const ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORTYPE_ENEMY,
@@ -47,25 +48,48 @@ const ActorInit En_Poh_InitVars = {
     (ActorFunc)EnPoh_Update,
     NULL,
 };
-*/
 
-// TODO data
+ColliderCylinderInit D_80AE1A74 = {
+    { COLTYPE_UNK3, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 20, 40, 20, { 0, 0, 0 } },
+};
 
-extern InitChainEntry D_80AE1B5C[];
-extern ColliderJntSphInit D_80AE1AC4;
-extern ColliderCylinderInit D_80AE1A74;
-extern DamageTable D_80AE1ADC;
-extern CollisionCheckInfoInit D_80AE1AD4;
-extern s16 D_80AE1A50;
-extern Vec3f D_80AE1B60;
-extern Vec3f D_80AE1B6C;
-extern UnkEnPohStruct D_80AE1AFC[];
-extern Color_RGBA8 D_80AE1B4C;
-extern Color_RGBA8 D_80AE1B50;
-extern Color_RGBA8 D_80AE1B54;
-extern Color_RGBA8 D_80AE1B58;
+ColliderJntSphItemInit D_80AE1AA0[1] = {
+    {
+        { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        { 18, { { 0, 1400, 0 }, 10 }, 100 },
+    },
+};
 
-// external
+ColliderJntSphInit D_80AE1AC4 = {
+    { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    1, D_80AE1AA0,
+};
+
+CollisionCheckInfoInit D_80AE1AD4 = {0x04, 0x0019, 0x0032, 0x28};
+
+DamageTable D_80AE1ADC = {
+    0x00, 0x02, 0x01, 0x02, 0x11, 0x02, 0x02, 0x12, 0x01, 0x02, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02, 
+    0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+};
+
+UnkEnPohStruct D_80AE1AFC[2] = {
+    { 0xFF, 0xAA, 0xFF, 0x64, 0x00, 0x96, 0x12, 0x05, 0xF8, 0x060015B0, 0x06000A60, 0x060004EC, 0x060006E0, 0x06002D28, 0x06002608, 0x06003850 },
+    { 0xFF, 0xFF, 0xAA, 0x00, 0x96, 0x00, 0x09, 0x01, 0xF4, 0x06001440, 0x060009DC, 0x06000570, 0x06000708, 0x060045A0, 0x06005220, 0x06001C90 },
+};
+
+Color_RGBA8 D_80AE1B4C = { 0x4B, 0x14, 0x19, 0xFF };
+Color_RGBA8 D_80AE1B50 = { 0x50, 0x6E, 0x5A, 0xFF };
+Color_RGBA8 D_80AE1B54 = { 0x5A, 0x55, 0x32, 0xFF };
+Color_RGBA8 D_80AE1B58 = { 0x64, 0x5A, 0x64, 0xFF };
+
+InitChainEntry D_80AE1B5C[1] = {
+    ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
+};
+
+Vec3f D_80AE1B60 = {0.0f, 3.0f, 0.0f};
+Vec3f D_80AE1B6C = {0.0f, 0.0f, 0.0f};
 
 extern AnimationHeader D_060001A8;
 extern AnimationHeader D_0600020C;

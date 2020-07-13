@@ -26,8 +26,6 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD5AD8(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD5B18(EnPoField* this, GlobalContext* globalCtx);
 
-
-/*
 const ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
     ACTORTYPE_ENEMY,
@@ -39,25 +37,48 @@ const ActorInit En_Po_Field_InitVars = {
     (ActorFunc)EnPoField_Update,
     (ActorFunc)EnPoField_Draw,
 };
-*/
 
-// TODO data
+ColliderCylinderInit D_80AD7080 = {
+    { COLTYPE_UNK3, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 25, 50, 20, { 0, 0, 0 } },
+};
 
-extern InitChainEntry D_80AD7110[];
-extern ColliderCylinderInit D_80AD7080;
-extern ColliderCylinderInit D_80AD70AC;
-extern DamageTable D_80AD70E0;
-extern CollisionCheckInfoInit D_80AD70D8;
-extern Vec3f D_80AD7104;
-extern Vec3f D_80AD7114;
-extern Vec3f D_80AD7120;
-extern EnPoFieldInfo D_80AD712C[];
-extern Vec3f D_80AD714C;
+ColliderCylinderInit D_80AD70AC = {
+    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+    { 10, 30, 0, { 0, 0, 0 } },
+};
 
-extern u8 D_80AD76F0[];
-extern MtxF D_80AD7700;
+CollisionCheckInfoInit D_80AD70D8 = { 0x04, 0x0019, 0x0032, 0x28 };
 
-// external references
+DamageTable D_80AD70E0 = {
+    0x00, 0x02, 0x01, 0x02, 0x11, 0x02, 0x02, 0x12, 0x01, 0x02, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02, 
+    0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+};
+
+s32 D_80AD7100 = 0;
+
+Vec3f D_80AD7104 = { -1000.0f, 0.0f, 6500.0f };
+
+InitChainEntry D_80AD7110[1] = {
+    ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
+};
+
+Vec3f D_80AD7114 = { 0.0f, 3.0f, 0.0f };
+
+Vec3f D_80AD7120 = { 0.0f, 0.0f, 0.0f };
+
+EnPoFieldInfo D_80AD712C[2] = {
+    { 0xFF, 0xAA, 0xFF, 0x64, 0x00, 0x96, 0xFF, 0x55, 0x00, 0xF8, 0x06001B70 },
+    { 0xFF, 0xFF, 0xAA, 0xFF, 0xC8, 0x00, 0xA0, 0x00, 0xFF, 0xF1, 0x06001370 },
+};
+
+Vec3f D_80AD714C = { 0.0f, 1400.0f, 0.0f };
+
+Vec3s D_80AD76B0[10];
+u8 D_80AD76F0[10];
+MtxF D_80AD7700;
 
 extern AnimationHeader D_06000924;
 extern SkeletonHeader D_06006A30;

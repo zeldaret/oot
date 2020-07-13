@@ -18,7 +18,37 @@ void func_80AD830C(EnPoRelay* this, GlobalContext* globalCtx);
 
 void func_80AD790C(EnPoRelay* this);
 
-/*
+Vec3s D_80AD8C30[] = {
+    {0xFFC4, 0xFDEE, 0xF47A},
+    {0x0186, 0xFE0C, 0xF47A},
+    {0x0186, 0xFE0C, 0xF0F6},
+    {0x00D2, 0xFDEE, 0xF0F6},
+    {0x00D2, 0xFD9E, 0xEEDA},
+    {0x023A, 0xFDC6, 0xEEDA},
+    {0x023A, 0xFDC6, 0xED18},
+    {0x00D2, 0xFDC6, 0xED18},
+    {0x00D2, 0xFDC6, 0xEBCE},
+    {0x00D2, 0xFDC6, 0xEAA2},
+    {0x023A, 0xFDC6, 0xEAA2},
+    {0x023A, 0xFDC6, 0xEBB0},
+    {0x04EC, 0xFD9E, 0xEBB0},
+    {0x0672, 0xFD62, 0xED18},
+    {0x0672, 0xFD30, 0xEE80},
+    {0x07DA, 0xFD26, 0xEE80},
+    {0x07DA, 0xFD26, 0xEF70},
+    {0x07DA, 0xFD26, 0xF204},
+    {0x0672, 0xFD44, 0xF204},
+    {0x0672, 0xFD6C, 0xF3C6},
+    {0x088E, 0xFD6C, 0xF3C6},
+    {0x088E, 0xFDB2, 0xF5E2},
+    {0x099C, 0xFDD0, 0xF5E2},
+    {0x0B54, 0xFE66, 0xF772},
+    {0x0B4E, 0xFE66, 0xF87E},
+    {0x0B4A, 0xFE66, 0xF97A},
+    {0x0B4A, 0xFE98, 0xF9FC},
+    {0x0BAE, 0xFE98, 0xF9FC},
+};
+
 const ActorInit En_Po_Relay_InitVars = {
     ACTOR_EN_PO_RELAY,
     ACTORTYPE_NPC,
@@ -30,20 +60,29 @@ const ActorInit En_Po_Relay_InitVars = {
     (ActorFunc)EnPoRelay_Update,
     (ActorFunc)EnPoRelay_Draw,
 };
-*/
 
-// TODO data
+ColliderCylinderInit D_80AD8CF8 = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 30, 52, 0, { 0, 0, 0 } },
+};
 
-extern s32 D_80AD8D24;
-extern InitChainEntry D_80AD8D28[];
-extern ColliderCylinderInit D_80AD8CF8;
-extern Vec3s D_80AD8C30[];
-extern u32 D_80AD8D54[];
-extern Vec3f D_80AD8D30;
-extern Vec3f D_80AD8D3C;
-extern Vec3f D_80AD8D48;
+s32 D_80AD8D24 = 0x00000000;
 
-// TODO external
+InitChainEntry D_80AD8D28[] = {
+    ICHAIN_S8(naviEnemyId, 0x4F, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 1500, ICHAIN_STOP),
+};
+
+Vec3f D_80AD8D30 = { 0.0f, 1.5f, 0.0f };
+
+Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
+
+Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
+
+u32 D_80AD8D54[] = {
+    0x06003B40, 0x06004340, 0x06004B40,
+};
 
 extern SkeletonHeader D_0600BE40;
 extern AnimationHeader D_06003768;

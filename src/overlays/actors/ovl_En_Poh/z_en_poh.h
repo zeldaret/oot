@@ -18,7 +18,6 @@ typedef struct {
     /* 0x0006 */ u8 unk_6;
     /* 0x0006 */ u8 unk_7;
     /* 0x0008 */ s8 unk_8;
-    /* 0x0009 */ char unk_9[0x03];
     /* 0x000C */ AnimationHeader* unk_C;
     /* 0x0010 */ AnimationHeader* unk_10;
     /* 0x0014 */ u32 unk_14;

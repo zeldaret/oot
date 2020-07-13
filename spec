@@ -3053,36 +3053,30 @@ endseg
 beginseg
     name "ovl_En_Po_Desert"
     include "build/src/overlays/actors/ovl_En_Po_Desert/z_en_po_desert.o"
-    include "build/data/overlays/actors/z_en_po_desert.data.o"
     include "build/data/overlays/actors/z_en_po_desert.reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Po_Field"
     include "build/src/overlays/actors/ovl_En_Po_Field/z_en_po_field.o"
-    include "build/data/overlays/actors/z_en_po_field.data.o"
-    include "build/data/overlays/actors/z_en_po_field.bss.o"
     include "build/data/overlays/actors/z_en_po_field.reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Po_Relay"
     include "build/src/overlays/actors/ovl_En_Po_Relay/z_en_po_relay.o"
-    include "build/data/overlays/actors/z_en_po_relay.data.o"
     include "build/data/overlays/actors/z_en_po_relay.reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Po_Sisters"
     include "build/src/overlays/actors/ovl_En_Po_Sisters/z_en_po_sisters.o"
-    include "build/data/overlays/actors/z_en_po_sisters.data.o"
     include "build/data/overlays/actors/z_en_po_sisters.reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Poh"
     include "build/src/overlays/actors/ovl_En_Poh/z_en_poh.o"
-    include "build/data/overlays/actors/z_en_poh.data.o"
     include "build/data/overlays/actors/z_en_poh.reloc.o"
 endseg
 

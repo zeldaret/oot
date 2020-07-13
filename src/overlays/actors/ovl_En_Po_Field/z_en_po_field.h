@@ -19,7 +19,6 @@ typedef struct {
     /* 0x0007 */ u8 unk_7;
     /* 0x0008 */ u8 unk_8;
     /* 0x0009 */ s8 unk_9;
-    /* 0x000A */ char unk_A[0x001];
     /* 0x000C */ UNK_PTR unk_C;
 } EnPoFieldInfo; // size = 0x10
 
