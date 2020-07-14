@@ -771,8 +771,8 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 func_80AABEF0(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                  struct Actor* thisx, Gfx** gfx) {
+s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                          Actor* thisx, Gfx** gfx) {
     EnMd* this = THIS;
     Vec3s vec;
 
@@ -797,7 +797,7 @@ s32 func_80AABEF0(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     return 0;
 }
 
-void func_80AAC104(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
+void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
     s32 pad;
     Vec3f vec = D_80AAC498;
 
