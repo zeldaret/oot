@@ -1,3 +1,93 @@
+.rdata
+glabel D_8013C3D0
+    .asciz "T%03d "
+    .balign 4
+
+glabel D_8013C3D8
+    .asciz "E%03d"
+    .balign 4
+
+glabel D_8013C3E0
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C3E4
+    .asciz "ZELDATIME "
+    .balign 4
+
+glabel D_8013C3F0
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C3F8
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C3FC
+    .asciz ":"
+    .balign 4
+
+glabel D_8013C400
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C404
+    .asciz " "
+    .balign 4
+
+glabel D_8013C408
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C410
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C414
+    .asciz "VRBOXTIME "
+    .balign 4
+
+glabel D_8013C420
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C428
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C42C
+    .asciz ":"
+    .balign 4
+
+glabel D_8013C430
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C434
+    .asciz " "
+    .balign 4
+
+glabel D_8013C438
+    .asciz "%02d"
+    .balign 4
+
+glabel D_8013C440
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C444
+    .asciz "YORU"
+    .balign 4
+
+glabel D_8013C44C
+    .asciz "%s"
+    .balign 4
+
+glabel D_8013C450
+    .asciz "HIRU"
+    .balign 4
+
+.text
 glabel func_80070718
 /* AE78B8 80070718 27BDFF98 */  addiu $sp, $sp, -0x68
 /* AE78BC 8007071C AFB00020 */  sw    $s0, 0x20($sp)
@@ -5,7 +95,7 @@ glabel func_80070718
 /* AE78C4 80070724 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AE78C8 80070728 AFA40068 */  sw    $a0, 0x68($sp)
 /* AE78CC 8007072C AFA5006C */  sw    $a1, 0x6c($sp)
-/* AE78D0 80070730 0C03EEE3 */  jal   GfxPrint_Ctor
+/* AE78D0 80070730 0C03EEE3 */  jal   GfxPrint_Init
 /* AE78D4 80070734 02002025 */   move  $a0, $s0
 /* AE78D8 80070738 8FAE006C */  lw    $t6, 0x6c($sp)
 /* AE78DC 8007073C 02002025 */  move  $a0, $s0
@@ -333,7 +423,7 @@ glabel func_80070718
 /* AE7D9C 80070BFC 02002025 */   move  $a0, $s0
 /* AE7DA0 80070C00 8FAC006C */  lw    $t4, 0x6c($sp)
 /* AE7DA4 80070C04 02002025 */  move  $a0, $s0
-/* AE7DA8 80070C08 0C03EF05 */  jal   GfxPrint_Dtor
+/* AE7DA8 80070C08 0C03EF05 */  jal   GfxPrint_Destroy
 /* AE7DAC 80070C0C AD820000 */   sw    $v0, ($t4)
 /* AE7DB0 80070C10 8FBF0024 */  lw    $ra, 0x24($sp)
 /* AE7DB4 80070C14 8FB00020 */  lw    $s0, 0x20($sp)

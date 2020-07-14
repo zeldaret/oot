@@ -27,7 +27,7 @@ glabel D_8012ABC0
     .word GfxPrint_SetColor
     .word GfxPrint_Printf
     .word GfxPrint_SetPosPx
-    .word GfxPrint_Ctor
+    .word GfxPrint_Init
     .word GfxPrint_Open
     .word GfxPrint_Close
-    .word GfxPrint_Dtor
+    .word GfxPrint_Destroy

@@ -30,8 +30,8 @@ glabel func_808106F4
 /* 0CA20 80810760 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 0CA24 80810764 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0CA28 80810768 AC40135C */  sw      $zero, 0x135C($v0)         ## 8015F9BC
-/* 0CA2C 8081076C 3C198080 */  lui     $t9, %hi(func_80801E44)
-/* 0CA30 80810770 27391E44 */  addiu   $t9, %lo(func_80801E44)
+/* 0CA2C 8081076C 3C198080 */  lui     $t9, %hi(Select_Init)
+/* 0CA30 80810770 27391E44 */  addiu   $t9, %lo(Select_Init)
 /* 0CA34 80810774 24080240 */  addiu   $t0, $zero, 0x0240         ## $t0 = 00000240
 /* 0CA38 80810778 AE080010 */  sw      $t0, 0x0010($s0)           ## 00000010
 /* 0CA3C 8081077C AE19000C */  sw      $t9, 0x000C($s0)           ## 0000000C

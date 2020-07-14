@@ -1,3 +1,25 @@
+.rdata
+glabel D_8013C60C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C61C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C62C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C63C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_8013C7F4
+    .float 0.02
+
+.text
 glabel func_80074D6C
 /* AEBF0C 80074D6C 27BDFF98 */  addiu $sp, $sp, -0x68
 /* AEBF10 80074D70 3C010001 */  lui   $at, 1

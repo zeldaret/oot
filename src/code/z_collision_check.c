@@ -1366,7 +1366,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         return;
     }
@@ -1376,7 +1376,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             func_80062D60(globalCtx, arg3);
             return;
         }
-        func_80062DAC(globalCtx, arg3, &collider->actor->unk_E4);
+        func_80062DAC(globalCtx, arg3, &collider->actor->projectedPos);
         return;
     }
     if (flags == 8) {
@@ -1385,7 +1385,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         return;
     }
@@ -1395,7 +1395,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         return;
     }
@@ -1405,17 +1405,17 @@ s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
     if (left->actor != NULL) {
         if (ACTORTYPE_PLAYER == left->actor->type) {
             if (rightBody->flags == 0) {
-                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &left->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
             } else if (rightBody->flags == 1) {
-                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
-            } else if (2 == rightBody->flags) {
-                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
+            } else if (rightBody->flags == 2) {
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
             } else if (rightBody->flags == 3) {
-                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
             }
         }
     }
@@ -1456,7 +1456,7 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
                 func_80062CD4(globalCtx, arg5);
                 Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                func_80062E14(globalCtx, arg5, &left->actor->unk_E4);
+                func_80062E14(globalCtx, arg5, &left->actor->projectedPos);
             }
         } else if (D_8011DF40[right->type].unk01 != 5) {
             func_80029CA4(globalCtx, D_8011DF40[right->type].unk01, arg5);
@@ -1469,7 +1469,7 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
         if (right->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         }
     }
@@ -3120,10 +3120,10 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-#if 0 // NON_MATCHING
+#ifdef NON_EQUIVALENT
 // Incomplete, possibly not using the same logic
-s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_actor_pos, Vec3f* at_actor_pos, Vec3f* arg5, Vec3f* arg6,
-                  Vec3f* arg7) {
+s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_actor_pos, Vec3f* at_actor_pos,
+                  Vec3f* arg5, Vec3f* arg6, Vec3f* arg7) {
     // arg5 = SP + 0xA8, unk input
     // arg6 = SP + 0x90, unk output
     // arg7 = SP + 0x84, unk output2
@@ -3161,7 +3161,7 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
 
     phi_v0 = 0;
     // ada12c:    bc1f    0xada138 ~>
-    if (0.0f < delta_a3_a4_sp6C.y) { 
+    if (0.0f < delta_a3_a4_sp6C.y) {
         phi_v0 = 1;
     }
     // ada138:    beqzl   v0,0xada188 ~>
@@ -3172,27 +3172,28 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
     }
 
     phi_v1 = 0;
-    if (0.0f < delta_a3_a5_sp60.y) { //ada19c:    bc1f    0xada1a8 ~>
+    if (0.0f < delta_a3_a5_sp60.y) { // ada19c:    bc1f    0xada1a8 ~>
         phi_v1 = 1;
     }
-    //ada1a8:    beqzl   v1,0xada1f4 ~>
+    // ada1a8:    beqzl   v1,0xada1f4 ~>
     if (phi_v1 && delta_a3_a5_sp60.y < actor_ac_98_12) {
         if (sqrtf(SQ(delta_a3_a5_sp60.x) + SQ(delta_a3_a5_sp60.z)) < actor_ac_98_10) {
             return 3;
         }
     }
 
-    //ada1f4
+    // ada1f4
     sp38 = SQ(delta_a3_a4_sp6C.x) + SQ(delta_a3_a4_sp6C.z) - SQ(actor_ac_98_10); // temp_f12;
     temp_f2 = SQ(delta_a4_a5_sp54.x) + SQ(delta_a4_a5_sp54.z);
     if (!(fabsf(temp_f2) < 0.008f)) { // ada23c:    bc1t    0xada2f0 ~>
-        temp_f14 = (delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x + (delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z;
+        temp_f14 = (delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x +
+                   (delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z;
         temp_f0 = SQ(temp_f14);
         temp_f12 = (4.0f * temp_f2) * sp38;
         if (temp_f0 < temp_f12) { // ada280:    bc1f    0xada290 ~>
             return 0;
         }
-        //ada290
+        // ada290
         temp_f16_2 = temp_f0 - temp_f12;
         temp_f0 = sqrtf(temp_f16_2);
         if (0.0f < temp_f16_2) {
@@ -3208,33 +3209,34 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
             sp4C = (-temp_f14 - temp_f0) / (temp_f2 + temp_f2);
         }
     } else { // 0xada2f0
-        temp_f14 = ((delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x) + ((delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z);
+        temp_f14 = ((delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x) +
+                   ((delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z);
         if (!(fabsf(temp_f14) < 0.008f)) { // ada324
             phi_v0 = 0;
             sp50 = -sp38 / temp_f14;
             phi_v1 = 1;
         } // ada340:    b       0xada468
         else {
-            if (sp38 <= 0.0f) {  // ada358:    bc1f    0xada460
+            if (sp38 <= 0.0f) { // ada358:    bc1f    0xada460
                 phi_a0 = phi_v0;
                 if (phi_v0 != 0) // ada360:    beqz    v0,0xada388 ~>
                 {
-                    phi_a0 = 0; 
-                    //ada37C
+                    phi_a0 = 0;
+                    // ada37C
                     if (delta_a3_a4_sp6C.y < actor_ac_98_12) {
                         phi_a0 = 1;
                     }
                 }
                 phi_a1 = phi_a0;
-                //ada38C
+                // ada38C
                 phi_a0 = phi_v1;
                 if (phi_v1 != 0) {
-                    phi_a0 = 0; 
+                    phi_a0 = 0;
                     if (delta_a3_a5_sp60.y < actor_ac_98_12) {
-                        phi_a0 = 1; 
+                        phi_a0 = 1;
                     }
                 }
-                if (phi_a1) { // ada3b4
+                if (phi_a1) {     // ada3b4
                     if (phi_a0) { // ada3bc
                         *arg6 = delta_a3_a4_sp6C;
                         *arg7 = delta_a3_a5_sp60;
@@ -3252,7 +3254,7 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
                     return 1;
                 }
             }
-            //ada460
+            // ada460
             return 0;
         }
     }
@@ -3263,10 +3265,10 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
         }
     } else { // ada4a4
         phi_a1 = 0;
-        if (sp50 < 0.0f) { //ada4ac
+        if (sp50 < 0.0f) { // ada4ac
             phi_a1 = 1;
         }
-        //ada4b8
+        // ada4b8
         phi_a0 = phi_a1;
         if (phi_a1 == 0) {
             phi_a1 = 0;
@@ -3274,7 +3276,7 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
                 phi_a1 = 1;
             }
         }
-        //ada4dc
+        // ada4dc
         phi_a2 = 0;
         if (sp4C < 0.0f) {
             phi_a2 = 1;
@@ -3339,7 +3341,7 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062ECC.s")
-#endif // NON_MATCHING
+#endif
 
 s32 func_800635D0(s32 arg0) {
     s32 result;

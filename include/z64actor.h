@@ -107,16 +107,15 @@ typedef struct {
 typedef struct Actor {
     /* 0x000 */ s16     id; // Actor Id
     /* 0x002 */ u8      type; // Actor Type. Refer to the corresponding enum for values
-    /* 0x003 */ s8      room; // Room number the actor is part of. FF denotes that the actor won't despawn on a room change
+    /* 0x003 */ s8      room; // Room number the actor is in. -1 denotes that the actor won't despawn on a room change
     /* 0x004 */ u32     flags; // Flags used for various purposes
-    /* 0x008 */ PosRot  initPosRot; // Contains Initial Rotation when Object is Spawned
+    /* 0x008 */ PosRot  initPosRot; // Initial position/rotation when spawned. Is sometimes used for other purposes
     /* 0x01C */ s16     params; // original name: "args_data"; Configurable variable set by an actor's spawn data
     /* 0x01E */ s8      objBankIndex; // original name: "bank"; Object bank index of this actor's object dependency
     /* 0x01F */ s8      unk_1F;
-    /* 0x020 */ u16     soundEffect; // Plays sound effect relative to actor's location (if within range of camera?)
-    /* 0x022 */ u16     unk_22;
-    /* 0x024 */ PosRot  posRot; // Current coordinates
-    /* 0x038 */ PosRot  posRot2; // Related to camera
+    /* 0x020 */ u16     sfx; // Plays sound effect relative to actor's location (if within range of camera?)
+    /* 0x024 */ PosRot  posRot; // position/rotation in the world
+    /* 0x038 */ PosRot  posRot2;
     /* 0x04C */ f32     unk_4C;
     /* 0x050 */ Vec3f   scale; // Sets x,y,z scaling factor. Typically, a factor of 0.01 is used for each axis
     /* 0x05C */ Vec3f   velocity;
@@ -127,52 +126,42 @@ typedef struct Actor {
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
-    /* 0x080 */ f32     unk_80; // Floor poly height?
-    /* 0x084 */ f32     unk_84;
+    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly an actor is touching
+    /* 0x080 */ f32     groundY;
+    /* 0x084 */ f32     waterY;
     /* 0x088 */ u16     bgCheckFlags;
-    /* 0x08A */ s16     rotTowardsLinkY; // Rotation y (give item, possibly next facing dir?/face toward link?)
-    /* 0x08C */ f32     waterSurfaceDist;
-    /* 0x090 */ f32     xzDistanceFromLink;
-    /* 0x094 */ f32     yDistanceFromLink;
+    /* 0x08A */ s16     yawTowardsLink;
+    /* 0x08C */ f32     xyzDistFromLinkSq;
+    /* 0x090 */ f32     xzDistFromLink;
+    /* 0x094 */ f32     yDistFromLink;
     /* 0x098 */ CollisionCheckInfo colChkInfo;
     /* 0x0B4 */ ActorShape shape;
     /* 0x0CC */ Vec3f   unk_CC[2];
-    /* 0x0E4 */ Vec3f   unk_E4; // Stores result of some vector transformation involving actor xyz vector, and a matrix at Global Context + 11D60
-    /* 0x0F0 */ f32     unk_F0; // Related to above
-    /* 0x0F4 */ f32     unk_F4;
-    /* 0x0F8 */ f32     unk_F8;
-    /* 0x0FC */ f32     unk_FC;
-    /* 0x100 */ Vec3f   pos4; // Final Coordinates last frame (collision, NTSC 1.0 f 8002F8E0)
+    /* 0x0E4 */ Vec3f   projectedPos; // actor position in projected space
+    /* 0x0F0 */ f32     projectedW; // w component of the projected actor position vector
+    /* 0x0F4 */ f32     uncullZoneForward; // amount to increase the uncull zone forward by (in projected space)
+    /* 0x0F8 */ f32     uncullZoneScale; // amount to increase the uncull zone scale by (in projected space)
+    /* 0x0FC */ f32     uncullZoneDownward; // amount to increase uncull zone downward by (in projected space)
+    /* 0x100 */ Vec3f   pos4;
     /* 0x10C */ u8      unk_10C; // Z-Target related
     /* 0x10D */ u8      unk_10D; // Z-Target related
-    /* 0x10E */ u16     textId; // Text id to pass to link/display when interacting with an actor (navi text, probably others)
-    /* 0x110 */ u16     freeze; // Used for the "Redead Freeze" attack. Also used in func_80059EC8
-    /* 0x112 */ u16     unk_112; // Damage color effect, first 12 bits controls color which can only be blue red and white, last 4 bits unknown, can't be 0
-    /* 0x114 */ u8      unk_114; // Damage color effect timer, decremented toward 0 every frame
-    /* 0x115 */ u8      activelyDrawn; // Indicates whether the actor is currently being drawn (but not through lens). 01 for yes, 00 for no
-    /* 0x116 */ u8      unk_116; // Set within a routine that deals with collision
+    /* 0x10E */ u16     textId; // Text id to pass to link/display when interacting with an actor
+    /* 0x110 */ u16     freezeTimer;
+    /* 0x112 */ u16     dmgEffectParams; // Specifies damage effect color (white/red/blue) and if opaque or translucent
+    /* 0x114 */ u8      dmgEffectTimer;
+    /* 0x115 */ u8      isDrawn; // Indicates whether the actor is currently being drawn (but not seen through lens)
+    /* 0x116 */ u8      unk_116;
     /* 0x117 */ u8      naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
-
-    /* 0x118 */ struct Actor* attachedA; // Interfacing Actor?
-    // e.g. Link holding chu, Chu instance stores ptr to Link instance here;
-    //      Anju having Link's ptr when giving an item
-    //      Volvagia Hole stores Volvagia Flying here
-
-    /* 0x11C */ struct Actor* attachedB; // Attached to Actor
-    // e.g. Link holding chu, Link instance stores ptr to Bombchu instance here
-
+    /* 0x118 */ struct Actor* attachedA; // Attached By?
+    /* 0x11C */ struct Actor* attachedB; // Attached To?
     /* 0x120 */ struct Actor* prev; // Previous Actor of this type
     /* 0x124 */ struct Actor* next; // Next Actor of this type
-
-    /* 0x128 */ ActorFunc init; // Initialization Routine. Mandatory
-    /* 0x12C */ ActorFunc destroy; // Destruction Routine
-    /* 0x130 */ ActorFunc update; // Main Update Routine, called every frame the actor is to be updated
-    /* 0x134 */ ActorFunc draw; // Draw Routine, writes necessary display lists
-
+    /* 0x128 */ ActorFunc init; // Initialization Routine. Called by Actor_Init or Actor_UpdateAll
+    /* 0x12C */ ActorFunc destroy; // Destruction Routine. Called by Actor_Destroy
+    /* 0x130 */ ActorFunc update; // Update Routine. Called by Actor_UpdateAll
+    /* 0x134 */ ActorFunc draw; // Draw Routine. Called by Actor_Draw
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
     /* 0x13C */ char    dbgPad[0x10]; // Padding that only exists in the debug rom
-    /* From here on, the structure and size varies for each actor */
 } Actor; // size = 0x14C
 
 typedef struct {
@@ -218,6 +207,7 @@ typedef struct {
 } struct_80032E24;
 
 struct Player;
+
 typedef void (*PlayerActionFunc)(struct Player*, struct GlobalContext*);
 
 typedef struct Player {
@@ -251,7 +241,9 @@ typedef struct Player {
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char       unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ char       unk_3B0[0x07C];
+    /* 0x03B0 */ char       unk_3B0[0x018];
+    /* 0x03C8 */ Vec3f      unk_3C8;
+    /* 0x03D4 */ char       unk_3D4[0x058];
     /* 0x042C */ s8         unk_42C;
     /* 0x042D */ s8         unk_42D;
     /* 0x042E */ u16        unk_42E;
@@ -287,7 +279,7 @@ typedef struct Player {
     /* 0x0678 */ u32        ageProperties;
     /* 0x067C */ u32        stateFlags1;
     /* 0x0680 */ u32        stateFlags2;
-    /* 0x0684 */ s32        unk_684;
+    /* 0x0684 */ Actor*     unk_684;
     /* 0x0688 */ char       unk_688[0x004];
     /* 0x068C */ Actor*     navi;
     /* 0x0690 */ u16        naviMessageId;
@@ -352,7 +344,9 @@ typedef struct Player {
     /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
     /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
     /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
-    /* 0x0908 */ char       unk_908[0xD8];
+    /* 0x0908 */ char       unk_908[0x54];
+    /* 0x095C */ Vec3f      unk_95C;
+    /* 0x0968 */ char       unk_968[0x78];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       mf_A20;
     /* 0x0A60 */ char       unk_A60[0x08];
@@ -365,6 +359,84 @@ typedef struct Player {
 
     /* 0x0A79 */ char       unk_A79[0x1B];
 } Player; // size = 0xA94
+
+typedef enum {
+    /* 0x00 */ ITEM00_RUPEE_GREEN,
+    /* 0x01 */ ITEM00_RUPEE_BLUE,
+    /* 0x02 */ ITEM00_RUPEE_RED,
+    /* 0x03 */ ITEM00_HEART,
+    /* 0x04 */ ITEM00_BOMBS_A,
+    /* 0x05 */ ITEM00_ARROWS_SINGLE,
+    /* 0x06 */ ITEM00_HEART_PIECE,
+    /* 0x07 */ ITEM00_HEART_CONTAINER,
+    /* 0x08 */ ITEM00_ARROWS_SMALL,
+    /* 0x09 */ ITEM00_ARROWS_MEDIUM,
+    /* 0x0A */ ITEM00_ARROWS_LARGE,
+    /* 0x0B */ ITEM00_BOMBS_B,
+    /* 0x0C */ ITEM00_NUTS,
+    /* 0x0D */ ITEM00_STICK,
+    /* 0x0E */ ITEM00_MAGIC_LARGE,
+    /* 0x0F */ ITEM00_MAGIC_SMALL,
+    /* 0x10 */ ITEM00_SEEDS,
+    /* 0x11 */ ITEM00_SMALL_KEY,
+    /* 0x12 */ ITEM00_FLEXIBLE,
+    /* 0x13 */ ITEM00_RUPEE_ORANGE,
+    /* 0x14 */ ITEM00_RUPEE_PURPLE,
+    /* 0x15 */ ITEM00_SHIELD_DEKU,
+    /* 0x16 */ ITEM00_SHIELD_HYLIAN,
+    /* 0x17 */ ITEM00_TUNIC_ZORA,
+    /* 0x18 */ ITEM00_TUNIC_GORON,
+    /* 0x19 */ ITEM00_BOMBS_SPECIAL
+} Item00Type;
+
+struct EnItem00;
+
+typedef void (*EnItem00ActionFunc)(struct EnItem00*, struct GlobalContext*);
+
+typedef struct EnItem00 {
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnItem00ActionFunc actionFunc;
+    /* 0x150 */ s16 collectibleFlag;
+    /* 0x152 */ s16 unk_152;
+    /* 0x154 */ s16 unk_154;
+    /* 0x156 */ s16 unk_156;
+    /* 0x158 */ s16 unk_158;
+    /* 0x15A */ s16 unk_15A;
+    /* 0x15C */ f32 unk_15C;
+    /* 0x160 */ ColliderCylinder collider;
+} EnItem00; // size = 0x1AC
+
+typedef enum {
+    /* 0x00 */ A_OBJ_BLOCK_SMALL,
+    /* 0x01 */ A_OBJ_BLOCK_LARGE,
+    /* 0x02 */ A_OBJ_BLOCK_HUGE,
+    /* 0x03 */ A_OBJ_BLOCK_SMALL_ROT,
+    /* 0x04 */ A_OBJ_BLOCK_LARGE_ROT,
+    /* 0x05 */ A_OBJ_CUBE_SMALL,
+    /* 0x06 */ A_OBJ_UNKNOWN_6,
+    /* 0x07 */ A_OBJ_GRASS_CLUMP,
+    /* 0x08 */ A_OBJ_TREE_STUMP,
+    /* 0x09 */ A_OBJ_SIGNPOST_OBLONG,
+    /* 0x0A */ A_OBJ_SIGNPOST_ARROW,
+    /* 0x0B */ A_OBJ_KNOB
+} AObjType;
+
+struct EnAObj;
+
+typedef void (*EnAObjActionFunc)(struct EnAObj*, struct GlobalContext*);
+
+typedef struct EnAObj {
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ EnAObjActionFunc actionFunc;
+    /* 0x168 */ s32 unk_168;
+    /* 0x16C */ s16 textId;
+    /* 0x16E */ s16 unk_16E;
+    /* 0x170 */ s16 unk_170;
+    /* 0x172 */ s16 unk_172;
+    /* 0x174 */ s16 unk_174;
+    /* 0x178 */ f32 unk_178;
+    /* 0x17C */ ColliderCylinder collider;
+} EnAObj; // size = 0x1C8
 
 typedef enum {
     /* 0x00 */ ACTORTYPE_SWITCH,

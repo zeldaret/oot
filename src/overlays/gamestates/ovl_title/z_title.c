@@ -18,8 +18,8 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
 
     g = *gfxp;
     g = func_8009411C(g);
-    printer = alloca(0x30);
-    GfxPrint_Ctor(printer);
+    printer = alloca(sizeof(GfxPrint));
+    GfxPrint_Init(printer);
     GfxPrint_Open(printer, g);
     GfxPrint_SetColor(printer, 0xFF, 0x9B, 0xFF, 0xFF);
     GfxPrint_SetPos(printer, 9, 21);
@@ -30,7 +30,7 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
     GfxPrint_SetPos(printer, 7, 24);
     GfxPrint_Printf(printer, "[Date:%s]", gBuildDate);
     g = GfxPrint_Close(printer);
-    GfxPrint_Dtor(printer);
+    GfxPrint_Destroy(printer);
     *gfxp = g;
 }
 

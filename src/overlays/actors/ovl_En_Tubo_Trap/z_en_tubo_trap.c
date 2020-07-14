@@ -138,7 +138,7 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
     actorPos = &this->actor.posRot.pos;
 
     spC8 = *actorPos;
-    spC8.y += this->actor.unk_84;
+    spC8.y += this->actor.waterY;
 
     func_8002949C(globalCtx, &spC8, 0, 0, 0, 400);
 
@@ -177,7 +177,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.unk_84 > 15.0f)) {
+    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 15.0f)) {
         EnTuboTrap_SpawnWaterFragments(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -210,7 +210,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
         if (this->collider.base.at == &player->actor) {
             EnTuboTrap_SpawnFragments(this, globalCtx);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
-            Audio_PlaySoundAtPosition(globalCtx, &player->actor.posRot.pos, 40, 0x83E);
+            Audio_PlaySoundAtPosition(globalCtx, &player->actor.posRot.pos, 40, NA_SE_PL_BODY_HIT);
             EnTuboTrap_DropCollectible(this, globalCtx);
             Actor_Kill(&this->actor);
             return;
@@ -239,7 +239,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
     }
 
-    if (this->actor.xzDistanceFromLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
+    if (this->actor.xzDistFromLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this, ACTORTYPE_ENEMY);
         this->actor.flags |= 1;
         targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;
@@ -261,7 +261,7 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx) {
 
     if (fabsf(this->actor.posRot.pos.y - this->targetY) < 10.0f) {
         this->actor.speedXZ = 10.0f;
-        this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
+        this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         this->actionFunc = EnTuboTrap_Fly;
     }
 }
@@ -271,7 +271,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
     f32 dy = this->originPos.y - this->actor.posRot.pos.y;
     f32 dz = this->originPos.z - this->actor.posRot.pos.z;
 
-    Audio_PlayActorSound2(&this->actor, 0x3037);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
 
     if (240.0f < sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) {
         Math_SmoothScaleMaxF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);

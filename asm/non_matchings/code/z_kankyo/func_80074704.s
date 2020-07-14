@@ -1,3 +1,40 @@
+.rdata
+glabel D_8013C5CC
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C5DC
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C5EC
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C5FC
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_8013C7DC
+    .float 0.4
+
+glabel D_8013C7E0
+    .float 0.7
+
+glabel D_8013C7E4
+    .float 1.5707964 # M_PI / 2
+
+glabel D_8013C7E8
+    .float 1.2
+
+glabel D_8013C7EC
+    .float 0.1
+
+glabel D_8013C7F0
+    .float 0.02
+
+.text
 glabel func_80074704
 /* AEB8A4 80074704 27BDFED8 */  addiu $sp, $sp, -0x128
 /* AEB8A8 80074708 3C0F8012 */  lui   $t7, %hi(D_8011FE70) # $t7, 0x8012
