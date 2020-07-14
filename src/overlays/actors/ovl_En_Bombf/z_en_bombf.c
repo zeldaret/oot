@@ -116,7 +116,8 @@ void func_809C7180(EnBombf* this, s16 params) {
     func_809C6F60(this, func_809C71A8);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bombf/func_809C71A8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bombf/func_809C71A8.s")
+/*
 void func_809C71A8(EnBombf* this, GlobalContext* globalCtx) {
     void* sp40;
     PosRot* sp38;
@@ -198,6 +199,7 @@ void func_809C71A8(EnBombf* this, GlobalContext* globalCtx) {
         }
     }
 }
+*/
 
 void func_809C74AC(EnBombf* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx)) {
@@ -293,9 +295,11 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f posCopy;
     Vec3f sp5C = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8_n dustColor = { 255, 255, 255, 255 };
-    s32 pad;
-    s32 pad1;
     EnBombf* this = THIS;
+                         //s32 pad;
+                    s32 pad1;
+                    s32 pad2;
+
 
     if ((this->unk_200 != 0) && (this->timer != 0)) {
         this->timer--;
@@ -321,12 +325,14 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == 0) {
+
         if ((this->actor.velocity.y > 0.0f) && (this->actor.bgCheckFlags & 0x10)) {
             this->actor.velocity.y = -this->actor.velocity.y;
         }
 
         // rebound bomb off the wall it hits
         if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
+
             if (ABS((s16)(this->actor.wallPolyRot - this->actor.posRot.rot.y)) > 0x4000) {
                 this->actor.posRot.rot.y =
                     ((this->actor.wallPolyRot - this->actor.posRot.rot.y) + this->actor.wallPolyRot) - 0x8000;
@@ -342,6 +348,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if ((this->bombCollider.base.acFlags & 2) ||
             ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == 5))) {
+                
             this->unk_200 = 1;
             this->timer = 0;
         } else {
@@ -356,6 +363,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             posCopy = this->actor.posRot.pos; // supposed to go to sp3C, goes to 34
             posCopy.y += 25.0f;
             if (this->timer < 127) {
+
                 // spawn spark effect on even frames
                 if ((globalCtx->gameplayFrames % 2) == 0) {
                     func_80029184(globalCtx, this, &posCopy, &sp8C, &sp74);
@@ -414,6 +422,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 10.0f;
 
     if (this->actor.params <= 0) {
+                           
         Collider_CylinderUpdate(&this->actor, &this->bombCollider); // bombCollider goes to sp38 instead of sp3C
 
         if ((this->unk_20C >= 1.0f) && (this->bumpOn)) {
