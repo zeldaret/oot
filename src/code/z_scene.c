@@ -441,8 +441,8 @@ void func_80099134(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x15: Sound Settings
 void func_80099140(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->soundCtx.musicSeq = cmd->soundSettings.musicSeq;
-    globalCtx->soundCtx.nighttimeSFX = cmd->soundSettings.nighttimeSFX;
+    globalCtx->soundCtx.seqIndex = cmd->soundSettings.seqIndex;
+    globalCtx->soundCtx.nightSeqIndex = cmd->soundSettings.nightSeqIndex;
 
     if (gSaveContext.seqIndex == 0xFF) {
         Audio_SetBGM(cmd->soundSettings.bgmId | 0xF0000000);

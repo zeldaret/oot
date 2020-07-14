@@ -384,8 +384,7 @@ beginseg
     include "build/asm/PreRender.o"
     include "build/data/PreRender.rodata.o"
     include "build/src/code/TwoHeadArena.o"
-    include "build/asm/code_800C3C20.o"
-    include "build/data/code_800C3C20.data.o"
+    include "build/src/code/code_800C3C20.o"
     include "build/src/code/audioMgr.o"
     include "build/src/code/title_setup.o"
     include "build/src/code/game.o"
@@ -447,7 +446,7 @@ beginseg
     include "build/src/code/relocation.o"
     include "build/src/code/code_800FC620.o"
     include "build/src/code/padutils.o"
-    include "build/asm/code_800FCD40.o"
+    include "build/src/code/padsetup.o"
     include "build/src/code/code_800FCE80.o"
     include "build/asm/fp.o"
     include "build/src/code/system_malloc.o"
@@ -456,8 +455,7 @@ beginseg
     include "build/src/code/printutils.o"
     include "build/src/code/sleep.o"
     include "build/src/code/jpegutils.o"
-    include "build/asm/jpegdecoder.o"
-    include "build/data/jpegdecoder.bss.o"
+    include "build/src/code/jpegdecoder.o"
     include "build/asm/code_80100040.o"
     include "build/asm/guScale.o"
     include "build/src/libultra_code/sinf.o"
@@ -554,11 +552,7 @@ endseg
 beginseg
     name "ovl_select"
     include "build/src/overlays/gamestates/ovl_select/z_select.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/gamestates/ovl_select/ovl_select_reloc.o"
-#else
-    include "build/data/overlays/gamestates/z_select.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1240,7 +1234,6 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
-    include "build/data/overlays/actors/z_bg_spot01_idohashira.data.o"
     include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
 endseg
 
@@ -1452,8 +1445,8 @@ endseg
 beginseg
     name "ovl_Bg_Ydan_Hasi"
     include "build/src/overlays/actors/ovl_Bg_Ydan_Hasi/z_bg_ydan_hasi.o"
-    include "build/data/overlays/actors/z_bg_ydan_hasi.data.o"
-    include "build/data/overlays/actors/z_bg_ydan_hasi.reloc.o"
+	include "build/src/overlays/actors/ovl_Bg_Ydan_Hasi/ovl_Bg_Ydan_Hasi_reloc.o"
+
 endseg
 
 beginseg
@@ -3503,8 +3496,11 @@ endseg
 beginseg
     name "ovl_En_Zl2"
     include "build/src/overlays/actors/ovl_En_Zl2/z_en_zl2.o"
-    include "build/data/overlays/actors/z_en_zl2.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Zl2/ovl_En_Zl2_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_zl2.reloc.o"
+#endif
 endseg
 
 beginseg

@@ -54,26 +54,26 @@ glabel Health_UpdateData
 /* AEFC88 80078AE8 A44C0222 */  sh    $t4, 0x222($v0)
 /* AEFC8C 80078AEC 3C0D8012 */  lui   $t5, %hi(D_8011FF10) # $t5, 0x8012
 /* AEFC90 80078AF0 85ADFF10 */  lh    $t5, %lo(D_8011FF10)($t5)
-/* AEFC94 80078AF4 3C0E8012 */  lui   $t6, %hi(D_8011FF12) # $t6, 0x8012
-/* AEFC98 80078AF8 3C0F8012 */  lui   $t7, %hi(D_8011FF14) # $t7, 0x8012
+/* AEFC94 80078AF4 3C0E8012 */  lui   $t6, %hi(D_8011FF10+2) # $t6, 0x8012
+/* AEFC98 80078AF8 3C0F8012 */  lui   $t7, %hi(D_8011FF10+4) # $t7, 0x8012
 /* AEFC9C 80078AFC A44D0210 */  sh    $t5, 0x210($v0)
-/* AEFCA0 80078B00 85CEFF12 */  lh    $t6, %lo(D_8011FF12)($t6)
+/* AEFCA0 80078B00 85CEFF12 */  lh    $t6, %lo(D_8011FF10+2)($t6)
 /* AEFCA4 80078B04 3C188012 */  lui   $t8, %hi(D_8011FF24) # $t8, 0x8012
-/* AEFCA8 80078B08 3C198012 */  lui   $t9, %hi(D_8011FF26) # $t9, 0x8012
+/* AEFCA8 80078B08 3C198012 */  lui   $t9, %hi(D_8011FF24+2) # $t9, 0x8012
 /* AEFCAC 80078B0C A44E0214 */  sh    $t6, 0x214($v0)
-/* AEFCB0 80078B10 85EFFF14 */  lh    $t7, %lo(D_8011FF14)($t7)
-/* AEFCB4 80078B14 3C0B8012 */  lui   $t3, %hi(D_8011FF28) # $t3, 0x8012
+/* AEFCB0 80078B10 85EFFF14 */  lh    $t7, %lo(D_8011FF10+4)($t7)
+/* AEFCB4 80078B14 3C0B8012 */  lui   $t3, %hi(D_8011FF24+4) # $t3, 0x8012
 /* AEFCB8 80078B18 3C078012 */  lui   $a3, %hi(D_8011FF38) # $a3, 0x8012
 /* AEFCBC 80078B1C A44F0218 */  sh    $t7, 0x218($v0)
 /* AEFCC0 80078B20 8718FF24 */  lh    $t8, %lo(D_8011FF24)($t8)
 /* AEFCC4 80078B24 24E7FF38 */  addiu $a3, %lo(D_8011FF38) # addiu $a3, $a3, -0xc8
 /* AEFCC8 80078B28 3C088012 */  lui   $t0, %hi(D_8011FF4C) # $t0, 0x8012
 /* AEFCCC 80078B2C A458021C */  sh    $t8, 0x21c($v0)
-/* AEFCD0 80078B30 8739FF26 */  lh    $t9, %lo(D_8011FF26)($t9)
+/* AEFCD0 80078B30 8739FF26 */  lh    $t9, %lo(D_8011FF24+2)($t9)
 /* AEFCD4 80078B34 2508FF4C */  addiu $t0, %lo(D_8011FF4C) # addiu $t0, $t0, -0xb4
 /* AEFCD8 80078B38 3C018016 */  lui   $at, %hi(D_8015FDD0+6) # $at, 0x8016
 /* AEFCDC 80078B3C A4590220 */  sh    $t9, 0x220($v0)
-/* AEFCE0 80078B40 856BFF28 */  lh    $t3, %lo(D_8011FF28)($t3)
+/* AEFCE0 80078B40 856BFF28 */  lh    $t3, %lo(D_8011FF24+4)($t3)
 /* AEFCE4 80078B44 3C098016 */  lui   $t1, %hi(D_8015FDC0) # $t1, 0x8016
 /* AEFCE8 80078B48 2529FDC0 */  addiu $t1, %lo(D_8015FDC0) # addiu $t1, $t1, -0x240
 /* AEFCEC 80078B4C A44B0224 */  sh    $t3, 0x224($v0)
@@ -151,7 +151,7 @@ glabel Health_UpdateData
 /* AEFE0C 80078C6C 331900FF */  andi  $t9, $t8, 0xff
 /* AEFE10 80078C70 44054000 */  mfc1  $a1, $f8
 /* AEFE14 80078C74 A459020A */  sh    $t9, 0x20a($v0)
-/* AEFE18 80078C78 3C188012 */  lui   $t8, %hi(D_8011FF62) # $t8, 0x8012
+/* AEFE18 80078C78 3C188012 */  lui   $t8, %hi(D_8011FF60+2) # $t8, 0x8012
 /* AEFE1C 80078C7C 00052C00 */  sll   $a1, $a1, 0x10
 /* AEFE20 80078C80 00052C03 */  sra   $a1, $a1, 0x10
 /* AEFE24 80078C84 24AC003C */  addiu $t4, $a1, 0x3c
@@ -166,32 +166,32 @@ glabel Health_UpdateData
 /* AEFE48 80078CA8 3C0E8012 */  lui   $t6, %hi(D_8011FF88) # $t6, 0x8012
 /* AEFE4C 80078CAC 85CEFF88 */  lh    $t6, %lo(D_8011FF88)($t6)
 /* AEFE50 80078CB0 85EFFF60 */  lh    $t7, %lo(D_8011FF60)($t7)
-/* AEFE54 80078CB4 8718FF62 */  lh    $t8, %lo(D_8011FF62)($t8)
+/* AEFE54 80078CB4 8718FF62 */  lh    $t8, %lo(D_8011FF60+2)($t8)
 /* AEFE58 80078CB8 448E5000 */  mtc1  $t6, $f10
-/* AEFE5C 80078CBC 3C198012 */  lui   $t9, %hi(D_8011FF64) # $t9, 0x8012
-/* AEFE60 80078CC0 8739FF64 */  lh    $t9, %lo(D_8011FF64)($t9)
+/* AEFE5C 80078CBC 3C198012 */  lui   $t9, %hi(D_8011FF60+4) # $t9, 0x8012
+/* AEFE60 80078CC0 8739FF64 */  lh    $t9, %lo(D_8011FF60+4)($t9)
 /* AEFE64 80078CC4 46805420 */  cvt.s.w $f16, $f10
 /* AEFE68 80078CC8 A42FFDD6 */  sh    $t7, %lo(D_8015FDD0+6)($at)
 /* AEFE6C 80078CCC 3C018016 */  lui   $at, %hi(D_8015FDD0+8) # $at, 0x8016
 /* AEFE70 80078CD0 856BFF74 */  lh    $t3, %lo(D_8011FF74)($t3)
 /* AEFE74 80078CD4 A438FDD8 */  sh    $t8, %lo(D_8015FDD0+8)($at)
-/* AEFE78 80078CD8 3C188012 */  lui   $t8, %hi(D_8011FF8A) # $t8, 0x8012
+/* AEFE78 80078CD8 3C188012 */  lui   $t8, %hi(D_8011FF88+2) # $t8, 0x8012
 /* AEFE7C 80078CDC 46008482 */  mul.s $f18, $f16, $f0
 /* AEFE80 80078CE0 A439FDDA */  sh    $t9, %lo(D_8015FDD0+0xa)($at)
-/* AEFE84 80078CE4 8718FF8A */  lh    $t8, %lo(D_8011FF8A)($t8)
+/* AEFE84 80078CE4 8718FF8A */  lh    $t8, %lo(D_8011FF88+2)($t8)
 /* AEFE88 80078CE8 3C018016 */  lui   $at, %hi(D_8015FDE0+6) # $at, 0x8016
 /* AEFE8C 80078CEC A42BFDE6 */  sh    $t3, %lo(D_8015FDE0+6)($at)
-/* AEFE90 80078CF0 3C0B8012 */  lui   $t3, %hi(D_8011FF8C)
-/* AEFE94 80078CF4 856BFF8C */  lh    $t3, %lo(D_8011FF8C)($t3)
+/* AEFE90 80078CF0 3C0B8012 */  lui   $t3, %hi(D_8011FF88+4)
+/* AEFE94 80078CF4 856BFF8C */  lh    $t3, %lo(D_8011FF88+4)($t3)
 /* AEFE98 80078CF8 44983000 */  mtc1  $t8, $f6
 /* AEFE9C 80078CFC 4600910D */  trunc.w.s $f4, $f18
 /* AEFEA0 80078D00 448B9000 */  mtc1  $t3, $f18
-/* AEFEA4 80078D04 3C0D8012 */  lui   $t5, %hi(D_8011FF78) # $t5, 0x8012
+/* AEFEA4 80078D04 3C0D8012 */  lui   $t5, %hi(D_8011FF74+4) # $t5, 0x8012
 /* AEFEA8 80078D08 46803220 */  cvt.s.w $f8, $f6
 /* AEFEAC 80078D0C 44032000 */  mfc1  $v1, $f4
-/* AEFEB0 80078D10 85ADFF78 */  lh    $t5, %lo(D_8011FF78)($t5)
-/* AEFEB4 80078D14 3C0C8012 */  lui   $t4, %hi(D_8011FF76) # $t4, 0x8012
-/* AEFEB8 80078D18 858CFF76 */  lh    $t4, %lo(D_8011FF76)($t4)
+/* AEFEB0 80078D10 85ADFF78 */  lh    $t5, %lo(D_8011FF74+4)($t5)
+/* AEFEB4 80078D14 3C0C8012 */  lui   $t4, %hi(D_8011FF74+2) # $t4, 0x8012
+/* AEFEB8 80078D18 858CFF76 */  lh    $t4, %lo(D_8011FF74+2)($t4)
 /* AEFEBC 80078D1C 46809120 */  cvt.s.w $f4, $f18
 /* AEFEC0 80078D20 46004282 */  mul.s $f10, $f8, $f0
 /* AEFEC4 80078D24 00031C00 */  sll   $v1, $v1, 0x10
@@ -205,7 +205,7 @@ glabel Health_UpdateData
 /* AEFEE4 80078D44 A52F0000 */  sh    $t7, ($t1)
 /* AEFEE8 80078D48 3C0F8012 */  lui   $t7, %hi(D_8011FF9C) # $t7, 0x8012
 /* AEFEEC 80078D4C 4600540D */  trunc.w.s $f16, $f10
-/* AEFEF0 80078D50 3C0C8012 */  lui   $t4, %hi(D_8011FFA0) # $t4, 0x8012
+/* AEFEF0 80078D50 3C0C8012 */  lui   $t4, %hi(D_8011FF9C+4) # $t4, 0x8012
 /* AEFEF4 80078D54 4600320D */  trunc.w.s $f8, $f6
 /* AEFEF8 80078D58 44048000 */  mfc1  $a0, $f16
 /* AEFEFC 80078D5C 44054000 */  mfc1  $a1, $f8
@@ -220,10 +220,10 @@ glabel Health_UpdateData
 /* AEFF20 80078D80 A52B0002 */  sh    $t3, 2($t1)
 /* AEFF24 80078D84 A52E0004 */  sh    $t6, 4($t1)
 /* AEFF28 80078D88 85EFFF9C */  lh    $t7, %lo(D_8011FF9C)($t7)
-/* AEFF2C 80078D8C 3C198012 */  lui   $t9, %hi(D_8011FF9E)
-/* AEFF30 80078D90 8739FF9E */  lh    $t9, %lo(D_8011FF9E)($t9)
+/* AEFF2C 80078D8C 3C198012 */  lui   $t9, %hi(D_8011FF9C+2)
+/* AEFF30 80078D90 8739FF9E */  lh    $t9, %lo(D_8011FF9C+2)($t9)
 /* AEFF34 80078D94 448F5000 */  mtc1  $t7, $f10
-/* AEFF38 80078D98 858CFFA0 */  lh    $t4, %lo(D_8011FFA0)($t4)
+/* AEFF38 80078D98 858CFFA0 */  lh    $t4, %lo(D_8011FF9C+4)($t4)
 /* AEFF3C 80078D9C 44993000 */  mtc1  $t9, $f6
 /* AEFF40 80078DA0 46805420 */  cvt.s.w $f16, $f10
 /* AEFF44 80078DA4 46803220 */  cvt.s.w $f8, $f6

@@ -33,7 +33,7 @@ void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = THIS;
 
     Actor_SetScale(&this->actor, 0.1);
-    this->actor.unk_F4 = 3000.0;
+    this->actor.uncullZoneForward = 3000.0;
 }
 
 void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
