@@ -700,7 +700,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if ((this->unk_1E0.unk_00 == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
-        if ((s32)(player->stateFlags2 << 7) < 0) {
+        if (player->stateFlags2 & 0x1000000) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
             func_8010BD58(globalCtx, 0x22);
