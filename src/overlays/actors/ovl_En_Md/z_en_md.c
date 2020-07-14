@@ -9,42 +9,11 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMd_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AAA250(EnMd* this);
-void func_80AAA274(EnMd* this);
-void func_80AAA308(EnMd* this);
-void func_80AAA39C(EnMd* this);
-void func_80AAA474(EnMd* this);
-void func_80AAA508(EnMd* this);
-void func_80AAA5A4(EnMd* this);
-void func_80AAA638(EnMd* this);
-void func_80AAA6D4(EnMd* this);
-void func_80AAA768(EnMd* this);
-void func_80AAA7FC(EnMd* this);
-void func_80AAA890(EnMd* this);
-void func_80AAA92C(EnMd* this, u8 arg1);
-void func_80AAA93C(EnMd* this);
-void func_80AAAA24(EnMd* this);
-s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx);
-u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this);
-u16 func_80AAADE0(GlobalContext* globalCtx, EnMd* this);
-u16 func_80AAAE14(GlobalContext* globalCtx, EnMd* this);
-u16 func_80AAAE94(GlobalContext* globalCtx, EnMd* this);
-s16 func_80AAAF04(GlobalContext* globalCtx, EnMd* this);
-u8 EnMd_ShouldSpawn(EnMd* this, GlobalContext* globalCtx);
-void EnMd_UpdateEyes(EnMd* this);
-void func_80AAB158(EnMd* this, GlobalContext* globalCtx);
-u8 func_80AAB370(EnMd* this, GlobalContext* globalCtx);
-u8 func_80AAB4DC(EnMd* this, GlobalContext* globalCtx);
-void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx);
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx);
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx);
 void func_80AAB948(EnMd* this, GlobalContext* globalCtx);
 void func_80AABC10(EnMd* this, GlobalContext* globalCtx);
 void func_80AABD0C(EnMd* this, GlobalContext* globalCtx);
-s32 func_80AABEF0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
-                   Gfx** gfx);  // OverrideLimbDraw2
-void func_80AAC104(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor,
-                   Gfx** gfx);  // PostLimbDraw2
 
 const ActorInit En_Md_InitVars = {
     ACTOR_EN_MD,
