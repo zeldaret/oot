@@ -317,9 +317,8 @@ void func_80AAAA24(EnMd* this) {
 }
 
 s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
-    s16 dialogState;
-
-    dialogState = func_8010BDBC(&globalCtx->msgCtx);
+    s16 dialogState = func_8010BDBC(&globalCtx->msgCtx);
+    
     if ((this->unk_209 == 10) || (this->unk_209 == 5) || (this->unk_209 == 2) || (this->unk_209 == 1)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
@@ -330,10 +329,9 @@ s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
     return dialogState;
 }
 
-u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this) {
-    u16 reactionText;
+u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
+    u16 reactionText = Text_GetFaceReaction(globalCtx, 0x11);
 
-    reactionText = Text_GetFaceReaction(globalCtx, 0x11);
     if (reactionText != 0) {
         return reactionText;
     }
@@ -360,7 +358,7 @@ u16 func_80AAACF8(GlobalContext* globalCtx, EnMd* this) {
     return 0x102F;
 }
 
-u16 func_80AAADE0(GlobalContext* globalCtx, EnMd* this) {
+u16 EnMd_GetTextKokiriHome(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = 0;
 
@@ -371,7 +369,7 @@ u16 func_80AAADE0(GlobalContext* globalCtx, EnMd* this) {
     return 0x1046;
 }
 
-u16 func_80AAAE14(GlobalContext* globalCtx, EnMd* this) {
+u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = 0;
 
@@ -393,14 +391,14 @@ u16 func_80AAAE14(GlobalContext* globalCtx, EnMd* this) {
     return 0x1060;
 }
 
-u16 func_80AAAE94(GlobalContext* globalCtx, EnMd* this) {
+u16 EnMd_GetText(GlobalContext* globalCtx, EnMd* this) {
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT04:
-            return func_80AAACF8(globalCtx, this);
+            return EnMd_GetTextKokiriForest(globalCtx, this);
         case SCENE_KOKIRI_HOME4:
-            return func_80AAADE0(globalCtx, this);
+            return EnMd_GetTextKokiriHome(globalCtx, this);
         case SCENE_SPOT10:
-            return func_80AAAE14(globalCtx, this);
+            return EnMd_GetTextLostWoods(globalCtx, this);
         default:
             return 0;
     }
@@ -408,7 +406,6 @@ u16 func_80AAAE94(GlobalContext* globalCtx, EnMd* this) {
 
 s16 func_80AAAF04(GlobalContext* globalCtx, EnMd* this) {
     switch (func_80AAAC78(this, globalCtx)) {
-        // extra cases needed to match
         case 0:
         case 1:
         case 3:
@@ -470,11 +467,11 @@ u8 EnMd_ShouldSpawn(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void EnMd_UpdateEyes(EnMd* this) {
-    if (DECR(this->blinkCountdown) == 0) {
-        this->eyeImageIdx++;
-        if (this->eyeImageIdx > 2) {
-            this->blinkCountdown = Math_Rand_S16Offset(30, 30);
-            this->eyeImageIdx = 0;
+    if (DECR(this->blinkTimer) == 0) {
+        this->eyeIdx++;
+        if (this->eyeIdx > 2) {
+            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->eyeIdx = 0;
         }
     }
 }
@@ -523,63 +520,54 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
             func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f,
-                          func_80AAAE94, func_80AAAF04);
+                          EnMd_GetText, func_80AAAF04);
         }
     }
 }
 
-u8 func_80AAB370(EnMd* this, GlobalContext* globalCtx) {
+u8 EnMd_FollowPath(EnMd* this, GlobalContext* globalCtx) {
     Path* path;
-    s32 pad;
-    f32 xDiff;
-    f32 zDiff;
-    s32 temp_a2;
-    s32 temp_t7;
     Vec3s* pointPos;
-
-    temp_a2 = this->actor.params & 0xFF00;
-    if (temp_a2 == 0xFF00) {
+    f32 pathDiffX;
+    f32 pathDiffZ;
+    
+    if ((this->actor.params & 0xFF00) == 0xFF00) {
         return 0;
     }
 
-    temp_t7 = temp_a2 >> 8;
-    path = &globalCtx->setupPathList[temp_t7];
+    path = &globalCtx->setupPathList[(this->actor.params & 0xFF00) >> 8];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
-    pointPos += this->unk_212;
+    pointPos += this->waypoint;
 
-    xDiff = (f32)pointPos->x - this->actor.posRot.pos.x;
-    zDiff = (f32)pointPos->z - this->actor.posRot.pos.z;
+    pathDiffX = pointPos->x - this->actor.posRot.pos.x;
+    pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(pathDiffX, pathDiffZ) * (65536.0f / (2*M_PI)), 4, 4000, 1);
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(xDiff, zDiff) * (65536.0f / (2*M_PI)), 4, 4000, 1);
-
-    if ((SQ(xDiff) + SQ(zDiff)) < 100.0f) {
-        this->unk_212++;
-        if (this->unk_212 >= path->count) {
-            this->unk_212 = 0;
+    if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 100.0f) {
+        this->waypoint++;
+        if (this->waypoint >= path->count) {
+            this->waypoint = 0;
         }
         return 1;
     }
-
     return 0;
 }
 
-u8 func_80AAB4DC(EnMd* this, GlobalContext* globalCtx) {
+u8 EnMd_SetMovedPos(EnMd* this, GlobalContext* globalCtx) {
     Path* path;
-    s32 params;
-    Vec3s* pointPos;
+    Vec3s* lastPointPos;
 
-    params = this->actor.params & 0xFF00;
-    if (params == 0xFF00) {
+    if ((this->actor.params & 0xFF00) == 0xFF00) {
         return 0;
     }
 
-    path = &globalCtx->setupPathList[params >> 8];
-    pointPos = SEGMENTED_TO_VIRTUAL(path->points);
-    pointPos += path->count - 1;
+    path = &globalCtx->setupPathList[(this->actor.params & 0xFF00) >> 8];
+    lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
+    lastPointPos += path->count - 1;
 
-    this->actor.posRot.pos.x = pointPos->x;
-    this->actor.posRot.pos.y = pointPos->y;
-    this->actor.posRot.pos.z = pointPos->z;
+    this->actor.posRot.pos.x = lastPointPos->x;
+    this->actor.posRot.pos.y = lastPointPos->y;
+    this->actor.posRot.pos.z = lastPointPos->z;
 
     return 1;
 }
@@ -633,7 +621,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
-        func_80AAB4DC(&this->actor, globalCtx);
+        EnMd_SetMovedPos(&this->actor, globalCtx);
     }
 
     this->actionFunc = func_80AAB874;
@@ -700,7 +688,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
 
         func_80AAA92C(this, 3);
         func_80AAA93C(this);
-        this->unk_212 = 1;
+        this->waypoint = 1;
         this->unk_1E0.unk_00 = 0;
         this->actionFunc = func_80AABD0C;
         this->actor.speedXZ = 1.5f;
@@ -748,7 +736,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
     func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
     func_80AAA93C(this);
 
-    if (!(func_80AAB370(this, globalCtx)) || (this->unk_212 != 0)) {
+    if (!(EnMd_FollowPath(this, globalCtx)) || (this->waypoint != 0)) {
         this->actor.shape.rot = this->actor.posRot.rot;
         return;
     }
@@ -775,12 +763,12 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    EnMd_UpdateEyes(&this->actor);
+    EnMd_UpdateEyes(this);
     func_80AAB5A4(&this->actor, globalCtx);
     Actor_MoveForward(&this->actor);
     func_80AAB158(&this->actor, globalCtx);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
 s32 func_80AABEF0(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -826,10 +814,10 @@ void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
     if (this->alpha == 0xFF) {
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeIdx]));
         func_80034BA0(globalCtx, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->alpha);
     } else if (this->alpha != 0) {
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeIdx]));
         func_80034CC4(globalCtx, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->alpha);
     }
 
