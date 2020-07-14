@@ -40,17 +40,13 @@ static InitChainEntry sInitChain[] = {
 };
 
 Gfx D_809C2590[] = {
-    0xE200001C,
-    0xC8112078,
-    0xDF000000,
-    0x00000000,
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
+    gsSPEndDisplayList(),
 };
 
 Gfx D_809C25A0[] = {
-    0xE200001C,
-    0xC81049D8,
-    0xDF000000,
-    0x00000000,
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2),
+    gsSPEndDisplayList(),
 };
 
 extern Gfx D_060014E0[];
