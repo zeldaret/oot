@@ -50,7 +50,7 @@ EnDoorObjectInfo D_809FCEA0[] = {
 
 InitChainEntry D_809FCEC4[] = {
     ICHAIN_U8(unk_1F, 0x0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 0xFA0, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
 extern AnimationHeader D_0400E758;
@@ -93,8 +93,12 @@ Gfx* D_809FCEE4[5][2] = {
 
 extern SkeletonHeader D_0400FF78;
 
-#ifdef NON_MATCHING
+/* #ifdef NON_MATCHING
 // Regalloc only
+
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Init.s")
+#endif */
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad1;
@@ -151,9 +155,6 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetHeight(&this->actor, 70.0f);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Init.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Destroy.s")
 void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -269,14 +270,14 @@ void func_809FC8C0(EnDoor* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/func_809FC8F4.s")
 void func_809FC8F4(EnDoor* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistanceFromLink < 120.0f) {
+    if (this->actor.xzDistFromLink < 120.0f) {
         this->action = func_809FC998;
     }
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/func_809FC928.s")
 void func_809FC928(EnDoor* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistanceFromLink < 120.0f) {
+    if (this->actor.xzDistFromLink < 120.0f) {
         this->action = func_809FC998;
     } else if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, -0x1800, 0x100) != 0) {
         this->action = func_809FC8F4;
