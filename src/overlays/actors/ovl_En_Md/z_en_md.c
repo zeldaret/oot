@@ -771,8 +771,8 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 func_80AABEF0(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                  struct Actor* thisx, Gfx** gfx) {
+s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                          Actor* thisx, Gfx** gfx) {
     EnMd* this = THIS;
     Vec3s vec;
 
