@@ -20,7 +20,7 @@ typedef struct EnMd {
     /* 0x020B */ u8 unk_20B;
     /* 0x020C */ s16 blinkCountdown;
     /* 0x020E */ s16 eyeImageIdx;
-    /* 0x0210 */ s16 alpha; // s16 needed to match
+    /* 0x0210 */ s16 alpha;
     /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s16 unk_214[17];
     /* 0x0236 */ s16 unk_236[17];
