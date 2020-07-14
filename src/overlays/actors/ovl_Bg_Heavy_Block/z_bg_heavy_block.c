@@ -5,12 +5,15 @@
 
 #define THIS ((BgHeavyBlock*)thisx)
 
+
+#define HEAVYBLOCK_HIT_FLOOR (1 << 0)
+
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgHeavyBlock_DrawPieces(Actor* thisx, GlobalContext* globalCtx);
+void BgHeavyBlock_DrawPiece(Actor* thisx, GlobalContext* globalCtx);
 
 void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx);
 void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx);
@@ -50,26 +53,22 @@ void BgHeavyBlock_SetPieceRot(BgHeavyBlock* this, f32 scale) {
 }
 
 void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
-    f32 randScale;
-    f32 sp20;
-    f32 randFloat;
+    f32 rand;
+    f32 yawSinCos;
+    f32 randChoice;
 
     this->dyna.actor.gravity = -0.6f;
     this->dyna.actor.minVelocityY = -12.0f;
-    randFloat = Math_Rand_CenteredFloat(12.0f * scale);
-    if (randFloat < 0.0f) {
-        randScale = randFloat - 2.0f;
-    } else {
-        randScale = randFloat + 2.0f;
-    }
+    randChoice = Math_Rand_CenteredFloat(12.0f * scale);
+    rand = (randChoice < 0.0f) ? randChoice - 2.0f : randChoice + 2.0f;
     this->dyna.actor.velocity.y = (Math_Rand_ZeroFloat(8.0f) + 4.0f) * scale;
     this->dyna.actor.velocity.z = Math_Rand_ZeroFloat(-8.0f * scale);
-    sp20 = Math_Coss(this->dyna.actor.posRot.rot.y);
+    yawSinCos = Math_Coss(this->dyna.actor.posRot.rot.y);
     this->dyna.actor.velocity.x =
-        (Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + (sp20 * randScale));
-    sp20 = Math_Sins(this->dyna.actor.posRot.rot.y);
+        (Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + (yawSinCos * rand));
+    yawSinCos = Math_Sins(this->dyna.actor.posRot.rot.y);
     this->dyna.actor.velocity.z =
-        (Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + (-sp20 * randScale);
+        (Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + (-yawSinCos * rand);
     BgHeavyBlock_SetPieceRot(this, scale);
     Actor_SetScale(&this->dyna.actor, Math_Rand_CenteredFloat(0.2f) + 1.0f);
 }
@@ -90,9 +89,8 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    this->unk_172 = 0;
+    this->pieceFlags = 0;
 
-    // Ganon's Castle Exterior
     if (globalCtx->sceneNum == SCENE_GANON_TOU) {
         thisx->params &= 0xFF00;
         thisx->params |= 4;
@@ -100,7 +98,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (thisx->params & 0xFF) {
         case 2: // bigger broken piece
-            thisx->draw = BgHeavyBlock_DrawPieces;
+            thisx->draw = BgHeavyBlock_DrawPiece;
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 1.0f);
             this->timer = 0x78;
@@ -108,7 +106,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_164.y = -50.0f;
             break;
         case 3: // smaller broken piece
-            thisx->draw = BgHeavyBlock_DrawPieces;
+            thisx->draw = BgHeavyBlock_DrawPiece;
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 2.0f);
             this->timer = 0x78;
@@ -172,19 +170,19 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
     thisx->velocity.x *= 0.98f;
     thisx->velocity.z *= 0.98f;
-    func_8002D7EC(thisx); // updates position based on speed and displacement
+    func_8002D7EC(thisx);
     thisx->shape.rot.x += thisx->posRot.rot.x;
     thisx->shape.rot.y += thisx->posRot.rot.y;
     thisx->shape.rot.z += thisx->posRot.rot.z;
 
-    if ((this->unk_172 & 1) == 0) {
+    if (!(this->pieceFlags & HEAVYBLOCK_HIT_FLOOR)) {
         thisx->posRot.pos.y += this->unk_164.y;
         thisx->pos4.y += this->unk_164.y;
         func_8002E4B4(globalCtx, thisx, 50.0f, 50.0f, 0.0f, 5);
         thisx->posRot.pos.y -= this->unk_164.y;
         thisx->pos4.y -= this->unk_164.y;
         if (thisx->bgCheckFlags & 1) {
-            this->unk_172 |= 1;
+            this->pieceFlags |= HEAVYBLOCK_HIT_FLOOR;
             thisx->velocity.y = Math_Rand_ZeroFloat(4.0f) + 2.0f;
             thisx->velocity.x = Math_Rand_CenteredFloat(8.0f);
             thisx->velocity.z = Math_Rand_CenteredFloat(8.0f);
@@ -509,7 +507,7 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);
 }
 
-void BgHeavyBlock_DrawPieces(Actor* thisx, GlobalContext* globalCtx) {
+void BgHeavyBlock_DrawPiece(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params & 0xFF) {
         case 2:
             Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);
