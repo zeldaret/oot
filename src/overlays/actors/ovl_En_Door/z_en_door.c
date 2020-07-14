@@ -93,12 +93,8 @@ Gfx* D_809FCEE4[5][2] = {
 
 extern SkeletonHeader D_0400FF78;
 
-/* #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 // Regalloc only
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Init.s")
-#endif */
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad1;
@@ -109,12 +105,12 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp44;
     EnDoor* this;
     EnDoor* attached;
+    EnDoorObjectInfo* temp;
 
-    this = THIS;
     objectInfo = D_809FCEA0;
+    this = THIS;
     Actor_ProcessInitChain(&this->actor, D_809FCEC4);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_0400FF78, &D_0400E758, &this->unk_198, &this->unk_1B6, 5);
-
     for (phi_v1 = 0; phi_v1 < 4; phi_v1++, objectInfo++) {
         if (globalCtx->sceneNum == objectInfo->sceneNum) {
             break;
@@ -138,7 +134,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_193 == this->actor.objBankIndex) {
         func_809FC41C(this, globalCtx);
     } else {
-        this->action = func_809FC41C;
+        this->actionFunc = func_809FC41C;
     }
 
     if ((this->actor.params & 0x40) != 0) {
@@ -155,6 +151,9 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetHeight(&this->actor, 70.0f);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Init.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Destroy.s")
 void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -175,7 +174,7 @@ void func_809FC41C(EnDoor* this, GlobalContext* globalCtx) {
         phi_v1 = (this->actor.params >> 7) & 7;
         this->actor.flags &= -0x11;
         this->actor.objBankIndex = this->unk_193;
-        this->action = func_809FC5D0;
+        this->actionFunc = func_809FC5D0;
         if (phi_v1 == 6) {
             phi_v1 = (gSaveContext.dayTime >= 0xC001 && gSaveContext.dayTime < 0xE000) ? 3 : 5;
         }
@@ -186,7 +185,7 @@ void func_809FC41C(EnDoor* this, GlobalContext* globalCtx) {
             }
         } else if (phi_v1 == 4) {
             if (120.0f < func_8002DB8C(&this->actor, PLAYER)) {
-                this->action = func_809FC8F4;
+                this->actionFunc = func_809FC8F4;
                 this->actor.posRot.rot.y = -0x1800;
             }
         } else if (phi_v1 == 5) {
@@ -194,7 +193,7 @@ void func_809FC41C(EnDoor* this, GlobalContext* globalCtx) {
             if ((this->actor.textId == 0x0229) && !(gSaveContext.eventChkInf[1] & 0x10)) {
                 phi_v1 = 3;
             } else {
-                this->action = func_809FC878;
+                this->actionFunc = func_809FC878;
                 this->actor.flags |= 0x8000009;
             }
         }
@@ -214,12 +213,12 @@ void func_809FC5D0(EnDoor* this, GlobalContext *globalCtx) {
 
     player = PLAYER;
     sp38 = (this->actor.params >> 7) & 7;
-    func_8002DBD0(this, &sp2C, &player->actor.posRot.pos);
+    func_8002DBD0(&this->actor, &sp2C, &player->actor.posRot.pos);
     if ((u8)this->unk_191 != 0) {
-        this->action = func_809FC9DC;
+        this->actionFunc = func_809FC9DC;
         SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, D_809FCECC[this->unk_190], (((s32)player->stateFlags1 * 0x10) < 0) ? 0.75f : 1.5f);
         if (this->unk_196 != 0) {
-            gSaveContext.dungeonKeys[gSaveContext.mapIndex] -= 1;
+            gSaveContext.dungeonKeys[gSaveContext.mapIndex]--;
             Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
@@ -232,7 +231,7 @@ void func_809FC5D0(EnDoor* this, GlobalContext *globalCtx) {
             if (ABS(phi_v0) < 0x3000) {
                 if (this->unk_196 != 0) {
                     if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] <= 0) {
-                        PLAYER->unk_690 = -0x203; // PLAYER over player required
+                        PLAYER->naviMessageId = -0x203; // PLAYER over player required
                         return;
                     } else {
                         player->unk_42E = 0xA;
@@ -242,8 +241,8 @@ void func_809FC5D0(EnDoor* this, GlobalContext *globalCtx) {
                 player->unk_42D = (sp2C.z >= 0.0f) ? 1.0f : -1.0f;
                 player->unk_430 = this;
             }
-        } else if (sp38 == 4 && 240.0f < this->actor.xzDistanceFromLink) {
-            this->action = func_809FC928;
+        } else if (sp38 == 4 && 240.0f < this->actor.xzDistFromLink) {
+            this->actionFunc = func_809FC928;
         }
     }
 }
@@ -254,7 +253,7 @@ void func_809FC5D0(EnDoor* this, GlobalContext *globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/func_809FC878.s")
 void func_809FC878(EnDoor* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        this->action = func_809FC8C0;
+        this->actionFunc = func_809FC8C0;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 40.0f);
     }
@@ -264,30 +263,30 @@ void func_809FC878(EnDoor* this, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/func_809FC8C0.s")
 void func_809FC8C0(EnDoor* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx) != 0) {
-        this->action = func_809FC878;
+        this->actionFunc = func_809FC878;
     }
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/func_809FC8F4.s")
 void func_809FC8F4(EnDoor* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 120.0f) {
-        this->action = func_809FC998;
+        this->actionFunc = func_809FC998;
     }
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/func_809FC928.s")
 void func_809FC928(EnDoor* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 120.0f) {
-        this->action = func_809FC998;
+        this->actionFunc = func_809FC998;
     } else if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, -0x1800, 0x100) != 0) {
-        this->action = func_809FC8F4;
+        this->actionFunc = func_809FC8F4;
     }
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/func_809FC998.s")
 void func_809FC998(EnDoor* this, GlobalContext* globalCtx) {
     if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, 0, 0x700) != 0) {
-        this->action = func_809FC5D0;
+        this->actionFunc = func_809FC5D0;
     }
 }
 
@@ -300,7 +299,7 @@ void func_809FC9DC(EnDoor* this, GlobalContext* globalCtx) {
     skelAnime = &this->skelAnime;
     if (DECR(this->unk_196) == 0) {
         if (SkelAnime_FrameUpdateMatrix(skelAnime) != 0) {
-            this->action = func_809FC5D0;
+            this->actionFunc = func_809FC5D0;
             this->unk_191 = 0;
         } else if (func_800A56C8(skelAnime, D_809FCEDC[this->unk_190]) != 0) {
             Audio_PlayActorSound2(this, (globalCtx->sceneNum == SCENE_HAKADAN || 
@@ -323,7 +322,7 @@ void func_809FC9DC(EnDoor* this, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Update.s")
 void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDoor* this = THIS;
-    this->action(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
 // EnDoor_OverrideLimbDraw

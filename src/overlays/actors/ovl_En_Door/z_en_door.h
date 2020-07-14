@@ -25,7 +25,7 @@ typedef struct EnDoor {
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ Vec3s unk_198[5];
     /* 0x01B6 */ Vec3s unk_1B6[5];
-    /* 0x01D4 */ EnDoorActionFunc action;
+    /* 0x01D4 */ EnDoorActionFunc actionFunc;
 } EnDoor; // size = 0x01D8
 
 extern const ActorInit En_Door_InitVars;
