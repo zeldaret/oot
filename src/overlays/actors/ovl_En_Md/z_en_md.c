@@ -864,5 +864,5 @@ void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80034CC4(globalCtx, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->alpha);
     }
 
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_md.c", 1317);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_md.c", 1317);
 }
