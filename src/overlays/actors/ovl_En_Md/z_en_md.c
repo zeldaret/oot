@@ -855,7 +855,7 @@ void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
     if (this->alpha == 0xFF) {
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
         func_80034BA0(globalCtx, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->alpha);
