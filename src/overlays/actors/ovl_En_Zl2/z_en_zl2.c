@@ -584,36 +584,31 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx);
-#ifdef NON_MATCHING
-// Stack issue in two instructions - made much better with the pad
 void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
-    s32 pad[2];
     EnZl2* this = THIS;
-    Player* player;
+    s32 pad[2];
 
     if (limbIndex == 10) {
         if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 900)) {
             gSPDisplayList((*gfx)++, &D_0600BAE8);
         }
 
-        player = PLAYER;
-        Matrix_Push();
-        if (player->unk_15D == 0xFF) {
-            Matrix_Put(&player->mf_A20);
-            Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
-            Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
-            Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
-            gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList((*gfx)++, &D_0600BAE8);
+        {
+            Player* player = PLAYER;
+            Matrix_Push();
+            if (player->unk_15D == 0xFF) {
+                Matrix_Put(&player->mf_A20);
+                Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
+                Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
+                Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
+                gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
+                        G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList((*gfx)++, &D_0600BAE8);
+            }
+            Matrix_Pull();
         }
-        Matrix_Pull();
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/EnZl2_PostLimbDraw.s")
-#endif
 
 void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
     s32 unk_274 = this->unk_274;

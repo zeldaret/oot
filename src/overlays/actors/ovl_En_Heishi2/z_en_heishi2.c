@@ -636,7 +636,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, -0x17D4, 5, (s16)(s32)(f32)this->unk_2E4, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, -6100, 5, this->unk_2E4, 0);
     Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.posRot.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
@@ -647,12 +647,10 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Vec3f pos;
-    s32 rotY;
+    f32 rotY;
     EnBom* bomb;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
@@ -674,9 +672,6 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A546DC;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A5455C.s")
-#endif
 
 void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, 200, 5, this->unk_2E4, 0);
