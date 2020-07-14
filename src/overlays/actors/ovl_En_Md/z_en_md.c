@@ -764,9 +764,9 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     EnMd_UpdateEyes(this);
-    func_80AAB5A4(&this->actor, globalCtx);
+    func_80AAB5A4(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_80AAB158(&this->actor, globalCtx);
+    func_80AAB158(this, globalCtx);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
 }
