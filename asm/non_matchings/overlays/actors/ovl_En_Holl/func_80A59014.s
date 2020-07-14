@@ -107,9 +107,9 @@ glabel func_80A59014
 /* 00588 80A59198 00E03025 */  or      $a2, $a3, $zero            ## $a2 = 00000000
 /* 0058C 80A5919C 10400004 */  beq     $v0, $zero, .L80A591B0     
 /* 00590 80A591A0 8FA40058 */  lw      $a0, 0x0058($sp)           
-/* 00594 80A591A4 3C0580A6 */  lui     $a1, %hi(func_80A59828)    ## $a1 = 80A60000
+/* 00594 80A591A4 3C0580A6 */  lui     $a1, %hi(EnHoll_NextAction)    ## $a1 = 80A60000
 /* 00598 80A591A8 0C296304 */  jal     EnHoll_SetupAction              
-/* 0059C 80A591AC 24A59828 */  addiu   $a1, $a1, %lo(func_80A59828) ## $a1 = 80A59828
+/* 0059C 80A591AC 24A59828 */  addiu   $a1, $a1, %lo(EnHoll_NextAction) ## $a1 = 80A59828
 .L80A591B0:
 /* 005A0 80A591B0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A591B4:
