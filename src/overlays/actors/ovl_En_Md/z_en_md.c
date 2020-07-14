@@ -47,14 +47,6 @@ static struct_80034EC0_Entry sAnimations[] = {
     { 0x060095BC, 1.0f, 0.0f, -1.0f, 0x02, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
 };
 
-static Vec3f D_80AAC498 = { 400.0f, 0.0f, 0.0f };
-
-static UNK_PTR sEyesSegments[] = {
-    0x06004FF0,
-    0x06005930,
-    0x06005D30,
-};
-
 extern AnimationHeader D_060002C8;
 extern SkeletonHeader D_06007FB8;
 
@@ -799,7 +791,7 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
     s32 pad;
-    Vec3f vec = D_80AAC498;
+    Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
         Matrix_MultVec3f(&vec, &actor->posRot2.pos);
@@ -807,6 +799,11 @@ void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_PTR sEyesSegments[] = {
+        0x06004FF0,
+        0x06005930,
+        0x06005D30,
+    };
     EnMd* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
