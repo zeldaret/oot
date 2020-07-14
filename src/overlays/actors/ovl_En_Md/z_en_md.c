@@ -310,7 +310,7 @@ void func_80AAAA24(EnMd* this) {
 
 s16 func_80AAAC78(EnMd* this, GlobalContext* globalCtx) {
     s16 dialogState = func_8010BDBC(&globalCtx->msgCtx);
-    
+
     if ((this->unk_209 == 10) || (this->unk_209 == 5) || (this->unk_209 == 2) || (this->unk_209 == 1)) {
         if (this->unk_209 != dialogState) {
             this->unk_208++;
@@ -522,7 +522,7 @@ u8 EnMd_FollowPath(EnMd* this, GlobalContext* globalCtx) {
     Vec3s* pointPos;
     f32 pathDiffX;
     f32 pathDiffZ;
-    
+
     if ((this->actor.params & 0xFF00) == 0xFF00) {
         return 0;
     }
@@ -533,7 +533,8 @@ u8 EnMd_FollowPath(EnMd* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.posRot.pos.x;
     pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(pathDiffX, pathDiffZ) * (65536.0f / (2*M_PI)), 4, 4000, 1);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(pathDiffX, pathDiffZ) * (65536.0f / (2 * M_PI)), 4,
+                            4000, 1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 100.0f) {
         this->waypoint++;
@@ -569,9 +570,9 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
 
     if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
         temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
-                  (globalCtx->sceneNum == SCENE_SPOT04))
-                     ? 100.0f
-                     : 400.0f;
+                (globalCtx->sceneNum == SCENE_SPOT04))
+                   ? 100.0f
+                   : 400.0f;
         this->alpha = func_80034DD4(this, globalCtx, this->alpha, temp);
         this->actor.shape.unk_14 = this->alpha;
     } else {
@@ -649,7 +650,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
 
     func_80AAAA24(this);
 
-    if (this->unk_1E0.unk_00 == 0) {          
+    if (this->unk_1E0.unk_00 == 0) {
         this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         this->actor.shape.rot.y = this->actor.yawTowardsLink;
 
@@ -664,7 +665,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         temp = fabsf((f32)this->actor.yawTowardsLink - yaw) * 0.001f * 3.0f;
         this->skelAnime.animPlaybackSpeed = CLAMP(temp, 1.0f, 3.0f);
     }
-    
+
     if (this->unk_1E0.unk_00 == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
@@ -733,7 +734,8 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) && (globalCtx->sceneNum == SCENE_SPOT04)) {
+    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
+        (globalCtx->sceneNum == SCENE_SPOT04)) {
         func_80106CCC(globalCtx);
         gSaveContext.eventChkInf[1] |= 0x1000;
         Actor_Kill(&this->actor);
@@ -763,8 +765,8 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                          Actor* thisx, Gfx** gfx) {
+s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+                          Gfx** gfx) {
     EnMd* this = THIS;
     Vec3s vec;
 
@@ -794,7 +796,7 @@ void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&vec, &actor->posRot2.pos);
+        Matrix_MultVec3f(&vec, &thisx->posRot2.pos);
     }
 }
 
