@@ -487,7 +487,7 @@ u8 EnMd_ShouldSpawn(EnMd* this, GlobalContext* globalCtx) {
 
     if (globalCtx->sceneNum == SCENE_KOKIRI_HOME4) {
         if (((gSaveContext.eventChkInf[1] & 0x1000) != 0) || ((gSaveContext.eventChkInf[4] & 1) != 0)) {
-            if (gSaveContext.linkAge != 0) {
+            if (LINK_IS_CHILD) {
                 return 1;
             }
         }
