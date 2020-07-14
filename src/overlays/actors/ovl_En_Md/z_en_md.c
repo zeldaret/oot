@@ -593,7 +593,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007FB8, NULL, &this->limbDrawTable, &this->transitionDrawTable,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->limbDrawTable, this->transitionDrawTable,
                      17);
 
     Collider_InitCylinder(globalCtx, &this->collider);
