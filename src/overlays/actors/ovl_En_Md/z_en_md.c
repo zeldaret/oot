@@ -583,7 +583,7 @@ u8 func_80AAB370(EnMd* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(xDiff, zDiff) * (65536.0f / (2*M_PI)), 4, 4000, 1);
 
-    if (((xDiff * xDiff) + (zDiff * zDiff)) < 100.0f) {
+    if ((SQ(xDiff) + SQ(zDiff)) < 100.0f) {
         this->unk_212++;
         if (this->unk_212 >= path->count) {
             this->unk_212 = 0;
