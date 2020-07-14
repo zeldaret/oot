@@ -851,7 +851,6 @@ void func_80AAC104(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMd* this = THIS;
-
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
