@@ -3587,8 +3587,8 @@ s32 Camera_KeepOn4(Camera *camera) {
         camera->unk_14C |= (0x400 | 0x10);
         camera->unk_14C |= (0x4 | 0x2);
         camera->unk_14C &= ~8;
-        if(camera->unk_160 > 0){
-            camera->unk_160--;
+        if(camera->timer > 0){
+            camera->timer--;
         }
     } else {
         camera->unk_14C |= (0x400 | 0x10);
@@ -4791,8 +4791,8 @@ s32 Camera_Unique6(Camera* camera) {
         camera->dist = OLib_Vec3fDist(&camera->at, &camera->eye);
     }
 
-    if (uniq6->interfaceFlags & 1 && camera->unk_160 > 0) {
-        camera->unk_160--;
+    if (uniq6->interfaceFlags & 1 && camera->timer > 0) {
+        camera->timer--;
     }
 
     return true;
@@ -4896,7 +4896,7 @@ s32 Camera_Unique9(Camera *camera) {
     CameraModeValue* values;
 
     player = camera->player;
-    
+
     if(RELOAD_PARAMS){
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         uniq9->interfaceFlags = NEXTSETTING;
@@ -4949,7 +4949,7 @@ s32 Camera_Unique9(Camera *camera) {
         } else {
             // We've gone through all the keyframes.
             if (camera->thisIdx != 0) {
-                camera->unk_160 = 0;
+                camera->timer = 0;
             }
             return true;
         }
@@ -5284,7 +5284,7 @@ setAtFOVRoll:
             }
         default:
             if (camera->thisIdx != 0) {
-                camera->unk_160 = 0;
+                camera->timer = 0;
             }
     }
 
@@ -5307,8 +5307,8 @@ setAtFOVRoll:
         anim->playerPos.z = playerPosRot.pos.z;
     }
 
-    if (anim->unk_38 == 0 && camera->unk_160 > 0) {
-        camera->unk_160--;
+    if (anim->unk_38 == 0 && camera->timer > 0) {
+        camera->timer--;
     }
 
     if (camera->player != NULL) {
@@ -5736,7 +5736,7 @@ s32 Camera_Demo6(Camera *camera) {
         case 3:
             camera->fov = Camera_LERPCeilF(50.0f, camera->fov, 0.2f, 0.01f);
             if (stateTimers[camera->animState] < anim->animTimer) {
-                camera->unk_160 = 0;
+                camera->timer = 0;
                 return true;
             }
             break;
@@ -5871,7 +5871,7 @@ s32 Camera_Demo9(Camera *camera) {
             }
         case 3:
             // the cs is finished, decide the next action
-            camera->unk_160 = 0;
+            camera->timer = 0;
             if (anim->finishAction != 0) {
                 if (anim->finishAction != 0x1000) {
                     if (anim->finishAction == 0x2000) {
@@ -5945,8 +5945,8 @@ s32 Camera_Special0(Camera* camera) {
 
     camera->dist = OLib_Vec3fDist(&camera->at, &camera->eye);
     camera->unk_D8 = 0.0f;
-    if (camera->unk_160 > 0) {
-        camera->unk_160--;
+    if (camera->timer > 0) {
+        camera->timer--;
     }
     return true;
 }
@@ -5966,19 +5966,19 @@ s32 Camera_Special3(Camera* camera) {
 s32 Camera_Special4(Camera* camera) {
     PosRot curTargetPosRot;
     s16 sp3A;
-    s16* unk_160 = &camera->unk_160;
+    s16* timer = &camera->timer;
     Special4* spec4 = &camera->params.spec4;
 
     if (camera->animState == 0) {
         sCameraInterfaceFlags = 0x3200;
         camera->fov = 40.0f;
         camera->animState++;
-        spec4->unk_00 = camera->unk_160;
+        spec4->unk_00 = camera->timer;
     }
 
-    camera->fov = Camera_LERPCeilF(80.0f, camera->fov, 1.0f / *unk_160, 0.1f);
-    if ((spec4->unk_00 - *unk_160) < 0xF) {
-        (*unk_160)--;
+    camera->fov = Camera_LERPCeilF(80.0f, camera->fov, 1.0f / *timer, 0.1f);
+    if ((spec4->unk_00 - *timer) < 0xF) {
+        (*timer)--;
         return false;
     } else {
         camera->roll = -0x1F4;
@@ -5994,7 +5994,7 @@ s32 Camera_Special4(Camera* camera) {
         camera->eye.z = camera->eyeNext.z = (Math_Coss(sp3A) * 780.0f) + camera->at.z;
         camera->eye.y = curTargetPosRot.pos.y;
         camera->eye.y = func_80044510(camera, &camera->eye) + 20.0f;
-        (*unk_160)--;
+        (*timer)--;
         return true;
     }
 }
@@ -6483,7 +6483,7 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
     camera->mode = 0;
     camera->bgCheckId = 0x32;
     camera->unk_168 = 0x7FFF;
-    camera->unk_160 = -1;
+    camera->timer = -1;
     camera->unk_14C |= 0x4000;
 
     camera->up.y = 1.0f;
@@ -7068,8 +7068,8 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
         osSyncPrintf("dir  (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->direction.x, BINANG_TO_DEGF(camera->direction.x), camera->direction.y, BINANG_TO_DEGF(camera->direction.y));
         osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->realDir.x, BINANG_TO_DEGF(camera->realDir.x), camera->realDir.y, BINANG_TO_DEGF(camera->realDir.y));
     }
-    if (camera->unk_160 != -1 && CHECK_PAD(D_8015BD7C->state.input[0].press, R_JPAD)) {
-        camera->unk_160 = 0;
+    if (camera->timer != -1 && CHECK_PAD(D_8015BD7C->state.input[0].press, R_JPAD)) {
+        camera->timer = 0;
     }
     if (R_DBG_CAM_UPDATE) {
         osSyncPrintf("camera: out (%f %f %f) (%f %f %f)\n", camera->at.x, camera->at.y, camera->at.z, camera->eye.x, camera->eye.y, camera->eye.z);
@@ -7083,11 +7083,14 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
     return outVec;
 }
 
-void func_80059EC8(Camera* camera) {
-    Camera* sp24 = camera->globalCtx->cameraPtrs[0];
+/**
+ * When the camera's timer is 0, change the camera to it's parent
+*/
+void Camera_Finish(Camera* camera) {
+    Camera* defaultCam = camera->globalCtx->cameraPtrs[0];
     Player* player = (Player*)camera->globalCtx->actorCtx.actorList[2].first;
 
-    if (camera->unk_160 == 0) {
+    if (camera->timer == 0) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, 7);
 
         if ((camera->parentCamIdx == 0) && (camera->unk_168 != 0)) {
@@ -7099,7 +7102,7 @@ void func_80059EC8(Camera* camera) {
                 osSyncPrintf("camera: player demo end!!\n");
             }
 
-            sp24->unk_14C |= 8;
+            defaultCam->unk_14C |= 8;
         }
 
         if (camera->globalCtx->cameraPtrs[camera->childCamIdx]->parentCamIdx == camera->thisIdx) {
@@ -7116,7 +7119,7 @@ void func_80059EC8(Camera* camera) {
 
         camera->parentCamIdx = 0;
         camera->childCamIdx = camera->parentCamIdx;
-        camera->unk_160 = -1;
+        camera->timer = -1;
         camera->globalCtx->envCtx.unk_E1 = 0;
 
         Gameplay_ClearCamera(camera->globalCtx, camera->thisIdx);

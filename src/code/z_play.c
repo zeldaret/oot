@@ -1328,7 +1328,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         }
     }
 
-    func_80059EC8(ACTIVE_CAM);
+    Camera_Finish(ACTIVE_CAM);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_play.c", 4508);
 }

@@ -683,7 +683,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status);
 // ? func_80058D34(?);
 // ? func_80058E8C(?);
 // ? Camera_Update(?);
-void func_80059EC8(Camera* camera);
+void Camera_Finish(Camera* camera);
 // ? func_8005A02C(?);
 // ? Camera_ChangeMode(?);
 // ? Camera_ChangeModeDefaultFlags(?);

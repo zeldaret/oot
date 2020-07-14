@@ -782,7 +782,7 @@ typedef struct {
     /* 0x015A */ s16 roll;
     /* 0x015C */ s16 paramFlags;
     /* 0x015E */ s16 animState;
-    /* 0x0160 */ s16 unk_160;
+    /* 0x0160 */ s16 timer; // timer when to change the camera back to parent. 
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;
     /* 0x0166 */ s16 prevCamDataIdx;

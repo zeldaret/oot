@@ -889,7 +889,7 @@ glabel Gameplay_Draw
 .L800BFAA8:
 /* B36C48 800BFAA8 000FC080 */  sll   $t8, $t7, 2
 /* B36C4C 800BFAAC 02184821 */  addu  $t1, $s0, $t8
-/* B36C50 800BFAB0 0C0167B2 */  jal   func_80059EC8
+/* B36C50 800BFAB0 0C0167B2 */  jal   Camera_Finish
 /* B36C54 800BFAB4 8D240790 */   lw    $a0, 0x790($t1)
 /* B36C58 800BFAB8 3C068014 */  lui   $a2, %hi(D_80144738) # $a2, 0x8014
 /* B36C5C 800BFABC 24C64738 */  addiu $a2, %lo(D_80144738) # addiu $a2, $a2, 0x4738
