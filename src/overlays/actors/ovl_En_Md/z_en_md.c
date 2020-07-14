@@ -815,10 +815,10 @@ void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_md.c", 1280);
     if (this->alpha == 0xFF) {
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeIdx]));
-        func_80034BA0(globalCtx, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->alpha);
+        func_80034BA0(globalCtx, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
     } else if (this->alpha != 0) {
         gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeIdx]));
-        func_80034CC4(globalCtx, &this->skelAnime, func_80AABEF0, func_80AAC104, &this->actor, this->alpha);
+        func_80034CC4(globalCtx, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_md.c", 1317);
