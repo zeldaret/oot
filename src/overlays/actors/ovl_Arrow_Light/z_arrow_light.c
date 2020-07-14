@@ -1,19 +1,21 @@
 /*
  * File: z_arrow_light.c
  * Overlay: ovl_Arrow_Light
- * Description: Light Arrow actor. Spawned by and attached to a normal arrow.
+ * Description: Light Arrow. Spawned by and attached to a normal arrow.
  */
 
 #include "z_arrow_light.h"
 
-#include "../ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
 
-void ArrowLight_Init(ArrowLight* this, GlobalContext* globalCtx);
-void ArrowLight_Destroy(ArrowLight* this, GlobalContext* globalCtx);
-void ArrowLight_Update(ArrowLight* this, GlobalContext* globalCtx);
-void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx);
+#define THIS ((ArrowLight*)thisx)
+
+void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx);
+void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx);
+void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx);
 void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx);
@@ -33,16 +35,18 @@ const ActorInit Arrow_Light_InitVars = {
     (ActorFunc)ArrowLight_Draw,
 };
 
-static InitChainEntry initChain[] = {
-    ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
 };
 
-void ArrowLight_SetupAction(ArrowLight* this, ActorFunc* actionFunc) {
+void ArrowLight_SetupAction(ArrowLight* this, ArrowLightActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void ArrowLight_Init(ArrowLight* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->actor, initChain);
+void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowLight* this = THIS;
+
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
     this->unk_160 = 1.0f;
     ArrowLight_SetupAction(this, ArrowLight_Charge);
@@ -52,7 +56,7 @@ void ArrowLight_Init(ArrowLight* this, GlobalContext* globalCtx) {
     this->unk_164 = 0.0f;
 }
 
-void ArrowLight_Destroy(ArrowLight* this, GlobalContext* globalCtx) {
+void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
     // Translates to: "Disappearance"
     LOG_STRING("消滅", "../z_arrow_light.c", 403);
@@ -74,7 +78,7 @@ void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
-    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_LIGHT);
+    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_LIGHT - SFX_FLAG);
 
     // If arrow's attached is null, Link has fired the arrow
     if (arrow->actor.attachedA == NULL) {
@@ -96,13 +100,13 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
     f32 offset;
     u16 timer;
 
-    if (this->actor.unk_F0 < 50.0f) {
+    if (this->actor.projectedW < 50.0f) {
         scale = 10.0f;
     } else {
-        if (950.0f < this->actor.unk_F0) {
+        if (950.0f < this->actor.projectedW) {
             scale = 310.0f;
         } else {
-            scale = this->actor.unk_F0;
+            scale = this->actor.projectedW;
             scale = ((scale - 50.0f) * (1.0f / 3.0f)) + 10.0f;
         }
     }
@@ -177,7 +181,9 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowLight_Update(ArrowLight* this, GlobalContext* globalCtx) {
+void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowLight* this = THIS;
+
     if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
         Actor_Kill(&this->actor);
     } else {
@@ -185,9 +191,9 @@ void ArrowLight_Update(ArrowLight* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowLight* this = THIS;
+    s32 pad;
     u32 stateFrames;
     GraphicsContext* gfxCtx;
     Actor* tranform;
@@ -234,11 +240,11 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_light.c", 648),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
         gSPDisplayList(gfxCtx->polyXlu.p++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 30) % 512, 8, 16));
-        gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sVertexDL);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
     }
 }

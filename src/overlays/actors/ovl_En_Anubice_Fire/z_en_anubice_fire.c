@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnAnubiceFire_Init(EnAnubiceFire* this, GlobalContext* globalCtx);
-void EnAnubiceFire_Destroy(EnAnubiceFire* this, GlobalContext* globalCtx);
-void EnAnubiceFire_Update(EnAnubiceFire* this, GlobalContext* globalCtx);
-void EnAnubiceFire_Draw(EnAnubiceFire* this, GlobalContext* globalCtx);
+#define THIS ((EnAnubiceFire*)thisx)
+
+void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Anubice_Fire_InitVars = {

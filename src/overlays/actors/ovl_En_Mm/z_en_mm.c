@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnMm_Init(EnMm* this, GlobalContext* globalCtx);
-void EnMm_Destroy(EnMm* this, GlobalContext* globalCtx);
-void EnMm_Update(EnMm* this, GlobalContext* globalCtx);
-void EnMm_Draw(EnMm* this, GlobalContext* globalCtx);
+#define THIS ((EnMm*)thisx)
+
+void EnMm_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMm_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Mm_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot17Bakudankabe_Init(BgSpot17Bakudankabe* this, GlobalContext* globalCtx);
-void BgSpot17Bakudankabe_Destroy(BgSpot17Bakudankabe* this, GlobalContext* globalCtx);
-void BgSpot17Bakudankabe_Update(BgSpot17Bakudankabe* this, GlobalContext* globalCtx);
-void BgSpot17Bakudankabe_Draw(BgSpot17Bakudankabe* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot17Bakudankabe*)thisx)
+
+void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot17_Bakudankabe_InitVars = {

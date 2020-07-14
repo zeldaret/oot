@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_8082FDE8
+    .asciz "ＭＡＰ ＤＭＡ = %d\n"
+    .balign 4
+
+.text
 glabel func_80826BA8
 /* 13388 80826BA8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 1338C 80826BAC AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -20,7 +27,7 @@ glabel func_80826BA8
 /* 133CC 80826BEC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 133D0 80826BF0 24A5FFFD */  addiu   $a1, $a1, 0xFFFD           ## $a1 = FFFFFFFD
 /* 133D4 80826BF4 00052C00 */  sll     $a1, $a1, 16               
-/* 133D8 80826BF8 0C02023F */  jal     func_800808FC              
+/* 133D8 80826BF8 0C02023F */  jal     Map_SetFloorPalettesData              
 /* 133DC 80826BFC 00052C03 */  sra     $a1, $a1, 16               
 /* 133E0 80826C00 860200A4 */  lh      $v0, 0x00A4($s0)           ## 000000A4
 /* 133E4 80826C04 8FA30024 */  lw      $v1, 0x0024($sp)           

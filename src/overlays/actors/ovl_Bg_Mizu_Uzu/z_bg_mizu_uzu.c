@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx);
-void BgMizuUzu_Destroy(BgMizuUzu* this, GlobalContext* globalCtx);
-void BgMizuUzu_Update(BgMizuUzu* this, GlobalContext* globalCtx);
-void BgMizuUzu_Draw(BgMizuUzu* this, GlobalContext* globalCtx);
+#define THIS ((BgMizuUzu*)thisx)
+
+void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuUzu_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuUzu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
@@ -25,45 +27,52 @@ const ActorInit Bg_Mizu_Uzu_InitVars = {
     (ActorFunc)BgMizuUzu_Draw,
 };
 
-static InitChainEntry initChain[] = {
-    ICHAIN_F32(unk_F8, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1000, ICHAIN_CONTINUE),
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern u32 D_060074EC;
+extern UNK_TYPE D_060074EC;
 
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx);
 
-void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx) {
-    s32 pad[2];
-    s32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
-    Actor_ProcessInitChain(thisx, initChain);
-    func_80043480(thisx, 0);
-    func_80041880(&D_060074EC, &local_c);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgMizuUzu* this = THIS;
+    s32 pad;
+    CollisionHeader* local_c = NULL;
+    s32 pad2;
+
+    Actor_ProcessInitChain(thisx, sInitChain);
+    DynaPolyInfo_SetActorMove(thisx, 0);
+    DynaPolyInfo_Alloc(&D_060074EC, &local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     this->actionFunc = func_8089F788;
 }
 
-void BgMizuUzu_Destroy(BgMizuUzu* this, GlobalContext* globalCtx) {
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgMizuUzu* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
+
     if (PLAYER->currentBoots == 1) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     } else {
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
-    Audio_PlayActorSound2(thisx, 0x20CD);
+    Audio_PlayActorSound2(thisx, NA_SE_EV_WATER_CONVECTION - SFX_FLAG);
     thisx->shape.rot.y += 0x1C0;
 }
 
-void BgMizuUzu_Update(BgMizuUzu* this, GlobalContext* globalCtx) {
+void BgMizuUzu_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgMizuUzu* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void BgMizuUzu_Draw(BgMizuUzu* this, GlobalContext* globalCtx) {
+void BgMizuUzu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }

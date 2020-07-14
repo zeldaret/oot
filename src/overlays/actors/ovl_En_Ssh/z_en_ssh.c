@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void EnSsh_Init(EnSsh* this, GlobalContext* globalCtx);
-void EnSsh_Destroy(EnSsh* this, GlobalContext* globalCtx);
-void EnSsh_Update(EnSsh* this, GlobalContext* globalCtx);
-void EnSsh_Draw(EnSsh* this, GlobalContext* globalCtx);
+#define THIS ((EnSsh*)thisx)
+
+void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSsh_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ssh_InitVars = {

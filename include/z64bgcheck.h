@@ -31,6 +31,9 @@ typedef struct {
     /* 0x0E */ s16    dist;  // Plane distance from origin
 } CollisionPoly; // size = 0x10 //RoomPoly
 
+//FIXME: Update ZAP
+#define RoomPoly CollisionPoly
+
 typedef struct {
     u16 cameraSType;            // 0x00
     s16 numCameras;             // 0x02
@@ -46,7 +49,7 @@ typedef struct {
     s16 posX, posY, posZ;
     s16 rotX, rotY, rotZ;
     s16 fov;
-    s16 jfifId;
+    s16 unk_0E;//jfifId;
     s16 unk;
 } CamPosData;
 
@@ -64,6 +67,8 @@ typedef struct {
     //0x0000_00FF = CamData index
 } WaterBox; // size = 0x10 //WaterBoxHeader
 
+//FIXME: ZAP
+#define WaterBoxHeader WaterBox
 
 typedef struct {
     s32 f_F000_0000 : 4;
@@ -167,8 +172,8 @@ typedef struct {
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
     /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
-    /* 0x080 */ f32     unk_80; // Floor poly height?
-    /* 0x084 */ f32     unk_84;
+    /* 0x080 */ f32     groundY; //unk_80; // Floor poly height?
+    /* 0x084 */ f32     waterY;  //unk_84;
 } BgCheckInfo;
 
 typedef struct {

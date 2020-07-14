@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_8082F600
+    .asciz "../z_kaleido_equipment.c"
+    .balign 4
+
+glabel D_8082F61C
+    .asciz "../z_kaleido_equipment.c"
+    .balign 4
+
+.text
 glabel func_80817D50
 /* 04530 80817D50 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 04534 80817D54 AFBF0014 */  sw      $ra, 0x0014($sp)           

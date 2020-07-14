@@ -1,0 +1,33 @@
+<Root>
+    <File Name="takaraya_scene">
+        <Scene Name="takaraya_scene"/>
+    </File>
+    <File Name="takaraya_room_0">
+        <Room Name="takaraya_room_0">
+        </Room>
+    </File>
+    <File Name="takaraya_room_1">
+        <Room Name="takaraya_room_1">
+        </Room>
+    </File>
+    <File Name="takaraya_room_2">
+        <Room Name="takaraya_room_2">
+        </Room>
+    </File>
+    <File Name="takaraya_room_3">
+        <Room Name="takaraya_room_3">
+        </Room>
+    </File>
+    <File Name="takaraya_room_4">
+        <Room Name="takaraya_room_4">
+        </Room>
+    </File>
+    <File Name="takaraya_room_5">
+        <Room Name="takaraya_room_5">
+        </Room>
+    </File>
+    <File Name="takaraya_room_6">
+        <Room Name="takaraya_room_6">
+        </Room>
+    </File>
+</Root>

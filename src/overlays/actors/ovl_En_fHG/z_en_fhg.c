@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void EnfHG_Init(EnfHG* this, GlobalContext* globalCtx);
-void EnfHG_Destroy(EnfHG* this, GlobalContext* globalCtx);
-void EnfHG_Update(EnfHG* this, GlobalContext* globalCtx);
-void EnfHG_Draw(EnfHG* this, GlobalContext* globalCtx);
+#define THIS ((EnfHG*)thisx)
+
+void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_fHG_InitVars = {

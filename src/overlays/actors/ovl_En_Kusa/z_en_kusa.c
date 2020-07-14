@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00800010
 
-void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx);
-void EnKusa_Destroy(EnKusa* this, GlobalContext* globalCtx);
-void EnKusa_Update(EnKusa* this, GlobalContext* globalCtx);
+#define THIS ((EnKusa*)thisx)
+
+void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Kusa_InitVars = {

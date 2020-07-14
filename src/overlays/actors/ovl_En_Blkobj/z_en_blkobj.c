@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000030
 
-void EnBlkobj_Init(EnBlkobj* this, GlobalContext* globalCtx);
-void EnBlkobj_Destroy(EnBlkobj* this, GlobalContext* globalCtx);
-void EnBlkobj_Update(EnBlkobj* this, GlobalContext* globalCtx);
-void EnBlkobj_Draw(EnBlkobj* this, GlobalContext* globalCtx);
+#define THIS ((EnBlkobj*)thisx)
+
+void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBlkobj_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Blkobj_InitVars = {

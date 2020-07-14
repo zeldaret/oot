@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgUmaJump_Init(BgUmaJump* this, GlobalContext* globalCtx);
-void BgUmaJump_Destroy(BgUmaJump* this, GlobalContext* globalCtx);
-void BgUmaJump_Update(BgUmaJump* this, GlobalContext* globalCtx);
-void BgUmaJump_Draw(BgUmaJump* this, GlobalContext* globalCtx);
+#define THIS ((BgUmaJump*)thisx)
+
+void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Umajump_InitVars = {
     ACTOR_BG_UMAJUMP,
@@ -25,21 +27,22 @@ const ActorInit Bg_Umajump_InitVars = {
     (ActorFunc)BgUmaJump_Draw,
 };
 
-extern D_06001438; // segmented address: 0x06001438
-extern D_06001220; // segmented address: 0x06001220
+extern UNK_TYPE D_06001438;
+extern Gfx D_06001220[];
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-void BgUmaJump_Init(BgUmaJump* this, GlobalContext* globalCtx) {
-    s32 pad[2];
-    u32 sp24 = 0;
+void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgUmaJump* this = THIS;
+    s32 pad;
+    CollisionHeader* sp24 = NULL;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
-    func_80043480(&this->actor, DPM_UNK);
-    func_80041880(&D_06001438, &sp24);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp24);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    DynaPolyInfo_SetActorMove(&this->actor, DPM_UNK);
+    DynaPolyInfo_Alloc(&D_06001438, &sp24);
+    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp24);
 
     if (this->actor.params == 1) {
         if ((!Flags_GetEventChkInf(0x18)) && (DREG(1) == 0)) {
@@ -50,13 +53,15 @@ void BgUmaJump_Init(BgUmaJump* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgUmaJump_Destroy(BgUmaJump* this, GlobalContext* globalCtx) {
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgUmaJump* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-void BgUmaJump_Update(BgUmaJump* this, GlobalContext* globalCtx) {
+void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void BgUmaJump_Draw(BgUmaJump* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06001220);
+void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_06001220);
 }

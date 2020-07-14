@@ -2,10 +2,13 @@
 
 #define FLAGS 0x00000010
 
-void BgHakaHuta_Init(BgHakaHuta* this, GlobalContext* globalCtx);
-void BgHakaHuta_Destroy(BgHakaHuta* this, GlobalContext* globalCtx);
-void BgHakaHuta_Update(BgHakaHuta* this, GlobalContext* globalCtx);
-void BgHakaHuta_Draw(BgHakaHuta* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaHuta*)thisx)
+
+void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaHuta_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087D0AC(BgHakaHuta* this, GlobalContext* globalCtx);
 // void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 arg2); not sure about this one
 // void func_8087D5B8(BgHakaHuta* this, GlobalContext* globalCtx); not sure about this one

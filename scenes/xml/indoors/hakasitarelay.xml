@@ -1,0 +1,33 @@
+<Root>
+    <File Name="hakasitarelay_scene">
+        <Scene Name="hakasitarelay_scene"/>
+    </File>
+    <File Name="hakasitarelay_room_0">
+        <Room Name="hakasitarelay_room_0">
+        </Room>
+    </File>
+    <File Name="hakasitarelay_room_1">
+        <Room Name="hakasitarelay_room_1">
+        </Room>
+    </File>
+    <File Name="hakasitarelay_room_2">
+        <Room Name="hakasitarelay_room_2">
+        </Room>
+    </File>
+    <File Name="hakasitarelay_room_3">
+        <Room Name="hakasitarelay_room_3">
+        </Room>
+    </File>
+    <File Name="hakasitarelay_room_4">
+        <Room Name="hakasitarelay_room_4">
+        </Room>
+    </File>
+    <File Name="hakasitarelay_room_5">
+        <Room Name="hakasitarelay_room_5">
+        </Room>
+    </File>
+    <File Name="hakasitarelay_room_6">
+        <Room Name="hakasitarelay_room_6">
+        </Room>
+    </File>
+</Root>

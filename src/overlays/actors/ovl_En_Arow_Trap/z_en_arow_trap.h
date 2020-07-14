@@ -5,7 +5,9 @@
 #include <global.h>
 #include <z64.h>
 
-typedef struct {
+struct EnArowTrap;
+
+typedef struct EnArowTrap {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ u32 unk_14C;
     /* 0x0150 */ u32 attackTimer;

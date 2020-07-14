@@ -1,3 +1,33 @@
+.rdata
+glabel D_8013C69C
+    .asciz "\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n"
+    # EUC-JP: 設定 | Configuration
+    .balign 4
+
+glabel D_8013C6D4
+    .asciz "\n-----------------\n"
+    .balign 4
+
+glabel D_8013C6E8
+    .asciz "\n 強制ＢＧＭ=[%d]"
+    # EUC-JP: 強制ＢＧＭ | Forced BGM
+    .balign 4
+
+glabel D_8013C6FC
+    .asciz "\n     ＢＧＭ=[%d]"
+    # EUC-JP: ＢＧＭ
+    .balign 4
+
+glabel D_8013C710
+    .asciz "\n     エンブ=[%d]"
+    # EUC-JP: エンブ | Emblem?
+    .balign 4
+
+glabel D_8013C724
+    .asciz "\n     status=[%d]"
+    .balign 4
+
+.text
 glabel func_800758AC
 /* AECA4C 800758AC 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AECA50 800758B0 3C010001 */  lui   $at, 1

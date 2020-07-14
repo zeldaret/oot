@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnDaikuKakariko;
+
+typedef struct EnDaikuKakariko {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x1BC];
 } EnDaikuKakariko; // size = 0x0308

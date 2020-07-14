@@ -14,6 +14,7 @@ venv/
 build/
 notes/
 baserom/
+docs/doxygen/
 *.elf
 *.sra
 *.z64
@@ -31,6 +32,7 @@ tools/overlayhelpers/batchdisasm/mipsdisasm/*
 tools/disasm/output/*
 tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
+ctx.c
 
 # Assets
 *.rgba32.png
@@ -42,5 +44,5 @@ tools/asmsplitter/c/*
 *.ci4.png
 *.ci8.png
 
-#Per-user configuration
+# Per-user configuration
 .python-version

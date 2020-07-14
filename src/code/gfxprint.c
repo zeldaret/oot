@@ -341,7 +341,7 @@ GfxPrint* GfxPrint_Callback(GfxPrint* this, const char* str, size_t size) {
     return this;
 }
 
-void GfxPrint_Ctor(GfxPrint* this) {
+void GfxPrint_Init(GfxPrint* this) {
     this->flag &= ~GFXPRINT_OPEN;
 
     this->callback = &GfxPrint_Callback;
@@ -364,7 +364,7 @@ void GfxPrint_Ctor(GfxPrint* this) {
     }
 }
 
-void GfxPrint_Dtor(GfxPrint* this) {
+void GfxPrint_Destroy(GfxPrint* this) {
 }
 
 void GfxPrint_Open(GfxPrint* this, Gfx* dlist) {

@@ -1902,18 +1902,18 @@ s32 func_8003E214(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly
     return false;
 }
 
-void func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius) {
+s32 func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius) {
     CollisionPoly* poly;
     s32 bgId;
 
-    func_8003E214(colCtx, 0, &poly, &bgId, center, radius, NULL, 0);
+    return func_8003E214(colCtx, 0, &poly, &bgId, center, radius, NULL, 0);
 }
 
-void func_8003E350(CollisionContext* colCtx, Vec3f* center, f32 radius) {
+s32 func_8003E350(CollisionContext* colCtx, Vec3f* center, f32 radius) {
     CollisionPoly* poly;
     s32 bgId;
 
-    func_8003E214(colCtx, 0, &poly, &bgId, center, radius, NULL, COLPOLY_IGNORE_FLOOR | COLPOLY_IGNORE_CEILING);
+    return func_8003E214(colCtx, 0, &poly, &bgId, center, radius, NULL, COLPOLY_IGNORE_FLOOR | COLPOLY_IGNORE_CEILING);
 }
 
 //init StaticList_s
@@ -1935,7 +1935,7 @@ void func_8003E3AC(GlobalContext* globalCtx, StaticList_s* arg1, s32 tblMax, s32
     if (!(arg1->tbl != NULL)) {
         __assert("this->short_slist_node_tbl != NULL", "../z_bgcheck.c", 5975);
     }
-    arg1->polyCheckTbl = Game_Alloc(&globalCtx->state, numPolys, "../z_bgcheck.c", 5979);
+    arg1->polyCheckTbl = GameState_Alloc(&globalCtx->state, numPolys, "../z_bgcheck.c", 5979);
     if (!(arg1->polyCheckTbl != NULL)) {
         __assert("this->polygon_check != NULL", "../z_bgcheck.c", 5981);
     }
@@ -3139,7 +3139,7 @@ u16 func_80041B80(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return func_80041B24(colCtx, func_80041A28(colCtx, poly, bgId), bgId);
 }
 
-CamPosDataEntry* func_80041C10(CollisionContext* colCtx, u32 camId, s32 bgId) {
+CamPosData* func_80041C10(CollisionContext* colCtx, s32 camId, s32 bgId) {
     CollisionHeader* colHeader;
     CamData* camData;
 

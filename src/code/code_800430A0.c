@@ -38,8 +38,8 @@ void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     if (func_8003E934(bgId) != 0) {
         s16 v1 = colCtx->dyna.bgActors[bgId].srp2.rot.y - colCtx->dyna.bgActors[bgId].srp1.rot.y;
 
-        if (actor->id == ACTOR_PLAYER) {
-            ((Player*)actor)->unk_83C += v1;
+        if (actor->id == 0) {
+            ((Player*)actor)->currentYaw += v1;
         }
 
         actor->shape.rot.y += v1;

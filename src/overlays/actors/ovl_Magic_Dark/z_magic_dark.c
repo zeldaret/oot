@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000010
 
-void MagicDark_Init(MagicDark* this, GlobalContext* globalCtx);
-void MagicDark_Destroy(MagicDark* this, GlobalContext* globalCtx);
-void MagicDark_Update(MagicDark* this, GlobalContext* globalCtx);
-void MagicDark_Draw(MagicDark* this, GlobalContext* globalCtx);
+#define THIS ((MagicDark*)thisx)
+
+void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx);
+void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx);
+void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Magic_Dark_InitVars = {

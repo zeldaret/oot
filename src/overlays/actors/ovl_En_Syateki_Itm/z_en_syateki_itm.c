@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000010
 
-void EnSyatekiItm_Init(EnSyatekiItm* this, GlobalContext* globalCtx);
-void EnSyatekiItm_Destroy(EnSyatekiItm* this, GlobalContext* globalCtx);
-void EnSyatekiItm_Update(EnSyatekiItm* this, GlobalContext* globalCtx);
+#define THIS ((EnSyatekiItm*)thisx)
+
+void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiItm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Syateki_Itm_InitVars = {

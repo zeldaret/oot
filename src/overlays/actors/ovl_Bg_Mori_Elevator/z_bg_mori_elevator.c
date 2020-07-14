@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000010
 
-void BgMoriElevator_Init(BgMoriElevator* this, GlobalContext* globalCtx);
-void BgMoriElevator_Destroy(BgMoriElevator* this, GlobalContext* globalCtx);
-void BgMoriElevator_Update(BgMoriElevator* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriElevator*)thisx)
+
+void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Elevator_InitVars = {

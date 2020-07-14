@@ -1,17 +1,19 @@
 /*
  * File: z_bg_spot01_idosoko.c
  * Overlay: Bg_Spot01_Idosoko
- * Description: Stone blocking entrance to Bottom of the Well
+ * Description: Stone that blocks the entrance to Bottom of the Well
  */
 
 #include "z_bg_spot01_idosoko.h"
 
 #define FLAGS 0x00000010
 
-void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-void BgSpot01Idosoko_Destroy(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-void BgSpot01Idosoko_Update(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-void BgSpot01Idosoko_Draw(BgSpot01Idosoko* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Idosoko*)thisx)
+
+void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 
@@ -27,24 +29,26 @@ const ActorInit Bg_Spot01_Idosoko_InitVars = {
     (ActorFunc)BgSpot01Idosoko_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern u32 D_06003C64;
+extern UNK_TYPE D_06003C64;
 
-void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, ActorFunc actionFunc) {
+void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
-    s32 pad[2];
-    s32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
-    func_80043480(thisx, 1);
-    Actor_ProcessInitChain(thisx, initChain);
-    func_80041880(&D_06003C64, &local_c);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+    s32 pad;
+    CollisionHeader* local_c = NULL;
+    s32 pad2;
+
+    DynaPolyInfo_SetActorMove(thisx, 1);
+    Actor_ProcessInitChain(thisx, sInitChain);
+    DynaPolyInfo_Alloc(&D_06003C64, &local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     if (LINK_IS_CHILD) {
         Actor_Kill(thisx);
     } else {
@@ -52,20 +56,24 @@ void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot01Idosoko_Destroy(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
 }
 
-void BgSpot01Idosoko_Update(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
 extern u32 D_06003B20;
 
-void BgSpot01Idosoko_Draw(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

@@ -6,10 +6,14 @@ RUN apt-get update && \
         build-essential \
         pkg-config \
         python3 \
-	python3-pip \
+        python3-pip \
         wget \
-	git \
-	unzip
+        git \
+        unzip \
+        clang-tidy \
+        clang-format \
+        nano \
+        vbindiff
 
 RUN wget \
         https://github.com/n64decomp/qemu-irix/releases/download/v2.11-deb/qemu-irix-2.11.0-2169-g32ab296eef_amd64.deb \
@@ -19,6 +23,9 @@ RUN wget \
     rm qemu.deb
 
 RUN python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein
+RUN python3 -m pip install --upgrade attrs pycparser
+
+ENV LANG C.UTF-8
 
 RUN mkdir /oot
 WORKDIR /oot

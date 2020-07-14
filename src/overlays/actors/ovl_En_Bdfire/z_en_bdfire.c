@@ -8,14 +8,16 @@
 
 #define FLAGS 0x00000030
 
-void EnBdfire_Init(EnBdfire* this, GlobalContext* globalCtx);
-void EnBdfire_Destroy(EnBdfire* this, GlobalContext* globalCtx);
-void EnBdfire_Update(EnBdfire* this, GlobalContext* globalCtx);
-void EnBdfire_Draw(EnBdfire* this, GlobalContext* globalCtx);
+#define THIS ((EnBdfire*)thisx)
+
+void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bdfire_InitVars = {
-    ACTOR_PLAYER,
+    0,
     ACTORTYPE_ENEMY,
     FLAGS,
     OBJECT_KINGDODONGO,

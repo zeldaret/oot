@@ -1,20 +1,20 @@
 /*
  * File: z_bg_bom_guard.c
  * Overlay: Bg_Bom_Guard
- * Description: Bombchu Bowling Alley Game
+ * Description: Bombchu Bowling Alley Walls
  */
 
 #include "z_bg_bom_guard.h"
-
-#include "../ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-
+#include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include <vt.h>
 
 #define FLAGS 0x00000010
 
-void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx);
-void BgBomGuard_Destroy(BgBomGuard* this, GlobalContext* globalCtx);
-void BgBomGuard_Update(BgBomGuard* this, GlobalContext* globalCtx);
+#define THIS ((BgBomGuard*)thisx)
+
+void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgBomGuard_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
 
@@ -30,20 +30,20 @@ const ActorInit Bg_Bom_Guard_InitVars = {
     NULL,
 };
 
-extern u32 D_06001C40;
+extern UNK_TYPE D_06001C40;
 
-void BgBomGuard_SetupAction(BgBomGuard* this, ActorFunc actionFunc) {
+void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx) {
+void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgBomGuard* this = THIS;
     s32 pad[2];
-    Actor* thisx = &this->dyna.actor;
     s32 local_c = 0;
 
-    func_80043480(&this->dyna.actor, 0);
-    func_80041880(&D_06001C40, &local_c);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyInfo_Alloc(&D_06001C40, &local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n" VT_RST);
@@ -55,8 +55,10 @@ void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx) {
     BgBomGuard_SetupAction(this, func_8086E638);
 }
 
-void BgBomGuard_Destroy(BgBomGuard* this, GlobalContext* globalCtx) {
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgBomGuard* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
@@ -83,6 +85,8 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgBomGuard_Update(BgBomGuard* this, GlobalContext* globalCtx) {
+void BgBomGuard_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgBomGuard* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }

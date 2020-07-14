@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void EnIceHono_Init(EnIceHono* this, GlobalContext* globalCtx);
-void EnIceHono_Destroy(EnIceHono* this, GlobalContext* globalCtx);
-void EnIceHono_Update(EnIceHono* this, GlobalContext* globalCtx);
-void EnIceHono_Draw(EnIceHono* this, GlobalContext* globalCtx);
+#define THIS ((EnIceHono*)thisx)
+
+void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ice_Hono_InitVars = {

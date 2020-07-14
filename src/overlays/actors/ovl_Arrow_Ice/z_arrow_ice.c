@@ -1,19 +1,21 @@
 /*
  * File: z_arrow_ice.c
  * Overlay: ovl_Arrow_Ice
- * Description: Ice Arrow actor. Spawned by and attached to a normal arrow.
+ * Description: Ice Arrow. Spawned by and attached to a normal arrow.
  */
 
 #include "z_arrow_ice.h"
 
-#include "../ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
 
-void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx);
-void ArrowIce_Destroy(ArrowIce* this, GlobalContext* globalCtx);
-void ArrowIce_Update(ArrowIce* this, GlobalContext* globalCtx);
-void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx);
+#define THIS ((ArrowIce*)thisx)
+
+void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx);
+void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx);
+void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx);
 void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx);
@@ -33,16 +35,18 @@ const ActorInit Arrow_Ice_InitVars = {
     (ActorFunc)ArrowIce_Draw,
 };
 
-static InitChainEntry initChain[] = {
-    ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
 };
 
-void ArrowIce_SetupAction(ArrowIce* this, ActorFunc* actionFunc) {
+void ArrowIce_SetupAction(ArrowIce* this, ArrowIceActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->actor, initChain);
+void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowIce* this = THIS;
+
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
     this->unk_160 = 1.0f;
     ArrowIce_SetupAction(this, ArrowIce_Charge);
@@ -52,7 +56,7 @@ void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
     this->unk_164 = 0.0f;
 }
 
-void ArrowIce_Destroy(ArrowIce* this, GlobalContext* globalCtx) {
+void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
     // Translates to: "Disappearance"
     LOG_STRING("消滅", "../z_arrow_ice.c", 415);
@@ -74,7 +78,7 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
-    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE);
+    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE - SFX_FLAG);
 
     // If arrow's attached is null, Link has fired the arrow
     if (arrow->actor.attachedA == NULL) {
@@ -96,13 +100,13 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx) {
     f32 offset;
     u16 timer;
 
-    if (this->actor.unk_F0 < 50.0f) {
+    if (this->actor.projectedW < 50.0f) {
         scale = 10.0f;
     } else {
-        if (950.0f < this->actor.unk_F0) {
+        if (950.0f < this->actor.projectedW) {
             scale = 310.0f;
         } else {
-            scale = this->actor.unk_F0;
+            scale = this->actor.projectedW;
             scale = ((scale - 50.0f) * (1.0f / 3.0f)) + 10.0f;
         }
     }
@@ -177,7 +181,9 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowIce_Update(ArrowIce* this, GlobalContext* globalCtx) {
+void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowIce* this = THIS;
+
     if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
         Actor_Kill(&this->actor);
     } else {
@@ -185,9 +191,9 @@ void ArrowIce_Update(ArrowIce* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowIce* this = THIS;
+    s32 pad;
     Actor* tranform;
     u32 stateFrames;
     GraphicsContext* gfxCtx;
@@ -234,11 +240,11 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 660),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
         gSPDisplayList(gfxCtx->polyXlu.p++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 10) % 512, 4, 16));
-        gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
+        gSPDisplayList(gfxCtx->polyXlu.p++, sVertexDL);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
     }
 }

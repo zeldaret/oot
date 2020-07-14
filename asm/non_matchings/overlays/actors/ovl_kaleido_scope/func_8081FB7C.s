@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_8082FAD0
+    .asciz "kscope->kscp_pos+pt = %d\n"
+    .balign 4
+
+.text
 glabel func_8081FB7C
 /* 0C35C 8081FB7C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0C360 8081FB80 AFBF0024 */  sw      $ra, 0x0024($sp)           

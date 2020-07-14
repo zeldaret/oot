@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void EnButte_Init(EnButte* this, GlobalContext* globalCtx);
-void EnButte_Destroy(EnButte* this, GlobalContext* globalCtx);
-void EnButte_Update(EnButte* this, GlobalContext* globalCtx);
-void EnButte_Draw(EnButte* this, GlobalContext* globalCtx);
+#define THIS ((EnButte*)thisx)
+
+void EnButte_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnButte_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Butte_InitVars = {

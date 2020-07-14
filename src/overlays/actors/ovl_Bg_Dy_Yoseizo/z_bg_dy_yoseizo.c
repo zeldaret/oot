@@ -8,9 +8,12 @@
 
 #define FLAGS 0x02000030
 
-void BgDyYoseizo_Init(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_Destroy(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_Update(BgDyYoseizo* this, GlobalContext* globalCtx);
+#define THIS ((BgDyYoseizo*)thisx)
+
+void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgDyYoseizo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80872960(BgDyYoseizo* this, GlobalContext* globalCtx, s16 arg2);
 void func_80872C58(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_80872D20(BgDyYoseizo* this, GlobalContext* globalCtx);
@@ -34,6 +37,7 @@ void func_80874BE0(BgDyYoseizo* this, GlobalContext* globalCtx);
 // func_80874D9C
 void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx);
+
 /*
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,

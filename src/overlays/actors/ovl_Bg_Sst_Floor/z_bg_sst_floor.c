@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void BgSstFloor_Init(BgSstFloor* this, GlobalContext* globalCtx);
-void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);
-void BgSstFloor_Update(BgSstFloor* this, GlobalContext* globalCtx);
-void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
+#define THIS ((BgSstFloor*)thisx)
+
+void BgSstFloor_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSstFloor_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSstFloor_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSstFloor_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Sst_Floor_InitVars = {

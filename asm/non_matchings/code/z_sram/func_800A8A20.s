@@ -1,3 +1,99 @@
+.rdata
+glabel D_80140A00
+    .asciz "ＳＲＡＭ ＳＴＡＲＴ─ＬＯＡＤ\n"
+    # EUC-JP: ＳＲＡＭ ＳＴＡＲＴ─ＬＯＡＤ
+    .balign 4
+
+glabel D_80140A20
+    .asciz "ぽいんと＝%x(%d)    SAVE_MAX=%d\n"
+    # EUC-JP: ぽいんと＝ | Point=
+    .balign 4
+
+glabel D_80140A44
+    .asciz "\n＝＝＝＝＝＝＝＝＝＝＝＝＝  Ｓ（%d） ＝＝＝＝＝＝＝＝＝＝＝＝＝\n"
+    # EUC-JP: ＝＝＝＝＝＝＝＝＝＝＝＝＝ Ｓ（%d） ＝＝＝＝＝＝＝＝＝＝＝＝＝ 
+    .balign 4
+
+glabel D_80140A88
+    .asciz "\nＳＡＶＥチェックサム計算  j=%x  mmm=%x  "
+    # EUC-JP: ＳＡＶＥチェックサム計算 | SAVE checksum calculation
+    .balign 4
+
+glabel D_80140AB4
+    .asciz "ＥＲＲＯＲ！！！ ＝ %x(%d)\n"
+    # EUC-JP: ＥＲＲＯＲ！！！ ＝ 
+    .balign 4
+
+glabel D_80140AD0
+    .asciz "================= ＢＡＣＫ─ＵＰ ========================\n"
+    # EUC-JP: ＢＡＣＫ─ＵＰ
+    .balign 4
+
+glabel D_80140B0C
+    .asciz "\n（Ｂ）ＳＡＶＥチェックサム計算  j=%x  mmm=%x  "
+    # EUC-JP: （Ｂ）ＳＡＶＥチェックサム計算 | (B) SAVE checksum calculation
+    .balign 4
+
+glabel D_80140B3C
+    .asciz "ＥＲＲＯＲ！！！ ＝ %x(%d+3)\n"
+    #EUR-JP: ＥＲＲＯＲ！！！ ＝ 
+    .balign 4
+
+glabel D_80140B5C
+    .asciz "newf=%x,%x,%x,%x,%x,%x\n"
+    .balign 4
+
+glabel D_80140B74
+    .asciz "\n--------------------------------------------------------------\n"
+    .balign 4
+
+glabel D_80140BB8
+    .asciz "%x "
+    .balign 4
+
+glabel D_80140BBC
+    .asciz "\n"
+    .balign 4
+
+glabel D_80140BC0
+    .asciz "\nCheck_Sum=%x(%x)\n"
+    .balign 4
+
+glabel D_80140BD4
+    .asciz "????#%x,%x,%x,%x,%x,%x\n"
+    .balign 4
+
+glabel D_80140BEC
+    .asciz "\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n"
+    # EUC-JP: ぽいんと＝ | Point = 
+    .balign 4
+
+glabel D_80140C14
+    .asciz "ぽいんと＝%x(%d)  check_sum=%x(%x)\n"
+    .balign 4
+
+glabel D_80140C38
+    .asciz "\nＳＡＶＥデータ ＯＫ！！！！\n"
+    # EUC-JP: ＳＡＶＥデータ ＯＫ！！！！ | SAVE data OK! ! ! !
+    .balign 4
+
+glabel D_80140C58
+    .asciz "SAVECT=%x, NAME=%x, LIFE=%x, ITEM=%x,  64DD=%x,  HEART=%x\n"
+    .balign 4
+
+glabel D_80140C94
+    .asciz "f_64dd=%d, %d, %d\n"
+    .balign 4
+
+glabel D_80140CA8
+    .asciz "heart_status=%d, %d, %d\n"
+    .balign 4
+
+glabel D_80140CC4
+    .asciz "now_life=%d, %d, %d\n"
+    .balign 4
+
+.text
 glabel func_800A8A20
 /* B1FBC0 800A8A20 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B1FBC4 800A8A24 AFA40078 */  sw    $a0, 0x78($sp)

@@ -8,13 +8,16 @@
 
 #define FLAGS 0x00000010
 
-void BgHidanSyoku_Init(BgHidanSyoku* this, GlobalContext* globalCtx);
-void BgHidanSyoku_Destroy(BgHidanSyoku* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanSyoku*)thisx)
+
+void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx);
 void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx);
 void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
-void BgHidanSyoku_Update(BgHidanSyoku* this, GlobalContext* globalCtx);
-void BgHidanSyoku_Draw(BgHidanSyoku* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
@@ -28,39 +31,42 @@ const ActorInit Bg_Hidan_Syoku_InitVars = {
     (ActorFunc)BgHidanSyoku_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_PTR D_0600A7E0;
-extern UNK_PTR D_0600E568;
+extern Gfx D_0600A7E0[];
+extern UNK_TYPE D_0600E568;
 
-void BgHidanSyoku_Init(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    s32 pad[2];
-    u32 local_c = 0;
+void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSyoku* this = THIS;
+    s32 pad;
+    CollisionHeader* local_c = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, initChain);
-    func_80043480(&this->dyna.actor, 1);
-    func_80041880(&D_0600E568, &local_c);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
-    this->updateFunc = &func_8088F4B8;
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyInfo_SetActorMove(&this->dyna, 1);
+    DynaPolyInfo_Alloc(&D_0600E568, &local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+    this->actionFunc = func_8088F4B8;
     this->dyna.actor.initPosRot.pos.y += 540.0f;
 }
 
-void BgHidanSyoku_Destroy(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSyoku* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_8088F47C(BgHidanSyoku* this) {
     this->unk_16A = 0x3C;
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-    this->updateFunc = func_8088F62C;
+    this->actionFunc = func_8088F62C;
 }
 
 void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, this->dyna.actor.room) && func_8004356C(&this->dyna.actor)) {
         this->unk_16A = 0x8C;
-        this->updateFunc = func_8088F514;
+        this->actionFunc = func_8088F514;
     }
 }
 
@@ -72,7 +78,7 @@ void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, 0x20b9);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -84,7 +90,7 @@ void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, 0x20b9);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -95,23 +101,23 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         this->unk_16A = 0x8c;
         if (this->dyna.actor.posRot.pos.y < this->dyna.actor.initPosRot.pos.y) {
-            this->updateFunc = func_8088F514;
+            this->actionFunc = func_8088F514;
         } else {
-            this->updateFunc = func_8088F5A0;
+            this->actionFunc = func_8088F5A0;
         }
     }
 }
 
-void BgHidanSyoku_Update(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    this->updateFunc(this, globalCtx);
+void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSyoku* this = THIS;
+
+    this->actionFunc(this, globalCtx);
     if (func_8004356C(&this->dyna.actor)) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
         func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
-        return;
-    }
-    if (!func_8004356C(&this->dyna.actor)) {
+    } else if (!func_8004356C(&this->dyna.actor)) {
         if (this->unk_168 != 0) {
             func_8005A77C(globalCtx->cameraPtrs[0], 3);
         }
@@ -119,6 +125,6 @@ void BgHidanSyoku_Update(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHidanSyoku_Draw(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_0600A7E0);
+void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_0600A7E0);
 }

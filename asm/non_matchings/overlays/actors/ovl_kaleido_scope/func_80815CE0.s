@@ -1,10 +1,140 @@
+.rdata
+glabel D_8082F4C0
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F4C4
+    .asciz "\x8Cﾙﾋﾟｰ" 
+    .balign 4
+
+glabel D_8082F4D0
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F4D4
+    .asciz "\x8Cﾊｰﾄ"
+    .balign 4
+
+glabel D_8082F4DC
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F4E0
+    .asciz "/4"
+    .balign 4
+
+glabel D_8082F4E4
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F4E8
+    .asciz "\x8Cｱｲﾃﾑ"
+    .balign 4
+
+glabel D_8082F4F4
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F4F8
+    .asciz "KEY"
+    .balign 4
+
+glabel D_8082F4FC
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F500
+    .asciz "\x8Dｿｳﾋﾞ"
+    .balign 4
+
+glabel D_8082F50C
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F510
+    .asciz "\x8Cｹﾝ"
+    .balign 4
+
+glabel D_8082F518
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F51C
+    .asciz "\x8Cﾀﾃ"
+    .balign 4
+
+glabel D_8082F524
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F528
+    .asciz "MAP"
+    .balign 4
+
+glabel D_8082F52C
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F530
+    .asciz "\x8Dﾌｳｲﾝ"
+    .balign 4
+
+glabel D_8082F53C
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F540
+    .asciz "\x8Dｾｲﾚｲｾｷ"
+    .balign 4
+
+glabel D_8082F550
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F554
+    .asciz "\x8Cｵｶﾘﾅ"
+    .balign 4
+
+glabel D_8082F560
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F564
+    .asciz "\x8Cｺﾚｸﾄ"
+    .balign 4
+
+glabel D_8082F570
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F574
+    .asciz "\x8Cｷﾝｽﾀ"
+    .balign 4
+
+glabel D_8082F580
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F584
+    .asciz "\x8Cｶｹﾗ"
+    .balign 4
+
+glabel D_8082F58C
+    .asciz "%s"
+    .balign 4
+
+glabel D_8082F590
+    .asciz "/4"
+    .balign 4
+
+.text   
 glabel func_80815CE0
 /* 024C0 80815CE0 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 024C4 80815CE4 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 024C8 80815CE8 27B00030 */  addiu   $s0, $sp, 0x0030           ## $s0 = FFFFFFD0
 /* 024CC 80815CEC AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 024D0 80815CF0 AFA40060 */  sw      $a0, 0x0060($sp)           
-/* 024D4 80815CF4 0C03EEE3 */  jal     GfxPrint_Ctor              
+/* 024D4 80815CF4 0C03EEE3 */  jal     GfxPrint_Init              
 /* 024D8 80815CF8 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
 /* 024DC 80815CFC 8FAE0060 */  lw      $t6, 0x0060($sp)           
 /* 024E0 80815D00 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
@@ -214,7 +344,7 @@ glabel func_80815CE0
 /* 0278C 80815FAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
 /* 02790 80815FB0 8FB80060 */  lw      $t8, 0x0060($sp)           
 /* 02794 80815FB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFD0
-/* 02798 80815FB8 0C03EF05 */  jal     GfxPrint_Dtor              
+/* 02798 80815FB8 0C03EF05 */  jal     GfxPrint_Destroy              
 /* 0279C 80815FBC AF020000 */  sw      $v0, 0x0000($t8)           ## 00000000
 /* 027A0 80815FC0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 027A4 80815FC4 8FB00020 */  lw      $s0, 0x0020($sp)           

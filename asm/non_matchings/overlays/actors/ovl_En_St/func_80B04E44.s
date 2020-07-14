@@ -54,11 +54,11 @@ glabel func_80B04E44
 /* 00684 80B04F14 27A50028 */  addiu   $a1, $sp, 0x0028           ## $a1 = FFFFFFD0
 /* 00688 80B04F18 0C034221 */  jal     Matrix_Pull              
 /* 0068C 80B04F1C 00000000 */  nop
-/* 00690 80B04F20 0C009AC3 */  jal     func_80026B0C              
+/* 00690 80B04F20 0C009AC3 */  jal     Effect_GetByIndex              
 /* 00694 80B04F24 8E040404 */  lw      $a0, 0x0404($s0)           ## 00000404
 /* 00698 80B04F28 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 0069C 80B04F2C 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFDC
-/* 006A0 80B04F30 0C007F7C */  jal     func_8001FDF0              
+/* 006A0 80B04F30 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 006A4 80B04F34 27A60028 */  addiu   $a2, $sp, 0x0028           ## $a2 = FFFFFFD0
 /* 006A8 80B04F38 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 006AC 80B04F3C 8FB00018 */  lw      $s0, 0x0018($sp)           

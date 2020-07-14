@@ -1,16 +1,18 @@
 /*
  * File: z_door_toki.c
  * Overlay: ovl_Door_Toki
- * Description: Manages collision for the Door of Time.
+ * Description: Door of Time Collision
  */
 
 #include "z_door_toki.h"
 
 #define FLAGS 0x00000000
 
-void DoorToki_Init(DoorToki* this, GlobalContext* globalCtx);
-void DoorToki_Destroy(DoorToki* this, GlobalContext* globalCtx);
-void DoorToki_Update(DoorToki* this, GlobalContext* globalCtx);
+#define THIS ((DoorToki*)thisx)
+
+void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx);
+void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Door_Toki_InitVars = {
     ACTOR_DOOR_TOKI,
@@ -24,28 +26,32 @@ const ActorInit Door_Toki_InitVars = {
     NULL,
 };
 
-// This has to be defined in the linker to produce a proper lui addiu pair
-extern u32 DOOR_TOKI_COLLISION_DATA;
+extern UNK_TYPE D_06007888;
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-void DoorToki_Init(DoorToki* this, GlobalContext* globalCtx) {
-    s32 pad[2];
-    u32 sp1C = 0;
+void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DoorToki* this = THIS;
+    s32 pad;
+    CollisionHeader* sp1C = NULL;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
-    func_80043480(&this->actor, 0);
-    func_80041880(&DOOR_TOKI_COLLISION_DATA, &sp1C);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    DynaPolyInfo_SetActorMove(&this->actor, 0);
+    DynaPolyInfo_Alloc(&D_06007888, &sp1C);
+    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
 }
 
-void DoorToki_Destroy(DoorToki* this, GlobalContext* globalCtx) {
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    DoorToki* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-void DoorToki_Update(DoorToki* this, GlobalContext* globalCtx) {
+void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DoorToki* this = THIS;
+
     if (gSaveContext.eventChkInf[4] & 0x800) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
     } else {

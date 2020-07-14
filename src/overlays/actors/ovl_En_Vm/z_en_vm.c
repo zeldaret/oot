@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000011
 
-void EnVm_Init(EnVm* this, GlobalContext* globalCtx);
-void EnVm_Destroy(EnVm* this, GlobalContext* globalCtx);
-void EnVm_Update(EnVm* this, GlobalContext* globalCtx);
-void EnVm_Draw(EnVm* this, GlobalContext* globalCtx);
+#define THIS ((EnVm*)thisx)
+
+void EnVm_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnVm_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Vm_InitVars = {
