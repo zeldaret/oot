@@ -4865,37 +4865,38 @@ s32 Camera_Unique8(Camera* camera) {
 }
 
 s32 Camera_Unique9(Camera *camera) {
-    f32 sp114;
-    f32 sp110;
-    f32 txd;
-    Vec3f sp100;
+    Vec3f atTarget;
+    Vec3f eyeTarget;
     Unique9* uniq9 = &camera->params.uniq9.uniq9;
-    Unique9Anim *temp_s0 = &camera->params.uniq9.uniq9.anim;
-    f32 temp_f2;
-    VecSph spEC;
-    VecSph spE4;
-    VecSph spDC;
-    s16 spDA; // da
-    s16 temp_a3; // d8 
-    s16 hmmm; // d6
-    s16 spD4; // d4
-    PosRot spC0;
-    PosRot spAC;
-    PosRot sp98;
-    Vec3f *sp34 = &camera->eyeNext;
-    Vec3f *sp30 = &camera->at;
-    s16 phi_a0;
-    struct Player *sp88;
-    Actor *phi_a2;
-    f32 spB4;
-    PosRot sp6C;
-    Vec3f sp60;
-    Vec3f *sp2C = &camera->eye;
-    PosRot sp48;
-    CameraModeValue* values;
-    //f32 spF4;
+    Unique9Anim *anim = &camera->params.uniq9.uniq9.anim;
+    f32 invKeyFrameTimer;
+    VecSph eyeNextAtOffset;
+    VecSph scratchSph; // reused for different purposes throughout
+    VecSph playerTargetOffset;
 
-    sp88 = camera->player;
+    /* might be some kind of struct? */
+    s16 pad;
+    s16 atInitFlags;
+    s16 eyeInitFlags;
+    s16 pad2;
+
+    PosRot targetPosRot2;
+    PosRot playerPosRot2;
+    PosRot playerPosRot;
+    Vec3f *eyeNext = &camera->eyeNext;
+    Vec3f *at = &camera->at;
+    s16 action;
+    Player *player;
+    Actor *focusActor;
+    f32 spB4;
+    PosRot atFocusPosRot;
+    Vec3f eyeLookAtPos;
+    Vec3f *eye = &camera->eye;
+    PosRot eyeFocusPosRot;
+    CameraModeValue* values;
+
+    player = camera->player;
+    
     if(RELOAD_PARAMS){
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         uniq9->interfaceFlags = NEXTSETTING;
@@ -4906,359 +4907,379 @@ s32 Camera_Unique9(Camera *camera) {
     }
     
     sCameraInterfaceFlags = uniq9->interfaceFlags;
-    func_8002EF14(&sp98, &camera->player->actor);
+
+    func_8002EF14(&playerPosRot, &camera->player->actor);
     
     if (camera->animState == 0) {
         camera->animState++;
-        temp_s0->unk_36 = -1;
-        temp_s0->unk_3C = 1;
-        temp_s0->unk_38 = 0;
-        temp_s0->unk_1C.x = sp98.pos.x;
-        temp_s0->unk_1C.y = sp98.pos.y;
-        temp_s0->unk_1C.z = sp98.pos.z;
+        anim->curKeyFrameIdx = -1;
+        anim->keyFrameTimer = 1;
+        anim->unk_38 = 0;
+        anim->playerPos.x = playerPosRot.pos.x;
+        anim->playerPos.y = playerPosRot.pos.y;
+        anim->playerPos.z = playerPosRot.pos.z;
         camera->atLERPStepScale = 0.0f;
         func_80043B60(camera);
     }
 
-    if (temp_s0->unk_38 == 0 && temp_s0->unk_3C > 0) {
-        temp_s0->unk_3C--;
+    if (anim->unk_38 == 0 && anim->keyFrameTimer > 0) {
+        anim->keyFrameTimer--;
     }
     
-    if (temp_s0->unk_3C == 0) {
-        temp_s0->unk_3A = 1;
-        temp_s0->unk_36++;
-        if (temp_s0->unk_36 < camera->params.uniq9.unk_00) {
-            temp_s0->unk_00 = &camera->params.uniq9.unk_04[temp_s0->unk_36];
-            temp_s0->unk_3C = temp_s0->unk_00->unk_04;
+    if (anim->keyFrameTimer == 0) {
+        anim->isNewKeyFrame = true;
+        anim->curKeyFrameIdx++;
+        if (anim->curKeyFrameIdx < camera->params.uniq9.keyFrameCnt) {
+            anim->curKeyFrame = &camera->params.uniq9.keyFrames[anim->curKeyFrameIdx];
+            anim->keyFrameTimer = anim->curKeyFrame->timerInit;
             
-            if (temp_s0->unk_00->unk_01 != 0xFF) {
-                if ((temp_s0->unk_00->unk_01 & 0xF0) == 0x80) {
-                    D_8011D3AC = temp_s0->unk_00->unk_01 & 0xF;
-                } else if ((temp_s0->unk_00->unk_01 & 0xF0) == 0xC0) {
-                    Camera_UpdateInterface(0xF000 | ((temp_s0->unk_00->unk_01 & 0xF) << 8));
-                } else if (camera->player->stateFlags1 & 0x8000000 && sp88->currentBoots != 1) {
+            if (anim->curKeyFrame->unk_01 != 0xFF) {
+                if ((anim->curKeyFrame->unk_01 & 0xF0) == 0x80) {
+                    D_8011D3AC = anim->curKeyFrame->unk_01 & 0xF;
+                } else if ((anim->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
+                    Camera_UpdateInterface(0xF000 | ((anim->curKeyFrame->unk_01 & 0xF) << 8));
+                } else if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != 1) {
                     func_8002DF38(camera->globalCtx, camera->target, 8);
                     osSyncPrintf("camera: demo: player demo set WAIT\n");
                 } else {
-                    osSyncPrintf("camera: demo: player demo set %d\n", temp_s0->unk_00->unk_01);
-                    func_8002DF38(camera->globalCtx, camera->target, temp_s0->unk_00->unk_01);
+                    osSyncPrintf("camera: demo: player demo set %d\n", anim->curKeyFrame->unk_01);
+                    func_8002DF38(camera->globalCtx, camera->target, anim->curKeyFrame->unk_01);
                 }
             }
         } else {
+            // We've gone through all the keyframes.
             if (camera->thisIdx != 0) {
                 camera->unk_160 = 0;
             }
-            return 1;
+            return true;
         }
     } else {
-        temp_s0->unk_3A = 0;
+        anim->isNewKeyFrame = false;
     }
 
-    temp_a3 = temp_s0->unk_00->unk_02 & 0xFF;
-    if(temp_a3 == 1){
-        temp_s0->unk_04 = temp_s0->unk_00->unk_10;
-    } else if(temp_a3 == 2){
-        if (temp_s0->unk_3A != 0) {
-            temp_s0->unk_04.x = camera->globalCtx->view.lookAt.x + temp_s0->unk_00->unk_10.x;
-            temp_s0->unk_04.y = camera->globalCtx->view.lookAt.y + temp_s0->unk_00->unk_10.y;
-            temp_s0->unk_04.z = camera->globalCtx->view.lookAt.z + temp_s0->unk_00->unk_10.z;
+    atInitFlags = anim->curKeyFrame->initFlags & 0xFF;
+    if(atInitFlags == 1){
+        anim->atTarget = anim->curKeyFrame->atTargetInit;
+    } else if(atInitFlags == 2){
+        if (anim->isNewKeyFrame) {
+            anim->atTarget.x = camera->globalCtx->view.lookAt.x + anim->curKeyFrame->atTargetInit.x;
+            anim->atTarget.y = camera->globalCtx->view.lookAt.y + anim->curKeyFrame->atTargetInit.y;
+            anim->atTarget.z = camera->globalCtx->view.lookAt.z + anim->curKeyFrame->atTargetInit.z;
         }
-    } else if(temp_a3 == 3){
-        if (temp_s0->unk_3A != 0) {
-            temp_s0->unk_04.x = camera->at.x + temp_s0->unk_00->unk_10.x;
-            temp_s0->unk_04.y = camera->at.y + temp_s0->unk_00->unk_10.y;
-            temp_s0->unk_04.z = camera->at.z + temp_s0->unk_00->unk_10.z;
+    } else if(atInitFlags == 3){
+        if (anim->isNewKeyFrame) {
+            anim->atTarget.x = camera->at.x + anim->curKeyFrame->atTargetInit.x;
+            anim->atTarget.y = camera->at.y + anim->curKeyFrame->atTargetInit.y;
+            anim->atTarget.z = camera->at.z + anim->curKeyFrame->atTargetInit.z;
         }
-    } else if(temp_a3 == 4 || temp_a3 == 0x84){
+    } else if(atInitFlags == 4 || atInitFlags == 0x84){
         if (camera->target != NULL && camera->target->update != NULL) {
-                func_8002EEE4(&spC0, camera->target);
-                func_8002EEE4(&spAC, camera->player);
-                spAC.pos.x = sp98.pos.x;
-                spAC.pos.z = sp98.pos.z;
-                OLib_Vec3fDiffToVecSphRot90(&spDC, &spC0.pos, &spAC.pos);
-                if (temp_a3 & (s16)0x8080) {
-                    spE4.pitch = DEGF_TO_BINANG(temp_s0->unk_00->unk_10.x);
-                    spE4.yaw = DEGF_TO_BINANG(temp_s0->unk_00->unk_10.y);
-                    spE4.r = temp_s0->unk_00->unk_10.z;
-                } else {
-                    OLib_Vec3fToVecSphRot90(&spE4, &temp_s0->unk_00->unk_10);
-                }
-                spE4.yaw += spDC.yaw;
-                spE4.pitch += spDC.pitch;
-                Camera_Vec3fVecSphAdd(&temp_s0->unk_04, &spC0.pos, &spE4);
+            func_8002EEE4(&targetPosRot2, camera->target);
+            func_8002EEE4(&playerPosRot2, camera->player);
+            playerPosRot2.pos.x = playerPosRot.pos.x;
+            playerPosRot2.pos.z = playerPosRot.pos.z;
+            OLib_Vec3fDiffToVecSphRot90(&playerTargetOffset, &targetPosRot2.pos, &playerPosRot2.pos);
+            if (atInitFlags & (s16)0x8080) {
+                scratchSph.pitch = DEGF_TO_BINANG(anim->curKeyFrame->atTargetInit.x);
+                scratchSph.yaw = DEGF_TO_BINANG(anim->curKeyFrame->atTargetInit.y);
+                scratchSph.r = anim->curKeyFrame->atTargetInit.z;
+            } else {
+                OLib_Vec3fToVecSphRot90(&scratchSph, &anim->curKeyFrame->atTargetInit);
+            }
+            scratchSph.yaw += playerTargetOffset.yaw;
+            scratchSph.pitch += playerTargetOffset.pitch;
+            Camera_Vec3fVecSphAdd(&anim->atTarget, &targetPosRot2.pos, &scratchSph);
         } else {
             if (camera->target == NULL) {
                 osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
             }
             
             camera->target = NULL;
-            temp_s0->unk_04 = camera->at;
+            anim->atTarget = camera->at;
         }
-    } else if (temp_a3 & 0x6060) {
-        if (!(temp_a3 & 4) || temp_s0->unk_3A != 0) {
-
-            if (temp_a3 & 0x2020) {
-                phi_a2 = &camera->player->actor;
+    } else if (atInitFlags & 0x6060) {
+        if (!(atInitFlags & 4) || anim->isNewKeyFrame) {
+            if (atInitFlags & 0x2020) {
+                focusActor = &camera->player->actor;
             } else if (camera->target != NULL && camera->target->update != NULL) {
-                phi_a2 = camera->target;
+                focusActor = camera->target;
             } else {
                 camera->target = NULL;
-                phi_a2 = NULL;
+                focusActor = NULL;
             }
 
-            if (phi_a2 != NULL) {
-                if ((temp_a3 & 0xF) == 1) {
-                    func_8002EEE4(&sp6C, phi_a2);
-                } else if ((temp_a3 & 0xF) == 2) {
-                    func_8002EF14(&sp6C, phi_a2);
+            if (focusActor != NULL) {
+                if ((atInitFlags & 0xF) == 1) {
+                    // posRot2
+                    func_8002EEE4(&atFocusPosRot, focusActor);
+                } else if ((atInitFlags & 0xF) == 2) {
+                    // posRot
+                    func_8002EF14(&atFocusPosRot, focusActor);
                 } else {
-                    func_8002EF44(&sp6C, phi_a2);
+                    // posRot, shape rot
+                    func_8002EF44(&atFocusPosRot, focusActor);
                 }
                 
-                if (temp_a3 & (s16)0x8080) {
-                    spE4.pitch = DEGF_TO_BINANG(temp_s0->unk_00->unk_10.x);
-                    spE4.yaw = DEGF_TO_BINANG(temp_s0->unk_00->unk_10.y);
-                    spE4.r = temp_s0->unk_00->unk_10.z;
+                if (atInitFlags & (s16)0x8080) {
+                    scratchSph.pitch = DEGF_TO_BINANG(anim->curKeyFrame->atTargetInit.x);
+                    scratchSph.yaw = DEGF_TO_BINANG(anim->curKeyFrame->atTargetInit.y);
+                    scratchSph.r = anim->curKeyFrame->atTargetInit.z;
                 } else {
-                    OLib_Vec3fToVecSphRot90(&spE4, &temp_s0->unk_00->unk_10);
+                    OLib_Vec3fToVecSphRot90(&scratchSph, &anim->curKeyFrame->atTargetInit);
                 }
 
-                spE4.yaw += sp6C.rot.y;
-                spE4.pitch -= sp6C.rot.x;
-                Camera_Vec3fVecSphAdd(&temp_s0->unk_04, &sp6C.pos, &spE4);
+                scratchSph.yaw += atFocusPosRot.rot.y;
+                scratchSph.pitch -= atFocusPosRot.rot.x;
+                Camera_Vec3fVecSphAdd(&anim->atTarget, &atFocusPosRot.pos, &scratchSph);
             } else {
                 if (camera->target == NULL) {
                     osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
                 }
-                temp_s0->unk_04 = camera->at;
+                anim->atTarget = *at;
             }
         }
     } else {
-        temp_s0->unk_04 = camera->at;
+        anim->atTarget = *at;
     }
 
-    hmmm = temp_s0->unk_00->unk_02 & 0xFF00;
-    if (hmmm == 0x100) {
-        temp_s0->unk_10 = temp_s0->unk_00->unk_1C;
-    } else if (hmmm == 0x200) {
-        if (temp_s0->unk_3A != 0) {
-            temp_s0->unk_10.x = camera->globalCtx->view.eye.x + temp_s0->unk_00->unk_1C.x;
-            temp_s0->unk_10.y = camera->globalCtx->view.eye.y + temp_s0->unk_00->unk_1C.y;
-            temp_s0->unk_10.z = camera->globalCtx->view.eye.z + temp_s0->unk_00->unk_1C.z;
+    eyeInitFlags = anim->curKeyFrame->initFlags & 0xFF00;
+    if (eyeInitFlags == 0x100) {
+        anim->eyeTarget = anim->curKeyFrame->eyeTargetInit;
+    } else if (eyeInitFlags == 0x200) {
+        if (anim->isNewKeyFrame) {
+            anim->eyeTarget.x = camera->globalCtx->view.eye.x + anim->curKeyFrame->eyeTargetInit.x;
+            anim->eyeTarget.y = camera->globalCtx->view.eye.y + anim->curKeyFrame->eyeTargetInit.y;
+            anim->eyeTarget.z = camera->globalCtx->view.eye.z + anim->curKeyFrame->eyeTargetInit.z;
         }
-    } else if (hmmm == 0x300) {
-        if (temp_s0->unk_3A != 0) {
-            temp_s0->unk_10.x = camera->eyeNext.x + temp_s0->unk_00->unk_1C.x;
-            temp_s0->unk_10.y = camera->eyeNext.y + temp_s0->unk_00->unk_1C.y;
-            temp_s0->unk_10.z = camera->eyeNext.z + temp_s0->unk_00->unk_1C.z;
+    } else if (eyeInitFlags == 0x300) {
+        if (anim->isNewKeyFrame) {
+            anim->eyeTarget.x = camera->eyeNext.x + anim->curKeyFrame->eyeTargetInit.x;
+            anim->eyeTarget.y = camera->eyeNext.y + anim->curKeyFrame->eyeTargetInit.y;
+            anim->eyeTarget.z = camera->eyeNext.z + anim->curKeyFrame->eyeTargetInit.z;
         }
     } else {
-        if(hmmm == 0x400 || hmmm == (s16)0x8400 || hmmm == 0x500 || hmmm == (s16)0x8500){
+        if(eyeInitFlags == 0x400 || eyeInitFlags == (s16)0x8400 || eyeInitFlags == 0x500 || eyeInitFlags == (s16)0x8500){
             if (camera->target != NULL && camera->target->update != NULL) {
-                func_8002EEE4(&spC0, camera->target);
-                func_8002EEE4(&spAC, &camera->player->actor);
-                spAC.pos.x = sp98.pos.x;
-                spAC.pos.z = sp98.pos.z;
-                OLib_Vec3fDiffToVecSphRot90(&spDC, &spC0.pos, &spAC.pos);
-                if (hmmm == 0x400 || hmmm == (s16)0x8400) {
-                    sp60 = spC0.pos;
+                func_8002EEE4(&targetPosRot2, camera->target);
+                func_8002EEE4(&playerPosRot2, &camera->player->actor);
+                playerPosRot2.pos.x = playerPosRot.pos.x;
+                playerPosRot2.pos.z = playerPosRot.pos.z;
+                OLib_Vec3fDiffToVecSphRot90(&playerTargetOffset, &targetPosRot2.pos, &playerPosRot2.pos);
+                if (eyeInitFlags == 0x400 || eyeInitFlags == (s16)0x8400) {
+                    eyeLookAtPos = targetPosRot2.pos;
                 } else {
-                    sp60 = temp_s0->unk_04;
+                    eyeLookAtPos = anim->atTarget;
                 }
 
-                if (hmmm & (s16)0x8080) {
-                    spE4.pitch = DEGF_TO_BINANG(temp_s0->unk_00->unk_1C.x);
-                    spE4.yaw = DEGF_TO_BINANG(temp_s0->unk_00->unk_1C.y);
-                    spE4.r = temp_s0->unk_00->unk_1C.z;
+                if (eyeInitFlags & (s16)0x8080) {
+                    scratchSph.pitch = DEGF_TO_BINANG(anim->curKeyFrame->eyeTargetInit.x);
+                    scratchSph.yaw = DEGF_TO_BINANG(anim->curKeyFrame->eyeTargetInit.y);
+                    scratchSph.r = anim->curKeyFrame->eyeTargetInit.z;
                 } else {
-                    OLib_Vec3fToVecSphRot90(&spE4, &temp_s0->unk_00->unk_1C);
+                    OLib_Vec3fToVecSphRot90(&scratchSph, &anim->curKeyFrame->eyeTargetInit);
                 }
 
-                spE4.yaw += spDC.yaw;
-                spE4.pitch += spDC.pitch;
-                Camera_Vec3fVecSphAdd(&temp_s0->unk_10, &sp60, &spE4);
+                scratchSph.yaw += playerTargetOffset.yaw;
+                scratchSph.pitch += playerTargetOffset.pitch;
+                Camera_Vec3fVecSphAdd(&anim->eyeTarget, &eyeLookAtPos, &scratchSph);
             } else {
                 if (camera->target == NULL) {
                     osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
                 }
                 camera->target = NULL;
-                temp_s0->unk_10 = camera->eyeNext;
+                anim->eyeTarget = *eyeNext;
             }
         } else {
-            if (hmmm & 0x6060) {
-                if(!(hmmm & 0x400) || temp_s0->unk_3A !=0){
-
-                    if (hmmm & 0x2020) {
-                        phi_a2 = camera->player;
+            if (eyeInitFlags & 0x6060) {
+                if(!(eyeInitFlags & 0x400) || anim->isNewKeyFrame){
+                    if (eyeInitFlags & 0x2020) {
+                        focusActor = camera->player;
                     } else if (camera->target != NULL && camera->target->update != NULL) {
-                        phi_a2 = camera->target;
+                        focusActor = camera->target;
                     } else {
                         camera->target = NULL;
-                        phi_a2 = NULL;
+                        focusActor = NULL;
                     }
 
-                    if (phi_a2 != NULL) {
-                        if ((hmmm & 0xF00) == 0x100){
-                            func_8002EEE4(&sp48, phi_a2);
-                        } else  if ((hmmm & 0xF00) == 0x200) {
-                            func_8002EF14(&sp48, phi_a2);
+                    if (focusActor != NULL) {
+                        if ((eyeInitFlags & 0xF00) == 0x100){
+                            // posRot2
+                            func_8002EEE4(&eyeFocusPosRot, focusActor);
+                        } else  if ((eyeInitFlags & 0xF00) == 0x200) {
+                            // posRot
+                            func_8002EF14(&eyeFocusPosRot, focusActor);
                         } else {
-                            func_8002EF44(&sp48, phi_a2);
+                            // posRot, shapeRot
+                            func_8002EF44(&eyeFocusPosRot, focusActor);
                         }
 
-                        if (hmmm & (s16)0x8080) {
-                            spE4.pitch = DEGF_TO_BINANG(temp_s0->unk_00->unk_1C.x);
-                            spE4.yaw = DEGF_TO_BINANG(temp_s0->unk_00->unk_1C.y);
-                            spE4.r = temp_s0->unk_00->unk_1C.z;
+                        if (eyeInitFlags & (s16)0x8080) {
+                            scratchSph.pitch = DEGF_TO_BINANG(anim->curKeyFrame->eyeTargetInit.x);
+                            scratchSph.yaw = DEGF_TO_BINANG(anim->curKeyFrame->eyeTargetInit.y);
+                            scratchSph.r = anim->curKeyFrame->eyeTargetInit.z;
                         } else {
-                            OLib_Vec3fToVecSphRot90(&spE4, &temp_s0->unk_00->unk_1C);
+                            OLib_Vec3fToVecSphRot90(&scratchSph, &anim->curKeyFrame->eyeTargetInit);
                         }
 
-                        spE4.yaw += sp48.rot.y;
-                        spE4.pitch -= sp48.rot.x;
-                        Camera_Vec3fVecSphAdd(&temp_s0->unk_10, &sp48.pos, &spE4);
+                        scratchSph.yaw += eyeFocusPosRot.rot.y;
+                        scratchSph.pitch -= eyeFocusPosRot.rot.x;
+                        Camera_Vec3fVecSphAdd(&anim->eyeTarget, &eyeFocusPosRot.pos, &scratchSph);
                     } else {
                         if (camera->target == NULL) {
                             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
                         }
                         camera->target = NULL;
-                        temp_s0->unk_10 = camera->eyeNext;
+                        anim->eyeTarget = *eyeNext;
                     }
                 }
             } else {
-                temp_s0->unk_10 = camera->eyeNext;
+                anim->eyeTarget = *eyeNext;
             }
         }
     }
 
-    if (temp_s0->unk_00->unk_02 == 2) {
-        temp_s0->unk_28 = camera->globalCtx->view.fovy;
-        temp_s0->unk_34 = 0;
-    } else if (temp_s0->unk_00->unk_02 == 0) {
-        temp_s0->unk_28 = camera->fov;
-        temp_s0->unk_34 = camera->roll;
+    if (anim->curKeyFrame->initFlags == 2) {
+        anim->fovTarget = camera->globalCtx->view.fovy;
+        anim->rollTarget = 0;
+    } else if (anim->curKeyFrame->initFlags == 0) {
+        anim->fovTarget = camera->fov;
+        anim->rollTarget = camera->roll;
     } else {
-        temp_s0->unk_28 = temp_s0->unk_00->unk_08;
-        temp_s0->unk_34 = DEGF_TO_BINANG(temp_s0->unk_00->unk_06);
+        anim->fovTarget = anim->curKeyFrame->fovTargetInit;
+        anim->rollTarget = DEGF_TO_BINANG(anim->curKeyFrame->rollTargetInit);
     }
 
-    phi_a0 = temp_s0->unk_00->unk_00 & 0x1F;
-    switch(phi_a0){
+    action = anim->curKeyFrame->actionFlags & 0x1F;
+    switch(action){
         case 15:
-            *sp30 = temp_s0->unk_04;
-            *sp34 = temp_s0->unk_10;
-            camera->fov = temp_s0->unk_28;
-            camera->roll = temp_s0->unk_34;
+            // static copy to at/eye/fov/roll
+            *at = anim->atTarget;
+            *eyeNext = anim->eyeTarget;
+            camera->fov = anim->fovTarget;
+            camera->roll = anim->rollTarget;
             camera->unk_14C |= 0x400;
             break;
         case 21:
-            if (temp_s0->unk_38 == 0) {
-                temp_s0->unk_38 = 1;
-            } else {
-                if (camera->unk_14C & 8) {
-                    temp_s0->unk_38 = 0;
-                    camera->unk_14C &= ~8;
-                }
+            // same as 15, but with unk_38 ? 
+            if (anim->unk_38 == 0) {
+                anim->unk_38 = 1;
+            } else if (camera->unk_14C & 8) {
+                anim->unk_38 = 0;
+                camera->unk_14C &= ~8;
             }
-            *sp30 = temp_s0->unk_04;
-            *sp34 = temp_s0->unk_10;
-            camera->fov = temp_s0->unk_28;
-            camera->roll = temp_s0->unk_34;
+            *at = anim->atTarget;
+            *eyeNext = anim->eyeTarget;
+            camera->fov = anim->fovTarget;
+            camera->roll = anim->rollTarget;
             break;
         case 16:
-            if (temp_s0->unk_38 == 0) {
-                temp_s0->unk_38 = 1;
+            // same as 16, but don't unset bit 0x8 on unk_14C
+            if (anim->unk_38 == 0) {
+                anim->unk_38 = 1;
             } else if (camera->unk_14C & 8) {
-                temp_s0->unk_38 = 0;
+                anim->unk_38 = 0;
             }
 
-            *sp30 = temp_s0->unk_04;
-            *sp34 = temp_s0->unk_10;
-            camera->fov = temp_s0->unk_28;
-            camera->roll = temp_s0->unk_34;
+            *at = anim->atTarget;
+            *eyeNext = anim->eyeTarget;
+            camera->fov = anim->fovTarget;
+            camera->roll = anim->rollTarget;
             break;
         case 1:
-            OLib_Vec3fDiffToVecSphRot90(&spEC, sp30, sp34);
-            OLib_Vec3fDiffToVecSphRot90(&temp_s0->unk_2C, &temp_s0->unk_04, &temp_s0->unk_10);
-            temp_f2 = 1.0f / temp_s0->unk_3C;
-            spE4.r = F32_LERPIMP(spEC.r, temp_s0->unk_2C.r, temp_f2);
-            spE4.pitch = spEC.pitch + (BINANG_SUB(temp_s0->unk_2C.pitch, spEC.pitch) * temp_f2);
-            spE4.yaw = spEC.yaw + (BINANG_SUB(temp_s0->unk_2C.yaw, spEC.yaw) * temp_f2);
-            Camera_Vec3fVecSphAdd(&sp100, sp30, &spE4);
+            // linear interpolation of eye/at using the spherical coordinates
+            OLib_Vec3fDiffToVecSphRot90(&eyeNextAtOffset, at, eyeNext);
+            OLib_Vec3fDiffToVecSphRot90(&anim->atEyeOffsetTarget, &anim->atTarget, &anim->eyeTarget);
+            invKeyFrameTimer = 1.0f / anim->keyFrameTimer;
+            scratchSph.r = F32_LERPIMP(eyeNextAtOffset.r, anim->atEyeOffsetTarget.r, invKeyFrameTimer);
+            scratchSph.pitch = eyeNextAtOffset.pitch + (BINANG_SUB(anim->atEyeOffsetTarget.pitch, eyeNextAtOffset.pitch) * invKeyFrameTimer);
+            scratchSph.yaw = eyeNextAtOffset.yaw + (BINANG_SUB(anim->atEyeOffsetTarget.yaw, eyeNextAtOffset.yaw) * invKeyFrameTimer);
+            Camera_Vec3fVecSphAdd(&eyeTarget, at, &scratchSph);
             goto setEyeNext;
         case 2:
-            temp_f2 = 1.0f / temp_s0->unk_3C;
-            sp100.x = F32_LERPIMP(camera->eyeNext.x, temp_s0->unk_10.x, temp_f2);
-            sp100.y = F32_LERPIMP(camera->eyeNext.y, temp_s0->unk_10.y, temp_f2);
-            sp100.z = F32_LERPIMP(camera->eyeNext.z, temp_s0->unk_10.z, temp_f2);
+            // linear interpolation of eye/at using the eyeTarget 
+            invKeyFrameTimer = 1.0f / anim->keyFrameTimer;
+            eyeTarget.x = F32_LERPIMP(camera->eyeNext.x, anim->eyeTarget.x, invKeyFrameTimer);
+            eyeTarget.y = F32_LERPIMP(camera->eyeNext.y, anim->eyeTarget.y, invKeyFrameTimer);
+            eyeTarget.z = F32_LERPIMP(camera->eyeNext.z, anim->eyeTarget.z, invKeyFrameTimer);
 
 setEyeNext:
-            camera->eyeNext.x = Camera_LERPFloorF(sp100.x, camera->eyeNext.x, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->eyeNext.y = Camera_LERPFloorF(sp100.y, camera->eyeNext.y, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->eyeNext.z = Camera_LERPFloorF(sp100.z, camera->eyeNext.z, temp_s0->unk_00->unk_0C, 1.0f);
+            camera->eyeNext.x = Camera_LERPFloorF(eyeTarget.x, camera->eyeNext.x, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->eyeNext.y = Camera_LERPFloorF(eyeTarget.y, camera->eyeNext.y, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->eyeNext.z = Camera_LERPFloorF(eyeTarget.z, camera->eyeNext.z, anim->curKeyFrame->lerpStepScale, 1.0f);
         case 9:
         case 10:
-                temp_f2 = 1.0f / temp_s0->unk_3C;
-                txd = F32_LERPIMP(camera->at.x, temp_s0->unk_04.x, temp_f2);
-                sp110 = F32_LERPIMP(camera->at.y, temp_s0->unk_04.y, temp_f2);
-                sp114 = F32_LERPIMP(camera->at.z, temp_s0->unk_04.z, temp_f2);
-                camera->at.x = Camera_LERPFloorF(txd, camera->at.x, temp_s0->unk_00->unk_0C, 1.0f);
-                camera->at.y = Camera_LERPFloorF(sp110, camera->at.y, temp_s0->unk_00->unk_0C, 1.0f);
-                camera->at.z = Camera_LERPFloorF(sp114, camera->at.z, temp_s0->unk_00->unk_0C, 1.0f);
-                camera->fov = Camera_LERPFloorF(F32_LERPIMP(camera->fov, temp_s0->unk_28, temp_f2), camera->fov, temp_s0->unk_00->unk_0C, 0.01f);
-                camera->roll = Camera_LERPFloorS(BINANG_LERPIMPINV(camera->roll, temp_s0->unk_34, temp_s0->unk_3C), camera->roll, temp_s0->unk_00->unk_0C, 0xA);
+            // linear interpolation of at/fov/roll
+            invKeyFrameTimer = 1.0f / anim->keyFrameTimer;
+            atTarget.x = F32_LERPIMP(camera->at.x, anim->atTarget.x, invKeyFrameTimer);
+            atTarget.y = F32_LERPIMP(camera->at.y, anim->atTarget.y, invKeyFrameTimer);
+            atTarget.z = F32_LERPIMP(camera->at.z, anim->atTarget.z, invKeyFrameTimer);
+            camera->at.x = Camera_LERPFloorF(atTarget.x, camera->at.x, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->at.y = Camera_LERPFloorF(atTarget.y, camera->at.y, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->at.z = Camera_LERPFloorF(atTarget.z, camera->at.z, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->fov = Camera_LERPFloorF(F32_LERPIMP(camera->fov, anim->fovTarget, invKeyFrameTimer), camera->fov, anim->curKeyFrame->lerpStepScale, 0.01f);
+            camera->roll = Camera_LERPFloorS(BINANG_LERPIMPINV(camera->roll, anim->rollTarget, anim->keyFrameTimer), camera->roll, anim->curKeyFrame->lerpStepScale, 0xA);
             break;
         case 4:
-            OLib_Vec3fDiffToVecSphRot90(&spEC, sp30, sp34);
-            OLib_Vec3fDiffToVecSphRot90(&temp_s0->unk_2C, &temp_s0->unk_04, &temp_s0->unk_10);
-            spE4.r = Camera_LERPCeilF(temp_s0->unk_2C.r, spEC.r, temp_s0->unk_00->unk_0C, 0.1f);
-            spE4.pitch = Camera_LERPCeilS(temp_s0->unk_2C.pitch, spEC.pitch, temp_s0->unk_00->unk_0C, 1);
-            spE4.yaw = Camera_LERPCeilS(temp_s0->unk_2C.yaw, spEC.yaw, temp_s0->unk_00->unk_0C, 1);
-            Camera_Vec3fVecSphAdd(sp34, sp30, &spE4);
+            // linear interpolation of eye/at/fov/roll using the step scale, and spherical coordinates
+            OLib_Vec3fDiffToVecSphRot90(&eyeNextAtOffset, at, eyeNext);
+            OLib_Vec3fDiffToVecSphRot90(&anim->atEyeOffsetTarget, &anim->atTarget, &anim->eyeTarget);
+            scratchSph.r = Camera_LERPCeilF(anim->atEyeOffsetTarget.r, eyeNextAtOffset.r, anim->curKeyFrame->lerpStepScale, 0.1f);
+            scratchSph.pitch = Camera_LERPCeilS(anim->atEyeOffsetTarget.pitch, eyeNextAtOffset.pitch, anim->curKeyFrame->lerpStepScale, 1);
+            scratchSph.yaw = Camera_LERPCeilS(anim->atEyeOffsetTarget.yaw, eyeNextAtOffset.yaw, anim->curKeyFrame->lerpStepScale, 1);
+            Camera_Vec3fVecSphAdd(eyeNext, at, &scratchSph);
             goto setAtFOVRoll;
         case 3:
-            camera->eyeNext.x = Camera_LERPCeilF(temp_s0->unk_10.x, camera->eyeNext.x, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->eyeNext.y = Camera_LERPCeilF(temp_s0->unk_10.y, camera->eyeNext.y, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->eyeNext.z = Camera_LERPCeilF(temp_s0->unk_10.z, camera->eyeNext.z, temp_s0->unk_00->unk_0C, 1.0f);
+            // linear interplation of eye/at/fov/roll using the step scale using eyeTarget
+            camera->eyeNext.x = Camera_LERPCeilF(anim->eyeTarget.x, camera->eyeNext.x, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->eyeNext.y = Camera_LERPCeilF(anim->eyeTarget.y, camera->eyeNext.y, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->eyeNext.z = Camera_LERPCeilF(anim->eyeTarget.z, camera->eyeNext.z, anim->curKeyFrame->lerpStepScale, 1.0f);
         case 11:
         case 12:
 setAtFOVRoll:
-            camera->at.x = Camera_LERPCeilF(temp_s0->unk_04.x, camera->at.x, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->at.y = Camera_LERPCeilF(temp_s0->unk_04.y, camera->at.y, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->at.z = Camera_LERPCeilF(temp_s0->unk_04.z, camera->at.z, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->fov = Camera_LERPCeilF(temp_s0->unk_28, camera->fov, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->roll = Camera_LERPCeilS(temp_s0->unk_34, camera->roll, temp_s0->unk_00->unk_0C, 1);
+            // linear interpolation of at/fov/roll using the step scale. 
+            camera->at.x = Camera_LERPCeilF(anim->atTarget.x, camera->at.x, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->at.y = Camera_LERPCeilF(anim->atTarget.y, camera->at.y, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->at.z = Camera_LERPCeilF(anim->atTarget.z, camera->at.z, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->fov = Camera_LERPCeilF(anim->fovTarget, camera->fov, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->roll = Camera_LERPCeilS(anim->rollTarget, camera->roll, anim->curKeyFrame->lerpStepScale, 1);
             break;
         case 13:
-            camera->at.x = Camera_LERPCeilF(temp_s0->unk_04.x, camera->at.x, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->at.y += camera->playerPosDelta.y * temp_s0->unk_00->unk_0C;
-            camera->at.z = Camera_LERPCeilF(temp_s0->unk_04.z, camera->at.z, temp_s0->unk_00->unk_0C, 1.0f);
-            OLib_Vec3fDiffToVecSphRot90((VecSph *) &spE4, sp30, sp34);
-            spE4.yaw += DEGF_TO_BINANG(temp_s0->unk_00->unk_1C.y);
-            if (spE4.pitch >= 0x3A99) {
-                spE4.pitch = 0x3A98;
-            }
-            if (spE4.pitch < -0x3A98) {
-                spE4.pitch = -0x3A98;
-            }
-            // loads spE4 into f4 then uses mov f6, f14 ?
-            spB4 = spE4.r;
-            if(1){}
-            spE4.r = !(spB4 < temp_s0->unk_00->unk_1C.z) ? Camera_LERPCeilF(temp_s0->unk_00->unk_1C.z, spB4, temp_s0->unk_00->unk_0C, 1.0f) : spE4.r;
+            // linear interpolation of at, with rotation around eyeTargetInit.y
+            camera->at.x = Camera_LERPCeilF(anim->atTarget.x, camera->at.x, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->at.y += camera->playerPosDelta.y * anim->curKeyFrame->lerpStepScale;
+            camera->at.z = Camera_LERPCeilF(anim->atTarget.z, camera->at.z, anim->curKeyFrame->lerpStepScale, 1.0f);
+            OLib_Vec3fDiffToVecSphRot90(&scratchSph, at, eyeNext);
+            scratchSph.yaw += DEGF_TO_BINANG(anim->curKeyFrame->eyeTargetInit.y);
 
-            Camera_Vec3fVecSphAdd(sp34, sp30, &spE4);
-            camera->fov = Camera_LERPCeilF(F32_LERPIMPINV(camera->fov, temp_s0->unk_00->unk_08, temp_s0->unk_3C), camera->fov, temp_s0->unk_00->unk_0C, 1.0f);
-            camera->roll = Camera_LERPCeilS(temp_s0->unk_34, camera->roll, temp_s0->unk_00->unk_0C, 1);
+            // 3A98 ~ 82.40 degrees
+            if (scratchSph.pitch >= 0x3A99) {
+                scratchSph.pitch = 0x3A98;
+            }
+
+            if (scratchSph.pitch < -0x3A98) {
+                scratchSph.pitch = -0x3A98;
+            }
+
+            spB4 = scratchSph.r;
+            if(1){}
+            scratchSph.r = !(spB4 < anim->curKeyFrame->eyeTargetInit.z) ? Camera_LERPCeilF(anim->curKeyFrame->eyeTargetInit.z, spB4, anim->curKeyFrame->lerpStepScale, 1.0f) : scratchSph.r;
+
+            Camera_Vec3fVecSphAdd(eyeNext, at, &scratchSph);
+            camera->fov = Camera_LERPCeilF(F32_LERPIMPINV(camera->fov, anim->curKeyFrame->fovTargetInit, anim->keyFrameTimer), camera->fov, anim->curKeyFrame->lerpStepScale, 1.0f);
+            camera->roll = Camera_LERPCeilS(anim->rollTarget, camera->roll, anim->curKeyFrame->lerpStepScale, 1);
             break;
         case 24:
-            temp_s0->unk_36 = temp_s0->unk_34;
+            // Set current keyframe to the roll target? 
+            anim->curKeyFrameIdx = anim->rollTarget;
             break;
         case 19:
-            Camera_ChangeMode(camera->globalCtx->cameraPtrs[camera->parentCamIdx < 0 ? 0 : camera->parentCamIdx], 0, 1);
+            // Change the parent camera (or default)'s mode to normal 
+            Camera_ChangeMode(camera->globalCtx->cameraPtrs[camera->parentCamIdx < 0 ? 0 : camera->parentCamIdx], CAM_MODE_NORMAL, 1);
         case 18:
+            // copy the current camera to the parent (or default)'s camera.
             {
                 Camera* cam = camera->globalCtx->cameraPtrs[camera->parentCamIdx < 0 ? 0 : camera->parentCamIdx];
-                camera->eye = *sp34;
+                *eye = *eyeNext;
                 Camera_Copy(cam, camera);
             }
         default:
@@ -5267,25 +5288,26 @@ setAtFOVRoll:
             }
     }
 
-    camera->eye = *sp34;
-    if (temp_s0->unk_00->unk_00 & 0x80) {
-        func_80043F34(camera, sp30, &camera->eye);
+    *eye = *eyeNext;
+
+    if (anim->curKeyFrame->actionFlags & 0x80) {
+        func_80043F34(camera, at, eye);
     }
 
-    if (temp_s0->unk_00->unk_00 & 0x40) {
-        camera->player->actor.posRot.pos.x = temp_s0->unk_1C.x;
-        camera->player->actor.posRot.pos.z = temp_s0->unk_1C.z;
-        if (camera->player->stateFlags1 & 0x8000000 && sp88->currentBoots != 1) {
-            camera->player->actor.posRot.pos.y = temp_s0->unk_1C.y;
+    if (anim->curKeyFrame->actionFlags & 0x40) {
+        // Set the player's position
+        camera->player->actor.posRot.pos.x = anim->playerPos.x;
+        camera->player->actor.posRot.pos.z = anim->playerPos.z;
+        if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != 1) {
+            camera->player->actor.posRot.pos.y = anim->playerPos.y;
         }
     } else {
-        temp_s0->unk_1C.x = sp98.pos.x;
-        temp_s0->unk_1C.y = sp98.pos.y;
-        temp_s0->unk_1C.z = sp98.pos.z;
-        
-
+        anim->playerPos.x = playerPosRot.pos.x;
+        anim->playerPos.y = playerPosRot.pos.y;
+        anim->playerPos.z = playerPosRot.pos.z;
     }
-    if (temp_s0->unk_38 == 0 && camera->unk_160 > 0) {
+
+    if (anim->unk_38 == 0 && camera->unk_160 > 0) {
         camera->unk_160--;
     }
 
@@ -5295,7 +5317,7 @@ setAtFOVRoll:
         camera->posOffset.z = camera->at.z - camera->playerPosRot.pos.z;
     }
 
-    camera->dist = OLib_Vec3fDist(sp30, &camera->eye);
+    camera->dist = OLib_Vec3fDist(at, eye);
     return true;
 }
 
