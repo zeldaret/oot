@@ -123,28 +123,6 @@ typedef struct {
 } Normal3; // size = 0x4C
 
 typedef struct {
-    Vec3f unk_00;
-    Vec3f unk_0C;
-    f32 unk_18;
-    f32 unk_1C;
-    s16 unk_20;
-    s16 unk_22;
-    f32 unk_24;
-    s16 unk_28;
-} Normal2_20;
-
-typedef struct {
-    Vec3f unk_00;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    s16 unk_1C;
-    s16 unk_1E;
-    Normal2_20 unk_20;
-} Normal2;
-
-typedef struct {
     /* 0x0000 */ PosRot eyePosRot;
     /* 0x0014 */ char unk_14[0x8];
     /* 0x001C */ s16 fov;
@@ -686,13 +664,37 @@ typedef struct {
     Unique9 uniq9;
 } Unique9OnePointDemo;
 
+typedef struct {
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ Vec3f unk_0C;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ s16 unk_20;
+    /* 0x0022 */ s16 unk_22;
+    /* 0x0024 */ f32 unk_24;
+    /* 0x0028 */ s16 unk_28;
+} Normal2Anim; // size = 0x2A
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ s16 unk_1C;
+    /* 0x001E */ s16 interfaceFlags;
+    /* 0x0020 */ Normal2Anim anim;
+} Normal2; // size = 0x4A
+
 typedef union {
     PersonalizeParams personalize;
     PersonalizedDoor doorCam;
     Special0 spec0;
     Demo1 demo1;
     Normal3 norm3;
-    Normal2 normal2;
+    Normal2 norm2;
     Data4 data4;
     Unique6 uniq6;
     Special4 spec4;
