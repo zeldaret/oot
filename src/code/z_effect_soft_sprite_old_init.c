@@ -8,8 +8,7 @@
 
 // EffectSsDust Spawn Functions
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800281E8.s")
-void func_800281E8(GlobalContext* globalCtx, u16 arg1, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* arg5, Color_RGBA8_n* arg6,
+void func_800281E8(GlobalContext* globalCtx, u16 arg1, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor,
                    s16 arg7, s16 arg8, s16 life, u8 updateMode) {
 
     EffectSsDustInitParams initParams;
@@ -17,8 +16,8 @@ void func_800281E8(GlobalContext* globalCtx, u16 arg1, Vec3f* pos, Vec3f* veloci
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
-    initParams.unk_24 = *arg5;
-    initParams.unk_28 = *arg6;
+    initParams.primColor = *primColor;
+    initParams.envColor = *envColor;
     initParams.unk_32 = arg1;
     initParams.unk_2C = arg7;
     initParams.unk_2E = arg8;
@@ -35,9 +34,9 @@ void func_800281E8(GlobalContext* globalCtx, u16 arg1, Vec3f* pos, Vec3f* veloci
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800283D4.s")
 
-void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* arg4, Color_RGBA8_n* arg5, s16 arg6, s16 arg7,
+void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor, s16 arg6, s16 arg7,
                    s16 life) {
-    func_800281E8(globalCtx, 2, pos, velocity, accel, arg4, arg5, arg6, arg7, life, 0);
+    func_800281E8(globalCtx, 2, pos, velocity, accel, primColor, envColor, arg6, arg7, life, 0);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800284A4.s")

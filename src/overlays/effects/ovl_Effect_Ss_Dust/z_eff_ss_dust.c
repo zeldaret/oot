@@ -6,17 +6,17 @@
 
 #include "z_eff_ss_dust.h"
 
-u32 func_809A22D0(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A27F0(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A28EC(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A2480(GlobalContext* globalCtx, u32 index, EffectSs* this);
+u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsDust_UpdateFire(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Dust_InitVars = {
     EFFECT_SS_DUST,
-    func_809A22D0,
+    EffectSsDust_Init,
 };
 
-static void* sUpdateFuncs[] = { func_809A27F0, func_809A28EC };
+static void* sUpdateFuncs[] = { EffectSsDust_Update, EffectSsDust_UpdateFire };
 
 UNK_PTR D_809A2A50[] = {
     0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0
@@ -40,7 +40,7 @@ typedef enum {
 
 extern Gfx D_04010050[];
 
-u32 func_809A22D0(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 randColorOffset;
     EffectSsDustInitParams* initParams = (EffectSsDustInitParams*)initParamsx;
 
@@ -50,27 +50,27 @@ u32 func_809A22D0(GlobalContext* globalCtx, u32 index, EffectSs* this, void* ini
     this->unk_38 = SEGMENTED_TO_VIRTUAL(&D_04010050);
     this->life = initParams->life;
     this->update = sUpdateFuncs[initParams->updateMode];
-    this->draw = func_809A2480;
+    this->draw = EffectSsDust_Draw;
 
     if (initParams->unk_32 & 4) {
         randColorOffset = Math_Rand_ZeroOne() * 20.0f - 10.0f;
-        this->regs[SS_DUST_COLOR1_R] = initParams->unk_24.r + randColorOffset;
-        this->regs[SS_DUST_COLOR1_G] = initParams->unk_24.g + randColorOffset;
-        this->regs[SS_DUST_COLOR1_B] = initParams->unk_24.b + randColorOffset;
-        this->regs[SS_DUST_COLOR2_R] = initParams->unk_28.r + randColorOffset;
-        this->regs[SS_DUST_COLOR2_G] = initParams->unk_28.g + randColorOffset;
-        this->regs[SS_DUST_COLOR2_B] = initParams->unk_28.b + randColorOffset;
+        this->regs[SS_DUST_COLOR1_R] = initParams->primColor.r + randColorOffset;
+        this->regs[SS_DUST_COLOR1_G] = initParams->primColor.g + randColorOffset;
+        this->regs[SS_DUST_COLOR1_B] = initParams->primColor.b + randColorOffset;
+        this->regs[SS_DUST_COLOR2_R] = initParams->envColor.r + randColorOffset;
+        this->regs[SS_DUST_COLOR2_G] = initParams->envColor.g + randColorOffset;
+        this->regs[SS_DUST_COLOR2_B] = initParams->envColor.b + randColorOffset;
     } else {
-        this->regs[SS_DUST_COLOR1_R] = initParams->unk_24.r;
-        this->regs[SS_DUST_COLOR1_G] = initParams->unk_24.g;
-        this->regs[SS_DUST_COLOR1_B] = initParams->unk_24.b;
-        this->regs[SS_DUST_COLOR2_R] = initParams->unk_28.r;
-        this->regs[SS_DUST_COLOR2_G] = initParams->unk_28.g;
-        this->regs[SS_DUST_COLOR2_B] = initParams->unk_28.b;
+        this->regs[SS_DUST_COLOR1_R] = initParams->primColor.r;
+        this->regs[SS_DUST_COLOR1_G] = initParams->primColor.g;
+        this->regs[SS_DUST_COLOR1_B] = initParams->primColor.b;
+        this->regs[SS_DUST_COLOR2_R] = initParams->envColor.r;
+        this->regs[SS_DUST_COLOR2_G] = initParams->envColor.g;
+        this->regs[SS_DUST_COLOR2_B] = initParams->envColor.b;
     }
 
-    this->regs[SS_DUST_COLOR1_A] = initParams->unk_24.a;
-    this->regs[SS_DUST_COLOR2_A] = initParams->unk_28.a;
+    this->regs[SS_DUST_COLOR1_A] = initParams->primColor.a;
+    this->regs[SS_DUST_COLOR2_A] = initParams->envColor.a;
     this->regs[SS_DUST_UNK_8] = 0;
     this->regs[SS_DUST_UNK_9] = initParams->unk_2C;
     this->regs[SS_DUST_UNK_A] = initParams->unk_2E;
@@ -80,8 +80,7 @@ u32 func_809A22D0(GlobalContext* globalCtx, u32 index, EffectSs* this, void* ini
     return 1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Dust/func_809A2480.s")
-void func_809A2480(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     MtxF sp144;
     MtxF sp104;
@@ -135,7 +134,7 @@ void func_809A2480(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_eff_ss_dust.c", 389);
 }
 
-void func_809A27F0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
     this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
 
@@ -152,9 +151,9 @@ void func_809A27F0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->regs[SS_DUST_UNK_9] += this->regs[SS_DUST_UNK_A];
 }
 
-void func_809A28EC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->accel.x = (f32)((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
-    this->accel.z = (f32)((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
+void EffectSsDust_UpdateFire(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
 
     switch (this->regs[SS_DUST_UNK_8]) {
         case 0:

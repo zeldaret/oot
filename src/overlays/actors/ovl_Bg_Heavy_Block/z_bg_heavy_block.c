@@ -204,14 +204,14 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
 void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 arg4, f32 arg5, f32 arg6,
                             u8 dustParams) {
-    Color_RGBA8_n sp8C;
-    Color_RGBA8_n sp88;
+    Color_RGBA8_n primColor;
+    Color_RGBA8_n envColor;
     Vec3f eye;
     Vec3f at;
     s16 sp6E;
     s16 sp6C;
-    Vec3f sp60;
-    Vec3f sp54;
+    Vec3f accel;
+    Vec3f velocity;
     Vec3f pos;
     f32 sp44;
     s16 sp42;
@@ -223,21 +223,21 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 a
 
     if ((dustParams & 1)) {
         // red dust, landed in fire
-        sp8C.r = 150;
-        sp8C.g = sp8C.b = sp88.g = sp88.b = 0;
-        sp88.r = 80;
-        sp8C.a = sp88.a = 0;
+        primColor.r = 150;
+        primColor.g = primColor.b = envColor.g = envColor.b = 0;
+        envColor.r = 80;
+        primColor.a = envColor.a = 0;
     } else {
         // brown dust
         // clang-format off
-        sp8C.r = 170; sp8C.g = 130; sp8C.b = 90; sp8C.a = 255;
-        sp88.r = 100; sp88.g = 60; sp88.b = 20; sp88.a = 255;
+        primColor.r = 170; primColor.g = 130; primColor.b = 90; primColor.a = 255;
+        envColor.r = 100; envColor.g = 60; envColor.b = 20; envColor.a = 255;
         // clang-format on
     }
 
-    sp60.z = 0.0f;
-    sp60.x = 0.0f;
-    sp60.y = (dustParams & 8) ? 0.0f : 0.5f;
+    accel.z = 0.0f;
+    accel.x = 0.0f;
+    accel.y = (dustParams & 8) ? 0.0f : 0.5f;
 
     eye = globalCtx->cameraPtrs[globalCtx->activeCamera]->eye;
     at = globalCtx->cameraPtrs[globalCtx->activeCamera]->at;
@@ -248,9 +248,9 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 a
     switch (dustParams & 6) {
         case 4:
         case 6:
-            sp54.x = arg4;
-            sp54.y = arg5;
-            sp54.z = arg6;
+            velocity.x = arg4;
+            velocity.y = arg5;
+            velocity.z = arg6;
             sp40 = 300;
             sp42 = 50;
             break;
@@ -258,25 +258,25 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 a
             sp44 = Math_Rand_ZeroFloat(5.0f) + 5.0f;
             sp6E = Math_Rand_CenteredFloat(65280.0f);
 
-            sp54.x = (Math_Sins(sp6E) * sp44) + arg4;
-            sp54.y = arg5;
-            sp54.z = (Math_Coss(sp6E) * sp44) + arg6;
+            velocity.x = (Math_Sins(sp6E) * sp44) + arg4;
+            velocity.y = arg5;
+            velocity.z = (Math_Coss(sp6E) * sp44) + arg6;
             break;
         case 0:
             sp6E = Math_Vec3f_Yaw(&eye, &at);
             sp6C = -Math_Vec3f_Pitch(&eye, &at);
 
-            sp54.x = ((5.0f * Math_Sins(sp6E)) * Math_Coss(sp6C)) + arg4;
-            sp54.y = (Math_Sins(sp6C) * 5.0f) + arg5;
-            sp54.z = ((5.0f * Math_Coss(sp6E)) * Math_Coss(sp6C)) + arg6;
+            velocity.x = ((5.0f * Math_Sins(sp6E)) * Math_Coss(sp6C)) + arg4;
+            velocity.y = (Math_Sins(sp6C) * 5.0f) + arg5;
+            velocity.z = ((5.0f * Math_Coss(sp6E)) * Math_Coss(sp6C)) + arg6;
 
-            pos.x -= (sp54.x * 20.0f);
-            pos.y -= (sp54.y * 20.0f);
-            pos.z -= (sp54.z * 20.0f);
+            pos.x -= (velocity.x * 20.0f);
+            pos.y -= (velocity.y * 20.0f);
+            pos.z -= (velocity.z * 20.0f);
             break;
     }
 
-    func_8002843C(globalCtx, &pos, &sp54, &sp60, &sp8C, &sp88, sp40, sp42, (s32)Math_Rand_ZeroFloat(10.0f) + 20);
+    func_8002843C(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, sp40, sp42, (s32)Math_Rand_ZeroFloat(10.0f) + 20);
 }
 
 void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
