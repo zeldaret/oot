@@ -10,7 +10,7 @@ void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgYdanHasi_InitWater(BgYdanHasi* this, GlobalContext* globalCtx);
-void BgYdanHasi_updateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx);
+void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx);
 void BgYdanHasi_SetupThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx);
 WaterBox* BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx);
 void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, GlobalContext* globalCtx);
@@ -32,7 +32,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx* D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
+Gfx* D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
 
 extern UNK_TYPE D_06005780;
 extern UNK_TYPE D_06007798;
@@ -51,27 +51,29 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params = thisx->params & 0xFF;
     waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes + 0x1;
     DynaPolyInfo_SetActorMove(&this->dyna, 1);
-    if (thisx->params == 1) { // Water the moving platform floats on in B1. Never runs in Master Quest
+    if (thisx->params == 1) {
+        // Water the moving platform floats on in B1. Never runs in Master Quest
         thisx->initPosRot.pos.y = (thisx->initPosRot.pos.y + -5.0f);
         thisx->posRot.pos.y = thisx->initPosRot.pos.y;
         waterBox->unk_02 = thisx->initPosRot.pos.y;
         this->actionFunc = BgYdanHasi_InitWater;
-    } else{
-		if (thisx->params == 0){
-          // Moving platform on the water in B1
+    } else {
+        if (thisx->params == 0) {
+            // Moving platform on the water in B1
             DynaPolyInfo_Alloc(&D_06007798, &localConst);
             thisx->scale.z = 0.15f;
             thisx->scale.x = 0.15f;
             thisx->posRot.pos.y = (waterBox->unk_02 + 20.0f);
-            this->actionFunc = BgYdanHasi_updateFloatingBlock;
-        } else { // 3 platforms on 2F
+            this->actionFunc = BgYdanHasi_UpdateFloatingBlock;
+        } else {
+            // 3 platforms on 2F
             DynaPolyInfo_Alloc(&D_06005780, &localConst);
             thisx->draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
             Actor_SetHeight(thisx, 40.0f);
         }
         this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
-	}
+    }
     this->timer = 0;
 }
 
@@ -81,7 +83,7 @@ void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void BgYdanHasi_updateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {
+void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {
     u32 pad;
     f32 framesAfterMath;
     f32 posOffset;
@@ -197,7 +199,7 @@ void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (0 - globalCtx->gameplayFrames & 0x7F),
                                 globalCtx->gameplayFrames & 0x7F, 0x20, 0x20, 1, globalCtx->gameplayFrames & 0x7F,
                                 globalCtx->gameplayFrames & 0x7F, 0x20, 0x20));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 0x250),
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_06005DE0);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 597);
