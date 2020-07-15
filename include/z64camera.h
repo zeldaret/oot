@@ -5,6 +5,16 @@
 #include <z64cutscene.h>
 
 typedef struct {
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ CollisionPoly* unk_0C;
+    /* 0x0010 */ f32 swingUpdateRate;
+    /* 0x0014 */ s16 unk_14;
+    /* 0x0016 */ s16 unk_16;
+    /* 0x0018 */ s16 unk_18;
+    /* 0x001A */ s16 unk_1A;
+} SwingAnimation; // size = 0x1C
+
+typedef struct {
     /* 0x0000 */ CutsceneCameraPoint* atPoints;
     /* 0x0004 */ CutsceneCameraPoint* eyePoints;
     /* 0x0008 */ s16 actionParameters;
@@ -27,7 +37,7 @@ typedef struct {
     /* 0x0000 */ f32 unk_00;
     /* 0x0004 */ f32 unk_04;
     /* 0x0008 */ s16 unk_08;
-    /* 0x000C */ Special9_Unk18;
+    /* 0x000C */ Special9_Unk18 unk_18;
 } Special9; // size = 0x10
 
 typedef struct {
@@ -197,16 +207,11 @@ typedef struct {
 } KeepOn0; // size = 0x12
 
 typedef struct {
-    /* 0x0000 */ Vec3f unk_00;
-    /* 0x000C */ s32 unk_0C;
-    /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ s16 pitchTarget;
-    /* 0x0016 */ s16 yawTarget;
-    /* 0x0018 */ s16 updateRot;
-    /* 0x001A */ s16 animTimer;
+    
+    /* 0x0000 */ SwingAnimation swing;
     /* 0x001C */ f32 unk_1C;
     /* 0x0020 */ VecSph unk_20;
-} Jump1_Anim; // size = 0x28
+} Jump1Anim; // size = 0x28
 
 typedef struct {
     /* 0x0000 */ f32 atYOffset;
@@ -217,7 +222,7 @@ typedef struct {
     /* 0x0014 */ f32 unk_14; // never used.  
     /* 0x0018 */ f32 atLERPScaleMax;
     /* 0x001C */ s16 interfaceFlags;
-    /* 0x0020 */ Jump1_Anim anim;
+    /* 0x0020 */ Jump1Anim anim;
 } Jump1; // size 0x48
 
 typedef struct {
@@ -243,31 +248,25 @@ typedef struct {
 } Jump2; // size = 0x22
 
 typedef struct {
-    Vec3f unk_00;
-    s32 unk_0C;
-    f32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    f32 unk_1C;
-    s16 unk_20;
-    s16 unk_22;
-} Jump3_Unk24;
+    /* 0x0000 */ SwingAnimation swing;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ s16 animTimer;
+    /* 0x0022 */ s16 unk_22;
+} Jump3Anim; // size = 0x24
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    f32 unk_1C;
-    s16 unk_20;
-    s16 unk_22;
-    Jump3_Unk24 unk_24;
-} Jump3;
+    /* 0x0000 */ f32 yOffsetTarget;
+    /* 0x0004 */ f32 distTargetMin;
+    /* 0x0008 */ f32 distTargetMax;
+    /* 0x000C */ f32 swingUpdateRate;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 fovTarget;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ s16 unk_20;
+    /* 0x0022 */ s16 interfaceFlags;
+    /* 0x0024 */ Jump3Anim anim;
+} Jump3; // size = 0x48
 
 typedef struct {
     /* 0x0000 */ Vec3f unk_00;
@@ -607,12 +606,12 @@ typedef struct {
 } Battle1; // size = 0x50
 
 typedef struct {
-    Vec3f unk_00;
-    Vec3f unk_0C;
-    CollisionPoly* unk_18;
-    VecSph unk_1C;
-    s32 unk_24;
-} struct_80043D18;
+    /* 0x0000 */ Vec3f pos;
+    /* 0x000C */ Vec3f norm;
+    /* 0x0018 */ CollisionPoly* poly;
+    /* 0x001C */ VecSph sphNorm;
+    /* 0x0024 */ u32 bgId;
+} CamColChk; // size = 0x28
 
 /** initFlags
  * & 0x00FF = atInitFlags

@@ -579,7 +579,7 @@ glabel Camera_Normal1
 /* ABED38 80047B98 8E070008 */  lw    $a3, 8($s0)
 /* ABED3C 80047B9C 02002025 */  move  $a0, $s0
 /* ABED40 80047BA0 8FA5007C */  lw    $a1, 0x7c($sp)
-/* ABED44 80047BA4 0C011A70 */  jal   func_800469C0
+/* ABED44 80047BA4 0C011A70 */  jal   Camera_ClampDist
 /* ABED48 80047BA8 AFAB0010 */   sw    $t3, 0x10($sp)
 /* ABED4C 80047BAC E7A0007C */  swc1  $f0, 0x7c($sp)
 /* ABED50 80047BB0 E60000DC */  swc1  $f0, 0xdc($s0)

@@ -53,7 +53,7 @@ CameraModeValue var[] = { \
 #define CAM_UNIQ2_INIT(var, yOffset, distTarget, fovTarget, interfaceFlags) \
 CameraModeValue var[] = { \
     { yOffset, 0 }, { distTarget, 1 }, { fovTarget, 7 }, { interfaceFlags, 9 }, \
-};
+}
 
 #define CAM_UNIQ7_INIT(var, fov, interfaceFlags) \
 CameraModeValue var[] = { \
@@ -112,7 +112,7 @@ typedef struct {
     CameraMode* cameraModes;
 } CameraSetting;
 
-typedef enum CameraStatusType {
+typedef enum {
     CAM_STATUS_CUT,
     CAM_STATUS_WAIT,
     CAM_STATUS_UNK2,
@@ -122,9 +122,9 @@ typedef enum CameraStatusType {
     CAM_STATUS_UNK6,
     CAM_STATUS_ACTIVE,
     CAM_STATUS_UNKT = 0x100
-};
+} CameraStatusType;
 
-enum CameraSettingType {
+typedef enum {
     CAM_SET_NONE,
     CAM_SET_NORMAL0,
     CAM_SET_NORMAL1,
@@ -192,9 +192,9 @@ enum CameraSettingType {
     CAM_SET_CIRCLE7,
     CAM_SET_NORMAL4,
     CAM_SET_MAX
-};
+} CameraSettingType;
 
-enum CameraModeType {
+typedef enum {
     CAM_MODE_NORMAL,
     CAM_MODE_PARALLEL,
     CAM_MODE_KEEPON,
@@ -216,9 +216,9 @@ enum CameraModeType {
     CAM_MODE_STILL,
     CAM_MODE_PUSHPULL,
     CAM_MODE_BOOKEEPON
-};
+} CameraModeType;
 
-enum CameraFuncType {
+typedef enum {
     CAM_FUNC_NONE,
     CAM_FUNC_NORM0,
     CAM_FUNC_NORM1,
@@ -291,7 +291,7 @@ enum CameraFuncType {
     CAM_FUNC_SPEC8,
     CAM_FUNC_SPEC9,
     CAM_FUNC_MAX
-};
+} CameraFuncType;
 
 /*==================================================================*/
 // Data
@@ -1445,7 +1445,7 @@ s32 Camera_Normal4(Camera* camera);
 s32 Camera_Parallel0(Camera* camera);
 s32 Camera_Parallel1(Camera* camera);
 s32 Camera_Parallel2(Camera* camera);
-void Camera_Parallel3(Camera* camera);
+s32 Camera_Parallel3(Camera* camera);
 s32 Camera_Parallel4(Camera* camera);
 s32 Camera_KeepOn0(Camera* camera);
 s32 Camera_KeepOn1(Camera* camera);
@@ -1494,7 +1494,7 @@ s32 Camera_Demo3(Camera* camera);
 s32 Camera_Demo4(Camera* camera);
 s32 Camera_Demo5(Camera* camera);
 s32 Camera_Demo6(Camera* camera);
-void Camera_Demo7(Camera* camera);
+s32 Camera_Demo7(Camera* camera);
 s32 Camera_Demo8(Camera* camera);
 s32 Camera_Demo9(Camera* camera);
 s32 Camera_Special0(Camera* camera);
@@ -1765,8 +1765,8 @@ CollisionPoly *playerFloorPoly;
 // probably statics.
 f32 D_8015CE50;
 f32 D_8015CE54;
-struct_80043D18 D_8015CE58;
+CamColChk D_8015CE58;
 
-struct_80043D18 D_8015CE80;
-struct_80043D18 D_8015CEA8;
-struct_80043D18 D_8015CED0;
+CamColChk D_8015CE80;
+CamColChk D_8015CEA8;
+CamColChk D_8015CED0;
