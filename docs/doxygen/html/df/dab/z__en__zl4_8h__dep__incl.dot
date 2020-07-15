@@ -1,9 +1,0 @@
-digraph "src/overlays/actors/ovl_En_Zl4/z_en_zl4.h"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="src/overlays/actors\l/ovl_En_Zl4/z_en_zl4.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="src/overlays/actors\l/ovl_En_Zl4/z_en_zl4.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d58/z__en__zl4_8c.html",tooltip=" "];
-}

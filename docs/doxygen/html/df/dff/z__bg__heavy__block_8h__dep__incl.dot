@@ -1,9 +1,0 @@
-digraph "src/overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="src/overlays/actors\l/ovl_Bg_Heavy_Block\l/z_bg_heavy_block.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="src/overlays/actors\l/ovl_Bg_Heavy_Block\l/z_bg_heavy_block.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d93/z__bg__heavy__block_8c.html",tooltip=" "];
-}

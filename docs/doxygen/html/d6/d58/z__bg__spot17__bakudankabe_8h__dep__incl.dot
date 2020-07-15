@@ -1,9 +1,0 @@
-digraph "src/overlays/actors/ovl_Bg_Spot17_Bakudankabe/z_bg_spot17_bakudankabe.h"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="src/overlays/actors\l/ovl_Bg_Spot17_Bakudankabe\l/z_bg_spot17_bakudankabe.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="src/overlays/actors\l/ovl_Bg_Spot17_Bakudankabe\l/z_bg_spot17_bakudankabe.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d88/z__bg__spot17__bakudankabe_8c.html",tooltip=" "];
-}
