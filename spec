@@ -2121,8 +2121,7 @@ endseg
 beginseg
     name "ovl_En_Blkobj"
     include "build/src/overlays/actors/ovl_En_Blkobj/z_en_blkobj.o"
-    include "build/data/overlays/actors/z_en_blkobj.data.o"
-    include "build/data/overlays/actors/z_en_blkobj.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Blkobj/ovl_En_Blkobj_reloc.o"
 endseg
 
 beginseg
@@ -2907,8 +2906,7 @@ endseg
 beginseg
     name "ovl_En_Md"
     include "build/src/overlays/actors/ovl_En_Md/z_en_md.o"
-    include "build/data/overlays/actors/z_en_md.data.o"
-    include "build/data/overlays/actors/z_en_md.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Md/ovl_En_Md_reloc.o"
 endseg
 
 beginseg
@@ -3828,8 +3826,7 @@ endseg
 beginseg
     name "ovl_Shot_Sun"
     include "build/src/overlays/actors/ovl_Shot_Sun/z_shot_sun.o"
-    include "build/data/overlays/actors/z_shot_sun.data.o"
-    include "build/data/overlays/actors/z_shot_sun.reloc.o"
+    include "build/src/overlays/actors/ovl_Shot_Sun/ovl_Shot_Sun_reloc.o"
 endseg
 
 beginseg

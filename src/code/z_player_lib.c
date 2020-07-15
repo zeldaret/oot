@@ -245,7 +245,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* arg1) {
     Camera_ChangeModeDefaultFlags(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 
-s32 func_8008EF40(GlobalContext* globalCtx) {
+s32 func_8008EF30(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     return player->stateFlags1 & 0x800000;
 }

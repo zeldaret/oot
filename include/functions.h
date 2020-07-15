@@ -158,8 +158,8 @@ void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg);
 void __osGetHWIntrRoutine(s32 idx, OSMesgQueue** outQueue, OSMesg* outMsg);
 void __osSetWatchLo(u32);
 
-Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
-Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
+EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
+EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
 void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3f* spawnPos, s16 params);
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2);
 void EffectBlure_AddSpace(EffectBlure* this);
@@ -443,6 +443,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
+s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3);
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
@@ -833,6 +834,7 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
                                       Vec3f* arg3, Actor** arg4, s32 arg5);
 // ? func_800626B0(?);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
+void func_80062718(ColliderCylinder* collider, Vec3s* pos);
 // ? func_80062734(?);
 void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
 void func_80062A28(GlobalContext*, Vec3f*);
