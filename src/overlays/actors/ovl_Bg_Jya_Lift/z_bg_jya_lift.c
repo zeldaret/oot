@@ -38,9 +38,9 @@ const ActorInit Bg_Jya_Lift_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 2500, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
 extern UNK_TYPE D_0600D7E8;
@@ -124,7 +124,7 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
         BgJyaLift_SetFinalPosY(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, 0x200C);
+        func_8002F974(&this->dyna.actor,  NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }
 }
 
