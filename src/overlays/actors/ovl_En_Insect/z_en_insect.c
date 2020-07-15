@@ -228,7 +228,7 @@ void func_80A7C3A0(EnInsect* this) {
 }
 
 void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
-    u32 padding[2];
+    s32 pad[2];
     s16 sp2E;
     f32 animPlaybackSpeed;
 
@@ -265,8 +265,7 @@ void func_80A7C598(EnInsect* this) {
 #ifdef NON_MATCHING
 // a stack offset is wrong
 void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
-    s32 padding1;
-    s32 padding2;
+    s32 pad[2];
     s16 sp34 = this->actor.params & 3;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
@@ -397,7 +396,7 @@ void func_80A7CBC8(EnInsect* this) {
 }
 
 void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
-    u32 padding[2];
+    s32 pad[2];
     Vec3f sp34;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
@@ -785,7 +784,7 @@ void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnInsect* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, 0, 0);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
     func_800628A4(0, &this->collider);
     D_80A7DEB4 = 0;
 }
