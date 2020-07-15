@@ -5,6 +5,7 @@
 #include <global.h>
 
 struct EnFhgFire;
+
 typedef void (*EnFhgFireActionFunc)(struct EnFhgFire*, GlobalContext *globalCtx);
 
 typedef struct EnFhgFire {
@@ -32,7 +33,7 @@ typedef struct EnFhgFire {
     /* 0x01A0 */ LightInfoPositional unk_1A0;
     /* 0x01AE */ char padding_1AE[2];
     /* 0x01B0 */ ColliderCylinder collider;
-    /* 0x01FC */ u8 unk_1FC; // bool?
+    /* 0x01FC */ u8 unk_1FC;
     /* 0x01FD */ char unk_1FD;
     /* 0x01FE */ s16 unk_1FE;
     /* 0x0200 */ f32 unk_200;

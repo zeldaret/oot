@@ -16,7 +16,6 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnFhgFire_SetActionFunc(EnFhgFire* this, EnFhgFireActionFunc func);
 void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx);
 void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx);
 void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx);
@@ -47,21 +46,20 @@ const ActorInit En_Fhg_Fire_InitVars = {
     (ActorFunc)EnFhgFire_Draw,
 };
 
-void EnFhgFire_SetActionFunc(EnFhgFire* this, EnFhgFireActionFunc func) {
-    this->actionFunc = func;
+void EnFhgFire_SetupAction(EnFhgFire* this, EnFhgFireActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 tempf0;
     EnFhgFire* this = THIS;
     Player* player = PLAYER;
-
     f32 tempf1;
     f32 tempf2;
     f32 tempf3;
 
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    if (((thisx->params == 0x23) || (thisx->params == 0x24)) || (thisx->params == 0x32)) {
+    if ((thisx->params == 0x23) || (thisx->params == 0x24) || (thisx->params == 0x32)) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80A11790);
     }
@@ -69,23 +67,23 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(thisx, 0.0f);
 
     if (thisx->params == 0x01) {
-        EnFhgFire_SetActionFunc(this, func_80A0F6F8);
+        EnFhgFire_SetupAction(this, func_80A0F6F8);
         Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_THUNDER);
     } else if (thisx->params >= 0x64) {
-        EnFhgFire_SetActionFunc(this, func_80A0FA90);
+        EnFhgFire_SetupAction(this, func_80A0FA90);
         thisx->shape.rot = thisx->posRot.rot;
     }
 
     if (thisx->params == 0x23) {
         thisx->draw = NULL;
-        EnFhgFire_SetActionFunc(this, func_80A0FC48);
+        EnFhgFire_SetupAction(this, func_80A0FC48);
         thisx->speedXZ = 30.0f;
         Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_SPARK);
         return;
     }
 
     if (thisx->params == 0x24) {
-        EnFhgFire_SetActionFunc(this, func_80A0FD8C);
+        EnFhgFire_SetupAction(this, func_80A0FD8C);
         this->unk_160 = 255.0f;
         this->unk_150.x = 0x20;
         this->unk_150.y = 0x32;
@@ -102,8 +100,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 0x26) {
-        osSyncPrintf("yari hikari ct 1\n"); // "light spear"
-        EnFhgFire_SetActionFunc(this, func_80A10008);
+        // "light spear"
+        osSyncPrintf("yari hikari ct 1\n");
+        EnFhgFire_SetupAction(this, func_80A10008);
         osSyncPrintf("yari hikari ct 2\n");
         this->unk_150.x = thisx->posRot.rot.x;
         this->fireMode = thisx->posRot.rot.y;
@@ -115,7 +114,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0x28:
         case 0x29:
             Actor_SetScale(thisx, 7.0f);
-            EnFhgFire_SetActionFunc(this, func_80A10F18);
+            EnFhgFire_SetupAction(this, func_80A10F18);
             if (thisx->params == 0x29) {
                 this->unk_150.x = 0x01B8;
                 thisx->scale.z = 1.0f;
@@ -129,7 +128,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == 0x32) {
         thisx->speedXZ = (thisx->posRot.rot.x == 0) ? 8.0f : 3.0f;
-        EnFhgFire_SetActionFunc(this, func_80A10220);
+        EnFhgFire_SetupAction(this, func_80A10220);
 
         this->unk_150.x = 0x46;
         this->unk_150.y = 0x02;
@@ -152,7 +151,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;
 
-    if (((thisx->params == 0x23) || (thisx->params == 0x24)) || (thisx->params == 0x32)) {
+    if ((thisx->params == 0x23) || (thisx->params == 0x24) || (thisx->params == 0x32)) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 
@@ -163,9 +162,9 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
     Camera* camera;
-    char pad0[0x02];
-    Vec3f randVec; // 0x70
-    Vec3f tmpVec;  // 0x7C
+    s32 pad;
+    Vec3f randVec;
+    Vec3f tmpVec;
     s16 i;
     s16 randY;
     s16* tmp;
@@ -195,16 +194,16 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 
                 tmpVec = D_80A117BC;
 
-                for (i = 0; i <= (0x23 - 1); i++) {
+                for (i = 0; i < 35; i++) {
                     randVec.x = Math_Rand_CenteredFloat(30.f);
                     randVec.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
                     randVec.z = Math_Rand_CenteredFloat(30.f);
                     tmpVec.y = -0.2f;
                     EffectSsFhgFlash_Spawn(globalCtx, &this->actor.posRot.pos, &randVec, &tmpVec,
-                                           ((s32)((s16)(Math_Rand_ZeroOne() * 100.0f))) + 240, 0);
+                                           (s16)(Math_Rand_ZeroOne() * 100.0f) + 240, 0);
                 }
 
-                func_80033E88(&this->actor, globalCtx, 4, (u16)0xA);
+                func_80033E88(&this->actor, globalCtx, 4, 10);
             }
 
             break;
@@ -217,13 +216,9 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
-                    if (1) {
-                        do {
-                        } while (0);
-                        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                            this->actor.posRot.pos.z, 0, (i * 8192) + randY, 0x4000, i + 0x64);
-                    }
+                    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                                        this->actor.posRot.pos.z, 0, (i * 8192) + randY, 0x4000, i + 0x64);
                 }
 
                 for (i = 0; i < 8; i++) {
@@ -242,15 +237,13 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 }
 
 void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
-    f32 temp_f6;
-
     osSyncPrintf("FF MOVE 1\n");
-    this->actor.shape.rot.x += ((s16)(Math_Rand_ZeroOne() * 4000.0f) + 0x4000);
+    this->actor.shape.rot.x += (s16)(Math_Rand_ZeroOne() * 4000.0f) + 0x4000;
 
     switch (this->fireMode) {
         case 0:
             this->fireMode = 1;
-            this->unk_150.x = ((s16)(Math_Rand_ZeroOne() * 7.0f)) + 0x07;
+            this->unk_150.x = (s16)(Math_Rand_ZeroOne() * 7.0f) + 0x07;
         case 1:
             Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
 
@@ -258,8 +251,7 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->fireMode = 0x02;
                 this->unk_150.x = 0x0A;
                 this->actor.posRot.pos.z += Math_Sins(this->actor.shape.rot.y) * -200.0f * this->scale;
-                temp_f6 = Math_Coss(this->actor.shape.rot.y) * 200.0f;
-                this->actor.posRot.pos.x += temp_f6 * this->scale;
+                this->actor.posRot.pos.x += Math_Coss(this->actor.shape.rot.y) * 200.0f * this->scale;
                 this->actor.shape.rot.y += 0x8000;
             }
             break;
@@ -272,7 +264,7 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     Actor_SetScale(&this->actor, this->scale);
-    if (1.0f < this->actor.scale.x) {
+    if (this->actor.scale.x > 1.0f) {
         this->actor.scale.x = 1.0f;
     }
 
@@ -281,10 +273,10 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3f pos; // SP30
+    Vec3f pos;
 
-    if ((this->collider.base.atFlags & 2) != 0) {
-        this->collider.base.atFlags = this->collider.base.atFlags & 0xFFFD;
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags = this->collider.base.atFlags & ~2;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 
@@ -301,7 +293,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 1);
-    if ((this->actor.bgCheckFlags & 8) != 0) {
+    if (this->actor.bgCheckFlags & 8) {
         Actor_Kill(&this->actor);
     }
 }
@@ -390,7 +382,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     this->actor.posRot.pos = horse->unk_200;
-    this->actor.shape.rot.z += ((s16)(Math_Rand_ZeroOne() * 20000.0f)) + 0x4000;
+    this->actor.shape.rot.z += (s16)(Math_Rand_ZeroOne() * 20000.0f) + 0x4000;
 
     osSyncPrintf("yari hikari 2\n");
     if (this->fireMode == 0) {
@@ -404,7 +396,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
             sp6C.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
             sp54.y = -0.08f;
 
-            EffectSsFhgFlash_Spawn(globalCtx, &sp6C, &tmp, &sp54, (((s16)(Math_Rand_ZeroOne() * 80.0f))) + 150, 0);
+            EffectSsFhgFlash_Spawn(globalCtx, &sp6C, &tmp, &sp54, (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, 0);
         }
     }
 
@@ -427,8 +419,8 @@ void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx) {
 
     if (this->actor.params == 0x29) {
         if (this->unk_150.x >= 0x47) {
-            Audio_PlayActorSound2(&this->actor, 0x2040);
-            Audio_PlayActorSound2(&this->actor, 0x2054);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_L - SFX_FLAG);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_L2 - SFX_FLAG);
         }
 
         if (this->unk_150.x == 0x46) {
@@ -471,83 +463,70 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // Unsolved regalloc
-#ifdef NON_MATCHING
+#ifdef NON_EQUIVALENT
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;
-    char pad[0x04];
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[3];
+    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_fhg_fire.c", 0x6BB);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_fhg_fire.c", 1723);
     if (thisx->params == 0x24) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xA5, 0xFF, 0x4B, 0x00);
         gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x6D1),
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
-    } else {
-        if ((thisx->params == 0x26) || (thisx->params == 0x32)) {
-            osSyncPrintf("yari hikari draw 1\n");
-            func_800D1FD4(&globalCtx->mf_11DA0);
-            func_80093D84(globalCtx->state.gfxCtx);
+    } else if ((thisx->params == 0x26) || (thisx->params == 0x32)) {
+        osSyncPrintf("yari hikari draw 1\n");
+        func_800D1FD4(&globalCtx->mf_11DA0);
+        func_80093D84(globalCtx->state.gfxCtx);
 
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
 
-            if (this->fireMode > 0) {
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0xFF, 0xFF, 0x00);
-            } else {
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xA5, 0xFF, 0x4B, 0x00);
-            }
-
-            gDPPipeSync(gfxCtx->polyXlu.p++);
-
-            Matrix_RotateZ(((f32)thisx->shape.rot.z / 32768.0f) * M_PI, 1);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x709),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_06012160);
+        if (this->fireMode > 0) {
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0xFF, 0xFF, 0x00);
         } else {
-            if (((thisx->params == 0x27) || (thisx->params == 0x28)) || (thisx->params == 0x29)) {
-                func_80093D84(globalCtx->state.gfxCtx);
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0,
-                                ((u32)this->unk_188 & 0xFF)); // sic u32
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x5A, 0x32, 0x5F, (s32)(this->unk_188 * 0.5f));
-                gDPPipeSync(gfxCtx->polyXlu.p++);
-                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x729),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-                // clang-format off
-                gSPSegment(
-                    gfxCtx->polyXlu.p++,
-                    0x08,
-                    Gfx_TwoTexScroll(
-                        globalCtx->state.gfxCtx,
-                        0, (s16) this->unk_174, (s16) this->unk_178, 0x40, 0x40,
-                        1, (s16) this->unk_17C, (s16) this->unk_180, 0x40, 0x40
-                    )
-                );
-                // clang-format on
-
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_0600FAA0);
-            } else {
-                osSyncPrintf("FF DRAW 1\n");
-                Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
-                func_80093D84(globalCtx->state.gfxCtx);
-
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x1E, 0x00, 0xFF);
-                gDPPipeSync(gfxCtx->polyXlu.p++);
-                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x764),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_060105E0);
-                osSyncPrintf("FF DRAW 2\n");
-            }
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xA5, 0xFF, 0x4B, 0x00);
         }
+
+        gDPPipeSync(gfxCtx->polyXlu.p++);
+
+        Matrix_RotateZ(((f32)thisx->shape.rot.z / 32768.0f) * M_PI, 1);
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_06012160);
+    } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
+        func_80093D84(globalCtx->state.gfxCtx);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0,
+                        ((u32)this->unk_188 & 0xFF)); // sic u32
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x5A, 0x32, 0x5F, (s32)(this->unk_188 * 0.5f));
+        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40, 1,
+                                    (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
+
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_0600FAA0);
+    } else {
+        osSyncPrintf("FF DRAW 1\n");
+        Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
+        func_80093D84(globalCtx->state.gfxCtx);
+
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x1E, 0x00, 0xFF);
+        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_060105E0);
+        osSyncPrintf("FF DRAW 2\n");
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 0x76C);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1900);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/EnFhgFire_Draw.s")
