@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_heavy_block.c
+ * Overlay: ovl_Bg_Heavy_Block
+ * Description: Large block that can only be lifted with Golden Gauntlets
+ */
+
 #include "z_bg_heavy_block.h"
 #include <vt.h>
 
@@ -80,7 +86,7 @@ void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     this->dyna.actor.flags |= 0x20030;
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_0600169C, &a1);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, a1);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, a1);
 }
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -202,7 +208,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 arg4, f32 arg5, f32 arg6,
+void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 posZ, f32 velX, f32 velY, f32 velZ,
                             u8 dustParams) {
     Color_RGBA8_n primColor;
     Color_RGBA8_n envColor;
@@ -214,12 +220,12 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 a
     Vec3f velocity;
     Vec3f pos;
     f32 sp44;
-    s16 sp42;
-    s16 sp40;
+    s16 scaleStep;
+    s16 scale;
 
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos.x = posX;
+    pos.y = posY;
+    pos.z = posZ;
 
     if ((dustParams & 1)) {
         // red dust, landed in fire
@@ -242,33 +248,33 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 a
     eye = globalCtx->cameraPtrs[globalCtx->activeCamera]->eye;
     at = globalCtx->cameraPtrs[globalCtx->activeCamera]->at;
 
-    sp40 = 1000;
-    sp42 = 160;
+    scale = 1000;
+    scaleStep = 160;
 
     switch (dustParams & 6) {
         case 4:
         case 6:
-            velocity.x = arg4;
-            velocity.y = arg5;
-            velocity.z = arg6;
-            sp40 = 300;
-            sp42 = 50;
+            velocity.x = velX;
+            velocity.y = velY;
+            velocity.z = velZ;
+            scale = 300;
+            scaleStep = 50;
             break;
         case 2:
             sp44 = Math_Rand_ZeroFloat(5.0f) + 5.0f;
             sp6E = Math_Rand_CenteredFloat(65280.0f);
 
-            velocity.x = (Math_Sins(sp6E) * sp44) + arg4;
-            velocity.y = arg5;
-            velocity.z = (Math_Coss(sp6E) * sp44) + arg6;
+            velocity.x = (Math_Sins(sp6E) * sp44) + velX;
+            velocity.y = velY;
+            velocity.z = (Math_Coss(sp6E) * sp44) + velZ;
             break;
         case 0:
             sp6E = Math_Vec3f_Yaw(&eye, &at);
             sp6C = -Math_Vec3f_Pitch(&eye, &at);
 
-            velocity.x = ((5.0f * Math_Sins(sp6E)) * Math_Coss(sp6C)) + arg4;
-            velocity.y = (Math_Sins(sp6C) * 5.0f) + arg5;
-            velocity.z = ((5.0f * Math_Coss(sp6E)) * Math_Coss(sp6C)) + arg6;
+            velocity.x = ((5.0f * Math_Sins(sp6E)) * Math_Coss(sp6C)) + velX;
+            velocity.y = (Math_Sins(sp6C) * 5.0f) + velY;
+            velocity.z = ((5.0f * Math_Coss(sp6E)) * Math_Coss(sp6C)) + velZ;
 
             pos.x -= (velocity.x * 20.0f);
             pos.y -= (velocity.y * 20.0f);
@@ -276,7 +282,8 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 a
             break;
     }
 
-    func_8002843C(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, sp40, sp42, (s32)Math_Rand_ZeroFloat(10.0f) + 20);
+    func_8002843C(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, scale, scaleStep,
+                  (s32)Math_Rand_ZeroFloat(10.0f) + 20);
 }
 
 void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
@@ -386,8 +393,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     pos.x = this->dyna.actor.initPosRot.pos.x;
     pos.y = this->dyna.actor.initPosRot.pos.y + 1000.0f;
     pos.z = this->dyna.actor.initPosRot.pos.z;
-    raycastResult =
-        func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &arg2, &this->dyna.actor, &pos);
+    raycastResult = func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &arg2, &this->dyna.actor, &pos);
     this->dyna.actor.groundY = raycastResult;
 
     if (this->dyna.actor.initPosRot.pos.y <= raycastResult) {
@@ -440,7 +446,6 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
                 this->actionFunc = BgHeavyBlock_Land;
         }
-        
     }
     this->dyna.actor.shape.rot.x = atan2s(this->dyna.actor.velocity.y, this->dyna.actor.speedXZ);
 }

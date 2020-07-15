@@ -10,10 +10,10 @@ typedef struct {
     /* 0x18 */ Vec3f accel;
     /* 0x24 */ Color_RGBA8_n primColor;
     /* 0x28 */ Color_RGBA8_n envColor;
-    /* 0x2C */ s16 unk_2C;
-    /* 0x2E */ s16 unk_2E;
+    /* 0x2C */ s16 scale;
+    /* 0x2E */ s16 scaleStep;
     /* 0x30 */ s16 life;
-    /* 0x32 */ u16 unk_32;
+    /* 0x32 */ u16 drawFlags;
     /* 0x34 */ u8 updateMode;
 } EffectSsDustInitParams;
 

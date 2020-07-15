@@ -202,26 +202,23 @@ s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2);
 s16 func_80027E34(s16 arg0, s16 arg1, f32 arg2);
 u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
 // ? func_80027F80(?);
-// ? func_800281E8(?);
-// ? func_8002829C(?);
-// ? func_80028304(?);
-// ? func_8002836C(?);
-// ? func_800283D4(?);
+void func_8002829C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor, s16 scale, s16 scaleStep);
+void func_8002836C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor, s16 scale, s16 scaleStep, s16 life);
+void func_800283D4(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor, s16 scale, s16 scaleStep, s16 life);
 void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, Color_RGBA8_n* arg4,
                    Color_RGBA8_n* arg5, s16 arg6, s16 arg7, s16 arg8);
-// ? func_800284A4(?);
-// ? func_80028510(?);
-// ? func_8002857C(?);
-// ? func_800285EC(?);
-// ? func_8002865C(?);
+void func_8002857C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_8002865C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
 void func_800286CC(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, s16);
-// ? func_8002873C(?);
-// ? func_800287AC(?);
-// ? func_8002881C(?);
-// ? func_80028858(?);
-// ? func_80028894(?);
-// ? func_80028990(?);
-// ? func_80028A54(?);
+void func_8002873C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                   s16 life);
+void func_800287AC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                   s16 life);
+void func_80028990(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
+void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 // ? func_80028B18(?);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
 // ? func_80028BB0(?);
