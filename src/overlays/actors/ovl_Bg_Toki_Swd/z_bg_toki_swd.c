@@ -21,7 +21,9 @@ void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx);
 
 extern Gfx D_06001BD0[];
 
-#include "z_bg_toki_swd_cutscene_data.c" EARLY
+extern CutsceneData D_808BB2F0[];
+extern CutsceneData D_808BB7A0[];
+extern CutsceneData D_808BBD90[];
 
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,

@@ -340,7 +340,9 @@ typedef struct Player {
     /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
     /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
     /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
-    /* 0x0908 */ char       unk_908[0xD8];
+    /* 0x0908 */ char       unk_908[0x54];
+    /* 0x095C */ Vec3f      unk_95C;
+    /* 0x0968 */ char       unk_968[0x78];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       mf_A20;
     /* 0x0A60 */ char       unk_A60[0x08];
@@ -353,6 +355,84 @@ typedef struct Player {
 
     /* 0x0A79 */ char       unk_A79[0x1B];
 } Player; // size = 0xA94
+
+typedef enum {
+    /* 0x00 */ ITEM00_RUPEE_GREEN,
+    /* 0x01 */ ITEM00_RUPEE_BLUE,
+    /* 0x02 */ ITEM00_RUPEE_RED,
+    /* 0x03 */ ITEM00_HEART,
+    /* 0x04 */ ITEM00_BOMBS_A,
+    /* 0x05 */ ITEM00_ARROWS_SINGLE,
+    /* 0x06 */ ITEM00_HEART_PIECE,
+    /* 0x07 */ ITEM00_HEART_CONTAINER,
+    /* 0x08 */ ITEM00_ARROWS_SMALL,
+    /* 0x09 */ ITEM00_ARROWS_MEDIUM,
+    /* 0x0A */ ITEM00_ARROWS_LARGE,
+    /* 0x0B */ ITEM00_BOMBS_B,
+    /* 0x0C */ ITEM00_NUTS,
+    /* 0x0D */ ITEM00_STICK,
+    /* 0x0E */ ITEM00_MAGIC_LARGE,
+    /* 0x0F */ ITEM00_MAGIC_SMALL,
+    /* 0x10 */ ITEM00_SEEDS,
+    /* 0x11 */ ITEM00_SMALL_KEY,
+    /* 0x12 */ ITEM00_FLEXIBLE,
+    /* 0x13 */ ITEM00_RUPEE_ORANGE,
+    /* 0x14 */ ITEM00_RUPEE_PURPLE,
+    /* 0x15 */ ITEM00_SHIELD_DEKU,
+    /* 0x16 */ ITEM00_SHIELD_HYLIAN,
+    /* 0x17 */ ITEM00_TUNIC_ZORA,
+    /* 0x18 */ ITEM00_TUNIC_GORON,
+    /* 0x19 */ ITEM00_BOMBS_SPECIAL
+} Item00Type;
+
+struct EnItem00;
+
+typedef void (*EnItem00ActionFunc)(struct EnItem00*, struct GlobalContext*);
+
+typedef struct EnItem00 {
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ EnItem00ActionFunc actionFunc;
+    /* 0x150 */ s16 collectibleFlag;
+    /* 0x152 */ s16 unk_152;
+    /* 0x154 */ s16 unk_154;
+    /* 0x156 */ s16 unk_156;
+    /* 0x158 */ s16 unk_158;
+    /* 0x15A */ s16 unk_15A;
+    /* 0x15C */ f32 unk_15C;
+    /* 0x160 */ ColliderCylinder collider;
+} EnItem00; // size = 0x1AC
+
+typedef enum {
+    /* 0x00 */ A_OBJ_BLOCK_SMALL,
+    /* 0x01 */ A_OBJ_BLOCK_LARGE,
+    /* 0x02 */ A_OBJ_BLOCK_HUGE,
+    /* 0x03 */ A_OBJ_BLOCK_SMALL_ROT,
+    /* 0x04 */ A_OBJ_BLOCK_LARGE_ROT,
+    /* 0x05 */ A_OBJ_CUBE_SMALL,
+    /* 0x06 */ A_OBJ_UNKNOWN_6,
+    /* 0x07 */ A_OBJ_GRASS_CLUMP,
+    /* 0x08 */ A_OBJ_TREE_STUMP,
+    /* 0x09 */ A_OBJ_SIGNPOST_OBLONG,
+    /* 0x0A */ A_OBJ_SIGNPOST_ARROW,
+    /* 0x0B */ A_OBJ_KNOB
+} AObjType;
+
+struct EnAObj;
+
+typedef void (*EnAObjActionFunc)(struct EnAObj*, struct GlobalContext*);
+
+typedef struct EnAObj {
+    /* 0x000 */ DynaPolyActor dyna;
+    /* 0x164 */ EnAObjActionFunc actionFunc;
+    /* 0x168 */ s32 unk_168;
+    /* 0x16C */ s16 textId;
+    /* 0x16E */ s16 unk_16E;
+    /* 0x170 */ s16 unk_170;
+    /* 0x172 */ s16 unk_172;
+    /* 0x174 */ s16 unk_174;
+    /* 0x178 */ f32 unk_178;
+    /* 0x17C */ ColliderCylinder collider;
+} EnAObj; // size = 0x1C8
 
 typedef enum {
     /* 0x00 */ ACTORTYPE_SWITCH,

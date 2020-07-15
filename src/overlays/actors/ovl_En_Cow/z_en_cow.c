@@ -343,10 +343,10 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->skelAnime.animCurrentSeg == &D_06004348) {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004E98, 1.0f, 0.0f,
-                                 (f32)SkelAnime_GetFrameCount(&D_06004E98.genericHeader), 2, 1.0f);
+                                 SkelAnime_GetFrameCount(&D_06004E98.genericHeader), 2, 1.0f);
         } else {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, 0.0f,
-                                 (f32)SkelAnime_GetFrameCount(&D_06004348.genericHeader), 0, 1.0f);
+                                 SkelAnime_GetFrameCount(&D_06004348.genericHeader), 0, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
