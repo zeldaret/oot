@@ -26,6 +26,9 @@ void func_80A7D26C(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7D39C(EnInsect* this);
 void func_80A7D460(EnInsect* this, GlobalContext* globalCtx);
 
+extern SkeletonHeader D_04035590;
+extern AnimationHeader D_040341FC;
+
 f32 D_80A7DEB0 = 0.0f;
 s16 D_80A7DEB4 = 0;
 s16 D_80A7DEB8 = 0;
@@ -41,9 +44,6 @@ const ActorInit En_Insect_InitVars = {
     (ActorFunc)EnInsect_Update,
     (ActorFunc)EnInsect_Draw,
 };
-
-extern SkeletonHeader D_04035590;
-extern AnimationHeader D_040341FC;
 
 static ColliderJntSphItemInit sColliderItemInit[1] = {
     {
@@ -245,10 +245,10 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
         func_80A7C598(this);
     }
 
-    if ((this->unk_314 & 4 && this->unk_31C <= 0) ||
-        ((sp2E == 2 || sp2E == 3) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4)) {
+    if (((this->unk_314 & 4) && this->unk_31C <= 0) ||
+        ((sp2E == 2 || sp2E == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & 1) && D_80A7DEB8 >= 4)) {
         func_80A7CBC8(this);
-    } else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
     } else if (this->actor.xzDistFromLink < 40.0f) {
         func_80A7C818(this);
@@ -270,7 +270,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
 
-    if (EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 1600.0f  ||
+    if (EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 1600.0f ||
         (this->unk_31A < 4)) {
         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y,
                                  Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
@@ -287,10 +287,10 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
         func_80A7C3A0(this);
     }
 
-    if ((this->unk_314 & 4 && this->unk_31C <= 0) ||
-        ((sp34 == 2 || sp34 == 3) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4)) {
+    if (((this->unk_314 & 4) && this->unk_31C <= 0) ||
+        ((sp34 == 2 || sp34 == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & 1) && D_80A7DEB8 >= 4)) {
         func_80A7CBC8(this);
-    } else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
     } else if (this->actor.xzDistFromLink < 40.0f) {
         func_80A7C818(this);
@@ -345,7 +345,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
 
     if (this->unk_31A <= 0 || sp38 == 0) {
         func_80A7C3A0(this);
-    } else if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+    } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
     }
 }
@@ -419,7 +419,7 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_31A <= 0) {
-        if (this->unk_314 & 0x10 && this->soilActor != NULL &&
+        if ((this->unk_314 & 0x10) && this->soilActor != NULL &&
             func_800CB650(&this->soilActor->actor.posRot.pos, &this->actor.posRot.pos) < 64.0f) {
             this->soilActor->unk_152 = 1;
         }
@@ -500,8 +500,8 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         func_80029444(globalCtx, &sp40, 40, 200, 8);
     }
 
-    if (this->unk_31A <= 0 || (this->unk_314 & 4 && this->unk_31C <= 0) ||
-        ((sp4E == 2 || sp4E == 3) && this->unk_314 & 1 && D_80A7DEB8 >= 4)) {
+    if (this->unk_31A <= 0 || ((this->unk_314 & 4) && this->unk_31C <= 0) ||
+        ((sp4E == 2 || sp4E == 3) && (this->unk_314 & 1) && D_80A7DEB8 >= 4)) {
         func_80A7D1F4(this);
     } else if (!(this->actor.bgCheckFlags & 0x40)) {
         if (this->unk_314 & 0x10) {
@@ -657,18 +657,18 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (!(this->unk_314 & 0x40) && this->unk_314 & 1 && this->actor.bgCheckFlags & 1) {
+    if (!(this->unk_314 & 0x40) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & 1)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
         this->unk_314 |= 0x40;
     }
 
-    if (sp3A == 2 && this->unk_314 & 0x10 && !(this->unk_314 & 0x80)) {
+    if (sp3A == 2 && (this->unk_314 & 0x10) && !(this->unk_314 & 0x80)) {
         if (this->unk_32A >= 15) {
             if (this->soilActor != NULL) {
                 temp_a0 = ((this->soilActor->actor.params >> 8) & 0x1F) - 1;
                 temp_a1 = temp_a0 & 3;
 
-                if ((((u32)(((s32*)gSaveContext.gsFlags)[temp_a0 >> 2] & D_8012723C[temp_a1]) >> D_8012724C[temp_a1]) &
+                if ((((gSaveContext.gsFlags[temp_a0 >> 2] & D_8012723C[temp_a1]) >> D_8012724C[temp_a1]) &
                      (this->soilActor->actor.params & 0xFF)) == 0) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 }
@@ -679,13 +679,14 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_314 & 1 && this->actor.bgCheckFlags & 0x40) {
+    if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
     } else if (this->unk_314 & 0x10) {
         if (sp40 < 9.0f) {
             func_80A7CBC8(this);
         } else if (this->unk_31A <= 0 || this->unk_31C <= 0 ||
-                   (this->unk_314 & 1 && this->actor.bgCheckFlags & 1 && D_80A7DEB8 >= 4 && (sp3A == 2 || sp3A == 3))) {
+                   ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 1) && D_80A7DEB8 >= 4 &&
+                    (sp3A == 2 || sp3A == 3))) {
             func_80A7CBC8(this);
         } else {
             if (sp40 < 900.0f) {
@@ -697,7 +698,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
         }
     } else if (sp50 != 0) {
         func_80A7C3A0(this);
-    } else if ((sp3A == 2 || sp3A == 3) && this->unk_314 & 1 && this->unk_31C <= 0 && this->unk_31A <= 0 &&
+    } else if ((sp3A == 2 || sp3A == 3) && (this->unk_314 & 1) && this->unk_31C <= 0 && this->unk_31A <= 0 &&
                this->actor.groundY < -31990.0f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // BG missing? To do Actor_delete
