@@ -6,6 +6,7 @@
 
 struct BgJyaLift;
 
+
 typedef void (*BgJyaLiftActionFunc)(struct BgJyaLift*, struct GlobalContext*);
 
 typedef struct BgJyaLift {
