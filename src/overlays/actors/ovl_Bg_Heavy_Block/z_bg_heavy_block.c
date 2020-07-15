@@ -387,7 +387,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     pos.y = this->dyna.actor.initPosRot.pos.y + 1000.0f;
     pos.z = this->dyna.actor.initPosRot.pos.z;
     raycastResult =
-        func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, arg2, &this->dyna.actor, &pos);
+        func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &arg2, &this->dyna.actor, &pos);
     this->dyna.actor.groundY = raycastResult;
 
     if (this->dyna.actor.initPosRot.pos.y <= raycastResult) {
@@ -440,6 +440,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
                 this->actionFunc = BgHeavyBlock_Land;
         }
+        
     }
     this->dyna.actor.shape.rot.x = atan2s(this->dyna.actor.velocity.y, this->dyna.actor.speedXZ);
 }
@@ -457,7 +458,6 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos = this->dyna.actor.initPosRot.pos;
         Actor_MoveForward(&this->dyna.actor);
         this->dyna.actor.initPosRot.pos = this->dyna.actor.posRot.pos;
-
         switch (this->dyna.actor.params & 0xFF) {
             case 4:
                 BgHeavyBlock_SpawnDust(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1678.0f,
@@ -472,7 +472,6 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
                                        Math_Rand_CenteredFloat(100.0f) + -3418.0f, 0.0f, 0.0f, 0.0f, 3);
                 break;
         }
-        
     } else {
         this->dyna.actor.flags &= ~0x30;
         this->actionFunc = BgHeavyBlock_DoNothing;

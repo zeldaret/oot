@@ -1,40 +1,29 @@
 #include <ultra64.h>
 #include <global.h>
+#include "overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 
 // Draw utility for some G effects
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80027F80.s")
 
 // EffectSsDust Spawn Functions
-typedef struct {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f unk_0C;
-    /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ Color_RGBA8_n unk_24;
-    /* 0x28 */ Color_RGBA8_n unk_28;
-    /* 0x2C */ s16 unk_2C;
-    /* 0x2E */ s16 unk_2E;
-    /* 0x30 */ s16 unk_30;
-    /* 0x32 */ u16 unk_32;
-    /* 0x34 */ u8 unk_34;
-} EffectSsDustInitParams;
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800281E8.s")
-void func_800281E8(GlobalContext* globalCtx, u16 arg1, Vec3f* pos, Vec3f* arg3, Vec3f* arg4, Color_RGBA8_n* arg5, Color_RGBA8_n* arg6,
-                   s16 arg7, s16 arg8, s16 arg9, u8 argA) {
+void func_800281E8(GlobalContext* globalCtx, u16 arg1, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* arg5, Color_RGBA8_n* arg6,
+                   s16 arg7, s16 arg8, s16 life, u8 updateMode) {
 
     EffectSsDustInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
-    Math_Vec3f_Copy(&initParams.unk_0C, arg3);
-    Math_Vec3f_Copy(&initParams.unk_18, arg4);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.unk_24 = *arg5;
     initParams.unk_28 = *arg6;
     initParams.unk_32 = arg1;
     initParams.unk_2C = arg7;
     initParams.unk_2E = arg8;
-    initParams.unk_30 = arg9;
-    initParams.unk_34 = argA;
+    initParams.life = life;
+    initParams.updateMode = updateMode;
     EffectSs_Spawn(globalCtx, 0, 128, &initParams);
 }
 
@@ -46,9 +35,9 @@ void func_800281E8(GlobalContext* globalCtx, u16 arg1, Vec3f* pos, Vec3f* arg3, 
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800283D4.s")
 
-void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, Color_RGBA8_n* arg4, Color_RGBA8_n* arg5, s16 arg6, s16 arg7,
-                   s16 arg8) {
-    func_800281E8(globalCtx, 2, pos, arg2, arg3, arg4, arg5, arg6, arg7, arg8, 0);
+void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* arg4, Color_RGBA8_n* arg5, s16 arg6, s16 arg7,
+                   s16 life) {
+    func_800281E8(globalCtx, 2, pos, velocity, accel, arg4, arg5, arg6, arg7, life, 0);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800284A4.s")
