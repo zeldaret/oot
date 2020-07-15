@@ -838,7 +838,6 @@ endseg
 beginseg
     name "ovl_Bg_Heavy_Block"
     include "build/src/overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.o"
-    //include "build/data/overlays/actors/z_bg_heavy_block.reloc.o"
     include "build/src/overlays/actors/ovl_Bg_Heavy_Block/ovl_Bg_Heavy_Block_reloc.o"
 endseg
 
