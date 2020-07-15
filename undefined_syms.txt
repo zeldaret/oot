@@ -204,6 +204,7 @@ D_0600E568 = 0x0600E568;
 
 //z_bg_jya_1flift
 D_060004A8 = 0x060004A8;
+D_060001F0 = 0x060001F0;
 
 // z_bg_jya_amishutter
 D_0600C0A0 = 0x0600C0A0;

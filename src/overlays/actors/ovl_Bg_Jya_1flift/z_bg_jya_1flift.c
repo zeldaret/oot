@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_jya_1flift.c
+ * Overlay: ovl_Bg_Jya_1flift
+ * Description: Shortcut Elevator (Spirit Temple)
+ */
+
 #include "z_bg_jya_1flift.h"
 
 #define FLAGS 0x00000010
@@ -12,12 +18,16 @@ void BgJya1flift_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, void* arg2, s32 arg3);
 void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80892DB0(BgJya1flift* this);
+void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx);
+void func_80892E28(BgJya1flift* this, GlobalContext* globalCtx);
 
 void func_80892E34(BgJya1flift* this);
 void func_80892E58(BgJya1flift* this, GlobalContext* globalCtx);
 void func_80892E0C(BgJya1flift* this);
 void func_80892F3C(BgJya1flift* this);
 void func_80892F50(BgJya1flift* this, GlobalContext* globalCtx);
+
 extern u8 D_808930E0 = 0;
 
 
@@ -51,18 +61,19 @@ static InitChainEntry sInitChain[] = { //D_80893138
 
 extern UNK_TYPE D_060004A8;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892B60.s")
+extern Gfx D_060001F0[];
+    //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892B60.s")
 void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, void* arg2, s32 moveFlag) {
     s32 pad;
     s32 sp30;
-    u32 temp_v0;
+    u32 tempDynaID;
 
     sp30 = 0;
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
     DynaPolyInfo_Alloc(arg2, (void*)&sp30);
-    temp_v0 = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
-    this->dyna.dynaPolyId = temp_v0;
-    if (temp_v0 == 0x32) {
+    tempDynaID = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
+    this->dyna.dynaPolyId = tempDynaID;
+    if (tempDynaID == 0x32) {
         osSyncPrintf( "Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 0xB3, this->dyna.actor.id, this->dyna.actor.params);
     }
 }
@@ -82,6 +93,7 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Init.s")
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
+                 //1 F lift
     osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", D_808930E0, globalCtx->roomCtx.curRoom.num);
     this->hasInitialized = 0;
     if (D_808930E0 != 0) {
@@ -94,7 +106,7 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F)) != 0) {
         LINK_AGE_IN_YEARS == YEARS_ADULT ? func_80892E34(this) : func_80892E0C(this);
     } else {
-        func_80892DB0(thisx);
+        func_80892DB0(this);
     }
     thisx->room = -1;
     D_808930E0 = 1;
@@ -103,19 +115,44 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Destroy.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Destroy.s")
+void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgJya1flift* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892DB0.s")
+    if (this->hasInitialized != 0) {
+        D_808930E0 = 0;
+        Collider_DestroyCylinder(globalCtx, &this->collider);
+        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892DCC.s")
+//.#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892DB0.s")
+void func_80892DB0(BgJya1flift* this) {
+    this->actionFunc = func_80892DCC;
+    this->dyna.actor.posRot.pos.y = D_80893130[0];
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892E0C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892DCC.s")
+void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx) {
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0) {
+        func_80892E34(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892E28.s")
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892E0C.s")
+void func_80892E0C(BgJya1flift* this) {
+    this->actionFunc = func_80892E28;
+    this->dyna.actor.posRot.pos.y = D_80893130[0];
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892E28.s")
+void func_80892E28(BgJya1flift* this, GlobalContext* globalCtx) {
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892E34.s")
 void func_80892E34(BgJya1flift* this) {
-    this->actionFunc = &func_80892E58;
+    this->actionFunc = func_80892E58;
     this->unk_1B6 = (this->unk_1B6 ^ 1);
     this->dyna.actor.velocity.y = 0.0f;
 }
@@ -140,19 +177,70 @@ void func_80892E58(BgJya1flift* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892F3C.s")
 void func_80892F3C(BgJya1flift* this) {
-    this->actionFunc = &func_80892F50;
+    this->actionFunc = func_80892F50;
     this->unk_1B4 = 0;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892F50.s")
 void func_80892F50(BgJya1flift* this,GlobalContext* globalCtx) {
-    //arg1 = ERROR(Read from unset register $a1);
     this->unk_1B4++;
     if (this->unk_1B4 >= 21) {
         func_80892E34(this);
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Update.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Update.s")
+void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgJya1flift* this = THIS;
+    s32 sp24;
+    ColliderCylinder* sp20;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Draw.s")
+    s32 phi_v1;
+    u8 phi_v1_2;
+
+    if (globalCtx->roomCtx.curRoom.num == 6 || globalCtx->roomCtx.curRoom.num == 0) {
+//    block_2:
+        this->actionFunc(thisx, globalCtx);
+        phi_v1 = 0;
+        if (func_8004356C(thisx) != 0) {
+            phi_v1 = 1;
+        }
+        (phi_v1_2 = (u8)phi_v1);
+        if ((func_80892E58 == this->actionFunc) || (func_80892F50 == this->actionFunc)) {
+            if (phi_v1 != 0) {
+                sp24 = phi_v1;
+                func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
+            block_11:
+                phi_v1_2 = (u8)sp24;
+            } else {
+                phi_v1_2 = (u8)phi_v1;
+                if (phi_v1 == 0) {
+                    phi_v1_2 = (u8)phi_v1;
+                    if (this->unk_1B8 != 0) {
+                        sp24 = phi_v1;
+                        func_8005A77C(globalCtx->cameraPtrs[0], 3);
+                        goto block_11;
+                    }
+                }
+            }
+        } else {
+        }
+        this->unk_1B8 = phi_v1_2;
+        //temp_a2 = &this->collider;
+        sp20 = &this->collider;
+        
+        Collider_CylinderUpdate(thisx, sp20);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, sp20);
+        return;
+    }
+    /*if (globalCtx->roomCtx.curRoom.num == 0) {
+        goto block_2;
+    }*/
+    Actor_Kill(thisx);
+}
+
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Draw.s")
+void BgJya1flift_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_060001F0);
+}

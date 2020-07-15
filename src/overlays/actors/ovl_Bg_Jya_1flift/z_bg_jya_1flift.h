@@ -13,7 +13,7 @@ typedef struct BgJya1flift {
     /* 0x01B4 */ s16 unk_1B4;//Maybe frame delay
     /* 0x01B6 */ u8 unk_1B6;
     /* 0x01B7 */ u8 hasInitialized;
-    /* 0x01B8 */ char unk_1B8[0x4];
+    /* 0x01B8 */ s32 unk_1B8;
 } BgJya1flift; // size = 0x01BC
 
 extern const ActorInit Bg_Jya_1flift_InitVars;
