@@ -2,7 +2,7 @@
 #include <global.h>
 
 #ifdef NON_MATCHING
-// regalloc with temp registers
+// regalloc differences, probably the same issue as __osGetId
 s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     s32 ret = 0;
     u16 sum;
