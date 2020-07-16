@@ -212,8 +212,8 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     AnimationHeader* objSegChangeAnime = &D_060070F0;
 
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f,
-                             (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount),
+                             2, -4.0f);
         this->unk_2AA += 1;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     }
