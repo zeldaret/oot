@@ -68,7 +68,7 @@ glabel KaleidoScopeCall_Update
 /* B33358 800BC1B8 24010008 */  li    $at, 8
 /* B3335C 800BC1BC 14820016 */  bne   $a0, $v0, .L800BC218
 /* B33360 800BC1C0 00000000 */   nop   
-/* B33364 800BC1C4 0C02CE3F */  jal   func_800B38FC
+/* B33364 800BC1C4 0C02CE3F */  jal   ShrinkWindow_GetCurrentVal
 /* B33368 800BC1C8 AFA3001C */   sw    $v1, 0x1c($sp)
 /* B3336C 800BC1CC 8FA3001C */  lw    $v1, 0x1c($sp)
 /* B33370 800BC1D0 1440007B */  bnez  $v0, .L800BC3C0

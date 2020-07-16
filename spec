@@ -372,6 +372,7 @@ beginseg
     include "build/src/code/z_fbdemo_wipe1.o"
     include "build/src/code/z_fbdemo_circle.o"
     include "build/src/code/z_fbdemo_fade.o"
+    include "build/src/code/shrink_window.o"
     include "build/src/code/db_camera.o"
     include "build/data/db_camera.data.o"
     include "build/data/db_camera.rodata.o"
@@ -456,11 +457,10 @@ beginseg
     include "build/src/code/sleep.o"
     include "build/src/code/jpegutils.o"
     include "build/src/code/jpegdecoder.o"
-    include "build/asm/code_80100040.o"
+    include "build/src/libultra_code/osPfsFreeBlocks.o"
     include "build/asm/guScale.o"
     include "build/src/libultra_code/sinf.o"
     include "build/src/libultra_code/sins.o"
-    include "build/data/sins.data.o"
     include "build/src/libultra_code/sptask.o"
     include "build/src/libultra_code/osRumblePak.o"
     include "build/src/libultra_code/__osSiCreateAccessQueue.o"
@@ -470,19 +470,18 @@ beginseg
     include "build/src/libultra_code/__osSpRawStartDma.o"
     include "build/src/libultra_code/__osSiRawStartDma.o"
     include "build/src/libultra_code/osSpTaskYield.o"
-    include "build/asm/code_801014C0.o"
-    include "build/data/code_801014C0.bss.o"
+    include "build/src/libultra_code/pfsreadwritefile.o"
     include "build/src/libultra_code/__osPfsGetStatus.o"
     include "build/asm/guMtxIdentF.o"
     include "build/src/libultra_code/guLookAt.o"
-    include "build/asm/code_80101EB0.o"
+    include "build/src/libultra_code/pfsallocatefile.o"
     include "build/src/libultra_code/osStopTimer.o"
-    include "build/asm/code_80102420.o"
-    include "build/data/code_80102420.data.o"
+    include "build/src/libultra_code/contpfs.o"
     include "build/asm/code_80102FA0.o"
-    include "build/asm/code_80103010.o"
+    include "build/src/libultra_code/osPfsFindFile.o"
     include "build/src/libultra_code/sqrtf.o"
-    include "build/src/libultra_code/code_801031F0.o"
+    include "build/src/libultra_code/osAfterPreNMI.o"
+    include "build/src/libultra_code/contquery.o"
     include "build/src/libultra_code/guLookAtHilite.o"
     include "build/src/libultra_code/sp.o"
     include "build/asm/guMtxIdent.o"
@@ -494,24 +493,24 @@ beginseg
     include "build/asm/guNormalize.o"
     include "build/src/libultra_code/osDpGetStatus.o"
     include "build/src/libultra_code/osDpSetStatus.o"
-    include "build/asm/code_801041E0.o"
+    include "build/src/libultra_code/osPfsDeleteFile.o"
     include "build/src/libultra_code/ortho.o"
     include "build/src/libultra_code/cosf.o"
+    include "build/data/__libm_qnan_f.rodata.o"
     include "build/src/libultra_code/coss.o"
     include "build/src/libultra_code/osViSetEvent.o"
     include "build/src/libultra_code/osPfsIsPlug.o"
     include "build/src/libultra_code/guS2DInitBg.o"
-    include "build/asm/code_80104C80.o"
+    include "build/src/libultra_code/__osPfsSelectBank.o"
     include "build/src/libultra_code/osContSetCh.o"
     include "build/asm/code_80104D60.o"
-    include "build/asm/code_80104F40.o"
-    include "build/asm/code_80105250.o"
+    include "build/src/libultra_code/pfsinitpak.o"
+    include "build/src/libultra_code/pfschecker.o"
     include "build/src/libultra_code/osAiGetLength.o"
     include "build/asm/guTranslate.o"
-    include "build/asm/code_80105CF0.o"
-    include "build/data/code_80105CF0.data.o"
-    include "build/src/libultra_code/osReadMempak.o"
-    include "build/src/libultra_code/osMempakAddrCRC.o"
+    include "build/src/libultra_code/__osContRamWrite.o"
+    include "build/src/libultra_code/__osContRamRead.o"
+    include "build/src/libultra_code/__osContAddressCrc.o"
     include "build/src/libultra_code/osSetTimer.o"
     include "build/src/libultra_code/__osSpGetStatus.o"
     include "build/src/libultra_code/__osSpSetStatus.o"
@@ -537,6 +536,7 @@ endseg
 
 beginseg
     name "buffers"
+    align 0x40
     include "build/src/buffers/zbuffer.o"
     include "build/src/buffers/gfxbuffers.o"
     include "build/src/buffers/heaps.o"
@@ -1234,7 +1234,11 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/ovl_Bg_Spot01_Idohashira_reloc.o"
+#else
     include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1419,6 +1423,9 @@ endseg
 
 beginseg
     name "ovl_Bg_Toki_Swd"
+    include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_cutscene_data_1.o"
+    include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_cutscene_data_2.o"
+    include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_cutscene_data_3.o"
     include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd.o"
     include "build/src/overlays/actors/ovl_Bg_Toki_Swd/ovl_Bg_Toki_Swd_reloc.o"
 endseg
@@ -1650,8 +1657,7 @@ endseg
 beginseg
     name "ovl_Demo_Sa"
     include "build/src/overlays/actors/ovl_Demo_Sa/z_demo_sa.o"
-    include "build/data/overlays/actors/z_demo_sa.data.o"
-    include "build/data/overlays/actors/z_demo_sa.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Sa/ovl_Demo_Sa_reloc.o"
 endseg
 
 beginseg
@@ -1990,8 +1996,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Solder_Srch_Ball"
     include "build/src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.o"
-    include "build/data/overlays/effects/z_eff_ss_solder_srch_ball.data.o"
-    include "build/data/overlays/effects/z_eff_ss_solder_srch_ball.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/ovl_Effect_Ss_Solder_Srch_Ball_reloc.o"
 endseg
 
 beginseg
@@ -2121,8 +2126,7 @@ endseg
 beginseg
     name "ovl_En_Blkobj"
     include "build/src/overlays/actors/ovl_En_Blkobj/z_en_blkobj.o"
-    include "build/data/overlays/actors/z_en_blkobj.data.o"
-    include "build/data/overlays/actors/z_en_blkobj.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Blkobj/ovl_En_Blkobj_reloc.o"
 endseg
 
 beginseg
@@ -2614,18 +2618,13 @@ endseg
 beginseg
     name "ovl_En_Heishi1"
     include "build/src/overlays/actors/ovl_En_Heishi1/z_en_heishi1.o"
-    include "build/data/overlays/actors/z_en_heishi1.data.o"
-    include "build/data/overlays/actors/z_en_heishi1.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi1/ovl_En_Heishi1_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Heishi2"
     include "build/src/overlays/actors/ovl_En_Heishi2/z_en_heishi2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Heishi2/ovl_En_Heishi2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_heishi2.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2908,8 +2907,7 @@ endseg
 beginseg
     name "ovl_En_Md"
     include "build/src/overlays/actors/ovl_En_Md/z_en_md.o"
-    include "build/data/overlays/actors/z_en_md.data.o"
-    include "build/data/overlays/actors/z_en_md.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Md/ovl_En_Md_reloc.o"
 endseg
 
 beginseg
@@ -3175,8 +3173,7 @@ endseg
 beginseg
     name "ovl_En_Si"
     include "build/src/overlays/actors/ovl_En_Si/z_en_si.o"
-    include "build/data/overlays/actors/z_en_si.data.o"
-    include "build/data/overlays/actors/z_en_si.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Si/ovl_En_Si_reloc.o"
 endseg
 
 beginseg
@@ -3830,8 +3827,7 @@ endseg
 beginseg
     name "ovl_Shot_Sun"
     include "build/src/overlays/actors/ovl_Shot_Sun/z_shot_sun.o"
-    include "build/data/overlays/actors/z_shot_sun.data.o"
-    include "build/data/overlays/actors/z_shot_sun.reloc.o"
+    include "build/src/overlays/actors/ovl_Shot_Sun/ovl_Shot_Sun_reloc.o"
 endseg
 
 beginseg
