@@ -34,39 +34,28 @@ const ActorInit En_Ge3_InitVars = {
     (ActorFunc)EnGe3_Draw,
 };
 
-static ColliderCylinderInit D_80A35190 =
-{
+static ColliderCylinderInit D_80A35190 = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000722, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
+EnGe3ActionFunc D_80A351BC[] = { func_80A34A80 };
 
-EnGe3ActionFunc D_80A351BC[] = {
-    func_80A34A80
-};
+u32 D_80A351C0[] = { 0x0600B07C };
 
-u32 D_80A351C0[] = {
-    0x0600B07C
-};
+u8 D_80A351C4[] = { 0x00 };
 
-u8 D_80A351C4[] = {
-    0x00
-};
+Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
 
-Vec3f D_80A351C8 = {
-    600.0f, 700.0f, 0.0f
-};
-
-u32 D_80A351D4[] = {
-    0x06005FE8, 0x060065A8, 0x06006D28
-};
+u32 D_80A351D4[] = { 0x06005FE8, 0x060065A8, 0x06006D28 };
 
 void func_80A34620(EnGe3* this, s32 arg1) {
 
     this->actionFunc = D_80A351BC[arg1];
-    SkelAnime_ChangeAnim(&this->skelAnime, (AnimationHeader*)D_80A351C0[arg1], 1.0f, 0.0f, 
-        SkelAnime_GetFrameCount(&(((AnimationHeader*)D_80A351C0[arg1])->genericHeader)), D_80A351C4[arg1], -8.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, (AnimationHeader*)D_80A351C0[arg1], 1.0f, 0.0f,
+                         SkelAnime_GetFrameCount(&(((AnimationHeader*)D_80A351C0[arg1])->genericHeader)),
+                         D_80A351C4[arg1], -8.0f);
     this->unk_30C &= ~2;
 }
 
@@ -111,7 +100,7 @@ void func_80A347F4(EnGe3* this, GlobalContext* globalCtx) {
     if (tmp < 0) {
         Math_SmoothScaleMaxMinS(&this->unk_300.y, -0x2000, 6, 0x1838, 0x100);
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_300.y, 0x2000,  6, 0x1838, 0x100);
+        Math_SmoothScaleMaxMinS(&this->unk_300.y, 0x2000, 6, 0x1838, 0x100);
     }
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xC, 0x3E8, 0x64);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -242,35 +231,33 @@ s32 func_80A34E58(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             return 0;
         case 6:
             rot->x += this->unk_300.y;
-        default:
-            {
-                GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-                Gfx* dispRefs[4];
+        default: {
+            GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+            Gfx* dispRefs[4];
 
-                Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x223);
-                switch (limbIndex) {
-                    case 3:
-                        break;
-                    case 6:
-                        gDPPipeSync(gfxCtx->polyOpa.p++);
-                        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x50, 0x3C, 0x0A, 0xFF);
-                        break;
-                    case 11:
-                    case 16:
-                        gDPPipeSync(gfxCtx->polyOpa.p++);
-                        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x8C, 0xAA, 0xE6, 0xFF);
-                        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-                        break;
-                    default:
-                        gDPPipeSync(gfxCtx->polyOpa.p++);
-                        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x8C, 0x00, 0x00, 0xFF);
-                        break;
-                }
-                Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x236);
+            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x223);
+            switch (limbIndex) {
+                case 3:
+                    break;
+                case 6:
+                    gDPPipeSync(gfxCtx->polyOpa.p++);
+                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x50, 0x3C, 0x0A, 0xFF);
+                    break;
+                case 11:
+                case 16:
+                    gDPPipeSync(gfxCtx->polyOpa.p++);
+                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x8C, 0xAA, 0xE6, 0xFF);
+                    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+                    break;
+                default:
+                    gDPPipeSync(gfxCtx->polyOpa.p++);
+                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x8C, 0x00, 0x00, 0xFF);
+                    break;
             }
-            break;
+            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x236);
+        } break;
     }
-    
+
     return 0;
 }
 
@@ -296,9 +283,10 @@ void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800943C8(globalCtx->state.gfxCtx);
 
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A351D4[this->unk_2FC]));
-        
+
         func_8002EBCC(&this->actor, globalCtx, 0);
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80A34E58, func_80A35004, &this->actor);
+        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                         func_80A34E58, func_80A35004, &this->actor);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x277);
     }
 }

@@ -32,7 +32,7 @@ void func_80A32190(EnGe1* this, GlobalContext* globalCtx);
 void func_80A323EC(EnGe1* this);
 
 extern AnimationHeader D_06000228;
-extern SkeletonHeader  D_06000330;
+extern SkeletonHeader D_06000330;
 extern AnimationHeader D_0600A048;
 extern AnimationHeader D_0600A498;
 
@@ -48,24 +48,17 @@ const ActorInit En_Ge1_InitVars = {
     (ActorFunc)EnGe1_Draw,
 };
 
-static ColliderCylinderInit D_80A32770 =
-{
+static ColliderCylinderInit D_80A32770 = {
     { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000702, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
-u32 D_80A3279C[] = {
-    0x06009198, 0x06009430, 0x06009690
-};
+u32 D_80A3279C[] = { 0x06009198, 0x06009430, 0x06009690 };
 
-Vec3f D_80A327A8 = {
-    600.0f, 700.0f, 0.0f
-};
+Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 
-u32 D_80A327B4[] = {
-    0x06000708, 0x06000F08, 0x06001708
-};
+u32 D_80A327B4[] = { 0x06000708, 0x06000F08, 0x06001708 };
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGe1* this = THIS;
@@ -88,7 +81,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward = 1200.0f;
     }
 
-    switch(this->actor.params & 0xFF) {
+    switch (this->actor.params & 0xFF) {
         case 0:
             this->unk_2AE = 2;
             this->actionFunc = func_80A31880;
@@ -158,7 +151,8 @@ s32 func_80A30C70(EnGe1* this, GlobalContext* globalCtx, u16 arg2, f32 arg3, EnG
         this->unk_2B8 = func_80A323EC;
         this->unk_2AC &= ~4;
         this->unk_2B0 = &D_06000228;
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06000228, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000228.genericHeader), 2, -8.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06000228, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_06000228.genericHeader), 2, -8.0f);
         return 1;
     } else {
         this->actor.textId = arg2;
@@ -170,16 +164,15 @@ s32 func_80A30C70(EnGe1* this, GlobalContext* globalCtx, u16 arg2, f32 arg3, EnG
 }
 
 void func_80A30D48(EnGe1* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000228, -1.0f, SkelAnime_GetFrameCount(&D_06000228.genericHeader), 0.0f, 2, 8.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000228, -1.0f, SkelAnime_GetFrameCount(&D_06000228.genericHeader), 0.0f,
+                         2, 8.0f);
     this->unk_2B0 = &D_06000228;
     this->unk_2B8 = func_80A323B0;
 }
 
 s32 func_80A30DCC(void) {
-    if ((!(gSaveContext.eventChkInf[9] & 1)) ||
-        (!(gSaveContext.eventChkInf[9] & 2)) ||
-        (!(gSaveContext.eventChkInf[9] & 4)) ||
-        (!(gSaveContext.eventChkInf[9] & 8))) {
+    if ((!(gSaveContext.eventChkInf[9] & 1)) || (!(gSaveContext.eventChkInf[9] & 2)) ||
+        (!(gSaveContext.eventChkInf[9] & 4)) || (!(gSaveContext.eventChkInf[9] & 8))) {
         return 0;
     }
     return 1;
@@ -192,8 +185,7 @@ void func_80A30E08(EnGe1* this, GlobalContext* globalCtx) {
         return;
     }
     func_8006D074(globalCtx);
-    if ((gSaveContext.items[gItemSlots[0xA]] == 0xFF) || 
-        (gSaveContext.items[gItemSlots[0xB]] == 0xFF)) {
+    if ((gSaveContext.items[gItemSlots[0xA]] == 0xFF) || (gSaveContext.items[gItemSlots[0xB]] == 0xFF)) {
         globalCtx->nextEntranceIndex = 0x1A5;
     } else if (gSaveContext.eventChkInf[12] & 0x80) {
         globalCtx->nextEntranceIndex = 0x5F8;
@@ -254,8 +246,7 @@ void func_80A31094(EnGe1* this, GlobalContext* globalCtx) {
 void func_80A310C4(EnGe1* this, GlobalContext* globalCtx) {
     s32 tmp = (s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y);
 
-    if ((this->actor.xzDistFromLink < 50.0f) || 
-        ((ABS(tmp) < 0x4301) && (this->actor.xzDistFromLink < 400.0f))) {
+    if ((this->actor.xzDistFromLink < 50.0f) || ((ABS(tmp) < 0x4301) && (this->actor.xzDistFromLink < 400.0f))) {
         func_80A30EE8(this, globalCtx);
     }
     if (this->collider.base.acFlags & 2) {
@@ -299,7 +290,8 @@ void func_80A312E4(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
         if (func_80106BC8(globalCtx)) {
             this->actionFunc = func_80A31234;
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f,
+                                 SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
             this->unk_2B0 = &D_0600A048;
             this->unk_2B8 = func_80A323EC;
             this->unk_2AC &= ~4;
@@ -392,7 +384,8 @@ void func_80A316F4(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
         if (func_80106BC8(globalCtx)) {
             this->actionFunc = func_80A31644;
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f,
+                                 SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
             this->unk_2B0 = &D_0600A048;
             this->unk_2B8 = func_80A323EC;
             this->unk_2AC &= ~4;
@@ -425,7 +418,8 @@ void func_80A31880(EnGe1* this, GlobalContext* globalCtx) {
     if (func_80A30C70(this, globalCtx, textId, 100.0f, func_80A3183C) != 0) {
         this->unk_2B8 = func_80A323B0;
         this->unk_2B0 = &D_0600A498;
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A498, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A498.genericHeader), 2, -8.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A498, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_0600A498.genericHeader), 2, -8.0f);
     }
 }
 
@@ -458,7 +452,7 @@ void func_80A3196C(EnGe1* this, GlobalContext* globalCtx) {
         if (this->unk_2AC & 2) {
             tmp8 = gUpgradeShifts[0];
             tmp = (s32)(gSaveContext.upgrades & gUpgradeMasks[0]) >> tmp8;
-            switch(tmp) {
+            switch (tmp) {
                 case 1:
                     tmp = 0x30;
                     break;
@@ -468,7 +462,6 @@ void func_80A3196C(EnGe1* this, GlobalContext* globalCtx) {
                 default:
                     tmp = pad;
             }
-            
         }
         func_8002F434(&this->actor, globalCtx, tmp, 10000.0f, 50.0f);
     }
@@ -491,7 +484,7 @@ void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
     }
     phi_a2 = 0x3E;
     if (this->unk_2AC & 2) {
-        switch(CUR_UPG_VALUE(0)) {
+        switch (CUR_UPG_VALUE(0)) {
             case 1:
                 phi_a2 = 0x30;
                 break;
@@ -553,7 +546,8 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                 if (!(player->stateFlags1 & 0x800000)) {
                     func_8002DF54(globalCtx, &this->actor, 1);
                 } else {
-                    horseyneighneigh = (EnHorse*)Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_HORSE, 1, 1200.0f);
+                    horseyneighneigh =
+                        (EnHorse*)Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_HORSE, 1, 1200.0f);
                     player->actor.freezeTimer = 0x4B0;
                     if (horseyneighneigh != NULL) {
                         horseyneighneigh->actor.freezeTimer = 0x4B0;
@@ -565,7 +559,6 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80A31FE0;
                 func_80106CCC(globalCtx);
                 break;
-            
         }
     }
 }
@@ -591,10 +584,10 @@ void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[0] &= ~0x100;
     LogUtils_LogThreadId("../z_en_ge1.c", 0x456);
     osSyncPrintf("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
-    if (1) { } 
+    if (1) {}
     LogUtils_LogThreadId("../z_en_ge1.c", 0x457);
     osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.unk_EB8);
-    
+
     this->actor.flags |= 0x10000;
 
     if (gSaveContext.unk_EB8 < gSaveContext.minigameScore) {
@@ -605,7 +598,7 @@ void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
     if (gSaveContext.minigameScore < 1000) {
         this->actor.textId = 0x6045;
         this->actionFunc = func_80A31DE4;
-        if (1) { }
+        if (1) {}
     } else if (!(gSaveContext.infTable[25] & 1)) {
         this->actor.textId = 0x6046;
         this->actionFunc = func_80A31B20;
@@ -657,13 +650,12 @@ void func_80A32078(EnGe1* this, GlobalContext* globalCtx) {
     if (ABS(tmp) < 0x4001) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 6, 0xFA0, 0x64);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        func_80038290(globalCtx, &this->actor, &this->unk_29C, 
-            &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
     } else {
         if (tmp < 0) {
             Math_SmoothScaleMaxMinS(&this->unk_29C.y, -0x2000, 6, 0x1838, 0x100);
         } else {
-            Math_SmoothScaleMaxMinS(&this->unk_29C.y,  0x2000, 6, 0x1838, 0x100);
+            Math_SmoothScaleMaxMinS(&this->unk_29C.y, 0x2000, 6, 0x1838, 0x100);
         }
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xC, 0x3E8, 0x64);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -674,8 +666,7 @@ void func_80A32190(EnGe1* this, GlobalContext* globalCtx) {
     s32 tmp = (s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y);
 
     if ((ABS(tmp) < 0x4301) && (this->actor.xzDistFromLink < 100.0f)) {
-        func_80038290(globalCtx, &this->actor, &this->unk_29C, 
-            &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
     } else {
         Math_SmoothScaleMaxMinS(&this->unk_29C.x, 0, 6, 0x1838, 0x64);
         Math_SmoothScaleMaxMinS(&this->unk_29C.y, 0, 6, 0x1838, 0x64);
@@ -700,7 +691,7 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2A2.x = this->unk_2A2.y = this->unk_2A2.z = 0;
-    
+
     if (DECR(this->unk_2AA) == 0) {
         this->unk_2AA = Math_Rand_S16Offset(0x3C, 0x3C);
     }
@@ -751,7 +742,7 @@ void func_80A32598(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
-        
+
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 0x58B);
         if (limbIndex == 0xF) {
             gSPDisplayList(gfxCtx->polyOpa.p++, D_80A3279C[this->unk_2AE]);
@@ -773,9 +764,9 @@ void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800943C8(globalCtx->state.gfxCtx);
 
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A327B4[this->unk_2A8]));
-        
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
-            this->skelAnime.dListCount, func_80A32444, func_80A32598, &this->actor);
+
+        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                         func_80A32444, func_80A32598, &this->actor);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 0x5B3);
     }
 }

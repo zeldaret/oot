@@ -34,7 +34,7 @@ s32 func_80A32F74(GlobalContext* globalCtx, EnGe2* this, Vec3f* arg2, s16 arg3, 
 void func_80A33B7C(EnGe2* this, GlobalContext* globalCtx);
 void func_80A33C8C(EnGe2* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader  D_06008968;
+extern SkeletonHeader D_06008968;
 extern AnimationHeader D_06009ED4;
 
 const ActorInit En_Ge2_InitVars = {
@@ -49,60 +49,36 @@ const ActorInit En_Ge2_InitVars = {
     (ActorFunc)EnGe2_Draw,
 };
 
-static ColliderCylinderInit D_80A34310 =
-{
+static ColliderCylinderInit D_80A34310 = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x000007A2, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 60, 0, { 0, 0, 0 } },
 };
 
-EnGe2ActionFunc D_80A3433C[] = {
-    func_80A33600,
-    func_80A3354C,
-    func_80A33444,
-    func_80A3334C,
-    func_80A332D4,
-    func_80A331A0,
-    func_80A330CC,
-    func_80A336C4,
-    func_80A339EC
-};
+EnGe2ActionFunc D_80A3433C[] = { func_80A33600, func_80A3354C, func_80A33444, func_80A3334C, func_80A332D4,
+                                 func_80A331A0, func_80A330CC, func_80A336C4, func_80A339EC };
 
-u32 D_80A34360[] ={
-    0x06009ED4, 0x060098AC, 0x060098AC, 
-    0x060011F4, 0x060098AC, 0x06008D60, 
-    0x060098AC, 0x060098AC, 0x060098AC
-};
+u32 D_80A34360[] = { 0x06009ED4, 0x060098AC, 0x060098AC, 0x060011F4, 0x060098AC,
+                     0x06008D60, 0x060098AC, 0x060098AC, 0x060098AC };
 
-u8 D_80A34384[] = {
-    0x00, 0x02, 0x00, 
-    0x02, 0x00, 0x00, 
-    0x00, 0x00, 0x02
-};
+u8 D_80A34384[] = { 0x00, 0x02, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x02 };
 
-Vec3f D_80A34390 = {
-    0.0f, -0.0500000007451f, 0.0f
-};
+Vec3f D_80A34390 = { 0.0f, -0.0500000007451f, 0.0f };
 
-Vec3f D_80A3439C = {
-    0.0f, -0.0250000003725f, 0.0f
-};
+Vec3f D_80A3439C = { 0.0f, -0.0250000003725f, 0.0f };
 
 Color_RGB8 D_80A343A8 = { 0xFF, 0xFF, 0xFF };
 Color_RGB8 D_80A343AC = { 0xFF, 0x96, 0x00 };
 
-Vec3f D_80A343B0 = {
-    600.0f, 700.0f, 0.0f
-};
+Vec3f D_80A343B0 = { 600.0f, 700.0f, 0.0f };
 
-u32 D_80A343BC[] = {
-    0x06004F78, 0x06005578, 0x06005BF8, 0x00000000, 0x00000000
-};
+u32 D_80A343BC[] = { 0x06004F78, 0x06005578, 0x06005BF8, 0x00000000, 0x00000000 };
 
 void func_80A32BD0(EnGe2* this, s32 arg1) {
     this->actionFunc = D_80A3433C[arg1];
-    SkelAnime_ChangeAnim(&this->skelAnime, (AnimationHeader*)D_80A34360[arg1], 1.0f, 0.0f, 
-        SkelAnime_GetFrameCount(&((AnimationHeader*)D_80A34360[arg1])->genericHeader), D_80A34384[arg1], -8.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, (AnimationHeader*)D_80A34360[arg1], 1.0f, 0.0f,
+                         SkelAnime_GetFrameCount(&((AnimationHeader*)D_80A34360[arg1])->genericHeader),
+                         D_80A34384[arg1], -8.0f);
     this->unk_2F4 &= ~2;
 }
 
@@ -154,17 +130,16 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2F4 = 0;
-    
+
     this->unk_304 = 0;
     this->unk_302 = 0;
     this->unk_306 = 0;
 
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
-    
+
     this->unk_2F6 = this->actor.posRot.rot.y;
     this->unk_300 = ((this->actor.params & 0xFF00) >> 8) * 10;
-    
 }
 
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -287,7 +262,6 @@ void func_80A332D4(EnGe2* this, GlobalContext* globalCtx) {
 void func_80A3334C(EnGe2* this, GlobalContext* globalCtx) {
     s32 temp_a0;
     Vec3f sp38;
-    
 
     this->actor.flags &= -2;
     if (this->unk_2F4 & 2) {
@@ -321,7 +295,7 @@ void func_80A33444(EnGe2* this, GlobalContext* globalCtx) {
             }
         }
     }
-    
+
     switch (this->unk_306) {
         case 1:
             Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_2F8, 2, 0x200, 0x100);
@@ -353,7 +327,7 @@ void func_80A3354C(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A33600(EnGe2 *this, GlobalContext *globalCtx) {
+void func_80A33600(EnGe2* this, GlobalContext* globalCtx) {
     u8 temp_v0;
 
     temp_v0 = func_80A32ECC(globalCtx, this);
@@ -388,13 +362,12 @@ void func_80A33704(EnGe2* this, GlobalContext* globalCtx) {
     if (ABS(tmp) < 0x4001) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 6, 0xFA0, 0x64);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        func_80038290(globalCtx, &this->actor, &this->unk_2E8, 
-            &this->unk_2EE, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_2E8, &this->unk_2EE, this->actor.posRot2.pos);
     } else {
         if (tmp < 0) {
             Math_SmoothScaleMaxMinS(&this->unk_2E8.y, -0x2000, 6, 0x1838, 0x100);
         } else {
-            Math_SmoothScaleMaxMinS(&this->unk_2E8.y,  0x2000, 6, 0x1838, 0x100);
+            Math_SmoothScaleMaxMinS(&this->unk_2E8.y, 0x2000, 6, 0x1838, 0x100);
         }
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xC, 0x3E8, 0x64);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -583,10 +556,10 @@ void func_80A3402C(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
     Collider* colliderBase = &this->collider.base;
 
-    if (globalCtx){};
+    if (globalCtx) {};
     Collider_CylinderUpdate(thisx, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    if (globalCtx){};
+    if (globalCtx) {};
     func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
     if (this->collider.base.acFlags & 2) {
 
@@ -598,7 +571,6 @@ void func_80A3402C(Actor* thisx, GlobalContext* globalCtx) {
             thisx->speedXZ = 0.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
         }
-
     }
 
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, colliderBase);
@@ -612,7 +584,6 @@ void func_80A3402C(Actor* thisx, GlobalContext* globalCtx) {
             thisx->update = EnGe2_Update;
         }
     }
-
 }
 
 s32 func_80A3415C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
@@ -646,8 +617,8 @@ void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         func_8002EBCC(thisx, globalCtx, 0);
         skelAnime = &this->skelAnime;
-        SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80A3415C, func_80A341A0, &this->actor);
+        SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80A3415C,
+                         func_80A341A0, &this->actor);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge2.c", 0x50B);
     }
 }
-
