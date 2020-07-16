@@ -1234,7 +1234,11 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/ovl_Bg_Spot01_Idohashira_reloc.o"
+#else
     include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2621,11 +2625,7 @@ endseg
 beginseg
     name "ovl_En_Heishi2"
     include "build/src/overlays/actors/ovl_En_Heishi2/z_en_heishi2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Heishi2/ovl_En_Heishi2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_heishi2.reloc.o"
-#endif
 endseg
 
 beginseg
