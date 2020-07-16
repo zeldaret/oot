@@ -20,7 +20,7 @@ typedef struct EnBombf {
     /* 0x0204 */ u8 bumpOn;
     /* 0x0206 */ s16 flashSpeedScale;
     /* 0x0208 */ f32 flashIntensity;
-    /* 0x020C */ f32 unk_20C;
+    /* 0x020C */ f32 flowerBombScale;
 } EnBombf; // size = 0x0210
 
 extern const ActorInit En_Bombf_InitVars;
