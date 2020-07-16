@@ -42,12 +42,12 @@ FaultDrawer sFaultDrawerDefault = {
     320, 240, // w, h
     16, 223, // yStart, yEnd
     22, 297, // xStart, xEnd
-    0xFFFF, 0x0000, // foreColor, backColor
+    0xFFFF, 0x0000, // foreColor, backColor // shorts for colors? dunno what to do with these
     22, 16, // cursorX, cursorY
     sFaultDrawerFont, // font
     8, 8, 0, 0,
     { // printColors
-        0x0001, 0xF801, 0x07C1, 0xFFC1,
+        0x0001, 0xF801, 0x07C1, 0xFFC1, // shorts for colors? dunno what to do with these
         0x003F, 0xF83F, 0x07FF, 0xFFFF,
         0x7BDF, 0xB5AD
     },

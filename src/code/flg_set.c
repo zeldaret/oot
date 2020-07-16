@@ -52,7 +52,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, gfx);
-    GfxPrint_SetColor(&printer, 0xFA, 0x32, 0x32, 0xFF);
+    GfxPrint_SetColor(&printer, 250, 50, 50, 255);
     GfxPrint_SetPos(&printer, 4, 13);
     GfxPrint_Printf(&printer, entries[entryIdx].name);
     GfxPrint_SetPos(&printer, 4, 15);

@@ -96,10 +96,10 @@ static Vec3f sDustPos = {
 };
 
 static Color_RGBA8 sMergeColor = {
-    0x00,
-    0xFF,
-    0x00,
-    0x00,
+    0,
+    255,
+    0,
+    0,
 };
 
 // display lists
