@@ -78,12 +78,14 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHeishi3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnHeishi3_SetupGuardType(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     if (this->unk_278 == 0) {
         this->actionFunc = EnHeishi3_StandSentinelInGrounds;
     } else {
@@ -157,8 +159,9 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
 }
 
 void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->caughtTimer = 20;
     this->actionFunc = func_80A55BD4;
     this->actor.speedXZ = 2.5f;
@@ -179,8 +182,9 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A55D00;
 }
 
@@ -200,6 +204,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
 void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
     s32 pad;
+
     Actor_SetHeight(&this->actor, 60.0f);
     this->unk_274 += 1;
     if (this->caughtTimer != 0) {
@@ -216,6 +221,7 @@ void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                Actor* thisx) {
     EnHeishi3* this = THIS;
+
     if (limbIndex == 9) {
         rot->x += this->unk_26E;
     }
@@ -230,6 +236,7 @@ s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
+    
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi3_OverrideLimbDraw, NULL,
                    &this->actor);

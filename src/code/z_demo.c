@@ -137,7 +137,7 @@ u32 func_8006472C(GlobalContext* globalCtx, CutsceneContext* csCtx, f32 target) 
 
 void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -148,7 +148,7 @@ void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     func_80068C3C(globalCtx, csCtx);
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -358,7 +358,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 globalCtx->envCtx.unk_E6 = 1;
             }
-            func_800788CC(0x20C0);
+            func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
         case 33:
             gSaveContext.unk_1422 = 1;
@@ -1440,11 +1440,11 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             if (D_8011E1C0 != cmd->base) {
                 D_8011E1C0 = cmd->base;
                 if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else {
-                    func_8010B680(globalCtx, cmd->base, 0);
+                    func_8010B680(globalCtx, cmd->base, NULL);
                 }
                 return;
             }
@@ -1964,8 +1964,8 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
             if (gSaveContext.cutsceneTrigger == 0) {
                 Interface_ChangeAlpha(1);
-                func_800B3840(0x20);
-                func_800B38A4(0x20);
+                ShrinkWindow_SetVal(0x20);
+                ShrinkWindow_SetCurrentVal(0x20);
                 csCtx->state++;
             }
 
@@ -2018,10 +2018,10 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
-    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", gSaveContext.respawnFlag);
+    s32 temp; // inline temp needed to match regalloc
+
+    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", temp = gSaveContext.respawnFlag);
 
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.entranceIndex == 0x01E1) && !Flags_GetEventChkInf(0xAC)) {
@@ -2040,21 +2040,18 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(0xC4) &&
-                   (gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_TOKINOMA)) {
+                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(0xC4);
             gSaveContext.entranceIndex = 0x0053;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(0xC7) &&
-                   (gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_GANON_DEMO)) {
+                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(0xC7);
             gSaveContext.entranceIndex = 0x0517;
             gSaveContext.cutsceneIndex = 0xFFF0;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_demo/Cutscene_HandleConditionalTriggers.s")
-#endif
 
 void Cutscene_SetSegment(GlobalContext* globalCtx, u32 segment) {
     if (SEGMENT_NUMBER(segment) != 0) {

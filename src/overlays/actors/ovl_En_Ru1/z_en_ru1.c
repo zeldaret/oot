@@ -1227,7 +1227,8 @@ void func_80AED4FC(EnRu1* this) {
 func_80AED520(EnRu1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Audio_PlaySoundGeneral(0x883, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                           &D_801333E8);
     func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 

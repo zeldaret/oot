@@ -104,7 +104,7 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     temp2 *= temp_f0;
     interfaceCtx->unk_208[1] = (u8)(temp2 + 0x28);
     temp3 *= temp_f0;
-    interfaceCtx->unk_208[2] = (u8)(temp2 + 0x3C);
+    interfaceCtx->unk_208[2] = (u8)(temp3 + 0x3C);
 
     D_8015FDD0[0] = 0xFF;
     D_8015FDD0[1] = 0xFF;
