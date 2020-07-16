@@ -895,7 +895,8 @@ typedef struct {
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ char     unk_BC[0x03];
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x18];
+    /* 0xC0 */ char     unk_C0[0x16];
+    /* 0xD6 */ s16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
