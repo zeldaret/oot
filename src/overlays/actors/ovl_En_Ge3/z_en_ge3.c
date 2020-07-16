@@ -15,7 +15,13 @@ void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void func_80A34B90(EnGe3* this, GlobalContext* globalCtx);
+void func_80A34A80(EnGe3* this, GlobalContext* globalCtx);
+void func_80A34D68(Actor* thisx, GlobalContext* globalCtx);
+
+extern SkeletonHeader D_0600A458;
+extern AnimationHeader D_0600B07C;
+
 const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORTYPE_NPC,
@@ -27,37 +33,272 @@ const ActorInit En_Ge3_InitVars = {
     (ActorFunc)EnGe3_Update,
     (ActorFunc)EnGe3_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34620.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/EnGe3_Init.s")
+static ColliderCylinderInit D_80A35190 =
+{
+    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000722, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 20, 50, 0, { 0, 0, 0 } },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/EnGe3_Destroy.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A347F4.s")
+EnGe3ActionFunc D_80A351BC[] = {
+    func_80A34A80
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A3490C.s")
+u32 D_80A351C0[] = {
+    0x0600B07C
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34A20.s")
+u8 D_80A351C4[] = {
+    0x00
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34A80.s")
+Vec3f D_80A351C8 = {
+    600.0f, 700.0f, 0.0f
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34AA0.s")
+u32 D_80A351D4[] = {
+    0x06005FE8, 0x060065A8, 0x06006D28
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34B00.s")
+void func_80A34620(EnGe3* this, s32 arg1) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34B90.s")
+    this->actionFunc = D_80A351BC[arg1];
+    SkelAnime_ChangeAnim(&this->skelAnime, (AnimationHeader*)D_80A351C0[arg1], 1.0f, 0.0f, 
+        SkelAnime_GetFrameCount(&(((AnimationHeader*)D_80A351C0[arg1])->genericHeader)), D_80A351C4[arg1], -8.0f);
+    this->unk_30C &= ~2;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34C40.s")
+void func_80A34620(EnGe3*, s32);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34CE4.s")
+void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnGe3* this = THIS;
+    s32 pad;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34D68.s")
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600A458, NULL, &this->limbDrawTable, &this->unk_26C, 0x18);
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600B07C);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A35190);
+    this->actor.colChkInfo.mass = 0xFF;
+    Actor_SetScale(&this->actor, 0.01f);
+    this->actor.posRot.rot.z = 0;
+    this->actor.shape.rot.z = 0;
+    func_80A34620(this, 0);
+    this->actionFunc = func_80A34B90;
+    this->unk_30C = 0;
+    this->actor.unk_1F = 6;
+    this->actor.minVelocityY = -4.0f;
+    this->actor.gravity = -1.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/EnGe3_Update.s")
+void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnGe3* this = THIS;
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34E58.s")
+void func_80A347F4(EnGe3* this, GlobalContext* globalCtx) {
+    s32 tmp = (s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y);
+    s32 pad;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A35004.s")
+    if (ABS(tmp) < 0x4001) {
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 6, 0xFA0, 0x64);
+        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        func_80038290(globalCtx, &this->actor, &this->unk_300, &this->unk_306, this->actor.posRot2.pos);
+        return;
+    }
+    if (tmp < 0) {
+        Math_SmoothScaleMaxMinS(&this->unk_300.y, -0x2000, 6, 0x1838, 0x100);
+    } else {
+        Math_SmoothScaleMaxMinS(&this->unk_300.y, 0x2000,  6, 0x1838, 0x100);
+    }
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xC, 0x3E8, 0x64);
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/EnGe3_Draw.s")
+void func_80A3490C(EnGe3* this, GlobalContext* globalCtx) {
+    s32 tmp = (s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y);
+    s32 pad;
+
+    if (ABS(tmp) < 0x2301) {
+        if (this->actor.xzDistFromLink < 100.0f) {
+            func_80038290(globalCtx, &this->actor, &this->unk_300, &this->unk_306, this->actor.posRot2.pos);
+            return;
+        }
+    }
+    Math_SmoothScaleMaxMinS(&this->unk_300.x, 0, 6, 0x1838, 0x64);
+    Math_SmoothScaleMaxMinS(&this->unk_300.y, 0, 6, 0x1838, 0x64);
+    Math_SmoothScaleMaxMinS(&this->unk_306.x, 0, 6, 0x1838, 0x64);
+    Math_SmoothScaleMaxMinS(&this->unk_306.y, 0, 6, 0x1838, 0x64);
+}
+
+void func_80A34A20(EnGe3* this, GlobalContext* globalCtx) {
+    if (func_8002F334(&this->actor, globalCtx)) {
+        this->actionFunc = func_80A34A80;
+        this->actor.update = func_80A34D68;
+        this->actor.flags &= ~0x10000;
+    }
+    func_80A347F4(this, globalCtx);
+}
+
+void func_80A34A80(EnGe3* this, GlobalContext* globalCtx) {
+    func_80A3490C(this, globalCtx);
+}
+
+void func_80A34AA0(EnGe3* this, GlobalContext* globalCtx) {
+    if (func_8002F410(&this->actor, globalCtx) != 0) {
+        this->actor.attachedA = NULL;
+        this->actionFunc = func_80A34A20;
+        return;
+    }
+    func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
+}
+
+void func_80A34B00(EnGe3* this, GlobalContext* globalCtx) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
+        if (func_80106BC8(globalCtx)) {
+            func_80106CCC(globalCtx);
+            this->actor.flags &= ~0x10000;
+            this->actionFunc = func_80A34AA0;
+            func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
+        }
+    }
+}
+
+void func_80A34B90(EnGe3* this, GlobalContext* globalCtx) {
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
+        this->actionFunc = func_80A34B00;
+    } else {
+        if (!(this->unk_30C & 4)) {
+            func_8002DF54(globalCtx, &this->actor, 7);
+            this->unk_30C |= 4;
+        }
+        this->actor.textId = 0x6004;
+        this->actor.flags |= 0x10000;
+        func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0);
+    }
+    func_80A3490C(this, globalCtx);
+}
+
+void func_80A34C40(EnGe3* this, GlobalContext* globalCtx) {
+    ColliderCylinder* collider = &this->collider;
+    Collider* colliderBase = &this->collider.base;
+
+    Collider_CylinderUpdate(&this->actor, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, colliderBase);
+    func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    if (!(this->unk_30C & 2)) {
+        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+            this->unk_30C |= 2;
+        }
+    }
+}
+
+void func_80A34CE4(EnGe3* this, GlobalContext* globalCtx) {
+    Actor_MoveForward(&this->actor);
+    if (DECR(this->unk_2FE) == 0) {
+        this->unk_2FE = Math_Rand_S16Offset(0x3C, 0x3C);
+    }
+
+    this->unk_2FC = this->unk_2FE;
+    if (this->unk_2FC >= 3) {
+        this->unk_2FC = 0;
+    }
+}
+
+void func_80A34D68(Actor* thisx, GlobalContext* globalCtx) {
+    EnGe3* this = THIS;
+
+    func_80A34C40(this, globalCtx);
+    this->actionFunc(this, globalCtx);
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
+        this->actionFunc = func_80A34A20;
+        this->actor.update = EnGe3_Update;
+    } else {
+        this->actor.textId = 0x6005;
+        if (this->actor.xzDistFromLink < 100.0f) {
+            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+        }
+    }
+    func_80A34CE4(this, globalCtx);
+}
+
+void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnGe3* this = THIS;
+    func_80A34C40(this, globalCtx);
+    this->actionFunc(this, globalCtx);
+    func_80A34CE4(this, globalCtx);
+}
+
+s32 func_80A34E58(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnGe3* this = THIS;
+
+    switch (limbIndex) {
+        case 5:
+        case 11:
+        case 16:
+            *dList = NULL;
+            return 0;
+        case 6:
+            rot->x += this->unk_300.y;
+        default:
+            {
+                GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+                Gfx* dispRefs[4];
+
+                Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x223);
+                switch (limbIndex) {
+                    case 3:
+                        break;
+                    case 6:
+                        gDPPipeSync(gfxCtx->polyOpa.p++);
+                        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x50, 0x3C, 0x0A, 0xFF);
+                        break;
+                    case 11:
+                    case 16:
+                        gDPPipeSync(gfxCtx->polyOpa.p++);
+                        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x8C, 0xAA, 0xE6, 0xFF);
+                        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+                        break;
+                    default:
+                        gDPPipeSync(gfxCtx->polyOpa.p++);
+                        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x8C, 0x00, 0x00, 0xFF);
+                        break;
+                }
+                Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x236);
+            }
+            break;
+    }
+    
+    return 0;
+}
+
+void func_80A35004(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnGe3* this = THIS;
+    Vec3f sp18;
+
+    sp18 = D_80A351C8;
+    if (limbIndex == 6) {
+        Matrix_MultVec3f(&sp18, &this->actor.posRot2.pos);
+    }
+}
+
+void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnGe3* this = THIS;
+    s32 pad;
+
+    {
+        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+        Gfx* dispRefs[4];
+
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x266);
+        func_800943C8(globalCtx->state.gfxCtx);
+
+        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A351D4[this->unk_2FC]));
+        
+        func_8002EBCC(&this->actor, globalCtx, 0);
+        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80A34E58, func_80A35004, &this->actor);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x277);
+    }
+}

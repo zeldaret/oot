@@ -2534,18 +2534,13 @@ endseg
 beginseg
     name "ovl_En_Ge2"
     include "build/src/overlays/actors/ovl_En_Ge2/z_en_ge2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Ge2/ovl_En_Ge2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_ge2.reloc.o"
-#endif
 endseg
 
 beginseg
     name "ovl_En_Ge3"
     include "build/src/overlays/actors/ovl_En_Ge3/z_en_ge3.o"
-    include "build/data/overlays/actors/z_en_ge3.data.o"
-    include "build/data/overlays/actors/z_en_ge3.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ge3/ovl_En_Ge3_reloc.o"
 endseg
 
 beginseg
