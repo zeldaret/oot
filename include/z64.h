@@ -375,7 +375,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ char unk_00[0x2];
     /* 0x02 */ s16  unk_02;
-    /* 0x04 */ char unk_04[0xC];
+    /* 0x04 */ char unk_04[0x8];
+    /* 0x0C */ u32 unk_0C;
 } WaterBox; // size = 0x10
 
 typedef struct {

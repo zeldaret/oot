@@ -510,9 +510,9 @@ s16 func_80044ADC(Camera *camera, s16 arg1, s16 arg2) {
     sp58.y = sp64.y;
     sp58.z = (sp30 * cosAngle) + sp64.z;
     if (arg2 || !(camera->globalCtx->state.frames & 1)) {
-        D_8015CE58.unk_00.x = (sp2C * sinAngle) + sp64.x;
-        D_8015CE58.unk_00.y = sp64.y;
-        D_8015CE58.unk_00.z = (sp2C * cosAngle) + sp64.z;
+        D_8015CE58.pos.x = (sp2C * sinAngle) + sp64.x;
+        D_8015CE58.pos.y = sp64.y;
+        D_8015CE58.pos.z = (sp2C * cosAngle) + sp64.z;
         func_80043D18(camera, &sp64, &D_8015CE58);
         if (arg2) {
             D_8015CE54 = camera->playerGroundY;
@@ -521,18 +521,18 @@ s16 func_80044ADC(Camera *camera, s16 arg1, s16 arg2) {
         phi_f16 = D_8015CE54;
         phi_f18 = D_8015CE50;
     } else {
-        sp2C = OLib_Vec3fDistXZ(&sp64, &D_8015CE58.unk_00);
-        D_8015CE58.unk_00.x += D_8015CE58.unk_0C.x * 5.0f;
-        D_8015CE58.unk_00.y += D_8015CE58.unk_0C.y * 5.0f;
-        D_8015CE58.unk_00.z += D_8015CE58.unk_0C.z * 5.0f;
+        sp2C = OLib_Vec3fDistXZ(&sp64, &D_8015CE58.pos);
+        D_8015CE58.pos.x += D_8015CE58.norm.x * 5.0f;
+        D_8015CE58.pos.y += D_8015CE58.norm.y * 5.0f;
+        D_8015CE58.pos.z += D_8015CE58.norm.z * 5.0f;
         if (sp2C < sp30) {
             sp30 = sp2C;
-            phi_f18 = func_80044568(camera, &sp4C, &D_8015CE58.unk_00, &sp34);
+            phi_f18 = func_80044568(camera, &sp4C, &D_8015CE58.pos, &sp34);
             phi_f0 = phi_f18;
             phi_f16 = phi_f18;
         } else {
             D_8015CE50 = func_80044568(camera, &sp4C, &sp58, &sp34);
-            phi_f0 = func_80044568(camera, &sp4C, &D_8015CE58.unk_00, &sp34);
+            phi_f0 = func_80044568(camera, &sp4C, &D_8015CE58.pos, &sp34);
             phi_f18 = D_8015CE50;
             phi_f16 = phi_f0;
         }
@@ -1227,7 +1227,7 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046CB4.s")
 #endif
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_80046E20(Camera *camera, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, Normal1_Unk24 *arg5) {
     static CamColChk D_8015CE80;

@@ -437,9 +437,9 @@ u32 func_80042108(u32 a0, u32 a1, u32 a2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042244.s")
 
-u8 func_80042538(CollisionContext* colCtx, s32 iParm2) {
-    u32 var1 = *(u32*)(iParm2 + 0xc);
-    return var1;
+u32 func_80042538(CollisionContext* colCtx, WaterBox* arg1) {
+    u32 unk0C = arg1->unk_0C;
+    return unk0C & 0xFF;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042548.s")
