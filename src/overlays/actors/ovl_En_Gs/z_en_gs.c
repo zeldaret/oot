@@ -188,7 +188,7 @@ f32 func_80A4E754(EnGs* this, GlobalContext* globalCtx, f32* arg2, f32* arg3, u1
         sp2C = Math_SmoothScaleMaxMinF(arg2, *arg3, arg5, arg6, arg7);
         this->unk_1B4[0].x = 1.0f + (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
         this->unk_1B4[0].y = 1.0f - (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
-        *arg4 = *arg4 + 1;
+        *arg4 += 1;
     }
     return sp2C;
 }
