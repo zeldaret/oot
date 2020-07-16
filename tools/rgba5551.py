@@ -11,7 +11,6 @@ def decode_rgba5551(short, max=False):
         red |= red >> 5
         green |= green >> 5
         blue |= blue >> 5
-        alpha *= 255
     return (red, green, blue, alpha)
 
 def u16(x):
