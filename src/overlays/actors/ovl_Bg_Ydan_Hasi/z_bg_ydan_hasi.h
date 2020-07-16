@@ -6,6 +6,7 @@
 
 struct BgYdanHasi;
 
+
 typedef void (*BgYdanHasiActionFunc)(struct BgYdanHasi*, struct GlobalCtx*);
 
 typedef struct BgYdanHasi {

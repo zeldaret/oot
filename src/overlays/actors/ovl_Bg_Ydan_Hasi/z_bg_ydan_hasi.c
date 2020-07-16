@@ -36,7 +36,7 @@ Gfx* D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
 
 extern UNK_TYPE D_06005780;
 extern UNK_TYPE D_06007798;
-extern Gfx* D_06005DE0;
+Gfx* D_06005DE0[];
 
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
@@ -84,7 +84,7 @@ void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {
-    u32 pad;
+    s32 pad;
     f32 framesAfterMath;
     f32 posOffset;
     WaterBox* waterBox;
