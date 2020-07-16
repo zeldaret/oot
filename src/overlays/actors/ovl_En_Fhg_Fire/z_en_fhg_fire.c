@@ -472,8 +472,8 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_fhg_fire.c", 1723);
     if (thisx->params == 0x24) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xA5, 0xFF, 0x4B, 0x00);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s32)this->unk_160 & 0xFF);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
         gDPPipeSync(gfxCtx->polyXlu.p++);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -486,9 +486,9 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
 
         if (this->fireMode > 0) {
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0xFF, 0xFF, 0x00);
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 255, 0);
         } else {
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xA5, 0xFF, 0x4B, 0x00);
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
         }
 
         gDPPipeSync(gfxCtx->polyXlu.p++);
@@ -501,8 +501,8 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0,
-                        ((u32)this->unk_188 & 0xFF)); // sic u32
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x5A, 0x32, 0x5F, (s32)(this->unk_188 * 0.5f));
+                        ((u32)this->unk_188 & 0xFF));
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 90, 50, 95, (s32)(this->unk_188 * 0.5f));
         gDPPipeSync(gfxCtx->polyXlu.p++);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -517,8 +517,8 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x1E, 0x00, 0xFF);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s32)this->unk_160 & 0xFF);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 30, 0, 255);
         gDPPipeSync(gfxCtx->polyXlu.p++);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
