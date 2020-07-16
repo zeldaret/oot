@@ -1072,8 +1072,8 @@ void func_80099BD8(GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, displayListHead);
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, displayListHead);
-    gDPSetPrimColor(displayListHead++, 0, 0, 76 + (u8)(6.0f * temp), 76 + (u8)(34.0f * temp),
-                    76 + (u8)(74.0f * temp), 255);
+    gDPSetPrimColor(displayListHead++, 0, 0, 76 + (u8)(6.0f * temp), 76 + (u8)(34.0f * temp), 76 + (u8)(74.0f * temp),
+                    255);
     gSPEndDisplayList(displayListHead++);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x0A, displayListHead);

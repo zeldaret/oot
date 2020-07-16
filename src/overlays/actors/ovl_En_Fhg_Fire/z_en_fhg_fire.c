@@ -217,8 +217,8 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 
                 for (i = 0; i < 8; i++) {
                     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                        this->actor.posRot.pos.z, 0, (i * 8192) + randY, 0x4000, i + 0x64);
+                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                        (i * 8192) + randY, 0x4000, i + 0x64);
                 }
 
                 for (i = 0; i < 8; i++) {
@@ -500,8 +500,7 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(gfxCtx->polyXlu.p++, D_06012160);
     } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0,
-                        ((u32)this->unk_188 & 0xFF));
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, ((u32)this->unk_188 & 0xFF));
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 90, 50, 95, (s32)(this->unk_188 * 0.5f));
         gDPPipeSync(gfxCtx->polyXlu.p++);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),

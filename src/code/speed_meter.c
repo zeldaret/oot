@@ -18,12 +18,9 @@ volatile OSTime gRDPTotalTime;
 SpeedMeterTimeEntry* gSpeedMeterTimeEntryPtr;
 
 SpeedMeterTimeEntry sSpeedMeterTimeEntryArray[] = {
-    { &D_8016A520, 0, 0, GPACK_RGBA5551(255, 0, 0, 1) },
-    { &D_8016A528, 0, 2, GPACK_RGBA5551(255, 255, 0, 1) },
-    { &D_8016A530, 0, 4, GPACK_RGBA5551(0, 0, 255, 1) },
-    { &D_8016A538, 0, 6, GPACK_RGBA5551(255, 128, 128, 1) },
-    { &D_8016A540, 0, 8, GPACK_RGBA5551(0, 255, 0, 1) },
-    { &D_8016A548, 0, 10, GPACK_RGBA5551(255, 0, 255, 1) },
+    { &D_8016A520, 0, 0, GPACK_RGBA5551(255, 0, 0, 1) }, { &D_8016A528, 0, 2, GPACK_RGBA5551(255, 255, 0, 1) },
+    { &D_8016A530, 0, 4, GPACK_RGBA5551(0, 0, 255, 1) }, { &D_8016A538, 0, 6, GPACK_RGBA5551(255, 128, 128, 1) },
+    { &D_8016A540, 0, 8, GPACK_RGBA5551(0, 255, 0, 1) }, { &D_8016A548, 0, 10, GPACK_RGBA5551(255, 0, 255, 1) },
 };
 
 #define DrawRec(gfx, color, ulx, uly, lrx, lry)        \
@@ -185,8 +182,7 @@ void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, Gam
     if (SREG(0) > 1) {
         SystemArena_GetSizes(&sysFreeMax, &sysFree, &sysAlloc);
         SpeedMeter_InitAllocEntry(&entry, sysFree + sysAlloc - state->tha.size, sysAlloc - state->tha.size,
-                                  GPACK_RGBA5551(0, 0, 255, 1), GPACK_RGBA5551(255, 128, 128, 1), ulx, lrx, y,
-                                  y);
+                                  GPACK_RGBA5551(0, 0, 255, 1), GPACK_RGBA5551(255, 128, 128, 1), ulx, lrx, y, y);
         SpeedMeter_DrawAllocEntry(&entry, gfxCtx);
         y++;
     }
