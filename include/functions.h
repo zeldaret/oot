@@ -2246,7 +2246,7 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, u32* a3, u32* a4, u32* 
 // ? func_800F87A0(?);
 // ? func_800F8884(?);
 void func_800F89E8(Vec3f*);
-void func_800F8D04(u32 a0);
+void func_800F8D04(u16 a0);
 // ? func_800F8D04(?);
 // ? func_800F8E3C(?);
 // ? func_800F8F34(?);
