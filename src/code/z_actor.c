@@ -2106,7 +2106,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 actor->yawTowardsLink = func_8002DA78(actor, &player->actor);
                 actor->flags &= ~0x1000000;
 
-                if ((DECR(actor->freeze) == 0) && (actor->flags & 0x50)) {
+                if ((DECR(actor->freezeTimer) == 0) && (actor->flags & 0x50)) {
                     if (actor == player->unk_664) {
                         actor->unk_10C = 1;
                     } else {
@@ -2499,14 +2499,14 @@ void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
 u8 sEnemyActorTypes[] = { ACTORTYPE_ENEMY, ACTORTYPE_BOSS };
 
-void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s32 freezeValue) {
+void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s32 duration) {
     Actor* actor;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sEnemyActorTypes); i++) {
         actor = actorCtx->actorList[sEnemyActorTypes[i]].first;
         while (actor != NULL) {
-            actor->freeze = freezeValue;
+            actor->freezeTimer = duration;
             actor = actor->next;
         }
     }
@@ -3707,31 +3707,31 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     sp44 = Math_Vec3f_Yaw(&sp30, &arg1->unk_18);
     sp40 = Math_Vec3f_Yaw(&actor->posRot.pos, &arg1->unk_18) - actor->shape.rot.y;
 
-    temp1 = (sp40 < -arg2) ? -arg2 : ((sp40 > arg2) ? arg2 : sp40);
+    temp1 = CLAMP(sp40, -arg2, arg2);
     Math_SmoothScaleMaxMinS(&arg1->unk_08.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ((sp40 >= 0) ? sp40 : -sp40);
-    arg1->unk_08.y = ((arg1->unk_08.y < -sp40) ? -sp40 : ((arg1->unk_08.y > sp40) ? sp40 : arg1->unk_08.y));
+    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -sp40, sp40);
 
     sp40 = sp40 - arg1->unk_08.y;
 
-    temp1 = (sp40 < -arg5) ? -arg5 : ((sp40 > arg5) ? arg5 : sp40);
-    Math_SmoothScaleMaxMinS(&arg1->unk_08.z, temp1, 6, 2000, 1);
+    temp1 = CLAMP(sp40, -arg5, arg5);
+    Math_SmoothScaleMaxMinS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ((sp40 >= 0) ? sp40 : -sp40);
-    arg1->unk_08.z = ((arg1->unk_08.z < -sp40) ? -sp40 : ((arg1->unk_08.z > sp40) ? sp40 : arg1->unk_08.z));
+    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -sp40, sp40);
 
     if (arg8 != 0) {
         if (arg3) {} // Seems necessary to match
         Math_SmoothScaleMaxMinS(&actor->shape.rot.y, sp44, 6, 2000, 1);
     }
 
-    temp1 = (sp46 < arg4) ? arg4 : ((sp46 > arg3) ? arg3 : sp46);
-    Math_SmoothScaleMaxMinS(&arg1->unk_08, temp1, 6, 2000, 1);
+    temp1 = CLAMP(sp46, arg4, arg3);
+    Math_SmoothScaleMaxMinS(&arg1->unk_08.x, temp1, 6, 2000, 1);
 
     temp2 = sp46 - arg1->unk_08.x;
 
-    temp1 = (temp2 < arg7) ? arg7 : ((temp2 > arg6) ? arg6 : temp2);
+    temp1 = CLAMP(temp2, arg7, arg6);
     Math_SmoothScaleMaxMinS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
 }
 #else
@@ -4050,7 +4050,7 @@ void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
     if (colBody->acHitItem == NULL) {
         actor->unk_116 = 0x00;
     } else if (freezeFlag && (colBody->acHitItem->toucher.flags & 0x10060000)) {
-        actor->freeze = colBody->acHitItem->toucher.damage;
+        actor->freezeTimer = colBody->acHitItem->toucher.damage;
         actor->unk_116 = 0x00;
     } else if (colBody->acHitItem->toucher.flags & 0x0800) {
         actor->unk_116 = 0x01;
@@ -4066,7 +4066,7 @@ void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
         actor->unk_116 = 0x20;
     } else if ((colBody->acHitItem->toucher.flags << 0xC) < 0) {
         if (freezeFlag) {
-            actor->freeze = colBody->acHitItem->toucher.damage;
+            actor->freezeTimer = colBody->acHitItem->toucher.damage;
         }
         actor->unk_116 = 0x40;
     } else {
@@ -4086,7 +4086,7 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
         if (curColBody->acHitItem == NULL) {
             flag = 0x00;
         } else if (freezeFlag && (curColBody->acHitItem->toucher.flags & 0x10060000)) {
-            actor->freeze = curColBody->acHitItem->toucher.damage;
+            actor->freezeTimer = curColBody->acHitItem->toucher.damage;
             flag = 0x00;
         } else if (curColBody->acHitItem->toucher.flags & 0x0800) {
             flag = 0x01;
@@ -4102,7 +4102,7 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
             flag = 0x20;
         } else if (curColBody->acHitItem->toucher.flags & 0x80000) {
             if (freezeFlag) {
-                actor->freeze = curColBody->acHitItem->toucher.damage;
+                actor->freezeTimer = curColBody->acHitItem->toucher.damage;
             }
             flag = 0x40;
         } else {
