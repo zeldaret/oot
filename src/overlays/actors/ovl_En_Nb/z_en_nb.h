@@ -17,7 +17,7 @@ typedef struct EnNb {
     /* 0x0274 */ s16 unk_274;
     /* 0x0276 */ s16 unk_276;
     /* 0x0278 */ s32 action;
-    /* 0x027C */ s32 drawConfig;
+    /* 0x027C */ s32 drawMode;
     /* 0x0280 */ f32 unk_280;
     /* 0x0284 */ u32 unk_284;
     /* 0x0288 */ s32 unk_288;

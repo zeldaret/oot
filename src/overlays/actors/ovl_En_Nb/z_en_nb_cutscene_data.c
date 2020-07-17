@@ -2,7 +2,7 @@
 
 #include <z64cutscene_commands.h>
 
-CutsceneData D_80AB431C[] = {
+static CutsceneData D_80AB431C[] = {
 
 CS_BEGIN_CUTSCENE(27, 3011),
 CS_UNK_DATA_LIST(0x00000020, 1),

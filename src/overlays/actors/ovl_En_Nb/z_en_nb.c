@@ -78,47 +78,47 @@ void func_80AB3C74(EnNb* this, GlobalContext* globalCtx);
 void func_80AB3DB0(EnNb* this, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_060181C8;
-extern AnimationHeader* D_06009694;
-extern AnimationHeader* D_0600274C;
-extern AnimationHeader* D_06002B4C;
-extern AnimationHeader* D_06000410;
-extern AnimationHeader* D_06001E7C;
-extern AnimationHeader* D_06001350;
-extern AnimationHeader* D_06001104;
-extern AnimationHeader* D_06008BD0;
-extern AnimationHeader* D_060046A8;
-extern AnimationHeader* D_06003954;
-extern AnimationHeader* D_06004030;
-extern AnimationHeader* D_06002DBC;
-extern AnimationHeader* D_060035A8;
-extern AnimationHeader* D_06006320;
-extern AnimationHeader* D_06000BC0;
-extern AnimationHeader* D_06005CA4;
-extern AnimationHeader* D_06005614;
-extern AnimationHeader* D_06004BB4;
+extern AnimationHeader* D_06009694; // hands on hips standing
+extern AnimationHeader* D_0600274C; // raising both arms up (giving medallion to link ?)
+extern AnimationHeader* D_06002B4C; // raising both arms up stable (giving medallion to link ?)
+extern AnimationHeader* D_06000410; // clasping hands together
+extern AnimationHeader* D_06001E7C; // looking around ?
+extern AnimationHeader* D_06001350; // i think this is the animation where she is in the purple thing
+extern AnimationHeader* D_06001104; // raising arm up
+extern AnimationHeader* D_06008BD0; // falls to the ground
+extern AnimationHeader* D_060046A8; // looking in crawlspace ?
+extern AnimationHeader* D_06003954; // on ground getting up ??
+extern AnimationHeader* D_06004030; // looking behind her to the right
+extern AnimationHeader* D_06002DBC; // freaking out
+extern AnimationHeader* D_060035A8; // looking behind her
+extern AnimationHeader* D_06006320; // sees something from behind, turns and runs
+extern AnimationHeader* D_06000BC0; // crossed legs
+extern AnimationHeader* D_06005CA4; // crossed legs, turns head and looks behind to the right
+extern AnimationHeader* D_06005614; // crossed legs, looking behind to the right
+extern AnimationHeader* D_06004BB4; // standing up hands on hips
 extern AnimationHeader* D_06006E78;
-extern AnimationHeader* D_06004E60;
+extern AnimationHeader* D_06004E60; // standard walk
 extern AnimationHeader* D_06004BB4;
-extern AnimationHeader* D_06009238;
+extern AnimationHeader* D_06009238; // standard walk 2 ?
 extern Gfx D_06013158;
 
-ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-UNK_PTR D_80AB430C[] = {
+static UNK_PTR D_80AB430C[] = {
     0x0600B428,
     0x0600D0E8,
     0x0600D4E8,
 };
 
-UNK_TYPE D_80AB4318 = 0;
+static UNK_TYPE D_80AB4318 = 0;
 
 #include "z_en_nb_cutscene_data.c" EARLY
 
-EnNbActionFunc D_80AB4ECC[] = {
+static EnNbActionFunc sActionFuncs[] = {
     func_80AB18C4, func_80AB18E4, func_80AB1904, func_80AB193C, func_80AB197C, func_80AB19BC, func_80AB19FC,
     func_80AB1D54, func_80AB1D84, func_80AB1DD8, func_80AB23A8, func_80AB23D8, func_80AB242C, func_80AB2BF8,
     func_80AB2C18, func_80AB2C60, func_80AB2CCC, func_80AB2D38, func_80AB2D9C, func_80AB2E1C, func_80AB33C0,
@@ -126,9 +126,9 @@ EnNbActionFunc D_80AB4ECC[] = {
     func_80AB3D34, func_80AB3DB0, func_80AB3E10,
 };
 
-Vec3f D_80AB4F48 = { 0.0f, 10.0f, 0.0f };
+static Vec3f D_80AB4F48 = { 0.0f, 10.0f, 0.0f };
 
-EnNbDrawFunc D_80AB4F54[] = {
+static EnNbDrawFunc sDrawFuncs[] = {
     func_80AB4100, func_80AB410C, func_80AB1E2C, func_80AB2E70, func_80AB2FE4,
 };
 
@@ -246,7 +246,7 @@ void func_80AB1164(EnNb* this) {
 
 void func_80AB11EC(EnNb* this) {
     this->action = 7;
-    this->drawConfig = 0;
+    this->drawMode = 0;
     this->unk_284 = 0;
     this->unk_288 = 0;
     this->actor.shape.unk_14 = 0;
@@ -412,7 +412,7 @@ void func_80AB16FC(EnNb* this, GlobalContext* globalCtx) {
         csCmdNPCAction = csCtx->npcActions[1];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = 2;
-            this->drawConfig = 1;
+            this->drawMode = 1;
             func_80AB1578(this, globalCtx);
         }
     }
@@ -521,7 +521,7 @@ void func_80AB1A94(EnNb* this, GlobalContext* globalCtx) {
 void func_80AB1B14(EnNb* this, GlobalContext* globalCtx) {
     if (func_80AB1390(this, globalCtx, 4, 1)) {
         this->action = 8;
-        this->drawConfig = 2;
+        this->drawMode = 2;
         this->unk_284 = 0;
         this->actor.shape.unk_14 = 0;
         this->unk_280 = 0.0f;
@@ -537,7 +537,7 @@ void func_80AB1B68(EnNb* this, GlobalContext* globalCtx) {
         *unk_280 += 1.0f;
         if (*unk_280 >= kREG(5) + 10.0f) {
             this->action = 9;
-            this->drawConfig = 1;
+            this->drawMode = 1;
             *unk_280 = kREG(5) + 10.0f;
             this->unk_284 = 0xFF;
             this->actor.shape.unk_14 = 0xFF;
@@ -547,7 +547,7 @@ void func_80AB1B68(EnNb* this, GlobalContext* globalCtx) {
         *unk_280 -= 1.0f;
         if (*unk_280 <= 0.0f) {
             this->action = 7;
-            this->drawConfig = 0;
+            this->drawMode = 0;
             *unk_280 = 0.0f;
             this->unk_284 = 0;
             this->actor.shape.unk_14 = 0;
@@ -563,7 +563,7 @@ void func_80AB1B68(EnNb* this, GlobalContext* globalCtx) {
 void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx) {
     if (func_80AB13D8(this, globalCtx, 4, 1)) {
         this->action = 8;
-        this->drawConfig = 2;
+        this->drawMode = 2;
         this->unk_280 = kREG(5) + 10.0f;
         this->unk_284 = 0xFF;
         if (this->unk_288 == 0) {
@@ -660,7 +660,7 @@ void func_80AB2064(EnNb* this, GlobalContext* globalCtx) {
 void func_80AB2148(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1310(this, globalCtx, 1);
     this->action = 10;
-    this->drawConfig = 0;
+    this->drawMode = 0;
     this->actor.shape.unk_14 = 0;
 }
 
@@ -677,7 +677,7 @@ void func_80AB21E0(EnNb* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 0,
                          -8.0f);
     this->action = 11;
-    this->drawConfig = 1;
+    this->drawMode = 1;
 }
 
 void func_80AB2254(EnNb* this) {
@@ -685,7 +685,7 @@ void func_80AB2254(EnNb* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 2,
                          -8.0f);
     this->action = 12;
-    this->drawConfig = 1;
+    this->drawMode = 1;
 }
 
 void func_80AB22CC(EnNb* this, GlobalContext* globalCtx) {
@@ -798,7 +798,7 @@ void func_80AB2688(EnNb* this, GlobalContext* globalCtx) {
 
 void func_80AB26C8(EnNb* this) {
     this->action = 13;
-    this->drawConfig = 0;
+    this->drawMode = 0;
     this->actor.shape.unk_14 = 0;
 }
 
@@ -810,7 +810,7 @@ void func_80AB26DC(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1310(this, globalCtx, 1);
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, 0.0f);
     this->action = 14;
-    this->drawConfig = 3;
+    this->drawMode = 3;
     this->actor.shape.unk_14 = 0xFF;
 }
 
@@ -820,7 +820,7 @@ void func_80AB2774(EnNb* this) {
 
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, 0.0f);
     this->action = 15;
-    this->drawConfig = 3;
+    this->drawMode = 3;
     this->actor.shape.unk_14 = 0xFF;
 }
 
@@ -829,7 +829,7 @@ void func_80AB27F0(EnNb* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
-        this->drawConfig = 3;
+        this->drawMode = 3;
     }
 }
 
@@ -838,7 +838,7 @@ void func_80AB285C(EnNb* this) {
     f32 frames = SkelAnime_GetFrameCount(&animation->genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
     this->action = 16;
-    this->drawConfig = 1;
+    this->drawMode = 1;
     this->actor.shape.unk_14 = 0xFF;
 }
 
@@ -847,7 +847,7 @@ void func_80AB28DC(EnNb* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
-        this->drawConfig = 4;
+        this->drawMode = 4;
     }
 }
 
@@ -856,7 +856,7 @@ void func_80AB2948(EnNb* this) {
     f32 frames = SkelAnime_GetFrameCount(&animation->genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
     this->action = 17;
-    this->drawConfig = 4;
+    this->drawMode = 4;
     this->actor.shape.unk_14 = 0xFF;
 }
 
@@ -880,13 +880,13 @@ void func_80AB2A68(EnNb* this) {
     f32 frames = SkelAnime_GetFrameCount(&animation->genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
     this->action = 18;
-    this->drawConfig = 4;
+    this->drawMode = 4;
     this->actor.shape.unk_14 = 0xFF;
 }
 
 void func_80AB2AE8(EnNb* this) {
     this->action = 19;
-    this->drawConfig = 0;
+    this->drawMode = 0;
     this->actor.shape.unk_14 = 0;
 }
 
@@ -1048,7 +1048,7 @@ void func_80AB2FE4(EnNb* this, GlobalContext* globalCtx) {
 void func_80AB3150(EnNb* this, GlobalContext* globalCtx) {
     func_80AB14A0(this, &D_06000BC0, 0, 0.0f, 0);
     this->action = 20;
-    this->drawConfig = 0;
+    this->drawMode = 0;
     this->actor.shape.unk_14 = 0;
 }
 
@@ -1070,13 +1070,13 @@ void func_80AB319C(EnNb* this) {
 void func_80AB3228(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1420(this, globalCtx, 1);
     this->action = 21;
-    this->drawConfig = 2;
+    this->drawMode = 2;
 }
 
 void func_80AB3260(EnNb* this) {
     if (this->unk_280 >= kREG(17) + 10.0f) {
         this->action = 22;
-        this->drawConfig = 1;
+        this->drawMode = 1;
     }
 }
 
@@ -1149,30 +1149,32 @@ void func_80AB34A8(EnNb* this, GlobalContext* globalCtx) {
         if ((gSaveContext.eventChkInf[9] & 0x10) == 0) {
             func_80AB14A0(this, &D_06006E78, 0, 0.0f, 0);
             this->action = 24;
-            this->drawConfig = 1;
+            this->drawMode = 1;
         } else {
             func_80AB14A0(this, &D_06004BB4, 0, 0.0f, 0);
             this->unk_2E0 = 1;
             this->actor.flags |= 9;
             this->actor.posRot.pos = this->vec_2F0;
             this->action = 29;
-            this->drawConfig = 1;
+            this->drawMode = 1;
         }
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
-#ifdef NON_MATCHING
 void func_80AB359C(EnNb* this) {
     PosRot* posRot = &this->actor.posRot;
     Vec3f* vec_2E4 = &this->vec_2E4;
     Vec3f* vec_2F0 = &this->vec_2F0;
     f32 f0;
     u16 temp_t1;
+    s16 temp_2;
 
     this->unk_2FE++;
-    temp_t1 = kREG(17) + 0x19;
+    temp_2 = kREG(17);
+    temp_t1 = temp_2;
+    temp_t1 += 0x19; // Oddly needs all these temps to match
     if (temp_t1 >= this->unk_2FE) {
         f0 = func_8006F9BC(temp_t1, 0, this->unk_2FE, 3, 3);
         posRot->pos.x = vec_2E4->x + (f0 * (vec_2F0->x - vec_2E4->x));
@@ -1180,9 +1182,6 @@ void func_80AB359C(EnNb* this) {
         posRot->pos.z = vec_2E4->z + (f0 * (vec_2F0->z - vec_2E4->z));
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB359C.s")
-#endif
 
 void func_80AB3660(EnNb* this) {
     func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_NOTICE);
@@ -1202,21 +1201,22 @@ s32 func_80AB3684(EnNb* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// regalloc
-s32 func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
+// regalloc, functionally equivalent, tested in-game
+void func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
 
-    s16 newTemp;
-    u16 temp = kREG(17) + 0x19;
-    if (this->unk_2FE < (u16)(temp - 4)) {
-        newTemp = 4 - this->unk_2FE;
-        if (newTemp > 0) {
-            return Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_2FC, newTemp, 0x1838, 0x64);
+    u16 temp_a1;
+    s16 temp;
+    s32 unk_2FE;
+    unk_2FE = this->unk_2FE;
+    temp_a1 = kREG(17) + 0x19;
+    if (this->unk_2FE < ((u16)(temp_a1 - 4))) {
+        temp = 4 - this->unk_2FE;
+        if (temp > 0) {
+            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_2FC, temp, 0x1838, 0x64);
         }
     } else {
-        newTemp = temp - this->unk_2FE;
-        if (newTemp > 0) {
-            return Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, newTemp, 0x1838,
-                                           0x64);
+        if ((temp = temp_a1 - this->unk_2FE) > 0) {
+            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, temp, 0x1838, 0x64);
         }
     }
 }
@@ -1428,10 +1428,10 @@ void func_80AB3E10(EnNb* this, GlobalContext* globalCtx) {
 void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
-    if (this->action < 0 || this->action > 30 || D_80AB4ECC[this->action] == NULL) {
+    if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        D_80AB4ECC[this->action](this, globalCtx);
+        sActionFuncs[this->action](this, globalCtx);
     }
 }
 
@@ -1530,10 +1530,10 @@ void func_80AB410C(EnNb* this, GlobalContext* globalCtx) {
 void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 5 || D_80AB4F54[this->drawConfig] == 0) {
+    if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == 0) {
         // "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        D_80AB4F54[this->drawConfig](this, globalCtx);
+        sDrawFuncs[this->drawMode](this, globalCtx);
     }
 }
