@@ -153,7 +153,7 @@ void func_80AD7984(EnPoRelay* this) {
     Vec3f vec;
 
     func_80AD7944(&vec, &D_80AD8C30[this->unk_198]);
-    this->unk_196 = (u16)((u16)(this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000U) >> 0xB) & 0x1F;
+    this->unk_196 = (u16)((u16)(this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000) >> 0xB) & 0x1F;
     func_80088B34(0);
     this->unk_194 = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
@@ -205,14 +205,13 @@ void func_80AD7BF0(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Stack size, f regalloc
+// Single stack difference, f reg swaps
 void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
-    f32 temp_f12_2;
-    f32 rand;
     Player* player; // sp5C
     Vec3f vec; // sp50
-    f32 speed;
-    f32 flameDirection; // sp48
+    f32 temp_f12_2;
+    f32 speed; // sp48
+    f32 rand;
 
     player = PLAYER;
     if (this->unk_196 != 0) {
@@ -223,17 +222,17 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
         if (this->unk_198 < 0x17) {
             rand = Math_Rand_ZeroOne() * 3.0f;
             if (rand < 1.0f) {
-                flameDirection = 1.0f;
+                speed = 1.0f;
             } else if (rand < 2.0f) {
-                flameDirection = -1.0f;
+                speed = -1.0f;
             } else {
-                flameDirection = 0.0f;
+                speed = 0.0f;
             }
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP, 
-                        Math_Coss(this->unk_19A) * (30.0f * flameDirection) + this->actor.posRot.pos.x, 
+                        Math_Coss(this->unk_19A) * (30.0f * speed) + this->actor.posRot.pos.x, 
                         this->actor.posRot.pos.y, 
-                        Math_Sins(this->unk_19A) * (30.0f * flameDirection) + this->actor.posRot.pos.z, 
-                        0, (this->unk_19A + 0x8000) - (8192.0f * flameDirection), 0, 2);
+                        Math_Sins(this->unk_19A) * (30.0f * speed) + this->actor.posRot.pos.z, 
+                        0, (this->unk_19A + 0x8000) - (8192.0f * speed), 0, 2);
         }
     }
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
@@ -256,7 +255,8 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
         if (temp_f12_2 < 0.0f) {
             temp_f12_2 = 0.0f;
         }
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, speed + (temp_f12_2 * 0.019999999552965164f + 1.0f), 0.5f, 1.5f);
+        speed += (temp_f12_2 * 0.019999999552965164f + 1.0f);
+        Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.5f, 1.5f);
     } else {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
     }

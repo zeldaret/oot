@@ -104,28 +104,25 @@ extern Gfx D_06004BA0[];
 extern Gfx D_06004CC0[];
 extern Gfx D_060023B0[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/EnPoField_Init.s")
-/* void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
-    Vec3s *temp_v0;
-    s32 phi_v1;
+#ifdef NON_MATCHING
+// Regalloc
+void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoField* this;
+    s32 temp;
 
     this = THIS;
-    phi_v1 = D_80AD7100;
-    if (phi_v1 != 0xA) {
-        temp_v0 = &D_80AD76B0[phi_v1];
-        temp_v0->x = this->actor.posRot.pos.x;
-        temp_v0->y = this->actor.posRot.pos.y;
-        temp_v0->z = this->actor.posRot.pos.z;
-        D_80AD76F0[phi_v1] = this->actor.params;
-        D_80AD7100 = phi_v1;
+    if (D_80AD7100 != 0xA) {
+        D_80AD76B0[D_80AD7100].x = this->actor.posRot.pos.x;
+        D_80AD76B0[D_80AD7100].y = this->actor.posRot.pos.y;
+        D_80AD76B0[D_80AD7100].z = this->actor.posRot.pos.z;
+        D_80AD76F0[D_80AD7100++] = this->actor.params;
     }
-    if (phi_v1 >= 2) {
+    if (D_80AD7100 >= 2) {
         this->actor.params = 0xFF;
         Actor_Kill(&this->actor);
         return;
     }
-    Actor_ProcessInitChain(this, D_80AD7110);
+    Actor_ProcessInitChain(&this->actor, D_80AD7110);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, &this->unk_19C, &this->unk_1D8, 10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AD7080);
@@ -136,7 +133,10 @@ extern Gfx D_060023B0[];
     Lights_InitType2PositionalLight(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0xFF, 0xFF, 0xFF, 0);
     this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     func_80AD3D68(this, globalCtx);
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/EnPoField_Init.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/EnPoField_Destroy.s")
 void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx) {

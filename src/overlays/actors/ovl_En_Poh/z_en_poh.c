@@ -901,10 +901,10 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = func_80AE0A1C;
         Actor_SetObjectDependency(globalCtx, &this->actor);
         if (this->unk_197 == 0) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &D_060050D0, &D_06000A60, &this->limbDrawTbl, &this->unk_21C, 0x15);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &D_060050D0, &D_06000A60, &this->limbDrawTbl, &this->unk_21C, 21);
             this->actor.draw = func_80AE0EE4;
         } else {
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, &this->limbDrawTbl, &this->unk_21C, 0xC);
+            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, &this->limbDrawTbl, &this->unk_21C, 12);
             this->actor.draw = func_80AE1148;
             this->colliderSph.list[0].dim.joint = 9;
             this->colliderSph.list[0].dim.modelSphere.center.y *= -1;
