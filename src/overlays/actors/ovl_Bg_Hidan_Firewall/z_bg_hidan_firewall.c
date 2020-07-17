@@ -201,8 +201,8 @@ void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80886D04[this->unk_150]));
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0xFF);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x01, 255, 255, 0, 150);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 255);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, D_0600DA80);

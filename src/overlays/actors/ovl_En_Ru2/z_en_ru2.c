@@ -145,7 +145,7 @@ s32 func_80AF26A0(EnRu2* this) {
 void func_80AF26AC(EnRu2* this) {
     this->action = 7;
     this->drawConfig = 0;
-    this->unk_2B4 = 0;
+    this->alpha = 0;
     this->unk_2B8 = 0;
     this->actor.shape.unk_14 = 0;
     this->unk_2B0 = 0.0f;
@@ -399,7 +399,7 @@ void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF27D0(this, globalCtx, 4, 3)) {
         this->action = 8;
         this->drawConfig = 2;
-        this->unk_2B4 = 0;
+        this->alpha = 0;
         this->actor.shape.unk_14 = 0;
         this->unk_2B0 = 0.0f;
         func_80AF2E64();
@@ -408,7 +408,7 @@ void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
     f32* unk_2B0 = &this->unk_2B0;
-    s32 something;
+    s32 alpha;
 
     if (func_80AF27D0(this, globalCtx, 4, 3)) {
         *unk_2B0 += 1.0f;
@@ -416,7 +416,7 @@ void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
             this->action = 9;
             this->drawConfig = 1;
             *unk_2B0 = kREG(5) + 10.0f;
-            this->unk_2B4 = 0xFF;
+            this->alpha = 255;
             this->actor.shape.unk_14 = 0xFF;
             return;
         }
@@ -426,14 +426,14 @@ void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
             this->action = 7;
             this->drawConfig = 0;
             *unk_2B0 = 0.0f;
-            this->unk_2B4 = 0;
+            this->alpha = 0;
             this->actor.shape.unk_14 = 0;
             return;
         }
     }
-    something = (*unk_2B0 / (kREG(5) + 10.0f)) * 255.0f;
-    this->unk_2B4 = something;
-    this->actor.shape.unk_14 = something;
+    alpha = (*unk_2B0 / (kREG(5) + 10.0f)) * 255.0f;
+    this->alpha = alpha;
+    this->actor.shape.unk_14 = alpha;
 }
 
 void func_80AF30AC(EnRu2* this, GlobalContext* globalCtx) {
@@ -441,7 +441,7 @@ void func_80AF30AC(EnRu2* this, GlobalContext* globalCtx) {
         this->action = 8;
         this->drawConfig = 2;
         this->unk_2B0 = kREG(5) + 10.0f;
-        this->unk_2B4 = 0xFF;
+        this->alpha = 255;
         if (this->unk_2B8 == 0) {
             func_80AF2E84(this, globalCtx);
             this->unk_2B8 = 1;
@@ -484,7 +484,7 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_2B4);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
@@ -509,11 +509,11 @@ void func_80AF33E0(EnRu2* this) {
 
     temp_f0 = kREG(17) + 10.0f;
     if (temp_f0 <= *unk_2B0) {
-        this->unk_2B4 = 0xFF;
+        this->alpha = 255;
         this->actor.shape.unk_14 = 0xFF;
     } else {
         temp_f18 = (*unk_2B0 / temp_f0) * 255.0f;
-        this->unk_2B4 = temp_f18;
+        this->alpha = temp_f18;
         this->actor.shape.unk_14 = temp_f18;
     }
 }
@@ -810,7 +810,7 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,

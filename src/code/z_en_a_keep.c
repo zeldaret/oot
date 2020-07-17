@@ -331,7 +331,7 @@ void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == A_OBJ_KNOB) {
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 1, 0x3C, 0x3C, 0x3C, 0x32);
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 1, 60, 60, 60, 50);
     }
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
