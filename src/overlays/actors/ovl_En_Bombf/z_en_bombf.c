@@ -1,3 +1,9 @@
+/*
+ * File: z_en_bombf.c
+ * Overlay: ovl_En_Bombf
+ * Description: Bomb Flower
+ */
+
 #include "z_en_bombf.h"
 
 #define FLAGS 0x00000011
@@ -9,11 +15,11 @@ void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809C74AC(EnBombf* this, GlobalContext* globalCtx);
-void func_809C71A8(EnBombf* this, GlobalContext* globalCtx);
-void func_809C75C8(EnBombf* this, GlobalContext* globalCtx);
-void func_809C7624(EnBombf* this, GlobalContext* globalCtx);
-void func_809C7180(EnBombf* this, s16 params);
+void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx);
+void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx);
+void EnBombf_WaitForRelease(EnBombf* this, GlobalContext* globalCtx);
+void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx);
+void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
 const ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
@@ -50,7 +56,7 @@ extern Gfx D_06000340[];
 extern Gfx D_06000408[];
 extern Gfx D_06000530[];
 
-void func_809C6F60(EnBombf* this, EnBombfActionFunc actionFunc) {
+void EnBombf_SetupAction(EnBombf* this, EnBombfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -88,12 +94,12 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_EXPLOSIVES);
         this->actor.colChkInfo.mass = 200;
         this->actor.flags &= ~1;
-        func_809C6F60(this, func_809C74AC);
+        EnBombf_SetupAction(this, EnBombf_Move);
     } else {
         this->actor.colChkInfo.mass = 0xFF;
         this->bumpOn = true;
         this->flowerBombScale = 1.0f;
-        func_809C7180(this, THIS->actor.params);
+        EnBombf_SetupGrowBomb(this, thisx->params);
     }
 
     this->actor.uncullZoneScale += 31000.0f;
@@ -103,15 +109,15 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBombf* this = THIS;
 
-    Collider_DestroyJntSph(globalCtx, &this->jntSphList);
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
+    Collider_DestroyJntSph(globalCtx, &this->jntSphList);
 }
 
-void func_809C7180(EnBombf* this, s16 params) {
-    func_809C6F60(this, func_809C71A8);
+void EnBombf_SetupGrowBomb(EnBombf* this, s16 params) {
+    EnBombf_SetupAction(this, EnBombf_GrowBomb);
 }
 
-void func_809C71A8(EnBombf* this, GlobalContext* globalCtx) {
+void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
     EnBombf* bomb;
     s32 pad;
     s32 pad1;
@@ -129,7 +135,6 @@ void func_809C71A8(EnBombf* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
                 this->actor.flags &= ~1;
             } else {
-
                 player->actor.attachedB = NULL;
                 player->heldActor = NULL;
                 player->interactRangeActor = NULL;
@@ -192,15 +197,15 @@ void func_809C71A8(EnBombf* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C74AC(EnBombf* this, GlobalContext* globalCtx) {
+void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx)) {
-        this->flowerBombScale = 0.0f;
-        func_809C6F60(this, func_809C75C8);
+        this->flowerBombScale = 0.0f; // this doesnt do anything 
+        EnBombf_SetupAction(this, EnBombf_WaitForRelease);
         this->actor.room = -1;
         return;
     }
 
-    this->flowerBombScale = 1.0f;
+    this->flowerBombScale = 1.0f; // this doesnt do anything 
 
     if (!(this->actor.bgCheckFlags & 1)) {
         Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
@@ -215,17 +220,17 @@ void func_809C74AC(EnBombf* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C75C8(EnBombf* this, GlobalContext* globalCtx) {
+void EnBombf_WaitForRelease(EnBombf* this, GlobalContext* globalCtx) {
     // if attachedA is NULL bomb has been released
     if (func_8002F5A0(&this->actor, globalCtx)) {
-        func_809C6F60(this, func_809C74AC);
-        func_809C74AC(this, globalCtx);
+        EnBombf_SetupAction(this, EnBombf_Move);
+        EnBombf_Move(this, globalCtx);
     } else {
         this->actor.velocity.y = 0.0f;
     }
 }
 
-void func_809C7624(EnBombf* this, GlobalContext* globalCtx) {
+void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->jntSphList.list->dim.modelSphere.radius == 0) {
@@ -404,7 +409,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.params = 1;
                 this->timer = 10;
                 this->actor.flags |= 0x20;
-                func_809C6F60(this, func_809C7624);
+                EnBombf_SetupAction(this, EnBombf_Explode);
             }
         }
     }
@@ -446,7 +451,7 @@ Color_RGBA8_n D_809C82F0 = { 255, 255, 255, 255 };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bombf/EnBombf_Update.s")
 #endif
 
-Gfx* func_809C7F24(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
+Gfx* EnBombf_NewDlist(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
     Gfx* displayList;
     Gfx* displayListHead;
 
@@ -487,7 +492,7 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->flashIntensity, 20, 10, 0);
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1054),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(func_809C7F24(globalCtx->state.gfxCtx, globalCtx)));
+        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(EnBombf_NewDlist(globalCtx->state.gfxCtx, globalCtx)));
         gSPDisplayList(gfxCtx->polyOpa.p++, D_06000408);
     } else {
         func_800628A4(0, &this->jntSphList);

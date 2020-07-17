@@ -2160,12 +2160,11 @@ endseg
 beginseg
     name "ovl_En_Bombf"
     include "build/src/overlays/actors/ovl_En_Bombf/z_en_bombf.o"
-    include "build/data/overlays/actors/z_en_bombf.reloc.o"
-    #ifdef NON_MATCHING
+#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Bombf/ovl_En_Bombf_reloc.o"
-    #else
+#else
     include "build/data/overlays/actors/z_en_bombf.reloc.o"
-    #endif
+#endif
 endseg
 
 beginseg

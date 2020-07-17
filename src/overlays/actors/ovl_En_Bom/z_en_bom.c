@@ -1,3 +1,9 @@
+/*
+ * File: z_en_bom.c
+ * Overlay: ovl_En_Bom
+ * Description: Bomb
+ */
+
 #include "z_en_bom.h"
 
 #define FLAGS 0x00000030
@@ -10,7 +16,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnBom_Move(EnBom* this, GlobalContext* globalCtx);
-void EnBom_Wait(EnBom* this, GlobalContext* globalCtx);
+void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
@@ -90,7 +96,7 @@ void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
     // if attached A is not null, the bomb hasnt been released yet
     if (func_8002F410(&this->actor, globalCtx)) {
-        EnBom_SetupAction(this, EnBom_Wait);
+        EnBom_SetupAction(this, EnBom_WaitForRelease);
         this->actor.room = -1;
         return;
     }
@@ -127,7 +133,7 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
-void EnBom_Wait(EnBom* this, GlobalContext* globalCtx) {
+void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx) {
     // if attachedA is NULL bomb has been released
     if (func_8002F5A0(&this->actor, globalCtx)) {
         EnBom_SetupAction(this, EnBom_Move);
@@ -188,11 +194,11 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
 }
 
 void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
-    Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp78 = { 0.0f, 0.1f, 0.0f };
-    Vec3f sp6C = { 0.0f, 0.0f, 0.0f };
-    Vec3f posCopy;
-    Vec3f sp54 = { 0.0f, 0.6f, 0.0f };
+    Vec3f effVelocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f bomb2Accel = { 0.0f, 0.1f, 0.0f };
+    Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
+    Vec3f effPos;
+    Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8_n dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
     EnBom* this = THIS;
@@ -221,19 +227,19 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     // has not exploded yet
     if (this->actor.params == 0) {
         if (this->timer < 63) {
-            sp54.y = 0.2f;
+            dustAccel.y = 0.2f;
 
             // spawn spark effect on even frames
-            posCopy = this->actor.posRot.pos;
-            posCopy.y += 17.0f;
+            effPos = this->actor.posRot.pos;
+            effPos.y += 17.0f;
             if ((globalCtx->gameplayFrames % 2) == 0) {
-                func_80029184(globalCtx, this, &posCopy, &sp84, &sp6C);
+                func_80029184(globalCtx, this, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
-            posCopy.y += 3.0f;
-            func_8002829C(globalCtx, &posCopy, &sp84, &sp54, &dustColor, &dustColor, 0x32, 5);
+            effPos.y += 3.0f;
+            func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 0x32, 5);
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
@@ -242,15 +248,15 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.rot.z = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
-            // copy/paste from bomb flower, normal bombs never have a timer over 70
+            // these bombs never have a timer over 70, so this isnt used
             if ((this->timer > 100) && (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f))) {
                 this->timer = 100;
             }
         }
 
-        sp54.y = 0.2f;
-        posCopy = this->actor.posRot.pos;
-        posCopy.y += 10.0f;
+        dustAccel.y = 0.2f;
+        effPos = this->actor.posRot.pos;
+        effPos.y += 10.0f;
 
         // double bomb flash speed and adjust red color accordingly
         if ((this->timer == 3) || (this->timer == 20) || (this->timer == 40)) {
@@ -269,18 +275,18 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (this->timer == 0) {
-            posCopy = this->actor.posRot.pos;
+            effPos = this->actor.posRot.pos;
 
-            posCopy.y += 10.0f;
+            effPos.y += 10.0f;
             if (func_8002F410(&this->actor, globalCtx)) {
-                posCopy.y += 30.0f;
+                effPos.y += 30.0f;
             }
 
-            func_80028E84(globalCtx, &posCopy, &sp84, &sp78, 0x64, (this->actor.shape.rot.z * 6) + 0x13);
+            func_80028E84(globalCtx, &effPos, &effVelocity, &bomb2Accel, 0x64, (this->actor.shape.rot.z * 6) + 0x13);
 
-            posCopy.y = this->actor.groundY;
+            effPos.y = this->actor.groundY;
             if (this->actor.groundY > -32000.0f) {
-                func_80029024(globalCtx, &posCopy, &sp84, &sp6C);
+                func_80029024(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
@@ -344,7 +350,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(gfxCtx->polyOpa.p++);
         gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->flashIntensity, 0, 40, 255);
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0x00, 0x28, 0xFF);
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
         gSPDisplayList(gfxCtx->polyOpa.p++, D_04007860);
         func_800628A4(0, &this->jntSphList);
     }
