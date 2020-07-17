@@ -264,7 +264,7 @@ glabel BossGanondrof_Update
 /* 03BE0 80914220 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03BE4 80914224 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 03BE8 80914228 8FA60048 */  lw      $a2, 0x0048($sp)           
-/* 03BEC 8091422C 0C00A757 */  jal     func_80029D5C              
+/* 03BEC 8091422C 0C00A757 */  jal     EffectSsFhgFlash_Spawn2              
 /* 03BF0 80914230 2407002D */  addiu   $a3, $zero, 0x002D         ## $a3 = 0000002D
 /* 03BF4 80914234 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 03BF8 80914238 00108400 */  sll     $s0, $s0, 16               

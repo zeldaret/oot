@@ -10,9 +10,11 @@ typedef void (*ShotSunActionFunc)(struct ShotSun*, GlobalContext*);
 
 typedef struct ShotSun {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x4C];
+    /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ ShotSunActionFunc actionFunc;
-    /* 0x019C */ char unk_19C[0xC];
+    /* 0x019C */ Vec3s hitboxPos;
+    /* 0x01A2 */ s16 timer; // Frames until fairy spawns
+    /* 0x01A4 */ u8 unk_1A4;
 } ShotSun; // size = 0x01A8
 
 extern const ActorInit Shot_Sun_InitVars;

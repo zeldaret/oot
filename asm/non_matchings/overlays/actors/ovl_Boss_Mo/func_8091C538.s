@@ -1624,7 +1624,7 @@ glabel L8091D918
 /* 01E30 8091D930 AFAA0088 */  sw      $t2, 0x0088($sp)           
 /* 01E34 8091D934 14410006 */  bne     $v0, $at, .L8091D950       
 /* 01E38 8091D938 265001C8 */  addiu   $s0, $s2, 0x01C8           ## $s0 = 000001C8
-/* 01E3C 8091D93C 0C02CE10 */  jal     func_800B3840              ## letterbox_target_addr
+/* 01E3C 8091D93C 0C02CE10 */  jal     ShrinkWindow_SetVal              ## letterbox_target_addr
 /* 01E40 8091D940 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 01E44 8091D944 0C020978 */  jal     Interface_ChangeAlpha              
 /* 01E48 8091D948 2404000B */  addiu   $a0, $zero, 0x000B         ## $a0 = 0000000B

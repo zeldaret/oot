@@ -175,7 +175,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 size;
-    /* 0x04 */ void (*init)(void* effect, void* initParms);
+    /* 0x04 */ void (*init)(void* effect, void* initParams);
     /* 0x08 */ void (*destroy)(void* effect);
     /* 0x0C */ s32 (*update)(void* effect);
     /* 0x10 */ void (*draw)(void* effect, struct GraphicsContext* gfxCtx);
@@ -215,7 +215,7 @@ typedef struct EffectSs {
     /* 0x28 */ void (*draw)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x2C */ Vec3f unk_2C;
     /* 0x38 */ u32 unk_38;
-    /* 0x3C */ u32 unk_3C;
+    /* 0x3C */ UNK_PTR unk_3C;
     /* 0x40 */ s16 regs[13]; // specific per effect
     /* 0x5A */ u16 flags;
     /* 0x5C */ s16 life; // -1 means this entry is free

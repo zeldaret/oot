@@ -54,7 +54,7 @@ void osSetUpMempakWrite(s32 channel, OSPifRam* buf) {
     mempakwr.rxsize = 1;
     mempakwr.poll = 3; // write mempak
     mempakwr.hi = 0x600 >> 3;
-    mempakwr.lo = (u8)(osMempakAddrCRC(0x600) | (0x600 << 5));
+    mempakwr.lo = (u8)(__osContAddressCrc(0x600) | (0x600 << 5));
     if (channel != 0) {
         for (i = 0; i < channel; ++i) {
             *bufptr++ = 0;
@@ -74,14 +74,14 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel) {
     pfs->activebank = 0xFF;
     pfs->status = 0;
 
-    ret = func_80104C80(pfs, 0xFE);
+    ret = __osPfsSelectBank(pfs, 0xFE);
     if (ret == 2) {
-        ret = func_80104C80(pfs, MOTOR_ID);
+        ret = __osPfsSelectBank(pfs, MOTOR_ID);
     }
     if (ret != 0) {
         return ret;
     }
-    ret = osReadMempak(ctrlrqueue, channel, BANK_ADDR, sp24);
+    ret = __osContRamRead(ctrlrqueue, channel, BANK_ADDR, sp24);
     ret = ret;
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
@@ -92,14 +92,14 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel) {
     if (sp24[BLOCKSIZE - 1] == 0xFE) {
         return 0xB;
     }
-    ret = func_80104C80(pfs, MOTOR_ID);
+    ret = __osPfsSelectBank(pfs, MOTOR_ID);
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
     }
     if (ret != 0) {
         return ret;
     }
-    ret = osReadMempak(ctrlrqueue, channel, BANK_ADDR, sp24);
+    ret = __osContRamRead(ctrlrqueue, channel, BANK_ADDR, sp24);
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
     }

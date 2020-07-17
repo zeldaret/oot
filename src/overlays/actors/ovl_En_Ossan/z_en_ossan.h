@@ -9,11 +9,17 @@
 
 struct EnOssan;
 
+typedef void (*EnOssanActionFunc)(struct EnOssan*, GlobalContext*);
+typedef void (*EnOssanFunc2)(struct EnOssan*);
+typedef void (*EnOssanFunc3)(struct EnOssan*, GlobalContext*, Player*);
+typedef s16  (*EnOssanFunc4)(s16);
+typedef void (*EnOssanFunc5)(GlobalContext*);
+
 typedef struct EnOssan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ void (*actionFunc)(struct EnOssan*, GlobalContext*);
-    /* 0x0194 */ void (*unk_194)(struct EnOssan*, GlobalContext*);
+    /* 0x0190 */ EnOssanActionFunc actionFunc;
+    /* 0x0194 */ EnOssanActionFunc unk_194;
     /* 0x0198 */ ColliderCylinder collider;
     /* 0x01E4 */ s16 unk_1E4;
     /* 0x01E6 */ s16 unk_1E6;
@@ -27,7 +33,7 @@ typedef struct EnOssan {
     /* 0x01F2 */ s16 unk_1F2;
     /* 0x01F4 */ s16 unk_1F4;
     /* 0x01F6 */ u16 unk_1F6;
-    /* 0x01F8 */ void (*unk_1F8)(struct EnOssan*);
+    /* 0x01F8 */ EnOssanFunc2 unk_1F8;
     /* 0x01FC */ s16 unk_1FC;
     /* 0x01FE */ s16 unk_1FE;
     /* 0x0200 */ EnGirlA* unk_200[8];
