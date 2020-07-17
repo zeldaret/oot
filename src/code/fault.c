@@ -40,8 +40,6 @@ extern char sFaultStack[0x600];
 extern StackEntry sFaultThreadInfo;
 extern FaultThreadStruct gFaultStruct;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/pad_800D3F10.s")
-
 void Fault_SleepImpl(u32 duration) {
     u64 value = (duration * OS_CPU_COUNTER) / 1000ull;
     Sleep_Cycles(value);
@@ -962,11 +960,10 @@ void Fault_UpdatePad() {
     Fault_UpdatePadImpl();
 }
 
-#ifdef NON_MATCHING
-// saved register and stack usage differences
 void Fault_ThreadEntry(void* arg) {
-    OSThread* faultedThread;
     OSMesg msg;
+    OSThread* faultedThread;
+    u32 pad;
 
     osSetEventMesg(OS_EVENT_CPU_BREAK, &sFaultStructPtr->queue, 1);
     osSetEventMesg(OS_EVENT_FAULT, &sFaultStructPtr->queue, 2);
@@ -1044,9 +1041,6 @@ void Fault_ThreadEntry(void* arg) {
         Fault_ResumeThread(faultedThread);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_ThreadEntry.s")
-#endif
 
 void Fault_SetFB(void* fb, u16 w, u16 h) {
     sFaultStructPtr->fb = fb;
