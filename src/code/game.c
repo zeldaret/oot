@@ -348,10 +348,8 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     }
 }
 
-#ifdef NON_MATCHING
-// stack
 void GameState_Realloc(GameState* gameState, size_t size) {
-    s32 pad;
+    GameAlloc* alloc = &gameState->alloc;
     void* gameArena;
     u32 systemMaxFree;
     u32 systemFree;
@@ -360,7 +358,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
     thaBufp = gameState->tha.bufp;
     THA_Dt(&gameState->tha);
-    GameAlloc_Free(&gameState->alloc, thaBufp);
+    GameAlloc_Free(alloc, thaBufp);
     // Hyrule temporarily released !!
     osSyncPrintf("ハイラル一時解放!!\n");
     SystemArena_GetSizes(&systemMaxFree, &systemFree, &systemAlloc);
@@ -377,7 +375,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
     // Hyral reallocate size =% u bytes
     osSyncPrintf("ハイラル再確保 サイズ＝%u バイト\n", size);
-    gameArena = GameAlloc_MallocDebug(&gameState->alloc, size, "../game.c", 1033);
+    gameArena = GameAlloc_MallocDebug(alloc, size, "../game.c", 1033);
     if (gameArena != NULL) {
         THA_Ct(&gameState->tha, gameArena, size);
         // Successful reacquisition of Hyrule
@@ -390,9 +388,6 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         Fault_AddHungupAndCrash("../game.c", 1044);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_Realloc.s")
-#endif
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
     u64 startTime;
