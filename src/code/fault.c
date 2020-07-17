@@ -538,7 +538,155 @@ void Fault_Wait5Seconds(void) {
     sFaultStructPtr->faultActive = true;
 }
 
+#ifdef NON_MATCHING
+// regalloc differences
+void Fault_WaitForButtonCombo() {
+    Input* curInput = &sFaultStructPtr->padInput;
+    Input** curInputPtr = &curInput;
+    s32 state;
+    u32 s1;
+    u32 s2;
+    u32 kDown;
+    u32 kCur;
+
+    osSyncPrintf(
+        VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
+            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE)
+            VT_RST "\n");
+    osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
+        WHITE) ")" VT_RST "\n");
+
+    FaultDrawer_SetForeColor(0xFFFF);
+    FaultDrawer_SetBackColor(1);
+
+    state = 0;
+    s1 = 0;
+    s2 = 1;
+
+    while (state != 11) {
+        Fault_Sleep(0x10);
+        Fault_UpdatePadImpl();
+
+        kDown = curInput->press.in.button;
+        kCur = curInput->cur.in.button;
+
+        if (kCur == 0) {
+            if (s1 == s2) {
+                s1 = 0;
+            }
+        } else if (kDown != 0) {
+            if (s1 == s2) {
+                state = 0;
+            }
+
+            switch (state) {
+                case 0:
+                    if (kCur == (Z_TRIG | L_TRIG | R_TRIG) && kDown == Z_TRIG) {
+                        state = s2;
+                        s1 = s2;
+                    }
+                    break;
+                case 1:
+                    if (kDown == U_JPAD) {
+                        state = 2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 2:
+                    if (kDown == D_CBUTTONS) {
+                        state = 3;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 3:
+                    if (kDown == U_CBUTTONS) {
+                        state = 4;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 4:
+                    if (kDown == D_JPAD) {
+                        state = 5;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 5:
+                    if (kDown == L_JPAD) {
+                        state = 6;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 6:
+                    if (kDown == L_CBUTTONS) {
+                        state = 7;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 7:
+                    if (kDown == R_CBUTTONS) {
+                        state = 8;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 8:
+                    if (kDown == R_JPAD) {
+                        state = 9;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 9:
+                    if (kDown == (A_BUTTON | B_BUTTON)) {
+                        state = 10;
+                    } else if (kDown == A_BUTTON) {
+                        state = 0x5B;
+                    } else if (kDown == B_BUTTON) {
+                        state = 0x5C;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 0x5B:
+                    if (kDown == B_BUTTON) {
+                        state = 10;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 0x5C:
+                    if (kDown == A_BUTTON) {
+                        state = 10;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 10:
+                    if (kDown == START_BUTTON) {
+                        state = 11;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+            }
+        }
+
+        osWritebackDCacheAll();
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WaitForButtonCombo.s")
+#endif
 
 void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     u32* alignedAddr;
