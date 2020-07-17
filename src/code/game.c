@@ -246,8 +246,6 @@ void GameState_ReqPadData(GameState* gameState) {
     PadMgr_RequestPadData(&gPadMgr, &gameState->input, 1);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences and additional redundant instructions
 void GameState_Update(GameState* gameState) {
     GraphicsContext* gfxCtx = gameState->gfxCtx;
 
@@ -257,7 +255,7 @@ void GameState_Update(GameState* gameState) {
 
     func_800C4344(gameState);
 
-    if (SREG(63) == 1) {
+    if (SREG(63) == 1u) {
         if (SREG(48) < 0) {
             SREG(48) = 0;
             gfxCtx->viMode = &gViConfigMode;
@@ -276,22 +274,22 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viFeatures = gViConfigFeatures;
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
-        if (SREG(63) == 6 || (SREG(63) == 2 && osTvType == 1)) {
+        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == 1)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 5 || (SREG(63) == 2 && osTvType == 2)) {
+        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == 2)) {
             gfxCtx->viMode = &osViModeMpalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 4 || (SREG(63) == 2 && osTvType == 0)) {
+        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == 0)) {
             gfxCtx->viMode = &osViModePalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 3 || (SREG(63) == 2 && osTvType == 0)) {
+        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == 0)) {
             gfxCtx->viMode = &osViModeFpalLan1;
             gfxCtx->yScale = 0.833f;
         }
@@ -324,16 +322,13 @@ void GameState_Update(GameState* gameState) {
         }
     }
 
-    if (R_PAUSE_MENU_MODE != 2) {
+    if (R_PAUSE_MENU_MODE != 2u) {
         GameState_Draw(gameState, gfxCtx);
         func_800C49F4(gfxCtx);
     }
 
     gameState->frames++;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_Update.s")
-#endif
 
 void GameState_InitArena(GameState* gameState, size_t size) {
     void* arena;
