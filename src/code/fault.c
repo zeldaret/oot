@@ -886,7 +886,25 @@ void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_LogStackTrace.s")
+void Fault_LogStackTrace(OSThread* thread, s32 height) {
+    s32 line;
+    u32 sp = thread->context.sp;
+    u32 ra = thread->context.ra;
+    u32 pc = thread->context.pc;
+    u32 addr;
+    u32 pad;
+
+    osSyncPrintf("STACK TRACE\nSP       PC       (VPC)\n");
+    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (u32)__osCleanupThread; line++) {
+        osSyncPrintf("%08x %08x", sp, pc);
+        addr = Fault_ConvertAddress(pc);
+        if (addr != 0) {
+            osSyncPrintf(" -> %08x", addr);
+        }
+        osSyncPrintf("\n");
+        Fault_WalkStack(&sp, &pc, &ra);
+    }
+}
 
 void Fault_ResumeThread(OSThread* t) {
     t->context.cause = 0;
