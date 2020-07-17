@@ -129,27 +129,23 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
                 this->unk_19D |= 1;
             }
 
-        } else {
-            if (this->unk_19D & 1) {
-                if (globalCtx->msgCtx.unk_E3EE == 4) {
-                    if ((globalCtx->msgCtx.unk_E3F2 == 6) || (globalCtx->msgCtx.unk_E3F2 == 7) ||
-                        (globalCtx->msgCtx.unk_E3F2 == 8) || (globalCtx->msgCtx.unk_E3F2 == 9) ||
-                        (globalCtx->msgCtx.unk_E3F2 == 10)) {
-                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                    this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 2);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
-                    } else {
-                        if (globalCtx->msgCtx.unk_E3F2 == 11) {
-                            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                        this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 7);
-                            Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
-                        }
-                    }
-                    this->unk_19D = 0;
-                    Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
-                } else if (globalCtx->msgCtx.unk_E3EE == 1) {
-                    player->stateFlags2 |= 0x800000;
+        } else if (this->unk_19D & 1) {
+            if (globalCtx->msgCtx.unk_E3EE == 4) {
+                if ((globalCtx->msgCtx.unk_E3F2 == 6) || (globalCtx->msgCtx.unk_E3F2 == 7) ||
+                    (globalCtx->msgCtx.unk_E3F2 == 8) || (globalCtx->msgCtx.unk_E3F2 == 9) ||
+                    (globalCtx->msgCtx.unk_E3F2 == 10)) {
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
+                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 2);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+                } else if (globalCtx->msgCtx.unk_E3F2 == 11) {
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
+                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 7);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
+                this->unk_19D = 0;
+                Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
+            } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+                player->stateFlags2 |= 0x800000;
             }
         }
     }
@@ -168,12 +164,12 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19C = 2;
     } else {
         func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
-        if (((sp26 >= 0) && (sp26 < 0x141)) && ((sp24 >= 0) && (sp24 < 0xF1)) && (this->unk_19C != 3)) {
+        if ((sp26 >= 0) && (sp26 < 0x141) && (sp24 >= 0) && (sp24 < 0xF1) && (this->unk_19C != 3)) {
             if (func_8002F2CC(&this->actor, globalCtx, 40.0f) == 1) {
                 if (func_8008F080(globalCtx) == 8) {
-                    this->actor.textId = 0x2054U;
+                    this->actor.textId = 0x2054;
                 } else {
-                    this->actor.textId = 0x2053U;
+                    this->actor.textId = 0x2053;
                 }
             }
         }
@@ -220,7 +216,7 @@ void func_80A4EA08(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1E8 = 0.3f;
         this->unk_1EC = 0.0f;
         this->unk_200 = 0;
-        this->unk_19F = 1U;
+        this->unk_19F = 1;
     } else {
         if (this->unk_19F == 1) {
             this->unk_1A0[0].z = (((this->unk_200 % 8) * 0.125f) * 360.0f) * 182.04445f;
@@ -313,7 +309,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         }
         if (this->unk_200 <= 0) {
             this->unk_200 = 0;
-            this->unk_19E &= 0xFFFB;
+            this->unk_19E &= ~4;
             this->unk_19F++;
         }
     }
@@ -507,7 +503,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (globalCtx) {};
         if (this->unk_14C.base.acFlags & 2) {
             this->unk_19F = 0;
-            this->unk_14C.base.acFlags &= 0xFFFD;
+            this->unk_14C.base.acFlags &= ~2;
 
             switch (this->actor.colChkInfo.damageEffect) {
                 case 15:
@@ -537,7 +533,6 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
                     break;
             }
         }
-
         Collider_CylinderUpdate(&this->actor, &this->unk_14C);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_14C.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_14C.base);
@@ -555,7 +550,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->unk_19E & 8)) {
         gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 0x416);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
         frames = globalCtx->gameplayFrames;
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
@@ -569,7 +564,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char*)"../z_en_gs.c", 0x428),
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyOpa.p++, D_06000950);
 
@@ -589,7 +584,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 0x43F),
+            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(
                 gfxCtx->polyXlu.p++, 0x08,

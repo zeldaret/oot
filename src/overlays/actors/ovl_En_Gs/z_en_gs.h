@@ -17,7 +17,6 @@ typedef struct EnGs {
     /* 0x019E */ u8 unk_19E;
     /* 0x019F */ u8 unk_19F;
     /* 0x01A0 */ Vec3s unk_1A0[3];
-    /* 0x01B2 */ char unk_1B2[0x2];
     /* 0x01B4 */ Vec3f unk_1B4[2];
     /* 0x01CC */ char unk_1CC[0xC];
     /* 0x01D8 */ Vec3f unk_1D8;

@@ -701,7 +701,8 @@ typedef struct {
     /* 0xE3E5 */ u8     choiceIndex;
     /* 0xE3E6 */ char   unk_E3E6[0x01];
     /* 0xE3E7 */ u8     unk_E3E7;
-    /* 0xE3E8 */ char   unk_E3E8[0x6];
+    /* 0xE3E8 */ char   unk_E3E8[0x04];
+    /* 0xE3EC */ u16    unk_E3EC;
     /* 0xE3EE */ u16    unk_E3EE;
     /* 0xE3F0 */ u16    unk_E3F0;
     /* 0xE3F2 */ u16    unk_E3F2;
@@ -894,7 +895,8 @@ typedef struct {
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ char     unk_BC[0x03];
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x18];
+    /* 0xC0 */ char     unk_C0[0x16];
+    /* 0xD6 */ s16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;

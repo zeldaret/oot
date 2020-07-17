@@ -1,38 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef enum {
-    /* 0x00 */ A_OBJ_BLOCK_SMALL,
-    /* 0x01 */ A_OBJ_BLOCK_LARGE,
-    /* 0x02 */ A_OBJ_BLOCK_HUGE,
-    /* 0x03 */ A_OBJ_BLOCK_SMALL_ROT,
-    /* 0x04 */ A_OBJ_BLOCK_LARGE_ROT,
-    /* 0x05 */ A_OBJ_CUBE_SMALL,
-    /* 0x06 */ A_OBJ_UNKNOWN_6,
-    /* 0x07 */ A_OBJ_GRASS_CLUMP,
-    /* 0x08 */ A_OBJ_TREE_STUMP,
-    /* 0x09 */ A_OBJ_SIGNPOST_OBLONG,
-    /* 0x0A */ A_OBJ_SIGNPOST_ARROW,
-    /* 0x0B */ A_OBJ_KNOB
-} AObjType;
-
-struct EnAObj;
-
-typedef void (*EnAObjActionFunc)(struct EnAObj*, GlobalContext*);
-
-typedef struct EnAObj {
-    /* 0x000 */ DynaPolyActor dyna;
-    /* 0x164 */ EnAObjActionFunc actionFunc;
-    /* 0x168 */ s32 unk_168;
-    /* 0x16C */ s16 textId;
-    /* 0x16E */ s16 unk_16E;
-    /* 0x170 */ s16 unk_170;
-    /* 0x172 */ s16 unk_172;
-    /* 0x174 */ s16 unk_174;
-    /* 0x178 */ f32 unk_178;
-    /* 0x17C */ ColliderCylinder collider;
-} EnAObj; // size = 0x1C8
-
 #define FLAGS 0x00000010
 
 #define THIS ((EnAObj*)thisx)

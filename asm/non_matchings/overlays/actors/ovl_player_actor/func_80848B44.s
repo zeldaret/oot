@@ -75,7 +75,7 @@ glabel func_80848B44
 /* 16A30 80848C40 27A6003C */  addiu   $a2, $sp, 0x003C           ## $a2 = FFFFFFF4
 /* 16A34 80848C44 87A70036 */  lh      $a3, 0x0036($sp)           
 /* 16A38 80848C48 46128101 */  sub.s   $f4, $f16, $f18            
-/* 16A3C 80848C4C 0C00A757 */  jal     func_80029D5C              
+/* 16A3C 80848C4C 0C00A757 */  jal     EffectSsFhgFlash_Spawn2              
 /* 16A40 80848C50 E7A40044 */  swc1    $f4, 0x0044($sp)           
 /* 16A44 80848C54 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 16A48 80848C58 0C00BE3C */  jal     func_8002F8F0              
