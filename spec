@@ -3009,7 +3009,6 @@ endseg
 beginseg
     name "ovl_En_Okarina_Tag"
     include "build/src/overlays/actors/ovl_En_Okarina_Tag/z_en_okarina_tag.o"
-    include "build/data/overlays/actors/z_en_okarina_tag.data.o"
     include "build/data/overlays/actors/z_en_okarina_tag.reloc.o"
 endseg
 
