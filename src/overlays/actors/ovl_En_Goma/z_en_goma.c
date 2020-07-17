@@ -405,17 +405,15 @@ void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx) {
         func_80029DBC(globalCtx, &b, &D_80A4B7FC, &a, 0x28, 0);
     }
 
-    if (this->unk_2CC == 0) {
-        if (Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0.0f, 0.5f, 0.00225f, 0.00001f) <= 0.001f) {
-            if (this->actor.params < 6) {
-                tmp = (EnGoma*)this->actor.attachedA;
-                tmp->unk_1A4[this->actor.params] = -1;
-            }
-            Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
-            Actor_Kill(&this->actor);
-            Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, 0x30);
+    if ((this->unk_2CC == 0) &&
+        (Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0.0f, 0.5f, 0.00225f, 0.00001f) <= 0.001f)) {
+        if (this->actor.params < 6) {
+            tmp = (EnGoma*)this->actor.attachedA;
+            tmp->unk_1A4[this->actor.params] = -1;
         }
+        Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Actor_Kill(&this->actor);
+        Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, 0x30);
     }
 
     this->unk_2C4 = 2;
@@ -484,9 +482,9 @@ void func_80A4A18C(EnGoma* this) {
     this->actor.velocity.y = 8.0f;
     if (this->actor.params < 6) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_BJR_CRY);
-        return;
+    } else {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_CRY);
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_CRY);
 }
 
 void func_80A4A234(EnGoma* this, GlobalContext* globalCtx) {
@@ -542,9 +540,9 @@ void func_80A4A470(EnGoma* this, GlobalContext* globalCtx) {
     this->unk_2CC = (s16)Math_Rand_ZeroFloat(15.0f) + 3;
     if (this->actor.params < 6) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_BJR_FREEZE);
-        return;
+    } else {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
 }
 
 void func_80A4A50C(EnGoma* this, GlobalContext* globalCtx) {

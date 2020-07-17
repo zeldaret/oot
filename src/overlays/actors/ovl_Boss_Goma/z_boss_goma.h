@@ -6,10 +6,12 @@
 
 struct BossGoma;
 
+typedef void (*BossGomaActionFunc)(struct BossGoma*, GlobalContext*);
+
 typedef struct BossGoma {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ void (*actionFunc)(struct BossGoma*, GlobalContext*);
+    /* 0x0190 */ BossGomaActionFunc actionFunc;
     /* 0x0194 */ s16 unk_194;
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;

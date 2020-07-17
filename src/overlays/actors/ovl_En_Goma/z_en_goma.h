@@ -6,6 +6,8 @@
 
 struct EnGoma;
 
+typedef void (*EnGomaActionFunc)(struct EnGoma*, GlobalContext*);
+
 typedef struct EnGoma {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -15,7 +17,7 @@ typedef struct EnGoma {
     /* 0x01B0 */ char unk_1B0[0x70];
     /* 0x0220 */ Vec3s unk_220;
     /* 0x0226 */ char unk_226[0x8A];
-    /* 0x02B0 */ void (*actionFunc)(struct EnGoma*, GlobalContext*);
+    /* 0x02B0 */ EnGomaActionFunc actionFunc;
     /* 0x02B4 */ s16 unk_2B4;
     /* 0x02B6 */ s16 unk_2B6;
     /* 0x02B8 */ s16 unk_2B8;
