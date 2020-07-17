@@ -806,7 +806,23 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WalkStack.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawStackTrace.s")
+void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height) {
+    s32 line;
+    u32 sp = thread->context.sp;
+    u32 ra = thread->context.ra;
+    u32 pc = thread->context.pc;
+    u32 addr;
+
+    FaultDrawer_DrawText(x, y, "SP       PC       (VPC)");
+    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (u32)__osCleanupThread; line++) {
+        FaultDrawer_DrawText(x, y + line * 8, "%08x %08x", sp, pc);
+        addr = Fault_ConvertAddress(pc);
+        if (addr != 0) {
+            FaultDrawer_Printf(" -> %08x", addr);
+        }
+        Fault_WalkStack(&sp, &pc, &ra);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_LogStackTrace.s")
 
