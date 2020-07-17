@@ -57,15 +57,13 @@ extern Gfx D_06002A70[];
 extern SkeletonHeader D_06003B40;
 extern AnimationHeader D_06003D78;
 
-ColliderCylinderInit D_80A4B7A0 = 
-{
+ColliderCylinderInit D_80A4B7A0 = {
     { COLTYPE_UNK3, 0x11, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFDFFFFF, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
     { 15, 30, 10, { 0, 0, 0 } },
 };
 
-ColliderCylinderInit D_80A4B7CC = 
-{
+ColliderCylinderInit D_80A4B7CC = {
     { COLTYPE_UNK3, 0x00, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFDFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -73,9 +71,7 @@ ColliderCylinderInit D_80A4B7CC =
 
 u8 D_80A4B7F8 = 0x0000;
 
-Vec3f D_80A4B7FC = {
-    0.0f, 0.0f, 0.0f
-};
+Vec3f D_80A4B7FC = { 0.0f, 0.0f, 0.0f };
 
 InitChainEntry D_80A4B808[] = {
     ICHAIN_U8(unk_1F, 3, ICHAIN_CONTINUE),
@@ -84,37 +80,21 @@ InitChainEntry D_80A4B808[] = {
     ICHAIN_F32(unk_4C, 20, ICHAIN_STOP),
 };
 
-Vec3f D_80A4B818 = {
-    0.0f, 0.0f, 0.0f
-};
+Vec3f D_80A4B818 = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80A4B824 = {
-    0.0f, -0.5f, 0.0f
-};
+Vec3f D_80A4B824 = { 0.0f, -0.5f, 0.0f };
 
-Vec3f D_80A4B830 = {
-    0.0f, 0.0f, 20.0f
-};
+Vec3f D_80A4B830 = { 0.0f, 0.0f, 20.0f };
 
-f32 D_80A4B83C[] = {
-    255.0f, 0.0f, 50.0f
-};
+f32 D_80A4B83C[] = { 255.0f, 0.0f, 50.0f };
 
-f32 D_80A4B848[] = {
-    17.0f, 255.0f, 50.0f
-};
+f32 D_80A4B848[] = { 17.0f, 255.0f, 50.0f };
 
-f32 D_80A4B854[] = {
-    0.0f, 170.0f, 50.0f
-};
+f32 D_80A4B854[] = { 0.0f, 170.0f, 50.0f };
 
-Vec3f D_80A4B860 = {
-    0.0f, 0.0f, 0.0f
-};
+Vec3f D_80A4B860 = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80A4B86C = {
-    0.0f, 1.0f, 0.0f
-};
+Vec3f D_80A4B86C = { 0.0f, 1.0f, 0.0f };
 
 s32 D_80A4B878 = 0xFFFFFFFF;
 s32 D_80A4B87C = 0x0064FFFF;
@@ -166,16 +146,12 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = func_80A493D8;
         this->unk_2CA = 0xA;
         this->actor.speedXZ = 1.5f;
-    } else {
-        if ((this->actor.params == 8) || (this->actor.params == 6)) {
-            this->actionFunc = func_80A49668;
-            this->unk_2C8 = D_80A4B7F8;
-            D_80A4B7F8++;
-        } else {
-            if ((this->actor.params == 9) || (this->actor.params == 7)) {
-                this->actionFunc = func_80A49668;
-            }
-        }
+    } else if ((this->actor.params == 8) || (this->actor.params == 6)) {
+        this->actionFunc = func_80A49668;
+        this->unk_2C8 = D_80A4B7F8;
+        D_80A4B7F8++;
+    } else if ((this->actor.params == 9) || (this->actor.params == 7)) {
+        this->actionFunc = func_80A49668;
     }
     if (this->actor.params >= 8) {
         this->unk_2F0 = -1500.0f;
@@ -198,6 +174,7 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
+
     if (this->actor.params < 0xA) {
         Collider_DestroyCylinder(globalCtx, &this->collider1);
         Collider_DestroyCylinder(globalCtx, &this->collider2);
@@ -205,7 +182,8 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A49294(EnGoma* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003D78, 2.0f, 0.0f, SkelAnime_GetFrameCount(&D_06003D78.genericHeader), 0, -2.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003D78, 2.0f, 0.0f, SkelAnime_GetFrameCount(&D_06003D78.genericHeader),
+                         0, -2.0f);
     this->actionFunc = func_80A49338;
     this->unk_2CC = 0x14;
     if (this->actor.params < 6) {
@@ -228,14 +206,13 @@ void func_80A49338(EnGoma* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // unk_2EC needs a negative offset
 void func_80A493D8(EnGoma* this, GlobalContext* globalCtx) {
-
     this->actor.gravity = -1.3f;
     this->unk_2DC += 0.03f;
     this->unk_2EC = this->unk_2D8 + (1.0f + this->unk_2DC);
     Math_SmoothDownscaleMaxF(&this->unk_2EC, 1.0f, 0.005f);
     Math_SmoothScaleMaxF(&this->unk_2F0, 1500.0f, 1.0f, 150.0f);
 
-    switch(this->unk_2BE) {
+    switch (this->unk_2BE) {
         case 0:
             if (this->actor.bgCheckFlags & 1) {
                 if (this->actor.params < 6) {
@@ -288,8 +265,6 @@ void func_80A493D8(EnGoma* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goma/func_80A493D8.s")
 #endif
 
-void func_80029724(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, s16, s16, s16, s16);
-
 void func_80A49668(EnGoma* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 i;
@@ -300,31 +275,30 @@ void func_80A49668(EnGoma* this, GlobalContext* globalCtx) {
     this->unk_2D8 += 1.0f;
     Math_SmoothScaleMaxF(&this->unk_2EC, 0.1f, 1.0f, 0.005f);
 
-    if ((fabsf(this->actor.posRot.pos.x - player->actor.posRot.pos.x) < 100.0f) && 
+    if ((fabsf(this->actor.posRot.pos.x - player->actor.posRot.pos.x) < 100.0f) &&
         (fabsf(this->actor.posRot.pos.z - player->actor.posRot.pos.z) < 100.0f)) {
-            this->unk_2C6++;
-            if (this->unk_2C6 >= 10) {
-                this->actionFunc = func_80A493D8;
-            }
+        this->unk_2C6++;
+        if (this->unk_2C6 >= 10) {
+            this->actionFunc = func_80A493D8;
+        }
     } else {
         this->unk_2C6 = 0;
     }
-    if ((this->unk_2C0 & 0xF) == 0) {
-        if (Math_Rand_ZeroOne() < 0.5f) {
-            for (i = 0; i < 2; i++) {
-                a = D_80A4B818;
-                b = D_80A4B824;
-                c.x = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
-                c.y = Math_Rand_ZeroFloat(30.0f) + this->actor.posRot.pos.y;
-                c.z = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
-                func_80029724(globalCtx, &c, &a, &b, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, 0);
-            }
+    if (((this->unk_2C0 & 0xF) == 0) && (Math_Rand_ZeroOne() < 0.5f)) {
+        for (i = 0; i < 2; i++) {
+            a = D_80A4B818;
+            b = D_80A4B824;
+            c.x = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
+            c.y = Math_Rand_ZeroFloat(30.0f) + this->actor.posRot.pos.y;
+            c.z = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
+            func_80029724(globalCtx, &c, &a, &b, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, 0);
         }
     }
 }
 
 void func_80A498A8(EnGoma* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000544, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000544.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000544, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000544.genericHeader),
+                         2, 0.0f);
     this->actionFunc = func_80A49974;
     Actor_SetScale(&this->actor, 0.005f);
     this->unk_2B8 = 0;
@@ -344,7 +318,8 @@ void func_80A49974(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A499BC(EnGoma* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000838, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000838.genericHeader), 2, -2.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000838, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000838.genericHeader),
+                         2, -2.0f);
     this->actionFunc = func_80A49AA8;
     if ((s8)this->actor.colChkInfo.health <= 0) {
         this->unk_2CC = 5;
@@ -362,7 +337,6 @@ void func_80A499BC(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A49AA8(EnGoma* this, GlobalContext* globalCtx) {
-
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->actor.bgCheckFlags & 1) {
         Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 2.0f);
@@ -377,7 +351,8 @@ void func_80A49AA8(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A49B30(EnGoma* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000B78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000B78.genericHeader), 2, -2.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000B78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000B78.genericHeader),
+                         2, -2.0f);
     this->actionFunc = func_80A49BF0;
     this->unk_2CC = 0x1E;
     if (this->actor.params < 6) {
@@ -407,12 +382,13 @@ void func_80A49BF0(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A49C94(EnGoma* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000334, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000334.genericHeader), 0, -2.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000334, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000334.genericHeader),
+                         0, -2.0f);
     this->actionFunc = func_80A49D0C;
     this->unk_2CC = 3;
 }
 
-void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx){
+void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx) {
     Vec3f a;
     Vec3f b;
     EnGoma* tmp;
@@ -435,7 +411,8 @@ void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx){
                 tmp = (EnGoma*)this->actor.attachedA;
                 tmp->unk_1A4[this->actor.params] = -1;
             }
-            Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
             Actor_Kill(&this->actor);
             Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, 0x30);
         }
@@ -454,13 +431,15 @@ void func_80A49E80(EnGoma* this) {
 }
 
 void func_80A49F10(EnGoma* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003D78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06003D78.genericHeader), 0, -5.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003D78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06003D78.genericHeader),
+                         0, -5.0f);
     this->actionFunc = func_80A4A368;
     this->unk_2CC = Math_Rand_S16Offset(0x46, 0x6E);
 }
 
 void func_80A49F94(EnGoma* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000E4C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000E4C.genericHeader), 2, -5.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000E4C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000E4C.genericHeader),
+                         2, -5.0f);
     this->actionFunc = func_80A4A010;
     this->unk_2CC = 0x1E;
 }
@@ -482,12 +461,13 @@ void func_80A4A010(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4A0A8(EnGoma* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600017C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600017C.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600017C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600017C.genericHeader),
+                         2, 0.0f);
     this->actionFunc = func_80A4A120;
     this->unk_2CC = 10;
 }
 
-void func_80A4A120(EnGoma* this, GlobalContext* globalCtx){
+void func_80A4A120(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->actor.bgCheckFlags & 1) {
         Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 2.0f);
@@ -498,7 +478,8 @@ void func_80A4A120(EnGoma* this, GlobalContext* globalCtx){
 }
 
 void func_80A4A18C(EnGoma* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000544, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000544.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000544, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000544.genericHeader),
+                         2, 0.0f);
     this->actionFunc = func_80A4A234;
     this->actor.velocity.y = 8.0f;
     if (this->actor.params < 6) {
@@ -614,19 +595,17 @@ void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnGoma* goma;
     u8 tmp;
-    ColliderTouch* toucher;  
+    ColliderTouch* toucher;
 
     if (this->unk_2C2) {
         this->unk_2C2--;
         return;
     }
 
-    if (this->collider1.base.atFlags & 2) {
-        if (this->actionFunc == func_80A4A234) {
-            func_80A4A0A8(this);
-            this->actor.speedXZ = 0.0f;
-            this->actor.velocity.y = 0.0f;
-        }
+    if ((this->collider1.base.atFlags & 2) && (this->actionFunc == func_80A4A234)) {
+        func_80A4A0A8(this);
+        this->actor.speedXZ = 0.0f;
+        this->actor.velocity.y = 0.0f;
     }
 
     if ((this->collider2.base.acFlags & 2) && ((s8)this->actor.colChkInfo.health > 0)) {
@@ -650,7 +629,6 @@ void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
                 if (this->actionFunc != func_80A4A50C) {
                     func_80A4A470(this, globalCtx);
                     this->unk_2C2 = 8;
-                    return;
                 }
             } else {
                 tmp = func_800635D0(toucher->flags);
@@ -663,7 +641,6 @@ void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
                 func_80A499BC(this, globalCtx);
                 func_8003426C(&this->actor, 0x4000, 0xFF, 0, 5);
                 this->unk_2C2 = 0xD;
-                return;
             }
         } else {
             if (this->actor.params < 6) {
@@ -692,16 +669,16 @@ void func_80A4A964(EnGoma* this) {
         x = this->actor.floorPoly->norm.x * (1.0f / 32767);
         y = this->actor.floorPoly->norm.y * (1.0f / 32767);
         z = this->actor.floorPoly->norm.z * (1.0f / 32767);
-        Math_SmoothScaleMaxS(&this->unk_2B4,-Math_atan2f(-(z) * y, 1.0f) * 10430.378f, 1, 0x3E8);
-        Math_SmoothScaleMaxS(&this->unk_2B6, Math_atan2f(-(x) * y, 1.0f) * 10430.378f, 1, 0x3E8);
+        Math_SmoothScaleMaxS(&this->unk_2B4, -Math_atan2f(-(z)*y, 1.0f) * 10430.378f, 1, 0x3E8);
+        Math_SmoothScaleMaxS(&this->unk_2B6, Math_atan2f(-(x)*y, 1.0f) * 10430.378f, 1, 0x3E8);
     }
 }
 
-void EnGoma_Update(Actor *thisx, GlobalContext *globalCtx) {
+void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
     s32 pad;
     Player* player = PLAYER;
-    
+
     if (this->unk_2CC) {
         this->unk_2CC--;
     }
@@ -757,14 +734,13 @@ s32 func_80A4ACC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 0x7B8);
     gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->unk_2E0[0], (s16)this->unk_2E0[1], (s16)this->unk_2E0[2], 0xFF);
-    
+
     if (limbIndex == 7) {
         rot->x += this->unk_2BA;
         rot->y += this->unk_2BC;
-    } else if (limbIndex == 3) {
-        if (this->unk_2C2) {
-            gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)(Math_Rand_ZeroOne() * 255.0f), (s16)(Math_Rand_ZeroOne() * 255.0f), (s16)(Math_Rand_ZeroOne() * 255.0f), 0xFF);
-        }
+    } else if ((limbIndex == 3) && (this->unk_2C2)) {
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)(Math_Rand_ZeroOne() * 255.0f), (s16)(Math_Rand_ZeroOne() * 255.0f),
+                       (s16)(Math_Rand_ZeroOne() * 255.0f), 0xFF);
     }
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 0x7DB);
     return 0;
@@ -798,24 +774,24 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->unk_2B8) {
         case 0:
             thisx->naviEnemyId = 3;
-            Matrix_Translate(thisx->posRot.pos.x, 
-                            thisx->posRot.pos.y + ((thisx->shape.unk_08 * thisx->scale.y) + globalCtx->cameras[0].unk_80.y), 
-                            thisx->posRot.pos.z, 
-                            0);
+            Matrix_Translate(thisx->posRot.pos.x,
+                             thisx->posRot.pos.y +
+                                 ((thisx->shape.unk_08 * thisx->scale.y) + globalCtx->cameras[0].unk_80.y),
+                             thisx->posRot.pos.z, 0);
             Matrix_RotateX((this->unk_2B4 / 32768.0f) * M_PI, 1);
             Matrix_RotateZ((this->unk_2B6 / 32768.0f) * M_PI, 1);
             Matrix_RotateY((thisx->shape.rot.y / 32768.0f) * M_PI, 1);
             Matrix_RotateX((thisx->shape.rot.x / 32768.0f) * M_PI, 1);
             Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * M_PI, 1);
             Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, 1);
-            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80A4ACC0, 0, &this->actor);
+            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80A4ACC0, 0,
+                           &this->actor);
             break;
         case 1:
             thisx->naviEnemyId = 2;
             tmp = sinf(((this->unk_2C0 * 5.0f) * M_PI) / 180.0f) * 31.9f;
 
-            gSPSegment(gfxCtx->polyOpa.p++, 0x08, 
-                        func_80094E78(globalCtx->state.gfxCtx, 0, (s16)(tmp + 0x1F)));
+            gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, (s16)(tmp + 0x1F)));
             Matrix_Push();
             Matrix_Scale(this->unk_2D0, 1.0f / this->unk_2D0, this->unk_2D0, 1);
             Matrix_RotateY(this->unk_2D8 * 0.15f, 1);
@@ -825,18 +801,21 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateY(-(this->unk_2D8 * 0.15f), 1);
             Matrix_Translate(0.0f, this->unk_2F0, 0.0f, 1);
             Matrix_RotateX(this->unk_2D4, 1);
-            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x835), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x835),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(gfxCtx->polyOpa.p++, D_06002A70);
             Matrix_Pull();
             break;
         case 2:
-            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x83B), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x83B),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(gfxCtx->polyOpa.p++, D_05000530);
             break;
         case 3:
             if (this->unk_308) {
                 gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A4AE60(globalCtx->state.gfxCtx));
-                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x842), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x842),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(gfxCtx->polyOpa.p++, this->unk_308);
             }
             break;
@@ -866,18 +845,15 @@ void func_80A4B3F0(EnGoma* this, GlobalContext* globalCtx) {
     } else {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EN_GOMA_EGG2);
     }
-    
+
     for (i = 0; i < 15; i++) {
         if (globalCtx) {};
         a.x = Math_Rand_CenteredFloat(10.0f);
         a.y = Math_Rand_CenteredFloat(10.0f);
         a.z = Math_Rand_CenteredFloat(10.0f);
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, 
-            ACTOR_EN_GOMA, 
-            this->actor.posRot.pos.x + a.x, 
-            (this->actor.posRot.pos.y + a.y) + 15.0f, 
-            this->actor.posRot.pos.z + a.z, 
-            0.0f, Math_Rand_CenteredFloat(65535.99f), 0.0f, i+10);
+        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA,
+                            this->actor.posRot.pos.x + a.x, (this->actor.posRot.pos.y + a.y) + 15.0f,
+                            this->actor.posRot.pos.z + a.z, 0.0f, Math_Rand_CenteredFloat(65535.99f), 0.0f, i + 10);
     }
 }
 #else
@@ -885,31 +861,22 @@ void func_80A4B3F0(EnGoma* this, GlobalContext* globalCtx) {
 #endif
 
 void func_80A4B554(EnGoma* this, GlobalContext* globalCtx) {
-    Vec3f a;
-    Vec3f b;
-    s32 sp54;
-    s32 sp50;
+    Vec3f a = D_80A4B860;
+    Vec3f b = D_80A4B86C;
+    s32 sp54 = D_80A4B878;
+    s32 sp50 = D_80A4B87C;
     Vec3f c;
-
-    a = D_80A4B860;
-    b = D_80A4B86C;
-
-    sp54 = D_80A4B878;
-    sp50 = D_80A4B87C;
 
     this->actor.posRot.pos.y -= 5.0f;
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
     this->actor.posRot.pos.y += 5.0f;
     if ((this->actor.bgCheckFlags & 1) != 0) {
         this->actor.velocity.y = 0.0f;
-    } else {
-        if (this->unk_2CC < 0xFA) {
-            this->actor.shape.rot.y += 0x7D0;
-        }
+    } else if (this->unk_2CC < 0xFA) {
+        this->actor.shape.rot.y += 0x7D0;
     }
     if (this->unk_2CC == 0xFA) {
         this->actor.gravity = -1.0f;
-
     }
     if (this->unk_2CC < 0x79) {
         if (Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0, 1.0f, 0.00075f, 0.0f) <= 0.001f) {
@@ -918,12 +885,10 @@ void func_80A4B554(EnGoma* this, GlobalContext* globalCtx) {
         this->actor.scale.z = this->actor.scale.y;
         this->actor.scale.x = this->actor.scale.y;
     }
-    if ((this->unk_2CC & 7) == 0) {
-        if (this->unk_2CC != 0) {
-            c.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-            c.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-            c.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-            func_8002836C(globalCtx, &c, &a, &b, &sp54, &sp50, 0x1F4, 0xA, 0xA);
-        }
+    if ((!(this->unk_2CC & 7)) && this->unk_2CC) {
+        c.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+        c.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+        c.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+        func_8002836C(globalCtx, &c, &a, &b, &sp54, &sp50, 0x1F4, 0xA, 0xA);
     }
 }
