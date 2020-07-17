@@ -721,15 +721,15 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
 }
 
 #ifdef NON_MATCHING
-// saved register and stack usage differences
-// possibly some minor ordering and regalloc differences
+// regalloc differences
 void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
     Input* curInput = &sFaultStructPtr->padInput;
     u32 addr = pc;
-    s32 count;
-    s32 off;
+    u32 count;
+    u32 off;
 
-    while (true) {
+    do {
+        count = 0;
         if (addr < 0x80000000) {
             addr = 0x80000000;
         }
@@ -759,11 +759,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             Fault_UpdatePadImpl();
         } while (curInput->press.in.button == 0);
 
-        if (CHECK_PAD(curInput->press, START_BUTTON)) {
-            return;
-        }
-
-        if (CHECK_PAD(curInput->cur, A_BUTTON)) {
+        if (CHECK_PAD(curInput->press, START_BUTTON) || CHECK_PAD(curInput->cur, A_BUTTON)) {
             return;
         }
 
@@ -792,10 +788,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         if (CHECK_PAD(curInput->cur, R_CBUTTONS)) {
             addr = unk1;
         }
-        if (CHECK_PAD(curInput->cur, L_TRIG)) {
-            break;
-        }
-    }
+    } while (!CHECK_PAD(curInput->cur, L_TRIG));
 
     sFaultStructPtr->faultActive = true;
 }
