@@ -38,45 +38,39 @@ const ActorInit En_Holl_InitVars = {
 };
 
 static EnHollActionFunc sActionFuncs[] = {
-    func_80A58DD4,
-    func_80A591C0,
-    func_80A59520,
-    func_80A59618,
-    func_80A59014,
-    func_80A593A4,
-    func_80A59014, 
+    func_80A58DD4, func_80A591C0, func_80A59520, func_80A59618, func_80A59014, func_80A593A4, func_80A59014,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP)
+    ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
 
 /**
- * These are all absolute distances in the relative z direction. That is, moving 
+ * These are all absolute distances in the relative z direction. That is, moving
  *   towards or away from the "face" of the loading plane regardless of orientation.
  * Moving within these distances of the load plane have the following effects:
  * [0] : Load the room on this side of the loading plane if not already loaded
  * [1] : Load the room on the other side of the loading plane
  * [2] : Fade Region (opaque -> transparent if approaching, transparent -> opaque if receding)
  * [3] : Transparent Region
- * 
+ *
  * When traversing a loading plane of this kind, it attempts to:
  *   Load Current Room (fails as it is already loaded)
  *   Load Next Room
  *   Load Previous Room
  *   Load Next Room
- * 
+ *
  *  @bug The striped nature of loading planes can cause some actors to unload due to
  *      conflicting Object Lists between the two rooms
- * 
+ *
  *  @bug If you can get around to the other side of the loading plane without triggering it,
  *      you can load the room on the other side multiple times
  */
 static f32 sHorizTriggerDists[2][4] = {
-    {200.0f, 150.0f, 100.0f, 50.0f}, 
-    {100.0f, 75.0f, 50.0f, 25.0f},
+    { 200.0f, 150.0f, 100.0f, 50.0f },
+    { 100.0f, 75.0f, 50.0f, 25.0f },
 };
 
 static Vtx sVertices[] = {
@@ -155,7 +149,8 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
     func_8002DBD0(&this->actor, &vec, &player->actor.posRot.pos);
     this->side = (vec.z < 0.0f) ? 0 : 1;
     absZ = fabsf(vec.z);
-    if (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH && absZ < sHorizTriggerDists[phi_t0][0]) {
+    if (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH &&
+        absZ < sHorizTriggerDists[phi_t0][0]) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         if (absZ > sHorizTriggerDists[phi_t0][1]) {
             if (globalCtx->roomCtx.prevRoom.num >= 0 && globalCtx->roomCtx.status == 0) {
@@ -168,7 +163,8 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
             if (globalCtx->roomCtx.prevRoom.num < 0) {
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room);
             } else {
-                this->planeAlpha = (255.0f / (sHorizTriggerDists[phi_t0][2] - sHorizTriggerDists[phi_t0][3])) * (absZ - sHorizTriggerDists[phi_t0][3]);
+                this->planeAlpha = (255.0f / (sHorizTriggerDists[phi_t0][2] - sHorizTriggerDists[phi_t0][3])) *
+                                   (absZ - sHorizTriggerDists[phi_t0][3]);
                 this->planeAlpha = CLAMP(this->planeAlpha, 0, 255);
                 if (globalCtx->roomCtx.curRoom.num != this->actor.room) {
                     EnHoll_SwapRooms(globalCtx);
@@ -199,13 +195,14 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     cameraOrPlayer = D_8011D394 != 0 || globalCtx->csCtx.state != 0;
     func_8002DBD0(&this->actor, &vec, (cameraOrPlayer) ? &globalCtx->view.eye : &player->actor.posRot.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
-    if (EnHoll_IsKokiriSetup8() || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth && 
-        (absZ = fabsf(vec.z), (absZ < 100.0f && 50.0f < absZ)))) {
+    if (EnHoll_IsKokiriSetup8() || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
+                                    (absZ = fabsf(vec.z), (absZ < 100.0f && 50.0f < absZ)))) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         frontOrBack = (vec.z < 0.0f) ? 0 : 1;
         transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
         this->actor.room = transitionEntry->sides[frontOrBack].room;
-        if (this->actor.room != globalCtx->roomCtx.curRoom.num && func_8009728C(globalCtx, &globalCtx->roomCtx, (u32)this->actor.room) != 0) {
+        if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
+            func_8009728C(globalCtx, &globalCtx->roomCtx, (u32)this->actor.room) != 0) {
             EnHoll_SetupAction(this, EnHoll_NextAction);
         }
     }
@@ -254,8 +251,7 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
     s32 frontOrBack;
     s32 transitionActorIdx;
 
-    if ((this->actor.xzDistFromLink < 120.0f) && 
-        (absY = fabsf(this->actor.yDistFromLink), absY < 200.0f)) {
+    if ((this->actor.xzDistFromLink < 120.0f) && (absY = fabsf(this->actor.yDistFromLink), absY < 200.0f)) {
         if (absY < 50.0f) {
             globalCtx->unk_11E18 = 0xFF;
         } else {
@@ -265,7 +261,7 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
             frontOrBack = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
             this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[frontOrBack].room;
-            if (this->actor.room != globalCtx->roomCtx.curRoom.num && 
+            if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, &EnHoll_NextAction);
                 this->unk_14F = 1;
@@ -289,7 +285,7 @@ void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
             frontOrBack = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
             this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[frontOrBack].room;
-            if (this->actor.room != globalCtx->roomCtx.curRoom.num && 
+            if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);
             }
@@ -326,7 +322,8 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
             if (absZ < 50.0f) {
                 frontOrBack = (vec.z < 0.0f) ? 0 : 1;
                 this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[frontOrBack].room;
-                if (this->actor.room != globalCtx->roomCtx.curRoom.num && func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
+                if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
+                    func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                     EnHoll_SetupAction(this, EnHoll_NextAction);
                 }
             }
@@ -376,7 +373,8 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateY(M_PI, MTXMODE_APPLY);
         }
 
-        gSPMatrix(gfxP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 824), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(gfxP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 824),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(gfxP++, 0, 0, 0, 0, 0, (u8)this->planeAlpha);
         gSPDisplayList(gfxP++, sPlaneDlist);
 
