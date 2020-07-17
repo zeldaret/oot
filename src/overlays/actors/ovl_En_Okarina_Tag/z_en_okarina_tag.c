@@ -125,7 +125,53 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okarina_Tag/func_80ABF0CC.s")
+void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
+    Player* player;
+    s16 temp_a1;
+    s16 temp_a1_2;
+
+    player = PLAYER;
+    if (globalCtx->msgCtx.unk_E3EE == 4) {
+        this->actionFunc = func_80ABEF2C;
+        return;
+    }
+    if (globalCtx->msgCtx.unk_E3EE == 3) {
+        if (this->unk_154 >= 0) {
+            Flags_SetSwitch(globalCtx, this->unk_154);
+        }
+        if (globalCtx->sceneNum == 5) {
+            globalCtx->msgCtx.msgMode = 0x37;
+        }
+        if (globalCtx->sceneNum != 0x3B) {
+            if (globalCtx->sceneNum != 0x3D) {
+                globalCtx->msgCtx.unk_E3EE = 4;
+            }
+        }
+        func_80078884(0x4802);
+        this->actionFunc = func_80ABEF2C;
+        return;
+    }
+    if (this->unk_158 != 0) {
+        if ((globalCtx->msgCtx.unk_E3EE == 5) || (globalCtx->msgCtx.unk_E3EE == 6) ||
+            (globalCtx->msgCtx.unk_E3EE == 7) || (globalCtx->msgCtx.unk_E3EE == 8) ||
+            (globalCtx->msgCtx.unk_E3EE == 9) || (globalCtx->msgCtx.unk_E3EE == 10) ||
+            (globalCtx->msgCtx.unk_E3EE == 13)) {
+            if (this->unk_154 >= 0) {
+                Flags_SetSwitch(globalCtx, this->unk_154);
+            }
+            globalCtx->msgCtx.unk_E3EE = 4;
+            func_80078884(0x4802);
+            this->actionFunc = func_80ABEF2C;
+            return;
+        }
+    }
+    if ((globalCtx->msgCtx.unk_E3EE >= 5) && (globalCtx->msgCtx.unk_E3EE < 0xE)) {
+        globalCtx->msgCtx.unk_E3EE = 4;
+        this->actionFunc = func_80ABEF2C;
+    } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+        player->stateFlags2 |= 0x800000;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okarina_Tag/func_80ABF28C.s")
 
