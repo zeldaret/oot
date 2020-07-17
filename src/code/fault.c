@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <ultra64/controller.h>
+#include <ultra64/hardware.h>
 #include <global.h>
 #include <alloca.h>
 #include <vt.h>
@@ -804,7 +805,68 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawMemDump.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WalkStack.s")
+void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
+    u32 sp = *spPtr;
+    u32 pc = *pcPtr;
+    u32 ra = *raPtr;
+    s32 count = 0x10000;
+    u32 lastOpc;
+    u32 opc;
+    u16 opcHi;
+    s16 opcLo;
+    u32 imm;
+
+    if (sp & 3 || sp < 0x80000000 || sp >= 0xA0000000 || ra & 3 || ra < 0x80000000 || ra >= 0xA0000000) {
+        *spPtr = 0;
+        *pcPtr = 0;
+        *raPtr = 0;
+        return;
+    }
+
+    if (pc & 3 || pc < 0x80000000 || pc >= 0xA0000000) {
+        *pcPtr = ra;
+        return;
+    }
+
+    lastOpc = 0;
+    while (true) {
+        opc = HW_REG(pc, u32);
+        opcHi = opc >> 16;
+        opcLo = opc & 0xFFFF;
+        imm = opcLo;
+        if (opcHi == 0x8FBF) {
+            ra = HW_REG(sp + imm, u32);
+        } else if (opcHi == 0x27BD) {
+            sp += imm;
+        } else if (opc == 0x42000018) {
+            sp = 0;
+            pc = 0;
+            ra = 0;
+            goto end;
+        }
+        if (lastOpc == 0x3E00008) {
+            pc = ra;
+            goto end;
+        } else if (lastOpc >> 26 == 2) {
+            pc = pc >> 28 << 28 | lastOpc << 6 >> 4;
+            goto end;
+        }
+        lastOpc = opc;
+        pc += 4;
+        if (count == 0) {
+            break;
+        }
+        count--;
+    }
+    sp = 0;
+    pc = 0;
+    ra = 0;
+
+end:
+    *spPtr = sp;
+    *pcPtr = pc;
+    *raPtr = ra;
+}
 
 void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height) {
     s32 line;

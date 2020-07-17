@@ -1835,7 +1835,7 @@ void Fault_Wait5Seconds();
 void Fault_WaitForButtonCombo();
 void Fault_DrawMemDumpPage(const char*, u32*, u32);
 void Fault_DrawMemDump(u32, u32, u32, u32);
-void Fault_WalkStack(u32* sp, u32* pc, u32 *ra);
+void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32 *raPtr);
 void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height);
 void Fault_LogStackTrace(OSThread*, u32);
 void Fault_ResumeThread(OSThread*);
