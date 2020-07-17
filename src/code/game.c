@@ -15,11 +15,9 @@ VisMono sMonoColors;
 unk_80166528 D_80166528;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
-char sBtnChars[] = {
-    'A', 'B', 'Z', 'S', 'u', 'l', 'd', 'r', '*', '+', 'L', 'R', 'u', 'd', 'l', 'r', '\0',
-};
 
 void GameState_FaultPrint(void) {
+    static char sBtnChars[] = "ABZSuldr*+LRudlr";
     s32 i;
 
     osSyncPrintf("last_button=%04x\n", sLastButtonPressed);
