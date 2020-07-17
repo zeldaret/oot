@@ -47,7 +47,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     localConst = 0;
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk_168 = (u8)((thisx->params >> 8) & 0x3F);
+    this->unk_168 = ((thisx->params >> 8) & 0x3F);
     thisx->params = thisx->params & 0xFF;
     waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes + 0x1;
     DynaPolyInfo_SetActorMove(&this->dyna, 1);
@@ -107,7 +107,7 @@ void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) 
 }
 
 void BgYdanHasi_InitWater(BgYdanHasi* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, (u8)this->unk_168)) {
+    if (Flags_GetSwitch(globalCtx, this->unk_168)) {
         this->timer = 600;
         this->actionFunc = BgYdanHasi_MoveWater;
     }
@@ -183,13 +183,12 @@ void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+    BgYdanHasi* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    if (thisx->params == 0 || thisx->params == 2) {
-
-        Gfx_DrawDListOpa(globalCtx, D_808BEC24[thisx->params]);
+    if (this->dyna.actor.params == 0 || this->dyna.actor.params == 2) {
+        Gfx_DrawDListOpa(globalCtx, D_808BEC24[this->dyna.actor.params]);
         return;
     }
     gfxCtx = globalCtx->state.gfxCtx;
