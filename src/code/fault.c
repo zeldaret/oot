@@ -184,7 +184,38 @@ void Fault_RemoveClient(FaultClient* client) {
     }
 }
 
+#ifdef NON_MATCHING
+// minor ordering differences
+void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* param) {
+    FaultAddrConvClient* iter;
+    u32 alreadyExists = false;
+    OSIntMask mask;
+
+    mask = osSetIntMask(1);
+
+    iter = sFaultStructPtr->addrConvClients;
+    while (iter != NULL) {
+        if (iter == client) {
+            alreadyExists = true;
+            goto end;
+        }
+        iter = iter->next;
+    }
+
+    client->callback = callback;
+    client->param = param;
+    client->next = sFaultStructPtr->addrConvClients;
+    sFaultStructPtr->addrConvClients = client;
+
+end:
+    osSetIntMask(mask);
+    if (alreadyExists) {
+        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" VT_RST, client);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddAddrConvClient.s")
+#endif
 
 void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     FaultAddrConvClient* iter;
