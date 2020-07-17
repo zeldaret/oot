@@ -1,3 +1,8 @@
+/*
+ * File: z_bg_ydan_hasi.c
+ * Overlay: ovl_Bg_Ydan_Hasi
+ * Description: Deku Tree Puzzle elements. Water plane and floating block in B1, and 3 blocks on 2F
+ */
 #include "z_bg_ydan_hasi.h"
 
 #define FLAGS 0x00000030
