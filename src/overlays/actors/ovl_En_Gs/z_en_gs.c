@@ -196,15 +196,13 @@ void func_80A4E910(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19F = 1;
         this->unk_1E8 = 0.5f;
         this->unk_1EC = 0.0f;
-    } else {
-        if ((this->unk_19F == 1) && (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200,
-                                                   0.8f, 0.007f, 0.001f, 7, 0) == 0.0f)) {
-            if (!Gameplay_InCsMode(globalCtx)) {
-                func_8010B680(globalCtx, 0x71B1, NULL);
-            }
-            this->unk_19C = 0;
-            this->actionFunc = func_80A4F734;
+    } else if ((this->unk_19F == 1) && (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200,
+                                                      0.8f, 0.007f, 0.001f, 7, 0) == 0.0f)) {
+        if (!Gameplay_InCsMode(globalCtx)) {
+            func_8010B680(globalCtx, 0x71B1, NULL);
         }
+        this->unk_19C = 0;
+        this->actionFunc = func_80A4F734;
     }
 }
 
@@ -217,15 +215,13 @@ void func_80A4EA08(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1EC = 0.0f;
         this->unk_200 = 0;
         this->unk_19F = 1;
-    } else {
-        if (this->unk_19F == 1) {
-            this->unk_1A0[0].z = (((this->unk_200 % 8) * 0.125f) * 360.0f) * 182.04445f;
-            this->unk_1A0[1].z = -this->unk_1A0[0].z;
-            if (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f, 0.005f, 0.001f, 7,
-                              0) == 0.0f) {
-                this->unk_19C = 0;
-                this->actionFunc = func_80A4F734;
-            }
+    } else if (this->unk_19F == 1) {
+        this->unk_1A0[0].z = (((this->unk_200 % 8) * 0.125f) * 360.0f) * 182.04445f;
+        this->unk_1A0[1].z = -this->unk_1A0[0].z;
+        if (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f, 0.005f, 0.001f, 7,
+                          0) == 0.0f) {
+            this->unk_19C = 0;
+            this->actionFunc = func_80A4F734;
         }
     }
 }
