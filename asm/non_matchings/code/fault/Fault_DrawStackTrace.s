@@ -84,7 +84,7 @@ glabel Fault_DrawStackTrace
 .L800D5C94:
 /* B4CE34 800D5C94 02E02025 */  move  $a0, $s7
 /* B4CE38 800D5C98 27A50060 */  addiu $a1, $sp, 0x60
-/* B4CE3C 800D5C9C 0C03567E */  jal   func_800D59F8
+/* B4CE3C 800D5C9C 0C03567E */  jal   Fault_WalkStack
 /* B4CE40 800D5CA0 27A60064 */   addiu $a2, $sp, 0x64
 /* B4CE44 800D5CA4 26100008 */  addiu $s0, $s0, 8
 /* B4CE48 800D5CA8 0214082A */  slt   $at, $s0, $s4

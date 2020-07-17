@@ -804,7 +804,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawMemDump.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/func_800D59F8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WalkStack.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawStackTrace.s")
 

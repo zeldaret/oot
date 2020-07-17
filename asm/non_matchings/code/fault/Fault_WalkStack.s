@@ -1,4 +1,4 @@
-glabel func_800D59F8
+glabel Fault_WalkStack
 /* B4CB98 800D59F8 3C0FFFFA */  lui   $t7, (0xFFFA5A5A >> 16) # lui $t7, 0xfffa
 /* B4CB9C 800D59FC 03A0C825 */  move  $t9, $sp
 /* B4CBA0 800D5A00 27BDFFE8 */  addiu $sp, $sp, -0x18

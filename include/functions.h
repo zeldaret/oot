@@ -1835,7 +1835,7 @@ void Fault_Wait5Seconds();
 void Fault_WaitForButtonCombo();
 void Fault_DrawMemDumpPage(const char*, u32*, u32);
 void Fault_DrawMemDump(u32, u32, u32, u32);
-// ? func_800D59F8(?);
+void Fault_WalkStack(u32* sp, u32* pc, u32 *ra);
 void Fault_DrawStackTrace(OSThread*, s32, s32, u32);
 void Fault_LogStackTrace(OSThread*, u32);
 void Fault_ResumeThread(OSThread*);

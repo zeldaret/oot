@@ -84,7 +84,7 @@ glabel Fault_LogStackTrace
 /* B4CFA4 800D5E04 02802025 */   move  $a0, $s4
 /* B4CFA8 800D5E08 02A02025 */  move  $a0, $s5
 /* B4CFAC 800D5E0C 02C02825 */  move  $a1, $s6
-/* B4CFB0 800D5E10 0C03567E */  jal   func_800D59F8
+/* B4CFB0 800D5E10 0C03567E */  jal   Fault_WalkStack
 /* B4CFB4 800D5E14 02E03025 */   move  $a2, $s7
 /* B4CFB8 800D5E18 8FAE0064 */  lw    $t6, 0x64($sp)
 /* B4CFBC 800D5E1C 26100001 */  addiu $s0, $s0, 1
