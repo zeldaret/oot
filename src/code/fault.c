@@ -257,56 +257,44 @@ void Fault_UpdatePadImpl() {
     sFaultStructPtr->padCallback(&sFaultStructPtr->padInput);
 }
 
-#ifdef NON_MATCHING
-// ordering differences and possibly regalloc
 u32 Fault_WaitForInputImpl() {
-    u16 kDown;
-    u32 exitDebugger;
-    s32 count = 600;
     Input* curInput = &sFaultStructPtr->padInput;
+    s32 count = 600;
+    u32 kDown;
 
     while (true) {
-        while (true) {
-            Fault_Sleep(0x10);
-            Fault_UpdatePadImpl();
+        Fault_Sleep(0x10);
+        Fault_UpdatePadImpl();
 
-            kDown = curInput->press.in.button;
+        kDown = curInput->press.in.button;
 
-            if (kDown == 0x20) {
-                sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
-            }
+        if (kDown == L_TRIG) {
+            sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
+        }
 
-            if (!sFaultStructPtr->faultActive) {
-                break;
-            }
-
+        if (sFaultStructPtr->faultActive) {
             if (count-- < 1) {
                 return false;
             }
-        }
+        } else {
+            if (kDown == A_BUTTON || kDown == R_JPAD) {
+                return false;
+            }
 
-        if (kDown == 0x8000 || kDown == 0x100) {
-            return false;
-        }
+            if (kDown == L_JPAD) {
+                return true;
+            }
 
-        if (kDown == 0x200) {
-            return true;
-        }
+            if (kDown == U_JPAD) {
+                FaultDrawer_SetOsSyncPrintfEnabled(true);
+            }
 
-        if (kDown == 0x800) {
-            FaultDrawer_SetOsSyncPrintfEnabled(true);
-        }
-
-        if (kDown == 0x400) {
-            FaultDrawer_SetOsSyncPrintfEnabled(false);
+            if (kDown == D_JPAD) {
+                FaultDrawer_SetOsSyncPrintfEnabled(false);
+            }
         }
     }
-
-    return false;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WaitForInputImpl.s")
-#endif
 
 void Fault_WaitForInput() {
     sFaultIsWaitingForInput = 1;
