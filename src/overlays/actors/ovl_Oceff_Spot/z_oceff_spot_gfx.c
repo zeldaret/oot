@@ -65,8 +65,8 @@ static Gfx sTextureDL[] = {
                           GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
                       G_RM_AA_ZB_XLU_SURF2),
     gsSPClearGeometryMode(G_TEXTURE_ENABLE | G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsDPSetPrimColor(0x00, 0x00, 0xFF, 0xFF, 0xAA, 0xFF),
-    gsDPSetEnvColor(0xC8, 0xFF, 0x00, 0x80),
+    gsDPSetPrimColor(0x00, 0x00, 255, 255, 170, 255),
+    gsDPSetEnvColor(200, 255, 0, 128),
     gsSPEndDisplayList(),
 };
 

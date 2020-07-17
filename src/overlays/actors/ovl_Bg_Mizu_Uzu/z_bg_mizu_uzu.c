@@ -64,7 +64,7 @@ void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
     } else {
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
-    Audio_PlayActorSound2(thisx, 0x20CD);
+    Audio_PlayActorSound2(thisx, NA_SE_EV_WATER_CONVECTION - SFX_FLAG);
     thisx->shape.rot.y += 0x1C0;
 }
 

@@ -54,7 +54,7 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
 
     if (pauseCtx->state != 0 || pauseCtx->flag != 0) {
         if (pauseCtx->state == 1) {
-            if (func_800B38FC() == 0) {
+            if (ShrinkWindow_GetCurrentVal() == 0) {
                 HREG(80) = 7;
                 HREG(82) = 3;
                 R_PAUSE_MENU_MODE = 1;

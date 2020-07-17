@@ -9,6 +9,30 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80A49338(EnGoma*, GlobalContext*);
+void func_80A493D8(EnGoma*, GlobalContext*);
+void func_80A49668(EnGoma*, GlobalContext*);
+void func_80A498A8(EnGoma*, GlobalContext*);
+void func_80A49974(EnGoma*, GlobalContext*);
+void func_80A49AA8(EnGoma*, GlobalContext*);
+void func_80A49B30(EnGoma*);
+void func_80A49BF0(EnGoma*, GlobalContext*);
+void func_80A49C94(EnGoma*);
+void func_80A49D0C(EnGoma*, GlobalContext*);
+void func_80A49E80(EnGoma*);
+void func_80A4A010(EnGoma*, GlobalContext*);
+void func_80A4A120(EnGoma*, GlobalContext*);
+void func_80A4A18C(EnGoma*);
+void func_80A4A234(EnGoma*, GlobalContext*);
+void func_80A4A2EC(EnGoma*, GlobalContext*);
+void func_80A4A368(EnGoma*, GlobalContext*);
+void func_80A4B3AC(EnGoma*, GlobalContext*);
+void func_80A4B3F0(EnGoma*, GlobalContext*);
+void func_80A4A50C(EnGoma*, GlobalContext*);
+void func_80A4B554(EnGoma*, GlobalContext*);
+
+u8 func_800635D0(s32);
+
 const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORTYPE_ENEMY,
@@ -95,14 +119,8 @@ Vec3f D_80A4B86C = {
 s32 D_80A4B878 = 0xFFFFFFFF;
 s32 D_80A4B87C = 0x0064FFFF;
 
-void func_80A4B554(EnGoma*, GlobalContext*);
-void func_80A4B3AC(EnGoma*, GlobalContext*);
-void func_80A493D8(EnGoma*, GlobalContext*);
-void func_80A49668(EnGoma*, GlobalContext*);
-
-//#define A
+#ifdef NON_MATCHING
 // Asignment order in the middle
-#ifdef A
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
     f32 tmp;
@@ -177,7 +195,6 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goma/EnGoma_Init.s")
 #endif
-#undef A
 
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
@@ -186,8 +203,6 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         Collider_DestroyCylinder(globalCtx, &this->collider2);
     }
 }
-
-void func_80A49338(EnGoma*, GlobalContext*);
 
 void func_80A49294(EnGoma* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06003D78, 2.0f, 0.0f, SkelAnime_GetFrameCount(&D_06003D78.genericHeader), 0, -2.0f);
@@ -200,8 +215,6 @@ void func_80A49294(EnGoma* this) {
     }
 }
 
-void func_80A49E80(EnGoma*);
-
 void func_80A49338(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_SmoothScaleMaxF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
@@ -212,11 +225,8 @@ void func_80A49338(EnGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A498A8(EnGoma*, GlobalContext*);
-
+#ifdef NON_MATCHING
 // unk_2EC needs a negative offset
-//#define A
-#ifdef A
 void func_80A493D8(EnGoma* this, GlobalContext* globalCtx) {
 
     this->actor.gravity = -1.3f;
@@ -277,7 +287,6 @@ void func_80A493D8(EnGoma* this, GlobalContext* globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goma/func_80A493D8.s")
 #endif
-#undef A
 
 void func_80029724(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, s16, s16, s16, s16);
 
@@ -314,9 +323,6 @@ void func_80A49668(EnGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A4B3F0(EnGoma*, GlobalContext*);
-void func_80A49974(EnGoma*, GlobalContext*);
-
 void func_80A498A8(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000544, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000544.genericHeader), 2, 0.0f);
     this->actionFunc = func_80A49974;
@@ -337,8 +343,6 @@ void func_80A49974(EnGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A49AA8(EnGoma*, GlobalContext*);
-
 void func_80A499BC(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000838, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000838.genericHeader), 2, -2.0f);
     this->actionFunc = func_80A49AA8;
@@ -357,9 +361,6 @@ void func_80A499BC(EnGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A49B30(EnGoma*);
-void func_80A49294(EnGoma*);
-
 void func_80A49AA8(EnGoma* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -375,8 +376,6 @@ void func_80A49AA8(EnGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A49BF0(EnGoma*, GlobalContext*);
-
 void func_80A49B30(EnGoma* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000B78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000B78.genericHeader), 2, -2.0f);
     this->actionFunc = func_80A49BF0;
@@ -389,8 +388,6 @@ void func_80A49B30(EnGoma* this) {
     this->unk_2CA = 0x64;
     this->actor.flags &= -2;
 }
-
-void func_80A49C94(EnGoma*);
 
 void func_80A49BF0(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -409,16 +406,11 @@ void func_80A49BF0(EnGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A49D0C(EnGoma*, GlobalContext*);
-
 void func_80A49C94(EnGoma* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000334, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000334.genericHeader), 0, -2.0f);
     this->actionFunc = func_80A49D0C;
     this->unk_2CC = 3;
 }
-
-
-void func_80029DBC(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, s16);
 
 void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx){
     Vec3f a;
@@ -452,8 +444,6 @@ void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx){
     this->unk_2C4 = 2;
 }
 
-void func_80A4A2EC(EnGoma*, GlobalContext*);
-
 void func_80A49E80(EnGoma* this) {
     f32 tmp = SkelAnime_GetFrameCount(&D_06001548.genericHeader);
 
@@ -463,23 +453,17 @@ void func_80A49E80(EnGoma* this) {
     this->unk_2B8 = 0;
 }
 
-void func_80A4A368(EnGoma*, GlobalContext*);
-
 void func_80A49F10(EnGoma* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06003D78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06003D78.genericHeader), 0, -5.0f);
     this->actionFunc = func_80A4A368;
     this->unk_2CC = Math_Rand_S16Offset(0x46, 0x6E);
 }
 
-void func_80A4A010(EnGoma*, GlobalContext*);
-
 void func_80A49F94(EnGoma* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000E4C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000E4C.genericHeader), 2, -5.0f);
     this->actionFunc = func_80A4A010;
     this->unk_2CC = 0x1E;
 }
-
-void func_80A4A18C(EnGoma*);
 
 void func_80A4A010(EnGoma* this, GlobalContext* globalCtx) {
     s16 tmp;
@@ -497,8 +481,6 @@ void func_80A4A010(EnGoma* this, GlobalContext* globalCtx) {
     this->unk_2C4 = 0;
 }
 
-void func_80A4A120(EnGoma*, GlobalContext*);
-
 void func_80A4A0A8(EnGoma* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600017C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600017C.genericHeader), 2, 0.0f);
     this->actionFunc = func_80A4A120;
@@ -514,8 +496,6 @@ void func_80A4A120(EnGoma* this, GlobalContext* globalCtx){
         func_80A49E80(this);
     }
 }
-
-void func_80A4A234(EnGoma*, GlobalContext*);
 
 void func_80A4A18C(EnGoma* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000544, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000544.genericHeader), 2, 0.0f);
@@ -555,7 +535,6 @@ void func_80A4A2EC(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4A368(EnGoma* this, GlobalContext* globalCtx) {
-
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_800A56C8(&this->skelAnime, 1.0f) || func_800A56C8(&this->skelAnime, 5.0f)) {
         if (this->actor.params < 6) {
@@ -574,8 +553,6 @@ void func_80A4A368(EnGoma* this, GlobalContext* globalCtx) {
         func_80A49F94(this);
     }
 }
-
-void func_80A4A50C(EnGoma*, GlobalContext*);
 
 void func_80A4A470(EnGoma* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A4A50C;
@@ -633,8 +610,6 @@ void func_80A4A608(EnGoma* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxS(&this->unk_2BA, tmp2, 3, 0x7D0);
 }
 
-u8 func_800635D0(s32);
-
 void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnGoma* goma;
@@ -671,7 +646,6 @@ void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
                     return;
                 }
             }
-            // 1920
             if (toucher->flags & 1) {
                 if (this->actionFunc != func_80A4A50C) {
                     func_80A4A470(this, globalCtx);
@@ -810,11 +784,8 @@ Gfx* func_80A4AE60(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-Gfx* func_80094E78(GraphicsContext*, u32, u32);
-
-//#define A
+#ifdef NON_MATCHING
 // Regalloc, stack
-#ifdef A
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 tmp;
@@ -842,11 +813,9 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case 1:
             thisx->naviEnemyId = 2;
             tmp = sinf(((this->unk_2C0 * 5.0f) * M_PI) / 180.0f) * 31.9f;
-            tmp += 0x1F;
-            #pragma _permuter sameline start
+
             gSPSegment(gfxCtx->polyOpa.p++, 0x08, 
-                        func_80094E78(globalCtx->state.gfxCtx, 0, tmp));
-            #pragma _permuter sameline end
+                        func_80094E78(globalCtx->state.gfxCtx, 0, (s16)(tmp + 0x1F)));
             Matrix_Push();
             Matrix_Scale(this->unk_2D0, 1.0f / this->unk_2D0, this->unk_2D0, 1);
             Matrix_RotateY(this->unk_2D8 * 0.15f, 1);
@@ -856,34 +825,19 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateY(-(this->unk_2D8 * 0.15f), 1);
             Matrix_Translate(0.0f, this->unk_2F0, 0.0f, 1);
             Matrix_RotateX(this->unk_2D4, 1);
-            #pragma _permuter sameline start
             gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x835), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            #pragma _permuter sameline end
-            #pragma _permuter sameline start
             gSPDisplayList(gfxCtx->polyOpa.p++, D_06002A70);
-            #pragma _permuter sameline end
-
             Matrix_Pull();
             break;
         case 2:
-            #pragma _permuter sameline start
             gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x83B), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            #pragma _permuter sameline end
-            #pragma _permuter sameline start
             gSPDisplayList(gfxCtx->polyOpa.p++, D_05000530);
-            #pragma _permuter sameline end
             break;
         case 3:
             if (this->unk_308) {
-                #pragma _permuter sameline start
                 gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A4AE60(globalCtx->state.gfxCtx));
-                #pragma _permuter sameline end
-                #pragma _permuter sameline start
                 gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 0x842), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                #pragma _permuter sameline end
-                #pragma _permuter sameline start
                 gSPDisplayList(gfxCtx->polyOpa.p++, this->unk_308);
-                #pragma _permuter sameline end
             }
             break;
     }
@@ -892,7 +846,6 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goma/EnGoma_Draw.s")
 #endif
-#undef A
 
 void func_80A4B3AC(EnGoma* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.shape.rot.y + 0x9C4;
@@ -902,9 +855,8 @@ void func_80A4B3AC(EnGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-//#define A
+#ifdef NON_MATCHING
 // Regalloc
-#ifdef A
 void func_80A4B3F0(EnGoma* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f a;
@@ -931,9 +883,6 @@ void func_80A4B3F0(EnGoma* this, GlobalContext* globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goma/func_80A4B3F0.s")
 #endif
-#undef A
-
-void func_8002836C(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s32*, s32*, s32, s32, s32);
 
 void func_80A4B554(EnGoma* this, GlobalContext* globalCtx) {
     Vec3f a;

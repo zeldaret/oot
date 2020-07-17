@@ -117,7 +117,7 @@ void Lights_Free(z_Light* light) {
 
 void func_8007A614(GlobalContext* globalCtx, LightingContext* lightCtx) {
     Lights_ClearHead(globalCtx, lightCtx);
-    Lights_SetAmbientColor(lightCtx, 0x50, 0x50, 0x50);
+    Lights_SetAmbientColor(lightCtx, 80, 80, 80);
     func_8007A698(lightCtx, 0, 0, 0, 0x3e4, 0x3200);
     bzero(&sLightsList, sizeof(sLightsList));
 }

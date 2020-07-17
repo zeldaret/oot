@@ -8,6 +8,9 @@
 #define SIAccessQueueSize 2
 #define BLOCKSIZE 32
 #define MAXCONTROLLERS  4
+#define PFS_ONE_PAGE 8
+
+#define PFS_PAGE_SIZE (BLOCKSIZE*PFS_ONE_PAGE)
 
 #define CONT_CMD_REQUEST_STATUS 0
 #define CONT_CMD_READ_BUTTON 1
