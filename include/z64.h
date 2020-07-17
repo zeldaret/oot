@@ -1087,15 +1087,10 @@ typedef struct {
 } TransitionInfo;
 
 typedef struct {
-    union {
-        struct {
-    /* 0x00 */ s8    frontRoom;    // Room to switch to when triggered from the front of the object
-    /* 0x01 */ s8    frontEffects; // How the camera reacts during the front transition
-    /* 0x02 */ s8    backRoom;     // Room to switch to when triggered from the back of the object
-    /* 0x03 */ s8    backEffects;  // How the camera reacts during the back transition
-        };
-    /* 0x00 */ TransitionInfo info[2]; // Some transition actors access the above data in a variable manner
-    };
+    struct {
+        s8 room;    // Room to switch to
+        s8 effects; // How the camera reacts during the transition
+    } /* 0x00 */ sides[2]; // 0 = front, 1 = back
     /* 0x04 */ s16   id;
     /* 0x06 */ Vec3s pos;
     /* 0x0C */ s16   rotY;

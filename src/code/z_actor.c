@@ -2844,12 +2844,12 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
 
     for (i = 0; i < nbTransitionActors; i++) {
         if (transitionActor->id >= 0) {
-            if (((transitionActor->frontRoom >= 0) &&
-                 ((transitionActor->frontRoom == globalCtx->roomCtx.curRoom.num) ||
-                  (transitionActor->frontRoom == globalCtx->roomCtx.prevRoom.num))) ||
-                ((transitionActor->backRoom >= 0) &&
-                 ((transitionActor->backRoom == globalCtx->roomCtx.curRoom.num) ||
-                  (transitionActor->backRoom == globalCtx->roomCtx.prevRoom.num)))) {
+            if (((transitionActor->sides[0].room >= 0) &&
+                 ((transitionActor->sides[0].room == globalCtx->roomCtx.curRoom.num) ||
+                  (transitionActor->sides[0].room == globalCtx->roomCtx.prevRoom.num))) ||
+                ((transitionActor->sides[1].room >= 0) &&
+                 ((transitionActor->sides[1].room == globalCtx->roomCtx.curRoom.num) ||
+                  (transitionActor->sides[1].room == globalCtx->roomCtx.prevRoom.num)))) {
                 Actor_Spawn(actorCtx, globalCtx, (s16)(transitionActor->id & 0x1FFF), transitionActor->pos.x,
                             transitionActor->pos.y, transitionActor->pos.z, 0, transitionActor->rotY, 0,
                             (i << 0xA) + transitionActor->params);
