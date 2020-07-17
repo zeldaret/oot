@@ -91,7 +91,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         gfxCtx->overlay.p = func_80093F34(gfxCtx->overlay.p);
         gDPSetTextureLUT(gfxCtx->overlay.p++, G_TT_NONE);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0xFF, 0x78, 0x1E, 0x00);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 255, 120, 30, 0);
         gDPSetRenderMode(gfxCtx->overlay.p++, G_RM_PASS, G_RM_XLU_SURF2);
         gSPClearGeometryMode(gfxCtx->overlay.p++, G_TEXTURE_ENABLE | G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
                                                       G_TEXTURE_GEN_LINEAR);

@@ -162,7 +162,7 @@
 
 // EffectSsFhgFlash Spawn Functions
 
-void EffectSsFhgFlash_Spawn(GlobalContext *globalCtx, Vec3f *pos, Vec3f *velocity, Vec3f *accel, s16 arg4, u8 arg5) {
+void EffectSsFhgFlash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, u8 arg5) {
     EffectSsFhgFlashInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -175,8 +175,7 @@ void EffectSsFhgFlash_Spawn(GlobalContext *globalCtx, Vec3f *pos, Vec3f *velocit
     EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
 }
 
-
-void EffectSsFhgFlash_Spawn2(GlobalContext *globalCtx, Actor *arg1, Vec3f *pos, s16 arg3, u8 arg4) {
+void EffectSsFhgFlash_Spawn2(GlobalContext* globalCtx, Actor* arg1, Vec3f* pos, s16 arg3, u8 arg4) {
     EffectSsFhgFlashInitParams initParams;
 
     initParams.unk_28 = arg1;
