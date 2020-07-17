@@ -116,8 +116,6 @@ void func_800C4344(GameState* gameState) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
     static const u16 sInpDispBtnColors[] = {
         GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),
@@ -138,19 +136,16 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
 
     for (i = 0; i < 16; i++) {
         j = i;
-        k = i + 1;
         if (input & (1 << i)) {
             gDPSetFillColor(gfxP++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
+            k = i + 1;
             gDPFillRectangle(gfxP++, (j * 4) + 226, 220, (k * 4) + 225, 223);
             gDPPipeSync(gfxP++);
         }
-    };
+    }
 
     *gfx = gfxP;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_DrawInputDisplay.s")
-#endif
 
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx* newDList;
