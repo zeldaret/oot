@@ -46,11 +46,11 @@ void Fault_SleepImpl(u32 duration) {
 }
 
 void Fault_ClientProcessThread(FaultClientContext* ctx) {
-    if (ctx->callback) {
+    if (ctx->callback != 0) {
         ctx->ret = ctx->callback(ctx->param0, ctx->param1);
     }
 
-    if (ctx->queue) {
+    if (ctx->queue != NULL) {
         osSendMesg(ctx->queue, ctx->msg, 1);
     }
 }
@@ -114,14 +114,13 @@ u32 Fault_ProcessClient(u32 callback, u32 param0, u32 param1) {
 // minor ordering differences
 void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* param1) {
     OSIntMask mask;
-    u32 alreadyExists;
+    u32 alreadyExists = false;
     FaultClient* iter;
 
-    alreadyExists = false;
     mask = osSetIntMask(1);
 
     iter = sFaultStructPtr->clients;
-    while (iter) {
+    while (iter != NULL) {
         if (iter == client) {
             alreadyExists = true;
             goto end;
@@ -157,9 +156,9 @@ void Fault_RemoveClient(FaultClient* client) {
 
     mask = osSetIntMask(1);
 
-    while (iter) {
+    while (iter != NULL) {
         if (iter == client) {
-            if (lastIter) {
+            if (lastIter != NULL) {
                 lastIter->next = client->next;
             } else {
                 sFaultStructPtr->clients = client;
@@ -228,13 +227,13 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
 
     mask = osSetIntMask(1);
 
-    while (iter) {
+    while (iter != NULL) {
         if (iter == client) {
-            if (lastIter) {
+            if (lastIter != NULL) {
                 lastIter->next = client->next;
             } else {
                 sFaultStructPtr->addrConvClients = client;
-                if (sFaultStructPtr->addrConvClients) {
+                if (sFaultStructPtr->addrConvClients != NULL) {
                     sFaultStructPtr->addrConvClients = client->next;
                 } else {
                     listIsEmpty = 1;
@@ -259,12 +258,12 @@ u32 Fault_ConvertAddress(FaultAddrConvClient* client) {
     u32 ret;
     FaultAddrConvClient* iter = sFaultStructPtr->addrConvClients;
 
-    while (iter) {
-        if (iter->callback) {
+    while (iter != NULL) {
+        if (iter->callback != 0) {
             ret = Fault_ProcessClient(iter->callback, client, iter->param);
             if (ret == -1) {
                 Fault_RemoveAddrConvClient(iter);
-            } else if (ret) {
+            } else if (ret != 0) {
                 return ret;
             }
         }
@@ -931,8 +930,8 @@ void Fault_ProcessClients(void) {
     FaultClient* iter = sFaultStructPtr->clients;
     s32 idx = 0;
 
-    while (iter) {
-        if (iter->callback) {
+    while (iter != NULL) {
+        if (iter->callback != 0) {
             Fault_FillScreenBlack();
             FaultDrawer_SetCharPad(-2, 0);
             FaultDrawer_Printf("\x1a"
