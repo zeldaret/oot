@@ -51,7 +51,7 @@ void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_160 = 1.0f;
     ArrowIce_SetupAction(this, ArrowIce_Charge);
     Actor_SetScale(&this->actor, 0.01f);
-    this->alpha = 0x64;
+    this->alpha = 100;
     this->timer = 0;
     this->unk_164 = 0.0f;
 }
@@ -85,7 +85,7 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
         ArrowIce_SetupAction(this, ArrowIce_Fly);
-        this->alpha = 0xFF;
+        this->alpha = 255;
     }
 }
 
@@ -171,9 +171,9 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_ICE);
         ArrowIce_SetupAction(this, ArrowIce_Hit);
         this->timer = 32;
-        this->alpha = 0xFF;
+        this->alpha = 255;
     } else if (arrow->timer < 34) {
-        if (this->alpha < 0x23) {
+        if (this->alpha < 35) {
             Actor_Kill(&this->actor);
         } else {
             this->alpha -= 0x19;
@@ -228,8 +228,8 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         // Draw ice on the arrow
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xAA, 0xFF, 0xFF, this->alpha);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0x80);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 170, 255, 255, this->alpha);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 255, 128);
         Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);

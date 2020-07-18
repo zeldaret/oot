@@ -64,7 +64,7 @@ void ActorShadow_DrawFunc_Circle(Actor* actor, LightMapper* lightMapper, GlobalC
     func_8002B200(actor, lightMapper, globalCtx, &D_04049210, NULL);
 }
 
-Color_RGBA8 D_80115F80 = { 0xFF, 0xFF, 0xFF, 0xFF };
+Color_RGBA8 D_80115F80 = { 255, 255, 255, 255 };
 
 void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, LightMapper* lightMapper, GlobalContext* globalCtx) {
     func_8002B200(actor, lightMapper, globalCtx, &D_04049210, &D_80115F80);
@@ -238,19 +238,13 @@ typedef struct {
 } NaviColor; // size = 0x8
 
 NaviColor sNaviColorList[] = {
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0xFF, 0xFF, 0xFF, 0xFF }, { 0x00, 0x00, 0xFF, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0x96, 0x96, 0xFF, 0xFF }, { 0x96, 0x96, 0xFF, 0x00 } },
-    { { 0xFF, 0xFF, 0x00, 0xFF }, { 0xC8, 0x9B, 0x00, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0xFF, 0xFF, 0x00, 0xFF }, { 0xC8, 0x9B, 0x00, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
-    { { 0x00, 0xFF, 0x00, 0xFF }, { 0x00, 0xFF, 0x00, 0x00 } },
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
+    { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
+    { { 150, 150, 255, 255 }, { 150, 150, 255, 0 } }, { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
 };
 
 // unused
@@ -428,7 +422,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 0xFF);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2153),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(gfxCtx->polyXlu.p++, &D_0400CB70);
@@ -1791,8 +1785,8 @@ void func_8002FA60(GlobalContext* globalCtx) {
 
 Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
 Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-Color_RGB8 D_80116060 = { 0xFF, 0xFF, 0xFF };
-Color_RGB8 D_80116064 = { 0x64, 0xC8, 0x00 };
+Color_RGB8 D_80116060 = { 255, 255, 255 };
+Color_RGB8 D_80116064 = { 100, 200, 0 };
 
 #ifdef NON_MATCHING
 // saved register, stack usage and minor ordering differences
@@ -1928,8 +1922,8 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             Matrix_Push();
 
             gDPPipeSync(gfxCtx->polyXlu.p++);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xC8, spD0);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0xC8, 0x00, 0xFF);
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 200, spD0);
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 200, 0, 255);
 
             phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
             Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
@@ -2216,7 +2210,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     if (actor->dmgEffectTimer != 0) {
         // Must be inline data to match
-        Color_RGBA8 sp2C = { 0x00, 0x00, 0x00, 0xFF };
+        Color_RGBA8 sp2C = { 0, 0, 0, 255 };
         if (actor->dmgEffectParams & 0x8000) {
             sp2C.r = sp2C.g = sp2C.b = ((actor->dmgEffectParams & 0x1F00) >> 5) | 7;
         } else if (actor->dmgEffectParams & 0x4000) {
@@ -2301,7 +2295,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | G_RM_CLD_SURF | G_RM_CLD_SURF2);
         gDPSetCombineMode(gfxCtx->polyXlu.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0x00, 0x00, 0xFF);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 0, 0, 255);
     } else {
         gDPSetOtherMode(gfxCtx->polyXlu.p++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
@@ -2311,7 +2305,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
                             GBL_c2(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA));
         gDPSetCombineLERP(gfxCtx->polyXlu.p++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0,
                           PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0xFF, 0x4A, 0x4A, 0x4A, 0x4A);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0xFF, 74, 74, 74, 74);
     }
 
     gDPSetPrimDepth(gfxCtx->polyXlu.p++, 0, 0);
@@ -2342,7 +2336,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | G_RM_CLD_SURF | G_RM_CLD_SURF2);
         gDPSetCombineMode(gfxCtx->polyXlu.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0x00, 0x00, 0xFF);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 0, 0, 255);
 
         func_80030FA8(gfxCtx);
 
@@ -3466,7 +3460,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
     gfxCtx->polyOpa.p = Gfx_CallSetupDL(gfxCtx->polyOpa.p, 0x2C);
 
-    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0x00, 0x00, 0x00, alpha);
+    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0, 0, 0, alpha);
 
     sp50.x = arg0->x;
     sp50.y = arg0->y + 1.0f;
@@ -3846,7 +3840,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     func_80093D18(globalCtx->state.gfxCtx);
 
     gDPPipeSync(gfxCtx->polyOpa.p++);
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, alpha);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, alpha);
     gDPPipeSync(gfxCtx->polyOpa.p++);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
@@ -3866,7 +3860,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     func_80093D84(globalCtx->state.gfxCtx);
 
     gDPPipeSync(gfxCtx->polyXlu.p++);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, alpha);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
@@ -4001,13 +3995,13 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     Color_RGB8 color1;
     Color_RGB8 color2;
 
-    color1.r = 0xC8;
-    color1.g = 0xA0;
-    color1.b = 0x78;
+    color1.r = 200;
+    color1.g = 160;
+    color1.b = 120;
 
-    color2.r = 0x82;
-    color2.g = 0x5A;
-    color2.b = 0x32;
+    color2.r = 130;
+    color2.g = 90;
+    color2.b = 50;
 
     func_80028B74(globalCtx, arg1, arg2, arg3, &color1, &color2);
 }

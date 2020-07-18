@@ -66,8 +66,10 @@ Gfx* func_80A280BC(GraphicsContext* gfxCtx, BossGanon* dorf) {
     displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
     displayListHead = displayList;
     gDPPipeSync(displayListHead++);
-    do { if (1) {} } while (0);
-    gDPSetEnvColor(displayListHead++, 0x19, 0x14, 0x00, dorf->organFadeTimer);
+    do {
+        if (1) {}
+    } while (0);
+    gDPSetEnvColor(displayListHead++, 25, 20, 0, dorf->organFadeTimer);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;
@@ -81,8 +83,10 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
     displayListHead = displayList;
 
     gDPPipeSync(displayListHead++);
-    do { if (1) {} } while (0);
-    gDPSetEnvColor(displayListHead++, 0x00, 0x00, 0x00, dorf->organFadeTimer);
+    do {
+        if (1) {}
+    } while (0);
+    gDPSetEnvColor(displayListHead++, 0, 0, 0, dorf->organFadeTimer);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;

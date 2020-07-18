@@ -51,7 +51,7 @@ void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_160 = 1.0f;
     ArrowLight_SetupAction(this, ArrowLight_Charge);
     Actor_SetScale(&this->actor, 0.01f);
-    this->alpha = 0x82;
+    this->alpha = 130;
     this->timer = 0;
     this->unk_164 = 0.0f;
 }
@@ -85,7 +85,7 @@ void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
         ArrowLight_SetupAction(this, ArrowLight_Fly);
-        this->alpha = 0xFF;
+        this->alpha = 255;
     }
 }
 
@@ -171,9 +171,9 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_LIGHT);
         ArrowLight_SetupAction(this, ArrowLight_Hit);
         this->timer = 32;
-        this->alpha = 0xFF;
+        this->alpha = 255;
     } else if (arrow->timer < 34) {
-        if (this->alpha < 0x23) {
+        if (this->alpha < 35) {
             Actor_Kill(&this->actor);
         } else {
             this->alpha -= 0x19;
@@ -228,8 +228,8 @@ void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         // Draw light on the arrow
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, this->alpha);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0xFF, 0x00, 0x80);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 170, this->alpha);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 255, 0, 128);
         Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);

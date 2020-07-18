@@ -34,8 +34,8 @@ Vec3f sUnusedVec1 = { 0.0f, 0.5f, 0.0f };
 Vec3f sUnusedVec2 = { 0.0f, 0.5f, 0.0f };
 
 Color_RGB8 sUnusedColors[] = {
-    { 0xFF, 0xFF, 0x64 },
-    { 0xFF, 0xFF, 0x32 },
+    { 255, 255, 100 },
+    { 255, 255, 50 },
 };
 
 Vec3f D_80865B70 = { 0.0f, 0.0f, 0.0f };
