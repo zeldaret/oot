@@ -158,16 +158,21 @@ Gfx* func_8088C70C(GlobalContext* globalCtx, Actor* thisx, s16 frame, MtxF* mf, 
     f32 fVar5;
     f32 fVar6;
     f32 fVar4;
+    s32 temp;
 
-    gSPSegment(dest++, 9, SEGMENTED_TO_VIRTUAL(D_8088CD74[(s32)(((((this->burnFrame + frame) % 8) * 8) - ((this->burnFrame + frame) % 8)) * 0.14285715f)]));
+    temp = ((this->burnFrame + frame) % 8);
+    temp = (((temp * 8) - temp) * 0.14285715f);
 
-    if ((frame + 1) == 4)
+    gSPSegment(dest++, 9, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
+
+    temp = ((s16)frame + 1);
+    if (temp == 4)
     {
-        fVar6 = 4.0f;
+        fVar6 = temp;
     }
     else
     {
-        fVar6 = (f32)(frame + 1) + (f32)((3 - this->blastFrame) * 0.33333334f);
+        fVar6 = (f32)temp + (f32)((3 - this->blastFrame) * 0.33333334f);
     }
 
     gDPSetPrimColor(dest++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
@@ -175,13 +180,13 @@ Gfx* func_8088C70C(GlobalContext* globalCtx, Actor* thisx, s16 frame, MtxF* mf, 
 
     if (a == 0)
     {
-        local_8 = -Math_Sins(this->dyna.actor.shape.rot.y - ((frame + 1) * 0x5DC));
-        fVar4 = -Math_Coss(this->dyna.actor.shape.rot.y - ((frame + 1) * 0x5DC));
+        local_8 = -Math_Sins(this->dyna.actor.shape.rot.y - (temp * 0x5DC));
+        fVar4 = -Math_Coss(this->dyna.actor.shape.rot.y - (temp * 0x5DC));
     }
     else
     {
-        local_8 = Math_Sins(this->dyna.actor.shape.rot.y - ((frame + 1) * 0x5DC));
-        fVar4 = Math_Coss(this->dyna.actor.shape.rot.y - ((frame + 1) * 0x5DC));
+        local_8 = Math_Sins(this->dyna.actor.shape.rot.y - (temp * 0x5DC));
+        fVar4 = Math_Coss(this->dyna.actor.shape.rot.y - (temp * 0x5DC));
     }
 
     fVar5 = (0.7f * fVar6) + 0.5f;
