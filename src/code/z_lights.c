@@ -208,11 +208,11 @@ void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
     lightCtx->ambient.b = b;
 }
 
-void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 numLights, s16 arg5) {
-    lightCtx->unk_07 = arg1;
-    lightCtx->unk_08 = arg2;
-    lightCtx->unk_09 = arg3;
-    lightCtx->unk_0A = numLights;
+void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5) {
+    lightCtx->fog.r = arg1;
+    lightCtx->fog.g = arg2;
+    lightCtx->fog.b = arg3;
+    lightCtx->fogAlpha = arg4;
     lightCtx->unk_0C = arg5;
 }
 

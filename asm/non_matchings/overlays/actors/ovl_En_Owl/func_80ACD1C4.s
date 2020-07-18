@@ -8,7 +8,7 @@ glabel func_80ACD1C4
 /* 032BC 80ACD1DC 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 032C0 80ACD1E0 94E61D74 */  lhu     $a2, 0x1D74($a3)           ## 00001D74
 /* 032C4 80ACD1E4 94440004 */  lhu     $a0, 0x0004($v0)           ## 00000004
-/* 032C8 80ACD1E8 0C01BE4F */  jal     func_8006F93C              
+/* 032C8 80ACD1E8 0C01BE4F */  jal     Kankyo_InvLerp_u16              
 /* 032CC 80ACD1EC 94450002 */  lhu     $a1, 0x0002($v0)           ## 00000002
 /* 032D0 80ACD1F0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 032D4 80ACD1F4 44816000 */  mtc1    $at, $f12                  ## $f12 = 1.00

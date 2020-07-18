@@ -1041,7 +1041,7 @@ glabel L800AF25C
 /* B264D8 800AF338 002D0821 */   addu  $at, $at, $t5
 /* B264DC 800AF33C 9506141A */  lhu   $a2, 0x141a($t0)
 /* B264E0 800AF340 94E40002 */  lhu   $a0, 2($a3)
-/* B264E4 800AF344 0C01BE4F */  jal   func_8006F93C
+/* B264E4 800AF344 0C01BE4F */  jal   Kankyo_InvLerp_u16
 /* B264E8 800AF348 94E50000 */   lhu   $a1, ($a3)
 /* B264EC 800AF34C 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* B264F0 800AF350 44812000 */  mtc1  $at, $f4

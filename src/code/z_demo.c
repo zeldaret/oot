@@ -168,7 +168,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         return;
     }
 
-    temp = func_8006F93C(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
+    temp = Kankyo_InvLerp_u16(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
 
     if (csCtx->frames == cmd->startFrame) {
         sp3F = 1;
@@ -187,7 +187,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
                 func_800F6D58(0xF, 0, 0);
                 func_800753C4(globalCtx, 3);
                 if (1) {}
-                D_8015FD70 = 1;
+                D_8015FD70.unk_00 = 1;
             }
             break;
         case 3:
@@ -1187,16 +1187,16 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
 
     if ((csCtx->frames >= cmd->startFrame) && (csCtx->frames <= cmd->endFrame)) {
         globalCtx->envCtx.unk_E1 = 1;
-        temp = func_8006F93C(cmd->endFrame, cmd->startFrame, csCtx->frames);
+        temp = Kankyo_InvLerp_u16(cmd->endFrame, cmd->startFrame, csCtx->frames);
 
         switch (cmd->base) {
             case 1:
             case 5:
-                globalCtx->envCtx.unk_E2[0] = 0xA0;
-                globalCtx->envCtx.unk_E2[1] = 0xA0;
-                globalCtx->envCtx.unk_E2[2] = 0xA0;
+                globalCtx->envCtx.unk_E2.c[0] = 0xA0;
+                globalCtx->envCtx.unk_E2.c[1] = 0xA0;
+                globalCtx->envCtx.unk_E2.c[2] = 0xA0;
                 if (cmd->base == 1) {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.unk_E2.c[3] = 255.0f * temp;
                     if ((temp == 0.0f) && (gSaveContext.entranceIndex == 0x006B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
@@ -1209,40 +1209,40 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                         func_800788CC(NA_SE_EV_WHITE_OUT);
                     }
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.unk_E2.c[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
             case 2:
             case 6:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0xFF;
+                globalCtx->envCtx.unk_E2.c[0] = 0;
+                globalCtx->envCtx.unk_E2.c[1] = 0;
+                globalCtx->envCtx.unk_E2.c[2] = 0xFF;
                 if (cmd->base == 2) {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.unk_E2.c[3] = 255.0f * temp;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.unk_E2.c[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
             case 3:
             case 7:
-                globalCtx->envCtx.unk_E2[0] = 0xFF;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.unk_E2.c[0] = 0xFF;
+                globalCtx->envCtx.unk_E2.c[1] = 0;
+                globalCtx->envCtx.unk_E2.c[2] = 0;
                 if (cmd->base == 3) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.unk_E2.c[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.unk_E2.c[3] = 255.0f * temp;
                 }
                 break;
             case 4:
             case 8:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0xFF;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.unk_E2.c[0] = 0;
+                globalCtx->envCtx.unk_E2.c[1] = 0xFF;
+                globalCtx->envCtx.unk_E2.c[2] = 0;
                 if (cmd->base == 4) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.unk_E2.c[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.unk_E2.c[3] = 255.0f * temp;
                 }
                 break;
             case 9:
@@ -1250,23 +1250,23 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 break;
             case 10:
             case 11:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
+                globalCtx->envCtx.unk_E2.c[0] = 0;
+                globalCtx->envCtx.unk_E2.c[1] = 0;
+                globalCtx->envCtx.unk_E2.c[2] = 0;
                 if (cmd->base == 10) {
-                    globalCtx->envCtx.unk_E2[3] = (1.0f - temp) * 255.0f;
+                    globalCtx->envCtx.unk_E2.c[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.unk_E2[3] = 255.0f * temp;
+                    globalCtx->envCtx.unk_E2.c[3] = 255.0f * temp;
                 }
                 break;
             case 12:
                 gSaveContext.unk_1410 = 255.0f - (155.0f * temp);
                 break;
             case 13:
-                globalCtx->envCtx.unk_E2[0] = 0;
-                globalCtx->envCtx.unk_E2[1] = 0;
-                globalCtx->envCtx.unk_E2[2] = 0;
-                globalCtx->envCtx.unk_E2[3] = 255.0f - ((1.0f - temp) * 155.0f);
+                globalCtx->envCtx.unk_E2.c[0] = 0;
+                globalCtx->envCtx.unk_E2.c[1] = 0;
+                globalCtx->envCtx.unk_E2.c[2] = 0;
+                globalCtx->envCtx.unk_E2.c[3] = 255.0f - ((1.0f - temp) * 155.0f);
                 break;
         }
     }

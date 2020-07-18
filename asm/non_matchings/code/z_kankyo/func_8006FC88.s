@@ -78,7 +78,7 @@ glabel func_8006FC88
 /* AE6ED4 8006FD34 3146FFFF */  andi  $a2, $t2, 0xffff
 /* AE6ED8 8006FD38 11C00029 */  beqz  $t6, .L8006FDE0
 /* AE6EDC 8006FD3C 00000000 */   nop   
-/* AE6EE0 8006FD40 0C01BE4F */  jal   func_8006F93C
+/* AE6EE0 8006FD40 0C01BE4F */  jal   Kankyo_InvLerp_u16
 /* AE6EE4 8006FD44 30E4FFFF */   andi  $a0, $a3, 0xffff
 /* AE6EE8 8006FD48 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* AE6EEC 8006FD4C 44812000 */  mtc1  $at, $f4
@@ -183,7 +183,7 @@ glabel func_8006FC88
 /* AE7058 8006FEB8 94640002 */  lhu   $a0, 2($v1)
 /* AE705C 8006FEBC 94650000 */  lhu   $a1, ($v1)
 /* AE7060 8006FEC0 A3A8005B */  sb    $t0, 0x5b($sp)
-/* AE7064 8006FEC4 0C01BE4F */  jal   func_8006F93C
+/* AE7064 8006FEC4 0C01BE4F */  jal   Kankyo_InvLerp_u16
 /* AE7068 8006FEC8 3146FFFF */   andi  $a2, $t2, 0xffff
 /* AE706C 8006FECC 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* AE7070 8006FED0 44815000 */  mtc1  $at, $f10
@@ -239,7 +239,7 @@ glabel func_8006FC88
 /* AE7128 8006FF88 94640002 */  lhu   $a0, 2($v1)
 /* AE712C 8006FF8C 94650000 */  lhu   $a1, ($v1)
 /* AE7130 8006FF90 A3A8005B */  sb    $t0, 0x5b($sp)
-/* AE7134 8006FF94 0C01BE4F */  jal   func_8006F93C
+/* AE7134 8006FF94 0C01BE4F */  jal   Kankyo_InvLerp_u16
 /* AE7138 8006FF98 3146FFFF */   andi  $a2, $t2, 0xffff
 /* AE713C 8006FF9C 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* AE7140 8006FFA0 44812000 */  mtc1  $at, $f4

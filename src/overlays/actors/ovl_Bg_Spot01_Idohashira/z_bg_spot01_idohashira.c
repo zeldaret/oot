@@ -202,7 +202,7 @@ s32 func_808AB29C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 
     npcAction = BgSpot01Idohashira_GetNpcAction(globalCtx, 2);
     if (npcAction != NULL) {
-        temp_f0 = func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
+        temp_f0 = Kankyo_InvLerp_u16(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
         initPos = this->dyna.actor.initPosRot.pos;
         endX = npcAction->endPos.x;
         tempY = ((kREG(10) + 1100.0f) / 10.0f) + npcAction->endPos.y;

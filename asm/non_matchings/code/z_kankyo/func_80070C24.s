@@ -405,7 +405,7 @@ glabel func_80070C24
 /* AE8300 80071160 30E5FFFF */  andi  $a1, $a3, 0xffff
 /* AE8304 80071164 AFA80034 */  sw    $t0, 0x34($sp)
 /* AE8308 80071168 AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE830C 8007116C 0C01BE4F */  jal   func_8006F93C
+/* AE830C 8007116C 0C01BE4F */  jal   Kankyo_InvLerp_u16
 /* AE8310 80071170 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE8314 80071174 920F001F */  lbu   $t7, 0x1f($s0)
 /* AE8318 80071178 8FA80034 */  lw    $t0, 0x34($sp)

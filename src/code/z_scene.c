@@ -418,13 +418,13 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x05: Wind Settings
 void func_80099090(GlobalContext* globalCtx, SceneCmd* cmd) {
-    s8 temp1 = cmd->windSettings.unk_04;
-    s8 temp2 = cmd->windSettings.unk_05;
-    s8 temp3 = cmd->windSettings.unk_06;
+    s8 x = cmd->windSettings.x;
+    s8 y = cmd->windSettings.y;
+    s8 z = cmd->windSettings.z;
 
-    globalCtx->envCtx.unk_A8 = temp1;
-    globalCtx->envCtx.unk_AA = temp2;
-    globalCtx->envCtx.unk_AC = temp3;
+    globalCtx->envCtx.unk_A8.x = x;
+    globalCtx->envCtx.unk_A8.y = y;
+    globalCtx->envCtx.unk_A8.z = z;
     globalCtx->envCtx.unk_B0 = cmd->windSettings.unk_07;
 }
 

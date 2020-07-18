@@ -761,7 +761,7 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
 
     if (npcAction != NULL) {
         this->actor.shape.unk_14 = this->alpha =
-            (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
+            (1.0f - Kankyo_InvLerp_u16(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
         func_80B501C4(this, this->alpha);
     }
 }

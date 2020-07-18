@@ -147,7 +147,7 @@ mapfile = config.get("mapfile", None)
 makeflags = config.get("makeflags", [])
 source_directories = config.get("source_directories", None)
 
-MAX_FUNCTION_SIZE_LINES = 4096
+MAX_FUNCTION_SIZE_LINES = args.max_lines
 MAX_FUNCTION_SIZE_BYTES = MAX_FUNCTION_SIZE_LINES * 4
 
 COLOR_ROTATION = [

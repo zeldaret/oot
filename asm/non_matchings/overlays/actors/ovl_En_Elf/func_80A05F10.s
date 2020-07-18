@@ -34,7 +34,7 @@ glabel func_80A05F10
 /* 04360 80A05F90 94440004 */  lhu     $a0, 0x0004($v0)           ## 00000004
 /* 04364 80A05F94 E7AE002C */  swc1    $f14, 0x002C($sp)          
 /* 04368 80A05F98 E7AC0028 */  swc1    $f12, 0x0028($sp)          
-/* 0436C 80A05F9C 0C01BE4F */  jal     func_8006F93C              
+/* 0436C 80A05F9C 0C01BE4F */  jal     Kankyo_InvLerp_u16              
 /* 04370 80A05FA0 E7A20024 */  swc1    $f2, 0x0024($sp)           
 /* 04374 80A05FA4 C7A20024 */  lwc1    $f2, 0x0024($sp)           
 /* 04378 80A05FA8 C7AA0018 */  lwc1    $f10, 0x0018($sp)          

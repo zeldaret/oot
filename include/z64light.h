@@ -1,6 +1,7 @@
 #ifndef _Z64LIGHT_H_
 #define _Z64LIGHT_H_
 
+#include <color.h>
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 #include <z64math.h>
@@ -46,10 +47,8 @@ typedef struct LightNode {
 typedef struct {
     /* 0x0 */ LightNode* listHead;
     /* 0x4 */ Color_RGB8 ambient;
-    /* 0x7 */ u8 unk_07;
-    /* 0x8 */ u8 unk_08;
-    /* 0x9 */ u8 unk_09;
-    /* 0xA */ s16 unk_0A;
+    /* 0x7 */ Color_RGB8 fog;
+    /* 0xA */ s16 fogAlpha;
     /* 0xC */ s16 unk_0C;
 } LightContext; // size = 0x10
 

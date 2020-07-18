@@ -124,7 +124,7 @@ glabel func_80A16A64
 /* 01948 80A16BC8 95E61D74 */  lhu     $a2, 0x1D74($t7)           ## 00001D74
 /* 0194C 80A16BCC E7AE0048 */  swc1    $f14, 0x0048($sp)          
 /* 01950 80A16BD0 E7AC0044 */  swc1    $f12, 0x0044($sp)          
-/* 01954 80A16BD4 0C01BE4F */  jal     func_8006F93C              
+/* 01954 80A16BD4 0C01BE4F */  jal     Kankyo_InvLerp_u16              
 /* 01958 80A16BD8 E7A20040 */  swc1    $f2, 0x0040($sp)           
 /* 0195C 80A16BDC C7A20040 */  lwc1    $f2, 0x0040($sp)           
 /* 01960 80A16BE0 C7AA0034 */  lwc1    $f10, 0x0034($sp)          

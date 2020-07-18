@@ -176,10 +176,10 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, 7);
         func_800C0808(globalCtx, this->unk_1E8, player, 0x21);
-        globalCtx->envCtx.unk_E2[0] = 0xFF;
-        globalCtx->envCtx.unk_E2[1] = 0xFF;
-        globalCtx->envCtx.unk_E2[2] = 0xFF;
-        globalCtx->envCtx.unk_E2[3] = 0x18;
+        globalCtx->envCtx.unk_E2.c[0] = 0xFF;
+        globalCtx->envCtx.unk_E2.c[1] = 0xFF;
+        globalCtx->envCtx.unk_E2.c[2] = 0xFF;
+        globalCtx->envCtx.unk_E2.c[3] = 0x18;
         globalCtx->envCtx.unk_E1 = 1;
         func_800C04D8(globalCtx, this->unk_1E8, &vec1, &vec2);
         func_800C0704(globalCtx, this->unk_1E8, 30.0f);

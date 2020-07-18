@@ -98,7 +98,7 @@ typedef struct {
     /* 0x0008 */ s32          cutsceneIndex;
     /* 0x000C */ u16          dayTime; // "zelda_time"
     /* 0x0010 */ s32          nightFlag;
-    /* 0x0014 */ s32          unk_14;
+    /* 0x0014 */ u32          unk_14;
     /* 0x0018 */ s32          unk_18;
     /* 0x001C */ char         newf[6]; // string "ZELDAZ"
     /* 0x0022 */ s16          deaths;
@@ -162,7 +162,8 @@ typedef struct {
     /* 0x1360 */ s32          sceneSetupIndex;
     /* 0x1364 */ s32          respawnFlag; // "restart_flag"
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
-    /* 0x13BC */ char         unk_13BC[0x0008];
+    /* 0x13BC */ char         unk_13BC[0x0007];
+    /* 0x13C3 */ u8           unk_13C3;
     /* 0x13C4 */ s16          dogParams;
     /* 0x13C6 */ u8           unk_13C6;
     /* 0x13C7 */ u8           unk_13C7;
@@ -864,7 +865,9 @@ typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
     /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ char     unk_10[0x03];
+    /* 0x10 */ u8       unk_10;
+    /* 0x11 */ u8       unk_11;
+    /* 0x12 */ char     unk_12[0x01];
     /* 0x13 */ u8       unk_13;
     /* 0x14 */ char     unk_14[0x01];
     /* 0x15 */ u8       skyDisabled;
@@ -880,25 +883,33 @@ typedef struct {
     /* 0x21 */ u8       unk_21;
     /* 0x22 */ u16      unk_22;
     /* 0x24 */ u16      unk_24;
-    /* 0x26 */ char     unk_26[0x04];
-    /* 0x2A */ s8       unk_2A;
-    /* 0x2B */ s8       unk_2B;
-    /* 0x2C */ s8       unk_2C;
-    /* 0x2D */ char     unk_2D[0x5E];
+    /* 0x26 */ char     unk_26[0x02];
+    /* 0x28 */ LightInfo unk_28;
+    /* 0x36 */ LightInfo unk_36;
+    /* 0x44 */ u8       unk_44;
+    /* 0x45 */ char     unk_45[0x3];
+    /* 0x48 */ DmaRequest  dmaRequest;
+    /* 0x68 */ OSMesgQueue loadQueue;
+    /* 0x80 */ OSMesg   loadMsg;
+    /* 0x84 */ f32      unk_84;
+    /* 0x88 */ f32      unk_88;
     /* 0x8C */ s16      unk_8C[3][3];
     /* 0x9E */ s16      unk_9E;
     /* 0xA0 */ s16      unk_A0;
     /* 0xA2 */ char     unk_A2[0x06];
-    /* 0xA8 */ s16      unk_A8;
-    /* 0xAA */ s16      unk_AA;
-    /* 0xAC */ s16      unk_AC;
+    /* 0xA8 */ Vec3s    unk_A8;
     /* 0xB0 */ f32      unk_B0;
     /* 0xB4 */ u8       nbLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ char     unk_BC[0x03];
+    /* 0xBC */ u8       unk_BC;
+    /* 0xBD */ u8       unk_BD;
+    /* 0xBE */ u8       unk_BE;
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x16];
-    /* 0xD6 */ s16      unk_D6;
+    /* 0xC0 */ u8       unk_C0[3][3];
+    /* 0xC9 */ u8       unk_C9[3][3];
+    /* 0xD2 */ s16      unk_D2;
+    /* 0xD4 */ s16      unk_D4;
+    /* 0xD6 */ u16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -906,11 +917,12 @@ typedef struct {
     /* 0xDF */ u8       lightning;
     /* 0xE0 */ u8       unk_E0;
     /* 0xE1 */ u8       unk_E1;
-    /* 0xE2 */ u8       unk_E2[4];
+    /* 0xE2 */ Color_RGBA8_n unk_E2;
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ char     unk_E9[0x05];
+    /* 0xE9 */ u8       unk_E9;
+    /* 0xEA */ Color_RGBA8_n unk_EA;
     /* 0xEE */ u8       unk_EE[4];
     /* 0xF2 */ u8       unk_F2[4];
     /* 0xF6 */ char     unk_F6[0x06];
@@ -1902,6 +1914,13 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
 } JpegDecoderState; // size = 0x14
 
+typedef struct {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ Color_RGB8 unk_01;
+    /* 0x04 */ u8 unk_04;
+    /* 0x08 */ f32 unk_08;
+} struct_8015FD70;
+
 // Vis...
 typedef struct {
     /* 0x00 */ u32 type;
@@ -2011,5 +2030,30 @@ typedef struct {
     /* 0x00 */ u16* value;
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
+
+typedef struct {
+    u16 minTime;
+    u16 maxTime;
+    u8 unk_04;
+    u8 unk_05;
+} struct_8011FB48;
+
+typedef struct {
+    u16 minTime;
+    u16 maxTime;
+    u8 unk_04;
+    u8 unk_05;
+    u8 unk_06;
+} struct_8011FC1C;
+
+typedef struct {
+    u8 unk_00;
+    Vec3f unk_04;
+    Vec3f unk_10;
+    s8 unk_1C;
+    s8 unk_1D;
+    u8 unk_1E;
+    u8 unk_1F;
+} struct_8015FD10;
 
 #endif

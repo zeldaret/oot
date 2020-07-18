@@ -79,9 +79,9 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&THIS->skelAnime);
     gblCtx = globalCtx;
     THIS->limbs[3].y = THIS->limbs[12].y = -0x4000;
-    sp3C.x = gblCtx->envCtx.unk_A8;
-    sp3C.y = gblCtx->envCtx.unk_AA;
-    sp3C.z = gblCtx->envCtx.unk_AC;
+    sp3C.x = gblCtx->envCtx.unk_A8.x;
+    sp3C.y = gblCtx->envCtx.unk_A8.y;
+    sp3C.z = gblCtx->envCtx.unk_A8.z;
     if (gblCtx->envCtx.unk_B0 > 255.0f) {
         gblCtx->envCtx.unk_B0 = 255.0f;
     }
