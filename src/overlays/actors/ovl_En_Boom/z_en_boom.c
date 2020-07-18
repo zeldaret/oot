@@ -54,25 +54,25 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    trail.p1StartColor.r = 0xFF;
-    trail.p1StartColor.g = 0xFF;
-    trail.p1StartColor.b = 0x64;
-    trail.p1StartColor.a = 0xFF;
+    trail.p1StartColor.r = 255;
+    trail.p1StartColor.g = 255;
+    trail.p1StartColor.b = 100;
+    trail.p1StartColor.a = 255;
 
-    trail.p2StartColor.r = 0xFF;
-    trail.p2StartColor.g = 0xFF;
-    trail.p2StartColor.b = 0x64;
-    trail.p2StartColor.a = 0x40;
+    trail.p2StartColor.r = 255;
+    trail.p2StartColor.g = 255;
+    trail.p2StartColor.b = 100;
+    trail.p2StartColor.a = 64;
 
-    trail.p1EndColor.r = 0xFF;
-    trail.p1EndColor.g = 0xFF;
-    trail.p1EndColor.b = 0x64;
-    trail.p1EndColor.a = 0x00;
+    trail.p1EndColor.r = 255;
+    trail.p1EndColor.g = 255;
+    trail.p1EndColor.b = 100;
+    trail.p1EndColor.a = 0;
 
-    trail.p2EndColor.r = 0xFF;
-    trail.p2EndColor.g = 0xFF;
-    trail.p2EndColor.b = 0x64;
-    trail.p2EndColor.a = 0x00;
+    trail.p2EndColor.r = 255;
+    trail.p2EndColor.g = 255;
+    trail.p2EndColor.b = 100;
+    trail.p2EndColor.a = 0;
 
     trail.elemDuration = 8;
     trail.unkFlag = 0;

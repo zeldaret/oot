@@ -86,7 +86,7 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->counter >= 80) {
         alpha = 12 * (100 - this->counter);
     } else {
-        alpha = 0xFF;
+        alpha = 255;
     }
 
     vtxPtr[1].v.cn[3] = vtxPtr[3].v.cn[3] = vtxPtr[5].v.cn[3] = vtxPtr[7].v.cn[3] = vtxPtr[9].v.cn[3] =
@@ -106,8 +106,8 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 353),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0xFF, 0xAA, 0xFF);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0xC8, 0x00, 0x80);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 170, 255);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 200, 0, 128);
     gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64,
                                                          64, 1, scroll * 8, scroll * (-8), 64, 64));
