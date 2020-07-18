@@ -296,15 +296,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             gSaveContext.eventChkInf[6] |= 0x0200;
             break;
         case 22:
-            D_801614B0.r = 0xFF;
-            D_801614B0.g = 0xFF;
-            D_801614B0.b = 0xFF;
-            D_801614B0.a = 0xFF;
+            D_801614B0.r = 255;
+            D_801614B0.g = 255;
+            D_801614B0.b = 255;
+            D_801614B0.a = 255;
             break;
         case 23:
-            D_801614B0.r = 0xFF;
-            D_801614B0.g = 0xB4;
-            D_801614B0.b = 0x64;
+            D_801614B0.r = 255;
+            D_801614B0.g = 180;
+            D_801614B0.b = 100;
             D_801614B0.a = 255.0f * temp;
             break;
         case 24:

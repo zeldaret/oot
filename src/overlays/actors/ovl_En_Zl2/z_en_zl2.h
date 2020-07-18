@@ -23,7 +23,7 @@ typedef struct EnZl2 {
     /* 0x019C */ s32 action;
     /* 0x01A0 */ s32 drawConfig;
     /* 0x01A4 */ char unk_1A4[0x4];
-    /* 0x01A8 */ s32 unk_1A8;
+    /* 0x01A8 */ s32 alpha;
     /* 0x01AC */ s16 unk_1AC[0x18]; // ???
     /* 0x01DC */ s16 unk_1DC[0x18]; // ???
     /* 0x020C */ s16 unk_20C[0x18]; // ???
