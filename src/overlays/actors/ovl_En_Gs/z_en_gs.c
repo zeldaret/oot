@@ -568,7 +568,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, this->unk_1E4.r, this->unk_1E4.g, this->unk_1E4.b,
                             this->unk_1E4.a);
         } else {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
         }
 
         gSPDisplayList(gfxCtx->polyOpa.p++, D_060009D0);
@@ -585,8 +585,8 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPSegment(
                 gfxCtx->polyXlu.p++, 0x08,
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0x00, 0xFF);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x00);
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
             gSPDisplayList(gfxCtx->polyXlu.p++, D_0404D4E0);
         }
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
