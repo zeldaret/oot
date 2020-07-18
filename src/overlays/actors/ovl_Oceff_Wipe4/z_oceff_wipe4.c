@@ -80,7 +80,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->counter >= 30) {
         alpha = 12 * (50 - this->counter);
     } else {
-        alpha = 0xFF;
+        alpha = 255;
     }
 
     vtxPtr[1].v.cn[3] = vtxPtr[3].v.cn[3] = vtxPtr[5].v.cn[3] = vtxPtr[7].v.cn[3] = vtxPtr[9].v.cn[3] =
