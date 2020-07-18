@@ -147,7 +147,7 @@ void func_80A7C058(EnInsect* this) {
 
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnInsect* this = THIS;
-    f32 randomResult;
+    f32 rand;
     s16 temp_s2;
     s32 count;
 
@@ -198,11 +198,11 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         D_80A7DEB8++;
     } else {
-        randomResult = Math_Rand_ZeroOne();
+        rand = Math_Rand_ZeroOne();
 
-        if (randomResult < 0.3f) {
+        if (rand < 0.3f) {
             func_80A7C3A0(this);
-        } else if (randomResult < 0.4f) {
+        } else if (rand < 0.4f) {
             func_80A7C598(this);
         } else {
             func_80A7C818(this);
