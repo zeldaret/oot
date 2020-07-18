@@ -12,8 +12,6 @@ glabel D_809A15AC
     .float 0.01
     .balign 4
 
-
-
 .text
 glabel func_809A12B4
 /* 0002D4 809A12B4 27BDFEE0 */  addiu $sp, $sp, -0x120

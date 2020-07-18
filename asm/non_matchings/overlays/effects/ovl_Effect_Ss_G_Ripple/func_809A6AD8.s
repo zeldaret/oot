@@ -9,8 +9,8 @@ glabel D_809A6EB8
 
 .late_rodata
 glabel D_809A6ED0
- .word 0x3B23D70A, 0x00000000, 0x00000000, 0x00000000
-
+    .float 0.0025
+    .balign 4
 
 .text
 glabel func_809A6AD8

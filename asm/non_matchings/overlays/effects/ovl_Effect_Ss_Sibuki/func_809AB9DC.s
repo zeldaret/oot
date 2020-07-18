@@ -12,8 +12,8 @@ glabel D_809ABCE4
     .balign 4
 
 glabel D_809ABCE8
- .word 0x3DCCCCCD, 0x00000000
-
+    .float 0.1
+    .balign 4
 
 .text
 glabel func_809AB9DC

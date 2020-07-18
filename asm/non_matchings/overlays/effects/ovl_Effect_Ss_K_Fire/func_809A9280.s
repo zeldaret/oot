@@ -17,8 +17,8 @@ glabel D_809A960C
     .balign 4
 
 glabel D_809A9610
- .word 0x40490FDB, 0x00000000, 0x00000000, 0x00000000
-
+    .float 3.14159274101
+    .balign 4
 
 .text
 glabel func_809A9280

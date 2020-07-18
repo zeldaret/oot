@@ -19,8 +19,6 @@ glabel D_809AA68C
     .float 0.2
     .balign 4
 
-
-
 .text
 glabel func_809AA230
 /* 00BB0 809AA230 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8

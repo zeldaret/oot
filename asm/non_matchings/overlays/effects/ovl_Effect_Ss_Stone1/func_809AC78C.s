@@ -13,8 +13,8 @@ glabel D_809ACAA0
 
 .late_rodata
 glabel D_809ACAB8
- .word 0x44BB8000, 0x00000000
-
+    .float 1500.0
+    .balign 4
 
 .text
 glabel func_809AC78C
