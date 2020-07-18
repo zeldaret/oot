@@ -450,7 +450,7 @@ glabel EnBom_Update
 /* 00AF0 809C31C0 45000008 */  bc1f    .L809C31E4                 
 /* 00AF4 809C31C4 240B000A */  addiu   $t3, $zero, 0x000A         ## $t3 = 0000000A
 /* 00AF8 809C31C8 AFB80010 */  sw      $t8, 0x0010($sp)           
-/* 00AFC 809C31CC 0C00AA7D */  jal     func_8002A9F4              
+/* 00AFC 809C31CC 0C00AA7D */  jal     EffectSsDeadSound_Spawn              
 /* 00B00 809C31D0 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00B04 809C31D4 0C00B55C */  jal     Actor_Kill
               

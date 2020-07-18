@@ -2,6 +2,10 @@
 #include <global.h>
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+
+// sEmptyVec
+extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a specific field isnt needed
 
 // Draw utility for some G effects
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80027F80.s")
@@ -160,8 +164,6 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029CC8.s")
 
-// EffectSsFhgFlash Spawn Functions
-
 void EffectSsFhgFlash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, u8 arg5) {
     EffectSsFhgFlashInitParams initParams;
 
@@ -259,11 +261,28 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A90C.s")
 
-// EffectSsDeadSound Spawn Functions
+void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
+                                 s16 lowerPriority, s16 arg6, s32 life) {
+    EffectSsDeadSoundInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A95C.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.sfxId = sfxId;
+    initParams.lowerPriority = lowerPriority;
+    initParams.unk_28 = arg6;
+    initParams.life = life;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A9F4.s")
+    if (!lowerPriority) {
+        EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_SOUND, 100, &initParams);
+    } else {
+        EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_SOUND, 127, &initParams);
+    }
+}
+
+void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28, s32 life) {
+    EffectSsDeadSound_SpawnImpl(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, unk28, life);
+}
 
 // EffectSsIceSmoke Spawn Functions
 

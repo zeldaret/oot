@@ -524,7 +524,7 @@ glabel EnBombf_Update
 /* 00F6C 809C7ECC 45000008 */  bc1f    .L809C7EF0                 
 /* 00F70 809C7ED0 240A000A */  addiu   $t2, $zero, 0x000A         ## $t2 = 0000000A
 /* 00F74 809C7ED4 AFB80010 */  sw      $t8, 0x0010($sp)           
-/* 00F78 809C7ED8 0C00AA7D */  jal     func_8002A9F4              
+/* 00F78 809C7ED8 0C00AA7D */  jal     EffectSsDeadSound_Spawn              
 /* 00F7C 809C7EDC AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 00F80 809C7EE0 0C00B55C */  jal     Actor_Kill
               
