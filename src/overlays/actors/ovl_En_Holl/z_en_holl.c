@@ -184,23 +184,22 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry;
     f32 planeHalfWidth;
     s32 pad2;
-    s32 cameraOrPlayer;
+    s32 useViewEye;
     s32 transitionActorIdx;
     f32 absZ;
-    s32 frontOrBack;
+    s32 side;
     Player* player;
 
     player = PLAYER;
-    // Whether to use camera position or player position for triggering loading planes
-    cameraOrPlayer = D_8011D394 != 0 || globalCtx->csCtx.state != 0;
-    func_8002DBD0(&this->actor, &vec, (cameraOrPlayer) ? &globalCtx->view.eye : &player->actor.posRot.pos);
+    useViewEye = D_8011D394 != 0 || globalCtx->csCtx.state != 0;
+    func_8002DBD0(&this->actor, &vec, (useViewEye) ? &globalCtx->view.eye : &player->actor.posRot.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
     if (EnHoll_IsKokiriSetup8() || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
                                     (absZ = fabsf(vec.z), (absZ < 100.0f && 50.0f < absZ)))) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
-        frontOrBack = (vec.z < 0.0f) ? 0 : 1;
+        side = (vec.z < 0.0f) ? 0 : 1;
         transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
-        this->actor.room = transitionEntry->sides[frontOrBack].room;
+        this->actor.room = transitionEntry->sides[side].room;
         if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
             func_8009728C(globalCtx, &globalCtx->roomCtx, (u32)this->actor.room) != 0) {
             EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -229,7 +228,7 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
             globalCtx->unk_11E18 = (s16)(605.0f - absY) * 0.5f;
         }
         if (absY < 95.0f) {
-            this->actor.room = (&globalCtx->transitionActorList[transitionActorIdx])->sides[1].room;
+            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[1].room;
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 1.0f, 50.0f, 10.0f);
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 1.0f, 50.0f, 10.0f);
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
@@ -248,7 +247,7 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
 // Vertical Planes
 void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
     f32 absY;
-    s32 frontOrBack;
+    s32 side;
     s32 transitionActorIdx;
 
     if ((this->actor.xzDistFromLink < 120.0f) && (absY = fabsf(this->actor.yDistFromLink), absY < 200.0f)) {
@@ -259,11 +258,11 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
         }
         if (absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
-            frontOrBack = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[frontOrBack].room;
+            side = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
+            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
-                EnHoll_SetupAction(this, &EnHoll_NextAction);
+                EnHoll_SetupAction(this, EnHoll_NextAction);
                 this->unk_14F = 1;
             }
         }
@@ -276,15 +275,15 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
 // Vertical Planes
 void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
     f32 absY;
-    s8 frontOrBack;
+    s8 side;
     s32 transitionActorIdx;
 
     if (this->actor.xzDistFromLink < 120.0f) {
         absY = fabsf(this->actor.yDistFromLink);
         if (absY < 200.0f && absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
-            frontOrBack = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[frontOrBack].room;
+            side = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
+            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -298,11 +297,11 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
     Player* player;
     Vec3f vec;
     f32 absZ;
-    s32 frontOrBack;
+    s32 side;
     s32 transitionActorIdx;
 
     player = PLAYER;
-    if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) == 0) {
+    if (!Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
         if (this->unk_14F != 0) {
             globalCtx->unk_11E18 = 0;
             this->unk_14F = 0;
@@ -320,8 +319,8 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
                 globalCtx->unk_11E18 = 0;
             }
             if (absZ < 50.0f) {
-                frontOrBack = (vec.z < 0.0f) ? 0 : 1;
-                this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[frontOrBack].room;
+                side = (vec.z < 0.0f) ? 0 : 1;
+                this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
                 if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                     func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                     EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -350,13 +349,12 @@ void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this;
+    EnHoll* this = THIS;
     Gfx* gfxP;
     u32 setupDLIdx;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    this = THIS;
     // Only draw the plane if not invisible
     if (this->planeAlpha != 0) {
         gfxCtx = globalCtx->state.gfxCtx;
