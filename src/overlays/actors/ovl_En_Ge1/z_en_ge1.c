@@ -458,17 +458,17 @@ void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
     if (this->unk_2AC & 2) {
         switch (CUR_UPG_VALUE(UPG_QUIVER)) {
             case 1:
-                phi_a2 = 0x30;
+                phi_a2 = GI_QUIVER_40;
                 break;
             case 2:
-                phi_a2 = 0x31;
+                phi_a2 = GI_QUIVER_50;
                 break;
             default:
                 phi_a2 = hiImNotInitialised;
                 break;
         }
     } else {
-        phi_a2 = 0x3E;
+        phi_a2 = GI_HEART_PIECE;
     }
     func_8002F434(&this->actor, globalCtx, phi_a2, 10000.0f, 50.0f);
 }
