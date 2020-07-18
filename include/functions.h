@@ -228,10 +228,11 @@ void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_
 // ? func_80028DC4(?);
 // ? func_80028E1C(?);
 // ? func_80028E84(?);
-// ? func_80028EF4(?);
-// ? func_80028F84(?);
-// ? func_80028FD8(?);
-// ? func_80029024(?);
+void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
+                   s16 life);
+void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
+                   Color_RGBA8* primColor, s16 life);
+void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 // ? func_80029060(?);
 // ? func_800290F0(?);
 // ? func_80029184(?);

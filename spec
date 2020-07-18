@@ -1735,9 +1735,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Blast"
     include "build/src/overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.o"
-    include "build/data/overlays/effects/z_eff_ss_blast.data.o"
-    include "build/data/overlays/effects/z_eff_ss_blast.rodata.o"
-    include "build/data/overlays/effects/z_eff_ss_blast.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Blast/ovl_Effect_Ss_Blast_reloc.o"
 endseg
 
 beginseg
