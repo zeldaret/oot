@@ -149,7 +149,7 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
     func_8002DBD0(&this->actor, &vec, &player->actor.posRot.pos);
     this->side = (vec.z < 0.0f) ? 0 : 1;
     absZ = fabsf(vec.z);
-    if (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH &&
+    if (vec.y > PLANE_Y_MIN && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH &&
         absZ < sHorizTriggerDists[phi_t0][0]) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         if (absZ > sHorizTriggerDists[phi_t0][1]) {
@@ -194,8 +194,8 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     useViewEye = D_8011D394 != 0 || globalCtx->csCtx.state != 0;
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &globalCtx->view.eye : &player->actor.posRot.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
-    if (EnHoll_IsKokiriSetup8() || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
-                                    (absZ = fabsf(vec.z), (absZ < 100.0f && 50.0f < absZ)))) {
+    if (EnHoll_IsKokiriSetup8() || (vec.y > PLANE_Y_MIN && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
+                                    (absZ = fabsf(vec.z), (absZ < 100.0f && absZ > 50.0f)))) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         side = (vec.z < 0.0f) ? 0 : 1;
         transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
@@ -222,7 +222,7 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         if (absY < 95.0f) {
             globalCtx->unk_11E18 = 0xFF;
-        } else if (605.0f < absY) {
+        } else if (absY > 605.0f) {
             globalCtx->unk_11E18 = 0;
         } else {
             globalCtx->unk_11E18 = (s16)(605.0f - absY) * 0.5f;
