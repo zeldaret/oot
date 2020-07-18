@@ -175,7 +175,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 size;
-    /* 0x04 */ void (*init)(void* effect, void* initParms);
+    /* 0x04 */ void (*init)(void* effect, void* initParams);
     /* 0x08 */ void (*destroy)(void* effect);
     /* 0x0C */ s32 (*update)(void* effect);
     /* 0x10 */ void (*draw)(void* effect, struct GraphicsContext* gfxCtx);

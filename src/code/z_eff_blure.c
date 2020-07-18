@@ -139,14 +139,14 @@ void EffectBlure_Init1(void* thisx, void* initParamsx) {
         this->addAngleChange = 0;
         this->addAngle = 0;
         this->drawMode = 0;
-        this->altPrimColor.r = 0x00;
-        this->altPrimColor.g = 0x00;
-        this->altPrimColor.b = 0x00;
-        this->altPrimColor.a = 0x00;
-        this->altEnvColor.r = 0x00;
-        this->altEnvColor.g = 0x00;
-        this->altEnvColor.b = 0x00;
-        this->altEnvColor.a = 0x00;
+        this->altPrimColor.r = 0;
+        this->altPrimColor.g = 0;
+        this->altPrimColor.b = 0;
+        this->altPrimColor.a = 0;
+        this->altEnvColor.r = 0;
+        this->altEnvColor.g = 0;
+        this->altEnvColor.b = 0;
+        this->altEnvColor.a = 0;
         this->mode4Param = 1.0f;
     }
 }
@@ -372,14 +372,14 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
     sp30 = sp30; // Optimized out but seems necessary to match stack usage
 
     if (this->flags & 0x10) {
-        color1->a = 0xFF;
-        color1->b = 0xFF;
-        color1->g = 0xFF;
-        color1->r = 0xFF;
-        color2->r = 0xFF;
-        color2->g = 0xFF;
-        color2->b = 0xFF;
-        color2->a = 0xFF;
+        color1->a = 255;
+        color1->b = 255;
+        color1->g = 255;
+        color1->r = 255;
+        color2->r = 255;
+        color2->g = 255;
+        color2->b = 255;
+        color2->a = 255;
     } else {
         color1->r = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
         color1->g = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);

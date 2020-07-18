@@ -2,6 +2,7 @@
 #include <global.h>
 #include "overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
+#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 extern Color_RGBA8_n D_801158CC;
 extern Color_RGBA8_n D_801158D0;
@@ -263,9 +264,29 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos) {
 
 // EffectSsFhgFlash Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029CF0.s")
+void EffectSsFhgFlash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, u8 arg5) {
+    EffectSsFhgFlashInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029D5C.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.unk_24 = arg4;
+    initParams.unk_26 = arg5;
+    initParams.unk_2C = 0;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
+}
+
+void EffectSsFhgFlash_Spawn2(GlobalContext* globalCtx, Actor* arg1, Vec3f* pos, s16 arg3, u8 arg4) {
+    EffectSsFhgFlashInitParams initParams;
+
+    initParams.unk_28 = arg1;
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.unk_24 = arg3;
+    initParams.unk_26 = arg4;
+    initParams.unk_2C = 1;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
+}
 
 // EffectSsKFire Spawn Functions
 

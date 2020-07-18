@@ -35,8 +35,7 @@ void PreNMI_Draw(PreNMIContext* prenmiCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     func_800940B0(gfxCtx);
-    gDPSetFillColor(gfxCtx->polyOpa.p++,
-                    (GPACK_RGBA5551(0xFF, 0xFF, 0xFF, 1) << 16) | GPACK_RGBA5551(0xFF, 0xFF, 0xFF, 1));
+    gDPSetFillColor(gfxCtx->polyOpa.p++, (GPACK_RGBA5551(255, 255, 255, 1) << 16) | GPACK_RGBA5551(255, 255, 255, 1));
     gDPFillRectangle(gfxCtx->polyOpa.p++, 0, prenmiCtx->timer + 100, SCREEN_WIDTH - 1, prenmiCtx->timer + 100);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_prenmi.c", 112);

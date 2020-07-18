@@ -256,8 +256,8 @@ void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 // ? func_80029C50(?);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);
-// ? func_80029CF0(?);
-// ? func_80029D5C(?);
+void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
+void EffectSsFhgFlash_Spawn2(GlobalContext *, Actor *, Vec3f *, s16, u8);
 // ? func_80029DBC(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
                    s16 gravityInfluence, s16 u0, s16 rotSpeed, s16 burstVel, u8 u1, s16 scale, u8 u2, s16 jitter,
@@ -441,6 +441,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
+s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3);
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
@@ -688,6 +689,7 @@ void func_80059EC8(Camera* camera);
 s32 func_8005A77C(Camera* camera, s16 button);
 // ? func_8005A7A8(?);
 // ? func_8005A8C4(?);
+s16 func_8005A948(Camera* camera);
 Vec3s* func_8005A970(Vec3s*, Camera*);
 s16 func_8005A9F4(Camera* camera);
 s32 func_8005AA1C(Camera* camera, s32, s16, s32);
