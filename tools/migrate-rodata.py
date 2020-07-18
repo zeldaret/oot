@@ -297,8 +297,6 @@ Enter 'q' to the code or overlay question to quit.""")
 effects = [x[0] for x in os.walk("src/overlays/effects")][1:]
 
 for i, ovl in enumerate(effects):
-    if i == 10:
-        break
     process_files(ovl.split("/")[-1][4:], "effects", "Delete", True)
     # command = "echo >> src/overlays/effects/ovl_" + effects[i] + "/z_" + effects[i].lower() + ".c"
     # os.system(command) # purpose of this is to "modify" each C file in order to prevent undefined symbol errors.

@@ -1,3 +1,18 @@
+.rdata
+glabel D_809A6EA0
+    .asciz "../z_eff_ss_g_ripple.c"
+    .balign 4
+
+glabel D_809A6EB8
+    .asciz "../z_eff_ss_g_ripple.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A6ED0
+ .word 0x3B23D70A, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel func_809A6AD8
 /* 00178 809A6AD8 27BDFED8 */  addiu   $sp, $sp, 0xFED8           ## $sp = FFFFFED8
 /* 0017C 809A6ADC AFBF001C */  sw      $ra, 0x001C($sp)           

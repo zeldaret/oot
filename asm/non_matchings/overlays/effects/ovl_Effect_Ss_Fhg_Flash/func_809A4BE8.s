@@ -1,3 +1,23 @@
+.rdata
+glabel D_809A55F4
+    .asciz "../z_eff_fhg_flash.c"
+    .balign 4
+
+glabel D_809A560C
+    .asciz "../z_eff_fhg_flash.c"
+    .balign 4
+
+glabel D_809A5624
+    .asciz "../z_eff_fhg_flash.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A5640
+ .word 0x3F921FF3
+glabel D_809A5644
+ .word 0x40490FF9
+
+.text
 glabel func_809A4BE8
 /* 00588 809A4BE8 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 0058C 809A4BEC AFBF001C */  sw      $ra, 0x001C($sp)           
