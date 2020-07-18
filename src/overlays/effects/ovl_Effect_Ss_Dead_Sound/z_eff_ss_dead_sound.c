@@ -1,13 +1,21 @@
 /*
  * File: z_eff_ss_dead_sound.c
  * Overlay: ovl_Effect_Ss_Dead_Sound
- * Description: Pitches a sound effect down while it plays // might be wrong
+ * Description: Plays a sound effect.
+ *
+ * If repeat mode is on, the sound is replayed every update for the duration of life.
+ * Repeat mode is unused in the original game.
  */
 
-#include <ultra64.h>
-#include <global.h>
-
 #include "z_eff_ss_dead_sound.h"
+
+// regs
+#define SS_DEADSOUND_SFX_ID 10
+#define SS_DEADSOUND_REPEAT_MODE 11
+
+// repeat mode
+#define SS_DEADSOUND_REPEAT_OFF 1
+#define SS_DEADSOUND_REPEAT_ON 2
 
 u32 EffectSsDeadSound_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDeadSound_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -26,22 +34,22 @@ u32 EffectSsDeadSound_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, 
     this->life = initParams->life;
     this->draw = NULL;
     this->update = EffectSsDeadSound_Update;
-    this->regs[11] = initParams->unk_28;
-    this->regs[10] = initParams->sfxId;
+    this->regs[SS_DEADSOUND_REPEAT_MODE] = initParams->repeatMode;
+    this->regs[SS_DEADSOUND_SFX_ID] = initParams->sfxId;
     // "constructor 3"
     osSyncPrintf("コンストラクター3\n");
     return 1;
 }
 
 void EffectSsDeadSound_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    switch (this->regs[11]) {
-        case 1:
-            this->regs[11]--;
+    switch (this->regs[SS_DEADSOUND_REPEAT_MODE]) {
+        case SS_DEADSOUND_REPEAT_OFF:
+            this->regs[SS_DEADSOUND_REPEAT_MODE]--;
             break;
-        case 2:
+        case SS_DEADSOUND_REPEAT_ON:
             break;
-        default: 
+        default:
             return;
     }
-    Audio_PlaySoundGeneral(this->regs[10], &this->pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(this->regs[SS_DEADSOUND_SFX_ID], &this->pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }

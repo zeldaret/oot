@@ -262,7 +262,7 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A90C.s")
 
 void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
-                                 s16 lowerPriority, s16 arg6, s32 life) {
+                                 s16 lowerPriority, s16 repeatMode, s32 life) {
     EffectSsDeadSoundInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -270,7 +270,7 @@ void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* ve
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.sfxId = sfxId;
     initParams.lowerPriority = lowerPriority;
-    initParams.unk_28 = arg6;
+    initParams.repeatMode = repeatMode;
     initParams.life = life;
 
     if (!lowerPriority) {
@@ -280,8 +280,9 @@ void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* ve
     }
 }
 
-void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28, s32 life) {
-    EffectSsDeadSound_SpawnImpl(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, unk28, life);
+void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 repeatMode,
+                             s32 life) {
+    EffectSsDeadSound_SpawnImpl(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, repeatMode, life);
 }
 
 // EffectSsIceSmoke Spawn Functions
