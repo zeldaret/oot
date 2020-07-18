@@ -101,9 +101,10 @@ void func_80A7BF58(EnInsect* this) {
 
 /**
  * Find the nearest soft dirt patch within 6400 units in the xz plane and the current room
- * Returns 1 if one was found, 0 otherwise
+ *
+ * @return 1 if one was found, 0 otherwise
  */
-s32 EnInsect_FindNearestSoil(EnInsect* this, GlobalContext* globalCtx) {
+s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
     Actor* currentActor;
     f32 currentDistance;
     f32 bestDistance;
@@ -173,7 +174,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (temp_s2 == 2 || temp_s2 == 3) {
-        if (EnInsect_FindNearestSoil(this, globalCtx) != 0) {
+        if (EnInsect_FoundNearbySoil(this, globalCtx)) {
             this->unk_314 |= 0x10;
             D_80A7DEB0 = 0.0f;
         }
@@ -223,7 +224,7 @@ void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A7C3A0(EnInsect* this) {
     this->unk_31A = Math_Rand_S16Offset(5, 35);
     func_80A7BF58(this);
-    this->actionFunc = &func_80A7C3F4;
+    this->actionFunc = func_80A7C3F4;
     this->unk_314 |= 0x100;
 }
 
@@ -258,7 +259,7 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
 void func_80A7C598(EnInsect* this) {
     this->unk_31A = Math_Rand_S16Offset(10, 45);
     func_80A7BF58(this);
-    this->actionFunc = &func_80A7C5EC;
+    this->actionFunc = func_80A7C5EC;
     this->unk_314 |= 0x100;
 }
 
@@ -303,7 +304,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
 void func_80A7C818(EnInsect* this) {
     this->unk_31A = Math_Rand_S16Offset(10, 40);
     func_80A7BF58(this);
-    this->actionFunc = &func_80A7C86C;
+    this->actionFunc = func_80A7C86C;
     this->unk_314 |= 0x100;
 }
 
@@ -364,7 +365,7 @@ void func_80A7CA64(EnInsect* this) {
     func_80A7BF58(this);
 
     this->skelAnime.animPlaybackSpeed = 0.3f;
-    this->actionFunc = &func_80A7CAD0;
+    this->actionFunc = func_80A7CAD0;
     this->unk_314 &= ~0x100;
 }
 
@@ -431,7 +432,7 @@ void func_80A7CE60(EnInsect* this) {
     this->unk_31A = Math_Rand_S16Offset(120, 50);
     func_80A7BF58(this);
     this->unk_316 = this->unk_318 = 0;
-    this->actionFunc = &func_80A7CEC0;
+    this->actionFunc = func_80A7CEC0;
     this->unk_314 &= ~0x100;
 }
 
@@ -520,7 +521,7 @@ void func_80A7D1F4(EnInsect* this) {
     this->actor.minVelocityY = -0.8f;
     this->actor.gravity = -0.04f;
     this->unk_314 &= ~0x3;
-    this->actionFunc = &func_80A7D26C;
+    this->actionFunc = func_80A7D26C;
     this->unk_314 &= ~0x100;
     this->unk_314 |= 8;
 }
@@ -547,7 +548,7 @@ void func_80A7D39C(EnInsect* this) {
     this->unk_316 = (Math_Rand_ZeroOne() - 0.5f) * 1500.0f;
     this->actor.posRot.rot.y = Math_Rand_ZeroOne() * 65535.5f;
     Actor_SetScale(&this->actor, 0.003f);
-    this->actionFunc = &func_80A7D460;
+    this->actionFunc = func_80A7D460;
     this->unk_314 |= 0x100;
 }
 
@@ -766,7 +767,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 func_80A7CA64(this);
             }
-        } else if (this->actor.xzDistFromLink < 50.0f && this->actionFunc != &func_80A7CAD0) {
+        } else if (this->actor.xzDistFromLink < 50.0f && this->actionFunc != func_80A7CAD0) {
             if (!(this->unk_314 & 0x20) && this->unk_31C < 180) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
