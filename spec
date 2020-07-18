@@ -2752,7 +2752,6 @@ endseg
 beginseg
     name "ovl_En_Insect"
     include "build/src/overlays/actors/ovl_En_Insect/z_en_insect.o"
-    include "build/data/overlays/actors/z_en_insect.data.o"
     include "build/data/overlays/actors/z_en_insect.reloc.o"
 endseg
 
