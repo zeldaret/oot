@@ -153,7 +153,7 @@ void func_80892E28(BgJya1flift* this, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892E34.s")
 void func_80892E34(BgJya1flift* this) {
     this->actionFunc = func_80892E58;
-    this->unk_1B6 = (this->unk_1B6 ^ 1);
+    this->direction = (this->direction ^ 1);
     this->dyna.actor.velocity.y = 0.0f;
 }
 
@@ -165,9 +165,9 @@ void func_80892E58(BgJya1flift* this, GlobalContext* globalCtx) {
 
     Math_ApproxF(&this->dyna.actor.velocity.y, 6.0f, 0.4f);
     this->dyna.actor.velocity.y < 1.0f ? (tempVelocity = 1.0f) : (tempVelocity = this->dyna.actor.velocity.y);
-    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y,(D_80893130[this->unk_1B6]), 0.5f, tempVelocity, 1.0f)) <
+    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y,(D_80893130[this->direction]), 0.5f, tempVelocity, 1.0f)) <
         0.001f) {
-        this->dyna.actor.posRot.pos.y =  D_80893130[this->unk_1B6];
+        this->dyna.actor.posRot.pos.y =  D_80893130[this->direction];
         func_80892F3C(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         return;
@@ -178,13 +178,13 @@ void func_80892E58(BgJya1flift* this, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892F3C.s")
 void func_80892F3C(BgJya1flift* this) {
     this->actionFunc = func_80892F50;
-    this->unk_1B4 = 0;
+    this->moveDelay = 0;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/func_80892F50.s")
 void func_80892F50(BgJya1flift* this,GlobalContext* globalCtx) {
-    this->unk_1B4++;
-    if (this->unk_1B4 >= 21) {
+    this->moveDelay++;
+    if (this->moveDelay >= 21) {
         func_80892E34(this);
     }
 }
@@ -200,7 +200,7 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (globalCtx->roomCtx.curRoom.num == 6 || globalCtx->roomCtx.curRoom.num == 0) {
 //    block_2:
-        this->actionFunc(thisx, globalCtx);
+        this->actionFunc(this, globalCtx);
         phi_v1 = 0;
         if (func_8004356C(thisx) != 0) {
             phi_v1 = 1;
@@ -216,7 +216,7 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
                 phi_v1_2 = (u8)phi_v1;
                 if (phi_v1 == 0) {
                     phi_v1_2 = (u8)phi_v1;
-                    if (this->unk_1B8 != 0) {
+                    if (this->isLinkRiding != 0) {
                         sp24 = phi_v1;
                         func_8005A77C(globalCtx->cameraPtrs[0], 3);
                         goto block_11;
@@ -225,7 +225,7 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         } else {
         }
-        this->unk_1B8 = phi_v1_2;
+        this->isLinkRiding = phi_v1_2;
         //temp_a2 = &this->collider;
         sp20 = &this->collider;
         
