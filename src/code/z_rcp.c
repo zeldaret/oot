@@ -1384,7 +1384,7 @@ Gfx* func_80094E54(Gfx** gfxp, u32 x, u32 y) {
     return Gfx_BranchTexScroll(gfxp, x, y, 0, 0);
 }
 
-Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
+Gfx* func_80094E78(GraphicsContext* gfxCtx, s32 x, s32 y) {
     return Gfx_TexScroll(gfxCtx, x, y, 0, 0);
 }
 

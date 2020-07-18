@@ -1185,7 +1185,7 @@ Gfx* func_800947AC(Gfx* gfx);
 void func_80094A14(GraphicsContext* gfxCtx);
 void func_80094C50(GraphicsContext* gfxCtx);
 Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
-Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
+Gfx* func_80094E78(GraphicsContext* gfxCtx, s32 x, s32 y);
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
 Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
                       u32 y2, s32 width2, s32 height2);

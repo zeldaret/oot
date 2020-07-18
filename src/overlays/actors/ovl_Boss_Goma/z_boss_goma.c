@@ -550,7 +550,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 if (gSaveContext.eventChkInf[7] & 1) {
                     func_80916AEC(this, globalCtx);
                     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f,
-                                        -480.0f, 397.68002f, 0, -0x705C, 0, 0x180);
+                                        -480.0f, 397.68f, 0, -0x705C, 0, 0x180);
                 } else {
                     func_8002DF54(globalCtx, &this->actor, 8);
                     this->unk_1D0 = 1;
@@ -592,15 +592,15 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
 
             player->actor.speedXZ = 0.0f;
             if (this->unk_1D2 == 0) {
-                Math_SmoothScaleMaxF(&this->unk_290.x, player->actor.posRot.pos.x - 20.0f, 0.049999997f,
+                Math_SmoothScaleMaxF(&this->unk_290.x, player->actor.posRot.pos.x - 20.0f, 0.05f,
                                      this->unk_220 * 50.0f);
-                Math_SmoothScaleMaxF(&this->unk_290.y, player->actor.posRot.pos.y + 25.0f, 0.099999994f,
+                Math_SmoothScaleMaxF(&this->unk_290.y, player->actor.posRot.pos.y + 25.0f, 0.1f,
                                      this->unk_220 * 130.0f);
-                Math_SmoothScaleMaxF(&this->unk_290.z, player->actor.posRot.pos.z - 65.0f, 0.049999997f,
+                Math_SmoothScaleMaxF(&this->unk_290.z, player->actor.posRot.pos.z - 65.0f, 0.05f,
                                      this->unk_220 * 30.0f);
-                Math_SmoothScaleMaxF(&this->unk_220, 0.29999998f, 1.0f, 0.0050000004f);
+                Math_SmoothScaleMaxF(&this->unk_220, 0.3f, 1.0f, 0.005f);
                 if (this->unk_1D4 == 0) {
-                    Math_SmoothScaleMaxF(&this->unk_29C.y, player->actor.posRot.pos.y + 35.0f, 0.099999994f,
+                    Math_SmoothScaleMaxF(&this->unk_29C.y, player->actor.posRot.pos.y + 35.0f, 0.1f,
                                          this->unk_220 * 30.0f);
                 }
                 this->unk_29C.x = player->actor.posRot.pos.x;
@@ -609,7 +609,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
             func_800C04D8(globalCtx, 0, &this->unk_29C, &this->unk_290);
             if (this->unk_194 == 0xB0) {
                 Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
-                                    397.68002f, 0, -0x705C, 0, 0x180);
+                                    397.68f, 0, -0x705C, 0, 0x180);
             }
             if (this->unk_194 == 0xB0) {
                 globalCtx->envCtx.unk_BF = 3;
@@ -805,14 +805,11 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
 #endif
 
 #ifdef NON_MATCHING
-// Stack, small regalloc in the middle
+// Small regalloc in the middle
 void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
-    s16 i;
-    s16 tmp;
-    Camera* camera;
-
     f32 spBC;
     f32 spB8;
+    s16 tmp;
     Vec3f spA8 = D_8091B2D8;
     Vec3f sp9C = D_8091B2E4;
     s32 sp98 = D_8091B2F0;
@@ -820,8 +817,10 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
     Vec3f sp88 = D_8091B2F8;
     Vec3f sp7C = D_8091B304;
     Vec3f sp70;
+    s16 i;
     Player* player = PLAYER;
     Vec3f sp5C;
+    Camera* camera;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
@@ -839,10 +838,8 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->unk_1D2 < 0x4B0) && (this->unk_1D2 >= 0x44D)) {
-        if (!(this->unk_1D2 & 7)) {
-            func_800299AC(globalCtx, &this->actor.posRot2.pos);
-        }
+    if ((this->unk_1D2 < 0x4B0) && (this->unk_1D2 >= 0x44D) && !(this->unk_1D2 & 7)) {
+        func_800299AC(globalCtx, &this->actor.posRot2.pos);
     }
 
     if ((this->unk_1D2 < 0x438) && (this->unk_1D0 < 3)) {
@@ -908,17 +905,13 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
                     }
                 }
             }
-            if (this->unk_1D2 < 0x42E) {
-                if (!(this->unk_194 & 3)) {
-                    if (Math_Rand_ZeroOne() < 0.5f) {
-                        this->unk_1C4 = 3;
-                    }
-                }
+            if ((this->unk_1D2 < 0x42E) && !(this->unk_194 & 3) && (Math_Rand_ZeroOne() < 0.5f)) {
+                this->unk_1C4 = 3;
             }
             this->unk_22C += 0.022f;
             Math_SmoothScaleMaxF(&this->unk_228, 150.0f, 0.1f, 5.0f);
-            spBC = sinf(this->unk_22C) * this->unk_228;
-            spB8 = cosf(this->unk_22C) * this->unk_228;
+            spBC = this->unk_228 * sinf(this->unk_22C);
+            spB8 = this->unk_228 * cosf(this->unk_22C);
             Math_SmoothScaleMaxMinF(&this->unk_290.x, this->actor.posRot.pos.x + spBC, 0.2f, 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->unk_290.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->unk_290.z, this->actor.posRot.pos.z + spB8, 0.2f, 50.0f, 0.1f);
@@ -1179,10 +1172,8 @@ void func_80919150(BossGoma* this, GlobalContext* globalCtx) {
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
     if (this->unk_1D2 == 0) {
         func_809164AC(this);
-        if (this->unk_196 == 0) {
-            if (this->actor.xzDistFromLink < 130.0f) {
-                this->unk_1D4 = 0x14;
-            }
+        if ((this->unk_196 == 0) && (this->actor.xzDistFromLink < 130.0f)) {
+            this->unk_1D4 = 0x14;
         }
     }
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
@@ -1330,7 +1321,7 @@ void func_80919704(BossGoma* this, GlobalContext* globalCtx) {
             if (this->actor.xzDistFromLink < 150.0f) {
                 func_809166D8(this);
             }
-            Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.3333333f, 0.5f, 2.0f);
+            Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f / 3.0f, 0.5f, 2.0f);
             Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, tmp, 5, 0x3E8);
         } else {
             if (this->unk_1D4) {
@@ -1340,7 +1331,7 @@ void func_80919704(BossGoma* this, GlobalContext* globalCtx) {
                     this->actor.speedXZ = 0.0f;
                 }
             } else {
-                Math_SmoothScaleMaxF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
+                Math_SmoothScaleMaxF(&this->actor.speedXZ, (10.0f / 3.0f) * 2.0f, 0.5f, 2.0f);
                 this->skelAnime.animPlaybackSpeed = 2.0f;
                 tmp += 0x8000;
             }
@@ -1373,6 +1364,7 @@ void func_80919974(BossGoma* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
+// regalloc, definitely wrong. Same register used throughout the original
 void func_80919A40(BossGoma* this, GlobalContext* globalCtx) {
     f32 sp2C;
     f32 sp28;
@@ -1385,6 +1377,7 @@ void func_80919A40(BossGoma* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, -0x8000, 3, 0x3E8);
     if (this->actor.bgCheckFlags & 8) {
         tmp1 = this->actor.shape.rot.y + 0x8000;
+
         /*
         if (tmp1 < this->actor.wallPolyRot) {
             tmp1 += (s16)(this->actor.wallPolyRot - tmp1) / 2;
@@ -1392,6 +1385,7 @@ void func_80919A40(BossGoma* this, GlobalContext* globalCtx) {
             tmp1 = this->actor.wallPolyRot + ((s16)(tmp1 - this->actor.wallPolyRot) / 2);
         }
         */
+
         tmp1 = (tmp1 < this->actor.wallPolyRot) ? tmp1 + ((s16)(this->actor.wallPolyRot - tmp1) / 2)
                                                 : this->actor.wallPolyRot + ((s16)(tmp1 - this->actor.wallPolyRot) / 2);
 
@@ -1425,10 +1419,8 @@ void func_80919C38(BossGoma* this, GlobalContext* globalCtx) {
                 PLAYER->unk_A73 = 0;
                 this->unk_19C = 0xC;
             }
-            if (!(this->unk_194 & 0xF)) {
-                if (Math_Rand_ZeroOne() < 0.3f) {
-                    this->unk_19C = 7;
-                }
+            if (!(this->unk_194 & 0xF) && (Math_Rand_ZeroOne() < 0.3f)) {
+                this->unk_19C = 7;
             }
         }
         if ((this->unk_1A4[0] > 0) || (this->unk_1A4[1] > 0) || (this->unk_1A4[2] > 0)) {
@@ -1542,16 +1534,11 @@ void func_80919F8C(BossGoma* this, GlobalContext* globalCtx) {
 void func_8091A16C(BossGoma* this) {
     Vec3f* tmp;
 
-    if (this->unk_1B8 == 1) {
-        if (this->unk_194 & 0x10) {
-            Math_SmoothScaleMaxF(&this->unk_204.x, 50.0f, 0.5f, 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_204.y, 50.0f, 0.5f, 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_204.z, 50.0f, 0.5f, 20.0f);
-            return;
-        }
-    }
-    if (this->unk_1BA) {
-
+    if ((this->unk_1B8 == 1) && (this->unk_194 & 0x10)) {
+        Math_SmoothScaleMaxF(&this->unk_204.x, 50.0f, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204.y, 50.0f, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204.z, 50.0f, 0.5f, 20.0f);
+    } else if (this->unk_1BA) {
         if (this->unk_1BA & 2) {
             this->unk_204.x = D_8091B364[this->unk_1B8].x;
             this->unk_204.y = D_8091B364[this->unk_1B8].y;
@@ -1564,10 +1551,11 @@ void func_8091A16C(BossGoma* this) {
             this->unk_204.z = tmp->z;
             return;
         }
+    } else {
+        Math_SmoothScaleMaxF(&this->unk_204.x, D_8091B31C[this->unk_1B8].x, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204.y, D_8091B31C[this->unk_1B8].y, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204.z, D_8091B31C[this->unk_1B8].z, 0.5f, 20.0f);
     }
-    Math_SmoothScaleMaxF(&this->unk_204.x, D_8091B31C[this->unk_1B8].x, 0.5f, 20.0f);
-    Math_SmoothScaleMaxF(&this->unk_204.y, D_8091B31C[this->unk_1B8].y, 0.5f, 20.0f);
-    Math_SmoothScaleMaxF(&this->unk_204.z, D_8091B31C[this->unk_1B8].z, 0.5f, 20.0f);
 }
 
 void func_8091A2E8(BossGoma* this) {
@@ -1636,7 +1624,7 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4685);
 
         gDPPipeSync(gfxCtx->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s32)this->unk_204.x, (s32)this->unk_204.y, (s32)this->unk_204.z, 0xFF);
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_204.x, (s8)this->unk_204.y, (s8)this->unk_204.z, 0xFF);
 
         if (this->unk_758[limbIndex] >= 2) {
             *dList = NULL;
@@ -1649,11 +1637,11 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                     break;
                 }
                 if (this->unk_1BA != 0) {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s32)(Math_Rand_ZeroOne() * 255.0f),
-                                   (s32)(Math_Rand_ZeroOne() * 255.0f), (s32)(Math_Rand_ZeroOne() * 255.0f), 0x3F);
+                    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)(Math_Rand_ZeroOne() * 255.0f),
+                                   (s8)(Math_Rand_ZeroOne() * 255.0f), (s8)(Math_Rand_ZeroOne() * 255.0f), 0x3F);
                 } else {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s32)this->unk_210.x, (s32)this->unk_210.y,
-                                   (s32)this->unk_210.z, 0x3F);
+                    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_210.x, (s8)this->unk_210.y, (s8)this->unk_210.z,
+                                   0x3F);
                 }
                 break;
             case 32:
@@ -1766,42 +1754,40 @@ Gfx* func_8091ABEC(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-#ifdef NON_MATCHING
-// Regalloc
 Gfx* func_8091AC18(GraphicsContext* gfxCtx) {
-    Gfx* displayList;
     Gfx* displayListHead;
+    Gfx* displayList;
 
-    displayList = displayListHead = Graph_Alloc(gfxCtx, 0x20);
+    displayListHead = displayList = Graph_Alloc(gfxCtx, 0x20);
     gDPPipeSync(displayListHead++);
     gDPSetRenderMode(displayListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
     gSPClearGeometryMode(displayListHead++, G_CULL_BACK);
+    if (0) {};
     gSPEndDisplayList(displayListHead++);
-
     return displayList;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_8091AC18.s")
-#endif
 
 void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BossGoma* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4991);
-    func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_Translate(0.0f, -4000.0f, 0.0f, MTXMODE_APPLY);
+    {
+        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+        Gfx* dispRefs[4];
 
-    if (this->unk_1C2) {
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_8091AC18(globalCtx->state.gfxCtx));
-    } else {
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_8091ABEC(globalCtx->state.gfxCtx));
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4991);
+        func_80093D18(globalCtx->state.gfxCtx);
+        Matrix_Translate(0.0f, -4000.0f, 0.0f, MTXMODE_APPLY);
+
+        if (this->unk_1C2) {
+            gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_8091AC18(globalCtx->state.gfxCtx));
+        } else {
+            gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_8091ABEC(globalCtx->state.gfxCtx));
+        }
+
+        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_8091A560, func_8091A9E8,
+                       &this->actor);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 5012);
     }
-
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_8091A560, func_8091A9E8,
-                   &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 5012);
 }
 
 void func_8091ADA8(BossGoma* this, GlobalContext* globalCtx, s16 arg2) {
