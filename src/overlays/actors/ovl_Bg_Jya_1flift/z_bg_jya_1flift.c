@@ -187,55 +187,35 @@ void func_80892F50(BgJya1flift* this,GlobalContext* globalCtx) {
     if (this->moveDelay >= 21) {
         func_80892E34(this);
     }
-}
+} 
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_1flift/BgJya1flift_Update.s")
 void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
-    s32 sp24;
-    ColliderCylinder* sp20;
-
-    s32 phi_v1;
-    u8 phi_v1_2;
+    ColliderCylinder* collider;
+    s32 tempIsRiding;
 
     if (globalCtx->roomCtx.curRoom.num == 6 || globalCtx->roomCtx.curRoom.num == 0) {
-//    block_2:
         this->actionFunc(this, globalCtx);
-        phi_v1 = 0;
-        if (func_8004356C(thisx) != 0) {
-            phi_v1 = 1;
+        tempIsRiding = 0;
+        if ((func_8004356C(&this->dyna) != 0)) {
+            tempIsRiding = 1;
         }
-        (phi_v1_2 = (u8)phi_v1);
-        if ((func_80892E58 == this->actionFunc) || (func_80892F50 == this->actionFunc)) {
-            if (phi_v1 != 0) {
-                sp24 = phi_v1;
+        if ((this->actionFunc == func_80892E58) || (this->actionFunc == func_80892F50)) {
+            if (tempIsRiding != 0) {
                 func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
-            block_11:
-                phi_v1_2 = (u8)sp24;
             } else {
-                phi_v1_2 = (u8)phi_v1;
-                if (phi_v1 == 0) {
-                    phi_v1_2 = (u8)phi_v1;
-                    if (this->isLinkRiding != 0) {
-                        sp24 = phi_v1;
+                if ((tempIsRiding == 0) && (this->isLinkRiding != 0)) {
                         func_8005A77C(globalCtx->cameraPtrs[0], 3);
-                        goto block_11;
-                    }
                 }
             }
-        } else {
-        }
-        this->isLinkRiding = phi_v1_2;
-        //temp_a2 = &this->collider;
-        sp20 = &this->collider;
-        
-        Collider_CylinderUpdate(thisx, sp20);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, sp20);
+        } 
+        this->isLinkRiding = tempIsRiding;
+        collider = &this->collider;
+        Collider_CylinderUpdate(thisx, collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
         return;
     }
-    /*if (globalCtx->roomCtx.curRoom.num == 0) {
-        goto block_2;
-    }*/
     Actor_Kill(thisx);
 }
 

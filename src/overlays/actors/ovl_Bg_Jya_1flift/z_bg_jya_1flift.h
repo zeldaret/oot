@@ -5,7 +5,7 @@
 #include <global.h>
 
 struct BgJya1flift;
-typedef void (*BgJya1fliftActionFunc)(struct BgJya1flift*, struct GlobalCtx*);
+typedef void (*BgJya1fliftActionFunc)(struct BgJya1flift*, GlobalContext*);
 typedef struct BgJya1flift {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ColliderCylinder collider;
@@ -13,7 +13,8 @@ typedef struct BgJya1flift {
     /* 0x01B4 */ s16 moveDelay;//Maybe frame delay
     /* 0x01B6 */ u8 direction; //1 is moving down and 0 is moving up
     /* 0x01B7 */ u8 hasInitialized;
-    /* 0x01B8 */ s32 isLinkRiding;
+    /* 0x01B8 */ u8 isLinkRiding;
+    /* 0x01B9 */ char unk_1B9[3];
 } BgJya1flift; // size = 0x01BC
 
 extern const ActorInit Bg_Jya_1flift_InitVars;
