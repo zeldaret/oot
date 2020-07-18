@@ -95,31 +95,29 @@ void func_80A347F4(EnGe3* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 6, 0xFA0, 0x64);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         func_80038290(globalCtx, &this->actor, &this->unk_300, &this->unk_306, this->actor.posRot2.pos);
-        return;
-    }
-    if (tmp < 0) {
-        Math_SmoothScaleMaxMinS(&this->unk_300.y, -0x2000, 6, 0x1838, 0x100);
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_300.y, 0x2000, 6, 0x1838, 0x100);
+        if (tmp < 0) {
+            Math_SmoothScaleMaxMinS(&this->unk_300.y, -0x2000, 6, 0x1838, 0x100);
+        } else {
+            Math_SmoothScaleMaxMinS(&this->unk_300.y, 0x2000, 6, 0x1838, 0x100);
+        }
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xC, 0x3E8, 0x64);
+        this->actor.posRot.rot.y = this->actor.shape.rot.y;
     }
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xC, 0x3E8, 0x64);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
 }
 
 void func_80A3490C(EnGe3* this, GlobalContext* globalCtx) {
     s32 tmp = (s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y);
     s32 pad;
 
-    if (ABS(tmp) < 0x2301) {
-        if (this->actor.xzDistFromLink < 100.0f) {
-            func_80038290(globalCtx, &this->actor, &this->unk_300, &this->unk_306, this->actor.posRot2.pos);
-            return;
-        }
+    if ((ABS(tmp) < 0x2301) && (this->actor.xzDistFromLink < 100.0f)) {
+        func_80038290(globalCtx, &this->actor, &this->unk_300, &this->unk_306, this->actor.posRot2.pos);
+    } else {
+        Math_SmoothScaleMaxMinS(&this->unk_300.x, 0, 6, 0x1838, 0x64);
+        Math_SmoothScaleMaxMinS(&this->unk_300.y, 0, 6, 0x1838, 0x64);
+        Math_SmoothScaleMaxMinS(&this->unk_306.x, 0, 6, 0x1838, 0x64);
+        Math_SmoothScaleMaxMinS(&this->unk_306.y, 0, 6, 0x1838, 0x64);
     }
-    Math_SmoothScaleMaxMinS(&this->unk_300.x, 0, 6, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&this->unk_300.y, 0, 6, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&this->unk_306.x, 0, 6, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&this->unk_306.y, 0, 6, 0x1838, 0x64);
 }
 
 void func_80A34A20(EnGe3* this, GlobalContext* globalCtx) {
@@ -139,19 +137,17 @@ void func_80A34AA0(EnGe3* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0) {
         this->actor.attachedA = NULL;
         this->actionFunc = func_80A34A20;
-        return;
+    } else {
+        func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
     }
-    func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
 }
 
 void func_80A34B00(EnGe3* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        if (func_80106BC8(globalCtx)) {
-            func_80106CCC(globalCtx);
-            this->actor.flags &= ~0x10000;
-            this->actionFunc = func_80A34AA0;
-            func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
-        }
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+        func_80106CCC(globalCtx);
+        this->actor.flags &= ~0x10000;
+        this->actionFunc = func_80A34AA0;
+        func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
     }
 }
 
@@ -177,10 +173,8 @@ void func_80A34C40(EnGe3* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, colliderBase);
     func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
-    if (!(this->unk_30C & 2)) {
-        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-            this->unk_30C |= 2;
-        }
+    if (!(this->unk_30C & 2) && SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        this->unk_30C |= 2;
     }
 }
 
@@ -235,7 +229,7 @@ s32 func_80A34E58(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
             Gfx* dispRefs[4];
 
-            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x223);
+            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 547);
             switch (limbIndex) {
                 case 3:
                     break;
@@ -254,7 +248,7 @@ s32 func_80A34E58(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x8C, 0x00, 0x00, 0xFF);
                     break;
             }
-            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x236);
+            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 566);
         } break;
     }
 
@@ -279,7 +273,7 @@ void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x266);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 614);
         func_800943C8(globalCtx->state.gfxCtx);
 
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A351D4[this->unk_2FC]));
@@ -287,6 +281,6 @@ void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          func_80A34E58, func_80A35004, &this->actor);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 0x277);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 631);
     }
 }

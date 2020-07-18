@@ -24,11 +24,6 @@ void func_80A31880(EnGe1* this, GlobalContext* globalCtx);
 void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx);
 void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx);
 
-void func_80A30EE8(EnGe1* this, GlobalContext* globalCtx);
-
-void func_80A32078(EnGe1* this, GlobalContext* globalCtx);
-void func_80A32190(EnGe1* this, GlobalContext* globalCtx);
-
 void func_80A323EC(EnGe1* this);
 
 extern AnimationHeader D_06000228;
@@ -279,23 +274,19 @@ void func_80A31234(EnGe1* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         this->unk_2AF = 0x32;
         func_80106CCC(globalCtx);
-    } else {
-        if ((this->skelAnime.animCurrentFrame == 15.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
-        }
+    } else if ((this->skelAnime.animCurrentFrame == 15.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
     }
 }
 
 void func_80A312E4(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        if (func_80106BC8(globalCtx)) {
-            this->actionFunc = func_80A31234;
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
-            this->unk_2B0 = &D_0600A048;
-            this->unk_2B8 = func_80A323EC;
-            this->unk_2AC &= ~4;
-        }
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+        this->actionFunc = func_80A31234;
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
+        this->unk_2B0 = &D_0600A048;
+        this->unk_2B8 = func_80A323EC;
+        this->unk_2AC &= ~4;
     }
 }
 
@@ -347,12 +338,10 @@ void func_80A31514(EnGe1* this, GlobalContext* globalCtx) {
 
 void func_80A3157C(EnGe1* this, GlobalContext* globalCtx) {
     this->unk_2AC |= 1;
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        if (func_80106BC8(globalCtx) != 0) {
-            func_80106CCC(globalCtx);
-            this->actionFunc = func_80A317C0;
-            func_80A30D48(this);
-        }
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+        func_80106CCC(globalCtx);
+        this->actionFunc = func_80A317C0;
+        func_80A30D48(this);
     }
 }
 
@@ -372,24 +361,20 @@ void func_80A31644(EnGe1* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         this->unk_2AF = 50;
         func_80106CCC(globalCtx);
-        return;
-    }
-    if ((this->skelAnime.animCurrentFrame == 15.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
+    } else if ((this->skelAnime.animCurrentFrame == 15.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
     }
 }
 
 void func_80A316F4(EnGe1* this, GlobalContext* globalCtx) {
     this->unk_2AC |= 1;
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        if (func_80106BC8(globalCtx)) {
-            this->actionFunc = func_80A31644;
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
-            this->unk_2B0 = &D_0600A048;
-            this->unk_2B8 = func_80A323EC;
-            this->unk_2AC &= ~4;
-        }
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+        this->actionFunc = func_80A31644;
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A048, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_0600A048.genericHeader), 2, -3.0f);
+        this->unk_2B0 = &D_0600A048;
+        this->unk_2B8 = func_80A323EC;
+        this->unk_2AC &= ~4;
     }
 }
 
@@ -430,14 +415,9 @@ void func_80A31934(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// very weird, 0x24(sp) not even valid? Looks like un-assigned stack var
-// can't get the load the right way around either
 void func_80A3196C(EnGe1* this, GlobalContext* globalCtx) {
-    s32 pad;
+    s32 hiImNotInitialised;
     s32 tmp;
-    s32 tmp3;
-    u8 tmp8;
 
     if (func_8002F410(&this->actor, globalCtx)) {
         this->actionFunc = func_80A31934;
@@ -446,45 +426,37 @@ void func_80A3196C(EnGe1* this, GlobalContext* globalCtx) {
         } else {
             gSaveContext.infTable[25] |= 1;
         }
-        return;
     } else {
-        tmp = 0x3E;
         if (this->unk_2AC & 2) {
-            tmp8 = gUpgradeShifts[0];
-            tmp = (s32)(gSaveContext.upgrades & gUpgradeMasks[0]) >> tmp8;
-            switch (tmp) {
+            switch (CUR_UPG_VALUE(UPG_QUIVER)) {
                 case 1:
-                    tmp = 0x30;
+                    tmp = GI_QUIVER_40;
                     break;
                 case 2:
-                    tmp = 0x31;
+                    tmp = GI_QUIVER_50;
                     break;
                 default:
-                    tmp = pad;
+                    tmp = hiImNotInitialised;
+                    break;
             }
+        } else {
+            tmp = GI_HEART_PIECE;
         }
         func_8002F434(&this->actor, globalCtx, tmp, 10000.0f, 50.0f);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func_80A3196C.s")
-#endif
 
-void func_80A3196C(EnGe1* this, GlobalContext* globalCtx);
-
-#ifdef NON_MATCHING
-// Same weird pattern as above
 void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
-    s32 sp24;
+    s32 hiImNotInitialised;
     s32 phi_a2;
 
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_80A3196C;
     }
-    phi_a2 = 0x3E;
+
     if (this->unk_2AC & 2) {
-        switch (CUR_UPG_VALUE(0)) {
+        switch (CUR_UPG_VALUE(UPG_QUIVER)) {
             case 1:
                 phi_a2 = 0x30;
                 break;
@@ -492,16 +464,14 @@ void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
                 phi_a2 = 0x31;
                 break;
             default:
-                phi_a2 = sp24;
+                phi_a2 = hiImNotInitialised;
+                break;
         }
+    } else {
+        phi_a2 = 0x3E;
     }
     func_8002F434(&this->actor, globalCtx, phi_a2, 10000.0f, 50.0f);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func_80A31A5C.s")
-#endif
-
-void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx);
 
 void func_80A31B20(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -534,7 +504,7 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                 if (gSaveContext.rupees < 20) {
                     func_8010B720(globalCtx, 0x85);
                     this->actionFunc = func_80A31B7C;
-                    return;
+                    break;
                 }
                 Rupees_ChangeBy(-20);
                 globalCtx->nextEntranceIndex = 0x129;
@@ -582,10 +552,10 @@ void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
     u16* tmp;
 
     gSaveContext.eventInf[0] &= ~0x100;
-    LogUtils_LogThreadId("../z_en_ge1.c", 0x456);
+    LogUtils_LogThreadId("../z_en_ge1.c", 1110);
     osSyncPrintf("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
     if (1) {}
-    LogUtils_LogThreadId("../z_en_ge1.c", 0x457);
+    LogUtils_LogThreadId("../z_en_ge1.c", 1111);
     osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.unk_EB8);
 
     this->actor.flags |= 0x10000;
@@ -630,17 +600,18 @@ void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx) {
 
     if (!(player->stateFlags1 & 0x800000)) {
         func_80A30C70(this, globalCtx, 0x603F, 100.0f, func_80A31F9C);
-        return;
-    } else if (gSaveContext.eventChkInf[6] & 0x100) {
-        if (gSaveContext.infTable[25] & 1) {
-            textId = 0x6042;
-        } else {
-            textId = 0x6043;
-        }
     } else {
-        textId = 0x6040;
+        if (gSaveContext.eventChkInf[6] & 0x100) {
+            if (gSaveContext.infTable[25] & 1) {
+                textId = 0x6042;
+            } else {
+                textId = 0x6043;
+            }
+        } else {
+            textId = 0x6040;
+        }
+        func_80A30C70(this, globalCtx, textId, 200.0f, func_80A31D88);
     }
-    func_80A30C70(this, globalCtx, textId, 200.0f, func_80A31D88);
 }
 
 void func_80A32078(EnGe1* this, GlobalContext* globalCtx) {
@@ -727,8 +698,7 @@ s32 func_80A32444(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (this->unk_2AC & 8) {
         this->unk_2AC &= ~8;
         return 0;
-    }
-    if ((limbIndex == 8) || (limbIndex == 0xA) || (limbIndex == 0xD)) {
+    } else if ((limbIndex == 8) || (limbIndex == 0xA) || (limbIndex == 0xD)) {
         limbIdx = limbIndex * 50;
         rot->y += Math_Sins(globalCtx->state.frames * (limbIdx + 0x814)) * 200.0f;
         rot->z += Math_Coss(globalCtx->state.frames * (limbIdx + 0x940)) * 200.0f;
@@ -743,12 +713,12 @@ void func_80A32598(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 0x58B);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
         if (limbIndex == 0xF) {
             gSPDisplayList(gfxCtx->polyOpa.p++, D_80A3279C[this->unk_2AE]);
             Matrix_MultVec3f(&D_80A327A8, &this->actor.posRot2.pos);
         }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 0x593);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1427);
     }
 }
 
@@ -760,13 +730,13 @@ void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 0x5A2);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1442);
         func_800943C8(globalCtx->state.gfxCtx);
 
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A327B4[this->unk_2A8]));
 
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          func_80A32444, func_80A32598, &this->actor);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 0x5B3);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1459);
     }
 }
