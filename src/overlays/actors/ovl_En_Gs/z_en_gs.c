@@ -60,7 +60,7 @@ Color_RGBA8 D_80A4FE00 = { 0x32, 0x32, 0xFF, 0x00 };
 
 Color_RGBA8 D_80A4FE04 = { 0xFF, 0xFF, 0xFF, 0x00 };
 
-Vec3f D_80A4FE08 = { 0.0f, -0.300000011921f, 0.0f };
+Vec3f D_80A4FE08 = { 0.0f, -0.3f, 0.0f };
 
 Color_RGBA8 D_80A4FE14 = { 0xC8, 0xC8, 0xC8, 0x80 };
 
@@ -589,6 +589,6 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x00);
             gSPDisplayList(gfxCtx->polyXlu.p++, D_0404D4E0);
         }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 0x44D);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
     }
 }
