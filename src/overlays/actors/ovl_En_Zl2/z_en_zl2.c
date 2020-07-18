@@ -602,7 +602,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                 Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
                 Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
                 gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
-                        G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList((*gfx)++, &D_0600BAE8);
             }
             Matrix_Pull();
@@ -755,9 +755,9 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B501C4(EnZl2* this, s32 arg1) {
+void func_80B501C4(EnZl2* this, s32 alpha) {
     if (this->actor.attachedB != NULL) {
-        ((DoorWarp1*)this->actor.attachedB)->unk_1A8 = arg1;
+        ((DoorWarp1*)this->actor.attachedB)->alpha = alpha;
     }
 }
 
@@ -765,9 +765,9 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
 
     if (npcAction != NULL) {
-        this->actor.shape.unk_14 = this->unk_1A8 =
+        this->actor.shape.unk_14 = this->alpha =
             (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
-        func_80B501C4(this, this->unk_1A8);
+        func_80B501C4(this, this->alpha);
     }
 }
 
@@ -948,7 +948,7 @@ void func_80B50970(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B50980(EnZl2* this, GlobalContext* globalCtx) {
     this->action = 23;
     this->drawConfig = 2;
-    this->unk_1A8 = 0xFF;
+    this->alpha = 255;
 }
 
 void func_80B509A0(EnZl2* this, GlobalContext* globalCtx) {
@@ -1696,7 +1696,7 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp74));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp70));
     gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp64));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
@@ -1720,7 +1720,7 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
     gSPSegment(gfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_1A8);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,

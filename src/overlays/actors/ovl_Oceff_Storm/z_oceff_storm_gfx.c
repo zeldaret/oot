@@ -125,7 +125,7 @@ static Gfx sTextureDL[] = {
     gsDPSetTextureLUT(G_TT_NONE),
     gsDPSetRenderMode(IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
                       G_RM_CLD_SURF2),
-    gsDPSetEnvColor(0x32, 0x32, 0x00, 0x00),
+    gsDPSetEnvColor(50, 50, 0, 0),
     gsSPClearGeometryMode(G_TEXTURE_ENABLE | G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
     gsDPSetCombineLERP(TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, PRIMITIVE,
                        ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0),

@@ -140,14 +140,14 @@ void func_809C2324(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_blkobj.c", 322);
 
-    if (alpha == 0xFF) {
+    if (alpha == 255) {
         segment = D_809C2590;
     } else {
         segment = D_809C25A0;
     }
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, segment);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, alpha);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, alpha);
     gSPDisplayList(gfxCtx->polyXlu.p++, dList);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_blkobj.c", 330);

@@ -569,7 +569,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     // clang-format on
 
     func_80094044(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
 
     func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);

@@ -744,7 +744,7 @@ Gfx sFillSetupDL[] = {
                      G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
     gsDPSetScissor(G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-    gsDPSetBlendColor(0x00, 0x00, 0x00, 0x08),
+    gsDPSetBlendColor(0, 0, 0, 8),
     gsSPClipRatio(FRUSTRATIO_2),
     gsSPEndDisplayList(),
 };
@@ -752,7 +752,7 @@ Gfx sFillSetupDL[] = {
 // unused?
 Gfx D_80127030[] = {
     gsDPPipeSync(),
-    gsDPSetFillColor((GPACK_RGBA5551(0xFF, 0xFF, 0xF0, 0) << 16) | GPACK_RGBA5551(0xFF, 0xFF, 0xF0, 0)),
+    gsDPSetFillColor((GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0)),
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsDPSetDepthSource(G_ZS_PIXEL),
     gsDPPipeSync(),
@@ -764,7 +764,7 @@ Gfx D_80127060[] = {
     gsDPPipeSync(),
     gsDPSetCycleType(G_CYC_FILL),
     gsDPSetRenderMode(G_RM_NOOP, G_RM_NOOP2),
-    gsDPSetFillColor((GPACK_RGBA5551(0x00, 0x00, 0x00, 1) << 16) | GPACK_RGBA5551(0x00, 0x00, 0x00, 1)),
+    gsDPSetFillColor((GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1)),
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsDPPipeSync(),
     gsSPEndDisplayList(),
@@ -1517,7 +1517,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
         gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_FILL);
         gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetFillColor(gfxCtx->polyOpa.p++,
-                        (GPACK_RGBA5551(0xFF, 0xFF, 0xF0, 0) << 16) | GPACK_RGBA5551(0xFF, 0xFF, 0xF0, 0));
+                        (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
         gDPFillRectangle(gfxCtx->polyOpa.p++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
         gDPPipeSync(gfxCtx->polyOpa.p++);
 
