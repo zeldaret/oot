@@ -1773,11 +1773,11 @@ void func_80AC66F4(EnOssan* this) {
     temp_v0 = 0.0f;
 
     this->unk_24C = phi_f0;
-    this->unk_23C = (-(s32)temp_v0) & 0xFF;
-    this->unk_240 = (0xFF - (s32)(80.0f * phi_f0)) & 0xFF;
+    this->unk_23C[0] = (-(s32)temp_v0) & 0xFF;
+    this->unk_23C[1] = (0xFF - (s32)(80.0f * phi_f0)) & 0xFF;
 
-    this->unk_244 = (0x50 - (s32)phi_f0) & 0xFF;
-    this->unk_248 = (0xFF - (s32)phi_f0) & 0xFF;
+    this->unk_23C[2] = (0x50 - (s32)phi_f0) & 0xFF;
+    this->unk_23C[3] = (0xFF - (s32)phi_f0) & 0xFF;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC66F4.s")
@@ -2037,13 +2037,13 @@ void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
         this->unk_230 = 100.0f;
         this->unk_234 = 100.0f;
 
-        this->unk_248 = this->unk_240 = this->actor.colChkInfo.mass = 0xFF;
+        this->unk_23C[3] = this->unk_23C[1] = this->actor.colChkInfo.mass = 0xFF;
 
         this->actor.colChkInfo.unk_10 = 0x32;
 
-        this->unk_244 = 0x50;
+        this->unk_23C[2] = 0x50;
 
-        this->unk_250 = this->unk_251 = this->unk_1EC = this->unk_228 = this->unk_224 = this->unk_252 = this->unk_23C =
+        this->unk_250 = this->unk_251 = this->unk_1EC = this->unk_228 = this->unk_224 = this->unk_252 = this->unk_23C[0] =
             this->unk_1FC = 0;
 
         this->unk_25C = this->unk_258 = this->unk_254 = 0xC8;
@@ -2142,10 +2142,10 @@ s32 func_80AC74F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 #ifdef NON_MATCHING
-// gTexRect / Half macros need fixing
+// Small ordering
 void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, f32 arg4, u8 arg5) {
-    s32 temp_f0;
-    s32 tmp2;
+    f32 temp_f0;
+    f32 tmp2;
 
     {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -2155,17 +2155,18 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
         if (arg5) {
             func_80094520(globalCtx->state.gfxCtx);
 
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, this->unk_23C, this->unk_240, this->unk_244, this->unk_248);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, this->unk_23C[0], this->unk_23C[1], this->unk_23C[2], this->unk_23C[3]);
 
             gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CDC0, G_IM_FMT_IA, G_IM_SIZ_4b, 0x10, 0x10, 0,
                                 G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
 
             temp_f0 = (16.0f * arg4);
+            tmp2 = (1.0f / arg4) * 1024.0f;
+            gSPTextureRectangle(gfxCtx->overlay.p++, 
+                (s32)((arg2 - temp_f0) * 4.0f) & 0xFFF, (s32)((arg3 - temp_f0) * 4.0f) & 0xFFF,
+                (s32)((arg2 + temp_f0) * 4.0f) & 0xFFF, (s32)((arg3 + temp_f0) * 4.0f) & 0xFFF, 
+                G_TX_RENDERTILE, 0, 0, (s32)tmp2 & 0xFFFF, (s32)tmp2 & 0xFFFF);
 
-            gTexRect(gfxCtx->overlay.p++, (arg2 - temp_f0) * 4.0f, (arg3 - temp_f0) * 4.0f, (arg2 + temp_f0) * 4.0f,
-                     (arg3 + temp_f0) * 4.0f, G_TX_RENDERTILE);
-            gDPHalf1(gfxCtx->overlay.p++, 0x00000000);
-            gDPHalf2(gfxCtx->overlay.p++, (1.0f / arg4) * 1024.0f);
         }
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
     }
@@ -2175,11 +2176,12 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
 #endif
 
 #ifdef NON_MATCHING
-// TexRect/half
+// Small ordering
 void func_80AC77CC(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7,
                    s32 arg8, s32 arg9, f32 arg10, f32 arg11) {
     f32 temp_f0;
     f32 temp_f2;
+    f32 temp_f3;
 
     {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -2192,11 +2194,14 @@ void func_80AC77CC(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 arg3, s32 a
 
         temp_f0 = 8.0f * arg7;
         temp_f2 = 12.0f * arg7;
+        temp_f3 = (1.0f / arg7) * 1024.0f;
 
-        gTexRect(gfxCtx->overlay.p++, (arg5 - temp_f0) * 4.0f, (arg6 - temp_f2) * 4.0f, (arg5 + temp_f0) * 4.0f,
-                 (arg6 + temp_f2) * 4.0f, G_TX_RENDERTILE);
-        gDPHalf1(gfxCtx->overlay.p++, (arg8 << 0x10) | (arg9 & 0xFFFF));
-        gDPHalf2(gfxCtx->overlay.p++, ((s32)(arg10 * temp_f0) << 0x10) | ((s32)(arg11 * temp_f0) & 0xFFFF));
+        gSPTextureRectangle(gfxCtx->overlay.p++, 
+            (s32)((arg6 - temp_f2) * 4.0f) & 0xFFF, (s32)((arg5 - temp_f0) * 4.0f) & 0xFFF, 
+            (s32)((arg6 + temp_f2) * 4.0f) & 0xFFF, (s32)((arg5 + temp_f0) * 4.0f) & 0xFFF, 
+            G_TX_RENDERTILE, 
+            (s32)arg9, (s32)arg8, 
+            (s32)(arg11 * temp_f3), (s32)(temp_f3 * arg10));
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4242);
     }
