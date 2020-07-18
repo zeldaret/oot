@@ -1,3 +1,30 @@
+.rdata
+glabel D_809AC640
+    .asciz "../z_eff_ss_stick.c"
+    .balign 4
+
+glabel D_809AC654
+    .asciz "../z_eff_ss_stick.c"
+    .balign 4
+
+glabel D_809AC668
+    .asciz "../z_eff_ss_stick.c"
+    .balign 4
+
+.late_rodata
+glabel D_809AC67C
+    .float 0.01
+    .balign 4
+
+glabel D_809AC680
+    .float 0.0025
+    .balign 4
+
+glabel D_809AC684
+ .word 0x3C23D70A, 0x00000000, 0x00000000
+
+
+.text
 glabel func_809AC42C
 /* 0015C 809AC42C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00160 809AC430 AFB10018 */  sw      $s1, 0x0018($sp)

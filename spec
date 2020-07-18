@@ -1752,7 +1752,6 @@ beginseg
     name "ovl_Effect_Ss_Bomb2"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.o"
     include "build/data/overlays/effects/z_eff_ss_bomb2.data.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb2.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_bomb2.reloc.o"
 endseg
 
@@ -1760,7 +1759,6 @@ beginseg
     name "ovl_Effect_Ss_Bubble"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.o"
     include "build/data/overlays/effects/z_eff_ss_bubble.data.o"
-    include "build/data/overlays/effects/z_eff_ss_bubble.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_bubble.reloc.o"
 endseg
 
@@ -1792,7 +1790,6 @@ beginseg
     name "ovl_Effect_Ss_Dead_Ds"
     include "build/src/overlays/effects/ovl_Effect_Ss_Dead_Ds/z_eff_ss_dead_ds.o"
     include "build/data/overlays/effects/z_eff_ss_dead_ds.data.o"
-    include "build/data/overlays/effects/z_eff_ss_dead_ds.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_dead_ds.reloc.o"
 endseg
 
@@ -1848,7 +1845,6 @@ beginseg
     name "ovl_Effect_Ss_Fcircle"
     include "build/src/overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.o"
     include "build/data/overlays/effects/z_eff_ss_fcircle.data.o"
-    include "build/data/overlays/effects/z_eff_ss_fcircle.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_fcircle.reloc.o"
 endseg
 
@@ -1918,7 +1914,6 @@ beginseg
     name "ovl_Effect_Ss_Hahen"
     include "build/src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.o"
     include "build/data/overlays/effects/z_eff_ss_hahen.data.o"
-    include "build/data/overlays/effects/z_eff_ss_hahen.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_hahen.reloc.o"
 endseg
 
@@ -1950,7 +1945,6 @@ beginseg
     name "ovl_Effect_Ss_K_Fire"
     include "build/src/overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.o"
     include "build/data/overlays/effects/z_eff_ss_k_fire.data.o"
-    include "build/data/overlays/effects/z_eff_ss_k_fire.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_k_fire.reloc.o"
 endseg
 
@@ -1958,7 +1952,6 @@ beginseg
     name "ovl_Effect_Ss_Kakera"
     include "build/src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.o"
     include "build/data/overlays/effects/z_eff_ss_kakera.data.o"
-    include "build/data/overlays/effects/z_eff_ss_kakera.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_kakera.reloc.o"
 endseg
 
@@ -1966,7 +1959,6 @@ beginseg
     name "ovl_Effect_Ss_KiraKira"
     include "build/src/overlays/effects/ovl_Effect_Ss_KiraKira/z_eff_ss_kirakira.o"
     include "build/data/overlays/effects/z_eff_ss_kirakira.data.o"
-    include "build/data/overlays/effects/z_eff_ss_kirakira.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_kirakira.reloc.o"
 endseg
 
@@ -1990,7 +1982,6 @@ beginseg
     name "ovl_Effect_Ss_Sibuki2"
     include "build/src/overlays/effects/ovl_Effect_Ss_Sibuki2/z_eff_ss_sibuki2.o"
     include "build/data/overlays/effects/z_eff_ss_sibuki2.data.o"
-    include "build/data/overlays/effects/z_eff_ss_sibuki2.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_sibuki2.reloc.o"
 endseg
 
@@ -2004,7 +1995,6 @@ beginseg
     name "ovl_Effect_Ss_Stick"
     include "build/src/overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.o"
     include "build/data/overlays/effects/z_eff_ss_stick.data.o"
-    include "build/data/overlays/effects/z_eff_ss_stick.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_stick.reloc.o"
 endseg
 

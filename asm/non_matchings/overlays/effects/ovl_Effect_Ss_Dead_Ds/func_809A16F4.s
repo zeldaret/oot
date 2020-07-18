@@ -1,3 +1,26 @@
+.rdata
+glabel D_809A1A80
+    .asciz "../z_eff_ss_dead_ds.c"
+    .balign 4
+
+glabel D_809A1A98
+    .asciz "../z_eff_ss_dead_ds.c"
+    .balign 4
+
+glabel D_809A1AB0
+    .asciz "../z_eff_ss_dead_ds.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A1AC8
+    .float 0.01
+    .balign 4
+
+glabel D_809A1ACC
+ .word 0x3FC8F5C3
+
+
+.text
 glabel func_809A16F4
 /* 000E4 809A16F4 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 000E8 809A16F8 AFB00024 */  sw      $s0, 0x0024($sp)

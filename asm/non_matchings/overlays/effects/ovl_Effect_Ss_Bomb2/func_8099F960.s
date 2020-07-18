@@ -1,3 +1,32 @@
+.rdata
+glabel D_8099FF48
+    .asciz "../z_eff_ss_bomb2.c"
+    .balign 4
+
+glabel D_8099FF5C
+    .asciz "../z_eff_ss_bomb2.c"
+    .balign 4
+
+glabel D_8099FF70
+    .asciz "../z_eff_ss_bomb2.c"
+    .balign 4
+
+.late_rodata
+glabel D_8099FF88
+ .word 0x3F6CCCCD
+glabel D_8099FF8C
+    .float 0.01
+    .balign 4
+
+glabel D_8099FF90
+    .float 0.02
+    .balign 4
+
+glabel D_8099FF94
+ .word 0x3E19999A, 0x00000000, 0x00000000
+
+
+.text
 glabel func_8099F960
 /* 00310 8099F960 27BDFE08 */  addiu   $sp, $sp, 0xFE08           ## $sp = FFFFFE08
 /* 00314 8099F964 AFB40040 */  sw      $s4, 0x0040($sp)           
