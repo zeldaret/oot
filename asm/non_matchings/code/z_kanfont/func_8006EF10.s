@@ -23,11 +23,11 @@ glabel D_8013C22C
 .text
 glabel func_8006EF10
 /* AE60B0 8006EF10 27BDFFB8 */  addiu $sp, $sp, -0x48
-/* AE60B4 8006EF14 3C080704 */  lui   $t0, %hi(D_070380D4) # $t0, 0x704
-/* AE60B8 8006EF18 250880D4 */  addiu $t0, %lo(D_070380D4) # addiu $t0, $t0, -0x7f2c
+/* AE60B4 8006EF14 3C080704 */  lui   $t0, %hi(_message_0xFFFC_nes) # $t0, 0x704
+/* AE60B8 8006EF18 250880D4 */  addiu $t0, %lo(_message_0xFFFC_nes) # addiu $t0, $t0, -0x7f2c
 /* AE60BC 8006EF1C AFB50034 */  sw    $s5, 0x34($sp)
 /* AE60C0 8006EF20 3C0E0700 */  lui   $t6, 0x700
-/* AE60C4 8006EF24 3C0F0704 */  lui   $t7, %hi(D_0703811C) # $t7, 0x704
+/* AE60C4 8006EF24 3C0F0704 */  lui   $t7, %hi(_message_0xFFFD_nes) # $t7, 0x704
 /* AE60C8 8006EF28 AFBF0044 */  sw    $ra, 0x44($sp)
 /* AE60CC 8006EF2C AFBE0040 */  sw    $fp, 0x40($sp)
 /* AE60D0 8006EF30 AFB7003C */  sw    $s7, 0x3c($sp)
@@ -38,7 +38,7 @@ glabel func_8006EF10
 /* AE60E4 8006EF44 AFB10024 */  sw    $s1, 0x24($sp)
 /* AE60E8 8006EF48 AFB00020 */  sw    $s0, 0x20($sp)
 /* AE60EC 8006EF4C 25CE0000 */  addiu $t6, $t6, 0
-/* AE60F0 8006EF50 25EF811C */  addiu $t7, %lo(D_0703811C) # addiu $t7, $t7, -0x7ee4
+/* AE60F0 8006EF50 25EF811C */  addiu $t7, %lo(_message_0xFFFD_nes) # addiu $t7, $t7, -0x7ee4
 /* AE60F4 8006EF54 010E1023 */  subu  $v0, $t0, $t6
 /* AE60F8 8006EF58 01E83023 */  subu  $a2, $t7, $t0
 /* AE60FC 8006EF5C 3C18008C */  lui   $t8, %hi(_nes_message_data_staticSegmentRomStart) # $t8, 0x8c
