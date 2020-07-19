@@ -11,15 +11,7 @@
 
 #define THIS ((BgHeavyBlock*)thisx)
 
-#define HEAVYBLOCK_HIT_FLOOR (1 << 0)
-
-typedef enum {
-    /* 0x00 */ HEAVYBLOCK_UNBREAKABLE,
-    /* 0x01 */ HEAVYBLOCK_BREAKABLE,
-    /* 0x02 */ HEAVYBLOCK_BIG_PIECE,
-    /* 0x03 */ HEAVYBLOCK_SMALL_PIECE,
-    /* 0x04 */ HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE
-} HeavyBlockType;
+#define PIECE_FLAG_HIT_FLOOR (1 << 0)
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -192,14 +184,14 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
     thisx->shape.rot.y += thisx->posRot.rot.y;
     thisx->shape.rot.z += thisx->posRot.rot.z;
 
-    if (!(this->pieceFlags & HEAVYBLOCK_HIT_FLOOR)) {
+    if (!(this->pieceFlags & PIECE_FLAG_HIT_FLOOR)) {
         thisx->posRot.pos.y += this->unk_164.y;
         thisx->pos4.y += this->unk_164.y;
         func_8002E4B4(globalCtx, thisx, 50.0f, 50.0f, 0.0f, 5);
         thisx->posRot.pos.y -= this->unk_164.y;
         thisx->pos4.y -= this->unk_164.y;
         if (thisx->bgCheckFlags & 1) {
-            this->pieceFlags |= HEAVYBLOCK_HIT_FLOOR;
+            this->pieceFlags |= PIECE_FLAG_HIT_FLOOR;
             thisx->velocity.y = Math_Rand_ZeroFloat(4.0f) + 2.0f;
             thisx->velocity.x = Math_Rand_CenteredFloat(8.0f);
             thisx->velocity.z = Math_Rand_CenteredFloat(8.0f);
