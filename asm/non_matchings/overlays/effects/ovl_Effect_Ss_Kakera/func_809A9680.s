@@ -1,3 +1,20 @@
+.rdata
+glabel D_809AA5C0
+    .asciz "shape_modelがNULL\n"
+    .balign 4
+
+glabel D_809AA5D4
+    .asciz "../z_eff_kakera.c"
+    .balign 4
+
+.late_rodata
+glabel D_809AA668
+    .float 32767.0
+
+glabel D_809AA66C
+    .float 32767.0
+
+.text
 glabel func_809A9680
 /* 00000 809A9680 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 809A9684 AFBF001C */  sw      $ra, 0x001C($sp)           

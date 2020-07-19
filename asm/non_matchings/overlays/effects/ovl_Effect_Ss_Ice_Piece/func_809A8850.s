@@ -1,3 +1,27 @@
+.rdata
+glabel D_809A8B20
+    .asciz "../z_eff_ice_piece.c"
+    .balign 4
+
+glabel D_809A8B38
+    .asciz "../z_eff_ice_piece.c"
+    .balign 4
+
+glabel D_809A8B50
+    .asciz "../z_eff_ice_piece.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A8B68
+    .float 0.01
+
+glabel D_809A8B6C
+    .float 9.58738019108e-05
+
+glabel D_809A8B70
+    .float 9.58738019108e-05
+
+.text
 glabel func_809A8850
 /* 00150 809A8850 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00154 809A8854 AFBF003C */  sw      $ra, 0x003C($sp)           

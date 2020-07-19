@@ -1,3 +1,17 @@
+.rdata
+glabel D_8099FF20
+    .asciz "../z_eff_ss_bomb2.c"
+    .balign 4
+
+glabel D_8099FF34
+    .asciz "../z_eff_ss_bomb2.c"
+    .balign 4
+
+.late_rodata
+glabel D_8099FF84
+    .float 0.01
+
+.text
 glabel func_8099F748
 /* 000F8 8099F748 27BDFEA0 */  addiu   $sp, $sp, 0xFEA0           ## $sp = FFFFFEA0
 /* 000FC 8099F74C AFB00014 */  sw      $s0, 0x0014($sp)           
