@@ -379,13 +379,13 @@ s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     EnAttackNiw* this = THIS;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 0xD) {
+    if (limbIndex == 13) {
         rot->y += (s16)this->unk_2BC;
     }
-    if (limbIndex == 0xF) {
+    if (limbIndex == 15) {
         rot->z += (s16)this->unk_2C0;
     }
-    if (limbIndex == 0xB) {
+    if (limbIndex == 11) {
         rot->x += (s16)this->unk_2B0.z;
         rot->y += (s16)this->unk_2B0.y;
         rot->z += (s16)this->unk_2B0.x;
