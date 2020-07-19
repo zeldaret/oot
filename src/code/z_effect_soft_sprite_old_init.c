@@ -6,12 +6,18 @@
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
+void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor);
+
 extern Color_RGBA8 D_801158DC;
 extern Color_RGBA8 D_801158E0;
 extern Color_RGBA8 D_801158E4;
 extern Color_RGBA8 D_801158E8;
 extern Color_RGBA8 D_801158F4;
 extern Color_RGBA8 D_801158F8;
+extern Color_RGBA8 D_801158EC;
+extern Color_RGBA8 D_801158F0;
+
 // sEmptyVec
 extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a specific field isnt needed
 
@@ -126,6 +132,7 @@ void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
     EffectSs_Spawn(globalCtx, 5, 128, &initParams);
 }
 
+// unused
 void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                    Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep) {
     EffectSsGSpkInitParams initParams;
@@ -142,7 +149,12 @@ void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
     EffectSs_Spawn(globalCtx, 5, 128, &initParams);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029184.s")
+void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    Color_RGBA8 envColor = D_801158EC;  // probably inline when data is migrated
+    Color_RGBA8 primColor = D_801158F0; // probably inline when data is migrated
+
+    func_800292DC(globalCtx, actor, pos, velocity, accel, &envColor, &primColor);
+}
 
 // unused
 void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
@@ -165,7 +177,10 @@ void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
     func_80029060(globalCtx, actor, pos, velocity, accel, &envColor, &primColor, scale, scaleStep);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800292DC.s")
+void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor) {
+    func_80029060(globalCtx, actor, pos, velocity, accel, envColor, primColor, 100, 5);
+}
 
 // EffectSsDFire Spawn Functions
 

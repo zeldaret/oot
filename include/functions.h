@@ -238,7 +238,6 @@ void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 // ? func_80028FD8(?);
 // ? func_80029024(?);
 // ? func_80029060(?);
-// ? func_800290F0(?);
 // ? func_80029184(?);
 // ? func_80029320(?);
 // ? func_800293A0(?);

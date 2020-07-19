@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_g_spk.c
  * Overlay: ovl_Effect_Ss_G_Spk
- * Description: Sparks
+ * Description: Fuse Sparks
  */
 
 #include "z_eff_ss_g_spk.h"
@@ -139,6 +139,7 @@ void func_809A72C0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->regs[SS_G_SPK_SCALE] += this->regs[SS_G_SPK_SCALE_STEP];
 }
 
+// this update mode is unused in the original game
 void func_809A73C8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (SPARK_ACTOR != NULL) {
         if ((SPARK_ACTOR->type == ACTORTYPE_EXPLOSIVES) && (SPARK_ACTOR->update != NULL)) {
