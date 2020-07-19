@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A06124
+    .asciz "../z_en_elf.c"
+    .balign 4
+
+glabel D_80A06134
+    .asciz "../z_en_elf.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A0623C
+    .float 0.0011666666250675917
+
+.text
 glabel EnElf_Draw
 /* 03C28 80A05858 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 03C2C 80A0585C AFBF002C */  sw      $ra, 0x002C($sp)

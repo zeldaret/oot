@@ -1,3 +1,28 @@
+.late_rodata
+glabel jtbl_80A3F02C
+    .word L809145BC
+    .word L809145BC
+    .word L809145BC
+    .word L80914610
+    .word L80914610
+    .word L80914610
+    .word L80914678
+    .word L80914678
+    .word L80914664
+    .word L80914678
+    .word L8091430C
+    .word L80914678
+    .word L80914678
+    .word L80914678
+    .word L80914394
+    .word L809143F0
+    .word L8091444C
+    .word L80914678
+    .word L809144A8
+    .word L80914504
+    .word L80914560
+
+.text
 glabel func_809142E0
 /* 03CA0 809142E0 24AEFFFB */  addiu   $t6, $a1, 0xFFFB           ## $t6 = FFFFFFFB
 /* 03CA4 809142E4 2DC10015 */  sltiu   $at, $t6, 0x0015           

@@ -1,3 +1,20 @@
+.late_rodata
+glabel jtbl_80A9A7BC
+    .word L80A97068
+    .word L80A970B0
+    .word L80A97110
+    .word L80A97138
+    .word L80A97198
+    .word L80A971F8
+    .word L80A97258
+    .word L80A972B8
+    .word L80A972C0
+    .word L80A972C8
+    .word L80A972F8
+    .word L80A97328
+    .word L80A97000
+
+.text
 glabel func_80A96FD0
 /* 00220 80A96FD0 AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 00224 80A96FD4 84AE001C */  lh      $t6, 0x001C($a1)           ## 0000001C
