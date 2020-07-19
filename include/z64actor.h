@@ -244,9 +244,9 @@ typedef struct Player {
     /* 0x03B0 */ char       unk_3B0[0x018];
     /* 0x03C8 */ Vec3f      unk_3C8;
     /* 0x03D4 */ char       unk_3D4[0x058];
-    /* 0x042C */ u8         unk_42C;
+    /* 0x042C */ s8         unk_42C;
     /* 0x042D */ s8         unk_42D;
-    /* 0x042E */ u16        unk_42E;
+    /* 0x042E */ s16        unk_42E;
     /* 0x0430 */ Actor*     unk_430;
     /* 0x0434 */ u8         getItemId;
     /* 0x0435 */ char       unk_435[0x001];
