@@ -162,10 +162,8 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp) {
 }
 
 #ifdef NON_MATCHING
-<<<<<<< HEAD
+
 // regalloc differences, probably the same issue as osPfsInitPak
-=======
->>>>>>> BgJya1flift
 s32 __osGetId(OSPfs* pfs) {
 
     u16 sum, isum;
