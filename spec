@@ -1683,8 +1683,7 @@ endseg
 beginseg
     name "ovl_Door_Gerudo"
     include "build/src/overlays/actors/ovl_Door_Gerudo/z_door_gerudo.o"
-    include "build/data/overlays/actors/z_door_gerudo.data.o"
-    include "build/data/overlays/actors/z_door_gerudo.reloc.o"
+    include "build/src/overlays/actors/ovl_Door_Gerudo/ovl_Door_Gerudo_reloc.o"
 endseg
 
 beginseg
