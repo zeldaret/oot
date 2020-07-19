@@ -1,3 +1,21 @@
+.rdata
+glabel D_809ACA70
+    .asciz "../z_eff_ss_stone1.c"
+    .balign 4
+
+glabel D_809ACA88
+    .asciz "../z_eff_ss_stone1.c"
+    .balign 4
+
+glabel D_809ACAA0
+    .asciz "../z_eff_ss_stone1.c"
+    .balign 4
+
+.late_rodata
+glabel D_809ACAB8
+    .float 1500.0
+
+.text
 glabel func_809AC78C
 /* 0008C 809AC78C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00090 809AC790 AFBF001C */  sw      $ra, 0x001C($sp)           
