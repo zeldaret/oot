@@ -1,6 +1,6 @@
 .SUFFIXES:
 
-# Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'.
+# Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
 # If COMPARE is 1, check the output md5sum after building
 COMPARE ?= 1
