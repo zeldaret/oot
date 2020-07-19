@@ -56,8 +56,6 @@ Color_RGBA8 D_80B136B0 = { 0, 0, 0, 255 };
 Color_RGBA8 D_80B136B4 = { 0, 0, 0, 255 };
 Vec3f D_80B136B8 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B136C4 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B136D0 = { 0.0f, 0.0f, 0.0f };
-Color_RGBA8 D_80B136DC = { 0, 0, 0, 255 };
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiNiw* this = THIS;
@@ -627,8 +625,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 func_80B12FE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnSyatekiNiw* this = THIS;
-    // D_80B136D0
-    Vec3f sp0 = D_80B136D0;
+    Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->unk_2BC.x;
@@ -648,7 +645,7 @@ s32 func_80B12FE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
 void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiNiw* this = THIS;
-    Color_RGBA8 sp30 = D_80B136DC;
+    Color_RGBA8 sp30 = { 0, 0, 0, 255 };
 
     if (this->actionFunc != func_80B128F8) {
         func_80093D18(globalCtx->state.gfxCtx);
