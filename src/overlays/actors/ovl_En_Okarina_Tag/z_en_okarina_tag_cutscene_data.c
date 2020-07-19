@@ -135,5 +135,3 @@ CutsceneData D_80ABFB40[] = {
     CS_END(),
 };
 // clang-format on
-
-UNK_TYPE D_80AC02D8[] = { 0x00000000, 0x00000000 };

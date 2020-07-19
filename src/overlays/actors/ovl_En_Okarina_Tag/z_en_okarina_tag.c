@@ -1,3 +1,9 @@
+/*
+ * File: z_en_okarina_tag.c
+ * Overlay: ovl_En_Okarina_Tag
+ * Description: Music Staff (Ocarina) spot
+ */
+
 #include "z_en_okarina_tag.h"
 #include <vt.h>
 
@@ -16,8 +22,6 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx);
 void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx);
 void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx);
 
-#include "z_en_okarina_tag_cutscene_data.c" EARLY
-
 const ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORTYPE_PROP,
@@ -33,6 +37,8 @@ const ActorInit En_Okarina_Tag_InitVars = {
 extern CutsceneData D_02003C80[];
 extern CutsceneData D_02005020[];
 extern CutsceneData D_020024A0[];
+extern CutsceneData D_80ABF9D0[];
+extern CutsceneData D_80ABFB40[];
 
 void EnOkarinaTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -46,9 +52,9 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.flags &= ~1;
     this->unk_150 = (this->actor.params >> 0xA) & 0x3F;
     this->unk_152 = (this->actor.params >> 6) & 0xF;
-    this->unk_154 = this->actor.params & 0x3F;
-    if (this->unk_154 == 0x3F) {
-        this->unk_154 = -1;
+    this->switchFlag = this->actor.params & 0x3F;
+    if (this->switchFlag == 0x3F) {
+        this->switchFlag = -1;
     }
     if (this->unk_152 == 0xF) {
         this->unk_152 = 0;
@@ -60,7 +66,7 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     // "Save information"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セーブ情報\t ☆☆☆☆☆ %d\n" VT_RST, this->unk_154);
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セーブ情報\t ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
     // "Type index"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n" VT_RST, this->unk_150);
     // "Correct answer information"
@@ -68,13 +74,13 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Range information"
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" VT_RST, this->actor.posRot.rot.z);
     // "Processing range information"
-    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 処理範囲情報\t ☆☆☆☆☆ %f\n" VT_RST, (f64)this->unk_15C);
+    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 処理範囲情報\t ☆☆☆☆☆ %f\n" VT_RST, this->unk_15C);
     // "Hit?"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 当り？\t\t ☆☆☆☆☆ %d\n" VT_RST, this->unk_158);
     osSyncPrintf("\n\n");
 
-    if (this->unk_154 >= 0) {
-        if (Flags_GetSwitch(globalCtx, this->unk_154) != 0) {
+    if (this->switchFlag >= 0) {
+        if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -95,6 +101,7 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80ABF28C;
             break;
         case 5:
+            // This poem is dedicated to the memory of the dearly departed members of the Royal Family.
             this->actor.textId = 0x5021;
             this->actionFunc = func_80ABF708;
             break;
@@ -110,8 +117,8 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     this->unk_15A++;
-    if (this->unk_154 >= 0) {
-        if (Flags_GetSwitch(globalCtx, this->unk_154) != 0) {
+    if (this->switchFlag >= 0) {
+        if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
             this->actor.flags &= ~1;
             return;
         }
@@ -149,8 +156,8 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80ABEF2C;
     } else {
         if (globalCtx->msgCtx.unk_E3EE == 3) {
-            if (this->unk_154 >= 0) {
-                Flags_SetSwitch(globalCtx, this->unk_154);
+            if (this->switchFlag >= 0) {
+                Flags_SetSwitch(globalCtx, this->switchFlag);
             }
             if (globalCtx->sceneNum == SCENE_MIZUSIN) {
                 globalCtx->msgCtx.msgMode = 0x37;
@@ -167,8 +174,8 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 (globalCtx->msgCtx.unk_E3EE == 7) || (globalCtx->msgCtx.unk_E3EE == 8) ||
                 (globalCtx->msgCtx.unk_E3EE == 9) || (globalCtx->msgCtx.unk_E3EE == 10) ||
                 (globalCtx->msgCtx.unk_E3EE == 13)) {
-                if (this->unk_154 >= 0) {
-                    Flags_SetSwitch(globalCtx, this->unk_154);
+                if (this->switchFlag >= 0) {
+                    Flags_SetSwitch(globalCtx, this->switchFlag);
                 }
                 globalCtx->msgCtx.unk_E3EE = 4;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -190,7 +197,7 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 
     this->unk_15A++;
     if (((this->unk_152 != 6) || (gSaveContext.unk_F3C[0x389] != 0))) {
-        if ((this->unk_154 >= 0) && (Flags_GetSwitch(globalCtx, this->unk_154))) {
+        if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
             this->actor.flags &= ~1;
         } else if (((this->unk_150 != 4) || ((gSaveContext.eventChkInf[4] & 0x800) == 0)) &&
                    ((this->unk_150 != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
@@ -236,12 +243,12 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
     } else {
         if (globalCtx->msgCtx.unk_E3EE == 3) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-            if (this->unk_154 >= 0) {
-                Flags_SetSwitch(globalCtx, this->unk_154);
+            if (this->switchFlag >= 0) {
+                Flags_SetSwitch(globalCtx, this->switchFlag);
             }
             switch (this->unk_150) {
                 case 1:
-                    Flags_SetSwitch(globalCtx, this->unk_154);
+                    Flags_SetSwitch(globalCtx, this->switchFlag);
                     gSaveContext.eventChkInf[3] |= 0x200;
                     break;
                 case 2:
@@ -289,7 +296,7 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
     } else {
         yawDiff = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
         this->unk_15A++;
-        if (!(120.0f < this->actor.xzDistFromLink)) {
+        if (!(this->actor.xzDistFromLink > 120.0f)) {
             if ((gBitFlags[15] & gSaveContext.questItems)) {
                 // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;
