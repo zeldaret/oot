@@ -240,8 +240,6 @@ void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 // ? func_80029060(?);
 // ? func_800290F0(?);
 // ? func_80029184(?);
-// ? func_800291D8(?);
-// ? func_800292DC(?);
 // ? func_80029320(?);
 // ? func_800293A0(?);
 void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);

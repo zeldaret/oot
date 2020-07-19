@@ -1,6 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
@@ -9,7 +10,8 @@ extern Color_RGBA8 D_801158DC;
 extern Color_RGBA8 D_801158E0;
 extern Color_RGBA8 D_801158E4;
 extern Color_RGBA8 D_801158E8;
-
+extern Color_RGBA8 D_801158F4;
+extern Color_RGBA8 D_801158F8;
 // sEmptyVec
 extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a specific field isnt needed
 
@@ -77,7 +79,7 @@ extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028E84.s")
 
 void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
-                   Color_RGBA8* primColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
+                         Color_RGBA8* primColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -108,13 +110,60 @@ void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 
 // EffectSsGSpk Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029060.s")
+void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep) {
+    EffectSsGSpkInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800290F0.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    Color_RGBA8_Copy(&initParams.primColor, envColor);
+    Color_RGBA8_Copy(&initParams.envColor, primColor);
+    initParams.actor = actor;
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.updateMode = 0;
+    EffectSs_Spawn(globalCtx, 5, 128, &initParams);
+}
+
+void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep) {
+    EffectSsGSpkInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    Color_RGBA8_Copy(&initParams.primColor, envColor);
+    Color_RGBA8_Copy(&initParams.envColor, primColor);
+    initParams.actor = actor;
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.updateMode = 1;
+    EffectSs_Spawn(globalCtx, 5, 128, &initParams);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029184.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800291D8.s")
+// unused
+void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                   s16 scaleStep) {
+    Color_RGBA8 envColor = D_801158F4;  // probably inline when data is migrated
+    Color_RGBA8 primColor = D_801158F8; // probably inline when data is migrated
+    s32 randOffset;
+
+    randOffset = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
+
+    envColor.r += randOffset;
+    envColor.g += randOffset;
+    envColor.b += randOffset;
+    envColor.a += randOffset;
+    primColor.r += randOffset;
+    primColor.g += randOffset;
+    primColor.b += randOffset;
+    primColor.a += randOffset;
+
+    func_80029060(globalCtx, actor, pos, velocity, accel, &envColor, &primColor, scale, scaleStep);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800292DC.s")
 

@@ -6,19 +6,20 @@
 
 #include "z_eff_ss_g_spk.h"
 
+#define SPARK_ACTOR ((Actor*)this->unk_3C)
+
 typedef enum {
     /* 0x00 */ SS_G_SPK_PRIM_R,
     /* 0x01 */ SS_G_SPK_PRIM_G,
     /* 0x02 */ SS_G_SPK_PRIM_B,
     /* 0x03 */ SS_G_SPK_PRIM_A,
-    /* 0x04 */ SS_G_SPK_EVN_R,
-    /* 0x05 */ SS_G_SPK_EVN_G,
-    /* 0x06 */ SS_G_SPK_EVN_B,
-    /* 0x07 */ SS_G_SPK_EVN_A,
-    /* 0x08 */ SS_G_SPK_1,
-    /* 0x09 */ SS_G_SPK_2,
-    /* 0x0A */ SS_G_SPK_3,
-    /* 0x0B */ SS_G_SPK_4,
+    /* 0x04 */ SS_G_SPK_ENV_R,
+    /* 0x05 */ SS_G_SPK_ENV_G,
+    /* 0x06 */ SS_G_SPK_ENV_B,
+    /* 0x07 */ SS_G_SPK_ENV_A,
+    /* 0x08 */ SS_G_SPK_TEX_IDX,
+    /* 0x09 */ SS_G_SPK_SCALE,
+    /* 0x0A */ SS_G_SPK_SCALE_STEP,
 } EffectSsBlastRegs;
 
 u32 func_809A6F30(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -48,7 +49,7 @@ u32 func_809A6F30(GlobalContext* globalCtx, u32 index, EffectSs* this, void* ini
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
     this->unk_38 = SEGMENTED_TO_VIRTUAL(&D_04025550);
 
-    if (initParams->unk_34 == 0) {
+    if (initParams->updateMode == 0) {
         this->life = 10;
         this->unk_2C.x = initParams->pos.x - initParams->actor->posRot.pos.x;
         this->unk_2C.y = initParams->pos.y - initParams->actor->posRot.pos.y;
@@ -60,24 +61,93 @@ u32 func_809A6F30(GlobalContext* globalCtx, u32 index, EffectSs* this, void* ini
     }
 
     this->draw = func_809A70A0;
-    this->regs[SS_G_SPK_PRIM_R] = initParams->primColor.r; // unk40
-    this->regs[SS_G_SPK_PRIM_G] = initParams->primColor.g; // unk42
-    this->regs[SS_G_SPK_PRIM_B] = initParams->primColor.b; // unk44
-    this->regs[SS_G_SPK_PRIM_A] = initParams->primColor.a; // unk46
-    this->regs[SS_G_SPK_EVN_R] = initParams->envColor.r;   // unk48
-    this->regs[SS_G_SPK_EVN_G] = initParams->envColor.g;   // unk4A
-    this->regs[SS_G_SPK_EVN_B] = initParams->envColor.b;   // unk4C
-    this->regs[SS_G_SPK_EVN_A] = initParams->envColor.a;   // unk4E
-    this->regs[8] = 0;                                     // unk50
-    this->regs[9] = initParams->unk_30;                    // unk52
-    this->regs[10] = initParams->unk_32;                   // unk54
+    this->regs[SS_G_SPK_PRIM_R] = initParams->primColor.r;
+    this->regs[SS_G_SPK_PRIM_G] = initParams->primColor.g;
+    this->regs[SS_G_SPK_PRIM_B] = initParams->primColor.b;
+    this->regs[SS_G_SPK_PRIM_A] = initParams->primColor.a;
+    this->regs[SS_G_SPK_ENV_R] = initParams->envColor.r;
+    this->regs[SS_G_SPK_ENV_G] = initParams->envColor.g;
+    this->regs[SS_G_SPK_ENV_B] = initParams->envColor.b;
+    this->regs[SS_G_SPK_ENV_A] = initParams->envColor.a;
+    this->regs[SS_G_SPK_TEX_IDX] = 0; 
+    this->regs[SS_G_SPK_SCALE] = initParams->scale;
+    this->regs[SS_G_SPK_SCALE_STEP] = initParams->scaleStep;
     this->unk_3C = initParams->actor;
 
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Spk/func_809A70A0.s")
+void func_809A70A0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    s32 pad;
+    MtxF sp11C;
+    MtxF spDC;
+    MtxF sp9C;
+    MtxF sp5C;
+    Mtx* mtx;
+    f32 scale;
+    s32 pad1;
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Spk/func_809A72C0.s")
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_g_spk.c", 208);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Spk/func_809A73C8.s")
+    scale = this->regs[SS_G_SPK_SCALE] * 0.0025f;
+
+    func_800A7A24(&sp11C, this->pos.x, this->pos.y, this->pos.z);
+    func_800A76A4(&spDC, scale, scale, 1.0f);
+    func_800A6FA0(&sp11C, &globalCtx->mf_11DA0, &sp5C);
+    func_800A6FA0(&sp5C, &spDC, &sp9C);
+
+    mtx = func_800A7E70(gfxCtx, &sp9C);
+
+    if (mtx != NULL) {
+        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A7498[this->regs[SS_G_SPK_TEX_IDX]]));
+
+        func_80094BC4(gfxCtx);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_SPK_PRIM_R], this->regs[SS_G_SPK_PRIM_G],
+                        this->regs[SS_G_SPK_PRIM_B], 255);
+
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_G_SPK_ENV_R], this->regs[SS_G_SPK_ENV_G],
+                       this->regs[SS_G_SPK_ENV_B], this->regs[SS_G_SPK_ENV_A]);
+        gSPDisplayList(gfxCtx->polyXlu.p++, this->unk_38);
+    }
+    if (1) {}
+    if (1) {}
+    Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_g_spk.c", 255);
+}
+
+void func_809A72C0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+
+    this->accel.x = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
+    this->accel.z = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
+
+    if (SPARK_ACTOR != NULL) {
+        if ((SPARK_ACTOR->type == ACTORTYPE_EXPLOSIVES) && (SPARK_ACTOR->update != NULL)) {
+            this->pos.x = SPARK_ACTOR->posRot.pos.x + this->unk_2C.x;
+            this->pos.y = SPARK_ACTOR->posRot.pos.y + this->unk_2C.y;
+            this->pos.z = SPARK_ACTOR->posRot.pos.z + this->unk_2C.z;
+        }
+    }
+
+    this->unk_2C.x += this->accel.x;
+    this->unk_2C.z += this->accel.z;
+
+    this->regs[SS_G_SPK_TEX_IDX]++;
+    this->regs[SS_G_SPK_TEX_IDX] &= 3;
+    this->regs[SS_G_SPK_SCALE] += this->regs[SS_G_SPK_SCALE_STEP];
+}
+
+void func_809A73C8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    if (SPARK_ACTOR != NULL) {
+        if ((SPARK_ACTOR->type == ACTORTYPE_EXPLOSIVES) && (SPARK_ACTOR->update != NULL)) {
+            this->pos.x += (Math_Sins(SPARK_ACTOR->posRot.rot.y) * SPARK_ACTOR->speedXZ);
+            this->pos.z += (Math_Coss(SPARK_ACTOR->posRot.rot.y) * SPARK_ACTOR->speedXZ);
+        }
+    }
+
+    this->regs[SS_G_SPK_TEX_IDX]++;
+    this->regs[SS_G_SPK_TEX_IDX] &= 3;
+    this->regs[SS_G_SPK_SCALE] += this->regs[SS_G_SPK_SCALE_STEP];
+}
