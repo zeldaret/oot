@@ -161,7 +161,7 @@ void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(gfxCtx->polyOpa.p++, D_06000040);
 
     if (this->unk_166 != 0) {
-        Matrix_Scale(0.01f, 0.01f, 0.025f, (u8)1U);
+        Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
         func_80033F54(globalCtx, this->unk_166, 0);
     }
 
