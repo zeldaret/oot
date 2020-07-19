@@ -22,13 +22,7 @@ glabel D_80858AB4
     .space 0x04
 
 glabel D_80858AB8
-    .space 0x04
-
-glabel D_80858ABC
-    .space 0x04
-
-glabel D_80858AC0
-    .space 0x08
+    .space 0x10
 
 glabel D_80858AC8
     .space 0x10

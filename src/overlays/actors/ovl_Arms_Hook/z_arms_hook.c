@@ -324,7 +324,7 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_MultVec3f(&D_80865BAC, &sp60);
             }
 
-            func_80090480(globalCtx, &this->collider.base, &this->unk_1CC, &sp6C, &sp60);
+            func_80090480(globalCtx, &this->collider, &this->unk_1CC, &sp6C, &sp60);
             func_80093D18(globalCtx->state.gfxCtx);
             gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

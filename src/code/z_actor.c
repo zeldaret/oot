@@ -213,7 +213,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, Lights* lights, GlobalContext* 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/ActorShadow_DrawFunc_Teardrop.s")
 #endif
 
-void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, UNK_PTR arg5) {
+void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, Vec3f* arg3, s32 arg4, Vec3f* arg5) {
     if (arg1 == arg2) {
         Matrix_MultVec3f(arg3, &actor->unk_CC[0]);
     } else if (arg1 == arg4) {
@@ -667,7 +667,7 @@ void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     titleCtx->delayA = titleCtx->delayB = titleCtx->unk_E = titleCtx->unk_C = 0;
 }
 
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, u32 texture, s16 arg3, s16 arg4,
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 arg3, s16 arg4,
                             u8 arg5, u8 arg6) {
     titleCtx->texture = texture;
     titleCtx->unk_4 = arg3;
@@ -678,7 +678,7 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
     titleCtx->delayB = 0;
 }
 
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, u32 texture, s32 arg3, s32 arg4,
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 arg3, s32 arg4,
                              s32 arg5, s32 arg6, s32 arg7) {
     Scene* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
@@ -886,9 +886,9 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
     actor->velocity.y = -Math_Sins(actor->posRot.rot.x) * arg1;
 }
 
-void func_8002D9F8(Actor* actor, UNK_PTR arg1) {
+void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
     Vec3f sp1C;
-    func_800A54FC(arg1, &sp1C, actor->shape.rot.y);
+    func_800A54FC(skelAnime, &sp1C, actor->shape.rot.y);
     actor->posRot.pos.x += sp1C.x * actor->scale.x;
     actor->posRot.pos.y += sp1C.y * actor->scale.y;
     actor->posRot.pos.z += sp1C.z * actor->scale.z;
@@ -1015,10 +1015,10 @@ void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     }
 }
 
-void func_8002DECC(GlobalContext* globalCtx, Player* player, Actor* actor) {
-    player->rideActor = actor;
+void func_8002DECC(GlobalContext* globalCtx, Player* player, HorseActor* horse) {
+    player->rideActor = horse;
     player->stateFlags1 |= 0x800000;
-    actor->child = &player->actor;
+    horse->actor.child = &player->actor;
 }
 
 s32 func_8002DEEC(Player* player) {
@@ -1607,11 +1607,11 @@ u32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor) {
     }
 }
 
-u32 func_8002F63C(GlobalContext* globalCtx, Actor* actor, s32 arg2) {
+u32 func_8002F63C(GlobalContext* globalCtx, HorseActor* horse, s32 arg2) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x003C7880)) {
-        player->rideActor = actor;
+        player->rideActor = horse;
         player->unk_43C = arg2;
         return 1;
     }
@@ -1712,7 +1712,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
     }
 }
 
-s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4) {
+s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* arg2, u32 arg3, Vec3f* arg4) {
     if (func_80041D4C(&globalCtx->colCtx, arg2, arg3) == 8) {
         globalCtx->unk_11D30[0] = 1;
         func_8005DFAC(globalCtx, 0, arg4);
@@ -2800,12 +2800,12 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
 
     for (i = 0; i < nbTransitionActors; i++) {
         if (transitionActor->id >= 0) {
-            if (((transitionActor->frontRoom >= 0) &&
-                 ((transitionActor->frontRoom == globalCtx->roomCtx.curRoom.num) ||
-                  (transitionActor->frontRoom == globalCtx->roomCtx.prevRoom.num))) ||
-                ((transitionActor->backRoom >= 0) &&
-                 ((transitionActor->backRoom == globalCtx->roomCtx.curRoom.num) ||
-                  (transitionActor->backRoom == globalCtx->roomCtx.prevRoom.num)))) {
+            if (((transitionActor->sides[0].room >= 0) &&
+                 ((transitionActor->sides[0].room == globalCtx->roomCtx.curRoom.num) ||
+                  (transitionActor->sides[0].room == globalCtx->roomCtx.prevRoom.num))) ||
+                ((transitionActor->sides[1].room >= 0) &&
+                 ((transitionActor->sides[1].room == globalCtx->roomCtx.curRoom.num) ||
+                  (transitionActor->sides[1].room == globalCtx->roomCtx.prevRoom.num)))) {
                 Actor_Spawn(actorCtx, globalCtx, (s16)(transitionActor->id & 0x1FFF), transitionActor->pos.x,
                             transitionActor->pos.y, transitionActor->pos.z, 0, transitionActor->rotY, 0,
                             (i << 0xA) + transitionActor->params);
@@ -4007,11 +4007,11 @@ void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
         actor->unk_116 = 0x04;
     } else if (colBody->acHitItem->toucher.flags & 0x8000) {
         actor->unk_116 = 0x08;
-    } else if ((colBody->acHitItem->toucher.flags << 0xF) < 0) {
+    } else if (colBody->acHitItem->toucher.flags & 0x10000) {
         actor->unk_116 = 0x10;
     } else if (colBody->acHitItem->toucher.flags & 0x2000) {
         actor->unk_116 = 0x20;
-    } else if ((colBody->acHitItem->toucher.flags << 0xC) < 0) {
+    } else if (colBody->acHitItem->toucher.flags & 0x80000) {
         if (freezeFlag) {
             actor->freezeTimer = colBody->acHitItem->toucher.damage;
         }
@@ -4107,9 +4107,9 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
 
     if (actor->floorPoly != NULL) {
         floorPoly = actor->floorPoly;
-        sp44 = floorPoly->norm.x * (1.f / 32767);
-        sp40 = floorPoly->norm.y * (1.f / 32767);
-        sp3C = floorPoly->norm.z * (1.f / 32767);
+        sp44 = floorPoly->norm.x * (1.0f / 32767);
+        sp40 = floorPoly->norm.y * (1.0f / 32767);
+        sp3C = floorPoly->norm.z * (1.0f / 32767);
 
         sp38 = Math_Sins(arg1);
         sp34 = Math_Coss(arg1);

@@ -519,8 +519,8 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         LOG_NUM("game_play->room_rom_address.num", globalCtx->nbRooms, "../z_room.c", 912);
 
         for (j = 0; j < globalCtx->nbTransitionActors; j++) {
-            s8 frontRoom = transitionActor->frontRoom;
-            s8 backRoom = transitionActor->backRoom;
+            s8 frontRoom = transitionActor->sides[0].room;
+            s8 backRoom = transitionActor->sides[1].room;
             u32 frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
             u32 backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
             u32 cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;

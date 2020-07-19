@@ -1801,18 +1801,20 @@ s32 func_800C0D28(GlobalContext* globalCtx) {
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
     TransitionActorEntry* transitionActor;
+    s32 frontRoom;
 
     if (actor->type != ACTORTYPE_DOOR) {
         return 0;
     }
 
     transitionActor = &globalCtx->transitionActorList[(u16)actor->params >> 10];
+    frontRoom = transitionActor->sides[0].room;
 
-    if (transitionActor->backRoom == transitionActor->frontRoom) {
+    if (frontRoom == transitionActor->sides[1].room) {
         return 0;
     }
 
-    if (actor->room == transitionActor->frontRoom) {
+    if (frontRoom == actor->room) {
         *yaw = actor->shape.rot.y;
     } else {
         *yaw = actor->shape.rot.y + 0x8000;

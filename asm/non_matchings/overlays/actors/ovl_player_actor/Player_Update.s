@@ -33,10 +33,10 @@ glabel Player_Update
 /* 17D0C 80849F1C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 17D10 80849F20 0C20E577 */  jal     func_808395DC              
 /* 17D14 80849F24 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
-/* 17D18 80849F28 3C018086 */  lui     $at, %hi(D_80858ABC)       ## $at = 80860000
-/* 17D1C 80849F2C C4248ABC */  lwc1    $f4, %lo(D_80858ABC)($at)  
-/* 17D20 80849F30 3C018086 */  lui     $at, %hi(D_80858AC0)       ## $at = 80860000
-/* 17D24 80849F34 C4268AC0 */  lwc1    $f6, %lo(D_80858AC0)($at)  
+/* 17D18 80849F28 3C018086 */  lui     $at, %hi(D_80858AB8+4)       ## $at = 80860000
+/* 17D1C 80849F2C C4248ABC */  lwc1    $f4, %lo(D_80858AB8+4)($at)  
+/* 17D20 80849F30 3C018086 */  lui     $at, %hi(D_80858AB8+8)       ## $at = 80860000
+/* 17D24 80849F34 C4268AC0 */  lwc1    $f6, %lo(D_80858AB8+8)($at)  
 /* 17D28 80849F38 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 17D2C 80849F3C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 17D30 80849F40 846213C4 */  lh      $v0, 0x13C4($v1)           ## 8015FA24

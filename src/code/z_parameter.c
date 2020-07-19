@@ -1240,8 +1240,8 @@ void Interface_InitHorsebackArchery(GlobalContext* globalCtx) {
 }
 
 void func_800849EC(GlobalContext* globalCtx) {
-    gSaveContext.equipment |= gBitFlags[2] << gEquipShifts[0];
-    gSaveContext.equipment ^= 8 << gEquipShifts[0];
+    gSaveContext.equipment |= gBitFlags[2] << gEquipShifts[EQUIP_SWORD];
+    gSaveContext.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
 
     if (gBitFlags[3] & gSaveContext.equipment) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
@@ -1380,7 +1380,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.equipment |= gBitFlags[item - ITEM_SWORD_KOKIRI] << gEquipShifts[EQUIP_SWORD];
 
         if (item == ITEM_SWORD_BGS) {
-            gSaveContext.bgsHitsLeft = 8;
+            gSaveContext.swordHealth = 8;
 
             if (ALL_EQUIP_VALUE(EQUIP_SWORD) == 0xF) {
                 gSaveContext.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];

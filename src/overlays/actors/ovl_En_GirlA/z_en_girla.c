@@ -658,7 +658,7 @@ void func_80A3B780(GlobalContext* globalCtx, EnGirlA* this) {
 
 void func_80A3B7BC(GlobalContext* globalCtx, EnGirlA* this) {
     func_800849EC(globalCtx);
-    gSaveContext.bgsHitsLeft = 8;
+    gSaveContext.swordHealth = 8;
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
