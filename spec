@@ -1897,7 +1897,6 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Spk"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.o"
-    include "build/data/overlays/effects/z_eff_ss_g_spk.data.o"
     include "build/data/overlays/effects/z_eff_ss_g_spk.rodata.o"
     include "build/data/overlays/effects/z_eff_ss_g_spk.reloc.o"
 endseg
