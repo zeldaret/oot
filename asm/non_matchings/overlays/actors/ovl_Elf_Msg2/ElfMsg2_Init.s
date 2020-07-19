@@ -1,6 +1,6 @@
 .rdata
 glabel D_809ADDC0
-    .asciz "[36m Elf_Msg2_Actor_ct %04x\n\n[m"
+    .asciz "\x1b[36m Elf_Msg2_Actor_ct %04x\n\n\x1b[m"
     .balign 4
 
 .text

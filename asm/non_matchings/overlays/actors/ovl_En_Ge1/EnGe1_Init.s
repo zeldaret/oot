@@ -1,10 +1,10 @@
 .rdata
 glabel D_80A327C0
-    .asciz "[36m谷底 ゲルド 撤退 \n[m"
+    .asciz "\x1b[36m谷底 ゲルド 撤退 \n\x1b[m"
     .balign 4
 
 glabel D_80A327DC
-    .asciz "[36mやぶさめ ゲルド EVENT_INF(0) = %x\n[m"
+    .asciz "\x1b[36mやぶさめ ゲルド EVENT_INF(0) = %x\n\x1b[m"
     .balign 4
 
 .text

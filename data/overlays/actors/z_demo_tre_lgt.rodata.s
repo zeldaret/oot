@@ -10,7 +10,20 @@
 .balign 16
 
 glabel D_80993DC0
- .word 0x44656D6F, 0x5F547265, 0x5F4C6774, 0x5F416374, 0x6F725F63, 0x7428293B, 0xA5B3A5F3, 0xA5B9A5C8, 0xA5E9A5AF, 0xA5C8BCBA, 0xC7D40A00, 0x31000000, 0x2E2E2F7A, 0x5F64656D, 0x6F5F7472, 0x655F6C67, 0x742E6300
+    # Construct failure
+    .asciz "Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n"
+    .balign 4
+
+# unused
+glabel D_80993DE4
+    .asciz "1"
+    .balign 4
+
+# unused
+glabel D_80993DE8
+    .asciz "../z_demo_tre_lgt.c"
+    .balign 4
+
 glabel D_80993E04
     .asciz "../z_demo_tre_lgt.c"
     .balign 4
@@ -24,6 +37,6 @@ glabel D_80993E2C
     .balign 4
 
 glabel D_80993E40
- .word 0x2E2E2F7A, 0x5F64656D, 0x6F5F7472, 0x655F6C67, 0x742E6300, 0x00000000, 0x00000000, 0x00000000
-
+    .asciz "../z_demo_tre_lgt.c"
+    .balign 4
 

@@ -58,71 +58,73 @@ glabel D_80B9CC84
     .balign 4
 
 glabel jtbl_80B9CC98
-.word L80B9B2AC
-.word L80B9B2AC
-.word L80B9B2B4
-.word L80B9B2BC
-.word L80B9B2AC
-.word L80B9B2AC
-.word L80B9B2B4
-.word L80B9B2BC
+    .word L80B9B2AC
+    .word L80B9B2AC
+    .word L80B9B2B4
+    .word L80B9B2BC
+    .word L80B9B2AC
+    .word L80B9B2AC
+    .word L80B9B2B4
+    .word L80B9B2BC
+
 glabel D_80B9CCB8
     .float 0.001
-    .balign 4
 
 glabel jtbl_80B9CCBC
-.word L80B9B5B8
-.word L80B9B5B8
-.word L80B9B5B8
-.word L80B9B5B8
-.word L80B9B5B8
-.word L80B9B5B8
-.word L80B9B5B8
-.word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+
 glabel jtbl_80B9CCDC
-.word L80B9B658
-.word L80B9B658
-.word L80B9B668
-.word L80B9B678
-.word L80B9B658
-.word L80B9B658
-.word L80B9B668
-.word L80B9B678
+    .word L80B9B658
+    .word L80B9B658
+    .word L80B9B668
+    .word L80B9B678
+    .word L80B9B658
+    .word L80B9B658
+    .word L80B9B668
+    .word L80B9B678
+
 glabel D_80B9CCFC
- .word 0xBA83126F
+    .float -0.001
+
 glabel D_80B9CD00
- .word 0xBA83126F
+    .float -0.001
+
 glabel D_80B9CD04
- .word 0xBA83126F
+    .float -0.001
+
 glabel D_80B9CD08
- .word 0xC6F9EC00
+    .float -31990.0
+
 glabel D_80B9CD0C
- .word 0xBA83126F
+    .float -0.001
+
 glabel D_80B9CD10
     .float 0.001
-    .balign 4
 
 glabel D_80B9CD14
     .float 0.001
-    .balign 4
 
 glabel D_80B9CD18
     .float 0.001
-    .balign 4
 
 glabel jtbl_80B9CD1C
-.word L80B9C8B8
-.word L80B9C8B8
-.word L80B9C8F8
-.word L80B9C8B8
-.word L80B9C8B8
-.word L80B9C8B8
-.word L80B9C8B8
-.word L80B9C8B8
-.word L80B9C8F8
-.word L80B9C8F8
-.word L80B9C8F8
-.word L80B9C8B8
-.word 0x00000000
-
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8F8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8F8
+    .word L80B9C8F8
+    .word L80B9C8F8
+    .word L80B9C8B8
 

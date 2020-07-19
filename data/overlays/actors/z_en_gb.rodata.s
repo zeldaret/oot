@@ -31,21 +31,16 @@ glabel D_80A307E0
 
 glabel D_80A307F0
     .float 0.2
-    .balign 4
 
 glabel D_80A307F4
     .float 0.2
-    .balign 4
 
 glabel D_80A307F8
     .float 0.01
-    .balign 4
 
 glabel D_80A307FC
     .float 0.01
-    .balign 4
 
 glabel D_80A30800
- .word 0x3BE56042, 0x00000000, 0x00000000, 0x00000000
-
+    .float 0.007
 
