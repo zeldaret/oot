@@ -3511,8 +3511,7 @@ endseg
 beginseg
     name "ovl_Item_B_Heart"
     include "build/src/overlays/actors/ovl_Item_B_Heart/z_item_b_heart.o"
-    include "build/data/overlays/actors/z_item_b_heart.data.o"
-    include "build/data/overlays/actors/z_item_b_heart.reloc.o"
+    include "build/src/overlays/actors/ovl_Item_B_Heart/ovl_Item_B_Heart_reloc.o"
 endseg
 
 beginseg
