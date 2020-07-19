@@ -3599,7 +3599,6 @@ endseg
 beginseg
     name "ovl_Obj_Dekujr"
     include "build/src/overlays/actors/ovl_Obj_Dekujr/z_obj_dekujr.o"
-    include "build/data/overlays/actors/z_obj_dekujr.data.o"
     include "build/data/overlays/actors/z_obj_dekujr.reloc.o"
 endseg
 
