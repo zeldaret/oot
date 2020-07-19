@@ -1,3 +1,9 @@
+/*
+ * File: z_en_bx.c
+ * Overlay: ovl_En_Bx
+ * Description: Jabu-Jabu Electrified Tentacle
+ */
+
 #include "z_en_bx.h"
 
 #define FLAGS 0x00000010
@@ -35,7 +41,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-Vec3f D_809D250C = { 0.0149999996647f, 0.0149999996647f, 0.0149999996647f };
+Vec3f D_809D250C = { 0.015f, 0.015f, 0.015f };
 
 Vec3f D_809D2518 = { 0.0f, 0.0f, 0.0f };
 
@@ -51,10 +57,10 @@ Vec3f D_809D2540 = { -8000.0f, 15000.0f, 2500.0f };
 
 Vec3f D_809D254C = { -8000.0f, 10000.0f, 2500.0f };
 
-u32 D_809D2558 = 0xFFFFFFFF;
-u32 D_809D255C = 0xC8FFFFFF;
+Color_RGBA8 D_809D2558 = { 255, 255, 255, 255 };
+Color_RGBA8 D_809D255C = { 200, 255, 255, 255 };
 
-u32 D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0, 0x00000000 };
+UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0, 0x00000000 };
 
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
@@ -93,6 +99,7 @@ void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -189,7 +196,7 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Mtx* matrix = (Mtx*)memory;
         s16 i;
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 0x1D0);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 464);
         func_80093D18(globalCtx->state.gfxCtx);
 
         gSPSegment(gfxCtx->polyOpa.p++, 0x0C, matrix);
@@ -197,7 +204,7 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(gfxCtx->polyOpa.p++, 0x09,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x10, 0x10, 1, 0,
                                     (-globalCtx->gameplayFrames * 10) & 0x7F, 0x20, 0x20));
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bx.c", 0x1DE),
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bx.c", 478),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         if (this->actor.params & 0x80) {
@@ -224,11 +231,11 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
             Matrix_RotateRPY(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
             Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
-            Matrix_ToMtx(matrix, "../z_en_bx.c", 0x1FB);
+            Matrix_ToMtx(matrix, "../z_en_bx.c", 507);
         }
 
         gSPDisplayList(gfxCtx->polyOpa.p++, D_060022F0);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 0x1FF);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 511);
     }
 }
 #else
