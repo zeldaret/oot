@@ -116,7 +116,7 @@ void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
             player = PLAYER;
             if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviMessageId = -0x203;
-            } else if (!(Flags_GetCollectible(globalCtx, (this->dyna.actor.params >> 8) & 0x1F))) {
+            } else if (!Flags_GetCollectible(globalCtx, (this->dyna.actor.params >> 8) & 0x1F)) {
                 player->naviMessageId = -0x225;
             } else {
                 player->unk_42C = 2;
