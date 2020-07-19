@@ -1,3 +1,17 @@
+.rdata
+glabel D_809A4080
+    .asciz "../z_eff_ss_extra.c"
+    .balign 4
+
+glabel D_809A4094
+    .asciz "../z_eff_ss_extra.c"
+    .balign 4
+
+glabel D_809A40A8
+    .asciz "../z_eff_ss_extra.c"
+    .balign 4
+
+.text
 glabel func_809A3E00
 /* 000140 809A3E00 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* 000144 809A3E04 AFBF0024 */  sw    $ra, 0x24($sp)

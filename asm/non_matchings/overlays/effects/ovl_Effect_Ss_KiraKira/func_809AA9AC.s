@@ -1,3 +1,17 @@
+.rdata
+glabel D_809AAE10
+    .asciz "../z_eff_ss_kirakira.c"
+    .balign 4
+
+glabel D_809AAE28
+    .asciz "../z_eff_ss_kirakira.c"
+    .balign 4
+
+.late_rodata
+glabel D_809AAE40
+    .float 10000.0
+
+.text
 glabel func_809AA9AC
 /* 0019C 809AA9AC 27BDFE20 */  addiu   $sp, $sp, 0xFE20           ## $sp = FFFFFE20
 /* 001A0 809AA9B0 AFBF001C */  sw      $ra, 0x001C($sp)           

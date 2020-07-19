@@ -1,3 +1,21 @@
+.rdata
+glabel D_8099F120
+    .asciz "../z_eff_ss_blast.c"
+    .balign 4
+
+glabel D_8099F134
+    .asciz "../z_eff_ss_blast.c"
+    .balign 4
+
+glabel D_8099F148
+    .asciz "../z_eff_ss_blast.c"
+    .balign 4
+
+.late_rodata
+glabel D_8099F15C
+    .float 0.0025
+
+.text
 glabel func_8099EF08
 /* 00158 8099EF08 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0015C 8099EF0C AFB10018 */  sw      $s1, 0x0018($sp)           
