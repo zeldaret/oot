@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_bomb.c
  * Overlay: ovl_Effect_Ss_Bomb
- * Description: Unused Bomb Blast
+ * Description: Bomb Blast. Unused in the orignal game.
  */
 
 #include "z_eff_ss_bomb.h"
@@ -11,13 +11,13 @@ typedef enum {
     /* 0x01 */ SS_BOMB_TEX_IDX,
 } EffectSsBombRegs;
 
-u32 func_8099F1B0(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_8099F274(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_8099F4D8(GlobalContext* globalCtx, u32 index, EffectSs* this);
+u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsBomb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Bomb_InitVars = {
     EFFECT_SS_BOMB,
-    func_8099F1B0,
+    EffectSsBomb_Init,
 };
 
 UNK_PTR D_8099F588[] = {
@@ -29,7 +29,7 @@ UNK_PTR D_8099F588[] = {
 
 extern Gfx D_0400BF80[];
 
-u32 func_8099F1B0(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBombInitParams* initParams = (EffectSsBombInitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
@@ -37,15 +37,15 @@ u32 func_8099F1B0(GlobalContext* globalCtx, u32 index, EffectSs* this, void* ini
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
     this->unk_38 = SEGMENTED_TO_VIRTUAL(D_0400BF80);
     this->life = 20;
-    this->draw = func_8099F274;
-    this->update = func_8099F4D8;
+    this->draw = EffectSsBomb_Draw;
+    this->update = EffectSsBomb_Update;
     this->regs[SS_BOMB_SCALE] = 100;
     this->regs[SS_BOMB_TEX_IDX] = 0;
 
     return 1;
 }
 
-void func_8099F274(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     MtxF sp12C;
     MtxF spEC;
@@ -89,13 +89,14 @@ void func_8099F274(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb.c", 214);
 }
 
-void func_8099F4D8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsBomb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if ((this->life < 21) && (this->life >= 17)) {
         this->regs[SS_BOMB_TEX_IDX] = (20 - this->life);
     } else {
-        this->regs[SS_BOMB_SCALE] = this->regs[SS_BOMB_SCALE];
+        this->regs[SS_BOMB_SCALE] += 0;
         this->regs[SS_BOMB_TEX_IDX] = 3;
     }
+
     this->accel.x = ((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
     this->accel.z = ((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
 }

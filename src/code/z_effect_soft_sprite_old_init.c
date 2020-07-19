@@ -77,7 +77,7 @@ extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a
 
 // EffectSsBomb Spawn Functions
 
-void func_80028DC4(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     EffectSsBombInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);

@@ -225,7 +225,6 @@ void func_800286CC(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, s16);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
 // ? func_80028BB0(?);
 // ? func_80028CEC(?);
-// ? func_80028DC4(?);
 // ? func_80028E1C(?);
 void func_80028E84(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s32, s32);
 void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
