@@ -1,3 +1,17 @@
+.rdata
+glabel D_809A74B0
+    .asciz "../z_eff_ss_g_spk.c"
+    .balign 4
+
+glabel D_809A74C4
+    .asciz "../z_eff_ss_g_spk.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A74D8
+    .float 0.0025
+
+.text
 glabel func_809A70A0
 /* 00170 809A70A0 27BDFEA0 */  addiu   $sp, $sp, 0xFEA0           ## $sp = FFFFFEA0
 /* 00174 809A70A4 AFB00014 */  sw      $s0, 0x0014($sp)           
