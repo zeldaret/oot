@@ -14,7 +14,6 @@ typedef struct BgJya1flift {
     /* 0x01B6 */ u8 direction; //1 is moving down and 0 is moving up
     /* 0x01B7 */ u8 hasInitialized;
     /* 0x01B8 */ u8 isLinkRiding;
-    /* 0x01B9 */ char unk_1B9[3]; //Unused
 } BgJya1flift; // size = 0x01BC
 
 extern const ActorInit Bg_Jya_1flift_InitVars;
