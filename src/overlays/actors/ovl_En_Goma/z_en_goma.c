@@ -96,8 +96,8 @@ Vec3f D_80A4B860 = { 0.0f, 0.0f, 0.0f };
 
 Vec3f D_80A4B86C = { 0.0f, 1.0f, 0.0f };
 
-s32 D_80A4B878 = 0xFFFFFFFF;
-s32 D_80A4B87C = 0x0064FFFF;
+Color_RGBA8 D_80A4B878 = { 255, 255, 255, 255 };
+Color_RGBA8 D_80A4B87C = { 0, 100, 255, 255 };
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
@@ -857,8 +857,8 @@ void func_80A4B3F0(EnGoma* this, GlobalContext* globalCtx) {
 void func_80A4B554(EnGoma* this, GlobalContext* globalCtx) {
     Vec3f a = D_80A4B860;
     Vec3f b = D_80A4B86C;
-    s32 sp54 = D_80A4B878;
-    s32 sp50 = D_80A4B87C;
+    Color_RGBA8 sp54 = D_80A4B878;
+    Color_RGBA8 sp50 = D_80A4B87C;
     Vec3f c;
 
     this->actor.posRot.pos.y -= 5.0f;
