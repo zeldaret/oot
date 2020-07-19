@@ -5,9 +5,15 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
+    /* 0x00 */ Actor* actor;
+    /* 0x04 */ Vec3f pos;
+    /* 0x10 */ Vec3f velocity;
+    /* 0x1C */ Vec3f accel;
+    /* 0x28 */ Color_RGBA8 primColor;
+    /* 0x2C */ Color_RGBA8 envColor;
+    /* 0x30 */ s16 unk_30;
+    /* 0x32 */ s16 unk_32;
+    /* 0x34 */ u8 unk_34;
 } EffectSsGSpkInitParams;
 
 #endif
