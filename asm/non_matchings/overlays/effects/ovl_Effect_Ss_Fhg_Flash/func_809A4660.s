@@ -1,3 +1,9 @@
+.rdata
+glabel D_809A5580
+    .asciz "Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n"
+    .balign 4
+
+.text
 glabel func_809A4660
 /* 00000 809A4660 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 809A4664 3C0E809A */  lui     $t6, %hi(D_809A5088)       ## $t6 = 809A0000

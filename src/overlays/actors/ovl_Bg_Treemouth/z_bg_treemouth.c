@@ -225,7 +225,7 @@ void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    u16 alpha = 0x1F4;
+    u16 alpha = 500;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
@@ -234,7 +234,7 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
         if (gSaveContext.eventChkInf[0] & 0x80) {
-            alpha = 0x866;
+            alpha = 2150;
         }
     } else { // neeeded to match
     }
@@ -243,7 +243,7 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
         alpha = (globalCtx->unk_11D30[0] + 0x1F4);
     }
 
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x80, 0x80, 0x80, alpha * 0.1f);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 128, 128, 128, alpha * 0.1f);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_060009D0);
