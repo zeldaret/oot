@@ -15,6 +15,6 @@ typedef struct {
     /* 0x30 */ s16 life;
     /* 0x32 */ u16 drawFlags;
     /* 0x34 */ u8 updateMode;
-} EffectSsDustInitParams;
+} EffectSsDustInitParams; // size = 0x38
 
 #endif

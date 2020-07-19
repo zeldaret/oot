@@ -1,3 +1,17 @@
+.rdata
+glabel D_809A68B0
+    .asciz "../z_eff_ss_g_magma2.c"
+    .balign 4
+
+glabel D_809A68C8
+    .asciz "../z_eff_ss_g_magma2.c"
+    .balign 4
+
+glabel D_809A68E0
+    .asciz "../z_eff_ss_g_magma2.c"
+    .balign 4
+
+.text
 glabel func_809A6568
 /* 001C8 809A6568 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 001CC 809A656C AFBF001C */  sw      $ra, 0x001C($sp)           

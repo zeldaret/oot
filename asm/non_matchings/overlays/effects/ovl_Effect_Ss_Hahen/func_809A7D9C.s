@@ -1,3 +1,27 @@
+.rdata
+glabel D_809A805C
+    .asciz "../z_eff_hahen.c"
+    .balign 4
+
+glabel D_809A8070
+    .asciz "../z_eff_hahen.c"
+    .balign 4
+
+glabel D_809A8084
+    .asciz "../z_eff_hahen.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A80A4
+    .float 0.001
+
+glabel D_809A80A8
+    .float 0.01
+
+glabel D_809A80AC
+    .float 0.01
+
+.text
 glabel func_809A7D9C
 /* 003AC 809A7D9C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 003B0 809A7DA0 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -13,6 +13,14 @@
 
 #define HEAVYBLOCK_HIT_FLOOR (1 << 0)
 
+typedef enum {
+    /* 0x00 */ HEAVYBLOCK_UNBREAKABLE,
+    /* 0x01 */ HEAVYBLOCK_BREAKABLE,
+    /* 0x02 */ HEAVYBLOCK_BIG_PIECE,
+    /* 0x03 */ HEAVYBLOCK_SMALL_PIECE,
+    /* 0x04 */ HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE
+} HeavyBlockType;
+
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -102,7 +110,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     switch (thisx->params & 0xFF) {
-        case 2: // bigger broken piece
+        case HEAVYBLOCK_BIG_PIECE:
             thisx->draw = BgHeavyBlock_DrawPiece;
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 1.0f);
@@ -110,15 +118,15 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
             thisx->flags |= 0x10;
             this->unk_164.y = -50.0f;
             break;
-        case 3: // smaller broken piece
+        case HEAVYBLOCK_SMALL_PIECE:
             thisx->draw = BgHeavyBlock_DrawPiece;
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 2.0f);
-            this->timer = 0x78;
+            this->timer = 120;
             thisx->flags |= 0x10;
             this->unk_164.y = -20.0f;
             break;
-        case 1: // breaks on impact (light trial)
+        case HEAVYBLOCK_BREAKABLE:
             BgHeavyBlock_SetupDynapoly(this, globalCtx);
 
             if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
@@ -128,7 +136,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             this->actionFunc = BgHeavyBlock_Wait;
             break;
-        case 4: // if flag is set, double defense rock has been thrown. otherwise same as type 0 and default
+        case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
             BgHeavyBlock_SetupDynapoly(this, globalCtx);
 
             if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
@@ -143,7 +151,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             this->actionFunc = BgHeavyBlock_Wait;
             break;
-        case 0: // gets thrown and stays (fire trial)
+        case HEAVYBLOCK_UNBREAKABLE:
             BgHeavyBlock_SetupDynapoly(this, globalCtx);
             this->actionFunc = BgHeavyBlock_Wait;
             break;
@@ -159,9 +167,9 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHeavyBlock* this = THIS;
     switch (this->dyna.actor.params & 0xFF) {
-        case 2:
+        case HEAVYBLOCK_BIG_PIECE:
             break;
-        case 3:
+        case HEAVYBLOCK_SMALL_PIECE:
             break;
         default:
             DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -202,7 +210,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer > 0) {
-        this->timer -= 1;
+        this->timer--;
     } else {
         Actor_Kill(thisx);
     }
@@ -227,7 +235,7 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 po
     pos.y = posY;
     pos.z = posZ;
 
-    if ((dustParams & 1)) {
+    if (dustParams & 1) {
         // red dust, landed in fire
         primColor.r = 150;
         primColor.g = primColor.b = envColor.g = envColor.b = 0;
@@ -245,8 +253,8 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 po
     accel.x = 0.0f;
     accel.y = (dustParams & 8) ? 0.0f : 0.5f;
 
-    eye = globalCtx->cameraPtrs[globalCtx->activeCamera]->eye;
-    at = globalCtx->cameraPtrs[globalCtx->activeCamera]->at;
+    eye = ACTIVE_CAM->eye;
+    at = ACTIVE_CAM->at;
 
     scale = 1000;
     scaleStep = 160;
@@ -323,18 +331,18 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
-    // if attached A is set, start onepointdemo (cutscene)
+    // if attached A is set, start onepointdemo (cutscene) and quake
     if (func_8002F410(&this->dyna.actor, globalCtx)) {
         this->timer = 0;
 
         switch (this->dyna.actor.params & 0xFF) {
-            case 1:
+            case HEAVYBLOCK_BREAKABLE:
                 func_800800F8(globalCtx, 0xFB4, 0x10E, &this->dyna.actor, 0);
                 break;
-            case 0:
+            case HEAVYBLOCK_UNBREAKABLE:
                 func_800800F8(globalCtx, 0xFB5, 0xDC, &this->dyna.actor, 0);
                 break;
-            case 4:
+            case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 func_800800F8(globalCtx, 0xFB6, 0xD2, &this->dyna.actor, 0);
                 break;
         }
@@ -372,7 +380,7 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
                                (cosYaw * -70.0f) + (this->dyna.actor.posRot.pos.z + zOffset), 0.0f, -1.0f, 0.0f, 0xC);
     }
 
-    this->timer += 1;
+    this->timer++;
 
     func_8002DF54(globalCtx, player, 8);
 
@@ -400,7 +408,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
         func_800AA000(0.0f, 0xFF, 0x3C, 4);
 
         switch (this->dyna.actor.params & 0xFF) {
-            case 1:
+            case HEAVYBLOCK_BREAKABLE:
                 BgHeavyBlock_SpawnPieces(this, globalCtx);
                 Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
                 Actor_Kill(&this->dyna.actor);
@@ -417,7 +425,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
                 Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_ELECTRIC_EXPLOSION);
                 return;
-            case 4:
+            case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
 
                 quakeIndex = Quake_Add(ACTIVE_CAM, 3);
@@ -428,7 +436,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
                 this->actionFunc = BgHeavyBlock_Land;
                 Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
                 break;
-            case 0:
+            case HEAVYBLOCK_UNBREAKABLE:
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
 
                 quakeIndex = Quake_Add(ACTIVE_CAM, 3);
@@ -464,7 +472,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->dyna.actor);
         this->dyna.actor.initPosRot.pos = this->dyna.actor.posRot.pos;
         switch (this->dyna.actor.params & 0xFF) {
-            case 4:
+            case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 BgHeavyBlock_SpawnDust(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1678.0f,
                                        Math_Rand_ZeroFloat(100.0f) + 1286.0f, Math_Rand_CenteredFloat(30.0f) + 552.0f,
                                        0.0f, 0.0f, 0.0f, 0);
@@ -472,7 +480,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
                                        Math_Rand_ZeroFloat(80.0f) + 1269.0f, Math_Rand_CenteredFloat(30.0f) + 600.0f,
                                        0.0f, 0.0f, 0.0f, 0);
                 break;
-            case 0:
+            case HEAVYBLOCK_UNBREAKABLE:
                 BgHeavyBlock_SpawnDust(globalCtx, Math_Rand_CenteredFloat(100.0f) + -735.0f, 29.0f,
                                        Math_Rand_CenteredFloat(100.0f) + -3418.0f, 0.0f, 0.0f, 0.0f, 3);
                 break;
@@ -522,11 +530,11 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHeavyBlock_DrawPiece(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params & 0xFF) {
-        case 2:
+        case HEAVYBLOCK_BIG_PIECE:
             Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);
             Gfx_DrawDListOpa(globalCtx, D_060018A0);
             break;
-        case 3:
+        case HEAVYBLOCK_SMALL_PIECE:
             Matrix_Translate(45.0f, -280.0f, -5.0f, MTXMODE_APPLY);
             Gfx_DrawDListOpa(globalCtx, D_06001A30);
             break;

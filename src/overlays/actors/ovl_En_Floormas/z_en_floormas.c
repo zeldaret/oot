@@ -1074,7 +1074,6 @@ void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 static Color_RGBA8 sMergeColor = { 0x00, 0xFF, 0x00, 0x00 };
 
 void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    
     EnFloormas* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfx[4];

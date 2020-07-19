@@ -8,7 +8,10 @@ extern Color_RGBA8_n D_801158CC;
 extern Color_RGBA8_n D_801158D0;
 
 // Draw utility for some G effects
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80027F80.s")
+
+// EffectSsDust Spawn Functions
 
 void EffectSsDust_Spawn(GlobalContext* globalCtx, u16 drawFlags, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                         Color_RGBA8_n* primColor, Color_RGBA8_n* envColor, s16 scale, s16 scaleStep, s16 life,
@@ -291,6 +294,8 @@ void EffectSsFhgFlash_Spawn2(GlobalContext* globalCtx, Actor* arg1, Vec3f* pos, 
 // EffectSsKFire Spawn Functions
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029DBC.s")
+
+// EffectSsSolderSrchBall Spawn Functions
 
 void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4,
                                   s16* linkDetected) {

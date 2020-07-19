@@ -1,3 +1,9 @@
+.rdata
+glabel D_809A1550
+    .asciz "Effect_SS_Dd_disp_mode():mode_swが変です。\n"
+    .balign 4
+
+.text
 glabel func_809A0FE0
 /* 000000 809A0FE0 27BDFFC0 */  addiu $sp, $sp, -0x40
 /* 000004 809A0FE4 AFBF003C */  sw    $ra, 0x3c($sp)

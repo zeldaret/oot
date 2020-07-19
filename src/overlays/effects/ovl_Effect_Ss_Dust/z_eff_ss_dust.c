@@ -6,22 +6,6 @@
 
 #include "z_eff_ss_dust.h"
 
-u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void EffectSsDust_Unused(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
-
-EffectSsInit Effect_Ss_Dust_InitVars = {
-    EFFECT_SS_DUST,
-    EffectSsDust_Init,
-};
-
-static void* sUpdateFuncs[] = { EffectSsDust_Update, EffectSsDust_Unused };
-
-UNK_PTR D_809A2A50[] = {
-    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0
-};
-
 typedef enum {
     /* 0x00 */ SS_DUST_PRIM_R,
     /* 0x01 */ SS_DUST_PRIM_G,
@@ -31,12 +15,28 @@ typedef enum {
     /* 0x05 */ SS_DUST_ENV_G,
     /* 0x06 */ SS_DUST_ENV_B,
     /* 0x07 */ SS_DUST_ENV_A,
-    /* 0x08 */ SS_DUST_TEX_IDX, // this reg is also used to set specific colors in the unused update function
+    /* 0x08 */ SS_DUST_TEX_IDX, // this reg is also used to set specific colors in the fire update function
     /* 0x09 */ SS_DUST_SCALE,
     /* 0x0A */ SS_DUST_SCALE_STEP,
     /* 0x0B */ SS_DUST_DRAW_FLAGS,
     /* 0x0C */ SS_DUST_LIFE_START
 } EffectSsDustRegs;
+
+u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsBlast_UpdateFire(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+
+EffectSsInit Effect_Ss_Dust_InitVars = {
+    EFFECT_SS_DUST,
+    EffectSsDust_Init,
+};
+
+static void* sUpdateFuncs[] = { EffectSsDust_Update, EffectSsBlast_UpdateFire };
+
+UNK_PTR D_809A2A50[] = {
+    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0
+};
 
 extern Gfx D_04010050[];
 
@@ -152,7 +152,8 @@ void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->regs[SS_DUST_SCALE] += this->regs[SS_DUST_SCALE_STEP];
 }
 
-void EffectSsDust_Unused(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+// this update mode is unused in the original game
+void EffectSsBlast_UpdateFire(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
     this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
 
@@ -182,7 +183,7 @@ void EffectSsDust_Unused(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             this->regs[SS_DUST_ENV_B] = 0;
             break;
         case 3:
-            this->regs[SS_DUST_PRIM_R] = 0x32;
+            this->regs[SS_DUST_PRIM_R] = 50;
             this->regs[SS_DUST_ENV_R] = this->regs[SS_DUST_PRIM_G] = this->regs[SS_DUST_ENV_G] =
                 this->regs[SS_DUST_PRIM_B] = this->regs[SS_DUST_ENV_B] = 0;
             break;
