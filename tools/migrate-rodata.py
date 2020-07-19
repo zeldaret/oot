@@ -166,6 +166,7 @@ def modify_spec(filenames, identifier, delete):
     changed = False
     files = filenames.split(",")
     for filename in files:
+        eff_filename = filename.lower().replace("effect_", "eff_")
         if identifier == "code" and "    include \"build/data/" + filename + ".rodata.o\"" in lines:
             e = lines.index("    include \"build/data/" + filename + ".rodata.o\"")
             if delete:
@@ -173,12 +174,12 @@ def modify_spec(filenames, identifier, delete):
             else:
                lines[e] = "    //include \"build/data/" + filename + ".rodata.o\""
             changed = True
-        elif "    include \"build/data/overlays/" + identifier + "/z_" + filename.lower() + ".rodata.o\"" in lines:
-            e = lines.index("    include \"build/data/overlays/" + identifier + "/z_" + filename.lower() + ".rodata.o\"")
+        elif "    include \"build/data/overlays/" + identifier + "/z_" + eff_filename + ".rodata.o\"" in lines:
+            e = lines.index("    include \"build/data/overlays/" + identifier + "/z_" + eff_filename + ".rodata.o\"")
             if delete:
                 del lines[e]
             else:
-                lines[e] = "    //include \"build/data/overlays/" + identifier + "/z_" + filename.lower() + ".rodata.o\""
+                lines[e] = "    //include \"build/data/overlays/" + identifier + "/z_" + eff_filename + ".rodata.o\""
             changed = True
     if changed:
         modified = "\n".join(lines)
@@ -198,6 +199,7 @@ def process_file(filename, identifier, delete_rodata):
     rodata_path = "data" + sep + (sep if identifier=="code" else "overlays" + sep + identifier.lower() + sep + "z_") + filename.lower() + ".rodata.s"
     if filename == "player":
         folder_path = "asm" + sep + "non_matchings" + sep + "overlays" + sep + "actors" + sep + "ovl_player_actor" + sep
+    rodata_path = rodata_path.replace("effect_", "eff_")
     print("ASM at: " + folder_path)
     print("Data at: " + rodata_path)
     if not exists(folder_path):
@@ -291,14 +293,11 @@ Enter 'q' to the code or overlay question to quit.""")
 
 #run(False)
 #bigs = ["Boss_Ganon", "Boss_Ganondrof","En_Wf", "Door_Warp1",]
-ovls = ["En_Elf"]
+#ovls = ["En_Elf"]
+effects = [x[0] for x in os.walk("src/overlays/effects")][1:]
 
-for i, ovl in enumerate(ovls):
-    if i == 10:
-        break
-    process_files(ovl, "actors", "Delete", True)
-    command = "echo >> src/overlays/actors/ovl_" + ovls[i] + "/z_" + ovls[i].lower() + ".c"
-    if ovls[0] == "player":
-        command = "echo >> src/overlays/actors/ovl_player_actor/z_player.c"
-    os.system(command) # purpose of this is to "modify" each C file in order to prevent undefined symbol errors.
-                       # the new line will be removed by format.sh
+for i, ovl in enumerate(effects):
+    process_files(ovl.split("/")[-1][4:], "effects", "Delete", True)
+    # command = "echo >> src/overlays/effects/ovl_" + effects[i] + "/z_" + effects[i].lower() + ".c"
+    # os.system(command) # purpose of this is to "modify" each C file in order to prevent undefined symbol errors.
+    #                    # the new line will be removed by format.sh
