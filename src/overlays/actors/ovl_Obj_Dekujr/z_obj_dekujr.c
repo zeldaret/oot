@@ -93,7 +93,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx) {
         this->unk_19C = 2;
         this->unk_19B = 0;
     } else {
-        if (globalCtx->csCtx.frames == 0x15F) {
+        if (globalCtx->csCtx.frames == 351) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
         }
         csCmdNPCAction = globalCtx->csCtx.npcActions[1];
@@ -145,10 +145,9 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ObjDekujr* this = THIS;
     u32 frameCount;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[3];
+    Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 370);
     func_80093D18(globalCtx->state.gfxCtx);
@@ -156,7 +155,7 @@ void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 379),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_060030D0);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_060030D0);
 
     frameCount = globalCtx->state.frames;
     gSPSegment(
@@ -164,6 +163,6 @@ void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frameCount % 128, 0, 32, 32, 1, frameCount % 128, 0, 32, 32));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 399),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_060032D8);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_060032D8);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 409);
 }
