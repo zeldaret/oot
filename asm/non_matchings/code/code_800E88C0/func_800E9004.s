@@ -1,3 +1,22 @@
+.late_rodata
+glabel jtbl_801495F0
+    .word L800E9034
+    .word L800E9040
+    .word L800E9060
+    .word L800E9070
+    .word L800E91B0
+    .word L800E92A0
+    .word L800E91E8
+    .word L800E91E8
+    .word L800E9278
+
+glabel D_80149614
+    .float 32767
+
+glabel D_80149618
+    .float 1.0E-5
+
+.text
 glabel func_800E9004
 /* B601A4 800E9004 90830000 */  lbu   $v1, ($a0)
 /* B601A8 800E9008 00601025 */  move  $v0, $v1

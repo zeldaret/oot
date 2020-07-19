@@ -1,3 +1,21 @@
+.rdata
+glabel D_80144B7C
+    .asciz "this->fbuf_save"
+    .balign 4
+
+glabel D_80144B8C
+    .asciz "../PreRender.c"
+    .balign 4
+
+glabel D_80144B9C
+    .asciz "this->fbuf"
+    .balign 4
+
+glabel D_80144BA8
+    .asciz "../PreRender.c"
+    .balign 4
+
+.text
 glabel func_800C1F20
 /* B390C0 800C1F20 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B390C4 800C1F24 AFB00018 */  sw    $s0, 0x18($sp)

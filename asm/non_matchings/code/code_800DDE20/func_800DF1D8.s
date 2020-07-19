@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_801493F8
+    .float 262159
+
+.text
 glabel func_800DF1D8
 /* B56378 800DF1D8 3C018015 */  lui   $at, %hi(D_801493F8)
 /* B5637C 800DF1DC C42093F8 */  lwc1  $f0, %lo(D_801493F8)($at)

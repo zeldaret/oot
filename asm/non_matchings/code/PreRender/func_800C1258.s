@@ -1,3 +1,29 @@
+.rdata
+glabel D_80144A68
+    .asciz "this"
+    .balign 4
+
+glabel D_80144A70
+    .asciz "../PreRender.c"
+    .balign 4
+
+glabel D_80144A80
+    .asciz "glistpp"
+    .balign 4
+
+glabel D_80144A88
+    .asciz "../PreRender.c"
+    .balign 4
+
+glabel D_80144A98
+    .asciz "glistp"
+    .balign 4
+
+glabel D_80144AA0
+    .asciz "../PreRender.c"
+    .balign 4
+
+.text
 glabel func_800C1258
 /* B383F8 800C1258 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B383FC 800C125C AFB00018 */  sw    $s0, 0x18($sp)

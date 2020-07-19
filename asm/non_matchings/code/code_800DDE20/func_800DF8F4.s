@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_801493FC
+    .word L800DFB54
+    .word L800DFB18
+    .word L800DFAB0
+    .word L800DF9DC
+    .word L800DF954
+
+.text
 glabel func_800DF8F4
 /* B56A94 800DF8F4 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B56A98 800DF8F8 AFB10018 */  sw    $s1, 0x18($sp)

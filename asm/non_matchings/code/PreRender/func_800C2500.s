@@ -1,3 +1,9 @@
+.rdata
+glabel D_80144C20
+    .asciz "Error, should not be in here \n"
+    .balign 4
+
+.text
 glabel func_800C2500
 /* B396A0 800C2500 27BDFE78 */  addiu $sp, $sp, -0x188
 /* B396A4 800C2504 AFB60030 */  sw    $s6, 0x30($sp)

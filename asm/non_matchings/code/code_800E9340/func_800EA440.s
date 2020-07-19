@@ -1,3 +1,15 @@
+.late_rodata
+glabel jtbl_80149698
+    .word L800EA728
+    .word L800EA734
+    .word L800EA728
+    .word L800EA734
+    .word L800EA728
+
+glabel D_801496AC
+    .float 32766
+
+.text
 glabel func_800EA440
 /* B615E0 800EA440 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B615E4 800EA444 AFBF0014 */  sw    $ra, 0x14($sp)

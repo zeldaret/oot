@@ -1,3 +1,25 @@
+.late_rodata
+glabel D_80149658
+    .float 16129
+
+glabel jtbl_8014965C
+    .word L800EA180
+    .word L800EA1C0
+    .word L800EA22C
+    .word L800EA1E8
+    .word L800EA1E8
+    .word L800EA23C
+    .word L800EA2C0
+    .word L800EA340
+    .word L800EA1C0
+    .word L800EA180
+    .word L800EA348
+    .word L800EA370
+    .word L800EA380
+    .word L800EA390
+    .word L800EA360
+
+.text
 glabel func_800EA0C0
 /* B61260 800EA0C0 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* B61264 800EA0C4 AFBF0034 */  sw    $ra, 0x34($sp)

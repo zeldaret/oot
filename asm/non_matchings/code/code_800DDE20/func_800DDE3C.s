@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_801493F0
+    .float 0.33
+
+glabel D_801493F4
+    .float 0.66
+
+.text
 glabel func_800DDE3C
 /* B54FDC 800DDE3C 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B54FE0 800DDE40 3C013E80 */  li    $at, 0x3E800000 # 0.000000

@@ -1,3 +1,9 @@
+.rdata
+glabel D_80144C40
+    .asciz "red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n"
+    .balign 4
+
+.text
 glabel func_800C2FE4
 /* B3A184 800C2FE4 27BDFF50 */  addiu $sp, $sp, -0xb0
 /* B3A188 800C2FE8 AFBF0074 */  sw    $ra, 0x74($sp)

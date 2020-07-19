@@ -1,3 +1,13 @@
+.rdata
+glabel D_80144BB8
+    .asciz "this->cvg_save"
+    .balign 4
+
+glabel D_80144BC8
+    .asciz "../PreRender.c"
+    .balign 4
+
+.text
 glabel func_800C20B4
 /* B39254 800C20B4 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B39258 800C20B8 AFBF001C */  sw    $ra, 0x1c($sp)
