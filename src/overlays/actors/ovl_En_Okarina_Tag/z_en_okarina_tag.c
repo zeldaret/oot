@@ -79,35 +79,32 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 当り？\t\t ☆☆☆☆☆ %d\n" VT_RST, this->unk_158);
     osSyncPrintf("\n\n");
 
-    if (this->switchFlag >= 0) {
-        if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
-            Actor_Kill(&this->actor);
-            return;
-        }
-    }
-
-    switch (this->unk_150) {
-        case 7:
-            this->actionFunc = func_80ABEF2C;
-            break;
-        case 2:
-            if (LINK_IS_ADULT) {
+    if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
+        Actor_Kill(&this->actor);
+    } else {
+        switch (this->unk_150) {
+            case 7:
+                this->actionFunc = func_80ABEF2C;
+                break;
+            case 2:
+                if (LINK_IS_ADULT) {
+                    Actor_Kill(&this->actor);
+                    break;
+                }
+            case 1:
+            case 4:
+            case 6:
+                this->actionFunc = func_80ABF28C;
+                break;
+            case 5:
+                // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
+                this->actor.textId = 0x5021;
+                this->actionFunc = func_80ABF708;
+                break;
+            default:
                 Actor_Kill(&this->actor);
                 break;
-            }
-        case 1:
-        case 4:
-        case 6:
-            this->actionFunc = func_80ABF28C;
-            break;
-        case 5:
-            // This poem is dedicated to the memory of the dearly departed members of the Royal Family.
-            this->actor.textId = 0x5021;
-            this->actionFunc = func_80ABF708;
-            break;
-        default:
-            Actor_Kill(&this->actor);
-            break;
+        }
     }
 }
 
@@ -117,21 +114,17 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     this->unk_15A++;
-    if (this->switchFlag >= 0) {
-        if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
-            this->actor.flags &= ~1;
-            return;
-        }
-    }
-    if ((this->unk_152 != 6) || (gSaveContext.unk_F3C[0x389] != 0)) {
-        if ((s32)(player->stateFlags2 << 7) < 0) {
-            // "North! ! ! ! !"
-            osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistFromLink);
-        }
-        if ((this->actor.xzDistFromLink < (90.0f + this->unk_15C)) &&
-            (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
-            {
-                if ((s32)(player->stateFlags2 << 6) < 0) {
+    if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
+        this->actor.flags &= ~1;
+    } else {
+        if ((this->unk_152 != 6) || (gSaveContext.unk_12C5 != 0)) {
+            if (player->stateFlags2 & 0x1000000) {
+                // "North! ! ! ! !"
+                osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistFromLink);
+            }
+            if ((this->actor.xzDistFromLink < (90.0f + this->unk_15C)) &&
+                (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
+                if (player->stateFlags2 & 0x2000000) {
                     unk_152 = this->unk_152;
                     if (unk_152 == 6) {
                         unk_152 = 0xA;
@@ -142,7 +135,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 } else if ((this->actor.xzDistFromLink < (50.0f + this->unk_15C) &&
                             ((fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 40.0f)))) {
                     this->unk_15A = 0;
-                    *(EnOkarinaTag**)&player->unk_6A8 = this;
+                    player->unk_6A8 = &this->actor;
                 }
             }
         }
@@ -196,14 +189,14 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->unk_15A++;
-    if (((this->unk_152 != 6) || (gSaveContext.unk_F3C[0x389] != 0))) {
-        if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
+    if ((this->unk_152 != 6) || (gSaveContext.unk_12C5 != 0)) {
+        if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actor.flags &= ~1;
-        } else if (((this->unk_150 != 4) || ((gSaveContext.eventChkInf[4] & 0x800) == 0)) &&
+        } else if (((this->unk_150 != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
                    ((this->unk_150 != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
                    (this->actor.xzDistFromLink < (90.0f + this->unk_15C)) &&
                    (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
-            if ((s32)(player->stateFlags2 << 7) < 0) {
+            if (player->stateFlags2 & 0x1000000) {
                 switch (this->unk_150) {
                     case 1:
                         func_8010BD58(globalCtx, 0x24);
@@ -240,49 +233,47 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
 
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         this->actionFunc = func_80ABF28C;
-    } else {
-        if (globalCtx->msgCtx.unk_E3EE == 3) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
-            if (this->switchFlag >= 0) {
+    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        if (this->switchFlag >= 0) {
+            Flags_SetSwitch(globalCtx, this->switchFlag);
+        }
+        switch (this->unk_150) {
+            case 1:
                 Flags_SetSwitch(globalCtx, this->switchFlag);
+                gSaveContext.eventChkInf[3] |= 0x200;
+                break;
+            case 2:
+                globalCtx->csCtx.segment = D_80ABF9D0;
+                gSaveContext.cutsceneTrigger = 1;
+                func_800F574C(1.18921f, 0x5A);
+                break;
+            case 4:
+                globalCtx->csCtx.segment = D_80ABFB40;
+                gSaveContext.cutsceneTrigger = 1;
+                break;
+            case 6:
+                globalCtx->csCtx.segment =
+                    (LINK_IS_ADULT) ? SEGMENTED_TO_VIRTUAL(&D_02003C80) : SEGMENTED_TO_VIRTUAL(&D_02005020);
+                gSaveContext.cutsceneTrigger = 1;
+                gSaveContext.eventChkInf[1] |= 0x2000;
+                func_80078884(NA_SE_SY_CORRECT_CHIME);
+                break;
+            default:
+                break;
+        }
+        globalCtx->msgCtx.unk_E3EE = 4;
+        this->actionFunc = func_80ABF28C;
+    } else {
+        if (globalCtx->msgCtx.unk_E3EE >= 5) {
+            if (globalCtx->msgCtx.unk_E3EE < 0xE) {
+                globalCtx->msgCtx.unk_E3EE = 4;
+                this->actionFunc = func_80ABF28C;
+                return;
             }
-            switch (this->unk_150) {
-                case 1:
-                    Flags_SetSwitch(globalCtx, this->switchFlag);
-                    gSaveContext.eventChkInf[3] |= 0x200;
-                    break;
-                case 2:
-                    globalCtx->csCtx.segment = D_80ABF9D0;
-                    gSaveContext.cutsceneTrigger = 1;
-                    func_800F574C(1.18921f, 0x5A);
-                    break;
-                case 4:
-                    globalCtx->csCtx.segment = D_80ABFB40;
-                    gSaveContext.cutsceneTrigger = 1;
-                    break;
-                case 6:
-                    globalCtx->csCtx.segment =
-                        (LINK_IS_ADULT) ? SEGMENTED_TO_VIRTUAL(&D_02003C80) : SEGMENTED_TO_VIRTUAL(&D_02005020);
-                    gSaveContext.cutsceneTrigger = 1;
-                    gSaveContext.eventChkInf[1] |= 0x2000;
-                    func_80078884(NA_SE_SY_CORRECT_CHIME);
-                    break;
-                default:
-                    break;
-            }
-            globalCtx->msgCtx.unk_E3EE = 4;
-            this->actionFunc = func_80ABF28C;
-        } else {
-            if (globalCtx->msgCtx.unk_E3EE >= 5) {
-                if (globalCtx->msgCtx.unk_E3EE < 0xE) {
-                    globalCtx->msgCtx.unk_E3EE = 4;
-                    this->actionFunc = func_80ABF28C;
-                    return;
-                }
-            }
-            if (globalCtx->msgCtx.unk_E3EE == 1) {
-                player->stateFlags2 |= 0x800000;
-            }
+        }
+        if (globalCtx->msgCtx.unk_E3EE == 1) {
+            player->stateFlags2 |= 0x800000;
         }
     }
 }
@@ -297,7 +288,7 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
         yawDiff = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
         this->unk_15A++;
         if (!(this->actor.xzDistFromLink > 120.0f)) {
-            if ((gBitFlags[15] & gSaveContext.questItems)) {
+            if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
                 // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;
             }
@@ -316,7 +307,7 @@ void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        if (!(gBitFlags[15] & gSaveContext.questItems)) {
+        if (!CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_020024A0);
             gSaveContext.cutsceneTrigger = 1;
         }
@@ -334,7 +325,6 @@ void EnOkarinaTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                        this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
                                        1.0f, 1.0f, 1.0f, 120, 120, 120, 255, 4, globalCtx->state.gfxCtx);
-                return;
             }
         } else {
             DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
