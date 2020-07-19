@@ -1,3 +1,26 @@
+.late_rodata
+glabel jtbl_8014A584
+    .word L800F3694
+    .word L800F3694
+    .word L800F36AC
+    .word L800F36AC
+    .word L800F36C0
+    .word L800F36C0
+    .word L800F3694
+
+glabel D_8014A5A0
+    .double 1.0293
+
+glabel D_8014A5A8
+    .float 10000
+
+glabel D_8014A5AC
+    .float 0.2
+
+glabel D_8014A5B0
+    .float 0.2
+
+.text
 glabel func_800F35EC
 /* B6A78C 800F35EC AFA40000 */  sw    $a0, ($sp)
 /* B6A790 800F35F0 308400FF */  andi  $a0, $a0, 0xff

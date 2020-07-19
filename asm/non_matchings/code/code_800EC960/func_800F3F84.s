@@ -1,3 +1,20 @@
+.late_rodata
+glabel D_8014A5D8
+    .float 1.1
+
+glabel D_8014A5DC
+    .float 0.22500002
+
+glabel D_8014A5E0
+    .float 0.77499997
+
+glabel D_8014A5E4
+    .float 0.2
+
+glabel D_8014A5E8
+    .float 0.89999997
+
+.text
 glabel func_800F3F84
 /* B6B124 800F3F84 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* B6B128 800F3F88 44810000 */  mtc1  $at, $f0

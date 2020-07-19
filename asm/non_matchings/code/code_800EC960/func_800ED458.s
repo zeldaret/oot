@@ -1,3 +1,25 @@
+.rdata
+glabel D_80149CB0
+    .asciz "Presss NA_KEY_D4 %08x\n"
+    .balign 4
+
+glabel D_80149CC8
+    .asciz "Presss NA_KEY_F4 %08x\n"
+    .balign 4
+
+glabel D_80149CE0
+    .asciz "Presss NA_KEY_A4 %08x\n"
+    .balign 4
+
+glabel D_80149CF8
+    .asciz "Presss NA_KEY_B4 %08x\n"
+    .balign 4
+
+glabel D_80149D10
+    .asciz "Presss NA_KEY_D5 %08x\n"
+    .balign 4
+
+.text
 glabel func_800ED458
 /* B645F8 800ED458 3C0E8013 */  lui   $t6, %hi(D_80130F3C) # $t6, 0x8013
 /* B645FC 800ED45C 8DCE0F3C */  lw    $t6, %lo(D_80130F3C)($t6)

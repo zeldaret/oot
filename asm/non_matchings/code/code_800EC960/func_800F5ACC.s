@@ -1,3 +1,9 @@
+.rdata
+glabel D_8014A460
+    .asciz "Middle Boss BGM Start not stack \n"
+    .balign 4
+
+.text
 glabel func_800F5ACC
 /* B6CC6C 800F5ACC 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B6CC70 800F5AD0 AFBF0014 */  sw    $ra, 0x14($sp)

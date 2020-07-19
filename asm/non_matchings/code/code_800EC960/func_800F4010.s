@@ -1,3 +1,18 @@
+.late_rodata
+glabel D_8014A5EC
+    .float 0.3
+
+glabel D_8014A5F0
+    .float 1.1
+
+    .word 0 # forced padding
+glabel D_8014A5F8
+    .double 0.7
+
+glabel D_8014A600
+    .double 0.3
+
+.text
 glabel func_800F4010
 /* B6B1B0 800F4010 44866000 */  mtc1  $a2, $f12
 /* B6B1B4 800F4014 27BDFFD8 */  addiu $sp, $sp, -0x28

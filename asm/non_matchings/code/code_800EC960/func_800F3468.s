@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_8014A57C
+    .float 3.3
+
+glabel D_8014A580
+    .float 5.0769234
+
+.text
 glabel func_800F3468
 /* B6A608 800F3468 44800000 */  mtc1  $zero, $f0
 /* B6A60C 800F346C 27BDFFF0 */  addiu $sp, $sp, -0x10

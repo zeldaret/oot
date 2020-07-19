@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_8014A610
+    .float 0.1
+
+glabel D_8014A614
+    .float 0.89999997
+
+glabel D_8014A618
+    .float 0.1
+
+.text
 glabel func_800F4E30
 /* B6BFD0 800F4E30 27BDFFC0 */  addiu $sp, $sp, -0x40
 /* B6BFD4 800F4E34 3C038013 */  lui   $v1, %hi(D_8013064C)

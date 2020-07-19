@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8014A5B4
+    .float 1923.077
+
+.text
 glabel func_800F37B8
 /* B6A958 800F37B8 AFA60008 */  sw    $a2, 8($sp)
 /* B6A95C 800F37BC 8CAE0008 */  lw    $t6, 8($a1)

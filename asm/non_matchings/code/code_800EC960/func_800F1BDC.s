@@ -1,3 +1,28 @@
+.late_rodata
+glabel jtbl_8014A4D4
+    .word L800F1E70
+    .word L800F1E70
+    .word L800F1EA4
+    .word L800F1EA4
+    .word L800F1F00
+    .word L800F1F2C
+    .word L800F1F64
+    .word L800F1FE4
+    .word L800F2048
+    .word L800F2048
+    .word L800F2010
+
+glabel jtbl_8014A500
+    .word L800F2078
+    .word L800F2078
+    .word L800F20C0
+    .word L800F20C0
+    .word L800F20D8
+    .word L800F20D8
+    .word L800F20D8
+    .word L800F20A0
+
+.text
 glabel func_800F1BDC
 /* B68D7C 800F1BDC 3C028017 */  lui   $v0, %hi(D_8016BAB0) # $v0, 0x8017
 /* B68D80 800F1BE0 8C42BAB0 */  lw    $v0, %lo(D_8016BAB0)($v0)

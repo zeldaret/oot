@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8014A578
+    .float 2500
+
+.text
 glabel func_800F32F0
 /* B6A490 800F32F0 AFA40000 */  sw    $a0, ($sp)
 /* B6A494 800F32F4 308400FF */  andi  $a0, $a0, 0xff

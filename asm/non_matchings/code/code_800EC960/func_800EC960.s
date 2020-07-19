@@ -1,3 +1,13 @@
+.rdata
+glabel D_80149C60
+    .asciz "AUDIO : Ocarina Control Assign Normal\n"
+    .balign 4
+
+glabel D_80149C88
+    .asciz "AUDIO : Ocarina Control Assign Custom\n"
+    .balign 4
+
+.text
 glabel func_800EC960
 /* B63B00 800EC960 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B63B04 800EC964 AFA40018 */  sw    $a0, 0x18($sp)

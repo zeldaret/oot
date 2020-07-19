@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8014A5B8
+    .float 625
+
+.text
 glabel func_800F3990
 /* B6AB30 800F3990 44802000 */  mtc1  $zero, $f4
 /* B6AB34 800F3994 AFA50004 */  sw    $a1, 4($sp)
