@@ -60,7 +60,7 @@ Vec3f D_809D254C = { -8000.0f, 10000.0f, 2500.0f };
 Color_RGBA8 D_809D2558 = { 255, 255, 255, 255 };
 Color_RGBA8 D_809D255C = { 200, 255, 255, 255 };
 
-UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0, 0x00000000 };
+UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
 
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
@@ -73,7 +73,7 @@ void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->scale.x = thisx->scale.z = 0.01f;
     thisx->scale.y = 0.03f;
 
-    thisx->posRot.pos.y = (f32)thisx->posRot.pos.y - 100.0f;
+    thisx->posRot.pos.y = thisx->posRot.pos.y - 100.0f;
     for (i = 0; i < 4; i++) {
         this->unk_184[i] = sp48;
         if (i == 0) {
@@ -186,24 +186,24 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
 // Issue with Gfx_TwoTexScroll I think
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
-    void* memory = Graph_Alloc(globalCtx->state.gfxCtx, 0x100U);
+    void* matrices = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
     f32 tmpf1;
     f32 tmpf2;
 
     {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
-        Mtx* matrix = (Mtx*)memory;
+        Mtx* matrix = &matrices[0];
         s16 i;
 
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 464);
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, matrix);
+        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, matrices);
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
         gSPSegment(gfxCtx->polyOpa.p++, 0x09,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x10, 0x10, 1, 0,
-                                    (-globalCtx->gameplayFrames * 10) & 0x7F, 0x20, 0x20));
+                                    (-globalCtx->gameplayFrames * 10) % 128, 0x20, 0x20));
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bx.c", 478),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
