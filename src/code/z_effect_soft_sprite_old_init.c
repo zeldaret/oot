@@ -14,10 +14,10 @@ extern Color_RGBA8 D_801158DC;
 extern Color_RGBA8 D_801158E0;
 extern Color_RGBA8 D_801158E4;
 extern Color_RGBA8 D_801158E8;
-extern Color_RGBA8 D_801158F4;
-extern Color_RGBA8 D_801158F8;
 extern Color_RGBA8 D_801158EC;
 extern Color_RGBA8 D_801158F0;
+extern Color_RGBA8 D_801158F4;
+extern Color_RGBA8 D_801158F8;
 
 // sEmptyVec
 extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a specific field isnt needed
