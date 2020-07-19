@@ -3173,56 +3173,56 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
     return 1;
 }
 
-void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
-                   s16 arg7, u8 arg8) {
-    Vec3f sp9C;
-    Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp84 = { 0.0f, 0.3f, 0.0f };
+void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
+                   s16 scaleStep, u8 arg8) {
+    Vec3f pos;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.3f, 0.0f };
     f32 var;
     s32 i;
 
     var = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
-    sp9C.y = actor->groundY;
-    sp84.y += (Math_Rand_ZeroOne() - 0.5f) * 0.2f;
+    pos.y = actor->groundY;
+    accel.y += (Math_Rand_ZeroOne() - 0.5f) * 0.2f;
 
     for (i = arg4; i >= 0; i--) {
-        sp9C.x = (func_800CA720(var) * arg3) + arg2->x;
-        sp9C.z = (func_800CA774(var) * arg3) + arg2->z;
-        sp84.x = (Math_Rand_ZeroOne() - 0.5f) * arg5;
-        sp84.z = (Math_Rand_ZeroOne() - 0.5f) * arg5;
+        pos.x = (func_800CA720(var) * arg3) + arg2->x;
+        pos.z = (func_800CA774(var) * arg3) + arg2->z;
+        accel.x = (Math_Rand_ZeroOne() - 0.5f) * arg5;
+        accel.z = (Math_Rand_ZeroOne() - 0.5f) * arg5;
 
-        if (arg6 == 0) {
-            func_8002857C(globalCtx, &sp9C, &sp90, &sp84);
+        if (scale == 0) {
+            func_8002857C(globalCtx, &pos, &velocity, &accel);
         } else if (arg8 != 0) {
-            func_800286CC(globalCtx, &sp9C, &sp90, &sp84, arg6, arg7);
+            func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         } else {
-            func_8002865C(globalCtx, &sp9C, &sp90, &sp84, arg6, arg7);
+            func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         }
 
         var += 6.28f / (arg4 + 1.0f);
     }
 }
 
-void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6) {
-    Vec3f sp94;
-    Vec3f sp88 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp7C = { 0.0f, 0.3f, 0.0f };
-    s16 var;
+void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 scaleStep, u8 arg6) {
+    Vec3f pos;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.3f, 0.0f };
+    s16 scale;
     u32 var2;
     s32 i;
 
     for (i = arg3; i >= 0; i--) {
-        sp94.x = arg1->x + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
-        sp94.y = arg1->y + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
-        sp94.z = arg1->z + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
+        pos.x = arg1->x + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
+        pos.y = arg1->y + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
+        pos.z = arg1->z + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
 
-        var = (s16)((Math_Rand_ZeroOne() * arg4) * 0.2f) + arg4;
+        scale = (s16)((Math_Rand_ZeroOne() * arg4) * 0.2f) + arg4;
         var2 = arg6;
 
         if (var2 != 0) {
-            func_800286CC(globalCtx, &sp94, &sp88, &sp7C, var, arg5);
+            func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         } else {
-            func_8002865C(globalCtx, &sp94, &sp88, &sp7C, var, arg5);
+            func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         }
     }
 }
