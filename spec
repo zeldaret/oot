@@ -838,8 +838,7 @@ endseg
 beginseg
     name "ovl_Bg_Heavy_Block"
     include "build/src/overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.o"
-    include "build/data/overlays/actors/z_bg_heavy_block.data.o"
-    include "build/data/overlays/actors/z_bg_heavy_block.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Heavy_Block/ovl_Bg_Heavy_Block_reloc.o"
 endseg
 
 beginseg
@@ -1804,8 +1803,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Dust"
     include "build/src/overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.o"
-    include "build/data/overlays/effects/z_eff_ss_dust.data.o"
-    include "build/data/overlays/effects/z_eff_ss_dust.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Dust/ovl_Effect_Ss_Dust_reloc.o"
 endseg
 
 beginseg
