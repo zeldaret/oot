@@ -28,7 +28,7 @@ void EffectSsDust_Spawn(GlobalContext* globalCtx, u16 drawFlags, Vec3f* pos, Vec
     initParams.scaleStep = scaleStep;
     initParams.life = life;
     initParams.updateMode = updateMode;
-    EffectSs_Spawn(globalCtx, 0, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_DUST, 128, &initParams);
 }
 
 void func_8002829C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
