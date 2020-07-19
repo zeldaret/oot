@@ -24,9 +24,7 @@ typedef struct EnSyatekiNiw {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTbl[16];
-    ///* 0x0196 */ char unk_196[0x5A];
     /* 0x01F0 */ Vec3s unk_1F0[16];
-    ///* 0x01F6 */ char unk_1F6[0x5A];
     /* 0x0250 */ EnSyatekiNiwActionFunc actionFunc;
     /* 0x0254 */ s16 unk_254;
     /* 0x0256 */ s16 unk_256;

@@ -625,30 +625,26 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Niw/EnSyatekiNiw_Update.s")
 #endif
 
-#ifdef NON_MATCHING
 s32 func_80B12FE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnSyatekiNiw* this = THIS;
     // D_80B136D0
     Vec3f sp0 = D_80B136D0;
 
     if (limbIndex == 13) {
-        rot->y += (s32)this->unk_2BC.x;
+        rot->y += (s16)this->unk_2BC.x;
     }
     if (limbIndex == 11) {
-        rot->x += (s32)this->unk_2B0.z;
-        rot->y += (s32)this->unk_2B0.y;
-        rot->z += (s32)this->unk_2B0.x;
+        rot->x += (s16)this->unk_2B0.z;
+        rot->y += (s16)this->unk_2B0.y;
+        rot->z += (s16)this->unk_2B0.x;
     }
     if (limbIndex == 7) {
-        rot->x += (s32)this->unk_2A4.z;
-        rot->y += (s32)this->unk_2A4.y;
-        rot->z += (s32)this->unk_2A4.x;
+        rot->x += (s16)this->unk_2A4.z;
+        rot->y += (s16)this->unk_2A4.y;
+        rot->z += (s16)this->unk_2A4.x;
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Niw/func_80B12FE0.s")
-#endif
 
 void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiNiw* this = THIS;
