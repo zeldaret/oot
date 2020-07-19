@@ -39,7 +39,7 @@ u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->pos.y += 5.0f;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->unk_38 = SEGMENTED_TO_VIRTUAL(D_0401A0B0);
+    this->displayList = SEGMENTED_TO_VIRTUAL(D_0401A0B0);
     this->life = initParams->life;
     this->draw = EffectSsBlast_Draw;
     this->update = EffectSsBlast_Update;
@@ -81,7 +81,7 @@ void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, this->unk_38);
+    gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
     Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_blast.c", 204);
 }
 

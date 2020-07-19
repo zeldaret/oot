@@ -35,7 +35,7 @@ u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->unk_38 = SEGMENTED_TO_VIRTUAL(D_0400BF80);
+    this->displayList = SEGMENTED_TO_VIRTUAL(D_0400BF80);
     this->life = 20;
     this->draw = EffectSsBomb_Draw;
     this->update = EffectSsBomb_Update;
@@ -82,7 +82,7 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         color = this->life * 12.75f;
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, color, color, color, color);
         gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->unk_38);
+        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
         gDPPipeSync(gfxCtx->polyXlu.p++);
     }
 

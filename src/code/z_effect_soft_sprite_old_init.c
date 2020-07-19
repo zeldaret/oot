@@ -83,7 +83,7 @@ void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, V
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
-    EffectSs_Spawn(globalCtx, 2, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB, 128, &initParams);
 }
 
 // EffectSsBomb2 Spawn Functions
@@ -105,7 +105,7 @@ void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     initParams.radiusStep = radiusStep;
     initParams.radiusStepDecr = radiusStepDecr;
     initParams.life = life;
-    EffectSs_Spawn(globalCtx, 4, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BLAST, 128, &initParams);
 }
 
 void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
@@ -137,7 +137,7 @@ void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
     initParams.updateMode = 0;
-    EffectSs_Spawn(globalCtx, 5, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_SPK, 128, &initParams);
 }
 
 // unused
@@ -154,7 +154,7 @@ void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
     initParams.updateMode = 1;
-    EffectSs_Spawn(globalCtx, 5, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_SPK, 128, &initParams);
 }
 
 void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {

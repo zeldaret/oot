@@ -47,7 +47,7 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->unk_38 = SEGMENTED_TO_VIRTUAL(&D_04025550);
+    this->displayList = SEGMENTED_TO_VIRTUAL(&D_04025550);
 
     if (initParams->updateMode == 0) {
         this->life = 10;
@@ -111,7 +111,7 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
         gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_G_SPK_ENV_R], this->regs[SS_G_SPK_ENV_G],
                        this->regs[SS_G_SPK_ENV_B], this->regs[SS_G_SPK_ENV_A]);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->unk_38);
+        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
     }
     if (1) {}
     if (1) {}
