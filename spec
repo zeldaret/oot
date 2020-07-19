@@ -832,8 +832,7 @@ endseg
 beginseg
     name "ovl_Bg_Heavy_Block"
     include "build/src/overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.o"
-    include "build/data/overlays/actors/z_bg_heavy_block.data.o"
-    include "build/data/overlays/actors/z_bg_heavy_block.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Heavy_Block/ovl_Bg_Heavy_Block_reloc.o"
 endseg
 
 beginseg
@@ -1675,8 +1674,7 @@ endseg
 beginseg
     name "ovl_Door_Gerudo"
     include "build/src/overlays/actors/ovl_Door_Gerudo/z_door_gerudo.o"
-    include "build/data/overlays/actors/z_door_gerudo.data.o"
-    include "build/data/overlays/actors/z_door_gerudo.reloc.o"
+    include "build/src/overlays/actors/ovl_Door_Gerudo/ovl_Door_Gerudo_reloc.o"
 endseg
 
 beginseg
@@ -1794,8 +1792,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Dust"
     include "build/src/overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.o"
-    include "build/data/overlays/effects/z_eff_ss_dust.data.o"
-    include "build/data/overlays/effects/z_eff_ss_dust.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Dust/ovl_Effect_Ss_Dust_reloc.o"
 endseg
 
 beginseg
@@ -2089,8 +2086,7 @@ endseg
 beginseg
     name "ovl_En_Bom"
     include "build/src/overlays/actors/ovl_En_Bom/z_en_bom.o"
-    include "build/data/overlays/actors/z_en_bom.data.o"
-    include "build/data/overlays/actors/z_en_bom.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bom/ovl_En_Bom_reloc.o"
 endseg
 
 beginseg
@@ -2117,8 +2113,11 @@ endseg
 beginseg
     name "ovl_En_Bombf"
     include "build/src/overlays/actors/ovl_En_Bombf/z_en_bombf.o"
-    include "build/data/overlays/actors/z_en_bombf.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Bombf/ovl_En_Bombf_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_bombf.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3498,8 +3497,7 @@ endseg
 beginseg
     name "ovl_Item_B_Heart"
     include "build/src/overlays/actors/ovl_Item_B_Heart/z_item_b_heart.o"
-    include "build/data/overlays/actors/z_item_b_heart.data.o"
-    include "build/data/overlays/actors/z_item_b_heart.reloc.o"
+    include "build/src/overlays/actors/ovl_Item_B_Heart/ovl_Item_B_Heart_reloc.o"
 endseg
 
 beginseg
