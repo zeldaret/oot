@@ -363,10 +363,10 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     ShrinkWindow_Init();
     TransitionFade_Init(&globalCtx->transitionFade);
     TransitionFade_SetType(&globalCtx->transitionFade, 3);
-    TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+    TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&globalCtx->transitionFade);
     VisMono_Init(&D_80161498);
-    D_801614B0.a = 0x00;
+    D_801614B0.a = 0;
     Flags_UnsetAllEnv(globalCtx);
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
@@ -542,32 +542,27 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         (globalCtx->transitionCtx.transitionType == 7) ||
                         (globalCtx->transitionCtx.transitionType == 13) ||
                         (globalCtx->transitionCtx.transitionType == 17)) {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(160, 160, 160, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+                                                                 RGBA8(160, 160, 160, 255));
                         }
                     } else if (globalCtx->transitionCtx.transitionType == 18) {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0x8C, 0x8C, 0x64, 0xFF));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(140, 140, 100, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0x8C, 0x8C, 0x64, 0xFF));
+                                                                 RGBA8(140, 140, 100, 255));
                         }
                     } else if (globalCtx->transitionCtx.transitionType == 19) {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0x46, 0x64, 0x6E, 0xFF));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(70, 100, 110, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0x46, 0x64, 0x6E, 0xFF));
+                                                                 RGBA8(70, 100, 110, 255));
                         }
                     } else {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0x00, 0x00, 0x00, 0x00));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(0, 0, 0, 0));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
-                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0x00, 0x00, 0x00, 0x00));
+                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data, RGBA8(0, 0, 0, 0));
                         }
                     }
 
@@ -1149,7 +1144,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             TransitionFade_Draw(&globalCtx->transitionFade, &gfxP);
 
-            if (D_801614B0.a > 0x00) {
+            if (D_801614B0.a > 0) {
                 D_80161498.primColor.rgba = D_801614B0.rgba;
                 VisMono_Draw(&D_80161498, &gfxP);
             }

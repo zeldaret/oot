@@ -436,7 +436,7 @@ glabel func_80912594
 /* 0259C 80912BDC 461C5102 */  mul.s   $f4, $f10, $f28
 /* 025A0 80912BE0 46142483 */  div.s   $f18, $f4, $f20
 /* 025A4 80912BE4 E7A8009C */  swc1    $f8, 0x009C($sp)
-/* 025A8 80912BE8 0C00A73C */  jal     func_80029CF0
+/* 025A8 80912BE8 0C00A73C */  jal     EffectSsFhgFlash_Spawn
 /* 025AC 80912BEC E7B200A0 */  swc1    $f18, 0x00A0($sp)
 /* 025B0 80912BF0 863801AC */  lh      $t8, 0x01AC($s1)           ## 000001AC
 /* 025B4 80912BF4 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001

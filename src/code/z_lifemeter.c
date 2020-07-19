@@ -25,26 +25,26 @@ void Health_InitData(GlobalContext* globalCtx) {
     interfaceCtx->unk_22A = interfaceCtx->unk_1FE = 0;
     interfaceCtx->unk_22C = interfaceCtx->unk_200 = 0;
 
-    interfaceCtx->unk_20E[0] = 0xFF;
-    interfaceCtx->unk_20E[2] = 0x46;
-    interfaceCtx->unk_20E[4] = 0x32;
-    interfaceCtx->unk_21A[0] = 0x32;
-    interfaceCtx->unk_21A[2] = 0x28;
-    interfaceCtx->unk_21A[4] = 0x3C;
+    interfaceCtx->unk_20E[0] = 255;
+    interfaceCtx->unk_20E[2] = 70;
+    interfaceCtx->unk_20E[4] = 50;
+    interfaceCtx->unk_21A[0] = 50;
+    interfaceCtx->unk_21A[2] = 40;
+    interfaceCtx->unk_21A[4] = 60;
 
-    interfaceCtx->unk_20E[1] = 0xFF;
-    interfaceCtx->unk_20E[3] = 0x46;
-    interfaceCtx->unk_20E[5] = 0x32;
-    interfaceCtx->unk_21A[1] = 0x32;
-    interfaceCtx->unk_21A[3] = 0x28;
-    interfaceCtx->unk_21A[5] = 0x3C;
+    interfaceCtx->unk_20E[1] = 255;
+    interfaceCtx->unk_20E[3] = 70;
+    interfaceCtx->unk_20E[5] = 50;
+    interfaceCtx->unk_21A[1] = 50;
+    interfaceCtx->unk_21A[3] = 40;
+    interfaceCtx->unk_21A[5] = 60;
 
-    D_8015FDD0[0] = D_8015FDD0[3] = 0xFF;
-    D_8015FDD0[1] = D_8015FDD0[4] = 0xFF;
-    D_8015FDD0[2] = D_8015FDD0[5] = 0xFF;
-    D_8015FDE0[0] = D_8015FDE0[3] = 0xC8;
-    D_8015FDE0[1] = D_8015FDE0[4] = 0x00;
-    D_8015FDE0[2] = D_8015FDE0[5] = 0x00;
+    D_8015FDD0[0] = D_8015FDD0[3] = 255;
+    D_8015FDD0[1] = D_8015FDD0[4] = 255;
+    D_8015FDD0[2] = D_8015FDD0[5] = 255;
+    D_8015FDE0[0] = D_8015FDE0[3] = 200;
+    D_8015FDE0[1] = D_8015FDE0[4] = 0;
+    D_8015FDE0[2] = D_8015FDE0[5] = 0;
 }
 
 #ifdef NON_MATCHING
@@ -70,13 +70,13 @@ void Health_UpdateData(GlobalContext* globalCtx) {
         }
     }
 
-    interfaceCtx->unk_20E[0] = 0xFF;
-    interfaceCtx->unk_20E[2] = 0x46;
-    interfaceCtx->unk_20E[4] = 0x32;
+    interfaceCtx->unk_20E[0] = 255;
+    interfaceCtx->unk_20E[2] = 70;
+    interfaceCtx->unk_20E[4] = 50;
 
-    interfaceCtx->unk_21A[0] = 0x32;
-    interfaceCtx->unk_21A[2] = 0x28;
-    interfaceCtx->unk_21A[4] = 0x3C;
+    interfaceCtx->unk_21A[0] = 50;
+    interfaceCtx->unk_21A[2] = 40;
+    interfaceCtx->unk_21A[4] = 60;
 
     interfaceCtx->unk_20E[1] = D_8011FF10[0];
     interfaceCtx->unk_20E[3] = D_8011FF10[1];
@@ -110,9 +110,9 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     D_8015FDD0[1] = 0xFF;
     D_8015FDD0[2] = 0xFF;
 
-    D_8015FDE0[0] = 0xC8;
-    D_8015FDE0[1] = 0x00;
-    D_8015FDE0[2] = 0x00;
+    D_8015FDE0[0] = 200;
+    D_8015FDE0[1] = 0;
+    D_8015FDE0[2] = 0;
 
     D_8015FDD0[3] = D_8011FF60[0];
     D_8015FDD0[4] = D_8011FF60[1];
