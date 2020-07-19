@@ -247,7 +247,7 @@ typedef struct Player {
     /* 0x042C */ u8         unk_42C;
     /* 0x042D */ s8         unk_42D;
     /* 0x042E */ u16        unk_42E;
-    /* 0x0430 */ Actor*     unk_430; // pointer to DoorGerudo
+    /* 0x0430 */ Actor*     unk_430;
     /* 0x0434 */ u8         getItemId;
     /* 0x0435 */ char       unk_435[0x001];
     /* 0x0436 */ u16        getItemDirection;
