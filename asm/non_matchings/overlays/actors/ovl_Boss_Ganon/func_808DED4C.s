@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_808F812C
+    .float 30269.0
+
+glabel D_808F8130
+    .float 30307.0
+
+glabel D_808F8134
+    .float 30323.0
+
+.text
 glabel func_808DED4C
 /* 084DC 808DED4C 3C028090 */  lui     $v0, %hi(D_808F93C4)       ## $v0 = 80900000
 /* 084E0 808DED50 244293C4 */  addiu   $v0, $v0, %lo(D_808F93C4)  ## $v0 = 808F93C4
