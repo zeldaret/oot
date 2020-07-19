@@ -78,7 +78,7 @@ def bootstrap(ovl_path, ovl_text):
     path_split = ovl_path.split(os.path.sep)
     z_name = path_split[-1][:-2]
     ovl_name = path_split[-2]
-    short_name = ovl_name.split("_")[-1]
+    short_name = ovl_name[14:]
     init_vars_name = ovl_name[4:] + "_InitVars"
 
     top_comment = "/*\n * File: " + z_name + ".c" \
@@ -130,7 +130,7 @@ def bootstrap(ovl_path, ovl_text):
 def get_header(header_path):
     path_split = header_path.split(os.path.sep)
     ovl_name = path_split[-2]
-    short_name = ovl_name.split("_")[-1]
+    short_name = ovl_name[14:]
     init_vars_name = "".join(ovl_name[4:].split("_")) + "InitParams"
     
     ifndef = "#ifndef _Z_EFF_SS_" + short_name.upper() + "_H_\n" + \
@@ -182,6 +182,8 @@ def main():
                     file_text = f.read()
                 brace_count = file_text.count("{")
                 if brace_count == 0:
+                    if "dead" in file_path:
+                        dog = 5
                     header_path = file_path[:-1] + "h"
                     c_text = bootstrap(file_path, file_text)
                     header_text = get_header(header_path)
