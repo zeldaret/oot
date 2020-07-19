@@ -20,16 +20,16 @@ typedef enum {
     /* 0x08 */ SS_G_SPK_TEX_IDX,
     /* 0x09 */ SS_G_SPK_SCALE,
     /* 0x0A */ SS_G_SPK_SCALE_STEP,
-} EffectSsBlastRegs;
+} EffectSsGSpkRegs;
 
-u32 func_809A6F30(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A72C0(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A73C8(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A70A0(GlobalContext* globalCtx, u32 index, EffectSs* this);
+u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_G_Spk_InitVars = {
     EFFECT_SS_G_SPK,
-    func_809A6F30,
+    EffectSsGSpk_Init,
 };
 
 UNK_PTR D_809A7498[] = {
@@ -41,7 +41,7 @@ UNK_PTR D_809A7498[] = {
 
 extern Gfx D_04025550[];
 
-u32 func_809A6F30(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsGSpkInitParams* initParams = (EffectSsGSpkInitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
@@ -54,13 +54,13 @@ u32 func_809A6F30(GlobalContext* globalCtx, u32 index, EffectSs* this, void* ini
         this->unk_2C.x = initParams->pos.x - initParams->actor->posRot.pos.x;
         this->unk_2C.y = initParams->pos.y - initParams->actor->posRot.pos.y;
         this->unk_2C.z = initParams->pos.z - initParams->actor->posRot.pos.z;
-        this->update = func_809A72C0;
+        this->update = EffectSsGSpk_Update;
     } else {
         this->life = 5;
-        this->update = func_809A73C8;
+        this->update = EffectSsGSpk_UpdateNoAccel;
     }
 
-    this->draw = func_809A70A0;
+    this->draw = EffectSsGSpk_Draw;
     this->regs[SS_G_SPK_PRIM_R] = initParams->primColor.r;
     this->regs[SS_G_SPK_PRIM_G] = initParams->primColor.g;
     this->regs[SS_G_SPK_PRIM_B] = initParams->primColor.b;
@@ -77,7 +77,7 @@ u32 func_809A6F30(GlobalContext* globalCtx, u32 index, EffectSs* this, void* ini
     return 1;
 }
 
-void func_809A70A0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     MtxF sp11C;
     MtxF spDC;
@@ -118,7 +118,7 @@ void func_809A70A0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_g_spk.c", 255);
 }
 
-void func_809A72C0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     this->accel.x = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
     this->accel.z = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
@@ -140,7 +140,8 @@ void func_809A72C0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 // this update mode is unused in the original game
-void func_809A73C8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+// with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
+void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (SPARK_ACTOR != NULL) {
         if ((SPARK_ACTOR->type == ACTORTYPE_EXPLOSIVES) && (SPARK_ACTOR->update != NULL)) {
             this->pos.x += (Math_Sins(SPARK_ACTOR->posRot.rot.y) * SPARK_ACTOR->speedXZ);
