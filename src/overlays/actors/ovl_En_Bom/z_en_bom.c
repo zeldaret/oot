@@ -73,10 +73,11 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->timer = 70;
     this->flashSpeedScale = 7;
     Collider_InitCylinder(globalCtx, &this->bombCollider);
-    Collider_InitJntSph(globalCtx, &this->jntSphList);
+    Collider_InitJntSph(globalCtx, &this->explosionCollider);
     Collider_SetCylinder(globalCtx, &this->bombCollider, &this->actor, &sCylinderInit);
-    Collider_SetJntSph(globalCtx, &this->jntSphList, &this->actor, &sJntSphInit, &this->explosionCollider[0]);
-    this->explosionCollider[0].body.toucher.damage += (THIS->actor.shape.rot.z & 0xFF00) >> 8;
+    Collider_SetJntSph(globalCtx, &this->explosionCollider, &this->actor, &sJntSphInit,
+                       &this->explosionColliderItems[0]);
+    this->explosionColliderItems[0].body.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
 
     this->actor.shape.rot.z &= 0xFF;
     if (this->actor.shape.rot.z & 0x80) {
@@ -89,7 +90,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* this = THIS;
 
-    Collider_DestroyJntSph(globalCtx, &this->jntSphList);
+    Collider_DestroyJntSph(globalCtx, &this->explosionCollider);
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
 }
 
@@ -144,15 +145,15 @@ void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx) {
 void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->jntSphList.list->dim.modelSphere.radius == 0) {
+    if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
         func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
     }
 
-    this->jntSphList.list->dim.worldSphere.radius += this->actor.shape.rot.z + 8;
+    this->explosionCollider.list->dim.worldSphere.radius += this->actor.shape.rot.z + 8;
 
     if (this->actor.params == 1) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->jntSphList.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
     if (globalCtx->envCtx.unk_8C[3] != 0) {
@@ -214,8 +215,6 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 0.01f);
     }
 
-    // activate bump collider if link is 20 or more units away from the bomb in the xz plane
-    // or if the height difference between link and the bomb is 80 or more units
     if ((this->actor.xzDistFromLink >= 20.0f) || (ABS(this->actor.yDistFromLink) >= 80.0f)) {
         this->bumpOn = true;
     }
@@ -243,13 +242,13 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == 5))) {
+            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
             this->timer = 0;
             this->actor.shape.rot.z = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
             // these bombs never have a timer over 70, so this isnt used
-            if ((this->timer > 100) && (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f))) {
+            if ((this->timer > 100) && func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
@@ -258,7 +257,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         effPos = this->actor.posRot.pos;
         effPos.y += 10.0f;
 
-        // double bomb flash speed and adjust red color accordingly
+        // double bomb flash speed and adjust red color at certain times during the countdown
         if ((this->timer == 3) || (this->timer == 20) || (this->timer == 40)) {
             this->actor.shape.rot.z = 0;
             this->flashSpeedScale >>= 1;
@@ -307,7 +306,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(&this->actor, &this->bombCollider);
 
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
-        if ((!func_8002F410(&this->actor, globalCtx)) && (this->bumpOn)) {
+        if (!func_8002F410(&this->actor, globalCtx) && this->bumpOn) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider.base);
         }
 
@@ -352,7 +351,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->flashIntensity, 0, 40, 255);
         gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
         gSPDisplayList(gfxCtx->polyOpa.p++, D_04007860);
-        func_800628A4(0, &this->jntSphList);
+        func_800628A4(0, &this->explosionCollider);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 951);

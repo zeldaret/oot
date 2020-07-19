@@ -11,11 +11,11 @@ typedef void (*EnBombfActionFunc)(struct EnBombf*, struct GlobalContext*);
 typedef struct EnBombf {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder bombCollider;
-    /* 0x0198 */ ColliderJntSph jntSphList;
-    /* 0x01B8 */ ColliderJntSphItem explosionCollider[1];
+    /* 0x0198 */ ColliderJntSph explosionCollider;
+    /* 0x01B8 */ ColliderJntSphItem explosionColliderItems[1];
     /* 0x01F8 */ s16 timer;
     /* 0x01FC */ EnBombfActionFunc actionFunc;
-    /* 0x0200 */ s32 unk_200; // this var always seems to be true, maybe gets set by another actor?
+    /* 0x0200 */ s32 unk_200;
     /* 0x0204 */ u8 bumpOn;
     /* 0x0206 */ s16 flashSpeedScale;
     /* 0x0208 */ f32 flashIntensity;

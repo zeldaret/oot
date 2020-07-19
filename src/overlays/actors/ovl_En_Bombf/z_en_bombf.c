@@ -68,9 +68,10 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_200 = 1;
     Collider_InitCylinder(globalCtx, &this->bombCollider);
-    Collider_InitJntSph(globalCtx, &this->jntSphList);
+    Collider_InitJntSph(globalCtx, &this->explosionCollider);
     Collider_SetCylinder(globalCtx, &this->bombCollider, &this->actor, &sCylinderInit);
-    Collider_SetJntSph(globalCtx, &this->jntSphList, &this->actor, &sJntSphInit, &this->explosionCollider[0]);
+    Collider_SetJntSph(globalCtx, &this->explosionCollider, &this->actor, &sJntSphInit,
+                       &this->explosionColliderItems[0]);
 
     if (this->actor.params == 0) {
         shapeUnk10 = 1000.0f;
@@ -79,7 +80,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, shapeUnk10, ActorShadow_DrawFunc_Circle, 12.0f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
 
-    if (Actor_FindNearby(globalCtx, &this->actor, ACTOR_BG_DDAN_KD, ACTORTYPE_BG, 10000.0f) != 0) {
+    if (Actor_FindNearby(globalCtx, &this->actor, ACTOR_BG_DDAN_KD, ACTORTYPE_BG, 10000.0f) != NULL) {
         this->actor.flags |= 0x20;
     }
 
@@ -110,7 +111,7 @@ void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBombf* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
-    Collider_DestroyJntSph(globalCtx, &this->jntSphList);
+    Collider_DestroyJntSph(globalCtx, &this->explosionCollider);
 }
 
 void EnBombf_SetupGrowBomb(EnBombf* this, s16 params) {
@@ -118,7 +119,7 @@ void EnBombf_SetupGrowBomb(EnBombf* this, s16 params) {
 }
 
 void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
-    EnBombf* bomb;
+    EnBombf* bombFlower;
     s32 pad;
     s32 pad1;
     Player* player = PLAYER;
@@ -126,10 +127,11 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
 
     if (this->flowerBombScale >= 1.0f) {
         if (func_8002F410(&this->actor, globalCtx)) {
-            bomb = (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
-                                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
-            if (bomb != NULL) {
-                func_8002F5C4(&this->actor, bomb, globalCtx);
+            bombFlower =
+                (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
+                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+            if (bombFlower != NULL) {
+                func_8002F5C4(&this->actor, bombFlower, globalCtx);
                 this->timer = 180;
                 this->flowerBombScale = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
@@ -141,15 +143,16 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 this->actor.attachedA = NULL;
                 player->stateFlags1 &= ~0x800;
             }
-        } else if ((this->bombCollider.base.acFlags & 2)) {
+        } else if (this->bombCollider.base.acFlags & 2) {
             this->bombCollider.base.acFlags &= ~2;
 
             if (this->bombCollider.base.ac->type != ACTORTYPE_BOSS) {
-                bomb = (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
-                                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
-                if (bomb != NULL) {
-                    bomb->unk_200 = 1;
-                    bomb->timer = 0;
+                bombFlower =
+                    (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
+                                          this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                if (bombFlower != NULL) {
+                    bombFlower->unk_200 = 1;
+                    bombFlower->timer = 0;
                     this->timer = 180;
                     this->actor.flags &= ~1;
                     this->flowerBombScale = 0.0f;
@@ -157,10 +160,11 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
             }
         } else {
             if (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
-                bomb = (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
-                                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
-                if (bomb != NULL) {
-                    bomb->timer = 100;
+                bombFlower =
+                    (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
+                                          this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                if (bombFlower != NULL) {
+                    bombFlower->timer = 100;
                     this->timer = 180;
                     this->actor.flags &= ~1;
                     this->flowerBombScale = 0.0f;
@@ -199,13 +203,15 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
 
 void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx)) {
-        this->flowerBombScale = 0.0f; // this doesnt do anything 
+        // setting flowerBombScale does not do anything in the context of a bomb that link picks up
+        // this and the assignment below are probably left overs
+        this->flowerBombScale = 0.0f;
         EnBombf_SetupAction(this, EnBombf_WaitForRelease);
         this->actor.room = -1;
         return;
     }
 
-    this->flowerBombScale = 1.0f; // this doesnt do anything 
+    this->flowerBombScale = 1.0f;
 
     if (!(this->actor.bgCheckFlags & 1)) {
         Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
@@ -233,16 +239,16 @@ void EnBombf_WaitForRelease(EnBombf* this, GlobalContext* globalCtx) {
 void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->jntSphList.list->dim.modelSphere.radius == 0) {
+    if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
         func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
     }
 
-    this->jntSphList.list->dim.modelSphere.radius += 8;
-    this->jntSphList.list->dim.worldSphere.radius = this->jntSphList.list->dim.modelSphere.radius;
+    this->explosionCollider.list->dim.modelSphere.radius += 8;
+    this->explosionCollider.list->dim.worldSphere.radius = this->explosionCollider.list->dim.modelSphere.radius;
 
     if (this->actor.params == 1) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->jntSphList.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
     if (globalCtx->envCtx.unk_8C[3] != 0) {
@@ -300,8 +306,6 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    // activate bump collider if link is 20 or more units away from the bomb in the xz plane
-    // or if the height difference between link and the bomb is 80 or more units
     if ((!this->bumpOn) && (!func_8002F410(&this->actor, globalCtx)) &&
         ((this->actor.xzDistFromLink >= 20.0f) || (ABS(this->actor.yDistFromLink) >= 80.0f))) {
         this->bumpOn = true;
@@ -342,12 +346,12 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == 5))) {
+            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
             this->unk_200 = 1;
             this->timer = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
-            if ((this->timer > 100) && (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f))) {
+            if ((this->timer > 100) && func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
@@ -366,10 +370,9 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 effPos.y += 3.0f;
                 func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
                 if (1) {}
-                
             }
-            
-            // double bomb flash speed and adjust red color accordingly
+
+            // double bomb flash speed and adjust red color at certain times during the countdown
             if ((this->timer == 3) || (this->timer == 30) || (this->timer == 50) || (this->timer == 70)) {
                 this->flashSpeedScale >>= 1;
             }
@@ -451,7 +454,7 @@ Color_RGBA8_n D_809C82F0 = { 255, 255, 255, 255 };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bombf/EnBombf_Update.s")
 #endif
 
-Gfx* EnBombf_NewDlist(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
+Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
     Gfx* displayList;
     Gfx* displayListHead;
 
@@ -492,10 +495,11 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->flashIntensity, 20, 10, 0);
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1054),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(EnBombf_NewDlist(globalCtx->state.gfxCtx, globalCtx)));
+        gSPSegment(gfxCtx->polyOpa.p++, 0x08,
+                   SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(globalCtx->state.gfxCtx, globalCtx)));
         gSPDisplayList(gfxCtx->polyOpa.p++, D_06000408);
     } else {
-        func_800628A4(0, &this->jntSphList);
+        func_800628A4(0, &this->explosionCollider);
     }
 
     Graph_CloseDisps(&disRefs, globalCtx->state.gfxCtx, "../z_en_bombf.c", 1063);
