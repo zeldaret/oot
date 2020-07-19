@@ -10,6 +10,11 @@
 
 #define THIS ((EnBom*)thisx)
 
+typedef enum {
+    /* 0x00 */ BOMB_BODY,
+    /* 0x01 */ BOMB_EXPLOSION,
+} EnBomType;
+
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -152,7 +157,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
 
     this->explosionCollider.list->dim.worldSphere.radius += this->actor.shape.rot.z + 8;
 
-    if (this->actor.params == 1) {
+    if (this->actor.params == BOMB_EXPLOSION) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
@@ -223,8 +228,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002E4B4(globalCtx, &this->actor, 5.0f, 10.0f, 15.0f, 0x1F);
 
-    // has not exploded yet
-    if (this->actor.params == 0) {
+    if (this->actor.params == BOMB_BODY) {
         if (this->timer < 63) {
             dustAccel.y = 0.2f;
 
@@ -293,7 +297,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             globalCtx->envCtx.unk_8C[3] = globalCtx->envCtx.unk_8C[4] = globalCtx->envCtx.unk_8C[5] = 0xFA;
             globalCtx->envCtx.unk_8C[0] = globalCtx->envCtx.unk_8C[1] = globalCtx->envCtx.unk_8C[2] = 0xFA;
             func_8005AA1C(&globalCtx->cameras[0], 2, 0xB, 8);
-            this->actor.params = 1;
+            this->actor.params = BOMB_EXPLOSION;
             this->timer = 10;
             this->actor.flags |= 0x20;
             EnBom_SetupAction(this, EnBom_Explode);
@@ -302,7 +306,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, 20.0f);
 
-    if (this->actor.params <= 0) {
+    if (this->actor.params <= BOMB_BODY) {
         Collider_CylinderUpdate(&this->actor, &this->bombCollider);
 
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
@@ -313,7 +317,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider.base);
     }
 
-    if ((this->actor.scale.x >= 0.01f) && (this->actor.params != 1)) {
+    if ((this->actor.scale.x >= 0.01f) && (this->actor.params != BOMB_EXPLOSION)) {
         if (this->actor.waterY >= 20.0f) {
             func_8002A9F4(globalCtx, &this->actor.projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 0xA);
             Actor_Kill(&this->actor);
@@ -336,7 +340,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 913);
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == BOMB_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_8002EBCC(&this->actor, globalCtx, 0);

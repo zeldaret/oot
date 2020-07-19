@@ -10,6 +10,12 @@
 
 #define THIS ((EnBombf*)thisx)
 
+typedef enum {
+    /* 0x00 */ BOMBFLOWER_BODY,
+    /* 0x01 */ BOMBFLOWER_EXPLOSION,
+    /* 0xFF */ BOMBFLOWER_FLOWER = 0xFF,
+} EnBombfType;
+
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -73,7 +79,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->explosionCollider, &this->actor, &sJntSphInit,
                        &this->explosionColliderItems[0]);
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == BOMBFLOWER_BODY) {
         shapeUnk10 = 1000.0f;
     }
 
@@ -88,7 +94,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.unk_12 = 10;
     this->actor.unk_1F = 0;
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == BOMBFLOWER_BODY) {
         this->timer = 140;
         this->flashSpeedScale = 15;
         this->actor.gravity = -1.5f;
@@ -247,7 +253,7 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
     this->explosionCollider.list->dim.modelSphere.radius += 8;
     this->explosionCollider.list->dim.worldSphere.radius = this->explosionCollider.list->dim.modelSphere.radius;
 
-    if (this->actor.params == 1) {
+    if (this->actor.params == BOMBFLOWER_EXPLOSION) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
@@ -313,7 +319,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == BOMBFLOWER_BODY) {
         Actor_MoveForward(&this->actor);
     }
 
@@ -323,7 +329,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         DREG(6) = 0;
     }
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == BOMBFLOWER_BODY) {
 
         if ((this->actor.velocity.y > 0.0f) && (this->actor.bgCheckFlags & 0x10)) {
             this->actor.velocity.y = -this->actor.velocity.y;
@@ -409,7 +415,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_8C[3] = globalCtx->envCtx.unk_8C[4] = globalCtx->envCtx.unk_8C[5] = 0xFA;
                 globalCtx->envCtx.unk_8C[0] = globalCtx->envCtx.unk_8C[1] = globalCtx->envCtx.unk_8C[2] = 0xFA;
                 func_8005AA1C(&globalCtx->cameras[0], 2, 0xB, 8);
-                this->actor.params = 1;
+                this->actor.params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
                 this->actor.flags |= 0x20;
                 EnBombf_SetupAction(this, EnBombf_Explode);
@@ -420,7 +426,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 10.0f;
 
-    if (this->actor.params <= 0) {
+    if (this->actor.params <= BOMBFLOWER_BODY) {
 
         Collider_CylinderUpdate(&this->actor, &this->bombCollider); // bombCollider goes to sp38 instead of sp3C
 
@@ -433,7 +439,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                              &this->bombCollider.base); // bombCollider loads from sp38 instead of sp3C
     }
 
-    if ((this->actor.scale.x >= 0.01f) && (this->actor.params != 1)) {
+    if ((this->actor.scale.x >= 0.01f) && (this->actor.params != BOMBFLOWER_EXPLOSION)) {
         if (this->actor.waterY >= 20.0f) {
             func_8002A9F4(globalCtx, &this->actor.projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 0xA);
             Actor_Kill(&this->actor);
@@ -477,10 +483,10 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(&disRefs, globalCtx->state.gfxCtx, "../z_en_bombf.c", 1034);
 
-    if (this->actor.params <= 0) {
+    if (this->actor.params <= BOMBFLOWER_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
 
-        if (this->actor.params != 0) {
+        if (this->actor.params != BOMBFLOWER_BODY) {
             gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1041),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(gfxCtx->polyOpa.p++, D_06000340);
