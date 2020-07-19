@@ -14,19 +14,15 @@ glabel D_809A3BFC
 .late_rodata
 glabel D_809A3C10
     .float 0.01
-    .balign 4
 
 glabel D_809A3C14
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_809A3C18
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_809A3C1C
     .float 89.8
-    .balign 4
 
 .text
 glabel func_809A35DC

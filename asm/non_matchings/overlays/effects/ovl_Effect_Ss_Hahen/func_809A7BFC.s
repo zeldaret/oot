@@ -14,15 +14,12 @@ glabel D_809A8048
 .late_rodata
 glabel D_809A8098
     .float 0.001
-    .balign 4
 
 glabel D_809A809C
     .float 0.01
-    .balign 4
 
 glabel D_809A80A0
     .float 0.01
-    .balign 4
 
 .text
 glabel func_809A7BFC
