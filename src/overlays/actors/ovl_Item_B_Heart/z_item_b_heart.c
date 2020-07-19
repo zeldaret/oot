@@ -42,7 +42,7 @@ static InitChainEntry sInitChain[] = {
 void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx) {
     ItemBHeart* this = THIS;
 
-    if (Flags_GetCollectible(globalCtx, 0x1F) != 0) {
+    if (Flags_GetCollectible(globalCtx, 0x1F)) {
         Actor_Kill(&this->actor);
     } else {
         Actor_ProcessInitChain(&this->actor, sInitChain);
