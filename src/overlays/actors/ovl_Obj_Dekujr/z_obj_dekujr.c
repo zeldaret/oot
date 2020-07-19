@@ -15,7 +15,7 @@ void ObjDekujr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B925B8(ObjDekujr* this, GlobalContext* globalCtx);
+void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
@@ -29,14 +29,14 @@ const ActorInit Obj_Dekujr_InitVars = {
     (ActorFunc)ObjDekujr_Draw,
 };
 
-ColliderCylinderInit_Actor D_80B92A00 = {
+static ColliderCylinderInit_Actor sCylinderInit = {
     { NULL, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 60, 80, 0, { 0, 0, 0 } },
 };
 
-extern Gfx D_060030D0[];
-extern Gfx D_060032D8[];
+extern Gfx D_060030D0[]; // Display list for dekujr body
+extern Gfx D_060032D8[]; // Display list for dekujr face and shadow
 
 void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjDekujr* this = THIS;
@@ -58,8 +58,8 @@ void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
         Collider_InitCylinder(globalCtx, &this->collider);
-        D_80B92A00.base.actor = thisx; // thisx required to match here
-        Collider_SetCylinder_Actor(globalCtx, &this->collider, &D_80B92A00);
+        sCylinderInit.base.actor = thisx; // thisx required to match here
+        Collider_SetCylinder_Actor(globalCtx, &this->collider, &sCylinderInit);
         this->actor.colChkInfo.mass = 0xFF;
         this->actor.textId = func_80037C30(globalCtx, 0xF);
         Actor_SetScale(&this->actor, 0.4f);
@@ -69,22 +69,22 @@ void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjDekujr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80B92538(CsCmdActorAction* npcAction, Vec3f* actionPos) {
-    actionPos->x = npcAction->startPos.x;
-    actionPos->y = npcAction->startPos.y;
-    actionPos->z = npcAction->startPos.z;
+void ObjDekujr_SetInitialPos(CsCmdActorAction* npcAction, Vec3f* initPos) {
+    initPos->x = npcAction->startPos.x;
+    initPos->y = npcAction->startPos.y;
+    initPos->z = npcAction->startPos.z;
 }
 
-void func_80B92578(CsCmdActorAction* npcAction, Vec3f* arg1) {
-    arg1->x = npcAction->endPos.x;
-    arg1->y = npcAction->endPos.y;
-    arg1->z = npcAction->endPos.z;
+void ObjDekujr_SetFinalPos(CsCmdActorAction* npcAction, Vec3f* finalPos) {
+    finalPos->x = npcAction->endPos.x;
+    finalPos->y = npcAction->endPos.y;
+    finalPos->z = npcAction->endPos.z;
 }
 
-void func_80B925B8(ObjDekujr* this, GlobalContext* globalCtx) {
+void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdNPCAction;
-    Vec3f sp40;
-    Vec3f sp34;
+    Vec3f initPos;
+    Vec3f finalPos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     f32 actionLength;
     f32 gravity;
@@ -98,10 +98,10 @@ void func_80B925B8(ObjDekujr* this, GlobalContext* globalCtx) {
         }
         csCmdNPCAction = globalCtx->csCtx.npcActions[1];
         if (csCmdNPCAction != NULL) {
-            func_80B92538(csCmdNPCAction, &sp40);
-            func_80B92578(csCmdNPCAction, &sp34);
+            ObjDekujr_SetInitialPos(csCmdNPCAction, &initPos);
+            ObjDekujr_SetFinalPos(csCmdNPCAction, &finalPos);
             if (this->unk_19C == 0) {
-                this->actor.posRot.pos = sp40;
+                this->actor.posRot.pos = initPos;
                 this->unk_19C = 1;
             }
             this->actor.shape.rot.x = csCmdNPCAction->urot.x;
@@ -110,14 +110,14 @@ void func_80B925B8(ObjDekujr* this, GlobalContext* globalCtx) {
             this->actor.velocity = velocity;
             if (csCmdNPCAction->endFrame >= globalCtx->csCtx.frames) {
                 actionLength = csCmdNPCAction->endFrame - csCmdNPCAction->startFrame;
-                this->actor.velocity.x = (sp34.x - sp40.x) / actionLength;
+                this->actor.velocity.x = (finalPos.x - initPos.x) / actionLength;
                 gravity = this->actor.gravity;
-                this->actor.velocity.y = (sp34.y - sp40.y) / actionLength;
+                this->actor.velocity.y = (finalPos.y - initPos.y) / actionLength;
                 this->actor.velocity.y += gravity;
                 if (this->actor.velocity.y < this->actor.minVelocityY) {
                     this->actor.velocity.y = this->actor.minVelocityY;
                 }
-                this->actor.velocity.z = (sp34.z - sp40.z) / actionLength;
+                this->actor.velocity.z = (finalPos.z - initPos.z) / actionLength;
             }
         }
     }
@@ -134,7 +134,7 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_19B = 1;
     }
     if (this->unk_19B == 1) {
-        func_80B925B8(this, globalCtx);
+        ObjDekujr_ComeUp(this, globalCtx);
         this->actor.posRot.pos.x += this->actor.velocity.x;
         this->actor.posRot.pos.y += this->actor.velocity.y;
         this->actor.posRot.pos.z += this->actor.velocity.z;
