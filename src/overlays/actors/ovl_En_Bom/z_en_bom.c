@@ -10,11 +10,6 @@
 
 #define THIS ((EnBom*)thisx)
 
-typedef enum {
-    /* 0x00 */ BOMB_BODY,
-    /* 0x01 */ BOMB_EXPLOSION,
-} EnBomType;
-
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Update(Actor* thisx, GlobalContext* globalCtx);

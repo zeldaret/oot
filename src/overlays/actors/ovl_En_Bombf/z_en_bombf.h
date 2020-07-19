@@ -22,6 +22,12 @@ typedef struct EnBombf {
     /* 0x020C */ f32 flowerBombScale;
 } EnBombf; // size = 0x0210
 
+typedef enum {
+    /* 0xFFFF */ BOMBFLOWER_FLOWER = -1,
+    /* 0x0000 */ BOMBFLOWER_BODY,
+    /* 0x0001 */ BOMBFLOWER_EXPLOSION,
+} EnBombfType;
+
 extern const ActorInit En_Bombf_InitVars;
 
 #endif
