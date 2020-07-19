@@ -109,9 +109,9 @@ def bootstrap(ovl_path, ovl_text):
 
     effect_id_name = effect_enum[effect_id]
 
-    struct_text = "/*EffectSsInit " + init_vars_name + \
+    struct_text = "/*\nEffectSsInit " + init_vars_name + \
         " = {\n" + indent + effect_id_name + \
-        ",\n" + indent + init_func_name + ",\n};*/"
+        ",\n" + indent + init_func_name + ",\n};\n*/"
 
     decs = "u32 " + init_func_name + \
         "(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);\n"
