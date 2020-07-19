@@ -1,10 +1,10 @@
 .rdata
 glabel D_80B2F3A0
-    .asciz "\x1B[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1B[m"
+    .asciz "\x1b[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B2F3CC
-    .asciz "\x1B[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1B[m"
+    .asciz "\x1b[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B2F3F8

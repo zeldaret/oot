@@ -1,6 +1,6 @@
 .rdata
 glabel D_80139824
-    .asciz "\x1B[34mcamera: initialize --- \x1B[m UID %d\n"
+    .asciz "\x1b[34mcamera: initialize --- \x1b[m UID %d\n"
     .balign 4
 
 .late_rodata
