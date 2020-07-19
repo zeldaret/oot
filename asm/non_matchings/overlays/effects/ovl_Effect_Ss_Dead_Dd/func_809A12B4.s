@@ -1,3 +1,17 @@
+.rdata
+glabel D_809A157C
+    .asciz "../z_eff_ss_dead_dd.c"
+    .balign 4
+
+glabel D_809A1594
+    .asciz "../z_eff_ss_dead_dd.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A15AC
+    .float 0.01
+
+.text
 glabel func_809A12B4
 /* 0002D4 809A12B4 27BDFEE0 */  addiu $sp, $sp, -0x120
 /* 0002D8 809A12B8 AFB00014 */  sw    $s0, 0x14($sp)

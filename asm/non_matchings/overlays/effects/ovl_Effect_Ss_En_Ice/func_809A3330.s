@@ -1,3 +1,9 @@
+.rdata
+glabel D_809A3BA0
+    .asciz "Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n"
+    .balign 4
+
+.text
 glabel func_809A3330
 /* 00000 809A3330 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 809A3334 AFBF0014 */  sw      $ra, 0x0014($sp)           

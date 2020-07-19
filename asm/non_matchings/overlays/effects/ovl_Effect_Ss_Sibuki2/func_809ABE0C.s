@@ -1,3 +1,17 @@
+.rdata
+glabel D_809AC090
+    .asciz "../z_eff_ss_sibuki2.c"
+    .balign 4
+
+glabel D_809AC0A8
+    .asciz "../z_eff_ss_sibuki2.c"
+    .balign 4
+
+glabel D_809AC0C0
+    .asciz "../z_eff_ss_sibuki2.c"
+    .balign 4
+
+.text
 glabel func_809ABE0C
 /* 000AC 809ABE0C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 000B0 809ABE10 AFBF001C */  sw      $ra, 0x001C($sp)           
