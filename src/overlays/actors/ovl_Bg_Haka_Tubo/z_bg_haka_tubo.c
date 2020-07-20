@@ -30,25 +30,25 @@ const ActorInit Bg_Haka_Tubo_InitVars = {
     (ActorFunc)BgHakaTubo_Draw,
 };
 
-ColliderCylinderInit D_80881B60 = {
+static ColliderCylinderInit sPotColliderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 25, 60, 30, { 0, 0, 0 } },
 };
 
-ColliderCylinderInit D_80881B8C = {
+static ColliderCylinderInit sFlamesColliderInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x09, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000008, 0x00, 0x00 }, 0x19, 0x00, 0x01 },
     { 60, 45, 235, { 0, 0, 0 } },
 };
 
-s32 D_80881BB8 = 0;
+static s32 sPotsDestroyed = 0;
 
-InitChainEntry D_80881BBC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-Vec3f D_80881BC0 = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
 
 extern CollisionHeader D_060108B8;
 extern Gfx D_0600FE40[];
@@ -60,16 +60,16 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 sp24 = 0;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_80881BBC);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK3);
     DynaPolyInfo_Alloc(&D_060108B8, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     Collider_InitCylinder(globalCtx, &this->potCollider);
-    Collider_SetCylinder(globalCtx, &this->potCollider, &this->dyna.actor, &D_80881B60);
+    Collider_SetCylinder(globalCtx, &this->potCollider, &this->dyna.actor, &sPotColliderInit);
     Collider_InitCylinder(globalCtx, &this->flamesCollider);
-    Collider_SetCylinder(globalCtx, &this->flamesCollider, &this->dyna.actor, &D_80881B8C);
+    Collider_SetCylinder(globalCtx, &this->flamesCollider, &this->dyna.actor, &sFlamesColliderInit);
     this->fireScroll = Math_Rand_ZeroOne() * 15.0f;
-    D_80881BB8 = 0;
+    sPotsDestroyed = 0;
     this->actionFunc = BgHakaTubo_Idle;
 }
 
@@ -104,7 +104,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             pos.x = this->dyna.actor.posRot.pos.x;
             pos.z = this->dyna.actor.posRot.pos.z;
             pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
-            func_80028E84(globalCtx, &pos, &D_80881BC0, &D_80881BC0, 100, 45);
+            func_80028E84(globalCtx, &pos, &sZeroVector, &sZeroVector, 100, 45);
             Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 50, NA_SE_EV_BOX_BREAK);
             func_800297A4(globalCtx, &pos, 20.0f, 0, 350, 100, 50, 105, 40, &D_0400CD80);
             this->dropTimer = 5;
@@ -135,8 +135,9 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
         spawnPos.z = this->dyna.actor.posRot.pos.z;
         if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
             rnd = Math_Rand_ZeroOne();
-            D_80881BB8++;
-            if (D_80881BB8 == 3) {
+            sPotsDestroyed++;
+            if (sPotsDestroyed == 3) {
+                // All 3 pots destroyed
                 collectibleParams = -1;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 // Drop rupees
