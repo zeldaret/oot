@@ -2,7 +2,7 @@
  * File: z_en_girla.c
  * Overlay: En_GirlA
  * Description: Shop Items
- */
+*/
 
 #include "z_en_girla.h"
 #include "vt.h"
@@ -276,40 +276,34 @@ s32 func_80A3A758(EnGirlA* this) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// Weird allocations
 void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
-    char** strptr = &D_80A3C590[this->actor.params];
     s16 params = this->actor.params;
 
-    if (strptr) {};
-    osSyncPrintf("%s(%2d)初期設定\n", *(&D_80A3C590[this->actor.params]), this->actor.params);
+    osSyncPrintf("%s(%2d)初期設定\n", D_80A3C590[params], params);
+
     if ((params >= 50) && (params < 0)) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
         osSyncPrintf(VT_RST);
-        if (!this->actor.params) {};
         __assert("0", "../z_en_girlA.c", 1421);
         return;
     }
 
     this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, D_80A3C674[params].objID);
+
     if (this->unk_194 < 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("バンクが無いよ！！(%s)\n", *strptr);
+        osSyncPrintf("バンクが無いよ！！(%s)\n", D_80A3C590[params]);
         osSyncPrintf(VT_RST);
         __assert("0", "../z_en_girlA.c", 1434);
         return;
     }
 
-    this->actor.params = params & 0xFFFF;
+    this->actor.params = params;
     this->unk_198 = func_80A3BFE4;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GirlA/func_80A3A8D0.s")
-#endif
 
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = THIS;
@@ -856,23 +850,18 @@ void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this) {
     }
 }
 
-#ifdef NON_MATCHING
-// Small regalloc
 void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this) {
-    ShopItemEntry* tmp;
+    ShopItemEntry* itemEntry;
 
     if (func_80A3A758(this)) {
         func_80A3A8D0(this, globalCtx);
-        tmp = &D_80A3C674[this->actor.params];
-        this->actor.textId = tmp->unk_0C;
+        itemEntry = &D_80A3C674[this->actor.params];
+        this->actor.textId = itemEntry->unk_0C;
     } else {
         this->unk_1A8 = 0;
         this->actor.draw = func_80A3C4D4;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GirlA/func_80A3BEE0.s")
-#endif
 
 s32 func_80A3BF54(EnGirlA* this, GlobalContext* globalCtx) {
     s32 params;
