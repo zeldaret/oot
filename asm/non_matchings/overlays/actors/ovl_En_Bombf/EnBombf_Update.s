@@ -448,13 +448,13 @@ glabel EnBombf_Update
 /* 00E5C 809C7DBC 8E180004 */  lw      $t8, 0x0004($s0)           ## 00000004
 /* 00E60 809C7DC0 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 00E64 809C7DC4 2409000A */  addiu   $t1, $zero, 0x000A         ## $t1 = 0000000A
-/* 00E68 809C7DC8 3C05809C */  lui     $a1, %hi(func_809C7624)    ## $a1 = 809C0000
+/* 00E68 809C7DC8 3C05809C */  lui     $a1, %hi(EnBombf_Explode)    ## $a1 = 809C0000
 /* 00E6C 809C7DCC 370A0020 */  ori     $t2, $t8, 0x0020           ## $t2 = 00000020
 /* 00E70 809C7DD0 A619001C */  sh      $t9, 0x001C($s0)           ## 0000001C
 /* 00E74 809C7DD4 A60901F8 */  sh      $t1, 0x01F8($s0)           ## 000001F8
 /* 00E78 809C7DD8 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
-/* 00E7C 809C7DDC 24A57624 */  addiu   $a1, $a1, %lo(func_809C7624) ## $a1 = 809C7624
-/* 00E80 809C7DE0 0C271BD8 */  jal     func_809C6F60              
+/* 00E7C 809C7DDC 24A57624 */  addiu   $a1, $a1, %lo(EnBombf_Explode) ## $a1 = 809C7624
+/* 00E80 809C7DE0 0C271BD8 */  jal     EnBombf_SetupAction              
 /* 00E84 809C7DE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L809C7DE8:
 /* 00E88 809C7DE8 8E0B0028 */  lw      $t3, 0x0028($s0)           ## 00000028
