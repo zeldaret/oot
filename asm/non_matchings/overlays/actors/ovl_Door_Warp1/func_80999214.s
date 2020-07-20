@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8099C73C
+    .float 0.1
+
+.text
 glabel func_80999214
 /* 00A94 80999214 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00A98 80999218 3C01809A */  lui     $at, %hi(D_8099C73C)       ## $at = 809A0000

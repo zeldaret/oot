@@ -1,0 +1,20 @@
+glabel func_800E0BB4
+/* B57D54 800E0BB4 10A0000E */  beqz  $a1, .L800E0BF0
+/* B57D58 800E0BB8 00000000 */   nop   
+/* B57D5C 800E0BBC 8C8E0008 */  lw    $t6, 8($a0)
+/* B57D60 800E0BC0 8CAF0004 */  lw    $t7, 4($a1)
+/* B57D64 800E0BC4 15CF000A */  bne   $t6, $t7, .L800E0BF0
+/* B57D68 800E0BC8 00000000 */   nop   
+/* B57D6C 800E0BCC 8C98000C */  lw    $t8, 0xc($a0)
+/* B57D70 800E0BD0 90AB0000 */  lbu   $t3, ($a1)
+/* B57D74 800E0BD4 ACB80004 */  sw    $t8, 4($a1)
+/* B57D78 800E0BD8 80880001 */  lb    $t0, 1($a0)
+/* B57D7C 800E0BDC 316CFFF3 */  andi  $t4, $t3, 0xfff3
+/* B57D80 800E0BE0 00084880 */  sll   $t1, $t0, 2
+/* B57D84 800E0BE4 312A000C */  andi  $t2, $t1, 0xc
+/* B57D88 800E0BE8 014C6825 */  or    $t5, $t2, $t4
+/* B57D8C 800E0BEC A0AD0000 */  sb    $t5, ($a1)
+.L800E0BF0:
+/* B57D90 800E0BF0 03E00008 */  jr    $ra
+/* B57D94 800E0BF4 00000000 */   nop   
+

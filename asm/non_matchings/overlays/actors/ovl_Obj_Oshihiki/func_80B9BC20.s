@@ -1,3 +1,20 @@
+.rdata
+glabel D_80B9CC08
+    .asciz "Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B9CC48
+    .asciz "../z_obj_oshihiki.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B9CD08
+    .float -31990.0
+
+glabel D_80B9CD0C
+    .float -0.001
+
+.text
 glabel func_80B9BC20
 /* 00AA0 80B9BC20 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00AA4 80B9BC24 AFBF001C */  sw      $ra, 0x001C($sp)           

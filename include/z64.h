@@ -151,7 +151,9 @@ typedef struct {
     /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
     /* 0x0F34 */ char         unk_F34[0x0004];
     /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char         unk_F3C[0x040C];
+    /* 0x0F3C */ char         unk_F3C[0x0389];
+    /* 0x12C5 */ u8           unk_12C5;
+    /* 0x12C6 */ char         unk_12C6[0x0082];
     /* 0x1348 */ HorseData    horseData;
     /* 0x1352 */ u16          checksum; // "check_sum"
     /* 0x1354 */ s32          fileNum; // "file_no"

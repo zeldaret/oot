@@ -1,3 +1,24 @@
+.rdata
+glabel D_80B9CB44
+    .asciz "Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B9CB7C
+    .asciz "../z_obj_oshihiki.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B9CCBC
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+    .word L80B9B5B8
+
+.text
 glabel func_80B9B584
 /* 00404 80B9B584 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00408 80B9B588 AFBF0014 */  sw      $ra, 0x0014($sp)           

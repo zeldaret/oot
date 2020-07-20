@@ -1,6 +1,6 @@
 .rdata
 glabel D_80A4E044
-    .asciz "[36m"
+    .asciz "\x1b[36m"
     .balign 4
 
 glabel D_80A4E04C
