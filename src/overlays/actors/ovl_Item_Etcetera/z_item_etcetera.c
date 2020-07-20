@@ -85,7 +85,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case ITEM_ARROW_FIRE:
+        case ITEM_ETCETERA_ARROW_FIRE:
             this->actionFunc_14C = ItemEtcetera_UpdateFireArrow;
             Actor_SetScale(&this->actor, 0.5f);
             this->actor.draw = NULL;
