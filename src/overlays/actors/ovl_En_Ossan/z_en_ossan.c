@@ -85,9 +85,9 @@ void func_80AC854C(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC8668(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC8784(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx);
-// void func_80AC77CC(GlobalContext* globalCtx, s32, s32, s32, s32, f32, f32, f32, s32, s32, f32, f32);
-// s32 func_80AC7ED0(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
-// void func_80AC7528(GlobalContext*, EnOssan*, f32, f32, f32, u8);
+void func_80AC77CC(GlobalContext* globalCtx, s32, s32, s32, s32, f32, f32, f32, s32, s32, f32, f32);
+s32 func_80AC7ED0(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
+void func_80AC7528(GlobalContext*, EnOssan*, f32, f32, f32, u8);
 void Camera_SetCameraData(Camera* camera, s16 arg1, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
                           s16 relativeToPlayer, s16 arg5, s16 arg6);
 
