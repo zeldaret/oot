@@ -1,3 +1,9 @@
+/*
+ * File: z_en_girla.c
+ * Overlay: En_GirlA
+ * Description: Shop Items
+ */
+
 #include "z_en_girla.h"
 #include "vt.h"
 
@@ -5,63 +11,63 @@
 
 #define THIS ((EnGirlA*)thisx)
 
-void EnGirlA_Init(Actor* this, GlobalContext* globalCtx);
-void EnGirlA_Destroy(Actor* this, GlobalContext* globalCtx);
-void EnGirlA_Update(Actor* this, GlobalContext* globalCtx);
+void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A3BEAC(GlobalContext*, EnGirlA*);
-void func_80A3BEE0(GlobalContext*, EnGirlA*);
-void func_80A3BFE4(EnGirlA*, GlobalContext*);
-void func_80A3C3BC(EnGirlA*, GlobalContext*);
-void func_80A3C498(Actor*, GlobalContext*, s32);
-void func_80A3C4D4(Actor*, GlobalContext*);
+void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx);
+void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx);
+void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags);
+void func_80A3C4D4(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_80A3AAA8(GlobalContext*, EnGirlA*);
-s32 func_80A3AB58(GlobalContext*, EnGirlA*);
-s32 func_80A3ABF8(GlobalContext*, EnGirlA*);
-s32 func_80A3ACAC(GlobalContext*, EnGirlA*);
-s32 func_80A3AD60(GlobalContext*, EnGirlA*);
-s32 func_80A3ADD4(GlobalContext*, EnGirlA*);
-s32 func_80A3AE48(GlobalContext*, EnGirlA*);
-s32 func_80A3AEBC(GlobalContext*, EnGirlA*);
-s32 func_80A3AF30(GlobalContext*, EnGirlA*);
-s32 func_80A3AFC4(GlobalContext*, EnGirlA*);
-s32 func_80A3B040(GlobalContext*, EnGirlA*);
-s32 func_80A3B0BC(GlobalContext*, EnGirlA*);
-s32 func_80A3B160(GlobalContext*, EnGirlA*);
-s32 func_80A3B204(GlobalContext*, EnGirlA*);
-s32 func_80A3B250(GlobalContext*, EnGirlA*);
-s32 func_80A3B2AC(GlobalContext*, EnGirlA*);
-s32 func_80A3B308(GlobalContext*, EnGirlA*);
-s32 func_80A3B318(GlobalContext*, EnGirlA*);
-s32 func_80A3B328(GlobalContext*, EnGirlA*);
-s32 func_80A3B3A8(GlobalContext*, EnGirlA*);
-s32 func_80A3B454(GlobalContext*, EnGirlA*);
-s32 func_80A3B464(GlobalContext*, EnGirlA*);
-s32 func_80A3B4D8(GlobalContext*, EnGirlA*);
-s32 func_80A3B54C(GlobalContext*, EnGirlA*);
-s32 func_80A3B5C0(GlobalContext*, EnGirlA*);
+s32 func_80A3AAA8(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3AB58(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3ABF8(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3ACAC(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3AD60(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3ADD4(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3AE48(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B040(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B0BC(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B204(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B250(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B2AC(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B308(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B318(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B328(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B3A8(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B454(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B464(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B4D8(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B54C(GlobalContext* globalCtx, EnGirlA* this);
+s32 func_80A3B5C0(GlobalContext* globalCtx, EnGirlA* this);
 
-void func_80A3B714(GlobalContext*, EnGirlA*);
-void func_80A3B634(GlobalContext*, EnGirlA*);
-void func_80A3B678(GlobalContext*, EnGirlA*);
-void func_80A3B780(GlobalContext*, EnGirlA*);
-void func_80A3BA40(GlobalContext*, EnGirlA*);
-void func_80A3B7BC(GlobalContext*, EnGirlA*);
-void func_80A3B800(GlobalContext*, EnGirlA*);
-void func_80A3B83C(GlobalContext*, EnGirlA*);
-void func_80A3B878(GlobalContext*, EnGirlA*);
-void func_80A3B8B4(GlobalContext*, EnGirlA*);
-void func_80A3B8F0(GlobalContext*, EnGirlA*);
-void func_80A3B92C(GlobalContext*, EnGirlA*);
-void func_80A3B968(GlobalContext*, EnGirlA*);
-void func_80A3B9A4(GlobalContext*, EnGirlA*);
-void func_80A3B9D4(GlobalContext*, EnGirlA*);
-void func_80A3BA04(GlobalContext*, EnGirlA*);
-void func_80A3BB6C(GlobalContext*, EnGirlA*);
-void func_80A3BC0C(GlobalContext*, EnGirlA*);
-void func_80A3BC3C(GlobalContext*, EnGirlA*);
-void func_80A3BC6C(GlobalContext*, EnGirlA*);
+void func_80A3B714(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B634(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B678(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B780(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B7BC(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B800(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B83C(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B878(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B8B4(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B8F0(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B92C(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B968(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B9A4(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3B9D4(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BA04(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BB6C(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BC0C(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BC3C(GlobalContext* globalCtx, EnGirlA* this);
+void func_80A3BC6C(GlobalContext* globalCtx, EnGirlA* this);
 
 const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
@@ -87,7 +93,8 @@ char* D_80A3C590[] = {
     "赤クスリ      ", "赤クスリ      ",
 };
 
-s16 D_80A3C658[8] = { 0x0024, 0x0026, 0x0025, 0x0027, 0x002B, 0x0029, 0x0028, 0x002A };
+s16 D_80A3C658[8] = { ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
+                      ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO };
 
 u16 D_80A3C668[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
 
@@ -103,120 +110,165 @@ typedef struct {
     /* 0x14 */ s32 (*unk_14)(GlobalContext*, EnGirlA*);
     /* 0x18 */ void (*unk_18)(GlobalContext*, EnGirlA*);
     /* 0x1C */ void (*unk_1C)(GlobalContext*, EnGirlA*);
-} GirlAThing; // size = 0x20
+} ShopItemEntry; // size = 0x20
 
-GirlAThing D_80A3C674[] = {
-    { 0x00BB, 0x0011, func_8002ED80, 0x000F, 0x0005, 0x00B2, 0x007F, GI_NUTS_5_2, func_80A3ABF8, func_80A3B714, func_80A3BB6C },
-    { 0x00D8, 0x0025, func_8002EBCC, 0x003C, 0x001E, 0x00C1, 0x009B, GI_ARROWS_MEDIUM, func_80A3AAA8, func_80A3B634, func_80A3BB6C },
-    { 0x00D8, 0x0026, func_8002EBCC, 0x005A, 0x0032, 0x00B0, 0x007D, GI_ARROWS_LARGE, func_80A3AAA8, func_80A3B634, func_80A3BB6C },
-    { 0x00CE, 0x001F, func_8002EBCC, 0x0019, 0x0005, 0x00A3, 0x008B, GI_BOMBS_5, func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { 0x00BB, 0x0011, func_8002ED80, 0x001E, 0x000A, 0x00A2, 0x0087, GI_NUTS_10, func_80A3ABF8, func_80A3B714, func_80A3BB6C },
-    { 0x00C7, 0x001A, 0x00000000, 0x000A, 0x0001, 0x00A1, 0x0088, GI_STICKS_1, func_80A3ACAC, func_80A3B780, func_80A3BB6C },
-    { 0x00CE, 0x001F, func_8002EBCC, 0x0032, 0x000A, 0x00B1, 0x007C, GI_BOMBS_10, func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { 0x00F4, 0x003E, func_8002ED80, 0x00C8, 0x0001, 0x00B3, 0x007E, GI_FISH, func_80A3AD60, 0x00000000, func_80A3BB6C },
-    { 0x00EB, 0x0037, func_8002EBCC, 0x001E, 0x0001, 0x00A5, 0x008E, GI_POTION_RED, func_80A3ADD4, func_80A3BA40, func_80A3BB6C },
-    { 0x00EB, 0x0036, func_8002EBCC, 0x001E, 0x0001, 0x00A6, 0x008F, GI_POTION_GREEN, func_80A3AE48, func_80A3BA40, func_80A3BB6C },
-    { 0x00EB, 0x0038, func_8002EBCC, 0x003C, 0x0001, 0x00A7, 0x0090, GI_POTION_BLUE, func_80A3AEBC, func_80A3BA40, func_80A3BB6C },
-    { 0x00F8, 0x0042, func_8002EBCC, 0x03E8, 0x0001, 0x00A8, 0x0091, GI_SWORD_KNIFE, func_80A3AF30, func_80A3B7BC, func_80A3BB6C },
-    { 0x00DC, 0x002B, func_8002EBCC, 0x0050, 0x0001, 0x00A9, 0x0092, GI_SHIELD_HYLIAN, func_80A3AFC4, func_80A3B800, func_80A3BB6C },
-    { 0x00CB, 0x001C, func_8002EBCC, 0x0028, 0x0001, 0x009F, 0x0089, GI_SHIELD_DEKU, func_80A3B040, func_80A3B83C, func_80A3BB6C },
-    { 0x00F2, 0x003B, 0x00000000, 0x00C8, 0x0001, 0x00AA, 0x0093, GI_TUNIC_GORON, func_80A3B0BC, func_80A3B878, func_80A3BC0C },
-    { 0x00F2, 0x003C, 0x00000000, 0x012C, 0x0001, 0x00AB, 0x0094, GI_TUNIC_ZORA, func_80A3B160, func_80A3B8B4, func_80A3BC3C },
-    { 0x00B7, 0x0008, 0x00000000, 0x000A, 0x0010, 0x00AC, 0x0095, GI_HEART, func_80A3B204, func_80A3B8F0, func_80A3BB6C },
-    { 0x00DF, 0x002F, func_80A3C498, 0x0064, 0x0001, 0x00AD, 0x0097, GI_MILK_BOTTLE, func_80A3B250, func_80A3B92C, func_80A3BB6C },
-    { 0x00DA, 0x0028, func_8002EBCC, 0x0064, 0x0001, 0x00AE, 0x0099, GI_WEIRD_EGG, func_80A3B2AC, func_80A3B968, func_80A3BB6C },
-    { 0x00DF, 0x002F, func_80A3C498, 0x2710, 0x0001, 0x00B4, 0x0085, GI_INVALID, func_80A3B308, func_80A3B9A4, func_80A3BB6C },
-    { 0x00DA, 0x0028, func_8002EBCC, 0x2710, 0x0001, 0x00B5, 0x0085, GI_INVALID, func_80A3B318, func_80A3B9D4, func_80A3BB6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, 0x00000000, func_80A3BC6C },
-    { 0x0119, 0x0047, func_8002EBCC, 0x001E, 0x001E, 0x00DF, 0x00DE, GI_SEEDS_30, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0134, 0x0030, func_8002EBCC, 0x0000, 0x0001, 0x70B2, 0x70BE, GI_MASK_KEATON, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0135, 0x0031, func_8002EBCC, 0x0000, 0x0001, 0x70B1, 0x70BD, GI_MASK_SPOOKY, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0136, 0x004E, func_8002EBCC, 0x0000, 0x0001, 0x70B0, 0x70BC, GI_MASK_SKULL, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0137, 0x004F, func_8002EBCC, 0x0000, 0x0001, 0x70B3, 0x70BF, GI_MASK_BUNNY, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0138, 0x0050, func_80A3C498, 0x0000, 0x0001, 0x70AF, 0x70C3, GI_MASK_TRUTH, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0151, 0x005B, 0x00000000, 0x0000, 0x0001, 0x70B9, 0x70C1, GI_MASK_ZORA, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0150, 0x005A, 0x00000000, 0x0000, 0x0001, 0x70B8, 0x70C0, GI_MASK_GORON, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0152, 0x005C, 0x00000000, 0x0000, 0x0001, 0x70BA, 0x70C2, GI_MASK_GERUDO, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { 0x0148, 0x0058, func_8002EBCC, 0x0000, 0x0000, 0x00BD, 0x70C2, GI_MASK_GERUDO, func_80A3B454, 0x00000000, 0x00000000 },
-    { 0x0173, 0x0066, func_8002EBCC, 0x012C, 0x0001, 0x00B9, 0x00B8, GI_BLUE_FIRE, func_80A3B464, func_80A3BA40, func_80A3BB6C },
-    { 0x0174, 0x0067, func_80A3C498, 0x0032, 0x0001, 0x00BB, 0x00BA, GI_BUGS, func_80A3B4D8, func_80A3BA40, func_80A3BB6C },
-    { 0x0176, 0x006F, func_80A3C498, 0x0032, 0x0001, 0x506F, 0x5070, GI_BIG_POE, func_80A3B54C, func_80A3BA40, func_80A3BB6C },
-    { 0x0176, 0x0069, func_80A3C498, 0x001E, 0x0001, 0x506D, 0x506E, GI_POE, func_80A3B54C, func_80A3BA40, func_80A3BB6C },
-    { 0x0177, 0x006A, func_80A3C498, 0x0032, 0x0001, 0x00B7, 0x00B6, GI_FAIRY, func_80A3B5C0, func_80A3BA40, func_80A3BB6C },
-    { 0x00D8, 0x0024, func_8002EBCC, 0x0014, 0x000A, 0x00A0, 0x008A, GI_ARROWS_SMALL, func_80A3AAA8, func_80A3B634, func_80A3BB6C },
-    { 0x00CE, 0x001F, func_8002EBCC, 0x0050, 0x0014, 0x001C, 0x0006, GI_BOMBS_20, func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { 0x00CE, 0x001F, func_8002EBCC, 0x0078, 0x001E, 0x001D, 0x001E, GI_BOMBS_30, func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { 0x00CE, 0x001F, func_8002EBCC, 0x0023, 0x0005, 0x00CB, 0x00CA, GI_BOMBS_5, func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { 0x00EB, 0x0037, func_8002EBCC, 0x0028, 0x0001, 0x0064, 0x0062, GI_POTION_RED, func_80A3ADD4, func_80A3BA40, func_80A3BB6C },
-    { 0x00EB, 0x0037, func_8002EBCC, 0x0032, 0x0001, 0x0065, 0x0063, GI_POTION_RED, func_80A3ADD4, func_80A3BA40, func_80A3BB6C },
+ShopItemEntry D_80A3C674[] = {
+    { 0x00BB, 0x0011, func_8002ED80, 0x000F, 0x0005, 0x00B2, 0x007F, GI_NUTS_5_2, func_80A3ABF8, func_80A3B714,
+      func_80A3BB6C },
+    { 0x00D8, 0x0025, func_8002EBCC, 0x003C, 0x001E, 0x00C1, 0x009B, GI_ARROWS_MEDIUM, func_80A3AAA8, func_80A3B634,
+      func_80A3BB6C },
+    { 0x00D8, 0x0026, func_8002EBCC, 0x005A, 0x0032, 0x00B0, 0x007D, GI_ARROWS_LARGE, func_80A3AAA8, func_80A3B634,
+      func_80A3BB6C },
+    { 0x00CE, 0x001F, func_8002EBCC, 0x0019, 0x0005, 0x00A3, 0x008B, GI_BOMBS_5, func_80A3AB58, func_80A3B678,
+      func_80A3BB6C },
+    { 0x00BB, 0x0011, func_8002ED80, 0x001E, 0x000A, 0x00A2, 0x0087, GI_NUTS_10, func_80A3ABF8, func_80A3B714,
+      func_80A3BB6C },
+    { 0x00C7, 0x001A, NULL, 0x000A, 0x0001, 0x00A1, 0x0088, GI_STICKS_1, func_80A3ACAC, func_80A3B780, func_80A3BB6C },
+    { 0x00CE, 0x001F, func_8002EBCC, 0x0032, 0x000A, 0x00B1, 0x007C, GI_BOMBS_10, func_80A3AB58, func_80A3B678,
+      func_80A3BB6C },
+    { 0x00F4, 0x003E, func_8002ED80, 0x00C8, 0x0001, 0x00B3, 0x007E, GI_FISH, func_80A3AD60, NULL, func_80A3BB6C },
+    { 0x00EB, 0x0037, func_8002EBCC, 0x001E, 0x0001, 0x00A5, 0x008E, GI_POTION_RED, func_80A3ADD4, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x00EB, 0x0036, func_8002EBCC, 0x001E, 0x0001, 0x00A6, 0x008F, GI_POTION_GREEN, func_80A3AE48, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x00EB, 0x0038, func_8002EBCC, 0x003C, 0x0001, 0x00A7, 0x0090, GI_POTION_BLUE, func_80A3AEBC, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x00F8, 0x0042, func_8002EBCC, 0x03E8, 0x0001, 0x00A8, 0x0091, GI_SWORD_KNIFE, func_80A3AF30, func_80A3B7BC,
+      func_80A3BB6C },
+    { 0x00DC, 0x002B, func_8002EBCC, 0x0050, 0x0001, 0x00A9, 0x0092, GI_SHIELD_HYLIAN, func_80A3AFC4, func_80A3B800,
+      func_80A3BB6C },
+    { 0x00CB, 0x001C, func_8002EBCC, 0x0028, 0x0001, 0x009F, 0x0089, GI_SHIELD_DEKU, func_80A3B040, func_80A3B83C,
+      func_80A3BB6C },
+    { 0x00F2, 0x003B, NULL, 0x00C8, 0x0001, 0x00AA, 0x0093, GI_TUNIC_GORON, func_80A3B0BC, func_80A3B878,
+      func_80A3BC0C },
+    { 0x00F2, 0x003C, NULL, 0x012C, 0x0001, 0x00AB, 0x0094, GI_TUNIC_ZORA, func_80A3B160, func_80A3B8B4,
+      func_80A3BC3C },
+    { 0x00B7, 0x0008, NULL, 0x000A, 0x0010, 0x00AC, 0x0095, GI_HEART, func_80A3B204, func_80A3B8F0, func_80A3BB6C },
+    { 0x00DF, 0x002F, func_80A3C498, 0x0064, 0x0001, 0x00AD, 0x0097, GI_MILK_BOTTLE, func_80A3B250, func_80A3B92C,
+      func_80A3BB6C },
+    { 0x00DA, 0x0028, func_8002EBCC, 0x0064, 0x0001, 0x00AE, 0x0099, GI_WEIRD_EGG, func_80A3B2AC, func_80A3B968,
+      func_80A3BB6C },
+    { 0x00DF, 0x002F, func_80A3C498, 0x2710, 0x0001, 0x00B4, 0x0085, GI_INVALID, func_80A3B308, func_80A3B9A4,
+      func_80A3BB6C },
+    { 0x00DA, 0x0028, func_8002EBCC, 0x2710, 0x0001, 0x00B5, 0x0085, GI_INVALID, func_80A3B318, func_80A3B9D4,
+      func_80A3BB6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, NULL,
+      func_80A3BC6C },
+    { 0x0119, 0x0047, func_8002EBCC, 0x001E, 0x001E, 0x00DF, 0x00DE, GI_SEEDS_30, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0134, 0x0030, func_8002EBCC, 0x0000, 0x0001, 0x70B2, 0x70BE, GI_MASK_KEATON, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0135, 0x0031, func_8002EBCC, 0x0000, 0x0001, 0x70B1, 0x70BD, GI_MASK_SPOOKY, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0136, 0x004E, func_8002EBCC, 0x0000, 0x0001, 0x70B0, 0x70BC, GI_MASK_SKULL, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0137, 0x004F, func_8002EBCC, 0x0000, 0x0001, 0x70B3, 0x70BF, GI_MASK_BUNNY, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0138, 0x0050, func_80A3C498, 0x0000, 0x0001, 0x70AF, 0x70C3, GI_MASK_TRUTH, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0151, 0x005B, NULL, 0x0000, 0x0001, 0x70B9, 0x70C1, GI_MASK_ZORA, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
+    { 0x0150, 0x005A, NULL, 0x0000, 0x0001, 0x70B8, 0x70C0, GI_MASK_GORON, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0152, 0x005C, NULL, 0x0000, 0x0001, 0x70BA, 0x70C2, GI_MASK_GERUDO, func_80A3B3A8, func_80A3BA04,
+      func_80A3BB6C },
+    { 0x0148, 0x0058, func_8002EBCC, 0x0000, 0x0000, 0x00BD, 0x70C2, GI_MASK_GERUDO, func_80A3B454, NULL, NULL },
+    { 0x0173, 0x0066, func_8002EBCC, 0x012C, 0x0001, 0x00B9, 0x00B8, GI_BLUE_FIRE, func_80A3B464, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x0174, 0x0067, func_80A3C498, 0x0032, 0x0001, 0x00BB, 0x00BA, GI_BUGS, func_80A3B4D8, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x0176, 0x006F, func_80A3C498, 0x0032, 0x0001, 0x506F, 0x5070, GI_BIG_POE, func_80A3B54C, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x0176, 0x0069, func_80A3C498, 0x001E, 0x0001, 0x506D, 0x506E, GI_POE, func_80A3B54C, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x0177, 0x006A, func_80A3C498, 0x0032, 0x0001, 0x00B7, 0x00B6, GI_FAIRY, func_80A3B5C0, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x00D8, 0x0024, func_8002EBCC, 0x0014, 0x000A, 0x00A0, 0x008A, GI_ARROWS_SMALL, func_80A3AAA8, func_80A3B634,
+      func_80A3BB6C },
+    { 0x00CE, 0x001F, func_8002EBCC, 0x0050, 0x0014, 0x001C, 0x0006, GI_BOMBS_20, func_80A3AB58, func_80A3B678,
+      func_80A3BB6C },
+    { 0x00CE, 0x001F, func_8002EBCC, 0x0078, 0x001E, 0x001D, 0x001E, GI_BOMBS_30, func_80A3AB58, func_80A3B678,
+      func_80A3BB6C },
+    { 0x00CE, 0x001F, func_8002EBCC, 0x0023, 0x0005, 0x00CB, 0x00CA, GI_BOMBS_5, func_80A3AB58, func_80A3B678,
+      func_80A3BB6C },
+    { 0x00EB, 0x0037, func_8002EBCC, 0x0028, 0x0001, 0x0064, 0x0062, GI_POTION_RED, func_80A3ADD4, func_80A3BA40,
+      func_80A3BB6C },
+    { 0x00EB, 0x0037, func_8002EBCC, 0x0032, 0x0001, 0x0065, 0x0063, GI_POTION_RED, func_80A3ADD4, func_80A3BA40,
+      func_80A3BB6C },
 };
 
 s16 D_80A3CCB4[8] = { 0x0005, 0x000A, 0x000F, 0x0014, 0x0019, 0x001E, 0x0023, 0x0028 };
 
-void func_80A3A750(EnGirlA* this, void* arg1) {
-    this->actionFunc = arg1;
+void func_80A3A750(EnGirlA* this, EnGirlAActionFunc func) {
+    this->actionFunc = func;
 }
 
 s32 func_80A3A758(EnGirlA* this) {
     switch (this->actor.params) {
-        case 0x11:
+        case 17:
             if (gSaveContext.itemGetInf[0] & 0x4) {
-                this->actor.params = 0x10;
+                this->actor.params = 16;
                 return 1;
             }
             break;
-        case 0x18:
+        case 24:
             if (gSaveContext.itemGetInf[0] & 0x40) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
-        case 0x19:
+        case 25:
             if (gSaveContext.itemGetInf[0] & 0x80) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
-        case 0x1A:
+        case 26:
             if (gSaveContext.itemGetInf[0] & 0x100) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
-        case 0x1B:
+        case 27:
             if (gSaveContext.itemGetInf[0] & 0x200) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
-        case 0x1C:
+        case 28:
             if (gSaveContext.itemGetInf[0] & 0x400) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
-        case 0x15:
+        case 21:
             if (gSaveContext.itemGetInf[0] & 0x8) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
-        case 0x16:
+        case 22:
             if (gSaveContext.itemGetInf[0] & 0x10) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
-        case 0x17:
+        case 23:
             if (gSaveContext.itemGetInf[0] & 0x20) {
-                this->actor.params = 0x26;
+                this->actor.params = 38;
                 return 1;
             }
             break;
@@ -571,7 +623,7 @@ s32 func_80A3B5C0(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 void func_80A3B634(GlobalContext* globalCtx, EnGirlA* this) {
-    Inventory_ChangeAmmo(3, this->unk_1CA);
+    Inventory_ChangeAmmo(ITEM_BOW, this->unk_1CA);
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -606,7 +658,7 @@ void func_80A3B714(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 void func_80A3B780(GlobalContext* globalCtx, EnGirlA* this) {
-    Item_Give(globalCtx, 0);
+    Item_Give(globalCtx, ITEM_STICK);
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -678,19 +730,19 @@ void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this) {
         case 10:
             Item_Give(globalCtx, ITEM_POTION_BLUE);
             break;
-        case 0x27:
+        case 39:
             Item_Give(globalCtx, ITEM_BLUE_FIRE);
             break;
-        case 0x28:
+        case 40:
             Item_Give(globalCtx, ITEM_BUG);
             break;
-        case 0x29:
+        case 41:
             Item_Give(globalCtx, ITEM_BIG_POE);
             break;
-        case 0x2A:
+        case 42:
             Item_Give(globalCtx, ITEM_POE);
             break;
-        case 0x2B:
+        case 43:
             Item_Give(globalCtx, ITEM_FAIRY);
             break;
     }
@@ -698,8 +750,8 @@ void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 void func_80A3BB6C(GlobalContext* globalCtx, EnGirlA* this) {
-    if (this->actor.params == 0xC) {
-        if ((gSaveContext.infTable[7] & 0x40)) {
+    if (this->actor.params == 12) {
+        if (gSaveContext.infTable[7] & 0x40) {
             Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Math_Rand_ZeroFloat(7.9f)]));
             return;
         }
@@ -717,68 +769,68 @@ void func_80A3BC3C(GlobalContext* globalCtx, EnGirlA* this) {
 
 void func_80A3BC6C(GlobalContext* globalCtx, EnGirlA* this) {
     switch (this->actor.params) {
-        case 0x18:
+        case 24:
             gSaveContext.itemGetInf[0] |= 0x40;
             break;
-        case 0x19:
+        case 25:
             gSaveContext.itemGetInf[0] |= 0x80;
             break;
-        case 0x1A:
+        case 26:
             gSaveContext.itemGetInf[0] |= 0x100;
             break;
-        case 0x1B:
+        case 27:
             gSaveContext.itemGetInf[0] |= 0x200;
             break;
-        case 0x1C:
+        case 28:
             gSaveContext.itemGetInf[0] |= 0x400;
             break;
-        case 0x15:
+        case 21:
             gSaveContext.itemGetInf[0] |= 0x8;
             break;
-        case 0x16:
+        case 22:
             gSaveContext.itemGetInf[0] |= 0x10;
             break;
-        case 0x17:
+        case 23:
             gSaveContext.itemGetInf[0] |= 0x20;
             break;
     }
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
-void func_80A3BD80(GlobalContext* globalCtx, EnGirlA* this) {
+void func_80A3BD80(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
-    GirlAThing* tmp = &D_80A3C674[this->actor.params];
+    ShopItemEntry* tmp = &D_80A3C674[this->actor.params];
     s32 params = this->actor.params;
     s32 params2;
     s32 tmp3;
 
-    if ((this->actor.params >= 0x1E) && (this->actor.params < 0x23)) {
-        params2 = this->actor.params - 0x1E;
+    if ((this->actor.params >= 30) && (this->actor.params < 35)) {
+        params2 = this->actor.params - 30;
         tmp3 = 0;
         switch (this->actor.params) {
-            case 0x1E:
-                if ((gSaveContext.itemGetInf[3] & 0x100) != 0) {
+            case 30:
+                if (gSaveContext.itemGetInf[3] & 0x100) {
                     tmp3 = 1;
                 }
                 break;
-            case 0x1F:
+            case 31:
                 if (gSaveContext.itemGetInf[3] & 0x400) {
                     tmp3 = 1;
                 }
                 break;
-            case 0x20:
+            case 32:
                 if (gSaveContext.itemGetInf[3] & 0x200) {
                     tmp3 = 1;
                 }
                 break;
-            case 0x21:
+            case 33:
                 if (gSaveContext.itemGetInf[3] & 0x800) {
                     tmp3 = 1;
                 }
                 break;
-            case 0x22:
+            case 34:
                 if (gSaveContext.itemGetInf[3] & 0x800) {
                     tmp3 = 1;
                 }
@@ -799,7 +851,7 @@ void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
 void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this) {
     this->unk_1A8 = 1;
     this->actor.draw = NULL;
-    if ((this->actor.params >= 0x1E) && (this->actor.params < 0x26)) {
+    if ((this->actor.params >= 30) && (this->actor.params < 38)) {
         this->actor.textId = 0xBD;
     }
 }
@@ -807,7 +859,7 @@ void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this) {
 #ifdef NON_MATCHING
 // Small regalloc
 void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this) {
-    GirlAThing* tmp;
+    ShopItemEntry* tmp;
 
     if (func_80A3A758(this)) {
         func_80A3A8D0(this, globalCtx);
@@ -825,13 +877,13 @@ void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this) {
 s32 func_80A3BF54(EnGirlA* this, GlobalContext* globalCtx) {
     s32 params;
 
-    if ((this->actor.params >= 0x1E) && (this->actor.params < 0x26)) {
-        params = this->actor.params - 0x1E;
-        if (gSaveContext.items[gItemSlots[0x21]] == D_80A3C658[params]) {
+    if ((this->actor.params >= 30) && (this->actor.params < 38)) {
+        params = this->actor.params - 30;
+        if (INV_CONTENT(ITEM_WEIRD_EGG) == D_80A3C658[params]) {
             func_80A3BEAC(globalCtx, this);
-            return 1;
+        } else {
+            func_80A3BD8C(globalCtx, this);
         }
-        func_80A3BD8C(globalCtx, this);
         return 1;
     }
     return 0;
@@ -839,12 +891,12 @@ s32 func_80A3BF54(EnGirlA* this, GlobalContext* globalCtx) {
 
 void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
-    GirlAThing* tmp = &D_80A3C674[params];
+    ShopItemEntry* tmp = &D_80A3C674[params];
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->unk_194)) {
         this->actor.flags &= ~0x10;
         this->actor.objBankIndex = this->unk_194;
-        switch (this->actor.params - 0x1E) {
+        switch (this->actor.params - 30) {
             case 0:
                 if (gSaveContext.itemGetInf[3] & 0x100) {
                     this->actor.textId = 0x70B6;
@@ -943,7 +995,7 @@ void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_SetHeight(&this->actor, 5.0f);
     this->actor.shape.rot.x = 0.0f;
-    if (this->actor.params != 0x26) {
+    if (this->actor.params != 38) {
         if (this->unk_1B4 != 0) {
             this->unk_1B8 += 0x1F4;
         } else {
@@ -958,9 +1010,9 @@ void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_198(this, globalCtx);
 }
 
-void func_80A3C498(Actor* this, GlobalContext* globalCtx, s32 flags) {
-    func_8002EBCC(this, globalCtx, 0);
-    func_8002ED80(this, globalCtx, 0);
+void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags) {
+    func_8002EBCC(thisx, globalCtx, 0);
+    func_8002ED80(thisx, globalCtx, 0);
 }
 
 void func_80A3C4D4(Actor* thisx, GlobalContext* globalCtx) {

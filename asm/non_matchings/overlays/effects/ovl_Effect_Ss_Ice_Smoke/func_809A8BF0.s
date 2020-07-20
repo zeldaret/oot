@@ -1,3 +1,9 @@
+.rdata
+glabel D_809A90C0
+    .asciz "Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n"
+    .balign 4
+
+.text
 glabel func_809A8BF0
 /* 00000 809A8BF0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 809A8BF4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

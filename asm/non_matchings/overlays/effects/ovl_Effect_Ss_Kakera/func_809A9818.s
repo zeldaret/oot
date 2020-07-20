@@ -1,3 +1,9 @@
+.rdata
+glabel D_809AA5E8
+    .asciz "範囲がマイナス！！(randomD_sectionUniformity)\n"
+    .balign 4
+
+.text
 glabel func_809A9818
 /* 00198 809A9818 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 0019C 809A981C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
