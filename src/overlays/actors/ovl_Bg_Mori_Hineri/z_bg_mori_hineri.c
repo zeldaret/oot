@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_mori_hineri.c
+ * Overlay: ovl_Bg_Mori_Hineri
+ * Description: Twisting hallway in Forest Temple
+ */
+
 #include "z_bg_mori_hineri.h"
 
 #define FLAGS 0x00000030
