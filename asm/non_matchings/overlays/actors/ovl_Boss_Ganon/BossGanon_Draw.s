@@ -1,3 +1,13 @@
+.rdata
+glabel D_808F7C58
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7C6C
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+.text
 glabel BossGanon_Draw
 /* 0A468 808E0CD8 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 0A46C 808E0CDC AFB1002C */  sw      $s1, 0x002C($sp)

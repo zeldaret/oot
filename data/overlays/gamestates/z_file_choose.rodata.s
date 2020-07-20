@@ -10,9 +10,13 @@
 .balign 16
 
 glabel D_80812CF0
- .word 0xA3D3A3F2, 0xA3E1A3ED, 0x20A3D3A3, 0xF4A3E1A3, 0xF2A3F4A8, 0xA1A3CCA3, 0xEFA3E1A3, 0xE42020A1, 0xD5A1D5A1, 0xD5A1D5A1, 0xD5202000
+    .asciz "Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  "
+    .balign 4
+
 glabel D_80812D1C
- .word 0xBDAACEBB, 0xA1AAA1AA, 0xA1AA0A00
+    .asciz "終了！！！\n"
+    .balign 4
+
 glabel D_80812D28
     .asciz "REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n"
     .balign 4
@@ -78,7 +82,7 @@ glabel D_80812EA0
     .balign 4
 
 glabel D_80812EB4
-    .asciz "[32m"
+    .asciz "\x1b[32m"
     .balign 4
 
 glabel D_80812EBC
@@ -146,13 +150,17 @@ glabel D_80812FF4
     .balign 4
 
 glabel D_80813008
- .word 0x3F47AE14
+    .float 0.78
+
 glabel D_8081300C
- .word 0x3F47AE14
+    .float 0.78
+
 glabel D_80813010
- .word 0x3F47AE14
+    .float 00.78
+
 glabel D_80813014
- .word 0x3F47AE14
+    .float 0.78
+
 glabel D_80813018
- .word 0x3F47AE14, 0x00000000
+    .float 0.78
 

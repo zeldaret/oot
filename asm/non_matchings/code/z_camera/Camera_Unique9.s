@@ -8,19 +8,19 @@ glabel D_8013942C
     .balign 4
 
 glabel D_80139450
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 glabel D_80139488
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 glabel D_801394C0
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 glabel D_801394F8
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 .late_rodata
