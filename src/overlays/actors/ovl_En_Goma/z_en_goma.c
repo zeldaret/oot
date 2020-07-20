@@ -1,4 +1,11 @@
+/*
+ * File: z_en_goma.c
+ * Overlay: ovl_En_Goma
+ * Description: Gohma Larva
+*/
+
 #include "z_en_goma.h"
+#include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 
 #define FLAGS 0x00000035
 
@@ -9,28 +16,27 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A49338(EnGoma*, GlobalContext*);
-void func_80A493D8(EnGoma*, GlobalContext*);
-void func_80A49668(EnGoma*, GlobalContext*);
-void func_80A498A8(EnGoma*, GlobalContext*);
-void func_80A49974(EnGoma*, GlobalContext*);
-void func_80A49AA8(EnGoma*, GlobalContext*);
-void func_80A49B30(EnGoma*);
-void func_80A49BF0(EnGoma*, GlobalContext*);
-void func_80A49C94(EnGoma*);
-void func_80A49D0C(EnGoma*, GlobalContext*);
-void func_80A49E80(EnGoma*);
-void func_80A4A010(EnGoma*, GlobalContext*);
-void func_80A4A120(EnGoma*, GlobalContext*);
-void func_80A4A18C(EnGoma*);
-void func_80A4A234(EnGoma*, GlobalContext*);
-void func_80A4A2EC(EnGoma*, GlobalContext*);
-void func_80A4A368(EnGoma*, GlobalContext*);
-void func_80A4B3AC(EnGoma*, GlobalContext*);
-void func_80A4B3F0(EnGoma*, GlobalContext*);
-void func_80A4A50C(EnGoma*, GlobalContext*);
-void func_80A4B554(EnGoma*, GlobalContext*);
-
+void func_80A49338(EnGoma* this, GlobalContext* globalCtx);
+void func_80A493D8(EnGoma* this, GlobalContext* globalCtx);
+void func_80A49668(EnGoma* this, GlobalContext* globalCtx);
+void func_80A498A8(EnGoma* this, GlobalContext* globalCtx);
+void func_80A49974(EnGoma* this, GlobalContext* globalCtx);
+void func_80A49AA8(EnGoma* this, GlobalContext* globalCtx);
+void func_80A49BF0(EnGoma* this, GlobalContext* globalCtx);
+void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4A010(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4A120(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4A234(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4A2EC(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4A368(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4B3AC(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4B3F0(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4A50C(EnGoma* this, GlobalContext* globalCtx);
+void func_80A4B554(EnGoma* this, GlobalContext* globalCtx);
+void func_80A49B30(EnGoma* this);
+void func_80A49C94(EnGoma* this);
+void func_80A49E80(EnGoma* this);
+void func_80A4A18C(EnGoma* this);
 u8 func_800635D0(s32);
 
 const ActorInit En_Goma_InitVars = {
@@ -106,32 +112,30 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_2C0 = (Math_Rand_ZeroOne() * 200.0f);
     Actor_ProcessInitChain(&this->actor, D_80A4B808);
     Actor_SetScale(&this->actor, 0.01f);
-    if (this->actor.params >= 0x64) {
+    if (this->actor.params >= 100) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 9);
         this->actionFunc = func_80A4B554;
         this->unk_2B8 = 3;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
-        this->unk_2CC = this->actor.params + 0x96;
+        this->unk_2CC = this->actor.params + 150;
         this->actor.flags &= -2;
-    } else if (this->actor.params >= 0xA) {
+    } else if (this->actor.params >= 10) {
         this->actor.gravity = -1.3f;
         this->actor.flags &= -2;
         this->unk_2CC = 50;
         this->unk_2B8 = 2;
         this->unk_2D0 = 1.0f;
         this->actor.velocity.y = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
-
         this->actionFunc = func_80A4B3AC;
         this->actor.speedXZ = (Math_Rand_ZeroOne() * 2.3f) + 1.5f;
         this->unk_2CC = 30;
         this->actor.scale.x = (Math_Rand_ZeroOne() * 0.005f) + 0.01f;
         this->actor.scale.y = (Math_Rand_ZeroOne() * 0.005f) + 0.01f;
         this->actor.scale.z = (Math_Rand_ZeroOne() * 0.005f) + 0.01f;
-
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003B40, &D_06001548, &this->unk_190, &this->unk_220, 0x18);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003B40, &D_06001548, &this->limbDrawTable, &this->transitionDrawTable, 24);
         SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06001548);
         this->actor.colChkInfo.health = 2;
 
@@ -377,7 +381,7 @@ void func_80A49C94(EnGoma* this) {
 void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx) {
     Vec3f a;
     Vec3f b;
-    EnGoma* tmp;
+    BossGoma* goma;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 2.0f);
@@ -394,8 +398,9 @@ void func_80A49D0C(EnGoma* this, GlobalContext* globalCtx) {
     if ((this->unk_2CC == 0) &&
         (Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0.0f, 0.5f, 0.00225f, 0.00001f) <= 0.001f)) {
         if (this->actor.params < 6) {
-            tmp = (EnGoma*)this->actor.attachedA;
-            tmp->unk_1A4[this->actor.params] = -1;
+            // Warning, out of bounds
+            goma = (BossGoma*)this->actor.attachedA;
+            goma->unk_1A4[this->actor.params] = -1;
         }
         Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         Actor_Kill(&this->actor);
@@ -576,7 +581,7 @@ void func_80A4A608(EnGoma* this, GlobalContext* globalCtx) {
 
 void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    EnGoma* goma;
+    BossGoma* goma;
     u8 tmp;
     ColliderTouch* toucher;
 
@@ -627,10 +632,10 @@ void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
             }
         } else {
             if (this->actor.params < 6) {
-                goma = (EnGoma*)this->actor.attachedA;
+                // Warning, out of bounds
+                goma = (BossGoma*)this->actor.attachedA;
                 goma->unk_1A4[this->actor.params] = -1;
             }
-
             func_80A4B3F0(this, globalCtx);
             Actor_Kill(&this->actor);
         }
@@ -718,14 +723,14 @@ s32 func_80A4ACC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Gfx* dispRefs[4];
 
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 1976);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->unk_2E0[0], (s16)this->unk_2E0[1], (s16)this->unk_2E0[2], 0xFF);
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->unk_2E0[0], (s16)this->unk_2E0[1], (s16)this->unk_2E0[2], 255);
 
         if (limbIndex == 7) {
             rot->x += this->unk_2BA;
             rot->y += this->unk_2BC;
         } else if ((limbIndex == 3) && (this->unk_2C2)) {
             gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)(Math_Rand_ZeroOne() * 255.0f),
-                           (s16)(Math_Rand_ZeroOne() * 255.0f), (s16)(Math_Rand_ZeroOne() * 255.0f), 0xFF);
+                           (s16)(Math_Rand_ZeroOne() * 255.0f), (s16)(Math_Rand_ZeroOne() * 255.0f), 255);
         }
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 2011);
     }
@@ -763,9 +768,7 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
         switch (this->unk_2B8) {
             case 0:
                 this->actor.naviEnemyId = 3;
-
                 tmpvec = &globalCtx->cameras[0].unk_80;
-
                 Matrix_Translate(this->actor.posRot.pos.x,
                                  this->actor.posRot.pos.y +
                                      ((this->actor.shape.unk_08 * this->actor.scale.y) + tmpvec->y),

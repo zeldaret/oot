@@ -11,12 +11,8 @@ typedef void (*EnGomaActionFunc)(struct EnGoma*, GlobalContext*);
 typedef struct EnGoma {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s unk_190;
-    /* 0x0196 */ char unk_196[0xE];
-    /* 0x01A4 */ s16 unk_1A4[6];
-    /* 0x01B0 */ char unk_1B0[0x70];
-    /* 0x0220 */ Vec3s unk_220;
-    /* 0x0226 */ char unk_226[0x8A];
+    /* 0x0190 */ Vec3s limbDrawTable[24];
+    /* 0x0220 */ Vec3s transitionDrawTable[24];
     /* 0x02B0 */ EnGomaActionFunc actionFunc;
     /* 0x02B4 */ s16 unk_2B4;
     /* 0x02B6 */ s16 unk_2B6;

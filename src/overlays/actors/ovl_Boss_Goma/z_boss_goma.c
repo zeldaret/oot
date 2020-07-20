@@ -1,3 +1,9 @@
+/*
+ * File: z_boss_goma.c
+ * Overlay: ovl_Boss_Goma
+ * Description: Gohma
+*/
+
 #include "z_boss_goma.h"
 
 #define FLAGS 0x00000035
@@ -278,7 +284,7 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFF;
     Collider_InitJntSph(globalCtx, &this->unk_7BC);
     Collider_SetJntSph(globalCtx, &this->unk_7BC, &this->actor, &D_8091B034, &this->unk_7DC);
-    if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num) != 0) {
+    if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, 0x5D, 0.0f, -640.0f, 0.0f, 0, 0, 0, 0);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x5F, 141.0f, -640.0f, -84.0f, 0, 0, 0, 0);
@@ -301,6 +307,7 @@ void func_80915DF8(BossGoma* this, GlobalContext* globalCtx, s16 arg2, s16 arg3)
 
 void BossGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BossGoma* this = THIS;
+
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->unk_7BC);
 }
@@ -1059,7 +1066,7 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
 void func_80918C08(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 2.0f);
-    if ((this->skelAnime.animCurrentFrame >= 19.333334f) && (this->skelAnime.animCurrentFrame <= 30.0f)) {
+    if ((this->skelAnime.animCurrentFrame >= 19.3333339f) && (this->skelAnime.animCurrentFrame <= 30.0f)) {
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, func_8002DA78(&this->actor, &PLAYER->actor), 3, 0xBB8);
     }
     if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_0600C468.genericHeader))) {
@@ -1088,7 +1095,6 @@ void func_80918D6C(BossGoma* this, GlobalContext* globalCtx) {
 
     this->actor.flags |= 0x1000000;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-
     switch (this->unk_1D0) {
         case 0:
             for (i = 0; i < this->unk_7BC.count; i++) {
@@ -1126,7 +1132,6 @@ void func_80918D6C(BossGoma* this, GlobalContext* globalCtx) {
             }
             break;
     }
-
     this->unk_1B4 = 2;
     this->unk_1B8 = 0;
 }
@@ -1396,11 +1401,10 @@ void func_80919A40(BossGoma* this, GlobalContext* globalCtx) {
         sp2C = Math_Rand_ZeroOne();
         this->actor.posRot.pos.x = (sp28 + Math_Sins(tmp1) * (5.0f + (sp2C * 5.0f))) + this->actor.posRot.pos.x;
     }
-    if (this->unk_1D2 == 0) {
-        if ((fabsf(-150.0f - this->actor.posRot.pos.x) < 100.0f) &&
-            (fabsf(-350.0f - this->actor.posRot.pos.z) < 100.0f)) {
-            func_8091612C(this);
-        }
+    if ((this->unk_1D2 == 0) && 
+       (fabsf(-150.0f - this->actor.posRot.pos.x) < 100.0f) &&
+       (fabsf(-350.0f - this->actor.posRot.pos.z) < 100.0f)) {
+        func_8091612C(this);
     }
 }
 #else
@@ -1624,7 +1628,7 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4685);
 
         gDPPipeSync(gfxCtx->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_204.x, (s8)this->unk_204.y, (s8)this->unk_204.z, 0xFF);
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_204.x, (s8)this->unk_204.y, (s8)this->unk_204.z, 255);
 
         if (this->unk_758[limbIndex] >= 2) {
             *dList = NULL;
@@ -1638,10 +1642,10 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                 }
                 if (this->unk_1BA != 0) {
                     gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)(Math_Rand_ZeroOne() * 255.0f),
-                                   (s8)(Math_Rand_ZeroOne() * 255.0f), (s8)(Math_Rand_ZeroOne() * 255.0f), 0x3F);
+                                   (s8)(Math_Rand_ZeroOne() * 255.0f), (s8)(Math_Rand_ZeroOne() * 255.0f), 63);
                 } else {
                     gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_210.x, (s8)this->unk_210.y, (s8)this->unk_210.z,
-                                   0x3F);
+                                   63);
                 }
                 break;
             case 32:
@@ -1660,9 +1664,9 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                     break;
                 }
                 if (this->unk_1B8 == 2) {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x32, 0x32, 0x32, 0xFF);
+                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 50, 50, 50, 255);
                 } else {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, 0xFF);
+                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 255, 255, 255, 255);
                 }
                 Matrix_JointPosition(pos, rot);
                 if (*dList != NULL) {
@@ -1694,7 +1698,6 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4858);
     }
-
     return ret;
 }
 #else
@@ -1709,15 +1712,15 @@ void func_8091A9E8(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3s* arg3, 
     BossGoma* this = THIS;
     MtxF c;
 
-    if (arg1 == 0xB) {
+    if (arg1 == 11) {
         Matrix_MultVec3f(&D_8091B3F4, &this->unk_260);
-    } else if (arg1 == 0xE) {
+    } else if (arg1 == 14) {
         Matrix_MultVec3f(&D_8091B3F4, &this->unk_26C);
-    } else if (arg1 == 0x5) {
+    } else if (arg1 == 5) {
         Matrix_MultVec3f(&D_8091B40C, &this->actor.posRot2.pos);
-    } else if (arg1 == 0x15) {
+    } else if (arg1 == 21) {
         Matrix_MultVec3f(&D_8091B400, &this->unk_278);
-    } else if (arg1 == 0x49) {
+    } else if (arg1 == 73) {
         Matrix_MultVec3f(&D_8091B400, &this->unk_284);
     }
 
@@ -1758,7 +1761,7 @@ Gfx* func_8091AC18(GraphicsContext* gfxCtx) {
     Gfx* displayListHead;
     Gfx* displayList;
 
-    displayListHead = displayList = Graph_Alloc(gfxCtx, 0x20);
+    displayListHead = displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
     gDPPipeSync(displayListHead++);
     gDPSetRenderMode(displayListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
     gSPClearGeometryMode(displayListHead++, G_CULL_BACK);
