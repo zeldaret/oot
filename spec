@@ -3505,7 +3505,6 @@ endseg
 beginseg
     name "ovl_Item_Etcetera"
     include "build/src/overlays/actors/ovl_Item_Etcetera/z_item_etcetera.o"
-    include "build/data/overlays/actors/z_item_etcetera.data.o"
     include "build/data/overlays/actors/z_item_etcetera.reloc.o"
 endseg
 

@@ -98,7 +98,7 @@ glabel ItemEtcetera_Init
 /* 000E4 80B856D4 A60F0152 */  sh      $t7, 0x0152($s0)           ## 00000152
 /* 000E8 80B856D8 3C0580B8 */  lui     $a1, %hi(func_80B857D0)    ## $a1 = 80B80000
 /* 000EC 80B856DC 24A557D0 */  addiu   $a1, $a1, %lo(func_80B857D0) ## $a1 = 80B857D0
-/* 000F0 80B856E0 0C2E157C */  jal     func_80B855F0              
+/* 000F0 80B856E0 0C2E157C */  jal     ItemEtcetera_SetupAction              
 /* 000F4 80B856E4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000F8 80B856E8 8FA8002C */  lw      $t0, 0x002C($sp)           
 /* 000FC 80B856EC 2509FFFF */  addiu   $t1, $t0, 0xFFFF           ## $t1 = FFFFFFFF

@@ -21,16 +21,16 @@ glabel func_80B8598C
 /* 003C8 80B859B8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
               
 /* 003CC 80B859BC 00000000 */  nop
-/* 003D0 80B859C0 3C0180B8 */  lui     $at, %hi(D_80B85D7C)       ## $at = 80B80000
-/* 003D4 80B859C4 E4205D7C */  swc1    $f0, %lo(D_80B85D7C)($at)  
+/* 003D0 80B859C0 3C0180B8 */  lui     $at, %hi(D_80B85D74+0x8)       ## $at = 80B80000
+/* 003D4 80B859C4 E4205D7C */  swc1    $f0, %lo(D_80B85D74+0x8)($at)  
 /* 003D8 80B859C8 3C0180B8 */  lui     $at, %hi(D_80B85E5C)       ## $at = 80B80000
 /* 003DC 80B859CC C4245E5C */  lwc1    $f4, %lo(D_80B85E5C)($at)  
-/* 003E0 80B859D0 3C0180B8 */  lui     $at, %hi(D_80B85D78)       ## $at = 80B80000
-/* 003E4 80B859D4 E4245D78 */  swc1    $f4, %lo(D_80B85D78)($at)  
+/* 003E0 80B859D0 3C0180B8 */  lui     $at, %hi(D_80B85D74+0x4)       ## $at = 80B80000
+/* 003E4 80B859D4 E4245D78 */  swc1    $f4, %lo(D_80B85D74+0x4)($at)  
 /* 003E8 80B859D8 3C0180B8 */  lui     $at, %hi(D_80B85E60)       ## $at = 80B80000
 /* 003EC 80B859DC C4265E60 */  lwc1    $f6, %lo(D_80B85E60)($at)  
-/* 003F0 80B859E0 3C0180B8 */  lui     $at, %hi(D_80B85D84)       ## $at = 80B80000
-/* 003F4 80B859E4 E4265D84 */  swc1    $f6, %lo(D_80B85D84)($at)  
+/* 003F0 80B859E0 3C0180B8 */  lui     $at, %hi(D_80B85D80+0x4)       ## $at = 80B80000
+/* 003F4 80B859E4 E4265D84 */  swc1    $f6, %lo(D_80B85D80+0x4)($at)  
 /* 003F8 80B859E8 3C014140 */  lui     $at, 0x4140                ## $at = 41400000
 /* 003FC 80B859EC 44816000 */  mtc1    $at, $f12                  ## $f12 = 12.00
 /* 00400 80B859F0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
