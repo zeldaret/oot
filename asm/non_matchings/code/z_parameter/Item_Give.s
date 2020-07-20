@@ -1,6 +1,6 @@
 .rdata
 glabel D_8013DF28
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013DF30
@@ -8,11 +8,11 @@ glabel D_8013DF30
     .balign 4
 
 glabel D_8013DF54
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 glabel D_8013DF58
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013DF60
@@ -21,11 +21,11 @@ glabel D_8013DF60
     .balign 4
 
 glabel D_8013DF6C
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 glabel D_8013DF70
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013DF78
@@ -39,11 +39,11 @@ glabel D_8013DF84
     .balign 4
 
 glabel D_8013DF9C
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 glabel D_8013DFA0
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013DFA8
@@ -52,11 +52,11 @@ glabel D_8013DFA8
     .balign 4
 
 glabel D_8013DFB8
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 glabel D_8013DFBC
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013DFC4
@@ -65,11 +65,11 @@ glabel D_8013DFC4
     .balign 4
 
 glabel D_8013DFD4
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 glabel D_8013DFD8
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013DFE0
@@ -78,7 +78,7 @@ glabel D_8013DFE0
     .balign 4
 
 glabel D_8013DFF4
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 glabel D_8013DFF8

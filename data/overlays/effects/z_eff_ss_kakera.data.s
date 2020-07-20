@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_Kakera_InitVars
 .word 0x00000019
-.word func_809A9680
+.word EffectSsKakera_Init
 glabel D_809AA528
  .word 0xFFFFFFEB, 0xAA820000
 glabel D_809AA530

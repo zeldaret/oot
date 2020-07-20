@@ -1,6 +1,6 @@
 .rdata
 glabel D_80B87280
-    .asciz "[32mItem_Shild %d \n[m"
+    .asciz "\x1b[32mItem_Shild %d \n\x1b[m"
     .balign 4
 
 .text

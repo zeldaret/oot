@@ -20,8 +20,8 @@ PrintTextBuffer D_8015FA98[0x16];
 
 s16 D_8011E0B0 = 0; // PrintTextBuffer index
 Color_RGBA8 printTextColors[] = {
-    { 0xFF, 0xFF, 0x20, 0xC0 }, { 0xFF, 0x96, 0x80, 0xC0 }, { 0x80, 0x60, 0x00, 0x40 }, { 0xC0, 0x80, 0x10, 0x80 },
-    { 0xFF, 0xC0, 0x20, 0x80 }, { 0xE6, 0xE6, 0xDC, 0x40 }, { 0x80, 0x96, 0xFF, 0x80 }, { 0x80, 0xFF, 0x20, 0x80 },
+    { 255, 255, 32, 192 }, { 255, 150, 128, 192 }, { 128, 96, 0, 64 },     { 192, 128, 16, 128 },
+    { 255, 192, 32, 128 }, { 230, 230, 220, 64 },  { 128, 150, 255, 128 }, { 128, 255, 32, 128 },
 };
 
 InputCombo inputCombos[REG_GROUPS] = {
@@ -201,16 +201,16 @@ void func_80063C04(GfxPrint* gfxPrint) {
     name[0] = 'R';
     name[1] = regChar[gGameInfo->regGroup]; // r_group type char
     name[2] = '\0';
-    GfxPrint_SetColor(gfxPrint, 0, 0x80, 0x80, 0x80);
+    GfxPrint_SetColor(gfxPrint, 0, 128, 128, 128);
 
     for (i = 0; i != REG_PER_PAGE; i++) {
         if (i == gGameInfo->regCur) {
-            GfxPrint_SetColor(gfxPrint, 0, 0xff, 0xff, 0xff);
+            GfxPrint_SetColor(gfxPrint, 0, 255, 255, 255);
         }
         GfxPrint_SetPos(gfxPrint, 3, i + 5);
         GfxPrint_Printf(gfxPrint, "%s%02d%6d", &name, page + i, gGameInfo->data[i + regGroup]);
         if (i == gGameInfo->regCur) {
-            GfxPrint_SetColor(gfxPrint, 0, 0x80, 0x80, 0x80);
+            GfxPrint_SetColor(gfxPrint, 0, 128, 128, 128);
         }
     }
 }

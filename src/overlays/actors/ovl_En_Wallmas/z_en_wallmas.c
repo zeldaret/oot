@@ -76,8 +76,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, 0xFA24, 0),
 };
 
-static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
-
 extern AnimationHeader D_06000EA4;
 extern AnimationHeader D_06000590;
 extern AnimationHeader D_0600299C;
@@ -141,7 +139,7 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     AnimationHeader* objSegChangeAnime = &D_0600299C;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f, (f32)SkelAnime_GetFrameCount(&D_0600299C), 2,
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f, SkelAnime_GetFrameCount(&D_0600299C), 2,
                          0.0f);
 
     this->unk_2c4 = player->actor.posRot.pos.y;
@@ -188,8 +186,8 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f,
-                         (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount), 2,
+                         -3.0f);
 
     this->actionFunc = EnWallmas_ReturnToCeiling;
 }
@@ -217,6 +215,7 @@ void EnWallmas_SetupCooldown(EnWallmas* this) {
 }
 
 void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
+    static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
@@ -569,7 +568,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     // clang-format on
 
     func_80094044(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
 
     func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);

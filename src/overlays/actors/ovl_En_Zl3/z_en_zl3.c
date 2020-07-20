@@ -541,7 +541,7 @@ void func_80B55054(EnZl3* this) {
         if (attachedB != NULL) {
             temp_v0 = &this->unk_2EC;
             if (*temp_v0 < 19.0f) {
-                ((DoorWarp1*)attachedB)->unk_1A8 = (20.0f - *temp_v0) * 12.75f;
+                ((DoorWarp1*)attachedB)->alpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
             } else {
                 Actor_Kill(attachedB);

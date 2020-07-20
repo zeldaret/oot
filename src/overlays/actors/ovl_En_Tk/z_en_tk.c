@@ -133,12 +133,12 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
             if (gfxSetup == 0) {
                 gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
                 gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BC90);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0x3C, 0x14, 0x00);
+                gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 60, 20, 0);
                 gfxSetup = 1;
             }
 
             alpha = eff->timeLeft * (255.f / eff->timeTotal);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xAA, 0x82, 0x5A, alpha);
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, alpha);
 
             gDPPipeSync(gfxCtx->polyXlu.p++);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);

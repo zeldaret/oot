@@ -1,3 +1,36 @@
+.late_rodata
+glabel D_808F817C
+    .float 0.7853982
+
+glabel D_808F8180
+    .float 1.5707964
+
+glabel D_808F8184
+    .float 20000.0
+
+glabel jtbl_808F8188
+    .word L808E12A0
+    .word L808E15E8
+    .word L808E1688
+    .word L808E176C
+    .word L808E16FC
+
+glabel D_808F819C
+    .float 62500.0
+
+glabel D_808F81A0
+    .float 0.7
+
+glabel D_808F81A4
+    .float 0.9
+
+glabel D_808F81A8
+    .float 0.2
+
+glabel D_808F81AC
+    .float 465.0
+
+.text
 glabel func_808E1034
 /* 0A7C4 808E1034 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 0A7C8 808E1038 AFBF0034 */  sw      $ra, 0x0034($sp)           

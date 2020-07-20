@@ -207,16 +207,16 @@ cutscene_command_macros = {
               "CS_MISC(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     4:
         ("CS_LIGHTING_LIST(%w1:1:s)", 2, None, 0,
-              "CS_LIGHTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
+              "CS_LIGHTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     86:
         ("CS_PLAY_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_PLAY_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
+              "CS_PLAY_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     87:
         ("CS_STOP_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_STOP_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
+              "CS_STOP_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     124:
         ("CS_FADE_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_FADE_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
+              "CS_FADE_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     9:
         ("CS_CMD_09_LIST(%w1:1:s)", 2, None, 0,
               "CS_CMD_09(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
@@ -418,16 +418,7 @@ def disassemble_cutscene(cs_in):
     for k in range(0,total_entries+1):
         cmd_type = cs_in[i]
         if (cmd_type == 0xFFFFFFFF):
-            macros += multi_key(-1)[0]+line_end
-            # since this now takes an address instead of pre-disassembled data, the amount of padding
-            # cannot (and does not need to be) figured out by the script
-            """for p in range(len(cs_in)-i-1):
-                v = cs_in[i+p+1]
-                if v == 0:
-                    macros += "CS_PAD()"+line_end
-                else:
-                    macros += "0x" + pad(hex(v), 8).upper() + line_end"""
-            return macros
+            return macros + multi_key(-1)[0]+line_end
         entry = multi_key(cmd_type)
         if entry is None:
             entry = unk_data_entry
