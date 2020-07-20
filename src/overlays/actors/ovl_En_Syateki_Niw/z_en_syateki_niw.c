@@ -1,3 +1,9 @@
+/*
+ * File: z_en_syateki_niw.c
+ * Overlay: ovl_En_Syateki_Niw
+ * Description: Hopping Cucco
+*/
+
 #include "z_en_syateki_niw.h"
 #include <vt.h>
 
