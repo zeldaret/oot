@@ -1,3 +1,13 @@
+.rdata
+glabel D_809151A8
+    .asciz "this->fwork[GND_END_FRAME] = %d\n"
+    .balign 4
+
+glabel D_809151CC
+    .asciz "this->work[GND_SHOT_FRAME] = %d\n"
+    .balign 4
+
+.text
 glabel func_80911DD8
 /* 01798 80911DD8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0179C 80911DDC AFB00038 */  sw      $s0, 0x0038($sp)

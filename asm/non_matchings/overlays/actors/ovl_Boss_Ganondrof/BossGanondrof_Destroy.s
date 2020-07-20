@@ -1,3 +1,13 @@
+.rdata
+glabel D_80915140
+    .asciz "DT1\n"
+    .balign 4
+
+glabel D_80915148
+    .asciz "DT2\n"
+    .balign 4
+
+.text
 glabel BossGanondrof_Destroy
 /* 006BC 80910CFC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 006C0 80910D00 AFB00014 */  sw      $s0, 0x0014($sp)

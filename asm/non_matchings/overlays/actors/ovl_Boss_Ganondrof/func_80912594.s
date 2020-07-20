@@ -1,3 +1,28 @@
+.rdata
+glabel D_809152CC
+    .asciz "YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+    .balign 4
+
+.late_rodata
+glabel D_80915444
+    .float -3315.0
+
+glabel D_80915448
+    .float 10430.3779
+
+glabel D_8091544C
+    .float 10000.0
+
+glabel D_80915450
+    .float 0.2
+
+glabel D_80915454
+    .float 0.1
+
+glabel D_80915458
+    .float 3.14159274101
+
+.text
 glabel func_80912594
 /* 01F54 80912594 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 01F58 80912598 AFB10060 */  sw      $s1, 0x0060($sp)

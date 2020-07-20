@@ -1636,7 +1636,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
     ret *= 2;
     ret |= Camera_SetParam(camera, 4, arg4);
 
-    camera->dist = func_800CB678(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {

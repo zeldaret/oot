@@ -15,10 +15,10 @@ glabel jtbl_8014753C
 
 .rdata
 glabel D_801471F8
-    .asciz "\x1B[37mKeyWaitB (ＬＲＺ \x1B[37m上\x1B[33m下 \x1B[33m上\x1B[37m下 \x1B[37m左\x1B[33m左 \x1B[33m右\x1B[37m右 \x1B[32mＢ\x1B[34mＡ\x1B[31mSTART\x1B[37m)\x1B[m\n"
+    .asciz "\x1b[37mKeyWaitB (ＬＲＺ \x1b[37m上\x1b[33m下 \x1b[33m上\x1b[37m下 \x1b[37m左\x1b[33m左 \x1b[33m右\x1b[37m右 \x1b[32mＢ\x1b[34mＡ\x1b[31mSTART\x1b[37m)\x1b[m\n"
     .balign 4
 glabel D_80147270
-    .asciz "\x1B[37mKeyWaitB'(ＬＲ左\x1B[33m右 +\x1B[31mSTART\x1B[37m)\x1B[m\n"
+    .asciz "\x1b[37mKeyWaitB'(ＬＲ左\x1b[33m右 +\x1b[31mSTART\x1b[37m)\x1b[m\n"
     .balign 4
 
 .text

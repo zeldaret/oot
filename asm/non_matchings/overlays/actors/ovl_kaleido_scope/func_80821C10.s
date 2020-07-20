@@ -9,7 +9,7 @@ glabel D_8082FC74
     .balign 4
 
 glabel D_8082FC90
-    .asciz "[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8082FC98

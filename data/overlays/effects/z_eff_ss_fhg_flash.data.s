@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_Fhg_Flash_InitVars
 .word 0x00000016
-.word func_809A4660
+.word EffectSsFhgFlash_Init
 glabel D_809A5088
  .word 0x00000000, 0x00000000, 0x00000000
 glabel D_809A5094

@@ -1,14 +1,14 @@
 .rdata
 glabel D_809AD550
-    .asciz "[36m\nエルフ タグ 消える条件 %d[m\n"
+    .asciz "\x1b[36m\nエルフ タグ 消える条件 %d\x1b[m\n"
     .balign 4
 
 glabel D_809AD574
-    .asciz "[36m\nthisx->shape.angle.sy = %d\n[m"
+    .asciz "\x1b[36m\nthisx->shape.angle.sy = %d\n\x1b[m"
     .balign 4
 
 glabel D_809AD59C
-    .asciz "[36m\nエルフ タグ 出現条件 %d[m\n"
+    .asciz "\x1b[36m\nエルフ タグ 出現条件 %d\x1b[m\n"
     .balign 4
 
 .late_rodata
