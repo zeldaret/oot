@@ -2,17 +2,14 @@
 Given a code file name (excluding the file extension, e.g. z_view) this script
 will attempt to build rodata and late_rodata sections for all of its functions.
 
-This supports overlays to an extent but before running it for any check to
-ensure the rodata file is formatted correctly (see files in code for examples
-of properly formatted rodata sections)
+Supports overlays and other files as long as the rodata file is formatted
+correctly(see files in code for examples of properly formatted rodata sections)
 
 This supports automatically commenting or deleting the rodata file from the
 spec and automatic deletion of the rodata file itself (only use if you are sure
 it will build afterwards)
 
-Place this in the root of your project (same folder as the makefile) and run.
-
-Not sure if this works well with .incbin if that can even be found in rodata
+Has trouble with rodata that goes unused, and .incbin placement
 """
 
 import re
@@ -82,7 +79,7 @@ def text_size(asm):
     return 4*(len(instructions)-1)
 
 """
-Gets the rodata-to-text 
+Gets the rodata-to-text ratio
 """
 def late_rodata_ratio(asm,late_rodata_blocks):
     total_rodata_size = 0
@@ -101,11 +98,7 @@ def rodata_type(rodata_block):
 Checks if a block should go in .rdata or .late_rodata
 """
 def is_rodata(r):
-    if rodata_type(r)=="asciz" or rodata_type=="ascii":
-        return True
-    if rodata_type(r)=="incbin":
-        return True
-    return False
+    return (rodata_type(r)=="asciz" or rodata_type=="ascii")
 
 """
 For given asm and rodata files, build a rodata section for the asm file
@@ -291,13 +284,14 @@ Enter 'q' to the code or overlay question to quit.""")
 
 # PROGRAM -------------------------------------------------------------------
 
-#run(False)
+run(False)
 #bigs = ["Boss_Ganon", "Boss_Ganondrof","En_Wf", "Door_Warp1",]
 #ovls = ["En_Elf"]
-effects = [x[0] for x in os.walk("src/overlays/effects")][1:]
+#effects = [x[0] for x in os.walk("src/overlays/effects")][1:]
 
-for i, ovl in enumerate(effects):
-    process_files(ovl.split("/")[-1][4:], "effects", "Delete", True)
+#for i, ovl in enumerate(effects):
+#    process_files(ovl.split("/")[-1][4:], "effects", "Delete", True)
     # command = "echo >> src/overlays/effects/ovl_" + effects[i] + "/z_" + effects[i].lower() + ".c"
     # os.system(command) # purpose of this is to "modify" each C file in order to prevent undefined symbol errors.
     #                    # the new line will be removed by format.sh
+    

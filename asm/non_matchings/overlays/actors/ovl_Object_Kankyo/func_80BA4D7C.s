@@ -1,3 +1,27 @@
+.rdata
+glabel D_80BA5B34
+    .asciz "../z_object_kankyo.c"
+    .balign 4
+
+glabel D_80BA5B4C
+    .asciz "../z_object_kankyo.c"
+    .balign 4
+
+glabel D_80BA5B64
+    .asciz "../z_object_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_80BA5CC0
+    .float 0.142857149
+
+glabel D_80BA5CC4
+    .float 0.142857149
+
+glabel D_80BA5CC8
+    .float 0.1
+
+.text
 glabel func_80BA4D7C
 /* 022DC 80BA4D7C 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 022E0 80BA4D80 AFB10018 */  sw      $s1, 0x0018($sp)           

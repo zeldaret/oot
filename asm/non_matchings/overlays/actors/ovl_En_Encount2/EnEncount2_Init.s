@@ -4,7 +4,7 @@ glabel D_80A08B70
     .balign 4
 
 glabel D_80A08B74
-    .asciz "[32m☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_80A08BC4
@@ -12,7 +12,7 @@ glabel D_80A08BC4
     .balign 4
 
 glabel D_80A08BC8
-    .asciz "[32m☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 .text

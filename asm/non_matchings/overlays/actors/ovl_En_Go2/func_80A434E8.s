@@ -1,3 +1,19 @@
+.late_rodata
+.late_rodata_alignment 4
+glabel jtbl_80A48654
+    .word L80A43550
+    .word L80A43530
+    .word L80A43518
+    .word L80A43528
+    .word L80A43520
+    .word L80A43558
+    .word L80A43558
+    .word L80A43540
+    .word L80A43558
+    .word L80A43538
+    .word L80A43548
+
+.text
 glabel func_80A434E8
 /* 007B8 80A434E8 848E001C */  lh      $t6, 0x001C($a0)           ## 0000001C
 /* 007BC 80A434EC 31CFFC00 */  andi    $t7, $t6, 0xFC00           ## $t7 = 00000000

@@ -1,3 +1,13 @@
+.rdata
+glabel D_809151F0
+    .asciz "VOISE               2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_8091522C
+    .asciz "VOISE               2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_809120BC
 /* 01A7C 809120BC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01A80 809120C0 AFB00018 */  sw      $s0, 0x0018($sp)           

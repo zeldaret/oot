@@ -1,10 +1,10 @@
 .rdata
 glabel D_80B116E8
-    .asciz "[32m☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_80B1171C
-    .asciz "[32m☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 .text

@@ -1,6 +1,6 @@
 .rdata
 glabel D_809F3090
-    .asciz "\x1B[33m☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n\x1B[m"
+    .asciz "\x1b[33m☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 .text

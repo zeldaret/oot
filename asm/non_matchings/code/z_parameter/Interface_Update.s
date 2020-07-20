@@ -29,7 +29,7 @@ glabel D_8013E4BC
     .balign 4
 
 glabel D_8013E4D4
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013E4DC
@@ -54,7 +54,7 @@ glabel D_8013E53C
     .balign 4
 
 glabel D_8013E550
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 .late_rodata

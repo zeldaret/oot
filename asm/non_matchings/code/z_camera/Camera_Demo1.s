@@ -1,6 +1,6 @@
 .rdata
 glabel D_80139614
-    .asciz "\x1B[1m%06u:\x1B[m camera: spline demo: start %s \n"
+    .asciz "\x1b[1m%06u:\x1b[m camera: spline demo: start %s \n"
     .balign 4
 
 glabel D_80139644
@@ -20,7 +20,7 @@ glabel D_8013965C
     .balign 4
 
 glabel D_80139664
-    .asciz "\x1B[41;37mcamera: spline demo: owner dead\n\x1B[m"
+    .asciz "\x1b[41;37mcamera: spline demo: owner dead\n\x1b[m"
     .balign 4
 
 .text
