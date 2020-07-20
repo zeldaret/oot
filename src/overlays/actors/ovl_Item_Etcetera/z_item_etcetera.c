@@ -13,6 +13,16 @@
 void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx);
+void func_80B85C64(Actor* thisx, GlobalContext* globalCtx);
+void func_80B85CB8(Actor* thisx, GlobalContext* globalCtx);
+
+void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx);
+void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx);
+void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx);
+void func_80B8598C(ItemEtcetera* this, GlobalContext* globalCtx);
+void func_80B85A98(ItemEtcetera* this, GlobalContext* globalCtx);
+void func_80B85B28(ItemEtcetera* this, GlobalContext* globalCtx);
+void func_80B85B6C(ItemEtcetera* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
@@ -41,39 +51,169 @@ s16 D_80B85D58[] = {
     GI_ARROW_FIRE, GI_INVALID,     GI_INVALID,       GI_INVALID,   GI_INVALID,      GI_INVALID,    GI_INVALID,
 };
 
-Vec3f D_80B85D74 = { 0.0f, 0.2f, 0.0f };
-
-Vec3f D_80B85D80 = { 0.0f, 0.05f, 0.0f };
-
-Color_RGB8 D_80B85D8C = { 255, 255, 255 };
-
-Color_RGB8 D_80B85D90 = { 255, 50, 50};
-
-void ItemEtcetera_SetupAction(ItemEtcetera* this, ItemEtceteraActionFunc actionFunc)
-{
-	this->actionFunc_15C = actionFunc;
+void ItemEtcetera_SetupAction(ItemEtcetera* this, ItemEtceteraActionFunc actionFunc) {
+    this->actionFunc_15C = actionFunc;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/ItemEtcetera_Init.s")
+void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ItemEtcetera* this = THIS;
+    s32 pad;
+    s32 type;
+    s32 objBankIndex;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/ItemEtcetera_Destroy.s")
+    type = this->actor.params & 0xFF;
+    osSyncPrintf("no = %d\n", type);
+    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, D_80B85D20[type]);
+    osSyncPrintf("bank_ID = %d\n", objBankIndex);
+    if (objBankIndex < 0) {
+        __assert("0", "../z_item_etcetera.c", 241);
+    } else {
+        this->objBankIndex = objBankIndex;
+    }
+    this->drawId = D_80B85D3C[type];
+    this->getItemId = D_80B85D58[type];
+    this->actionFunc_14C = func_80B85824;
+    this->draw = func_80B85CB8;
+    Actor_SetScale(&this->actor, 0.25f);
+    ItemEtcetera_SetupAction(this, func_80B857D0);
+    switch (type) {
+        case 1:
+            Actor_SetScale(&this->actor, 0.5f);
+            this->actionFunc_14C = func_80B858B4;
+            if (gSaveContext.eventChkInf[3] & 2) {
+                Actor_Kill(&this->actor);
+            }
+            break;
+        case 7:
+            this->actionFunc_14C = func_80B85B6C;
+            Actor_SetScale(&this->actor, 0.5f);
+            this->actor.draw = NULL;
+            this->actor.shape.unk_08 = 50.0f;
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+            Actor_SetScale(&this->actor, 0.5f);
+            this->actionFunc_14C = func_80B85B28;
+            this->draw = func_80B85C64;
+            this->actor.posRot.pos.y += 15.0f;
+            break;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B857D0.s")
+void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85824.s")
+void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+        this->actor.objBankIndex = this->objBankIndex;
+        this->actor.draw = this->draw;
+        this->actionFunc_15C = this->actionFunc_14C;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B858B4.s")
+void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
+    if (func_8002F410(&this->actor, globalCtx) != 0) {
+        if ((this->actor.params & 0xFF) == 1) {
+            gSaveContext.eventChkInf[3] |= 2;
+            Flags_SetSwitch(globalCtx, 0xB);
+        }
+        Actor_Kill(&this->actor);
+    } else {
+        func_8002F434(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B8598C.s")
+void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
+    if (func_8002F410(&this->actor, globalCtx) != 0) {
+        if ((this->actor.params & 0xFF) == 1) {
+            gSaveContext.eventChkInf[3] |= 2;
+            Flags_SetSwitch(globalCtx, 0xB);
+        }
+        Actor_Kill(&this->actor);
+    } else {
+        if (0) {} // Necessary to match
+        func_8002F434(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
+        if ((globalCtx->gameplayFrames & 0xD) == 0) {
+            func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85A98.s")
+void func_80B8598C(ItemEtcetera* this, GlobalContext* globalCtx) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85B28.s")
+    static Vec3f D_80B85D74 = { 0.0f, 0.2f, 0.0f };
+    static Vec3f D_80B85D80 = { 0.0f, 0.05f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85B6C.s")
+    static Color_RGB8 D_80B85D8C = { 255, 255, 255 };
+    static Color_RGB8 D_80B85D90 = { 255, 50, 50 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/ItemEtcetera_Update.s")
+    Vec3f vec;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85C64.s")
+    D_80B85D74.x = Math_Rand_CenteredFloat(3.0f);
+    D_80B85D74.z = Math_Rand_CenteredFloat(3.0f);
+    D_80B85D74.y = -0.05f;
+    D_80B85D80.y = -0.025f;
+    vec.x = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
+    vec.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
+    vec.z = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
+    func_80028BB0(globalCtx, &vec, &D_80B85D74, &D_80B85D80, &D_80B85D8C, &D_80B85D90, 0x1388, 0x10);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85CB8.s")
+void func_80B85A98(ItemEtcetera* this, GlobalContext* globalCtx) {
+    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_MoveForward(&this->actor);
+    if (!(this->actor.bgCheckFlags & 1)) {
+        func_80B8598C(this, globalCtx);
+    }
+    this->actor.shape.rot.y += 0x400;
+    func_80B85824(this, globalCtx);
+}
+
+void func_80B85B28(ItemEtcetera* this, GlobalContext* globalCtx) {
+    if (Flags_GetTreasure(globalCtx, (this->actor.params >> 8) & 0x1F)) {
+        Actor_Kill(&this->actor);
+    }
+}
+
+void func_80B85B6C(ItemEtcetera* this, GlobalContext* globalCtx) {
+    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL)) {
+        LOG_NUM("(game_play->demo_play.npcdemopnt[0]->dousa)", globalCtx->csCtx.npcActions[0]->action,
+                "../z_item_etcetera.c", 441);
+        if (globalCtx->csCtx.npcActions[0]->action == 2) {
+            this->actor.draw = func_80B85CB8;
+            this->actor.gravity = -0.1f;
+            this->actor.minVelocityY = -4.0f;
+            this->actionFunc_15C = func_80B85A98;
+        }
+    } else {
+        this->actor.gravity = -0.1f;
+        this->actor.minVelocityY = -4.0f;
+        this->actionFunc_15C = func_80B85A98;
+    }
+}
+
+void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ItemEtcetera* this = THIS;
+    this->actionFunc_15C(this, globalCtx);
+}
+
+void func_80B85C64(Actor* thisx, GlobalContext* globalCtx) {
+    ItemEtcetera* this = THIS;
+    if (globalCtx->actorCtx.unk_03 != 0) {
+        func_8002EBCC(&this->actor, globalCtx, 0);
+        func_8002ED80(&this->actor, globalCtx, 0);
+        func_800694A0(globalCtx, this->drawId);
+    }
+}
+
+void func_80B85CB8(Actor* thisx, GlobalContext* globalCtx) {
+    ItemEtcetera* this = THIS;
+
+    func_8002EBCC(&this->actor, globalCtx, 0);
+    func_8002ED80(&this->actor, globalCtx, 0);
+    func_800694A0(globalCtx, this->drawId);
+}
