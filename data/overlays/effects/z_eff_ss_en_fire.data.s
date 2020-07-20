@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_En_Fire_InitVars
 .word 0x0000001D
-.word func_809A2B60
+.word EffectSsEnFire_Init
 glabel D_809A3248
  .word 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 

@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_En_Ice_InitVars
 .word 0x0000001B
-.word func_809A3330
+.word EffectSsEnIce_Init
 glabel D_809A3B88
  .word 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 

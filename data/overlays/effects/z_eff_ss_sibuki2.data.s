@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_Sibuki2_InitVars
 .word 0x00000012
-.word func_809ABD60
+.word EffectSsSibuki2_Init
 glabel D_809AC068
  .word 0x0401C2C0, 0x0401C2C0, 0x0401C6C0, 0x0401CAC0, 0x0401CEC0, 0x0401D2C0, 0x0401D6C0, 0x0401DAC0, 0x0401DEC0, 0x00000000
 
