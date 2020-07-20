@@ -1659,19 +1659,19 @@ void func_8002F698(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f
 }
 
 void func_8002F6D4(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(globalCtx, arg1, arg2, arg3, arg4, 2, arg5);
+    func_8002F698(globalCtx, actor, arg2, arg3, arg4, 2, arg5);
 }
 
 void func_8002F71C(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F6D4(globalCtx, arg1, arg2, arg3, arg4, 0);
+    func_8002F6D4(globalCtx, actor, arg2, arg3, arg4, 0);
 }
 
 void func_8002F758(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(globalCtx, arg1, arg2, arg3, arg4, 1, arg5);
+    func_8002F698(globalCtx, actor, arg2, arg3, arg4, 1, arg5);
 }
 
 void func_8002F7A0(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F758(globalCtx, arg1, arg2, arg3, arg4, 0);
+    func_8002F758(globalCtx, actor, arg2, arg3, arg4, 0);
 }
 
 void func_8002F7DC(Actor* actor, u16 sfxId) {
