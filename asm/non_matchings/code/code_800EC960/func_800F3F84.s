@@ -1,0 +1,55 @@
+.late_rodata
+glabel D_8014A5D8
+    .float 1.1
+
+glabel D_8014A5DC
+    .float 0.22500002
+
+glabel D_8014A5E0
+    .float 0.77499997
+
+glabel D_8014A5E4
+    .float 0.2
+
+glabel D_8014A5E8
+    .float 0.89999997
+
+.text
+glabel func_800F3F84
+/* B6B124 800F3F84 3C013F80 */  li    $at, 0x3F800000 # 0.000000
+/* B6B128 800F3F88 44810000 */  mtc1  $at, $f0
+/* B6B12C 800F3F8C 3C0140C0 */  li    $at, 0x40C00000 # 0.000000
+/* B6B130 800F3F90 44817000 */  mtc1  $at, $f14
+/* B6B134 800F3F94 3C018017 */  lui   $at, %hi(D_8016B7A8)
+/* B6B138 800F3F98 46000086 */  mov.s $f2, $f0
+/* B6B13C 800F3F9C 460C703C */  c.lt.s $f14, $f12
+/* B6B140 800F3FA0 00000000 */  nop   
+/* B6B144 800F3FA4 45020008 */  bc1fl .L800F3FC8
+/* B6B148 800F3FA8 460E6083 */   div.s $f2, $f12, $f14
+/* B6B14C 800F3FAC E420B7A8 */  swc1  $f0, %lo(D_8016B7A8)($at)
+/* B6B150 800F3FB0 3C018015 */  lui   $at, %hi(D_8014A5D8)
+/* B6B154 800F3FB4 C424A5D8 */  lwc1  $f4, %lo(D_8014A5D8)($at)
+/* B6B158 800F3FB8 3C018017 */  lui   $at, %hi(D_8016B7B0)
+/* B6B15C 800F3FBC 03E00008 */  jr    $ra
+/* B6B160 800F3FC0 E424B7B0 */   swc1  $f4, %lo(D_8016B7B0)($at)
+/* B6B164 800F3FC4 460E6083 */  div.s $f2, $f12, $f14
+.L800F3FC8:
+/* B6B168 800F3FC8 3C018015 */  lui   $at, %hi(D_8014A5DC)
+/* B6B16C 800F3FCC C426A5DC */  lwc1  $f6, %lo(D_8014A5DC)($at)
+/* B6B170 800F3FD0 3C018015 */  lui   $at, %hi(D_8014A5E0)
+/* B6B174 800F3FD4 C42AA5E0 */  lwc1  $f10, %lo(D_8014A5E0)($at)
+/* B6B178 800F3FD8 3C018017 */  lui   $at, %hi(D_8016B7A8)
+/* B6B17C 800F3FDC 46061202 */  mul.s $f8, $f2, $f6
+/* B6B180 800F3FE0 460A4400 */  add.s $f16, $f8, $f10
+/* B6B184 800F3FE4 E430B7A8 */  swc1  $f16, %lo(D_8016B7A8)($at)
+/* B6B188 800F3FE8 3C018015 */  lui   $at, %hi(D_8014A5E4)
+/* B6B18C 800F3FEC C432A5E4 */  lwc1  $f18, %lo(D_8014A5E4)($at)
+/* B6B190 800F3FF0 3C018015 */  lui   $at, %hi(D_8014A5E8)
+/* B6B194 800F3FF4 C426A5E8 */  lwc1  $f6, %lo(D_8014A5E8)($at)
+/* B6B198 800F3FF8 46121102 */  mul.s $f4, $f2, $f18
+/* B6B19C 800F3FFC 3C018017 */  lui   $at, %hi(D_8016B7B0)
+/* B6B1A0 800F4000 46062200 */  add.s $f8, $f4, $f6
+/* B6B1A4 800F4004 E428B7B0 */  swc1  $f8, %lo(D_8016B7B0)($at)
+/* B6B1A8 800F4008 03E00008 */  jr    $ra
+/* B6B1AC 800F400C 46001006 */   mov.s $f0, $f2
+

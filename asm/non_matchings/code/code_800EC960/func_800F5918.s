@@ -1,0 +1,20 @@
+glabel func_800F5918
+/* B6CAB8 800F5918 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B6CABC 800F591C AFBF0014 */  sw    $ra, 0x14($sp)
+/* B6CAC0 800F5920 0C03E82D */  jal   func_800FA0B4
+/* B6CAC4 800F5924 00002025 */   move  $a0, $zero
+/* B6CAC8 800F5928 2401006C */  li    $at, 108
+/* B6CACC 800F592C 14410007 */  bne   $v0, $at, .L800F594C
+/* B6CAD0 800F5930 00002025 */   move  $a0, $zero
+/* B6CAD4 800F5934 0C03E847 */  jal   func_800FA11C
+/* B6CAD8 800F5938 3C05F000 */   lui   $a1, 0xf000
+/* B6CADC 800F593C 10400003 */  beqz  $v0, .L800F594C
+/* B6CAE0 800F5940 3C04B005 */   lui   $a0, (0xB00500D2 >> 16) # lui $a0, 0xb005
+/* B6CAE4 800F5944 0C03E803 */  jal   Audio_SetBGM
+/* B6CAE8 800F5948 348400D2 */   ori   $a0, (0xB00500D2 & 0xFFFF) # ori $a0, $a0, 0xd2
+.L800F594C:
+/* B6CAEC 800F594C 8FBF0014 */  lw    $ra, 0x14($sp)
+/* B6CAF0 800F5950 27BD0018 */  addiu $sp, $sp, 0x18
+/* B6CAF4 800F5954 03E00008 */  jr    $ra
+/* B6CAF8 800F5958 00000000 */   nop   
+

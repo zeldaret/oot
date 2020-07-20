@@ -1,3 +1,13 @@
+.rdata
+glabel D_80993E2C
+    .asciz "../z_demo_tre_lgt.c"
+    .balign 4
+
+glabel D_80993E40
+    .asciz "../z_demo_tre_lgt.c"
+    .balign 4
+
+.text
 glabel DemoTreLgt_Draw
 /* 005F0 80993CB0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 005F4 80993CB4 AFBF002C */  sw      $ra, 0x002C($sp)

@@ -61,9 +61,11 @@ glabel D_80812B9C
     .balign 4
 
 glabel D_80812BB4
- .word 0xA3D3A3C1, 0xA3D6A3C5, 0x00000000
+    .asciz "ＳＡＶＥ"
+    .balign 4
+
 glabel D_80812BC0
-    .asciz "[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_80812BC8
@@ -91,7 +93,9 @@ glabel D_80812C5C
     .balign 4
 
 glabel D_80812C60
- .word 0xBDAACEBB, 0x0A000000
+    .asciz "終了\n"
+    .balign 4
+
 glabel D_80812C68
     .asciz "../z_file_nameset_PAL.c"
     .balign 4
@@ -114,12 +118,9 @@ glabel D_80812CC8
 
 glabel D_80812CE0
     .float 0.1
-    .balign 4
 
 glabel D_80812CE4
     .float 0.2
-    .balign 4
 
 glabel D_80812CE8
     .float 0.4
-    .balign 4

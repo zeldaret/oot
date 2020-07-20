@@ -1,6 +1,6 @@
 .rdata
 glabel D_80970630
-    .asciz "\x1B[31mDemo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n\x1B[m"
+    .asciz "\x1b[31mDemo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n\x1b[m"
     .balign 4
 
 .text
