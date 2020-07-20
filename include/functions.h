@@ -690,7 +690,7 @@ void Camera_Finish(Camera* camera);
 s32 Camera_ChangeSettingDefaultFlags(Camera* camera, s16 button);
 // ? Camera_ChangeDataIdx(?);
 // ? func_8005A8C4(?);
-s16 func_8005A948(Camera* camera);
+s16 Camera_GetDirYaw(Camera* camera);
 Vec3s* func_8005A970(Vec3s*, Camera*);
 s16 func_8005A9F4(Camera* camera);
 s32 func_8005AA1C(Camera* camera, s32, s16, s32);

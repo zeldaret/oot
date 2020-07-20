@@ -179,7 +179,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
 
         case 0x0A:
-            this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
+            this->actor.shape.rot.y = Camera_GetDirYaw(camera) + ((*tmp & 0xFF) << 0x0F);
             Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
 
             if (this->unk_150.x == 0) {
@@ -209,7 +209,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
 
         case 0x0B:
-            this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
+            this->actor.shape.rot.y = Camera_GetDirYaw(camera) + ((*tmp & 0xFF) << 0x0F);
 
             Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
             if (this->unk_150.x == 0x1E) {
