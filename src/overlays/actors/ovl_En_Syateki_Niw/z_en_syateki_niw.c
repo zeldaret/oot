@@ -63,7 +63,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags &= -2;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, &this->limbDrawTbl, &this->unk_1F0, 0x10);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable, this->transitionDrawTable, 16);
 
     this->unk_29E = this->actor.params;
     if (this->unk_29E < 0) {
@@ -661,7 +661,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4) {
     s16 i;
-    EnSyatekiNiw_1* ptr = &this->unk_348;
+    EnSyatekiNiw_1* ptr = &this->unk_348[0];
 
     for (i = 0; i < 5; i++, ptr++) {
         if (ptr->unk_00 == 0) {
@@ -680,7 +680,7 @@ void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f3
 
 void func_80B132A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 i;
-    EnSyatekiNiw_1* ptr = &this->unk_348;
+    EnSyatekiNiw_1* ptr = &this->unk_348[0];
 
     for (i = 0; i < 5; i++, ptr++) {
         if (ptr->unk_00 != 0) {
@@ -710,7 +710,7 @@ void func_80B132A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 i;
-    EnSyatekiNiw_1* ptr = &this->unk_348;
+    EnSyatekiNiw_1* ptr = &this->unk_348[0];
     u8 j = 0;
 
     {

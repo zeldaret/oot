@@ -1,6 +1,6 @@
 .rdata
 glabel D_8013938C
-    .asciz "\x1B[43;30mcamera: warning: talk: target is not valid, change normal camera\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: talk: target is not valid, change normal camera\n\x1b[m"
     .balign 4
 
 .late_rodata

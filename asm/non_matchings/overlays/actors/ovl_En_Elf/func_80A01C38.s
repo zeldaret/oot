@@ -1,3 +1,20 @@
+.late_rodata
+glabel jtbl_80A06144
+    .word L80A01C60
+    .word L80A01DE0
+    .word L80A01E24
+    .word L80A01E68
+    .word L80A01E94
+    .word L80A01ED0
+    .word L80A01F04
+    .word L80A01D70
+    .word L80A01DA8
+    .word L80A01D2C
+    .word L80A01CF0
+    .word L80A01F48
+    .word L80A01CAC
+
+.text
 glabel func_80A01C38
 /* 00008 80A01C38 30AEFFFF */  andi    $t6, $a1, 0xFFFF           ## $t6 = 00000000
 /* 0000C 80A01C3C 2DC1000D */  sltiu   $at, $t6, 0x000D           

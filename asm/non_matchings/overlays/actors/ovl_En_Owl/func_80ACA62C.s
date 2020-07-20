@@ -1,6 +1,6 @@
 .rdata
 glabel D_80ACD730
-    .asciz "\x1B[36m Actor_Environment_sw = %d\n\x1B[m"
+    .asciz "\x1b[36m Actor_Environment_sw = %d\n\x1b[m"
     .balign 4
 
 .text

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A307A0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+glabel D_80A307B0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+.text
 glabel EnGb_Draw
 /* 00D2C 80A2FEAC 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00D30 80A2FEB0 AFB10028 */  sw      $s1, 0x0028($sp)

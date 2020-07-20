@@ -1,3 +1,23 @@
+.late_rodata
+glabel jtbl_808F80EC
+    .word L808DE760
+    .word L808DE980
+    .word L808DE980
+    .word L808DE980
+    .word L808DE980
+    .word L808DE980
+    .word L808DE980
+    .word L808DE980
+    .word L808DE980
+    .word L808DE980
+    .word L808DE784
+    .word L808DE7E0
+    .word L808DE828
+    .word L808DE884
+    .word L808DE8E0
+    .word L808DE928
+
+.text
 glabel func_808DE734
 /* 07EC4 808DE734 24AEFFF6 */  addiu   $t6, $a1, 0xFFF6           ## $t6 = FFFFFFF6
 /* 07EC8 808DE738 2DC10010 */  sltiu   $at, $t6, 0x0010           
