@@ -538,7 +538,7 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx) {
     func_80034A14(&this->actor, &this->unk_324, 2, 4);
     this->vec_284 = this->unk_324.unk_08;
     this->vec_28A = this->unk_324.unk_0E;
-    if ((globalCtx->gameplayFrames & 0xF) == 0) {
+    if ((globalCtx->gameplayFrames % 16) == 0) {
         vec = this->actor.posRot.pos;
         vec.y += 20.0f;
         func_80029444(globalCtx, &vec, 0x64, 0x1F4, 0x1E);
