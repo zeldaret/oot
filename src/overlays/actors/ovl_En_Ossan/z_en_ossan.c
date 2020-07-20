@@ -5,83 +5,83 @@
 
 #define THIS ((EnOssan*)thisx)
 
-void EnOssan_Init(Actor*, GlobalContext*);
-void EnOssan_Destroy(Actor*, GlobalContext*);
-void EnOssan_Update(Actor*, GlobalContext*);
+void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AC311C(GlobalContext*);
-void func_80AC30B8(GlobalContext*);
-void func_80AC3180(GlobalContext*);
-void func_80AC30FC(GlobalContext*);
-void func_80AC313C(GlobalContext*);
-void func_80AC3098(GlobalContext*);
-void func_80AC31A0(GlobalContext*);
-void func_80AC31F4(GlobalContext*);
-void func_80AC32C4(GlobalContext*);
-s16 func_80AC2CA8(s16);
-s16 func_80AC2CB8(s16);
-s16 func_80AC2CE8(s16);
-s16 func_80AC2D18(s16);
-s16 func_80AC2D48(s16);
-s16 func_80AC2D78(s16);
-s16 func_80AC2DA8(s16);
-void func_80AC6B3C(EnOssan* this, GlobalContext*);
-void func_80AC6E0C(EnOssan* this, GlobalContext*);
-void func_80AC6ECC(EnOssan* this, GlobalContext*);
-void func_80AC6ADC(EnOssan* this, GlobalContext*);
-void func_80AC6D30(EnOssan* this, GlobalContext*);
-void func_80AC6C54(EnOssan* this, GlobalContext*);
-void func_80AC6E6C(EnOssan* this, GlobalContext*);
-void func_80AC3B18(EnOssan*, GlobalContext*, Player*);
-void func_80AC4074(EnOssan*, GlobalContext*, Player*);
-void func_80AC4288(EnOssan*, GlobalContext*, Player*);
-void func_80AC43A0(EnOssan*, GlobalContext*, Player*);
-void func_80AC43F0(EnOssan*, GlobalContext*, Player*);
-void func_80AC44DC(EnOssan*, GlobalContext*, Player*);
-void func_80AC4978(EnOssan*, GlobalContext*, Player*);
-void func_80AC4B4C(EnOssan*, GlobalContext*, Player*);
-void func_80AC4D20(EnOssan*, GlobalContext*, Player*);
-void func_80AC5594(EnOssan*, GlobalContext*, Player*);
-void func_80AC5680(EnOssan*, GlobalContext*, Player*);
-void func_80AC576C(EnOssan*, GlobalContext*, Player*);
-void func_80AC5858(EnOssan*, GlobalContext*, Player*);
-void func_80AC5900(EnOssan*, GlobalContext*, Player*);
-void func_80AC5C24(EnOssan*, GlobalContext*, Player*);
-void func_80AC5D40(EnOssan*, GlobalContext*, Player*);
-void func_80AC5DAC(EnOssan*, GlobalContext*, Player*);
-void func_80AC5EF0(EnOssan*, GlobalContext*, Player*);
-void func_80AC6208(EnOssan*, GlobalContext*, Player*);
-void func_80AC4DDC(EnOssan*, GlobalContext*, Player*);
-void func_80AC60E4(EnOssan*, GlobalContext*, Player*);
-void func_80AC6148(EnOssan*, GlobalContext*, Player*);
-void func_80AC61B8(EnOssan*, GlobalContext*, Player*);
-void func_80AC5C9C(EnOssan*, GlobalContext*, Player*);
-void func_80AC5A28(EnOssan*, GlobalContext*, Player*);
-void func_80AC6258(EnOssan*, GlobalContext*, Player*);
-void func_80AC62F4(EnOssan*, GlobalContext*, Player*);
-void func_80AC7094(EnOssan*, GlobalContext*);
-u16 func_80AC6F2C(EnOssan*);
-void func_80AC39AC(GlobalContext*, EnOssan*);
-s32 func_80AC652C(EnOssan*);
-void func_80AC62C4(GlobalContext*, EnOssan*);
-s32 func_80AC6490(EnOssan*);
-void func_80AC646C(EnOssan*);
-void func_80AC6384(EnOssan*);
-void func_80AC67C4(EnOssan*);
-void func_80AC69A4(EnOssan*);
-void func_80AC6970(EnOssan*);
-void func_80AC7DAC(Actor*, GlobalContext*);
-void func_80AC7380(EnOssan*, GlobalContext*);
-void func_80AC80B4(Actor*, GlobalContext*);
-void func_80AC8244(Actor*, GlobalContext*);
-void func_80AC83DC(Actor*, GlobalContext*);
-void func_80AC854C(Actor*, GlobalContext*);
-void func_80AC8668(Actor*, GlobalContext*);
-void func_80AC8784(Actor*, GlobalContext*);
-void func_80AC73B4(EnOssan*, GlobalContext*);
-void func_80AC77CC(GlobalContext* globalCtx, s32, s32, s32, s32, f32, f32, f32, s32, s32, f32, f32);
-s32 func_80AC7ED0(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
-void func_80AC7528(GlobalContext*, EnOssan*, f32, f32, f32, u8);
+void func_80AC311C(GlobalContext* globalCtx);
+void func_80AC30B8(GlobalContext* globalCtx);
+void func_80AC3180(GlobalContext* globalCtx);
+void func_80AC30FC(GlobalContext* globalCtx);
+void func_80AC313C(GlobalContext* globalCtx);
+void func_80AC3098(GlobalContext* globalCtx);
+void func_80AC31A0(GlobalContext* globalCtx);
+void func_80AC31F4(GlobalContext* globalCtx);
+void func_80AC32C4(GlobalContext* globalCtx);
+s16 func_80AC2CA8(s16 arg0);
+s16 func_80AC2CB8(s16 arg0);
+s16 func_80AC2CE8(s16 arg0);
+s16 func_80AC2D18(s16 arg0);
+s16 func_80AC2D48(s16 arg0);
+s16 func_80AC2D78(s16 arg0);
+s16 func_80AC2DA8(s16 arg0);
+void func_80AC6B3C(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC6E0C(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC6ECC(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC6D30(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC6C54(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC6E6C(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC4288(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC43A0(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC43F0(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC44DC(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC4978(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC4B4C(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC4D20(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5680(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC576C(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5858(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5900(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5C24(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5D40(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC6208(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC4DDC(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC60E4(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC6148(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC61B8(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5C9C(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC6258(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC62F4(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void func_80AC7094(EnOssan* this, GlobalContext* globalCtx);
+u16 func_80AC6F2C(EnOssan* this);
+s32 func_80AC652C(EnOssan* this);
+s32 func_80AC6490(EnOssan* this);
+void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this);
+void func_80AC62C4(GlobalContext* globalCtx, EnOssan* this);
+void func_80AC646C(EnOssan* this);
+void func_80AC6384(EnOssan* this);
+void func_80AC67C4(EnOssan* this);
+void func_80AC69A4(EnOssan* this);
+void func_80AC6970(EnOssan* this);
+void func_80AC7380(EnOssan* this, GlobalContext* globalCtx);
+void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx);
+void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx);
+void func_80AC8244(Actor* thisx, GlobalContext* globalCtx);
+void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx);
+void func_80AC854C(Actor* thisx, GlobalContext* globalCtx);
+void func_80AC8668(Actor* thisx, GlobalContext* globalCtx);
+void func_80AC8784(Actor* thisx, GlobalContext* globalCtx);
+void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx);
+// void func_80AC77CC(GlobalContext* globalCtx, s32, s32, s32, s32, f32, f32, f32, s32, s32, f32, f32);
+// s32 func_80AC7ED0(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
+// void func_80AC7528(GlobalContext*, EnOssan*, f32, f32, f32, u8);
 void Camera_SetCameraData(Camera* camera, s16 arg1, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
                           s16 relativeToPlayer, s16 arg5, s16 arg6);
 
@@ -368,17 +368,17 @@ void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, OssanStruct1* arg2) 
         }
 
         temp_v0 = D_80AC8C9C[ptr->funcIdx](ptr->funcIdx);
-        
+
         if (temp_v0 < 0) {
             this->unk_200[i] = NULL;
             continue;
         }
 
-        this->unk_200[i] = (EnGirlA*)Actor_Spawn(
-            &globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, ptr->pos.x + (*tana)->actor.posRot.pos.x,
-            ptr->pos.y + (*tana)->actor.posRot.pos.y, ptr->pos.z + (*tana)->actor.posRot.pos.z,
-            (*tana)->actor.shape.rot.x, (*tana)->actor.shape.rot.y + D_80AC88F4[i], (*tana)->actor.shape.rot.z,
-            temp_v0);
+        this->unk_200[i] =
+            (EnGirlA*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA,
+                                  ptr->pos.x + (*tana)->actor.posRot.pos.x, ptr->pos.y + (*tana)->actor.posRot.pos.y,
+                                  ptr->pos.z + (*tana)->actor.posRot.pos.z, (*tana)->actor.shape.rot.x,
+                                  (*tana)->actor.shape.rot.y + D_80AC88F4[i], (*tana)->actor.shape.rot.z, temp_v0);
     }
 }
 #else
@@ -1472,7 +1472,7 @@ void func_80AC5900(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (this->actor.params != 8) {
         func_80AC5594(this, globalCtx, player);
     } else if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && !func_80AC38C8(this, globalCtx, globalCtx->state.input) &&
-        func_80106BC8(globalCtx)) {
+               func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80AC54F4(globalCtx, this);
@@ -2043,8 +2043,8 @@ void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
 
         this->unk_23C[2] = 0x50;
 
-        this->unk_250 = this->unk_251 = this->unk_1EC = this->unk_228 = this->unk_224 = this->unk_252 = this->unk_23C[0] =
-            this->unk_1FC = 0;
+        this->unk_250 = this->unk_251 = this->unk_1EC = this->unk_228 = this->unk_224 = this->unk_252 =
+            this->unk_23C[0] = this->unk_1FC = 0;
 
         this->unk_25C = this->unk_258 = this->unk_254 = 0xC8;
 
@@ -2155,18 +2155,18 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
         if (arg5) {
             func_80094520(globalCtx->state.gfxCtx);
 
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, this->unk_23C[0], this->unk_23C[1], this->unk_23C[2], this->unk_23C[3]);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, this->unk_23C[0], this->unk_23C[1], this->unk_23C[2],
+                            this->unk_23C[3]);
 
             gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CDC0, G_IM_FMT_IA, G_IM_SIZ_4b, 0x10, 0x10, 0,
                                 G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
 
             temp_f0 = (16.0f * arg4);
             tmp2 = (1.0f / arg4) * 1024.0f;
-            gSPTextureRectangle(gfxCtx->overlay.p++, 
-                (s32)((arg2 - temp_f0) * 4.0f) & 0xFFF, (s32)((arg3 - temp_f0) * 4.0f) & 0xFFF,
-                (s32)((arg2 + temp_f0) * 4.0f) & 0xFFF, (s32)((arg3 + temp_f0) * 4.0f) & 0xFFF, 
-                G_TX_RENDERTILE, 0, 0, (s32)tmp2 & 0xFFFF, (s32)tmp2 & 0xFFFF);
-
+            gSPTextureRectangle(gfxCtx->overlay.p++, (s32)((arg2 - temp_f0) * 4.0f) & 0xFFF,
+                                (s32)((arg3 - temp_f0) * 4.0f) & 0xFFF, (s32)((arg2 + temp_f0) * 4.0f) & 0xFFF,
+                                (s32)((arg3 + temp_f0) * 4.0f) & 0xFFF, G_TX_RENDERTILE, 0, 0, (s32)tmp2 & 0xFFFF,
+                                (s32)tmp2 & 0xFFFF);
         }
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
     }
@@ -2196,12 +2196,10 @@ void func_80AC77CC(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 arg3, s32 a
         temp_f2 = 12.0f * arg7;
         temp_f3 = (1.0f / arg7) * 1024.0f;
 
-        gSPTextureRectangle(gfxCtx->overlay.p++, 
-            (s32)((arg6 - temp_f2) * 4.0f) & 0xFFF, (s32)((arg5 - temp_f0) * 4.0f) & 0xFFF, 
-            (s32)((arg6 + temp_f2) * 4.0f) & 0xFFF, (s32)((arg5 + temp_f0) * 4.0f) & 0xFFF, 
-            G_TX_RENDERTILE, 
-            (s32)arg9, (s32)arg8, 
-            (s32)(arg11 * temp_f3), (s32)(temp_f3 * arg10));
+        gSPTextureRectangle(gfxCtx->overlay.p++, (s32)((arg6 - temp_f2) * 4.0f) & 0xFFF,
+                            (s32)((arg5 - temp_f0) * 4.0f) & 0xFFF, (s32)((arg6 + temp_f2) * 4.0f) & 0xFFF,
+                            (s32)((arg5 + temp_f0) * 4.0f) & 0xFFF, G_TX_RENDERTILE, (s32)arg9, (s32)arg8,
+                            (s32)(arg11 * temp_f3), (s32)(temp_f3 * arg10));
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4242);
     }
@@ -2372,7 +2370,7 @@ s32 func_80AC83A8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnOssan* this = THIS;
-    
+
     {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
