@@ -1,6 +1,6 @@
 .rdata
 glabel D_80B3AC18
-    .asciz "[35m☆☆☆☆☆ きょり %f\n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ きょり %f\n\x1b[m"
     .balign 4
 
 glabel D_80B3AC38
@@ -8,31 +8,31 @@ glabel D_80B3AC38
     .balign 4
 
 glabel D_80B3AC3C
-    .asciz "[32m☆☆☆☆☆ 透明メッセージ君せっと %x\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ 透明メッセージ君せっと %x\n\x1b[m"
     .balign 4
 
 glabel D_80B3AC6C
-    .asciz "[33m☆☆☆☆☆ セーブ情報 	           %x\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ セーブ情報 	           %x\n\x1b[m"
     .balign 4
 
 glabel D_80B3AC9C
-    .asciz "[35m☆☆☆☆☆ 指定メッセージ種類     %x\n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ 指定メッセージ種類     %x\n\x1b[m"
     .balign 4
 
 glabel D_80B3ACCC
-    .asciz "[36m☆☆☆☆☆ 実質メッセージ種類     %x\n[m"
+    .asciz "\x1b[36m☆☆☆☆☆ 実質メッセージ種類     %x\n\x1b[m"
     .balign 4
 
 glabel D_80B3ACFC
-    .asciz "[32m☆☆☆☆☆ 指定範囲               %d\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ 指定範囲               %d\n\x1b[m"
     .balign 4
 
 glabel D_80B3AD2C
-    .asciz "[33m☆☆☆☆☆ 処理範囲               %f\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ 処理範囲               %f\n\x1b[m"
     .balign 4
 
 glabel D_80B3AD5C
-    .asciz "[35m☆☆☆☆☆ レンジは？ 		   %d\n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ レンジは？ 		   %d\n\x1b[m"
     .balign 4
 
 glabel D_80B3AD84
@@ -44,11 +44,11 @@ glabel D_80B3AD88
     .balign 4
 
 glabel D_80B3AD8C
-    .asciz "[35m ☆☆ 強制 ☆☆ \n[m"
+    .asciz "\x1b[35m ☆☆ 強制 ☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B3ADA8
-    .asciz "[31m ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n[m"
+    .asciz "\x1b[31m ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B3ADDC

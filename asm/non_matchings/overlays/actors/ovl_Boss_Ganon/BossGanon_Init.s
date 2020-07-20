@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_808F7E5C
+    .float 10000.0
+
+glabel D_808F7E60
+    .float 5000.0
+
+glabel D_808F7E64
+    .float 5000.0
+
+glabel D_808F7E68
+    .float 5000.0
+
+.text
 glabel BossGanon_Init
 /* 00928 808D7198 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0092C 808D719C AFBF003C */  sw      $ra, 0x003C($sp)
