@@ -97,31 +97,31 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
     }
     // Colliding with hitbox inside the pot
     if (this->collider.base.acFlags & 2) {
-		this->collider.base.acFlags &= ~2;
-        /* 
+        this->collider.base.acFlags &= ~2;
+        /*
          * If the colliding actor is within a 50 unit radius and 50 unit height cylinder centered
          * on the actor's position, break the pot
          */
-		if (func_8002DBB0(&this->dyna.actor, &this->collider.base.ac->posRot.pos) < 50.0f && 
-		   (this->collider.base.ac->posRot.pos.y - this->dyna.actor.posRot.pos.y) < 50.0f) {
-			pos.x = this->dyna.actor.posRot.pos.x;
-			pos.z = this->dyna.actor.posRot.pos.z;
-			pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
-			func_80028E84(globalCtx, &pos, &D_80881BC0, &D_80881BC0, 100, 45);
-			Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 50, NA_SE_EV_BOX_BREAK);
-			func_800297A4(globalCtx, &pos, 20.0f, 0, 350, 100, 50, 105, 40, &D_0400CD80);
-			this->dropTimer = 5;
-			this->dyna.actor.draw = NULL;
-			Actor_SetScale(&this->dyna.actor, 0.0f);
-			this->actionFunc = BgHakaTubo_DropCollectible;
-		}
-	} else {
-		Collider_CylinderUpdate(&this->dyna.actor, &this->colliderFlames);
-		Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
-		CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-		CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderFlames.base);
-		CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderFlames.base);
-	}
+        if (func_8002DBB0(&this->dyna.actor, &this->collider.base.ac->posRot.pos) < 50.0f &&
+            (this->collider.base.ac->posRot.pos.y - this->dyna.actor.posRot.pos.y) < 50.0f) {
+            pos.x = this->dyna.actor.posRot.pos.x;
+            pos.z = this->dyna.actor.posRot.pos.z;
+            pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
+            func_80028E84(globalCtx, &pos, &D_80881BC0, &D_80881BC0, 100, 45);
+            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 50, NA_SE_EV_BOX_BREAK);
+            func_800297A4(globalCtx, &pos, 20.0f, 0, 350, 100, 50, 105, 40, &D_0400CD80);
+            this->dropTimer = 5;
+            this->dyna.actor.draw = NULL;
+            Actor_SetScale(&this->dyna.actor, 0.0f);
+            this->actionFunc = BgHakaTubo_DropCollectible;
+        }
+    } else {
+        Collider_CylinderUpdate(&this->dyna.actor, &this->colliderFlames);
+        Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderFlames.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderFlames.base);
+    }
 }
 
 void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
@@ -153,9 +153,9 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
             } else if (rnd < 0.2f) {
                 // Unlucky, no reward and spawn keese
                 collectibleParams = -1;
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, 
-                            this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 80.0f, this->dyna.actor.posRot.pos.z, 
-                            0, this->dyna.actor.shape.rot.y, 0, 2);
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY, this->dyna.actor.posRot.pos.x,
+                            this->dyna.actor.posRot.pos.y + 80.0f, this->dyna.actor.posRot.pos.z, 0,
+                            this->dyna.actor.shape.rot.y, 0, 2);
                 func_80078884(NA_SE_SY_ERROR);
             } else {
                 // Random rewards
@@ -203,15 +203,19 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 476);
     func_80093D84(globalCtx->state.gfxCtx);
-    Matrix_Translate(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 235.0f, this->dyna.actor.posRot.pos.z, MTXMODE_NEW);
+    Matrix_Translate(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 235.0f,
+                     this->dyna.actor.posRot.pos.z, MTXMODE_NEW);
     Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_Scale(0.07f, 0.04f, 0.07f, MTXMODE_APPLY);
     if (1) {
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0, 170, 255, 255);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255);
     }
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->fireScroll & 127, 0, 32, 64, 1, 0, (this->fireScroll * -15) & 0xFF, 32, 64));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 497), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->fireScroll & 127, 0, 32, 64, 1, 0,
+                                (this->fireScroll * -15) & 0xFF, 32, 64));
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, D_040184B0);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 501);
 }
