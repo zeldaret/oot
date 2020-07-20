@@ -1,0 +1,33 @@
+glabel func_800F59E8
+/* B6CB88 800F59E8 308F00FF */  andi  $t7, $a0, 0xff
+/* B6CB8C 800F59EC 3C028013 */  lui   $v0, %hi(D_80130658)
+/* B6CB90 800F59F0 004F1021 */  addu  $v0, $v0, $t7
+/* B6CB94 800F59F4 90420658 */  lbu   $v0, %lo(D_80130658)($v0)
+/* B6CB98 800F59F8 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B6CB9C 800F59FC AFBF0014 */  sw    $ra, 0x14($sp)
+/* B6CBA0 800F5A00 30580002 */  andi  $t8, $v0, 2
+/* B6CBA4 800F5A04 13000006 */  beqz  $t8, .L800F5A20
+/* B6CBA8 800F5A08 AFA40018 */   sw    $a0, 0x18($sp)
+/* B6CBAC 800F5A0C 3C041100 */  lui   $a0, (0x110000FF >> 16) # lui $a0, 0x1100
+/* B6CBB0 800F5A10 0C03E803 */  jal   Audio_SetBGM
+/* B6CBB4 800F5A14 348400FF */   ori   $a0, (0x110000FF & 0xFFFF) # ori $a0, $a0, 0xff
+/* B6CBB8 800F5A18 1000000C */  b     .L800F5A4C
+/* B6CBBC 800F5A1C 8FBF0014 */   lw    $ra, 0x14($sp)
+.L800F5A20:
+/* B6CBC0 800F5A20 30590004 */  andi  $t9, $v0, 4
+/* B6CBC4 800F5A24 13200006 */  beqz  $t9, .L800F5A40
+/* B6CBC8 800F5A28 3C041000 */   lui   $a0, 0x1000
+/* B6CBCC 800F5A2C 3C041100 */  lui   $a0, (0x110000FF >> 16) # lui $a0, 0x1100
+/* B6CBD0 800F5A30 0C03E803 */  jal   Audio_SetBGM
+/* B6CBD4 800F5A34 348400FF */   ori   $a0, (0x110000FF & 0xFFFF) # ori $a0, $a0, 0xff
+/* B6CBD8 800F5A38 10000004 */  b     .L800F5A4C
+/* B6CBDC 800F5A3C 8FBF0014 */   lw    $ra, 0x14($sp)
+.L800F5A40:
+/* B6CBE0 800F5A40 0C03E803 */  jal   Audio_SetBGM
+/* B6CBE4 800F5A44 348400FF */   ori   $a0, (0x110000FF & 0xFFFF) # ori $a0, $a0, 0xff
+/* B6CBE8 800F5A48 8FBF0014 */  lw    $ra, 0x14($sp)
+.L800F5A4C:
+/* B6CBEC 800F5A4C 27BD0018 */  addiu $sp, $sp, 0x18
+/* B6CBF0 800F5A50 03E00008 */  jr    $ra
+/* B6CBF4 800F5A54 00000000 */   nop   
+

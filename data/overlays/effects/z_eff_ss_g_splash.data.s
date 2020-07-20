@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_G_Splash_InitVars
 .word 0x0000000A
-.word func_809A7540
+.word EffectSsGSplash_Init
 glabel D_809A7948
  .word 0x00000000, 0x00000000, 0x00000000
 glabel D_809A7954

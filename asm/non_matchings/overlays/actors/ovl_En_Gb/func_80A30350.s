@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A307C0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+glabel D_80A307D0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+glabel D_80A307E0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A30800
+    .float 0.007
+
+.text
 glabel func_80A30350
 /* 011D0 80A30350 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 011D4 80A30354 AFB5005C */  sw      $s5, 0x005C($sp)

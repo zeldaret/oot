@@ -24,9 +24,15 @@ parser.add_argument(
     const="prompt",
     help="run diff.py on the result with the provided arguments"
 )
+parser.add_argument(
+    "-m", "--make", help="run make before finding difference(s)", action="store_true"
+)
 args = parser.parse_args()
 
 diff_count = args.count
+
+if args.make:
+    check_call(["make", "-j4", "COMPARE=0"])
 
 baseimg = f"baserom.z64"
 basemap = f"expected/build/z64.map"
@@ -228,6 +234,10 @@ if diffs > 100:
         print(f"No ROM shift{' (!?)' if definite_shift else ''}")
 
 if args.diff_args:
+    if len(found_instr_diff) < 1:
+        print(f"No instruction difference to run diff.py on")
+        exit()
+
     diff_sym = search_rom_address(found_instr_diff[0]).split()[0]
     if args.diff_args == "prompt":
         diff_args = input("Call diff.py with which arguments? ") or "--"

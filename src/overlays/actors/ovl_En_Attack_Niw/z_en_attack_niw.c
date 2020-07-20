@@ -49,7 +49,7 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTbl, this->unk_1F0, 0x10);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable, this->transitionDrawTable, 16);
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
@@ -74,7 +74,6 @@ void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809B5268(EnAttackNiw* this, GlobalContext* globalCtx, s16 arg2) {
-
     if (this->unk_254 == 0) {
         if (arg2 == 0) {
             this->unk_264 = 0.0f;
@@ -299,7 +298,7 @@ void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx) {
 void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 tmpf1;
     EnAttackNiw* this = THIS;
-    EnNiw* actor;
+    EnNiw* attachedActor;
     Player* player = PLAYER;
     s32 pad;
     Vec3f sp30;
@@ -358,11 +357,11 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     tmpf1 = 20.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
-        actor = (EnNiw*)this->actor.attachedA;
-        if ((this->actor.attachedA->update != NULL) && (this->actor.attachedA != NULL) && (actor != NULL) &&
-            (actor->unk_26A == 0) && (player->invincibilityTimer == 0)) {
+        attachedActor = (EnNiw*)this->actor.attachedA;
+        if ((this->actor.attachedA->update != NULL) && (this->actor.attachedA != NULL) && (attachedActor != NULL) &&
+            (attachedActor->unk_26A == 0) && (player->invincibilityTimer == 0)) {
             func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
-            actor->unk_26A = 0x46;
+            attachedActor->unk_26A = 0x46;
         }
     }
     if (this->unk_25E == 0) {

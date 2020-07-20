@@ -1,18 +1,18 @@
 .rdata
 glabel D_80139168
-    .asciz "\x1B[43;30mcamera: warning: battle: target is not valid, change parallel\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: battle: target is not valid, change parallel\n\x1b[m"
     .balign 4
 
 glabel D_801391B4
-    .asciz "camera: battle: target actor name \x1B[34m%d\x1B[m\n"
+    .asciz "camera: battle: target actor name \x1b[34m%d\x1b[m\n"
     .balign 4
 
 glabel D_801391E4
-    .asciz "camera: battle: target actor name \x1B[41;37m%d\x1B[m\n"
+    .asciz "camera: battle: target actor name \x1b[41;37m%d\x1b[m\n"
     .balign 4
 
 glabel D_80139218
-    .asciz "camera: battle: change target %d -> \x1B[34m%d\x1B[m\n"
+    .asciz "camera: battle: change target %d -> \x1b[34m%d\x1b[m\n"
     .balign 4
 
 .late_rodata
