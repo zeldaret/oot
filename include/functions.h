@@ -227,7 +227,7 @@ void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_
 // ? func_80028CEC(?);
 // ? func_80028DC4(?);
 // ? func_80028E1C(?);
-// ? func_80028E84(?);
+void func_80028E84(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s32, s32);
 // ? func_80028EF4(?);
 // ? func_80028F84(?);
 // ? func_80028FD8(?);
