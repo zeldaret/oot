@@ -2523,11 +2523,7 @@ endseg
 beginseg
     name "ovl_En_GirlA"
     include "build/src/overlays/actors/ovl_En_GirlA/z_en_girla.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_GirlA/ovl_En_GirlA_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_girla.reloc.o"
-#endif
 endseg
 
 beginseg
