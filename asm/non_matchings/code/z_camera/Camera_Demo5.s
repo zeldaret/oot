@@ -1,10 +1,10 @@
 .rdata
 glabel D_80139690
-    .asciz "\x1B[43;30mcamera: warning: attention: target is not valid, stop!\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: attention: target is not valid, stop!\n\x1b[m"
     .balign 4
 
 glabel D_801396D4
-    .asciz "\x1B[43;30mcamera: attention demo: this door is dummy door!\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: attention demo: this door is dummy door!\n\x1b[m"
     .balign 4
 
 .late_rodata

@@ -1,0 +1,13 @@
+glabel func_800F6B3C
+/* B6DCDC 800F6B3C 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B6DCE0 800F6B40 AFBF0014 */  sw    $ra, 0x14($sp)
+/* B6DCE4 800F6B44 24040002 */  li    $a0, 2
+/* B6DCE8 800F6B48 00002825 */  move  $a1, $zero
+/* B6DCEC 800F6B4C 240600FF */  li    $a2, 255
+/* B6DCF0 800F6B50 0C03E4A0 */  jal   func_800F9280
+/* B6DCF4 800F6B54 24070005 */   li    $a3, 5
+/* B6DCF8 800F6B58 8FBF0014 */  lw    $ra, 0x14($sp)
+/* B6DCFC 800F6B5C 27BD0018 */  addiu $sp, $sp, 0x18
+/* B6DD00 800F6B60 03E00008 */  jr    $ra
+/* B6DD04 800F6B64 00000000 */   nop   
+

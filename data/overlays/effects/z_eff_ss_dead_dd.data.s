@@ -11,5 +11,5 @@
 
 glabel Effect_Ss_Dead_Dd_InitVars
 .word 0x00000021
-.word func_809A0FE0
+.word EffectSsDeadDd_Init
 .word 0x00000000, 0x00000000

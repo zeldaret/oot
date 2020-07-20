@@ -114,11 +114,11 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params) {
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xAA, 0xFF, 0xFF, 0xFF);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x96, 0xFF, 0x80);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 170, 255, 255, 255);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 150, 255, 128);
     } else {
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0xFF, 0xC8, 0xFF);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 0x00, 0xFF, 0x80);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 200, 255);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 0, 255, 128);
     }
 
     gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);

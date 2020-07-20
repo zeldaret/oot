@@ -11,6 +11,6 @@
 
 glabel Effect_Ss_Bubble_InitVars
 .word 0x00000007
-.word func_809A0040
+.word EffectSsBubble_Init
 .word 0x00000000, 0x00000000
 

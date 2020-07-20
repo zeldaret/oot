@@ -84,7 +84,7 @@ extern u8 osAppNmiBuffer[];
 
 extern u8 D_80009320[];
 extern u8 D_800093F0[];
-extern u8 D_80009430;
+extern s8 D_80009430;
 extern u32 D_80009460;
 extern u32 gDmaMgrDmaBuffSize;
 extern volatile u8 gViConfigUseDefault;
@@ -461,6 +461,7 @@ extern u32 gUpgradeNegMasks[8];
 extern u8 gEquipShifts[4];
 extern u8 gUpgradeShifts[8];
 extern u16 gUpgradeCapacities[8][4];
+extern u32 D_8012723C[4];
 extern u32 D_8012724C[4];
 extern u32 gItemIcons[0x82];
 extern u8 gItemSlots[56];

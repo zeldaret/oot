@@ -1,5 +1,17 @@
 .SUFFIXES:
 
+# Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
+
+# If COMPARE is 1, check the output md5sum after building
+COMPARE ?= 1
+# If NON_MATCHING is 1, define the NON_MATCHING C flag when building
+NON_MATCHING ?= 0
+
+ifeq ($(NON_MATCHING),1)
+  CFLAGS := -DNON_MATCHING
+  COMPARE := 0
+endif
+
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 #### Tools ####
@@ -38,7 +50,7 @@ ASFLAGS := -march=vr4300 -32 -Iinclude
 MIPS_VERSION := -mips2
 
 # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-CFLAGS  := -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838
+CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838
 
 ifeq ($(shell getconf LONG_BIT), 32)
   # Work around memory allocation bug in QEMU
@@ -128,9 +140,11 @@ build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(
 
 #### Main Targets ###
 
-compare: $(ROM)
+all: $(ROM)
+ifeq ($(COMPARE),1)
 	@md5sum $(ROM)
 	@md5sum -c checksum.md5
+endif
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
