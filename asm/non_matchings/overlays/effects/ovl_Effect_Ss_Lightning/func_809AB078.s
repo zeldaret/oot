@@ -1,3 +1,20 @@
+.rdata
+glabel D_809AB560
+    .asciz "../z_eff_ss_lightning.c"
+    .balign 4
+
+glabel D_809AB578
+    .asciz "../z_eff_ss_lightning.c"
+    .balign 4
+
+.late_rodata
+glabel D_809AB590
+    .float 0.01
+
+glabel D_809AB594
+    .float 0.6
+
+.text
 glabel func_809AB078
 /* 00188 809AB078 27BDFE18 */  addiu   $sp, $sp, 0xFE18           ## $sp = FFFFFE18
 /* 0018C 809AB07C AFB00014 */  sw      $s0, 0x0014($sp)           
