@@ -9,13 +9,10 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx);
-
 s32 func_80A330A0(void);
-
 void func_80A33D10(Actor* thisx, GlobalContext* globalCtx);
 void func_80A33DE0(Actor* thisx, GlobalContext* globalCtx);
 void func_80A3402C(Actor* thisx, GlobalContext* globalCtx);
-
 void func_80A33AFC(EnGe2* this, GlobalContext* globalCtx);
 void func_80A33600(EnGe2* this, GlobalContext* globalCtx);
 void func_80A3354C(EnGe2* this, GlobalContext* globalCtx);
@@ -51,7 +48,7 @@ static ColliderCylinderInit D_80A34310 = {
 EnGe2ActionFunc D_80A3433C[] = { func_80A33600, func_80A3354C, func_80A33444, func_80A3334C, func_80A332D4,
                                  func_80A331A0, func_80A330CC, func_80A336C4, func_80A339EC };
 
-u32 D_80A34360[] = { 0x06009ED4, 0x060098AC, 0x060098AC, 0x060011F4, 0x060098AC,
+UNK_PTR D_80A34360[] = { 0x06009ED4, 0x060098AC, 0x060098AC, 0x060011F4, 0x060098AC,
                      0x06008D60, 0x060098AC, 0x060098AC, 0x060098AC };
 
 u8 D_80A34384[] = { 0x00, 0x02, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x02 };
@@ -65,7 +62,7 @@ Color_RGB8 D_80A343AC = { 0xFF, 0x96, 0x00 };
 
 Vec3f D_80A343B0 = { 600.0f, 700.0f, 0.0f };
 
-u32 D_80A343BC[] = { 0x06004F78, 0x06005578, 0x06005BF8, 0x00000000, 0x00000000 };
+UNK_PTR D_80A343BC[] = { 0x06004F78, 0x06005578, 0x06005BF8, 0x00000000, 0x00000000 };
 
 void func_80A32BD0(EnGe2* this, s32 arg1) {
     this->actionFunc = D_80A3433C[arg1];
@@ -80,7 +77,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008968, NULL, &this->limbDrawTbl, &this->unk_260, 0x16);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008968, NULL, this->limbDrawTable, this->transitionDrawTable, 22);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06009ED4);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A34310);
@@ -126,16 +123,15 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_304 = 0;
     this->unk_302 = 0;
     this->unk_306 = 0;
-
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
-
     this->unk_2F6 = this->actor.posRot.rot.y;
     this->unk_300 = ((this->actor.params & 0xFF00) >> 8) * 10;
 }
 
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -186,7 +182,7 @@ s32 func_80A32F74(GlobalContext* globalCtx, EnGe2* this, Vec3f* arg2, s16 arg3, 
     if (ABS((s16)(this->actor.yawTowardsLink - arg3)) >= 0x2001) {
         return 0;
     }
-    if (func_8003E0B8(&globalCtx->colCtx, arg2, &player->unk_95C, &a, &b, 0) != 0) {
+    if (func_8003E0B8(&globalCtx->colCtx, arg2, &player->unk_95C, &a, &b, 0)) {
         return 0;
     }
     return 1;
@@ -200,13 +196,12 @@ s32 func_80A330A0(void) {
 }
 
 void func_80A330CC(EnGe2* this, GlobalContext* globalCtx) {
-
     if (this->unk_305 > 0) {
         this->unk_305--;
         return;
     }
     func_8006D074(globalCtx);
-    if ((0xFF == gSaveContext.items[gItemSlots[0xA]]) || (0xFF == gSaveContext.items[gItemSlots[0xB]])) {
+    if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
         globalCtx->nextEntranceIndex = 0x1A5;
     } else if (gSaveContext.eventChkInf[12] & 0x80) {
         globalCtx->nextEntranceIndex = 0x5F8;
@@ -218,7 +213,6 @@ void func_80A330CC(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A331A0(EnGe2* this, GlobalContext* globalCtx) {
-
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 2, 0x400, 0x100);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->actor.xzDistFromLink < 50.0f) {
@@ -318,9 +312,8 @@ void func_80A3354C(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A33600(EnGe2* this, GlobalContext* globalCtx) {
-    u8 temp_v0;
+    u8 temp_v0 = func_80A32ECC(globalCtx, this);
 
-    temp_v0 = func_80A32ECC(globalCtx, this);
     if (temp_v0 != 0) {
         this->actor.speedXZ = 0.0f;
         func_80A32BD0(this, 2);
@@ -406,9 +399,9 @@ void func_80A33A0C(EnGe2* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx)) {
         this->actor.attachedA = NULL;
         this->actionFunc = func_80A33930;
-        return;
+    } else {
+        func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
     }
-    func_8002F434(&this->actor, globalCtx, 0x3A, 10000.0f, 50.0f);
 }
 
 void func_80A33A6C(EnGe2* this, GlobalContext* globalCtx) {
@@ -465,6 +458,7 @@ void func_80A33C8C(EnGe2* this, GlobalContext* globalCtx) {
 
 void func_80A33D10(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
+
     func_80A33BE8(this, globalCtx);
     this->actionFunc(this, globalCtx);
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -485,6 +479,7 @@ void func_80A33D10(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A33DE0(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
+
     this->unk_2F4 |= 0x10;
     func_80A33BE8(this, globalCtx);
     this->actionFunc(this, globalCtx);

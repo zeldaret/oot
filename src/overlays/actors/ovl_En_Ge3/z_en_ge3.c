@@ -14,10 +14,9 @@ void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx);
-
+void func_80A34D68(Actor* thisx, GlobalContext* globalCtx);
 void func_80A34B90(EnGe3* this, GlobalContext* globalCtx);
 void func_80A34A80(EnGe3* this, GlobalContext* globalCtx);
-void func_80A34D68(Actor* thisx, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_0600A458;
 extern AnimationHeader D_0600B07C;
@@ -51,7 +50,6 @@ Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
 u32 D_80A351D4[] = { 0x06005FE8, 0x060065A8, 0x06006D28 };
 
 void func_80A34620(EnGe3* this, s32 arg1) {
-
     this->actionFunc = D_80A351BC[arg1];
     SkelAnime_ChangeAnim(&this->skelAnime, (AnimationHeader*)D_80A351C0[arg1], 1.0f, 0.0f,
                          SkelAnime_GetFrameCount(&(((AnimationHeader*)D_80A351C0[arg1])->genericHeader)),
@@ -59,14 +57,12 @@ void func_80A34620(EnGe3* this, s32 arg1) {
     this->unk_30C &= ~2;
 }
 
-void func_80A34620(EnGe3*, s32);
-
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGe3* this = THIS;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600A458, NULL, &this->limbDrawTable, &this->unk_26C, 0x18);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600A458, NULL, this->limbDrawTable, this->transitionDrawTable, 24);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600B07C);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A35190);
@@ -84,6 +80,7 @@ void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGe3* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -152,7 +149,7 @@ void func_80A34B00(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A34B90(EnGe3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = func_80A34B00;
     } else {
         if (!(this->unk_30C & 4)) {
@@ -183,7 +180,6 @@ void func_80A34CE4(EnGe3* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_2FE) == 0) {
         this->unk_2FE = Math_Rand_S16Offset(0x3C, 0x3C);
     }
-
     this->unk_2FC = this->unk_2FE;
     if (this->unk_2FC >= 3) {
         this->unk_2FC = 0;
@@ -209,6 +205,7 @@ void func_80A34D68(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGe3* this = THIS;
+
     func_80A34C40(this, globalCtx);
     this->actionFunc(this, globalCtx);
     func_80A34CE4(this, globalCtx);
@@ -251,15 +248,13 @@ s32 func_80A34E58(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge3.c", 566);
         } break;
     }
-
     return 0;
 }
 
 void func_80A35004(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     EnGe3* this = THIS;
-    Vec3f sp18;
+    Vec3f sp18 = D_80A351C8;
 
-    sp18 = D_80A351C8;
     if (limbIndex == 6) {
         Matrix_MultVec3f(&sp18, &this->actor.posRot2.pos);
     }

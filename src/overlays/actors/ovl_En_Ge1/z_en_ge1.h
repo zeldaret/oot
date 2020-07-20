@@ -12,10 +12,8 @@ typedef struct EnGe1 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ Vec3s limbDrawTbl;
-    /* 0x01E2 */ char unk_1E2[0x5A];
-    /* 0x023C */ Vec3s unk_23C;
-    /* 0x0242 */ char unk_242[0x5A];
+    /* 0x01DC */ Vec3s limbDrawTable[16];
+    /* 0x023C */ Vec3s transitionDrawTable[16];
     /* 0x029C */ Vec3s unk_29C;
     /* 0x02A2 */ Vec3s unk_2A2;
     /* 0x02A8 */ s16 unk_2A8;
