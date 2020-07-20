@@ -13,9 +13,9 @@
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx);
+void func_808A3F58(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx);
-void func_808A3F58(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3BFC(BgMoriHineri* this, GlobalContext* globalCtx);
@@ -81,11 +81,11 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.params = 3;
         }
     }
-    this->objBoxIndex = -1;
+    this->boxObjIdx = -1;
     if (this->dyna.actor.params == 0) {
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
         if (t6 == 0) {
-            this->objBoxIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX);
+            this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX);
         }
     } else {
         if (this->dyna.actor.params == 1) {
@@ -97,11 +97,11 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->objBankIndex = objBankIndex;
     }
-    this->textureIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
+    this->moriTexObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (t6 != 0) {
         this->dyna.actor.params += 4;
     }
-    if ((this->objBankIndex < 0) || (this->textureIdx < 0)) {
+    if ((this->objBankIndex < 0) || (this->moriTexObjIdx < 0)) {
         Actor_Kill(&this->dyna.actor);
     } else {
         this->actionFunc = func_808A39FC;
@@ -117,8 +117,8 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     s32 sp2C;
 
     if ((Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->textureIdx)) &&
-        ((this->objBoxIndex < 0) || (Object_IsLoaded(&globalCtx->objectCtx, this->objBoxIndex)))) {
+        (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx)) &&
+        ((this->boxObjIdx < 0) || (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)))) {
         this->dyna.actor.objBankIndex = this->objBankIndex;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
@@ -217,7 +217,7 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
         }
     }
     if ((D_808A43E0 > 0) &&
-        (((globalCtx->cameraPtrs[globalCtx->activeCamera]->eye.z - this->dyna.actor.posRot.pos.z) < 1100.0f))) {
+        (((ACTIVE_CAM->eye.z - this->dyna.actor.posRot.pos.z) < 1100.0f))) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }
@@ -228,21 +228,21 @@ void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void func_808A3F58(BgMoriHineri* this, GlobalContext* globalCtx) {
-
-    GraphicsContext* gfxCtx;
+void func_808A3F58(Actor* thisx, GlobalContext* globalCtx) {
+    
+    BgMoriHineri* this = THIS;
     s8 objIndex;
     MtxF mtx;
-    Gfx* dispRefs[5];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 611);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->textureIdx].segment);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIdx].segment);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[this->dyna.actor.params]);
-    if (this->objBoxIndex > 0) {
+    if (this->boxObjIdx > 0) {
         Matrix_Get(&mtx);
     }
     if ((this->actionFunc == func_808A3C8C) && (this->dyna.actor.shape.rot.z != 0)) {
@@ -258,9 +258,9 @@ void func_808A3F58(BgMoriHineri* this, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyOpa.p++, D_04049FE0);
     }
-    if ((this->objBoxIndex > 0) && ((this->objBoxIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->objBoxIndex))) {
-        gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->objBoxIndex].segment);
+    if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
+        (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
+        gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->boxObjIdx].segment);
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, 1);
