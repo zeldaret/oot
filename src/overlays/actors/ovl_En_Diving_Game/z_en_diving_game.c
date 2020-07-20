@@ -32,7 +32,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx);
 s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx);
 s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EEDB8(GraphicsContext* gfxCtx);
+Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx);
 
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
@@ -552,9 +552,10 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Diving_Game/EnDivingGame_Update.s")
 #endif
 
-void func_809EEDB8(GraphicsContext* gfxCtx) {
-    Gfx* dlist = Graph_Alloc(gfxCtx, sizeof(Gfx));
-    gSPEndDisplayList(dlist++);
+Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
+    Gfx* displayList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    gSPEndDisplayList(displayList);
+    return displayList;
 }
 
 s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
@@ -578,4 +579,17 @@ s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Diving_Game/EnDivingGame_Draw.s")
+void EnDivingGame_Draw(Actor* thisx, GlobalContext *globalCtx) {
+    EnDivingGame* this = THIS;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[5];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1212);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809EF0E0[this->unk_29E]));
+    
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_809EEDE4, NULL, &this->actor);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1232);
+}
