@@ -241,9 +241,14 @@ typedef struct Player {
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char       unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ char       unk_3B0[0x018];
+    /* 0x03B0 */ Vec3f      unk_3B0; // related to links hands
+    /* 0x03BC */ char       unk_3BC[0x00C];
     /* 0x03C8 */ Vec3f      unk_3C8;
-    /* 0x03D4 */ char       unk_3D4[0x060];
+    /* 0x03D4 */ char       unk_3D4[0x058];
+    /* 0x042C */ s8         unk_42C;
+    /* 0x042D */ s8         unk_42D;
+    /* 0x042E */ s16        unk_42E;
+    /* 0x0430 */ Actor*     unk_430;
     /* 0x0434 */ u8         getItemId;
     /* 0x0435 */ char       unk_435[0x001];
     /* 0x0436 */ u16        getItemDirection;
@@ -278,7 +283,7 @@ typedef struct Player {
     /* 0x0684 */ Actor*     unk_684;
     /* 0x0688 */ char       unk_688[0x004];
     /* 0x068C */ Actor*     navi;
-    /* 0x0690 */ u16        naviMessageId;
+    /* 0x0690 */ s16        naviMessageId;
     /* 0x0692 */ u8         unk_692;
     /* 0x0693 */ s8         exchangeItemId;
     /* 0x0694 */ Actor*     naviTargetActor;
