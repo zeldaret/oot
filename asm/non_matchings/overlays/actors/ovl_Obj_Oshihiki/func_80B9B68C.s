@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B9CB90
+    .asciz "Error : scene_data_ID が判別できない。(%s %d)\n"
+    .balign 4
+
+glabel D_80B9CBC0
+    .asciz "../z_obj_oshihiki.c"
+    .balign 4
+
+.text
 glabel func_80B9B68C
 /* 0050C 80B9B68C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00510 80B9B690 AFBF0014 */  sw      $ra, 0x0014($sp)           

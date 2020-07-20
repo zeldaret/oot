@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A307F0
+    .float 0.2
+
+.text
 glabel EnGb_Init
 /* 00030 80A2F1B0 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00034 80A2F1B4 AFB30050 */  sw      $s3, 0x0050($sp)

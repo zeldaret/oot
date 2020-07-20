@@ -1,3 +1,18 @@
+.late_rodata
+glabel jtbl_808F7FB0
+    .word L808DAD6C
+    .word L808DAF1C
+    .word L808DB080
+    .word L808DB0D8
+    .word L808DB174
+
+glabel D_808F7FC4
+    .float 1.5707964
+
+glabel D_808F7FC8
+    .float 1.5707964
+
+.text
 glabel func_808DAD20
 /* 044B0 808DAD20 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 044B4 808DAD24 AFB10030 */  sw      $s1, 0x0030($sp)

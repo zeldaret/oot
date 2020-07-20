@@ -214,7 +214,7 @@ typedef struct EffectSs {
     /* 0x24 */ void (*update)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x28 */ void (*draw)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x2C */ Vec3f unk_2C;
-    /* 0x38 */ u32 unk_38;
+    /* 0x38 */ UNK_PTR unk_38; // could be dlist pointer, need to make sure for all effects
     /* 0x3C */ UNK_PTR unk_3C;
     /* 0x40 */ s16 regs[13]; // specific per effect
     /* 0x5A */ u16 flags;

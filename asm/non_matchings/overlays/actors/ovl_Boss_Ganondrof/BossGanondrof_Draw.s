@@ -1,3 +1,45 @@
+.rdata
+glabel D_80915370
+    .asciz "../z_boss_ganondrof.c"
+    .balign 4
+
+glabel D_80915388
+    .asciz "MOVE P = %x\n"
+    .balign 4
+
+glabel D_80915398
+    .asciz "STOP TIMER = %d ==============\n"
+    .balign 4
+
+glabel D_809153B8
+    .asciz "YP %f\n"
+    .balign 4
+
+glabel D_809153C0
+    .asciz "DRAW 11\n"
+    .balign 4
+
+glabel D_809153CC
+    .asciz "EYE_COL %d\n"
+    .balign 4
+
+glabel D_809153D8
+    .asciz "DRAW 22\n"
+    .balign 4
+
+glabel D_809153E4
+    .asciz "../z_boss_ganondrof.c"
+    .balign 4
+
+glabel D_809153FC
+    .asciz "DRAW END %d\n"
+    .balign 4
+
+.late_rodata
+glabel D_80915518
+    .float 3.14159989357
+
+.text
 glabel BossGanondrof_Draw
 /* 04204 80914844 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 04208 80914848 AFBF002C */  sw      $ra, 0x002C($sp)           
