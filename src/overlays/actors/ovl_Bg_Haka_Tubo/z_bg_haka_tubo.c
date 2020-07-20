@@ -17,7 +17,6 @@ void BgHakaTubo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx);
 void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx);
-void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Haka_Tubo_InitVars = {
     ACTOR_BG_HAKA_TUBO,
@@ -65,10 +64,10 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK3);
     DynaPolyInfo_Alloc(&D_060108B8, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
-    Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80881B60);
-    Collider_InitCylinder(globalCtx, &this->colliderFlames);
-    Collider_SetCylinder(globalCtx, &this->colliderFlames, &this->dyna.actor, &D_80881B8C);
+    Collider_InitCylinder(globalCtx, &this->potCollider);
+    Collider_SetCylinder(globalCtx, &this->potCollider, &this->dyna.actor, &D_80881B60);
+    Collider_InitCylinder(globalCtx, &this->flamesCollider);
+    Collider_SetCylinder(globalCtx, &this->flamesCollider, &this->dyna.actor, &D_80881B8C);
     this->fireScroll = Math_Rand_ZeroOne() * 15.0f;
     D_80881BB8 = 0;
     this->actionFunc = BgHakaTubo_Idle;
@@ -78,8 +77,8 @@ void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaTubo* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-    Collider_DestroyCylinder(globalCtx, &this->collider);
-    Collider_DestroyCylinder(globalCtx, &this->colliderFlames);
+    Collider_DestroyCylinder(globalCtx, &this->potCollider);
+    Collider_DestroyCylinder(globalCtx, &this->flamesCollider);
 }
 
 void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
@@ -91,19 +90,17 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.z = Math_Coss(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
     }
     // Colliding with flame circle
-    if (this->colliderFlames.base.atFlags & 2) {
-        this->colliderFlames.base.atFlags &= ~2;
+    if (this->flamesCollider.base.atFlags & 2) {
+        this->flamesCollider.base.atFlags &= ~2;
         func_8002F71C(globalCtx, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsLink, 5.0f);
     }
     // Colliding with hitbox inside the pot
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
-        /*
-         * If the colliding actor is within a 50 unit radius and 50 unit height cylinder centered
-         * on the actor's position, break the pot
-         */
-        if (func_8002DBB0(&this->dyna.actor, &this->collider.base.ac->posRot.pos) < 50.0f &&
-            (this->collider.base.ac->posRot.pos.y - this->dyna.actor.posRot.pos.y) < 50.0f) {
+    if (this->potCollider.base.acFlags & 2) {
+        this->potCollider.base.acFlags &= ~2;
+        // If the colliding actor is within a 50 unit radius and 50 unit height cylinder centered
+        // on the actor's position, break the pot
+        if (func_8002DBB0(&this->dyna.actor, &this->potCollider.base.ac->posRot.pos) < 50.0f &&
+            (this->potCollider.base.ac->posRot.pos.y - this->dyna.actor.posRot.pos.y) < 50.0f) {
             pos.x = this->dyna.actor.posRot.pos.x;
             pos.z = this->dyna.actor.posRot.pos.z;
             pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
@@ -116,11 +113,11 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             this->actionFunc = BgHakaTubo_DropCollectible;
         }
     } else {
-        Collider_CylinderUpdate(&this->dyna.actor, &this->colliderFlames);
-        Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderFlames.base);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderFlames.base);
+        Collider_CylinderUpdate(&this->dyna.actor, &this->flamesCollider);
+        Collider_CylinderUpdate(&this->dyna.actor, &this->potCollider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->potCollider.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->flamesCollider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->flamesCollider.base);
     }
 }
 
@@ -143,7 +140,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
                 collectibleParams = -1;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 // Drop rupees
-                for (i = 0; i != 9; i++) {
+                for (i = 0; i < 9; i++) {
                     collectible = Item_DropCollectible(globalCtx, &spawnPos, i % 3);
                     if (collectible != NULL) {
                         collectible->actor.velocity.y = 15.0f;
@@ -207,10 +204,9 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
                      this->dyna.actor.posRot.pos.z, MTXMODE_NEW);
     Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_Scale(0.07f, 0.04f, 0.07f, MTXMODE_APPLY);
-    if (1) {
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0, 170, 255, 255);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255);
-    }
+    if (1) {}
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0, 170, 255, 255);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->fireScroll & 127, 0, 32, 64, 1, 0,
                                 (this->fireScroll * -15) & 0xFF, 32, 64));
