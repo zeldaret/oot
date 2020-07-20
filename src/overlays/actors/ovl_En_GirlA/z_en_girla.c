@@ -290,7 +290,7 @@ void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
         osSyncPrintf(VT_RST);
         if (!this->actor.params) {};
-        __assert("0", "../z_en_girlA.c", 0x58D);
+        __assert("0", "../z_en_girlA.c", 1421);
         return;
     }
 
@@ -300,7 +300,7 @@ void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", *strptr);
         osSyncPrintf(VT_RST);
-        __assert("0", "../z_en_girlA.c", 0x59A);
+        __assert("0", "../z_en_girlA.c", 1434);
         return;
     }
 
@@ -373,7 +373,7 @@ s32 func_80A3ACAC(GlobalContext* globalCtx, EnGirlA* this) {
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
-    if (Item_CheckObtainability(ITEM_STICK) == 0xFF) {
+    if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
         return 0;
     }
     return 1;
