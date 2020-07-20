@@ -310,25 +310,27 @@ void func_80B53974(EnZl3* this, u8 arg1) {
 void func_80B53980(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
 
+void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53B64.s")
 
+void func_80B54360(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54360.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B5458C.s")
-/*s32 func_80B5458C(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, EnZl3 *thisx, Gfx
-**gfx) { void *sp78; MtxF sp38; Vec3s sp30; EnZl3 *sp20; void *temp_v0;
+s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* this,
+                  Gfx** gfx) {
+    s32 pad[4];
+    s16* unk_28C = &this->unk_28C;
+    Mtx* sp78;
+    MtxF sp38;
+    Vec3s sp30;
+    Vec3s* unk_3F8_unk_08 = &this->unk_3F8.unk_08;
+    Vec3s* unk_3F8_unk_0E = &this->unk_3F8.unk_0E;
 
     if (limbIndex == 14) {
-        temp_v0 = Graph_Alloc(globalCtx->state.gfxCtx, 0x1C0U);
-        sp78 = temp_v0;
-        rot->x += thisx->unk_3F8.unk_08.y;
-        rot->z += thisx->unk_3F8.unk_08.x;
-        temp_a0 = *gfx;
-        *gfx = (Gfx *) (temp_a0 + 8);
-        temp_a0->words.w1 = (u32) temp_v0;
-        temp_a0->words.w0 = 0xDB060030U;
-
-        gSPSegment(gfx[0]++, 0x0C, temp_v0)
+        sp78 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
+        rot->x += unk_3F8_unk_08->y;
+        rot->z += unk_3F8_unk_08->x;
+        gSPSegment((*gfx)++, 0x0C, sp78);
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
@@ -338,91 +340,84 @@ void func_80B53980(EnZl3* this, s16 arg1, s32 arg2);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
         if (!func_800C0D28(globalCtx)) {
-            func_80B53980(thisx, sp32, 0);
-            func_80B54360(thisx, sp30, 1);
-            func_80B53B64(thisx, sp34, 2);
+            func_80B53980(this, sp30.y, 0);
+            func_80B54360(this, sp30.x, 1);
+            func_80B53B64(this, sp30.z, 2);
         }
-        temp_a0_2 = (gGameInfo->unk1492 + thisx->unk28C) << 0x10;
-        temp_a1 = (gGameInfo->unk1494 + thisx->unk28E) << 0x10;
-        temp_a2 = (gGameInfo->unk1496 + thisx->unk290) << 0x10;
-        sp20 = thisx + 0x28C;
-        Matrix_RotateRPY((s16) (temp_a0_2 >> 0x10), (s16) (temp_a1 >> 0x10), (s16) (temp_a2 >> 0x10), MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_28C[0] + kREG(31), unk_28C[1] + kREG(32), unk_28C[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) sp78, "../z_en_zl3.c", 1490);
+        Matrix_ToMtx(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
         if (!func_800C0D28(globalCtx)) {
-            func_80B53980(thisx, sp32, 3);
+            func_80B53980(this, sp30.y, 3);
         }
-        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk1498 + sp20->unk6) << 0x10) >> 0x10), (s16) ((s32)
-((gGameInfo->unk149A + (bitwise s16) sp20->actor.initPosRot.pos.x) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk149C
-+ sp20->unkA) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp78 + 0x40), "../z_en_zl3.c", 1534);
+        Matrix_RotateRPY(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
+        Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_ToMtx(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
         if (!func_800C0D28(globalCtx)) {
-            func_80B54360(thisx, sp30, 7);
+            func_80B54360(this, sp30.x, 7);
         }
-        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk149E + (bitwise s16) sp20->actor.initPosRot.pos.y) << 0x10) >>
-0x10), (s16) ((s32) ((gGameInfo->unk14A0 + sp20->unkE) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14A2 + (bitwise
-s16) sp20->actor.initPosRot.pos.z) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-1019.0f, -26.0f, 0.0f,
-MTXMODE_APPLY); Matrix_ToMtx((Mtx *) (sp78 + 0x80), "../z_en_zl3.c", 1554); Matrix_Pull(); Matrix_Push();
+        Matrix_RotateRPY(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
+        Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_ToMtx(&sp78[2], "../z_en_zl3.c", 1554);
+        Matrix_Pull();
+        Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
         if (!func_800C0D28(globalCtx)) {
-            func_80B53980(thisx, sp32, 9);
-            func_80B54360(thisx, sp30, 0xA);
-            func_80B53B64(thisx, sp34, 0xB);
+            func_80B53980(this, sp30.y, 9);
+            func_80B54360(this, sp30.x, 10);
+            func_80B53B64(this, sp30.z, 11);
         }
-        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14A4 + sp20->unk12) << 0x10) >> 0x10), (s16) ((s32)
-((gGameInfo->unk14A6 + sp20->actor.initPosRot.rot.x) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14A8 +
-sp20->actor.initPosRot.rot.y) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp78 + 0xC0), "../z_en_zl3.c", 1579);
+        Matrix_RotateRPY(unk_28C[9] + kREG(40), unk_28C[10] + kREG(41), unk_28C[11] + kREG(42), MTXMODE_APPLY);
+        Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
+        Matrix_ToMtx(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
         if (!func_800C0D28(globalCtx)) {
-            func_80B53980(thisx, sp32, 0xC);
-            func_80B54360(thisx, sp30, 0xD);
-            func_80B53B64(thisx, sp34, 0xE);
+            func_80B53980(this, sp30.y, 12);
+            func_80B54360(this, sp30.x, 13);
+            func_80B53B64(this, sp30.z, 14);
         }
-        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14AA + sp20->actor.initPosRot.rot.z) << 0x10) >> 0x10), (s16)
-((s32) ((gGameInfo->unk14AC + sp20->unk1A) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14AE + sp20->actor.params) <<
-0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY); Matrix_ToMtx((Mtx *) (sp78 +
-0x100), "../z_en_zl3.c", 1598); Matrix_Pull(); Matrix_Push(); Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
+        Matrix_RotateRPY(unk_28C[12] + kREG(43), unk_28C[13] + kREG(44), unk_28C[14] + kREG(45), MTXMODE_APPLY);
+        Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
+        Matrix_ToMtx(&sp78[4], "../z_en_zl3.c", 1598);
+        Matrix_Pull();
+        Matrix_Push();
+        Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
         if (!func_800C0D28(globalCtx)) {
-            func_80B53980(thisx, sp32, 0xF);
-            func_80B54360(thisx, sp30, 0x10);
-            func_80B53B64(thisx, sp34, 0x11);
+            func_80B53980(this, sp30.y, 15);
+            func_80B54360(this, sp30.x, 16);
+            func_80B53B64(this, sp30.z, 17);
         }
-        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14B0 + (s16) sp20->actor.objBankIndex) << 0x10) >> 0x10), (s16)
-((s32) ((gGameInfo->unk14B2 + (s16) sp20->actor.soundEffect) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14B4 +
-(s16) sp20->actor.unk_22) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp78 + 0x140), "../z_en_zl3.c", 1623);
+        Matrix_RotateRPY(unk_28C[15] + kREG(46), unk_28C[16] + kREG(47), unk_28C[17] + kREG(48), MTXMODE_APPLY);
+        Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
+        Matrix_ToMtx(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
         if (!func_800C0D28(globalCtx)) {
-            func_80B53980(thisx, sp32, 0x12);
-            func_80B54360(thisx, sp30, 0x13);
-            func_80B53B64(thisx, sp34, 0x14);
+            func_80B53980(this, sp30.y, 18);
+            func_80B54360(this, sp30.x, 19);
+            func_80B53B64(this, sp30.z, 20);
         }
-        Matrix_RotateRPY((s16) ((s32) ((gGameInfo->unk14B6 + (bitwise s16) sp20->actor.posRot.pos.x) << 0x10) >> 0x10),
-(s16) ((s32) ((gGameInfo->unk14B8 + sp20->unk26) << 0x10) >> 0x10), (s16) ((s32) ((gGameInfo->unk14BA + (bitwise s16)
-sp20->actor.posRot.pos.y) << 0x10) >> 0x10), MTXMODE_APPLY); Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx((Mtx *) (sp78 + 0x180), "../z_en_zl3.c", 1642);
+        Matrix_RotateRPY(unk_28C[18] + kREG(49), unk_28C[19] + kREG(50), unk_28C[20] + kREG(51), MTXMODE_APPLY);
+        Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
+        Matrix_ToMtx(&sp78[6], "../z_en_zl3.c", 1642);
         Matrix_Pull();
         Matrix_Pull();
-        thisx->unk_2FC = 1;
-    } else {
-        if (limbIndex == 7) {
-            rot->x += thisx->unk_3F8.unk_0E.y;
-            rot->y -= thisx->unk_3F8.unk_0E.x;
-        }
+        this->unk_2FC = 1;
+    } else if (limbIndex == 7) {
+        rot->x += unk_3F8_unk_0E->y;
+        rot->y -= unk_3F8_unk_0E->x;
     }
     return 0;
-}*/
+}
 
 void func_80B54CE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     EnZl3* this = THIS;

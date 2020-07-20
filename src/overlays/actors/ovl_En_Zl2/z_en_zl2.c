@@ -494,7 +494,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     s16 pad2;
     s16* unk_1DC = this->unk_1DC;
 
-    if (limbIndex == 0xE) {
+    if (limbIndex == 14) {
         sp74 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
         gSPSegment((*gfx)++, 0x0C, sp74);
 
@@ -505,7 +505,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 0);
             func_80B4F230(this, sp2C.x, 1);
             func_80B4EF64(this, sp2C.z, 2);
@@ -515,7 +515,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 3);
             func_80B4F230(this, sp2C.x, 4);
         }
@@ -524,7 +524,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 6);
             func_80B4F230(this, sp2C.x, 7);
         }
@@ -536,7 +536,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 9);
             func_80B4F230(this, sp2C.x, 10);
             func_80B4EF64(this, sp2C.z, 11);
@@ -546,7 +546,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 12);
             func_80B4F230(this, sp2C.x, 13);
             func_80B4EF64(this, sp2C.z, 14);
@@ -559,7 +559,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 15);
             func_80B4F230(this, sp2C.x, 16);
             func_80B4EF64(this, sp2C.z, 17);
@@ -569,7 +569,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 18);
             func_80B4F230(this, sp2C.x, 19);
             func_80B4EF64(this, sp2C.z, 20);
