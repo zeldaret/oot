@@ -107,7 +107,7 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
 
-    if (this->hasInitialized != 0) {
+    if (this->hasInitialized) {
         D_808930E0 = 0;
         Collider_DestroyCylinder(globalCtx, &this->collider);
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -135,7 +135,7 @@ void BgJya1flift_DoNothing(BgJya1flift* this, GlobalContext* globalCtx) {
 
 void BgJya1flift_ChangeDirection(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_Move;
-    this->direction ^= 1;
+    this->isMovingDown ^= 1;
     this->dyna.actor.velocity.y = 0.0f;
 }
 
@@ -144,13 +144,13 @@ void BgJya1flift_Move(BgJya1flift* this, GlobalContext* globalCtx) {
 
     Math_ApproxF(&this->dyna.actor.velocity.y, 6.0f, 0.4f);
     if (this->dyna.actor.velocity.y < 1.0f) {
-        (tempVelocity = 1.0f);
+        tempVelocity = 1.0f;
     } else {
-        (tempVelocity = this->dyna.actor.velocity.y);
+        tempVelocity = this->dyna.actor.velocity.y;
     }
-    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (finalPositions[this->direction]), 0.5f,
+    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (finalPositions[this->isMovingDown]), 0.5f,
                                       tempVelocity, 1.0f)) < 0.001f) {
-        this->dyna.actor.posRot.pos.y = finalPositions[this->direction];
+        this->dyna.actor.posRot.pos.y = finalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
@@ -181,9 +181,9 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (globalCtx) {}
         tempIsRiding = (func_8004356C(&this->dyna) != 0) ? 1 : 0;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
-            if (tempIsRiding != 0) {
+            if (tempIsRiding) {
                 func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
-            } else if ((tempIsRiding == 0) && (this->isLinkRiding != 0)) {
+            } else if (!tempIsRiding && this->isLinkRiding) {
                 func_8005A77C(globalCtx->cameraPtrs[0], 3);
             }
         }
