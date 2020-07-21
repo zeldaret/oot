@@ -435,7 +435,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.scale.x >= 0.01f) && (this->actor.params != BOMBFLOWER_EXPLOSION)) {
         if (this->actor.waterY >= 20.0f) {
-            EffectSsDeadSound_Spawn(globalCtx, &this->actor.projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 0xA);
+            EffectSsDeadSound_Spawn(globalCtx, &this->actor.projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 10);
             Actor_Kill(&this->actor);
             return;
         }

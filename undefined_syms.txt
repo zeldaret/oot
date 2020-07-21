@@ -732,7 +732,7 @@ D_06000FC0 = 0x06000FC0;
 // z_eff_ss_blast
 D_0401A0B0 = 0x0401A0B0;
 
-// z_eff_ss_g_dust
+// z_eff_ss_g_spk
 D_04025550 = 0x04025550;
 
 // z_eff_ss_bomb
