@@ -10,7 +10,7 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* this, s16 frame, MtxF* mf, s32 a,
-                                  Gfx* dest);
+                                  Gfx* displayList);
 
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
@@ -135,7 +135,7 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* this, s16 frame, MtxF* mf, s32 a,
-                                  Gfx* dest) {
+                                  Gfx* displayList) {
     f32 coss;
     f32 sins;
     s32 temp;
@@ -143,12 +143,12 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     f32 tmpf7;
 
     temp = (((this->burnFrame + frame) % 8) * 7) * 0.14285715f;
-    gSPSegment(dest++, 9, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
+    gSPSegment(displayList++, 9, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
 
     fVar6 = (++frame != 4) ? frame + ((3 - this->blastFrame) * 0.33333334f) : frame;
 
-    gDPSetPrimColor(dest++, 0, 0x01, 255, 255, 0, 0x96);
-    gDPSetEnvColor(dest++, 255, 0, 0, 255);
+    gDPSetPrimColor(displayList++, 0, 0x01, 255, 255, 0, 150);
+    gDPSetEnvColor(displayList++, 255, 0, 0, 255);
 
     if (a == 0) {
         sins = -Math_Sins(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
@@ -161,17 +161,17 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f; /* [2][2] */
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
-    mf->wx = (tmpf7 * sins) + this->dyna.actor.posRot.pos.x;           /* [3][0] */
-    mf->wy = (this->dyna.actor.posRot.pos.y + 30.0f) + (0.7f * fVar6); /* [3][1] */
-    mf->wz = (tmpf7 * coss) + this->dyna.actor.posRot.pos.z;           /* [3][2] */
+    mf->wx = (tmpf7 * sins) + this->dyna.actor.posRot.pos.x;                      /* [3][0] */
+    mf->wy = (this->dyna.actor.posRot.pos.y + 30.0f) + (0.699999988079f * fVar6); /* [3][1] */
+    mf->wz = (tmpf7 * coss) + this->dyna.actor.posRot.pos.z;                      /* [3][2] */
 
-    gSPMatrix(dest++,
+    gSPMatrix(displayList++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
                                Graph_Alloc(globalCtx->state.gfxCtx, 0x40)),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(dest++, D_0600DC30);
+    gSPDisplayList(displayList++, D_0600DC30);
 
-    return dest;
+    return displayList;
 }
 
 void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -196,19 +196,23 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((s16)((func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
               0x2E6C) >= 0) {
         for (i = 3; i >= 0; i--) {
-            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p =
+                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
         }
 
         for (i = 0; i < 4; i++) {
-            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p =
+                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
         }
     } else {
         for (i = 3; i >= 0; i--) {
-            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p =
+                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
         }
 
         for (i = 0; i < 4; i++) {
-            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p =
+                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
         }
     }
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 600);
