@@ -117,7 +117,7 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
     yawCosine = Math_Coss(this->dyna.actor.shape.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(this->spheres); i++) {
-        sphere = this->collider.list + i;
+        sphere = &this->collider.list[i];
         sphere->dim.worldSphere.center.x = this->dyna.actor.initPosRot.pos.x +
                                            yawCosine * sphere->dim.modelSphere.center.x +
                                            yawSine * sphere->dim.modelSphere.center.z;
