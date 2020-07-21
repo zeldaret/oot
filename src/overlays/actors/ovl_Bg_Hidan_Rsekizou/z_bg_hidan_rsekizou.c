@@ -112,7 +112,7 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->blastFrame = 3;
     }
 
-    this->dyna.actor.shape.rot.y += 0x180; /* Approximately 2 Degrees per Frame */
+    this->dyna.actor.shape.rot.y += 0x180; // Approximately 2 Degrees per Frame
     yawSine = Math_Sins(this->dyna.actor.shape.rot.y);
     yawCosine = Math_Coss(this->dyna.actor.shape.rot.y);
 
