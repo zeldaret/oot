@@ -24,7 +24,8 @@ typedef struct BossTw {
     /* 0x0164 */ s16 unk_164;
     /* 0x0166 */ char unk_166[0x12];
     /* 0x0178 */ s16 unk_178[5];
-    /* 0x0182 */ char unk_182[0x6];
+    /* 0x0182 */ s16 unk_182;
+    /* 0x0184 */ f32 unk_184;
     /* 0x0188 */ f32 unk_188;
     /* 0x018C */ f32 unk_18C;
     /* 0x0190 */ f32 unk_190;
@@ -55,11 +56,13 @@ typedef struct BossTw {
     /* 0x0444 */ Vec3f unk_444;
     /* 0x0450 */ Vec3f unk_450[5];
     /* 0x048C */ Vec3f unk_48C;
-    /* 0x0498 */ char unk_498[0x18]; // probably 2 vec3f?
+    /* 0x0498 */ Vec3f unk_498;
+    /* 0x04A4 */ Vec3f unk_4A4;
     /* 0x04B0 */ Vec3f unk_4B0;
     /* 0x04BC */ Vec3f unk_4BC;
     /* 0x04C8 */ f32 unk_4C8;
-    /* 0x04CC */ f32 unk_4CC;
+    /* 0x04CC */ s16 unk_4CC;
+    /* 0x04CE */ s16 unk_4CE;
     /* 0x04D0 */ f32 unk_4D0;
     /* 0x04D4 */ f32 unk_4D4;
     /* 0x04D8 */ f32 unk_4D8;
@@ -90,7 +93,8 @@ typedef struct BossTw {
     /* 0x054C */ Vec3f unk_54C;
     /* 0x0558 */ Vec3f unk_558;
     /* 0x0564 */ u8 unk_564;
-    /* 0x0565 */ char unk_565[0x3];
+    /* 0x0565 */ u8 unk_565;
+    /* 0x0566 */ s16 unk_566;
     /* 0x0568 */ SkelAnime skelAnime;
     /* 0x05AC */ ColliderCylinder collider;
     /* 0x05F8 */ u8 unk_5F8;
