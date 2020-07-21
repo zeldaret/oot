@@ -30,7 +30,7 @@ EffectSsInit Effect_Ss_Bomb2_InitVars = {
     EffectSsBomb2_Init,
 };
 
-void* D_8099FED8[] = {
+void* sDrawFuncs[] = {
     func_8099F748,
     func_8099F960,
 };
@@ -56,7 +56,7 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->displayList = SEGMENTED_TO_VIRTUAL(&D_0400BF80);
     this->life = 24;
     this->update = func_8099FCCC;
-    this->draw = D_8099FED8[initParams->drawMode];
+    this->draw = sDrawFuncs[initParams->drawMode];
     this->regs[SS_BOMB2_SCALE] = initParams->scale;
     this->regs[SS_BOMB2_SCALE_STEP] = initParams->scaleStep;
     this->regs[SS_BOMB2_PRIM_R] = 255;

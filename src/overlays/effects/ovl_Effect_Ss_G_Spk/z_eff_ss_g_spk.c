@@ -6,8 +6,6 @@
 
 #include "z_eff_ss_g_spk.h"
 
-#define SPARK_ACTOR ((Actor*)this->unk_3C)
-
 typedef enum {
     /* 0x00 */ SS_G_SPK_PRIM_R,
     /* 0x01 */ SS_G_SPK_PRIM_G,
@@ -21,6 +19,8 @@ typedef enum {
     /* 0x09 */ SS_G_SPK_SCALE,
     /* 0x0A */ SS_G_SPK_SCALE_STEP,
 } EffectSsGSpkRegs;
+
+#define SPARK_SOURCE ((Actor*)this->unk_3C)
 
 u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -69,7 +69,7 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     this->regs[SS_G_SPK_ENV_G] = initParams->envColor.g;
     this->regs[SS_G_SPK_ENV_B] = initParams->envColor.b;
     this->regs[SS_G_SPK_ENV_A] = initParams->envColor.a;
-    this->regs[SS_G_SPK_TEX_IDX] = 0; 
+    this->regs[SS_G_SPK_TEX_IDX] = 0;
     this->regs[SS_G_SPK_SCALE] = initParams->scale;
     this->regs[SS_G_SPK_SCALE_STEP] = initParams->scaleStep;
     this->unk_3C = initParams->actor;
@@ -123,11 +123,11 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
     this->accel.z = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
 
-    if (SPARK_ACTOR != NULL) {
-        if ((SPARK_ACTOR->type == ACTORTYPE_EXPLOSIVES) && (SPARK_ACTOR->update != NULL)) {
-            this->pos.x = SPARK_ACTOR->posRot.pos.x + this->unk_2C.x;
-            this->pos.y = SPARK_ACTOR->posRot.pos.y + this->unk_2C.y;
-            this->pos.z = SPARK_ACTOR->posRot.pos.z + this->unk_2C.z;
+    if (SPARK_SOURCE != NULL) {
+        if ((SPARK_SOURCE->type == ACTORTYPE_EXPLOSIVES) && (SPARK_SOURCE->update != NULL)) {
+            this->pos.x = SPARK_SOURCE->posRot.pos.x + this->unk_2C.x;
+            this->pos.y = SPARK_SOURCE->posRot.pos.y + this->unk_2C.y;
+            this->pos.z = SPARK_SOURCE->posRot.pos.z + this->unk_2C.z;
         }
     }
 
@@ -142,10 +142,10 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 // this update mode is unused in the original game
 // with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
 void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    if (SPARK_ACTOR != NULL) {
-        if ((SPARK_ACTOR->type == ACTORTYPE_EXPLOSIVES) && (SPARK_ACTOR->update != NULL)) {
-            this->pos.x += (Math_Sins(SPARK_ACTOR->posRot.rot.y) * SPARK_ACTOR->speedXZ);
-            this->pos.z += (Math_Coss(SPARK_ACTOR->posRot.rot.y) * SPARK_ACTOR->speedXZ);
+    if (SPARK_SOURCE != NULL) {
+        if ((SPARK_SOURCE->type == ACTORTYPE_EXPLOSIVES) && (SPARK_SOURCE->update != NULL)) {
+            this->pos.x += (Math_Sins(SPARK_SOURCE->posRot.rot.y) * SPARK_SOURCE->speedXZ);
+            this->pos.z += (Math_Coss(SPARK_SOURCE->posRot.rot.y) * SPARK_SOURCE->speedXZ);
         }
     }
 

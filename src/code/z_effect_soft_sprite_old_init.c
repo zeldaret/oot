@@ -193,8 +193,8 @@ void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, V
 }
 
 // EffectSsBomb2 Spawn Functions
-
-void func_80028E1C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+// unused
+void EffectSsBomb2_SpawnFade(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     EffectSsBomb2InitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -206,7 +206,8 @@ void func_80028E1C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB2, 10, &initParams);
 }
 
-void func_80028E84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep) {
+void EffectSsBomb2_SpawnExpanding(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                  s16 scaleStep) {
     EffectSsBomb2InitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);

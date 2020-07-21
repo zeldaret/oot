@@ -6,15 +6,6 @@
 
 #include "z_eff_ss_blast.h"
 
-u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
-
-EffectSsInit Effect_Ss_Blast_InitVars = {
-    EFFECT_SS_BLAST,
-    EffectSsBlast_Init,
-};
-
 typedef enum {
     /* 0x00 */ SS_BLAST_ENV_R,
     /* 0x01 */ SS_BLAST_ENV_G,
@@ -26,9 +17,18 @@ typedef enum {
     /* 0x07 */ SS_BLAST_PRIM_A,
     /* 0x08 */ SS_BLAST_ALPHA_STEP,
     /* 0x09 */ SS_BLAST_RADIUS,
-    /* 0x0A */ SS_BLAST_RADIUS_STEP, 
+    /* 0x0A */ SS_BLAST_RADIUS_STEP,
     /* 0x0B */ SS_BLAST_RADIUS_STEP_DECR,
 } EffectSsBlastRegs;
+
+u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+
+EffectSsInit Effect_Ss_Blast_InitVars = {
+    EFFECT_SS_BLAST,
+    EffectSsBlast_Init,
+};
 
 extern Gfx D_0401A0B0[];
 

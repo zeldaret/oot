@@ -327,7 +327,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
             bomb2Pos.y = this->actor.posRot.pos.y;
             bomb2Pos.z = this->actor.posRot.pos.z;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
-            func_80028E84(globalCtx, &bomb2Pos, &bomb2Velocity, &bomb2Accel, 100, 20);
+            EffectSsBomb2_SpawnExpanding(globalCtx, &bomb2Pos, &bomb2Velocity, &bomb2Accel, 100, 20);
             this->unk_200 = 10;
             this->unk_19E |= 8;
             this->actionFunc = func_80A4F700;
