@@ -164,7 +164,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
 
     gSPMatrix(displayList++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
-                               Graph_Alloc(globalCtx->state.gfxCtx, 0x40)),
+                               Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(displayList++, D_0600DC30);
 
