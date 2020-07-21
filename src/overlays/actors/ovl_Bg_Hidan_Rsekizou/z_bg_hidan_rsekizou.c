@@ -148,11 +148,11 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);
 
     if (a == 0) {
-        sins = -Math_Sins(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
-        coss = -Math_Coss(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
+        sins = -Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = -Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
     } else {
-        sins = Math_Sins(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
-        coss = Math_Coss(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
+        sins = Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
     }
 
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f; /* [0][0], [1][1], [2][2] */
