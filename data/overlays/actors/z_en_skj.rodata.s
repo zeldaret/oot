@@ -54,49 +54,48 @@ glabel D_80B01870
     .balign 4
 
 glabel jtbl_80B01880
-.word L80AFE378
-.word L80AFE380
-.word L80AFE380
-.word L80AFE378
-.word L80AFE378
-.word L80AFE380
-.word L80AFE380
-.word L80AFE380
-.word L80AFE380
-.word L80AFE378
-.word L80AFE380
-.word L80AFE380
-.word L80AFE380
-.word L80AFE380
-.word L80AFE380
-.word L80AFE380
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
-.word L80AFE378
+    .word L80AFE378
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE378
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+
 glabel D_80B018F4
     .float 3.14159274101
-    .balign 4
 
 glabel D_80B018F8
- .word 0x4499C000
+    .float 1230.0
+
 glabel D_80B018FC
     .float 3.14159274101
-    .balign 4
 
 glabel D_80B01900
     .float 3.14159274101
-    .balign 4
 
 glabel D_80B01904
- .word 0x4499C000, 0x00000000, 0x00000000
+    .float 1230.0
 

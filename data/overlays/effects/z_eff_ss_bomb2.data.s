@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_Bomb2_InitVars
 .word 0x00000003
-.word func_8099F650
+.word EffectSsBomb2_Init
 glabel D_8099FED8
  .word func_8099F748
 .word func_8099F960

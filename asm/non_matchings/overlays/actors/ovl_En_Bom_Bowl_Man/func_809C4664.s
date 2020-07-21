@@ -1,6 +1,6 @@
 .rdata
 glabel D_809C4C2C
-    .asciz "[33m☆ わー ☆ %d\n[m"
+    .asciz "\x1b[33m☆ わー ☆ %d\n\x1b[m"
     .balign 4
 
 .text

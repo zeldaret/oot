@@ -1,6 +1,6 @@
 .rdata
 glabel D_8097C120
-    .asciz "[31mDemo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .asciz "\x1b[31mDemo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m"
     .balign 4
 
 .late_rodata

@@ -8,11 +8,11 @@ glabel D_80976900
     .balign 4
 
 glabel D_80976914
-    .asciz "[36m 縮むバージョン \n[m"
+    .asciz "\x1b[36m 縮むバージョン \n\x1b[m"
     .balign 4
 
 glabel D_80976930
-    .asciz "[36m 通常 バージョン \n[m"
+    .asciz "\x1b[36m 通常 バージョン \n\x1b[m"
     .balign 4
 
 .late_rodata

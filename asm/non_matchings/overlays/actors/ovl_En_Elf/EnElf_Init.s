@@ -1,3 +1,30 @@
+.rdata
+glabel D_80A060B0
+    .asciz "0"
+    .balign 4
+
+glabel D_80A060B4
+    .asciz "../z_en_elf.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A06194
+    .word L80A025C0
+    .word L80A02630
+    .word L80A02700
+    .word L80A027BC
+    .word L80A02804
+    .word L80A02694
+    .word L80A0270C
+    .word L80A026E8
+
+glabel D_80A061B4
+    .float 32767.0
+
+glabel D_80A061B8
+    .float 11.989999771118164
+
+.text
 glabel EnElf_Init
 /* 007E4 80A02414 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 007E8 80A02418 AFBF0034 */  sw      $ra, 0x0034($sp)           

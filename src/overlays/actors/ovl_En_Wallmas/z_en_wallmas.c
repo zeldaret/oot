@@ -76,8 +76,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, 0xFA24, 0),
 };
 
-static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
-
 extern AnimationHeader D_06000EA4;
 extern AnimationHeader D_06000590;
 extern AnimationHeader D_0600299C;
@@ -217,6 +215,7 @@ void EnWallmas_SetupCooldown(EnWallmas* this) {
 }
 
 void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
+    static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 

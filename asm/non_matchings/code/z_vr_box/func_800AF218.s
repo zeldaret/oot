@@ -890,8 +890,7 @@ glabel D_80142BF0
     .balign 4
 
 glabel D_80142C00
-    .incbin "baserom.z64", 0xBB9DA0, 0x6C
-    # EUC-JP
+    .asciz "\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\nＴＹＰＥ＝%d\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n"
 
 .late_rodata
 glabel jtbl_80142DC0

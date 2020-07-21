@@ -137,7 +137,7 @@ glabel D_808301A0
     .balign 4
 
 glabel D_808301B8
-    .asciz "[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_808301C0
@@ -161,7 +161,7 @@ glabel D_80830210
     .balign 4
 
 glabel D_80830214
-    .asciz "[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8083021C
