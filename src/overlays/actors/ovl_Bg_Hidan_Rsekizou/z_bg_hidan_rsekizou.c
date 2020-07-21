@@ -144,7 +144,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
 
     fVar6 = (++frame != 4) ? frame + ((3 - this->blastFrame) * 0.33333334f) : frame;
 
-    gDPSetPrimColor(displayList++, 0, 0x01, 255, 255, 0, 150);
+    gDPSetPrimColor(displayList++, 0, 1, 255, 255, 0, 150);
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);
 
     if (a == 0) {
