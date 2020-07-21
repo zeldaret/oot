@@ -2510,8 +2510,7 @@ endseg
 beginseg
     name "ovl_En_GirlA"
     include "build/src/overlays/actors/ovl_En_GirlA/z_en_girla.o"
-    include "build/data/overlays/actors/z_en_girla.data.o"
-    include "build/data/overlays/actors/z_en_girla.reloc.o"
+    include "build/src/overlays/actors/ovl_En_GirlA/ovl_En_GirlA_reloc.o"
 endseg
 
 beginseg
