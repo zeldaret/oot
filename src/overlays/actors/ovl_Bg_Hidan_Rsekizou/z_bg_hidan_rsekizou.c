@@ -60,8 +60,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-static s32 D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920,
-                            0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
+static UNK_PTR D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920,
+                                0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
 
 extern UNK_TYPE D_0600D5C0; // Dynapoly Data in Object
 extern Gfx D_0600AD00[];    // Display List
@@ -79,8 +79,8 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Alloc(&D_0600D5C0, &polyID);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, polyID);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->spheres);
-    for (i = 0; i < ARRAY_COUNT(this->spheres); i++) {
+    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
         this->collider.list[i].dim.worldSphere.radius = this->collider.list[i].dim.modelSphere.radius;
     }
     this->burnFrame = 0;
@@ -112,12 +112,12 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->blastFrame = 3;
     }
 
-    this->dyna.actor.shape.rot.y += 0x180; /* Approximately 2 Degrees per Frame */
+    this->dyna.actor.shape.rot.y += 0x180; // Approximately 2 Degrees per Frame
     yawSine = Math_Sins(this->dyna.actor.shape.rot.y);
     yawCosine = Math_Coss(this->dyna.actor.shape.rot.y);
 
-    for (i = 0; i < ARRAY_COUNT(this->spheres); i++) {
-        sphere = this->collider.list + i;
+    for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
+        sphere = &this->collider.list[i];
         sphere->dim.worldSphere.center.x = this->dyna.actor.initPosRot.pos.x +
                                            yawCosine * sphere->dim.modelSphere.center.x +
                                            yawSine * sphere->dim.modelSphere.center.z;
@@ -140,31 +140,32 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     f32 tmpf7;
 
     temp = (((this->burnFrame + frame) % 8) * 7) * 0.14285715f;
-    gSPSegment(displayList++, 9, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
+    gSPSegment(displayList++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
 
-    fVar6 = (++frame != 4) ? frame + ((3 - this->blastFrame) * 0.33333334f) : frame;
+    frame++;
+    fVar6 = (frame != 4) ? frame + ((3 - this->blastFrame) * 0.33333334f) : frame;
 
-    gDPSetPrimColor(displayList++, 0, 0x01, 255, 255, 0, 150);
+    gDPSetPrimColor(displayList++, 0, 1, 255, 255, 0, 150);
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);
 
     if (a == 0) {
-        sins = -Math_Sins(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
-        coss = -Math_Coss(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
+        sins = -Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = -Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
     } else {
-        sins = Math_Sins(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
-        coss = Math_Coss(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
+        sins = Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
     }
 
-    mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f; /* [0][0], [1][1], [2][2] */
+    mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f;
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
-    mf->wx = (tmpf7 * sins) + this->dyna.actor.posRot.pos.x;                      /* [3][0] */
-    mf->wy = (this->dyna.actor.posRot.pos.y + 30.0f) + (0.699999988079f * fVar6); /* [3][1] */
-    mf->wz = (tmpf7 * coss) + this->dyna.actor.posRot.pos.z;                      /* [3][2] */
+    mf->wx = (tmpf7 * sins) + this->dyna.actor.posRot.pos.x;
+    mf->wy = (this->dyna.actor.posRot.pos.y + 30.0f) + (0.699999988079f * fVar6);
+    mf->wz = (tmpf7 * coss) + this->dyna.actor.posRot.pos.z;
 
     gSPMatrix(displayList++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
-                               Graph_Alloc(globalCtx->state.gfxCtx, 0x40)),
+                               Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(displayList++, D_0600DC30);
 
@@ -185,13 +186,12 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_0600AD00);
-    Matrix_MtxFCopy(&mf, &gMtxFClear); /* Set an Identity Matrix */
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_0600AD00);
+    Matrix_MtxFCopy(&mf, &gMtxFClear);
 
     gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
 
-    if ((s16)((func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
-              0x2E6C) >= 0) {
+    if ((s16)((func_8005A9F4(ACTIVE_CAM) - this->dyna.actor.shape.rot.y) - 0x2E6C) >= 0) {
         for (i = 3; i >= 0; i--) {
             gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
         }
