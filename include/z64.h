@@ -1287,7 +1287,8 @@ typedef struct {
 typedef enum {
     DPM_UNK = 0,
     DPM_PLAYER = 1,
-    DPM_ENEMY = 2
+    DPM_ENEMY = 2,
+    DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
 // Some animation related structure
