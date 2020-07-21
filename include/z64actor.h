@@ -347,12 +347,14 @@ typedef struct Player {
     /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
     /* 0x0908 */ char       unk_908[0x54];
     /* 0x095C */ Vec3f      unk_95C;
-    /* 0x0968 */ char       unk_968[0x78];
+    /* 0x0968 */ char       unk_968[0x54];
+    /* 0x09BC */ Vec3f      unk_9BC;
+    /* 0x09C8 */ char       unk_9C8[0x18];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       mf_A20;
-    /* 0x0A60 */ char       unk_A60[0x08];
-    /* 0x0A68 */ s8         unk_A68;
-    /* 0x0A69 */ char       unk_A6A[0x0F];
+    /* 0x0A60 */ u8         unk_A60;
+    /* 0x0A61 */ u8         unk_A61[0x12];
+    /* 0x0A73 */ char       unk_A73[0x05];
 
     /* 0x0A78 */ s8         invincibilityTimer; // Take no damage if this value is nonzero
     // Positive induces red flashing, negative does not
