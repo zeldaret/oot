@@ -140,7 +140,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     f32 tmpf7;
 
     temp = (((this->burnFrame + frame) % 8) * 7) * 0.14285715f;
-    gSPSegment(displayList++, 9, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
+    gSPSegment(displayList++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
 
     fVar6 = (++frame != 4) ? frame + ((3 - this->blastFrame) * 0.33333334f) : frame;
 
