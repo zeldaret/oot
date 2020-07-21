@@ -78,7 +78,7 @@ s16 D_8089B17C[] = {
 Vec3f D_8089B184 = {
     0.0f,
     0.0f,
-    0.800000011921f,
+    0.8f,
 };
 
 InitChainEntry D_8089B190[] = {
@@ -128,17 +128,19 @@ void func_8089A188(BgJyaMegami* this, GlobalContext* globalContext) {
 #ifdef NON_MATCHING
 // Equivalent, 1 stack placement incorrect
 void func_8089A1DC(GlobalContext* globalContext, Vec3f* arg1, Vec3f* arg2, s32 arg3, s32 arg4) {
+
+    // s32 temp_s1;
+    // u32* dList;
     Vec3f spB4;
-    s32 temp_s1;
-    u32* new_var2;
     s32 i;
 
-    new_var2 = &D_0600B9F8;
     for (i = 0; i < arg3; ++i) {
-        temp_s1 = ((s16)(Math_Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
-        func_80029E8C(globalContext, arg1, arg2, arg1, -0x5A,
-                      ((temp_s1 < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20, D_8089B16C[temp_s1], 4, 0,
-                      D_8089B14C[temp_s1], 0, 5, D_8089B15C[temp_s1], -1, OBJECT_JYA_OBJ, new_var2);
+        // u32* dList = &D_0600B9F8;
+        s32 temp_s1 = ((s16)(Math_Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
+        s16 temp = ((temp_s1 < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
+        func_80029E8C(globalContext, arg1, arg2, arg1, -90,
+                      temp, D_8089B16C[temp_s1], 4, 0,
+                      D_8089B14C[temp_s1], 0, 5, D_8089B15C[temp_s1], -1, OBJECT_JYA_OBJ, &D_0600B9F8);
         if (Math_Rand_ZeroOne() < 0.45f) {
             Math_Vec3f_Copy(&spB4, arg1);
             spB4.z += 25.0f;
