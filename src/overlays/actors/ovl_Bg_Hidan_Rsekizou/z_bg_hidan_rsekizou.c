@@ -9,9 +9,6 @@ void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* this, s16 frame, MtxF* mf, s32 a,
-                                  Gfx* displayList);
-
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
     ACTORTYPE_BG,
@@ -63,16 +60,16 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-static s32 D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120,
-                            0x06017520, 0x06017920, 0x00000000, 0x00000000, 0x00000000 };
+static s32 D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920,
+                            0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
 
-extern UNK_TYPE D_0600D5C0;
-extern Gfx D_0600AD00[];
-extern Gfx D_0600DC30[];
+extern UNK_TYPE D_0600D5C0; // Dynapoly Data in Object
+extern Gfx D_0600AD00[];    // Display List
+extern Gfx D_0600DC30[];    // Display List
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;
-    s32 i; // Collider Iterator
+    s32 i;
     s32 pad;
     s32 polyID;
 
@@ -158,7 +155,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
         coss = Math_Coss(this->dyna.actor.shape.rot.y - (frame * 0x5DC));
     }
 
-    mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f; /* [2][2] */
+    mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f; /* [0][0], [1][1], [2][2] */
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
     mf->wx = (tmpf7 * sins) + this->dyna.actor.posRot.pos.x;                      /* [3][0] */
@@ -196,23 +193,19 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((s16)((func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->dyna.actor.shape.rot.y) -
               0x2E6C) >= 0) {
         for (i = 3; i >= 0; i--) {
-            gfxCtx->polyXlu.p =
-                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
         }
 
         for (i = 0; i < 4; i++) {
-            gfxCtx->polyXlu.p =
-                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
         }
     } else {
         for (i = 3; i >= 0; i--) {
-            gfxCtx->polyXlu.p =
-                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 1, gfxCtx->polyXlu.p);
         }
 
         for (i = 0; i < 4; i++) {
-            gfxCtx->polyXlu.p =
-                BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
+            gfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, gfxCtx->polyXlu.p);
         }
     }
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 600);
