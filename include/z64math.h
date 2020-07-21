@@ -14,6 +14,10 @@ typedef struct {
 } Vec3f;
 
 typedef struct {
+    u16 x, y, z;
+} Vec3us;
+
+typedef struct {
     s16 x, y, z;
 } Vec3s;
 
