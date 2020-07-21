@@ -1,3 +1,9 @@
+/*
+ * File: z_en_gs.c
+ * Overlay: ovl_En_Gs
+ * Description: Gossip Stone
+ */
+
 #include "z_en_gs.h"
 
 #define FLAGS 0x02000009
@@ -10,16 +16,9 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A4F734(EnGs* this, GlobalContext* globalCtx);
-void func_80A4F77C(EnGs* this);
-
-void func_80A4E910(EnGs* this, GlobalContext* globalCtx);
-void func_80A4EA08(EnGs* this, GlobalContext* globalCtx);
-void func_80A4EB3C(EnGs* this, GlobalContext* globalCtx);
-void func_80A4ED34(EnGs* this, GlobalContext* globalCtx);
-void func_80A4F13C(EnGs* this, GlobalContext* globalCtx);
-void func_80A4E648(EnGs* this, GlobalContext* globalCtx);
-void func_80A4E470(EnGs* this, GlobalContext* globalCtx);
 void func_80A4F700(EnGs* this, GlobalContext* globalCtx);
+
+void func_80A4F77C(EnGs* this);
 
 extern Gfx D_0404D4E0[];
 extern Gfx D_06000950[];
@@ -448,6 +447,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     }
 }
 #else
+void func_80A4F13C(EnGs* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gs/func_80A4F13C.s")
 #endif
 
