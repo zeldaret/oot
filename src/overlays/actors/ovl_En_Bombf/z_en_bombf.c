@@ -398,7 +398,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                     effPos.y += 30.0f;
                 }
 
-                func_80028E84(globalCtx, &effPos, &effVelocity, &bomb2Accel, 0x64, 0x13);
+                func_80028E84(globalCtx, &effPos, &effVelocity, &bomb2Accel, 100, 19);
 
                 effPos.y = this->actor.groundY;
                 if (this->actor.groundY > -32000.0f) {
