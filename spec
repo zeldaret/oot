@@ -1735,7 +1735,7 @@ beginseg
 #ifdef NON_MATCHING
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/ovl_Effect_Ss_Bomb2_reloc.o"
 #else
-    include include "build/data/overlays/effects/z_eff_ss_bomb2.reloc.o"
+    include "build/data/overlays/effects/z_eff_ss_bomb2.reloc.o"
 #endif
 endseg
 
