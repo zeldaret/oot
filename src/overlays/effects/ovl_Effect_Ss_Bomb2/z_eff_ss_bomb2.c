@@ -56,7 +56,7 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->displayList = SEGMENTED_TO_VIRTUAL(&D_0400BF80);
     this->life = 24;
     this->update = func_8099FCCC;
-    this->draw = func_8099F960; //D_8099FED8[initParams->drawMode];
+    this->draw = D_8099FED8[initParams->drawMode];
     this->regs[SS_BOMB2_SCALE] = initParams->scale;
     this->regs[SS_BOMB2_SCALE_STEP] = initParams->scaleStep;
     this->regs[SS_BOMB2_PRIM_R] = 255;
@@ -109,7 +109,10 @@ void func_8099F748(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 345);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Bomb2/func_8099F960.s")
+#ifdef NON_MATCHING
+// main issue is mtx2 goes to the stack instead of a saved register
+// the two if 1's may be fake, the permuter couldnt find much with them
+// but they were also used in around the same place in the in above function...
 void func_8099F960(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad1;
     MtxF sp1B4;
@@ -170,6 +173,9 @@ void func_8099F960(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     }
     Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 456);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Bomb2/func_8099F960.s")
+#endif
 
 void func_8099FCCC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 divisor;

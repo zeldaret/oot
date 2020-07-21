@@ -2,6 +2,7 @@
 #include <global.h>
 #include "overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
 #include "overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.h"
+#include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
@@ -193,9 +194,29 @@ void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, V
 
 // EffectSsBomb2 Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028E1C.s")
+void func_80028E1C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    EffectSsBomb2InitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028E84.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = 100;
+    initParams.scaleStep = 0;
+    initParams.drawMode = 0;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB2, 10, &initParams);
+}
+
+void func_80028E84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep) {
+    EffectSsBomb2InitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.drawMode = 1;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB2, 10, &initParams);
+}
 
 // EffectSsBlast Spawn Functions
 
