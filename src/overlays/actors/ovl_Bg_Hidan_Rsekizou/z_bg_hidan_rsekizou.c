@@ -185,7 +185,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_0600AD00);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_0600AD00);
     Matrix_MtxFCopy(&mf, &gMtxFClear);
 
     gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
