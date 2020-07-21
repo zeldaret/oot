@@ -60,7 +60,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-static UNK_TYPE D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920,
+static UNK_PTR D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920,
                             0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
 
 extern UNK_TYPE D_0600D5C0; // Dynapoly Data in Object
