@@ -32,7 +32,7 @@ EffectSsInit Effect_Ss_G_Spk_InitVars = {
     EffectSsGSpk_Init,
 };
 
-UNK_PTR D_809A7498[] = {
+static UNK_PTR D_809A7498[] = {
     0x04055FB0,
     0x040561B0,
     0x040563B0,

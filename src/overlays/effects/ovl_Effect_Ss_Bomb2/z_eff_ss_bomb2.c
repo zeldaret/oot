@@ -30,16 +30,16 @@ EffectSsInit Effect_Ss_Bomb2_InitVars = {
     EffectSsBomb2_Init,
 };
 
-void* sDrawFuncs[] = {
+static void* sDrawFuncs[] = {
     func_8099F748,
     func_8099F960,
 };
 
-s32 D_8099FEE0[] = {
+static s32 D_8099FEE0[] = {
     0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
 };
 
-s32 D_8099FF00[] = {
+static s32 D_8099FF00[] = {
     0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
 };
 

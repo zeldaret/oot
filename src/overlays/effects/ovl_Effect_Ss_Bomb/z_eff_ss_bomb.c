@@ -20,7 +20,7 @@ EffectSsInit Effect_Ss_Bomb_InitVars = {
     EffectSsBomb_Init,
 };
 
-UNK_PTR D_8099F588[] = {
+static UNK_PTR D_8099F588[] = {
     0x04007F80,
     0x04008780,
     0x04008F80,

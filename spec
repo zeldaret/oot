@@ -810,8 +810,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Tubo"
     include "build/src/overlays/actors/ovl_Bg_Haka_Tubo/z_bg_haka_tubo.o"
-    include "build/data/overlays/actors/z_bg_haka_tubo.data.o"
-    include "build/data/overlays/actors/z_bg_haka_tubo.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Tubo/ovl_Bg_Haka_Tubo_reloc.o"
 endseg
 
 beginseg
@@ -2159,8 +2158,11 @@ endseg
 beginseg
     name "ovl_En_Bx"
     include "build/src/overlays/actors/ovl_En_Bx/z_en_bx.o"
-    include "build/data/overlays/actors/z_en_bx.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Bx/ovl_En_Bx_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_bx.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2503,8 +2505,7 @@ endseg
 beginseg
     name "ovl_En_GirlA"
     include "build/src/overlays/actors/ovl_En_GirlA/z_en_girla.o"
-    include "build/data/overlays/actors/z_en_girla.data.o"
-    include "build/data/overlays/actors/z_en_girla.reloc.o"
+    include "build/src/overlays/actors/ovl_En_GirlA/ovl_En_GirlA_reloc.o"
 endseg
 
 beginseg
@@ -3576,8 +3577,7 @@ endseg
 beginseg
     name "ovl_Obj_Dekujr"
     include "build/src/overlays/actors/ovl_Obj_Dekujr/z_obj_dekujr.o"
-    include "build/data/overlays/actors/z_obj_dekujr.data.o"
-    include "build/data/overlays/actors/z_obj_dekujr.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Dekujr/ovl_Obj_Dekujr_reloc.o"
 endseg
 
 beginseg
