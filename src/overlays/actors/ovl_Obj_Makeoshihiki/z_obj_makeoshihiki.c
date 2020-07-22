@@ -23,35 +23,32 @@ const ActorInit Obj_Makeoshihiki_InitVars = {
     (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,
 };
 
+typedef struct {
+    /* 0x00 */ Vec3f posVecs[3];
+    /* 0x24 */ u8 unk_24[0x3];
+    /* 0x27 */ u8 paramVal1;
+    /* 0x28 */ u8 paramVal2;
+    /* 0x29 */ char unk_29[0x1];
+    /* 0x2A */ s16 rotY;
+} BlockConfig;
+
 static BlockConfig sBlocks[] = {
-    {
-        {
-            { 660.0f, 460.0f, 660.0f },
-            { 660.0f, 457.0f, 540.0f },
-            { 780.0f, 454.0f, 540.0f },
-        },
-        0x00,
-        0x00,
-        0x03,
-        0xFF,
-        0x02,
-        0x00,
-        0x0000,
-    },
-    {
-        {
-            { -605.0f, -820.0f, -290.0f },
-            { -365.0f, -905.0f, -290.0f },
-            { -365.0f, -905.0f, -290.0f },
-        },
-        0x00,
-        0x03,
-        0x00,
-        0xFF,
-        0x00,
-        0x00,
-        0x0000,
-    },
+    { { { 660.0f, 460.0f, 660.0f }, { 660.0f, 457.0f, 540.0f }, { 780.0f, 454.0f, 540.0f } },
+      0x00,
+      0x00,
+      0x03,
+      0xFF,
+      0x02,
+      0x00,
+      0x0000 },
+    { { { -605.0f, -820.0f, -290.0f }, { -365.0f, -905.0f, -290.0f }, { -365.0f, -905.0f, -290.0f } },
+      0x00,
+      0x03,
+      0x00,
+      0xFF,
+      0x00,
+      0x00,
+      0x0000 }
 };
 
 u32 sFlags[3][2] = { 0, 0, 1, 0, 0, 1 };
