@@ -34,8 +34,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-extern UNK_PTR D_05004350;
-extern UNK_PTR D_05004CD0;
+extern UNK_TYPE D_05004350;
+extern Gfx D_05004CD0[];
 extern UNK_TYPE D_05004E98;
 
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -78,7 +78,7 @@ void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_block.c", 153),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 232, 210, 176, 255);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_05004CD0);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_05004CD0);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_jya_block.c", 158);
 }
