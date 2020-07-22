@@ -39,7 +39,7 @@ const ActorInit En_Tubo_Trap_InitVars = {
     (ActorFunc)EnTuboTrap_Draw,
 };
 
-extern UNK_TYPE D_05017A60;
+extern Gfx D_05017A60[];
 extern Gfx D_05017870[];
 
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -69,21 +69,21 @@ void EnTuboTrap_DropCollectible(EnTuboTrap* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc and stack usage differences, most likely the same differences as EnTuboTrap_SpawnWaterFragments
 void EnTuboTrap_SpawnFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
-    Vec3f* actorPos;
+    
     f32 rand;
     f32 cos;
     f32 sin;
-    u32 addr;
+    
     Vec3f spC8;
     Vec3f spBC;
+    Vec3f* actorPos;
+    Gfx** addr;
     s16 var;
     s32 temp;
     s32 i;
 
-    addr = &D_05017A60;
+    addr = D_05017A60;
     actorPos = &this->actor.posRot.pos;
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
@@ -116,26 +116,20 @@ void EnTuboTrap_SpawnFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
 
     func_80033480(globalCtx, actorPos, 30.0f, 4, 20, 50, 0);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tubo_Trap/EnTuboTrap_SpawnFragments.s")
-#endif
 
-#ifdef NON_MATCHING
-// regalloc and stack usage differences, most likely the same differences as EnTuboTrap_SpawnFragments
 void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
-    Vec3f* actorPos;
+    
     f32 rand;
     f32 cos;
     f32 sin;
-    u32 addr;
+    
     Vec3f spC8;
     Vec3f spBC;
+    Gfx** addr = D_05017A60;
+    Vec3f* actorPos = &this->actor.posRot.pos;
     s16 var;
     s32 temp;
     s32 i;
-
-    addr = &D_05017A60;
-    actorPos = &this->actor.posRot.pos;
 
     spC8 = *actorPos;
     spC8.y += this->actor.waterY;
@@ -149,9 +143,9 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
         spC8.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
         spC8.z = cos * 8.0f;
 
-        spBC.x = spC8.x * 0.23f;
+        spBC.x = spC8.x * 0.2f;
         spBC.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
-        spBC.z = spC8.z * 0.23f;
+        spBC.z = spC8.z * 0.2f;
 
         spC8.x += actorPos->x;
         spC8.y += actorPos->y;
@@ -168,9 +162,6 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
                       0, 32, 70, -1, 3, addr);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tubo_Trap/EnTuboTrap_SpawnWaterFragments.s")
-#endif
 
 #ifdef NON_MATCHING
 void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
