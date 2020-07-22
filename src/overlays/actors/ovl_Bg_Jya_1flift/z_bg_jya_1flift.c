@@ -24,7 +24,7 @@ void func_80892E0C(BgJya1flift* this);
 void BgJya1flift_ResetMoveDelay(BgJya1flift* this);
 void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx);
 
-u8 D_808930E0 = 0;
+u8 sHasSpawned = false;
 
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
@@ -85,30 +85,30 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
     // 1 F lift
-    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", D_808930E0, globalCtx->roomCtx.curRoom.num);
-    this->hasInitialized = 0;
-    if (D_808930E0 != 0) {
+    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sHasSpawned, globalCtx->roomCtx.curRoom.num);
+    this->hasInitialized = false;
+    if (sHasSpawned) {
         Actor_Kill(thisx);
         return;
     }
     BgJya1flift_InitDynapoly(this, globalCtx, &D_060004A8, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     BgJya1flift_InitCollision(thisx, globalCtx);
-    if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F)) != 0) {
+    if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
         LINK_AGE_IN_YEARS == YEARS_ADULT ? BgJya1flift_ChangeDirection(this) : func_80892E0C(this);
     } else {
         func_80892DB0(this);
     }
     thisx->room = -1;
-    D_808930E0 = 1;
-    this->hasInitialized = 1;
+    sHasSpawned = true;
+    this->hasInitialized = true;
 }
 
 void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
 
     if (this->hasInitialized) {
-        D_808930E0 = 0;
+        sHasSpawned = false;
         Collider_DestroyCylinder(globalCtx, &this->collider);
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
@@ -135,7 +135,7 @@ void BgJya1flift_DoNothing(BgJya1flift* this, GlobalContext* globalCtx) {
 
 void BgJya1flift_ChangeDirection(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_Move;
-    this->isMovingDown ^= 1;
+    this->isMovingDown ^= true;
     this->dyna.actor.velocity.y = 0.0f;
 }
 
@@ -179,7 +179,7 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->roomCtx.curRoom.num == 6 || globalCtx->roomCtx.curRoom.num == 0) {
         this->actionFunc(this, globalCtx);
         if (globalCtx) {}
-        tempIsRiding = (func_8004356C(&this->dyna) != 0) ? 1 : 0;
+        tempIsRiding = func_8004356C(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
                 func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
