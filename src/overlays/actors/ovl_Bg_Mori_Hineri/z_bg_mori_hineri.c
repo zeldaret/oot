@@ -13,13 +13,13 @@
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_808A3F58(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx);
-void func_808A3BFC(BgMoriHineri* this, GlobalContext* globalCtx);
-void func_808A3BF0(BgMoriHineri* this, GlobalContext* globalCtx);
+void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx);
+void BgMoriHineri_DoNothing(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx);
 
 static s16 D_808A43E0 = -1;
@@ -139,15 +139,15 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
         } else {
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             sp2C = 0;
-            this->dyna.actor.draw = func_808A3F58;
+            this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
             if (this->dyna.actor.params == 0) {
                 this->actionFunc = func_808A3C8C;
                 DynaPolyInfo_Alloc(&D_060054B8, &sp2C);
             } else if (this->dyna.actor.params == 1) {
-                this->actionFunc = func_808A3BFC;
+                this->actionFunc = BgMoriHineri_SpawnBossKeyChest;
                 DynaPolyInfo_Alloc(&D_06003490, &sp2C);
             } else if (this->dyna.actor.params == 2) {
-                this->actionFunc = func_808A3BF0;
+                this->actionFunc = BgMoriHineri_DoNothing;
                 DynaPolyInfo_Alloc(&D_060043D0, &sp2C);
             } else {
                 this->actionFunc = func_808A3C8C;
@@ -159,13 +159,13 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808A3BF0(BgMoriHineri* this, GlobalContext* globalCtx) {
+void BgMoriHineri_DoNothing(BgMoriHineri* this, GlobalContext* globalCtx) {
 }
 
-void func_808A3BFC(BgMoriHineri* this, GlobalContext* globalCtx) {
+void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx) {
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOX, this->dyna.actor.posRot.pos.x + 147.0f,
                 this->dyna.actor.posRot.pos.y + -245.0f, this->dyna.actor.posRot.pos.z + -453.0f, 0, 0x4000, 0, 0x27EE);
-    this->actionFunc = func_808A3BF0;
+    this->actionFunc = BgMoriHineri_DoNothing;
 }
 
 void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
@@ -187,7 +187,7 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
          (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
         (!Flags_GetSwitch(globalCtx, this->switchFlag) &&
          (this->dyna.actor.params == 1 || this->dyna.actor.params == 3))) {
-        this->dyna.actor.draw = func_808A3F58;
+        this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
         unk_14E = globalCtx->cameraPtrs[0]->unk_14E;
@@ -228,7 +228,7 @@ void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void func_808A3F58(Actor* thisx, GlobalContext* globalCtx) {
+void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
     
     BgMoriHineri* this = THIS;
     s8 objIndex;
