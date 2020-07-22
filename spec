@@ -1129,7 +1129,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Elevator"
     include "build/src/overlays/actors/ovl_Bg_Mori_Elevator/z_bg_mori_elevator.o"
-    include "build/data/overlays/actors/z_bg_mori_elevator.data.o"
+    //include "build/data/overlays/actors/z_bg_mori_elevator.data.o"
     include "build/data/overlays/actors/z_bg_mori_elevator.reloc.o"
 endseg
 
