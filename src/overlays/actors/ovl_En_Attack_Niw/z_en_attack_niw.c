@@ -66,10 +66,12 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAttackNiw* this = THIS;
-    EnAttackNiw* attached = (EnAttackNiw*)this->actor.attachedA;
+    EnNiw* cucco = (EnNiw*)this->actor.attachedA;
 
-    if ((this->actor.attachedA != NULL) && (this->actor.attachedA->update != NULL) && (attached->unk_296 > 0)) {
-        attached->unk_296--;
+    if (this->actor.attachedA != NULL) {
+        if ((cucco->actor.update != NULL) && (cucco->unk_296 > 0)) {
+            cucco->unk_296--;
+        }
     }
 }
 
@@ -170,7 +172,6 @@ void func_809B5268(EnAttackNiw* this, GlobalContext* globalCtx, s16 arg2) {
 s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
     s16 sp1E;
     s16 sp1C;
-    s32 ret;
 
     Actor_SetHeight(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp1E, &sp1C);
@@ -219,15 +220,15 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
         this->unk_2E0 = 5.0f;
         this->unk_288 = 0.0f;
         this->actionFunc = func_809B59B0;
-    } else if (((this->actor.projectedPos.z > 0.0f) && (fabsf(sp34.x - this->actor.posRot.pos.x) < 50.0f) &&
+    } else if (((this->actor.projectedPos.z > 0.0f) && 
+                (fabsf(sp34.x - this->actor.posRot.pos.x) < 50.0f) &&
                 (fabsf(sp34.y - this->actor.posRot.pos.y) < 50.0f) &&
                 (fabsf(sp34.z - this->actor.posRot.pos.z) < 50.0f)) ||
                (this->actor.bgCheckFlags & 1)) {
-        this->unk_25A = 0;
+        this->unk_254 = this->unk_256 = this->unk_258 = this->unk_25A = 0;
         this->unk_284 = this->unk_27C = this->unk_2DC = 0.0f;
         this->unk_2D4 = this->actor.yawTowardsLink;
         this->unk_2D0 = this->actor.posRot.rot.x - 2000.0f;
-        this->unk_254 = this->unk_256 = this->unk_258 = this->unk_25A;
         this->actor.gravity = -0.2f;
         this->unk_2E0 = 5.0f;
         this->unk_288 = 0.0f;
@@ -298,11 +299,11 @@ void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx) {
 void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 tmpf1;
     EnAttackNiw* this = THIS;
-    EnNiw* attachedActor;
+    EnNiw* cucco;
     Player* player = PLAYER;
     s32 pad;
     Vec3f sp30;
-    GlobalContext* ctx2 = globalCtx;
+    GlobalContext* globalCtx2 = globalCtx;
 
     this->unk_28C++;
     if (this->unk_254 != 0) {
@@ -329,7 +330,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.shape.rot = this->actor.posRot.rot;
     this->actor.shape.unk_10 = 15.0f;
-    this->actionFunc(this, ctx2);
+    this->actionFunc(this, globalCtx2);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
 
     if (this->actionFunc == func_809B5670) {
@@ -357,11 +358,11 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     tmpf1 = 20.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
-        attachedActor = (EnNiw*)this->actor.attachedA;
-        if ((this->actor.attachedA->update != NULL) && (this->actor.attachedA != NULL) && (attachedActor != NULL) &&
-            (attachedActor->unk_26A == 0) && (player->invincibilityTimer == 0)) {
+        cucco = (EnNiw*)this->actor.attachedA;
+        if ((this->actor.attachedA->update != NULL) && (this->actor.attachedA != NULL) && (cucco != NULL) &&
+            (cucco->unk_26A == 0) && (player->invincibilityTimer == 0)) {
             func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
-            attachedActor->unk_26A = 0x46;
+            cucco->unk_26A = 0x46;
         }
     }
     if (this->unk_25E == 0) {
