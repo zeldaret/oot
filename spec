@@ -965,8 +965,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_1flift"
     include "build/src/overlays/actors/ovl_Bg_Jya_1flift/z_bg_jya_1flift.o"
-    include "build/data/overlays/actors/z_bg_jya_1flift.data.o"
-    include "build/data/overlays/actors/z_bg_jya_1flift.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_1flift/ovl_Bg_Jya_1flift_reloc.o"
 endseg
 
 beginseg
