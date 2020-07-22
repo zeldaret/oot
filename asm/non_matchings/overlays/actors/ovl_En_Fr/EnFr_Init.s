@@ -1,6 +1,6 @@
 .rdata
 glabel D_80A1D110
-    .asciz "[41;37m"
+    .asciz "\x1b[41;37m"
     .balign 4
 
 glabel D_80A1D11C
@@ -24,7 +24,7 @@ glabel D_80A1D15C
     .balign 4
 
 glabel D_80A1D16C
-    .asciz "[41;37m"
+    .asciz "\x1b[41;37m"
     .balign 4
 
 glabel D_80A1D178

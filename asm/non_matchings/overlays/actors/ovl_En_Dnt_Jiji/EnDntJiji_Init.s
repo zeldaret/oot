@@ -4,7 +4,7 @@ glabel D_809F2FE0
     .balign 4
 
 glabel D_809F2FE4
-    .asciz "\x1B[33m☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n\x1B[m"
+    .asciz "\x1b[33m☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n\x1b[m"
     .balign 4
 
 .text

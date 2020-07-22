@@ -1,3 +1,13 @@
+.rdata
+glabel D_8099F5A0
+    .asciz "../z_eff_ss_bomb.c"
+    .balign 4
+
+glabel D_8099F5B4
+    .asciz "../z_eff_ss_bomb.c"
+    .balign 4
+
+.text
 glabel func_8099F274
 /* 000C4 8099F274 27BDFE90 */  addiu   $sp, $sp, 0xFE90           ## $sp = FFFFFE90
 /* 000C8 8099F278 AFBF001C */  sw      $ra, 0x001C($sp)           

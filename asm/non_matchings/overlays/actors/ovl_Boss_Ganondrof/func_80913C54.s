@@ -1,3 +1,9 @@
+.rdata
+glabel D_80915308
+    .asciz "hit != 0 \n"
+    .balign 4
+
+.text
 glabel func_80913C54
 /* 03614 80913C54 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 03618 80913C58 AFBF001C */  sw      $ra, 0x001C($sp)           

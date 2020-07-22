@@ -15,5 +15,5 @@ glabel D_809A220C
  .word 0xAA0000FF, 0x006400FF, 0x0000FFFF
 glabel Effect_Ss_Dt_Bubble_InitVars
 .word 0x0000000E
-.word func_809A1CB0
+.word EffectSsDtBubble_Init
 

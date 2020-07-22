@@ -10,7 +10,7 @@ OSMesgQueue gPiMgrCmdQ;
 OSViMode gViConfigMode;
 u8 D_80013960;
 
-u8 D_80009430 = 1;
+s8 D_80009430 = 1;
 u8 volatile gViConfigUseDefault = 1;
 u8 gViConfigAdditionalScanLines = 0;
 u32 gViConfigFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
