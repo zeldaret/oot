@@ -33,7 +33,7 @@ typedef struct BgJyaMegami {
     /* 0x01C8 */ s16 lightTimer;
     /* 0x01CA */ s16 explosionTimer;
     /* 0x01CC */ s16 crumbleIndex;
-    /* 0x01D0 */ BgJyaMegami_Piece unk_1D0[ARRAY_COUNT(sPiecesInit)];
+    /* 0x01D0 */ BgJyaMegami_Piece pieces[ARRAY_COUNT(sPiecesInit)];
 } BgJyaMegami; // size = 0x033C
 
 extern const ActorInit Bg_Jya_Megami_InitVars;

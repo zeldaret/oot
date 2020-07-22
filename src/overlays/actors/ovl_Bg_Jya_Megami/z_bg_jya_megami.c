@@ -228,8 +228,8 @@ void BgJyaMegami_SetupExplosion(BgJyaMegami* this) {
 
     this->actionFunc = BgJyaMegami_Explosion;
     for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
-        Math_Vec3f_Copy(&this->unk_1D0[i].pos, &this->dyna.actor.posRot.pos);
-        this->unk_1D0[i].vel.x = sPiecesInit[i].velX;
+        Math_Vec3f_Copy(&this->pieces[i].pos, &this->dyna.actor.posRot.pos);
+        this->pieces[i].vel.x = sPiecesInit[i].velX;
     }
     this->explosionTimer = 0;
 }
@@ -247,7 +247,7 @@ void BgJyaMegami_Explosion(BgJyaMegami* this, GlobalContext* globalContext) {
     }
 
     for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
-        temp = &this->unk_1D0[i];
+        temp = &this->pieces[i];
         temp2 = &sPiecesInit[i];
         if (this->explosionTimer > temp2->delay) {
             temp->vel.y -= 0.6f;
@@ -325,7 +325,7 @@ void BgJyaMegami_DrawExplosion(BgJyaMegami* this, GlobalContext* globalContext) 
     func_80093D18(globalContext->state.gfxCtx);
 
     for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
-        temp = &this->unk_1D0[i];
+        temp = &this->pieces[i];
         Matrix_Translate(temp->pos.x + sPiecesInit[i].unk_00.x, temp->pos.y + sPiecesInit[i].unk_00.y,
                          temp->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
         Matrix_RotateY(temp->rotVelY * 0.0000958738f, MTXMODE_APPLY);
