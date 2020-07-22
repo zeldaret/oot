@@ -134,10 +134,10 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
 }
 
 void func_80A68870(EnHorseGanon* this) {
-    if ((this->skin.skelAnime.animCurrentFrame > D_80A692B8[this->soundCount]) && 
-       ((this->soundCount != 0) || !(this->skin.skelAnime.animCurrentFrame > D_80A692B8[1]))) {
-        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, 
-            &D_801333E0, &D_801333E0, &D_801333E8);
+    if ((this->skin.skelAnime.animCurrentFrame > D_80A692B8[this->soundCount]) &&
+        ((this->soundCount != 0) || !(this->skin.skelAnime.animCurrentFrame > D_80A692B8[1]))) {
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
 
         this->soundCount++;
         if (this->soundCount >= 2) {
