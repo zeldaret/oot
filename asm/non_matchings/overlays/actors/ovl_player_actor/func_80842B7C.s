@@ -84,7 +84,7 @@ glabel func_80842B7C
 /* 10AA0 80842CB0 AFA7001C */  sw      $a3, 0x001C($sp)           
 /* 10AA4 80842CB4 00C13021 */  addu    $a2, $a2, $at              
 /* 10AA8 80842CB8 00063400 */  sll     $a2, $a2, 16               
-/* 10AAC 80842CBC 0C00A63B */  jal     func_800298EC              
+/* 10AAC 80842CBC 0C00A63B */  jal     EffectSsStick_Spawn              
 /* 10AB0 80842CC0 00063403 */  sra     $a2, $a2, 16               
 /* 10AB4 80842CC4 0C02127B */  jal     func_800849EC              
 /* 10AB8 80842CC8 8FA40018 */  lw      $a0, 0x0018($sp)           

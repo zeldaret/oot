@@ -419,7 +419,7 @@ extern s16 gSpoilingItemReverts[3];
 //extern ? D_80125E18;
 //extern ? D_80125E58;
 //extern ? D_80125F40;
-//extern ? D_80125F98;
+extern Gfx D_80125F98[];
 //extern ? D_80126008;
 //extern ? D_80126014;
 //extern ? D_8012601C;

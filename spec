@@ -1954,8 +1954,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Stick"
     include "build/src/overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.o"
-    include "build/data/overlays/effects/z_eff_ss_stick.data.o"
-    include "build/data/overlays/effects/z_eff_ss_stick.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Stick/ovl_Effect_Ss_Stick_reloc.o"
 endseg
 
 beginseg
