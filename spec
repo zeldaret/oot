@@ -903,8 +903,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Rsekizou"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Rsekizou/z_bg_hidan_rsekizou.o"
-    include "build/data/overlays/actors/z_bg_hidan_rsekizou.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_rsekizou.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Rsekizou/ovl_Bg_Hidan_Rsekizou_reloc.o"
 endseg
 
 beginseg
