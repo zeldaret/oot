@@ -1553,7 +1553,7 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
                 sp60.x = rItem->dim.worldSphere.center.x;
                 sp60.y = rItem->dim.worldSphere.center.y;
                 sp60.z = rItem->dim.worldSphere.center.z;
-                if (!(fabsf(sp88) < 0.008f)) {
+                if (!IS_ZERO(sp88)) {
                     temp_f0 = rItem->dim.worldSphere.radius / sp88;
                     sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
                     sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
@@ -1602,7 +1602,7 @@ void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
             sp58.x = right->dim.pos.x;
             sp58.y = right->dim.pos.y;
             sp58.z = right->dim.pos.z;
-            if (!(fabsf(sp7C) < 0.008f)) {
+            if (!IS_ZERO(sp7C)) {
                 temp_f0 = right->dim.radius / sp7C;
                 if (temp_f0 <= 1.0f) {
                     sp70.x = ((sp64.x - sp58.x) * temp_f0) + sp58.x;
@@ -1652,7 +1652,7 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
             sp70.x = rItem->dim.worldSphere.center.x;
             sp70.y = rItem->dim.worldSphere.center.y;
             sp70.z = rItem->dim.worldSphere.center.z;
-            if (!(fabsf(sp98) < 0.008f)) {
+            if (!IS_ZERO(sp98)) {
                 temp_f0 = (f32)rItem->dim.worldSphere.radius / sp98;
                 if (temp_f0 <= 1.0f) {
                     sp88.x = ((sp7C.x - sp70.x) * temp_f0) + sp70.x;
@@ -1871,7 +1871,7 @@ void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
     if (Math3D_CylinderOutCylinderDist(&left->dim, &right->dim, &sp6C, &sp68) == 1) {
         Math_Vec3s_ToVec3f(&sp50, &left->dim.pos);
         Math_Vec3s_ToVec3f(&sp44, &right->dim.pos);
-        if (!(fabsf(sp68) < 0.008f)) {
+        if (!IS_ZERO(sp68)) {
             temp_f0 = (f32)right->dim.radius / sp68;
             sp5C.y = (f32)right->dim.pos.y + (f32)right->dim.yShift + (f32)right->dim.height * 0.5f;
             sp5C.x = ((f32)left->dim.pos.x - right->dim.pos.x) * temp_f0 + right->dim.pos.x;
@@ -2438,7 +2438,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     leftMass = leftActor->colChkInfo.mass;
     rightMass = rightActor->colChkInfo.mass;
     totalMass = leftMass + rightMass;
-    if (fabsf(totalMass) < 0.008f) {
+    if (IS_ZERO(totalMass)) {
         totalMass = (leftMass = rightMass = 1.0f) * 2;
     }
     xDelta = rightv->x - leftv->x;
@@ -2474,7 +2474,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
         }
     }
 
-    if (!(fabsf(xzDist) < 0.008f)) {
+    if (!IS_ZERO(xzDist)) {
         temp_f0 = arg6 / xzDist;
         xDelta *= temp_f0;
         zDelta *= temp_f0;
@@ -3183,7 +3183,7 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
     // ada1f4
     sp38 = SQ(delta_a3_a4_sp6C.x) + SQ(delta_a3_a4_sp6C.z) - SQ(actor_ac_98_10); // temp_f12;
     temp_f2 = SQ(delta_a4_a5_sp54.x) + SQ(delta_a4_a5_sp54.z);
-    if (!(fabsf(temp_f2) < 0.008f)) { // ada23c:    bc1t    0xada2f0 ~>
+    if (!IS_ZERO(temp_f2)) { // ada23c:    bc1t    0xada2f0 ~>
         temp_f14 = (delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x +
                    (delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z;
         temp_f0 = SQ(temp_f14);
@@ -3209,7 +3209,7 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_ac
     } else { // 0xada2f0
         temp_f14 = ((delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x) +
                    ((delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z);
-        if (!(fabsf(temp_f14) < 0.008f)) { // ada324
+        if (!IS_ZERO(temp_f14)) { // ada324
             phi_v0 = 0;
             sp50 = -sp38 / temp_f14;
             phi_v1 = 1;

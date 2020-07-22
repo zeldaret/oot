@@ -38,7 +38,7 @@ void Math3D_LineVsPos(Linef* line, Vec3f* pos, Vec3f* ret) {
     f32 temp_f0;
 
     temp_ret = func_800CB600(&line->b);
-    if (fabsf(temp_ret) < 0.008f) {
+    if (IS_ZERO(temp_ret)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // Math3D_lineVsPosSuisenCross(): No straight line length
         osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
@@ -73,7 +73,7 @@ s32 func_800CAD08(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
 
     Math3D_Vec3f_Cross(&sp60, &sp54, &arg8->b);
 
-    if (fabsf(arg8->b.x) < 0.008f && fabsf(arg8->b.y) < 0.008f && fabsf(arg8->b.z) < 0.008f) {
+    if (IS_ZERO(arg8->b.x) && IS_ZERO(arg8->b.y) && IS_ZERO(arg8->b.z)) {
         return 0;
     }
 
@@ -129,7 +129,7 @@ s32 func_800CB010(Vec3f* vec1, Vec3f* vec2, f32* dst) {
     f32 magProduct;
 
     magProduct = Math3D_Vec3fMagnitude(vec1) * Math3D_Vec3fMagnitude(vec2);
-    if (fabsf(magProduct) < 0.008f) {
+    if (IS_ZERO(magProduct)) {
         *dst = 0.0f;
         return 1;
     }
@@ -682,7 +682,7 @@ void func_800CC8B4(Vec3f* va, Vec3f* vb, Vec3f* vc, f32* nx, f32* ny, f32* nz, f
 
     Math3D_SurfaceNorm(va, vb, vc, &normal);
     normMagnitude = sqrtf(SQ(normal.x) + SQ(normal.y) + SQ(normal.z));
-    if (!(fabsf(normMagnitude) < 0.008f)) {
+    if (!IS_ZERO(normMagnitude)) {
         t = 1.0f / normMagnitude;
         *nx = normal.x * t;
         *ny = normal.y * t;
@@ -716,7 +716,7 @@ f32 Math3D_Plane(Plane* plane, Vec3f* v) {
  */
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
-    if (fabsf(sqrtf(SQ(nx) + SQ(ny) + SQ(nz))) < 0.008f) {
+    if (IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
         osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
@@ -734,7 +734,7 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
     f32 normMagnitude;
 
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
-    if (fabsf(normMagnitude) < 0.008f) {
+    if (IS_ZERO(normMagnitude)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
         osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
@@ -801,7 +801,7 @@ s32 func_800CCF48(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x) {
 
 s32 func_800CCF98(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 normX, f32 normY, f32 normZ, f32 originDist, f32 z, f32 x,
                   f32* pointDist, f32 argA) {
-    if (fabsf(normY) < 0.008f) {
+    if (IS_ZERO(normY)) {
         return 0;
     }
     if (func_800CCBE4(v0, v1, v2, z, x, 300.0f, argA, normY)) {
@@ -813,7 +813,7 @@ s32 func_800CCF98(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 normX, f32 normY, f32 nor
 
 s32 func_800CD044(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 normX, f32 normY, f32 normZ, f32 originDist, f32 z, f32 x, f32* arg9,
                   f32 argA) {
-    if (fabsf(normY) < 0.008f) {
+    if (IS_ZERO(normY)) {
         return 0;
     }
     if (func_800CCBE4(v0, v1, v2, z, x, 0.0f, argA, normY)) {
@@ -824,7 +824,7 @@ s32 func_800CD044(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 normX, f32 normY, f32 nor
 }
 
 s32 func_800CD0F0(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 ny, f32 z, f32 x) {
-    if (fabsf(ny) < 0.008f) {
+    if (IS_ZERO(ny)) {
         return 0;
     }
     if (func_800CCBE4(v0, v1, v2, z, x, 300.0f, 1.0f, ny)) {
@@ -845,7 +845,7 @@ s32 Math3D_TriVtxCylTouching(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f3
     f32 topDist;
     Vec3f cylPos;
 
-    if (fabsf(ny) < 0.008f) {
+    if (IS_ZERO(ny)) {
         return 0;
     }
 
@@ -868,7 +868,7 @@ s32 Math3D_TriVtxCylTouching(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f3
 }
 
 s32 func_800CD2D8(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f32 arg6) {
-    if (fabsf(plane->normal.y) < 0.008f) {
+    if (IS_ZERO(plane->normal.y)) {
         return 0;
     }
     if (func_800CCBE4(v0, v1, v2, z, x, 0.0f, arg6, plane->normal.y)) {
@@ -932,7 +932,7 @@ s32 func_800CD668(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 
 s32 func_800CD6B0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
                   f32* arg9) {
-    if (fabsf(arg3) < 0.008f) {
+    if (IS_ZERO(arg3)) {
         return 0;
     }
     arg3 = arg3;
@@ -944,7 +944,7 @@ s32 func_800CD6B0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 }
 
 s32 func_800CD760(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 y, f32 z) {
-    if (fabsf(nx) < 0.008f) {
+    if (IS_ZERO(nx)) {
         return 0;
     }
     if (func_800CD34C(v0, v1, v2, y, z, 300.0f, 1.0f, nx)) {
@@ -960,7 +960,7 @@ s32 func_800CD7D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     f32 sp34;
     f32 temp_ret;
 
-    if (fabsf(arg3) < 0.008f) {
+    if (IS_ZERO(arg3)) {
         return 0;
     }
 
@@ -981,7 +981,7 @@ s32 func_800CD7D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 }
 
 s32 func_800CD95C(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 arg4, f32 arg5, f32 arg6) {
-    if (fabsf(plane->normal.x) < 0.008f) {
+    if (IS_ZERO(plane->normal.x)) {
         return 0;
     }
     if (func_800CD34C(v0, v1, v2, arg4, arg5, 0.0f, arg6, plane->normal.x)) {
@@ -1039,7 +1039,7 @@ s32 func_800CDD18(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 
 s32 func_800CDD60(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
                   f32* arg9) {
-    if (fabsf(arg5) < 0.008f) {
+    if (IS_ZERO(arg5)) {
         return 0;
     }
     if (func_800CD9D0(arg0, arg1, arg2, arg7, arg8, 300.0f, 1.0f, arg5)) {
@@ -1050,7 +1050,7 @@ s32 func_800CDD60(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 }
 
 s32 func_800CDE10(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nz, f32 x, f32 y) {
-    if (fabsf(nz) < 0.008f) {
+    if (IS_ZERO(nz)) {
         return 0;
     }
     if (func_800CD9D0(v0, v1, v2, x, y, 300.0f, 1.0f, nz)) {
@@ -1066,7 +1066,7 @@ s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     f32 sp2C;
     f32 temp_ret;
 
-    if (fabsf(arg5) < 0.008f) {
+    if (IS_ZERO(arg5)) {
         return 0;
     }
     D_8016A6A8.x = arg7;
@@ -1087,7 +1087,7 @@ s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 }
 
 s32 func_800CE010(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 arg4, f32 arg5, f32 arg6) {
-    if (fabsf(plane->normal.z) < 0.008f) {
+    if (IS_ZERO(plane->normal.z)) {
         return 0;
     }
     if (func_800CD9D0(v0, v1, v2, arg4, arg5, 0.0f, arg6, plane->normal.z)) {
@@ -1100,7 +1100,7 @@ s32 func_800CE084(f32 pointADist, f32 pointBDist, Vec3f* pointA, Vec3f* pointB, 
     f32 temp_f2;
 
     temp_f2 = pointADist - pointBDist;
-    if (fabsf(temp_f2) < 0.008f) {
+    if (IS_ZERO(temp_f2)) {
         *intersect = *pointB;
         return 0;
     }
@@ -1193,7 +1193,7 @@ s32 func_800CE4B8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
     temp_f2 = arg4 - arg2;
     temp_f18 = arg5 - arg3;
     temp_f16 = (temp_f2 * temp_f2) + (temp_f18 * temp_f18);
-    if (fabsf(temp_f16) < 0.008f) {
+    if (IS_ZERO(temp_f16)) {
         *arg6 = 0.0f;
         return 0;
     }
@@ -1225,7 +1225,7 @@ s32 func_800CE600(Sphere16* arg0, Linef* arg1) {
         t2.z = arg1->b.z - arg1->a.z;
 
         temp_f2 = SQ(t2.x) + SQ(t2.y) + SQ(t2.z);
-        if (fabsf(temp_f2) < 0.008f) {
+        if (IS_ZERO(temp_f2)) {
             return 0;
         }
         temp_f0_2 = ((((arg0->center.x - arg1->a.x) * t2.x) + ((arg0->center.y - arg1->a.y) * t2.y)) +
@@ -1261,7 +1261,7 @@ void func_800CE800(Sphere16* sphere, TriNorm* tri, Vec3f* ret) {
     sphereCenter.y = sphere->center.y;
     sphereCenter.z = sphere->center.z;
     dist = Math3D_Vec3f_DistXYZ(&centroid, &sphereCenter);
-    if (fabsf(dist) < 0.008f) {
+    if (IS_ZERO(dist)) {
         ret->x = sphereCenter.x;
         ret->y = sphereCenter.y;
         ret->z = sphereCenter.z;
@@ -1448,7 +1448,7 @@ s32 Math3D_CylTriTouchingIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* interse
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         temp_f14_2 = sqrtf((sp54.x * sp54.x) + (sp54.z * sp54.z));
 
-        if (fabsf(temp_f14_2) < 0.008f) {
+        if (IS_ZERO(temp_f14_2)) {
             Math_Vec3f_Copy(intersect, &sp60);
             return 1;
         }

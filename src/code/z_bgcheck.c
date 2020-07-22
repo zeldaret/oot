@@ -215,14 +215,14 @@ void func_80038A28(CollisionPoly* poly, f32 x, f32 y, f32 z, MtxF* mtxF) {
     func_800389D4(poly, &normX, &normY, &normZ);
 
     phi_f2 = sqrtf(1.0f - SQ(normX));
-    if (!(fabsf(phi_f2) < 0.008f)) {
+    if (!IS_ZERO(phi_f2)) {
         inv_phi_f2 = 1.0f / phi_f2;
         phi_f14 = normY * inv_phi_f2;
         phi_f12 = -(normZ * inv_phi_f2);
     } else {
         phi_f14 = sqrtf(1.0f - SQ(normY));
         if (1) {
-            if (!(fabsf(phi_f14) < 0.008f)) {
+            if (!IS_ZERO(phi_f14)) {
                 inv_phi_f14 = (1.0f / phi_f14);
                 phi_f12 = normX * inv_phi_f14;
                 phi_f2 = -(normZ * inv_phi_f14);
@@ -331,7 +331,7 @@ s32 func_80038F20(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* 
     return func_80038D48(poly, vtxList, arg2, arg3, result, 1.0f);
 }
 
-void func_80038F60(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* result) {
+s32 func_80038F60(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* result) {
     static Vec3f polyVtxs[3];
     f32 normX;
     f32 normY;
@@ -339,10 +339,10 @@ void func_80038F60(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32*
 
     func_80038BE0(poly, vtxList, polyVtxs);
     func_800389D4(poly, &normX, &normY, &normZ);
-    func_800CD6B0(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, result);
+    return func_800CD6B0(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, result);
 }
 
-void func_80039000(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* arg4) {
+s32 func_80039000(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* arg4) {
     static Vec3f polyVtxs[3];
     f32 normX;
     f32 normY;
@@ -350,7 +350,7 @@ void func_80039000(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32*
 
     func_80038BE0(poly, vtxList, polyVtxs);
     func_800389D4(poly, &normX, &normY, &normZ);
-    func_800CDD60(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, arg4);
+    return func_800CDD60(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, arg4);
 }
 
 s32 func_800390A0(CollisionPoly* poly, Vec3s* vtxList, Vec3f* pointA, Vec3f* pointB, Vec3f* arg4, s32 arg5, f32 arg6) {
@@ -368,7 +368,7 @@ s32 func_800390A0(CollisionPoly* poly, Vec3s* vtxList, Vec3f* pointA, Vec3f* poi
     if ((0.0f <= planeDistA && 0.0f <= planeDistB)
         || (planeDistA < 0.0f && planeDistB < 0.0f)
         || (arg5 != 0 && planeDistA < 0.0f && 0.0f < planeDistB)
-        || fabsf(planeDistDelta) < 0.008f) {
+        || IS_ZERO(planeDistDelta)) {
         return false;
     }
 
@@ -580,6 +580,7 @@ f32 func_8003992C(Lookup* lookup, CollisionContext* colCtx, u16 arg2, CollisionP
 #ifdef NON_MATCHING
 // arg5 unused
 // regalloc
+//arg 4, 5, 6, are nx, ny, nz
 s32 func_80039A3C(CollisionContext* colChk, CollisionPoly* poly, f32* arg2, f32* arg3, f32 arg4,
     f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9, BgCheckInfo* bgChkInfo) {
     CollisionPoly* wallPoly;
@@ -605,6 +606,8 @@ s32 func_80039A3C(CollisionContext* colChk, CollisionPoly* poly, f32* arg2, f32*
     }
 }
 #else
+s32 func_80039A3C(CollisionContext* colChk, CollisionPoly* poly, f32* arg2, f32* arg3, f32 arg4,
+    f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9, BgCheckInfo* bgChkInfo);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80039A3C.s")
 #endif
 
@@ -2478,7 +2481,7 @@ void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dyna)
 //        spB8.z = (f32)((Vec3s*)dyna->dyn_vtx)[temp_s0_2->vIC].z;
 //        Math3D_SurfaceNorm(&spD0, &spC4, &spB8, &spAC);
 //        temp_ret_2 = Math3D_Vec3fMagnitude(&spAC);
-//        if (!(fabsf(temp_ret_2) < 0.008f)) {
+//        if (!IS_ZERO(temp_ret_2)) {
 //            //goto block_41;
 //
 //            temp_f0 = 1.0f / temp_ret_2;
@@ -2683,9 +2686,249 @@ f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003FDDC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80040284.s")
+#ifdef NON_MATCHING
+s32 func_80040284(CollisionContext* arg0, u16 arg1, DynaCollisionContext* arg2, u16* arg3, f32* arg4, f32* arg5, BgCheckInfo* arg6, s32* arg7, Vec3f* arg8, f32 arg9, s32 bgId) {
+    f32 spD0;
+    s32 spCC = false; //result
+    CollisionPoly* temp_s0;
+    SSNode* phi_s1; //curNode
+    u16 temp_v0;
+    s16 polyId;
+    f32 spC0; //nx
+    f32 spBC; //ny
+    f32 spB8; //nz
+    Vec3f spAC;
 
+    f32 temp_f0_2; //temp dimension val
+    f32 temp_f0_5;
+    f32 temp_f20; //ac_size
+    f32 temp_f16; //sp70
+    f32 temp_f18; //sp90
+    f32 temp_f24; //DistPlaneToPos result
+    f32 temp_f2; //spD0 - spAC.z
+    f32 temp_f2_2; //spD0 - spAC.z
+    f32 phi_f2; //dimension min
+    f32 temp_f12; //dimension max
+    f32 phi_f2_3; //loop 2 dimension min
+    f32 phi_f12_3; //loop 2 dimension max
+
+    if (SS_NULL == *arg3) {
+        return spCC;
+    }
+    spAC = *arg8;
+    phi_s1 = arg2->dyn_list.tbl + *arg3;
+
+    while (true) {
+        polyId = phi_s1->polyId;
+        temp_s0 = arg2->dyn_poly + polyId;
+        func_800389D4(temp_s0, &spC0, &spBC, &spB8);
+        temp_f20 = sqrtf(SQ(spC0) + SQ(spB8));
+        if (!(!IS_ZERO(temp_f20))) {
+            __assert("!IS_ZERO(ac_size)", "../z_bgcheck.c", 7382);
+        }
+        temp_f24 = Math3D_DistPlaneToPos(spC0, spBC, spB8, (f32)temp_s0->dist, &spAC);
+        if ((arg9 < fabsf(temp_f24)) || ((temp_s0->flags_vIA & ((arg1 & 7) << 13)) != 0)) {
+            temp_v0 = phi_s1->next;
+            if (SS_NULL != temp_v0) {
+                phi_s1 = arg2->dyn_list.tbl + temp_v0;
+                continue;
+            }
+            break;
+        }
+        temp_f16 = 1.0f / temp_f20;
+        temp_f18 = fabsf(spB8) * temp_f16;
+        if (temp_f18 < 0.4f) {
+            temp_v0 = phi_s1->next;
+            if (SS_NULL != temp_v0) {
+                phi_s1 = arg2->dyn_list.tbl + temp_v0;
+                continue;
+            }
+            break;
+        }
+        phi_f2 = (f32)((Vec3s*)arg2->dyn_vtx)[temp_s0->flags_vIA & 0x1FFF].z; //7610
+        temp_f12 = phi_f2;
+        temp_f0_2 = (f32)((Vec3s*)arg2->dyn_vtx)[temp_s0->flags_vIB & 0x1FFF].z;
+
+        // f2 = min, f12 max; f0 = next
+        if (temp_f0_2 < phi_f2) { //7630
+            phi_f2 = temp_f0_2;
+        }
+        else if (temp_f12 < temp_f0_2) {
+            temp_f12 = temp_f0_2;
+        }
+        temp_f0_2 = (f32)((Vec3s*)arg2->dyn_vtx)[temp_s0->vIC].z;
+        if (temp_f0_2 < phi_f2) {
+            phi_f2 = temp_f0_2;
+        }
+        else if (temp_f12 < temp_f0_2) { //76A0
+            temp_f12 = temp_f0_2;
+        }
+        phi_f2 -= arg9;
+        temp_f12 += arg9;
+        if (spAC.z < phi_f2 || temp_f12 < spAC.z) {
+            temp_v0 = phi_s1->next;
+            if (SS_NULL != temp_v0) {
+                phi_s1 = arg2->dyn_list.tbl + temp_v0;
+                continue;
+            }
+            break;
+        }
+        else if (func_80039000(temp_s0, (Vec3s*)arg2->dyn_vtx, spAC.x, arg8->z, &spD0) != 0) {
+            temp_f2 = spD0 - spAC.z;
+            if (fabsf(temp_f2) <= (arg9 / temp_f18)) {
+                if ((temp_f2 * spB8) <= 4.0f) {
+                    spCC = true;
+                    if (func_80039A3C(arg0, temp_s0, &spAC.x, &spAC.z, spC0, spBC, spB8, temp_f16, temp_f24, arg9, arg6) != 0) {
+                        *arg7 = bgId;
+                    }
+                }
+            }
+        }
+        temp_v0 = phi_s1->next;
+        if (SS_NULL != temp_v0) {
+            phi_s1 = arg2->dyn_list.tbl + temp_v0;
+            continue;
+        }
+        break;
+    }
+
+    phi_s1 = arg2->dyn_list.tbl + *arg3;
+loop_32:
+    temp_s0 = arg2->dyn_poly + phi_s1->polyId;
+    func_800389D4(temp_s0, &spC0, &spBC, &spB8);
+    temp_f20 = sqrtf(SQ(spC0) + SQ(spB8));
+    if (!(!IS_ZERO(temp_f20))) {
+        __assert("!IS_ZERO(ac_size)", "../z_bgcheck.c", 7489);
+    }
+    temp_f24 = Math3D_DistPlaneToPos(spC0, spBC, spB8, (f32)temp_s0->dist, &spAC);
+    if (arg9 < fabsf(temp_f24) || temp_s0->flags_vIA & ((arg1 & 7) << 13)) {
+        temp_v0 = phi_s1->next;
+        if (SS_NULL != temp_v0) {
+            phi_s1 = arg2->dyn_list.tbl + temp_v0;
+            goto loop_32;
+        }
+    }
+    else {
+        temp_f16 = 1.0f / temp_f20;
+        temp_f18 = fabsf(spC0) * temp_f16;
+        if (temp_f18 < 0.4f) {
+            temp_v0 = phi_s1->next;
+            if (SS_NULL != temp_v0) {
+                phi_s1 = arg2->dyn_list.tbl + temp_v0;
+                goto loop_32;
+            }
+        }
+        else {
+            phi_f2_3 = phi_f12_3 = (f32)((Vec3s*)arg2->dyn_vtx + (temp_s0->flags_vIA & 0x1FFF))->x;
+            temp_f0_5 = (f32)((Vec3s*)arg2->dyn_vtx + (temp_s0->flags_vIB & 0x1FFF))->x;
+
+            // f2 = min, f12 max; f0 = next
+            if (temp_f0_5 < phi_f2_3) {
+                phi_f2_3 = temp_f0_5;
+            }
+            else if (phi_f12_3 < temp_f0_5) {
+                phi_f12_3 = temp_f0_5;
+            }
+            temp_f0_5 = (f32)((Vec3s*)arg2->dyn_vtx + temp_s0->vIC)->x;
+            if (temp_f0_5 < phi_f2_3) {
+                phi_f2_3 = temp_f0_5;
+            }
+            else if (phi_f12_3 < temp_f0_5) {
+                phi_f12_3 = temp_f0_5;
+            }
+            //temp_f14 = ;
+            phi_f2_3 -= arg9;
+            phi_f12_3 += arg9;
+            if ((spAC.x < phi_f2_3) || (phi_f12_3 < spAC.x)) {
+                temp_v0 = phi_s1->next;
+                if (SS_NULL != temp_v0) {
+                    phi_s1 = arg2->dyn_list.tbl + temp_v0;
+                    goto loop_32;
+                }
+            }
+            else {
+                //7a2c
+                if (func_80038F60(temp_s0, (Vec3s*)arg2->dyn_vtx, arg8->y, spAC.z, &spD0) != 0) {
+                    temp_f2_2 = spD0 - spAC.x;
+                    if (fabsf(temp_f2_2) <= (arg9 / temp_f18)) {
+                        if ((temp_f2_2 * spC0) <= 4.0f) {
+                            spCC = true;
+                            if (func_80039A3C(arg0, temp_s0, &spAC.x, &spAC.z, spC0, spBC, spB8, temp_f16, temp_f24, arg9, arg6) != 0) {
+                                *arg7 = bgId;
+                            }
+                        }
+                    }
+                }
+                temp_v0 = phi_s1->next;
+                if (SS_NULL != temp_v0) {
+                    phi_s1 = arg2->dyn_list.tbl + temp_v0;
+                    goto loop_32;
+                }
+            }
+        }
+    }
+    *arg4 = spAC.x;
+    *arg5 = spAC.z;
+    return spCC;
+}
+#else
+s32 func_80040284(CollisionContext* arg0, u16 arg1, DynaCollisionContext* arg2, u16* arg3, f32* arg4, f32* arg5, BgCheckInfo* arg6, s32* arg7, Vec3f* arg8, f32 arg9, s32 bgId);
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80040284.s")
+#endif
+
+#ifdef NOT_MATCHING
+s32 func_800409A8(CollisionContext* arg0, u16 arg1, f32* arg2, f32* arg3, Vec3f* arg4, f32 arg5, BgCheckInfo* arg6, s32 arg7, DynaPolyActor* arg8) {
+    Vec3f sp94;
+    s32 sp90;
+    f32 temp_f0;
+    f32 temp_f12;
+    f32 temp_f2;
+    //s16 temp_s2;
+    ActorMesh* temp_s0;
+    //Sphere16* temp_s1;
+    s32 i; //s4
+    ActorMesh* list;
+
+    sp90 = false;
+    sp94 = *arg4;
+    list = arg0->dyna.bgActors;
+
+    for (i = 0; i < BG_ACTOR_MAX; i++)
+    {
+        if (arg0->dyna.flags[i] & 1) {
+
+            if (arg8 != list[i].actor) {
+                temp_s0 = &arg0->dyna.bgActors[i];
+
+                if (!(sp94.y < arg0->dyna.bgActors[i].unk_5C || temp_s0->unk_60 < sp94.y)) {
+                    //temp_s2 = (s16)arg5;
+                    //temp_s1 = &temp_s0->unk_54;
+                    temp_s0->unk_54.radius += (s16)arg5;
+
+                    temp_f0 = temp_s0->unk_54.radius;
+                    temp_f2 = temp_s0->unk_54.center.x - sp94.x;
+                    temp_f12 = temp_s0->unk_54.center.z - sp94.z;
+                    if (SQ(temp_f0) < SQ(temp_f2) + SQ(temp_f12)
+                        || (!func_800D04F0(&temp_s0->unk_54, sp94.x, sp94.y) && !func_800D0560(&temp_s0->unk_54, sp94.y, sp94.z))) {
+                        temp_s0->unk_54.radius -= (s16)arg5;
+                    }
+                    else {
+                        temp_s0->unk_54.radius -= (s16)arg5;
+                        if (func_80040284(arg0, arg1, &arg0->dyna, &arg0->dyna.bgActors[i].dynaLookup.wall, arg2, arg3, arg6, arg7, &sp94, arg5, i)) {
+                            sp94.x = *arg2;
+                            sp94.z = *arg3;
+                            sp90 = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return sp90;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800409A8.s")
+#endif
 
 #ifdef NON_MATCHING
 s32 func_80040BE4(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* arg2, u16* arg3, f32* arg4, Vec3f* arg5, f32 arg6, CollisionPoly** arg7) {
