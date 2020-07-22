@@ -11,6 +11,6 @@ typedef struct {
     /* 0x24 */ s16 scale;
     /* 0x26 */ s16 scaleStep;
     /* 0x28 */ u8 drawMode;
-} EffectSsBomb2InitParams; // size = 0x
+} EffectSsBomb2InitParams; // size = 0x30
 
 #endif

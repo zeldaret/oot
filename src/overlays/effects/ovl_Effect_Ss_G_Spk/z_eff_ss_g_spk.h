@@ -14,6 +14,6 @@ typedef struct {
     /* 0x30 */ s16 scale;
     /* 0x32 */ s16 scaleStep;
     /* 0x34 */ u8 updateMode;
-} EffectSsGSpkInitParams;
+} EffectSsGSpkInitParams; // size = 0x38
 
 #endif

@@ -14,6 +14,6 @@ typedef struct {
     /* 0x2E */ s16 radiusStep;
     /* 0x30 */ s16 radiusStepDecr;
     /* 0x32 */ s16 life;
-} EffectSsBlastParams;
+} EffectSsBlastParams; // size = 0x34
 
 #endif

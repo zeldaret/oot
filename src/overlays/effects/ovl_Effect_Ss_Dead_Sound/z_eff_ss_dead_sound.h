@@ -13,6 +13,6 @@ typedef struct {
     /* 0x28 */ s16 repeatMode;
     /* 0x26 */ s16 unused2;
     /* 0x2C */ s32 life;
-} EffectSsDeadSoundInitParams;
+} EffectSsDeadSoundInitParams; // size = 0x30
 
 #endif

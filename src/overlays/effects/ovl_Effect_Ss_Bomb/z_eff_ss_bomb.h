@@ -6,8 +6,8 @@
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x00 */ Vec3f velocity;
-    /* 0x00 */ Vec3f accel;
-} EffectSsBombInitParams;
+    /* 0x0C */ Vec3f velocity;
+    /* 0x18 */ Vec3f accel;
+} EffectSsBombInitParams; // size = 0x24
 
 #endif
