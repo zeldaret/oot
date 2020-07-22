@@ -2234,7 +2234,7 @@ void func_80941BC0(BossTw *this, GlobalContext *globalCtx) {
     gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601C1C0));
     Matrix_Pull();
     gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6427), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
-    gSPSegment(temp_s0->polyXlu.p++, 0xD, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_152 & 0x7F, (this->unk_152 * 8) & 0xFF, 0x20, 0x40, 1, ((0 - this->unk_152) * 2) & 0x3F, 0, 0x10, 0x10));
+    gSPSegment(temp_s0->polyXlu.p++, 0xD, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_152 & 0x7F, (this->unk_152 * 8) & 0xFF, 0x20, 0x40, 1, (-this->unk_152 * 2) & 0x3F, 0, 0x10, 0x10));
     gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 195, 225, 235, (s32)this->unk_1A8);
     gDPSetEnvColor(temp_s0->polyXlu.p++, 255, 255, 255, 128);
     gSPSetGeometryMode(temp_s0->polyXlu.p++, G_CULL_BACK | G_FOG);
@@ -2258,7 +2258,12 @@ void func_80942180(BossTw *this, GlobalContext *globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Translate(this->unk_4BC.x, this->unk_4BC.y, this->unk_4BC.z, MTXMODE_NEW);
     Matrix_Scale(this->unk_1B8, this->unk_1B8, this->unk_1B8, MTXMODE_APPLY);
-    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (0 - this->unk_150) & 0x7F, 0U, 0x20, 0x20, 1, (this->unk_150 * 2) & 0x7F, 0, 0x20, 0x20));
+    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+        (-this->unk_150) & 0x7F, 0, 
+        0x20, 0x20, 
+        1, 
+        (this->unk_150 * 2) & 0x7F, 0, 
+        0x20, 0x20));
     gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6497), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 100, 40, 128, (s32)this->unk_1B0);
     gDPPipeSync(temp_s0->polyXlu.p++);
@@ -2266,12 +2271,12 @@ void func_80942180(BossTw *this, GlobalContext *globalCtx) {
     gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_06019D40));
     func_800D1FD4(&globalCtx->mf_11DA0);
     gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6514), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
-    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_150 & 0x7F, ((((0 - this->unk_150) * 4) - (0 - this->unk_150)) * 2) & 0xFF, 0x20, 0x40, 1, (this->unk_150 * 2) & 0x7F, ((((0 - this->unk_150) * 4) - (0 - this->unk_150)) * 2) & 0xFF, 0x20, 0x40));
+    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_150 & 0x7F, (-this->unk_150 * 6) & 0xFF, 0x20, 0x40, 1, (this->unk_150 * 2) & 0x7F, (-this->unk_150 * 6) & 0xFF, 0x20, 0x40));
     gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 80, 0, 0, (s32)this->unk_1AC);
     gDPPipeSync(temp_s0->polyXlu.p++);
     gDPSetEnvColor(temp_s0->polyXlu.p++, 0, 0, 0, 100);
     gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_06018FC0));
-    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((0 - this->unk_150) * 3) & 0x7F, 0U, 0x20, 0x20, 1, 0, ((0 - this->unk_150) * 0xA) & 0xFF, 0x20, 0x40));
+    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (-this->unk_150 * 3) & 0x7F, 0, 0x20, 0x20, 1, 0, (-this->unk_150 * 0xA) & 0xFF, 0x20, 0x40));
     gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 100, 50, 0, (s32)this->unk_1A8);
     gDPPipeSync(temp_s0->polyXlu.p++);
     gDPSetEnvColor(temp_s0->polyXlu.p++, 200, 235, 240, 128);
@@ -2282,111 +2287,62 @@ void func_80942180(BossTw *this, GlobalContext *globalCtx) {
     Graph_CloseDisps(sp90, globalCtx->state.gfxCtx, "../z_boss_tw.c", 6579);
 }
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80942180.s")
-
+extern Gfx D_0601CEE0[];
+extern Gfx D_0601DBE8[];
+extern Gfx D_0601A998[];
+extern Gfx D_0601A430[];
 void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
-    Gfx *spA4;
-    MtxF *sp6C;
-    u32 *sp64;
-    s32 sp60;
-    Gfx *temp_v0;
-    Gfx *temp_v0_10;
-    Gfx *temp_v0_11;
-    Gfx *temp_v0_12;
-    Gfx *temp_v0_13;
-    Gfx *temp_v0_2;
-    Gfx *temp_v0_3;
-    Gfx *temp_v0_4;
-    Gfx *temp_v0_5;
-    Gfx *temp_v0_6;
-    Gfx *temp_v0_7;
-    Gfx *temp_v0_8;
-    Gfx *temp_v0_9;
+    Gfx *spA4[4];
     GraphicsContext *temp_s2;
     f32 temp_f0;
-    f32 temp_f12;
-    s16 temp_a3;
-    s32 temp_s1;
-    s32 phi_s1;
+    s16 phi_s1;
 
     temp_s2 = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&spA4, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x19BB);
-    gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, (u32) ((((0 - this->unk_152) * 0x10) - (0 - this->unk_152)) & 0xFF), 0x20, 0x40, 1, 0, 0, 0x40, 0x40));
+    Graph_OpenDisps(spA4, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x19BB);
+    gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0,  // tile 1
+        0, ((0 - this->unk_152) * 0xF) & 0xFF, // x1,y1
+        0x20, 0x40, // width1, height1
+        1, // tile2
+        0, 0, // x2,y2
+        0x40, 0x40)); // width2, height2
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 5000.0f, MTXMODE_APPLY);
     Matrix_Scale(this->unk_4E0 / 2000.0f, this->unk_4E0 / 2000.0f, this->unk_4E0 / 2000.0f, MTXMODE_APPLY);
     Matrix_RotateZ(this->unk_4EC, MTXMODE_APPLY);
     gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x19D6), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     if (this->actor.params == 0) {
-        
-        temp_v0_3 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_3 + 8);
-        temp_v0_3->words.w0 = 0xFA000000U;
-        temp_v0_3->words.w1 = (u32) (((s32) this->unk_4D8 & 0xFF) | 0x87AFA500);
-        temp_v0_4 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_4 + 8);
-        temp_v0_4->words.w0 = 0xDE000000U;
-        temp_v0_4->words.w1 = (u32) ((gSegments[((u32) (0x601CEE0 * 0x10) >> 0x1C)] + (0x601CEE0 & 0xFFFFFF)) + 0x80000000);
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 135, 175, 165, (s32)this->unk_4D8);
+        gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601CEE0));
     } else {
-        temp_v0_5 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_5 + 8);
-        temp_v0_5->words.w0 = 0xFA000000U;
-        temp_v0_5->words.w1 = (u32) (((s32) this->unk_4D8 & 0xFF) | 0xFFFF0000);
-        temp_v0_6 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_6 + 8);
-        temp_v0_6->words.w0 = 0xDE000000U;
-        temp_v0_6->words.w1 = (u32) ((gSegments[((u32) (0x601DBE8 * 0x10) >> 0x1C)] + (0x601DBE8 & 0xFFFFFF)) + 0x80000000);
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 255, 255, 0, (s32)this->unk_4D8);
+        gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601DBE8));
     }
     Matrix_Pull();
     if (this->actor.params == 0) {
-        temp_v0_7 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_7 + 8);
-        temp_v0_7->words.w0 = 0xFA000000U;
-        temp_v0_7->words.w1 = (u32) (((s32) this->unk_4D4 & 0xFF) | 0xC3E1EB00);
-        temp_v0_8 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_8 + 8);
-        temp_v0_8->words.w0 = 0xDE000000U;
-        temp_v0_8->words.w1 = (u32) ((*(gSegments + (((u32) (0x601A998 * 0x10) >> 0x1C) * 4)) + (0x601A998 & 0xFFFFFF)) + 0x80000000);
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 195, 225, 235, (s32)this->unk_4D4);
+        gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A998));
     } else {
-        temp_v0_9 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_9 + 8);
-        temp_v0_9->words.w0 = 0xFA000000U;
-        temp_v0_9->words.w1 = (u32) (((s32) this->unk_4D4 & 0xFF) | 0xC8140000);
-        temp_v0_10 = temp_s2->polyXlu.p;
-        temp_s2->polyXlu.p = (Gfx *) (temp_v0_10 + 8);
-        temp_v0_10->words.w1 = 0xFFD7FF80U;
-        temp_v0_10->words.w0 = 0xFB000000U;
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 200, 20, 0, (s32)this->unk_4D4);
+        gDPSetEnvColor(temp_s2->polyXlu.p++, 255, 215, 255, 128);
     }
-    sp64 = &gSegments[((u32) (0x601A430 * 0x10) >> 0x1C)];
-    sp60 = 0x601A430 & 0xFFFFFF;
-    sp6C = &globalCtx->mf_11DA0;
-    phi_s1 = 0;
-loop_7:
-    Matrix_Push();
-    Matrix_Translate(0.0f, 0.0f, 5000.0f, (u8)1U);
-    temp_f0 = (f32) phi_s1 * 3.1415927f;
-    Matrix_RotateZ(((temp_f0 + temp_f0) * 0.125f) + this->unk_4E8, (u8)1U);
-    Matrix_Translate(0.0f, this->unk_4E0 * 1.5f, 0.0f, (u8)1U);
-    temp_v0_11 = temp_s2->polyXlu.p;
-    temp_s2->polyXlu.p = (Gfx *) (temp_v0_11 + 8);
-    temp_v0_11->words.w0 = 0xDB060020U;
-    temp_v0_11->words.w1 = Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_152 * 3) + (((phi_s1 * 4) + phi_s1) * 2)) & 0x7F, (((0 - this->unk_152) * 0xF) + (((((phi_s1 * 4) - phi_s1) * 8) + phi_s1) * 2)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20);
-    Matrix_Scale(0.4f, 0.4f, 0.4f, (u8)1U);
-    func_800D1FD4(sp6C);
-    temp_v0_12 = temp_s2->polyXlu.p;
-    temp_s2->polyXlu.p = (Gfx *) (temp_v0_12 + 8);
-    temp_v0_12->words.w0 = 0xDA380003U;
-    temp_v0_12->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x1A5F);
-    temp_v0_13 = temp_s2->polyXlu.p;
-    temp_s2->polyXlu.p = (Gfx *) (temp_v0_13 + 8);
-    temp_v0_13->words.w0 = 0xDE000000U;
-    temp_v0_13->words.w1 = (u32) ((*sp64 + sp60) + 0x80000000);
-    Matrix_Pull();
-    temp_s1 = (s32) ((phi_s1 + 1) << 0x10) >> 0x10;
-    phi_s1 = temp_s1;
-    if (temp_s1 < 8) {
-        goto loop_7;
+    for(phi_s1 = 0; phi_s1 < 8; phi_s1++){
+        Matrix_Push();
+        Matrix_Translate(0.0f, 0.0f, 5000.0f, MTXMODE_APPLY);
+        temp_f0 = phi_s1 * M_PI;
+        Matrix_RotateZ(((temp_f0 + temp_f0) * 0.125f) + this->unk_4E8, MTXMODE_APPLY);
+        Matrix_Translate(0.0f, this->unk_4E0 * 1.5f, 0.0f, MTXMODE_APPLY);
+        gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+            ((this->unk_152 * 3) + (phi_s1 * 10)) & 0x7F, ((-this->unk_152 * 0xF) + (phi_s1 * 50)) & 0xFF, 
+            0x20, 0x40, 
+            1, 0, 0, 
+            0x20, 0x20));
+        Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
+        func_800D1FD4(&globalCtx->mf_11DA0);
+        gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x1A5F), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+        gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A430));
+        Matrix_Pull();
     }
-    Graph_CloseDisps(&spA4, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x1A64);
+    Graph_CloseDisps(spA4, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x1A64);
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809426F0.s")
