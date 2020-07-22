@@ -1,0 +1,39 @@
+glabel func_800F67A0
+/* B6D940 800F67A0 27BDFFE0 */  addiu $sp, $sp, -0x20
+/* B6D944 800F67A4 AFA40020 */  sw    $a0, 0x20($sp)
+/* B6D948 800F67A8 3C038013 */  lui   $v1, %hi(D_8013063C) # $v1, 0x8013
+/* B6D94C 800F67AC 9063063C */  lbu   $v1, %lo(D_8013063C)($v1)
+/* B6D950 800F67B0 93A20023 */  lbu   $v0, 0x23($sp)
+/* B6D954 800F67B4 AFBF001C */  sw    $ra, 0x1c($sp)
+/* B6D958 800F67B8 50430014 */  beql  $v0, $v1, .L800F680C
+/* B6D95C 800F67BC 93AF0023 */   lbu   $t7, 0x23($sp)
+/* B6D960 800F67C0 14400005 */  bnez  $v0, .L800F67D8
+/* B6D964 800F67C4 00000000 */   nop   
+/* B6D968 800F67C8 0C03E341 */  jal   func_800F8D04
+/* B6D96C 800F67CC 2404086B */   li    $a0, 2155
+/* B6D970 800F67D0 1000000E */  b     .L800F680C
+/* B6D974 800F67D4 93AF0023 */   lbu   $t7, 0x23($sp)
+.L800F67D8:
+/* B6D978 800F67D8 1460000B */  bnez  $v1, .L800F6808
+/* B6D97C 800F67DC 3C078013 */   lui   $a3, %hi(D_801333E0) # $a3, 0x8013
+/* B6D980 800F67E0 3C0E8013 */  lui   $t6, %hi(D_801333E8) # $t6, 0x8013
+/* B6D984 800F67E4 24E733E0 */  addiu $a3, %lo(D_801333E0) # addiu $a3, $a3, 0x33e0
+/* B6D988 800F67E8 25CE33E8 */  addiu $t6, %lo(D_801333E8) # addiu $t6, $t6, 0x33e8
+/* B6D98C 800F67EC 3C058013 */  lui   $a1, %hi(D_801333D4) # $a1, 0x8013
+/* B6D990 800F67F0 24A533D4 */  addiu $a1, %lo(D_801333D4) # addiu $a1, $a1, 0x33d4
+/* B6D994 800F67F4 AFAE0014 */  sw    $t6, 0x14($sp)
+/* B6D998 800F67F8 AFA70010 */  sw    $a3, 0x10($sp)
+/* B6D99C 800F67FC 2404086B */  li    $a0, 2155
+/* B6D9A0 800F6800 0C03DCE3 */  jal   Audio_PlaySoundGeneral
+/* B6D9A4 800F6804 24060004 */   li    $a2, 4
+.L800F6808:
+/* B6D9A8 800F6808 93AF0023 */  lbu   $t7, 0x23($sp)
+.L800F680C:
+/* B6D9AC 800F680C 8FBF001C */  lw    $ra, 0x1c($sp)
+/* B6D9B0 800F6810 3C018013 */  lui   $at, %hi(D_8013063C) # $at, 0x8013
+/* B6D9B4 800F6814 A02F063C */  sb    $t7, %lo(D_8013063C)($at)
+/* B6D9B8 800F6818 3C018013 */  lui   $at, %hi(D_80130644)
+/* B6D9BC 800F681C 27BD0020 */  addiu $sp, $sp, 0x20
+/* B6D9C0 800F6820 03E00008 */  jr    $ra
+/* B6D9C4 800F6824 A02F0644 */   sb    $t7, %lo(D_80130644)($at)
+

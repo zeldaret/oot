@@ -1,3 +1,13 @@
+.late_rodata
+glabel jtbl_80BA5C84
+    .word L80BA3C3C
+    .word L80BA3C84
+    .word L80BA3C4C
+    .word L80BA3C5C
+    .word L80BA3C6C
+    .word L80BA3C7C
+
+.text
 glabel ObjectKankyo_Draw
 /* 01170 80BA3C10 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01174 80BA3C14 AFBF0014 */  sw      $ra, 0x0014($sp)           

@@ -53,10 +53,10 @@ Gfx D_8012AC58[] = {
 void func_800ACE70(struct_801664F0* this) {
     this->type = 0;
     this->setScissor = false;
-    this->color.r = 0xFF;
-    this->color.g = 0xFF;
-    this->color.b = 0xFF;
-    this->color.a = 0xFF;
+    this->color.r = 255;
+    this->color.g = 255;
+    this->color.b = 255;
+    this->color.a = 255;
 }
 
 // Destroy

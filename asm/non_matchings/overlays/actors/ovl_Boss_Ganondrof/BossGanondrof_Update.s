@@ -1,3 +1,29 @@
+.rdata
+glabel D_80915314
+    .asciz "MOVE START %d\n"
+    .balign 4
+
+glabel D_80915324
+    .asciz "MOVE START EEEEEEEEEEEEEEEEEEEEEE%d\n"
+    .balign 4
+
+glabel D_8091534C
+    .asciz "MOVE END\n"
+    .balign 4
+
+glabel D_80915358
+    .asciz "F 1\n"
+    .balign 4
+
+glabel D_80915360
+    .asciz "F 15\n"
+    .balign 4
+
+glabel D_80915368
+    .asciz "F 2\n"
+    .balign 4
+
+.text
 glabel BossGanondrof_Update
 /* 0384C 80913E8C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 03850 80913E90 AFB1002C */  sw      $s1, 0x002C($sp)           

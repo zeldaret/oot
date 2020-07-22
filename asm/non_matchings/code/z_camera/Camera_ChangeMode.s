@@ -8,7 +8,7 @@ glabel D_80139BD8
     .balign 4
 
 glabel D_80139BF0
-    .asciz "\x1B[43;30mcamera: change camera mode: force NORMAL: %s %s refused\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: change camera mode: force NORMAL: %s %s refused\n\x1b[m"
     .balign 4
 
 .late_rodata

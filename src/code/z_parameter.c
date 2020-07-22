@@ -123,9 +123,9 @@ u16 sCUpTimer = 0;
 s16 gSpoilingItems[] = { ITEM_ODD_MUSHROOM, ITEM_FROG, ITEM_EYEDROPS };
 s16 gSpoilingItemReverts[] = { ITEM_COJIRO, ITEM_PRESCRIPTION, ITEM_PRESCRIPTION };
 
-s16 sMagicBorderR = 0xFF;
-s16 sMagicBorderG = 0xFF;
-s16 sMagicBorderB = 0xFF;
+s16 sMagicBorderR = 255;
+s16 sMagicBorderG = 255;
+s16 sMagicBorderB = 255;
 
 s16 sExtraItemBases[] = {
     ITEM_STICK, ITEM_STICK, ITEM_NUT,   ITEM_NUT,     ITEM_BOMB,    ITEM_BOMB,  ITEM_BOMB,  ITEM_BOMB, ITEM_BOW,
@@ -159,51 +159,51 @@ void func_80082644(GlobalContext* globalCtx, s16 alpha) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     if (gSaveContext.buttonStatus[0] == BTN_DISABLED) {
-        if (interfaceCtx->bAlpha != 0x46) {
-            interfaceCtx->bAlpha = 0x46;
+        if (interfaceCtx->bAlpha != 70) {
+            interfaceCtx->bAlpha = 70;
         }
     } else {
-        if (interfaceCtx->bAlpha != 0xFF) {
+        if (interfaceCtx->bAlpha != 255) {
             interfaceCtx->bAlpha = alpha;
         }
     }
 
     if (gSaveContext.buttonStatus[1] == BTN_DISABLED) {
-        if (interfaceCtx->cLeftAlpha != 0x46) {
-            interfaceCtx->cLeftAlpha = 0x46;
+        if (interfaceCtx->cLeftAlpha != 70) {
+            interfaceCtx->cLeftAlpha = 70;
         }
     } else {
-        if (interfaceCtx->cLeftAlpha != 0xFF) {
+        if (interfaceCtx->cLeftAlpha != 255) {
             interfaceCtx->cLeftAlpha = alpha;
         }
     }
 
     if (gSaveContext.buttonStatus[2] == BTN_DISABLED) {
-        if (interfaceCtx->cDownAlpha != 0x46) {
-            interfaceCtx->cDownAlpha = 0x46;
+        if (interfaceCtx->cDownAlpha != 70) {
+            interfaceCtx->cDownAlpha = 70;
         }
     } else {
-        if (interfaceCtx->cDownAlpha != 0xFF) {
+        if (interfaceCtx->cDownAlpha != 255) {
             interfaceCtx->cDownAlpha = alpha;
         }
     }
 
     if (gSaveContext.buttonStatus[3] == BTN_DISABLED) {
-        if (interfaceCtx->cRightAlpha != 0x46) {
-            interfaceCtx->cRightAlpha = 0x46;
+        if (interfaceCtx->cRightAlpha != 70) {
+            interfaceCtx->cRightAlpha = 70;
         }
     } else {
-        if (interfaceCtx->cRightAlpha != 0xFF) {
+        if (interfaceCtx->cRightAlpha != 255) {
             interfaceCtx->cRightAlpha = alpha;
         }
     }
 
     if (gSaveContext.buttonStatus[4] == BTN_DISABLED) {
-        if (interfaceCtx->aAlpha != 0x46) {
-            interfaceCtx->aAlpha = 0x46;
+        if (interfaceCtx->aAlpha != 70) {
+            interfaceCtx->aAlpha = 70;
         }
     } else {
-        if (interfaceCtx->aAlpha != 0xFF) {
+        if (interfaceCtx->aAlpha != 255) {
             interfaceCtx->aAlpha = alpha;
         }
     }
@@ -242,7 +242,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 alpha;
 
-    alpha = 0xFF - maxAlpha;
+    alpha = 255 - maxAlpha;
 
     switch (gSaveContext.unk_13E8) {
         case 1:
@@ -251,7 +251,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
             osSyncPrintf("a_alpha=%d, c_alpha=%d   →   ", interfaceCtx->aAlpha, interfaceCtx->cLeftAlpha);
 
             if (gSaveContext.unk_13E8 == 8) {
-                if (interfaceCtx->bAlpha != 0xFF) {
+                if (interfaceCtx->bAlpha != 255) {
                     interfaceCtx->bAlpha = alpha;
                 }
             } else {
@@ -306,7 +306,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 interfaceCtx->minimapAlpha = maxAlpha;
             }
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha;
             }
 
@@ -344,7 +344,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 interfaceCtx->minimapAlpha = maxAlpha;
             }
 
-            if (interfaceCtx->aAlpha != 0xFF) {
+            if (interfaceCtx->aAlpha != 255) {
                 interfaceCtx->aAlpha = alpha;
             }
 
@@ -356,15 +356,15 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 interfaceCtx->minimapAlpha = maxAlpha;
             }
 
-            if (interfaceCtx->aAlpha != 0xFF) {
+            if (interfaceCtx->aAlpha != 255) {
                 interfaceCtx->aAlpha = alpha;
             }
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha;
             }
 
-            if (interfaceCtx->magicAlpha != 0xFF) {
+            if (interfaceCtx->magicAlpha != 255) {
                 interfaceCtx->magicAlpha = alpha;
             }
 
@@ -372,15 +372,15 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
         case 6:
             func_8008277C(globalCtx, maxAlpha, alpha);
 
-            if (interfaceCtx->aAlpha != 0xFF) {
+            if (interfaceCtx->aAlpha != 255) {
                 interfaceCtx->aAlpha = alpha;
             }
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha;
             }
 
-            if (interfaceCtx->magicAlpha != 0xFF) {
+            if (interfaceCtx->magicAlpha != 255) {
                 interfaceCtx->magicAlpha = alpha;
             }
 
@@ -405,14 +405,14 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 case SCENE_SPOT18:
                 case SCENE_SPOT20:
                 case SCENE_GANON_TOU:
-                    if (interfaceCtx->minimapAlpha < 0xAA) {
+                    if (interfaceCtx->minimapAlpha < 170) {
                         interfaceCtx->minimapAlpha = alpha;
                     } else {
-                        interfaceCtx->minimapAlpha = 0xAA;
+                        interfaceCtx->minimapAlpha = 170;
                     }
                     break;
                 default:
-                    if (interfaceCtx->minimapAlpha != 0xFF) {
+                    if (interfaceCtx->minimapAlpha != 255) {
                         interfaceCtx->minimapAlpha = alpha;
                     }
                     break;
@@ -425,11 +425,11 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
 
             func_80082644(globalCtx, alpha);
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha;
             }
 
-            if (interfaceCtx->magicAlpha != 0xFF) {
+            if (interfaceCtx->magicAlpha != 255) {
                 interfaceCtx->magicAlpha = alpha;
             }
 
@@ -459,11 +459,11 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 interfaceCtx->minimapAlpha = maxAlpha;
             }
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha;
             }
 
-            if (interfaceCtx->magicAlpha != 0xFF) {
+            if (interfaceCtx->magicAlpha != 255) {
                 interfaceCtx->magicAlpha = alpha;
             }
 
@@ -497,7 +497,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 interfaceCtx->minimapAlpha = maxAlpha;
             }
 
-            if (interfaceCtx->bAlpha != 0xFF) {
+            if (interfaceCtx->bAlpha != 255) {
                 interfaceCtx->bAlpha = alpha;
             }
 
@@ -531,21 +531,21 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 interfaceCtx->magicAlpha = maxAlpha;
             }
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha;
             }
 
             break;
         case 12:
-            if (interfaceCtx->aAlpha != 0xFF) {
+            if (interfaceCtx->aAlpha != 255) {
                 interfaceCtx->aAlpha = alpha;
             }
 
-            if (interfaceCtx->bAlpha != 0xFF) {
+            if (interfaceCtx->bAlpha != 255) {
                 interfaceCtx->bAlpha = alpha;
             }
 
-            if (interfaceCtx->minimapAlpha != 0xFF) {
+            if (interfaceCtx->minimapAlpha != 255) {
                 interfaceCtx->minimapAlpha = alpha;
             }
 
@@ -581,11 +581,11 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
                 interfaceCtx->aAlpha = maxAlpha;
             }
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha;
             }
 
-            if (interfaceCtx->magicAlpha != 0xFF) {
+            if (interfaceCtx->magicAlpha != 255) {
                 interfaceCtx->magicAlpha = alpha;
             }
 
@@ -593,7 +593,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
     }
 
     if ((globalCtx->roomCtx.curRoom.unk_03 == 1) && (interfaceCtx->minimapAlpha >= 0xFF)) {
-        interfaceCtx->minimapAlpha = 0xFF;
+        interfaceCtx->minimapAlpha = 255;
     }
 }
 
@@ -2443,14 +2443,14 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             if (gSaveContext.magic <= 0) {
                 gSaveContext.magic = 0;
                 gSaveContext.unk_13F0 = 3;
-                sMagicBorderB = 0xFF;
-                sMagicBorderG = 0xFF;
-                sMagicBorderR = 0xFF;
+                sMagicBorderB = 255;
+                sMagicBorderG = 255;
+                sMagicBorderR = 255;
             } else if (gSaveContext.magic == gSaveContext.unk_13F8) {
                 gSaveContext.unk_13F0 = 3;
-                sMagicBorderB = 0xFF;
-                sMagicBorderG = 0xFF;
-                sMagicBorderR = 0xFF;
+                sMagicBorderB = 255;
+                sMagicBorderG = 255;
+                sMagicBorderR = 255;
             }
         case 3:
         case 4:
@@ -2488,9 +2488,9 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            sMagicBorderB = 0xFF;
-            sMagicBorderG = 0xFF;
-            sMagicBorderR = 0xFF;
+            sMagicBorderB = 255;
+            sMagicBorderG = 255;
+            sMagicBorderR = 255;
             gSaveContext.unk_13F0 = 0;
             break;
         case 7:
@@ -2506,7 +2506,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_SY_GLASSMODE_OFF, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     gSaveContext.unk_13F0 = 0;
-                    sMagicBorderR = sMagicBorderG = sMagicBorderB = 0xFF;
+                    sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
                     break;
                 }
 
@@ -2597,7 +2597,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, sMagicBorderR, sMagicBorderG, sMagicBorderB,
                         interfaceCtx->magicAlpha);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0x64, 0x32, 0x32, 0xFF);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 100, 50, 50, 255);
 
         gfxCtx->overlay.p =
             Gfx_TextureIA8(gfxCtx->overlay.p, D_020038C0, 8, 16, R_MAGIC_BAR_X, magicBarY, 8, 16, 1024, 1024);
@@ -2622,11 +2622,11 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
         gDPPipeSync(gfxCtx->overlay.p++);
         gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0xFF);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 255);
 
         if (gSaveContext.unk_13F0 == 4) {
             // Yellow part of the bar being used when casting a spell
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFA, 0xFA, 0x00, interfaceCtx->magicAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
 
             gDPLoadMultiBlock_4b(gfxCtx->overlay.p++, D_02003AC0, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
@@ -2744,7 +2744,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
     gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_B_BTN_COLOR(0), R_B_BTN_COLOR(1), R_B_BTN_COLOR(2),
                     interfaceCtx->bAlpha);
-    gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 255);
     gfxCtx->overlay.p =
         Gfx_TextureIA8(gfxCtx->overlay.p, &D_02000A00[0], 32, 32, R_ITEM_BTN_X(0), R_ITEM_BTN_Y(0), R_ITEM_BTN_WIDTH(0),
                        R_ITEM_BTN_WIDTH(0), R_ITEM_BTN_DD(0) * 2, R_ITEM_BTN_DD(0) * 2);
@@ -2775,13 +2775,13 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
         if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
             // Start Button Texture, Color & Label
             gDPPipeSync(gfxCtx->overlay.p++);
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x78, 0x78, 0x78, interfaceCtx->startAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 120, 120, 120, interfaceCtx->startAlpha);
             gSPTextureRectangle(gfxCtx->overlay.p++, sStartButtonLeftPos[gSaveContext.language] << 2, 68,
                                 (sStartButtonLeftPos[gSaveContext.language] + 22) << 2, 156, G_TX_RENDERTILE, 0, 0,
                                 1462, 1462);
             gDPPipeSync(gfxCtx->overlay.p++);
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->startAlpha);
-            gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0x00);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->startAlpha);
+            gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 0);
             gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
@@ -2817,7 +2817,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                 cUpAlpha = 0;
             } else if ((player->stateFlags2 & 0x00200000) || (func_8008F2F8(globalCtx) == 4) ||
                        (player->stateFlags2 & 0x00040000)) {
-                cUpAlpha = 0x46;
+                cUpAlpha = 70;
             } else {
                 cUpAlpha = interfaceCtx->healthAlpha;
             }
@@ -2827,8 +2827,8 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gSPTextureRectangle(gfxCtx->overlay.p++, R_C_UP_BTN_X << 2, R_C_UP_BTN_Y << 2, (R_C_UP_BTN_X + 16) << 2,
                                 (R_C_UP_BTN_Y + 16) << 2, G_TX_RENDERTILE, 0, 0, 2048, 2048);
             gDPPipeSync(gfxCtx->overlay.p++);
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, cUpAlpha);
-            gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0x00);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, cUpAlpha);
+            gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 0);
             gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
@@ -2941,11 +2941,11 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
                    ((item == ITEM_STICK) && (AMMO(item) == CUR_CAPACITY(UPG_STICKS))) ||
                    ((item == ITEM_NUT) && (AMMO(item) == CUR_CAPACITY(UPG_NUTS))) ||
                    ((item == ITEM_BOMBCHU) && (ammo == 50)) || ((item == ITEM_BEAN) && (ammo == 15))) {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x78, 0xFF, 0x00, alpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 120, 255, 0, alpha);
         }
 
         if (ammo == 0) {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x64, 0x64, 0x64, alpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 100, 100, 100, alpha);
         }
 
         for (i = 0; ammo >= 10; i++) {
@@ -3108,7 +3108,7 @@ s16 sDigitWidth[] = { 9, 9, 8, 9, 9 };
 
 // unused, most likely colors
 s16 D_80125B1C[][3] = {
-    { 0x00, 0x96, 0x00 }, { 0x64, 0xFF, 0x00 }, { 0xFF, 0xFF, 0xFF }, { 0x00, 0x00, 0x00 }, { 0xFF, 0xFF, 0xFF },
+    { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
 };
 
 s16 sRupeeDigitsFirst[] = { 1, 0, 0 };
@@ -3158,8 +3158,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
         func_80094520(globalCtx->state.gfxCtx);
 
         // Rupee Icon
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xC8, 0xFF, 0x64, interfaceCtx->magicAlpha);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x50, 0x00, 0xFF);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 200, 255, 100, interfaceCtx->magicAlpha);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 0, 80, 0, 255);
         gfxCtx->overlay.p = Gfx_TextureIA8(gfxCtx->overlay.p, D_02001F00, 16, 16, 26, 206, 16, 16, 1024, 1024);
 
         switch (globalCtx->sceneNum) {
@@ -3180,14 +3180,14 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] >= 0) {
                     // Small Key Icon
                     gDPPipeSync(gfxCtx->overlay.p++);
-                    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xC8, 0xE6, 0xFF, interfaceCtx->magicAlpha);
-                    gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x14, 0xFF);
+                    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 200, 230, 255, interfaceCtx->magicAlpha);
+                    gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 20, 255);
                     gfxCtx->overlay.p =
                         Gfx_TextureIA8(gfxCtx->overlay.p, D_02001E00, 16, 16, 26, 190, 16, 16, 1024, 1024);
 
                     // Small Key Counter
                     gDPPipeSync(gfxCtx->overlay.p++);
-                    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->magicAlpha);
+                    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
                     gDPSetCombineLERP(gfxCtx->overlay.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0,
                                       PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
 
@@ -3224,11 +3224,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gDPPipeSync(gfxCtx->overlay.p++);
 
         if (gSaveContext.rupees == CUR_CAPACITY(UPG_WALLET)) {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x78, 0xFF, 0x00, interfaceCtx->magicAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 120, 255, 0, interfaceCtx->magicAlpha);
         } else if (gSaveContext.rupees != 0) {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->magicAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
         } else {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x64, 0x64, 0x64, interfaceCtx->magicAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 100, 100, 100, interfaceCtx->magicAlpha);
         }
 
         gDPSetCombineLERP(gfxCtx->overlay.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
@@ -3271,7 +3271,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         Interface_DrawItemButtons(globalCtx);
 
         gDPPipeSync(gfxCtx->overlay.p++);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->bAlpha);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
         gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
         if (interfaceCtx->unk_1FA == 0) {
@@ -3293,7 +3293,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             gDPPipeSync(gfxCtx->overlay.p++);
             gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->bAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
             gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 1,
                                (u32)interfaceCtx->do_actionSegment + 0x180);
@@ -3319,7 +3319,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         // C-Left Button Icon & Ammo Count
         if (gSaveContext.equips.buttonItems[1] < 0xF0) {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->cLeftAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->cLeftAlpha);
             gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             Interface_DrawItemIconTexture(globalCtx, (void*)((u32)interfaceCtx->icon_itemSegment + 0x1000), 1);
             gDPPipeSync(gfxCtx->overlay.p++);
@@ -3332,7 +3332,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         // C-Down Button Icon & Ammo Count
         if (gSaveContext.equips.buttonItems[2] < 0xF0) {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->cDownAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->cDownAlpha);
             gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             Interface_DrawItemIconTexture(globalCtx, (void*)((u32)interfaceCtx->icon_itemSegment + 0x2000), 2);
             gDPPipeSync(gfxCtx->overlay.p++);
@@ -3345,7 +3345,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         // C-Right Button Icon & Ammo Count
         if (gSaveContext.equips.buttonItems[3] < 0xF0) {
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->cRightAlpha);
+            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->cRightAlpha);
             gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             Interface_DrawItemIconTexture(globalCtx, (void*)((u32)interfaceCtx->icon_itemSegment + 0x3000), 3);
             gDPPipeSync(gfxCtx->overlay.p++);
@@ -3367,8 +3367,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gSPSetGeometryMode(gfxCtx->overlay.p++, G_CULL_BACK);
         gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->aAlpha);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0x00);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 0);
         Matrix_Translate(0.0f, 0.0f, WREG(46 + gSaveContext.language) / 10.0f, MTXMODE_NEW);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
@@ -3402,7 +3402,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
             if (pauseCtx->unk_24E < 0xBF) {
                 // Normal Equip (icon goes from the inventory slot to the C button when equipping it)
-                gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, pauseCtx->unk_258);
+                gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, pauseCtx->unk_258);
                 gSPVertex(gfxCtx->overlay.p++, &pauseCtx->vtx_168[16], 4, 0);
 
                 gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 1, gItemIcons[pauseCtx->unk_24E]);
@@ -3475,9 +3475,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     for (phi_s3 = 1; phi_s3 < 7; phi_s3++) {
                         // Carrot Color (based on availability)
                         if ((interfaceCtx->unk_23A == 0) || (interfaceCtx->unk_23A < phi_s3)) {
-                            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x00, 0x96, 0xFF, interfaceCtx->aAlpha);
+                            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0, 150, 255, interfaceCtx->aAlpha);
                         } else {
-                            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->aAlpha);
+                            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
                         }
 
                         gSPTextureRectangle(gfxCtx->overlay.p++, phi_s1 << 2, ZREG(15) << 2, (phi_s1 + 16) << 2,
@@ -3488,7 +3488,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
             } else {
                 // Score for the Horseback Archery
-                gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->bAlpha);
+                gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
                 // Target Icon
                 gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, D_02002600);
@@ -3905,8 +3905,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 // Clock Icon
                 gDPPipeSync(gfxCtx->overlay.p++);
-                gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-                gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0x00);
+                gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, 255);
+                gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 0);
                 gfxCtx->overlay.p = Gfx_TextureIA8(gfxCtx->overlay.p, D_02002000, 16, 16, gSaveContext.timerX[sp274],
                                                    gSaveContext.timerY[sp274] + 2, 16, 16, 1024, 1024);
 
@@ -3916,15 +3916,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 if (gSaveContext.timer1State != 0) {
                     if ((gSaveContext.timer1Value < 10) && (gSaveContext.timer1State < 11)) {
-                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0x32, 0x00, 0xFF);
+                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 50, 0, 255);
                     } else {
-                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, 255);
                     }
                 } else {
                     if ((gSaveContext.timer2Value < 10) && (gSaveContext.timer2State < 6)) {
-                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0x32, 0x00, 0xFF);
+                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 50, 0, 255);
                     } else {
-                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0x00, 0xFF);
+                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 0, 255);
                     }
                 }
 
@@ -3945,7 +3945,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (interfaceCtx->unk_244 != 0) {
         gDPPipeSync(gfxCtx->overlay.p++);
         gSPDisplayList(gfxCtx->overlay.p++, sSetupDL_80125A60);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x00, 0x00, 0x00, interfaceCtx->unk_244);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0, 0, 0, interfaceCtx->unk_244);
         gDPFillRectangle(gfxCtx->overlay.p++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
     }
 
@@ -4009,7 +4009,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         case 11:
         case 12:
         case 13:
-            alpha = 0xFF - (gSaveContext.unk_13EC << 5);
+            alpha = 255 - (gSaveContext.unk_13EC << 5);
             if (alpha < 0) {
                 alpha = 0;
             }
@@ -4022,7 +4022,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             }
             break;
         case 50:
-            alpha = 0xFF - (gSaveContext.unk_13EC << 5);
+            alpha = 255 - (gSaveContext.unk_13EC << 5);
             if (alpha < 0) {
                 alpha = 0;
             }
@@ -4035,11 +4035,11 @@ void Interface_Update(GlobalContext* globalCtx) {
             osSyncPrintf("case 50 : alpha=%d  alpha1=%d\n", alpha, alpha1);
             func_80082644(globalCtx, alpha1);
 
-            if (interfaceCtx->healthAlpha != 0xFF) {
+            if (interfaceCtx->healthAlpha != 255) {
                 interfaceCtx->healthAlpha = alpha1;
             }
 
-            if (interfaceCtx->magicAlpha != 0xFF) {
+            if (interfaceCtx->magicAlpha != 255) {
                 interfaceCtx->magicAlpha = alpha1;
             }
 
@@ -4064,14 +4064,14 @@ void Interface_Update(GlobalContext* globalCtx) {
                 case SCENE_SPOT18:
                 case SCENE_SPOT20:
                 case SCENE_GANON_TOU:
-                    if (interfaceCtx->minimapAlpha < 0xAA) {
+                    if (interfaceCtx->minimapAlpha < 170) {
                         interfaceCtx->minimapAlpha = alpha1;
                     } else {
-                        interfaceCtx->minimapAlpha = 0xAA;
+                        interfaceCtx->minimapAlpha = 170;
                     }
                     break;
                 default:
-                    if (interfaceCtx->minimapAlpha != 0xFF) {
+                    if (interfaceCtx->minimapAlpha != 255) {
                         interfaceCtx->minimapAlpha = alpha1;
                     }
                     break;

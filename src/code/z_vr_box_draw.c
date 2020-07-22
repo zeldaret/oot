@@ -21,7 +21,7 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
     gSPSegment(gfxCtx->polyOpa.p++, 8, skyboxCtx->staticSegments[1]);
     gSPSegment(gfxCtx->polyOpa.p++, 9, skyboxCtx->staticSegments[2]);
 
-    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0x00, 0x00, alpha);
+    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0, 0, 0, alpha);
     gSPTexture(gfxCtx->polyOpa.p++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON)
 
         sSkyboxDrawMatrix = Graph_Alloc(gfxCtx, sizeof(Mtx));

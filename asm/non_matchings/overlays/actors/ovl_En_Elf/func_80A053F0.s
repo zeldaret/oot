@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A060D8
+    .asciz "../z_en_elf.c"
+    .balign 4
+
+glabel D_80A060E8
+    .asciz "z_common_data.memory.information.room_inf[127][ 0 ] = %d\n"
+    .balign 4
+
+.text
 glabel func_80A053F0
 /* 037C0 80A053F0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 037C4 80A053F4 AFBF0024 */  sw      $ra, 0x0024($sp)           

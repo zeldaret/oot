@@ -1,3 +1,25 @@
+.rdata
+glabel D_80915188
+    .asciz "RUN 1\n"
+    .balign 4
+
+glabel D_80915190
+    .asciz "RUN 2\n"
+    .balign 4
+
+glabel D_80915198
+    .asciz "RUN 3\n"
+    .balign 4
+
+glabel D_809151A0
+    .asciz "RUN 4\n"
+    .balign 4
+
+.late_rodata
+glabel D_80915418
+    .float 1.14999997
+
+.text
 glabel func_809112D4
 /* 00C94 809112D4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00C98 809112D8 AFB00034 */  sw      $s0, 0x0034($sp)

@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <ultra64/controller.h>
+#include <ultra64/hardware.h>
 #include <global.h>
 #include <alloca.h>
 #include <vt.h>
@@ -39,19 +40,17 @@ extern char sFaultStack[0x600];
 extern StackEntry sFaultThreadInfo;
 extern FaultThreadStruct gFaultStruct;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/pad_800D3F10.s")
-
 void Fault_SleepImpl(u32 duration) {
     u64 value = (duration * OS_CPU_COUNTER) / 1000ull;
     Sleep_Cycles(value);
 }
 
 void Fault_ClientProcessThread(FaultClientContext* ctx) {
-    if (ctx->callback) {
+    if (ctx->callback != 0) {
         ctx->ret = ctx->callback(ctx->param0, ctx->param1);
     }
 
-    if (ctx->queue) {
+    if (ctx->queue != NULL) {
         osSendMesg(ctx->queue, ctx->msg, 1);
     }
 }
@@ -115,14 +114,13 @@ u32 Fault_ProcessClient(u32 callback, u32 param0, u32 param1) {
 // minor ordering differences
 void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* param1) {
     OSIntMask mask;
-    u32 alreadyExists;
+    u32 alreadyExists = false;
     FaultClient* iter;
 
-    alreadyExists = false;
     mask = osSetIntMask(1);
 
     iter = sFaultStructPtr->clients;
-    while (iter) {
+    while (iter != NULL) {
         if (iter == client) {
             alreadyExists = true;
             goto end;
@@ -158,9 +156,9 @@ void Fault_RemoveClient(FaultClient* client) {
 
     mask = osSetIntMask(1);
 
-    while (iter) {
+    while (iter != NULL) {
         if (iter == client) {
-            if (lastIter) {
+            if (lastIter != NULL) {
                 lastIter->next = client->next;
             } else {
                 sFaultStructPtr->clients = client;
@@ -184,7 +182,38 @@ void Fault_RemoveClient(FaultClient* client) {
     }
 }
 
+#ifdef NON_MATCHING
+// minor ordering differences
+void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* param) {
+    FaultAddrConvClient* iter;
+    u32 alreadyExists = false;
+    OSIntMask mask;
+
+    mask = osSetIntMask(1);
+
+    iter = sFaultStructPtr->addrConvClients;
+    while (iter != NULL) {
+        if (iter == client) {
+            alreadyExists = true;
+            goto end;
+        }
+        iter = iter->next;
+    }
+
+    client->callback = callback;
+    client->param = param;
+    client->next = sFaultStructPtr->addrConvClients;
+    sFaultStructPtr->addrConvClients = client;
+
+end:
+    osSetIntMask(mask);
+    if (alreadyExists) {
+        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" VT_RST, client);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddAddrConvClient.s")
+#endif
 
 void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     FaultAddrConvClient* iter;
@@ -198,13 +227,13 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
 
     mask = osSetIntMask(1);
 
-    while (iter) {
+    while (iter != NULL) {
         if (iter == client) {
-            if (lastIter) {
+            if (lastIter != NULL) {
                 lastIter->next = client->next;
             } else {
                 sFaultStructPtr->addrConvClients = client;
-                if (sFaultStructPtr->addrConvClients) {
+                if (sFaultStructPtr->addrConvClients != NULL) {
                     sFaultStructPtr->addrConvClients = client->next;
                 } else {
                     listIsEmpty = 1;
@@ -229,12 +258,12 @@ u32 Fault_ConvertAddress(FaultAddrConvClient* client) {
     u32 ret;
     FaultAddrConvClient* iter = sFaultStructPtr->addrConvClients;
 
-    while (iter) {
-        if (iter->callback) {
+    while (iter != NULL) {
+        if (iter->callback != 0) {
             ret = Fault_ProcessClient(iter->callback, client, iter->param);
             if (ret == -1) {
                 Fault_RemoveAddrConvClient(iter);
-            } else if (ret) {
+            } else if (ret != 0) {
                 return ret;
             }
         }
@@ -257,56 +286,44 @@ void Fault_UpdatePadImpl() {
     sFaultStructPtr->padCallback(&sFaultStructPtr->padInput);
 }
 
-#ifdef NON_MATCHING
-// ordering differences and possibly regalloc
 u32 Fault_WaitForInputImpl() {
-    u16 kDown;
-    u32 exitDebugger;
-    s32 count = 600;
     Input* curInput = &sFaultStructPtr->padInput;
+    s32 count = 600;
+    u32 kDown;
 
     while (true) {
-        while (true) {
-            Fault_Sleep(0x10);
-            Fault_UpdatePadImpl();
+        Fault_Sleep(0x10);
+        Fault_UpdatePadImpl();
 
-            kDown = curInput->press.in.button;
+        kDown = curInput->press.in.button;
 
-            if (kDown == 0x20) {
-                sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
-            }
+        if (kDown == L_TRIG) {
+            sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
+        }
 
-            if (!sFaultStructPtr->faultActive) {
-                break;
-            }
-
+        if (sFaultStructPtr->faultActive) {
             if (count-- < 1) {
                 return false;
             }
-        }
+        } else {
+            if (kDown == A_BUTTON || kDown == R_JPAD) {
+                return false;
+            }
 
-        if (kDown == 0x8000 || kDown == 0x100) {
-            return false;
-        }
+            if (kDown == L_JPAD) {
+                return true;
+            }
 
-        if (kDown == 0x200) {
-            return true;
-        }
+            if (kDown == U_JPAD) {
+                FaultDrawer_SetOsSyncPrintfEnabled(true);
+            }
 
-        if (kDown == 0x800) {
-            FaultDrawer_SetOsSyncPrintfEnabled(true);
-        }
-
-        if (kDown == 0x400) {
-            FaultDrawer_SetOsSyncPrintfEnabled(false);
+            if (kDown == D_JPAD) {
+                FaultDrawer_SetOsSyncPrintfEnabled(false);
+            }
         }
     }
-
-    return false;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WaitForInputImpl.s")
-#endif
 
 void Fault_WaitForInput() {
     sFaultIsWaitingForInput = 1;
@@ -519,7 +536,155 @@ void Fault_Wait5Seconds(void) {
     sFaultStructPtr->faultActive = true;
 }
 
+#ifdef NON_MATCHING
+// regalloc differences
+void Fault_WaitForButtonCombo() {
+    Input* curInput = &sFaultStructPtr->padInput;
+    Input** curInputPtr = &curInput;
+    s32 state;
+    u32 s1;
+    u32 s2;
+    u32 kDown;
+    u32 kCur;
+
+    osSyncPrintf(
+        VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
+            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE)
+            VT_RST "\n");
+    osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
+        WHITE) ")" VT_RST "\n");
+
+    FaultDrawer_SetForeColor(0xFFFF);
+    FaultDrawer_SetBackColor(1);
+
+    state = 0;
+    s1 = 0;
+    s2 = 1;
+
+    while (state != 11) {
+        Fault_Sleep(0x10);
+        Fault_UpdatePadImpl();
+
+        kDown = curInput->press.in.button;
+        kCur = curInput->cur.in.button;
+
+        if (kCur == 0) {
+            if (s1 == s2) {
+                s1 = 0;
+            }
+        } else if (kDown != 0) {
+            if (s1 == s2) {
+                state = 0;
+            }
+
+            switch (state) {
+                case 0:
+                    if (kCur == (Z_TRIG | L_TRIG | R_TRIG) && kDown == Z_TRIG) {
+                        state = s2;
+                        s1 = s2;
+                    }
+                    break;
+                case 1:
+                    if (kDown == U_JPAD) {
+                        state = 2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 2:
+                    if (kDown == D_CBUTTONS) {
+                        state = 3;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 3:
+                    if (kDown == U_CBUTTONS) {
+                        state = 4;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 4:
+                    if (kDown == D_JPAD) {
+                        state = 5;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 5:
+                    if (kDown == L_JPAD) {
+                        state = 6;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 6:
+                    if (kDown == L_CBUTTONS) {
+                        state = 7;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 7:
+                    if (kDown == R_CBUTTONS) {
+                        state = 8;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 8:
+                    if (kDown == R_JPAD) {
+                        state = 9;
+                        s1 = s2;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 9:
+                    if (kDown == (A_BUTTON | B_BUTTON)) {
+                        state = 10;
+                    } else if (kDown == A_BUTTON) {
+                        state = 0x5B;
+                    } else if (kDown == B_BUTTON) {
+                        state = 0x5C;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 0x5B:
+                    if (kDown == B_BUTTON) {
+                        state = 10;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 0x5C:
+                    if (kDown == A_BUTTON) {
+                        state = 10;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 10:
+                    if (kDown == START_BUTTON) {
+                        state = 11;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+            }
+        }
+
+        osWritebackDCacheAll();
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WaitForButtonCombo.s")
+#endif
 
 void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     u32* alignedAddr;
@@ -555,15 +720,15 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
 }
 
 #ifdef NON_MATCHING
-// saved register and stack usage differences
-// possibly some minor ordering and regalloc differences
+// regalloc differences
 void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
     Input* curInput = &sFaultStructPtr->padInput;
     u32 addr = pc;
-    s32 count;
-    s32 off;
+    u32 count;
+    u32 off;
 
-    while (true) {
+    do {
+        count = 0;
         if (addr < 0x80000000) {
             addr = 0x80000000;
         }
@@ -593,11 +758,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             Fault_UpdatePadImpl();
         } while (curInput->press.in.button == 0);
 
-        if (CHECK_PAD(curInput->press, START_BUTTON)) {
-            return;
-        }
-
-        if (CHECK_PAD(curInput->cur, A_BUTTON)) {
+        if (CHECK_PAD(curInput->press, START_BUTTON) || CHECK_PAD(curInput->cur, A_BUTTON)) {
             return;
         }
 
@@ -626,10 +787,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         if (CHECK_PAD(curInput->cur, R_CBUTTONS)) {
             addr = unk1;
         }
-        if (CHECK_PAD(curInput->cur, L_TRIG)) {
-            break;
-        }
-    }
+    } while (!CHECK_PAD(curInput->cur, L_TRIG));
 
     sFaultStructPtr->faultActive = true;
 }
@@ -637,11 +795,106 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawMemDump.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/func_800D59F8.s")
+void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
+    u32 sp = *spPtr;
+    u32 pc = *pcPtr;
+    u32 ra = *raPtr;
+    s32 count = 0x10000;
+    u32 lastOpc;
+    u32 opc;
+    u16 opcHi;
+    s16 opcLo;
+    u32 imm;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawStackTrace.s")
+    if (sp & 3 || sp < 0x80000000 || sp >= 0xA0000000 || ra & 3 || ra < 0x80000000 || ra >= 0xA0000000) {
+        *spPtr = 0;
+        *pcPtr = 0;
+        *raPtr = 0;
+        return;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_LogStackTrace.s")
+    if (pc & 3 || pc < 0x80000000 || pc >= 0xA0000000) {
+        *pcPtr = ra;
+        return;
+    }
+
+    lastOpc = 0;
+    while (true) {
+        opc = HW_REG(pc, u32);
+        opcHi = opc >> 16;
+        opcLo = opc & 0xFFFF;
+        imm = opcLo;
+        if (opcHi == 0x8FBF) {
+            ra = HW_REG(sp + imm, u32);
+        } else if (opcHi == 0x27BD) {
+            sp += imm;
+        } else if (opc == 0x42000018) {
+            sp = 0;
+            pc = 0;
+            ra = 0;
+            goto end;
+        }
+        if (lastOpc == 0x3E00008) {
+            pc = ra;
+            goto end;
+        } else if (lastOpc >> 26 == 2) {
+            pc = pc >> 28 << 28 | lastOpc << 6 >> 4;
+            goto end;
+        }
+        lastOpc = opc;
+        pc += 4;
+        if (count == 0) {
+            break;
+        }
+        count--;
+    }
+    sp = 0;
+    pc = 0;
+    ra = 0;
+
+end:
+    *spPtr = sp;
+    *pcPtr = pc;
+    *raPtr = ra;
+}
+
+void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height) {
+    s32 line;
+    u32 sp = thread->context.sp;
+    u32 ra = thread->context.ra;
+    u32 pc = thread->context.pc;
+    u32 addr;
+
+    FaultDrawer_DrawText(x, y, "SP       PC       (VPC)");
+    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (u32)__osCleanupThread; line++) {
+        FaultDrawer_DrawText(x, y + line * 8, "%08x %08x", sp, pc);
+        addr = Fault_ConvertAddress(pc);
+        if (addr != 0) {
+            FaultDrawer_Printf(" -> %08x", addr);
+        }
+        Fault_WalkStack(&sp, &pc, &ra);
+    }
+}
+
+void Fault_LogStackTrace(OSThread* thread, s32 height) {
+    s32 line;
+    u32 sp = thread->context.sp;
+    u32 ra = thread->context.ra;
+    u32 pc = thread->context.pc;
+    u32 addr;
+    u32 pad;
+
+    osSyncPrintf("STACK TRACE\nSP       PC       (VPC)\n");
+    for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (u32)__osCleanupThread; line++) {
+        osSyncPrintf("%08x %08x", sp, pc);
+        addr = Fault_ConvertAddress(pc);
+        if (addr != 0) {
+            osSyncPrintf(" -> %08x", addr);
+        }
+        osSyncPrintf("\n");
+        Fault_WalkStack(&sp, &pc, &ra);
+    }
+}
 
 void Fault_ResumeThread(OSThread* t) {
     t->context.cause = 0;
@@ -677,8 +930,8 @@ void Fault_ProcessClients(void) {
     FaultClient* iter = sFaultStructPtr->clients;
     s32 idx = 0;
 
-    while (iter) {
-        if (iter->callback) {
+    while (iter != NULL) {
+        if (iter->callback != 0) {
             Fault_FillScreenBlack();
             FaultDrawer_SetCharPad(-2, 0);
             FaultDrawer_Printf("\x1a"
@@ -699,11 +952,10 @@ void Fault_UpdatePad() {
     Fault_UpdatePadImpl();
 }
 
-#ifdef NON_MATCHING
-// saved register and stack usage differences
 void Fault_ThreadEntry(void* arg) {
-    OSThread* faultedThread;
     OSMesg msg;
+    OSThread* faultedThread;
+    u32 pad;
 
     osSetEventMesg(OS_EVENT_CPU_BREAK, &sFaultStructPtr->queue, 1);
     osSetEventMesg(OS_EVENT_FAULT, &sFaultStructPtr->queue, 2);
@@ -781,9 +1033,6 @@ void Fault_ThreadEntry(void* arg) {
         Fault_ResumeThread(faultedThread);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_ThreadEntry.s")
-#endif
 
 void Fault_SetFB(void* fb, u16 w, u16 h) {
     sFaultStructPtr->fb = fb;
