@@ -47,7 +47,7 @@ static s16 sDrawItemTableIdx[] = {
     0x0000, 0x0044, 0x002B, 0x0015, 0x0029, 0x002A, 0x0001, 0x005F, 0x006C, 0x006D, 0x006E, 0x0070, 0x0013, 0x0001,
 };
 
-static s16 sGetEtceteraItemId[] = {
+static s16 sGetItemId[] = {
     GI_BOTTLE,     GI_LETTER_RUTO, GI_SHIELD_HYLIAN, GI_QUIVER_40, GI_SCALE_SILVER, GI_SCALE_GOLD, GI_KEY_SMALL,
     GI_ARROW_FIRE, GI_INVALID,     GI_INVALID,       GI_INVALID,   GI_INVALID,      GI_INVALID,    GI_INVALID,
 };
@@ -72,9 +72,9 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->objBankIndex = objBankIndex;
     }
     this->drawId = sDrawItemTableIdx[type];
-    this->getItemId = sGetEtceteraItemId[type];
+    this->getItemId = sGetItemId[type];
     this->actionFunc_14C = func_80B85824;
-    this->currentDrawRoutine = ItemEtcetera_DrawFireArrow;
+    this->drawFunc = ItemEtcetera_DrawFireArrow;
     Actor_SetScale(&this->actor, 0.25f);
     ItemEtcetera_SetupAction(this, func_80B857D0);
     switch (type) {
@@ -99,7 +99,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 13: // unused values?
             Actor_SetScale(&this->actor, 0.5f);
             this->actionFunc_14C = func_80B85B28;
-            this->currentDrawRoutine = func_80B85C64;
+            this->drawFunc = func_80B85C64;
             this->actor.posRot.pos.y += 15.0f;
             break;
     }
@@ -111,7 +111,7 @@ void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->actor.objBankIndex = this->objBankIndex;
-        this->actor.draw = this->currentDrawRoutine;
+        this->actor.draw = this->drawFunc;
         this->actionFunc_15C = this->actionFunc_14C;
     }
 }

@@ -15,7 +15,7 @@ typedef struct ItemEtcetera {
     /* 0x0150 */ s16 drawId;
     /* 0x0152 */ s16 getItemId;
     /* 0x0154 */ u8 objBankIndex;
-    /* 0x0158 */ ActorFunc currentDrawRoutine; // gets set to this->actor.draw
+    /* 0x0158 */ ActorFunc drawFunc; // gets set to this->actor.draw
     /* 0x015C */ ItemEtceteraActionFunc actionFunc_15C;
 } ItemEtcetera; // size = 0x0160
 
