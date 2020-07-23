@@ -26,7 +26,7 @@ typedef struct EnZl3 {
     /* 0x0250 */ s32 drawConfig;
     /* 0x0254 */ char unk_254[0x4];
     /* 0x0258 */ s32 unk_258;
-    /* 0x025C */ char unk_25C[0x30];
+    /* 0x025C */ s16 unk_25C[0x30];
     /* 0x028C */ s16 unk_28C[0x30];
     /* 0x02EC */ f32 unk_2EC;
     /* 0x02F0 */ s32 unk_2F0;
