@@ -14,8 +14,8 @@ typedef struct EnNb {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[19];
     /* 0x0202 */ Vec3s transitionDrawTable[19];
-    /* 0x0274 */ s16 unk_274;
-    /* 0x0276 */ s16 unk_276;
+    /* 0x0274 */ s16 eyeIdx;
+    /* 0x0276 */ s16 blinkTimer;
     /* 0x0278 */ s32 action;
     /* 0x027C */ s32 drawMode;
     /* 0x0280 */ f32 unk_280;
@@ -34,6 +34,13 @@ typedef struct EnNb {
 
 typedef enum {
     /* 0x00 */
+    /* 0x01 */ NB_CHAMBER_UNDERGROUND = 1,
+    /* 0x02 */ NB_CHAMBER_APPEAR = 2,
+    /* 0x03 */ NB_CHAMBER_IDLE = 3, // Talking to Link in the chamber
+
+    /* 0x0A */ NB_CAPTURED = 10,
+
+    /* 0x10 */ NB_CREDITS_LOOK_BEHIND = 16,
 
     /* 0x18 */ NB_CROUCH_CRAWLSPACE = 24,
     /* 0x19 */ NB_NOTICE_PLAYER = 25,
