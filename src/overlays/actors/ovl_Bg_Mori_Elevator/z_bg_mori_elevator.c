@@ -41,11 +41,11 @@ static InitChainEntry sInitChain[] = {
 
 extern UNK_TYPE D_060035F8;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
-f32 func_808A1800(f32* posY, f32 curYpos, f32 arg2, f32 yVel, f32 arg4) {
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
+/*f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
     f32 phi_f2;
-    phi_f2 = (curYpos - *posY) * arg2;
-    if (*posY < curYpos) {
+    phi_f2 = (target - *posY) * arg2;
+    if (*posY < target) {
         if (yVel <phi_f2) {
             phi_f2 = yVel;
         } else {
@@ -55,12 +55,12 @@ f32 func_808A1800(f32* posY, f32 curYpos, f32 arg2, f32 yVel, f32 arg4) {
         }
         *posY = (*posY + phi_f2);
 
-        if (curYpos < *posY) {
-            *posY = curYpos;
+        if (target < *posY) {
+            *posY = target;
             return phi_f2;
         }
     } else {
-        if (curYpos < *posY) {
+        if (target < *posY) {
             if (phi_f2 < (-yVel)) {
                 phi_f2 = (-yVel);
             } else {
@@ -69,8 +69,8 @@ f32 func_808A1800(f32* posY, f32 curYpos, f32 arg2, f32 yVel, f32 arg4) {
                 }
             }
             *posY = (*posY + phi_f2);
-            if (*posY < curYpos) {
-                *posY = curYpos;
+            if (*posY < target) {
+                *posY = target;
                 return phi_f2;
             }
         } else {
@@ -82,8 +82,21 @@ f32 func_808A1800(f32* posY, f32 curYpos, f32 arg2, f32 yVel, f32 arg4) {
     
     //return phi_f2;
 }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A18FC.s")
+*/
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A18FC.s")
+void func_808A18FC(BgMoriElevator* this, f32 distTo) {
+    f32 phi_f12;
+    f32 temp_f2;
+    f32 temp1;
+    temp_f2 = fabsf(distTo) * 0.09f;
+    if (0.0f > temp_f2) {
+        phi_f12 = 0.0f;
+    } else {
+        temp1 = (temp_f2 > 1.0f) ? 1.0f : temp_f2;
+        phi_f12 = temp1;
+    }
+    func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12);
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/BgMoriElevator_Init.s")
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -165,10 +178,10 @@ void BgMoriElevator_setPosition(BgMoriElevator* this, GlobalContext* globalCtx) 
     s32 pad;
     if (BgMoriElevator_IsLinkRiding(this, globalCtx) != 0) {
         if (globalCtx->roomCtx.curRoom.num == 2) {
-            this->currentYPos = -779.0f;
+            this->targetYPos = -779.0f;
             func_808A1FF0(this);
         } else if (globalCtx->roomCtx.curRoom.num == 17) {
-            this->currentYPos = 233.0f;
+            this->targetYPos = 233.0f;
             func_808A1FF0(this);
         } else {
             // Error:Forest Temple obj elevator Room setting is dangerous(% s % d)
@@ -176,16 +189,16 @@ void BgMoriElevator_setPosition(BgMoriElevator* this, GlobalContext* globalCtx) 
         }
         
     }else if ((globalCtx->roomCtx.curRoom.num == 2) && (this->dyna.actor.posRot.pos.y < -275.0f)) {
-        this->currentYPos = 233.0f;//Position before seeing poe cutscene and after defeating them
+        this->targetYPos = 233.0f;//Position before seeing poe cutscene and after defeating them
         func_808A1FF0(this);
     } else if ((globalCtx->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.posRot.pos.y)) {
-        this->currentYPos = -779.0f;
+        this->targetYPos = -779.0f;
         func_808A1FF0(this);
     } else if ((( globalCtx->roomCtx.curRoom.num == 2) && (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0)) && (this->unk_16C == 0)) {// Poes not defeated a
-        this->currentYPos = 73.0f;//In the ground before 4 poes are found
+        this->targetYPos = 73.0f;//In the ground before 4 poes are found
         func_808A1C30(this);
     } else if ((((globalCtx->roomCtx.curRoom.num == 2)) && (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) == 0)) && (this->unk_16C != 0)) { //Poes defeated and link on 
-        this->currentYPos = 233.0f;
+        this->targetYPos = 233.0f;
         func_808A1CF4(this, globalCtx);
     }
 }
@@ -199,19 +212,19 @@ void func_808A1FF0(BgMoriElevator* this) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A2008.s")
 void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
+    f32 distTo;
 
 
     func_808A1800(&this->dyna.actor.velocity.y, 12.0f, 0.1f, 1.0f, 0.0f);
-    temp_f0 = func_808A1800(&this->dyna.actor.posRot.pos.y, this->currentYPos, 0.1f,
+    distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetYPos, 0.1f,
                             this->dyna.actor.velocity.y, 0.3f);
     
-    if (fabsf(temp_f0) < 0.001f) {
+    if (fabsf(distTo) < 0.001f) {
         func_808A1E04(this);
         Audio_PlayActorSound2((Actor*)this, (u16)0x287AU);
         return;
     }
-    func_808A18FC(this, temp_f0);
+    func_808A18FC(this, distTo);
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/BgMoriElevator_Update.s")

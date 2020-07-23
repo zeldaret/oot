@@ -12,7 +12,7 @@ typedef void (*BgMoriElevatorActionFunc)(struct BgMoriElevator*, struct GlobalCt
 typedef struct BgMoriElevator {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgMoriElevatorActionFunc actionFunc;
-    /* 0x0168 */ f32 currentYPos;
+    /* 0x0168 */ f32 targetYPos;
     /* 0x016C */ s32 unk_16C;//Are poes dead?
     /* 0x0170 */ u8 isRiding;
     /* 0x0171 */ s8 objectIndex;
