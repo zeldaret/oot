@@ -16,7 +16,7 @@ glabel func_809A62A8
 .L809A62E0:
 /* 00190 809A62E0 00027080 */  sll     $t6, $v0,  2               
 /* 00194 809A62E4 00CE3021 */  addu    $a2, $a2, $t6              
-/* 00198 809A62E8 0C009FE0 */  jal     EffectSs_Draw              
+/* 00198 809A62E8 0C009FE0 */  jal     EffectSs_DrawGEffect              
 /* 0019C 809A62EC 8CC66334 */  lw      $a2, %lo(D_809A6334)($a2)  
 /* 001A0 809A62F0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 001A4 809A62F4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

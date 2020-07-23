@@ -30,7 +30,7 @@ extern Color_RGBA8_n D_801158D0;
 
 // Draw utility for some G effects
 
-void EffectSs_Draw(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
+void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
     s32 pad;
     f32 scale;
     MtxF sp120;
