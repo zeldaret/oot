@@ -30,7 +30,45 @@ extern Color_RGBA8_n D_801158D0;
 
 // Draw utility for some G effects
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80027F80.s")
+void EffectSs_Draw(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
+    s32 pad;
+    f32 scale;
+    MtxF sp120;
+    MtxF spE0;
+    MtxF spA0;
+    MtxF sp60;
+    s32 pad1;
+    Mtx* mtx;
+    UNK_PTR* object;
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
+
+    // this has to be a fake match cause it doesnt fit the macro, couldnt find anything else
+    gfxCtx = globalCtx->state.gfxCtx;
+    object = globalCtx->objectCtx.status[this->regs[11]].segment;
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
+    
+    scale = this->regs[1] * 0.0025f;
+    func_800A7A24(&sp120, this->pos.x, this->pos.y, this->pos.z);
+    func_800A76A4(&spE0, scale, scale, scale);
+    func_800A6FA0(&sp120, &globalCtx->mf_11DA0, &sp60);
+    func_800A6FA0(&sp60, &spE0, &spA0);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
+    gSPSegment(gfxCtx->polyXlu.p++, 0x06, object);
+
+    mtx = func_800A7E70(gfxCtx, &spA0);
+
+    if (mtx != NULL) {
+        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(segment));
+        func_80094C50(gfxCtx);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[3], this->regs[4], this->regs[5], this->regs[6]);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[7], this->regs[8], this->regs[9], this->regs[10]);
+        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+    }
+
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_effect_soft_sprite_old_init.c", 243);
+}
 
 // EffectSsDust Spawn Functions
 
@@ -364,7 +402,7 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 
 // EffectSsStick Spawn Functions
 
-void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw){
+void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw) {
     EffectSsStickInitParams initParams;
 
     initParams.pos = *pos;

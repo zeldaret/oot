@@ -12,7 +12,7 @@ glabel D_80135C48
     .float 0.0025
 
 .text
-glabel func_80027F80
+glabel EffectSs_Draw
 /* A9F120 80027F80 27BDFE98 */  addiu $sp, $sp, -0x168
 /* A9F124 80027F84 AFBF001C */  sw    $ra, 0x1c($sp)
 /* A9F128 80027F88 AFB10018 */  sw    $s1, 0x18($sp)

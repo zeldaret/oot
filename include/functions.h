@@ -201,7 +201,7 @@ void EffectSs_DrawAll(GlobalContext* globalCtx);
 s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2);
 s16 func_80027E34(s16 arg0, s16 arg1, f32 arg2);
 u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
-// ? func_80027F80(?);
+void EffectSs_Draw(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment);
 void func_8002829C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
                    Color_RGBA8_n* envColor, s16 scale, s16 scaleStep);
 void func_8002836C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,

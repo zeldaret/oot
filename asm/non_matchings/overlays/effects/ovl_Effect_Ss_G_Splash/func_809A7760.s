@@ -28,7 +28,7 @@ glabel func_809A7760
 /* 00284 809A77C4 00027080 */  sll     $t6, $v0,  2               
 .L809A77C8:
 /* 00288 809A77C8 00CE3021 */  addu    $a2, $a2, $t6              
-/* 0028C 809A77CC 0C009FE0 */  jal     func_80027F80              
+/* 0028C 809A77CC 0C009FE0 */  jal     EffectSs_Draw              
 /* 00290 809A77D0 8CC67954 */  lw      $a2, %lo(D_809A7954)($a2)  
 /* 00294 809A77D4 10000020 */  beq     $zero, $zero, .L809A7858   
 /* 00298 809A77D8 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -46,7 +46,7 @@ glabel func_809A7760
 /* 002C4 809A7804 00027880 */  sll     $t7, $v0,  2               
 .L809A7808:
 /* 002C8 809A7808 00CF3021 */  addu    $a2, $a2, $t7              
-/* 002CC 809A780C 0C009FE0 */  jal     func_80027F80              
+/* 002CC 809A780C 0C009FE0 */  jal     EffectSs_Draw              
 /* 002D0 809A7810 8CC67954 */  lw      $a2, %lo(D_809A7954)($a2)  
 /* 002D4 809A7814 10000010 */  beq     $zero, $zero, .L809A7858   
 /* 002D8 809A7818 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -64,7 +64,7 @@ glabel func_809A7760
 /* 00304 809A7844 0002C080 */  sll     $t8, $v0,  2               
 .L809A7848:
 /* 00308 809A7848 00D83021 */  addu    $a2, $a2, $t8              
-/* 0030C 809A784C 0C009FE0 */  jal     func_80027F80              
+/* 0030C 809A784C 0C009FE0 */  jal     EffectSs_Draw              
 /* 00310 809A7850 8CC67954 */  lw      $a2, %lo(D_809A7954)($a2)  
 /* 00314 809A7854 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L809A7858:
