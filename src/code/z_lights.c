@@ -118,7 +118,7 @@ void Lights_Free(z_Light* light) {
 void func_8007A614(GlobalContext* globalCtx, LightingContext* lightCtx) {
     Lights_ClearHead(globalCtx, lightCtx);
     Lights_SetAmbientColor(lightCtx, 80, 80, 80);
-    func_8007A698(lightCtx, 0, 0, 0, 0x3e4, 0x3200);
+    Lights_SetFogColor(lightCtx, 0, 0, 0, 0x3e4, 0x3200);
     bzero(&sLightsList, sizeof(sLightsList));
 }
 
@@ -128,10 +128,10 @@ void Lights_SetAmbientColor(LightingContext* lightCtx, u8 red, u8 green, u8 blue
     lightCtx->ambientBlue = blue;
 }
 
-void func_8007A698(LightingContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5) {
-    lightCtx->unk_07 = arg1;
-    lightCtx->unk_08 = arg2;
-    lightCtx->unk_09 = arg3;
+void Lights_SetFogColor(LightingContext* lightCtx, u8 fogRed, u8 fogGreen, u8 fogBlue, s16 arg4, s16 arg5) {
+    lightCtx->fogRed = fogRed;
+    lightCtx->fogGreen = fogGreen;
+    lightCtx->fogBlue = fogBlue;
     lightCtx->unk_0A = arg4;
     lightCtx->unk_0C = arg5;
 }

@@ -4,12 +4,22 @@
 
 #define THIS ((BossTw*)thisx)
 
+typedef enum {
+    TW_KOTAKE,
+    TW_KOUME,
+    TW_TWINROVA,
+    TW_FIRE_BLAST = 0x64,
+    TW_FIRE_BLAST_GROUND,
+    TW_ICE_BLAST,
+    TW_ICE_BLAST_GROUND
+} TwinrovaType;
+
 void BossTw_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossTw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossTw_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx);
+void func_80949CE4(BossTw *this, GlobalContext *globalCtx, u8 arg2);
 
-/*
 const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
     ACTORTYPE_BOSS,
@@ -21,7 +31,158 @@ const ActorInit Boss_Tw_InitVars = {
     (ActorFunc)BossTw_Update,
     (ActorFunc)BossTw_Draw,
 };
-*/
+
+Vec3f D_8094A7D0 = { 0.0f, 0.0f, 1000.0f };
+Vec3f D_8094A7DC = { 0.0f, 0.0f, 0.0f };
+
+ColliderCylinderInit sCylinderInitBlasts =
+{
+    { COLTYPE_UNK10, 0x39, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x30 }, { 0x00100000, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    { 25, 35, -17, { 0, 0, 0 } },
+};
+
+ColliderCylinderInit sCylinderInitKoumeKotake =
+{
+    { COLTYPE_UNK3, 0x11, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    { 45, 120, -30, { 0, 0, 0 } },
+};
+
+ColliderCylinderInit sCylinderInitTwinrova =
+{
+    { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+    { 45, 120, -30, { 0, 0, 0 } },
+};
+
+Vec3f D_8094A86C[] = {
+    { 580.0f, 380.0f, 0.0f }, { 0.0f, 380.0f, 580.0f }, { -580.0f, 380.0f, 0.0f },
+    { 0.0f, 380.0f, -580.0f },
+};
+
+u8 D_8094A89C = 0;
+
+InitChainEntry D_8094A8A0[] = {
+    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+};
+
+Vec3f D_8094A8AC[] = {
+    { 600.0f, 400.0f, 0.0f }, { 0.0f, 400.0f, 600.0f }, { -600.0f, 400.0f, 0.0f }, 
+    { 0.0f, 400.0f, -600.0f },
+};
+
+Vec3f D_8094A8DC = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094A8E8 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094A8F4 = { 0.0f, 0.0f, 0.0f };
+
+s16 D_8094A900[] = { 0x0000, 0x0001, 0x0002, 0x0002, 0x0001, 0x0000, };
+s16 D_8094A90C[] = { 0x0000, 0x0001, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0000, };
+Vec3f D_8094A920 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094A92C = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094A938 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094A944 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094A950 = { 0.0f, 2000.0f, -2000.0f };
+
+Vec3f D_8094A95C[] = {
+    { 0.0f, 0.0f, -10000.0f },
+    { 0.0f, 0.0f, -8000.0f },
+    { 0.0f, 0.0f, -9000.0f },
+    { 0.0f, 0.0f, -11000.0f },
+    { 0.0f, 0.0f, -12000.0f }
+};
+
+extern UNK_TYPE D_0600A438;
+extern UNK_TYPE D_0600B238;
+extern UNK_TYPE D_0600B638;
+
+UNK_PTR D_8094A998[] = {
+    (UNK_PTR)&D_0600A438,
+    (UNK_PTR)&D_0600B238,
+    (UNK_PTR)&D_0600B638,
+};
+
+Vec3f D_8094A9A4 = { 0.0f, 200.0f, 2000.0f };
+
+extern Gfx D_0602A9B0[];
+extern Gfx D_0602A070[];
+extern Gfx D_0602A470[];
+Gfx* D_8094A9B0[] = {
+    D_0602A9B0,
+    D_0602A070,
+    D_0602A470,
+};
+
+Vec3f D_8094A9BC = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094A9C8 = { 0.0f, 2000.0f, -2000.0f };
+Vec3f D_8094A9D4 = { 13000.0f, 0.0f, 0.0f };
+Vec3f D_8094A9E0 = { 13000.0f, 0.0f, 0.0f };
+Vec3f D_8094A9EC = { 0.0f, 200.0f, 2000.0f };
+Vec3f D_8094A9F8 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094AA04 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094AA10 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094AA1C = { 0.0f, 0.0f, 0.0f };
+// probably colors
+u32 D_8094AA28[] = {
+    0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x646464FF, 0xFFFF9696, 0x96FFFFFF,
+};
+
+Vec3f D_8094AA40 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8094AA4C = { 0.0f, 0.0f, 0.0f };
+
+extern u8 D_8094A89C;
+extern s8 D_8094C840;
+extern s16 D_8094C872;
+extern u8 D_8094C86E;
+extern u8 D_8094C850;
+extern u8 D_8094C85E;
+extern u8 D_8094C85C;
+extern u8 D_8094C85F;
+extern u8 D_8094C841;
+extern u8 D_8094C851;
+extern u8 D_8094C86F;
+extern u8 D_8094C870;
+extern s8 D_8094C87E;
+extern s16 D_8094C87C;
+extern s16 D_8094C87A;
+extern s8 D_8094C878;
+extern s16 D_8094C876;
+extern s16 D_8094C874;
+extern f32 D_8094C854;
+extern f32 D_8094C858;
+extern u8 D_8094C85D;
+extern SkeletonHeader D_060070E0;
+extern AnimationHeader D_06006F28;
+extern AnimationHeader D_6006F28;
+extern SkeletonHeader D_601F888;
+extern BossTw* D_8094C844;
+
+void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx);
+void BossTw_TwinrovaDraw(Actor* thisx, GlobalContext* globalCtx);
+void func_8093C824(BossTw* this, GlobalContext* globalCtx);
+void func_8093D58C(BossTw* this, GlobalContext* globalCtx);
+void func_8093A0A8(BossTw* this, GlobalContext* globalCtx);
+void func_8093D54C(BossTw* this, GlobalContext* globalCtx);
+void BossTw_BlastUpdate(Actor* thisx, GlobalContext* globalCtx);
+void BossTw_BlastDraw(Actor* thisx, GlobalContext* globalCtx);
+void func_809453EC(BossTw* this, GlobalContext* globalCtx);
+void func_80945D14(BossTw* this, GlobalContext* globalCtx);
+void func_8093EE10(BossTw* this, GlobalContext* globalCtx);
+void func_80947240(Actor* thisx, GlobalContext* globalCtx);
+void func_80949E10(BossTw *this, GlobalContext *globalCtx);
+void func_8094A660(BossTw *this, GlobalContext *globalCtx);
+void func_809499AC(BossTw *this, GlobalContext *globalCtx);
+void func_80949734(BossTw *this, GlobalContext *globalCtx);
+void func_8094A608(BossTw *this, GlobalContext *globalCtx);
+
+extern SkeletonHeader D_06032020;
+extern AnimationHeader D_060244B4;
+extern AnimationHeader D_060244B4;
+extern BossTw* D_8094C84C;
+extern BossTw* D_8094C848;
+extern Sub11E10Dot D_8094C880[0x96];
 
 void func_80938CD0(GlobalContext *globalCtx, Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, s16 arg4, s16 arg5) {
     s16 phi_v0;
@@ -82,6 +243,7 @@ void func_80938EC0(GlobalContext* globalCtx, Vec3f *arg1, f32 arg2, f32 arg3, s1
     }
 }
 
+#ifdef NON_MATCHING
 void func_80938FC4(GlobalContext* globalCtx , s32 arg1) {
     s16 i;
     Sub11E10Dot* dot;
@@ -105,7 +267,9 @@ void func_80938FC4(GlobalContext* globalCtx , s32 arg1) {
         }
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80938FC4.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80938FC4.s")
+#endif
 
 void func_80939070(GlobalContext *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, f32 arg4, s16 arg5) {
     s16 i;
@@ -225,58 +389,6 @@ void func_809394FC(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     }
 }
 
-extern InitChainEntry D_8094A8A0[];
-extern ColliderCylinderInit D_8094A7E8;
-extern u8 D_8094A89C;
-extern u8 D_8094C840;
-extern s16 D_8094C872;
-extern u8 D_8094C86E;
-extern u8 D_8094C850;
-extern u8 D_8094C85E;
-extern u8 D_8094C85C;
-extern u8 D_8094C85F;
-extern u8 D_8094C841;
-extern u8 D_8094C851;
-extern s8 D_8094C86F;
-extern u8 D_8094C870;
-extern s8 D_8094C87E;
-extern s16 D_8094C87C;
-extern s16 D_8094C87A;
-extern s8 D_8094C878;
-extern s16 D_8094C876;
-extern s16 D_8094C874;
-extern f32 D_8094C854;
-extern f32 D_8094C858;
-extern u8 D_8094C85D;
-extern ColliderCylinderInit D_8094A814;
-extern SkeletonHeader D_060070E0;
-extern AnimationHeader D_06006F28;
-extern AnimationHeader D_6006F28;
-extern SkeletonHeader D_601F888;
-extern BossTw* D_8094C844;
-extern ColliderCylinderInit D_8094A840;
-
-void func_80940D48(Actor* thisx, GlobalContext* globalCtx);
-void func_80945084(Actor* thisx, GlobalContext* globalCtx);
-void func_8093C824(BossTw* this, GlobalContext* globalCtx);
-void func_8093D58C(BossTw* this, GlobalContext* globalCtx);
-void func_8093A0A8(BossTw* this, GlobalContext* globalCtx);
-void func_8093D54C(BossTw* this, GlobalContext* globalCtx);
-void func_80946B00(Actor* thisx, GlobalContext* globalCtx);
-void func_80946C7C(Actor* thisx, GlobalContext* globalCtx);
-void func_809453EC(BossTw* this, GlobalContext* globalCtx);
-void func_80945D14(BossTw* this, GlobalContext* globalCtx);
-void func_8093EE10(BossTw* this, GlobalContext* globalCtx);
-void func_80947240(Actor* thisx, GlobalContext* globalCtx);
-
-extern SkeletonHeader D_06032020;
-extern AnimationHeader D_060244B4;
-extern AnimationHeader D_060244B4;
-extern BossTw* D_8094C84C;
-extern BossTw* D_8094C848;
-extern Sub11E10Dot D_8094C880[0x96];
-
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void BossTw_Init(Actor* thisx, GlobalContext *globalCtx) {
     BossTw* this = THIS;
@@ -296,16 +408,18 @@ void BossTw_Init(Actor* thisx, GlobalContext *globalCtx) {
     Actor_ProcessInitChain(&this->actor, &D_8094A8A0);
     ActorShape_Init(&this->actor.shape, 0, 0, 0);
     if (this->actor.params >= 0x64) {
-        // Effects
+        // Blasts
         Actor_SetScale(&this->actor, 0.01f);
-        this->actor.update = func_80946B00;
-        this->actor.draw = func_80946C7C;
+        this->actor.update = BossTw_BlastUpdate;
+        this->actor.draw = BossTw_BlastDraw;
         this->actor.flags &= ~1;
+
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_8094A7E8);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitBlasts);
+
         if(this->actor.params == 0x64 || this->actor.params == 0x65){
-                this->actionFunc = func_809453EC;
-                this->collider.body.toucher.effect = 1;
+            this->actionFunc = func_809453EC;
+            this->collider.body.toucher.effect = 1;
         } else if (this->actor.params == 0x66 || this->actor.params == 0x67){
             this->actionFunc = func_80945D14;
         } else if(this->actor.params >= 0x68){
@@ -316,10 +430,12 @@ void BossTw_Init(Actor* thisx, GlobalContext *globalCtx) {
         this->unk_178[1] = 0x96;
         return;
     }
+
     Actor_SetScale(&this->actor, 0.025f);
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.colChkInfo.health = 0;
     Collider_InitCylinder(globalCtx, &this->collider);
+
     if (D_8094A89C == 0) {
         D_8094A89C = 1;
         globalCtx->envCtx.unk_BF = 1;
@@ -346,7 +462,8 @@ void BossTw_Init(Actor* thisx, GlobalContext *globalCtx) {
     }
     
     if (this->actor.params == 0) {
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_8094A814);
+        // Kotake
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
         this->actor.naviEnemyId = 0x33;
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060070E0, &D_06006F28, NULL, NULL, 0);
         if (gSaveContext.eventChkInf[7] & 0x20){
@@ -361,7 +478,8 @@ void BossTw_Init(Actor* thisx, GlobalContext *globalCtx) {
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_6006F28, -3.0f);
         this->unk_564 = 1;
     } else if (this->actor.params == 1) {
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_8094A814);
+        // Koume
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
         this->actor.naviEnemyId = 0x32;
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_601F888, &D_6006F28, NULL, NULL, 0);
         if (gSaveContext.eventChkInf[7] & 0x20){
@@ -375,15 +493,16 @@ void BossTw_Init(Actor* thisx, GlobalContext *globalCtx) {
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_6006F28, -3.0f);
         this->unk_564 = 1;
     } else {
-        
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_8094A840);
+        // Twinrova
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitTwinrova);
         this->actor.naviEnemyId = 0x5B;
         this->actor.colChkInfo.health = 0x18;
-        this->actor.update = func_80940D48;
-        this->actor.draw = func_80945084;
+        this->actor.update = BossTw_TwinrovaUpdate;
+        this->actor.draw = BossTw_TwinrovaDraw;
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06032020, &D_060244B4, NULL, NULL, 0);
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060244B4, -3.0f);
         if (gSaveContext.eventChkInf[7] & 0x20) {
+            // began twinrova battle
             func_8093C824(this, globalCtx);
         } else {
             func_8093D58C(this, globalCtx);
@@ -404,10 +523,10 @@ void BossTw_Init(Actor* thisx, GlobalContext *globalCtx) {
             D_8094C848->actor.attachedA = &D_8094C844->actor;
         }
     }
-    this->unk_1D4 = globalCtx->lightCtx.unk_07;
-    this->unk_1D8 = globalCtx->lightCtx.unk_08;
-    this->unk_1DC = globalCtx->lightCtx.unk_09;
-    this->unk_1E0 = globalCtx->lightCtx.unk_0A;
+    this->fogR = globalCtx->lightCtx.fogRed;
+    this->fogG = globalCtx->lightCtx.fogGreen;
+    this->fogB = globalCtx->lightCtx.fogBlue;
+    this->fogMin = globalCtx->lightCtx.unk_0A;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_Init.s")
@@ -455,7 +574,7 @@ void func_80939F88(BossTw *this, GlobalContext *globalCtx) {
     Math_SmoothScaleMaxF(&this->unk_4C8, 4096.0f, 1.0f, 200.0f);
     func_8002D908(&this->actor);
     func_8002D7EC(&this->actor);
-    if (this->unk_178 == 0) {
+    if (this->unk_178[0] == 0) {
         if (attachedA->actionFunc != func_8093B1AC) {
             if (this->unk_15E != 0) {
                 this->unk_15E = 0;
@@ -470,13 +589,8 @@ void func_80939F88(BossTw *this, GlobalContext *globalCtx) {
 
 void func_8093A2AC(BossTw* this, GlobalContext* globalCtx);
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_8093A0A8(BossTw *this, GlobalContext *globalCtx) {
-    static Vec3f D_8094A8AC[] = {
-        { 600.0f, 400.0f, 0.0f }, { 0.0f, 400.0f, 600.0f }, { -600.0f, 400.0f, 0.0f }, { 0.0f, 400.0f, -600.0f },
-    };
-
     BossTw* attachedA = (BossTw*)this->actor.attachedA;
 
     this->unk_5F8 = 1;
@@ -534,15 +648,14 @@ void func_8093A2AC(BossTw *this, GlobalContext *globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 1.0f);
     func_8002D908(&this->actor);
     func_8002D7EC(&this->actor);
-    if ((this->unk_178 == 0) || (sp28 < 70.0f)) {
+    if ((this->unk_178[0] == 0) || (sp28 < 70.0f)) {
         func_80939F40(this, globalCtx);
     }
 }
 
 void func_8093B1AC(BossTw* this, GlobalContext* globalCtx);
-AnimationHeader D_06007688;
+extern AnimationHeader D_06007688;
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_8093A4DC(BossTw *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
@@ -557,8 +670,8 @@ void func_8093A4DC(BossTw *this, GlobalContext *globalCtx) {
     this->unk_52C = 0.0f;
     this->unk_548 = 0.0f;
     this->unk_4D4 = 0.0f;
-    this->unk_4D8 = 0.0f;
-    this->unk_4E0 = 2000.0f;
+    this->spawnPortalAlpha = 0.0f;
+    this->spawnPortalScale = 2000.0f;
     this->unk_4E4 = 0.0f;
     this->unk_4EC = 0.0f;
     this->unk_4F0 = 0.0f;
@@ -571,7 +684,7 @@ void func_8093A4DC(BossTw *this, GlobalContext *globalCtx) {
 
 void func_80938CD0(GlobalContext* globalCtx, Vec3f* arg0, Vec3f* arg1, Vec3f *arg2, f32 arg3, s16 arg4, s16 arg5);
 void func_8093C858(BossTw* this, GlobalContext* globalCtx);
-#define NON_MATCHING
+
 #ifdef NON_MATCHING
 void func_8093A5C4(BossTw *this, GlobalContext *globalCtx, s16 arg2) {
     BossTw *temp_v0;
@@ -632,7 +745,7 @@ void func_8093A5C4(BossTw *this, GlobalContext *globalCtx, s16 arg2) {
 #endif
 #undef NON_MATCHING
 
-#define NON_MATCHING
+
 #ifdef NON_MATCHING
 s32 func_8093A940(BossTw *this, GlobalContext *globalCtx) {
     Vec3f sp44;
@@ -798,8 +911,7 @@ f32 func_8093AED8(Vec3f *arg0) {
 extern AnimationHeader D_06009398;
 extern AnimationHeader D_06003614;
 extern AnimationHeader D_06003E34;
-extern Vec3f D_8094A8DC;
-//#define NON_MATCHING
+
 #ifdef NON_MATCHING
 void func_8093B1AC(BossTw *this, GlobalContext *globalCtx) {
     Vec3f sp130;
@@ -888,7 +1000,7 @@ void func_8093B1AC(BossTw *this, GlobalContext *globalCtx) {
     sp74 = &this->skelAnime;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->unk_520 = this->unk_520 + -0.3f;
-    if (this->unk_17A != 0) {
+    if (this->unk_178[1] != 0) {
         Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, this->unk_4C8);
         if ((player->stateFlags1 & 0x400000) && ((player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) < 0x2000)  && ((player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) >= -0x1FFF)) {
             Math_SmoothScaleMaxF(&this->unk_4B0.x, player->unk_9BC.x, 1.0f, 400.0f);
@@ -900,25 +1012,25 @@ void func_8093B1AC(BossTw *this, GlobalContext *globalCtx) {
             Math_SmoothScaleMaxF(&this->unk_4B0.z, player->actor.posRot.pos.z, 1.0f, 400.0f);
         }
 
-        this->unk_178 = (u16)0x46;
+        this->unk_178[0] = (u16)0x46;
         this->unk_500.z = this->unk_500.y = this->unk_500.x = 0.0f;
         this->unk_4EC += this->unk_4F0 * 0.0025f;
-        sp6C = &this->unk_4D8;
-        Math_SmoothScaleMaxF(&this->unk_4D8, 255.0f, 1.0f, 10.0f);
+        sp6C = &this->spawnPortalAlpha;
+        Math_SmoothScaleMaxF(&this->spawnPortalAlpha, 255.0f, 1.0f, 10.0f);
         Math_SmoothScaleMaxF(&this->unk_4F0, 50.0f, 1.0f, 2.0f);
-        if (this->unk_17A < 0x32) {
-            phi_v0_2 = (s32) this->unk_17A;
-            if (this->unk_17A < 0xA) {
-                if (this->unk_17A == 9) {
+        if (this->unk_178[1] < 0x32) {
+            phi_v0_2 = (s32) this->unk_178[1];
+            if (this->unk_178[1] < 0xA) {
+                if (this->unk_178[1] == 9) {
                     globalCtx->envCtx.unk_D8 = 0.5f;
                     globalCtx->envCtx.unk_BD = 3 - this->actor.params;
                     Audio_PlayActorSound2((Actor *) this, (u16)0x3913U);
                 }
                 temp_s4 = &spF4;
-                phi_v0 = (s32) this->unk_17A;
-                if (this->unk_17A == 5) {
+                phi_v0 = (s32) this->unk_178[1];
+                if (this->unk_178[1] == 5) {
                     this->unk_4D0 = 255.0f;
-                    phi_v0 = (s32) this->unk_17A;
+                    phi_v0 = (s32) this->unk_178[1];
                 }
                 temp_s3 = &sp100;
                 phi_v0_2 = phi_v0;
@@ -934,9 +1046,9 @@ void func_8093B1AC(BossTw *this, GlobalContext *globalCtx) {
                 }
             }
 
-            if (this->unk_17A < 0x14) {
+            if (this->unk_178[1] < 0x14) {
                 Math_SmoothScaleMaxF(&this->unk_4D4, 0.0f, 1.0f, 20.0f);
-                Math_SmoothScaleMaxF(&this->unk_4D8, 0.0f, 1.0f, 30.0f);
+                Math_SmoothScaleMaxF(&this->spawnPortalAlpha, 0.0f, 1.0f, 30.0f);
             } else {
                 Math_SmoothScaleMaxF(&this->unk_4D4, 255.0f, 1.0f, 10.0f);
                 if (this->actor.params == 1) {
@@ -946,7 +1058,7 @@ void func_8093B1AC(BossTw *this, GlobalContext *globalCtx) {
                 }
             }
             this->unk_4E8 += this->unk_4E4 * 0.0025f;
-            Math_SmoothScaleMaxF(&this->unk_4E0, 0.0f, 0.1f, this->unk_4E4);
+            Math_SmoothScaleMaxF(&this->spawnPortalScale, 0.0f, 0.1f, this->unk_4E4);
             Math_SmoothScaleMaxF(&this->unk_4E4, 50.0f, 1.0f, 2.0f);
         }
 
@@ -955,11 +1067,11 @@ void func_8093B1AC(BossTw *this, GlobalContext *globalCtx) {
             this->unk_1A4 = 10000.0f;
         }
 
-        if (this->unk_17A == 1) {
+        if (this->unk_178[1] == 1) {
             SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003614, 0.0f);
             temp_f6 = SkelAnime_GetFrameCount(&D_06003614.genericHeader);
             this->unk_4DC = 0.0f;
-            this->unk_4D8 = 0.0f;
+            this->spawnPortalAlpha = 0.0f;
             this->unk_4D4 = 0.0f;
             this->unk_1A4 = temp_f6;
             D_8094C86E = 0;
@@ -1017,7 +1129,7 @@ void func_8093B1AC(BossTw *this, GlobalContext *globalCtx) {
 block_58:
                 phi_s3_2 = &this->unk_50C;
             } else {
-                if (this->unk_178 != 0) {
+                if (this->unk_178[0] != 0) {
                     temp_v0_3 = func_8093AB30(this, globalCtx);
                     if (temp_v0_3 == 1) {
                         spCC = D_8094A8DC;
@@ -1064,11 +1176,11 @@ block_58:
         } else {
             goto block_58;
         }
-        if (this->unk_178 == 0 && (D_8094C840 == 1 || D_8094C840 == 2)) {
+        if (this->unk_178[0] == 0 && (D_8094C840 == 1 || D_8094C840 == 2)) {
             D_8094C840 = 0;
         }
         phi_s3 = phi_s3_2;
-        if (this->unk_178 == 0) {
+        if (this->unk_178[0] == 0) {
             Math_SmoothScaleMaxF(&this->unk_4F8, 0.0f, 1.0f, 0.0005f);
             phi_s3 = phi_s3_2;
             if (0.0f == this->unk_4F8 == 0.0f) {
@@ -1089,7 +1201,7 @@ block_58:
     Matrix_MultVec3f(&sp130, &this->unk_50C);
     if (this->unk_440 == 0) {
         if (this->unk_4FC == 0) {
-            if (this->unk_178 != 0) {
+            if (this->unk_178[0] != 0) {
                 temp_f0_2 = func_8093AED8(&this->unk_50C);
                 this->unk_500.y = temp_f0_2;
                 if (0.0f <= temp_f0_2) {
@@ -1097,7 +1209,7 @@ block_58:
                     this->unk_500.x = this->unk_50C.x;
                     this->unk_500.z = this->unk_50C.z;
                     func_8093A5C4(this, globalCtx, this->actor.params);
-                    this->unk_178 = 0x14;
+                    this->unk_178[0] = 0x14;
                 }
             }
         }
@@ -1136,12 +1248,12 @@ loop_76:
                     phi_s0_3 = 0;
                     if (0.0f < this->unk_53C) {
                         phi_s0_3 = 0;
-                        if (this->unk_178 != 0) {
+                        if (this->unk_178[0] != 0) {
                             this->unk_440 = (u16)1;
                             this->unk_500.x = spBC;
                             this->unk_500.z = spC4;
                             func_8093A5C4(this, globalCtx, this->actor.params);
-                            this->unk_178 = (u16)0x14;
+                            this->unk_178[0] = (u16)0x14;
                         } else {
 loop_81:
                             spB0 = Math_Rand_CenteredFloat(20.0f);
@@ -1252,7 +1364,7 @@ void func_8093C25C(BossTw* this, GlobalContext* globalCtx) {
     this->unk_178[0] = 0x35;
     this->actor.speedXZ = 0.0f;
     if (this->actor.params == 0) {
-        this->unk_15C = 0x14;
+        this->fogTimer = 20;
     }
 }
 extern AnimationHeader D_06006530;
@@ -1276,11 +1388,11 @@ void func_8093C2C4(BossTw *this, GlobalContext *globalCtx) {
         func_80938DC4(globalCtx, this->actor.params + 2, &sp5C, &sp50, &sp44, Math_Rand_ZeroFloat(10.0f) + 15.0f, 0, 0, 0x96);
     }
     if (this->actor.params == 1) {
-        Math_SmoothScaleMaxF(&this->unk_1D4, 255.0f, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->unk_1D8, 255.0f, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->unk_1DC, 255.0f, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->unk_1E0, 900.0f, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->unk_1E4, 1099.0f, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->fogR, 255.0f, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->fogG, 255.0f, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->fogB, 255.0f, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->fogMin, 900.0f, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->fogMax, 1099.0f, 1.0f, 30.0f);
     }
 
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, ((Math_Sins(this->unk_150 * 1500) * 20.0f) + 350.0f) + 50.0f, 0.1f, this->actor.speedXZ);
@@ -1341,7 +1453,7 @@ void func_8093C684(BossTw* this, GlobalContext* globalCtx) {
 
 // hit with hookshot?
 void func_8093C700(BossTw *this, GlobalContext *globalCtx) {
-    if (this->unk_178 != 0) {
+    if (this->unk_178[0] != 0) {
         this->collider.base.type = 9;
         this->actor.shape.rot.y -= 0x3000;
         if (!(this->unk_178[0] & 3)) {
@@ -1414,17 +1526,17 @@ void func_8093D3D8(BossTw* this, GlobalContext* globalCtx) {
 }
 
 void func_8093D444(BossTw *this, GlobalContext *globalCtx) {
-    if (this->unk_178 == 0) {
+    if (this->unk_178[0] == 0) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     }
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->unk_164, 5, this->unk_4C8);
     Math_SmoothScaleMaxF(&this->unk_4C8, 20480.0f, 1.0f, 1000.0f);
     if (D_8094C84C->unk_152 >= 0x8D) {
-        Math_SmoothScaleMaxF(&this->unk_1D4, 100.0f, 1.0f, 15.0f);
-        Math_SmoothScaleMaxF(&this->unk_1D8, 255.0f, 1.0f, 15.0f);
-        Math_SmoothScaleMaxF(&this->unk_1DC, 255.0f, 1.0f, 15.0f);
-        Math_SmoothScaleMaxF(&this->unk_1E0, 850.0f, 1.0f, 15.0f);
-        Math_SmoothScaleMaxF(&this->unk_1E4, 1099.0f, 1.0f, 15.0f);
+        Math_SmoothScaleMaxF(&this->fogR, 100.0f, 1.0f, 15.0f);
+        Math_SmoothScaleMaxF(&this->fogG, 255.0f, 1.0f, 15.0f);
+        Math_SmoothScaleMaxF(&this->fogB, 255.0f, 1.0f, 15.0f);
+        Math_SmoothScaleMaxF(&this->fogMin, 850.0f, 1.0f, 15.0f);
+        Math_SmoothScaleMaxF(&this->fogMax, 1099.0f, 1.0f, 15.0f);
     }
 }
 
@@ -1466,7 +1578,7 @@ void func_8093EE10(BossTw *this, GlobalContext *globalCtx) {
     }
 
     if (D_8094C84C->unk_5FA < 2) {
-        if (this->unk_178 == 0) {
+        if (this->unk_178[0] == 0) {
             this->unk_178[0] = 0x14;
             this->unk_4B0.x = Math_Rand_CenteredFloat(100.0f) + D_8094C84C->actor.posRot.pos.x;
             this->unk_4B0.y = Math_Rand_CenteredFloat(50.0f) + 400.0f;
@@ -1481,7 +1593,7 @@ void func_8093EE10(BossTw *this, GlobalContext *globalCtx) {
             this->actor.posRot.pos.z = 0.0f;
             this->actor.posRot.pos.x = 0.0f;
             for(phi_v0 = 0; phi_v0 < 0x32; phi_v0++){
-                this->unk_1E8[phi_v0] = this->actor.posRot.pos;
+                this->blastTailPos[phi_v0] = this->actor.posRot.pos;
             }
         }
         if (this->actor.params == 0x69) {
@@ -1512,13 +1624,14 @@ void func_8093EE10(BossTw *this, GlobalContext *globalCtx) {
 void func_8093F9E4(BossTw* this, GlobalContext* globalCtx);
 extern AnimationHeader D_06024374;
 
+#ifdef NON_MATCHING
 void func_8093F108(BossTw *this, GlobalContext *globalCtx) {
     this->actionFunc = func_8093F9E4;
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06024374, -3.0f);
     this->unk_440 = 0;
     this->unk_152 = 0;
     this->actor.flags &= ~1;
-    this->unk_15A = 0x2710;
+    this->invincibilityTimer = 0x2710;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->unk_5FA = this->unk_440;
     this->unk_150 = this->unk_152;
@@ -1527,15 +1640,15 @@ void func_8093F108(BossTw *this, GlobalContext *globalCtx) {
     D_8094C844->unk_178[0] = 8;
     this->unk_1D0 = 1.0f;
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8093F108.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8093F108.s")
+#endif
 
 extern AnimationHeader D_0600230C;
 extern AnimationHeader D_06001D10;
 extern AnimationHeader D_060017E0;
 extern AnimationHeader D_060012A4;
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
     s16 sp3A;
@@ -1741,18 +1854,13 @@ void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8093F1C4.s")
 #endif
-#undef NON_MATCHING
 
 
 void func_80939070(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, f32, s16);
 extern AnimationHeader D_060216DC;
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_8093F9E4(BossTw *this, GlobalContext *globalCtx) {
-    static Vec3f D_8094A8E8 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_8094A8F4 = { 0.0f, 0.0f, 0.0f };
-
     f32 spD8;
     f32 spD0;
     Player *player = PLAYER;
@@ -1990,15 +2098,9 @@ void func_8093F9E4(BossTw *this, GlobalContext *globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8093F9E4.s")
 #endif
-#undef NON_MATCHING
 
-extern s16 D_8094A900[];
-
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void BossTw_Update(Actor *thisx, GlobalContext *globalCtx) {
-    static Vec3f D_8094A920 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_8094A92C = { 0.0f, 0.0f, 0.0f };
 
     BossTw* this = THIS;
     Vec3f sp74;
@@ -2010,29 +2112,24 @@ void BossTw_Update(Actor *thisx, GlobalContext *globalCtx) {
     s16 phi_s0;
 
     this->collider.base.type = 3;
-    Math_SmoothScaleMaxF(&this->unk_1D4, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->unk_1D8, globalCtx->lightCtx.unk_08, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->unk_1DC, globalCtx->lightCtx.unk_09, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->unk_1E0, globalCtx->lightCtx.unk_0A, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->unk_1E4, 1000.0f, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogR, globalCtx->lightCtx.fogRed, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogG, globalCtx->lightCtx.fogGreen, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogB, globalCtx->lightCtx.fogBlue, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogMin, globalCtx->lightCtx.unk_0A, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogMax, 1000.0f, 1.0f, 10.0f);
     this->unk_156++;
     this->unk_150++;
     this->unk_152++;
     if (this->unk_156 >= 0x32) {
         this->unk_156 = 0;
     }
-    this->unk_1E8[this->unk_156] = this->actor.posRot.pos;
+    this->blastTailPos[this->unk_156] = this->actor.posRot.pos;
     for(phi_s0 = 0; phi_s0 < 5; phi_s0++){
-        if(this->unk_178[phi_s0] != 0){
-            this->unk_178[phi_s0]--;
-        }
+        DECR(this->unk_178[phi_s0]);
     }
-    if (this->unk_15A != 0) {
-        this->unk_15A--;
-    }
-    if (this->unk_15C != 0) {
-        this->unk_15C--;
-    }
+
+    DECR(this->invincibilityTimer);
+    DECR(this->fogTimer);
 
     if (this->actionFunc == func_8093A2AC || this->actionFunc == func_8093C700 || this->actionFunc == func_80939F88) {
         temp_v0_2 = temp_s2->actor.shape.rot.y - this->actor.yawTowardsLink + 0x8000;
@@ -2049,7 +2146,7 @@ void BossTw_Update(Actor *thisx, GlobalContext *globalCtx) {
         }
         this->collider.dim.height = 0x78;
         this->collider.dim.yShift = -0x1E;
-        if (this->unk_15A == 0) {
+        if (this->invincibilityTimer == 0) {
             if (this->collider.base.acFlags & 2) {
                 this->collider.base.acFlags &= ~2;
             }
@@ -2113,10 +2210,188 @@ void BossTw_Update(Actor *thisx, GlobalContext *globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_Update.s")
 #endif
+
+//#define NON_MATCHING
+#ifdef NON_MATCHING
+void BossTw_TwinrovaUpdate(Actor *thisx, GlobalContext *globalCtx) {
+    ColliderCylinder *sp4C;
+    s32 temp_v0_2;
+    BossTw* this = THIS;
+    Player *sp88 = PLAYER;
+    Vec3f sp7C;
+    Vec3f sp70;
+    Vec3f sp64;
+    s16 phi_s0;
+    s32 phi_s1;
+    s32 phi_a2;
+
+    this->actor.flags &= ~0x400;
+    this->unk_5F8 = 0;
+    this->collider.base.type = 3;
+    Math_SmoothScaleMaxF(&this->fogR, globalCtx->lightCtx.fogRed, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogG, globalCtx->lightCtx.fogGreen, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogB, globalCtx->lightCtx.fogBlue, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogMin, globalCtx->lightCtx.unk_0A, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->fogMax, 1000.0f, 1.0f, 10.0f);
+    this->unk_150++;
+    this->unk_152++;
+    for(phi_s0 = 0; phi_s0 < 5; phi_s0++){
+        DECR(this->unk_178[phi_s0]);
+    }
+
+    DECR(this->invincibilityTimer);
+    DECR(this->fogTimer);
+    this->actionFunc(this, globalCtx);
+    
+    if (this->actionFunc != func_809499AC && this->actionFunc != func_80949734 &&
+        this->unk_564 != 0 && this->unk_5F8 == 0 && 
+        ((s16)(sp88->actor.shape.rot.y - this->actor.yawTowardsLink + 0x8000) < 0x1000) && 
+        ((s16)(sp88->actor.shape.rot.y - this->actor.yawTowardsLink + 0x8000) >= -0xFFF) && sp88->unk_A73 != 0) {
+            func_8094A608(this, globalCtx);
+    }
+
+    this->unk_4CC = D_8094A900[this->unk_158];
+
+    DECR(this->unk_158);
+
+    if ((this->unk_152 & 0x1F) == 0 && this->actionFunc != func_8093C910 && Math_Rand_ZeroOne() < 0.3f) {
+        this->unk_158 = 4;
+    }
+
+    if (this->actionFunc == func_8093C910) {
+        this->unk_4CE = D_8094A90C[this->unk_162];
+        DECR(this->unk_162);
+    } else {
+        if (this->actionFunc == func_80949E10) {
+            this->unk_4CC = 1;
+        }
+        if (this->actionFunc == func_8093F9E4) {
+            this->unk_4CC = 2;
+        }
+        this->unk_4CE = this->unk_4CC;
+    }
+
+    if (this->unk_564 != 0 && this->unk_5F8 == 0) {
+        sp70 = D_8094A938;
+        if(this->unk_160 != 0 && ((this->unk_160 -= 0x14) < 0 )){
+            this->unk_160 = 0;
+        }
+        Math_SmoothScaleMaxF(&this->unk_1B4, 1.0f, 1.0f, 0.05f);
+        sp64.y = 0.4f;
+        for(phi_s0 = 0; phi_s0 < 2; phi_s0++){
+            sp7C = this->unk_498;
+            sp7C.x += Math_Rand_CenteredFloat(30.0f);
+            sp7C.y += Math_Rand_CenteredFloat(30.0f);
+            sp7C.z += Math_Rand_CenteredFloat(30.0f);
+            sp64.x = Math_Rand_CenteredFloat(0.5f);
+            sp64.z = Math_Rand_CenteredFloat(0.5f);
+            func_80938CD0(globalCtx, &sp7C, &sp70, &sp64, (s16)Math_Rand_ZeroFloat(2.0f) + 7, 0, 0x4B);
+        }
+        for(phi_s0 = 0; phi_s0 < 2; phi_s0++){
+            sp7C = this->unk_4A4;
+            sp7C.x += Math_Rand_CenteredFloat(30.0f);
+            sp7C.y += Math_Rand_CenteredFloat(30.0f);
+            sp7C.z += Math_Rand_CenteredFloat(30.0f);
+            sp64.x = Math_Rand_CenteredFloat(0.5f);
+            sp64.z = Math_Rand_CenteredFloat(0.5f);
+            func_80938CD0(globalCtx, &sp7C, &sp70, &sp64, (s16)Math_Rand_ZeroFloat(2.0f) + 7, 1, 0x4B);
+        }
+    }
+    this->collider.dim.radius = 35;
+    if (this->actionFunc == func_8094A660) {
+        this->collider.dim.radius *= 2;
+    }
+    this->collider.dim.height = 150;
+    this->collider.dim.yShift = -60;
+    sp4C = &this->collider;
+    Collider_CylinderUpdate(&this->actor, sp4C);
+    if (this->invincibilityTimer == 0) {
+        if (this->actionFunc != func_80949E10) {
+            if (this->twinrovaStun) {
+                this->twinrovaStun = false;
+                this->fogTimer = 10;
+                func_80949CE4(this, globalCtx, 0);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE);
+            } else if (this->collider.base.acFlags & 2) {
+                this->collider.base.acFlags &= ~2;
+                if ((this->collider.body.acHitItem->toucher.flags & 0x1F824)) {
+                    // not sure what this is here for?
+                }
+            }
+        } else if (this->collider.base.acFlags & 2) {
+            ColliderBody* acHitItem = this->collider.body.acHitItem;
+            this->collider.base.acFlags &= ~2;
+            phi_s1 = 0;
+            if (temp_v0_2 = func_800635D0(acHitItem->toucher.flags), temp_v0_2 == 0) {
+                phi_a2 = 2;
+            } else {
+                phi_s1 = 1;
+                phi_a2 = temp_v0_2 & 0xFF;
+            }
+
+            if (!(acHitItem->toucher.flags & 0x80)) {
+                if ((s8)this->actor.colChkInfo.health < 3) {
+                    if (phi_s1 == 0) {
+                        phi_a2 = 0;
+                    }
+                }
+                func_80949CE4(this, globalCtx, phi_a2);
+            }
+        }
+    }
+
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &sp4C->base);
+    osSyncPrintf("OooooooooooooooooooooooooooooooooCC\n");
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &sp4C->base);
+    globalCtx->envCtx.unk_DC = 2;
+    switch(D_8094C840 + 1){
+        case 0:
+            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.02f);
+            break;
+        case 1:
+            globalCtx->envCtx.unk_BD = 3;
+            Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 0.5f, 1.0f, 0.05f);
+            break;
+        case 2:
+            globalCtx->envCtx.unk_BD = 2;
+            Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, (Math_Sins(this->unk_150 * 0x3000) * 0.03f) + 0.5f, 1.0f, 0.05f);
+            break;
+        case 3:
+            globalCtx->envCtx.unk_BD = 3;
+            Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
+            break;
+        case 4:
+            globalCtx->envCtx.unk_BD = 2;
+            Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, (Math_Sins(this->unk_150 * 0x3E00) * 0.05f) + 0.95f, 1.0f, 0.1f);
+            break;
+        case 5:
+            globalCtx->envCtx.unk_BD = 0;
+            Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+            break;
+        case 6:
+            break;
+    }
+
+    func_809477E0(globalCtx);
+    if (D_8094C85F == 1) {
+        D_8094C85F = 2;
+        func_80938FC4(globalCtx, 0);
+        func_80078914(&sp88->actor.projectedPos, NA_SE_VO_LI_FREEZE);
+        func_80078914(&sp88->actor.projectedPos, NA_SE_PL_FREEZE);
+        if (D_8094C850 != 0) {
+            D_8094C850 = 4;
+        }
+    }
+
+    if (sp88->unk_A60 && D_8094C851 != 0) {
+        D_8094C851 = 4;
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_TwinrovaUpdate.s")
+#endif
 #undef NON_MATCHING
 
-// BossTw_TwinrovaUpdate
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80940D48.s")
 extern Gfx D_06012CE0[];
 extern Gfx D_060134B8[];
 extern Gfx D_06012B38[];
@@ -2153,18 +2428,8 @@ extern Gfx D_06014158[];
 extern Gfx D_06013AE8[];
 extern Gfx D_06013D68[];
 
+#ifdef NON_MATCHING
 void func_80941788(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, Actor *thisx) {
-    static Vec3f D_8094A944 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_8094A950 = { 0.0f, 2000.0f, -2000.0f };
-
-    static Vec3f D_8094A95C[] = {
-        { 0.0f, 0.0f, -10000.0f },
-        { 0.0f, 0.0f, -8000.0f },
-        { 0.0f, 0.0f, -9000.0f },
-        { 0.0f, 0.0f, -11000.0f },
-        { 0.0f, 0.0f, -12000.0f }
-    };
-
     GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
     BossTw* this = THIS;
     Gfx *dispRefs[4];
@@ -2207,10 +2472,15 @@ void func_80941788(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *
     }
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 6236);
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80941788.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80941788.s")
+#endif
+
 extern Gfx D_0601BC00[];
 extern Gfx D_0601C1C0[];
 extern Gfx D_0601A790[];
+
+#ifdef NON_MATCHING
 void func_80941BC0(BossTw *this, GlobalContext *globalCtx) {
     Gfx* sp88[4];
     GraphicsContext *temp_s0;
@@ -2242,12 +2512,15 @@ void func_80941BC0(BossTw *this, GlobalContext *globalCtx) {
     Matrix_Pull();
     Graph_CloseDisps(sp88, globalCtx->state.gfxCtx, "../z_boss_tw.c", 6461);
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80941BC0.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80941BC0.s")
+#endif
 
 extern Gfx D_06019D40[];
 extern Gfx D_06018FC0[];
 extern Gfx D_06019938[];
 
+#ifdef NON_MATCHING
 void func_80942180(BossTw *this, GlobalContext *globalCtx) {
     Gfx *sp90[4];
     GraphicsContext *temp_s0;
@@ -2286,11 +2559,16 @@ void func_80942180(BossTw *this, GlobalContext *globalCtx) {
     Matrix_Pull();
     Graph_CloseDisps(sp90, globalCtx->state.gfxCtx, "../z_boss_tw.c", 6579);
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80942180.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80942180.s")
+#endif
+
 extern Gfx D_0601CEE0[];
 extern Gfx D_0601DBE8[];
 extern Gfx D_0601A998[];
 extern Gfx D_0601A430[];
+
+#ifdef NON_MATCHING
 void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
     Gfx *spA4[4];
     GraphicsContext *temp_s2;
@@ -2307,14 +2585,14 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
         0x40, 0x40)); // width2, height2
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 5000.0f, MTXMODE_APPLY);
-    Matrix_Scale(this->unk_4E0 / 2000.0f, this->unk_4E0 / 2000.0f, this->unk_4E0 / 2000.0f, MTXMODE_APPLY);
+    Matrix_Scale(this->spawnPortalScale / 2000.0f, this->spawnPortalScale / 2000.0f, this->spawnPortalScale / 2000.0f, MTXMODE_APPLY);
     Matrix_RotateZ(this->unk_4EC, MTXMODE_APPLY);
     gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x19D6), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     if (this->actor.params == 0) {
-        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 135, 175, 165, (s32)this->unk_4D8);
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 135, 175, 165, (s32)this->spawnPortalAlpha);
         gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601CEE0));
     } else {
-        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 255, 255, 0, (s32)this->unk_4D8);
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 255, 255, 0, (s32)this->spawnPortalAlpha);
         gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601DBE8));
     }
     Matrix_Pull();
@@ -2330,7 +2608,7 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
         Matrix_Translate(0.0f, 0.0f, 5000.0f, MTXMODE_APPLY);
         temp_f0 = phi_s1 * M_PI;
         Matrix_RotateZ(((temp_f0 + temp_f0) * 0.125f) + this->unk_4E8, MTXMODE_APPLY);
-        Matrix_Translate(0.0f, this->unk_4E0 * 1.5f, 0.0f, MTXMODE_APPLY);
+        Matrix_Translate(0.0f, this->spawnPortalScale * 1.5f, 0.0f, MTXMODE_APPLY);
         gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
             ((this->unk_152 * 3) + (phi_s1 * 10)) & 0x7F, ((-this->unk_152 * 0xF) + (phi_s1 * 50)) & 0xFF, 
             0x20, 0x40, 
@@ -2344,23 +2622,19 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
     }
     Graph_CloseDisps(spA4, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x1A64);
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809426F0.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809426F0.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80942C70.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80943028.s")
 
-extern UNK_TYPE D_8094A998[];
-
 s32 func_809416D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 void func_80941788(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void BossTw_Draw(Actor *thisx, GlobalContext *globalCtx) {
-    static Vec3f D_8094A9A4 = { 0.0f, 200.0f, 2000.0f };
-
     BossTw* this = THIS;
     Player *sp84;
     Gfx *sp70[5];
@@ -2405,9 +2679,9 @@ void BossTw_Draw(Actor *thisx, GlobalContext *globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         func_80093D84(globalCtx->state.gfxCtx);
 
-        temp_s1->polyOpa.p = this->unk_15C & 2 ? 
+        temp_s1->polyOpa.p = this->fogTimer & 2 ? 
             Gfx_SetFog(temp_s1->polyOpa.p, 0xFF, 0x32, 0, 0, 0x384, 0x44B) :
-            Gfx_SetFog(temp_s1->polyOpa.p, (u32)this->unk_1D4, (u32)this->unk_1D8, (u32)this->unk_1DC, 0, this->unk_1E0, this->unk_1E4);
+            Gfx_SetFog(temp_s1->polyOpa.p, (u32)this->fogR, (u32)this->fogG, (u32)this->fogB, 0, this->fogMin, this->fogMax);
 
         Matrix_Push();
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_809416D0, func_80941788, &this->actor);
@@ -2454,69 +2728,879 @@ void BossTw_Draw(Actor *thisx, GlobalContext *globalCtx) {
 #endif
 #undef NON_MATCHING
 
+extern Gfx D_0602D940[];
+extern Gfx D_0602D890[];
+
+#ifdef NON_MATCHING
+// BossTw_TwinRovaOverrideLimbDraw
+s32 func_80943950(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx) {
+    BossTw* this = THIS;
+    GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
+    Gfx *dispRefs[4];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7139);
+    switch(limbIndex){
+        case 15:
+            gSPSegment(gfxCtx->polyOpa.p++, 0xC, Gfx_TexScroll(globalCtx->state.gfxCtx, 0U, (s16)(f32)this->unk_150, 8, 8));
+            gSPSegment(gfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(D_8094A9B0[this->unk_4CC]));
+            gSPSegment(gfxCtx->polyOpa.p++, 9, SEGMENTED_TO_VIRTUAL(D_8094A9B0[this->unk_4CE]));
+            gDPSetEnvColor(gfxCtx->polyOpa.p++, 255, 255, 255, (s32)this->unk_160);
+            break;
+        case 17:
+        case 41:
+            *dList = NULL;
+            gSPSegment(gfxCtx->polyXlu.p++, 0xA, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, 0U, 0x20, 0x20, 1, 0, -this->unk_150 * 0xF, 0x20, 0x40));
+            break;
+        case 18:
+        case 42:
+            *dList = NULL;
+            gSPSegment(gfxCtx->polyXlu.p++, 0xB, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, 0U, 0x20, 0x20, 1, 0, -this->unk_150 * 0xA, 0x20, 0x40));
+            break;
+        case 16:
+        case 32:
+            *dList = NULL;
+            gSPSegment(gfxCtx->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, 0U, 0x20, 0x20, 1, this->unk_150, -this->unk_150 * 7, 0x20, 0x40));
+            break;
+        case 30:
+        case 31:
+            *dList = NULL;
+            gSPSegment(gfxCtx->polyXlu.p++, 9, Gfx_TexScroll(globalCtx->state.gfxCtx, 0U, this->unk_150, 0x20, 0x40));
+            break;
+        case 19:
+            if (this->unk_5F8 != 0) {
+                *dList = D_0602D940;
+                break;
+            }
+
+        case 20:
+            if (this->unk_5F8 != 0) {
+                *dList = D_0602D890;
+            }
+            break;
+    }
+    if (this->unk_5F8 != 0) {
+        if ((limbIndex == 0x22) || (limbIndex == 0x28)) {
+            *dList = NULL;
+        }
+    }
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7251);
+    return 0;
+}
+#else
+s32 func_80943950(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80943950.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80943D90.s")
+// BossTw_TwinrovaPostLimbDraw
+void func_80943D90(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, Actor *thisx) {
+    BossTw* this = THIS;
+    GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
+    Gfx *dispRefs[4];
 
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7262);
+    switch(limbIndex){
+        case 34:
+            Matrix_MultVec3f(&D_8094A9D4, &this->unk_498);
+            break;
+        case 40:
+            Matrix_MultVec3f(&D_8094A9E0, &this->unk_4A4);
+            break;
+        case 21:
+            Matrix_MultVec3f(&D_8094A9BC, &this->actor.posRot2.pos);
+            Matrix_MultVec3f(&D_8094A9C8, &this->unk_444);
+            break;
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 31:
+        case 32:
+        case 41:
+        case 42:
+            Matrix_Push();
+            Matrix_Scale(this->unk_1B4, this->unk_1B4, this->unk_1B4, MTXMODE_APPLY);
+            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7295), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+            Matrix_Pull();
+            gSPDisplayList(gfxCtx->polyXlu.p++, *dList);
+            break;
+    }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7301);
+}
+
+extern Gfx D_0601E0E0[];
+extern Gfx D_0601E020[];
+extern Gfx D_0601E3A0[];
+extern Gfx D_0601E2C0[];
+extern Gfx D_0601E9F0[];
+
+#ifdef NON_MATCHING
+void func_80943F08(BossTw *this, GlobalContext *globalCtx) {
+    f32 t;
+    Player *spB0 = PLAYER;
+    s16 temp_t0;
+    s16 temp_a0;
+    Gfx *sp98[5];
+    f32 sp60;
+    GraphicsContext *temp_s0 = globalCtx->state.gfxCtx;
+
+    Graph_OpenDisps(sp98, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x1C8F);
+    Matrix_Push();
+
+    temp_t0 = D_8094C850 | D_8094C851;
+    if (temp_t0 == 1) {
+        func_80078884(NA_SE_IT_SHIELD_CHARGE_LV1 & ~SFX_FLAG);
+    } else if (temp_t0 == 2) {
+        func_80078884(NA_SE_IT_SHIELD_CHARGE_LV2 & ~SFX_FLAG);
+    } else if (temp_t0 == 3) {
+        func_80078884(NA_SE_IT_SHIELD_CHARGE_LV3 & ~SFX_FLAG);
+    }
+
+    if ((temp_t0 != 0) && (temp_t0 < 4)) {
+        Math_SmoothScaleMaxF(&D_8094C854, 255.0f, 1.0f, 20.0f);
+        if (temp_t0 == 3) {
+            temp_t0 *= 3;
+        }
+    } else if (temp_t0 == 0) {
+        D_8094C854 = 0.0f;
+    } else {
+        Math_SmoothScaleMaxF(&D_8094C854, 0.0f, 1.0f, 10.0f);
+        if (D_8094C854 == 0.0f) {
+            D_8094C851 = 0;
+            D_8094C850 = 0;
+        }
+        temp_t0 = 1;
+    }
+
+    if (func_8008F098(globalCtx)) {
+        if (temp_t0 != 0) {
+            Matrix_Mult(&spB0->mf_A20, MTXMODE_NEW);
+            Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+            gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7362), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+            temp_a0 = (Math_Sins(this->unk_150 * 0xAAA * temp_t0) * D_8094C854 * 0.5f) + (D_8094C854 * 0.5f);
+            if (D_8094C850 != 0) {
+                gDPSetEnvColor(temp_s0->polyXlu.p++, 255, 245, 255, temp_a0);
+                gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601E0E0));
+                gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->unk_150 * 2) * temp_t0, 0U, 0x20, 0x20, 1, (-this->unk_150 * 2) * temp_t0, 0, 0x20, 0x20));
+                gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 100, 20, 0, (s32)D_8094C854);
+                gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601E020));
+            } else {
+                gDPSetEnvColor(temp_s0->polyXlu.p++, 225, 255, 255, temp_a0);
+                gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601E3A0));
+                gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, (-this->unk_150 * 5) * temp_t0, 0x20, 0x40, 1, (this->unk_150 * 4) * temp_t0, 0, 0x20, 0x20));
+                gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 175, 205, 195, (s32)D_8094C854);
+                gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601E2C0));
+            }
+        }
+    }
+
+    if (D_8094C86F != 0) {
+        t = D_8094C872 > 0 ? 100.0f : 60.0f;
+        D_8094C86F--;
+        Math_SmoothScaleMaxF(&D_8094C858, 255.0f, 1.0f, t);
+    } else {
+        t = D_8094C872 > 0 ? 40.0f : 20.0f;
+        Math_SmoothScaleMaxF(&D_8094C858, 0.0f, 1.0f, t);
+    }
+
+    if (func_8008F098(globalCtx) && D_8094C858 > 0.0f) {
+        sp60 = D_8094C872 > 0 ? 1.3f : 1.0f;
+        Matrix_Mult(&spB0->mf_A20, MTXMODE_NEW);
+        Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+        Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
+        gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7486), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+        if (D_8094C850 != 0) {
+            gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 255, 220, 20, (s32)D_8094C858);
+            gDPSetEnvColor(temp_s0->polyXlu.p++, 255, 0, 20, 110);
+        } else {
+            gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 255, 255, 255, (s32)D_8094C858);
+            gDPSetEnvColor(temp_s0->polyXlu.p++, 185, 225, 205, 150);
+        }
+        gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, this->unk_150 * D_8094C872, 0x20, 0x40, 1, 0, this->unk_150 * D_8094C872, 0x20, 0x20));
+        gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601E9F0));
+    }
+
+    Matrix_Pull();
+    Graph_CloseDisps(sp98, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7531);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80943F08.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809447BC.s")
+extern Gfx D_0601EC68[];
 
+#ifdef NON_MATCHING
+void BossTw_SpawnPortalsDraw(BossTw *this, GlobalContext *globalCtx) {
+    GraphicsContext *temp_s0;
+    Gfx *sp80[5];
+
+    temp_s0 = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(sp80, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7546);
+    func_80093D84(globalCtx->state.gfxCtx);
+    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, -this->unk_150 * 0xF, 0x20, 0x40, 1, 0, 0, 0x40, 0x40));
+    Matrix_Push();
+    Matrix_Translate(0.0f, 232.0f, -600.0f, MTXMODE_NEW);
+    Matrix_Scale(this->spawnPortalScale, this->spawnPortalScale, this->spawnPortalScale, MTXMODE_APPLY);
+    gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 0, 0, 0, (s32)this->spawnPortalAlpha);
+    gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7582), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601EC68));
+    gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 135, 175, 165, (s32)this->spawnPortalAlpha);
+    Matrix_Translate(0.0f, 2.0f, 0.0f, MTXMODE_APPLY);
+    Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+    gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7596), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601CEE0));
+    Matrix_Translate(0.0f, 232.0f, 600.0f, MTXMODE_NEW);
+    Matrix_Scale(this->spawnPortalScale, this->spawnPortalScale, this->spawnPortalScale, MTXMODE_APPLY);
+    gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 0, 0, 0, (s32)this->spawnPortalAlpha);
+    gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7617), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601EC68));
+    gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 255, 255, 0, (s32)this->spawnPortalAlpha);
+    Matrix_Translate(0.0f, 2.0f, 0.0f, MTXMODE_APPLY);
+    Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+    gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7631), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601DBE8));
+    Matrix_Pull();
+    Graph_CloseDisps(sp80, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7635);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_SpawnPortalsDraw.s")
+#endif
+
+extern Gfx D_0601F390[];
+extern Gfx D_0601F238[];
+extern Gfx D_0601EEB0[];
+#ifdef NON_MATCHING
+//BossTw_DrawGotoHeavenCylinder
+void func_80944C50(BossTw *this, GlobalContext *globalCtx) {
+    f32 phi_f12;
+    s32 pad;
+    GraphicsContext *temp_s0;
+    Gfx *sp6C[4];
+
+    temp_s0 = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(&sp6C, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7645);
+    Matrix_Push();
+    Matrix_Translate(0.0f, 750.0f, 0.0f, MTXMODE_NEW);
+    Matrix_Scale(0.35f, 0.35f, 0.35f, MTXMODE_APPLY);
+    Matrix_Push();
+    Matrix_Scale(this->unk_1D0, this->unk_1D0, this->unk_1D0, MTXMODE_APPLY);
+    gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7671), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601F390));
+    Matrix_Pull();
+    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -D_8094C848->unk_150 * 2, 0, 0x20, 0x20, 1, -D_8094C848->unk_150 * 2, 0, 0x20, 0x40));
+    gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 255, 255, 255, (s16)this->unk_1CC / 2);
+    gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7694), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601F238));
+    gSPSegment(temp_s0->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -D_8094C848->unk_150 * 5, -D_8094C848->unk_150 * 2, 0x20, 0x40, 1, 0, -D_8094C848->unk_150 * 2, 0x10, 0x10));
+    gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 255, 255, 255, (s32)(this->unk_1CC * 0.3f));
+    phi_f12 = this->unk_1CC / 150.0f;
+    if(phi_f12 > 1.0f){
+        phi_f12 = 1.0f;
+    }
+    Matrix_Scale(phi_f12, 1.0f, phi_f12, MTXMODE_APPLY);
+    gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7728), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601EEB0));
+    Matrix_Pull();
+    Graph_CloseDisps(sp6C, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7732);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80944C50.s")
+#endif
 
-// BossTw_TwinrovaDraw
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80945084.s")
+void BossTw_TwinrovaDraw(Actor *thisx, GlobalContext *globalCtx) {
+    BossTw* this = THIS;
+    GraphicsContext *gfxCtx;
+    Gfx *dispRefs[5];
 
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7748);
+    if (this->unk_564 != 0) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        func_80093D84(globalCtx->state.gfxCtx);
+        
+        gfxCtx->polyOpa.p = (this->fogTimer & 2) ? 
+            Gfx_SetFog2(gfxCtx->polyOpa.p, 255, 50, 0, 0, 0x384, 0x44B) :
+            Gfx_SetFog2(gfxCtx->polyOpa.p, (u32)this->fogR, (u32)this->fogG, (u32)this->fogB, 0, this->fogMin, this->fogMax);
+        
+        Matrix_Push();
+        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80943950, func_80943D90, thisx);
+        Matrix_Pull();
+        
+        Matrix_MultVec3f(&D_8094A9EC, &this->unk_48C);
+        gfxCtx->polyOpa.p = Gfx_SetFog2(gfxCtx->polyOpa.p, globalCtx->lightCtx.fogRed, globalCtx->lightCtx.fogGreen, globalCtx->lightCtx.fogBlue, 0, globalCtx->lightCtx.unk_0A, 0x3E8);
+    }
+    func_80948668(globalCtx);
+    func_80943F08(this, globalCtx);
+    if (this->spawnPortalAlpha > 0.0f) {
+        BossTw_SpawnPortalsDraw(this, globalCtx);
+    }
+    if (this->unk_1CC > 0.0f) {
+        func_80944C50(this, globalCtx);
+    }
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7804);
+}
+
+#ifdef NON_MATCHING
+void func_809453EC(BossTw *this, GlobalContext *globalCtx) {
+    f32 distXZ;
+    f32 spC4;
+    f32 spC0;
+    Player *spB8 = PLAYER;
+    Vec3f spA8;
+    Vec3f sp9C;
+    Vec3s sp94;
+    Vec3f sp84;
+    Vec3f sp78;
+    Vec3f sp6C;
+    s16 sp52;
+    f32 sp4C;
+    f32 yDiff;
+    f32 temp_f20;
+    f32 temp_f2;
+    s16 phi_v1;
+    s16 phi_v0;
+    s16 phi_s0;
+
+    switch(this->actor.params) {
+        case 0x64:
+        // case 0x64
+            switch(this->unk_440){
+                case 0:
+                    Actor_SetScale(&this->actor, 0.03f);
+                    this->unk_440 = 1;
+                    temp_f20 = spB8->actor.posRot.pos.x - this->actor.posRot.pos.x;
+                    spC4 = (spB8->actor.posRot.pos.y + 30.0f) - this->actor.posRot.pos.y;
+                    spC0 = spB8->actor.posRot.pos.z - this->actor.posRot.pos.z;
+                    //yaw
+                    this->actor.posRot.rot.y = Math_atan2f(temp_f20, spC0) * 10430.378f;
+                    //pitch
+                    distXZ = sqrtf(SQ(temp_f20) + SQ(spC0));
+                    this->actor.posRot.rot.x = Math_atan2f(spC4, distXZ) * 10430.378f;
+                    this->actor.speedXZ = 20.0f;
+                    
+                    for(phi_s0 = 0; phi_s0 < 50; phi_s0++){
+                        this->blastTailPos[phi_s0] = this->actor.posRot.pos;
+                    }
+                    this->unk_1AC = 255.0f;
+                case 1:
+                case 0xA:
+                    this->unk_565 = 1;
+                    if (this->unk_178[0] == 0) {
+                        func_8002D908(&this->actor);
+                        func_8002D7EC(&this->actor);
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FIRE & ~SFX_FLAG);
+                    } else {
+                        this->actor.posRot.pos = spB8->unk_9BC;
+                        this->actor.posRot.pos.y = -2000.0f;
+                        func_800D20CC(&spB8->mf_A20, &sp94, MTXMODE_NEW);
+                        sp94.x = -sp94.x;
+                        sp94.y = sp94.y + 0x8000;
+                        Math_SmoothScaleMaxS(&this->unk_524.x, sp94.x, 0xA, 0x800);
+                        Math_SmoothScaleMaxS(&this->unk_524.y, sp94.y, 0xA, 0x800);
+                        if (this->unk_178[0] == 0x32) {
+                            D_8094C86F = 0xA;
+                            D_8094C872 = 7;
+                            globalCtx->envCtx.unk_D8 = 1.0f;
+                        }
+
+                        if (this->unk_178[0] < 0x33) {
+                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FIRE & ~SFX_FLAG);
+                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_REFL_FIRE & ~SFX_FLAG);
+                            Matrix_RotateY((this->unk_524.y / 32678.0f) * M_PI, MTXMODE_NEW);
+                            Matrix_RotateX((this->unk_524.x / 32678.0f) * M_PI, MTXMODE_APPLY);
+                            sp9C.x = 0.0f;
+                            sp9C.y = 0.0f;
+                            sp9C.z = 50.0f;
+                            Matrix_MultVec3f(&sp9C, &spA8);
+                            phi_v0 = this->unk_178[0] * 10;
+                            if(phi_v0 >= 256){
+                                phi_v0 = 255;
+                            }
+                            func_80939250(globalCtx, &spB8->unk_9BC, &spA8, &D_8094A7DC, 10.0f, 80.0f, phi_v0, 1);
+                        }
+                        
+                        if (this->unk_178[0] == 1) {
+                            D_8094C840 = 0;
+                            D_8094C850++;
+                            Actor_Kill(&this->actor);
+                            return;
+                        }
+                    }
+
+                    this->unk_500.y = func_8093AED8(&this->actor.posRot.pos);
+                    if (0.0f <= this->unk_500.y) {
+                        if (35.0f != this->unk_500.y) {
+                            this->unk_500.x = this->actor.posRot.pos.x;
+                            this->unk_500.z = this->actor.posRot.pos.z;
+                            func_8093A5C4(this, globalCtx, 1);
+                        } else {
+                            for(phi_s0 = 0; phi_s0 < 50; phi_s0++){
+                                sp84.x = Math_Rand_CenteredFloat(20.0f);
+                                sp84.y = Math_Rand_CenteredFloat(20.0f);
+                                sp84.z = Math_Rand_CenteredFloat(20.0f);
+                                sp78.x = 0.0f;
+                                sp78.y = 0.0f;
+                                sp78.z = 0.0f;
+                                func_80939070(globalCtx, &this->actor.posRot.pos, &sp84, &sp78, Math_Rand_ZeroFloat(10.0f) + 25.0f, this->unk_566);
+                            }
+                            globalCtx->envCtx.unk_D8 = 0.5f;
+                        }
+
+                        this->unk_440 = 2;
+                        this->unk_178[0] = 0x14;
+                        return;
+                    } else {
+                        Vec3f sp60 = { 0.0f, 0.0f, 0.0f };
+                        Vec3f sp54 = { 0.0f, 0.0f, 0.0f };
+                        for(phi_s0 = 0; phi_s0 < 10; phi_s0++){
+                            sp6C = this->blastTailPos[(s16)Math_Rand_ZeroFloat(29.9f)];
+                            sp6C.x += Math_Rand_CenteredFloat(40.0f);
+                            sp6C.y += Math_Rand_CenteredFloat(40.0f);
+                            sp6C.z += Math_Rand_CenteredFloat(40.0f);
+                            sp54.y = 0.4f;
+                            sp54.x = Math_Rand_CenteredFloat(0.5f);
+                            sp54.z = Math_Rand_CenteredFloat(0.5f);
+                            func_80938CD0(globalCtx, &sp6C, &sp60, &sp54, (s16)Math_Rand_ZeroFloat(2.0f) + 8, 1, 0x4B);
+                        }
+                        return;
+                    }
+                    
+                    return;
+                case 2:
+                    Math_SmoothScaleMaxF(&this->unk_1AC, 0.0f, 1.0f, 15.0f);
+                    if (this->unk_178[0] == 0) {
+                        Actor_Kill(&this->actor);
+                    }
+                    return;
+            }
+            break;
+        case 0x65:
+            if (this->unk_178[0] != 0) {
+                if (this->unk_178[0] == 1) {
+                    D_8094C840 = 0;
+                }
+
+                if (D_8094C841 == 2) {
+                    this->unk_178[0] = 0;
+                }
+                
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_FIRE_EXP & ~SFX_FLAG);
+
+                temp_f20 = D_8094C848->unk_4BC.x - spB8->actor.posRot.pos.x;
+                yDiff = D_8094C848->unk_4BC.y - spB8->actor.posRot.pos.y;
+                temp_f2 = D_8094C848->unk_4BC.z - spB8->actor.posRot.pos.z;
+                
+                if ((spB8->unk_A60 == 0)  && (spB8->actor.bgCheckFlags & 1) && 
+                    (fabsf(yDiff) < 10.0f) && 
+                    (sqrtf(SQ(temp_f20) + SQ(temp_f2)) < (D_8094C848->unk_1B8 * 4550.0f))) {
+                    
+                    for(phi_v1 = 0; phi_v1 < 18; phi_v1++){
+                        spB8->unk_A61[phi_v1] =  Math_Rand_S16Offset(0, 0xC8);
+                    }
+                    
+                    spB8->unk_A60 = 1;
+                    
+                    if (this->unk_168 == 0) {
+                        func_8002F7DC(&spB8->actor, ((u16*)spB8->ageProperties)[0x49] + 0x681E); // todo fix when ageProperties is figured out.
+                        this->unk_168 = 0x28;
+                    }
+                    
+                    D_8094C84C->unk_178[2] = 0x64;
+                }
+
+                Math_SmoothScaleMaxF(&D_8094C848->unk_1B8, 0.04f, 0.1f, 0.002f);
+                return;
+            }
+
+            sp4C = D_8094C841 == 2 ? 3.0f : 1.0f;
+            Math_SmoothScaleMaxF(&D_8094C848->unk_1A8, 0.0f, 1.0f, 10.0f * sp4C);
+            Math_SmoothScaleMaxF(&D_8094C848->unk_1B4, 0.0f, 1.0f, 0.03f * sp4C);
+            Math_SmoothScaleMaxF(&D_8094C848->unk_1AC, 0.0f, 1.0f, 3.0f * sp4C);
+            Math_SmoothScaleMaxF(&D_8094C848->unk_1B0, 0.0f, 1.0f, 6.0f * sp4C);
+            
+            if (D_8094C848->unk_1AC <= 0.0f) {
+                Actor_Kill(&this->actor);
+            }
+            break;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809453EC.s")
+#endif
 
+//BossTw_IceBlastBegin
+//#define NON_MATCHING
+#ifdef NON_MATCHING
+void func_80945D14(BossTw *this, GlobalContext *globalCtx) {
+    f32 distXZ;
+    f32 diffX;
+    f32 diffY;
+    f32 diffZ;
+    Player *player = PLAYER;
+    Vec3s spEC;
+    f32 temp_f2;
+    s16 phi_v0;
+    s16 phi_s0;
+    f32 phi_f0;
+    s32 new_var;
+    PosRot* posRot = &this->actor.posRot;
+
+    switch(this->actor.params) {
+        case TW_ICE_BLAST:
+            switch(this->unk_440){
+                case 0:
+                    Actor_SetScale(&this->actor, 0.03f);
+                    this->unk_440 = 1;
+                    diffX = player->actor.posRot.pos.x - this->actor.posRot.pos.x;
+                    diffY = (player->actor.posRot.pos.y + 30.0f) - this->actor.posRot.pos.y;
+                    diffZ = player->actor.posRot.pos.z- this->actor.posRot.pos.z;
+                    this->actor.posRot.rot.y = Math_atan2f(diffX, diffZ) * 10430.378f;
+                    distXZ = sqrtf(SQ(diffX) + SQ(diffZ));
+                    this->actor.posRot.rot.x = Math_atan2f(diffY, distXZ) * 10430.378f;
+                    this->actor.speedXZ = 20;
+                    for(phi_s0 = 0; phi_s0 < 50; phi_s0++){
+                        this->blastTailPos[phi_s0] = this->actor.posRot.pos;
+                    }
+                    this->unk_1AC = 255.0f;
+                case 1:
+                case 0xA:
+                    this->unk_565 = 1;
+                    new_var = this->unk_178[0];
+                    if (new_var == 0) {
+                        func_8002D908(&this->actor);
+                        func_8002D7EC(&this->actor);
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FREEZE & ~SFX_FLAG);
+                    } else {
+                        this->actor.posRot.pos = player->unk_9BC;
+                        this->actor.posRot.pos.y = -2000.0f;
+                        func_800D20CC(&player->mf_A20, &spEC, MTXMODE_NEW);
+                        spEC.y += 0x8000;
+                        spEC.x = -spEC.x;
+                        Math_SmoothScaleMaxS(&this->unk_524.x, spEC.x, 0xA, 0x800);
+                        Math_SmoothScaleMaxS(&this->unk_524.y, spEC.y, 0xA, 0x800);
+                        if(!player){}
+                        if (this->unk_178[0] == 0x32) {
+                            D_8094C86F = 0xA;
+                            D_8094C872 = 7;
+                            globalCtx->envCtx.unk_D8 = 1.0f;
+                        }
+                        if (this->unk_178[0] < 0x33) {
+                            Vec3f sp100;
+                            Vec3f spF4;
+                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_SHOOT_FREEZE & ~SFX_FLAG);
+                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_REFL_FREEZE & ~SFX_FLAG);
+                            Matrix_RotateY((this->unk_524.y / 32678.0f) * M_PI, MTXMODE_NEW);
+                            Matrix_RotateX((this->unk_524.x / 32678.0f) * M_PI, MTXMODE_APPLY);
+                            spF4.x = 0.0f;
+                            spF4.y = 0.0f;
+                            spF4.z = 50.0f;
+                            Matrix_MultVec3f(&spF4, &sp100);
+                            phi_v0 = this->unk_178[0] * 10;
+                            if (phi_v0 >= 0x100) {
+                                phi_v0 = 0xFF;
+                            }
+                            func_80939250(globalCtx, &player->unk_9BC, &sp100, &D_8094A7DC, 10.0f, 80.0f, phi_v0, 0);
+                        }
+                        if (this->unk_178[0] == 1) {
+                            D_8094C840 = 0;
+                            D_8094C851++;
+                            Actor_Kill(&this->actor);
+                        }
+                        return;
+                    }
+
+                    this->unk_500.y = func_8093AED8(&this->actor.posRot.pos);
+                    
+                    if (this->unk_500.y >= 0) {
+                        if (this->unk_500.y != 35.0f) {
+                            this->unk_500.x = this->actor.posRot.pos.x;
+                            this->unk_500.z = this->actor.posRot.pos.z;
+                            func_8093A5C4(this, globalCtx, 0);
+                        } else {
+                            for(phi_s0 = 0; phi_s0 < 50; phi_s0++){
+                                Vec3f spDC;
+                                Vec3f spD0;
+                                spDC.x = Math_Rand_CenteredFloat(20);
+                                spDC.y = Math_Rand_CenteredFloat(20);
+                                spDC.z = Math_Rand_CenteredFloat(20);
+                                spD0.x = 0.0f;
+                                spD0.y = 0.0f;
+                                spD0.z = 0.0f;
+                                func_80939070(globalCtx, &this->actor.posRot.pos, &spDC, &spD0, Math_Rand_ZeroFloat(10.0f) + 25.0f, this->unk_566);
+                            }
+                            globalCtx->envCtx.unk_D8 = 0.5f;
+                        }
+
+                        this->unk_440 = 2;
+                        this->unk_178[0] = 0x14;
+                    } else {                    
+                        Vec3f spC4;
+                        Vec3f spB8;
+                        Vec3f spAC;
+                        spB8 = D_8094AA10;
+                        spAC = D_8094AA1C;
+                        for(phi_s0 = 0; phi_s0 < 10; phi_s0++){
+
+                            spC4 = this->blastTailPos[(s16)Math_Rand_ZeroFloat(29.9f)];
+                            spC4.x += Math_Rand_CenteredFloat(40.0f);
+                            spC4.y += Math_Rand_CenteredFloat(40.0f);
+                            spC4.z += Math_Rand_CenteredFloat(40.0f);
+                            spAC.y = 0.4f;
+                            spAC.x = Math_Rand_CenteredFloat(0.5f);
+                            spAC.z = Math_Rand_CenteredFloat(0.5f);
+                            func_80938CD0(globalCtx, &spC4, &spB8, &spAC, (s16)Math_Rand_ZeroFloat(2.0f) + 8, 0, 0x4B);
+                        }
+                    }
+                    break;
+                case 2:
+                    Math_SmoothScaleMaxF(&this->unk_1AC, 0.0f, 1.0f, 15.0f);
+                    if (this->unk_178[0] == 0) {
+                        Actor_Kill(&this->actor);
+                    }
+                    break;
+            }
+            break;
+        case TW_ICE_BLAST_GROUND:
+            if (this->unk_178[0] != 0) {
+                if (this->unk_178[0] == 1) {
+                    D_8094C840 = 0;
+                }
+                if (D_8094C841 == 1) {
+                    this->unk_178[0] = 0;
+                }
+
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_ICE_FREEZE & ~SFX_FLAG);
+                
+                phi_v0 = D_8094C84C->actionFunc == func_8093C858 ? 0x46 : 0x14;
+
+                if (phi_v0 < this->unk_178[0]) {
+                    Vec3f sp9C;
+                    Vec3f sp90;
+                    Vec3f sp84;
+                    sp9C.x = Math_Rand_CenteredFloat(320.0f) + D_8094C844->unk_4BC.x;
+                    sp9C.y = Math_Rand_CenteredFloat(320.0f) + D_8094C844->unk_4BC.z;
+                    sp9C.y = D_8094C844->unk_4BC.y;
+                    sp90.x = 0.0f;
+                    sp90.y = 0.0f;
+                    sp90.z = 0.0f;
+                    sp84.x = 0.0f;
+                    sp84.z = 0.0f;
+                    sp84.y = 0.13f;
+                    func_80938DC4(globalCtx, 3, &sp9C, &sp90, &sp84, Math_Rand_ZeroFloat(5.0f) + 20.0f, 0, 0, 0x50);
+                    sp90.x = Math_Rand_CenteredFloat(10.0f);
+                    sp90.z = Math_Rand_CenteredFloat(10.0f);
+                    sp90.y = Math_Rand_ZeroFloat(3.0f) + 3.0f;
+                    sp9C.x = D_8094C844->unk_4BC.x + (sp90.x * 0.5f);
+                    sp9C.z = D_8094C844->unk_4BC.z + (sp90.z * 0.5f);
+                    func_80938DC4(globalCtx, 3, &sp9C, &sp90, &sp84, Math_Rand_ZeroFloat(5.0f) + 15.0f, 0xFF, 2, 0x82);
+                }
+                
+                Math_SmoothScaleMaxF(&D_8094C844->unk_1A8, 80.0f, 1.0f, 3.0f);
+                Math_SmoothScaleMaxF(&D_8094C844->unk_1B0, 255.0f, 1.0f, 10.0f);
+                Math_SmoothScaleMaxF(&D_8094C844->unk_1B4, 0.04f, 0.1f, 0.002f);
+                Math_SmoothScaleMaxF(&D_8094C844->unk_1C4, 70.0f, 1.0f, 5.0f);
+                if (this->unk_178[0] == 0x46 || this->unk_178[0] == 0x1E) {
+                    D_8094C844->unk_1C4 = 10.0f;
+                }
+
+                if ((this->unk_178[0] & 3) == 0) {
+                    temp_f2 = (s16)Math_Rand_ZeroFloat(9.9f);
+                    D_8094C844->unk_1C0 = ((temp_f2 + temp_f2) * M_PI) / 10.0f;
+                    return;
+                }
+            } else {
+                if (D_8094C841 == 1) {
+                    if (1.0f < D_8094C844->unk_1B0) {
+                        for(phi_s0 = 0; phi_s0 < 3; phi_s0++){
+                            Vec3f sp74;
+                            Vec3f sp68;
+                            Vec3f sp5C;
+                            sp74.x = Math_Rand_CenteredFloat(280.0f) + D_8094C844->unk_4BC.x;
+                            sp74.z = Math_Rand_CenteredFloat(280.0f) + D_8094C844->unk_4BC.z;
+                            sp74.y = D_8094C844->unk_4BC.y + 30.0f;
+                            sp68.x = 0.0f;
+                            sp68.y = 0.0f;
+                            sp68.z = 0.0f;
+                            sp5C.x = 0.0f;
+                            sp5C.y = 0.13f;
+                            sp5C.z = 0.0f;
+                            func_80938DC4(globalCtx, 3, &sp74, &sp68, &sp5C, Math_Rand_ZeroFloat(5.0f) + 20.0f, 0, 0, 0x50);
+                        }
+                    }
+                    phi_f0 = 3.0f;
+                } else {
+                    phi_f0 = 1.0f;
+                }
+                Math_SmoothScaleMaxF(&D_8094C844->unk_1BC, 0.0f, 1.0f, 0.2f * phi_f0);
+                Math_SmoothScaleMaxF(&D_8094C844->unk_1B0, 0.0f, 1.0f, 5.0f * phi_f0);
+                Math_SmoothScaleMaxF(&D_8094C844->unk_1A8, 0.0f, 1.0f, phi_f0);
+                if (D_8094C844->unk_1A8 <= 0.0f) {
+                    Actor_Kill(&this->actor);
+                }
+            }
+            break;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80945D14.s")
+#endif
+#undef NON_MATCHING
 
+#ifdef NON_MATCHING
+s32 func_8094687C(BossTw *this, GlobalContext *globalCtx) {
+    Player *sp24;
+    s32 temp_t2;
+    s32 temp_t8;
+    s32 temp_v0;
+    u8 temp_t1;
+    s32 phi_a2;
+
+    sp24 = PLAYER;
+    phi_a2 = 0;
+    if (this->unk_440 == 1) {
+        if (this->collider.base.acFlags & 2) {
+            this->collider.base.acFlags &= ~2;
+            this->collider.base.atFlags &= ~2;
+            phi_a2 = 0;
+            if (this->collider.body.acHitItem->toucher.flags & 0x100000) {
+                this->invincibilityTimer = 7;
+                globalCtx->envCtx.unk_D8 = 1.0f;
+                func_800AA000(0.0f, 100, 5, 4);
+                if (func_8008F098(globalCtx)) {
+                    if (this->unk_566 == 1) {
+                        if (D_8094C851 != 0) {
+                            D_8094C851 = 0;
+                            func_80939338(globalCtx, 10.0f, 1);
+                        } else {
+                            func_809394FC(globalCtx, 10.0f, 1);
+                            temp_t1 = D_8094C850 + 1;
+                            temp_t2 = temp_t1 * 2;
+                            D_8094C850 = temp_t1;
+                            D_8094C86F = temp_t2 + 8;
+                            D_8094C872 = -7;
+                        }
+                    } else if (D_8094C850 != 0) {
+                        D_8094C850 = 0;
+                        func_80939338(globalCtx, 10.0f, 0);
+                    } else {
+                        func_809394FC(globalCtx, 10.0f, 0);
+                        D_8094C851++;
+                        D_8094C86F = D_8094C851 * 2;
+                        D_8094C872 = -7;
+                    }
+
+                    if ((D_8094C851 >= 3) || (D_8094C850 >= 3)) {
+                        this->unk_178[0] = 0x50;
+                        this->unk_440 = 0xA;
+                        func_800D20CC(&sp24->mf_A20, &this->unk_524, MTXMODE_NEW);
+                        this->unk_524.x = -this->unk_524.x;
+                        this->unk_524.y = this->unk_524.y + 0x8000;
+                        D_8094C86F = 8;
+                    } else {
+                        this->unk_440 = 2;
+                        this->unk_178[0] = 0x14;
+                        D_8094C840 = 0;
+                    }
+                } else {
+                    func_80939338(globalCtx, 10.0f, this->unk_566);
+                    this->unk_440 = 2;
+                    this->unk_178[0] = 0x14;
+                    D_8094C840 = 0;
+                    D_8094C851 = 0;
+                    D_8094C850 = 0;
+                    func_80078884(NA_SE_IT_SHIELD_REFLECT_MG2);
+                }
+                phi_a2 = 1;
+            }
+        }
+    }
+    return phi_a2;
+}
+#else
+s32 func_8094687C(BossTw *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8094687C.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80946B00.s")
+void BossTw_BlastUpdate(Actor *thisx, GlobalContext *globalCtx) {
+    BossTw* this = THIS;
+    ColliderCylinder* collider;
+    s16 i;
+
+    this->unk_150++;
+    this->unk_152++;
+    this->unk_156++;
+
+    if (this->unk_156 > 29) {
+        this->unk_156 = 0;
+    }
+
+    this->blastTailPos[this->unk_156] = this->actor.posRot.pos;
+    
+    this->actionFunc(thisx, globalCtx);
+
+    for(i = 0; i < 5; i++){
+        DECR(this->unk_178[i]);
+    }
+
+    DECR(this->invincibilityTimer);
+    DECR(this->unk_168);
+    
+    this->actor.posRot2.pos = this->actor.posRot.pos;
+    collider = &this->collider;
+    Collider_CylinderUpdate(&this->actor, collider);
+
+    if (this->unk_565 != 0 && this->invincibilityTimer == 0 && !func_8094687C(this, globalCtx)){
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
+    }
+
+    this->unk_565 = 0;
+}
 
 extern Gfx D_0601A998[];
 extern Gfx D_0601ABB0[];
 extern Gfx D_0601A430[];
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
-void func_80946C7C(Actor *thisx, GlobalContext *globalCtx) {
+void BossTw_BlastDraw(Actor *thisx, GlobalContext *globalCtx) {
     BossTw* this = THIS;
-    Gfx *spAC[5];
-    s32 sp74;
     GraphicsContext *temp_s2;
+    Gfx *spAC[4];
     f32 temp_f0;
     s32 phi_s0;
+    s16 idx;
 
     temp_s2 = globalCtx->state.gfxCtx;
     Graph_OpenDisps(spAC, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x2272);
     func_80093D84(globalCtx->state.gfxCtx);
     switch(this->actor.params){
-        case 0x64:
+        case TW_FIRE_BLAST:
             gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 200, 20, 0, (s32)this->unk_1AC);
             gDPSetEnvColor(temp_s2->polyXlu.p++, 255, 215, 255, 128);
             for(phi_s0 = 9; phi_s0 >=0; phi_s0--){
-                gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, (((0 - this->unk_150) * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
-                Matrix_Translate(this->unk_1E8[(s16)(((this->unk_156 - phi_s0) + 0x1E) % 0x1E)].x, this->unk_1E8[((this->unk_156 - phi_s0) + 0x1E) % 0x1E].y, this->unk_1E8[((this->unk_156 - phi_s0) + 0x1E) % 0x1E].z, MTXMODE_NEW);
-                temp_f0 = 1.0f - (phi_s0 * 0.09f);
+                /* creates a tail for the blast */
+                gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, ((-this->unk_150 * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+                idx = (((this->unk_156 - phi_s0) + 0x1E) % 0x1E);
+                Matrix_Translate(this->blastTailPos[idx].x, this->blastTailPos[idx].y, this->blastTailPos[idx].z, MTXMODE_NEW);
+                temp_f0 = (1.0f - (phi_s0 * 0.09f));
                 Matrix_Scale(this->actor.scale.x * temp_f0, this->actor.scale.y * temp_f0, this->actor.scale.z * temp_f0, MTXMODE_APPLY);
                 func_800D1FD4(&globalCtx->mf_11DA0);
                 gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 8865), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
                 gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A430));
             }
             break;
-        case 0x65:
+        case TW_FIRE_BLAST_GROUND:
             break;
-        case 0x66:
-        case 0x67:
+        case TW_ICE_BLAST:
+        case TW_ICE_BLAST_GROUND:
         default:
             gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 195, 225, 235, (s32)this->unk_1AC);
             gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A998));
             
             for(phi_s0 = 9; phi_s0 >= 0; phi_s0--){
-                gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, (((0 - this->unk_150) * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
-                Matrix_Translate(this->unk_1E8[(s16)(((this->unk_156 - phi_s0) + 0x1E) % 0x1E)].x, this->unk_1E8[((this->unk_156 - phi_s0) + 0x1E) % 0x1E].y, this->unk_1E8[((this->unk_156 - phi_s0) + 0x1E) % 0x1E].z, MTXMODE_NEW);
+                gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, ((-this->unk_150 * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+                idx = (((this->unk_156 - phi_s0) + 0x1E) % 0x1E);
+                Matrix_Translate(this->blastTailPos[idx].x, this->blastTailPos[idx].y, this->blastTailPos[idx].z, MTXMODE_NEW);
                 temp_f0 = 1.0f - (phi_s0 * 0.09f);
                 Matrix_Scale(this->actor.scale.x * temp_f0, this->actor.scale.y * temp_f0, this->actor.scale.z * temp_f0, MTXMODE_APPLY);
                 func_800D1FD4(&globalCtx->mf_11DA0);
@@ -2528,34 +3612,169 @@ void func_80946C7C(Actor *thisx, GlobalContext *globalCtx) {
     Graph_CloseDisps(spAC, globalCtx->state.gfxCtx, "../z_boss_tw.c", 9013);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80946C7C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_BlastDraw.s")
 #endif
 #undef NON_MATCHING
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80947240.s")
+extern Gfx D_0601AB00[];
+extern Gfx D_0601A998[];
+#ifdef NON_MATCHING
+void func_80947240(Actor *thisx, GlobalContext *globalCtx) {
+    BossTw* this = THIS;
+    GraphicsContext *temp_s2;
+    Gfx *spAC[4];
+    f32 temp_f0;
+    s16 phi_s0;
+    s16 temp_v1;
 
+    temp_s2 = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(spAC, globalCtx->state.gfxCtx, "../z_boss_tw.c", 9028);
+    func_80093D84(globalCtx->state.gfxCtx);
+    if (this->actor.params == 0x69) {
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 200, 20, 0, (s32)this->unk_1AC);
+        gDPSetEnvColor(temp_s2->polyXlu.p++, 255, 215, 255, 128);
+        for(phi_s0 = 9; phi_s0 >= 0; phi_s0--){
+            gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, ((-this->unk_150 * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+            temp_v1 = ((this->unk_156 - phi_s0) + 30) % 30;
+            Matrix_Translate(this->blastTailPos[temp_v1].x, this->blastTailPos[temp_v1].y, this->blastTailPos[temp_v1].z, MTXMODE_NEW);
+            temp_f0 = 1.0f - (phi_s0 * 0.09f);
+            Matrix_Scale(this->actor.scale.x * temp_f0, this->actor.scale.y * temp_f0, this->actor.scale.z * temp_f0, MTXMODE_APPLY);
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 9071), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+            gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A430));
+        }
+    } else {
+        gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 195, 225, 235, (s32)this->unk_1AC);
+        gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A998));
+        
+        for(phi_s0 = 9; phi_s0 >= 0; phi_s0--){
+            gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, ((-this->unk_150 * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+            temp_v1 = ((this->unk_156 - phi_s0) + 30) % 30;
+            Matrix_Translate(this->blastTailPos[temp_v1].x, this->blastTailPos[temp_v1].y, this->blastTailPos[temp_v1].z, MTXMODE_NEW);
+            temp_f0 = 1.0f - (phi_s0 * 0.09f);
+            Matrix_Scale(this->actor.scale.x * temp_f0, this->actor.scale.y * temp_f0, this->actor.scale.z * temp_f0, MTXMODE_APPLY);
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 9107), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+            gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601AB00));
+        }
+    }
+    Graph_CloseDisps(spAC, globalCtx->state.gfxCtx, "../z_boss_tw.c", 9111);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80947240.s")
+#endif
+
+// draw dots (big)
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809477E0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80948528.s")
+extern s32 D_8094F2B0;
+extern s32 D_8094F2B4;
+extern s32 D_8094F2B8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80948544.s")
+void func_80948528(s32 arg0, s32 arg1, s32 arg2) {
+    D_8094F2B0 = arg0;
+    D_8094F2B4 = arg1;
+    D_8094F2B8 = arg2;
+}
 
+f32 func_80948544(void) {
+    f32 phi_f2;
+
+    D_8094F2B0 = (D_8094F2B0 * 0xAB) % 0x763D;;
+    D_8094F2B4 = (D_8094F2B4 * 0xAC) % 0x7663;
+    D_8094F2B8 = (D_8094F2B8 * 0xAA) % 0x7673;
+    
+    phi_f2 = D_8094F2B0 / 30269.0f + D_8094F2B4 / 30307.0f + D_8094F2B8 / 30323.0f;
+    
+    while (1.0f <= phi_f2) {
+        phi_f2 = phi_f2 - 1.0f;
+    }
+    return fabsf(phi_f2);
+}
+
+// large draw
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80948668.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80949530.s")
+void func_809495A4(BossTw* this, GlobalContext* globalCtx);
+extern AnimationHeader D_06032BF8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809495A4.s")
+void func_80949530(BossTw* this, GlobalContext* globalCtx) {
+    this->actionFunc = func_809495A4;
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06032BF8, -3.0f);
+    this->unk_150 = Math_Rand_ZeroFloat(100.0f);
+    this->unk_178[1] = 0x19;
+    this->unk_4C8 = 0.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809496D0.s")
+void func_809496D0(BossTw *this, GlobalContext *globalCtx);
 
+void func_809495A4(BossTw *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_4B0.x, 0.1f, fabsf(this->actor.velocity.x) * 1.5f);
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->unk_4B0.y, 0.1f, fabsf(this->actor.velocity.y) * 1.5f);
+    Math_SmoothScaleMaxF(&this->unk_4B0.y, 380.0f, 1.0f, 2.0f);
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->unk_4B0.z, 0.1f, fabsf(this->actor.velocity.z) * 1.5f);
+    if (this->unk_178[1] == 1) {
+        func_809496D0(this, globalCtx);
+    }
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, this->unk_4C8);
+    Math_SmoothScaleMaxF(&this->unk_4C8, 4096.0f, 1.0f, 350.0f);
+}
+
+extern AnimationHeader D_06036FBC;
+
+void func_809496D0(BossTw *this, GlobalContext *globalCtx) {
+    f32 temp_f6;
+
+    this->actionFunc = func_80949734;
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06036FBC, -5.0f);
+    this->unk_1A4 = SkelAnime_GetFrameCount(&D_06036FBC.genericHeader);
+    this->unk_440 = 0;
+}
+
+void func_80949920(BossTw* this, GlobalContext* globalCtx);
+
+#ifdef NON_MATCHING
+void func_80949734(BossTw *this, GlobalContext *globalCtx) {
+    SkelAnime* skelAnime = &this->skelAnime;
+    SkelAnime_FrameUpdateMatrix(skelAnime);
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_4B0.x, 0.03f, fabsf(this->actor.velocity.x) * 1.5f);
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->unk_4B0.y, 0.03f, fabsf(this->actor.velocity.y) * 1.5f);
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->unk_4B0.z, 0.03f, fabsf(this->actor.velocity.z) * 1.5f);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x1000);
+    if (func_800A56C8(skelAnime, this->unk_1A4)) {
+        if ((s8)this->actor.colChkInfo.health < 0xA) {
+            D_8094C85C = Math_Rand_ZeroFloat(1.99f);
+        } else {
+            D_8094C85E++;
+            if (D_8094C85E >= 4) {
+                D_8094C85E = 1;
+                D_8094C85D = D_8094C85D == 0;
+            }
+            D_8094C85C = D_8094C85D;
+        }
+        func_80949920(this, globalCtx);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80949734.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80949920.s")
+extern AnimationHeader D_06023750;
+extern AnimationHeader D_06022700;
+
+void func_80949920(BossTw *this, GlobalContext *globalCtx) {
+    this->actionFunc = func_809499AC;
+    if (D_8094C85C == 0) {
+        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06022700, 0.0f);
+    } else {
+        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06023750, 0.0f);
+    }
+    this->unk_1A4 = SkelAnime_GetFrameCount(&D_06023750.genericHeader);
+}
+
 void func_80949BFC(BossTw *this, GlobalContext *globalCtx);
 void func_809499AC(BossTw *this, GlobalContext *globalCtx) {
-    static Vec3f D_8094AA40 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_8094AA4C = { 0.0f, 0.0f, 0.0f };
-
     BossTw* twMagic;
     Vec3f *magicSpawnPos;
     s32 magicParams;
@@ -2603,6 +3822,7 @@ void func_809499AC(BossTw *this, GlobalContext *globalCtx) {
 
 void func_80949C4C(BossTw *this, GlobalContext *globalCtx);
 extern AnimationHeader D_06032BF8;
+
 void func_80949BFC(BossTw *this, GlobalContext *globalCtx) {
     this->actionFunc = func_80949C4C;
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06032BF8, -10.0f);
@@ -2611,6 +3831,7 @@ void func_80949BFC(BossTw *this, GlobalContext *globalCtx) {
 
 void func_8094A6D8(BossTw* this, GlobalContext* globalCtx);
 void func_8094A1C0(BossTw *this, GlobalContext *globalCtx);
+
 void func_80949C4C(BossTw *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_178[1] == 0 && D_8094C870 == 0) {
@@ -2626,10 +3847,9 @@ void func_80949C4C(BossTw *this, GlobalContext *globalCtx) {
 
 extern AnimationHeader D_060338F0;
 extern AnimationHeader D_06024374;
-void func_80949E10(BossTw *this, GlobalContext *globalCtx);
-#ifdef NON_MATCHING
+
 // Twinrova_TakeDamage
-void func_80949CE4(BossTw *this, GlobalContext *globalCtx, u8 arg2) {
+void func_80949CE4(BossTw *this, GlobalContext *globalCtx, u8 damage) {
     if (this->actionFunc != func_80949E10) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060338F0, -15.0f);
         this->unk_178[0] = 0x96;
@@ -2637,16 +3857,16 @@ void func_80949CE4(BossTw *this, GlobalContext *globalCtx, u8 arg2) {
         this->unk_440 = 0;
         this->actor.velocity.y = 0.0f;
     } else {
-        this->unk_15C = 0xA;
-        this->unk_15A = 0x14;
+        this->fogTimer = 10;
+        this->invincibilityTimer = 20;
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06024374, -3.0f);
         this->unk_1A4 = SkelAnime_GetFrameCount(&D_06024374);
         this->unk_440 = 1;
-        this->actor.colChkInfo.health -= arg2;
-        if (this->actor.colChkInfo.health < 0) {
-            this->actor.colChkInfo.health = 0;
+        this->actor.colChkInfo.health -= damage;
+        if(this->actor.colChkInfo.shealth < 0){
+            this->actor.colChkInfo.shealth  = 0;
         }
-        if (this->actor.colChkInfo.health <= 0) {
+        if (this->actor.colChkInfo.shealth <= 0) {
             func_8093F108(this, globalCtx);
             func_80032C7C(globalCtx, &this->actor);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DEAD);
@@ -2655,11 +3875,9 @@ void func_80949CE4(BossTw *this, GlobalContext *globalCtx, u8 arg2) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE2);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_CUTBODY);
     }
+
     this->actionFunc = func_80949E10;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80949CE4.s")
-#endif
 
 extern AnimationHeader D_060343B4;
 extern AnimationHeader D_06035030;
@@ -2740,7 +3958,6 @@ void func_8094A12C(BossTw *this, GlobalContext *globalCtx) {
     }
 }
 
-extern Vec3f D_8094A86C[];
 extern AnimationHeader D_06032BF8;
 void func_8094A398(BossTw *this, GlobalContext *globalCtx);
 #ifdef NON_MATCHING
@@ -2799,9 +4016,9 @@ void func_8094A398(BossTw *this, GlobalContext *globalCtx) {
     yDiff = this->unk_4B0.y - this->actor.posRot.pos.y;
     zDiff = this->unk_4B0.z - this->actor.posRot.pos.z;
     // Convert from radians to degrees, then degrees to binary angle
-    yaw = (s16)(Math_atan2f(xDiff, zDiff) * ((180.0f / M_PI) * (360.0f / 65535.0f)));
+    yaw = (s16)(Math_atan2f(xDiff, zDiff) * ((180.0f / M_PI) * (65536.0f / 360.0f)));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, (f32)(s16)(Math_atan2f(yDiff, xzDist) * ((180.0f / M_PI) * (360.0f / 65535.0f))), 0xA, this->unk_4C8);
+    Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, (f32)(s16)(Math_atan2f(yDiff, xzDist) * ((180.0f / M_PI) * (65536.0f / 360.0f))), 0xA, this->unk_4C8);
     Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, yaw, 0xA, this->unk_4C8);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, yaw, 0xA, this->unk_4C8);
     Math_SmoothScaleMaxF(&this->unk_4C8, 2000.0f, 1.0f, 100.0f);
@@ -2817,7 +4034,7 @@ void func_8094A398(BossTw *this, GlobalContext *globalCtx) {
 }
 
 extern AnimationHeader D_06032BF8;
-void func_8094A660(BossTw *this, GlobalContext *globalCtx);
+
 void func_8094A608(BossTw *this, GlobalContext *globalCtx) {
     this->actionFunc = func_8094A660;
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06032BF8, 0.0f);

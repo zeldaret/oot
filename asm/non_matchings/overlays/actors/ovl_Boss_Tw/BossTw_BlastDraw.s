@@ -22,7 +22,7 @@ glabel D_8094B1C8
  .word 0x3DB851EC
 
 .text
-glabel func_80946C7C
+glabel BossTw_BlastDraw
 /* 0DFAC 80946C7C 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 0DFB0 80946C80 AFB40058 */  sw      $s4, 0x0058($sp)           
 /* 0DFB4 80946C84 00A0A025 */  or      $s4, $a1, $zero            ## $s4 = 00000000

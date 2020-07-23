@@ -1,4 +1,4 @@
-glabel func_80946B00
+glabel BossTw_BlastUpdate
 /* 0DE30 80946B00 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0DE34 80946B04 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0DE38 80946B08 AFB00018 */  sw      $s0, 0x0018($sp)           

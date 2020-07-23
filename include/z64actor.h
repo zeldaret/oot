@@ -87,7 +87,10 @@ typedef struct {
     /* 0x12 */ s16   unk_12;
     /* 0x14 */ u16   unk_14;
     /* 0x16 */ u8    mass; // Used to compute displacement, 50 is common value, 0xFF for infinite mass/unmoveable
-    /* 0x17 */ u8    health;
+    union {
+        u8    health;
+        s8    shealth;
+    }; /* 0x17
     /* 0x18 */ u8    damage; // Amount to decrement health by
     /* 0x19 */ u8    damageEffect; // Stores what effect should occur when hit by a weapon
     /* 0x1A */ u8    atHitEffect; // Stores what effect should occur when AT connects with an AC

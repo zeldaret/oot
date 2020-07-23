@@ -8,7 +8,7 @@ glabel D_8094AD98
     .balign 4
 
 .text
-glabel func_80945084
+glabel BossTw_TwinrovaDraw
 /* 0C3B4 80945084 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0C3B8 80945088 AFB1002C */  sw      $s1, 0x002C($sp)
 /* 0C3BC 8094508C 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
@@ -216,7 +216,7 @@ glabel func_80945084
 /* 0C6B4 80945384 00000000 */  nop
 /* 0C6B8 80945388 45020004 */  bc1fl   .L8094539C
 /* 0C6BC 8094538C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 0C6C0 80945390 0C2511EF */  jal     func_809447BC
+/* 0C6C0 80945390 0C2511EF */  jal     BossTw_SpawnPortalsDraw
 /* 0C6C4 80945394 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 0C6C8 80945398 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 .L8094539C:

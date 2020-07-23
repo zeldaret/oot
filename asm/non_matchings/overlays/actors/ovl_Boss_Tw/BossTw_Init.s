@@ -34,11 +34,11 @@ glabel BossTw_Init
 
 /* 00A54 80939724 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A58 80939728 8E190004 */  lw      $t9, 0x0004($s0)           ## 00000004
-/* 00A5C 8093972C 3C0F8094 */  lui     $t7, %hi(func_80946B00)    ## $t7 = 80940000
-/* 00A60 80939730 3C188094 */  lui     $t8, %hi(func_80946C7C)    ## $t8 = 80940000
+/* 00A5C 8093972C 3C0F8094 */  lui     $t7, %hi(BossTw_BlastUpdate)    ## $t7 = 80940000
+/* 00A60 80939730 3C188094 */  lui     $t8, %hi(BossTw_BlastDraw)    ## $t8 = 80940000
 /* 00A64 80939734 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
-/* 00A68 80939738 25EF6B00 */  addiu   $t7, $t7, %lo(func_80946B00) ## $t7 = 80946B00
-/* 00A6C 8093973C 27186C7C */  addiu   $t8, $t8, %lo(func_80946C7C) ## $t8 = 80946C7C
+/* 00A68 80939738 25EF6B00 */  addiu   $t7, $t7, %lo(BossTw_BlastUpdate) ## $t7 = 80946B00
+/* 00A6C 8093973C 27186C7C */  addiu   $t8, $t8, %lo(BossTw_BlastDraw) ## $t8 = 80946C7C
 /* 00A70 80939740 03217024 */  and     $t6, $t9, $at
 /* 00A74 80939744 AE0F0130 */  sw      $t7, 0x0130($s0)           ## 00000130
 /* 00A78 80939748 AE180134 */  sw      $t8, 0x0134($s0)           ## 00000134
@@ -48,9 +48,9 @@ glabel BossTw_Init
 /* 00A88 80939758 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00A8C 8093975C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00A90 80939760 3C078095 */  lui     $a3, %hi(D_8094A7E8)       ## $a3 = 80950000
+/* 00A90 80939760 3C078095 */  lui     $a3, %hi(sCylinderInitBlasts)       ## $a3 = 80950000
 /* 00A94 80939764 8FA50044 */  lw      $a1, 0x0044($sp)
-/* 00A98 80939768 24E7A7E8 */  addiu   $a3, $a3, %lo(D_8094A7E8)  ## $a3 = 8094A7E8
+/* 00A98 80939768 24E7A7E8 */  addiu   $a3, $a3, %lo(sCylinderInitBlasts)  ## $a3 = 8094A7E8
 /* 00A9C 8093976C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00AA0 80939770 0C01712B */  jal     Collider_SetCylinder
 
@@ -266,10 +266,10 @@ glabel BossTw_Init
 /* 00DAC 80939A7C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00DB0 80939A80 14600030 */  bne     $v1, $zero, .L80939B44
 /* 00DB4 80939A84 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 00DB8 80939A88 3C078095 */  lui     $a3, %hi(D_8094A814)       ## $a3 = 80950000
+/* 00DB8 80939A88 3C078095 */  lui     $a3, %hi(sCylinderInitKoumeKotake)       ## $a3 = 80950000
 /* 00DBC 80939A8C 0C01712B */  jal     Collider_SetCylinder
 
-/* 00DC0 80939A90 24E7A814 */  addiu   $a3, $a3, %lo(D_8094A814)  ## $a3 = 8094A814
+/* 00DC0 80939A90 24E7A814 */  addiu   $a3, $a3, %lo(sCylinderInitKoumeKotake)  ## $a3 = 8094A814
 /* 00DC4 80939A94 240E0033 */  addiu   $t6, $zero, 0x0033         ## $t6 = 00000033
 /* 00DC8 80939A98 A20E0117 */  sb      $t6, 0x0117($s0)           ## 00000117
 /* 00DCC 80939A9C 26050568 */  addiu   $a1, $s0, 0x0568           ## $a1 = 00000568
@@ -320,8 +320,8 @@ glabel BossTw_Init
 .L80939B44:
 /* 00E74 80939B44 1461002F */  bne     $v1, $at, .L80939C04
 /* 00E78 80939B48 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00E7C 80939B4C 3C078095 */  lui     $a3, %hi(D_8094A814)       ## $a3 = 80950000
-/* 00E80 80939B50 24E7A814 */  addiu   $a3, $a3, %lo(D_8094A814)  ## $a3 = 8094A814
+/* 00E7C 80939B4C 3C078095 */  lui     $a3, %hi(sCylinderInitKoumeKotake)       ## $a3 = 80950000
+/* 00E80 80939B50 24E7A814 */  addiu   $a3, $a3, %lo(sCylinderInitKoumeKotake)  ## $a3 = 8094A814
 /* 00E84 80939B54 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E88 80939B58 0C01712B */  jal     Collider_SetCylinder
 
@@ -370,17 +370,17 @@ glabel BossTw_Init
 /* 00F2C 80939BFC 1000008F */  beq     $zero, $zero, .L80939E3C
 /* 00F30 80939C00 A2190564 */  sb      $t9, 0x0564($s0)           ## 00000564
 .L80939C04:
-/* 00F34 80939C04 3C078095 */  lui     $a3, %hi(D_8094A840)       ## $a3 = 80950000
-/* 00F38 80939C08 24E7A840 */  addiu   $a3, $a3, %lo(D_8094A840)  ## $a3 = 8094A840
+/* 00F34 80939C04 3C078095 */  lui     $a3, %hi(sCylinderInitTwinrova)       ## $a3 = 80950000
+/* 00F38 80939C08 24E7A840 */  addiu   $a3, $a3, %lo(sCylinderInitTwinrova)  ## $a3 = 8094A840
 /* 00F3C 80939C0C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00F40 80939C10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00F44 80939C14 3C188094 */  lui     $t8, %hi(func_80940D48)    ## $t8 = 80940000
-/* 00F48 80939C18 3C198094 */  lui     $t9, %hi(func_80945084)    ## $t9 = 80940000
+/* 00F44 80939C14 3C188094 */  lui     $t8, %hi(BossTw_TwinrovaUpdate)    ## $t8 = 80940000
+/* 00F48 80939C18 3C198094 */  lui     $t9, %hi(BossTw_TwinrovaDraw)    ## $t9 = 80940000
 /* 00F4C 80939C1C 240E005B */  addiu   $t6, $zero, 0x005B         ## $t6 = 0000005B
 /* 00F50 80939C20 240F0018 */  addiu   $t7, $zero, 0x0018         ## $t7 = 00000018
-/* 00F54 80939C24 27180D48 */  addiu   $t8, $t8, %lo(func_80940D48) ## $t8 = 80940D48
-/* 00F58 80939C28 27395084 */  addiu   $t9, $t9, %lo(func_80945084) ## $t9 = 80945084
+/* 00F54 80939C24 27180D48 */  addiu   $t8, $t8, %lo(BossTw_TwinrovaUpdate) ## $t8 = 80940D48
+/* 00F58 80939C28 27395084 */  addiu   $t9, $t9, %lo(BossTw_TwinrovaDraw) ## $t9 = 80945084
 /* 00F5C 80939C2C A20E0117 */  sb      $t6, 0x0117($s0)           ## 00000117
 /* 00F60 80939C30 A20F00AF */  sb      $t7, 0x00AF($s0)           ## 000000AF
 /* 00F64 80939C34 AE180130 */  sw      $t8, 0x0130($s0)           ## 00000130
