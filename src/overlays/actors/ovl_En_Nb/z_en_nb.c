@@ -10,7 +10,7 @@ void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNb_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AB0F04(EnNb* this, GlobalContext* globalCtx);
+void EnNb_SetupCollider(EnNb* this, GlobalContext* globalCtx);
 s32 func_80AB0DA0(EnNb* this);
 void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx);
@@ -18,7 +18,7 @@ void func_80AB1164(EnNb* this);
 s32 EnNb_FrameUpdateMatrix(EnNb* this);
 void func_80AB11EC(EnNb* this);
 CsCmdActorAction* func_80AB12EC(GlobalContext* globalCtx, s32 npcActionIdx);
-void func_80AB14A0(EnNb* this, AnimationHeader* animationHeader, u8 mode, f32 arg3, s32 arg4);
+void EnNb_SetAnimation(EnNb* this, AnimationHeader* animationHeader, u8 mode, f32 arg3, s32 arg4);
 void func_80AB1650(EnNb* this, GlobalContext* globalCtx);
 void func_80AB166C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB180C(EnNb* this, UNK_TYPE arg1);
@@ -30,7 +30,7 @@ void func_80AB193C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB197C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB19BC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB19FC(EnNb* this, GlobalContext* globalCtx);
-void func_80AB1A74(void);
+void EnNb_SetSageSFX(void);
 void func_80AB1A94(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1B14(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1B68(EnNb* this, GlobalContext* globalCtx);
@@ -40,7 +40,7 @@ void func_80AB1D84(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1D84(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1DD8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1E2C(EnNb* this, GlobalContext* globalCtx);
-void func_80AB1FA4(EnNb* this, GlobalContext* globalCtx);
+void EnNb_InColossusCapture(EnNb* this, GlobalContext* globalCtx);
 void func_80AB1FFC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2030(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2148(EnNb* this, GlobalContext* globalCtx);
@@ -49,7 +49,7 @@ void func_80AB22CC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB23A8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB23D8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB242C(EnNb* this, GlobalContext* globalCtx);
-void func_80AB2484(EnNb* this, GlobalContext* globalCtx);
+void EnNb_KnuckleDefeated(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2BF8(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2C18(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2C60(EnNb* this, GlobalContext* globalCtx);
@@ -63,7 +63,7 @@ void func_80AB3CD4(EnNb* this, GlobalContext* globalCtx);
 void func_80AB3D34(EnNb* this, GlobalContext* globalCtx);
 void func_80AB3E10(EnNb* this, GlobalContext* globalCtx);
 s32 func_80AB3FE8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
-void func_80AB4100(EnNb* this, GlobalContext* globalCtx);
+void EnNb_DrawNothing(EnNb* this, GlobalContext* globalCtx);
 void func_80AB410C(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2CCC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB2E70(EnNb* this, GlobalContext* globalCtx);
@@ -72,7 +72,7 @@ void func_80AB285C(EnNb* this);
 void func_80AB33E0(EnNb* this, GlobalContext* globalCtx);
 void func_80AB3428(EnNb* this, GlobalContext* globalCtx);
 void func_80AB3468(EnNb* this, GlobalContext* globalCtx);
-void func_80AB34A8(EnNb* this, GlobalContext* globalCtx);
+void EnNb_CheckToSpawnNearSpiritCrawlspace(EnNb* this, GlobalContext* globalCtx);
 void func_80AB359C(EnNb* this);
 void func_80AB3C74(EnNb* this, GlobalContext* globalCtx);
 void func_80AB3DB0(EnNb* this, GlobalContext* globalCtx);
@@ -97,10 +97,10 @@ extern AnimationHeader* D_06005CA4; // crossed legs, turns head and looks behind
 extern AnimationHeader* D_06005614; // crossed legs, looking behind to the right
 extern AnimationHeader* D_06004BB4; // standing up hands on hips
 extern AnimationHeader* D_06006E78;
-extern AnimationHeader* D_06004E60; // standard walk
+extern AnimationHeader* D_06004E60; // getting up from crawlspace
 extern AnimationHeader* D_06004BB4;
 extern AnimationHeader* D_06009238; // standard walk 2 ?
-extern Gfx D_06013158;
+extern Gfx D_06013158[];
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
@@ -129,7 +129,7 @@ static EnNbActionFunc sActionFuncs[] = {
 static Vec3f D_80AB4F48 = { 0.0f, 10.0f, 0.0f };
 
 static EnNbDrawFunc sDrawFuncs[] = {
-    func_80AB4100, func_80AB410C, func_80AB1E2C, func_80AB2E70, func_80AB2FE4,
+    EnNb_DrawNothing, func_80AB410C, func_80AB1E2C, func_80AB2E70, func_80AB2FE4,
 };
 
 const ActorInit En_Nb_InitVars = {
@@ -144,9 +144,9 @@ const ActorInit En_Nb_InitVars = {
     (ActorFunc)EnNb_Draw,
 };
 
-s32 func_80AB0D90(EnNb* this) {
-    s32 paramsShifted = this->actor.params >> 8;
-    return paramsShifted & 0xFF;
+s32 EnNb_GetWaypoint(EnNb* this) {
+    s32 waypoint = this->actor.params >> 8;
+    return waypoint & 0xFF;
 }
 
 s32 func_80AB0DA0(EnNb* this) {
@@ -154,7 +154,7 @@ s32 func_80AB0DA0(EnNb* this) {
     return params & 0xFF;
 }
 
-void func_80AB0DAC(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_GetPathInfo(EnNb* this, GlobalContext* globalCtx) {
 
     Vec3s* pointPos;
     Path* path;
@@ -163,7 +163,7 @@ void func_80AB0DAC(EnNb* this, GlobalContext* globalCtx) {
 
     path = globalCtx->setupPathList;
     if (path != 0) {
-        waypoint = func_80AB0D90(this);
+        waypoint = EnNb_GetWaypoint(this);
         path += waypoint;
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         this->vec_2E4.x = pointPos[0].x;
@@ -174,13 +174,15 @@ void func_80AB0DAC(EnNb* this, GlobalContext* globalCtx) {
         this->vec_2F0.z = pointPos[1].z;
         this->unk_2FC =
             (Math_atan2f(this->vec_2F0.x - this->vec_2E4.x, this->vec_2F0.z - this->vec_2E4.z) * 10430.378f);
+        // "En_Nb_Get_path_info Get rail data = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", waypoint);
     } else {
+        // "En_Nb_Get_path_info There is no rail data!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
     }
 }
 
-void func_80AB0F04(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SetupCollider(EnNb* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Collider_InitCylinder(globalCtx, &this->collider);
     if (!thisx) {} // required to match
@@ -222,11 +224,11 @@ void func_80AB10C4(EnNb* this) {
     Vec3s* tempPtr2;
 
     tempPtr = &this->struct_300.unk_08;
-    Math_SmoothScaleMaxMinS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothScaleMaxMinS(&tempPtr->x, 0, 20, 6200, 100);
+    Math_SmoothScaleMaxMinS(&tempPtr->y, 0, 20, 6200, 100);
     tempPtr2 = &this->struct_300.unk_0E;
-    Math_SmoothScaleMaxMinS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothScaleMaxMinS(&tempPtr2->x, 0, 20, 6200, 100);
+    Math_SmoothScaleMaxMinS(&tempPtr2->y, 0, 20, 6200, 100);
 }
 
 void func_80AB1164(EnNb* this) {
@@ -247,7 +249,7 @@ void func_80AB1164(EnNb* this) {
 void func_80AB11EC(EnNb* this) {
     this->action = 7;
     this->drawMode = 0;
-    this->unk_284 = 0;
+    this->alpha = 0;
     this->unk_288 = 0;
     this->actor.shape.unk_14 = 0;
     this->unk_280 = 0.0f;
@@ -339,7 +341,7 @@ void func_80AB1420(EnNb* this, GlobalContext* globalCtx, s32 npcActionIdx) {
     }
 }
 
-void func_80AB14A0(EnNb* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4) {
+void EnNb_SetAnimation(EnNb* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4) {
     f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
     f32 playbackSpeed;
     f32 unk0;
@@ -358,12 +360,12 @@ void func_80AB14A0(EnNb* this, AnimationHeader* animation, u8 mode, f32 transiti
     SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, mode, transitionRate);
 }
 
-void func_80AB1530(EnNb* this, GlobalContext* globalCtx) {
-    func_80AB14A0(this, &D_06009694, 0, 0, 0);
+void EnNb_SetChamberAnim(EnNb* this, GlobalContext* globalCtx) {
+    EnNb_SetAnimation(this, &D_06009694, 0, 0, 0);
     this->actor.shape.unk_08 = -10000.0f;
 }
 
-void func_80AB1578(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SpawnChamberWarp(EnNb* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     f32 posX = thisx->posRot.pos.x;
     f32 posY = thisx->posRot.pos.y;
@@ -372,7 +374,7 @@ void func_80AB1578(EnNb* this, GlobalContext* globalCtx) {
     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
-void func_80AB15D4(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SpawnAndGiveSpiritMedallion(EnNb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 posX = player->actor.posRot.pos.x;
     f32 posY = player->actor.posRot.pos.y + 50.0f;
@@ -413,7 +415,7 @@ void func_80AB16FC(EnNb* this, GlobalContext* globalCtx) {
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = 2;
             this->drawMode = 1;
-            func_80AB1578(this, globalCtx);
+            EnNb_SpawnChamberWarp(this, globalCtx);
         }
     }
 }
@@ -455,7 +457,7 @@ void func_80AB1878(EnNb* this, GlobalContext* globalCtx) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[6];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = 6;
-            func_80AB15D4(this, globalCtx);
+            EnNb_SpawnAndGiveSpiritMedallion(this, globalCtx);
         }
     }
 }
@@ -483,7 +485,7 @@ void func_80AB193C(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB197C(EnNb* this, GlobalContext* globalCtx) {
-    UNK_TYPE something;
+    s32 something;
     func_80AB1284(this, globalCtx);
     something = EnNb_FrameUpdateMatrix(this);
     func_80AB1164(this);
@@ -503,13 +505,13 @@ void func_80AB19FC(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1164(this);
 }
 
-void func_80AB1A2C(EnNb* this, GlobalContext* globalCtx) {
-    func_80AB14A0(this, &D_06000410, 2, 0.0f, 0);
+void EnNb_InLightArrowOrSealingState(EnNb* this, GlobalContext* globalCtx) {
+    EnNb_SetAnimation(this, &D_06000410, 2, 0.0f, 0);
     this->action = 7;
     this->actor.shape.unk_14 = 0;
 }
 
-void func_80AB1A74(void) {
+void EnNb_SetSageSFX(void) {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 
@@ -522,10 +524,10 @@ void func_80AB1B14(EnNb* this, GlobalContext* globalCtx) {
     if (func_80AB1390(this, globalCtx, 4, 1)) {
         this->action = 8;
         this->drawMode = 2;
-        this->unk_284 = 0;
+        this->alpha = 0;
         this->actor.shape.unk_14 = 0;
         this->unk_280 = 0.0f;
-        func_80AB1A74();
+        EnNb_SetSageSFX();
     }
 }
 
@@ -539,7 +541,7 @@ void func_80AB1B68(EnNb* this, GlobalContext* globalCtx) {
             this->action = 9;
             this->drawMode = 1;
             *unk_280 = kREG(5) + 10.0f;
-            this->unk_284 = 0xFF;
+            this->alpha = 0xFF;
             this->actor.shape.unk_14 = 0xFF;
             return;
         }
@@ -549,14 +551,14 @@ void func_80AB1B68(EnNb* this, GlobalContext* globalCtx) {
             this->action = 7;
             this->drawMode = 0;
             *unk_280 = 0.0f;
-            this->unk_284 = 0;
+            this->alpha = 0;
             this->actor.shape.unk_14 = 0;
             return;
         }
     }
 
     something = (*unk_280 / (kREG(5) + 10.0f)) * 255.0f;
-    this->unk_284 = something;
+    this->alpha = something;
     this->actor.shape.unk_14 = something;
 }
 
@@ -565,7 +567,7 @@ void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx) {
         this->action = 8;
         this->drawMode = 2;
         this->unk_280 = kREG(5) + 10.0f;
-        this->unk_284 = 0xFF;
+        this->alpha = 255;
         if (this->unk_288 == 0) {
             func_80AB1A94(this, globalCtx);
             this->unk_288 = 1;
@@ -609,7 +611,7 @@ void func_80AB1E2C(EnNb* this, GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_284);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
@@ -617,8 +619,8 @@ void func_80AB1E2C(EnNb* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nb_inKenjyanomaDemo02.c", 290);
 }
 
-void func_80AB1FA4(EnNb* this, GlobalContext* globalCtx) {
-    func_80AB14A0(this, &D_06001E7C, 0, 0.0f, 0);
+void EnNb_InColossusCapture(EnNb* this, GlobalContext* globalCtx) {
+    EnNb_SetAnimation(this, &D_06001E7C, 0, 0.0f, 0);
     this->action = 10;
     this->actor.shape.unk_14 = 0;
     gSaveContext.eventChkInf[9] |= 32;
@@ -711,6 +713,7 @@ void func_80AB22CC(EnNb* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
+                    // "En_Nb_Kidnap_Check_DemoMode: No such action!!!!!!!!"
                     osSyncPrintf("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -742,9 +745,9 @@ void func_80AB242C(EnNb* this, GlobalContext* globalCtx) {
     func_80AB22CC(this, globalCtx);
 }
 
-void func_80AB2484(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_KnuckleDefeated(EnNb* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_06008BD0;
-    func_80AB14A0(this, animation, 0, 0.0f, 0);
+    EnNb_SetAnimation(this, animation, 0, 0.0f, 0);
     this->action = 13;
     this->actor.shape.unk_14 = 0;
 }
@@ -890,7 +893,7 @@ void func_80AB2AE8(EnNb* this) {
     this->actor.shape.unk_14 = 0;
 }
 
-void func_80AB2AFC(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_CheckCutsceneMode(EnNb* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdNPCAction;
     s32 action;
     s32 actionMinusOne;
@@ -934,14 +937,14 @@ void func_80AB2AFC(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB2BF8(EnNb* this, GlobalContext* globalCtx) {
-    func_80AB2AFC(this, globalCtx);
+    EnNb_CheckCutsceneMode(this, globalCtx);
 }
 
 void func_80AB2C18(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1164(this);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
-    func_80AB2AFC(this, globalCtx);
+    EnNb_CheckCutsceneMode(this, globalCtx);
 }
 
 void func_80AB2C60(EnNb* this, GlobalContext* globalCtx) {
@@ -953,7 +956,7 @@ void func_80AB2C60(EnNb* this, GlobalContext* globalCtx) {
     func_80AB250C(this);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
-    func_80AB2AFC(this, globalCtx);
+    EnNb_CheckCutsceneMode(this, globalCtx);
 }
 
 void func_80AB2CCC(EnNb* this, GlobalContext* globalCtx) {
@@ -965,7 +968,7 @@ void func_80AB2CCC(EnNb* this, GlobalContext* globalCtx) {
     func_80AB2570(this);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
-    func_80AB2AFC(this, globalCtx);
+    EnNb_CheckCutsceneMode(this, globalCtx);
 }
 
 void func_80AB2D38(EnNb* this, GlobalContext* globalCtx) {
@@ -976,7 +979,7 @@ void func_80AB2D38(EnNb* this, GlobalContext* globalCtx) {
     func_80AB29C8(this, something);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
-    func_80AB2AFC(this, globalCtx);
+    EnNb_CheckCutsceneMode(this, globalCtx);
 }
 
 void func_80AB2D9C(EnNb* this, GlobalContext* globalCtx) {
@@ -989,7 +992,7 @@ void func_80AB2D9C(EnNb* this, GlobalContext* globalCtx) {
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
     func_80AB2A28(this, globalCtx, something);
-    func_80AB2AFC(this, globalCtx);
+    EnNb_CheckCutsceneMode(this, globalCtx);
 }
 
 void func_80AB2E1C(EnNb* this, GlobalContext* globalCtx) {
@@ -1012,7 +1015,7 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600D8E8));
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, 0, 0, &this->actor);
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nb_inConfrontion.c", 593);
 }
 
@@ -1045,8 +1048,8 @@ void func_80AB2FE4(EnNb* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nb_inConfrontion.c", 644);
 }
 
-void func_80AB3150(EnNb* this, GlobalContext* globalCtx) {
-    func_80AB14A0(this, &D_06000BC0, 0, 0.0f, 0);
+void EnNb_InCredits(EnNb* this, GlobalContext* globalCtx) {
+    EnNb_SetAnimation(this, &D_06000BC0, 0, 0.0f, 0);
     this->action = 20;
     this->drawMode = 0;
     this->actor.shape.unk_14 = 0;
@@ -1056,13 +1059,14 @@ void func_80AB319C(EnNb* this) {
     f32* unk_280 = &this->unk_280;
     s32 something;
 
+
     this->unk_280++;
     if ((kREG(17) + 10.0f) <= this->unk_280) {
-        this->unk_284 = 0xFF;
+        this->alpha = 0xFF;
         this->actor.shape.unk_14 = 0xFF;
     } else {
         something = (*unk_280 / (kREG(17) + 10.0f)) * 255.0f;
-        this->unk_284 = something;
+        this->alpha = something;
         this->actor.shape.unk_14 = something;
     }
 }
@@ -1081,13 +1085,13 @@ void func_80AB3260(EnNb* this) {
 }
 
 void func_80AB32AC(EnNb* this) {
-    func_80AB14A0(this, &D_06005CA4, 2, -8.0f, 0);
+    EnNb_SetAnimation(this, &D_06005CA4, 2, -8.0f, 0);
     this->action = 23;
 }
 
 void func_80AB32EC(EnNb* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
-        func_80AB14A0(this, &D_06005614, 0, 0.0f, 0);
+        EnNb_SetAnimation(this, &D_06005614, 0, 0.0f, 0);
     }
 }
 
@@ -1143,19 +1147,19 @@ void func_80AB3468(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1164(this);
     func_80AB32EC(this, something);
 }
-void func_80AB34A8(EnNb* this, GlobalContext* globalCtx) {
-    if (((gSaveContext.eventChkInf[9] & 0x20) == 0) && (gSaveContext.linkAge == 1)) {
-        func_80AB0DAC(this, globalCtx);
-        if ((gSaveContext.eventChkInf[9] & 0x10) == 0) {
-            func_80AB14A0(this, &D_06006E78, 0, 0.0f, 0);
-            this->action = 24;
+void EnNb_CheckToSpawnNearSpiritCrawlspace(EnNb* this, GlobalContext* globalCtx) {
+    if (!(gSaveContext.eventChkInf[9] & 0x20) && gSaveContext.linkAge == 1) { 
+        EnNb_GetPathInfo(this, globalCtx);
+        if (!(gSaveContext.eventChkInf[9] & 0x10)) { // looking into crawlspace
+            EnNb_SetAnimation(this, &D_06006E78, 0, 0.0f, 0); 
+            this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = 1;
         } else {
-            func_80AB14A0(this, &D_06004BB4, 0, 0.0f, 0);
+            EnNb_SetAnimation(this, &D_06004BB4, 0, 0.0f, 0);
             this->unk_2E0 = 1;
             this->actor.flags |= 9;
             this->actor.posRot.pos = this->vec_2F0;
-            this->action = 29;
+            this->action = NB_IDLE_AFTER_TALK;
             this->drawMode = 1;
         }
     } else {
@@ -1183,11 +1187,11 @@ void func_80AB359C(EnNb* this) {
     }
 }
 
-void func_80AB3660(EnNb* this) {
+void EnNb_SetNoticeSFX(EnNb* this) {
     func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_NOTICE);
 }
 
-s32 func_80AB3684(EnNb* this, GlobalContext* globalCtx) {
+s32 EnNb_GetNoticedStatus(EnNb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 playerX = player->actor.posRot.pos.x;
     f32 playerZ = player->actor.posRot.pos.z;
@@ -1195,9 +1199,9 @@ s32 func_80AB3684(EnNb* this, GlobalContext* globalCtx) {
     f32 thisZ = this->actor.posRot.pos.z;
 
     if (SQ(playerX - thisX) + SQ(playerZ - thisZ) < 6400.0f) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 #ifdef NON_MATCHING
@@ -1224,46 +1228,45 @@ void func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB36DC.s")
 #endif
 
-void func_80AB378C(EnNb* this, GlobalContext* globalCtx) {
-    if (func_80AB3684(this, globalCtx) != 0) {
-        func_80AB14A0(this, &D_06004E60, 2, -8.0f, 0);
-        this->action = 25;
-        func_80AB3660(this);
+void EnNb_CheckNoticed(EnNb* this, GlobalContext* globalCtx) {
+    if (EnNb_GetNoticedStatus(this, globalCtx)) {
+        EnNb_SetAnimation(this, &D_06004E60, 2, -8.0f, 0);
+        this->action = NB_NOTICE_PLAYER;
+        EnNb_SetNoticeSFX(this);
     }
 }
 
 void func_80AB37E0(EnNb* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
-        func_80AB14A0(this, &D_06004BB4, 0, -8.0f, 0);
+        EnNb_SetAnimation(this, &D_06004BB4, 0, -8.0f, 0);
         this->unk_2E0 = 1;
         this->actor.flags |= 9;
-        this->action = 26;
+        this->action = NB_IDLE_CRAWLSPACE;
     }
 }
 
 void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        this->action = 27;
-
+        this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= 9;
-        if ((gSaveContext.infTable[22] & 0x1000) == 0) {
-            this->actor.textId = 0x601D;
+        if (!(gSaveContext.infTable[22] & 0x1000)) {
+            this->actor.textId = 0x601D; // "I haven't seen you around, kid...What do you want?"
         } else {
-            this->actor.textId = 0x6024;
+            this->actor.textId = 0x6024; // "I want to ask you a favor...Will you go through..."
         }
         func_8002F2F4(&this->actor, globalCtx);
     }
 }
 
 void func_80AB38AC(EnNb* this, GlobalContext* globalCtx) {
-    func_80AB14A0(this, &D_06004E60, 2, -8.0f, 0);
+    EnNb_SetAnimation(this, &D_06004E60, 2, -8.0f, 0);
     gSaveContext.eventChkInf[9] |= 16;
-    this->action = 28;
+    this->action = NB_IN_PATH;
     this->actor.flags &= ~9;
 }
 
-void func_80AB3914(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
 
     s32 pad;
     u8 choiceIndex;
@@ -1273,45 +1276,54 @@ void func_80AB3914(EnNb* this, GlobalContext* globalCtx) {
     textId = this->actor.textId;
     msgCtx = &globalCtx->msgCtx;
     if (func_8010BDBC(msgCtx) == 2) {
-
+        // "Thanks, kid! You and I, let's give Ganondorf and his followers a big surprise, shall we?"
         if (textId == 0x6025) {
             func_80AB38AC(this, globalCtx);
         } else {
+            // "Well, what did I expect? After all, you're just a kid!"
             if (textId == 0x6027) {
                 gSaveContext.infTable[22] |= 0x1000;
             }
-            this->action = 26;
+            this->action = NB_IDLE_CRAWLSPACE;
         }
         this->actor.flags &= ~9;
     } else if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
         choiceIndex = globalCtx->msgCtx.choiceIndex;
+        // "I haven't seen you around, kid..What do you want?" ..proceeds to print choices
         if (textId == 0x601D) {
             switch (choiceIndex) {
                 case 0:
+                    // "You're just a kid! The temple is no place for kids!"
                     this->actor.textId = 0x601E;
                     break;
                 case 1:
+                    // "A Sage? I don't know anyone like that."
                     this->actor.textId = 0x601F;
                     break;
                 default:
+                    // "You have nothing to do? What good timing!" ... proceeds to ask question asking if Link is one of Ganondorf's followers
                     this->actor.textId = 0x6020;
             }
         } else {
             if (textId == 0x6020) {
                 switch (choiceIndex) {
                     case 0:
+                        // "Wha-ha-ha! Don't try to act cool, kid. I was just asking! A kid like you..."
                         this->actor.textId = 0x6021;
                         break;
                     default:
+                        // "Uh-huh! You've got guts. I think I like you"
                         this->actor.textId = 0x6022;
                         break;
                 }
             } else {
                 switch (choiceIndex) {
                     case 0:
+                        // "Thanks, kid! You and I, let's give Ganondorf and his followers a big surprise, shall we?"
                         this->actor.textId = 0x6025;
                         break;
                     default:
+                        // "Well, what did I expect? After all, you're just a kid!"
                         this->actor.textId = 0x6027;
                         break;
                 }
@@ -1326,11 +1338,11 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
     u16 unk_2FE = this->unk_2FE;
     if ((((kREG(17) + 0x19) & 0xFFFF) > unk_2FE)) {
         if (arg2 != 0) {
-            func_80AB14A0(this, &D_06009238, 0, 0.0f, 0);
+            EnNb_SetAnimation(this, &D_06009238, 0, 0.0f, 0);
         }
     } else {
-        func_80AB14A0(this, &D_06004BB4, 0, -8.0f, 0);
-        this->action = 29;
+        EnNb_SetAnimation(this, &D_06004BB4, 0, -8.0f, 0);
+        this->action = NB_IDLE_AFTER_TALK;
     }
 }
 
@@ -1341,9 +1353,10 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
         this->action = 30;
     } else {
         this->actor.flags |= 9;
-        maskReaction = Text_GetFaceReaction(globalCtx, 0x23U);
+        maskReaction = Text_GetFaceReaction(globalCtx, 0x23);
         this->actor.textId = maskReaction;
         if ((maskReaction & 0xFFFF) == 0) {
+            // "If you can successfully get the Silver Gauntlets...I'll do something great for you!"
             this->actor.textId = 0x6026;
         }
         func_8002F2F4(&this->actor, globalCtx);
@@ -1352,17 +1365,18 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
 
 void func_80AB3B7C(EnNb* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        this->action = 29;
+        this->action = NB_IDLE_AFTER_TALK;
         this->actor.flags &= ~9;
     }
 }
 
+// Runs in child spirit
 void func_80AB3BC8(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     func_80AB0F50(this, globalCtx);
     EnNb_FrameUpdateMatrix(this);
     func_80AB1164(this);
-    func_80AB378C(this, globalCtx);
+    EnNb_CheckNoticed(this, globalCtx);
 }
 
 void func_80AB3C1C(EnNb* this, GlobalContext* globalCtx) {
@@ -1391,11 +1405,12 @@ void func_80AB3CD4(EnNb* this, GlobalContext* globalCtx) {
     func_80AB0FBC(this, globalCtx);
     EnNb_FrameUpdateMatrix(this);
     func_80AB1164(this);
-    func_80AB3914(this, globalCtx);
+    EnNb_SetTextIdAsChild(this, globalCtx);
 }
 
+// Action Function 28 // Something to do with path
 void func_80AB3D34(EnNb* this, GlobalContext* globalCtx) {
-    UNK_TYPE something;
+    s32 something;
 
     func_80AB359C(this);
     func_80AB1284(this, globalCtx);
@@ -1440,27 +1455,27 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    func_80AB0F04(this, globalCtx);
+    EnNb_SetupCollider(this, globalCtx);
     SkelAnime_InitSV(globalCtx, skelAnime, &D_060181C8, NULL, &this->limbDrawTable, &this->transitionDrawTable, 19);
 
     switch (func_80AB0DA0(this)) {
-        case 2:
-            func_80AB1A2C(this, globalCtx);
+        case 2: // light arrow room & sealing of ganon
+            EnNb_InLightArrowOrSealingState(this, globalCtx);
             break;
-        case 3:
-            func_80AB1FA4(this, globalCtx);
+        case 3: // after getting silver gauntlets
+            EnNb_InColossusCapture(this, globalCtx);
             break;
-        case 4:
-            func_80AB2484(this, globalCtx);
+        case 4: // nabooru knuckle fight
+            EnNb_KnuckleDefeated(this, globalCtx);
             break;
-        case 5:
-            func_80AB3150(this, globalCtx);
+        case 5: // nabooru in credits
+            EnNb_InCredits(this, globalCtx);
             break;
-        case 6:
-            func_80AB34A8(this, globalCtx);
+        case 6: // spirit temple child link
+            EnNb_CheckToSpawnNearSpiritCrawlspace(this, globalCtx);
             break;
-        default:
-            func_80AB1530(this, globalCtx);
+        default: // giving medallion
+            EnNb_SetChamberAnim(this, globalCtx);
             break;
     }
 }
@@ -1504,7 +1519,7 @@ void EnNb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 }
 
-void func_80AB4100(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_DrawNothing(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB410C(EnNb* this, GlobalContext* globalCtx) {
@@ -1516,7 +1531,7 @@ void func_80AB410C(EnNb* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_nb.c", 992);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nb.c", 992);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment));
@@ -1524,13 +1539,13 @@ void func_80AB410C(EnNb* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, srcSegmentC);
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80AB3FE8,
                      EnNb_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_nb.c", 1013);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nb.c", 1013);
 }
 
 void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
-    if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == 0) {
+    if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {

@@ -19,7 +19,7 @@ typedef struct EnNb {
     /* 0x0278 */ s32 action;
     /* 0x027C */ s32 drawMode;
     /* 0x0280 */ f32 unk_280;
-    /* 0x0284 */ u32 unk_284;
+    /* 0x0284 */ u32 alpha;
     /* 0x0288 */ s32 unk_288;
     /* 0x028C */ s32 unk_28C;
     /* 0x0290 */ f32 unk_290;
@@ -31,6 +31,17 @@ typedef struct EnNb {
     /* 0x02FE */ u16 unk_2FE;
     /* 0x0300 */ struct_80034A14_arg1 struct_300;
 } EnNb; // size = 0x0328
+
+typedef enum {
+    /* 0x00 */
+
+    /* 0x18 */ NB_CROUCH_CRAWLSPACE = 24,
+    /* 0x19 */ NB_NOTICE_PLAYER = 25,
+    /* 0x1A */ NB_IDLE_CRAWLSPACE = 26,
+    /* 0x1B */ NB_IN_DIALOG = 27,
+    /* 0x1C */ NB_IN_PATH = 28,
+    /* 0x1D */ NB_IDLE_AFTER_TALK = 29
+} EnNbAction;
 
 extern const ActorInit En_Nb_InitVars;
 
