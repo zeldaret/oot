@@ -359,7 +359,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (this->timer < 127) {
                 // spawn spark effect on even frames
                 if ((globalCtx->gameplayFrames % 2) == 0) {
-                    func_80029184(globalCtx, this, &effPos, &effVelocity, &effAccel);
+                    func_80029184(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
                 }
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
