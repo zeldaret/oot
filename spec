@@ -1598,11 +1598,7 @@ endseg
 beginseg
     name "ovl_Demo_Go"
     include "build/src/overlays/actors/ovl_Demo_Go/z_demo_go.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Demo_Go/ovl_Demo_Go_reloc.o"
-#else
-    include "build/data/overlays/actors/z_demo_go.reloc.o"
-#endif
 endseg
 
 beginseg
