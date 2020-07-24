@@ -82,8 +82,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (block->unk_24[typeIdx] & 2) {
         ((ObjOshihiki*)thisx->attachedB)->unk_1BE = 1;
     }
-    thisx->shape.rot.z = 0;
-    thisx->posRot.rot.z = thisx->shape.rot.z;
+    thisx->posRot.rot.z = thisx->shape.rot.z = 0;
     osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params,
                  thisx->initPosRot.rot.z);
 }
