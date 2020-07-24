@@ -59,9 +59,9 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 typeIdx;
     Vec3f* spawnPos;
 
-    if ((!((thisx->params >> 6) & 1)) && (Flags_GetSwitch(globalCtx, thisx->params & 0x3F))) {
+    if (!((thisx->params >> 6) & 1) && Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         typeIdx = 1;
-    } else if ((!((thisx->params >> 0xE) & 1)) && (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F))) {
+    } else if (!((thisx->params >> 0xE) & 1) && Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
         typeIdx = 2;
     } else {
         typeIdx = 0;
