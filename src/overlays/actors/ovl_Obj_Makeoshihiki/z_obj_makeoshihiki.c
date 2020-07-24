@@ -51,7 +51,7 @@ static BlockConfig sBlocks[] = {
       0x0000 }
 };
 
-static u32 sFlags[3][2] = { 0, 0, 1, 0, 0, 1 };
+static u32 sFlags[3][2] = { { 0, 0 }, { 1, 0 }, { 0, 1 } };
 
 static void (*sFlagSwitchFuncs[])(GlobalContext* globalCtx, s32 flag) = { Flags_UnsetSwitch, Flags_SetSwitch };
 
