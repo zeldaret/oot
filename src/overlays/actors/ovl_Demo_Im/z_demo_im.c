@@ -1,5 +1,7 @@
 #include "z_demo_im.h"
 
+#include <vt.h>
+
 #define FLAGS 0x00000011
 
 #define THIS ((DemoIm*)thisx)
@@ -8,8 +10,78 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Draw(Actor* thisx, GlobalContext* globalCtx);
+void func_809856F8(DemoIm* this, GlobalContext* globalCtx);
+void func_80985718(DemoIm* this, GlobalContext* globalCtx);
+void func_80985738(DemoIm* this, GlobalContext* globalCtx);
+void func_80985770(DemoIm* this, GlobalContext* globalCtx);
+void func_809857B0(DemoIm* this, GlobalContext* globalCtx);
+void func_809857F0(DemoIm* this, GlobalContext* globalCtx);
+void func_80985830(DemoIm* this, GlobalContext* globalCtx);
+void func_80985C10(DemoIm* this, GlobalContext* globalCtx);
+void func_80985C40(DemoIm* this, GlobalContext* globalCtx);
+void func_80985C94(DemoIm* this, GlobalContext* globalCtx);
+void func_80985CE8(DemoIm* this, GlobalContext* globalCtx);
+void func_809863BC(DemoIm* this, GlobalContext* globalCtx);
+void func_809863DC(DemoIm* this, GlobalContext* globalCtx);
+void func_80986430(DemoIm* this, GlobalContext* globalCtx);
+void func_80986494(DemoIm* this, GlobalContext* globalCtx);
+void func_809864D4(DemoIm* this, GlobalContext* globalCtx);
+void func_809868E8(DemoIm* this, GlobalContext* globalCtx);
+void func_80986908(DemoIm* this, GlobalContext* globalCtx);
+void func_80986948(DemoIm* this, GlobalContext* globalCtx);
+void func_80986D40(DemoIm* this, GlobalContext* globalCtx);
+void func_80986DC8(DemoIm* this, GlobalContext* globalCtx);
+void func_80986E20(DemoIm* this, GlobalContext* globalCtx);
+void func_80986E40(DemoIm* this, GlobalContext* globalCtx);
+void func_80986EAC(DemoIm* this, GlobalContext* globalCtx);
+void func_80986F08(DemoIm* this, GlobalContext* globalCtx);
+void func_80986F28(DemoIm* this, GlobalContext* globalCtx);
+void func_80986F88(DemoIm* this, GlobalContext* globalCtx);
+void func_80986FA8(DemoIm* this, GlobalContext* globalCtx);
+void func_80987288(DemoIm* this, GlobalContext* globalCtx);
+void func_809872A8(DemoIm* this, GlobalContext* globalCtx);
+void func_809872F0(DemoIm* this, GlobalContext* globalCtx);
+void func_80987330(DemoIm* this, GlobalContext* globalCtx);
+void func_8098764C(DemoIm* this, GlobalContext* globalCtx);
+void func_80987658(DemoIm* this, GlobalContext* globalCtx);
 
-/*
+u32 D_80987830[] = {
+    0x06007210,
+    0x06007D50,
+    0x06008150,
+};
+u32 D_8098783C[] = {
+    0x00000000,
+};
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 25, 80, 0, { 0, 0, 0 } },
+};
+
+#include "z_demo_im_cutscene_data.c" EARLY
+
+DemoImActionFunc D_8098875C[] = {
+    func_809856F8, func_80985718, func_80985738, func_80985770, func_809857B0, func_809857F0, func_80985830,
+    func_80985C10, func_80985C40, func_80985C94, func_809863BC, func_809863DC, func_80986430, func_80986494,
+    func_809864D4, func_809868E8, func_80986908, func_80986948, func_80986D40, func_80986DC8, func_80986E20,
+    func_80986E40, func_80986EAC, func_80986F08, func_80986F28, func_80986F88, func_80986FA8, func_80987288,
+    func_809872A8, func_809872F0, func_80987330,
+};
+
+u32 D_809887D8[] = {
+    0x00000000,
+    0x41200000,
+    0x00000000,
+};
+
+static DemoImDrawFunc sDrawFuncs[] = {
+    func_8098764C,
+    func_80987658,
+    func_80985CE8,
+};
+
 const ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
     ACTORTYPE_NPC,
@@ -21,14 +93,23 @@ const ActorInit Demo_Im_InitVars = {
     (ActorFunc)DemoIm_Update,
     (ActorFunc)DemoIm_Draw,
 };
-*/
+
+extern AnimationHeader D_06001868;
+extern SkeletonHeader D_0600F788;
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80984BE0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80984C68.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80984C8C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80984D00.s")
+void func_80984D00(DemoIm* this, GlobalContext* globalCtx) {
+    ColliderCylinder* collider = &this->collider;
+    if (this) {}
+
+    Collider_InitCylinder(globalCtx, collider);
+    Collider_SetCylinder_Set3(globalCtx, collider, &this->actor, &sCylinderInit);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80984D4C.s")
 
@@ -58,9 +139,29 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985200.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985280.s")
+void func_80985280(DemoIm* this, AnimationHeader* animationHeader, u8 arg2, f32 transitionRate, s32 arg4) {
+    f32 frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
+    f32 playbackSpeed;
+    f32 unk0;
+    f32 fc;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985310.s")
+    if (arg4 == 0) {
+        unk0 = 0.0f;
+        fc = frameCount;
+        playbackSpeed = 1.0f;
+    } else {
+        fc = 0.0f;
+        unk0 = frameCount;
+        playbackSpeed = -1.0f;
+    }
+
+    SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
+}
+
+void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
+    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    this->actor.shape.unk_08 = -10000.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985358.s")
 
@@ -94,7 +195,11 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985830.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985860.s")
+void func_80985860(DemoIm* this, GlobalContext* globalCtx) {
+    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    this->unk_260 = 7;
+    this->actor.shape.unk_14 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809858A8.s")
 
@@ -114,7 +219,11 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985CE8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985E60.s")
+void func_80985E60(DemoIm* this, GlobalContext* globalCtx) {
+    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    this->unk_260 = 10;
+    this->unk_280 = 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985EAC.s")
 
@@ -150,7 +259,10 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809864D4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_8098652C.s")
+void func_8098652C(DemoIm* this, GlobalContext* globalCtx) {
+    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    this->unk_260 = 15;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80986570.s")
 
@@ -170,7 +282,11 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80986948.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809869B0.s")
+void func_809869B0(DemoIm* this, GlobalContext* globalCtx) {
+    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    this->unk_260 = 18;
+    this->actor.shape.unk_14 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809869F8.s")
 
@@ -210,7 +326,12 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80986FA8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80987018.s")
+void func_80987018(DemoIm* this, GlobalContext* globalCtx) {
+    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    this->unk_260 = 27;
+    this->drawConfig = 0;
+    this->actor.shape.unk_14 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80987064.s")
 
@@ -234,7 +355,35 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/DemoIm_Update.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/DemoIm_Init.s")
+void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DemoIm* this = THIS;
+
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    func_80984D00(this, globalCtx);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->limbDrawTable, this->transitionDrawTable,
+                     17);
+    thisx->flags &= ~1;
+
+    switch (this->actor.params) {
+        case 2:
+            func_80985860(this, globalCtx);
+            break;
+        case 3:
+            func_80985E60(this, globalCtx);
+            break;
+        case 4:
+            func_8098652C(this, globalCtx);
+            break;
+        case 5:
+            func_809869B0(this, globalCtx);
+            break;
+        case 6:
+            func_80987018(this, globalCtx);
+            break;
+        default:
+            func_80985310(this, globalCtx);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/DemoIm_Destroy.s")
 
@@ -246,4 +395,12 @@ const ActorInit Demo_Im_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80987658.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/DemoIm_Draw.s")
+void DemoIm_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    DemoIm* this = THIS;
+
+    if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        return;
+    }
+    sDrawFuncs[this->drawConfig](this, globalCtx);
+}
