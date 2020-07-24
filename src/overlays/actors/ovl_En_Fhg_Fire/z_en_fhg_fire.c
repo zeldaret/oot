@@ -465,7 +465,7 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;
     s32 pad;
-    
+
     {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
@@ -508,8 +508,8 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40, 1,
-                                        (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40,
+                                        1, (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
 
             gSPDisplayList(gfxCtx->polyXlu.p++, D_0600FAA0);
         } else {
