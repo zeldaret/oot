@@ -41,8 +41,8 @@ static InitChainEntry sInitChain[] = {
 
 extern UNK_TYPE D_060035F8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
-/*f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
+f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
     f32 phi_f2;
     phi_f2 = (target - *posY) * arg2;
     if (*posY < target) {
@@ -82,20 +82,16 @@ extern UNK_TYPE D_060035F8;
     
     //return phi_f2;
 }
-*/
+
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A18FC.s")
 void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     f32 phi_f12;
     f32 temp_f2;
     f32 temp1;
-    temp_f2 = fabsf(distTo) * 0.09f;
-    if (0.0f > temp_f2) {
-        phi_f12 = 0.0f;
-    } else {
-        temp1 = (temp_f2 > 1.0f) ? 1.0f : temp_f2;
-        phi_f12 = temp1;
-    }
-    func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12);
+
+    // clang-format off/
+    do { temp_f2 = fabsf(distTo) * 0.09f; if (temp_f2 < 0.0f) { phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2); phi_f12 = temp1; }  func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12); } while (0);
+    // clang-format on/
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/BgMoriElevator_Init.s")
