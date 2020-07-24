@@ -15,7 +15,7 @@ typedef struct DemoIm {
     /* 0x0190 */ Vec3s limbDrawTable[17];
     /* 0x01F6 */ Vec3s transitionDrawTable[17];
     /* 0x025C */ char unk_25C[0x4];
-    /* 0x0260 */ s32 unk_260;
+    /* 0x0260 */ s32 action;
     /* 0x0264 */ s32 drawConfig;
     /* 0x0268 */ char unk_268[0x18];
     /* 0x0280 */ s32 unk_280;
