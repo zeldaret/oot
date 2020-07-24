@@ -29,7 +29,7 @@ typedef struct {
     /* 0x27 */ u8 paramVal1;
     /* 0x28 */ u8 paramVal2;
     /* 0x2A */ s16 rotY;
-} BlockConfig;
+} BlockConfig; // size = 0x2C
 
 static BlockConfig sBlocks[] = {
     { { { 660.0f, 460.0f, 660.0f }, { 660.0f, 457.0f, 540.0f }, { 780.0f, 454.0f, 540.0f } },
