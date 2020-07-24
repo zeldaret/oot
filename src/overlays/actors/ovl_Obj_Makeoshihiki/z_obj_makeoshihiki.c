@@ -28,7 +28,6 @@ typedef struct {
     /* 0x24 */ u8 unk_24[3];
     /* 0x27 */ u8 paramVal1;
     /* 0x28 */ u8 paramVal2;
-    /* 0x29 */ char unk_29[0x1];
     /* 0x2A */ s16 rotY;
 } BlockConfig;
 
