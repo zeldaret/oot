@@ -5,6 +5,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
@@ -30,7 +31,7 @@ extern Color_RGBA8_n D_801158D0;
 
 // Draw utility for some G effects
 
-void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
+void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR texture) {
     s32 pad;
     f32 scale;
     MtxF sp120;
@@ -47,7 +48,7 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segm
     gfxCtx = globalCtx->state.gfxCtx;
     object = globalCtx->objectCtx.status[this->regs[11]].segment;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
-    
+
     scale = this->regs[1] * 0.0025f;
     func_800A7A24(&sp120, this->pos.x, this->pos.y, this->pos.z);
     func_800A76A4(&spE0, scale, scale, scale);
@@ -60,7 +61,7 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segm
 
     if (mtx != NULL) {
         gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(segment));
+        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(texture));
         func_80094C50(gfxCtx);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[3], this->regs[4], this->regs[5], this->regs[6]);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[7], this->regs[8], this->regs[9], this->regs[10]);
@@ -374,7 +375,24 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 
 // EffectSsGSplash Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002949C.s")
+void func_8002949C(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor, s16 arg4,
+                   s16 scale) {
+    EffectSsGSplashInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.unk_0C = arg4;
+    initParams.scale = scale;
+
+    if (primColor != NULL) {
+        initParams.primColor = *primColor;
+        initParams.envColor = *envColor;
+        initParams.customColor = true;
+    } else {
+        initParams.customColor = false;
+    }
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_SPLASH, 128, &initParams);
+}
 
 // EffectSsGMagma Spawn Functions
 

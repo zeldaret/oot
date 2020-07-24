@@ -1871,7 +1871,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Splash"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.o"
-    include "build/data/overlays/effects/z_eff_ss_g_splash.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_G_Splash/ovl_Effect_Ss_G_Splash_reloc.o"
 endseg
 
 beginseg

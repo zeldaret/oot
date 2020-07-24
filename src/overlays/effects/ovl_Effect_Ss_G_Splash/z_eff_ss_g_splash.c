@@ -1,15 +1,15 @@
 /*
  * File: z_eff_ss_g_splash.c
  * Overlay: ovl_Effect_Ss_G_Splash
- * Description:
+ * Description: Splash
  */
 
 #include "z_eff_ss_g_splash.h"
 
 typedef enum {
-    /* 0x00 */ SS_G_SPLASH_0,
+    /* 0x00 */ SS_G_SPLASH_TEX_IDX,
     /* 0x01 */ SS_G_SPLASH_SCALE,
-    /* 0x02 */ SS_G_SPLASH_2,
+    /* 0x02 */ SS_G_SPLASH_TEX_IDX_STEP,
     /* 0x03 */ SS_G_SPLASH_PRIM_R,
     /* 0x04 */ SS_G_SPLASH_PRIM_G,
     /* 0x05 */ SS_G_SPLASH_PRIM_B,
@@ -19,7 +19,6 @@ typedef enum {
     /* 0x09 */ SS_G_SPLASH_ENV_B,
     /* 0x0A */ SS_G_SPLASH_ENV_A,
     /* 0x0B */ SS_G_SPLASH_OBJ_BANK_IDX,
-    /* 0x0C */ SS_G_SPLASH_C,
 } EffectSsG_SplashRegs;
 
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParams);
@@ -29,10 +28,6 @@ void func_809A7864(GlobalContext* globalCtx, u32 index, EffectSs* this);
 EffectSsInit Effect_Ss_G_Splash_InitVars = {
     EFFECT_SS_G_SPLASH,
     EffectSsGSplash_Init,
-};
-
-UNK_PTR D_809A7954[] = {
-    0x040255F0, 0x04025AF0, 0x04025FF0, 0x040264F0, 0x040269F0, 0x04026EF0, 0x040273F0, 0x040278F0,
 };
 
 extern Gfx D_04027DF0[];
@@ -58,8 +53,8 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->displayList = SEGMENTED_TO_VIRTUAL(D_04027DF0);
     this->life = 8;
     this->regs[SS_G_SPLASH_SCALE] = initParams->scale;
-    this->regs[SS_G_SPLASH_0] = 0;
-    this->regs[SS_G_SPLASH_2] = 0x64;
+    this->regs[SS_G_SPLASH_TEX_IDX] = 0;
+    this->regs[SS_G_SPLASH_TEX_IDX_STEP] = 0x64;
 
     if (initParams->customColor) {
         this->regs[SS_G_SPLASH_PRIM_R] = initParams->primColor.r;
@@ -111,25 +106,48 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Splash/func_809A7760.s")
+UNK_PTR D_809A7954[] = {
+    0x040255F0, 0x04025AF0, 0x04025FF0, 0x040264F0, 0x040269F0, 0x04026EF0, 0x040273F0, 0x040278F0,
+};
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Splash/func_809A7864.s")
-void func_809A7864(GlobalContext *globalCtx, u32 index, EffectSs *this) {
-    s32 newSplashScale;
+void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    s16 texIdx;
+
+    switch (this->regs[SS_G_SPLASH_OBJ_BANK_IDX]) {
+        case 0:
+            texIdx = this->regs[SS_G_SPLASH_TEX_IDX] / 0x64;
+            if (texIdx >= 8) {
+                texIdx = 7;
+            }
+            EffectSs_DrawGEffect(globalCtx, this, D_809A7954[texIdx]);
+            break;
+        case 1:
+            texIdx = this->regs[SS_G_SPLASH_TEX_IDX] / 0x64;
+            if (texIdx >= 8) {
+                texIdx = 7;
+            }
+            EffectSs_DrawGEffect(globalCtx, this, D_809A7954[texIdx]);
+            break;
+        case 2:
+            texIdx = this->regs[SS_G_SPLASH_TEX_IDX] / 0x64;
+            if (texIdx >= 8) {
+                texIdx = 7;
+            }
+            EffectSs_DrawGEffect(globalCtx, this, D_809A7954[texIdx]);
+            break;
+        default:
+            break;
+    }
+}
+
+void func_809A7864(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Vec3f newSplashPos;
-    
 
     if ((this->regs[SS_G_SPLASH_OBJ_BANK_IDX] == 1) && (this->life == 5)) {
         newSplashPos = this->pos;
         newSplashPos.y += ((this->regs[SS_G_SPLASH_SCALE] * 20) * 0.002f);
-        newSplashScale = this->regs[SS_G_SPLASH_SCALE] >> 1;
-
-        if (this->regs[SS_G_SPLASH_SCALE] < 0) {
-            newSplashScale = (this->regs[SS_G_SPLASH_SCALE] + 1) >> 1;
-        }
-
-        func_8002949C(globalCtx, &newSplashPos, 0, 0, 2, newSplashScale);
+        func_8002949C(globalCtx, &newSplashPos, 0, 0, 2, this->regs[SS_G_SPLASH_SCALE] / 2);
     }
-    this->regs[SS_G_SPLASH_0] += this->regs[SS_G_SPLASH_2];
+    
+    this->regs[SS_G_SPLASH_TEX_IDX] += this->regs[SS_G_SPLASH_TEX_IDX_STEP];
 }
-
