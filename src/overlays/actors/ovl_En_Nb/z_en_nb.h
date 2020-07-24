@@ -14,8 +14,8 @@ typedef struct EnNb {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[19];
     /* 0x0202 */ Vec3s transitionDrawTable[19];
-    /* 0x0274 */ s16 unk_274;
-    /* 0x0276 */ s16 unk_276;
+    /* 0x0274 */ s16 eyeIdx;
+    /* 0x0276 */ s16 blinkTimer;
     /* 0x0278 */ s32 action;
     /* 0x027C */ s32 drawMode;
     /* 0x0280 */ f32 unk_280;
@@ -34,7 +34,18 @@ typedef struct EnNb {
 
 typedef enum {
     /* 0x00 */
+    /* 0x01 */ NB_CHAMBER_UNDERGROUND = 1,
+    /* 0x02 */ NB_CHAMBER_APPEAR = 2,
+    /* 0x03 */ NB_CHAMBER_IDLE = 3, // Talking to Link in the chamber
+    
+    /* 0x06 */ NB_GIVE_MEDALLION = 6,
 
+    /* 0x0A */ NB_CAPTURED = 10,
+
+    /* 0x14 */ NB_CREDITS_INIT = 20,
+    /* 0x15 */ NB_CREDITS_FADEIN = 21,
+    /* 0x16 */ NB_CREDITS_SIT = 22,
+    /* 0x17 */ NB_CREDITS_HEAD_TURN = 23,
     /* 0x18 */ NB_CROUCH_CRAWLSPACE = 24,
     /* 0x19 */ NB_NOTICE_PLAYER = 25,
     /* 0x1A */ NB_IDLE_CRAWLSPACE = 26,
@@ -43,6 +54,11 @@ typedef enum {
     /* 0x1D */ NB_IDLE_AFTER_TALK = 29
 } EnNbAction;
 
+typedef enum {
+    /* 0x00 */ NB_DRAW_NOTHING,
+    /* 0x01 */
+    /* 0x02 */ NB_DRAW_TRANSPARENCY = 2
+} EnNbDrawMode;
 extern const ActorInit En_Nb_InitVars;
 
 #endif
