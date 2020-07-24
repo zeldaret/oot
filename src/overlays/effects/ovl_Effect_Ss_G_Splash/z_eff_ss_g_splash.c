@@ -18,7 +18,7 @@ typedef enum {
     /* 0x08 */ SS_G_SPLASH_ENV_G,
     /* 0x09 */ SS_G_SPLASH_ENV_B,
     /* 0x0A */ SS_G_SPLASH_ENV_A,
-    /* 0x0B */ SS_G_SPLASH_OBJ_BANK_IDX,
+    /* 0x0B */ SS_G_SPLASH_B,
 } EffectSsG_SplashRegs;
 
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParams);
@@ -65,7 +65,7 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         this->regs[SS_G_SPLASH_ENV_G] = initParams->envColor.g;
         this->regs[SS_G_SPLASH_ENV_B] = initParams->envColor.b;
         this->regs[SS_G_SPLASH_ENV_A] = initParams->envColor.a;
-        this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = initParams->unk_0C;
+        this->regs[SS_G_SPLASH_B] = initParams->unk_0C;
     } else {
         switch (initParams->unk_0C) {
             case 0:
@@ -77,7 +77,7 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
                 this->regs[SS_G_SPLASH_ENV_G] = 255;
                 this->regs[SS_G_SPLASH_ENV_B] = 255;
                 this->regs[SS_G_SPLASH_ENV_A] = 200;
-                this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = 0;
+                this->regs[SS_G_SPLASH_B] = 0;
                 break;
             case 1:
                 this->regs[SS_G_SPLASH_PRIM_R] = 255;
@@ -88,7 +88,7 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
                 this->regs[SS_G_SPLASH_ENV_G] = 255;
                 this->regs[SS_G_SPLASH_ENV_B] = 255;
                 this->regs[SS_G_SPLASH_ENV_A] = 255;
-                this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = 1;
+                this->regs[SS_G_SPLASH_B] = 1;
                 break;
             case 2:
                 this->regs[SS_G_SPLASH_PRIM_R] = 255;
@@ -99,7 +99,7 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
                 this->regs[SS_G_SPLASH_ENV_G] = 255;
                 this->regs[SS_G_SPLASH_ENV_B] = 255;
                 this->regs[SS_G_SPLASH_ENV_A] = 200;
-                this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = 2;
+                this->regs[SS_G_SPLASH_B] = 2;
                 break;
         }
     }
@@ -113,7 +113,7 @@ UNK_PTR D_809A7954[] = {
 void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 texIdx;
 
-    switch (this->regs[SS_G_SPLASH_OBJ_BANK_IDX]) {
+    switch (this->regs[SS_G_SPLASH_B]) {
         case 0:
             texIdx = this->regs[SS_G_SPLASH_TEX_IDX] / 0x64;
             if (texIdx >= 8) {
@@ -143,7 +143,7 @@ void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void func_809A7864(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Vec3f newSplashPos;
 
-    if ((this->regs[SS_G_SPLASH_OBJ_BANK_IDX] == 1) && (this->life == 5)) {
+    if ((this->regs[SS_G_SPLASH_B] == 1) && (this->life == 5)) {
         newSplashPos = this->pos;
         newSplashPos.y += ((this->regs[SS_G_SPLASH_SCALE] * 20) * 0.002f);
         func_8002949C(globalCtx, &newSplashPos, 0, 0, 2, this->regs[SS_G_SPLASH_SCALE] / 2);
