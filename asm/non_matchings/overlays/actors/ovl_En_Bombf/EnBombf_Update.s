@@ -405,7 +405,7 @@ glabel EnBombf_Update
 /* 00DB8 809C7D18 27A50068 */  addiu   $a1, $sp, 0x0068           ## $a1 = FFFFFFD0
 /* 00DBC 809C7D1C 27A6008C */  addiu   $a2, $sp, 0x008C           ## $a2 = FFFFFFF4
 /* 00DC0 809C7D20 27A70080 */  addiu   $a3, $sp, 0x0080           ## $a3 = FFFFFFE8
-/* 00DC4 809C7D24 0C00A3A1 */  jal     EffectSsBomb2_SpawnExpanding              
+/* 00DC4 809C7D24 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 00DC8 809C7D28 AFA30038 */  sw      $v1, 0x0038($sp)           
 /* 00DCC 809C7D2C C60A0080 */  lwc1    $f10, 0x0080($s0)          ## 00000080
 /* 00DD0 809C7D30 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000

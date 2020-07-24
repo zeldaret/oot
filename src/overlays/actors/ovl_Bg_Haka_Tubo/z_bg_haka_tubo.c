@@ -103,7 +103,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             pos.x = this->dyna.actor.posRot.pos.x;
             pos.z = this->dyna.actor.posRot.pos.z;
             pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
-            EffectSsBomb2_SpawnExpanding(globalCtx, &pos, &sBomb2VelAccel, &sBomb2VelAccel, 100, 45);
+            EffectSsBomb2_SpawnLayered(globalCtx, &pos, &sBomb2VelAccel, &sBomb2VelAccel, 100, 45);
             Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 50, NA_SE_EV_BOX_BREAK);
             func_800297A4(globalCtx, &pos, 20.0f, 0, 350, 100, 50, 105, 40, &D_0400CD80);
             this->dropTimer = 5;

@@ -206,7 +206,7 @@ void EffectSsBomb2_SpawnFade(GlobalContext* globalCtx, Vec3f* pos, Vec3f* veloci
     EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB2, 10, &initParams);
 }
 
-void EffectSsBomb2_SpawnExpanding(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                   s16 scaleStep) {
     EffectSsBomb2InitParams initParams;
 

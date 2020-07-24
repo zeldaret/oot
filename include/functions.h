@@ -223,7 +223,7 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
 // ? func_80028BB0(?);
 // ? func_80028CEC(?);
-void EffectSsBomb2_SpawnExpanding(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
+void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
 void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
                    s16 life);
 void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
@@ -1041,7 +1041,7 @@ VecSph* OLib_Vec3fDiffToVecSphRot90(VecSph* arg0, Vec3f* a, Vec3f* b);
 // ? func_8007FFE0(?);
 // ? func_80080024(?);
 s16 func_800800F8(GlobalContext* globalCtx, s16 arg1, s16 arg2, Actor* actor, s16 arg4);
-// ? func_800803F0(?);
+UNK_TYPE func_800803F0(GlobalContext* globalCtx, s16 arg1);
 // ? func_80080480(?);
 void func_80080788(UNK_TYPE, UNK_TYPE);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);
