@@ -42,13 +42,13 @@ glabel func_8089A1DC
 /* 00130 8089A260 3C014100 */  lui     $at, 0x4100                ## $at = 41000000
 /* 00134 8089A264 000FC040 */  sll     $t8, $t7,  1               
 /* 00138 8089A268 03194021 */  addu    $t0, $t8, $t9              
-/* 0013C 8089A26C 3C1E808A */  lui     $s8, %hi(sDurations)       ## $s8 = 808A0000
-/* 00140 8089A270 3C17808A */  lui     $s7, %hi(sScales)       ## $s7 = 808A0000
-/* 00144 8089A274 3C16808A */  lui     $s6, %hi(sRotSpeeds)       ## $s6 = 808A0000
+/* 0013C 8089A26C 3C1E808A */  lui     $s8, %hi(D_8089B15C)       ## $s8 = 808A0000
+/* 00140 8089A270 3C17808A */  lui     $s7, %hi(D_8089B14C)       ## $s7 = 808A0000
+/* 00144 8089A274 3C16808A */  lui     $s6, %hi(D_8089B16C)       ## $s6 = 808A0000
 /* 00148 8089A278 4481A000 */  mtc1    $at, $f20                  ## $f20 = 8.00
-/* 0014C 8089A27C 26D6B16C */  addiu   $s6, $s6, %lo(sRotSpeeds)  ## $s6 = 8089B16C
-/* 00150 8089A280 26F7B14C */  addiu   $s7, $s7, %lo(sScales)  ## $s7 = 8089B14C
-/* 00154 8089A284 27DEB15C */  addiu   $s8, $s8, %lo(sDurations)  ## $s8 = 8089B15C
+/* 0014C 8089A27C 26D6B16C */  addiu   $s6, $s6, %lo(D_8089B16C)  ## $s6 = 8089B16C
+/* 00150 8089A280 26F7B14C */  addiu   $s7, $s7, %lo(D_8089B14C)  ## $s7 = 8089B14C
+/* 00154 8089A284 27DEB15C */  addiu   $s8, $s8, %lo(D_8089B15C)  ## $s8 = 8089B15C
 /* 00158 8089A288 AFA800A0 */  sw      $t0, 0x00A0($sp)           
 /* 0015C 8089A28C 27B400B4 */  addiu   $s4, $sp, 0x00B4           ## $s4 = FFFFFFF4
 .L8089A290:

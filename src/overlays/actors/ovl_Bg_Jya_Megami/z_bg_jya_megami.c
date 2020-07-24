@@ -14,9 +14,9 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalContext);
 void BgJyaMegami_SetupExplosion(BgJyaMegami* this);
 void BgJyaMegami_Explosion(BgJyaMegami* this, GlobalContext* globalContext);
 
-extern u32 D_06005780;
-extern u32 D_06005C4C;
-extern u32 D_0600B9F8;
+extern Gfx D_06005780[];
+extern UNK_TYPE D_06005C4C;
+extern UNK_TYPE D_0600B9F8;
 
 const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
@@ -59,15 +59,18 @@ static BgJyaMegami_PieceInit sPiecesInit[] = {
     { { 14.759999f, -125.8f, -44.16f }, 0.2f, 0x0320, 0x0258, 20 },
 };
 
-s16 sScales[] = {
+// sEffectScales
+s16 D_8089B14C[] = {
     0x0005, 0x0008, 0x000B, 0x000E, 0x0011, 0x0014, 0x0017, 0x001A,
 };
 
-s16 sDurations[] = {
+// sEffectLifes
+s16 D_8089B15C[] = {
     0x0012, 0x001A, 0x0022, 0x002A, 0x0032, 0x003C, 0x0046, 0x0050,
 };
 
-s16 sRotSpeeds[] = {
+// sEffectRotSpeeds
+s16 D_8089B16C[] = {
     0x0030, 0x002A, 0x0024, 0x0020, 0x001C, 0x0018, 0x0014, 0x0010,
 };
 
@@ -77,7 +80,8 @@ s16 sBitMasks[] = {
     0x0007,
 };
 
-static Vec3f sBurstDepthX = {
+// sBurstDepthX
+static Vec3f D_8089B184 = {
     0.0f,
     0.0f,
     0.8f,
@@ -96,15 +100,15 @@ static Vec3f sVec = {
     0.0f,
 };
 
-static u32 sRightSideCrumbles[] = {
+static UNK_PTR sRightSideCrumbles[] = {
     0x06000D00, 0x06001D00, 0x06002500, 0x06002D00, 0x06004D00,
 };
 
-static u32 sLeftSideCrumbles[] = {
+static UNK_PTR sLeftSideCrumbles[] = {
     0x06001500, 0x06003500, 0x06003D00, 0x06004500, 0x06000500,
 };
 
-static u32 sDisplayLists[] = {
+static Gfx* sDLists[] = {
     0x06009928, 0x06009AC0, 0x06009C80, 0x06009DE8, 0x06009F60, 0x0600A0A8, 0x0600A278,
     0x0600A418, 0x0600A568, 0x0600A6A0, 0x0600A7E0, 0x0600A978, 0x0600AAC8,
 };
@@ -135,15 +139,15 @@ void func_8089A1DC(GlobalContext* globalContext, Vec3f* burstOrigin, Vec3f* burs
     s32 i;
 
     for (i = 0; i < num; ++i) {
-        u32* dList = &D_0600B9F8;
+        UNK_TYPE temp_ptr = &D_0600B9F8;
         s32 temp_s1 = ((s16)(Math_Rand_ZeroOne() * 8.0f)) & sBitMasks[maskIndex];
         s16 temp = ((temp_s1 < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
-        func_80029E8C(globalContext, burstOrigin, burstDepthX, burstOrigin, -90, temp, sRotSpeeds[temp_s1], 4, 0,
-                      sScales[temp_s1], 0, 5, sDurations[temp_s1], -1, OBJECT_JYA_OBJ, dList);
+        func_80029E8C(globalContext, burstOrigin, burstDepthX, burstOrigin, -90, temp, D_8089B16C[temp_s1], 4, 0,
+                      D_8089B14C[temp_s1], 0, 5, D_8089B15C[temp_s1], -1, OBJECT_JYA_OBJ, temp_ptr);
         if (Math_Rand_ZeroOne() < 0.45f) {
             Math_Vec3f_Copy(&spB4, burstOrigin);
             spB4.z += 25.0f;
-            func_80033480(globalContext, &spB4, 60.0f, 0, sScales[temp_s1] * 4 + 50, sScales[temp_s1] * 4 + 70, 1);
+            func_80033480(globalContext, &spB4, 60.0f, 0, D_8089B14C[temp_s1] * 4 + 50, D_8089B14C[temp_s1] * 4 + 70, 1);
         }
     }
 }
@@ -159,7 +163,7 @@ void func_8089A41C(BgJyaMegami* this, GlobalContext* globalContext, f32 arg2) {
         if (Math_Rand_ZeroOne() < arg2) {
             Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &sPiecesInit[i].unk_00, &sp50);
             sp50.z += 15.0f;
-            func_8089A1DC(globalContext, &sp50, &sBurstDepthX, 1, 0);
+            func_8089A1DC(globalContext, &sp50, &D_8089B184, 1, 0);
         }
     }
 }
@@ -298,7 +302,7 @@ void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalContext) {
     this->actionFunc(this, globalContext);
 }
 
-void BgJyaMegami_DrawDetectLight(BgJyaMegami* this, GlobalContext* globalContext) {
+void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalContext) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
@@ -309,15 +313,16 @@ void BgJyaMegami_DrawDetectLight(BgJyaMegami* this, GlobalContext* globalContext
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sLeftSideCrumbles[this->crumbleIndex]));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalContext->state.gfxCtx, "../z_bg_jya_megami.c", 716),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06005780);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_06005780);
     Graph_CloseDisps(dispRefs, globalContext->state.gfxCtx, "../z_bg_jya_megami.c", 720);
 }
 
 void BgJyaMegami_DrawExplosion(BgJyaMegami* this, GlobalContext* globalContext) {
-    GraphicsContext* gfxCtx;
-    BgJyaMegami_Piece* temp;
+    s32 pad;
+    BgJyaMegami_Piece* piece;
     u32 i;
-    Gfx* dispRefs[5];
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
 
     gfxCtx = globalContext->state.gfxCtx;
 
@@ -325,18 +330,18 @@ void BgJyaMegami_DrawExplosion(BgJyaMegami* this, GlobalContext* globalContext) 
     func_80093D18(globalContext->state.gfxCtx);
 
     for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
-        temp = &this->pieces[i];
-        Matrix_Translate(temp->pos.x + sPiecesInit[i].unk_00.x, temp->pos.y + sPiecesInit[i].unk_00.y,
-                         temp->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
-        Matrix_RotateY(temp->rotVelY * 0.0000958738f, MTXMODE_APPLY);
-        Matrix_RotateX(temp->rotVelX * 0.0000958738f, MTXMODE_APPLY);
+        piece = &this->pieces[i];
+        Matrix_Translate(piece->pos.x + sPiecesInit[i].unk_00.x, piece->pos.y + sPiecesInit[i].unk_00.y,
+                         piece->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
+        Matrix_RotateY(piece->rotVelY * 0.0000958738f, MTXMODE_APPLY);
+        Matrix_RotateX(piece->rotVelX * 0.0000958738f, MTXMODE_APPLY);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         Matrix_Translate(sPiecesInit[i].unk_00.x * -10.0f, sPiecesInit[i].unk_00.y * -10.0f,
                          sPiecesInit[i].unk_00.z * -10.0f, MTXMODE_APPLY);
 
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalContext->state.gfxCtx, "../z_bg_jya_megami.c", 778),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, sDisplayLists[i]);
+        gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[i]);
     }
     Graph_CloseDisps(dispRefs, globalContext->state.gfxCtx, "../z_bg_jya_megami.c", 783);
 }
@@ -348,6 +353,6 @@ void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalContext) {
     if (this->actionFunc == BgJyaMegami_Explosion) {
         BgJyaMegami_DrawExplosion(this, globalContext);
     } else {
-        BgJyaMegami_DrawDetectLight(this, globalContext);
+        BgJyaMegami_DrawFace(this, globalContext);
     }
 }
