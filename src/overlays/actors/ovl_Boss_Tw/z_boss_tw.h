@@ -104,7 +104,18 @@ typedef struct BossTw {
     /* 0x05FE */ s16 unk_5FE;
     /* 0x0600 */ Vec3f unk_600; // eye
     /* 0x060C */ Vec3f unk_60C; // at
-    /* 0x0618 */ char unk_618[0x88];
+    /* 0x0618 */ Vec3f unk_618; // probably vec3f
+    /* 0x0624 */ Vec3f unk_624;
+    /* 0x0630 */ Vec3f unk_630;
+    /* 0x063C */ Vec3f unk_63C;
+    /* 0x0648 */ Vec3f unk_648;
+    /* 0x0654 */ Vec3f unk_654;
+    /* 0x0660 */ Vec3f unk_660;
+    /* 0x066C */ Vec3f unk_66C;
+    /* 0x0678 */ Vec3f unk_678;
+    /* 0x0684 */ Vec3f unk_684;
+    /* 0x0690 */ Vec3f unk_690;
+    /* 0x069C */ f32 unk_69C;
     /* 0x06A0 */ f32 unk_6A0;
     /* 0x06A4 */ f32 unk_6A4;
     /* 0x06A8 */ f32 unk_6A8;

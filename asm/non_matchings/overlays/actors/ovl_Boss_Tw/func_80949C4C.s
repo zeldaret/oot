@@ -13,10 +13,10 @@ glabel func_80949C4C
 /* 10FA4 80949C74 15C0000F */  bne     $t6, $zero, .L80949CB4     
 /* 10FA8 80949C78 00000000 */  nop
 /* 10FAC 80949C7C 91EFC870 */  lbu     $t7, %lo(D_8094C870)($t7)  
-/* 10FB0 80949C80 3C188095 */  lui     $t8, %hi(D_8094C84C)       ## $t8 = 80950000
+/* 10FB0 80949C80 3C188095 */  lui     $t8, %hi(twinrovaPtr)       ## $t8 = 80950000
 /* 10FB4 80949C84 15E0000B */  bne     $t7, $zero, .L80949CB4     
 /* 10FB8 80949C88 00000000 */  nop
-/* 10FBC 80949C8C 8F18C84C */  lw      $t8, %lo(D_8094C84C)($t8)  
+/* 10FBC 80949C8C 8F18C84C */  lw      $t8, %lo(twinrovaPtr)($t8)  
 /* 10FC0 80949C90 8719017C */  lh      $t9, 0x017C($t8)           ## 8095017C
 /* 10FC4 80949C94 17200005 */  bne     $t9, $zero, .L80949CAC     
 /* 10FC8 80949C98 00000000 */  nop

@@ -181,8 +181,8 @@ glabel BossTw_Update
 /* 07C60 80940930 0200F809 */  jalr    $ra, $s0                   
 /* 07C64 80940934 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 07C68 80940938 8E30014C */  lw      $s0, 0x014C($s1)           ## 0000014C
-/* 07C6C 8094093C 3C098094 */  lui     $t1, %hi(func_8093C858)    ## $t1 = 80940000
-/* 07C70 80940940 2529C858 */  addiu   $t1, $t1, %lo(func_8093C858) ## $t1 = 8093C858
+/* 07C6C 8094093C 3C098094 */  lui     $t1, %hi(BossTw_TwinrovaWaitForMerge)    ## $t1 = 80940000
+/* 07C70 80940940 2529C858 */  addiu   $t1, $t1, %lo(BossTw_TwinrovaWaitForMerge) ## $t1 = 8093C858
 /* 07C74 80940944 113000F6 */  beq     $t1, $s0, .L80940D20       
 /* 07C78 80940948 240A002D */  addiu   $t2, $zero, 0x002D         ## $t2 = 0000002D
 /* 07C7C 8094094C 3C0B8094 */  lui     $t3, %hi(func_8093C700)    ## $t3 = 80940000

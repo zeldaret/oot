@@ -122,13 +122,13 @@ glabel func_8093A5C4
               
 /* 01A8C 8093A75C E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 01A90 8093A760 10400067 */  beq     $v0, $zero, .L8093A900     
-/* 01A94 8093A764 3C0F8095 */  lui     $t7, %hi(D_8094C84C)       ## $t7 = 80950000
-/* 01A98 8093A768 8DEFC84C */  lw      $t7, %lo(D_8094C84C)($t7)  
-/* 01A9C 8093A76C 3C0E8094 */  lui     $t6, %hi(func_8093C858)    ## $t6 = 80940000
-/* 01AA0 8093A770 25CEC858 */  addiu   $t6, $t6, %lo(func_8093C858) ## $t6 = 8093C858
+/* 01A94 8093A764 3C0F8095 */  lui     $t7, %hi(twinrovaPtr)       ## $t7 = 80950000
+/* 01A98 8093A768 8DEFC84C */  lw      $t7, %lo(twinrovaPtr)($t7)  
+/* 01A9C 8093A76C 3C0E8094 */  lui     $t6, %hi(BossTw_TwinrovaWaitForMerge)    ## $t6 = 80940000
+/* 01AA0 8093A770 25CEC858 */  addiu   $t6, $t6, %lo(BossTw_TwinrovaWaitForMerge) ## $t6 = 8093C858
 /* 01AA4 8093A774 8DF8014C */  lw      $t8, 0x014C($t7)           ## 8095014C
-/* 01AA8 8093A778 3C038095 */  lui     $v1, %hi(D_8094C848)       ## $v1 = 80950000
-/* 01AAC 8093A77C 2463C848 */  addiu   $v1, $v1, %lo(D_8094C848)  ## $v1 = 8094C848
+/* 01AA8 8093A778 3C038095 */  lui     $v1, %hi(koumePtr)       ## $v1 = 80950000
+/* 01AAC 8093A77C 2463C848 */  addiu   $v1, $v1, %lo(koumePtr)  ## $v1 = 8094C848
 /* 01AB0 8093A780 15D80004 */  bne     $t6, $t8, .L8093A794       
 /* 01AB4 8093A784 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000
 /* 01AB8 8093A788 24190064 */  addiu   $t9, $zero, 0x0064         ## $t9 = 00000064
@@ -186,13 +186,13 @@ glabel func_8093A5C4
               
 /* 01B7C 8093A84C E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 01B80 8093A850 1040002B */  beq     $v0, $zero, .L8093A900     
-/* 01B84 8093A854 3C0A8095 */  lui     $t2, %hi(D_8094C84C)       ## $t2 = 80950000
-/* 01B88 8093A858 8D4AC84C */  lw      $t2, %lo(D_8094C84C)($t2)  
-/* 01B8C 8093A85C 3C098094 */  lui     $t1, %hi(func_8093C858)    ## $t1 = 80940000
-/* 01B90 8093A860 2529C858 */  addiu   $t1, $t1, %lo(func_8093C858) ## $t1 = 8093C858
+/* 01B84 8093A854 3C0A8095 */  lui     $t2, %hi(twinrovaPtr)       ## $t2 = 80950000
+/* 01B88 8093A858 8D4AC84C */  lw      $t2, %lo(twinrovaPtr)($t2)  
+/* 01B8C 8093A85C 3C098094 */  lui     $t1, %hi(BossTw_TwinrovaWaitForMerge)    ## $t1 = 80940000
+/* 01B90 8093A860 2529C858 */  addiu   $t1, $t1, %lo(BossTw_TwinrovaWaitForMerge) ## $t1 = 8093C858
 /* 01B94 8093A864 8D4B014C */  lw      $t3, 0x014C($t2)           ## 8095014C
-/* 01B98 8093A868 3C038095 */  lui     $v1, %hi(D_8094C844)       ## $v1 = 80950000
-/* 01B9C 8093A86C 2463C844 */  addiu   $v1, $v1, %lo(D_8094C844)  ## $v1 = 8094C844
+/* 01B98 8093A868 3C038095 */  lui     $v1, %hi(kotakePtr)       ## $v1 = 80950000
+/* 01B9C 8093A86C 2463C844 */  addiu   $v1, $v1, %lo(kotakePtr)  ## $v1 = 8094C844
 /* 01BA0 8093A870 152B0004 */  bne     $t1, $t3, .L8093A884       
 /* 01BA4 8093A874 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
 /* 01BA8 8093A878 240C0064 */  addiu   $t4, $zero, 0x0064         ## $t4 = 00000064

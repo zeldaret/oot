@@ -1,4 +1,4 @@
-glabel func_8093D58C
+glabel BossTw_TwinrovaSetupCSWait
 /* 048BC 8093D58C AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 048C0 8093D590 8C8F0004 */  lw      $t7, 0x0004($a0)           ## 00000004
 /* 048C4 8093D594 3C01C4FA */  lui     $at, 0xC4FA                ## $at = C4FA0000

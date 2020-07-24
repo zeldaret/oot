@@ -57,8 +57,8 @@ glabel func_8093A940
 /* 01D4C 8093AA1C 00000000 */  nop
 /* 01D50 8093AA20 4500003E */  bc1f    .L8093AB1C                 
 /* 01D54 8093AA24 00000000 */  nop
-/* 01D58 8093AA28 3C028095 */  lui     $v0, %hi(D_8094C84C)       ## $v0 = 80950000
-/* 01D5C 8093AA2C 8C42C84C */  lw      $v0, %lo(D_8094C84C)($v0)  
+/* 01D58 8093AA28 3C028095 */  lui     $v0, %hi(twinrovaPtr)       ## $v0 = 80950000
+/* 01D5C 8093AA2C 8C42C84C */  lw      $v0, %lo(twinrovaPtr)($v0)  
 /* 01D60 8093AA30 24180096 */  addiu   $t8, $zero, 0x0096         ## $t8 = 00000096
 /* 01D64 8093AA34 844F017C */  lh      $t7, 0x017C($v0)           ## 8095017C
 /* 01D68 8093AA38 15E00036 */  bne     $t7, $zero, .L8093AB14     

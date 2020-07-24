@@ -13,11 +13,11 @@ glabel D_8094C840
  .space 0x01
 glabel D_8094C841
  .space 0x03
-glabel D_8094C844
+glabel kotakePtr
  .space 0x04
-glabel D_8094C848
+glabel koumePtr
  .space 0x04
-glabel D_8094C84C
+glabel twinrovaPtr
  .space 0x04
 glabel D_8094C850
  .space 0x01

@@ -275,8 +275,8 @@ glabel L8093D7EC
 
 /* 04BD8 8093D8A8 E62804E0 */  swc1    $f8, 0x04E0($s1)           ## 000004E0
 /* 04BDC 8093D8AC 862C0150 */  lh      $t4, 0x0150($s1)           ## 00000150
-/* 04BE0 8093D8B0 3C128095 */  lui     $s2, %hi(D_8094C848)       ## $s2 = 80950000
-/* 04BE4 8093D8B4 2652C848 */  addiu   $s2, $s2, %lo(D_8094C848)  ## $s2 = 8094C848
+/* 04BE0 8093D8B0 3C128095 */  lui     $s2, %hi(koumePtr)       ## $s2 = 80950000
+/* 04BE4 8093D8B4 2652C848 */  addiu   $s2, $s2, %lo(koumePtr)  ## $s2 = 8094C848
 /* 04BE8 8093D8B8 298100EC */  slti    $at, $t4, 0x00EC
 /* 04BEC 8093D8BC 1420050B */  bne     $at, $zero, .L8093ECEC
 /* 04BF0 8093D8C0 24100001 */  addiu   $s0, $zero, 0x0001         ## $s0 = 00000001
@@ -331,8 +331,8 @@ glabel L8093D7EC
 /* 04CB0 8093D980 100004DB */  beq     $zero, $zero, .L8093ECF0
 /* 04CB4 8093D984 862505FC */  lh      $a1, 0x05FC($s1)           ## 000005FC
 glabel L8093D988
-/* 04CB8 8093D988 3C128095 */  lui     $s2, %hi(D_8094C848)       ## $s2 = 80950000
-/* 04CBC 8093D98C 2652C848 */  addiu   $s2, $s2, %lo(D_8094C848)  ## $s2 = 8094C848
+/* 04CB8 8093D988 3C128095 */  lui     $s2, %hi(koumePtr)       ## $s2 = 80950000
+/* 04CBC 8093D98C 2652C848 */  addiu   $s2, $s2, %lo(koumePtr)  ## $s2 = 8094C848
 /* 04CC0 8093D990 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 04CC4 8093D994 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 
@@ -410,8 +410,8 @@ glabel L8093D988
 /* 04DE0 8093DAB0 1000048E */  beq     $zero, $zero, .L8093ECEC
 /* 04DE4 8093DAB4 E62606A0 */  swc1    $f6, 0x06A0($s1)           ## 000006A0
 glabel L8093DAB8
-/* 04DE8 8093DAB8 3C128095 */  lui     $s2, %hi(D_8094C848)       ## $s2 = 80950000
-/* 04DEC 8093DABC 2652C848 */  addiu   $s2, $s2, %lo(D_8094C848)  ## $s2 = 8094C848
+/* 04DE8 8093DAB8 3C128095 */  lui     $s2, %hi(koumePtr)       ## $s2 = 80950000
+/* 04DEC 8093DABC 2652C848 */  addiu   $s2, $s2, %lo(koumePtr)  ## $s2 = 8094C848
 /* 04DF0 8093DAC0 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 04DF4 8093DAC4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 
@@ -517,8 +517,8 @@ glabel L8093DAB8
 /* 04F74 8093DC44 10000429 */  beq     $zero, $zero, .L8093ECEC
 /* 04F78 8093DC48 E62401A4 */  swc1    $f4, 0x01A4($s1)           ## 000001A4
 glabel L8093DC4C
-/* 04F7C 8093DC4C 3C128095 */  lui     $s2, %hi(D_8094C848)       ## $s2 = 80950000
-/* 04F80 8093DC50 2652C848 */  addiu   $s2, $s2, %lo(D_8094C848)  ## $s2 = 8094C848
+/* 04F7C 8093DC4C 3C128095 */  lui     $s2, %hi(koumePtr)       ## $s2 = 80950000
+/* 04F80 8093DC50 2652C848 */  addiu   $s2, $s2, %lo(koumePtr)  ## $s2 = 8094C848
 /* 04F84 8093DC54 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 04F88 8093DC58 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001
 /* 04F8C 8093DC5C A3A8009F */  sb      $t0, 0x009F($sp)
@@ -761,10 +761,10 @@ glabel L8093DC4C
 /* 052D0 8093DFA0 A54900B6 */  sh      $t1, 0x00B6($t2)           ## 000000B6
 /* 052D4 8093DFA4 8E4B0000 */  lw      $t3, 0x0000($s2)           ## 8094C848
 /* 052D8 8093DFA8 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
-/* 052DC 8093DFAC 3C138095 */  lui     $s3, %hi(D_8094C844)       ## $s3 = 80950000
+/* 052DC 8093DFAC 3C138095 */  lui     $s3, %hi(kotakePtr)       ## $s3 = 80950000
 /* 052E0 8093DFB0 A17005F8 */  sb      $s0, 0x05F8($t3)           ## 000005F8
 /* 052E4 8093DFB4 862C0150 */  lh      $t4, 0x0150($s1)           ## 00000150
-/* 052E8 8093DFB8 2673C844 */  addiu   $s3, $s3, %lo(D_8094C844)  ## $s3 = 8094C844
+/* 052E8 8093DFB8 2673C844 */  addiu   $s3, $s3, %lo(kotakePtr)  ## $s3 = 8094C844
 /* 052EC 8093DFBC 240D000A */  addiu   $t5, $zero, 0x000A         ## $t5 = 0000000A
 /* 052F0 8093DFC0 548C034B */  bnel    $a0, $t4, .L8093ECF0
 /* 052F4 8093DFC4 862505FC */  lh      $a1, 0x05FC($s1)           ## 000005FC
@@ -865,8 +865,8 @@ glabel L8093DC4C
 /* 05458 8093E128 100002F0 */  beq     $zero, $zero, .L8093ECEC
 /* 0545C 8093E12C E62601A4 */  swc1    $f6, 0x01A4($s1)           ## 000001A4
 glabel L8093E130
-/* 05460 8093E130 3C138095 */  lui     $s3, %hi(D_8094C844)       ## $s3 = 80950000
-/* 05464 8093E134 2673C844 */  addiu   $s3, $s3, %lo(D_8094C844)  ## $s3 = 8094C844
+/* 05460 8093E130 3C138095 */  lui     $s3, %hi(kotakePtr)       ## $s3 = 80950000
+/* 05464 8093E134 2673C844 */  addiu   $s3, $s3, %lo(kotakePtr)  ## $s3 = 8094C844
 /* 05468 8093E138 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 0546C 8093E13C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 
@@ -942,8 +942,8 @@ glabel L8093E130
 /* 05580 8093E250 100002A6 */  beq     $zero, $zero, .L8093ECEC
 /* 05584 8093E254 E62A06A0 */  swc1    $f10, 0x06A0($s1)          ## 000006A0
 glabel L8093E258
-/* 05588 8093E258 3C138095 */  lui     $s3, %hi(D_8094C844)       ## $s3 = 80950000
-/* 0558C 8093E25C 2673C844 */  addiu   $s3, $s3, %lo(D_8094C844)  ## $s3 = 8094C844
+/* 05588 8093E258 3C138095 */  lui     $s3, %hi(kotakePtr)       ## $s3 = 80950000
+/* 0558C 8093E25C 2673C844 */  addiu   $s3, $s3, %lo(kotakePtr)  ## $s3 = 8094C844
 /* 05590 8093E260 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 05594 8093E264 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 
@@ -1048,8 +1048,8 @@ glabel L8093E258
 /* 05710 8093E3E0 10000242 */  beq     $zero, $zero, .L8093ECEC
 /* 05714 8093E3E4 E62601A4 */  swc1    $f6, 0x01A4($s1)           ## 000001A4
 glabel L8093E3E8
-/* 05718 8093E3E8 3C138095 */  lui     $s3, %hi(D_8094C844)       ## $s3 = 80950000
-/* 0571C 8093E3EC 2673C844 */  addiu   $s3, $s3, %lo(D_8094C844)  ## $s3 = 8094C844
+/* 05718 8093E3E8 3C138095 */  lui     $s3, %hi(kotakePtr)       ## $s3 = 80950000
+/* 0571C 8093E3EC 2673C844 */  addiu   $s3, $s3, %lo(kotakePtr)  ## $s3 = 8094C844
 /* 05720 8093E3F0 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 05724 8093E3F4 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 05728 8093E3F8 A3B9009F */  sb      $t9, 0x009F($sp)
@@ -1504,16 +1504,16 @@ glabel L8093E854
 /* 05D6C 8093EA3C 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
 /* 05D70 8093EA40 86230150 */  lh      $v1, 0x0150($s1)           ## 00000150
 .L8093EA44:
-/* 05D74 8093EA44 3C128095 */  lui     $s2, %hi(D_8094C848)       ## $s2 = 80950000
-/* 05D78 8093EA48 2652C848 */  addiu   $s2, $s2, %lo(D_8094C848)  ## $s2 = 8094C848
+/* 05D74 8093EA44 3C128095 */  lui     $s2, %hi(koumePtr)       ## $s2 = 80950000
+/* 05D78 8093EA48 2652C848 */  addiu   $s2, $s2, %lo(koumePtr)  ## $s2 = 8094C848
 /* 05D7C 8093EA4C 286100C8 */  slti    $at, $v1, 0x00C8
 /* 05D80 8093EA50 10200058 */  beq     $at, $zero, .L8093EBB4
 /* 05D84 8093EA54 2405311F */  addiu   $a1, $zero, 0x311F         ## $a1 = 0000311F
 /* 05D88 8093EA58 0C00BE0A */  jal     Audio_PlayActorSound2
 
 /* 05D8C 8093EA5C 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
-/* 05D90 8093EA60 3C138095 */  lui     $s3, %hi(D_8094C844)       ## $s3 = 80950000
-/* 05D94 8093EA64 2673C844 */  addiu   $s3, $s3, %lo(D_8094C844)  ## $s3 = 8094C844
+/* 05D90 8093EA60 3C138095 */  lui     $s3, %hi(kotakePtr)       ## $s3 = 80950000
+/* 05D94 8093EA64 2673C844 */  addiu   $s3, $s3, %lo(kotakePtr)  ## $s3 = 8094C844
 /* 05D98 8093EA68 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 05D9C 8093EA6C 0C00BE0A */  jal     Audio_PlayActorSound2
 
@@ -1601,12 +1601,12 @@ glabel L8093E854
 /* 05EDC 8093EBAC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 05EE0 8093EBB0 86230150 */  lh      $v1, 0x0150($s1)           ## 00000150
 .L8093EBB4:
-/* 05EE4 8093EBB4 3C128095 */  lui     $s2, %hi(D_8094C848)       ## $s2 = 80950000
-/* 05EE8 8093EBB8 3C138095 */  lui     $s3, %hi(D_8094C844)       ## $s3 = 80950000
+/* 05EE4 8093EBB4 3C128095 */  lui     $s2, %hi(koumePtr)       ## $s2 = 80950000
+/* 05EE8 8093EBB8 3C138095 */  lui     $s3, %hi(kotakePtr)       ## $s3 = 80950000
 /* 05EEC 8093EBBC 240100C8 */  addiu   $at, $zero, 0x00C8         ## $at = 000000C8
-/* 05EF0 8093EBC0 2673C844 */  addiu   $s3, $s3, %lo(D_8094C844)  ## $s3 = 8094C844
+/* 05EF0 8093EBC0 2673C844 */  addiu   $s3, $s3, %lo(kotakePtr)  ## $s3 = 8094C844
 /* 05EF4 8093EBC4 14610021 */  bne     $v1, $at, .L8093EC4C
-/* 05EF8 8093EBC8 2652C848 */  addiu   $s2, $s2, %lo(D_8094C848)  ## $s2 = 8094C848
+/* 05EF8 8093EBC8 2652C848 */  addiu   $s2, $s2, %lo(koumePtr)  ## $s2 = 8094C848
 /* 05EFC 8093EBCC 8E590000 */  lw      $t9, 0x0000($s2)           ## 8094C848
 /* 05F00 8093EBD0 3C028094 */  lui     $v0, %hi(func_8093A2AC)    ## $v0 = 80940000
 /* 05F04 8093EBD4 2442A2AC */  addiu   $v0, $v0, %lo(func_8093A2AC) ## $v0 = 8093A2AC
@@ -1678,7 +1678,7 @@ glabel L8093E854
 /* 06008 8093ECD8 0C00B7D5 */  jal     func_8002DF54
 /* 0600C 8093ECDC 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 06010 8093ECE0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 06014 8093ECE4 0C24F209 */  jal     func_8093C824
+/* 06014 8093ECE4 0C24F209 */  jal     BossTw_TwinrovaSetupWaitForMerge
 /* 06018 8093ECE8 8FA500A4 */  lw      $a1, 0x00A4($sp)
 glabel L8093ECEC
 .L8093ECEC:

@@ -31,8 +31,8 @@ glabel func_8093D444
 /* 047DC 8093D4AC 0C01E107 */  jal     Math_SmoothScaleMaxF
               
 /* 047E0 8093D4B0 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
-/* 047E4 8093D4B4 3C188095 */  lui     $t8, %hi(D_8094C84C)       ## $t8 = 80950000
-/* 047E8 8093D4B8 8F18C84C */  lw      $t8, %lo(D_8094C84C)($t8)  
+/* 047E4 8093D4B4 3C188095 */  lui     $t8, %hi(twinrovaPtr)       ## $t8 = 80950000
+/* 047E8 8093D4B8 8F18C84C */  lw      $t8, %lo(twinrovaPtr)($t8)  
 /* 047EC 8093D4BC 260401D4 */  addiu   $a0, $s0, 0x01D4           ## $a0 = 000001D4
 /* 047F0 8093D4C0 3C0542C8 */  lui     $a1, 0x42C8                ## $a1 = 42C80000
 /* 047F4 8093D4C4 87190152 */  lh      $t9, 0x0152($t8)           ## 80950152

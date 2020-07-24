@@ -23,8 +23,8 @@ glabel func_8093EE10
               
 /* 06168 8093EE38 2405391E */  addiu   $a1, $zero, 0x391E         ## $a1 = 0000391E
 .L8093EE3C:
-/* 0616C 8093EE3C 3C188095 */  lui     $t8, %hi(D_8094C84C)       ## $t8 = 80950000
-/* 06170 8093EE40 8F18C84C */  lw      $t8, %lo(D_8094C84C)($t8)  
+/* 0616C 8093EE3C 3C188095 */  lui     $t8, %hi(twinrovaPtr)       ## $t8 = 80950000
+/* 06170 8093EE40 8F18C84C */  lw      $t8, %lo(twinrovaPtr)($t8)  
 /* 06174 8093EE44 871905FA */  lh      $t9, 0x05FA($t8)           ## 809505FA
 /* 06178 8093EE48 2B210002 */  slti    $at, $t9, 0x0002           
 /* 0617C 8093EE4C 50200027 */  beql    $at, $zero, .L8093EEEC     
@@ -38,8 +38,8 @@ glabel func_8093EE10
 /* 0619C 8093EE6C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
               
 /* 061A0 8093EE70 A6090178 */  sh      $t1, 0x0178($s0)           ## 00000178
-/* 061A4 8093EE74 3C0A8095 */  lui     $t2, %hi(D_8094C84C)       ## $t2 = 80950000
-/* 061A8 8093EE78 8D4AC84C */  lw      $t2, %lo(D_8094C84C)($t2)  
+/* 061A4 8093EE74 3C0A8095 */  lui     $t2, %hi(twinrovaPtr)       ## $t2 = 80950000
+/* 061A8 8093EE78 8D4AC84C */  lw      $t2, %lo(twinrovaPtr)($t2)  
 /* 061AC 8093EE7C 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
 /* 061B0 8093EE80 44816000 */  mtc1    $at, $f12                  ## $f12 = 50.00
 /* 061B4 8093EE84 C5440024 */  lwc1    $f4, 0x0024($t2)           ## 80950024
@@ -55,8 +55,8 @@ glabel func_8093EE10
 /* 061D8 8093EEA8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
               
 /* 061DC 8093EEAC E60A04B4 */  swc1    $f10, 0x04B4($s0)          ## 000004B4
-/* 061E0 8093EEB0 3C0B8095 */  lui     $t3, %hi(D_8094C84C)       ## $t3 = 80950000
-/* 061E4 8093EEB4 8D6BC84C */  lw      $t3, %lo(D_8094C84C)($t3)  
+/* 061E0 8093EEB0 3C0B8095 */  lui     $t3, %hi(twinrovaPtr)       ## $t3 = 80950000
+/* 061E4 8093EEB4 8D6BC84C */  lw      $t3, %lo(twinrovaPtr)($t3)  
 /* 061E8 8093EEB8 C572002C */  lwc1    $f18, 0x002C($t3)          ## 8095002C
 /* 061EC 8093EEBC 46120100 */  add.s   $f4, $f0, $f18             
 /* 061F0 8093EEC0 E60404B8 */  swc1    $f4, 0x04B8($s0)           ## 000004B8
@@ -102,9 +102,9 @@ glabel func_8093EE10
 .L8093EF54:
 /* 06284 8093EF54 8608001C */  lh      $t0, 0x001C($s0)           ## 0000001C
 /* 06288 8093EF58 24010069 */  addiu   $at, $zero, 0x0069         ## $at = 00000069
-/* 0628C 8093EF5C 3C028095 */  lui     $v0, %hi(D_8094C848)       ## $v0 = 80950000
+/* 0628C 8093EF5C 3C028095 */  lui     $v0, %hi(koumePtr)       ## $v0 = 80950000
 /* 06290 8093EF60 15010008 */  bne     $t0, $at, .L8093EF84       
-/* 06294 8093EF64 2442C848 */  addiu   $v0, $v0, %lo(D_8094C848)  ## $v0 = 8094C848
+/* 06294 8093EF64 2442C848 */  addiu   $v0, $v0, %lo(koumePtr)  ## $v0 = 8094C848
 /* 06298 8093EF68 8C490000 */  lw      $t1, 0x0000($v0)           ## 8094C848
 /* 0629C 8093EF6C C5260024 */  lwc1    $f6, 0x0024($t1)           ## 00000024
 /* 062A0 8093EF70 E60604B0 */  swc1    $f6, 0x04B0($s0)           ## 000004B0
@@ -113,8 +113,8 @@ glabel func_8093EE10
 /* 062AC 8093EF7C 10000009 */  beq     $zero, $zero, .L8093EFA4   
 /* 062B0 8093EF80 E60804B8 */  swc1    $f8, 0x04B8($s0)           ## 000004B8
 .L8093EF84:
-/* 062B4 8093EF84 3C028095 */  lui     $v0, %hi(D_8094C844)       ## $v0 = 80950000
-/* 062B8 8093EF88 2442C844 */  addiu   $v0, $v0, %lo(D_8094C844)  ## $v0 = 8094C844
+/* 062B4 8093EF84 3C028095 */  lui     $v0, %hi(kotakePtr)       ## $v0 = 80950000
+/* 062B8 8093EF88 2442C844 */  addiu   $v0, $v0, %lo(kotakePtr)  ## $v0 = 8094C844
 /* 062BC 8093EF8C 8C4B0000 */  lw      $t3, 0x0000($v0)           ## 8094C844
 /* 062C0 8093EF90 C56A0024 */  lwc1    $f10, 0x0024($t3)          ## 80950024
 /* 062C4 8093EF94 E60A04B0 */  swc1    $f10, 0x04B0($s0)          ## 000004B0
@@ -142,8 +142,8 @@ glabel func_8093EE10
 /* 06314 8093EFE4 0C01E107 */  jal     Math_SmoothScaleMaxF
               
 /* 06318 8093EFE8 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3E4CCCCD
-/* 0631C 8093EFEC 3C0D8095 */  lui     $t5, %hi(D_8094C84C)       ## $t5 = 80950000
-/* 06320 8093EFF0 8DADC84C */  lw      $t5, %lo(D_8094C84C)($t5)  
+/* 0631C 8093EFEC 3C0D8095 */  lui     $t5, %hi(twinrovaPtr)       ## $t5 = 80950000
+/* 06320 8093EFF0 8DADC84C */  lw      $t5, %lo(twinrovaPtr)($t5)  
 /* 06324 8093EFF4 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 06328 8093EFF8 85AE05FA */  lh      $t6, 0x05FA($t5)           ## 809505FA
 /* 0632C 8093EFFC 55C10004 */  bnel    $t6, $at, .L8093F010       
