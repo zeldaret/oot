@@ -14,7 +14,7 @@ void func_808A1B60(BgMoriElevator* this);
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1E04(BgMoriElevator* this);
  void BgMoriElevator_setPosition(BgMoriElevator* this, GlobalContext* globalCtx);
-void func_808A210C(BgMoriElevator* this, GlobalContext* globalCtx);
+void BgMoriElevator_Draw(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1FF0(BgMoriElevator* this);
 void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx);
@@ -159,7 +159,7 @@ void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx
         } else {
             func_808A1E04(this);
         }
-        this->dyna.actor.draw = func_808A210C;
+        this->dyna.actor.draw = BgMoriElevator_Draw;
     }
 }
 
@@ -272,18 +272,19 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A210C.s")
-void func_808A210C(BgMoriElevator* this, GlobalContext* globalCtx) {
+void BgMoriElevator_Draw(BgMoriElevator* this, GlobalContext* globalCtx) {
     s32 pad;
+    s32 pad2;
     GraphicsContext* gfxCtx;
-    Gfx* displayRefs[5];
+    Gfx* displayRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(displayRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyXlu.p++, 8, globalCtx->objectCtx.status[this->objectIndex].segment);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
+    gSPSegment(gfxCtx->polyOpa.p++, 8, globalCtx->objectCtx.status[this->objectIndex].segment);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_06002AD0);
+    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002AD0);
     Graph_CloseDisps(displayRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
 }
