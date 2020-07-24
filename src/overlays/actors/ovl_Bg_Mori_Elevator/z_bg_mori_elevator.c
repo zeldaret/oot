@@ -13,14 +13,15 @@ void func_808A18FC(BgMoriElevator* this, f32 arg1);
 void func_808A1B60(BgMoriElevator* this);
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1E04(BgMoriElevator* this);
- void BgMoriElevator_setPosition(BgMoriElevator* this, GlobalContext* globalCtx);
-void BgMoriElevator_Draw(BgMoriElevator* this, GlobalContext* globalCtx);
-void func_808A1FF0(BgMoriElevator* this);
+void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx);
+void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriElevator_StopMovement(BgMoriElevator* this);
 void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx);
-s16 D_808A2210 = 0;
+
+s16 sIsSpawned = false;
 
 const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
@@ -35,7 +36,6 @@ const ActorInit Bg_Mori_Elevator_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    // D_808A2234
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),
@@ -45,13 +45,13 @@ static InitChainEntry sInitChain[] = {
 extern UNK_TYPE D_060035F8;
 extern Gfx* D_06002AD0;
 
-
+// Couldnt get a mov.s to go into a delay slot
 #ifdef NON_MATCHING
 f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
     f32 phi_f2;
     phi_f2 = (target - *posY) * arg2;
     if (*posY < target) {
-        if (yVel <phi_f2) {
+        if (yVel < phi_f2) {
             phi_f2 = yVel;
         } else {
             if (phi_f2 < arg4) {
@@ -79,73 +79,79 @@ f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
                 return phi_f2;
             }
         } else {
-            phi_f2= 0.0f;
+            phi_f2 = 0.0f;
             if (phi_f2) {}
             return phi_f2;
         }
     }
-    
-    //return phi_f2;
+
+    // return phi_f2;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
 #endif
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A18FC.s")
+
 void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     f32 phi_f12;
     f32 temp_f2;
     f32 temp1;
 
-    // clang-format off/
-    do { temp_f2 = fabsf(distTo) * 0.09f; if (temp_f2 < 0.0f) { phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2); phi_f12 = temp1; }  func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12); } while (0);
-    // clang-format on/
+    // clang-format off
+    do {temp_f2 = fabsf(distTo) * 0.09f; if (temp_f2 < 0.0f) { phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2);phi_f12 = temp1;} func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12);} while (0);
+    // clang-format on
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/BgMoriElevator_Init.s")
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
     s32 pad;
     s32 sp24;
     sp24 = 0;
 
-    this->flag2 = D_808A2210;
+    this->unk_172 = sIsSpawned;
     this->objectIndex = Object_GetIndex(&globalCtx->objectCtx, 0x73);
     if ((s8)this->objectIndex < 0) {
         Actor_Kill(thisx);
         // Forest Temple obj elevator Bank Danger!
-        osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 0x115);
+        osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
         return;
     }
-    switch (D_808A2210) {
-        case 0:
+    switch (sIsSpawned) {
+        case false:
             // Forest Temple elevator CT
             osSyncPrintf("森の神殿 elevator CT\n");
-            D_808A2210 = 1;
+            sIsSpawned = true;
             this->dyna.actor.room = -1;
             Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
             DynaPolyInfo_SetActorMove(&this->dyna, 1);
-            DynaPolyInfo_Alloc(&D_060035F8, (void*)&sp24);
+            DynaPolyInfo_Alloc(&D_060035F8, &sp24);
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
             func_808A1B60(this);
             break;
-        case 1:
+        case true:
             Actor_Kill(thisx);
             break;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/BgMoriElevator_Destroy.s")
+void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgMoriElevator* this = THIS;
+    if (this->unk_172 == 0) {
+        // Forest Temple elevator DT
+        osSyncPrintf("森の神殿 elevator DT\n");
+        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        sIsSpawned = false;
+    }
+}
 
 s32 BgMoriElevator_IsLinkRiding(BgMoriElevator* this, GlobalContext* globalCtx) {
     return ((this->dyna.unk_160 & 2) && !(this->isRiding & (u8)2) &&
             ((PLAYER->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y) < 80.0f));
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1B60.s")
+
 void func_808A1B60(BgMoriElevator* this) {
     this->actionFunc = BgMoriElevator_PlaceInGround;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1B70.s")
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, (s8)this->objectIndex)) {
         if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -154,7 +160,7 @@ void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx
                 func_808A1E04(this);
             } else {
                 // Error: Forest Temple obj elevator Room setting is dangerous
-                osSyncPrintf("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 0x173);
+                osSyncPrintf("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 371);
             }
         } else {
             func_808A1E04(this);
@@ -163,20 +169,18 @@ void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1C30.s")
 void func_808A1C30(BgMoriElevator* this) {
     this->actionFunc = func_808A1C40;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1C40.s")
 void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx) {
     f32 distToTarget;
 
     func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
-    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 73.0f, 0.08f,this->dyna.actor.velocity.y, 1.5f);
+    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 73.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         func_808A1E04(this);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x287AU);
+        Audio_PlayActorSound2(&this->dyna.actor, 0x287A);
     } else {
         func_808A18FC(this, distToTarget);
     }
@@ -185,96 +189,89 @@ void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1CF4.s")
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808A1D50;
-    func_800800F8(globalCtx, 0xC9E, 0x46,&this->dyna.actor, 0);
+    func_800800F8(globalCtx, 0xC9E, 0x46, &this->dyna.actor, 0);
     func_800800F8(globalCtx, 0x3FC, 0xF, &this->dyna.actor, 0);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1D50.s")
 void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx) {
     f32 distToTarget;
 
     func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
-    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 233.0f, 0.08f,this->dyna.actor.velocity.y, 1.5f);
+    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 233.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         func_808A1E04(this);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x287AU);
+        Audio_PlayActorSound2(&this->dyna.actor, 0x287A);
     } else {
         func_808A18FC(this, distToTarget);
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1E04.s")
 void func_808A1E04(BgMoriElevator* this) {
-    this->actionFunc = BgMoriElevator_setPosition;
+    this->actionFunc = BgMoriElevator_SetPosition;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1E14.s")
-void BgMoriElevator_setPosition(BgMoriElevator* this, GlobalContext* globalCtx) {
+void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) {
     s32 pad;
     if (BgMoriElevator_IsLinkRiding(this, globalCtx) != 0) {
         if (globalCtx->roomCtx.curRoom.num == 2) {
             this->targetYPos = -779.0f;
-            func_808A1FF0(this);
+            BgMoriElevator_StopMovement(this);
         } else if (globalCtx->roomCtx.curRoom.num == 17) {
             this->targetYPos = 233.0f;
-            func_808A1FF0(this);
+            BgMoriElevator_StopMovement(this);
         } else {
             // Error:Forest Temple obj elevator Room setting is dangerous(% s % d)
             osSyncPrintf("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 479);
         }
-        
-    }else if ((globalCtx->roomCtx.curRoom.num == 2) && (this->dyna.actor.posRot.pos.y < -275.0f)) {
-        this->targetYPos = 233.0f;//Position before seeing poe cutscene and after defeating them
-        func_808A1FF0(this);
+
+    } else if ((globalCtx->roomCtx.curRoom.num == 2) && (this->dyna.actor.posRot.pos.y < -275.0f)) {
+        this->targetYPos = 233.0f;
+        BgMoriElevator_StopMovement(this);
     } else if ((globalCtx->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.posRot.pos.y)) {
         this->targetYPos = -779.0f;
-        func_808A1FF0(this);
-    } else if ((( globalCtx->roomCtx.curRoom.num == 2) && (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0)) && (this->unk_16C == 0)) {// Poes not defeated a
-        this->targetYPos = 73.0f;//In the ground before 4 poes are found
+        BgMoriElevator_StopMovement(this);
+    } else if (((globalCtx->roomCtx.curRoom.num == 2) &&
+                (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0)) &&
+               (this->unk_16C == 0)) {
+        this->targetYPos = 73.0f;
         func_808A1C30(this);
-    } else if ((((globalCtx->roomCtx.curRoom.num == 2)) && (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) == 0)) && (this->unk_16C != 0)) { //Poes defeated and link on 
+    } else if ((((globalCtx->roomCtx.curRoom.num == 2)) &&
+                (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) == 0)) &&
+               (this->unk_16C != 0)) {
         this->targetYPos = 233.0f;
         func_808A1CF4(this, globalCtx);
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1FF0.s")
-void func_808A1FF0(BgMoriElevator* this) {
+void BgMoriElevator_StopMovement(BgMoriElevator* this) {
     this->actionFunc = func_808A2008;
     this->dyna.actor.velocity.y = 0.0f;
 }
 
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A2008.s")
 void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
     f32 distTo;
 
-
     func_808A1800(&this->dyna.actor.velocity.y, 12.0f, 0.1f, 1.0f, 0.0f);
-    distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetYPos, 0.1f,
-                            this->dyna.actor.velocity.y, 0.3f);
-    
+    distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetYPos, 0.1f, this->dyna.actor.velocity.y, 0.3f);
     if (fabsf(distTo) < 0.001f) {
         func_808A1E04(this);
-        Audio_PlayActorSound2((Actor*)this, (u16)0x287AU);
-        
+        Audio_PlayActorSound2(&this->dyna.actor, 0x287A);
+
     } else {
         func_808A18FC(this, distTo);
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/BgMoriElevator_Update.s")
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
-    this->actionFunc(this,globalCtx);
+    this->actionFunc(this, globalCtx);
     this->isRiding = this->dyna.unk_160;
     this->unk_16C = Flags_GetSwitch(globalCtx, (s32)(thisx->params & 0x3F));
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A210C.s")
-void BgMoriElevator_Draw(BgMoriElevator* this, GlobalContext* globalCtx) {
+void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    s32 pad2;
+    BgMoriElevator* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* displayRefs[4];
 
@@ -284,7 +281,6 @@ void BgMoriElevator_Draw(BgMoriElevator* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 8, globalCtx->objectCtx.status[this->objectIndex].segment);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002AD0);
     Graph_CloseDisps(displayRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
 }
