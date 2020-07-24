@@ -23,105 +23,113 @@ typedef enum {
 } EffectSsG_SplashRegs;
 
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParams);
-void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void EffectSsGSplash_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void func_809A7864(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_G_Splash_InitVars = {
     EFFECT_SS_G_SPLASH,
     EffectSsGSplash_Init,
 };
 
-Vec3f D_809A7948 = { 0.0f, 0.0f, 0.0f };
-
 UNK_PTR D_809A7954[] = {
     0x040255F0, 0x04025AF0, 0x04025FF0, 0x040264F0, 0x040269F0, 0x04026EF0, 0x040273F0, 0x040278F0,
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Splash/EffectSsGSplash_Init.s")
-/*
+extern Gfx D_04027DF0[];
+
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
-    ? sp10;
-    ? sp4;
-    s16 phi_v1;
-    EffectSsGSplashInitParams* initParams = (EffectSsGSplashInitParams*)initParamsx
+    EffectSsGSplashInitParams* initParams = (EffectSsGSplashInitParams*)initParamsx;
+    Vec3f emptyVecSrc = { 0.0f, 0.0f, 0.0f };
+    Vec3f emptyVec;
 
-    sp10.unk0 = (s32)D_809A7948.unk0;
-    sp10.unk4 = (s32)D_809A7948.unk4;
-    sp4.unk0 = (s32)sp10.unk0;
-    sp4.unk4 = (s32)D_809A7948.unk4;
-    sp10.unk8 = (s32)D_809A7948.unk8;
-    sp4.unk8 = (s32)D_809A7948.unk8;
-    this->accel.x = (bitwise f32)sp4.unk0;
-    this->accel.y = (bitwise f32)sp4.unk4;
-    this->accel.z = (bitwise f32)sp4.unk8;
-    this->velocity.x = (bitwise f32)sp4.unk0;
-    this->velocity.y = (bitwise f32)sp4.unk4;
-    this->velocity.z = (bitwise f32)sp4.unk8;
-    this->pos.x = (bitwise f32)(bitwise s32)initParams->pos.x;
-    this->pos.y = (bitwise f32)(bitwise s32)initParams->pos.y;
-    this->draw = &func_809A7760;
-    this->update = &func_809A7864;
-    this->pos.z = (bitwise f32)(bitwise s32)initParams->pos.z;
-    if (initParams->unkE == 0) {
-        initParams->unkE = (u16)0x258;
+    emptyVec = emptyVecSrc;
+
+    this->accel = emptyVec;
+    this->velocity = emptyVec;
+    this->pos = initParams->pos;
+
+    this->draw = func_809A7760;
+    this->update = func_809A7864;
+
+    if (initParams->scale == 0) {
+        initParams->scale = 600;
     }
-    this->life = (u16)8;
-    this->displayList = (Gfx*)((gSegments[((u32)(0x4027DF0 * 0x10) >> 0x1C)] + (0x4027DF0 & 0xFFFFFF)) + 0x80000000);
-    this->regs = (u16)0;
-    this->unk44 = (u16)0x64;
-    this->unk42 = (s16)initParams->unkE;
-    if (initParams->unkD != 0) {
-        this->unk46 = (s16)initParams->unk10;
-        this->unk48 = (s16)initParams->unk11;
-        this->unk4A = (s16)initParams->unk12;
-        this->unk4C = (s16)initParams->unk13;
-        this->unk4E = (s16)initParams->unk14;
-        this->unk50 = (s16)initParams->unk15;
-        this->unk52 = (s16)initParams->unk16;
-        this->unk54 = (s16)initParams->unk17;
-        this->unk56 = (s16)initParams->unkC;
-    } else {
-        if (initParams->unkC != 0) {
-            if (initParams->unkC != (u16)1) {
-                if (initParams->unkC != (u16)2) {
 
-                } else {
-                    this->unk46 = (u16)0xFF;
-                    this->unk48 = (u16)0xFF;
-                    this->unk4A = (u16)0xFF;
-                    this->unk4C = (u16)0xC8;
-                    this->unk4E = (u16)0xFF;
-                    this->unk50 = (u16)0xFF;
-                    this->unk52 = (u16)0xFF;
-                    this->unk54 = (u16)0xC8;
-                    this->unk56 = (u16)2;
-                }
-            } else {
-                this->unk46 = (u16)0xFF;
-                this->unk48 = (u16)0xFF;
-                this->unk4A = (u16)0xFF;
-                this->unk4C = (u16)0xFF;
-                this->unk4E = (u16)0xFF;
-                this->unk50 = (u16)0xFF;
-                this->unk52 = (u16)0xFF;
-                this->unk54 = (u16)0xFF;
-                this->unk56 = (u16)1;
-            }
-        } else {
-            this->unk46 = (u16)0xFF;
-            this->unk48 = (u16)0xFF;
-            this->unk4A = (u16)0xFF;
-            this->unk4C = (u16)0xC8;
-            this->unk4E = (u16)0xFF;
-            this->unk50 = (u16)0xFF;
-            this->unk52 = (u16)0xFF;
-            this->unk54 = (u16)0xC8;
-            this->unk56 = (u16)0;
+    this->displayList = SEGMENTED_TO_VIRTUAL(D_04027DF0);
+    this->life = 8;
+    this->regs[SS_G_SPLASH_SCALE] = initParams->scale;
+    this->regs[SS_G_SPLASH_0] = 0;
+    this->regs[SS_G_SPLASH_2] = 0x64;
+
+    if (initParams->customColor) {
+        this->regs[SS_G_SPLASH_PRIM_R] = initParams->primColor.r;
+        this->regs[SS_G_SPLASH_PRIM_G] = initParams->primColor.g;
+        this->regs[SS_G_SPLASH_PRIM_B] = initParams->primColor.b;
+        this->regs[SS_G_SPLASH_PRIM_A] = initParams->primColor.a;
+        this->regs[SS_G_SPLASH_ENV_R] = initParams->envColor.r;
+        this->regs[SS_G_SPLASH_ENV_G] = initParams->envColor.g;
+        this->regs[SS_G_SPLASH_ENV_B] = initParams->envColor.b;
+        this->regs[SS_G_SPLASH_ENV_A] = initParams->envColor.a;
+        this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = initParams->unk_0C;
+    } else {
+        switch (initParams->unk_0C) {
+            case 0:
+                this->regs[SS_G_SPLASH_PRIM_R] = 255;
+                this->regs[SS_G_SPLASH_PRIM_G] = 255;
+                this->regs[SS_G_SPLASH_PRIM_B] = 255;
+                this->regs[SS_G_SPLASH_PRIM_A] = 200;
+                this->regs[SS_G_SPLASH_ENV_R] = 255;
+                this->regs[SS_G_SPLASH_ENV_G] = 255;
+                this->regs[SS_G_SPLASH_ENV_B] = 255;
+                this->regs[SS_G_SPLASH_ENV_A] = 200;
+                this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = 0;
+                break;
+            case 1:
+                this->regs[SS_G_SPLASH_PRIM_R] = 255;
+                this->regs[SS_G_SPLASH_PRIM_G] = 255;
+                this->regs[SS_G_SPLASH_PRIM_B] = 255;
+                this->regs[SS_G_SPLASH_PRIM_A] = 255;
+                this->regs[SS_G_SPLASH_ENV_R] = 255;
+                this->regs[SS_G_SPLASH_ENV_G] = 255;
+                this->regs[SS_G_SPLASH_ENV_B] = 255;
+                this->regs[SS_G_SPLASH_ENV_A] = 255;
+                this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = 1;
+                break;
+            case 2:
+                this->regs[SS_G_SPLASH_PRIM_R] = 255;
+                this->regs[SS_G_SPLASH_PRIM_G] = 255;
+                this->regs[SS_G_SPLASH_PRIM_B] = 255;
+                this->regs[SS_G_SPLASH_PRIM_A] = 200;
+                this->regs[SS_G_SPLASH_ENV_R] = 255;
+                this->regs[SS_G_SPLASH_ENV_G] = 255;
+                this->regs[SS_G_SPLASH_ENV_B] = 255;
+                this->regs[SS_G_SPLASH_ENV_A] = 200;
+                this->regs[SS_G_SPLASH_OBJ_BANK_IDX] = 2;
+                break;
         }
     }
-    return 1U;
+    return 1;
 }
-*/
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Splash/func_809A7760.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Splash/func_809A7864.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Splash/func_809A7864.s")
+void func_809A7864(GlobalContext *globalCtx, u32 index, EffectSs *this) {
+    s32 newSplashScale;
+    Vec3f newSplashPos;
+    
+
+    if ((this->regs[SS_G_SPLASH_OBJ_BANK_IDX] == 1) && (this->life == 5)) {
+        newSplashPos = this->pos;
+        newSplashPos.y += ((this->regs[SS_G_SPLASH_SCALE] * 20) * 0.002f);
+        newSplashScale = this->regs[SS_G_SPLASH_SCALE] >> 1;
+
+        if (this->regs[SS_G_SPLASH_SCALE] < 0) {
+            newSplashScale = (this->regs[SS_G_SPLASH_SCALE] + 1) >> 1;
+        }
+
+        func_8002949C(globalCtx, &newSplashPos, 0, 0, 2, newSplashScale);
+    }
+    this->regs[SS_G_SPLASH_0] += this->regs[SS_G_SPLASH_2];
+}
+
