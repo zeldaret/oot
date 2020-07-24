@@ -3644,8 +3644,7 @@ endseg
 beginseg
     name "ovl_Obj_Makeoshihiki"
     include "build/src/overlays/actors/ovl_Obj_Makeoshihiki/z_obj_makeoshihiki.o"
-    include "build/data/overlays/actors/z_obj_makeoshihiki.data.o"
-    include "build/data/overlays/actors/z_obj_makeoshihiki.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Makeoshihiki/ovl_Obj_Makeoshihiki_reloc.o"
 endseg
 
 beginseg
