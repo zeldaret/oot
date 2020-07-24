@@ -1731,11 +1731,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Bomb2"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/ovl_Effect_Ss_Bomb2_reloc.o"
-#else
-    include "build/data/overlays/effects/z_eff_ss_bomb2.reloc.o"
-#endif
 endseg
 
 beginseg

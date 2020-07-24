@@ -21,9 +21,9 @@ typedef enum {
 } EffectSsBomb2Regs;
 
 u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_8099F748(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_8099F960(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_8099FCCC(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsBomb2_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Bomb2_InitVars = {
     EFFECT_SS_BOMB2,
@@ -31,8 +31,8 @@ EffectSsInit Effect_Ss_Bomb2_InitVars = {
 };
 
 static void* sDrawFuncs[] = {
-    func_8099F748,
-    func_8099F960,
+    EffectSsBomb2_DrawFade,
+    EffectSsBomb2_DrawLayered,
 };
 
 static s32 D_8099FEE0[] = {
@@ -55,7 +55,7 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
     this->displayList = SEGMENTED_TO_VIRTUAL(&D_0400BF80);
     this->life = 24;
-    this->update = func_8099FCCC;
+    this->update = EffectSsBomb2_Update;
     this->draw = sDrawFuncs[initParams->drawMode];
     this->regs[SS_BOMB2_SCALE] = initParams->scale;
     this->regs[SS_BOMB2_SCALE_STEP] = initParams->scaleStep;
@@ -70,7 +70,8 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     return 1;
 }
 
-void func_8099F748(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+// unused in the original game. looks like EffectSsBomb but with color
+void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     MtxF sp11C;
     MtxF spDC;
@@ -109,11 +110,7 @@ void func_8099F748(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 345);
 }
 
-#ifdef NON_MATCHING
-// main issue is mtx2 goes to the stack instead of a saved register
-// the two if 1's may be fake, the permuter couldnt find much with them
-// but they were also used in around the same place in the in above function...
-void func_8099F960(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad1;
     MtxF sp1B4;
     MtxF sp174;
@@ -146,6 +143,7 @@ void func_8099F960(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (mtx != NULL) {
         gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx2 = func_800A7E70(gfxCtx, &sp134);
+
         if (mtx2 != NULL) {
             func_80094BC4(gfxCtx);
             gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_BOMB2_PRIM_R], this->regs[SS_BOMB2_PRIM_G],
@@ -156,7 +154,7 @@ void func_8099F960(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             gSPDisplayList(gfxCtx->polyXlu.p++, D_0400BFE8);
             gSPDisplayList(gfxCtx->polyXlu.p++, D_0400C040);
 
-            Matrix_MtxToMtxF(&mtx2, &spB4);
+            Matrix_MtxToMtxF(mtx2, &spB4);
             Matrix_Put(&spB4);
             for (i = 1; i >= 0; i--) {
                 Matrix_Translate(0.0f, 0.0f, temp_f24, MTXMODE_APPLY);
@@ -168,16 +166,14 @@ void func_8099F960(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                 mtxScale -= 0.15f;
             }
         }
+        
         if (1) {}
         if (1) {}
     }
     Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 456);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Bomb2/func_8099F960.s")
-#endif
 
-void func_8099FCCC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsBomb2_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 divisor;
 
     this->regs[SS_BOMB2_TEX_IDX] = (23 - this->life) / 3;
