@@ -8,7 +8,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
 
-f32 func_808A1800(f32* posY, f32 curYpos, f32 arg2, f32 yVel, f32 arg4);
+f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4);
 void func_808A18FC(BgMoriElevator* this, f32 arg1);
 void func_808A1B60(BgMoriElevator* this);
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx);
@@ -17,6 +17,9 @@ void func_808A1E04(BgMoriElevator* this);
 void func_808A210C(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1FF0(BgMoriElevator* this);
 void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx);
+void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx);
+void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx);
+void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx);
 s16 D_808A2210 = 0;
 
 const ActorInit Bg_Mori_Elevator_InitVars = {
@@ -40,8 +43,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern UNK_TYPE D_060035F8;
+extern Gfx* D_06002AD0;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
+
+#ifdef NON_MATCHING
 f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
     f32 phi_f2;
     phi_f2 = (target - *posY) * arg2;
@@ -82,7 +87,9 @@ f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
     
     //return phi_f2;
 }
-
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
+#endif
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A18FC.s")
 void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     f32 phi_f12;
@@ -156,13 +163,45 @@ void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1C30.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1C30.s")
+void func_808A1C30(BgMoriElevator* this) {
+    this->actionFunc = func_808A1C40;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1C40.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1C40.s")
+void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx) {
+    f32 distToTarget;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1CF4.s")
+    func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
+    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 73.0f, 0.08f,this->dyna.actor.velocity.y, 1.5f);
+    if (fabsf(distToTarget) < 0.001f) {
+        func_808A1E04(this);
+        Audio_PlayActorSound2(&this->dyna.actor, 0x287AU);
+    } else {
+        func_808A18FC(this, distToTarget);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1D50.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1CF4.s")
+void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx) {
+    this->actionFunc = func_808A1D50;
+    func_800800F8(globalCtx, 0xC9E, 0x46,&this->dyna.actor, 0);
+    func_800800F8(globalCtx, 0x3FC, 0xF, &this->dyna.actor, 0);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1D50.s")
+void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx) {
+    f32 distToTarget;
+
+    func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
+    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 233.0f, 0.08f,this->dyna.actor.velocity.y, 1.5f);
+    if (fabsf(distToTarget) < 0.001f) {
+        func_808A1E04(this);
+        Audio_PlayActorSound2(&this->dyna.actor, 0x287AU);
+    } else {
+        func_808A18FC(this, distToTarget);
+    }
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1E04.s")
 void func_808A1E04(BgMoriElevator* this) {
@@ -218,9 +257,10 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
     if (fabsf(distTo) < 0.001f) {
         func_808A1E04(this);
         Audio_PlayActorSound2((Actor*)this, (u16)0x287AU);
-        return;
+        
+    } else {
+        func_808A18FC(this, distTo);
     }
-    func_808A18FC(this, distTo);
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/BgMoriElevator_Update.s")
@@ -231,4 +271,19 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_16C = Flags_GetSwitch(globalCtx, (s32)(thisx->params & 0x3F));
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A210C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A210C.s")
+void func_808A210C(BgMoriElevator* this, GlobalContext* globalCtx) {
+    s32 pad;
+    GraphicsContext* gfxCtx;
+    Gfx* displayRefs[5];
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(displayRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyXlu.p++, 8, globalCtx->objectCtx.status[this->objectIndex].segment);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(gfxCtx->polyXlu.p++, &D_06002AD0);
+    Graph_CloseDisps(displayRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
+}

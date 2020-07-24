@@ -227,6 +227,7 @@ D_060074EC = 0x060074EC;
 
 // z_bg_mori_elevator
 D_060035F8 = 0x060035F8;
+D_06002AD0 = 0x06002AD0;
 
 // z_bg_spot07_taki
 D_060038FC = 0x060038FC;
