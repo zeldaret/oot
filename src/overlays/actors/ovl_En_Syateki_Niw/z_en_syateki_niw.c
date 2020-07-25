@@ -25,7 +25,6 @@ void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B128D8(EnSyatekiNiw* this, GlobalContext* globalCtx);
-s32 func_80B12FE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 
 extern AnimationHeader D_060000E8;
 extern Gfx D_060023B0[];
@@ -81,10 +80,12 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_29E == 0) {
         osSyncPrintf("\n\n");
+        // Archery range chicken
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
         Actor_SetScale(&this->actor, 0.01f);
     } else {
         osSyncPrintf("\n\n");
+        // Bomb chicken
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
         this->actor.colChkInfo.mass = 0xFF;
         Actor_SetScale(&this->actor, 0.01f);
@@ -518,7 +519,7 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             case 0:
                 if (this->unk_29C == 0) {
                     this->unk_262 = 0x1E;
-                    Audio_PlayActorSound2(&this->actor, 0x2812);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                     this->unk_29C = 1;
                     this->unk_2A0 = 1;
                     this->actionFunc = func_80B123A8;
@@ -528,7 +529,7 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             case 1:
                 this->unk_262 = 0x1E;
                 this->unk_2F8 = 1;
-                Audio_PlayActorSound2(&this->actor, 0x2812);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                 this->unk_260 = 100;
                 this->unk_2A0 = 1;
                 this->unk_25E = this->unk_260;
