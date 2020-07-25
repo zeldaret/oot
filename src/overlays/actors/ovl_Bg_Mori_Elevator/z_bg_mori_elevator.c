@@ -45,8 +45,6 @@ static InitChainEntry sInitChain[] = {
 extern UNK_TYPE D_060035F8;
 extern Gfx D_06002AD0[];
 
-// Couldnt get a mov.s to go into a delay slot
-#ifdef NON_MATCHING
 f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
     f32 phi_f2;
     phi_f2 = (target - *posY) * arg2;
@@ -62,7 +60,6 @@ f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
 
         if (target < *posY) {
             *posY = target;
-            return phi_f2;
         }
     } else {
         if (target < *posY) {
@@ -76,20 +73,14 @@ f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
             *posY = (*posY + phi_f2);
             if (*posY < target) {
                 *posY = target;
-                return phi_f2;
             }
         } else {
             phi_f2 = 0.0f;
-            if (phi_f2) {}
-            return phi_f2;
         }
     }
 
-    // return phi_f2;
+    return phi_f2;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1800.s")
-#endif
 
 void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     f32 phi_f12;
