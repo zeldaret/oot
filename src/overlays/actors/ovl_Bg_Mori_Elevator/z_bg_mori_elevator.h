@@ -6,7 +6,6 @@
 
 struct BgMoriElevator;
 
-
 typedef void (*BgMoriElevatorActionFunc)(struct BgMoriElevator*, struct GlobalCtx*);
 
 typedef struct BgMoriElevator {

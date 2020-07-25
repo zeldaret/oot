@@ -43,7 +43,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern UNK_TYPE D_060035F8;
-extern Gfx* D_06002AD0;
+extern Gfx D_06002AD0[];
 
 // Couldnt get a mov.s to go into a delay slot
 #ifdef NON_MATCHING
@@ -272,14 +272,14 @@ void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriElevator* this = THIS;
     GraphicsContext* gfxCtx;
-    Gfx* displayRefs[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(displayRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 8, globalCtx->objectCtx.status[this->objectIndex].segment);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002AD0);
-    Graph_CloseDisps(displayRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_06002AD0);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
 }
