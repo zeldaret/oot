@@ -16,7 +16,7 @@ void BgJyaMegami_Explosion(BgJyaMegami* this, GlobalContext* globalContext);
 
 extern Gfx D_06005780[];
 extern UNK_TYPE D_06005C4C;
-extern UNK_TYPE D_0600B9F8;
+extern Gfx D_0600B9F8[];
 
 const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
@@ -132,28 +132,23 @@ void BgJyaMegami_ColliderSetup(BgJyaMegami* this, GlobalContext* globalContext) 
     Collider_SetJntSph(globalContext, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItem);
 }
 
-#ifdef NON_MATCHING
-// Equivalent, 1 stack placement incorrect
 void func_8089A1DC(GlobalContext* globalContext, Vec3f* burstOrigin, Vec3f* burstDepthX, s32 num, s32 maskIndex) {
     Vec3f spB4;
     s32 i;
 
     for (i = 0; i < num; ++i) {
-        UNK_TYPE temp_ptr = &D_0600B9F8;
         s32 temp_s1 = ((s16)(Math_Rand_ZeroOne() * 8.0f)) & sBitMasks[maskIndex];
         s16 temp = ((temp_s1 < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
         func_80029E8C(globalContext, burstOrigin, burstDepthX, burstOrigin, -90, temp, D_8089B16C[temp_s1], 4, 0,
-                      D_8089B14C[temp_s1], 0, 5, D_8089B15C[temp_s1], -1, OBJECT_JYA_OBJ, temp_ptr);
+                      D_8089B14C[temp_s1], 0, 5, D_8089B15C[temp_s1], -1, OBJECT_JYA_OBJ, &D_0600B9F8);
         if (Math_Rand_ZeroOne() < 0.45f) {
             Math_Vec3f_Copy(&spB4, burstOrigin);
             spB4.z += 25.0f;
-            func_80033480(globalContext, &spB4, 60.0f, 0, D_8089B14C[temp_s1] * 4 + 50, D_8089B14C[temp_s1] * 4 + 70, 1);
+            func_80033480(globalContext, &spB4, 60.0f, 0, D_8089B14C[temp_s1] * 4 + 50, D_8089B14C[temp_s1] * 4 + 70,
+                          1);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Megami/func_8089A1DC.s")
-#endif // NON_MATCHING
 
 void func_8089A41C(BgJyaMegami* this, GlobalContext* globalContext, f32 arg2) {
     s32 i;
