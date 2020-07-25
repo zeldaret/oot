@@ -50,6 +50,7 @@ UNK_TYPE D_80987830[] = {
     0x06007D50,
     0x06008150,
 };
+
 u32 D_8098783C[] = {
     0x00000000,
 };
@@ -70,11 +71,7 @@ static DemoImActionFunc sActionFuncs[] = {
     func_809872A8, func_809872F0, func_80987330,
 };
 
-u32 D_809887D8[] = {
-    0x00000000,
-    0x41200000,
-    0x00000000,
-};
+Vec3f D_809887D8 = { 0.0f, 10.0f, 0.0f };
 
 static DemoImDrawFunc sDrawFuncs[] = {
     func_8098764C,
@@ -194,10 +191,8 @@ void func_809854DC(DemoIm *this, GlobalContext *globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         if (globalCtx->unk1DA0 != 0) {
             if (*globalCtx->unk1DA0 == 2) {
-                SkelAnime_ChangeAnim(&this->skelAnime, (void *)0x6001868, 1.0f, 0.0f, SkelAnime_GetFrameCount((void *)0x6001868), 0, 0.0f);
-                this->action = 2;
-                this->drawConfig = 1;
-                func_80985358(this, globalCtx);
+                SkelAnime_ChangeAnim(&this->skelAnime, (void *)0x6001868, 1.0f, 0.0f, SkelAnime_GetFrameCount((void
+*)0x6001868), 0, 0.0f); this->action = 2; this->drawConfig = 1; func_80985358(this, globalCtx);
             }
         }
     }
@@ -212,7 +207,7 @@ void func_809854DC(DemoIm *this, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809856AC.s")
 
-void func_809856F8(DemoIm *this, GlobalContext *globalCtx) {
+void func_809856F8(DemoIm* this, GlobalContext* globalCtx) {
     func_8098544C(this, globalCtx);
 }
 
