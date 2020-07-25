@@ -113,23 +113,24 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         // Forest Temple obj elevator Bank Danger!
         osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
-        return;
-    }
-    switch (sIsSpawned) {
-        case false:
-            // Forest Temple elevator CT
-            osSyncPrintf("森の神殿 elevator CT\n");
-            sIsSpawned = true;
-            this->dyna.actor.room = -1;
-            Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-            DynaPolyInfo_SetActorMove(&this->dyna, 1);
-            DynaPolyInfo_Alloc(&D_060035F8, &sp24);
-            this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
-            func_808A1B60(this);
-            break;
-        case true:
-            Actor_Kill(thisx);
-            break;
+
+    } else {
+        switch (sIsSpawned) {
+            case false:
+                // Forest Temple elevator CT
+                osSyncPrintf("森の神殿 elevator CT\n");
+                sIsSpawned = true;
+                this->dyna.actor.room = -1;
+                Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+                DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
+                DynaPolyInfo_Alloc(&D_060035F8, &sp24);
+                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
+                func_808A1B60(this);
+                break;
+            case true:
+                Actor_Kill(thisx);
+                break;
+        }
     }
 }
 
@@ -144,7 +145,7 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BgMoriElevator_IsLinkRiding(BgMoriElevator* this, GlobalContext* globalCtx) {
-    return ((this->dyna.unk_160 & 2) && !(this->isRiding & (u8)2) &&
+    return ((this->dyna.unk_160 & 2) && !(this->isRiding & 2) &&
             ((PLAYER->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y) < 80.0f));
 }
 
@@ -153,8 +154,8 @@ void func_808A1B60(BgMoriElevator* this) {
 }
 
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, (s8)this->objectIndex)) {
-        if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex)) {
+        if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             if (globalCtx->roomCtx.curRoom.num == 2) {
                 this->dyna.actor.posRot.pos.y = 73.0f;
                 func_808A1E04(this);
@@ -180,7 +181,7 @@ void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx) {
     distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 73.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         func_808A1E04(this);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x287A);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_808A18FC(this, distToTarget);
     }
@@ -199,7 +200,7 @@ void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx) {
     distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 233.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         func_808A1E04(this);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x287A);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_808A18FC(this, distToTarget);
     }
@@ -211,7 +212,7 @@ void func_808A1E04(BgMoriElevator* this) {
 
 void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) {
     s32 pad;
-    if (BgMoriElevator_IsLinkRiding(this, globalCtx) != 0) {
+    if (BgMoriElevator_IsLinkRiding(this, globalCtx)) {
         if (globalCtx->roomCtx.curRoom.num == 2) {
             this->targetYPos = -779.0f;
             BgMoriElevator_StopMovement(this);
@@ -230,13 +231,12 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) 
         this->targetYPos = -779.0f;
         BgMoriElevator_StopMovement(this);
     } else if (((globalCtx->roomCtx.curRoom.num == 2) &&
-                (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0)) &&
+                (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F))) &&
                (this->unk_16C == 0)) {
         this->targetYPos = 73.0f;
         func_808A1C30(this);
-    } else if ((((globalCtx->roomCtx.curRoom.num == 2)) &&
-                (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) == 0)) &&
-               (this->unk_16C != 0)) {
+    } else if (((globalCtx->roomCtx.curRoom.num == 2)) &&
+               !(Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) && (this->unk_16C != 0)) {
         this->targetYPos = 233.0f;
         func_808A1CF4(this, globalCtx);
     }
@@ -254,7 +254,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
     distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetYPos, 0.1f, this->dyna.actor.velocity.y, 0.3f);
     if (fabsf(distTo) < 0.001f) {
         func_808A1E04(this);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x287A);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
 
     } else {
         func_808A18FC(this, distTo);
@@ -265,7 +265,7 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
     this->actionFunc(this, globalCtx);
     this->isRiding = this->dyna.unk_160;
-    this->unk_16C = Flags_GetSwitch(globalCtx, (s32)(thisx->params & 0x3F));
+    this->unk_16C = Flags_GetSwitch(globalCtx, (thisx->params & 0x3F));
 }
 
 void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
