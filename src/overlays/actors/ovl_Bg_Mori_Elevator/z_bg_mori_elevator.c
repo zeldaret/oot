@@ -186,7 +186,6 @@ void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Elevator/func_808A1CF4.s")
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808A1D50;
     func_800800F8(globalCtx, 0xC9E, 0x46, &this->dyna.actor, 0);
