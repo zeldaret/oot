@@ -45,7 +45,7 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx);
 void func_8098764C(DemoIm* this, GlobalContext* globalCtx);
 void func_80987658(DemoIm* this, GlobalContext* globalCtx);
 
-u32 D_80987830[] = {
+UNK_TYPE D_80987830[] = {
     0x06007210,
     0x06007D50,
     0x06008150,
@@ -173,9 +173,36 @@ void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985430.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_8098544C.s")
+void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    Player* player;
 
+    if ((gSaveContext.chamberCutsceneNum == 4) && (gSaveContext.sceneSetupIndex < 4)) {
+        player = PLAYER;
+        this->action = 1;
+        globalCtx->csCtx.segment = D_8098786C;
+        gSaveContext.cutsceneTrigger = 2;
+        Item_Give(globalCtx, GI_BOMBCHUS_5);
+        player->actor.posRot.rot.y = player->actor.shape.rot.y = this->actor.posRot.rot.y + 0x8000;
+    }
+}
+
+void func_809854DC(DemoIm* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809854DC.s")
+/*
+void func_809854DC(DemoIm *this, GlobalContext *globalCtx) {
+    if (globalCtx->csCtx.state != 0) {
+        if (globalCtx->unk1DA0 != 0) {
+            if (*globalCtx->unk1DA0 == 2) {
+                SkelAnime_ChangeAnim(&this->skelAnime, (void *)0x6001868, 1.0f, 0.0f, SkelAnime_GetFrameCount((void *)0x6001868), 0, 0.0f);
+                this->action = 2;
+                this->drawConfig = 1;
+                func_80985358(this, globalCtx);
+            }
+        }
+    }
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_8098557C.s")
 
@@ -185,7 +212,9 @@ void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809856AC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809856F8.s")
+void func_809856F8(DemoIm *this, GlobalContext *globalCtx) {
+    func_8098544C(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985718.s")
 
@@ -221,7 +250,26 @@ void func_80985860(DemoIm* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985C94.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80985CE8.s")
+void func_80985CE8(DemoIm* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s16 unk_25C = this->unk_25C;
+    UNK_TYPE sp68 = D_80987830[unk_25C];
+    SkelAnime* skelAnime = &this->skelAnime;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_im_inKenjyanomaDemo02.c", 281);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp68));
+    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp68));
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->unk_26C);
+    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+
+    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                          NULL, NULL, NULL, gfxCtx->polyXlu.p);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_im_inKenjyanomaDemo02.c", 308);
+}
 
 void func_80985E60(DemoIm* this, GlobalContext* globalCtx) {
     func_80985280(this, &D_06001868, 0, 0.0f, 0);
@@ -357,7 +405,7 @@ void func_80987018(DemoIm* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80987330.s")
 
-void DemoIm_Update(Actor *thisx, GlobalContext *globalCtx) {
+void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
     if ((this->action < 0) || (this->action >= 31) || (sActionFuncs[this->action] == NULL)) {
@@ -403,13 +451,35 @@ void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_80984D4C(this, globalCtx);
 }
 
+s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80987514.s")
 
+void func_809875C0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_809875C0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_8098764C.s")
+void func_8098764C(DemoIm* this, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Im/func_80987658.s")
+void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s16 unk_25C = this->unk_25C;
+    UNK_TYPE sp68 = D_80987830[unk_25C];
+    SkelAnime* skelAnime = &this->skelAnime;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_im.c", 904);
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp68));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp68));
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80987514,
+                     func_809875C0, &this->actor);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_im.c", 925);
+}
 
 void DemoIm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
