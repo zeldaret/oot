@@ -84,7 +84,7 @@ void func_809B5268(EnAttackNiw* this, GlobalContext* globalCtx, s16 arg2) {
         }
         this->unk_28E++;
         this->unk_254 = 3;
-        if ((this->unk_28E & 1) == 0) {
+        if (!(this->unk_28E & 1)) {
             this->unk_264 = 0.0f;
             if (arg2 == 0) {
                 this->unk_254 = Math_Rand_ZeroFloat(30.0f);
