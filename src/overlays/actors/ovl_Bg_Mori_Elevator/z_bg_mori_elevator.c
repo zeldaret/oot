@@ -97,7 +97,9 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     f32 temp1;
 
     // clang-format off
-    do {temp_f2 = fabsf(distTo) * 0.09f; if (temp_f2 < 0.0f) { phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2);phi_f12 = temp1;} func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12);} while (0);
+    temp_f2 = fabsf(distTo) * 0.09f; 
+    if (temp_f2 < 0.0f) {
+        phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2);phi_f12 = temp1;} func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12);
     // clang-format on
 }
 
@@ -230,13 +232,12 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) 
     } else if ((globalCtx->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.posRot.pos.y)) {
         this->targetYPos = -779.0f;
         BgMoriElevator_StopMovement(this);
-    } else if (((globalCtx->roomCtx.curRoom.num == 2) &&
-                (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F))) &&
+    } else if ((globalCtx->roomCtx.curRoom.num == 2) && Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) &&
                (this->unk_16C == 0)) {
         this->targetYPos = 73.0f;
         func_808A1C30(this);
-    } else if (((globalCtx->roomCtx.curRoom.num == 2)) &&
-               !(Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) && (this->unk_16C != 0)) {
+    } else if ((globalCtx->roomCtx.curRoom.num == 2) && !Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) &&
+               (this->unk_16C != 0)) {
         this->targetYPos = 233.0f;
         func_808A1CF4(this, globalCtx);
     }
@@ -263,6 +264,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
 
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
+
     this->actionFunc(this, globalCtx);
     this->isRiding = this->dyna.unk_160;
     this->unk_16C = Flags_GetSwitch(globalCtx, (thisx->params & 0x3F));
