@@ -108,8 +108,8 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp24 = 0;
 
     this->unk_172 = sIsSpawned;
-    this->objectIndex = Object_GetIndex(&globalCtx->objectCtx, 0x73);
-    if ((s8)this->objectIndex < 0) {
+    this->objectIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
+    if (this->objectIndex < 0) {
         Actor_Kill(thisx);
         // Forest Temple obj elevator Bank Danger!
         osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
