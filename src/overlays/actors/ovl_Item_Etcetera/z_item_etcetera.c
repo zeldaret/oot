@@ -13,8 +13,8 @@
 void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_80B85C64(Actor* thisx, GlobalContext* globalCtx);
-void ItemEtcetera_DrawFireArrow(Actor* thisx, GlobalContext* globalCtx);
+void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx);
+void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx);
 void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx);
@@ -43,17 +43,17 @@ static s16 sObjectIds[] = {
 };
 
 // Indexes passed to the item table in z_draw.c
-static s16 sDrawItemTableIdx[] = {
+static s16 sDrawItemIndexes[] = {
     0x0000, 0x0044, 0x002B, 0x0015, 0x0029, 0x002A, 0x0001, 0x005F, 0x006C, 0x006D, 0x006E, 0x0070, 0x0013, 0x0001,
 };
 
-static s16 sGetItemId[] = {
+static s16 sGetItemIds[] = {
     GI_BOTTLE,     GI_LETTER_RUTO, GI_SHIELD_HYLIAN, GI_QUIVER_40, GI_SCALE_SILVER, GI_SCALE_GOLD, GI_KEY_SMALL,
     GI_ARROW_FIRE, GI_INVALID,     GI_INVALID,       GI_INVALID,   GI_INVALID,      GI_INVALID,    GI_INVALID,
 };
 
 void ItemEtcetera_SetupAction(ItemEtcetera* this, ItemEtceteraActionFunc actionFunc) {
-    this->actionFunc_15C = actionFunc;
+    this->actionFunc = actionFunc;
 }
 
 void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -71,35 +71,35 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->objBankIndex = objBankIndex;
     }
-    this->drawId = sDrawItemTableIdx[type];
-    this->getItemId = sGetItemId[type];
-    this->actionFunc_14C = func_80B85824;
-    this->drawFunc = ItemEtcetera_DrawFireArrow;
+    this->drawId = sDrawItemIndexes[type];
+    this->getItemId = sGetItemIds[type];
+    this->futureActionFunc = func_80B85824;
+    this->drawFunc = ItemEtcetera_Draw;
     Actor_SetScale(&this->actor, 0.25f);
     ItemEtcetera_SetupAction(this, func_80B857D0);
     switch (type) {
         case ITEM_ETCETERA_LETTER:
             Actor_SetScale(&this->actor, 0.5f);
-            this->actionFunc_14C = func_80B858B4;
+            this->futureActionFunc = func_80B858B4;
             if (gSaveContext.eventChkInf[3] & 2) {
                 Actor_Kill(&this->actor);
             }
             break;
         case ITEM_ETCETERA_ARROW_FIRE:
-            this->actionFunc_14C = ItemEtcetera_UpdateFireArrow;
+            this->futureActionFunc = ItemEtcetera_UpdateFireArrow;
             Actor_SetScale(&this->actor, 0.5f);
             this->actor.draw = NULL;
             this->actor.shape.unk_08 = 50.0f;
             break;
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 13: // unused values?
+        case ITEM_ETCETERA_RUPEE_GREEN_CHEST_GAME:
+        case ITEM_ETCETERA_RUPEE_BLUE_CHEST_GAME:
+        case ITEM_ETCETERA_RUPEE_RED_CHEST_GAME:
+        case ITEM_ETCETERA_RUPEE_PURPLE_CHEST_GAME:
+        case ITEM_ETCETERA_HEART_PIECE_CHEST_GAME:
+        case ITEM_ETCETERA_SMALL_KEY_CHEST_GAME:
             Actor_SetScale(&this->actor, 0.5f);
-            this->actionFunc_14C = func_80B85B28;
-            this->drawFunc = func_80B85C64;
+            this->futureActionFunc = func_80B85B28;
+            this->drawFunc = ItemEtcetera_DrawThroughLens;
             this->actor.posRot.pos.y += 15.0f;
             break;
     }
@@ -112,7 +112,7 @@ void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->actor.objBankIndex = this->objBankIndex;
         this->actor.draw = this->drawFunc;
-        this->actionFunc_15C = this->actionFunc_14C;
+        this->actionFunc = this->futureActionFunc;
     }
 }
 
@@ -185,24 +185,24 @@ void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, GlobalContext* globalCtx) 
         LOG_NUM("(game_play->demo_play.npcdemopnt[0]->dousa)", globalCtx->csCtx.npcActions[0]->action,
                 "../z_item_etcetera.c", 441);
         if (globalCtx->csCtx.npcActions[0]->action == 2) {
-            this->actor.draw = ItemEtcetera_DrawFireArrow;
+            this->actor.draw = ItemEtcetera_Draw;
             this->actor.gravity = -0.1f;
             this->actor.minVelocityY = -4.0f;
-            this->actionFunc_15C = ItemEtcetera_MoveFireArrowDown;
+            this->actionFunc = ItemEtcetera_MoveFireArrowDown;
         }
     } else {
         this->actor.gravity = -0.1f;
         this->actor.minVelocityY = -4.0f;
-        this->actionFunc_15C = ItemEtcetera_MoveFireArrowDown;
+        this->actionFunc = ItemEtcetera_MoveFireArrowDown;
     }
 }
 
 void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = THIS;
-    this->actionFunc_15C(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
-void func_80B85C64(Actor* thisx, GlobalContext* globalCtx) {
+void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = THIS;
     if (globalCtx->actorCtx.unk_03 != 0) {
         func_8002EBCC(&this->actor, globalCtx, 0);
@@ -211,7 +211,7 @@ void func_80B85C64(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void ItemEtcetera_DrawFireArrow(Actor* thisx, GlobalContext* globalCtx) {
+void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = THIS;
 
     func_8002EBCC(&this->actor, globalCtx, 0);
