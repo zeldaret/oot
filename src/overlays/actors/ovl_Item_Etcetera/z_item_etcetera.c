@@ -96,7 +96,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
         case ITEM_ETCETERA_RUPEE_RED_CHEST_GAME:
         case ITEM_ETCETERA_RUPEE_PURPLE_CHEST_GAME:
         case ITEM_ETCETERA_HEART_PIECE_CHEST_GAME:
-        case ITEM_ETCETERA_SMALL_KEY_CHEST_GAME:
+        case ITEM_ETCETERA_KEY_SMALL_CHEST_GAME:
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B85B28;
             this->drawFunc = ItemEtcetera_DrawThroughLens;

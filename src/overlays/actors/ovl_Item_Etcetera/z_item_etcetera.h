@@ -32,7 +32,7 @@ typedef enum {
     /* 0x0A */ ITEM_ETCETERA_RUPEE_RED_CHEST_GAME,
     /* 0x0B */ ITEM_ETCETERA_RUPEE_PURPLE_CHEST_GAME,
     /* 0x0C */ ITEM_ETCETERA_HEART_PIECE_CHEST_GAME,
-    /* 0x0D */ ITEM_ETCETERA_SMALL_KEY_CHEST_GAME
+    /* 0x0D */ ITEM_ETCETERA_KEY_SMALL_CHEST_GAME
 } ItemEtceteraType;
 
 extern const ActorInit Item_Etcetera_InitVars;
