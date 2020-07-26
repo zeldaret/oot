@@ -1,4 +1,5 @@
 #include "z_bg_jya_bombiwa.h"
+#include <vt.h>
 
 #define FLAGS 0x00000000
 
@@ -24,7 +25,7 @@ const ActorInit Bg_Jya_Bombiwa_InitVars = {
     (ActorFunc)BgJyaBombiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
@@ -56,6 +57,8 @@ void BgJyaBombiwa_InitDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, voi
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
     if (this->dyna.dynaPolyId == 0x32) {
+
+        // Warning: move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -70,17 +73,21 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((thisx->params & 0x3F) != 0x29) {
-        osSyncPrintf("\x1b[43;30m");
+        osSyncPrintf(VT_COL(YELLOW, BLACK));
+
+        // Warning: Switch Number changed (%s %d)(SW %d
         osSyncPrintf("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
                      thisx->params & 0x3F);
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_SGR());
     }
     BgJyaBombiwa_InitDynaPoly(thisx, globalCtx, &D_0600E710, 0);
     BgJyaBombiwa_InitCollider(thisx, globalCtx);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         Actor_Kill(thisx);
-    }else{
+    } else {
         Actor_ProcessInitChain(thisx, sInitChain);
+        
+        // Rock destroyed by jya bomb
         osSyncPrintf("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", thisx->params);
     }
 }
@@ -140,9 +147,9 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
     if ((this->collider.base.acFlags & 2) != 0) {
         BgJyaBombiwa_BlowUp(this, globalCtx);
-        Flags_SetSwitch(globalCtx, (thisx->params & 0x3F));
+        Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
-        Actor_Kill(thisx);
+        Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
