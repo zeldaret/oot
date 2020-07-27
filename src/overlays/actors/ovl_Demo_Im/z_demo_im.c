@@ -150,10 +150,9 @@ void func_80984C8C(DemoIm* this, GlobalContext* globalCtx) {
     }
 }
 
-// todo this and the one below
 void func_80984D00(DemoIm* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    if (this) {}
+    if (this) {} // needed to match
 
     Collider_InitCylinder(globalCtx, collider);
     Collider_SetCylinder_Set3(globalCtx, collider, &this->actor, &sCylinderInit);
