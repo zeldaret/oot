@@ -304,7 +304,8 @@ typedef struct Player {
     /* 0x0288 */ Vec3s      unk_288[22];
     /* 0x030C */ char       unk_30C[0x00C];
     /* 0x0318 */ Vec3s      unk_318[UNK_SIZE];
-    /* 0x031E */ char       unk_31E[0x08E];
+    /* 0x031E */ char       unk_31E[0x08A];
+    /* 0x03A8 */ s16        unk_3A8[2];
     /* 0x03AC */ Actor*     heldActor;
     /* 0x03B0 */ Vec3f      unk_3B0; // related to links hands
     /* 0x03BC */ Vec3s      unk_3BC;
@@ -439,9 +440,9 @@ typedef struct Player {
     /* 0x0908 */ Vec3f      unk_908[18];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       mf_A20;
-    /* 0x0A60 */ s8         unk_A60;
+    /* 0x0A60 */ u8         unk_A60;
     /* 0x0A61 */ u8         unk_A61[18];
-    /* 0x0A73 */ s8         unk_A73;
+    /* 0x0A73 */ u8         unk_A73;
     /* 0x0A74 */ PlayerFuncA74 unk_A74;
 
     /* 0x0A78 */ s8         invincibilityTimer; // Take no damage if this value is nonzero
