@@ -39,7 +39,7 @@ glabel D_8094C860
  .space 0x0C
 glabel D_8094C86C
  .space 0x02
-glabel D_8094C86E
+glabel sBeamDivertTimer
  .space 0x01
 glabel D_8094C86F
  .space 0x01

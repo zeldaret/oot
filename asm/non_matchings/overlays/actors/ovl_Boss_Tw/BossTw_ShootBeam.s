@@ -17,7 +17,7 @@ glabel D_8094AF08
     .float 3.14159274101
 
 .text
-glabel func_8093B1AC
+glabel BossTw_ShootBeam
 /* 024DC 8093B1AC 27BDFEB0 */  addiu   $sp, $sp, 0xFEB0           ## $sp = FFFFFEB0
 /* 024E0 8093B1B0 AFBF0064 */  sw      $ra, 0x0064($sp)
 /* 024E4 8093B1B4 AFB60060 */  sw      $s6, 0x0060($sp)
@@ -355,9 +355,9 @@ glabel func_8093B1AC
 /* 02980 8093B650 E6B604D8 */  swc1    $f22, 0x04D8($s5)          ## 000004D8
 /* 02984 8093B654 468034A0 */  cvt.s.w $f18, $f6
 /* 02988 8093B658 E6B604D4 */  swc1    $f22, 0x04D4($s5)          ## 000004D4
-/* 0298C 8093B65C 3C018095 */  lui     $at, %hi(D_8094C86E)       ## $at = 80950000
+/* 0298C 8093B65C 3C018095 */  lui     $at, %hi(sBeamDivertTimer)       ## $at = 80950000
 /* 02990 8093B660 E6B201A4 */  swc1    $f18, 0x01A4($s5)          ## 000001A4
-/* 02994 8093B664 A020C86E */  sb      $zero, %lo(D_8094C86E)($at)
+/* 02994 8093B664 A020C86E */  sb      $zero, %lo(sBeamDivertTimer)($at)
 .L8093B668:
 /* 02998 8093B668 1000016E */  beq     $zero, $zero, .L8093BC24
 /* 0299C 8093B66C 26B3050C */  addiu   $s3, $s5, 0x050C           ## $s3 = 0000050C
@@ -452,7 +452,7 @@ glabel func_8093B1AC
 /* 02AE0 8093B7B0 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 02AE4 8093B7B4 51400076 */  beql    $t2, $zero, .L8093B990
 /* 02AE8 8093B7B8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 02AEC 8093B7BC 0C24EACC */  jal     func_8093AB30
+/* 02AEC 8093B7BC 0C24EACC */  jal     BossTw_CheckBeamReflection
 /* 02AF0 8093B7C0 02C02825 */  or      $a1, $s6, $zero            ## $a1 = 00000000
 /* 02AF4 8093B7C4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 02AF8 8093B7C8 1441005E */  bne     $v0, $at, .L8093B944
