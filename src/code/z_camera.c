@@ -409,7 +409,7 @@ s32 func_8004479C(Camera* camera, u32* arg1, CollisionPoly* arg2) {
 
 Vec3s* func_8004481C(Camera* camera, u16* cameraCnt) {
     CollisionPoly* sp44;
-    s32 sp40; // unused
+    s32 pad;
     s32 sp3C;
     PosRot sp28;
 
@@ -2099,7 +2099,7 @@ s32 Camera_Parallel0(Camera* camera) {
 s32 Camera_Jump1(Camera *camera) {
     s32 pad;
     s32 pad2;
-    f32 temp_f2;
+    f32 yOffsetInverse;
     Jump1 *jump1 = &camera->params.jump1;
     f32 spA4;
     Vec3f newEye;
@@ -2120,10 +2120,10 @@ s32 Camera_Jump1(Camera *camera) {
     playerYOffset = Player_GetCameraYOffset(camera->player);
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        temp_f2 = (1.0f + PCT(R_CAM_YINV_OFFSET)) - (PCT(R_CAM_YINV_OFFSET) * (68.0f / playerYOffset));
-        jump1->atYOffset = PCT(NEXTSETTING) * playerYOffset * temp_f2;
-        jump1->distMin = PCT(NEXTSETTING) * playerYOffset * temp_f2;
-        jump1->distMax = PCT(NEXTSETTING) * playerYOffset * temp_f2;
+        yOffsetInverse = (1.0f + PCT(R_CAM_YINV_OFFSET)) - (PCT(R_CAM_YINV_OFFSET) * (68.0f / playerYOffset));
+        jump1->atYOffset = PCT(NEXTSETTING) * playerYOffset * yOffsetInverse;
+        jump1->distMin = PCT(NEXTSETTING) * playerYOffset * yOffsetInverse;
+        jump1->distMax = PCT(NEXTSETTING) * playerYOffset * yOffsetInverse;
         jump1->yawUpateRateTarget = NEXTSETTING;
         jump1->maxYawUpdate = PCT(NEXTSETTING);
         jump1->unk_14 = NEXTSETTING;
