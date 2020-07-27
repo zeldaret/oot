@@ -200,21 +200,16 @@ UNK_TYPE DemoGo_FrameUpdateMatrix(DemoGo* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-#ifdef NON_MATCHING
-// return value isn't produced in the same way
-s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 csCmdNPCAction) {
+s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 npcAction) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
-    CsCmdActorAction* npcAction = csCtx->npcActions[func_8097C870(this)];
-    if (csCtx->state != 0) {
-        if (npcAction != NULL && npcAction->action == csCmdNPCAction) {
-            return 1;
-        }
+    s32 actionIdx = func_8097C870(this);
+
+    if ((csCtx->state != 0) && (csCtx->npcActions[actionIdx] != NULL) &&
+        (csCtx->npcActions[actionIdx]->action == npcAction)) {
+        return 1;
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Go/func_8097CDB0.s")
-#endif
 
 void func_8097CE10(DemoGo* this, GlobalContext* globalCtx) {
     this->action = 1;
