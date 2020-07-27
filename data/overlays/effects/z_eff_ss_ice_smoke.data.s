@@ -11,6 +11,6 @@
 
 glabel Effect_Ss_Ice_Smoke_InitVars
 .word 0x00000024
-.word func_809A8BF0
+.word EffectSsIceSmoke_Init
 .word 0x00000000, 0x00000000
 

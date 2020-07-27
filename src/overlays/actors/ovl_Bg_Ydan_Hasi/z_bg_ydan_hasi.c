@@ -1,3 +1,8 @@
+/*
+ * File: z_bg_ydan_hasi.c
+ * Overlay: ovl_Bg_Ydan_Hasi
+ * Description: Deku Tree Puzzle elements. Water plane and floating block in B1, and 3 blocks on 2F
+ */
 #include "z_bg_ydan_hasi.h"
 
 #define FLAGS 0x00000030
@@ -36,7 +41,7 @@ Gfx* D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
 
 extern UNK_TYPE D_06005780;
 extern UNK_TYPE D_06007798;
-extern Gfx* D_06005DE0;
+extern Gfx* D_06005DE0[];
 
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
@@ -47,7 +52,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     localConst = 0;
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk_168 = (u8)((thisx->params >> 8) & 0x3F);
+    this->unk_168 = ((thisx->params >> 8) & 0x3F);
     thisx->params = thisx->params & 0xFF;
     waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes + 0x1;
     DynaPolyInfo_SetActorMove(&this->dyna, 1);
@@ -84,7 +89,7 @@ void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {
-    u32 pad;
+    s32 pad;
     f32 framesAfterMath;
     f32 posOffset;
     WaterBox* waterBox;
@@ -107,7 +112,7 @@ void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) 
 }
 
 void BgYdanHasi_InitWater(BgYdanHasi* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, (u8)this->unk_168)) {
+    if (Flags_GetSwitch(globalCtx, this->unk_168)) {
         this->timer = 600;
         this->actionFunc = BgYdanHasi_MoveWater;
     }
@@ -183,13 +188,12 @@ void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+    BgYdanHasi* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    if (thisx->params == 0 || thisx->params == 2) {
-
-        Gfx_DrawDListOpa(globalCtx, D_808BEC24[thisx->params]);
+    if (this->dyna.actor.params == 0 || this->dyna.actor.params == 2) {
+        Gfx_DrawDListOpa(globalCtx, D_808BEC24[this->dyna.actor.params]);
         return;
     }
     gfxCtx = globalCtx->state.gfxCtx;

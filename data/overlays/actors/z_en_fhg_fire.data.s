@@ -9,12 +9,6 @@
 
 .balign 16
 
-glabel En_Fhg_Fire_InitVars
- .word 0x00000900, 0x00000030, 0x005A0000, 0x00000204
-.word EnFhgFire_Init
-.word EnFhgFire_Destroy
-.word EnFhgFire_Update
-.word EnFhgFire_Draw
 glabel D_80A11790
  .word 0x0A110939, 0x10010000, 0x06000000, 0x00100700, 0x03200000, 0x0D900700, 0x00000000, 0x01010100, 0x0014001E, 0x000A0000, 0x00000000
 glabel D_80A117BC

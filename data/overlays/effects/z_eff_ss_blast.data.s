@@ -11,6 +11,6 @@
 
 glabel Effect_Ss_Blast_InitVars
 .word 0x00000004
-.word func_8099EDB0
+.word EffectSsBlast_Init
 .word 0x00000000, 0x00000000
 

@@ -1,0 +1,49 @@
+glabel func_800F4870
+/* B6BA10 800F4870 27BDFFD0 */  addiu $sp, $sp, -0x30
+/* B6BA14 800F4874 AFB1001C */  sw    $s1, 0x1c($sp)
+/* B6BA18 800F4878 308200FF */  andi  $v0, $a0, 0xff
+/* B6BA1C 800F487C AFBF0024 */  sw    $ra, 0x24($sp)
+/* B6BA20 800F4880 AFB20020 */  sw    $s2, 0x20($sp)
+/* B6BA24 800F4884 AFB00018 */  sw    $s0, 0x18($sp)
+/* B6BA28 800F4888 AFA40030 */  sw    $a0, 0x30($sp)
+/* B6BA2C 800F488C 14400002 */  bnez  $v0, .L800F4898
+/* B6BA30 800F4890 00008825 */   move  $s1, $zero
+/* B6BA34 800F4894 2411007F */  li    $s1, 127
+.L800F4898:
+/* B6BA38 800F4898 00008025 */  move  $s0, $zero
+/* B6BA3C 800F489C AFA20028 */  sw    $v0, 0x28($sp)
+/* B6BA40 800F48A0 3C120700 */  lui   $s2, 0x700
+/* B6BA44 800F48A4 320E00FF */  andi  $t6, $s0, 0xff
+.L800F48A8:
+/* B6BA48 800F48A8 000E7A00 */  sll   $t7, $t6, 8
+/* B6BA4C 800F48AC 00112E00 */  sll   $a1, $s1, 0x18
+/* B6BA50 800F48B0 00052E03 */  sra   $a1, $a1, 0x18
+/* B6BA54 800F48B4 0C0396C8 */  jal   func_800E5B20
+/* B6BA58 800F48B8 01F22025 */   or    $a0, $t7, $s2
+/* B6BA5C 800F48BC 26100001 */  addiu $s0, $s0, 1
+/* B6BA60 800F48C0 321000FF */  andi  $s0, $s0, 0xff
+/* B6BA64 800F48C4 2A010010 */  slti  $at, $s0, 0x10
+/* B6BA68 800F48C8 5420FFF7 */  bnezl $at, .L800F48A8
+/* B6BA6C 800F48CC 320E00FF */   andi  $t6, $s0, 0xff
+/* B6BA70 800F48D0 8FB80028 */  lw    $t8, 0x28($sp)
+/* B6BA74 800F48D4 8FA80028 */  lw    $t0, 0x28($sp)
+/* B6BA78 800F48D8 24010007 */  li    $at, 7
+/* B6BA7C 800F48DC 17010005 */  bne   $t8, $at, .L800F48F4
+/* B6BA80 800F48E0 31090007 */   andi  $t1, $t0, 7
+/* B6BA84 800F48E4 24190002 */  li    $t9, 2
+/* B6BA88 800F48E8 3C018013 */  lui   $at, %hi(D_80130600) # $at, 0x8013
+/* B6BA8C 800F48EC 10000005 */  b     .L800F4904
+/* B6BA90 800F48F0 A0390600 */   sb    $t9, %lo(D_80130600)($at)
+.L800F48F4:
+/* B6BA94 800F48F4 3C048013 */  lui   $a0, %hi(D_801305F8)
+/* B6BA98 800F48F8 00892021 */  addu  $a0, $a0, $t1
+/* B6BA9C 800F48FC 0C03D247 */  jal   func_800F491C
+/* B6BAA0 800F4900 908405F8 */   lbu   $a0, %lo(D_801305F8)($a0)
+.L800F4904:
+/* B6BAA4 800F4904 8FBF0024 */  lw    $ra, 0x24($sp)
+/* B6BAA8 800F4908 8FB00018 */  lw    $s0, 0x18($sp)
+/* B6BAAC 800F490C 8FB1001C */  lw    $s1, 0x1c($sp)
+/* B6BAB0 800F4910 8FB20020 */  lw    $s2, 0x20($sp)
+/* B6BAB4 800F4914 03E00008 */  jr    $ra
+/* B6BAB8 800F4918 27BD0030 */   addiu $sp, $sp, 0x30
+

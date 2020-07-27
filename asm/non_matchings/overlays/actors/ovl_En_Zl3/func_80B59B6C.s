@@ -1,6 +1,6 @@
 .rdata
 glabel D_80B5A8CC
-    .asciz "[31m En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .asciz "\x1b[31m En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m"
     .balign 4
 
 .text

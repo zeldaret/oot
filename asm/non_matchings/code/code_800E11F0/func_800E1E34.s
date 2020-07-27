@@ -1,0 +1,17 @@
+glabel func_800E1E34
+/* B58FD4 800E1E34 27BDFFE0 */  addiu $sp, $sp, -0x20
+/* B58FD8 800E1E38 8FAE0030 */  lw    $t6, 0x30($sp)
+/* B58FDC 800E1E3C AFBF001C */  sw    $ra, 0x1c($sp)
+/* B58FE0 800E1E40 0C038B38 */  jal   func_800E2CE0
+/* B58FE4 800E1E44 AFAE0010 */   sw    $t6, 0x10($sp)
+/* B58FE8 800E1E48 14400004 */  bnez  $v0, .L800E1E5C
+/* B58FEC 800E1E4C 8FA40030 */   lw    $a0, 0x30($sp)
+/* B58FF0 800E1E50 2405FFFF */  li    $a1, -1
+/* B58FF4 800E1E54 0C000C18 */  jal   osSendMesg
+/* B58FF8 800E1E58 00003025 */   move  $a2, $zero
+.L800E1E5C:
+/* B58FFC 800E1E5C 8FBF001C */  lw    $ra, 0x1c($sp)
+/* B59000 800E1E60 27BD0020 */  addiu $sp, $sp, 0x20
+/* B59004 800E1E64 03E00008 */  jr    $ra
+/* B59008 800E1E68 00000000 */   nop
+

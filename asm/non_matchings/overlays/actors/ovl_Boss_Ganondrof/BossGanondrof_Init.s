@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_8091540C
+    .float -3315.0
+
+glabel D_80915410
+    .float -3315.0
+
+.text
 glabel BossGanondrof_Init
 /* 00430 80910A70 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00434 80910A74 AFB10038 */  sw      $s1, 0x0038($sp)           
