@@ -460,7 +460,7 @@ void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
     f32* unk_268 = &this->unk_268;
-    s32 alpha = 0xFF;
+    s32 alpha = 255;
 
     if (func_809850E8(this, globalCtx, 4, 5)) {
         *unk_268 += 1.0f;
