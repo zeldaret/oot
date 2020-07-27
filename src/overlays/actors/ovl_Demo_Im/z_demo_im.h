@@ -18,12 +18,16 @@ typedef struct DemoIm {
     /* 0x025E */ char unk_25E[0x2];
     /* 0x0260 */ s32 action;
     /* 0x0264 */ s32 drawConfig;
-    /* 0x0268 */ char unk_268[0x4];
+    /* 0x0268 */ f32 unk_268;
     /* 0x026C */ s32 unk_26C;
-    /* 0x0270 */ char unk_270[0x10];
+    /* 0x0270 */ s32 unk_270;
+    /* 0x0274 */ s32 unk_274;
+    /* 0x0278 */ f32 unk_278;
+    /* 0x027C */ s32 unk_27C;
     /* 0x0280 */ s32 unk_280;
     /* 0x0284 */ ColliderCylinder collider;
-    /* 0x02D0 */ char unk_2D0[0x2C];
+    /* 0x02D0 */ s32 unk_2D0;
+    /* 0x02D4 */ struct_80034A14_arg1 unk_2D4;
 } DemoIm; // size = 0x02FC
 
 extern const ActorInit Demo_Im_InitVars;
