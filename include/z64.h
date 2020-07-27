@@ -1207,7 +1207,7 @@ typedef struct {
     /* 0x0004 */ Vec3f unk_04;
     /* 0x0010 */ Vec3f unk_10;
     /* 0x001C */ Vec3f unk_1C;
-    /* 0x0028 */ char unk_28[0x4];
+    /* 0x0028 */ Color_RGBA8 color;
     /* 0x002C */ s16 unk_2C;
     /* 0x002E */ s16 unk_2E;
     /* 0x0030 */ s16 unk_30;

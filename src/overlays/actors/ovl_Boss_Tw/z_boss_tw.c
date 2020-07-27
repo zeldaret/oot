@@ -133,9 +133,10 @@ Vec3f D_8094A9F8 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8094AA04 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8094AA10 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8094AA1C = { 0.0f, 0.0f, 0.0f };
-// probably colors
-u32 D_8094AA28[] = {
-    0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x646464FF, 0xFFFF9696, 0x96FFFFFF,
+Color_RGBA8_n D_8094AA28[] = {
+    { 255, 128, 0, 255 }, { 0, 0, 255, 255 }, { 0, 255, 0, 0 },
+    { 100, 100, 100, 255 }, { 255, 255, 150, 150 }, { 150, 255, 255, 255 },
+
 };
 
 Vec3f D_8094AA40 = { 0.0f, 0.0f, 0.0f };
@@ -936,7 +937,7 @@ void func_8093C164(BossTw* this, GlobalContext* globalCtx);
 void func_8093C25C(BossTw* this, GlobalContext* globalCtx);
 void func_8093C25C(BossTw* this, GlobalContext* globalCtx);
 void func_8093C2C4(BossTw* this, GlobalContext* globalCtx);
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 void BossTw_ShootBeam(BossTw *this, GlobalContext *globalCtx) {
     Vec3f sp130;
