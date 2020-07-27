@@ -169,7 +169,7 @@ void func_80984D74(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[5];
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void func_80984DB8(DemoIm* this) {
