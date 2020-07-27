@@ -67,7 +67,6 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-/*
 void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     Player* player = PLAYER;
@@ -117,7 +116,7 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actor.posRot.rot.y += 1000;
     this->actor.shape.rot.y =
-        func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) + this->actor.posRot.rot.y;
+        func_8005A9F4(ACTIVE_CAM) + this->actor.posRot.rot.y;
     this->unk_14C += 1;
     gSaveContext.nayrusLoveTimer += 1;
     if (gSaveContext.nayrusLoveTimer < 1100) {
@@ -126,9 +125,84 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_FLASH);
     }
 }
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
+
+/*
+void func_80B8772C(GlobalContext *globalCtx, f32 a1) {
+    f32 temp_f0;
+    f32 temp_f10;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    u8 temp_t0;
+    void *temp_a1;
+    void *temp_v1;
+    void *temp_v1_2;
+    void *temp_v1_3;
+    f32 phi_f0;
+    void *phi_v1;
+    s32 phi_v0;
+    void *phi_a1;
+    f32 phi_f10;
+    f32 phi_f0_2;
+    void *phi_v1_2;
+    s32 phi_v0_2;
+
+    if (globalCtx->roomCtx.curRoom.unk_03 != 5) {
+        if (a1 < 0.0f) {
+            a1 = 0.0f;
+        }
+        if (a1 > 1.0f) {
+            a1 = 1.0f;
+        }
+        phi_f0 = a1 - 0.2f;
+        if (a1 < 0.2f) {
+            phi_f0 = 0.0f;
+        }
+        *(s16*)(&globalCtx->envCtx.unk_98[6]) = (850.0f - *(f32*)(&globalCtx->envCtx.unk_C0[0xC])) * phi_f0;
+        if (a1 == 0.0f) {
+            phi_v1 = (void*)(&globalCtx->msgCtx.unk_128[0xDE00]);
+            phi_v0 = 0;
+            do {
+                temp_v0 = phi_v0 + 1;
+                temp_v1 = (void*)((s32)phi_v1 + 2);
+                *(u16*)((s32)temp_v1 + 0xABA) = 0;
+                phi_v1 = temp_v1;
+                phi_v0 = temp_v0;
+            } while (temp_v0 != 3);
+            return;
+        }
+        temp_v1_2 = (void*)(&globalCtx->msgCtx.unk_128[0xDE00]);
+        temp_f0 = a1 * 5.0f;
+        temp_a1 = (void*)(&globalCtx->msgCtx.unk_128[0xDE00]);
+        phi_a1 = temp_a1;
+        phi_f0_2 = temp_f0;
+        phi_v1_2 = temp_v1_2;
+        phi_v0_2 = 0;
+        if (1.0f < temp_f0) {
+            phi_a1 = temp_a1;
+            phi_f0_2 = 1.0f;
+            phi_v1_2 = temp_v1_2;
+            phi_v0_2 = 0;
+        }
+
+        do {
+            temp_t0 = *(u8*)((s32)phi_a1 + 0xAF3);
+            temp_f10 = (f32) temp_t0;
+            phi_f10 = temp_f10;
+            if (temp_t0 < 0) {
+                phi_f10 = temp_f10 + 4294967296.0f;
+            }
+            temp_v0_2 = phi_v0_2 + 1;
+            temp_v1_3 = (void*)((s32)phi_v1_2 + 2);
+            *(s16*)((s32)temp_v1_3 + 0xABA) = 0 - (s32) (phi_f10 * phi_f0_2);
+            phi_a1 = (void*)((s32)phi_a1 + 1);
+            phi_v1_2 = temp_v1_3;
+            phi_v0_2 = temp_v0_2;
+        } while (temp_v0_2 != 3);
+    }
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B8772C.s")
 
