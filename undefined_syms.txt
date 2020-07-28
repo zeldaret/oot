@@ -738,7 +738,21 @@ D_04010050 = 0x04010050;
 D_06000660 = 0x06000660;
 D_06000FC0 = 0x06000FC0;
 
-// z_en_fhg_fire display lists
+// z_eff_ss_blast
+D_0401A0B0 = 0x0401A0B0;
+
+// z_eff_ss_g_spk
+D_04025550 = 0x04025550;
+
+// z_eff_ss_bomb
+D_0400BF80 = 0x0400BF80;
+
+// z_eff_ss_bomb2
+D_0400BF80 = 0x0400BF80;
+D_0400BFE8 = 0x0400BFE8;
+D_0400C040 = 0x0400C040;
+
+// z_en_fhg_fire
 D_0600FAA0 = 0x0600FAA0;
 D_0600FCF8 = 0x0600FCF8;
 D_060105E0 = 0x060105E0;
