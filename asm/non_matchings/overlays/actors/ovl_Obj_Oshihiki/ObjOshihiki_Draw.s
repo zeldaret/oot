@@ -1,3 +1,32 @@
+.rdata
+glabel D_80B9CC5C
+    .asciz "../z_obj_oshihiki.c"
+    .balign 4
+
+glabel D_80B9CC70
+    .asciz "../z_obj_oshihiki.c"
+    .balign 4
+
+glabel D_80B9CC84
+    .asciz "../z_obj_oshihiki.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B9CD1C
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8F8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8B8
+    .word L80B9C8F8
+    .word L80B9C8F8
+    .word L80B9C8F8
+    .word L80B9C8B8
+
+.text
 glabel ObjOshihiki_Draw
 /* 015E4 80B9C764 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 015E8 80B9C768 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,113 @@
+.late_rodata
+glabel jtbl_808F7EF0
+    .word L808D9E8C
+    .word L808DA068
+    .word L808DA198
+    .word L808DA284
+    .word L808DA35C
+    .word L808DA450
+    .word L808DA77C
+    .word L808DA8C8
+    .word L808DA9F0
+    .word L808DAB60
+
+glabel jtbl_808F7F18
+    .word L808D9438
+    .word L808D94C4
+    .word L808D95A8
+    .word L808D9654
+    .word L808D98C8
+    .word L808D9900
+    .word L808D9A54
+    .word L808D9AE8
+    .word L808D9B34
+    .word L808D9C94
+
+glabel D_808F7F40
+    .float -7000.0
+
+glabel D_808F7F44
+    .float 0.05
+
+glabel D_808F7F48
+    .float 0.2
+
+glabel D_808F7F4C
+    .float 6000.0
+
+glabel D_808F7F50
+    .float 4152.0
+
+glabel D_808F7F54
+    .float 4102.0
+
+glabel D_808F7F58
+    .float 4172.0
+
+glabel D_808F7F5C
+    .float -7000.0
+
+glabel D_808F7F60
+    .float 4104.0
+
+glabel D_808F7F64
+    .float 4102.0
+
+glabel D_808F7F68
+    .float 4102.0
+
+glabel D_808F7F6C
+    .float 4152.0
+
+glabel D_808F7F70
+    .float 4102.0
+
+glabel D_808F7F74
+    .float 4122.0
+
+glabel D_808F7F78
+    .float 4102.0
+
+glabel D_808F7F7C
+    .float 4147.0
+
+glabel D_808F7F80
+    .float 4154.0
+
+glabel D_808F7F84
+    .float 0.3
+
+glabel D_808F7F88
+    .float 0.3
+
+glabel D_808F7F8C
+    .float -503.0
+
+glabel D_808F7F90
+    .float 4181.0
+
+glabel D_808F7F94
+    .float 697.0
+
+glabel D_808F7F98
+    .float 886.0
+
+glabel D_808F7F9C
+    .float 4154.0
+
+glabel D_808F7FA0
+    .float 0.3
+
+glabel D_808F7FA4
+    .float 0.8
+
+glabel D_808F7FA8
+    .float 4154.0
+
+glabel D_808F7FAC
+    .float 0.8
+
+.text
 glabel func_808D933C
 /* 02ACC 808D933C 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 02AD0 808D9340 AFBF003C */  sw      $ra, 0x003C($sp)

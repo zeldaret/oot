@@ -1,6 +1,6 @@
 .rdata
 glabel D_80ABB45C
-    .asciz "[32m☆ 鶏柵内ＧＥＴ！☆ %x\n[m"
+    .asciz "\x1b[32m☆ 鶏柵内ＧＥＴ！☆ %x\n\x1b[m"
     .balign 4
 
 glabel D_80ABB47C
@@ -8,27 +8,27 @@ glabel D_80ABB47C
     .balign 4
 
 glabel D_80ABB480
-    .asciz "[33m☆☆☆☆☆ ねぇちゃん選択	 ☆☆☆☆ %d\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ ねぇちゃん選択	 ☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_80ABB4B0
-    .asciz "[33m☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_80ABB4E8
-    .asciz "[33m☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_80ABB520
-    .asciz "[33m☆☆☆☆☆ ねぇちゃん今	 ☆☆☆☆ %d\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ ねぇちゃん今	 ☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_80ABB550
-    .asciz "[32m☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n\x1b[m"
     .balign 4
 
 glabel D_80ABB588
-    .asciz "[32m☆☆☆☆☆ this->message_end_code   ☆☆ %d\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ this->message_end_code   ☆☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_80ABB5C0
@@ -36,11 +36,11 @@ glabel D_80ABB5C0
     .balign 4
 
 glabel D_80ABB5C4
-    .asciz "[36m☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n[m"
+    .asciz "\x1b[36m☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n\x1b[m"
     .balign 4
 
 glabel D_80ABB5F0
-    .asciz "[36m☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n[m"
+    .asciz "\x1b[36m☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n\x1b[m"
     .balign 4
 
 glabel D_80ABB61C

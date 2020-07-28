@@ -50,7 +50,7 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_158 = 1.0f;
     ArrowFire_SetupAction(&this->actor, ArrowFire_Charge);
     Actor_SetScale(this, 0.01f);
-    this->alpha = 0xA0;
+    this->alpha = 160;
     this->timer = 0;
     this->unk_15C = 0.0f;
 }
@@ -84,7 +84,7 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
         ArrowFire_SetupAction(this, ArrowFire_Fly);
-        this->alpha = 0xFF;
+        this->alpha = 255;
     }
 }
 
@@ -170,9 +170,9 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
-        this->alpha = 0xFF;
+        this->alpha = 255;
     } else if (arrow->timer < 34) {
-        if (this->alpha < 0x23) {
+        if (this->alpha < 35) {
             Actor_Kill(&this->actor);
         } else {
             this->alpha -= 0x19;
@@ -218,7 +218,7 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         // Draw red effect over the screen when arrow hits
         if (this->unk_15C > 0) {
             gfxCtx->polyXlu.p = func_800937C0(gfxCtx->polyXlu.p);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0x00, 0x00,
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0, 0,
                             (s32)(150.0f * this->unk_15C) & 0xFF);
             gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_DISABLE);
             gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
@@ -227,8 +227,8 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         // Draw fire on the arrow
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xC8, 0x00, this->alpha);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x80);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 255, 200, 0, this->alpha);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 128);
         Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);

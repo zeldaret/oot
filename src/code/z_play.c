@@ -172,7 +172,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
         globalCtx->transitionMode = 0;
     }
 
-    func_800B3968();
+    ShrinkWindow_Destroy();
     TransitionFade_Destroy(&globalCtx->transitionFade);
     VisMono_Destroy(&D_80161498);
 
@@ -323,7 +323,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
-                func_8010B680(globalCtx, 0x3066, 0);
+                func_8010B680(globalCtx, 0x3066, NULL);
             }
             gSaveContext.nextDayTime = 0xFFFE;
         } else {
@@ -360,13 +360,13 @@ void Gameplay_Init(GlobalContext* globalCtx) {
         globalCtx->fadeTransition = 6;
     }
 
-    func_800B3908();
+    ShrinkWindow_Init();
     TransitionFade_Init(&globalCtx->transitionFade);
     TransitionFade_SetType(&globalCtx->transitionFade, 3);
-    TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+    TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&globalCtx->transitionFade);
     VisMono_Init(&D_80161498);
-    D_801614B0.a = 0x00;
+    D_801614B0.a = 0;
     Flags_UnsetAllEnv(globalCtx);
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
@@ -542,32 +542,27 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         (globalCtx->transitionCtx.transitionType == 7) ||
                         (globalCtx->transitionCtx.transitionType == 13) ||
                         (globalCtx->transitionCtx.transitionType == 17)) {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(160, 160, 160, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+                                                                 RGBA8(160, 160, 160, 255));
                         }
                     } else if (globalCtx->transitionCtx.transitionType == 18) {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0x8C, 0x8C, 0x64, 0xFF));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(140, 140, 100, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0x8C, 0x8C, 0x64, 0xFF));
+                                                                 RGBA8(140, 140, 100, 255));
                         }
                     } else if (globalCtx->transitionCtx.transitionType == 19) {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0x46, 0x64, 0x6E, 0xFF));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(70, 100, 110, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0x46, 0x64, 0x6E, 0xFF));
+                                                                 RGBA8(70, 100, 110, 255));
                         }
                     } else {
-                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data,
-                                                          RGBA8(0x00, 0x00, 0x00, 0x00));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(0, 0, 0, 0));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
-                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
-                                                                 RGBA8(0x00, 0x00, 0x00, 0x00));
+                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data, RGBA8(0, 0, 0, 0));
                         }
                     }
 
@@ -714,7 +709,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 13:
-                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 < 0x6E) {
                             gTrnsnUnkState = 0;
@@ -747,7 +743,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 15:
-                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 <= 0) {
                             gTrnsnUnkState = 0;
@@ -996,7 +993,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);
             }
 
-            func_800B39B8(R_UPDATE_RATE);
+            ShrinkWindow_Update(R_UPDATE_RATE);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3783);
@@ -1147,7 +1144,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             TransitionFade_Draw(&globalCtx->transitionFade, &gfxP);
 
-            if (D_801614B0.a > 0x00) {
+            if (D_801614B0.a > 0) {
                 D_80161498.primColor.rgba = D_801614B0.rgba;
                 VisMono_Draw(&D_80161498, &gfxP);
             }
@@ -1639,7 +1636,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
     ret *= 2;
     ret |= Camera_SetParam(camera, 4, arg4);
 
-    camera->dist = func_800CB678(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {

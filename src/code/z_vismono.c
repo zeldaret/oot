@@ -12,14 +12,14 @@ void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
     this->unk_00 = 0;
     this->setScissor = false;
-    this->primColor.r = 0xFF;
-    this->primColor.g = 0xFF;
-    this->primColor.b = 0xFF;
-    this->primColor.a = 0xFF;
-    this->envColor.r = 0x00;
-    this->envColor.g = 0x00;
-    this->envColor.b = 0x00;
-    this->envColor.a = 0x00;
+    this->primColor.r = 255;
+    this->primColor.g = 255;
+    this->primColor.b = 255;
+    this->primColor.a = 255;
+    this->envColor.r = 0;
+    this->envColor.g = 0;
+    this->envColor.b = 0;
+    this->envColor.a = 0;
 }
 
 void VisMono_Destroy(VisMono* this) {

@@ -1,3 +1,86 @@
+.rdata
+glabel D_809152F8
+    .asciz "PYP %f\n"
+    .balign 4
+
+glabel D_80915300
+    .asciz "7\n"
+    .balign 4
+
+glabel D_80915304
+    .asciz "8\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8091545C
+    .word L80912E00
+    .word L80912FB4
+    .word L809131C4
+    .word L80913424
+    .word L809134B4
+    .word L8091352C
+
+glabel D_80915474
+    .float 0.2
+
+glabel D_80915478
+    .float 0.02
+
+glabel D_8091547C
+    .float 0.05
+
+glabel D_80915480
+    .float 0.05
+
+glabel D_80915484
+    .float 0.05
+
+glabel D_80915488
+    .float -3315.0
+
+glabel D_8091548C
+    .float -3315.0
+
+glabel D_80915490
+    .float -3315.0
+
+glabel D_80915494
+    .float -3315.0
+
+glabel D_80915498
+    .float -3315.0
+
+glabel D_8091549C
+    .float -3265.0
+
+glabel D_809154A0
+    .float -3315.0
+
+glabel D_809154A4
+    .float -3315.0
+
+glabel D_809154A8
+    .float -3115.0
+
+glabel D_809154AC
+    .float -0.2
+
+glabel D_809154B0
+    .float 0.002
+
+glabel D_809154B4
+    .float -3315.0
+
+glabel D_809154B8
+    .float 0.002
+
+glabel D_809154BC
+    .float 0.001
+
+glabel D_809154C0
+    .float 0.001
+
+.text
 glabel func_80912D2C
 /* 026EC 80912D2C 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 026F0 80912D30 AFB40048 */  sw      $s4, 0x0048($sp)
