@@ -93,7 +93,7 @@ void EnNb_CheckKidnapCsMode(EnNb* this, GlobalContext* globalCtx) {
                 case 1:
                     EnNb_SetupCaptureCutsceneState(this, globalCtx);
                     break;
-                case 7: 
+                case 7:
                     EnNb_SetupLookAroundInKidnap(this);
                     break;
                 case 8:
@@ -103,7 +103,7 @@ void EnNb_CheckKidnapCsMode(EnNb* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "En_Nb_Kidnap_Check_DemoMode: No such action!!!!!!!!"
+                    // "En_Nb_Kidnap_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
                     osSyncPrintf("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -134,4 +134,3 @@ void EnNb_SuckedInByPortal(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetPosRotInPortal(this, globalCtx);
     EnNb_CheckKidnapCsMode(this, globalCtx);
 }
-

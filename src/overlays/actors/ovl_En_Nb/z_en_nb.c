@@ -82,7 +82,7 @@ extern AnimationHeader* D_06004BB4; // standing up hands on hips
 extern AnimationHeader* D_06006E78;
 extern AnimationHeader* D_06004E60; // getting up from crawlspace
 extern AnimationHeader* D_06004BB4;
-extern AnimationHeader* D_06009238; 
+extern AnimationHeader* D_06009238;
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
@@ -101,11 +101,37 @@ static s32 D_80AB4318 = 0;
 #include "z_en_nb_cutscene_data.c" EARLY
 
 static EnNbActionFunc sActionFuncs[] = {
-    EnNb_SetupChamberCs, EnNb_SetupChamberWarp, EnNb_ComeUp, func_80AB193C, EnNb_RaiseArm, func_80AB19BC, func_80AB19FC,
-    func_80AB1D54, EnNb_FadeInSealCs, func_80AB1DD8, func_80AB23A8, EnNb_MovingInPortal, EnNb_SuckedInByPortal, EnNb_CheckConfrontationCsModeWrapper,
-    func_80AB2C18, EnNb_Kneel, EnNb_LookRight, EnNb_LookLeft, EnNb_Run, EnNb_ConfrontationDestroy, EnNb_CheckCreditsCsMode,
-    EnNb_CreditsFade, func_80AB3428, EnNb_LookUp, EnNb_WaitForNotice, EnNb_StandUpAfterNotice, EnNb_BlockCrawlspace, EnNb_InitCrawlspaceDialogue,
-    EnNb_FollowPath, func_80AB3DB0, func_80AB3E10,
+    EnNb_SetupChamberCs,
+    EnNb_SetupChamberWarp,
+    EnNb_ComeUp,
+    func_80AB193C,
+    EnNb_RaiseArm,
+    func_80AB19BC,
+    func_80AB19FC,
+    func_80AB1D54,
+    EnNb_FadeInSealCs,
+    func_80AB1DD8,
+    func_80AB23A8,
+    EnNb_MovingInPortal,
+    EnNb_SuckedInByPortal,
+    EnNb_CheckConfrontationCsModeWrapper,
+    func_80AB2C18,
+    EnNb_Kneel,
+    EnNb_LookRight,
+    EnNb_LookLeft,
+    EnNb_Run,
+    EnNb_ConfrontationDestroy,
+    EnNb_CheckCreditsCsMode,
+    EnNb_CreditsFade,
+    func_80AB3428,
+    EnNb_LookUp,
+    EnNb_WaitForNotice,
+    EnNb_StandUpAfterNotice,
+    EnNb_BlockCrawlspace,
+    EnNb_InitCrawlspaceDialogue,
+    EnNb_FollowPath,
+    func_80AB3DB0,
+    func_80AB3E10,
 };
 
 static Vec3f sUnkPosVec = { 0.0f, 10.0f, 0.0f };
@@ -155,10 +181,10 @@ void EnNb_GetPathInfo(EnNb* this, GlobalContext* globalCtx) {
         this->vec_2F0.z = pointPos[1].z;
         this->unk_2FC =
             (Math_atan2f(this->vec_2F0.x - this->vec_2E4.x, this->vec_2F0.z - this->vec_2E4.z) * 10430.378f);
-        // "En_Nb_Get_path_info Get rail data = %d!!!!!!!!!!!!!!"
+        // "En_Nb_Get_path_info RAIL DATA GET! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", waypoint);
     } else {
-        // "En_Nb_Get_path_info There is no rail data!!!!!!!!!!!!!!!!!!!!"
+        // "En_Nb_Get_path_info RAIL DATA DOESN'T EXIST!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
     }
 }
@@ -189,7 +215,6 @@ void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
     this->struct_300.unk_18 = player->actor.posRot.pos;
     this->struct_300.unk_14 = kREG(16) + 9.0f;
     func_80034A14(&this->actor, &this->struct_300, kREG(17) + 0xC, 2);
-    
 }
 
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx) {
@@ -227,7 +252,7 @@ void EnNb_UpdateEyes(EnNb* this) {
         *eyeIdx = 0;
     }
 }
-    
+
 void func_80AB11EC(EnNb* this) {
     this->action = NB_ACTION_7;
     this->drawMode = NB_DRAW_NOTHING;
@@ -350,10 +375,10 @@ void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 tr
 #include "z_en_nb_inEnding.c" EARLY
 
 void EnNb_CheckToSpawnNearSpiritCrawlspace(EnNb* this, GlobalContext* globalCtx) {
-    if (!(gSaveContext.eventChkInf[9] & 0x20) && gSaveContext.linkAge == 1) { 
+    if (!(gSaveContext.eventChkInf[9] & 0x20) && gSaveContext.linkAge == 1) {
         EnNb_GetPathInfo(this, globalCtx);
         if (!(gSaveContext.eventChkInf[9] & 0x10)) { // looking into crawlspace
-            EnNb_SetCurrentAnim(this, &D_06006E78, 0, 0.0f, 0); 
+            EnNb_SetCurrentAnim(this, &D_06006E78, 0, 0.0f, 0);
             this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = NB_DRAW_DEFAULT;
         } else {
@@ -502,7 +527,8 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
                     this->actor.textId = 0x601F;
                     break;
                 default:
-                    // "You have nothing to do? What good timing!" ... proceeds to ask question asking if Link is one of Ganondorf's followers
+                    // "You have nothing to do? What good timing!" ... proceeds to ask question asking if Link is one of
+                    // Ganondorf's followers
                     this->actor.textId = 0x6020;
             }
         } else {
@@ -642,7 +668,7 @@ void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
-        // "The main mode is strange!!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "MAIN MODE IS ABNORMAL!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[this->action](this, globalCtx);
@@ -736,8 +762,8 @@ void EnNb_DrawDefault(EnNb* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment));
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, srcSegmentC);
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, EnNb_OverrideLimbDraw,
-                     EnNb_PostLimbDraw, &this->actor);
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                     EnNb_OverrideLimbDraw, EnNb_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nb.c", 1013);
 }
 
@@ -745,7 +771,7 @@ void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
-        // "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "DRAW MODE IS ABNORMAL!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[this->drawMode](this, globalCtx);

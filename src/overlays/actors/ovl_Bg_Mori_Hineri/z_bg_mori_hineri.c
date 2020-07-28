@@ -92,8 +92,8 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
             moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1A);
         } else {
             moriHineriObjIdx = (this->dyna.actor.params == 2)
-                               ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2)
-                               : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A);
+                                   ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2)
+                                   : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A);
         }
         this->moriHineriObjIdx = moriHineriObjIdx;
     }
@@ -128,8 +128,8 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
                 this->moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
             } else {
                 this->moriHineriObjIdx = (this->dyna.actor.params == 2)
-                                         ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A)
-                                         : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2);
+                                             ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A)
+                                             : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2);
             }
             if (this->moriHineriObjIdx < 0) {
                 Actor_Kill(&this->dyna.actor);
@@ -216,8 +216,7 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
             D_808A43E0 = -1;
         }
     }
-    if ((D_808A43E0 > 0) &&
-        ((ACTIVE_CAM->eye.z - this->dyna.actor.posRot.pos.z) < 1100.0f)) {
+    if ((D_808A43E0 > 0) && ((ACTIVE_CAM->eye.z - this->dyna.actor.posRot.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }
@@ -229,7 +228,7 @@ void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
-    
+
     BgMoriHineri* this = THIS;
     s8 objIndex;
     MtxF mtx;
