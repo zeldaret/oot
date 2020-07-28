@@ -8,6 +8,11 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
-} EffectSsDeadSoundInitParams; // size = 0x
+    /* 0x24 */ u16 sfxId;
+    /* 0x26 */ s16 lowerPriority;
+    /* 0x28 */ s16 repeatMode;
+    /* 0x26 */ s16 unused2;
+    /* 0x2C */ s32 life;
+} EffectSsDeadSoundInitParams; // size = 0x30
 
 #endif

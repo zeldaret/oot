@@ -56,7 +56,7 @@ glabel func_808AC908
 /* 00374 808AC9D4 460A4400 */  add.s   $f16, $f8, $f10            
 /* 00378 808AC9D8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 0037C 808AC9DC 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
-/* 00380 808AC9E0 0C00A3A1 */  jal     func_80028E84              
+/* 00380 808AC9E0 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 00384 808AC9E4 E7B00034 */  swc1    $f16, 0x0034($sp)          
 /* 00388 808AC9E8 3C0B808B */  lui     $t3, %hi(func_808ACA08)    ## $t3 = 808B0000
 /* 0038C 808AC9EC 256BCA08 */  addiu   $t3, $t3, %lo(func_808ACA08) ## $t3 = 808ACA08

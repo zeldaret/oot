@@ -75,7 +75,7 @@ glabel func_80B2F0B8
 /* 0038C 80B2F17C AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 00390 80B2F180 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 00394 80B2F184 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFF0
-/* 00398 80B2F188 0C00A3A1 */  jal     func_80028E84              
+/* 00398 80B2F188 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 0039C 80B2F18C E7B00040 */  swc1    $f16, 0x0040($sp)          
 /* 003A0 80B2F190 24190032 */  addiu   $t9, $zero, 0x0032         ## $t9 = 00000032
 /* 003A4 80B2F194 2408000F */  addiu   $t0, $zero, 0x000F         ## $t0 = 0000000F

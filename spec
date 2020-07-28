@@ -1712,22 +1712,19 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Blast"
     include "build/src/overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.o"
-    include "build/data/overlays/effects/z_eff_ss_blast.data.o"
-    include "build/data/overlays/effects/z_eff_ss_blast.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Blast/ovl_Effect_Ss_Blast_reloc.o"
 endseg
 
 beginseg
     name "ovl_Effect_Ss_Bomb"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb.data.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Bomb/ovl_Effect_Ss_Bomb_reloc.o"
 endseg
 
 beginseg
     name "ovl_Effect_Ss_Bomb2"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb2.data.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb2.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/ovl_Effect_Ss_Bomb2_reloc.o"
 endseg
 
 beginseg
@@ -1768,8 +1765,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Dead_Sound"
     include "build/src/overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.o"
-    include "build/data/overlays/effects/z_eff_ss_dead_sound.data.o"
-    include "build/data/overlays/effects/z_eff_ss_dead_sound.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Dead_Sound/ovl_Effect_Ss_Dead_Sound_reloc.o"
 endseg
 
 beginseg
@@ -1858,8 +1854,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Spk"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.o"
-    include "build/data/overlays/effects/z_eff_ss_g_spk.data.o"
-    include "build/data/overlays/effects/z_eff_ss_g_spk.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_G_Spk/ovl_Effect_Ss_G_Spk_reloc.o"
 endseg
 
 beginseg
