@@ -33,32 +33,57 @@ typedef struct EnNb {
 } EnNb; // size = 0x0328
 
 typedef enum {
-    /* 0x00 */
-    /* 0x01 */ NB_CHAMBER_UNDERGROUND = 1,
-    /* 0x02 */ NB_CHAMBER_APPEAR = 2,
-    /* 0x03 */ NB_CHAMBER_IDLE = 3, // Talking to Link in the chamber
-    
-    /* 0x06 */ NB_GIVE_MEDALLION = 6,
+    /* 0x00 */ NB_TYPE_0,
+    /* 0x01 */ NB_TYPE_1,
+    /* 0x02 */ NB_TYPE_DEMO02,
+    /* 0x03 */ NB_TYPE_KIDNAPPED,
+    /* 0x04 */ NB_TYPE_CONFRONTATION,
+    /* 0x05 */ NB_TYPE_CREDITS,
+    /* 0x06 */ NB_TYPE_CRAWLSPACE
+} EnNbType;
 
-    /* 0x0A */ NB_CAPTURED = 10,
-
-    /* 0x14 */ NB_CREDITS_INIT = 20,
-    /* 0x15 */ NB_CREDITS_FADEIN = 21,
-    /* 0x16 */ NB_CREDITS_SIT = 22,
-    /* 0x17 */ NB_CREDITS_HEAD_TURN = 23,
-    /* 0x18 */ NB_CROUCH_CRAWLSPACE = 24,
-    /* 0x19 */ NB_NOTICE_PLAYER = 25,
-    /* 0x1A */ NB_IDLE_CRAWLSPACE = 26,
-    /* 0x1B */ NB_IN_DIALOG = 27,
-    /* 0x1C */ NB_IN_PATH = 28,
-    /* 0x1D */ NB_IDLE_AFTER_TALK = 29
+typedef enum {
+    /* 0x00 */ NB_UNUSED,
+    /* 0x01 */ NB_CHAMBER_UNDERGROUND,
+    /* 0x02 */ NB_CHAMBER_APPEAR,
+    /* 0x03 */ NB_CHAMBER_IDLE,
+    /* 0x04 */ NB_CHAMBER_RAISE_ARM,
+    /* 0x05 */ NB_CHAMBER_RAISE_ARM_TRANSITION,
+    /* 0x06 */ NB_GIVE_MEDALLION,
+    /* 0x07 */ NB_ACTION_7,
+    /* 0x08 */ NB_SEAL_FADE,
+    /* 0x09 */ NB_ACTION_9,
+    /* 0x0A */ NB_KIDNAPPED,
+    /* 0x0B */ NB_KIDNAPPED_LOOK_AROUND,
+    /* 0x0C */ NB_PORTAL_FALLTHROUGH,
+    /* 0x0D */ NB_IN_CONFRONTATION,
+    /* 0x0E */ NB_ACTION_14,
+    /* 0x0F */ NB_KNEEL,
+    /* 0x10 */ NB_LOOK_RIGHT,
+    /* 0x11 */ NB_LOOK_LEFT,
+    /* 0x12 */ NB_RUN,
+    /* 0x13 */ NB_CONFRONTATION_DESTROYED,
+    /* 0x14 */ NB_CREDITS_INIT,
+    /* 0x15 */ NB_CREDITS_FADEIN,
+    /* 0x16 */ NB_CREDITS_SIT,
+    /* 0x17 */ NB_CREDITS_HEAD_TURN,
+    /* 0x18 */ NB_CROUCH_CRAWLSPACE,
+    /* 0x19 */ NB_NOTICE_PLAYER,
+    /* 0x1A */ NB_IDLE_CRAWLSPACE,
+    /* 0x1B */ NB_IN_DIALOG,
+    /* 0x1C */ NB_IN_PATH,
+    /* 0x1D */ NB_IDLE_AFTER_TALK,
+    /* 0x1E */ NB_ACTION_30
 } EnNbAction;
 
 typedef enum {
     /* 0x00 */ NB_DRAW_NOTHING,
-    /* 0x01 */
-    /* 0x02 */ NB_DRAW_TRANSPARENCY = 2
+    /* 0x01 */ NB_DRAW_DEFAULT,
+    /* 0x02 */ NB_DRAW_FADE,
+    /* 0x03 */ NB_DRAW_KNEEL,
+    /* 0x04 */ NB_DRAW_LOOK_DIRECTION,
 } EnNbDrawMode;
+
 extern const ActorInit En_Nb_InitVars;
 
 #endif
