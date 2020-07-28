@@ -1944,14 +1944,30 @@ typedef struct {
 
 typedef struct {
     u32 unk_0;
-    u32 unk_4;
+    u8  unk_4;
 } UnkPSkinAwb_0;
+
+typedef struct {
+    s16 unk_0;
+    s16 unk_2;
+    s16 unk_4;
+    char unk_6[0x6];
+    s8 unk_C;
+    s8 unk_D;
+    s8 unk_E;
+    char unk_F[0x1];
+} Struct_800A57C0_2; // size = 0x10
+
+typedef struct {
+    u8 unk_0;
+    Struct_800A57C0_2* buf[2];
+} SkinAvb; // size = 0xC
 
 typedef struct {
     UnkPSkinAwb_0* unk_0;
     MtxF mtx;
     char unk_44[0x04];
-    void* avbTbl;
+    SkinAvb* avbTbl;
     SkelAnime skelAnime;
 } PSkinAwb; // size = 0x90
 
