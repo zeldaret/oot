@@ -4,17 +4,11 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define BGJYAMEGAMI_NUMPIECES 13
+
 struct BgJyaMegami;
 
 typedef void (*BgJyaMegamiActionFunc)(struct BgJyaMegami*, GlobalContext*);
-
-typedef struct BgJyaMegami_PieceInit {
-    /* 0x00 */ Vec3f unk_00;
-    /* 0x0C */ f32 velX;
-    /* 0x10 */ s16 rotVelX;
-    /* 0x12 */ s16 rotVelY;
-    /* 0x14 */ s16 delay;
-} BgJyaMegami_PieceInit; // size = 0x18
 
 typedef struct BgJyaMegami_Piece {
     /* 0x00 */ Vec3f pos;
@@ -22,8 +16,6 @@ typedef struct BgJyaMegami_Piece {
     /* 0x18 */ s16 rotVelX;
     /* 0x1A */ s16 rotVelY;
 } BgJyaMegami_Piece; // size = 0x1C
-
-static BgJyaMegami_PieceInit sPiecesInit[13];
 
 typedef struct BgJyaMegami {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -33,7 +25,7 @@ typedef struct BgJyaMegami {
     /* 0x01C8 */ s16 lightTimer;
     /* 0x01CA */ s16 explosionTimer;
     /* 0x01CC */ s16 crumbleIndex;
-    /* 0x01D0 */ BgJyaMegami_Piece pieces[ARRAY_COUNT(sPiecesInit)];
+    /* 0x01D0 */ BgJyaMegami_Piece pieces[BGJYAMEGAMI_NUMPIECES];
 } BgJyaMegami; // size = 0x033C
 
 extern const ActorInit Bg_Jya_Megami_InitVars;

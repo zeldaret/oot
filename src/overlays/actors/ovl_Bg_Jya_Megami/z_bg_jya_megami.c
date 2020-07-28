@@ -18,6 +18,14 @@ extern Gfx D_06005780[];
 extern UNK_TYPE D_06005C4C;
 extern Gfx D_0600B9F8[];
 
+typedef struct BgJyaMegami_PieceInit {
+    /* 0x00 */ Vec3f unk_00;
+    /* 0x0C */ f32 velX;
+    /* 0x10 */ s16 rotVelX;
+    /* 0x12 */ s16 rotVelY;
+    /* 0x14 */ s16 delay;
+} BgJyaMegami_PieceInit; // size = 0x18
+
 const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
     ACTORTYPE_BG,
@@ -154,7 +162,7 @@ void func_8089A41C(BgJyaMegami* this, GlobalContext* globalContext, f32 arg2) {
     s32 i;
     Vec3f sp50;
 
-    for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
+    for (i = 0; i < BGJYAMEGAMI_NUMPIECES; ++i) {
         if (Math_Rand_ZeroOne() < arg2) {
             Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &sPiecesInit[i].unk_00, &sp50);
             sp50.z += 15.0f;
@@ -226,7 +234,7 @@ void BgJyaMegami_SetupExplosion(BgJyaMegami* this) {
     u32 i;
 
     this->actionFunc = BgJyaMegami_Explosion;
-    for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
+    for (i = 0; i < BGJYAMEGAMI_NUMPIECES; ++i) {
         Math_Vec3f_Copy(&this->pieces[i].pos, &this->dyna.actor.posRot.pos);
         this->pieces[i].vel.x = sPiecesInit[i].velX;
     }
@@ -245,7 +253,7 @@ void BgJyaMegami_Explosion(BgJyaMegami* this, GlobalContext* globalContext) {
         Audio_PlaySoundAtPosition(globalContext, &this->dyna.actor.posRot.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
     }
 
-    for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
+    for (i = 0; i < BGJYAMEGAMI_NUMPIECES; ++i) {
         temp = &this->pieces[i];
         temp2 = &sPiecesInit[i];
         if (this->explosionTimer > temp2->delay) {
@@ -277,7 +285,7 @@ void BgJyaMegami_Explosion(BgJyaMegami* this, GlobalContext* globalContext) {
         sp8C.z = this->dyna.actor.posRot.pos.z - ((Math_Rand_ZeroOne() - 0.5f) * 50.0f);
         func_8089A1DC(globalContext, &sp8C, &sVec, 1, 0);
     }
-    if (this->explosionTimer < ARRAY_COUNT(sPiecesInit)) {
+    if (this->explosionTimer < BGJYAMEGAMI_NUMPIECES) {
         sp8C.x = this->dyna.actor.posRot.pos.x;
         sp8C.y = this->dyna.actor.posRot.pos.y - 60.0f;
         sp8C.z = this->dyna.actor.posRot.pos.z;
@@ -324,7 +332,7 @@ void BgJyaMegami_DrawExplosion(BgJyaMegami* this, GlobalContext* globalContext) 
     Graph_OpenDisps(dispRefs, globalContext->state.gfxCtx, "../z_bg_jya_megami.c", 746);
     func_80093D18(globalContext->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(sPiecesInit); ++i) {
+    for (i = 0; i < BGJYAMEGAMI_NUMPIECES; ++i) {
         piece = &this->pieces[i];
         Matrix_Translate(piece->pos.x + sPiecesInit[i].unk_00.x, piece->pos.y + sPiecesInit[i].unk_00.y,
                          piece->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
