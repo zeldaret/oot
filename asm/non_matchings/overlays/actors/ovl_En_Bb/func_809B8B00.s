@@ -23,7 +23,7 @@ glabel func_809B8B00
 /* 00874 809B8B54 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00878 809B8B58 260500E4 */  addiu   $a1, $s0, 0x00E4           ## $a1 = 000000E4
 /* 0087C 809B8B5C 240638CE */  addiu   $a2, $zero, 0x38CE         ## $a2 = 000038CE
-/* 00880 809B8B60 0C00AA7D */  jal     func_8002A9F4              
+/* 00880 809B8B60 0C00AA7D */  jal     EffectSsDeadSound_SpawnStationary              
 /* 00884 809B8B64 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 .L809B8B68:
 /* 00888 809B8B68 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001

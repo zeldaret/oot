@@ -391,7 +391,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                     effPos.y += 30.0f;
                 }
 
-                func_80028E84(globalCtx, &effPos, &effVelocity, &bomb2Accel, 0x64, 0x13);
+                EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &bomb2Accel, 100, 19);
 
                 effPos.y = thisx->groundY;
                 if (thisx->groundY > -32000.0f) {
@@ -426,7 +426,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMBFLOWER_EXPLOSION)) {
         if (thisx->waterY >= 20.0f) {
-            func_8002A9F4(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 0xA);
+            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 10);
             Actor_Kill(thisx);
             return;
         }

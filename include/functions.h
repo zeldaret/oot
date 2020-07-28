@@ -223,18 +223,17 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
 // ? func_80028BB0(?);
 // ? func_80028CEC(?);
-// ? func_80028DC4(?);
-// ? func_80028E1C(?);
-void func_80028E84(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s32, s32);
-// ? func_80028EF4(?);
-// ? func_80028F84(?);
-// ? func_80028FD8(?);
-// ? func_80029024(?);
-// ? func_80029060(?);
-// ? func_800290F0(?);
-// ? func_80029184(?);
-// ? func_800291D8(?);
-// ? func_800292DC(?);
+void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
+void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
+                   s16 life);
+void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
+                   Color_RGBA8* primColor, s16 life);
+void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep);
+void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor);
 // ? func_80029320(?);
 // ? func_800293A0(?);
 void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
@@ -281,8 +280,7 @@ void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg
 // ? func_8002A824(?);
 // ? func_8002A894(?);
 // ? func_8002A90C(?);
-// ? func_8002A95C(?);
-// ? func_8002A9F4(?);
+void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28, s32 life);
 // ? func_8002AA44(?);
 void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
