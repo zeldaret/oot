@@ -5,6 +5,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
+#include "overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
@@ -29,10 +30,8 @@ extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a
 extern Color_RGBA8_n D_801158CC;
 extern Color_RGBA8_n D_801158D0;
 
-// Draw utility for some G effects
-
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR texture) {
-    s32 pad;
+    GraphicsContext* localGfxCtx;
     f32 scale;
     MtxF sp120;
     MtxF spE0;
@@ -44,9 +43,10 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    // this has to be a fake match cause it doesnt fit the macro, couldnt find anything else
-    gfxCtx = globalCtx->state.gfxCtx;
+    localGfxCtx = globalCtx->state.gfxCtx;
     object = globalCtx->objectCtx.status[this->regs[11]].segment;
+
+    gfxCtx = localGfxCtx;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
     scale = this->regs[1] * 0.0025f;
@@ -367,7 +367,16 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 
 // EffectSsBubble Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800293E4.s")
+void func_800293E4(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
+    EffectSsBubbleInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.unk_0C = arg2;
+    initParams.unk_10 = arg3;
+    initParams.unk_14 = arg4;
+    initParams.unk_18 = arg5;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BUBBLE, 0x80, &initParams);
+}
 
 // EffectSsGRipple Spawn Functions
 

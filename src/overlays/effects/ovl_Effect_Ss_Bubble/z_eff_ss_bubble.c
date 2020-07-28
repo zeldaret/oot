@@ -23,17 +23,31 @@ typedef enum {
 } EffectSsBubbleRegs;
 
 u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void EffectSsBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void EffectSsBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void func_809A01CC(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void func_809A0360(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_Bubble_InitVars = {
     EFFECT_SS_BUBBLE,
     EffectSsBubble_Init,
 };
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Bubble/EffectSsBubble_Init.s")
+extern Gfx D_04055DB0[];
+extern Gfx D_04055EB0[];
+
+u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsBubbleInitParams* initParams = (EffectSsBubbleInitParams*)initParamsx;
+
+    this->displayList = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? D_04055DB0 : D_04055EB0);
+    this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->unk_14) + initParams->pos.x;
+    this->pos.y = (((Math_Rand_ZeroOne() - 0.5f) * initParams->unk_10) + initParams->unk_0C) + initParams->pos.y;
+    this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->unk_14) + initParams->pos.z;
+    Math_Vec3f_Copy(&this->unk_2C, &this->pos);
+    this->life = 1;
+    this->regs[0] = (((Math_Rand_ZeroOne() * 0.5f) + 1.0f) * initParams->unk_18) * 100;
+    this->draw = func_809A01CC;
+    this->update = func_809A0360;
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Bubble/func_809A01CC.s")
 

@@ -11,6 +11,6 @@ typedef struct {
     /* 0x0E */ s16 scale;
     /* 0x10 */ Color_RGBA8_n primColor;
     /* 0x14 */ Color_RGBA8_n envColor;
-} EffectSsGSplashInitParams; // size = 0x
+} EffectSsGSplashInitParams; // size = 0x18
 
 #endif
