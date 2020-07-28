@@ -34,9 +34,8 @@ EffectSsInit Effect_Ss_Dust_InitVars = {
 
 static void* sUpdateFuncs[] = { EffectSsDust_Update, EffectSsBlast_UpdateFire };
 
-static UNK_PTR D_809A2A50[] = {
-    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0
-};
+static UNK_PTR D_809A2A50[] = { 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
+                                0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0 };
 
 extern Gfx D_04010050[];
 

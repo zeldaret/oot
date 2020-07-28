@@ -35,11 +35,11 @@ static void* sDrawFuncs[] = {
     EffectSsBomb2_DrawLayered,
 };
 
-static s32 D_8099FEE0[] = {
+static UNK_PTR D_8099FEE0[] = {
     0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
 };
 
-s32 D_8099FF00[] = {
+static UNK_PTR D_8099FF00[] = {
     0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
 };
 
@@ -124,7 +124,7 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
     s32 pad3;
     f32 scale;
     f32 temp_f24;
-    f32 mtxScale = 0.925;
+    f32 mtxScale = 0.925f;
     s32 i;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -166,7 +166,7 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
                 mtxScale -= 0.15f;
             }
         }
-        
+
         if (1) {}
         if (1) {}
     }
@@ -194,16 +194,14 @@ void EffectSsBomb2_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         this->regs[SS_BOMB2_ENV_R] = func_80027DD4(this->regs[SS_BOMB2_ENV_R], 150, divisor);
         this->regs[SS_BOMB2_ENV_G] = func_80027DD4(this->regs[SS_BOMB2_ENV_G], 0, divisor);
         this->regs[SS_BOMB2_ENV_B] = func_80027DD4(this->regs[SS_BOMB2_ENV_B], 0, divisor);
-    } else {
-        if ((this->life < 14) && (this->life >= 0)) {
-            divisor = this->life + 1;
-            this->regs[SS_BOMB2_PRIM_R] = func_80027DD4(this->regs[SS_BOMB2_PRIM_R], 50, divisor);
-            this->regs[SS_BOMB2_PRIM_G] = func_80027DD4(this->regs[SS_BOMB2_PRIM_G], 50, divisor);
-            this->regs[SS_BOMB2_PRIM_B] = func_80027DD4(this->regs[SS_BOMB2_PRIM_B], 50, divisor);
-            this->regs[SS_BOMB2_PRIM_A] = func_80027DD4(this->regs[SS_BOMB2_PRIM_A], 150, divisor);
-            this->regs[SS_BOMB2_ENV_R] = func_80027DD4(this->regs[SS_BOMB2_ENV_R], 10, divisor);
-            this->regs[SS_BOMB2_ENV_G] = func_80027DD4(this->regs[SS_BOMB2_ENV_G], 10, divisor);
-            this->regs[SS_BOMB2_ENV_B] = func_80027DD4(this->regs[SS_BOMB2_ENV_B], 10, divisor);
-        }
+    } else if ((this->life < 14) && (this->life >= 0)) {
+        divisor = this->life + 1;
+        this->regs[SS_BOMB2_PRIM_R] = func_80027DD4(this->regs[SS_BOMB2_PRIM_R], 50, divisor);
+        this->regs[SS_BOMB2_PRIM_G] = func_80027DD4(this->regs[SS_BOMB2_PRIM_G], 50, divisor);
+        this->regs[SS_BOMB2_PRIM_B] = func_80027DD4(this->regs[SS_BOMB2_PRIM_B], 50, divisor);
+        this->regs[SS_BOMB2_PRIM_A] = func_80027DD4(this->regs[SS_BOMB2_PRIM_A], 150, divisor);
+        this->regs[SS_BOMB2_ENV_R] = func_80027DD4(this->regs[SS_BOMB2_ENV_R], 10, divisor);
+        this->regs[SS_BOMB2_ENV_G] = func_80027DD4(this->regs[SS_BOMB2_ENV_G], 10, divisor);
+        this->regs[SS_BOMB2_ENV_B] = func_80027DD4(this->regs[SS_BOMB2_ENV_B], 10, divisor);
     }
 }

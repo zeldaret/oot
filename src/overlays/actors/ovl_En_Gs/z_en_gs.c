@@ -274,16 +274,16 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
 
     if (this->unk_19F == 2) {
         this->unk_200--;
-        Color_RGBA8_Copy(&this->primColor, &baseWhite);
+        Color_RGBA8_Copy(&this->flashColor, &baseWhite);
         if ((this->unk_200 < 0x50) && ((this->unk_200 % 0x14) < 8)) {
             if (this->unk_200 < 0x14) {
-                Color_RGBA8_Copy(&this->primColor, &flashRed);
+                Color_RGBA8_Copy(&this->flashColor, &flashRed);
                 if ((this->unk_200 % 0x14) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 }
             } else {
-                Color_RGBA8_Copy(&this->primColor, &flashBlue);
+                Color_RGBA8_Copy(&this->flashColor, &flashBlue);
                 if ((this->unk_200 % 0x14) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
@@ -464,7 +464,7 @@ void func_80A4F734(EnGs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4F77C(EnGs* this) {
-    static Vec3s D_80A4FE34 = { 0x0000, 0x0000, 0x0000 };
+    static Vec3s D_80A4FE34 = { 0, 0, 0 };
     static Vec3f D_80A4FE3C = { 1.0f, 1.0f, 1.0f };
     s32 i;
 
@@ -555,8 +555,8 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(gfxCtx->polyOpa.p++, D_06000950);
 
         if (this->unk_19E & 4) {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, this->primColor.r, this->primColor.g, this->primColor.b,
-                            this->primColor.a);
+            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
+                            this->flashColor.a);
         } else {
             gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
         }

@@ -9,9 +9,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8* envColor, Color_RGBA8* primColor);
-
 extern Color_RGBA8 D_801158DC;
 extern Color_RGBA8 D_801158E0;
 extern Color_RGBA8 D_801158E4;
@@ -207,7 +204,7 @@ void EffectSsBomb2_SpawnFade(GlobalContext* globalCtx, Vec3f* pos, Vec3f* veloci
 }
 
 void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
-                                  s16 scaleStep) {
+                                s16 scaleStep) {
     EffectSsBomb2InitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -492,8 +489,8 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 
 // EffectSsDeadSound Spawn Functions
 
-void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
-                                 s16 lowerPriority, s16 repeatMode, s32 life) {
+void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
+                             s16 lowerPriority, s16 repeatMode, s32 life) {
     EffectSsDeadSoundInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -511,9 +508,9 @@ void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* ve
     }
 }
 
-void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 repeatMode,
-                             s32 life) {
-    EffectSsDeadSound_SpawnImpl(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, repeatMode, life);
+void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority,
+                                       s16 repeatMode, s32 life) {
+    EffectSsDeadSound_Spawn(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, repeatMode, life);
 }
 
 // EffectSsIceSmoke Spawn Functions
