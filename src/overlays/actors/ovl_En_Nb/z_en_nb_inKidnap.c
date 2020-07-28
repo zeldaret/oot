@@ -9,6 +9,7 @@ s32 EnNb_FrameUpdateMatrix(EnNb* this);
 void EnNb_UpdateEyes(EnNb* this);
 
 void func_80AB1284(EnNb* this, GlobalContext* globalCtx);
+
 void EnNb_InitKidnap(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &D_06001E7C, 0, 0.0f, 0);
     this->action = NB_KIDNAPPED;

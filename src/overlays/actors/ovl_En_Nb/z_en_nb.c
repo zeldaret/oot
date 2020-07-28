@@ -32,14 +32,13 @@ void func_80AB19BC(EnNb* this, GlobalContext* globalCtx);
 void func_80AB19FC(EnNb* this, GlobalContext* globalCtx);
 void EnNb_SetSealingSFX(void);
 void EnNb_InitializeDemo6K(EnNb* this, GlobalContext* globalCtx);
-void EnNb_SetupFadeInSeal(EnNb* this, GlobalContext* globalCtx);
+void EnNb_SetupHide(EnNb* this, GlobalContext* globalCtx);
 void EnNb_CheckToFade(EnNb* this, GlobalContext* globalCtx);
-void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx);
-void func_80AB1D54(EnNb* this, GlobalContext* globalCtx);
-void EnNb_FadeInSealCs(EnNb* this, GlobalContext* globalCtx);
-void EnNb_FadeInSealCs(EnNb* this, GlobalContext* globalCtx);
-void func_80AB1DD8(EnNb* this, GlobalContext* globalCtx);
-void EnNb_DrawFade(EnNb* this, GlobalContext* globalCtx);
+void EnNb_SetupLightOrb(EnNb* this, GlobalContext* globalCtx);
+void EnNb_Hide(EnNb* this, GlobalContext* globalCtx);
+void EnNb_Fade(EnNb* this, GlobalContext* globalCtx);
+void EnNb_CreateLightOrb(EnNb* this, GlobalContext* globalCtx);
+void EnNb_DrawTransparency(EnNb* this, GlobalContext* globalCtx);
 void EnNb_InitKidnap(EnNb* this, GlobalContext* globalCtx);
 void EnNb_PlayCrySFX(EnNb* this, GlobalContext* globalCtx);
 void EnNb_PlayAgonySFX(EnNb* this, GlobalContext* globalCtx);
@@ -108,9 +107,9 @@ static EnNbActionFunc sActionFuncs[] = {
     EnNb_RaiseArm,
     func_80AB19BC,
     func_80AB19FC,
-    func_80AB1D54,
-    EnNb_FadeInSealCs,
-    func_80AB1DD8,
+    EnNb_Hide,
+    EnNb_Fade,
+    EnNb_CreateLightOrb,
     func_80AB23A8,
     EnNb_MovingInPortal,
     EnNb_SuckedInByPortal,
@@ -137,7 +136,7 @@ static EnNbActionFunc sActionFuncs[] = {
 static Vec3f sUnkPosVec = { 0.0f, 10.0f, 0.0f };
 
 static EnNbDrawFunc sDrawFuncs[] = {
-    EnNb_DrawNothing, EnNb_DrawDefault, EnNb_DrawFade, func_80AB2E70, func_80AB2FE4,
+    EnNb_DrawNothing, EnNb_DrawDefault, EnNb_DrawTransparency, func_80AB2E70, func_80AB2FE4,
 };
 
 const ActorInit En_Nb_InitVars = {

@@ -1,9 +1,15 @@
+/*
+ * File: z_en_nb_inKenjyanoma.c
+ * Description: Functions for Chamber of Sages Nabooru
+ */
+
 #include "z_en_nb.h"
 
 extern AnimationHeader* D_06009694; // hands on hips standing
 extern AnimationHeader* D_0600274C; // raising both arms up transition (giving medallion to link ?)
 extern AnimationHeader* D_06002B4C; // raising both arms up stable (giving medallion to link ?)
 extern CutsceneData D_80AB431C[];
+
 void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4);
 
 void EnNb_SetChamberAnim(EnNb* this, GlobalContext* globalCtx) {
@@ -11,7 +17,7 @@ void EnNb_SetChamberAnim(EnNb* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_08 = -10000.0f;
 }
 
-void EnNb_SpawnChamberWarp(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SpawnBlueWarp(EnNb* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     f32 posX = thisx->posRot.pos.x;
     f32 posY = thisx->posRot.pos.y;
@@ -20,7 +26,7 @@ void EnNb_SpawnChamberWarp(EnNb* this, GlobalContext* globalCtx) {
     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
-void EnNb_SpawnAndGiveSpiritMedallion(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 posX = player->actor.posRot.pos.x;
     f32 posY = player->actor.posRot.pos.y + 50.0f;
@@ -61,7 +67,7 @@ void EnNb_SetupChamberWarpImpl(EnNb* this, GlobalContext* globalCtx) {
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = NB_CHAMBER_APPEAR;
             this->drawMode = NB_DRAW_DEFAULT;
-            EnNb_SpawnChamberWarp(this, globalCtx);
+            EnNb_SpawnBlueWarp(this, globalCtx);
         }
     }
 }
@@ -103,11 +109,12 @@ void EnNb_SetupMedallion(EnNb* this, GlobalContext* globalCtx) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[6];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = NB_GIVE_MEDALLION;
-            EnNb_SpawnAndGiveSpiritMedallion(this, globalCtx);
+            EnNb_GiveMedallion(this, globalCtx);
         }
     }
 }
 
+// Action func is never explicitly set to this, but it runs when the memory gets zero cleared
 void EnNb_SetupChamberCs(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetupChamberCsImpl(this, globalCtx);
 }
@@ -116,7 +123,6 @@ void EnNb_SetupChamberWarp(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetupChamberWarpImpl(this, globalCtx);
 }
 
-// action = 2
 void EnNb_ComeUp(EnNb* this, GlobalContext* globalCtx) {
     EnNb_ComeUpImpl(this, globalCtx);
     EnNb_FrameUpdateMatrix(this);

@@ -1,7 +1,13 @@
+/*
+ * File: z_en_nb_inKenjyanomaDemo02.c
+ * Description: Functions for Nabooru in the Sealing of Ganon CS and Trials CS
+ */
+
 #include "z_en_nb.h"
 
 extern AnimationHeader* D_06000410; // clasping hands together
 extern UNK_PTR sEyeSegments[];
+
 void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4);
 
 void EnNb_SetupLightArrowOrSealingCs(EnNb* this, GlobalContext* globalCtx) {
@@ -19,10 +25,10 @@ void EnNb_InitializeDemo6K(EnNb* this, GlobalContext* globalCtx) {
                         kREG(21) + 22.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 7);
 }
 
-void EnNb_SetupFadeInSeal(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SetupHide(EnNb* this, GlobalContext* globalCtx) {
     if (func_80AB1390(this, globalCtx, 4, 1)) {
-        this->action = NB_SEAL_FADE;
-        this->drawMode = NB_DRAW_FADE;
+        this->action = NB_SEAL_HIDE;
+        this->drawMode = NB_DRAW_HIDE;
         this->alpha = 0;
         this->actor.shape.unk_14 = 0;
         this->unk_280 = 0.0f;
@@ -61,10 +67,10 @@ void EnNb_CheckToFade(EnNb* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = alpha;
 }
 
-void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SetupLightOrb(EnNb* this, GlobalContext* globalCtx) {
     if (func_80AB13D8(this, globalCtx, 4, 1)) {
-        this->action = NB_SEAL_FADE;
-        this->drawMode = NB_DRAW_FADE;
+        this->action = NB_SEAL_HIDE;
+        this->drawMode = NB_DRAW_HIDE;
         this->unk_280 = kREG(5) + 10.0f;
         this->alpha = 255;
         if (this->unk_288 == 0) {
@@ -76,12 +82,12 @@ void func_80AB1CBC(EnNb* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AB1D54(EnNb* this, GlobalContext* globalCtx) {
-    EnNb_SetupFadeInSeal(this, globalCtx);
+void EnNb_Hide(EnNb* this, GlobalContext* globalCtx) {
+    EnNb_SetupHide(this, globalCtx);
     func_80AB1210(this, globalCtx);
 }
 
-void EnNb_FadeInSealCs(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_Fade(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_FrameUpdateMatrix(this);
     EnNb_UpdateEyes(this);
@@ -89,15 +95,15 @@ void EnNb_FadeInSealCs(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1210(this, globalCtx);
 }
 
-void func_80AB1DD8(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_CreateLightOrb(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_FrameUpdateMatrix(this);
     EnNb_UpdateEyes(this);
-    func_80AB1CBC(this, globalCtx);
+    EnNb_SetupLightOrb(this, globalCtx);
     func_80AB1210(this, globalCtx);
 }
 
-void EnNb_DrawFade(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_DrawTransparency(EnNb* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeSegIdx = this->eyeIdx;
     UNK_PTR addr = sEyeSegments[eyeSegIdx];

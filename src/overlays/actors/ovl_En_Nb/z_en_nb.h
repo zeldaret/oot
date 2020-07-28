@@ -43,7 +43,7 @@ typedef enum {
 } EnNbType;
 
 typedef enum {
-    /* 0x00 */ NB_UNUSED,
+    /* 0x00 */ NB_CHAMBER_INIT, 
     /* 0x01 */ NB_CHAMBER_UNDERGROUND,
     /* 0x02 */ NB_CHAMBER_APPEAR,
     /* 0x03 */ NB_CHAMBER_IDLE,
@@ -51,7 +51,7 @@ typedef enum {
     /* 0x05 */ NB_CHAMBER_RAISE_ARM_TRANSITION,
     /* 0x06 */ NB_GIVE_MEDALLION,
     /* 0x07 */ NB_ACTION_7,
-    /* 0x08 */ NB_SEAL_FADE,
+    /* 0x08 */ NB_SEAL_HIDE,
     /* 0x09 */ NB_ACTION_9,
     /* 0x0A */ NB_KIDNAPPED,
     /* 0x0B */ NB_KIDNAPPED_LOOK_AROUND,
@@ -79,7 +79,7 @@ typedef enum {
 typedef enum {
     /* 0x00 */ NB_DRAW_NOTHING,
     /* 0x01 */ NB_DRAW_DEFAULT,
-    /* 0x02 */ NB_DRAW_FADE,
+    /* 0x02 */ NB_DRAW_HIDE,
     /* 0x03 */ NB_DRAW_KNEEL,
     /* 0x04 */ NB_DRAW_LOOK_DIRECTION,
 } EnNbDrawMode;

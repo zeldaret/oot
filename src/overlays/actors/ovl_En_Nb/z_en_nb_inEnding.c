@@ -29,7 +29,7 @@ void EnNb_SetAlphaInCredits(EnNb* this) {
 void EnNb_SetupCreditsFadeIn(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetInitialCsPosRot(this, globalCtx, 1);
     this->action = NB_CREDITS_FADEIN;
-    this->drawMode = NB_DRAW_FADE;
+    this->drawMode = NB_DRAW_HIDE;
 }
 
 void EnNb_SetupCreditsSit(EnNb* this) {

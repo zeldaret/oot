@@ -11,6 +11,7 @@ extern AnimationHeader* D_060035A8; // looking behind her
 extern AnimationHeader* D_06006320; // sees unk from behind, turns and runs
 extern Gfx D_06013158[];
 extern UNK_PTR sEyeSegments[];
+extern UNK_PTR D_0600D8E8;
 
 void EnNb_SetupConfrontation(EnNb* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_06008BD0;
@@ -269,7 +270,6 @@ void EnNb_ConfrontationDestroy(EnNb* this, GlobalContext* globalCtx) {
     }
 }
 
-extern UNK_PTR D_0600D8E8;
 void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
@@ -280,7 +280,7 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_0600D8E8));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600D8E8));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
@@ -309,7 +309,7 @@ void func_80AB2FE4(EnNb* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, srcSegmentC);
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80AB2FC0, NULL,
                      &this->actor);
