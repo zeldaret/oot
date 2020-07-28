@@ -1,26 +1,26 @@
 #ifndef _ULTRA64_TYPES_H_
 #define _ULTRA64_TYPES_H_
 
-typedef signed char            s8;
-typedef unsigned char          u8;
-typedef signed short int       s16;
-typedef unsigned short int     u16;
-typedef signed int             s32;
-typedef unsigned int           u32;
-typedef signed long long int   s64;
-typedef unsigned long long int u64;
+typedef signed char            s8;  // size = 0x01
+typedef unsigned char          u8;  // size = 0x01
+typedef signed short int       s16; // size = 0x02
+typedef unsigned short int     u16; // size = 0x02
+typedef signed int             s32; // size = 0x04
+typedef unsigned int           u32; // size = 0x04
+typedef signed long long int   s64; // size = 0x08
+typedef unsigned long long int u64; // size = 0x08
 
-typedef volatile u8   vu8;
-typedef volatile u16 vu16;
-typedef volatile u32 vu32;
-typedef volatile u64 vu64;
-typedef volatile s8   vs8;
-typedef volatile s16 vs16;
-typedef volatile s32 vs32;
-typedef volatile s64 vs64;
+typedef volatile u8  vu8;  // size = 0x01
+typedef volatile u16 vu16; // size = 0x01
+typedef volatile u32 vu32; // size = 0x02
+typedef volatile u64 vu64; // size = 0x02
+typedef volatile s8  vs8;  // size = 0x04
+typedef volatile s16 vs16; // size = 0x04
+typedef volatile s32 vs32; // size = 0x08
+typedef volatile s64 vs64; // size = 0x08
 
-typedef float  f32;
-typedef double f64;
+typedef float  f32; //size = 0x04
+typedef double f64; //size = 0x08
 
 
 typedef long int Mtx_t[4][4];
