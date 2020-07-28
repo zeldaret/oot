@@ -369,7 +369,7 @@ void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 tr
 
 #include "z_en_nb_inKidnap.c" EARLY
 
-#include "z_en_nb_inConfrontation.c" EARLY
+#include "z_en_nb_inConfrontion.c" EARLY
 
 #include "z_en_nb_inEnding.c" EARLY
 

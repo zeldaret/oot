@@ -1,3 +1,8 @@
+/*
+ * File: z_en_nb_inKidnap.c
+ * Description: Functions for Nabooru when kidnapped in Desert Colossus
+ */
+
 #include "z_en_nb.h"
 
 extern AnimationHeader* D_06001E7C; // looking around ?

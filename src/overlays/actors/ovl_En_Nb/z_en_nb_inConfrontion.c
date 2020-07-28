@@ -1,3 +1,8 @@
+/*
+ * File: z_en_nb_inConfrontion.c
+ * Description: Functions for Nabooru Knuckle Fight
+ */
+
 #include "z_en_nb.h"
 
 #define THIS ((EnNb*)thisx)

@@ -1,3 +1,9 @@
+
+/*
+ * File: z_en_nb_inEnding.c
+ * Description: Functions for Nabooru in Death Mountain Trail in the credits
+ */
+
 #include "z_en_nb.h"
 
 extern AnimationHeader* D_06000BC0; // crossed legs
