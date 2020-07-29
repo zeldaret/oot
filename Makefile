@@ -105,6 +105,8 @@ build/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
+# build/src/code/z_message_PAL.o: CFLAGS += -use_readonly_const -rdata_shared
+# build/src/code/z_message_tables.o: CFLAGS += -use_readonly_const -rdata_shared
 
 # Todo: split libultra_code into libultra_code_O1, etc..
 build/src/libultra_code/sqrt.o: OPTFLAGS := -O2 -g3
@@ -137,7 +139,7 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
-	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
+	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt  --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
 	$(CPP) -P $< > build/spec
