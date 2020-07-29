@@ -38,15 +38,10 @@ InitChainEntry D_808ABDB0[] = {
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idomizu* this = THIS;
     Actor_ProcessInitChain(&this->actor, D_808ABDB0);
-    if ((gSaveContext.eventChkInf[6] & 0x80) == 0) {
-        if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        drained:
-            this->unk_150 = -550.0f;
-        } else {
-            this->unk_150 = 52.0f;
-        }
+    if ((gSaveContext.eventChkInf[6] & 0x80) != 0 || LINK_AGE_IN_YEARS == YEARS_ADULT) {
+        this->unk_150 = -550.0f;
     } else {
-        goto drained;
+        this->unk_150 = 52.0f;
     }
     this->actionFunc = func_808ABB84;
     this->actor.posRot.pos.y = this->unk_150;
