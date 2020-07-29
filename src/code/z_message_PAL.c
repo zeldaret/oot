@@ -349,22 +349,22 @@ void func_80106AA8(GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106BC8.s")
 u8 func_80106BC8(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
-    if (!~(curInput->press.in.button | ~A_BUTTON) || 
-        !~(curInput->press.in.button | ~B_BUTTON) || 
-        !~(curInput->press.in.button | ~U_CBUTTONS)) {
+    if (CHECK_PAD(curInput->press, A_BUTTON) || 
+        CHECK_PAD(curInput->press, B_BUTTON) || 
+        CHECK_PAD(curInput->press, U_CBUTTONS)) {
         Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_PASS, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
-    return (!~(curInput->press.in.button | ~A_BUTTON) || 
-            !~(curInput->press.in.button | ~B_BUTTON) || 
-            !~(curInput->press.in.button | ~U_CBUTTONS));
+    return CHECK_PAD(curInput->press, A_BUTTON) || 
+           CHECK_PAD(curInput->press, B_BUTTON) || 
+           CHECK_PAD(curInput->press, U_CBUTTONS);
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106C88.s")
 u8 func_80106C88(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
-    return !~(curInput->press.in.button | ~A_BUTTON) || 
-           !~(curInput->press.in.button | ~B_BUTTON) || 
-           !~(curInput->press.in.button | ~U_CBUTTONS);
+    return CHECK_PAD(curInput->press, A_BUTTON) || 
+           CHECK_PAD(curInput->press, B_BUTTON) || 
+           CHECK_PAD(curInput->press, U_CBUTTONS);
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106CCC.s")
@@ -568,13 +568,10 @@ void func_80107244(GlobalContext* globalCtx);
     VREG(0) = XREG(72) + XREG(74) - ((YREG(22) < 0) ? YREG(22)+1 : YREG(22))/2;
 } */
 
-#ifdef NON_MATCHING
-// Stack only
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107448.s")
 void func_80107448(GlobalContext* globalCtx, u16 textId) {
     s32 foundSeg;
     s32 nextSeg;
-    u32 offset;
-    u32 size;
     MessageTableEntry* messageTableEntry;
     u32* languageSegmentTable;
     MessageData* data;
@@ -639,10 +636,6 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
     data->offset = foundSeg - seg;
     data->size = nextSeg - foundSeg;
 }
-#else
-void func_80107448(GlobalContext* globalCtx, u16 textId);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107448.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107628.s")
 void func_80107628(GlobalContext* globalCtx, u16 textId) {
@@ -1596,17 +1589,17 @@ void func_8010F494(GlobalContext* globalCtx, Gfx** p) {
     GfxPrint printer;
     s32 pad1;
 
-    GfxPrint_Ctor(&printer);
+    GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *p);
-    GfxPrint_SetPos(&printer, 6, 0x1A);
-    GfxPrint_SetColor(&printer, 0xFFU, 0x3CU, 0U, 0xFF);
+    GfxPrint_SetPos(&printer, 6, 26);
+    GfxPrint_SetColor(&printer, 255, 60, 0, 255);
     GfxPrint_Printf(&printer, "%s", "MESSAGE");
-    GfxPrint_SetPos(&printer, 0xE, 0x1A);
+    GfxPrint_SetPos(&printer, 14, 26);
     GfxPrint_Printf(&printer, "%s", "=");
-    GfxPrint_SetPos(&printer, 0x10, 0x1A);
+    GfxPrint_SetPos(&printer, 16, 26);
     GfxPrint_Printf(&printer, "%x", globalCtx->msgCtx.unk_E2F8);
     *p = GfxPrint_Close(&printer);
-    GfxPrint_Dtor(&printer);
+    GfxPrint_Destroy(&printer);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F58C.s")
