@@ -1,21 +1,19 @@
 #include <ultra64.h>
 #include <global.h>
 
-//#include <message_data_static.h>
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const.rodata.s")
+#include "z_message_tables.c"
+extern const MessageTableEntry D_8014B320[];
+extern const char* D_8014F548[];
+extern const char* D_80151658[];
+extern const MessageTableEntry D_80153768[];
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const.rodata.s")
-//#include "z_message_tables.c"
-//extern const MessageTableEntry D_8014B320[];
-//extern const char* D_8014F548[];
-//extern const char* D_80151658[];
-//extern const MessageTableEntry D_80153768[];
+static const MessageTableEntry* D_801538F0 = D_8014B320;
+static const char* D_801538F4 = D_8014F548;
+static const char* D_801538F8 = D_80151658;
+static const MessageTableEntry* D_801538FC = D_80153768;
 
-//static const MessageTableEntry* D_801538F0 = D_8014B320;
-//static const char* D_801538F4 = D_8014F548;
-//static const char* D_801538F8 = D_80151658;
-//static const MessageTableEntry* D_801538FC = D_80153768;
-
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const2.rodata.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const2.rodata.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801069B0.s")
 

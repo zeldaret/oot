@@ -684,6 +684,12 @@ typedef struct {
 } SkyboxContext; // size = 0x150
 
 typedef struct {
+    /* 0x0000 */ u32 offset;
+    /* 0x0004 */ u32 size;
+    /* 0x0008 */ u8 xy;
+} MessageData;
+
+typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ char   unk_128[0xE188];
     /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"

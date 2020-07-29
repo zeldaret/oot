@@ -28,8 +28,13 @@ typedef enum {
 
 typedef struct {
     u16 textId;
-    MessageBoxType type : 4;
-    MessageBoxPosition yPos : 4;
+    union {
+        struct {
+            MessageBoxType type : 4;
+            MessageBoxPosition yPos : 4;
+        };
+        u8 xy;
+    };
     const char* segment;
 } MessageTableEntry;
 
