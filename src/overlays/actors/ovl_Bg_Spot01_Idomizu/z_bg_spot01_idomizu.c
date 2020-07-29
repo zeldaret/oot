@@ -69,6 +69,10 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->unk_150, 1.0f, 2.0f);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Update.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Update.s")
+void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idomizu* this = THIS;
+    this->actionFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Draw.s")
