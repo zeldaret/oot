@@ -52,7 +52,11 @@ void BgSpot01Idomizu_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->actor.posRot.pos.y = this->unk_150;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Destroy.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Destroy.s")
+void BgSpot01Idomizu_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+
+}
+
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/func_808ABB84.s")
 void func_808ABB84(BgSpot01Idomizu *this, GlobalContext *globalCtx) {
