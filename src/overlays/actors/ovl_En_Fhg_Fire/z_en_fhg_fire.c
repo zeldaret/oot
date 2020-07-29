@@ -462,17 +462,17 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-// Unsolved regalloc
-#ifdef NON_EQUIVALENT
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;
+    s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_fhg_fire.c", 1723);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1723);
+
     if (thisx->params == 0x24) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s32)this->unk_160 & 0xFF);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
         gDPPipeSync(gfxCtx->polyXlu.p++);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
@@ -482,42 +482,35 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("yari hikari draw 1\n");
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_80093D84(globalCtx->state.gfxCtx);
-
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s32)this->unk_160 & 0xFF);
-
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+    
         if (this->fireMode > 0) {
             gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 255, 0);
         } else {
             gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
         }
-
         gDPPipeSync(gfxCtx->polyXlu.p++);
-
-        Matrix_RotateZ(((f32)thisx->shape.rot.z / 32768.0f) * M_PI, 1);
+        Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * 3.1416f, 1);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
         gSPDisplayList(gfxCtx->polyXlu.p++, D_06012160);
     } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, ((u32)this->unk_188 & 0xFF));
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 90, 50, 95, (s32)(this->unk_188 * 0.5f));
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (u8)this->unk_188);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
         gDPPipeSync(gfxCtx->polyXlu.p++);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
         gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40, 1,
-                                    (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
-
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40,
+                                    1, (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
         gSPDisplayList(gfxCtx->polyXlu.p++, D_0600FAA0);
     } else {
         osSyncPrintf("FF DRAW 1\n");
         Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
         func_80093D84(globalCtx->state.gfxCtx);
-
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s32)this->unk_160 & 0xFF);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 30, 0, 255);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 30, 0);
         gDPPipeSync(gfxCtx->polyXlu.p++);
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -527,6 +520,3 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1900);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/EnFhgFire_Draw.s")
-#endif
