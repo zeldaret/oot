@@ -21,7 +21,7 @@ void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx);
 
-s16 sIsSpawned = false;
+static s16 sIsSpawned = false;
 
 const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
@@ -47,6 +47,7 @@ extern Gfx D_06002AD0[];
 
 f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
     f32 phi_f2;
+
     phi_f2 = (target - *posY) * arg2;
     if (*posY < target) {
         if (yVel < phi_f2) {
@@ -78,7 +79,6 @@ f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
             phi_f2 = 0.0f;
         }
     }
-
     return phi_f2;
 }
 
@@ -106,7 +106,6 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         // Forest Temple obj elevator Bank Danger!
         osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
-
     } else {
         switch (sIsSpawned) {
             case false:
@@ -129,6 +128,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
+
     if (this->unk_172 == 0) {
         // Forest Temple elevator DT
         osSyncPrintf("森の神殿 elevator DT\n");
@@ -205,6 +205,7 @@ void func_808A1E04(BgMoriElevator* this) {
 
 void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) {
     s32 pad;
+
     if (BgMoriElevator_IsLinkRiding(this, globalCtx)) {
         if (globalCtx->roomCtx.curRoom.num == 2) {
             this->targetYPos = -779.0f;
