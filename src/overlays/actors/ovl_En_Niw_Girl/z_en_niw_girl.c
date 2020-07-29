@@ -1,4 +1,5 @@
 #include "z_en_niw_girl.h"
+#include "VT.h"
 
 #define FLAGS 0x00000019
 
@@ -35,50 +36,50 @@ s32 D_80AB99D8[] = {0x06004178, 0x06004978, 0x06005178, 0x00000000, 0x00000000, 
 
 extern SkeletonHeader D_06009948;
 extern AnimationHeader D_06000378;
+
     //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Girl/EnNiwGirl_Init.s")
 void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     s32 pad;
     Vec3f tempDst;
     Vec3f tempSrc;
+    f32 localConst;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
                      &this->transitionDrawTable, 17);
+    localConst = 0;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
     thisx->unk_1F = 6;
-    if ((s32)thisx->params < 0) {
+    if (thisx->params < 0) {
         thisx->params = 0;
     }
     this->unkFlag = ((thisx->params >> 8) & 0xFF);
     thisx->gravity = -3.0f;
-    Matrix_RotateY(((f32)thisx->shape.rot.y / 32768.0f) * 3.1415927f, 0);
-
-    tempSrc.x = 0.0f;
-    tempSrc.y = 0.0f;
-    tempSrc.z = 0.0f;
+    Matrix_RotateY((thisx->shape.rot.y / 32768.0f) * M_PI, 0);
     tempDst.x = 50.0f;
-    tempDst.y= 0.0f;
-    tempDst.z = 0.0f;
+    tempSrc.z = localConst;
+    tempSrc.y = localConst;
+    tempDst.z = localConst;
+    tempDst.y = localConst;
+    tempSrc.x = localConst;
     Matrix_MultVec3f(&tempSrc, &tempDst);
-   // temp_v0 = Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, (u16)0x19, thisx->posRot.pos.x + sp48, thisx->posRot.pos.y + sp4C, thisx->posRot.pos.z + sp50, 0, (?32) thisx->posRot.rot.y, 0, 0xA);
     this->attachedActor = Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_NIW,
                                               thisx->posRot.pos.x + tempSrc.x, thisx->posRot.pos.y + tempSrc.y,
-                                              thisx->posRot.pos.z + tempSrc.z, 0, (s16)thisx->posRot.rot.y, 0, 0xA);
-   //this->attachedActor = temp_v0;
-    if (&this->attachedActor != 0) {
+                                              thisx->posRot.pos.z + tempSrc.z, 0, thisx->posRot.rot.y, 0, 0xA);
+    if (this->attachedActor != 0) {
 
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n\x1b[m", thisx->params);
-        osSyncPrintf("\x1b[33m☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n\x1b[m", this->unkFlag);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" VT_RST, this->unkFlag);
         osSyncPrintf("\n\n");
         thisx->colChkInfo.mass = 0xFF;
         this->actionFunc = &func_80AB93C0;
-        return;
+    } else {
+        osSyncPrintf("\n\n");
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n" VT_RST, this->unkFlag);
+        osSyncPrintf("\n\n");
+        Actor_Kill(thisx);
     }
-    osSyncPrintf("\n\n");
-    osSyncPrintf("\x1b[32m☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n\x1b[m", thisx->params);
-    osSyncPrintf("\x1b[33m☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n\x1b[m", this->unkFlag);
-    osSyncPrintf("\n\n");
-    Actor_Kill(thisx);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Girl/EnNiwGirl_Destroy.s")

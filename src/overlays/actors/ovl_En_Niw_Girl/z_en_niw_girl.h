@@ -15,8 +15,8 @@ typedef struct EnNiwGirl {
     /* 0x01F6 */ Vec3s transitionDrawTable[17];
     /* 0x025C */ EnNiwGirlActionFunc actionFunc;
     /* 0x0260 */ char unk_260[0x16];
-    /* 0x0276 */ s32 unkFlag;
-    /* 0x027A*/ char unk_27A[0xA];
+    /* 0x0276 */ s16 unkFlag;
+    /* 0x027A*/ char unk_278[0xC];
     /* 0x0284 */ Actor* attachedActor;
     /* 0x0288 */ ColliderCylinder collider;
     /* 0x02D4 */ char unk_2D4[0x28];
