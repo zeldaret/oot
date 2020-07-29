@@ -70,10 +70,10 @@ void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
 void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (!this->unk_17C) {
-        Audio_PlayActorSound2(thisx, 0x2067);
+        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->posRot.pos.z -= 2.0f;
         if (thisx->posRot.pos.z < 2660.0f) {
-            Audio_PlayActorSound2(thisx, 0x280E);
+            Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_17C = 0x1E;
             this->actionFunc = func_808B4A04;
         }

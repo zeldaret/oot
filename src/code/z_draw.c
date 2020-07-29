@@ -156,7 +156,6 @@ DrawItemTableEntry sDrawItemTable[] = {
     { func_8006A9CC, { 0x06000960 } },
     { func_80069EB0, { 0x06004DB0, 0x06004EB8 } },
 };
-
 /**
  * Draw "Get Item" Model
  * Calls the corresponding draw function for the given draw ID

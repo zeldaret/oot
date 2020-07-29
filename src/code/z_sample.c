@@ -36,7 +36,7 @@ void Sample_Draw(SampleContext* this) {
     gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_1CYCLE);
     gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
     gDPSetCombineMode(gfxCtx->polyOpa.p++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
-    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0x00, 0x00);
+    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, 255, 0, 0);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_sample.c", 111);
 }

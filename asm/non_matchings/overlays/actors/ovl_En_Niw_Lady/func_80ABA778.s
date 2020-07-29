@@ -1,6 +1,6 @@
 .rdata
 glabel D_80ABB67C
-    .asciz "[32m☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 .text

@@ -336,7 +336,7 @@ glabel func_808113A8
 /* 0DBA0 808118E0 A4674ADC */  sh      $a3, 0x4ADC($v1)           ## 00004ADC
 /* 0DBA4 808118E4 A4684ADE */  sh      $t0, 0x4ADE($v1)           ## 00004ADE
 /* 0DBA8 808118E8 AFA30030 */  sw      $v1, 0x0030($sp)           
-/* 0DBAC 808118EC 0C02CE10 */  jal     func_800B3840              ## letterbox_target_addr
+/* 0DBAC 808118EC 0C02CE10 */  jal     ShrinkWindow_SetVal              ## letterbox_target_addr
 /* 0DBB0 808118F0 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 0DBB4 808118F4 3C118016 */  lui     $s1, %hi(gSaveContext)
 /* 0DBB8 808118F8 2631E660 */  addiu   $s1, %lo(gSaveContext)

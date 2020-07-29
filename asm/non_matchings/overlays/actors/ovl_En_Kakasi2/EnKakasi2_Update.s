@@ -1,10 +1,10 @@
 .rdata
 glabel D_80A90BA0
-    .asciz "[33m☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80A90BE0
-    .asciz "[33m☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 .late_rodata

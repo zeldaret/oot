@@ -1,10 +1,10 @@
 #include <ultra64.h>
 #include <global.h>
 
-u32 sFontColorRed = 0xFF;
-u32 sFontColorGreen = 0xFF;
-u32 sFontColorBlue = 0xFF;
-u32 sFontColorAlpha = 0xFF;
+u32 sFontColorRed = 255;
+u32 sFontColorGreen = 255;
+u32 sFontColorBlue = 255;
+u32 sFontColorAlpha = 255;
 s32 D_80120120 = 0;
 s32 D_80120124 = 0;
 
