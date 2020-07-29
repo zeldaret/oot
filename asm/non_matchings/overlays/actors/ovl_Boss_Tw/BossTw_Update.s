@@ -376,7 +376,7 @@ glabel BossTw_Update
 /* 07F24 80940BF4 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 07F28 80940BF8 862E001C */  lh      $t6, 0x001C($s1)           ## 0000001C
 /* 07F2C 80940BFC AFAF0018 */  sw      $t7, 0x0018($sp)           
-/* 07F30 80940C00 0C24E334 */  jal     func_80938CD0              
+/* 07F30 80940C00 0C24E334 */  jal     BossTw_AddDotEffect              
 /* 07F34 80940C04 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 07F38 80940C08 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 07F3C 80940C0C 00108400 */  sll     $s0, $s0, 16               
@@ -449,7 +449,7 @@ glabel BossTw_Update
 /* 08028 80940CF8 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0802C 80940CFC 862D001C */  lh      $t5, 0x001C($s1)           ## 0000001C
 /* 08030 80940D00 AFAE0018 */  sw      $t6, 0x0018($sp)           
-/* 08034 80940D04 0C24E334 */  jal     func_80938CD0              
+/* 08034 80940D04 0C24E334 */  jal     BossTw_AddDotEffect              
 /* 08038 80940D08 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 0803C 80940D0C 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 08040 80940D10 00108400 */  sll     $s0, $s0, 16               

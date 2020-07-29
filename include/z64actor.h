@@ -348,11 +348,7 @@ typedef struct Player {
     /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
     /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
     /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
-    /* 0x0908 */ char       unk_908[0x54];
-    /* 0x095C */ Vec3f      unk_95C;
-    /* 0x0968 */ char       unk_968[0x54];
-    /* 0x09BC */ Vec3f      unk_9BC;
-    /* 0x09C8 */ char       unk_9C8[0x18];
+    /* 0x0908 */ Vec3f      unk_908[18];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       mf_A20;
     /* 0x0A60 */ u8         unk_A60;

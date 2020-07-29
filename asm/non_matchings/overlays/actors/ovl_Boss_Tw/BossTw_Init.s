@@ -413,7 +413,7 @@ glabel BossTw_Init
 /* 00FD0 80939CA0 1000000B */  beq     $zero, $zero, .L80939CD0
 /* 00FD4 80939CA4 24180002 */  addiu   $t8, $zero, 0x0002         ## $t8 = 00000002
 .L80939CA8:
-/* 00FD8 80939CA8 0C24F563 */  jal     BossTw_TwinrovaSetupCSWait
+/* 00FD8 80939CA8 0C24F563 */  jal     BossTw_TwinrovaSetupPlayIntro
 /* 00FDC 80939CAC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00FE0 80939CB0 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 00FE4 80939CB4 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00

@@ -90,7 +90,7 @@ glabel func_8093A5C4
 /* 01A0C 8093A6DC 02A03825 */  or      $a3, $s5, $zero            ## $a3 = FFFFFFD4
 /* 01A10 8093A6E0 AFB60014 */  sw      $s6, 0x0014($sp)           
 /* 01A14 8093A6E4 46803220 */  cvt.s.w $f8, $f6                   
-/* 01A18 8093A6E8 0C24E334 */  jal     func_80938CD0              
+/* 01A18 8093A6E8 0C24E334 */  jal     BossTw_AddDotEffect              
 /* 01A1C 8093A6EC E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 01A20 8093A6F0 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 01A24 8093A6F4 00108400 */  sll     $s0, $s0, 16               

@@ -256,10 +256,10 @@ glabel func_809453EC
 /* 0CA7C 8094574C 44812000 */  mtc1    $at, $f4                   ## $f4 = 10.00
 /* 0CA80 80945750 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
 /* 0CA84 80945754 44813000 */  mtc1    $at, $f6                   ## $f6 = 80.00
-/* 0CA88 80945758 3C078095 */  lui     $a3, %hi(D_8094A7DC)       ## $a3 = 80950000
+/* 0CA88 80945758 3C078095 */  lui     $a3, %hi(sZeroVector)       ## $a3 = 80950000
 /* 0CA8C 8094575C 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
 /* 0CA90 80945760 AFB8001C */  sw      $t8, 0x001C($sp)           
-/* 0CA94 80945764 24E7A7DC */  addiu   $a3, $a3, %lo(D_8094A7DC)  ## $a3 = 8094A7DC
+/* 0CA94 80945764 24E7A7DC */  addiu   $a3, $a3, %lo(sZeroVector)  ## $a3 = 8094A7DC
 /* 0CA98 80945768 AFA20018 */  sw      $v0, 0x0018($sp)           
 /* 0CA9C 8094576C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0CAA0 80945770 0C24E494 */  jal     func_80939250              
@@ -452,7 +452,7 @@ glabel func_809453EC
 /* 0CD40 80945A10 27A60060 */  addiu   $a2, $sp, 0x0060           ## $a2 = FFFFFF90
 /* 0CD44 80945A14 468021A0 */  cvt.s.w $f6, $f4                   
 /* 0CD48 80945A18 27A70054 */  addiu   $a3, $sp, 0x0054           ## $a3 = FFFFFF84
-/* 0CD4C 80945A1C 0C24E334 */  jal     func_80938CD0              
+/* 0CD4C 80945A1C 0C24E334 */  jal     BossTw_AddDotEffect              
 /* 0CD50 80945A20 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 0CD54 80945A24 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0CD58 80945A28 00108400 */  sll     $s0, $s0, 16               

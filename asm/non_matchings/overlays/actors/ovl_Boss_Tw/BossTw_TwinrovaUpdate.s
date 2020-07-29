@@ -340,7 +340,7 @@ glabel BossTw_TwinrovaUpdate
 /* 084CC 8094119C 27A70064 */  addiu   $a3, $sp, 0x0064           ## $a3 = FFFFFFCC
 /* 084D0 809411A0 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 084D4 809411A4 468084A0 */  cvt.s.w $f18, $f16                 
-/* 084D8 809411A8 0C24E334 */  jal     func_80938CD0              
+/* 084D8 809411A8 0C24E334 */  jal     BossTw_AddDotEffect              
 /* 084DC 809411AC E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 084E0 809411B0 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 084E4 809411B4 00108400 */  sll     $s0, $s0, 16               
@@ -404,7 +404,7 @@ glabel BossTw_TwinrovaUpdate
 /* 085B0 80941280 27A60070 */  addiu   $a2, $sp, 0x0070           ## $a2 = FFFFFFD8
 /* 085B4 80941284 46803220 */  cvt.s.w $f8, $f6                   
 /* 085B8 80941288 27A70064 */  addiu   $a3, $sp, 0x0064           ## $a3 = FFFFFFCC
-/* 085BC 8094128C 0C24E334 */  jal     func_80938CD0              
+/* 085BC 8094128C 0C24E334 */  jal     BossTw_AddDotEffect              
 /* 085C0 80941290 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 085C4 80941294 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 085C8 80941298 00108400 */  sll     $s0, $s0, 16               

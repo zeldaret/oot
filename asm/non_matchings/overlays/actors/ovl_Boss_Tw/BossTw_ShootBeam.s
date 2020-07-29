@@ -511,7 +511,7 @@ glabel BossTw_ShootBeam
 /* 02BB8 8093B888 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 02BBC 8093B88C 86AB001C */  lh      $t3, 0x001C($s5)           ## 0000001C
 /* 02BC0 8093B890 AFAC0018 */  sw      $t4, 0x0018($sp)
-/* 02BC4 8093B894 0C24E334 */  jal     func_80938CD0
+/* 02BC4 8093B894 0C24E334 */  jal     BossTw_AddDotEffect
 /* 02BC8 8093B898 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 02BCC 8093B89C 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 02BD0 8093B8A0 00108400 */  sll     $s0, $s0, 16
@@ -666,7 +666,7 @@ glabel BossTw_ShootBeam
 /* 02DF4 8093BAC4 AFAA001C */  sw      $t2, 0x001C($sp)
 /* 02DF8 8093BAC8 AFA90018 */  sw      $t1, 0x0018($sp)
 /* 02DFC 8093BACC 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
-/* 02E00 8093BAD0 0C24E3B0 */  jal     func_80938EC0
+/* 02E00 8093BAD0 0C24E3B0 */  jal     BossTw_AddRingEffect
 /* 02E04 8093BAD4 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 02E08 8093BAD8 10000004 */  beq     $zero, $zero, .L8093BAEC
 /* 02E0C 8093BADC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -1021,7 +1021,7 @@ glabel BossTw_ShootBeam
 /* 03308 8093BFD8 AFAD001C */  sw      $t5, 0x001C($sp)
 /* 0330C 8093BFDC AFAC0018 */  sw      $t4, 0x0018($sp)
 /* 03310 8093BFE0 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
-/* 03314 8093BFE4 0C24E3B0 */  jal     func_80938EC0
+/* 03314 8093BFE4 0C24E3B0 */  jal     BossTw_AddRingEffect
 /* 03318 8093BFE8 AFAB0014 */  sw      $t3, 0x0014($sp)
 .L8093BFEC:
 /* 0331C 8093BFEC 8FA50120 */  lw      $a1, 0x0120($sp)

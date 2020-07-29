@@ -74,7 +74,7 @@ glabel D_8094AFCC
     .float 3.14159274101
 
 .text
-glabel func_8093D5C0
+glabel BossTw_TwinrovaPlayIntro
 /* 048F0 8093D5C0 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 048F4 8093D5C4 AFBF0034 */  sw      $ra, 0x0034($sp)
 /* 048F8 8093D5C8 AFB30030 */  sw      $s3, 0x0030($sp)
@@ -640,11 +640,11 @@ glabel L8093DC4C
 /* 05120 8093DDF0 E7A00070 */  swc1    $f0, 0x0070($sp)
 /* 05124 8093DDF4 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
 /* 05128 8093DDF8 44815000 */  mtc1    $at, $f10                  ## $f10 = 25.00
-/* 0512C 8093DDFC 3C078095 */  lui     $a3, %hi(D_8094A7DC)       ## $a3 = 80950000
+/* 0512C 8093DDFC 3C078095 */  lui     $a3, %hi(sZeroVector)       ## $a3 = 80950000
 /* 05130 8093DE00 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 05134 8093DE04 460A0100 */  add.s   $f4, $f0, $f10
 /* 05138 8093DE08 AFB90014 */  sw      $t9, 0x0014($sp)
-/* 0513C 8093DE0C 24E7A7DC */  addiu   $a3, $a3, %lo(D_8094A7DC)  ## $a3 = 8094A7DC
+/* 0513C 8093DE0C 24E7A7DC */  addiu   $a3, $a3, %lo(sZeroVector)  ## $a3 = 8094A7DC
 /* 05140 8093DE10 8FA400A4 */  lw      $a0, 0x00A4($sp)
 /* 05144 8093DE14 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 05148 8093DE18 02602825 */  or      $a1, $s3, $zero            ## $a1 = FFFFFFD4
@@ -1169,8 +1169,8 @@ glabel L8093E3E8
 /* 058B4 8093E584 E7A00058 */  swc1    $f0, 0x0058($sp)
 /* 058B8 8093E588 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
 /* 058BC 8093E58C 44812000 */  mtc1    $at, $f4                   ## $f4 = 25.00
-/* 058C0 8093E590 3C078095 */  lui     $a3, %hi(D_8094A7DC)       ## $a3 = 80950000
-/* 058C4 8093E594 24E7A7DC */  addiu   $a3, $a3, %lo(D_8094A7DC)  ## $a3 = 8094A7DC
+/* 058C0 8093E590 3C078095 */  lui     $a3, %hi(sZeroVector)       ## $a3 = 80950000
+/* 058C4 8093E594 24E7A7DC */  addiu   $a3, $a3, %lo(sZeroVector)  ## $a3 = 8094A7DC
 /* 058C8 8093E598 46040180 */  add.s   $f6, $f0, $f4
 /* 058CC 8093E59C 8FA400A4 */  lw      $a0, 0x00A4($sp)
 /* 058D0 8093E5A0 02402825 */  or      $a1, $s2, $zero            ## $a1 = FFFFFFBC

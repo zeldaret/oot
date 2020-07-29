@@ -1201,27 +1201,6 @@ typedef struct {
     /* 0x03 */ u8 byte3;
 } ElfMessage; // size = 0x4
 
-typedef struct {
-    /* 0x0000 */ u8 unk_00;
-    /* 0x0001 */ s8 unk_01;
-    /* 0x0004 */ Vec3f unk_04;
-    /* 0x0010 */ Vec3f unk_10;
-    /* 0x001C */ Vec3f unk_1C;
-    /* 0x0028 */ Color_RGBA8 color;
-    /* 0x002C */ s16 unk_2C;
-    /* 0x002E */ s16 unk_2E;
-    /* 0x0030 */ s16 unk_30;
-    /* 0x0034 */ f32 unk_34;
-    /* 0x0038 */ f32 unk_38;
-    /* 0x003C */ f32 unk_3C;
-    /* 0x0040 */ f32 unk_40;
-    /* 0x0044 */ s32 unk_44;
-} Sub11E10Dot; // size = 0x48;
-
-typedef union {
-    Sub11E10Dot* dots;
-} SubGlobalContext11E10;
-
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
     /* 0x00000 */ GameState state;
@@ -1278,7 +1257,7 @@ typedef struct GlobalContext {
     /* 0x11E04 */ UNK_PTR setupExitList;
     /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
-    /* 0x11E10 */ SubGlobalContext11E10 unk_11E10;
+    /* 0x11E10 */ void* actorEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;
