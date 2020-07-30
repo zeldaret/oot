@@ -79,7 +79,7 @@ glabel func_80A0AF24
 /* 00C08 80A0B018 27A60034 */  addiu   $a2, $sp, 0x0034           ## $a2 = FFFFFFE4
 /* 00C0C 80A0B01C 27A70040 */  addiu   $a3, $sp, 0x0040           ## $a3 = FFFFFFF0
 /* 00C10 80A0B020 AFA20010 */  sw      $v0, 0x0010($sp)           
-/* 00C14 80A0B024 0C00A3A1 */  jal     func_80028E84              
+/* 00C14 80A0B024 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 00C18 80A0B028 AFA30014 */  sw      $v1, 0x0014($sp)           
 /* 00C1C 80A0B02C 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 00C20 80A0B030 8607008A */  lh      $a3, 0x008A($s0)           ## 0000008A
