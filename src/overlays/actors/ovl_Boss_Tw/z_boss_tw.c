@@ -4230,12 +4230,14 @@ void BossTw_BlastUpdate(Actor *thisx, GlobalContext *globalCtx) {
 extern Gfx D_0601A998[];
 extern Gfx D_0601ABB0[];
 extern Gfx D_0601A430[];
+extern Gfx D_0601AB00[];
+
 
 #define NON_MATCHING
 #ifdef NON_MATCHING
 void BossTw_BlastDraw(Actor *thisx, GlobalContext *globalCtx) {
     BossTw* this = THIS;
-    Gfx *spAC;
+    Gfx *spAC[4];
     u32 *sp78;
     s32 sp74;
     MtxF *sp70;
@@ -4255,46 +4257,61 @@ void BossTw_BlastDraw(Actor *thisx, GlobalContext *globalCtx) {
     s32 temp_s0;
     s32 temp_s0_2;
     s16 temp_v1;
-    s32 phi_s0;
+    s16 nv;
+    s16 phi_s0;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&spAC, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x2272);
+    Graph_OpenDisps(spAC, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x2272);
     func_80093D84(globalCtx->state.gfxCtx);
     switch(this->actor.params){
         case 0x64:
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 200, 20, 0, (s32)this->unk_1AC);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 215, 255, 128);
-        for(phi_s0 = 9; phi_s0 > 0; phi_s0--){
-            gSPSegment(gfxCtx->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, (((-this->unk_150) * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
-            temp_v1 = ((this->unk_156 - phi_s0) + 30) % 0x1E;
+        sp78 = &gSegments[SEGMENT_NUMBER(D_0601A430)];
+        sp74 = (u32)D_0601A430 & 0x00FFFFFF;
+        sp70 = &globalCtx->mf_11DA0;
+        for(phi_s0 = 9; phi_s0 >= 0; phi_s0--){
+            gSPSegment(gfxCtx->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+                ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, 
+                ((-this->unk_150 * 0xF) + (phi_s0 * 50)) & 0xFF, 
+                0x20, 0x40, 1, 
+                0, 0, 
+                0x20, 0x20));
+            nv = this->unk_156;
+            temp_v1 = ((nv - phi_s0) + 30) % 0x1E;
             Matrix_Translate(this->blastTailPos[temp_v1].x, this->blastTailPos[temp_v1].y, this->blastTailPos[temp_v1].z, MTXMODE_NEW);
-            temp_f0_2 = 1.0f - (phi_s0 * 0.09f);
-            Matrix_Scale(this->actor.scale.x * temp_f0_2, this->actor.scale.y * temp_f0_2, this->actor.scale.z * temp_f0_2, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            temp_f0 = 1.0f - (phi_s0 * 0.09f);
+            Matrix_Scale(this->actor.scale.x * temp_f0, this->actor.scale.y * temp_f0, this->actor.scale.z * temp_f0, MTXMODE_APPLY);
+            func_800D1FD4(sp70);
             gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x22A1), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
-            gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A430));
-        }
+            gSPDisplayList(gfxCtx->polyXlu.p++, PHYSICAL_TO_VIRTUAL(*sp78 + sp74));
+        } 
         break;
         case 0x65:
             break;
         case 0x66:
             gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 195, 225, 235, (s32)this->unk_1AC);
             gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A998));
-            for(phi_s0 = 9; phi_s0 > 0; phi_s0--){
-                gSPSegment(gfxCtx->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, (((-this->unk_150) * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
+            sp78 = &gSegments[SEGMENT_NUMBER(D_0601AB00)];
+            sp74 = (u32)D_0601AB00 & 0x00FFFFFF;
+            sp70 = &globalCtx->mf_11DA0;
+            for(phi_s0 = 9; phi_s0 >= 0; phi_s0--){
+                gSPSegment(gfxCtx->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+                    ((this->unk_150 * 3) + (phi_s0 * 0xA)) & 0x7F, 
+                    ((-this->unk_150 * 0xF) + (phi_s0 * 50)) & 0xFF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
                 temp_v1 = ((this->unk_156 - phi_s0) + 0x1E) % 0x1E;
                 Matrix_Translate(this->blastTailPos[temp_v1].x, this->blastTailPos[temp_v1].y, this->blastTailPos[temp_v1].z, MTXMODE_NEW);
                 temp_f0 = 1.0f - (phi_s0 * 0.09f);
                 Matrix_Scale(this->actor.scale.x * temp_f0, this->actor.scale.y * temp_f0, this->actor.scale.z * temp_f0, MTXMODE_APPLY);
-                func_800D1FD4(&globalCtx->mf_11DA0);
+                func_800D1FD4(sp70);
                 gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x232C), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
-                gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A998));
+                gSPDisplayList(gfxCtx->polyXlu.p++, PHYSICAL_TO_VIRTUAL(*sp78 + sp74));
             }
             break;
         case 0x67:
             break;
     }
-    Graph_CloseDisps(&spAC, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x2335);
+    Graph_CloseDisps(spAC, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x2335);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_BlastDraw.s")
@@ -4303,7 +4320,7 @@ void BossTw_BlastDraw(Actor *thisx, GlobalContext *globalCtx) {
 
 extern Gfx D_0601AB00[];
 extern Gfx D_0601A998[];
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_80947240(Actor *thisx, GlobalContext *globalCtx) {
     BossTw* this = THIS;
@@ -4350,7 +4367,7 @@ void func_80947240(Actor *thisx, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80947240.s")
 #endif
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_809477E0(GlobalContext *globalCtx) {
     Vec3f sp11C;
