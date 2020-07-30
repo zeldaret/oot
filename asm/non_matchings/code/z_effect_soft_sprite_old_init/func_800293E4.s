@@ -1,4 +1,4 @@
-glabel func_800293E4
+glabel EffectSsBubble_Spawn
 /* AA0584 800293E4 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* AA0588 800293E8 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AA058C 800293EC AFA40038 */  sw    $a0, 0x38($sp)

@@ -112,7 +112,7 @@ glabel func_80ABD728
 /* 00D0C 80ABD8BC E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 00D10 80ABD8C0 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 00D14 80ABD8C4 E7A6007C */  swc1    $f6, 0x007C($sp)           
-/* 00D18 80ABD8C8 0C00A4F9 */  jal     func_800293E4              
+/* 00D18 80ABD8C8 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 00D1C 80ABD8CC 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFFEC
 /* 00D20 80ABD8D0 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 00D24 80ABD8D4 1633FFE8 */  bne     $s1, $s3, .L80ABD878       

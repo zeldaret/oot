@@ -49,7 +49,7 @@ glabel func_80A0AD88
 /* 00A10 80A0AE20 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 00A14 80A0AE24 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00A18 80A0AE28 E7A20010 */  swc1    $f2, 0x0010($sp)           
-/* 00A1C 80A0AE2C 0C00A4F9 */  jal     func_800293E4              
+/* 00A1C 80A0AE2C 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 00A20 80A0AE30 E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 00A24 80A0AE34 8E030118 */  lw      $v1, 0x0118($s0)           ## 00000118
 .L80A0AE38:

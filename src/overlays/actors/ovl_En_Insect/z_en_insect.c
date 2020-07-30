@@ -497,8 +497,8 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         sp40.x = this->actor.posRot.pos.x;
         sp40.y = this->actor.posRot.pos.y + this->actor.waterY;
         sp40.z = this->actor.posRot.pos.z;
-        func_80029444(globalCtx, &sp40, 20, 100, 4);
-        func_80029444(globalCtx, &sp40, 40, 200, 8);
+        EffectSsGRipple_Spawn(globalCtx, &sp40, 20, 100, 4);
+        EffectSsGRipple_Spawn(globalCtx, &sp40, 40, 200, 8);
     }
 
     if (this->unk_31A <= 0 || ((this->unk_314 & 4) && this->unk_31C <= 0) ||
@@ -532,7 +532,7 @@ void func_80A7D26C(EnInsect* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.00005f, 0.001f));
 
     if (this->actor.waterY > 5.0f && this->actor.waterY < 30.0f && Math_Rand_ZeroOne() < 0.3f) {
-        func_800293E4(globalCtx, &this->actor.posRot.pos, -5.0f, 5.0f, 5.0f, (Math_Rand_ZeroOne() * 0.04f) + 0.02f);
+        EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, -5.0f, 5.0f, 5.0f, (Math_Rand_ZeroOne() * 0.04f) + 0.02f);
     }
 
     if (this->unk_31A <= 0) {

@@ -6,14 +6,12 @@
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
 #include "overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
-
-void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8* envColor, Color_RGBA8* primColor);
 
 extern Color_RGBA8 D_801158DC;
 extern Color_RGBA8 D_801158E0;
@@ -24,8 +22,8 @@ extern Color_RGBA8 D_801158F0;
 extern Color_RGBA8 D_801158F4;
 extern Color_RGBA8 D_801158F8;
 
-// sEmptyVec
-extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a specific field isnt needed
+// sZeroVector
+extern Vec3f D_801158C0;
 
 extern Color_RGBA8_n D_801158CC;
 extern Color_RGBA8_n D_801158D0;
@@ -47,7 +45,7 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
     object = globalCtx->objectCtx.status[this->regs[11]].segment;
 
     gfxCtx = localGfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
+    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
     scale = this->regs[1] * 0.0025f;
     func_800A7A24(&sp120, this->pos.x, this->pos.y, this->pos.z);
@@ -68,7 +66,7 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
         gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_effect_soft_sprite_old_init.c", 243);
+    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_effect_soft_sprite_old_init.c", 243);
 }
 
 // EffectSsDust Spawn Functions
@@ -246,8 +244,8 @@ void EffectSsBomb2_SpawnFade(GlobalContext* globalCtx, Vec3f* pos, Vec3f* veloci
     EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB2, 10, &initParams);
 }
 
-void EffectSsBomb2_SpawnExpanding(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
-                                  s16 scaleStep) {
+void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                s16 scaleStep) {
     EffectSsBomb2InitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -367,25 +365,35 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 
 // EffectSsBubble Spawn Functions
 
-void func_800293E4(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
+void EffectSsBubble_Spawn(GlobalContext* globalCtx, Vec3f* pos, f32 yPosOffset, f32 yPosRandScale, f32 xzPosRandScale,
+                          f32 scale) {
     EffectSsBubbleInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
-    initParams.unk_0C = arg2;
-    initParams.unk_10 = arg3;
-    initParams.unk_14 = arg4;
-    initParams.unk_18 = arg5;
-    EffectSs_Spawn(globalCtx, EFFECT_SS_BUBBLE, 0x80, &initParams);
+    initParams.yPosOffset = yPosOffset;
+    initParams.yPosRandScale = yPosRandScale;
+    initParams.xzPosRandScale = xzPosRandScale;
+    initParams.scale = scale;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BUBBLE, 128, &initParams);
 }
 
 // EffectSsGRipple Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029444.s")
+void EffectSsGRipple_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 radius, s16 radiusMax, s16 life) {
+    EffectSsGRippleInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.radius = radius;
+    initParams.radiusMax = radiusMax;
+    initParams.life = life;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_RIPPLE, 128, &initParams);
+}
+
 
 // EffectSsGSplash Spawn Functions
 
-void func_8002949C(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor, s16 arg4,
-                   s16 scale) {
+void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor,
+                           s16 arg4, s16 scale) {
     EffectSsGSplashInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -565,8 +573,8 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 
 // EffectSsDeadSound Spawn Functions
 
-void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
-                                 s16 lowerPriority, s16 repeatMode, s32 life) {
+void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
+                             s16 lowerPriority, s16 repeatMode, s32 life) {
     EffectSsDeadSoundInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -584,9 +592,9 @@ void EffectSsDeadSound_SpawnImpl(GlobalContext* globalCtx, Vec3f* pos, Vec3f* ve
     }
 }
 
-void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 repeatMode,
-                             s32 life) {
-    EffectSsDeadSound_SpawnImpl(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, repeatMode, life);
+void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority,
+                                       s16 repeatMode, s32 life) {
+    EffectSsDeadSound_Spawn(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, repeatMode, life);
 }
 
 // EffectSsIceSmoke Spawn Functions

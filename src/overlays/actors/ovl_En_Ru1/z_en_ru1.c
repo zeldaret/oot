@@ -446,7 +446,7 @@ void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     sp24.x = thisx->posRot.pos.x;
     sp24.y = thisx->posRot.pos.y + thisx->waterY;
     sp24.z = thisx->posRot.pos.z;
-    func_80029444(globalCtx, &sp24, 100, arg2, arg3);
+    EffectSsGRipple_Spawn(globalCtx, &sp24, 100, arg2, arg3);
 }
 
 void func_80AEB50C(EnRu1* this, GlobalContext* globalCtx) {
@@ -474,7 +474,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     pos.y = thisx->posRot.pos.y + thisx->waterY;
     pos.z = thisx->posRot.pos.z;
 
-    func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
+    EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 1, 0);
 }
 
 void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {

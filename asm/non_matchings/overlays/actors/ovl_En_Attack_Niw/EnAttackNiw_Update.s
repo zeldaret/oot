@@ -125,7 +125,7 @@ glabel EnAttackNiw_Update
 /* 00D78 809B5E78 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFE0
 /* 00D7C 809B5E7C E7A40034 */  swc1    $f4, 0x0034($sp)           
 /* 00D80 809B5E80 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00D84 809B5E84 0C00A527 */  jal     func_8002949C              
+/* 00D84 809B5E84 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00D88 809B5E88 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00D8C 809B5E8C 860E0030 */  lh      $t6, 0x0030($s0)           ## 00000030
 /* 00D90 809B5E90 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

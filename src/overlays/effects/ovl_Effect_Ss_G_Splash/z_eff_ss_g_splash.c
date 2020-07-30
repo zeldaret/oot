@@ -146,8 +146,8 @@ void func_809A7864(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if ((this->regs[SS_G_SPLASH_B] == 1) && (this->life == 5)) {
         newSplashPos = this->pos;
         newSplashPos.y += ((this->regs[SS_G_SPLASH_SCALE] * 20) * 0.002f);
-        func_8002949C(globalCtx, &newSplashPos, 0, 0, 2, this->regs[SS_G_SPLASH_SCALE] / 2);
+        EffectSsGSplash_Spawn(globalCtx, &newSplashPos, 0, 0, 2, this->regs[SS_G_SPLASH_SCALE] / 2);
     }
-    
+
     this->regs[SS_G_SPLASH_TEX_IDX] += this->regs[SS_G_SPLASH_TEX_IDX_STEP];
 }

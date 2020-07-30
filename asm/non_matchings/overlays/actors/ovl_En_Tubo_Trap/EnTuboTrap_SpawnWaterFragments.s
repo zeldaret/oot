@@ -43,7 +43,7 @@ glabel EnTuboTrap_SpawnWaterFragments
 /* 00420 80B25D10 46062200 */  add.s   $f8, $f4, $f6              
 /* 00424 80B25D14 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 00428 80B25D18 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 0042C 80B25D1C 0C00A527 */  jal     func_8002949C              
+/* 0042C 80B25D1C 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00430 80B25D20 E7A800CC */  swc1    $f8, 0x00CC($sp)           
 /* 00434 80B25D24 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 00438 80B25D28 4481F000 */  mtc1    $at, $f30                  ## $f30 = 5.00

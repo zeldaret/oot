@@ -42,7 +42,7 @@ glabel func_80A0AC88
 /* 00904 80A0AD14 E484006C */  swc1    $f4, 0x006C($a0)           ## 0000006C
 /* 00908 80A0AD18 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 0090C 80A0AD1C AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 00910 80A0AD20 0C00A527 */  jal     func_8002949C              
+/* 00910 80A0AD20 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00914 80A0AD24 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00918 80A0AD28 260400E4 */  addiu   $a0, $s0, 0x00E4           ## $a0 = 000000E4
 /* 0091C 80A0AD2C 0C01E245 */  jal     func_80078914              

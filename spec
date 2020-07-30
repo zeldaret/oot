@@ -903,8 +903,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Rsekizou"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Rsekizou/z_bg_hidan_rsekizou.o"
-    include "build/data/overlays/actors/z_bg_hidan_rsekizou.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_rsekizou.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Rsekizou/ovl_Bg_Hidan_Rsekizou_reloc.o"
 endseg
 
 beginseg
@@ -984,8 +983,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Block"
     include "build/src/overlays/actors/ovl_Bg_Jya_Block/z_bg_jya_block.o"
-    include "build/data/overlays/actors/z_bg_jya_block.data.o"
-    include "build/data/overlays/actors/z_bg_jya_block.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Block/ovl_Bg_Jya_Block_reloc.o"
 endseg
 
 beginseg
@@ -1149,8 +1147,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Hineri"
     include "build/src/overlays/actors/ovl_Bg_Mori_Hineri/z_bg_mori_hineri.o"
-    include "build/data/overlays/actors/z_bg_mori_hineri.data.o"
-    include "build/data/overlays/actors/z_bg_mori_hineri.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Hineri/ovl_Bg_Mori_Hineri_reloc.o"
 endseg
 
 beginseg
@@ -1599,11 +1596,7 @@ endseg
 beginseg
     name "ovl_Demo_Go"
     include "build/src/overlays/actors/ovl_Demo_Go/z_demo_go.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Demo_Go/ovl_Demo_Go_reloc.o"
-#else
-    include "build/data/overlays/actors/z_demo_go.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1731,17 +1724,13 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Bomb2"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/ovl_Effect_Ss_Bomb2_reloc.o"
-#else
-    include "build/data/overlays/effects/z_eff_ss_bomb2.reloc.o"
-#endif
 endseg
 
 beginseg
     name "ovl_Effect_Ss_Bubble"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.o"
-    include "build/data/overlays/effects/z_eff_ss_bubble.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Bubble/ovl_Effect_Ss_Bubble_reloc.o"
 endseg
 
 beginseg
@@ -1857,8 +1846,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Ripple"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.o"
-    include "build/data/overlays/effects/z_eff_ss_g_ripple.data.o"
-    include "build/data/overlays/effects/z_eff_ss_g_ripple.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_G_Ripple/ovl_Effect_Ss_G_Ripple_reloc.o"
 endseg
 
 beginseg
@@ -2106,11 +2094,7 @@ endseg
 beginseg
     name "ovl_En_Bombf"
     include "build/src/overlays/actors/ovl_En_Bombf/z_en_bombf.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Bombf/ovl_En_Bombf_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_bombf.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3498,8 +3482,7 @@ endseg
 beginseg
     name "ovl_Item_Etcetera"
     include "build/src/overlays/actors/ovl_Item_Etcetera/z_item_etcetera.o"
-    include "build/data/overlays/actors/z_item_etcetera.data.o"
-    include "build/data/overlays/actors/z_item_etcetera.reloc.o"
+    include "build/src/overlays/actors/ovl_Item_Etcetera/ovl_Item_Etcetera_reloc.o"
 endseg
 
 beginseg
@@ -3651,8 +3634,7 @@ endseg
 beginseg
     name "ovl_Obj_Makeoshihiki"
     include "build/src/overlays/actors/ovl_Obj_Makeoshihiki/z_obj_makeoshihiki.o"
-    include "build/data/overlays/actors/z_obj_makeoshihiki.data.o"
-    include "build/data/overlays/actors/z_obj_makeoshihiki.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Makeoshihiki/ovl_Obj_Makeoshihiki_reloc.o"
 endseg
 
 beginseg

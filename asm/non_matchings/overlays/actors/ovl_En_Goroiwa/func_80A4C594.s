@@ -44,7 +44,7 @@ glabel func_80A4C594
 /* 00990 80A4C630 46128100 */  add.s   $f4, $f16, $f18            
 /* 00994 80A4C634 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00998 80A4C638 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0099C 80A4C63C 0C00A527 */  jal     func_8002949C              
+/* 0099C 80A4C63C 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 009A0 80A4C640 E7A40054 */  swc1    $f4, 0x0054($sp)           
 /* 009A4 80A4C644 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 009A8 80A4C648 5634FFE4 */  bnel    $s1, $s4, .L80A4C5DC       
@@ -53,21 +53,21 @@ glabel func_80A4C594
 /* 009B4 80A4C654 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 009B8 80A4C658 2406012C */  addiu   $a2, $zero, 0x012C         ## $a2 = 0000012C
 /* 009BC 80A4C65C 240702BC */  addiu   $a3, $zero, 0x02BC         ## $a3 = 000002BC
-/* 009C0 80A4C660 0C00A511 */  jal     func_80029444              
+/* 009C0 80A4C660 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 009C4 80A4C664 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 009C8 80A4C668 240F0004 */  addiu   $t7, $zero, 0x0004         ## $t7 = 00000004
 /* 009CC 80A4C66C AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 009D0 80A4C670 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 009D4 80A4C674 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 009D8 80A4C678 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
-/* 009DC 80A4C67C 0C00A511 */  jal     func_80029444              
+/* 009DC 80A4C67C 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 009E0 80A4C680 24070384 */  addiu   $a3, $zero, 0x0384         ## $a3 = 00000384
 /* 009E4 80A4C684 24180008 */  addiu   $t8, $zero, 0x0008         ## $t8 = 00000008
 /* 009E8 80A4C688 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 009EC 80A4C68C 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 009F0 80A4C690 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 009F4 80A4C694 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
-/* 009F8 80A4C698 0C00A511 */  jal     func_80029444              
+/* 009F8 80A4C698 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 009FC 80A4C69C 24070514 */  addiu   $a3, $zero, 0x0514         ## $a3 = 00000514
 /* 00A00 80A4C6A0 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00A04 80A4C6A4 D7B40018 */  ldc1    $f20, 0x0018($sp)          

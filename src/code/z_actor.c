@@ -1274,9 +1274,9 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
                         sp44.x = actor->posRot.pos.x;
                         sp44.y = sp50;
                         sp44.z = actor->posRot.pos.z;
-                        func_80029444(globalCtx, &sp44, 100, 500, 0);
-                        func_80029444(globalCtx, &sp44, 100, 500, 4);
-                        func_80029444(globalCtx, &sp44, 100, 500, 8);
+                        EffectSsGRipple_Spawn(globalCtx, &sp44, 100, 500, 0);
+                        EffectSsGRipple_Spawn(globalCtx, &sp44, 100, 500, 4);
+                        EffectSsGRipple_Spawn(globalCtx, &sp44, 100, 500, 8);
                     }
                 }
                 actor->bgCheckFlags |= 0x20;

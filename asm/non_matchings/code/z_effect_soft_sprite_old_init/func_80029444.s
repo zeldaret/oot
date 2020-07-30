@@ -1,4 +1,4 @@
-glabel func_80029444
+glabel EffectSsGRipple_Spawn
 /* AA05E4 80029444 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* AA05E8 80029448 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AA05EC 8002944C AFA40030 */  sw    $a0, 0x30($sp)

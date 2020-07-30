@@ -223,23 +223,23 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
 // ? func_80028BB0(?);
 // ? func_80028CEC(?);
-void EffectSsBomb2_SpawnExpanding(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
+void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                s16  scaleStep);
 void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
                    s16 life);
 void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
                    Color_RGBA8* primColor, s16 life);
 void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
-// ? func_80028EF4(?);
-// ? func_80028F84(?);
-// ? func_80028FD8(?);
-// ? func_80029024(?);
-// ? func_80029060(?);
-// ? func_80029184(?);
+void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep);
+void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor);
 // ? func_80029320(?);
 // ? func_800293A0(?);
-void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
-// ? func_80029444(?);
-// ? func_8002949C(?);
+void EffectSsBubble_Spawn(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
+// ? EffectSsGRipple_Spawn(?);
+// ? EffectSsGSplash_Spawn(?);
 // ? func_80029530(?);
 // ? func_80029568(?);
 // ? func_800295A0(?);
@@ -281,7 +281,8 @@ void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg
 // ? func_8002A824(?);
 // ? func_8002A894(?);
 // ? func_8002A90C(?);
-void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28, s32 life);
+void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28,
+                                       s32 life);
 // ? func_8002AA44(?);
 void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
@@ -596,6 +597,7 @@ u16 func_80041F34(CollisionContext*, CollisionPoly*, u8);
 // ? func_80042048(?);
 // ? func_80042108(?);
 s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, UNK_PTR);
+s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg2, f32 arg3, WaterBox** arg4);
 // ? func_80042244(?);
 // ? func_80042538(?);
 // ? func_80042548(?);
@@ -1041,7 +1043,7 @@ VecSph* OLib_Vec3fDiffToVecSphRot90(VecSph* arg0, Vec3f* a, Vec3f* b);
 // ? func_8007FFE0(?);
 // ? func_80080024(?);
 s16 func_800800F8(GlobalContext* globalCtx, s16 arg1, s16 arg2, Actor* actor, s16 arg4);
-// ? func_800803F0(?);
+UNK_TYPE func_800803F0(GlobalContext* globalCtx, s16 arg1);
 // ? func_80080480(?);
 void func_80080788(UNK_TYPE, UNK_TYPE);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);

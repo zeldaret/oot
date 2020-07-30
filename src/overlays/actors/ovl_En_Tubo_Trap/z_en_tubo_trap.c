@@ -140,7 +140,7 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
     spC8 = *actorPos;
     spC8.y += this->actor.waterY;
 
-    func_8002949C(globalCtx, &spC8, 0, 0, 0, 400);
+    EffectSsGSplash_Spawn(globalCtx, &spC8, 0, 0, 0, 400);
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
         sin = Math_Sins(var);

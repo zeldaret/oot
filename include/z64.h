@@ -558,7 +558,7 @@ typedef struct {
     /* 0x18 */ void*     polygonArray;
     /* 0x1C */ void*     polygonTypes;
     /* 0x20 */ void*     cameraData;
-    /* 0x24 */ s16       nbWaterBoxes;
+    /* 0x24 */ u16       nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader;
 

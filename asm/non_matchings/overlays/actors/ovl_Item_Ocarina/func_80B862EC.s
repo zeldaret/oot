@@ -70,7 +70,7 @@ glabel func_80B862EC
 /* 0029C 80B863CC 24060064 */  addiu   $a2, $zero, 0x0064         ## $a2 = 00000064
 /* 002A0 80B863D0 240701F4 */  addiu   $a3, $zero, 0x01F4         ## $a3 = 000001F4
 /* 002A4 80B863D4 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 002A8 80B863D8 0C00A511 */  jal     func_80029444              
+/* 002A8 80B863D8 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 002AC 80B863DC AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 002B0 80B863E0 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001
 /* 002B4 80B863E4 8FA50030 */  lw      $a1, 0x0030($sp)           
@@ -78,7 +78,7 @@ glabel func_80B862EC
 /* 002BC 80B863EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002C0 80B863F0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 002C4 80B863F4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 002C8 80B863F8 0C00A527 */  jal     func_8002949C              
+/* 002C8 80B863F8 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 002CC 80B863FC AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 002D0 80B86400 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 002D4 80B86404 3C0180B8 */  lui     $at, %hi(D_80B86834)       ## $at = 80B80000
@@ -112,7 +112,7 @@ glabel func_80B862EC
 /* 0033C 80B8646C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00340 80B86470 E7B20034 */  swc1    $f18, 0x0034($sp)          
 /* 00344 80B86474 E7A40038 */  swc1    $f4, 0x0038($sp)           
-/* 00348 80B86478 0C00A511 */  jal     func_80029444              
+/* 00348 80B86478 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 0034C 80B8647C E7A6003C */  swc1    $f6, 0x003C($sp)           
 .L80B86480:
 /* 00350 80B86480 8FBF0024 */  lw      $ra, 0x0024($sp)           

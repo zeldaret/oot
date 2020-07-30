@@ -109,7 +109,7 @@ void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
 
     if (this->actor.waterY > 0) {
         for (i = 0; i < 10; i++) {
-            func_800293E4(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
     }
 }
