@@ -10,7 +10,7 @@ void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaBombiwa_InitDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag);
+void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag);
 void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Jya_Bombiwa_InitVars = {
@@ -47,7 +47,7 @@ extern UNK_TYPE D_0600E710;
 extern Gfx D_0600E490[];
 extern Gfx D_0600EDC0[];
 
-void BgJyaBombiwa_InitDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag) {
+void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag) {
     s16 pad1;
     s32 localConst = 0;
     s16 pad2;
@@ -58,7 +58,7 @@ void BgJyaBombiwa_InitDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, voi
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
     if (this->dyna.dynaPolyId == 0x32) {
 
-        // Warning: move BG login failed
+        // Warning: move BG registration failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -80,7 +80,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                      thisx->params & 0x3F);
         osSyncPrintf(VT_SGR());
     }
-    BgJyaBombiwa_InitDynaPoly(thisx, globalCtx, &D_0600E710, 0);
+    BgJyaBombiwa_SetupDynaPoly(thisx, globalCtx, &D_0600E710, 0);
     BgJyaBombiwa_InitCollider(thisx, globalCtx);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         Actor_Kill(thisx);
@@ -99,7 +99,7 @@ void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-void BgJyaBombiwa_BlowUp(BgJyaBombiwa* this, GlobalContext* globalCtx) {
+void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
     Vec3f temp;
     Vec3f temp2;
     s16 tempS;
@@ -145,8 +145,9 @@ void BgJyaBombiwa_BlowUp(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
+
     if ((this->collider.base.acFlags & 2) != 0) {
-        BgJyaBombiwa_BlowUp(this, globalCtx);
+        BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
