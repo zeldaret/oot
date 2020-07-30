@@ -37,7 +37,7 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
     // clang-format on
 
     JpegWork* workBuf = ctx->workBuf;
-    u32 pad[2];
+    s32 pad[2];
 
     workBuf->taskData.address = PHYSICAL_TO_VIRTUAL(&workBuf->unk_6C0);
     workBuf->taskData.mode = ctx->mode;

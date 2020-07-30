@@ -21,7 +21,7 @@ char D_80134488[0x18] = {
 };
 
 s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, void* allocatedVRamAddr) {
-    u32 pad;
+    s32 pad;
     u32 end;
     u32 bssSize;
     OverlayRelocationSection* ovl;
