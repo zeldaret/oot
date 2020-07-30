@@ -30,7 +30,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 30, 0, { 0, 0, 0 } },
 };
-
+                    //0.2f          //0.2     //0.2
 s32 D_80AB99CC[] = {0x3E4CCCCD, 0x3E4CCCCD, 0x3E4CCCCD };
 s32 D_80AB99D8[] = {0x06004178, 0x06004978, 0x06005178, 0x00000000, 0x00000000, 0x00000000 };
 
@@ -41,12 +41,13 @@ extern AnimationHeader D_06000378;
 void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     s32 pad;
-    Vec3f tempDst;
     Vec3f tempSrc;
-    f32 localConst;
+    Vec3f tempDst;
+    //f32 localConst;
+    s32 pad2;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
                      &this->transitionDrawTable, 17);
-    localConst = 0;
+    //localConst = 0;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
     thisx->unk_1F = 6;
@@ -57,11 +58,11 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->gravity = -3.0f;
     Matrix_RotateY((thisx->shape.rot.y / 32768.0f) * M_PI, 0);
     tempDst.x = 50.0f;
-    tempSrc.z = localConst;
-    tempSrc.y = localConst;
-    tempDst.z = localConst;
-    tempDst.y = localConst;
-    tempSrc.x = localConst;
+    tempDst.z = 0.0f;
+    tempSrc.z = 0.0f;
+    tempSrc.y = 0.0f;
+    tempSrc.x = 0.0f;
+    tempDst.y = 0.0f;
     Matrix_MultVec3f(&tempSrc, &tempDst);
     this->attachedActor = Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_NIW,
                                               thisx->posRot.pos.x + tempSrc.x, thisx->posRot.pos.y + tempSrc.y,
