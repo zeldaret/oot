@@ -40,7 +40,7 @@ extern UNK_TYPE D_060000C0;
 
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
-    u32 pad;
+    s32 pad;
     u32 temp;
     f32 frameCount;
 

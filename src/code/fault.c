@@ -882,7 +882,7 @@ void Fault_LogStackTrace(OSThread* thread, s32 height) {
     u32 ra = thread->context.ra;
     u32 pc = thread->context.pc;
     u32 addr;
-    u32 pad;
+    s32 pad;
 
     osSyncPrintf("STACK TRACE\nSP       PC       (VPC)\n");
     for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (u32)__osCleanupThread; line++) {
@@ -955,7 +955,7 @@ void Fault_UpdatePad() {
 void Fault_ThreadEntry(void* arg) {
     OSMesg msg;
     OSThread* faultedThread;
-    u32 pad;
+    s32 pad;
 
     osSetEventMesg(OS_EVENT_CPU_BREAK, &sFaultStructPtr->queue, 1);
     osSetEventMesg(OS_EVENT_FAULT, &sFaultStructPtr->queue, 2);

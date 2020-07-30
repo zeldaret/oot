@@ -13,7 +13,7 @@ glabel func_8097DA78
 /* 00434 8097DAA4 440F4000 */  mfc1    $t7, $f8                   
 /* 00438 8097DAA8 44199000 */  mfc1    $t9, $f18                  
 /* 0043C 8097DAAC AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 00440 8097DAB0 0C00A3A1 */  jal     func_80028E84              
+/* 00440 8097DAB0 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 00444 8097DAB4 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 00448 8097DAB8 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0044C 8097DABC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
