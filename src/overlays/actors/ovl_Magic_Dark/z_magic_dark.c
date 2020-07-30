@@ -71,9 +71,10 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     MagicDark* this2 = this;
     Player* player = PLAYER;
-    s32 temp_t2;
-    u8 phi_a0;
     s16 nayru = gSaveContext.nayrusLoveTimer;
+    s16 nayruTemp;
+    u8 phi_a0;
+    s32 temp_t2;
 
     if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
         Actor_Kill(&this->actor);
@@ -101,13 +102,14 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         phi_a0 = 0xFF;
     }
-    if (nayru >= 1180) {
-        temp_t2 = 0x3CEB - (nayru * 0xD);
+    nayruTemp = nayru;
+    if (nayruTemp >= 1180) {
+        temp_t2 = 0x3CEB - (nayruTemp * 0xD);
         this->unk_14E = temp_t2;
-        if ((nayru & 1) != 0) {
+        if ((nayruTemp & 1) != 0) {
             this->unk_14E = (temp_t2 & 0xFF) >> 1;
         }
-    } else if (nayru >= 1100) {
+    } else if (nayruTemp >= 1100) {
         this->unk_14E = (nayru * 128) + 127;
     } else {
         this->unk_14E = 0xFF;
