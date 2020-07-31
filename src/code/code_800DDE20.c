@@ -1,7 +1,11 @@
 #include <ultra64.h>
 #include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800DDE20.s")
+extern f32 D_801719E8;
+
+f32 func_800DDE20(f32 arg0) {
+    return (256.0f * D_801719E8) / arg0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800DDE3C.s")
 
@@ -63,7 +67,8 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800DF688.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800DF7BC.s")
+void func_800DF7BC(s32 arg0) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800DF7C4.s")
 
@@ -97,9 +102,13 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800E0E0C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800E0E6C.s")
+void func_800E0E6C(s32 arg0) {
+    func_800E0EB4(0, arg0);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800E0E90.s")
+void func_800E0E90(s32 arg0) {
+    func_800E0EB4(1, arg0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DDE20/func_800E0EB4.s")
 

@@ -1963,7 +1963,7 @@ void* Audio_SoundAlloc(SoundAllocPool* pool, u32 size);
 // ? func_800E0E0C(?);
 // ? func_800E0E6C(?);
 // ? func_800E0E90(?);
-// ? func_800E0EB4(?);
+void func_800E0EB4(s32,s32);
 // ? func_800E1148(?);
 // ? func_800E11F0(?);
 // ? func_800E12DC(?);
