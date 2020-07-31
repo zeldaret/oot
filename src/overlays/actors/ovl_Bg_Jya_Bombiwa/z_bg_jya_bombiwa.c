@@ -10,9 +10,6 @@ void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag);
-void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx);
-
 const ActorInit Bg_Jya_Bombiwa_InitVars = {
     ACTOR_BG_JYA_BOMBIWA,
     ACTORTYPE_BG,
@@ -65,10 +62,10 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, vo
 }
 
 void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx) {
-    Actor* actor = &this->dyna.actor;
+    Actor* thisx = &this->dyna.actor;
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, actor, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, thisx, &sJntSphInit, &this->colliderItems);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -108,7 +105,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
     s32 i;
     s16 tScale;
 
-    for (i = 0; i != 0x10; i++) {
+    for (i = 0; i < 16; i++) {
         temp.x = ((Math_Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.x) - 40.0f;
         temp.y = (Math_Rand_ZeroOne() * 140.0f) + this->dyna.actor.posRot.pos.y;
         temp.z = ((Math_Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.z) - 40.0f;
@@ -146,7 +143,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    if ((this->collider.base.acFlags & 2) != 0) {
+    if (this->collider.base.acFlags & 2) {
         BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
