@@ -1,6 +1,10 @@
 #include <ultra64.h>
 #include <global.h>
 
+extern UNK_TYPE D_801304D0;
+extern UNK_TYPE D_801304D4;
+extern UNK_TYPE D_80171B20;
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E11F0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E12DC.s")
@@ -71,11 +75,13 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2AA8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2BCC.s")
+void func_800E2BCC(s32 arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2BE0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2CB8.s")
+void func_800E2CB8(void){ 
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2CC0.s")
 
@@ -83,9 +89,13 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2FEC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E301C.s")
+void func_800E301C(s32 arg0) {
+    D_801304D0 = arg0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3028.s")
+void func_800E3028(s32 arg0) {
+    D_801304D4 = arg0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3034.s")
 
@@ -97,7 +107,8 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E35E0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3670.s")
+void func_800E3670(void){
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3678.s")
 
@@ -105,7 +116,8 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3874.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E38F8.s")
+void func_800E38F8(s32 arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E390C.s")
 
@@ -117,7 +129,8 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3BEC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3D10.s")
+void func_800E3D10(s32 arg0, UNK_TYPE arg1) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3D1C.s")
 
@@ -125,7 +138,8 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3FB4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4044.s")
+void func_800E4044(s32 arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4058.s")
 
@@ -143,11 +157,14 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4D94.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4ED4.s")
+void func_800E4ED4(void){ 
+} /*stubbed*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4EDC.s")
+void func_800E4EDC(void){ 
+} /*stubbed*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4EE4.s")
+void func_800E4EE4(void){ 
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4EEC.s")
 
@@ -155,7 +172,9 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4FB0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4FE0.s")
+void func_800E4FE0(void) {
+    func_800E5000();
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5000.s")
 
@@ -187,7 +206,9 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5E20.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5E84.s")
+void func_800E5E84(void) {
+    func_800E1F38();
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5EA4.s")
 
@@ -205,7 +226,9 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E60EC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E611C.s")
+void func_800E611C(void) {
+    D_80171B20 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6128.s")
 
@@ -213,7 +236,9 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E64B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E64F8.s")
+void func_800E64F8(void) {
+    func_800E5AFC(0xFA000000, 0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E651C.s")
 
@@ -221,12 +246,18 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6590.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6680.s")
+void func_800E6680(void) {
+    func_800E66C0(0);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E66A0.s")
+void func_800E66A0(void) {
+    func_800E66C0(2);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E66C0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E67C0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6818.s")
+void func_800E6818(void) {
+    func_800E59F4();
+}

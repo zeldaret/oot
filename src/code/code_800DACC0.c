@@ -27,59 +27,59 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBAE8.s")
 
-void func_800DBB94(void) { /*stubbed*/
-}
+void func_800DBB94(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBB9C.s")
 
-void func_800DBBBC(void) { /*stubbed*/
-}
+void func_800DBBBC(void) {
+} /*stubbed*/
 
-void func_800DBBC4(void) { /*stubbed*/
-}
+void func_800DBBC4(void) {
+} /*stubbed*/
 
-void func_800DBBCC(void) { /*stubbed*/
-}
+void func_800DBBCC(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBBD4.s")
 
-void func_800DBC08(void) { /*stubbed*/
-}
+void func_800DBC08(void) {
+} /*stubbed*/
 
-void func_800DBC10(void) { /*stubbed*/
-}
+void func_800DBC10(void) {
+} /*stubbed*/
 
-void func_800DBC18(void) { /*stubbed*/
-}
+void func_800DBC18(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBC20.s")
 
-void func_800DBC54(void) { /*stubbed*/
-}
+void func_800DBC54(void) {
+} /*stubbed*/
 
-void func_800DBC5C(void) { /*stubbed*/
-}
+void func_800DBC5C(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBC64.s")
 
-void func_800DBC90(void) { /*stubbed*/
-}
+void func_800DBC90(void) {
+} /*stubbed*/
 
-void func_800DBC98(void) { /*stubbed*/
-}
+void func_800DBC98(void) {
+} /*stubbed*/
 
-void func_800DBCA0(void) { /*stubbed*/
-}
+void func_800DBCA0(void) {
+} /*stubbed*/
 
-void func_800DBCA8(void) { /*stubbed*/
-}
+void func_800DBCA8(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBCB0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBCD4.s")
 
-void func_800DBD08(void) { /*stubbed*/
-}
+void func_800DBD08(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBD10.s")
 
@@ -87,14 +87,14 @@ void func_800DBD08(void) { /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBD60.s")
 
-void func_800DBD7C(void) { /*stubbed*/
-}
+void func_800DBD7C(void) {
+} /*stubbed*/
 
-void func_800DBD84(void) { /*stubbed*/
-}
+void func_800DBD84(void) {
+} /*stubbed*/
 
-void func_800DBD8C(void) { /*stubbed*/
-}
+void func_800DBD8C(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBD94.s")
 
@@ -102,28 +102,28 @@ void func_800DBD8C(void) { /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBDE4.s")
 
-void func_800DBE18(void) { /*stubbed*/
-}
+void func_800DBE18(void) {
+} /*stubbed*/
 
-void func_800DBE20(void) { /*stubbed*/
-}
+void func_800DBE20(void) {
+} /*stubbed*/
 
-void func_800DBE28(void) { /*stubbed*/
-}
+void func_800DBE28(void) {
+} /*stubbed*/
 
-void func_800DBE30(void) { /*stubbed*/
-}
+void func_800DBE30(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBE38.s")
 
-void func_800DBE5C(void) { /*stubbed*/
-}
+void func_800DBE5C(void) {
+} /*stubbed*/
 
-void func_800DBE64(void) { /*stubbed*/
-}
+void func_800DBE64(void) {
+} /*stubbed*/
 
-void func_800DBE6C(void) { /*stubbed*/
-}
+void func_800DBE6C(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DBE74.s")
 

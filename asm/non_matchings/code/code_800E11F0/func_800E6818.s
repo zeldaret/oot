@@ -1,9 +1,0 @@
-glabel func_800E6818
-/* B5D9B8 800E6818 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* B5D9BC 800E681C AFBF0014 */  sw    $ra, 0x14($sp)
-/* B5D9C0 800E6820 0C03967D */  jal   func_800E59F4
-/* B5D9C4 800E6824 00000000 */   nop
-/* B5D9C8 800E6828 8FBF0014 */  lw    $ra, 0x14($sp)
-/* B5D9CC 800E682C 27BD0018 */  addiu $sp, $sp, 0x18
-/* B5D9D0 800E6830 03E00008 */  jr    $ra
-/* B5D9D4 800E6834 00000000 */   nop
