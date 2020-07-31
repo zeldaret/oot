@@ -1,6 +1,11 @@
 #include <ultra64.h>
 #include <global.h>
 
+extern UNK_TYPE D_8016BA00;
+extern UNK_TYPE D_8016B9FC;
+extern u8 D_801305CC;
+extern s32 D_8013064C;
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EC960.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ECA00.s")
@@ -41,11 +46,15 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE318.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE3C8.s")
+void* func_800EE3C8(void) {
+    return &D_8016BA00;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE3D4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE3F8.s")
+void* func_800EE3F8(void) {
+    return &D_8016B9FC;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE404.s")
 
@@ -75,11 +84,13 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F27A0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F28AC.s")
+void func_800F28AC(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F28B4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F29FC.s")
+void func_800F29FC(void) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F2A04.s")
 
@@ -89,9 +100,11 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F3054.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F3138.s")
+void func_800F3138(s32 arg0) {
+} /*stubbed*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F3140.s")
+void func_800F3140(s32 arg0, UNK_TYPE arg1) {
+} /*stubbed*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F314C.s")
 
@@ -159,7 +172,9 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F4B58.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F4BE8.s")
+void func_800F4BE8(void) {
+    D_801305CC = (u8)0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F4BF4.s")
 
@@ -175,7 +190,9 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F52A0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F5504.s")
+void func_800F5504(void) {
+    D_8013064C = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F5510.s")
 
