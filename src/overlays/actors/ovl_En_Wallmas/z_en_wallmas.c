@@ -76,8 +76,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, 0xFA24, 0),
 };
 
-static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
-
 extern AnimationHeader D_06000EA4;
 extern AnimationHeader D_06000590;
 extern AnimationHeader D_0600299C;
@@ -132,7 +130,7 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y;
-    this->actor.bgChkInfo.groundY = player->actor.bgChkInfo.groundY;
+    this->actor.groundY = player->actor.groundY;
     this->actor.draw = EnWallmas_Draw;
     this->actionFunc = EnWallmas_WaitToDrop;
 }
@@ -147,7 +145,7 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     this->unk_2c4 = player->actor.posRot.pos.y;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
     this->actor.posRot.rot.y = player->actor.shape.rot.y + 0x8000;
-    this->actor.bgChkInfo.groundY = player->actor.bgChkInfo.groundY;
+    this->actor.groundY = player->actor.groundY;
     this->actor.flags |= 1;
     this->actor.flags &= ~0x20;
     this->actionFunc = EnWallmas_Drop;
@@ -217,6 +215,7 @@ void EnWallmas_SetupCooldown(EnWallmas* this) {
 }
 
 void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
+    static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
@@ -272,8 +271,8 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
     player = PLAYER;
     playerPos = &player->actor.posRot.pos;
     this->actor.posRot.pos = *playerPos;
-    this->actor.bgChkInfo.groundY = player->actor.bgChkInfo.groundY;
-    this->actor.bgChkInfo.floorPoly = player->actor.bgChkInfo.floorPoly;
+    this->actor.groundY = player->actor.groundY;
+    this->actor.floorPoly = player->actor.floorPoly;
 
     if (this->timer != 0) {
         this->timer--;
@@ -560,7 +559,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     f32 xzScale;
     Gfx* dispRefs[3];
 
-    if ((this->actor.bgChkInfo.floorPoly == NULL) ||
+    if ((this->actor.floorPoly == NULL) ||
         ((this->timer >= 0x51) && (this->actionFunc != EnWallmas_Stun))) {
         return;
     }
@@ -570,9 +569,9 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     // clang-format on
 
     func_80094044(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
 
-    func_80038A28(this->actor.bgChkInfo.floorPoly, this->actor.posRot.pos.x, this->actor.bgChkInfo.groundY, this->actor.posRot.pos.z, &mf);
+    func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 
     if ((this->actionFunc != EnWallmas_WaitToDrop) && (this->actionFunc != EnWallmas_ReturnToCeiling) &&

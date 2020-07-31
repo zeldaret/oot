@@ -1,3 +1,34 @@
+.rdata
+glabel D_8099C60C
+    .asciz "\nparcent=[%f]"
+    .balign 4
+
+.late_rodata
+glabel D_8099C7C4
+    .float 0.0139999995
+
+glabel D_8099C7C8
+    .float 0.01
+
+glabel D_8099C7CC
+    .float 0.01
+
+glabel D_8099C7D0
+    .float 0.1
+
+glabel D_8099C7D4
+    .float 0.01
+
+glabel D_8099C7D8
+    .float 0.01
+
+glabel D_8099C7DC
+    .float 0.01
+
+glabel D_8099C7E0
+    .float 0.01
+
+.text
 glabel func_8099A5EC
 /* 01E6C 8099A5EC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01E70 8099A5F0 AFBF002C */  sw      $ra, 0x002C($sp)           

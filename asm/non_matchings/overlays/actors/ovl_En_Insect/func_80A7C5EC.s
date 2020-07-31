@@ -30,7 +30,7 @@ glabel func_80A7C5EC
 /* 0080C 80A7C62C 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
 /* 00810 80A7C630 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00814 80A7C634 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00818 80A7C638 0C29EF90 */  jal     func_80A7BE40              
+/* 00818 80A7C638 0C29EF90 */  jal     EnInsect_XZDistanceSquared              
 /* 0081C 80A7C63C AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 00820 80A7C640 3C0144C8 */  lui     $at, 0x44C8                ## $at = 44C80000
 /* 00824 80A7C644 44813000 */  mtc1    $at, $f6                   ## $f6 = 1600.00

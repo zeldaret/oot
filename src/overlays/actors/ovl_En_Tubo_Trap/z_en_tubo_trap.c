@@ -138,7 +138,7 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
     actorPos = &this->actor.posRot.pos;
 
     spC8 = *actorPos;
-    spC8.y += this->actor.bgChkInfo.waterY;
+    spC8.y += this->actor.waterY;
 
     func_8002949C(globalCtx, &spC8, 0, 0, 0, 400);
 
@@ -177,7 +177,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.bgChkInfo.waterY > 15.0f)) {
+    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 15.0f)) {
         EnTuboTrap_SpawnWaterFragments(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, globalCtx);

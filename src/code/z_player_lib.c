@@ -225,7 +225,7 @@ void func_8008EDF0(Player* player) {
 
 void func_8008EE08(Player* player) {
     if ((player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x8A00000) ||
-        ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.bgChkInfo.groundY) < 100.0f)) {
+        ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.groundY) < 100.0f)) {
         player->stateFlags1 &= 0xBFF07FFF;
     } else if ((player->stateFlags1 & 0x2C0000) == 0) {
         player->stateFlags1 |= 0x80000;
@@ -245,7 +245,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* arg1) {
     func_8005A444(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 
-s32 func_8008EF40(GlobalContext* globalCtx) {
+s32 func_8008EF30(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     return player->stateFlags1 & 0x800000;
 }

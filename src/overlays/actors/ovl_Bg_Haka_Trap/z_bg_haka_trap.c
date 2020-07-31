@@ -117,8 +117,8 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     thisx->velocity.y = 0.5f;
                 }
 
-                thisx->bgChkInfo.groundY = thisx->initPosRot.pos.y - 225.0f;
-                this->unk_16A = (thisx->bgChkInfo.groundY + 50.0f) - 25.0f;
+                thisx->groundY = thisx->initPosRot.pos.y - 225.0f;
+                this->unk_16A = (thisx->groundY + 50.0f) - 25.0f;
 
                 this->colliderCylinder.dim.radius = 10;
                 this->colliderCylinder.dim.height = 40;
@@ -335,11 +335,11 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     vector.y = (this->dyna.actor.posRot.pos.y + 1.0f) + 25.0f;
     vector.z = this->dyna.actor.posRot.pos.z;
 
-    tempf20 = this->dyna.actor.bgChkInfo.groundY;
+    tempf20 = this->dyna.actor.groundY;
 
     for (i = 0; i < 3; i++) {
         temp =
-            func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.bgChkInfo.floorPoly, &sp64, &this->dyna.actor, &vector) - 25.0f;
+            func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &vector) - 25.0f;
         if (tempf20 < temp) {
             tempf20 = temp;
         }
@@ -487,7 +487,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* sDLists[5] = {
         0x06007610, 0x06009860, 0x06007EF0, 0x06008A20, 0x060072C0,
     };
-    static Color_RGBA8 D_8088103C = { 0 };
+    static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
     BgHakaTrap* this = THIS;
     s32 pad;
     Vec3f sp2C;

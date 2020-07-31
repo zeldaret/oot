@@ -18,7 +18,7 @@ void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     gDPPipeSync(displayListHead++);
 
     if (color == NULL) {
-        gDPSetFogColor(displayListHead++, 0xFF, 0x00, 0x00, 0x00);
+        gDPSetFogColor(displayListHead++, 255, 0, 0, 0);
     } else {
         gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
     }
@@ -88,7 +88,7 @@ void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     gDPPipeSync(displayListHead++);
 
     if (color == NULL) {
-        gDPSetFogColor(displayListHead++, 0xFF, 0x00, 0x00, 0x00);
+        gDPSetFogColor(displayListHead++, 255, 0, 0, 0);
     } else {
         gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
     }

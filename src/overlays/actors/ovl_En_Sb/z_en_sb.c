@@ -107,7 +107,7 @@ void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
     s32 i;
 
-    if (this->actor.bgChkInfo.waterY > 0) {
+    if (this->actor.waterY > 0) {
         for (i = 0; i < 10; i++) {
             func_800293E4(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
@@ -138,7 +138,7 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 
 void EnSb_SetupLunge(EnSb* this) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06000124.genericHeader);
-    f32 playbackSpeed = this->actor.bgChkInfo.waterY > 0.0f ? 1.0f : 0.0f;
+    f32 playbackSpeed = this->actor.waterY > 0.0f ? 1.0f : 0.0f;
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frameCount, 2, 0);
     this->behavior = SHELLBLADE_LUNGE;
@@ -161,7 +161,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
-        if (this->actor.bgChkInfo.waterY > 0.0f) {
+        if (this->actor.waterY > 0.0f) {
             this->actor.speedXZ = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 2.1f;
@@ -226,7 +226,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.posRot.rot.y = this->attackYaw;
-        if (this->actor.bgChkInfo.waterY > 0.0f) {
+        if (this->actor.waterY > 0.0f) {
             this->actor.velocity.y = 3.0f;
             this->actor.speedXZ = 5.0f;
             this->actor.gravity = -0.35f;
@@ -246,7 +246,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & 2))) {
-        if (!(this->actor.bgChkInfo.waterY > 0.0f)) {
+        if (!(this->actor.waterY > 0.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->actor.bgCheckFlags = this->actor.bgCheckFlags & ~2;
@@ -267,7 +267,7 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
         if (this->bouncesLeft != 0) {
             this->bouncesLeft--;
             this->timer = 1;
-            if (this->actor.bgChkInfo.waterY > 0.0f) {
+            if (this->actor.waterY > 0.0f) {
                 this->actor.velocity.y = 3.0f;
                 this->actor.speedXZ = 5.0f;
                 this->actor.gravity = -0.35f;
@@ -417,7 +417,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->isDead) {
-        if (this->actor.bgChkInfo.waterY > 0.0f) {
+        if (this->actor.waterY > 0.0f) {
             this->actor.params = 4;
         } else {
             this->actor.params = 1;

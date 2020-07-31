@@ -82,7 +82,7 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             if (thisx->speedXZ) {
                 if (thisx->bgCheckFlags & 8) {
-                    thisx->posRot.rot.y = (thisx->posRot.rot.y + thisx->bgChkInfo.wallPolyRot) - thisx->posRot.rot.y;
+                    thisx->posRot.rot.y = (thisx->posRot.rot.y + thisx->wallPolyRot) - thisx->posRot.rot.y;
                     Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     thisx->speedXZ *= 0.7f;

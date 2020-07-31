@@ -70,35 +70,35 @@ void func_80AF03F4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF0400(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx);
 
-ColliderCylinderInit_Set3 sCylinderInit1 = {
+static ColliderCylinderInit_Set3 sCylinderInit1 = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0 } },
 };
 
-ColliderCylinderInit_Set3 sCylinderInit2 = {
+static ColliderCylinderInit_Set3 sCylinderInit2 = {
     { COLTYPE_UNK0, 0x09, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
     { 20, 30, 0, { 0 } },
 };
 
-UNK_PTR D_80AF0858[] = {
+static UNK_PTR D_80AF0858[] = {
     0x0600E3B8, 0x0600F238, 0x0600F638, 0x0600FE38, 0x06010238, 0x06010A38,
 };
 
-UNK_PTR D_80AF0870[] = {
+static UNK_PTR D_80AF0870[] = {
     0x0600E838,
     0x0600FA38,
     0x06010638,
 };
 
-s32 sUnused = 0;
+static s32 sUnused = 0;
 
 #include "z_en_ru1_cutscene_data.c" EARLY
 
-u32 D_80AF1938 = 0;
+static u32 D_80AF1938 = 0;
 
-EnRu1ActionFunc sActionFuncs[] = {
+static EnRu1ActionFunc sActionFuncs[] = {
     func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
     func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
     func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
@@ -108,13 +108,13 @@ EnRu1ActionFunc sActionFuncs[] = {
     func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
+static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
     func_80AF0278,
 };
 
-Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
+static Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
 
-EnRu1DrawFunc sDrawFuncs[] = {
+static EnRu1DrawFunc sDrawFuncs[] = {
     func_80AF03F4,
     func_80AF0400,
     func_80AF05D4,
@@ -444,7 +444,7 @@ void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     Actor* thisx = &this->actor;
 
     sp24.x = thisx->posRot.pos.x;
-    sp24.y = thisx->posRot.pos.y + thisx->bgChkInfo.waterY;
+    sp24.y = thisx->posRot.pos.y + thisx->waterY;
     sp24.z = thisx->posRot.pos.z;
     func_80029444(globalCtx, &sp24, 100, arg2, arg3);
 }
@@ -471,7 +471,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->posRot.pos.x;
-    pos.y = thisx->posRot.pos.y + thisx->bgChkInfo.waterY;
+    pos.y = thisx->posRot.pos.y + thisx->waterY;
     pos.z = thisx->posRot.pos.z;
 
     func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
@@ -1258,7 +1258,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return 0;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (thisx->bgChkInfo.waterY > kREG(16) + 50.0f) && (this->action != 33)) {
+               (thisx->waterY > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->unk_2A8 = 0xFF;
@@ -1347,7 +1347,7 @@ void func_80AED8DC(EnRu1* this) {
 
 void func_80AEDAE0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, thisx->bgChkInfo.floorPolySource);
+    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, thisx->floorPolySource);
 
     if ((dyna == NULL) || (dyna->actor.id == ACTOR_EN_BOX)) {
         thisx->bgCheckFlags &= ~0x19;
@@ -1367,7 +1367,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) {
         velocityY = &this->actor.velocity.y;
-        temp_dyna = func_8003EB84(&globalCtx->colCtx, this->actor.bgChkInfo.floorPolySource);
+        temp_dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speedXZ;
             if (temp_dyna != NULL) {
@@ -1418,7 +1418,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
         speedXZ = &this->actor.speedXZ;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.posRot.rot.y;
-            wallPolyRot = this->actor.bgChkInfo.wallPolyRot;
+            wallPolyRot = this->actor.wallPolyRot;
             temp_a0 = (wallPolyRot * 2) - rotY;
             temp_a1_2 = temp_a0 + 0x8000;
             if ((s16)((temp_a0 - wallPolyRot) + 0x8000) >= 0) {
@@ -1442,7 +1442,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEDEF4(EnRu1* this, GlobalContext* globalCtx) {
     f32* speedXZ = &this->actor.speedXZ;
-    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, this->actor.bgChkInfo.floorPolySource);
+    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
 
     if ((dyna != NULL) && (dyna->actor.id == ACTOR_EN_BOX)) {
         if (*speedXZ != 0.0f) {
@@ -1487,7 +1487,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.bgChkInfo.waterY - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.waterY - 10.0f) * 0.5f;
             this->unk_354 = this->actor.posRot.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1551,8 +1551,8 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dyna;
     u32 floorPolySource;
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.bgChkInfo.floorPolySource != BGCHECK_SCENE)) {
-        floorPolySource = this->actor.bgChkInfo.floorPolySource;
+    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != BGCHECK_SCENE)) {
+        floorPolySource = this->actor.floorPolySource;
         dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, floorPolySource);
         if ((dyna != NULL) && (dyna->actor.id == ACTOR_BG_BDAN_SWITCH)) {
             if ((((dyna->actor.params) >> 8) & 0x3F) == 0x38) {
@@ -1570,10 +1570,10 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaActor;
     s32 floorPolySource;
 
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.bgChkInfo.floorPolySource != BGCHECK_SCENE)) {
+    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != BGCHECK_SCENE)) {
         colCtx = &globalCtx->colCtx;
         floorPolySource =
-            this->actor.bgChkInfo.floorPolySource; // necessary match, can't move this out of this block unfortunately
+            this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
         dynaActor = func_8003EB84(colCtx, floorPolySource);
         if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (dynaActor->actor.params == 0) &&
             (!func_8008E988(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
@@ -1615,7 +1615,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
             func_8002F580(this, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
-        } else if (thisx->bgChkInfo.waterY > 0.0f) {
+        } else if (thisx->waterY > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }
@@ -2366,7 +2366,7 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
@@ -2391,7 +2391,7 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_2A8);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->unk_2A8);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,

@@ -375,7 +375,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
         if (this->actor.bgCheckFlags & 0x20) {
             this->unk_196 = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
         } else if (this->actor.bgCheckFlags & 8) {
-            this->unk_196 = this->actor.bgChkInfo.wallPolyRot;
+            this->unk_196 = this->actor.wallPolyRot;
         } else if (this->animFlagAndTimer == 0) {
             diffRotInit = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
             diffRot = diffRotInit - this->actor.yawTowardsLink;
@@ -426,7 +426,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (this->actor.bgCheckFlags & 8) {
-        temp_a1 = this->actor.bgChkInfo.wallPolyRot;
+        temp_a1 = this->actor.wallPolyRot;
     } else {
         temp_a1 = this->actor.yawTowardsLink - func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
         if (ABS(temp_a1) >= 0x4001) {

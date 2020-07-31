@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_G_Ripple_InitVars
 .word 0x00000009
-.word func_809A6960
+.word EffectSsGRipple_Init
 glabel D_809A6E88
  .word 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 

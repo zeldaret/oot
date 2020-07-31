@@ -11,6 +11,6 @@
 
 glabel Effect_Ss_Fire_Tail_InitVars
 .word 0x0000001C
-.word func_809A5740
+.word EffectSsFireTail_Init
 .word 0x00000000, 0x00000000
 

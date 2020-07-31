@@ -1,6 +1,6 @@
 .rdata
 glabel D_80A170A0
-    .asciz "\x1B[43;30m"
+    .asciz "\x1b[43;30m"
     .balign 4
 
 glabel D_80A170AC

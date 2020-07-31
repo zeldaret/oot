@@ -1,3 +1,22 @@
+.rdata
+glabel D_809A9100
+    .asciz "../z_eff_ss_ice_smoke.c"
+    .balign 4
+
+glabel D_809A9118
+    .asciz "../z_eff_ss_ice_smoke.c"
+    .balign 4
+
+glabel D_809A9130
+    .asciz "../z_eff_ss_ice_smoke.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A9148
+ .word 0x38D1B717, 0x00000000
+
+
+.text
 glabel func_809A8D18
 /* 00128 809A8D18 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0012C 809A8D1C AFBF003C */  sw      $ra, 0x003C($sp)           

@@ -171,16 +171,16 @@ void func_801109B0(GlobalContext* globalCtx) {
     interfaceCtx->unk_23C = 0;
 
     R_ITEM_BTN_X(0) = 160;
-    R_B_BTN_COLOR(0) = 0xFF;
-    R_B_BTN_COLOR(1) = 0x1E;
-    R_B_BTN_COLOR(2) = 0x1E;
+    R_B_BTN_COLOR(0) = 255;
+    R_B_BTN_COLOR(1) = 30;
+    R_B_BTN_COLOR(2) = 30;
     R_ITEM_ICON_X(0) = 160;
     R_ITEM_AMMO_X(0) = 162;
     R_A_BTN_X = 186;
     R_A_ICON_X = 186;
-    R_A_BTN_COLOR(0) = 0x00;
-    R_A_BTN_COLOR(1) = 0xC8;
-    R_A_BTN_COLOR(2) = 0x32;
+    R_A_BTN_COLOR(0) = 0;
+    R_A_BTN_COLOR(1) = 200;
+    R_A_BTN_COLOR(2) = 50;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_construct/func_801109B0.s")
@@ -290,7 +290,7 @@ void func_80111070(void) {
     YREG(94) = 3;
     YREG(95) = 1;
     R_MAGIC_FILL_COLOR(0) = 0;
-    R_MAGIC_FILL_COLOR(1) = 0xC8;
+    R_MAGIC_FILL_COLOR(1) = 200;
     R_MAGIC_FILL_COLOR(2) = 0;
     ZREG(9) = 0x8C;
     ZREG(10) = 0xC8;
@@ -321,8 +321,8 @@ void func_80111070(void) {
     ZREG(36) = 0;
     ZREG(37) = 0;
     ZREG(38) = 0;
-    R_C_BTN_COLOR(0) = 0xFF;
-    R_C_BTN_COLOR(1) = 0xA0;
+    R_C_BTN_COLOR(0) = 255;
+    R_C_BTN_COLOR(1) = 160;
     R_C_BTN_COLOR(2) = 0;
     ZREG(46) = 1;
     ZREG(47) = 1;
@@ -548,8 +548,8 @@ void func_80111070(void) {
         R_COMPASS_OFFSET_X = 0x6E;
         R_COMPASS_OFFSET_Y = -0x2E4;
         R_MINIMAP_COLOR(0) = 0;
-        R_MINIMAP_COLOR(1) = 0xFF;
-        R_MINIMAP_COLOR(2) = 0xFF;
+        R_MINIMAP_COLOR(1) = 255;
+        R_MINIMAP_COLOR(2) = 255;
     }
 
     VREG(21) = 0;

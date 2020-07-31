@@ -1,3 +1,16 @@
+.late_rodata
+.late_rodata_alignment 4
+glabel jtbl_80B9CCDC
+    .word L80B9B658
+    .word L80B9B658
+    .word L80B9B668
+    .word L80B9B678
+    .word L80B9B658
+    .word L80B9B658
+    .word L80B9B668
+    .word L80B9B678
+
+.text
 glabel func_80B9B62C
 /* 004AC 80B9B62C AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 004B0 80B9B630 848E001C */  lh      $t6, 0x001C($a0)           ## 0000001C

@@ -12,11 +12,11 @@ glabel D_80B7B280
     .balign 4
 
 glabel D_80B7B290
-    .asciz "\x1B[32m"
+    .asciz "\x1b[32m"
     .balign 4
 
 glabel D_80B7B298
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_80B7B2A0
@@ -28,7 +28,7 @@ glabel D_80B7B2AC
     .balign 4
 
 glabel D_80B7B2B4
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 .late_rodata
