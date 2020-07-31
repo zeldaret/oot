@@ -117,7 +117,13 @@ typedef struct Actor {
     /* 0x068 */ f32     speedXZ; // Always positive, stores how fast the actor is traveling along the XZ plane
     /* 0x06C */ f32     gravity; // Acceleration due to gravity; value is added to Y velocity every frame
     /* 0x070 */ f32     minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
-    /* 0x074 */ BgCheckInfo bgChkInfo;
+    /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon an actor is touching
+    /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
+    /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
+    /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
+    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
+    /* 0x080 */ f32     groundY; // Floor poly height?
+    /* 0x084 */ f32     waterY;
     /* 0x088 */ u16     bgCheckFlags;
     /* 0x08A */ s16     yawTowardsLink;
     /* 0x08C */ f32     xyzDistFromLinkSq;

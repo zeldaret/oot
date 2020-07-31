@@ -543,11 +543,6 @@ typedef struct {
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
-    /* 0x0000 */ StaticCollisionContext stat;
-    /* 0x0050 */ DynaCollisionContext   dyna;
-} CollisionContext; // off 0x07C0 size = 0x1464
-
-typedef struct {
     /* 0x00 */ Vec3f    pos;
     /* 0x0C */ f32      unk_0C; // radius?
     /* 0x10 */ Color_RGB8 color;
