@@ -46,3 +46,5 @@ ctx.c
 
 # Per-user configuration
 .python-version
+
+expected/
