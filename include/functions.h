@@ -1305,7 +1305,7 @@ void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest);
 void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest);
 void SkinMatrix_GetClear(MtxF** mf);
 void SkinMatrix_Copy(MtxF* src, MtxF* dest);
-s32 Skin_Matrix_Invert(MtxF* src, MtxF* dest);
+s32 SkinMatrix_Invert(MtxF* src, MtxF* dest);
 void SkinMatrix_SetScaling(MtxF* mf, f32 x, f32 y, f32 z);
 void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw);
 void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch);

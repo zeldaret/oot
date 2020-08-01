@@ -241,7 +241,7 @@ void SkinMatrix_Copy(MtxF* src, MtxF* dest) {
  */
 #ifdef NON_MATCHING
 // Saved register usage differences and probably regalloc
-s32 Skin_Matrix_Invert(MtxF* src, MtxF* dest) {
+s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     MtxF mfCopy;
     s32 i;
     s32 k;
