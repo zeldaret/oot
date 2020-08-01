@@ -44,7 +44,7 @@ glabel func_800A698C
 /* B1DBCC 800A6A2C 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* B1DBD0 800A6A30 27A60028 */   addiu $a2, $sp, 0x28
 /* B1DBD4 800A6A34 8FA50024 */  lw    $a1, 0x24($sp)
-/* B1DBD8 800A6A38 0C029CD7 */  jal   SkinMatrix_Copy
+/* B1DBD8 800A6A38 0C029CD7 */  jal   SkinMatrix_MtxFCopy
 /* B1DBDC 800A6A3C 27A40028 */   addiu $a0, $sp, 0x28
 /* B1DBE0 800A6A40 8FA80070 */  lw    $t0, 0x70($sp)
 /* B1DBE4 800A6A44 240100FF */  li    $at, 255

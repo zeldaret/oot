@@ -214,7 +214,7 @@ void SkinMatrix_Clear(MtxF* mf) {
     mf->wz = 0.0f;
 }
 
-void SkinMatrix_Copy(MtxF* src, MtxF* dest) {
+void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
     dest->xx = src->xx;
     dest->xy = src->xy;
     dest->xz = src->xz;
@@ -252,7 +252,7 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     s32 this_col;
     u32 pad;
 
-    SkinMatrix_Copy(src, &mfCopy);
+    SkinMatrix_MtxFCopy(src, &mfCopy);
     SkinMatrix_Clear(dest);
     for (this_row = 0; this_row != 4; this_row++) {
         for (this_col = this_row; (this_col < 4) && (fabsf(mfCopy.mf[this_row][this_col]) < 0.0005f); this_col++) {}
@@ -614,7 +614,7 @@ Mtx* MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
 
     if (mtx == NULL) {
         osSyncPrintf("Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n", mtx);
-        return 0;
+        return NULL;
     }
     SkinMatrix_MtxFToMtx(src, mtx);
     return mtx;
