@@ -94,7 +94,7 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     scale = this->regs[SS_G_SPK_SCALE] * 0.0025f;
 
-    SkinMatrix_SetRotateYRP(&sp11C, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetTranslation(&sp11C, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScaling(&spDC, scale, scale, 1.0f);
     SkinMatrix_MtxFMtxFMult(&sp11C, &globalCtx->mf_11DA0, &sp5C);
     SkinMatrix_MtxFMtxFMult(&sp5C, &spDC, &sp9C);

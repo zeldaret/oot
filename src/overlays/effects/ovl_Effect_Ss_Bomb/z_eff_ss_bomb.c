@@ -65,7 +65,7 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     scale = this->regs[SS_BOMB_SCALE] / 100.0f;
 
-    SkinMatrix_SetRotateYRP(&sp12C, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetTranslation(&sp12C, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScaling(&spEC, scale, scale, 1.0f);
     SkinMatrix_MtxFMtxFMult(&sp12C, &globalCtx->mf_11DA0, &sp6C);
     SkinMatrix_MtxFMtxFMult(&sp6C, &spEC, &spAC);
