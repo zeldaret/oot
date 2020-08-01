@@ -46,14 +46,14 @@ glabel func_80027F80
 /* A9F198 80027FF8 8E270008 */  lw    $a3, 8($s1)
 /* A9F19C 80027FFC 27A40120 */  addiu $a0, $sp, 0x120
 /* A9F1A0 80028000 46083002 */  mul.s $f0, $f6, $f8
-/* A9F1A4 80028004 0C029E89 */  jal   SkinMatrix_Translate
+/* A9F1A4 80028004 0C029E89 */  jal   SkinMatrix_SetTranslation
 /* A9F1A8 80028008 E7A00160 */   swc1  $f0, 0x160($sp)
 /* A9F1AC 8002800C C7A00160 */  lwc1  $f0, 0x160($sp)
 /* A9F1B0 80028010 27A400E0 */  addiu $a0, $sp, 0xe0
 /* A9F1B4 80028014 44050000 */  mfc1  $a1, $f0
 /* A9F1B8 80028018 44060000 */  mfc1  $a2, $f0
 /* A9F1BC 8002801C 44070000 */  mfc1  $a3, $f0
-/* A9F1C0 80028020 0C029DA9 */  jal   SkinMatrix_Scale
+/* A9F1C0 80028020 0C029DA9 */  jal   SkinMatrix_SetScaling
 /* A9F1C4 80028024 00000000 */   nop   
 /* A9F1C8 80028028 8FA50168 */  lw    $a1, 0x168($sp)
 /* A9F1CC 8002802C 3C010001 */  lui   $at, (0x00011DA0 >> 16) # lui $at, 1

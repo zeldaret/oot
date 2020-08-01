@@ -96,8 +96,8 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     SkinMatrix_SetRotateYRP(&sp11C, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScaling(&spDC, scale, scale, 1.0f);
-    func_800A6FA0(&sp11C, &globalCtx->mf_11DA0, &sp5C);
-    func_800A6FA0(&sp5C, &spDC, &sp9C);
+    SkinMatrix_MtxFMtxFMult(&sp11C, &globalCtx->mf_11DA0, &sp5C);
+    SkinMatrix_MtxFMtxFMult(&sp5C, &spDC, &sp9C);
 
     mtx = MtxFToNewMtx(gfxCtx, &sp9C);
 

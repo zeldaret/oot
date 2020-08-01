@@ -89,9 +89,9 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
     scale = this->regs[SS_BOMB2_SCALE] * 0.01f;
     SkinMatrix_SetRotateYRP(&sp11C, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScaling(&spDC, scale, scale, 1.0f);
-    func_800A6FA0(&sp11C, &globalCtx->mf_11DA0, &sp5C);
+    SkinMatrix_MtxFMtxFMult(&sp11C, &globalCtx->mf_11DA0, &sp5C);
 
-    func_800A6FA0(&sp5C, &spDC, &sp9C);
+    SkinMatrix_MtxFMtxFMult(&sp5C, &spDC, &sp9C);
     mtx = MtxFToNewMtx(gfxCtx, &sp9C);
 
     if (mtx != NULL) {
@@ -136,8 +136,8 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
     scale = this->regs[SS_BOMB2_SCALE] * 0.01f;
     SkinMatrix_SetRotateYRP(&sp1B4, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScaling(&sp174, scale, scale, 1.0f);
-    func_800A6FA0(&sp1B4, &globalCtx->mf_11DA0, &spF4);
-    func_800A6FA0(&spF4, &sp174, &sp134);
+    SkinMatrix_MtxFMtxFMult(&sp1B4, &globalCtx->mf_11DA0, &spF4);
+    SkinMatrix_MtxFMtxFMult(&spF4, &sp174, &sp134);
     mtx = MtxFToNewMtx(gfxCtx, &sp134);
 
     if (mtx != NULL) {

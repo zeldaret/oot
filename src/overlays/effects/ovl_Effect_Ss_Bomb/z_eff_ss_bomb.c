@@ -67,8 +67,8 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     SkinMatrix_SetRotateYRP(&sp12C, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScaling(&spEC, scale, scale, 1.0f);
-    func_800A6FA0(&sp12C, &globalCtx->mf_11DA0, &sp6C);
-    func_800A6FA0(&sp6C, &spEC, &spAC);
+    SkinMatrix_MtxFMtxFMult(&sp12C, &globalCtx->mf_11DA0, &sp6C);
+    SkinMatrix_MtxFMtxFMult(&sp6C, &spEC, &spAC);
 
     gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
