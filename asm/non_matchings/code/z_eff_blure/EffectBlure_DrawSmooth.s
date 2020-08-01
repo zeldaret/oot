@@ -109,7 +109,7 @@ glabel EffectBlure_DrawSmooth
 /* A9920C 8002206C 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* A99210 80022070 27A6005C */   addiu $a2, $sp, 0x5c
 /* A99214 80022074 02A02025 */  move  $a0, $s5
-/* A99218 80022078 0C029F9C */  jal   func_800A7E70
+/* A99218 80022078 0C029F9C */  jal   MtxFToNewMtx
 /* A9921C 8002207C 27A5005C */   addiu $a1, $sp, 0x5c
 /* A99220 80022080 50400056 */  beql  $v0, $zero, .L800221DC
 /* A99224 80022084 8FBF002C */   lw    $ra, 0x2c($sp)

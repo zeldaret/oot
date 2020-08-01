@@ -76,7 +76,7 @@ glabel func_809AA9AC
 /* 0028C 809AAA9C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00290 809AAAA0 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFE74
 /* 00294 809AAAA4 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
-/* 00298 809AAAA8 0C029F9C */  jal     func_800A7E70              
+/* 00298 809AAAA8 0C029F9C */  jal     MtxFToNewMtx              
 /* 0029C 809AAAAC AC680004 */  sw      $t0, 0x0004($v1)           ## 00000004
 /* 002A0 809AAAB0 10400044 */  beq     $v0, $zero, .L809AABC4     
 /* 002A4 809AAAB4 3C0ADA38 */  lui     $t2, 0xDA38                ## $t2 = DA380000

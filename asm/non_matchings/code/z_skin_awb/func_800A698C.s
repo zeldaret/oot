@@ -25,7 +25,7 @@ glabel func_800A698C
 /* B1DB88 800A69E8 240100FF */  li    $at, 255
 /* B1DB8C 800A69EC 14610005 */  bne   $v1, $at, .L800A6A04
 /* B1DB90 800A69F0 AFAF0070 */   sw    $t7, 0x70($sp)
-/* B1DB94 800A69F4 0C029CBF */  jal   SkinMatrix_GlobalIdentity
+/* B1DB94 800A69F4 0C029CBF */  jal   SkinMatrix_GetClear
 /* B1DB98 800A69F8 27A4006C */   addiu $a0, $sp, 0x6c
 /* B1DB9C 800A69FC 10000006 */  b     .L800A6A18
 /* B1DBA0 800A6A00 93A9008B */   lbu   $t1, 0x8b($sp)

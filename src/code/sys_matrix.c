@@ -78,7 +78,7 @@ void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
         ty = cmf->yw;
         cmf->ww += tx * x + ty * y + cmf->zw * z;
     } else {
-        SkinMatrix_Translate(cmf, x, y, z);
+        SkinMatrix_SetTranslation(cmf, x, y, z);
     }
 }
 
@@ -99,7 +99,7 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
         cmf->yw *= y;
         cmf->zw *= z;
     } else {
-        SkinMatrix_Scale(cmf, x, y, z);
+        SkinMatrix_SetScaling(cmf, x, y, z);
     }
 }
 
@@ -382,7 +382,7 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
             cmf->zw = temp2 * cos - temp1 * sin;
         }
     } else {
-        SkinMatrix_RotateRPY(cmf, x, y, z);
+        SkinMatrix_SetRotateRPY(cmf, x, y, z);
     }
 }
 

@@ -223,7 +223,8 @@ glabel func_8003EE80
 /* AB6360 8003F1C0 C6840050 */  lwc1  $f4, 0x50($s4)
 /* AB6364 8003F1C4 E7A40020 */  swc1  $f4, 0x20($sp)
 /* AB6368 8003F1C8 C6860054 */  lwc1  $f6, 0x54($s4)
-/* AB636C 8003F1CC 0C029EC1 */  jal   SkinMatrix_ScaleRotateYRPTranslate
+/* AB636C 8003F1CC 0C029EC1 */  jal   SkinMatrix_SetScaleRotateYRPTranslate
+
 /* AB6370 8003F1D0 E7A60024 */   swc1  $f6, 0x24($sp)
 /* AB6374 8003F1D4 97CB000C */  lhu   $t3, 0xc($fp)
 /* AB6378 8003F1D8 3C013F80 */  li    $at, 0x3F800000 # 0.000000

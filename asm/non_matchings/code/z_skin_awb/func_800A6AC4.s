@@ -182,7 +182,8 @@ glabel func_800A6AC4
 /* B1DF20 800A6D80 46082280 */  add.s $f10, $f4, $f8
 /* B1DF24 800A6D84 E7AA0020 */  swc1  $f10, 0x20($sp)
 /* B1DF28 800A6D88 C6A6002C */  lwc1  $f6, 0x2c($s5)
-/* B1DF2C 800A6D8C 0C029EC1 */  jal   SkinMatrix_ScaleRotateYRPTranslate
+/* B1DF2C 800A6D8C 0C029EC1 */  jal   SkinMatrix_SetScaleRotateYRPTranslate
+
 /* B1DF30 800A6D90 E7A60024 */   swc1  $f6, 0x24($sp)
 /* B1DF34 800A6D94 8E8A0000 */  lw    $t2, ($s4)
 /* B1DF38 800A6D98 02802025 */  move  $a0, $s4

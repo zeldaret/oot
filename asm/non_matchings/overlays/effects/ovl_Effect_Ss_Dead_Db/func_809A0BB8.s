@@ -51,7 +51,7 @@ glabel func_809A0BB8
 /* 001A4 809A0C44 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 001A8 809A0C48 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFF3C
 /* 001AC 809A0C4C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001B0 809A0C50 0C029F9C */  jal     func_800A7E70              
+/* 001B0 809A0C50 0C029F9C */  jal     MtxFToNewMtx              
 /* 001B4 809A0C54 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFF3C
 /* 001B8 809A0C58 1040004B */  beq     $v0, $zero, .L809A0D88     
 /* 001BC 809A0C5C 3C19DA38 */  lui     $t9, 0xDA38                ## $t9 = DA380000

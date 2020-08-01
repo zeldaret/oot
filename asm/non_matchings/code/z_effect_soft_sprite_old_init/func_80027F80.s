@@ -79,7 +79,7 @@ glabel func_80027F80
 /* A9F21C 8002807C AE0B02D0 */  sw    $t3, 0x2d0($s0)
 /* A9F220 80028080 AC640004 */  sw    $a0, 4($v1)
 /* A9F224 80028084 02002025 */  move  $a0, $s0
-/* A9F228 80028088 0C029F9C */  jal   func_800A7E70
+/* A9F228 80028088 0C029F9C */  jal   MtxFToNewMtx
 /* A9F22C 8002808C AC6C0000 */   sw    $t4, ($v1)
 /* A9F230 80028090 1040004A */  beqz  $v0, .L800281BC
 /* A9F234 80028094 3C0FDA38 */   lui   $t7, (0xDA380003 >> 16) # lui $t7, 0xda38

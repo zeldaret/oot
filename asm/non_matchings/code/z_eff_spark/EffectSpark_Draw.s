@@ -1200,7 +1200,7 @@ glabel EffectSpark_Draw
 /* A9D2D4 80026134 A614FFF8 */  sh    $s4, -8($s0)
 /* A9D2D8 80026138 A614FFFA */  sh    $s4, -6($s0)
 /* A9D2DC 8002613C A600FFF6 */  sh    $zero, -0xa($s0)
-/* A9D2E0 80026140 0C029F9C */  jal   func_800A7E70
+/* A9D2E0 80026140 0C029F9C */  jal   MtxFToNewMtx
 /* A9D2E4 80026144 A208FFFF */   sb    $t0, -1($s0)
 /* A9D2E8 80026148 10400027 */  beqz  $v0, .L800261E8
 /* A9D2EC 8002614C 00124980 */   sll   $t1, $s2, 6

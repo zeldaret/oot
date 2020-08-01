@@ -203,17 +203,17 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
                 temp3 = 1.0f;
             }
 
-            SkinMatrix_Translate(&spC4, this->position.x, this->position.y, this->position.z);
-            SkinMatrix_RotateRPY(&sp104, 0, elem->yaw, 0);
+            SkinMatrix_SetTranslation(&spC4, this->position.x, this->position.y, this->position.z);
+            SkinMatrix_SetRotateRPY(&sp104, 0, elem->yaw, 0);
             SkinMatrix_MtxFMtxFMult(&spC4, &sp104, &sp84);
-            SkinMatrix_RotateRPY(&sp104, 0, 0, elem->pitch);
+            SkinMatrix_SetRotateRPY(&sp104, 0, 0, elem->pitch);
             SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
-            SkinMatrix_Translate(&sp104, temp1, 0.0f, 0.0f);
+            SkinMatrix_SetTranslation(&sp104, temp1, 0.0f, 0.0f);
             SkinMatrix_MtxFMtxFMult(&spC4, &sp104, &sp84);
-            SkinMatrix_Scale(&sp104, temp3 * 0.02f, 0.02f, 0.02f);
+            SkinMatrix_SetScaling(&sp104, temp3 * 0.02f, 0.02f, 0.02f);
             SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
 
-            mtx = func_800A7E70(gfxCtx, &spC4);
+            mtx = MtxFToNewMtx(gfxCtx, &spC4);
             if (mtx == NULL) {
                 break;
             }

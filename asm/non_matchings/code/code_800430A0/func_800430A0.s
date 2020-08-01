@@ -53,10 +53,11 @@ glabel func_800430A0
 /* ABA2B4 80043114 E7A60020 */  swc1  $f6, 0x20($sp)
 /* ABA2B8 80043118 C4680084 */  lwc1  $f8, 0x84($v1)
 /* ABA2BC 8004311C AFA30034 */  sw    $v1, 0x34($sp)
-/* ABA2C0 80043120 0C029EC1 */  jal   SkinMatrix_ScaleRotateYRPTranslate
+/* ABA2C0 80043120 0C029EC1 */  jal   SkinMatrix_SetScaleRotateYRPTranslate
+
 /* ABA2C4 80043124 E7A80024 */   swc1  $f8, 0x24($sp)
 /* ABA2C8 80043128 27A400D0 */  addiu $a0, $sp, 0xd0
-/* ABA2CC 8004312C 0C029CF8 */  jal   func_800A73E0
+/* ABA2CC 8004312C 0C029CF8 */  jal   Skin_Matrix_Invert
 /* ABA2D0 80043130 27A50090 */   addiu $a1, $sp, 0x90
 /* ABA2D4 80043134 24010002 */  li    $at, 2
 /* ABA2D8 80043138 10410055 */  beq   $v0, $at, .L80043290
@@ -76,7 +77,8 @@ glabel func_800430A0
 /* ABA310 80043170 C47000A0 */  lwc1  $f16, 0xa0($v1)
 /* ABA314 80043174 E7B00020 */  swc1  $f16, 0x20($sp)
 /* ABA318 80043178 C47200A4 */  lwc1  $f18, 0xa4($v1)
-/* ABA31C 8004317C 0C029EC1 */  jal   SkinMatrix_ScaleRotateYRPTranslate
+/* ABA31C 8004317C 0C029EC1 */  jal   SkinMatrix_SetScaleRotateYRPTranslate
+
 /* ABA320 80043180 E7B20024 */   swc1  $f18, 0x24($sp)
 /* ABA324 80043184 8FA50118 */  lw    $a1, 0x118($sp)
 /* ABA328 80043188 27A40090 */  addiu $a0, $sp, 0x90

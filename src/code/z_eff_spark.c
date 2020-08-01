@@ -215,9 +215,9 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
             elem = &this->elements[i];
 
-            SkinMatrix_Translate(&spEC, elem->position.x, elem->position.y, elem->position.z);
+            SkinMatrix_SetTranslation(&spEC, elem->position.x, elem->position.y, elem->position.z);
             temp = ((Math_Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;
-            SkinMatrix_Scale(&spAC, temp, temp, 1.0f);
+            SkinMatrix_SetScaling(&spAC, temp, temp, 1.0f);
             SkinMatrix_MtxFMtxFMult(&spEC, &globalCtx->mf_11DA0, &sp6C);
             SkinMatrix_MtxFMtxFMult(&sp6C, &spAC, &sp12C);
 
@@ -269,7 +269,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
             if (this) {}
 
-            mtx = func_800A7E70(gfxCtx, &sp12C);
+            mtx = MtxFToNewMtx(gfxCtx, &sp12C);
             if (mtx == NULL) {
                 break;
             }
