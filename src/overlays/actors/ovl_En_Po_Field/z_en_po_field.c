@@ -111,7 +111,7 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 temp;
 
     this = THIS;
-    if (D_80AD7100 != 0xA) {
+    if (D_80AD7100 != 10) {
         D_80AD76B0[D_80AD7100].x = this->actor.posRot.pos.x;
         D_80AD76B0[D_80AD7100].y = this->actor.posRot.pos.y;
         D_80AD76B0[D_80AD7100].z = this->actor.posRot.pos.z;
@@ -771,14 +771,14 @@ void func_80AD5D60(EnPoField* this, GlobalContext* globalCtx) {
 // Regalloc, heavy reorderings around gDPSetPrimColor
 void func_80AD5E8C(EnPoField* this, GlobalContext* globalCtx) {
     u8 sp4C;
-    u8 temp_a0;
+    s32 pad;
 
     if (this->unk_19A != 0) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_po_field.c", 0x685);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, ((-globalCtx->gameplayFrames) * 0x14) & 0x1FF, 0x20, 0x80));
+        gSPSegment(gfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (globalCtx->gameplayFrames * -20) % 512, 32, 128));
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0x00, sp4C = this->unk_220 * 85000.0f);
         Matrix_Translate(this->unk_224.x, this->unk_224.y, this->unk_224.z, MTXMODE_NEW);
         Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 0.0000958738f, MTXMODE_APPLY);

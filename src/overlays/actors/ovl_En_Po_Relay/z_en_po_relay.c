@@ -148,12 +148,12 @@ void func_80AD7944(Vec3f* dest, Vec3s* in) {
 }
 
 #ifdef NON_MATCHING
-// Single Regalloc
+// sra vs srl
 void func_80AD7984(EnPoRelay* this) {
     Vec3f vec;
 
     func_80AD7944(&vec, &D_80AD8C30[this->unk_198]);
-    this->unk_196 = (u16)((u16)(this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000) >> 0xB) & 0x1F;
+    this->unk_196 = (u32)((s16)(this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000) / 0x800U) % 32;
     func_80088B34(0);
     this->unk_194 = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
@@ -217,7 +217,7 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
-    if (this->unk_196 == 0 && Math_Rand_ZeroOne() < 0.029999999329447746f) {
+    if (this->unk_196 == 0 && Math_Rand_ZeroOne() < 0.03f) {
         this->unk_196 = 0x20;
         if (this->unk_198 < 0x17) {
             rand = Math_Rand_ZeroOne() * 3.0f;
@@ -255,8 +255,7 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
         if (temp_f12_2 < 0.0f) {
             temp_f12_2 = 0.0f;
         }
-        speed += (temp_f12_2 * 0.019999999552965164f + 1.0f);
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.5f, 1.5f);
+        Math_SmoothScaleMaxF(&this->actor.speedXZ, speed + (temp_f12_2 * 0.019999999552965164f + 1.0f), 0.5f, 1.5f);
     } else {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
     }
