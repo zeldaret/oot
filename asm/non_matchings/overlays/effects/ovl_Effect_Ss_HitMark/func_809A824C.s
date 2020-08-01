@@ -1,3 +1,13 @@
+.rdata
+glabel D_809A8670
+    .asciz "../z_eff_ss_hitmark.c"
+    .balign 4
+
+glabel D_809A8688
+    .asciz "../z_eff_ss_hitmark.c"
+    .balign 4
+
+.text
 glabel func_809A824C
 /* 000FC 809A824C 27BDFEA0 */  addiu   $sp, $sp, 0xFEA0           ## $sp = FFFFFEA0
 /* 00100 809A8250 AFB10018 */  sw      $s1, 0x0018($sp)           

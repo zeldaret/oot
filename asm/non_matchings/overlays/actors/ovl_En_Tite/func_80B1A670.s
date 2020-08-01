@@ -11,7 +11,7 @@ glabel func_80B1A670
 /* 01C14 80B1A694 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 01C18 80B1A698 2406386E */  addiu   $a2, $zero, 0x386E         ## $a2 = 0000386E
 /* 01C1C 80B1A69C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
-/* 01C20 80B1A6A0 0C00AA7D */  jal     func_8002A9F4              
+/* 01C20 80B1A6A0 0C00AA7D */  jal     EffectSsDeadSound_SpawnStationary              
 /* 01C24 80B1A6A4 24A500E4 */  addiu   $a1, $a1, 0x00E4           ## $a1 = 000000E4
 /* 01C28 80B1A6A8 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 01C2C 80B1A6AC 24180005 */  addiu   $t8, $zero, 0x0005         ## $t8 = 00000005

@@ -450,7 +450,7 @@ void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDog* this = THIS;
-    Color_RGBA8 colors[] = { { 0xFF, 0xFF, 0xC8, 0x00 }, { 0x96, 0x64, 0x32, 0x00 } };
+    Color_RGBA8 colors[] = { { 255, 255, 200, 0 }, { 150, 100, 50, 0 } };
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 

@@ -487,7 +487,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* sDLists[5] = {
         0x06007610, 0x06009860, 0x06007EF0, 0x06008A20, 0x060072C0,
     };
-    static Color_RGBA8 D_8088103C = { 0 };
+    static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
     BgHakaTrap* this = THIS;
     s32 pad;
     Vec3f sp2C;

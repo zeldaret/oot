@@ -77,8 +77,8 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
         if (pauseCtx->state == 1) {
             WREG(2) = -0x1860;
             R_UPDATE_RATE = 2;
-            if (func_800B3898()) {
-                func_800B3840(0);
+            if (ShrinkWindow_GetVal()) {
+                ShrinkWindow_SetVal(0);
             }
             func_800F64E0(1);
         }

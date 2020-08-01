@@ -1,0 +1,30 @@
+glabel func_800E1A78
+/* B58C18 800E1A78 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B58C1C 800E1A7C 240100FF */  li    $at, 255
+/* B58C20 800E1A80 10810011 */  beq   $a0, $at, .L800E1AC8
+/* B58C24 800E1A84 AFBF0014 */   sw    $ra, 0x14($sp)
+/* B58C28 800E1A88 3C0E8017 */  lui   $t6, %hi(gAudioContext) # $t6, 0x8017
+/* B58C2C 800E1A8C 25CEF180 */  addiu $t6, %lo(gAudioContext) # addiu $t6, $t6, -0xe80
+/* B58C30 800E1A90 008E1821 */  addu  $v1, $a0, $t6
+/* B58C34 800E1A94 90623438 */  lbu   $v0, 0x3438($v1)
+/* B58C38 800E1A98 24060005 */  li    $a2, 5
+/* B58C3C 800E1A9C 24010002 */  li    $at, 2
+/* B58C40 800E1AA0 10C20003 */  beq   $a2, $v0, .L800E1AB0
+/* B58C44 800E1AA4 00000000 */   nop
+/* B58C48 800E1AA8 A0653438 */  sb    $a1, 0x3438($v1)
+/* B58C4C 800E1AAC 30A200FF */  andi  $v0, $a1, 0xff
+.L800E1AB0:
+/* B58C50 800E1AB0 10C20003 */  beq   $a2, $v0, .L800E1AC0
+/* B58C54 800E1AB4 00000000 */   nop
+/* B58C58 800E1AB8 54410004 */  bnel  $v0, $at, .L800E1ACC
+/* B58C5C 800E1ABC 8FBF0014 */   lw    $ra, 0x14($sp)
+.L800E1AC0:
+/* B58C60 800E1AC0 0C0383A4 */  jal   func_800E0E90
+/* B58C64 800E1AC4 00000000 */   nop
+.L800E1AC8:
+/* B58C68 800E1AC8 8FBF0014 */  lw    $ra, 0x14($sp)
+.L800E1ACC:
+/* B58C6C 800E1ACC 27BD0018 */  addiu $sp, $sp, 0x18
+/* B58C70 800E1AD0 03E00008 */  jr    $ra
+/* B58C74 800E1AD4 00000000 */   nop
+

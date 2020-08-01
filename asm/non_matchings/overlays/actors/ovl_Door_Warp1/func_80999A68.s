@@ -1,3 +1,25 @@
+.rdata
+glabel D_8099C5C8
+    # I'm here
+    .asciz "\n\n\nじかんがきたからおーしまい fade_direction=[%d]"
+    .balign 4
+
+glabel D_8099C5FC
+    # The End The End
+    .asciz "\n\n\nおわりおわり"
+    .balign 4
+
+.late_rodata
+glabel D_8099C7A4
+    .float 0.1
+
+glabel D_8099C7A8
+    .float 0.01
+
+glabel D_8099C7AC
+    .float 0.1
+
+.text
 glabel func_80999A68
 /* 012E8 80999A68 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 012EC 80999A6C AFBF0034 */  sw      $ra, 0x0034($sp)           

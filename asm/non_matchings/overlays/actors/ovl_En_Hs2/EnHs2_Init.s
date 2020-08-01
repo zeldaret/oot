@@ -1,6 +1,6 @@
 .rdata
 glabel D_80A6F4E0
-    .asciz "[36m ヒヨコの店(子人の時) \n[m"
+    .asciz "\x1b[36m ヒヨコの店(子人の時) \n\x1b[m"
     .balign 4
 
 .text

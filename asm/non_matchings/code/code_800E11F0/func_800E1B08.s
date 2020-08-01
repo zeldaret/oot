@@ -1,0 +1,29 @@
+glabel func_800E1B08
+/* B58CA8 800E1B08 AFA60008 */  sw    $a2, 8($sp)
+/* B58CAC 800E1B0C 84830000 */  lh    $v1, ($a0)
+/* B58CB0 800E1B10 A4860002 */  sh    $a2, 2($a0)
+/* B58CB4 800E1B14 AC850004 */  sw    $a1, 4($a0)
+/* B58CB8 800E1B18 18600011 */  blez  $v1, .L800E1B60
+/* B58CBC 800E1B1C 00001025 */   move  $v0, $zero
+/* B58CC0 800E1B20 00803025 */  move  $a2, $a0
+/* B58CC4 800E1B24 24070002 */  li    $a3, 2
+.L800E1B28:
+/* B58CC8 800E1B28 8CCE0014 */  lw    $t6, 0x14($a2)
+/* B58CCC 800E1B2C 24420001 */  addiu $v0, $v0, 1
+/* B58CD0 800E1B30 51C00009 */  beql  $t6, $zero, .L800E1B58
+/* B58CD4 800E1B34 0043082A */   slt   $at, $v0, $v1
+/* B58CD8 800E1B38 80CF0018 */  lb    $t7, 0x18($a2)
+/* B58CDC 800E1B3C 54EF0006 */  bnel  $a3, $t7, .L800E1B58
+/* B58CE0 800E1B40 0043082A */   slt   $at, $v0, $v1
+/* B58CE4 800E1B44 8CD80010 */  lw    $t8, 0x10($a2)
+/* B58CE8 800E1B48 0305C821 */  addu  $t9, $t8, $a1
+/* B58CEC 800E1B4C ACD90010 */  sw    $t9, 0x10($a2)
+/* B58CF0 800E1B50 84830000 */  lh    $v1, ($a0)
+/* B58CF4 800E1B54 0043082A */  slt   $at, $v0, $v1
+.L800E1B58:
+/* B58CF8 800E1B58 1420FFF3 */  bnez  $at, .L800E1B28
+/* B58CFC 800E1B5C 24C60010 */   addiu $a2, $a2, 0x10
+.L800E1B60:
+/* B58D00 800E1B60 03E00008 */  jr    $ra
+/* B58D04 800E1B64 00000000 */   nop
+

@@ -19,7 +19,7 @@ typedef struct EnRu2 {
     /* 0x02A8 */ s32 action;
     /* 0x02AC */ s32 drawConfig;
     /* 0x02B0 */ f32 unk_2B0;
-    /* 0x02B4 */ u32 unk_2B4;
+    /* 0x02B4 */ u32 alpha;
     /* 0x02B8 */ s32 unk_2B8;
     /* 0x02BC */ s32 unk_2BC;
     /* 0x02C0 */ u16 unk_2C0;
