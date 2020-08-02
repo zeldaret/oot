@@ -17,7 +17,7 @@ glabel D_80140844
     .float 0.0005
 
 .text
-glabel Skin_Matrix_Invert
+glabel SkinMatrix_Invert
 /* B1E580 800A73E0 27BDFF48 */  addiu $sp, $sp, -0xb8
 /* B1E584 800A73E4 AFB40028 */  sw    $s4, 0x28($sp)
 /* B1E588 800A73E8 AFB30024 */  sw    $s3, 0x24($sp)

@@ -57,7 +57,7 @@ glabel func_800430A0
 
 /* ABA2C4 80043124 E7A80024 */   swc1  $f8, 0x24($sp)
 /* ABA2C8 80043128 27A400D0 */  addiu $a0, $sp, 0xd0
-/* ABA2CC 8004312C 0C029CF8 */  jal   Skin_Matrix_Invert
+/* ABA2CC 8004312C 0C029CF8 */  jal   SkinMatrix_Invert
 /* ABA2D0 80043130 27A50090 */   addiu $a1, $sp, 0x90
 /* ABA2D4 80043134 24010002 */  li    $at, 2
 /* ABA2D8 80043138 10410055 */  beq   $v0, $at, .L80043290
