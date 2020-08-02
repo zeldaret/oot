@@ -716,7 +716,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 
     EffectBlure_SetupSmooth(this, gfxCtx);
     SkinMatrix_SetTranslation(&spDC, this->elements[0].p2.x, this->elements[0].p2.y, this->elements[0].p2.z);
-    SkinMatrix_SetScaling(&sp9C, 0.1f, 0.1f, 0.1f);
+    SkinMatrix_SetScale(&sp9C, 0.1f, 0.1f, 0.1f);
     SkinMatrix_MtxFMtxFMult(&spDC, &sp9C, &sp5C);
 
     mtx = MtxFToNewMtx(gfxCtx, &sp5C);

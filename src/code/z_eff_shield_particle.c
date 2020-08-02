@@ -210,7 +210,7 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
             SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
             SkinMatrix_SetTranslation(&sp104, temp1, 0.0f, 0.0f);
             SkinMatrix_MtxFMtxFMult(&spC4, &sp104, &sp84);
-            SkinMatrix_SetScaling(&sp104, temp3 * 0.02f, 0.02f, 0.02f);
+            SkinMatrix_SetScale(&sp104, temp3 * 0.02f, 0.02f, 0.02f);
             SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
 
             mtx = MtxFToNewMtx(gfxCtx, &spC4);

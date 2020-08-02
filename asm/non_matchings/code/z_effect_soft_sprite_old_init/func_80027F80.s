@@ -53,7 +53,7 @@ glabel func_80027F80
 /* A9F1B4 80028014 44050000 */  mfc1  $a1, $f0
 /* A9F1B8 80028018 44060000 */  mfc1  $a2, $f0
 /* A9F1BC 8002801C 44070000 */  mfc1  $a3, $f0
-/* A9F1C0 80028020 0C029DA9 */  jal   SkinMatrix_SetScaling
+/* A9F1C0 80028020 0C029DA9 */  jal   SkinMatrix_SetScale
 /* A9F1C4 80028024 00000000 */   nop   
 /* A9F1C8 80028028 8FA50168 */  lw    $a1, 0x168($sp)
 /* A9F1CC 8002802C 3C010001 */  lui   $at, (0x00011DA0 >> 16) # lui $at, 1

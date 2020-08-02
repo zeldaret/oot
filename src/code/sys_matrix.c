@@ -99,7 +99,7 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
         cmf->yw *= y;
         cmf->zw *= z;
     } else {
-        SkinMatrix_SetScaling(cmf, x, y, z);
+        SkinMatrix_SetScale(cmf, x, y, z);
     }
 }
 

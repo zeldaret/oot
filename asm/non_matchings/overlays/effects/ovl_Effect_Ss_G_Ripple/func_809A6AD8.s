@@ -63,7 +63,7 @@ glabel func_809A6AD8
 /* 00230 809A6B90 44051000 */  mfc1    $a1, $f2                   
 /* 00234 809A6B94 44061000 */  mfc1    $a2, $f2                   
 /* 00238 809A6B98 44071000 */  mfc1    $a3, $f2                   
-/* 0023C 809A6B9C 0C029DA9 */  jal     SkinMatrix_SetScaling              
+/* 0023C 809A6B9C 0C029DA9 */  jal     SkinMatrix_SetScale              
 /* 00240 809A6BA0 00000000 */  nop
 /* 00244 809A6BA4 27A400DC */  addiu   $a0, $sp, 0x00DC           ## $a0 = FFFFFFB4
 /* 00248 809A6BA8 27A5009C */  addiu   $a1, $sp, 0x009C           ## $a1 = FFFFFF74

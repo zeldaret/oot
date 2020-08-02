@@ -61,7 +61,7 @@ glabel func_809AB078
 /* 0022C 809AB11C 460A1002 */  mul.s   $f0, $f2, $f10             
 /* 00230 809AB120 44050000 */  mfc1    $a1, $f0                   
 /* 00234 809AB124 44070000 */  mfc1    $a3, $f0                   
-/* 00238 809AB128 0C029DA9 */  jal     SkinMatrix_SetScaling              
+/* 00238 809AB128 0C029DA9 */  jal     SkinMatrix_SetScale              
 /* 0023C 809AB12C 00000000 */  nop
 /* 00240 809AB130 C610002C */  lwc1    $f16, 0x002C($s0)          ## 0000002C
 /* 00244 809AB134 C6040030 */  lwc1    $f4, 0x0030($s0)           ## 00000030

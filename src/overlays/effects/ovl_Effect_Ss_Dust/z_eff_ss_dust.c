@@ -97,7 +97,7 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     scale = this->regs[SS_DUST_SCALE] * 0.0025f;
 
     SkinMatrix_SetTranslation(&sp144, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetScaling(&sp104, scale, scale, 1.0f);
+    SkinMatrix_SetScale(&sp104, scale, scale, 1.0f);
     SkinMatrix_MtxFMtxFMult(&sp144, &globalCtx->mf_11DA0, &sp84);
     SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
 

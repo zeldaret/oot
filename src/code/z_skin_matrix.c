@@ -312,7 +312,7 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
 /**
  * Produces a matrix which scales x,y,z components of vectors or x,y,z rows of matrices (when applied on LHS)
  */
-void SkinMatrix_SetScaling(MtxF* mf, f32 x, f32 y, f32 z) {
+void SkinMatrix_SetScale(MtxF* mf, f32 x, f32 y, f32 z) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
     mf->xw = 0.0f;
@@ -496,7 +496,7 @@ void SkinMatrix_SetScaleRotateRPYTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32
     SkinMatrix_SetTranslation(mf, dx, dy, dz);
     SkinMatrix_SetRotateRPY(&mft1, roll, pitch, yaw);
     SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
-    SkinMatrix_SetScaling(&mft1, scaleX, scaleY, scaleZ);
+    SkinMatrix_SetScale(&mft1, scaleX, scaleY, scaleZ);
     SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
 }
 
@@ -511,7 +511,7 @@ void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32
     SkinMatrix_SetTranslation(mf, dx, dy, dz);
     SkinMatrix_SetRotateYRP(&mft1, yaw, roll, pitch);
     SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
-    SkinMatrix_SetScaling(&mft1, scaleX, scaleY, scaleZ);
+    SkinMatrix_SetScale(&mft1, scaleX, scaleY, scaleZ);
     SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
 }
 

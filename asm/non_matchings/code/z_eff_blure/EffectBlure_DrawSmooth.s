@@ -102,7 +102,7 @@ glabel EffectBlure_DrawSmooth
 /* A991F0 80022050 44050000 */  mfc1  $a1, $f0
 /* A991F4 80022054 44060000 */  mfc1  $a2, $f0
 /* A991F8 80022058 44070000 */  mfc1  $a3, $f0
-/* A991FC 8002205C 0C029DA9 */  jal   SkinMatrix_SetScaling
+/* A991FC 8002205C 0C029DA9 */  jal   SkinMatrix_SetScale
 /* A99200 80022060 00000000 */   nop   
 /* A99204 80022064 02002025 */  move  $a0, $s0
 /* A99208 80022068 02202825 */  move  $a1, $s1

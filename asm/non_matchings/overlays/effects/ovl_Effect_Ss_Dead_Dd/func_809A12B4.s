@@ -44,7 +44,7 @@ glabel func_809A12B4
 /* 000344 809A1324 44050000 */  mfc1  $a1, $f0
 /* 000348 809A1328 44060000 */  mfc1  $a2, $f0
 /* 00034C 809A132C 44070000 */  mfc1  $a3, $f0
-/* 000350 809A1330 0C029DA9 */  jal   SkinMatrix_SetScaling
+/* 000350 809A1330 0C029DA9 */  jal   SkinMatrix_SetScale
 /* 000354 809A1334 00000000 */   nop   
 /* 000358 809A1338 27A400DC */  addiu $a0, $sp, 0xdc
 /* 00035C 809A133C 27A5009C */  addiu $a1, $sp, 0x9c
