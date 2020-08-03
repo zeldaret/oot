@@ -101,6 +101,7 @@ void BgIngate_DoNothing(BgIngate* this, GlobalContext* globalCtx) {}
 
 void BgIngate_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgIngate* this = THIS;
+    
     this->actionFunc(this, globalCtx);
 }
 
