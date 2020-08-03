@@ -8,6 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
+#include "overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
@@ -389,7 +390,6 @@ void EffectSsGRipple_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 radius, s16
     EffectSs_Spawn(globalCtx, EFFECT_SS_G_RIPPLE, 128, &initParams);
 }
 
-
 // EffectSsGSplash Spawn Functions
 
 void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor,
@@ -421,7 +421,19 @@ void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* 
 
 // EffectSsLightning Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800295A0.s")
+void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
+                   s16 unk_16, s16 life, s16 unk_1A) {
+    EffectSsLightningInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Color_RGBA8_Copy(&initParams.primColor, primColor);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    initParams.scale = scale;
+    initParams.unk_16 = unk_16;
+    initParams.life = life;
+    initParams.unk_1A = unk_1A;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_LIGHTNING, 128, &initParams);
+}
 
 // EffectSsDtBubble Spawn Functions
 
