@@ -12,6 +12,7 @@ venv/
 
 # Project-specific ignores
 build/
+expected/
 notes/
 baserom/
 docs/doxygen/
@@ -46,5 +47,3 @@ ctx.c
 
 # Per-user configuration
 .python-version
-
-expected/
