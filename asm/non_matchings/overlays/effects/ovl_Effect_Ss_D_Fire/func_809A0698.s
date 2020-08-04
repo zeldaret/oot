@@ -1,3 +1,13 @@
+.rdata
+glabel D_809A0A10
+    .asciz "../z_eff_ss_d_fire.c"
+    .balign 4
+
+glabel D_809A0A28
+    .asciz "../z_eff_ss_d_fire.c"
+    .balign 4
+
+.text
 glabel func_809A0698
 /* 00148 809A0698 27BDFE98 */  addiu   $sp, $sp, 0xFE98           ## $sp = FFFFFE98
 /* 0014C 809A069C AFBF001C */  sw      $ra, 0x001C($sp)           

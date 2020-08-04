@@ -4,17 +4,17 @@ glabel D_809F16B0
     .balign 4
 
 glabel D_809F16B4
-    .asciz "\x1B[32m☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n\x1B[m"
+    .asciz "\x1b[32m☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 .balign 4
 
 glabel D_809F16F0
-    .asciz "\x1B[32m☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n\x1B[m"
+    .asciz "\x1b[32m☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n\x1b[m"
     .balign 4
 
 glabel D_809F171C
-    .asciz "\x1B[32m☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n\x1B[m"
+    .asciz "\x1b[32m☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n\x1b[m"
     .balign 4
 
 .late_rodata

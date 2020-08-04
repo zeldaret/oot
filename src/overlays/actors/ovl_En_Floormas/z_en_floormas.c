@@ -13,7 +13,6 @@
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10
 
-// Merge params
 #define MERGE_MASTER 0x40
 #define MERGE_SLAVE 0x20
 
@@ -77,38 +76,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, 0xFC18, ICHAIN_STOP),
 };
 
-static Vec3f D_80A1A4D0 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
-
-static Vec3f D_80A1A4DC = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
-
-static Vec3f sDustPos = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
-
-static Color_RGBA8 sMergeColor = {
-    0,
-    255,
-    0,
-    0,
-};
-
-// display lists
 extern Gfx D_06008688[];
 
-// skeleton
 extern SkeletonHeader D_06008FB0;
 
-// animations
 extern AnimationHeader D_06009DB0;
 extern AnimationHeader D_060039B0;
 extern AnimationHeader D_06000EA4;
@@ -314,6 +285,8 @@ void EnFloormas_SetupSmDecideAction(EnFloormas* this) {
 }
 
 void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
+    static Vec3f D_80A1A4D0 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_80A1A4DC = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
     this->actor.speedXZ = 0.0f;
@@ -558,25 +531,24 @@ void EnFloormas_Hover(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_Slide(EnFloormas* this, GlobalContext* globalCtx) {
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
-    Vec3f pos2;
+    Vec3f velocity;
 
     pos.x = this->actor.posRot.pos.x;
     pos.z = this->actor.posRot.pos.z;
     pos.y = this->actor.groundY;
 
-    pos2.y = 2.0f;
-    pos2.x = Math_Sins(this->actor.shape.rot.y + 0x6000) * 7.0f;
-    pos2.z = Math_Coss(this->actor.shape.rot.y + 0x6000) * 7.0f;
+    velocity.y = 2.0f;
+    velocity.x = Math_Sins(this->actor.shape.rot.y + 0x6000) * 7.0f;
+    velocity.z = Math_Coss(this->actor.shape.rot.y + 0x6000) * 7.0f;
 
-    // create dust particle
-    func_800286CC(globalCtx, &pos, &pos2, &sDustPos, 0x1C2, 0x64);
+    func_800286CC(globalCtx, &pos, &velocity, &accel, 450, 100);
 
-    pos2.x = Math_Sins(this->actor.shape.rot.y - 0x6000) * 7.0f;
-    pos2.z = Math_Coss(this->actor.shape.rot.y - 0x6000) * 7.0f;
+    velocity.x = Math_Sins(this->actor.shape.rot.y - 0x6000) * 7.0f;
+    velocity.z = Math_Coss(this->actor.shape.rot.y - 0x6000) * 7.0f;
 
-    // create dust particle
-    func_800286CC(globalCtx, &pos, &pos2, &sDustPos, 0x1C2, 0x64);
+    func_800286CC(globalCtx, &pos, &velocity, &accel, 450, 100);
 
     func_8002F974(this, NA_SE_EN_FLOORMASTER_SLIDING);
 }
@@ -1098,6 +1070,8 @@ void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         Matrix_Pull();
     }
 }
+
+static Color_RGBA8 sMergeColor = { 0x00, 0xFF, 0x00, 0x00 };
 
 void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;

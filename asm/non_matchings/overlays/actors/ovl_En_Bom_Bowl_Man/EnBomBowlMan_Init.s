@@ -1,10 +1,10 @@
 .rdata
 glabel D_809C4AC0
-    .asciz "[32m☆ もー 肩こっちゃうよねぇ〜 		 ☆ \n[m"
+    .asciz "\x1b[32m☆ もー 肩こっちゃうよねぇ〜 		 ☆ \n\x1b[m"
     .balign 4
 
 glabel D_809C4AF0
-    .asciz "[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n[m"
+    .asciz "\x1b[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n\x1b[m"
     .balign 4
 
 .late_rodata

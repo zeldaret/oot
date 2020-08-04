@@ -1,3 +1,17 @@
+.rdata
+glabel D_809A0F50
+    .asciz "../z_eff_ss_dead_db.c"
+    .balign 4
+
+glabel D_809A0F68
+    .asciz "../z_eff_ss_dead_db.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A0F80
+    .float 0.01
+
+.text
 glabel func_809A0BB8
 /* 00118 809A0BB8 27BDFEE8 */  addiu   $sp, $sp, 0xFEE8           ## $sp = FFFFFEE8
 /* 0011C 809A0BBC AFB00014 */  sw      $s0, 0x0014($sp)           

@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_808F7FF4
+    .float 3.14159274101
+
+glabel D_808F7FF8
+    .float 1.5707964
+
+glabel D_808F7FFC
+    .float 1.5707964
+
+.text
 glabel func_808DBF30
 /* 056C0 808DBF30 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 056C4 808DBF34 AFB00018 */  sw      $s0, 0x0018($sp)           

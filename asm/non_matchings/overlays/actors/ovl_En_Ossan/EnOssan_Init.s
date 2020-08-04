@@ -84,7 +84,7 @@ glabel D_80AC9014
     .balign 4
 
 glabel D_80AC9024
-    .asciz "[41;37m"
+    .asciz "\x1b[41;37m"
     .balign 4
 
 glabel D_80AC9030
