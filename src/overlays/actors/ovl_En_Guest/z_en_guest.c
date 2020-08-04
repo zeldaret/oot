@@ -78,7 +78,7 @@ void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    u32 pad;
+    s32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
         this->actor.flags &= ~0x10;
@@ -147,7 +147,7 @@ void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
 
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    u32 pad;
+    s32 pad;
     Player* player;
 
     player = PLAYER;
