@@ -9,6 +9,11 @@ void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Update(Actor *thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Draw(Actor *thisx, GlobalContext* globalCtx);
 
+void func_80896918(BgJyaCobra* this, GlobalContext *globalCtx);
+void func_80896950(BgJyaCobra* this, GlobalContext *globalCtx);
+void func_808969F8(BgJyaCobra *this, GlobalContext *globalCtx);
+void func_80896ABC(BgJyaCobra *this, GlobalContext *globalCtx);
+
 extern Gfx D_06010790;
 extern UNK_TYPE D_06010C20;
 extern UNK_TYPE D_0601167C;
@@ -84,10 +89,13 @@ void func_80895A70(BgJyaCobra* this);
 //     return sp3C;
 // }
 
+s32 func_80895C74(BgJyaCobra* this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
 
+void func_80895EF0(BgJyaCobra* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895EF0.s")
 
+void func_80896518(BgJyaCobra* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
 
 void BgJyaCobra_Init(Actor *thisx, GlobalContext *globalCtx) {
@@ -128,9 +136,30 @@ void BgJyaCobra_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896918.s")
+void func_80896918(BgJyaCobra *this, GlobalContext *globalCtx) {
+    this->actionFunc = &func_80896950;
+    this->unk_168 = 0;
+    this->dyna.actor.posRot.rot.y = (((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) << 0x10) >> 0x10;
+    this->dyna.actor.shape.rot.y = (((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) << 0x10) >> 0x10;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896950.s")
+void func_80896950(BgJyaCobra *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    
+    if (0.001f < this->dyna.unk_150) {
+        this->unk_168 += 1;
+        if (this->unk_168 >= 15) {
+            func_808969F8(this, globalCtx);
+        }
+    } else {
+        this->unk_168 = 0;
+    }
+    
+    if (0.001f < fabsf(this->dyna.unk_150)) {
+        this->dyna.unk_150 = 0.0f;
+        player->stateFlags2 &= ~0x10;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_808969F8.s")
 

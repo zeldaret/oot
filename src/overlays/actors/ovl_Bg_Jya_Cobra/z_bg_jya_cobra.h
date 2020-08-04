@@ -11,13 +11,17 @@ typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, GlobalContext*);
 typedef struct BgJyaCobra {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgJyaCobraActionFunc actionFunc;
-    /* 0x0168 */ char unk_168[0x0008];
+    /* 0x0168 */ s16 unk_168;
+    /* 0x016A */ s16 unk_16A;
+    /* 0x016C */ s16 unk_16C;
+    /* 0x016E */ s16 unk_16E;
     /* 0x0170 */ s16 unk_170;
-    /* 0x0172 */ char unk_172[0x0002];
+    /* 0x0172 */ s8 unk_172;
     /* 0x0174 */ Vec3f unk_174;
-    /* 0x0180 */ char unk_180[0x000C];
+    /* 0x0180 */ Vec3f unk_180;
     /* 0x018C */ f32 unk_18C;
-    /* 0x0190 */ char unk_190[0x1014];
+    /* 0x0190 */ f32 unk_190;
+    /* 0x0194 */ char unk_194[0x1010];
 } BgJyaCobra; // size = 0x11A4
 
 extern const ActorInit Bg_Jya_Cobra_InitVars;
