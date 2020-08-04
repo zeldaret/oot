@@ -36,7 +36,6 @@ InitChainEntry D_808ABDB0[] = {
 
 extern Gfx D_060007D0[];
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Init.s")
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idomizu* this = THIS;
     Actor_ProcessInitChain(&this->actor, D_808ABDB0);
@@ -49,11 +48,9 @@ void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->unk_150;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Destroy.s")
 void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/func_808ABB84.s")
 void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[6] & 0x80) != 0) {
         this->unk_150 = -550.0f;
@@ -66,13 +63,11 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->unk_150, 1.0f, 2.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Update.s")
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idomizu* this = THIS;
     this->actionFunc(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Draw.s")
 void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 framesTemp;
