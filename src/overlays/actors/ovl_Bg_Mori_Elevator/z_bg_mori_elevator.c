@@ -10,16 +10,16 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
 
 f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4);
 void func_808A18FC(BgMoriElevator* this, f32 arg1);
-void func_808A1B60(BgMoriElevator* this);
+void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this);
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx);
-void func_808A1E04(BgMoriElevator* this);
+void BgMoriElevator_SetupSetPosition(BgMoriElevator* this);
 void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_StopMovement(BgMoriElevator* this);
 void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx);
-void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx);
+void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, GlobalContext* globalCtx);
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx);
-void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx);
+void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalCtx);
 
 static s16 sIsSpawned = false;
 
@@ -87,9 +87,10 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     f32 temp_f2;
     f32 temp1;
 
-    // clang-format off
+
     temp_f2 = fabsf(distTo) * 0.09f; 
     if (temp_f2 < 0.0f) {
+    // clang-format off
         phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2);phi_f12 = temp1;} func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12);
     // clang-format on
 }
@@ -117,7 +118,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
                 DynaPolyInfo_Alloc(&D_060035F8, &sp24);
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
-                func_808A1B60(this);
+                BgMoriElevator_SetupPlaceInGround(this);
                 break;
             case true:
                 Actor_Kill(thisx);
@@ -142,7 +143,7 @@ s32 BgMoriElevator_IsLinkRiding(BgMoriElevator* this, GlobalContext* globalCtx) 
             ((PLAYER->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y) < 80.0f));
 }
 
-void func_808A1B60(BgMoriElevator* this) {
+void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this) {
     this->actionFunc = BgMoriElevator_PlaceInGround;
 }
 
@@ -151,29 +152,29 @@ void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx
         if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             if (globalCtx->roomCtx.curRoom.num == 2) {
                 this->dyna.actor.posRot.pos.y = 73.0f;
-                func_808A1E04(this);
+                BgMoriElevator_SetupSetPosition(this);
             } else {
                 // Error: Forest Temple obj elevator Room setting is dangerous
                 osSyncPrintf("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 371);
             }
         } else {
-            func_808A1E04(this);
+            BgMoriElevator_SetupSetPosition(this);
         }
         this->dyna.actor.draw = BgMoriElevator_Draw;
     }
 }
 
 void func_808A1C30(BgMoriElevator* this) {
-    this->actionFunc = func_808A1C40;
+    this->actionFunc = BgMoriElevator_MoveIntoGround;
 }
 
-void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx) {
+void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, GlobalContext* globalCtx) {
     f32 distToTarget;
 
     func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
     distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 73.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
-        func_808A1E04(this);
+        BgMoriElevator_SetupSetPosition(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_808A18FC(this, distToTarget);
@@ -181,25 +182,25 @@ void func_808A1C40(BgMoriElevator* this, GlobalContext* globalCtx) {
 }
 
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx) {
-    this->actionFunc = func_808A1D50;
+    this->actionFunc = BgMoriElevator_MoveAboveGround;
     func_800800F8(globalCtx, 0xC9E, 0x46, &this->dyna.actor, 0);
     func_800800F8(globalCtx, 0x3FC, 0xF, &this->dyna.actor, 0);
 }
 
-void func_808A1D50(BgMoriElevator* this, GlobalContext* globalCtx) {
+void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalCtx) {
     f32 distToTarget;
 
     func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
     distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 233.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
-        func_808A1E04(this);
+        BgMoriElevator_SetupSetPosition(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_808A18FC(this, distToTarget);
     }
 }
 
-void func_808A1E04(BgMoriElevator* this) {
+void BgMoriElevator_SetupSetPosition(BgMoriElevator* this) {
     this->actionFunc = BgMoriElevator_SetPosition;
 }
 
@@ -246,7 +247,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
     func_808A1800(&this->dyna.actor.velocity.y, 12.0f, 0.1f, 1.0f, 0.0f);
     distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetYPos, 0.1f, this->dyna.actor.velocity.y, 0.3f);
     if (fabsf(distTo) < 0.001f) {
-        func_808A1E04(this);
+        BgMoriElevator_SetupSetPosition(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
 
     } else {
