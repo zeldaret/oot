@@ -1906,8 +1906,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_KiraKira"
     include "build/src/overlays/effects/ovl_Effect_Ss_KiraKira/z_eff_ss_kirakira.o"
-    include "build/data/overlays/effects/z_eff_ss_kirakira.data.o"
-    include "build/data/overlays/effects/z_eff_ss_kirakira.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_KiraKira/ovl_Effect_Ss_KiraKira_reloc.o"
 endseg
 
 beginseg

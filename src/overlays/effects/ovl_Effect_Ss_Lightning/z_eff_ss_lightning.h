@@ -12,6 +12,6 @@ typedef struct {
     /* 0x16 */ s16 unk_16;
     /* 0x18 */ s16 life;
     /* 0x1A */ s16 unk_1A;
-} EffectSsLightningInitParams; // size = 0x
+} EffectSsLightningInitParams; // size = 0x1C
 
 #endif

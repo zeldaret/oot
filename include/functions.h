@@ -242,7 +242,8 @@ void EffectSsBubble_Spawn(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
 // ? EffectSsGSplash_Spawn(?);
 // ? func_80029530(?);
 // ? func_80029568(?);
-// ? func_800295A0(?);
+void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
+                   s16 unk_16, s16 life, s16 unk_1A);
 // ? func_80029618(?);
 // ? func_80029694(?);
 // ? func_80029724(?);
