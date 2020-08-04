@@ -1,38 +1,55 @@
 /*
  * File: z_eff_ss_dead_sound.c
  * Overlay: ovl_Effect_Ss_Dead_Sound
- * Description:
+ * Description: Plays a sound effect.
+ *
+ * If repeat mode is on, the sound is replayed every update for the duration of life.
+ * Repeat mode is unused in the original game.
  */
 
 #include "z_eff_ss_dead_sound.h"
 
 typedef enum {
-    /* 0x00 */ SS_DEAD_SOUND_0,
-    /* 0x01 */ SS_DEAD_SOUND_1,
-    /* 0x02 */ SS_DEAD_SOUND_2,
-    /* 0x03 */ SS_DEAD_SOUND_3,
-    /* 0x04 */ SS_DEAD_SOUND_4,
-    /* 0x05 */ SS_DEAD_SOUND_5,
-    /* 0x06 */ SS_DEAD_SOUND_6,
-    /* 0x07 */ SS_DEAD_SOUND_7,
-    /* 0x08 */ SS_DEAD_SOUND_8,
-    /* 0x09 */ SS_DEAD_SOUND_9,
-    /* 0x0A */ SS_DEAD_SOUND_A,
-    /* 0x0B */ SS_DEAD_SOUND_B,
-    /* 0x0C */ SS_DEAD_SOUND_C,
-} EffectSsDead_SoundRegs;
+    /* 0x0A */ SS_DEADSOUND_SFX_ID = 10,
+    /* 0x0B */ SS_DEADSOUND_REPEAT_MODE,
+} EffectSsDeadSoundRegs;
+
+#define REPEAT_MODE_OFF 1
+#define REPEAT_MODE_ON 2
 
 u32 EffectSsDeadSound_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void EffectSsDeadSound_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsDeadSound_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_Dead_Sound_InitVars = {
     EFFECT_SS_DEAD_SOUND,
     EffectSsDeadSound_Init,
 };
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Dead_Sound/EffectSsDeadSound_Init.s")
+u32 EffectSsDeadSound_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsDeadSoundInitParams* initParams = (EffectSsDeadSoundInitParams*)initParamsx;
+    this->pos = initParams->pos;
+    this->velocity = initParams->velocity;
+    this->accel = initParams->accel;
+    this->flags = 2;
+    this->life = initParams->life;
+    this->draw = NULL;
+    this->update = EffectSsDeadSound_Update;
+    this->regs[SS_DEADSOUND_REPEAT_MODE] = initParams->repeatMode;
+    this->regs[SS_DEADSOUND_SFX_ID] = initParams->sfxId;
+    // "constructor 3"
+    osSyncPrintf("コンストラクター3\n");
+    return 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Dead_Sound/func_809A1BD8.s")
+void EffectSsDeadSound_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    switch (this->regs[SS_DEADSOUND_REPEAT_MODE]) {
+        case REPEAT_MODE_OFF:
+            this->regs[SS_DEADSOUND_REPEAT_MODE]--;
+            break;
+        case REPEAT_MODE_ON:
+            break;
+        default:
+            return;
+    }
+    Audio_PlaySoundGeneral(this->regs[SS_DEADSOUND_SFX_ID], &this->pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
