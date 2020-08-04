@@ -34,6 +34,8 @@ InitChainEntry D_808ABDB0[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
+extern Gfx D_060007D0[];
+
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Init.s")
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idomizu* this = THIS;
@@ -70,4 +72,29 @@ void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Draw.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idomizu/BgSpot01Idomizu_Draw.s")
+void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    u32 framesTemp;
+    s32 temp_v1;
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[2];
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 0xE4);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 0xE8),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    pad = globalCtx->state.frames;
+    temp_v1 = pad;
+    framesTemp = temp_v1;
+    temp_v1 = framesTemp & 0x7F;
+    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0x7F - temp_v1, framesTemp & 0x7F, 0x20, 0x20,
+                                1, temp_v1, framesTemp & 0x7F, 0x20, 0x20));
+
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_060007D0);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 0xF4);
+}
