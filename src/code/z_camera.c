@@ -572,7 +572,7 @@ Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f *dest, s16 pitch, s16 yaw, s16 roll) 
     f32 sp54;
     f32 sp4C;
     f32 sp44;
-    f32 sp28;
+    f32 negSinPitch;
     f32 temp_f10_2;
     f32 temp_f12;
     f32 temp_f14;
@@ -589,10 +589,10 @@ Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f *dest, s16 pitch, s16 yaw, s16 roll) 
     cosPitch = Math_Coss(pitch);
     sinYaw = Math_Sins(yaw);
     cosYaw = Math_Coss(yaw);
-    sp28 = -sinPitch;
+    negSinPitch = -sinPitch;
     sinNegRoll = Math_Sins(-roll);
     cosNegRoll = Math_Coss(-roll);
-    temp_f16 = sp28 * sinYaw;
+    temp_f16 = negSinPitch * sinYaw;
     temp_f14 = 1.0f - cosNegRoll;
     temp_f2 = cosPitch * sinYaw;
     sp54 = SQ(temp_f2);
@@ -600,7 +600,7 @@ Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f *dest, s16 pitch, s16 yaw, s16 roll) 
     temp_f12 = cosPitch * cosYaw;
     temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
     sp44 = temp_f12 * sinNegRoll;
-    temp_f18 = sp28 * cosYaw;
+    temp_f18 = negSinPitch * cosYaw;
     temp_f6 = (temp_f12 * temp_f2) * temp_f14;
     temp_f10_2 = sinPitch * sinNegRoll;
     spA4.x = ((temp_f16 * temp_f4_2) + (cosPitch * (sp4C - sp44))) + (temp_f18 * (temp_f6 + temp_f10_2));
@@ -666,39 +666,39 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
 }
 
 void Camera_UpdateInterface(s16 arg0) {
-    s16 phi_v1;
+    s16 interfaceAlpha;
 
     if((arg0 & 0xF000) != 0xF000){
         switch(arg0 & 0x7000){
             case 0x1000:
-                D_8011D3A8 = 0x1A;
+                sShrinkWindowVal = 0x1A;
                 break;
             case 0x2000:
-                D_8011D3A8 = 0x1B;
+                sShrinkWindowVal = 0x1B;
                 break;
             case 0x3000:
-                D_8011D3A8 = 0x20;
+                sShrinkWindowVal = 0x20;
                 break;
             default:
-                D_8011D3A8 = 0;
+                sShrinkWindowVal = 0;
                 break;
         }
 
         if(arg0 & 0x8000){
-            ShrinkWindow_SetCurrentVal(D_8011D3A8);
+            ShrinkWindow_SetCurrentVal(sShrinkWindowVal);
         } else {
-            ShrinkWindow_SetVal(D_8011D3A8);
+            ShrinkWindow_SetVal(sShrinkWindowVal);
         }
     }
 
     if ((arg0 & 0xF00) != 0xF00) {
-        phi_v1 = (arg0 & 0xF00) >> 8;
-        if(phi_v1 == 0) {
-            phi_v1 = 0x32;
+        interfaceAlpha = (arg0 & 0xF00) >> 8;
+        if(interfaceAlpha == 0) {
+            interfaceAlpha = 0x32;
         }
-        if (phi_v1 != D_8011D3A4) {
-            D_8011D3A4 = phi_v1;
-            Interface_ChangeAlpha(D_8011D3A4);
+        if (interfaceAlpha != sCameraInterfaceAlpha) {
+            sCameraInterfaceAlpha = interfaceAlpha;
+            Interface_ChangeAlpha(sCameraInterfaceAlpha);
         }
     }
 }
@@ -783,21 +783,14 @@ s32 func_80045508(Camera *camera, VecSph *arg1, CamColChk *arg2, CamColChk *arg3
     return ret;
 }
 
-#ifdef NON_MATCHING
-// CLOSE: stack is 4 bytes too big
 f32 func_80045714(Vec3f* arg0, s16 arg1, s16 arg2, f32 arg3) {
-    VecSph sp1C;
     f32 sp18;
+    VecSph sp1C;
 
     OLib_Vec3fToVecSphRot90(&sp1C, arg0);
-    sp18 = Math_Coss(sp1C.pitch);
-    sp18 = fabsf(sp18 * Math_Coss(arg1 - sp1C.yaw));
-    return Math_Coss(arg1 - arg2) * (sp18 * arg3);
+    sp18 = Math_Coss(sp1C.pitch) * Math_Coss(arg1 - sp1C.yaw);
+    return (fabsf(sp18) * arg3) * Math_Coss(arg1 - arg2);
 }
-#else
-f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045714.s")
-#endif
 
 f32 func_8007C0A8(f32, f32);
 
@@ -6639,8 +6632,8 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
     camera->xzOffsetUpdateRate = PCT(OREG(2));
     camera->yOffsetUpdateRate = PCT(OREG(3));
     camera->fovUpdateRate = PCT(OREG(4));
-    D_8011D3A8 = 0x20;
-    D_8011D3A4 = 0;
+    sShrinkWindowVal = 0x20;
+    sCameraInterfaceAlpha = 0;
     camera->unk_14C = 0;
     camera->setting = camera->prevSetting = 0x21;
     camera->camDataIdx = camera->prevCamDataIdx = -1;
