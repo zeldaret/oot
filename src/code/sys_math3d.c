@@ -9,29 +9,105 @@ s32 func_800CAD08(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
 s32 func_800CB1F8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 s32 func_800CB338(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 radius);
 
-s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8,
-                  Vec3f* arg9, Vec3f* argA) {
+// Math3D_2PlaneVsLine
+s32 func_800CA7D0(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB, f32 planeBC, f32 planeBDist, Vec3f* linePointA,
+                  Vec3f* linePointB, Vec3f* intersectPoint) {
     static Linef D_8016A5A0;
-    static Linef D_8016A5B8;
+    static Linef planeIntersect;
 
     Vec3f sp34;
 
-    if (func_800CAD08(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, &D_8016A5A0) == 0) {
+    if (func_800CAD08(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist, &D_8016A5A0) == 0) {
         return 0;
     }
-    Math_Vec3f_Copy(&D_8016A5B8.a, &D_8016A5A0.a);
 
-    D_8016A5B8.b.x = (D_8016A5A0.b.x * 100.0f) + D_8016A5A0.a.x;
-    D_8016A5B8.b.y = (D_8016A5A0.b.y * 100.0f) + D_8016A5A0.a.y;
-    D_8016A5B8.b.z = (D_8016A5A0.b.z * 100.0f) + D_8016A5A0.a.z;
+    Math_Vec3f_Copy(&planeIntersect.a, &D_8016A5A0.a);
 
-    if (!func_800CA8E8(&D_8016A5B8.a, &D_8016A5B8.b, arg8, arg9, argA, &sp34)) {
+    planeIntersect.b.x = (D_8016A5A0.b.x * 100.0f) + D_8016A5A0.a.x;
+    planeIntersect.b.y = (D_8016A5A0.b.y * 100.0f) + D_8016A5A0.a.y;
+    planeIntersect.b.z = (D_8016A5A0.b.z * 100.0f) + D_8016A5A0.a.z;
+
+    // intersectPoint is a point on planeIntersect, sp34 is a point on linePointA, linePointB
+    if (!func_800CA8E8(&planeIntersect.a, &planeIntersect.b, linePointA, linePointB, intersectPoint, &sp34)) {
         return 0;
     }
     return 1;
 }
 
+#define NON_MATCHING
+#ifdef NON_MATCHING
+s32 func_800CA8E8(Vec3f *lineAPointA, Vec3f *lineAPointB, Vec3f *lineBPointA, Vec3f *lineBPointB, Vec3f *lineAIntersect, Vec3f *lineBIntersect) {
+    f32 sp7C;
+    f32 lineAXDiff;
+    f32 lineAYDiff;
+    f32 lineAZDiff;
+    f32 sp5C;
+    f32 sp50;
+    f32 sp4C;
+    f32 sp48;
+    f32 sp44;
+    f32 sp34;
+    f32 sp30;
+    f32 sp2C;
+    f32 sp28;
+    f32 sp24;
+    f32 sp20;
+    f32 sp18;
+    f32 sp14;
+    f32 sp10;
+    f32 temp_f0;
+    f32 temp_f0_4;
+    f32 lineBYDiff;
+    f32 lineBZDiff;
+    f32 temp_f16;
+    f32 temp_f16_3;
+    f32 temp_f18;
+    f32 lineBXDiff;
+    f32 lineBDistSq;
+
+    lineAXDiff = lineAPointB->x - lineAPointA->x;
+    lineAYDiff = lineAPointB->y - lineAPointA->y;
+    lineAZDiff = lineAPointB->z - lineAPointA->z;
+    lineBXDiff = lineBPointB->x - lineBPointA->x;
+    lineBYDiff = lineBPointB->y - lineBPointA->y;
+    lineBZDiff = lineBPointB->z - lineBPointA->z;
+
+    lineBDistSq = SQ(lineBXDiff) + SQ(lineBYDiff) + SQ(lineBZDiff);
+    if (fabsf(lineBDistSq) < 0.008f) {
+        return 0;
+    }
+    temp_f16 = 1.0f / lineBDistSq;
+    sp5C = (((lineAXDiff * lineBXDiff) + (lineAYDiff * lineBYDiff)) + (lineAZDiff * lineBZDiff)) * temp_f16;
+    sp18 = lineAPointA->x - lineBPointA->x;
+    sp14 = lineAPointA->y - lineBPointA->y;
+    sp10 = lineAPointA->z - lineBPointA->z;
+    temp_f18 = (((sp18 * lineBXDiff) + (lineBYDiff * sp14)) + (lineBZDiff * sp10)) * temp_f16;
+    sp4C = lineAXDiff - (lineBXDiff * sp5C);
+    sp50 = lineAYDiff - (lineBYDiff * sp5C);
+    sp30 = lineAZDiff - (lineBZDiff * sp5C);
+    sp7C = SQ(sp4C) + SQ(sp50) + SQ(sp30);
+
+    if (fabsf(sp7C) < 0.008f) {
+        return 0;
+    }
+
+    sp44 = sp14 - (lineBYDiff * temp_f18);
+    sp48 = sp10 - (lineBZDiff * temp_f18);
+    temp_f0_4 = -(((sp4C * (sp18 - (lineBXDiff * temp_f18))) + (sp50 * sp44)) + (sp30 * sp48)) / sp7C;
+    lineAIntersect->x = (f32) ((lineAXDiff * temp_f0_4) + lineAPointA->x);
+    lineAIntersect->y = (f32) ((lineAYDiff * temp_f0_4) + lineAPointA->y);
+    lineAIntersect->z = (f32) ((lineAZDiff * temp_f0_4) + lineAPointA->z);
+
+    temp_f16_3 = (sp5C * temp_f0_4) + temp_f18;
+    lineBIntersect->x = (f32) ((lineBXDiff * temp_f16_3) + lineBPointA->x);
+    lineBIntersect->y = (f32) ((lineBYDiff * temp_f16_3) + lineBPointA->y);
+    lineBIntersect->z = (f32) ((lineBZDiff * temp_f16_3) + lineBPointA->z);
+    return 1;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CA8E8.s")
+#endif
+#undef NON_MATCHING
 
 void Math3D_LineVsPos(Linef* line, Vec3f* pos, Vec3f* ret) {
     f32 temp_ret;
@@ -60,36 +136,37 @@ void func_800CACAC(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
     *arg8 = ((arg2 * arg5) - (arg0 * arg6)) / arg4;
 }
 
-s32 func_800CAD08(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Linef* arg8) {
+// Math3D_2PlaneIntersect
+s32 func_800CAD08(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB, f32 planeBC, f32 planeBDist, Linef* intersect) {
     char pad[4];
-    Vec3f sp60;
-    Vec3f sp54;
+    Vec3f planeANormal;
+    Vec3f planeBNormal;
     f32 ax;
     f32 ay;
     f32 az;
 
-    VEC_SET(sp60, arg0, arg1, arg2);
-    VEC_SET(sp54, arg4, arg5, arg6);
+    VEC_SET(planeANormal, planeAA, planeAB, planeAC);
+    VEC_SET(planeBNormal, planeBA, planeBB, planeBC);
 
-    Math3D_Vec3f_Cross(&sp60, &sp54, &arg8->b);
+    Math3D_Vec3f_Cross(&planeANormal, &planeBNormal, &intersect->b);
 
-    if (fabsf(arg8->b.x) < 0.008f && fabsf(arg8->b.y) < 0.008f && fabsf(arg8->b.z) < 0.008f) {
+    if (fabsf(intersect->b.x) < 0.008f && fabsf(intersect->b.y) < 0.008f && fabsf(intersect->b.z) < 0.008f) {
         return 0;
     }
 
-    ax = fabsf(arg8->b.x);
-    ay = fabsf(arg8->b.y);
-    az = fabsf(arg8->b.z);
+    ax = fabsf(intersect->b.x);
+    ay = fabsf(intersect->b.y);
+    az = fabsf(intersect->b.z);
 
     if ((ay <= ax) && (az <= ax)) {
-        func_800CACAC(arg1, arg2, arg5, arg6, arg8->b.x, arg3, arg7, &arg8->a.y, &arg8->a.z);
-        arg8->a.x = 0.0f;
+        func_800CACAC(planeAB, planeAC, planeBB, planeBC, intersect->b.x, planeADist, planeBDist, &intersect->a.y, &intersect->a.z);
+        intersect->a.x = 0.0f;
     } else if ((ax <= ay) && (az <= ay)) {
-        func_800CACAC(arg2, arg0, arg6, arg4, arg8->b.y, arg3, arg7, &arg8->a.z, &arg8->a.x);
-        arg8->a.y = 0.0f;
+        func_800CACAC(planeAC, planeAA, planeBC, planeBA, intersect->b.y, planeADist, planeBDist, &intersect->a.z, &intersect->a.x);
+        intersect->a.y = 0.0f;
     } else {
-        func_800CACAC(arg0, arg1, arg4, arg5, arg8->b.z, arg3, arg7, &arg8->a.x, &arg8->a.y);
-        arg8->a.z = 0.0f;
+        func_800CACAC(planeAA, planeAB, planeBA, planeBB, intersect->b.z, planeADist, planeBDist, &intersect->a.x, &intersect->a.y);
+        intersect->a.z = 0.0f;
     }
     return 1;
 }
