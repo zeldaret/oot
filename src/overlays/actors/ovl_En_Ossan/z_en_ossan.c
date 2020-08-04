@@ -2,7 +2,7 @@
  * File: z_en_ossan.c
  * Overlay: ovl_En_Ossan
  * Description: Shopkeeper
-*/
+ */
 
 #include "z_en_ossan.h"
 #include "vt.h"
@@ -642,20 +642,20 @@ void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this) {
             // Choose a mask with left or right
             // on [Control Stick].
             // Ask about Mask of Truth
-            // Don't borrow a mask 
+            // Don't borrow a mask
             func_8010B720(globalCtx, 0x70AD);
         } else {
             // Select a mask with left or right
             // on [Control Stick].
             // Talk to the shop owner.
-            // Don't borrow 
+            // Don't borrow
             func_8010B720(globalCtx, 0x70A2);
         }
     } else {
         // Shop around by moving the
         // [Control Stick] left or right.
         // Talk to the owner
-        // Quit 
+        // Quit
         func_8010B720(globalCtx, 0x83);
     }
 
@@ -800,7 +800,7 @@ void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
         // How dare you!
 
         // You'd better bring me my money...
-        // or else! 
+        // or else!
         func_8010B720(globalCtx, 0x70A8);
         this->unk_1EC = 1;
         this->unk_1EB = 5;
@@ -809,11 +809,11 @@ void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
         if (this->unk_1EB == 3) {
             gSaveContext.eventChkInf[8] |= 0x8000;
             // Oh yeah!
-            // 
+            //
             // Very well done!
             // All the masks are sold out.
-            // 
-            // I knew I could trust you! 
+            //
+            // I knew I could trust you!
             func_8010B720(globalCtx, 0x70A9);
             this->unk_1EB = 6;
             return;
@@ -829,7 +829,7 @@ void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
                 }
             }
         }
-        // Payment received! 
+        // Payment received!
         func_8010B720(globalCtx, 0x70A7);
         this->unk_1EB = 8;
     }
@@ -857,22 +857,22 @@ void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             case 6:
                 // As a reward...
                 // I will lend you this special mask.
-                // 
+                //
                 // This is the Mask of Truth. It is a
                 // mysterious mask passed down by
                 // the Sheikah.
-                // 
+                //
                 // With this mask you can see into
                 // other people's minds...
                 // It's useful, but scary!
-                // 
+                //
                 // Why is it scary?
-                // 
+                //
                 // You may find out as you grow
                 // older and discover the true
                 // meaning of life...
-                // 
-                // Ho ho ho! 
+                //
+                // Ho ho ho!
                 func_8010B720(globalCtx, 0x70AA);
                 this->unk_1FC = 0x19;
                 break;
