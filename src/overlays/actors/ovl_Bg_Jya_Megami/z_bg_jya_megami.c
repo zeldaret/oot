@@ -121,9 +121,9 @@ static Gfx* sDLists[] = {
     0x0600A418, 0x0600A568, 0x0600A6A0, 0x0600A7E0, 0x0600A978, 0x0600AAC8,
 };
 
-void BgJyaMegami_DynaPolySetup(BgJyaMegami* this, GlobalContext* globalContext, void* collision,
+void BgJyaMegami_SetupDynapoly(BgJyaMegami* this, GlobalContext* globalContext, void* collision,
                                DynaPolyMoveFlag flags) {
-    u32 pad;
+    s32 pad;
     u32 temp;
 
     temp = 0;
@@ -133,8 +133,8 @@ void BgJyaMegami_DynaPolySetup(BgJyaMegami* this, GlobalContext* globalContext, 
         DynaPolyInfo_RegisterActor(globalContext, &globalContext->colCtx.dyna, &this->dyna.actor, temp);
 }
 
-void BgJyaMegami_ColliderSetup(BgJyaMegami* this, GlobalContext* globalContext) {
-    u32 pad;
+void BgJyaMegami_SetupCollider(BgJyaMegami* this, GlobalContext* globalContext) {
+    s32 pad;
 
     Collider_InitJntSph(globalContext, &this->collider);
     Collider_SetJntSph(globalContext, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItem);
@@ -174,9 +174,9 @@ void func_8089A41C(BgJyaMegami* this, GlobalContext* globalContext, f32 arg2) {
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalContext) {
     BgJyaMegami* this = THIS;
 
-    BgJyaMegami_DynaPolySetup(this, globalContext, &D_06005C4C, 0);
-    BgJyaMegami_ColliderSetup(this, globalContext);
-    if (Flags_GetSwitch(globalContext, this->dyna.actor.params & 0x3F) != 0) {
+    BgJyaMegami_SetupDynapoly(this, globalContext, &D_06005C4C, 0);
+    BgJyaMegami_SetupCollider(this, globalContext);
+    if (Flags_GetSwitch(globalContext, this->dyna.actor.params & 0x3F)) {
         Actor_Kill(&this->dyna.actor);
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -246,7 +246,7 @@ void BgJyaMegami_Explosion(BgJyaMegami* this, GlobalContext* globalContext) {
     u32 i;
     Vec3f sp8C;
     BgJyaMegami_PieceInit* temp2;
-    u32 pad;
+    s32 pad;
 
     this->explosionTimer++;
     if (this->explosionTimer == 30) {
