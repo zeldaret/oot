@@ -309,8 +309,8 @@ u32 D_80AC8EDC[] = { 0x060035D8, 0x060039D8 };
 
 u32 D_80AC8EE4[] = { 0x06003968, 0x06003D68, 0x06004168 };
 
-void func_80AC2CA0(EnOssan* this, EnOssanActionFunc arg1) {
-    this->actionFunc = arg1;
+void func_80AC2CA0(EnOssan* this, EnOssanActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 s16 func_80AC2CA8(s16 arg0) {
@@ -528,19 +528,13 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_RST);
         __assert("0", "../z_en_oB1.c", 1246);
         return;
-    }
-
-    if ((this->actor.params == 10) && !(gSaveContext.infTable[7] & 0x40)) {
+    } else if ((this->actor.params == 10) && !(gSaveContext.infTable[7] & 0x40)) {
         Actor_Kill(thisx);
         return;
-    }
-
-    if ((this->actor.params == 1) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
+    } else if ((this->actor.params == 1) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
         Actor_Kill(thisx);
         return;
-    }
-
-    if ((this->actor.params == 2) && !(gSaveContext.eventChkInf[2] & 0x20)) {
+    } else if ((this->actor.params == 2) && !(gSaveContext.eventChkInf[2] & 0x20)) {
         Actor_Kill(thisx);
         return;
     }
@@ -557,6 +551,7 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
         __assert("0", "../z_en_oB1.c", 1284);
         return;
     }
+
     if (func_80AC33B0(this, globalCtx, tmp) == 0) {
         Actor_Kill(thisx);
         osSyncPrintf(VT_COL(RED, WHITE));
@@ -566,6 +561,7 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
         __assert("0", "../z_en_oB1.c", 1295);
         return;
     }
+
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80AC2CA0(this, func_80AC7094);
 }
@@ -589,6 +585,7 @@ void func_80AC3744(GlobalContext* globalCtx, EnOssan* this) {
 void func_80AC37A8(GlobalContext* globalCtx, EnOssan* this) {
     Player* player = PLAYER;
 
+    // Convo over
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d]:★★★ 会話終了！！ ★★★" VT_RST "\n", "../z_en_oB1.c", 1337);
     YREG(31) = 0;
     func_8002F194(&this->actor, globalCtx);
@@ -632,9 +629,9 @@ void func_80AC3928(GlobalContext* globalCtx, EnOssan* this, u8 arg2) {
     func_80AC3350(this, globalCtx, 0.0f);
     if (!arg2) {
         this->unk_1FC = 1;
-        return;
+    } else {
+        func_80AC39AC(globalCtx, this);
     }
-    func_80AC39AC(globalCtx, this);
 }
 
 void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this) {
@@ -642,11 +639,23 @@ void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this) {
     if (this->actor.params == 0xA) {
         if ((gSaveContext.itemGetInf[3] & 0x100) && (gSaveContext.itemGetInf[3] & 0x200) &&
             (gSaveContext.itemGetInf[3] & 0x400) && (gSaveContext.itemGetInf[3] & 0x800)) {
+            // Choose a mask with left or right
+            // on [Control Stick].
+            // Ask about Mask of Truth
+            // Don't borrow a mask 
             func_8010B720(globalCtx, 0x70AD);
         } else {
+            // Select a mask with left or right
+            // on [Control Stick].
+            // Talk to the shop owner.
+            // Don't borrow 
             func_8010B720(globalCtx, 0x70A2);
         }
     } else {
+        // Shop around by moving the
+        // [Control Stick] left or right.
+        // Talk to the owner
+        // Quit 
         func_8010B720(globalCtx, 0x83);
     }
 
@@ -665,7 +674,7 @@ void func_80AC3A80(GlobalContext* globalCtx, EnOssan* this) {
 }
 
 void func_80AC3AE0(GlobalContext* globalCtx, EnOssan* this) {
-    func_80078884(0x4809);
+    func_80078884(NA_SE_SY_CURSOR);
     this->unk_251 = 0;
     this->unk_1FC = 8;
 }
@@ -678,9 +687,7 @@ void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         player->stateFlags2 |= 0x20000000;
         func_800BC590(globalCtx);
         func_80AC3928(globalCtx, this, 0);
-        return;
-    }
-    if (this->actor.xzDistFromLink < 100.0f) {
+    } else if (this->actor.xzDistFromLink < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100);
     }
 }
@@ -787,6 +794,13 @@ u8 func_80AC3ED8(EnOssan* this, u8 arg1, u8 arg2) {
 
 void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
     if (gSaveContext.rupees < D_80AC88EC[this->unk_1EB]) {
+        // What?!
+        // You don't have my money?!
+
+        // How dare you!
+
+        // You'd better bring me my money...
+        // or else! 
         func_8010B720(globalCtx, 0x70A8);
         this->unk_1EC = 1;
         this->unk_1EB = 5;
@@ -794,6 +808,12 @@ void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
         Rupees_ChangeBy(-D_80AC88EC[this->unk_1EB]);
         if (this->unk_1EB == 3) {
             gSaveContext.eventChkInf[8] |= 0x8000;
+            // Oh yeah!
+            // 
+            // Very well done!
+            // All the masks are sold out.
+            // 
+            // I knew I could trust you! 
             func_8010B720(globalCtx, 0x70A9);
             this->unk_1EB = 6;
             return;
@@ -809,6 +829,7 @@ void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
                 }
             }
         }
+        // Payment received! 
         func_8010B720(globalCtx, 0x70A7);
         this->unk_1EB = 8;
     }
@@ -831,9 +852,27 @@ void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             }
         }
     } else if ((msg == 5) && func_80106BC8(globalCtx)) {
-        func_80078884(0x4818);
+        func_80078884(NA_SE_SY_MESSAGE_PASS);
         switch (this->unk_1EB) {
             case 6:
+                // As a reward...
+                // I will lend you this special mask.
+                // 
+                // This is the Mask of Truth. It is a
+                // mysterious mask passed down by
+                // the Sheikah.
+                // 
+                // With this mask you can see into
+                // other people's minds...
+                // It's useful, but scary!
+                // 
+                // Why is it scary?
+                // 
+                // You may find out as you grow
+                // older and discover the true
+                // meaning of life...
+                // 
+                // Ho ho ho! 
                 func_8010B720(globalCtx, 0x70AA);
                 this->unk_1FC = 0x19;
                 break;
@@ -882,7 +921,7 @@ void func_80AC4288(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && !func_80AC3884(this, globalCtx, &globalCtx->state.input[0])) {
         if (func_80106BC8(globalCtx) && func_80AC4220(this, globalCtx)) {
-            func_80078884(0x4808);
+            func_80078884(NA_SE_SY_DECIDE);
         } else if (this->unk_224 < 0) {
             temp_v0 = func_80AC3D18(this, 4);
             if (temp_v0 != 0xFF) {
@@ -890,7 +929,7 @@ void func_80AC4288(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                 this->unk_1FC = 4;
                 Interface_SetDoAction(globalCtx, 6);
                 this->unk_288 = 0;
-                func_80078884(0x4809);
+                func_80078884(NA_SE_SY_CURSOR);
             }
         } else if (this->unk_224 > 0) {
             temp_v0 = func_80AC3D18(this, 0);
@@ -899,7 +938,7 @@ void func_80AC4288(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                 this->unk_1FC = 5;
                 Interface_SetDoAction(globalCtx, 6);
                 this->unk_2C0 = 0;
-                func_80078884(0x4809);
+                func_80078884(NA_SE_SY_CURSOR);
             }
         }
     }
@@ -1043,23 +1082,23 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* cont1) {
                 case 35:
                 case 36:
                 case 37:
-                    func_80078884(0x4808);
+                    func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0x18;
                     return 1;
                 case 17:
-                    func_80078884(0x4808);
+                    func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xA;
                     return 1;
                 case 18:
-                    func_80078884(0x4808);
+                    func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xB;
                     return 1;
                 case 19:
                 case 20:
-                    func_80078884(0x4806);
+                    func_80078884(NA_SE_SY_ERROR);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xC;
                     return 1;
@@ -1068,18 +1107,18 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* cont1) {
                 case 45:
                 case 46:
                 case 47:
-                    func_80078884(0x4808);
+                    func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xD;
                     return 1;
                 default:
-                    func_80078884(0x4808);
+                    func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 9;
                     return 1;
             }
         } else {
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             return 1;
         }
     }
@@ -1095,18 +1134,29 @@ void func_80AC4978(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         // ZOOMING!
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2152);
         this->unk_1E6 = 3;
-        return;
-    }
-    if (this->unk_1E6) {
+    } else if (this->unk_1E6) {
         this->unk_1E6--;
-        return;
-    }
-    this->unk_251 = 0xFF;
-    this->unk_2C0 = 1;
-    func_80AC3744(globalCtx, this);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && !func_80AC47DC(globalCtx, this, &globalCtx->state.input[0])) {
-        if (this->unk_22C) {
-            if (this->unk_224 > 0) {
+    } else {
+        this->unk_251 = 0xFF;
+        this->unk_2C0 = 1;
+        func_80AC3744(globalCtx, this);
+        if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && !func_80AC47DC(globalCtx, this, &globalCtx->state.input[0])) {
+            if (this->unk_22C) {
+                if (this->unk_224 > 0) {
+                    idx = func_80AC3E50(this, this->unk_252, 4);
+                    if (idx != 0xFF) {
+                        this->unk_252 = idx;
+                    } else {
+                        func_80AC3AE0(globalCtx, this);
+                        return;
+                    }
+                } else if (this->unk_224 < 0) {
+                    idx = func_80AC3ED8(this, this->unk_252, 8);
+                    if (idx != 0xFF) {
+                        this->unk_252 = idx;
+                    }
+                }
+            } else if ((this->unk_224 > 0) && (this->unk_224 >= 0x1F5)) {
                 idx = func_80AC3E50(this, this->unk_252, 4);
                 if (idx != 0xFF) {
                     this->unk_252 = idx;
@@ -1114,30 +1164,17 @@ void func_80AC4978(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                     func_80AC3AE0(globalCtx, this);
                     return;
                 }
-            } else if (this->unk_224 < 0) {
+            } else if ((this->unk_224 < 0) && (this->unk_224 < -0x1F4)) {
                 idx = func_80AC3ED8(this, this->unk_252, 8);
                 if (idx != 0xFF) {
                     this->unk_252 = idx;
                 }
             }
-        } else if ((this->unk_224 > 0) && (this->unk_224 >= 0x1F5)) {
-            idx = func_80AC3E50(this, this->unk_252, 4);
-            if (idx != 0xFF) {
-                this->unk_252 = idx;
-            } else {
-                func_80AC3AE0(globalCtx, this);
-                return;
+            func_80AC45C8(this);
+            if (this->unk_252 != tmp) {
+                func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
+                func_80078884(NA_SE_SY_CURSOR);
             }
-        } else if ((this->unk_224 < 0) && (this->unk_224 < -0x1F4)) {
-            idx = func_80AC3ED8(this, this->unk_252, 8);
-            if (idx != 0xFF) {
-                this->unk_252 = idx;
-            }
-        }
-        func_80AC45C8(this);
-        if (this->unk_252 != tmp) {
-            func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
-            func_80078884(0x4809);
         }
     }
 }
@@ -1148,20 +1185,35 @@ void func_80AC4B4C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     u8 tmp = this->unk_252;
 
     if (func_80AC652C(this) == 0) {
+        // ZOOMING
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2244);
         this->unk_1E6 = 3;
         return;
     }
+
     if (this->unk_1E6 != 0) {
         this->unk_1E6 -= 1;
-        return;
-    }
-    this->unk_251 = 0xFF;
-    this->unk_288 = 1;
-    func_80AC3744(globalCtx, this);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && !func_80AC47DC(globalCtx, this, &globalCtx->state.input[0])) {
-        if (this->unk_22C) {
-            if (this->unk_224 < 0) {
+    } else {
+        this->unk_251 = 0xFF;
+        this->unk_288 = 1;
+        func_80AC3744(globalCtx, this);
+        if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && !func_80AC47DC(globalCtx, this, &globalCtx->state.input[0])) {
+            if (this->unk_22C) {
+                if (this->unk_224 < 0) {
+                    idx = func_80AC3E50(this, this->unk_252, 0);
+                    if (idx != 0xFF) {
+                        this->unk_252 = idx;
+                    } else {
+                        func_80AC3AE0(globalCtx, this);
+                        return;
+                    }
+                } else if (this->unk_224 > 0) {
+                    idx = func_80AC3ED8(this, this->unk_252, 4);
+                    if (idx != 0xFF) {
+                        this->unk_252 = idx;
+                    }
+                }
+            } else if ((this->unk_224 < 0) && (this->unk_224 < -0x1F4)) {
                 idx = func_80AC3E50(this, this->unk_252, 0);
                 if (idx != 0xFF) {
                     this->unk_252 = idx;
@@ -1169,30 +1221,17 @@ void func_80AC4B4C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                     func_80AC3AE0(globalCtx, this);
                     return;
                 }
-            } else if (this->unk_224 > 0) {
+            } else if ((this->unk_224 > 0) && (this->unk_224 >= 0x1F5)) {
                 idx = func_80AC3ED8(this, this->unk_252, 4);
                 if (idx != 0xFF) {
                     this->unk_252 = idx;
                 }
             }
-        } else if ((this->unk_224 < 0) && (this->unk_224 < -0x1F4)) {
-            idx = func_80AC3E50(this, this->unk_252, 0);
-            if (idx != 0xFF) {
-                this->unk_252 = idx;
-            } else {
-                func_80AC3AE0(globalCtx, this);
-                return;
+            func_80AC45C8(this);
+            if (this->unk_252 != tmp) {
+                func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
+                func_80078884(NA_SE_SY_CURSOR);
             }
-        } else if ((this->unk_224 > 0) && (this->unk_224 >= 0x1F5)) {
-            idx = func_80AC3ED8(this, this->unk_252, 4);
-            if (idx != 0xFF) {
-                this->unk_252 = idx;
-            }
-        }
-        func_80AC45C8(this);
-        if (this->unk_252 != tmp) {
-            func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
-            func_80078884(0x4809);
         }
     }
 }
@@ -1210,6 +1249,7 @@ void func_80AC4D20(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 
 void func_80AC4DDC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (!func_80AC652C(this)) {
+        // ZOOMING
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2355);
         return;
     }
@@ -1277,19 +1317,19 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
             girlA->unk_1AC(globalCtx, girlA);
             break;
         case 2:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x86);
             break;
         case 3:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x96);
             break;
         case 4:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x85);
             break;
         case 5:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x86);
             break;
     }
@@ -1338,11 +1378,11 @@ void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
             girlA->unk_1AC(globalCtx, girlA);
             break;
         case 2:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x9D);
             break;
         case 4:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x85);
             break;
     }
@@ -1361,11 +1401,11 @@ void func_80AC53F4(GlobalContext* globalCtx, EnOssan* this) {
             girlA->unk_1AC(globalCtx, girlA);
             break;
         case 2:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x86);
             break;
         case 4:
-            func_80078884(0x4806);
+            func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x85);
             break;
     }
@@ -1416,6 +1456,7 @@ void func_80AC5680(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Input* cont1 = &globalCtx->state.input[0];
 
     if (!func_80AC6490(this)) {
+        // ZOOMING
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2693);
         return;
     }
@@ -1437,9 +1478,11 @@ void func_80AC576C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Input* cont1 = &globalCtx->state.input[0];
 
     if (!func_80AC6490(this)) {
+        // ZOOMING
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2732);
         return;
     }
+
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && !func_80AC38C8(this, globalCtx, cont1) &&
         func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -1458,6 +1501,7 @@ void func_80AC5858(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Input* cont1 = &globalCtx->state.input[0];
 
     if (!func_80AC6490(this)) {
+        // ZOOMING
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2771);
         return;
     }
@@ -1471,9 +1515,12 @@ void func_80AC5900(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Input* cont1 = &globalCtx->state.input[0];
 
     if (!func_80AC6490(this)) {
+        // ZOOMING
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2798);
         return;
     }
+
+    // Shopkeep request
     osSyncPrintf("店主の依頼 ( %d )\n", gSaveContext.infTable[15] & 0x1000);
     if (this->actor.params != 8) {
         func_80AC5594(this, globalCtx, player);
@@ -1497,9 +1544,11 @@ void func_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Input* cont1 = &globalCtx->state.input[0];
 
     if (!func_80AC6490(this)) {
+        // ZOOMING
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2845);
         return;
     }
+
     if (msg == 5) {
         if (func_80106BC8(globalCtx)) {
             this->unk_1FC = this->unk_1FE;
@@ -1630,7 +1679,7 @@ void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         func_800BC490(globalCtx, 2);
         func_8010B680(globalCtx, this->actor.textId, &this->actor);
         func_80AC3928(globalCtx, this, 1);
-        func_8002F298(&this->actor, globalCtx, 100.0f, -1U);
+        func_8002F298(&this->actor, globalCtx, 100.0f, -1);
     }
 }
 
@@ -1644,7 +1693,7 @@ void func_80AC60E4(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 void func_80AC6148(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 1) && func_80106BC8(globalCtx)) {
         this->unk_1FC = 0x16;
-        func_8010B720(globalCtx, 0x3012U);
+        func_8010B720(globalCtx, 0x3012);
         gSaveContext.infTable[15] |= 0x1000;
     }
 }
@@ -1913,7 +1962,7 @@ void func_80AC6B3C(EnOssan* this, GlobalContext* globalCtx) {
                          0, 0.0f);
     this->actor.draw = func_80AC80B4;
     this->unk_194 = func_80AC7380;
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, 0x18, this->actor.posRot.pos.x,
+    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
 }
 
@@ -2311,10 +2360,10 @@ Gfx* func_80AC801C(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-Gfx* func_80AC8048(GraphicsContext* gfxCtx, u8 arg1, u8 arg2, u8 arg3, u8 arg4) {
+Gfx* func_80AC8048(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* displayList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
 
-    gDPSetEnvColor(displayList, arg1, arg2, arg3, arg4);
+    gDPSetEnvColor(displayList, r, g, b, a);
     gSPEndDisplayList(displayList + 1);
     return displayList;
 }
@@ -2330,9 +2379,9 @@ void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx) {
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4409);
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80AC8048(globalCtx->state.gfxCtx, 0, 0x82, 0x46, 0xFF));
-        gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80AC8048(globalCtx->state.gfxCtx, 0x6E, 0xAA, 0x14, 0xFF));
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
+        gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80AC8048(globalCtx->state.gfxCtx, 0, 130, 70, 255));
+        gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80AC8048(globalCtx->state.gfxCtx, 110, 170, 20, 255));
         gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          func_80AC7ED0, NULL, &this->actor);
@@ -2384,7 +2433,7 @@ void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx) {
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4506);
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
         gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
 
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EC4[this->unk_1F2]));

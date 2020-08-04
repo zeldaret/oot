@@ -2,7 +2,7 @@
  * File: z_en_girla.c
  * Overlay: En_GirlA
  * Description: Shop Items
-*/
+ */
 
 #include "z_en_girla.h"
 #include "vt.h"
