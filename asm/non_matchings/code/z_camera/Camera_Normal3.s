@@ -128,12 +128,12 @@ glabel Camera_Normal3
 /* ABFB1C 8004897C 2606005C */  addiu $a2, $s0, 0x5c
 /* ABFB20 80048980 AFA60048 */  sw    $a2, 0x48($sp)
 /* ABFB24 80048984 AFA50044 */  sw    $a1, 0x44($sp)
-/* ABFB28 80048988 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABFB28 80048988 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABFB2C 8004898C 27A4007C */   addiu $a0, $sp, 0x7c
 /* ABFB30 80048990 26060074 */  addiu $a2, $s0, 0x74
 /* ABFB34 80048994 AFA60040 */  sw    $a2, 0x40($sp)
 /* ABFB38 80048998 27A40074 */  addiu $a0, $sp, 0x74
-/* ABFB3C 8004899C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABFB3C 8004899C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABFB40 800489A0 8FA50044 */   lw    $a1, 0x44($sp)
 /* ABFB44 800489A4 24040001 */  li    $a0, 1
 /* ABFB48 800489A8 3C018012 */  lui   $at, %hi(D_8011D3E8) # $at, 0x8012
@@ -369,7 +369,7 @@ glabel Camera_Normal3
 /* ABFECC 80048D2C 8FA50044 */  lw    $a1, 0x44($sp)
 /* ABFED0 80048D30 8FA60040 */  lw    $a2, 0x40($sp)
 /* ABFED4 80048D34 46065202 */  mul.s $f8, $f10, $f6
-/* ABFED8 80048D38 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABFED8 80048D38 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABFEDC 80048D3C E7A80090 */   swc1  $f8, 0x90($sp)
 /* ABFEE0 80048D40 862B002A */  lh    $t3, 0x2a($s1)
 /* ABFEE4 80048D44 8E060004 */  lw    $a2, 4($s0)

@@ -64,7 +64,7 @@ glabel Camera_Subj4
 /* AC7D94 80050BF4 2633005C */  addiu $s3, $s1, 0x5c
 /* AC7D98 80050BF8 02603025 */  move  $a2, $s3
 /* AC7D9C 80050BFC 02402825 */  move  $a1, $s2
-/* AC7DA0 80050C00 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC7DA0 80050C00 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC7DA4 80050C04 27A4005C */   addiu $a0, $sp, 0x5c
 /* AC7DA8 80050C08 86380000 */  lh    $t8, ($s1)
 /* AC7DAC 80050C0C 3C018012 */  lui   $at, %hi(D_8011D3A0)

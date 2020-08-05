@@ -29,6 +29,9 @@ f32 func_8007C0A8(f32 arg0, f32 arg1) {
     return (fabsf(arg0) <= arg1) ? arg0 : ((arg0 >= 0) ? arg1 : -arg1);
 }
 
+/**
+ * Takes the difference of points b and a, and creates a normal vector
+*/
 Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
     Vec3f v1;
     Vec3f v2;
@@ -49,6 +52,9 @@ Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
     return dest;
 }
 
+/**
+ * Takes the spherical coordinate `sph`, and converts it into a x,y,z position
+*/
 Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     Vec3f v;
     f32 sinPhi;
@@ -56,10 +62,10 @@ Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     f32 sinTheta;
     f32 cosTheta;
 
-    cosPhi = Math_Coss(sph->phi);
-    cosTheta = Math_Coss(sph->theta);
-    sinPhi = Math_Sins(sph->phi);
-    sinTheta = Math_Sins(sph->theta);
+    cosPhi = Math_Coss(sph->pitch);
+    cosTheta = Math_Coss(sph->yaw);
+    sinPhi = Math_Sins(sph->pitch);
+    sinTheta = Math_Sins(sph->yaw);
 
     v.x = sph->r * sinPhi * sinTheta;
     v.y = sph->r * cosPhi;
@@ -70,16 +76,22 @@ Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     return dest;
 }
 
-void OLib_VecSphRot90ToVec3f(Vec3f* dest, VecSph* sph) {
-    VecSph src;
+/**
+ * Takes the geographic point `sph` and converts it into a x,y,z position
+*/
+Vec3f* OLib_VecSphGeoToVec3f(Vec3f* dest, VecSph* sph) {
+    VecSph geo;
 
-    src.r = sph->r;
-    src.phi = 0x3FFF - sph->phi;
-    src.theta = sph->theta;
+    geo.r = sph->r;
+    geo.pitch = 0x3FFF - sph->pitch;
+    geo.yaw = sph->yaw;
 
-    OLib_VecSphToVec3f(dest, &src);
+    return OLib_VecSphToVec3f(dest, &geo);
 }
 
+/**
+ * Takes the point `vec`, and converts it into a spherical coordinate
+*/
 VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     VecSph sph;
 
@@ -90,16 +102,16 @@ VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     dist = sqrtf(distSquared);
 
     if ((dist == 0.0f) && (vec->y == 0.0f)) {
-        sph.phi = 0;
+        sph.pitch = 0;
     } else {
-        sph.phi = Math_atan2f(dist, vec->y) * 57.295776f * 182.04167f + 0.5f;
+        sph.pitch = DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(dist, vec->y)));
     }
 
     sph.r = sqrtf(SQ(vec->y) + distSquared);
     if ((vec->x == 0.0f) && (vec->z == 0.0f)) {
-        sph.theta = 0;
+        sph.yaw = 0;
     } else {
-        sph.theta = Math_atan2f(vec->x, vec->z) * 57.295776f * 182.04167f + 0.5f;
+        sph.yaw = DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(vec->x, vec->z)));
     }
 
     *dest = sph;
@@ -107,17 +119,23 @@ VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     return dest;
 }
 
-VecSph* OLib_Vec3fToVecSphRot90(VecSph* dest, Vec3f* vec) {
+/**
+ * Takes the point `vec`, and converts it to a geographic coordinate
+*/
+VecSph* OLib_Vec3fToVecSphGeo(VecSph* dest, Vec3f* vec) {
     VecSph sph;
 
     OLib_Vec3fToVecSph(&sph, vec);
-    sph.phi = 0x3FFF - sph.phi;
+    sph.pitch = 0x3FFF - sph.pitch;
 
     *dest = sph;
 
     return dest;
 }
 
+/**
+ * Takes the differences of positions `a` and `b`, and converts them to spherical coordinates
+*/
 VecSph* OLib_Vec3fDiffToVecSph(VecSph* dest, Vec3f* a, Vec3f* b) {
     Vec3f sph;
 
@@ -128,14 +146,17 @@ VecSph* OLib_Vec3fDiffToVecSph(VecSph* dest, Vec3f* a, Vec3f* b) {
     return OLib_Vec3fToVecSph(dest, &sph);
 }
 
-VecSph* OLib_Vec3fDiffToVecSphRot90(VecSph* dest, Vec3f* a, Vec3f* b) {
+/**
+ * Takes the difference of positions `a` and `b`, and converts them to geographic coordinates
+*/
+VecSph* OLib_Vec3fDiffToVecSphGeo(VecSph* dest, Vec3f* a, Vec3f* b) {
     Vec3f sph;
 
     sph.x = b->x - a->x;
     sph.y = b->y - a->y;
     sph.z = b->z - a->z;
 
-    return OLib_Vec3fToVecSphRot90(dest, &sph);
+    return OLib_Vec3fToVecSphGeo(dest, &sph);
 }
 
 Vec3f* func_8007C4E0(Vec3f* dest, Vec3f* a, Vec3f* b) {
@@ -156,9 +177,8 @@ Vec3f* func_8007C574(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
 
     func_8007C4E0(&sp24, arg1, arg2);
 
-    // ~180 / pi
-    sp18.x = sp24.x * 57.295776f;
-    sp18.y = sp24.y * 57.295776f;
+    sp18.x = RADF_TO_DEGF(sp24.x);
+    sp18.y = RADF_TO_DEGF(sp24.y);
     sp18.z = 0.0f;
 
     *arg0 = sp18;
@@ -172,8 +192,8 @@ Vec3s* func_8007C5E0(Vec3s* arg0, Vec3f* arg1, Vec3f* arg2) {
 
     func_8007C4E0(&sp24, arg1, arg2);
 
-    sp18.x = (((sp24.x * 57.295776f)) * 182.04167f) + 0.5f;
-    sp18.y = (((sp24.y * 57.295776f)) * 182.04167f) + 0.5f;
+    sp18.x = DEGF_TO_BINANG(RADF_TO_DEGF(sp24.x));
+    sp18.y = DEGF_TO_BINANG(RADF_TO_DEGF(sp24.y));
     sp18.z = 0.0f;
 
     *arg0 = sp18;

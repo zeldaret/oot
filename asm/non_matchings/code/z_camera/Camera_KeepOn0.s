@@ -128,11 +128,11 @@ glabel Camera_KeepOn0
 /* AC66E0 8004F540 26060050 */  addiu $a2, $s0, 0x50
 /* AC66E4 8004F544 AFA6002C */  sw    $a2, 0x2c($sp)
 /* AC66E8 8004F548 27A40054 */  addiu $a0, $sp, 0x54
-/* AC66EC 8004F54C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC66EC 8004F54C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC66F0 8004F550 8FA50030 */   lw    $a1, 0x30($sp)
 /* AC66F4 8004F554 27A4005C */  addiu $a0, $sp, 0x5c
 /* AC66F8 8004F558 8FA50030 */  lw    $a1, 0x30($sp)
-/* AC66FC 8004F55C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC66FC 8004F55C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC6700 8004F560 8FA60028 */   lw    $a2, 0x28($sp)
 /* AC6704 8004F564 8618000A */  lh    $t8, 0xa($s0)
 /* AC6708 8004F568 3C018012 */  lui   $at, %hi(D_8011D3A0)

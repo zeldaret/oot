@@ -17,7 +17,7 @@ glabel func_80043F94
 /* ABB150 80043FB0 00A08825 */  move  $s1, $a1
 /* ABB154 80043FB4 25F807C0 */  addiu $t8, $t7, 0x7c0
 /* ABB158 80043FB8 AFB80084 */  sw    $t8, 0x84($sp)
-/* ABB15C 80043FBC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABB15C 80043FBC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABB160 80043FC0 27A40040 */   addiu $a0, $sp, 0x40
 /* ABB164 80043FC4 3C014100 */  li    $at, 0x41000000 # 0.000000
 /* ABB168 80043FC8 44813000 */  mtc1  $at, $f6

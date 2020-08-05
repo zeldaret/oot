@@ -68,8 +68,15 @@ typedef struct {
 // Defines a point in the spherical coordinate system
 typedef struct {
     f32 r;      // radius
-    s16 phi;    // polar (zenith) angle
-    s16 theta;  // azimuthal angle
+    s16 pitch;  // polar (zenith) angle
+    s16 yaw;    // azimuthal angle
 } VecSph; // size = 0x08
+
+/**
+ * Trig macros
+*/
+#define DEGF_TO_BINANG(degreesf) ((s16)(degreesf * (65535.0f / 360.0f) + 0.5f))
+#define RADF_TO_DEGF(radf) (radf * (180.0f / M_PI))
+#define DEGF_TO_RADF(degf) (degf * (M_PI / 180.0f))
 
 #endif

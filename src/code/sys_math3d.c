@@ -34,7 +34,6 @@ s32 func_800CA7D0(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 pla
     return 1;
 }
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 func_800CA8E8(Vec3f *lineAPointA, Vec3f *lineAPointB, Vec3f *lineBPointA, Vec3f *lineBPointB, Vec3f *lineAIntersect, Vec3f *lineBIntersect) {
     f32 sp7C;
@@ -107,7 +106,6 @@ s32 func_800CA8E8(Vec3f *lineAPointA, Vec3f *lineAPointB, Vec3f *lineBPointA, Ve
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CA8E8.s")
 #endif
-#undef NON_MATCHING
 
 void Math3D_LineVsPos(Linef* line, Vec3f* pos, Vec3f* ret) {
     f32 temp_ret;
