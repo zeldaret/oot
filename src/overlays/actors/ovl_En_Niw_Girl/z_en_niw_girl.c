@@ -158,7 +158,6 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
                 0x7119; // How spooky! There's a boy in Kakariko Village who was looking for a mask like that!
             break;
         case 3:
-
         case 5:
         case 6:
             this->actor.textId = 0x711A; // Hmm... well... don't you have any other masks ?
