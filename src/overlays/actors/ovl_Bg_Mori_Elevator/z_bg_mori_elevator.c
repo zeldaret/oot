@@ -91,7 +91,7 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     temp_f2 = fabsf(distTo) * 0.09f; 
     if (temp_f2 < 0.0f) {
     // clang-format off
-        phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2);phi_f12 = temp1;} func_800F436C(&this->dyna.actor.projectedPos, 0x2079, phi_f12);
+        phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2);phi_f12 = temp1;} func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_ELEVATOR_MOVE2 - SFX_FLAG, phi_f12);
     // clang-format on
 }
 
