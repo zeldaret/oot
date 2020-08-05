@@ -61,7 +61,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (D_8089A020) {
         Actor_Kill(thisx);
-        return
+        return;
     }
 
     // Goddess lift CT
