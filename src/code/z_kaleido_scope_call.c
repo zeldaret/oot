@@ -47,7 +47,7 @@ void KaleidoScopeCall_Destroy(GlobalContext* globalCtx) {
 // regalloc
 #ifdef NON_MATCHING
 void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
-    u32 pad;
+    s32 pad;
     PauseContext* pauseCtx;
 
     pauseCtx = &globalCtx->pauseCtx;

@@ -882,7 +882,7 @@ EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 pa
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
         spawnedActor = (EnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
                                               spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
-        func_8002A9F4(globalCtx, spawnPos, 0x28E7, 1, 1, 0x28);
+        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
     } else {
         if (!param8000) {
             params = func_8001F404(params & 0x00FF);
@@ -925,7 +925,7 @@ EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 p
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
         spawnedActor = (EnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
                                               spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
-        func_8002A9F4(globalCtx, spawnPos, 0x28E7, 1, 1, 0x28);
+        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
     } else {
         params = func_8001F404(params & 0x00FF);
         if (params != -1) {
@@ -994,7 +994,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
         if (gSaveContext.health <= 0x10) { // 1 heart or less
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z, 0,
                         0, 0, 0x0002);
-            func_8002A9F4(globalCtx, spawnPos, 0x28E7, 1, 1, 0x28);
+            EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
             return;
         } else if (gSaveContext.health <= 0x30) { // 3 hearts or less
             params = 0xB * 0x10;
