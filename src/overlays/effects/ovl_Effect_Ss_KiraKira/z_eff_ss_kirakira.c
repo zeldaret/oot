@@ -17,9 +17,9 @@ typedef enum {
     /* 0x07 */ SS_KIRAKIRA_ENV_G,
     /* 0x08 */ SS_KIRAKIRA_ENV_B,
     /* 0x09 */ SS_KIRAKIRA_ENV_A,
-    /* 0x0A */ SS_KIRAKIRA_A,
+    /* 0x0A */ SS_KIRAKIRA_ALPHA_STEP,
     /* 0x0B */ SS_KIRAKIRA_SCALE,
-    /* 0x0C */ SS_KIRAKIRA_C
+    /* 0x0C */ SS_KIRAKIRA_LIFE_START
 } EffectSsKiraKiraRegs;
 
 u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -51,7 +51,7 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     } else {
         this->displayList = SEGMENTED_TO_VIRTUAL(D_04037880);
 
-        if (initParams->unk_38 == 0) {
+        if (initParams->updateMode == 0) {
             this->update = func_809AABF0;
         } else {
             this->update = func_809AACAC;
@@ -62,8 +62,8 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     }
 
     this->draw = func_809AA9AC;
-    this->regs[SS_KIRAKIRA_YAW_STEP] = initParams->unk_34;
-    this->regs[SS_KIRAKIRA_YAW] = initParams->unk_36;
+    this->regs[SS_KIRAKIRA_YAW_STEP] = initParams->yaw;
+    this->regs[SS_KIRAKIRA_YAW] = initParams->yawStep;
     this->regs[SS_KIRAKIRA_PRIM_R] = initParams->primColor.r;
     this->regs[SS_KIRAKIRA_PRIM_G] = initParams->primColor.g;
     this->regs[SS_KIRAKIRA_PRIM_B] = initParams->primColor.b;
@@ -71,8 +71,8 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->regs[SS_KIRAKIRA_ENV_R] = initParams->envColor.r;
     this->regs[SS_KIRAKIRA_ENV_G] = initParams->envColor.g;
     this->regs[SS_KIRAKIRA_ENV_B] = initParams->envColor.b;
-    this->regs[SS_KIRAKIRA_A] = initParams->unk_2C;
-    this->regs[SS_KIRAKIRA_C] = initParams->life;
+    this->regs[SS_KIRAKIRA_ALPHA_STEP] = initParams->alphaStep;
+    this->regs[SS_KIRAKIRA_LIFE_START] = initParams->life;
 
     return 1;
 }
@@ -80,7 +80,7 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 void func_809AA9AC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* localGfxCtx;
     f32 scale;
-    s32 pad2;
+    s32 pad;
     MtxF mtxTrans;
     MtxF mtxRotY;
     MtxF mtxScale;
@@ -112,7 +112,7 @@ void func_809AA9AC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         func_80093C14(gfxCtx);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R], this->regs[SS_KIRAKIRA_PRIM_G],
                         this->regs[SS_KIRAKIRA_PRIM_B],
-                        (((s8) ((55.0f / this->regs[SS_KIRAKIRA_C]) * this->life) + 200)));
+                        (((s8) ((55.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life) + 200)));
         gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_KIRAKIRA_ENV_R], this->regs[SS_KIRAKIRA_ENV_G],
                        this->regs[SS_KIRAKIRA_ENV_B], this->regs[SS_KIRAKIRA_ENV_A]);
         gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
@@ -124,15 +124,15 @@ void func_809AA9AC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
     this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->regs[SS_KIRAKIRA_ENV_A] += this->regs[SS_KIRAKIRA_A];
+    this->regs[SS_KIRAKIRA_ENV_A] += this->regs[SS_KIRAKIRA_ALPHA_STEP];
 
     if (this->regs[SS_KIRAKIRA_ENV_A] < 0) {
         this->regs[SS_KIRAKIRA_ENV_A] = 0;
-        this->regs[SS_KIRAKIRA_A] = -this->regs[SS_KIRAKIRA_A];
+        this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
     } else {
         if (this->regs[SS_KIRAKIRA_ENV_A] >= 256) {
             this->regs[SS_KIRAKIRA_ENV_A] = 255;
-            this->regs[SS_KIRAKIRA_A] = -this->regs[SS_KIRAKIRA_A];
+            this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
         }
     }
 
@@ -144,15 +144,15 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->velocity.z *= 0.95f;
     this->accel.x = Math_Rand_CenteredFloat(0.2f);
     this->accel.z = Math_Rand_CenteredFloat(0.2f);
-    this->regs[SS_KIRAKIRA_ENV_A] += this->regs[SS_KIRAKIRA_A];
+    this->regs[SS_KIRAKIRA_ENV_A] += this->regs[SS_KIRAKIRA_ALPHA_STEP];
 
     if (this->regs[SS_KIRAKIRA_ENV_A] < 0) {
         this->regs[SS_KIRAKIRA_ENV_A] = 0;
-        this->regs[SS_KIRAKIRA_A] = -this->regs[SS_KIRAKIRA_A];
+        this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
     } else {
         if (this->regs[SS_KIRAKIRA_ENV_A] >= 256) {
             this->regs[SS_KIRAKIRA_ENV_A] = 255;
-            this->regs[SS_KIRAKIRA_A] = -this->regs[SS_KIRAKIRA_A];
+            this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
         }
     }
 
@@ -161,5 +161,5 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->regs[SS_KIRAKIRA_SCALE] =
-        this->regs[SS_KIRAKIRA_ENV_A] * Math_Sins((32768.0f / this->regs[SS_KIRAKIRA_C]) * this->life);
+        this->regs[SS_KIRAKIRA_ENV_A] * Math_Sins((32768.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life);
 }

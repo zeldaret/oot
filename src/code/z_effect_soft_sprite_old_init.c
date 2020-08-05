@@ -1,6 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 #include "overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
+#include "overlays/effects/ovl_Effect_Ss_KiraKira/z_eff_ss_kirakira.h"
 #include "overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.h"
 #include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
@@ -14,6 +15,8 @@
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
+extern Color_RGBA8_n D_801158D4;
+extern Color_RGBA8_n D_801158D8;
 extern Color_RGBA8 D_801158DC;
 extern Color_RGBA8 D_801158E0;
 extern Color_RGBA8 D_801158E4;
@@ -212,13 +215,54 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos) {
 
 // EffectSsKiraKira Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028B18.s")
+void func_80028B18(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    Color_RGBA8_n primColor = D_801158D4;
+    Color_RGBA8_n envColor = D_801158D8;
+    func_80028BB0(globalCtx, pos, velocity, accel, &primColor, &envColor, 1000, 16);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028B74.s")
+void func_80028B74(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor) {
+    func_80028BB0(globalCtx, pos, velocity, accel, primColor, envColor, 1000, 16);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028BB0.s")
+void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor, s16 scale, s32 life) {
+    EffectSsKiraKiraInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028CEC.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    initParams.velocity.y = ((Math_Rand_ZeroOne() * initParams.velocity.y) + initParams.velocity.y) * 0.5f;
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.accel.y = ((Math_Rand_ZeroOne() * initParams.accel.y) + initParams.accel.y) * 0.5f;
+    initParams.life = life;
+    initParams.updateMode = 0;
+    initParams.yaw = 0x1518;
+    initParams.yawStep = Math_Rand_ZeroOne() * 16384.0f;
+    initParams.scale = scale;
+    initParams.primColor = *primColor;
+    initParams.envColor = *envColor;
+    initParams.alphaStep = (-(255.0f / initParams.life)) + (-(255.0f / initParams.life));
+    EffectSs_Spawn(globalCtx, 1, 128, &initParams);
+}
+
+void func_80028CEC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor, s16 scale, s32 life) {
+    EffectSsKiraKiraInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.life = life;
+    initParams.updateMode = 1;
+    initParams.yaw = 0x1518;
+    initParams.yawStep = Math_Rand_ZeroOne() * 16384.0f;
+    initParams.scale = scale;
+    Color_RGBA8_Copy(&initParams.primColor, primColor);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    initParams.alphaStep = (-(255.0f / initParams.life)) + (-(255.0f / initParams.life));
+    EffectSs_Spawn(globalCtx, 1, 128, &initParams);
+}
 
 // EffectSsBomb Spawn Functions
 
