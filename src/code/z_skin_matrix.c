@@ -191,8 +191,8 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
 /**
  * "Clear" in this file means the identity matrix.
  */
-void SkinMatrix_GetClear(MtxF** clear) {
-    *clear = &sMtxFClear;
+void SkinMatrix_GetClear(MtxF** mfp) {
+    *mfp = &sMtxFClear;
 }
 
 void SkinMatrix_Clear(MtxF* mf) {
