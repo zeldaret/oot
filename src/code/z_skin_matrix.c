@@ -259,7 +259,7 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
         if (this_col == 4) {
             // reaching col = 4 means the row is either all 0 or a duplicate row.
             // therefore singular matrix (0 determinant).
-            VT_COL(YELLOW, BLACK);
+            osSyncPrintf(VT_COL(YELLOW, BLACK));
             osSyncPrintf("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
             osSyncPrintf(VT_RST);
             return 2;
@@ -466,7 +466,7 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
 /**
  * Produces a matrix which translates a vector by amounts in the x, y and z directions
  */
-void SkinMatrix_SetTranslation(MtxF* mf, f32 x, f32 y, f32 z) {
+void SkinMatrix_SetTranslate(MtxF* mf, f32 x, f32 y, f32 z) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
     mf->xw = 0.0f;
@@ -493,7 +493,7 @@ void SkinMatrix_SetScaleRotateRPYTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32
     MtxF mft1;
     MtxF mft2;
 
-    SkinMatrix_SetTranslation(mf, dx, dy, dz);
+    SkinMatrix_SetTranslate(mf, dx, dy, dz);
     SkinMatrix_SetRotateRPY(&mft1, roll, pitch, yaw);
     SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
     SkinMatrix_SetScale(&mft1, scaleX, scaleY, scaleZ);
@@ -508,7 +508,7 @@ void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32
     MtxF mft1;
     MtxF mft2;
 
-    SkinMatrix_SetTranslation(mf, dx, dy, dz);
+    SkinMatrix_SetTranslate(mf, dx, dy, dz);
     SkinMatrix_SetRotateYRP(&mft1, yaw, roll, pitch);
     SkinMatrix_MtxFMtxFMult(mf, &mft1, &mft2);
     SkinMatrix_SetScale(&mft1, scaleX, scaleY, scaleZ);
@@ -522,7 +522,7 @@ void SkinMatrix_SetRotateRPYTranslate(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f3
     MtxF mft1;
     MtxF mft2;
 
-    SkinMatrix_SetTranslation(&mft2, dx, dy, dz);
+    SkinMatrix_SetTranslate(&mft2, dx, dy, dz);
     SkinMatrix_SetRotateRPY(&mft1, roll, pitch, yaw);
     SkinMatrix_MtxFMtxFMult(&mft2, &mft1, mf);
 }
@@ -609,7 +609,7 @@ void SkinMatrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     m2[15] = temp & 0xFFFF;
 }
 
-Mtx* MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
+Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
     Mtx* mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
     if (mtx == NULL) {

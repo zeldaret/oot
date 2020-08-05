@@ -47,10 +47,10 @@ void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {
                 scale = 1.0f / scale;
                 Math_Vec3f_Scale(&sp154, scale);
 
-                SkinMatrix_SetTranslation(&sp110, sp160.x, sp160.y, sp160.z);
+                SkinMatrix_SetTranslate(&sp110, sp160.x, sp160.y, sp160.z);
                 func_800A7EC0(&spD0, this->addAngle, sp154.x, sp154.y, sp154.z);
                 SkinMatrix_MtxFMtxFMult(&sp110, &spD0, &sp90);
-                SkinMatrix_SetTranslation(&sp110, -sp160.x, -sp160.y, -sp160.z);
+                SkinMatrix_SetTranslate(&sp110, -sp160.x, -sp160.y, -sp160.z);
                 SkinMatrix_MtxFMtxFMult(&sp90, &sp110, &sp50);
                 SkinMatrix_Vec3fMtxFMultXYZ(&sp50, p1, &sp38);
                 SkinMatrix_Vec3fMtxFMultXYZ(&sp50, p2, &sp44);
@@ -715,11 +715,11 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
     this->elements[this->numElements - 1].flags |= 2;
 
     EffectBlure_SetupSmooth(this, gfxCtx);
-    SkinMatrix_SetTranslation(&spDC, this->elements[0].p2.x, this->elements[0].p2.y, this->elements[0].p2.z);
+    SkinMatrix_SetTranslate(&spDC, this->elements[0].p2.x, this->elements[0].p2.y, this->elements[0].p2.z);
     SkinMatrix_SetScale(&sp9C, 0.1f, 0.1f, 0.1f);
     SkinMatrix_MtxFMtxFMult(&spDC, &sp9C, &sp5C);
 
-    mtx = MtxFToNewMtx(gfxCtx, &sp5C);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp5C);
     if (mtx == NULL) {
         return;
     }
@@ -844,13 +844,13 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                 scale = 1.0f / scale;
                 Math_Vec3f_Scale(&sp198, scale);
 
-                SkinMatrix_SetTranslation(&sp154, sp1B0.x, sp1B0.y, sp1B0.z);
+                SkinMatrix_SetTranslate(&sp154, sp1B0.x, sp1B0.y, sp1B0.z);
                 func_800A7EC0(&sp114, 0x3FFF, sp198.x, sp198.y, sp198.z);
                 SkinMatrix_MtxFMtxFMult(&sp154, &sp114, &spD4);
-                SkinMatrix_SetTranslation(&sp154, -sp1B0.x, -sp1B0.y, -sp1B0.z);
+                SkinMatrix_SetTranslate(&sp154, -sp1B0.x, -sp1B0.y, -sp1B0.z);
                 SkinMatrix_MtxFMtxFMult(&spD4, &sp154, &sp94);
 
-                mtx = MtxFToNewMtx(gfxCtx, &sp94);
+                mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp94);
                 if (mtx == NULL) {
                     // Translates to: "Forced termination because a matrix cannot be taken"
                     osSyncPrintf("EffectBlureInfo2_disp_makeDisplayList()マトリックス取れないので,強制終了\n");

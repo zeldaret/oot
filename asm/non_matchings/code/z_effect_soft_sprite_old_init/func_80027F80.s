@@ -46,7 +46,7 @@ glabel func_80027F80
 /* A9F198 80027FF8 8E270008 */  lw    $a3, 8($s1)
 /* A9F19C 80027FFC 27A40120 */  addiu $a0, $sp, 0x120
 /* A9F1A0 80028000 46083002 */  mul.s $f0, $f6, $f8
-/* A9F1A4 80028004 0C029E89 */  jal   SkinMatrix_SetTranslation
+/* A9F1A4 80028004 0C029E89 */  jal   SkinMatrix_SetTranslate
 /* A9F1A8 80028008 E7A00160 */   swc1  $f0, 0x160($sp)
 /* A9F1AC 8002800C C7A00160 */  lwc1  $f0, 0x160($sp)
 /* A9F1B0 80028010 27A400E0 */  addiu $a0, $sp, 0xe0
@@ -79,7 +79,7 @@ glabel func_80027F80
 /* A9F21C 8002807C AE0B02D0 */  sw    $t3, 0x2d0($s0)
 /* A9F220 80028080 AC640004 */  sw    $a0, 4($v1)
 /* A9F224 80028084 02002025 */  move  $a0, $s0
-/* A9F228 80028088 0C029F9C */  jal   MtxFToNewMtx
+/* A9F228 80028088 0C029F9C */  jal   SkinMatrix_MtxFToNewMtx
 /* A9F22C 8002808C AC6C0000 */   sw    $t4, ($v1)
 /* A9F230 80028090 1040004A */  beqz  $v0, .L800281BC
 /* A9F234 80028094 3C0FDA38 */   lui   $t7, (0xDA380003 >> 16) # lui $t7, 0xda38

@@ -78,7 +78,7 @@ void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
         ty = cmf->yw;
         cmf->ww += tx * x + ty * y + cmf->zw * z;
     } else {
-        SkinMatrix_SetTranslation(cmf, x, y, z);
+        SkinMatrix_SetTranslate(cmf, x, y, z);
     }
 }
 
@@ -619,7 +619,7 @@ Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
     return Matrix_ToMtx(Graph_Alloc(gfxCtx, sizeof(Mtx)), file, line);
 }
 
-Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
+Mtx* Matrix_SkinMatrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, Graph_Alloc(gfxCtx, sizeof(Mtx)));
 }
 

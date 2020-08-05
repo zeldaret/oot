@@ -1115,7 +1115,7 @@ glabel EffectSpark_Draw
 .L80025FE4:
 /* A9D184 80025FE4 8E250018 */  lw    $a1, 0x18($s1)
 /* A9D188 80025FE8 8E26001C */  lw    $a2, 0x1c($s1)
-/* A9D18C 80025FEC 0C029E89 */  jal   SkinMatrix_SetTranslation
+/* A9D18C 80025FEC 0C029E89 */  jal   SkinMatrix_SetTranslate
 /* A9D190 80025FF0 8E270020 */   lw    $a3, 0x20($s1)
 /* A9D194 80025FF4 0C03F66B */  jal   Math_Rand_ZeroOne
 /* A9D198 80025FF8 00000000 */   nop   
@@ -1200,7 +1200,7 @@ glabel EffectSpark_Draw
 /* A9D2D4 80026134 A614FFF8 */  sh    $s4, -8($s0)
 /* A9D2D8 80026138 A614FFFA */  sh    $s4, -6($s0)
 /* A9D2DC 8002613C A600FFF6 */  sh    $zero, -0xa($s0)
-/* A9D2E0 80026140 0C029F9C */  jal   MtxFToNewMtx
+/* A9D2E0 80026140 0C029F9C */  jal   SkinMatrix_MtxFToNewMtx
 /* A9D2E4 80026144 A208FFFF */   sb    $t0, -1($s0)
 /* A9D2E8 80026148 10400027 */  beqz  $v0, .L800261E8
 /* A9D2EC 8002614C 00124980 */   sll   $t1, $s2, 6
