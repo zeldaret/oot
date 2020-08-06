@@ -771,7 +771,7 @@ glabel BossDodongo_Update
 /* 0337C 808C450C 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 03380 808C4510 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFFA4
 /* 03384 808C4514 460A4400 */  add.s   $f16, $f8, $f10            
-/* 03388 808C4518 0C00A54C */  jal     func_80029530              
+/* 03388 808C4518 0C00A54C */  jal     EffectSsGMagma_Spawn              
 /* 0338C 808C451C E7B0005C */  swc1    $f16, 0x005C($sp)          
 /* 03390 808C4520 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
 .L808C4524:

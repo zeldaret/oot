@@ -23,7 +23,7 @@ typedef enum {
 } EffectSsKiraKiraRegs;
 
 u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809AA9AC(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -61,7 +61,7 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
         this->regs[SS_KIRAKIRA_SCALE] = initParams->scale;
     }
 
-    this->draw = func_809AA9AC;
+    this->draw = EffectSsKiraKira_Draw;
     this->regs[SS_KIRAKIRA_YAW_STEP] = initParams->yaw;
     this->regs[SS_KIRAKIRA_YAW] = initParams->yawStep;
     this->regs[SS_KIRAKIRA_PRIM_R] = initParams->primColor.r;
@@ -77,7 +77,7 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     return 1;
 }
 
-void func_809AA9AC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* localGfxCtx;
     f32 scale;
     s32 pad;

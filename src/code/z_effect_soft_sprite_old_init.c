@@ -6,8 +6,10 @@
 #include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
+#include "overlays/effects/ovl_Effect_Ss_D_Fire/z_eff_ss_d_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Magma/z_eff_ss_g_magma.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
@@ -276,6 +278,7 @@ void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, V
 }
 
 // EffectSsBomb2 Spawn Functions
+
 // unused
 void EffectSsBomb2_SpawnFade(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     EffectSsBomb2InitParams initParams;
@@ -404,9 +407,24 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 
 // EffectSsDFire Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029320.s")
+void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                   s16 alpha, s16 fadeDelay, s32 life) {
+    EffectSsDFireInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800293A0.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.alpha = alpha;
+    initParams.fadeDelay = fadeDelay;
+    initParams.life = life;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_D_FIRE, 128, &initParams);
+}
+
+void func_800293A0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha, s16 fadeDelay) {
+    EffectSsDFire_Spawn(globalCtx, pos, velocity, accel, 100, 35, alpha, fadeDelay, 8);
+}
 
 // EffectSsBubble Spawn Functions
 
@@ -457,7 +475,12 @@ void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* 
 
 // EffectSsGMagma Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029530.s")
+void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos) {
+    EffectSsGMagmaInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_MAGMA, 128, &initParams);
+}
 
 // EffectSsGFire Spawn Functions
 

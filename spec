@@ -1736,8 +1736,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_D_Fire"
     include "build/src/overlays/effects/ovl_Effect_Ss_D_Fire/z_eff_ss_d_fire.o"
-    include "build/data/overlays/effects/z_eff_ss_d_fire.data.o"
-    include "build/data/overlays/effects/z_eff_ss_d_fire.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_D_Fire/ovl_Effect_Ss_D_Fire_reloc.o"
 endseg
 
 beginseg
@@ -1832,8 +1831,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Magma"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Magma/z_eff_ss_g_magma.o"
-    include "build/data/overlays/effects/z_eff_ss_g_magma.data.o"
-    include "build/data/overlays/effects/z_eff_ss_g_magma.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_G_Magma/ovl_Effect_Ss_G_Magma_reloc.o"
 endseg
 
 beginseg

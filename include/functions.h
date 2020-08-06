@@ -238,12 +238,14 @@ void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                    Color_RGBA8* envColor, Color_RGBA8* primColor);
-// ? func_80029320(?);
-// ? func_800293A0(?);
+void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                   s16 alpha, s16 fadeDelay, s32 life);
+void func_800293A0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha, s16 fadeDelay);
 void EffectSsBubble_Spawn(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
-// ? EffectSsGRipple_Spawn(?);
-// ? EffectSsGSplash_Spawn(?);
-// ? func_80029530(?);
+void EffectSsGRipple_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 radius, s16 radiusMax, s16 life);
+void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor,
+                           s16 arg4, s16 scale);
+void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 // ? func_80029568(?);
 void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
                    s16 unk_16, s16 life, s16 unk_1A);
