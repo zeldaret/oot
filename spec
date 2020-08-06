@@ -3355,7 +3355,6 @@ endseg
 beginseg
     name "ovl_En_Wonder_Talk"
     include "build/src/overlays/actors/ovl_En_Wonder_Talk/z_en_wonder_talk.o"
-    include "build/data/overlays/actors/z_en_wonder_talk.data.o"
     include "build/data/overlays/actors/z_en_wonder_talk.reloc.o"
 endseg
 
