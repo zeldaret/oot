@@ -2353,7 +2353,7 @@ endseg
 beginseg
     name "ovl_En_Ex_Ruppy"
     include "build/src/overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.o"
-    include "build/data/overlays/actors/z_en_ex_ruppy.data.o"
+   // include "build/data/overlays/actors/z_en_ex_ruppy.data.o"
     include "build/data/overlays/actors/z_en_ex_ruppy.reloc.o"
 endseg
 
