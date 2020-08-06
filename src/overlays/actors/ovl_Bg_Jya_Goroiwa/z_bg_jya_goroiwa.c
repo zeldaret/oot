@@ -1,3 +1,9 @@
+/*
+ *  File: z_bg_jya_goroiwa.c
+ *  Overlay: ovl_Bg_Jya_Goroiwa
+ *  Description: Rolling Boulder
+ *  moves very slowly in some cases
+ */
 #include "z_bg_jya_goroiwa.h"
 
 #define FLAGS 0x00000010
