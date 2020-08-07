@@ -766,6 +766,9 @@ D_060098A0 = 0x060098A0;
 // z_eff_ss_g_magma
 D_04024410 = 0x04024410;
 
+// z_eff_ss_g_fire
+D_0401C220 = 0x0401C220;
+
 // z_en_fhg_fire
 D_0600FAA0 = 0x0600FAA0;
 D_0600FCF8 = 0x0600FCF8;

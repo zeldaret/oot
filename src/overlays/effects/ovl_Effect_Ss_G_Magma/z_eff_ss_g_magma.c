@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_g_magma.c
  * Overlay: ovl_Effect_Ss_G_Magma
- * Description:
+ * Description: Magma Bubbles
  */
 
 #include "z_eff_ss_g_magma.h"
@@ -21,8 +21,8 @@ typedef enum {
 } EffectSsG_MagmaRegs;
 
 u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A62A8(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A6300(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGMagma_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGMagma_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_G_Magma_InitVars = {
     EFFECT_SS_G_MAGMA,
@@ -40,8 +40,8 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->accel = zeroVec;
     this->velocity = zeroVec;
     this->pos = initParams->pos;
-    this->draw = func_809A62A8;
-    this->update = func_809A6300;
+    this->draw = EffectSsGMagma_Draw;
+    this->update = EffectSsGMagma_Update;
     this->displayList = SEGMENTED_TO_VIRTUAL(D_04024410);
     this->life = 16;
     this->regs[SS_G_MAGMA_SCALE] = (s16)(Math_Rand_ZeroOne() * 100.0f) + 200;
@@ -63,7 +63,7 @@ UNK_PTR D_809A6334[] = {
     0x04023810, 0x04023990, 0x04023B10, 0x04023C90, 0x04023E10, 0x04023F90, 0x04024110, 0x04024290
 };
 
-void func_809A62A8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGMagma_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 texIdx = this->regs[SS_G_MAGMA_TEX_IDX] / 100;
 
     if (texIdx > 7) {
@@ -73,6 +73,6 @@ void func_809A62A8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     EffectSs_DrawGEffect(globalCtx, this, D_809A6334[texIdx]);
 }
 
-void func_809A6300(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGMagma_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->regs[SS_G_MAGMA_TEX_IDX] += this->regs[SS_G_MAGMA_TEX_IDX_STEP];
 }

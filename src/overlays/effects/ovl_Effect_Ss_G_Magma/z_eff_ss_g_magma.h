@@ -6,6 +6,6 @@
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
-} EffectSsGMagmaInitParams; // size = 0x
+} EffectSsGMagmaInitParams; // size = 0xC
 
 #endif

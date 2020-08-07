@@ -10,6 +10,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Magma/z_eff_ss_g_magma.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Fire/z_eff_ss_g_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
@@ -484,7 +485,12 @@ void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos) {
 
 // EffectSsGFire Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029568.s")
+void func_80029568(GlobalContext* globalCtx, Vec3f* pos) {
+    EffectSsGFireInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_FIRE, 128, &initParams);
+}
 
 // EffectSsLightning Spawn Functions
 
