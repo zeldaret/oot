@@ -157,11 +157,11 @@ void Audio_NoteDisable(Note* note) {
 
 void Audio_ProcessNotes(void) {
     s32 pad[2];
-    NoteAttributes *attributes;
-    NoteSubEu *noteSubEu2;
-    NoteSubEu *noteSubEu;
-    Note *note;
-    NotePlaybackState *playbackState;
+    NoteAttributes* attributes;
+    NoteSubEu* noteSubEu2;
+    NoteSubEu* noteSubEu;
+    Note* note;
+    NotePlaybackState* playbackState;
     Reverb reverb;
     u8 bookOffset;
     f32 scale;
@@ -172,7 +172,7 @@ void Audio_ProcessNotes(void) {
         noteSubEu2 = &gAudioContext.gNoteSubsEu[gAudioContext.gNoteSubEuOffset + i];
         playbackState = &note->playbackState;
         if (playbackState->parentLayer != NO_LAYER) {
-            if ((u32) playbackState->parentLayer < 0x7fffffffU) {
+            if ((u32)playbackState->parentLayer < 0x7FFFFFFFU) {
                 continue;
             }
 
@@ -183,7 +183,7 @@ void Audio_ProcessNotes(void) {
                 playbackState->unk_04 = 2;
                 goto out;
             } else if (!playbackState->parentLayer->enabled && playbackState->unk_04 == 0 &&
-                    playbackState->priority >= 1) {
+                       playbackState->priority >= 1) {
                 // do nothing
             } else if (playbackState->parentLayer->seqChannel->seqPlayer == NULL) {
                 Audio_SequenceChannelDisable(playbackState->parentLayer->seqChannel);
@@ -191,7 +191,7 @@ void Audio_ProcessNotes(void) {
                 playbackState->unk_04 = 1;
                 continue;
             } else if (playbackState->parentLayer->seqChannel->seqPlayer->muted &&
-                    (playbackState->parentLayer->seqChannel->muteBehavior & 0x40)) {
+                       (playbackState->parentLayer->seqChannel->muteBehavior & 0x40)) {
                 // do nothing
             } else {
                 goto out;
@@ -206,7 +206,7 @@ void Audio_ProcessNotes(void) {
             continue;
         }
 
-out:
+    out:
         if (playbackState->priority != 0) {
             if (1) {}
             noteSubEu = &note->noteSubEu;
@@ -293,7 +293,7 @@ out:
             reverb.velocity *= scale;
             Audio_NoteSetVelPanReverb(note, noteSubEu2, &reverb);
             noteSubEu->bitField1.asBitfields.bookOffset = bookOffset;
-skip:;
+        skip:;
         }
     }
 }
@@ -412,7 +412,7 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
             if (instId >= (gAudioContext.gCtlEntries[bankId].numDrums)) {
                 return -3;
             }
-            gAudioContext.gCtlEntries[bankId].drums[instId] = (void*) arg3;
+            gAudioContext.gCtlEntries[bankId].drums[instId] = (void*)arg3;
             break;
 
         case 1:
@@ -426,7 +426,7 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
             if (instId >= (gAudioContext.gCtlEntries[bankId].numInstruments)) {
                 return -3;
             }
-            gAudioContext.gCtlEntries[bankId].instruments[instId] = (void*) arg3;
+            gAudioContext.gCtlEntries[bankId].instruments[instId] = (void*)arg3;
             break;
     }
 
