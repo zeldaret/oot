@@ -1,6 +1,8 @@
 #include <ultra64.h>
 #include <global.h>
 
+extern f32* D_801726A0;
+
 void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     f32 volRight, volLeft;
     s32 smallPanIndex;
@@ -10,20 +12,20 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     f32 vel;
     u8 pan;
     u8 reverbVol;
-    ReverbBits sp24;
+    ReverbBitsData sp24;
     s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
-    vel = reverb->unk_8;
+    vel = reverb->velocity;
 
     pan = reverb->pan;
     reverbVol = reverb->reverb;
-    sp24 = reverb->reverbBits;
+    sp24 = reverb->reverbBits.s;
 
     sub->bitField0.asByte = note->noteSubEu.bitField0.asByte & 0xFF;
     sub->bitField1.asByte = note->noteSubEu.bitField1.asByte & 0xFF;
     sub->sound.samples = note->noteSubEu.sound.samples;
     sub->unk_06 = note->noteSubEu.unk_06;
 
-    Audio_NoteSetResamplingRate(sub, reverb->velocity);
+    Audio_NoteSetResamplingRate(sub, reverb->frequency);
 
     pan &= 0x7F;
 
@@ -95,7 +97,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     sub->targetVolLeft = (s32)((vel * volLeft) * 4095.999f);
     sub->targetVolRight = (s32)((vel * volRight) * 4095.999f);
 
-    sub->bankId = reverb->bankId;
+    sub->unk_2 = reverb->unk_1;
     sub->unk_14 = reverb->unk_10;
     sub->unk_07 = reverb->unk_14;
     sub->unk_10 = reverb->unk_16;
@@ -135,7 +137,7 @@ void Audio_NoteInit(Note* note) {
     }
 
     note->playbackState.unk_04 = 0;
-    note->playbackState.adsr.adsrAction.adsrBits.bits0 = 1;
+    note->playbackState.adsr.adsrAction.adsrBits.state = 1;
     note->noteSubEu = gDefaultNoteSub;
 }
 
@@ -149,11 +151,152 @@ void Audio_NoteDisable(Note* note) {
     note->noteSubEu.bitField0.asBitfields.finished = 0;
     note->playbackState.parentLayer = NO_LAYER;
     note->playbackState.prevParentLayer = NO_LAYER;
-    note->playbackState.adsr.adsrAction.adsrBits.bits0 = 0;
-    note->playbackState.adsr.fadeOutVel = 0;
+    note->playbackState.adsr.adsrAction.adsrBits.state = 0;
+    note->playbackState.adsr.current = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_playback/Audio_ProcessNotes.s")
+void Audio_ProcessNotes(void) {
+    s32 pad[2];
+    NoteAttributes *attributes;
+    NoteSubEu *noteSubEu2;
+    NoteSubEu *noteSubEu;
+    Note *note;
+    NotePlaybackState *playbackState;
+    Reverb reverb;
+    u8 bookOffset;
+    f32 scale;
+    s32 i;
+
+    for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+        note = &gAudioContext.gNotes[i];
+        noteSubEu2 = &gAudioContext.gNoteSubsEu[gAudioContext.gNoteSubEuOffset + i];
+        playbackState = &note->playbackState;
+        if (playbackState->parentLayer != NO_LAYER) {
+            if ((u32) playbackState->parentLayer < 0x7fffffffU) {
+                continue;
+            }
+
+            if (note != playbackState->parentLayer->note && playbackState->unk_04 == 0) {
+                playbackState->adsr.adsrAction.adsrBits.bits4 = 1;
+                playbackState->adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
+                playbackState->priority = 1;
+                playbackState->unk_04 = 2;
+                goto out;
+            } else if (!playbackState->parentLayer->enabled && playbackState->unk_04 == 0 &&
+                    playbackState->priority >= 1) {
+                // do nothing
+            } else if (playbackState->parentLayer->seqChannel->seqPlayer == NULL) {
+                Audio_SequenceChannelDisable(playbackState->parentLayer->seqChannel);
+                playbackState->priority = 1;
+                playbackState->unk_04 = 1;
+                continue;
+            } else if (playbackState->parentLayer->seqChannel->seqPlayer->muted &&
+                    (playbackState->parentLayer->seqChannel->muteBehavior & 0x40)) {
+                // do nothing
+            } else {
+                goto out;
+            }
+
+            Audio_SeqChanLayerNoteRelease(playbackState->parentLayer);
+            Audio_AudioListRemove(&note->listItem);
+            Audio_AudioListPushFront(&note->listItem.pool->decaying, &note->listItem);
+            playbackState->priority = 1;
+            playbackState->unk_04 = 2;
+        } else if (playbackState->unk_04 == 0 && playbackState->priority >= 1) {
+            continue;
+        }
+
+out:
+        if (playbackState->priority != 0) {
+            if (1) {}
+            noteSubEu = &note->noteSubEu;
+            if (playbackState->unk_04 >= 1 || noteSubEu->bitField0.asBitfields.finished) {
+                if (playbackState->adsr.adsrAction.adsrBits.state == 0 || noteSubEu->bitField0.asBitfields.finished) {
+                    if (playbackState->wantedParentLayer != NO_LAYER) {
+                        Audio_NoteDisable(note);
+                        if (playbackState->wantedParentLayer->seqChannel != NULL) {
+                            Audio_NoteInitForLayer(note, playbackState->wantedParentLayer);
+                            func_800E8F00(note);
+                            func_800E8FB8(note);
+                            Audio_AudioListRemove(&note->listItem);
+                            Audio_AudioListPushBack(&note->listItem.pool->active, &note->listItem);
+                            playbackState->wantedParentLayer = NO_LAYER;
+                            // don't skip
+                        } else {
+                            Audio_NoteDisable(note);
+                            Audio_AudioListRemove(&note->listItem);
+                            Audio_AudioListPushBack(&note->listItem.pool->disabled, &note->listItem);
+                            playbackState->wantedParentLayer = NO_LAYER;
+                            goto skip;
+                        }
+                    } else {
+                        if (playbackState->parentLayer != NO_LAYER) {
+                            playbackState->parentLayer->ignoreDrumPan = 1; // wrong field name
+                        }
+                        Audio_NoteDisable(note);
+                        Audio_AudioListRemove(&note->listItem);
+                        Audio_AudioListPushBack(&note->listItem.pool->disabled, &note->listItem);
+                        continue;
+                    }
+                }
+            } else if (playbackState->adsr.adsrAction.adsrBits.state == 0) {
+                if (playbackState->parentLayer != NO_LAYER) {
+                    playbackState->parentLayer->ignoreDrumPan = 1; // wrong field name
+                }
+                Audio_NoteDisable(note);
+                Audio_AudioListRemove(&note->listItem);
+                Audio_AudioListPushBack(&note->listItem.pool->disabled, &note->listItem);
+                continue;
+            }
+
+            scale = Audio_AdsrUpdate(&playbackState->adsr);
+            Audio_NoteVibratoUpdate(note);
+            attributes = &playbackState->attributes;
+            if (playbackState->unk_04 == 1 || playbackState->unk_04 == 2) {
+                reverb.frequency = attributes->freqScale;
+                reverb.velocity = attributes->velocity;
+                reverb.pan = attributes->pan;
+                reverb.reverb = attributes->reverb;
+                reverb.reverbBits = attributes->reverbBits;
+                reverb.unk_1 = attributes->unk_1;
+                reverb.unk_10 = attributes->unk_10;
+                reverb.unk_14 = attributes->unk_4;
+                reverb.unk_16 = attributes->unk_6;
+                bookOffset = noteSubEu->bitField1.asBitfields.bookOffset;
+            } else {
+                SequenceChannelLayer* layer = playbackState->parentLayer;
+                SequenceChannel* channel = layer->seqChannel;
+
+                reverb.frequency = layer->noteFreqScale;
+                reverb.velocity = layer->noteVelocity;
+                reverb.pan = layer->notePan;
+                if (layer->reverbBits.asBits == 0) {
+                    reverb.reverbBits = channel->reverbBits;
+                } else {
+                    reverb.reverbBits = layer->reverbBits;
+                }
+                reverb.reverb = channel->reverb;
+                reverb.unk_1 = channel->unk_0C;
+                reverb.unk_10 = channel->unk_CC;
+                reverb.unk_14 = channel->unk_0F;
+                reverb.unk_16 = channel->unk_20;
+                bookOffset = channel->bookOffset & 0x7;
+
+                if (channel->seqPlayer->muted && (channel->muteBehavior & 8)) {
+                    reverb.frequency = 0.0f;
+                    reverb.velocity = 0.0f;
+                }
+            }
+
+            reverb.frequency *= playbackState->vibratoFreqScale * playbackState->portamentoFreqScale;
+            reverb.frequency *= gAudioContext.gAudioBufferParameters.resampleRate;
+            reverb.velocity *= scale;
+            Audio_NoteSetVelPanReverb(note, noteSubEu2, &reverb);
+            noteSubEu->bitField1.asBitfields.bookOffset = bookOffset;
+skip:;
+        }
+    }
+}
 
 AudioBankSound* Audio_InstrumentGetAudioBankSound(Instrument* instrument, s32 semitone) {
     AudioBankSound* sound;
@@ -256,8 +399,6 @@ UnkInstrument* Audio_GetUnkInstrument(s32 bankId, s32 unkInstrumentId) {
 }
 
 s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
-    UnkInstrument* temp_t7;
-
     if (bankId == 0xFF) {
         return -1;
     }
@@ -271,7 +412,7 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
             if (instId >= (gAudioContext.gCtlEntries[bankId].numDrums)) {
                 return -3;
             }
-            gAudioContext.gCtlEntries[bankId].drums[instId] = arg3;
+            gAudioContext.gCtlEntries[bankId].drums[instId] = (void*) arg3;
             break;
 
         case 1:
@@ -285,19 +426,18 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
             if (instId >= (gAudioContext.gCtlEntries[bankId].numInstruments)) {
                 return -3;
             }
-            gAudioContext.gCtlEntries[bankId].instruments[instId] = arg3;
+            gAudioContext.gCtlEntries[bankId].instruments[instId] = (void*) arg3;
             break;
     }
 
     return 0;
 }
 
-#ifdef NON_EQUIVALENT
-// This code is SM64 PAL's version with changes made to build here (and a couple legitimate changes made in the
-// function). This function needs massive work, hence why it is not set for NON_MATCHING
 void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) {
     Note* note;
     NoteAttributes* attributes;
+    SequenceChannel* chan;
+    s32 i;
 
     if (seqLayer == NO_LAYER) {
         return;
@@ -320,33 +460,59 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
         if (note->playbackState.parentLayer == NO_LAYER && note->playbackState.wantedParentLayer == NO_LAYER &&
             note->playbackState.prevParentLayer == seqLayer && target != 6) {
             note->playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
-            note->playbackState.adsr.adsrAction.action |= 0x10;
+            note->playbackState.adsr.adsrAction.adsrBits.bits4 = 1;
         }
         return;
     }
 
-    seqLayer->status = 0;
-    if (note->playbackState.adsr.state != 6) {
+    if (note->playbackState.adsr.adsrAction.adsrBits.state != 6) {
         attributes->freqScale = seqLayer->noteFreqScale;
         attributes->velocity = seqLayer->noteVelocity;
         attributes->pan = seqLayer->notePan;
+
         if (seqLayer->seqChannel != NULL) {
-            attributes->reverb = seqLayer->seqChannel->reverb;
+            chan = seqLayer->seqChannel;
+            attributes->reverb = chan->reverb;
+            attributes->unk_1 = chan->unk_0C;
+            attributes->unk_10 = chan->unk_CC;
+
+            if (attributes->unk_10 != NULL) {
+                for (i = 0; i < 8; i++) {
+                    attributes->unk_14[i] = attributes->unk_10[i];
+                }
+                attributes->unk_10 = attributes->unk_14;
+            }
+
+            attributes->unk_6 = chan->unk_20;
+            attributes->unk_4 = chan->unk_0F;
+            if (chan->seqPlayer->muted && (chan->muteBehavior & 8)) {
+                note->noteSubEu.bitField0.asBitfields.finished = 1;
+            }
+
+            if (seqLayer->reverbBits.asBits == 0) {
+                attributes->reverbBits = chan->reverbBits;
+            } else {
+                attributes->reverbBits = seqLayer->reverbBits;
+            }
+            note->playbackState.priority = chan->someOtherPriority;
+        } else {
+            attributes->reverbBits = seqLayer->reverbBits;
+            note->playbackState.priority = 1;
         }
-        note->playbackState.priority = 1;
+
         note->playbackState.prevParentLayer = note->playbackState.parentLayer;
         note->playbackState.parentLayer = NO_LAYER;
         if (target == 7) {
             note->playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
-            note->playbackState.adsr.adsrAction.action |= 0x10;
+            note->playbackState.adsr.adsrAction.adsrBits.bits4 = 1;
+            note->playbackState.unk_04 = 2;
         } else {
-            note->playbackState.adsr.adsrAction.action |= 0x20;
+            note->playbackState.unk_04 = 1;
+            note->playbackState.adsr.adsrAction.adsrBits.bits5 = 1;
             if (seqLayer->adsr.releaseRate == 0) {
-                note->playbackState.adsr.fadeOutVel = seqLayer->seqChannel->adsr.releaseRate *
-                                                      gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
+                note->playbackState.adsr.fadeOutVel = D_801726A0[seqLayer->seqChannel->adsr.releaseRate];
             } else {
-                note->playbackState.adsr.fadeOutVel =
-                    seqLayer->adsr.releaseRate * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled;
+                note->playbackState.adsr.fadeOutVel = D_801726A0[seqLayer->adsr.releaseRate];
             }
             note->playbackState.adsr.sustain =
                 ((f32)(s32)(seqLayer->seqChannel->adsr.sustain) * note->playbackState.adsr.current) / 256.0f;
@@ -358,9 +524,6 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
         Audio_AudioListPushFront(&note->listItem.pool->decaying, &note->listItem);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_playback/Audio_SeqChanLayerDecayRelease.s")
-#endif
 
 void Audio_SeqChanLayerNoteDecay(SequenceChannelLayer* seqLayer) {
     Audio_SeqChanLayerDecayRelease(seqLayer, 6);
@@ -379,9 +542,9 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceChannelLayer* seqLayer, s32 wav
         waveId = 128;
     }
 
-    freqScale = seqLayer->noteFreqScale;
-    if (seqLayer->portamento.mode != 0 && 0.0f < seqLayer->portamento.speed) {
-        freqScale *= (seqLayer->portamento.speed + 1.0f);
+    freqScale = seqLayer->freqScale;
+    if (seqLayer->portamento.mode != 0 && 0.0f < seqLayer->portamento.extent) {
+        freqScale *= (seqLayer->portamento.extent + 1.0f);
     }
     if (freqScale < 0.99999f) {
         sampleCountIndex = 0;
@@ -396,7 +559,7 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceChannelLayer* seqLayer, s32 wav
         sampleCountIndex = 3;
         ratio = 0.13081f;
     }
-    seqLayer->noteFreqScale *= ratio;
+    seqLayer->freqScale *= ratio;
     note->playbackState.waveId = waveId;
     note->playbackState.sampleCountIndex = sampleCountIndex;
 
@@ -597,7 +760,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer) {
     seqLayer->note = note;
     seqLayer->seqChannel->noteUnused = note;
     seqLayer->seqChannel->layerUnused = seqLayer;
-    seqLayer->unk_40 = 0.0f;
+    seqLayer->noteVelocity = 0.0f;
     Audio_NoteInit(note);
     instId = seqLayer->instOrWave;
 
@@ -630,7 +793,7 @@ void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceChannelLayer* seqLaye
     note->playbackState.wantedParentLayer = seqLayer;
     note->playbackState.priority = seqLayer->seqChannel->notePriority;
 
-    note->playbackState.adsr.velocity = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
+    note->playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
     note->playbackState.adsr.adsrAction.adsrBits.bits4 = 1;
 }
 
@@ -764,7 +927,7 @@ void Audio_NoteInitAll(void) {
         note->playbackState.waveId = 0;
         note->playbackState.attributes.velocity = 0.0f;
         note->playbackState.adsrVolScale = 0;
-        note->playbackState.adsr.adsrAction.action = 0;
+        note->playbackState.adsr.adsrAction.asBits = 0;
         note->unk_B0 = 0;
         note->unk_92 = 0;
         note->unk_94 = 0;

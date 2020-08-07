@@ -17,7 +17,7 @@ glabel D_80149618
     .float 1.0E-5
 
 .text
-glabel func_800E9004
+glabel Audio_AdsrUpdate
 /* B601A4 800E9004 90830000 */  lbu   $v1, ($a0)
 /* B601A8 800E9008 00601025 */  move  $v0, $v1
 /* B601AC 800E900C 3042000F */  andi  $v0, $v0, 0xf

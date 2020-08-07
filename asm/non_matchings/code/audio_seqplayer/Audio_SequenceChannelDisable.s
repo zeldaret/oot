@@ -1,4 +1,4 @@
-glabel func_800E98C8
+glabel Audio_SequenceChannelDisable
 /* B60A68 800E98C8 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B60A6C 800E98CC AFB20020 */  sw    $s2, 0x20($sp)
 /* B60A70 800E98D0 AFB1001C */  sw    $s1, 0x1c($sp)

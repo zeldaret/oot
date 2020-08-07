@@ -299,7 +299,7 @@ glabel L800EB0F4
 /* B62338 800EB198 00000000 */   nop   
 /* B6233C 800EB19C 145E0005 */  bne   $v0, $fp, .L800EB1B4
 /* B62340 800EB1A0 00000000 */   nop   
-/* B62344 800EB1A4 0C03A632 */  jal   func_800E98C8
+/* B62344 800EB1A4 0C03A632 */  jal   Audio_SequenceChannelDisable
 /* B62348 800EB1A8 02802025 */   move  $a0, $s4
 /* B6234C 800EB1AC 100002D4 */  b     .L800EBD00
 /* B62350 800EB1B0 00008025 */   move  $s0, $zero
@@ -592,7 +592,7 @@ glabel L800EB59C
 /* B6273C 800EB59C 93B20063 */  lbu   $s2, 0x63($sp)
 /* B62740 800EB5A0 00124080 */  sll   $t0, $s2, 2
 /* B62744 800EB5A4 02E87021 */  addu  $t6, $s7, $t0
-/* B62748 800EB5A8 0C03A632 */  jal   func_800E98C8
+/* B62748 800EB5A8 0C03A632 */  jal   Audio_SequenceChannelDisable
 /* B6274C 800EB5AC 8DC40038 */   lw    $a0, 0x38($t6)
 /* B62750 800EB5B0 1000FED0 */  b     .L800EB0F4
 /* B62754 800EB5B4 00000000 */   nop   

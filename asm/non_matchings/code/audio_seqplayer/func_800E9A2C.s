@@ -19,7 +19,7 @@ glabel func_800E9A2C
 /* B60C0C 800E9A6C 000E702B */  sltu  $t6, $zero, $t6
 /* B60C10 800E9A70 566E0004 */  bnel  $s3, $t6, .L800E9A84
 /* B60C14 800E9A74 26100004 */   addiu $s0, $s0, 4
-/* B60C18 800E9A78 0C03A632 */  jal   func_800E98C8
+/* B60C18 800E9A78 0C03A632 */  jal   Audio_SequenceChannelDisable
 /* B60C1C 800E9A7C 00000000 */   nop   
 /* B60C20 800E9A80 26100004 */  addiu $s0, $s0, 4
 .L800E9A84:

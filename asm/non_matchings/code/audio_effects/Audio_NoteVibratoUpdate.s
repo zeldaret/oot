@@ -1,4 +1,4 @@
-glabel func_800E8EA4
+glabel Audio_NoteVibratoUpdate
 /* B60044 800E8EA4 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B60048 800E8EA8 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B6004C 800E8EAC 908E0090 */  lbu   $t6, 0x90($a0)

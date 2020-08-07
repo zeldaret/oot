@@ -658,7 +658,7 @@ glabel L800EC438
 /* B635D8 800EC438 3218000F */  andi  $t8, $s0, 0xf
 /* B635DC 800EC43C 00186880 */  sll   $t5, $t8, 2
 /* B635E0 800EC440 024DC821 */  addu  $t9, $s2, $t5
-/* B635E4 800EC444 0C03A632 */  jal   func_800E98C8
+/* B635E4 800EC444 0C03A632 */  jal   Audio_SequenceChannelDisable
 /* B635E8 800EC448 8F240038 */   lw    $a0, 0x38($t9)
 /* B635EC 800EC44C 1000FE86 */  b     .L800EBE68
 /* B635F0 800EC450 00000000 */   nop   
