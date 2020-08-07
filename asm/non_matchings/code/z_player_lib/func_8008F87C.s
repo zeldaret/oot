@@ -285,7 +285,7 @@ glabel func_8008F87C
 /* B06E40 8008FCA0 C7AA0080 */   lwc1  $f10, 0x80($sp)
 /* B06E44 8008FCA4 E7AA0090 */  swc1  $f10, 0x90($sp)
 /* B06E48 8008FCA8 8FA400B0 */  lw    $a0, 0xb0($sp)
-/* B06E4C 8008FCAC 0C00A55A */  jal   func_80029568
+/* B06E4C 8008FCAC 0C00A55A */  jal   EffectSsGFire_Spawn
 /* B06E50 8008FCB0 27A5008C */   addiu $a1, $sp, 0x8c
 .L8008FCB4:
 /* B06E54 8008FCB4 8FBF0024 */  lw    $ra, 0x24($sp)

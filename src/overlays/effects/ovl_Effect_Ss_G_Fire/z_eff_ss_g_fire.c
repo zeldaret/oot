@@ -21,8 +21,8 @@ typedef enum {
 } EffectSsG_FireRegs;
 
 u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A6010(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A60B4(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_G_Fire_InitVars = {
     EFFECT_SS_G_FIRE,
@@ -40,8 +40,8 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->accel = zeroVec;
     this->velocity = zeroVec;
     this->pos = initParams->pos;
-    this->draw = func_809A6010;
-    this->update = func_809A60B4;
+    this->draw = EffectSsGFire_Draw;
+    this->update = EffectSsGFire_Update;
     this->displayList = SEGMENTED_TO_VIRTUAL(D_0401C220);
     this->life = 8;
     this->flags = 0;
@@ -60,7 +60,7 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     return 1;
 }
 
-void func_809A6010(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     UNK_PTR D_809A60E4[] = {
         0x0401A220, 0x0401A620, 0x0401AA20, 0x0401AE20, 0x0401B220, 0x0401B620, 0x0401BA20, 0x0401BE20,
     };
@@ -69,6 +69,6 @@ void func_809A6010(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     EffectSs_DrawGEffect(globalCtx, this, D_809A60E4[texIdx]);
 }
 
-void func_809A60B4(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->regs[SS_G_FIRE_TEX_IDX] += this->regs[SS_G_FIRE_TEX_IDX_STEP];
 }

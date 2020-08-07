@@ -485,7 +485,7 @@ void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos) {
 
 // EffectSsGFire Spawn Functions
 
-void func_80029568(GlobalContext* globalCtx, Vec3f* pos) {
+void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos) {
     EffectSsGFireInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);

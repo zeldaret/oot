@@ -246,7 +246,7 @@ void EffectSsGRipple_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 radius, s16
 void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor,
                            s16 arg4, s16 scale);
 void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos);
-// ? func_80029568(?);
+void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
                    s16 unk_16, s16 life, s16 unk_1A);
 // ? func_80029618(?);
