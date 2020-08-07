@@ -1,6 +1,9 @@
 #include <ultra64.h>
 #include <global.h>
 
+/**
+ * Calculates the distances between `a` and `b`
+*/
 f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b) {
     f32 dx = a->x - b->x;
     f32 dy = a->y - b->y;
@@ -8,6 +11,11 @@ f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b) {
 
     return sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 }
+
+/**
+ * Calculates the distances between `a` and `b`, and outputs the vector
+ * created by the difference into `dest`
+*/
 
 f32 OLib_Vec3fDistOutDiff(Vec3f* a, Vec3f* b, Vec3f* dest) {
     dest->x = a->x - b->x;
@@ -17,16 +25,27 @@ f32 OLib_Vec3fDistOutDiff(Vec3f* a, Vec3f* b, Vec3f* dest) {
     return sqrtf(SQ(dest->x) + SQ(dest->y) + SQ(dest->z));
 }
 
+/**
+ * Calculates the distances on the xz plane between `a` and `b`
+*/
 f32 OLib_Vec3fDistXZ(Vec3f* a, Vec3f* b) {
     return sqrtf(SQ(a->x - b->x) + SQ(a->z - b->z));
 }
 
-f32 func_8007C058(f32 arg0, f32 arg1) {
-    return (arg1 <= fabsf(arg0)) ? arg0 : ((arg0 >= 0) ? arg1 : -arg1);
+/**
+ * Clamps `val` to a maximum of -`min` as `val` approaches zero, and a minimum of
+ * `min` as `val` approaches zero
+*/
+f32 OLib_ClampMinDist(f32 val, f32 min) {
+    return (min <= fabsf(val)) ? val : ((val >= 0) ? min : -min);
 }
 
-f32 func_8007C0A8(f32 arg0, f32 arg1) {
-    return (fabsf(arg0) <= arg1) ? arg0 : ((arg0 >= 0) ? arg1 : -arg1);
+/**
+ * Clamps `val` to a minimum of -`max` as `val` approaches -`max`, and a maximum of `max`
+ * as `val` approaches `max`
+*/
+f32 OLib_ClampMaxDist(f32 val, f32 max) {
+    return (fabsf(val) <= max) ? val : ((val >= 0) ? max : -max);
 }
 
 /**
@@ -35,17 +54,17 @@ f32 func_8007C0A8(f32 arg0, f32 arg1) {
 Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
     Vec3f v1;
     Vec3f v2;
-    f32 temp;
+    f32 dist;
 
     v1.x = b->x - a->x;
     v1.y = b->y - a->y;
     v1.z = b->z - a->z;
 
-    temp = func_8007C058(sqrtf(SQ(v1.x) + SQ(v1.y) + SQ(v1.z)), 0.01f);
+    dist = OLib_ClampMinDist(sqrtf(SQ(v1.x) + SQ(v1.y) + SQ(v1.z)), 0.01f);
 
-    v2.x = v1.x / temp;
-    v2.y = v1.y / temp;
-    v2.z = v1.z / temp;
+    v2.x = v1.x / dist;
+    v2.y = v1.y / dist;
+    v2.z = v1.z / dist;
 
     *dest = v2;
 
@@ -159,44 +178,53 @@ VecSph* OLib_Vec3fDiffToVecSphGeo(VecSph* dest, Vec3f* a, Vec3f* b) {
     return OLib_Vec3fToVecSphGeo(dest, &sph);
 }
 
-Vec3f* func_8007C4E0(Vec3f* dest, Vec3f* a, Vec3f* b) {
-    Vec3f var;
+/**
+ * Gets the pitch/yaw of the vector formed from `b`-`a`, result is in radians
+*/
+Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b) {
+    Vec3f anglesRad;
 
-    var.x = Math_atan2f(b->z - a->z, b->y - a->y);
-    var.y = Math_atan2f(b->x - a->x, b->z - a->z);
-    var.z = 0;
+    anglesRad.x = Math_atan2f(b->z - a->z, b->y - a->y);
+    anglesRad.y = Math_atan2f(b->x - a->x, b->z - a->z);
+    anglesRad.z = 0;
 
-    *dest = var;
+    *dest = anglesRad;
 
     return dest;
 }
 
-Vec3f* func_8007C574(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
-    Vec3f sp24;
-    Vec3f sp18;
+/**
+ * Gets the pitch/yaw of the vector formed from `b`-`a`, result is in degrees
+*/
+Vec3f* OLib_Vec3fDiffDegF(Vec3f* dest, Vec3f* a, Vec3f* b) {
+    Vec3f anglesRad;
+    Vec3f anglesDegrees;
 
-    func_8007C4E0(&sp24, arg1, arg2);
+    OLib_Vec3fDiffRad(&anglesRad, a, b);
 
-    sp18.x = RADF_TO_DEGF(sp24.x);
-    sp18.y = RADF_TO_DEGF(sp24.y);
-    sp18.z = 0.0f;
+    anglesDegrees.x = RADF_TO_DEGF(anglesRad.x);
+    anglesDegrees.y = RADF_TO_DEGF(anglesRad.y);
+    anglesDegrees.z = 0.0f;
 
-    *arg0 = sp18;
+    *dest = anglesDegrees;
 
-    return arg0;
+    return dest;
 }
 
-Vec3s* func_8007C5E0(Vec3s* arg0, Vec3f* arg1, Vec3f* arg2) {
-    Vec3f sp24;
-    Vec3s sp18;
+/**
+ * Gets the pitch/yaw of the vector formed from `b`-`a`, result is in binary degrees
+*/
+Vec3s* OLib_Vec3fDiffBinAng(Vec3s* dest, Vec3f* a, Vec3f* b) {
+    Vec3f anglesRad;
+    Vec3s anglesBinAng;
 
-    func_8007C4E0(&sp24, arg1, arg2);
+    OLib_Vec3fDiffRad(&anglesRad, a, b);
 
-    sp18.x = DEGF_TO_BINANG(RADF_TO_DEGF(sp24.x));
-    sp18.y = DEGF_TO_BINANG(RADF_TO_DEGF(sp24.y));
-    sp18.z = 0.0f;
+    anglesBinAng.x = DEGF_TO_BINANG(RADF_TO_DEGF(anglesRad.x));
+    anglesBinAng.y = DEGF_TO_BINANG(RADF_TO_DEGF(anglesRad.y));
+    anglesBinAng.z = 0.0f;
 
-    *arg0 = sp18;
+    *dest = anglesBinAng;
 
-    return arg0;
+    return dest;
 }

@@ -1,4 +1,4 @@
-glabel func_800CB934
+glabel Math3D_PointRelativeToCubeEdges
 /* B42AD4 800CB934 C4A40000 */  lwc1  $f4, ($a1)
 /* B42AD8 800CB938 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* B42ADC 800CB93C 00001825 */  move  $v1, $zero

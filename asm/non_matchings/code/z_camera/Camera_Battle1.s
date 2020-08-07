@@ -908,7 +908,7 @@ glabel Camera_Battle1
 /* AC3320 8004C180 A7A5008E */  sh    $a1, 0x8e($sp)
 /* AC3324 8004C184 E7B200F4 */  swc1  $f18, 0xf4($sp)
 /* AC3328 8004C188 46065402 */  mul.s $f16, $f10, $f6
-/* AC332C 8004C18C 0C01F02A */  jal   func_8007C0A8
+/* AC332C 8004C18C 0C01F02A */  jal   OLib_ClampMaxDist
 /* AC3330 8004C190 E7B000FC */   swc1  $f16, 0xfc($sp)
 /* AC3334 8004C194 C7A800B4 */  lwc1  $f8, 0xb4($sp)
 /* AC3338 8004C198 C7B200F4 */  lwc1  $f18, 0xf4($sp)

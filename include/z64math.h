@@ -72,6 +72,8 @@ typedef struct {
     s16 yaw;    // azimuthal angle
 } VecSph; // size = 0x08
 
+#define IS_ZERO(f) (fabsf(f) < 0.008f)
+
 /**
  * Trig macros
 */

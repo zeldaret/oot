@@ -284,7 +284,7 @@ glabel Camera_Subj4
 /* AC80E0 80050F40 00E03025 */  move  $a2, $a3
 /* AC80E4 80050F44 AFA70034 */  sw    $a3, 0x34($sp)
 /* AC80E8 80050F48 02002025 */  move  $a0, $s0
-/* AC80EC 80050F4C 0C032AE5 */  jal   Math3D_LineVsPos
+/* AC80EC 80050F4C 0C032AE5 */  jal   Math3D_LineClosestToPoint
 /* AC80F0 80050F50 27A5006C */   addiu $a1, $sp, 0x6c
 /* AC80F4 80050F54 8FA50034 */  lw    $a1, 0x34($sp)
 /* AC80F8 80050F58 C60A000C */  lwc1  $f10, 0xc($s0)

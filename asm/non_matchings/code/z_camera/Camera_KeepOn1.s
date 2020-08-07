@@ -809,7 +809,7 @@ glabel Camera_KeepOn1
 /* AC4720 8004D580 A7A500E2 */  sh    $a1, 0xe2($sp)
 /* AC4724 8004D584 E7B200EC */  swc1  $f18, 0xec($sp)
 /* AC4728 8004D588 46045402 */  mul.s $f16, $f10, $f4
-/* AC472C 8004D58C 0C01F02A */  jal   func_8007C0A8
+/* AC472C 8004D58C 0C01F02A */  jal   OLib_ClampMaxDist
 /* AC4730 8004D590 E7B000F4 */   swc1  $f16, 0xf4($sp)
 /* AC4734 8004D594 C7A800D8 */  lwc1  $f8, 0xd8($sp)
 /* AC4738 8004D598 C7B200EC */  lwc1  $f18, 0xec($sp)

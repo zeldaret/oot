@@ -140,7 +140,7 @@ glabel func_800591EC
 /* AD0488 800592E8 46083282 */  mul.s $f10, $f6, $f8
 /* AD048C 800592EC 00000000 */  nop
 /* AD0490 800592F0 46005402 */  mul.s $f16, $f10, $f0
-/* AD0494 800592F4 0C01F02A */  jal   func_8007C0A8
+/* AD0494 800592F4 0C01F02A */  jal   OLib_ClampMaxDist
 /* AD0498 800592F8 46109303 */   div.s $f12, $f18, $f16
 /* AD049C 800592FC E60000E0 */  swc1  $f0, 0xe0($s0)
 /* AD04A0 80059300 C7A40080 */  lwc1  $f4, 0x80($sp)

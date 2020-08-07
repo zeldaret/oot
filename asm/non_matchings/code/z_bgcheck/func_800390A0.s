@@ -105,7 +105,7 @@ glabel func_800390A0
 /* AB03C8 80039228 46029183 */  div.s $f6, $f18, $f2
 /* AB03CC 8003922C 8FA70048 */  lw    $a3, 0x48($sp)
 /* AB03D0 80039230 44063000 */  mfc1  $a2, $f6
-/* AB03D4 80039234 0C032BE8 */  jal   func_800CAFA0
+/* AB03D4 80039234 0C032BE8 */  jal   Math3D_LineSplitRatio
 /* AB03D8 80039238 00000000 */   nop   
 /* AB03DC 8003923C 3C018016 */  lui   $at, %hi(D_8015BCF8)
 /* AB03E0 80039240 C420BCF8 */  lwc1  $f0, %lo(D_8015BCF8)($at)

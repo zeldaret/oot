@@ -89,7 +89,7 @@ glabel func_80A5B61C
 /* 0043C 80A5B72C 8FA60058 */  lw      $a2, 0x0058($sp)           
 /* 00440 80A5B730 8FA70060 */  lw      $a3, 0x0060($sp)           
 /* 00444 80A5B734 E7AA0010 */  swc1    $f10, 0x0010($sp)          
-/* 00448 80A5B738 0C03392E */  jal     func_800CE4B8              
+/* 00448 80A5B738 0C03392E */  jal     Math3D_PointDistToLine2D              
 /* 0044C 80A5B73C E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 00450 80A5B740 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00454 80A5B744 8FA50074 */  lw      $a1, 0x0074($sp)           

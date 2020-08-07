@@ -2162,7 +2162,7 @@ f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045714.s")
 #endif
 
-f32 func_8007C0A8(f32, f32);
+f32 OLib_ClampMaxDist(f32, f32);
 
 s32 func_800457A8(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     f32 unused;
@@ -2180,7 +2180,7 @@ s32 func_800457A8(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
 
     sp2C = &camera->playerPosRot;
     if (arg3 != 0) {
-        sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, arg1->yaw, OREG(9)), temp_ret);
+        sp50.y -= OLib_ClampMaxDist(func_80045714(&camera->unk_108, sp2C->rot.y, arg1->yaw, OREG(9)), temp_ret);
     }
     func_80043A3C(&sp50, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
 

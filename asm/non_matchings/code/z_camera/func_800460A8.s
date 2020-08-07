@@ -138,7 +138,7 @@ glabel func_800460A8
 /* ABD38C 800461EC 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* ABD390 800461F0 44817000 */  mtc1  $at, $f14
 /* ABD394 800461F4 46065101 */  sub.s $f4, $f10, $f6
-/* ABD398 800461F8 0C01F02A */  jal   func_8007C0A8
+/* ABD398 800461F8 0C01F02A */  jal   OLib_ClampMaxDist
 /* ABD39C 800461FC 46142303 */   div.s $f12, $f4, $f20
 /* ABD3A0 80046200 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* ABD3A4 80046204 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
