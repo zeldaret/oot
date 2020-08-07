@@ -71,8 +71,8 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     MagicDark* this2 = this;
     Player* player = PLAYER;
-    s16 nayru = gSaveContext.nayrusLoveTimer;
     s16 nayruTemp;
+    s16 nayru = gSaveContext.nayrusLoveTimer;
     u8 phi_a0;
     s32 temp_t2;
 
