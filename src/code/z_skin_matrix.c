@@ -247,16 +247,16 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     s32 k;
     f32 temp1;
     f32 temp2;
-    f32 diag_element;
-    s32 this_row;
-    s32 this_col;
+    f32 diagElement;
+    s32 thisRow;
+    s32 thisCol;
     u32 pad;
 
     SkinMatrix_MtxFCopy(src, &mfCopy);
     SkinMatrix_Clear(dest);
-    for (this_row = 0; this_row != 4; this_row++) {
-        for (this_col = this_row; (this_col < 4) && (fabsf(mfCopy.mf[this_row][this_col]) < 0.0005f); this_col++) {}
-        if (this_col == 4) {
+    for (thisRow = 0; thisRow != 4; thisRow++) {
+        for (thisCol = thisRow; (thisCol < 4) && (fabsf(mfCopy.mf[thisRow][thisCol]) < 0.0005f); thisCol++) {}
+        if (thisCol == 4) {
             // reaching col = 4 means the row is either all 0 or a duplicate row.
             // therefore singular matrix (0 determinant).
             osSyncPrintf(VT_COL(YELLOW, BLACK));
@@ -265,41 +265,41 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
             return 2;
         }
 
-        if (this_col != this_row) { // responsible for swapping columns if zero on diagonal
+        if (thisCol != thisRow) { // responsible for swapping columns if zero on diagonal
             for (i = 0; i != 4; i++) {
-                temp1 = mfCopy.mf[i][this_col];
-                mfCopy.mf[i][this_col] = mfCopy.mf[i][this_row];
-                mfCopy.mf[i][this_row] = temp1;
+                temp1 = mfCopy.mf[i][thisCol];
+                mfCopy.mf[i][thisCol] = mfCopy.mf[i][thisRow];
+                mfCopy.mf[i][thisRow] = temp1;
 
-                temp1 = dest->mf[i][this_col];
-                dest->mf[i][this_col] = dest->mf[i][this_row];
-                dest->mf[i][this_row] = temp1;
+                temp1 = dest->mf[i][thisCol];
+                dest->mf[i][thisCol] = dest->mf[i][thisRow];
+                dest->mf[i][thisRow] = temp1;
             }
         }
 
-        diag_element = mfCopy.mf[this_row][this_row];
+        diagElement = mfCopy.mf[thisRow][thisRow];
         // Scale this whole column s.t. the diag element = 1
-        mfCopy.mf[0][this_row] = mfCopy.mf[0][this_row] / diag_element;
-        dest->mf[0][this_row] = dest->mf[0][this_row] / diag_element;
-        mfCopy.mf[1][this_row] = mfCopy.mf[1][this_row] / diag_element;
-        dest->mf[1][this_row] = dest->mf[1][this_row] / diag_element;
-        mfCopy.mf[2][this_row] = mfCopy.mf[2][this_row] / diag_element;
-        dest->mf[2][this_row] = dest->mf[2][this_row] / diag_element;
-        mfCopy.mf[3][this_row] = mfCopy.mf[3][this_row] / diag_element;
-        dest->mf[3][this_row] = dest->mf[3][this_row] / diag_element;
+        mfCopy.mf[0][thisRow] = mfCopy.mf[0][thisRow] / diagElement;
+        dest->mf[0][thisRow] = dest->mf[0][thisRow] / diagElement;
+        mfCopy.mf[1][thisRow] = mfCopy.mf[1][thisRow] / diagElement;
+        dest->mf[1][thisRow] = dest->mf[1][thisRow] / diagElement;
+        mfCopy.mf[2][thisRow] = mfCopy.mf[2][thisRow] / diagElement;
+        dest->mf[2][thisRow] = dest->mf[2][thisRow] / diagElement;
+        mfCopy.mf[3][thisRow] = mfCopy.mf[3][thisRow] / diagElement;
+        dest->mf[3][thisRow] = dest->mf[3][thisRow] / diagElement;
 
         // col i = col i - a * col j
         for (k = 0; k != 4; k++) {
-            if (k != this_row) {
-                temp2 = mfCopy.mf[this_row][k];
-                mfCopy.mf[0][k] = mfCopy.mf[0][k] - (mfCopy.mf[0][this_row] * temp2);
-                dest->mf[0][k] = dest->mf[0][k] - (dest->mf[0][this_row] * temp2);
-                mfCopy.mf[1][k] = mfCopy.mf[1][k] - (mfCopy.mf[1][this_row] * temp2);
-                dest->mf[1][k] = dest->mf[1][k] - (dest->mf[1][this_row] * temp2);
-                mfCopy.mf[2][k] = mfCopy.mf[2][k] - (mfCopy.mf[2][this_row] * temp2);
-                dest->mf[2][k] = dest->mf[2][k] - (dest->mf[2][this_row] * temp2);
-                mfCopy.mf[3][k] = mfCopy.mf[3][k] - (mfCopy.mf[3][this_row] * temp2);
-                dest->mf[3][k] = dest->mf[3][k] - (dest->mf[3][this_row] * temp2);
+            if (k != thisRow) {
+                temp2 = mfCopy.mf[thisRow][k];
+                mfCopy.mf[0][k] = mfCopy.mf[0][k] - (mfCopy.mf[0][thisRow] * temp2);
+                dest->mf[0][k] = dest->mf[0][k] - (dest->mf[0][thisRow] * temp2);
+                mfCopy.mf[1][k] = mfCopy.mf[1][k] - (mfCopy.mf[1][thisRow] * temp2);
+                dest->mf[1][k] = dest->mf[1][k] - (dest->mf[1][thisRow] * temp2);
+                mfCopy.mf[2][k] = mfCopy.mf[2][k] - (mfCopy.mf[2][thisRow] * temp2);
+                dest->mf[2][k] = dest->mf[2][k] - (dest->mf[2][thisRow] * temp2);
+                mfCopy.mf[3][k] = mfCopy.mf[3][k] - (mfCopy.mf[3][thisRow] * temp2);
+                dest->mf[3][k] = dest->mf[3][k] - (dest->mf[3][thisRow] * temp2);
             }
         }
     }
