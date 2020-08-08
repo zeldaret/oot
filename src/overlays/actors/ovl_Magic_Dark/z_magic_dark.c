@@ -37,7 +37,7 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     Player* player = PLAYER;
 
-    if (gSaveContext.linkAge != 0) {
+    if (LINK_IS_CHILD) {
         this->unk_15C = 0.4f;
     } else {
         this->unk_15C = 0.6f;
