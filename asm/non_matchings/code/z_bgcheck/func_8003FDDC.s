@@ -194,7 +194,8 @@ glabel func_8003FDDC
 /* AB7258 800400B8 C4460018 */  lwc1  $f6, 0x18($v0)
 /* AB725C 800400BC E7A60020 */  swc1  $f6, 0x20($sp)
 /* AB7260 800400C0 C448001C */  lwc1  $f8, 0x1c($v0)
-/* AB7264 800400C4 0C029EC1 */  jal   func_800A7B04
+/* AB7264 800400C4 0C029EC1 */  jal   SkinMatrix_SetScaleRotateYRPTranslate
+
 /* AB7268 800400C8 E7A80024 */   swc1  $f8, 0x24($sp)
 /* AB726C 800400CC 8E0D0018 */  lw    $t5, 0x18($s0)
 /* AB7270 800400D0 8E0C0028 */  lw    $t4, 0x28($s0)
@@ -223,7 +224,7 @@ glabel func_8003FDDC
 /* AB72C8 80040128 01822821 */   addu  $a1, $t4, $v0
 /* AB72CC 8004012C 27A4008C */  addiu $a0, $sp, 0x8c
 /* AB72D0 80040130 02602825 */  move  $a1, $s3
-/* AB72D4 80040134 0C029BBD */  jal   func_800A6EF4
+/* AB72D4 80040134 0C029BBD */  jal   SkinMatrix_Vec3fMtxFMultXYZ
 /* AB72D8 80040138 02203025 */   move  $a2, $s1
 /* AB72DC 8004013C 2631000C */  addiu $s1, $s1, 0xc
 /* AB72E0 80040140 27AF0104 */  addiu $t7, $sp, 0x104
