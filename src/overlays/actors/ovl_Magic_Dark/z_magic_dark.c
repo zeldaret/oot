@@ -74,9 +74,10 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     s16 nayruTemp;
     s16 nayru = gSaveContext.nayrusLoveTimer;
     u8 phi_a0;
-    s32 temp_t2 = globalCtx->msgCtx.msgMode;
+    s32 msgMode = globalCtx->msgCtx.msgMode;
+    s32 temp_t2;
 
-    if (temp_t2 == 0xD || temp_t2 == 0x11) {
+    if (msgMode == 0xD || msgMode == 0x11) {
         Actor_Kill(&this->actor);
         return;
     }
