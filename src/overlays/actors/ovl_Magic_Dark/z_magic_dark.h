@@ -10,7 +10,7 @@ typedef struct MagicDark {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s16 unk_14C;
     /* 0x014E */ u8 unk_14E;
-    /* 0x014F */ char unk_14F;
+    /* 0x014F */ char unk_14F[0x1];
     /* 0x0150 */ char unk_150[0x4];
     /* 0x0154 */ f32 unk_154;
     /* 0x0158 */ char unk_158[0x4];
