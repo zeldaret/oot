@@ -1698,7 +1698,7 @@ void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckCont
             if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
                 continue;
             }
-            if (Math3D_TriTouchingSphereIntersect(&lItem->dim.worldSphere, &rItem->dim, &sp6C) == 1) {
+            if (Math3D_TriTouchingSphIntersect(&lItem->dim.worldSphere, &rItem->dim, &sp6C) == 1) {
                 sp60.x = lItem->dim.worldSphere.center.x;
                 sp60.y = lItem->dim.worldSphere.center.y;
                 sp60.z = lItem->dim.worldSphere.center.z;
@@ -1735,7 +1735,7 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                     if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
                         continue;
                     }
-                    if (Math3D_TriTouchingSphereIntersect(&rItem->dim.worldSphere, &lItem->dim, &sp7C) == 1) {
+                    if (Math3D_TriTouchingSphIntersect(&rItem->dim.worldSphere, &lItem->dim, &sp7C) == 1) {
                         Math_Vec3s_ToVec3f(&sp64, &rItem->dim.worldSphere.center);
                         sp70.x = (lItem->dim.vtx[0].x + lItem->dim.vtx[1].x + lItem->dim.vtx[2].x) * (1.0f / 3);
                         sp70.y = (lItem->dim.vtx[0].y + lItem->dim.vtx[1].y + lItem->dim.vtx[2].y) * (1.0f / 3);
@@ -1777,8 +1777,8 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
             if (func_8005DF74(&lItem->body, &right->body) == 1) {
                 continue;
             }
-            if (Math3D_TriTouchingSphereIntersect(&lItem->dim.worldSphere, &D_8015E230, &sp7C) == 1 ||
-                Math3D_TriTouchingSphereIntersect(&lItem->dim.worldSphere, &D_8015E268, &sp7C) == 1) {
+            if (Math3D_TriTouchingSphIntersect(&lItem->dim.worldSphere, &D_8015E230, &sp7C) == 1 ||
+                Math3D_TriTouchingSphIntersect(&lItem->dim.worldSphere, &D_8015E268, &sp7C) == 1) {
                 Math_Vec3s_ToVec3f(&sp6C, &lItem->dim.worldSphere.center);
 
                 sp60.x =
@@ -1820,8 +1820,8 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                 if (func_8005DF74(&left->body, &rItem->body) == 1) {
                     continue;
                 }
-                if (Math3D_TriTouchingSphereIntersect(&rItem->dim.worldSphere, &D_8015E2A0, &sp88) != 1 &&
-                    Math3D_TriTouchingSphereIntersect(&rItem->dim.worldSphere, &D_8015E2D8, &sp88) != 1) {
+                if (Math3D_TriTouchingSphIntersect(&rItem->dim.worldSphere, &D_8015E2A0, &sp88) != 1 &&
+                    Math3D_TriTouchingSphIntersect(&rItem->dim.worldSphere, &D_8015E2D8, &sp88) != 1) {
                     continue;
                 }
                 if (func_8005D218(globalCtx, left, &sp88) != 0) {
@@ -2787,7 +2787,7 @@ s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, Collision
         }
         D_8015E610.a = *arg3;
         D_8015E610.b = *arg4;
-        if (Math3D_LineTouchingSphere(&item->dim.worldSphere, &D_8015E610) == 1) {
+        if (Math3D_LineTouchingSph(&item->dim.worldSphere, &D_8015E610) == 1) {
             return 1;
         }
     }
@@ -2803,7 +2803,7 @@ s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionChe
     if (!(cylinder->body.ocFlags & 1)) {
         return 0;
     }
-    if (func_800CEE0C(&cylinder->dim, arg3, arg4, &D_8015E628, &D_8015E638) != 0) {
+    if (Math3D_CylTouchingLineSeg(&cylinder->dim, arg3, arg4, &D_8015E628, &D_8015E638) != 0) {
         return 1;
     }
     return 0;

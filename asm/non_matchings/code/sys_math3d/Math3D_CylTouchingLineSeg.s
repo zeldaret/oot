@@ -9,7 +9,7 @@ glabel D_8014654C
     .float 0.008
 
 .text
-glabel func_800CEE0C
+glabel Math3D_CylTouchingLineSeg
 /* B45FAC 800CEE0C 27BDFF08 */  addiu $sp, $sp, -0xf8
 /* B45FB0 800CEE10 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B45FB4 800CEE14 AFB00018 */  sw    $s0, 0x18($sp)

@@ -1,4 +1,4 @@
-glabel func_800CB338
+glabel Math3D_SphCubeTouchesTriCube
 /* B424D8 800CB338 C4A40000 */  lwc1  $f4, ($a1)
 /* B424DC 800CB33C C4800000 */  lwc1  $f0, ($a0)
 /* B424E0 800CB340 C4820004 */  lwc1  $f2, 4($a0)

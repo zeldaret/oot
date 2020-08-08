@@ -284,7 +284,7 @@ glabel func_8003FDDC
 /* AB73BC 8004021C AFB80024 */  sw    $t8, 0x24($sp)
 /* AB73C0 80040220 E7B20020 */  swc1  $f18, 0x20($sp)
 /* AB73C4 80040224 C60A0024 */  lwc1  $f10, 0x24($s0)
-/* AB73C8 80040228 0C033411 */  jal   func_800CD044
+/* AB73C8 80040228 0C033411 */  jal   Math3D_TriCheckPointParallelYIntersectOnEdge
 /* AB73CC 8004022C E7AA0028 */   swc1  $f10, 0x28($sp)
 /* AB73D0 80040230 5040000C */  beql  $v0, $zero, .L80040264
 /* AB73D4 80040234 8FBF004C */   lw    $ra, 0x4c($sp)

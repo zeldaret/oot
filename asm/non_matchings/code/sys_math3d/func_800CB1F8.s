@@ -1,4 +1,4 @@
-glabel func_800CB1F8
+glabel Math3D_CirSquareTouchesTriSquare
 /* B42398 800CB1F8 AFA60008 */  sw    $a2, 8($sp)
 /* B4239C 800CB1FC C7A40008 */  lwc1  $f4, 8($sp)
 /* B423A0 800CB200 AFA7000C */  sw    $a3, 0xc($sp)
