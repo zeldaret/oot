@@ -18,7 +18,7 @@ typedef struct BossGanondrof {
     /* 0x019E */ s16 unk_19E;
     /* 0x01A0 */ s16 unk_1A0;
     /* 0x01A2 */ s16 unk_1A2;
-    /* 0x01A4 */ char unk_1A4[0x2];
+    /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A6 */ s16 unk_1A6;
     /* 0x01A8 */ s16 unk_1A8;
     /* 0x01A8 */ s16 unk_1AA;

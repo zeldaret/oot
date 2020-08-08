@@ -11,21 +11,21 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80911294(BossGanondrof* this);
+void func_809114E8(BossGanondrof* this, f32 arg1);
 void func_80910D80(BossGanondrof* this, GlobalContext* globalCtx);
 void func_80912D2C(BossGanondrof* this, GlobalContext* globalCtx);
 void func_809122A4(BossGanondrof* this, GlobalContext* globalCtx);
 void func_8091156C(BossGanondrof* this, GlobalContext* globalCtx);
 void func_809112D4(BossGanondrof* this, GlobalContext* globalCtx);
-
 void func_80910DCC(BossGanondrof* this, GlobalContext* globalCtx);
 void func_80911CB0(BossGanondrof* this, GlobalContext* globalCtx);
 void func_809123D4(BossGanondrof* this, GlobalContext* globalCtx);
+void func_80912448(BossGanondrof* this, GlobalContext* globalCtx);
 void func_80912020(BossGanondrof* this, GlobalContext* globalCtx);
 void func_80912524(BossGanondrof* this, GlobalContext* globalCtx);
-void func_809114E8(BossGanondrof* this, f32 arg1);
-
-
-
+void func_80912594(BossGanondrof* this, GlobalContext* globalCtx);
+void func_80911DD8(BossGanondrof* this, GlobalContext* globalCtx);
+void func_809120BC(BossGanondrof* this, GlobalContext* globalCtx);
 
 extern Gfx D_06004EC0[];
 extern SkeletonHeader D_0600C710;
@@ -46,17 +46,14 @@ extern AnimationHeader D_06010060;
 extern AnimationHeader D_06011F44;
 extern AnimationHeader D_0601267C;
 extern AnimationHeader D_06003080;
+extern AnimationHeader D_0600EC94;
+extern AnimationHeader D_06010344;
+extern AnimationHeader D_060129E0;
+extern AnimationHeader D_0600F48C;
 
 extern UNK_TYPE D_0600B380;
 extern UNK_TYPE D_06003DB0;
 
-typedef struct {
-    Actor actor;
-    u8 unk_14C;
-    u8 unk_14D;
-} BossGanondrofFakeStruct;
-
-/*
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORTYPE_BOSS,
@@ -68,7 +65,6 @@ const ActorInit Boss_Ganondrof_InitVars = {
     (ActorFunc)BossGanondrof_Update,
     (ActorFunc)BossGanondrof_Draw,
 };
-*/
 
 static ColliderCylinderInit sCylinderInit1 =
 {
@@ -159,10 +155,9 @@ UNK_PTR D_80915074[] = {
 };
 
 UNK_PTR D_8091507C[] = {
-    0x0600AA80, 0x0600AF80
+    0x060040B0, 0x06003FB0
 };
 
-// D_80915084
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 43, ICHAIN_CONTINUE),
@@ -175,6 +170,11 @@ Vec3f D_809150A0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809150AC = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809150B8 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809150C4 = { 0.0f, 0.0f, 0.0f };
+
+AnimationHeader* D_809150D0[] = {
+    0x06010FD4, 0x06011800
+};
+
 Vec3f D_809150D8 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809150E4 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809150F0 = { 0.0f, 50.0f, 0.0f };
@@ -403,12 +403,11 @@ void func_80911294(BossGanondrof *this) {
     this->actionFunc = func_809112D4;
 }
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
-// Struct copy and the scale div
+// Scale div
 void func_809112D4(BossGanondrof *this, GlobalContext *globalCtx) {
     EnfHG* horse = (EnfHG*)this->actor.attachedB; //sp48;
-    Actor* horseActor = &horse->actor;
+    EnfHG* horse2;
 
     osSyncPrintf("RUN 1\n");
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -417,9 +416,9 @@ void func_809112D4(BossGanondrof *this, GlobalContext *globalCtx) {
     if (horse->unk_14C == 1) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600D99C, -2.0f);
         this->actor.flags |= 1;
-        horseActor = this->actor.attachedB;
+        horse2 = (EnfHG*)this->actor.attachedB;
         Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x, this->unk_200.y, this->unk_200.z, 0x1E, 0, 0, 0x26);
-        this->actor.attachedB = horseActor;
+        this->actor.attachedB = &horse2->actor;
     } else if (horse->unk_14C == 3) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003080, -2.0f);
     } else if (horse->unk_14C == 4) {
@@ -467,7 +466,7 @@ void func_809114E8(BossGanondrof *this, f32 arg1) {
 
 void func_8091156C(BossGanondrof *this, GlobalContext *globalCtx) {
     Vec3f sp7C;
-    Player* player = PLAYER; //sp78;
+    Player* player = PLAYER;
     f32 tmpf1;
     f32 tmpf2;
     s16 i;
@@ -600,13 +599,106 @@ void func_8091156C(BossGanondrof *this, GlobalContext *globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_FLOAT - SFX_FLAG);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80911CB0.s")
+void func_80911CB0(BossGanondrof *this, GlobalContext *globalCtx) {
+    EnfHG* horse;
+    s16 tmpf1;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80911DD8.s")
+    this->unk_1D0 = SkelAnime_GetFrameCount(&D_0600EC94.genericHeader);
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600EC94, -5.0f);
+    this->actionFunc = func_80911DD8;
+    if ((Math_Rand_ZeroOne() <= 0.1f) && (this->unk_1A6 >= 0xA) && (this->unk_1C9 == 1)) {
+        this->unk_1A2 = 1;
+        this->unk_1A4 = 0x3E8;
+        tmpf1 = 0x20;
+    } else {
+        this->unk_1A2 = 0;
+        this->unk_1A4 = 0x19;
+        tmpf1 = 0x19;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80912020.s")
+    horse = (EnfHG*)this->actor.attachedB;
+    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x, this->unk_200.y, this->unk_200.z, tmpf1, 0, 0, 0x26);
+    this->actor.attachedB = &horse->actor;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_809120BC.s")
+    this->unk_1A6++;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
+}
+
+void func_80911DD8(BossGanondrof *this, GlobalContext *globalCtx) {
+    EnfHG* horse;
+    f32 tmpf1;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    osSyncPrintf("this->fwork[GND_END_FRAME] = %d\n", (s16)this->unk_1D0);
+    osSyncPrintf("this->work[GND_SHOT_FRAME] = %d\n", this->unk_1A4);
+    if (func_800A56C8(&this->skelAnime, this->unk_1D0) != 0) {
+        func_809114E8(this, -6.0f);
+    }
+
+    if ((this->unk_1A2 != 0) && (func_800A56C8(&this->skelAnime, 21.0f) != 0)) {
+        this->unk_1D0 = SkelAnime_GetFrameCount(&D_0600F48C.genericHeader);
+        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600F48C, 0.0f);
+        this->unk_1A4 = 0xA;
+    }
+
+    if (func_800A56C8(&this->skelAnime, this->unk_1A4) != 0) {
+        if (this->unk_1C9 < 2) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
+        } else {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
+        }
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
+    }
+
+    if (func_800A56C8(&this->skelAnime, this->unk_1A4) != 0) {
+        horse = (EnfHG*)this->actor.attachedB;
+        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x, this->unk_200.y, this->unk_200.z, this->unk_1A2, 0, 0, 0x32);
+        this->actor.attachedB = &horse->actor;
+    }
+
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x7D0);
+    this->actor.posRot.pos.x += this->actor.velocity.x;
+    this->actor.posRot.pos.z += this->actor.velocity.z;
+    Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
+    Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
+    tmpf1 = Math_Sins(this->unk_194 * 1500);
+    this->actor.posRot.pos.y += tmpf1 + tmpf1;
+}
+
+void func_80912020(BossGanondrof *this, GlobalContext *globalCtx) {
+    s16 rand = Math_Rand_ZeroOne() * 1.99f;
+
+    this->unk_1D0 = SkelAnime_GetFrameCount(&D_809150D0[rand]->genericHeader);
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_809150D0[rand], 0.0f);
+    this->actionFunc = func_809120BC;
+}
+
+void func_809120BC(BossGanondrof *this, GlobalContext *globalCtx) {
+    f32 tmpf1;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (func_800A56C8(&this->skelAnime, 5.0f) != 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
+        osSyncPrintf("VOISE               2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        osSyncPrintf("VOISE               2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    }
+
+    if (func_800A56C8(&this->skelAnime, this->unk_1D0) != 0) {
+        func_809114E8(this, 0.0f);
+    }
+
+    this->actor.posRot.pos.x += this->actor.velocity.x;
+    this->actor.posRot.pos.z += this->actor.velocity.z;
+    Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
+    Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
+    tmpf1 = Math_Sins(this->unk_194 * 1500);
+    this->actor.posRot.pos.y += tmpf1 + tmpf1;
+    if (this->unk_1CA) {
+        this->unk_1CA = 0;
+        func_80912020(this, globalCtx);
+        this->unk_1BC[0] = 0x50;
+    }
+}
 
 void func_809121E0(BossGanondrof *this, GlobalContext *globalCtx) {
     if (this->actionFunc != func_809122A4) {
@@ -658,7 +750,13 @@ void func_809122A4(BossGanondrof *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_809123D4.s")
+void func_809123D4(BossGanondrof *this, GlobalContext *globalCtx) {
+    this->unk_1D0 = SkelAnime_GetFrameCount(&D_06010344.genericHeader);
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06010344, -3.0f);
+    this->actionFunc = func_80912448;
+    this->unk_1BC[0] = 10;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
+}
 
 void func_80912448(BossGanondrof *this, GlobalContext *globalCtx) {
     f32 tmpf1;
@@ -673,12 +771,18 @@ void func_80912448(BossGanondrof *this, GlobalContext *globalCtx) {
     this->actor.posRot.pos.y += (tmpf1 + tmpf1);
     if (this->unk_1BC[0] == 0) {
         func_809114E8(this, -5.0f);
-        this->unk_1BC[0] = 0xA;
+        this->unk_1BC[0] = 10;
         this->unk_1C9 = 1;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80912524.s")
+void func_80912524(BossGanondrof *this, GlobalContext *globalCtx) {
+    this->unk_1D0 = SkelAnime_GetFrameCount(&D_060129E0.genericHeader);
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060129E0, -3.0f);
+    this->actionFunc = func_80912594;
+    this->unk_1BC[0] = 20;
+    this->unk_1A2 = 0;
+}
 
 void func_80912594(BossGanondrof *this, GlobalContext *globalCtx) {
     s32 pad;
@@ -831,25 +935,25 @@ void func_80912C94(BossGanondrof *this, GlobalContext *globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Loop near the bottom, horse/player stuff definitely wrong
+// Loop near the bottom
 void func_80912D2C(BossGanondrof *this, GlobalContext *globalCtx) {
     u8 spBF = 0;
     u8 spBE = 0;
     f32 spB8;
     f32 spB4;
     f32 frames;
-    s16 i;
     EnfHG* horse;
-    Actor* player = &PLAYER->actor;
+    EnfHG* horse2;
+    Player* player = PLAYER;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
     Vec3f sp94;
     Vec3f sp88;
     Vec3f sp7C;
     Vec3f sp70;
     s16 sp6E;
+    s16 i;
 
-
-    osSyncPrintf("PYP %f\n", player->groundY);
+    osSyncPrintf("PYP %f\n", player->actor.groundY);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->unk_1B6++;
     if (((this->unk_1B6 >= 0x3D) && (this->unk_1B6 <= 0x1F3)) || 
@@ -867,7 +971,7 @@ void func_80912D2C(BossGanondrof *this, GlobalContext *globalCtx) {
             Gameplay_ChangeCameraStatus(globalCtx, this->unk_35C, 7);
             osSyncPrintf("8\n");
             this->unk_35E = 2;
-            player->speedXZ = 0.0f;
+            player->actor.speedXZ = 0.0f;
             this->unk_1BC[0] = 0x32;
             this->unk_360 = camera->eye;
             this->unk_36C = camera->at;
@@ -929,8 +1033,8 @@ void func_80912D2C(BossGanondrof *this, GlobalContext *globalCtx) {
                 
                 this->unk_1D4[1] = 300.0f;
                 this->unk_394 = 200.0f;
-                player->posRot.pos.x = -186.0f;
-                player->posRot.pos.z = -3315.0f;
+                player->actor.posRot.pos.x = -186.0f;
+                player->actor.posRot.pos.z = -3315.0f;
 
                 spBF = 1;
                 spBE = 1;
@@ -939,9 +1043,9 @@ void func_80912D2C(BossGanondrof *this, GlobalContext *globalCtx) {
 
         case 3:
             if (this->unk_1BC[1] == 1) {
-                player = this->actor.attachedB;
+                horse2 = (EnfHG*)this->actor.attachedB;
                 Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, 14.0f, -30.0f, -3315.0f, 0x4000, 0, 0, 0x29);
-                this->actor.attachedB = player;
+                this->actor.attachedB = &horse2->actor;
                 // Hey kid, you did quite well...
                 // It looks like you may be gaining
                 // some slight skill...But you have defeated only my
@@ -1161,7 +1265,7 @@ void func_80913C54(BossGanondrof *this, GlobalContext *globalCtx) {
 
     
     flags = this->collider1.base.acFlags;
-    if (((flags & 2) && ((s8)this->actor.colChkInfo.health > 0)) || (this->unk_1C7 != 0)) {
+    if (((flags & 2) && ((s8)this->actor.colChkInfo.health > 0)) || this->unk_1C7) {
 
         collider = this->collider1.body.acHitItem;
         if (flags & 2) {
@@ -1169,7 +1273,7 @@ void func_80913C54(BossGanondrof *this, GlobalContext *globalCtx) {
         }
 
 
-        if (this->unk_1C9 != 0) {
+        if (this->unk_1C9) {
             if ((flags & 2) && (this->actionFunc != func_809122A4) && 
                 (collider->toucher.flags & 0x1F8A4)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
@@ -1236,20 +1340,20 @@ void BossGanondrof_Update(Actor *thisx, GlobalContext *globalCtx) {
     s32 pad;
     s32 pad2;
     s16 i;
-    BossGanondrofFakeStruct* refActor;
+    EnfHG* horse;
     BossGanondrof* this = THIS;
     s16 j;
 
     osSyncPrintf("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~0x400;
     this->collider1.base.type = 3;
-    if (this->unk_1C6 != 0) {
+    if (this->unk_1C6) {
         Actor_Kill(&this->actor);
         return;
     }
     
     this->unk_194++;
-    refActor = (BossGanondrofFakeStruct*)this->actor.attachedB;
+    horse = (EnfHG*)this->actor.attachedB;
 
     osSyncPrintf("MOVE START EEEEEEEEEEEEEEEEEEEEEE%d\n", this->actor.params);
 
@@ -1276,7 +1380,7 @@ void BossGanondrof_Update(Actor *thisx, GlobalContext *globalCtx) {
     osSyncPrintf("MOVE END\n");
     func_80910A34(&this->unk_20C[0], &this->collider1);
     func_80910A34(&this->unk_200, &this->collider2);
-    if ((this->unk_1C9 == 0) && (refActor->unk_14D == 0)) {
+    if (!this->unk_1C9 && !horse->unk_14D) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     }
 
@@ -1434,7 +1538,8 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext *globalCtx) {
 
     horse = (EnfHG*)this->actor.attachedB;
     if (this->unk_1C9 == 0) {
-        Matrix_RotateY((horse->unk_1E0 * M_PI) / 32768.0f, 1);
+        // Not M_PI
+        Matrix_RotateY((horse->unk_1E0 * 3.14159989357f) / 32768.0f, 1);
     }
 
     osSyncPrintf("YP %f\n", this->actor.posRot.pos.y);

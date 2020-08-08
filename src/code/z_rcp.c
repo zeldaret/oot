@@ -774,7 +774,7 @@ Gfx gEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 
-Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
+Gfx* Gfx_SetFog(Gfx* gfx, u32 r, u32 g, u32 b, u32 a, s32 n, s32 f) {
     if (f == n) {
         f++;
     }

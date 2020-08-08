@@ -9,7 +9,7 @@ struct EnfHG;
 typedef struct EnfHG {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ u8 unk_14C;
-    /* 0x014D */ char unk_14D[0x1];
+    /* 0x014D */ u8 unk_14D;
     /* 0x014E */ u8 unk_14E;
     /* 0x014F */ u8 unk_14F;
     /* 0x0150 */ char unk_150[0x77];
@@ -26,6 +26,7 @@ typedef struct EnfHG {
     /* 0x01F0 */ f32 unk_1F0;
     /* 0x01F4 */ f32 unk_1F4;
     /* 0x01F8 */ f32 unk_1F8;
+    /* 0x01FC */ char unk_1FC[0x4];
     /* 0x0200 */ Vec3f unk_200;
     /* 0x020C */ Vec3f unk_20C;
     /* 0x0218 */ char unk_218[0x7C];
