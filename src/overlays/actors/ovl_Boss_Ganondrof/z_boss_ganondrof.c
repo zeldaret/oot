@@ -934,8 +934,6 @@ void func_80912C94(BossGanondrof *this, GlobalContext *globalCtx) {
     this->unk_1C8 = 0x32;
 }
 
-#ifdef NON_MATCHING
-// Loop near the bottom
 void func_80912D2C(BossGanondrof *this, GlobalContext *globalCtx) {
     u8 spBF = 0;
     u8 spBE = 0;
@@ -1193,8 +1191,8 @@ void func_80912D2C(BossGanondrof *this, GlobalContext *globalCtx) {
                     sp7C.x = (14.0f - sp94.x) * 0.002f;
                     sp7C.z = (-3315.0f - sp94.z) * 0.002f;
                     
-                    sp70.y = -1.0f;
                     sp70.x = (14.0f - sp94.x) * 0.001f;
+                    sp70.y = -1.0f;
                     sp70.z = (-3315.0f - sp94.z) * 0.001f;
 
                 }
@@ -1240,10 +1238,6 @@ void func_80912D2C(BossGanondrof *this, GlobalContext *globalCtx) {
         func_800C04D8(globalCtx, this->unk_35C, &this->unk_36C, &this->unk_360);
     }
 }
-#else
-void func_80912D2C(BossGanondrof* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80912D2C.s")
-#endif
 
 #ifdef NON_MATCHING
 // Branching
