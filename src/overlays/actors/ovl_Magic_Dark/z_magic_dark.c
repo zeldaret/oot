@@ -70,15 +70,11 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 /*
 void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
-    MagicDark* this2 = this;
     Player* player = PLAYER;
-    s16 nayruTemp;
     s16 nayru = gSaveContext.nayrusLoveTimer;
     u8 phi_a0;
-    s32 msgMode = globalCtx->msgCtx.msgMode;
-    s32 temp_t2;
 
-    if (msgMode == 0xD || msgMode == 0x11) {
+    if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -89,31 +85,29 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     player->invincibilityTimer = -100;
-    this->actor.scale.x = this->actor.scale.z = this2->unk_15C;
+    this->actor.scale.x = this->actor.scale.z = this->unk_15C;
     if (this->unk_14C < 20) {
-        this->actor.scale.x = this->actor.scale.z = (1.6f - (this->unk_14C * 0.03f)) * this2->unk_15C;
-        this->actor.scale.y = ((this2->unk_14C * 0.01f) + 0.8f) * this->unk_15C;
+        this->actor.scale.x = this->actor.scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->unk_15C;
+        this->actor.scale.y = ((this->unk_14C * 0.01f) + 0.8f) * this->unk_15C;
     } else {
         this->actor.scale.x = this->actor.scale.z = this->unk_15C;
-        this->actor.scale.y = this2->unk_15C;
+        this->actor.scale.y = this->unk_15C;
     }
     this->actor.scale.x *= 1.3f;
     this->actor.scale.z *= 1.3f;
-    if (this2->unk_14C < 20) {
+    if (this->unk_14C < 20) {
         phi_a0 = this->unk_14C * 12;
     } else {
         phi_a0 = 0xFF;
     }
-    nayruTemp = nayru;
-    if (nayruTemp >= 1180) {
-        temp_t2 = 0x3CEB - (nayruTemp * 0xD);
-        this->unk_14E = temp_t2;
-        if ((nayruTemp & 1) != 0) {
-            this->unk_14E = (temp_t2 & 0xFF) >> 1;
+    if (nayru >= 1180) {
+        this->unk_14E = 0x3CEB - (nayru * 0xD);
+        if ((nayru & 1) != 0) {
+            this->unk_14E >>= 1;
         }
-    } else if (nayruTemp >= 1100) {
-        nayruTemp = (nayru * 128) + 127;
-        this->unk_14E = nayruTemp;
+    } else if (nayru >= 1100) {
+        nayru = (nayru * 128) + 127;
+        this->unk_14E = nayru;
     } else {
         this->unk_14E = 0xFF;
     }
