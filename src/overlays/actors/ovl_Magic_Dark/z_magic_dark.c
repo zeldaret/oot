@@ -110,7 +110,8 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_14E = (temp_t2 & 0xFF) >> 1;
         }
     } else if (nayruTemp >= 1100) {
-        this->unk_14E = (nayru * 128) + 127;
+        nayruTemp = (nayru * 128) + 127;
+        this->unk_14E = nayruTemp;
     } else {
         this->unk_14E = 0xFF;
     }
