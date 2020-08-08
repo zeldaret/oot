@@ -164,6 +164,45 @@ void func_80896950(BgJyaCobra *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_808969F8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896ABC.s")
+// void func_80896ABC(BgJyaCobra *this, GlobalContext *globalCtx) {
+//     s32 temp_v0;
+//     Player* player;
+//     s32 phi_v1;
+
+//     player = PLAYER;
+//     temp_v0 = (s32) ((((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) - this->dyna.actor.posRot.rot.y) << 0x10) >> 0x10;
+//     if (temp_v0 >= 0) {
+//         phi_v1 = temp_v0;
+//     } else {
+//         phi_v1 = -temp_v0;
+//     }
+//     if (phi_v1 < 0x1D00) {
+//         Math_ApproxS(&this->unk_16E, (u16)0x6A, (u16)4);
+//     } else {
+//         Math_ApproxS(&this->unk_16E, (u16)0x15, (u16)0xA);
+//     }
+//     if (Math_ApproxUpdateScaledS(&this->unk_170, this->unk_16A << 0xd, this->unk_16E) != 0) {
+//         this->unk_16C = (s16) ((this->unk_16C + this->unk_16A) & 7);
+//         player->stateFlags2 &= ~0x10;
+//         this->dyna.unk_150 = 0.0f;
+//         func_80896918(this, globalCtx);
+//     } else {
+//         temp_v0 = (s32) ((((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) + this->unk_170) << 0x10) >> 0x10;
+//         this->dyna.actor.posRot.rot.y = (s16) temp_v0;
+//         this->dyna.actor.shape.rot.y = (s16) temp_v0;
+//     }
+//     if ((player->stateFlags2 & 0x10) != 0) {
+//         if ((u8) this->unk_172 != 0) {
+//             func_80895BEC(this, globalCtx);
+//         }
+//     } else {
+//         if (fabsf(this->dyna.unk_150) < 0.001f) {
+//             this->unk_172 = (u8)0;
+//         }
+//     }
+//     this->dyna.unk_150 = 0.0f;
+//     func_8002F974((Actor *) this, (u16)0x200AU);
+// }
 
 void BgJyaCobra_Update(Actor *thisx, GlobalContext *globalCtx) {
     BgJyaCobra *this = THIS;
