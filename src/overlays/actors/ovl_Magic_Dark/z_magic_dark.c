@@ -90,7 +90,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->actor.update = func_80B874E4;
         this->actor.draw = func_80B87A18;
-        this->actor.scale.x =  this->actor.scale.z = this->unk_15C * 1.6f;
+        this->actor.scale.x = this->actor.scale.z = this->unk_15C * 1.6f;
         // THIS needed below to match
         this->actor.scale.y = THIS->unk_15C * 0.8f;
         this->unk_14C = 0;
