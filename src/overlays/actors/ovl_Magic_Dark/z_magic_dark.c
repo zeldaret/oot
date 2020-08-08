@@ -67,6 +67,7 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+/*
 void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     MagicDark* this2 = this;
@@ -129,8 +130,9 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_FLASH);
     }
 }
+*/
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
 
 /*
 void func_80B8772C(GlobalContext *globalCtx, f32 a1) {
