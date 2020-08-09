@@ -104,7 +104,71 @@ s16 Audio_GetVibratoPitchChange(VibratoState *vib) {
     return vib->curve[index];
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_GetVibratoFreqScale.s")
+f32 Audio_GetVibratoFreqScale(VibratoState *vib) {
+    f32 pitchChange;
+    f32 extent;
+    f32 invExtent;
+    f32 result;
+    f32 temp;
+    f32 twoToThe16th = 65536.0f;
+    s32 one = 1;
+    SequenceChannel* channel = vib->seqChannel;
+
+    if (vib->delay != 0) {
+        vib->delay--;
+        return 1;
+    }
+
+    if (channel != NO_CHANNEL) {
+        if (vib->extentChangeTimer) {
+            if (vib->extentChangeTimer == 1) {
+                vib->extent = (s32) channel->vibratoExtentTarget;
+            } else {
+                vib->extent +=
+                    ((s32) channel->vibratoExtentTarget - vib->extent) /
+                    (s32) vib->extentChangeTimer;
+            }
+
+            vib->extentChangeTimer--;
+        } else if (channel->vibratoExtentTarget != (s32) vib->extent) {
+            if ((vib->extentChangeTimer = channel->vibratoExtentChangeDelay) == 0) {
+                vib->extent = (s32) channel->vibratoExtentTarget;
+            }
+        }
+
+        if (vib->rateChangeTimer) {
+            if (vib->rateChangeTimer == 1) {
+                vib->rate = (s32) channel->vibratoRateTarget;
+            } else {
+                vib->rate += ((s32) channel->vibratoRateTarget - vib->rate) / (s32) vib->rateChangeTimer;
+            }
+
+            vib->rateChangeTimer--;
+        } else if (channel->vibratoRateTarget != (s32) vib->rate) {
+            if ((vib->rateChangeTimer = channel->vibratoRateChangeDelay) == 0) {
+                vib->rate = (s32) channel->vibratoRateTarget;
+            }
+        }
+    }
+
+    if (vib->extent == 0) {
+        return 1.0f;
+    }
+
+    pitchChange = Audio_GetVibratoPitchChange(vib) + 32768.0f;
+    temp = vib->extent / 4096.0f;
+    extent = temp + 1.0f;
+    invExtent = 1.0f / extent;
+
+    // fakematch: 2^16 and 1 need to be set at the very top of this function,
+    // or else the addresses of D_80130510 and D_80130514 get computed once
+    // instead of twice. 'temp' is also a fakematch sign; removing it causes
+    // regalloc differences and reorderings at the top of the function.
+    result = 1.0f / ((extent - invExtent) * pitchChange / twoToThe16th + invExtent);
+    D_80130510 += result;
+    D_80130514 += one;
+    return result;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_NoteVibratoUpdate.s")
 

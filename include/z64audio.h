@@ -43,8 +43,8 @@ typedef struct NotePool {
 // doesn't prevent seqplayer from doing it, AFAICT.
 typedef struct {
     /*!0x00 */ u8 mode; // bit 0x80 denotes something; the rest are an index 0-5
-    /* 0x02 */ u16 cur; // (speculative)
-    /* 0x04 */ u16 speed; // (speculative)
+    /*!0x02 */ u16 cur;
+    /*!0x04 */ u16 speed;
     /*!0x08 */ f32 extent;
 } Portamento; // size = 0x0C
 
@@ -256,16 +256,17 @@ typedef struct SequenceChannel {
     /*!0x09 */ u8 bookOffset;
     /*!0x0A */ u8 newPan;
     /*!0x0B */ u8 panChannelWeight;  // proportion of pan that comes from the channel (0..128)
-    /* 0x0C */ u8 unk_0C; // u16 vibratoRateStart;
-    /* 0x0D */ u8 padD[2]; // u16 vibratoExtentStart;
+    /* 0x0C */ u8 unk_0C;
+    /* 0x0D */ u8 padD[2];
     /* 0x0F */ u8 unk_0F;
-    /* 0x10 */ u16 vibratoRateTarget;
-    /* 0x12 */ u16 vibratoExtentTarget;
-    /* 0x14 */ u16 vibratoRateChangeDelay;
-    /* 0x16 */ u16 vibratoExtentChangeDelay;
-    /* 0x18 */ u16 vibratoDelay;
-    /* 0x1A */ u16 delay;
-    /* 0x1C */ char unk_1C[0x4];
+    /* 0x10 */ u16 vibratoRateStart;
+    /* 0x12 */ u16 vibratoExtentStart;
+    /*!0x14 */ u16 vibratoRateTarget;
+    /*!0x16 */ u16 vibratoExtentTarget;
+    /*!0x18 */ u16 vibratoRateChangeDelay;
+    /*!0x1A */ u16 vibratoExtentChangeDelay;
+    /* 0x1C */ u16 vibratoDelay;
+    /* 0x1E */ u16 delay;
     /* 0x20 */ u16 unk_20;
     /* 0x22 */ u16 pad22;
     /*!0x24 */ s16 instOrWave; // either 0 (none), instrument index + 1, or
@@ -356,15 +357,15 @@ typedef struct {
 } NoteSynthesisState;
 
 typedef struct {
-    /* 0x00 */ struct SequenceChannel* seqChannel;
-    /* 0x04 */ u32 time;
-    /* 0x08 */ s16* curve;
-    /* 0x0C */ f32 extent;
-    /* 0x10 */ f32 rate;
+    /*!0x00 */ struct SequenceChannel* seqChannel; // unless this changed to a layer...?
+    /*!0x04 */ u32 time;
+    /*!0x08 */ s16* curve;
+    /*!0x0C */ f32 extent;
+    /*!0x10 */ f32 rate;
     /* 0x14 */ u8 active;
-    /* 0x16 */ u16 rateChangeTimer;
-    /* 0x18 */ u16 extentChangeTimer;
-    /* 0x1A */ u16 delay;
+    /*!0x16 */ u16 rateChangeTimer;
+    /*!0x18 */ u16 extentChangeTimer;
+    /*!0x1A */ u16 delay;
 } VibratoState; // size = 0x1C
 
 typedef struct {
@@ -502,5 +503,6 @@ typedef struct {
 } Reverb; // size = 0x1C (May be longer)
 
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
+#define NO_CHANNEL ((SequenceChannel*)(-1))
 
 #endif
