@@ -125,8 +125,16 @@ build/src/libultra_code/osStopTimer.o: OPTFLAGS := -O1
 build/src/libultra_code/llcvt.o: OPTFLAGS := -O1
 build/src/libultra_code/llcvt.o: MIPS_VERSION := -mips3 -32
 
-build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
-build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
+build/src/libultra_boot_O1/initialize.o: CC := $(CC_OLD)
+
+build/src/libultra_boot_O2/_Ldtob.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/_Litob.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/__osDevMgrMain.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/_Printf.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/__osViSwapContext.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/ldiv.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/vimgr.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/osViSetXScale.o: CC := $(CC_OLD)
 
 build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
