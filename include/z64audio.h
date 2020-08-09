@@ -186,9 +186,9 @@ typedef struct {
             /*!0x00 */ u8 decay : 1;
             /*!0x00 */ u8 release : 1;
             /*!0x00 */ u8 state : 4;
-        } adsrBits;
-        /*!0x00 */ u8 asBits;
-    } adsrAction;
+        } s;
+        /*!0x00 */ u8 asByte;
+    } action;
     /*!0x01 */ u8 envIndex;
     /*!0x02 */ s16 delay;
     /*!0x04 */ f32 sustain;
@@ -211,8 +211,8 @@ typedef struct {
 } ReverbBitsData;
 
 typedef union {
-    ReverbBitsData s;
-    u8 asBits;
+    /* 0x00 */ ReverbBitsData s;
+    /* 0x00 */ u8 asByte;
 } ReverbBits;
 
 typedef struct {
@@ -237,14 +237,14 @@ typedef struct SequenceChannel {
     /*!0x00 */ u8 stereoHeadsetEffects : 1;
     /* 0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
     /* 0x00 */ u8 unused : 1;     // never read, set to 0
-    /*!0x01 */ union {
-                   struct {
-                       u8 freqScale : 1;
-                       u8 volume : 1;
-                       u8 pan : 1;
-                   } asBitfields;
-                   u8 asByte;
-               } changes;
+    union {
+        struct {
+            /*!0x01 */ u8 freqScale : 1;
+            /*!0x01 */ u8 volume : 1;
+            /*!0x01 */ u8 pan : 1;
+        } s;
+        /*!0x01 */ u8 asByte;
+    } changes;
     /*!0x02 */ u8 noteAllocPolicy;
     /*!0x03 */ u8 muteBehavior;
     /*!0x04 */ u8 reverb;       // or dry/wet mix
@@ -386,7 +386,7 @@ typedef struct {
 } NotePlaybackState;
 
 typedef struct {
-    // (This might be a ReverbBits)
+    // (This might be a ReverbBits, and asByte might not exist)
     union {
         struct {
             /* 0x00 */ volatile u8 enabled : 1;
@@ -397,8 +397,8 @@ typedef struct {
             /*!0x00 */ u8 stereoStrongLeft : 1;
             /* 0x00 */ u8 stereoHeadsetEffects : 1;
             /* 0x00 */ u8 usesHeadsetPanEffects : 1;
-        } asBitfields;
-        u8 asByte;
+        } s;
+        /* 0x00 */ u8 asByte;
     } bitField0;
     union {
         struct {
@@ -407,8 +407,8 @@ typedef struct {
             /* 0x01 */ u8 bit2 : 1;
             /* 0x01 */ u8 isSyntheticWave : 1;
             /* 0x01 */ u8 hasTwoAdpcmParts : 1;
-        } asBitfields;
-        u8 asByte;
+        } s;
+        /* 0x01 */ u8 asByte;
     } bitField1;
     /* 0x02 */ u8 unk_2;
     /* 0x03 */ u8 headsetPanRight;

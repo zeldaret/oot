@@ -6,7 +6,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel *seqChannel, s32 recalcul
     f32 chanFreqScale;
     s32 i;
 
-    if (seqChannel->changes.asBitfields.volume || recalculateVolume) {
+    if (seqChannel->changes.s.volume || recalculateVolume) {
         channelVolume = seqChannel->volume * seqChannel->volumeScale * seqChannel->seqPlayer->appliedFadeVolume;
         if (seqChannel->seqPlayer->muted && (seqChannel->muteBehavior & 0x20)) {
             channelVolume = seqChannel->seqPlayer->muteVolumeScale * channelVolume;
@@ -14,14 +14,14 @@ void Audio_SequenceChannelProcessSound(SequenceChannel *seqChannel, s32 recalcul
         seqChannel->appliedVolume = channelVolume * channelVolume;
     }
 
-    if (seqChannel->changes.asBitfields.pan) {
+    if (seqChannel->changes.s.pan) {
         seqChannel->pan = seqChannel->newPan * seqChannel->panChannelWeight;
     }
 
     chanFreqScale = seqChannel->freqScale;
     if (b != 0) {
         chanFreqScale *= seqChannel->seqPlayer->unk_34;
-        seqChannel->changes.asBitfields.freqScale = 1;
+        seqChannel->changes.s.freqScale = 1;
     }
 
     for (i = 0; i < 4; ++i) {
@@ -33,13 +33,13 @@ void Audio_SequenceChannelProcessSound(SequenceChannel *seqChannel, s32 recalcul
                 layer->notePan = (seqChannel->pan + layer->pan * (0x80 - seqChannel->panChannelWeight)) >> 7;
                 layer->notePropertiesNeedInit = 0;
             } else {
-                if (seqChannel->changes.asBitfields.freqScale) {
+                if (seqChannel->changes.s.freqScale) {
                     layer->noteFreqScale = layer->freqScale * chanFreqScale;
                 }
-                if (seqChannel->changes.asBitfields.volume || recalculateVolume) {
+                if (seqChannel->changes.s.volume || recalculateVolume) {
                     layer->noteVelocity = layer->velocitySquare * seqChannel->appliedVolume;
                 }
-                if (seqChannel->changes.asBitfields.pan) {
+                if (seqChannel->changes.s.pan) {
                     layer->notePan = (seqChannel->pan + layer->pan * (0x80 - seqChannel->panChannelWeight)) >> 7;
                 }
             }
@@ -213,7 +213,7 @@ void Audio_NotePortamentoInit(Note *note) {
 }
 
 void Audio_AdsrInit(AdsrState *adsr, AdsrEnvelope *envelope, s16 *volOut) {
-    adsr->adsrAction.asBits = 0;
+    adsr->action.asByte = 0;
     adsr->delay = 0;
     adsr->envelope = envelope;
     adsr->sustain = 0.0f;
@@ -224,14 +224,14 @@ void Audio_AdsrInit(AdsrState *adsr, AdsrEnvelope *envelope, s16 *volOut) {
 }
 
 f32 Audio_AdsrUpdate(AdsrState *adsr) {
-    u8 state = adsr->adsrAction.adsrBits.state;
+    u8 state = adsr->action.s.state;
     switch (state) {
         case ADSR_STATE_DISABLED:
             return 0.0f;
 
         case ADSR_STATE_INITIAL: {
-            if (adsr->adsrAction.adsrBits.hang) {
-                adsr->adsrAction.adsrBits.state = ADSR_STATE_HANG;
+            if (adsr->action.s.hang) {
+                adsr->action.s.state = ADSR_STATE_HANG;
                 break;
             }
             // fallthrough
@@ -239,7 +239,7 @@ f32 Audio_AdsrUpdate(AdsrState *adsr) {
 
         case ADSR_STATE_START_LOOP:
             adsr->envIndex = 0;
-            adsr->adsrAction.adsrBits.state = ADSR_STATE_LOOP;
+            adsr->action.s.state = ADSR_STATE_LOOP;
             // fallthrough
 
 retry:
@@ -247,16 +247,16 @@ retry:
             adsr->delay = adsr->envelope[adsr->envIndex].delay;
             switch (adsr->delay) {
                 case ADSR_DISABLE:
-                    adsr->adsrAction.adsrBits.state = ADSR_STATE_DISABLED;
+                    adsr->action.s.state = ADSR_STATE_DISABLED;
                     break;
                 case ADSR_HANG:
-                    adsr->adsrAction.adsrBits.state = ADSR_STATE_HANG;
+                    adsr->action.s.state = ADSR_STATE_HANG;
                     break;
                 case ADSR_GOTO:
                     adsr->envIndex = adsr->envelope[adsr->envIndex].arg;
                     goto retry;
                 case ADSR_RESTART:
-                    adsr->adsrAction.adsrBits.state = ADSR_STATE_INITIAL;
+                    adsr->action.s.state = ADSR_STATE_INITIAL;
                     break;
 
                 default:
@@ -267,11 +267,11 @@ retry:
                     adsr->target = adsr->envelope[adsr->envIndex].arg / 32767.0f;
                     adsr->target = adsr->target * adsr->target;
                     adsr->velocity = (adsr->target - adsr->current) / adsr->delay;
-                    adsr->adsrAction.adsrBits.state = ADSR_STATE_FADE;
+                    adsr->action.s.state = ADSR_STATE_FADE;
                     adsr->envIndex++;
                     break;
             }
-            if (adsr->adsrAction.adsrBits.state != ADSR_STATE_FADE) {
+            if (adsr->action.s.state != ADSR_STATE_FADE) {
                 break;
             }
             // fallthrough
@@ -279,7 +279,7 @@ retry:
         case ADSR_STATE_FADE:
             adsr->current += adsr->velocity;
             if (--adsr->delay <= 0) {
-                adsr->adsrAction.adsrBits.state = ADSR_STATE_LOOP;
+                adsr->action.s.state = ADSR_STATE_LOOP;
             }
             // fallthrough
 
@@ -293,14 +293,14 @@ retry:
                 if (adsr->current < adsr->sustain) {
                     adsr->current = adsr->sustain;
                     adsr->delay = 128;
-                    adsr->adsrAction.adsrBits.state = ADSR_STATE_SUSTAIN;
+                    adsr->action.s.state = ADSR_STATE_SUSTAIN;
                 }
                 break;
             }
 
             if (adsr->current < 0.00001f) {
                 adsr->current = 0.0f;
-                adsr->adsrAction.adsrBits.state = ADSR_STATE_DISABLED;
+                adsr->action.s.state = ADSR_STATE_DISABLED;
             }
             break;
         }
@@ -308,19 +308,19 @@ retry:
         case ADSR_STATE_SUSTAIN:
             adsr->delay -= 1;
             if (adsr->delay == 0) {
-                adsr->adsrAction.adsrBits.state = ADSR_STATE_RELEASE;
+                adsr->action.s.state = ADSR_STATE_RELEASE;
             }
             break;
     }
 
-    if (adsr->adsrAction.adsrBits.decay) { // decay
-        adsr->adsrAction.adsrBits.state = ADSR_STATE_DECAY;
-        adsr->adsrAction.adsrBits.decay = 0;
+    if (adsr->action.s.decay) {
+        adsr->action.s.state = ADSR_STATE_DECAY;
+        adsr->action.s.decay = 0;
     }
 
-    if (adsr->adsrAction.adsrBits.release) { // release
-        adsr->adsrAction.adsrBits.state = ADSR_STATE_RELEASE;
-        adsr->adsrAction.adsrBits.release = 0;
+    if (adsr->action.s.release) {
+        adsr->action.s.state = ADSR_STATE_RELEASE;
+        adsr->action.s.release = 0;
     }
 
     if (adsr->current < 0.0f) {
