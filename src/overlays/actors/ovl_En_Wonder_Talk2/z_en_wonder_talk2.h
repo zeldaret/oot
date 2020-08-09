@@ -12,7 +12,7 @@ typedef struct EnWonderTalk2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnWonderTalk2Func actionFunc;
     /* 0x0150 */ s16 unk_150; // specified message type
-    /* 0x0152 */ s16 unk_152; // save information
+    /* 0x0152 */ s16 switchFlag; // save information
     /* 0x0154 */ s16 unk_154;
     /* 0x0156 */ s16 unk_156;
     /* 0x0158 */ s16 unk_158;
