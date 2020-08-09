@@ -18,7 +18,7 @@ PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
   MIPS_BINUTILS_PREFIX := mips-linux-gnu-
 else
-  MIPS_BINUTILS_PREFIX := mips64-elf-
+  $(error Please install or build mips-linux-gnu)
 endif
 
 # check that either QEMU_IRIX is set or qemu-irix package installed
@@ -126,7 +126,6 @@ build/src/libultra_code/llcvt.o: OPTFLAGS := -O1
 build/src/libultra_code/llcvt.o: MIPS_VERSION := -mips3 -32
 
 build/src/libultra_boot_O1/initialize.o: CC := $(CC_OLD)
-
 build/src/libultra_boot_O2/_Ldtob.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/_Litob.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/__osDevMgrMain.o: CC := $(CC_OLD)
@@ -168,7 +167,7 @@ build/undefined_syms.txt: undefined_syms.txt
 	$(CPP) -P $< > build/undefined_syms.txt
 
 clean:
-	$(RM) $(ROM) $(ELF) -r build
+	$(RM) -r $(ROM) $(ELF) build
 
 setup:
 	git submodule update --init --recursive
