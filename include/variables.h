@@ -3631,6 +3631,7 @@ extern AudioContext gAudioContext;
 //extern ? D_801719C8;
 //extern ? D_801719D4;
 //extern ? D_801719DC;
+extern f32 D_801719EC;
 //extern ? D_80171A14;
 //extern ? D_80171A18;
 extern s8 gSoundMode;

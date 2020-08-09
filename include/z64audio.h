@@ -179,26 +179,25 @@ typedef struct {
 } AdsrSettings; // size = 0x8
 
 typedef struct {
-    union {
-        struct {
-            /* 0x00 */ u8 bits7 : 1; // pad
-            /* 0x00 */ u8 bits6 : 1; // pad
-            /* 0x00 */ u8 bits5 : 1; // pad
-            /* 0x00 */ u8 bits4 : 1;
+    /*!0x00 */ union {
+        struct A {
+            /* 0x00 */ u8 unk_0b80 : 1;
+            /*!0x00 */ u8 hang : 1;
+            /*!0x00 */ u8 decay : 1;
+            /*!0x00 */ u8 release : 1;
             /*!0x00 */ u8 state : 4;
         } adsrBits;
-        /*!0x00 */ u8 asBits; // Must be unionized to zero all bitfields at once.
+        /*!0x00 */ u8 asBits;
     } adsrAction;
-    u8 pad1;
-    s16 envIndex; // Could be in the upper union in a struct with action.
+    /*!0x01 */ u8 envIndex;
+    /*!0x02 */ s16 delay;
     /*!0x04 */ f32 sustain;
-    s16 delay;
-    u8 padA[2];
+    /*!0x08 */ f32 velocity;
     /*!0x0C */ f32 fadeOutVel;
     /*!0x10 */ f32 current;
-    f32 velocity;
-    f32 target;
-    /* 0x1C */ AdsrEnvelope *envelope;
+    /*!0x14 */ f32 target;
+    /*      */ char pad18[4];
+    /*!0x1C */ AdsrEnvelope *envelope;
 } AdsrState;
 
 typedef struct {
@@ -238,14 +237,14 @@ typedef struct SequenceChannel {
     /*!0x00 */ u8 stereoHeadsetEffects : 1;
     /* 0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
     /* 0x00 */ u8 unused : 1;     // never read, set to 0
-    /* 0x01 */ union {
-                 struct {
-                     u8 freqScale : 1;
-                     u8 volume : 1;
-                     u8 pan : 1;
-                 } asBitfields;
-                 u8 asByte;
-             } changes;
+    /*!0x01 */ union {
+                   struct {
+                       u8 freqScale : 1;
+                       u8 volume : 1;
+                       u8 pan : 1;
+                   } asBitfields;
+                   u8 asByte;
+               } changes;
     /*!0x02 */ u8 noteAllocPolicy;
     /*!0x03 */ u8 muteBehavior;
     /*!0x04 */ u8 reverb;       // or dry/wet mix
@@ -498,5 +497,20 @@ typedef struct {
 
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
+
+#define ADSR_STATE_DISABLED 0
+#define ADSR_STATE_INITIAL 1
+#define ADSR_STATE_START_LOOP 2
+#define ADSR_STATE_LOOP 3
+#define ADSR_STATE_FADE 4
+#define ADSR_STATE_HANG 5
+#define ADSR_STATE_DECAY 6
+#define ADSR_STATE_RELEASE 7
+#define ADSR_STATE_SUSTAIN 8
+
+#define ADSR_DISABLE 0
+#define ADSR_HANG -1
+#define ADSR_GOTO -2
+#define ADSR_RESTART -3
 
 #endif

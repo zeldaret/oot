@@ -214,7 +214,7 @@ void Audio_NotePortamentoInit(Note *note) {
 
 void Audio_AdsrInit(AdsrState *adsr, AdsrEnvelope *envelope, s16 *volOut) {
     adsr->adsrAction.asBits = 0;
-    adsr->envIndex = 0;
+    adsr->delay = 0;
     adsr->envelope = envelope;
     adsr->sustain = 0.0f;
     adsr->current = 0.0f;
@@ -223,4 +223,111 @@ void Audio_AdsrInit(AdsrState *adsr, AdsrEnvelope *envelope, s16 *volOut) {
     // removed, but the function parameter was forgotten and remains.)
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_AdsrUpdate.s")
+f32 Audio_AdsrUpdate(AdsrState *adsr) {
+    u8 state = adsr->adsrAction.adsrBits.state;
+    switch (state) {
+        case ADSR_STATE_DISABLED:
+            return 0.0f;
+
+        case ADSR_STATE_INITIAL: {
+            if (adsr->adsrAction.adsrBits.hang) {
+                adsr->adsrAction.adsrBits.state = ADSR_STATE_HANG;
+                break;
+            }
+            // fallthrough
+        }
+
+        case ADSR_STATE_START_LOOP:
+            adsr->envIndex = 0;
+            adsr->adsrAction.adsrBits.state = ADSR_STATE_LOOP;
+            // fallthrough
+
+retry:
+        case ADSR_STATE_LOOP:
+            adsr->delay = adsr->envelope[adsr->envIndex].delay;
+            switch (adsr->delay) {
+                case ADSR_DISABLE:
+                    adsr->adsrAction.adsrBits.state = ADSR_STATE_DISABLED;
+                    break;
+                case ADSR_HANG:
+                    adsr->adsrAction.adsrBits.state = ADSR_STATE_HANG;
+                    break;
+                case ADSR_GOTO:
+                    adsr->envIndex = adsr->envelope[adsr->envIndex].arg;
+                    goto retry;
+                case ADSR_RESTART:
+                    adsr->adsrAction.adsrBits.state = ADSR_STATE_INITIAL;
+                    break;
+
+                default:
+                    adsr->delay *= D_801719EC;
+                    if (adsr->delay == 0) {
+                        adsr->delay = 1;
+                    }
+                    adsr->target = adsr->envelope[adsr->envIndex].arg / 32767.0f;
+                    adsr->target = adsr->target * adsr->target;
+                    adsr->velocity = (adsr->target - adsr->current) / adsr->delay;
+                    adsr->adsrAction.adsrBits.state = ADSR_STATE_FADE;
+                    adsr->envIndex++;
+                    break;
+            }
+            if (adsr->adsrAction.adsrBits.state != ADSR_STATE_FADE) {
+                break;
+            }
+            // fallthrough
+
+        case ADSR_STATE_FADE:
+            adsr->current += adsr->velocity;
+            if (--adsr->delay <= 0) {
+                adsr->adsrAction.adsrBits.state = ADSR_STATE_LOOP;
+            }
+            // fallthrough
+
+        case ADSR_STATE_HANG:
+            break;
+
+        case ADSR_STATE_DECAY:
+        case ADSR_STATE_RELEASE: {
+            adsr->current -= adsr->fadeOutVel;
+            if (adsr->sustain != 0.0f && state == ADSR_STATE_DECAY) {
+                if (adsr->current < adsr->sustain) {
+                    adsr->current = adsr->sustain;
+                    adsr->delay = 128;
+                    adsr->adsrAction.adsrBits.state = ADSR_STATE_SUSTAIN;
+                }
+                break;
+            }
+
+            if (adsr->current < 0.00001f) {
+                adsr->current = 0.0f;
+                adsr->adsrAction.adsrBits.state = ADSR_STATE_DISABLED;
+            }
+            break;
+        }
+
+        case ADSR_STATE_SUSTAIN:
+            adsr->delay -= 1;
+            if (adsr->delay == 0) {
+                adsr->adsrAction.adsrBits.state = ADSR_STATE_RELEASE;
+            }
+            break;
+    }
+
+    if (adsr->adsrAction.adsrBits.decay) { // decay
+        adsr->adsrAction.adsrBits.state = ADSR_STATE_DECAY;
+        adsr->adsrAction.adsrBits.decay = 0;
+    }
+
+    if (adsr->adsrAction.adsrBits.release) { // release
+        adsr->adsrAction.adsrBits.state = ADSR_STATE_RELEASE;
+        adsr->adsrAction.adsrBits.release = 0;
+    }
+
+    if (adsr->current < 0.0f) {
+        return 0.0f;
+    }
+    if (adsr->current > 1.0f) {
+        return 1.0f;
+    }
+    return adsr->current;
+}
