@@ -928,9 +928,9 @@ void Audio_NoteInitAll(void) {
         note->playbackState.attributes.velocity = 0.0f;
         note->playbackState.adsrVolScale = 0;
         note->playbackState.adsr.adsrAction.asBits = 0;
-        note->unk_B0 = 0;
-        note->unk_92 = 0;
-        note->unk_94 = 0;
+        note->vibratoState.active = 0;
+        note->portamento.cur = 0;
+        note->portamento.speed = 0;
         note->playbackState.stereoHeadsetEffects = 0;
         note->unk_BC = 0;
         note->synthesisState.synthesisBuffers = Audio_SoundAlloc(&gAudioContext.gNotesAndBuffersPool, 0x1E0);

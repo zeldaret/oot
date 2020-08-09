@@ -170,9 +170,46 @@ f32 Audio_GetVibratoFreqScale(VibratoState *vib) {
     return result;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_NoteVibratoUpdate.s")
+void Audio_NoteVibratoUpdate(struct Note *note) {
+    if (note->portamento.mode != 0) {
+        note->playbackState.portamentoFreqScale = Audio_GetPortamentoFreqScale(&note->portamento);
+    }
+    if (note->vibratoState.active) {
+        note->playbackState.vibratoFreqScale = Audio_GetVibratoFreqScale(&note->vibratoState);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_NoteVibratoInit.s")
+void Audio_NoteVibratoInit(struct Note *note) {
+    VibratoState *vib;
+    SequenceChannel *seqChannel;
+
+    note->playbackState.vibratoFreqScale = 1.0f;
+
+    vib = &note->vibratoState;
+
+    vib->active = 1;
+    vib->time = 0;
+
+    vib->curve = gWaveSamples[2];
+    vib->seqChannel = note->playbackState.parentLayer->seqChannel;
+    seqChannel = vib->seqChannel;
+    if ((vib->extentChangeTimer = seqChannel->vibratoExtentChangeDelay) == 0) {
+        vib->extent = (s32) seqChannel->vibratoExtentTarget;
+    } else {
+        vib->extent = (s32) seqChannel->vibratoExtentStart;
+    }
+
+    if ((vib->rateChangeTimer = seqChannel->vibratoRateChangeDelay) == 0) {
+        vib->rate = (s32) seqChannel->vibratoRateTarget;
+    } else {
+        vib->rate = (s32) seqChannel->vibratoRateStart;
+    }
+    vib->delay = seqChannel->vibratoDelay;
+}
+
+// Audio_NotePortamentoInit
+// note->portamentoFreqScale = 1.0f;
+// seqPlayerState->portamento = seqPlayerState->parentLayer->portamento;
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/func_800E8FB8.s")
 

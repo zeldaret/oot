@@ -46,7 +46,7 @@ typedef struct {
     /*!0x02 */ u16 cur;
     /*!0x04 */ u16 speed;
     /*!0x08 */ f32 extent;
-} Portamento; // size = 0x0C
+} Portamento; // size = 0xC
 
 typedef struct {
     s16 delay;
@@ -259,13 +259,13 @@ typedef struct SequenceChannel {
     /* 0x0C */ u8 unk_0C;
     /* 0x0D */ u8 padD[2];
     /* 0x0F */ u8 unk_0F;
-    /* 0x10 */ u16 vibratoRateStart;
-    /* 0x12 */ u16 vibratoExtentStart;
+    /*!0x10 */ u16 vibratoRateStart;
+    /*!0x12 */ u16 vibratoExtentStart;
     /*!0x14 */ u16 vibratoRateTarget;
     /*!0x16 */ u16 vibratoExtentTarget;
     /*!0x18 */ u16 vibratoRateChangeDelay;
     /*!0x1A */ u16 vibratoExtentChangeDelay;
-    /* 0x1C */ u16 vibratoDelay;
+    /*!0x1C */ u16 vibratoDelay;
     /* 0x1E */ u16 delay;
     /* 0x20 */ u16 unk_20;
     /* 0x22 */ u16 pad22;
@@ -362,7 +362,7 @@ typedef struct {
     /*!0x08 */ s16* curve;
     /*!0x0C */ f32 extent;
     /*!0x10 */ f32 rate;
-    /* 0x14 */ u8 active;
+    /*!0x14 */ u8 active;
     /*!0x16 */ u16 rateChangeTimer;
     /*!0x18 */ u16 extentChangeTimer;
     /*!0x1A */ u16 delay;
@@ -383,8 +383,7 @@ typedef struct {
     /*!0x18 */ SequenceChannelLayer* wantedParentLayer;
     /*!0x1C */ NoteAttributes attributes;
     /*!0x40 */ AdsrState adsr;
-    // /* 0x4C */ Portamento portamento;
-    // /* 0x5C */ VibratoState vibratoState;
+    // may contain portamento, vibratoState, if those are not part of Note itself
 } NotePlaybackState;
 
 typedef struct {
@@ -427,22 +426,17 @@ typedef struct {
                  AudioBankSound* audioBankSound;
              } sound;
     /* 0x14 */ s16* unk_14;
-    /* 0x18 */ char unk_18[0x8];
+    /* 0x18 */ char pad_18[0x8];
 } NoteSubEu; // size = 0x20
 
 typedef struct Note {
     /*!0x00 */ AudioListItem listItem;
     /* 0x10 */ NoteSynthesisState synthesisState;
-    /* 0x24 */ char unk_24[0xC];
-    /* 0x30 */ NotePlaybackState playbackState;
-    // /* 0x90 */ Portamento portamento; // ???
-    /* 0x90 */ char unk_90[0x2];
-    /* 0x92 */ u16 unk_92; // portamento.cur?
-    /* 0x94 */ u16 unk_94; // portamento.speed?
-    /* 0x96 */ char unk_96[0x1A];
-    // /* 0xB0 */ VibratoState vibratoState; // ???
-    /* 0xB0 */ u8 unk_B0; // vibratoState.active?
-    /* 0xB4 */ char unk_B4[0xB];
+    /* 0x24 */ char pad_24[0xC];
+    /*!0x30 */ NotePlaybackState playbackState;
+    /*!0x90 */ Portamento portamento;
+    /*!0x9C */ VibratoState vibratoState; // size 0x1C
+    /* 0xB8 */ char pad_B8[0x4];
     /* 0xBC */ u32 unk_BC;
     /*!0xC0 */ NoteSubEu noteSubEu;
 } Note; // size = 0xE0
