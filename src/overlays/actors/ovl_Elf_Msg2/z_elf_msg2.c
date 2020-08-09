@@ -98,7 +98,7 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             func_809AD700(this, &func_809AD9F4);
             this->actor.flags = (this->actor.flags | 0x40001);
-            this->actor.textId = func_809AD968(thisx);
+            this->actor.textId = func_809AD968(this);
         }
         this->actor.shape.rot.z = 0;
         this->actor.shape.rot.y = this->actor.shape.rot.z;
@@ -114,9 +114,27 @@ s32 func_809AD968(ElfMsg2 *this) {
     return (this->actor.params & 0xFF) + 0x100;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809AD978.s")
+void func_809AD978(ElfMsg2 *this, GlobalContext *globalCtx) {
+    s32 temp_a1;
+    if (func_8002F334(&this->actor, globalCtx) != 0) {
+        if (this->actor.posRot.rot.z != 1) {
+            Actor_Kill(&this->actor);
+            temp_a1 = (this->actor.params >> 8) & 0x3F;
+            if (temp_a1 != 0x3F) {
+                Flags_SetSwitch(globalCtx, temp_a1);
+            }
+            return;
+        }
+        func_809AD700(this, &func_809AD9F4);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809AD9F4.s")
+void func_809AD9F4(ElfMsg2 *this, GlobalContext *globalCtx) {
+    if (func_8002F194(&this->actor, globalCtx)) {
+        func_809AD700(this, &func_809AD978);
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809AD9F4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809ADA28.s")
 
