@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-void Audio_SequenceChannelProcessSound(SequenceChannel *seqChannel, s32 recalculateVolume, s32 b) {
+void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalculateVolume, s32 b) {
     f32 channelVolume;
     f32 chanFreqScale;
     s32 i;
@@ -48,7 +48,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel *seqChannel, s32 recalcul
     seqChannel->changes.asByte = 0;
 }
 
-void Audio_SequencePlayerProcessSound(SequencePlayer *seqPlayer) {
+void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer) {
     s32 i;
 
     if (seqPlayer->fadeTimer != 0) {
@@ -81,7 +81,7 @@ void Audio_SequencePlayerProcessSound(SequencePlayer *seqPlayer) {
     seqPlayer->recalculateVolume = 0;
 }
 
-f32 Audio_GetPortamentoFreqScale(Portamento *p) {
+f32 Audio_GetPortamentoFreqScale(Portamento* p) {
     u32 loResCur;
     f32 result;
 
@@ -97,14 +97,14 @@ f32 Audio_GetPortamentoFreqScale(Portamento *p) {
     return result;
 }
 
-s16 Audio_GetVibratoPitchChange(VibratoState *vib) {
+s16 Audio_GetVibratoPitchChange(VibratoState* vib) {
     s32 index;
-    vib->time += (s32) vib->rate;
+    vib->time += (s32)vib->rate;
     index = (vib->time >> 10) & 0x3F;
     return vib->curve[index];
 }
 
-f32 Audio_GetVibratoFreqScale(VibratoState *vib) {
+f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
     f32 pitchChange;
     f32 extent;
     f32 invExtent;
@@ -122,31 +122,29 @@ f32 Audio_GetVibratoFreqScale(VibratoState *vib) {
     if (channel != NO_CHANNEL) {
         if (vib->extentChangeTimer) {
             if (vib->extentChangeTimer == 1) {
-                vib->extent = (s32) channel->vibratoExtentTarget;
+                vib->extent = (s32)channel->vibratoExtentTarget;
             } else {
-                vib->extent +=
-                    ((s32) channel->vibratoExtentTarget - vib->extent) /
-                    (s32) vib->extentChangeTimer;
+                vib->extent += ((s32)channel->vibratoExtentTarget - vib->extent) / (s32)vib->extentChangeTimer;
             }
 
             vib->extentChangeTimer--;
-        } else if (channel->vibratoExtentTarget != (s32) vib->extent) {
+        } else if (channel->vibratoExtentTarget != (s32)vib->extent) {
             if ((vib->extentChangeTimer = channel->vibratoExtentChangeDelay) == 0) {
-                vib->extent = (s32) channel->vibratoExtentTarget;
+                vib->extent = (s32)channel->vibratoExtentTarget;
             }
         }
 
         if (vib->rateChangeTimer) {
             if (vib->rateChangeTimer == 1) {
-                vib->rate = (s32) channel->vibratoRateTarget;
+                vib->rate = (s32)channel->vibratoRateTarget;
             } else {
-                vib->rate += ((s32) channel->vibratoRateTarget - vib->rate) / (s32) vib->rateChangeTimer;
+                vib->rate += ((s32)channel->vibratoRateTarget - vib->rate) / (s32)vib->rateChangeTimer;
             }
 
             vib->rateChangeTimer--;
-        } else if (channel->vibratoRateTarget != (s32) vib->rate) {
+        } else if (channel->vibratoRateTarget != (s32)vib->rate) {
             if ((vib->rateChangeTimer = channel->vibratoRateChangeDelay) == 0) {
-                vib->rate = (s32) channel->vibratoRateTarget;
+                vib->rate = (s32)channel->vibratoRateTarget;
             }
         }
     }
@@ -170,7 +168,7 @@ f32 Audio_GetVibratoFreqScale(VibratoState *vib) {
     return result;
 }
 
-void Audio_NoteVibratoUpdate(Note *note) {
+void Audio_NoteVibratoUpdate(Note* note) {
     if (note->portamento.mode != 0) {
         note->playbackState.portamentoFreqScale = Audio_GetPortamentoFreqScale(&note->portamento);
     }
@@ -179,9 +177,9 @@ void Audio_NoteVibratoUpdate(Note *note) {
     }
 }
 
-void Audio_NoteVibratoInit(Note *note) {
-    VibratoState *vib;
-    SequenceChannel *seqChannel;
+void Audio_NoteVibratoInit(Note* note) {
+    VibratoState* vib;
+    SequenceChannel* seqChannel;
 
     note->playbackState.vibratoFreqScale = 1.0f;
 
@@ -194,25 +192,25 @@ void Audio_NoteVibratoInit(Note *note) {
     vib->seqChannel = note->playbackState.parentLayer->seqChannel;
     seqChannel = vib->seqChannel;
     if ((vib->extentChangeTimer = seqChannel->vibratoExtentChangeDelay) == 0) {
-        vib->extent = (s32) seqChannel->vibratoExtentTarget;
+        vib->extent = (s32)seqChannel->vibratoExtentTarget;
     } else {
-        vib->extent = (s32) seqChannel->vibratoExtentStart;
+        vib->extent = (s32)seqChannel->vibratoExtentStart;
     }
 
     if ((vib->rateChangeTimer = seqChannel->vibratoRateChangeDelay) == 0) {
-        vib->rate = (s32) seqChannel->vibratoRateTarget;
+        vib->rate = (s32)seqChannel->vibratoRateTarget;
     } else {
-        vib->rate = (s32) seqChannel->vibratoRateStart;
+        vib->rate = (s32)seqChannel->vibratoRateStart;
     }
     vib->delay = seqChannel->vibratoDelay;
 }
 
-void Audio_NotePortamentoInit(Note *note) {
+void Audio_NotePortamentoInit(Note* note) {
     note->playbackState.portamentoFreqScale = 1.0f;
     note->portamento = note->playbackState.parentLayer->portamento;
 }
 
-void Audio_AdsrInit(AdsrState *adsr, AdsrEnvelope *envelope, s16 *volOut) {
+void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut) {
     adsr->action.asByte = 0;
     adsr->delay = 0;
     adsr->envelope = envelope;
@@ -223,7 +221,7 @@ void Audio_AdsrInit(AdsrState *adsr, AdsrEnvelope *envelope, s16 *volOut) {
     // removed, but the function parameter was forgotten and remains.)
 }
 
-f32 Audio_AdsrUpdate(AdsrState *adsr) {
+f32 Audio_AdsrUpdate(AdsrState* adsr) {
     u8 state = adsr->action.s.state;
     switch (state) {
         case ADSR_STATE_DISABLED:
@@ -242,7 +240,7 @@ f32 Audio_AdsrUpdate(AdsrState *adsr) {
             adsr->action.s.state = ADSR_STATE_LOOP;
             // fallthrough
 
-retry:
+        retry:
         case ADSR_STATE_LOOP:
             adsr->delay = adsr->envelope[adsr->envIndex].delay;
             switch (adsr->delay) {
