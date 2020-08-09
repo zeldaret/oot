@@ -1,4 +1,4 @@
-glabel func_800E88C0
+glabel Audio_SequenceChannelProcessSound
 /* B5FA60 800E88C0 8C820000 */  lw    $v0, ($a0)
 /* B5FA64 800E88C4 00803825 */  move  $a3, $a0
 /* B5FA68 800E88C8 24090010 */  li    $t1, 16

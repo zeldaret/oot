@@ -1,4 +1,4 @@
-glabel func_800E8BD4
+glabel Audio_GetPortamentoFreqScale
 /* B5FD74 800E8BD4 948E0002 */  lhu   $t6, 2($a0)
 /* B5FD78 800E8BD8 948F0004 */  lhu   $t7, 4($a0)
 /* B5FD7C 800E8BDC 01CF1021 */  addu  $v0, $t6, $t7

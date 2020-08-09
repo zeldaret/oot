@@ -1,4 +1,4 @@
-glabel func_800E8F00
+glabel Audio_NoteVibratoInit
 /* B600A0 800E8F00 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* B600A4 800E8F04 44812000 */  mtc1  $at, $f4
 /* B600A8 800E8F08 240E0001 */  li    $t6, 1

@@ -1,4 +1,4 @@
-glabel func_800E8C30
+glabel Audio_GetVibratoPitchChange
 /* B5FDD0 800E8C30 C4840010 */  lwc1  $f4, 0x10($a0)
 /* B5FDD4 800E8C34 8C8E0004 */  lw    $t6, 4($a0)
 /* B5FDD8 800E8C38 8C880008 */  lw    $t0, 8($a0)

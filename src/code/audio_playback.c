@@ -216,7 +216,7 @@ void Audio_ProcessNotes(void) {
                         Audio_NoteDisable(note);
                         if (playbackState->wantedParentLayer->seqChannel != NULL) {
                             Audio_NoteInitForLayer(note, playbackState->wantedParentLayer);
-                            func_800E8F00(note);
+                            Audio_NoteVibratoInit(note);
                             func_800E8FB8(note);
                             Audio_AudioListRemove(&note->listItem);
                             Audio_AudioListPushBack(&note->listItem.pool->active, &note->listItem);

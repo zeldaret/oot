@@ -1,4 +1,4 @@
-glabel func_800E8A88
+glabel Audio_SequencePlayerProcessSound
 /* B5FC28 800E8A88 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B5FC2C 800E8A8C AFBF002C */  sw    $ra, 0x2c($sp)
 /* B5FC30 800E8A90 AFB40028 */  sw    $s4, 0x28($sp)
@@ -71,7 +71,7 @@ glabel func_800E8A88
 /* B5FD28 800E8B88 92460000 */  lbu   $a2, ($s2)
 /* B5FD2C 800E8B8C 00052940 */  sll   $a1, $a1, 5
 /* B5FD30 800E8B90 00052FC2 */  srl   $a1, $a1, 0x1f
-/* B5FD34 800E8B94 0C03A230 */  jal   func_800E88C0
+/* B5FD34 800E8B94 0C03A230 */  jal   Audio_SequenceChannelProcessSound
 /* B5FD38 800E8B98 30C60001 */   andi  $a2, $a2, 1
 /* B5FD3C 800E8B9C 26100004 */  addiu $s0, $s0, 4
 .L800E8BA0:

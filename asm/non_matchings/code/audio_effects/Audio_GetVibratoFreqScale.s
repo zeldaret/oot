@@ -1,4 +1,4 @@
-glabel func_800E8C68
+glabel Audio_GetVibratoFreqScale
 /* B5FE08 800E8C68 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B5FE0C 800E8C6C AFBF0014 */  sw    $ra, 0x14($sp)
 /* B5FE10 800E8C70 9482001A */  lhu   $v0, 0x1a($a0)
@@ -118,7 +118,7 @@ glabel func_800E8C68
 /* B5FFAC 800E8E0C 10000022 */  b     .L800E8E98
 /* B5FFB0 800E8E10 8FBF0014 */   lw    $ra, 0x14($sp)
 .L800E8E14:
-/* B5FFB4 800E8E14 0C03A30C */  jal   func_800E8C30
+/* B5FFB4 800E8E14 0C03A30C */  jal   Audio_GetVibratoPitchChange
 /* B5FFB8 800E8E18 AFA40018 */   sw    $a0, 0x18($sp)
 /* B5FFBC 800E8E1C 8FA40018 */  lw    $a0, 0x18($sp)
 /* B5FFC0 800E8E20 3C013F80 */  li    $at, 0x3F800000 # 0.000000
