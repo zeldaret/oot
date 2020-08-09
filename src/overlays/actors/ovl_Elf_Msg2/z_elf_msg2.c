@@ -9,7 +9,7 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx);
-u16 func_809AD968(Actor* thisx);
+s32 func_809AD968(ElfMsg2 *this);
 void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtxt);
 void func_809AD9F4(ElfMsg2* this, GlobalContext* globalCtxt);
 
@@ -106,12 +106,13 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Init.s")
+void ElfMsg2_Destroy(Actor* thisx, GlobalContext* globalCtx){
 
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Destroy.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809AD968.s")
+s32 func_809AD968(ElfMsg2 *this) {
+    return (this->actor.params & 0xFF) + 0x100;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809AD978.s")
 
