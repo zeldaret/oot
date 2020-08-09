@@ -20,6 +20,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx);
 void func_8087B938(BgHaka* this, GlobalContext* globalCtx);
 void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx);
 void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx);
+
 /*
 const ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
@@ -33,13 +34,95 @@ const ActorInit Bg_Haka_InitVars = {
     (ActorFunc)BgHaka_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Destroy.s")
+extern UNK_TYPE D_06000428;
+extern InitChainEntry D_8087BCF0;
+extern f32 D_8087BD40;
+extern f32 D_8087BD44;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B758.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B7E8.s")
+void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHaka* this = THIS;
+    s32 pad;
+    s32 sp24 = 0;
+
+    Actor_ProcessInitChain(&this->dyna.actor, &D_8087BCF0);
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyInfo_Alloc(&D_06000428, &sp24);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    this->actionFunc = func_8087B7E8;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Destroy.s")
+
+void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHaka* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B758.s")
+
+void func_8087B758(BgHaka* this, Player* player) {
+    Vec3f sp1C;
+
+    func_8002DBD0(&this->dyna.actor, &sp1C, &player->actor.posRot.pos);
+    if (fabsf(sp1C.x) < D_8087BD40 && D_8087BD44 < sp1C.z && sp1C.z < -36.0f) {
+        player->stateFlags2 |= 0x200;
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B7E8.s")
+
+void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+
+    if (0.0f != this->dyna.unk_150) {
+        if (globalCtx->sceneNum == SCENE_SPOT02) {
+            if (LINK_IS_CHILD) {
+                if (gSaveContext.nightFlag == 0) {
+                    this->dyna.unk_150 = 0.0f;
+                    player->stateFlags2 &= -0x11;
+                    if (!Gameplay_InCsMode(globalCtx)) {
+                        func_8010B680(globalCtx, 0x5073, NULL);
+                        this->dyna.actor.params = 0x64;
+                        this->actionFunc = func_8087BAE4;
+                    }
+                } else {
+block_6:
+                    if (!(0.0f < this->dyna.unk_150)) {
+                        if (globalCtx->sceneNum == SCENE_SPOT06) {
+                            if (LINK_IS_CHILD) {
+
+                                if (Flags_GetSwitch(globalCtx, 0x23) == 0) {
+block_10:
+                                    this->dyna.unk_150 = 0.0f;
+                                    player->stateFlags2 &= -0x11;
+                                } else {
+block_11:
+                                    this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
+                                    this->actionFunc = func_8087B938;
+                                }
+                            } else {
+                                goto block_11;
+                            }
+                        } else {
+                            goto block_11;
+                        }
+                    } else {
+                        goto block_10;
+                    }
+                }
+            } else {
+                goto block_6;
+            }
+        } else {
+            goto block_6;
+        }
+    }
+    func_8087B758(this, player);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B938.s")
 
@@ -47,6 +130,12 @@ const ActorInit Bg_Haka_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087BAE4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Update.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Update.s")
+
+void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHaka* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Draw.s")
