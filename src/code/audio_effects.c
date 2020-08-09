@@ -170,7 +170,7 @@ f32 Audio_GetVibratoFreqScale(VibratoState *vib) {
     return result;
 }
 
-void Audio_NoteVibratoUpdate(struct Note *note) {
+void Audio_NoteVibratoUpdate(Note *note) {
     if (note->portamento.mode != 0) {
         note->playbackState.portamentoFreqScale = Audio_GetPortamentoFreqScale(&note->portamento);
     }
@@ -179,7 +179,7 @@ void Audio_NoteVibratoUpdate(struct Note *note) {
     }
 }
 
-void Audio_NoteVibratoInit(struct Note *note) {
+void Audio_NoteVibratoInit(Note *note) {
     VibratoState *vib;
     SequenceChannel *seqChannel;
 
@@ -212,6 +212,15 @@ void Audio_NotePortamentoInit(Note *note) {
     note->portamento = note->playbackState.parentLayer->portamento;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_AdsrInit.s")
+void Audio_AdsrInit(AdsrState *adsr, AdsrEnvelope *envelope, s16 *volOut) {
+    adsr->adsrAction.asBits = 0;
+    adsr->envIndex = 0;
+    adsr->envelope = envelope;
+    adsr->sustain = 0.0f;
+    adsr->current = 0.0f;
+    // (An older versions of the audio engine used in Super Mario 64 did
+    // adsr->volOut = volOut. That line and associated struct member were
+    // removed, but the function parameter was forgotten and remains.)
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_AdsrUpdate.s")
