@@ -20,7 +20,7 @@ glabel D_80915418
     .float 1.14999997
 
 .text
-glabel func_809112D4
+glabel BossGanondrof_PaintingAction
 /* 00C94 809112D4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00C98 809112D8 AFB00034 */  sw      $s0, 0x0034($sp)
 /* 00C9C 809112DC AFBF003C */  sw      $ra, 0x003C($sp)
@@ -128,7 +128,7 @@ glabel func_809112D4
 /* 00E10 80911450 A6020032 */  sh      $v0, 0x0032($s0)           ## 00000032
 /* 00E14 80911454 11C00011 */  beq     $t6, $zero, .L8091149C
 /* 00E18 80911458 A60200B6 */  sh      $v0, 0x00B6($s0)           ## 000000B6
-/* 00E1C 8091145C 0C24453A */  jal     func_809114E8
+/* 00E1C 8091145C 0C24453A */  jal     BossGanondrof_StartNormalAction
 /* 00E20 80911460 3C05C1A0 */  lui     $a1, 0xC1A0                ## $a1 = C1A00000
 /* 00E24 80911464 240F0064 */  addiu   $t7, $zero, 0x0064         ## $t7 = 00000064
 /* 00E28 80911468 24180014 */  addiu   $t8, $zero, 0x0014         ## $t8 = 00000014

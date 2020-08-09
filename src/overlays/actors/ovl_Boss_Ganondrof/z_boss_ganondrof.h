@@ -12,30 +12,30 @@ typedef struct BossGanondrof {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossGanondrofActionFunc actionFunc;
-    /* 0x0194 */ s16 unk_194;
-    /* 0x0196 */ char unk_196[0x6];
-    /* 0x019C */ s16 unk_19C;
-    /* 0x019E */ s16 unk_19E;
-    /* 0x01A0 */ s16 unk_1A0;
-    /* 0x01A2 */ s16 unk_1A2;
-    /* 0x01A4 */ s16 unk_1A4;
-    /* 0x01A6 */ s16 unk_1A6;
-    /* 0x01A8 */ s16 unk_1A8;
-    /* 0x01A8 */ s16 unk_1AA;
-    /* 0x01AC */ s16 unk_1AC;
+    /* 0x0194 */ s16 floatAndParticleTimer;
+    /* 0x0196 */ char unk_196[0x6]; // Unusued?
+    /* 0x019C */ s16 unk_19C; // Unused?
+    /* 0x019E */ s16 unk_19E; // Unused?
+    /* 0x01A0 */ s16 invincibilityTimer;
+    /* 0x01A2 */ s16 slowPitch;
+    /* 0x01A4 */ s16 unk_1A4; // Something to do with distinguishing fast and slow pitch animations
+    /* 0x01A6 */ s16 throwCount;
+    /* 0x01A8 */ s16 cutsceneMaskOff;
+    /* 0x01A8 */ s16 unk_1AA; // Has to do with opening cutscene. Probably set by horse
+    /* 0x01AC */ s16 chargeParticleAngle;
     /* 0x01AE */ s16 unk_1AE;
     /* 0x01B0 */ s16 unk_1B0;
-    /* 0x01B2 */ s16 unk_1B2;
+    /* 0x01B2 */ s16 unk_1B2; // These are all death cutscene variables
     /* 0x01B4 */ s16 unk_1B4;
     /* 0x01B6 */ s16 unk_1B6;
-    /* 0x01B8 */ char unk_1B8[0x4];
-    /* 0x01BC */ s16 unk_1BC[5];
-    /* 0x01C6 */ u8 unk_1C6;
-    /* 0x01C7 */ u8 unk_1C7;
-    /* 0x01C8 */ u8 unk_1C8;
-    /* 0x01C9 */ u8 unk_1C9;
-    /* 0x01CA */ u8 unk_1CA;
-    /* 0x01CC */ f32 unk_1CC;
+    /* 0x01B8 */ char unk_1B8[0x4]; // Unused?
+    /* 0x01BC */ s16 animationTimer[5];
+    /* 0x01C6 */ u8 killActor;
+    /* 0x01C7 */ u8 volleyCount;
+    /* 0x01C8 */ u8 electricityTimer;
+    /* 0x01C9 */ u8 attackMode;
+    /* 0x01CA */ u8 returnSuccess;  //Set by fhg_Fire
+    /* 0x01CC */ f32 unk_1CC; //Indirectly controls his erratic floating.
     /* 0x01D0 */ f32 unk_1D0;
     /* 0x01D4 */ f32 unk_1D4[4];
     /* 0x01E4 */ char unk_1E4[0x1C];

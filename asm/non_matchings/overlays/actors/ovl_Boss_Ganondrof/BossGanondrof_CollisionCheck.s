@@ -4,7 +4,7 @@ glabel D_80915308
     .balign 4
 
 .text
-glabel func_80913C54
+glabel BossGanondrof_CollisionCheck
 /* 03614 80913C54 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 03618 80913C58 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0361C 80913C5C AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -47,8 +47,8 @@ glabel func_80913C54
 /* 036A0 80913CE0 50400014 */  beql    $v0, $zero, .L80913D34     
 /* 036A4 80913CE4 8E180190 */  lw      $t8, 0x0190($s0)           ## 00000190
 /* 036A8 80913CE8 8E0C0190 */  lw      $t4, 0x0190($s0)           ## 00000190
-/* 036AC 80913CEC 3C0B8091 */  lui     $t3, %hi(func_809122A4)    ## $t3 = 80910000
-/* 036B0 80913CF0 256B22A4 */  addiu   $t3, $t3, %lo(func_809122A4) ## $t3 = 809122A4
+/* 036AC 80913CEC 3C0B8091 */  lui     $t3, %hi(BossGanondrof_StunnedAction)    ## $t3 = 80910000
+/* 036B0 80913CF0 256B22A4 */  addiu   $t3, $t3, %lo(BossGanondrof_StunnedAction) ## $t3 = 809122A4
 /* 036B4 80913CF4 516C000F */  beql    $t3, $t4, .L80913D34       
 /* 036B8 80913CF8 8E180190 */  lw      $t8, 0x0190($s0)           ## 00000190
 /* 036BC 80913CFC 8CCD0000 */  lw      $t5, 0x0000($a2)           ## 00000000
@@ -69,8 +69,8 @@ glabel func_80913C54
 .L80913D30:
 /* 036F0 80913D30 8E180190 */  lw      $t8, 0x0190($s0)           ## 00000190
 .L80913D34:
-/* 036F4 80913D34 3C0F8091 */  lui     $t7, %hi(func_80912594)    ## $t7 = 80910000
-/* 036F8 80913D38 25EF2594 */  addiu   $t7, $t7, %lo(func_80912594) ## $t7 = 80912594
+/* 036F4 80913D34 3C0F8091 */  lui     $t7, %hi(BossGanondrof_ChargeAction)    ## $t7 = 80910000
+/* 036F8 80913D38 25EF2594 */  addiu   $t7, $t7, %lo(BossGanondrof_ChargeAction) ## $t7 = 80912594
 /* 036FC 80913D3C 11F80038 */  beq     $t7, $t8, .L80913E20       
 /* 03700 80913D40 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03704 80913D44 921901C7 */  lbu     $t9, 0x01C7($s0)           ## 000001C7
@@ -106,7 +106,7 @@ glabel func_80913C54
 .L80913DB0:
 /* 03770 80913DB0 1C400008 */  bgtz    $v0, .L80913DD4            
 /* 03774 80913DB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 03778 80913DB8 0C244B25 */  jal     func_80912C94              
+/* 03778 80913DB8 0C244B25 */  jal     BossGanondrof_StartDeathAction              
 /* 0377C 80913DBC 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 03780 80913DC0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 03784 80913DC4 0C00CB1F */  jal     func_80032C7C              
@@ -117,7 +117,7 @@ glabel func_80913C54
 /* 03794 80913DD4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80913DD8:
 /* 03798 80913DD8 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 0379C 80913DDC 0C244878 */  jal     func_809121E0              
+/* 0379C 80913DDC 0C244878 */  jal     BossGanondrof_StartStunnedAction              
 /* 037A0 80913DE0 AFA70028 */  sw      $a3, 0x0028($sp)           
 /* 037A4 80913DE4 920A01C7 */  lbu     $t2, 0x01C7($s0)           ## 000001C7
 /* 037A8 80913DE8 8FA70028 */  lw      $a3, 0x0028($sp)           
