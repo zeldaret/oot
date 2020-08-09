@@ -437,12 +437,12 @@ glabel L800EB354
 glabel L800EB380
 /* B62520 800EB380 93B20063 */  lbu   $s2, 0x63($sp)
 /* B62524 800EB384 928A0001 */  lbu   $t2, 1($s4)
-/* B62528 800EB388 3C018013 */  lui   $at, %hi(D_8012F0B4)
+/* B62528 800EB388 3C018013 */  lui   $at, %hi(gPitchBendFrequencyScale)
 /* B6252C 800EB38C 26520080 */  addiu $s2, $s2, 0x80
 /* B62530 800EB390 325200FF */  andi  $s2, $s2, 0xff
 /* B62534 800EB394 0012C080 */  sll   $t8, $s2, 2
 /* B62538 800EB398 00380821 */  addu  $at, $at, $t8
-/* B6253C 800EB39C C428F0B4 */  lwc1  $f8, %lo(D_8012F0B4)($at)
+/* B6253C 800EB39C C428F0B4 */  lwc1  $f8, %lo(gPitchBendFrequencyScale)($at)
 /* B62540 800EB3A0 35590080 */  ori   $t9, $t2, 0x80
 /* B62544 800EB3A4 A2990001 */  sb    $t9, 1($s4)
 /* B62548 800EB3A8 1000FF52 */  b     .L800EB0F4

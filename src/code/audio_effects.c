@@ -81,8 +81,21 @@ void Audio_SequencePlayerProcessSound(SequencePlayer *seqPlayer) {
     seqPlayer->recalculateVolume = 0;
 }
 
+f32 Audio_GetPortamentoFreqScale(Portamento *p) {
+    u32 loResCur;
+    f32 result;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_GetPortamentoFreqScale.s")
+    p->cur += p->speed;
+    loResCur = (p->cur >> 8) & 0xff;
+
+    if (loResCur >= 127) {
+        loResCur = 127;
+        p->mode = 0;
+    }
+
+    result = 1.0f + p->extent * (gPitchBendFrequencyScale[loResCur + 128] - 1.0f);
+    return result;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_GetVibratoPitchChange.s")
 
