@@ -61,8 +61,13 @@ typedef struct {
 } Cylinderf; // size = 0x18
 
 typedef struct {
-    Vec3f a;
-    Vec3f b;
+    /* 0x0000 */ Vec3f point;
+    /* 0x000C */ Vec3f dir;
+} InfiniteLine; // size = 0x18
+
+typedef struct {
+    /* 0x0000 */ Vec3f a;
+    /* 0x000C */ Vec3f b;
 } Linef; // size = 0x18
 
 // Defines a point in the spherical coordinate system
