@@ -34,8 +34,8 @@ Vec3f sUnusedVec1 = { 0.0f, 0.5f, 0.0f };
 Vec3f sUnusedVec2 = { 0.0f, 0.5f, 0.0f };
 
 Color_RGB8 sUnusedColors[] = {
-    { 0xFF, 0xFF, 0x64 },
-    { 0xFF, 0xFF, 0x32 },
+    { 255, 255, 100 },
+    { 255, 255, 50 },
 };
 
 Vec3f D_80865B70 = { 0.0f, 0.0f, 0.0f };
@@ -157,7 +157,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         return;
     }
 
-    func_8002F8F0(&player->actor, 0x100B);
+    func_8002F8F0(&player->actor, NA_SE_IT_HOOKSHOT_CHAIN - SFX_FLAG);
     ArmsHook_CheckForCancel(this);
 
     if (this->timer != 0) {
@@ -279,8 +279,8 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                     return;
                 }
                 func_80062D60(globalCtx, &this->actor.posRot.pos);
-                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
                 return;
             }
         }

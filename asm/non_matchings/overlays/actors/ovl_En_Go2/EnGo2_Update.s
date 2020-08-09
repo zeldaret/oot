@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A487C0
+    .float 0.6
+
+.text
 glabel EnGo2_Update
 /* 04B70 80A478A0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 04B74 80A478A4 AFB10020 */  sw      $s1, 0x0020($sp)           

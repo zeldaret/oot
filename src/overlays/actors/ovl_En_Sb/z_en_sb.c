@@ -137,10 +137,10 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 }
 
 void EnSb_SetupLunge(EnSb* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06000124.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000124.genericHeader);
     f32 playbackSpeed = this->actor.waterY > 0.0f ? 1.0f : 0.0f;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frames, 2, 0);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frameCount, 2, 0);
     this->behavior = SHELLBLADE_LUNGE;
     this->actionFunc = EnSb_Lunge;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);

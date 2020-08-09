@@ -1,3 +1,65 @@
+.rdata
+glabel D_80AB880C
+    .asciz "\x1b[32m☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8838
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8868
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8898
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB88C8
+    .asciz "\x1b[32m☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB88F8
+    .asciz "\x1b[32m☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8928
+    .asciz "\x1b[32m☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8958
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8988
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB89B8
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB89E8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB89EC
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB89F0
+    .asciz "\x1b[33m☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+glabel D_80AB8A1C
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB8B0C
+    .float -0.15
+
+.text
 glabel EnNiw_Update
 /* 01DB4 80AB7534 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 01DB8 80AB7538 AFBF002C */  sw      $ra, 0x002C($sp)           

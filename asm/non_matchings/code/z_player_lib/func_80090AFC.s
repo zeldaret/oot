@@ -77,7 +77,7 @@ glabel func_80090AFC
 /* B07D74 80090BD4 27A50074 */  addiu $a1, $sp, 0x74
 /* B07D78 80090BD8 27A60068 */  addiu $a2, $sp, 0x68
 /* B07D7C 80090BDC 27A70064 */  addiu $a3, $sp, 0x64
-/* B07D80 80090BE0 0C029B84 */  jal   func_800A6E10
+/* B07D80 80090BE0 0C029B84 */  jal   SkinMatrix_Vec3fMtxFMultXYZW
 /* B07D84 80090BE4 00812021 */   addu  $a0, $a0, $at
 /* B07D88 80090BE8 3C014348 */  li    $at, 0x43480000 # 0.000000
 /* B07D8C 80090BEC 44811000 */  mtc1  $at, $f2

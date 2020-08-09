@@ -88,8 +88,8 @@ void EffectSs_Reset(EffectSs* effectSs) {
     effectSs->priority = 128;
     effectSs->draw = NULL;
     effectSs->update = NULL;
-    effectSs->unk_38 = 0;
-    effectSs->unk_3C = 0;
+    effectSs->displayList = NULL;
+    effectSs->unk_3C = NULL;
 
     for (i = 0; i < ARRAY_COUNT(effectSs->regs); i++) {
         effectSs->regs[i] = 0;

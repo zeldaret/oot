@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A4862C
+    .asciz "../z_en_go2.c"
+    .balign 4
+
+glabel D_80A4863C
+    .asciz "../z_en_go2.c"
+    .balign 4
+
+.text
 glabel EnGo2_Draw
 /* 05160 80A47E90 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 05164 80A47E94 3C0F80A5 */  lui     $t7, %hi(D_80A48578)       ## $t7 = 80A50000

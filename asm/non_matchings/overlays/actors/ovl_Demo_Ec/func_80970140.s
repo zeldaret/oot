@@ -1,6 +1,6 @@
 .rdata
 glabel D_8097075C
-    .asciz "\x1B[31mDemo_Ec_main_bank:バンクを読めない arg_data = %d!\n\x1B[m"
+    .asciz "\x1b[31mDemo_Ec_main_bank:バンクを読めない arg_data = %d!\n\x1b[m"
     .balign 4
 
 .text
