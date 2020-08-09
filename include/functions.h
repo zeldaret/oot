@@ -2115,7 +2115,7 @@ void Audio_SequenceChannelDisable(SequenceChannel* seqChannel);
 // ? func_800E9A2C(?);
 // ? func_800E9AAC(?);
 // ? func_800E9B44(?);
-// ? func_800E9B6C(?);
+void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer);
 void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item);
 void* Audio_AudioListPopBack(AudioListItem* list);
 // ? func_800E9CA8(?);

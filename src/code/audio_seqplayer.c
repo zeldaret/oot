@@ -23,7 +23,7 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9B44.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9B6C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisable.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_AudioListPushBack.s")
 

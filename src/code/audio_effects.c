@@ -1,8 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-// #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_SequenceChannelProcessSound.s")
-
 void Audio_SequenceChannelProcessSound(SequenceChannel *seqChannel, s32 recalculateVolume, s32 b) {
     f32 channelVolume;
     f32 chanFreqScale;
@@ -50,7 +48,39 @@ void Audio_SequenceChannelProcessSound(SequenceChannel *seqChannel, s32 recalcul
     seqChannel->changes.asByte = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_SequencePlayerProcessSound.s")
+void Audio_SequencePlayerProcessSound(SequencePlayer *seqPlayer) {
+    s32 i;
+
+    if (seqPlayer->fadeTimer != 0) {
+        seqPlayer->fadeVolume += seqPlayer->fadeVelocity;
+        seqPlayer->recalculateVolume = 1;
+
+        if (seqPlayer->fadeVolume > 1.0f) {
+            seqPlayer->fadeVolume = 1.0f;
+        }
+        if (seqPlayer->fadeVolume < 0) {
+            seqPlayer->fadeVolume = 0;
+        }
+
+        if (--seqPlayer->fadeTimer == 0 && seqPlayer->state == 2) {
+            Audio_SequencePlayerDisable(seqPlayer);
+            return;
+        }
+    }
+
+    if (seqPlayer->recalculateVolume) {
+        seqPlayer->appliedFadeVolume = seqPlayer->fadeVolume * seqPlayer->fadeVolumeScale;
+    }
+
+    for (i = 0; i < 16; i++) {
+        if (seqPlayer->channels[i]->enabled == 1) {
+            Audio_SequenceChannelProcessSound(seqPlayer->channels[i], seqPlayer->recalculateVolume, seqPlayer->unk_0b1);
+        }
+    }
+
+    seqPlayer->recalculateVolume = 0;
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_GetPortamentoFreqScale.s")
 

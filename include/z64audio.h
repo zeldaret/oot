@@ -130,6 +130,8 @@ typedef struct {
     /* 0x000 */ u8 seqDmaInProgress : 1;
     /* 0x000 */ u8 bankDmaInProgress : 1;
     /* 0x000 */ u8 recalculateVolume : 1;
+    /* 0x000 */ u8 pad_0b2 : 1;
+    /* 0x000 */ u8 unk_0b1 : 1;
     /* 0x001 */ u8 state;
     /* 0x002 */ u8 noteAllocPolicy;
     /* 0x003 */ u8 muteBehavior;
@@ -142,18 +144,19 @@ typedef struct {
     /* 0x00A */ u16 tempoAcc;
     /* 0x00C */ s16 transposition;
     /* 0x00E */ u16 delay;
-    /* 0x010 */ u16 fadeTimer;
-    /* 0x012 */ u16 fadeTimerUnkEu;
-    /* 0x014 */ char unk_014[0x4];
-    /* 0x018 */ u8* seqData;         // buffer of some sort
-    /* 0x01C */ f32 fadeVolume;      // set to 1.0f
-    /* 0x020 */ f32 fadeVelocity;    // set to 0.0f
-    /* 0x024 */ f32 volume;          // set to 0.0f
-    /*!0x028 */ f32 muteVolumeScale; // set to 0.5f
-    /* 0x02C */ f32 fadeVolumeScale;
+    /* 0x010 */ char pad_010[0x2];
+    /* 0x012 */ u16 fadeTimer;
+    /* 0x014 */ u16 fadeTimerUnkEu;
+    /* 0x016 */ char pad_016[0x2];
+    /* 0x018 */ u8* seqData;
+    /*!0x01C */ f32 fadeVolume;
+    /*!0x020 */ f32 fadeVelocity;
+    /* 0x024 */ f32 volume;
+    /*!0x028 */ f32 muteVolumeScale;
+    /*!0x02C */ f32 fadeVolumeScale;
     /*!0x030 */ f32 appliedFadeVolume;
     /* 0x034 */ f32 unk_34;
-    /* 0x038 */ struct SequenceChannel* channels[16];
+    /*!0x038 */ struct SequenceChannel* channels[16];
     /* 0x078 */ M64ScriptState scriptState;
     /* 0x094 */ u8* shortNoteVelocityTable;
     /* 0x098 */ u8* shortNoteDurationTable;
