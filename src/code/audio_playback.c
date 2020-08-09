@@ -755,7 +755,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer) {
     note->playbackState.prevParentLayer = NO_LAYER;
     note->playbackState.parentLayer = seqLayer;
     playback->priority = seqLayer->seqChannel->notePriority;
-    seqLayer->bit0 = 1;
+    seqLayer->notePropertiesNeedInit = 1;
     seqLayer->unusedEu0b8 = 1;
     seqLayer->note = note;
     seqLayer->seqChannel->noteUnused = note;

@@ -144,18 +144,19 @@ typedef struct {
     /* 0x00E */ u16 delay;
     /* 0x010 */ u16 fadeTimer;
     /* 0x012 */ u16 fadeTimerUnkEu;
-    /* 0x014 */ u8* seqData;         // buffer of some sort
-    /* 0x018 */ f32 fadeVolume;      // set to 1.0f
-    /* 0x01C */ f32 fadeVelocity;    // set to 0.0f
-    /* 0x020 */ f32 volume;          // set to 0.0f
-    /* 0x024 */ f32 muteVolumeScale; // set to 0.5f
-    /* 0x028 */ f32 fadeVolumeScale;
-    /* 0x02C */ f32 appliedFadeVolume;
-    /* 0x030 */ struct SequenceChannel* channels[16];
-    /* 0x070 */ M64ScriptState scriptState;
-    /* 0x08C */ u8* shortNoteVelocityTable;
-    /* 0x090 */ u8* shortNoteDurationTable;
-    /* 0x094 */ char unk_094[0x8];
+    /* 0x014 */ char unk_014[0x4];
+    /* 0x018 */ u8* seqData;         // buffer of some sort
+    /* 0x01C */ f32 fadeVolume;      // set to 1.0f
+    /* 0x020 */ f32 fadeVelocity;    // set to 0.0f
+    /* 0x024 */ f32 volume;          // set to 0.0f
+    /*!0x028 */ f32 muteVolumeScale; // set to 0.5f
+    /* 0x02C */ f32 fadeVolumeScale;
+    /*!0x030 */ f32 appliedFadeVolume;
+    /* 0x034 */ f32 unk_34;
+    /* 0x038 */ struct SequenceChannel* channels[16];
+    /* 0x078 */ M64ScriptState scriptState;
+    /* 0x094 */ u8* shortNoteVelocityTable;
+    /* 0x098 */ u8* shortNoteDurationTable;
     /*!0x09C */ NotePool notePool;
     /* 0x0DC */ OSMesgQueue seqDmaMesgQueue;
     /* 0x0F4 */ OSMesg seqDmaMesg;
@@ -250,8 +251,8 @@ typedef struct SequenceChannel {
     /*!0x07 */ u8 bankId;
     /*!0x08 */ u8 reverbIndex;
     /*!0x09 */ u8 bookOffset;
-    /* 0x0A */ u8 newPan;
-    /* 0x0B */ u8 panChannelWeight;  // proportion of pan that comes from the channel (0..128)
+    /*!0x0A */ u8 newPan;
+    /*!0x0B */ u8 panChannelWeight;  // proportion of pan that comes from the channel (0..128)
     /* 0x0C */ u8 unk_0C; // u16 vibratoRateStart;
     /* 0x0D */ u8 padD[2]; // u16 vibratoExtentStart;
     /* 0x0F */ u8 unk_0F;
@@ -261,28 +262,27 @@ typedef struct SequenceChannel {
     /* 0x16 */ u16 vibratoExtentChangeDelay;
     /* 0x18 */ u16 vibratoDelay;
     /* 0x1A */ u16 delay;
-    /* 0x1C */ f32 volumeScale;
-    /* 0x20 */ u16 unk_20; // f32 volume;
+    /* 0x1C */ char unk_1C[0x4];
+    /* 0x20 */ u16 unk_20;
     /* 0x22 */ u16 pad22;
     /*!0x24 */ s16 instOrWave; // either 0 (none), instrument index + 1, or
                              // 0x80..0x83 for sawtooth/triangle/sine/square waves.
     /* 0x26 */ s16 transposition;
-    /* 0x28 */ s32 pan;
-    /* 0x2C */ f32 appliedVolume;
-    /* 0x30 */ f32 freqScale;
-    /* 0x34 */ u8 (*dynTable)[][2];
-    /* 0x38 */ char unk_3C[0x8];
+    /*!0x28 */ f32 volumeScale;
+    /*!0x2C */ f32 volume;
+    /*!0x30 */ s32 pan;
+    /*!0x34 */ f32 appliedVolume;
+    /* 0x38 */ f32 freqScale;
+    /* 0x3C */ u8 (*dynTable)[][2];
     /* 0x40 */ struct Note* noteUnused;                  // never read
     /* 0x44 */ struct SequenceChannelLayer* layerUnused; // never read
     /* 0x48 */ Instrument* instrument;
     /*!0x4C */ SequencePlayer* seqPlayer;
-     //! Changed this to shift the struct, likely incorrect. (Notice the above pad[2])
-    /* 0x54 */ struct SequenceChannelLayer* layers[2];
-    /* 0x5C */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
+    /*!0x54 */ struct SequenceChannelLayer* layers[4];
     /* 0x64 */ M64ScriptState scriptState;
     /*      */ AdsrSettings adsr;
     /*!0x84 */ NotePool notePool;
-    /* 0xC4 */ u8 padC4[8];
+    /* 0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
     /* 0xCC */ s16* unk_CC;
     /* 0xD0 */ ReverbBits reverbBits;
     /* 0xD1 */ char unk_D1[0x3];
@@ -295,22 +295,23 @@ typedef struct SequenceChannelLayer {
     /* 0x00 */ u8 stopSomething : 1;   // ?
     /* 0x00 */ u8 continuousNotes : 1; // keep the same note for consecutive notes with the same sound
     /* 0x00 */ u8 unusedEu0b8 : 1;
-    /* 0x00 */ u8 notePropertiesNeedInit : 1;
+    /* 0x00 */ u8 bit2 : 1;
     /* 0x00 */ u8 ignoreDrumPan : 1; // (wrong)
-    /* 0x00 */ u8 bit0 : 1;
+    /* 0x00 */ u8 notePropertiesNeedInit : 1;
     /*!0x01 */ ReverbBits reverbBits;
     /* 0x02 */ u8 instOrWave;
     /* 0x03 */ u8 status;
     /* 0x04 */ u8 noteDuration; // set to 0x80
     /* 0x05 */ u8 portamentoTargetNote;
-    /* 0x06 */ u8 pan; // 0..128
+    /*!0x06 */ u8 pan; // 0..128
     /*!0x07 */ u8 notePan;
     /* 0x08 */ u16 portamentoTime;
     /* 0x0A */ s16 transposition; // #semitones added to play commands
                                       // (m64 instruction encoding only allows referring to the limited range
                                       // 0..0x3f; this makes 0x40..0x7f accessible as well)
     /* 0x0C */ f32 unk0C;
-    /* 0x10 */ f32 velocitySquare;
+    /* 0x10 */ s16 delay; // (wrong)
+    /* 0x12 */ s16 duration; // (wrong)
     /* 0x14 */ f32 unk14;
     /* 0x18 */ AdsrSettings adsr;
     /*!0x20 */ Portamento portamento;
@@ -318,8 +319,7 @@ typedef struct SequenceChannelLayer {
     /*!0x30 */ f32 freqScale;
     /* 0x34 */ s16 shortNoteDefaultPlayPercentage;
     /* 0x36 */ s16 playPercentage; // it's not really a percentage...
-    /* 0x38 */ s16 delay;
-    /* 0x3A */ s16 duration;
+    /*!0x38 */ f32 velocitySquare;
     /* 0x3C */ s16 delayUnused; // set to 'delay', never read
     /*!0x40 */ f32 noteVelocity;
     /*!0x44 */ f32 noteFreqScale;

@@ -2094,7 +2094,7 @@ Note* Audio_AllocNoteFromDecaying(NotePool* pool, SequenceChannelLayer* seqLayer
 Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceChannelLayer* seqLayer);
 Note* Audio_AllocNote(SequenceChannelLayer* seqLayer);
 void Audio_NoteInitAll(void);
-void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 a, s32 b);
+void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalculateVolume, s32 b);
 void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer);
 f32 Audio_GetPortamentoFreqScale(Portamento* p);
 s16 Audio_GetVibratoPitchChange(VibratoState* vib);
