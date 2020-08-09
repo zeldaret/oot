@@ -2101,7 +2101,7 @@ s16 Audio_GetVibratoPitchChange(VibratoState* vib);
 f32 Audio_GetVibratoFreqScale(VibratoState* vib);
 void Audio_NoteVibratoUpdate(Note* note);
 void Audio_NoteVibratoInit(Note* note);
-void func_800E8FB8(Note* note);
+void Audio_NotePortamentoInit(Note* note);
 void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut);
 f32 Audio_AdsrUpdate(AdsrState* adsr);
 // ? func_800E9340(?);

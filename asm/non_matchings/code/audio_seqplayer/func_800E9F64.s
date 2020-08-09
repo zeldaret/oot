@@ -86,7 +86,7 @@ glabel func_800E9F64
 /* B61238 800EA098 8CCA0044 */  lw    $t2, 0x44($a2)
 /* B6123C 800EA09C 54EA0004 */  bnel  $a3, $t2, .L800EA0B0
 /* B61240 800EA0A0 00001025 */   move  $v0, $zero
-/* B61244 800EA0A4 0C03A3EE */  jal   func_800E8FB8
+/* B61244 800EA0A4 0C03A3EE */  jal   Audio_NotePortamentoInit
 /* B61248 800EA0A8 00C02025 */   move  $a0, $a2
 /* B6124C 800EA0AC 00001025 */  move  $v0, $zero
 .L800EA0B0:

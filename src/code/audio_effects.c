@@ -207,11 +207,10 @@ void Audio_NoteVibratoInit(struct Note *note) {
     vib->delay = seqChannel->vibratoDelay;
 }
 
-// Audio_NotePortamentoInit
-// note->portamentoFreqScale = 1.0f;
-// seqPlayerState->portamento = seqPlayerState->parentLayer->portamento;
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/func_800E8FB8.s")
+void Audio_NotePortamentoInit(Note *note) {
+    note->playbackState.portamentoFreqScale = 1.0f;
+    note->portamento = note->playbackState.parentLayer->portamento;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_AdsrInit.s")
 
