@@ -97,7 +97,12 @@ f32 Audio_GetPortamentoFreqScale(Portamento *p) {
     return result;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_GetVibratoPitchChange.s")
+s16 Audio_GetVibratoPitchChange(VibratoState *vib) {
+    s32 index;
+    vib->time += (s32) vib->rate;
+    index = (vib->time >> 10) & 0x3F;
+    return vib->curve[index];
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_effects/Audio_GetVibratoFreqScale.s")
 
