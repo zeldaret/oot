@@ -125,7 +125,7 @@ void func_8098E51C(DemoSa* this, s16 arg1) {
 void func_8098E530(DemoSa* this) {
     this->action = 7;
     this->drawConfig = 0;
-    this->unk_1A4 = 0;
+    this->alpha = 0;
     this->unk_1A8 = 0;
     this->actor.shape.unk_14 = 0;
     this->unk_1A0 = 0.0f;
@@ -379,7 +379,7 @@ void func_8098EEA8(DemoSa* this, GlobalContext* globalCtx) {
     if (func_8098E654(this, globalCtx, 4, 4)) {
         this->action = 8;
         this->drawConfig = 2;
-        this->unk_1A4 = 0;
+        this->alpha = 0;
         this->actor.shape.unk_14 = 0;
         this->unk_1A0 = 0.0f;
         func_8098EE08();
@@ -387,7 +387,7 @@ void func_8098EEA8(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098EEFC(DemoSa* this, GlobalContext* globalCtx) {
-    s32 alpha = 0xFF;
+    s32 alpha = 255;
     f32* unk_1A0 = &this->unk_1A0;
 
     if (func_8098E654(this, globalCtx, 4, 4)) {
@@ -396,7 +396,7 @@ void func_8098EEFC(DemoSa* this, GlobalContext* globalCtx) {
             this->action = 9;
             this->drawConfig = 1;
             *unk_1A0 = kREG(5) + 10.0f;
-            this->unk_1A4 = alpha;
+            this->alpha = alpha;
             this->actor.shape.unk_14 = alpha;
             return;
         }
@@ -406,12 +406,12 @@ void func_8098EEFC(DemoSa* this, GlobalContext* globalCtx) {
             this->action = 7;
             this->drawConfig = 0;
             *unk_1A0 = 0.0f;
-            this->unk_1A4 = 0;
+            this->alpha = 0;
             this->actor.shape.unk_14 = 0;
             return;
         }
     }
-    this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / (kREG(5) + 10.0f)) * 255.0f;
+    this->actor.shape.unk_14 = this->alpha = (*unk_1A0 / (kREG(5) + 10.0f)) * 255.0f;
 }
 
 void func_8098F050(DemoSa* this, GlobalContext* globalCtx) {
@@ -419,7 +419,7 @@ void func_8098F050(DemoSa* this, GlobalContext* globalCtx) {
         this->action = 8;
         this->drawConfig = 2;
         this->unk_1A0 = kREG(5) + 10.0f;
-        this->unk_1A4 = 0xFF;
+        this->alpha = 255;
         if (this->unk_1A8 == 0) {
             func_8098EE28(this, globalCtx);
             this->unk_1A8 = 1;
@@ -466,7 +466,7 @@ void func_8098F1C0(DemoSa* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
     gSPSegment(gfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_1A4);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, D_80116280);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
@@ -494,7 +494,7 @@ void func_8098F420(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098F480(DemoSa* this) {
-    s32 alpha = 0xFF;
+    s32 alpha = 255;
     f32* unk_1A0 = &this->unk_1A0;
     f32 temp_f0;
 
@@ -502,9 +502,9 @@ void func_8098F480(DemoSa* this) {
     temp_f0 = kREG(17) + 10.0f;
 
     if (temp_f0 <= *unk_1A0) {
-        this->actor.shape.unk_14 = this->unk_1A4 = alpha;
+        this->actor.shape.unk_14 = this->alpha = alpha;
     } else {
-        this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / temp_f0) * 255.0f;
+        this->actor.shape.unk_14 = this->alpha = (*unk_1A0 / temp_f0) * 255.0f;
     }
 }
 
@@ -614,7 +614,7 @@ void func_8098F83C(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098F8F8(DemoSa* this) {
-    s32 alpha = 0xFF;
+    s32 alpha = 255;
     f32* unk_1A0 = &this->unk_1A0;
     f32 temp_f0;
 
@@ -622,9 +622,9 @@ void func_8098F8F8(DemoSa* this) {
     temp_f0 = kREG(17) + 10.0f;
 
     if (temp_f0 <= *unk_1A0) {
-        this->actor.shape.unk_14 = this->unk_1A4 = alpha;
+        this->actor.shape.unk_14 = this->alpha = alpha;
     } else {
-        this->actor.shape.unk_14 = this->unk_1A4 = (*unk_1A0 / temp_f0) * 255.0f;
+        this->actor.shape.unk_14 = this->alpha = (*unk_1A0 / temp_f0) * 255.0f;
     }
 }
 
@@ -805,7 +805,7 @@ void func_8098FEB4(DemoSa* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp70));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp70));
     gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp64));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,

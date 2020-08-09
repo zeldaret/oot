@@ -1,6 +1,6 @@
 .rdata
 glabel D_80A3E390
-    .asciz "\x1B[32m%s[%d] : 中ゴロン[%d]\x1B[m\n"
+    .asciz "\x1b[32m%s[%d] : 中ゴロン[%d]\x1b[m\n"
     .balign 4
 
 glabel D_80A3E3B0
@@ -8,7 +8,7 @@ glabel D_80A3E3B0
     .balign 4
 
 glabel D_80A3E3C0
-    .asciz "\x1B[41;37m"
+    .asciz "\x1b[41;37m"
     .balign 4
 
 glabel D_80A3E3CC

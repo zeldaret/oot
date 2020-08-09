@@ -108,8 +108,8 @@ void MapMark_Draw(GlobalContext* globalCtx) {
 
         gDPPipeSync(gfxCtx->overlay.p++);
         gDPSetTextureLUT(gfxCtx->overlay.p++, G_TT_NONE);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->minimapAlpha);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, interfaceCtx->minimapAlpha);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->minimapAlpha);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, interfaceCtx->minimapAlpha);
 
         markPoint = &mapMarkData->points[0];
         for (i = 0; i < mapMarkData->count; i++) {

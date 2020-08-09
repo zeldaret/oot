@@ -16,7 +16,7 @@ glabel D_80A95018
     .balign 4
 
 glabel D_80A9502C
-    .asciz "[32m"
+    .asciz "\x1b[32m"
     .balign 4
 
 glabel D_80A95034

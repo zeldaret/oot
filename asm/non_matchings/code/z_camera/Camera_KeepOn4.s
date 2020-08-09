@@ -1,6 +1,6 @@
 .rdata
 glabel D_8013930C
-    .asciz "\x1B[43;30mcamera: item: item type changed %d -> %d\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: item: item type changed %d -> %d\n\x1b[m"
     .balign 4
 
 glabel D_80139344

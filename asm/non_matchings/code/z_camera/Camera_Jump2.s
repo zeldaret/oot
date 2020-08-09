@@ -1,6 +1,6 @@
 .rdata
 glabel D_80139140
-    .asciz "\x1B[43;30mcamera: climb: no floor \n\x1B[m"
+    .asciz "\x1b[43;30mcamera: climb: no floor \n\x1b[m"
     .balign 4
 
 .late_rodata

@@ -245,7 +245,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* arg1) {
     func_8005A444(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 
-s32 func_8008EF40(GlobalContext* globalCtx) {
+s32 func_8008EF30(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     return player->stateFlags1 & 0x800000;
 }
@@ -572,7 +572,7 @@ void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
 
         gfxCtx->overlay.p = Gfx_CallSetupDL(gfxCtx->overlay.p, 7);
 
-        func_800A6E10(&globalCtx->mf_11D60, &sp74, &sp68, &sp64);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp74, &sp68, &sp64);
 
         sp60 = (sp64 < 200.0f) ? 0.07999999821186066f : (sp64 / 200.0f) * 0.07999999821186066f;
 

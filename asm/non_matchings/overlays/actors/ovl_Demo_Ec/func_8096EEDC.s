@@ -1,6 +1,6 @@
 .rdata
 glabel D_809706F4
-    .asciz "\x1B[31mかつらが無い!!!!!!!!!!!!!!!!\n\x1B[m"
+    .asciz "\x1b[31mかつらが無い!!!!!!!!!!!!!!!!\n\x1b[m"
     .balign 4
 
 .text

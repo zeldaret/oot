@@ -1,3 +1,48 @@
+.rdata
+glabel D_80AB8720
+    .asciz "\x1b[33m☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+glabel D_80AB8754
+    .asciz "\x1b[33m☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+glabel D_80AB8788
+    .asciz "\x1b[33m 通常鶏index %d\n\x1b[m"
+    .balign 4
+
+glabel D_80AB87A4
+    .asciz "\x1b[33m☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80AB87D4
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB8A50
+    .float 1530.0
+
+glabel D_80AB8A54
+    .float 3.99
+
+glabel jtbl_80AB8A58
+    .word L80AB5A44
+    .word L80AB5A28
+    .word L80AB5A64
+    .word L80AB5AE8
+    .word L80AB5A84
+    .word L80AB5AF4
+    .word L80AB5AA4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AC4
+    .word L80AB5AD0
+
+.text
 glabel EnNiw_Init
 /* 00000 80AB5780 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00004 80AB5784 AFBF0034 */  sw      $ra, 0x0034($sp)
