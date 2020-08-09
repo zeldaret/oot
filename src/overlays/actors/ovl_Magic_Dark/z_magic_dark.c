@@ -76,7 +76,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL);
+    func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
     if (this->unk_14C < 35) {
         func_80B8772C(globalCtx, this->unk_14C * (1 / 45.0f));
         Math_SmoothScaleMaxMinF(&this->actor.scale.x, this->unk_15C * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
