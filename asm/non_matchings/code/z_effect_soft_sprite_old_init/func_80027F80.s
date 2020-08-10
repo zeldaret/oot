@@ -46,25 +46,25 @@ glabel func_80027F80
 /* A9F198 80027FF8 8E270008 */  lw    $a3, 8($s1)
 /* A9F19C 80027FFC 27A40120 */  addiu $a0, $sp, 0x120
 /* A9F1A0 80028000 46083002 */  mul.s $f0, $f6, $f8
-/* A9F1A4 80028004 0C029E89 */  jal   func_800A7A24
+/* A9F1A4 80028004 0C029E89 */  jal   SkinMatrix_SetTranslate
 /* A9F1A8 80028008 E7A00160 */   swc1  $f0, 0x160($sp)
 /* A9F1AC 8002800C C7A00160 */  lwc1  $f0, 0x160($sp)
 /* A9F1B0 80028010 27A400E0 */  addiu $a0, $sp, 0xe0
 /* A9F1B4 80028014 44050000 */  mfc1  $a1, $f0
 /* A9F1B8 80028018 44060000 */  mfc1  $a2, $f0
 /* A9F1BC 8002801C 44070000 */  mfc1  $a3, $f0
-/* A9F1C0 80028020 0C029DA9 */  jal   func_800A76A4
+/* A9F1C0 80028020 0C029DA9 */  jal   SkinMatrix_SetScale
 /* A9F1C4 80028024 00000000 */   nop   
 /* A9F1C8 80028028 8FA50168 */  lw    $a1, 0x168($sp)
 /* A9F1CC 8002802C 3C010001 */  lui   $at, (0x00011DA0 >> 16) # lui $at, 1
 /* A9F1D0 80028030 34211DA0 */  ori   $at, (0x00011DA0 & 0xFFFF) # ori $at, $at, 0x1da0
 /* A9F1D4 80028034 27A40120 */  addiu $a0, $sp, 0x120
 /* A9F1D8 80028038 27A60060 */  addiu $a2, $sp, 0x60
-/* A9F1DC 8002803C 0C029BE8 */  jal   func_800A6FA0
+/* A9F1DC 8002803C 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* A9F1E0 80028040 00A12821 */   addu  $a1, $a1, $at
 /* A9F1E4 80028044 27A40060 */  addiu $a0, $sp, 0x60
 /* A9F1E8 80028048 27A500E0 */  addiu $a1, $sp, 0xe0
-/* A9F1EC 8002804C 0C029BE8 */  jal   func_800A6FA0
+/* A9F1EC 8002804C 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* A9F1F0 80028050 27A600A0 */   addiu $a2, $sp, 0xa0
 /* A9F1F4 80028054 8FA40054 */  lw    $a0, 0x54($sp)
 /* A9F1F8 80028058 3C018000 */  lui   $at, 0x8000
@@ -79,7 +79,7 @@ glabel func_80027F80
 /* A9F21C 8002807C AE0B02D0 */  sw    $t3, 0x2d0($s0)
 /* A9F220 80028080 AC640004 */  sw    $a0, 4($v1)
 /* A9F224 80028084 02002025 */  move  $a0, $s0
-/* A9F228 80028088 0C029F9C */  jal   func_800A7E70
+/* A9F228 80028088 0C029F9C */  jal   SkinMatrix_MtxFToNewMtx
 /* A9F22C 8002808C AC6C0000 */   sw    $t4, ($v1)
 /* A9F230 80028090 1040004A */  beqz  $v0, .L800281BC
 /* A9F234 80028094 3C0FDA38 */   lui   $t7, (0xDA380003 >> 16) # lui $t7, 0xda38

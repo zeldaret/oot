@@ -10,7 +10,7 @@ glabel func_80B3AF70
 /* 00020 80B3AF90 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 00024 80B3AF94 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 00028 80B3AF98 260600E4 */  addiu   $a2, $s0, 0x00E4           ## $a2 = 000000E4
-/* 0002C 80B3AF9C 0C029B84 */  jal     func_800A6E10              
+/* 0002C 80B3AF9C 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 00030 80B3AFA0 260700F0 */  addiu   $a3, $s0, 0x00F0           ## $a3 = 000000F0
 /* 00034 80B3AFA4 C60200F0 */  lwc1    $f2, 0x00F0($s0)           ## 000000F0
 /* 00038 80B3AFA8 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

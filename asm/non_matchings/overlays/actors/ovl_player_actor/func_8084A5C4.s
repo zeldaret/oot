@@ -126,7 +126,7 @@ glabel func_8084A5C4
 /* 18528 8084A738 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 1852C 8084A73C 00812021 */  addu    $a0, $a0, $at              
 /* 18530 8084A740 26050038 */  addiu   $a1, $s0, 0x0038           ## $a1 = 00000038
-/* 18534 8084A744 0C029BBD */  jal     func_800A6EF4              
+/* 18534 8084A744 0C029BBD */  jal     SkinMatrix_Vec3fMtxFMultXYZ              
 /* 18538 8084A748 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFCC
 /* 1853C 8084A74C 3C01C080 */  lui     $at, 0xC080                ## $at = C0800000
 /* 18540 8084A750 44812000 */  mtc1    $at, $f4                   ## $f4 = -4.00

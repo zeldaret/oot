@@ -71,7 +71,7 @@ glabel func_800A57C0
 /* B1CA70 800A58D0 44998000 */  mtc1  $t9, $f16
 /* B1CA74 800A58D4 00000000 */  nop   
 /* B1CA78 800A58D8 468084A0 */  cvt.s.w $f18, $f16
-/* B1CA7C 800A58DC 0C029BBD */  jal   func_800A6EF4
+/* B1CA7C 800A58DC 0C029BBD */  jal   SkinMatrix_Vec3fMtxFMultXYZ
 /* B1CA80 800A58E0 E7B2006C */   swc1  $f18, 0x6c($sp)
 /* B1CA84 800A58E4 C7A40070 */  lwc1  $f4, 0x70($sp)
 /* B1CA88 800A58E8 2631000A */  addiu $s1, $s1, 0xa
