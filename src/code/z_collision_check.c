@@ -507,7 +507,7 @@ s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTri
         *d++ = *s++;
     }
 
-    func_800CC8B4(&src->vtx[0], &src->vtx[1], &src->vtx[2], &nx, &ny, &nz, &nd);
+    Math3D_DefPlane(&src->vtx[0], &src->vtx[1], &src->vtx[2], &nx, &ny, &nz, &nd);
 
     dest->plane.normal.x = nx;
     dest->plane.normal.y = ny;
@@ -818,7 +818,7 @@ s32 func_8005D218(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* arg2) {
         return 1;
     }
     Math_Vec3s_ToVec3f(&sp20, &quad->dim.dcMid);
-    temp = func_800CB650(&sp20, arg2);
+    temp = Math3D_Vec3fDistSq(&sp20, arg2);
     if (temp < quad->dim.unk_3C) {
         quad->dim.unk_3C = temp;
         if (quad->body.atHit != NULL) {
@@ -928,12 +928,12 @@ void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
         case COLSHAPE_JNTSPH:
             jntSph = (ColliderJntSph*)collider;
             for (i = 0; i < jntSph->count; i++) {
-                func_800D05D0(globalCtx, &jntSph->list[i].dim.worldSphere);
+                Math3D_DrawSphere(globalCtx, &jntSph->list[i].dim.worldSphere);
             }
             break;
         case COLSHAPE_CYLINDER:
             cylinder = (ColliderCylinder*)collider;
-            func_800D05DC(globalCtx, &cylinder->dim);
+            Math3D_DrawCylinder(globalCtx, &cylinder->dim);
             break;
         case COLSHAPE_TRIS:
             tris = (ColliderTris*)collider;
@@ -1547,7 +1547,7 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
             if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
                 continue;
             }
-            if (Math3D_SpheresTouchingSurfaceCenter(&lItem->dim.worldSphere, &rItem->dim.worldSphere, &sp8C, &sp88) ==
+            if (Math3D_SpheresTouchingOverlapCenter(&lItem->dim.worldSphere, &rItem->dim.worldSphere, &sp8C, &sp88) ==
                 1) {
                 sp6C.x = lItem->dim.worldSphere.center.x;
                 sp6C.y = lItem->dim.worldSphere.center.y;
@@ -1597,7 +1597,7 @@ void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
         if (func_8005DF74(&lItem->body, &right->body) == 1) {
             continue;
         }
-        if (func_800CFDA4(&lItem->dim.worldSphere, &right->dim, &sp80, &sp7C) != 0) {
+        if (Math3D_SphereTouchingCylinderOverlapCenterDist(&lItem->dim.worldSphere, &right->dim, &sp80, &sp7C) != 0) {
             sp64.x = lItem->dim.worldSphere.center.x;
             sp64.y = lItem->dim.worldSphere.center.y;
             sp64.z = lItem->dim.worldSphere.center.z;
@@ -1647,7 +1647,7 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
         if (func_8005DF74(&left->body, &rItem->body) == 1) {
             continue;
         }
-        if (func_800CFDA4(&rItem->dim.worldSphere, &left->dim, &sp9C, &sp98) != 0) {
+        if (Math3D_SphereTouchingCylinderOverlapCenterDist(&rItem->dim.worldSphere, &left->dim, &sp9C, &sp98) != 0) {
             sp7C.x = left->dim.pos.x;
             sp7C.y = left->dim.pos.y;
             sp7C.z = left->dim.pos.z;
@@ -1698,7 +1698,7 @@ void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckCont
             if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
                 continue;
             }
-            if (func_800CE934(&lItem->dim.worldSphere, &rItem->dim, &sp6C) == 1) {
+            if (Math3D_TriTouchingSphIntersect(&lItem->dim.worldSphere, &rItem->dim, &sp6C) == 1) {
                 sp60.x = lItem->dim.worldSphere.center.x;
                 sp60.y = lItem->dim.worldSphere.center.y;
                 sp60.z = lItem->dim.worldSphere.center.z;
@@ -1735,7 +1735,7 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                     if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
                         continue;
                     }
-                    if (func_800CE934(&rItem->dim.worldSphere, &lItem->dim, &sp7C) == 1) {
+                    if (Math3D_TriTouchingSphIntersect(&rItem->dim.worldSphere, &lItem->dim, &sp7C) == 1) {
                         Math_Vec3s_ToVec3f(&sp64, &rItem->dim.worldSphere.center);
                         sp70.x = (lItem->dim.vtx[0].x + lItem->dim.vtx[1].x + lItem->dim.vtx[2].x) * (1.0f / 3);
                         sp70.y = (lItem->dim.vtx[0].y + lItem->dim.vtx[1].y + lItem->dim.vtx[2].y) * (1.0f / 3);
@@ -1777,8 +1777,8 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
             if (func_8005DF74(&lItem->body, &right->body) == 1) {
                 continue;
             }
-            if (func_800CE934(&lItem->dim.worldSphere, &D_8015E230, &sp7C) == 1 ||
-                func_800CE934(&lItem->dim.worldSphere, &D_8015E268, &sp7C) == 1) {
+            if (Math3D_TriTouchingSphIntersect(&lItem->dim.worldSphere, &D_8015E230, &sp7C) == 1 ||
+                Math3D_TriTouchingSphIntersect(&lItem->dim.worldSphere, &D_8015E268, &sp7C) == 1) {
                 Math_Vec3s_ToVec3f(&sp6C, &lItem->dim.worldSphere.center);
 
                 sp60.x =
@@ -1820,8 +1820,8 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                 if (func_8005DF74(&left->body, &rItem->body) == 1) {
                     continue;
                 }
-                if (func_800CE934(&rItem->dim.worldSphere, &D_8015E2A0, &sp88) != 1 &&
-                    func_800CE934(&rItem->dim.worldSphere, &D_8015E2D8, &sp88) != 1) {
+                if (Math3D_TriTouchingSphIntersect(&rItem->dim.worldSphere, &D_8015E2A0, &sp88) != 1 &&
+                    Math3D_TriTouchingSphIntersect(&rItem->dim.worldSphere, &D_8015E2D8, &sp88) != 1) {
                     continue;
                 }
                 if (func_8005D218(globalCtx, left, &sp88) != 0) {
@@ -2512,7 +2512,7 @@ void CollisionCheck_OC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
                 if (!(rItem->body.ocFlags & 1)) {
                     continue;
                 }
-                if (Math3D_SpheresTouchingSurface(&lItem->dim.worldSphere, &rItem->dim.worldSphere, &sp74) == 1) {
+                if (Math3D_SpheresTouchingOverlap(&lItem->dim.worldSphere, &rItem->dim.worldSphere, &sp74) == 1) {
                     Math_Vec3s_ToVec3f(&sp68, &lItem->dim.worldSphere.center);
                     Math_Vec3s_ToVec3f(&sp5C, &rItem->dim.worldSphere.center);
                     func_800614A4(&left->base, &lItem->body, &sp68, &right->base, &rItem->body, &sp5C, sp74);
@@ -2542,7 +2542,7 @@ void CollisionCheck_OC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
             if (!(lItem->body.ocFlags & 1)) {
                 continue;
             }
-            if (func_800CFD84(&lItem->dim.worldSphere, &right->dim, &sp78) == 1) {
+            if (Math3D_SphereTouchingCylinderOverlapDist(&lItem->dim.worldSphere, &right->dim, &sp78) == 1) {
                 Math_Vec3s_ToVec3f(&sp6C, &lItem->dim.worldSphere.center);
                 Math_Vec3s_ToVec3f(&sp60, &right->dim.pos);
                 func_800614A4(&left->base, &lItem->body, &sp6C, &right->base, &right->body, &sp60, sp78);
@@ -2787,7 +2787,7 @@ s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, Collision
         }
         D_8015E610.a = *arg3;
         D_8015E610.b = *arg4;
-        if (func_800CE600(&item->dim.worldSphere, &D_8015E610) == 1) {
+        if (Math3D_LineTouchingSph(&item->dim.worldSphere, &D_8015E610) == 1) {
             return 1;
         }
     }
@@ -2803,7 +2803,7 @@ s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionChe
     if (!(cylinder->body.ocFlags & 1)) {
         return 0;
     }
-    if (func_800CEE0C(&cylinder->dim, arg3, arg4, &D_8015E628, &D_8015E638) != 0) {
+    if (Math3D_CylTouchingLineSeg(&cylinder->dim, arg3, arg4, &D_8015E628, &D_8015E638) != 0) {
         return 1;
     }
     return 0;
@@ -2898,7 +2898,7 @@ void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f*
     Math_Vec3f_Copy(&item->dim.vtx[0], a);
     Math_Vec3f_Copy(&item->dim.vtx[1], b);
     Math_Vec3f_Copy(&item->dim.vtx[2], c);
-    func_800CC8B4(a, b, c, &sp40, &sp3C, &sp38, &sp34);
+    Math3D_DefPlane(a, b, c, &sp40, &sp3C, &sp38, &sp34);
     item->dim.plane.normal.x = sp40;
     item->dim.plane.normal.y = sp3C;
     item->dim.plane.normal.z = sp38;

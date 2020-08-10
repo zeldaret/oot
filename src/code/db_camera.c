@@ -28,7 +28,7 @@ extern char sDbgEditorStates[];
 // DbgCamera_Vec3fVecSphAdd
 Vec3f *func_800B3B50(Vec3f *dest, Vec3f *a, VecSph *b) {
     Vec3f copy, vecB;
-    OLib_VecSphRot90ToVec3f(&vecB, b);
+    OLib_VecSphGeoToVec3f(&vecB, b);
 
     copy.x = a->x + vecB.x;
     copy.y = a->y + vecB.y;
@@ -70,9 +70,9 @@ void func_800B3F94(PosRot *arg0, Vec3f *arg1, Vec3s* arg2) {
     VecSph sp28;
     Vec3f sp1C;
 
-    OLib_Vec3fDiffToVecSphRot90(&sp28, &arg0->pos, arg1);
+    OLib_Vec3fDiffToVecSphGeo(&sp28, &arg0->pos, arg1);
     sp28.yaw -= arg0->rot.y;
-    OLib_VecSphRot90ToVec3f((Vec3f *) &sp1C, &sp28);
+    OLib_VecSphGeoToVec3f((Vec3f *) &sp1C, &sp28);
     func_800B3EFC(&sp1C, arg2);
 }
 
@@ -81,7 +81,7 @@ void func_800B3FF4(PosRot *arg0, Vec3f* arg1, Vec3f *arg2) {
     Vec3f sp1C;
 
     func_800B3F38(arg1, &sp1C);
-    OLib_Vec3fToVecSphRot90(&sp28, &sp1C);
+    OLib_Vec3fToVecSphGeo(&sp28, &sp1C);
     sp28.yaw += arg0->rot.y;
     func_800B3B50(arg2, arg0, &sp28);
 }

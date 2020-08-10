@@ -46,10 +46,10 @@ typedef struct {
 } TriNorm; // size = 0x34
 
 typedef struct {
-    s16 radius;
-    s16 height;
-    s16 yShift;
-    Vec3s pos;
+    /* 0x0000 */ s16 radius;
+    /* 0x0002 */ s16 height;
+    /* 0x0004 */ s16 yShift;
+    /* 0x0006 */ Vec3s pos;
 } Cylinder16; // size = 0x0C
 
 typedef struct {
@@ -60,8 +60,13 @@ typedef struct {
 } Cylinderf; // size = 0x18
 
 typedef struct {
-    Vec3f a;
-    Vec3f b;
+    /* 0x0000 */ Vec3f point;
+    /* 0x000C */ Vec3f dir;
+} InfiniteLine; // size = 0x18
+
+typedef struct {
+    /* 0x0000 */ Vec3f a;
+    /* 0x000C */ Vec3f b;
 } Linef; // size = 0x18
 
 // Defines a point in the spherical coordinate system
@@ -88,6 +93,7 @@ typedef struct {
     (dst)->y = (v0)->y + ((v1y - (v0)->y) * t); \
     (dst)->z = (v0)->z + ((v1z - (v0)->z) * t); \
 }
+#define IS_ZERO(f) (fabsf(f) < 0.008f)
 
 /**
  * Trig macros

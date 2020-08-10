@@ -1389,7 +1389,7 @@ s32 sCameraInterfaceFlags = 1;
 
 
 s32 sCameraInterfaceAlpha = 0x02;
-s32 sShrinkWindowVal = 0x20;
+s32 sCameraShrinkWindowVal = 0x20;
 s32 D_8011D3AC = -1;
 
 s16 D_8011D3B0[] = {
