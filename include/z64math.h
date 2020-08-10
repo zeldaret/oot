@@ -47,10 +47,10 @@ typedef struct {
 } TriNorm; // size = 0x34
 
 typedef struct {
-    s16 radius;
-    s16 height;
-    s16 yShift;
-    Vec3s pos;
+    /* 0x0000 */ s16 radius;
+    /* 0x0002 */ s16 height;
+    /* 0x0004 */ s16 yShift;
+    /* 0x0006 */ Vec3s pos;
 } Cylinder16; // size = 0x0C
 
 typedef struct {

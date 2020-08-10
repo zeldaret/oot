@@ -2,7 +2,7 @@
 #include <global.h>
 #include <vt.h>
 
-s32 Math3D_LineSegMakePerpLineSeg(Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
+s32 Math3D_LineSegMakePerpLineSeg(Vec3f *lineAPointA, Vec3f *lineAPointB, Vec3f *lineBPointA, Vec3f *lineBPointB, Vec3f *lineAIntersect, Vec3f *lineBIntersect);
 s32 Math3D_TriLineIntersect(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, Vec3f* arg7,
                             Vec3f* arg8, Vec3f* arg9, s32 argA);
 s32 Math3D_2PlaneIntersectLine(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, InfiniteLine* arg8);
@@ -35,73 +35,58 @@ s32 func_800CA7D0(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 pla
     return true;
 }
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Math3D_LineSegMakePerpLineSeg(Vec3f *lineAPointA, Vec3f *lineAPointB, Vec3f *lineBPointA, Vec3f *lineBPointB, Vec3f *lineAIntersect, Vec3f *lineBIntersect) {
-    f32 sp7C;
-    f32 lineAXDiff;
-    f32 lineAYDiff;
-    f32 lineAZDiff;
     f32 sp5C;
     f32 sp50;
     f32 sp4C;
-    f32 sp48;
-    f32 sp44;
-    f32 sp34;
     f32 sp30;
-    f32 sp2C;
-    f32 sp28;
-    f32 sp24;
-    f32 sp20;
-    f32 sp18;
-    f32 sp14;
-    f32 sp10;
-    f32 temp_f0;
     f32 temp_f0_4;
-    f32 lineBYDiff;
-    f32 lineBZDiff;
-    f32 temp_f16;
-    f32 temp_f16_3;
     f32 temp_f18;
-    f32 lineBXDiff;
-    f32 lineBDistSq;
+    Vec3f lineADiff;
+    Vec3f lineBDiff;
+    Vec3f lineABPointADiff;
+    f32 t;
+    f32 t2;
 
-    lineAXDiff = lineAPointB->x - lineAPointA->x;
-    lineAYDiff = lineAPointB->y - lineAPointA->y;
-    lineAZDiff = lineAPointB->z - lineAPointA->z;
-    lineBXDiff = lineBPointB->x - lineBPointA->x;
-    lineBYDiff = lineBPointB->y - lineBPointA->y;
-    lineBZDiff = lineBPointB->z - lineBPointA->z;
+    lineADiff.x = lineAPointB->x - lineAPointA->x;
+    lineADiff.y = lineAPointB->y - lineAPointA->y;
+    lineADiff.z = lineAPointB->z - lineAPointA->z;
+    lineBDiff.x = lineBPointB->x - lineBPointA->x;
+    lineBDiff.y = lineBPointB->y - lineBPointA->y;
+    lineBDiff.z = lineBPointB->z - lineBPointA->z;
 
-    lineBDistSq = SQ(lineBXDiff) + SQ(lineBYDiff) + SQ(lineBZDiff);
-    if (IS_ZERO(lineBDistSq))) {
-        return 0;
-    }
-    temp_f16 = 1.0f / lineBDistSq;
-    sp5C = (((lineAXDiff * lineBXDiff) + (lineAYDiff * lineBYDiff)) + (lineAZDiff * lineBZDiff)) * temp_f16;
-    sp18 = lineAPointA->x - lineBPointA->x;
-    sp14 = lineAPointA->y - lineBPointA->y;
-    sp10 = lineAPointA->z - lineBPointA->z;
-    temp_f18 = (((sp18 * lineBXDiff) + (lineBYDiff * sp14)) + (lineBZDiff * sp10)) * temp_f16;
-    sp4C = lineAXDiff - (lineBXDiff * sp5C);
-    sp50 = lineAYDiff - (lineBYDiff * sp5C);
-    sp30 = lineAZDiff - (lineBZDiff * sp5C);
-    sp7C = SQ(sp4C) + SQ(sp50) + SQ(sp30);
-
-    if (IS_ZERO(sp7C)) {
+    if (IS_ZERO(SQ(lineBDiff.x) + SQ(lineBDiff.y) + SQ(lineBDiff.z))) {
         return false;
     }
 
-    sp44 = sp14 - (lineBYDiff * temp_f18);
-    sp48 = sp10 - (lineBZDiff * temp_f18);
-    temp_f0_4 = -(((sp4C * (sp18 - (lineBXDiff * temp_f18))) + (sp50 * sp44)) + (sp30 * sp48)) / sp7C;
-    lineAIntersect->x = (f32) ((lineAXDiff * temp_f0_4) + lineAPointA->x);
-    lineAIntersect->y = (f32) ((lineAYDiff * temp_f0_4) + lineAPointA->y);
-    lineAIntersect->z = (f32) ((lineAZDiff * temp_f0_4) + lineAPointA->z);
+    sp5C = ((lineADiff.x * lineBDiff.x) + (lineADiff.y * lineBDiff.y) + (lineADiff.z * lineBDiff.z)) * 
+            (1.0f / (SQ(lineBDiff.x) + SQ(lineBDiff.y) + SQ(lineBDiff.z)));
 
-    temp_f16_3 = (sp5C * temp_f0_4) + temp_f18;
-    lineBIntersect->x = (f32) ((lineBXDiff * temp_f16_3) + lineBPointA->x);
-    lineBIntersect->y = (f32) ((lineBYDiff * temp_f16_3) + lineBPointA->y);
-    lineBIntersect->z = (f32) ((lineBZDiff * temp_f16_3) + lineBPointA->z);
+    lineABPointADiff.x = lineAPointA->x - lineBPointA->x;
+    lineABPointADiff.y = lineAPointA->y - lineBPointA->y;
+    lineABPointADiff.z = lineAPointA->z - lineBPointA->z;
+
+    temp_f18 = ((lineABPointADiff.x * lineBDiff.x) + (lineABPointADiff.y * lineBDiff.y) + (lineABPointADiff.z * lineBDiff.z)) * 
+                (1.0f / (SQ(lineBDiff.x) + SQ(lineBDiff.y) + SQ(lineBDiff.z)));
+
+    sp4C = lineADiff.x - (lineBDiff.x * sp5C);
+    sp50 = lineADiff.y - (lineBDiff.y * sp5C);
+    sp30 = lineADiff.z - (lineBDiff.z * sp5C);
+    if (IS_ZERO(SQ(sp4C) + SQ(sp50) + SQ(sp30))) {
+        return false;
+    }
+
+    t = SQ(sp4C) + SQ(sp50) + SQ(sp30);
+    temp_f0_4 = -((sp4C * (lineABPointADiff.x - (lineBDiff.x * temp_f18))) + (sp50 * (lineABPointADiff.y - (lineBDiff.y * temp_f18))) + (sp30 * (lineABPointADiff.z - (lineBDiff.z * temp_f18)))) / t;
+    lineAIntersect->x = (lineADiff.x * temp_f0_4) + lineAPointA->x;
+    lineAIntersect->y = (lineADiff.y * temp_f0_4) + lineAPointA->y;
+    lineAIntersect->z = (lineADiff.z * temp_f0_4) + lineAPointA->z;
+
+    lineBIntersect->x = (lineBDiff.x * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->x;
+    lineBIntersect->y = (lineBDiff.y * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->y;
+    lineBIntersect->z = (lineBDiff.z * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->z;
     return true;
 }
 #else
@@ -1599,11 +1584,11 @@ s32 Math3D_PointInCyl(Cylinder16* cyl, Vec3f* point) {
         return false;
     }
 }
-//#define NON_MATCHING
+
 #ifdef NON_MATCHING
-s32 Math3D_CylTouchingLineSeg(Cylinder16 *cyl, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, Vec3f *arg4) {
-    Vec3f spEC;
-    Vec3f spE0;
+s32 Math3D_CylTouchingLineSeg(Cylinder16 *cyl, Vec3f *linePointA, Vec3f *linePointB, Vec3f *intersectA, Vec3f *intersectB) {
+    Vec3f pointACylBottomDiff;
+    Vec3f pointBCylBottomDiff;
     Vec3f spD4;
     f32 spD0;
     f32 spCC;
@@ -1614,8 +1599,6 @@ s32 Math3D_CylTouchingLineSeg(Cylinder16 *cyl, Vec3f *arg1, Vec3f *arg2, Vec3f *
     f32 sp4C;
     f32 sp2C;
     f32 sp28;
-    f32 sp24;
-    f32 sp20;
     f32 *temp_a0;
     f32 *temp_a1;
     f32 *temp_s0;
@@ -1628,7 +1611,7 @@ s32 Math3D_CylTouchingLineSeg(Cylinder16 *cyl, Vec3f *arg1, Vec3f *arg2, Vec3f *
     f32 temp_f10;
     f32 temp_f12;
     f32 temp_f12_2;
-    f32 temp_f14;
+    f32 cylRadiusSq;
     f32 temp_f14_2;
     f32 temp_f14_3;
     f32 temp_f16;
@@ -1660,175 +1643,150 @@ s32 Math3D_CylTouchingLineSeg(Cylinder16 *cyl, Vec3f *arg1, Vec3f *arg2, Vec3f *
     s32 phi_v0_3;
     s32 phi_t0;
     s32 phi_v1_3;
+    s32 phi_v1_4;
     s32 phi_a2_3;
     s32 phi_a2_4;
+    s32 phi_t0_2;
+    s32 phi_v1_5;
+    s32 phi_t0_3;
 
     sp9C = 0;
-    if (Math3D_PointInCyl(cyl, arg1) && Math3D_PointInCyl(cyl, arg2)) {
-        // the points of the line segment, lie within the cylinder.
-        *arg3 = *arg1;
-        *arg4 = *arg2;
+    if (Math3D_PointInCyl(cyl, linePointA) && Math3D_PointInCyl(cyl, linePointB)) {
+        // both points are in the cylinder
+        *intersectA = *linePointA;
+        *intersectB = *linePointB;
         return 2;
     }
-    spEC.x = arg1->x - (f32) cyl->pos.x;
-    spEC.y = (arg1->y - (f32) cyl->pos.y) - (f32) cyl->yShift;
-    spEC.z = arg1->z - (f32) cyl->pos.z;
-    spE0.x = arg2->x - (f32) cyl->pos.x;
-    spE0.y = (arg2->y - (f32) cyl->pos.y) - (f32) cyl->yShift;
-    spE0.z = arg2->z - (f32) cyl->pos.z;
-    Math_Vec3f_Diff(&spE0, &spEC, &spD4);
-    temp_f14 = (f32) (cyl->radius * cyl->radius);
+
+    pointACylBottomDiff.x = linePointA->x - cyl->pos.x;
+    pointACylBottomDiff.y = linePointA->y - cyl->pos.y - cyl->yShift;
+    pointACylBottomDiff.z = linePointA->z - cyl->pos.z;
+    pointBCylBottomDiff.x = linePointB->x - cyl->pos.x;
+    pointBCylBottomDiff.y = linePointB->y - cyl->pos.y - cyl->yShift;
+    pointBCylBottomDiff.z = linePointB->z - cyl->pos.z;
+    Math_Vec3f_Diff(&pointBCylBottomDiff, &pointACylBottomDiff, &spD4);
+    cylRadiusSq = SQ(cyl->radius);
     if (!IS_ZERO(spD4.y)) {
-        if ((-spEC.y / spD4.y) >= 0) {
-            if ((-spEC.y / spD4.y) <= 1.0f && (SQ((spD4.x * (-spEC.y / spD4.y)) + spEC.x) + SQ((spD4.z * (-spEC.y / spD4.y)) + spEC.z)) < temp_f14) {
-                sp6C[0].x = (f32) cyl->pos.x + ((spD4.x * (-spEC.y / spD4.y)) + spEC.x);
-                sp6C[0].y = (f32) cyl->pos.y + (f32) cyl->yShift;
-                sp6C[0].z = (f32) cyl->pos.z + ((spD4.z * (-spEC.y / spD4.y)) + spEC.z);
-                sp9C = 1;
+        if(1){}
+        if ((-pointACylBottomDiff.y / spD4.y) >= 0.0f) {
+            if ((-pointACylBottomDiff.y / spD4.y) <= 1.0f) {
+                if ((SQ((spD4.x * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.x) + SQ((spD4.z * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.z)) < cylRadiusSq) {
+                    sp6C[0].x = (f32) cyl->pos.x + ((spD4.x * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.x);
+                    sp6C[0].y = (f32) cyl->pos.y + (f32) cyl->yShift;
+                    sp6C[0].z = (f32) cyl->pos.z + ((spD4.z * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.z);
+                    sp9C |= 1;
+                }
             }
         }
-        temp_f10 = ((cyl->height - spEC.y) / spD4.y);
-        if (((cyl->height - spEC.y) / spD4.y) >= 0.0f) {
-            if (((cyl->height - spEC.y) / spD4.y) <= 1.0f) {
-                if ((SQ((spD4.x * ((cyl->height - spEC.y) / spD4.y)) + spEC.x) + SQ((spD4.z * ((cyl->height - spEC.y) / spD4.y)) + spEC.z)) < temp_f14) {
-                    sp6C[1].x = cyl->pos.x + ((spD4.x * ((cyl->height - spEC.y) / spD4.y)) + spEC.x);
-                    sp6C[1].y = ((f32)cyl->pos.y + cyl->yShift) + cyl->height;
-                    sp6C[1].z = cyl->pos.z + ((spD4.z * ((cyl->height - spEC.y) / spD4.y)) + spEC.z);
+        
+        phi_f2 = ((cyl->height - pointACylBottomDiff.y) / spD4.y);
+        if (phi_f2 >= 0.0f) {   
+            if (phi_f2 <= 1.0f) {
+                if ((SQ(pointACylBottomDiff.x + (spD4.x * phi_f2)) + SQ(pointACylBottomDiff.z + (spD4.z * phi_f2))) < cylRadiusSq) {
+                    sp6C[1].x = (f32) cyl->pos.x + pointACylBottomDiff.x + (spD4.x * phi_f2);
+                    sp6C[1].y = (f32)cyl->pos.y + cyl->height + cyl->yShift;
+                    sp6C[1].z = (f32) cyl->pos.z + pointACylBottomDiff.z + (spD4.x * phi_f2);
                     sp9C |= 2;
                 }
             }
         }
     }
-    sp20 = spEC.x;
-    sp24 = spEC.z;
-    temp_f16 = ((spEC.x * spEC.x) + (spEC.z * spEC.z)) - temp_f14;
-    spB8 = temp_f16;
-    temp_f12_2 = (spD4.x * spD4.x) + (spD4.z * spD4.z);
-    temp_f18 = temp_f12_2 + temp_f12_2;
+
+
+    spB8 = SQ(pointACylBottomDiff.x) + SQ(pointACylBottomDiff.z) - cylRadiusSq; // 498c
+    temp_f12_2 =  SQ(spD4.z) + SQ(spD4.x);
+    temp_f18 = temp_f12_2 * 2.0f;
     if (!IS_ZERO(temp_f18)) {
-        temp_f2_3 = (spD4.x * sp20) + (spD4.z * sp24);
+        temp_f2_3 = (spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z);
         temp_f14_2 = temp_f2_3 + temp_f2_3;
         temp_f0_3 = temp_f14_2 * temp_f14_2;
-        temp_f16_2 = (temp_f12_2 * 4.0f) * spB8;
+        temp_f16_2 = (4.0f * temp_f12_2) * spB8;
         if (temp_f0_3 < temp_f16_2) {
-            return 0;
+            return false;
         }
-        temp_f2_4 = temp_f0_3 - temp_f16_2;
-        temp_f0_4 = sqrtf(temp_f2_4);
+        
+        phi_a1 = (temp_f0_3 - temp_f16_2) > 0.0f;
+        phi_f2 = (sqrtf((temp_f0_3 - temp_f16_2)) - temp_f14_2) / temp_f18;
+        
+        if (phi_a1) {
+            spCC = (-temp_f14_2 - sqrtf((temp_f0_3 - temp_f16_2))) / temp_f18;
+        }
+    } else if (!IS_ZERO(((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z)) + ((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z)))) {
+        phi_f2 = -spB8 / ((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z)) + ((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z));
+        phi_a2 = 1;
         phi_a1 = 0;
-        if (temp_f2_4 > 0.0f) {
-            phi_a1 = 1;
-        }
-        phi_f2 = (temp_f0_4 - temp_f14_2) / temp_f18;
-        if (phi_a1 == 1) {
-            spCC = (-temp_f14_2 - temp_f0_4) / temp_f18;
-        }
-        phi_a1_2 = phi_a1;
     } else {
-        temp_f2_6 = (spD4.x * spEC.x) + (spD4.z * spEC.z);
-        temp_f14_3 = temp_f2_6 + temp_f2_6;
-        if (IS_ZERO(temp_f14_3)) {
-            return 0;
-        }
-        phi_f2 = -temp_f16 / temp_f14_3;
-        phi_a1_2 = 0;
-        phi_a2_4 = 1;
-    }
-    if (phi_a1_2 == 0) {
-        if (phi_f2 < 0.0f || phi_f2 > 1.0f) {
-            return 0;
-        }
-        //phi_a2 = phi_a2_4;
-        //phi_a1_3 = phi_a1_2;
-    } else {
-        phi_v0 = phi_f2 < 0.0f ? 1 : 0;
-        
-        phi_v1 = phi_v0;
-        if (phi_v0 == 0) {
-            phi_v1 = phi_f2 > 1.0f ? 1 : 0;
-        }
-
-        temp_a0_2 = phi_v1;
-        phi_v0_2 = spCC < 0.0f ? 1 : 0;
-
-        phi_v1_2 = phi_v0_2;
-        if (phi_v0_2 == 0) {
-            phi_v1_2 = spCC > 1.0f ? 1 : 0;
-        }
-
-        if (temp_a0_2 != 0 && phi_v1_2 != 0) {
-            return 0;
-        }
-        
-        phi_a2_3 = phi_a2_4;
-        if (temp_a0_2 != 0) {
-            phi_a2_3 = 0;
-        }
-        phi_a2 = phi_a2_3;
-        phi_a1_3 = phi_a1_2;
-        if (phi_v1_2 != 0) {
-            phi_a2 = phi_a2_3;
-            phi_a1_3 = 0;
-        }
-    }
-
-    phi_a2_2 = phi_a2;
-    if (phi_a2 == 1) {
-        if (((phi_f2 * spD4.y) + spEC.y) < 0.0f || (f32) cyl->height < ((phi_f2 * spD4.y) + spEC.y)) {
-            phi_a2_2 = 0;
-        }
-    }
-
-    phi_a1_4 = phi_a1_3;
-    if (phi_a1_3 == 1) {
-        if (((spCC * spD4.y) + spEC.y) < 0.0f || (f32) cyl->height < ((spCC * spD4.y) + spEC.y)) {
-            phi_a1_4 = 0;
-        }
-    }
-    
-    if (phi_a2_2 == 0 && phi_a1_4 == 0) {
         return 0;
     }
 
-    if (phi_a2_2 == 1 && phi_a1_4 == 1) {
-        sp24 = spD4.x;
-        sp6C[2].x = ((phi_f2 * spD4.x) + spEC.x) + (f32) cyl->pos.x;
-        sp20 = spEC.x;
-        sp28 = spD4.y;
-        sp6C[2].y = (((phi_f2 * spD4.y) + spEC.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
-        sp2C = spEC.y;
-        sp6C[2].z = ((phi_f2 * spD4.z) + spEC.z) + (f32) cyl->pos.z;
-        sp6C[3].x = ((spCC * spD4.x) + sp20) + (f32) cyl->pos.x;
-        sp6C[3].y = (((spCC * sp28) + spEC.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
-        sp6C[3].z = ((spCC * spD4.z) + spEC.z) + (f32) cyl->pos.z;
-        sp9C |= 4;
-        sp9C |= 8;
-    } else if (phi_a2_2 == 1) {
-        sp6C[2].x = ((phi_f2 * spD4.x) + spEC.x) + (f32) cyl->pos.x;
-        sp6C[2].y = (((phi_f2 * spD4.y) + spEC.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
-        sp6C[2].z = ((phi_f2 * spD4.z) + spEC.z) + (f32) cyl->pos.z;
-        sp9C |= 4;
-    } else if (phi_a1_4 == 1) {
-        sp6C[2].x = ((spCC * spD4.x) + spEC.x) + (f32) cyl->pos.x;
-        sp6C[2].y = (((spCC * spD4.y) + spEC.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
-        sp6C[2].z = ((spCC * spD4.z) + spEC.z) + (f32) cyl->pos.z;
-        sp9C |= 4;
+    if (!phi_a1) {
+        if (phi_f2 < 0.0f || phi_f2 > 1.0f) {
+            return false;
+        }
+    } else {
+        phi_a2 = phi_f2 < 0.0f || phi_f2 > 1.0f;
+
+        phi_a1 = spCC < 0.0f || spCC > 1.0f;
+        
+        if (phi_a1 && phi_a2) {
+            return 0;
+        }
+        
+        if(phi_a2){
+            phi_a2 = 0;
+        }
+
+        if (phi_a1) {
+            phi_a1 = 0;
+        }
+    }
+
+    if ((phi_a2 == 1) && (((phi_f2 * spD4.y) + pointACylBottomDiff.y) < 0.0f || cyl->height < ((phi_f2 * spD4.y) + pointACylBottomDiff.y))) {
+        phi_a2 = 0;
     }
     
-    for(phi_v0_3 = 0, phi_v1_3 = 0; phi_v0_3 != 4; phi_v0_3++){
-        if(sp9C & (1 << phi_v0_3)){
-            if(phi_v1_3 ==0){
-                *arg3 = sp6C[phi_v1_3];
-            } else if(phi_v1_3 == 1){
-                if(Math3D_Vec3fDistSq(arg3, arg1) <  Math3D_Vec3fDistSq(arg3,&sp6C[phi_v0_3])){
-                    *arg4 = sp6C[phi_v0_3];
+    if ((phi_a1 == 1) && (((spCC * spD4.y) + pointACylBottomDiff.y) < 0.0f || cyl->height < ((spCC * spD4.y) + pointACylBottomDiff.y))) {
+        phi_a1 = 0;
+    }
+    if (phi_a2 == 0 && phi_a1 == 0) {
+        return 0;
+    }
+
+    if (phi_a2 == 1 && phi_a1 == 1) {
+        sp6C[2].x = ((phi_f2 * spD4.x) + pointACylBottomDiff.x) + (f32) cyl->pos.x;
+        sp6C[2].y = (((phi_f2 * spD4.y) + pointACylBottomDiff.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
+        sp6C[2].z = ((phi_f2 * spD4.z) + pointACylBottomDiff.z) + (f32) cyl->pos.z;
+        sp6C[2].x = ((spCC * spD4.x) + pointACylBottomDiff.x) + (f32) cyl->pos.x;
+        sp6C[2].y = (((spCC * spD4.y) + pointACylBottomDiff.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
+        sp6C[2].z = ((spCC * spD4.z) + pointACylBottomDiff.z) + (f32) cyl->pos.z;
+        sp9C = (sp9C | 4) | 8;
+    } else if (phi_a2 == 1) {
+        sp6C[2].x = ((phi_f2 * spD4.x) + pointACylBottomDiff.x) + (f32) cyl->pos.x;
+        sp6C[2].y = (((phi_f2 * spD4.y) + pointACylBottomDiff.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
+        sp6C[2].z = ((phi_f2 * spD4.z) + pointACylBottomDiff.z) + (f32) cyl->pos.z;
+        sp9C |=  4;
+    } else if (phi_a1 == 1) {
+        sp6C[2].x = ((spCC * spD4.x) + pointACylBottomDiff.x) + (f32) cyl->pos.x;
+        sp6C[2].y = (((spCC * spD4.y) + pointACylBottomDiff.y) + (f32) cyl->pos.y) + (f32) cyl->yShift;
+        sp6C[2].z = ((spCC * spD4.z) + pointACylBottomDiff.z) + (f32) cyl->pos.z;
+        sp9C |= 4;
+    }
+
+    for(phi_v0_3 = 0, phi_v1_3 = 0; phi_v0_3 < 4; phi_v0_3++){
+        if (sp9C & (1 << phi_v0_3)) {
+            if (phi_v1_3 == 0) {
+                *intersectA = sp6C[phi_v0_3];
+            } else if (phi_v1_3 == 1) {
+                if (Math3D_Vec3fDistSq(intersectA, linePointA) < Math3D_Vec3fDistSq(intersectA, &sp6C[phi_v0_3])) {
+                    *intersectB = sp6C[phi_v0_3];
                 } else {
-                    *arg4 = *arg3;
-                    *arg3 = sp6C[phi_v0_3];
+                    *intersectB = *intersectA;
+                    *intersectA = sp6C[phi_v0_3];
                 }
+                break;
             }
-            phi_v1_3++;
         }
+        phi_v1_3++;
     }
 
     return phi_v1_3;
