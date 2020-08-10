@@ -6,14 +6,6 @@
 
 struct EnDivingGame;
 typedef void (*EnDivingGameActionFunc)(struct EnDivingGame*, GlobalContext*);
-/*typedef struct EnDivingGame {
-    /* 0x0000  Actor actor;
-    /* 0x014C  char unk_14C[0x14A];//0x24C
-    /* 0x0296  s16 unk_296;
-    /* 0x0298  char unk_298[0x12];
-    /* 0x02AA  s16 unk_2AA;
-    /* 0x02AE  char unk_2AC[0xEC];
-} EnDivingGame; // size = 0x0398 */
  
 typedef struct EnDivingGame {
     /* 0x0000 */ Actor actor;

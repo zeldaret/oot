@@ -11,16 +11,17 @@ void EnExRuppy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A0AA3C(EnExRuppy* this, GlobalContext* globalCtx);
-void func_80A0AF24(EnExRuppy* this, GlobalContext* globalCtx);
-void func_80A0B070(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_Collect(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx);
-void func_80A0AB1C(EnExRuppy* this, GlobalContext* globalCtx);
-void func_80A0AC88(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_ChoseFinalPos(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AEE0(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_SpawnSparkles(EnExRuppy* this, GlobalContext* globalCtx, s16 arg2, s32 arg3);
 
-s16 D_80A0B320[] = {0x00000001, 0x00020013, 0x00140000, 0x00010005, 0x001401F4, 0x00320000};
+s16 D_80A0B320[] = {0x0000, 0x0001, 0x0002, 0x0013, 0x0014, 0x0000, 0x0001, 0x0005, 0x0014, 0x01F4, 0x0032, 0x0000};
 
 const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
@@ -34,34 +35,27 @@ const ActorInit En_Ex_Ruppy_InitVars = {
     (ActorFunc)EnExRuppy_Draw,
 };
 
-
-s32 D_80A0B358[] = {0x00000000, 0x3DCCCCCD, 0x00000000, 0x00000000, 0x00000000, 0x00000000};
-s32 D_80A0B370[] = {0x00000000, 0x3C23D70A, 0x00000000};
-s32 D_80A0B37C[] = {0x00000000, 0x00000000, 0x00000000};
-s32 D_80A0B388[] = {0x00000000, 0x3DCCCCCD, 0x00000000};
-s32 D_80A0B394[] = {0x00000000, 0x00000000, 0x00000000};
-static Vec3f sPoint1Vec = {0.0f, 0.1f, 0.0f};
+Vec3f D_80A0B358[] = {{0.0f, 0.1f, 0.0f}, {0.0f, 0.0f, 0.0f}};
+Vec3f D_80A0B370[] = {{0.0f, 0.01f, 0.0f},{0.0f, 0.0f, 0.0f}};
+Vec3f D_80A0B388 = {0.0f, 0.1f, 0.0f};
+Vec3f D_80A0B394 = {0.0f, 0.0f, 0.0f};
+static Vec3f sPoint1Vec = {0x0, 0.1f,0x0};
 static Vec3f sZeroVector = {0.0f, 0.0f, 0.0f};
 s32 D_80A0B3B8[] = {0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0, 0x00000000};
-
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/EnExRuppy_Init.s")
 
 #ifdef NON_MATCHING
 //Regalloc
 void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
     EnExRuppy* this = THIS;
-   // EnDivingGame* divingGame;
     s16 temp_v0;
     f32 phi_f12;
     f32 temp;
     this->unk_152 = this->actor.params;
+
                     //Index 
     osSyncPrintf(VT_FGCOL(GREEN)"☆☆☆☆☆ インデックス ☆☆☆☆☆ %x"VT_RST, this->unk_152);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-
     switch (this->unk_152){
-        //Zora Diving game
     case 0:
         this->unk_160 = 0.01f;
         Actor_SetScale(&this->actor, this->unk_160);
@@ -72,10 +66,8 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
             this->value =  5;
             this->unk_150 = 1;
         } else {
-           // divingGame = (EnDivingGame*)this->actor.attachedA;
             phi_f12 = 200.99f;
             if ((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) {
-              // temp = ((EnDivingGame*)this->actor.attachedA)->unk_2AA * 10.0f;
                phi_f12 = 200.99f + DIVING_GAME->unk_2AA * 10.0f;
             }
             temp_v0 = (s16)Math_Rand_ZeroFloat(phi_f12);
@@ -96,7 +88,6 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
                 Actor_SetScale(&this->actor, this->unk_160);
                 this->value =  500;
                 this->unk_150 =  3;
-             //   divingGame = (EnDivingGame*)this->actor.attachedA;
                 if ((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) {
                     (DIVING_GAME->unk_2AA = 0);
                 }
@@ -104,15 +95,14 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
         }
         temp_v0 = this->actor.posRot.rot.z;
         this->actor.posRot.rot.z = 0;
-        this->unk_156 = 30;
-      //  if(!this->actor.attachedA){}
+        this->timer = 30;
         this->actor.shape.unk_10 = 7.0f;
         this->actor.shape.unk_08 = 700.0f;
         this->unk_15A = temp_v0;
         this->actor.flags &= ~1;
-        this->actionFunc = func_80A0AA3C;
+        this->actionFunc = EnExRuppy_DropIntoWater;
         break;
-    case 1:
+    case 1://
     case 2: //Giant pink ruppe that explodes when you touch it
         if (this->unk_152 == 1) {
             Actor_SetScale(thisx, 0.1f);
@@ -123,15 +113,15 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
         }
         this->actor.gravity = -3.0f;
         //Wow Coin
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n\x1b[m");
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
         this->actor.shape.unk_10 = 6.0f;
         this->actor.shape.unk_08 = 700.0f;
  
         this->actor.flags &= ~1;
-        this->actionFunc = func_80A0AF24;
+        this->actionFunc = EnExRuppy_BlowUp;
         
         break;
-    case 3:
+    case 3: //Spawned by the guard in Hyrule courtyard
         Actor_SetScale(thisx, 0.02f);
         this->unk_150 = 0;
         switch ((s16)Math_Rand_ZeroFloat(30.99f)) {
@@ -147,11 +137,11 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
         }
         this->actor.gravity = -3.0f;
         //Normal rupee
-         osSyncPrintf( "\x1b[32m☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n\x1b[m");
+         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
         this->actor.shape.unk_10 = 6.0f;
         this->actor.shape.unk_08 = 700.0f;
         this->actor.flags &= ~1;
-        this->actionFunc = func_80A0B070;
+        this->actionFunc = EnExRuppy_Collect;
         
         break;
     case 4:
@@ -168,36 +158,68 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/EnExRuppy_Init.s")
 #endif
 
+void EnExRuppy_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/EnExRuppy_Destroy.s")
+void EnExRuppy_SpawnSparkles(EnExRuppy *this, GlobalContext *globalCtx, s16 arg2, s32 arg3) {//
+    Vec3f tempPos;
+    Vec3f tempVelocity;
+    Vec3f tempAccel;
+    Color_RGBA8_n tempPrimColor;
+    Color_RGBA8_n tempEnvColor;
+    s32 i;
+    s16 tempScale;
+    s16 tempLife;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0A820.s")
+    if (arg2 <= 0) {
+        arg2 = 1;
+    }
+    tempPrimColor.r = 255;
+    tempPrimColor.g = 255;
+    tempPrimColor.b = 0;
+    tempEnvColor.r = 255;
+    tempEnvColor.g = 255;
+    tempEnvColor.b = 255;
+    tempVelocity = D_80A0B358[arg3];
+    tempAccel = D_80A0B370[arg3];
+    tempScale = 3000;
+    tempLife = 16;
+    for (i= 0 ; i < arg2 ; i++){
+        if (arg3 == 1) {
+            tempAccel.x = Math_Rand_CenteredFloat(20.0f);
+            tempAccel.z = Math_Rand_CenteredFloat(20.0f);
+            tempScale = 5000;
+            tempLife = 20;
+        }
+        tempPos.x = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.posRot.pos.x;
+        tempPos.y = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + (this->actor.posRot.pos.y + (this->unk_160 * 600.0f));
+        tempPos.z = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.posRot.pos.z;
+        func_80028BB0(globalCtx, &tempPos, &tempVelocity, &tempAccel, &tempPrimColor, &tempEnvColor, tempScale, tempLife);
+    }
+}
 
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0AA3C.s")
-void func_80A0AA3C(EnExRuppy *this, GlobalContext *globalCtx) {
+void EnExRuppy_DropIntoWater(EnExRuppy *this, GlobalContext *globalCtx) {
     this->actor.shape.rot.y = (this->actor.shape.rot.y + 1960);
     Math_SmoothScaleMaxF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
-    func_80A0A820(this, globalCtx, 2, 0);
+    EnExRuppy_SpawnSparkles(this, globalCtx, 2, 0);
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
-    if (((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) && (((DIVING_GAME->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20)) || (this->unk_156 == 0))) {
-        this->unk_154 = 1;
+    if (((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) && (((DIVING_GAME->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20)) || (this->timer == 0))) {
+        this->isFalling = 1;
         this->actor.speedXZ = 0.0f;
         this->actor.velocity.z = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.x = 0.0f;
         this->actor.gravity = 0.0f;
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
-        this->actionFunc = func_80A0AB1C;
+        this->actionFunc = EnExRuppy_ChoseFinalPos;
     } 
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0AB1C.s")
-void func_80A0AB1C(EnExRuppy *this, GlobalContext *globalCtx) {
+void EnExRuppy_ChoseFinalPos(EnExRuppy *this, GlobalContext *globalCtx) {
     s32 pad;
     f32 temp_f2;
     if (((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) && ((DIVING_GAME->unk_2A2 == 2))) {
-         this->unk_154 = 0;
+         this->isFalling = 0;
          this->actor.posRot.pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
          this->actor.posRot.pos.y = ((Math_Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
          temp_f2 =  this->unk_15A * -50.0f;
@@ -208,15 +230,12 @@ void func_80A0AB1C(EnExRuppy *this, GlobalContext *globalCtx) {
              temp_f2 += -300.0f;
              this->actor.posRot.pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 60.0f) + temp_f2;
          }
-         //this->actor.posRot.pos.z = *temp;
-         this->actionFunc = func_80A0AC88;
+         this->actionFunc = EnExRuppy_Sink;
          this->actor.gravity = -1.0f;
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0AC88.s")
-void func_80A0AC88(EnExRuppy *this, GlobalContext *globalCtx) {
-    //f32 sp34;
+void EnExRuppy_Sink(EnExRuppy *this, GlobalContext *globalCtx) {
     s32 pad;
     Vec3f tempPos;
 
@@ -230,73 +249,130 @@ void func_80A0AC88(EnExRuppy *this, GlobalContext *globalCtx) {
         this->actionFunc = func_80A0AD88;
     }
     if ((DIVING_GAME != 0) && (DIVING_GAME->actor.update != 0) && (DIVING_GAME->unk_29C == 0)) {
-        this->unk_156 = 20;
+        this->timer = 20;
         this->actionFunc = func_80A0AEE0;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0AD88.s")
+void func_80A0AD88(EnExRuppy *this, GlobalContext *globalCtx) {
+    EnDivingGame* divingGame;
+    Vec3f unusedVec3f;
+    Vec3f unusedVec3f2;
+    const f32 localConst = 30.0f;
+    unusedVec3f = D_80A0B388;
+    unusedVec3f2 = D_80A0B394;
+    if (this->timer == 0) {
+        this->timer = 10;
+        func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Math_Rand_ZeroFloat(0.03f) + 0.07f);
+    }
+    if (DIVING_GAME != NULL) {
+        divingGame = DIVING_GAME;
+        if (divingGame->actor.update != NULL) {
+            if (divingGame->unk_29C == 0) {
+                this->timer = 20;
+                this->actionFunc = func_80A0AEE0;
+                return;
+            }
+            if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
+                Rupees_ChangeBy(this->value);
+                func_80078884(NA_SE_SY_GET_RUPY );
+                divingGame->unk_2A4++;
+                Actor_Kill(&this->actor);
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0AEE0.s")
+            }
+        } else {
+            Actor_Kill(&this->actor);
+        }
+    }
+}
+
 void func_80A0AEE0(EnExRuppy *this, GlobalContext *globalCtx) {
-    this->unk_154 = this->unk_154 + 1;
-    this->unk_154 = this->unk_154 & 1;
-    if (this->unk_156 == 0) {
+    this->isFalling = this->isFalling + 1;
+    this->isFalling = this->isFalling & 1;
+    if (this->timer == 0) {
         Actor_Kill(&this->actor);
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0AF24.s")
-void func_80A0AF24(EnExRuppy *this, GlobalContext *globalCtx) { //Blow up big ruppe
-    f32 phi_f0;
+void EnExRuppy_BlowUp(EnExRuppy *this, GlobalContext *globalCtx) {
+    f32 distToBlowUp;
     Vec3f tempPoint1Vec;
     Vec3f tempZeroVector;
     s16 tempExplosionScale;
     s16 tempExplosionScaleStep;
-
     tempPoint1Vec = sPoint1Vec;
     tempZeroVector = sZeroVector;
+    distToBlowUp = 50.0f;
 
-    phi_f0 = 50.0f;
     if (this->unk_152 == 2) {
-        phi_f0 = 30.0f;
+        distToBlowUp = 30.0f;
     }
-    if (this->actor.xyzDistFromLinkSq < SQ(phi_f0)) {
+    if (this->actor.xyzDistFromLinkSq < SQ(distToBlowUp)) {
         if (this->actor.attachedA != 0) {
             if (this->actor.attachedA->update != 0) {
                 DIVING_GAME->transitionDrawTable[15].z = (u16)1;
             }
         } else {
             //That idiot! error
-            osSyncPrintf("\x1b[32m☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n\x1b[m");
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
         //Stupid!
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n\x1b[m");
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST);
         tempExplosionScale = 100;
         tempExplosionScaleStep = 30;
         if (this->unk_152 == 2) {
             tempExplosionScale = 20;
             tempExplosionScaleStep = 6;
         }
-        EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.posRot, &tempZeroVector, &tempPoint1Vec, tempExplosionScale, tempExplosionScaleStep);
+        EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.posRot.pos, &tempZeroVector, &tempPoint1Vec, tempExplosionScale, tempExplosionScaleStep);
         func_8002F71C(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
         Actor_Kill(&this->actor);
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0B070.s")
-void func_80A0B070(EnExRuppy *this, GlobalContext *globalCtx) {
-    f32 temp = 30.0f;
-    if (this->actor.xyzDistFromLinkSq < SQ(temp)) {
+void EnExRuppy_Collect(EnExRuppy *this, GlobalContext *globalCtx) { 
+    const f32 localConst = 30.0f;
+    if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
         func_80078884(NA_SE_SY_GET_RUPY);
-        Item_DropCollectible(globalCtx, &this->actor.posRot, (D_80A0B320[this->unk_150] | 0x8000));
+        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ((s16)D_80A0B320[this->unk_150 ] | 0x8000));
         Actor_Kill(&this->actor);
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/func_80A0B0F4.s")
+void func_80A0B0F4(EnExRuppy *this, GlobalContext *globalCtx) {
+    if (this->unk_15C != 0) {
+        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, 700.0f, 0.5f, 200.0f);
+    } else {
+    Math_SmoothScaleMaxF(&this->actor.shape.unk_08, -700.0f, 0.5f, 200.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/EnExRuppy_Update.s")
+void EnExRuppy_Update(Actor *thisx, GlobalContext *globalCtx) {
+    EnExRuppy* this = THIS;
+    thisx->shape.rot.y += 1960;
+    this->actionFunc(this,globalCtx);
+    if (this->timer != 0) {
+        this->timer--;
+    }
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/EnExRuppy_Draw.s")
+void EnExRuppy_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    EnExRuppy* this = THIS;
+    GraphicsContext* gfxCtx;
+    s32 pad;
+    Gfx* dispRefs[4];
+
+    if (this->isFalling == 0) {
+        gfxCtx = globalCtx->state.gfxCtx;
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 774);
+        func_80093D18(globalCtx->state.gfxCtx);
+        func_8002EBCC(thisx, globalCtx, 0);
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx,"../z_en_ex_ruppy.c", 780), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->unk_150]));
+        gSPDisplayList(gfxCtx->polyOpa.p++, &D_04042440);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 784);
+    }
+}
