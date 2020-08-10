@@ -17,10 +17,7 @@ typedef struct EnNiwGirl {
     /* 0x025C */ EnNiwGirlActionFunc actionFunc;
     /* 0x0260 */ Vec3s unk_260;
     /* 0x0266 */ Vec3s unk_266;
-    /*
-    *Controls how many frames she jumps for and how long until she jumps again
-    */
-    /* 0x026C */ s16 jumpTimer;
+    /* 0x026C */ s16 jumpTimer;//Controls how many frames she jumps for and how long until she jumps again
     /* 0x026E */ s16 unkUpTimer;
     /* 0x0270 */ s16 unk_270;
     /* 0x0272 */ s16 unk_272;
