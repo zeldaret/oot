@@ -1836,7 +1836,6 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Magma2"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Magma2/z_eff_ss_g_magma2.o"
-    include "build/data/overlays/effects/z_eff_ss_g_magma2.data.o"
     include "build/data/overlays/effects/z_eff_ss_g_magma2.reloc.o"
 endseg
 

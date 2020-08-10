@@ -14,6 +14,7 @@
 #include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Magma2/z_eff_ss_g_magma2.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
@@ -409,7 +410,7 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 // EffectSsDFire Spawn Functions
 
 void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
-                   s16 alpha, s16 fadeDelay, s32 life) {
+                         s16 alpha, s16 fadeDelay, s32 life) {
     EffectSsDFireInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -543,7 +544,19 @@ void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw) {
 
 // EffectSsGMagma2 Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029B90.s")
+void func_80029B90(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 arg4,
+                   s16 arg5, s16 arg6) {
+    EffectSsGMagma2InitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Color_RGBA8_Copy(&initParams.primColor, primColor);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    initParams.unk_14 = arg4;
+    initParams.unk_16 = arg5;
+    initParams.unk_18 = arg6;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_MAGMA2, 128, &initParams);
+}
 
 // EffectSsStone1 Spawn Functions
 
