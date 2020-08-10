@@ -77,19 +77,16 @@ void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
 void func_80895A70(BgJyaCobra* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895A70.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895BEC.s")
-// void *func_80895BEC(BgJyaCobra *this, GlobalContext *globalCtx) {
-//     Actor* sp3C;
-//     s32 padding;
-//     Vec3f sp2C;
+void func_80895BEC(BgJyaCobra *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    s32 padding;
+    Vec3f sp2C;
 
-//     sp3C = PLAYER;
-//     func_808958F0(&sp2C, &this->unk_174, Math_Sins(this->unk_170), Math_Coss(this->unk_170));
-//     sp3C->posRot.pos.x = this->dyna.actor.posRot.pos.x + sp2C.x;
-//     sp3C->posRot.pos.y = this->dyna.actor.posRot.pos.y + sp2C.y;
-//     sp3C->posRot.pos.z = this->dyna.actor.posRot.pos.z + sp2C.z;
-//     return sp3C;
-// }
+    func_808958F0(&sp2C, &this->unk_174, Math_SinS(this->unk_170), Math_CosS(this->unk_170));
+    player->actor.posRot.pos.x = this->dyna.actor.posRot.pos.x + sp2C.x;
+    player->actor.posRot.pos.y = this->dyna.actor.posRot.pos.y + sp2C.y;
+    player->actor.posRot.pos.z = this->dyna.actor.posRot.pos.z + sp2C.z;
+}
 
 s32 func_80895C74(BgJyaCobra* this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
@@ -169,37 +166,35 @@ void func_80896950(BgJyaCobra *this, GlobalContext *globalCtx) {
 // void func_80896ABC(BgJyaCobra *this, GlobalContext *globalCtx) {
 //     s32 temp_v0;
 //     Player* player;
-//     s32 phi_v1;
 
 //     player = PLAYER;
-//     temp_v0 = (s32) ((((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) - this->dyna.actor.posRot.rot.y) << 0x10) >> 0x10;
-//     phi_v1 = ABS(temp_v0);
-//     if (phi_v1 < 0x1D00) {
-//         Math_ApproxS(&this->unk_16E, (u16)0x6A, (u16)4);
+//     temp_v0 = ((((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) - this->dyna.actor.posRot.rot.y) << 0x10) >> 0x10;
+//     if (ABS(temp_v0) < 7424) {
+//         Math_ApproxS(&this->unk_16E, 106, 4);
 //     } else {
-//         Math_ApproxS(&this->unk_16E, (u16)0x15, (u16)0xA);
+//         Math_ApproxS(&this->unk_16E, 21, 10);
 //     }
+    
 //     if (Math_ApproxUpdateScaledS(&this->unk_170, this->unk_16A << 0xd, this->unk_16E) != 0) {
-//         this->unk_16C = (s16) ((this->unk_16C + this->unk_16A) & 7);
+//         this->unk_16C = (this->unk_16C + this->unk_16A) & 7;
 //         player->stateFlags2 &= ~0x10;
 //         this->dyna.unk_150 = 0.0f;
 //         func_80896918(this, globalCtx);
 //     } else {
-//         temp_v0 = (s32) ((((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) + this->unk_170) << 0x10) >> 0x10;
-//         this->dyna.actor.posRot.rot.y = (s16) temp_v0;
-//         this->dyna.actor.shape.rot.y = (s16) temp_v0;
+//         temp_v0 = ((((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) + this->unk_170) << 0x10) >> 0x10;
+//         this->dyna.actor.posRot.rot.y = temp_v0;
+//         this->dyna.actor.shape.rot.y = temp_v0;
 //     }
-//     if ((player->stateFlags2 & 0x10) != 0) {
-//         if ((u8) this->unk_172 != 0) {
+
+//     if (player->stateFlags2 & 0x10) {
+//         if (this->unk_172 != 0) {
 //             func_80895BEC(this, globalCtx);
 //         }
-//     } else {
-//         if (fabsf(this->dyna.unk_150) < 0.001f) {
-//             this->unk_172 = (u8)0;
-//         }
+//     } else if (fabsf(this->dyna.unk_150) < 0.001f) {
+//         this->unk_172 = 0;
 //     }
 //     this->dyna.unk_150 = 0.0f;
-//     func_8002F974((Actor *) this, (u16)0x200AU);
+//     func_8002F974(&this->dyna.actor, 0x200A);
 // }
 
 void BgJyaCobra_Update(Actor *thisx, GlobalContext *globalCtx) {

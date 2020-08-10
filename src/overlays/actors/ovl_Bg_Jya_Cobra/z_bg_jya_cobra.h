@@ -16,7 +16,7 @@ typedef struct BgJyaCobra {
     /* 0x016C */ s16 unk_16C;
     /* 0x016E */ s16 unk_16E;
     /* 0x0170 */ s16 unk_170;
-    /* 0x0172 */ s8 unk_172;
+    /* 0x0172 */ u8 unk_172;
     /* 0x0174 */ Vec3f unk_174;
     /* 0x0180 */ Vec3f unk_180;
     /* 0x018C */ f32 unk_18C;
