@@ -15,9 +15,9 @@ void func_808969F8(BgJyaCobra *this, GlobalContext *globalCtx);
 void func_80896ABC(BgJyaCobra *this, GlobalContext *globalCtx);
 
 extern Gfx D_06010790;
-extern UNK_TYPE D_06010C20;
+extern Gfx D_06010C20[];
 extern UNK_TYPE D_0601167C;
-extern UNK_TYPE D_060117D0;
+extern Gfx D_060117D0[];
 
 /*
 const ActorInit Bg_Jya_Cobra_InitVars = {
@@ -32,6 +32,8 @@ const ActorInit Bg_Jya_Cobra_InitVars = {
     (ActorFunc)BgJyaCobra_Draw,
 };
 */
+
+s16 D_80897308[] = { 0, 0, 0, 0 };
 
 // D_80897528
 static InitChainEntry sInitChain[] = {
@@ -171,11 +173,7 @@ void func_80896950(BgJyaCobra *this, GlobalContext *globalCtx) {
 
 //     player = PLAYER;
 //     temp_v0 = (s32) ((((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) - this->dyna.actor.posRot.rot.y) << 0x10) >> 0x10;
-//     if (temp_v0 >= 0) {
-//         phi_v1 = temp_v0;
-//     } else {
-//         phi_v1 = -temp_v0;
-//     }
+//     phi_v1 = ABS(temp_v0);
 //     if (phi_v1 < 0x1D00) {
 //         Math_ApproxS(&this->unk_16E, (u16)0x6A, (u16)4);
 //     } else {
@@ -217,9 +215,37 @@ void BgJyaCobra_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896CB4.s")
+void func_80896CB4(GlobalContext* globalCtx) {
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 864);
+
+    func_80093D84(globalCtx->state.gfxCtx);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 867), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_XLU_DISP++, D_06010C20);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 872);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896D78.s")
+// regalloc
+// void func_80896D78(BgJyaCobra *this, GlobalContext *globalCtx) {
+//     s32 pad;
+//     Vec3s sp44;
+
+//     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 924);
+//     func_80093D84(globalCtx->state.gfxCtx);
+
+//     sp44.x = D_80897308[this->dyna.actor.params & 3] + this->dyna.actor.shape.rot.x;
+//     sp44.y = this->dyna.actor.shape.rot.y;
+//     sp44.z = this->dyna.actor.shape.rot.z;
+//     func_800D1694(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
+
+//     Matrix_Scale(0.1f, 0.1f, this->unk_190, MTXMODE_APPLY);
+//     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 939), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+//     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)(this->unk_18C * 140.0f));
+//     gSPDisplayList(POLY_XLU_DISP++, D_060117D0);
+
+//     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 947);
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896EE4.s")
 

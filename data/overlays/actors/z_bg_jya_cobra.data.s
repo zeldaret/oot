@@ -21,8 +21,6 @@ glabel Bg_Jya_Cobra_InitVars
 .word BgJyaCobra_Destroy
 .word BgJyaCobra_Update
 .word BgJyaCobra_Draw
-glabel D_80897308
- .word 0x00000000, 0x00000000
 glabel D_80897310
  .word 0x01000100
 glabel D_80897314
