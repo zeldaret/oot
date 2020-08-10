@@ -65,14 +65,14 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     scale = this->regs[SS_BOMB_SCALE] / 100.0f;
 
-    func_800A7A24(&sp12C, this->pos.x, this->pos.y, this->pos.z);
-    func_800A76A4(&spEC, scale, scale, 1.0f);
-    func_800A6FA0(&sp12C, &globalCtx->mf_11DA0, &sp6C);
-    func_800A6FA0(&sp6C, &spEC, &spAC);
+    SkinMatrix_SetTranslate(&sp12C, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&spEC, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&sp12C, &globalCtx->mf_11DA0, &sp6C);
+    SkinMatrix_MtxFMtxFMult(&sp6C, &spEC, &spAC);
 
     gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    mtx = func_800A7E70(gfxCtx, &spAC);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spAC);
 
     if (mtx != NULL) {
         gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

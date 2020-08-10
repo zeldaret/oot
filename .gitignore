@@ -12,6 +12,7 @@ venv/
 
 # Project-specific ignores
 build/
+expected/
 notes/
 baserom/
 docs/doxygen/

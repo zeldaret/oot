@@ -87,12 +87,12 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
     Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 298);
 
     scale = this->regs[SS_BOMB2_SCALE] * 0.01f;
-    func_800A7A24(&sp11C, this->pos.x, this->pos.y, this->pos.z);
-    func_800A76A4(&spDC, scale, scale, 1.0f);
-    func_800A6FA0(&sp11C, &globalCtx->mf_11DA0, &sp5C);
+    SkinMatrix_SetTranslate(&sp11C, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&spDC, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&sp11C, &globalCtx->mf_11DA0, &sp5C);
 
-    func_800A6FA0(&sp5C, &spDC, &sp9C);
-    mtx = func_800A7E70(gfxCtx, &sp9C);
+    SkinMatrix_MtxFMtxFMult(&sp5C, &spDC, &sp9C);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp9C);
 
     if (mtx != NULL) {
         gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -134,15 +134,15 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
 
     temp_f24 = this->regs[SS_BOMB2_A];
     scale = this->regs[SS_BOMB2_SCALE] * 0.01f;
-    func_800A7A24(&sp1B4, this->pos.x, this->pos.y, this->pos.z);
-    func_800A76A4(&sp174, scale, scale, 1.0f);
-    func_800A6FA0(&sp1B4, &globalCtx->mf_11DA0, &spF4);
-    func_800A6FA0(&spF4, &sp174, &sp134);
-    mtx = func_800A7E70(gfxCtx, &sp134);
+    SkinMatrix_SetTranslate(&sp1B4, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&sp174, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&sp1B4, &globalCtx->mf_11DA0, &spF4);
+    SkinMatrix_MtxFMtxFMult(&spF4, &sp174, &sp134);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp134);
 
     if (mtx != NULL) {
         gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        mtx2 = func_800A7E70(gfxCtx, &sp134);
+        mtx2 = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp134);
 
         if (mtx2 != NULL) {
             func_80094BC4(gfxCtx);
