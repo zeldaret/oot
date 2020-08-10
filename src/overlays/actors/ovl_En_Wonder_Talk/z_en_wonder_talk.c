@@ -59,7 +59,7 @@ void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
-    if (this->switchFlag < 0 || Flags_GetSwitch(globalCtx, this->switchFlag) == 0) {
+    if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
         switch (this->unk_150) {
             case 1:
                 // Slate GO!
@@ -136,7 +136,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
     this->unk_15A++;
     if (this->unk_150 == 4 && (gSaveContext.eventChkInf[1] & 0x2000)) {
         Actor_Kill(&this->actor);
-    } else if ((this->switchFlag < 0) || (Flags_GetSwitch(globalCtx, this->switchFlag) == 0)) {
+    } else if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if ((func_8002F194(&this->actor, globalCtx))) {
             if (this->unk_156 != 6) {
                 this->actionFunc = func_80B395F0;
@@ -234,7 +234,7 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
 void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnWonderTalk* this = THIS;
 
-    if (this->unk_158) {
+    if (this->unk_158 != 0) {
         this->unk_158 -= 1;
     }
     this->actionFunc(this, globalCtx);
