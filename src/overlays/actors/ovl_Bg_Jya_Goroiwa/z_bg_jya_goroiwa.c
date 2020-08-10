@@ -59,6 +59,7 @@ static InitChainEntry initChain[] = {
 
 void func_80897970(BgJyaGoroiwa* this) {
     Sphere16* worldSphere = &this->collider.list->dim.worldSphere;
+
     worldSphere->center.x = this->actor.posRot.pos.x;
     worldSphere->center.y = (s32)(this->actor.posRot.pos.y + 59.5f);
     worldSphere->center.z = this->actor.posRot.pos.z;
@@ -68,16 +69,16 @@ void func_808979C0(BgJyaGoroiwa* this, GlobalContext* ctx) {
     ColliderJntSph* colliderJntSph = &this->collider;
 
     Collider_InitJntSph(ctx, colliderJntSph);
-    Collider_SetJntSph(ctx, colliderJntSph, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(ctx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderItem);
     func_80897970(this);
     this->collider.list->dim.worldSphere.radius = 0x3A;
 }
 
 void func_80897A2C(BgJyaGoroiwa* this) {
     Actor* thisx = &this->actor;
-
     f32 rotFactor = 175.30046f;
     f32 posDiff = thisx->posRot.pos.x - thisx->pos4.x;
+
     thisx->shape.rot.z -= rotFactor * posDiff;
 }
 
@@ -110,11 +111,10 @@ void func_80897B1C(BgJyaGoroiwa* this) {
 
 void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    f32 tmpf1;
     f32 tmpf2;
     s16 tmp16;
+    f32 tmpf1 = (-100.0f - thisx->posRot.pos.y) * 2.5f;
 
-    tmpf1 = (-100.0f - thisx->posRot.pos.y) * 2.5f;
     if (tmpf1 < 0.01f) {
         tmpf1 = 0.01f;
     }
