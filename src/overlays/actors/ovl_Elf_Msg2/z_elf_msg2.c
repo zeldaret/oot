@@ -10,8 +10,8 @@ void ElfMsg2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx);
 s32 func_809AD968(ElfMsg2 *this);
-void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtxt);
-void func_809AD9F4(ElfMsg2* this, GlobalContext* globalCtxt);
+void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtx);
+void func_809AD9F4(ElfMsg2* this, GlobalContext* globalCtx);
 
 
 /*
@@ -34,19 +34,19 @@ void func_809AD700(ElfMsg2 *this, ElfMsg2ActionFunc actionFunc) {
 }
 
 #ifdef NON_MATCHING
-s32 func_809AD708(Actor* thisx, GlobalContext* globalCtxt) {
+s32 func_809AD708(Actor* thisx, GlobalContext* globalCtx) {
 
     s16 temp = thisx->posRot.rot.y;
     s32 temp2;
     Actor *new_var;
 
     if (0 < temp && temp < 0x41) {
-        if (Flags_GetSwitch(globalCtxt, temp - 1)) {
+        if (Flags_GetSwitch(globalCtx, temp - 1)) {
             LogUtils_LogThreadId("../z_elf_msg2.c", 0xAB);
             osSyncPrintf("\"共倒れ\" = %s\n", "共倒れ");
             temp2 = ((new_var->params >> 8) & 0x3F);
             if (temp2 != 0x3F) {
-                Flags_SetSwitch(globalCtxt, temp2);
+                Flags_SetSwitch(globalCtx, temp2);
             }
             Actor_Kill(new_var);
             return 1;
@@ -54,13 +54,13 @@ s32 func_809AD708(Actor* thisx, GlobalContext* globalCtxt) {
     }
     
     if (temp == -1) {
-        if (Flags_GetClear(globalCtxt, new_var->room)) {
+        if (Flags_GetClear(globalCtx, new_var->room)) {
             LogUtils_LogThreadId("../z_elf_msg2.c", 0xB6);
             osSyncPrintf("\"共倒れ２\" = %s\n", "共倒れ２");
             new_var = new_var;
             temp2 = ((new_var->params >> 8) & 0x3F);
             if (temp2 != 0x3F) {
-                Flags_SetSwitch(globalCtxt, temp2);
+                Flags_SetSwitch(globalCtx, temp2);
             }
             Actor_Kill(new_var);
             return 1;
@@ -68,7 +68,7 @@ s32 func_809AD708(Actor* thisx, GlobalContext* globalCtxt) {
     }
     temp2 = ((new_var->params >> 8) & 0x3F);
     if (temp2 != 0x3F) {
-        if (Flags_GetSwitch(globalCtxt, temp2)) {
+        if (Flags_GetSwitch(globalCtx, temp2)) {
             LogUtils_LogThreadId("../z_elf_msg2.c", 0xC0);
             osSyncPrintf("\"共倒れ\" = %s\n", "共倒れ");
             Actor_Kill(new_var);
@@ -146,6 +146,12 @@ void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Update.s")
+void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ElfMsg2* this = THIS;
+    if (!func_809AD708(thisx, globalCtx)) {
+        this->actionFunc(thisx, globalCtx);
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Draw.s")
