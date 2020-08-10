@@ -223,7 +223,8 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
 // ? func_80028BB0(?);
 // ? func_80028CEC(?);
-void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
+void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                s16 scaleStep);
 void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
                    s16 life);
 void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
@@ -256,7 +257,7 @@ void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);
 void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
-void EffectSsFhgFlash_Spawn2(GlobalContext *, Actor *, Vec3f *, s16, u8);
+void EffectSsFhgFlash_Spawn2(GlobalContext*, Actor*, Vec3f*, s16, u8);
 // ? func_80029DBC(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
                    s16 gravityInfluence, s16 u0, s16 rotSpeed, s16 burstVel, u8 u1, s16 scale, u8 u2, s16 jitter,
@@ -280,7 +281,8 @@ void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg
 // ? func_8002A824(?);
 // ? func_8002A894(?);
 // ? func_8002A90C(?);
-void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28, s32 life);
+void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28,
+                                       s32 life);
 // ? func_8002AA44(?);
 void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
@@ -1309,9 +1311,10 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest);
 void SkinMatrix_SetScale(MtxF* mf, f32 x, f32 y, f32 z);
 void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw);
 void SkinMatrix_SetTranslate(MtxF* mf, f32 x, f32 y, f32 z);
-void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch, f32 dx, f32 dy, f32 dz);
+void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch,
+                                           f32 dx, f32 dy, f32 dz);
 Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src);
-void func_800A7EC0(MtxF *mf, s16 a, f32 x, f32 y, f32 z);
+void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z);
 // ? func_800A81A0(?);
 // ? func_800A82C8(?);
 // ? func_800A9A9C(?);
@@ -1666,69 +1669,72 @@ u32 SysCfb_GetFbPtr(s32 idx);
 u32 SysCfb_GetFbEnd();
 f32 func_800CA720(f32);
 f32 func_800CA774(f32);
-s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8,
-                  Vec3f* arg9, Vec3f* argA);
-void Math3D_LineClosestToPoint(Linef* arg0, Vec3f* arg1, Vec3f* arg2);
-s32 Math3D_2PlaneIntersectClosestPoint(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8,
-                  Vec3f* arg9);
-void Math3D_LineSplitRatio(Vec3f* arg0, Vec3f* arg1, f32 arg2, Vec3f* arg3);
-f32 Math3D_Cos(Vec3f* vec1, Vec3f* vec2);
-s32 Math3D_CosOut(Vec3f* vec1, Vec3f* vec2, f32* dst);
-void Math3D_Vec3fReflect(Vec3f* vec1, Vec3f* vec2, Vec3f* ret);
-s32 Math3D_PointInSquare2D(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
-f32 Math3D_Dist1DSq(f32 arg0, f32 arg1);
-f32 Math3D_Dist2DSq(f32 arg0, f32 arg1, f32 arg2, f32 arg3);
+s32 Math3D_PlaneIntersectionClosestToLineSeg(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA,
+                                             f32 planeBB, f32 planeBC, f32 planeBDist, Vec3f* linePointA,
+                                             Vec3f* linePointB, Vec3f* closestPoint);
+void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint);
+s32 Math3D_2PlaneIntersectClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
+                                       f32 planeBC, f32 planeBDist, Vec3f* point, Vec3f* closestPoint);
+void Math3D_LineSplitRatio(Vec3f* v0, Vec3f* v1, f32 ratio, Vec3f* ret);
+f32 Math3D_Cos(Vec3f* a, Vec3f* b);
+s32 Math3D_CosOut(Vec3f* a, Vec3f* b, f32* dst);
+void Math3D_Vec3fReflect(Vec3f* vec, Vec3f* normal, Vec3f* reflVec);
+s32 Math3D_PointInSquare2D(f32 upperLeftX, f32 lowerRightX, f32 upperLeftY, f32 lowerRightY, f32 x, f32 y);
+f32 Math3D_Dist1DSq(f32 a, f32 b);
+f32 Math3D_Dist2DSq(f32 x0, f32 y0, f32 x1, f32 y1);
 f32 Math3D_Vec3fMagnitudeSq(Vec3f* vec);
 f32 Math3D_Vec3fMagnitude(Vec3f* vec);
-f32 Math3D_Vec3fDistSq(Vec3f* arg0, Vec3f* arg1);
+f32 Math3D_Vec3fDistSq(Vec3f* a, Vec3f* b);
 void Math3D_Vec3f_Cross(Vec3f* a, Vec3f* b, Vec3f* ret);
 void Math3D_SurfaceNorm(Vec3f* va, Vec3f* vb, Vec3f* vc, Vec3f* normal);
-f32 Math3D_Vec3f_DistXYZ(Vec3f*, Vec3f*);
-s32 Math3D_PointRelativeToCubeFaces(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2);
-s32 Math3D_PointRelativeToCubeEdges(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2);
-s32 Math3D_PointRelativeToCubeVertices(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2);
-s32 Math3D_LineIntersectCube(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3);
-void func_800CC824(Vec3f* arg0, s16 arg1, f32* arg2, f32* arg3, f32* arg4);
-void Math3D_DefPlane(Vec3f* va, Vec3f* vb, Vec3f* vc, f32* nx, f32* ny, f32* nz, f32* nd);
-f32 Math3D_UDistPlaneToPos(f32 x, f32 y, f32 z, f32 arg3, Vec3f* norm);
-f32 Math3D_DistPlaneToPos(f32 x, f32 y, f32 z, f32 arg3, Vec3f* norm);
-s32 func_800CCF48(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4);
-s32 Math3D_TriCheckPointParallelYIntersectDist(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 normMagnitude, f32 arg5, f32 arg6, f32 arg7,
-                  f32 arg8, f32* pointDist, f32 argA);
-s32 func_800CD044(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
-                  f32* arg9, f32 argA);
-s32 Math3D_TriCheckLineSegParallelYIntersect(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7,
-                             f32 arg8, f32* arg9, f32 argA, f32 argB);
-s32 Math3D_TriCheckPointParallelYDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f32 arg6);
-s32 Math3D_TriCheckPointParallelXIntersect(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
-                  f32* arg9);
-s32 Math3D_TriCheckLineSegParallelXIntersect(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
-                  f32* arg9, f32 argA, f32 argB);
-s32 Math3D_TriCheckPointParallelXDist(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Plane* arg3, f32 arg4, f32 arg5, f32 arg6);
-s32 Math3D_TriCheckPointParallelZIntersect(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
-                  f32* arg9);
-s32 Math3D_TriCheckLineSegParallelZIntersect(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
-                  f32* arg9, f32 argA, f32 argB);
-s32 Math3D_TriCheckLineSegParallelZDist(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Plane* arg3, f32 arg4, f32 arg5, f32 arg6);
-s32 Math3D_LineSegTouchesPlane(f32 arg0, f32 arg1, f32 arg2, f32 arg3, Vec3f* arg4, Vec3f* arg5, Vec3f* arg6, s32 arg7);
+f32 Math3D_Vec3f_DistXYZ(Vec3f* a, Vec3f* b);
+s32 Math3D_PointRelativeToCubeFaces(Vec3f* point, Vec3f* min, Vec3f* max);
+s32 Math3D_PointRelativeToCubeEdges(Vec3f* point, Vec3f* min, Vec3f* max);
+s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max);
+s32 Math3D_LineIntersectCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b);
+void Math3D_RotateXZPlane(Vec3f* pointOnPlane, s16 angle, f32* a, f32* c, f32* d);
+void Math3D_DefPlane(Vec3f* va, Vec3f* vb, Vec3f* vc, f32* nx, f32* ny, f32* nz, f32* originDist);
+f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p);
+f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p);
+s32 Math3D_TriCheckPointParallelYSlopedY(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x);
+s32 Math3D_TriCheckPointParallelYIntersectDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
+                                               f32 z, f32 x, f32* yIntersect, f32 chkDist);
+s32 Math3D_TriCheckPointParallelYIntersectInsideTri(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz,
+                                                    f32 originDist, f32 z, f32 x, f32* yIntersect, f32 chkDist);
+s32 Math3D_TriCheckLineSegParallelYIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
+                                             f32 z, f32 x, f32* yIntersect, f32 y0, f32 y1);
+s32 Math3D_TriCheckPointParallelYDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f32 chkDist);
+s32 Math3D_TriCheckPointParallelXIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
+                                           f32 y, f32 z, f32* xIntersect);
+s32 Math3D_TriCheckLineSegParallelXIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
+                                             f32 y, f32 z, f32* xIntersect, f32 x0, f32 x1);
+s32 Math3D_TriCheckPointParallelXDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 y, f32 z, f32 chkDist);
+s32 Math3D_TriCheckPointParallelZIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
+                                           f32 x, f32 y, f32* zIntersect);
+s32 Math3D_TriCheckLineSegParallelZIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
+                                             f32 x, f32 y, f32* zIntersect, f32 z0, f32 z1);
+s32 Math3D_TriCheckLineSegParallelZDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 x, f32 y, f32 chkDist);
+s32 Math3D_LineSegTouchesPlane(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f* linePointB,
+                               Vec3f* intersect, s32 fromFront);
 void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc);
-s32 Math3D_PointDistToLine2D(f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5, f32 param_6, f32* param_7);
-s32 Math3D_LineTouchingSph(Sphere16* arg0, Linef* arg1);
-s32 Math3D_TriTouchingSphIntersect(Sphere16* arg0, TriNorm* arg1, Vec3f* arg2);
-s32 Math3D_CylTouchingLineSeg(Cylinder16* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4);
+s32 Math3D_PointDistToLine2D(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32* lineLenSq);
+s32 Math3D_LineTouchingSph(Sphere16* sphere, Linef* line);
+s32 Math3D_TriTouchingSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoint);
+s32 Math3D_CylTouchingLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, Vec3f* intersectA,
+                              Vec3f* intersectB);
 s32 Math3D_CylTriTouching(Cylinder16* cyl, TriNorm* tri);
 s32 Math3D_CylTriTouchingIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect);
 s32 Math3D_SpheresTouching(Sphere16* sphereA, Sphere16* sphereB);
-s32 Math3D_SpheresTouchingOverlap(Sphere16* arg0, Sphere16* arg1, f32* arg2);
-s32 Math3D_SpheresTouchingOverlapCenter(Sphere16* arg0, Sphere16* arg1, f32* arg2, f32* arg3);
-s32 Math3D_SphereTouchingCylinderOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* surfaceDist);
-s32 Math3D_SphereTouchingCylinderOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* surfaceDist, f32* centerDist);
-s32 Math3D_CylinderOutCylinder(Cylinder16* arg0, Cylinder16* arg1, f32* arg2);
-s32 Math3D_CylinderOutCylinderDist(Cylinder16* arg0, Cylinder16* arg1, f32* arg2, f32* arg3);
+s32 Math3D_SpheresTouchingOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize);
+s32 Math3D_SpheresTouchingOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist);
+s32 Math3D_SphereTouchingCylinderOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize);
+s32 Math3D_SphereTouchingCylinderOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centerDist);
+s32 Math3D_CylinderOutCylinder(Cylinder16* ca, Cylinder16* cb, f32* deadSpace);
+s32 Math3D_CylinderOutCylinderDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32* xzDist);
 s32 Math3D_TrisIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect);
-s32 Math3D_XZInSphere(Sphere16* arg0, f32 arg1, f32 arg2);
-s32 Math3D_XYInSphere(Sphere16* arg0, f32 arg1, f32 arg2);
-s32 Math3D_YZInSphere(Sphere16* arg0, f32 arg1, f32 arg2);
+s32 Math3D_XZInSphere(Sphere16* sphere, f32 x, f32 z);
+s32 Math3D_XYInSphere(Sphere16* sphere, f32 x, f32 y);
+s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z);
 void Math3D_DrawSphere(GlobalContext* globalCtx, Sphere16* sph);
 void Math3D_DrawCylinder(GlobalContext* globalCtx, Cylinder16* cyl);
 s16 atan2s(f32 x, f32 y);
@@ -1828,7 +1834,7 @@ void Fault_Wait5Seconds();
 void Fault_WaitForButtonCombo();
 void Fault_DrawMemDumpPage(const char*, u32*, u32);
 void Fault_DrawMemDump(u32, u32, u32, u32);
-void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32 *raPtr);
+void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr);
 void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height);
 void Fault_LogStackTrace(OSThread* thread, s32 height);
 void Fault_ResumeThread(OSThread*);

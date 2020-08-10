@@ -118,7 +118,7 @@ s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
     while (currentActor != NULL) {
         if (currentActor->id == ACTOR_OBJ_MAKEKINSUTA) {
             currentDistance = Math3D_Dist2DSq(this->actor.posRot.pos.x, this->actor.posRot.pos.z,
-                                            currentActor->posRot.pos.x, currentActor->posRot.pos.z);
+                                              currentActor->posRot.pos.x, currentActor->posRot.pos.z);
 
             if (currentDistance < bestDistance && currentActor->room == this->actor.room) {
                 ret = 1;

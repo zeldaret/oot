@@ -38,7 +38,7 @@ glabel func_80A5B61C
 /* 00378 80A5B668 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 0037C 80A5B66C 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFF4
 /* 00380 80A5B670 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFD8
-/* 00384 80A5B674 0C033209 */  jal     func_800CC824              
+/* 00384 80A5B674 0C033209 */  jal     Math3D_RotateXZPlane              
 /* 00388 80A5B678 27A70044 */  addiu   $a3, $sp, 0x0044           ## $a3 = FFFFFFD4
 /* 0038C 80A5B67C C6060024 */  lwc1    $f6, 0x0024($s0)           ## 00000024
 /* 00390 80A5B680 C7A80048 */  lwc1    $f8, 0x0048($sp)           
