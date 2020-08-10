@@ -6,9 +6,41 @@
 
 struct EnElf;
 
+typedef void (*EnElfActionFunc)(struct EnElf*, struct GlobalContext*);
+
 typedef struct EnElf {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x184];
+    /* 0x014C */ SkelAnime skelAnime;
+    /* 0x0190 */ Vec3s limbDrawTable[15];
+    /* 0x01EA */ Vec3s transitionDrawTable[15];
+    /* 0x0244 */ Color_RGBAf unk_244;
+    /* 0x0254 */ Color_RGBAf unk_254;
+    /* 0x0264 */ LightInfoPositional lightInfoPos2;
+    /* 0x0274 */ z_Light* light;
+    /* 0x0278 */ LightInfoPositional lightInfoPos3;
+    /* 0x0288 */ z_Light* light2;
+    /* 0x028C */ Vec3f unk_28C; //pos copy
+    /* 0x0298 */ s32 unk_298;
+    /* 0x029C */ char unk_29C[0x4];
+    /* 0x02A0 */ f32 unk_2A0;
+    /* 0x02A4 */ f32 unk_2A4;
+    /* 0x02A8 */ char unk_2A8[0x2];
+    /* 0x02AA */ s16 unk_2AA;
+    /* 0x02AC */ s16 unk_2AC;
+    /* 0x02AE */ s16 unk_2AE;
+    /* 0x02B0 */ s16 unk_2B0;
+    /* 0x02B2 */ char unk_2B2[0x2];
+    /* 0x02B4 */ f32 unk_2B4;
+    /* 0x02B8 */ f32 unk_2B8;
+    /* 0x02BC */ s16 unk_2BC;
+    /* 0x02BE */ char unk_2BE[0x2];
+    /* 0x02C0 */ s16 unk_2C0;
+    /* 0x02C2 */ s16 unk_2C2;
+    /* 0x02C4 */ u16 unk_2C4;
+    /* 0x02C6 */ char unk_2C6[0x1];
+    /* 0x02C7 */ s8 unk_2C7;
+    /* 0x02C8 */ void* unk_2C8; // some func pointer
+    /* 0x02CC */ EnElfActionFunc actionFunc;
 } EnElf; // size = 0x02D0
 
 extern const ActorInit En_Elf_InitVars;

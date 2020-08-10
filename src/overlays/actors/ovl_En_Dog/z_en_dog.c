@@ -454,8 +454,10 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
+    
+    gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
+
+
     func_80093D18(globalCtx->state.gfxCtx);
 
     gDPPipeSync(gfxCtx->polyOpa.p++);
