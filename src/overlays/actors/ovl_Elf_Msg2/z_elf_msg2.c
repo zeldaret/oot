@@ -85,7 +85,7 @@ extern InitChainEntry D_809ADC30[];
 
 void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg2* this = THIS;
-    s32 temp_ret;
+    s32 flags;
 
     osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!func_809AD708(thisx, globalCtx)) {
@@ -134,9 +134,17 @@ void func_809AD9F4(ElfMsg2 *this, GlobalContext *globalCtx) {
         func_809AD700(this, &func_809AD978);
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809AD9F4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809ADA28.s")
+void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtx) {
+    s32 roty = this->actor.posRot.rot.y;
+    if (0x41 <= roty && roty < 0x81) {
+        if (Flags_GetSwitch(globalCtx, roty - 0x41) != 0) {
+            func_809AD700(this, &func_809AD9F4);
+            this->actor.flags = this->actor.flags | 0x40001;
+            this->actor.textId = func_809AD968(this);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Update.s")
 
