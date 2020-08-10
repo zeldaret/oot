@@ -14,6 +14,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgDodoago_SetupAction(BgDodoago *this, BgDodoagoActionFunc actionFunc);
 
 // void func_80871A08(Vec3f* vec, GlobalContext* globalCtx); // Not 100% sure
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx);
@@ -49,7 +50,10 @@ s32 D_808725CC[] = { 0x00000000, 0xC3480000, 0x43D70000, 0x41A00000, 0xC3480000,
                      0x42700000, 0xC3480000, 0x43A00000, 0xC2700000, 0xC3480000, 0x43A00000, 0x428C0000,
                      0xC3480000, 0x43910000, 0xC28C0000, 0xC3480000, 0x43910000 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_SetupAction.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_SetupAction.s")
+void BgDodoago_SetupAction(BgDodoago *this, BgDodoagoActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80871A08.s")
 
