@@ -35,6 +35,7 @@ const ActorInit En_Wonder_Talk2_InitVars = {
 // u32 D_80B3A8E0[] = {0x00060000, 0x00010002, 0x00030004, 0x00050000};
 
 s16 D_80B3A8E0[] = { 0x6, 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
+
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
@@ -77,7 +78,7 @@ void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    if (this->switchFlag >= 0 && (Flags_GetSwitch(globalCtx, this->switchFlag) != 0)) {
+    if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         Actor_Kill(&this->actor);
         return;
@@ -115,7 +116,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
     actor = &this->actor;
     player = PLAYER;
     this->unk_158++;
-    if (((this->switchFlag) >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag) != 0)) {
+    if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (this->unk_15A == 0) {
             this->actor.flags &= -2;
             this->unk_15A = 1;
@@ -216,11 +217,10 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     this->unk_158++;
-    if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag) != 0)) {
+    if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (this->unk_15A == 0) {
             this->actor.flags &= ~1;
             this->unk_15A = 1;
-            return;
         }
     } else {
         if ((this->unk_154 != 4) || (this->unk_15A == 0)) {
@@ -230,7 +230,7 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
             }
             if (((this->actor.xzDistFromLink < (40.0f + this->unk_15C)) &&
                  (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f)) &&
-                (Gameplay_InCsMode(globalCtx) == 0)) {
+                !Gameplay_InCsMode(globalCtx)) {
                 if (this->unk_158 >= 2) {
                     osSyncPrintf("\n\n");
                     // Transparent Message Kimi Seto
@@ -256,7 +256,7 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
                             break;
                         case 4:
                             // Geld Training Center Forced Check Only
-                            osSyncPrintf("\x1b[31m ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n\x1b[m");
+                            osSyncPrintf(VT_FGCOL(RED) " ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n" VT_RST);
                             break;
                     }
 
@@ -274,7 +274,6 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_156 = 0;
             }
-        } else {
         }
     }
 }
@@ -289,9 +288,9 @@ void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->posRot.y;
 
     Actor_SetHeight(&this->actor, this->height);
-    if (BREG(0)) {
+    if (BREG(0) != 0) {
         if (this->unk_158) {
-            if ((this->unk_158 & 1) == 0) {
+            if (!(this->unk_158 & 1)) {
                 DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                        this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
                                        1.0f, 1.0f, 1.0f, 70, 70, 70, 255, 4, globalCtx->state.gfxCtx);
