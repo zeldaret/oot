@@ -50,6 +50,12 @@ s32 D_808725CC[] = { 0x00000000, 0xC3480000, 0x43D70000, 0x41A00000, 0xC3480000,
                      0x42700000, 0xC3480000, 0x43A00000, 0xC2700000, 0xC3480000, 0x43A00000, 0x428C0000,
                      0xC3480000, 0x43910000, 0xC28C0000, 0xC3480000, 0x43910000 };
 
+extern Gfx D_60013500[];
+
+// this comes from .bss
+extern s32 D_808727C0;
+extern s32 D_80872824;
+
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_SetupAction.s")
 void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -112,7 +118,6 @@ void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
 
-
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     Collider_DestroyCylinder(globalCtx, &this->colliders[0]);
     Collider_DestroyCylinder(globalCtx, &this->colliders[1]);
@@ -123,18 +128,81 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80871FB8.s")
 
-void func_8087227C(BgDodoago *this, GlobalContext *globalCtx) {
+void func_8087227C(BgDodoago* this, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80872288.s")
-void func_80872288(BgDodoago *this, GlobalContext *globalCtx) {
+void func_80872288(BgDodoago* this, GlobalContext* globalCtx) {
     globalCtx->unk_11D30[this->unk_164] = globalCtx->unk_11D30[this->unk_164] + 5;
     if (globalCtx->unk_11D30[this->unk_164] == 0xFF) {
         BgDodoago_SetupAction(this, func_80871CF4);
     }
 }
 
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Update.s")
+// void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
+//     BgDodoago* this = THIS;
+//     s16 temp_a1;
+//     s16 temp_a1_2;
+//     s32 temp_v0;
+//     Actor* phi_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Draw.s")
+//     if (this->dyna.actor.attachedA == 0) {
+//         /// 0x1C6
+//         temp_v0 = this->colliders[2].base.maskA & 2;
+//         // 0x212 (it's exactly one position from 0x1C6 (so size of a whole collider (4C)))
+//         if ((temp_v0 != 0) || ((this->colliders[2].base.maskA & 2) != 0)) {
+//             if (temp_v0 != 0) {
+//                 // 1C0
+//                 phi_v0 = this->colliders[1].base.oc;
+//             } else {
+//                 // 2C0
+//                 phi_v0 = this->colliders[2].base.oc;
+//             }
+//             this->colliders[1].base.maskA &= 0xFFFD;
+//             this->colliders[2].base.maskA &= 0xFFFD;
+
+//             if (phi_v0->type == 3 && phi_v0->id == 0x10 && phi_v0->params == 0) {
+//                 this->dyna.actor.attachedA = phi_v0;
+//                 // phi_v0->unk1F8 = (u16)0x32;
+//                 phi_v0->colChkInfo.unk_14 = 0x32;
+//                 phi_v0->speedXZ = 0.0f;
+//                 D_80872824 = 0;
+//                 this->actionFunc(this, globalCtx);
+//                 return;
+//             }
+//         }
+//     } else {
+//         D_80872824++;
+//         temp_a1 = this->dyna.actor.params;
+//         this = this;
+//         Flags_GetSwitch(globalCtx, (s32)(temp_a1 & 0x3F));
+//         if (D_808727C0 == 0) {
+//             if (D_80872824 >= 0x8D) {
+//                 temp_a1_2 = this->dyna.actor.params;
+//                 this = this;
+//                 if (Flags_GetSwitch(globalCtx, (s32)(temp_a1_2 & 0x3F)) != 0) {
+//                     D_808727C0 = (u8)(D_808727C0 + 1);
+//                     this->actionFunc(this, globalCtx);
+//                     return;
+//                 }
+//                 this->dyna.actor.attachedA = NULL;
+//             }
+//         }
+//     }
+//     this->actionFunc(this, globalCtx);
+// }
+
+void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 672);
+    if (Flags_GetEventChkInf(0xB0) != 0) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_60013500);
+    }
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 681);
+}
+
