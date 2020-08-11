@@ -238,7 +238,8 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 // ? func_800293A0(?);
 void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
 // ? func_80029444(?);
-// ? func_8002949C(?);
+void func_8002949C(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor,
+                           s16 arg4, s16 scale);
 // ? func_80029530(?);
 // ? func_80029568(?);
 // ? func_800295A0(?);
@@ -855,6 +856,7 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(GlobalContext* globalCtx);
 void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx);
+void func_80064520(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064534(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx);
@@ -1184,8 +1186,8 @@ void func_80094C50(GraphicsContext* gfxCtx);
 Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
-                      u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, 
+                        u32 x2, u32 y2, s32 width2, s32 height2);
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
@@ -1269,7 +1271,7 @@ void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetion
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
 void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
-void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+s32 SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                       AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg);
