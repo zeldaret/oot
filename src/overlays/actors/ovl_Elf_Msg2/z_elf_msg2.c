@@ -14,7 +14,6 @@ void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtx);
 void func_809AD9F4(ElfMsg2* this, GlobalContext* globalCtx);
 
 
-/*
 const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
     ACTORTYPE_BG,
@@ -26,65 +25,60 @@ const ActorInit Elf_Msg2_InitVars = {
     (ActorFunc)ElfMsg2_Update,
     (ActorFunc)ElfMsg2_Draw,
 };
-*/
 
 // ElfMsg2_SetupAction
 void func_809AD700(ElfMsg2 *this, ElfMsg2ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-s32 func_809AD708(ElfMsg2 *this, GlobalContext* globalCtx) {
-    s32 temp_a1;
-    s32 roty = this->actor.posRot.rot.y;
+s32 func_809AD708(ElfMsg2* this, GlobalContext* globalCtx) {
 
-    if (0 < roty && roty < 0x41) {
-            if (Flags_GetSwitch(globalCtx, roty - 1)) {
-                LOG_STRING("共倒れ","../z_elf_msg2.c",171);
-                temp_a1 = (this->actor.params >> 8) & 0x3F;
-                if (temp_a1 != 0x3F) {
-                    Flags_SetSwitch(globalCtx, temp_a1);
-                }
-                Actor_Kill(&this->actor);
-                return 1;
-            }
-    }
-    
-    if (this->actor.posRot.rot.y == -1) {
-        if (Flags_GetClear(globalCtx, this->actor.room)) {
-            LOG_STRING("共倒れ２","../z_elf_msg2.c",182);
-            temp_a1 = (this->actor.params >> 8) & 0x3F;
-            if (temp_a1 != 0x3F) {
-                Flags_SetSwitch(globalCtx, temp_a1);
-            }
-            Actor_Kill(&this->actor);
-            return 1;
+    if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
+        Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
+        LOG_STRING("共倒れ","../z_elf_msg2.c",171);
+        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
+            Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         }
-    }
-    
-    temp_a1 = (this->actor.params >> 8) & 0x3F;
-    if (temp_a1 == 0x3F) {
-        return 0;
-    }
-    if (Flags_GetSwitch(globalCtx, temp_a1)) {
-        LOG_STRING("共倒れ","../z_elf_msg2.c",192);
+
         Actor_Kill(&this->actor);
         return 1;
     }
+
+    if ((this->actor.posRot.rot.y == -1) && Flags_GetClear(globalCtx, this->actor.room)) {
+        LOG_STRING("共倒れ２","../z_elf_msg2.c",182);
+        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
+            Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
+        }
+
+        Actor_Kill(&this->actor);
+        return 1;
+    }
+
+    if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
+        return 0;
+    } else if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
+        LOG_STRING("共倒れ","../z_elf_msg2.c",192);
+        Actor_Kill(&this->actor);
+        return 1;
+    }             
     return 0;
 }
 
-extern InitChainEntry D_809ADC30[];
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale.x, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
+};
 
 void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg2* this = THIS;
     s32 flags;
 
     osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
-    if (!func_809AD708(thisx, globalCtx)) {
+    if (!func_809AD708(this, globalCtx)) {
         if (0 < this->actor.posRot.rot.x && this->actor.posRot.rot.x < 8) {
             this->actor.unk_1F = (this->actor.posRot.rot.x - 1);
         }
-        Actor_ProcessInitChain(thisx, D_809ADC30);
+        Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.posRot.rot.y >= 0x41) {
             func_809AD700(this, &func_809ADA28);
         } else {
@@ -140,13 +134,43 @@ void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtx) {
 
 void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg2* this = THIS;
-    if (!func_809AD708(thisx, globalCtx)) {
+    if (!func_809AD708(this, globalCtx)) {
         this->actionFunc(this, globalCtx);
     }
 }
 
-extern void* D_809ADC38;
-extern void* D_809ADCF8;
+Gfx D_809ADC38[] = {
+    gsDPPipeSync(),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPSetCombineLERP(PRIMITIVE, 0, SHADE, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_SURF2),
+    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+    gsSPSetGeometryMode(G_LIGHTING),
+    gsSPEndDisplayList(),
+};
+
+Vtx D_809ADC78[] = {
+    VTX( 100,   0,  100, 0, 0, 0x49, 0xB7, 0x49, 0xFF),
+    VTX( 100,   0, -100, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
+    VTX(-100,   0, -100, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),
+    VTX(-100,   0,  100, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
+    VTX( 100, 100,  100, 0, 0, 0x49, 0x49, 0x49, 0xFF),
+    VTX( 100, 100, -100, 0, 0, 0x49, 0x49, 0xB7, 0xFF),
+    VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF),
+    VTX(-100, 100,  100, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
+};
+    
+Gfx D_809ADCF8[] = {
+    gsSPVertex(D_809ADC78, 8, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
+    gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
+    gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0),
+    gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
+    gsSP2Triangles(3, 0, 7, 0, 0, 7, 4, 0),
+    gsSPEndDisplayList(),
+};
 
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext *gfxCtx;
@@ -164,4 +188,3 @@ void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg2.c", 367);
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Draw.s")
