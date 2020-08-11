@@ -50,7 +50,7 @@ glabel func_809C4318
 /* 00DA4 809C43D4 27A70044 */  addiu   $a3, $sp, 0x0044           ## $a3 = FFFFFFF4
 /* 00DA8 809C43D8 E7A4002C */  swc1    $f4, 0x002C($sp)           
 /* 00DAC 809C43DC E7A60030 */  swc1    $f6, 0x0030($sp)           
-/* 00DB0 809C43E0 0C00A3A1 */  jal     func_80028E84              
+/* 00DB0 809C43E0 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 00DB4 809C43E4 E7A80034 */  swc1    $f8, 0x0034($sp)           
 /* 00DB8 809C43E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DBC 809C43EC 0C00BE0A */  jal     Audio_PlayActorSound2
