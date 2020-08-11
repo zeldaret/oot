@@ -34,16 +34,12 @@ const ActorInit Bg_Dodoago_InitVars = {
     (ActorFunc)BgDodoago_Draw,
 };
 
-// s32 D_80872540[] = { 0x0A003900, 0x00010000, 0x02000000, 0x00000000, 0x00000000, 0xFFCFFFFF,
-//                      0x00000000, 0x00010000, 0x0050001E, 0x00500000, 0x00000000 };
 static ColliderCylinderInit D_80872540 = {
     { COLTYPE_UNK10, 0x00, 0x39, 0x00, 0x00, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 80, 30, 80, { 0, 0, 0 } },
 };
 
-// s32 D_8087256C[] = { 0x0A00003D, 0x20010000, 0x02000000, 0x00000000, 0x00000000, 0x00000000,
-//                      0x00000000, 0x00000100, 0x0032003C, 0x01180000, 0x00000000 };
 static ColliderCylinderInit D_8087256C = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x3D, 0x20, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
@@ -57,9 +53,6 @@ Color_RGBA8_n D_808725A0 = { 40, 40, 40 };
 
 Vec3f VELOCITY = { 0.0f, -1.5f, 0.0f };
 Vec3f ACCELERATION = { 0.0f, -0.20000000298023223876953125f, 0.0f };
-
-// s32 velocity[] = { 0x00000000, 0xBFC00000, 0x00000000 };
-// s32 acceleration[] = { 0x00000000, 0xBE4CCCCD, 0x00000000 };
 
 static InitChainEntry D_808725BC[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -137,7 +130,68 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliders[2]);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80871CF4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80871CF4.s")
+void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
+    Actor* sp3C;
+    CollisionCheckContext* sp2C;
+    Actor* attachedActor;
+
+    attachedActor = func_80033640(globalCtx, &this->colliders);
+    if (attachedActor != NULL) {
+        sp3C = attachedActor;
+        if (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &attachedActor->posRot.pos) >=
+            (s32)this->dyna.actor.shape.rot.y) {
+            this->unk_164 = 1;
+        } else {
+            this->unk_164 = 0;
+        }
+
+        if ((0xFF != globalCtx->unk_11D30[0]) || (this->unk_164 != 1)) {
+            if ((0xFF == globalCtx->unk_11D30[1]) && (this->unk_164 == 0)) {
+            block_8:
+                Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
+                this->unk_164 = 0;
+                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+                BgDodoago_SetupAction(this, func_80871FB8);
+                func_800800F8(globalCtx, 0xD34, 0xA0, &this->dyna.actor, 0);
+            } else {
+                if (globalCtx->unk_11D30[this->unk_164] != 0) {
+                    func_800800F8(globalCtx, 0xBF9, 0x14, &this->dyna.actor, 0);
+                    Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+                    D_80872824 = (s32)(D_80872824 + 0x1E);
+                    return;
+                }
+                func_800800F8(globalCtx, 0xBF9, 0x28, &this->dyna.actor, 0);
+                BgDodoago_SetupAction(this, func_80872288);
+                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+        } else {
+            goto block_8;
+        }
+
+        if (D_80872598 == 0) {
+            this->dyna.actor.attachedA = sp3C;
+            D_80872598 = (u16)1;
+            D_80872824 = 0x32;
+            return;
+        }
+    } else {
+        if (Flags_GetEventChkInf(0xB0) != 0) {
+            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
+            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
+            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[2]);
+            this->colliders[0].dim.pos.z += 0xC8;
+            this->colliders[1].dim.pos.z += 0xD7;
+            this->colliders[1].dim.pos.x += 0x5A;
+            this->colliders[2].dim.pos.z += 0xD7;
+            this->colliders[2].dim.pos.x -= 0x5A;
+            sp2C = &globalCtx->colChkCtx;
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0]);
+            CollisionCheck_SetOC(globalCtx, sp2C, &this->colliders[1]);
+            CollisionCheck_SetOC(globalCtx, sp2C, &this->colliders[2]);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80871FB8.s")
 // void func_80871FB8(BgDodoago *this, GlobalContext *globalCtx) {
@@ -211,7 +265,7 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //     func_800AA000(500.0f, (u8)0x78U, (u8)0x14U, (u8)0xAU);
 //     if (Math_SmoothScaleMaxMinS((s16 *) &this->dyna.actor.shape, (u16)0x1333, (s16) ((s32) ((0x6E - this->unk_164) <<
 //     0x10) >> 0x10), (u16)0x3E8, 0x32) == 0) {
-//         BgDodoago_SetupAction(this, (void (*)(struct BgDodoago *, GlobalContext *)) &func_8087227C);
+//         BgDodoago_SetupAction(this, func_8087227C);
 //         Audio_PlaySoundGeneral((u16)0x281DU, &this->dyna.actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
 //         &D_801333E8); return;
 //     }
