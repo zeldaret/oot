@@ -123,9 +123,17 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80871FB8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_8087227C.s")
+void func_8087227C(BgDodoago *this, GlobalContext *globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80872288.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80872288.s")
+void func_80872288(BgDodoago *this, GlobalContext *globalCtx) {
+    globalCtx->unk_11D30[this->unk_164] = globalCtx->unk_11D30[this->unk_164] + 5;
+    if (globalCtx->unk_11D30[this->unk_164] == 0xFF) {
+        BgDodoago_SetupAction(this, func_80871CF4);
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Update.s")
 
