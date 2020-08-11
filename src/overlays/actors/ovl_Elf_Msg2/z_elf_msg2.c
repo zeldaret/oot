@@ -33,53 +33,45 @@ void func_809AD700(ElfMsg2 *this, ElfMsg2ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-#ifdef NON_MATCHING
-s32 func_809AD708(Actor* thisx, GlobalContext* globalCtx) {
+s32 func_809AD708(ElfMsg2 *this, GlobalContext* globalCtx) {
+    s32 temp_a1;
+    s32 roty = this->actor.posRot.rot.y;
 
-    s16 temp = thisx->posRot.rot.y;
-    s32 temp2;
-    Actor *new_var;
-
-    if (0 < temp && temp < 0x41) {
-        if (Flags_GetSwitch(globalCtx, temp - 1)) {
-            LogUtils_LogThreadId("../z_elf_msg2.c", 0xAB);
-            osSyncPrintf("\"共倒れ\" = %s\n", "共倒れ");
-            temp2 = ((new_var->params >> 8) & 0x3F);
-            if (temp2 != 0x3F) {
-                Flags_SetSwitch(globalCtx, temp2);
+    if (0 < roty && roty < 0x41) {
+            if (Flags_GetSwitch(globalCtx, roty - 1)) {
+                LOG_STRING("共倒れ","../z_elf_msg2.c",171);
+                temp_a1 = (this->actor.params >> 8) & 0x3F;
+                if (temp_a1 != 0x3F) {
+                    Flags_SetSwitch(globalCtx, temp_a1);
+                }
+                Actor_Kill(&this->actor);
+                return 1;
             }
-            Actor_Kill(new_var);
+    }
+    
+    if (this->actor.posRot.rot.y == -1) {
+        if (Flags_GetClear(globalCtx, this->actor.room)) {
+            LOG_STRING("共倒れ２","../z_elf_msg2.c",182);
+            temp_a1 = (this->actor.params >> 8) & 0x3F;
+            if (temp_a1 != 0x3F) {
+                Flags_SetSwitch(globalCtx, temp_a1);
+            }
+            Actor_Kill(&this->actor);
             return 1;
         }
     }
     
-    if (temp == -1) {
-        if (Flags_GetClear(globalCtx, new_var->room)) {
-            LogUtils_LogThreadId("../z_elf_msg2.c", 0xB6);
-            osSyncPrintf("\"共倒れ２\" = %s\n", "共倒れ２");
-            new_var = new_var;
-            temp2 = ((new_var->params >> 8) & 0x3F);
-            if (temp2 != 0x3F) {
-                Flags_SetSwitch(globalCtx, temp2);
-            }
-            Actor_Kill(new_var);
-            return 1;
-        }
+    temp_a1 = (this->actor.params >> 8) & 0x3F;
+    if (temp_a1 == 0x3F) {
+        return 0;
     }
-    temp2 = ((new_var->params >> 8) & 0x3F);
-    if (temp2 != 0x3F) {
-        if (Flags_GetSwitch(globalCtx, temp2)) {
-            LogUtils_LogThreadId("../z_elf_msg2.c", 0xC0);
-            osSyncPrintf("\"共倒れ\" = %s\n", "共倒れ");
-            Actor_Kill(new_var);
-            return 1;
-        }
+    if (Flags_GetSwitch(globalCtx, temp_a1)) {
+        LOG_STRING("共倒れ","../z_elf_msg2.c",192);
+        Actor_Kill(&this->actor);
+        return 1;
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/func_809AD708.s")
-#endif
 
 extern InitChainEntry D_809ADC30[];
 
@@ -149,9 +141,27 @@ void func_809ADA28(ElfMsg2* this, GlobalContext* globalCtx) {
 void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg2* this = THIS;
     if (!func_809AD708(thisx, globalCtx)) {
-        this->actionFunc(thisx, globalCtx);
+        this->actionFunc(this, globalCtx);
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Update.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Draw.s")
+extern void* D_809ADC38;
+extern void* D_809ADCF8;
+
+void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    GraphicsContext *gfxCtx;
+    Gfx* dispRefs[4];
+    
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg2.c", 355);
+    if (nREG(87) != 0) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 100, 100, 255, nREG(87));
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 362),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyXlu.p++,&D_809ADC38);
+        gSPDisplayList(gfxCtx->polyXlu.p++,&D_809ADCF8);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg2.c", 367);
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg2/ElfMsg2_Draw.s")
