@@ -5,7 +5,7 @@
  */
 
 #include "z_elf_msg2.h"
-#include "vt.h"
+#include <vt.h>
 
 #define FLAGS 0x00000010
 
@@ -33,7 +33,7 @@ const ActorInit Elf_Msg2_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale.x, 200, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
 };
 
@@ -71,7 +71,7 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
  */
 s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     // Checking a switch or temp switch flag (from rot.y):
-    if (0x00 < this->actor.posRot.rot.y && this->actor.posRot.rot.y < 0x41 &&
+    if (this->actor.posRot.rot.y > 0 && this->actor.posRot.rot.y < 0x41 &&
         Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171);
         if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
@@ -105,18 +105,18 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, globalCtx)) {
-        if (0 < this->actor.posRot.rot.x && this->actor.posRot.rot.x < 8) {
-            this->actor.unk_1F = (this->actor.posRot.rot.x - 1);
+        if (this->actor.posRot.rot.x > 0 && this->actor.posRot.rot.x < 8) {
+            this->actor.unk_1F = this->actor.posRot.rot.x - 1;
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.posRot.rot.y >= 0x41) {
             ElfMsg2_SetupAction(this, ElfMsg2_TextInit);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
-            this->actor.flags = (this->actor.flags | 0x00040001);
+            this->actor.flags |= 0x00040001;
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
-        this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0x0000;
+        this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
     }
 }
 
@@ -142,9 +142,9 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
             if (switchFlag != 0x3F) {
                 Flags_SetSwitch(globalCtx, switchFlag);
             }
-            return;
+        } else {
+            ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
         }
-        ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
     }
 }
 
@@ -158,10 +158,10 @@ void ElfMsg2_CheckForRead(ElfMsg2* this, GlobalContext* globalCtx) {
 }
 
 void ElfMsg2_TextInit(ElfMsg2* this, GlobalContext* globalCtx) {
-    if (0x41 <= this->actor.posRot.rot.y && this->actor.posRot.rot.y < 0x81) {
+    if (this->actor.posRot.rot.y >= 0x41 && this->actor.posRot.rot.y < 0x81) {
         if (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 0x41)) {
             ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
-            this->actor.flags = this->actor.flags | 0x00040001;
+            this->actor.flags |= 0x00040001;
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
     }
