@@ -135,26 +135,26 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009C78), 0, -10.0f);
     this->actor.flags = (this->actor.flags | 1);
-    this->actor.textId = 0x7000; // 	I can't catch that Cucco! 
+    this->actor.textId = 0x7000; //I can't catch that Cucco! 
     if ((((gSaveContext.eventChkInf[8]) & 1))&& (this->unk_27A == 0)) {
             this->actor.textId = 0x70EA; //That scary-looking man took off out of here really fast !
     }
         switch ((func_8008F080(globalCtx) - 1)) {
-            case 0://Keaton Mask
+            case KEATON_MASK:
                 this->actor.textId = 0x7118; //Oh wow! It's Keaton! Hi, Keaton ! 
                 break;
-            case 2://Spooky Mask
+            case SPOOKY_MASK:
                 this->actor.textId = 0x7119; //How spooky! There's a boy in Kakariko Village who was looking for a mask like that! 
                 break;
-            case 3://Bunny Hood
+            case BUNNY_HOOD:
             
-            case 5: //Zora Mask
-            case 6: //Gerudo Mask
+            case ZORA_MASK:
+            case GERUDO_MASK:
                 this->actor.textId = 0x711A;//Hmm... well... don't you have any other masks ?
                 break;
-            case 1://Skull Mask
-            case 4: //Goron Mask
-            case 7: //Mask of Truth
+            case SKULL_MASK:
+            case GORON_MASK:
+            case MASK_OF_TRUTH:
                 this->actor.textId = 0x711B;//What a strange mask!  Hee hah haa ! 
                 break;
         }
