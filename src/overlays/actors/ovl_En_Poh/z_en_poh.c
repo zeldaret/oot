@@ -212,7 +212,6 @@ void func_80ADE16C(EnPoh* this) {
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80ADE1BC.s")
-// Need to figure out animation headers
 void func_80ADE1BC(EnPoh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, this->unk_2A4->unk_10);
     this->actionFunc = func_80ADEC9C;
@@ -891,8 +890,7 @@ void func_80AE03C4(EnPoh* this) {
     }
 }
 
-#ifdef NON_MATCHING
-// Single regalloc
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/EnPoh_Update.s")
 void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = THIS;
 
@@ -907,19 +905,16 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, &this->limbDrawTbl, &this->unk_21C, 12);
             this->actor.draw = func_80AE1148;
             this->colliderSph.list[0].dim.joint = 9;
-            this->colliderSph.list[0].dim.modelSphere.center.y *= -1;
+            this->colliderSph.list->dim.modelSphere.center.y *= -1;
             this->actor.shape.rot.y = this->actor.posRot.rot.y = -0x4000;
-            this->colliderCyl.dim.radius = 0x14;
-            this->colliderCyl.dim.height = 0x37;
-            this->colliderCyl.dim.yShift = 0xF;
+            this->colliderCyl.dim.radius = 20;
+            this->colliderCyl.dim.height = 55;
+            this->colliderCyl.dim.yShift = 15;
         }
-        this->actor.flags &= -0x11;
+        this->actor.flags &= ~0x10;
         func_80ADE3DC(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/EnPoh_Update.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/func_80AE067C.s")
 void func_80AE067C(EnPoh* this) {

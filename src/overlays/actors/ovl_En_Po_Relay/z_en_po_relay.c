@@ -147,13 +147,12 @@ void func_80AD7944(Vec3f* dest, Vec3s* in) {
     dest->z = in->z;
 }
 
-#ifdef NON_MATCHING
-// sra vs srl
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7984.s")
 void func_80AD7984(EnPoRelay* this) {
     Vec3f vec;
 
     func_80AD7944(&vec, &D_80AD8C30[this->unk_198]);
-    this->unk_196 = (u32)((s16)(this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000) / 0x800U) % 32;
+    this->unk_196 = ((s16)(this->actor.shape.rot.y - this->actor.posRot.rot.y - 0x8000) >> 0xB) % 32U;
     func_80088B34(0);
     this->unk_194 = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
@@ -161,9 +160,6 @@ void func_80AD7984(EnPoRelay* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = func_80AD7C64;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7984.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7A4C.s")
 void func_80AD7A4C(EnPoRelay* this) {
