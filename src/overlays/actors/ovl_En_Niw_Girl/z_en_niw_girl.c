@@ -140,21 +140,21 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x70EA; //That scary-looking man took off out of here really fast !
     }
         switch ((func_8008F080(globalCtx) - 1)) {
-            case 0:
+            case 0://Keaton Mask
                 this->actor.textId = 0x7118; //Oh wow! It's Keaton! Hi, Keaton ! 
                 break;
-            case 2:
+            case 2://Spooky Mask
                 this->actor.textId = 0x7119; //How spooky! There's a boy in Kakariko Village who was looking for a mask like that! 
                 break;
-            case 3:
+            case 3://Bunny Hood
             
-            case 5:
-            case 6:
+            case 5: //Zora Mask
+            case 6: //Gerudo Mask
                 this->actor.textId = 0x711A;//Hmm... well... don't you have any other masks ?
                 break;
-            case 1:
-            case 4:
-            case 7:
+            case 1://Skull Mask
+            case 4: //Goron Mask
+            case 7: //Mask of Truth
                 this->actor.textId = 0x711B;//What a strange mask!  Hee hah haa ! 
                 break;
         }
