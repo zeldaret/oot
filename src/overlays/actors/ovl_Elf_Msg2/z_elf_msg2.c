@@ -76,6 +76,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     // Checking a switch or temp switch flag (from rot.y):
     if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
         (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
+            // Mutual destruction
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171);
         if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, (this->actor.params >> 8 & 0x3F));
@@ -85,6 +86,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     }
     // Checking a room clear flag:
     else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
+        // Mutual destruction 2
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
@@ -96,6 +98,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     }
     // Checking a switch or temp switch flag (from params):
     else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
+        // Mutual destruction
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 192);
         Actor_Kill(&this->actor);
         return 1;
