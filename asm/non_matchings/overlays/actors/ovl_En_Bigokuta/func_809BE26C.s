@@ -77,7 +77,7 @@ glabel func_809BE26C
 /* 01718 809BE378 82050003 */  lb      $a1, 0x0003($s0)           ## 00000003
 /* 0171C 809BE37C 8FAC0044 */  lw      $t4, 0x0044($sp)
 /* 01720 809BE380 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
-/* 01724 809BE384 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 01724 809BE384 0C0169DF */  jal     func_80057FC4Flags
 /* 01728 809BE388 8D840790 */  lw      $a0, 0x0790($t4)           ## 00000790
 /* 0172C 809BE38C 8FAD0044 */  lw      $t5, 0x0044($sp)
 /* 01730 809BE390 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004

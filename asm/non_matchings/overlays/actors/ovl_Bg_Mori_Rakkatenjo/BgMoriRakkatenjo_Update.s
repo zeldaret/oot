@@ -50,7 +50,7 @@ glabel BgMoriRakkatenjo_Update
 /* 00790 808A5D00 0C016BF5 */  jal     Camera_SetCameraData              ## setCameraData
 /* 00794 808A5D04 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00798 808A5D08 8E240790 */  lw      $a0, 0x0790($s1)           ## 00000790
-/* 0079C 808A5D0C 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 0079C 808A5D0C 0C0169DF */  jal     func_80057FC4Flags
 /* 007A0 808A5D10 24050027 */  addiu   $a1, $zero, 0x0027         ## $a1 = 00000027
 /* 007A4 808A5D14 1000000E */  beq     $zero, $zero, .L808A5D50
 /* 007A8 808A5D18 8FBF002C */  lw      $ra, 0x002C($sp)
@@ -65,7 +65,7 @@ glabel BgMoriRakkatenjo_Update
 
 /* 007C8 808A5D38 24845FD8 */  addiu   $a0, $a0, %lo(D_808A5FD8)  ## $a0 = 808A5FD8
 /* 007CC 808A5D3C 8E240790 */  lw      $a0, 0x0790($s1)           ## 00000790
-/* 007D0 808A5D40 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 007D0 808A5D40 0C0169DF */  jal     func_80057FC4Flags
 /* 007D4 808A5D44 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004
 /* 007D8 808A5D48 A6000000 */  sh      $zero, 0x0000($s0)         ## 808A5E60
 /* 007DC 808A5D4C 8FBF002C */  lw      $ra, 0x002C($sp)

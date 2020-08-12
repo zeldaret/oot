@@ -174,7 +174,7 @@ void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
 
     f0 = 1100.0f - (player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
-    Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
+    func_80057FC4Flags(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.shape.rot.z = -this->dyna.actor.shape.rot.z;
     }

@@ -66,7 +66,7 @@ glabel func_80058148
 /* ACF3D0 80058230 E60E00EC */  swc1  $f14, 0xec($s0)
 /* ACF3D4 80058234 E6060054 */  swc1  $f6, 0x54($s0)
 /* ACF3D8 80058238 AFA50024 */  sw    $a1, 0x24($sp)
-/* ACF3DC 8005823C 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* ACF3DC 8005823C 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* ACF3E0 80058240 AFA40020 */   sw    $a0, 0x20($sp)
 /* ACF3E4 80058244 8FB80020 */  lw    $t8, 0x20($sp)
 /* ACF3E8 80058248 44801000 */  mtc1  $zero, $f2

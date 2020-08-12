@@ -141,10 +141,10 @@ void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_16A == 0) {
             this->unk_16A = 3;
         }
-        Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], 0x30);
+        func_80057FC4Flags(globalCtx->cameraPtrs[0], 0x30);
     } else if (func_8004356C(thisx) == 0) {
         if (this->unk_16A != 0) {
-            Camera_ChangeSettingDefaultFlags(globalCtx->cameraPtrs[0], 3);
+            func_80057FC4Flags(globalCtx->cameraPtrs[0], 3);
         }
         this->unk_16A = 0;
     }

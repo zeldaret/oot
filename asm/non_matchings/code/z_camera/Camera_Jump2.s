@@ -653,7 +653,7 @@ glabel Camera_Jump2
 /* AC1D18 8004AB78 A7A300B8 */  sh    $v1, 0xb8($sp)
 .L8004AB7C:
 /* AC1D1C 8004AB7C 8FA40030 */  lw    $a0, 0x30($sp)
-/* AC1D20 8004AB80 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC1D20 8004AB80 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC1D24 8004AB84 8FA50034 */   lw    $a1, 0x34($sp)
 /* AC1D28 8004AB88 8FAF0030 */  lw    $t7, 0x30($sp)
 /* AC1D2C 8004AB8C 27A60060 */  addiu $a2, $sp, 0x60
@@ -682,7 +682,7 @@ glabel Camera_Jump2
 /* AC1D88 8004ABE8 A7A000B0 */  sh    $zero, 0xb0($sp)
 /* AC1D8C 8004ABEC 8FA50034 */  lw    $a1, 0x34($sp)
 /* AC1D90 8004ABF0 E7AA00AC */  swc1  $f10, 0xac($sp)
-/* AC1D94 8004ABF4 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC1D94 8004ABF4 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC1D98 8004ABF8 A7AE00B2 */   sh    $t6, 0xb2($sp)
 /* AC1D9C 8004ABFC 02002025 */  move  $a0, $s0
 /* AC1DA0 8004AC00 8FA50034 */  lw    $a1, 0x34($sp)
@@ -708,7 +708,7 @@ glabel Camera_Jump2
 /* AC1DEC 8004AC4C A7A200B8 */  sh    $v0, 0xb8($sp)
 /* AC1DF0 8004AC50 8FA40038 */  lw    $a0, 0x38($sp)
 /* AC1DF4 8004AC54 8FA50034 */  lw    $a1, 0x34($sp)
-/* AC1DF8 8004AC58 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC1DF8 8004AC58 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC1DFC 8004AC5C 27A600B4 */   addiu $a2, $sp, 0xb4
 /* AC1E00 8004AC60 02002025 */  move  $a0, $s0
 /* AC1E04 8004AC64 8FA50034 */  lw    $a1, 0x34($sp)

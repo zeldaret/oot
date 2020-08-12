@@ -15,12 +15,12 @@ glabel func_80B906A4
 /* 01C58 80B906D8 15C10006 */  bne     $t6, $at, .L80B906F4
 /* 01C5C 80B906DC 00000000 */  nop
 /* 01C60 80B906E0 8C640790 */  lw      $a0, 0x0790($v1)           ## 00000790
-/* 01C64 80B906E4 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 01C64 80B906E4 0C0169DF */  jal     func_80057FC4Flags
 /* 01C68 80B906E8 2405002D */  addiu   $a1, $zero, 0x002D         ## $a1 = 0000002D
 /* 01C6C 80B906EC 10000003 */  beq     $zero, $zero, .L80B906FC
 /* 01C70 80B906F0 00000000 */  nop
 .L80B906F4:
-/* 01C74 80B906F4 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 01C74 80B906F4 0C0169DF */  jal     func_80057FC4Flags
 /* 01C78 80B906F8 8C640790 */  lw      $a0, 0x0790($v1)           ## 00000790
 .L80B906FC:
 /* 01C7C 80B906FC 0C2E3AF9 */  jal     func_80B8EBE4

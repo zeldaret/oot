@@ -159,7 +159,7 @@ glabel L80B5DCB4
 /* 02534 80B5DCE4 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 02538 80B5DCE8 000C6880 */  sll     $t5, $t4,  2
 /* 0253C 80B5DCEC 022D7021 */  addu    $t6, $s1, $t5
-/* 02540 80B5DCF0 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 02540 80B5DCF0 0C0169DF */  jal     func_80057FC4Flags
 /* 02544 80B5DCF4 8DC40790 */  lw      $a0, 0x0790($t6)           ## 00000790
 /* 02548 80B5DCF8 240F0007 */  addiu   $t7, $zero, 0x0007         ## $t7 = 00000007
 /* 0254C 80B5DCFC 3C190001 */  lui     $t9, 0x0001                ## $t9 = 00010000

@@ -48,7 +48,7 @@ glabel func_80046E20
 /* ABE048 80046EA8 24E7CE80 */  addiu $a3, %lo(D_8015CE80) # addiu $a3, $a3, -0x3180
 /* ABE04C 80046EAC AFA60030 */  sw    $a2, 0x30($sp)
 /* ABE050 80046EB0 AFA50034 */  sw    $a1, 0x34($sp)
-/* ABE054 80046EB4 0C011517 */  jal   func_8004545C
+/* ABE054 80046EB4 0C011517 */  jal   Camera_BGCheckCorner
 /* ABE058 80046EB8 AFB00010 */   sw    $s0, 0x10($sp)
 /* ABE05C 80046EBC 3C018016 */  lui   $at, %hi(D_8015CE80)
 /* ABE060 80046EC0 C424CE8C */  lwc1  $f4, %lo(D_8015CE80+0xC)($at)
@@ -116,7 +116,7 @@ glabel func_80046E20
 /* ABE150 80046FB0 C5480000 */  lwc1  $f8, ($t2)
 /* ABE154 80046FB4 8FA50034 */  lw    $a1, 0x34($sp)
 /* ABE158 80046FB8 27A60048 */  addiu $a2, $sp, 0x48
-/* ABE15C 80046FBC 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* ABE15C 80046FBC 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* ABE160 80046FC0 E7A80048 */   swc1  $f8, 0x48($sp)
 /* ABE164 80046FC4 8E0C0000 */  lw    $t4, ($s0)
 /* ABE168 80046FC8 3C068016 */  lui   $a2, %hi(D_8015CED0) # $a2, 0x8016
@@ -151,7 +151,7 @@ glabel func_80046E20
 /* ABE1DC 8004703C 000D7C03 */  sra   $t7, $t5, 0x10
 /* ABE1E0 80047040 000FC043 */  sra   $t8, $t7, 1
 /* ABE1E4 80047044 0178C821 */  addu  $t9, $t3, $t8
-/* ABE1E8 80047048 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* ABE1E8 80047048 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* ABE1EC 8004704C A7B9004C */   sh    $t9, 0x4c($sp)
 /* ABE1F0 80047050 3C0E8016 */  lui   $t6, %hi(D_8015CE80+0x20) # $t6, 0x8016
 /* ABE1F4 80047054 85CECEA0 */  lh    $t6, %lo(D_8015CE80+0x20)($t6)
@@ -204,7 +204,7 @@ glabel func_80046E20
 /* ABE2A8 80047108 8FA50034 */  lw    $a1, 0x34($sp)
 /* ABE2AC 8004710C C56A0000 */  lwc1  $f10, ($t3)
 /* ABE2B0 80047110 27A60048 */  addiu $a2, $sp, 0x48
-/* ABE2B4 80047114 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* ABE2B4 80047114 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* ABE2B8 80047118 E7AA0048 */   swc1  $f10, 0x48($sp)
 /* ABE2BC 8004711C 10000098 */  b     .L80047380
 /* ABE2C0 80047120 8FBF002C */   lw    $ra, 0x2c($sp)
@@ -326,7 +326,7 @@ glabel func_80046E20
 /* ABE474 800472D4 46065202 */  mul.s $f8, $f10, $f6
 /* ABE478 800472D8 46028481 */  sub.s $f18, $f16, $f2
 /* ABE47C 800472DC 46124282 */  mul.s $f10, $f8, $f18
-/* ABE480 800472E0 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* ABE480 800472E0 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* ABE484 800472E4 E7AA0040 */   swc1  $f10, 0x40($sp)
 /* ABE488 800472E8 10000025 */  b     .L80047380
 /* ABE48C 800472EC 8FBF002C */   lw    $ra, 0x2c($sp)

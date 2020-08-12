@@ -173,7 +173,7 @@ glabel Camera_Subj4
 /* AC7F3C 80050D9C E7A60064 */  swc1  $f6, 0x64($sp)
 /* AC7F40 80050DA0 860D0030 */  lh    $t5, 0x30($s0)
 /* AC7F44 80050DA4 27A60064 */  addiu $a2, $sp, 0x64
-/* AC7F48 80050DA8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC7F48 80050DA8 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC7F4C 80050DAC A7AD006A */   sh    $t5, 0x6a($sp)
 /* AC7F50 80050DB0 860E0032 */  lh    $t6, 0x32($s0)
 /* AC7F54 80050DB4 3C013F80 */  li    $at, 0x3F800000 # 0.000000
@@ -253,7 +253,7 @@ glabel Camera_Subj4
 /* AC8070 80050ED0 0006000D */  break 6
 .L80050ED4:
 /* AC8074 80050ED4 A7A90060 */  sh    $t1, 0x60($sp)
-/* AC8078 80050ED8 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC8078 80050ED8 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC807C 80050EDC 00000000 */   nop
 /* AC8080 80050EE0 8FA70034 */  lw    $a3, 0x34($sp)
 /* AC8084 80050EE4 00001025 */  move  $v0, $zero
@@ -313,7 +313,7 @@ glabel Camera_Subj4
 /* AC8154 80050FB4 860C0030 */  lh    $t4, 0x30($s0)
 /* AC8158 80050FB8 A7A80068 */  sh    $t0, 0x68($sp)
 /* AC815C 80050FBC E7AA0064 */  swc1  $f10, 0x64($sp)
-/* AC8160 80050FC0 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC8160 80050FC0 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC8164 80050FC4 A7AC006A */   sh    $t4, 0x6a($sp)
 /* AC8168 80050FC8 860D002C */  lh    $t5, 0x2c($s0)
 /* AC816C 80050FCC 25A90BB8 */  addiu $t1, $t5, 0xbb8

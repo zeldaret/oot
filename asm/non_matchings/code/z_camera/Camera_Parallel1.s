@@ -586,7 +586,7 @@ glabel Camera_Parallel1
 /* AC09D4 80049834 8FA40038 */  lw    $a0, 0x38($sp)
 .L80049838:
 /* AC09D8 80049838 8FA5003C */  lw    $a1, 0x3c($sp)
-/* AC09DC 8004983C 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC09DC 8004983C 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC09E0 80049840 27A600A8 */   addiu $a2, $sp, 0xa8
 /* AC09E4 80049844 860F0140 */  lh    $t7, 0x140($s0)
 /* AC09E8 80049848 24010007 */  li    $at, 7

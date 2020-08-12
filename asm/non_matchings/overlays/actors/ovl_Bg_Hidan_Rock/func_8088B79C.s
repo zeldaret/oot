@@ -77,7 +77,7 @@ glabel func_8088B79C
 /* 00830 8088B8B0 8FB90024 */  lw      $t9, 0x0024($sp)
 .L8088B8B4:
 /* 00834 8088B8B4 24050030 */  addiu   $a1, $zero, 0x0030         ## $a1 = 00000030
-/* 00838 8088B8B8 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 00838 8088B8B8 0C0169DF */  jal     func_80057FC4Flags
 /* 0083C 8088B8BC 8F240790 */  lw      $a0, 0x0790($t9)           ## 00000790
 /* 00840 8088B8C0 1000000E */  beq     $zero, $zero, .L8088B8FC
 /* 00844 8088B8C4 8FBF001C */  lw      $ra, 0x001C($sp)
@@ -91,7 +91,7 @@ glabel func_8088B79C
 /* 00860 8088B8E0 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 00864 8088B8E4 51000004 */  beql    $t0, $zero, .L8088B8F8
 /* 00868 8088B8E8 A2000169 */  sb      $zero, 0x0169($s0)         ## 00000169
-/* 0086C 8088B8EC 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 0086C 8088B8EC 0C0169DF */  jal     func_80057FC4Flags
 /* 00870 8088B8F0 8D240790 */  lw      $a0, 0x0790($t1)           ## 00000790
 /* 00874 8088B8F4 A2000169 */  sb      $zero, 0x0169($s0)         ## 00000169
 .L8088B8F8:

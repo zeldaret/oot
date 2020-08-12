@@ -30,7 +30,7 @@ glabel func_80B9075C
 /* 01D4C 80B907CC 14410026 */  bne     $v0, $at, .L80B90868
 /* 01D50 80B907D0 00000000 */  nop
 .L80B907D4:
-/* 01D54 80B907D4 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 01D54 80B907D4 0C0169DF */  jal     func_80057FC4Flags
 /* 01D58 80B907D8 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 01D5C 80B907DC 10000022 */  beq     $zero, $zero, .L80B90868
 /* 01D60 80B907E0 00000000 */  nop
@@ -47,12 +47,12 @@ glabel func_80B9075C
 /* 01D88 80B90808 15010006 */  bne     $t0, $at, .L80B90824
 /* 01D8C 80B9080C 00000000 */  nop
 /* 01D90 80B90810 8E040790 */  lw      $a0, 0x0790($s0)           ## 00000790
-/* 01D94 80B90814 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 01D94 80B90814 0C0169DF */  jal     func_80057FC4Flags
 /* 01D98 80B90818 2405002D */  addiu   $a1, $zero, 0x002D         ## $a1 = 0000002D
 /* 01D9C 80B9081C 10000012 */  beq     $zero, $zero, .L80B90868
 /* 01DA0 80B90820 00000000 */  nop
 .L80B90824:
-/* 01DA4 80B90824 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 01DA4 80B90824 0C0169DF */  jal     func_80057FC4Flags
 /* 01DA8 80B90828 8E040790 */  lw      $a0, 0x0790($s0)           ## 00000790
 /* 01DAC 80B9082C 1000000E */  beq     $zero, $zero, .L80B90868
 /* 01DB0 80B90830 00000000 */  nop
@@ -69,7 +69,7 @@ glabel func_80B9075C
 /* 01DD8 80B90858 14410003 */  bne     $v0, $at, .L80B90868
 /* 01DDC 80B9085C 00000000 */  nop
 .L80B90860:
-/* 01DE0 80B90860 0C0169DF */  jal     Camera_ChangeSettingDefaultFlags
+/* 01DE0 80B90860 0C0169DF */  jal     func_80057FC4Flags
 /* 01DE4 80B90864 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 .L80B90868:
 /* 01DE8 80B90868 0C2E3AF9 */  jal     func_80B8EBE4

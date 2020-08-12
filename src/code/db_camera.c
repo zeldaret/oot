@@ -25,7 +25,7 @@ typedef struct {
 extern DBCSEditorSlot sDbgEditorSlots[];
 extern char sDbgEditorStates[];
 
-// DbgCamera_Vec3fVecSphAdd
+// DbgCamera_Vec3fVecSphGeoAdd
 Vec3f *func_800B3B50(Vec3f *dest, Vec3f *a, VecSph *b) {
     Vec3f copy, vecB;
     OLib_VecSphGeoToVec3f(&vecB, b);

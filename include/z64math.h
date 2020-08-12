@@ -93,7 +93,10 @@ typedef struct {
     (dst)->y = (v0)->y + ((v1y - (v0)->y) * t); \
     (dst)->z = (v0)->z + ((v1z - (v0)->z) * t); \
 }
+
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
+#define COLPOLY_NORM_FRAC (1.0f / 32767)
+#define BGCHECK_Y_MIN -32000.0f
 
 /**
  * Trig macros

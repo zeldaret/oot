@@ -22,11 +22,11 @@ f32 func_800437F0(f32 arg0, f32 arg1) {
     f32 ret = fabsf(arg1);
 
     if (arg0 < ret) {
-        ret = 1;
-    } else if (ret < (f32)arg0 * (1 - percent)) { //! float cast needed to match
-        ret = (SQ(arg1) * (1 - percent)) / SQ((1 - percent) * arg0);
+        ret = 1.0f;
+    } else if (ret < (f32)arg0 * (1.0f - percent)) { //! float cast needed to match
+        ret = (SQ(arg1) * (1.0f - percent)) / SQ((1.0f - percent) * arg0);
     } else {
-        ret = 1 - (0.4f * SQ(arg0 - ret)) / SQ(0.4f * arg0);
+        ret = 1.0f - (0.4f * SQ(arg0 - ret)) / SQ(0.4f * arg0);
     }
 
     return ret;
@@ -147,7 +147,7 @@ Vec3f* Camera_Vec3sToVec3f(Vec3f* dest, Vec3s* src) {
     return dest;
 }
 
-Vec3f* Camera_Vec3fVecSphAdd(Vec3f* dest, Vec3f* a, VecSph* b) {
+Vec3f* Camera_Vec3fVecSphGeoAdd(Vec3f* dest, Vec3f* a, VecSph* b) {
     Vec3f copy, vecB;
     OLib_VecSphGeoToVec3f(&vecB, b);
 
@@ -175,27 +175,28 @@ Vec3f* Camera_Vec3fScaleXYZFactor(Vec3f* dest, Vec3f* src, Vec3f* scale, f32 sca
 */
 s32 func_80043D18(Camera* camera, Vec3f* from, CamColChk* to) {
     CollisionContext* colCtx;
-    Vec3f collidePoint, fromPoint, fromToNorm;
+    Vec3f toNewPos, toPoint, fromToNorm;
     f32 floorPolyY;
     CollisionPoly* floorPoly;
-    s32 bgId;
+    s32 floorBgId;
     VecSph fromToOffset;
 
     colCtx = &camera->globalCtx->colCtx;
     OLib_Vec3fDiffToVecSphGeo(&fromToOffset, from, &to->pos);
     fromToOffset.r += 8.0f;
-    Camera_Vec3fVecSphAdd(&fromPoint, from, &fromToOffset);
+    Camera_Vec3fVecSphGeoAdd(&toPoint, from, &fromToOffset);
 
-    if (func_8003DD6C(colCtx, from, &fromPoint, &collidePoint, &to->poly, 1, 1, 1, -1, &to->bgId) == 0) {
+    if (!func_8003DD6C(colCtx, from, &toPoint, &toNewPos, &to->poly, 1, 1, 1, -1, &to->bgId)) {
+        // no poly in path.
         OLib_Vec3fDistNormalize(&fromToNorm, from, &to->pos);
 
         to->norm.x = -fromToNorm.x;
         to->norm.y = -fromToNorm.y;
         to->norm.z = -fromToNorm.z;
 
-        collidePoint = to->pos;
-        collidePoint.y += 5.0f;
-        floorPolyY = func_8003CCA4(colCtx, &floorPoly, &bgId, &collidePoint);
+        toNewPos = to->pos;
+        toNewPos.y += 5.0f;
+        floorPolyY = func_8003CCA4(colCtx, &floorPoly, &floorBgId, &toNewPos);
 
         if ((to->pos.y - floorPolyY) > 5.0f) {
             // if the y distance from the check point to the floor is more than 5 units
@@ -207,91 +208,92 @@ s32 func_80043D18(Camera* camera, Vec3f* from, CamColChk* to) {
         }
 
         to->poly = floorPoly;
-        collidePoint.y = floorPolyY + 1.0f;
-        to->bgId = bgId;
+        toNewPos.y = floorPolyY + 1.0f;
+        to->bgId = floorBgId;
     }
     
-    to->norm.x = to->poly->norm.x * (1.f / 32767);
-    to->norm.y = to->poly->norm.y * (1.f / 32767);
-    to->norm.z = to->poly->norm.z * (1.f / 32767);
-    to->pos.x = to->norm.x + collidePoint.x;
-    to->pos.y = to->norm.y + collidePoint.y;
-    to->pos.z = to->norm.z + collidePoint.z;
+    to->norm.x = to->poly->norm.x * COLPOLY_NORM_FRAC;
+    to->norm.y = to->poly->norm.y * COLPOLY_NORM_FRAC;
+    to->norm.z = to->poly->norm.z * COLPOLY_NORM_FRAC;
+    to->pos.x = to->norm.x + toNewPos.x;
+    to->pos.y = to->norm.y + toNewPos.y;
+    to->pos.z = to->norm.z + toNewPos.z;
 
-    // @bug: uses uninitalized bgId, doesn't seem to be an issue though since checks against this function are
-    // simply 0/1
-    return bgId + 1;
+    return floorBgId + 1;
 }
 
-s32 func_80043F34(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
-    CamColChk sp20;
-    s32 ret;
+s32 func_80043F34(Camera* camera, Vec3f* from, Vec3f* to) {
+    CamColChk toCol;
+    s32 bgId;
 
-    sp20.pos = *arg2;
-    ret = func_80043D18(camera, arg1, &sp20);
-    *arg2 = sp20.pos;
-    return ret;
+    toCol.pos = *to;
+    bgId = func_80043D18(camera, from, &toCol);
+    *to = toCol.pos;
+    return bgId;
 }
 
-s32 func_80043F94(Camera *camera, Vec3f *arg1, CamColChk *arg2) {
+s32 func_80043F94(Camera *camera, Vec3f *from, CamColChk *to) {
     CollisionContext* colCtx;
-    Vec3f sp78;
-    Vec3f sp6C;
-    Vec3f sp60;
+    Vec3f toNewPos;
+    Vec3f toPos;
+    Vec3f fromToNorm;
     Vec3f playerFloorNormF;
-    f32 temp_f0;
-    CollisionPoly *sp4C;
-    s32 sp48;
-    VecSph sp40;
+    f32 floorY;
+    CollisionPoly *floorPoly;
+    s32 bgId;
+    VecSph fromToGeo;
     
     colCtx = &camera->globalCtx->colCtx;
-    OLib_Vec3fDiffToVecSphGeo(&sp40, arg1, &arg2->pos);
-    sp40.r += 8.0f;
-    Camera_Vec3fVecSphAdd(&sp6C, arg1, &sp40);
-    if (!func_8003DD6C(colCtx, arg1, &sp6C, &sp78, &arg2->poly, 1, 1, 1, -1, &arg2->bgId)) {
-        OLib_Vec3fDistNormalize(&sp60, arg1, &arg2->pos);
-        arg2->norm.x = -sp60.x;
-        arg2->norm.y = -sp60.y;
-        arg2->norm.z = -sp60.z;
-        sp78 = arg2->pos;
-        sp78.y += 5.0f;
-        temp_f0 = func_8003CCA4(colCtx, &sp4C, &sp48, &sp78);
-        if ((arg2->pos.y - temp_f0) > 5.0f) {
-            arg2->pos.x += arg2->norm.x;
-            arg2->pos.y += arg2->norm.y;
-            arg2->pos.z += arg2->norm.z;
+    OLib_Vec3fDiffToVecSphGeo(&fromToGeo, from, &to->pos);
+    fromToGeo.r += 8.0f;
+    Camera_Vec3fVecSphGeoAdd(&toPos, from, &fromToGeo);
+    if (!func_8003DD6C(colCtx, from, &toPos, &toNewPos, &to->poly, 1, 1, 1, -1, &to->bgId)) {
+        OLib_Vec3fDistNormalize(&fromToNorm, from, &to->pos);
+        to->norm.x = -fromToNorm.x;
+        to->norm.y = -fromToNorm.y;
+        to->norm.z = -fromToNorm.z;
+        toNewPos = to->pos;
+        toNewPos.y += 5.0f;
+        floorY = func_8003CCA4(colCtx, &floorPoly, &bgId, &toNewPos);
+        if ((to->pos.y - floorY) > 5.0f) {
+            // to is not on the ground or below it.
+            to->pos.x += to->norm.x;
+            to->pos.y += to->norm.y;
+            to->pos.z += to->norm.z;
             return 0;
         }
-        arg2->poly = sp4C;
-        sp78.y = temp_f0 + 1.0f;
-        arg2->bgId = sp48;
+        // to is touching the ground, move it up 1 unit.
+        to->poly = floorPoly;
+        toNewPos.y = floorY + 1.0f;
+        to->bgId = bgId;
     }
-    arg2->norm.x = arg2->poly->norm.x * (1.0f / 32767.0f);
-    arg2->norm.y = arg2->poly->norm.y * (1.0f / 32767.0f);
-    arg2->norm.z = arg2->poly->norm.z * (1.0f / 32767.0f);
-    if ((arg2->norm.y > 0.5f) || (arg2->norm.y < -0.8f)) {
-        arg2->pos.x = arg2->norm.x + sp78.x;
-        arg2->pos.y = arg2->norm.y + sp78.y;
-        arg2->pos.z = arg2->norm.z + sp78.z;
+    to->norm.x = to->poly->norm.x * COLPOLY_NORM_FRAC;
+    to->norm.y = to->poly->norm.y * COLPOLY_NORM_FRAC;
+    to->norm.z = to->poly->norm.z * COLPOLY_NORM_FRAC;
+    if ((to->norm.y > 0.5f) || (to->norm.y < -0.8f)) {
+        to->pos.x = to->norm.x + toNewPos.x;
+        to->pos.y = to->norm.y + toNewPos.y;
+        to->pos.z = to->norm.z + toNewPos.z;
     } else if (playerFloorPoly != NULL) {
-        playerFloorNormF.x = playerFloorPoly->norm.x * (1.0f / 32767.0f);
-        playerFloorNormF.y = playerFloorPoly->norm.y * (1.0f / 32767.0f);
-        playerFloorNormF.z = playerFloorPoly->norm.z * (1.0f / 32767.0f);
-        if (Math3D_LineSegTouchesPlane(playerFloorNormF.x, playerFloorNormF.y, playerFloorNormF.z, playerFloorPoly->dist, arg1, &sp6C, &sp78, 1)) {
-            arg2->norm = playerFloorNormF;
-            arg2->poly = playerFloorPoly;
-            arg2->bgId = camera->bgCheckId;
-            arg2->pos.x = arg2->norm.x + sp78.x;
-            arg2->pos.y = arg2->norm.y + sp78.y;
-            arg2->pos.z = arg2->norm.z + sp78.z;
+        playerFloorNormF.x = playerFloorPoly->norm.x * COLPOLY_NORM_FRAC;
+        playerFloorNormF.y = playerFloorPoly->norm.y * COLPOLY_NORM_FRAC;
+        playerFloorNormF.z = playerFloorPoly->norm.z * COLPOLY_NORM_FRAC;
+        if (Math3D_LineSegTouchesPlane(playerFloorNormF.x, playerFloorNormF.y, playerFloorNormF.z, playerFloorPoly->dist, from, &toPos, &toNewPos, 1)) {
+            // line is from->to is touching the poly the player is on.
+            to->norm = playerFloorNormF;
+            to->poly = playerFloorPoly;
+            to->bgId = camera->bgCheckId;
+            to->pos.x = to->norm.x + toNewPos.x;
+            to->pos.y = to->norm.y + toNewPos.y;
+            to->pos.z = to->norm.z + toNewPos.z;
         } else {
-            OLib_Vec3fDistNormalize(&sp60, arg1, &arg2->pos);
-            arg2->norm.x = -sp60.x;
-            arg2->norm.y = -sp60.y;
-            arg2->norm.z = -sp60.z;
-            arg2->pos.x += arg2->norm.x;
-            arg2->pos.y += arg2->norm.y;
-            arg2->pos.z += arg2->norm.z;
+            OLib_Vec3fDistNormalize(&fromToNorm, from, &to->pos);
+            to->norm.x = -fromToNorm.x;
+            to->norm.y = -fromToNorm.y;
+            to->norm.z = -fromToNorm.z;
+            to->pos.x += to->norm.x;
+            to->pos.y += to->norm.y;
+            to->pos.z += to->norm.z;
             return 0;
         }
     }
@@ -324,32 +326,32 @@ s32 func_800443A0(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
     return false;
 }
 
-f32 func_80044434(Camera* camera, Vec3f* arg1, Vec3f* arg2, s32* arg3) {
+f32 func_80044434(Camera* camera, Vec3f* floorNorm, Vec3f* arg2, s32* bgId) {
     s32 sp2C; // unused
-    CollisionPoly* sp28;
-    f32 temp_ret = func_8003C940(&camera->globalCtx->colCtx, &sp28, arg3, arg2);
+    CollisionPoly* floorPoly;
+    f32 temp_ret = func_8003C940(&camera->globalCtx->colCtx, &floorPoly, bgId, arg2);
 
-    if (temp_ret == -32000.0f) {
-        arg1->x = 0.0f;
-        arg1->z = 0.0f;
-        arg1->y = 1.0f;
+    if (temp_ret == BGCHECK_Y_MIN) {
+        floorNorm->x = 0.0f;
+        floorNorm->z = 0.0f;
+        floorNorm->y = 1.0f;
     } else {
-        arg1->x = sp28->norm.x * (1.f / 32767);
-        arg1->y = sp28->norm.y * (1.f / 32767);
-        arg1->z = sp28->norm.z * (1.f / 32767);
+        floorNorm->x = floorPoly->norm.x * COLPOLY_NORM_FRAC;
+        floorNorm->y = floorPoly->norm.y * COLPOLY_NORM_FRAC;
+        floorNorm->z = floorPoly->norm.z * COLPOLY_NORM_FRAC;
     }
 
     return temp_ret;
 }
 
-f32 func_80044510(Camera* camera, Vec3f* arg1) {
-    Vec3f sp2C, sp20;
-    s32 sp1C;
+f32 func_80044510(Camera* camera, Vec3f* pos) {
+    Vec3f posCheck, floorNorm;
+    s32 bgId;
 
-    sp2C = *arg1;
-    sp2C.y += 80.0f;
+    posCheck = *pos;
+    posCheck.y += 80.0f;
 
-    return func_80044434(camera, &sp20, &sp2C, &sp1C);
+    return func_80044434(camera, &floorNorm, &posCheck, &bgId);
 }
 
 f32 func_80044568(Camera *camera, Vec3f *norm, Vec3f *pos, u32 *bgId) {
@@ -360,20 +362,20 @@ f32 func_80044568(Camera *camera, Vec3f *norm, Vec3f *pos, u32 *bgId) {
 
     for(i = 3; i > 0; i--){
         floorY = func_8003CCA4(colCtx, &floorPoly, bgId, pos);
-        if (floorY == -32000.0f || (camera->playerGroundY < floorY && !((floorPoly->norm.y * (1.0f / 32767.0f)) > 0.5f))) {
+        if (floorY == BGCHECK_Y_MIN || (camera->playerGroundY < floorY && !((floorPoly->norm.y * COLPOLY_NORM_FRAC) > 0.5f))) {
             norm->x = 0.0f;
             norm->y = 1.0f;
             norm->z = 0.0f;
-            floorY = -32000.0f;
+            floorY = BGCHECK_Y_MIN;
             break;
         } else if (func_80041D4C(colCtx, floorPoly, *bgId) == 1) {
             // poly behavior == 1, what is 1? grass in kokiri forest
             pos->y = floorY - 10.0f;
             continue;
         } else {
-            norm->x = floorPoly->norm.x * (1.0f / 32767.0f);
-            norm->y = floorPoly->norm.y * (1.0f / 32767.0f);
-            norm->z = floorPoly->norm.z * (1.0f / 32767.0f);
+            norm->x = floorPoly->norm.x * COLPOLY_NORM_FRAC;
+            norm->y = floorPoly->norm.y * COLPOLY_NORM_FRAC;
+            norm->z = floorPoly->norm.z * COLPOLY_NORM_FRAC;
             break;
         }
     }
@@ -408,39 +410,47 @@ s32 func_8004479C(Camera* camera, u32* arg1, CollisionPoly* arg2) {
 }
 
 Vec3s* func_8004481C(Camera* camera, u16* cameraCnt) {
-    CollisionPoly* sp44;
+    CollisionPoly* floorPoly;
     s32 pad;
-    s32 sp3C;
-    PosRot sp28;
+    s32 bgId;
+    PosRot playerPosShape;
 
-    func_8002EF44(&sp28, &camera->player->actor);
-    sp28.pos.y += Player_GetCameraYOffset(camera->player);
-    if (func_8003C940(&camera->globalCtx->colCtx, &sp44, &sp3C, &sp28.pos) == -32000.0f) {
+    func_8002EF44(&playerPosShape, &camera->player->actor);
+    playerPosShape.pos.y += Player_GetCameraYOffset(camera->player);
+    if (func_8003C940(&camera->globalCtx->colCtx, &floorPoly, &bgId, &playerPosShape.pos) == BGCHECK_Y_MIN) {
         return NULL;
     }
-    *cameraCnt = func_80041B80(&camera->globalCtx->colCtx, sp44, sp3C);
-    return func_80041C98(&camera->globalCtx->colCtx, sp44, sp3C);
+    *cameraCnt = func_80041B80(&camera->globalCtx->colCtx, floorPoly, bgId);
+    return func_80041C98(&camera->globalCtx->colCtx, floorPoly, bgId);
 }
 
-s32 func_800448CC(Camera* camera, f32* arg1) {
-    PosRot sp34;
-    WaterBox* sp30;
+/**
+ * Gets the Camera information for the water box the player is in.
+ * Returns -1 if the player is not in a water box, or does not have a swimming state.
+ * Returns -2 if there is no camera index for the water box.
+ * Returns the camera setting otherwise.
+*/
+s32 func_800448CC(Camera* camera, f32* waterY) {
+    PosRot playerPosShape;
+    WaterBox* waterBox;
     s32 temp_ret;
 
-    func_8002EF44(&sp34, &camera->player->actor);
-    *arg1 = sp34.pos.y;
+    func_8002EF44(&playerPosShape, &camera->player->actor);
+    *waterY = playerPosShape.pos.y;
 
-    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, sp34.pos.x, sp34.pos.z, arg1, &sp30) == 0) {
-        *arg1 = -32000.0f;
+    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, playerPosShape.pos.x, playerPosShape.pos.z, waterY, &waterBox) == 0) {
+        // player's position is not in a water box.
+        *waterY = BGCHECK_Y_MIN;
         return -1;
     }
     if (!(camera->player->stateFlags1 & 0x8000000)) {
-        *arg1 = -32000.0f;
+        // player is not swimming
+        *waterY = BGCHECK_Y_MIN;
         return -1;
     }
 
-    temp_ret = func_80042538(&camera->globalCtx->colCtx, sp30);
-    if ((temp_ret <= 0) || (func_80042548(&camera->globalCtx->colCtx, sp30) <= 0)) {
+    temp_ret = func_80042538(&camera->globalCtx->colCtx, waterBox);
+    if ((temp_ret <= 0) || (func_80042548(&camera->globalCtx->colCtx, waterBox) <= 0)) {
         return -2;
     }
 
@@ -456,10 +466,10 @@ f32 func_800449AC(Camera* camera, Vec3f* arg1, s32* arg2) {
     sp28 = sp2C.pos.y;
 
     if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, arg1->x, arg1->z, &sp28, &sp24) == 0) {
-        return -32000.f;
+        return BGCHECK_Y_MIN;
     }
     if (sp28 < arg1->y) {
-        return -32000.f;
+        return BGCHECK_Y_MIN;
     }
 
     *arg2 = func_8004259C(&camera->globalCtx->colCtx, sp24);
@@ -537,11 +547,11 @@ s16 func_80044ADC(Camera *camera, s16 arg1, s16 arg2) {
             phi_f16 = phi_f0;
         }
 
-        if (phi_f18 == -32000.0f) {
+        if (phi_f18 == BGCHECK_Y_MIN) {
             phi_f18 = camera->playerGroundY;
         }
 
-        if (phi_f0 == -32000.0f) {
+        if (phi_f0 == BGCHECK_Y_MIN) {
             phi_f16 = phi_f18;
         }
     }
@@ -571,14 +581,14 @@ Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f *dest, s16 pitch, s16 yaw, s16 roll) 
     f32 pad;
     f32 sp54;
     f32 sp4C;
-    f32 sp44;
+    f32 cosPitchCosYawSinRoll;
     f32 negSinPitch;
     f32 temp_f10_2;
-    f32 temp_f12;
+    f32 cosPitchcosYaw;
     f32 temp_f14;
-    f32 temp_f16;
-    f32 temp_f18;
-    f32 temp_f2;
+    f32 negSinPitchSinYaw;
+    f32 negSinPitchCosYaw;
+    f32 cosPitchSinYaw;
     f32 temp_f4_2;
     f32 temp_f6;
     f32 temp_f8;
@@ -592,25 +602,25 @@ Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f *dest, s16 pitch, s16 yaw, s16 roll) 
     negSinPitch = -sinPitch;
     sinNegRoll = Math_Sins(-roll);
     cosNegRoll = Math_Coss(-roll);
-    temp_f16 = negSinPitch * sinYaw;
+    negSinPitchSinYaw = negSinPitch * sinYaw;
     temp_f14 = 1.0f - cosNegRoll;
-    temp_f2 = cosPitch * sinYaw;
-    sp54 = SQ(temp_f2);
-    sp4C = (temp_f2 * sinPitch) * temp_f14;
-    temp_f12 = cosPitch * cosYaw;
+    cosPitchSinYaw = cosPitch * sinYaw;
+    sp54 = SQ(cosPitchSinYaw);
+    sp4C = (cosPitchSinYaw * sinPitch) * temp_f14;
+    cosPitchcosYaw = cosPitch * cosYaw;
     temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
-    sp44 = temp_f12 * sinNegRoll;
-    temp_f18 = negSinPitch * cosYaw;
-    temp_f6 = (temp_f12 * temp_f2) * temp_f14;
+    cosPitchCosYawSinRoll = cosPitchcosYaw * sinNegRoll;
+    negSinPitchCosYaw = negSinPitch * cosYaw;
+    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * temp_f14;
     temp_f10_2 = sinPitch * sinNegRoll;
-    spA4.x = ((temp_f16 * temp_f4_2) + (cosPitch * (sp4C - sp44))) + (temp_f18 * (temp_f6 + temp_f10_2));
+    spA4.x = ((negSinPitchSinYaw * temp_f4_2) + (cosPitch * (sp4C - cosPitchCosYawSinRoll))) + (negSinPitchCosYaw * (temp_f6 + temp_f10_2));
     sp54 = SQ(sinPitch);
-    temp_f4_2 = (sinPitch * temp_f12) * temp_f14;
-    temp_f8_3 = temp_f2 * sinNegRoll;
-    temp_f8 = sp4C + sp44;
-    spA4.y = ((temp_f16 * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) + (temp_f18 * (temp_f4_2 - temp_f8_3));
+    temp_f4_2 = (sinPitch * cosPitchcosYaw) * temp_f14;
+    temp_f8_3 = cosPitchSinYaw * sinNegRoll;
+    temp_f8 = sp4C + cosPitchCosYawSinRoll;
+    spA4.y = ((negSinPitchSinYaw * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) + (negSinPitchCosYaw * (temp_f4_2 - temp_f8_3));
     temp_f8_2 = temp_f6 - temp_f10_2;
-    spA4.z = ((temp_f16 * temp_f8_2) + (cosPitch * (temp_f4_2 + temp_f8_3))) + (temp_f18 * (((1.0f - SQ(temp_f12)) * cosNegRoll) + SQ(temp_f12)));
+    spA4.z = ((negSinPitchSinYaw * temp_f8_2) + (cosPitch * (temp_f4_2 + temp_f8_3))) + (negSinPitchCosYaw * (((1.0f - SQ(cosPitchcosYaw)) * cosNegRoll) + SQ(cosPitchcosYaw)));
     *dest = spA4;
     return dest;
 }
@@ -703,77 +713,92 @@ void Camera_UpdateInterface(s16 arg0) {
     }
 }
 
-Vec3f* func_8004545C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, CamColChk* arg3, CamColChk* arg4) {
-    Vec3f sp24;
+Vec3f* Camera_BGCheckCorner(Vec3f* dst, Vec3f* linePointA, Vec3f* linePointB, CamColChk* pointAColChk, CamColChk* pointBColChk) {
+    Vec3f closestPoint;
 
-    if (func_800427B4(arg3->poly, arg4->poly, arg1, arg2, &sp24) == 0) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: corner check no cross point %x %x\n" VT_RST, arg3, arg4);
-        *arg0 = arg3->pos;
-        return arg0;
+    if (!func_800427B4(pointAColChk->poly, pointBColChk->poly, linePointA, linePointB, &closestPoint)) {
+        osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: corner check no cross point %x %x\n" VT_RST, pointAColChk, pointBColChk);
+        *dst = pointAColChk->pos;
+        return dst;
     }
 
-    *arg0 = sp24;
-    return arg0;
+    *dst = closestPoint;
+    return dst;
 }
 
-s32 func_80045508(Camera *camera, VecSph *arg1, CamColChk *arg2, CamColChk *arg3, s16 arg4) {
+/**
+ * Checks collision between at and eyeNext, if `checkEye` is set, if there is no collsion between
+ * eyeNext->at, then eye->at is also checked. 
+ * Returns:
+ * 0 if no collsion is found between at->eyeNext
+ * 2 if the angle between the polys is between 60 degrees and 120 degrees
+ * 3 ?
+ * 6 if the angle between the polys is greater than 120 degrees
+*/
+s32 func_80045508(Camera *camera, VecSph *diffSph, CamColChk *eyeChk, CamColChk *atChk, s16 checkEye) {
     Vec3f* at = &camera->at;
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
 
-    Vec3f sp40;
-    s32 sp3C;
-    s32 sp38;
+    Vec3f eyePos;
+    s32 atEyeBgId;
+    s32 eyeAtBgId;
     s32 ret;
-    f32 temp_f0;
+    f32 cosEyeAt;
 
-    arg2->pos = camera->eyeNext;
+    eyeChk->pos = camera->eyeNext;
     
     ret = 0;
     
-    sp3C = func_80043D18(camera, at, arg2);
-    if (sp3C != 0) {
-        arg3->pos = camera->at;
+    atEyeBgId = func_80043D18(camera, at, eyeChk);
+    if (atEyeBgId != 0) {
+        // collision found between at->eye
+        atChk->pos = camera->at;
 
-        OLib_Vec3fToVecSphGeo(&arg2->sphNorm, &arg2->norm);
+        OLib_Vec3fToVecSphGeo(&eyeChk->sphNorm, &eyeChk->norm);
         
-        if (arg2->sphNorm.pitch >= 0x2EE1) {
-            arg2->sphNorm.yaw = arg1->yaw;
+        if (eyeChk->sphNorm.pitch >= 0x2EE1) {
+            eyeChk->sphNorm.yaw = diffSph->yaw;
         }
         
-        sp38 = func_80043D18(camera, eyeNext, arg3);
+        eyeAtBgId = func_80043D18(camera, eyeNext, atChk);
         
-        if (sp38 == 0) {
-            if (arg4 & 1) {
+        if (eyeAtBgId == 0) {
+            // no collision from eyeNext->at
+            if (checkEye & 1) {
             
-                arg3->pos = *at;
-                sp40 = *eye;
+                atChk->pos = *at;
+                eyePos = *eye;
                 
-                if (func_80043D18(camera, &sp40, arg3) == 0) {
+                if (func_80043D18(camera, &eyePos, atChk) == 0) {
+                    // no collision from eye->at
                     return 3;
-                } else if (arg2->poly == arg3->poly) {
+                } else if (eyeChk->poly == atChk->poly) {
+                    // at->eye and eye->at is the same poly
                     return 3;
                 }
             } else {
                 return 3;
             }
-        } else if (arg2->poly == arg3->poly) {
+        } else if (eyeChk->poly == atChk->poly) {
+            // at->eyeNext and eyeNext->at is the same poly
             return 3;
         }
 
-        OLib_Vec3fToVecSphGeo(&arg3->sphNorm, &arg3->norm);
+        OLib_Vec3fToVecSphGeo(&atChk->sphNorm, &atChk->norm);
         
-        if (arg3->sphNorm.pitch >= 0x2EE1) {
-            arg3->sphNorm.yaw = BINANG_ROT180(arg1->yaw);
+        if (atChk->sphNorm.pitch >= 0x2EE1) {
+            atChk->sphNorm.yaw = BINANG_ROT180(diffSph->yaw);
         }
 
-        if (sp3C != sp38) {
+        if (atEyeBgId != eyeAtBgId) {
+            // different bgIds for at->eye[Next] and eye[Next]->at
             ret = 3;
         } else {
-            temp_f0 = Math3D_Cos(&arg2->norm, &arg3->norm);
-            if (temp_f0 < -0.5f) {
+            cosEyeAt = Math3D_Cos(&eyeChk->norm, &atChk->norm);
+            if (cosEyeAt < -0.5f) {
                 ret = 6;
-            } else if (temp_f0 > 0.5f) {
+            } else if (cosEyeAt > 0.5f) {
                 ret = 3;
             } else {
                 ret = 2;
@@ -791,8 +816,6 @@ f32 func_80045714(Vec3f* arg0, s16 arg1, s16 arg2, f32 arg3) {
     sp18 = Math_Coss(sp1C.pitch) * Math_Coss(arg1 - sp1C.yaw);
     return (fabsf(sp18) * arg3) * Math_Coss(arg1 - arg2);
 }
-
-f32 OLib_ClampMaxDist(f32, f32);
 
 s32 func_800457A8(Camera* camera, VecSph* arg1, f32 extraYOffset, s16 arg3) {
     f32 unused;
@@ -823,9 +846,7 @@ s32 func_800457A8(Camera* camera, VecSph* arg1, f32 extraYOffset, s16 arg3) {
     return true;
 }
 
-#ifdef NON_MATCHING
-// CLOSE: regalloc
-// I'm not sure why arg3 is a pointer.  It is not passed into any function, and is not written to.
+//func_800458D4(camera, &atEyeNextGeo, phi_f16, &anim->unk_1C, norm1->interfaceFlags & 1);
 s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     f32 phi_f2;
     Vec3f sp60;
@@ -848,6 +869,7 @@ s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     temp_ret = Math_atan2f(sp48, OLib_Vec3fDistXZ(&camera->at, &camera->eye));
     
     if (temp_ret > DEGF_TO_RADF(OREG(32))) {
+        if(1){}
         phi_f2 = 1.0f - sinf(DEGF_TO_RADF(temp_ret - OREG(32)));
     } else if (temp_ret < DEGF_TO_RADF(OREG(33))) {
         phi_f2 = 1.0f - sinf(DEGF_TO_RADF(OREG(33)) - temp_ret);
@@ -865,42 +887,37 @@ s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
 
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800458D4.s")
-#endif
 
-s32 func_80045B08(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
+s32 func_80045B08(Camera* camera, VecSph* arg1, f32 yExtra, s16 arg3) {
     f32 phi_f2;
-    Vec3f sp48;
-    Vec3f sp3C;
+    Vec3f posOffsetTarget;
+    Vec3f atTarget;
     f32 sp38; // unused
     f32 temp_ret;
-    PosRot* temp_s1;
+    PosRot* playerPosRot = &camera->playerPosRot;
 
-    sp48.y = Player_GetCameraYOffset(camera->player) + arg2;
-    sp48.x = 0.0f;
-    sp48.z = 0.0f;
+    posOffsetTarget.y = Player_GetCameraYOffset(camera->player) + yExtra;
+    posOffsetTarget.x = 0.0f;
+    posOffsetTarget.z = 0.0f;
 
     temp_ret = Math_Sins(arg3);
-    temp_s1 = &camera->playerPosRot;
 
     if (temp_ret < 0.0f) {
-        phi_f2 = Math_Coss(temp_s1->rot.y - arg1->yaw);
+        phi_f2 = Math_Coss(playerPosRot->rot.y - arg1->yaw);
     } else {
-        phi_f2 = -Math_Coss(temp_s1->rot.y - arg1->yaw);
+        phi_f2 = -Math_Coss(playerPosRot->rot.y - arg1->yaw);
     }
 
-    sp48.y -= temp_ret * phi_f2 * OREG(9);
-    Camera_LERPCeilVec3f(&sp48, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
+    posOffsetTarget.y -= temp_ret * phi_f2 * OREG(9);
+    Camera_LERPCeilVec3f(&posOffsetTarget, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
 
-    sp3C.x = temp_s1->pos.x + camera->posOffset.x;
-    sp3C.y = temp_s1->pos.y + camera->posOffset.y;
-    sp3C.z = temp_s1->pos.z + camera->posOffset.z;
-    Camera_LERPCeilVec3f(&sp3C, &camera->at, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
+    atTarget.x = playerPosRot->pos.x + camera->posOffset.x;
+    atTarget.y = playerPosRot->pos.y + camera->posOffset.y;
+    atTarget.z = playerPosRot->pos.z + camera->posOffset.z;
+    Camera_LERPCeilVec3f(&atTarget, &camera->at, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
 
     return 1;
 }
-
 #ifdef NON_MATCHING
 // regalloc and some minor reordering. 
 s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
@@ -908,7 +925,7 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
     Vec3f sp70;
     Vec3f sp64;
     f32 sp54;
-    Vec3f *sp40 = &camera->at;
+    Vec3f *at = &camera->at;
     PosRot *sp3C = &camera->playerPosRot;
     f32 temp_f14_2;
     f32 temp_f2;
@@ -930,7 +947,7 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
     } else {
         if (PREG(75) == 0) {
             phi_f20 = sp3C->pos.y - *arg3;
-            sp54 = OLib_Vec3fDistXZ(sp40, &camera->eye);
+            sp54 = OLib_Vec3fDistXZ(at, &camera->eye);
             Math_atan2f(phi_f20, sp54);
             temp_f2 = Math_tanf(DEG_TO_RAD(camera->fov * 0.4f)) * sp54;
             if (temp_f2 < phi_f20) {
@@ -943,7 +960,7 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
             sp70.y -= phi_f20;
         } else {
             phi_f20 = sp3C->pos.y - *arg3;
-            temp_f0_4 = Math_atan2f(phi_f20, OLib_Vec3fDistXZ(sp40, &camera->eye));
+            temp_f0_4 = Math_atan2f(phi_f20, OLib_Vec3fDistXZ(at, &camera->eye));
             temp_f14_2 = DEG_TO_RAD(OREG(32));
             if (temp_f14_2 < temp_f0_4) {
                 phi_f16 = 1.0f - sinf(temp_f0_4 - temp_f14_2);
@@ -964,14 +981,13 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
     sp64.x = sp3C->pos.x + camera->posOffset.x;
     sp64.y = sp3C->pos.y + camera->posOffset.y;
     sp64.z = sp3C->pos.z + camera->posOffset.z;
-    Camera_LERPCeilVec3f(&sp64, sp40, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
+    Camera_LERPCeilVec3f(&sp64, at, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
     return 1;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045C74.s")
 #endif
 
-//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 func_800460A8(Camera *camera, VecSph *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32 *arg5, VecSph *arg6, s16 arg7) {
     f32 temp_f20;
@@ -1188,24 +1204,25 @@ s16 func_80046B44(Camera* camera, s16 arg1, s16 arg2, s16 arg3) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046B44.s")
 #endif
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 // stack, regalloc, tiny bit of ordering
+//eyeAdjustment.yaw = 
+//func_80046CB4(camera, atEyeNextGeo.yaw, camera->playerPosRot.rot.y, norm1->yawUpdInv, sign?);
 s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
     f32 sp34;
     s16 sp1C;
     f32 temp_ret;
     f32 phi_f14;
-    s16 temp;
 
     if (camera->unk_D8 > 0.001f) {
-        temp = BINANG_ROT180(arg1);
-        sp1C = arg2 - temp;
-        phi_f14 = BINANG_ROT180(sp1C) * (1.0f / 32767.0f);
+        sp1C = arg2 - BINANG_ROT180(arg1);
+        phi_f14 = BINANG_ROT180(sp1C) * COLPOLY_NORM_FRAC;
     } else {
-        temp = BINANG_ROT180(arg1);
-        sp1C = arg2 - temp;
-        phi_f14 = OREG(48) * 0.01f;
+        sp1C = arg2 - BINANG_ROT180(arg1);
+        phi_f14 = PCT(OREG(48));
     }
+
     temp_ret = func_800437F0(arg3, phi_f14);
     
     sp34 = ((1.0f - temp_ret) * arg4) + temp_ret;
@@ -1214,27 +1231,26 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
     }
     
     // This is probably some binary angle calculation.
-    return arg1 + (s16)(sp1C * sp34 * sp1C * (1.0f / camera->yawUpdateRateInv) * func_800437F0(0.5f, camera->unk_E0)) + arg1;
+    return arg1 + (s32)(sp1C * sp34 * func_800437F0(0.5f, camera->unk_E0) * (1.0f / camera->yawUpdateRateInv));
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046CB4.s")
 #endif
 
-//#define NON_MATCHING
+#define NON_MATCHING
 #ifdef NON_MATCHING
-void func_80046E20(Camera *camera, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, Normal1_Unk24 *arg5) {
-    static CamColChk D_8015CE80;
-    static CamColChk D_8015CEA8;
+void func_80046E20(Camera *camera, VecSph *eyeAdjustment, f32 minDist, f32 arg3, f32 *arg4, SwingAnimation *anim) {
+    static CamColChk atEyeColChk;
+    static CamColChk eyeAtColChk;
     static CamColChk D_8015CED0;
 
     Vec3f sp58;
     f32 sp50;
-    VecSph sp48;
+    VecSph newEyeAdjustment;
     VecSph sp40;
-    Vec3f *sp34;
-    Vec3f *sp30;
-    Vec3f *temp_s0;
-    Vec3f *temp_s0_2;
+    Vec3f *at = &camera->at;
+    Vec3f *eyeNext = &camera->eyeNext;
+    Vec3f *eye = &camera->eye;
     f32 *temp_a2;
     f32 *temp_a2_2;
     f32 *temp_a2_3;
@@ -1242,88 +1258,85 @@ void func_80046E20(Camera *camera, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, 
     f32 temp_f0_2;
     s32 temp_v0;
 
-    temp_v0 = func_80045508(camera, arg1, &D_8015CE80, &D_8015CEA8, arg5->unk_18 == 0);
+    temp_v0 = func_80045508(camera, eyeAdjustment, &atEyeColChk, &eyeAtColChk, anim->unk_18 == 0);
     switch(temp_v0){
         case 1:
         case 2:
-            sp30 = &camera->eyeNext;
-            sp34 = &camera->at;
-            func_8004545C((Vec3f *) arg5, &camera->at, &camera->eyeNext, &D_8015CE80, &D_8015CEA8);
-            sp58.x = arg5->unk_00.x + (D_8015CE80.norm.x + D_8015CEA8.norm.x);
-            sp58.y = arg5->unk_00.y + (D_8015CE80.norm.y + D_8015CEA8.norm.y);
-            sp58.z = arg5->unk_00.z + (D_8015CE80.norm.z + D_8015CEA8.norm.z);
-            temp_f0_2 = OLib_Vec3fDist(sp34, &D_8015CE80.pos);
-            if (arg2 < temp_f0_2) {
-                *arg4 = 1.0f;
-            } else {
-                *arg4 = temp_f0_2 / arg2;
-            }
-            arg5->unk_18 = 1;
-            arg5->unk_10 = PCT(OREG(10));
-            arg5->unk_0C = D_8015CEA8.poly;
-            OLib_Vec3fDiffToVecSphGeo(&sp48, sp34, &sp58);
-            temp_s0_2 = &camera->eye;
-            sp48.r = arg1->r;
-            Camera_Vec3fVecSphAdd(temp_s0_2, sp34, &sp48);
-            D_8015CED0.pos = *temp_s0_2;
-            if (func_80043D18(camera, sp34, &D_8015CED0) == 0) {
-                sp48.yaw += BINANG_SUB(arg1->yaw, sp48.yaw) >> 1;
-                sp48.pitch += BINANG_SUB(arg1->pitch, sp48.pitch) >> 1;
-                Camera_Vec3fVecSphAdd(temp_s0_2, sp34, &sp48);
-                if (D_8015CE80.sphNorm.pitch < 0x2AA8) {
-                    arg5->unk_16 = sp48.yaw;
-                    arg5->unk_14 = sp48.pitch;
+            // angle between polys is between 60 and 120 degrees.
+            Camera_BGCheckCorner(&anim->unk_00, &camera->at, &camera->eyeNext, &atEyeColChk, &eyeAtColChk);
+            sp58.x = anim->unk_00.x + (atEyeColChk.norm.x + eyeAtColChk.norm.x);
+            sp58.y = anim->unk_00.y + (atEyeColChk.norm.y + eyeAtColChk.norm.y);
+            sp58.z = anim->unk_00.z + (atEyeColChk.norm.z + eyeAtColChk.norm.z);
+            
+            temp_f0_2 = OLib_Vec3fDist(at, &atEyeColChk.pos);
+            *arg4 = minDist < temp_f0_2 ? 1.0f : temp_f0_2 / minDist;
+            
+            anim->unk_18 = 1;
+            anim->swingUpdateRate = PCT(OREG(10));
+            anim->atEyePoly = eyeAtColChk.poly;
+            OLib_Vec3fDiffToVecSphGeo(&newEyeAdjustment, at, &sp58);
+            
+            newEyeAdjustment.r = eyeAdjustment->r;
+            Camera_Vec3fVecSphGeoAdd(eye, at, &newEyeAdjustment);
+            D_8015CED0.pos = *eye;
+            if (func_80043D18(camera, at, &D_8015CED0) == 0) {
+                newEyeAdjustment.yaw += BINANG_SUB(eyeAdjustment->yaw, newEyeAdjustment.yaw) >> 1;
+                newEyeAdjustment.pitch += BINANG_SUB(eyeAdjustment->pitch, newEyeAdjustment.pitch) >> 1;
+                Camera_Vec3fVecSphGeoAdd(eye, at, &newEyeAdjustment);
+                if (atEyeColChk.sphNorm.pitch < 0x2AA8) {
+                    anim->unk_16 = newEyeAdjustment.yaw;
+                    anim->unk_14 = newEyeAdjustment.pitch;
                 } else {
-                    arg5->unk_16 = arg1->yaw;
-                    arg5->unk_14 = arg1->pitch;
+                    anim->unk_16 = eyeAdjustment->yaw;
+                    anim->unk_14 = eyeAdjustment->pitch;
                 }
-                sp58.x = arg5->unk_00.x - (D_8015CE80.norm.x + D_8015CEA8.norm.x);
-                sp58.y = arg5->unk_00.y - (D_8015CE80.norm.y + D_8015CEA8.norm.y);
-                sp58.z = arg5->unk_00.z - (D_8015CE80.norm.z + D_8015CEA8.norm.z);
-                OLib_Vec3fDiffToVecSphGeo(&sp48, sp34, &sp58);
-                sp48.r = arg1->r;
-                Camera_Vec3fVecSphAdd(sp30, sp34, &sp48);
+                sp58.x = anim->unk_00.x - (atEyeColChk.norm.x + eyeAtColChk.norm.x);
+                sp58.y = anim->unk_00.y - (atEyeColChk.norm.y + eyeAtColChk.norm.y);
+                sp58.z = anim->unk_00.z - (atEyeColChk.norm.z + eyeAtColChk.norm.z);
+                OLib_Vec3fDiffToVecSphGeo(&newEyeAdjustment, at, &sp58);
+                newEyeAdjustment.r = eyeAdjustment->r;
+                Camera_Vec3fVecSphGeoAdd(eyeNext, at, &newEyeAdjustment);
                 return;
             }
 
-            D_8015CE80 = D_8015CED0;
+            atEyeColChk = D_8015CED0;
         case 3:
         case 6:
-            if (arg5->unk_18 != 0) {
-                arg5->unk_1A = OREG(52);
-                arg5->unk_18 = 0;
+            if (anim->unk_18 != 0) {
+                anim->swingUpdateRateTimer = OREG(52);
+                anim->unk_18 = 0;
                 camera->eyeNext = camera->eye;
             }
-            temp_f0 = OLib_Vec3fDist(&camera->at, &D_8015CE80.pos);
-            if (arg2 < temp_f0) {
+            temp_f0 = OLib_Vec3fDist(&camera->at, &atEyeColChk.pos);
+            if (minDist < temp_f0) {
                 *arg4 = 1.0f;
             } else {
-                *arg4 = temp_f0 / arg2;
+                *arg4 = temp_f0 / minDist;
             }
-            arg5->unk_10 = *arg4 * arg3;
+            anim->swingUpdateRate = *arg4 * arg3;
             sp50 = temp_f0;
-            Camera_Vec3fScaleXYZFactor(&camera->eye, &D_8015CE80, &D_8015CE80, 1.0f);
-            arg5->unk_0C = 0;
+            Camera_Vec3fScaleXYZFactor(&camera->eye, &atEyeColChk, &atEyeColChk, 1.0f);
+            anim->atEyePoly = NULL;
             if (temp_f0 < OREG(21)) {
                 sp50 = temp_f0;
-                sp40.yaw = arg1->yaw;
-                sp40.pitch = Math_Sins(D_8015CE80.sphNorm.pitch + 0x3FFF) * 16380.0f;
+                sp40.yaw = eyeAdjustment->yaw;
+                sp40.pitch = Math_Sins(atEyeColChk.sphNorm.pitch + 0x3FFF) * 16380.0f;
                 sp40.r = PCT(OREG(22)) * (OREG(21) - temp_f0);
-                Camera_Vec3fVecSphAdd(temp_s0, temp_s0, &sp40);
+                Camera_Vec3fVecSphGeoAdd(eye, eye, &sp40);
                 return;
             }
             break;
         default:
-            if (arg5->unk_18 != 0) {
-                arg5->unk_1A = OREG(52);
+            if (anim->unk_18 != 0) {
+                anim->swingUpdateRateTimer = OREG(52);
                 camera->eyeNext = camera->eye;
-                arg5->unk_18 = 0;
+                anim->unk_18 = 0;
             }
-            arg5->unk_0C = 0;
-            arg5->unk_10 = arg3;
-            camera->eye.x = D_8015CE80.pos.x + D_8015CE80.norm.x;
-            camera->eye.y = D_8015CE80.pos.y + D_8015CE80.norm.y;
-            camera->eye.z = D_8015CE80.pos.z + D_8015CE80.norm.z;
+            anim->atEyePoly = NULL;
+            anim->swingUpdateRate = arg3;
+            camera->eye.x = atEyeColChk.pos.x + atEyeColChk.norm.x;
+            camera->eye.y = atEyeColChk.pos.y + atEyeColChk.norm.y;
+            camera->eye.z = atEyeColChk.pos.z + atEyeColChk.norm.z;
             break;
     }
 }
@@ -1348,44 +1361,44 @@ s32 Camera_Normal1(Camera *camera) {
     f32 sp98;
     f32 sp94;
     Vec3f sp88;
-    f32 temp_f0_4;
 
-    VecSph sp7C;
-    VecSph sp74;
-    VecSph sp6C;
+    VecSph eyeAdjustment;
+    VecSph atEyeGeo;
+    VecSph atEyeNextGeo;
     f32 temp_f0_5;
-    f32 temp_f2;
+    f32 yOffsetInverse;
     f32 phi_f16;
-    Vec3f *sp40 = &camera->eye;
-    Vec3f *sp3C = &camera->at;
-    Vec3f *sp38 = &camera->eyeNext;
-    Normal1_Unk24* unk24 = &norm1->unk_24;
+    Vec3f *eye = &camera->eye;
+    Vec3f *at = &camera->at;
+    Vec3f *eyeNext = &camera->eyeNext;
+    Normal1_Anim* anim = &norm1->anim;
+    SwingAnimation* swing = &anim->swing;
 
     yOffset = Player_GetCameraYOffset(camera->player);
     if(RELOAD_PARAMS){
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        temp_f2 = (1.0f + PCT(R_CAM_YINV_OFFSET) - PCT(R_CAM_YINV_OFFSET) * (68.0f / yOffset));
-        temp_f2 *= 0.01f * yOffset;
-        norm1->unk_00 = NEXTSETTING * temp_f2;
-        norm1->unk_04 = NEXTSETTING * temp_f2;
-        norm1->unk_08 = NEXTSETTING * temp_f2;
-        norm1->unk_20 = DEGF_TO_BINANG(NEXTSETTING);
+        yOffsetInverse = (1.0f + PCT(R_CAM_YINV_OFFSET) - PCT(R_CAM_YINV_OFFSET) * (68.0f / yOffset));
+        yOffsetInverse *= 0.01f * yOffset;
+        norm1->yOffset = NEXTSETTING * yOffsetInverse;
+        norm1->distMin = NEXTSETTING * yOffsetInverse;
+        norm1->distMax = NEXTSETTING * yOffsetInverse;
+        norm1->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
         norm1->unk_0C = NEXTSETTING;
         norm1->unk_10 = NEXTSETTING;
         norm1->unk_14 = NEXTPCT;
-        norm1->unk_18 = NEXTSETTING;
-        norm1->unk_1C = NEXTPCT;
-        norm1->unk_22 = NEXTSETTING;
+        norm1->fovTarget = NEXTSETTING;
+        norm1->atLERPScaleMax = NEXTPCT;
+        norm1->interfaceFlags = NEXTSETTING;
     }
 
     if (R_RELOAD_CAM_PARAMS) {
         Camera_CopyPREGToModeValues(camera);
     }
 
-    sCameraInterfaceFlags = norm1->unk_22;
+    sCameraInterfaceFlags = norm1->interfaceFlags;
 
-    OLib_Vec3fDiffToVecSphGeo(&sp74, sp3C, sp40);
-    OLib_Vec3fDiffToVecSphGeo(&sp6C, sp3C, sp38);
+    OLib_Vec3fDiffToVecSphGeo(&atEyeGeo, at, eye);
+    OLib_Vec3fDiffToVecSphGeo(&atEyeNextGeo, at, eyeNext);
 
     switch(camera->animState){
         case 0x14:
@@ -1394,19 +1407,19 @@ s32 Camera_Normal1(Camera *camera) {
         case 0:
         case 0xA:
         case 0x19:
-            unk24->unk_18 = 0;
-            unk24->unk_0C = 0;
-            unk24->unk_24 = 0;
-            unk24->unk_28 = 0xA;
-            unk24->unk_14 = unk24->unk_18;
-            unk24->unk_16 = unk24->unk_18;
-            unk24->unk_10 = norm1->unk_0C;
-            unk24->unk_1C = camera->playerPosRot.pos.y;
-            unk24->unk_20 = camera->unk_D8;
-            unk24->unk_1A = 0;
-            unk24->unk_26 = sp74.yaw;
+            swing->unk_18 = 0;
+            swing->atEyePoly = NULL;
+            anim->unk_24 = 0;
+            anim->unk_28 = 0xA;
+            swing->unk_14 = swing->unk_18;
+            swing->unk_16 = swing->unk_18;
+            swing->swingUpdateRate = norm1->unk_0C;
+            anim->yOffset = camera->playerPosRot.pos.y;
+            anim->unk_20 = camera->unk_D8;
+            swing->swingUpdateRateTimer = 0;
+            anim->swingYawTarget = atEyeGeo.yaw;
             sUpdateCameraDirection = 0;
-            unk24->unk_2A = OREG(50) + OREG(51);
+            anim->startSwingTimer = OREG(50) + OREG(51);
             break;
         default:
             break;
@@ -1415,24 +1428,24 @@ s32 Camera_Normal1(Camera *camera) {
     camera->animState = 1;
     sUpdateCameraDirection = 1;
 
-    if (unk24->unk_28 != 0) {
-        unk24->unk_28--;
+    if (anim->unk_28 != 0) {
+        anim->unk_28--;
     }
 
     if (camera->unk_D8 > 0.001f) {
-        unk24->unk_2A = OREG(50) + OREG(51);
-    } else if (unk24->unk_2A > 0) {
-        if (unk24->unk_2A > OREG(50)) {
-            unk24->unk_26 = sp74.yaw + (BINANG_SUB(BINANG_ROT180(camera->playerPosRot.rot.y), sp74.yaw) / unk24->unk_2A);
+        anim->startSwingTimer = OREG(50) + OREG(51);
+    } else if (anim->startSwingTimer > 0) {
+        if (anim->startSwingTimer > OREG(50)) {
+            anim->swingYawTarget = atEyeGeo.yaw + (BINANG_SUB(BINANG_ROT180(camera->playerPosRot.rot.y), atEyeGeo.yaw) / anim->startSwingTimer);
         }
-        unk24->unk_2A--;
+        anim->startSwingTimer--;
     }
 
     spA0 = PCT(OREG(25)) * camera->unk_E0;
     sp9C = camera->unk_E0 * PCT(OREG(26));
-    sp98 = unk24->unk_18 != 0 ? PCT(OREG(25)) : spA0;
+    sp98 = swing->unk_18 != 0 ? PCT(OREG(25)) : spA0;
     
-    sp94 = (camera->unk_D8 - unk24->unk_20) * (1.0f / 3.0f);
+    sp94 = (camera->unk_D8 - anim->unk_20) * (1.0f / 3.0f);
     if(sp94 > 1.0f){
         sp94 = 1.0f;
     }
@@ -1440,18 +1453,16 @@ s32 Camera_Normal1(Camera *camera) {
         sp94 = -1.0f;
     }
 
-    unk24->unk_20 = camera->unk_D8;
+    anim->unk_20 = camera->unk_D8;
     
-    if (unk24->unk_1A != 0) {
-        camera->yawUpdateRateInv = Camera_LERPCeilF(unk24->unk_10 + (f32) (unk24->unk_1A * 2), camera->yawUpdateRateInv, sp98, 0.1f);
-        camera->pitchUpdateRateInv = Camera_LERPCeilF((f32) R_CAM_DEFA_PHI_UPDRATE + (f32) (unk24->unk_1A * 2), camera->pitchUpdateRateInv, sp9C, 0.1f);
-        unk24->unk_1A--;
+    if (swing->swingUpdateRateTimer != 0) {
+        camera->yawUpdateRateInv = Camera_LERPCeilF(swing->swingUpdateRate + (f32) (swing->swingUpdateRateTimer * 2), camera->yawUpdateRateInv, sp98, 0.1f);
+        camera->pitchUpdateRateInv = Camera_LERPCeilF((f32) R_CAM_DEFA_PHI_UPDRATE + (f32) (swing->swingUpdateRateTimer * 2), camera->pitchUpdateRateInv, sp9C, 0.1f);
+        swing->swingUpdateRateTimer--;
     } else {
-        camera->yawUpdateRateInv = Camera_LERPCeilF(unk24->unk_10 - ((OREG(49) * 0.01f) * unk24->unk_10 * sp94), camera->yawUpdateRateInv, sp98, 0.1f);
+        camera->yawUpdateRateInv = Camera_LERPCeilF(swing->swingUpdateRate - ((OREG(49) * 0.01f) * swing->swingUpdateRate * sp94), camera->yawUpdateRateInv, sp98, 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, sp9C, 0.1f);
     }
-
-    //spA0 = sp94 * camera->unk_E0;
 
     camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, sp9C, 0.1f);
     camera->xzOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(2)), camera->xzOffsetUpdateRate, spA0, 0.1f);
@@ -1459,97 +1470,104 @@ s32 Camera_Normal1(Camera *camera) {
     camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->yOffsetUpdateRate, camera->unk_E0 * 0.05f, 0.1f);
 
 
-    if (norm1->unk_22 & 1) {
-        unk24->unk_24 = Camera_LERPCeilS(func_80044ADC(camera, BINANG_ROT180(sp74.yaw), 0), unk24->unk_24, ((1.0f / norm1->unk_10) * 0.5f) + (((1.0f / norm1->unk_10) * 0.5f) * (1.0f - camera->unk_E0)), 0xF);
+    if (norm1->interfaceFlags & 1) {
+        anim->unk_24 = Camera_LERPCeilS(func_80044ADC(camera, BINANG_ROT180(atEyeGeo.yaw), 0), 
+                                    anim->unk_24, 
+                                    ((1.0f / norm1->unk_10) * 0.5f) + (((1.0f / norm1->unk_10) * 0.5f) * (1.0f - camera->unk_E0)), 
+                                    0xF);
     } else {
-        unk24->unk_24 = 0;
+        anim->unk_24 = 0;
         if (camera->playerGroundY == camera->playerPosRot.pos.y) {
-            unk24->unk_1C = camera->playerPosRot.pos.y;
+            anim->yOffset = camera->playerPosRot.pos.y;
         }
     }
 
-    phi_f16 = ((unk24->unk_18 != 0) && (norm1->unk_00 > -40.0f)) ?
-                (temp_f0_5 = Math_Sins(unk24->unk_14), F32_LERP(norm1->unk_00, -40.0f, temp_f0_5)) :
-                norm1->unk_00;
+    phi_f16 = ((swing->unk_18 != 0) && (norm1->yOffset > -40.0f)) ?
+                (temp_f0_5 = Math_Sins(swing->unk_14), F32_LERP(norm1->yOffset, -40.0f, temp_f0_5)) :
+                norm1->yOffset;
 
-    if (norm1->unk_22 & 0x80) {
-        func_800458D4(camera, &sp6C, phi_f16, &unk24->unk_1C, norm1->unk_22 & 1);
-    } else if (norm1->unk_22 & 0x20) {
-        func_80045B08(camera, &sp6C, phi_f16, unk24->unk_24);
+    if (norm1->interfaceFlags & 0x80) {
+
+        func_800458D4(camera, &atEyeNextGeo, phi_f16, &anim->yOffset, norm1->interfaceFlags & 1);
+    } else if (norm1->interfaceFlags & 0x20) {
+        func_80045B08(camera, &atEyeNextGeo, phi_f16, anim->unk_24);
     } else {
-        func_800457A8(camera, &sp6C, phi_f16, norm1->unk_22 & 1);
+        func_800457A8(camera, &atEyeNextGeo, phi_f16, norm1->interfaceFlags & 1);
     }
 
-    OLib_Vec3fDiffToVecSphGeo(&sp7C, sp3C, sp38);
+    OLib_Vec3fDiffToVecSphGeo(&eyeAdjustment, at, eyeNext);
     
-    camera->dist = sp7C.r = Camera_ClampDist(camera, sp7C.r, norm1->unk_04, norm1->unk_08, unk24->unk_28);
+    camera->dist = eyeAdjustment.r = Camera_ClampDist(camera, eyeAdjustment.r, norm1->distMin, norm1->distMax, anim->unk_28);
     
-    if (unk24->unk_2A <= 0) {
-        sp7C.pitch = sp6C.pitch;
-        sp7C.yaw = Camera_LERPCeilS(unk24->unk_26, sp6C.yaw, 1.0f / camera->yawUpdateRateInv, 0xA);
-    } else if (unk24->unk_18 != 0) {
-        sp7C.yaw = Camera_LERPCeilS(unk24->unk_16, sp6C.yaw, 1.0f / camera->yawUpdateRateInv, 0xA);
-        sp7C.pitch = Camera_LERPCeilS(unk24->unk_14, sp6C.pitch, 1.0f / camera->yawUpdateRateInv, 0xA);
+    if (anim->startSwingTimer <= 0) {
+        eyeAdjustment.pitch = atEyeNextGeo.pitch;
+        eyeAdjustment.yaw = Camera_LERPCeilS(anim->swingYawTarget, atEyeNextGeo.yaw, 1.0f / camera->yawUpdateRateInv, 0xA);
+    } else if (swing->unk_18 != 0) {
+        // this case seems to be impossible, unk_18 is set and not changed
+        eyeAdjustment.yaw = Camera_LERPCeilS(swing->unk_16, atEyeNextGeo.yaw, 1.0f / camera->yawUpdateRateInv, 0xA);
+        eyeAdjustment.pitch = Camera_LERPCeilS(swing->unk_14, atEyeNextGeo.pitch, 1.0f / camera->yawUpdateRateInv, 0xA);
     } else {
-        sp7C.yaw = func_80046CB4(camera, sp6C.yaw, camera->playerPosRot.rot.y, norm1->unk_14, sp94);
-        sp7C.pitch = func_80046B44(camera, sp6C.pitch, norm1->unk_20, unk24->unk_24);
+        // rotate yaw to follow player.
+        eyeAdjustment.yaw = func_80046CB4(camera, atEyeNextGeo.yaw, camera->playerPosRot.rot.y, norm1->unk_14, sp94);
+        eyeAdjustment.pitch = func_80046B44(camera, atEyeNextGeo.pitch, norm1->pitchTarget, anim->unk_24);
     }
 
-    if (sp7C.pitch >= 0x38A5) {
-        sp7C.pitch = 0x38A4;
+    // set eyeAdjustment pitch from 79.65 degrees to -85 degrees
+    if (eyeAdjustment.pitch >= 0x38A5) {
+        eyeAdjustment.pitch = 0x38A4;
     }
-    if (sp7C.pitch < -0x3C8C) {
-        sp7C.pitch = -0x3C8C;
+    if (eyeAdjustment.pitch < -0x3C8C) {
+        eyeAdjustment.pitch = -0x3C8C;
     }
 
-    Camera_Vec3fVecSphAdd(sp38, sp3C, &sp7C);
-    if ((camera->status == 7) &&  (!(norm1->unk_22 & 0x10))) {
-        unk24->unk_26 = BINANG_ROT180(camera->playerPosRot.rot.y);
-        if (unk24->unk_2A > 0) {
-            func_80046E20(camera, &sp7C, norm1->unk_04, norm1->unk_0C, &sp98, &unk24->unk_00);
+    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeAdjustment);
+    if ((camera->status == CAM_STATUS_ACTIVE) &&  (!(norm1->interfaceFlags & 0x10))) {
+        anim->swingYawTarget = BINANG_ROT180(camera->playerPosRot.rot.y);
+        if (anim->startSwingTimer > 0) {
+            func_80046E20(camera, &eyeAdjustment, norm1->distMin, norm1->unk_0C, &sp98, &swing->unk_00);
         } else {
-            sp88 = *sp38;
-            spA0 = norm1->unk_0C + norm1->unk_0C;
-            unk24->unk_10 = camera->yawUpdateRateInv = spA0;
-            if (func_80043F34(camera, sp3C, &sp88)) {
-                unk24->unk_26 = sp6C.yaw;
-                unk24->unk_2A = -1;
+            sp88 = *eyeNext;
+            spA0 = norm1->unk_0C * 2.0f;
+            swing->swingUpdateRate = camera->yawUpdateRateInv = spA0;
+            if (func_80043F34(camera, at, &sp88)) {
+                anim->swingYawTarget = atEyeNextGeo.yaw;
+                anim->startSwingTimer = -1;
             } else {
-                *sp40 = *sp38;
+                *eye = *eyeNext;
             }
-            unk24->unk_18 = 0;
+            swing->unk_18 = 0;
         }
-        if (unk24->unk_18 != 0) {
-            camera->direction.y = Camera_LERPCeilS(camera->direction.y + BINANG_SUB(BINANG_ROT180(unk24->unk_16), camera->direction.y), camera->direction.y, 1.0f - (0.99f * sp98), 0xA);
+        if (swing->unk_18 != 0) {
+            camera->direction.y = Camera_LERPCeilS(camera->direction.y + BINANG_SUB(BINANG_ROT180(swing->unk_16), camera->direction.y), camera->direction.y, 1.0f - (0.99f * sp98), 0xA);
         }
 
-        if (norm1->unk_22 & 4) {
-            camera->direction.x = -sp74.pitch;
-            camera->direction.y = BINANG_ROT180(sp74.yaw);
+        if (norm1->interfaceFlags & 4) {
+            camera->direction.x = -atEyeGeo.pitch;
+            camera->direction.y = BINANG_ROT180(atEyeGeo.yaw);
             camera->direction.z = 0;
         } else {
-            OLib_Vec3fDiffToVecSphGeo(&sp7C, sp40, sp3C);
-            camera->direction.x = sp7C.pitch;
-            camera->direction.y = sp7C.yaw;
+            OLib_Vec3fDiffToVecSphGeo(&eyeAdjustment, eye, at);
+            camera->direction.x = eyeAdjustment.pitch;
+            camera->direction.y = eyeAdjustment.yaw;
             camera->direction.z = 0;
         }
 
         if(1){
             // crit wiggle
-            if (gSaveContext.health <= 0x10 && ((camera->globalCtx->state.frames & 0xFF) == 0)) {
+            if (gSaveContext.health <= 0x10 && ((camera->globalCtx->state.frames % 256) == 0)) {
                 camera->direction.y += (s16)(Math_Rand_ZeroOne() * 10000.0f);
             }
         }
     } else {
-        unk24->unk_10 = norm1->unk_0C;
-        unk24->unk_18 = 0;
+        swing->swingUpdateRate = norm1->unk_0C;
+        swing->unk_18 = 0;
         sUpdateCameraDirection = 0;
-        *sp40 = *sp38;
+        *eye = *eyeNext;
     }
 
-    camera->fov = Camera_LERPCeilF(norm1->unk_18 * (gSaveContext.health <= 0x10 ? 0.8f : 1.0f), camera->fov, camera->fovUpdateRate, 1.0f);
+    camera->fov = Camera_LERPCeilF(norm1->fovTarget * (gSaveContext.health <= 0x10 ? 0.8f : 1.0f), camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
-    camera->atLERPStepScale = Camera_ClampLERPScale(camera, norm1->unk_1C);
+    camera->atLERPStepScale = Camera_ClampLERPScale(camera, norm1->atLERPScaleMax);
     return 1;
 }
 #else
@@ -1691,7 +1709,7 @@ s32 Camera_Normal2(Camera *camera) {
         }
     }
 
-    Camera_Vec3fVecSphAdd(sp40, sp44, &sp98);
+    Camera_Vec3fVecSphGeoAdd(sp40, sp44, &sp98);
 
     if (camera->status == CAM_STATUS_ACTIVE) {
         spAC.unk_00 = *sp40;
@@ -1849,7 +1867,7 @@ s32 Camera_Normal3(Camera *camera) {
         unk20->unk_28--;
     }
 
-    Camera_Vec3fVecSphAdd(sp40, sp44, &sp84);
+    Camera_Vec3fVecSphGeoAdd(sp40, sp44, &sp84);
     
     if (1 && camera->status == 7) {
         func_80046E20(camera, &sp84, camera->params.norm3.unk_04, camera->params.norm3.unk_0C, &sp8C, &camera->params.norm3.unk_20);
@@ -2036,7 +2054,7 @@ s32 Camera_Parallel1(Camera *camera) {
         }
 
     }
-    Camera_Vec3fVecSphAdd(eyeNext, at, &spA8);
+    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spA8);
     if (camera->status == CAM_STATUS_ACTIVE) {
         sp6C.unk_00 = *eyeNext;
         if ((camera->globalCtx->envCtx.skyDisabled == 0) || para1->interfaceFlags & 0x10) {
@@ -2138,10 +2156,10 @@ s32 Camera_Jump1(Camera *camera) {
 
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         anim->swing.unk_16 = anim->swing.unk_18 = 0;
-        anim->swing.unk_0C = NULL;
+        anim->swing.atEyePoly = NULL;
         anim->unk_20.pitch = 0;
         anim->unk_20.yaw = 0xC8;
-        anim->swing.unk_1A = 0;
+        anim->swing.swingUpdateRateTimer = 0;
         anim->swing.swingUpdateRate = jump1->yawUpateRateTarget;
         anim->unk_1C = camera->playerPosRot.pos.y - camera->playerPosDelta.y;
         anim->unk_20.r = eyeAtOffset.r;
@@ -2150,10 +2168,10 @@ s32 Camera_Jump1(Camera *camera) {
         camera->animState++;
     }
 
-    if (anim->swing.unk_1A != 0) {
-        camera->yawUpdateRateInv = Camera_LERPCeilF(jump1->yawUpateRateTarget + anim->swing.unk_1A, camera->yawUpdateRateInv, PCT(OREG(26)), 0.1f);
-        camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)R_CAM_DEFA_PHI_UPDRATE + anim->swing.unk_1A, camera->pitchUpdateRateInv, PCT(OREG(26)), 0.1f);
-        anim->swing.unk_1A--;
+    if (anim->swing.swingUpdateRateTimer != 0) {
+        camera->yawUpdateRateInv = Camera_LERPCeilF(jump1->yawUpateRateTarget + anim->swing.swingUpdateRateTimer, camera->yawUpdateRateInv, PCT(OREG(26)), 0.1f);
+        camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)R_CAM_DEFA_PHI_UPDRATE + anim->swing.swingUpdateRateTimer, camera->pitchUpdateRateInv, PCT(OREG(26)), 0.1f);
+        anim->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(jump1->yawUpateRateTarget, camera->yawUpdateRateInv, PCT(OREG(26)), 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, PCT(OREG(26)), 0.1f);
@@ -2193,7 +2211,7 @@ s32 Camera_Jump1(Camera *camera) {
         eyeDiffSph.pitch = R_CAM_MIN_PHI2;
     }
 
-    Camera_Vec3fVecSphAdd(&newEye, at, &eyeDiffSph);
+    Camera_Vec3fVecSphGeoAdd(&newEye, at, &eyeDiffSph);
     eyeNext->x = newEye.x;
     eyeNext->z = newEye.z;
     eyeNext->y += (newEye.y - eyeNext->y) * PCT(OREG(31));
@@ -2303,7 +2321,7 @@ s32 Camera_Jump2(Camera *camera) {
         unk24->unk_00 = func_80044510(camera, &spC8);
         unk24->unk_04 = spA4.yaw;
         unk24->unk_06 = 0;
-        if (unk24->unk_00 == -32000.0f) {
+        if (unk24->unk_00 == BGCHECK_Y_MIN) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: climb: no floor \n" VT_RST);
             unk24->unk_0A = -1;
             unk24->unk_00 = sp2C->pos.y - 1000.0f;
@@ -2377,7 +2395,7 @@ s32 Camera_Jump2(Camera *camera) {
     spC8.z = sp2C->pos.z + (Math_Coss(sp2C->rot.y) * 25.0f);
     
     temp_f0_4 = func_80044434(camera, &spBC, &spC8, &sp88);
-    if ((temp_f0_4 != -32000.0f) && (sp2C->pos.y < temp_f0_4)) {
+    if ((temp_f0_4 != BGCHECK_Y_MIN) && (sp2C->pos.y < temp_f0_4)) {
         camera->pitchUpdateRateInv = Camera_LERPCeilF(20.0f, camera->pitchUpdateRateInv, PCT(OREG(26)), 0.1f);
         camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, PCT(OREG(26)), 0.1f);
         spB4.pitch = Camera_LERPCeilS(0x1F4, spA4.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
@@ -2399,7 +2417,7 @@ s32 Camera_Jump2(Camera *camera) {
         spB4.pitch = -0x2AF8;
     }
 
-    Camera_Vec3fVecSphAdd(sp30, sp34, &spB4);
+    Camera_Vec3fVecSphGeoAdd(sp30, sp34, &spB4);
     sp60.unk_00 = *sp30;
 
     if (func_80043D18(camera, sp34, &sp60)) {
@@ -2408,12 +2426,12 @@ s32 Camera_Jump2(Camera *camera) {
         spAC.r = spB4.r;
         spAC.pitch = 0;
         spAC.yaw = spB4.yaw;
-        Camera_Vec3fVecSphAdd(&sp60.unk_00, sp34, &spAC);
+        Camera_Vec3fVecSphGeoAdd(&sp60.unk_00, sp34, &spAC);
         if (func_80043D18(camera, sp34, &sp60)) {
             *sp38 = spC8;
         } else {
             spB4.pitch = Camera_LERPCeilS(0, spB4.pitch, 0.2f, 0xA);
-            Camera_Vec3fVecSphAdd(sp38, sp34, &spB4);
+            Camera_Vec3fVecSphGeoAdd(sp38, sp34, &spB4);
             func_80043F34(camera, sp34, sp38);
         }
     } else {
@@ -2461,12 +2479,12 @@ s32 Camera_Jump3(Camera *camera) {
     func_8002EEE4(&playerPosRot2, &camera->player->actor);
 
     sp54 = 0;
-    if (((camera->unk_114 - eye->y) < OREG(44) || (camera->animState == 0))){
+    if (((camera->waterYPos - eye->y) < OREG(44) || (camera->animState == 0))){
         if(anim->unk_22 != 0){
             anim->unk_22 = 0;
             sp54 = 1;
         }
-    } else if (((camera->unk_114 - eye->y) > OREG(45)) && (anim->unk_22 != 0xA)) {
+    } else if (((camera->waterYPos - eye->y) > OREG(45)) && (anim->unk_22 != 0xA)) {
         anim->unk_22 = 0xA;
         sp54 = 1;
     }
@@ -2504,13 +2522,13 @@ s32 Camera_Jump3(Camera *camera) {
         case 0xA:
         case 0x14:
         case 0x19:
-            anim->swing.unk_0C = 0;
+            anim->swing.atEyePoly = NULL;
             anim->unk_1C = camera->playerGroundY;
             anim->swing.unk_16 = anim->swing.unk_14 = anim->swing.unk_18 = 0;
             anim->animTimer = 0xA;
             anim->swing.swingUpdateRate = jump3->swingUpdateRate;
             camera->animState++;
-            anim->swing.unk_1A = 0;
+            anim->swing.swingUpdateRateTimer = 0;
             break;
         default:
             if (anim->animTimer != 0) {
@@ -2526,10 +2544,10 @@ s32 Camera_Jump3(Camera *camera) {
     spC0 = camera->unk_E0 * PCT(OREG(26));
     spBC = anim->swing.unk_18 != 0 ? PCT(OREG(25)) : spC4;
 
-    if (anim->swing.unk_1A != 0) {
-        camera->yawUpdateRateInv = Camera_LERPCeilF(anim->swing.swingUpdateRate + (anim->swing.unk_1A * 2), camera->yawUpdateRateInv, spC4, 0.1f);
-        camera->pitchUpdateRateInv = Camera_LERPCeilF((anim->swing.unk_1A * 2) + 40.0f, camera->pitchUpdateRateInv, spC0, 0.1f);
-        anim->swing.unk_1A--;
+    if (anim->swing.swingUpdateRateTimer != 0) {
+        camera->yawUpdateRateInv = Camera_LERPCeilF(anim->swing.swingUpdateRate + (anim->swing.swingUpdateRateTimer * 2), camera->yawUpdateRateInv, spC4, 0.1f);
+        camera->pitchUpdateRateInv = Camera_LERPCeilF((anim->swing.swingUpdateRateTimer * 2) + 40.0f, camera->pitchUpdateRateInv, spC0, 0.1f);
+        anim->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(anim->swing.swingUpdateRate, camera->yawUpdateRateInv, spBC, 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF(40.0f, camera->pitchUpdateRateInv, spC0, 0.1f);
@@ -2551,10 +2569,10 @@ s32 Camera_Jump3(Camera *camera) {
     }
 
     if (!(phi_f0 < 10.0f)) {
-        if (camera->unk_114 <= playerPosRot2.pos.y) {
-            phi_f2 = playerPosRot2.pos.y - camera->unk_114;
+        if (camera->waterYPos <= playerPosRot2.pos.y) {
+            phi_f2 = playerPosRot2.pos.y - camera->waterYPos;
         } else {
-            phi_f2 = -(playerPosRot2.pos.y - camera->unk_114);
+            phi_f2 = -(playerPosRot2.pos.y - camera->waterYPos);
         }
         if (!(phi_f2 < 50.0f)) {
             camera->pitchUpdateRateInv = 100.0f;
@@ -2576,7 +2594,7 @@ s32 Camera_Jump3(Camera *camera) {
         eyeDiffSph.pitch = OREG(34);
     }
 
-    Camera_Vec3fVecSphAdd(eyeNext, at, &eyeDiffSph);
+    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeDiffSph);
     if ((camera->status == CAM_STATUS_ACTIVE) && !(jump3->interfaceFlags & 0x10)) {
         func_80046E20(camera, &eyeDiffSph, jump3->distTargetMin, jump3->swingUpdateRate, &spBC, &anim->swing);
         if (jump3->interfaceFlags & 4) {
@@ -2762,7 +2780,7 @@ s32 Camera_Battle1(Camera *camera) {
                 Camera_ChangeModeDefaultFlags(camera, CAM_MODE_PARALLEL);
                 return 1;
             }
-            anim->unk_1A = OREG(23) + OREG(24);
+            anim->swingUpdateRateTimer = OREG(23) + OREG(24);
             anim->unk_16 = sp9C.yaw;
             anim->unk_18 = sp9C.pitch;
             anim->unk_00 = sp9C.r;
@@ -2783,7 +2801,7 @@ s32 Camera_Battle1(Camera *camera) {
         sp84 = 1;
     }
 
-    if (anim->unk_1A == 0) {
+    if (anim->swingUpdateRateTimer == 0) {
         camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp84 != 0 ? batt1->unk_28 : batt1->unk_20);
     }
     
@@ -2877,7 +2895,7 @@ s32 Camera_Battle1(Camera *camera) {
             }
         }
         spB4.pitch = Camera_LERPCeilS(phi_a0, sp94.pitch, anim->unk_10, 0xA);
-        Camera_Vec3fVecSphAdd(sp44, sp48, &spB4);
+        Camera_Vec3fVecSphGeoAdd(sp44, sp48, &spB4);
         spBC.unk_00 = *sp44;
         if (camera->status == CAM_STATUS_ACTIVE) {
             if ((camera->globalCtx->envCtx.skyDisabled == 0) || ((camera->params.batt1.interfaceFlags & 1) != 0)) {
@@ -2979,7 +2997,7 @@ s32 Camera_Battle4(Camera *camera) {
         eyeNextOffset.pitch = Camera_LERPCeilS(batt4->pitchTarget, eyeAtOffset.pitch, batt4->lerpUpdateRate, 2);
         eyeNextOffset.r = Camera_LERPCeilF(batt4->rTarget, eyeAtOffset.r, batt4->lerpUpdateRate, 0.001f);
     }
-    Camera_Vec3fVecSphAdd(eyeNext, at, &eyeNextOffset);
+    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeNextOffset);
     *eye = *eyeNext;
     camera->dist = eyeNextOffset.r;
     camera->fov = Camera_LERPCeilF(batt4->fovTarget, camera->fov, batt4->lerpUpdateRate, 1.0f);
@@ -3111,7 +3129,7 @@ s32 Camera_KeepOn1(Camera *camera) {
                 spC8.r = 60.0f;
                 spC8.pitch = 0x2EE0;
                 spC8.yaw = camera->playerPosRot.rot.y;
-                Camera_Vec3fVecSphAdd(&sp30->pos, &sp54.pos, &spC8);
+                Camera_Vec3fVecSphGeoAdd(&sp30->pos, &sp54.pos, &spC8);
             } else {
                 func_8002EEE4(sp30, camera->target);
             }
@@ -3220,7 +3238,7 @@ s32 Camera_KeepOn1(Camera *camera) {
         phi_a0 = BINANG_SUB(DEGF_TO_BINANG(keep1->unk_14 + ((keep1->unk_18 - keep1->unk_14) * sp84)), spC8.pitch * (0.5f + (sp84 * 0.5f))) + (s16)(spD0.pitch * keep1->unk_1C);
         phi_a0 = CLAMP(phi_a0, -0x3200, 0x3200);
         spD8.pitch = Camera_LERPCeilS(phi_a0, spB8.pitch, PCT(OREG(12)), 0xA);
-        Camera_Vec3fVecSphAdd(sp40, sp44, &spD8);
+        Camera_Vec3fVecSphGeoAdd(sp40, sp44, &spD8);
         sp8C.unk_00 = *sp40;
         if (camera->status == CAM_STATUS_ACTIVE) {
             if ((camera->globalCtx->envCtx.skyDisabled == 0) || ((keep1->unk_30 & 1) != 0)) {
@@ -3397,18 +3415,18 @@ s32 Camera_KeepOn3(Camera *camera) {
         spD0 = sp3C->pos;
         spB8 = temp_f14_2;
         spD4 = spD4 + sp58;
-        Camera_Vec3fVecSphAdd(temp_s1_2, &spD0, &spA4);
+        Camera_Vec3fVecSphGeoAdd(temp_s1_2, &spD0, &spA4);
         sp84 = ARRAY_COUNT(D_8011D3B0);
         phi_s0 = 0;
         spA4.r = temp_f14_2;
         sp9C.r = ((keep3->unk_04 + (temp_f14_2 * 0.5f)) - sp8C.r) + sp8C.r;
-        Camera_Vec3fVecSphAdd(&spC4, temp_s1_2, &sp9C);
+        Camera_Vec3fVecSphGeoAdd(&spC4, temp_s1_2, &sp9C);
         if (!(keep3->unk_2A & 0x80)) {
             while(phi_s0 < sp84){
                 if (func_800626B0(camera->globalCtx, &camera->globalCtx->colChkCtx, temp_s1_2, &spC4, &spAC, 2) || func_80043F34(camera, temp_s1_2, &spC4)) {
                     sp9C.yaw = D_8011D3B0[phi_s0] + sp80;
                     sp9C.pitch = D_8011D3CC[phi_s0] + sp82;
-                    Camera_Vec3fVecSphAdd(&spC4, temp_s1_2, &sp9C);
+                    Camera_Vec3fVecSphGeoAdd(&spC4, temp_s1_2, &sp9C);
                 } else {
                     break;
                 }
@@ -3432,7 +3450,7 @@ s32 Camera_KeepOn3(Camera *camera) {
         sp9C.r = ((unk2C->unk_00.x * (f32) unk2C->unk_1C) + sp8C.r) + 1.0f;
         sp9C.yaw = sp8C.yaw + (s32) (unk2C->unk_00.y * (f32) unk2C->unk_1C);
         sp9C.pitch = sp8C.pitch + (s32) (unk2C->unk_00.z * (f32) unk2C->unk_1C);
-        Camera_Vec3fVecSphAdd(temp_s2, temp_s0, &sp9C);
+        Camera_Vec3fVecSphGeoAdd(temp_s2, temp_s0, &sp9C);
         *sp48 = *temp_s2;
         camera->fov = Camera_LERPCeilF(keep3->unk_20, camera->fov, 0.5f, 1.0f);
         camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
@@ -3695,14 +3713,14 @@ s32 Camera_KeepOn4(Camera *camera) {
             spB8.pitch = spA2;
             spB8.yaw = spA0;
             spB8.r = keep4->unk_04;
-            Camera_Vec3fVecSphAdd(&D_8015BD50.unk_20, &D_8015BD50.unk_00, &spB8);
+            Camera_Vec3fVecSphGeoAdd(&D_8015BD50.unk_20, &D_8015BD50.unk_00, &spB8);
             sp82 = ARRAY_COUNT(D_8011D3B0);
             if(!(keep4->unk_1C & 1)){
                 for(sp7C = 0; sp7C < sp82; sp7C++){
                     if(func_800626B0(camera->globalCtx, &camera->globalCtx->colChkCtx, &D_8015BD50.unk_00, &D_8015BD50.unk_20, &spCC, sp9C) || func_80043F34(camera, &D_8015BD50.unk_00, &D_8015BD50.unk_20)){
                         spB8.yaw = D_8011D3B0[sp7C] + spA0;
                         spB8.pitch = D_8011D3CC[sp7C] + spA2;
-                        Camera_Vec3fVecSphAdd(&D_8015BD50.unk_20, &D_8015BD50.unk_00, &spB8);
+                        Camera_Vec3fVecSphGeoAdd(&D_8015BD50.unk_20, &D_8015BD50.unk_00, &spB8);
                     } else {
                         break;
                     }
@@ -3730,7 +3748,7 @@ s32 Camera_KeepOn4(Camera *camera) {
         spB8.r = keep4->unk_10;
         spB8.pitch = 0;
         spB8.yaw = sp38->rot.y;
-        Camera_Vec3fVecSphAdd(sp40, sp40, &spB8);
+        Camera_Vec3fVecSphGeoAdd(sp40, sp40, &spB8);
     }
     camera->atLERPStepScale = 0.0f;
     spB8.r = camera->dist = Camera_LERPCeilF(keep4->unk_04, camera->dist, 0.25f, 2.0f);
@@ -3762,7 +3780,7 @@ s32 Camera_KeepOn4(Camera *camera) {
     }
     spB8.yaw = Camera_LERPCeilS(unk20->unk_0C, spA8.pitch, keep4->unk_14, 4);
     spB8.pitch = Camera_LERPCeilS(unk20->unk_0E, spA8.yaw, keep4->unk_14, 4);
-    Camera_Vec3fVecSphAdd(sp3C, sp40, &spB8);
+    Camera_Vec3fVecSphGeoAdd(sp3C, sp40, &spB8);
     *sp44 = *sp3C;
     func_80043F34(camera, sp40, sp44);
     camera->fov = Camera_LERPCeilF(keep4->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
@@ -3841,7 +3859,7 @@ s32 Camera_KeepOn0(Camera *camera) {
 
     if (anim->animTimer != 0) {
         eyeAtOffset.yaw += (BINANG_SUB(eyeTargetPosOffset.yaw, eyeAtOffset.yaw) / anim->animTimer) * keep0->yawScale;
-        Camera_Vec3fVecSphAdd(at, eye, &eyeAtOffset);
+        Camera_Vec3fVecSphGeoAdd(at, eye, &eyeAtOffset);
         anim->animTimer--;
     } else {
         camera->unk_14C |= (0x400 | 0x10);
@@ -3908,7 +3926,7 @@ s32 Camera_Fixed1(Camera *camera) {
     eyeOffset.pitch = Camera_LERPCeilS(-anim->eyePosRotTarget.rot.x, eyeAtOffset.pitch, fixd1->lerpStep, 5);
     eyeOffset.yaw = Camera_LERPCeilS(anim->eyePosRotTarget.rot.y, eyeAtOffset.yaw, fixd1->lerpStep, 5);
     
-    Camera_Vec3fVecSphAdd(at, eye, &eyeOffset);
+    Camera_Vec3fVecSphGeoAdd(at, eye, &eyeOffset);
     
     camera->eyeNext = *eye;
 
@@ -4061,7 +4079,7 @@ s32 Camera_Fixed3(Camera *camera) {
     atSph.yaw = anim->rot.y;
     atSph.pitch = -anim->rot.x;
     
-    Camera_Vec3fVecSphAdd(at, eye, &atSph);
+    Camera_Vec3fVecSphGeoAdd(at, eye, &atSph);
     sCameraInterfaceFlags = fixd3->interfaceFlags;
     anim->fov = R_CAM_FIXED3_FOV;
     camera->roll = 0;
@@ -4134,7 +4152,7 @@ s32 Camera_Fixed4(Camera *camera) {
     sp70.pitch = Camera_LERPCeilS(sp68.pitch, sp70.pitch, unk14->unk_0C * camera->unk_E0, 0xA);
     sp70.yaw = Camera_LERPCeilS(sp68.yaw, sp70.yaw, unk14->unk_0C * camera->unk_E0, 0xA);
     
-    Camera_Vec3fVecSphAdd(at, eyeNext, &sp70);
+    Camera_Vec3fVecSphGeoAdd(at, eyeNext, &sp70);
     
     camera->dist = OLib_Vec3fDist(at, eye);
     camera->roll = 0;
@@ -4212,7 +4230,7 @@ s32 Camera_Subj3(Camera *camera) {
     sp84.pitch = sp60.rot.x;
     sp98 = sp60.pos;
     sp98.y += subj3->eyeNextYOffset;
-    Camera_Vec3fVecSphAdd(&sp8C, &sp98, &sp84);
+    Camera_Vec3fVecSphGeoAdd(&sp8C, &sp98, &sp84);
     OLib_Vec3fDiffToVecSphGeo(&sp7C, temp_s1, sp38);
 
     sCameraInterfaceFlags = subj3->interfaceFlags;
@@ -4239,7 +4257,7 @@ s32 Camera_Subj3(Camera *camera) {
         sp7C.r = Camera_LERPCeilF(anim->animTimer * (anim->r - sp84.r) * (1.0f / R_DEFA_CAM_ANIM_TIME) + sp84.r, sp7C.r, PCT(OREG(28)), 1.0f);
         sp7C.yaw = Camera_LERPCeilS(sp84.yaw + (sp52 * anim->animTimer), sp7C.yaw, PCT(OREG(28)), 0xA);
         sp7C.pitch = Camera_LERPCeilS(sp84.pitch + (sp50 * anim->animTimer), sp7C.pitch, PCT(OREG(28)), 0xA);
-        Camera_Vec3fVecSphAdd(sp30, temp_s1, &sp7C);
+        Camera_Vec3fVecSphGeoAdd(sp30, temp_s1, &sp7C);
         *sp38 = *sp30;
         anim->animTimer--;
         if (camera->globalCtx->envCtx.skyDisabled == 0) {
@@ -4264,9 +4282,9 @@ s32 Camera_Subj3(Camera *camera) {
         sp7C.r = subj3->eyeNextDist;
         sp7C.pitch = sp60.rot.x;
         sp7C.yaw = BINANG_ROT180(sp60.rot.y);
-        Camera_Vec3fVecSphAdd(sp30, temp_s1, &sp7C);
+        Camera_Vec3fVecSphGeoAdd(sp30, temp_s1, &sp7C);
         sp7C.r = subj3->eyeDist;
-        Camera_Vec3fVecSphAdd(sp38, temp_s1, &sp7C);
+        Camera_Vec3fVecSphGeoAdd(sp38, temp_s1, &sp7C);
     }
     camera->posOffset.x = temp_s1->x - playerPosRot->pos.x;
     camera->posOffset.y = temp_s1->y - playerPosRot->pos.y;
@@ -4358,7 +4376,7 @@ s32 Camera_Subj4(Camera *camera) {
         sp64.pitch = 0x238C;
         sp64.r = 10.0f;
         sp64.yaw = temp_s0->unk_30;
-        Camera_Vec3fVecSphAdd(&sp8C, &sp6C.pos, &sp64);
+        Camera_Vec3fVecSphGeoAdd(&sp8C, &sp6C.pos, &sp64);
         temp_f2 = temp_s0->unk_32 + 1.0f;
         temp_s2->x = F32_LERPIMPINV(temp_s2->x, sp8C.x, temp_f2);
         temp_s2->y = F32_LERPIMPINV(temp_s2->y, sp8C.y, temp_f2);
@@ -4366,7 +4384,7 @@ s32 Camera_Subj4(Camera *camera) {
         sp5C.r -= (sp5C.r / temp_f2);
         sp5C.yaw = BINANG_LERPIMPINV(sp5C.yaw, BINANG_ROT180(sp6C.rot.y), temp_s0->unk_32);
         sp5C.pitch = BINANG_LERPIMPINV(sp5C.pitch, sp6C.rot.x, temp_s0->unk_32);
-        Camera_Vec3fVecSphAdd(sp34, temp_s2, &sp5C);
+        Camera_Vec3fVecSphGeoAdd(sp34, temp_s2, &sp5C);
         *temp_s3 = *sp34;
         temp_s0->unk_32--;
         return false;
@@ -4383,7 +4401,7 @@ s32 Camera_Subj4(Camera *camera) {
     sp64.yaw = temp_s0->unk_30;
     sp64.pitch = 0x238C;
     sp64.r = 5.0f;
-    Camera_Vec3fVecSphAdd(&sp98, sp34, &sp64);
+    Camera_Vec3fVecSphGeoAdd(&sp98, sp34, &sp64);
     temp_s0->unk_2C += 0xBB8;
     temp_f16 = Math_Coss(temp_s0->unk_2C);
     temp_s3->x = F32_LERPIMP(temp_s3->x, sp98.x, fabsf(temp_f16));
@@ -4501,7 +4519,7 @@ s32 Camera_Data4(Camera *camera)
     atOffset.yaw = (initParams->jfifId & 1) ? (DEGF_TO_BINANG(camera->unk_12C) + initParams->eyePosRot.rot.y) : eyeAtOffset.yaw;
     atOffset.pitch = (initParams->jfifId & 2) ? (DEGF_TO_BINANG(camera->unk_12E) + initParams->eyePosRot.rot.x) : eyeAtOffset.pitch;
     
-    Camera_Vec3fVecSphAdd(at, eye, &atOffset);
+    Camera_Vec3fVecSphGeoAdd(at, eye, &atOffset);
     
     lookAt = camera->playerPosRot.pos;
     lookAt.y += yOffset;
@@ -4603,7 +4621,7 @@ s32 Camera_Unique1(Camera *camera) {
     }
 
     sp8C.yaw = Camera_LERPFloorS(anim->yawTarget, eyeNextAtOffset.yaw, 0.5f, 0x2710);
-    Camera_Vec3fVecSphAdd(eyeNext, at, &sp8C);
+    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &sp8C);
     *eye = *eyeNext;
     func_80043F34(camera, at, eye);
     camera->fov = Camera_LERPCeilF(uniq1->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
@@ -4670,7 +4688,7 @@ s32 Camera_Unique2(Camera *camera) {
     if (uniq2->interfaceFlags & 1) {
         OLib_Vec3fDiffToVecSphGeo(&eyeOffset, at, eyeNext);
         eyeOffset.r = uniq2->distTarget;
-        Camera_Vec3fVecSphAdd(&playerPos, at, &eyeOffset);
+        Camera_Vec3fVecSphGeoAdd(&playerPos, at, &eyeOffset);
         Camera_LERPCeilVec3f(&playerPos, eye, 0.25f, 0.25f, 0.2f);
     } else if (uniq2->interfaceFlags & 2) {
         if (OLib_Vec3fDistXZ(at, eyeNext) < uniq2->distTarget) {
@@ -4678,7 +4696,7 @@ s32 Camera_Unique2(Camera *camera) {
             eyeOffset.yaw = Camera_LERPCeilS(eyeOffset.yaw, eyeAtOffset.yaw, 0.1f, 0xA);
             eyeOffset.r = uniq2->distTarget;
             eyeOffset.pitch = 0;
-            Camera_Vec3fVecSphAdd(eye, at, &eyeOffset);
+            Camera_Vec3fVecSphGeoAdd(eye, at, &eyeOffset);
             eye->y = eyeNext->y;
         } else {
             Camera_LERPCeilVec3f(eyeNext, eye, 0.25f, 0.25f, 0.2f);
@@ -4737,7 +4755,7 @@ s32 Camera_Unique3(Camera *camera) {
             sp60.r = 100.0f;
             sp60.yaw = sp4C.y;
             sp60.pitch = -sp4C.x;
-            Camera_Vec3fVecSphAdd(at, &camera->eye, &sp60);
+            Camera_Vec3fVecSphGeoAdd(at, &camera->eye, &sp60);
             camera->animState++;
             
         case 2:
@@ -4778,7 +4796,7 @@ s32 Camera_Unique3(Camera *camera) {
             camera->fov = Camera_LERPCeilF(uniq3->unk_18.unk_00, camera->fov, 0.4f, 0.1f);
             OLib_Vec3fDiffToVecSphGeo(&sp60, at, &camera->eye);
             sp60.r = Camera_LERPCeilF(100.0f, sp60.r, 0.4f, 0.1f);
-            Camera_Vec3fVecSphAdd(&camera->eyeNext, at, &sp60);
+            Camera_Vec3fVecSphGeoAdd(&camera->eyeNext, at, &sp60);
             camera->eye = camera->eyeNext;
             if(uniq3->unk_0A-- > 0){
                 break;
@@ -5011,7 +5029,7 @@ s32 Camera_Unique7(Camera *camera) {
     // 0x7D0 ~ 10.98 degres.
     unk08->unk_00.x = Camera_LERPFloorS(playerPosEyeOffset.yaw, unk08->unk_00.x, 0.4f, 0x7D0);
     playerPosEyeOffset.pitch = Math_Coss(playerPosEyeOffset.yaw - sceneCamData->rot.y) * -sceneCamData->rot.x;
-    Camera_Vec3fVecSphAdd(at, eye, &playerPosEyeOffset);
+    Camera_Vec3fVecSphGeoAdd(at, eye, &playerPosEyeOffset);
     camera->unk_14C |= 0x400;
     return true;
 }
@@ -5144,7 +5162,7 @@ s32 Camera_Unique9(Camera *camera) {
             }
             scratchSph.yaw += playerTargetOffset.yaw;
             scratchSph.pitch += playerTargetOffset.pitch;
-            Camera_Vec3fVecSphAdd(&anim->atTarget, &targetPosRot2.pos, &scratchSph);
+            Camera_Vec3fVecSphGeoAdd(&anim->atTarget, &targetPosRot2.pos, &scratchSph);
         } else {
             if (camera->target == NULL) {
                 osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
@@ -5186,7 +5204,7 @@ s32 Camera_Unique9(Camera *camera) {
 
                 scratchSph.yaw += atFocusPosRot.rot.y;
                 scratchSph.pitch -= atFocusPosRot.rot.x;
-                Camera_Vec3fVecSphAdd(&anim->atTarget, &atFocusPosRot.pos, &scratchSph);
+                Camera_Vec3fVecSphGeoAdd(&anim->atTarget, &atFocusPosRot.pos, &scratchSph);
             } else {
                 if (camera->target == NULL) {
                     osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
@@ -5237,7 +5255,7 @@ s32 Camera_Unique9(Camera *camera) {
 
                 scratchSph.yaw += playerTargetOffset.yaw;
                 scratchSph.pitch += playerTargetOffset.pitch;
-                Camera_Vec3fVecSphAdd(&anim->eyeTarget, &eyeLookAtPos, &scratchSph);
+                Camera_Vec3fVecSphGeoAdd(&anim->eyeTarget, &eyeLookAtPos, &scratchSph);
             } else {
                 if (camera->target == NULL) {
                     osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
@@ -5279,7 +5297,7 @@ s32 Camera_Unique9(Camera *camera) {
 
                         scratchSph.yaw += eyeFocusPosRot.rot.y;
                         scratchSph.pitch -= eyeFocusPosRot.rot.x;
-                        Camera_Vec3fVecSphAdd(&anim->eyeTarget, &eyeFocusPosRot.pos, &scratchSph);
+                        Camera_Vec3fVecSphGeoAdd(&anim->eyeTarget, &eyeFocusPosRot.pos, &scratchSph);
                     } else {
                         if (camera->target == NULL) {
                             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: demo C: actor is not valid\n" VT_RST);
@@ -5349,7 +5367,7 @@ s32 Camera_Unique9(Camera *camera) {
             scratchSph.r = F32_LERPIMP(eyeNextAtOffset.r, anim->atEyeOffsetTarget.r, invKeyFrameTimer);
             scratchSph.pitch = eyeNextAtOffset.pitch + (BINANG_SUB(anim->atEyeOffsetTarget.pitch, eyeNextAtOffset.pitch) * invKeyFrameTimer);
             scratchSph.yaw = eyeNextAtOffset.yaw + (BINANG_SUB(anim->atEyeOffsetTarget.yaw, eyeNextAtOffset.yaw) * invKeyFrameTimer);
-            Camera_Vec3fVecSphAdd(&eyeTarget, at, &scratchSph);
+            Camera_Vec3fVecSphGeoAdd(&eyeTarget, at, &scratchSph);
             goto setEyeNext;
         case 2:
             // linear interpolation of eye/at using the eyeTarget 
@@ -5382,7 +5400,7 @@ setEyeNext:
             scratchSph.r = Camera_LERPCeilF(anim->atEyeOffsetTarget.r, eyeNextAtOffset.r, anim->curKeyFrame->lerpStepScale, 0.1f);
             scratchSph.pitch = Camera_LERPCeilS(anim->atEyeOffsetTarget.pitch, eyeNextAtOffset.pitch, anim->curKeyFrame->lerpStepScale, 1);
             scratchSph.yaw = Camera_LERPCeilS(anim->atEyeOffsetTarget.yaw, eyeNextAtOffset.yaw, anim->curKeyFrame->lerpStepScale, 1);
-            Camera_Vec3fVecSphAdd(eyeNext, at, &scratchSph);
+            Camera_Vec3fVecSphGeoAdd(eyeNext, at, &scratchSph);
             goto setAtFOVRoll;
         case 3:
             // linear interplation of eye/at/fov/roll using the step scale using eyeTarget
@@ -5420,7 +5438,7 @@ setAtFOVRoll:
             if(1){}
             scratchSph.r = !(spB4 < anim->curKeyFrame->eyeTargetInit.z) ? Camera_LERPCeilF(anim->curKeyFrame->eyeTargetInit.z, spB4, anim->curKeyFrame->lerpStepScale, 1.0f) : scratchSph.r;
 
-            Camera_Vec3fVecSphAdd(eyeNext, at, &scratchSph);
+            Camera_Vec3fVecSphGeoAdd(eyeNext, at, &scratchSph);
             camera->fov = Camera_LERPCeilF(F32_LERPIMPINV(camera->fov, anim->curKeyFrame->fovTargetInit, anim->keyFrameTimer), camera->fov, anim->curKeyFrame->lerpStepScale, 1.0f);
             camera->roll = Camera_LERPCeilS(anim->rollTarget, camera->roll, anim->curKeyFrame->lerpStepScale, 1);
             break;
@@ -5515,7 +5533,7 @@ void Camera_RotateAroundPoint(PosRot* at, Vec3f* pos, Vec3f* dst) {
     Camera_Vec3fCopy(pos, &posCopy);
     OLib_Vec3fToVecSphGeo(&posSph, &posCopy);
     posSph.yaw += at->rot.y;
-    Camera_Vec3fVecSphAdd(dst, &at->pos, &posSph);
+    Camera_Vec3fVecSphGeoAdd(dst, &at->pos, &posSph);
 }
 
 /**
@@ -5646,7 +5664,7 @@ s32 Camera_Demo3(Camera *camera) {
             camera->fov = demo3->fov;
             camera->roll = anim->animFrame = 0;
             anim->initialAt = camPlayerPosRot->pos;
-            if (-32000.0f != camera->playerGroundY) {
+            if (BGCHECK_Y_MIN != camera->playerGroundY) {
                 anim->initialAt.y = camera->playerGroundY;
             }
             angle = camPlayerPosRot->rot.y;
@@ -5668,7 +5686,7 @@ s32 Camera_Demo3(Camera *camera) {
             }
             OLib_Vec3fToVecSphGeo(&atOffset, &D_8011D678[0]);
             atOffset.yaw += camPlayerPosRot->rot.y;
-            Camera_Vec3fVecSphAdd(at, &anim->initialAt, &atOffset);
+            Camera_Vec3fVecSphGeoAdd(at, &anim->initialAt, &atOffset);
             eyeOffset.r = D_8011D658[0].r;
             eyeOffset.pitch = D_8011D658[0].pitch;
             eyeOffset.yaw = (D_8011D658[0].yaw * anim->yawDir) + camPlayerPosRot->rot.y;
@@ -5684,7 +5702,7 @@ s32 Camera_Demo3(Camera *camera) {
             
             OLib_Vec3fToVecSphGeo(&atOffset, &sp5C);
             atOffset.yaw = (atOffset.yaw * anim->yawDir) + camPlayerPosRot->rot.y;
-            Camera_Vec3fVecSphAdd(at, &anim->initialAt, &atOffset);
+            Camera_Vec3fVecSphGeoAdd(at, &anim->initialAt, &atOffset);
 
             atOffset.r = F32_LERPIMP(D_8011D658[0].r, D_8011D658[1].r, temp_f0);
             atOffset.pitch = BINANG_LERPIMP(D_8011D658[0].pitch, D_8011D658[1].pitch, temp_f0);
@@ -5707,7 +5725,7 @@ s32 Camera_Demo3(Camera *camera) {
 
             OLib_Vec3fToVecSphGeo(&atOffset, &sp5C);
             atOffset.yaw = (atOffset.yaw * anim->yawDir) + camPlayerPosRot->rot.y;
-            Camera_Vec3fVecSphAdd(at, &anim->initialAt, &atOffset);
+            Camera_Vec3fVecSphGeoAdd(at, &anim->initialAt, &atOffset);
 
             atOffset.r = F32_LERPIMP(D_8011D658[1].r, D_8011D658[2].r, temp_f0);
             atOffset.pitch = BINANG_LERPIMP(D_8011D658[1].pitch, D_8011D658[2].pitch, temp_f0);
@@ -5728,7 +5746,7 @@ s32 Camera_Demo3(Camera *camera) {
             
             OLib_Vec3fToVecSphGeo(&atOffset, &sp5C);
             atOffset.yaw = (atOffset.yaw * anim->yawDir) + camPlayerPosRot->rot.y;
-            Camera_Vec3fVecSphAdd(at, &anim->initialAt, &atOffset);
+            Camera_Vec3fVecSphGeoAdd(at, &anim->initialAt, &atOffset);
 
             atOffset.r = F32_LERPIMP(D_8011D658[2].r, D_8011D658[3].r, temp_f0);
             atOffset.pitch = BINANG_LERPIMP(D_8011D658[2].pitch, D_8011D658[3].pitch, temp_f0);
@@ -5802,7 +5820,7 @@ s32 Camera_Demo3(Camera *camera) {
         eyeOffset.r = Camera_LERPCeilF(eyeOffset.r, eyeAtOffset.r, anim->unk_0C, 2.0f);
         eyeOffset.pitch = Camera_LERPCeilS(eyeOffset.pitch, eyeAtOffset.pitch, anim->unk_0C, 0xA);
         eyeOffset.yaw = Camera_LERPCeilS(eyeOffset.yaw, eyeAtOffset.yaw, anim->unk_0C, 0xA);
-        Camera_Vec3fVecSphAdd(&camera->eyeNext, at, &eyeOffset);
+        Camera_Vec3fVecSphGeoAdd(&camera->eyeNext, at, &eyeOffset);
         *eye = camera->eyeNext;
     }
 
@@ -5868,7 +5886,7 @@ s32 Camera_Demo6(Camera *camera) {
             eyeOffset.yaw = Camera_XZAngle(&focusPosRot.pos, &cam0->playerPosRot.pos) + 0x7D0;
             // -0x3E8 ~5.49 degrees
             eyeOffset.pitch = -0x3E8;
-            Camera_Vec3fVecSphAdd(eyeNext, at, &eyeOffset);
+            Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeOffset);
             camera->eye = *eyeNext;
             camera->animState++;
         case 1:
@@ -6221,7 +6239,7 @@ s32 Camera_Special5(Camera *camera) {
             sp6C.yaw = playerPosRot->rot.y;
             sp6C.pitch = -playerPosRot->rot.x;
             sp6C.r = 20.0f;
-            Camera_Vec3fVecSphAdd(&sp7C.pos, &spA8.pos, &sp6C);
+            Camera_Vec3fVecSphGeoAdd(&sp7C.pos, &spA8.pos, &sp6C);
             func_80043D18(camera, at, &sp7C);
             OLib_Vec3fToVecSphGeo(&sp6C, &sp7C.norm);
             spA4 = BINANG_SUB(playerPosRot->rot.y, sp6C.yaw);
@@ -6232,7 +6250,7 @@ s32 Camera_Special5(Camera *camera) {
                             -(s16)(0x1553 + (s16)(temp_f0_2 * 2730.0f)) :
                             (s16)(0x1553 + (s16)(temp_f0_2 * 2730.0f)));
             sp74.pitch = spec5->pitch;
-            Camera_Vec3fVecSphAdd(eyeNext, &spA8.pos, &sp74);
+            Camera_Vec3fVecSphGeoAdd(eyeNext, &spA8.pos, &sp74);
             *eye = *eyeNext;
             func_80043F34(camera, &spA8.pos, eye);
         }
@@ -6378,7 +6396,7 @@ s32 Camera_Special6(Camera *camera) {
         atOffset.r = 100.0f;
         atOffset.yaw = sceneCamRot.y;
         atOffset.pitch = -sceneCamRot.x;
-        Camera_Vec3fVecSphAdd(&atAnim, &eyeAnim, &atOffset);
+        Camera_Vec3fVecSphGeoAdd(&atAnim, &eyeAnim, &atOffset);
         timerDivisor = 1.0f / timerF;
         eye->x += (eyeAnim.x - eye->x) * timerDivisor;
         eye->y += (eyeAnim.y - eye->y) * timerDivisor;
@@ -6402,7 +6420,7 @@ s32 Camera_Special6(Camera *camera) {
         atOffset.r = 100.0f;
         atOffset.yaw = sceneCamRot.y;
         atOffset.pitch = -sceneCamRot.x;
-        Camera_Vec3fVecSphAdd(at, eye, &atOffset);
+        Camera_Vec3fVecSphGeoAdd(at, eye, &atOffset);
     }
     return true;
 }
@@ -6484,13 +6502,13 @@ s32 Camera_Special9(Camera *camera) {
                     // 0xE38 ~ 20 degrees
                     spA4.yaw = *sp34 + (s16)(0xAAA * rotDir);
                     spA4.r = 200.0f * sp78;
-                    Camera_Vec3fVecSphAdd(sp40, sp44, &spA4);
+                    Camera_Vec3fVecSphGeoAdd(sp40, sp44, &spA4);
                     sp4C = *sp40;
                     *sp48 = sp4C;
                     spAC = sp4C;
                     if (func_800443A0(camera, &spAC, &sp3C->pos) != 0) {
                         spA4.yaw = *sp34 + (s16)-(s16)(0xAAA * rotDir);
-                        Camera_Vec3fVecSphAdd(sp40, sp44, &spA4);
+                        Camera_Vec3fVecSphGeoAdd(sp40, sp44, &spA4);
                         *sp48 = *sp40;
                     }
                 }
@@ -6516,7 +6534,7 @@ s32 Camera_Special9(Camera *camera) {
             spA4.pitch = Camera_LERPCeilS(0xAAA, spA4.pitch, 0.3f, 0xA);
             spA4.yaw = Camera_LERPCeilS(*sp34, sp9C.yaw, 0.3f, 0xA);
             spA4.r = Camera_LERPCeilF(60.0f, sp9C.r, 0.3f, 1.0f);
-            Camera_Vec3fVecSphAdd(sp40, sp44, &spA4);
+            Camera_Vec3fVecSphGeoAdd(sp40, sp44, &spA4);
             *sp48 = *sp40;
             doorc->unk_0A--;
             if (doorc->unk_0A <= 0) {
@@ -6715,19 +6733,19 @@ void func_80058148(Camera* camera, Player* player) {
     camera->posOffset.y = temp_f0;
     camera->posOffset.z = 0.0f;
     camera->at.y += temp_f0;
-    Camera_Vec3fVecSphAdd(&camera->eyeNext, &camera->at, &sp4C);
+    Camera_Vec3fVecSphGeoAdd(&camera->eyeNext, &camera->at, &sp4C);
     camera->eye = camera->eyeNext;
     camera->roll = 0;
     camera->up.x = 0.0f;
     camera->up.z = 0.0f;
     camera->up.y = 1.0f;
 
-    if (func_80044434(camera, &sp3C, &camera->at, &sp48) != -32000.0f) {
+    if (func_80044434(camera, &sp3C, &camera->at, &sp48) != BGCHECK_Y_MIN) {
         camera->bgCheckId = sp48;
     }
 
-    camera->unk_118 = -1;
-    camera->unk_11C = -1;
+    camera->waterPrevCamIdx = -1;
+    camera->waterPrevCamSetting = -1;
     camera->unk_14C |= 4;
 
     if (camera == &camera->globalCtx->cameras[0]) {
@@ -6864,7 +6882,137 @@ void Camera_PrintSettings(Camera *camera);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_PrintSettings.s")
 #endif
 
+#define NON_MATCHING
+#ifdef NON_MATCHING
+s32 func_800588B4(Camera *camera) {
+    f32 waterY;
+    s32 waterBoxProp;
+    s16 sp32;
+    s32 *sp2C;
+    f32 temp_f0;
+    s16 temp_v0_2;
+    s32 temp_a1;
+    s16 temp_v0;
+    s32 temp_v1;
+    u32 phi_v1;
+    s32* unk_11C = &camera->waterPrevCamSetting;
+    Player* player = camera->player;
+
+    temp_v1 = camera->unk_14C;
+    if(!(camera->unk_14C & 2) || sCameraSettings[camera->setting].unk_00 & 0x40000000) {
+        return 0;
+    }
+
+    if (camera->unk_14C & 0x200) {
+        if (player->stateFlags2 & 0x800) {
+            Camera_ChangeSetting(camera, CAM_SET_CIRCLE5, 6);
+            camera->unk_14C |= (s16)0x8000;
+        } else if (camera->unk_14C & (s16)0x8000) {
+            Camera_ChangeSetting(camera, *unk_11C, 6);
+            camera->unk_14C &= ~((s16)0x8000);
+        }
+    }
+    if (!(camera->unk_14C & (s16)0x8000)) {
+        temp_v0 = func_800448CC(camera, &waterY);
+        if (temp_v0 == -2) {
+            // No camera data idx
+            if (!(camera->unk_14C & 0x200)) {
+                camera->unk_14C |= 0x200;
+                camera->waterYPos = waterY;
+                camera->waterPrevCamIdx = camera->camDataIdx;
+                camera->waterQuakeId = -1;
+            }
+            if (camera->playerGroundY != camera->playerPosRot.pos.y) {
+                sp32 = camera->bgCheckId;
+                camera->bgCheckId = 0x32;
+                Camera_ChangeSetting(camera, CAM_SET_NORMAL3, 2);
+                *unk_11C = camera->setting;
+                camera->bgCheckId = sp32;
+                camera->camDataIdx = -2;
+            }
+        } else if (temp_v0 != -1) {
+            // player is in a water box
+            if (!(camera->unk_14C & 0x200)) {
+                camera->unk_14C |= 0x200;
+                camera->waterYPos = waterY;
+                camera->waterPrevCamIdx = camera->camDataIdx;
+                camera->waterQuakeId = -1;
+            }
+            if (camera->playerGroundY != camera->playerPosRot.pos.y) {
+                sp32 = camera->bgCheckId;
+                camera->bgCheckId = 0x32;
+                Camera_ChangeDataIdx(camera, temp_v0);
+                *unk_11C = camera->setting;
+                camera->bgCheckId = sp32;
+            }
+        } else if (camera->unk_14C & 0x200) {
+            // player is out of a water box.
+            osSyncPrintf("camera: water: off\n");
+            camera->unk_14C &= ~0x200;
+            sp32 = camera->bgCheckId;
+            camera->bgCheckId = (u16)0x32;
+            if (camera->waterPrevCamIdx < 0) {
+                func_80057FC4(camera);
+                camera->camDataIdx = -1;
+            } else {
+                Camera_ChangeDataIdx(camera, camera->waterPrevCamIdx);
+            }
+            camera->bgCheckId = sp32;
+        }
+    }
+
+    if (waterY = func_800449AC(camera, &camera->eye, &waterBoxProp), waterY != BGCHECK_Y_MIN) {
+        camera->waterYPos = waterY;
+        if ((camera->unk_14C & 0x100) == 0) {
+            camera->unk_14C |= 0100;
+            osSyncPrintf("kankyo changed water, sound on\n");
+            func_80070600(camera->globalCtx, waterBoxProp);
+            camera->unk_150 = 0x50;
+        }
+
+        func_800F6828(0x20);
+        
+        if (PREG(81)) {
+            Quake_RemoveFromIdx(camera->waterQuakeId);
+            camera->waterQuakeId = -1;
+            PREG(81) = 0;
+        }
+
+        if ((camera->waterQuakeId == -1) || (Quake_GetCountdown(camera->waterQuakeId) == 0xA)) {
+            camera->waterQuakeId = Quake_Add(camera, 5U);
+            if (camera->waterQuakeId != 0) {
+                Quake_SetSpeed(camera->waterQuakeId, 0x226);
+                Quake_SetQuakeValues(camera->waterQuakeId, 1, 1, 0xB4, 0);
+                Quake_SetCountdown(camera->waterQuakeId, 0x3E8);
+            }
+        }
+        if (camera->unk_150 > 0) {
+            camera->unk_152 |= 8;
+            camera->unk_150--;
+            return;
+        } else if (camera->globalCtx->sceneNum == 0x49) {
+            camera->unk_152 |= 0x10;
+            return;
+        } else {
+            camera->unk_152 |= 2;
+            return;
+        }
+    }
+    if (camera->unk_14C & 0x100) {
+        camera->unk_14C &= ~0x100;
+        osSyncPrintf("kankyo changed water off, sound off\n");
+        func_800706A0(camera->globalCtx);
+        if (camera->waterQuakeId != 0) {
+            Quake_RemoveFromIdx(camera->waterQuakeId);
+        }
+        camera->unk_150 = 0;
+        camera->unk_152 = 0;
+    }
+    func_800F6828(0);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800588B4.s")
+#endif
 
 /**
  * Sets the room to be hot camera quake flag
@@ -6900,7 +7048,7 @@ s32 func_80058D34(Camera* camera) {
             }
             if (phi_a2 != 0) {
                 D_8011D398 = (D_8011D398 + phi_a2) % 6;
-                if (Camera_ChangeSettingDefaultFlags(camera, D_8011DAFC[D_8011D398]) > 0) {
+                if (func_80057FC4Flags(camera, D_8011DAFC[D_8011D398]) > 0) {
                     osSyncPrintf("camera: force change SET to %s!\n", sCameraSettingNames[D_8011DAFC[D_8011D398]]);
                 }
             }
@@ -6953,7 +7101,7 @@ void func_80058E8C(Camera *camera) {
             sp38 = 0.001f;
             sp40 = 0.09f;
             sp34 = 0.08f;
-            temp_f12 = camera->unk_114 - camera->eye.y;
+            temp_f12 = camera->waterYPos - camera->eye.y;
             if (150.0f < temp_f12) {
                 phi_f14 = 1.0f;
             } else {
@@ -7044,11 +7192,11 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
 
         // This has to do with out of bounds Camera
         playerGroundY = func_8003CA0C(camera->globalCtx, &camera->globalCtx->colCtx, &playerFloorPoly, &bgCheckId, &camera->player->actor, &spAC);
-        if (playerGroundY != -32000.0f) {
+        if (playerGroundY != BGCHECK_Y_MIN) {
             sOOBTimer = 0;
-            camera->unk_108.x = playerFloorPoly->norm.x * (1.0f / 32767.0f);
-            camera->unk_108.y = playerFloorPoly->norm.y * (1.0f / 32767.0f);
-            camera->unk_108.z = playerFloorPoly->norm.z * (1.0f / 32767.0f);
+            camera->unk_108.x = playerFloorPoly->norm.x * COLPOLY_NORM_FRAC;
+            camera->unk_108.y = playerFloorPoly->norm.y * COLPOLY_NORM_FRAC;
+            camera->unk_108.z = playerFloorPoly->norm.z * COLPOLY_NORM_FRAC;
             camera->bgCheckId = bgCheckId;
             camera->playerGroundY = playerGroundY;
         } else {
@@ -7075,8 +7223,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             if ((camera->unk_14C & 1) && (camera->unk_14C & 4) && 
                 (!(camera->unk_14C & 0x400)) &&
                 (!(camera->unk_14C & 0x200) || (player->currentBoots == 1)) &&
-                // cast to u32 is needed to prevent sra over srl
-                (!((u32)camera->unk_14C >> 0xF)) && (playerGroundY != -32000.0f)) {
+                (!(camera->unk_14C & (s16)0x8000)) && (playerGroundY != BGCHECK_Y_MIN)) {
                     camDataIdx = func_8004479C(camera, &bgCheckId, playerFloorPoly);
                     if (camDataIdx != -1) {
                         camera->nextBGCheckId = bgCheckId;
@@ -7528,7 +7675,7 @@ s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
 #endif
 #undef NON_MATCHING
 
-s32 Camera_ChangeSettingDefaultFlags(Camera* camera, s16 setting) {
+s32 func_80057FC4Flags(Camera* camera, s16 setting) {
     return Camera_ChangeSetting(camera, setting, 0);
 }
 
@@ -7668,7 +7815,7 @@ s32 func_8005AC48(Camera* camera, s16 arg1) {
     return true;
 }
 
-s32 func_8005AC60(Camera* camera) {
+s32 Camera_ResetAnim(Camera* camera) {
     camera->animState = 0;
     return 1;
 }
@@ -7723,13 +7870,13 @@ s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 arg3, s1
     }
 
     if (camDataIdx == -1) {
-        Camera_ChangeSettingDefaultFlags(camera, CAM_SET_DOORC);
+        func_80057FC4Flags(camera, CAM_SET_DOORC);
         osSyncPrintf(".... change default door camera (set %d)\n", CAM_SET_DOORC);
     } else {
         s32 setting = Camera_GetCamDataSetting(camera, camDataIdx);
         camera->unk_14A |= 0x40;
 
-        if (Camera_ChangeSettingDefaultFlags(camera, setting) >= 0) {
+        if (func_80057FC4Flags(camera, setting) >= 0) {
             camera->camDataIdx = camDataIdx;
             camera->unk_14A |= 4;
         }

@@ -238,7 +238,7 @@ glabel Camera_Fixed4
 /* AC7580 800503E0 A7A20076 */  sh    $v0, 0x76($sp)
 /* AC7584 800503E4 8FA40040 */  lw    $a0, 0x40($sp)
 /* AC7588 800503E8 02202825 */  move  $a1, $s1
-/* AC758C 800503EC 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC758C 800503EC 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC7590 800503F0 27A60070 */   addiu $a2, $sp, 0x70
 /* AC7594 800503F4 8FA40040 */  lw    $a0, 0x40($sp)
 /* AC7598 800503F8 0C01EFE4 */  jal   OLib_Vec3fDist

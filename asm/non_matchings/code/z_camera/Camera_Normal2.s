@@ -534,7 +534,7 @@ glabel Camera_Normal2
 /* ABF868 800486C8 A7A3009C */  sh    $v1, 0x9c($sp)
 .L800486CC:
 /* ABF86C 800486CC 8FA40040 */  lw    $a0, 0x40($sp)
-/* ABF870 800486D0 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* ABF870 800486D0 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* ABF874 800486D4 8FA50044 */   lw    $a1, 0x44($sp)
 /* ABF878 800486D8 86190140 */  lh    $t9, 0x140($s0)
 /* ABF87C 800486DC 24010007 */  li    $at, 7

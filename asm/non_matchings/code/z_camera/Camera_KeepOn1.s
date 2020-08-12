@@ -332,7 +332,7 @@ glabel Camera_KeepOn1
 /* AC4004 8004CE64 AFA40030 */  sw    $a0, 0x30($sp)
 /* AC4008 8004CE68 27A50054 */  addiu $a1, $sp, 0x54
 /* AC400C 8004CE6C 27A600C8 */  addiu $a2, $sp, 0xc8
-/* AC4010 8004CE70 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC4010 8004CE70 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC4014 8004CE74 A7AC00CE */   sh    $t4, 0xce($sp)
 /* AC4018 8004CE78 10000006 */  b     .L8004CE94
 /* AC401C 8004CE7C 8FA90038 */   lw    $t1, 0x38($sp)
@@ -975,7 +975,7 @@ glabel Camera_KeepOn1
 /* AC499C 8004D7FC A7A200DC */  sh    $v0, 0xdc($sp)
 /* AC49A0 8004D800 8FA40040 */  lw    $a0, 0x40($sp)
 /* AC49A4 8004D804 8FA50044 */  lw    $a1, 0x44($sp)
-/* AC49A8 8004D808 0C010F0A */  jal   Camera_Vec3fVecSphAdd
+/* AC49A8 8004D808 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC49AC 8004D80C 27A600D8 */   addiu $a2, $sp, 0xd8
 /* AC49B0 8004D810 8FAE0040 */  lw    $t6, 0x40($sp)
 /* AC49B4 8004D814 27A6008C */  addiu $a2, $sp, 0x8c
