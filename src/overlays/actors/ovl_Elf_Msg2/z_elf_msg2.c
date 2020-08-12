@@ -149,7 +149,7 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Runs while navi text is not up. If text box flag is set the function unsets it and proceed to ElfMsg2_Read
+ * Runs while navi text is not up. If text box flag is set, this function unsets it and proceeds to ElfMsg2_Read
  */
 void ElfMsg2_CheckForRead(ElfMsg2* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
