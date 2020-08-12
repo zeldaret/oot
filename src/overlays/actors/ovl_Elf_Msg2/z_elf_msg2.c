@@ -37,6 +37,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
 };
 
+// Sets up draw properties for square faces of cuboid
 Gfx D_809ADC38[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
@@ -48,6 +49,7 @@ Gfx D_809ADC38[] = {
     gsSPEndDisplayList(),
 };
 
+// Corner vertices of a small cuboid
 Vtx D_809ADC78[] = {
     VTX(100, 0, 100, 0, 0, 0x49, 0xB7, 0x49, 0xFF),     VTX(100, 0, -100, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
     VTX(-100, 0, -100, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),   VTX(-100, 0, 100, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
@@ -55,6 +57,7 @@ Vtx D_809ADC78[] = {
     VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF), VTX(-100, 100, 100, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
 };
 
+// Draws the cuboid
 Gfx D_809ADCF8[] = {
     gsSPVertex(D_809ADC78, 8, 0),           gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
@@ -149,7 +152,7 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Runs while navi text is not up. If text box flag is set, this function unsets it and proceeds to ElfMsg2_Read
+ * Runs while navi text is not up. If text box flag is set, this function unsets it and proceeds to ElfMsg2_Read.
  */
 void ElfMsg2_CheckForRead(ElfMsg2* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -174,6 +177,9 @@ void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * If nREG(87) is nonzero, a small translucent cuboid (with alpha = nREG(87)) is drawn around the check spot.
+ */
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
