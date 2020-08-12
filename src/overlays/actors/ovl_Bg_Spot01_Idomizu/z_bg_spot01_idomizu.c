@@ -70,11 +70,9 @@ void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    u32 framesTemp;
-    u32 yFramesComponent;
-    u32 xFramesComponent;
+    u32 frames;
     GraphicsContext* gfxCtx;
-    Gfx* dispRefs[2];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 228);
@@ -83,12 +81,10 @@ void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 232),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    framesTemp = globalCtx->state.frames;
-    yFramesComponent = framesTemp;
-    xFramesComponent = yFramesComponent % 128;
+    frames = globalCtx->state.frames;
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - xFramesComponent, yFramesComponent & 0x7F, 32, 32, 1,
-                                xFramesComponent, yFramesComponent & 0x7F, 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - frames % 128, frames & 0x7F, 32, 32, 1,
+                                frames % 128, frames & 0x7F, 32, 32));
 
     gSPDisplayList(gfxCtx->polyXlu.p++, D_060007D0);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 244);
