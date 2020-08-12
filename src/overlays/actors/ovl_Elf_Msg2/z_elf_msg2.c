@@ -71,8 +71,8 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
  */
 s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     // Checking a switch or temp switch flag (from rot.y):
-    if (this->actor.posRot.rot.y > 0 && this->actor.posRot.rot.y < 0x41 &&
-        Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
+    if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
+        (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171);
         if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, (this->actor.params >> 8 & 0x3F));
@@ -81,18 +81,18 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
         return 1;
     }
     // Checking a room clear flag:
-    else if ((this->actor.posRot.rot.y == -1) && Flags_GetClear(globalCtx, this->actor.room)) {
+    else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182);
-        if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
-            Flags_SetSwitch(globalCtx, (this->actor.params >> 8 & 0x3F));
+        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
+            Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
+    } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
         return 0;
     }
     // Checking a switch or temp switch flag (from params):
-    else if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8 & 0x3F))) {
+    else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 192);
         Actor_Kill(&this->actor);
         return 1;
@@ -105,8 +105,8 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, globalCtx)) {
-        if (this->actor.posRot.rot.x > 0 && this->actor.posRot.rot.x < 8) {
-            this->actor.unk_1F = this->actor.posRot.rot.x - 1;
+        if ((this->actor.posRot.rot.x > 0) && (this->actor.posRot.rot.x < 8)) {
+            this->actor.unk_1F = (this->actor.posRot.rot.x - 1);
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.posRot.rot.y >= 0x41) {
@@ -158,8 +158,8 @@ void ElfMsg2_CheckForRead(ElfMsg2* this, GlobalContext* globalCtx) {
 }
 
 void ElfMsg2_TextInit(ElfMsg2* this, GlobalContext* globalCtx) {
-    if (this->actor.posRot.rot.y >= 0x41 && this->actor.posRot.rot.y < 0x81) {
-        if (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 0x41)) {
+    if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y < 0x81)) {
+        if (Flags_GetSwitch(globalCtx, (this->actor.posRot.rot.y - 0x41))) {
             ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
             this->actor.flags |= 0x00040001;
             this->actor.textId = ElfMsg2_GetMessageId(this);
