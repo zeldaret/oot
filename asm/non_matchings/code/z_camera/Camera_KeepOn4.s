@@ -850,13 +850,13 @@ glabel L8004EB20
 .L8004EF6C:
 /* AC610C 8004EF6C 87A800A2 */  lh    $t0, 0xa2($sp)
 /* AC6110 8004EF70 87B800A0 */  lh    $t8, 0xa0($sp)
-/* AC6114 8004EF74 3C048016 */  lui   $a0, %hi(D_8015BD70) # $a0, 0x8016
+/* AC6114 8004EF74 3C048016 */  lui   $a0, %hi(D_8015BD50) # $a0, 0x8016
 /* AC6118 8004EF78 A7A800BC */  sh    $t0, 0xbc($sp)
 /* AC611C 8004EF7C A7B800BE */  sh    $t8, 0xbe($sp)
 /* AC6120 8004EF80 C6260004 */  lwc1  $f6, 4($s1)
 /* AC6124 8004EF84 3C058016 */  lui   $a1, %hi(D_8015BD50) # $a1, 0x8016
 /* AC6128 8004EF88 24A5BD50 */  addiu $a1, %lo(D_8015BD50) # addiu $a1, $a1, -0x42b0
-/* AC612C 8004EF8C 2484BD70 */  addiu $a0, %lo(D_8015BD70) # addiu $a0, $a0, -0x4290
+/* AC612C 8004EF8C 2484BD70 */  addiu $a0, %lo(D_8015BD50+0x20) # addiu $a0, $a0, -0x4290
 /* AC6130 8004EF90 27A600B8 */  addiu $a2, $sp, 0xb8
 /* AC6134 8004EF94 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC6138 8004EF98 E7A600B8 */   swc1  $f6, 0xb8($sp)
@@ -873,10 +873,10 @@ glabel L8004EB20
 /* AC6160 8004EFC0 3C010001 */  lui   $at, (0x00011E60 >> 16) # lui $at, 1
 /* AC6164 8004EFC4 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
 /* AC6168 8004EFC8 3C068016 */  lui   $a2, %hi(D_8015BD50) # $a2, 0x8016
-/* AC616C 8004EFCC 3C078016 */  lui   $a3, %hi(D_8015BD70) # $a3, 0x8016
+/* AC616C 8004EFCC 3C078016 */  lui   $a3, %hi(D_8015BD50) # $a3, 0x8016
 /* AC6170 8004EFD0 27AE00CC */  addiu $t6, $sp, 0xcc
 /* AC6174 8004EFD4 AFAE0010 */  sw    $t6, 0x10($sp)
-/* AC6178 8004EFD8 24E7BD70 */  addiu $a3, %lo(D_8015BD70) # addiu $a3, $a3, -0x4290
+/* AC6178 8004EFD8 24E7BD70 */  addiu $a3, %lo(D_8015BD50+0x20) # addiu $a3, $a3, -0x4290
 /* AC617C 8004EFDC 24C6BD50 */  addiu $a2, %lo(D_8015BD50) # addiu $a2, $a2, -0x42b0
 /* AC6180 8004EFE0 02012821 */  addu  $a1, $s0, $at
 /* AC6184 8004EFE4 02002025 */  move  $a0, $s0
@@ -885,8 +885,8 @@ glabel L8004EB20
 /* AC6190 8004EFF0 14400008 */  bnez  $v0, .L8004F014
 /* AC6194 8004EFF4 02202025 */   move  $a0, $s1
 /* AC6198 8004EFF8 3C058016 */  lui   $a1, %hi(D_8015BD50) # $a1, 0x8016
-/* AC619C 8004EFFC 3C068016 */  lui   $a2, %hi(D_8015BD70) # $a2, 0x8016
-/* AC61A0 8004F000 24C6BD70 */  addiu $a2, %lo(D_8015BD70) # addiu $a2, $a2, -0x4290
+/* AC619C 8004EFFC 3C068016 */  lui   $a2, %hi(D_8015BD50) # $a2, 0x8016
+/* AC61A0 8004F000 24C6BD70 */  addiu $a2, %lo(D_8015BD50+0x20) # addiu $a2, $a2, -0x4290
 /* AC61A4 8004F004 0C010FCD */  jal   func_80043F34
 /* AC61A8 8004F008 24A5BD50 */   addiu $a1, %lo(D_8015BD50) # addiu $a1, $a1, -0x42b0
 /* AC61AC 8004F00C 1040001C */  beqz  $v0, .L8004F080
@@ -902,14 +902,14 @@ glabel L8004EB20
 /* AC61D0 8004F030 87AD00A0 */  lh    $t5, 0xa0($sp)
 /* AC61D4 8004F034 8508D3CC */  lh    $t0, %lo(D_8011D3CC)($t0)
 /* AC61D8 8004F038 87B800A2 */  lh    $t8, 0xa2($sp)
-/* AC61DC 8004F03C 3C048016 */  lui   $a0, %hi(D_8015BD70) # $a0, 0x8016
+/* AC61DC 8004F03C 3C048016 */  lui   $a0, %hi(D_8015BD50) # $a0, 0x8016
 /* AC61E0 8004F040 3C058016 */  lui   $a1, %hi(D_8015BD50)
 /* AC61E4 8004F044 032D4821 */  addu  $t1, $t9, $t5
 /* AC61E8 8004F048 01185021 */  addu  $t2, $t0, $t8
 /* AC61EC 8004F04C A7A900BE */  sh    $t1, 0xbe($sp)
 /* AC61F0 8004F050 A7AA00BC */  sh    $t2, 0xbc($sp)
 /* AC61F4 8004F054 24A5BD50 */  addiu $a1, %lo(D_8015BD50) # addiu $a1, $a1, -0x42b0
-/* AC61F8 8004F058 2484BD70 */  addiu $a0, %lo(D_8015BD70) # addiu $a0, $a0, -0x4290
+/* AC61F8 8004F058 2484BD70 */  addiu $a0, %lo(D_8015BD50+0x20) # addiu $a0, $a0, -0x4290
 /* AC61FC 8004F05C 0C010F0A */  jal   Camera_Vec3fVecSphGeoAdd
 /* AC6200 8004F060 27A600B8 */   addiu $a2, $sp, 0xb8
 /* AC6204 8004F064 8FB0007C */  lw    $s0, 0x7c($sp)

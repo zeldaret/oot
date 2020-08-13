@@ -1558,7 +1558,7 @@ GlobalContext* D_8015BD7C; // 8015BD7C
 DBCamera D_8015BD80; // 8015BD80
 CollisionPoly *playerFloorPoly;
 
-// probably statics.
+// statics
 f32 D_8015CE50;
 f32 D_8015CE54;
 CamColChk D_8015CE58;
