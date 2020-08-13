@@ -1204,7 +1204,7 @@ s16 func_80046B44(Camera* camera, s16 arg1, s16 arg2, s16 arg3) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046B44.s")
 #endif
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 // stack, regalloc, tiny bit of ordering
 //eyeAdjustment.yaw = 
@@ -1242,9 +1242,9 @@ s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
 void func_80046E20(Camera *camera, VecSph *eyeAdjustment, f32 minDist, f32 arg3, f32 *arg4, SwingAnimation *anim) {
     static CamColChk atEyeColChk;
     static CamColChk eyeAtColChk;
-    static CamColChk D_8015CED0;
+    static CamColChk newEyeColChk;
 
-    Vec3f sp58;
+    Vec3f peekAroundPoint;
     f32 sp50;
     VecSph newEyeAdjustment;
     VecSph sp40;
@@ -1258,48 +1258,52 @@ void func_80046E20(Camera *camera, VecSph *eyeAdjustment, f32 minDist, f32 arg3,
     f32 temp_f0_2;
     s32 temp_v0;
 
-    temp_v0 = func_80045508(camera, eyeAdjustment, &atEyeColChk, &eyeAtColChk, anim->unk_18 == 0);
+    temp_v0 = func_80045508(camera, eyeAdjustment, &atEyeColChk, &eyeAtColChk, !anim->unk_18);
     switch(temp_v0){
         case 1:
         case 2:
             // angle between polys is between 60 and 120 degrees.
-            Camera_BGCheckCorner(&anim->unk_00, &camera->at, &camera->eyeNext, &atEyeColChk, &eyeAtColChk);
-            sp58.x = anim->unk_00.x + (atEyeColChk.norm.x + eyeAtColChk.norm.x);
-            sp58.y = anim->unk_00.y + (atEyeColChk.norm.y + eyeAtColChk.norm.y);
-            sp58.z = anim->unk_00.z + (atEyeColChk.norm.z + eyeAtColChk.norm.z);
+            Camera_BGCheckCorner(&anim->collisionClosePoint, &camera->at, &camera->eyeNext, &atEyeColChk, &eyeAtColChk);
+            peekAroundPoint.x = anim->collisionClosePoint.x + (atEyeColChk.norm.x + eyeAtColChk.norm.x);
+            peekAroundPoint.y = anim->collisionClosePoint.y + (atEyeColChk.norm.y + eyeAtColChk.norm.y);
+            peekAroundPoint.z = anim->collisionClosePoint.z + (atEyeColChk.norm.z + eyeAtColChk.norm.z);
             
             temp_f0_2 = OLib_Vec3fDist(at, &atEyeColChk.pos);
-            *arg4 = minDist < temp_f0_2 ? 1.0f : temp_f0_2 / minDist;
+            *arg4 = temp_f0_2 > minDist ? 1.0f : temp_f0_2 / minDist;
             
-            anim->unk_18 = 1;
             anim->swingUpdateRate = PCT(OREG(10));
+            anim->unk_18 = 1;
             anim->atEyePoly = eyeAtColChk.poly;
-            OLib_Vec3fDiffToVecSphGeo(&newEyeAdjustment, at, &sp58);
+            OLib_Vec3fDiffToVecSphGeo(&newEyeAdjustment, at, &peekAroundPoint);
             
             newEyeAdjustment.r = eyeAdjustment->r;
             Camera_Vec3fVecSphGeoAdd(eye, at, &newEyeAdjustment);
-            D_8015CED0.pos = *eye;
-            if (func_80043D18(camera, at, &D_8015CED0) == 0) {
+            newEyeColChk.pos = *eye;
+            if (func_80043D18(camera, at, &newEyeColChk) == 0) {
+                // no collision found between at->newEyePos
                 newEyeAdjustment.yaw += BINANG_SUB(eyeAdjustment->yaw, newEyeAdjustment.yaw) >> 1;
                 newEyeAdjustment.pitch += BINANG_SUB(eyeAdjustment->pitch, newEyeAdjustment.pitch) >> 1;
                 Camera_Vec3fVecSphGeoAdd(eye, at, &newEyeAdjustment);
                 if (atEyeColChk.sphNorm.pitch < 0x2AA8) {
+                    // ~ 60 degrees
                     anim->unk_16 = newEyeAdjustment.yaw;
                     anim->unk_14 = newEyeAdjustment.pitch;
                 } else {
                     anim->unk_16 = eyeAdjustment->yaw;
                     anim->unk_14 = eyeAdjustment->pitch;
                 }
-                sp58.x = anim->unk_00.x - (atEyeColChk.norm.x + eyeAtColChk.norm.x);
-                sp58.y = anim->unk_00.y - (atEyeColChk.norm.y + eyeAtColChk.norm.y);
-                sp58.z = anim->unk_00.z - (atEyeColChk.norm.z + eyeAtColChk.norm.z);
-                OLib_Vec3fDiffToVecSphGeo(&newEyeAdjustment, at, &sp58);
+                peekAroundPoint.x = anim->collisionClosePoint.x - (atEyeColChk.norm.x + eyeAtColChk.norm.x);
+                peekAroundPoint.y = anim->collisionClosePoint.y - (atEyeColChk.norm.y + eyeAtColChk.norm.y);
+                peekAroundPoint.z = anim->collisionClosePoint.z - (atEyeColChk.norm.z + eyeAtColChk.norm.z);
+                OLib_Vec3fDiffToVecSphGeo(&newEyeAdjustment, at, &peekAroundPoint);
                 newEyeAdjustment.r = eyeAdjustment->r;
                 Camera_Vec3fVecSphGeoAdd(eyeNext, at, &newEyeAdjustment);
-                return;
+                break;
             }
-
-            atEyeColChk = D_8015CED0;
+            
+            eyeAtColChk.pos = newEyeColChk.pos;
+            atEyeColChk = newEyeColChk;
+            
         case 3:
         case 6:
             if (anim->unk_18 != 0) {
@@ -1308,17 +1312,13 @@ void func_80046E20(Camera *camera, VecSph *eyeAdjustment, f32 minDist, f32 arg3,
                 camera->eyeNext = camera->eye;
             }
             temp_f0 = OLib_Vec3fDist(&camera->at, &atEyeColChk.pos);
-            if (minDist < temp_f0) {
-                *arg4 = 1.0f;
-            } else {
-                *arg4 = temp_f0 / minDist;
-            }
+            *arg4 = temp_f0 > minDist ? 1.0f : temp_f0/minDist;
+
             anim->swingUpdateRate = *arg4 * arg3;
-            sp50 = temp_f0;
-            Camera_Vec3fScaleXYZFactor(&camera->eye, &atEyeColChk, &atEyeColChk, 1.0f);
+            
+            Camera_Vec3fScaleXYZFactor(eye, &atEyeColChk.pos, &atEyeColChk.norm, 1.0f);
             anim->atEyePoly = NULL;
             if (temp_f0 < OREG(21)) {
-                sp50 = temp_f0;
                 sp40.yaw = eyeAdjustment->yaw;
                 sp40.pitch = Math_Sins(atEyeColChk.sphNorm.pitch + 0x3FFF) * 16380.0f;
                 sp40.r = PCT(OREG(22)) * (OREG(21) - temp_f0);
@@ -1329,14 +1329,14 @@ void func_80046E20(Camera *camera, VecSph *eyeAdjustment, f32 minDist, f32 arg3,
         default:
             if (anim->unk_18 != 0) {
                 anim->swingUpdateRateTimer = OREG(52);
-                camera->eyeNext = camera->eye;
+                *eyeNext = *eye;
                 anim->unk_18 = 0;
             }
-            anim->atEyePoly = NULL;
             anim->swingUpdateRate = arg3;
-            camera->eye.x = atEyeColChk.pos.x + atEyeColChk.norm.x;
-            camera->eye.y = atEyeColChk.pos.y + atEyeColChk.norm.y;
-            camera->eye.z = atEyeColChk.pos.z + atEyeColChk.norm.z;
+            anim->atEyePoly = NULL;
+            eye->x = atEyeColChk.pos.x + atEyeColChk.norm.x;
+            eye->y = atEyeColChk.pos.y + atEyeColChk.norm.y;
+            eye->z = atEyeColChk.pos.z + atEyeColChk.norm.z;
             break;
     }
 }
@@ -1524,7 +1524,7 @@ s32 Camera_Normal1(Camera *camera) {
     if ((camera->status == CAM_STATUS_ACTIVE) &&  (!(norm1->interfaceFlags & 0x10))) {
         anim->swingYawTarget = BINANG_ROT180(camera->playerPosRot.rot.y);
         if (anim->startSwingTimer > 0) {
-            func_80046E20(camera, &eyeAdjustment, norm1->distMin, norm1->unk_0C, &sp98, &swing->unk_00);
+            func_80046E20(camera, &eyeAdjustment, norm1->distMin, norm1->unk_0C, &sp98, swing);
         } else {
             sp88 = *eyeNext;
             spA0 = norm1->unk_0C * 2.0f;
@@ -6882,7 +6882,7 @@ void Camera_PrintSettings(Camera *camera);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_PrintSettings.s")
 #endif
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 func_800588B4(Camera *camera) {
     f32 waterY;

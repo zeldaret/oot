@@ -209,7 +209,7 @@ typedef enum {
 } CameraFuncType;
 
 typedef struct {
-    /* 0x0000 */ Vec3f unk_00;
+    /* 0x0000 */ Vec3f collisionClosePoint;
     /* 0x000C */ CollisionPoly* atEyePoly;
     /* 0x0010 */ f32 swingUpdateRate;
     /* 0x0014 */ s16 unk_14;
