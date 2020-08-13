@@ -530,7 +530,7 @@ s32 func_8003D7F0(CollisionContext* colCtx, u16 arg1, u16 arg2, Vec3f* arg3, Vec
 // ? func_8003DD6C(?);
 s32 func_8003DE84(CollisionContext* colCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, u32 arg5, u32 arg6, u32 arg7, u32 arg8, s32* bgId);
 s32 func_8003DF10(CollisionContext* colCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32* bgId, Actor* actor);
-// ? func_8003DFA0(?);
+s32 func_8003DFA0(CollisionContext* colCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, CollisionPoly** outPoly, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32* bgId, Actor* actor, f32 argB);
 s32 func_8003E0FC(CollisionContext* colCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 // ? func_8003E188(?);
 // ? func_8003E214(?);

@@ -122,8 +122,8 @@ typedef struct Actor {
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
     /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
-    /* 0x080 */ f32     groundY; // Floor poly height?
-    /* 0x084 */ f32     waterY;
+    /* 0x080 */ f32     groundY; // Floor poly height
+    /* 0x084 */ f32     waterY; // Distance from water surface 
     /* 0x088 */ u16     bgCheckFlags;
     /* 0x08A */ s16     yawTowardsLink;
     /* 0x08C */ f32     xyzDistFromLinkSq;
@@ -165,7 +165,7 @@ typedef struct DynaPolyActor {
     /* 0x14C */ u32 dynaPolyId;
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;
-    /* 0x158 */ s16 unk_158;
+    /* 0x158 */ s16 unk_158; //y rotation?
     /* 0x15A */ u16 unk_15A;
     /* 0x15C */ u32 unk_15C;
     /* 0x160 */ u8 unk_160;
