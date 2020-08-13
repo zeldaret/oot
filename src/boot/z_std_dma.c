@@ -1575,7 +1575,7 @@ s32 DmaMgr_DMARomToRam(u32 rom, u32 ram, u32 size) {
     OSMesg msg;
     s32 ret;
     u32 buffSize;
-    u32 pad[2];
+    s32 pad[2];
 
     buffSize = gDmaMgrDmaBuffSize;
     if (buffSize == 0) {

@@ -671,7 +671,7 @@ void func_8006B6E4(GlobalContext* globalCtx, s16 drawId) {
 }
 
 void func_8006B870(GlobalContext* globalCtx, s16 drawId) {
-    u32 pad;
+    s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

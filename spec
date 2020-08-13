@@ -352,7 +352,6 @@ beginseg
     include "build/data/z_skin.bss.o"
     include "build/src/code/z_skin_awb.o"
     include "build/src/code/z_skin_matrix.o"
-    include "build/data/z_skin_matrix.data.o"
     include "build/src/code/z_sram.o"
     include "build/data/z_sram.data.o"
     include "build/src/code/code_800A9D40.o"
@@ -957,8 +956,7 @@ endseg
 beginseg
     name "ovl_Bg_Ingate"
     include "build/src/overlays/actors/ovl_Bg_Ingate/z_bg_ingate.o"
-    include "build/data/overlays/actors/z_bg_ingate.data.o"
-    include "build/data/overlays/actors/z_bg_ingate.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ingate/ovl_Bg_Ingate_reloc.o"
 endseg
 
 beginseg
@@ -996,8 +994,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Bombiwa"
     include "build/src/overlays/actors/ovl_Bg_Jya_Bombiwa/z_bg_jya_bombiwa.o"
-    include "build/data/overlays/actors/z_bg_jya_bombiwa.data.o"
-    include "build/data/overlays/actors/z_bg_jya_bombiwa.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Bombiwa/ovl_Bg_Jya_Bombiwa_reloc.o"
 endseg
 
 beginseg

@@ -94,12 +94,12 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     scale = this->regs[SS_G_SPK_SCALE] * 0.0025f;
 
-    func_800A7A24(&sp11C, this->pos.x, this->pos.y, this->pos.z);
-    func_800A76A4(&spDC, scale, scale, 1.0f);
-    func_800A6FA0(&sp11C, &globalCtx->mf_11DA0, &sp5C);
-    func_800A6FA0(&sp5C, &spDC, &sp9C);
+    SkinMatrix_SetTranslate(&sp11C, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&spDC, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&sp11C, &globalCtx->mf_11DA0, &sp5C);
+    SkinMatrix_MtxFMtxFMult(&sp5C, &spDC, &sp9C);
 
-    mtx = func_800A7E70(gfxCtx, &sp9C);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp9C);
 
     if (mtx != NULL) {
         gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

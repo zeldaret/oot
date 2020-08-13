@@ -130,7 +130,7 @@ void Title_Draw(TitleContext* this) {
 void Title_Main(TitleContext* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     Gfx* dispRefs[5];
-    u32 pad[2];
+    s32 pad[2];
     Gfx* gfx;
 
     Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 494);
@@ -162,7 +162,7 @@ void Title_Destroy(TitleContext* this) {
 
 void Title_Init(TitleContext* this) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
-    u32 pad;
+    s32 pad;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");

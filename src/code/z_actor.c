@@ -228,7 +228,7 @@ void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, UNK
 }
 
 void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3) {
-    func_800A6E10(&globalCtx->mf_11D60, arg1, arg2, arg3);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg1, arg2, arg3);
     *arg3 = (*arg3 < 1.0f) ? 1.0f : (1.0f / *arg3);
 }
 
@@ -2400,7 +2400,8 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             HREG(66) = i;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                func_800A6E10(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->projectedPos, &actor->projectedW);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &actor->posRot.pos, &actor->projectedPos,
+                                             &actor->projectedW);
             }
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {

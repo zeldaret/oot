@@ -138,7 +138,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         sp90.x = polygonDlist->pos.x;
         sp90.y = polygonDlist->pos.y;
         sp90.z = polygonDlist->pos.z;
-        func_800A6E10(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
         temp_f0 = polygonDlist->unk_06;
         if (-temp_f0 < sp84.z) {
             temp_f2 = sp84.z - temp_f0;
