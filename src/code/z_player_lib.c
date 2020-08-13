@@ -621,14 +621,14 @@ void* D_80125FF8[] = {
 };
 
 Color_RGB8 D_80126008[] = {
-    { 0x1E, 0x69, 0x1B },
-    { 0x64, 0x14, 0x00 },
-    { 0x00, 0x3C, 0x64 },
+    { 30, 105, 27 },
+    { 100, 20, 0 },
+    { 0, 60, 100 },
 };
 
 Color_RGB8 D_80126014[] = {
-    { 0xFF, 0xFF, 0xFF },
-    { 0xFE, 0xCF, 0x0F },
+    { 255, 255, 255 },
+    { 254, 207, 15 },
 };
 
 Gfx* D_8012601C[][2] = {
@@ -1109,9 +1109,9 @@ f32 D_801260E0[] = {
 Gfx* D_801260F8[] = { 0x0602AD58, 0x06018478 };
 
 Color_RGB8 D_80126100[] = {
-    { 0xFF, 0xFF, 0xFF }, { 0x50, 0x50, 0xFF }, { 0xFF, 0x64, 0xFF }, { 0x00, 0x00, 0xFF }, { 0xFF, 0x00, 0xFF },
-    { 0xFF, 0x00, 0xFF }, { 0xC8, 0xC8, 0x64 }, { 0xFF, 0x00, 0x00 }, { 0x00, 0x00, 0xFF }, { 0x00, 0xFF, 0x00 },
-    { 0xFF, 0xFF, 0xFF }, { 0xFF, 0xFF, 0xFF }, { 0x50, 0x50, 0xFF },
+    { 255, 255, 255 }, { 80, 80, 255 }, { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
+    { 255, 0, 255 }, { 200, 200, 100 }, { 255, 0, 0 }, { 0, 0, 255 }, { 0, 255, 0 },
+    { 255, 255, 255 }, { 255, 255, 255 }, { 80, 80, 255 },
 };
 
 Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
@@ -1202,7 +1202,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2712),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, spE0->r, spE0->g, spE0->b, 0x00);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, spE0->r, spE0->g, spE0->b, 0);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_801260F8[gSaveContext.linkAge]);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2717);
@@ -1422,7 +1422,7 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
 #endif
 
 Vp D_80126200 = { 128, 224, 511, 0, 128, 224, 511, 0 };
-Lights1 D_80126210 = gdSPDefLights1(0x50, 0x50, 0x50, 0xFF, 0xFF, 0xFF, 84, 84, 172);
+Lights1 D_80126210 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
 Vec3f D_80126228 = { 89.8f, 0.0f, 89.8f };
 
 void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80091A24_arg3* arg3, Vec3f* pos,
@@ -1470,7 +1470,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
     gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
     gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
     gDPSetFillColor(oGfxCtx->polyOpa.p++,
-                    (GPACK_RGBA5551(0xFF, 0xFF, 0xF0, 0) << 16) | GPACK_RGBA5551(0xFF, 0xFF, 0xF0, 0));
+                    (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
     gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, width - 1, height - 1);
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
@@ -1479,7 +1479,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
     gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
     gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
     gDPSetFillColor(oGfxCtx->polyOpa.p++,
-                    (GPACK_RGBA5551(0x00, 0x00, 0x00, 1) << 16) | GPACK_RGBA5551(0x00, 0x00, 0x00, 1));
+                    (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
     gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, width - 1, height - 1);
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);

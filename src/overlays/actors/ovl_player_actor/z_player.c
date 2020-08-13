@@ -1095,7 +1095,7 @@ void func_80833664(GlobalContext* globalCtx, Player* this, s8 actionParam) {
 
     this->stateFlags1 &= ~0x1000008;
 
-    for (i = 0; i < 0x2D; i++) {
+    for (i = 0; i < 45; i++) {
         if (current == *iter) {
             break;
         }
@@ -1104,7 +1104,7 @@ void func_80833664(GlobalContext* globalCtx, Player* this, s8 actionParam) {
 
     func_8083399C(globalCtx, this, actionParam);
 
-    if (i < 0x2D) {
+    if (i < 45) {
         this->skelAnime.linkAnimetionSeg = D_80853914[i * 6 + this->unk_15B];
     }
 }
@@ -1365,12 +1365,13 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
+// ordering and deduplication differences
 void func_808340DC(Player* this, GlobalContext* globalCtx) {
     LinkAnimetionEntry* sp4C;
-    f32 temp_f2;
-    f32 phi_f0;
+    f32 phi_f2;
     f32 phi_f12;
     f32 phi_f14;
+    f32 phi_f0;
     s32 sp38;
     s8 sp37;
     s32 temp;
@@ -1392,17 +1393,22 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
         sp4C = &D_04002F40;
     }
 
-    temp_f2 = SkelAnime_GetFrameCount(&sp4C->genericHeader);
+    phi_f2 = SkelAnime_GetFrameCount(&sp4C->genericHeader);
+
     if (sp38 >= 0) {
-        phi_f0 = 1.2f;
         phi_f12 = 0.0f;
-        phi_f14 = temp_f2;
+        phi_f14 = phi_f2;
+        phi_f0 = 1.2f;
     } else {
-        phi_f0 = -1.2f;
-        phi_f12 = temp_f2;
+        phi_f12 = phi_f2;
         phi_f14 = 0.0f;
+        phi_f0 = -1.2f;
     }
-    phi_f0 = (sp37 != 0) ? phi_f0 + phi_f0 : phi_f0;
+
+    if (sp37 != 0) {
+        phi_f0 *= 2.0f;
+    }
+
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime2, sp4C, phi_f0, phi_f12, phi_f14, 2, 0.0f);
 
     this->stateFlags1 &= ~0x100;
@@ -2578,7 +2584,6 @@ void func_80837530(GlobalContext* globalCtx, Player* this, s32 arg2) {
     }
 }
 
-#ifdef NON_MATCHING
 s32 func_808375D8(Player* this) {
     s8 sp3C[4];
     s8* iter;
@@ -2591,8 +2596,8 @@ s32 func_808375D8(Player* this) {
         return 0;
     }
 
-    iter2 = sp3C;
-    iter = this->unk_847;
+    iter = &this->unk_847[0];
+    iter2 = &sp3C[0];
     for (i = 0; i < 4; i++, iter++, iter2++) {
         if ((*iter2 = *iter) < 0) {
             return 0;
@@ -2605,7 +2610,7 @@ s32 func_808375D8(Player* this) {
         return 0;
     }
 
-    iter2 = sp3C;
+    iter2 = &sp3C[1];
     for (i = 1; i < 3; i++, iter2++) {
         temp2 = *iter2 - *(iter2 + 1);
         if ((ABS(temp2) < 10) || (temp2 * temp1 < 0)) {
@@ -2615,9 +2620,6 @@ s32 func_808375D8(Player* this) {
 
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_808375D8.s")
-#endif
 
 void func_80837704(GlobalContext* globalCtx, Player* this) {
     LinkAnimetionEntry* anim;
@@ -4078,8 +4080,6 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// missing a useless branch
 s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
     Actor* sp34 = this->naviTargetActor;
     Actor* sp30 = this->unk_664;
@@ -4091,12 +4091,14 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
     if (sp24 || (this->naviMessageId != 0)) {
         sp28 = (this->naviMessageId < 0) && ((ABS(this->naviMessageId) & 0xFF00) != 0x200);
-        if (sp28 || (sp2C = sp30, !sp24)) {
+        if (sp28 || !sp24) {
             sp2C = this->navi;
             if (sp28) {
                 sp30 = NULL;
                 sp34 = NULL;
             }
+        } else {
+            sp2C = sp30;
         }
     }
 
@@ -4152,9 +4154,6 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8083B644.s")
-#endif
 
 s32 func_8083B8F4(Player* this, GlobalContext* globalCtx) {
     if (!(this->stateFlags1 & 0x800800) && func_8005A470(Gameplay_GetCamera(globalCtx, 0), 6)) {
@@ -8951,8 +8950,8 @@ void func_80848F9C(Player* this, GlobalContext* globalCtx, Input* input) {
             this->unk_153 = this->currentBoots;
         }
 
-        if ((this->actor.attachedA == NULL) && (this->stateFlags1 & 0x800000)) {
-            this->actor.attachedA = &this->rideActor->actor;
+        if ((this->actor.parent == NULL) && (this->stateFlags1 & 0x800000)) {
+            this->actor.parent = &this->rideActor->actor;
             func_8083A360(globalCtx, this);
             this->stateFlags1 |= 0x800000;
             func_80832264(globalCtx, this, &D_040033B8);
@@ -9090,7 +9089,7 @@ void func_80848F9C(Player* this, GlobalContext* globalCtx, Input* input) {
                                   func_808332B8(this) ? &D_04003310 : (this->unk_891 != 0) ? &D_04002F08 : &D_04002878);
                 }
             } else {
-                if ((this->actor.attachedA == NULL) &&
+                if ((this->actor.parent == NULL) &&
                     ((globalCtx->sceneLoadFlag == 0x14) || (this->unk_A87 != 0) || !func_808382DC(this, globalCtx))) {
                     func_8083AA10(this, globalCtx);
                 } else {
@@ -9170,7 +9169,7 @@ void func_80848F9C(Player* this, GlobalContext* globalCtx, Input* input) {
             this->getItemDirection = 0x6000;
         }
 
-        if (this->actor.attachedA == NULL) {
+        if (this->actor.parent == NULL) {
             this->rideActor = NULL;
         }
 
@@ -9468,7 +9467,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(sp68, sp68, sp68, MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x32, 0x64, 0xFF);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 50, 100, 255);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_04033EE0);
         }
 
@@ -9872,7 +9871,7 @@ void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
 
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         // clang-format off
-        anim = (this->unk_84F > 0) ? &D_04002F28 :D_80853CD4[this->unk_15B]; func_80832284(globalCtx, this, anim);
+        anim = (this->unk_84F > 0) ? &D_04002F28 : D_80853CD4[this->unk_15B]; func_80832284(globalCtx, this, anim);
         // clang-format on
     } else if (this->unk_84F == 0) {
         if (this->skelAnime.linkAnimetionSeg == &D_04002F10) {
