@@ -219,10 +219,13 @@ void func_800287AC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
                    s16 life);
 void func_80028990(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
-// ? func_80028B18(?);
-void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
-// ? func_80028BB0(?);
-// ? func_80028CEC(?);
+void func_80028B18(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_80028B74(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor);
+void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor, s16 scale, s32 life);
+void func_80028CEC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
+                   Color_RGBA8_n* envColor, s16 scale, s32 life);
 void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
 void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
                    s16 life);
@@ -1073,7 +1076,7 @@ void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action);
 s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange);
 void Rupees_ChangeBy(s16 rupeeChange);
 void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
-void func_80087680(GlobalContext* globalCtx);
+void Magic_Fill(GlobalContext* globalCtx);
 void func_800876C8(GlobalContext* globalCtx);
 s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2);
 void func_80088AA0(s16 seconds);

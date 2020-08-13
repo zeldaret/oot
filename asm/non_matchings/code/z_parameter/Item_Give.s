@@ -1403,7 +1403,7 @@ glabel Item_Give
 /* AFD168 80085FC8 2401000A */  li    $at, 10
 /* AFD16C 80085FCC 51810004 */  beql  $t4, $at, .L80085FE0
 /* AFD170 80085FD0 8FA40048 */   lw    $a0, 0x48($sp)
-/* AFD174 80085FD4 0C021DA0 */  jal   func_80087680
+/* AFD174 80085FD4 0C021DA0 */  jal   Magic_Fill
 /* AFD178 80085FD8 8FA40048 */   lw    $a0, 0x48($sp)
 /* AFD17C 80085FDC 8FA40048 */  lw    $a0, 0x48($sp)
 .L80085FE0:
@@ -1428,7 +1428,7 @@ glabel Item_Give
 /* AFD1C0 80086020 2401000A */  li    $at, 10
 /* AFD1C4 80086024 51C10004 */  beql  $t6, $at, .L80086038
 /* AFD1C8 80086028 8FA40048 */   lw    $a0, 0x48($sp)
-/* AFD1CC 8008602C 0C021DA0 */  jal   func_80087680
+/* AFD1CC 8008602C 0C021DA0 */  jal   Magic_Fill
 /* AFD1D0 80086030 8FA40048 */   lw    $a0, 0x48($sp)
 /* AFD1D4 80086034 8FA40048 */  lw    $a0, 0x48($sp)
 .L80086038:

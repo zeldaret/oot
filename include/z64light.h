@@ -70,6 +70,6 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u8 type;
     /* 0x2 */ LightInfoPositionalParams params;
-} LightInfoPositional;
+} LightInfoPositional; // size = 0xE
 
 #endif

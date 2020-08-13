@@ -58,7 +58,7 @@ glabel func_8084EAC0
 .L8084EB8C:
 /* 1C97C 8084EB8C 11200004 */  beq     $t1, $zero, .L8084EBA0     
 /* 1C980 8084EB90 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 1C984 8084EB94 0C021DA0 */  jal     func_80087680              
+/* 1C984 8084EB94 0C021DA0 */  jal     Magic_Fill              
 /* 1C988 8084EB98 AFA30028 */  sw      $v1, 0x0028($sp)           
 /* 1C98C 8084EB9C 8FA30028 */  lw      $v1, 0x0028($sp)           
 .L8084EBA0:
