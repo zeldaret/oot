@@ -59,6 +59,7 @@ Vtx D_809AD2B8[] = { VTX(100, 0, 0, 0, 0, 0x59, 0xA7, 0x00, 0xFF),
                      VTX(0, 100, -100, 0, 0, 0x00, 0x59, 0xA7, 0xFF),
                      VTX(70, 100, -70, 0, 0, 0x49, 0x49, 0xB7, 0xFF) };
 
+// Draws a cylinder used for debugging
 Gfx D_809AD3B8[] = { gsSPVertex(D_809AD2B8, 16, 0),
                      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
                      gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
@@ -90,41 +91,46 @@ Gfx D_809AD4B8[] = { gsSPVertex(D_809AD438, 8, 0),           gsSP2Triangles(0, 1
                      gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
                      gsSP2Triangles(3, 0, 7, 0, 0, 7, 4, 0), gsSPEndDisplayList() };
 
-void func_809ACB20(ElfMsg* this, ElfMsgActionFunc actionFunc) {
+
+void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-s32 func_809ACB28(ElfMsg* this, GlobalContext* globalCtx) {
+/**
+ * Checks a scene flag and kills the actor if set. Can also set a switch flag from rot.y or params.
+ */
+s32 ElfMsg2_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
+    // Checking a switch or temp switch flag (from rot.y):
     if (this->actor.posRot.rot.y > 0 && this->actor.posRot.rot.y < 0x41 &&
         Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
         // Mutual destruction
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161);
         if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
-            Flags_SetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
-        }
-
-        Actor_Kill(&this->actor);
-        return 1;
-    }
-
-    else if (this->actor.posRot.rot.y == -1 && Flags_GetClear(globalCtx, this->actor.room) != 0) {
-        // Mutual destruction
-        LOG_STRING("共倒れ", "../z_elf_msg.c", 172);
-        if (this->actor.params >> 8 & 0x3F != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
 
         Actor_Kill(&this->actor);
         return 1;
     }
+    // Checking a room clear flag:
+    else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
+        // Mutual destruction
+        LOG_STRING("共倒れ", "../z_elf_msg.c", 172);
+        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
+            Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
+        }
 
-    if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
-        return 0;
-    } else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         Actor_Kill(&this->actor);
         return 1;
     }
-
+    else if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
+        return 0;
+    } 
+    // Checking a switch or temp switch flag (from params):
+    else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
+        Actor_Kill(&this->actor);
+        return 1;
+    }
     return 0;
 }
 
@@ -139,7 +145,7 @@ void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 出現条件 %d" VT_RST "\n", thisx->shape.rot.y - 0x41);
     }
 
-    if (func_809ACB28(this, globalCtx) == 0) {
+    if (ElfMsg2_KillCheck(this, globalCtx) == 0) {
         Actor_ProcessInitChain(thisx, sInitChain);
         if (thisx->posRot.rot.x == 0) {
             thisx->scale.z = 0.4f;
@@ -155,9 +161,9 @@ void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (thisx->params & 0x4000) {
-            func_809ACB20(this, func_809ACDF8);
+            ElfMsg_SetupAction(this, func_809ACDF8);
         } else {
-            func_809ACB20(this, func_809ACF18);
+            ElfMsg_SetupAction(this, func_809ACF18);
         }
 
         thisx->shape.rot.z = 0;
@@ -169,7 +175,7 @@ void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ElfMsg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-s32 func_809ACDCC(ElfMsg* this) {
+s32 ElfMsg_GetMessageId(ElfMsg* this) {
     if (this->actor.params & 0x8000) {
         return (this->actor.params & 0xFF) + 0x100;
     } else {
@@ -177,6 +183,9 @@ s32 func_809ACDCC(ElfMsg* this) {
     }
 }
 
+/**
+ * NaviCall? If link is inside a cube region around the position, set navi text on c-up
+ */
 void func_809ACDF8(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->navi;
@@ -185,14 +194,18 @@ void func_809ACDF8(ElfMsg* this, GlobalContext* globalCtx) {
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y)) &&
         (fabsf(player->actor.posRot.pos.z - this->actor.posRot.pos.z) < (100.0f * this->actor.scale.z))) {
-        player->naviMessageId = func_809ACDCC(this);
+        player->naviMessageId = ElfMsg_GetMessageId(this);
         navi->unk_298 = &this->actor;
     }
 }
 
-s32 func_809ACEC8(Vec3f* arg0, Vec3f* arg1, f32 arg2) {
-    return (SQ(arg1->x - arg0->x) + SQ(arg1->z - arg0->z)) < SQ(arg2);
+/**
+ * IsInNaviRangeXZ
+ */
+s32 func_809ACEC8(Vec3f* playerPos, Vec3f* msgPos, f32 radius) {
+    return (SQ(msgPos->x - playerPos->x) + SQ(msgPos->z - msgPos->z)) < SQ(radius);
 }
+
 
 void func_809ACF18(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -201,7 +214,7 @@ void func_809ACF18(ElfMsg* this, GlobalContext* globalCtx) {
     if (func_809ACEC8(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y))) {
-        player->naviMessageId = func_809ACDCC(this);
+        player->naviMessageId = ElfMsg_GetMessageId(this);
         navi->unk_298 = &this->actor;
     }
 }
@@ -209,7 +222,7 @@ void func_809ACF18(ElfMsg* this, GlobalContext* globalCtx) {
 void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg* this = THIS;
 
-    if (func_809ACB28(this, globalCtx) == 0) {
+    if (ElfMsg2_KillCheck(this, globalCtx) == 0) {
         if (func_8002F194(&this->actor, globalCtx)) {
             if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
@@ -222,6 +235,9 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * If nREG(87) is nonzero, a translucent cylinder (with alpha = nREG(87)) is drawn around the check spot.
+ */
 void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
