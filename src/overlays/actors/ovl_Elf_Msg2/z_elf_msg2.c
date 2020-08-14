@@ -14,8 +14,9 @@
  * this.posRot.rot.y
  *     (y == -1)                : Actor is killed if room clear flag is set.
  *     (y > 0x00) && (y < 0x41) : Actor is killed if switch flag (y - 1) is set.
- *     (y > 0x40) && (y < 0x81) : Actor code only begins to run if switch flag (y - 0x41) is set, once running, actor
- *                                is killed if switch flag ((p >> 8) & 0x3F) is set.
+ *     (y > 0x40) && (y < 0x81) : Actor idles and is not interactable until switch flag (y - 0x41) is set, once
+ *                                running, actor is killed if switch flag ((p >> 8) & 0x3F) is set.
+ *     (y > 0x80)               : Actor idles forever and is not interactable (Bug?)
  *     else:                    : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
  *
  * this.posRot.rot.z
@@ -35,7 +36,7 @@ void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 ElfMsg2_GetMessageId(ElfMsg2* this);
-void ElfMsg2_InitText(ElfMsg2* this, GlobalContext* globalCtx);
+void ElfMsg2_Idle(ElfMsg2* this, GlobalContext* globalCtx);
 void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx);
 
 const ActorInit Elf_Msg2_InitVars = {
@@ -135,7 +136,7 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.posRot.rot.y >= 0x41) {
-            ElfMsg2_SetupAction(this, ElfMsg2_InitText);
+            ElfMsg2_SetupAction(this, ElfMsg2_Idle);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
             this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
@@ -182,7 +183,12 @@ void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx) {
     }
 }
 
-void ElfMsg2_InitText(ElfMsg2* this, GlobalContext* globalCtx) {
+/**
+ * Idles until a switch flag is set, at which point the actor becomes interactable
+ */
+void ElfMsg2_Idle(ElfMsg2* this, GlobalContext* globalCtx) {
+    // If (y < 0x41) && (y < 0x81), Idles until switch flag (actor.posRot.rot.y - 0x41) is set
+    // If (y > 0x80), Idles forever (Bug?)
     if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y < 0x81) &&
         (Flags_GetSwitch(globalCtx, (this->actor.posRot.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
