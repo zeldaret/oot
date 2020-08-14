@@ -104,7 +104,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
 
-    //Find the X and Z distance between the girl and the cuckoo she is chasing
+    // Find the X and Z distance between the girl and the cuckoo she is chasing
     xDistBetween = this->attachedActor->actor.posRot.pos.x - this->actor.posRot.pos.x;
     zDistBetween = this->attachedActor->actor.posRot.pos.z - this->actor.posRot.pos.z;
     if (func_8010BDBC(&globalCtx->msgCtx) != 0) {
@@ -117,12 +117,12 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
         this->attachedActor->unk_2E8 = 0;
     }
 
-    //Change her angle so that she is always facing the cuckoo
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, ((Math_atan2f(xDistBetween, zDistBetween) * 10430.378f)), 3,
+    // Change her angle so that she is always facing the cuckoo
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(xDistBetween, zDistBetween) * 10430.378f, 3,
                             this->unk_27C, 0);
     Math_SmoothScaleMaxF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    
+
     //*Only allow Link to talk to her when she is playing the jumping animation
     if ((this->jumpTimer == 0) || (func_8008F080(globalCtx) != 0)) {
         this->jumpTimer = 60;
@@ -132,12 +132,12 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009C78), 0, -10.0f);
-    this->actor.flags = (this->actor.flags | 1);
+    this->actor.flags |= 1;
     this->actor.textId = 0x7000; // I can't catch that Cucco!
-    if ((((gSaveContext.eventChkInf[8]) & 1)) && (this->unk_27A == 0)) {
+    if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA; // That scary-looking man took off out of here really fast !
     }
-    switch ((func_8008F080(globalCtx) - 1)) {
+    switch (func_8008F080(globalCtx) - 1) {
         case KEATON_MASK:
             this->actor.textId = 0x7118; // Oh wow! It's Keaton! Hi, Keaton !
             break;
@@ -194,7 +194,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_272++;
         if (this->unk_272 >= 3) {
             this->unk_272 = 0;
-            this->unk_274 = ((s16)Math_Rand_ZeroFloat(60.0f) + 20);
+            this->unk_274 = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_280 = 30.0f;
@@ -251,6 +251,6 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnNiwGirlOverrideLimbDraw, 0, &this->actor);
-    func_80033C30(&this->actor.posRot.pos, &sp4C, 0xFF, globalCtx);
+    func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);
 }

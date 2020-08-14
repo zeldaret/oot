@@ -33,14 +33,14 @@ typedef struct EnNiwGirl {
 } EnNiwGirl; // size = 0x02FC
 
 typedef enum {
-    KEATON_MASK = 0,
-    SKULL_MASK,
-    SPOOKY_MASK,
-    BUNNY_HOOD,
-    GORON_MASK,
-    ZORA_MASK,
-    GERUDO_MASK,
-    MASK_OF_TRUTH
+    /* 0x00 */ KEATON_MASK,
+    /* 0x01 */ SKULL_MASK,
+    /* 0x02 */ SPOOKY_MASK,
+    /* 0x03 */ BUNNY_HOOD,
+    /* 0x04 */ GORON_MASK,
+    /* 0x05 */ ZORA_MASK,
+    /* 0x06 */ GERUDO_MASK,
+    /* 0x07*/ MASK_OF_TRUTH
 } currentMask;
 
 extern const ActorInit En_Niw_Girl_InitVars;
