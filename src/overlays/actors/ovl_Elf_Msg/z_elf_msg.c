@@ -11,8 +11,8 @@ void ElfMsg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809ACDF8(ElfMsg* this, GlobalContext* globalCtx);
-void func_809ACF18(ElfMsg* this, GlobalContext* globalCtx);
+void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx);
+void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx);
 
 const ActorInit Elf_Msg_InitVars = {
     ACTOR_ELF_MSG,
@@ -99,7 +99,7 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
 /**
  * Checks a scene flag and kills the actor if set. Can also set a switch flag from rot.y or params.
  */
-s32 ElfMsg2_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
+s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
     // Checking a switch or temp switch flag (from rot.y):
     if (this->actor.posRot.rot.y > 0 && this->actor.posRot.rot.y < 0x41 &&
         Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
@@ -161,9 +161,9 @@ void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (thisx->params & 0x4000) {
-            ElfMsg_SetupAction(this, func_809ACDF8);
+            ElfMsg_SetupAction(this, ElfMsg_CallNaviCuboid);
         } else {
-            ElfMsg_SetupAction(this, func_809ACF18);
+            ElfMsg_SetupAction(this, ElfMsg_CallNaviCylinder);
         }
 
         thisx->shape.rot.z = 0;
@@ -176,6 +176,7 @@ void ElfMsg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 ElfMsg_GetMessageId(ElfMsg* this) {
+    // Negative message ID forces link to talk to navi
     if (this->actor.params & 0x8000) {
         return (this->actor.params & 0xFF) + 0x100;
     } else {
@@ -184,9 +185,9 @@ s32 ElfMsg_GetMessageId(ElfMsg* this) {
 }
 
 /**
- * NaviCall? If link is inside a cube region around the position, set navi text on c-up
+ * ElfMsg_CallNaviCuboid
  */
-void func_809ACDF8(ElfMsg* this, GlobalContext* globalCtx) {
+void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->navi;
 
@@ -200,18 +201,20 @@ void func_809ACDF8(ElfMsg* this, GlobalContext* globalCtx) {
 }
 
 /**
- * IsInNaviRangeXZ
+ * ElfMsg_IsInNaviRangeXZ
  */
-s32 func_809ACEC8(Vec3f* playerPos, Vec3f* msgPos, f32 radius) {
-    return (SQ(msgPos->x - playerPos->x) + SQ(msgPos->z - msgPos->z)) < SQ(radius);
+s32 ElfMsg_IsInNaviRangeXZ(Vec3f* playerPos, Vec3f* msgPos, f32 radius) {
+    return (SQ(msgPos->x - playerPos->x) + SQ(msgPos->z - playerPos->z)) < SQ(radius);
 }
 
-
-void func_809ACF18(ElfMsg* this, GlobalContext* globalCtx) {
+/**
+ * ElfMsg_CallNaviCylinder
+ */
+void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->navi;
 
-    if (func_809ACEC8(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
+    if (ElfMsg_IsInNaviRangeXZ(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y))) {
         player->naviMessageId = ElfMsg_GetMessageId(this);
@@ -236,19 +239,19 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * If nREG(87) is nonzero, a translucent cylinder (with alpha = nREG(87)) is drawn around the check spot.
+ * If R_NAVI_MSG_REGION_ALPHA is nonzero, a translucent shape is drawn around the check spot.
  */
 void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg.c", 436);
-    if (nREG(87) != 0) {
+    if (R_NAVI_MSG_REGION_ALPHA != 0) {
         func_80093D18(globalCtx->state.gfxCtx);
         if (thisx->params & 0x8000) {
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 100, 100, nREG(87));
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
         } else {
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, nREG(87));
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
         }
 
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg.c", 448),
