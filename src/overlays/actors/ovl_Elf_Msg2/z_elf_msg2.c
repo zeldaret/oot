@@ -76,7 +76,7 @@ Vtx D_809ADC78[] = {
     VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF), VTX(-100, 100, 100, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
 };
 
-// Draws a small cuboid
+// Cuboid polygons
 Gfx D_809ADCF8[] = {
     gsSPVertex(D_809ADC78, 8, 0),           gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
