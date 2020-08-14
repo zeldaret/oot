@@ -224,10 +224,10 @@ void BgGndDarkmeiro_DrawSwitchedPlatform(BgGndDarkmeiro* this, GlobalContext* gl
           // vanish when their switch is unset. Or it would if they didn't ignore all of their color data.
 
         gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, this->timer2);
-        Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
-        Gfx_DrawDListXlu(globalCtx, &D_0600BEC0); // Draws the platform.
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
+        Gfx_DrawDListXlu(globalCtx, D_0600BEC0); // Draws the platform.
     }
 }
 
