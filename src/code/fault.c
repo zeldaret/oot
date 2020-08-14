@@ -923,7 +923,7 @@ void Fault_CommitFB() {
     }
 
     osViSwapBuffer(fb);
-    FaultDrawer_SetDrawerFB(fb, 0x140, 0xf0);
+    FaultDrawer_SetDrawerFB(fb, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void Fault_ProcessClients(void) {

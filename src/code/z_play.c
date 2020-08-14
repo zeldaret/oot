@@ -334,8 +334,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     SREG(91) = -1;
     R_PAUSE_MENU_MODE = 0;
     PreRender_Init(&globalCtx->preRenderCtx);
-    PreRender_SetValuesSave(&globalCtx->preRenderCtx, 0x140, 0xF0, 0, 0, 0);
-    PreRender_SetValues(&globalCtx->preRenderCtx, 0x140, 0xF0, 0, 0);
+    PreRender_SetValuesSave(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0);
+    PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
     func_8008E6A0(&globalCtx->sub_7B8);
@@ -1160,7 +1160,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             gfxCtx->polyOpa.p = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
-            PreRender_SetValues(&globalCtx->preRenderCtx, 0x140, 0xF0, gfxCtx->curFrameBuffer, gZBuffer);
+            PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
                 MsgEvent_SendNullTask();
