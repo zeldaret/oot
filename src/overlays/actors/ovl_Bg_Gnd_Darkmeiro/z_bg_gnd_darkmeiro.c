@@ -36,8 +36,8 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
 };
 
 extern UNK_TYPE D_0600C080;
-extern UNK_TYPE D_060088B0;
-extern UNK_TYPE D_0600BEC0;
+extern Gfx D_060088B0[];
+extern Gfx D_0600BEC0[];
 
 void BgGndDarkmeiro_TogglePlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 
