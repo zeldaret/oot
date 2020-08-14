@@ -132,7 +132,7 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, globalCtx)) {
         if ((this->actor.posRot.rot.x > 0) && (this->actor.posRot.rot.x < 8)) {
-            this->actor.unk_1F = (this->actor.posRot.rot.x - 1);
+            this->actor.unk_1F = this->actor.posRot.rot.x - 1;
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.posRot.rot.y >= 0x41) {
