@@ -12,15 +12,30 @@ void EnElf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnElf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80A053F0(Actor* thisx, GlobalContext* globalCtx);
+void func_80A052F4(Actor* thisx, GlobalContext* globalCtx);
+void func_80A05208(Actor* thisx, GlobalContext* globalCtx);
+void func_80A05188(Actor* thisx, GlobalContext* globalCtx);
+void func_80A05114(Actor* thisx, GlobalContext* globalCtx);
+void func_80A05040(Actor* thisx, GlobalContext* globalCtx);
 
+// Navi
 void func_80A03CF8(EnElf* this, GlobalContext* globalCtx);
+
+// Healing Fairies
+void func_80A0329C(EnElf* this, GlobalContext* globalCtx);
 void func_80A03610(EnElf* this, GlobalContext* globalCtx);
+
+// Healing Fairies Revive From Death
 void func_80A03990(EnElf* this, GlobalContext* globalCtx);
 void func_80A03814(EnElf* this, GlobalContext* globalCtx);
-void func_80A0329C(EnElf* this, GlobalContext* globalCtx);
+
+// Kokiri Fairies
 void func_80A0353C(EnElf* this, GlobalContext* globalCtx);
+
+// Fairy Spawner
 void func_80A03604(EnElf* this, GlobalContext* globalCtx);
 
+// Move(?) functions
 void func_80A0214C(EnElf* this, GlobalContext* globalCtx);
 void func_80A02AA4(EnElf* this, GlobalContext* globalCtx);
 void func_80A02A20(EnElf* this, GlobalContext* globalCtx);
@@ -28,7 +43,7 @@ void func_80A02B38(EnElf* this, GlobalContext* globalCtx);
 void func_80A020A4(EnElf* this, GlobalContext* globalCtx);
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx);
 
-void func_80A049B4(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife);
+void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife);
 
 const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
@@ -62,7 +77,7 @@ FairyColorFlags D_80A06064[] = {
 extern SkeletonHeader D_04016A48;
 extern AnimationHeader D_04014BA4;
 
-void func_80A01C30(EnElf* this, EnElfActionFunc actionFunc) {
+void EnElf_SetupAction(EnElf* this, EnElfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -313,7 +328,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params) {
         case FAIRY_NAVI:
             thisx->room = -1;
-            func_80A01C30(this, func_80A03CF8);
+            EnElf_SetupAction(this, func_80A03CF8);
             func_80A01C38(this, 0);
             this->flags |= 4;
             thisx->update = func_80A053F0;
@@ -327,7 +342,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case FAIRY_REVIVE_BOTTLE:
             colorConfig = -1;
-            func_80A01C30(this, func_80A03610);
+            EnElf_SetupAction(this, func_80A03610);
             this->unk_2B8 = Math_Vec3f_DistXZ(&thisx->posRot.pos, &player->actor.posRot.pos);
             this->unk_2AC = player->actor.shape.rot.y;
             this->unk_2B0 = -0x1000;
@@ -338,7 +353,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case FAIRY_REVIVE_DEATH:
             colorConfig = -1;
-            func_80A01C30(this, func_80A03990);
+            EnElf_SetupAction(this, func_80A03990);
             this->unk_2B8 = 0.0f;
             this->unk_2AC = player->actor.shape.rot.y;
             this->unk_2B0 = 0;
@@ -354,7 +369,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->flags |= FAIRY_FLAG_TIMED;
         case FAIRY_HEAL:
             colorConfig = -1;
-            func_80A01C30(this, func_80A0329C);
+            EnElf_SetupAction(this, func_80A0329C);
             this->unk_2B4 = Math_Rand_ZeroFloat(10.0f) + 10.0f;
             this->unk_2AA = 0;
             this->unk_2AE = (s16)(Math_Rand_ZeroFloat(1048.0f)) + 0x200;
@@ -368,12 +383,12 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case FAIRY_KOKIRI:
             colorConfig = Math_Rand_ZeroFloat(11.99f) + 1.0f;
-            func_80A01C30(this, func_80A0353C);
+            EnElf_SetupAction(this, func_80A0353C);
             func_80A01C38(this, 0);
             break;
 
         case FAIRY_SPAWNER:
-            func_80A01C30(this, func_80A03604);
+            EnElf_SetupAction(this, func_80A03604);
             func_80A01C38(this, 8);
 
             for (i = 0; i < 8; i++) {
@@ -529,6 +544,7 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
+void func_80A03148(EnElf* , Vec3f*, f32, f32, f32);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03148.s")
 
 void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
@@ -550,7 +566,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     func_80A03018(this, globalCtx);
 
     if ((this->unk_2A8 == 2) || (this->unk_2A8 == 3)) {
-        func_80A049B4(this, globalCtx, 16);
+        EnElf_SpawnSparkles(this, globalCtx, 16);
     }
 
     if (func_8002F410(&this->actor, globalCtx)) {
@@ -574,7 +590,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
                 this->unk_28C.y = 30.0f;
                 this->unk_2B4 = 0.0f;
                 this->unk_2AA = 0;
-                func_80A01C30(this, func_80A03610);
+                EnElf_SetupAction(this, func_80A03610);
                 return;
             }
         }
@@ -660,7 +676,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
     }
 
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
-    func_80A049B4(this, globalCtx, 32);
+    EnElf_SpawnSparkles(this, globalCtx, 32);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
 }
 
@@ -695,7 +711,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
     this->unk_2AC += this->unk_2B0;
     func_80A02E30(this, &player->unk_908[0]);
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
-    func_80A049B4(this, globalCtx, 32);
+    EnElf_SpawnSparkles(this, globalCtx, 32);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
 }
 
@@ -710,7 +726,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     this->unk_2B4 -= 0.35f;
 
     if (this->unk_2B4 <= 0.0f) {
-        func_80A01C30(this, func_80A03814);
+        EnElf_SetupAction(this, func_80A03814);
         this->unk_2B0 = 0x800;
         this->unk_2AE = 0;
         this->unk_2B4 = 0.0f;
@@ -720,7 +736,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     func_80A02E30(this, &player->unk_908[0]);
     Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * 0.012345679f)) * 0.008f);
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
-    func_80A049B4(this, globalCtx, 32);
+    EnElf_SpawnSparkles(this, globalCtx, 32);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
 }
 
@@ -737,7 +753,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A0461C.s")
 
 // EnElf_SpawnSparkles
-void func_80A049B4(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife) {
+void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife) {
     static Vec3f sparkleVelocity = { 0.0f, -0.05f, 0.0f };
     static Vec3f sparkleAccel = { 0.0f, -0.025f, 0.0f };
     s32 pad;
@@ -760,23 +776,238 @@ void func_80A049B4(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife) {
     func_80028BB0(globalCtx, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor, 1000, sparkleLife);
 }
 
+void func_80A04D90(EnElf* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04D90.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04DE4.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04DE4.s")
+void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
+    Vec3f posRot2Copy;
+    Player* player = PLAYER;
+    Vec3f naviRefPos;
+
+    if ((this->flags & 0x10) != 0) {
+        naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
+
+        if (((player->unk_664 == NULL) || (&player->actor == player->unk_664)) || (&this->actor == player->unk_664)) {
+            naviRefPos.x = (Math_Sins(player->actor.shape.rot.y) * 20.0f) + player->unk_908[7].x;
+            naviRefPos.y = player->unk_908[7].y + 5.0f;
+            naviRefPos.z = (Math_Coss(player->actor.shape.rot.y) * 20.0f) + player->unk_908[7].z;
+        }
+
+        this->actor.posRot2.pos = naviRefPos;
+        this->flags &= ~0x10;
+    }
+
+    func_80A03AB0(this, globalCtx);
+    posRot2Copy = this->actor.posRot2.pos;
+
+    func_80A03148(this, &posRot2Copy, 0, 20.0f, 0.2f);
+
+    if (this->actor.speedXZ >= 5.0f) {
+        EnElf_SpawnSparkles(this, globalCtx, 16);
+    }
+
+    Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
+    func_80A03B28(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04F94.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A05040.s")
+// talk to saria again?
+void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
+    EnElf* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A05114.s")
+    func_80A04DE4(this, globalCtx);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A05188.s")
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0: // yes
+                func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
+                this->actor.update = func_80A05114;
+                break;
+            case 1: // no
+                func_80106CCC(globalCtx);
+                this->actor.update = func_80A053F0;
+                func_80A01C38(this, 0);
+                this->flags &= ~0x20;
+                break;
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A05208.s")
+    func_80A04F94(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A052F4.s")
+void func_80A05114(Actor* thisx, GlobalContext* globalCtx) {
+    EnElf* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A053F0.s")
+    func_80A04DE4(this, globalCtx);
+
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+        func_8010B720(globalCtx, 0xE3);
+        this->actor.update = func_80A05040;
+    }
+
+    func_80A04F94(this, globalCtx);
+}
+
+void func_80A05188(Actor* thisx, GlobalContext* globalCtx) {
+    EnElf* this = THIS;
+
+    func_80A04DE4(this, globalCtx);
+
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+        func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
+        this->actor.update = func_80A05114;
+    }
+
+    func_80A04F94(this, globalCtx);
+}
+
+// talk to me?
+void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
+    s32 naviCUpText;
+    EnElf* this = THIS;
+
+    func_80A04DE4(this, globalCtx);
+
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0: // yes
+                naviCUpText = ElfMessage_GetCUpText(globalCtx);
+
+                if (naviCUpText != 0) {
+                    func_8010B720(globalCtx, naviCUpText);
+                } else {
+                    func_8010B720(globalCtx, 0x15F);
+                }
+
+                this->actor.update = func_80A052F4;
+                break;
+            case 1: // no
+                func_80106CCC(globalCtx);
+                this->actor.update = func_80A053F0;
+                func_80A01C38(this, 0);
+                this->flags &= ~0x20;
+                break;
+        }
+    }
+
+    func_80A04F94(this, globalCtx);
+}
+
+// talk to saria?
+void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
+    EnElf* this = THIS;
+
+    func_80A04DE4(this, globalCtx);
+
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
+        if (func_80106BC8(globalCtx) != 0) {
+            globalCtx->msgCtx.unk_E3F2 = 0xFF;
+
+            switch (globalCtx->msgCtx.choiceIndex) {
+                case 0: // yes
+                    this->actor.update = func_80A05188;
+                    func_8010B720(globalCtx, 0xE2);
+                    break;
+                case 1: // no
+                    this->actor.update = func_80A05208;
+                    func_8010B720(globalCtx, 0xE1);
+                    break;
+            }
+        }
+    } else if (func_8002F334(thisx, globalCtx)) {
+        this->actor.update = func_80A053F0;
+        func_80A01C38(this, 0);
+        this->flags &= ~0x20;
+    }
+
+    func_80A04F94(this, globalCtx);
+}
+
+void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
+    u8 temp2C7;
+    s32 pad;
+    Player* player = PLAYER;
+    EnElf* this = THIS;
+
+    if (player->naviMessageId == 0) {
+        if (player->unk_664 == NULL) {
+            if (((gSaveContext.naviTimer >= 600) && (gSaveContext.naviTimer <= 3000)) || (nREG(89) != 0)) {
+                player->naviMessageId = ElfMessage_GetCUpText(globalCtx);
+
+                if (player->naviMessageId == 0x15F) {
+                    player->naviMessageId = 0;
+                }
+            }
+        }
+    } else {
+        if (player->naviMessageId < 0) {
+            thisx->flags |= 0x10000;
+        }
+    }
+
+    if (func_8002F194(thisx, globalCtx)) {
+        func_800F4524(&D_801333D4, NA_SE_VO_SK_LAUGH, 0x20);
+        thisx->posRot2.pos = thisx->posRot.pos;
+
+        if (thisx->textId == ElfMessage_GetCUpText(globalCtx)) {
+            this->flags |= 0x80;
+            gSaveContext.naviTimer = 3001;
+        }
+
+        this->flags |= 0x10;
+        this->flags |= 0x20;
+        thisx->update = func_80A052F4;
+        func_80A01C38(this, 3);
+
+        if (this->elfMsg != NULL) {
+            this->elfMsg->flags |= 0x100;
+        }
+
+        thisx->flags &= ~0x10000;
+    } else {
+        this->actionFunc(this, globalCtx);
+        thisx->shape.rot.y = this->unk_2BC;
+        nREG(80) = gSaveContext.sceneFlags[127].chest;
+
+        if (nREG(81) != 0) {
+            if (gSaveContext.sceneFlags[127].chest) {
+                LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.sceneFlags[127].chest,
+                        "../z_en_elf.c", 2595);
+            }
+        }
+
+        if (!Gameplay_InCsMode(globalCtx)) {
+            if (gSaveContext.naviTimer < 25800) {
+                gSaveContext.naviTimer++;
+            } else {
+                if ((this->flags & 0x80) == 0) {
+                    gSaveContext.naviTimer = 0;
+                }
+            }
+        }
+    }
+
+    this->elfMsg = NULL;
+    this->timer++;
+
+    if (this->unk_2A4 > 0.0f) {
+        Math_ApproxF(&this->unk_2A4, 0.0f, 0.05f);
+        func_800773A8(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
+    }
+
+    temp2C7 = this->unk_2C7;
+    if (temp2C7 > 0) {
+        this->unk_2C7--;
+    }
+
+    if ((this->unk_2C7 == 0) && (globalCtx->csCtx.state != 0)) {
+        this->unk_2C7 = 1;
+    }
+
+    func_80A04D90(this, globalCtx);
+}
 
 void EnElf_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

@@ -39,7 +39,7 @@ typedef struct EnElf {
     /* 0x02C2 */ s16 dissapearTimer;
     /* 0x02C4 */ u16 flags;
     /* 0x02C6 */ char unk_2C6[0x1];
-    /* 0x02C7 */ s8 unk_2C7;
+    /* 0x02C7 */ u8 unk_2C7;
     /* 0x02C8 */ EnElfUnkFunc unk_2C8; // some func pointer
     /* 0x02CC */ EnElfActionFunc actionFunc;
 } EnElf; // size = 0x02D0
