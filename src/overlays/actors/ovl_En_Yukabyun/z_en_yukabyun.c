@@ -31,8 +31,7 @@ const ActorInit En_Yukabyun_InitVars = {
     (ActorFunc)EnYukabyun_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit =
-{
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x3D, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
     { 28, 8, 0, { 0, 0, 0 } },
@@ -43,9 +42,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 16, ICHAIN_STOP),
 };
 
-s32 D_80B43F64[] = {
-    0x06000AF0, 0x06000000, 0x00000000
-};
+s32 D_80B43F64[] = { 0x06000AF0, 0x06000000, 0x00000000 };
 
 extern UNK_TYPE D_06000A60;
 extern UNK_TYPE D_06000040;
@@ -64,7 +61,7 @@ void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionfunc = func_80B43A94;
 }
 
-void EnYukabyun_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnYukabyun* this = THIS;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -108,18 +105,17 @@ void func_80B43BCC(EnYukabyun* this, GlobalContext* globalCtx) {
 void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnYukabyun* this = THIS;
     s32 pad;
-    
+
     if (((this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
-        ((this->collider.base.maskA & 2) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
-        ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & 8)))
-        {
-            this->collider.base.atFlags &= 0xFFFD;
-            this->collider.base.acFlags &= 0xFFFD;
-            this->collider.base.maskA &= 0xFFFD;
-            this->actor.flags &= -6;
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x1E, NA_SE_EN_OCTAROCK_ROCK);
-            this->actionfunc = func_80B43BCC;
-        }
+         ((this->collider.base.maskA & 2) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
+        ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & 8))) {
+        this->collider.base.atFlags &= ~0x2;
+        this->collider.base.acFlags &= ~0x2;
+        this->collider.base.maskA &= ~0x2;
+        this->actor.flags &= ~0x5;
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x1E, NA_SE_EN_OCTAROCK_ROCK);
+        this->actionfunc = func_80B43BCC;
+    }
 
     this->actionfunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
@@ -127,7 +123,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == func_80B43BCC)) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
         Collider_CylinderUpdate(&this->actor, &this->collider);
-        
+
         this->actor.flags |= 0x1000000;
 
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -145,8 +141,8 @@ void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 366);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[(u8)this->unk_152]));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373), 
-                G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, D_06000970);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 378);
 }
