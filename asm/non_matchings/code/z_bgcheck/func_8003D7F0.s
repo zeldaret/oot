@@ -197,7 +197,7 @@ glabel func_8003D7F0
 /* AB4C7C 8003DADC 02602025 */  move  $a0, $s3
 /* AB4C80 8003DAE0 02802825 */  move  $a1, $s4
 /* AB4C84 8003DAE4 02A03025 */  move  $a2, $s5
-/* AB4C88 8003DAE8 0C032F18 */  jal   Math3D_LineIntersectCube
+/* AB4C88 8003DAE8 0C032F18 */  jal   Math3D_LineVsCube
 /* AB4C8C 8003DAEC 02C03825 */   move  $a3, $s6
 /* AB4C90 8003DAF0 24010001 */  li    $at, 1
 /* AB4C94 8003DAF4 14410011 */  bne   $v0, $at, .L8003DB3C

@@ -83,8 +83,8 @@ void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     frames = globalCtx->state.frames;
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - frames % 128, frames & 0x7F, 32, 32, 1,
-                                frames % 128, frames & 0x7F, 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - frames % 128, frames & 0x7F, 32, 32, 1, frames % 128,
+                                frames & 0x7F, 32, 32));
 
     gSPDisplayList(gfxCtx->polyXlu.p++, D_060007D0);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 244);
