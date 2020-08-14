@@ -88,10 +88,10 @@ typedef struct {
     (v0)->z = (v0)->z + (((v1)->z - (v0)->z) * xzt); \
 }
 
-#define tvec3f(dst, v0, v1x, v1y, v1z, t) { \
-    (dst)->x = (v0)->x + ((v1x - (v0)->x) * t); \
-    (dst)->y = (v0)->y + ((v1y - (v0)->y) * t); \
-    (dst)->z = (v0)->z + ((v1z - (v0)->z) * t); \
+#define VEC3F_LERPIMPDST(dst, v0, v1, t){ \
+    (dst)->x = (v0)->x + (((v1)->x - (v0)->x) * t); \
+    (dst)->y = (v0)->y + (((v1)->y - (v0)->y) * t); \
+    (dst)->z = (v0)->z + (((v1)->z - (v0)->z) * t); \
 }
 
 #define IS_ZERO(f) (fabsf(f) < 0.008f)

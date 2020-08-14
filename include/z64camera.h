@@ -672,18 +672,18 @@ typedef struct {
 } Special5; // size = 0x20
 
 typedef struct {
-    Vec3f unk_00;
-    f32 unk_0C;
-} Fixed4_Unk14;
+    /* 0x0000 */ Vec3f eyeTarget;
+    /* 0x000C */ f32 unk_0C;
+} Fixed4Anim; // size = 0x10
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    s16 unk_10;
-    Fixed4_Unk14 unk_14;
-} Fixed4;
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 fov;
+    /* 0x0010 */ s16 interfaceFlags;
+    /* 0x0014 */ Fixed4Anim anim;
+} Fixed4; // size = 0x24
 
 typedef struct {
     Vec3f unk_00;
@@ -960,9 +960,9 @@ typedef struct {
     /* 0x00CC */ f32 xzOffsetUpdateRate;
     /* 0x00D0 */ f32 yOffsetUpdateRate;
     /* 0x00D4 */ f32 fovUpdateRate;
-    /* 0x00D8 */ f32 unk_D8;
+    /* 0x00D8 */ f32 xzSpeed;
     /* 0x00DC */ f32 dist;
-    /* 0x00E0 */ f32 unk_E0;
+    /* 0x00E0 */ f32 speedRatio;
     /* 0x00E4 */ Vec3f posOffset;
     /* 0x00F0 */ Vec3f playerPosDelta;
     /* 0x00FC */ f32 fov;
