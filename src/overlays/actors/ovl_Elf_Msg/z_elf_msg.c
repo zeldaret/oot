@@ -1,3 +1,31 @@
+/*
+ * File: z_elf_msg.c
+ * Overlay: ovl_Elf_Msg
+ * Description: Readable navi call spot
+ *
+ * this.params
+ *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F)
+ *                                (also see this.posRot.rot.y).
+ *     (p & 0x4000)             : Navi call area is a cuboid
+ *     !(p & 0x4000)            : Navi call area is a cylinder
+ *     (p & 0x8000)             : Navi message on c-up
+ *     !(p & 0x8000)            : Forced navi message
+ *     (p & 0xFF) + 0x100       : Message ID
+ *
+ * this.posRot.rot.x
+ *     x                        : Size of navi call spot in X/Z
+ *
+ * this.posRot.rot.y
+ *     (y == -1)                : Actor is killed if room clear flag is set.
+ *     (y > 0x00) && (y < 0x41) : Actor is killed if switch flag (y - 1) is set.
+ *     (y > 0x40) && (y < 0x82) : Actor code only runs if switch flag (y - 0x41) is set, once running, actor
+ *                                is killed if switch flag ((p >> 8) & 0x3F) is set
+ *     else:                    : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
+ *
+ * this.posRot.rot.z
+ *      z                       : Size of navi call spot in Y
+ */
+
 #include "z_elf_msg.h"
 #include <vt.h>
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
@@ -31,6 +59,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
 };
 
+// Draw properties
 Gfx D_809AD278[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
@@ -42,24 +71,17 @@ Gfx D_809AD278[] = {
     gsSPEndDisplayList(),
 };
 
-Vtx D_809AD2B8[] = { VTX(100, 0, 0, 0, 0, 0x59, 0xA7, 0x00, 0xFF),
-                     VTX(70, 0, 70, 0, 0, 0x49, 0xB7, 0x49, 0xFF),
-                     VTX(0, 0, 100, 0, 0, 0x00, 0xA7, 0x59, 0xFF),
-                     VTX(-70, 0, 70, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
-                     VTX(-100, 0, 0, 0, 0, 0xA7, 0xA7, 0x00, 0xFF),
-                     VTX(-70, 0, -70, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),
-                     VTX(0, 0, -100, 0, 0, 0x00, 0xA7, 0xA7, 0xFF),
-                     VTX(70, 0, -70, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
-                     VTX(100, 100, 0, 0, 0, 0x59, 0x59, 0x00, 0xFF),
-                     VTX(70, 100, 70, 0, 0, 0x49, 0x49, 0x49, 0xFF),
-                     VTX(0, 100, 100, 0, 0, 0x00, 0x59, 0x59, 0xFF),
-                     VTX(-70, 100, 70, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
-                     VTX(-100, 100, 0, 0, 0, 0xA7, 0x59, 0x00, 0xFF),
-                     VTX(-70, 100, -70, 0, 0, 0xB7, 0x49, 0xB7, 0xFF),
-                     VTX(0, 100, -100, 0, 0, 0x00, 0x59, 0xA7, 0xFF),
-                     VTX(70, 100, -70, 0, 0, 0x49, 0x49, 0xB7, 0xFF) };
+// Cylinder
+Vtx D_809AD2B8[] = { VTX(100, 0, 0, 0, 0, 0x59, 0xA7, 0x00, 0xFF),    VTX(70, 0, 70, 0, 0, 0x49, 0xB7, 0x49, 0xFF),
+                     VTX(0, 0, 100, 0, 0, 0x00, 0xA7, 0x59, 0xFF),    VTX(-70, 0, 70, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
+                     VTX(-100, 0, 0, 0, 0, 0xA7, 0xA7, 0x00, 0xFF),   VTX(-70, 0, -70, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),
+                     VTX(0, 0, -100, 0, 0, 0x00, 0xA7, 0xA7, 0xFF),   VTX(70, 0, -70, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
+                     VTX(100, 100, 0, 0, 0, 0x59, 0x59, 0x00, 0xFF),  VTX(70, 100, 70, 0, 0, 0x49, 0x49, 0x49, 0xFF),
+                     VTX(0, 100, 100, 0, 0, 0x00, 0x59, 0x59, 0xFF),  VTX(-70, 100, 70, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
+                     VTX(-100, 100, 0, 0, 0, 0xA7, 0x59, 0x00, 0xFF), VTX(-70, 100, -70, 0, 0, 0xB7, 0x49, 0xB7, 0xFF),
+                     VTX(0, 100, -100, 0, 0, 0x00, 0x59, 0xA7, 0xFF), VTX(70, 100, -70, 0, 0, 0x49, 0x49, 0xB7, 0xFF) };
 
-// Draws a cylinder used for debugging
+// Draws a cylinder
 Gfx D_809AD3B8[] = { gsSPVertex(D_809AD2B8, 16, 0),
                      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
                      gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
@@ -77,33 +99,33 @@ Gfx D_809AD3B8[] = { gsSPVertex(D_809AD2B8, 16, 0),
                      gsSP2Triangles(7, 0, 15, 0, 0, 15, 8, 0),
                      gsSPEndDisplayList() };
 
-Vtx D_809AD438[] = { VTX(100, 0, 100, 0, 0, 0x49, 0xB7, 0x49, 0xFF),
-                     VTX(100, 0, -100, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
-                     VTX(-100, 0, -100, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),
-                     VTX(-100, 0, 100, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
-                     VTX(100, 100, 100, 0, 0, 0x49, 0x49, 0x49, 0xFF),
-                     VTX(100, 100, -100, 0, 0, 0x49, 0x49, 0xB7, 0xFF),
-                     VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF),
-                     VTX(-100, 100, 100, 0, 0, 0xB7, 0x49, 0x49, 0xFF) };
+// Cuboid
+Vtx D_809AD438[] = {
+    VTX(100, 0, 100, 0, 0, 0x49, 0xB7, 0x49, 0xFF),     VTX(100, 0, -100, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
+    VTX(-100, 0, -100, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),   VTX(-100, 0, 100, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
+    VTX(100, 100, 100, 0, 0, 0x49, 0x49, 0x49, 0xFF),   VTX(100, 100, -100, 0, 0, 0x49, 0x49, 0xB7, 0xFF),
+    VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF), VTX(-100, 100, 100, 0, 0, 0xB7, 0x49, 0x49, 0xFF)
+};
 
+// Draws a cuboid
 Gfx D_809AD4B8[] = { gsSPVertex(D_809AD438, 8, 0),           gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
                      gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
                      gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
                      gsSP2Triangles(3, 0, 7, 0, 0, 7, 4, 0), gsSPEndDisplayList() };
-
 
 void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 /**
- * Checks a scene flag and kills the actor if set. Can also set a switch flag from rot.y or params.
+ * Checks a scene flag - if flag is set, the actor is killed and function returns 1. Otherwise returns 0.
+ * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
     // Checking a switch or temp switch flag (from rot.y):
     if (this->actor.posRot.rot.y > 0 && this->actor.posRot.rot.y < 0x41 &&
         Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
-        // Mutual destruction
+        // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161);
         if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
@@ -114,7 +136,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
     }
     // Checking a room clear flag:
     else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
-        // Mutual destruction
+        // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
@@ -122,10 +144,9 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
 
         Actor_Kill(&this->actor);
         return 1;
-    }
-    else if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
+    } else if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
         return 0;
-    } 
+    }
     // Checking a switch or temp switch flag (from params):
     else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         Actor_Kill(&this->actor);
@@ -137,15 +158,15 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
 void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg* this = THIS;
 
-    // Conditions for Elf Tag disappearing
+    // "Conditions for Elf Tag disappearing"
     osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", (thisx->params >> 8) & 0x3F);
     osSyncPrintf(VT_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" VT_RST, thisx->shape.rot.y);
     if (thisx->shape.rot.y >= 0x41) {
-        // Conditions for Elf Tag appearing
+        // "Conditions for Elf Tag appearing"
         osSyncPrintf(VT_FGCOL(CYAN) "\nエルフ タグ 出現条件 %d" VT_RST "\n", thisx->shape.rot.y - 0x41);
     }
 
-    if (ElfMsg2_KillCheck(this, globalCtx) == 0) {
+    if (!ElfMsg_KillCheck(this, globalCtx)) {
         Actor_ProcessInitChain(thisx, sInitChain);
         if (thisx->posRot.rot.x == 0) {
             thisx->scale.z = 0.4f;
@@ -166,9 +187,7 @@ void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
             ElfMsg_SetupAction(this, ElfMsg_CallNaviCylinder);
         }
 
-        thisx->shape.rot.z = 0;
-        thisx->shape.rot.y = thisx->shape.rot.z;
-        thisx->shape.rot.x = thisx->shape.rot.z;
+        thisx->shape.rot.x = thisx->shape.rot.y = thisx->shape.rot.z = 0;
     }
 }
 
@@ -184,9 +203,6 @@ s32 ElfMsg_GetMessageId(ElfMsg* this) {
     }
 }
 
-/**
- * ElfMsg_CallNaviCuboid
- */
 void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->navi;
@@ -200,16 +216,10 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
     }
 }
 
-/**
- * ElfMsg_IsInNaviRangeXZ
- */
 s32 ElfMsg_IsInNaviRangeXZ(Vec3f* playerPos, Vec3f* msgPos, f32 radius) {
     return (SQ(msgPos->x - playerPos->x) + SQ(msgPos->z - playerPos->z)) < SQ(radius);
 }
 
-/**
- * ElfMsg_CallNaviCylinder
- */
 void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->navi;
@@ -225,7 +235,7 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
 void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg* this = THIS;
 
-    if (ElfMsg2_KillCheck(this, globalCtx) == 0) {
+    if (!ElfMsg_KillCheck(this, globalCtx)) {
         if (func_8002F194(&this->actor, globalCtx)) {
             if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
@@ -239,7 +249,7 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * If R_NAVI_MSG_REGION_ALPHA is nonzero, a translucent shape is drawn around the check spot.
+ * If R_NAVI_MSG_REGION_ALPHA is nonzero, a translucent shape is drawn around the navi call spot.
  */
 void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;

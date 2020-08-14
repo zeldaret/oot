@@ -2,6 +2,24 @@
  * File: z_elf_msg2.c
  * Overlay: ovl_Elf_Msg2
  * Description: Targetable navi check spot
+ *
+ * this.params
+ *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F)
+ *                                (also see this.posRot.rot.y).
+ *     (p & 0xFF) + 0x100       : Message ID
+ *
+ * this.posRot.rot.x
+ *     (x > 0) && (x < 8))      : this->actor.unk_1F = (x - 1);
+ *
+ * this.posRot.rot.y
+ *     (y == -1)                : Actor is killed if room clear flag is set.
+ *     (y > 0x00) && (y < 0x41) : Actor is killed if switch flag (y - 1) is set.
+ *     (y > 0x40) && (y < 0x81) : Actor code only begins to run if switch flag (y - 0x41) is set, once running, actor
+ *                                is killed if switch flag ((p >> 8) & 0x3F) is set.
+ *     else:                    : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
+ *
+ * this.posRot.rot.z
+ *      (z != 1)                : Kill actor when closing the text box
  */
 
 #include "z_elf_msg2.h"
@@ -17,8 +35,8 @@ void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 ElfMsg2_GetMessageId(ElfMsg2* this);
-void ElfMsg2_TextInit(ElfMsg2* this, GlobalContext* globalCtx);
-void ElfMsg2_CheckForRead(ElfMsg2* this, GlobalContext* globalCtx);
+void ElfMsg2_InitText(ElfMsg2* this, GlobalContext* globalCtx);
+void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx);
 
 const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
@@ -37,7 +55,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
 };
 
-// Sets up draw properties for square faces of cuboid
+// Draw properties
 Gfx D_809ADC38[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
@@ -57,7 +75,7 @@ Vtx D_809ADC78[] = {
     VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF), VTX(-100, 100, 100, 0, 0, 0xB7, 0x49, 0x49, 0xFF),
 };
 
-// Draws the cuboid
+// Draws a small cuboid
 Gfx D_809ADCF8[] = {
     gsSPVertex(D_809ADC78, 8, 0),           gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
@@ -70,13 +88,14 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
 }
 
 /**
- * Checks a scene flag and kills the actor if set. Can also set a switch flag from rot.y or params.
+ * Checks a scene flag - if flag is set, the actor is killed and function returns 1. Otherwise returns 0.
+ * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     // Checking a switch or temp switch flag (from rot.y):
     if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
         (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
-        // Mutual destruction
+        // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171);
         if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, (this->actor.params >> 8 & 0x3F));
@@ -86,7 +105,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     }
     // Checking a room clear flag:
     else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
-        // Mutual destruction 2
+        // "Mutual destruction 2"
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
@@ -98,7 +117,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     }
     // Checking a switch or temp switch flag (from params):
     else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
-        // Mutual destruction
+        // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 192);
         Actor_Kill(&this->actor);
         return 1;
@@ -116,10 +135,10 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.posRot.rot.y >= 0x41) {
-            ElfMsg2_SetupAction(this, ElfMsg2_TextInit);
+            ElfMsg2_SetupAction(this, ElfMsg2_InitText);
         } else {
-            ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
-            this->actor.flags |= 0x00040001;
+            ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
+            this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
         this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
@@ -134,7 +153,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
 }
 
 /**
- * Runs while navi text is up. Handles the killing of the actor upon closing the text box, can also set a switch flag
+ * Runs while navi text is up. Kills the actor upon closing the text box unless rot.z == 1, can also set a switch flag
  * from params.
  */
 void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
@@ -149,7 +168,7 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
                 Flags_SetSwitch(globalCtx, switchFlag);
             }
         } else {
-            ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
+            ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
         }
     }
 }
@@ -157,19 +176,18 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
 /**
  * Runs while navi text is not up. If text box flag is set, this function unsets it and proceeds to ElfMsg2_Read.
  */
-void ElfMsg2_CheckForRead(ElfMsg2* this, GlobalContext* globalCtx) {
+void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         ElfMsg2_SetupAction(this, ElfMsg2_Read);
     }
 }
 
-void ElfMsg2_TextInit(ElfMsg2* this, GlobalContext* globalCtx) {
-    if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y < 0x81)) {
-        if (Flags_GetSwitch(globalCtx, (this->actor.posRot.rot.y - 0x41))) {
-            ElfMsg2_SetupAction(this, ElfMsg2_CheckForRead);
-            this->actor.flags |= 0x00040001;
-            this->actor.textId = ElfMsg2_GetMessageId(this);
-        }
+void ElfMsg2_InitText(ElfMsg2* this, GlobalContext* globalCtx) {
+    if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y < 0x81) &&
+        (Flags_GetSwitch(globalCtx, (this->actor.posRot.rot.y - 0x41)))) {
+        ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
+        this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
+        this->actor.textId = ElfMsg2_GetMessageId(this);
     }
 }
 
@@ -181,7 +199,7 @@ void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * If nREG(87) is nonzero, a small translucent cuboid (with alpha = nREG(87)) is drawn around the check spot.
+ * If R_NAVI_MSG_REGION_ALPHA is nonzero, a small translucent cuboid is drawn around the check spot.
  */
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
@@ -189,13 +207,13 @@ void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg2.c", 355);
-    if (nREG(87) == 0) {
+    if (R_NAVI_MSG_REGION_ALPHA == 0) {
         return;
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 100, 100, 255, nREG(87));
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 362),
-                G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_809ADC38);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_809ADCF8);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg2.c", 367);
