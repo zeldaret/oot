@@ -80,7 +80,7 @@ f32 func_808A1800(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep) 
 
 void func_808A18FC(BgMoriElevator* this, f32 distTo) {
     f32 temp;
-    
+
     temp = fabsf(distTo) * 0.09f;
     func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_ELEVATOR_MOVE2 - SFX_FLAG, CLAMP(temp, 0.0f, 1.0f));
 }
