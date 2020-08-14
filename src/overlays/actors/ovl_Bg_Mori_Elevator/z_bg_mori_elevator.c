@@ -8,8 +8,6 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
 
-f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4);
-void func_808A18FC(BgMoriElevator* this, f32 arg1);
 void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this);
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_SetupSetPosition(BgMoriElevator* this);
@@ -18,10 +16,9 @@ void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_StopMovement(BgMoriElevator* this);
 void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, GlobalContext* globalCtx);
-void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalCtx);
 
-static s16 sIsSpawned = false;
+static s16 sIsSpawned = 0;
 
 const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
@@ -45,54 +42,47 @@ static InitChainEntry sInitChain[] = {
 extern UNK_TYPE D_060035F8;
 extern Gfx D_06002AD0[];
 
-f32 func_808A1800(f32* posY, f32 target, f32 arg2, f32 yVel, f32 arg4) {
-    f32 phi_f2;
+f32 func_808A1800(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep) {
+    f32 var = (target - *pValue) * scale;
 
-    phi_f2 = (target - *posY) * arg2;
-    if (*posY < target) {
-        if (yVel < phi_f2) {
-            phi_f2 = yVel;
+    if (*pValue < target) {
+        if (maxStep < var) {
+            var = maxStep;
         } else {
-            if (phi_f2 < arg4) {
-                phi_f2 = arg4;
+            if (var < minStep) {
+                var = minStep;
             }
         }
-        *posY = (*posY + phi_f2);
+        *pValue = (*pValue + var);
 
-        if (target < *posY) {
-            *posY = target;
+        if (target < *pValue) {
+            *pValue = target;
         }
     } else {
-        if (target < *posY) {
-            if (phi_f2 < (-yVel)) {
-                phi_f2 = (-yVel);
+        if (target < *pValue) {
+            if (var < (-maxStep)) {
+                var = (-maxStep);
             } else {
-                if ((-arg4) < phi_f2) {
-                    phi_f2 = (-arg4);
+                if ((-minStep) < var) {
+                    var = (-minStep);
                 }
             }
-            *posY = (*posY + phi_f2);
-            if (*posY < target) {
-                *posY = target;
+            *pValue = (*pValue + var);
+            if (*pValue < target) {
+                *pValue = target;
             }
         } else {
-            phi_f2 = 0.0f;
+            var = 0.0f;
         }
     }
-    return phi_f2;
+    return var;
 }
 
 void func_808A18FC(BgMoriElevator* this, f32 distTo) {
-    f32 phi_f12;
-    f32 temp_f2;
-    f32 temp1;
-
-
-    temp_f2 = fabsf(distTo) * 0.09f; 
-    if (temp_f2 < 0.0f) {
-    // clang-format off
-        phi_f12 = 0.0f; } else { temp1 = (temp_f2 > 1.0f) ? (1.0f) : (temp_f2);phi_f12 = temp1;} func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_ELEVATOR_MOVE2 - SFX_FLAG, phi_f12);
-    // clang-format on
+    f32 temp;
+    
+    temp = fabsf(distTo) * 0.09f;
+    func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_ELEVATOR_MOVE2 - SFX_FLAG, CLAMP(temp, 0.0f, 1.0f));
 }
 
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -102,17 +92,17 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
     sp24 = 0;
 
     this->unk_172 = sIsSpawned;
-    this->objectIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->objectIndex < 0) {
+    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjIndex < 0) {
         Actor_Kill(thisx);
         // Forest Temple obj elevator Bank Danger!
         osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
     } else {
         switch (sIsSpawned) {
-            case false:
+            case 0:
                 // Forest Temple elevator CT
                 osSyncPrintf("森の神殿 elevator CT\n");
-                sIsSpawned = true;
+                sIsSpawned = 1;
                 this->dyna.actor.room = -1;
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
                 DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
@@ -120,7 +110,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
                 BgMoriElevator_SetupPlaceInGround(this);
                 break;
-            case true:
+            case 1:
                 Actor_Kill(thisx);
                 break;
         }
@@ -134,12 +124,12 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         // Forest Temple elevator DT
         osSyncPrintf("森の神殿 elevator DT\n");
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-        sIsSpawned = false;
+        sIsSpawned = 0;
     }
 }
 
-s32 BgMoriElevator_IsLinkRiding(BgMoriElevator* this, GlobalContext* globalCtx) {
-    return ((this->dyna.unk_160 & 2) && !(this->isRiding & 2) &&
+s32 BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, GlobalContext* globalCtx) {
+    return ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2) &&
             ((PLAYER->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y) < 80.0f));
 }
 
@@ -148,7 +138,7 @@ void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this) {
 }
 
 void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex)) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             if (globalCtx->roomCtx.curRoom.num == 2) {
                 this->dyna.actor.posRot.pos.y = 73.0f;
@@ -207,12 +197,12 @@ void BgMoriElevator_SetupSetPosition(BgMoriElevator* this) {
 void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if (BgMoriElevator_IsLinkRiding(this, globalCtx)) {
+    if (BgMoriElevator_IsPlayerRiding(this, globalCtx)) {
         if (globalCtx->roomCtx.curRoom.num == 2) {
-            this->targetYPos = -779.0f;
+            this->targetY = -779.0f;
             BgMoriElevator_StopMovement(this);
         } else if (globalCtx->roomCtx.curRoom.num == 17) {
-            this->targetYPos = 233.0f;
+            this->targetY = 233.0f;
             BgMoriElevator_StopMovement(this);
         } else {
             // Error:Forest Temple obj elevator Room setting is dangerous(% s % d)
@@ -220,18 +210,18 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) 
         }
 
     } else if ((globalCtx->roomCtx.curRoom.num == 2) && (this->dyna.actor.posRot.pos.y < -275.0f)) {
-        this->targetYPos = 233.0f;
+        this->targetY = 233.0f;
         BgMoriElevator_StopMovement(this);
     } else if ((globalCtx->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.posRot.pos.y)) {
-        this->targetYPos = -779.0f;
+        this->targetY = -779.0f;
         BgMoriElevator_StopMovement(this);
     } else if ((globalCtx->roomCtx.curRoom.num == 2) && Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) &&
                (this->unk_16C == 0)) {
-        this->targetYPos = 73.0f;
+        this->targetY = 73.0f;
         func_808A1C30(this);
     } else if ((globalCtx->roomCtx.curRoom.num == 2) && !Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) &&
                (this->unk_16C != 0)) {
-        this->targetYPos = 233.0f;
+        this->targetY = 233.0f;
         func_808A1CF4(this, globalCtx);
     }
 }
@@ -245,7 +235,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
     f32 distTo;
 
     func_808A1800(&this->dyna.actor.velocity.y, 12.0f, 0.1f, 1.0f, 0.0f);
-    distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetYPos, 0.1f, this->dyna.actor.velocity.y, 0.3f);
+    distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetY, 0.1f, this->dyna.actor.velocity.y, 0.3f);
     if (fabsf(distTo) < 0.001f) {
         BgMoriElevator_SetupSetPosition(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
@@ -259,7 +249,7 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    this->isRiding = this->dyna.unk_160;
+    this->unk_170 = this->dyna.unk_160;
     this->unk_16C = Flags_GetSwitch(globalCtx, (thisx->params & 0x3F));
 }
 
@@ -272,7 +262,7 @@ void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 8, globalCtx->objectCtx.status[this->objectIndex].segment);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, D_06002AD0);
