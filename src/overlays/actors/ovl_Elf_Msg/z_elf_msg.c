@@ -1,7 +1,7 @@
 /*
  * File: z_elf_msg.c
  * Overlay: ovl_Elf_Msg
- * Description: Readable navi call spot
+ * Description: Readable Navi call spot
  *
  * this.params
  *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F),
@@ -10,11 +10,11 @@
  *     (p & 0x4000)             : Navi call area is a cuboid
  *     !(p & 0x4000)            : Navi call area is a cylinder
  *     (p & 0x8000)             : Navi message on c-up
- *     !(p & 0x8000)            : Forced navi message
+ *     !(p & 0x8000)            : Forced Navi message
  *     (p & 0xFF) + 0x100       : Message ID
  *
  * this.posRot.rot.x
- *     x                        : Size of navi call spot in X/Z
+ *     x                        : Size of Navi call spot in X/Z
  *
  * this.posRot.rot.y
  *     (y == -1)                : Actor is killed if room clear flag is set.
@@ -24,7 +24,7 @@
  *     else:                    : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
  *
  * this.posRot.rot.z
- *      z                       : Size of navi call spot in Y
+ *      z                       : Size of Navi call spot in Y
  */
 
 #include "z_elf_msg.h"
@@ -72,7 +72,7 @@ Gfx D_809AD278[] = {
     gsSPEndDisplayList(),
 };
 
-// Cylinder
+// Cylinder 
 Vtx D_809AD2B8[] = { VTX(100, 0, 0, 0, 0, 0x59, 0xA7, 0x00, 0xFF),    VTX(70, 0, 70, 0, 0, 0x49, 0xB7, 0x49, 0xFF),
                      VTX(0, 0, 100, 0, 0, 0x00, 0xA7, 0x59, 0xFF),    VTX(-70, 0, 70, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
                      VTX(-100, 0, 0, 0, 0, 0xA7, 0xA7, 0x00, 0xFF),   VTX(-70, 0, -70, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),
@@ -82,7 +82,7 @@ Vtx D_809AD2B8[] = { VTX(100, 0, 0, 0, 0, 0x59, 0xA7, 0x00, 0xFF),    VTX(70, 0,
                      VTX(-100, 100, 0, 0, 0, 0xA7, 0x59, 0x00, 0xFF), VTX(-70, 100, -70, 0, 0, 0xB7, 0x49, 0xB7, 0xFF),
                      VTX(0, 100, -100, 0, 0, 0x00, 0x59, 0xA7, 0xFF), VTX(70, 100, -70, 0, 0, 0x49, 0x49, 0xB7, 0xFF) };
 
-// Draws a cylinder
+// Polygons for cylinder
 Gfx D_809AD3B8[] = { gsSPVertex(D_809AD2B8, 16, 0),
                      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
                      gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
@@ -108,7 +108,7 @@ Vtx D_809AD438[] = {
     VTX(-100, 100, -100, 0, 0, 0xB7, 0x49, 0xB7, 0xFF), VTX(-100, 100, 100, 0, 0, 0xB7, 0x49, 0x49, 0xFF)
 };
 
-// Draws a cuboid
+// Polygons for cuboid
 Gfx D_809AD4B8[] = { gsSPVertex(D_809AD438, 8, 0),           gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
                      gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
                      gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
@@ -123,7 +123,7 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
  * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
-    // Checking a switch or temp switch flag (from rot.y):
+    
     if (this->actor.posRot.rot.y > 0 && this->actor.posRot.rot.y < 0x41 &&
         Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
         // "Mutual destruction"
@@ -135,7 +135,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return 1;
     }
-    // Checking a room clear flag:
+    
     else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172);
@@ -148,7 +148,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
     } else if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
         return 0;
     }
-    // Checking a switch or temp switch flag (from params):
+    
     else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         Actor_Kill(&this->actor);
         return 1;
@@ -196,7 +196,7 @@ void ElfMsg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 ElfMsg_GetMessageId(ElfMsg* this) {
-    // Negative message ID forces link to talk to navi
+    // Negative message ID forces link to talk to Navi
     if (this->actor.params & 0x8000) {
         return (this->actor.params & 0xFF) + 0x100;
     } else {

@@ -1,7 +1,7 @@
 /*
  * File: z_elf_msg2.c
  * Overlay: ovl_Elf_Msg2
- * Description: Targetable navi check spot
+ * Description: Targetable Navi check spot
  *
  * this.params
  *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F)
@@ -93,7 +93,7 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
  * Can also set a switch flag from params while killing.
  */
 s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
-    // Checking a switch or temp switch flag (from rot.y):
+    
     if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
         (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
         // "Mutual destruction"
@@ -104,7 +104,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return 1;
     }
-    // Checking a room clear flag:
+    
     else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
         // "Mutual destruction 2"
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182);
@@ -116,7 +116,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
     } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
         return 0;
     }
-    // Checking a switch or temp switch flag (from params):
+    
     else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 192);
@@ -154,7 +154,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
 }
 
 /**
- * Runs while navi text is up. Kills the actor upon closing the text box unless rot.z == 1, can also set a switch flag
+ * Runs while Navi text is up. Kills the actor upon closing the text box unless rot.z == 1, can also set a switch flag
  * from params.
  */
 void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
@@ -175,7 +175,7 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Runs while navi text is not up. If text box flag is set, this function unsets it and proceeds to ElfMsg2_Read.
+ * Runs while Navi text is not up. If text box flag is set, this function unsets it and proceeds to ElfMsg2_Read.
  */
 void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
