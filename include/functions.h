@@ -1022,15 +1022,16 @@ void PreNmiBuff_Init(PreNmiBuff* this);
 void PreNmiBuff_SetReset(PreNmiBuff* this);
 u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
 void MsgEvent_SendNullTask();
-f32 OLib_Vec3fDist(Vec3f*, Vec3f*);
+f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b);
 f32 OLib_Vec3fDistXZ(Vec3f* a, Vec3f* b);
-f32 OLib_ClampMaxDist(f32 arg0, f32 arg1);
+f32 OLib_ClampMinDist(f32 val, f32 min);
+f32 OLib_ClampMaxDist(f32 val, f32 max);
 Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b);
 Vec3f* OLib_VecSphGeoToVec3f(Vec3f* dest, VecSph* sph);
-// ? OLib_Vec3fToVecSph(?);
+VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec);
 VecSph* OLib_Vec3fToVecSphGeo(VecSph* arg0, Vec3f* arg1);
 VecSph* OLib_Vec3fDiffToVecSphGeo(VecSph* arg0, Vec3f* a, Vec3f* b);
-// ? OLib_Vec3fDiffRad(?);
+Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b);
 // ? func_8007C680(?);
 // ? func_8007C704(?);
 // ? func_8007C76C(?);
@@ -1668,12 +1669,12 @@ u32 SysCfb_GetFbPtr(s32 idx);
 u32 SysCfb_GetFbEnd();
 f32 func_800CA720(f32);
 f32 func_800CA774(f32);
-s32 Math3D_PlaneIntersectionClosestToLineSeg(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA,
-                                             f32 planeBB, f32 planeBC, f32 planeBDist, Vec3f* linePointA,
-                                             Vec3f* linePointB, Vec3f* closestPoint);
+s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
+                                      f32 planeBC, f32 planeBDist, Vec3f* linePointA, Vec3f* linePointB,
+                                      Vec3f* closestPoint);
 void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint);
-s32 Math3D_2PlaneIntersectClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
-                                       f32 planeBC, f32 planeBDist, Vec3f* point, Vec3f* closestPoint);
+s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA,
+                                          f32 planeBB, f32 planeBC, f32 planeBDist, Vec3f* point, Vec3f* closestPoint);
 void Math3D_LineSplitRatio(Vec3f* v0, Vec3f* v1, f32 ratio, Vec3f* ret);
 f32 Math3D_Cos(Vec3f* a, Vec3f* b);
 s32 Math3D_CosOut(Vec3f* a, Vec3f* b, f32* dst);
@@ -1690,47 +1691,46 @@ f32 Math3D_Vec3f_DistXYZ(Vec3f* a, Vec3f* b);
 s32 Math3D_PointRelativeToCubeFaces(Vec3f* point, Vec3f* min, Vec3f* max);
 s32 Math3D_PointRelativeToCubeEdges(Vec3f* point, Vec3f* min, Vec3f* max);
 s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max);
-s32 Math3D_LineIntersectCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b);
+s32 Math3D_LineVsCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b);
 void Math3D_RotateXZPlane(Vec3f* pointOnPlane, s16 angle, f32* a, f32* c, f32* d);
 void Math3D_DefPlane(Vec3f* va, Vec3f* vb, Vec3f* vc, f32* nx, f32* ny, f32* nz, f32* originDist);
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p);
 f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p);
-s32 Math3D_TriCheckPointParallelYSlopedY(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x);
-s32 Math3D_TriCheckPointParallelYIntersectDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
-                                               f32 z, f32 x, f32* yIntersect, f32 chkDist);
-s32 Math3D_TriCheckPointParallelYIntersectInsideTri(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz,
-                                                    f32 originDist, f32 z, f32 x, f32* yIntersect, f32 chkDist);
-s32 Math3D_TriCheckLineSegParallelYIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
-                                             f32 z, f32 x, f32* yIntersect, f32 y0, f32 y1);
-s32 Math3D_TriCheckPointParallelYDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f32 chkDist);
-s32 Math3D_TriCheckPointParallelXIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
-                                           f32 y, f32 z, f32* xIntersect);
-s32 Math3D_TriCheckLineSegParallelXIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
-                                             f32 y, f32 z, f32* xIntersect, f32 x0, f32 x1);
-s32 Math3D_TriCheckPointParallelXDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 y, f32 z, f32 chkDist);
-s32 Math3D_TriCheckPointParallelZIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
-                                           f32 x, f32 y, f32* zIntersect);
-s32 Math3D_TriCheckLineSegParallelZIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
-                                             f32 x, f32 y, f32* zIntersect, f32 z0, f32 z1);
-s32 Math3D_TriCheckLineSegParallelZDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 x, f32 y, f32 chkDist);
-s32 Math3D_LineSegTouchesPlane(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f* linePointB,
-                               Vec3f* intersect, s32 fromFront);
+s32 Math3D_TriChkPointParaYSlopedY(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x);
+s32 Math3D_TriChkPointParaYIntersectDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 z,
+                                         f32 x, f32* yIntersect, f32 chkDist);
+s32 Math3D_TriChkPointParaYIntersectInsideTri(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist,
+                                              f32 z, f32 x, f32* yIntersect, f32 chkDist);
+s32 Math3D_TriChkLineSegParaYIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 z,
+                                       f32 x, f32* yIntersect, f32 y0, f32 y1);
+s32 Math3D_TriChkPointParaYDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f32 chkDist);
+s32 Math3D_TriChkPointParaXIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 y,
+                                     f32 z, f32* xIntersect);
+s32 Math3D_TriChkLineSegParaXIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 y,
+                                       f32 z, f32* xIntersect, f32 x0, f32 x1);
+s32 Math3D_TriChkPointParaXDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 y, f32 z, f32 chkDist);
+s32 Math3D_TriChkPointParaZIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 x,
+                                     f32 y, f32* zIntersect);
+s32 Math3D_TriChkLineSegParaZIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 x,
+                                       f32 y, f32* zIntersect, f32 z0, f32 z1);
+s32 Math3D_TriChkLineSegParaZDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 x, f32 y, f32 chkDist);
+s32 Math3D_LineSegVsPlane(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f* linePointB,
+                          Vec3f* intersect, s32 fromFront);
 void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc);
 s32 Math3D_PointDistToLine2D(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32* lineLenSq);
-s32 Math3D_LineTouchingSph(Sphere16* sphere, Linef* line);
-s32 Math3D_TriTouchingSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoint);
-s32 Math3D_CylTouchingLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, Vec3f* intersectA,
-                              Vec3f* intersectB);
-s32 Math3D_CylTriTouching(Cylinder16* cyl, TriNorm* tri);
-s32 Math3D_CylTriTouchingIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect);
-s32 Math3D_SpheresTouching(Sphere16* sphereA, Sphere16* sphereB);
-s32 Math3D_SpheresTouchingOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize);
-s32 Math3D_SpheresTouchingOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist);
-s32 Math3D_SphereTouchingCylinderOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize);
-s32 Math3D_SphereTouchingCylinderOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centerDist);
-s32 Math3D_CylinderOutCylinder(Cylinder16* ca, Cylinder16* cb, f32* deadSpace);
-s32 Math3D_CylinderOutCylinderDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32* xzDist);
-s32 Math3D_TrisIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect);
+s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line);
+s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoint);
+s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, Vec3f* intersectA, Vec3f* intersectB);
+s32 Math3D_CylVsTri(Cylinder16* cyl, TriNorm* tri);
+s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect);
+s32 Math3D_SphVsSph(Sphere16* sphereA, Sphere16* sphereB);
+s32 Math3D_SphVsSphOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize);
+s32 Math3D_SphVsSphOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist);
+s32 Math3D_SphVsCylOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize);
+s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centerDist);
+s32 Math3D_CylOutsideCyl(Cylinder16* ca, Cylinder16* cb, f32* deadSpace);
+s32 Math3D_CylOutsideCylDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32* xzDist);
+s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect);
 s32 Math3D_XZInSphere(Sphere16* sphere, f32 x, f32 z);
 s32 Math3D_XYInSphere(Sphere16* sphere, f32 x, f32 y);
 s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z);
