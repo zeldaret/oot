@@ -62,8 +62,8 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (thisx->params & 0xFF) {
         case 0: // This does nothing, but does have a draw function. Not sure what it draws.
-            thisx->draw = BgGndDarkmeiro_Draw0;
-            thisx->flags |= 0x80;
+            this->dyna.actor.draw = BgGndDarkmeiro_Draw0;
+            this->dyna.actor.flags |= 0x80;
             break;
         case 1: /*Transparent platform
             Transparent platforms appear when their switch flag is set and disappear 64 frames after
@@ -73,14 +73,14 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             DynaPolyInfo_Alloc(&D_0600C080, &local_c);
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, sp20, &this->dyna.actor, local_c);
 
-            if (((thisx->params >> 8) & 0x3F) == 0x3F) { // If switch flag is 0x3F, use a static platform
+            if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) { // If switch flag is 0x3F, use a static platform
                 this->actionFunc = BgGndDarkmeiro_StaticPlatform;
-                thisx->draw = BgGndDarkmeiro_DrawStaticPlatform;
+                this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticPlatform;
             } else {
                 this->actorState = this->timer1 = this->timer2 = 0; // Initialize state and timers to 0
                 thisx->draw = BgGndDarkmeiro_DrawSwitchedPlatform;
                 this->actionFunc = BgGndDarkmeiro_SwitchedPlatform;
-                if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F) == 0) {
+                if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F) == 0) {
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna,
                                   this->dyna.dynaPolyId); // Turn off collision if switch is off
                 } else {
@@ -98,18 +98,18 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actorState = this->timer1 = this->timer2 = 0; // initialize state and timers to 0
             this->actionFunc = BgGndDarkmeiro_PlatformTimer;
             thisx->draw = NULL;
-            if (Flags_GetSwitch(globalCtx, ((thisx->params >> 8) & 0x3F) + 1) != 0) {
+            if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1) != 0) {
                 this->timer1 = 64; // If switch N+1 is already set, turn on timer 1 with 64 frames on the clock.
                 this->actorState |= 4;
             }
-            if (Flags_GetSwitch(globalCtx, ((thisx->params >> 8) & 0x3F) + 2) != 0) {
+            if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2) != 0) {
                 this->timer2 = 64; // If switch N+2 is already set, turn on timer 2 with 64 frames on the clock.
                 this->actorState |= 8;
             }
             if ((this->timer1 != 0) || (this->timer2 != 0)) {
-                Flags_SetSwitch(globalCtx, (thisx->params >> 8) & 0x3F); // If the timers are set, set switch N
+                Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F); // If the timers are set, set switch N
             } else {
-                Flags_UnsetSwitch(globalCtx, (thisx->params >> 8) & 0x3F); // If not, clear it.
+                Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F); // If not, clear it.
             }
             break;
     }
