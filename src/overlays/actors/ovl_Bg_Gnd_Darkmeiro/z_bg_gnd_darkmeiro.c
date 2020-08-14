@@ -235,8 +235,8 @@ void BgGndDarkmeiro_DrawStaticPlatform(BgGndDarkmeiro* this, GlobalContext* glob
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
-    Gfx_DrawDListXlu(globalCtx, &D_0600BEC0); // Draws the platform.
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
+    Gfx_DrawDListXlu(globalCtx, D_0600BEC0); // Draws the platform.
 }
