@@ -4,8 +4,9 @@
  * Description: Readable navi call spot
  *
  * this.params
- *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F)
- *                                (also see this.posRot.rot.y).
+ *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F),
+ *                                also set if at any point the actor flag 0x100 is set.
+ *                                (Also see this.posRot.rot.y).
  *     (p & 0x4000)             : Navi call area is a cuboid
  *     !(p & 0x4000)            : Navi call area is a cylinder
  *     (p & 0x8000)             : Navi message on c-up
@@ -236,6 +237,7 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg* this = THIS;
 
     if (!ElfMsg_KillCheck(this, globalCtx)) {
+        // if actor flag 0x100 is set:
         if (func_8002F194(&this->actor, globalCtx)) {
             if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
