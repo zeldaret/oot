@@ -1611,8 +1611,7 @@ endseg
 beginseg
     name "ovl_Demo_Im"
     include "build/src/overlays/actors/ovl_Demo_Im/z_demo_im.o"
-    include "build/data/overlays/actors/z_demo_im.data.o"
-    include "build/data/overlays/actors/z_demo_im.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Im/ovl_Demo_Im_reloc.o"
 endseg
 
 beginseg
