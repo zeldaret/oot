@@ -19,7 +19,7 @@ glabel func_800DE1B4
 /* B55394 800DE1F4 92183534 */  lbu   $t8, 0x3534($s0)
 /* B55398 800DE1F8 56580006 */  bnel  $s2, $t8, .L800DE214
 /* B5539C 800DE1FC 26310001 */   addiu $s1, $s1, 1
-/* B553A0 800DE200 0C03A6DB */  jal   func_800E9B6C
+/* B553A0 800DE200 0C03A6DB */  jal   Audio_SequencePlayerDisable
 /* B553A4 800DE204 26043530 */   addiu $a0, $s0, 0x3530
 /* B553A8 800DE208 3C028017 */  lui   $v0, %hi(D_801719DC) # $v0, 0x8017
 /* B553AC 800DE20C 844219DC */  lh    $v0, %lo(D_801719DC)($v0)

@@ -1,4 +1,4 @@
-glabel func_800E9B6C
+glabel Audio_SequencePlayerDisable
 /* B60D0C 800E9B6C 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B60D10 800E9B70 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B60D14 800E9B74 AFB00018 */  sw    $s0, 0x18($sp)

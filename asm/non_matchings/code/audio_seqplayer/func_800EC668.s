@@ -4,7 +4,7 @@ glabel func_800EC668
 /* B63810 800EC670 AFB20020 */  sw    $s2, 0x20($sp)
 /* B63814 800EC674 AFB1001C */  sw    $s1, 0x1c($sp)
 /* B63818 800EC678 AFB00018 */  sw    $s0, 0x18($sp)
-/* B6381C 800EC67C 0C03A6DB */  jal   func_800E9B6C
+/* B6381C 800EC67C 0C03A6DB */  jal   Audio_SequencePlayerDisable
 /* B63820 800EC680 AFA40028 */   sw    $a0, 0x28($sp)
 /* B63824 800EC684 8FB10028 */  lw    $s1, 0x28($sp)
 /* B63828 800EC688 3C013F80 */  li    $at, 0x3F800000 # 0.000000

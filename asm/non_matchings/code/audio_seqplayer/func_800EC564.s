@@ -28,7 +28,7 @@ glabel func_800EC564
 /* B63768 800EC5C8 26520001 */   addiu $s2, $s2, 1
 /* B6376C 800EC5CC 0C03AF56 */  jal   func_800EBD58
 /* B63770 800EC5D0 02002025 */   move  $a0, $s0
-/* B63774 800EC5D4 0C03A2A2 */  jal   func_800E8A88
+/* B63774 800EC5D4 0C03A2A2 */  jal   Audio_SequencePlayerProcessSound
 /* B63778 800EC5D8 02002025 */   move  $a0, $s0
 /* B6377C 800EC5DC 3C028017 */  lui   $v0, %hi(D_801719DC) # $v0, 0x8017
 /* B63780 800EC5E0 844219DC */  lh    $v0, %lo(D_801719DC)($v0)

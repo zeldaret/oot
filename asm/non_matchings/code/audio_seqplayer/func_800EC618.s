@@ -9,7 +9,7 @@ glabel func_800EC618
 .L800EC634:
 /* B637D4 800EC634 0C03AF56 */  jal   func_800EBD58
 /* B637D8 800EC638 02002025 */   move  $a0, $s0
-/* B637DC 800EC63C 0C03A2A2 */  jal   func_800E8A88
+/* B637DC 800EC63C 0C03A2A2 */  jal   Audio_SequencePlayerProcessSound
 /* B637E0 800EC640 02002025 */   move  $a0, $s0
 /* B637E4 800EC644 8E0F00DC */  lw    $t7, 0xdc($s0)
 /* B637E8 800EC648 25F8FFFF */  addiu $t8, $t7, -1
