@@ -9,7 +9,7 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this);
-void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx);
+void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_SetupSetPosition(BgMoriElevator* this);
 void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx);
@@ -134,10 +134,10 @@ s32 BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, GlobalContext* globalCtx
 }
 
 void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this) {
-    this->actionFunc = BgMoriElevator_PlaceInGround;
+    this->actionFunc = BgMoriElevator_WaitAfterInit;
 }
 
-void BgMoriElevator_PlaceInGround(BgMoriElevator* this, GlobalContext* globalCtx) {
+void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             if (globalCtx->roomCtx.curRoom.num == 2) {
