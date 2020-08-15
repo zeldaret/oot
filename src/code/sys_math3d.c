@@ -413,19 +413,19 @@ s32 func_800CBAE4(Vec3f* v0, Vec3f* v1, Vec3f* v2) {
     s32 ret = 0;
 
     if ((v2->x + v2->y + v2->z) < (v0->x + v0->y + v0->z)) {
-        ret |= 0x01;
+        ret |= 1;
     }
 
     if ((-v1->x + v2->y + v2->z) < (-v0->x + v0->y + v0->z)) {
-        ret |= 0x02;
+        ret |= 2;
     }
 
     if ((-v1->x + v2->y - v1->z) < (-v0->x + v0->y - v0->z)) {
-        ret |= 0x04;
+        ret |= 4;
     }
 
     if ((v2->x + v2->y - v1->z) < (v0->x + v0->y - v0->z)) {
-        ret |= 0x08;
+        ret |= 8;
     }
 
     if ((v2->x - v1->y + v2->z) < (v0->x - v0->y + v0->z)) {

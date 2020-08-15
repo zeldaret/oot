@@ -184,7 +184,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
-    Mtx* matrices = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
+    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
     f32 tmpf1;
     f32 tmpf2;
 
@@ -196,7 +196,7 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 464);
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, matrices);
+        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, mtx);
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
         gSPSegment(gfxCtx->polyOpa.p++, 0x09,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0,
@@ -223,11 +223,11 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_1B4[i].z = thisx->shape.rot.z;
         }
 
-        for (i = 0; i < 4; i++, matrices++) {
+        for (i = 0; i < 4; i++, mtx++) {
             Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
             Matrix_RotateRPY(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
             Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
-            Matrix_ToMtx(matrices, "../z_en_bx.c", 507);
+            Matrix_ToMtx(mtx, "../z_en_bx.c", 507);
         }
 
         gSPDisplayList(gfxCtx->polyOpa.p++, D_060022F0);
