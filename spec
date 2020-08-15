@@ -352,7 +352,6 @@ beginseg
     include "build/data/z_skin.bss.o"
     include "build/src/code/z_skin_awb.o"
     include "build/src/code/z_skin_matrix.o"
-    include "build/data/z_skin_matrix.data.o"
     include "build/src/code/z_sram.o"
     include "build/data/z_sram.data.o"
     include "build/src/code/code_800A9D40.o"
@@ -957,8 +956,7 @@ endseg
 beginseg
     name "ovl_Bg_Ingate"
     include "build/src/overlays/actors/ovl_Bg_Ingate/z_bg_ingate.o"
-    include "build/data/overlays/actors/z_bg_ingate.data.o"
-    include "build/data/overlays/actors/z_bg_ingate.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ingate/ovl_Bg_Ingate_reloc.o"
 endseg
 
 beginseg
@@ -996,8 +994,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Bombiwa"
     include "build/src/overlays/actors/ovl_Bg_Jya_Bombiwa/z_bg_jya_bombiwa.o"
-    include "build/data/overlays/actors/z_bg_jya_bombiwa.data.o"
-    include "build/data/overlays/actors/z_bg_jya_bombiwa.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Bombiwa/ovl_Bg_Jya_Bombiwa_reloc.o"
 endseg
 
 beginseg
@@ -1231,8 +1228,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idomizu"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idomizu/z_bg_spot01_idomizu.o"
-    include "build/data/overlays/actors/z_bg_spot01_idomizu.data.o"
-    include "build/data/overlays/actors/z_bg_spot01_idomizu.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot01_Idomizu/ovl_Bg_Spot01_Idomizu_reloc.o"
 endseg
 
 beginseg
@@ -1711,22 +1707,19 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Blast"
     include "build/src/overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.o"
-    include "build/data/overlays/effects/z_eff_ss_blast.data.o"
-    include "build/data/overlays/effects/z_eff_ss_blast.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Blast/ovl_Effect_Ss_Blast_reloc.o"
 endseg
 
 beginseg
     name "ovl_Effect_Ss_Bomb"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb.data.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Bomb/ovl_Effect_Ss_Bomb_reloc.o"
 endseg
 
 beginseg
     name "ovl_Effect_Ss_Bomb2"
     include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb2.data.o"
-    include "build/data/overlays/effects/z_eff_ss_bomb2.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Bomb2/ovl_Effect_Ss_Bomb2_reloc.o"
 endseg
 
 beginseg
@@ -1767,8 +1760,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Dead_Sound"
     include "build/src/overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.o"
-    include "build/data/overlays/effects/z_eff_ss_dead_sound.data.o"
-    include "build/data/overlays/effects/z_eff_ss_dead_sound.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Dead_Sound/ovl_Effect_Ss_Dead_Sound_reloc.o"
 endseg
 
 beginseg
@@ -1857,8 +1849,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Spk"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.o"
-    include "build/data/overlays/effects/z_eff_ss_g_spk.data.o"
-    include "build/data/overlays/effects/z_eff_ss_g_spk.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_G_Spk/ovl_Effect_Ss_G_Spk_reloc.o"
 endseg
 
 beginseg
@@ -3490,8 +3481,7 @@ endseg
 beginseg
     name "ovl_Item_Etcetera"
     include "build/src/overlays/actors/ovl_Item_Etcetera/z_item_etcetera.o"
-    include "build/data/overlays/actors/z_item_etcetera.data.o"
-    include "build/data/overlays/actors/z_item_etcetera.reloc.o"
+    include "build/src/overlays/actors/ovl_Item_Etcetera/ovl_Item_Etcetera_reloc.o"
 endseg
 
 beginseg
@@ -3643,8 +3633,7 @@ endseg
 beginseg
     name "ovl_Obj_Makeoshihiki"
     include "build/src/overlays/actors/ovl_Obj_Makeoshihiki/z_obj_makeoshihiki.o"
-    include "build/data/overlays/actors/z_obj_makeoshihiki.data.o"
-    include "build/data/overlays/actors/z_obj_makeoshihiki.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Makeoshihiki/ovl_Obj_Makeoshihiki_reloc.o"
 endseg
 
 beginseg
