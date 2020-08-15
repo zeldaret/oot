@@ -3960,16 +3960,14 @@ s16 sTimerDigits[5];
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_Draw.s")
 #endif
 
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;
     static s16 D_80125B64 = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = PLAYER;
-    s16 alpha;  // sp+0x3A
-    s16 alpha1; // sp+0x38
+    s16 alpha;
+    s16 alpha1;
     u16 action;
     Input* input = &globalCtx->state.input[2];
 
@@ -4164,14 +4162,14 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     switch (interfaceCtx->unk_1EC) {
         case 1:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 15700.0f) {
                 interfaceCtx->unk_1F4 = -15700.0f;
                 interfaceCtx->unk_1EC = 2;
             }
             break;
         case 2:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 0.0f) {
                 interfaceCtx->unk_1F4 = 0.0f;
                 interfaceCtx->unk_1EC = 0;
@@ -4184,14 +4182,14 @@ void Interface_Update(GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 15700.0f) {
                 interfaceCtx->unk_1F4 = -15700.0f;
                 interfaceCtx->unk_1EC = 2;
             }
             break;
         case 4:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 0.0f) {
                 interfaceCtx->unk_1F4 = 0.0f;
                 interfaceCtx->unk_1EC = 0;
@@ -4253,8 +4251,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             }
         }
 
-        sHBAScoreDigits[1] = 0;
-        sHBAScoreDigits[0] = 0;
+        sHBAScoreDigits[0] = sHBAScoreDigits[1] = 0;
         sHBAScoreDigits[2] = 0;
         sHBAScoreDigits[3] = gSaveContext.minigameScore;
 
@@ -4289,10 +4286,12 @@ void Interface_Update(GlobalContext* globalCtx) {
                 gSaveContext.unk_1422 = 2;
                 D_80125B64 = D_8011FB40;
                 D_8011FB40 = 400;
-            } else if ((D_80125B60 == 0) && (gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
-                gSaveContext.unk_1422 = 0;
-                D_8011FB40 = D_80125B64;
-                globalCtx->msgCtx.unk_E3EE = 4;
+            } else if (D_80125B60 == 0) {
+                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
+                    gSaveContext.unk_1422 = 0;
+                    D_8011FB40 = D_80125B64;
+                    globalCtx->msgCtx.unk_E3EE = 4;
+                }
             } else if (gSaveContext.dayTime > 0xC001) {
                 gSaveContext.unk_1422 = 0;
                 D_8011FB40 = D_80125B64;
@@ -4328,8 +4327,3 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 }
-#else
-u8 D_80125B60 = 0;
-s16 D_80125B64 = 0;
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_Update.s")
-#endif
