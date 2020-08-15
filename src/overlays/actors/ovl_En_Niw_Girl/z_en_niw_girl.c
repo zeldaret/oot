@@ -1,6 +1,6 @@
 /*
  * File: z_en_niw_girl.c
- * Overlay ovl_En_Niw_Girl
+ * Overlay: ovl_En_Niw_Girl
  * Description: Girl that chases a cuckoo around in Hyrule Market and Kakariko Village
  */
 
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
-Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178, 0x00000000, 0x00000000, 0x00000000 };
+Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
 
 extern SkeletonHeader D_06009948;
 extern AnimationHeader D_06000378;
@@ -49,55 +49,55 @@ extern AnimationHeader D_06009C78;
 void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     s32 pad;
-    Vec3f tempSrc;
-    Vec3f tempDst;
+    Vec3f vec1;
+    Vec3f vec2;
     s32 pad2;
 
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
                      &this->transitionDrawTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-    thisx->unk_1F = 6;
-    if (thisx->params < 0) {
-        thisx->params = 0;
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    this->actor.unk_1F = 6;
+    if (this->actor.params < 0) {
+        this->actor.params = 0;
     }
-    this->unkFlag = ((thisx->params >> 8) & 0xFF);
-    thisx->gravity = -3.0f;
-    Matrix_RotateY((thisx->shape.rot.y / 32768.0f) * M_PI, 0);
-    tempDst.x = tempDst.y = tempDst.z = 0.0f;
-    tempSrc.x = tempSrc.y = 0.0f;
-    tempSrc.z = 50.0;
-    Matrix_MultVec3f(&tempSrc, &tempDst);
-    this->attachedActor = (EnNiw*)Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_NIW,
-                                                      thisx->posRot.pos.x + tempDst.x, thisx->posRot.pos.y + tempDst.y,
-                                                      thisx->posRot.pos.z + tempDst.z, 0, thisx->posRot.rot.y, 0, 0xA);
-    if (this->attachedActor != 0) {
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" VT_RST, this->unkFlag);
+    this->path = ((this->actor.params >> 8) & 0xFF);
+    this->actor.gravity = -3.0f;
+    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+    vec2.x = vec2.y = vec2.z = 0.0f;
+    vec1.x = vec1.y = 0.0f;
+    vec1.z = 50.0;
+    Matrix_MultVec3f(&vec1, &vec2);
+    this->chasedEnNiw = (EnNiw*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_NIW,
+                                                      this->actor.posRot.pos.x + vec2.x, this->actor.posRot.pos.y + vec2.y,
+                                                      this->actor.posRot.pos.z + vec2.z, 0, this->actor.posRot.rot.y, 0, 0xA);
+    if (this->chasedEnNiw != NULL) {
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" VT_RST, this->path);
         osSyncPrintf("\n\n");
-        thisx->colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = 0xFF;
         this->actionFunc = EnNiwGirl_Talk;
     } else {
         osSyncPrintf("\n\n");
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n" VT_RST, this->unkFlag);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n" VT_RST, this->path);
         osSyncPrintf("\n\n");
-        Actor_Kill(thisx);
+        Actor_Kill(&this->actor);
     }
 }
 
 void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnNiwGirl_PlayJumpAnimation(EnNiwGirl* this, GlobalContext* globalCtx) {
-    f32 tempFrames = SkelAnime_GetFrameCount(&D_06000378);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000378, 1.0f, 0.0f, tempFrames, 0, -10.0f);
+void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000378);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, 0, -10.0f);
     this->actor.flags &= ~1;
     this->actionFunc = func_80AB9210;
 }
 
 void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
-    Path* path = &globalCtx->setupPathList[this->unkFlag];
+    Path* path = &globalCtx->setupPathList[this->path];
     f32 xDistBetween;
     f32 zDistBetween;
 
@@ -105,16 +105,16 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
 
     // Find the X and Z distance between the girl and the cuckoo she is chasing
-    xDistBetween = this->attachedActor->actor.posRot.pos.x - this->actor.posRot.pos.x;
-    zDistBetween = this->attachedActor->actor.posRot.pos.z - this->actor.posRot.pos.z;
+    xDistBetween = this->chasedEnNiw->actor.posRot.pos.x - this->actor.posRot.pos.x;
+    zDistBetween = this->chasedEnNiw->actor.posRot.pos.z - this->actor.posRot.pos.z;
     if (func_8010BDBC(&globalCtx->msgCtx) != 0) {
-        this->attachedActor->unk_2E8 = 0;
+        this->chasedEnNiw->unk_2E8 = 0;
     }
     if (sqrtf(SQ(xDistBetween) + SQ(zDistBetween)) < 70.0f) {
-        this->attachedActor->unk_2E8 = (this->unkFlag + 1);
-        this->attachedActor->unk_2EC = path->count;
+        this->chasedEnNiw->unk_2E8 = (this->path + 1);
+        this->chasedEnNiw->unk_2EC = path->count;
     } else if (sqrtf(SQ(xDistBetween) + SQ(zDistBetween)) > 150.0f) {
-        this->attachedActor->unk_2E8 = 0;
+        this->chasedEnNiw->unk_2E8 = 0;
     }
 
     // Change her angle so that she is always facing the cuckoo
@@ -123,7 +123,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 
-    //*Only allow Link to talk to her when she is playing the jumping animation
+    // Only allow Link to talk to her when she is playing the jumping animation
     if ((this->jumpTimer == 0) || (func_8008F080(globalCtx) != 0)) {
         this->jumpTimer = 60;
         this->actionFunc = EnNiwGirl_Talk;
@@ -133,28 +133,27 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009C78), 0, -10.0f);
     this->actor.flags |= 1;
-    this->actor.textId = 0x7000; // I can't catch that Cucco!
+    this->actor.textId = 0x7000;
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
-        this->actor.textId = 0x70EA; // That scary-looking man took off out of here really fast !
+        this->actor.textId = 0x70EA;
     }
-    switch (func_8008F080(globalCtx) - 1) {
-        case KEATON_MASK:
-            this->actor.textId = 0x7118; // Oh wow! It's Keaton! Hi, Keaton !
+    switch (func_8008F080(globalCtx)) {
+        case 1:
+            this->actor.textId = 0x7118;
             break;
-        case SPOOKY_MASK:
+        case 3:
             this->actor.textId =
-                0x7119; // How spooky! There's a boy in Kakariko Village who was looking for a mask like that!
+                0x7119;
             break;
-        case BUNNY_HOOD:
-
-        case ZORA_MASK:
-        case GERUDO_MASK:
-            this->actor.textId = 0x711A; // Hmm... well... don't you have any other masks ?
+        case 4:
+        case 6:
+        case 7:
+            this->actor.textId = 0x711A;
             break;
-        case SKULL_MASK:
-        case GORON_MASK:
-        case MASK_OF_TRUTH:
-            this->actor.textId = 0x711B; // What a strange mask!  Hee hah haa !
+        case 2:
+        case 5:
+        case 8:
+            this->actor.textId = 0x711B;
             break;
     }
     this->unk_270 = 6;
@@ -164,18 +163,17 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
 void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx)) {
-        this->attachedActor->unk_2E8 = 0;
+        this->chasedEnNiw->unk_2E8 = 0;
     }
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.8f, 0.2f);
     if (func_8002F194(&this->actor, globalCtx)) {
-        if (this->actor.textId == 0x70EA) { // That scary-looking man took off out of here really fast!
+        if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;
-            return;
         }
     } else {
         if ((this->jumpTimer == 0) && !func_8010BDBC(&globalCtx->msgCtx)) {
             this->jumpTimer = Math_Rand_ZeroFloat(100.0f) + 250.0f;
-            this->actionFunc = EnNiwGirl_PlayJumpAnimation;
+            this->actionFunc = EnNiwGirl_Jump;
         } else {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
@@ -204,7 +202,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (LINK_IS_CHILD) {
             this->unk_2D4.unk_18.y = player->actor.posRot.pos.y - 10.0f;
         }
-        func_80034A14(thisx, &this->unk_2D4, 2, 4);
+        func_80034A14(&this->actor, &this->unk_2D4, 2, 4);
         this->unk_260 = this->unk_2D4.unk_08;
         this->unk_266 = this->unk_2D4.unk_0E;
     } else {
@@ -220,8 +218,8 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, thisx, 100.0f, 100.0f, 200.0f, 0x1C);
-    Collider_CylinderUpdate(thisx, &this->collider);
+    func_8002E4B4(globalCtx, &this->actor, 100.0f, 100.0f, 200.0f, 0x1C);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 

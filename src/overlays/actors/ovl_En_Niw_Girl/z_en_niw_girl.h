@@ -17,31 +17,20 @@ typedef struct EnNiwGirl {
     /* 0x025C */ EnNiwGirlActionFunc actionFunc;
     /* 0x0260 */ Vec3s unk_260;
     /* 0x0266 */ Vec3s unk_266;
-    /* 0x026C */ s16 jumpTimer;//Controls how many frames she jumps for and how long until she jumps again
+    /* 0x026C */ s16 jumpTimer; // Controls how many frames she jumps for and how long until she jumps again
     /* 0x026E */ s16 unkUpTimer;
     /* 0x0270 */ s16 unk_270;
     /* 0x0272 */ s16 unk_272;
     /* 0x0274 */ s16 unk_274;
-    /* 0x0276 */ s16 unkFlag;
+    /* 0x0276 */ s16 path;
     /* 0x0278 */ s16 unk_278;
     /* 0x027A */ s16 unk_27A;
     /* 0x027C */ f32 unk_27C;
     /* 0x0280 */ f32 unk_280;
-    /* 0x0284 */ EnNiw* attachedActor;
+    /* 0x0284 */ EnNiw* chasedEnNiw;
     /* 0x0288 */ ColliderCylinder collider;
     /* 0x02D4 */ struct_80034A14_arg1 unk_2D4;
 } EnNiwGirl; // size = 0x02FC
-
-typedef enum {
-    /* 0x00 */ KEATON_MASK,
-    /* 0x01 */ SKULL_MASK,
-    /* 0x02 */ SPOOKY_MASK,
-    /* 0x03 */ BUNNY_HOOD,
-    /* 0x04 */ GORON_MASK,
-    /* 0x05 */ ZORA_MASK,
-    /* 0x06 */ GERUDO_MASK,
-    /* 0x07*/ MASK_OF_TRUTH
-} currentMask;
 
 extern const ActorInit En_Niw_Girl_InitVars;
 
