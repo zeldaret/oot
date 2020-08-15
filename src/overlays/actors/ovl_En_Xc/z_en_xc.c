@@ -155,6 +155,8 @@ void func_80B40104(EnXc* this, GlobalContext* globalCtx);
 void func_80B4015C(EnXc* this, GlobalContext* globalCtx);
 void func_80B401CC(EnXc* this, GlobalContext* globalCtx);
 void func_80B40590(EnXc* this, GlobalContext* globalCtx);
+void func_80B4066C(EnXc* this, GlobalContext* globalCtx);
+void func_80B4070C(EnXc* this, GlobalContext* globalCtx);
 void func_80B41000(EnXc* this, GlobalContext* globalCtx);
 void func_80B41020(EnXc* this, GlobalContext* globalCtx);
 void func_80B41068(EnXc* this, GlobalContext* globalCtx);
@@ -378,7 +380,6 @@ void func_80B3C588(EnXc* this, GlobalContext* globalCtx, u32 npcActionIdx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3C620.s")
 void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx) {
     CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, npcActionIdx);
     Vec3f* xcPos = &this->actor.posRot.pos;
@@ -1324,7 +1325,11 @@ void func_80B40590(EnXc* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B405A8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B4066C.s")
+void func_80B4066C(EnXc* this, GlobalContext* globalCtx) {
+    if (globalCtx->csCtx.frames == 1455) {
+        func_800F3F3C(7);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B406A0.s")
 
