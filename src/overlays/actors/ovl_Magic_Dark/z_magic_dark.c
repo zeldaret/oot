@@ -43,16 +43,15 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_15C = 0.6f;
     }
 
-    this->actor.posRot.pos = player->actor.posRot.pos;
+    thisx->posRot.pos = player->actor.posRot.pos;
     Actor_SetScale(&this->actor, 0.0f);
-    this->actor.room = -1;
+    thisx->room = -1;
 
     if (gSaveContext.nayrusLoveTimer != 0) {
-        this->actor.update = func_80B874E4;
-        this->actor.draw = func_80B87A18;
-        this->actor.scale.x = this->actor.scale.z = this->unk_15C * 1.6f;
-        // THIS needed below to match
-        this->actor.scale.y = THIS->unk_15C * 0.8f;
+        thisx->update = func_80B874E4;
+        thisx->draw = func_80B87A18;
+        thisx->scale.x = thisx->scale.z = this->unk_15C * 1.6f;
+        thisx->scale.y = this->unk_15C * 0.8f;
         this->unk_14C = 0;
         this->unk_14E = 0;
     } else {
@@ -79,20 +78,19 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
     if (this->unk_14C < 35) {
         func_80B8772C(globalCtx, this->unk_14C * (1 / 45.0f));
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, this->unk_15C * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
-        Actor_SetScale(&this->actor, this->actor.scale.x);
+        Math_SmoothScaleMaxMinF(&thisx->scale.x, this->unk_15C * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
+        Actor_SetScale(&this->actor, thisx->scale.x);
     } else if (this->unk_14C < 55) {
-        Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
+        Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
         Math_SmoothScaleMaxMinF(&this->unk_154, player->unk_90C, 0.5f, 3.0f, 1.0f);
         if (this->unk_14C >= 49) {
             func_80B8772C(globalCtx, (54 - this->unk_14C) * 0.2f);
         }
     } else {
-        this->actor.update = func_80B874E4;
-        this->actor.draw = func_80B87A18;
-        this->actor.scale.x = this->actor.scale.z = this->unk_15C * 1.6f;
-        // THIS needed below to match
-        this->actor.scale.y = THIS->unk_15C * 0.8f;
+        thisx->update = func_80B874E4;
+        thisx->draw = func_80B87A18;
+        thisx->scale.x = thisx->scale.z = this->unk_15C * 1.6f;
+        thisx->scale.y = this->unk_15C * 0.8f;
         this->unk_14C = 0;
         this->unk_14E = 0;
     }
