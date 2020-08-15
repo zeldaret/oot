@@ -268,7 +268,7 @@ void func_80A7C598(EnInsect* this) {
 void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 sp34 = this->actor.params & 3;
-    //s16 pad5;
+    // s16 pad5;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
 

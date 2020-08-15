@@ -65,8 +65,7 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
         transitionCtx->setType = TransitionCircle_SetType;
         transitionCtx->setColor = TransitionCircle_SetColor;
         transitionCtx->setEnvColor = TransitionCircle_SetEnvColor;
-    }
-    else {
+    } else {
         switch (transitionCtx->transitionType) {
             case 1:
                 transitionCtx->init = TransitionTriforce_Init;
@@ -1624,7 +1623,7 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
-    
+
     ret |= Camera_SetParam(camera, 1, arg2);
     ret <<= 1;
     ret |= Camera_SetParam(camera, 2, arg3);
@@ -1649,7 +1648,8 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 
 s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2) {
     s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1;
-    if(1); 
+    if (1)
+        ;
     return ret;
 }
 
