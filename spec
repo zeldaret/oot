@@ -3388,8 +3388,6 @@ endseg
 beginseg
     name "ovl_En_Xc"
     include "build/src/overlays/actors/ovl_En_Xc/z_en_xc.o"
-    include "build/data/overlays/actors/z_en_xc.data.o"
-    include "build/data/overlays/actors/z_en_xc.bss.o"
     include "build/data/overlays/actors/z_en_xc.reloc.o"
 endseg
 
