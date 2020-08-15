@@ -24,7 +24,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalcul
         seqChannel->changes.s.freqScale = 1;
     }
 
-    for (i = 0; i < 4; ++i) {
+    for (i = 0; i < 4; i++) {
         SequenceChannelLayer* layer = seqChannel->layers[i];
         if (layer != NULL && layer->enabled && layer->note != NULL) {
             if (layer->notePropertiesNeedInit) {

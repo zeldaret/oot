@@ -3697,7 +3697,7 @@ extern s8 gSoundMode;
 //extern ? D_801725E8;
 //extern ? D_80172618;
 //extern ? D_80172699;
-//extern ? D_801726A0;
+extern f32* D_801726A0;
 //extern ? D_801726A4;
 //extern ? D_801726AC;
 //extern ? D_801726B0;

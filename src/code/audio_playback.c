@@ -1,8 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-extern f32* D_801726A0;
-
 void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     f32 volRight, volLeft;
     s32 smallPanIndex;
