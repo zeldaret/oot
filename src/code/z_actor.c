@@ -307,13 +307,11 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
     func_8002BE98(targetCtx, actor->type, globalCtx);
 }
 
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
-    Actor* actor;
-    Player* player;
-    GraphicsContext* gfxCtx;
+    Actor* actor = targetCtx->targetedActor;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
+    Player* player;
     TargetContextEntry* entry;
     s16 spCE;
     f32 temp1;
@@ -326,8 +324,6 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
     f32 var2;
     s32 i;
 
-    actor = targetCtx->targetedActor;
-    gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 2029);
 
     if (targetCtx->unk_48 != 0) {
@@ -355,11 +351,11 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         func_8002BE04(globalCtx, &targetCtx->targetCenterPos, &spBC, &spB4);
 
-        temp1 = ((spBC.x * spB4) * 160) * var1;
-        spBC.x = (temp1 < -320) ? -320 : ((temp1 > 320) ? 320 : temp1);
+        spBC.x = (160 * (spBC.x * spB4)) * var1;
+        spBC.x = CLAMP(spBC.x, -320.0f, 320.0f);
 
-        temp1 = ((spBC.y * spB4) * 120) * var1;
-        spBC.y = (temp1 < -240) ? -240 : ((temp1 > 240) ? 240 : temp1);
+        spBC.y = (120 * (spBC.y * spB4)) * var1;
+        spBC.y = CLAMP(spBC.y, -240.0f, 240.0f);
 
         spBC.z = spBC.z * var1;
 
@@ -373,7 +369,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
             gfxCtx->overlay.p = Gfx_CallSetupDL(gfxCtx->overlay.p, 0x39);
 
-            for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++) {
+            for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++, spAC = (spAC + 1) % 3) {
                 entry = &targetCtx->arr_50[spAC];
 
                 if (entry->unk_0C < 500.0f) {
@@ -397,16 +393,15 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                         Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
                         gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
-                        gSPDisplayList(gfxCtx->overlay.p++, &D_0404D450);
+                        gSPDisplayList(gfxCtx->overlay.p++, D_0404D450);
                         Matrix_Pull();
                     }
                 }
 
-                spCE = spCE - (0xFF / 3);
+                spCE -= 0xFF / 3;
                 if (spCE < 0) {
                     spCE = 0;
                 }
-                spAC = (spAC + 1) % 3;
             }
         }
     }
@@ -430,9 +425,6 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 2158);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002C124.s")
-#endif
 
 void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, GlobalContext* globalCtx) {
     s32 pad;

@@ -54,7 +54,7 @@ extern u32 D_04048180;
 extern Gfx D_04049210[];
 extern u32 D_04049AD0;
 //extern ? D_0404D1C0;
-extern u32 D_0404D450;
+extern Gfx D_0404D450[];
 //extern ? D_0500CA70;
 //extern ? D_06006CC0;
 //extern ? D_06016118;
