@@ -51,7 +51,7 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx);
 void func_8098764C(DemoIm* this, GlobalContext* globalCtx);
 void func_80987658(DemoIm* this, GlobalContext* globalCtx);
 
-UNK_TYPE D_80987830[] = {
+UNK_PTR D_80987830[] = {
     0x06007210,
     0x06007D50,
     0x06008150,
@@ -150,18 +150,17 @@ void func_80984C8C(DemoIm* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80984D00(DemoIm* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
-    if (this) {} // needed to match
+void func_80984D00(Actor* thisx, GlobalContext* globalCtx) {
+    DemoIm* this = THIS;
 
-    Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder_Set3(globalCtx, collider, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
-void func_80984D4C(DemoIm* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
+void func_80984D4C(Actor* thisx, GlobalContext* globalCtx) {
+    DemoIm* this = THIS;
 
-    Collider_DestroyCylinder(globalCtx, collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80984D74(DemoIm* this, GlobalContext* globalCtx) {
@@ -176,11 +175,11 @@ void func_80984DB8(DemoIm* this) {
     Vec3s* vec1 = &this->unk_2D4.unk_08;
     Vec3s* vec2 = &this->unk_2D4.unk_0E;
 
-    Math_SmoothScaleMaxMinS(&vec1->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&vec1->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothScaleMaxMinS(&vec1->x, 0, 20, 6200, 100);
+    Math_SmoothScaleMaxMinS(&vec1->y, 0, 20, 6200, 100);
 
-    Math_SmoothScaleMaxMinS(&vec2->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&vec2->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothScaleMaxMinS(&vec2->x, 0, 20, 6200, 100);
+    Math_SmoothScaleMaxMinS(&vec2->y, 0, 20, 6200, 100);
 }
 
 void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
@@ -525,7 +524,7 @@ void func_80985C94(DemoIm* this, GlobalContext* globalCtx) {
 void func_80985CE8(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 unk_25C = this->unk_25C;
-    UNK_TYPE sp68 = D_80987830[unk_25C];
+    UNK_PTR sp68 = D_80987830[unk_25C];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
@@ -745,7 +744,7 @@ void func_809865F8(DemoIm* this, GlobalContext* globalCtx, s32 arg2) {
                 f32 spawnPosZ = thisPos->z + (Math_Coss(shapeRotY) * 30.0f);
 
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ARROW, spawnPosX, spawnPosY, spawnPosZ, 0xFA0,
-                            this->actor.shape.rot.y, 0, ~0x9);
+                            this->actor.shape.rot.y, 0, 0xFFF6);
                 this->unk_27C = 1;
             }
         } else {
@@ -1106,7 +1105,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    func_80984D00(this, globalCtx);
+    func_80984D00(thisx, globalCtx);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->limbDrawTable, this->transitionDrawTable,
                      17);
     thisx->flags &= ~1;
@@ -1133,9 +1132,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoIm* this = THIS;
-
-    func_80984D4C(this, globalCtx);
+    func_80984D4C(thisx, globalCtx);
 }
 
 s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
@@ -1189,7 +1186,7 @@ void func_8098764C(DemoIm* this, GlobalContext* globalCtx) {
 void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 unk_25C = this->unk_25C;
-    UNK_TYPE sp68 = D_80987830[unk_25C];
+    UNK_PTR sp68 = D_80987830[unk_25C];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
