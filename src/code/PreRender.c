@@ -32,8 +32,8 @@ void PreRender_Destroy(PreRenderContext* this) {
     ListAlloc_FreeAll(&this->alloc);
 }
 
-void func_800C0F28(PreRenderContext* this, Gfx** dListp, void* buf, void* bufSave) {
-    Gfx* dList;
+void func_800C0F28(PreRenderContext* this, Gfx** dList, void* buf, void* bufSave) {
+    Gfx* dListHead;
     s32 x;
     s32 x2;
     s32 add;
@@ -43,17 +43,17 @@ void func_800C0F28(PreRenderContext* this, Gfx** dListp, void* buf, void* bufSav
     s32 lrt;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 215);
-    LogUtils_CheckNullPointer("glistpp", dListp, "../PreRender.c", 216);
-    dList = *dListp;
-    LogUtils_CheckNullPointer("glistp", dList, "../PreRender.c", 218);
+    LogUtils_CheckNullPointer("glistpp", dList, "../PreRender.c", 216);
+    dListHead = *dList;
+    LogUtils_CheckNullPointer("glistp", dListHead, "../PreRender.c", 218);
 
-    gDPPipeSync(dList++);
-    gDPSetOtherMode(dList++,
+    gDPPipeSync(dListHead++);
+    gDPSetOtherMode(dListHead++,
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-    gDPSetColorImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, bufSave);
-    gDPSetScissor(dList++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
+    gDPSetColorImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, bufSave);
+    gDPSetScissor(dListHead++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
     x = this->height;
     add = 0x1000 / (this->width * 2);
@@ -69,23 +69,23 @@ void func_800C0F28(PreRenderContext* this, Gfx** dListp, void* buf, void* bufSav
         lrt = (ult + add) - 1;
 
         if (1) {}
-        gDPLoadTextureTile(dList++, buf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                           G_TX_NOLOD);
-        gSPTextureRectangle(dList++, uls << 2, ult << 2, lrs << 2, lrt << 2, G_TX_RENDERTILE, uls << 5, ult << 5, 4 << 10,
-                            1 << 10);
+        gDPLoadTextureTile(dListHead++, buf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt,
+                           0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                           G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(dListHead++, uls << 2, ult << 2, lrs << 2, lrt << 2, G_TX_RENDERTILE, uls << 5, ult << 5,
+                            4 << 10, 1 << 10);
 
         x -= add;
         x2 += add;
     }
 
-    gDPPipeSync(dList++);
-    gDPSetColorImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    *dListp = dList;
+    gDPPipeSync(dListHead++);
+    gDPSetColorImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
+    *dList = dListHead;
 }
 
-void func_800C1258(PreRenderContext* this, Gfx** dListp) {
-    Gfx* dList;
+void func_800C1258(PreRenderContext* this, Gfx** dList) {
+    Gfx* dListHead;
     s32 y;
     s32 y2;
     s32 add;
@@ -95,17 +95,17 @@ void func_800C1258(PreRenderContext* this, Gfx** dListp) {
     s32 uly;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 278);
-    LogUtils_CheckNullPointer("glistpp", dListp, "../PreRender.c", 279);
-    dList = *dListp;
-    LogUtils_CheckNullPointer("glistp", dList, "../PreRender.c", 281);
+    LogUtils_CheckNullPointer("glistpp", dList, "../PreRender.c", 279);
+    dListHead = *dList;
+    LogUtils_CheckNullPointer("glistp", dListHead, "../PreRender.c", 281);
 
-    gDPPipeSync(dList++);
-    gDPSetOtherMode(dList++,
+    gDPPipeSync(dListHead++);
+    gDPSetOtherMode(dListHead++,
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-    gDPSetColorImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    gDPSetScissor(dList++, G_SC_NON_INTERLACE, this->ulx, this->uly, this->lrx + 1, this->lry + 1);
+    gDPSetColorImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
+    gDPSetScissor(dListHead++, G_SC_NON_INTERLACE, this->ulx, this->uly, this->lrx + 1, this->lry + 1);
 
     y2 = 0;
     add = 0x1000 / ((this->lrxSave - this->ulxSave + 1) * 2);
@@ -120,24 +120,24 @@ void func_800C1258(PreRenderContext* this, Gfx** dListp) {
         lrt = (ult + add) - 1;
 
         if (1) {}
-        gDPLoadTextureTile(dList++, this->fbufSave, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->widthSave, this->height - 1,
+        gDPLoadTextureTile(dListHead++, this->fbufSave, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->widthSave, this->height - 1,
                            this->ulxSave, ult, this->lrxSave, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(dList++, this->ulx << 2, uly << 2, this->lrx << 2, (uly + add - 1) << 2, G_TX_RENDERTILE,
-                            this->ulxSave << 5, ult << 5, 4 << 10, 1 << 10);
+        gSPTextureRectangle(dListHead++, this->ulx << 2, uly << 2, this->lrx << 2, (uly + add - 1) << 2,
+                            G_TX_RENDERTILE, this->ulxSave << 5, ult << 5, 4 << 10, 1 << 10);
 
         y -= add;
         y2 += add;
     }
 
-    gDPPipeSync(dList++);
-    gDPSetColorImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    gDPSetScissor(dList++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
-    *dListp = dList;
+    gDPPipeSync(dListHead++);
+    gDPSetColorImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
+    gDPSetScissor(dListHead++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
+    *dList = dListHead;
 }
 
-void func_800C170C(PreRenderContext* this, Gfx** dListp, void* fbuf, void* fbufSave, u32 r, u32 g, u32 b, u32 a) {
-    Gfx* dList;
+void func_800C170C(PreRenderContext* this, Gfx** dList, void* fbuf, void* fbufSave, u32 r, u32 g, u32 b, u32 a) {
+    Gfx* dListHead;
     s32 x;
     s32 x2;
     s32 add;
@@ -148,20 +148,20 @@ void func_800C170C(PreRenderContext* this, Gfx** dListp, void* fbuf, void* fbufS
     s32 unk;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 343);
-    LogUtils_CheckNullPointer("glistpp", dListp, "../PreRender.c", 344);
-    dList = *dListp;
-    LogUtils_CheckNullPointer("glistp", dList, "../PreRender.c", 346);
+    LogUtils_CheckNullPointer("glistpp", dList, "../PreRender.c", 344);
+    dListHead = *dList;
+    LogUtils_CheckNullPointer("glistp", dListHead, "../PreRender.c", 346);
 
-    gDPPipeSync(dList++);
-    gDPSetOtherMode(dList++,
+    gDPPipeSync(dListHead++);
+    gDPSetOtherMode(dListHead++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_OPA_SURF | G_RM_OPA_SURF2);
-    gDPSetEnvColor(dList++, r, g, b, a);
-    gDPSetCombineLERP(dList++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
-    gDPSetCombineLERP(dList++, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, 1, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, 1);
-    gDPSetColorImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, fbufSave);
-    gDPSetScissor(dList++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
+    gDPSetEnvColor(dListHead++, r, g, b, a);
+    gDPSetCombineLERP(dListHead++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
+    gDPSetCombineLERP(dListHead++, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, 1, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, 1);
+    gDPSetColorImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, fbufSave);
+    gDPSetScissor(dListHead++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
     x2 = 0;
     x = this->height;
@@ -177,28 +177,28 @@ void func_800C170C(PreRenderContext* this, Gfx** dListp, void* fbuf, void* fbufS
         ult = x2;
         lrt = (x2 + add - 1);
 
-        gDPLoadTextureTile(dList++, fbuf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                           G_TX_NOLOD);
+        gDPLoadTextureTile(dListHead++, fbuf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs,
+                           lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                           G_TX_NOLOD, G_TX_NOLOD);
         if (1) {}
-        gSPTextureRectangle(dList++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
+        gSPTextureRectangle(dListHead++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
         x -= add;
         x2 += add;
     }
 
-    gDPPipeSync(dList++);
-    gDPSetColorImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    *dListp = dList;
+    gDPPipeSync(dListHead++);
+    gDPSetColorImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
+    *dList = dListHead;
 }
 
-void func_800C1AE8(PreRenderContext* this, Gfx** dListp, void* fbuf, void* fbufSave) {
-    func_800C170C(this, dListp, fbuf, fbufSave, 0xFF, 0xFF, 0xFF, 0xFF);
+void func_800C1AE8(PreRenderContext* this, Gfx** dList, void* fbuf, void* fbufSave) {
+    func_800C170C(this, dList, fbuf, fbufSave, 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
-void func_800C1B24(PreRenderContext* this, Gfx** dListp, void* fbuf, void* cvgSave) {
-    Gfx* dList;
+void func_800C1B24(PreRenderContext* this, Gfx** dList, void* fbuf, void* cvgSave) {
+    Gfx* dListHead;
     s32 x;
     s32 x2;
     s32 add;
@@ -208,18 +208,18 @@ void func_800C1B24(PreRenderContext* this, Gfx** dListp, void* fbuf, void* cvgSa
     s32 lrt;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 422);
-    LogUtils_CheckNullPointer("glistpp", dListp, "../PreRender.c", 423);
-    dList = *dListp;
-    LogUtils_CheckNullPointer("glistp", dList, "../PreRender.c", 425);
+    LogUtils_CheckNullPointer("glistpp", dList, "../PreRender.c", 423);
+    dListHead = *dList;
+    LogUtils_CheckNullPointer("glistp", dListHead, "../PreRender.c", 425);
 
-    gDPPipeSync(dList++);
-    gDPSetOtherMode(dList++,
+    gDPPipeSync(dListHead++);
+    gDPSetOtherMode(dListHead++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_OPA_CI2);
-    gDPSetCombineLERP(dList++, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0);
-    gDPSetColorImage(dList++, G_IM_FMT_I, G_IM_SIZ_8b, this->width, cvgSave);
-    gDPSetScissor(dList++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
+    gDPSetCombineLERP(dListHead++, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0);
+    gDPSetColorImage(dListHead++, G_IM_FMT_I, G_IM_SIZ_8b, this->width, cvgSave);
+    gDPSetScissor(dListHead++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
     x = this->height;
     x2 = 0;
@@ -233,23 +233,23 @@ void func_800C1B24(PreRenderContext* this, Gfx** dListp, void* fbuf, void* cvgSa
         ult = x2;
         lrt = (x2 + add) - 1;
 
-        gDPLoadTextureTile(dList++, fbuf, G_IM_FMT_IA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                           G_TX_NOLOD);
+        gDPLoadTextureTile(dListHead++, fbuf, G_IM_FMT_IA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt,
+                           0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                           G_TX_NOLOD, G_TX_NOLOD);
         if (1) {}
-        gSPTextureRectangle(dList++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
+        gSPTextureRectangle(dListHead++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
         x -= add;
         x2 += add;
     }
 
-    gDPPipeSync(dList++);
-    gDPSetColorImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    *dListp = dList;
+    gDPPipeSync(dListHead++);
+    gDPSetColorImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
+    *dList = dListHead;
 }
 
-void func_800C1E9C(PreRenderContext* this, Gfx** dListp) {
+void func_800C1E9C(PreRenderContext* this, Gfx** dList) {
     LogUtils_CheckNullPointer("this->zbuf_save", this->zbufSave, "../PreRender.c", 481);
     LogUtils_CheckNullPointer("this->zbuf", this->zbuf, "../PreRender.c", 482);
 
@@ -257,10 +257,10 @@ void func_800C1E9C(PreRenderContext* this, Gfx** dListp) {
         return;
     }
 
-    func_800C0F28(this, dListp, this->zbuf, this->zbufSave);
+    func_800C0F28(this, dList, this->zbuf, this->zbufSave);
 }
 
-void func_800C1F20(PreRenderContext* this, Gfx** dListp) {
+void func_800C1F20(PreRenderContext* this, Gfx** dList) {
     LogUtils_CheckNullPointer("this->fbuf_save", this->fbufSave, "../PreRender.c", 495);
     LogUtils_CheckNullPointer("this->fbuf", this->fbuf, "../PreRender.c", 496);
 
@@ -268,44 +268,44 @@ void func_800C1F20(PreRenderContext* this, Gfx** dListp) {
         return;
     }
 
-    func_800C1AE8(this, dListp, this->fbuf, this->fbufSave);
+    func_800C1AE8(this, dList, this->fbuf, this->fbufSave);
 }
 
-void func_800C1FA4(PreRenderContext* this, Gfx** dListp) {
-    Gfx* dList;
+void func_800C1FA4(PreRenderContext* this, Gfx** dList) {
+    Gfx* dListHead;
 
-    dList = *dListp;
+    dListHead = *dList;
 
-    gDPPipeSync(dList++);
-    gDPSetBlendColor(dList++, 0xFF, 0xFF, 0xFF, 0x08);
-    gDPSetPrimDepth(dList++, -1, -1);
-    gDPSetOtherMode(dList++,
+    gDPPipeSync(dListHead++);
+    gDPSetBlendColor(dListHead++, 0xFF, 0xFF, 0xFF, 0x08);
+    gDPSetPrimDepth(dListHead++, -1, -1);
+    gDPSetOtherMode(dListHead++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_VISCVG | G_RM_VISCVG2);
-    gDPSetScissor(dList++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
-    gDPFillRectangle(dList++, 0, 0, this->width, this->height);
-    gDPPipeSync(dList++);
+    gDPSetScissor(dListHead++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
+    gDPFillRectangle(dListHead++, 0, 0, this->width, this->height);
+    gDPPipeSync(dListHead++);
 
-    *dListp = dList;
+    *dList = dListHead;
 }
 
-void func_800C20B4(PreRenderContext* this, Gfx** dListp) {
-    func_800C1FA4(this, dListp);
+void func_800C20B4(PreRenderContext* this, Gfx** dList) {
+    func_800C1FA4(this, dList);
     LogUtils_CheckNullPointer("this->cvg_save", this->cvgSave, "../PreRender.c", 532);
     if (!this->cvgSave) {
         return;
     }
 
-    func_800C1B24(this, dListp, this->fbuf, this->cvgSave);
+    func_800C1B24(this, dList, this->fbuf, this->cvgSave);
 }
 
-void func_800C2118(PreRenderContext* this, Gfx** dListp) {
-    func_800C0F28(this, dListp, this->zbufSave, this->zbuf);
+void func_800C2118(PreRenderContext* this, Gfx** dList) {
+    func_800C0F28(this, dList, this->zbufSave, this->zbuf);
 }
 
-void func_800C213C(PreRenderContext* this, Gfx** dListp) {
-    Gfx* dList;
+void func_800C213C(PreRenderContext* this, Gfx** dList) {
+    Gfx* dListHead;
     s32 y;
     s32 y2;
     s32 add;
@@ -319,19 +319,19 @@ void func_800C213C(PreRenderContext* this, Gfx** dListp) {
     }
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 563);
-    LogUtils_CheckNullPointer("glistpp", dListp, "../PreRender.c", 564);
-    dList = *dListp;
-    LogUtils_CheckNullPointer("glistp", dList, "../PreRender.c", 566);
+    LogUtils_CheckNullPointer("glistpp", dList, "../PreRender.c", 564);
+    dListHead = *dList;
+    LogUtils_CheckNullPointer("glistp", dListHead, "../PreRender.c", 566);
 
-    gDPPipeSync(dList++);
-    gDPSetEnvColor(dList++, 0xFF, 0xFF, 0xFF, 0x20);
-    gDPSetOtherMode(dList++,
+    gDPPipeSync(dListHead++);
+    gDPSetEnvColor(dListHead++, 0xFF, 0xFF, 0xFF, 0x20);
+    gDPSetOtherMode(dListHead++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA |
                         GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
                         GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1));
-    gDPSetCombineLERP(dList++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
+    gDPSetCombineLERP(dListHead++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
     y = this->height;
     add = 4;
@@ -348,22 +348,22 @@ void func_800C213C(PreRenderContext* this, Gfx** dListp) {
 
 #ifdef NON_MATCHING
         // regalloc
-        gDPLoadMultiTile(dList++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
+        gDPLoadMultiTile(dListHead++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
                          this->height, uls, ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gDPLoadMultiTile(dList++, this->cvgSave, 0x0160, 1, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls, ult,
-                         lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                         G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadMultiTile(dListHead++, this->cvgSave, 0x0160, 1, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls,
+                         ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 #else
         {
             // clang-format off
             s16 new_var = 1;
-            { gDPSetTextureImage(dList++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbufSave); gDPSetTile(dList++, 0, 2, (((((lrx)-(uls)+1) * G_IM_SIZ_16b_TILE_BYTES)+7)>>3), 0x0000, G_TX_LOADTILE, 0 , 0 | 0, 0, 0, 0 | 0, 0, 0); gDPLoadSync(dList++); do { if (1) { { Gfx *_g = (Gfx *) (dList++); _g->words.w0 = (((unsigned int) ((((unsigned int) 0xf4) & ((0x01 << 8) - 1)) << 24)) | ((unsigned int) ((((unsigned int) (uls << 2)) & ((0x01 << 12) - 1)) << 12))) | ((unsigned int) ((((unsigned int) (ult << 2)) & ((0x01 << 12) - 1)) << 0)); _g->words.w1 = (((unsigned int) ((((unsigned int) 7) & ((0x01 << 3) - 1)) << 24)) | ((unsigned int) ((((unsigned int) (lrx << 2)) & ((0x01 << 12) - 1)) << 12))) | ((unsigned int) ((((unsigned int) (lry << 2)) & ((0x01 << 12) - 1)) << 0)); } }  } while (0); gDPPipeSync(dList++); gDPSetTile(dList++, 0, 2, (((((lrx)-(uls)+1) * G_IM_SIZ_16b_LINE_BYTES)+7)>>3), 0x0000, 0, 0, 0 | 0, 0, 0, 0 | 0, 0, 0); gDPSetTileSize(dList++, 0, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); } ;
-            { gDPSetTextureImage(dList++, 4, 1, this->width, this->cvgSave); do { { Gfx *_g = (Gfx *) (dList++); _g->words.w0 = (((((unsigned int) ((((unsigned int) 0xf5) & ((0x01 << 8) - 1)) << 24)) | ((unsigned int) ((((unsigned int) 4) & ((0x01 << 3) - 1)) << 21))) | ((unsigned int) ((((unsigned int) new_var) & ((0x01 << 2) - new_var)) << 19))) | ((unsigned int) ((((unsigned int) (((((lrx - uls) + new_var) * new_var) + 7) >> 3)) & ((0x01 << 9) - new_var)) << 9))) | ((unsigned int) ((((unsigned int) 0x0160) & ((0x01 << 9) - new_var)) << 0)); _g->words.w1 = ((((((((unsigned int) ((((unsigned int) 7) & ((0x01 << 3) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 20))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 18))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 14))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 10))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 8))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 4))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 0)); } } while (0); gDPLoadSync(dList++); gDPLoadTile( dList++, G_TX_LOADTILE, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); gDPPipeSync(dList++); do { { Gfx *_g = (Gfx *) (dList++); _g->words.w0 = (((((unsigned int) ((((unsigned int) 0xf5) & ((0x01 << 8) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 4) & ((0x01 << 3) - new_var)) << 21))) | ((unsigned int) ((((unsigned int) new_var) & ((0x01 << 2) - new_var)) << 19))) | ((unsigned int) ((((unsigned int) (((((lrx - uls) + new_var) * new_var) + 7) >> 3)) & ((0x01 << 9) - new_var)) << 9))) | ((unsigned int) ((((unsigned int) 0x0160) & ((0x01 << 9) - new_var)) << 0)); _g->words.w1 = ((((((((unsigned int) ((((unsigned int) new_var) & ((0x01 << 3) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 20))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 18))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 14))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 10))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - 1)) << 8))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - 1)) << 4))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - 1)) << 0)); } } while (0); gDPSetTileSize(dList++, new_var, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); } ;
+            { gDPSetTextureImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbufSave); gDPSetTile(dListHead++, 0, 2, (((((lrx)-(uls)+1) * G_IM_SIZ_16b_TILE_BYTES)+7)>>3), 0x0000, G_TX_LOADTILE, 0 , 0 | 0, 0, 0, 0 | 0, 0, 0); gDPLoadSync(dListHead++); do { if (1) { { Gfx *_g = (Gfx *) (dListHead++); _g->words.w0 = (((unsigned int) ((((unsigned int) 0xf4) & ((0x01 << 8) - 1)) << 24)) | ((unsigned int) ((((unsigned int) (uls << 2)) & ((0x01 << 12) - 1)) << 12))) | ((unsigned int) ((((unsigned int) (ult << 2)) & ((0x01 << 12) - 1)) << 0)); _g->words.w1 = (((unsigned int) ((((unsigned int) 7) & ((0x01 << 3) - 1)) << 24)) | ((unsigned int) ((((unsigned int) (lrx << 2)) & ((0x01 << 12) - 1)) << 12))) | ((unsigned int) ((((unsigned int) (lry << 2)) & ((0x01 << 12) - 1)) << 0)); } }  } while (0); gDPPipeSync(dListHead++); gDPSetTile(dListHead++, 0, 2, (((((lrx)-(uls)+1) * G_IM_SIZ_16b_LINE_BYTES)+7)>>3), 0x0000, 0, 0, 0 | 0, 0, 0, 0 | 0, 0, 0); gDPSetTileSize(dListHead++, 0, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); } ;
+            { gDPSetTextureImage(dListHead++, 4, 1, this->width, this->cvgSave); do { { Gfx *_g = (Gfx *) (dListHead++); _g->words.w0 = (((((unsigned int) ((((unsigned int) 0xf5) & ((0x01 << 8) - 1)) << 24)) | ((unsigned int) ((((unsigned int) 4) & ((0x01 << 3) - 1)) << 21))) | ((unsigned int) ((((unsigned int) new_var) & ((0x01 << 2) - new_var)) << 19))) | ((unsigned int) ((((unsigned int) (((((lrx - uls) + new_var) * new_var) + 7) >> 3)) & ((0x01 << 9) - new_var)) << 9))) | ((unsigned int) ((((unsigned int) 0x0160) & ((0x01 << 9) - new_var)) << 0)); _g->words.w1 = ((((((((unsigned int) ((((unsigned int) 7) & ((0x01 << 3) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 20))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 18))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 14))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 10))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 8))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 4))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 0)); } } while (0); gDPLoadSync(dListHead++); gDPLoadTile( dListHead++, G_TX_LOADTILE, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); gDPPipeSync(dListHead++); do { { Gfx *_g = (Gfx *) (dListHead++); _g->words.w0 = (((((unsigned int) ((((unsigned int) 0xf5) & ((0x01 << 8) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 4) & ((0x01 << 3) - new_var)) << 21))) | ((unsigned int) ((((unsigned int) new_var) & ((0x01 << 2) - new_var)) << 19))) | ((unsigned int) ((((unsigned int) (((((lrx - uls) + new_var) * new_var) + 7) >> 3)) & ((0x01 << 9) - new_var)) << 9))) | ((unsigned int) ((((unsigned int) 0x0160) & ((0x01 << 9) - new_var)) << 0)); _g->words.w1 = ((((((((unsigned int) ((((unsigned int) new_var) & ((0x01 << 3) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 20))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 18))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 14))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 10))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - 1)) << 8))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - 1)) << 4))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - 1)) << 0)); } } while (0); gDPSetTileSize(dListHead++, new_var, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); } ;
             // clang-format on
         }
 #endif
-        gSPTextureRectangle(dList++, uls << 2, ult << 2, (lrx + 1) << 2, (lry + 1) << 2, G_TX_RENDERTILE, uls << 5,
+        gSPTextureRectangle(dListHead++, uls << 2, ult << 2, (lrx + 1) << 2, (lry + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
         if (1) {}
@@ -371,25 +371,25 @@ void func_800C213C(PreRenderContext* this, Gfx** dListp) {
         y2 += add;
     }
 
-    gDPPipeSync(dList++);
-    *dListp = dList;
+    gDPPipeSync(dListHead++);
+    *dList = dListHead;
 }
 
-void func_800C24BC(PreRenderContext* this, Gfx** dListp) {
-    func_800C0F28(this, dListp, this->fbufSave, this->fbuf);
+void func_800C24BC(PreRenderContext* this, Gfx** dList) {
+    func_800C0F28(this, dList, this->fbufSave, this->fbuf);
 }
 
-void func_800C24E0(PreRenderContext* this, Gfx** dListp) {
-    func_800C1258(this, dListp);
+void func_800C24E0(PreRenderContext* this, Gfx** dList) {
+    func_800C1258(this, dList);
 }
 
 #ifdef NON_EQUIVALENT
-void func_800C2500(PreRenderContext *this, s32 x, s32 y) {
+void func_800C2500(PreRenderContext* this, s32 x, s32 y) {
 
-    u32 buffA[3*8]; // 0x144
-    u32 buffR[3*8]; // 0x108
-    u32 buffG[3*8]; // 0xCC
-    u32 buffB[3*8]; // 0x90
+    u32 buffA[3 * 8]; // 0x144
+    u32 buffR[3 * 8]; // 0x108
+    u32 buffG[3 * 8]; // 0xCC
+    u32 buffB[3 * 8]; // 0x90
 
     u32 pxR, pxG, pxB, pxR2, pxG2, pxB2;
 
@@ -410,30 +410,29 @@ void func_800C2500(PreRenderContext *this, s32 x, s32 y) {
     | A B C D E |
       ‾ ‾ ‾ ‾ ‾
     */
-    for (i = 0; i < 3*5; i++)
-    {
+    for (i = 0; i < 3 * 5; i++) {
         x1 = (i % 5) + x - 2; // range (-2) - (2)
         y1 = (i / 5) + x - 1; // range (-1) - (1)
 
         if (x1 < 0) {
             x1 = 0;
-        } else if (this->width-1 < x1) {
-            x1 = this->width-1;
+        } else if (this->width - 1 < x1) {
+            x1 = this->width - 1;
         }
         if (y1 < 0) {
             y1 = 0;
-        } else if (this->height-1 < y1) {
-            y1 = this->height-1;
+        } else if (this->height - 1 < y1) {
+            y1 = this->height - 1;
         }
 
-        px = this->fbufSave[y1*this->width + x1];
+        px = this->fbufSave[y1 * this->width + x1];
         comp = (px << 0) >> 27; // R
         buffR[i] = (comp << 3) | (comp >> 2);
         comp = (px << 5) >> 27; // G
         buffG[i] = (comp << 3) | (comp >> 2);
         comp = (px << 10) >> 27; // B
         buffB[i] = (comp << 3) | (comp >> 2);
-        buffA[i] = this->cvgSave[y1*this->width + x1] >> 5; // A
+        buffA[i] = this->cvgSave[y1 * this->width + x1] >> 5; // A
     }
 
     // 7 == buffA[7] ?
@@ -446,7 +445,7 @@ void func_800C2500(PreRenderContext *this, s32 x, s32 y) {
     pxG = buffG[7];
     pxB = buffB[7];
 
-    for (i = 1; i < 3*5; i+= 2) {
+    for (i = 1; i < 3 * 5; i += 2) {
         if (7 == buffA[i]) {
             // R
             if (pxR < buffR[i]) {
@@ -521,91 +520,91 @@ void func_800C2500(PreRenderContext *this, s32 x, s32 y) {
                 }
             }
 
-
             // R
-            if (pxR2 < buffR[i+1]) {
-                if (i+1 != 1 && buffR[1] >= buffR[i+1] && 7 == buffA[1]) {
-                    pxR2 = buffR[i+1];
+            if (pxR2 < buffR[i + 1]) {
+                if (i + 1 != 1 && buffR[1] >= buffR[i + 1] && 7 == buffA[1]) {
+                    pxR2 = buffR[i + 1];
                 }
-                if (i+1 != 3 && buffR[3] >= buffR[i+1] && 7 == buffA[3]) {
-                    pxR2 = buffR[i+1];
+                if (i + 1 != 3 && buffR[3] >= buffR[i + 1] && 7 == buffA[3]) {
+                    pxR2 = buffR[i + 1];
                 }
-                if (i+1 != 5 && buffR[5] >= buffR[i+1] && 7 == buffA[5]) {
-                    pxR2 = buffR[i+1];
+                if (i + 1 != 5 && buffR[5] >= buffR[i + 1] && 7 == buffA[5]) {
+                    pxR2 = buffR[i + 1];
                 }
-                if (i+1 != 7 && buffR[7] >= buffR[i+1] && 7 == buffA[7]) {
-                    pxR2 = buffR[i+1];
+                if (i + 1 != 7 && buffR[7] >= buffR[i + 1] && 7 == buffA[7]) {
+                    pxR2 = buffR[i + 1];
                 }
-                if (i+1 != 9 && buffR[9] >= buffR[i+1] && 7 == buffA[9]) {
-                    pxR2 = buffR[i+1];
+                if (i + 1 != 9 && buffR[9] >= buffR[i + 1] && 7 == buffA[9]) {
+                    pxR2 = buffR[i + 1];
                 }
-                if (i+1 != 11 && buffR[11] >= buffR[i+1] && 7 == buffA[11]) {
-                    pxR2 = buffR[i+1];
+                if (i + 1 != 11 && buffR[11] >= buffR[i + 1] && 7 == buffA[11]) {
+                    pxR2 = buffR[i + 1];
                 }
-                if (i+1 != 13 && buffR[13] >= buffR[i+1] && 7 == buffA[13]) {
-                    pxR2 = buffR[i+1];
+                if (i + 1 != 13 && buffR[13] >= buffR[i + 1] && 7 == buffA[13]) {
+                    pxR2 = buffR[i + 1];
                 }
             }
             // G
-            if (pxG2 < buffG[i+1]) {
-                if (i+1 != 1 && buffG[1] >= buffG[i+1] && 7 == buffA[1]) {
-                    pxG2 = buffG[i+1];
+            if (pxG2 < buffG[i + 1]) {
+                if (i + 1 != 1 && buffG[1] >= buffG[i + 1] && 7 == buffA[1]) {
+                    pxG2 = buffG[i + 1];
                 }
-                if (i+1 != 3 && buffG[3] >= buffG[i+1] && 7 == buffA[3]) {
-                    pxG2 = buffG[i+1];
+                if (i + 1 != 3 && buffG[3] >= buffG[i + 1] && 7 == buffA[3]) {
+                    pxG2 = buffG[i + 1];
                 }
-                if (i+1 != 5 && buffG[5] >= buffG[i+1] && 7 == buffA[5]) {
-                    pxG2 = buffG[i+1];
+                if (i + 1 != 5 && buffG[5] >= buffG[i + 1] && 7 == buffA[5]) {
+                    pxG2 = buffG[i + 1];
                 }
-                if (i+1 != 7 && buffG[7] >= buffG[i+1] && 7 == buffA[7]) {
-                    pxG2 = buffG[i+1];
+                if (i + 1 != 7 && buffG[7] >= buffG[i + 1] && 7 == buffA[7]) {
+                    pxG2 = buffG[i + 1];
                 }
-                if (i+1 != 9 && buffG[9] >= buffG[i+1] && 7 == buffA[9]) {
-                    pxG2 = buffG[i+1];
+                if (i + 1 != 9 && buffG[9] >= buffG[i + 1] && 7 == buffA[9]) {
+                    pxG2 = buffG[i + 1];
                 }
-                if (i+1 != 11 && buffG[11] >= buffG[i+1] && 7 == buffA[11]) {
-                    pxG2 = buffG[i+1];
+                if (i + 1 != 11 && buffG[11] >= buffG[i + 1] && 7 == buffA[11]) {
+                    pxG2 = buffG[i + 1];
                 }
-                if (i+1 != 13 && buffG[13] >= buffG[i+1] && 7 == buffA[13]) {
-                    pxG2 = buffG[i+1];
+                if (i + 1 != 13 && buffG[13] >= buffG[i + 1] && 7 == buffA[13]) {
+                    pxG2 = buffG[i + 1];
                 }
             }
             // B
-            if (pxB2 < buffB[i+1]) {
-                if (i+1 != 1 && buffB[1] >= buffB[i+1] && 7 == buffA[1]) {
-                    pxB2 = buffB[i+1];
+            if (pxB2 < buffB[i + 1]) {
+                if (i + 1 != 1 && buffB[1] >= buffB[i + 1] && 7 == buffA[1]) {
+                    pxB2 = buffB[i + 1];
                 }
-                if (i+1 != 3 && buffB[3] >= buffB[i+1] && 7 == buffA[3]) {
-                    pxB2 = buffB[i+1];
+                if (i + 1 != 3 && buffB[3] >= buffB[i + 1] && 7 == buffA[3]) {
+                    pxB2 = buffB[i + 1];
                 }
-                if (i+1 != 5 && buffB[5] >= buffB[i+1] && 7 == buffA[5]) {
-                    pxB2 = buffB[i+1];
+                if (i + 1 != 5 && buffB[5] >= buffB[i + 1] && 7 == buffA[5]) {
+                    pxB2 = buffB[i + 1];
                 }
-                if (i+1 != 7 && buffB[7] >= buffB[i+1] && 7 == buffA[7]) {
-                    pxB2 = buffB[i+1];
+                if (i + 1 != 7 && buffB[7] >= buffB[i + 1] && 7 == buffA[7]) {
+                    pxB2 = buffB[i + 1];
                 }
-                if (i+1 != 9 && buffB[9] >= buffB[i+1] && 7 == buffA[9]) {
-                    pxB2 = buffB[i+1];
+                if (i + 1 != 9 && buffB[9] >= buffB[i + 1] && 7 == buffA[9]) {
+                    pxB2 = buffB[i + 1];
                 }
-                if (i+1 != 11 && buffB[11] >= buffB[i+1] && 7 == buffA[11]) {
-                    pxB2 = buffB[i+1];
+                if (i + 1 != 11 && buffB[11] >= buffB[i + 1] && 7 == buffA[11]) {
+                    pxB2 = buffB[i + 1];
                 }
-                if (i+1 != 13 && buffB[13] >= buffB[i+1] && 7 == buffA[13]) {
-                    pxB2 = buffB[i+1];
+                if (i + 1 != 13 && buffB[13] >= buffB[i + 1] && 7 == buffA[13]) {
+                    pxB2 = buffB[i + 1];
                 }
             }
         }
-    
     }
 
     unk = 7 - buffA[7];
 
-    pixel = (((((((pxR + pxR2) - (buffR[7]<<1)) * unk + 4) >> 3) + buffR[7]) >> 3) << 3) | (pixel & 0xFF07); // RG + 7?
-    pixel = ((((((((pxG + pxG2) - (buffG[7]<<1)) * unk + 4) >> 3) + buffG[7]) >> 3) << 6) & 0x07C0) | (pixel & 0xF83F); // R-BA
-    pixel = ((((((((pxB + pxB2) - (buffB[7]<<1)) * unk + 4) >> 3) + buffB[7]) >> 3) << 1) & 0x003E) | (pixel & 0xFFC1); // RG-A
+    pixel =
+        (((((((pxR + pxR2) - (buffR[7] << 1)) * unk + 4) >> 3) + buffR[7]) >> 3) << 3) | (pixel & 0xFF07); // RG + 7?
+    pixel = ((((((((pxG + pxG2) - (buffG[7] << 1)) * unk + 4) >> 3) + buffG[7]) >> 3) << 6) & 0x07C0) |
+            (pixel & 0xF83F); // R-BA
+    pixel = ((((((((pxB + pxB2) - (buffB[7] << 1)) * unk + 4) >> 3) + buffB[7]) >> 3) << 1) & 0x003E) |
+            (pixel & 0xFFC1); // RG-A
     pixel |= 1;
-    this->fbufSave[y*this->width+x] = pixel;
-
+    this->fbufSave[y * this->width + x] = pixel;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/PreRender/func_800C2500.s")
