@@ -322,7 +322,6 @@ beginseg
     include "build/data/z_lifemeter.data.o"
     include "build/src/code/z_lights.o"
     include "build/data/z_lights.data.o"
-    include "build/data/z_lights.bss.o"
     include "build/src/code/z_malloc.o"
     include "build/src/code/z_map_mark.o"
     include "build/src/code/z_moji.o"

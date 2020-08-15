@@ -982,7 +982,7 @@ void Lights_InitType2PositionalLight(LightInfoPositional* info, s16 posX, s16 po
 void Lights_SetPositionalLightColorAndRadius(LightInfoPositional* info, u8 red, u8 green, u8 blue, s16 radius);
 void Lights_InitDirectional(LightInfoDirectional* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue);
 void Lights_MapperInit(LightMapper* mapper, u8 red, u8 green, u8 blue);
-// ? func_8007A084(?);
+// ? func_8007A0B4(?);
 // ? func_8007A474(?);
 z_Light* Lights_FindFreeSlot();
 void Lights_Free(z_Light* light);

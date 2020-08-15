@@ -357,7 +357,7 @@ s32 func_800CB934(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
     s32 ret = 0;
 
     if ((arg2->y - arg1->x) < (arg0->y - arg0->x)) {
-        ret = 1;
+        ret |= 1;
     }
 
     if ((arg0->y - arg0->x) < (arg1->y - arg2->x)) {
@@ -413,7 +413,7 @@ s32 func_800CBAE4(Vec3f* v0, Vec3f* v1, Vec3f* v2) {
     s32 ret = 0;
 
     if ((v2->x + v2->y + v2->z) < (v0->x + v0->y + v0->z)) {
-        ret = 0x01;
+        ret |= 0x01;
     }
 
     if ((-v1->x + v2->y + v2->z) < (-v0->x + v0->y + v0->z)) {
