@@ -39,7 +39,7 @@ glabel Camera_Fixed4
 /* AC7278 800500D8 860F0142 */  lh    $t7, 0x142($s0)
 /* AC727C 800500DC 468021A0 */  cvt.s.w $f6, $f4
 /* AC7280 800500E0 44812000 */  mtc1  $at, $f4
-/* AC7284 800500E4 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC7284 800500E4 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC7288 800500E8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC728C 800500EC 86080144 */  lh    $t0, 0x144($s0)
 /* AC7290 800500F0 0338C821 */  addu  $t9, $t9, $t8

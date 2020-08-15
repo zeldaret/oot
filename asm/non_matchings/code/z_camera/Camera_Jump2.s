@@ -70,7 +70,7 @@ glabel Camera_Jump2
 /* AC1460 8004A2C0 3C014288 */  li    $at, 0x42880000 # 0.000000
 /* AC1464 8004A2C4 44819000 */  mtc1  $at, $f18
 /* AC1468 8004A2C8 468021A0 */  cvt.s.w $f6, $f4
-/* AC146C 8004A2CC 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC146C 8004A2CC 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC1470 8004A2D0 860B0144 */  lh    $t3, 0x144($s0)
 /* AC1474 8004A2D4 0338C821 */  addu  $t9, $t9, $t8
 /* AC1478 8004A2D8 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)

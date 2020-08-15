@@ -32,7 +32,7 @@ glabel Camera_Unique0
 .L800524B8:
 /* AC9658 800524B8 86180142 */  lh    $t8, 0x142($s0)
 .L800524BC:
-/* AC965C 800524BC 3C098012 */  lui   $t1, %hi(sCameraSettings)
+/* AC965C 800524BC 3C098012 */  lui   $t1, %hi(sCameraSettings+4)
 /* AC9660 800524C0 860A0144 */  lh    $t2, 0x144($s0)
 /* AC9664 800524C4 0018C8C0 */  sll   $t9, $t8, 3
 /* AC9668 800524C8 01394821 */  addu  $t1, $t1, $t9
