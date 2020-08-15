@@ -133,6 +133,7 @@ void func_80B3F394(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F3BC(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F3C8(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F3D8();
+void func_80B3F3F8(Vec3f* src, GlobalContext* globalCtx);
 void func_80B3F700(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F7F8(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F820(EnXc* this, GlobalContext* globalCtx);
@@ -176,6 +177,8 @@ void func_80B41414(EnXc* this, GlobalContext* globalCtx);
 void func_80B4143C(EnXc* this, GlobalContext* globalCtx);
 void func_80B41464(EnXc* this, GlobalContext* globalCtx);
 void func_80B4148C(EnXc* this, GlobalContext* globalCtx);
+void func_80B415B8(EnXc* this, GlobalContext* globalCtx);
+void func_80B41798(EnXc* this, GlobalContext* globalCtx);
 void func_80B417E4(EnXc* this, GlobalContext* globalCtx);
 void func_80B41844(EnXc* this, GlobalContext* globalCtx);
 
@@ -199,6 +202,8 @@ extern Gfx D_06011150[];
 extern CutsceneCmd D_02003F80[];
 extern CutsceneCmd D_020045D0[];
 extern CutsceneCmd D_02000330[];
+extern CutsceneCmd D_02006D20[];
+extern CutsceneCmd D_020046F0[];
 extern AnimationHeader D_0601C0E8;
 extern AnimationHeader D_06013AA4;
 extern AnimationHeader D_06019598;
@@ -1095,10 +1100,11 @@ void func_80B3EFEC(EnXc* this) {
     func_80B3C7BC(this, 39, 40);
 }
 
-void func_80B3F010(EnXc *this) {
+void func_80B3F010(EnXc* this) {
     f32 xzDistFromLink = this->actor.xzDistFromLink;
     if (kREG(5) + 140.0f <= xzDistFromLink) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004828, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004828.genericHeader), 0, -12.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004828, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_06004828.genericHeader), 0, -12.0f);
         this->action = 41;
         this->unk_268 = 0.0f;
     }
@@ -1196,7 +1202,6 @@ void func_80B3F394(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3F3BC(EnXc* this, GlobalContext* globalCtx) {
-    
 }
 
 void func_80B3F3C8(EnXc* this, GlobalContext* globalCtx) {
@@ -1207,7 +1212,12 @@ void func_80B3F3D8() {
     func_800788CC(NA_SE_PL_SKIP);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3F3F8.s")
+void func_80B3F3F8(Vec3f* src, GlobalContext* globalCtx) {
+    f32 wDest[2];
+
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, src, &D_80B42DA0, wDest);
+    func_80078914(&D_80B42DA0, NA_SE_EV_DIVE_INTO_WATER);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3F44C.s")
 
@@ -1470,20 +1480,74 @@ void func_80B4148C(EnXc* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B414AC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B415B8.s")
+void func_80B415B8(EnXc* this, GlobalContext* globalCtx) {
+    if (LINK_IS_ADULT) {
+        if (!(gSaveContext.eventChkInf[12] & 0x20)) {
+            gSaveContext.eventChkInf[12] |= 0x20;
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_020046F0);
+            gSaveContext.cutsceneTrigger = 1;
+            func_80B3EBF0(this, globalCtx);
+        } else if (!(gSaveContext.eventChkInf[5] & 0x20) && (gSaveContext.eventChkInf[4] & 0x100)) {
+            gSaveContext.eventChkInf[5] |= 0x20;
+            Item_Give(globalCtx, ITEM_SONG_PRELUDE);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02006D20);
+            gSaveContext.cutsceneTrigger = 1;
+            this->action = 30;
+        } else if (!(gSaveContext.eventChkInf[5] & 0x20)) {
+            func_80B3C9EC(this);
+        } else {
+            Actor_Kill(&this->actor);
+        }
+    } else {
+        Actor_Kill(&this->actor);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B41718.s")
+void func_80B41718(EnXc* this, GlobalContext* globalCtx) {
+    if (func_8002F194(this, globalCtx)) {
+        this->action = 80;
+    } else {
+        this->actor.flags |= 9;
+        if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
+            this->actor.textId =
+                0x7010; // "It looks like you have the skills you need...the forest girl is waiting for your help..."
+        } else {
+            this->actor.textId =
+                0x700F; // "To save the forest girl, you need another skill...head to Kakariko Village!"
+        }
+        func_8002F2F4(this, globalCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B41798.s")
+void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        this->action = 79;
+        this->actor.flags &= -0xA;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B417E4.s")
+void func_80B417E4(EnXc* this, GlobalContext* globalCtx) {
+    func_80B3C468(this, globalCtx);
+    func_80B3C22C(this, globalCtx);
+    func_80B3C298(this, globalCtx);
+    func_80B3C4B0(this);
+    func_80B3C31C(this);
+    func_80B41718(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B41844.s")
+void func_80B41844(EnXc* this, GlobalContext* globalCtx) {
+    func_80B3C468(this, globalCtx);
+    func_80B3C22C(this, globalCtx);
+    func_80B3C298(this, globalCtx);
+    func_80B3C4B0(this);
+    func_80B3C31C(this);
+    func_80B41798(this, globalCtx);
+}
 
 void EnXc_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 action = this->action;
-    if ((action < 0) || (action >= 0x51) || (D_80B41DC8[action] == NULL)) {
+    if ((action < 0) || (action >= 81) || (D_80B41DC8[action] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         D_80B41DC8[action](this, globalCtx);
