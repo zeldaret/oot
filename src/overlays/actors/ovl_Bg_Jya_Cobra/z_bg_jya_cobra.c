@@ -19,6 +19,13 @@ extern Gfx D_06010C20[];
 extern UNK_TYPE D_0601167C;
 extern Gfx D_060117D0[];
 
+Gfx D_808972B0[] = {
+ gsDPPipeSync(),
+ gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+ gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_DEC | FORCE_BL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1), G_RM_AA_ZB_XLU_DECAL2),
+ gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+ gsSPEndDisplayList()
+};
 /*
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
@@ -41,6 +48,14 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+};
+
+s32 D_80897538[] = { 0x0000C000, 0 };
+
+s32 D_80897540[] = { 0x00004000, 0 };
+
+Vec3f D_80897548[] = {
+ { 0.1f, 0.1f, 0.1f}, {0.072f, 0.072f, 0.072f}, {0.1f, 0.1f, 0.132f},
 };
 
 void func_808958F0(Vec3f *arg0, Vec3f *arg1, f32 arg2, f32 arg3) {
@@ -163,6 +178,7 @@ void func_80896950(BgJyaCobra *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_808969F8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896ABC.s")
+// regalloc
 // void func_80896ABC(BgJyaCobra *this, GlobalContext *globalCtx) {
 //     s32 temp_v0;
 //     Player* player;
@@ -242,7 +258,55 @@ void func_80896CB4(GlobalContext* globalCtx) {
 //     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 947);
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896EE4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896EE4.s")
+
+void func_80896EE4(BgJyaCobra *this, GlobalContext *globalCtx) {
+    s16 sp72;
+    Vec3f sp64;
+    // Vec3s *temp_a3;
+    // Vec3f *temp_v0;
+    Vec3s *phi_a3;
+    GraphicsContext *gfxCtx;
+    Gfx* dispRefs[4];
+
+    sp72 = this->dyna.actor.params & 3;
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, gfxCtx, (const char *) "../z_bg_jya_cobra.c", 0x3C6);
+    func_80094044(globalCtx->state.gfxCtx);
+    if (sp72 == 0) {
+        sp64.x = this->dyna.actor.posRot.pos.x - 50.0f;
+        sp64.y = this->dyna.actor.posRot.pos.y;
+        sp64.z = this->dyna.actor.posRot.pos.z;
+        phi_a3 = &D_80897538;
+    } else {
+        // temp_a3 = &this->dyna.actor.shape.rot;
+        if (sp72 == 2) {
+            sp64.x = this->dyna.actor.posRot.pos.x + 70.0f;
+            sp64.y = this->dyna.actor.posRot.pos.y;
+            sp64.z = this->dyna.actor.posRot.pos.z;
+            phi_a3 = &D_80897540;
+        } else {
+            Math_Vec3f_Copy(&sp64, &this->dyna.actor.posRot.pos);
+            phi_a3 = &this->dyna.actor.shape.rot;
+        }
+    }
+    func_800D1694(sp64.x, sp64.y, sp64.z, phi_a3);
+    Matrix_Scale(D_80897548[sp72].x, D_80897548[sp72].y, D_80897548[sp72].z, (u8)1U);
+    Matrix_Translate(0.0f, 0.0f, 40.0f, (u8)1U);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 120);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 0x3E2), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetTextureImage(gfxCtx->polyXlu.p++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (s32)(this + 0x1A3) & -0x10);
+    gDPSetTile(gfxCtx->polyXlu.p++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_RENDERTILE, 8, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+    gDPLoadSync(gfxCtx->polyXlu.p++);
+    gDPLoadBlock(gfxCtx->polyXlu.p++, G_TX_LOADTILE, 0, 0, 2047, 256);
+    gDPPipeSync(gfxCtx->polyXlu.p++);
+    gDPSetTile(gfxCtx->polyXlu.p++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+    gDPSetTileSize(gfxCtx->polyXlu.p++, G_TX_RENDERTILE, 0, 0, qu102(63), qu102(63));
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_808972B0);
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, (const char *) "../z_bg_jya_cobra.c", 0x3EE);
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_Draw.s")
 // void BgJyaCobra_Draw(Actor *thisx, GlobalContext *globalCtx) {
