@@ -45,6 +45,8 @@
 
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
 
+#define HI_SCORE(event) (gSaveContext.highscores[event])
+
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
     (curState)->init = newInit;                          \
     (curState)->size = sizeof(newStruct);

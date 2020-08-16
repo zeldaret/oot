@@ -91,6 +91,16 @@ typedef enum {
     /* 0xFF */ BTN_DISABLED = 0xFF
 } ButtonStatus;
 
+typedef enum {
+    /* 0x00 */ HIGHSCORE_HORSE_ARCHERY,
+    /* 0x01 */ HIGHSCORE_POE_POINTS,
+    /* 0x02 */ HIGHSCORE_LARGEST_FISH,
+    /* 0x03 */ HIGHSCORE_HORSE_RACE,
+    /* 0x04 */ HIGHSCORE_MARATHON,
+    /* 0x05 */ HIGHSCORE_UNK_05,
+    /* 0x06 */ HIGHSCORE_DAMPE_RACE
+} Highscores;
+
 // Save Context (dbg ram start: 8015E660)
 typedef struct {
     /* 0x0000 */ s32          entranceIndex;
@@ -143,9 +153,8 @@ typedef struct {
     }                         fw;
     /* 0x0E8C */ char         unk_E8C[0x0010];
     /* 0x0E9C */ s32          gsFlags[6];
-    /* 0x0EB4 */ char         unk_EB4[0x0010];
-    /* 0x0EC4 */ s32          unk_EC4;
-    /* 0x0EC8 */ char         unk_EC8[0x000C];
+    /* 0x0EB4 */ char         unk_EB4[0x0004];
+    /* 0x0EB8 */ s32          highscores[7];
     /* 0x0ED4 */ u16          eventChkInf[14]; // "event_chk_inf"
     /* 0x0EF0 */ u16          itemGetInf[4]; // "item_get_inf"
     /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
@@ -693,18 +702,35 @@ typedef struct {
     /* 0x0002 */ s8     unk_2;
 } SubMessageContext_E2B8; // some kind of audio info?
 
+typedef enum {
+    MESSAGE_ICON_TRIANGLE,
+    MESSAGE_ICON_SQUARE,
+    MESSAGE_ICON_ARROW
+} MessageBoxIcon;
+
 typedef struct {
     /* 0x0000 */ u32 offset;
     /* 0x0004 */ u32 size;
     /* 0x0008 */ u8 xy;
 } MessageData;
 
+#define FONT_CHAR_TEX_SIZE 128
+
+typedef char MessageBuffer[1064]; // TODO confirm size
+typedef u8 IconBuffer[FONT_CHAR_TEX_SIZE];
+typedef IconBuffer FontBuffer[320]; // TODO confirm size
+
+typedef struct {
+    /* 0x0000 */ MessageData msgData;
+    /* 0x000C */ char   unk_C[0x3BFC];
+    /* 0x3C08 */ IconBuffer    iconBuf;
+    /* 0x3C88 */ FontBuffer    fontBuf;
+    /* 0xDC88 */ MessageBuffer msgBuf;
+} Font;
+
 typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ MessageData unk_128;
-    /* 0x0134 */ char   unk_134[0xDC7C];
-    /* 0xDDB0 */ void*  msgbuf;
-    /* 0xDDB4 */ char   unk_DDB4[0x0424];
+    /* 0x0128 */ Font   font;
     /* 0xE1D8 */ s32    unk_E1D8;
     /* 0xE1DC */ u8     unk_E1DC;
     /* 0xE1DD */ char   unk_E1DD[0xC9];
@@ -735,8 +761,9 @@ typedef struct {
     /* 0xE2FF */ u8     unk_E2FF;
     /* 0xE300 */ s32    unk_E300; // original name : msg_data
     /* 0xE304 */ u8     msgMode;
-    /* 0xE305 */ char   unk_E305[0xC9];
-    /* 0xE3CE */ u16    unk_E3CE;
+    /* 0xE305 */ u8     unk_E305;
+    /* 0xE305 */ char   unk_E306[0xC8];
+    /* 0xE3CE */ u16    unk_E3CE; // original name : rdp
     /* 0xE3D0 */ u16    unk_E3D0;
     /* 0xE3D2 */ u16    unk_E3D2;
     /* 0xE3D4 */ u16    unk_E3D4;
@@ -756,9 +783,14 @@ typedef struct {
     /* 0xE3EA */ u16    unk_E3EC;
     /* 0xE3EE */ u16    unk_E3EE; // original name : ocarina_mode
     /* 0xE3F0 */ u16    unk_E3F0; // original name : ocarina_no
-    /* 0xE3F2 */ s16    unk_E3F2; // original name : chk_ocarina_no
+    /* 0xE3F2 */ u16    unk_E3F2; // original name : chk_ocarina_no
     /* 0xE3F4 */ u16    unk_E3F4;
-    /* 0xE3F6 */ char   unk_E3F6[0x08];
+    /* 0xE3F6 */ s16    unk_E3F6;
+    /* 0xE3F8 */ s8     unk_E3F8;
+    /* 0xE3F8 */ s8     unk_E3F9;
+    /* 0xE3F8 */ s8     unk_E3FA;
+    /* 0xE3F8 */ s8     unk_E3FB;
+    /* 0xE3FC */ char   unk_E3FC[0x02];
     /* 0xE3FE */ s16    unk_E3FE;
     /* 0xE400 */ s16    unk_E400;
     /* 0xE402 */ s16    unk_E402;
