@@ -160,6 +160,7 @@ void func_80B3FB24(EnXc* this, GlobalContext* globalCtx);
 void func_80B3FFB4(EnXc* this, GlobalContext* globalCtx);
 void func_80B400AC(EnXc* this, GlobalContext* globalCtx);
 void func_80B400E4(EnXc* this, GlobalContext* globalCtx);
+void func_80B40CBC(EnXc* this);
 void func_80B40104(EnXc* this, GlobalContext* globalCtx);
 void func_80B4015C(EnXc* this, GlobalContext* globalCtx);
 void func_80B401CC(EnXc* this, GlobalContext* globalCtx);
@@ -167,6 +168,15 @@ void func_80B40590(EnXc* this, GlobalContext* globalCtx);
 void func_80B4066C(EnXc* this, GlobalContext* globalCtx);
 void func_80B406A0(EnXc* this, GlobalContext* globalCtx);
 void func_80B4070C(EnXc* this, GlobalContext* globalCtx);
+void func_80B407A8(EnXc* this, GlobalContext* globalCtx);
+void func_80B40820(EnXc* this, GlobalContext* globalCtx);
+void func_80B408FC(EnXc* this, GlobalContext* globalCtx);
+void func_80B409D8(EnXc* this, GlobalContext* globalCtx);
+void func_80B40A78(EnXc* this, GlobalContext* globalCtx);
+void func_80B40B18(EnXc* this, GlobalContext* globalCtx);
+void func_80B40BB4(EnXc* this, GlobalContext* globalCtx);
+void func_80B40C50(EnXc* this);
+void func_80B40C98(EnXc* this);
 void func_80B40D98(EnXc* this);
 s32 func_80B40EAC(EnXc* this, GlobalContext* globalCtx);
 void func_80B41000(EnXc* this, GlobalContext* globalCtx);
@@ -226,6 +236,10 @@ extern AnimationHeader D_0601B19C;
 extern AnimationHeader D_06017C54;
 extern AnimationHeader D_0601A048;
 extern AnimationHeader D_06019C30;
+extern AnimationHeader D_06019F78;
+extern AnimationHeader D_060149E4;
+extern AnimationHeader D_060169E8;
+extern AnimationHeader D_06018B00;
 extern UNK_TYPE D_060058C0[];
 
 ColliderCylinderInit_Set3 D_80B41D40 = {
@@ -1409,27 +1423,100 @@ void func_80B4066C(EnXc* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B4070C.s")
 
+#ifdef NON_MATCHING
+void func_80B407A8(EnXc *this, GlobalContext *globalCtx) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06018B00, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06018B00.genericHeader), 2, -8.0f);
+    this->action = 59;
+    this->drawMode = 1;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B407A8.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40820.s")
+void func_80B40820(EnXc *this, GlobalContext *globalCtx) {
+    s32 pad;
+    SkelAnime* skelAnime = &this->skelAnime;
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06004828.genericHeader);
+    SkelAnime_ChangeAnim(skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    func_80B3C588(this, globalCtx, 4);
+    func_80B3C964(this, globalCtx);
+    SkelAnime_ChangeAnim(skelAnime, &D_060169E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060169E8.genericHeader), 2, 0.0f);
+    this->action = 60;
+    this->drawMode = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
+void func_80B408FC(EnXc *this, GlobalContext *globalCtx) {
+    s32 pad;
+    SkelAnime* skelAnime = &this->skelAnime;
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06004828.genericHeader);
+    SkelAnime_ChangeAnim(skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    func_80B3C588(this, globalCtx, 4);
+    func_80B3C964(this, globalCtx);
+    SkelAnime_ChangeAnim(skelAnime, &D_060149E4, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060149E4.genericHeader), 2, 0.0f);
+    this->action = 61;
+    this->drawMode = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B408FC.s")
+void func_80B409D8(EnXc *this, GlobalContext *globalCtx) {
+    s32 pad[3];
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06019F78.genericHeader);
+    func_80B3C9DC(this);
+    func_80B3C588(this, globalCtx, 4);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06019F78, 1.0f, 0.0f, frameCount, 2, 0.0f);
+    this->action = 62;
+    this->drawMode = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B409D8.s")
+void func_80B40A78(EnXc *this, GlobalContext *globalCtx) {
+    s32 pad[3];
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06019F78.genericHeader);
+    func_80B3C9DC(this);
+    func_80B3C588(this, globalCtx, 4);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06019F78, 1.0f, 0.0f, frameCount, 2, 0.0f);
+    this->action = 63;
+    this->drawMode = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40A78.s")
+void func_80B40B18(EnXc *this, GlobalContext *globalCtx) {
+    s32 pad[3];
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06019C30.genericHeader);
+    func_80B3C9DC(this);
+    func_80B3C588(this, globalCtx, 4);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06019C30, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    this->action = 64;
+    this->drawMode = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40B18.s")
+void func_80B40BB4(EnXc *this, GlobalContext *globalCtx) {
+    s32 pad[3];
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06004828.genericHeader);
+    func_80B3C9DC(this);
+    func_80B3C588(this, globalCtx, 4);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    this->action = 65;
+    this->drawMode = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40BB4.s")
+void func_80B40C50(EnXc* this) {
+    func_80B3C7BC(this, 65, 66);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40C50.s")
+void func_80B40C74(EnXc* this) {
+    func_80B3C7BC(this, 66, 67);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40C74.s")
+void func_80B40C98(EnXc* this) {
+    func_80B3C7BC(this, 67, 68);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40C98.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40CBC.s")
+void func_80B40CBC(EnXc* this) {
+    func_80B3C7BC(this, 68, 69);
+}
 
 void func_80B40CE0(EnXc* this) {
     func_80B3C7D4(this, 69, 70, 68);
@@ -1454,7 +1541,7 @@ void func_80B40D74(EnXc* this) {
 void func_80B40D98(EnXc *this) {
     f32 xzDistFromLink = this->actor.xzDistFromLink;
     if (kREG(5) + 140.0f <= xzDistFromLink) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004828, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_06004828.genericHeader), 0, -12.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004828, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004828.genericHeader), 0, -12.0f);
         this->action = 75;
         this->unk_268 = 0.0f;
     }
