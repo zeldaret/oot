@@ -121,7 +121,7 @@ glabel Camera_Jump3
 /* AC1FD4 8004AE34 468042A0 */  cvt.s.w $f10, $f8
 /* AC1FD8 8004AE38 44814000 */  mtc1  $at, $f8
 /* AC1FDC 8004AE3C 860B0142 */  lh    $t3, 0x142($s0)
-/* AC1FE0 8004AE40 3C0D8012 */  lui   $t5, %hi(sCameraSettings)
+/* AC1FE0 8004AE40 3C0D8012 */  lui   $t5, %hi(sCameraSettings+4)
 /* AC1FE4 8004AE44 862E0022 */  lh    $t6, 0x22($s1)
 /* AC1FE8 8004AE48 000B60C0 */  sll   $t4, $t3, 3
 /* AC1FEC 8004AE4C 46105082 */  mul.s $f2, $f10, $f16

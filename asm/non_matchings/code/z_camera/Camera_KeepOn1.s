@@ -115,7 +115,7 @@ glabel Camera_KeepOn1
 /* AC3CB8 8004CB18 86180142 */  lh    $t8, 0x142($s0)
 /* AC3CBC 8004CB1C 468021A0 */  cvt.s.w $f6, $f4
 /* AC3CC0 8004CB20 44812000 */  mtc1  $at, $f4
-/* AC3CC4 8004CB24 3C0A8012 */  lui   $t2, %hi(sCameraSettings)
+/* AC3CC4 8004CB24 3C0A8012 */  lui   $t2, %hi(sCameraSettings+4)
 /* AC3CC8 8004CB28 0018C8C0 */  sll   $t9, $t8, 3
 /* AC3CCC 8004CB2C 860B0144 */  lh    $t3, 0x144($s0)
 /* AC3CD0 8004CB30 01595021 */  addu  $t2, $t2, $t9

@@ -1141,7 +1141,7 @@ glabel func_800B9638
 /* B318B0 800BA710 240EFFFF */  li    $t6, -1
 /* B318B4 800BA714 3C018016 */  lui   $at, %hi(D_8016114A) # $at, 0x8016
 /* B318B8 800BA718 A42E114A */  sh    $t6, %lo(D_8016114A)($at)
-/* B318BC 800BA71C 3C018016 */  lui   $at, %hi(D_8016114A) # $at, 0x8016
+/* B318BC 800BA71C 3C018016 */  lui   $at, %hi(D_801612EA) # $at, 0x8016
 /* B318C0 800BA720 240F002A */  li    $t7, 42
 /* B318C4 800BA724 10000006 */  b     .L800BA740
 /* B318C8 800BA728 A02F12EA */   sb    $t7, %lo(D_801612EA)($at)

@@ -43,7 +43,7 @@ glabel Camera_Data4
 /* AC8458 800512B8 460A4403 */  div.s $f16, $f8, $f10
 /* AC845C 800512BC 860F0142 */  lh    $t7, 0x142($s0)
 /* AC8460 800512C0 856C01F0 */  lh    $t4, 0x1f0($t3)
-/* AC8464 800512C4 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC8464 800512C4 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC8468 800512C8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC846C 800512CC 448C2000 */  mtc1  $t4, $f4
 /* AC8470 800512D0 86080144 */  lh    $t0, 0x144($s0)
