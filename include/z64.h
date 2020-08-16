@@ -36,6 +36,11 @@
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
+typedef struct{
+    /* 0x00 */ char unk[0x4];
+    /* 0x04 */ MtxF mf;
+} HorseStruct;
+
 // Game Info aka. Static Context (dbg ram start: 80210A10)
 // Data normally accessed through REG macros (see regs.h)
 typedef struct {
@@ -1943,9 +1948,20 @@ typedef struct {
 } UnkRumbleStruct; // size = 0x10E
 
 typedef struct {
-    char unk_00[0x48];
-    void* avbTbl;
-    SkelAnime skelAnime;
+    /* 0x00 */ char unk0[0x10]; //
+} AvbBuffer; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ u8 someFlag; // flag?
+    /* 0x04 */ AvbBuffer* buf[2]; // some pointer to the heap, after actors.
+} AvbEntry; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ SkeletonHeader* somePtr; // Something in object file. Skeleton???
+    /* 0x04 */ MtxF mf; // Matrix set by translate and multiply
+    /* 0x44 */ s32  tblSize; // 2E in young epona, number of entries in avbTbl?
+    /* 0x48 */ AvbEntry* avbTbl; // Table on the heap, contains two pointers to elsewhere on the heap, size is 0x228 in young epona
+    /* 0x4C */ SkelAnime skelAnime; 
 } PSkinAwb; // size = 0x90
 
 typedef struct {

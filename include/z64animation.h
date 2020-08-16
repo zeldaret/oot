@@ -32,8 +32,9 @@ typedef struct {
     /* 0x000 */ Skeleton* skeletonSeg; // Segment address of SkelLimbIndex.
     /* 0x004 */ u8 limbCount;       // Number of limbs in the model.
     /* 0x005 */ char unk_05[3];     // unknown, maybe padding?
-    /* 0x008 */ u8 dListCount;      // Number of display lists in the model.
-} SkeletonHeader;  // Size = 0xC
+    /* 0x008 */ s32 dListCount;      // Number of display lists in the model.
+    /* 0x00C */ s32* nInBufSeg; // Used for skin stuff??
+} SkeletonHeader;  // Size = 0x10
 
 typedef s16 AnimationRotationValue;
 
