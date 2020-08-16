@@ -29,7 +29,7 @@ s32 func_80B3C4F0(EnXc* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionI
 s32 func_80B3C53C(EnXc* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx);
 void func_80B3C588(EnXc* this, GlobalContext* globalCtx, u32 npcActionIdx);
 void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx);
-void func_80B3C700(EnXc* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4);
+void func_80B3C700(EnXc* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4);
 void func_80B3C7BC(EnXc* this, s32 action1, s32 action2);
 void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3);
 s32 func_80B3C800(GlobalContext* globalCtx);
@@ -433,7 +433,26 @@ void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3C700.s")
+void func_80B3C700(EnXc *this, AnimationHeader *animation, u8 mode, f32 transitionRate, s32 arg4) {
+    s32 pad[2];
+    AnimationHeader* animationSeg = SEGMENTED_TO_VIRTUAL(animation);
+    f32 frameCount = SkelAnime_GetFrameCount(&animationSeg->genericHeader);
+    f32 playbackSpeed;
+    f32 unk0;
+    f32 fc;
+
+    if (arg4 == 0) {
+        unk0 = 0.0f;
+        fc = frameCount;
+        playbackSpeed = 1.0f;
+    } else {
+        unk0 = frameCount;
+        fc = 0.0f;
+        playbackSpeed = -1.0f;
+    }
+
+    SkelAnime_ChangeAnim(&this->skelAnime, animationSeg, playbackSpeed, unk0, fc, mode, transitionRate);
+}
 
 void func_80B3C7BC (EnXc* this, s32 action1, s32 action2) {
     if (action1 != this->action) {
@@ -512,7 +531,6 @@ void func_80B3CA38(EnXc* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B3CA84(EnXc* this, GlobalContext* globalCtx) {
-
     if (this->actor.params == 6) {
         Player* player = PLAYER;
         f32 z = player->actor.posRot.pos.z;
@@ -642,7 +660,30 @@ void func_80B3CF90(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+void func_80B3D014(EnXc *this, GlobalContext *globalCtx) {
+    s32 pad[4];
+    f32* wDest;
+   
+    if (gSaveContext.sceneSetupIndex == 4) {
+        s16 sceneNum = globalCtx->sceneNum;
+        if (sceneNum == SCENE_SPOT11) {
+            u16 frameCount = globalCtx->csCtx.frames;
+            if (frameCount == 0x77) {
+                Vec3f sp30 = D_80B41D78;
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp30, &D_80B42D90, &wDest);
+                func_80078914(&D_80B42D90, NA_SE_EV_JUMP_CONC);
+            } else if (frameCount == 0xA4) {
+                Vec3f sp24 = D_80B41D84;
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp24, &D_80B42D90, &wDest);
+                func_80078914(&D_80B42D90, NA_SE_PL_WALK_CONCRETE);
+            }
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3D014.s")
+#endif
 
 void func_80B3D118(GlobalContext* globalCtx) {
     s16 sceneNum;
@@ -682,7 +723,21 @@ void func_80B3D158(GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3D158.s")
 #endif
 
+#ifdef NON_MATHCING
+void func_80B3D298(EnXc *this, GlobalContext *globalCtx) {
+    if (D_80B41DA4 == 0) {
+        CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, 0);
+        s32 xPos;
+        s32 yPos = npcAction->startPos.y;
+        s32 zPos = npcAction->startPos.z;
+        this->attached = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_LIGHT, npcAction->startPos.x, yPos, zPos, 0, 0, 0, 5);
+        D_80B41DA4 = 1;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3D298.s")
+#endif
+
 
 void func_80B3D338(EnXc* this, GlobalContext* globalCtx) {
     Vec3f* attachedPos;
