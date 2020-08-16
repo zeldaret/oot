@@ -167,7 +167,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     D_8016A528 = osGetTime() - sGraphSetTaskTime - D_8016A558;
 
-    osSetTimer(&timer, 140625000, 0, &gfxCtx->queue, 666);
+    osSetTimer(&timer, 140625000, 0, &gfxCtx->queue, (OSMesg)666);
 
     osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_BLOCK);
     osStopTimer(&timer);
@@ -215,12 +215,11 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->ucode_data = SysUcode_GetUCodeData();
     task->ucode_size = 0x1000;
     task->ucode_data_size = 0x800;
-    task->dram_stack = gGfxSPTaskStack;
+    task->dram_stack = (u64*)gGfxSPTaskStack;
     task->dram_stack_size = sizeof(gGfxSPTaskStack);
     task->output_buff = gGfxSPTaskOutputBuffer;
-    task->output_buff_size =
-        gGfxSPTaskYieldBuffer; //! @bug (?) should be sizeof(gGfxSPTaskOutputBuffer), probably a typo
-    task->data_ptr = gfxCtx->workBuffer;
+    task->output_buff_size = (u64*)((u8*)gGfxSPTaskOutputBuffer + sizeof(gGfxSPTaskOutputBuffer));
+    task->data_ptr = (u64*)gfxCtx->workBuffer;
 
     {
         Gfx* dispRefs[5];
@@ -231,7 +230,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     { s32 pad2; } // Necessary to match stack usage
 
-    task->yield_data_ptr = gGfxSPTaskYieldBuffer;
+    task->yield_data_ptr = (u64*)gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
     scTask->next = NULL;
