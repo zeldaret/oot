@@ -19,7 +19,8 @@ typedef struct EnXc {
     /* 0x0260 */ s32 action;
     /* 0x0264 */ s32 drawMode;
     /* 0x0268 */ f32 unk_268;
-    /* 0x026C */ char unk_26C[0x54];
+    /* 0x026C */ s32 unk_26C; // related to CsCmdActorAction
+    /* 0x0270 */ char unk_270[0x50];
     /* 0x02C0 */ ColliderCylinder collider;
     /* 0x030C */ s32 unk_30C;
     /* 0x0310 */ Actor* attached;
