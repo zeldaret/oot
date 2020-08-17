@@ -2,7 +2,7 @@
 #include <global.h>
 #include <vt.h>
 
-s16 Camera_ChangeSetting(Camera*, s16, s16);
+s16 Camera_ChangeSettingFlags(Camera*, s16, s16);
 s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags);
 s32 Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode);
 s32 Camera_ChangeDataIdx(Camera* arg0, s32 arg1);
@@ -3769,7 +3769,7 @@ s32 Camera_KeepOn4(Camera *camera) {
             camera->unk_14C |= (0x4 | 0x2);
             camera->unk_14C &= ~8;
             if(camera->prevCamDataIdx < 0){
-                Camera_ChangeSetting(camera, camera->prevSetting, 2);
+                Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
             } else{
                 Camera_ChangeDataIdx(camera, camera->prevCamDataIdx);
                 camera->prevCamDataIdx = -1;
@@ -4882,7 +4882,7 @@ s32 Camera_Unique3(Camera *camera) {
             if ((unkC->interfaceFlags & 2) != 0) {
                 camera->unk_14C |= 4;
                 camera->unk_14C &= ~8;
-                Camera_ChangeSetting(camera, CAM_SET_CIRCLE3, 2);
+                Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE3, 2);
                 break;
             }
             uniq3->unk_0A = 5;
@@ -4909,7 +4909,7 @@ s32 Camera_Unique3(Camera *camera) {
             camera->unk_14C |= 4;
             camera->unk_14C &= ~8;
             camera->fov = unkC->unk_04;
-            Camera_ChangeSetting(camera, camera->prevSetting, 2);
+            Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
             camera->atLERPStepScale = 0.0f;
             camera->posOffset.x = camera->at.x - cameraPlayerPosRot->pos.x;
             camera->posOffset.y = camera->at.y - cameraPlayerPosRot->pos.y;
@@ -4996,7 +4996,7 @@ s32 Camera_Unique0(Camera *camera) {
             camera->posOffset.z = camera->at.z - playerPosRot->pos.z;
             camera->atLERPStepScale = 0.0f;
             camera->unk_14C |= 4;
-            Camera_ChangeSetting(camera, camera->prevSetting, 2);
+            Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
         }
     } else {
         if (anim->animTimer > 0) {
@@ -5014,7 +5014,7 @@ s32 Camera_Unique0(Camera *camera) {
             camera->posOffset.y = camera->at.y - playerPosRot->pos.y;
             camera->posOffset.z = camera->at.z - playerPosRot->pos.z;
             camera->atLERPStepScale = 0.0f;
-            Camera_ChangeSetting(camera, camera->prevSetting, 2);
+            Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
             camera->unk_14C |= 4;
         }
     }
@@ -5891,7 +5891,7 @@ s32 Camera_Demo3(Camera *camera) {
             camera->unk_14C = camera->unk_14C | 0x10 | 0x4;
             camera->unk_14C = camera->unk_14C & ~8;
             if (pad < 0) {
-                Camera_ChangeSetting(camera, camera->prevSetting, 2);
+                Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
             } else {
                 Camera_ChangeDataIdx(camera, pad);
                 camera->prevCamDataIdx = -1;
@@ -6658,7 +6658,7 @@ s32 Camera_Special9(Camera *camera) {
                                 CHECK_PAD(D_8015BD7C->state.input[0].press, R_CBUTTONS) || CHECK_PAD(D_8015BD7C->state.input[0].press, R_TRIG) || 
                                 CHECK_PAD(D_8015BD7C->state.input[0].press, Z_TRIG) || spec9->unk_08 & 0x8){
 
-                                    Camera_ChangeSetting(camera, camera->prevSetting, 2);
+                                    Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
                                     camera->unk_14C |= (0x4 | 0x2);
             }
             break;
@@ -6769,7 +6769,7 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
     camera->skyboxOffset.x = camera->skyboxOffset.y = camera->skyboxOffset.z = 0;
     camera->atLERPStepScale = 1;
     sCameraInterfaceFlags = 0xFF00;
-    D_8011D398 = -1;
+    sDbgModeIdx = -1;
     D_8011D3F0 = 3;
     osSyncPrintf(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
 }
@@ -6808,43 +6808,51 @@ void func_80057FC4(Camera* camera) {
 void Camera_Stub80058140(Camera* camera) {
 }
 
-#ifdef NON_MATCHING
 void func_80058148(Camera* camera, Player* player) {
-    s32 pad;
-    PosRot sp54;
-    VecSph sp4C;
-    s32 sp48;
-    Vec3f sp3C;
-    f32 temp_f0;
+    PosRot playerPosShape;
+    VecSph eyeNextAtOffset;
+    s32 bgId;
+    Vec3f floorPos;
+    s32 upXZ;
+    f32 playerYOffset;
+    Vec3f *eye = &camera->eye;
+    Vec3f *at = &camera->at;
+    Vec3f *eyeNext = &camera->eyeNext;
 
-    func_8002EF44(&sp54, &player->actor);
-    temp_f0 = Player_GetCameraYOffset(player);
+    func_8002EF44(&playerPosShape, &player->actor);
+    playerYOffset = Player_GetCameraYOffset(player);
     camera->player = player;
-    camera->playerPosRot = sp54;
-    sp4C.r = 180.0f;
-    sp4C.pitch = 0x71C;
-    sp4C.yaw = camera->direction.y - 0x7FFF;
-    camera->dist = 180.0f;
-    camera->direction.x = 0x71C;
-    camera->direction.y = sp54.rot.y;
+    camera->playerPosRot = playerPosShape;
+    camera->dist = eyeNextAtOffset.r = 180.0f;
+    camera->direction.y = playerPosShape.rot.y;
+    eyeNextAtOffset.yaw = BINANG_ROT180(camera->direction.y);
+    camera->direction.x = eyeNextAtOffset.pitch = 0x71C;
     camera->direction.z = 0;
     camera->realDir = camera->direction;
     camera->xzSpeed = 0.0f;
     camera->playerPosDelta.y = 0.0f;
-    camera->at = sp54.pos;
-    camera->posOffset.x = 0.0f;
-    camera->posOffset.y = temp_f0;
-    camera->posOffset.z = 0.0f;
-    camera->at.y += temp_f0;
-    Camera_Vec3fVecSphGeoAdd(&camera->eyeNext, &camera->at, &sp4C);
-    camera->eye = camera->eyeNext;
-    camera->roll = 0;
-    camera->up.x = 0.0f;
-    camera->up.z = 0.0f;
-    camera->up.y = 1.0f;
+    camera->at = playerPosShape.pos;
+    camera->at.y += playerYOffset;
+    
+    {
+        camera->posOffset.x = 0;
+        camera->posOffset.y = playerYOffset;
+        camera->posOffset.z = 0;
+    }
 
-    if (func_80044434(camera, &sp3C, &camera->at, &sp48) != BGCHECK_Y_MIN) {
-        camera->bgCheckId = sp48;
+    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeNextAtOffset);
+    *eye = *eyeNext;
+    camera->roll = 0;
+    
+    {
+        upXZ = 0;
+        camera->up.z = upXZ;
+        camera->up.y = 1.0f;
+        camera->up.x = upXZ;
+    }
+
+    if (func_80044434(camera, &floorPos, at, &bgId) != BGCHECK_Y_MIN) {
+        camera->bgCheckId = bgId;
     }
 
     camera->waterPrevCamIdx = -1;
@@ -6868,9 +6876,6 @@ void func_80058148(Camera* camera, Player* player) {
         func_800588B4(camera);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058148.s")
-#endif
 
 s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     CameraModeValue* values;
@@ -7008,10 +7013,10 @@ s32 func_800588B4(Camera *camera) {
 
     if (camera->unk_14C & 0x200) {
         if (player->stateFlags2 & 0x800) {
-            Camera_ChangeSetting(camera, CAM_SET_CIRCLE5, 6);
+            Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE5, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
-            Camera_ChangeSetting(camera, *unk_11C, 6);
+            Camera_ChangeSettingFlags(camera, *unk_11C, 6);
             camera->unk_14C &= ~((s16)0x8000);
         }
     }
@@ -7028,7 +7033,7 @@ s32 func_800588B4(Camera *camera) {
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
                 sp32 = camera->bgCheckId;
                 camera->bgCheckId = 0x32;
-                Camera_ChangeSetting(camera, CAM_SET_NORMAL3, 2);
+                Camera_ChangeSettingFlags(camera, CAM_SET_NORMAL3, 2);
                 *unk_11C = camera->setting;
                 camera->bgCheckId = sp32;
                 camera->camDataIdx = -2;
@@ -7129,35 +7134,33 @@ s32 Camera_SetRoomHotFlag(Camera* camera) {
     return 1;
 }
 
-s32 func_80058D34(Camera* camera) {
-    s32 phi_a2 = 0;
+s32 Camera_DbgChangeMode(Camera* camera) {
+    s32 changeDir = 0;
 
-    if (gDbgCamEnabled == 0) {
-        if (camera->globalCtx->activeCamera == 0) {
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, U_CBUTTONS)) {
-                osSyncPrintf("attention sound URGENCY\n");
-                func_80078884(NA_SE_SY_ATTENTION_URGENCY);
-            }
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, D_CBUTTONS)) {
-                osSyncPrintf("attention sound NORMAL\n");
-                func_80078884(NA_SE_SY_ATTENTION_ON);
-            }
+    if (gDbgCamEnabled == 0 && camera->globalCtx->activeCamera == 0) {
+        if (CHECK_PAD(D_8015BD7C->state.input[2].press, U_CBUTTONS)) {
+            osSyncPrintf("attention sound URGENCY\n");
+            func_80078884(NA_SE_SY_ATTENTION_URGENCY);
+        }
+        if (CHECK_PAD(D_8015BD7C->state.input[2].press, D_CBUTTONS)) {
+            osSyncPrintf("attention sound NORMAL\n");
+            func_80078884(NA_SE_SY_ATTENTION_ON);
+        }
 
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, R_CBUTTONS)) {
-                phi_a2 = 1;
-            }
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, L_CBUTTONS)) {
-                phi_a2 = -1;
-            }
-            if (phi_a2 != 0) {
-                D_8011D398 = (D_8011D398 + phi_a2) % 6;
-                if (func_80057FC4Flags(camera, D_8011DAFC[D_8011D398]) > 0) {
-                    osSyncPrintf("camera: force change SET to %s!\n", sCameraSettingNames[D_8011DAFC[D_8011D398]]);
-                }
+        if (CHECK_PAD(D_8015BD7C->state.input[2].press, R_CBUTTONS)) {
+            changeDir = 1;
+        }
+        if (CHECK_PAD(D_8015BD7C->state.input[2].press, L_CBUTTONS)) {
+            changeDir = -1;
+        }
+        if (changeDir != 0) {
+            sDbgModeIdx = (sDbgModeIdx + changeDir) % 6;
+            if (Camera_ChangeSetting(camera, D_8011DAFC[sDbgModeIdx]) > 0) {
+                osSyncPrintf("camera: force change SET to %s!\n", sCameraSettingNames[D_8011DAFC[sDbgModeIdx]]);
             }
         }
     }
-    return 1;
+    return true;
 }
 
 void func_80058E8C(Camera *camera) {
@@ -7333,7 +7336,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
         }
     }
     Camera_PrintSettings(camera);
-    func_80058D34(camera);
+    Camera_DbgChangeMode(camera);
 
     if (camera->status == CAM_STATUS_WAIT) {
         if (R_DBG_CAM_UPDATE) {
@@ -7576,7 +7579,7 @@ s32 Camera_ChangeMode(Camera *camera, s16 mode, u8 flags) {
                 D_8011DB14 = 4;
                 break;
             case 2:
-                if (camera->target != NULL && camera->target->id != 0x32) {
+                if (camera->target != NULL && camera->target->id != ACTOR_EN_BOOM) {
                     D_8011DB14 = 8;
                 }
                 break;
@@ -7592,7 +7595,7 @@ s32 Camera_ChangeMode(Camera *camera, s16 mode, u8 flags) {
         switch(camera->mode){
             case 6:
                 if (D_8011DB14 & 0x20) {
-                    camera->animState = (u16)0xA;
+                    camera->animState = 0xA;
                 }
                 break;
             case 1:
@@ -7672,7 +7675,7 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
     }
 }
 
-s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
+s16 Camera_ChangeSettingFlags(Camera *camera, s16 setting, s16 flags) {
     if ((camera->unk_14A & 1) != 0) {
         if ((u32) ((u32) (sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >= (u32) ((u32) (sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
             camera->unk_14A |= 0x10;
@@ -7737,8 +7740,8 @@ s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
     return setting;
 }
 
-s32 func_80057FC4Flags(Camera* camera, s16 setting) {
-    return Camera_ChangeSetting(camera, setting, 0);
+s32 Camera_ChangeSetting(Camera* camera, s16 setting) {
+    return Camera_ChangeSettingFlags(camera, setting, 0);
 }
 
 s32 Camera_ChangeDataIdx(Camera *camera, s32 camDataIdx) {
@@ -7753,7 +7756,7 @@ s32 Camera_ChangeDataIdx(Camera *camera, s32 camDataIdx) {
     if ((camera->unk_14A & 0x40) == 0) {
         newCameraSetting = Camera_GetCamDataSetting(camera, camDataIdx);
         camera->unk_14A |= 0x40;
-        settingChangeSuccessful = Camera_ChangeSetting(camera, newCameraSetting, 5) >= 0;
+        settingChangeSuccessful = Camera_ChangeSettingFlags(camera, newCameraSetting, 5) >= 0;
         if (settingChangeSuccessful || sCameraSettings[camera->setting].unk_00 & 0x80000000) {
             camera->camDataIdx = camDataIdx;
             camera->unk_14A |= 4;
@@ -7932,13 +7935,13 @@ s32 func_8005AD40(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 arg3, s1
     }
 
     if (camDataIdx == -1) {
-        func_80057FC4Flags(camera, CAM_SET_DOORC);
+        Camera_ChangeSetting(camera, CAM_SET_DOORC);
         osSyncPrintf(".... change default door camera (set %d)\n", CAM_SET_DOORC);
     } else {
         s32 setting = Camera_GetCamDataSetting(camera, camDataIdx);
         camera->unk_14A |= 0x40;
 
-        if (func_80057FC4Flags(camera, setting) >= 0) {
+        if (Camera_ChangeSetting(camera, setting) >= 0) {
             camera->camDataIdx = camDataIdx;
             camera->unk_14A |= 4;
         }

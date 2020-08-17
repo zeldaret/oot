@@ -23,7 +23,7 @@ glabel EnBigokuta_Update
 /* 01DC0 809BEA20 0C26F95A */  jal     func_809BE568
 /* 01DC4 809BEA24 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 01DC8 809BEA28 8E440790 */  lw      $a0, 0x0790($s2)           ## 00000790
-/* 01DCC 809BEA2C 0C0169DF */  jal     func_80057FC4Flags
+/* 01DCC 809BEA2C 0C0169DF */  jal     Camera_ChangeSetting
 /* 01DD0 809BEA30 24050034 */  addiu   $a1, $zero, 0x0034         ## $a1 = 00000034
 /* 01DD4 809BEA34 8E440790 */  lw      $a0, 0x0790($s2)           ## 00000790
 /* 01DD8 809BEA38 0C016B47 */  jal     func_8005AD1C

@@ -7,7 +7,7 @@ glabel func_80B5B7B0
 /* 00014 80B5B7C4 000E7880 */  sll     $t7, $t6,  2
 /* 00018 80B5B7C8 008FC021 */  addu    $t8, $a0, $t7
 /* 0001C 80B5B7CC 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
-/* 00020 80B5B7D0 0C0169DF */  jal     func_80057FC4Flags
+/* 00020 80B5B7D0 0C0169DF */  jal     Camera_ChangeSetting
 /* 00024 80B5B7D4 AFA40024 */  sw      $a0, 0x0024($sp)
 /* 00028 80B5B7D8 87B9002E */  lh      $t9, 0x002E($sp)
 /* 0002C 80B5B7DC 3C0980B6 */  lui     $t1, %hi(D_80B5EAE8)       ## $t1 = 80B60000

@@ -692,7 +692,7 @@ glabel Camera_Demo5
 /* ACCDE4 80055C44 8DCF009C */  lw    $t7, 0x9c($t6)
 /* ACCDE8 80055C48 2405003C */  li    $a1, 60
 /* ACCDEC 80055C4C 24060005 */  li    $a2, 5
-/* ACCDF0 80055C50 0C016952 */  jal   Camera_ChangeSetting
+/* ACCDF0 80055C50 0C016952 */  jal   Camera_ChangeSettingFlags
 /* ACCDF4 80055C54 AC2FD3F4 */   sw    $t7, %lo(D_8011D3F4)($at)
 /* ACCDF8 80055C58 0C014B83 */  jal   Camera_Unique9
 /* ACCDFC 80055C5C 02002025 */   move  $a0, $s0

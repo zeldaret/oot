@@ -16,7 +16,7 @@ glabel func_80838F5C
 /* 06D84 80838F94 0C030129 */  jal     Gameplay_GetCamera
 /* 06D88 80838F98 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 06D8C 80838F9C 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
-/* 06D90 80838FA0 0C0169DF */  jal     func_80057FC4Flags
+/* 06D90 80838FA0 0C0169DF */  jal     Camera_ChangeSetting
 /* 06D94 80838FA4 24050021 */  addiu   $a1, $zero, 0x0021         ## $a1 = 00000021
 /* 06D98 80838FA8 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 06D9C 80838FAC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

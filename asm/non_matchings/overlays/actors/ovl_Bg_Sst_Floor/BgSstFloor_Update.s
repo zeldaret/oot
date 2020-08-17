@@ -53,7 +53,7 @@ glabel BgSstFloor_Update
 /* 00140 808B9A50 00000000 */  nop
 /* 00144 808B9A54 45020006 */  bc1fl   .L808B9A70
 /* 00148 808B9A58 8FAE003C */  lw      $t6, 0x003C($sp)
-/* 0014C 808B9A5C 0C0169DF */  jal     func_80057FC4Flags
+/* 0014C 808B9A5C 0C0169DF */  jal     Camera_ChangeSetting
 /* 00150 808B9A60 8DA40790 */  lw      $a0, 0x0790($t5)           ## 00000790
 /* 00154 808B9A64 10000005 */  beq     $zero, $zero, .L808B9A7C
 /* 00158 808B9A68 00000000 */  nop
@@ -61,7 +61,7 @@ glabel BgSstFloor_Update
 /* 0015C 808B9A6C 8FAE003C */  lw      $t6, 0x003C($sp)
 .L808B9A70:
 /* 00160 808B9A70 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
-/* 00164 808B9A74 0C0169DF */  jal     func_80057FC4Flags
+/* 00164 808B9A74 0C0169DF */  jal     Camera_ChangeSetting
 /* 00168 808B9A78 8DC40790 */  lw      $a0, 0x0790($t6)           ## 00000790
 .L808B9A7C:
 /* 0016C 808B9A7C 0C010D5B */  jal     func_8004356C

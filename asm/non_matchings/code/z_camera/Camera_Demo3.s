@@ -673,7 +673,7 @@ glabel L8005508C
 /* ACC24C 800550AC 3149FFF7 */  andi  $t1, $t2, 0xfff7
 /* ACC250 800550B0 04A10005 */  bgez  $a1, .L800550C8
 /* ACC254 800550B4 A629014C */   sh    $t1, 0x14c($s1)
-/* ACC258 800550B8 0C016952 */  jal   Camera_ChangeSetting
+/* ACC258 800550B8 0C016952 */  jal   Camera_ChangeSettingFlags
 /* ACC25C 800550BC 86250154 */   lh    $a1, 0x154($s1)
 /* ACC260 800550C0 10000005 */  b     .L800550D8
 /* ACC264 800550C4 00000000 */   nop

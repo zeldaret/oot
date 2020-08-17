@@ -1382,7 +1382,7 @@ CameraFunc sCameraFunctions[] = {
 s32 sInitRegs = 1; // 8011D390
 
 UNK_TYPE gDbgCamEnabled = 0;
-s32 D_8011D398 = -1;
+s32 sDbgModeIdx = -1;
 s16 sNextUID = 0; // size = 4 ?
 
 s32 sCameraInterfaceFlags = 1;

@@ -36,7 +36,7 @@ glabel func_80A3F15C
 /* 00C70 80A3F1E0 C4C0008C */  lwc1    $f0, 0x008C($a2)           ## 0000008C
 /* 00C74 80A3F1E4 AFA60028 */  sw      $a2, 0x0028($sp)
 /* 00C78 80A3F1E8 AFA7001C */  sw      $a3, 0x001C($sp)
-/* 00C7C 80A3F1EC 0C0169DF */  jal     func_80057FC4Flags
+/* 00C7C 80A3F1EC 0C0169DF */  jal     Camera_ChangeSetting
 /* 00C80 80A3F1F0 E7A20024 */  swc1    $f2, 0x0024($sp)
 /* 00C84 80A3F1F4 3C0180A4 */  lui     $at, %hi(D_80A420D4)       ## $at = 80A40000
 /* 00C88 80A3F1F8 C7A20024 */  lwc1    $f2, 0x0024($sp)
@@ -58,7 +58,7 @@ glabel func_80A3F15C
 /* 00CC4 80A3F234 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00CC8 80A3F238 15010003 */  bne     $t0, $at, .L80A3F248
 /* 00CCC 80A3F23C 00000000 */  nop
-/* 00CD0 80A3F240 0C0169DF */  jal     func_80057FC4Flags
+/* 00CD0 80A3F240 0C0169DF */  jal     Camera_ChangeSetting
 /* 00CD4 80A3F244 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 .L80A3F248:
 /* 00CD8 80A3F248 10000001 */  beq     $zero, $zero, .L80A3F250

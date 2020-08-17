@@ -1074,7 +1074,7 @@ glabel L8004EB20
 /* AC6460 8004F2C0 3128FFF7 */  andi  $t0, $t1, 0xfff7
 /* AC6464 8004F2C4 04A10005 */  bgez  $a1, .L8004F2DC
 /* AC6468 8004F2C8 A628014C */   sh    $t0, 0x14c($s1)
-/* AC646C 8004F2CC 0C016952 */  jal   Camera_ChangeSetting
+/* AC646C 8004F2CC 0C016952 */  jal   Camera_ChangeSettingFlags
 /* AC6470 8004F2D0 86250154 */   lh    $a1, 0x154($s1)
 /* AC6474 8004F2D4 10000006 */  b     .L8004F2F0
 /* AC6478 8004F2D8 8FA30034 */   lw    $v1, 0x34($sp)

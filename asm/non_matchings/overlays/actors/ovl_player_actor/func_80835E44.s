@@ -18,7 +18,7 @@ glabel func_80835E44
 /* 03C70 80835E80 0C030129 */  jal     Gameplay_GetCamera
 /* 03C74 80835E84 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 03C78 80835E88 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
-/* 03C7C 80835E8C 0C0169DF */  jal     func_80057FC4Flags
+/* 03C7C 80835E8C 0C0169DF */  jal     Camera_ChangeSetting
 /* 03C80 80835E90 87A5001E */  lh      $a1, 0x001E($sp)
 /* 03C84 80835E94 8FBF0014 */  lw      $ra, 0x0014($sp)
 .L80835E98:

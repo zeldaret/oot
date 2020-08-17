@@ -467,7 +467,7 @@ glabel L80057A38
 /* ACEC94 80057AF4 51C00007 */  beql  $t6, $zero, .L80057B14
 /* ACEC98 80057AF8 8FB9003C */   lw    $t9, 0x3c($sp)
 .L80057AFC:
-/* ACEC9C 80057AFC 0C016952 */  jal   Camera_ChangeSetting
+/* ACEC9C 80057AFC 0C016952 */  jal   Camera_ChangeSettingFlags
 /* ACECA0 80057B00 86050154 */   lh    $a1, 0x154($s0)
 /* ACECA4 80057B04 860F014C */  lh    $t7, 0x14c($s0)
 /* ACECA8 80057B08 35F80006 */  ori   $t8, $t7, 6
