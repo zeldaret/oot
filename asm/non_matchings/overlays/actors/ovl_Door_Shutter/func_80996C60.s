@@ -38,7 +38,7 @@ glabel func_80996C60
 /* 00A4C 80996CEC AFAE0018 */  sw      $t6, 0x0018($sp)           
 /* 00A50 80996CF0 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 00A54 80996CF4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00A58 80996CF8 0C016B50 */  jal     func_8005AD40              
+/* 00A58 80996CF8 0C016B50 */  jal     Camera_ChangeDoorCam              
 /* 00A5C 80996CFC AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 00A60 80996D00 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80996D04:

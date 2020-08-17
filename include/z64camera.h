@@ -227,25 +227,26 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ struct Actor* actor;
-    /* 0x0004 */ s16 unk_04;
-    /* 0x0006 */ s16 unk_06;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000A */ s16 unk_0A;
+    /* 0x0004 */ s16 camDataIdx;
+    /* 0x0006 */ s16 timer1;
+    /* 0x0008 */ s16 timer2;
+    /* 0x000A */ s16 timer3;
 } PersonalizeParams; // size = 0xC
 
 typedef struct {
-    /* 0x0000 */ s16 unk_00;
-} Special9_Unk18; // size = 0x2
+    /* 0x0000 */ s16 targetYaw;
+} Special9Anim; // size = 0x2
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
+    /* 0x0000 */ f32 yOffset;
     /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000C */ Special9_Unk18 unk_18;
+    /* 0x0008 */ s16 interfaceFlags;
+    /* 0x000A */ s16 unk_0A;
+    /* 0x000C */ Special9Anim anim;
 } Special9; // size = 0x10
 
 typedef struct {
-    /* 0x0000 */ PersonalizeParams* personalizeParams;
+    /* 0x0000 */ PersonalizeParams personalizeParams;
     /* 0x000C */ Special9 spec9;
 } PersonalizedDoor; // size = 0x1C
 

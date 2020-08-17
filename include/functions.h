@@ -697,7 +697,7 @@ s32 Camera_SetParam(Camera*, s32, void*);
 // ? func_8005AC48(?);
 // ? Camera_ResetAnim(?);
 // ? func_8005AC6C(?);
-// ? func_8005AD40(?);
+// ? Camera_ChangeDoorCam(?);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);
 // ? Camera_QRegInit(?);

@@ -402,7 +402,7 @@ glabel func_80839800
 /* 07B9C 80839DAC AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 07BA0 80839DB0 440A7000 */  mfc1    $t2, $f14                  
 /* 07BA4 80839DB4 AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 07BA8 80839DB8 0C016B50 */  jal     func_8005AD40              
+/* 07BA8 80839DB8 0C016B50 */  jal     Camera_ChangeDoorCam              
 /* 07BAC 80839DBC AFAA0018 */  sw      $t2, 0x0018($sp)           
 /* 07BB0 80839DC0 8203042C */  lb      $v1, 0x042C($s0)           ## 0000042C
 .L80839DC4:
