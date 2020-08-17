@@ -194,12 +194,12 @@ glabel Camera_KeepOn3
 /* AC4E00 8004DC60 AFA60048 */  sw    $a2, 0x48($sp)
 /* AC4E04 8004DC64 02002825 */  move  $a1, $s0
 /* AC4E08 8004DC68 27A40094 */  addiu $a0, $sp, 0x94
-/* AC4E0C 8004DC6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC4E0C 8004DC6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC4E10 8004DC70 E7A80058 */   swc1  $f8, 0x58($sp)
 /* AC4E14 8004DC74 26720074 */  addiu $s2, $s3, 0x74
 /* AC4E18 8004DC78 02403025 */  move  $a2, $s2
 /* AC4E1C 8004DC7C 27A4008C */  addiu $a0, $sp, 0x8c
-/* AC4E20 8004DC80 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC4E20 8004DC80 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC4E24 8004DC84 02002825 */   move  $a1, $s0
 /* AC4E28 8004DC88 267100AC */  addiu $s1, $s3, 0xac
 /* AC4E2C 8004DC8C 02202025 */  move  $a0, $s1
@@ -222,7 +222,7 @@ glabel Camera_KeepOn3
 /* AC4E70 8004DCD0 C7A60058 */  lwc1  $f6, 0x58($sp)
 /* AC4E74 8004DCD4 AFA8003C */  sw    $t0, 0x3c($sp)
 /* AC4E78 8004DCD8 46062280 */  add.s $f10, $f4, $f6
-/* AC4E7C 8004DCDC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC4E7C 8004DCDC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC4E80 8004DCE0 E7AA00D4 */   swc1  $f10, 0xd4($sp)
 /* AC4E84 8004DCE4 866C002A */  lh    $t4, 0x2a($s3)
 /* AC4E88 8004DCE8 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012

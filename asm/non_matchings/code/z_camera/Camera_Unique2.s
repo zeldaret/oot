@@ -31,7 +31,7 @@ glabel Camera_Unique2
 /* AC8D00 80051B60 E7A00048 */  swc1  $f0, 0x48($sp)
 /* AC8D04 80051B64 AFA6003C */  sw    $a2, 0x3c($sp)
 /* AC8D08 80051B68 02202825 */  move  $a1, $s1
-/* AC8D0C 80051B6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC8D0C 80051B6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC8D10 80051B70 27A40060 */   addiu $a0, $sp, 0x60
 /* AC8D14 80051B74 8603015E */  lh    $v1, 0x15e($s0)
 /* AC8D18 80051B78 2401000A */  li    $at, 10
@@ -201,7 +201,7 @@ glabel Camera_Unique2
 /* AC8F88 80051DE8 306C0001 */  andi  $t4, $v1, 1
 /* AC8F8C 80051DEC 11800015 */  beqz  $t4, .L80051E44
 /* AC8F90 80051DF0 306D0002 */   andi  $t5, $v1, 2
-/* AC8F94 80051DF4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC8F94 80051DF4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC8F98 80051DF8 26060074 */   addiu $a2, $s0, 0x74
 /* AC8F9C 80051DFC C60A0004 */  lwc1  $f10, 4($s0)
 /* AC8FA0 80051E00 27A40070 */  addiu $a0, $sp, 0x70
@@ -236,7 +236,7 @@ glabel Camera_Unique2
 /* AC9010 80051E70 45020018 */  bc1fl .L80051ED4
 /* AC9014 80051E74 44810000 */   mtc1  $at, $f0
 /* AC9018 80051E78 27A40068 */  addiu $a0, $sp, 0x68
-/* AC901C 80051E7C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC901C 80051E7C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC9020 80051E80 02202825 */   move  $a1, $s1
 /* AC9024 80051E84 3C063DCC */  li    $a2, 0x3DCC0000 # 0.000000
 /* AC9028 80051E88 34C6CCCD */  ori   $a2, (0x3DCCCCCD & 0xFFFF) # ori $a2, $a2, 0xcccd

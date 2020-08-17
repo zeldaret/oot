@@ -6,7 +6,7 @@ glabel D_801464D8
     .float 0.008
 
 .text
-glabel func_800CA8E8
+glabel Math3D_LineSegMakePerpLineSeg
 /* B41A88 800CA8E8 C4900000 */  lwc1  $f16, ($a0)
 /* B41A8C 800CA8EC C4A40000 */  lwc1  $f4, ($a1)
 /* B41A90 800CA8F0 27BDFF80 */  addiu $sp, $sp, -0x80

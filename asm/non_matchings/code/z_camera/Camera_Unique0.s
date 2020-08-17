@@ -155,11 +155,11 @@ glabel Camera_Unique0
 /* AC9828 80052688 A7AE006C */  sh    $t6, 0x6c($sp)
 /* AC982C 8005268C 27A50068 */  addiu $a1, $sp, 0x68
 /* AC9830 80052690 24E4001C */  addiu $a0, $a3, 0x1c
-/* AC9834 80052694 0C01F097 */  jal   OLib_VecSphRot90ToVec3f
+/* AC9834 80052694 0C01F097 */  jal   OLib_VecSphGeoToVec3f
 /* AC9838 80052698 A7AC006E */   sh    $t4, 0x6e($sp)
 /* AC983C 8005269C 8FA40024 */  lw    $a0, 0x24($sp)
 /* AC9840 800526A0 8FA50034 */  lw    $a1, 0x34($sp)
-/* AC9844 800526A4 0C032AE5 */  jal   Math3D_LineVsPos
+/* AC9844 800526A4 0C032AE5 */  jal   Math3D_LineClosestToPoint
 /* AC9848 800526A8 26060050 */   addiu $a2, $s0, 0x50
 /* AC984C 800526AC 8FAF0034 */  lw    $t7, 0x34($sp)
 /* AC9850 800526B0 8FA7002C */  lw    $a3, 0x2c($sp)

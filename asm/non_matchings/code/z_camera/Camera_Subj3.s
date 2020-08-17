@@ -129,7 +129,7 @@ glabel Camera_Subj3
 /* AC77F0 80050650 2606005C */  addiu $a2, $s0, 0x5c
 /* AC77F4 80050654 AFA60038 */  sw    $a2, 0x38($sp)
 /* AC77F8 80050658 02202825 */  move  $a1, $s1
-/* AC77FC 8005065C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC77FC 8005065C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC7800 80050660 27A4007C */   addiu $a0, $sp, 0x7c
 /* AC7804 80050664 860D0020 */  lh    $t5, 0x20($s0)
 /* AC7808 80050668 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
