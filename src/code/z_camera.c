@@ -7689,82 +7689,70 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
     }
 }
 
-//#define NON_MATCHING
-#ifdef NON_MATCHING
 s16 Camera_ChangeSetting(Camera *camera, s16 setting, s16 flags) {
-    s32 f5;
-    
-    if (((camera->unk_14A & 1) != 0) && ((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18 >= (sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
-        camera->unk_14A |= 0x10;
-        return -2;
+    if ((camera->unk_14A & 1) != 0) {
+        if ((u32) ((u32) (sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >= (u32) ((u32) (sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
+            camera->unk_14A |= 0x10;
+            return -2;
+        }
     }
-
-    switch(setting){
-        case 0x35:
-        case 0x36:
-            if (gSaveContext.linkAge == 0 && camera->globalCtx->sceneNum == SCENE_SPOT05) {
+    if ((setting == 0x35) || (setting == 0x36)) {
+        if (gSaveContext.linkAge == 0) {
+            if (camera->globalCtx->sceneNum == 0x56) {
                 camera->unk_14A |= 0x10;
                 return -5;
             }
-            break;
+        }
     }
-    
-    if (setting == 0 || setting >=0x42) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, setting);
+
+    if (setting == CAM_SET_NONE || setting >= CAM_SET_MAX) {
+        osSyncPrintf("\x1b[41;37mcamera: error: illegal camera set (%d) !!!!\n\x1b[m", setting);
         return -0x63;
     }
-    
-    if ((setting == camera->setting) && (!(flags & 1))) {
-        camera->unk_14A |= 0x10;
-        if (!(flags & 2)) {
-            camera->unk_14A |= 1;
+
+    if (setting == camera->setting) {
+        if ((flags & 1) == 0) {
+            camera->unk_14A |= 0x10;
+            if ((flags & 2) == 0) {
+                camera->unk_14A |= 1;
+            }
+            return -1;
         }
-        return -1;
     }
 
     camera->unk_14A |= 0x10;
-    
-    if (!(2 & flags)) {
+    if ((flags & 2) == 0) {
         camera->unk_14A |= 1;
     }
-    
-    camera->unk_14C |= (8 | 4);
-    camera->unk_14C &= ~(0x1000 | 0x8);
-    
-    if(1){
-        f5 = 0x40000000;
-    }
-    
-    if (!sCameraSettings[camera->setting].unk_bit1) {
+
+    camera->unk_14C |= 0xC;
+    camera->unk_14C &= ~0x1008;
+
+    if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
         camera->prevSetting = camera->setting;
     }
     
     if (flags & 8) {
-        s16 prevIdx = camera->prevCamDataIdx;
-        camera->camDataIdx = prevIdx;
+        if(1){}
+        camera->camDataIdx = camera->prevCamDataIdx;
         camera->prevCamDataIdx = -1;
-    } else {
-        if(!(flags & 4)){
-            f5 = sCameraSettings[camera->setting].unk_00 & f5;
-            if (!(f5 & 0xFFFFFFFFU)) {
-                camera->prevCamDataIdx = camera->camDataIdx & 0xFFFFU;
-            }
-            camera->camDataIdx = -1;
+    } else if (!(flags & 4)) {
+        if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
+            camera->prevCamDataIdx = camera->camDataIdx;
         }
+        camera->camDataIdx = -1;
     }
-    
 
     camera->setting = setting;
-    if (Camera_ChangeMode(camera, camera->mode, 1) > -1) {
+    
+    if (Camera_ChangeMode(camera, camera->mode, 1) >= 0) {
         Camera_CopyModeValuesToPREG(camera, camera->mode);
     }
-    osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: change camera[%d] set %s\n", camera->globalCtx->state.frames, camera->thisIdx, sCameraSettingNames[camera->setting]);
+    
+    osSyncPrintf("\x1b[1m%06u:\x1b[m camera: change camera[%d] set %s\n", camera->globalCtx->state.frames, camera->thisIdx, sCameraSettingNames[camera->setting]);
+    
     return setting;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeSetting.s")
-#endif
-#undef NON_MATCHING
 
 s32 func_80057FC4Flags(Camera* camera, s16 setting) {
     return Camera_ChangeSetting(camera, setting, 0);
