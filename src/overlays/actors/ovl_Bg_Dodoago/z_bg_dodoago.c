@@ -130,51 +130,41 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliders[2]);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/func_80871CF4.s")
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
-    s32 pad;
-    Actor* sp3C;
-    CollisionCheckContext* collisionCheckCtx;
     Actor* attachedActor;
-    
-    attachedActor = func_80033640(globalCtx, &this->colliders);
+
+    attachedActor = func_80033640(globalCtx, &this->colliders[0].base);
     if (attachedActor != NULL) {
-        sp3C = attachedActor;
-        if (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &attachedActor->posRot.pos) >=
-            (s32)this->dyna.actor.shape.rot.y) {
-            this->unk_164 = 1;
-        } else {
-            this->unk_164 = 0;
-        }
+        this->unk_164 = (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &attachedActor->posRot.pos) >= this->dyna.actor.shape.rot.y) ? 1 : 0;
 
         if (((globalCtx->unk_11D30[0] == 0xFF) && (this->unk_164 == 1)) ||
             ((globalCtx->unk_11D30[1] == 0xFF) && (this->unk_164 == 0))) {
             Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
             this->unk_164 = 0;
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             BgDodoago_SetupAction(this, func_80871FB8);
             func_800800F8(globalCtx, 0xD34, 0xA0, &this->dyna.actor, 0);
         } else {
             if (globalCtx->unk_11D30[this->unk_164] == 0) {
-
                 func_800800F8(globalCtx, 0xBF9, 0x28, &this->dyna.actor, 0);
                 BgDodoago_SetupAction(this, func_80872288);
-                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
             } else {
                 func_800800F8(globalCtx, 0xBF9, 0x14, &this->dyna.actor, 0);
-                Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 D_80872824 += 0x1E;
                 return;
             }
         }
 
         if (D_80872598 == 0) {
-            this->dyna.actor.attachedA = sp3C;
-            D_80872598 = (u16)1;
+            this->dyna.actor.attachedA = attachedActor;
+            D_80872598 = 1;
             D_80872824 = 0x32;
         }
     } else {
+
         if (Flags_GetEventChkInf(0xB0) != 0) {
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
@@ -184,10 +174,10 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             this->colliders[1].dim.pos.x += 0x5A;
             this->colliders[2].dim.pos.z += 0xD7;
             this->colliders[2].dim.pos.x -= 0x5A;
-            collisionCheckCtx = &globalCtx->colChkCtx;
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0]);
-            CollisionCheck_SetOC(globalCtx, collisionCheckCtx, &this->colliders[1]);
-            CollisionCheck_SetOC(globalCtx, collisionCheckCtx, &this->colliders[2]);
+
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[2].base);
         }
     }
 }
