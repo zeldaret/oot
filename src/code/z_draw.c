@@ -155,7 +155,6 @@ DrawItemTableEntry sDrawItemTable[] = {
     { func_8006A9CC, { 0x06000960 } },
     { func_80069EB0, { 0x06004DB0, 0x06004EB8 } },
 };
-
 /**
  * Draw "Get Item" Model
  * Calls the corresponding draw function for the given draw ID
@@ -671,7 +670,7 @@ void func_8006B6E4(GlobalContext* globalCtx, s16 drawId) {
 }
 
 void func_8006B870(GlobalContext* globalCtx, s16 drawId) {
-    u32 pad;
+    s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

@@ -56,7 +56,7 @@ glabel Camera_Unique2
 /* AC8D60 80051BC0 C7AA0048 */  lwc1  $f10, 0x48($sp)
 /* AC8D64 80051BC4 860F0142 */  lh    $t7, 0x142($s0)
 /* AC8D68 80051BC8 468021A0 */  cvt.s.w $f6, $f4
-/* AC8D6C 80051BCC 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC8D6C 80051BCC 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC8D70 80051BD0 000FC0C0 */  sll   $t8, $t7, 3
 /* AC8D74 80051BD4 86080144 */  lh    $t0, 0x144($s0)
 /* AC8D78 80051BD8 0338C821 */  addu  $t9, $t9, $t8

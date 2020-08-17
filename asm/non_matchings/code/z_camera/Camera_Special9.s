@@ -63,7 +63,7 @@ glabel Camera_Special9
 .L800574E8:
 /* ACE688 800574E8 86190142 */  lh    $t9, 0x142($s0)
 .L800574EC:
-/* ACE68C 800574EC 3C0C8012 */  lui   $t4, %hi(sCameraSettings)
+/* ACE68C 800574EC 3C0C8012 */  lui   $t4, %hi(sCameraSettings+4)
 /* ACE690 800574F0 860D0144 */  lh    $t5, 0x144($s0)
 /* ACE694 800574F4 001958C0 */  sll   $t3, $t9, 3
 /* ACE698 800574F8 018B6021 */  addu  $t4, $t4, $t3

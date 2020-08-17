@@ -12,8 +12,10 @@ venv/
 
 # Project-specific ignores
 build/
+expected/
 notes/
 baserom/
+docs/doxygen/
 *.elf
 *.sra
 *.z64
@@ -31,6 +33,8 @@ tools/overlayhelpers/batchdisasm/mipsdisasm/*
 tools/disasm/output/*
 tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
+ctx.c
+tools/*dSYM/
 
 # Assets
 *.rgba32.png

@@ -88,7 +88,7 @@ glabel func_80A7AA40
 /* 01BE8 80A7AB98 A60E0308 */  sh      $t6, 0x0308($s0)           ## 00000308
 /* 01BEC 80A7AB9C A60001FC */  sh      $zero, 0x01FC($s0)         ## 000001FC
 /* 01BF0 80A7ABA0 A6201D74 */  sh      $zero, 0x1D74($s1)         ## 00001D74
-/* 01BF4 80A7ABA4 0C02CE10 */  jal     func_800B3840              ## letterbox_target_addr
+/* 01BF4 80A7ABA4 0C02CE10 */  jal     ShrinkWindow_SetVal              ## letterbox_target_addr
 /* 01BF8 80A7ABA8 24040020 */  addiu   $a0, $zero, 0x0020         ## $a0 = 00000020
 /* 01BFC 80A7ABAC 0C020978 */  jal     Interface_ChangeAlpha              
 /* 01C00 80A7ABB0 24040002 */  addiu   $a0, $zero, 0x0002         ## $a0 = 00000002

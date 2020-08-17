@@ -26,7 +26,7 @@ glabel Camera_Subj4
 .L80050B70:
 /* AC7D10 80050B70 862F0142 */  lh    $t7, 0x142($s1)
 .L80050B74:
-/* AC7D14 80050B74 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC7D14 80050B74 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC7D18 80050B78 86280144 */  lh    $t0, 0x144($s1)
 /* AC7D1C 80050B7C 000FC0C0 */  sll   $t8, $t7, 3
 /* AC7D20 80050B80 0338C821 */  addu  $t9, $t9, $t8

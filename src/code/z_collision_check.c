@@ -1241,38 +1241,38 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     D_8015D8A0.position.z = (s32)v->z;
     D_8015D8A0.uDiv = 5;
     D_8015D8A0.vDiv = 5;
-    D_8015D8A0.colorStart[0].r = 0x0A;
-    D_8015D8A0.colorStart[0].g = 0x0A;
-    D_8015D8A0.colorStart[0].b = 0xC8;
-    D_8015D8A0.colorStart[0].a = 0xFF;
-    D_8015D8A0.colorStart[1].r = 0x00;
-    D_8015D8A0.colorStart[1].g = 0x00;
-    D_8015D8A0.colorStart[1].b = 0x80;
-    D_8015D8A0.colorStart[1].a = 0xFF;
-    D_8015D8A0.colorStart[2].r = 0x00;
-    D_8015D8A0.colorStart[2].g = 0x00;
-    D_8015D8A0.colorStart[2].b = 0x80;
-    D_8015D8A0.colorStart[2].a = 0xFF;
-    D_8015D8A0.colorStart[3].r = 0x00;
-    D_8015D8A0.colorStart[3].g = 0x00;
-    D_8015D8A0.colorStart[3].b = 0x80;
-    D_8015D8A0.colorStart[3].a = 0xFF;
-    D_8015D8A0.colorEnd[0].r = 0x00;
-    D_8015D8A0.colorEnd[0].g = 0x00;
-    D_8015D8A0.colorEnd[0].b = 0x20;
-    D_8015D8A0.colorEnd[0].a = 0x00;
-    D_8015D8A0.colorEnd[1].r = 0x00;
-    D_8015D8A0.colorEnd[1].g = 0x00;
-    D_8015D8A0.colorEnd[1].b = 0x20;
-    D_8015D8A0.colorEnd[1].a = 0x00;
-    D_8015D8A0.colorEnd[2].r = 0x00;
-    D_8015D8A0.colorEnd[2].g = 0x00;
-    D_8015D8A0.colorEnd[2].b = 0x40;
-    D_8015D8A0.colorEnd[2].a = 0x00;
-    D_8015D8A0.colorEnd[3].r = 0x00;
-    D_8015D8A0.colorEnd[3].g = 0x00;
-    D_8015D8A0.colorEnd[3].b = 0x40;
-    D_8015D8A0.colorEnd[3].a = 0x00;
+    D_8015D8A0.colorStart[0].r = 10;
+    D_8015D8A0.colorStart[0].g = 10;
+    D_8015D8A0.colorStart[0].b = 200;
+    D_8015D8A0.colorStart[0].a = 255;
+    D_8015D8A0.colorStart[1].r = 0;
+    D_8015D8A0.colorStart[1].g = 0;
+    D_8015D8A0.colorStart[1].b = 128;
+    D_8015D8A0.colorStart[1].a = 255;
+    D_8015D8A0.colorStart[2].r = 0;
+    D_8015D8A0.colorStart[2].g = 0;
+    D_8015D8A0.colorStart[2].b = 128;
+    D_8015D8A0.colorStart[2].a = 255;
+    D_8015D8A0.colorStart[3].r = 0;
+    D_8015D8A0.colorStart[3].g = 0;
+    D_8015D8A0.colorStart[3].b = 128;
+    D_8015D8A0.colorStart[3].a = 255;
+    D_8015D8A0.colorEnd[0].r = 0;
+    D_8015D8A0.colorEnd[0].g = 0;
+    D_8015D8A0.colorEnd[0].b = 32;
+    D_8015D8A0.colorEnd[0].a = 0;
+    D_8015D8A0.colorEnd[1].r = 0;
+    D_8015D8A0.colorEnd[1].g = 0;
+    D_8015D8A0.colorEnd[1].b = 32;
+    D_8015D8A0.colorEnd[1].a = 0;
+    D_8015D8A0.colorEnd[2].r = 0;
+    D_8015D8A0.colorEnd[2].g = 0;
+    D_8015D8A0.colorEnd[2].b = 64;
+    D_8015D8A0.colorEnd[2].a = 0;
+    D_8015D8A0.colorEnd[3].r = 0;
+    D_8015D8A0.colorEnd[3].g = 0;
+    D_8015D8A0.colorEnd[3].b = 64;
+    D_8015D8A0.colorEnd[3].a = 0;
     D_8015D8A0.timer = 0;
     D_8015D8A0.duration = 16;
     D_8015D8A0.speed = 8.0f;
@@ -1297,38 +1297,38 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     D_8015DD68.position.z = (s32)v->z;
     D_8015DD68.uDiv = 5;
     D_8015DD68.vDiv = 5;
-    D_8015DD68.colorStart[0].r = 0x0A;
-    D_8015DD68.colorStart[0].g = 0xC8;
-    D_8015DD68.colorStart[0].b = 0x0A;
-    D_8015DD68.colorStart[0].a = 0xFF;
-    D_8015DD68.colorStart[1].r = 0x00;
-    D_8015DD68.colorStart[1].g = 0x80;
-    D_8015DD68.colorStart[1].b = 0x00;
-    D_8015DD68.colorStart[1].a = 0xFF;
-    D_8015DD68.colorStart[2].r = 0x00;
-    D_8015DD68.colorStart[2].g = 0x80;
-    D_8015DD68.colorStart[2].b = 0x00;
-    D_8015DD68.colorStart[2].a = 0xFF;
-    D_8015DD68.colorStart[3].r = 0x00;
-    D_8015DD68.colorStart[3].g = 0x80;
-    D_8015DD68.colorStart[3].b = 0x00;
-    D_8015DD68.colorStart[3].a = 0xFF;
-    D_8015DD68.colorEnd[0].r = 0x00;
-    D_8015DD68.colorEnd[0].g = 0x20;
-    D_8015DD68.colorEnd[0].b = 0x00;
-    D_8015DD68.colorEnd[0].a = 0x00;
-    D_8015DD68.colorEnd[1].r = 0x00;
-    D_8015DD68.colorEnd[1].g = 0x20;
-    D_8015DD68.colorEnd[1].b = 0x00;
-    D_8015DD68.colorEnd[1].a = 0x00;
-    D_8015DD68.colorEnd[2].r = 0x00;
-    D_8015DD68.colorEnd[2].g = 0x40;
-    D_8015DD68.colorEnd[2].b = 0x00;
-    D_8015DD68.colorEnd[2].a = 0x00;
-    D_8015DD68.colorEnd[3].r = 0x00;
-    D_8015DD68.colorEnd[3].g = 0x40;
-    D_8015DD68.colorEnd[3].b = 0x00;
-    D_8015DD68.colorEnd[3].a = 0x00;
+    D_8015DD68.colorStart[0].r = 10;
+    D_8015DD68.colorStart[0].g = 200;
+    D_8015DD68.colorStart[0].b = 10;
+    D_8015DD68.colorStart[0].a = 255;
+    D_8015DD68.colorStart[1].r = 0;
+    D_8015DD68.colorStart[1].g = 128;
+    D_8015DD68.colorStart[1].b = 0;
+    D_8015DD68.colorStart[1].a = 255;
+    D_8015DD68.colorStart[2].r = 0;
+    D_8015DD68.colorStart[2].g = 128;
+    D_8015DD68.colorStart[2].b = 0;
+    D_8015DD68.colorStart[2].a = 255;
+    D_8015DD68.colorStart[3].r = 0;
+    D_8015DD68.colorStart[3].g = 128;
+    D_8015DD68.colorStart[3].b = 0;
+    D_8015DD68.colorStart[3].a = 255;
+    D_8015DD68.colorEnd[0].r = 0;
+    D_8015DD68.colorEnd[0].g = 32;
+    D_8015DD68.colorEnd[0].b = 0;
+    D_8015DD68.colorEnd[0].a = 0;
+    D_8015DD68.colorEnd[1].r = 0;
+    D_8015DD68.colorEnd[1].g = 32;
+    D_8015DD68.colorEnd[1].b = 0;
+    D_8015DD68.colorEnd[1].a = 0;
+    D_8015DD68.colorEnd[2].r = 0;
+    D_8015DD68.colorEnd[2].g = 64;
+    D_8015DD68.colorEnd[2].b = 0;
+    D_8015DD68.colorEnd[2].a = 0;
+    D_8015DD68.colorEnd[3].r = 0;
+    D_8015DD68.colorEnd[3].g = 64;
+    D_8015DD68.colorEnd[3].b = 0;
+    D_8015DD68.colorEnd[3].a = 0;
     D_8015DD68.timer = 0;
     D_8015DD68.duration = 16;
     D_8015DD68.speed = 8.0f;
@@ -1364,7 +1364,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         return;
     }
@@ -1374,7 +1374,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             func_80062D60(globalCtx, arg3);
             return;
         }
-        func_80062DAC(globalCtx, arg3, &collider->actor->unk_E4);
+        func_80062DAC(globalCtx, arg3, &collider->actor->projectedPos);
         return;
     }
     if (flags == 8) {
@@ -1383,7 +1383,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         return;
     }
@@ -1393,7 +1393,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         return;
     }
@@ -1403,17 +1403,17 @@ s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
     if (left->actor != NULL) {
         if (ACTORTYPE_PLAYER == left->actor->type) {
             if (rightBody->flags == 0) {
-                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &left->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
             } else if (rightBody->flags == 1) {
-                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
-            } else if (2 == rightBody->flags) {
-                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
+            } else if (rightBody->flags == 2) {
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
             } else if (rightBody->flags == 3) {
-                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &left->actor->projectedPos, 4, &D_801333E0,
+                                       &D_801333E0, &D_801333E8);
             }
         }
     }
@@ -1454,7 +1454,7 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
                 func_80062CD4(globalCtx, arg5);
                 Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                func_80062E14(globalCtx, arg5, &left->actor->unk_E4);
+                func_80062E14(globalCtx, arg5, &left->actor->projectedPos);
             }
         } else if (D_8011DF40[right->type].unk01 != 5) {
             func_80029CA4(globalCtx, D_8011DF40[right->type].unk01, arg5);
@@ -1467,7 +1467,7 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
         if (right->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->unk_E4, 4, &D_801333E0, &D_801333E0,
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         }
     }
@@ -2947,38 +2947,38 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     D_8015CF10.position.z = (s32)v->z;
     D_8015CF10.uDiv = 5;
     D_8015CF10.vDiv = 5;
-    D_8015CF10.colorStart[0].r = 0x80;
-    D_8015CF10.colorStart[0].g = 0x00;
-    D_8015CF10.colorStart[0].b = 0x40;
-    D_8015CF10.colorStart[0].a = 0xFF;
-    D_8015CF10.colorStart[1].r = 0x80;
-    D_8015CF10.colorStart[1].g = 0x00;
-    D_8015CF10.colorStart[1].b = 0x40;
-    D_8015CF10.colorStart[1].a = 0xFF;
-    D_8015CF10.colorStart[2].r = 0xFF;
-    D_8015CF10.colorStart[2].g = 0x80;
-    D_8015CF10.colorStart[2].b = 0x00;
-    D_8015CF10.colorStart[2].a = 0xFF;
-    D_8015CF10.colorStart[3].r = 0xFF;
-    D_8015CF10.colorStart[3].g = 0x80;
-    D_8015CF10.colorStart[3].b = 0x00;
-    D_8015CF10.colorStart[3].a = 0xFF;
-    D_8015CF10.colorEnd[0].r = 0x40;
-    D_8015CF10.colorEnd[0].g = 0x00;
-    D_8015CF10.colorEnd[0].b = 0x20;
-    D_8015CF10.colorEnd[0].a = 0x00;
-    D_8015CF10.colorEnd[1].r = 0x40;
-    D_8015CF10.colorEnd[1].g = 0x00;
-    D_8015CF10.colorEnd[1].b = 0x20;
-    D_8015CF10.colorEnd[1].a = 0x00;
-    D_8015CF10.colorEnd[2].r = 0x80;
-    D_8015CF10.colorEnd[2].g = 0x00;
-    D_8015CF10.colorEnd[2].b = 0x40;
-    D_8015CF10.colorEnd[2].a = 0x00;
-    D_8015CF10.colorEnd[3].r = 0x80;
-    D_8015CF10.colorEnd[3].g = 0x00;
-    D_8015CF10.colorEnd[3].b = 0x40;
-    D_8015CF10.colorEnd[3].a = 0x00;
+    D_8015CF10.colorStart[0].r = 128;
+    D_8015CF10.colorStart[0].g = 0;
+    D_8015CF10.colorStart[0].b = 64;
+    D_8015CF10.colorStart[0].a = 255;
+    D_8015CF10.colorStart[1].r = 128;
+    D_8015CF10.colorStart[1].g = 0;
+    D_8015CF10.colorStart[1].b = 64;
+    D_8015CF10.colorStart[1].a = 255;
+    D_8015CF10.colorStart[2].r = 255;
+    D_8015CF10.colorStart[2].g = 128;
+    D_8015CF10.colorStart[2].b = 0;
+    D_8015CF10.colorStart[2].a = 255;
+    D_8015CF10.colorStart[3].r = 255;
+    D_8015CF10.colorStart[3].g = 128;
+    D_8015CF10.colorStart[3].b = 0;
+    D_8015CF10.colorStart[3].a = 255;
+    D_8015CF10.colorEnd[0].r = 64;
+    D_8015CF10.colorEnd[0].g = 0;
+    D_8015CF10.colorEnd[0].b = 32;
+    D_8015CF10.colorEnd[0].a = 0;
+    D_8015CF10.colorEnd[1].r = 64;
+    D_8015CF10.colorEnd[1].g = 0;
+    D_8015CF10.colorEnd[1].b = 32;
+    D_8015CF10.colorEnd[1].a = 0;
+    D_8015CF10.colorEnd[2].r = 128;
+    D_8015CF10.colorEnd[2].g = 0;
+    D_8015CF10.colorEnd[2].b = 64;
+    D_8015CF10.colorEnd[2].a = 0;
+    D_8015CF10.colorEnd[3].r = 128;
+    D_8015CF10.colorEnd[3].g = 0;
+    D_8015CF10.colorEnd[3].b = 64;
+    D_8015CF10.colorEnd[3].a = 0;
     D_8015CF10.timer = 0;
     D_8015CF10.duration = 16;
     D_8015CF10.speed = 8.0f;
@@ -3002,38 +3002,38 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     D_8015D3D8.position.z = (s32)v->z;
     D_8015D3D8.uDiv = 5;
     D_8015D3D8.vDiv = 5;
-    D_8015D3D8.colorStart[0].r = 0xFF;
-    D_8015D3D8.colorStart[0].g = 0xFF;
-    D_8015D3D8.colorStart[0].b = 0xFF;
-    D_8015D3D8.colorStart[0].a = 0xFF;
-    D_8015D3D8.colorStart[1].r = 0x64;
-    D_8015D3D8.colorStart[1].g = 0x64;
-    D_8015D3D8.colorStart[1].b = 0x64;
-    D_8015D3D8.colorStart[1].a = 0x64;
-    D_8015D3D8.colorStart[2].r = 0x64;
-    D_8015D3D8.colorStart[2].g = 0x64;
-    D_8015D3D8.colorStart[2].b = 0x64;
-    D_8015D3D8.colorStart[2].a = 0x64;
-    D_8015D3D8.colorStart[3].r = 0x64;
-    D_8015D3D8.colorStart[3].g = 0x64;
-    D_8015D3D8.colorStart[3].b = 0x64;
-    D_8015D3D8.colorStart[3].a = 0x64;
-    D_8015D3D8.colorEnd[0].r = 0x32;
-    D_8015D3D8.colorEnd[0].g = 0x32;
-    D_8015D3D8.colorEnd[0].b = 0x32;
-    D_8015D3D8.colorEnd[0].a = 0x32;
-    D_8015D3D8.colorEnd[1].r = 0x32;
-    D_8015D3D8.colorEnd[1].g = 0x32;
-    D_8015D3D8.colorEnd[1].b = 0x32;
-    D_8015D3D8.colorEnd[1].a = 0x32;
-    D_8015D3D8.colorEnd[2].r = 0x32;
-    D_8015D3D8.colorEnd[2].g = 0x32;
-    D_8015D3D8.colorEnd[2].b = 0x32;
-    D_8015D3D8.colorEnd[2].a = 0x32;
-    D_8015D3D8.colorEnd[3].r = 0x00;
-    D_8015D3D8.colorEnd[3].g = 0x00;
-    D_8015D3D8.colorEnd[3].b = 0x00;
-    D_8015D3D8.colorEnd[3].a = 0x00;
+    D_8015D3D8.colorStart[0].r = 255;
+    D_8015D3D8.colorStart[0].g = 255;
+    D_8015D3D8.colorStart[0].b = 255;
+    D_8015D3D8.colorStart[0].a = 255;
+    D_8015D3D8.colorStart[1].r = 100;
+    D_8015D3D8.colorStart[1].g = 100;
+    D_8015D3D8.colorStart[1].b = 100;
+    D_8015D3D8.colorStart[1].a = 100;
+    D_8015D3D8.colorStart[2].r = 100;
+    D_8015D3D8.colorStart[2].g = 100;
+    D_8015D3D8.colorStart[2].b = 100;
+    D_8015D3D8.colorStart[2].a = 100;
+    D_8015D3D8.colorStart[3].r = 100;
+    D_8015D3D8.colorStart[3].g = 100;
+    D_8015D3D8.colorStart[3].b = 100;
+    D_8015D3D8.colorStart[3].a = 100;
+    D_8015D3D8.colorEnd[0].r = 50;
+    D_8015D3D8.colorEnd[0].g = 50;
+    D_8015D3D8.colorEnd[0].b = 50;
+    D_8015D3D8.colorEnd[0].a = 50;
+    D_8015D3D8.colorEnd[1].r = 50;
+    D_8015D3D8.colorEnd[1].g = 50;
+    D_8015D3D8.colorEnd[1].b = 50;
+    D_8015D3D8.colorEnd[1].a = 50;
+    D_8015D3D8.colorEnd[2].r = 50;
+    D_8015D3D8.colorEnd[2].g = 50;
+    D_8015D3D8.colorEnd[2].b = 50;
+    D_8015D3D8.colorEnd[2].a = 50;
+    D_8015D3D8.colorEnd[3].r = 0;
+    D_8015D3D8.colorEnd[3].g = 0;
+    D_8015D3D8.colorEnd[3].b = 0;
+    D_8015D3D8.colorEnd[3].a = 0;
     D_8015D3D8.timer = 0;
     D_8015D3D8.duration = 16;
     D_8015D3D8.speed = 8.0f;

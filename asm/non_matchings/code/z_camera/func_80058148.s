@@ -1,6 +1,6 @@
 .rdata
 glabel D_801398C0
-    .asciz "\x1B[34mcamera: personalize ---\x1B[m\n"
+    .asciz "\x1b[34mcamera: personalize ---\x1b[m\n"
     .balign 4
 
 .text

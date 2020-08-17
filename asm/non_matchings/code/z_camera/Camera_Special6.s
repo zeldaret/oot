@@ -31,7 +31,7 @@ glabel Camera_Special6
 .L80056FB4:
 /* ACE154 80056FB4 860F0142 */  lh    $t7, 0x142($s0)
 .L80056FB8:
-/* ACE158 80056FB8 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* ACE158 80056FB8 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* ACE15C 80056FBC 860B0144 */  lh    $t3, 0x144($s0)
 /* ACE160 80056FC0 000FC0C0 */  sll   $t8, $t7, 3
 /* ACE164 80056FC4 0338C821 */  addu  $t9, $t9, $t8

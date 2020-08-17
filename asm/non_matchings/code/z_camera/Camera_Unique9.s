@@ -8,19 +8,19 @@ glabel D_8013942C
     .balign 4
 
 glabel D_80139450
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 glabel D_80139488
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 glabel D_801394C0
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 glabel D_801394F8
-    .asciz "\x1B[43;30mcamera: warning: demo C: actor is not valid\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: warning: demo C: actor is not valid\n\x1b[m"
     .balign 4
 
 .late_rodata
@@ -104,7 +104,7 @@ glabel Camera_Unique9
 .L80052E58:
 /* AC9FF8 80052E58 86380142 */  lh    $t8, 0x142($s1)
 .L80052E5C:
-/* AC9FFC 80052E5C 3C0A8012 */  lui   $t2, %hi(sCameraSettings)
+/* AC9FFC 80052E5C 3C0A8012 */  lui   $t2, %hi(sCameraSettings+4)
 /* ACA000 80052E60 862B0144 */  lh    $t3, 0x144($s1)
 /* ACA004 80052E64 0018C8C0 */  sll   $t9, $t8, 3
 /* ACA008 80052E68 01595021 */  addu  $t2, $t2, $t9

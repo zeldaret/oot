@@ -1,12 +1,24 @@
 .SUFFIXES:
 
+# Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
+
+# If COMPARE is 1, check the output md5sum after building
+COMPARE ?= 1
+# If NON_MATCHING is 1, define the NON_MATCHING C flag when building
+NON_MATCHING ?= 0
+
+ifeq ($(NON_MATCHING),1)
+  CFLAGS := -DNON_MATCHING
+  COMPARE := 0
+endif
+
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 #### Tools ####
 ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
   MIPS_BINUTILS_PREFIX := mips-linux-gnu-
 else
-  MIPS_BINUTILS_PREFIX := mips64-elf-
+  $(error Please install or build mips-linux-gnu)
 endif
 
 # check that either QEMU_IRIX is set or qemu-irix package installed
@@ -26,7 +38,7 @@ CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bi
 CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 
 # Check code syntax with host compiler
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -38,7 +50,7 @@ ASFLAGS := -march=vr4300 -32 -Iinclude
 MIPS_VERSION := -mips2
 
 # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-CFLAGS  := -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838
+CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838
 
 ifeq ($(shell getconf LONG_BIT), 32)
   # Work around memory allocation bug in QEMU
@@ -119,6 +131,7 @@ build/src/libultra_code_O2/%.o: CC := python3 tools/asm_processor/build.py $(CC_
 build/src/libultra_code_O2_g3/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/code/jpegdecoder.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
 build/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
@@ -128,9 +141,11 @@ build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(
 
 #### Main Targets ###
 
-compare: $(ROM)
+all: $(ROM)
+ifeq ($(COMPARE),1)
 	@md5sum $(ROM)
 	@md5sum -c checksum.md5
+endif
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
@@ -146,7 +161,7 @@ build/undefined_syms.txt: undefined_syms.txt
 	$(CPP) -P $< > build/undefined_syms.txt
 
 clean:
-	$(RM) $(ROM) $(ELF) -r build
+	$(RM) -r $(ROM) $(ELF) build
 
 setup:
 	git submodule update --init --recursive
@@ -165,7 +180,6 @@ build/asm/%.o: asm/%.s
 
 build/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
-
 #build/assets/%.o: assets/%.s
 #	$(AS) $(ASFLAGS) $^ -o $@
 #	$(OBJCOPY) -O binary $@ $@.bin

@@ -152,24 +152,24 @@ void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll;
     OceffStorm* this;
     GraphicsContext* gfxCtx;
-    Vtx_t* vtxPtr;
+    Vtx* vtxPtr;
     Gfx* dispRefs[4];
 
     this = THIS;
-    vtxPtr = (Vtx_t*)vertices;
+    vtxPtr = vertices;
     scroll = globalCtx->state.frames & 0xFFF;
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_storm.c", 486);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xC8, 0xFF);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x96, 0x96, 0x00, 0x80);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 200, 255);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 150, 150, 0, 128);
     gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_NOISE);
     gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_NOISE);
 
-    vtxPtr[0].cn[3] = vtxPtr[6].cn[3] = vtxPtr[16].cn[3] = vtxPtr[25].cn[3] = this->vtxAlpha >> 1;
-    vtxPtr[10].cn[3] = vtxPtr[22].cn[3] = this->vtxAlpha;
+    vtxPtr[0].v.cn[3] = vtxPtr[6].v.cn[3] = vtxPtr[16].v.cn[3] = vtxPtr[25].v.cn[3] = this->vtxAlpha >> 1;
+    vtxPtr[10].v.cn[3] = vtxPtr[22].v.cn[3] = this->vtxAlpha;
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 498),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

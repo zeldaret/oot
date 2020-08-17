@@ -1,3 +1,77 @@
+.late_rodata
+glabel D_808F802C
+    .float 463.0
+
+glabel D_808F8030
+    .float 463.0
+
+glabel D_808F8034
+    .float 0.075
+
+glabel D_808F8038
+    .float 0.08
+
+glabel D_808F803C
+    .float 0.2
+
+glabel D_808F8040
+    .float 0.62831854
+
+glabel D_808F8044
+    .float 1.5707964
+
+glabel D_808F8048
+    .float 6.2831855
+
+glabel D_808F804C
+    .float 0.7853982
+
+glabel jtbl_808F8050
+    .word L808DE3B0
+    .word L808DDF20
+    .word L808DDF48
+    .word L808DDF80
+    .word L808DDFB8
+    .word L808DDFF4
+    .word L808DE014
+    .word L808DE058
+    .word L808DE0B8
+    .word L808DE118
+    .word L808DE160
+    .word L808DE1A4
+    .word L808DE1EC
+    .word L808DE268
+    .word L808DE2B0
+    .word L808DE2E8
+    .word L808DE308
+    .word L808DE350
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE394
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DDFD8
+
+glabel D_808F80E4
+    .float 1.2566371
+
+glabel D_808F80E8
+    .float 13107.2
+
+.text
 glabel BossGanon_Update
 /* 06D60 808DD5D0 27BDFED0 */  addiu   $sp, $sp, 0xFED0           ## $sp = FFFFFED0
 /* 06D64 808DD5D4 AFBF0074 */  sw      $ra, 0x0074($sp)           

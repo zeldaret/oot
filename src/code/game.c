@@ -14,11 +14,9 @@ VisMono sMonoColors;
 unk_80166528 D_80166528;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
-char sBtnChars[] = {
-    'A', 'B', 'Z', 'S', 'u', 'l', 'd', 'r', '*', '+', 'L', 'R', 'u', 'd', 'l', 'r', '\0',
-};
 
 void GameState_FaultPrint(void) {
+    static char sBtnChars[] = "ABZSuldr*+LRudlr";
     s32 i;
 
     osSyncPrintf("last_button=%04x\n", sLastButtonPressed);
@@ -115,16 +113,14 @@ void func_800C4344(GameState* gameState) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
     static const u16 sInpDispBtnColors[] = {
-        GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1), GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1), GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1),
-        GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1),
-        GPACK_RGBA5551(0x00, 0xFF, 0xFF, 1), GPACK_RGBA5551(0xFF, 0x00, 0xFF, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1),
-        GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1),
-        GPACK_RGBA5551(0xFF, 0x00, 0x00, 1), GPACK_RGBA5551(0x78, 0x78, 0x78, 1), GPACK_RGBA5551(0x00, 0xFF, 0x00, 1),
-        GPACK_RGBA5551(0x00, 0x00, 0xFF, 1),
+        GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),
+        GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1),
+        GPACK_RGBA5551(0, 255, 255, 1),   GPACK_RGBA5551(255, 0, 255, 1),   GPACK_RGBA5551(120, 120, 120, 1),
+        GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1),
+        GPACK_RGBA5551(255, 0, 0, 1),     GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(0, 255, 0, 1),
+        GPACK_RGBA5551(0, 0, 255, 1),
     };
     s32 i, j, k;
     Gfx* gfxP = *gfx;
@@ -137,19 +133,16 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
 
     for (i = 0; i < 16; i++) {
         j = i;
-        k = i + 1;
         if (input & (1 << i)) {
             gDPSetFillColor(gfxP++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
+            k = i + 1;
             gDPFillRectangle(gfxP++, (j * 4) + 226, 220, (k * 4) + 225, 223);
             gDPPipeSync(gfxP++);
         }
-    };
+    }
 
     *gfx = gfxP;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_DrawInputDisplay.s")
-#endif
 
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx* newDList;
@@ -245,8 +238,6 @@ void GameState_ReqPadData(GameState* gameState) {
     PadMgr_RequestPadData(&gPadMgr, &gameState->input, 1);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences and additional redundant instructions
 void GameState_Update(GameState* gameState) {
     GraphicsContext* gfxCtx = gameState->gfxCtx;
 
@@ -256,7 +247,7 @@ void GameState_Update(GameState* gameState) {
 
     func_800C4344(gameState);
 
-    if (SREG(63) == 1) {
+    if (SREG(63) == 1u) {
         if (SREG(48) < 0) {
             SREG(48) = 0;
             gfxCtx->viMode = &gViConfigMode;
@@ -275,22 +266,22 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viFeatures = gViConfigFeatures;
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
-        if (SREG(63) == 6 || (SREG(63) == 2 && osTvType == 1)) {
+        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == 1)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 5 || (SREG(63) == 2 && osTvType == 2)) {
+        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == 2)) {
             gfxCtx->viMode = &osViModeMpalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 4 || (SREG(63) == 2 && osTvType == 0)) {
+        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == 0)) {
             gfxCtx->viMode = &osViModePalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 3 || (SREG(63) == 2 && osTvType == 0)) {
+        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == 0)) {
             gfxCtx->viMode = &osViModeFpalLan1;
             gfxCtx->yScale = 0.833f;
         }
@@ -323,16 +314,13 @@ void GameState_Update(GameState* gameState) {
         }
     }
 
-    if (R_PAUSE_MENU_MODE != 2) {
+    if (R_PAUSE_MENU_MODE != 2u) {
         GameState_Draw(gameState, gfxCtx);
         func_800C49F4(gfxCtx);
     }
 
     gameState->frames++;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_Update.s")
-#endif
 
 void GameState_InitArena(GameState* gameState, size_t size) {
     void* arena;
@@ -352,10 +340,8 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     }
 }
 
-#ifdef NON_MATCHING
-// stack
 void GameState_Realloc(GameState* gameState, size_t size) {
-    s32 pad;
+    GameAlloc* alloc = &gameState->alloc;
     void* gameArena;
     u32 systemMaxFree;
     u32 systemFree;
@@ -364,7 +350,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
     thaBufp = gameState->tha.bufp;
     THA_Dt(&gameState->tha);
-    GameAlloc_Free(&gameState->alloc, thaBufp);
+    GameAlloc_Free(alloc, thaBufp);
     // Hyrule temporarily released !!
     osSyncPrintf("ハイラル一時解放!!\n");
     SystemArena_GetSizes(&systemMaxFree, &systemFree, &systemAlloc);
@@ -381,7 +367,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
     // Hyral reallocate size =% u bytes
     osSyncPrintf("ハイラル再確保 サイズ＝%u バイト\n", size);
-    gameArena = GameAlloc_MallocDebug(&gameState->alloc, size, "../game.c", 1033);
+    gameArena = GameAlloc_MallocDebug(alloc, size, "../game.c", 1033);
     if (gameArena != NULL) {
         THA_Ct(&gameState->tha, gameArena, size);
         // Successful reacquisition of Hyrule
@@ -394,9 +380,6 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         Fault_AddHungupAndCrash("../game.c", 1044);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_Realloc.s")
-#endif
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
     u64 startTime;

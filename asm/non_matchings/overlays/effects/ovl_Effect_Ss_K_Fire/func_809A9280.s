@@ -1,3 +1,24 @@
+.rdata
+glabel D_809A95D0
+    .asciz "../z_eff_k_fire.c"
+    .balign 4
+
+glabel D_809A95E4
+    .asciz "../z_eff_k_fire.c"
+    .balign 4
+
+glabel D_809A95F8
+    .asciz "../z_eff_k_fire.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A960C
+    .float 10000.0
+
+glabel D_809A9610
+    .float 3.14159274101
+
+.text
 glabel func_809A9280
 /* 000D0 809A9280 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 000D4 809A9284 AFBF003C */  sw      $ra, 0x003C($sp)           

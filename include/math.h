@@ -8,4 +8,20 @@
 #define SHT_MINV (1.0f / SHT_MAX)
 #define DEGTORAD(x) (x * M_PI / 180.0f)
 
+typedef union {
+    struct {
+        unsigned int hi;
+        unsigned int lo;
+    } word;
+
+    double d;
+} du;
+
+typedef union {
+    unsigned int i;
+    float f;
+} fu;
+
+extern float __libm_qnan_f;
+
 #endif

@@ -141,7 +141,7 @@ typedef struct {
         /* 0x0E88 */ s32  tempCollectFlags;
     }                         fw;
     /* 0x0E8C */ char         unk_E8C[0x0010];
-    /* 0x0E9C */ u8           gsFlags[24];
+    /* 0x0E9C */ s32          gsFlags[6];
     /* 0x0EB4 */ char         unk_EB4[0x0010];
     /* 0x0EC4 */ s32          unk_EC4;
     /* 0x0EC8 */ char         unk_EC8[0x000C];
@@ -150,7 +150,9 @@ typedef struct {
     /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
     /* 0x0F34 */ char         unk_F34[0x0004];
     /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char         unk_F3C[0x040C];
+    /* 0x0F3C */ char         unk_F3C[0x0389];
+    /* 0x12C5 */ u8           unk_12C5;
+    /* 0x12C6 */ char         unk_12C6[0x0082];
     /* 0x1348 */ HorseData    horseData;
     /* 0x1352 */ u16          checksum; // "check_sum"
     /* 0x1354 */ s32          fileNum; // "file_no"
@@ -316,8 +318,8 @@ typedef struct {
     /* 0x0020 */ f32    zFar;  // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ Vec3f  unk_34;
-    /* 0x0040 */ Vec3f  unk_40;
+    /* 0x0034 */ Vec3f  lookAt;
+    /* 0x0040 */ Vec3f  up;
     /* 0x0050 */ Vp     vp;
     /* 0x0060 */ Mtx    projection;
     /* 0x00A0 */ Mtx    viewing;
@@ -504,8 +506,8 @@ typedef struct {
 } DbgCamera; // size = 0x10CC;
 
 typedef struct {
-    /* 0x00 */ u8   musicSeq;
-    /* 0x01 */ u8   nighttimeSFX;
+    /* 0x00 */ u8   seqIndex;
+    /* 0x01 */ u8   nightSeqIndex;
     /* 0x02 */ char unk_02[0x2];
 } SoundContext; // size = 0x4
 
@@ -674,10 +676,11 @@ typedef struct {
     /* 0xE3E5 */ u8     choiceIndex;
     /* 0xE3E6 */ char   unk_E3E6[0x01];
     /* 0xE3E7 */ u8     unk_E3E7;
-    /* 0xE3E8 */ char   unk_E3E8[0x6];
+    /* 0xE3E8 */ char   unk_E3E8[0x04];
+    /* 0xE3EC */ u16    unk_E3EC;
     /* 0xE3EE */ u16    unk_E3EE;
     /* 0xE3F0 */ u16    unk_E3F0;
-    /* 0xE3F2 */ char   unk_E3F2[0x02];
+    /* 0xE3F2 */ u16    unk_E3F2;
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
@@ -867,7 +870,8 @@ typedef struct {
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ char     unk_BC[0x03];
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x18];
+    /* 0xC0 */ char     unk_C0[0x16];
+    /* 0xD6 */ s16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -1119,13 +1123,15 @@ typedef struct {
     /* 0x01E2 */ char unk_1E2[0x06];
 } TitleContext; // size = 0x1E8
 
+struct SelectContext;
+
 typedef struct {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
     /* 0x08 */ s32 entranceIndex;
 } SceneSelectEntry; // size = 0xC
 
-typedef struct {
+typedef struct SelectContext {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ s32 unk_A4;
     /* 0x00A8 */ View view;
@@ -1254,7 +1260,8 @@ typedef struct {
 typedef enum {
     DPM_UNK = 0,
     DPM_PLAYER = 1,
-    DPM_ENEMY = 2
+    DPM_ENEMY = 2,
+    DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
 // Some animation related structure
@@ -1814,17 +1821,21 @@ typedef struct {
 } JpegHuffmanTableOld; // size = 0x300
 
 typedef struct {
-    /* 0x00 */ u32 unk_00;
-    /* 0x04 */ u32 unk_04;
-    /* 0x08 */ u32 unk_08;
-    /* 0x0C */ u32 qTablePtrs[3];
+    /* 0x00 */ u32 address;
+    /* 0x04 */ u32 mbCount;
+    /* 0x08 */ u32 mode;
+    /* 0x0C */ u32 qTableYPtr;
+    /* 0x10 */ u32 qTableUPtr;
+    /* 0x14 */ u32 qTableVPtr;
     /* 0x18 */ char unk_18[0x8];
 } JpegTaskData; // size = 0x20
 
 typedef struct {
     /* 0x000 */ JpegTaskData taskData;
     /* 0x020 */ char yieldData[0x200];
-    /* 0x220 */ JpegQuantizationTable qTables[3];
+    /* 0x220 */ JpegQuantizationTable qTableY;
+    /* 0x2A0 */ JpegQuantizationTable qTableU;
+    /* 0x320 */ JpegQuantizationTable qTableV;
     /* 0x3A0 */ u8 codesLengths[0x110];
     /* 0x4B0 */ u16 codes[0x108];
     /* 0x6C0 */ u16 unk_6C0[4][0x180];
@@ -1832,7 +1843,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* imageData;
-    /* 0x04 */ u8 unk_04;
+    /* 0x04 */ u8 mode;
     /* 0x05 */ u8 unk_05;
     /* 0x08 */ JpegHuffmanTable* hTablePtrs[4];
     /* 0x18 */ u8 unk_18;
@@ -1844,7 +1855,7 @@ typedef struct {
     /* 0x10 */ u8 dhtCount;
     /* 0x14 */ u8* dhtPtr[4];
     /* 0x24 */ void* imageData;
-    /* 0x28 */ u32 unk_28; // 0 if Y V0 is 0 and 2 if Y V0 is 2
+    /* 0x28 */ u32 mode; // 0 if Y V0 is 1 and 2 if Y V0 is 2
     /* 0x2C */ char unk_2C[4];
     /* 0x30 */ OSScTask scTask;
     /* 0x88 */ char unk_88[0x10];
@@ -1853,6 +1864,15 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
+typedef struct {
+    /* 0x00 */ u32 byteIdx;
+    /* 0x04 */ u8 bitIdx;
+    /* 0x05 */ u8 dontSkip;
+    /* 0x08 */ u32 curWord;
+    /* 0x0C */ s16 unk_0C;
+    /* 0x0E */ s16 unk_0E;
+    /* 0x10 */ s16 unk_10;
+} JpegDecoderState; // size = 0x14
 
 // Vis...
 typedef struct {

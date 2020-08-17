@@ -136,7 +136,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         sp90.x = polygonDlist->pos.x;
         sp90.y = polygonDlist->pos.y;
         sp90.z = polygonDlist->pos.z;
-        func_800A6E10(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
         temp_f0 = polygonDlist->unk_06;
         if (-temp_f0 < sp84.z) {
             temp_f2 = sp84.z - temp_f0;
@@ -271,7 +271,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
 
     displayListHead++;
-    gSPBranchList(displayListHead, displayListHead + 5);
+    gSPBranchList(displayListHead, (u8*)displayListHead + sizeof(uObjBg));
     bg = (void*)displayListHead;
     bg->b.imageX = 0;
     bg->b.imageW = width * 4;
@@ -511,20 +511,12 @@ void func_80096FD4(GlobalContext* globalCtx, Room* room) {
 #ifdef NON_MATCHING
 // regalloc differences
 u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
-    RomFile* roomList;
-    TransitionActorEntry* transitionActor;
-    s32 i, j;
-    s8 frontRoom;
-    s8 backRoom;
-    u32 roomSize;
-    u32 maxRoomSize;
-    u32 frontRoomSize;
-    u32 backRoomSize;
-    u32 cumulRoomSize;
     u8 nextRoomNum;
+    u32 maxRoomSize = 0;
+    RomFile* roomList = globalCtx->roomList;
+    u32 roomSize;
+    s32 i;
 
-    maxRoomSize = 0;
-    roomList = globalCtx->roomList;
     for (i = 0; i < globalCtx->nbRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
         osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
@@ -534,17 +526,19 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     }
 
     if (globalCtx->nbTransitionActors != 0) {
-        j = 0;
-        roomList = globalCtx->roomList;
-        transitionActor = &globalCtx->transitionActorList[0];
+        s32 j = 0;
+        RomFile* roomList = globalCtx->roomList;
+        TransitionActorEntry* transitionActor = &globalCtx->transitionActorList[0];
+
         LOG_NUM("game_play->room_rom_address.num", globalCtx->nbRooms, "../z_room.c", 912);
 
         for (j = 0; j < globalCtx->nbTransitionActors; j++) {
-            frontRoom = transitionActor->frontRoom;
-            backRoom = transitionActor->backRoom;
-            frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
-            backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
-            cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
+            s8 frontRoom = transitionActor->frontRoom;
+            s8 backRoom = transitionActor->backRoom;
+            u32 frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
+            u32 backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
+            u32 cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
+
             osSyncPrintf("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize,
                          backRoom, backRoomSize);
             if (maxRoomSize < cumulRoomSize) {

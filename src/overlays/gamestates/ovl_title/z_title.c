@@ -19,10 +19,10 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
     GfxPrint_Open(printer, g);
-    GfxPrint_SetColor(printer, 0xFF, 0x9B, 0xFF, 0xFF);
+    GfxPrint_SetColor(printer, 255, 155, 255, 255);
     GfxPrint_SetPos(printer, 9, 21);
     GfxPrint_Printf(printer, "NOT MARIO CLUB VERSION");
-    GfxPrint_SetColor(printer, 0xFF, 0xFF, 0xFF, 0xFF);
+    GfxPrint_SetColor(printer, 255, 255, 255, 255);
     GfxPrint_SetPos(printer, 7, 23);
     GfxPrint_Printf(printer, "[Creator:%s]", gBuildTeam);
     GfxPrint_SetPos(printer, 7, 24);
@@ -128,7 +128,7 @@ void Title_Draw(TitleContext* this) {
 void Title_Main(TitleContext* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     Gfx* dispRefs[5];
-    u32 pad[2];
+    s32 pad[2];
     Gfx* gfx;
 
     Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 494);
@@ -160,7 +160,7 @@ void Title_Destroy(TitleContext* this) {
 
 void Title_Init(TitleContext* this) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
-    u32 pad;
+    s32 pad;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
@@ -178,7 +178,7 @@ void Title_Init(TitleContext* this) {
     func_800A9CD4(&this->state, &this->sram);
     this->ult = 0;
     this->unk_1D4 = 0x14;
-    this->coverAlpha = 0xFF;
+    this->coverAlpha = 255;
     this->addAlpha = -3;
     this->visibleDuration = 0x3C;
 }

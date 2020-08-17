@@ -167,8 +167,7 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPLoadTextureBlock(gfxCtx->polyXlu.p++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-        if (1) {} // Both necessary to match
-        if (1) {}
+        if (1) {} // Necessary to match
 
         gDPSetCombineLERP(gfxCtx->polyXlu.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, 0, 0,
                           0, 0, COMBINED, 0, 0, 0, COMBINED);
@@ -176,8 +175,6 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gSPClearGeometryMode(gfxCtx->polyXlu.p++,
                              G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
         gSPSetGeometryMode(gfxCtx->polyXlu.p++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
-
-        if (1) {} // Also necessary to match
 
         EffectShieldParticle_GetColors(this, &primColor, &envColor);
 
@@ -201,17 +198,17 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
                 temp3 = 1.0f;
             }
 
-            func_800A7A24(&spC4, this->position.x, this->position.y, this->position.z);
-            func_800A7704(&sp104, 0, elem->yaw, 0);
-            func_800A6FA0(&spC4, &sp104, &sp84);
-            func_800A7704(&sp104, 0, 0, elem->pitch);
-            func_800A6FA0(&sp84, &sp104, &spC4);
-            func_800A7A24(&sp104, temp1, 0.0f, 0.0f);
-            func_800A6FA0(&spC4, &sp104, &sp84);
-            func_800A76A4(&sp104, temp3 * 0.02f, 0.02f, 0.02f);
-            func_800A6FA0(&sp84, &sp104, &spC4);
+            SkinMatrix_SetTranslate(&spC4, this->position.x, this->position.y, this->position.z);
+            SkinMatrix_SetRotateRPY(&sp104, 0, elem->yaw, 0);
+            SkinMatrix_MtxFMtxFMult(&spC4, &sp104, &sp84);
+            SkinMatrix_SetRotateRPY(&sp104, 0, 0, elem->pitch);
+            SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
+            SkinMatrix_SetTranslate(&sp104, temp1, 0.0f, 0.0f);
+            SkinMatrix_MtxFMtxFMult(&spC4, &sp104, &sp84);
+            SkinMatrix_SetScale(&sp104, temp3 * 0.02f, 0.02f, 0.02f);
+            SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
 
-            mtx = func_800A7E70(gfxCtx, &spC4);
+            mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spC4);
             if (mtx == NULL) {
                 break;
             }

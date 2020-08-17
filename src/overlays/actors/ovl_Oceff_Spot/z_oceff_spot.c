@@ -33,7 +33,7 @@ const ActorInit Oceff_Spot_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1500, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
 void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
@@ -41,7 +41,7 @@ void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
 }
 
 void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
-    u32 pad;
+    s32 pad;
     OceffSpot* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -64,7 +64,7 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    u32 pad;
+    s32 pad;
     OceffSpot* this = THIS;
     Player* player = PLAYER;
 
@@ -118,7 +118,7 @@ void OceffSpot_GrowCylinder(OceffSpot* this, GlobalContext* globalCtx) {
 
 void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffSpot* this = THIS;
-    u32 pad;
+    s32 pad;
     Player* player = PLAYER;
     f32 temp;
 

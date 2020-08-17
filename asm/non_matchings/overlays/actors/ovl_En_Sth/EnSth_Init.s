@@ -1,6 +1,6 @@
 .rdata
 glabel D_80B0B4C0
-    .asciz "[34m金スタル屋 no = %d\n[m"
+    .asciz "\x1b[34m金スタル屋 no = %d\n\x1b[m"
     .balign 4
 
 glabel D_80B0B4DC
@@ -8,7 +8,7 @@ glabel D_80B0B4DC
     .balign 4
 
 glabel D_80B0B500
-    .asciz "[34m金スタル屋 まだ 人間に戻れない \n[m"
+    .asciz "\x1b[34m金スタル屋 まだ 人間に戻れない \n\x1b[m"
     .balign 4
 
 glabel D_80B0B52C

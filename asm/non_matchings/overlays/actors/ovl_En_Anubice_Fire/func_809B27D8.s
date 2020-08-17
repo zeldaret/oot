@@ -148,7 +148,7 @@ glabel func_809B27D8
 /* 0044C 809B29EC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00450 809B29F0 8FA400C4 */  lw      $a0, 0x00C4($sp)           
 /* 00454 809B29F4 02403025 */  or      $a2, $s2, $zero            ## $a2 = FFFFFFB8
-/* 00458 809B29F8 0C00A3A1 */  jal     func_80028E84              
+/* 00458 809B29F8 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 0045C 809B29FC 02003825 */  or      $a3, $s0, $zero            ## $a3 = FFFFFFC4
 /* 00460 809B2A00 E6340064 */  swc1    $f20, 0x0064($s1)          ## 00000064
 /* 00464 809B2A04 E6340060 */  swc1    $f20, 0x0060($s1)          ## 00000060
