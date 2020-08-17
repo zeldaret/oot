@@ -44,7 +44,7 @@ glabel Camera_Fixed2
 /* AC6BE4 8004FA44 86180142 */  lh    $t8, 0x142($s0)
 /* AC6BE8 8004FA48 46008483 */  div.s $f18, $f16, $f0
 /* AC6BEC 8004FA4C 858D01F0 */  lh    $t5, 0x1f0($t4)
-/* AC6BF0 8004FA50 3C088012 */  lui   $t0, %hi(sCameraSettings)
+/* AC6BF0 8004FA50 3C088012 */  lui   $t0, %hi(sCameraSettings+4)
 /* AC6BF4 8004FA54 0018C8C0 */  sll   $t9, $t8, 3
 /* AC6BF8 8004FA58 448D2000 */  mtc1  $t5, $f4
 /* AC6BFC 8004FA5C 86090144 */  lh    $t1, 0x144($s0)

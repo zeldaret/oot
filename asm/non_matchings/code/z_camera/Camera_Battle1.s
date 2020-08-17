@@ -148,7 +148,7 @@ glabel Camera_Battle1
 /* AC27C4 8004B624 860F0142 */  lh    $t7, 0x142($s0)
 /* AC27C8 8004B628 468021A0 */  cvt.s.w $f6, $f4
 /* AC27CC 8004B62C 44812000 */  mtc1  $at, $f4
-/* AC27D0 8004B630 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC27D0 8004B630 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC27D4 8004B634 000FC0C0 */  sll   $t8, $t7, 3
 /* AC27D8 8004B638 86090144 */  lh    $t1, 0x144($s0)
 /* AC27DC 8004B63C 0338C821 */  addu  $t9, $t9, $t8

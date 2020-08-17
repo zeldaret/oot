@@ -68,7 +68,7 @@ glabel Camera_Parallel1
 /* AC0228 80049088 860F0142 */  lh    $t7, 0x142($s0)
 /* AC022C 8004908C 46123082 */  mul.s $f2, $f6, $f18
 /* AC0230 80049090 46002183 */  div.s $f6, $f4, $f0
-/* AC0234 80049094 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC0234 80049094 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC0238 80049098 000FC0C0 */  sll   $t8, $t7, 3
 /* AC023C 8004909C 86090144 */  lh    $t1, 0x144($s0)
 /* AC0240 800490A0 0338C821 */  addu  $t9, $t9, $t8

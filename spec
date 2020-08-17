@@ -322,7 +322,6 @@ beginseg
     include "build/data/z_lifemeter.data.o"
     include "build/src/code/z_lights.o"
     include "build/data/z_lights.data.o"
-    include "build/data/z_lights.bss.o"
     include "build/src/code/z_malloc.o"
     include "build/src/code/z_map_mark.o"
     include "build/src/code/z_moji.o"
@@ -414,16 +413,16 @@ beginseg
     include "build/src/code/code_800DACC0.o"
     include "build/data/code_800DACC0.data.o"
     include "build/data/code_800DACC0.bss.o"
-    include "build/src/code/code_800DDE20.o"
+    include "build/src/code/audio_heap.o"
     include "build/src/code/code_800E11F0.o"
     include "build/data/code_800E11F0.data.o"
     include "build/data/code_800E11F0.rodata.o"
     include "build/src/libultra_code/code_800E6840.o"
     include "build/src/libultra_code/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
-    include "build/src/code/code_800E88C0.o"
-    include "build/data/code_800E88C0.data.o"
-    include "build/src/code/code_800E9340.o"
+    include "build/src/code/audio_effects.o"
+    include "build/data/audio_effects.data.o"
+    include "build/src/code/audio_seqplayer.o"
     include "build/src/code/code_800EC960.o"
     include "build/data/code_800EC960.data.o"
     include "build/src/code/code_800F7260.o"
@@ -1612,8 +1611,7 @@ endseg
 beginseg
     name "ovl_Demo_Im"
     include "build/src/overlays/actors/ovl_Demo_Im/z_demo_im.o"
-    include "build/data/overlays/actors/z_demo_im.data.o"
-    include "build/data/overlays/actors/z_demo_im.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Im/ovl_Demo_Im_reloc.o"
 endseg
 
 beginseg
@@ -2894,8 +2892,7 @@ endseg
 beginseg
     name "ovl_En_Niw_Girl"
     include "build/src/overlays/actors/ovl_En_Niw_Girl/z_en_niw_girl.o"
-    include "build/data/overlays/actors/z_en_niw_girl.data.o"
-    include "build/data/overlays/actors/z_en_niw_girl.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Niw_Girl/ovl_En_Niw_Girl_reloc.o"
 endseg
 
 beginseg

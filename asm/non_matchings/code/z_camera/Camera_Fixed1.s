@@ -37,7 +37,7 @@ glabel Camera_Fixed1
 /* AC688C 8004F6EC 00000000 */   nop
 .L8004F6F0:
 /* AC6890 8004F6F0 860F0142 */  lh    $t7, 0x142($s0)
-/* AC6894 8004F6F4 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC6894 8004F6F4 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC6898 8004F6F8 86080144 */  lh    $t0, 0x144($s0)
 /* AC689C 8004F6FC 000FC0C0 */  sll   $t8, $t7, 3
 /* AC68A0 8004F700 0338C821 */  addu  $t9, $t9, $t8

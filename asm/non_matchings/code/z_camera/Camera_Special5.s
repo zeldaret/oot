@@ -51,7 +51,7 @@ glabel Camera_Special5
 /* ACD9FC 8005685C 44819000 */  mtc1  $at, $f18
 /* ACDA00 80056860 468021A0 */  cvt.s.w $f6, $f4
 /* ACDA04 80056864 860F0142 */  lh    $t7, 0x142($s0)
-/* ACDA08 80056868 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* ACDA08 80056868 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* ACDA0C 8005686C 86080144 */  lh    $t0, 0x144($s0)
 /* ACDA10 80056870 000FC0C0 */  sll   $t8, $t7, 3
 /* ACDA14 80056874 46009103 */  div.s $f4, $f18, $f0

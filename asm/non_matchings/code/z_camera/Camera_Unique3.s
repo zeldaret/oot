@@ -47,7 +47,7 @@ glabel Camera_Unique3
 /* AC9168 80051FC8 86190142 */  lh    $t9, 0x142($s0)
 /* AC916C 80051FCC 85AE01F0 */  lh    $t6, 0x1f0($t5)
 /* AC9170 80051FD0 46008483 */  div.s $f18, $f16, $f0
-/* AC9174 80051FD4 3C098012 */  lui   $t1, %hi(sCameraSettings)
+/* AC9174 80051FD4 3C098012 */  lui   $t1, %hi(sCameraSettings+4)
 /* AC9178 80051FD8 448E2000 */  mtc1  $t6, $f4
 /* AC917C 80051FDC 001940C0 */  sll   $t0, $t9, 3
 /* AC9180 80051FE0 860A0144 */  lh    $t2, 0x144($s0)

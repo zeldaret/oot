@@ -43,7 +43,7 @@ glabel Camera_Subj3
 /* AC7698 800504F8 0C011495 */  jal   Camera_CopyPREGToModeValues
 /* AC769C 800504FC 02002025 */   move  $a0, $s0
 /* AC76A0 80050500 86190142 */  lh    $t9, 0x142($s0)
-/* AC76A4 80050504 3C0B8012 */  lui   $t3, %hi(sCameraSettings)
+/* AC76A4 80050504 3C0B8012 */  lui   $t3, %hi(sCameraSettings+4)
 /* AC76A8 80050508 860C0144 */  lh    $t4, 0x144($s0)
 /* AC76AC 8005050C 001950C0 */  sll   $t2, $t9, 3
 /* AC76B0 80050510 016A5821 */  addu  $t3, $t3, $t2

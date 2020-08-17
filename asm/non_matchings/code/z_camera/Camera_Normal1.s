@@ -71,7 +71,7 @@ glabel Camera_Normal1
 /* ABE5B0 80047410 860F0142 */  lh    $t7, 0x142($s0)
 /* ABE5B4 80047414 468021A0 */  cvt.s.w $f6, $f4
 /* ABE5B8 80047418 44812000 */  mtc1  $at, $f4
-/* ABE5BC 8004741C 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* ABE5BC 8004741C 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* ABE5C0 80047420 000FC0C0 */  sll   $t8, $t7, 3
 /* ABE5C4 80047424 86080144 */  lh    $t0, 0x144($s0)
 /* ABE5C8 80047428 0338C821 */  addu  $t9, $t9, $t8

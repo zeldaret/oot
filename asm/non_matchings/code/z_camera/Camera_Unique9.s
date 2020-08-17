@@ -104,7 +104,7 @@ glabel Camera_Unique9
 .L80052E58:
 /* AC9FF8 80052E58 86380142 */  lh    $t8, 0x142($s1)
 .L80052E5C:
-/* AC9FFC 80052E5C 3C0A8012 */  lui   $t2, %hi(sCameraSettings)
+/* AC9FFC 80052E5C 3C0A8012 */  lui   $t2, %hi(sCameraSettings+4)
 /* ACA000 80052E60 862B0144 */  lh    $t3, 0x144($s1)
 /* ACA004 80052E64 0018C8C0 */  sll   $t9, $t8, 3
 /* ACA008 80052E68 01595021 */  addu  $t2, $t2, $t9

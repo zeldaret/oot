@@ -35,7 +35,7 @@ glabel Camera_KeepOn0
 /* AC6588 8004F3E8 00000000 */   nop
 .L8004F3EC:
 /* AC658C 8004F3EC 86190142 */  lh    $t9, 0x142($s0)
-/* AC6590 8004F3F0 3C0A8012 */  lui   $t2, %hi(sCameraSettings)
+/* AC6590 8004F3F0 3C0A8012 */  lui   $t2, %hi(sCameraSettings+4)
 /* AC6594 8004F3F4 860B0144 */  lh    $t3, 0x144($s0)
 /* AC6598 8004F3F8 001948C0 */  sll   $t1, $t9, 3
 /* AC659C 8004F3FC 01495021 */  addu  $t2, $t2, $t1

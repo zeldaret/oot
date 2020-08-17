@@ -21,7 +21,7 @@ glabel Camera_Unique7
 /* AC9D68 80052BC8 00000000 */   nop
 .L80052BCC:
 /* AC9D6C 80052BCC 860F0142 */  lh    $t7, 0x142($s0)
-/* AC9D70 80052BD0 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC9D70 80052BD0 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC9D74 80052BD4 86080144 */  lh    $t0, 0x144($s0)
 /* AC9D78 80052BD8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC9D7C 80052BDC 0338C821 */  addu  $t9, $t9, $t8
