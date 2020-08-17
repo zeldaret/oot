@@ -7527,125 +7527,114 @@ s32 func_8005A02C(Camera* camera) {
     return true;
 }
 
-//#define NON_MATCHING
-#ifdef NON_MATCHING
-s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
+s32 Camera_ChangeMode(Camera *camera, s16 mode, u8 flags) {
     static s32 D_8011DB14 = 0;
-    s32 phi_v0;
-    u32 temp_t8;
-    s32 phi_at;
 
     if (QREG(89)) {
         osSyncPrintf("+=+(%d)+=+ recive request -> %s\n", camera->globalCtx->state.frames, sCameraModeNames[mode]);
     }
 
-    if ((camera->unk_14C & 0x20) && (flags == 0)) {
+    if (camera->unk_14C & 0x20 && flags == 0) {
         camera->unk_14A |= 0x20;
         return -1;
-    } else if (!(sCameraSettings[camera->setting].validModes & (1 << mode))) {
+    }
+
+    if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << mode))) {
         if (mode == CAM_MODE_SUBJECT) {
             osSyncPrintf("camera: error sound\n");
             func_80078884(NA_SE_SY_ERROR);
         }
+
         if (camera->mode != CAM_MODE_NORMAL) {
-            osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: change camera mode: force NORMAL: %s %s refused\n" VT_RST,
-                         sCameraSettingNames[camera->setting], sCameraModeNames[mode]);
+            osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: change camera mode: force NORMAL: %s %s refused\n" VT_RST, sCameraSettingNames[camera->setting], sCameraModeNames[mode]);
             camera->mode = CAM_MODE_NORMAL;
             Camera_CopyModeValuesToPREG(camera, camera->mode);
             func_8005A02C(camera);
             return 0xC0000000 | mode;
         } else {
-            camera->unk_14A = (s16)(camera->unk_14A | 0x20);
-            camera->unk_14A = (s16)(camera->unk_14A | 2);
+            camera->unk_14A |= 0x20;
+            camera->unk_14A |= 2;
             return 0;
         }
-    } else if ((mode == camera->mode) && (flags == 0)) {
-        camera->unk_14A |= 0x20;
-        camera->unk_14A |= 2;
-        return -1;
     } else {
+        if (mode == camera->mode) {
+            if (flags == 0) {
+                camera->unk_14A |= 0x20;
+                camera->unk_14A |= 2;
+                return -1;
+            }
+        }
         camera->unk_14A |= 0x20;
         camera->unk_14A |= 2;
-        camera = camera;
         Camera_CopyModeValuesToPREG(camera, mode);
-        temp_t8 = mode - 1;
-        phi_v0 = 0;
-        switch (mode) {
-            default:
+        D_8011DB14 = 0;
+        switch(mode){
+            case 6:
+                D_8011DB14 = 0x20;
                 break;
-            case 6: // switch 1
-                phi_v0 = 0x20;
+            case 4:
+                D_8011DB14 = 4;
                 break;
-            case 4: // switch 1
-                phi_v0 = 4;
-                break;
-            case 2: // switch 1
-                phi_v0 = 0;
-                if (camera->target != NULL) {
-                    phi_v0 = 0;
-                    if (camera->target->id != ACTOR_EN_BOOM) {
-                        phi_v0 = 8;
-                    }
+            case 2:
+                if (camera->target != NULL && camera->target->id != 0x32) {
+                    D_8011DB14 = 8;
                 }
                 break;
-            case 1:  // switch 1
-            case 3:  // switch 1
-            case 8:  // switch 1
-            case 15: // switch 1
-            case 19: // switch 1
-                phi_v0 = 2;
+            case 1:
+            case 3:
+            case 8:
+            case 15:
+            case 19:
+                D_8011DB14 = 2;
                 break;
         }
 
-        switch (camera->mode) {
-            default:
-                break;
-            case 6: // switch 2
-                if ((phi_v0 & 0x20) != 0) {
-                    camera->animState = (u16)0xAU;
+        switch(camera->mode){
+            case 6:
+                if (D_8011DB14 & 0x20) {
+                    camera->animState = (u16)0xA;
                 }
                 break;
-            case 1: // switch 2
-                if ((phi_v0 & 0x10) != 0) {
-                    camera->animState = (u16)0xAU;
+            case 1:
+                if (D_8011DB14 & 0x10) {
+                    camera->animState = 0xA;
                 }
-                phi_v0 |= 1;
+                D_8011DB14 |= 1;
                 break;
-            case 17: // switch 2
-                phi_v0 |= 1;
+            case 17:
+                D_8011DB14 |= 1;
                 break;
-            case 2: // switch 2
-                if ((phi_v0 & 8) != 0) {
-                    camera->animState = (u16)0xAU;
+            case 2:
+                if (D_8011DB14 & 8) {
+                    camera->animState = 0xA;
                 }
-                phi_v0 |= 1;
+                D_8011DB14 |= 1;
                 break;
-            case 4: // switch 2
-                if ((phi_v0 & 4) != 0) {
-                    camera->animState = (u16)0xAU;
+            case 4:
+                if (D_8011DB14 & 4) {
+                    camera->animState = 0xA;
                 }
-                phi_v0 |= 1;
+                D_8011DB14 |= 1;
                 break;
-            case 8:  // switch 2
-            case 15: // switch 2
-            case 19: // switch 2
-                phi_v0 |= 1;
+            case 8:
+            case 15:
+            case 19:
+                D_8011DB14 |= 1;
                 break;
-            case 0: // switch 2
-                if ((phi_v0 & 0x10) != 0) {
-                    camera->animState = (u16)0xAU;
+            case 0:
+                if (D_8011DB14 & 0x10) {
+                    camera->animState = 0xA;
                 }
                 break;
         }
-        phi_v0 &= ~0x10;
-        D_8011DB14 = phi_v0;
-        if (camera->status == 7) {
-            switch (phi_v0) {
+        D_8011DB14 &= ~0x10;
+        if (camera->status == CAM_STATUS_ACTIVE) {
+            switch(D_8011DB14){
                 case 1:
-                    func_80078884(NA_SE_PL_WALK_GROUND - SFX_FLAG);
+                    func_80078884(0);
                     break;
                 case 2:
-                    if (1 == camera->globalCtx->roomCtx.curRoom.unk_03) {
+                    if (camera->globalCtx->roomCtx.curRoom.unk_03 == 1) {
                         func_80078884(NA_SE_SY_ATTENTION_URGENCY);
                     } else {
                         func_80078884(NA_SE_SY_ATTENTION_ON);
@@ -7661,15 +7650,9 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 flags) {
         }
         func_8005A02C(camera);
         camera->mode = mode;
-        phi_at = 0x80000000 | mode;
+        return 0x80000000 | mode;
     }
-    return phi_at;
 }
-#else
-s32 D_8011DB14 = 0;
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeMode.s")
-#endif
-#undef NON_MATCHING
 
 s32 Camera_ChangeModeDefaultFlags(Camera* camera, s16 mode) {
     return Camera_ChangeMode(camera, mode, 0);
