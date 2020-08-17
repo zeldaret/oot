@@ -273,7 +273,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
 
     displayListHead++;
-    gSPBranchList(displayListHead, displayListHead + 5);
+    gSPBranchList(displayListHead, (u8*)displayListHead + sizeof(uObjBg));
     bg = (void*)displayListHead;
     bg->b.imageX = 0;
     bg->b.imageW = width * 4;

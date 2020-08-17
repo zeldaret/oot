@@ -48,7 +48,7 @@ glabel Camera_Normal3
 /* ABF9E8 80048848 00000000 */   nop
 .L8004884C:
 /* ABF9EC 8004884C 860F0142 */  lh    $t7, 0x142($s0)
-/* ABF9F0 80048850 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* ABF9F0 80048850 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* ABF9F4 80048854 86080144 */  lh    $t0, 0x144($s0)
 /* ABF9F8 80048858 000FC0C0 */  sll   $t8, $t7, 3
 /* ABF9FC 8004885C 0338C821 */  addu  $t9, $t9, $t8

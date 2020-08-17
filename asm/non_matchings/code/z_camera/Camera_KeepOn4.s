@@ -180,7 +180,7 @@ glabel Camera_KeepOn4
 /* AC5740 8004E5A0 3C014288 */  li    $at, 0x42880000 # 0.000000
 /* AC5744 8004E5A4 44814000 */  mtc1  $at, $f8
 /* AC5748 8004E5A8 86380142 */  lh    $t8, 0x142($s1)
-/* AC574C 8004E5AC 3C088012 */  lui   $t0, %hi(sCameraSettings)
+/* AC574C 8004E5AC 3C088012 */  lui   $t0, %hi(sCameraSettings+4)
 /* AC5750 8004E5B0 46004283 */  div.s $f10, $f8, $f0
 /* AC5754 8004E5B4 0018C8C0 */  sll   $t9, $t8, 3
 /* AC5758 8004E5B8 86290144 */  lh    $t1, 0x144($s1)
