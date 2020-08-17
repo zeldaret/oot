@@ -44,11 +44,13 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     return true;
 }
 
-#ifdef NON_MATCHING
 /**
  * Creates a line segment which is perpendicular to the line segments `lineAPointA`->`lineAPointB` and
  * `lineBPointA`->`lineBPointB`
  *
+*
+#ifdef NON_MATCHING
+/**
  * NON_MATCHING:
  * Lots of regalloc, but is functionally equivilent, some reordering.
  */
@@ -1898,7 +1900,7 @@ s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
             minDistSq = distFromPointAToIntersectASq;
         }
     }
-    // what is 1.e38f ?
+    
     if (minDistSq != 1.e38f) {
         return true;
     }
