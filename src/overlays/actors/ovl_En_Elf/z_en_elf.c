@@ -43,6 +43,8 @@ void func_80A02B38(EnElf* this, GlobalContext* globalCtx);
 void func_80A020A4(EnElf* this, GlobalContext* globalCtx);
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx);
 
+void func_80A04414(EnElf* this, GlobalContext* globalCtx);
+
 void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife);
 
 const ActorInit En_Elf_InitVars = {
@@ -191,8 +193,8 @@ void func_80A01C38(EnElf* this, s32 arg1) {
     }
 }
 
-s32 func_80A01F90(Vec3f* arg0, Vec3f* arg1, f32 arg2) {
-    return SQ(arg2) < SQ(arg1->x - arg0->x) + SQ(arg1->z - arg0->z);
+s32 func_80A01F90(Vec3f* this, Vec3f* arg1, f32 arg2) {
+    return SQ(arg2) < SQ(arg1->x - this->x) + SQ(arg1->z - this->z);
 }
 
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
@@ -403,22 +405,27 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2A0 = 3.0f;
-    this->unk_244 = D_80A06024[0];
+    this->innerColor = D_80A06024[0];
 
     if (colorConfig > 0) {
-        this->unk_254.r = func_80A023A4(D_80A06064[colorConfig].r);
-        this->unk_254.g = func_80A023A4(D_80A06064[colorConfig].g);
-        this->unk_254.b = func_80A023A4(D_80A06064[colorConfig].b);
-        this->unk_254.a = 0.0f;
+        this->outerColor.r = func_80A023A4(D_80A06064[colorConfig].r);
+        this->outerColor.g = func_80A023A4(D_80A06064[colorConfig].g);
+        this->outerColor.b = func_80A023A4(D_80A06064[colorConfig].b);
+        this->outerColor.a = 0.0f;
     } else {
-        this->unk_244 = D_80A06024[-colorConfig];
-        this->unk_254 = D_80A06044[-colorConfig];
+        this->innerColor = D_80A06024[-colorConfig];
+        this->outerColor = D_80A06044[-colorConfig];
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A0299C.s")
+void func_80A0299C(EnElf* this, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A029A8.s")
+void func_80A029A8(EnElf* this, s16 arg1) {
+    if (this->dissapearTimer < 600) {
+        this->dissapearTimer += arg1;
+    }
+}
 
 void EnElf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -459,7 +466,7 @@ void func_80A02B38(EnElf* this, GlobalContext* globalCtx) {
     this->unk_28C.x = Math_Coss(player->actor.shape.rot.y) * this->unk_28C.x;
     this->unk_2AC += this->unk_2B0;
 }
-
+// better name for attachedToPos
 void func_80A02BD8(EnElf* this, Vec3f* attachedToPos, f32 arg2) {
     f32 yVelTarget;
     f32 yVelDirection;
@@ -495,9 +502,22 @@ void func_80A02C98(EnElf* this, Vec3f* attachedToPos, f32 arg2) {
     func_8002D7EC(&this->actor);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A02E30.s")
+void func_80A02E30(EnElf* this, Vec3f* vec) {
+    func_80A02BD8(this, vec, 0.2f);
+    this->actor.velocity.x = (vec->x + this->unk_28C.x) - this->actor.posRot.pos.x;
+    this->actor.velocity.z = (vec->z + this->unk_28C.z) - this->actor.posRot.pos.z;
+    func_8002D7EC(&this->actor);
+    this->actor.posRot.pos.x = vec->x + this->unk_28C.x;
+    this->actor.posRot.pos.z = vec->z + this->unk_28C.z;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A02EC0.s")
+void func_80A02EC0(EnElf* this, Vec3f* arg1) {
+    func_80A02BD8(this, arg1, 0.2f);
+    this->actor.velocity.x = this->actor.velocity.z = 0.0f;
+    func_8002D7EC(&this->actor);
+    this->actor.posRot.pos.x = arg1->x + this->unk_28C.x;
+    this->actor.posRot.pos.z = arg1->z + this->unk_28C.z;
+}
 
 void func_80A02F2C(EnElf* this, Vec3f* vec) {
     f32 yVelTarget;
@@ -543,9 +563,37 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->unk_2BC;
     Actor_MoveForward(&this->actor);
 }
-
-void func_80A03148(EnElf* , Vec3f*, f32, f32, f32);
+void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03148.s")
+/*
+void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
+    f32 xzVelocity;
+    f32 xzVelScale;
+    f32 xVelTarget;
+    f32 zVelTarget;
+    f32 clampedXZ;
+
+    xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg4;
+    zVelTarget = ((arg1->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg4;
+
+    func_80A02BD8(this, arg1, arg4 + 0.3f);
+    arg3 += 30.0f;
+
+    xzVelocity = sqrtf(SQ(xVelTarget) + SQ(zVelTarget));
+    clampedXZ = CLAMP(xzVelocity, arg2, arg3);
+    this->actor.speedXZ = clampedXZ;
+
+    if ((xzVelocity != clampedXZ) && (xzVelocity != 0.0f)) {
+        xzVelScale = clampedXZ / xzVelocity;
+        zVelTarget *= xzVelScale;
+        xVelTarget *= xzVelScale;
+    }
+
+    Math_ApproxF(&this->actor.velocity.x, xVelTarget, 5.0f);
+    Math_ApproxF(&this->actor.velocity.z, zVelTarget, 5.0f);
+    func_8002D7EC(this);
+}
+*/
 
 void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     Player* refActor = PLAYER;
@@ -740,15 +788,119 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03AB0.s")
+void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
+    if ((this->flags & 4) != 0) {
+        func_80A04414(this, globalCtx);
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03B28.s")
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
+    if (this->unk_2C8 == 0) {
+        __assert("0", "../z_en_elf.c", 1725);
+    }
+
+    this->unk_2C8(this, globalCtx);
+}
+
+void func_80A03B28(EnElf* this, GlobalContext* globalCtx) {
+    s16 light2Radius;
+    Player* player;
+
+    light2Radius = 100;
+
+    if (this->unk_2A8 == 8) {
+        light2Radius = 0;
+    }
+
+    if ((this->flags & 0x20) != 0) {
+        player = PLAYER;
+        Lights_InitType0PositionalLight(&this->lightInfoPos3, player->actor.posRot.pos.x,
+                                        (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 0xFF,
+                                        0xFF, 0xFF, 0xC8);
+    } else {
+        Lights_InitType0PositionalLight(&this->lightInfoPos3, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                                        this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, -1);
+    }
+
+    Lights_InitType2PositionalLight(&this->lightInfoPos2, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                                    this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, light2Radius);
+
+    this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
+
+    Actor_SetScale(this, this->actor.scale.x);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A0438C.s")
+// EnElf_ChangeColor
+void func_80A0438C(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* curColor, f32 rate) {
+    Color_RGBAf rgbaDiff;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04414.s")
+    rgbaDiff.r = (newColor->r - curColor->r);
+    rgbaDiff.g = (newColor->g - curColor->g);
+    rgbaDiff.b = (newColor->b - curColor->b);
+    rgbaDiff.a = (newColor->a - curColor->a);
+
+    dest->r += (rgbaDiff.r * rate);
+    dest->g += (rgbaDiff.g * rate);
+    dest->b += (rgbaDiff.b * rate);
+    dest->a += (rgbaDiff.a * rate);
+}
+
+void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
+    Actor* arrowPointedActor = globalCtx->actorCtx.targetCtx.arrowPointedActor;
+    Player* player = PLAYER;
+    f32 transitionRate;
+    u16 targetSfxID;
+
+    if (globalCtx->actorCtx.targetCtx.unk_40 != 0.0f) {
+        this->unk_2C6 = 0;
+        this->unk_29C = 1.0f;
+
+        if (this->unk_2C7 == 0) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
+        }
+
+    } else {
+        if (this->unk_2C6 == 0) {
+            if ((arrowPointedActor == NULL) ||
+                (Math_Vec3f_DistXYZ(&this->actor.posRot, &globalCtx->actorCtx.targetCtx) < 50.0f)) {
+                this->unk_2C6 = 1;
+            }
+        } else if (this->unk_29C != 0.0f) {
+            if (Math_ApproxF(&this->unk_29C, 0.0f, 0.25f) != 0) {
+                this->innerColor = globalCtx->actorCtx.targetCtx.naviInner;
+                this->outerColor = globalCtx->actorCtx.targetCtx.naviOuter;
+            } else {
+                transitionRate = 0.25f / this->unk_29C;
+                func_80A0438C(&this->innerColor, &globalCtx->actorCtx.targetCtx.naviInner, &this->innerColor,
+                              transitionRate);
+                func_80A0438C(&this->outerColor, &globalCtx->actorCtx.targetCtx.naviOuter, &this->outerColor,
+                              transitionRate);
+            }
+        }
+    }
+
+    if (this->flags & 1) {
+        if ((arrowPointedActor == NULL) || (player->unk_664 == NULL)) {
+            this->flags ^= 1;
+        }
+    } else {
+        if ((arrowPointedActor != NULL) && (player->unk_664 != NULL)) {
+            if (arrowPointedActor->type == ACTORTYPE_NPC) {
+                targetSfxID = NA_SE_VO_NAVY_HELLO;
+            } else {
+                targetSfxID = (arrowPointedActor->type == ACTORTYPE_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+            }
+
+            if (this->unk_2C7 == 0) {
+                Audio_PlayActorSound2(this, targetSfxID);
+            }
+
+            this->flags |= 1;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A0461C.s")
 
@@ -765,21 +917,27 @@ void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife)
     sparklePos.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
     sparklePos.z = Math_Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.z;
 
-    primColor.r = this->unk_244.r;
-    primColor.g = this->unk_244.g;
-    primColor.b = this->unk_244.b;
+    primColor.r = this->innerColor.r;
+    primColor.g = this->innerColor.g;
+    primColor.b = this->innerColor.b;
 
-    envColor.r = this->unk_254.r;
-    envColor.g = this->unk_254.g;
-    envColor.b = this->unk_254.b;
+    envColor.r = this->outerColor.r;
+    envColor.g = this->outerColor.g;
+    envColor.b = this->outerColor.b;
 
     func_80028BB0(globalCtx, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor, 1000, sparkleLife);
 }
 
-void func_80A04D90(EnElf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04D90.s")
+void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
+    s32 pad;
+    u32 player;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04DE4.s")
+    this->actor.groundY = func_8003CA0C(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &player, &this->actor,
+                                        &this->actor.posRot.pos);
+    this->actor.shape.unk_14 = 0x32;
+}
+
+// moving to talk to link
 void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     Vec3f posRot2Copy;
     Player* player = PLAYER;
@@ -789,9 +947,9 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
         naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
 
         if (((player->unk_664 == NULL) || (&player->actor == player->unk_664)) || (&this->actor == player->unk_664)) {
-            naviRefPos.x = (Math_Sins(player->actor.shape.rot.y) * 20.0f) + player->unk_908[7].x;
+            naviRefPos.x = player->unk_908[7].x + (Math_Sins(player->actor.shape.rot.y) * 20.0f);
             naviRefPos.y = player->unk_908[7].y + 5.0f;
-            naviRefPos.z = (Math_Coss(player->actor.shape.rot.y) * 20.0f) + player->unk_908[7].z;
+            naviRefPos.z = player->unk_908[7].z + (Math_Coss(player->actor.shape.rot.y) * 20.0f);
         }
 
         this->actor.posRot2.pos = naviRefPos;
@@ -811,7 +969,15 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     func_80A03B28(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A04F94.s")
+// moving after talking to link
+void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_2BC, 5, 0x1000, 0x400);
+    this->timer++;
+    Math_ApproxF(&this->unk_2A4, 1.0f, 0.05f);
+    func_800773A8(globalCtx, SQ(this->unk_2A4), player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
+}
 
 // talk to saria again?
 void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
@@ -926,7 +1092,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
-    u8 temp2C7;
+    u8 rgbaDiff2C7;
     s32 pad;
     Player* player = PLAYER;
     EnElf* this = THIS;
@@ -997,8 +1163,8 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         func_800773A8(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
     }
 
-    temp2C7 = this->unk_2C7;
-    if (temp2C7 > 0) {
+    rgbaDiff2C7 = this->unk_2C7;
+    if (rgbaDiff2C7 > 0) {
         this->unk_2C7--;
     }
 
@@ -1080,8 +1246,8 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             gSPSegment(gfxCtx->polyXlu.p++, 0x08, dList);
             gDPPipeSync(dList++);
-            gDPSetPrimColor(dList++, 0, 0x01, (u8)this->unk_244.r, (u8)this->unk_244.g, (u8)this->unk_244.b,
-                            (u8)(this->unk_244.a * alphaScale));
+            gDPSetPrimColor(dList++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g, (u8)this->innerColor.b,
+                            (u8)(this->innerColor.a * alphaScale));
 
             if ((this->flags & 4) != 0) {
                 gDPSetRenderMode(dList++, G_RM_PASS, G_RM_CLD_SURF2);
@@ -1090,7 +1256,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             gSPEndDisplayList(dList++);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, (u8)this->unk_254.r, (u8)this->unk_254.g, (u8)this->unk_254.b,
+            gDPSetEnvColor(gfxCtx->polyXlu.p++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
             gfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                 EnElf_OverrideLimbDraw, 0, &this->actor, gfxCtx->polyXlu.p);
