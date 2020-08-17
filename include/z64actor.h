@@ -350,9 +350,9 @@ typedef struct Player {
     /* 0x0968 */ char       unk_968[0x78];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       mf_A20;
-    /* 0x0A60 */ char       unk_A60[0x08];
-    /* 0x0A68 */ s8         unk_A68;
-    /* 0x0A69 */ char       unk_A6A[0x0F];
+    /* 0x0A60 */ u8         unk_A60;
+    /* 0x0A61 */ u8         unk_A61[18];
+    /* 0x0A73 */ char       unk_A73[5];
 
     /* 0x0A78 */ s8         invincibilityTimer; // Take no damage if this value is nonzero
     // Positive induces red flashing, negative does not
