@@ -1215,11 +1215,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/ovl_Bg_Spot01_Idohashira_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1949,15 +1945,13 @@ endseg
 beginseg
     name "ovl_Elf_Msg"
     include "build/src/overlays/actors/ovl_Elf_Msg/z_elf_msg.o"
-    include "build/data/overlays/actors/z_elf_msg.data.o"
-    include "build/data/overlays/actors/z_elf_msg.reloc.o"
+    include "build/src/overlays/actors/ovl_Elf_Msg/ovl_Elf_Msg_reloc.o"
 endseg
 
 beginseg
     name "ovl_Elf_Msg2"
     include "build/src/overlays/actors/ovl_Elf_Msg2/z_elf_msg2.o"
-    include "build/data/overlays/actors/z_elf_msg2.data.o"
-    include "build/data/overlays/actors/z_elf_msg2.reloc.o"
+    include "build/src/overlays/actors/ovl_Elf_Msg2/ovl_Elf_Msg2_reloc.o"
 endseg
 
 beginseg
@@ -2138,11 +2132,7 @@ endseg
 beginseg
     name "ovl_En_Bx"
     include "build/src/overlays/actors/ovl_En_Bx/z_en_bx.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Bx/ovl_En_Bx_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_bx.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2527,11 +2517,7 @@ endseg
 beginseg
     name "ovl_En_Gs"
     include "build/src/overlays/actors/ovl_En_Gs/z_en_gs.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Gs/ovl_En_Gs_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_gs.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2682,7 +2668,11 @@ endseg
 beginseg
     name "ovl_En_Insect"
     include "build/src/overlays/actors/ovl_En_Insect/z_en_insect.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Insect/ovl_En_Insect_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_insect.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3398,8 +3388,7 @@ endseg
 beginseg
     name "ovl_En_Yukabyun"
     include "build/src/overlays/actors/ovl_En_Yukabyun/z_en_yukabyun.o"
-    include "build/data/overlays/actors/z_en_yukabyun.data.o"
-    include "build/data/overlays/actors/z_en_yukabyun.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Yukabyun/ovl_En_Yukabyun_reloc.o"
 endseg
 
 beginseg
