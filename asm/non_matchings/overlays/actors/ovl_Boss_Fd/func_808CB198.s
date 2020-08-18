@@ -85,7 +85,7 @@ glabel func_808CB198
 /* 00508 808CB2C8 E6081418 */  swc1    $f8, 0x1418($s0)           ## 00001418
 /* 0050C 808CB2CC 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 00510 808CB2D0 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 00514 808CB2D4 0C030136 */  jal     func_800C04D8              
+/* 00514 808CB2D4 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 00518 808CB2D8 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0051C 808CB2DC 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 00520 808CB2E0 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD

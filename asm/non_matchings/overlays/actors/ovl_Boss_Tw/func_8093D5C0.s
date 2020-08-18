@@ -1754,7 +1754,7 @@ glabel L8093ECEC
 .L8093EDE4:
 /* 06114 8093EDE4 8FA400A4 */  lw      $a0, 0x00A4($sp)
 /* 06118 8093EDE8 02603025 */  or      $a2, $s3, $zero            ## $a2 = 0000060C
-/* 0611C 8093EDEC 0C030136 */  jal     func_800C04D8
+/* 0611C 8093EDEC 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 06120 8093EDF0 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000600
 .L8093EDF4:
 /* 06124 8093EDF4 8FBF0034 */  lw      $ra, 0x0034($sp)

@@ -425,7 +425,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         Audio_PlayActorSound2(this, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
-        func_800C078C(globalCtx, 0, -1);
+        Gameplay_CopyCamera(globalCtx, 0, -1);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
     }

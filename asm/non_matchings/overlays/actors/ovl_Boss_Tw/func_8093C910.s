@@ -234,12 +234,12 @@ glabel func_8093C910
 /* 03F4C 8093CC1C 15400006 */  bne     $t2, $zero, .L8093CC38
 /* 03F50 8093CC20 26260630 */  addiu   $a2, $s1, 0x0630           ## $a2 = 00000630
 /* 03F54 8093CC24 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 03F58 8093CC28 0C030136 */  jal     func_800C04D8
+/* 03F58 8093CC28 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 03F5C 8093CC2C 2626060C */  addiu   $a2, $s1, 0x060C           ## $a2 = 0000060C
 /* 03F60 8093CC30 10000004 */  beq     $zero, $zero, .L8093CC44
 /* 03F64 8093CC34 86220440 */  lh      $v0, 0x0440($s1)           ## 00000440
 .L8093CC38:
-/* 03F68 8093CC38 0C030136 */  jal     func_800C04D8
+/* 03F68 8093CC38 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 03F6C 8093CC3C 26270624 */  addiu   $a3, $s1, 0x0624           ## $a3 = 00000624
 /* 03F70 8093CC40 86220440 */  lh      $v0, 0x0440($s1)           ## 00000440
 .L8093CC44:

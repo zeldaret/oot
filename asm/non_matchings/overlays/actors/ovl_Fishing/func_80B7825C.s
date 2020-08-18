@@ -1438,7 +1438,7 @@ glabel L80B7955C
 /* 0FBCC 80B7956C 3C0780B8 */  lui     $a3, %hi(D_80B7FEA8)       ## $a3 = 80B80000
 /* 0FBD0 80B79570 24E7FEA8 */  addiu   $a3, $a3, %lo(D_80B7FEA8)  ## $a3 = 80B7FEA8
 /* 0FBD4 80B79574 24C6FEB8 */  addiu   $a2, $a2, %lo(D_80B7FEB8)  ## $a2 = 80B7FEB8
-/* 0FBD8 80B79578 0C030136 */  jal     func_800C04D8              
+/* 0FBD8 80B79578 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 0FBDC 80B7957C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0FBE0 80B79580 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 0FBE4 80B79584 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00

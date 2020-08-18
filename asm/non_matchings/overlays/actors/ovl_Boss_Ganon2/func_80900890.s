@@ -411,7 +411,7 @@ glabel L80900E4C
 /* 03F14 80900E54 260603B0 */  addiu   $a2, $s0, 0x03B0           ## $a2 = 000003B0
 /* 03F18 80900E58 50A00004 */  beql    $a1, $zero, .L80900E6C
 /* 03F1C 80900E5C 860201AC */  lh      $v0, 0x01AC($s0)           ## 000001AC
-/* 03F20 80900E60 0C030136 */  jal     func_800C04D8
+/* 03F20 80900E60 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 03F24 80900E64 260703A4 */  addiu   $a3, $s0, 0x03A4           ## $a3 = 000003A4
 /* 03F28 80900E68 860201AC */  lh      $v0, 0x01AC($s0)           ## 000001AC
 .L80900E6C:

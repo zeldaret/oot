@@ -42,7 +42,7 @@ glabel func_80B14E28
 /* 01414 80B14EB4 862502D0 */  lh      $a1, 0x02D0($s1)           ## 000002D0
 /* 01418 80B14EB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0141C 80B14EBC 27A60020 */  addiu   $a2, $sp, 0x0020           ## $a2 = FFFFFFE8
-/* 01420 80B14EC0 0C030136 */  jal     func_800C04D8              
+/* 01420 80B14EC0 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 01424 80B14EC4 27A7002C */  addiu   $a3, $sp, 0x002C           ## $a3 = FFFFFFF4
 /* 01428 80B14EC8 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0142C 80B14ECC 8FB00014 */  lw      $s0, 0x0014($sp)           

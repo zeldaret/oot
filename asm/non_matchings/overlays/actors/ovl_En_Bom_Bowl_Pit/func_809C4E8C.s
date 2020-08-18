@@ -176,7 +176,7 @@ glabel func_809C4E8C
 /* 002C0 809C5100 46000005 */  abs.s   $f0, $f0                   
 /* 002C4 809C5104 E61201D8 */  swc1    $f18, 0x01D8($s0)          ## 000001D8
 /* 002C8 809C5108 46020202 */  mul.s   $f8, $f0, $f2              
-/* 002CC 809C510C 0C030136 */  jal     func_800C04D8              
+/* 002CC 809C510C 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 002D0 809C5110 E60801DC */  swc1    $f8, 0x01DC($s0)           ## 000001DC
 /* 002D4 809C5114 240E000F */  addiu   $t6, $zero, 0x000F         ## $t6 = 0000000F
 /* 002D8 809C5118 A60E010E */  sh      $t6, 0x010E($s0)           ## 0000010E

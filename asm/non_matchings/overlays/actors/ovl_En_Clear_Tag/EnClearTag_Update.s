@@ -854,7 +854,7 @@ glabel EnClearTag_Update
 /* 011F0 809D47A0 8FA400CC */  lw      $a0, 0x00CC($sp)           
 /* 011F4 809D47A4 862501E2 */  lh      $a1, 0x01E2($s1)           ## 000001E2
 /* 011F8 809D47A8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 000001F0
-/* 011FC 809D47AC 0C030136 */  jal     func_800C04D8              
+/* 011FC 809D47AC 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 01200 809D47B0 8FA70038 */  lw      $a3, 0x0038($sp)           
 .L809D47B4:
 /* 01204 809D47B4 862D01FC */  lh      $t5, 0x01FC($s1)           ## 000001FC

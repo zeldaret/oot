@@ -181,8 +181,8 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_E2[2] = 0xFF;
         globalCtx->envCtx.unk_E2[3] = 0x18;
         globalCtx->envCtx.unk_E1 = 1;
-        func_800C04D8(globalCtx, this->unk_1E8, &vec1, &vec2);
-        func_800C0704(globalCtx, this->unk_1E8, 30.0f);
+        Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &vec1, &vec2);
+        Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 30.0f);
         ShrinkWindow_SetVal(0x20);
         Interface_ChangeAlpha(2);
         player->actor.posRot.pos = playerPos;
@@ -237,8 +237,8 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 1:
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 globalCtx->envCtx.unk_E1 = 0;
-                func_800C04D8(globalCtx, this->unk_1E8, &sp74, &sp68);
-                func_800C0704(globalCtx, this->unk_1E8, 25.0f);
+                Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
+                Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
                 player->actor.posRot.pos = sp58;
                 this->actor.textId = 0x702F;
                 func_8010B720(globalCtx, this->actor.textId);
@@ -408,8 +408,8 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
             this->actor.velocity.z = (sp68.z - sp74.z) / actionLength;
         }
         func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.posRot2.pos);
-        func_800C04D8(globalCtx, this->unk_1E8, &sp98, &sp8C);
-        func_800C0704(globalCtx, this->unk_1E8, 70.0f);
+        Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp98, &sp8C);
+        Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 70.0f);
     }
 }
 
@@ -514,7 +514,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
         case 2:
             if (func_8002F410(this, globalCtx) != 0) {
-                func_800C078C(globalCtx, 0, this->unk_1E8);
+                Gameplay_CopyCamera(globalCtx, 0, this->unk_1E8);
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
                 Gameplay_ClearCamera(globalCtx, this->unk_1E8);
                 this->actor.attachedA = NULL;

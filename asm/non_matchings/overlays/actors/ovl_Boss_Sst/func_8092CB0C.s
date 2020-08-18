@@ -70,7 +70,7 @@ glabel func_8092CB0C
 /* 00644 8092CC14 3C078093 */  lui     $a3, %hi(D_80937358)       ## $a3 = 80930000
 /* 00648 8092CC18 24E77358 */  addiu   $a3, $a3, %lo(D_80937358)  ## $a3 = 80937358
 /* 0064C 8092CC1C 84A58CC4 */  lh      $a1, %lo(D_80938CC4)($a1)  
-/* 00650 8092CC20 0C030136 */  jal     func_800C04D8              
+/* 00650 8092CC20 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 00654 8092CC24 24C6734C */  addiu   $a2, $a2, %lo(D_8093734C)  ## $a2 = 8093734C
 /* 00658 8092CC28 3C041001 */  lui     $a0, 0x1001                ## $a0 = 10010000
 /* 0065C 8092CC2C 0C03E803 */  jal     Audio_SetBGM

@@ -1588,23 +1588,23 @@ Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId) {
     return globalCtx->cameraPtrs[camIdx];
 }
 
-s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3) {
+s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye) {
     s32 ret = 0;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, 1, arg2);
+    ret |= Camera_SetParam(camera, 1, at);
     ret <<= 1;
-    ret |= Camera_SetParam(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, eye);
 
-    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
     player = camera->player;
     if (player != NULL) {
-        camera->posOffset.x = arg2->x - player->actor.posRot.pos.x;
-        camera->posOffset.y = arg2->y - player->actor.posRot.pos.y;
-        camera->posOffset.z = arg2->z - player->actor.posRot.pos.z;
+        camera->posOffset.x = at->x - player->actor.posRot.pos.x;
+        camera->posOffset.y = at->y - player->actor.posRot.pos.y;
+        camera->posOffset.z = at->z - player->actor.posRot.pos.z;
     } else {
         camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
@@ -1614,25 +1614,25 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
     return ret;
 }
 
-s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {
+s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
     s32 ret = 0;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, 1, arg2);
+    ret |= Camera_SetParam(camera, 1, at);
     ret <<= 1;
-    ret |= Camera_SetParam(camera, 2, arg3);
+    ret |= Camera_SetParam(camera, 2, eye);
     ret <<= 1;
-    ret |= Camera_SetParam(camera, 4, arg4);
+    ret |= Camera_SetParam(camera, 4, up);
 
-    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
     player = camera->player;
     if (player != NULL) {
-        camera->posOffset.x = arg2->x - player->actor.posRot.pos.x;
-        camera->posOffset.y = arg2->y - player->actor.posRot.pos.y;
-        camera->posOffset.z = arg2->z - player->actor.posRot.pos.z;
+        camera->posOffset.x = at->x - player->actor.posRot.pos.x;
+        camera->posOffset.y = at->y - player->actor.posRot.pos.y;
+        camera->posOffset.z = at->z - player->actor.posRot.pos.z;
     } else {
         camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
@@ -1642,23 +1642,23 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
     return ret;
 }
 
-s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2) {
-    s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1;
-    if (1) {}
+s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov) {
+    s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], 0x20, &fov) & 1;
+    if(1){}
     return ret;
 }
 
-s32 func_800C0744(GlobalContext* globalCtx, s16 camId, s16 arg2) {
+s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll) {
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
     Camera* camera;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    camera->roll = arg2;
+    camera->roll = roll;
 
     return 1;
 }
 
-void func_800C078C(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
+void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
     s16 camIdx2 = (camId2 == -1) ? globalCtx->activeCamera : camId2;
     s16 camIdx1 = (camId1 == -1) ? globalCtx->activeCamera : camId1;
 
@@ -1674,8 +1674,8 @@ s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3)
     return Camera_ChangeSetting(camera, arg3);
 }
 
-void func_800C0874(GlobalContext* globalCtx, s16 camId, s16 arg2) {
-    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, camId), arg2);
+void Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 setting) {
+    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, camId), setting);
 }
 
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
@@ -1694,14 +1694,14 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     }
 
     if (arg2 <= 0) {
-        Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_ACTIVE);
         globalCtx->cameraPtrs[0]->childCamIdx = globalCtx->cameraPtrs[0]->parentCamIdx = 0;
     } else {
         func_800800F8(globalCtx, 1020, arg2, NULL, 0);
     }
 }
 
-s16 func_800C09A4(GlobalContext* globalCtx, s16 camId) {
+s16 Gameplay_CameraGetUID(GlobalContext* globalCtx, s16 camId) {
     Camera* camera = globalCtx->cameraPtrs[camId];
 
     if (camera != NULL) {

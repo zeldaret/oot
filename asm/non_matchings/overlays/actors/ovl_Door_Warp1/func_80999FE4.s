@@ -27,7 +27,7 @@ glabel func_80999FE4
 /* 018C4 8099A044 3C06809A */  lui     $a2, %hi(D_8099CCA2)       ## $a2 = 809A0000
 /* 018C8 8099A048 84C6CCA2 */  lh      $a2, %lo(D_8099CCA2)($a2)  
 /* 018CC 8099A04C 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 018D0 8099A050 0C0301E3 */  jal     func_800C078C              
+/* 018D0 8099A050 0C0301E3 */  jal     Gameplay_CopyCamera              
 /* 018D4 8099A054 2405FFFF */  addiu   $a1, $zero, 0xFFFF         ## $a1 = FFFFFFFF
 /* 018D8 8099A058 3C05809A */  lui     $a1, %hi(D_8099CCA2)       ## $a1 = 809A0000
 /* 018DC 8099A05C 84A5CCA2 */  lh      $a1, %lo(D_8099CCA2)($a1)  

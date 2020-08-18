@@ -826,7 +826,7 @@ glabel L808C23A8
 /* 016C4 808C2854 C608020C */  lwc1    $f8, 0x020C($s0)           ## 0000020C
 /* 016C8 808C2858 E7A80050 */  swc1    $f8, 0x0050($sp)
 /* 016CC 808C285C 860501B4 */  lh      $a1, 0x01B4($s0)           ## 000001B4
-/* 016D0 808C2860 0C030179 */  jal     func_800C05E4
+/* 016D0 808C2860 0C030179 */  jal     Gameplay_CameraSetAtEyeUp
 /* 016D4 808C2864 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 016D8 808C2868 8FBF002C */  lw      $ra, 0x002C($sp)
 .L808C286C:

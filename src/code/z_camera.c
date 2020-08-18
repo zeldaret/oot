@@ -5952,7 +5952,7 @@ s32 Camera_Demo5(Camera *camera) {
     VecSph sp78;
     PosRot sp64;
     PosRot sp50;
-    struct Player *sp4C;
+    Player *player;
     s16 sp4A;
     s32 pad;
     s32 temp_v0;
@@ -5960,11 +5960,11 @@ s32 Camera_Demo5(Camera *camera) {
     s32 pad2;
 
     func_8002EEE4(&sp64, &camera->player->actor);
-    sp4C = camera->player;
+    player = camera->player;
     sCameraInterfaceFlags = 0x3200;
     if ((camera->target == NULL) || (camera->target->update == NULL)) {
         if (camera->target == NULL) {
-            osSyncPrintf("\x1b[43;30mcamera: warning: attention: target is not valid, stop!\n\x1b[m");
+            osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: attention: target is not valid, stop!\n" VT_RST);
         }
         camera->target = NULL;
         return true;
@@ -6062,7 +6062,7 @@ s32 Camera_Demo5(Camera *camera) {
             D_8011D954[0].timerInit = camera->timer - 5;
             sp4A = 0;
             if (func_800C0D34(camera->globalCtx, camera->target, &sp4A) == 0) {
-                osSyncPrintf("\x1b[43;30mcamera: attention demo: this door is dummy door!\n\x1b[m");
+                osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: attention demo: this door is dummy door!\n" VT_RST);
                 if (ABS(sp88.yaw - camera->target->shape.rot.y) >= 0x4000) {
                     sp4A = camera->target->shape.rot.y;
                 } else {
@@ -6132,14 +6132,17 @@ s32 Camera_Demo5(Camera *camera) {
     
     D_8011D6A8 = camera->globalCtx->state.frames;
     
-    if (camera->player->stateFlags1 & 0x8000000 && (sp4C->currentBoots != 1)) {
-        sp4C->stateFlags1 |= 0x20000000;
-        sp4C->actor.freezeTimer = camera->timer;
+    if (camera->player->stateFlags1 & 0x8000000 && (player->currentBoots != 1)) {
+        // swimming, and not iron boots
+        player->stateFlags1 |= 0x20000000;
+        // env frozen
+        player->actor.freezeTimer = camera->timer;
     } else {
         sp4A = sp64.rot.y - sp88.yaw;
         if (camera->target->type == 2) {
             pad = camera->globalCtx->state.frames - D_8011D3F4;
-            if (sp4C->stateFlags1 & 0x800) {
+            if (player->stateFlags1 & 0x800) {
+                // holding object over head.
                 func_8002DF54(camera->globalCtx, camera->target, 8);
             } else if (ABS(pad) >= 0xBB9) {
                 func_8002DF54(camera->globalCtx, camera->target, 12);
@@ -6154,7 +6157,7 @@ s32 Camera_Demo5(Camera *camera) {
     D_8011D3F4 = camera->globalCtx->state.frames;
     Camera_ChangeSettingFlags(camera, CAM_SET_DEMOC, (4 | 1));
     Camera_Unique9(camera);
-    return 1;
+    return true;
 }
 
 /**

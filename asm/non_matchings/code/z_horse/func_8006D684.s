@@ -397,7 +397,7 @@ glabel func_8006D684
 /* AE4D70 8006DBD0 E7B00058 */  swc1  $f16, 0x58($sp)
 /* AE4D74 8006DBD4 C612002C */  lwc1  $f18, 0x2c($s0)
 /* AE4D78 8006DBD8 E7B2005C */  swc1  $f18, 0x5c($sp)
-/* AE4D7C 8006DBDC 0C030136 */  jal   func_800C04D8
+/* AE4D7C 8006DBDC 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AE4D80 8006DBE0 862507A0 */   lh    $a1, 0x7a0($s1)
 /* AE4D84 8006DBE4 1000001C */  b     .L8006DC58
 /* AE4D88 8006DBE8 8FBF0034 */   lw    $ra, 0x34($sp)
