@@ -17,8 +17,8 @@ typedef struct EnTite {
     /* 0x02C4 */ char unk_0x24C[0x18];
     /* 0x02DC */ s32 unk2DC;
     /* 0x02E0 */ char unk_2C4[0x8];
-    /* 0x02E8 */ Collider* unk2E8;
-    /* 0x02EC */ char unk_2EC[0x5C];
+    /* 0x02E8 */ Collider unk2E8;
+    /* 0x0300 */ char unk_300[0x48];
     /* 0x0348 */ Vec3f unk348;
     /* 0x0354 */ Vec3f unk354;
     /* 0x0360 */ Vec3f unk360;

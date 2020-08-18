@@ -80,13 +80,6 @@ void func_80B18A80(EnTite* this, EnTiteActionFunc actionFunc) {
 u8 func_80B1ABBC(Actor *thisx, GlobalContext *globalCtx);
 s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                   WaterBox** outWaterBox);
-// waterbox:
-//   /* 0x00 */ s16 xMin;
-//   /* 0x02 */ s16 ySurface;
-//   /* 0x04 */ s16 zMin;
-//   /* 0x06 */ s16 xLength;
-//   /* 0x08 */ s16 zLength;
-//   /* 0x0C */ u32 properties;
 
 //func_80029444(GlobalContext *globalCtxt, Vec3f *vec, s32 arg2, s32 arg3, s32 arg4);
 
@@ -134,12 +127,12 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (thisx->bgCheckFlags & 3) {
             func_800359B8(thisx, thisx->shape.rot.y, &thisx->shape.rot);
-            if ((u8)this->unk2BD >= 2) {
+            if (this->unk2BD >= 2) {
                 thisx->shape.rot.z = (thisx->shape.rot.z + 0x7FFF);
             }
         } else {
             Math_SmoothScaleMaxMinS(&thisx->shape.rot.x, 0, 1, 0x3E8, 0);
-            if ((u8)this->unk2BD < 2) {
+            if (this->unk2BD < 2) {
                 Math_SmoothScaleMaxMinS(&thisx->shape.rot.z, 0, 1, 0x3E8, 0);
                 if (0.0f < thisx->shape.unk_08) {
                     thisx->shape.unk_08 -= 400.0f;
