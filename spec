@@ -3392,8 +3392,7 @@ endseg
 beginseg
     name "ovl_En_Yukabyun"
     include "build/src/overlays/actors/ovl_En_Yukabyun/z_en_yukabyun.o"
-    include "build/data/overlays/actors/z_en_yukabyun.data.o"
-    include "build/data/overlays/actors/z_en_yukabyun.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Yukabyun/ovl_En_Yukabyun_reloc.o"
 endseg
 
 beginseg
