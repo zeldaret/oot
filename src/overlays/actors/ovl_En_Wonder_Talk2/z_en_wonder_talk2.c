@@ -14,6 +14,7 @@
 void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80B3A10C(EnWonderTalk2* this, GlobalContext* globalCtx);
 void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx);
 void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx);
@@ -31,8 +32,6 @@ const ActorInit En_Wonder_Talk2_InitVars = {
     (ActorFunc)EnWonderTalk2_Update,
     NULL,
 };
-
-// u32 D_80B3A8E0[] = {0x00060000, 0x00010002, 0x00030004, 0x00050000};
 
 s16 D_80B3A8E0[] = { 0x6, 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
 
@@ -90,7 +89,7 @@ void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_154 = 4;
     }
     if (this->unk_154 == 3) {
-        this->actor.flags &= 0xF7FFFFFF;
+        this->actor.flags &= ~0x8000000;
         this->actionFunc = EnWonderTalk2_DoNothing;
     } else {
         this->actionFunc = func_80B3A10C;
@@ -120,9 +119,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
         if (this->unk_15A == 0) {
             this->actor.flags &= -2;
             this->unk_15A = 1;
-            return;
         }
-
     } else {
         if (func_8002F194(&this->actor, globalCtx) != 0) {
             if ((this->switchFlag >= 0) && (this->unk_154 != 2)) {
@@ -176,15 +173,12 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
-    u8 dialogState;
-
     if (BREG(2)) {
         // Oh
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ わー %d\n" VT_RST, func_8010BDBC(&globalCtx->msgCtx));
     }
-    dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
-    switch (dialogState) {
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 5:
         case 6:
             if (func_80106BC8(globalCtx)) {
@@ -204,8 +198,8 @@ void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
             if (this->unk_154 == 4) {
                 this->unk_15A = 1;
             }
-            this->actor.flags &= -0x12;
-            func_8002DF54(globalCtx, NULL, 7U);
+            this->actor.flags &= ~0x11;
+            func_8002DF54(globalCtx, NULL, 7);
             this->unk_156 = 1;
             this->actionFunc = func_80B3A4F8;
             break;
@@ -268,7 +262,6 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, NULL, 8);
                     this->actor.flags |= 0x11;
                     this->actionFunc = func_80B3A3D4;
-                    return;
                 }
 
             } else {
@@ -289,8 +282,8 @@ void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->height);
     if (BREG(0) != 0) {
-        if (this->unk_158) {
-            if (!(this->unk_158 & 1)) {
+        if (this->unk_158 != 0) {
+            if ((this->unk_158 & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                        this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
                                        1.0f, 1.0f, 1.0f, 70, 70, 70, 255, 4, globalCtx->state.gfxCtx);
