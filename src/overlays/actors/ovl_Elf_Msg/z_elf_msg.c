@@ -19,7 +19,7 @@
  * this.posRot.rot.y
  *     (y == -1)                : Actor is killed if room clear flag is set.
  *     (y > 0x00) && (y < 0x41) : Actor is killed if switch flag (y - 1) is set.
- *     (y > 0x40) && (y < 0x82) : Actor code only runs if switch flag (y - 0x41) is set, once running, actor
+ *     (y > 0x40) && (y < 0x80) : Actor code only runs if switch flag (y - 0x41) is set, once running, actor
  *                                is killed if switch flag ((p >> 8) & 0x3F) is set
  *     else:                    : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
  *
@@ -130,32 +130,26 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
  */
 s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
 
-    if (this->actor.posRot.rot.y > 0 && this->actor.posRot.rot.y < 0x41 &&
-        Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1)) {
+    if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
+        (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161);
         if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
-
         Actor_Kill(&this->actor);
         return 1;
-    }
-
-    else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
+    } else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
-
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
         return 0;
-    }
-
-    else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
+    } else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         Actor_Kill(&this->actor);
         return 1;
     }
@@ -206,7 +200,7 @@ s32 ElfMsg_GetMessageId(ElfMsg* this) {
     if (this->actor.params & 0x8000) {
         return (this->actor.params & 0xFF) + 0x100;
     } else {
-        return -0x100 - (this->actor.params & 0xFF);
+        return -((this->actor.params & 0xFF) + 0x100);
     }
 }
 
@@ -223,15 +217,15 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 ElfMsg_IsInNaviRangeXZ(Vec3f* playerPos, Vec3f* msgPos, f32 radius) {
-    return (SQ(msgPos->x - playerPos->x) + SQ(msgPos->z - playerPos->z)) < SQ(radius);
+s32 ElfMsg_WithinXZDistance(Vec3f* pos1, Vec3f* pos2, f32 distance) {
+    return (SQ(pos2->x - pos1->x) + SQ(pos2->z - pos1->z)) < SQ(distance);
 }
 
 void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->navi;
 
-    if (ElfMsg_IsInNaviRangeXZ(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
+    if (ElfMsg_WithinXZDistance(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y))) {
         player->naviMessageId = ElfMsg_GetMessageId(this);
@@ -243,45 +237,44 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
     ElfMsg* this = THIS;
 
     if (!ElfMsg_KillCheck(this, globalCtx)) {
-        // if actor flag 0x100 is set:
         if (func_8002F194(&this->actor, globalCtx)) {
             if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
             }
             Actor_Kill(&this->actor);
-        } else if ((this->actor.posRot.rot.y < 0x42) || (this->actor.posRot.rot.y >= 0x81) ||
-                   Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 0x41)) {
+            return;
+        }
+        if ((this->actor.posRot.rot.y <= 0x41) || (this->actor.posRot.rot.y > 0x80) ||
+            Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 0x41)) {
             this->actionFunc(this, globalCtx);
         }
     }
 }
 
-/**
- * If R_NAVI_MSG_REGION_ALPHA is nonzero, a translucent shape is drawn around the navi call spot.
- */
 void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg.c", 436);
-    if (R_NAVI_MSG_REGION_ALPHA != 0) {
-        func_80093D18(globalCtx->state.gfxCtx);
-        if (thisx->params & 0x8000) {
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
-        } else {
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
-        }
-
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg.c", 448),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_809AD278);
-
-        if (thisx->params & 0x4000) {
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_809AD4B8);
-        } else {
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_809AD3B8);
-        }
-
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg.c", 457);
+    if (R_NAVI_MSG_REGION_ALPHA == 0) {
+        return;
     }
+    func_80093D18(globalCtx->state.gfxCtx);
+    if (thisx->params & 0x8000) {
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
+    } else {
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
+    }
+
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg.c", 448),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_809AD278);
+
+    if (thisx->params & 0x4000) {
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_809AD4B8);
+    } else {
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_809AD3B8);
+    }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg.c", 457);
 }

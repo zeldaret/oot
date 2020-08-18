@@ -4,23 +4,23 @@
  * Description: Targetable Navi check spot
  *
  * this.params
- *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F)
- *                                (also see this.posRot.rot.y).
- *     (p & 0xFF) + 0x100       : Message ID
+ *     (p >> 8) & 0x3F           : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F)
+ *                                 (also see this.posRot.rot.y).
+ *     (p & 0xFF) + 0x100        : Message ID
  *
  * this.posRot.rot.x
- *     (x > 0) && (x < 8))      : this->actor.unk_1F = (x - 1);
+ *     (x > 0) && (x < 8))       : this->actor.unk_1F = (x - 1);
  *
  * this.posRot.rot.y
- *     (y == -1)                : Actor is killed if room clear flag is set.
- *     (y > 0x00) && (y < 0x41) : Actor is killed if switch flag (y - 1) is set.
- *     (y > 0x40) && (y < 0x81) : Actor idles and is not interactable until switch flag (y - 0x41) is set, once
+ *     (y == -1)                 : Actor is killed if room clear flag is set.
+ *     (y > 0x00) && (y <= 0x40) : Actor is killed if switch flag (y - 1) is set.
+ *     (y > 0x40) && (y <= 0x80) : Actor idles and is not interactable until switch flag (y - 0x41) is set, once
  *                                running, actor is killed if switch flag ((p >> 8) & 0x3F) is set.
- *     (y > 0x80)               : Actor idles forever and is not interactable (Bug?)
- *     else:                    : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
+ *     (y > 0x80)                : Actor idles forever and is not interactable (Bug?)
+ *     else:                     : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
  *
  * this.posRot.rot.z
- *      (z != 1)                : Kill actor when closing the text box
+ *      (z != 1)                 : Kill actor when closing the text box
  */
 
 #include "z_elf_msg2.h"
@@ -103,9 +103,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
         return 1;
-    }
-
-    else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
+    } else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
         // "Mutual destruction 2"
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
@@ -115,9 +113,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
         return 1;
     } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
         return 0;
-    }
-
-    else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
+    } else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 192);
         Actor_Kill(&this->actor);
@@ -160,7 +156,6 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
 void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
     s32 switchFlag;
 
-    // If the text box is closing this frame:
     if (func_8002F334(&this->actor, globalCtx)) {
         if (this->actor.posRot.rot.z != 1) {
             Actor_Kill(&this->actor);
@@ -175,7 +170,7 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Runs while Navi text is not up. If text box flag is set, this function unsets it and proceeds to ElfMsg2_Read.
+ * Runs while Navi text is not up.
  */
 void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -187,9 +182,9 @@ void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx) {
  * Idles until a switch flag is set, at which point the actor becomes interactable
  */
 void ElfMsg2_Idle(ElfMsg2* this, GlobalContext* globalCtx) {
-    // If (y < 0x41) && (y < 0x81), Idles until switch flag (actor.posRot.rot.y - 0x41) is set
+    // If (y >= 0x41) && (y <= 0x80), Idles until switch flag (actor.posRot.rot.y - 0x41) is set
     // If (y > 0x80), Idles forever (Bug?)
-    if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y < 0x81) &&
+    if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y <= 0x80) &&
         (Flags_GetSwitch(globalCtx, (this->actor.posRot.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
         this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
@@ -204,9 +199,6 @@ void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-/**
- * If R_NAVI_MSG_REGION_ALPHA is nonzero, a small translucent cuboid is drawn around the check spot.
- */
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -220,7 +212,7 @@ void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 362),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_809ADC38);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_809ADCF8);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_809ADC38);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_809ADCF8);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_elf_msg2.c", 367);
 }
