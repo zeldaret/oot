@@ -1381,7 +1381,7 @@ CameraFunc sCameraFunctions[] = {
 
 s32 sInitRegs = 1; // 8011D390
 
-UNK_TYPE gDbgCamEnabled = 0;
+s32 gDbgCamEnabled = 0;
 s32 sDbgModeIdx = -1;
 s16 sNextUID = 0; // size = 4 ?
 
@@ -1404,7 +1404,7 @@ s32 sUpdateCameraDirection = 0; // size = 8?
 s32 D_8011D3EC = 0;
 s32 D_8011D3F0 = 0;
 
-s32 D_8011D3F4 = -16;
+s32 sDemo5PrevAction12Frame = -16;
 
 char sCameraFunctionNames[][8] = {
     "NONE   ", "NORM0()", "NORM1()", "NORM2()", "NORM3()", "NORM4()", "PARA0()", "PARA1()", "PARA2()", "PARA3()",
@@ -1431,26 +1431,42 @@ Vec3f D_8011D678[] = {
     { 0.0f, 3.0f, -3.0 },
 };
 
-s32 D_8011D6A8 = -200;
+/*******************************************************
+ * OnePoint initalization values for Demo5
+********************************************************/
+s32 sDemo5PrevSfxFrame = -200;
 
+// target is player, far from eye
 OnePointDemoFull D_8011D6AC[] = {
     {
+        // initflags & 0x00FF (at): 2, atTarget is view lookAt + atInit
+        // initFlags & 0xFF00 (eye): none
+        // action: 15, copy at, eye, roll, fov to camera
+        // result: eye remains in the same locaiton, at is View's lookAt
         0x8F, 0xFF, 0x0002, 0x0001, 0x0000, 60.0f, 1.0f,
         { 0.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f }
     },
     {
+        // initFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
+        // initFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
+        // action: interplate eye and at.
+        // result: eye and at's y interpolate to become +20 from their current location.
         0x81, 0xFF, 0x0303, 0x0013, 0x0000, 45.0f, 1.0f,
         { 0.0f, 20.0f, 0.0f },
         { 0.0f, 20.0f, 0.0f}
     },
     {
+        // initFlags & 0x00FF (at): 0 none
+        // initFlags & 0xFF00 (eye): 0 none
+        // action: 18, copy this camera to default camera.
         0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f,
         { -1.0f, -1.0f, -1.0f },
         { -1.0f, -1.0f, -1.0f }
     },
 };
 
+// target is player close to current eye
 OnePointDemoFull D_8011D724[] = {
     {
         0x8F, 0xFF, 0x2424, 0x0001, 0x0000, 60.0f, 1.0f,
@@ -1469,6 +1485,7 @@ OnePointDemoFull D_8011D724[] = {
     },
 };
 
+// target is close to player
 OnePointDemoFull D_8011D79C[] = {
     {
         0xCF, 0xFF, 0x0002, 0x0001, 0x0000, 60.0f, 1.0f,
@@ -1492,6 +1509,7 @@ OnePointDemoFull D_8011D79C[] = {
     },
 };
 
+// target is within 300 units of eye, and player is within 30 units of eye
 OnePointDemoFull D_8011D83C[] = {
     {
         0x83, 0xFF, 0x2141, 0x0014, 0x0000, 45.0f, 0.2f,
@@ -1505,6 +1523,9 @@ OnePointDemoFull D_8011D83C[] = {
     },
 };
 
+// target is within 700 units of eye, angle between player/eye and target/eye is less than
+// 76.9 degrees.  The x/y coordinates of the target on screen is between (21, 41) and (300, 200),
+// and the player is farther than 30 units of the eye
 OnePointDemoFull D_8011D88C[] = {
     { 
         0x81, 0xFF, 0x0303, 0x0014, 0x0000, 45.0f, 1.0f,
@@ -1518,6 +1539,7 @@ OnePointDemoFull D_8011D88C[] = {
     },
 };
 
+// same as above, but the target is NOT within the screen area.
 OnePointDemoFull D_8011D8DC[] = {
     {
         0x8F, 0xFF, 0x0404, 0x0014, 0x0001, 50.0f, 1.0f,
@@ -1535,7 +1557,8 @@ OnePointDemoFull D_8011D8DC[] = {
         { -1.0f, -1.0f, -1.0f }
     },
 };
-    
+
+// target is a door.
 OnePointDemoFull D_8011D954[] = {
     {
         0x0F, 0xFF, 0xC1C1, 0x0014, 0x0000, 60.0f, 1.0f,
@@ -1559,6 +1582,7 @@ OnePointDemoFull D_8011D954[] = {
     },
 };
 
+// otherwise
 OnePointDemoFull D_8011D9F4[] = {
     {
         0x8F, 0xFF, 0x0504, 0x0014, 0x0002, 60.0f, 1.0f,
@@ -1604,12 +1628,6 @@ s16 D_8011DAEC[] = { -2000, -1000, 0, 0, 0, 0, 0, 0 };
 s16 D_8011DAFC[] = {
     CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
 };
-
-
-typedef struct {
-    Vec3f unk_00;
-
-} struct_80046E20;
 
 Vec3f D_8015BD50; // 8015BD50
 // 8015BD5C

@@ -1048,9 +1048,9 @@ u32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 newAction) {
     return 1;
 }
 
-s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 arg2) {
+s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 newAction) {
     Player* player = PLAYER;
-    func_8002DF38(globalCtx, actor, arg2);
+    func_8002DF38(globalCtx, actor, newAction);
     player->unk_46A = 1;
 
     return 1;

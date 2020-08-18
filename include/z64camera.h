@@ -322,7 +322,7 @@ typedef struct {
     /* 0x0026 */ s16 unk_26;
     /* 0x0028 */ s16 unk_28;
     /* 0x002A */ s16 unk_2A;
-} Normal3_Unk20; // size = 0x2C
+} Normal3Anim; // size = 0x2C
 
 typedef struct {
     /* 0x0000 */ f32 unk_00;
@@ -333,8 +333,8 @@ typedef struct {
     /* 0x0014 */ f32 unk_14;
     /* 0x0018 */ f32 unk_18;
     /* 0x001C */ s16 unk_1C;
-    /* 0x001E */ s16 unk_1E;
-    /* 0x0020 */ Normal3_Unk20 unk_20;
+    /* 0x001E */ s16 interfaceFlags;
+    /* 0x0020 */ Normal3Anim anim;
 } Normal3; // size = 0x4C
 
 typedef struct {
@@ -976,7 +976,13 @@ typedef struct {
     /* 0x0120 */ s16 waterQuakeId;
     /* 0x0122 */ s16 unk_122; // probably pad.
     /* 0x0124 */ CutsceneCameraPoint* atPoints;
-    /* 0x0128 */ CutsceneCameraPoint* eyePoints;
+    union {
+        /* 0x0128 */ CutsceneCameraPoint* eyePoints;
+        struct{
+            /* 0x0128 */ s16 unk_128;  
+            /* 0x012A */ u16 unkSfx;
+        };
+    };
     /* 0x012C */ s16 unk_12C;
     /* 0x012E */ s16 unk_12E;
     /* 0x0130 */ s16 uid;    // Unique identifier of the camera.

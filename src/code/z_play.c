@@ -1665,13 +1665,13 @@ void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
     Camera_Copy(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
 }
 
-s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3) {
+s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 setting) {
     Camera* camera;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
 
     camera = globalCtx->cameraPtrs[camIdx];
     func_80058148(camera, player);
-    return Camera_ChangeSetting(camera, arg3);
+    return Camera_ChangeSetting(camera, setting);
 }
 
 void Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 setting) {
