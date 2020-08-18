@@ -112,7 +112,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
-    if (func_800CB650(&this->actor.posRot.pos, &player->actor.posRot.pos) > 22500.0f) {
+    if (Math3D_Vec3fDistSq(&this->actor.posRot.pos, &player->actor.posRot.pos) > 22500.0f) {
         this->unk_1A4 = 0;
     } else {
         if (this->unk_1A4 == 0) {

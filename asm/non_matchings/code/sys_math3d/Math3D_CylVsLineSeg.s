@@ -9,7 +9,7 @@ glabel D_8014654C
     .float 0.008
 
 .text
-glabel func_800CEE0C
+glabel Math3D_CylVsLineSeg
 /* B45FAC 800CEE0C 27BDFF08 */  addiu $sp, $sp, -0xf8
 /* B45FB0 800CEE10 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B45FB4 800CEE14 AFB00018 */  sw    $s0, 0x18($sp)
@@ -619,11 +619,11 @@ glabel func_800CEE0C
 /* B468B0 800CF710 01AE8021 */  addu  $s0, $t5, $t6
 /* B468B4 800CF714 8FA40104 */  lw    $a0, 0x104($sp)
 /* B468B8 800CF718 8FA500FC */  lw    $a1, 0xfc($sp)
-/* B468BC 800CF71C 0C032D94 */  jal   func_800CB650
+/* B468BC 800CF71C 0C032D94 */  jal   Math3D_Vec3fDistSq
 /* B468C0 800CF720 AFA30068 */   sw    $v1, 0x68($sp)
 /* B468C4 800CF724 E7A0004C */  swc1  $f0, 0x4c($sp)
 /* B468C8 800CF728 8FA40104 */  lw    $a0, 0x104($sp)
-/* B468CC 800CF72C 0C032D94 */  jal   func_800CB650
+/* B468CC 800CF72C 0C032D94 */  jal   Math3D_Vec3fDistSq
 /* B468D0 800CF730 02002825 */   move  $a1, $s0
 /* B468D4 800CF734 C7AA004C */  lwc1  $f10, 0x4c($sp)
 /* B468D8 800CF738 8FA30068 */  lw    $v1, 0x68($sp)

@@ -1061,7 +1061,7 @@ glabel func_800B9638
 /* B3177C 800BA5DC 27A4005C */  addiu $a0, $sp, 0x5c
 .L800BA5E0:
 /* B31780 800BA5E0 26450010 */  addiu $a1, $s2, 0x10
-/* B31784 800BA5E4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* B31784 800BA5E4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* B31788 800BA5E8 26460004 */   addiu $a2, $s2, 4
 /* B3178C 800BA5EC 3C018014 */  lui   $at, %hi(D_80143CD0)
 /* B31790 800BA5F0 C4323CD0 */  lwc1  $f18, %lo(D_80143CD0)($at)
