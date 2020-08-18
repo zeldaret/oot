@@ -15,7 +15,7 @@ struct DynaPolyActor;
 #define BG_ACTOR_MAX 50
 #define BGCHECK_SCENE BG_ACTOR_MAX
 #define BGCHECK_Y_MIN -32000.0f
-#define VIA_FLAG_TEST(vIA, flags) ((((flags) & 7) << 13) & (vIA))
+#define VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags) & 7) << 13))
 #define VTX_INDEX(vI) ((vI) & 0x1FFF) 
 
 typedef struct {

@@ -595,6 +595,7 @@ s32 func_80039A3C(CollisionContext* colChk, CollisionPoly* poly, f32* arg2, f32*
 }
 
 #ifdef NON_MATCHING
+//Wall collision related
 //a2 = xpFlags
 //
 //codegen issues
@@ -650,13 +651,12 @@ loop_3:
         temp_f20 = sqrtf(SQ(temp_f22) + SQ(temp_f24));
         temp_f30 = Math3D_DistPlaneToPos(temp_f22, temp_f26, temp_f24, (f32)temp_s0->dist, &spFC);
         if (arg6 < fabsf(temp_f30) || (VIA_FLAG_TEST(temp_s0->flags_vIA, arg2) != 0)) {
-            temp_v0 = phi_s1->next;
-            if (SS_NULL == temp_v0) {
+            if (SS_NULL == phi_s1->next) {
                 phi_s1 = colCtx->polyNodes.tbl + arg0->wall;
                 //break;
             }
             else {
-                phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                 goto loop_3;
             }
         }
@@ -667,13 +667,12 @@ loop_3:
             temp_f14 = 1.0f / temp_f20;
             temp_f16 = fabsf(temp_f24) * temp_f14;
             if (temp_f16 < 0.4f) {
-                temp_v0 = phi_s1->next;
-                if (SS_NULL == temp_v0) {
+                if (SS_NULL == phi_s1->next) {
                     phi_s1 = colCtx->polyNodes.tbl + arg0->wall;
                     //break;
                 }
                 else {
-                    phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                    phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                     goto loop_3;
                 }
             }
@@ -699,12 +698,11 @@ loop_3:
                 phi_f12 += arg6;
 
                 if (spFC.z < phi_f2 || phi_f12 < spFC.z) {
-                    temp_v0 = phi_s1->next;
-                    if (SS_NULL == temp_v0) {
+                    if (SS_NULL == phi_s1->next) {
                         phi_s1 = colCtx->polyNodes.tbl + arg0->wall;
                     }
                     else {
-                        phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                        phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                         goto loop_3;
                     }
                 }
@@ -719,13 +717,12 @@ loop_3:
                             }
                         }
                     }
-                    temp_v0 = phi_s1->next;
-                    if (SS_NULL == temp_v0) {
+                    if (SS_NULL == phi_s1->next) {
                         phi_s1 = colCtx->polyNodes.tbl + arg0->wall;
                         //break;
                     }
                     else {
-                        phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                        phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                         goto loop_3;
                     }
                 }
@@ -744,13 +741,12 @@ loop_38:
         temp_f30 = Math3D_DistPlaneToPos(temp_f22, temp_f26, temp_f24, (f32)temp_s0->dist, &spFC); 
         //128C
         if (arg6 < fabsf(temp_f30) || VIA_FLAG_TEST(temp_s0->flags_vIA, arg2) != 0) {
-            temp_v0 = phi_s1->next;
-            if (SS_NULL == temp_v0) {
+            if (SS_NULL == phi_s1->next) {
                 //break
             }
             else
             {
-                phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                 goto loop_38;
             }
         }
@@ -761,12 +757,11 @@ loop_38:
             temp_f14 = 1.0f / temp_f20;
             temp_f16 = fabsf(temp_f22) * temp_f14;
             if (temp_f16 < 0.4f) {
-                temp_v0 = phi_s1->next;
-                if (SS_NULL == temp_v0) {
+                if (SS_NULL == phi_s1->next) {
                     //break
                 } 
                 else {
-                    phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                    phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                     goto loop_38;
                 }
             }
@@ -794,12 +789,11 @@ loop_38:
                 phi_f12_3 += arg6;
                 //1428
                 if (temp_f18 < phi_f2_3 || phi_f12_3 < temp_f18) {
-                    temp_v0 = phi_s1->next;
-                    if (SS_NULL == temp_v0) {
+                    if (SS_NULL == phi_s1->next) {
                         //break
                     }
                     else {
-                        phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                        phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                         goto loop_38;
                     }
                 }
@@ -814,12 +808,11 @@ loop_38:
                             }
                         }
                     }
-                    temp_v0 = phi_s1->next;
-                    if (SS_NULL == temp_v0) {
+                    if (SS_NULL == phi_s1->next) {
                         //break
                     }
                     else {
-                        phi_s1 = colCtx->polyNodes.tbl + temp_v0;
+                        phi_s1 = colCtx->polyNodes.tbl + phi_s1->next;
                         goto loop_38;
                     }
                 }
@@ -859,14 +852,12 @@ s32 func_8003A3E0(Lookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* ar
     while (true) {
         s32 id = curNode->polyId;
         if (VIA_FLAG_TEST(colCtx->colHeader->polygonArray[id].flags_vIA, xpFlags) != 0) {
-
-            nextId = curNode->next;
-            if (SS_NULL != nextId) {
-
-                curNode = &colCtx->polyNodes.tbl[nextId];
+            if (SS_NULL == curNode->next) {
+                break;
+            } else {
+                curNode = &colCtx->polyNodes.tbl[curNode->next];
                 continue;
             }
-            break;
         }
         poly = &polyList[id];
         if (func_80038F20(poly, vtxList, arg4->x, arg4->z, &sp8C)) {
@@ -881,13 +872,13 @@ s32 func_8003A3E0(Lookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* ar
                 }
             }
         }
-        nextId = curNode->next;
-        if (SS_NULL != nextId) {
-
-            curNode = &colCtx->polyNodes.tbl[nextId];
+        if (SS_NULL == curNode->next) {
+            break;
+        }
+        else {
+            curNode = &colCtx->polyNodes.tbl[curNode->next];
             continue;
         }
-        break;
     }
     return result;
 }
@@ -918,19 +909,18 @@ s32 func_8003A5B8(u16* node, CollisionContext* colCtx, u16 xpFlagsA, u16 xpFlags
         polyId = curNode->polyId;
         checkedPoly = colCtx->polyNodes.polyCheckTbl + polyId;
 
-        if (*checkedPoly == 1
+        if (*checkedPoly == true
             || VIA_FLAG_TEST(polygonArray[polyId].flags_vIA, xpFlagsA) != 0
             || !(xpFlagsB == 0 || VIA_FLAG_TEST(polygonArray[polyId].flags_vIA, xpFlagsB) != 0)) {
 
-            curNodeId = curNode->next;
-            if (SS_NULL != curNodeId) {
-
-                curNode = colCtx->polyNodes.tbl + curNodeId;
+            if (SS_NULL == curNode->next) {
+                break;
+            } else {
+                curNode = colCtx->polyNodes.tbl + curNode->next;
                 continue;
             }
-            break;
         }
-        *checkedPoly = 1;
+        *checkedPoly = true;
         curPoly = polyId + polygonArray; 
         minY = (f32)func_80038924(curPoly, colCtx->colHeader->vertexArray);
         if (arg4->y < minY && arg5->y < minY) {
@@ -947,11 +937,10 @@ s32 func_8003A5B8(u16* node, CollisionContext* colCtx, u16 xpFlagsA, u16 xpFlags
                 result = true;
             }
         }
-        curNodeId = curNode->next;
-        if (SS_NULL == curNodeId) {
+        if (SS_NULL == curNode->next) {
             break;
         }
-        curNode = colCtx->polyNodes.tbl + curNodeId;
+        curNode = colCtx->polyNodes.tbl + curNode->next;
     }
     return result;
 }
@@ -988,50 +977,45 @@ s32 func_8003A7D8(Lookup* lookup, CollisionContext* colCtx, u16 arg2, u16 arg3, 
 //right ops, wrong order
 s32 func_8003A95C(SSNode* node, u16 xpFlags, CollisionContext* colCtx, Vec3f* center, f32 radius, CollisionPoly** outPoly) {
 
-    CollisionPoly* curPoly; //temp_s0
-    f32 temp_f0;
-    u16 nextId; //v0
+    CollisionPoly* curPoly;
+    u16 nextId;
     SSNode* curNode;
-    CollisionHeader* colHeader;
     CollisionPoly* polyList;
     Vec3s* vtxList;
-    s16 id;
 
     curNode = node;
-    polyList = colCtx->colHeader->polygonArray;
     vtxList = colCtx->colHeader->vertexArray;
+    polyList = colCtx->colHeader->polygonArray;
 
     while (true) {
-        id = curNode->polyId;
+        s16 id = curNode->polyId;
 
+        curPoly = &polyList[id];
         if (VIA_FLAG_TEST(colCtx->colHeader->polygonArray[id].flags_vIA, xpFlags) != 0) {
-            nextId = curNode->next;
-            if (SS_NULL != nextId) {
-                curNode = &colCtx->polyNodes.tbl[nextId];
+            if (SS_NULL == curNode->next) {
+                break;
+            }
+            else {
+                curNode = &colCtx->polyNodes.tbl[curNode->next];
                 continue;
             }
+        }
+
+        if (center->y + radius < vtxList[VTX_INDEX(curPoly->flags_vIA)].y
+            && center->y + radius < vtxList[VTX_INDEX(curPoly->flags_vIB)].y
+            && center->y + radius < vtxList[curPoly->vIC].y) {
             break;
         }
-
-        curPoly = polyList + id;
-        temp_f0 = center->y + radius;
-
-        if (!(temp_f0 < vtxList[VTX_INDEX(curPoly->flags_vIA)].y)
-            || !(temp_f0 < vtxList[VTX_INDEX(curPoly->flags_vIB)].y)
-            || !(temp_f0 < vtxList[curPoly->vIC].y)) {
-
-            if (func_8003937C(curPoly, vtxList, center, radius)) {
-                *outPoly = curPoly;
-                return true;
-            }
-            nextId = curNode->next;
-            if (SS_NULL != nextId) {
-
-                curNode = &colCtx->polyNodes.tbl[nextId];
-                continue;
-            }
+        if (func_8003937C(curPoly, vtxList, center, radius)) {
+            *outPoly = curPoly;
+            return true;
         }
-        break;
+        if (SS_NULL == curNode->next) {
+            break;
+        }
+        else {
+            curNode = &colCtx->polyNodes.tbl[curNode->next];
+        }
     }
     return false;
 }
@@ -1573,7 +1557,7 @@ void func_8003C078(CollisionContext* colCtx, GlobalContext* globalCtx, Collision
         if (colCtx->dyna.memSize < memSize) {
             LogUtils_HungupThread("../z_bgcheck.c", 4230);
         }
-        tblMax = (colCtx->dyna.memSize - memSize) / sizeof(SSNode);//>> 2;
+        tblMax = (colCtx->dyna.memSize - memSize) / sizeof(SSNode);
     }
 
     func_8003E398(&colCtx->polyNodes);
@@ -1944,60 +1928,36 @@ s32 func_8003D7A0(CollisionContext* colCtx, f32* arg1, Vec3f* arg2, f32 arg3, Co
 }
 
 #ifdef NON_MATCHING
-//MAJOR
+//arg3 = posA
+//arg4 = posB
+//arg5 = posFinal?
 //arg7 = bgId
+//regalloc, issues with spCC/spC0 for loop
 s32 func_8003D7F0(CollisionContext* colCtx, u16 arg1, u16 arg2, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5, CollisionPoly** arg6, s32* arg7, Actor* arg8, f32 arg9, s32 argA)
 {
-    s32 spD8;
-    Vec3i spCC;
-    Vec3i spC0;
-    s32 spBC;
-    s32 spB8;
+    Lookup* phi_a3; //spD8
+    Vec3i spCC; //posA sector
+    Vec3i spC0; //posB sector
+    s32 spBC; //phi_t0
+    s32 spB8; //result
     f32 spB4;
-    Vec3f spA8;
+    Vec3f spA8; //posB temp
 
-    //minSector
-    Vec3f sp9C;
-    Vec3f sp90;
-    s32 sp84;
-    s32 sp80;
-    s32 sp6C;
-    f32* temp_fp;
-    //Vec3f* temp_s3; sp9C
-    //f32* temp_s4;
-    f32 temp_f16;
-    f32 temp_f4;
-    f32 temp_f8;
-    //s32* temp_v0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_a2_2;
-    s32 temp_lo;
-    Lookup* temp_s1;
-    s32 temp_t0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    //s32 temp_v0_4;
+    Vec3f sp9C; //minSector //*temp_s3
+    Vec3f sp90; //maxSector //temp_s4
+    s32 phi_a2; //sp84, y
+    Lookup* phi_a1; //sp80 
+    s32 temp_lo; //s32 sp6C;
+
+    s32 temp_a1; //swapA
+    s32 temp_a2; //swapB
+
+    Lookup* temp_s1; //colCtx->lookupTbl
     s32* phi_v1;
     s32* phi_v0;
-    s32 phi_v1_2;
-    s32 phi_a3;
-    s32 phi_t0;
-    s32 phi_v0_2;
-    s32 phi_a1;
-    s32 phi_a2;
-    s32 phi_s0;
-    s32 phi_s1;
-    s32 phi_a2_2;
-    s32 phi_v1_3;
-    s32 phi_t0_2;
-    s32 phi_v0_3;
-    f32* phi_fp;
-    s32 phi_a3_2;
-    s32 phi_a1_2;
-    s32 phi_a0;
-    s32 phi_a0_2;
-    s32 phi_a0_3;
+    s32 phi_t0; //x
+    Lookup* phi_s0; //lookupCur
+    s32 phi_s1; //z
 
     temp_s1 = colCtx->lookupTbl;
     spA8 = *arg4;
@@ -2014,15 +1974,13 @@ s32 func_8003D7F0(CollisionContext* colCtx, u16 arg1, u16 arg2, Vec3f* arg3, Vec
     func_8003ADC8(colCtx, arg3, &spCC);
     func_8003ADC8(colCtx, &spA8, &spC0);
     *arg5 = *arg4;
-    spB8 = 0;
-    spB4 = 1.0e38f;// .0f;
+    spB8 = false;
+    spB4 = 1.0e38f;
     *arg6 = NULL;
 
-    phi_v1 = &spC0;
-    phi_v0 = &spCC;
     if (spCC.x != spC0.x || spCC.y != spC0.y || spCC.z != spC0.z) {
-        s32 i = 0;
-        for (i = 0; i < 3; i++) { //AB4B0C
+        //AB4B0C
+        for (phi_v1 = &spC0, phi_v0 = &spCC; phi_v0 < (s32*)&spCC + 3; phi_v0++, phi_v1++) { 
 
         //loop_8:
             temp_a1 = *phi_v1;
@@ -2031,135 +1989,66 @@ s32 func_8003D7F0(CollisionContext* colCtx, u16 arg1, u16 arg2, Vec3f* arg3, Vec
                 *phi_v1 = temp_a2;
                 *phi_v0 = temp_a1;
             }
-
-            phi_v0++;
-            phi_v1++;
-            //if ((u32)temp_v0 < (u32)&spD8) {
-            //    goto loop_8;
-            //}
+            
         }
+        //ab4b38
+
         temp_lo = colCtx->subdivisions.x * colCtx->subdivisions.y;
-        temp_v0_2 = spC0.z + 1;
-        //temp_s4 = &sp90;
-        //temp_s3 = &sp9C;
-        temp_f4 = ((f32)spCC.z * colCtx->unitSize.z) + colCtx->minBounds.z;
-        sp9C.z = temp_f4;
-        sp90.z = colCtx->unitSize.z + temp_f4;
-        if (spCC.z < temp_v0_2) {
-            //goto block_25;
+        sp9C.z = spCC.z * colCtx->unitSize.z + colCtx->minBounds.z; //temp_f4
+        sp90.z = colCtx->unitSize.z + sp9C.z;
 
-            sp6C = temp_lo * 6;
-            phi_v1_2 = spC0.y + 1;
-            phi_a3 = ((spCC.z * temp_lo) /* * 6 */) + temp_s1;
-            phi_t0 = spCC.z;
-            phi_a0_2 = 6;
-            phi_v0_3 = temp_v0_2;
-        loop_13:
-            temp_f8 = ((f32)spCC.y * colCtx->unitSize.y) + colCtx->minBounds.y;
-            sp9C.y = temp_f8;
-            sp90.y = colCtx->unitSize.y + temp_f8;
-            phi_t0_2 = phi_t0;
-            phi_a3_2 = phi_a3;
-            if (spCC.y < phi_v1_2) {
-                //goto block_24;
+        phi_a3 = spCC.z * temp_lo + temp_s1;
 
-                spD8 = phi_a3;
-                spBC = phi_t0;
-                phi_v0_2 = spC0.x + 1;
-                phi_a1 = ((spCC.y * colCtx->subdivisions.x) * phi_a0_2) + phi_a3;
-                phi_a2 = spCC.y;
-                phi_a0_3 = phi_a0_2;
-                phi_v1_3 = phi_v1_2;
-            loop_15:
-                temp_f16 = ((f32)spCC.x * colCtx->unitSize.x) + colCtx->minBounds.x;
-                sp9C.x = temp_f16;
-                sp90.x = colCtx->unitSize.x + temp_f16;
-                phi_a2_2 = phi_a2;
-                phi_a1_2 = phi_a1;
-                phi_a0 = phi_a0_3;
-                if (spCC.x < phi_v0_2) {
-                    //goto block_22;
+        //ab4bbc //loop_13:
+        for (phi_t0 = spCC.z; phi_t0 < spC0.z + 1; phi_t0++) {
+            phi_a1 = spCC.y * colCtx->subdivisions.x + phi_a3;
+            sp9C.y = spCC.y * colCtx->unitSize.y + colCtx->minBounds.y; //temp_f8
+            sp90.y = colCtx->unitSize.y + sp9C.y;
+            //loop_15:
+            for (phi_a2 = spCC.y; phi_a2 < spC0.y + 1; phi_a2++) {
+                sp9C.x = spCC.x * colCtx->unitSize.x + colCtx->minBounds.x; //temp_f16
+                sp90.x = colCtx->unitSize.x + sp9C.x;
+                phi_s0 = spCC.x + phi_a1;
+                //loop_17:
 
-                    sp80 = phi_a1;
-                    sp84 = phi_a2;
-                    phi_s0 = (spCC.x * phi_a0_3) + phi_a1;
-                    phi_s1 = spCC.x;
-                loop_17:
-                    if (func_800CBC60(&sp9C, &sp90, arg3, &spA8) == 1
-                        || func_8003A7D8(phi_s0, colCtx, arg1, arg2, arg3, &spA8, arg5, arg6, arg9, &spB4, argA) != 0) {
-                        //goto block_20;
-
-                        spB8 = 1;
+                //ab4c7c
+                for (phi_s1 = spCC.x; phi_s1 < spC0.x + 1; phi_s1++) {
+                    if (func_800CBC60(&sp9C, &sp90, arg3, &spA8) == true
+                        && func_8003A7D8(phi_s0, colCtx, arg1, arg2, arg3, &spA8, arg5, arg6, arg9, &spB4, argA) != 0) {
+                        spB8 = true;
                     }
-                //block_20:
-                    phi_s1++;// = phi_s1 + 1;
-                    temp_v0_3 = spC0.x +1;
+                    phi_s0 += 1;
                     sp9C.x += colCtx->unitSize.x;
                     sp90.x += colCtx->unitSize.x;
-                    phi_s0 += 6;
-
-                    if (phi_s1 < temp_v0_3) {
-                        goto loop_17;
-                    }
-                    phi_a2_2 = sp84;
-                    phi_v1_3 = spC0.y + 1;
-                    phi_v0_2 = temp_v0_3;
-                    phi_a1_2 = sp80;
-                    phi_a0 = 6;
                 }
-            //block_22:
-                temp_a2_2 = phi_a2_2 + 1;
+                //ab4d28
+                phi_a1 += colCtx->subdivisions.x;
                 sp9C.y += colCtx->unitSize.y;
                 sp90.y += colCtx->unitSize.y;
-                phi_a1 = phi_a1_2 + (colCtx->subdivisions.x * phi_a0);
-                phi_a2 = temp_a2_2;
-                phi_a0_3 = phi_a0;
-                if (temp_a2_2 < phi_v1_3) {
-                    goto loop_15;
-                }
-                phi_t0_2 = spBC;
-                phi_v0_3 = spC0.z + 1;
-                phi_v1_2 = phi_v1_3;
-                phi_a3_2 = spD8;
-                phi_a0_2 = phi_a0;
             }
-        //block_24:
-            temp_t0 = phi_t0_2 + 1;
+
+            phi_a3 += temp_lo;
             sp9C.z += colCtx->unitSize.z;
             sp90.z += colCtx->unitSize.z;
-            phi_a3 = phi_a3_2 + sp6C;
-            phi_t0 = temp_t0;
-            if (temp_t0 < phi_v0_3) {
-                goto loop_13;
-            }
         }
-    //block_25:
-        phi_fp = &spB4;
-        //goto block_30;
+
     }
-//block_26:
+    //ab4db8
     else
     {
         if (func_8003C55C(colCtx, arg3) == 0) {
-            //goto block_28;
-            return 0;
+            return false;
         }
-    //block_28:
-        //temp_fp = &spB4;
         spB8 = func_8003A7D8(func_8003AC54(colCtx, temp_s1, arg3), colCtx, arg1, arg2, arg3, &spA8, arg5, arg6, arg9, &spB4, argA);
-        //phi_fp = temp_fp;
-        if (spB8 == 1) {
-            //goto block_30;
+        if (spB8 == true) {
             spB4 = func_800CB650(arg5, arg3);
-            //phi_fp = temp_fp;
         }
     }
-//block_30:
-    if ((argA & 0x10) != 0
-        || func_80041240(colCtx, arg1, arg3, &spA8, arg5, arg6, &spB4, arg7, arg8, arg9, argA) != 0) {
-        spB8 = 1;
+    //ab4e40
+    if ((argA & 0x10)
+        && func_80041240(colCtx, arg1, arg3, &spA8, arg5, arg6, &spB4, arg7, arg8, arg9, argA)) {
+        spB8 = true;
     }
-//block_33:
     return spB8;
 }
 #else
@@ -2738,7 +2627,7 @@ void func_8003EE80(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 arg
             dyna->bgActors[arg2].maxY = sp84.y;
         }
 
-    //block_30:
+        //block_30:
         spF0.x += sp84.x;
         //temp_s3 = phi_s3 + 1;
         spF0.y += sp84.y;
@@ -2835,7 +2724,7 @@ void func_8003EE80(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 arg
             temp_s0_2->norm.y = (s16)(s32)(spAC.y * 32767.0f); //temp_f16
             temp_s0_2->norm.z = (s16)(s32)(spAC.z * 32767.0f);
         }
-    //block_41:
+        //block_41:
         temp_v0_2 = &(dyna->vtxList)[temp_s0_2->flags_vIA & 0x1FFF];
         temp_s0_2->dist = (s16)(s32)-(((f32)temp_v0_2->z * spAC.z) + ((spAC.x * (f32)temp_v0_2->x) + (spAC.y * (f32)temp_v0_2->y)));
         if (0.5f < spAC.y) {
@@ -2861,7 +2750,7 @@ void func_8003EE80(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 arg
             //temp_a2_6 = &sp72;
             sp72 = *arg4 + phi_s3_3;
             func_80038780(temp_s5_3, &dyna->bgActors[arg2].dynaLookup.wall, &sp72);
-        //block_46:
+            //block_46:
         }
         //temp_s3_3 = phi_s3_3 + 1;
         //phi_s3_3 = temp_s3_3;
@@ -2872,7 +2761,7 @@ void func_8003EE80(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 arg
     }
     *arg4 = (*arg4 + dyna->bgActors[arg2].colHeader->nbPolygons);
     *arg3 = (*arg3 + dyna->bgActors[arg2].colHeader->nbVertices);
-//block_48:
+    //block_48:
 }
 #else
 void func_8003EE80(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId, s32* arg3, s32* arg4);
@@ -2957,107 +2846,85 @@ void func_8003FB64(GlobalContext* globalCtx, DynaCollisionContext* dyna) {
     }
 }
 
-#ifdef NON_MATCHING
 f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1) {
+    CollisionPoly* polyList;
+    SSNode* curNode;
+    f32 result;
     f32 sp70;
-    //s32 temp_s2;
-    u16 temp_v0;
-    //CollisionPoly* polyList;
-    CollisionPoly* temp_v1;
-    SSNode* phi_s0;
-    u16 phi_a1;
-    f32 phi_f20;
-    //SSNode* phi_a0;
     s16 id;
+    u16 next;
 
-    phi_f20 = arg0->unk_10;
-    temp_v0 = *arg0->unk_2C;
-    if (SS_NULL == temp_v0) {
-
-        return phi_f20;
+    result = arg0->unk_10;
+    next = *arg0->unk_2C;
+    if (SS_NULL == next) {
+        return result;
     }
-    //polyList = arg0->dyna->polyList;
-    phi_s0 = arg0->dyna->polyNodes.tbl + temp_v0;
-    //pos = arg0->unk_14;
-    //phi_a1 = (arg0->unk_08 & 7) << 0xD;
-    //phi_t0 = arg0->dyna;
-    //phi_f20 = arg0->unk_10;
-    //phi_a0 = arg0->dyna->polyNodes.tbl;
-    while (true) {
-        id = phi_s0->polyId;
-        temp_v1 = arg0->dyna->polyList + id; //temp_s2;
-        if ((arg0->dyna->polyList[id].flags_vIA & ((arg0->unk_08 & 7) << 0xD)) != 0) {
-            //goto block_6;
+    polyList = arg0->dyna->polyList;
+    curNode = &arg0->dyna->polyNodes.tbl[next];
 
-            temp_v0 = phi_s0->next;
-            if (SS_NULL != temp_v0) { //76A4
-                phi_s0 = arg0->dyna->polyNodes.tbl + temp_v0;
+    while (true) {
+        id = curNode->polyId;
+        if (VIA_FLAG_TEST(polyList[id].flags_vIA, arg0->unk_08) != 0) {
+            if (SS_NULL == curNode->next) {
+                break;
+            }
+            else {
+                curNode = &arg0->dyna->polyNodes.tbl[curNode->next];
                 continue;
             }
         }
-        else if ((arg1 & 6)
+        if ((arg1 & 6)
             && (arg0->unk_20 & 0x10)
-            && (temp_v1->norm.y * COLPOLY_NORM_FRAC < 0.0f)) {
+            && polyList[id].norm.y * COLPOLY_NORM_FRAC < 0.0f) {
 
-            temp_v0 = phi_s0->next;
-            if (SS_NULL != temp_v0) {
-                phi_s0 = arg0->dyna->polyNodes.tbl + temp_v0;
+            if (SS_NULL == curNode->next) {
+                break;
+            }
+            else {
+                curNode = &arg0->dyna->polyNodes.tbl[curNode->next];
                 continue;
             }
+        }
+        if (func_80038D48(&polyList[id], arg0->dyna->vtxList, arg0->unk_14->x, arg0->unk_14->z, &sp70, arg0->unk_24) == true
+            && sp70 < arg0->unk_14->y
+            && result < sp70) {
+
+            result = sp70;
+            *arg0->unk_0C = arg0->dyna->polyList + id;
+        }
+        if (SS_NULL == curNode->next) {
+            break;
         }
         else {
-            if (func_80038D48(arg0->dyna->polyList + id, arg0->dyna->vtxList, arg0->unk_14->x, arg0->unk_14->z, &sp70, arg0->unk_24) == 1
-                && sp70 < arg0->unk_14->y
-                && phi_f20 < sp70) {
-
-                phi_f20 = sp70;
-                *arg0->unk_0C = arg0->dyna->polyList + id;
-            }
-            temp_v0 = phi_s0->next;
-            if (SS_NULL != temp_v0) {
-                phi_s0 = arg0->dyna->polyNodes.tbl + temp_v0;
-                continue;
-            }
-
+            curNode = &arg0->dyna->polyNodes.tbl[curNode->next];
+            continue;
         }
-        break;
     }
-    return phi_f20;
+    return result;
 }
-#else 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003FBF4.s")
-f32 func_8003FBF4(s8003FBF4* arg0, s32 arg1);
-#endif
 
 #ifdef NON_MATCHING
+//codegen. First for loop is mostly matching, save regalloc and an issue with colCtx ref. type access issues at ab71f4
 f32 func_8003FDDC(s8003FBF4* arg0) {
-    Vec3f spE0[3];
 
-    Vec3f spD4;
-    MtxF sp8C; //to spCC
-    Vec3s* sp84; //vtxList
-    Vec3f sp74;
-    f32 sp70;
-    f32* temp_s1_2;
-    f32 temp_f0;
-    //f32 temp_f0_2;
-    //f32 temp_f0_3;
-    f32 temp_f0_5;
-    f32 temp_f12;
-    s32 temp_s1;
     CollisionPoly* temp_s3;
     DynaPolyActor* v0_test;
     ScaleRotPos* temp_v0_2;
-    ActorMesh* temp_v1;
-    ActorMesh* temp_v1_2;
     s32 phi_s2;
     f32 phi_f20;
-    CollisionPoly* ass;
-    u16 dynaLookupStart;
-    Vec3f* phi_s1;
-
+    CollisionPoly* polyMin;
     s32 i_27;
-
+    Vec3f spE0[3];
+    Vec3f spD4;
+    Vec3f* phi_s1;
+    f32 a7;
+    MtxF sp8C; //to spCC
+    f32 temp_f0;
+    Vec3s* sp84; //vtxList
+    f32 temp_f12;
+    Vec3f sp74;
+    f32 sp70;
+    u16 dynaLookupStart;
 
     phi_f20 = BGCHECK_Y_MIN;
     *arg0->bgId = BGCHECK_SCENE;
@@ -3065,16 +2932,16 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
     for (phi_s2 = 0; phi_s2 < BG_ACTOR_MAX; phi_s2++) {
         if ((arg0->colCtx->dyna.flags[phi_s2] & 1) != 0) {
 
-            if (arg0->unk_1C == arg0->colCtx->dyna.bgActors[phi_s2].actor //temp_v1->unk54) {
-                || arg0->unk_14->y < arg0->colCtx->dyna.bgActors[phi_s2].minY //temp_v1->unkB0) {
-                || func_800D0480(&arg0->colCtx->dyna.bgActors[phi_s2].unk_54 /*temp_v1 + 0xA8*/, arg0->unk_14->x, arg0->unk_14->z) == 0) {
+            if (arg0->unk_1C == arg0->colCtx->dyna.bgActors[phi_s2].actor
+                || arg0->unk_14->y < arg0->colCtx->dyna.bgActors[phi_s2].minY
+                || func_800D0480(&arg0->colCtx->dyna.bgActors[phi_s2].unk_54, arg0->unk_14->x, arg0->unk_14->z) == 0) {
                 continue;
             }
 
             arg0->dyna = &arg0->colCtx->dyna;
             if ((arg0->unk_20 & 4) != 0) {
 
-                arg0->unk_2C = &arg0->colCtx->dyna.bgActors[phi_s2].dynaLookup.floor; //temp_s1
+                arg0->unk_2C = &arg0->colCtx->dyna.bgActors[phi_s2].dynaLookup.floor; 
                 temp_f0 = func_8003FBF4(arg0, 1);
 
                 if (arg0->unk_10 < temp_f0) {
@@ -3084,12 +2951,10 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
                     phi_f20 = temp_f0;
                 }
             }
-            //block_9:
             if ((arg0->unk_20 & 2) != 0
                 || (*arg0->unk_0C == NULL && (arg0->unk_20 & 8) != 0)) {
 
-                //block_12:
-                arg0->unk_2C = &arg0->colCtx->dyna.bgActors[phi_s2].dynaLookup.wall; //temp_s1
+                arg0->unk_2C = &arg0->colCtx->dyna.bgActors[phi_s2].dynaLookup.wall;
                 temp_f0 = func_8003FBF4(arg0, 2);
                 if (arg0->unk_10 < temp_f0) {
 
@@ -3101,7 +2966,7 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
 
             if ((arg0->unk_20 & 1) != 0) {
 
-                arg0->unk_2C = &arg0->colCtx->dyna.bgActors[phi_s2].dynaLookup.ceiling; //temp_s1
+                arg0->unk_2C = &arg0->colCtx->dyna.bgActors[phi_s2].dynaLookup.ceiling;
                 temp_f0 = func_8003FBF4(arg0, 4);
                 if (arg0->unk_10 < temp_f0) {
 
@@ -3129,11 +2994,12 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
                     //71b8
 
                     if (arg0->colCtx->dyna.flags[*arg0->bgId] & 2) {
-
-                        temp_v0_2 = &arg0->dyna->bgActors[*arg0->bgId].srp2;
-                        dynaLookupStart = arg0->dyna->bgActors[*arg0->bgId].dynaLookup.polyStartIndex;
-                        ass = dynaLookupStart + arg0->dyna->polyList;
-                        temp_s3 = *arg0->unk_0C - ass + arg0->dyna->bgActors[*arg0->bgId].colHeader->polygonArray;
+                        //ab71f4
+                        ActorMesh* bgActor = &arg0->dyna->bgActors[*arg0->bgId];
+                        dynaLookupStart = bgActor->dynaLookup.polyStartIndex;
+                        temp_v0_2 = &bgActor->srp2;
+                        polyMin = dynaLookupStart + arg0->dyna->polyList;
+                        temp_s3 = *arg0->unk_0C - polyMin + bgActor->colHeader->polygonArray;
                         func_800A7B04(&sp8C,
                             temp_v0_2->scale.x, temp_v0_2->scale.y, temp_v0_2->scale.z,
                             temp_v0_2->rot.x, temp_v0_2->rot.y, temp_v0_2->rot.z,
@@ -3147,15 +3013,16 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
                         }
                         Math3D_SurfaceNorm(&spE0[0], &spE0[1], &spE0[2], &spD4);
                         temp_f12 = Math3D_Vec3fMagnitude(&spD4);
+                        //ab7330
                         if (!IS_ZERO(temp_f12)) {
-
-                            temp_f0_5 = 1.0f / temp_f12;
-                            spD4.x *= temp_f0_5; //temp_f4
-                            spD4.y *= temp_f0_5; //temp_f8
-                            spD4.z *= temp_f0_5; //temp_f16
-                            if (func_800CD044(&spE0[0], &spE0[1], &spE0[2],
-                                spD4.x, spD4.y, spD4.z,
-                                -(spD4.x * spE0[0].x + spD4.y * spE0[0].y + spD4.z * spE0[0].z), arg0->unk_14->z, arg0->unk_14->x, &sp70, arg0->unk_24) != 0) {
+                            //ab7378
+                            spD4.x *= 1.0f / temp_f12;
+                            spD4.y *= 1.0f / temp_f12;
+                            spD4.z *= 1.0f / temp_f12;
+                            a7 = -(spD4.x * spE0[0].x + spD4.y * spE0[0].y + spD4.z * spE0[0].z);
+                            if (func_800CD044(&spE0[0], &spE0[1], &spE0[2], spD4.x,
+                                spD4.y, spD4.z, a7, arg0->unk_14->z,
+                                arg0->unk_14->x, &sp70, arg0->unk_24) != 0) {
 
                                 if (fabsf(sp70 - phi_f20) < 1.0f) {
 
@@ -3175,24 +3042,24 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
 #endif
 
 #ifdef NON_MATCHING
-s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* arg3, f32* arg4, f32* arg5, CollisionPoly** arg6, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId) {
+//regalloc
+s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* nodeId, f32* arg4, f32* arg5, CollisionPoly** arg6, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId) {
+    s32 padding; 
     f32 spD0;
     s32 spCC = false; //result
     CollisionPoly* temp_s0;
     SSNode* phi_s1; //curNode
-    u16 temp_v0;
-    s16 polyId;
     f32 spC0; //nx
     f32 spBC; //ny
     f32 spB8; //nz
     Vec3f spAC;
-
+    s16 polyId;
     f32 temp_f0_2; //temp dimension val
     f32 temp_f0_5;
     f32 temp_f20; //ac_size
     f32 temp_f16; //sp70
-    f32 temp_f18; //sp90
     f32 temp_f24; //DistPlaneToPos result
+    f32 temp_f18; //sp90
     f32 temp_f2; //spD0 - spAC.z
     f32 temp_f2_2; //spD0 - spAC.z
     f32 phi_f2; //dimension min
@@ -3200,11 +3067,11 @@ s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna
     f32 phi_f2_3; //loop 2 dimension min
     f32 phi_f12_3; //loop 2 dimension max
 
-    if (SS_NULL == *arg3) {
+    if (SS_NULL == *nodeId) {
         return spCC;
     }
     spAC = *arg8;
-    phi_s1 = dyna->polyNodes.tbl + *arg3;
+    phi_s1 = &dyna->polyNodes.tbl[*nodeId];
 
     while (true) {
         polyId = phi_s1->polyId;
@@ -3214,28 +3081,30 @@ s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna
         if (!(!IS_ZERO(temp_f20))) {
             __assert("!IS_ZERO(ac_size)", "../z_bgcheck.c", 7382);
         }
-        temp_f24 = Math3D_DistPlaneToPos(spC0, spBC, spB8, (f32)temp_s0->dist, &spAC);
-        if ((arg9 < fabsf(temp_f24)) || ((temp_s0->flags_vIA & ((arg1 & 7) << 13)) != 0)) {
-            temp_v0 = phi_s1->next;
-            if (SS_NULL != temp_v0) {
-                phi_s1 = dyna->polyNodes.tbl + temp_v0;
+        temp_f24 = Math3D_DistPlaneToPos(spC0, spBC, spB8, temp_s0->dist, &spAC);
+        if (arg9 < fabsf(temp_f24) || VIA_FLAG_TEST(temp_s0->flags_vIA, arg1) != 0) {
+            if (SS_NULL == phi_s1->next) {
+                break;
+            }
+            else {
+                phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
                 continue;
             }
-            break;
         }
         temp_f16 = 1.0f / temp_f20;
         temp_f18 = fabsf(spB8) * temp_f16;
         if (temp_f18 < 0.4f) {
-            temp_v0 = phi_s1->next;
-            if (SS_NULL != temp_v0) {
-                phi_s1 = dyna->polyNodes.tbl + temp_v0;
+            if (SS_NULL == phi_s1->next) {
+                break;
+            }
+            else {
+                phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
                 continue;
             }
-            break;
         }
-        phi_f2 = (f32)(dyna->vtxList)[VTX_INDEX(temp_s0->flags_vIA)].z; //7610
-        temp_f12 = phi_f2;
-        temp_f0_2 = (f32)(dyna->vtxList)[VTX_INDEX(temp_s0->flags_vIB)].z;
+        //ab75e8
+        temp_f12 = phi_f2 = dyna->vtxList[VTX_INDEX(temp_s0->flags_vIA)].z; //7610
+        temp_f0_2 = dyna->vtxList[VTX_INDEX(temp_s0->flags_vIB)].z;
 
         // f2 = min, f12 max; f0 = next
         if (temp_f0_2 < phi_f2) { //7630
@@ -3244,7 +3113,7 @@ s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna
         else if (temp_f12 < temp_f0_2) {
             temp_f12 = temp_f0_2;
         }
-        temp_f0_2 = (f32)(dyna->vtxList)[temp_s0->vIC].z;
+        temp_f0_2 = dyna->vtxList[temp_s0->vIC].z;
         if (temp_f0_2 < phi_f2) {
             phi_f2 = temp_f0_2;
         }
@@ -3254,103 +3123,114 @@ s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna
         phi_f2 -= arg9;
         temp_f12 += arg9;
         if (spAC.z < phi_f2 || temp_f12 < spAC.z) {
-            temp_v0 = phi_s1->next;
-            if (SS_NULL != temp_v0) {
-                phi_s1 = dyna->polyNodes.tbl + temp_v0;
+            if (SS_NULL == phi_s1->next) {
+                break;
+            }
+            else {
+                phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
                 continue;
             }
-            break;
         }
-        else if (func_80039000(temp_s0, dyna->vtxList, spAC.x, arg8->z, &spD0) != 0) {
+        else if (func_80039000(temp_s0, dyna->vtxList, spAC.x, arg8->y, &spD0) != 0) {
             temp_f2 = spD0 - spAC.z;
             if (fabsf(temp_f2) <= (arg9 / temp_f18)) {
                 if ((temp_f2 * spB8) <= 4.0f) {
-                    spCC = true;
+                    //ab779c
                     if (func_80039A3C(colCtx, temp_s0, &spAC.x, &spAC.z, spC0, spBC, spB8, temp_f16, temp_f24, arg9, arg6) != 0) {
                         *outBgId = bgId;
                     }
+                    spCC = true;
                 }
             }
         }
-        temp_v0 = phi_s1->next;
-        if (SS_NULL != temp_v0) {
-            phi_s1 = dyna->polyNodes.tbl + temp_v0;
-            continue;
+        //ab77b4
+        if (SS_NULL == phi_s1->next) {
+            break;
         }
-        break;
+        phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
     }
+    //ab77d0
+    phi_s1 = &dyna->polyNodes.tbl[*nodeId];
 
-    phi_s1 = dyna->polyNodes.tbl + *arg3;
-loop_32:
-    temp_s0 = dyna->polyList + phi_s1->polyId;
-    func_800389D4(temp_s0, &spC0, &spBC, &spB8);
-    temp_f20 = sqrtf(SQ(spC0) + SQ(spB8));
-    if (!(!IS_ZERO(temp_f20))) {
-        __assert("!IS_ZERO(ac_size)", "../z_bgcheck.c", 7489);
-    }
-    temp_f24 = Math3D_DistPlaneToPos(spC0, spBC, spB8, (f32)temp_s0->dist, &spAC);
-    if (arg9 < fabsf(temp_f24) || temp_s0->flags_vIA & ((arg1 & 7) << 13)) {
-        temp_v0 = phi_s1->next;
-        if (SS_NULL != temp_v0) {
-            phi_s1 = dyna->polyNodes.tbl + temp_v0;
-            goto loop_32;
+    while (true) {
+        temp_s0 = dyna->polyList + phi_s1->polyId;
+        func_800389D4(temp_s0, &spC0, &spBC, &spB8);
+        temp_f20 = sqrtf(SQ(spC0) + SQ(spB8));
+        if (!(!IS_ZERO(temp_f20))) {
+            __assert("!IS_ZERO(ac_size)", "../z_bgcheck.c", 7489);
         }
-    }
-    else {
-        temp_f16 = 1.0f / temp_f20;
-        temp_f18 = fabsf(spC0) * temp_f16;
-        if (temp_f18 < 0.4f) {
-            temp_v0 = phi_s1->next;
-            if (SS_NULL != temp_v0) {
-                phi_s1 = dyna->polyNodes.tbl + temp_v0;
-                goto loop_32;
+        temp_f24 = Math3D_DistPlaneToPos(spC0, spBC, spB8, temp_s0->dist, &spAC);
+        if (arg9 < fabsf(temp_f24) || VIA_FLAG_TEST(temp_s0->flags_vIA, arg1) != 0) {
+            if (SS_NULL == phi_s1->next) {
+                break;
+            }
+            else {
+                phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
+                continue;
             }
         }
         else {
-            phi_f2_3 = phi_f12_3 = (f32)(dyna->vtxList + VTX_INDEX(temp_s0->flags_vIA))->x;
-            temp_f0_5 = (f32)(dyna->vtxList + VTX_INDEX(temp_s0->flags_vIB))->x;
-
-            // f2 = min, f12 max; f0 = next
-            if (temp_f0_5 < phi_f2_3) {
-                phi_f2_3 = temp_f0_5;
-            }
-            else if (phi_f12_3 < temp_f0_5) {
-                phi_f12_3 = temp_f0_5;
-            }
-            temp_f0_5 = (f32)(dyna->vtxList + temp_s0->vIC)->x;
-            if (temp_f0_5 < phi_f2_3) {
-                phi_f2_3 = temp_f0_5;
-            }
-            else if (phi_f12_3 < temp_f0_5) {
-                phi_f12_3 = temp_f0_5;
-            }
-            //temp_f14 = ;
-            phi_f2_3 -= arg9;
-            phi_f12_3 += arg9;
-            if ((spAC.x < phi_f2_3) || (phi_f12_3 < spAC.x)) {
-                temp_v0 = phi_s1->next;
-                if (SS_NULL != temp_v0) {
-                    phi_s1 = dyna->polyNodes.tbl + temp_v0;
-                    goto loop_32;
+            temp_f16 = 1.0f / temp_f20;
+            temp_f18 = fabsf(spC0) * temp_f16;
+            if (temp_f18 < 0.4f) {
+                if (SS_NULL == phi_s1->next) {
+                    break;
+                }
+                else {
+                    phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
+                    continue;
                 }
             }
             else {
-                //7a2c
-                if (func_80038F60(temp_s0, dyna->vtxList, arg8->y, spAC.z, &spD0) != 0) {
-                    temp_f2_2 = spD0 - spAC.x;
-                    if (fabsf(temp_f2_2) <= (arg9 / temp_f18)) {
-                        if ((temp_f2_2 * spC0) <= 4.0f) {
-                            spCC = true;
-                            if (func_80039A3C(colCtx, temp_s0, &spAC.x, &spAC.z, spC0, spBC, spB8, temp_f16, temp_f24, arg9, arg6) != 0) {
-                                *outBgId = bgId;
+                phi_f2_3 = phi_f12_3 = dyna->vtxList[VTX_INDEX(temp_s0->flags_vIA)].x;
+                temp_f0_5 = dyna->vtxList[VTX_INDEX(temp_s0->flags_vIB)].x;
+
+                // f2 = min, f12 max; f0 = next
+                if (temp_f0_5 < phi_f2_3) {
+                    phi_f2_3 = temp_f0_5;
+                }
+                else if (phi_f12_3 < temp_f0_5) {
+                    phi_f12_3 = temp_f0_5;
+                }
+                temp_f0_5 = dyna->vtxList[temp_s0->vIC].x;
+                if (temp_f0_5 < phi_f2_3) {
+                    phi_f2_3 = temp_f0_5;
+                }
+                else if (phi_f12_3 < temp_f0_5) {
+                    phi_f12_3 = temp_f0_5;
+                }
+                phi_f2_3 -= arg9;
+                phi_f12_3 += arg9;
+                if (spAC.x < phi_f2_3 || phi_f12_3 < spAC.x) {
+                    if (SS_NULL == phi_s1->next) {
+                        break;
+                    }
+                    else {
+                        phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
+                        continue;
+                    }
+                }
+                else {
+                    //7a2c
+                    if (func_80038F60(temp_s0, dyna->vtxList, arg8->y, spAC.z, &spD0) != 0) {
+                        temp_f2_2 = spD0 - spAC.x;
+                        if (fabsf(temp_f2_2) <= (arg9 / temp_f18)) {
+                            if (temp_f2_2 * spC0 <= 4.0f) {
+                                //ab7ac8
+                                if (func_80039A3C(colCtx, temp_s0, &spAC.x, &spAC.z, spC0, spBC, spB8, temp_f16, temp_f24, arg9, arg6) != 0) {
+                                    *outBgId = bgId;
+                                }
+                                spCC = true;
                             }
                         }
                     }
-                }
-                temp_v0 = phi_s1->next;
-                if (SS_NULL != temp_v0) {
-                    phi_s1 = dyna->polyNodes.tbl + temp_v0;
-                    goto loop_32;
+                    if (SS_NULL == phi_s1->next) {
+                        break;
+                    }
+                    else {
+                        phi_s1 = dyna->polyNodes.tbl + phi_s1->next;
+                        continue;
+                    }
                 }
             }
         }
@@ -3360,7 +3240,7 @@ loop_32:
     return spCC;
 }
 #else
-s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* arg3, f32* arg4, f32* arg5, CollisionPoly** outPoly, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId);
+s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* nodeId, f32* arg4, f32* arg5, CollisionPoly** arg6, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80040284.s")
 #endif
 
@@ -3418,93 +3298,76 @@ s32 func_800409A8(CollisionContext* colCtx, u16 arg1, f32* arg2, f32* arg3, Vec3
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800409A8.s")
 #endif
 
-#ifdef NON_MATCHING
-s32 func_80040BE4(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* arg3, f32* arg4, Vec3f* arg5, f32 arg6, CollisionPoly** outPoly) {
-
-    s32 polyId;
-    SSNode* phi_s1;
-    CollisionPoly* temp_s0;
+s32 func_80040BE4(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* nodeId, f32* outY, Vec3f* arg5, f32 arg6, CollisionPoly** outPoly) {
+    s16 polyId;
+    SSNode* curNode;
+    CollisionPoly* poly;
     Vec3f sp98;
     f32 sp94;
     f32 phi_f0;
-    f32 nx; //sp 8C
-    f32 ny; //sp 88
-    f32 nz; //sp 84
-    s32 sp80;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    s32 result;
     f32 temp_f0;
-    u16 temp_v0;
+    u16 next;
 
-    sp80 = false;
-    temp_v0 = *arg3;
-    if (SS_NULL == temp_v0) {
+    result = false;
+    next = *nodeId;
+    if (SS_NULL == next) {
         return false;
     }
-    phi_s1 = &dyna->polyNodes.tbl[temp_v0];
+    curNode = &dyna->polyNodes.tbl[next];
     sp98 = *arg5;
 
     while (true)
     {
-        CollisionPoly* phi_v1 = dyna->polyList;
-        polyId = phi_s1->polyId;
-
-        //loop_3:
-        temp_s0 = phi_v1;
-        temp_s0 += polyId;
-        if (temp_s0->flags_vIA & ((arg1 & 7) << 13)) {
-            //goto block_6;
-
-            temp_v0 = phi_s1->next;
-            if (SS_NULL != temp_v0) {
-                phi_s1 = &dyna->polyNodes.tbl[temp_v0];
+        polyId = curNode->polyId;
+        poly = &dyna->polyList[polyId];
+        if (VIA_FLAG_TEST(poly->flags_vIA, arg1)) {
+            if (SS_NULL == curNode->next) {
+                break;
+            }
+            else
+            {
+                curNode = &dyna->polyNodes.tbl[curNode->next];
                 continue;
             }
-            break;
         }
-        //block_6:
-        func_800389D4(temp_s0, &nx, &ny, &nz);
-        if ((arg6 < Math3D_UDistPlaneToPos(nx, ny, nz, temp_s0->dist, &sp98))) {
-            //goto block_9;
-
-            temp_v0 = phi_s1->next;
-            if (SS_NULL != temp_v0) {
-                phi_s1 = &dyna->polyNodes.tbl[temp_v0];
+        func_800389D4(poly, &nx, &ny, &nz);
+        if (arg6 < Math3D_UDistPlaneToPos(nx, ny, nz, poly->dist, &sp98)) {
+            if (SS_NULL == curNode->next) {
+                break;
+            }
+            else {
+                curNode = &dyna->polyNodes.tbl[curNode->next];
                 continue;
             }
-            break;
         }
-        //block_9:
-        if (func_80038F20(temp_s0, dyna->vtxList, sp98.x, sp98.z, &sp94)) {
-            if (sp98.y < sp94) {
-                //goto block_17;
-                temp_f0 = sp94 - sp98.y;
-                if (temp_f0 < arg6 && temp_f0 * ny <= 0.0f) {
-                    phi_f0 = (0.0f <= ny) ? 1.0f : -1.0f;
+        if (func_80038F20(poly, dyna->vtxList, sp98.x, sp98.z, &sp94)) {
+            temp_f0 = sp94 - sp98.y;
+            if (sp98.y < sp94 && temp_f0 < arg6 && temp_f0 * ny <= 0.0f) {
+                phi_f0 = (0.0f <= ny) ? 1.0f : -1.0f;
 
-                    sp80 = true;
-                    sp98.y = (phi_f0 * arg6) + sp94;
-                    *outPoly = temp_s0;
-
-                }
+                sp98.y = (phi_f0 * arg6) + sp94;
+                result = true;
+                *outPoly = poly;
             }
         }
-        //block_17:
-        temp_v0 = phi_s1->next;
-        if (SS_NULL != temp_v0) {
-            phi_s1 = &dyna->polyNodes.tbl[temp_v0];
+        if (SS_NULL == curNode->next) {
+            break;
+        }
+        else {
+            curNode = &dyna->polyNodes.tbl[curNode->next];
             continue;
         }
-        break;
     }
-    //block_19:
-    *arg4 = sp98.y;
-    return sp80;
+    *outY = sp98.y;
+    return result;
 }
-#else
-s32 func_80040BE4(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* arg3, f32* arg4, Vec3f* arg5, f32 arg6, CollisionPoly** outPoly);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80040BE4.s")
-#endif
 
 #ifdef NON_MATCHING
+//minor codegen issues
 s32 func_80040E40(CollisionContext* colCtx, u16 arg1, f32* arg2, Vec3f* arg3, f32 arg4, CollisionPoly** outPoly, s32* outBgId, Actor* actor) {
 
     s32 i; //s1
@@ -3514,23 +3377,21 @@ s32 func_80040E40(CollisionContext* colCtx, u16 arg1, f32* arg2, Vec3f* arg3, f3
     ActorMesh* bgActor;
     CollisionPoly* sp68;
 
-    sp70 = arg3->y + arg4;
-    phi_f20 = sp70;
-        
+    phi_f20 = sp70 = arg3->y + arg4;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        bgActor = &colCtx->dyna.bgActors[i];
-        if (colCtx->dyna.flags[i] & 1) {
-            if (actor != bgActor->actor
-                && func_800D0480(&colCtx->dyna.bgActors[i].unk_54, arg3->x, arg3->z)
-                && func_80040BE4(colCtx, arg1, &colCtx->dyna, &colCtx->dyna.bgActors[i].dynaLookup.ceiling, &sp70, arg3, arg4, &sp68) == true
-                && sp70 < phi_f20) {
+        if (!(colCtx->dyna.flags[i] & 1)) {
+            continue;
+        }
+        if (actor != colCtx->dyna.bgActors[i].actor
+            && func_800D0480(&colCtx->dyna.bgActors[i].unk_54, arg3->x, arg3->z)
+            && func_80040BE4(colCtx, arg1, &colCtx->dyna, &colCtx->dyna.bgActors[i].dynaLookup.ceiling, &sp70, arg3, arg4, &sp68) == true
+            && sp70 < phi_f20) {
 
-                phi_f20 = sp70;
-                *outPoly = sp68;
-                *outBgId = i;
-                sp78 = true;
-            }
+            phi_f20 = sp70;
+            *outPoly = sp68;
+            *outBgId = i;
+            sp78 = true;
         }
     }
     *arg2 = phi_f20;
@@ -3544,7 +3405,7 @@ s32 func_80040FA4(s80041128* arg0) {
     f32 temp_f0;
     u16 nodeId;
     CollisionPoly* curPoly;
-    SSNode* phi_s2;
+    SSNode* curNode;
     Vec3f sp5C;
     s16 polyId;
     s32 result;
@@ -3554,18 +3415,19 @@ s32 func_80040FA4(s80041128* arg0) {
         return false;
     }
 
-    phi_s2 = arg0->dyna->polyNodes.tbl + nodeId;
+    curNode = arg0->dyna->polyNodes.tbl + nodeId;
     result = false;
 
     while (true)
     {
-        polyId = phi_s2->polyId;
+        polyId = curNode->polyId;
         curPoly = arg0->dyna->polyList + polyId;
-        if ((curPoly->flags_vIA & ((arg0->xpFlags & 7) << 0xD)) != 0) {
-            nodeId = phi_s2->next;
-            if (SS_NULL != nodeId) {
-                phi_s2 = arg0->dyna->polyNodes.tbl + nodeId;
-                continue;
+        if (VIA_FLAG_TEST(curPoly->flags_vIA, arg0->xpFlags) != 0) {
+            if (SS_NULL == curNode->next) {
+                break;
+            }
+            else {
+                curNode = arg0->dyna->polyNodes.tbl + curNode->next;
             }
         }
         else {
@@ -3576,16 +3438,16 @@ s32 func_80040FA4(s80041128* arg0) {
                     *arg0->unk18 = sp5C;
                     *arg0->pointB = sp5C;
                     *arg0->unk1C = curPoly;
-                    result = 1;
+                    result = true;
                 }
             }
-            nodeId = phi_s2->next;
-            if (SS_NULL != nodeId) {
-                phi_s2 = arg0->dyna->polyNodes.tbl + nodeId;
-                continue;
+            if (SS_NULL == curNode->next) {
+                break;
+            }
+            else {
+                curNode = arg0->dyna->polyNodes.tbl + curNode->next;
             }
         }
-        break;
     }
     return result;
 }
@@ -3671,25 +3533,24 @@ s32 func_800413F8(CollisionContext* colCtx, u16 arg1, CollisionPoly** outPoly, V
     while (true) {
         s32 polyId = node->polyId;
         curPoly = &dyna->polyList[polyId];
-        if ((curPoly->flags_vIA & ((arg1 & 7) << 0xD)) != 0) {
-
-            nextId = node->next;
-            if (SS_NULL != nextId) {
-                node = &dyna->polyNodes.tbl[nextId];
+        if (VIA_FLAG_TEST(curPoly->flags_vIA, arg1) != 0) {
+            if (SS_NULL == node->next) {
+                break;
+            } else {
+                node = &dyna->polyNodes.tbl[node->next];
                 continue;
             }
-            break;
         }
         if (func_8003937C(curPoly, dyna->vtxList, center, radius) != 0) {
             *outPoly = curPoly;
-            return 1;
+            return true;
         }
-        nextId = node->next;
-        if (SS_NULL != nextId) {
-            node = &dyna->polyNodes.tbl[nextId];
+        if (SS_NULL == node->next) {
+            break;
+        } else {
+            node = &dyna->polyNodes.tbl[node->next];
             continue;
         }
-        break;
     }
     return false;
 }
@@ -4246,12 +4107,10 @@ void func_80042868(GlobalContext* globalCtx, CollisionContext* colCtx, DynaColli
                 vC.z += AREG(26) * nZ;
             }
             func_8005B2AC(globalCtx->state.gfxCtx, &vA, &vB, &vC, r, g, b);
-            nextId = curNode->next;
-            if (nextId != SS_NULL) {
-                curNode = dyna->polyNodes.tbl + nextId;
-                continue;
+            if (SS_NULL == curNode->next) {
+                break;
             }
-            break;
+            curNode = dyna->polyNodes.tbl + curNode->next;
         }
     }
 }
@@ -4321,11 +4180,10 @@ void func_80042EF8(GlobalContext* globalCtx, CollisionContext* colCtx, u16* ssNo
         while (true) {
             s16 polyId = curNode->polyId;
             func_80042CB8(globalCtx, colCtx, &polyList[polyId], r, g, b);
-            if (SS_NULL != curNode->next) {
-                curNode = &colCtx->polyNodes.tbl[curNode->next];
-                continue;
+            if (SS_NULL == curNode->next) {
+                break;
             }
-            break;
+            curNode = &colCtx->polyNodes.tbl[curNode->next];
         }
     }
 }
