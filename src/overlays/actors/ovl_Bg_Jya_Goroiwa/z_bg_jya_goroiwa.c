@@ -4,6 +4,7 @@
  *  Description: Rolling Boulder
  *  moves very slowly in some cases
  */
+
 #include "z_bg_jya_goroiwa.h"
 
 #define FLAGS 0x00000010
@@ -14,9 +15,10 @@ void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80897DF0(BgJyaGoroiwa* this, GlobalContext* globalCtx);
 void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx);
-void func_808979C0(BgJyaGoroiwa* this, GlobalContext* ctx);
+
 void func_80897DDC(BgJyaGoroiwa* this);
 void func_80897B1C(BgJyaGoroiwa* this);
 void func_80897A2C(BgJyaGoroiwa* this);
@@ -48,9 +50,9 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-static CollisionCheckInfoInit collisionCheckInfoInit = { 0x01, 0xF, 0x0, 0xFE };
+static CollisionCheckInfoInit sCollisionCheckInfoInit = { 0x01, 0xF, 0x0, 0xFE };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
@@ -65,11 +67,11 @@ void func_80897970(BgJyaGoroiwa* this) {
     worldSphere->center.z = this->actor.posRot.pos.z;
 }
 
-void func_808979C0(BgJyaGoroiwa* this, GlobalContext* ctx) {
+void func_808979C0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
     ColliderJntSph* colliderJntSph = &this->collider;
 
-    Collider_InitJntSph(ctx, colliderJntSph);
-    Collider_SetJntSph(ctx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderItem);
+    Collider_InitJntSph(globalCtx, colliderJntSph);
+    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderItem);
     func_80897970(this);
     this->collider.list->dim.worldSphere.radius = 0x3A;
 }
@@ -85,12 +87,12 @@ void func_80897A2C(BgJyaGoroiwa* this) {
 void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaGoroiwa* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808979C0(this, globalCtx);
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.shape.rot.z;
     this->actor.shape.rot.x = this->actor.shape.rot.z;
-    func_80061ED4(&this->actor.colChkInfo, NULL, &collisionCheckInfoInit);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
     ActorShape_Init(&this->actor.shape, 595.0f, &ActorShadow_DrawFunc_Circle, 9.0f);
     this->actor.shape.unk_14 = 0x80;
     func_80897B1C(this);
@@ -186,7 +188,7 @@ void func_80897DF0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
 
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 padding;
+    f32 pad;
     BgJyaGoroiwa* this = THIS;
     UNK_PTR sp38;
     Vec3f pos;
