@@ -2,29 +2,6 @@
  * File: z_elf_msg.c
  * Overlay: ovl_Elf_Msg
  * Description: Readable Navi call spot
- *
- * this.params
- *     (p >> 8) & 0x3F          : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F),
- *                                also set if at any point the actor flag 0x100 is set.
- *                                (Also see this.posRot.rot.y).
- *     (p & 0x4000)             : Navi call area is a cuboid
- *     !(p & 0x4000)            : Navi call area is a cylinder
- *     (p & 0x8000)             : Navi message on c-up
- *     !(p & 0x8000)            : Forced Navi message
- *     (p & 0xFF) + 0x100       : Message ID
- *
- * this.posRot.rot.x
- *     x                        : Size of Navi call spot in X/Z
- *
- * this.posRot.rot.y
- *     (y == -1)                : Actor is killed if room clear flag is set.
- *     (y > 0x00) && (y < 0x41) : Actor is killed if switch flag (y - 1) is set.
- *     (y > 0x40) && (y < 0x80) : Actor code only runs if switch flag (y - 0x41) is set, once running, actor
- *                                is killed if switch flag ((p >> 8) & 0x3F) is set
- *     else:                    : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
- *
- * this.posRot.rot.z
- *      z                       : Size of Navi call spot in Y
  */
 
 #include "z_elf_msg.h"
@@ -124,7 +101,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
         (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161);
-        if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
+        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
         Actor_Kill(&this->actor);
@@ -137,7 +114,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if ((this->actor.params >> 8 & 0x3F) == 0x3F) {
+    } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
         return 0;
     } else if (Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
         Actor_Kill(&this->actor);

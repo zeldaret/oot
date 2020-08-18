@@ -2,25 +2,6 @@
  * File: z_elf_msg2.c
  * Overlay: ovl_Elf_Msg2
  * Description: Targetable Navi check spot
- *
- * this.params
- *     (p >> 8) & 0x3F           : Switch flag, set when actor is killed if (((p >> 8) & 0x3F) != 0x3F)
- *                                 (also see this.posRot.rot.y).
- *     (p & 0xFF) + 0x100        : Message ID
- *
- * this.posRot.rot.x
- *     (x > 0) && (x < 8))       : this->actor.unk_1F = (x - 1);
- *
- * this.posRot.rot.y
- *     (y == -1)                 : Actor is killed if room clear flag is set.
- *     (y > 0x00) && (y <= 0x40) : Actor is killed if switch flag (y - 1) is set.
- *     (y > 0x40) && (y <= 0x80) : Actor idles and is not interactable until switch flag (y - 0x41) is set, once
- *                                running, actor is killed if switch flag ((p >> 8) & 0x3F) is set.
- *     (y > 0x80)                : Actor idles forever and is not interactable (Bug?)
- *     else:                     : Actor is killed if switch flag ((p >> 8) & 0x3F) is set.
- *
- * this.posRot.rot.z
- *      (z != 1)                 : Kill actor when closing the text box
  */
 
 #include "z_elf_msg2.h"
@@ -97,8 +78,8 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
         (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171);
-        if ((this->actor.params >> 8 & 0x3F) != 0x3F) {
-            Flags_SetSwitch(globalCtx, (this->actor.params >> 8 & 0x3F));
+        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
+            Flags_SetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F));
         }
         Actor_Kill(&this->actor);
         return 1;
