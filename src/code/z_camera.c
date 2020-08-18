@@ -5944,7 +5944,218 @@ s32 Camera_Demo4(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo5.s")
+s32 Camera_Demo5(Camera *camera) {
+    f32 sp94;
+    f32 sp90;
+    VecSph sp88;
+    VecSph sp80;
+    VecSph sp78;
+    PosRot sp64;
+    PosRot sp50;
+    struct Player *sp4C;
+    s16 sp4A;
+    s32 pad;
+    s32 temp_v0;
+    s16 t;
+    s32 pad2;
+
+    func_8002EEE4(&sp64, &camera->player->actor);
+    sp4C = camera->player;
+    sCameraInterfaceFlags = 0x3200;
+    if ((camera->target == NULL) || (camera->target->update == NULL)) {
+        if (camera->target == NULL) {
+            osSyncPrintf("\x1b[43;30mcamera: warning: attention: target is not valid, stop!\n\x1b[m");
+        }
+        camera->target = NULL;
+        return true;
+    }
+    func_8002EEE4(&camera->targetPosRot, camera->target);
+    OLib_Vec3fDiffToVecSphGeo(&sp88, &camera->targetPosRot, &camera->playerPosRot.pos);
+    D_8011D3AC = camera->target->type;
+    func_8002F374(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
+    sp94 = OLib_Vec3fDist(&camera->targetPosRot, &camera->eye);
+    OLib_Vec3fDiffToVecSphGeo(&sp80, &sp64.pos, &camera->eyeNext);
+    sp4A = sp80.yaw - sp88.yaw;
+    if (camera->target->type == 2) {
+        if (sp80.r > 30.0f) {
+            D_8011D6AC[1].timerInit = camera->timer - 1;
+            D_8011D6AC[1].atTargetInit.z = Math_Rand_ZeroOne() * 10.0f;
+            D_8011D6AC[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
+            camera->params.uniq9.keyFrames = D_8011D6AC;
+            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
+            if (camera->parentCamIdx != 0) {
+                camera->params.uniq9.keyFrameCnt--;
+            } else {
+                camera->timer += D_8011D6AC[2].timerInit;
+            }
+        } else {
+            D_8011D724[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
+            D_8011D724[1].timerInit = camera->timer - 1;
+            camera->params.uniq9.keyFrames = D_8011D724;
+            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D724);
+            if (camera->parentCamIdx != 0) {
+                camera->params.uniq9.keyFrameCnt--;
+            } else {
+                camera->timer += D_8011D724[2].timerInit;
+            }
+        }
+    } else if (sp88.r < 30.0f) {
+        camera->params.uniq9.keyFrames =D_8011D79C;
+        camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D79C);
+        if ((sp78.yaw < 0x15) || (sp78.yaw >= 0x12C) || (sp78.pitch < 0x29) || (sp78.pitch >= 0xC8)) {
+            D_8011D79C[0].actionFlags = 0x41;
+            D_8011D79C[0].atTargetInit.y = -30.0f;
+            D_8011D79C[0].atTargetInit.x = 0.0f;
+            D_8011D79C[0].atTargetInit.z = 0.0f;
+            D_8011D79C[0].eyeTargetInit.y = 0.0f;
+            D_8011D79C[0].eyeTargetInit.x = 10.0f;
+            D_8011D79C[0].eyeTargetInit.z = -50.0f;
+        }
+
+        D_8011D79C[1].timerInit = camera->timer - 1;
+        
+        if (camera->parentCamIdx != 0) {
+            camera->params.uniq9.keyFrameCnt -= 2;
+        } else {
+            camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
+        }
+    } else {
+        if (sp94 < 300.0f && sp80.r < 30.0f) {
+            D_8011D83C[0].timerInit = camera->timer;
+            camera->params.uniq9.keyFrames = D_8011D83C;
+            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D83C);
+            if (camera->parentCamIdx != 0) {
+                camera->params.uniq9.keyFrameCnt--;
+            } else {
+                camera->timer += D_8011D83C[1].timerInit;
+            }
+        } else if(sp94 < 700.0f && ABS(sp4A) < 0x36B0) {
+            if(sp78.yaw >= 0x15 && sp78.yaw < 0x12C && sp78.pitch >= 0x29 && sp78.pitch < 0xC8 && sp80.r > 30.0f){
+                D_8011D88C[0].timerInit = camera->timer;
+                camera->params.uniq9.keyFrames = D_8011D88C;
+                camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D88C);
+                if (camera->parentCamIdx != 0) {
+                    camera->params.uniq9.keyFrameCnt--;
+                } else {
+                    camera->timer += D_8011D88C[1].timerInit;
+                }
+            } else {
+                D_8011D8DC[0].atTargetInit.z = sp94 * 0.6f;
+                D_8011D8DC[0].eyeTargetInit.z = sp94 + 50.0f;
+                D_8011D8DC[0].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
+                if (BINANG_SUB(sp80.yaw, sp88.yaw) > 0) {
+                    D_8011D8DC[0].atTargetInit.x = -D_8011D8DC[0].atTargetInit.x;
+                    D_8011D8DC[0].eyeTargetInit.x = -D_8011D8DC[0].eyeTargetInit.x;
+                    D_8011D8DC[0].rollTargetInit = -D_8011D8DC[0].rollTargetInit;
+                }
+                D_8011D8DC[0].timerInit = camera->timer;
+                D_8011D8DC[1].timerInit = (s16)(sp94 * 0.005f) + 8;
+                camera->params.uniq9.keyFrames = D_8011D8DC;
+                camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
+                if (camera->parentCamIdx != 0) {
+                    camera->params.uniq9.keyFrameCnt -= 2;
+                } else {
+                    camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
+                }
+            }
+        } else if (camera->target->type == 0xA) {
+            D_8011D954[0].timerInit = camera->timer - 5;
+            sp4A = 0;
+            if (func_800C0D34(camera->globalCtx, camera->target, &sp4A) == 0) {
+                osSyncPrintf("\x1b[43;30mcamera: attention demo: this door is dummy door!\n\x1b[m");
+                if (ABS(sp88.yaw - camera->target->shape.rot.y) >= 0x4000) {
+                    sp4A = camera->target->shape.rot.y;
+                } else {
+                    sp4A = BINANG_ROT180(camera->target->shape.rot.y);
+                }
+            }
+
+            D_8011D954[0].atTargetInit.y = D_8011D954[0].eyeTargetInit.y = D_8011D954[1].atTargetInit.y = camera->target->shape.rot.y == sp4A ? 180.0f : 0.0f;
+            sp90 = (BINANG_SUB(sp88.yaw, sp4A) < 0 ? 20.0f : -20.0f) * Math_Rand_ZeroOne();
+            D_8011D954[0].eyeTargetInit.y = D_8011D954->eyeTargetInit.y + sp90;
+            temp_v0 = Math_Rand_ZeroOne() * (sp90 * -0.2f);
+            D_8011D954[1].rollTargetInit = temp_v0;
+            D_8011D954[0].rollTargetInit = temp_v0;
+            func_8002EEE4(&sp50, camera->target);
+            sp50.pos.x += 50.0f * Math_Sins(BINANG_ROT180(sp4A));
+            sp50.pos.z += 50.0f * Math_Coss(BINANG_ROT180(sp4A));
+            if (func_80043F34(camera, &sp64, &sp50.pos)) {
+                D_8011D954[1].actionFlags = 0xC1;
+                D_8011D954[2].actionFlags = 0x8F;
+            } else {
+                D_8011D954[2].timerInit = (s16)(sp94 * 0.004f) + 6;
+            }
+            camera->params.uniq9.keyFrames = D_8011D954;
+            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D954);
+            if (camera->parentCamIdx != 0) {
+                camera->params.uniq9.keyFrameCnt -= 2;
+            } else {
+                camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
+            }
+        } else {
+            if (sp88.r < 200.0f) {
+                D_8011D9F4[0].eyeTargetInit.z = sp88.r;
+                D_8011D9F4[0].atTargetInit.z = sp88.r * 0.25f;
+            }
+            if (sp88.r < 400.0f) {
+                D_8011D9F4[0].eyeTargetInit.x = Math_Rand_ZeroOne() * 25.0f;
+            }
+            Player_GetCameraYOffset(camera->player);
+            D_8011D9F4[0].timerInit = camera->timer;
+            func_8002EEE4(&sp50, camera->target);
+            if (func_80043F34(camera, &sp64, &sp50.pos)) {
+                D_8011D9F4[1].timerInit = 4;
+                D_8011D9F4[1].actionFlags = 0x8F;
+            } else {
+                t = sp94 * 0.005f;
+                D_8011D9F4[1].timerInit = t + 8;
+            }
+            camera->params.uniq9.keyFrames = D_8011D9F4;
+            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
+            if (camera->parentCamIdx != 0) {
+                if (camera->globalCtx->state.frames & 1) {
+                    D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
+                    D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
+                }
+                camera->params.uniq9.keyFrameCnt -= 2;
+            } else {
+                camera->timer += D_8011D9F4[1].timerInit + D_8011D9F4[2].timerInit;
+                D_8011D9F4[0].rollTargetInit = D_8011D9F4[1].rollTargetInit = 0;
+            }
+        }
+    }
+
+    pad = D_8011D6A8 - camera->globalCtx->state.frames;
+    if ((pad >= 0x33) || (pad < -0x32)) {
+        func_80078884((u16)camera->eyePoints);
+    }
+    
+    D_8011D6A8 = camera->globalCtx->state.frames;
+    
+    if (camera->player->stateFlags1 & 0x8000000 && (sp4C->currentBoots != 1)) {
+        sp4C->stateFlags1 |= 0x20000000;
+        sp4C->actor.freezeTimer = camera->timer;
+    } else {
+        sp4A = sp64.rot.y - sp88.yaw;
+        if (camera->target->type == 2) {
+            pad = camera->globalCtx->state.frames - D_8011D3F4;
+            if (sp4C->stateFlags1 & 0x800) {
+                func_8002DF54(camera->globalCtx, camera->target, 8);
+            } else if (ABS(pad) >= 0xBB9) {
+                func_8002DF54(camera->globalCtx, camera->target, 12);
+            } else {
+                func_8002DF54(camera->globalCtx, camera->target, 69);
+            }
+        } else {
+            func_8002DF54(camera->globalCtx, camera->target, 1);
+        }
+    }
+
+    D_8011D3F4 = camera->globalCtx->state.frames;
+    Camera_ChangeSettingFlags(camera, CAM_SET_DEMOC, (4 | 1));
+    Camera_Unique9(camera);
+    return 1;
+}
 
 /**
  * Used in Forest Temple when poes are defeated, follows the flames to the torches.
