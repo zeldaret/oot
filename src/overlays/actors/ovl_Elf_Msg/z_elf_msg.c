@@ -72,8 +72,7 @@ Gfx D_809AD278[] = {
     gsSPEndDisplayList(),
 };
 
-// Cylinder
-Vtx D_809AD2B8[] = {
+Vtx sCylinderVertices[] = {
     VTX(100, 0, 0, 0, 0, 0x59, 0xA7, 0x00, 0xFF),    VTX(70, 0, 70, 0, 0, 0x49, 0xB7, 0x49, 0xFF),
     VTX(0, 0, 100, 0, 0, 0x00, 0xA7, 0x59, 0xFF),    VTX(-70, 0, 70, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
     VTX(-100, 0, 0, 0, 0, 0xA7, 0xA7, 0x00, 0xFF),   VTX(-70, 0, -70, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),
@@ -86,26 +85,17 @@ Vtx D_809AD2B8[] = {
 
 // Polygons for cylinder
 Gfx D_809AD3B8[] = {
-    gsSPVertex(D_809AD2B8, 16, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),
-    gsSP2Triangles(0, 5, 6, 0, 0, 6, 7, 0),
-    gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0),
-    gsSP2Triangles(8, 11, 12, 0, 8, 12, 13, 0),
-    gsSP2Triangles(8, 13, 14, 0, 8, 14, 15, 0),
-    gsSP2Triangles(0, 1, 8, 0, 1, 8, 9, 0),
-    gsSP2Triangles(1, 2, 9, 0, 2, 9, 10, 0),
-    gsSP2Triangles(2, 3, 10, 0, 3, 10, 11, 0),
-    gsSP2Triangles(3, 4, 11, 0, 4, 11, 12, 0),
-    gsSP2Triangles(4, 5, 12, 0, 5, 12, 13, 0),
-    gsSP2Triangles(5, 6, 13, 0, 6, 13, 14, 0),
-    gsSP2Triangles(6, 7, 14, 0, 7, 14, 15, 0),
-    gsSP2Triangles(7, 0, 15, 0, 0, 15, 8, 0),
-    gsSPEndDisplayList(),
+    gsSPVertex(sCylinderVertices, 16, 0),       gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),     gsSP2Triangles(0, 5, 6, 0, 0, 6, 7, 0),
+    gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0),  gsSP2Triangles(8, 11, 12, 0, 8, 12, 13, 0),
+    gsSP2Triangles(8, 13, 14, 0, 8, 14, 15, 0), gsSP2Triangles(0, 1, 8, 0, 1, 8, 9, 0),
+    gsSP2Triangles(1, 2, 9, 0, 2, 9, 10, 0),    gsSP2Triangles(2, 3, 10, 0, 3, 10, 11, 0),
+    gsSP2Triangles(3, 4, 11, 0, 4, 11, 12, 0),  gsSP2Triangles(4, 5, 12, 0, 5, 12, 13, 0),
+    gsSP2Triangles(5, 6, 13, 0, 6, 13, 14, 0),  gsSP2Triangles(6, 7, 14, 0, 7, 14, 15, 0),
+    gsSP2Triangles(7, 0, 15, 0, 0, 15, 8, 0),   gsSPEndDisplayList(),
 };
 
-// Cuboid
-Vtx D_809AD438[] = {
+Vtx sCuboidVertices[] = {
     VTX(100, 0, 100, 0, 0, 0x49, 0xB7, 0x49, 0xFF),     VTX(100, 0, -100, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
     VTX(-100, 0, -100, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),   VTX(-100, 0, 100, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
     VTX(100, 100, 100, 0, 0, 0x49, 0x49, 0x49, 0xFF),   VTX(100, 100, -100, 0, 0, 0x49, 0x49, 0xB7, 0xFF),
@@ -114,7 +104,7 @@ Vtx D_809AD438[] = {
 
 // Polygons for cuboid
 Gfx D_809AD4B8[] = {
-    gsSPVertex(D_809AD438, 8, 0),           gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSPVertex(sCuboidVertices, 8, 0),      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
     gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
     gsSP2Triangles(3, 0, 7, 0, 0, 7, 4, 0), gsSPEndDisplayList(),

@@ -36,8 +36,8 @@ void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 ElfMsg2_GetMessageId(ElfMsg2* this);
-void ElfMsg2_Idle(ElfMsg2* this, GlobalContext* globalCtx);
-void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx);
+void ElfMsg2_WaitUntilActivated(ElfMsg2* this, GlobalContext* globalCtx);
+void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx);
 
 const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
@@ -68,8 +68,7 @@ Gfx D_809ADC38[] = {
     gsSPEndDisplayList(),
 };
 
-// Corner vertices of a small cuboid
-Vtx D_809ADC78[] = {
+Vtx sCuboidVertices[] = {
     VTX(100, 0, 100, 0, 0, 0x49, 0xB7, 0x49, 0xFF),     VTX(100, 0, -100, 0, 0, 0x49, 0xB7, 0xB7, 0xFF),
     VTX(-100, 0, -100, 0, 0, 0xB7, 0xB7, 0xB7, 0xFF),   VTX(-100, 0, 100, 0, 0, 0xB7, 0xB7, 0x49, 0xFF),
     VTX(100, 100, 100, 0, 0, 0x49, 0x49, 0x49, 0xFF),   VTX(100, 100, -100, 0, 0, 0x49, 0x49, 0xB7, 0xFF),
@@ -78,7 +77,7 @@ Vtx D_809ADC78[] = {
 
 // Cuboid polygons
 Gfx D_809ADCF8[] = {
-    gsSPVertex(D_809ADC78, 8, 0),           gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSPVertex(sCuboidVertices, 8, 0),      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
     gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
     gsSP2Triangles(3, 0, 7, 0, 0, 7, 4, 0), gsSPEndDisplayList(),
@@ -132,9 +131,9 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.posRot.rot.y >= 0x41) {
-            ElfMsg2_SetupAction(this, ElfMsg2_Idle);
+            ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
-            ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
+            ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
             this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
@@ -153,7 +152,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
  * Runs while Navi text is up. Kills the actor upon closing the text box unless rot.z == 1, can also set a switch flag
  * from params.
  */
-void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
+void ElfMsg2_WaitForTextClose(ElfMsg2* this, GlobalContext* globalCtx) {
     s32 switchFlag;
 
     if (func_8002F334(&this->actor, globalCtx)) {
@@ -164,7 +163,7 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
                 Flags_SetSwitch(globalCtx, switchFlag);
             }
         } else {
-            ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
+            ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
         }
     }
 }
@@ -172,21 +171,21 @@ void ElfMsg2_Read(ElfMsg2* this, GlobalContext* globalCtx) {
 /**
  * Runs while Navi text is not up.
  */
-void ElfMsg2_WaitForRead(ElfMsg2* this, GlobalContext* globalCtx) {
+void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
-        ElfMsg2_SetupAction(this, ElfMsg2_Read);
+        ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextClose);
     }
 }
 
 /**
  * Idles until a switch flag is set, at which point the actor becomes interactable
  */
-void ElfMsg2_Idle(ElfMsg2* this, GlobalContext* globalCtx) {
+void ElfMsg2_WaitUntilActivated(ElfMsg2* this, GlobalContext* globalCtx) {
     // If (y >= 0x41) && (y <= 0x80), Idles until switch flag (actor.posRot.rot.y - 0x41) is set
     // If (y > 0x80), Idles forever (Bug?)
     if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y <= 0x80) &&
         (Flags_GetSwitch(globalCtx, (this->actor.posRot.rot.y - 0x41)))) {
-        ElfMsg2_SetupAction(this, ElfMsg2_WaitForRead);
+        ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
         this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);
     }
