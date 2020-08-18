@@ -14,6 +14,7 @@
 void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx);
 void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx);
 void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx);
@@ -64,7 +65,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
             case 1:
                 // Slate GO!
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n" VT_RST);
-                this->fHeight = 0.0f;
+                this->height = 0.0f;
                 this->unk_15C = 80.0f;
                 // Attention coordinates
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
@@ -86,7 +87,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n" VT_RST);
                 this->actor.textId = 0x5002;
                 this->unk_156 = 4;
-                this->fHeight = 30.0f;
+                this->height = 30.0f;
                 this->unk_15C = 40.0f;
                 // Attention coordinates
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 30.0f);
@@ -94,7 +95,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
             case 3:
                 this->actor.textId = 0x501E;
                 this->unk_156 = 5;
-                this->fHeight = 0.0f;
+                this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // Attention coordinates
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
@@ -102,18 +103,18 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
             case 4:
                 this->actor.textId = 0x5020;
                 this->unk_156 = 6;
-                this->fHeight = 0.0f;
+                this->height = 0.0f;
                 // Attention coordinates
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 this->unk_15C = 120.0f;
-                if ((gSaveContext.eventChkInf[1] & 0x2000) != 0) {
+                if (gSaveContext.eventChkInf[1] & 0x2000) {
                     Actor_Kill(&this->actor);
                 }
                 break;
             case 5:
                 this->actor.textId = 0x501F;
                 this->unk_156 = 5;
-                this->fHeight = 0.0f;
+                this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // Attention coordinates
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
@@ -136,7 +137,9 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
     this->unk_15A++;
     if (this->unk_150 == 4 && (gSaveContext.eventChkInf[1] & 0x2000)) {
         Actor_Kill(&this->actor);
-    } else if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        return;
+    }
+    if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if ((func_8002F194(&this->actor, globalCtx))) {
             if (this->unk_156 != 6) {
                 this->actionFunc = func_80B395F0;
@@ -150,7 +153,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
         } else if (!(this->unk_15C < this->actor.xzDistFromLink)) {
             yawDiffTemp = (this->actor.yawTowardsLink - this->actor.posRot.rot.y);
             yawDiff = ABS(yawDiffTemp);
-        
+
             if (yawDiff < 0x4000) {
                 if (this->unk_15A >= 2) {
                     osSyncPrintf("\n\n");
@@ -199,7 +202,7 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
                         case 1:
                             // Out!
                             osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" VT_RST);
-                            this->actor.textId = 0x5004U;
+                            this->actor.textId = 0x5004;
                             break;
                     }
 
@@ -235,13 +238,13 @@ void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnWonderTalk* this = THIS;
 
     if (this->unk_158 != 0) {
-        this->unk_158 -= 1;
+        this->unk_158--;
     }
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, this->fHeight);
+    Actor_SetHeight(&this->actor, this->height);
 
     if (BREG(0) != 0) {
-        if (this->unk_15A) {
+        if (this->unk_15A != 0) {
             if ((this->unk_15A & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                        this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
