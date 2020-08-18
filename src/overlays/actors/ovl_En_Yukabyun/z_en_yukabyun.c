@@ -42,10 +42,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 16, ICHAIN_STOP),
 };
 
-s32 D_80B43F64[] = { 0x06000AF0, 0x06000000, 0x00000000 };
+UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000};
 
 extern UNK_TYPE D_06000A60;
-extern UNK_TYPE D_06000040;
 extern Gfx D_06000970[];
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -113,7 +112,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~0x2;
         this->collider.base.maskA &= ~0x2;
         this->actor.flags &= ~0x5;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x1E, NA_SE_EN_OCTAROCK_ROCK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = func_80B43BCC;
     }
 
