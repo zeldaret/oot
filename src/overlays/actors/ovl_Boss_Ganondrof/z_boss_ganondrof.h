@@ -1,8 +1,8 @@
 #ifndef _Z_BOSS_GANONDROF_H_
 #define _Z_BOSS_GANONDROF_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BossGanondrof;
 

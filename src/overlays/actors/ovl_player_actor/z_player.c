@@ -4,7 +4,7 @@
  * Description: Link
  */
 
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80832210.s")
 

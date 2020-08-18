@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 DamageTable D_8011DB20[] = {
     { {

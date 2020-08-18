@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tubo_trap.h"
+#include "vt.h"
 
 #define FLAGS 0x00000010
 

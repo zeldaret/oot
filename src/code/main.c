@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
@@ -74,26 +75,26 @@ void Main(void* arg0) {
 
     osCreateMesgQueue(&irqMgrMsgQ, irqMgrMsgBuf, 0x3c);
     StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, sIrqMgrStack + sizeof(sIrqMgrStack), 0, 0x100, "irqmgr");
-    IrqMgr_Init(&gIrqMgr, &sGraphStackInfo, OS_PRIORITY_IRQMGR, 1);
+    IrqMgr_Init(&gIrqMgr, &sGraphStackInfo, Z_PRIORITY_IRQMGR, 1);
 
     osSyncPrintf("タスクスケジューラの初期化\n"); // Initialize the task scheduler
     StackCheck_Init(&sSchedStackInfo, sSchedStack, sSchedStack + sizeof(sSchedStack), 0, 0x100, "sched");
-    Sched_Init(&gSchedContext, &sAudioStack, OS_PRIORITY_SCHED, D_80013960, 1, &gIrqMgr);
+    Sched_Init(&gSchedContext, &sAudioStack, Z_PRIORITY_SCHED, D_80013960, 1, &gIrqMgr);
 
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQ);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, sAudioStack + sizeof(sAudioStack), 0, 0x100, "audio");
-    AudioMgr_Init(&gAudioMgr, sAudioStack + sizeof(sAudioStack), OS_PRIORITY_AUDIOMGR, 0xa, &gSchedContext, &gIrqMgr);
+    AudioMgr_Init(&gAudioMgr, sAudioStack + sizeof(sAudioStack), Z_PRIORITY_AUDIOMGR, 0xa, &gSchedContext, &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, sPadMgrStack + sizeof(sPadMgrStack), 0, 0x100, "padmgr");
-    PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, OS_PRIORITY_PADMGR, &sIrqMgrStack);
+    PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, Z_PRIORITY_PADMGR, &sIrqMgrStack);
 
     AudioMgr_Unlock(&gAudioMgr);
 
     StackCheck_Init(&sGraphStackInfo, sGraphStack, sGraphStack + sizeof(sGraphStack), 0, 0x100, "graph");
-    osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg0, sGraphStack + sizeof(sGraphStack), OS_PRIORITY_GRAPH);
+    osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg0, sGraphStack + sizeof(sGraphStack), Z_PRIORITY_GRAPH);
     osStartThread(&sGraphThread);
-    osSetThreadPri(0, 0xf);
+    osSetThreadPri(0, Z_PRIORITY_SCHED);
 
     while (true) {
         msg = NULL;

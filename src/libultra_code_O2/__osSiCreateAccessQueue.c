@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSMesg osSiMesgBuff[SIAccessQueueSize];
 OSMesgQueue gOSSiMessageQueue;

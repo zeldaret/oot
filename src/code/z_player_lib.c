@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 typedef struct {
     u8 unk_0;

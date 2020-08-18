@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void func_8006BA00(GlobalContext* globalCtx) {
     SoundSource* sources = &globalCtx->soundSources[0];

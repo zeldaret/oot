@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 

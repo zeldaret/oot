@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // original name: "spark"
 void EffectSpark_Init(void* thisx, void* initParamsx) {

@@ -4,6 +4,7 @@
  * Description: Hyrulian Guards
  */
 
+#include "vt.h"
 #include "z_en_heishi2.h"
 #include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"

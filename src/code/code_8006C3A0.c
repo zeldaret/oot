@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void Flags_UnsetAllEnv(GlobalContext* globalCtx) {
     u8 i;

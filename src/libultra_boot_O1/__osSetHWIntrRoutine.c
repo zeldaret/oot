@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "ultra64/internal.h"
 
 void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg) {
     register s32 prevInt;

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // .bss
 u8 D_801755F0;

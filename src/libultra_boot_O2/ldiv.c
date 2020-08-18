@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 ldiv_t ldiv(s32 num, s32 denom) {
     ldiv_t ret;

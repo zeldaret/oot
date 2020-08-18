@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 vu32 gIrqMgrResetStatus = 0;
 volatile OSTime sIrqMgrResetTime = 0;

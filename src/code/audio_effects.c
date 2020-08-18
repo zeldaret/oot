@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalculateVolume, s32 b) {
     f32 channelVolume;

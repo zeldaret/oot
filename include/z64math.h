@@ -1,7 +1,7 @@
 #ifndef _Z64MATH_H_
 #define _Z64MATH_H_
 
-#include <ultra64.h>
+#include "ultra64.h"
 
 #define VEC_SET(V,X,Y,Z) V.x=X;V.y=Y;V.z=Z
 

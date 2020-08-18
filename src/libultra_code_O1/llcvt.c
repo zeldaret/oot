@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s64 __d_to_ll(f64 d) {
     return d;

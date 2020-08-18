@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #ifndef __GNUC__
 #pragma intrinsic(sqrt)

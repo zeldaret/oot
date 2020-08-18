@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 Gfx D_8012AFB0[] = {
     gsDPPipeSync(),

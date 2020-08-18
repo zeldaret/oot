@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern) {
     s32 ret = 0;

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // TODO: use macros to define elf messages once the format is fully documented
 ElfMessage sChildSariaMsgs[] = {

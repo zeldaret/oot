@@ -1,5 +1,5 @@
 #ifndef _ULTRA64_MBI_H_
-#define	_ULTRA64_MBI_H_
+#define _ULTRA64_MBI_H_
 
 /*
  * Header file for the Media Binary Interface
@@ -24,22 +24,22 @@
  * (NOTE: _SHIFTL(v, 0, 32) won't work, just use an assignment)
  *
  */
-#define _SHIFTL(v, s, w)	\
-    ((unsigned int) (((unsigned int)(v) & ((0x01 << (w)) - 1)) << (s)))
-#define _SHIFTR(v, s, w)	\
-    ((unsigned int)(((unsigned int)(v) >> (s)) & ((0x01 << (w)) - 1)))
+#define _SHIFTL(v, s, w)    \
+    ((u32) (((u32)(v) & ((0x01 << (w)) - 1)) << (s)))
+#define _SHIFTR(v, s, w)    \
+    ((u32)(((u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
-#define _SHIFT _SHIFTL	/* old, for compatibility only */
+#define _SHIFT _SHIFTL  /* old, for compatibility only */
 
-#define G_ON	(1)
-#define G_OFF	(0)
+#define G_ON    (1)
+#define G_OFF   (0)
 
-#include <ultra64/gbi.h>
-#include <ultra64/abi.h>
+#include "ultra64/gbi.h"
+#include "ultra64/abi.h"
 
-#define	NUM_SEGMENTS        (16)
-#define	SEGMENT_OFFSET(a)   ((unsigned int)(a) & 0x00ffffff)
-#define	SEGMENT_NUMBER(a)   (((unsigned int)(a) << 4) >> 28)
-#define	SEGMENT_ADDR(num, off)  (((num) << 24) + (off))
+#define NUM_SEGMENTS        (16)
+#define SEGMENT_OFFSET(a)   ((u32)(a) & 0x00ffffff)
+#define SEGMENT_NUMBER(a)   (((u32)(a) << 4) >> 28)
+#define SEGMENT_ADDR(num, off)  (((num) << 24) + (off))
 
 #endif

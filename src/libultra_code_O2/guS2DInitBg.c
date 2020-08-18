@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void guS2DInitBg(uObjBg* bg) {
     u16 shift;

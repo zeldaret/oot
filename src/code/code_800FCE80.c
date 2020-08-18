@@ -1,5 +1,5 @@
-#include <global.h>
-#include <fp.h>
+#include "global.h"
+#include "fp.h"
 
 s32 use_cfrac;
 

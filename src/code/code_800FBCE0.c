@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define printSpStatus(x, name) \
     if (x & SP_STATUS_##name)  \

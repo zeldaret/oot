@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;

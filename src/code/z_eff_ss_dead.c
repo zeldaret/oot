@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3) {
     f32 cos;

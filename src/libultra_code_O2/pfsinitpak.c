@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 #ifdef NON_MATCHING
 // regalloc differences, probably the same issue as __osGetId

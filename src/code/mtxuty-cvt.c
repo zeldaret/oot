@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void MtxConv_F2L(MatrixInternal* m1, MtxF* m2) {
     s32 i;

@@ -1,4 +1,6 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
+#include "alloca.h"
 
 // data
 const char* sExceptionNames[] = {
@@ -67,7 +69,7 @@ void Fault_ProcessClientContext(FaultClientContext* ctx) {
 
     if (sFaultStructPtr->currClientThreadSp != 0) {
         thread = alloca(sizeof(OSThread));
-        osCreateThread(thread, 2, Fault_ClientProcessThread, ctx, sFaultStructPtr->currClientThreadSp, OS_PRIORITY_FAULTCLIENT);
+        osCreateThread(thread, 2, Fault_ClientProcessThread, ctx, sFaultStructPtr->currClientThreadSp, OS_PRIORITY_APPMAX-1);
         osStartThread(thread);
     } else {
         Fault_ClientProcessThread(ctx);
@@ -290,7 +292,7 @@ u32 Fault_WaitForInputImpl() {
         Fault_Sleep(0x10);
         Fault_UpdatePadImpl();
 
-        kDown = curInput->press.in.button;
+        kDown = curInput->press.button;
 
         if (kDown == L_TRIG) {
             sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
@@ -560,8 +562,8 @@ void Fault_WaitForButtonCombo() {
         Fault_Sleep(0x10);
         Fault_UpdatePadImpl();
 
-        kDown = curInput->press.in.button;
-        kCur = curInput->cur.in.button;
+        kDown = curInput->press.button;
+        kCur = curInput->cur.button;
 
         if (kCur == 0) {
             if (s1 == s2) {
@@ -1046,7 +1048,7 @@ void Fault_Init(void) {
     gFaultStruct.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultStructPtr->queue, &sFaultStructPtr->msg, 1);
     StackCheck_Init(&sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack), OS_PRIORITY_FAULT);
+    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack), OS_PRIORITY_APPMAX);
     osStartThread(&sFaultStructPtr->thread);
 }
 

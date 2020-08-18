@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 Vtx sCylinderVtx[] = {
     VTX(0, 0, -6000, 1024, 2048, 0xFF, 0xFF, 0xFF, 0xFF),

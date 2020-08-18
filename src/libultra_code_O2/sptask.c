@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define _osVirtualToPhysical(ptr)              \
     if (ptr != NULL) {                         \

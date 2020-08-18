@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void func_8008E6A0(SubGlobalContext7B8* this) {
     this->counter = 0;

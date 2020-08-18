@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 vu32 D_8012ABF0 = true;
 

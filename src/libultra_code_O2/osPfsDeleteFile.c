@@ -1,7 +1,7 @@
-#include <ultra64/pfs.h>
-#include <global.h>
+#include "ultra64/pfs.h"
+#include "global.h"
 
-s32 osPfsDeleteFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name) {
+s32 osPfsDeleteFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName) {
 
     s32 file_no;
     s32 ret;
@@ -11,10 +11,10 @@ s32 osPfsDeleteFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, 
     u8 startpage;
     u8 bank;
 
-    if ((company_code == 0) || (game_code == 0)) {
+    if ((companyCode == 0) || (gameCode == 0)) {
         return PFS_ERR_INVALID;
     }
-    if ((ret = osPfsFindFile(pfs, company_code, game_code, game_name, ext_name, &file_no)) != 0) {
+    if ((ret = osPfsFindFile(pfs, companyCode, gameCode, gameName, extName, &file_no)) != 0) {
         return ret;
     }
     if ((pfs->activebank != 0) && (ret = __osPfsSelectBank(pfs, 0)) != 0) {

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define BANK_ADDR 0x400
 #define MOTOR_ID 0x80

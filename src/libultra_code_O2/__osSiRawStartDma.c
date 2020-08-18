@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s32 __osSiRawStartDma(s32 dir, void* addr) {
     if (HW_REG(SI_STATUS_REG, u32) & (SI_STATUS_DMA_BUSY | SI_STATUS_IO_READ_BUSY)) {

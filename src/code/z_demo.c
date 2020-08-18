@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;

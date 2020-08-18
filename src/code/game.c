@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 typedef struct {
     /* 0x0000 */ OSViMode viMode;

@@ -4,6 +4,7 @@
  * Description: Bombchu Bowling Alley Walls
  */
 
+#include "vt.h"
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 

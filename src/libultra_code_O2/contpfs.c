@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 extern __OSInode __osPfsInodeCache; // bss
 s32 __osPfsInodeCacheChannel = -1;

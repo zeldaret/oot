@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // memcpy used in __osMalloc.c
 void* func_801068B0(void* dst, void* src, size_t size) {

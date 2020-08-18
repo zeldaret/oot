@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // Bit Flag array in which gBitFlags[n] is literally (1 << n)
 u32 gBitFlags[] = {

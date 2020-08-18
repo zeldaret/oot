@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 SaveContext gSaveContext;
 u32 D_8015FA88;

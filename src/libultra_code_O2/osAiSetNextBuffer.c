@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s32 osAiSetNextBuffer(void* buf, u32 size) {
     static u8 D_80130500 = false;

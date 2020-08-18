@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void func_800E6840(void* buf, s32 size) {
     OSIntMask prevMask = osSetIntMask(1);

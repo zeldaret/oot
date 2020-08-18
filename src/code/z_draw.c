@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // "Get Item" Model Draw Functions
 void func_800694E4(GlobalContext* globalCtx, s16 drawId);

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 Path* Path_GetByIndex(GlobalContext* globalCtx, s16 index, s16 max) {
     Path* path;

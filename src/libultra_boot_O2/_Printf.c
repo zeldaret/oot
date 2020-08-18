@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define ATOI(i, a)                           \
     for (i = 0; *a >= '0' && *a <= '9'; a++) \

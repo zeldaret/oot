@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // fmodf?
 f32 func_801067F0(f32 arg0, f32 arg1) {

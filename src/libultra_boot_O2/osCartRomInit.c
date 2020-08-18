@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSPiHandle __CartRomHandle;
 

@@ -1,5 +1,5 @@
-#include <global.h>
-#include <initvars.h>
+#include "global.h"
+#include "initvars.h"
 
 #define EFFECT_SS_OVERLAY(name)                                                                         \
     {                                                                                                   \

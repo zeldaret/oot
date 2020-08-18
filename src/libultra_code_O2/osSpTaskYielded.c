@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u32 osSpTaskYielded(OSTask* task) {
     u32 ret;

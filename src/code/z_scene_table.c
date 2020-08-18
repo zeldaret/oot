@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define ENTRANCE(scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut)                                     \
     {                                                                                                              \

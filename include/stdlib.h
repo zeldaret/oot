@@ -1,7 +1,7 @@
 #ifndef _STDLIB_H_
 #define _STDLIB_H_
 
-#include <ultra64.h>
+#include "ultra64.h"
 
 typedef struct lldiv_t {
     s64 quot;

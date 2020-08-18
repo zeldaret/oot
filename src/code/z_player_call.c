@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void (*sPlayerCallInitFunc)(Actor* thisx, GlobalContext* globalCtx);
 void (*sPlayerCallDestroyFunc)(Actor* thisx, GlobalContext* globalCtx);

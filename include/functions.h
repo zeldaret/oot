@@ -1,7 +1,7 @@
 #ifndef _FUNCTIONS_H_
 #define _FUNCTIONS_H_
 
-#include <z64.h>
+#include "z64.h"
 
 f32 fabsf(f32 f);
 #pragma intrinsic(fabsf)
@@ -98,7 +98,7 @@ void osWritebackDCache(void* vaddr, s32 nbytes);
 void* osViGetNextFramebuffer();
 void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgCnt);
 void __osDevMgrMain(void* arg);
-s32 __osPiRawStartDma(s32 dir, u32 cart_addr, void* dram_addr, size_t size);
+s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size);
 u32 osVirtualToPhysical(void* vaddr);
 void osViBlack(u8 active);
 s32 __osSiRawReadIo(void* a0, u32* a1);
@@ -263,7 +263,7 @@ void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);
 void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
-void EffectSsFhgFlash_Spawn2(GlobalContext *, Actor *, Vec3f *, s16, u8);
+void EffectSsFhgFlash_Spawn2(GlobalContext*, Actor*, Vec3f*, s16, u8);
 // ? func_80029DBC(?);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
                    s16 gravityInfluence, s16 u0, s16 rotSpeed, s16 burstVel, u8 u1, s16 scale, u8 u2, s16 jitter,
@@ -1634,7 +1634,7 @@ void PadMgr_UnlockPadData(PadMgr* padmgr);
 void PadMgr_RumbleControl(PadMgr* padmgr);
 void PadMgr_RumbleStop(PadMgr* padmgr);
 void PadMgr_RumbleReset(PadMgr* padmgr);
-void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles);
+void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlrRumbles);
 void PadMgr_ProcessInputs(PadMgr* padmgr);
 void PadMgr_HandleRetraceMsg(PadMgr* padmgr);
 void PadMgr_HandlePreNMI(PadMgr* padmgr);
@@ -1719,7 +1719,7 @@ s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 s32 func_800CE010(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, f32 arg6);
 s32 func_800CE15C(f32 arg0, f32 arg1, f32 arg2, f32 arg3, Vec3f* arg4, Vec3f* arg5, Vec3f* arg6, s32 arg7);
 void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc);
-s32 func_800CE4B8(f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5, f32 param_6, f32* param_7);
+s32 func_800CE4B8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32* arg6);
 s32 func_800CE600(Sphere16* arg0, Linef* arg1);
 s32 func_800CE934(Sphere16* arg0, TriNorm* arg1, Vec3f* arg2);
 s32 func_800CEE0C(Cylinder16* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4);
@@ -2439,9 +2439,9 @@ s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel);
 void __osPfsRequestOneChannel(s32 channel, u8 poll);
 void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData);
 // ? guMtxIdentF(?);
-void guLookAtF(float mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
+void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 void guLookAt(Mtx*, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
-s32 osPfsAllocateFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name, s32 length, s32* file_no);
+s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 length, s32* fileNo);
 s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared, s32* finalPage);
 s32 osStopTimer(OSTimer* timer);
 u16 __osSumcalc(u8* ptr, s32 length);
@@ -2472,7 +2472,7 @@ OSThread* __osGetActiveQueue();
 // ? guNormalize(?);
 u32 osDpGetStatus(void);
 void osDpSetStatus(u32 status);
-s32 osPfsDeleteFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name);
+s32 osPfsDeleteFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName);
 s32 __osPfsReleasePages(OSPfs* pfs, __OSInode* inode, u8 initialPage, u8 bank, __OSInodeUnit* finalPage);
 void guOrthoF(f32[4][4], f32, f32, f32, f32, f32, f32, f32);
 void guOrtho(Mtx*, f32, f32, f32, f32, f32, f32, f32);
@@ -2485,7 +2485,7 @@ void __osPfsGetInitData(u8* pattern, OSContStatus* contData);
 void guS2DInitBg(uObjBg* bg);
 s32 __osPfsSelectBank(OSPfs* pfs, u8 bank);
 s32 osContSetCh(u8 ch);
-s32 osPfsFileState(OSPfs* pfs, s32 file_no, OSPfsState* state);
+s32 osPfsFileState(OSPfs* pfs, s32 fileNo, OSPfsState* state);
 s32 osPfsInitPak(OSMesgQueue* mq, OSPfs* pfs, s32 channel);
 s32 __osPfsCheckRamArea(OSPfs* pfs);
 s32 osPfsChecker(OSPfs* pfs);

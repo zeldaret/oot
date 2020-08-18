@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define BUFF_LEN 0x20
 

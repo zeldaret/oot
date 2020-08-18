@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void func_800C3C80(AudioMgr* audioMgr) {
     Sub_AudioMgr_18* sub;

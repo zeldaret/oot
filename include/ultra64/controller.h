@@ -1,8 +1,8 @@
 #ifndef _ULTRA64_CONTROLLER_H_
 #define _ULTRA64_CONTROLLER_H_
 
-#include <ultra64.h>
-#include <ultra64/message.h>
+#include "ultra64.h"
+#include "ultra64/message.h"
 
 #define SIAccessQueueSize 2
 #define BLOCKSIZE 32

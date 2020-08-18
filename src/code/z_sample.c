@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void Sample_HandleStateChange(SampleContext* this) {
     if (CHECK_PAD(this->state.input[0].press, START_BUTTON)) {

@@ -6,7 +6,7 @@
 
 #include "z_demo_im.h"
 
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000011
 

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b) {
     f32 dx = a->x - b->x;

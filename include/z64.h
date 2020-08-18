@@ -1,28 +1,28 @@
 #ifndef _Z64_H_
 #define _Z64_H_
 
-#include <ultra64.h>
-#include <ultra64/gs2dex.h>
-#include <z64light.h>
-#include <z64actor.h>
-#include <z64audio.h>
-#include <z64object.h>
-#include <z64cutscene.h>
-#include <z64collision_check.h>
-#include <z64scene.h>
-#include <z64effect.h>
-#include <z64item.h>
-#include <z64animation.h>
-#include <z64dma.h>
-#include <z64math.h>
-#include <z64transition.h>
-#include <bgm.h>
-#include <sfx.h>
-#include <color.h>
-#include <ichain.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <regs.h>
+#include "ultra64.h"
+#include "ultra64/gs2dex.h"
+#include "z64light.h"
+#include "z64actor.h"
+#include "z64audio.h"
+#include "z64object.h"
+#include "z64cutscene.h"
+#include "z64collision_check.h"
+#include "z64scene.h"
+#include "z64effect.h"
+#include "z64item.h"
+#include "z64animation.h"
+#include "z64dma.h"
+#include "z64math.h"
+#include "z64transition.h"
+#include "bgm.h"
+#include "sfx.h"
+#include "color.h"
+#include "ichain.h"
+#include "stdarg.h"
+#include "stdlib.h"
+#include "regs.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -31,6 +31,14 @@
 #define REGION_US 1
 #define REGION_JP 2
 #define REGION_EU 3
+
+#define Z_PRIORITY_MAIN        10
+#define Z_PRIORITY_GRAPH       11
+#define Z_PRIORITY_AUDIOMGR    12
+#define Z_PRIORITY_PADMGR      14
+#define Z_PRIORITY_SCHED       15
+#define Z_PRIORITY_DMAMGR      16
+#define Z_PRIORITY_IRQMGR      17
 
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU

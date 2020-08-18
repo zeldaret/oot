@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSPifRam __osPifInternalBuff;
 u8 __osContLastPoll;

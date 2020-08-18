@@ -1,8 +1,8 @@
 #ifndef _VARIABLES_H_
 #define _VARIABLES_H_
 
-#include <z64.h>
-#include <segment_symbols.h>
+#include "z64.h"
+#include "segment_symbols.h"
 
 extern u8 D_02000000[];
 extern u8 D_02000400[];
@@ -100,13 +100,11 @@ extern u64 osClockRate;
 extern s32 osViClock;
 extern u32 __osShutdown;
 extern u32 __OSGlobalIntMask;
-extern __osHwInt __osHwIntTable[];
 extern OSThread* __osThreadTail[];
 extern OSThread* __osRunQueue;
 extern OSThread* __osActiveQueue;
 extern OSThread* __osRunningThread;
 extern OSThread* __osFaultedThread;
-extern OSMgrArgs __osPiDevMgr;
 extern OSPiHandle* __osPiTable;
 extern OSPiHandle* __osCurrentHandle[];
 extern OSTimer* __osTimerList;
@@ -127,7 +125,6 @@ extern OSMesgQueue __osPiAccessQueue;
 extern OSPiHandle __Dom1SpeedParam;
 extern OSPiHandle __Dom2SpeedParam;
 extern OSThread __osThreadSave;
-extern __OSEventState __osEventStateTab[];
 extern OSTimer __osBaseTimer;
 extern OSTime __osCurrentTime;
 extern u32 __osBaseCounter;

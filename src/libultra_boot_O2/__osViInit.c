@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSViContext vi[2] = { 0 };
 OSViContext* __osViCurr = &vi[0];

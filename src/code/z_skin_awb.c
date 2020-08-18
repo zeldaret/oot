@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_awb/func_800A6460.s")
 

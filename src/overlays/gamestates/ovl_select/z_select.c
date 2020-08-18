@@ -4,10 +4,10 @@
  * Description: Debug Scene Select Menu
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
-#include <alloca.h>
+#include "ultra64.h"
+#include "global.h"
+#include "vt.h"
+#include "alloca.h"
 
 void Select_LoadTitle(SelectContext* this) {
     this->state.running = false;

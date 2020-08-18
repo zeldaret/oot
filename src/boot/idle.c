@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 OSThread gMainThread;
 u8 sMainStack[0x900];
@@ -79,9 +80,9 @@ void Idle_ThreadEntry(void* a0) {
     osViSwapBuffer(0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
     osCreatePiManager(OS_PRIORITY_PIMGR, &gPiMgrCmdQ, sPiMgrCmdBuff, 50);
     StackCheck_Init(&sMainStackInfo, sMainStack, sMainStack + sizeof(sMainStack), 0, 0x400, "main");
-    osCreateThread(&gMainThread, 3, Main_ThreadEntry, a0, sMainStack + sizeof(sMainStack), OS_PRIORITY_MAIN);
+    osCreateThread(&gMainThread, 3, Main_ThreadEntry, a0, sMainStack + sizeof(sMainStack), Z_PRIORITY_MAIN);
     osStartThread(&gMainThread);
-    osSetThreadPri(NULL, 0);
+    osSetThreadPri(NULL, OS_PRIORITY_IDLE);
 
     while (1) {
         ;

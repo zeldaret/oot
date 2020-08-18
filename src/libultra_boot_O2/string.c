@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 const u8* strchr(const u8* str, s32 ch) {
     u8 c = ch;

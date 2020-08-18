@@ -1,6 +1,6 @@
-#include <ultra64.h>
-#include <global.h>
-#include <ultra64/pfs.h>
+#include "ultra64.h"
+#include "global.h"
+#include "ultra64/pfs.h"
 
 s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes) {
     s32 j;

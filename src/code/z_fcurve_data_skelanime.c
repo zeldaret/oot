@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void SkelCurve_Clear(SkelAnimeCurve* skelCurve) {
     skelCurve->limbCount = 0;

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
     OSTime time;

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s32 __osSiDeviceBusy() {
     register u32 status;

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s32 __osSpSetPc(void* pc) {
     register u32 spStatus = HW_REG(SP_STATUS_REG, u32);

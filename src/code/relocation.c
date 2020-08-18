@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #ifdef NON_MATCHING
 void Overlay_DoRelocation(void* allocatedVRamAddress, OverlayRelocationSection* overlayInfo, void* vRamAddress) {

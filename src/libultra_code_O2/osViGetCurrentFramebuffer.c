@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u32* osViGetCurrentFramebuffer() {
     register u32 sMask = __osDisableInt();

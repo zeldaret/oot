@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 #include "overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
 #include "overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.h"
 #include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"

@@ -1,7 +1,7 @@
 #ifndef _Z64LIGHT_H_
 #define _Z64LIGHT_H_
 
-#include <ultra64.h>
+#include "ultra64.h"
 
 typedef struct z_Light_t {
     /* 0x0 */ struct LightInfo* info;

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // Valid addr up to 0x7FF
 // It's the address of a block of 0x20 bytes in the mempak
@@ -9,8 +9,8 @@ u8 __osContAddressCrc(u16 addr) {
     u32 bit;
     s32 i;
 
-    for (bit = 0x400; bit; bit /= 2) {
-        ret *= 2;
+    for (bit = 0x400; bit; bit >>= 1) {
+        ret <<= 1;
         if (addr32 & bit) {
             if (ret & 0x20) {
                 ret ^= 0x14;
@@ -39,8 +39,8 @@ u8 __osContDataCrc(u8* data) {
 
     ret = 0;
     for (byte = 0x20; byte; --byte, ++data) {
-        for (bit = 0x80; bit; bit /= 2) {
-            ret *= 2;
+        for (bit = 0x80; bit; bit >>= 1) {
+            ret <<= 1;
             if ((*data & bit) != 0) {
                 if ((ret & 0x100) != 0) {
                     ret ^= 0x84;
@@ -55,7 +55,7 @@ u8 __osContDataCrc(u8* data) {
         }
     }
     do {
-        ret *= 2;
+        ret <<= 1;
         if (ret & 0x100) {
             ret ^= 0x85;
         }

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // Valid addr up to 0x7FF
 // It's the address of a block of 0x20 bytes in the mempak

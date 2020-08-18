@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name,
                                f32 var2, const char* var3Name, f32 var3) {

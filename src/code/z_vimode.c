@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vimode/func_800AC030.s")
 

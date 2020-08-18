@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void osViSetYScale(f32 scale) {
     register s32 prevInt;

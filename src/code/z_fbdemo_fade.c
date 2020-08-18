@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 static Gfx sRCPSetupFade[] = {
     gsDPPipeSync(),

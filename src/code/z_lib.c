@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void Lib_MemSet(u8* dest, size_t size, u8 val) {
     u32 i;
