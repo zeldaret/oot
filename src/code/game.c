@@ -86,8 +86,8 @@ void func_800C4344(GameState* gameState) {
         HREG(89) = selectedInput->cur.stick_x;
         HREG(90) = selectedInput->cur.stick_y;
         HREG(93) = (selectedInput->cur.button == hReg82);
-        HREG(94) = CHECK_PAD(selectedInput->cur, hReg82);
-        HREG(95) = CHECK_PAD(selectedInput->press, hReg82);
+        HREG(94) = CHECK_BTN_ALL(selectedInput->cur.button, hReg82);
+        HREG(95) = CHECK_BTN_ALL(selectedInput->press.button, hReg82);
     }
 
     if (D_8012DBC0 != 0) {

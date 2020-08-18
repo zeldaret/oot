@@ -1,8 +1,8 @@
 #include "global.h"
 #include "vt.h"
 
-f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name,
-                               f32 var2, const char* var3Name, f32 var3) {
+f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name, f32 var2,
+                             const char* var3Name, f32 var3) {
     if (var1 < var2 || var3 < var1) {
         osSyncPrintf("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, arg1, var2Name, var2, var1Name, var1,
                      var3Name, var3);

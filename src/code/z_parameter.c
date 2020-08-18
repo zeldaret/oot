@@ -3969,13 +3969,13 @@ void Interface_Update(GlobalContext* globalCtx) {
     u16 action;
     Input* input = &globalCtx->state.input[2];
 
-    if (CHECK_PAD(input->press, L_JPAD)) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT)) {
         gSaveContext.language = 0;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_PAD(input->press, U_JPAD)) {
+    } else if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
         gSaveContext.language = 1;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_PAD(input->press, R_JPAD)) {
+    } else if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT)) {
         gSaveContext.language = 2;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }

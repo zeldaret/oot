@@ -402,8 +402,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         sGraphUpdateTime = time;
     }
 
-    if (D_8012DBC0 && CHECK_PAD(gameState->input[0].press, Z_TRIG) &&
-        CHECK_PAD(gameState->input[0].cur, L_TRIG | R_TRIG)) {
+    if (D_8012DBC0 && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
+        CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
         gSaveContext.gameMode = 0;
         SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
         gameState->running = false;
