@@ -1,0 +1,258 @@
+switch (this->introState2) { // switch 1
+            case 1:                  // switch 1
+                this->fogMode = 3;
+                this->targetPosition.x = 0.0f;
+                this->targetPosition.y = -110.0f;
+                this->targetPosition.z = 0.0f;
+                this->unk_2AC = 10000.0f;
+                this->actionState = -1;
+                if ((fabsf(player->actor.posRot.pos.z) < 80.0f) &&
+                    (fabsf(player->actor.posRot.pos.x - 340.0f) < 60.0f)) {
+
+                    this->introState2 = 2;
+                    func_80064520(globalCtx, &globalCtx->csCtx);
+                    func_8002DF54(globalCtx, &this->actor, 8);
+                    this->unk_1404 = Gameplay_CreateSubCamera(globalCtx);
+                    Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+                    Gameplay_ChangeCameraStatus(globalCtx, this->unk_1404, 7);
+                    player->actor.posRot.pos.x = 380.0f;
+                    player->actor.posRot.pos.y = 100.0f;
+                    player->actor.posRot.pos.z = 0.0f;
+                    player->actor.posRot.rot.y = -0x4000;
+                    player->actor.speedXZ = 0.0f;
+                    player->actor.shape.rot.y = player->actor.posRot.rot.y;
+                    this->unk_1408.x = 380.0f - 70.0f;
+                    this->unk_1408.y = player->actor.posRot.pos.y + 40.0f;
+                    this->unk_1408.z = player->actor.posRot.pos.z + 70.0f;
+                    this->unk_1414.x = player->actor.posRot.pos.x;
+                    this->unk_1414.y = player->actor.posRot.pos.y + 30.0f;
+                    this->unk_1414.z = player->actor.posRot.pos.z;
+                    this->unk_1450.x = (player->actor.posRot.pos.x - 50.0f) + 18.0f;
+                    this->unk_1450.y = player->actor.posRot.pos.y + 40.0f;
+                    this->unk_1450.z = (player->actor.posRot.pos.z + 50.0f) - 18.0f;
+                    this->unk_1468.x = player->actor.posRot.pos.x;
+                    this->unk_1468.y = player->actor.posRot.pos.y + 50.0f;
+                    this->unk_1468.z = player->actor.posRot.pos.z;
+                    func_808CB100(this, 1.0f);
+                    this->animationTimers[0] = 0;
+                    this->unk_1474.z = 0.05f;
+                    this->unk_1474.y = 0.05f;
+                    this->unk_1474.x = 0.05f;
+                    this->unk_145C.z = 0.05f;
+                    this->unk_145C.y = 0.05f;
+                    this->unk_145C.x = 0.05f;
+                    this->unk_1480 = 0.0f;
+                    this->unk_1484 = 0.0f;
+                    if ((gSaveContext.eventChkInf[7] & 8) != 0) {
+                        this->introState2 = 6;
+                        this->unk_1450.x = ((player->actor.posRot.pos.x + 100.0f) + 300.0f) - 600.0f;
+                        this->unk_1450.y = (player->actor.posRot.pos.y + 100.0f) - 50.0f;
+                        this->unk_1450.z = (player->actor.posRot.pos.z + 200.0f) - 150.0f;
+                        this->unk_1468.x = 0.0f;
+                        this->unk_1468.y = 120.0f;
+                        this->unk_1468.z = 0.0f;
+                        func_808CB100(this, 0.5f);
+                        this->animationTimers[0] = 0;
+                        this->holeIndex = 1;
+                        temp_v0 = &D_808D192C[this->holeIndex & 0xFF];
+                        this->unk_145C.x = 0.1f;
+                        this->unk_145C.y = 0.1f;
+                        this->unk_145C.z = 0.1f;
+                        this->unk_1474.x = 0.1f;
+                        this->unk_1474.y = 0.1f;
+                        this->unk_1474.z = 0.1f;
+                        this->unk_1484 = 0.005f;
+                        this->targetPosition.x = temp_v0->x;
+                        this->targetPosition.y = temp_v0->y - 200.0f;
+                        this->targetPosition.z = temp_v0->z;
+                        this->animationTimers[0] = 0x32;
+                        this->actionState = 3;
+                        this->actor.posRot.rot.x = 0x4000;
+                        this->unk_224 = 0;
+                        this->animationTimers[3] = 0xFA;
+                        this->animationTimers[2] = 0x1D6;
+                        this->unk_2A4 = 5.0f;
+                    }
+                }
+                break;
+            case 2: // switch 1
+                if (this->animationTimers[0] == 0) {
+                    this->animationTimers[0] = 0x64;
+                    this->introState2 = 3;
+                    this->unk_1484 = 0.0010000002f;
+                }
+            case 3: // switch 1
+                player->actor.posRot.rot.y = -0x4000;
+                player->actor.posRot.pos.x = 380.0f;
+                player->actor.posRot.pos.y = 100.0f;
+                player->actor.posRot.pos.z = 0.0f;
+                player->actor.speedXZ = 0.0f;
+                player->actor.shape.rot.y = player->actor.posRot.rot.y;
+                if (this->animationTimers[0] == 0x32) {
+                    this->fogMode = 1;
+                }
+                if (this->animationTimers[0] < 0x32) {
+                    Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                }
+                if (this->animationTimers[0] == 0x28) {
+                    func_8002DF54(globalCtx, &this->actor, 0x13);
+                }
+                if (this->animationTimers[0] == 0) {
+                    this->introState2 = 4;
+                    this->unk_1468.y = player->actor.posRot.pos.y + 10.0f;
+                    this->unk_1480 = 0.0f;
+                    this->unk_1474.y = 0.2f;
+                    this->animationTimers[0] = 0x46;
+                    this->unk_224 = 0;
+                    this->unk_1484 = 0.02f;
+                }
+                break;
+            case 4: // switch 1
+                this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (this->animationTimers[0] == 0) {
+                    this->introState2 = 5;
+                    this->unk_1450.x = (player->actor.posRot.pos.x + 100.0f) + 300.0f;
+                    this->unk_1450.y = player->actor.posRot.pos.y + 100.0f;
+                    this->unk_1450.z = player->actor.posRot.pos.z + 200.0f;
+                    this->unk_1468.x = player->actor.posRot.pos.x;
+                    this->unk_1468.y = player->actor.posRot.pos.y - 150.0f;
+                    this->unk_1468.z = player->actor.posRot.pos.z - 50.0f;
+                    func_808CB100(this, 0.1f);
+                    this->animationTimers[0] = 0xAA;
+                    this->unk_1480 = 0.0f;
+                    this->unk_1484 = 0.0f;
+                    func_8002DF54(globalCtx, &this->actor, 0x14);
+                }
+                break;
+            case 5: // switch 1
+                this->unk_1484 = 0.005f;
+                this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (this->animationTimers[0] == 0x64) {
+                    this->unk_2D6 = 1;
+                }
+                if (this->animationTimers[0] == 0) {
+                    this->introState2 = 6;
+                    this->unk_1480 = 0.0f;
+                    this->unk_1450.x = ((player->actor.posRot.pos.x + 100.0f) + 300.0f) - 600.0f;
+                    this->unk_1450.y = (player->actor.posRot.pos.y + 100.0f) - 50.0f;
+                    this->unk_1450.z = (player->actor.posRot.pos.z + 200.0f) - 150.0f;
+                    this->unk_1468.x = 0.0f;
+                    this->unk_1468.y = 120.0f;
+                    this->unk_1468.z = 0.0f;
+                    func_808CB100(this, 0.5f);
+                    this->unk_1474.x = 0.1f;
+                    this->unk_1474.y = 0.1f;
+                    this->unk_1474.z = 0.1f;
+                    this->unk_145C.x = 0.1f;
+                    this->unk_145C.y = 0.1f;
+                    this->unk_145C.z = 0.1f;
+                    this->unk_1484 = 0.005f;
+                    this->animationTimers[0] = 0;
+                    this->holeIndex = 1;
+                    holeXYZ = &D_808D192C[this->holeIndex];
+
+                    this->targetPosition.x = holeXYZ->x;
+                    this->targetPosition.y = holeXYZ->y - 200.0f;
+                    this->targetPosition.z = holeXYZ->z;
+                    this->animationTimers[0] = 0x32;
+                    this->actionState = 3;
+                    this->actor.posRot.rot.x = 0x4000;
+                    this->unk_224 = 0;
+                    this->animationTimers[3] = 0xFA;
+                    this->animationTimers[2] = 0x1D6;
+                    this->unk_2A4 = 5.0f;
+                }
+                break;
+            case 6: // switch 1
+                osSyncPrintf("WAY_SPD X = %f\n", this->unk_1444.x);
+                osSyncPrintf("WAY_SPD Y = %f\n", this->unk_1444.y);
+                osSyncPrintf("WAY_SPD Z = %f\n", this->unk_1444.z);
+                if ((this->animationTimers[3] >= 0xBF) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
+                    Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                }
+                if (this->animationTimers[3] == 0xBE) {
+                    this->unk_1474.z = 0.05f;
+                    this->unk_1474.y = 0.05f;
+                    this->unk_2D6 = 2;
+                    this->unk_1474.x = 0.05f;
+                    func_8002DF54(globalCtx, &this->actor, 1);
+                }
+                if (120.0f < this->actor.posRot.pos.y) {
+                    this->unk_1468 = this->actor.posRot.pos;
+                    this->unk_1444.x = 190.0f;
+                    this->unk_1444.y = 85.56f;
+                    this->unk_1444.z = 25.0f;
+                } else {
+                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                    this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                }
+                if (this->animationTimers[3] == 0xA0) {
+                    Audio_SetBGM(0x6B);
+                }
+                if ((this->animationTimers[3] == 0x82) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
+                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_0600D700),
+                                           0xA0, 0xB4, 0x80, 0x28);
+                }
+                if (this->animationTimers[3] < 0x65) {
+                    this->unk_1438.z = 2.0f;
+                    this->unk_1438.y = 2.0f;
+                    this->unk_1438.x = 2.0f;
+                    this->unk_1450.x = player->actor.posRot.pos.x + 50.0f;
+                    this->unk_1450.y = player->actor.posRot.pos.y + 50.0f;
+                    this->unk_1450.z = player->actor.posRot.pos.z + 50.0f;
+                }
+                if (this->actionState == 1) {
+                    switch (this->introState1) {
+                        case 0:
+                            this->animationTimers[5] = 0x64;
+                            this->introState1 = 1;
+                        case 1:
+                            if (this->animationTimers[5] == 0) {
+                                this->introState1 = 2;
+                                this->animationTimers[5] = 0x4B;
+                            }
+                            break;
+                        case 2:
+                            this->targetPosition = this->unk_1408;
+                            if (this->animationTimers[5] == 0) {
+                                this->animationTimers[0] = 0;
+                                this->holeIndex = 7;
+                                holeXYZ = &D_808D192C[this->holeIndex];
+                                this->targetPosition.x = holeXYZ->x;
+                                this->targetPosition.y = (holeXYZ->y + 200.0f) + 50.0f;
+                                this->targetPosition.z = holeXYZ->z;
+                                this->introState1 = 3;
+                            }
+                            if (this->animationTimers[5] == 0x1E) {
+                                this->roarTimer = 0x28;
+                                this->fireBreathTimer = 0x14;
+                            }
+                        case 3:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                osSyncPrintf("this->timer[2] = %d\n", this->animationTimers[2]);
+                osSyncPrintf("this->timer[5] = %d\n", this->animationTimers[5]);
+                if (this->animationTimers[2] == 0) {
+                    camera->eye = this->unk_1408;
+                    camera->eyeNext = this->unk_1408;
+                    camera->at = this->unk_1414;
+                    func_800C08AC(globalCtx, this->unk_1404, 0);
+                    this->unk_1404 = 0;
+                    this->introState1 = this->unk_1404;
+                    this->introState2 = this->unk_1404;
+                    func_80064534(globalCtx, &globalCtx->csCtx);
+                    func_8002DF54(globalCtx, &this->actor, 7);
+                    this->actionFunc = &func_808CDE30;
+                    this->attackMode = 0x64;
+                    gSaveContext.eventChkInf[7] |= 8;
+                }
+        }

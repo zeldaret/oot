@@ -43,20 +43,23 @@ typedef struct BossFd {
     /* 0x0222 */ s16 actionState;
     /* 0x0224 */ s16 unk_224;
     /* 0x0226 */ s16 varianceTimer;
-    /* 0x0228 */ s16 unk_228;
-    /* 0x022A */ s16 unk_22A;
+    /* 0x0228 */ s16 leadBodySegment;
+    /* 0x022A */ s16 leadManeSegment;
     /* 0x022C */ s16 unk_22C;
     /* 0x022E */ s16 roarTimer;
     /* 0x0230 */ s16 damageFlashTimer;
     /* 0x0232 */ s16 unk_232;
-    /* 0x0234 */ char unk_234[4];
+    /* 0x0234 */ s16 unk_234;
+    /* 0x0236 */ s16 unk_236;
     /* 0x0238 */ s16 maneEmbersTimer;
     /* 0x023A */ s16 rockTimer;
     /* 0x023C */ s16 unk_23C;
     /* 0x023E */ s16 invincibilityTimer;
     /* 0x0240 */ s16 holeSplashTimer;
-    /* 0x0242 */ char unk_242[6];
-    /* 0x0248 */ s16 animationTimers[6];
+    /* 0x0242 */ s16 unk_242;
+    /* 0x0244 */ s16 unk_244;
+    /* 0x0246 */ s16 unk_246;
+    /* 0x0248 */ s16 animationTimers[6]; //Change name to just "timers"
     /* 0x0254 */ f32 bodyTextureFlow;
     /* 0x0258 */ f32 bodyTextureRotation;
     /* 0x025C */ f32 bodyTextureRipple1;
@@ -65,7 +68,7 @@ typedef struct BossFd {
     /* 0x0270 */ f32 unk_270;
     /* 0x0274 */ f32 unk_274;
     /* 0x0278 */ f32 unk_278;
-    /* 0x027C */ char unk_27C[4];
+    /* 0x027C */ f32 unk_27C;
     /* 0x0280 */ f32 unk_280;
     /* 0x0284 */ f32 centerManeColor;
     /* 0x0288 */ f32 rightManeColor;
@@ -76,7 +79,9 @@ typedef struct BossFd {
     /* 0x02A4 */ f32 unk_2A4;
     /* 0x02A8 */ f32 unk_2A8;
     /* 0x02AC */ f32 unk_2AC;
-    /* 0x02B0 */ char unk_2B0[0xC];
+    /* 0x02B0 */ f32 unk_2B0;
+    /* 0x02B4 */ f32 unk_2B4;
+    /* 0x02B8 */ char unk_2B8[4];
     /* 0x02BC */ Vec3f targetPosition;
     /* 0x02C8 */ Vec3f holePosition;
     /* 0x02D4 */ u8 holeIndex;
@@ -87,33 +92,28 @@ typedef struct BossFd {
     /* 0x02D9 */ u8 unk_2D9;
     /* 0x02DA */ u8 unk_2DA;
     /* 0x02DB */ u8 unk_2DB;
-    /* 0x02DC */ Vec3f unk_02DC[100]; //Related to Volvagia's mane
-    /* 0x078C */ Vec3f unk_078C[100]; //Related to Volvagia's body segments.
-    /* 0x0C3C */ f32 unk_C3C;
-    /* 0x0C40 */ f32 unk_C40;
-    /* 0x0C44 */ Vec3f unk_C44; //These Vec3f's are questionable.
-    ///* 0x0C48 */ f32 unk_C48; //Might be part of a larger data structure.
-    ///* 0x0C4C */ f32 unk_C4C;
-    /* 0x0C50 */ Vec3f unk_C50;
-    ///* 0x0C54 */ f32 unk_C54;
-    ///* 0x0C58 */ f32 unk_C58;
-    /* 0x0C5C */ char unk_C60[0x10];
-    /* 0x0C6C */ f32 unk_C6C;
-    /* 0x0C70 */ char unk_C70[4];
-    /* 0x0C74 */ Vec3f unk_C74;  
-    ///* 0x0C78 */ f32 unk_C78;
-    ///* 0x0C7C */ f32 unk_C7C;
-    /* 0x0C80 */ Vec3f unk_C80;
-    ///* 0x0C84 */ f32 unk_C84;
-    ///* 0x0C88 */ f32 unk_C88;
-    /* 0x0C8C */ char unk_C8C[0x10];
-    /* 0x0C9C */ Vec3f unk_C9C[30]; // Also related to the fire mane.
-    /* 0x0E04 */ Vec3f unk_0E04[123]; //Volvagia's fire mane. Subdivisions needed.
-    /* 0x13C8 */ f32 unk_13C8;
+    /* 0x02DC */ Vec3f bodySegmentsRot[100];
+    /* 0x078C */ Vec3f bodySegmentsPos[100];
+    /* 0x0C3C */ Vec3f unk_C3C[3]; //Probably his right arm rotations
+    /* 0x0C60 */ char unk_C60[0xC];
+    /* 0x0C6C */ Vec3f unk_C6C[3]; //Probably his left arm rotations
+    /* 0x0C90 */ char unk_C90[0xC];
+    /* 0x0C9C */ Vec3f fireManeRot[30]; 
+    /* 0x0E04 */ Vec3f centerManePos[30];
+    /* 0x0F6C */ f32 centerManeScale[30];
+    /* 0x0FE4 */ Vec3f centerManeHead;
+    /* 0x0FF0 */ Vec3f rightManePos[30];
+    /* 0x1158 */ f32 rightManeScale[30];
+    /* 0x11D0 */ Vec3f rightManeHead;
+    /* 0x11DC */ Vec3f leftManePos[30];
+    /* 0x1344 */ f32 leftManeScale[30];
+    /* 0x13BC */ Vec3f leftManeHead;    
+    /* 0x13C8 */ f32 flattenMane;
     /* 0x13CC */ f32 jawOpening;
     /* 0x13D0 */ s16 unk_13D0[18];
     /* 0x13F4 */ Vec3f fireBreathSpawnPoint;
-    /* 0x1400 */ s16 introCutsceneState[2];
+    /* 0x1400 */ s16 introState1;
+    /* 0x1402 */ s16 introState2;
     /* 0x1404 */ s16 unk_1404;
     /* 0x1406 */ char unk_1406[2];
     /* 0x1408 */ Vec3f unk_1408;

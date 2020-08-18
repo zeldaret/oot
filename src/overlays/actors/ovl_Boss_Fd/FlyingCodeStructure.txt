@@ -1,0 +1,52 @@
+    if (actionState < 0x34) {
+        goto block_2;
+    }
+    if (actionState < 0x65) {
+        goto block_1;
+    }
+    switch 2 jump table
+    
+block_1:
+    if (actionState == 0x64) {
+        goto block_7;
+    }
+    goto end;
+    
+block_2:
+    if (actionState < 0x33) {
+        goto block_3;
+    }
+    if (actionState == 0x33) {
+        goto block_6;
+    }
+    goto end;
+    
+block_3:
+    if (actionState < 4) {
+        goto block_4;
+    }
+    if (actionState == 0x32) {
+        goto block_5;
+    }
+    goto block_end;
+    
+block_4:
+    switch 3 jump table
+    
+switch 3 cases:
+    goto end;
+
+block_5:
+    [stuff]
+    goto end;
+    
+block_6:
+    [stuff]
+    goto end;
+    
+block_7:
+    [stuff]
+    goto end;
+    
+switch 2 cases:
+    goto end;

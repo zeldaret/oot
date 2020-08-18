@@ -1,0 +1,21 @@
+this->actor.flags |= 0x1000000;
+                temp_f4_3 = Math_Sins(this->unk_224 * 2396.0f) * 30.0f;
+                this->targetPosition.x = player->actor.posRot.pos.x;
+                this->targetPosition.y = (player->actor.posRot.pos.y + (this->unk_278 + temp_f4_3)) + 30.0f;
+                this->targetPosition.z = player->actor.posRot.pos.z;
+                this->unk_2B0 = 0.0f;
+                if (((this->animationTimers[0] & 0x3F) == 0) && (this->animationTimers[0] < 0x1C2)) {
+                    this->roarTimer = 0x28;
+                    if (func_808CB67C(this) != 0) {
+                        this->fireBreathTimer = 0x14;
+                    }
+                }
+                if ((this->damageFlashTimer == 0) && (this->animationTimers[0] != 0)) {
+                    if (player->actor.posRot.pos.y < 70.0f) {
+                        this->actionState = 0;
+                        this->animationTimers[0] = 0;
+                        this->unk_232 = 0;
+                    } else {
+                        Math_SmoothScaleMaxF(&this->unk_278, 50.0f, 1.0f, 2.0f);
+                    }
+                }

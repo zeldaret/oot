@@ -1468,7 +1468,6 @@ endseg
 beginseg
     name "ovl_Boss_Fd"
     include "build/src/overlays/actors/ovl_Boss_Fd/z_boss_fd.o"
-	include "build/data/overlays/actors/z_boss_fd.data.o"
     include "build/data/overlays/actors/z_boss_fd.reloc.o"
 endseg
 

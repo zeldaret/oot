@@ -197,8 +197,8 @@ glabel func_808D08F8
 /* 05D10 808D0AD0 AC4D0004 */  sw      $t5, 0x0004($v0)           ## 00000004
 /* 05D14 808D0AD4 0C034213 */  jal     Matrix_Push              
 /* 05D18 808D0AD8 00000000 */  nop
-/* 05D1C 808D0ADC 3C0E808D */  lui     $t6, %hi(D_808D1AC4)       ## $t6 = 808D0000
-/* 05D20 808D0AE0 85CE1AC4 */  lh      $t6, %lo(D_808D1AC4)($t6)  
+/* 05D1C 808D0ADC 3C0E808D */  lui     $t6, %hi(D_808D1AC0+4)       ## $t6 = 808D0000
+/* 05D20 808D0AE0 85CE1AC4 */  lh      $t6, %lo(D_808D1AC0+4)($t6)  
 /* 05D24 808D0AE4 866F0228 */  lh      $t7, 0x0228($s3)           ## 00000228
 /* 05D28 808D0AE8 24010064 */  addiu   $at, $zero, 0x0064         ## $at = 00000064
 /* 05D2C 808D0AEC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -262,8 +262,8 @@ glabel func_808D08F8
 /* 05E0C 808D0BCC 24841DF0 */  addiu   $a0, $a0, %lo(D_808D1DF0)  ## $a0 = 808D1DF0
 /* 05E10 808D0BD0 0C034213 */  jal     Matrix_Push              
 /* 05E14 808D0BD4 00000000 */  nop
-/* 05E18 808D0BD8 3C19808D */  lui     $t9, %hi(D_808D1AC4)       ## $t9 = 808D0000
-/* 05E1C 808D0BDC 87391AC4 */  lh      $t9, %lo(D_808D1AC4)($t9)  
+/* 05E18 808D0BD8 3C19808D */  lui     $t9, %hi(D_808D1AC0+4)       ## $t9 = 808D0000
+/* 05E1C 808D0BDC 87391AC4 */  lh      $t9, %lo(D_808D1AC0+4)($t9)  
 /* 05E20 808D0BE0 86680228 */  lh      $t0, 0x0228($s3)           ## 00000228
 /* 05E24 808D0BE4 24010064 */  addiu   $at, $zero, 0x0064         ## $at = 00000064
 /* 05E28 808D0BE8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -334,9 +334,9 @@ glabel func_808D08F8
 /* 05F24 808D0CE4 00008825 */  or      $s1, $zero, $zero          ## $s1 = 00000000
 .L808D0CE8:
 /* 05F28 808D0CE8 00111840 */  sll     $v1, $s1,  1               
-/* 05F2C 808D0CEC 3C0D808D */  lui     $t5, %hi(D_808D1AC2)       ## $t5 = 808D0000
+/* 05F2C 808D0CEC 3C0D808D */  lui     $t5, %hi(D_808D1AC0+2)       ## $t5 = 808D0000
 /* 05F30 808D0CF0 01A36821 */  addu    $t5, $t5, $v1              
-/* 05F34 808D0CF4 85AD1AC2 */  lh      $t5, %lo(D_808D1AC2)($t5)  
+/* 05F34 808D0CF4 85AD1AC2 */  lh      $t5, %lo(D_808D1AC0+2)($t5)  
 /* 05F38 808D0CF8 866E0228 */  lh      $t6, 0x0228($s3)           ## 00000228
 /* 05F3C 808D0CFC 24010064 */  addiu   $at, $zero, 0x0064         ## $at = 00000064
 /* 05F40 808D0D00 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
