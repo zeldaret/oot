@@ -1,4 +1,6 @@
 #include "z_bg_jya_cobra.h"
+#include "overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.h"
+#include "overlays/actors/ovl_Mir_Ray/z_mir_ray.h"
 
 #define FLAGS 0x00000010
 
@@ -86,16 +88,67 @@ void func_8089593C(BgJyaCobra* this, GlobalContext* globalCtx, void *arg2, DynaP
 
 void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_MIR_RAY, this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 57.0f, this->dyna.actor.posRot.pos.z, 0, 0, 0, 6);
-    if (this->dyna.actor.child == 0) {
+    if (this->dyna.actor.child == NULL) {
         osSyncPrintf("\x1b[31m");
         //  	Ｅｒｒｏｒ : Mir Ray occurrence failure (%s %d) 
-        osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 0x10E);
+        osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
         osSyncPrintf("\x1b[m");
     }
 }
 
-void func_80895A70(BgJyaCobra* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895A70.s")
+// minor register and stack diffs
+// void func_80895A70(BgJyaCobra *this) {
+//     s32 temp_v0;
+//     BgJyaBigmirror* temp_v1;
+//     MirRay* phi_v0;
+//     Vec3f sp28;
+//     MirRay* temp;
+
+//     temp_v1 = (BgJyaBigmirror*)this->dyna.actor.parent;
+//     temp_v0 = this->dyna.actor.params & 3;
+
+//     switch (temp_v0) {
+//         case 0:
+//             temp = (MirRay*)this->dyna.actor.child;
+//             if (this->dyna.actor.child != NULL) {
+//                 phi_v0 = temp;
+//                 if (phi_v0->actor.update == NULL) {
+//                     this->dyna.actor.child = NULL;
+//                     return;
+//                 }
+//             } else {
+//                 return;
+//             }
+//             break;
+//         case 1:
+//             phi_v0 = temp_v1->unk_164;
+//             if (phi_v0 == NULL) {
+//                 return;
+//             }
+//             break;
+//         case 2:
+//             phi_v0 = temp_v1->unk_168;
+//             if (phi_v0 == NULL) {
+//                 return;
+//             }
+//             break;
+//     }
+
+//     if (this->unk_18C <= 0.0f) {
+//         phi_v0->unLit = 1;
+//         return;
+//     }
+//     phi_v0->unLit = 0;
+//     Math_Vec3f_Copy(&phi_v0->sourcePt, &this->unk_180);
+//     Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_NEW);
+//     Matrix_RotateX(D_80897308[this->dyna.actor.params & 3] * 0.0000958738f, MTXMODE_APPLY);
+//     sp28.x = 0.0f;
+//     sp28.y = 0.0;
+//     sp28.z = this->unk_190 * 2800.0f;
+//     Matrix_MultVec3f(&sp28, &phi_v0->poolPt);
+//     Math_Vec3f_Sum(&phi_v0->sourcePt, &phi_v0->poolPt, &phi_v0->poolPt);
+// }
 
 void func_80895BEC(BgJyaCobra *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
@@ -263,20 +316,17 @@ void func_80896CB4(GlobalContext* globalCtx) {
 //     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 947);
 // }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896EE4.s")
-
 void func_80896EE4(BgJyaCobra *this, GlobalContext *globalCtx) {
     u32 temp;
     s16 sp72;
     Vec3f sp64;
     Vec3s *phi_a3;
     GraphicsContext *gfxCtx;
-    Gfx* dispRefs[4];
 
     sp72 = this->dyna.actor.params & 3;
     gfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, (const char *) "../z_bg_jya_cobra.c", 0x3C6);
+    OPEN_DISPS(globalCtx->state.gfxCtx, (const char *) "../z_bg_jya_cobra.c", 0x3C6);
 
     func_80094044(globalCtx->state.gfxCtx);
 
@@ -301,41 +351,39 @@ void func_80896EE4(BgJyaCobra *this, GlobalContext *globalCtx) {
     Matrix_Scale(D_80897548[sp72].x, D_80897548[sp72].y, D_80897548[sp72].z, (u8)1U);
     Matrix_Translate(0.0f, 0.0f, 40.0f, 1);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 120);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetTextureImage(gfxCtx->polyXlu.p++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (s32)(&this->unk_1A3) & -0x10);
-    gDPSetTile(gfxCtx->polyXlu.p++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPLoadSync(gfxCtx->polyXlu.p++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 120);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetTextureImage(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (s32)(&this->unk_1A3) & ~0xF);
+    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+    gDPLoadSync(POLY_XLU_DISP++);
     temp = sp72;
-    gDPLoadBlock(gfxCtx->polyXlu.p++, G_TX_LOADTILE, 0, 0, 2047, 256);
+    gDPLoadBlock(POLY_XLU_DISP++, G_TX_LOADTILE, 0, 0, 2047, 256);
     if (!temp) {}
-    gDPPipeSync(gfxCtx->polyXlu.p++);
-    gDPSetTile(gfxCtx->polyXlu.p++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPSetTileSize(gfxCtx->polyXlu.p++, G_TX_RENDERTILE, 0, 0, 0x00FC, 0x00FC);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_808972B0);
+    gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 0, 0, 0x00FC, 0x00FC);
+    gSPDisplayList(POLY_XLU_DISP++, D_808972B0);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 1006);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 1006);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_Draw.s")
-// void BgJyaCobra_Draw(Actor *thisx, GlobalContext *globalCtx) {
-//     BgJyaCobra *this = THIS;
+void BgJyaCobra_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    BgJyaCobra *this = THIS;
 
-//     func_80896CB4(globalCtx);
-//     Gfx_DrawDListOpa(globalCtx, &D_06010790);
-//     if (this->unk_18C >= 0.0f) {
-//         func_80896D78(this, globalCtx);
-//     }
-//     if ((this->dyna.actor.params & 3) == 2) {
-//         if (this->dyna.actor.attachedA != NULL) {
-//             if ((this->dyna.actor.attachedA->unk15C & 4) != 0) {
-//                 if ((this->dyna.actor.attachedA->unk15C & 1) != 0) {
-//                     func_80896EE4(this, globalCtx);
-//                     return;
-//                 }
-//             }
-//         }
-//     } else {
-//         func_80896EE4(this, globalCtx);
-//     }
-// }
+    func_80896CB4(globalCtx);
+    Gfx_DrawDListOpa(globalCtx, &D_06010790);
+
+    if (0.0f < this->unk_18C) {
+        func_80896D78(this, globalCtx);
+    }
+    
+    if ((this->dyna.actor.params & 3) == 2) {
+        BgJyaBigmirror* attached = (BgJyaBigmirror*)this->dyna.actor.parent;
+        if (attached != NULL && (attached->unk_15C & 4) && (attached->unk_15C & 1)) {
+            func_80896EE4(this, globalCtx);
+            return;
+        }
+    } else {
+        func_80896EE4(this, globalCtx);
+    }
+}
