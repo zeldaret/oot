@@ -68,10 +68,10 @@ void func_80897970(BgJyaGoroiwa* this) {
 }
 
 void func_808979C0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
-    ColliderJntSph* colliderJntSph = &this->collider;
-
-    Collider_InitJntSph(globalCtx, colliderJntSph);
-    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderItem);
+    f32 pad;
+    
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     func_80897970(this);
     this->collider.list->dim.worldSphere.radius = 0x3A;
 }
