@@ -22,7 +22,7 @@ glabel func_80A67DFC
 /* 008FC 80A67E4C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00900 80A67E50 C626002C */  lwc1    $f6, 0x002C($s1)           ## 0000002C
 /* 00904 80A67E54 8C47000C */  lw      $a3, 0x000C($v0)           ## 80A68470
-/* 00908 80A67E58 0C032C66 */  jal     func_800CB198              
+/* 00908 80A67E58 0C032C66 */  jal     Math3D_PointInSquare2D              
 /* 0090C 80A67E5C E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 00910 80A67E60 50400006 */  beql    $v0, $zero, .L80A67E7C     
 /* 00914 80A67E64 8E420154 */  lw      $v0, 0x0154($s2)           ## 00000154
@@ -47,7 +47,7 @@ glabel func_80A67DFC
 /* 00958 80A67EA8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0095C 80A67EAC C62A002C */  lwc1    $f10, 0x002C($s1)          ## 0000002C
 /* 00960 80A67EB0 8C47000C */  lw      $a3, 0x000C($v0)           ## 80A68470
-/* 00964 80A67EB4 0C032C66 */  jal     func_800CB198              
+/* 00964 80A67EB4 0C032C66 */  jal     Math3D_PointInSquare2D              
 /* 00968 80A67EB8 E7AA0014 */  swc1    $f10, 0x0014($sp)          
 /* 0096C 80A67EBC 54400005 */  bnel    $v0, $zero, .L80A67ED4     
 /* 00970 80A67EC0 8E440150 */  lw      $a0, 0x0150($s2)           ## 00000150
@@ -207,7 +207,7 @@ glabel func_80A67DFC
 /* 00B8C 80A680DC C624002C */  lwc1    $f4, 0x002C($s1)           ## 0000002C
 /* 00B90 80A680E0 8C460008 */  lw      $a2, 0x0008($v0)           ## 80A6846C
 /* 00B94 80A680E4 8C47000C */  lw      $a3, 0x000C($v0)           ## 80A68470
-/* 00B98 80A680E8 0C032C66 */  jal     func_800CB198              
+/* 00B98 80A680E8 0C032C66 */  jal     Math3D_PointInSquare2D              
 /* 00B9C 80A680EC E7A40014 */  swc1    $f4, 0x0014($sp)           
 /* 00BA0 80A680F0 10400065 */  beq     $v0, $zero, .L80A68288     
 /* 00BA4 80A680F4 00000000 */  nop

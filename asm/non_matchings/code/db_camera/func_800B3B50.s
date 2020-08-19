@@ -5,7 +5,7 @@ glabel func_800B3B50
 /* B2ACFC 800B3B5C 00A03825 */  move  $a3, $a1
 /* B2AD00 800B3B60 AFA70034 */  sw    $a3, 0x34($sp)
 /* B2AD04 800B3B64 00C02825 */  move  $a1, $a2
-/* B2AD08 800B3B68 0C01F097 */  jal   OLib_VecSphRot90ToVec3f
+/* B2AD08 800B3B68 0C01F097 */  jal   OLib_VecSphGeoToVec3f
 /* B2AD0C 800B3B6C 27A40018 */   addiu $a0, $sp, 0x18
 /* B2AD10 800B3B70 8FA70034 */  lw    $a3, 0x34($sp)
 /* B2AD14 800B3B74 C7A60018 */  lwc1  $f6, 0x18($sp)

@@ -257,7 +257,7 @@ s32 func_80038D48(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* 
     normY = poly->norm.y * COLPOLY_NORM_FRAC;
     normZ = poly->norm.z * COLPOLY_NORM_FRAC;
 
-    return func_800CCF98(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg3, arg2, result,
+    return Math3D_TriChkPointParaYIntersectDist(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg3, arg2, result,
                          arg5);
 }
 
@@ -269,7 +269,7 @@ s32 func_80038E78(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* 
 
     func_80038BE0(poly, vtxList, polyVtxs);
     func_800389D4(poly, &normX, &normY, &normZ);
-    return func_800CD044(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg3, arg2, result,
+    return Math3D_TriChkPointParaYIntersectInsideTri(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg3, arg2, result,
                          arg5);
 }
 
@@ -285,7 +285,7 @@ s32 func_80038F60(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* 
 
     func_80038BE0(poly, vtxList, polyVtxs);
     func_800389D4(poly, &normX, &normY, &normZ);
-    return func_800CD6B0(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, result);
+    return Math3D_TriChkPointParaXIntersect(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, result);
 }
 
 s32 func_80039000(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* arg4) {
@@ -296,7 +296,7 @@ s32 func_80039000(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32* 
 
     func_80038BE0(poly, vtxList, polyVtxs);
     func_800389D4(poly, &normX, &normY, &normZ);
-    return func_800CDD60(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, arg4);
+    return Math3D_TriChkPointParaZIntersect(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], normX, normY, normZ, poly->dist, arg2, arg3, arg4);
 }
 
 s32 func_800390A0(CollisionPoly* poly, Vec3s* vtxList, Vec3f* pointA, Vec3f* pointB, Vec3f* arg4, s32 arg5, f32 arg6) {
@@ -320,13 +320,13 @@ s32 func_800390A0(CollisionPoly* poly, Vec3s* vtxList, Vec3f* pointA, Vec3f* poi
 
     func_800389D4(poly, &plane.normal.x, &plane.normal.y, &plane.normal.z);
     func_80038BE0(poly, vtxList, polyVtxs);
-    func_800CAFA0(pointA, pointB, planeDistA / planeDistDelta, arg4);
+    Math3D_LineSplitRatio(pointA, pointB, planeDistA / planeDistDelta, arg4);
     if ((0.5f < fabsf(plane.normal.x) &&
-         func_800CD95C(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], &plane, arg4->y, arg4->z, arg6)) ||
+        Math3D_TriChkPointParaXDist(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], &plane, arg4->y, arg4->z, arg6)) ||
         (0.5f < fabsf(plane.normal.y) &&
-         func_800CD2D8(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], &plane, arg4->z, arg4->x, arg6)) ||
+            Math3D_TriChkPointParaYDist(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], &plane, arg4->z, arg4->x, arg6)) ||
         (0.5f < fabsf(plane.normal.z) &&
-         func_800CE010(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], &plane, arg4->x, arg4->y, arg6))) {
+            Math3D_TriChkLineSegParaZDist(&polyVtxs[0], &polyVtxs[1], &polyVtxs[2], &plane, arg4->x, arg4->y, arg6))) {
         return true;
     }
     return false;
@@ -344,7 +344,7 @@ s32 func_8003937C(CollisionPoly* poly, Vec3s* vtxList, Vec3f* center, f32 radius
     sphere.center.y = center->y;
     sphere.center.z = center->z;
     sphere.radius = radius;
-    return func_800CE934(&sphere, &tri, &sp1C);
+    return Math3D_TriVsSphIntersect(&sphere, &tri, &sp1C);
 }
 
 #ifdef NON_MATCHING
@@ -857,7 +857,7 @@ s32 func_8003A5B8(u16* node, CollisionContext* colCtx, u16 xpFlagsA, u16 xpFlags
             break;
         }
         if (func_800390A0(curPoly, colCtx->colHeader->vertexArray, arg4, arg5, &sp84, (argA & 8) != 0, arg9)) {
-            temp_f0_2 = func_800CB650(arg4, &sp84);
+            temp_f0_2 = Math3D_Vec3fDistSq(arg4, &sp84);
             if (temp_f0_2 < *arg8) {
 
                 *arg8 = temp_f0_2;
@@ -1138,17 +1138,17 @@ s32 func_8003B3C8(Vec3f* min, Vec3f* max, CollisionPoly* polyList, Vec3s* vtxLis
     poly = &polyList[polyId];
 
     func_800388A8(&vtxList[VTX_INDEX(poly->flags_vIA)], &va);
-    flags[0] = func_800CB88C(&va, min, max);
+    flags[0] = Math3D_PointRelativeToCubeFaces(&va, min, max);
     if (flags[0] == 0) {
         return true;
     }
     func_800388A8(&vtxList[VTX_INDEX(poly->flags_vIB)], &vb);
-    flags[1] = func_800CB88C(&vb, min, max);
+    flags[1] = Math3D_PointRelativeToCubeFaces(&vb, min, max);
     if (flags[1] == 0) {
         return true;
     }
     func_800388A8(&vtxList[poly->vIC], &vc);
-    flags[2] = func_800CB88C(&vc, min, max);
+    flags[2] = Math3D_PointRelativeToCubeFaces(&vc, min, max);
     if (flags[2] == 0) {
         return true;
     }
@@ -1156,45 +1156,45 @@ s32 func_8003B3C8(Vec3f* min, Vec3f* max, CollisionPoly* polyList, Vec3s* vtxLis
         return false;
     }
 
-    flags[0] |= func_800CB934(&va, min, max) << 8;
-    flags[1] |= func_800CB934(&vb, min, max) << 8;
-    flags[2] |= func_800CB934(&vc, min, max) << 8;
+    flags[0] |= Math3D_PointRelativeToCubeEdges(&va, min, max) << 8;
+    flags[1] |= Math3D_PointRelativeToCubeEdges(&vb, min, max) << 8;
+    flags[2] |= Math3D_PointRelativeToCubeEdges(&vc, min, max) << 8;
     if (flags[0] & flags[1] & flags[2]) {
         return false;
     }
 
-    flags[0] |= func_800CBAE4(&va, min, max) << 0x18;
-    flags[1] |= func_800CBAE4(&vb, min, max) << 0x18;
-    flags[2] |= func_800CBAE4(&vc, min, max) << 0x18;
+    flags[0] |= Math3D_PointRelativeToCubeVertices(&va, min, max) << 0x18;
+    flags[1] |= Math3D_PointRelativeToCubeVertices(&vb, min, max) << 0x18;
+    flags[2] |= Math3D_PointRelativeToCubeVertices(&vc, min, max) << 0x18;
     if (flags[0] & flags[1] & flags[2]) {
         return false;
     }
 
     func_800389D4(poly, &nx, &ny, &nz);
     dist = poly->dist;
-    if (Math3D_TriVtxCylTouching(&va, &vb, &vc, nx, ny, nz, dist, min->z, min->x, &intersect, min->y, max->y) ||
-        Math3D_TriVtxCylTouching(&va, &vb, &vc, nx, ny, nz, dist, max->z, min->x, &intersect, min->y, max->y) ||
-        Math3D_TriVtxCylTouching(&va, &vb, &vc, nx, ny, nz, dist, min->z, max->x, &intersect, min->y, max->y) ||
-        Math3D_TriVtxCylTouching(&va, &vb, &vc, nx, ny, nz, dist, max->z, max->x, &intersect, min->y, max->y)) {
+    if (Math3D_TriChkLineSegParaYIntersect(&va, &vb, &vc, nx, ny, nz, dist, min->z, min->x, &intersect, min->y, max->y) ||
+        Math3D_TriChkLineSegParaYIntersect(&va, &vb, &vc, nx, ny, nz, dist, max->z, min->x, &intersect, min->y, max->y) ||
+        Math3D_TriChkLineSegParaYIntersect(&va, &vb, &vc, nx, ny, nz, dist, min->z, max->x, &intersect, min->y, max->y) ||
+        Math3D_TriChkLineSegParaYIntersect(&va, &vb, &vc, nx, ny, nz, dist, max->z, max->x, &intersect, min->y, max->y)) {
         return true;
     }
-    if (func_800CDE88(&va, &vb, &vc, nx, ny, nz, dist, min->x, min->y, &intersect, min->z, max->z) ||
-        func_800CDE88(&va, &vb, &vc, nx, ny, nz, dist, min->x, max->y, &intersect, min->z, max->z) ||
-        func_800CDE88(&va, &vb, &vc, nx, ny, nz, dist, max->x, min->y, &intersect, min->z, max->z) ||
-        func_800CDE88(&va, &vb, &vc, nx, ny, nz, dist, max->x, max->y, &intersect, min->z, max->z)) {
+    if (Math3D_TriChkLineSegParaZIntersect(&va, &vb, &vc, nx, ny, nz, dist, min->x, min->y, &intersect, min->z, max->z) ||
+        Math3D_TriChkLineSegParaZIntersect(&va, &vb, &vc, nx, ny, nz, dist, min->x, max->y, &intersect, min->z, max->z) ||
+        Math3D_TriChkLineSegParaZIntersect(&va, &vb, &vc, nx, ny, nz, dist, max->x, min->y, &intersect, min->z, max->z) ||
+        Math3D_TriChkLineSegParaZIntersect(&va, &vb, &vc, nx, ny, nz, dist, max->x, max->y, &intersect, min->z, max->z)) {
         return true;
     }
-    if (func_800CD7D8(&va, &vb, &vc, nx, ny, nz, dist, min->y, min->z, &intersect, min->x, max->x) ||
-        func_800CD7D8(&va, &vb, &vc, nx, ny, nz, dist, min->y, max->z, &intersect, min->x, max->x) ||
-        func_800CD7D8(&va, &vb, &vc, nx, ny, nz, dist, max->y, min->z, &intersect, min->x, max->x) ||
-        func_800CD7D8(&va, &vb, &vc, nx, ny, nz, dist, max->y, max->z, &intersect, min->x, max->x)) {
+    if (Math3D_TriChkLineSegParaXIntersect(&va, &vb, &vc, nx, ny, nz, dist, min->y, min->z, &intersect, min->x, max->x) ||
+        Math3D_TriChkLineSegParaXIntersect(&va, &vb, &vc, nx, ny, nz, dist, min->y, max->z, &intersect, min->x, max->x) ||
+        Math3D_TriChkLineSegParaXIntersect(&va, &vb, &vc, nx, ny, nz, dist, max->y, min->z, &intersect, min->x, max->x) ||
+        Math3D_TriChkLineSegParaXIntersect(&va, &vb, &vc, nx, ny, nz, dist, max->y, max->z, &intersect, min->x, max->x)) {
         return true;
     }
     func_800388A8(&vtxList[VTX_INDEX(poly->flags_vIA)], &va2);
     func_800388A8(&vtxList[VTX_INDEX(poly->flags_vIB)], &vb2);
     func_800388A8(&vtxList[poly->vIC], &vc2);
-    if (func_800CBC60(min, max, &va2, &vb2) || func_800CBC60(min, max, &vb2, &vc2) ||
-        func_800CBC60(min, max, &vc2, &va2)) {
+    if (Math3D_LineVsCube(min, max, &va2, &vb2) || Math3D_LineVsCube(min, max, &vb2, &vc2) ||
+        Math3D_LineVsCube(min, max, &vc2, &va2)) {
         return true;
     }
     return false;
@@ -1932,7 +1932,7 @@ s32 func_8003D7F0(CollisionContext* colCtx, u16 arg1, u16 arg2, Vec3f* arg3, Vec
 
                 // ab4c7c
                 for (phi_s1 = spCC.x; phi_s1 < spC0.x + 1; phi_s1++) {
-                    if (func_800CBC60(&sp9C, &sp90, arg3, &spA8) == true &&
+                    if (Math3D_LineVsCube(&sp9C, &sp90, arg3, &spA8) == true &&
                         func_8003A7D8(phi_s0, colCtx, arg1, arg2, arg3, &spA8, arg5, arg6, arg9, &spB4, argA) != 0) {
                         spB8 = true;
                     }
@@ -1960,7 +1960,7 @@ s32 func_8003D7F0(CollisionContext* colCtx, u16 arg1, u16 arg2, Vec3f* arg3, Vec
         spB8 = func_8003A7D8(func_8003AC54(colCtx, temp_s1, arg3), colCtx, arg1, arg2, arg3, &spA8, arg5, arg6, arg9,
                              &spB4, argA);
         if (spB8 == true) {
-            spB4 = func_800CB650(arg5, arg3);
+            spB4 = Math3D_Vec3fDistSq(arg5, arg3);
         }
     }
     // ab4e40
@@ -2512,7 +2512,7 @@ void func_8003EE80(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 arg
         *arg3 += dyna->bgActors[arg2].colHeader->nbVertices;
         return;
     }
-    func_800A7B04(&sp128, dyna->bgActors[arg2].srp2.scale.x, dyna->bgActors[arg2].srp2.scale.y,
+    SkinMatrix_SetScaleRotateYRPTranslate(&sp128, dyna->bgActors[arg2].srp2.scale.x, dyna->bgActors[arg2].srp2.scale.y,
                   dyna->bgActors[arg2].srp2.scale.z, dyna->bgActors[arg2].srp2.rot.x, dyna->bgActors[arg2].srp2.rot.y,
                   dyna->bgActors[arg2].srp2.rot.z, dyna->bgActors[arg2].srp2.pos.x, dyna->bgActors[arg2].srp2.pos.y,
                   dyna->bgActors[arg2].srp2.pos.z);
@@ -2586,7 +2586,7 @@ void func_8003EE80(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 arg
         spDC.y = (f32)(dyna->vtxList)[*arg3 + phi_s3_2].y;
         // spEC = phi_f2;
         spDC.z = (f32)(dyna->vtxList)[*arg3 + phi_s3_2].z;
-        temp_ret = func_800CB650(&spDC, &spF0);
+        temp_ret = Math3D_Vec3fDistSq(&spDC, &spF0);
         // temp_f2 = phi_f2;
         // phi_f2_3 = temp_f2;
         if ((phi_f2 < temp_ret)) {
@@ -2911,7 +2911,7 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
                         temp_v0_2 = &bgActor->srp2;
                         polyMin = dynaLookupStart + arg0->dyna->polyList;
                         temp_s3 = *arg0->unk_0C - polyMin + bgActor->colHeader->polygonArray;
-                        func_800A7B04(&sp8C, temp_v0_2->scale.x, temp_v0_2->scale.y, temp_v0_2->scale.z,
+                        SkinMatrix_SetScaleRotateYRPTranslate(&sp8C, temp_v0_2->scale.x, temp_v0_2->scale.y, temp_v0_2->scale.z,
                                       temp_v0_2->rot.x, temp_v0_2->rot.y, temp_v0_2->rot.z, temp_v0_2->pos.x,
                                       temp_v0_2->pos.y, temp_v0_2->pos.z);
                         sp84 = arg0->dyna->bgActors[*arg0->bgId].colHeader->vertexArray;
@@ -3327,7 +3327,7 @@ s32 func_80040FA4(s80041128* arg0) {
         } else {
             if (func_800390A0(curPoly, arg0->dyna->vtxList, arg0->pointA, arg0->pointB, &sp5C, arg0->unk20,
                               arg0->unk28) != 0) {
-                temp_f0 = func_800CB650(arg0->pointA, &sp5C);
+                temp_f0 = Math3D_Vec3fDistSq(arg0->pointA, &sp5C);
                 if (temp_f0 < *arg0->unk24) {
                     *arg0->unk24 = temp_f0;
                     *arg0->unk18 = sp5C;
@@ -3400,7 +3400,7 @@ s32 func_80041240(CollisionContext* colCtx, u16 xpFlags, Vec3f* pointA, Vec3f* p
                     if (!(colCtx->dyna.bgActors[i].maxY < ay) || !(colCtx->dyna.bgActors[i].maxY < by)) {
                         line.a = *pointA;
                         line.b = *pointB;
-                        if (func_800CE600(&colCtx->dyna.bgActors[i].unk_54, &line) != 0) {
+                        if (Math3D_LineVsSph(&colCtx->dyna.bgActors[i].unk_54, &line) != 0) {
                             if (func_80041128(colCtx, xpFlags, pointA, pointB, arg4, outPoly, arg6, i, arg9, argA) ==
                                 1) {
                                 *outBgId = i;
@@ -3952,7 +3952,7 @@ s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* arg2, Vec3f
 
     func_800389D4(polyA, &n1X, &n1Y, &n1Z);
     func_800389D4(polyB, &n2X, &n2Y, &n2Z);
-    return func_800CAEE8(n1X, n1Y, n1Z, (f32)polyA->dist, n2X, n2Y, n2Z, (f32)polyB->dist, arg2, arg3);
+    return Math3D_PlaneVsPlaneVsLineClosestPoint(n1X, n1Y, n1Z, (f32)polyA->dist, n2X, n2Y, n2Z, (f32)polyB->dist, arg2, arg3);
 }
 
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {
@@ -3966,7 +3966,7 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* arg2, Vec3f
 
     func_800389D4(polyA, &n1X, &n1Y, &n1Z);
     func_800389D4(polyB, &n2X, &n2Y, &n2Z);
-    result = func_800CA7D0(n1X, n1Y, n1Z, (f32)polyA->dist, n2X, n2Y, n2Z, (f32)polyB->dist, arg2, arg3, arg4);
+    result = Math3D_PlaneVsLineSegClosestPoint(n1X, n1Y, n1Z, (f32)polyA->dist, n2X, n2Y, n2Z, (f32)polyB->dist, arg2, arg3, arg4);
     return result;
 }
 

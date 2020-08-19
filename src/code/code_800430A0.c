@@ -10,15 +10,15 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     Vec3f sp38;
 
     if (func_8003E934(bgId)) {
-        func_800A7B04(&spD0, colCtx->dyna.bgActors[bgId].srp1.scale.x, colCtx->dyna.bgActors[bgId].srp1.scale.y, colCtx->dyna.bgActors[bgId].srp1.scale.z,
+        SkinMatrix_SetScaleRotateYRPTranslate(&spD0, colCtx->dyna.bgActors[bgId].srp1.scale.x, colCtx->dyna.bgActors[bgId].srp1.scale.y, colCtx->dyna.bgActors[bgId].srp1.scale.z,
             colCtx->dyna.bgActors[bgId].srp1.rot.x, colCtx->dyna.bgActors[bgId].srp1.rot.y, colCtx->dyna.bgActors[bgId].srp1.rot.z,
             colCtx->dyna.bgActors[bgId].srp1.pos.x, colCtx->dyna.bgActors[bgId].srp1.pos.y, colCtx->dyna.bgActors[bgId].srp1.pos.z);
-        if (func_800A73E0(&spD0, &sp90) != 2) {
-            func_800A7B04(&sp50, colCtx->dyna.bgActors[bgId].srp2.scale.x, colCtx->dyna.bgActors[bgId].srp2.scale.y, colCtx->dyna.bgActors[bgId].srp2.scale.z,
+        if (SkinMatrix_Invert(&spD0, &sp90) != 2) {
+            SkinMatrix_SetScaleRotateYRPTranslate(&sp50, colCtx->dyna.bgActors[bgId].srp2.scale.x, colCtx->dyna.bgActors[bgId].srp2.scale.y, colCtx->dyna.bgActors[bgId].srp2.scale.z,
                 colCtx->dyna.bgActors[bgId].srp2.rot.x, colCtx->dyna.bgActors[bgId].srp2.rot.y, colCtx->dyna.bgActors[bgId].srp2.rot.z,
                 colCtx->dyna.bgActors[bgId].srp2.pos.x, colCtx->dyna.bgActors[bgId].srp2.pos.y, colCtx->dyna.bgActors[bgId].srp2.pos.z);
-            func_800A6EF4(&sp90, &actor->posRot.pos, &sp38);
-            func_800A6EF4(&sp50, &sp38, &pos);
+            SkinMatrix_Vec3fMtxFMultXYZ(&sp90, &actor->posRot.pos, &sp38);
+            SkinMatrix_Vec3fMtxFMultXYZ(&sp50, &sp38, &pos);
             actor->posRot.pos = pos;
             if (32760.0f <= pos.x || pos.x <= -32760.0f
                 || 32760.0f <= pos.y || pos.y <= -32760.0f

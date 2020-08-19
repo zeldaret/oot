@@ -25,7 +25,7 @@ glabel func_800A698C
 /* B1DB88 800A69E8 240100FF */  li    $at, 255
 /* B1DB8C 800A69EC 14610005 */  bne   $v1, $at, .L800A6A04
 /* B1DB90 800A69F0 AFAF0070 */   sw    $t7, 0x70($sp)
-/* B1DB94 800A69F4 0C029CBF */  jal   func_800A72FC
+/* B1DB94 800A69F4 0C029CBF */  jal   SkinMatrix_GetClear
 /* B1DB98 800A69F8 27A4006C */   addiu $a0, $sp, 0x6c
 /* B1DB9C 800A69FC 10000006 */  b     .L800A6A18
 /* B1DBA0 800A6A00 93A9008B */   lbu   $t1, 0x8b($sp)
@@ -41,10 +41,10 @@ glabel func_800A698C
 /* B1DBC0 800A6A20 00095180 */  sll   $t2, $t1, 6
 /* B1DBC4 800A6A24 014B2821 */  addu  $a1, $t2, $t3
 /* B1DBC8 800A6A28 AFA50024 */  sw    $a1, 0x24($sp)
-/* B1DBCC 800A6A2C 0C029BE8 */  jal   func_800A6FA0
+/* B1DBCC 800A6A2C 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* B1DBD0 800A6A30 27A60028 */   addiu $a2, $sp, 0x28
 /* B1DBD4 800A6A34 8FA50024 */  lw    $a1, 0x24($sp)
-/* B1DBD8 800A6A38 0C029CD7 */  jal   func_800A735C
+/* B1DBD8 800A6A38 0C029CD7 */  jal   SkinMatrix_MtxFCopy
 /* B1DBDC 800A6A3C 27A40028 */   addiu $a0, $sp, 0x28
 /* B1DBE0 800A6A40 8FA80070 */  lw    $t0, 0x70($sp)
 /* B1DBE4 800A6A44 240100FF */  li    $at, 255
