@@ -1,3 +1,9 @@
+/*
+ * File: z_en_elf.c
+ * Overlay: ovl_En_Elf
+ * Description: Fairy
+ */
+
 #include "z_en_elf.h"
 
 #define FLAGS 0x02000030
@@ -341,7 +347,6 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
                 gSaveContext.naviTimer = 0;
             }
             break;
-
         case FAIRY_REVIVE_BOTTLE:
             colorConfig = -1;
             EnElf_SetupAction(this, func_80A03610);
@@ -352,7 +357,6 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2AA = 0;
             this->unk_2B4 = 0.0f;
             break;
-
         case FAIRY_REVIVE_DEATH:
             colorConfig = -1;
             EnElf_SetupAction(this, func_80A03990);
@@ -363,7 +367,6 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2AA = 0;
             this->unk_2B4 = 7.0f;
             break;
-
         case FAIRY_HEAL_BIG:
             this->flags |= FAIRY_FLAG_BIG;
             thisx->shape.shadowDrawFunc = ActorShadow_DrawFunc_WhiteCircle;
@@ -382,13 +385,11 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2C0 = 0;
             this->dissapearTimer = 240;
             break;
-
         case FAIRY_KOKIRI:
             colorConfig = Math_Rand_ZeroFloat(11.99f) + 1.0f;
             EnElf_SetupAction(this, func_80A0353C);
             func_80A01C38(this, 0);
             break;
-
         case FAIRY_SPAWNER:
             EnElf_SetupAction(this, func_80A03604);
             func_80A01C38(this, 8);
@@ -398,7 +399,6 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
                             thisx->posRot.pos.y - 30.0f, thisx->posRot.pos.z, 0, 0, 0, FAIRY_HEAL);
             }
             break;
-
         default:
             __assert("0", "../z_en_elf.c", 1103);
             break;
@@ -567,10 +567,10 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03148.s")
 /*
 void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
-    f32 xzVelocity;
-    f32 xzVelScale;
     f32 xVelTarget;
     f32 zVelTarget;
+    f32 xzVelocity;
+    f32 xzVelScale;
     f32 clampedXZ;
 
     xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg4;
@@ -622,7 +622,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         return;
     }
 
-    // func_8008E988 does a bunch of checks to make sure link is allowed to interact with the fairy
+    // func_8008E988 does a bunch of checks to make sure player is allowed to interact with the fairy
     if (!func_8008E988(globalCtx)) {
         heightDiff = this->actor.posRot.pos.y - refActor->actor.posRot.pos.y;
 
@@ -830,7 +830,160 @@ void func_80A03B28(EnElf* this, GlobalContext* globalCtx) {
     Actor_SetScale(this, this->actor.scale.x);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
+
+void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
+    Vec3f sp54;
+    Vec3f sp48;
+    Player* player = PLAYER;
+    Actor* arrowPointedActor;
+    f32 xScale; // 3c
+    f32 distFromLinksHead;
+
+    
+
+    func_80A0461C(this, globalCtx);
+    func_80A03AB0(this, globalCtx);
+
+    xScale = 0.0f;
+    
+    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[8] != NULL)) {
+        func_80A05F10(&sp54, globalCtx, 8);
+
+        if (globalCtx->csCtx.npcActions[8]->action == 5) {
+            if(1) {}
+            EnElf_SpawnSparkles(this, globalCtx, 16);
+        }
+
+        sp48 = this->actor.posRot.pos;
+
+        if (this->unk_2A8 == 0xA) {
+            func_80A02EC0(this, &sp54);
+        } else {
+            func_80A02C98(this, &sp54, 0.2f);
+        }
+
+        if ((globalCtx->sceneNum == SCENE_LINK_HOME) && (gSaveContext.sceneSetupIndex == 4)) {
+            // play dash sound as navi enters links house in the intro
+            if(1) {}
+            if (globalCtx->csCtx.frames == 55) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
+            }
+
+            // play dash sound in intervals as navi is waking up link in the intro
+            if (this->unk_2A8 == 6) {
+                if (this->flags & 0x40) {
+                    if (sp48.y < this->actor.posRot.pos.y) {
+                        this->flags &= ~0x40;
+                    }
+                } else {
+                    if (this->actor.posRot.pos.y < sp48.y) {
+                        this->flags |= 0x40;
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                    }
+                }
+            }
+        }
+    } else {
+        distFromLinksHead = Math_Vec3f_DistXYZ(&player->unk_908[8], &this->actor.posRot.pos);
+
+        switch (this->unk_2A8) {
+            case 7:
+                func_80A02C98(this, &player->unk_908[8], 1.0f - (this->unk_2AE * 0.033333335f));
+                xScale = 1.0f - ((Math_Vec3f_DistXYZ(&player->unk_908[8], &this->actor.posRot.pos) - 5.0f) * 0.05f);
+                if (distFromLinksHead < 7.0f) {
+                    this->unk_2C0 = 0;
+                    xScale = 0;
+                } else {
+                    if (distFromLinksHead < 25.0f) {
+                        xScale = (1.0f - SQ(xScale)) * 0.008f;
+                    } else {
+                        xScale = 0.008f;
+                    }
+                }
+                EnElf_SpawnSparkles(this, globalCtx, 16);
+                break;
+            case 8:
+                func_80A02C98(this, &player->unk_908[8], 0.2f);
+                this->actor.posRot.pos = player->unk_908[8];
+                func_80A029A8(this, 1);
+                break;
+            case 11:
+                sp54 = player->unk_908[8];
+                sp54.y += this->actor.scale.y * 1500.0f;
+                func_80A02E30(this, &sp54);
+                EnElf_SpawnSparkles(this, globalCtx, 16);
+
+                if (this->unk_2B8 <= 19.0f) {
+                    this->unk_2B8 += 1.0f;
+                }
+
+                if (21.0f <= this->unk_2B8) {
+                    this->unk_2B8 -= 1.0f;
+                }
+
+                if (this->unk_2C0 < 0x20) {
+                    this->unk_2B0 = (this->unk_2C0 * 0xF0) + 0x200;
+                    func_80A0299C(this, 1);
+                }
+                break;
+            case 12:
+                sp54 = ACTIVE_CAM->eye;
+                sp54.y += (-2000.0f * this->actor.scale.y);
+                func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
+                break;
+            default:
+                func_80A029A8(this, 1);
+                sp54 = globalCtx->actorCtx.targetCtx.naviRefPos;
+                sp54.y += (1500.0f * this->actor.scale.y);
+                arrowPointedActor = globalCtx->actorCtx.targetCtx.arrowPointedActor;
+                if (arrowPointedActor != NULL) {
+                    func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
+
+                    if (5.0f <= this->actor.speedXZ) {
+                        EnElf_SpawnSparkles(this, globalCtx, 16);
+                    }
+                } else {
+                    if ((this->timer & 0x1F) == 0) {
+                        this->unk_2A0 = Math_Rand_ZeroFloat(7.0f) + 3.0f;
+                    }
+
+                    if (this->flags & 2) {
+                        if (distFromLinksHead < 30.0f) {
+                            this->flags ^= 2;
+                        }
+
+                        func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
+                        EnElf_SpawnSparkles(this, globalCtx, 16);
+                    } else {
+                        if (100.0f < distFromLinksHead) {
+                            this->flags |= 2;
+
+                            if (this->unk_2C7 == 0) {
+                                Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                            }
+
+                            this->unk_2C0 = 0x64;
+                        }
+                        func_80A03148(this, &sp54, 0.0f, this->unk_2A0, 0.2f);
+                    }
+                }
+                break;
+        }
+    }
+
+    if (this->unk_2A8 == 7) {
+        this->actor.scale.x = xScale;
+    } else {
+        if (this->unk_2A8 == 8) {
+            this->actor.scale.x = 0.0f;
+        } else {
+            Math_SmoothScaleMaxMinF(&this->actor.scale, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
+        }
+    }
+
+    func_80A03B28(this, globalCtx);
+}
 
 // EnElf_ChangeColor
 void func_80A0438C(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* curColor, f32 rate) {
@@ -937,7 +1090,7 @@ void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = 0x32;
 }
 
-// moving to talk to link
+// moving to talk to player
 void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     Vec3f posRot2Copy;
     Player* player = PLAYER;
@@ -969,7 +1122,7 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     func_80A03B28(this, globalCtx);
 }
 
-// moving after talking to link
+// moving after talking to player
 void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
