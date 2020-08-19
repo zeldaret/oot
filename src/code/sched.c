@@ -186,7 +186,7 @@ s32 Sched_Schedule(SchedContext* sc, OSScTask** sp, OSScTask** dp, s32 state) {
     OSScTask* gfxTask = sc->gfxListHead;
     OSScTask* audioTask = sc->audioListHead;
 
-    if (sc->doAudio && ret & OS_SC_SP) {
+    if (sc->doAudio && (ret & OS_SC_SP)) {
         *sp = audioTask;
         ret &= ~OS_SC_SP;
         sc->doAudio = 0;
@@ -194,27 +194,23 @@ s32 Sched_Schedule(SchedContext* sc, OSScTask** sp, OSScTask** dp, s32 state) {
         if (sc->audioListHead == NULL) {
             sc->audioListTail = NULL;
         }
-    } else {
-        if (gfxTask != NULL) {
-            if (gfxTask->state & OS_SC_YIELDED || !(sc->gfxListHead->flags & OS_SC_NEEDS_RDP)) {
-                if (ret & OS_SC_SP) {
-                    *sp = gfxTask;
-                    ret &= ~OS_SC_SP;
-                    sc->gfxListHead = sc->gfxListHead->next;
-                    if (sc->gfxListHead == NULL) {
-                        sc->gfxListTail = NULL;
-                    }
+    } else if (gfxTask != NULL) {
+        if (gfxTask->state & OS_SC_YIELDED || !(sc->gfxListHead->flags & OS_SC_NEEDS_RDP)) {
+            if (ret & OS_SC_SP) {
+                *sp = gfxTask;
+                ret &= ~OS_SC_SP;
+                sc->gfxListHead = sc->gfxListHead->next;
+                if (sc->gfxListHead == NULL) {
+                    sc->gfxListTail = NULL;
                 }
-            } else {
-                if (ret == (OS_SC_SP | OS_SC_DP)) {
-                    if (sc->gfxListHead->framebuffer == NULL || func_800C89D4(sc, gfxTask) != NULL) {
-                        *sp = *dp = gfxTask;
-                        ret &= ~(OS_SC_SP | OS_SC_DP);
-                        sc->gfxListHead = sc->gfxListHead->next;
-                        if (sc->gfxListHead == NULL) {
-                            sc->gfxListTail = NULL;
-                        }
-                    }
+            }
+        } else if (ret == (OS_SC_SP | OS_SC_DP)) {
+            if (sc->gfxListHead->framebuffer == NULL || func_800C89D4(sc, gfxTask) != NULL) {
+                *sp = *dp = gfxTask;
+                ret &= ~(OS_SC_SP | OS_SC_DP);
+                sc->gfxListHead = sc->gfxListHead->next;
+                if (sc->gfxListHead == NULL) {
+                    sc->gfxListTail = NULL;
                 }
             }
         }

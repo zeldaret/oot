@@ -40,7 +40,7 @@ glabel func_80045350
 /* ABC578 800453D8 51000007 */  beql  $t0, $zero, .L800453F8
 /* ABC57C 800453DC 8C440000 */   lw    $a0, ($v0)
 /* ABC580 800453E0 8C440000 */  lw    $a0, ($v0)
-/* ABC584 800453E4 0C02CE29 */  jal   ShrinkWindow_SetNowVal
+/* ABC584 800453E4 0C02CE29 */  jal   ShrinkWindow_SetCurrentVal
 /* ABC588 800453E8 A7A5001A */   sh    $a1, 0x1a($sp)
 /* ABC58C 800453EC 10000005 */  b     .L80045404
 /* ABC590 800453F0 87A5001A */   lh    $a1, 0x1a($sp)

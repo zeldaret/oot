@@ -1,14 +1,14 @@
 .rdata
 glabel D_80A6EE10
-    .asciz "[36m ヒヨコの店(大人の時) \n[m"
+    .asciz "\x1b[36m ヒヨコの店(大人の時) \n\x1b[m"
     .balign 4
 
 glabel D_80A6EE30
-    .asciz "[36m ヒヨコ屋閉店 \n[m"
+    .asciz "\x1b[36m ヒヨコ屋閉店 \n\x1b[m"
     .balign 4
 
 glabel D_80A6EE48
-    .asciz "[36m ヒヨコの店(子人の時) \n[m"
+    .asciz "\x1b[36m ヒヨコの店(子人の時) \n\x1b[m"
     .balign 4
 
 .text

@@ -11,6 +11,6 @@
 
 glabel Effect_Ss_K_Fire_InitVars
 .word 0x00000017
-.word func_809A91B0
+.word EffectSsKFire_Init
 .word 0x00000000, 0x00000000
 

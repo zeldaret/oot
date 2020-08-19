@@ -304,18 +304,18 @@ void TransitionCircle_Start(TransitionCircle* this) {
     }
 
     if (this->typeColor == 0) {
-        this->color.rgba = RGBA8(0x00, 0x00, 0x00, 0xFF);
+        this->color.rgba = RGBA8(0, 0, 0, 255);
     } else if (this->typeColor == 1) {
-        this->color.rgba = RGBA8(0xA0, 0xA0, 0xA0, 0xFF);
+        this->color.rgba = RGBA8(160, 160, 160, 255);
     } else if (this->typeColor == 2) {
         // yes, really.
-        this->color.r = 0x64;
-        this->color.g = 0x64;
-        this->color.b = 0x64;
-        this->color.a = 0xFF;
+        this->color.r = 100;
+        this->color.g = 100;
+        this->color.b = 100;
+        this->color.a = 255;
     } else {
         this->step = 0x28;
-        this->color.rgba = this->effect == 1 ? RGBA8(0x00, 0x00, 0x00, 0xFF) : RGBA8(0xA0, 0xA0, 0xA0, 0xFF);
+        this->color.rgba = this->effect == 1 ? RGBA8(0, 0, 0, 255) : RGBA8(160, 160, 160, 255);
     }
     if (this->unk_14 != 0) {
         this->texY = 0;

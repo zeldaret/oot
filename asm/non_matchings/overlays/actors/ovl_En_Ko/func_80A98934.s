@@ -1,3 +1,15 @@
+.late_rodata
+glabel jtbl_80A9A98C
+    .word L80A989F4
+    .word L80A98A28
+    .word L80A98AA4
+    .word L80A98B04
+    .word L80A98C0C
+    .word L80A98C0C
+    .word L80A98C0C
+    .word L80A98B5C
+
+.text
 glabel func_80A98934
 /* 01B84 80A98934 84A300A4 */  lh      $v1, 0x00A4($a1)           ## 000000A4
 /* 01B88 80A98938 28610056 */  slti    $at, $v1, 0x0056           

@@ -36,26 +36,40 @@ const u32 sFaultDrawerFont[] = {
 };
 
 // data
-// clang-format off
 FaultDrawer sFaultDrawerDefault = {
-    (u16*)0x803DA800, // fb
-    320, 240, // w, h
-    16, 223, // yStart, yEnd
-    22, 297, // xStart, xEnd
-    0xFFFF, 0x0000, // foreColor, backColor
-    22, 16, // cursorX, cursorY
-    sFaultDrawerFont, // font
-    8, 8, 0, 0,
-    { // printColors
-        0x0001, 0xF801, 0x07C1, 0xFFC1,
-        0x003F, 0xF83F, 0x07FF, 0xFFFF,
-        0x7BDF, 0xB5AD
+    (u16*)0x803DA800,                   // fb
+    320,                                // w
+    240,                                // h
+    16,                                 // yStart
+    223,                                // yEnd
+    22,                                 // xStart
+    297,                                // xEnd
+    GPACK_RGBA5551(255, 255, 255, 255), // foreColor
+    GPACK_RGBA5551(0, 0, 0, 0),         // backColor
+    22,                                 // cursorX
+    16,                                 // cursorY
+    sFaultDrawerFont,                   // font
+    8,
+    8,
+    0,
+    0,
+    {
+        // printColors
+        GPACK_RGBA5551(0, 0, 0, 1),
+        GPACK_RGBA5551(255, 0, 0, 1),
+        GPACK_RGBA5551(0, 255, 0, 1),
+        GPACK_RGBA5551(255, 255, 0, 1),
+        GPACK_RGBA5551(0, 0, 255, 1),
+        GPACK_RGBA5551(255, 0, 255, 1),
+        GPACK_RGBA5551(0, 255, 255, 1),
+        GPACK_RGBA5551(255, 255, 255, 1),
+        GPACK_RGBA5551(120, 120, 120, 1),
+        GPACK_RGBA5551(176, 176, 176, 1),
     },
-    0, // escCode
-    0, // osSyncPrintfEnabled
+    0,    // escCode
+    0,    // osSyncPrintfEnabled
     NULL, // inputCallback
 };
-// clang-format on
 
 // bss
 extern FaultDrawer sFaultDrawerStruct;

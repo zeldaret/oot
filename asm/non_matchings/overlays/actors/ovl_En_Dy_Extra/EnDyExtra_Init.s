@@ -4,7 +4,7 @@ glabel D_809FFC70
     .balign 4
 
 glabel D_809FFC74
-    .asciz "[33m☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 .late_rodata

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fhg.c
+ * Overlay: ovl_En_fHG
+ * Description: Phantom Ganon's Horse
+ */
+
 #include "z_en_fhg.h"
 
 #define FLAGS 0x00000010

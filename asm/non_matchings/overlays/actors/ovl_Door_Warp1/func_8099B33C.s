@@ -1,3 +1,13 @@
+.rdata
+glabel D_8099C644
+    .asciz "../z_door_warp1.c"
+    .balign 4
+
+glabel D_8099C658
+    .asciz "../z_door_warp1.c"
+    .balign 4
+
+.text
 glabel func_8099B33C
 /* 02BBC 8099B33C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 02BC0 8099B340 AFBF0034 */  sw      $ra, 0x0034($sp)

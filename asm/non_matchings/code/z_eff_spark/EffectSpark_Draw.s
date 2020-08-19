@@ -1115,7 +1115,7 @@ glabel EffectSpark_Draw
 .L80025FE4:
 /* A9D184 80025FE4 8E250018 */  lw    $a1, 0x18($s1)
 /* A9D188 80025FE8 8E26001C */  lw    $a2, 0x1c($s1)
-/* A9D18C 80025FEC 0C029E89 */  jal   func_800A7A24
+/* A9D18C 80025FEC 0C029E89 */  jal   SkinMatrix_SetTranslate
 /* A9D190 80025FF0 8E270020 */   lw    $a3, 0x20($s1)
 /* A9D194 80025FF4 0C03F66B */  jal   Math_Rand_ZeroOne
 /* A9D198 80025FF8 00000000 */   nop   
@@ -1132,15 +1132,15 @@ glabel EffectSpark_Draw
 /* A9D1C4 80026024 46085082 */  mul.s $f2, $f10, $f8
 /* A9D1C8 80026028 44051000 */  mfc1  $a1, $f2
 /* A9D1CC 8002602C 44061000 */  mfc1  $a2, $f2
-/* A9D1D0 80026030 0C029DA9 */  jal   func_800A76A4
+/* A9D1D0 80026030 0C029DA9 */  jal   SkinMatrix_SetScale
 /* A9D1D4 80026034 00000000 */   nop   
 /* A9D1D8 80026038 27A400EC */  addiu $a0, $sp, 0xec
 /* A9D1DC 8002603C 8FA5004C */  lw    $a1, 0x4c($sp)
-/* A9D1E0 80026040 0C029BE8 */  jal   func_800A6FA0
+/* A9D1E0 80026040 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* A9D1E4 80026044 27A6006C */   addiu $a2, $sp, 0x6c
 /* A9D1E8 80026048 27A4006C */  addiu $a0, $sp, 0x6c
 /* A9D1EC 8002604C 27A500AC */  addiu $a1, $sp, 0xac
-/* A9D1F0 80026050 0C029BE8 */  jal   func_800A6FA0
+/* A9D1F0 80026050 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* A9D1F4 80026054 27A6012C */   addiu $a2, $sp, 0x12c
 /* A9D1F8 80026058 A6130000 */  sh    $s3, ($s0)
 /* A9D1FC 8002605C A6130002 */  sh    $s3, 2($s0)
@@ -1200,7 +1200,7 @@ glabel EffectSpark_Draw
 /* A9D2D4 80026134 A614FFF8 */  sh    $s4, -8($s0)
 /* A9D2D8 80026138 A614FFFA */  sh    $s4, -6($s0)
 /* A9D2DC 8002613C A600FFF6 */  sh    $zero, -0xa($s0)
-/* A9D2E0 80026140 0C029F9C */  jal   func_800A7E70
+/* A9D2E0 80026140 0C029F9C */  jal   SkinMatrix_MtxFToNewMtx
 /* A9D2E4 80026144 A208FFFF */   sb    $t0, -1($s0)
 /* A9D2E8 80026148 10400027 */  beqz  $v0, .L800261E8
 /* A9D2EC 8002614C 00124980 */   sll   $t1, $s2, 6

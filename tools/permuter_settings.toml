@@ -1,0 +1,7 @@
+[preserve_macros]
+"g[DS]P.*" = "void"
+"gDma.*" = "void"
+LOG = "void"
+SET_FULLSCREEN_VIEWPORT = "void"
+ABS = "int"
+SQ = "int"

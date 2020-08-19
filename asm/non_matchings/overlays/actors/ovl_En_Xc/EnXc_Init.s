@@ -1,6 +1,6 @@
 .rdata
 glabel D_80B4215C
-    .asciz "[31m En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .asciz "\x1b[31m En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m"
     .balign 4
 
 .late_rodata

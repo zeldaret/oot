@@ -16,12 +16,12 @@ glabel D_8013CDB4
     .balign 4
 
 glabel D_8013CDEC
-    .asciz "→ \x1b[35m×\x1B[m (%d)\n"
+    .asciz "→ \x1b[35m×\x1b[m (%d)\n"
     # EUC-JP: → [35m×[m (%d)
     .balign 4
 
 glabel D_8013CE00
-    .asciz "→ \x1b[34m○\x1B[m (%d)\n"
+    .asciz "→ \x1b[34m○\x1b[m (%d)\n"
     # EUC-JP: → [34m○[m (%d)
     .balign 4
 

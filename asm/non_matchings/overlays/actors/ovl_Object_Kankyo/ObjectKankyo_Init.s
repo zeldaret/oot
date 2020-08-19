@@ -1,3 +1,34 @@
+.late_rodata
+glabel jtbl_80BA5BE0
+    .word L80BA2B10
+    .word L80BA2D98
+    .word L80BA2B90
+    .word L80BA2B50
+    .word L80BA2BA8
+    .word L80BA2BE4
+
+glabel D_80BA5BF8
+    .float 0.1
+
+glabel D_80BA5BFC
+    .float 0.1
+
+glabel D_80BA5C00
+    .float 0.1
+
+glabel D_80BA5C04
+    .float 0.1
+
+glabel D_80BA5C08
+    .float 0.1
+
+glabel D_80BA5C0C
+    .float 0.1
+
+glabel D_80BA5C10
+    .float 0.1
+
+.text
 glabel ObjectKankyo_Init
 /* 00008 80BA2AA8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0000C 80BA2AAC AFBF0014 */  sw      $ra, 0x0014($sp)           
