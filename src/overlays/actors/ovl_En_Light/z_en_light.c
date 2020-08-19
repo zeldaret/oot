@@ -107,7 +107,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnLight_UpdatePosRot(this, globalCtx);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(this, NA_SE_EV_TORCH - SFX_FLAG);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 
@@ -120,12 +120,12 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
     flameParams = &D_80A9E840[this->actor.params & 0xF];
     scale = this->actor.scale.x / ((f32)flameParams->scale * 0.0001);
 
-    if ((this->actor.params & 0x800)) {
+    if (this->actor.params & 0x800) {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
             Math_ApproxF(&scale, 1.0f, 0.05f);
         } else {
             if (scale < 0.1f) {
-                Actor_SetScale(this, 0.0f);
+                Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
             Math_ApproxF(&scale, 0.0f, 0.05f);
@@ -133,7 +133,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
             if (scale < 0.1f) {
-                Actor_SetScale(this, 0.0f);
+                Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
             Math_ApproxF(&scale, 0.0f, 0.05f);
@@ -142,7 +142,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Actor_SetScale(this, ((f32)flameParams->scale * 0.0001) * scale);
+    Actor_SetScale(&this->actor, ((f32)flameParams->scale * 0.0001) * scale);
     intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
     Lights_SetPositionalLightColorAndRadius(&this->posLightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
@@ -150,7 +150,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
     EnLight_UpdatePosRot(this, globalCtx);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(this, NA_SE_EV_TORCH - SFX_FLAG);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 
@@ -194,7 +194,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * 0.0000958738f,
                    MTXMODE_APPLY);
 
-    if ((this->actor.params & 1)) {
+    if (this->actor.params & 1) {
         Matrix_RotateY(M_PI, MTXMODE_APPLY);
     }
 
