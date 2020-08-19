@@ -5,6 +5,7 @@
 */
 
 #include "z_boss_goma.h"
+#include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 
 #define FLAGS 0x00000035
 
@@ -35,10 +36,7 @@ void func_8091960C(BossGoma* this, GlobalContext* globalCtx);
 void func_80919704(BossGoma* this, GlobalContext* globalCtx);
 void func_80919974(BossGoma* this, GlobalContext* globalCtx);
 void func_80919A40(BossGoma* this, GlobalContext* globalCtx);
-s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
-Gfx* func_8091AC18(GraphicsContext* gfxCtx);
 void func_8091ADA8(BossGoma* this, GlobalContext* globalCtx, s16 arg2);
-
 void func_80064520(GlobalContext*, CutsceneContext*);
 u8 func_800635D0(s32);
 void func_800628A4(s32 arg0, ColliderJntSph* collider);
@@ -188,36 +186,23 @@ u8 D_8091B244[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
                     0x15, 0x00, 0x00, 0x19, 0x00, 0x00, 0x1E, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-InitChainEntry D_8091B2A8[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 1, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 63536, ICHAIN_STOP),
 };
 
 Vec3f D_8091B2B4 = { 0.0f, 0.0f, 0.0f };
-
 Vec3f D_8091B2C0 = { 0.0f, -0.5f, 0.0f };
-
-/*
-Vec3f D_8091B2CC = {
-    -150.0f, 0.0f, -350.0f
-};
-*/
 f32 D_8091B2CC = -150.0f;
 f32 D_8091B2D0 = 0.0f;
 f32 D_8091B2D4 = -350.0f;
-
 Vec3f D_8091B2D8 = { 0.0f, 0.0f, 0.0f };
-
 Vec3f D_8091B2E4 = { 0.0f, 1.0f, 0.0f };
-
-s32 D_8091B2F0 = 0xFFFFFFFF;
-s32 D_8091B2F4 = 0x0064FFFF;
-
+Color_RGBA8_n D_8091B2F0 = { 255, 255, 255, 255 };
+Color_RGBA8_n D_8091B2F4 = { 0, 100, 255, 255 };
 Vec3f D_8091B2F8 = { 0.0f, 0.0f, 0.0f };
-
 Vec3f D_8091B304 = { 0.0f, -0.5f, 0.0f };
-
 Vec3f D_8091B310 = { -150.0f, 0.0f, -350.0f };
 
 Vec3f D_8091B31C[] = { { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
@@ -230,28 +215,25 @@ Vec3f D_8091B3AC[] = { { 255.0f, 17.0f, 0.0f },  { 255.0f, 255.0f, 255.0f }, { 5
                        { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f },   { 0.0f, 255.0f, 170.0f } };
 
 Vec3f D_8091B3F4 = { 0.0f, 0.0f, 0.0f };
-
 Vec3f D_8091B400 = { 0.0f, 0.0f, 0.0f };
-
 Vec3f D_8091B40C = { 0.0f, 300.0f, 2650.0f };
-
 Vec3f D_8091B418 = { 0.0f, 0.0f, 0.0f };
 
-void func_80915A10(void* arg0, u8* arg1, s16 arg2) {
+void func_80915A10(s16* arg0, u8* arg1, s16 arg2) {
     if (arg1[arg2]) {
-        ((s16*)arg0)[arg2] = 0;
+        arg0[arg2] = 0;
     }
 }
 
-void func_80915A40(void* arg0, u8* arg1, s16 arg2) {
-    s16* temp_v0;
+void func_80915A40(s16* arg0, u8* arg1, s16 arg2) {
+    s16* temp_v0 = arg0;
+    temp_v0 += (s16)(((arg2 & 0xF) * 2) + (arg2 & 0xF0) * 4);
 
     if (arg1[arg2]) {
-        temp_v0 = (s16*)((u8*)arg0 + (s16)(((arg2 & 0xF) * 2) + (arg2 & 0xF0) * 4) * 2);
-        *(temp_v0 + 0) = 0;
-        *(temp_v0 + 1) = 0;
-        *(temp_v0 + 32) = 0;
-        *(temp_v0 + 33) = 0;
+        temp_v0[0] = 0;
+        temp_v0[1] = 0;
+        temp_v0[32] = 0;
+        temp_v0[33] = 0;
     }
 }
 
@@ -268,7 +250,7 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossGoma* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_8091B2A8);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 4000.0f, ActorShadow_DrawFunc_Circle, 150.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_0601DCF8, &D_06012678, NULL, NULL, 0);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06012678);
@@ -286,7 +268,7 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->unk_7BC, &this->actor, &D_8091B034, &this->unk_7DC);
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, 0x5D, 0.0f, -640.0f, 0.0f, 0, 0, 0, 0);
+        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -640.0f, 0.0f, 0, 0, 0, 0);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x5F, 141.0f, -640.0f, -84.0f, 0, 0, 0, 0);
     }
 }
@@ -495,7 +477,7 @@ void func_809168B0(BossGoma* this, GlobalContext* globalCtx, f32 arg2, f32 arg3,
             func_80029724(globalCtx, &c, &a, &b, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, 0);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_HIGH);
-    }
+    } 
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_809168B0.s")
@@ -564,6 +546,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 }
             }
             break;
+
         case 1:
             func_80064520(globalCtx, &globalCtx->csCtx);
             this->unk_1BC = Gameplay_CreateSubCamera(globalCtx);
@@ -591,6 +574,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
             this->unk_1D4 = 0x50;
             this->unk_194 = 0;
             this->actor.flags &= -2;
+
         case 2:
             player->actor.posRot.pos.x = 150.0f;
             player->actor.posRot.pos.z = 300.0f;
@@ -637,6 +621,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 this->unk_1D0 = 3;
             }
             break;
+
         case 3:
             if ((fabsf(this->actor.projectedPos.x) < 150.0f) && (fabsf(this->actor.projectedPos.y) < 250.0f) &&
                 (this->actor.projectedPos.z < 800.0f) && (this->actor.projectedPos.z > 0.0f)) {
@@ -653,6 +638,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 func_80916AEC(this, globalCtx);
             }
             break;
+
         case 4:
             if (func_800A56C8(&this->skelAnime, 15.0f) != 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DEMO_EYE);
@@ -685,6 +671,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 }
             }
             break;
+
         case 5:
             Math_SmoothScaleMaxF(&this->unk_290.x, (this->actor.posRot.pos.x + 8.0f) + 90.0f, 0.1f,
                                  this->unk_220 * 30.0f);
@@ -716,6 +703,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 player->actor.posRot.pos.z = -30.0f;
             }
             break;
+
         case 9:
             Math_SmoothScaleMaxF(&this->unk_290.x, (this->actor.posRot.pos.x + 8.0f) + 90.0f, 0.1f,
                                  this->unk_220 * 30.0f);
@@ -739,7 +727,8 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
             }
             break;
-        case 0x82:
+
+        case 130:
             Math_SmoothScaleMaxF(&this->unk_290.x, (this->actor.posRot.pos.x + 8.0f) + 90.0f, 0.1f,
                                  this->unk_220 * 30.0f);
             Math_SmoothScaleMaxF(&this->unk_290.y, player->actor.posRot.pos.y + 10.0f, 0.1f, this->unk_220 * 30.0f);
@@ -773,7 +762,8 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 this->unk_1D2 = 0x14;
             }
             break;
-        case 0x8C:
+
+        case 140:
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
             Math_SmoothScaleMaxF(&this->unk_29C.y, this->actor.posRot2.pos.y, 0.1f, 10.0f);
             if (this->unk_1D2 == 0) {
@@ -782,7 +772,8 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 3);
             }
             break;
-        case 0x96:
+
+        case 150:
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
             Math_SmoothScaleMaxMinF(&this->unk_290.x, this->actor.posRot.pos.x + 150.0f, 0.2f, 100.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->unk_290.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 100.0f, 0.1f);
@@ -811,16 +802,14 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_80916C9C.s")
 #endif
 
-#ifdef NON_MATCHING
-// Small regalloc in the middle
 void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
     f32 spBC;
     f32 spB8;
     s16 tmp;
     Vec3f spA8 = D_8091B2D8;
     Vec3f sp9C = D_8091B2E4;
-    s32 sp98 = D_8091B2F0;
-    s32 sp94 = D_8091B2F4;
+    Color_RGBA8_n sp98 = D_8091B2F0;
+    Color_RGBA8_n sp94 = D_8091B2F4;
     Vec3f sp88 = D_8091B2F8;
     Vec3f sp7C = D_8091B304;
     Vec3f sp70;
@@ -851,7 +840,7 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
 
     if ((this->unk_1D2 < 0x438) && (this->unk_1D0 < 3)) {
         if (this->unk_1D2 < 0x42E) {
-            Audio_PlayActorSound2(&this->actor, 0x301C);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_LAST - SFX_FLAG);
         }
 
         for (i = 0; i < 4; i++) {
@@ -893,8 +882,8 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
 
             spBC = this->unk_290.x - this->actor.posRot.pos.x;
             spB8 = this->unk_290.z - this->actor.posRot.pos.z;
-            this->unk_228 = sqrtf((spBC * spBC) + (spB8 * spB8));
-            this->unk_22C = Math_atan2f(spBC, spB8);
+            this->unk_228[0] = sqrtf((spBC * spBC) + (spB8 * spB8));
+            this->unk_228[1] = Math_atan2f(spBC, spB8);
             this->unk_1D4 = 0x10E;
             break;
 
@@ -915,10 +904,10 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
             if ((this->unk_1D2 < 0x42E) && !(this->unk_194 & 3) && (Math_Rand_ZeroOne() < 0.5f)) {
                 this->unk_1C4 = 3;
             }
-            this->unk_22C += 0.022f;
-            Math_SmoothScaleMaxF(&this->unk_228, 150.0f, 0.1f, 5.0f);
-            spBC = this->unk_228 * sinf(this->unk_22C);
-            spB8 = this->unk_228 * cosf(this->unk_22C);
+            this->unk_228[1] += 0.022f;
+            Math_SmoothScaleMaxF(&this->unk_228[0], 150.0f, 0.1f, 5.0f);
+            spBC = sinf(this->unk_228[1]) * this->unk_228[0];
+            spB8 = cosf(this->unk_228[1]) * this->unk_228[0];
             Math_SmoothScaleMaxMinF(&this->unk_290.x, this->actor.posRot.pos.x + spBC, 0.2f, 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->unk_290.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->unk_290.z, this->actor.posRot.pos.z + spB8, 0.2f, 50.0f, 0.1f);
@@ -1059,9 +1048,6 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_98[2] = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_80917D98.s")
-#endif
 
 void func_80918C08(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1168,7 +1154,7 @@ void func_809190F8(BossGoma* this, GlobalContext* globalCtx) {
 
 void func_80919150(BossGoma* this, GlobalContext* globalCtx) {
     if (this->unk_1D6 < 0x5B) {
-        Audio_PlayActorSound2(&this->actor, 0x301E);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_FAINT - SFX_FLAG);
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_1D4 == 1) {
@@ -1621,86 +1607,87 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     BossGoma* this = THIS;
     s32 ret = 0;
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4685);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4685);
 
-        gDPPipeSync(gfxCtx->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_204.x, (s8)this->unk_204.y, (s8)this->unk_204.z, 255);
+    gDPPipeSync(gfxCtx->polyOpa.p++);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_204.x, (s8)this->unk_204.y, (s8)this->unk_204.z, 255);
 
-        if (this->unk_758[limbIndex] >= 2) {
-            *dList = NULL;
-        }
-
-        switch (limbIndex) {
-            case 5:
-                if ((this->unk_1B4 == 0) && (this->unk_198 < -0xA8C)) {
-                    *dList = NULL;
-                    break;
-                }
-                if (this->unk_1BA != 0) {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)(Math_Rand_ZeroOne() * 255.0f),
-                                   (s8)(Math_Rand_ZeroOne() * 255.0f), (s8)(Math_Rand_ZeroOne() * 255.0f), 63);
-                } else {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_210.x, (s8)this->unk_210.y, (s8)this->unk_210.z,
-                                   63);
-                }
-                break;
-            case 32:
-                rot->x += this->unk_198;
-                break;
-            case 35:
-                rot->x += this->unk_19A;
-                break;
-            case 38:
-                rot->x += this->unk_19E;
-                rot->y += this->unk_1A0;
-                break;
-            case 39:
-                if ((this->unk_1B4 == 0) && (this->unk_198 < -0xA8C)) {
-                    *dList = 0;
-                    break;
-                }
-                if (this->unk_1B8 == 2) {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 50, 50, 50, 255);
-                } else {
-                    gDPSetEnvColor(gfxCtx->polyOpa.p++, 255, 255, 255, 255);
-                }
-                Matrix_JointPosition(pos, rot);
-                if (*dList != NULL) {
-                    Matrix_Push();
-                    Matrix_Scale(this->unk_1F8, this->unk_224, 1.0f, MTXMODE_APPLY);
-                    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4815),
-                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPDisplayList(gfxCtx->polyOpa.p++, *dList);
-                    Matrix_Pull();
-                }
-                ret = 1;
-                break;
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-                Matrix_JointPosition(pos, rot);
-                if (*dList != NULL) {
-                    Matrix_Push();
-                    Matrix_Scale(*(f32*)(&this->unk_1BC + limbIndex * 2), *(f32*)(&this->unk_1BC + limbIndex * 2),
-                                 *(f32*)(&this->unk_1BC + limbIndex * 2), MTXMODE_APPLY);
-                    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4836),
-                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPDisplayList(gfxCtx->polyOpa.p++, *dList);
-                    Matrix_Pull();
-                }
-                ret = 1;
-                break;
-        }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4858);
+    if (this->unk_758[limbIndex] >= 2) {
+        *dList = NULL;
     }
+
+    switch (limbIndex) {
+        case 5:
+            if ((this->unk_1B4 == 0) && (this->unk_198 < -0xA8C)) {
+                *dList = NULL;
+                break;
+            }
+            if (this->unk_1BA != 0) {
+                gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)(Math_Rand_ZeroOne() * 255.0f),
+                               (s8)(Math_Rand_ZeroOne() * 255.0f), (s8)(Math_Rand_ZeroOne() * 255.0f), 63);
+            } else {
+                gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_210.x, (s8)this->unk_210.y, (s8)this->unk_210.z,
+                               63);
+            }
+            break;
+        case 32:
+            rot->x += this->unk_198;
+            break;
+        case 35:
+            rot->x += this->unk_19A;
+            break;
+        case 38:
+            rot->x += this->unk_19E;
+            rot->y += this->unk_1A0;
+            break;
+        case 39:
+            if ((this->unk_1B4 == 0) && (this->unk_198 < -0xA8C)) {
+                *dList = 0;
+                break;
+            }
+            if (this->unk_1B8 == 2) {
+                gDPSetEnvColor(gfxCtx->polyOpa.p++, 50, 50, 50, 255);
+            } else {
+                gDPSetEnvColor(gfxCtx->polyOpa.p++, 255, 255, 255, 255);
+            }
+            Matrix_JointPosition(pos, rot);
+            if (*dList != NULL) {
+                Matrix_Push();
+                Matrix_Scale(this->unk_1F8, this->unk_224, 1.0f, MTXMODE_APPLY);
+                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4815),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(gfxCtx->polyOpa.p++, *dList);
+                Matrix_Pull();
+            }
+            ret = 1;
+            break;
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            Matrix_JointPosition(pos, rot);
+            if (*dList != NULL) {
+                Matrix_Push();
+                Matrix_Scale(*(f32*)(&this->unk_1BC + limbIndex * 2), *(f32*)(&this->unk_1BC + limbIndex * 2),
+                             *(f32*)(&this->unk_1BC + limbIndex * 2), MTXMODE_APPLY);
+                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4836),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(gfxCtx->polyOpa.p++, *dList);
+                Matrix_Pull();
+            }
+            ret = 1;
+            break;
+    }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4858);
     return ret;
 }
 #else
+s32 func_8091A560(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+             Vec3f* pos, Vec3s* rot, struct Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_8091A560.s")
 #endif
 
@@ -1708,7 +1695,7 @@ void func_8091A9E8(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3s* arg3, 
     Vec3f a;
     Vec3s b;
     s32 pad;
-    BossGoma* tmp;
+    EnGoma* tmp;
     BossGoma* this = THIS;
     MtxF c;
 
@@ -1737,7 +1724,7 @@ void func_8091A9E8(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3s* arg3, 
         Matrix_MultVec3f(&D_8091B418, &a);
         Matrix_Get(&c);
         func_800D20CC(&c, &b, MTXMODE_NEW);
-        tmp = (BossGoma*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, a.x, a.y,
+        tmp = (EnGoma*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, a.x, a.y,
                                              a.z, b.x, b.y, b.z, D_8091B244[arg1] + 0x64);
         if (tmp != NULL) {
             tmp->unk_308 = *arg2;

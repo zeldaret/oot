@@ -585,7 +585,7 @@ void func_80A4A6AC(EnGoma* this, GlobalContext* globalCtx) {
     u8 tmp;
     ColliderTouch* toucher;
 
-    if (this->unk_2C2) {
+    if (this->unk_2C2 != 0) {
         this->unk_2C2--;
         return;
     }
@@ -717,24 +717,21 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 func_80A4ACC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnGoma* this = THIS;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 1976);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->unk_2E0[0], (s16)this->unk_2E0[1], (s16)this->unk_2E0[2], 255);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 1976);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->unk_2E0[0], (s16)this->unk_2E0[1], (s16)this->unk_2E0[2], 255);
-
-        if (limbIndex == 7) {
-            rot->x += this->unk_2BA;
-            rot->y += this->unk_2BC;
-        } else if ((limbIndex == 3) && (this->unk_2C2)) {
-            gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)(Math_Rand_ZeroOne() * 255.0f),
-                           (s16)(Math_Rand_ZeroOne() * 255.0f), (s16)(Math_Rand_ZeroOne() * 255.0f), 255);
-        }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 2011);
+    if (limbIndex == 7) {
+        rot->x += this->unk_2BA;
+        rot->y += this->unk_2BC;
+    } else if ((limbIndex == 3) && (this->unk_2C2)) {
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)(Math_Rand_ZeroOne() * 255.0f),
+                       (s16)(Math_Rand_ZeroOne() * 255.0f), (s16)(Math_Rand_ZeroOne() * 255.0f), 255);
     }
 
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 2011);
     return 0;
 }
 
@@ -756,68 +753,64 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGoma* this = THIS;
     s16 tmp;
     Vec3f* tmpvec;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 2040);
+    func_80093D18(globalCtx->state.gfxCtx);
+    switch (this->unk_2B8) {
+        case 0:
+            this->actor.naviEnemyId = 3;
+            tmpvec = &globalCtx->cameras[0].unk_80;
+            Matrix_Translate(this->actor.posRot.pos.x,
+                             this->actor.posRot.pos.y +
+                                 ((this->actor.shape.unk_08 * this->actor.scale.y) + tmpvec->y),
+                             this->actor.posRot.pos.z, 0);
+            Matrix_RotateX((this->unk_2B4 / 32768.0f) * M_PI, 1);
+            Matrix_RotateZ((this->unk_2B6 / 32768.0f) * M_PI, 1);
+            Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, 1);
+            Matrix_RotateX((this->actor.shape.rot.x / 32768.0f) * M_PI, 1);
+            Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * M_PI, 1);
+            Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
+            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80A4ACC0, 0,
+                           &this->actor);
+            break;
+        case 1:
+            this->actor.naviEnemyId = 2;
+            // This one isn't quite M_PI
+            tmp = (s16)(sinf(((this->unk_2C0 * 5.0f) * 3.1415f) / 180.0f) * 31.9f) + 0x1F;
 
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 2040);
-        func_80093D18(globalCtx->state.gfxCtx);
-
-        switch (this->unk_2B8) {
-            case 0:
-                this->actor.naviEnemyId = 3;
-                tmpvec = &globalCtx->cameras[0].unk_80;
-                Matrix_Translate(this->actor.posRot.pos.x,
-                                 this->actor.posRot.pos.y +
-                                     ((this->actor.shape.unk_08 * this->actor.scale.y) + tmpvec->y),
-                                 this->actor.posRot.pos.z, 0);
-                Matrix_RotateX((this->unk_2B4 / 32768.0f) * M_PI, 1);
-                Matrix_RotateZ((this->unk_2B6 / 32768.0f) * M_PI, 1);
-                Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, 1);
-                Matrix_RotateX((this->actor.shape.rot.x / 32768.0f) * M_PI, 1);
-                Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * M_PI, 1);
-                Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80A4ACC0, 0,
-                               &this->actor);
-                break;
-            case 1:
-                this->actor.naviEnemyId = 2;
-                // This one isn't quite M_PI
-                tmp = (s16)(sinf(((this->unk_2C0 * 5.0f) * 3.1415f) / 180.0f) * 31.9f) + 0x1F;
-
-                gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, tmp));
-                Matrix_Push();
-                Matrix_Scale(this->unk_2D0, 1.0f / this->unk_2D0, this->unk_2D0, 1);
-                Matrix_RotateY(this->unk_2D8 * 0.15f, 1);
-                Matrix_RotateZ(this->unk_2D8 * 0.1f, 1);
-                Matrix_Scale((0.95f - this->unk_2EC), this->unk_2EC + 1.05f, (0.95f - this->unk_2EC), 1);
-                Matrix_RotateZ(-(this->unk_2D8 * 0.1f), 1);
-                Matrix_RotateY(-(this->unk_2D8 * 0.15f), 1);
-                Matrix_Translate(0.0f, this->unk_2F0, 0.0f, 1);
-                Matrix_RotateX(this->unk_2D4, 1);
-                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2101),
+            gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, tmp));
+            Matrix_Push();
+            Matrix_Scale(this->unk_2D0, 1.0f / this->unk_2D0, this->unk_2D0, 1);
+            Matrix_RotateY(this->unk_2D8 * 0.15f, 1);
+            Matrix_RotateZ(this->unk_2D8 * 0.1f, 1);
+            Matrix_Scale((0.95f - this->unk_2EC), this->unk_2EC + 1.05f, (0.95f - this->unk_2EC), 1);
+            Matrix_RotateZ(-(this->unk_2D8 * 0.1f), 1);
+            Matrix_RotateY(-(this->unk_2D8 * 0.15f), 1);
+            Matrix_Translate(0.0f, this->unk_2F0, 0.0f, 1);
+            Matrix_RotateX(this->unk_2D4, 1);
+            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2101),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(gfxCtx->polyOpa.p++, D_06002A70);
+            Matrix_Pull();
+            break;
+        case 2:
+            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2107),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(gfxCtx->polyOpa.p++, D_05000530);
+            break;
+        case 3:
+            if (this->unk_308) {
+                gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A4AE60(globalCtx->state.gfxCtx));
+                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2114),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyOpa.p++, D_06002A70);
-                Matrix_Pull();
-                break;
-            case 2:
-                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2107),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyOpa.p++, D_05000530);
-                break;
-            case 3:
-                if (this->unk_308) {
-                    gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A4AE60(globalCtx->state.gfxCtx));
-                    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2114),
-                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPDisplayList(gfxCtx->polyOpa.p++, this->unk_308);
-                }
-                break;
-        }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 2119);
+                gSPDisplayList(gfxCtx->polyOpa.p++, this->unk_308);
+            }
+            break;
     }
+    
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_goma.c", 2119);
 }
 
 void func_80A4B3AC(EnGoma* this, GlobalContext* globalCtx) {

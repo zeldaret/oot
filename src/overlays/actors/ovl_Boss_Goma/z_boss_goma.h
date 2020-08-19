@@ -48,8 +48,8 @@ typedef struct BossGoma {
     /* 0x021C */ f32 unk_21C;
     /* 0x0220 */ f32 unk_220;
     /* 0x0224 */ f32 unk_224;
-    /* 0x0228 */ f32 unk_228;
-    /* 0x022C */ f32 unk_22C;
+    /* 0x0228 */ f32 unk_228[2];
+    ///* 0x022C */ f32 unk_22C;
     /* 0x0230 */ char unk_230[0x30];
     /* 0x0260 */ Vec3f unk_260;
     /* 0x026C */ Vec3f unk_26C;
@@ -57,9 +57,8 @@ typedef struct BossGoma {
     /* 0x0284 */ Vec3f unk_284;
     /* 0x0290 */ Vec3f unk_290;
     /* 0x029C */ Vec3f unk_29C;
-    /* 0x02A8 */ Vec3f unk_2A8[8];
-    /* 0x0308 */ Gfx* unk_308;
-    /* 0x030C */ char unk_30C[0x44C];
+    /* 0x02A8 */ Vec3f unk_2A8[84];
+    /* 0x0638 */ char unk_638[0x120];
     /* 0x0758 */ u8 unk_758[0x64];
     /* 0x07BC */ ColliderJntSph unk_7BC;
     /* 0x07DC */ ColliderJntSphItem unk_7DC;

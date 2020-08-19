@@ -234,7 +234,8 @@ void func_80028E84(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s32, s32);
 // ? func_800290F0(?);
 // ? func_80029184(?);
 // ? func_800291D8(?);
-// ? func_800292DC(?);
+void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor);
 // ? func_80029320(?);
 // ? func_800293A0(?);
 void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
