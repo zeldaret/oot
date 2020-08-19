@@ -153,7 +153,7 @@ typedef struct {
     /* 0x1B0 */ u8 duration;
     /* 0x1B1 */ u8 timer;
     /* 0x1B2 */ LightInfoPositional lightInfo;
-    /* 0x1C0 */ z_Light* light;
+    /* 0x1C0 */ LightNode* light;
     /* 0x1C4 */ s32 lightDecay; // halves light radius every frame when set to 1
 } EffectShieldParticle; // size = 0x1C8
 

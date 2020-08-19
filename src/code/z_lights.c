@@ -76,8 +76,8 @@ void func_8007A40C(LightMapper* mapper, LightInfoDirectionalParams* params, Glob
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A474.s")
 
-z_Light* Lights_FindFreeSlot() {
-    z_Light* ret;
+LightNode* Lights_FindFreeSlot() {
+    LightNode* ret;
 
     if (0x1F < sLightsList.numOccupied) {
         return NULL;
@@ -103,32 +103,32 @@ z_Light* Lights_FindFreeSlot() {
 
 #ifdef NON_MATCHING
 // single ordering difference
-void Lights_Free(z_Light* light) {
+void Lights_Free(LightNode* light) {
     if (light != NULL) {
         sLightsList.numOccupied--;
         light->info = NULL;
         sLightsList.nextFree = (light - sLightsList.lights) /
-                               sizeof(z_Light); //! @bug Due to pointer arithmetic, the division is unnecessary
+                               sizeof(LightNode); //! @bug Due to pointer arithmetic, the division is unnecessary
     }
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/Lights_Free.s")
 #endif
 
-void func_8007A614(GlobalContext* globalCtx, LightingContext* lightCtx) {
+void func_8007A614(GlobalContext* globalCtx, LightContext* lightCtx) {
     Lights_ClearHead(globalCtx, lightCtx);
     Lights_SetAmbientColor(lightCtx, 80, 80, 80);
     func_8007A698(lightCtx, 0, 0, 0, 0x3e4, 0x3200);
     bzero(&sLightsList, sizeof(sLightsList));
 }
 
-void Lights_SetAmbientColor(LightingContext* lightCtx, u8 red, u8 green, u8 blue) {
+void Lights_SetAmbientColor(LightContext* lightCtx, u8 red, u8 green, u8 blue) {
     lightCtx->ambientRed = red;
     lightCtx->ambientGreen = green;
     lightCtx->ambientBlue = blue;
 }
 
-void func_8007A698(LightingContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5) {
+void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5) {
     lightCtx->unk_07 = arg1;
     lightCtx->unk_08 = arg2;
     lightCtx->unk_09 = arg3;
@@ -136,46 +136,46 @@ void func_8007A698(LightingContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg
     lightCtx->unk_0C = arg5;
 }
 
-LightMapper* Lights_CreateMapper(LightingContext* lightCtx, GraphicsContext* gfxCtx) {
+LightMapper* Lights_CreateMapper(LightContext* lightCtx, GraphicsContext* gfxCtx) {
     return func_8007A960(gfxCtx, lightCtx->ambientRed, lightCtx->ambientGreen, lightCtx->ambientBlue);
 }
 
-void Lights_ClearHead(GlobalContext* globalCtx, LightingContext* lightCtx) {
-    lightCtx->lightsHead = NULL;
+void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx) {
+    lightCtx->head = NULL;
 }
 
-void Lights_RemoveAll(GlobalContext* globalCtx, LightingContext* lightCtx) {
-    while (lightCtx->lightsHead != NULL) {
-        Lights_Remove(globalCtx, lightCtx, lightCtx->lightsHead);
-        lightCtx->lightsHead = lightCtx->lightsHead->next;
+void Lights_RemoveAll(GlobalContext* globalCtx, LightContext* lightCtx) {
+    while (lightCtx->head != NULL) {
+        Lights_Remove(globalCtx, lightCtx, lightCtx->head);
+        lightCtx->head = lightCtx->head->next;
     }
 }
 
-z_Light* Lights_Insert(GlobalContext* globalCtx, LightingContext* lightCtx, void* info) {
-    z_Light* light;
+LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, void* info) {
+    LightNode* light;
 
     light = Lights_FindFreeSlot();
     if (light != NULL) {
         light->info = info;
         light->prev = NULL;
-        light->next = lightCtx->lightsHead;
+        light->next = lightCtx->head;
 
-        if (lightCtx->lightsHead != NULL) {
-            lightCtx->lightsHead->prev = light;
+        if (lightCtx->head != NULL) {
+            lightCtx->head->prev = light;
         }
 
-        lightCtx->lightsHead = light;
+        lightCtx->head = light;
     }
 
     return light;
 }
 
-void Lights_Remove(GlobalContext* globalCtx, LightingContext* lightCtx, z_Light* light) {
+void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light) {
     if (light != NULL) {
         if (light->prev != NULL) {
             light->prev->next = light->next;
         } else {
-            lightCtx->lightsHead = light->next;
+            lightCtx->head = light->next;
         }
 
         if (light->next != NULL) {
@@ -189,6 +189,22 @@ void Lights_Remove(GlobalContext* globalCtx, LightingContext* lightCtx, z_Light*
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A824.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A960.s")
+/*
+LightMapper* func_8007A960(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue) {
+    void* temp_ret;
+    void* temp_v0;
+
+    temp_v0 = Graph_Alloc(gfxCtx, 0x80);
+    temp_v0->unkC = red;
+    temp_v0->unk8 = red;
+    temp_v0->unkD = green;
+    temp_v0->unk9 = green;
+    temp_v0->unk0 = 0;
+    temp_v0->unkE = blue;
+    temp_v0->unkA = blue;
+    return temp_v0;
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
 

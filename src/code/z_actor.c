@@ -1739,7 +1739,7 @@ s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE arg2, UNK_TYP
 
 // Local data used for Farore's Wind light (stored in BSS, possibly a struct?)
 LightInfoPositional D_8015BC00;
-z_Light* D_8015BC10;
+LightNode* D_8015BC10;
 s32 D_8015BC14;
 f32 D_8015BC18;
 
@@ -2181,7 +2181,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     lightMapper = Lights_CreateMapper(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
 
-    func_8007A474(lightMapper, globalCtx->lightCtx.lightsHead, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
+    func_8007A474(lightMapper, globalCtx->lightCtx.head, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
     func_80079EFC(lightMapper, globalCtx->state.gfxCtx);
 
     if (actor->flags & 0x1000) {

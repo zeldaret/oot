@@ -4,14 +4,16 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 
-typedef struct z_Light_t {
+struct LightNode;
+
+typedef struct LightNode {
     /* 0x0 */ struct LightInfo* info;
-    /* 0x4 */ struct z_Light_t* prev;
-    /* 0x8 */ struct z_Light_t* next;
-} z_Light;
+    /* 0x4 */ struct LightNode* prev;
+    /* 0x8 */ struct LightNode* next;
+} LightNode; // size = 0xC
 
 typedef struct {
-    /* 0x0 */ z_Light* lightsHead;
+    /* 0x0 */ LightNode* head;
     /* 0x4 */ u8 ambientRed;
     /* 0x5 */ u8 ambientGreen;
     /* 0x6 */ u8 ambientBlue;
@@ -20,12 +22,12 @@ typedef struct {
     /* 0x9 */ u8 unk_09;
     /* 0xA */ s16 unk_0A;
     /* 0xC */ s16 unk_0C;
-} LightingContext;
+} LightContext;
 
 typedef struct {
-    /* 0x000 */ int numOccupied;
-    /* 0x004 */ int nextFree;
-    /* 0x008 */ z_Light lights[32];
+    /* 0x000 */ s32 numOccupied;
+    /* 0x004 */ s32 nextFree;
+    /* 0x008 */ LightNode lights[32];
 } LightsList;
 
 typedef struct {
