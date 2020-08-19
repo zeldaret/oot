@@ -987,7 +987,6 @@ void Lights_MapperInit(LightMapper* mapper, u8 red, u8 green, u8 blue);
 // ? func_8007A0B4(?);
 // ? func_8007A474(?);
 z_Light* Lights_FindFreeSlot();
-void Lights_Free(z_Light* light);
 void func_8007A614(GlobalContext* globalCtx, LightingContext* lightCtx);
 void func_8007A698(LightingContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5);
 void Lights_SetAmbientColor(LightingContext* lightCtx, u8 red, u8 green, u8 blue);
