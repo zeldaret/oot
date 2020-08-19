@@ -135,7 +135,10 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
 
     attachedActor = func_80033640(globalCtx, &this->colliders[0].base);
     if (attachedActor != NULL) {
-        this->unk_164 = (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &attachedActor->posRot.pos) >= this->dyna.actor.shape.rot.y) ? 1 : 0;
+        this->unk_164 =
+            (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &attachedActor->posRot.pos) >= this->dyna.actor.shape.rot.y)
+                ? 1
+                : 0;
 
         if (((globalCtx->unk_11D30[0] == 0xFF) && (this->unk_164 == 1)) ||
             ((globalCtx->unk_11D30[1] == 0xFF) && (this->unk_164 == 0))) {
@@ -271,59 +274,45 @@ void func_80872288(BgDodoago* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Update.s")
-// void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
-//     BgDodoago* this = THIS;
-//     s16 temp_a1;
-//     s16 temp_a1_2;
-//     s32 temp_v0;
-//     Actor* phi_v0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Update.s")
+void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgDodoago* this = THIS;
+    Actor* phi_v0;
 
-//     if (this->dyna.actor.attachedA == 0) {
-//         /// 0x1C6
-//         temp_v0 = this->colliders[2].base.maskA & 2;
-//         // 0x212 (it's exactly one position from 0x1C6 (so size of a whole collider (4C)))
-//         if ((temp_v0 != 0) || ((this->colliders[2].base.maskA & 2) != 0)) {
-//             if (temp_v0 != 0) {
-//                 // 1C0
-//                 phi_v0 = this->colliders[1].base.oc;
-//             } else {
-//                 // 2C0
-//                 phi_v0 = this->colliders[2].base.oc;
-//             }
-//             this->colliders[1].base.maskA &= 0xFFFD;
-//             this->colliders[2].base.maskA &= 0xFFFD;
+    if (this->dyna.actor.attachedA == 0) {
+        if (((this->colliders[1].base.maskA & 2) != 0) || ((this->colliders[2].base.maskA & 2) != 0)) {
+            
+            if ((this->colliders[1].base.maskA & 2) != 0) {
+                phi_v0 = this->colliders[1].base.oc;
+            } else {
+                phi_v0 = this->colliders[2].base.oc;
+            }
+            this->colliders[1].base.maskA &= 0xFFFD;
+            this->colliders[2].base.maskA &= 0xFFFD;
+            if (phi_v0->type == 3 && phi_v0->id == 0x10 && phi_v0->params == 0) {
 
-//             if (phi_v0->type == 3 && phi_v0->id == 0x10 && phi_v0->params == 0) {
-//                 this->dyna.actor.attachedA = phi_v0;
-//                 // phi_v0->unk1F8 = (u16)0x32;
-//                 phi_v0->colChkInfo.unk_14 = 0x32;
-//                 phi_v0->speedXZ = 0.0f;
-//                 D_80872824 = 0;
-//                 this->actionFunc(this, globalCtx);
-//                 return;
-//             }
-//         }
-//     } else {
-//         D_80872824++;
-//         temp_a1 = this->dyna.actor.params;
-//         this = this;
-//         Flags_GetSwitch(globalCtx, (s32)(temp_a1 & 0x3F));
-//         if (D_808727C0 == 0) {
-//             if (D_80872824 >= 0x8D) {
-//                 temp_a1_2 = this->dyna.actor.params;
-//                 this = this;
-//                 if (Flags_GetSwitch(globalCtx, (s32)(temp_a1_2 & 0x3F)) != 0) {
-//                     D_808727C0 = (u8)(D_808727C0 + 1);
-//                     this->actionFunc(this, globalCtx);
-//                     return;
-//                 }
-//                 this->dyna.actor.attachedA = NULL;
-//             }
-//         }
-//     }
-//     this->actionFunc(this, globalCtx);
-// }
+                this->dyna.actor.attachedA = phi_v0;
+                phi_v0->colChkInfo.unk_14 = 0x32;
+                phi_v0->speedXZ = 0.0f;
+                D_80872824 = 0;
+                this->actionFunc(this, globalCtx);
+                return;
+            }
+        }
+    } else {
+        D_80872824++;
+        Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
+        if (D_808727C0 == 0 && D_80872824 >= 0x8D) {
+            if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) != 0) {
+                D_808727C0 = D_808727C0 + 1;
+                this->actionFunc(this, globalCtx);
+                return;
+            }
+            this->dyna.actor.attachedA = NULL;
+        }
+    }
+    this->actionFunc(this, globalCtx);
+}
 
 void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
