@@ -99,7 +99,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
 
     flameParams = &D_80A9E840[this->actor.params & 0xF];
-    intensity = Math_Rand_ZeroOne() * 0.5f + 0.5f;
+    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
     radius = (this->actor.params < 0) ? 100 : 300;
     Lights_SetPositionalLightColorAndRadius(&this->posLightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
@@ -120,7 +120,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
     flameParams = &D_80A9E840[this->actor.params & 0xF];
     scale = this->actor.scale.x / ((f32)flameParams->scale * 0.0001);
 
-    if (this->actor.params & 0x800) {
+    if ((this->actor.params & 0x800) != 0) {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
             Math_ApproxF(&scale, 1.0f, 0.05f);
         } else {
@@ -143,7 +143,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_SetScale(&this->actor, ((f32)flameParams->scale * 0.0001) * scale);
-    intensity = Math_Rand_ZeroOne() * 0.5f + 0.5f;
+    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
     Lights_SetPositionalLightColorAndRadius(&this->posLightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
                                             (flameParams->primColor.b * intensity), 300.0f * scale);
