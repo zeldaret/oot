@@ -1,5 +1,7 @@
 #include "z_en_ex_ruppy.h"
 #include "vt.h"
+#include "../ovl_En_Diving_Game/z_en_diving_game.h"
+
 #define FLAGS 0x00000010
 
 #define THIS ((EnExRuppy*)thisx)
@@ -15,7 +17,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_Collect(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_DetermineFinalPos(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_ChoseFinalPos(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AEE0(EnExRuppy* this, GlobalContext* globalCtx);
@@ -36,12 +38,14 @@ const ActorInit En_Ex_Ruppy_InitVars = {
 };
 
 Vec3f D_80A0B358[] = {{0.0f, 0.1f, 0.0f}, {0.0f, 0.0f, 0.0f}};
-Vec3f D_80A0B370[] = {{0.0f, 0.01f, 0.0f},{0.0f, 0.0f, 0.0f}};
-//Vec3f D_80A0B388 = {0.0f, 0.1f, 0.0f};
-//Vec3f D_80A0B394 = {0.0f, 0.0f, 0.0f};
+Vec3f D_80A0B370[] = {{0.0f, 0.01f, 0.0f}, {0.0f, 0.0f, 0.0f}};
+Vec3f D_80A0B388 = {0.0f, 0.1f, 0.0f};
+Vec3f D_80A0B394 = {0.0f, 0.0f, 0.0f};
 static Vec3f sPoint1Vec = {0.0f, 0.1f, 0.0f};
 static Vec3f sZeroVector = {0.0f, 0.0f, 0.0f};
-//s32 D_80A0B3B8[] = {0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0, 0x00000000};
+UNK_PTR D_80A0B3B8[] = {0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0, 0x00000000};
+
+
 
 #ifdef NON_MATCHING
 //Regalloc
@@ -102,7 +106,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
         this->actor.flags &= ~1;
         this->actionFunc = EnExRuppy_DropIntoWater;
         break;
-    case 1://
+    case 1:
     case 2: //Giant pink ruppe that explodes when you touch it
         if (this->unk_152 == 1) {
             Actor_SetScale(thisx, 0.1f);
@@ -161,40 +165,40 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext *globalCtx) {
 void EnExRuppy_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 }
 
-void EnExRuppy_SpawnSparkles(EnExRuppy *this, GlobalContext *globalCtx, s16 arg2, s32 arg3) {//
-    Vec3f sparklePos;
-    Vec3f sparkleVelocity;
-    Vec3f sparkleAccel;
-    Color_RGBA8_n primColor;
-    Color_RGBA8_n envColor;
+void EnExRuppy_SpawnSparkles(EnExRuppy *this, GlobalContext *globalCtx, s16 arg2, s32 arg3) {
+    Vec3f tempPos;
+    Vec3f tempVelocity;
+    Vec3f tempAccel;
+    Color_RGBA8_n tempPrimColor;
+    Color_RGBA8_n tempEnvColor;
     s32 i;
-    s16 scale;
-    s16 life;
+    s16 tempScale;
+    s16 tempLife;
 
     if (arg2 <= 0) {
         arg2 = 1;
     }
-    primColor.r = 255;
-    primColor.g = 255;
-    primColor.b = 0;
-    envColor.r = 255;
-    envColor.g = 255;
-    envColor.b = 255;
-    sparkleVelocity = D_80A0B358[arg3];
-    sparkleAccel = D_80A0B370[arg3];
-    scale = 3000;
-    life = 16;
+    tempPrimColor.r = 255;
+    tempPrimColor.g = 255;
+    tempPrimColor.b = 0;
+    tempEnvColor.r = 255;
+    tempEnvColor.g = 255;
+    tempEnvColor.b = 255;
+    tempVelocity = D_80A0B358[arg3];
+    tempAccel = D_80A0B370[arg3];
+    tempScale = 3000;
+    tempLife = 16;
     for (i= 0 ; i < arg2 ; i++){
         if (arg3 == 1) {
-            sparkleAccel.x = Math_Rand_CenteredFloat(20.0f);
-            sparkleAccel.z = Math_Rand_CenteredFloat(20.0f);
-            scale = 5000;
-            life = 20;
+            tempAccel.x = Math_Rand_CenteredFloat(20.0f);
+            tempAccel.z = Math_Rand_CenteredFloat(20.0f);
+            tempScale = 5000;
+            tempLife = 20;
         }
-        sparklePos.x = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.posRot.pos.x;
-        sparklePos.y = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + (this->actor.posRot.pos.y + (this->unk_160 * 600.0f));
-        sparklePos.z = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.posRot.pos.z;
-        func_80028BB0(globalCtx, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor, scale, life);
+        tempPos.x = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.posRot.pos.x;
+        tempPos.y = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + (this->actor.posRot.pos.y + (this->unk_160 * 600.0f));
+        tempPos.z = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.posRot.pos.z;
+        func_80028BB0(globalCtx, &tempPos, &tempVelocity, &tempAccel, &tempPrimColor, &tempEnvColor, tempScale, tempLife);
     }
 }
 
@@ -211,11 +215,11 @@ void EnExRuppy_DropIntoWater(EnExRuppy *this, GlobalContext *globalCtx) {
         this->actor.velocity.x = 0.0f;
         this->actor.gravity = 0.0f;
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
-        this->actionFunc = EnExRuppy_DetermineFinalPos;
+        this->actionFunc = EnExRuppy_ChoseFinalPos;
     } 
 }
 
-void EnExRuppy_DetermineFinalPos(EnExRuppy *this, GlobalContext *globalCtx) {
+void EnExRuppy_ChoseFinalPos(EnExRuppy *this, GlobalContext *globalCtx) {
     s32 pad;
     f32 temp_f2;
     if (((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) && ((DIVING_GAME->unk_2A2 == 2))) {
@@ -237,14 +241,14 @@ void EnExRuppy_DetermineFinalPos(EnExRuppy *this, GlobalContext *globalCtx) {
 
 void EnExRuppy_Sink(EnExRuppy *this, GlobalContext *globalCtx) {
     s32 pad;
-    Vec3f splashPos;
+    Vec3f tempPos;
 
     if ((this->actor.bgCheckFlags & 0x20) && (15.0f < this->actor.waterY)) {
-        splashPos = this->actor.posRot.pos;
-        splashPos.y += this->actor.waterY;
+        tempPos = this->actor.posRot.pos;
+        tempPos.y += this->actor.waterY;
         this->actor.velocity.y = -1.0f;
         this->actor.gravity = -0.2f;
-        func_8002949C(globalCtx, &splashPos, 0, 0, 0, 800);
+        func_8002949C(globalCtx, &tempPos, 0, 0, 0, 800);
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = func_80A0AD88;
     }
@@ -256,14 +260,11 @@ void EnExRuppy_Sink(EnExRuppy *this, GlobalContext *globalCtx) {
 
 void func_80A0AD88(EnExRuppy *this, GlobalContext *globalCtx) {
     EnDivingGame* divingGame;
-   // Vec3f unusedVec3f;
-   // Vec3f unusedVec3f2;
-    Vec3f D_80A0B388 = {0.0f, 0.1f, 0.0f};
-    Vec3f D_80A0B394 = {0.0f, 0.0f, 0.0f};
-    const f32 localConst = 30.0f;
-    //unusedVec3f = D_80A0B388;
-    //unusedVec3f2 = D_80A0B394;
-    
+    Vec3f unusedVec3f;
+    Vec3f unusedVec3f2;
+    f32 localConst = 30.0f;
+    unusedVec3f = D_80A0B388;
+    unusedVec3f2 = D_80A0B394;
     if (this->timer == 0) {
         this->timer = 10;
         func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Math_Rand_ZeroFloat(0.03f) + 0.07f);
@@ -281,6 +282,7 @@ void func_80A0AD88(EnExRuppy *this, GlobalContext *globalCtx) {
                 func_80078884(NA_SE_SY_GET_RUPY );
                 divingGame->unk_2A4++;
                 Actor_Kill(&this->actor);
+
             }
         } else {
             Actor_Kill(&this->actor);
@@ -298,12 +300,12 @@ void func_80A0AEE0(EnExRuppy *this, GlobalContext *globalCtx) {
 
 void EnExRuppy_BlowUp(EnExRuppy *this, GlobalContext *globalCtx) {
     f32 distToBlowUp;
-    Vec3f tempPoint1Vec;
-    Vec3f tempZeroVector;
-    s16 tempExplosionScale;
-    s16 tempExplosionScaleStep;
-    tempPoint1Vec = sPoint1Vec;
-    tempZeroVector = sZeroVector;
+    Vec3f point1Vec;
+    Vec3f zeroVector;
+    s16 explosionScale;
+    s16 explosionScaleStep;
+    point1Vec = sPoint1Vec;
+    zeroVector = sZeroVector;
     distToBlowUp = 50.0f;
 
     if (this->unk_152 == 2) {
@@ -320,13 +322,13 @@ void EnExRuppy_BlowUp(EnExRuppy *this, GlobalContext *globalCtx) {
         }
         //Stupid!
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST);
-        tempExplosionScale = 100;
-        tempExplosionScaleStep = 30;
+        explosionScale = 100;
+        explosionScaleStep = 30;
         if (this->unk_152 == 2) {
-            tempExplosionScale = 20;
-            tempExplosionScaleStep = 6;
+            explosionScale = 20;
+            explosionScaleStep = 6;
         }
-        EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.posRot.pos, &tempZeroVector, &tempPoint1Vec, tempExplosionScale, tempExplosionScaleStep);
+        EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.posRot.pos, &zeroVector, &point1Vec, explosionScale, explosionScaleStep);
         func_8002F71C(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
         Actor_Kill(&this->actor);
@@ -334,7 +336,7 @@ void EnExRuppy_BlowUp(EnExRuppy *this, GlobalContext *globalCtx) {
 }
 
 void EnExRuppy_Collect(EnExRuppy *this, GlobalContext *globalCtx) { 
-    const f32 localConst = 30.0f;
+    f32 localConst = 30.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
         func_80078884(NA_SE_SY_GET_RUPY);
         Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ((s16)D_80A0B320[this->unk_150 ] | 0x8000));
@@ -361,12 +363,10 @@ void EnExRuppy_Update(Actor *thisx, GlobalContext *globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
 
-UNK_PTR D_80A0B3B8[] = {0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0, 0x00000000};
-
 void EnExRuppy_Draw(Actor *thisx, GlobalContext *globalCtx) {
     EnExRuppy* this = THIS;
-    GraphicsContext* gfxCtx;
     s32 pad;
+    GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
     if (this->isFalling == 0) {
