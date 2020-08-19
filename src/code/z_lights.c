@@ -106,8 +106,7 @@ s32 Lights_Free(z_Light* light) {
     if (light != NULL) {
         sLightsList.numOccupied--;
         light->info = NULL;
-        sLightsList.nextFree = (light - sLightsList.lights) /
-                               sizeof(z_Light); //! @bug Due to pointer arithmetic, the division is unnecessary
+        sLightsList.nextFree = (light - sLightsList.lights) / sizeof(z_Light);
     }
 }
 
