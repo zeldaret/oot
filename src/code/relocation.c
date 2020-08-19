@@ -1,8 +1,6 @@
 #include <global.h>
 
-#define NON_MATCHING
-#ifdef NON_MATCHING
-void Overlay_DoRelocation(void* allocatedVRamAddress, OverlayRelocationSection* overlayInfo, void* vRamAddress) {
+void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* overlayInfo, void* vRamAddress) {
     // mostly regalloc, more specific issues described below.
     u32 sections[4];
     u32 relocatedValue;
@@ -113,6 +111,3 @@ void Overlay_DoRelocation(void* allocatedVRamAddress, OverlayRelocationSection* 
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/relocation/Overlay_DoRelocation.s")
-#endif
