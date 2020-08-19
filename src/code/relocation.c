@@ -1,7 +1,6 @@
 #include <global.h>
 
 void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* overlayInfo, void* vRamAddress) {
-    // mostly regalloc, more specific issues described below.
     u32 sections[4];
     u32 relocatedValue;
     u32 dbg;
@@ -43,7 +42,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
         switch (reloc & 0x3F000000) {
             case 0x2000000:
                 /* R_MIPS_32
-                 * handles 32-bit address relocation.  Used in things such as
+                 * Handles 32-bit address relocation.  Used in things such as
                  * jump tables.
                  */
                 if ((*relocDataP & 0xF000000) == 0) {
@@ -57,7 +56,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 break;
             case 0x4000000:
                 /* R_MIPS_26
-                 * handles 26-bit address relocation, used for jumps and jals
+                 * Handles 26-bit address relocation, used for jumps and jals
                  */
                 unrelocatedAddress = ((*relocDataP & 0x3FFFFFF) << 2) | 0x80000000;
                 relocOffset = unrelocatedAddress - (u32)vRamAddress;
@@ -75,9 +74,9 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 break;
             case 0x6000000:
                 /* R_MIPS_LO16
-                 * here we will update the LUI instruction to reflect the relocated address.
+                 * Updates the LUI instruction to reflect the relocated address.
                  * The full address is calculated from the LUI and lo parts, and then updated.
-                 * if the lo part is negative, we make sure to add 1 to the lui.
+                 * if the lo part is negative, add 1 to the lui.
                  */
                 regValP = &luiVals[((*relocDataP >> 0x15) & 0x1F)];
                 vaddr = (*regValP << 0x10) + (s16)*relocDataP;
