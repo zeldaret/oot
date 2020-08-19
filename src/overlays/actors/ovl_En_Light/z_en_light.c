@@ -174,7 +174,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params >= 0) {
         gSPSegment(
             gfxCtx->polyXlu.p++, 0x08,
-            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) % 512U, 32, 128));
+            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
 
         dList = D_0404D4E0;
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
@@ -183,8 +183,8 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
                        0);
     } else {
         gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) % 64U),
-                                    (this->timer * -6) % 128U * 1, 16, 32));
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) & 63),
+                                    (this->timer * -6) & 127 * 1, 16, 32));
 
         dList = D_05000440;
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0xC0, 0xC0, 255, 200, 0, 0);
