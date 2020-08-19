@@ -200,14 +200,18 @@ void func_80AD7BF0(EnPoRelay* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, 0x3071);
 }
 
-#ifdef NON_MATCHING
-// Single stack difference, f reg swaps
+/* #ifdef NON_MATCHING
+// Single stack difference
+
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7C64.s")
+#endif */
 void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     Player* player; // sp5C
     Vec3f vec; // sp50
-    f32 temp_f12_2;
-    f32 speed; // sp48
     f32 rand;
+    f32 multiplier; // sp48
+    f32 speed;
 
     player = PLAYER;
     if (this->unk_196 != 0) {
@@ -218,22 +222,22 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
         if (this->unk_198 < 0x17) {
             rand = Math_Rand_ZeroOne() * 3.0f;
             if (rand < 1.0f) {
-                speed = 1.0f;
+                multiplier = 1.0f;
             } else if (rand < 2.0f) {
-                speed = -1.0f;
+                multiplier = -1.0f;
             } else {
-                speed = 0.0f;
+                multiplier = 0.0f;
             }
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP, 
-                        Math_Coss(this->unk_19A) * (30.0f * speed) + this->actor.posRot.pos.x, 
+                        Math_Coss(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.x, 
                         this->actor.posRot.pos.y, 
-                        Math_Sins(this->unk_19A) * (30.0f * speed) + this->actor.posRot.pos.z, 
-                        0, (this->unk_19A + 0x8000) - (8192.0f * speed), 0, 2);
+                        Math_Sins(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.z, 
+                        0, (this->unk_19A + 0x8000) - (8192.0f * multiplier), 0, 2);
         }
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_19A, 2, 4096, 256);
     this->actor.shape.rot.y = this->actor.posRot.rot.y + (this->unk_196 * 0x800) + 0x8000;
-    if (this->unk_198 < 0x17) {
+    if (this->unk_198 < 23) {
         if ((func_800CB198(660.0f, 840.0f, -4480.0f, -3760.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0) || 
             (func_800CB198(1560.0f, 1740.0f, -4030.0f, -3670.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0) || 
             (func_800CB198(1580.0f, 2090.0f, -3030.0f, -2500.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0)) {
@@ -247,11 +251,10 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
         } else {
             speed = 3.5f;
         }
-        temp_f12_2 = 250.0f - this->actor.xzDistFromLink;
-        if (temp_f12_2 < 0.0f) {
-            temp_f12_2 = 0.0f;
-        }
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, speed + (temp_f12_2 * 0.019999999552965164f + 1.0f), 0.5f, 1.5f);
+        multiplier = 250.0f - this->actor.xzDistFromLink;
+        multiplier = (multiplier < 0.0f) ? 0.0f : multiplier;
+        speed += multiplier * 0.019999999552965164f + 1.0f;
+        Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.5f, 1.5f);
     } else {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
     }
@@ -259,22 +262,19 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     if (func_8002DBB0(&this->actor, &vec) < 40.0f) {
         this->unk_198++;
         func_80AD7944(&vec, &D_80AD8C30[this->unk_198]);
-        if (this->unk_198 == 0x1C) {
+        if (this->unk_198 == 28) {
             func_80AD7A4C(this);
         } else if (this->unk_198 == 9) {
             Flags_SetSwitch(globalCtx, 0x35);
-        } else if (this->unk_198 == 0x11) {
+        } else if (this->unk_198 == 17) {
             Flags_SetSwitch(globalCtx, 0x36);
-        } else if (this->unk_198 == 0x19) {
+        } else if (this->unk_198 == 25) {
             Flags_SetSwitch(globalCtx, 0x37);
         }
     }
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
-    func_8002F974(&this->actor, NA_SE_EN_PO_AWAY & ~0x0800);
+    func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7C64.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD8174.s")
 void func_80AD8174(EnPoRelay* this, GlobalContext* globalCtx) {

@@ -139,11 +139,7 @@ extern Gfx D_060046E0[];
 
 extern Gfx D_0404D4E0[];
 
-/* #ifdef NON_MATCHING
-// Single regalloc
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/EnPoSisters_Init.s")
-#endif */
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/EnPoSisters_Init.s")
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoSisters* this = THIS;
     s32 pad;
@@ -587,9 +583,9 @@ void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y += (2.0f + 0.5f * Math_Rand_ZeroOne()) * Math_Sins(this->unk_196 * 0x800);
     if (this->unk_22E.a == 0xFF && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
         if (this->actionFunc == func_80ADAC70) {
-            func_8002F974(&this->actor, 0x3072);
+            func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
         } else {
-            func_8002F974(&this->actor, 0x3071);
+            func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
         }
     }
 }
@@ -1158,6 +1154,7 @@ void func_80ADC034(EnPoSisters* this, GlobalContext* globalCtx) {
     }
 }
 
+void func_80ADC10C(EnPoSisters* this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADC10C.s")
 /* #ifdef NON_MATCHING
 // Weird control flow
@@ -1279,7 +1276,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_198 = CLAMP_MIN((s16)(this->unk_198 - 1), 1);
         }
         if (this->actionFunc == func_80ADA8C0) {
-            this->actor.flags |= 0x1000000;
+            this->actor.flags |= 0x01000000;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->unk_199 & 1) {

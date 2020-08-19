@@ -768,7 +768,7 @@ void func_80AD5D60(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Regalloc, heavy reorderings around gDPSetPrimColor
+// Regalloc, significant reorderings around gDPSetPrimColor
 void func_80AD5E8C(EnPoField* this, GlobalContext* globalCtx) {
     u8 sp4C;
     s32 pad;
