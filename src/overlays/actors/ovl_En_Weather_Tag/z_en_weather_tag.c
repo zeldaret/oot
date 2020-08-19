@@ -43,8 +43,8 @@ const ActorInit En_Weather_Tag_InitVars = {
     NULL,
 };
 
-void EnWeatherTag_SetupAction(EnWeatherTag* this, EnWeatherTagActionFunc actionfunc) {
-    this->actionfunc = actionfunc;
+void EnWeatherTag_SetupAction(EnWeatherTag* this, EnWeatherTagActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void EnWeatherTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -328,8 +328,8 @@ void func_80B31CC0(EnWeatherTag* this, GlobalContext* globalCtx) {
 void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnWeatherTag* this = THIS;
 
-    this->actionfunc(this, globalCtx);
-    if (BASE_REG(0x19, 0) != 0) {
+    this->actionFunc(this, globalCtx);
+    if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
                                1.0f, 0xFF, 0, 0xFF, 0xFF, 4, globalCtx->state.gfxCtx);
