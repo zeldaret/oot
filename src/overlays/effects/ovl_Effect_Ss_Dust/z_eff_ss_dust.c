@@ -34,9 +34,8 @@ EffectSsInit Effect_Ss_Dust_InitVars = {
 
 static void* sUpdateFuncs[] = { EffectSsDust_Update, EffectSsBlast_UpdateFire };
 
-UNK_PTR D_809A2A50[] = {
-    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0
-};
+static UNK_PTR D_809A2A50[] = { 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
+                                0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0 };
 
 extern Gfx D_04010050[];
 
@@ -47,7 +46,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->unk_38 = SEGMENTED_TO_VIRTUAL(&D_04010050);
+    this->displayList = SEGMENTED_TO_VIRTUAL(&D_04010050);
     this->life = initParams->life;
     this->update = sUpdateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;
@@ -97,13 +96,13 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     scale = this->regs[SS_DUST_SCALE] * 0.0025f;
 
-    func_800A7A24(&sp144, this->pos.x, this->pos.y, this->pos.z);
-    func_800A76A4(&sp104, scale, scale, 1.0f);
-    func_800A6FA0(&sp144, &globalCtx->mf_11DA0, &sp84);
-    func_800A6FA0(&sp84, &sp104, &spC4);
+    SkinMatrix_SetTranslate(&sp144, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&sp104, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&sp144, &globalCtx->mf_11DA0, &sp84);
+    SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
 
     gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    mtx = func_800A7E70(gfxCtx, &spC4);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spC4);
 
     if (mtx != NULL) {
         gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -129,7 +128,7 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                         this->regs[SS_DUST_PRIM_B], 255);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_DUST_ENV_R], this->regs[SS_DUST_ENV_G],
                        this->regs[SS_DUST_ENV_B], this->regs[SS_DUST_ENV_A]);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->unk_38);
+        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
     }
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_eff_ss_dust.c", 389);

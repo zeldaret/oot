@@ -33,7 +33,7 @@ glabel func_809B3DD8
 /* 00530 809B3E50 00000000 */  nop
 /* 00534 809B3E54 4503005D */  bc1tl   .L809B3FCC
 /* 00538 809B3E58 8FBF0034 */  lw      $ra, 0x0034($sp)
-/* 0053C 809B3E5C 0C032D80 */  jal     func_800CB600
+/* 0053C 809B3E5C 0C032D80 */  jal     Math3D_Vec3fMagnitudeSq
 /* 00540 809B3E60 E7AC004C */  swc1    $f12, 0x004C($sp)
 /* 00544 809B3E64 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00548 809B3E68 44813000 */  mtc1    $at, $f6                   ## $f6 = 1.00

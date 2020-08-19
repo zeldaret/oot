@@ -1,8 +1,25 @@
 #include <ultra64.h>
 #include <global.h>
 #include "overlays/effects/ovl_Effect_Ss_Dust/z_eff_ss_dust.h"
+#include "overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.h"
+#include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
+#include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+
+extern Color_RGBA8 D_801158DC;
+extern Color_RGBA8 D_801158E0;
+extern Color_RGBA8 D_801158E4;
+extern Color_RGBA8 D_801158E8;
+extern Color_RGBA8 D_801158EC;
+extern Color_RGBA8 D_801158F0;
+extern Color_RGBA8 D_801158F4;
+extern Color_RGBA8 D_801158F8;
+
+// sEmptyVec
+extern Vec3f D_801158C0; // empty vector that seems to be used as a dummy when a specific field isnt needed
 
 extern Color_RGBA8_n D_801158CC;
 extern Color_RGBA8_n D_801158D0;
@@ -163,35 +180,141 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos) {
 
 // EffectSsBomb Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028DC4.s")
+void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    EffectSsBombInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB, 128, &initParams);
+}
 
 // EffectSsBomb2 Spawn Functions
+// unused
+void EffectSsBomb2_SpawnFade(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    EffectSsBomb2InitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028E1C.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = 100;
+    initParams.scaleStep = 0;
+    initParams.drawMode = 0;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB2, 10, &initParams);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028E84.s")
+void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                s16 scaleStep) {
+    EffectSsBomb2InitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.drawMode = 1;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BOMB2, 10, &initParams);
+}
 
 // EffectSsBlast Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028EF4.s")
+void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
+                         Color_RGBA8* primColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
+    EffectSsBlastParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028F84.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    Color_RGBA8_Copy(&initParams.primColor, primColor);
+    initParams.radius = radius;
+    initParams.radiusStep = radiusStep;
+    initParams.radiusStepDecr = radiusStepDecr;
+    initParams.life = life;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_BLAST, 128, &initParams);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80028FD8.s")
+void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
+                   s16 life) {
+    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, &D_801158DC, &D_801158E0, radius, radiusStep, 35, life);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029024.s")
+void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
+                   Color_RGBA8* primColor, s16 life) {
+    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, envColor, primColor, 100, 375, 35, life);
+}
+
+void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    func_80028FD8(globalCtx, pos, velocity, accel, &D_801158E4, &D_801158E8, 10);
+}
 
 // EffectSsGSpk Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029060.s")
+void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep) {
+    EffectSsGSpkInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800290F0.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    Color_RGBA8_Copy(&initParams.primColor, envColor);
+    Color_RGBA8_Copy(&initParams.envColor, primColor);
+    initParams.actor = actor;
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.updateMode = 0;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_SPK, 128, &initParams);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029184.s")
+// unused
+void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep) {
+    EffectSsGSpkInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800291D8.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    Color_RGBA8_Copy(&initParams.primColor, envColor);
+    Color_RGBA8_Copy(&initParams.envColor, primColor);
+    initParams.actor = actor;
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.updateMode = 1;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_G_SPK, 128, &initParams);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800292DC.s")
+void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    Color_RGBA8 envColor = D_801158EC;  // probably inline when data is migrated
+    Color_RGBA8 primColor = D_801158F0; // probably inline when data is migrated
+
+    func_800292DC(globalCtx, actor, pos, velocity, accel, &envColor, &primColor);
+}
+
+// unused
+void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                   s16 scaleStep) {
+    Color_RGBA8 envColor = D_801158F4;  // probably inline when data is migrated
+    Color_RGBA8 primColor = D_801158F8; // probably inline when data is migrated
+    s32 randOffset;
+
+    randOffset = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
+
+    envColor.r += randOffset;
+    envColor.g += randOffset;
+    envColor.b += randOffset;
+    envColor.a += randOffset;
+    primColor.r += randOffset;
+    primColor.g += randOffset;
+    primColor.b += randOffset;
+    primColor.a += randOffset;
+
+    func_80029060(globalCtx, actor, pos, velocity, accel, &envColor, &primColor, scale, scaleStep);
+}
+
+void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* envColor, Color_RGBA8* primColor) {
+    func_80029060(globalCtx, actor, pos, velocity, accel, envColor, primColor, 100, 5);
+}
 
 // EffectSsDFire Spawn Functions
 
@@ -264,8 +387,6 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029CA4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029CC8.s")
-
-// EffectSsFhgFlash Spawn Functions
 
 void EffectSsFhgFlash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, u8 arg5) {
     EffectSsFhgFlashInitParams initParams;
@@ -368,9 +489,29 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 
 // EffectSsDeadSound Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A95C.s")
+void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
+                             s16 lowerPriority, s16 repeatMode, s32 life) {
+    EffectSsDeadSoundInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A9F4.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.sfxId = sfxId;
+    initParams.lowerPriority = lowerPriority;
+    initParams.repeatMode = repeatMode;
+    initParams.life = life;
+
+    if (!lowerPriority) {
+        EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_SOUND, 100, &initParams);
+    } else {
+        EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_SOUND, 127, &initParams);
+    }
+}
+
+void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority,
+                                       s16 repeatMode, s32 life) {
+    EffectSsDeadSound_Spawn(globalCtx, pos, &D_801158C0, &D_801158C0, sfxId, lowerPriority, repeatMode, life);
+}
 
 // EffectSsIceSmoke Spawn Functions
 
