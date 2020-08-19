@@ -99,7 +99,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
 
     flameParams = &D_80A9E840[this->actor.params & 0xF];
-    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
+    intensity = Math_Rand_ZeroOne() * 0.5f + 0.5f;
     radius = (this->actor.params < 0) ? 100 : 300;
     Lights_SetPositionalLightColorAndRadius(&this->posLightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
@@ -143,7 +143,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_SetScale(&this->actor, ((f32)flameParams->scale * 0.0001) * scale);
-    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
+    intensity = Math_Rand_ZeroOne() * 0.5f + 0.5f;
     Lights_SetPositionalLightColorAndRadius(&this->posLightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
                                             (flameParams->primColor.b * intensity), 300.0f * scale);
@@ -167,14 +167,14 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
     flameParams = &D_80A9E840[this->actor.params & 0xF];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_light.c", 441);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_light.c", 441);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
     if (this->actor.params >= 0) {
         gSPSegment(
             gfxCtx->polyXlu.p++, 0x08,
-            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 0x1FF, 32, 128));
+            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) % 512U, 32, 128));
 
         dList = D_0404D4E0;
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
@@ -183,15 +183,15 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
                        0);
     } else {
         gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) & 0x3F),
-                                    (this->timer * -6) & 0x7F * 1, 16, 32));
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) % 64U),
+                                    (this->timer * -6) % 128U * 1, 16, 32));
 
         dList = D_05000440;
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0xC0, 0xC0, 255, 200, 0, 0);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
     }
 
-    Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * 0.0000958738f,
+    Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
                    MTXMODE_APPLY);
 
     if (this->actor.params & 1) {
@@ -203,5 +203,5 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, dList);
 
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_light.c", 491);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_light.c", 491);
 }
