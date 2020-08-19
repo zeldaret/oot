@@ -66,7 +66,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 break;
             case 0x5000000:
                 /* R_MIPS_HI16
-                 * Handles relocation for a lui instruciton, we just store the reference to
+                 * Handles relocation for a lui instruciton, store the reference to
                  * the instruction, and will update it in the R_MIPS_LO16 section.
                  */
                 luiRefs[(*relocDataP >> 0x10) & 0x1F] = relocDataP;
