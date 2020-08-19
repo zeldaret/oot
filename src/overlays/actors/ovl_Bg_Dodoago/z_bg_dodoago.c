@@ -274,29 +274,25 @@ void func_80872288(BgDodoago* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Update.s")
 void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
-    Actor* phi_v0;
+    Player* player = PLAYER;
 
-    if (this->dyna.actor.attachedA == 0) {
-        if (((this->colliders[1].base.maskA & 2) != 0) || ((this->colliders[2].base.maskA & 2) != 0)) {
-            
-            if ((this->colliders[1].base.maskA & 2) != 0) {
-                phi_v0 = this->colliders[1].base.oc;
+    if (this->dyna.actor.attachedA == NULL) {
+        if (((s32)(this->colliders[1].base.maskA & 2) != 0) || ((this->colliders[2].base.maskA & 2) != 0)) {
+
+            if ((s32)(this->colliders[1].base.maskA & 2) != 0) {
+                player = this->colliders[1].base.oc;
             } else {
-                phi_v0 = this->colliders[2].base.oc;
+                player = this->colliders[2].base.oc;
             }
             this->colliders[1].base.maskA &= 0xFFFD;
             this->colliders[2].base.maskA &= 0xFFFD;
-            if (phi_v0->type == 3 && phi_v0->id == 0x10 && phi_v0->params == 0) {
-
-                this->dyna.actor.attachedA = phi_v0;
-                phi_v0->colChkInfo.unk_14 = 0x32;
-                phi_v0->speedXZ = 0.0f;
+            if (player->actor.type == 3 && player->actor.id == 0x10 && player->actor.params == 0) {
+                this->dyna.actor.attachedA = player;
+                player->unk_1F8[0] = 0x32;
+                player->actor.speedXZ = 0.0f;
                 D_80872824 = 0;
-                this->actionFunc(this, globalCtx);
-                return;
             }
         }
     } else {
@@ -304,11 +300,10 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
         Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         if (D_808727C0 == 0 && D_80872824 >= 0x8D) {
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) != 0) {
-                D_808727C0 = D_808727C0 + 1;
-                this->actionFunc(this, globalCtx);
-                return;
+                D_808727C0++;
+            } else {
+                this->dyna.actor.attachedA = NULL;
             }
-            this->dyna.actor.attachedA = NULL;
         }
     }
     this->actionFunc(this, globalCtx);
