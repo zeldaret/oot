@@ -1,4 +1,5 @@
 #ifndef _Z_EN_NIW_GIRL_H_
+#define _Z_EN_NIW_GIRL_H_
 
 #include <ultra64.h>
 #include <global.h>
