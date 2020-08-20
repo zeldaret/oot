@@ -300,7 +300,6 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 pad;
 
     globalCtx->envCtx.unk_E1 = 0x01;
     this->actor.shape.rot.y += 0x1000;
@@ -308,17 +307,15 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     if (this->unk_150.y == 0x31) {
         globalCtx->envCtx.unk_BF = 1;
         globalCtx->envCtx.unk_D6 = 0xFF;
-    }
+    } 
     if (this->unk_150.y == 0x1F) {
         globalCtx->envCtx.unk_BF = 0x00;
         globalCtx->envCtx.unk_D6 = 0x14;
     }
     if (this->unk_150.y >= 0x30) {
-        globalCtx->envCtx.unk_E2[2] = 0xFF;
-        globalCtx->envCtx.unk_E2[1] = 0xFF;
-        globalCtx->envCtx.unk_E2[0] = 0xFF;
+        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
 
-        if (((this->unk_150.x & 0xFF) % 2) != 0) {
+        if (this->unk_150.x & 1) {
             globalCtx->envCtx.unk_E2[3] = 0x46;
         } else {
             globalCtx->envCtx.unk_E2[3] = 0x00;
@@ -335,10 +332,10 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     Actor_SetScale(&this->actor, this->scale);
-    if (3.0f < this->unk_18C) {
+    if (this->unk_18C > 3.0f) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         if (player->invincibilityTimer == 0) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, (Collider*)&this->collider);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 
