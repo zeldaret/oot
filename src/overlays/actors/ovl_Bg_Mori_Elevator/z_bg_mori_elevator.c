@@ -88,8 +88,8 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
     s32 pad;
-    s32 sp24;
-    sp24 = 0;
+    s32 localConst;
+    localConst = 0;
 
     this->unk_172 = sIsSpawned;
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
@@ -106,8 +106,8 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->dyna.actor.room = -1;
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
                 DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
-                DynaPolyInfo_Alloc(&D_060035F8, &sp24);
-                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
+                DynaPolyInfo_Alloc(&D_060035F8, &localConst);
+                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
                 BgMoriElevator_SetupWaitAfterInit(this);
                 break;
             case 1:
