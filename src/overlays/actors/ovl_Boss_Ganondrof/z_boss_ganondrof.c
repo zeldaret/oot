@@ -1,3 +1,9 @@
+/*
+ * File: z_boss_ganondrof.c
+ * Overlay: ovl_Boss_Ganondrof
+ * Description: Phantom Ganon
+ */
+
 #include "z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
