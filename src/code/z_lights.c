@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-extern LightsList sLightsList;
+LightsList sLightsList;
 
 void Lights_InitPositionalLight(LightInfoPositional* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
                                 s16 radius, u32 type) {
@@ -59,7 +59,7 @@ Light* Lights_MapperGetNextFreeSlot(LightMapper* mapper) {
     return &mapper->lights[mapper->numLights++];
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A084.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A0B4.s")
 
 void func_8007A40C(LightMapper* mapper, LightInfoDirectionalParams* params, GlobalContext* globalCtx) {
     Light* light = Lights_MapperGetNextFreeSlot(mapper);

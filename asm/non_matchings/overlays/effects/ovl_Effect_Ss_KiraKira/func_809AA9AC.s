@@ -37,34 +37,34 @@ glabel func_809AA9AC
 /* 001F0 809AAA00 27A40194 */  addiu   $a0, $sp, 0x0194           ## $a0 = FFFFFFB4
 /* 001F4 809AAA04 8E050000 */  lw      $a1, 0x0000($s0)           ## 00000000
 /* 001F8 809AAA08 8E060004 */  lw      $a2, 0x0004($s0)           ## 00000004
-/* 001FC 809AAA0C 0C029E89 */  jal     func_800A7A24              
+/* 001FC 809AAA0C 0C029E89 */  jal     SkinMatrix_SetTranslate              
 /* 00200 809AAA10 8E070008 */  lw      $a3, 0x0008($s0)           ## 00000008
 /* 00204 809AAA14 27A40154 */  addiu   $a0, $sp, 0x0154           ## $a0 = FFFFFF74
 /* 00208 809AAA18 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0020C 809AAA1C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00210 809AAA20 0C029DC1 */  jal     func_800A7704              
+/* 00210 809AAA20 0C029DC1 */  jal     SkinMatrix_SetRotateRPY              
 /* 00214 809AAA24 86070042 */  lh      $a3, 0x0042($s0)           ## 00000042
 /* 00218 809AAA28 C7A001D8 */  lwc1    $f0, 0x01D8($sp)           
 /* 0021C 809AAA2C 27A40114 */  addiu   $a0, $sp, 0x0114           ## $a0 = FFFFFF34
 /* 00220 809AAA30 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 00224 809AAA34 44050000 */  mfc1    $a1, $f0                   
 /* 00228 809AAA38 44060000 */  mfc1    $a2, $f0                   
-/* 0022C 809AAA3C 0C029DA9 */  jal     func_800A76A4              
+/* 0022C 809AAA3C 0C029DA9 */  jal     SkinMatrix_SetScale              
 /* 00230 809AAA40 00000000 */  nop
 /* 00234 809AAA44 8FA501E0 */  lw      $a1, 0x01E0($sp)           
 /* 00238 809AAA48 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0023C 809AAA4C 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
 /* 00240 809AAA50 27A40194 */  addiu   $a0, $sp, 0x0194           ## $a0 = FFFFFFB4
 /* 00244 809AAA54 27A600D4 */  addiu   $a2, $sp, 0x00D4           ## $a2 = FFFFFEF4
-/* 00248 809AAA58 0C029BE8 */  jal     func_800A6FA0              
+/* 00248 809AAA58 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 0024C 809AAA5C 00A12821 */  addu    $a1, $a1, $at              
 /* 00250 809AAA60 27A400D4 */  addiu   $a0, $sp, 0x00D4           ## $a0 = FFFFFEF4
 /* 00254 809AAA64 27A50154 */  addiu   $a1, $sp, 0x0154           ## $a1 = FFFFFF74
-/* 00258 809AAA68 0C029BE8 */  jal     func_800A6FA0              
+/* 00258 809AAA68 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 0025C 809AAA6C 27A60094 */  addiu   $a2, $sp, 0x0094           ## $a2 = FFFFFEB4
 /* 00260 809AAA70 27A40094 */  addiu   $a0, $sp, 0x0094           ## $a0 = FFFFFEB4
 /* 00264 809AAA74 27A50114 */  addiu   $a1, $sp, 0x0114           ## $a1 = FFFFFF34
-/* 00268 809AAA78 0C029BE8 */  jal     func_800A6FA0              
+/* 00268 809AAA78 0C029BE8 */  jal     SkinMatrix_MtxFMtxFMult              
 /* 0026C 809AAA7C 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFE74
 /* 00270 809AAA80 8E2302D0 */  lw      $v1, 0x02D0($s1)           ## 000002D0
 /* 00274 809AAA84 3C19DA38 */  lui     $t9, 0xDA38                ## $t9 = DA380000
@@ -76,7 +76,7 @@ glabel func_809AA9AC
 /* 0028C 809AAA9C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00290 809AAAA0 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFE74
 /* 00294 809AAAA4 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
-/* 00298 809AAAA8 0C029F9C */  jal     func_800A7E70              
+/* 00298 809AAAA8 0C029F9C */  jal     SkinMatrix_MtxFToNewMtx              
 /* 0029C 809AAAAC AC680004 */  sw      $t0, 0x0004($v1)           ## 00000004
 /* 002A0 809AAAB0 10400044 */  beq     $v0, $zero, .L809AABC4     
 /* 002A4 809AAAB4 3C0ADA38 */  lui     $t2, 0xDA38                ## $t2 = DA380000
