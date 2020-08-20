@@ -5,7 +5,7 @@ glabel func_8098AAE4
 /* 01C70 8098AAF0 00A03825 */  or      $a3, $a1, $zero            ## $a3 = 00000000
 /* 01C74 8098AAF4 AFA70034 */  sw      $a3, 0x0034($sp)
 /* 01C78 8098AAF8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
-/* 01C7C 8098AAFC 0C01F097 */  jal     OLib_VecSphRot90ToVec3f
+/* 01C7C 8098AAFC 0C01F097 */  jal     OLib_VecSphGeoToVec3f
 /* 01C80 8098AB00 27A40018 */  addiu   $a0, $sp, 0x0018           ## $a0 = FFFFFFE8
 /* 01C84 8098AB04 8FA70034 */  lw      $a3, 0x0034($sp)
 /* 01C88 8098AB08 C7A60018 */  lwc1    $f6, 0x0018($sp)
