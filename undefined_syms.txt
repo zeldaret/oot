@@ -772,7 +772,6 @@ D_060023B0 = 0x060023B0;
 D_06002428 = 0x06002428;
 D_06002530 = 0x06002530;
 
-// z_en_fhg_fire display lists
 // z_eff_ss_blast
 D_0401A0B0 = 0x0401A0B0;
 
