@@ -18,7 +18,7 @@ typedef struct {
     /* 0x2C */ f32   unk_2C;
     /* 0x30 */ f32   unk_30;
     /* 0x34 */ u8    unk_34;
-} EnSyatekiNiw_1;
+} EnSyatekiNiw_1; // size = 0x38
 
 typedef struct EnSyatekiNiw {
     /* 0x0000 */ Actor actor;

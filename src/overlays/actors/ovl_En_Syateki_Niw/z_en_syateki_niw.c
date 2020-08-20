@@ -60,7 +60,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiNiw* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags &= -2;
+    this->actor.flags &= ~1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
                      this->transitionDrawTable, 16);
@@ -770,7 +770,7 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
         for (i = 0; i < 5; i++, ptr++) {
             if (ptr->unk_00 == 1) {
-                if (!flag) {
+                if (flag == 0) {
                     gSPDisplayList(gfxCtx->polyXlu.p++, D_060023B0);
                     flag++;
                 }
