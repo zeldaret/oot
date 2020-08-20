@@ -34,8 +34,8 @@ LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 
-CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
-CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
+CC         := tools/ido-static-recomp/build71/out/cc
+CC_OLD     := tools/ido-static-recomp/build53/out/cc
 
 # Check code syntax with host compiler
 CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
