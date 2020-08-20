@@ -244,14 +244,8 @@ void func_80A493D8(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A49668(EnGoma* this, GlobalContext* globalCtx) {
-    static Vec3f D_80A4B818 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_80A4B824 = { 0.0f, -0.5f, 0.0f };
-
     Player* player = PLAYER;
     s32 i;
-    Vec3f a;
-    Vec3f b;
-    Vec3f c;
 
     this->unk_2D8 += 1.0f;
     Math_SmoothScaleMaxF(&this->unk_2EC, 0.1f, 1.0f, 0.005f);
@@ -268,8 +262,10 @@ void func_80A49668(EnGoma* this, GlobalContext* globalCtx) {
 
     if (((this->unk_2C0 & 0xF) == 0) && (Math_Rand_ZeroOne() < 0.5f)) {
         for (i = 0; i < 2; i++) {
-            a = D_80A4B818;
-            b = D_80A4B824;
+            Vec3f a = { 0.0f, 0.0f, 0.0f };
+            Vec3f b = { 0.0f, -0.5f, 0.0f };
+            Vec3f c;
+
             c.x = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
             c.y = Math_Rand_ZeroFloat(30.0f) + this->actor.posRot.pos.y;
             c.z = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
