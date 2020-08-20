@@ -18,13 +18,14 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B132A8(EnSyatekiNiw* this, GlobalContext* globalCtx);
-void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4);
 void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void func_80B128D8(EnSyatekiNiw* this, GlobalContext* globalCtx);
+
+void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4);
 
 extern AnimationHeader D_060000E8;
 extern Gfx D_060023B0[];
@@ -55,13 +56,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 
-Vec3f D_80B13698 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B136A4 = { 0.0f, 0.2f, 0.0f };
-Color_RGBA8 D_80B136B0 = { 0, 0, 0, 255 };
-Color_RGBA8 D_80B136B4 = { 0, 0, 0, 255 };
-Vec3f D_80B136B8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B136C4 = { 0.0f, 0.0f, 0.0f };
-
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiNiw* this = THIS;
 
@@ -78,7 +72,6 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-
     if (this->unk_29E == 0) {
         osSyncPrintf("\n\n");
         // Archery range chicken
@@ -110,6 +103,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
         } else {
             this->unk_264 = -10000.0f;
         }
+
         this->unk_28E += 1;
         this->unk_254 = 3;
         if (!(this->unk_28E & 1)) {
@@ -128,6 +122,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
                 this->unk_26C = 0.0f;
                 this->unk_268 = 0.0f;
                 break;
+
             case 1:
                 this->unk_258 = 3;
                 this->unk_26C = 7000.0f;
@@ -137,6 +132,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
                     this->unk_268 = 0.0f;
                 }
                 break;
+
             case 2:
                 this->unk_258 = 2;
                 this->unk_268 = this->unk_26C = -10000.0f;
@@ -147,6 +143,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
                     this->unk_280 = 8000.0f;
                 }
                 break;
+
             case 3:
                 this->unk_258 = 2;
                 this->unk_278 = 10000.0f;
@@ -156,9 +153,11 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
                     this->unk_280 = 3000.0f;
                 }
                 break;
+
             case 4:
                 this->unk_254 = this->unk_256 = 5;
                 break;
+
             case 5:
                 this->unk_258 = 5;
                 this->unk_278 = 14000.0f;
@@ -174,21 +173,27 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
     if (this->unk_264 != this->unk_2BC.x) {
         Math_SmoothScaleMaxF(&this->unk_2BC.x, this->unk_264, 0.5f, 4000.0f);
     }
+
     if (this->unk_26C != this->unk_2A4.x) {
         Math_SmoothScaleMaxF(&this->unk_2A4.x, this->unk_26C, 0.8f, 7000.0f);
     }
+
     if (this->unk_280 != this->unk_2A4.y) {
         Math_SmoothScaleMaxF(&this->unk_2A4.y, this->unk_280, 0.8f, 7000.0f);
     }
+
     if (this->unk_284 != this->unk_2A4.z) {
         Math_SmoothScaleMaxF(&this->unk_2A4.z, this->unk_284, 0.8f, 7000.0f);
     }
+
     if (this->unk_268 != this->unk_2B0.x) {
         Math_SmoothScaleMaxF(&this->unk_2B0.x, this->unk_268, 0.8f, 7000.0f);
     }
+
     if (this->unk_278 != this->unk_2B0.y) {
         Math_SmoothScaleMaxF(&this->unk_2B0.y, this->unk_278, 0.8f, 7000.0f);
     }
+
     if (this->unk_27C != this->unk_2B0.z) {
         Math_SmoothScaleMaxF(&this->unk_2B0.z, this->unk_27C, 0.8f, 7000.0f);
     }
@@ -200,15 +205,16 @@ void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     if (this->unk_29E != 0) {
         Actor_SetScale(&this->actor, this->unk_2F4);
     }
+
     this->actionFunc = func_80B11E78;
 }
 
 void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Vec3f sp7C = D_80B13698;
-    Vec3f sp70 = D_80B136A4;
-    Color_RGBA8 sp6C = D_80B136B0;
-    Color_RGBA8 sp68 = D_80B136B4;
-    Vec3f sp5C;
+    Vec3f dustVelocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f dustAccel = { 0.0f, 0.2f, 0.0f };
+    Color_RGBA8_n dustPrimColor = { 0, 0, 0, 255 };
+    Color_RGBA8_n dustEnvColor = { 0, 0, 0, 255 };
+    Vec3f dustPos;
     f32 tmpf2;
     f32 sp4C;
     f32 sp50;
@@ -236,28 +242,34 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                     } else {
                         sp50 += 100.0f;
                     }
+
                     sp4C = Math_Rand_CenteredFloat(100.0f);
                     if (sp4C < 0.0f) {
                         sp4C -= 100.0f;
                     } else {
                         sp4C += 100.0f;
                     }
+
                     this->unk_2E8.x = this->unk_2DC.x + sp50;
                     this->unk_2E8.z = this->unk_2DC.z + sp4C;
 
                     if (this->unk_2E8.x < -150.0f) {
                         this->unk_2E8.x = -150.0f;
                     }
+
                     if (this->unk_2E8.x > 150.0f) {
                         this->unk_2E8.x = 150.0f;
                     }
+
                     if (this->unk_2E8.z < -60.0f) {
                         this->unk_2E8.z = -60.0f;
                     }
+
                     if (this->unk_2E8.z > -40.0f) {
                         this->unk_2E8.z = -40.0f;
                     }
                     break;
+
                 case 1:
                     sp50 = Math_Rand_CenteredFloat(50.0f);
                     if (sp50 < 0.0f) {
@@ -265,12 +277,14 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                     } else {
                         sp50 += 50.0f;
                     }
+
                     sp4C = Math_Rand_CenteredFloat(30.0f);
                     if (sp4C < 0.0f) {
                         sp4C -= 30.0f;
                     } else {
                         sp4C += 30.0f;
                     }
+
                     this->unk_2E8.x = this->unk_2DC.x + sp50;
                     this->unk_2E8.z = this->unk_2DC.z + sp4C;
                     break;
@@ -295,28 +309,33 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
         tmpf2 = this->unk_2E8.z - this->actor.posRot.pos.z;
 
         if (fabsf(tmpf1) < 10.0f) {
-            tmpf1 = (f64)0.0f;
+            tmpf1 = 0;
         }
+
         if (fabsf(tmpf2) < 10.0f) {
             tmpf2 = 0.0f;
         }
+
         if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f)) {
             this->unk_25C = 0;
             this->unk_294 = 7;
         }
+
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z,
                                 0);
         Math_SmoothScaleMaxF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
+
     if (this->unk_260 == 0) {
         func_80B11A94(this, globalCtx, sp4A);
         return;
     }
+
     if ((globalCtx->gameplayFrames % 4) == 0) {
-        sp7C.y = Math_Rand_CenteredFloat(5.0f);
-        sp70.y = 0.2f;
-        sp5C = this->actor.posRot.pos;
-        func_8002836C(globalCtx, &sp5C, &sp7C, &sp70, &sp6C, &sp68, 0x258, 0x28, 0x1E);
+        dustVelocity.y = Math_Rand_CenteredFloat(5.0f);
+        dustAccel.y = 0.2f;
+        dustPos = this->actor.posRot.pos;
+        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 0x258, 0x28, 0x1E);
     }
 }
 
@@ -348,22 +367,21 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_2C8.y = 0.0f;
             this->unk_29A = 1;
             break;
+
         case 1:
             this->actor.speedXZ = 2.0f;
             if (this->unk_25C == 0) {
                 this->unk_25C = 3;
                 this->actor.velocity.y = 3.5f;
             }
+
             if (this->unk_25A == 0) {
                 this->unk_298++;
                 this->unk_298 &= 1;
                 this->unk_25A = 5;
             }
-            if (this->unk_298 == 0) {
-                phi_f16 = 5000.0f;
-            } else {
-                phi_f16 = -5000.0f;
-            }
+
+            phi_f16 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
             if (this->actor.posRot.pos.z > 100.0f) {
                 this->actor.speedXZ = 2.0f;
                 this->actor.gravity = -0.3f;
@@ -371,10 +389,12 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 this->unk_29A = 2;
             }
             break;
+
         case 2:
             if ((player->actor.posRot.pos.z - 40.0f) < this->actor.posRot.pos.z) {
                 this->actor.speedXZ = 0.0f;
             }
+
             if ((this->actor.bgCheckFlags & 1) && (this->actor.posRot.pos.z > 110.0f)) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = 0.0f;
@@ -390,6 +410,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 this->unk_29A = 3;
             }
             break;
+
         case 3:
             if ((player->actor.posRot.pos.z - 50.0f) < this->actor.posRot.pos.z) {
                 this->actor.speedXZ = 0.0f;
@@ -399,6 +420,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 this->unk_29A = 4;
             }
             break;
+
         case 4:
             if (this->unk_25A == 0) {
                 this->unk_296 = 4;
@@ -414,6 +436,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 this->unk_29A = 5;
             }
             break;
+
         case 5:
             if (this->unk_25A == 1) {
                 this->unk_258 = 0;
@@ -422,6 +445,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 this->unk_254 = this->unk_258;
                 this->actor.speedXZ = 1.0f;
             }
+
             if ((this->unk_25A == 0) && ((player->actor.posRot.pos.z - 30.0f) < this->actor.posRot.pos.z)) {
                 Audio_PlaySoundGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
@@ -430,6 +454,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 0.0f;
             }
             break;
+
         case 6:
             if (this->unk_25E == 1) {
                 globalCtx->sceneLoadFlag = 0x14;
@@ -453,6 +478,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
         this->unk_256 = 10;
         this->unk_254 = this->unk_256;
     }
+
     func_80B11A94(this, globalCtx, this->unk_296);
 }
 
@@ -493,6 +519,7 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
+
     this->unk_2A0 = 1;
     if (this->unk_25C == 0) {
         this->unk_298++;
@@ -502,11 +529,8 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 4.0f;
         }
     }
-    if (this->unk_298 == 0) {
-        phi_f2 = 5000.0f;
-    } else {
-        phi_f2 = -5000.0f;
-    }
+
+    phi_f2 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
     tmpf2 = this->unk_2D8 + phi_f2;
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, tmpf2, 3, this->unk_2C8.y, 0);
     Math_SmoothScaleMaxF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
@@ -527,6 +551,7 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                     this->actor.gravity = -3.0f;
                 }
                 break;
+
             case 1:
                 this->unk_262 = 0x1E;
                 this->unk_2F8 = 1;
@@ -540,14 +565,12 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// The switch
+// Regalloc in the switch, tmp in v1 rather than s0
 void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 i;
     s32 tmp;
     EnSyatekiNiw* this = THIS;
-    // D_80B136B8
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
-    // D_80B136C4
     Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp78;
     Vec3f sp6C;
@@ -558,24 +581,31 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_254 != 0) {
         this->unk_254--;
     }
+
     if (this->unk_258 != 0) {
         this->unk_258--;
     }
+
     if (this->unk_25A != 0) {
         this->unk_25A--;
     }
+
     if (this->unk_25C != 0) {
         this->unk_25C--;
     }
+
     if (this->unk_25E != 0) {
         this->unk_25E--;
     }
+
     if (this->unk_262 != 0) {
         this->unk_262--;
     }
+
     if (this->unk_260 != 0) {
         this->unk_260--;
     }
+
     this->actor.shape.rot = this->actor.posRot.rot;
     this->actor.shape.unk_10 = 15.0f;
 
@@ -595,6 +625,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             sp60.y = -0.15f;
             func_80B131B8(this, &sp78, &sp6C, &sp60, Math_Rand_ZeroFloat(8.0f) + 8.0f);
         }
+
         this->unk_2A0 = 0;
     }
 
@@ -616,38 +647,45 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
                 tmp = 1;
             }
             break;
+
         case 1:
             tmp = 1;
             break;
     }
 
-    if (tmp != 0) {
+    if (tmp) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 #else
+Vec3f D_80B136B8 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80B136C4 = { 0.0f, 0.0f, 0.0f };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Niw/EnSyatekiNiw_Update.s")
 #endif
 
-s32 func_80B12FE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                Actor* thisx) {
     EnSyatekiNiw* this = THIS;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->unk_2BC.x;
     }
+
     if (limbIndex == 11) {
         rot->x += (s16)this->unk_2B0.z;
         rot->y += (s16)this->unk_2B0.y;
         rot->z += (s16)this->unk_2B0.x;
     }
+
     if (limbIndex == 7) {
         rot->x += (s16)this->unk_2A4.z;
         rot->y += (s16)this->unk_2A4.y;
         rot->z += (s16)this->unk_2A4.x;
     }
+
     return 0;
 }
 
@@ -660,8 +698,9 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_260 != 0) {
             func_80026230(globalCtx, &sp30, 0, 0x14);
         }
+
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         func_80B12FE0, NULL, &this->actor);
+                         SyatekiNiw_OverrideLimbDraw, NULL, &this->actor);
         func_80026608(globalCtx);
         func_80B13464(this, globalCtx);
     }
@@ -706,6 +745,7 @@ void func_80B132A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 if (ptr->unk_10.y < -0.5f) {
                     ptr->unk_10.y = 0.5f;
                 }
+
                 ptr->unk_30 = (Math_Sins(ptr->unk_2A * 3000) * M_PI) * 0.2f;
                 if (ptr->unk_28 < ptr->unk_34) {
                     ptr->unk_00 = 0;
@@ -719,7 +759,7 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 i;
     EnSyatekiNiw_1* ptr = &this->unk_348[0];
-    u8 j = 0;
+    u8 flag = 0;
 
     {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -730,10 +770,11 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
         for (i = 0; i < 5; i++, ptr++) {
             if (ptr->unk_00 == 1) {
-                if (j == 0) {
+                if (!flag) {
                     gSPDisplayList(gfxCtx->polyXlu.p++, D_060023B0);
-                    j++;
+                    flag++;
                 }
+
                 Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
                 func_800D1FD4(&globalCtx->mf_11DA0);
                 Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);

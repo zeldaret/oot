@@ -37,7 +37,7 @@ glabel func_80B761B8
 /* 0C88C 80B7622C A6380032 */  sh      $t8, 0x0032($s1)           ## 80B7FF2A
 /* 0C890 80B76230 24E7FEA4 */  addiu   $a3, $a3, %lo(D_80B7FEA4)  ## $a3 = 80B7FEA4
 /* 0C894 80B76234 02202825 */  or      $a1, $s1, $zero            ## $a1 = 80B7FEF8
-/* 0C898 80B76238 0C029B84 */  jal     func_800A6E10              
+/* 0C898 80B76238 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 0C89C 80B7623C 26260018 */  addiu   $a2, $s1, 0x0018           ## $a2 = 80B7FF10
 /* 0C8A0 80B76240 C6220020 */  lwc1    $f2, 0x0020($s1)           ## 80B7FF18
 /* 0C8A4 80B76244 C6240038 */  lwc1    $f4, 0x0038($s1)           ## 80B7FF30

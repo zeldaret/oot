@@ -308,7 +308,7 @@ glabel func_800E5000
 /* B5C5F4 800E5454 000FC040 */  sll   $t8, $t7, 1
 /* B5C5F8 800E5458 3C0F800E */  lui   $t7, %hi(func_800E4FE0) # $t7, 0x800e
 /* B5C5FC 800E545C 25EF4FE0 */  addiu $t7, %lo(func_800E4FE0) # addiu $t7, $t7, 0x4fe0
-/* B5C600 800E5460 3C018013 */  lui   $at, %hi(gWaveSamples) # $at, 0x8013
+/* B5C600 800E5460 3C018013 */  lui   $at, %hi(gWaveSamples+0x20) # $at, 0x8013
 /* B5C604 800E5464 3C068015 */  lui   $a2, %hi(D_80155C70) # $a2, 0x8015
 /* B5C608 800E5468 3C0A8015 */  lui   $t2, %hi(D_80155F50) # $t2, 0x8015
 /* B5C60C 800E546C 24C65C70 */  addiu $a2, %lo(D_80155C70) # addiu $a2, $a2, 0x5c70

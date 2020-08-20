@@ -70,35 +70,35 @@ void func_80AF03F4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF0400(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx);
 
-ColliderCylinderInit_Set3 sCylinderInit1 = {
+static ColliderCylinderInit_Set3 sCylinderInit1 = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0 } },
 };
 
-ColliderCylinderInit_Set3 sCylinderInit2 = {
+static ColliderCylinderInit_Set3 sCylinderInit2 = {
     { COLTYPE_UNK0, 0x09, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
     { 20, 30, 0, { 0 } },
 };
 
-UNK_PTR D_80AF0858[] = {
+static UNK_PTR D_80AF0858[] = {
     0x0600E3B8, 0x0600F238, 0x0600F638, 0x0600FE38, 0x06010238, 0x06010A38,
 };
 
-UNK_PTR D_80AF0870[] = {
+static UNK_PTR D_80AF0870[] = {
     0x0600E838,
     0x0600FA38,
     0x06010638,
 };
 
-s32 sUnused = 0;
+static s32 sUnused = 0;
 
 #include "z_en_ru1_cutscene_data.c" EARLY
 
-u32 D_80AF1938 = 0;
+static u32 D_80AF1938 = 0;
 
-EnRu1ActionFunc sActionFuncs[] = {
+static EnRu1ActionFunc sActionFuncs[] = {
     func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
     func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
     func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
@@ -108,13 +108,13 @@ EnRu1ActionFunc sActionFuncs[] = {
     func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
+static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
     func_80AF0278,
 };
 
-Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
+static Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
 
-EnRu1DrawFunc sDrawFuncs[] = {
+static EnRu1DrawFunc sDrawFuncs[] = {
     func_80AF03F4,
     func_80AF0400,
     func_80AF05D4,
