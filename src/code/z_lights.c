@@ -101,19 +101,14 @@ z_Light* Lights_FindFreeSlot() {
     return ret;
 }
 
-#ifdef NON_MATCHING
-// single ordering difference
-void Lights_Free(z_Light* light) {
+// return type must not be void to match
+s32 Lights_Free(z_Light* light) {
     if (light != NULL) {
         sLightsList.numOccupied--;
         light->info = NULL;
-        sLightsList.nextFree = (light - sLightsList.lights) /
-                               sizeof(z_Light); //! @bug Due to pointer arithmetic, the division is unnecessary
+        sLightsList.nextFree = (light - sLightsList.lights) / sizeof(z_Light);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/Lights_Free.s")
-#endif
 
 void func_8007A614(GlobalContext* globalCtx, LightingContext* lightCtx) {
     Lights_ClearHead(globalCtx, lightCtx);

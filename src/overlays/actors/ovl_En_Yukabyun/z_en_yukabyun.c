@@ -42,7 +42,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 16, ICHAIN_STOP),
 };
 
-UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000};
+UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000 };
 
 extern UNK_TYPE D_06000A60;
 extern Gfx D_06000970[];
