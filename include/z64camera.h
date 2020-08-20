@@ -437,7 +437,7 @@ typedef struct {
     s16 unk_08;
     s16 unk_0A;
     s16 unk_0C;
-} Jump2_Unk24;
+} Jump2Anim;
 
 typedef struct {
     /* 0x0000 */ f32 unk_00;
@@ -448,8 +448,8 @@ typedef struct {
     /* 0x0014 */ f32 unk_14;
     /* 0x0018 */ f32 unk_18;
     /* 0x001C */ f32 unk_1C;
-    /* 0x0020 */ s16 unk_20;
-    /* 0x0024 */ Jump2_Unk24 unk_24;
+    /* 0x0020 */ s16 interfaceFlags;
+    /* 0x0024 */ Jump2Anim anim;
 } Jump2; // size = 0x22
 
 typedef struct {
@@ -756,7 +756,7 @@ typedef struct {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} Keep1_Unk34;
+} Keep1Anim;
 
 typedef struct {
     f32 unk_00;
@@ -771,8 +771,8 @@ typedef struct {
     f32 unk_24;
     f32 unk_28;
     f32 unk_2C;
-    s16 unk_30;
-    Keep1_Unk34 unk_34;
+    s16 interfaceFlags;
+    Keep1Anim anim;
 } KeepOn1;
 
 typedef struct {

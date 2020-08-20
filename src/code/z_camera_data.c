@@ -5,7 +5,7 @@
 #define CAM_MODE_NONE { CAM_FUNC_NONE, 0, NULL, }
 #define RELOAD_PARAMS (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14 || R_RELOAD_CAM_PARAMS)
 
-#define PCT(x) (x * 0.01f)
+#define PCT(x) ((x) * 0.01f)
 #define NEXTSETTING ((values++)->val)
 #define NEXTPCT PCT(NEXTSETTING)
 
