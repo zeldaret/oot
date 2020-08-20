@@ -3,7 +3,6 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include "../ovl_En_Diving_Game/z_en_diving_game.h"
 
 struct EnExRuppy;
 
