@@ -626,7 +626,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
             break;
 
         case 4:
-            if (func_800A56C8(&this->skelAnime, 15.0f) != 0) {
+            if (func_800A56C8(&this->skelAnime, 15.0f)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DEMO_EYE);
             }
             if (this->unk_1D2 < 0x29) {
@@ -1094,7 +1094,7 @@ void func_80918D6C(BossGoma* this, GlobalContext* globalCtx) {
     switch (this->unk_1D0) {
         case 0:
             for (i = 0; i < this->collider.count; i++) {
-                if ((this->collider.list[i].body.toucherFlags & 2) != 0) {
+                if (this->collider.list[i].body.toucherFlags & 2) {
                     this->unk_1D2 = 10;
                     break;
                 }
@@ -1116,7 +1116,7 @@ void func_80918D6C(BossGoma* this, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            if (func_800A56C8(&this->skelAnime, 3.0f) != 0) {
+            if (func_800A56C8(&this->skelAnime, 3.0f)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_UNARI2);
             }
 
@@ -1330,7 +1330,7 @@ void func_80919704(BossGoma* this, GlobalContext* globalCtx) {
         func_80915DF8(this, globalCtx, 2, 3);
     }
 
-    if ((this->unk_194 & 0x3F) == 0) {
+    if (!(this->unk_194 & 0x3F)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY2);
     }
 
@@ -1520,10 +1520,10 @@ void func_80919F8C(BossGoma* this, GlobalContext* globalCtx) {
         return;
     }
 
-    sp2C = this->collider.list->body.acHitItem;
+    sp2C = this->collider.list[0].body.acHitItem;
 
-    if ((this->unk_19C == 0) && (this->actionFunc != func_809193EC) && (this->collider.list->body.bumperFlags & 2)) {
-        this->collider.list->body.bumperFlags &= ~2;
+    if ((this->unk_19C == 0) && (this->actionFunc != func_809193EC) && (this->collider.list[0].body.bumperFlags & 2)) {
+        this->collider.list[0].body.bumperFlags &= ~2;
         if ((this->actionFunc == func_80919A40) || (this->actionFunc == func_8091960C) ||
             (this->actionFunc == func_80919548)) {
             func_8091622C(this);
