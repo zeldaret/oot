@@ -43,12 +43,12 @@ typedef struct BossGoma {
     /* 0x01F8 */ f32 unk_1F8;
     /* 0x01FC */ f32 unk_1FC;
     /* 0x0200 */ f32 unk_200;
-    /* 0x0204 */ Vec3f unk_204;
-    /* 0x0210 */ Vec3f unk_210;
+    /* 0x0204 */ f32 unk_204[3];
+    /* 0x0210 */ f32 unk_210[3];
     /* 0x021C */ f32 unk_21C;
     /* 0x0220 */ f32 unk_220;
     /* 0x0224 */ f32 unk_224;
-    /* 0x0228 */ f32 unk_228[2];
+    /* 0x0228 */ f32 unk_228[2]; // Probably wrong, needed to match a function
     ///* 0x022C */ f32 unk_22C;
     /* 0x0230 */ char unk_230[0x30];
     /* 0x0260 */ Vec3f unk_260;
@@ -58,12 +58,10 @@ typedef struct BossGoma {
     /* 0x0290 */ Vec3f unk_290;
     /* 0x029C */ Vec3f unk_29C;
     /* 0x02A8 */ Vec3f unk_2A8[84];
-    /* 0x0638 */ char unk_638[0x120];
+    /* 0x0698 */ char unk_698[0xC0];
     /* 0x0758 */ u8 unk_758[0x64];
-    /* 0x07BC */ ColliderJntSph unk_7BC;
-    /* 0x07DC */ ColliderJntSphItem unk_7DC;
-    /* 0x081C */ char unk_81C[0x300];
-
+    /* 0x07BC */ ColliderJntSph collider;
+    /* 0x07DC */ ColliderJntSphItem colliderItems[13];
 } BossGoma; // size = 0x0B1C
 
 extern const ActorInit Boss_Goma_InitVars;

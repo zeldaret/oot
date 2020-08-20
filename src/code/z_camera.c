@@ -3268,7 +3268,7 @@ void func_80058148(Camera* camera, Player* player) {
 #endif
 
 #ifdef NON_MATCHING
-void Camera_ChangeStatus(Camera* camera, s16 status) {
+s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     s32 temp_s1;
     CameraMode* temp_v0;
     s32 phi_a1;

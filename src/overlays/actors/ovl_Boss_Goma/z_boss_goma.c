@@ -2,7 +2,7 @@
  * File: z_boss_goma.c
  * Overlay: ovl_Boss_Goma
  * Description: Gohma
-*/
+ */
 
 #include "z_boss_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
@@ -83,7 +83,7 @@ const ActorInit Boss_Goma_InitVars = {
     (ActorFunc)BossGoma_Draw,
 };
 
-ColliderJntSphItemInit D_8091AE60[13] = {
+static ColliderJntSphItemInit sJntSphItemsInit[13] = {
     {
         { 0x03, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
         { 5, { { 0, 0, 1200 }, 20 }, 100 },
@@ -138,86 +138,59 @@ ColliderJntSphItemInit D_8091AE60[13] = {
     },
 };
 
-ColliderJntSphInit D_8091B034 = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK3, 0x11, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
     13,
-    D_8091AE60,
+    sJntSphItemsInit,
 };
 
-u8 D_8091B044[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00,
-                    0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00,
-                    0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00,
-                    0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01,
-                    0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01,
-                    0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01,
-                    0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00,
-                    0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00,
-                    0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00,
-                    0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01,
-                    0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00,
-                    0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00,
-                    0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00,
-                    0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00 };
+static u8 D_8091B044[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
+    0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00,
+    0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00,
+    0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01,
+    0x01, 0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00,
+    0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00,
+    0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00
+};
 
-u8 D_8091B144[] = { 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 };
+static u8 D_8091B144[] = {
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
+};
 
-u8 D_8091B244[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1E, 0x28, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x0F, 0x15, 0x00, 0x00, 0x19, 0x00, 0x00, 0x1F,
-                    0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2B, 0x30, 0x35,
-                    0x00, 0x00, 0x00, 0x00, 0x2A, 0x2D, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0B, 0x0F,
-                    0x15, 0x00, 0x00, 0x19, 0x00, 0x00, 0x1E, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static u8 D_8091B244[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1E, 0x28, 0x00, 0x00,
+                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x0F, 0x15, 0x00, 0x00, 0x19, 0x00, 0x00, 0x1F,
+                           0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2B, 0x30, 0x35,
+                           0x00, 0x00, 0x00, 0x00, 0x2A, 0x2D, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0B, 0x0F,
+                           0x15, 0x00, 0x00, 0x19, 0x00, 0x00, 0x1E, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 1, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 63536, ICHAIN_STOP),
 };
-
-Vec3f D_8091B2B4 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8091B2C0 = { 0.0f, -0.5f, 0.0f };
-f32 D_8091B2CC = -150.0f;
-f32 D_8091B2D0 = 0.0f;
-f32 D_8091B2D4 = -350.0f;
-Vec3f D_8091B2D8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8091B2E4 = { 0.0f, 1.0f, 0.0f };
-Color_RGBA8_n D_8091B2F0 = { 255, 255, 255, 255 };
-Color_RGBA8_n D_8091B2F4 = { 0, 100, 255, 255 };
-Vec3f D_8091B2F8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8091B304 = { 0.0f, -0.5f, 0.0f };
-Vec3f D_8091B310 = { -150.0f, 0.0f, -350.0f };
-
-Vec3f D_8091B31C[] = { { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
-                       { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f } };
-
-Vec3f D_8091B364[] = { { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
-                       { 0.0f, 255.0f, 170.0f }, { 0.0f, 0.0f, 255.0f },   { 255.0f, 17.0f, 0.0f } };
-
-Vec3f D_8091B3AC[] = { { 255.0f, 17.0f, 0.0f },  { 255.0f, 255.0f, 255.0f }, { 50.0f, 50.0f, 50.0f },
-                       { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f },   { 0.0f, 255.0f, 170.0f } };
-
-Vec3f D_8091B3F4 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8091B400 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8091B40C = { 0.0f, 300.0f, 2650.0f };
-Vec3f D_8091B418 = { 0.0f, 0.0f, 0.0f };
 
 void func_80915A10(s16* arg0, u8* arg1, s16 arg2) {
     if (arg1[arg2]) {
@@ -264,11 +237,12 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80916000(this, globalCtx);
     this->actor.colChkInfo.health = 10;
     this->actor.colChkInfo.mass = 0xFF;
-    Collider_InitJntSph(globalCtx, &this->unk_7BC);
-    Collider_SetJntSph(globalCtx, &this->unk_7BC, &this->actor, &D_8091B034, &this->unk_7DC);
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -640.0f, 0.0f, 0, 0, 0, 0);
+        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -640.0f, 0.0f, 0, 0,
+                            0, 0);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x5F, 141.0f, -640.0f, -84.0f, 0, 0, 0, 0);
     }
 }
@@ -277,9 +251,11 @@ void func_80915DF8(BossGoma* this, GlobalContext* globalCtx, s16 arg2, s16 arg3)
     if ((arg2 == 0) || (arg2 == 1) || (arg2 == 3)) {
         func_80033260(globalCtx, &this->actor, &this->unk_278, 25.0f, arg3, 8.0f, 0x1F4, 10, 1);
     }
+
     if ((arg2 == 0) || (arg2 == 2) || (arg2 == 3)) {
         func_80033260(globalCtx, &this->actor, &this->unk_284, 25.0f, arg3, 8.0f, 0x1F4, 10, 1);
     }
+
     if (arg2 == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DOWN);
     } else {
@@ -291,7 +267,7 @@ void BossGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BossGoma* this = THIS;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
-    Collider_DestroyJntSph(globalCtx, &this->unk_7BC);
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void func_80915F38(BossGoma* this, GlobalContext* globalCtx) {
@@ -303,7 +279,7 @@ void func_80915F38(BossGoma* this, GlobalContext* globalCtx) {
     this->unk_1C2 = 0;
     this->unk_1D2 = 0x4B0;
     this->unk_1D0 = 0;
-    this->actor.flags &= -6;
+    this->actor.flags &= ~5;
     this->actor.speedXZ = 0.0f;
     this->actor.shape.unk_10 = 0.0f;
     Audio_SetBGM(0x100100FF);
@@ -443,22 +419,23 @@ void func_8091683C(BossGoma* this) {
     this->actionFunc = func_80918FBC;
 }
 
-#ifdef NON_MATCHING
-// Matches with the static data, but can't fix the rest of the data if I do that
 void func_809168B0(BossGoma* this, GlobalContext* globalCtx, f32 arg2, f32 arg3, s16 arg4) {
-    // static Vec3f D_8091B2C0 = {0.0f, -0.5f, 0.0f};
+    static Vec3f D_8091B2B4 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_8091B2C0 = { 0.0f, -0.5f, 0.0f };
+    static Vec3f D_8091B2CC = { -150.0f, 0.0f, -350.0f };
+
     s16 i;
     Vec3f* tmp = NULL;
     Vec3f a;
     Vec3f b;
     Vec3f c;
 
-    D_8091B2C0.z += arg2;
+    D_8091B2CC.z += arg2;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_SmoothScaleMaxF(&this->actor.speedXZ, arg3, 0.5f, 2.0f);
     if (arg4) {
-        Math_SmoothScaleMaxS(&this->actor.posRot.rot.y,
-                             Math_Vec3f_Yaw(&this->actor.posRot.pos, (Vec3f*)&D_8091B2CC) + 0x8000, 3, 0x3E8);
+        Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &D_8091B2CC) + 0x8000,
+                             3, 0x3E8);
     }
 
     if (func_800A56C8(&this->skelAnime, 9.0f)) {
@@ -476,12 +453,10 @@ void func_809168B0(BossGoma* this, GlobalContext* globalCtx, f32 arg2, f32 arg3,
             c.z = Math_Rand_CenteredFloat(70.0f) + tmp->z;
             func_80029724(globalCtx, &c, &a, &b, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, 0);
         }
+
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_HIGH);
-    } 
+    }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_809168B0.s")
-#endif
 
 void func_80916AEC(BossGoma* this, GlobalContext* globalCtx) {
     s32 tmp;
@@ -522,11 +497,10 @@ void func_80916AEC(BossGoma* this, GlobalContext* globalCtx) {
     Audio_SetBGM(0x100100FF);
 }
 
-#ifdef NON_MATCHING
-// Stack, small regalloc
 void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
-    f32 tmp;
+    s32 pad;
     Player* player = PLAYER;
+    f32 tmp;
     Camera* camera;
     s32 tmp1;
 
@@ -538,8 +512,9 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 (fabsf(player->actor.posRot.pos.z - 350.0f) < 60.0f)) {
                 if (gSaveContext.eventChkInf[7] & 1) {
                     func_80916AEC(this, globalCtx);
+                    // Not 397.68
                     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f,
-                                        -480.0f, 397.68f, 0, -0x705C, 0, 0x180);
+                                        -480.0f, 397.680023193f, 0, -0x705C, 0, 0x180);
                 } else {
                     func_8002DF54(globalCtx, &this->actor, 8);
                     this->unk_1D0 = 1;
@@ -573,7 +548,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
             this->unk_1D2 = 0x32;
             this->unk_1D4 = 0x50;
             this->unk_194 = 0;
-            this->actor.flags &= -2;
+            this->actor.flags &= ~1;
 
         case 2:
             player->actor.posRot.pos.x = 150.0f;
@@ -583,32 +558,42 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
 
             player->actor.speedXZ = 0.0f;
             if (this->unk_1D2 == 0) {
-                Math_SmoothScaleMaxF(&this->unk_290.x, player->actor.posRot.pos.x - 20.0f, 0.05f,
+                // Not 0.05
+                Math_SmoothScaleMaxF(&this->unk_290.x, player->actor.posRot.pos.x - 20.0f, 0.0499999970198f,
                                      this->unk_220 * 50.0f);
-                Math_SmoothScaleMaxF(&this->unk_290.y, player->actor.posRot.pos.y + 25.0f, 0.1f,
+                // Not 0.01
+                Math_SmoothScaleMaxF(&this->unk_290.y, player->actor.posRot.pos.y + 25.0f, 0.0999999940395f,
                                      this->unk_220 * 130.0f);
-                Math_SmoothScaleMaxF(&this->unk_290.z, player->actor.posRot.pos.z - 65.0f, 0.05f,
+                // Not 0.05
+                Math_SmoothScaleMaxF(&this->unk_290.z, player->actor.posRot.pos.z - 65.0f, 0.0499999970198f,
                                      this->unk_220 * 30.0f);
-                Math_SmoothScaleMaxF(&this->unk_220, 0.3f, 1.0f, 0.005f);
+                // Not 0.3 or 0.005
+                Math_SmoothScaleMaxF(&this->unk_220, 0.299999982119f, 1.0f, 0.0050000003539f);
                 if (this->unk_1D4 == 0) {
-                    Math_SmoothScaleMaxF(&this->unk_29C.y, player->actor.posRot.pos.y + 35.0f, 0.1f,
+                    // Not 0.1
+                    Math_SmoothScaleMaxF(&this->unk_29C.y, player->actor.posRot.pos.y + 35.0f, 0.0999999940395f,
                                          this->unk_220 * 30.0f);
                 }
+
                 this->unk_29C.x = player->actor.posRot.pos.x;
                 this->unk_29C.z = player->actor.posRot.pos.z;
             }
             func_800C04D8(globalCtx, 0, &this->unk_29C, &this->unk_290);
             if (this->unk_194 == 0xB0) {
+                // Not 397.68
                 Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
-                                    397.68f, 0, -0x705C, 0, 0x180);
+                                    397.680023193f, 0, -0x705C, 0, 0x180);
             }
+
             if (this->unk_194 == 0xB0) {
                 globalCtx->envCtx.unk_BF = 3;
                 globalCtx->envCtx.unk_D6 = 0xFFFF;
             }
+
             if (this->unk_194 == 0xBE) {
                 func_8002DF54(globalCtx, &this->actor, 2);
             }
+
             if (this->unk_194 >= 0xE4) {
                 camera = Gameplay_GetCamera(globalCtx, 0);
                 camera->eye = this->unk_290;
@@ -634,6 +619,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 this->unk_1C6 = 0;
                 func_809168B0(this, globalCtx, 0.0f, -5.0f, 1);
             }
+
             if (this->unk_1C6 >= 0x10) {
                 func_80916AEC(this, globalCtx);
             }
@@ -653,6 +639,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                 if (this->unk_1D2 == 0x1E) {
                     globalCtx->envCtx.unk_BF = 4;
                 }
+
                 if (this->unk_1D2 < 0x14) {
                     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
                     Math_SmoothScaleMaxF(&this->unk_1F8, 1.0f, 0.8f, 0.4f);
@@ -661,6 +648,7 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                         this->unk_1F8 = 1.8f;
                         this->unk_224 = 1.8f;
                     }
+
                     if (func_800A56C8(&this->skelAnime, this->unk_21C)) {
                         this->unk_1D0 = 5;
                         SkelAnime_ChangeAnim(&this->skelAnime, &D_06002360, 2.0f, 0.0f,
@@ -688,10 +676,12 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
             } else {
                 func_809168B0(this, globalCtx, 0, -7.5f, 0);
             }
+
             if (this->unk_1D2 == 0) {
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_0600193C, 1.0f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600193C.genericHeader), 0, -5.0f);
             }
+
             if (this->unk_1D2 == 0) {
                 this->unk_1D0 = 9;
                 this->actor.speedXZ = 0.0f;
@@ -752,9 +742,11 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&D_06019BA8),
                                            0xA0, 0xB4, 0x80, 0x28);
                 }
+
                 Audio_SetBGM(0x1B);
                 gSaveContext.eventChkInf[7] |= 1;
             }
+
             if (func_800A56C8(&this->skelAnime, this->unk_21C)) {
                 this->unk_1D0 = 0x8C;
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_06000AE8, 1.0f, 0.0f,
@@ -798,20 +790,18 @@ void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
         func_800C04D8(globalCtx, this->unk_1BC, &this->unk_29C, &this->unk_290);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_80916C9C.s")
-#endif
 
 void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
     f32 spBC;
     f32 spB8;
     s16 tmp;
-    Vec3f spA8 = D_8091B2D8;
-    Vec3f sp9C = D_8091B2E4;
-    Color_RGBA8_n sp98 = D_8091B2F0;
-    Color_RGBA8_n sp94 = D_8091B2F4;
-    Vec3f sp88 = D_8091B2F8;
-    Vec3f sp7C = D_8091B304;
+    Vec3f spA8 = { 0.0f, 0.0f, 0.0f };
+    Vec3f sp9C = { 0.0f, 1.0f, 0.0f };
+    Color_RGBA8_n sp98 = { 255, 255, 255, 255 };
+    Color_RGBA8_n sp94 = { 0, 100, 255, 255 };
+    Vec3f sp88 = { 0.0f, 0.0f, 0.0f };
+    Vec3f sp7C = { 0.0f, -0.5f, 0.0f };
+    static Vec3f D_8091B310 = { -150.0f, 0.0f, -350.0f };
     Vec3f sp70;
     s16 i;
     Player* player = PLAYER;
@@ -824,6 +814,7 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
         func_80915DF8(this, globalCtx, 0, 8);
         func_800A9F6C(0.0f, 0x96, 0x14, 0x14);
     }
+
     this->unk_1B8 = 2;
     this->unk_1B4 = 1;
     if (this->unk_1D2 == 0x3E9) {
@@ -901,9 +892,11 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
                     }
                 }
             }
+
             if ((this->unk_1D2 < 0x42E) && !(this->unk_194 & 3) && (Math_Rand_ZeroOne() < 0.5f)) {
                 this->unk_1C4 = 3;
             }
+
             this->unk_228[1] += 0.022f;
             Math_SmoothScaleMaxF(&this->unk_228[0], 150.0f, 0.1f, 5.0f);
             spBC = sinf(this->unk_228[1]) * this->unk_228[0];
@@ -917,6 +910,7 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
             if (this->unk_1D4 == 0x50) {
                 Audio_SetBGM(0x21);
             }
+
             if (this->unk_1D4 == 0) {
                 this->unk_1D0 = 2;
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 3);
@@ -953,6 +947,7 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
                         break;
                     }
                 }
+
                 Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, sp5C.x,
                                     this->actor.posRot.pos.y, sp5C.z, 0, 0, 0, 0);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
@@ -984,6 +979,7 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, &this->actor, 7);
                     Actor_Kill(&this->actor);
                 }
+
                 this->actor.scale.z = this->actor.scale.y;
                 this->actor.scale.x = this->actor.scale.y;
             }
@@ -1014,36 +1010,47 @@ void func_80917D98(BossGoma* this, GlobalContext* globalCtx) {
     if (globalCtx->envCtx.unk_8C[0] >= 0xC9) {
         globalCtx->envCtx.unk_8C[0] = 0xC8;
     }
+
     if (globalCtx->envCtx.unk_8C[1] >= 0xC9) {
         globalCtx->envCtx.unk_8C[1] = 0xC8;
     }
+
     if (globalCtx->envCtx.unk_8C[2] >= 0xC9) {
         globalCtx->envCtx.unk_8C[2] = 0xC8;
     }
+
     if (globalCtx->envCtx.unk_98[0] >= 0x47) {
         globalCtx->envCtx.unk_98[0] = 0x46;
     }
+
     if (globalCtx->envCtx.unk_98[1] >= 0x47) {
         globalCtx->envCtx.unk_98[1] = 0x46;
     }
+
     if (globalCtx->envCtx.unk_98[2] >= 0x8D) {
         globalCtx->envCtx.unk_98[2] = 0x8C;
     }
+
     if (globalCtx->envCtx.unk_8C[0] < 0) {
         globalCtx->envCtx.unk_8C[0] = 0;
     }
+
     if (globalCtx->envCtx.unk_8C[1] < 0) {
         globalCtx->envCtx.unk_8C[1] = 0;
     }
+
     if (globalCtx->envCtx.unk_8C[2] < 0) {
         globalCtx->envCtx.unk_8C[2] = 0;
     }
+
     if (globalCtx->envCtx.unk_98[0] < 0) {
         globalCtx->envCtx.unk_98[0] = 0;
     }
+
     if (globalCtx->envCtx.unk_98[1] < 0) {
         globalCtx->envCtx.unk_98[1] = 0;
     }
+
     if (globalCtx->envCtx.unk_98[2] < 0) {
         globalCtx->envCtx.unk_98[2] = 0;
     }
@@ -1055,6 +1062,7 @@ void func_80918C08(BossGoma* this, GlobalContext* globalCtx) {
     if ((this->skelAnime.animCurrentFrame >= 19.3333339f) && (this->skelAnime.animCurrentFrame <= 30.0f)) {
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, func_8002DA78(&this->actor, &PLAYER->actor), 3, 0xBB8);
     }
+
     if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_0600C468.genericHeader))) {
         if (this->actor.xzDistFromLink < 250.0f) {
             func_8091674C(this);
@@ -1062,6 +1070,7 @@ void func_80918C08(BossGoma* this, GlobalContext* globalCtx) {
             func_809164AC(this);
         }
     }
+
     this->unk_1B4 = 2;
     this->unk_1B8 = 0;
 }
@@ -1072,6 +1081,7 @@ void func_80918D10(BossGoma* this, GlobalContext* globalCtx) {
         func_809167C0(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY1);
     }
+
     this->unk_1B4 = 2;
     this->unk_1B8 = 0;
 }
@@ -1083,16 +1093,18 @@ void func_80918D6C(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     switch (this->unk_1D0) {
         case 0:
-            for (i = 0; i < this->unk_7BC.count; i++) {
-                if ((this->unk_7BC.list[i].body.toucherFlags & 2) != 0) {
+            for (i = 0; i < this->collider.count; i++) {
+                if ((this->collider.list[i].body.toucherFlags & 2) != 0) {
                     this->unk_1D2 = 10;
                     break;
                 }
             }
+
             if (func_800A56C8(&this->skelAnime, 10.0f)) {
                 func_80915DF8(this, globalCtx, 3, 5);
                 func_80033E88(&this->actor, globalCtx, 5, 0xF);
             }
+
             if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_06004318.genericHeader))) {
                 this->unk_1D0 = 1;
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_06004A20, 1.0f, 0.0f,
@@ -1102,16 +1114,19 @@ void func_80918D6C(BossGoma* this, GlobalContext* globalCtx) {
                 }
             }
             break;
+
         case 1:
             if (func_800A56C8(&this->skelAnime, 3.0f) != 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_UNARI2);
             }
+
             if (this->unk_1D4 == 0) {
                 this->unk_1D0 = 2;
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_06005330, 1.0f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_06005330.genericHeader), 2, -5.0f);
             }
             break;
+
         case 2:
             if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_06005330.genericHeader))) {
                 func_809160A4(this);
@@ -1128,6 +1143,7 @@ void func_80918FBC(BossGoma* this, GlobalContext* globalCtx) {
         func_80916668(this);
         this->unk_196 = 0;
     }
+
     this->unk_1B4 = 1;
     Math_SmoothScaleMaxF(&this->unk_1F8, 0.4f, 0.5f, 0.2f);
     this->unk_1B8 = 5;
@@ -1141,6 +1157,7 @@ void func_80919054(BossGoma* this, GlobalContext* globalCtx) {
         this->unk_196 = 0;
         this->unk_1D2 = 0x96;
     }
+
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 55.0f, 4, 8.0f, 0x1F4, 0xA, 1);
 }
 
@@ -1156,10 +1173,12 @@ void func_80919150(BossGoma* this, GlobalContext* globalCtx) {
     if (this->unk_1D6 < 0x5B) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_FAINT - SFX_FLAG);
     }
+
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_1D4 == 1) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 55.0f, 4, 8.0f, 0x1F4, 0xA, 1);
     }
+
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
     if (this->unk_1D2 == 0) {
         func_809164AC(this);
@@ -1205,22 +1224,27 @@ void func_809193EC(BossGoma* this, GlobalContext* globalCtx) {
     if (!(this->unk_194 & 0xF)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_UNARI);
     }
+
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 2.0f);
     this->unk_1B2++;
     switch (this->unk_1B2) {
-        case 0x18:
+        case 24:
             this->unk_1AA[3] = 10;
             break;
-        case 0x20:
+
+        case 32:
             this->unk_1AA[2] = 10;
             break;
-        case 0x28:
+
+        case 40:
             this->unk_1AA[1] = 10;
             break;
-        case 0x30:
+
+        case 48:
             this->unk_1AA[0] = 10;
             break;
     }
+
     if (this->unk_1AA[0] == 2) {
         for (i = 0; i < 3; i++) {
             if (this->unk_1A4[i] == 0) {
@@ -1228,10 +1252,12 @@ void func_809193EC(BossGoma* this, GlobalContext* globalCtx) {
                 break;
             }
         }
+
         if (((this->unk_1A4[0] == 0) || (this->unk_1A4[1] == 0)) || (this->unk_1A4[2] == 0)) {
             this->unk_1B2 = 0x17;
         }
     }
+
     if (this->unk_1B2 >= 0x40) {
         func_8091612C(this);
     }
@@ -1243,6 +1269,7 @@ void func_80919548(BossGoma* this, GlobalContext* globalCtx) {
     if (this->unk_1D2 == 0) {
         func_809162A8(this);
     }
+
     this->unk_1B4 = 1;
     this->unk_1B8 = 0;
 }
@@ -1266,6 +1293,7 @@ void func_8091960C(BossGoma* this, GlobalContext* globalCtx) {
             func_8091631C(this);
             return;
         }
+
         if ((this->unk_1A4[0] < 0) && (this->unk_1A4[1] < 0) && (this->unk_1A4[2] < 0)) {
             func_809161B0(this);
             return;
@@ -1277,6 +1305,7 @@ void func_8091960C(BossGoma* this, GlobalContext* globalCtx) {
                 return;
             }
         }
+
         func_80916418(this);
     }
 }
@@ -1312,6 +1341,7 @@ void func_80919704(BossGoma* this, GlobalContext* globalCtx) {
             if (this->actor.xzDistFromLink < 150.0f) {
                 func_809166D8(this);
             }
+
             Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f / 3.0f, 0.5f, 2.0f);
             Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, tmp, 5, 0x3E8);
         } else {
@@ -1326,15 +1356,18 @@ void func_80919704(BossGoma* this, GlobalContext* globalCtx) {
                 this->skelAnime.animPlaybackSpeed = 2.0f;
                 tmp += 0x8000;
             }
+
             Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, tmp, 3, 0x9C4);
         }
     }
     if (this->actor.bgCheckFlags & 1) {
         this->actor.velocity.y = 0.0f;
     }
+
     if (this->actor.bgCheckFlags & 8) {
         func_80916394(this);
     }
+
     if (!this->unk_1D2 && this->unk_196) {
         func_809160A4(this);
     }
@@ -1345,6 +1378,7 @@ void func_80919974(BossGoma* this, GlobalContext* globalCtx) {
     if (!(this->unk_194 & 7)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CLIM);
     }
+
     Math_SmoothScaleMaxF(&this->actor.velocity.y, 5.0f, 0.5f, 2.0f);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, -0x4000, 2, 0x7D0);
     Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, this->actor.wallPolyRot + 0x8000, 2, 0x5DC);
@@ -1355,41 +1389,45 @@ void func_80919974(BossGoma* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// regalloc, definitely wrong. Same register used throughout the original
+// regalloc, definitely wrong.
 void func_80919A40(BossGoma* this, GlobalContext* globalCtx) {
     f32 sp2C;
     f32 sp28;
     s16 tmp1;
+    f32 tmpf1;
 
     func_809168B0(this, globalCtx, 0.0f, -5.0f, 1);
     if (!(this->unk_194 & 0x3F)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY2);
     }
+
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, -0x8000, 3, 0x3E8);
     if (this->actor.bgCheckFlags & 8) {
+        s16 tmp3;
+        s16 tmp4;
         tmp1 = this->actor.shape.rot.y + 0x8000;
 
-        /*
         if (tmp1 < this->actor.wallPolyRot) {
-            tmp1 += (s16)(this->actor.wallPolyRot - tmp1) / 2;
+            tmp3 = this->actor.wallPolyRot - tmp1;
+            tmp3 += tmp3 / 2;
         } else {
-            tmp1 = this->actor.wallPolyRot + ((s16)(tmp1 - this->actor.wallPolyRot) / 2);
+            tmp3 = tmp1 - this->actor.wallPolyRot;
+            tmp3 += tmp3 / 2;
         }
-        */
-
-        tmp1 = (tmp1 < this->actor.wallPolyRot) ? tmp1 + ((s16)(this->actor.wallPolyRot - tmp1) / 2)
-                                                : this->actor.wallPolyRot + ((s16)(tmp1 - this->actor.wallPolyRot) / 2);
 
         sp28 = Math_Rand_CenteredFloat(2.0f);
         sp2C = Math_Rand_ZeroOne();
-        this->actor.posRot.pos.z = (sp28 + Math_Coss(tmp1) * (5.0f + (sp2C * 5.0f))) + this->actor.posRot.pos.z;
+        tmpf1 = sp28 + Math_Coss(tmp3) * (5.0f + (sp2C * 5.0f));
+        this->actor.posRot.pos.z += tmpf1;
+
         sp28 = Math_Rand_CenteredFloat(2.0f);
         sp2C = Math_Rand_ZeroOne();
-        this->actor.posRot.pos.x = (sp28 + Math_Sins(tmp1) * (5.0f + (sp2C * 5.0f))) + this->actor.posRot.pos.x;
+        tmpf1 = sp28 + Math_Sins(tmp3) * (5.0f + (sp2C * 5.0f));
+        this->actor.posRot.pos.x += tmpf1;
     }
-    if ((this->unk_1D2 == 0) && 
-       (fabsf(-150.0f - this->actor.posRot.pos.x) < 100.0f) &&
-       (fabsf(-350.0f - this->actor.posRot.pos.z) < 100.0f)) {
+
+    if ((this->unk_1D2 == 0) && (fabsf(-150.0f - this->actor.posRot.pos.x) < 100.0f) &&
+        (fabsf(-350.0f - this->actor.posRot.pos.z) < 100.0f)) {
         func_8091612C(this);
     }
 }
@@ -1409,6 +1447,7 @@ void func_80919C38(BossGoma* this, GlobalContext* globalCtx) {
                 PLAYER->unk_A73 = 0;
                 this->unk_19C = 0xC;
             }
+
             if (!(this->unk_194 & 0xF) && (Math_Rand_ZeroOne() < 0.3f)) {
                 this->unk_19C = 7;
             }
@@ -1416,6 +1455,7 @@ void func_80919C38(BossGoma* this, GlobalContext* globalCtx) {
         if ((this->unk_1A4[0] > 0) || (this->unk_1A4[1] > 0) || (this->unk_1A4[2] > 0)) {
             this->unk_19C = 7;
         }
+
         if (this->unk_19C) {
             this->unk_19C--;
             Math_SmoothScaleMaxS(&this->unk_198, -0xA98, 1, 0x7D0);
@@ -1424,6 +1464,7 @@ void func_80919C38(BossGoma* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxS(&this->unk_198, 0, 1, 0x7D0);
             Math_SmoothScaleMaxS(&this->unk_19A, 0, 1, 0x7D0);
         }
+
         if (!(this->unk_1B4 == 1)) {
             tmp = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.shape.rot.y;
             tmp2 = func_8002DAE0(&this->actor, &PLAYER->actor) - this->actor.shape.rot.x;
@@ -1431,7 +1472,7 @@ void func_80919C38(BossGoma* this, GlobalContext* globalCtx) {
                 tmp = -(s16)(tmp + 0x8000);
                 tmp2 = -0xBB8;
             }
-            if (tmp >= 0x1771) {
+            if (tmp > 0x1770) {
                 tmp = 0x1770;
             }
             if (tmp < -0x1770) {
@@ -1444,6 +1485,7 @@ void func_80919C38(BossGoma* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxS(&this->unk_1A0, 0, 3, 0x3E8);
             Math_SmoothScaleMaxS(&this->unk_19E, 0, 3, 0x3E8);
         }
+
         Math_SmoothScaleMaxF(&this->unk_1F8, 1.0f, 0.2f, 0.07f);
         Math_SmoothScaleMaxF(&this->unk_224, 1.0f, 0.2f, 0.07f);
     }
@@ -1458,6 +1500,7 @@ void func_80919E80(BossGoma* this) {
             this->unk_1A2 = 0;
         }
     }
+
     for (i = 0; i < 4; i++) {
         if (this->unk_1AA[i]) {
             this->unk_1AA[i]--;
@@ -1477,10 +1520,10 @@ void func_80919F8C(BossGoma* this, GlobalContext* globalCtx) {
         return;
     }
 
-    sp2C = this->unk_7BC.list->body.acHitItem;
+    sp2C = this->collider.list->body.acHitItem;
 
-    if ((this->unk_19C == 0) && (this->actionFunc != func_809193EC) && (this->unk_7BC.list->body.bumperFlags & 2)) {
-        this->unk_7BC.list->body.bumperFlags &= ~2;
+    if ((this->unk_19C == 0) && (this->actionFunc != func_809193EC) && (this->collider.list->body.bumperFlags & 2)) {
+        this->collider.list->body.bumperFlags &= ~2;
         if ((this->actionFunc == func_80919A40) || (this->actionFunc == func_8091960C) ||
             (this->actionFunc == func_80919548)) {
             func_8091622C(this);
@@ -1500,10 +1543,12 @@ void func_80919F8C(BossGoma* this, GlobalContext* globalCtx) {
                     func_80915F38(this, globalCtx);
                     func_80032C7C(globalCtx, &this->actor);
                 }
+
                 this->unk_1BA = 10;
                 return;
             }
         }
+
         if (((this->actionFunc != func_80919150) && this->unk_196) && (sp2C->toucher.flags & 5)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM2);
             func_800F8D04(0x380E);
@@ -1515,6 +1560,7 @@ void func_80919F8C(BossGoma* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_1D2 = 0x5A;
             }
+
             this->unk_1D4 = 4;
             func_80033E88(&this->actor, globalCtx, 4, 0xC);
         }
@@ -1522,36 +1568,49 @@ void func_80919F8C(BossGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_8091A16C(BossGoma* this) {
+    static Vec3f D_8091B31C[] = {
+        { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
+        { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f },
+    };
+
+    static Vec3f D_8091B364[] = {
+        { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
+        { 0.0f, 255.0f, 170.0f }, { 0.0f, 0.0f, 255.0f },   { 255.0f, 17.0f, 0.0f },
+    };
+
     Vec3f* tmp;
 
     if ((this->unk_1B8 == 1) && (this->unk_194 & 0x10)) {
-        Math_SmoothScaleMaxF(&this->unk_204.x, 50.0f, 0.5f, 20.0f);
-        Math_SmoothScaleMaxF(&this->unk_204.y, 50.0f, 0.5f, 20.0f);
-        Math_SmoothScaleMaxF(&this->unk_204.z, 50.0f, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204[0], 50.0f, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204[1], 50.0f, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204[2], 50.0f, 0.5f, 20.0f);
     } else if (this->unk_1BA) {
         if (this->unk_1BA & 2) {
-            this->unk_204.x = D_8091B364[this->unk_1B8].x;
-            this->unk_204.y = D_8091B364[this->unk_1B8].y;
-            this->unk_204.z = D_8091B364[this->unk_1B8].z;
-            return;
+            this->unk_204[0] = D_8091B364[this->unk_1B8].x;
+            this->unk_204[1] = D_8091B364[this->unk_1B8].y;
+            this->unk_204[2] = D_8091B364[this->unk_1B8].z;
         } else {
             tmp = &D_8091B31C[this->unk_1B8];
-            this->unk_204.x = tmp->x;
-            this->unk_204.y = tmp->y;
-            this->unk_204.z = tmp->z;
-            return;
+            this->unk_204[0] = tmp->x;
+            this->unk_204[1] = tmp->y;
+            this->unk_204[2] = tmp->z;
         }
     } else {
-        Math_SmoothScaleMaxF(&this->unk_204.x, D_8091B31C[this->unk_1B8].x, 0.5f, 20.0f);
-        Math_SmoothScaleMaxF(&this->unk_204.y, D_8091B31C[this->unk_1B8].y, 0.5f, 20.0f);
-        Math_SmoothScaleMaxF(&this->unk_204.z, D_8091B31C[this->unk_1B8].z, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204[0], D_8091B31C[this->unk_1B8].x, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204[1], D_8091B31C[this->unk_1B8].y, 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->unk_204[2], D_8091B31C[this->unk_1B8].z, 0.5f, 20.0f);
     }
 }
 
 void func_8091A2E8(BossGoma* this) {
-    Math_SmoothScaleMaxF(&this->unk_210.x, D_8091B3AC[this->unk_1B8].x, 0.5f, 20.0f);
-    Math_SmoothScaleMaxF(&this->unk_210.y, D_8091B3AC[this->unk_1B8].y, 0.5f, 20.0f);
-    Math_SmoothScaleMaxF(&this->unk_210.z, D_8091B3AC[this->unk_1B8].z, 0.5f, 20.0f);
+    static Vec3f D_8091B3AC[] = {
+        { 255.0f, 17.0f, 0.0f },  { 255.0f, 255.0f, 255.0f }, { 50.0f, 50.0f, 50.0f },
+        { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f },   { 0.0f, 255.0f, 170.0f },
+    };
+
+    Math_SmoothScaleMaxF(&this->unk_210[0], D_8091B3AC[this->unk_1B8].x, 0.5f, 20.0f);
+    Math_SmoothScaleMaxF(&this->unk_210[1], D_8091B3AC[this->unk_1B8].y, 0.5f, 20.0f);
+    Math_SmoothScaleMaxF(&this->unk_210[2], D_8091B3AC[this->unk_1B8].z, 0.5f, 20.0f);
 }
 
 void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1563,12 +1622,15 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1D2 != 0) {
         this->unk_1D2--;
     }
+
     if (this->unk_1D4 != 0) {
         this->unk_1D4--;
     }
+
     if (this->unk_1D6 != 0) {
         this->unk_1D6--;
     }
+
     this->unk_1B4 = 0;
     this->actionFunc(this, globalCtx);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -1577,11 +1639,13 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->unk_1B6 = 0;
     }
+
     if (this->actor.posRot.pos.y < -400.0f) {
         func_8002E4B4(globalCtx, &this->actor, 30.0f, 30.0f, 80.0f, 5);
     } else {
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 30.0f, 80.0f, 1);
     }
+
     func_80919C38(this, globalCtx);
     func_8091A16C(this);
     func_8091A2E8(this);
@@ -1591,18 +1655,16 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this) {};
 
         func_80919F8C(this, globalCtx);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_7BC.base);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_7BC.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
         if ((this->actionFunc != func_80919150) && (this->actionFunc != func_80918FBC) &&
             ((this->actionFunc != func_80919704) || (this->unk_1D4 == 0))) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk_7BC.base);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }
 
-#ifdef NON_MATCHING
-// gDPSetEnvColor macros
 s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     BossGoma* this = THIS;
     s32 ret = 0;
@@ -1613,7 +1675,7 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4685);
 
     gDPPipeSync(gfxCtx->polyOpa.p++);
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_204.x, (s8)this->unk_204.y, (s8)this->unk_204.z, 255);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_204[0], (s8)this->unk_204[1], (s8)this->unk_204[2], 255);
 
     if (this->unk_758[limbIndex] >= 2) {
         *dList = NULL;
@@ -1625,34 +1687,42 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                 *dList = NULL;
                 break;
             }
+
             if (this->unk_1BA != 0) {
                 gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)(Math_Rand_ZeroOne() * 255.0f),
                                (s8)(Math_Rand_ZeroOne() * 255.0f), (s8)(Math_Rand_ZeroOne() * 255.0f), 63);
             } else {
-                gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_210.x, (s8)this->unk_210.y, (s8)this->unk_210.z,
+                gDPSetEnvColor(gfxCtx->polyOpa.p++, (s8)this->unk_210[0], (s8)this->unk_210[1], (s8)this->unk_210[2],
                                63);
             }
+
             break;
+
         case 32:
             rot->x += this->unk_198;
             break;
+
         case 35:
             rot->x += this->unk_19A;
             break;
+
         case 38:
             rot->x += this->unk_19E;
             rot->y += this->unk_1A0;
             break;
+
         case 39:
             if ((this->unk_1B4 == 0) && (this->unk_198 < -0xA8C)) {
                 *dList = 0;
                 break;
             }
+
             if (this->unk_1B8 == 2) {
                 gDPSetEnvColor(gfxCtx->polyOpa.p++, 50, 50, 50, 255);
             } else {
                 gDPSetEnvColor(gfxCtx->polyOpa.p++, 255, 255, 255, 255);
             }
+
             Matrix_JointPosition(pos, rot);
             if (*dList != NULL) {
                 Matrix_Push();
@@ -1662,8 +1732,10 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                 gSPDisplayList(gfxCtx->polyOpa.p++, *dList);
                 Matrix_Pull();
             }
+
             ret = 1;
             break;
+
         case 11:
         case 12:
         case 13:
@@ -1678,6 +1750,7 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                 gSPDisplayList(gfxCtx->polyOpa.p++, *dList);
                 Matrix_Pull();
             }
+
             ret = 1;
             break;
     }
@@ -1685,13 +1758,13 @@ s32 func_8091A560(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4858);
     return ret;
 }
-#else
-s32 func_8091A560(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, struct Actor* actor);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_8091A560.s")
-#endif
 
 void func_8091A9E8(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3s* arg3, Actor* thisx) {
+    static Vec3f D_8091B3F4 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_8091B400 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_8091B40C = { 0.0f, 300.0f, 2650.0f };
+    static Vec3f D_8091B418 = { 0.0f, 0.0f, 0.0f };
+
     Vec3f a;
     Vec3s b;
     s32 pad;
@@ -1724,14 +1797,15 @@ void func_8091A9E8(GlobalContext* globalCtx, s32 arg1, Gfx** arg2, Vec3s* arg3, 
         Matrix_MultVec3f(&D_8091B418, &a);
         Matrix_Get(&c);
         func_800D20CC(&c, &b, MTXMODE_NEW);
-        tmp = (EnGoma*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, a.x, a.y,
-                                             a.z, b.x, b.y, b.z, D_8091B244[arg1] + 0x64);
+        tmp = (EnGoma*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, a.x, a.y, a.z,
+                                           b.x, b.y, b.z, D_8091B244[arg1] + 100);
         if (tmp != NULL) {
             tmp->unk_308 = *arg2;
             tmp->actor.objBankIndex = this->actor.objBankIndex;
         }
     }
-    func_800628A4(arg1, &this->unk_7BC);
+
+    func_800628A4(arg1, &this->collider);
 }
 
 Gfx* func_8091ABEC(GraphicsContext* gfxCtx) {
@@ -1740,7 +1814,6 @@ Gfx* func_8091ABEC(GraphicsContext* gfxCtx) {
 
     displayList = displayListHead = Graph_Alloc(gfxCtx, 8);
     gSPEndDisplayList(displayListHead++);
-
     return displayList;
 }
 
@@ -1767,7 +1840,6 @@ void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_goma.c", 4991);
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Translate(0.0f, -4000.0f, 0.0f, MTXMODE_APPLY);
-
         if (this->unk_1C2) {
             gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_8091AC18(globalCtx->state.gfxCtx));
         } else {
