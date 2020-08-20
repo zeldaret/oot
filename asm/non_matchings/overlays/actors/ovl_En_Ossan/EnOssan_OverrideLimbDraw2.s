@@ -8,7 +8,7 @@ glabel D_80AC942C
     .balign 4
 
 .text
-glabel func_80AC7ED0
+glabel EnOssan_OverrideLimbDraw2
 /* 05230 80AC7ED0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 05234 80AC7ED4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 05238 80AC7ED8 AFA40040 */  sw      $a0, 0x0040($sp)           

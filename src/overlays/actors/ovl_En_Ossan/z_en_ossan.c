@@ -2332,7 +2332,7 @@ void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // Loading gSegments address wrong, upper half re-used.
-s32 func_80AC7ED0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnOssan_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     static UNK_TYPE D_80AC8EAC[] = {
         0x06001570,
         0x060001F0,
@@ -2361,8 +2361,8 @@ UNK_TYPE D_80AC8EAC[] = {
     0x060001F0,
     0x06000B30,
 };
-s32 func_80AC7ED0(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7ED0.s")
+s32 EnOssan_OverrideLimbDraw2(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/EnOssan_OverrideLimbDraw2.s")
 #endif
 
 Gfx* func_80AC801C(GraphicsContext* gfxCtx) {
@@ -2393,7 +2393,7 @@ void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80AC8048(globalCtx->state.gfxCtx, 110, 170, 20, 255));
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_80AC7ED0, NULL, &this->actor);
+                     EnOssan_OverrideLimbDraw2, NULL, &this->actor);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4434);
@@ -2422,7 +2422,7 @@ void func_80AC8244(Actor* thisx, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4476);
 }
 
-s32 func_80AC83A8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnOssan_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnOssan* this = THIS;
 
     if (limbIndex == 15) {
@@ -2450,7 +2450,7 @@ void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EC4[this->unk_1F2]));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_80AC83A8, NULL, &this->actor);
+                     EnOssan_OverrideLimbDraw3, NULL, &this->actor);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4531);
