@@ -8,7 +8,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this);
+void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this);
 void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_SetupSetPosition(BgMoriElevator* this);
 void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx);
@@ -108,7 +108,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
                 DynaPolyInfo_Alloc(&D_060035F8, &sp24);
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
-                BgMoriElevator_SetupPlaceInGround(this);
+                BgMoriElevator_SetupWaitAfterInit(this);
                 break;
             case 1:
                 Actor_Kill(thisx);
@@ -133,7 +133,7 @@ s32 BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, GlobalContext* globalCtx
             ((PLAYER->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y) < 80.0f));
 }
 
-void BgMoriElevator_SetupPlaceInGround(BgMoriElevator* this) {
+void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this) {
     this->actionFunc = BgMoriElevator_WaitAfterInit;
 }
 
@@ -208,7 +208,6 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) 
             // Error:Forest Temple obj elevator Room setting is dangerous(% s % d)
             osSyncPrintf("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 479);
         }
-
     } else if ((globalCtx->roomCtx.curRoom.num == 2) && (this->dyna.actor.posRot.pos.y < -275.0f)) {
         this->targetY = 233.0f;
         BgMoriElevator_StopMovement(this);
