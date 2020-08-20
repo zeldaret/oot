@@ -722,7 +722,8 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_80A4ACC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                            Actor* thisx) {
     EnGoma* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
@@ -742,16 +743,15 @@ s32 func_80A4ACC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 Gfx* func_80A4AE60(GraphicsContext* gfxCtx) {
-    Gfx* displayList;
-    Gfx* displayListHead;
-    displayList = displayListHead = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
+    Gfx* dList;
+    Gfx* dListHead;
+    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
 
-    gDPPipeSync(displayListHead++);
-    if (displayList) {};
-    gDPSetRenderMode(displayListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
-    gSPClearGeometryMode(displayListHead++, G_CULL_BACK);
-    gSPEndDisplayList(displayListHead++);
-    return displayList;
+    gDPPipeSync(dListHead++);
+    gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
+    gSPClearGeometryMode(dListHead++, G_CULL_BACK);
+    gSPEndDisplayList(dListHead++);
+    return dList;
 }
 
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -776,8 +776,8 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateX((this->actor.shape.rot.x / 32768.0f) * M_PI, 1);
             Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * M_PI, 1);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
-            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80A4ACC0, 0,
-                           &this->actor);
+            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnGoma_OverrideLimbDraw,
+                           NULL, &this->actor);
             break;
 
         case 1:
@@ -848,11 +848,11 @@ void func_80A4B3F0(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4B554(EnGoma* this, GlobalContext* globalCtx) {
-    Vec3f a = { 0.0f, 0.0f, 0.0f };
-    Vec3f b = { 0.0f, 1.0f, 0.0f };
-    Color_RGBA8_n sp54 = { 255, 255, 255, 255 };
-    Color_RGBA8_n sp50 = { 0, 100, 255, 255 };
-    Vec3f c;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 1.0f, 0.0f };
+    Color_RGBA8_n primColor = { 255, 255, 255, 255 };
+    Color_RGBA8_n envColor = { 0, 100, 255, 255 };
+    Vec3f pos;
 
     this->actor.posRot.pos.y -= 5.0f;
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
@@ -876,10 +876,10 @@ void func_80A4B554(EnGoma* this, GlobalContext* globalCtx) {
         this->actor.scale.x = this->actor.scale.y;
     }
 
-    if ((!(this->unk_2CC & 7)) && this->unk_2CC) {
-        c.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-        c.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-        c.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-        func_8002836C(globalCtx, &c, &a, &b, &sp54, &sp50, 0x1F4, 0xA, 0xA);
+    if (!(this->unk_2CC & 7) && this->unk_2CC) {
+        pos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+        pos.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+        pos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+        func_8002836C(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 500, 10, 10);
     }
 }
