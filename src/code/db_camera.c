@@ -8,7 +8,8 @@ typedef struct {
     /* 0x0006 */ s16 unkIdx;
     /* 0x0008 */ s16 unk_08;
     /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ char unk_0C[0x24-0xC];
+    /* 0x000C */ s32 unk_0C;
+    /* 0x0010 */ char unk_10[0x14];
     /* 0x0024 */ CutsceneCameraPoint position[129];
     /* 0x0834 */ CutsceneCameraPoint lookAt[129];
     /* 0x1044 */ s16 unk_1044;
@@ -30,7 +31,7 @@ typedef struct {
     /* 0x003C */ s32 unk_3C;
     /* 0x0040 */ s32 unk_40;
     /* 0x0044 */ s32 unk_44;
-    /* 0x0048 */ f32 unk_48;
+    /* 0x0048 */ f32 fov;
     /* 0x004C */ s16 unk_4C;
     /* 0x004E */ char unk_4E[0x2];
     /* 0x0050 */ f32 unk_50;
@@ -52,6 +53,12 @@ typedef struct {
     /* 0x0E */ s16 nPoints;
 } DbCameraCut; // size = 0x10
 
+extern s16 D_8016111A;
+extern char D_801612EA;
+extern char D_801612D0[26];
+extern s16 D_8016110C;
+extern s16 D_80161148;
+extern s16 D_8016114A;
 extern s16 D_8016111A;
 
 
@@ -123,7 +130,7 @@ char D_8012D13C[] = "\x8Cｷ-     /   ";
 
 void func_800B8DB0();
 void func_800B8BB0();
-void func_800B8F30();
+s32 func_800B8F30(char* str);
 
 void* D_8012D14C[] = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
 u8 D_8012D158[] = {
@@ -133,6 +140,7 @@ u8 D_8012D158[] = {
 u32 D_8012D170 = 0;
 extern DbCamera* D_80161108;
 extern GlobalContext* D_80161100;
+extern s32 D_801612EC;
 
 Vec3f* func_800B3B50(Vec3f* outVec, Vec3f* inVec, VecSph* sph) {
     Vec3f ret;
@@ -147,6 +155,7 @@ Vec3f* func_800B3B50(Vec3f* outVec, Vec3f* inVec, VecSph* sph) {
     return outVec;
 }
 
+// annoying
 #ifdef NON_MATCHING
 Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
 
@@ -256,7 +265,35 @@ Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3BD4.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3DF8.s")
+char* func_800B3DF8(s16 value, char* str, u8 endIdx) {
+    char* strIter;
+    char sign;
+
+    strIter = str + (s32)endIdx - 1;
+    str[endIdx] = '\0';
+
+
+    if (value >= 0) {
+        sign = ' ';
+    } else {
+        sign = '-';
+        value = -value;
+    }
+
+    do {
+        *strIter-- = (value % 10) + '0'; value /= 10;
+    } while (value != 0);
+    
+    if (sign == '-') {
+        *strIter-- = sign;
+    }
+
+    while(strIter >= str) {
+        *str++ = ' ';
+    }
+
+    return strIter;
+}
 
 void func_800B3EBC(Vec3s* in, Vec3f* out) {
     out->x = in->x;
@@ -306,6 +343,7 @@ void func_800B404C(PosRot* posRot, Vec3s* vec, Vec3f* outVec) {
     func_800B3FF4(posRot, &tempVec, outVec);
 }
 
+// easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4088.s")
 
 s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr)
@@ -326,7 +364,7 @@ s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr)
 
     dbCamera->unk_4C = lookAt->cameraRoll;
     dbCamera->unk_50 = dbCamera->unk_4C * 1.40625000f;
-    dbCamera->unk_48 = lookAt->viewAngle;
+    dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
 
@@ -350,8 +388,10 @@ s32 func_800B42C0(DbCamera* dbCamera, Camera* cameraPtr) {
     return dbCamera->sub.unkIdx;
 }
 
+// easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4370.s")
 
+// ~easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B44E0.s")
 
 void func_800B4920(const char* name, s16 count, CutsceneCameraPoint* point) {
@@ -462,7 +502,7 @@ void func_800B4D58(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->unk_4C = 0;
     dbCamera->sub.unk_104C = dbCamera->sub.unk_104E;
     dbCamera->sub.unk_104A = dbCamera->sub.unk_104E;
-    dbCamera->unk_48 = 0.0f;
+    dbCamera->fov = 0.0f;
     dbCamera->unk_50 = 0.0f;
     D_80161100 = cameraPtr->globalCtx;
     dbCamera->sub.mode = 0;
@@ -481,28 +521,91 @@ void func_800B4D58(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->unk_6C.z = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4DE4.s")
+s32 func_800B4DE4(DbCamera *this, Camera *cam) {
+    this->at = cam->at;
+    this->eye = cam->eye;
+    this->unk_1C = cam->unk_68;
+    this->fov = cam->fov;
+    this->unk_4C = 0;
+    this->sub.nPoints = 1;
+    this->sub.unkIdx = 0;
+    this->sub.unk_08 = 0;
+    this->sub.unk_0A = 1;
+    this->sub.unk_0C = 1;
+    this->unk_78 = 0;
+    this->unk_7A = 0;
+    this->unk_50 = 0.0f;
+    return func_800B4088(this, cam);
+}
 
+// hard
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4E7C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8730.s")
+s32 func_800B8730() {
+    s32 i;
+    for (i = 0; i < ARRAY_COUNT(D_801612D0); i++) {
+        if (D_801612D0[i] == 'O') {
+            continue;
+        }
+        
+        return 'A' + i;
+    }
+    
+    return '?';
+}
 
+
+// ~easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B87D8.s")
 
+// very easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8978.s")
 
+// easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8A0C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8BA4.s")
+s32 func_800B8BA4(void) {
+    return D_801612EC;
+}
 
+// ~easy
+#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8BB0.s")
+
+// ~easy
+#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8DB0.s")
+
+s32 func_800B8F30(char* str) {
+    return Mempak_DeleteFile(2, str[0]);
+}
+
+// easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8F58.s")
 
+// easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B9060.s")
 
+// ~easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B91B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B958C.s")
+void func_800B958C(Camera* cam, DbCamera* dbCam) {
+    s32 i;
 
+    D_801612EA = '*';
+    for (i = 0; i < ARRAY_COUNT(D_801612D0); i++) {
+        D_801612D0[i] = 'X';
+    }
+
+    for (i = 0; i < 0xF; i++) {
+        func_800B8978(i, 0);
+    }
+    D_80161108 = dbCam;
+    D_8016110C = 0;
+    D_80161148 = 0;
+    D_8016114A = -1;
+    D_8016111A = 0;
+}
+
+// hard
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B9638.s")
 
 void func_800BB03C(Camera* cameraPtr) {
