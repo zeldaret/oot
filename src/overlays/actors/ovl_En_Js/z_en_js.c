@@ -66,7 +66,7 @@ void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 arg2) {
     s16 temp;
-    s32 phi_v1;
+    s32 temp_2;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         return 1;
@@ -75,12 +75,12 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 arg2) {
         temp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
         if (temp >= 0) {
-            phi_v1 = temp;
+            temp_2 = temp;
         } else {
-            phi_v1 = -temp;
+            temp_2 = -temp;
         }
 
-        if (phi_v1 < 0x1801 && this->actor.xzDistFromLink < 100.0f) {
+        if (temp_2 < 0x1801 && this->actor.xzDistFromLink < 100.0f) {
             this->unk_284 |= 1;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
@@ -130,39 +130,40 @@ void func_80A89160(EnJs *this, GlobalContext *globalCtx) {
     
 }
 
-u8 func_80A891C4(s32 arg0, GlobalContext *arg1) {
-    GlobalContext *temp_a0;
-    u8 temp_ret;
-    u8 temp_ret_2;
-    u8 temp_v0;
-    u8 phi_return;
+void func_80A891C4(EnJs* this, GlobalContext *globalCtx) {
+    u8 choiceIndex;
 
-    temp_ret = func_8010BDBC(arg1 + 0x20D8);
-    phi_return = temp_ret;
-    if (temp_ret == 4) {
-        temp_a0 = arg1;
-        arg1 = arg1;
-        temp_ret_2 = func_80106BC8(temp_a0);
-        phi_return = temp_ret_2;
-        if (temp_ret_2 != 0) {
-            temp_v0 = arg1->msgCtx.choiceIndex;
-            if (temp_v0 == 0) {
-                if ((s32) gSaveContext.rupees >= 0xC8) {
-                    Rupees_ChangeBy((u16)-0xC8);
-                    return func_80A88E10(arg0, &func_80A89160);
-                }
-                func_8010B720(arg1, (u16)0x6075U);
-                return func_80A89008(arg0);
-            }
-            if (temp_v0 != 1) {
-                return temp_v0;
-            }
-            func_8010B720(arg1, (u16)0x6074U);
-            phi_return = func_80A89008(arg0);
-        }
+    if (func_8010BDBC(&globalCtx->msgCtx) != 4) {
+        goto block_9;
     }
-    return phi_return;
+    if (func_80106BC8(globalCtx) == 0) {
+        goto block_9;
+    }
+    choiceIndex = globalCtx->msgCtx.choiceIndex;
+    if (choiceIndex == 0) {
+        goto block_5;
+    }
+    if (choiceIndex == 1) {
+        goto block_8;
+    }
+    return;
+block_5:
+    if (gSaveContext.rupees >= 0xC8) {
+        goto block_7;
+    }
+    func_8010B720(globalCtx, 0x6075U);
+    func_80A89008(this);
+    return;
+block_7:
+    Rupees_ChangeBy(-200);
+    func_80A88E10(this, func_80A89160);
+    return;
+block_8:
+    func_8010B720(globalCtx, 0x6074U);
+    func_80A89008(this);
+block_9:
 }
+
 void func_80A89294(EnJs *this) {
     func_80A88E10(this, func_80A891C4);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, SkelAnime_GetFrameCount(D_0600018C), 2, -4.0f);
