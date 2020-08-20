@@ -197,7 +197,7 @@ glabel func_8003D7F0
 /* AB4C7C 8003DADC 02602025 */  move  $a0, $s3
 /* AB4C80 8003DAE0 02802825 */  move  $a1, $s4
 /* AB4C84 8003DAE4 02A03025 */  move  $a2, $s5
-/* AB4C88 8003DAE8 0C032F18 */  jal   func_800CBC60
+/* AB4C88 8003DAE8 0C032F18 */  jal   Math3D_LineVsCube
 /* AB4C8C 8003DAEC 02C03825 */   move  $a3, $s6
 /* AB4C90 8003DAF0 24010001 */  li    $at, 1
 /* AB4C94 8003DAF4 14410011 */  bne   $v0, $at, .L8003DB3C
@@ -309,7 +309,7 @@ glabel func_8003D7F0
 /* AB4E24 8003DC84 14410005 */  bne   $v0, $at, .L8003DC9C
 /* AB4E28 8003DC88 AFA200B8 */   sw    $v0, 0xb8($sp)
 /* AB4E2C 8003DC8C 8FA400F4 */  lw    $a0, 0xf4($sp)
-/* AB4E30 8003DC90 0C032D94 */  jal   func_800CB650
+/* AB4E30 8003DC90 0C032D94 */  jal   Math3D_Vec3fDistSq
 /* AB4E34 8003DC94 02A02825 */   move  $a1, $s5
 /* AB4E38 8003DC98 E7A000B4 */  swc1  $f0, 0xb4($sp)
 .L8003DC9C:

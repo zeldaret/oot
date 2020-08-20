@@ -35,7 +35,7 @@ glabel func_8097D9C4
 /* 003D8 8097DA48 440B4000 */  mfc1    $t3, $f8                   
 /* 003DC 8097DA4C 8FA40040 */  lw      $a0, 0x0040($sp)           
 /* 003E0 8097DA50 AFAD0014 */  sw      $t5, 0x0014($sp)           
-/* 003E4 8097DA54 0C00A3A1 */  jal     func_80028E84              
+/* 003E4 8097DA54 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 003E8 8097DA58 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 003EC 8097DA5C 8FA40040 */  lw      $a0, 0x0040($sp)           
 /* 003F0 8097DA60 0C25F5B5 */  jal     func_8097D6D4              

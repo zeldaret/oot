@@ -37,7 +37,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
     };
 
     GraphicsContext* gfxCtx;
-    u32 pad;
+    s32 pad;
     Gfx* gfx;
     Gfx* polyOpa;
     Gfx* dispRefs[5];
