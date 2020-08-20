@@ -1,6 +1,12 @@
+/*
+ * File: z_en_ge1.c
+ * Overlay: ovl_En_Ge1
+ * Description: White Clothed Gerudo
+ */
+
 #include "z_en_ge1.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000009
 
@@ -11,6 +17,7 @@ void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80A323B0(EnGe1* this);
+void func_80A323EC(EnGe1* this);
 s32 func_80A30DCC(void);
 void func_80A30F48(EnGe1* this, GlobalContext* globalCtx);
 void func_80A31094(EnGe1* this, GlobalContext* globalCtx);
@@ -21,8 +28,6 @@ void func_80A317C0(EnGe1* this, GlobalContext* globalCtx);
 void func_80A31880(EnGe1* this, GlobalContext* globalCtx);
 void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx);
 void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx);
-
-void func_80A323EC(EnGe1* this);
 
 extern AnimationHeader D_06000228;
 extern SkeletonHeader D_06000330;
@@ -41,27 +46,22 @@ const ActorInit En_Ge1_InitVars = {
     (ActorFunc)EnGe1_Draw,
 };
 
-static ColliderCylinderInit D_80A32770 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000702, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 40, 0, { 0, 0, 0 } },
 };
-
-UNK_PTR D_80A3279C[] = { 0x06009198, 0x06009430, 0x06009690 };
-
-Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
-
-UNK_PTR D_80A327B4[] = { 0x06000708, 0x06000F08, 0x06001708 };
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGe1* this = THIS;
     ColliderCylinder* collider = &this->collider;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06000330, &D_06000228, this->limbDrawTable, this->transitionDrawTable, 16);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06000330, &D_06000228, this->limbDrawTable,
+                     this->transitionDrawTable, 16);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000228);
     Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &D_80A32770);
+    Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
     this->unk_2B0 = &D_06000228;
     this->unk_2B8 = func_80A323B0;
@@ -79,6 +79,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2AE = 2;
             this->actionFunc = func_80A31880;
             break;
+
         case 1:
             this->unk_2AE = 1;
             if (func_80A30DCC()) {
@@ -87,6 +88,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_80A30F48;
             }
             break;
+
         case 4:
             this->unk_2AE = 1;
             if (func_80A30DCC()) {
@@ -95,22 +97,28 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_80A310C4;
             }
             break;
+
         case 5:
-            if (gSaveContext.linkAge == 0) {
+            if (LINK_IS_ADULT) {
+                // Retreat from bottom of the valley Gerudo
                 osSyncPrintf(VT_FGCOL(CYAN) "谷底 ゲルド 撤退 \n" VT_RST);
                 Actor_Kill(&this->actor);
                 return;
             }
+
             this->unk_2AE = 0;
             this->actionFunc = func_80A3118C;
             break;
-        case 0x45:
-            if (gSaveContext.items[gItemSlots[3]] == 0xFF) {
+
+        case 69: // Nice
+            if (INV_CONTENT(ITEM_BOW) == ITEM_NONE) {
                 Actor_Kill(&this->actor);
                 return;
             }
+
             this->actor.unk_1F = 3;
             this->unk_2AE = 0;
+            // Horseback archery Gerudo
             osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
             if (gSaveContext.eventInf[0] & 0x100) {
                 this->actionFunc = func_80A31E2C;
@@ -120,7 +128,8 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_80A30F48;
             }
             break;
-        case 0x46:
+
+        case 70:
             this->unk_2AE = 1;
             if (func_80A30DCC()) {
                 this->actionFunc = func_80A31514;
@@ -135,6 +144,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGe1* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -152,6 +162,7 @@ s32 func_80A30C70(EnGe1* this, GlobalContext* globalCtx, u16 arg2, f32 arg3, EnG
         if (this->actor.xzDistFromLink < arg3) {
             func_8002F2CC(&this->actor, globalCtx, arg3);
         }
+
         return 0;
     }
 }
@@ -168,6 +179,7 @@ s32 func_80A30DCC(void) {
         (!(gSaveContext.eventChkInf[9] & 4)) || (!(gSaveContext.eventChkInf[9] & 8))) {
         return 0;
     }
+
     return 1;
 }
 
@@ -177,14 +189,16 @@ void func_80A30E08(EnGe1* this, GlobalContext* globalCtx) {
         this->unk_2AF--;
         return;
     }
+
     func_8006D074(globalCtx);
-    if ((gSaveContext.items[gItemSlots[0xA]] == 0xFF) || (gSaveContext.items[gItemSlots[0xB]] == 0xFF)) {
+    if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
         globalCtx->nextEntranceIndex = 0x1A5;
     } else if (gSaveContext.eventChkInf[12] & 0x80) {
         globalCtx->nextEntranceIndex = 0x5F8;
     } else {
         globalCtx->nextEntranceIndex = 0x3B4;
     }
+
     globalCtx->fadeTransition = 0x26;
     globalCtx->sceneLoadFlag = 0x14;
 }
@@ -207,6 +221,7 @@ void func_80A30F48(EnGe1* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         func_80A30EE8(this, globalCtx);
     }
+
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
@@ -217,13 +232,16 @@ void func_80A31000(EnGe1* this, GlobalContext* globalCtx) {
             case 0x6001:
                 this->actionFunc = func_80A31094;
                 break;
+
             case 0x6019:
             case 0x601A:
                 this->actionFunc = func_80A3118C;
                 break;
+
             case 0x6018:
                 this->actionFunc = func_80A317C0;
                 break;
+
             default:
                 this->actionFunc = func_80A3118C;
                 break;
@@ -241,9 +259,11 @@ void func_80A310C4(EnGe1* this, GlobalContext* globalCtx) {
     if ((this->actor.xzDistFromLink < 50.0f) || ((ABS(tmp) < 0x4301) && (this->actor.xzDistFromLink < 400.0f))) {
         func_80A30EE8(this, globalCtx);
     }
+
     if (this->collider.base.acFlags & 2) {
         func_80A30EE8(this, globalCtx);
     }
+
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
@@ -253,6 +273,7 @@ void func_80A3118C(EnGe1* this, GlobalContext* globalCtx) {
     if (textId == 0) {
         textId = 0x6019;
     }
+
     func_80A30C70(this, globalCtx, textId, 100.0f, func_80A31000);
 }
 
@@ -263,6 +284,7 @@ void func_80A311E0(EnGe1* this, GlobalContext* globalCtx) {
         func_80A30D48(this);
         this->actionFunc = func_80A31094;
     }
+
     this->unk_2AC |= 8;
 }
 
@@ -310,6 +332,7 @@ void func_80A313E0(EnGe1* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A312E4;
                 }
                 break;
+
             case 1:
                 this->actionFunc = func_80A31514;
                 func_80A30D48(this);
@@ -350,6 +373,7 @@ void func_80A315F0(EnGe1* this, GlobalContext* globalCtx) {
         func_80A30D48(this);
         this->actionFunc = func_80A317C0;
     }
+
     this->unk_2AC |= 8;
 }
 
@@ -398,6 +422,7 @@ void func_80A31880(EnGe1* this, GlobalContext* globalCtx) {
     if (textId == 0) {
         textId = 0x6069;
     }
+
     if (func_80A30C70(this, globalCtx, textId, 100.0f, func_80A3183C) != 0) {
         this->unk_2B8 = func_80A323B0;
         this->unk_2B0 = &D_0600A498;
@@ -430,9 +455,11 @@ void func_80A3196C(EnGe1* this, GlobalContext* globalCtx) {
                 case 1:
                     tmp = GI_QUIVER_40;
                     break;
+
                 case 2:
                     tmp = GI_QUIVER_50;
                     break;
+
                 default:
                     tmp = hiImNotInitialised;
                     break;
@@ -440,6 +467,7 @@ void func_80A3196C(EnGe1* this, GlobalContext* globalCtx) {
         } else {
             tmp = GI_HEART_PIECE;
         }
+
         func_8002F434(&this->actor, globalCtx, tmp, 10000.0f, 50.0f);
     }
 }
@@ -458,9 +486,11 @@ void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
             case 1:
                 phi_a2 = GI_QUIVER_40;
                 break;
+
             case 2:
                 phi_a2 = GI_QUIVER_50;
                 break;
+
             default:
                 phi_a2 = hiImNotInitialised;
                 break;
@@ -468,6 +498,7 @@ void func_80A31A5C(EnGe1* this, GlobalContext* globalCtx) {
     } else {
         phi_a2 = GI_HEART_PIECE;
     }
+
     func_8002F434(&this->actor, globalCtx, phi_a2, 10000.0f, 50.0f);
 }
 
@@ -504,6 +535,7 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A31B7C;
                     break;
                 }
+
                 Rupees_ChangeBy(-20);
                 globalCtx->nextEntranceIndex = 0x129;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
@@ -521,8 +553,10 @@ void func_80A31BE8(EnGe1* this, GlobalContext* globalCtx) {
                         horseyneighneigh->actor.freezeTimer = 0x4B0;
                     }
                 }
+
                 this->actionFunc = func_80A31BDC;
                 break;
+
             case 1:
                 this->actionFunc = func_80A31FE0;
                 func_80106CCC(globalCtx);
@@ -547,26 +581,18 @@ void func_80A31DE4(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void func_80A31E2C(EnGe1* this, GlobalContext* globalCtx) {
-    u16* tmp;
-
     gSaveContext.eventInf[0] &= ~0x100;
-    LogUtils_LogThreadId("../z_en_ge1.c", 1110);
-    osSyncPrintf("z_common_data.yabusame_total = %d\n", gSaveContext.minigameScore);
-    if (1) {}
-    LogUtils_LogThreadId("../z_en_ge1.c", 1111);
-    osSyncPrintf("z_common_data.memory.information.room_inf[127][ 0 ] = %d\n", gSaveContext.unk_EB8);
-
+    LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
+    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.unk_EB8, "../z_en_ge1.c", 1111);
     this->actor.flags |= 0x10000;
-
     if (gSaveContext.unk_EB8 < gSaveContext.minigameScore) {
-        tmp = &gSaveContext.minigameScore;
-        gSaveContext.unk_EB8 = *tmp;
+        u16* mingameScore = &gSaveContext.minigameScore;
+        gSaveContext.unk_EB8 = *mingameScore;
     }
 
     if (gSaveContext.minigameScore < 1000) {
         this->actor.textId = 0x6045;
         this->actionFunc = func_80A31DE4;
-        if (1) {}
     } else if (!(gSaveContext.infTable[25] & 1)) {
         this->actor.textId = 0x6046;
         this->actionFunc = func_80A31B20;
@@ -608,6 +634,7 @@ void func_80A31FE0(EnGe1* this, GlobalContext* globalCtx) {
         } else {
             textId = 0x6040;
         }
+
         func_80A30C70(this, globalCtx, textId, 200.0f, func_80A31D88);
     }
 }
@@ -626,6 +653,7 @@ void func_80A32078(EnGe1* this, GlobalContext* globalCtx) {
         } else {
             Math_SmoothScaleMaxMinS(&this->unk_29C.y, 0x2000, 6, 0x1838, 0x100);
         }
+
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xC, 0x3E8, 0x64);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
     }
@@ -644,10 +672,10 @@ void func_80A32190(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGe1* this = THIS;
-    ColliderCylinder* collider = &this->collider;
+    s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
     this->unk_2B8(this);
@@ -664,6 +692,7 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (DECR(this->unk_2AA) == 0) {
         this->unk_2AA = Math_Rand_S16Offset(0x3C, 0x3C);
     }
+
     this->unk_2A8 = this->unk_2AA;
     if (this->unk_2A8 >= 3) {
         this->unk_2A8 = 0;
@@ -681,11 +710,12 @@ void func_80A323EC(EnGe1* this) {
         if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
             this->unk_2AC |= 4;
         }
+
         this->unk_2AC |= 8;
     }
 }
 
-s32 func_80A32444(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnGe1* this = THIS;
     s32 limbIdx;
 
@@ -701,40 +731,39 @@ s32 func_80A32444(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         rot->y += Math_Sins(globalCtx->state.frames * (limbIdx + 0x814)) * 200.0f;
         rot->z += Math_Coss(globalCtx->state.frames * (limbIdx + 0x940)) * 200.0f;
     }
+
     return 0;
 }
 
-void func_80A32598(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    static Gfx* D_80A3279C[] = { 0x06009198, 0x06009430, 0x06009690 };
+    static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
+
     EnGe1* this = THIS;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
-        if (limbIndex == 15) {
-            gSPDisplayList(gfxCtx->polyOpa.p++, D_80A3279C[this->unk_2AE]);
-            Matrix_MultVec3f(&D_80A327A8, &this->actor.posRot2.pos);
-        }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1427);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
+    if (limbIndex == 15) {
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_80A3279C[this->unk_2AE]);
+        Matrix_MultVec3f(&D_80A327A8, &this->actor.posRot2.pos);
     }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1427);
 }
 
 void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_TYPE D_80A327B4[] = { 0x06000708, 0x06000F08, 0x06001708 };
+
     EnGe1* this = THIS;
     s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1442);
-        func_800943C8(globalCtx->state.gfxCtx);
-
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A327B4[this->unk_2A8]));
-
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         func_80A32444, func_80A32598, &this->actor);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1459);
-    }
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1442);
+    func_800943C8(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A327B4[this->unk_2A8]));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     EnGe1_OverrideLimbDraw, EnGe1_PostLimbDraw, &this->actor);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ge1.c", 1459);
 }

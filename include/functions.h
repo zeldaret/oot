@@ -221,7 +221,7 @@ void func_80028990(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 // ? func_80028B18(?);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
-// ? func_80028BB0(?);
+void func_80028BB0(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, Color_RGB8*, Color_RGB8*, s32, s32);
 // ? func_80028CEC(?);
 void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                 s16 scaleStep);
@@ -533,6 +533,7 @@ s32 func_8003D7A0(CollisionContext*, f32*, Vec3f*, f32, UNK_PTR, u32*, Actor*);
 s32 func_8003DE84(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*);
 s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*);
 // ? func_8003DFA0(?);
+s32 func_8003E0B8(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, s32);
 // ? func_8003E0FC(?);
 // ? func_8003E188(?);
 // ? func_8003E214(?);
