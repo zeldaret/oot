@@ -50,7 +50,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-static CollisionCheckInfoInit sCollisionCheckInfoInit = { 0x01, 0xF, 0x0, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0x01, 0xF, 0x0, 0xFE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -68,7 +68,7 @@ void func_80897970(BgJyaGoroiwa* this) {
 }
 
 void func_808979C0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
-    f32 pad;
+    s32 pad;
     
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
@@ -92,7 +92,7 @@ void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.shape.rot.z;
     this->actor.shape.rot.x = this->actor.shape.rot.z;
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 595.0f, &ActorShadow_DrawFunc_Circle, 9.0f);
     this->actor.shape.unk_14 = 0x80;
     func_80897B1C(this);
@@ -188,7 +188,7 @@ void func_80897DF0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
 
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 pad;
+    s32 pad;
     BgJyaGoroiwa* this = THIS;
     UNK_PTR sp38;
     Vec3f pos;
