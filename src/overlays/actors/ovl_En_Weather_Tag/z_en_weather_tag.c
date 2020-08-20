@@ -332,6 +332,6 @@ void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
-                               1.0f, 0xFF, 0, 0xFF, 0xFF, 4, globalCtx->state.gfxCtx);
+                               1.0f, 255, 0, 255, 255, 4, globalCtx->state.gfxCtx);
     }
 }
