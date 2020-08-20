@@ -15,8 +15,6 @@ void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this);
-void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this);
 void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx);
 void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx);
 void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags);
@@ -81,7 +79,7 @@ const ActorInit En_GirlA_InitVars = {
     NULL,
 };
 
-char* D_80A3C590[] = {
+static char* D_80A3C590[] = {
     "デクの実×5   ",  "矢×30        ",  "矢×50        ",  "爆弾×5       ",  "デクの実×10  ",  "デクの棒      ",
     "爆弾×10      ",  "さかな        ", "赤クスリ      ", "緑クスリ      ", "青クスリ      ", "巨人のナイフ  ",
     "ハイリアの盾  ", "デクの盾      ", "ゴロンの服    ", "ゾ─ラの服    ",  "回復のハート  ", "ロンロン牛乳  ",
@@ -93,10 +91,18 @@ char* D_80A3C590[] = {
     "赤クスリ      ", "赤クスリ      ",
 };
 
-s16 D_80A3C658[8] = { ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
-                      ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO };
+static s16 D_80A3C658[8] = {
+    ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
+    ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO,
+};
 
-u16 D_80A3C668[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
+static u16 D_80A3C668[5] = {
+    0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB,
+};
+
+typedef s32 (*ShopItemStruct1)(GlobalContext*, EnGirlA*);
+typedef void (*ShopItemStruct2)(GlobalContext*, EnGirlA*);
+typedef void (*ShopItemStruct3)(GlobalContext*, EnGirlA*);
 
 typedef struct {
     /* 0x00 */ s16 objID;
@@ -107,12 +113,12 @@ typedef struct {
     /* 0x0C */ u16 unk_0C;
     /* 0x0C */ u16 unk_0E;
     /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 (*unk_14)(GlobalContext*, EnGirlA*);
-    /* 0x18 */ void (*unk_18)(GlobalContext*, EnGirlA*);
-    /* 0x1C */ void (*unk_1C)(GlobalContext*, EnGirlA*);
+    /* 0x14 */ ShopItemStruct1 unk_14;
+    /* 0x18 */ ShopItemStruct2 unk_18;
+    /* 0x1C */ ShopItemStruct3 unk_1C;
 } ShopItemEntry; // size = 0x20
 
-ShopItemEntry D_80A3C674[] = {
+static ShopItemEntry D_80A3C674[] = {
     { 0x00BB, 0x0011, func_8002ED80, 0x000F, 0x0005, 0x00B2, 0x007F, GI_NUTS_5_2, func_80A3ABF8, func_80A3B714,
       func_80A3BB6C },
     { 0x00D8, 0x0025, func_8002EBCC, 0x003C, 0x001E, 0x00C1, 0x009B, GI_ARROWS_MEDIUM, func_80A3AAA8, func_80A3B634,
@@ -210,9 +216,7 @@ ShopItemEntry D_80A3C674[] = {
       func_80A3BB6C },
 };
 
-s16 D_80A3CCB4[8] = { 0x0005, 0x000A, 0x000F, 0x0014, 0x0019, 0x001E, 0x0023, 0x0028 };
-
-void func_80A3A750(EnGirlA* this, EnGirlAActionFunc func) {
+void EnGirlA_SetupAction(EnGirlA* this, EnGirlAActionFunc func) {
     this->actionFunc = func;
 }
 
@@ -224,30 +228,35 @@ s32 func_80A3A758(EnGirlA* this) {
                 return 1;
             }
             break;
+
         case 24:
             if (gSaveContext.itemGetInf[0] & 0x40) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
+
         case 25:
             if (gSaveContext.itemGetInf[0] & 0x80) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
+
         case 26:
             if (gSaveContext.itemGetInf[0] & 0x100) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
+
         case 27:
             if (gSaveContext.itemGetInf[0] & 0x200) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
+
         case 28:
             if (gSaveContext.itemGetInf[0] & 0x400) {
                 this->actor.params = 38;
@@ -260,12 +269,14 @@ s32 func_80A3A758(EnGirlA* this) {
                 return 1;
             }
             break;
+
         case 22:
             if (gSaveContext.itemGetInf[0] & 0x10) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
+
         case 23:
             if (gSaveContext.itemGetInf[0] & 0x20) {
                 this->actor.params = 38;
@@ -291,7 +302,6 @@ void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
     }
 
     this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, D_80A3C674[params].objID);
-
     if (this->unk_194 < 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
@@ -325,12 +335,15 @@ s32 func_80A3AAA8(GlobalContext* globalCtx, EnGirlA* this) {
     if (Item_CheckObtainability(ITEM_BOW) == ITEM_NONE) {
         return 5;
     }
+
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     return 1;
 }
 
@@ -338,12 +351,15 @@ s32 func_80A3AB58(GlobalContext* globalCtx, EnGirlA* this) {
     if (!CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 2;
     }
+
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     return 1;
 }
 
@@ -351,12 +367,15 @@ s32 func_80A3ABF8(GlobalContext* globalCtx, EnGirlA* this) {
     if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_NUT) >= CUR_CAPACITY(UPG_NUTS))) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_NUT) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -364,12 +383,15 @@ s32 func_80A3ACAC(GlobalContext* globalCtx, EnGirlA* this) {
     if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_STICK) >= CUR_CAPACITY(UPG_STICKS))) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -377,12 +399,15 @@ s32 func_80A3AD60(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_FISH) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -390,12 +415,15 @@ s32 func_80A3ADD4(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_POTION_RED) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -403,12 +431,15 @@ s32 func_80A3AE48(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_POTION_GREEN) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -416,12 +447,15 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_POTION_BLUE) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -429,12 +463,15 @@ s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
     if ((gBitFlags[2] & gSaveContext.equipment) && !(gBitFlags[3] & gSaveContext.equipment)) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_SWORD_BGS) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -442,12 +479,15 @@ s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
     if (gBitFlags[5] & gSaveContext.equipment) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_SHIELD_HYLIAN) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -455,12 +495,15 @@ s32 func_80A3B040(GlobalContext* globalCtx, EnGirlA* this) {
     if (gBitFlags[4] & gSaveContext.equipment) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_SHIELD_DEKU) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -468,15 +511,19 @@ s32 func_80A3B0BC(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
+
     if (gBitFlags[9] & gSaveContext.equipment) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_TUNIC_GORON) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -484,15 +531,19 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
+
     if (gBitFlags[10] & gSaveContext.equipment) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_TUNIC_ZORA) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -500,9 +551,11 @@ s32 func_80A3B204(GlobalContext* globalCtx, EnGirlA* this) {
     if (gSaveContext.healthCapacity == gSaveContext.health) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     return 1;
 }
 
@@ -510,9 +563,11 @@ s32 func_80A3B250(GlobalContext* globalCtx, EnGirlA* this) {
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_MILK_BOTTLE) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -520,9 +575,11 @@ s32 func_80A3B2AC(GlobalContext* globalCtx, EnGirlA* this) {
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_LETTER_ZELDA) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -538,12 +595,15 @@ s32 func_80A3B328(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_BOMBCHU) >= 50) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_BOMBCHU) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -551,12 +611,15 @@ s32 func_80A3B3A8(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
         return 2;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_SEEDS) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -568,12 +631,15 @@ s32 func_80A3B464(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_BLUE_FIRE) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -581,12 +647,15 @@ s32 func_80A3B4D8(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_BUG) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -594,12 +663,15 @@ s32 func_80A3B54C(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_POE) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -607,12 +679,15 @@ s32 func_80A3B5C0(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
+
     if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
+
     if (Item_CheckObtainability(ITEM_FAIRY) == ITEM_NONE) {
         return 0;
     }
+
     return 1;
 }
 
@@ -626,16 +701,20 @@ void func_80A3B678(GlobalContext* globalCtx, EnGirlA* this) {
         case 5:
             Item_Give(globalCtx, ITEM_BOMBS_5);
             break;
+
         case 10:
             Item_Give(globalCtx, ITEM_BOMBS_10);
             break;
+
         case 20:
             Item_Give(globalCtx, ITEM_BOMBS_20);
             break;
+
         case 30:
             Item_Give(globalCtx, ITEM_BOMBS_30);
             break;
     }
+
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -644,10 +723,12 @@ void func_80A3B714(GlobalContext* globalCtx, EnGirlA* this) {
         case 5:
             Item_Give(globalCtx, ITEM_NUTS_5);
             break;
+
         case 10:
             Item_Give(globalCtx, ITEM_NUTS_10);
             break;
     }
+
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -715,41 +796,55 @@ void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this) {
         case 7:
             Item_Give(globalCtx, ITEM_FISH);
             break;
+
         case 8:
             Item_Give(globalCtx, ITEM_POTION_RED);
             break;
+
         case 9:
             Item_Give(globalCtx, ITEM_POTION_GREEN);
             break;
+
         case 10:
             Item_Give(globalCtx, ITEM_POTION_BLUE);
             break;
+
         case 39:
             Item_Give(globalCtx, ITEM_BLUE_FIRE);
             break;
+
         case 40:
             Item_Give(globalCtx, ITEM_BUG);
             break;
+
         case 41:
             Item_Give(globalCtx, ITEM_BIG_POE);
             break;
+
         case 42:
             Item_Give(globalCtx, ITEM_POE);
             break;
+
         case 43:
             Item_Give(globalCtx, ITEM_FAIRY);
             break;
     }
+
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
 void func_80A3BB6C(GlobalContext* globalCtx, EnGirlA* this) {
+    static s16 D_80A3CCB4[8] = {
+        0x0005, 0x000A, 0x000F, 0x0014, 0x0019, 0x001E, 0x0023, 0x0028,
+    };
+
     if (this->actor.params == 12) {
         if (gSaveContext.infTable[7] & 0x40) {
             Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Math_Rand_ZeroFloat(7.9f)]));
             return;
         }
     }
+
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -766,28 +861,36 @@ void func_80A3BC6C(GlobalContext* globalCtx, EnGirlA* this) {
         case 24:
             gSaveContext.itemGetInf[0] |= 0x40;
             break;
+
         case 25:
             gSaveContext.itemGetInf[0] |= 0x80;
             break;
+
         case 26:
             gSaveContext.itemGetInf[0] |= 0x100;
             break;
+
         case 27:
             gSaveContext.itemGetInf[0] |= 0x200;
             break;
+
         case 28:
             gSaveContext.itemGetInf[0] |= 0x400;
             break;
+
         case 21:
             gSaveContext.itemGetInf[0] |= 0x8;
             break;
+
         case 22:
             gSaveContext.itemGetInf[0] |= 0x10;
             break;
+
         case 23:
             gSaveContext.itemGetInf[0] |= 0x20;
             break;
     }
+
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -809,27 +912,32 @@ void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
                     tmp3 = 1;
                 }
                 break;
+
             case 31:
                 if (gSaveContext.itemGetInf[3] & 0x400) {
                     tmp3 = 1;
                 }
                 break;
+
             case 32:
                 if (gSaveContext.itemGetInf[3] & 0x200) {
                     tmp3 = 1;
                 }
                 break;
+
             case 33:
                 if (gSaveContext.itemGetInf[3] & 0x800) {
                     tmp3 = 1;
                 }
                 break;
+
             case 34:
                 if (gSaveContext.itemGetInf[3] & 0x800) {
                     tmp3 = 1;
                 }
                 break;
         }
+
         if (tmp3 != 0) {
             this->actor.textId = D_80A3C668[params2];
         } else {
@@ -838,6 +946,7 @@ void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
     } else {
         this->actor.textId = tmp->unk_0C;
     }
+
     this->unk_1A8 = 0;
     this->actor.draw = func_80A3C4D4;
 }
@@ -873,8 +982,10 @@ s32 func_80A3BF54(EnGirlA* this, GlobalContext* globalCtx) {
         } else {
             func_80A3BD8C(globalCtx, this);
         }
+
         return 1;
     }
+
     return 0;
 }
 
@@ -892,16 +1003,20 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
                 } else {
                     this->actor.textId = tmp->unk_0C;
                 }
+
                 this->unk_1A0 = tmp->unk_0E;
                 break;
+
             case 1:
                 if (gSaveContext.itemGetInf[3] & 0x400) {
                     this->actor.textId = 0x70B5;
                 } else {
                     this->actor.textId = tmp->unk_0C;
                 }
+
                 this->unk_1A0 = tmp->unk_0E;
                 break;
+
             case 2:
                 if (gSaveContext.itemGetInf[3] & 0x200) {
                     this->actor.textId = 0x70B4;
@@ -911,6 +1026,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
 
                 this->unk_1A0 = tmp->unk_0E;
                 break;
+
             case 3:
                 if (gSaveContext.itemGetInf[3] & 0x800) {
                     this->actor.textId = 0x70B7;
@@ -920,6 +1036,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
 
                 this->unk_1A0 = tmp->unk_0E;
                 break;
+
             case 4:
                 if (gSaveContext.itemGetInf[3] & 0x800) {
                     this->actor.textId = 0x70BB;
@@ -929,23 +1046,28 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
                     this->unk_1A0 = 0xEB;
                 }
                 break;
+
             case 5:
                 this->actor.textId = tmp->unk_0C;
                 this->unk_1A0 = tmp->unk_0E;
                 break;
+
             case 6:
                 this->actor.textId = tmp->unk_0C;
                 this->unk_1A0 = tmp->unk_0E;
                 break;
+
             case 7:
                 this->actor.textId = tmp->unk_0C;
                 this->unk_1A0 = tmp->unk_0E;
                 break;
+
             default:
                 this->actor.textId = tmp->unk_0C;
                 this->unk_1A0 = tmp->unk_0E;
                 break;
         }
+
         if (func_80A3BF54(this, globalCtx) == 0) {
             func_80A3BD8C(globalCtx, this);
         }
@@ -967,7 +1089,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
         this->actor.shape.unk_10 = 4.0f;
         this->actor.groundY = this->actor.initPosRot.pos.y;
         this->actor.gravity = 0.0f;
-        func_80A3A750(this, func_80A3BD80);
+        EnGirlA_SetupAction(this, func_80A3BD80);
         this->unk_19C = 1;
         this->unk_198 = func_80A3C3BC;
         this->unk_1B4 = 0;
@@ -1011,5 +1133,6 @@ void func_80A3C4D4(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1D0 != NULL) {
         this->unk_1D0(thisx, globalCtx, 0);
     }
+
     func_800694A0(globalCtx, this->unk_1CC);
 }

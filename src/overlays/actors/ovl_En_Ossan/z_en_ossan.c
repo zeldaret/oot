@@ -31,40 +31,6 @@ s16 func_80AC2D18(s16 arg0);
 s16 func_80AC2D48(s16 arg0);
 s16 func_80AC2D78(s16 arg0);
 s16 func_80AC2DA8(s16 arg0);
-void func_80AC6B3C(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6E0C(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6ECC(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6D30(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6C54(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6E6C(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC4288(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC43A0(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC43F0(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC44DC(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC4978(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC4B4C(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC4D20(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5680(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC576C(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5858(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5900(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5C24(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5D40(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC6208(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC4DDC(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC60E4(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC6148(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC61B8(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5C9C(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC6258(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void func_80AC62F4(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void func_80AC7094(EnOssan* this, GlobalContext* globalCtx);
 u16 func_80AC6F2C(EnOssan* this);
 s32 func_80AC652C(EnOssan* this);
@@ -72,10 +38,8 @@ s32 func_80AC6490(EnOssan* this);
 void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this);
 void func_80AC62C4(GlobalContext* globalCtx, EnOssan* this);
 void func_80AC646C(EnOssan* this);
-void func_80AC6384(EnOssan* this);
 void func_80AC67C4(EnOssan* this);
 void func_80AC69A4(EnOssan* this);
-void func_80AC6970(EnOssan* this);
 void func_80AC7380(EnOssan* this, GlobalContext* globalCtx);
 void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx);
@@ -85,9 +49,6 @@ void func_80AC854C(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC8668(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC8784(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC77CC(GlobalContext* globalCtx, s32, s32, s32, s32, f32, f32, f32, s32, s32, f32, f32);
-s32 func_80AC7ED0(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
-void func_80AC7528(GlobalContext*, EnOssan*, f32, f32, f32, u8);
 void Camera_SetCameraData(Camera* camera, s16 arg1, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
                           s16 relativeToPlayer, s16 arg5, s16 arg6);
 
@@ -101,7 +62,7 @@ extern AnimationHeader D_06000338;
 extern AnimationHeader D_060004A8;
 extern AnimationHeader D_0600065C;
 extern AnimationHeader D_0600078C;
-extern Gfx D_06002820;
+extern Gfx D_06002820[];
 extern SkeletonHeader D_06004258;
 extern SkeletonHeader D_06004658;
 extern SkeletonHeader D_06004868;
@@ -113,9 +74,6 @@ extern SkeletonHeader D_0600FEF0;
 typedef struct {
     s16 funcIdx;
     Vec3s pos;
-    // s16 x;
-    // s16 y;
-    // s16 z;
 } OssanStruct1;
 
 const ActorInit En_Ossan_InitVars = {
@@ -130,138 +88,163 @@ const ActorInit En_Ossan_InitVars = {
     NULL,
 };
 
-u32 D_80AC88A8[] = { 0x0A000039, 0x01000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                     0x00000000, 0x00000100, 0x001E0050, 0x00000000, 0x00000000 };
+static u32 D_80AC88A8[] = {
+    0x0A000039, 0x01000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+    0x00000000, 0x00000100, 0x001E0050, 0x00000000, 0x00000000,
+};
 
-s16 D_80AC88EC[] = { 0x000A, 0x001E, 0x0014, 0x0032 };
+static s16 maskPrices[] = {
+    10,
+    30,
+    20,
+    50,
+};
 
-s16 D_80AC88F4[] = { 0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0x1554, 0x1554,
-                     0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
+s16 D_80AC88F4[] = {
+    0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0x1554, 0x1554,
+    0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025,
+};
 
-char* D_80AC8914[] = { "コキリの店  ", "薬屋        ", "夜の店      ", "路地裏の店  ", "盾の店      ", "大人の店    ",
-                       "タロンの店  ", "ゾーラの店  ", "ゴロン夜の店", "インゴーの店", "お面屋      " };
+static char* D_80AC8914[] = {
+    "コキリの店  ", "薬屋        ", "夜の店      ", "路地裏の店  ", "盾の店      ", "大人の店    ",
+    "タロンの店  ", "ゾーラの店  ", "ゴロン夜の店", "インゴーの店", "お面屋      ",
+};
 
-s16 D_80AC8940[][3] = { { 0x00FC, 0x0102, 0x0101 }, { 0x0159, 0x0192, 0x0192 }, { 0x0165, 0x0192, 0x0192 },
-                        { 0x0159, 0x0192, 0x0192 }, { 0x005B, 0x0192, 0x0192 }, { 0x005B, 0x0192, 0x0192 },
-                        { 0x005B, 0x0192, 0x0192 }, { 0x00FE, 0x0192, 0x0104 }, { 0x00C9, 0x0192, 0x0103 },
-                        { 0x005B, 0x0192, 0x0192 }, { 0x013E, 0x0192, 0x0192 } };
+static s16 D_80AC8940[][3] = {
+    { OBJECT_KM1, OBJECT_MASTERKOKIRIHEAD, OBJECT_MASTERKOKIRI },
+    { OBJECT_DS2, 0x0192, 0x0192 },
+    { OBJECT_RS, 0x0192, 0x0192 },
+    { OBJECT_DS2, 0x0192, 0x0192 },
+    { OBJECT_OSSAN, 0x0192, 0x0192 },
+    { OBJECT_OSSAN, 0x0192, 0x0192 },
+    { OBJECT_OSSAN, 0x0192, 0x0192 },
+    { OBJECT_ZO, 0x0192, OBJECT_MASTERZOORA },
+    { OBJECT_OF1D_MAP, 0x0192, OBJECT_MASTERGOLON },
+    { OBJECT_OSSAN, 0x0192, 0x0192 },
+    { OBJECT_OS, 0x0192, 0x0192 },
+};
 
-EnOssanFunc5 D_80AC8984[] = { func_80AC311C, func_80AC30B8, func_80AC3180, func_80AC30FC, func_80AC313C, func_80AC3098,
-                              func_80AC3098, func_80AC31A0, func_80AC31F4, func_80AC3098, func_80AC32C4 };
+static EnOssanFunc5 D_80AC8984[] = { func_80AC311C, func_80AC30B8, func_80AC3180, func_80AC30FC,
+                                     func_80AC313C, func_80AC3098, func_80AC3098, func_80AC31A0,
+                                     func_80AC31F4, func_80AC3098, func_80AC32C4 };
 
-f32 D_80AC89B0[] = { 0.00999999977648f, 0.0109999999404f,  0.0104999998584f,  0.0109999999404f,
-                     0.00999999977648f, 0.00999999977648f, 0.00999999977648f, 0.00999999977648f,
-                     0.00999999977648f, 0.00999999977648f, 0.00999999977648f };
+f32 D_80AC89B0[] = {
+    0.01f, 0.011f, 0.0105f, 0.011f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f,
+};
 
-OssanStruct1 D_80AC89DC[][8] = { {
-                                     { 0x000D, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x0000, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0004, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x0005, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x001D, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x002C, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x0001, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0010, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x0009, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x0027, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0008, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x002B, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x0000, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0028, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x002A, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0007, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x0018, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x001C, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0019, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x0015, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x001A, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0016, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x001B, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0017, 0xFFB0, 0x004C, 0xFFFD },
+OssanStruct1 D_80AC89DC[][8] = {
+    {
+        { 0x000D, 0x0032, 0x0034, 0xFFEC },
+        { 0x0000, 0x0032, 0x004C, 0xFFEC },
+        { 0x0004, 0x0050, 0x0034, 0xFFFD },
+        { 0x0005, 0x0050, 0x004C, 0xFFFD },
+        { 0x001D, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x002C, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0001, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0010, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x0009, 0x0032, 0x0034, 0xFFEC },
+        { 0x0027, 0x0032, 0x004C, 0xFFEC },
+        { 0x0008, 0x0050, 0x0034, 0xFFFD },
+        { 0x002B, 0x0050, 0x004C, 0xFFFD },
+        { 0x0000, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0028, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x002A, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0007, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x0018, 0x0032, 0x0034, 0xFFEC },
+        { 0x001C, 0x0032, 0x004C, 0xFFEC },
+        { 0x0019, 0x0050, 0x0034, 0xFFFD },
+        { 0x0015, 0x0050, 0x004C, 0xFFFD },
+        { 0x001A, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0016, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x001B, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0017, 0xFFB0, 0x004C, 0xFFFD },
 
-                                 },
-                                 {
-                                     { 0x0009, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x0027, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0008, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x002B, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x0000, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0028, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x002A, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0007, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x000C, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x002F, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0000, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x0010, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x002C, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0002, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x0005, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0001, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x000C, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x0003, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0000, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x0010, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x002C, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0002, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x0005, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0001, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x0011, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x0000, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0004, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x0010, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x0012, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0005, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x0010, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0010, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x000F, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x002C, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0010, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x0001, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x0000, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0002, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x0007, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0031, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x0003, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x0006, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x002D, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x002E, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x000E, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0010, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x0030, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0010, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 {
-                                     { 0x0013, 0x0032, 0x0034, 0xFFEC },
-                                     { 0x0013, 0x0032, 0x004C, 0xFFEC },
-                                     { 0x0013, 0x0050, 0x0034, 0xFFFD },
-                                     { 0x0013, 0x0050, 0x004C, 0xFFFD },
-                                     { 0x0014, 0xFFCE, 0x0034, 0xFFEC },
-                                     { 0x0014, 0xFFCE, 0x004C, 0xFFEC },
-                                     { 0x0014, 0xFFB0, 0x0034, 0xFFFD },
-                                     { 0x0014, 0xFFB0, 0x004C, 0xFFFD },
-                                 },
-                                 { { 0x0025, 0x0032, 0x0034, 0xFFEC },
-                                   { 0x0023, 0x0032, 0x004C, 0xFFEC },
-                                   { 0x0022, 0x0050, 0x0034, 0xFFFD },
-                                   { 0x0024, 0x0050, 0x004C, 0xFFFD },
-                                   { 0x0020, 0xFFCE, 0x0034, 0xFFEC },
-                                   { 0x001E, 0xFFCE, 0x004C, 0xFFEC },
-                                   { 0x0021, 0xFFB0, 0x0034, 0xFFFD },
-                                   { 0x001F, 0xFFB0, 0x004C, 0xFFFD } } };
+    },
+    {
+        { 0x0009, 0x0032, 0x0034, 0xFFEC },
+        { 0x0027, 0x0032, 0x004C, 0xFFEC },
+        { 0x0008, 0x0050, 0x0034, 0xFFFD },
+        { 0x002B, 0x0050, 0x004C, 0xFFFD },
+        { 0x0000, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0028, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x002A, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0007, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x000C, 0x0032, 0x0034, 0xFFEC },
+        { 0x002F, 0x0032, 0x004C, 0xFFEC },
+        { 0x0000, 0x0050, 0x0034, 0xFFFD },
+        { 0x0010, 0x0050, 0x004C, 0xFFFD },
+        { 0x002C, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0002, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0005, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0001, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x000C, 0x0032, 0x0034, 0xFFEC },
+        { 0x0003, 0x0032, 0x004C, 0xFFEC },
+        { 0x0000, 0x0050, 0x0034, 0xFFFD },
+        { 0x0010, 0x0050, 0x004C, 0xFFFD },
+        { 0x002C, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0002, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0005, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0001, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x0011, 0x0032, 0x0034, 0xFFEC },
+        { 0x0000, 0x0032, 0x004C, 0xFFEC },
+        { 0x0004, 0x0050, 0x0034, 0xFFFD },
+        { 0x0010, 0x0050, 0x004C, 0xFFFD },
+        { 0x0012, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0005, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0010, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0010, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x000F, 0x0032, 0x0034, 0xFFEC },
+        { 0x002C, 0x0032, 0x004C, 0xFFEC },
+        { 0x0010, 0x0050, 0x0034, 0xFFFD },
+        { 0x0001, 0x0050, 0x004C, 0xFFFD },
+        { 0x0000, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0002, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0007, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0031, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x0003, 0x0032, 0x0034, 0xFFEC },
+        { 0x0006, 0x0032, 0x004C, 0xFFEC },
+        { 0x002D, 0x0050, 0x0034, 0xFFFD },
+        { 0x002E, 0x0050, 0x004C, 0xFFFD },
+        { 0x000E, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0010, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0030, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0010, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x0013, 0x0032, 0x0034, 0xFFEC },
+        { 0x0013, 0x0032, 0x004C, 0xFFEC },
+        { 0x0013, 0x0050, 0x0034, 0xFFFD },
+        { 0x0013, 0x0050, 0x004C, 0xFFFD },
+        { 0x0014, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x0014, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0014, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x0014, 0xFFB0, 0x004C, 0xFFFD },
+    },
+    {
+        { 0x0025, 0x0032, 0x0034, 0xFFEC },
+        { 0x0023, 0x0032, 0x004C, 0xFFEC },
+        { 0x0022, 0x0050, 0x0034, 0xFFFD },
+        { 0x0024, 0x0050, 0x004C, 0xFFFD },
+        { 0x0020, 0xFFCE, 0x0034, 0xFFEC },
+        { 0x001E, 0xFFCE, 0x004C, 0xFFEC },
+        { 0x0021, 0xFFB0, 0x0034, 0xFFFD },
+        { 0x001F, 0xFFB0, 0x004C, 0xFFFD },
+    },
+};
 
 EnOssanFunc4 D_80AC8C9C[] = {
     func_80AC2CA8, func_80AC2CA8, func_80AC2CA8, func_80AC2CA8, func_80AC2CA8, func_80AC2CA8, func_80AC2CA8,
@@ -279,37 +262,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
 };
 
-Vec3f D_80AC8D6C[] = { { 17.0f, 58.0f, 30.0f }, { -17.0f, 58.0f, 30.0f } };
-
-EnOssanActionFunc D_80AC8D84[] = { func_80AC6B3C, func_80AC6E0C, func_80AC6ECC, func_80AC6E0C,
-                                   func_80AC6ADC, func_80AC6ADC, func_80AC6ADC, func_80AC6D30,
-                                   func_80AC6C54, func_80AC6ADC, func_80AC6E6C };
-
-Vec3f D_80AC8DB0[] = { { 0.0f, 0.0f, 33.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f },
-                       { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 36.0f },
-                       { 0.0f, 0.0f, 15.0f }, { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 26.0f } };
-
-EnOssanFunc3 D_80AC8E34[] = { func_80AC3B18, func_80AC4074, func_80AC4288, func_80AC43A0, func_80AC43F0, func_80AC44DC,
-                              func_80AC4978, func_80AC4B4C, func_80AC4D20, func_80AC5594, func_80AC5680, func_80AC576C,
-                              func_80AC5858, func_80AC5900, func_80AC5C24, func_80AC5D40, func_80AC5DAC, func_80AC5EF0,
-                              func_80AC6208, func_80AC4DDC, func_80AC60E4, func_80AC6148, func_80AC61B8, func_80AC5C9C,
-                              func_80AC5A28, func_80AC6258, func_80AC62F4 };
-
-u32 D_80AC8EA0[] = { 0x06004878, 0x060052B8, 0x060056B8 };
-
-u32 D_80AC8EAC[] = { 0x06001570, 0x060001F0, 0x06000B30 };
-
-u32 D_80AC8EB8[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
-
-u32 D_80AC8EC4[] = { 0x06003E40, 0x06004640, 0x06004E40 };
-
-u32 D_80AC8ED0[] = { 0x060030D8, 0x060034D8, 0x060038D8 };
-
-u32 D_80AC8EDC[] = { 0x060035D8, 0x060039D8 };
-
-u32 D_80AC8EE4[] = { 0x06003968, 0x06003D68, 0x06004168 };
-
-void func_80AC2CA0(EnOssan* this, EnOssanActionFunc actionFunc) {
+void EnOssan_SetupAction(EnOssan* this, EnOssanActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -360,14 +313,14 @@ s16 func_80AC2DA8(s16 arg0) {
 }
 
 #ifdef NON_MATCHING
+// Regalloc at the top
 void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, OssanStruct1* arg2) {
-    EnTana** tana = &this->tana;
     OssanStruct1* ptr = arg2;
+    EnTana** tana = &this->tana;
     s32 i;
     s16 temp_v0;
-
-    for (i = 0; i < 8; i++) {
-        ptr = &arg2[i];
+    for (i = 0; i < 8; i++, ptr++) {
+        // ptr = &arg2[i];
         if (ptr->funcIdx < 0) {
             this->unk_200[i] = NULL;
             continue;
@@ -508,6 +461,7 @@ s32 func_80AC33B0(EnOssan* this, GlobalContext* globalCtx, s16* arg2) {
     } else {
         this->unk_1EA = -1;
     }
+
     return 1;
 }
 
@@ -540,7 +494,6 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     tmp = D_80AC8940[this->actor.params];
-
     this->unk_1E8 = Object_GetIndex(&globalCtx->objectCtx, tmp[0]);
     if (this->unk_1E8 < 0) {
         Actor_Kill(thisx);
@@ -563,7 +516,7 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    func_80AC2CA0(this, func_80AC7094);
+    EnOssan_SetupAction(this, func_80AC7094);
 }
 
 void EnOssan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -639,23 +592,11 @@ void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this) {
     if (this->actor.params == 0xA) {
         if ((gSaveContext.itemGetInf[3] & 0x100) && (gSaveContext.itemGetInf[3] & 0x200) &&
             (gSaveContext.itemGetInf[3] & 0x400) && (gSaveContext.itemGetInf[3] & 0x800)) {
-            // Choose a mask with left or right
-            // on [Control Stick].
-            // Ask about Mask of Truth
-            // Don't borrow a mask
             func_8010B720(globalCtx, 0x70AD);
         } else {
-            // Select a mask with left or right
-            // on [Control Stick].
-            // Talk to the shop owner.
-            // Don't borrow
             func_8010B720(globalCtx, 0x70A2);
         }
     } else {
-        // Shop around by moving the
-        // [Control Stick] left or right.
-        // Talk to the owner
-        // Quit
         func_8010B720(globalCtx, 0x83);
     }
 
@@ -693,24 +634,25 @@ void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 }
 
 #ifdef NON_MATCHING
+// Controller's wrong
 void func_80AC3BCC(GlobalContext* globalCtx, EnOssan* this) {
-    s8 cont1 = globalCtx->state.input[0].rel.in.x;
-    s8 cont2 = globalCtx->state.input[0].rel.in.y;
+    s8 cont1X = globalCtx->state.input[0].rel.in.x;
+    s8 cont1Y = globalCtx->state.input[0].rel.in.y;
 
     this->unk_22C = 0;
     this->unk_22D = 0;
     if (this->unk_224 == 0) {
-        if ((cont1 >= 31) || (cont1 <= -31)) {
-            this->unk_224 = cont1;
+        if ((cont1X >= 31) || (cont1X <= -31)) {
+            this->unk_224 = cont1X;
             this->unk_22C = 1;
         }
-    } else if ((cont1 < 31) && (cont1 >= -30)) {
+    } else if ((cont1X < 31) && (cont1X >= -30)) {
         this->unk_224 = 0;
-    } else if ((this->unk_224 * cont1) < 0) {
-        this->unk_224 = cont1;
+    } else if ((this->unk_224 * cont1X) < 0) {
+        this->unk_224 = cont1X;
         this->unk_22C = 1;
     } else {
-        this->unk_224 += cont1;
+        this->unk_224 += cont1X;
         if (this->unk_224 >= 0x7D1) {
             this->unk_224 = 0x7D0;
         } else if (this->unk_224 < -0x7D0) {
@@ -719,17 +661,17 @@ void func_80AC3BCC(GlobalContext* globalCtx, EnOssan* this) {
     }
 
     if (this->unk_228 == 0) {
-        if ((cont2 >= 31) || (cont2 < -30)) {
-            this->unk_228 = cont2;
+        if ((cont1Y >= 31) || (cont1Y < -30)) {
+            this->unk_228 = cont1Y;
             this->unk_22D = 1;
         }
-    } else if ((cont2 < 31) && (cont2 >= -30)) {
+    } else if ((cont1Y < 31) && (cont1Y >= -30)) {
         this->unk_228 = 0;
-    } else if (((this->unk_228 * cont2) < 0)) {
-        this->unk_228 = cont2;
+    } else if (((this->unk_228 * cont1Y) < 0)) {
+        this->unk_228 = cont1Y;
         this->unk_22D = 1;
     } else {
-        this->unk_228 += cont2;
+        this->unk_228 += cont1Y;
         if (this->unk_228 >= 0x7D1) {
             this->unk_228 = 0x7D0;
         } else if (this->unk_228 < -0x7D0) {
@@ -767,6 +709,7 @@ u8 func_80AC3D18(EnOssan* this, u8 arg1) {
             }
         }
     }
+
     return -1;
 }
 
@@ -789,50 +732,36 @@ u8 func_80AC3ED8(EnOssan* this, u8 arg1, u8 arg2) {
             return arg1;
         }
     }
+
     return -1;
 }
 
 void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
-    if (gSaveContext.rupees < D_80AC88EC[this->unk_1EB]) {
-        // What?!
-        // You don't have my money?!
-
-        // How dare you!
-
-        // You'd better bring me my money...
-        // or else!
+    if (gSaveContext.rupees < maskPrices[this->unk_1EB]) {
         func_8010B720(globalCtx, 0x70A8);
         this->unk_1EC = 1;
         this->unk_1EB = 5;
     } else {
-        Rupees_ChangeBy(-D_80AC88EC[this->unk_1EB]);
+        Rupees_ChangeBy(-maskPrices[this->unk_1EB]);
         if (this->unk_1EB == 3) {
             gSaveContext.eventChkInf[8] |= 0x8000;
-            // Oh yeah!
-            //
-            // Very well done!
-            // All the masks are sold out.
-            //
-            // I knew I could trust you!
             func_8010B720(globalCtx, 0x70A9);
             this->unk_1EB = 6;
             return;
         }
+
         if (this->unk_1EB == 0) {
             gSaveContext.eventChkInf[8] |= 0x1000;
-        } else {
-            if (this->unk_1EB == 1) {
-                gSaveContext.eventChkInf[8] |= 0x4000;
-            } else {
-                if (this->unk_1EB == 2) {
-                    gSaveContext.eventChkInf[8] |= 0x2000;
-                }
-            }
+        } else if (this->unk_1EB == 1) {
+            gSaveContext.eventChkInf[8] |= 0x4000;
+        } else if (this->unk_1EB == 2) {
+            gSaveContext.eventChkInf[8] |= 0x2000;
         }
-        // Payment received!
+
         func_8010B720(globalCtx, 0x70A7);
         this->unk_1EB = 8;
     }
+
     this->unk_1FC = 1;
 }
 
@@ -846,6 +775,7 @@ void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                 case 0:
                     func_80AC39AC(globalCtx, this);
                     break;
+
                 case 1:
                     func_80AC37A8(globalCtx, this);
                     break;
@@ -855,41 +785,27 @@ void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         func_80078884(NA_SE_SY_MESSAGE_PASS);
         switch (this->unk_1EB) {
             case 6:
-                // As a reward...
-                // I will lend you this special mask.
-                //
-                // This is the Mask of Truth. It is a
-                // mysterious mask passed down by
-                // the Sheikah.
-                //
-                // With this mask you can see into
-                // other people's minds...
-                // It's useful, but scary!
-                //
-                // Why is it scary?
-                //
-                // You may find out as you grow
-                // older and discover the true
-                // meaning of life...
-                //
-                // Ho ho ho!
                 func_8010B720(globalCtx, 0x70AA);
                 this->unk_1FC = 0x19;
                 break;
+
             case 4:
                 func_80AC37A8(globalCtx, this);
                 break;
+
             case 0:
             case 1:
             case 2:
             case 3:
                 func_80AC3F38(this, globalCtx);
                 break;
+
             case 5:
                 globalCtx->nextEntranceIndex = 0x1D1;
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->fadeTransition = 0x2E;
                 break;
+
             default:
                 if (!func_80AC3884(this, globalCtx, cont1)) {
                     // Move the stick left and right and look at the warez!
@@ -908,9 +824,11 @@ s32 func_80AC4220(EnOssan* this, GlobalContext* globalCtx) {
         case 0:
             func_80AC3A80(globalCtx, this);
             return 1;
+
         case 1:
             func_80AC37A8(globalCtx, this);
             return 1;
+
         default:
             return 0;
     }
@@ -952,11 +870,12 @@ void func_80AC43A0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 
 void func_80AC43F0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     Math_SmoothScaleMaxF(&this->unk_2D4, 30.0f, 0.5f, 10.0f);
-    if (29.5f < this->unk_2D4) {
+    if (this->unk_2D4 > 29.5f) {
         func_80AC3350(this, globalCtx, 30.0f);
     }
+
     func_80AC3350(this, globalCtx, this->unk_2D4);
-    if (30.0f <= this->unk_2D4) {
+    if (this->unk_2D4 >= 30.0f) {
         func_80AC3350(this, globalCtx, 30.0f);
         func_80AC3744(globalCtx, this);
         this->unk_1FC = 6;
@@ -971,6 +890,7 @@ void func_80AC44DC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (this->unk_2D4 < -29.5f) {
         func_80AC3350(this, globalCtx, -30.0f);
     }
+
     func_80AC3350(this, globalCtx, this->unk_2D4);
     if (this->unk_2D4 <= -30.0f) {
         func_80AC3350(this, globalCtx, -30.0f);
@@ -995,6 +915,7 @@ void func_80AC45C8(EnOssan* this) {
             if (phi_v0 >= 4) {
                 phi_v0 = 0;
             }
+
             while (phi_v0 != temp_v0) {
                 if (this->unk_200[phi_v0] != NULL) {
                     this->unk_252 = phi_v0;
@@ -1010,6 +931,7 @@ void func_80AC45C8(EnOssan* this) {
             if (phi_v0 >= 8) {
                 phi_v0 = 4;
             }
+
             while (phi_v0 != temp_v0) {
                 if (this->unk_200[phi_v0] != NULL) {
                     this->unk_252 = phi_v0;
@@ -1031,6 +953,7 @@ void func_80AC45C8(EnOssan* this) {
                 if (phi_v0 >= 4) {
                     phi_v0 = 1;
                 }
+
                 while (phi_v0 != temp_v0) {
                     if (this->unk_200[phi_v0] != NULL) {
                         this->unk_252 = phi_v0;
@@ -1046,6 +969,7 @@ void func_80AC45C8(EnOssan* this) {
                 if (phi_v0 >= 8) {
                     phi_v0 = 5;
                 }
+
                 while (phi_v0 != temp_v0) {
                     if (this->unk_200[phi_v0] != NULL) {
                         this->unk_252 = phi_v0;
@@ -1067,6 +991,7 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* cont1) {
     if (func_80AC3884(this, globalCtx, cont1)) {
         return 1;
     }
+
     if (func_80106BC8(globalCtx)) {
         if (!(girlA->actor.params == 38) && !girlA->unk_1A8) {
             this->unk_1FE = this->unk_1FC;
@@ -1086,22 +1011,26 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* cont1) {
                     this->unk_251 = 0;
                     this->unk_1FC = 0x18;
                     return 1;
+
                 case 17:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xA;
                     return 1;
+
                 case 18:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xB;
                     return 1;
+
                 case 19:
                 case 20:
                     func_80078884(NA_SE_SY_ERROR);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xC;
                     return 1;
+
                 case 3:
                 case 6:
                 case 45:
@@ -1111,6 +1040,7 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* cont1) {
                     this->unk_251 = 0;
                     this->unk_1FC = 0xD;
                     return 1;
+
                 default:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
@@ -1170,6 +1100,7 @@ void func_80AC4978(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                     this->unk_252 = idx;
                 }
             }
+
             func_80AC45C8(this);
             if (this->unk_252 != tmp) {
                 func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
@@ -1227,6 +1158,7 @@ void func_80AC4B4C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                     this->unk_252 = idx;
                 }
             }
+
             func_80AC45C8(this);
             if (this->unk_252 != tmp) {
                 func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
@@ -1241,6 +1173,7 @@ void func_80AC4D20(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if ((this->unk_2D4 < 0.5f) && (this->unk_2D4 > -0.5f)) {
         func_80AC3350(this, globalCtx, 0.0f);
     }
+
     func_80AC3350(this, globalCtx, this->unk_2D4);
     if (this->unk_2D4 == 0.0f) {
         func_80AC39AC(globalCtx, this);
@@ -1253,10 +1186,12 @@ void func_80AC4DDC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2355);
         return;
     }
+
     Math_SmoothScaleMaxF(&this->unk_2D4, 0.0f, 0.5f, 10.0f);
     if ((this->unk_2D4 < 0.5f) && (this->unk_2D4 > -0.5f)) {
         func_80AC3350(this, globalCtx, 0.0f);
     }
+
     func_80AC3350(this, globalCtx, this->unk_2D4);
     if (this->unk_2D4 == 0.0f) {
         func_8010B720(globalCtx, 0x3010);
@@ -1282,11 +1217,8 @@ void func_80AC4EC8(GlobalContext* globalCtx, EnOssan* this) {
     osSyncPrintf(VT_FGCOL(YELLOW) "持ち上げ開始！！" VT_RST "\n\n");
 }
 
-void func_80AC4FAC(GlobalContext* globalCtx, EnOssan* this, u32 arg2) {
-    u32* new_var = &arg2;
-    u32 new_var2 = *new_var;
-
-    func_8010B720(globalCtx, new_var2);
+void func_80AC4FAC(GlobalContext* globalCtx, EnOssan* this, u16 arg2) {
+    func_8010B720(globalCtx, arg2);
     this->unk_1FC = 0xE;
 }
 
@@ -1309,6 +1241,7 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
                 girlA->unk_1AC(globalCtx, girlA);
             }
             break;
+
         case 1:
             girlA->unk_1C0(globalCtx, girlA);
             func_80AC4FE0(globalCtx, this, 0x84);
@@ -1316,18 +1249,22 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
             this->unk_2D0 = 0.0f;
             girlA->unk_1AC(globalCtx, girlA);
             break;
+
         case 2:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x86);
             break;
+
         case 3:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x96);
             break;
+
         case 4:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x85);
             break;
+
         case 5:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x86);
@@ -1344,6 +1281,7 @@ void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
             this->unk_1FC = 0x12;
             this->unk_251 = 0;
             break;
+
         case 1:
             girlA->unk_1C0(globalCtx, girlA);
             func_80AC4FE0(globalCtx, this, 0x98);
@@ -1351,9 +1289,11 @@ void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
             this->unk_2D0 = 0.0f;
             girlA->unk_1AC(globalCtx, girlA);
             break;
+
         case 3:
             func_80AC4FAC(globalCtx, this, 0x96);
             break;
+
         case 4:
             func_80AC4FAC(globalCtx, this, 0x85);
             break;
@@ -1370,6 +1310,7 @@ void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
             this->unk_2D0 = 0.0f;
             girlA->unk_1AC(globalCtx, girlA);
             break;
+
         case 1:
             girlA->unk_1C0(globalCtx, girlA);
             func_80AC4FE0(globalCtx, this, 0x9A);
@@ -1377,10 +1318,12 @@ void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
             this->unk_2D0 = 0.0f;
             girlA->unk_1AC(globalCtx, girlA);
             break;
+
         case 2:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x9D);
             break;
+
         case 4:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x85);
@@ -1400,10 +1343,12 @@ void func_80AC53F4(GlobalContext* globalCtx, EnOssan* this) {
             this->unk_2D0 = 0.0f;
             girlA->unk_1AC(globalCtx, girlA);
             break;
+
         case 2:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x86);
             break;
+
         case 4:
             func_80078884(NA_SE_SY_ERROR);
             func_80AC4FAC(globalCtx, this, 0x85);
@@ -1438,12 +1383,14 @@ void func_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2654);
         return;
     }
+
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && !func_80AC38C8(this, globalCtx, cont1) &&
         func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80AC5014(globalCtx, this);
                 break;
+
             case 1:
                 this->unk_1FC = this->unk_1FE;
                 func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
@@ -1460,12 +1407,14 @@ void func_80AC5680(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2693);
         return;
     }
+
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && !func_80AC38C8(this, globalCtx, cont1) &&
         func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80AC51B8(globalCtx, this);
                 break;
+
             case 1:
                 this->unk_1FC = (s16)this->unk_1FE;
                 func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
@@ -1489,6 +1438,7 @@ void func_80AC576C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             case 0:
                 func_80AC52C0(globalCtx, this);
                 break;
+
             case 1:
                 this->unk_1FC = this->unk_1FE;
                 func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
@@ -1505,6 +1455,7 @@ void func_80AC5858(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2771);
         return;
     }
+
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         this->unk_1FC = this->unk_1FE;
         func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
@@ -1530,6 +1481,7 @@ void func_80AC5900(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             case 0:
                 func_80AC54F4(globalCtx, this);
                 break;
+
             case 1:
                 this->unk_1FC = this->unk_1FE;
                 func_8010B720(globalCtx, this->unk_200[this->unk_252]->actor.textId);
@@ -1561,21 +1513,26 @@ void func_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                     case 30:
                         gSaveContext.itemGetInf[2] |= 8;
                         break;
+
                     case 31:
                         gSaveContext.itemGetInf[2] |= 0x20;
                         break;
+
                     case 32:
                         gSaveContext.itemGetInf[2] |= 0x10;
                         break;
+
                     case 33:
                         gSaveContext.itemGetInf[2] |= 0x40;
                         break;
+
                     case 34:
                     case 35:
                     case 36:
                     case 37:
                         break;
                 }
+
                 func_80AC4EC8(globalCtx, this);
                 this->unk_251 = 0;
                 this->unk_2D0 = 0.0f;
@@ -1662,6 +1619,7 @@ void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                         func_80AC3928(globalCtx, this, 1);
                         func_8002F298(&this->actor, globalCtx, 100.0f, -1);
                         break;
+
                     case 1:
                     default:
                         // Stopping
@@ -1738,22 +1696,31 @@ void func_80AC62F4(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 #ifdef NON_MATCHING
 // Probably fakematching, but small regalloc
 void func_80AC6384(EnOssan* this) {
-    OssanStruct1* tmp2 = &D_80AC89DC[this->actor.params][this->unk_252];
+    static Vec3f D_80AC8D6C[] = {
+        { 17.0f, 58.0f, 30.0f },
+        { -17.0f, 58.0f, 30.0f },
+    };
+
     // Vec3f* tmp = &D_80AC8D6C[(u8)(this->unk_252 >> 2)];
+    OssanStruct1* tmp2 = &D_80AC89DC[this->actor.params][this->unk_252];
     EnGirlA* girlA = this->unk_200[this->unk_252];
     s32 pad;
+    Vec3f tmp;
 
-    f32 tmp4 = (((D_80AC8D6C[(u8)(this->unk_252 >> 2)].x - tmp2->pos.x) * this->unk_2D0) + tmp2->pos.x);
-    f32 tmp5 = (((D_80AC8D6C[(u8)(this->unk_252 >> 2)].y - tmp2->pos.y) * this->unk_2D0) + tmp2->pos.y);
-    f32 tmp6 = (((D_80AC8D6C[(u8)(this->unk_252 >> 2)].z - tmp2->pos.z) * this->unk_2D0) + tmp2->pos.z);
+    tmp.x = (((D_80AC8D6C[(u8)(this->unk_252 >> 2)].x - tmp2->pos.x) * this->unk_2D0) + tmp2->pos.x);
+    tmp.y = (((D_80AC8D6C[(u8)(this->unk_252 >> 2)].y - tmp2->pos.y) * this->unk_2D0) + tmp2->pos.y);
+    tmp.z = (((D_80AC8D6C[(u8)(this->unk_252 >> 2)].z - tmp2->pos.z) * this->unk_2D0) + tmp2->pos.z);
 
-    girlA->actor.posRot.pos.x = this->tana->actor.posRot.pos.x + tmp4;
-
-    girlA->actor.posRot.pos.y = this->tana->actor.posRot.pos.y + tmp5;
-
-    girlA->actor.posRot.pos.z = this->tana->actor.posRot.pos.z + tmp6;
+    girlA->actor.posRot.pos.x = this->tana->actor.posRot.pos.x + tmp.x;
+    girlA->actor.posRot.pos.y = this->tana->actor.posRot.pos.y + tmp.y;
+    girlA->actor.posRot.pos.z = this->tana->actor.posRot.pos.z + tmp.z;
 }
 #else
+void func_80AC6384(EnOssan* this);
+Vec3f D_80AC8D6C[] = {
+    { 17.0f, 58.0f, 30.0f },
+    { -17.0f, 58.0f, 30.0f },
+};
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC6384.s")
 #endif
 
@@ -1764,9 +1731,10 @@ void func_80AC646C(EnOssan* this) {
 
 s32 func_80AC6490(EnOssan* this) {
     Math_SmoothScaleMaxF(&this->unk_2D0, 1.0f, 1.0f, 0.15f);
-    if (0.85f <= this->unk_2D0) {
+    if (this->unk_2D0 >= 0.85f) {
         this->unk_2D0 = 1.0f;
     }
+
     func_80AC6384(this);
     if (this->unk_2D0 == 1.0f) {
         return 1;
@@ -1780,6 +1748,7 @@ s32 func_80AC652C(EnOssan* this) {
     if (this->unk_2D0 <= 0.15f) {
         this->unk_2D0 = 0.0f;
     }
+
     func_80AC6384(this);
     if (this->unk_2D0 == 0.0f) {
         return 1;
@@ -1805,12 +1774,13 @@ void func_80AC65B8(EnOssan* this) {
                 actor2->unk_1B4 = 0;
             }
         }
+
         actor++;
     }
 }
 
 #ifdef NON_MATCHING
-// Assignments
+// Assignment ordering
 void func_80AC66F4(EnOssan* this) {
     f32 phi_f0 = this->unk_24C;
     f32 temp_v0;
@@ -1828,6 +1798,7 @@ void func_80AC66F4(EnOssan* this) {
             this->unk_250 = 0;
         }
     }
+
     temp_v0 = 0.0f;
 
     this->unk_24C = phi_f0;
@@ -1842,7 +1813,7 @@ void func_80AC66F4(EnOssan* this) {
 #endif
 
 #ifdef NON_MATCHING
-// Assignments
+// Assignment ordering, same as above
 void func_80AC67C4(EnOssan* this) {
     f32 temp_f2 = this->unk_2C4;
     f32 temp_f0 = this->unk_2C8;
@@ -1946,6 +1917,7 @@ s32 func_80AC6A44(EnOssan* this, GlobalContext* globalCtx) {
             return 1;
         }
     }
+
     return 0;
 }
 
@@ -2014,6 +1986,7 @@ u16 func_80AC6F2C(EnOssan* this) {
                     return 0x70AC;
                 }
             }
+
             if (gSaveContext.itemGetInf[3] & 0x400) {
                 if (!(gSaveContext.eventChkInf[8] & 0x4000)) {
                     this->unk_1EB = 1;
@@ -2022,6 +1995,7 @@ u16 func_80AC6F2C(EnOssan* this) {
                     return 0x70AC;
                 }
             }
+
             if (gSaveContext.itemGetInf[3] & 0x200) {
                 if (!(gSaveContext.eventChkInf[8] & 0x2000)) {
                     this->unk_1EB = 2;
@@ -2030,6 +2004,7 @@ u16 func_80AC6F2C(EnOssan* this) {
                     return 0x70AC;
                 }
             }
+
             if (gSaveContext.itemGetInf[3] & 0x100) {
                 if (!(gSaveContext.eventChkInf[8] & 0x1000)) {
                     this->unk_1EB = 0;
@@ -2054,18 +2029,29 @@ u16 func_80AC6F2C(EnOssan* this) {
             }
         }
     }
+
     return 0x9E;
 }
 
 #ifdef NON_MATCHING
-// Assignments are impossible
+// Assignments are impossible to order
 void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
+    static EnOssanActionFunc D_80AC8D84[] = {
+        func_80AC6B3C, func_80AC6E0C, func_80AC6ECC, func_80AC6E0C, func_80AC6ADC, func_80AC6ADC,
+        func_80AC6ADC, func_80AC6D30, func_80AC6C54, func_80AC6ADC, func_80AC6E6C,
+    };
+    static Vec3f D_80AC8DB0[] = {
+        { 0.0f, 0.0f, 33.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f },
+        { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 36.0f },
+        { 0.0f, 0.0f, 15.0f }, { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 26.0f },
+    };
+
     OssanStruct1* sp24;
     EnTana* temp_v0;
     Vec3f* temp_v0_2;
 
     if (func_80AC6A44(this, globalCtx)) {
-        this->actor.flags &= ~-0x10;
+        this->actor.flags &= ~0x10;
         this->actor.objBankIndex = this->unk_1E8;
         Actor_SetObjectDependency(globalCtx, &this->actor);
         this->tana = (EnTana*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TANA, 6);
@@ -2079,20 +2065,18 @@ void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
         // Shopkeep ( %d ) init
         osSyncPrintf(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
 
-        temp_v0_2 = &D_80AC8DB0[this->actor.params];
-        this->actor.posRot.pos.x += temp_v0_2->x;
-        this->actor.posRot.pos.y += temp_v0_2->y;
-        this->actor.posRot.pos.z += temp_v0_2->z;
+        this->actor.posRot.pos.x += D_80AC8DB0[this->actor.params].x;
+        this->actor.posRot.pos.y += D_80AC8DB0[this->actor.params].y;
+        this->actor.posRot.pos.z += D_80AC8DB0[this->actor.params].z;
         sp24 = D_80AC89DC[this->actor.params];
-        ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 20.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
         D_80AC8D84[this->actor.params](this, globalCtx);
 
         this->actor.textId = func_80AC6F2C(this);
+        this->unk_234 = this->unk_230 = 100.0f;
 
-        this->unk_230 = 100.0f;
-        this->unk_234 = 100.0f;
-
-        this->unk_23C[3] = this->unk_23C[1] = this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = 0xFF;
+        this->unk_23C[3] = this->unk_23C[1] = 0xFF;
 
         this->actor.colChkInfo.unk_10 = 0x32;
 
@@ -2146,10 +2130,20 @@ void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
         this->unk_1F8 = func_80AC6970;
         this->actor.flags &= ~-0x1;
         this->unk_1EE = this->unk_1F0 = 0;
-        func_80AC2CA0(this, func_80AC73B4);
+        EnOssan_SetupAction(this, func_80AC73B4);
     }
 }
 #else
+EnOssanActionFunc D_80AC8D84[] = {
+    func_80AC6B3C, func_80AC6E0C, func_80AC6ECC, func_80AC6E0C, func_80AC6ADC, func_80AC6ADC,
+    func_80AC6ADC, func_80AC6D30, func_80AC6C54, func_80AC6ADC, func_80AC6E6C,
+};
+Vec3f D_80AC8DB0[] = {
+    { 0.0f, 0.0f, 33.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f },
+    { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 36.0f },
+    { 0.0f, 0.0f, 15.0f }, { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 26.0f },
+};
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7094.s")
 #endif
 
@@ -2158,6 +2152,13 @@ void func_80AC7380(EnOssan* this, GlobalContext* globalCtx) {
 }
 
 void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx) {
+    static EnOssanFunc3 D_80AC8E34[] = {
+        func_80AC3B18, func_80AC4074, func_80AC4288, func_80AC43A0, func_80AC43F0, func_80AC44DC, func_80AC4978,
+        func_80AC4B4C, func_80AC4D20, func_80AC5594, func_80AC5680, func_80AC576C, func_80AC5858, func_80AC5900,
+        func_80AC5C24, func_80AC5D40, func_80AC5DAC, func_80AC5EF0, func_80AC6208, func_80AC4DDC, func_80AC60E4,
+        func_80AC6148, func_80AC61B8, func_80AC5C9C, func_80AC5A28, func_80AC6258, func_80AC62F4,
+    };
+
     Player* player = PLAYER;
     Actor* thisx = &this->actor;
 
@@ -2170,6 +2171,7 @@ void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx) {
     if (player != NULL) {
         D_80AC8E34[this->unk_1FC](this, globalCtx, player);
     }
+
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, 26.0f, 10.0f, 0.0f, 5);
     Actor_SetHeight(&this->actor, 90.0f);
@@ -2177,6 +2179,7 @@ void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx) {
     if (this->unk_194 != NULL) {
         this->unk_194(this, globalCtx);
     }
+
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
@@ -2187,12 +2190,14 @@ void EnOssan_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 func_80AC74F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnOssan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                             Actor* thisx) {
     EnOssan* this = THIS;
 
     if (limbIndex == 8) {
         rot->x += this->unk_1EE;
     }
+
     return 0;
 }
 
@@ -2201,32 +2206,29 @@ s32 func_80AC74F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, f32 arg4, u8 arg5) {
     f32 temp_f0;
     f32 tmp2;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4192);
+    if (arg5) {
+        func_80094520(globalCtx->state.gfxCtx);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, this->unk_23C[0], this->unk_23C[1], this->unk_23C[2],
+                        this->unk_23C[3]);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4192);
-        if (arg5) {
-            func_80094520(globalCtx->state.gfxCtx);
+        gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CDC0, G_IM_FMT_IA, G_IM_SIZ_4b, 0x10, 0x10, 0,
+                            G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
 
-            gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, this->unk_23C[0], this->unk_23C[1], this->unk_23C[2],
-                            this->unk_23C[3]);
-
-            gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CDC0, G_IM_FMT_IA, G_IM_SIZ_4b, 0x10, 0x10, 0,
-                                G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
-
-            temp_f0 = (16.0f * arg4);
-            tmp2 = (1.0f / arg4) * 1024.0f;
-            gSPTextureRectangle(gfxCtx->overlay.p++, (s32)((arg2 - temp_f0) * 4.0f) & 0xFFF,
-                                (s32)((arg3 - temp_f0) * 4.0f) & 0xFFF, (s32)((arg2 + temp_f0) * 4.0f) & 0xFFF,
-                                (s32)((arg3 + temp_f0) * 4.0f) & 0xFFF, G_TX_RENDERTILE, 0, 0, (s32)tmp2 & 0xFFFF,
-                                (s32)tmp2 & 0xFFFF);
-        }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
+        temp_f0 = (16.0f * arg4);
+        tmp2 = (1.0f / arg4) * 1024.0f;
+        gSPTextureRectangle(gfxCtx->overlay.p++, (s32)((arg2 - temp_f0) * 4.0f), (s32)((arg3 - temp_f0) * 4.0f),
+                            (s32)((arg2 + temp_f0) * 4.0f), (s32)((arg3 + temp_f0) * 4.0f), G_TX_RENDERTILE, 0, 0,
+                            (s32)tmp2, (s32)tmp2);
     }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
 }
 #else
+void func_80AC7528(GlobalContext*, EnOssan*, f32, f32, f32, u8);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7528.s")
 #endif
 
@@ -2237,180 +2239,187 @@ void func_80AC77CC(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 arg3, s32 a
     f32 temp_f0;
     f32 temp_f2;
     f32 temp_f3;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4228);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4228);
+    gDPPipeSync(gfxCtx->overlay.p++);
+    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, arg1, arg2, arg3, arg4);
 
-        gDPPipeSync(gfxCtx->overlay.p++);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, arg1, arg2, arg3, arg4);
+    temp_f0 = 8.0f * arg7;
+    temp_f2 = 12.0f * arg7;
+    temp_f3 = (1.0f / arg7) * 1024.0f;
 
-        temp_f0 = 8.0f * arg7;
-        temp_f2 = 12.0f * arg7;
-        temp_f3 = (1.0f / arg7) * 1024.0f;
+    gSPTextureRectangle(gfxCtx->overlay.p++, (s32)((arg6 - temp_f2) * 4.0f) & 0xFFF,
+                        (s32)((arg5 - temp_f0) * 4.0f) & 0xFFF, (s32)((arg6 + temp_f2) * 4.0f) & 0xFFF,
+                        (s32)((arg5 + temp_f0) * 4.0f) & 0xFFF, G_TX_RENDERTILE, (s32)arg9, (s32)arg8,
+                        (s32)(arg11 * temp_f3), (s32)(temp_f3 * arg10));
 
-        gSPTextureRectangle(gfxCtx->overlay.p++, (s32)((arg6 - temp_f2) * 4.0f) & 0xFFF,
-                            (s32)((arg5 - temp_f0) * 4.0f) & 0xFFF, (s32)((arg6 + temp_f2) * 4.0f) & 0xFFF,
-                            (s32)((arg5 + temp_f0) * 4.0f) & 0xFFF, G_TX_RENDERTILE, (s32)arg9, (s32)arg8,
-                            (s32)(arg11 * temp_f3), (s32)(temp_f3 * arg10));
-
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4242);
-    }
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4242);
 }
 #else
+void func_80AC77CC(GlobalContext* globalCtx, s32, s32, s32, s32, f32, f32, f32, s32, s32, f32, f32);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC77CC.s")
 #endif
 
 void func_80AC79C8(GlobalContext* globalCtx, EnOssan* this) {
     s32 tmp = this->unk_288;
     s32 tmp2 = this->unk_2C0;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4252);
+    if (tmp || tmp2) {
+        func_80094520(globalCtx->state.gfxCtx);
+        gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4252);
+        gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CF40, G_IM_FMT_IA, G_IM_SIZ_8b, 0x10, 0x18, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
 
-        if (tmp || tmp2) {
-            func_80094520(globalCtx->state.gfxCtx);
-            gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-
-            gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CF40, G_IM_FMT_IA, G_IM_SIZ_8b, 0x10, 0x18, 0,
-                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOMASK, G_TX_NOLOD,
-                                G_TX_NOLOD);
-
-            if (tmp) {
-                func_80AC77CC(globalCtx, this->unk_26C, this->unk_270, this->unk_274, this->unk_278, this->unk_27C,
-                              this->unk_280, this->unk_284, 0, 0, -1.0f, 1.0f);
-            }
-            if (tmp2) {
-                func_80AC77CC(globalCtx, this->unk_2A4, this->unk_2A8, this->unk_2AC, this->unk_2B0, this->unk_2B4,
-                              this->unk_2B8, this->unk_2BC, 0, 0, 1.0f, 1.0f);
-            }
-
-            gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CE40, G_IM_FMT_IA, G_IM_SIZ_8b, 0x10, 0x10, 0,
-                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOMASK, G_TX_NOLOD,
-                                G_TX_NOLOD);
-
-            if (tmp) {
-                func_80AC77CC(globalCtx, this->unk_254, this->unk_258, this->unk_25C, this->unk_260, this->unk_264,
-                              this->unk_268, this->unk_284, 0, 0, -1.0f, 1.0f);
-            }
-            if (tmp2) {
-                func_80AC77CC(globalCtx, this->unk_28C, this->unk_290, this->unk_294, this->unk_298, this->unk_29C,
-                              this->unk_2A0, this->unk_2BC, 0, 0, 1.0f, 1.0f);
-            }
+        if (tmp) {
+            func_80AC77CC(globalCtx, this->unk_26C, this->unk_270, this->unk_274, this->unk_278, this->unk_27C,
+                          this->unk_280, this->unk_284, 0, 0, -1.0f, 1.0f);
         }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4300);
+
+        if (tmp2) {
+            func_80AC77CC(globalCtx, this->unk_2A4, this->unk_2A8, this->unk_2AC, this->unk_2B0, this->unk_2B4,
+                          this->unk_2B8, this->unk_2BC, 0, 0, 1.0f, 1.0f);
+        }
+
+        gDPLoadTextureBlock(gfxCtx->overlay.p++, &D_0400CE40, G_IM_FMT_IA, G_IM_SIZ_8b, 0x10, 0x10, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
+
+        if (tmp) {
+            func_80AC77CC(globalCtx, this->unk_254, this->unk_258, this->unk_25C, this->unk_260, this->unk_264,
+                          this->unk_268, this->unk_284, 0, 0, -1.0f, 1.0f);
+        }
+
+        if (tmp2) {
+            func_80AC77CC(globalCtx, this->unk_28C, this->unk_290, this->unk_294, this->unk_298, this->unk_29C,
+                          this->unk_2A0, this->unk_2BC, 0, 0, 1.0f, 1.0f);
+        }
     }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4300);
 }
 
 void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_TYPE D_80AC8EA0[] = {
+        0x06004878,
+        0x060052B8,
+        0x060056B8,
+    };
+
     EnOssan* this = THIS;
     s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4320);
+    func_80093D18(globalCtx->state.gfxCtx);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4320);
-        func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EA0[this->unk_1F2]));
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EA0[this->unk_1F2]));
-
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         func_80AC74F4, NULL, &this->actor);
-        func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-        func_80AC79C8(globalCtx, this);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4340);
-    }
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     EnOssan_OverrideLimbDraw, NULL, &this->actor);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4340);
 }
 
 #ifdef NON_MATCHING
-// Loading gSegments
+// Loading gSegments address wrong, upper half re-used.
 s32 func_80AC7ED0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    static UNK_TYPE D_80AC8EAC[] = {
+        0x06001570,
+        0x060001F0,
+        0x06000B30,
+    };
+
     EnOssan* this = THIS;
     s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4354);
-        if (limbIndex == 15) {
-            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->unk_1E9].segment);
-            gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_1E9].segment);
-            *dList = &D_06002820;
-            gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80AC8EAC[this->unk_1F2]));
-        }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4374);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4354);
+    if (limbIndex == 15) {
+        gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->unk_1E9].segment);
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_1E9].segment);
+        *dList = D_06002820;
+        gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80AC8EAC[this->unk_1F2]));
     }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4374);
     return 0;
 }
 #else
+UNK_TYPE D_80AC8EAC[] = {
+    0x06001570,
+    0x060001F0,
+    0x06000B30,
+};
+s32 func_80AC7ED0(GlobalContext*, s32, Gfx**, Vec3f*, Vec3s*, Actor*);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7ED0.s")
 #endif
 
 Gfx* func_80AC801C(GraphicsContext* gfxCtx) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    Gfx* dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
 
-    gSPEndDisplayList(displayList);
-    return displayList;
+    gSPEndDisplayList(&dList[0]);
+    return dList;
 }
 
 Gfx* func_80AC8048(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
+    Gfx* dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
 
-    gDPSetEnvColor(displayList, r, g, b, a);
-    gSPEndDisplayList(displayList + 1);
-    return displayList;
+    gDPSetEnvColor(&dList[0], r, g, b, a);
+    gSPEndDisplayList(&dList[1]);
+    return dList;
 }
 
 void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4409);
-        func_80093D18(globalCtx->state.gfxCtx);
-
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80AC8048(globalCtx->state.gfxCtx, 0, 130, 70, 255));
-        gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80AC8048(globalCtx->state.gfxCtx, 110, 170, 20, 255));
-        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         func_80AC7ED0, NULL, &this->actor);
-        func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-        func_80AC79C8(globalCtx, this);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4434);
-    }
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4409);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80AC8048(globalCtx->state.gfxCtx, 0, 130, 70, 255));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80AC8048(globalCtx->state.gfxCtx, 110, 170, 20, 255));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     func_80AC7ED0, NULL, &this->actor);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4434);
 }
 
 void func_80AC8244(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_TYPE D_80AC8EB8[] = {
+        0x0600CE80,
+        0x0600D280,
+        0x0600D680,
+    };
+
     EnOssan* this = THIS;
     s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4455);
-        func_80093D18(globalCtx->state.gfxCtx);
-
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EB8[this->unk_1F2]));
-        gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600DE80));
-
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         NULL, NULL, &this->actor);
-        func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-        func_80AC79C8(globalCtx, this);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4476);
-    }
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4455);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EB8[this->unk_1F2]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600DE80));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+                     NULL, &this->actor);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4476);
 }
 
 s32 func_80AC83A8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
@@ -2419,89 +2428,95 @@ s32 func_80AC83A8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (limbIndex == 15) {
         rot->x += this->unk_1EE;
     }
+
     return 0;
 }
 
 void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_TYPE D_80AC8EC4[] = {
+        0x06003E40,
+        0x06004640,
+        0x06004E40,
+    };
+
     s32 pad;
     EnOssan* this = THIS;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4506);
-        func_80093D18(globalCtx->state.gfxCtx);
-
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
-
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EC4[this->unk_1F2]));
-
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         func_80AC83A8, NULL, &this->actor);
-        func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-        func_80AC79C8(globalCtx, this);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4531);
-    }
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4506);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EC4[this->unk_1F2]));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     func_80AC83A8, NULL, &this->actor);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4531);
 }
 
 void func_80AC854C(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_TYPE D_80AC8ED0[] = {
+        0x060030D8,
+        0x060034D8,
+        0x060038D8,
+    };
+
     EnOssan* this = THIS;
     s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4544);
-        func_80093D18(globalCtx->state.gfxCtx);
-
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8ED0[this->unk_1F2]));
-
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         NULL, NULL, &this->actor);
-        func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-        func_80AC79C8(globalCtx, this);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4564);
-    }
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4544);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8ED0[this->unk_1F2]));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+                     NULL, &this->actor);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4564);
 }
 
 void func_80AC8668(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_TYPE D_80AC8EDC[] = {
+        0x060035D8,
+        0x060039D8,
+    };
+
     EnOssan* this = THIS;
     s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4578);
-        func_80093D18(globalCtx->state.gfxCtx);
-
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EDC[this->unk_1EC]));
-
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         NULL, NULL, &this->actor);
-        func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-        func_80AC79C8(globalCtx, this);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4598);
-    }
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4578);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EDC[this->unk_1EC]));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+                     NULL, &this->actor);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4598);
 }
 
 void func_80AC8784(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_TYPE D_80AC8EE4[] = {
+        0x06003968,
+        0x06003D68,
+        0x06004168,
+    };
+
     EnOssan* this = THIS;
     s32 pad;
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4611);
-        func_80093D18(globalCtx->state.gfxCtx);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EE4[this->unk_1F2]));
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         NULL, NULL, &this->actor);
-        func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-        func_80AC79C8(globalCtx, this);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4631);
-    }
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4611);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EE4[this->unk_1F2]));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+                     NULL, &this->actor);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_oB1.c", 4631);
 }
