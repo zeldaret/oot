@@ -407,7 +407,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
 }
 
 #ifdef NON_MATCHING
-// Some missing ABS instructions near the bottom of the section on lines 454-461
+// single register swap in a subu instruction
 void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_v1;
     s32 temp_t0;
@@ -444,13 +444,13 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
             phi_t5 = ABS(this->unk_1AC[index1AC]);
         } else if (arg2 == 16) {
             index1AC = 15;
-            phi_t5 = ABS(this->unk_1AC[index1AC]);
+            phi_t5 = -ABS(this->unk_1AC[index1AC]);
         } else {
             index1AC = 18;
-            phi_t5 = ABS(this->unk_1AC[index1AC]);
+            phi_t5 = -ABS(this->unk_1AC[index1AC]);
         }
 
-        if ((s32)fabsf((f32)temp_t3) >= 0x8001) {
+        if ((s32)fabsf((f32)temp_t3) > 0x8000) {
             if (arg1 > 0) {
                 temp_t3 -= 0x10000;
             } else {

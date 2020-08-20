@@ -39,7 +39,7 @@ glabel Camera_Fixed4
 /* AC7278 800500D8 860F0142 */  lh    $t7, 0x142($s0)
 /* AC727C 800500DC 468021A0 */  cvt.s.w $f6, $f4
 /* AC7280 800500E0 44812000 */  mtc1  $at, $f4
-/* AC7284 800500E4 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC7284 800500E4 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC7288 800500E8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC728C 800500EC 86080144 */  lh    $t0, 0x144($s0)
 /* AC7290 800500F0 0338C821 */  addu  $t9, $t9, $t8
@@ -203,11 +203,11 @@ glabel Camera_Fixed4
 /* AC74F4 80050354 460C9281 */  sub.s $f10, $f18, $f12
 /* AC74F8 80050358 46085102 */  mul.s $f4, $f10, $f8
 /* AC74FC 8005035C 46046180 */  add.s $f6, $f12, $f4
-/* AC7500 80050360 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC7500 80050360 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC7504 80050364 E7A6008C */   swc1  $f6, 0x8c($sp)
 /* AC7508 80050368 27A40068 */  addiu $a0, $sp, 0x68
 /* AC750C 8005036C 02202825 */  move  $a1, $s1
-/* AC7510 80050370 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC7510 80050370 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC7514 80050374 27A60084 */   addiu $a2, $sp, 0x84
 /* AC7518 80050378 C7AA0068 */  lwc1  $f10, 0x68($sp)
 /* AC751C 8005037C C7A80070 */  lwc1  $f8, 0x70($sp)

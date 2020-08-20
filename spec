@@ -322,7 +322,6 @@ beginseg
     include "build/data/z_lifemeter.data.o"
     include "build/src/code/z_lights.o"
     include "build/data/z_lights.data.o"
-    include "build/data/z_lights.bss.o"
     include "build/src/code/z_malloc.o"
     include "build/src/code/z_map_mark.o"
     include "build/src/code/z_moji.o"
@@ -414,16 +413,16 @@ beginseg
     include "build/src/code/code_800DACC0.o"
     include "build/data/code_800DACC0.data.o"
     include "build/data/code_800DACC0.bss.o"
-    include "build/src/code/code_800DDE20.o"
+    include "build/src/code/audio_heap.o"
     include "build/src/code/code_800E11F0.o"
     include "build/data/code_800E11F0.data.o"
     include "build/data/code_800E11F0.rodata.o"
     include "build/src/libultra_code/code_800E6840.o"
     include "build/src/libultra_code/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
-    include "build/src/code/code_800E88C0.o"
-    include "build/data/code_800E88C0.data.o"
-    include "build/src/code/code_800E9340.o"
+    include "build/src/code/audio_effects.o"
+    include "build/data/audio_effects.data.o"
+    include "build/src/code/audio_seqplayer.o"
     include "build/src/code/code_800EC960.o"
     include "build/data/code_800EC960.data.o"
     include "build/src/code/code_800F7260.o"
@@ -1218,18 +1217,13 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Idohashira"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/z_bg_spot01_idohashira.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idohashira/ovl_Bg_Spot01_Idohashira_reloc.o"
-#else
-    include "build/data/overlays/actors/z_bg_spot01_idohashira.reloc.o"
-#endif
 endseg
 
 beginseg
     name "ovl_Bg_Spot01_Idomizu"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idomizu/z_bg_spot01_idomizu.o"
-    include "build/data/overlays/actors/z_bg_spot01_idomizu.data.o"
-    include "build/data/overlays/actors/z_bg_spot01_idomizu.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot01_Idomizu/ovl_Bg_Spot01_Idomizu_reloc.o"
 endseg
 
 beginseg
@@ -1613,8 +1607,7 @@ endseg
 beginseg
     name "ovl_Demo_Im"
     include "build/src/overlays/actors/ovl_Demo_Im/z_demo_im.o"
-    include "build/data/overlays/actors/z_demo_im.data.o"
-    include "build/data/overlays/actors/z_demo_im.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Im/ovl_Demo_Im_reloc.o"
 endseg
 
 beginseg
@@ -1954,15 +1947,13 @@ endseg
 beginseg
     name "ovl_Elf_Msg"
     include "build/src/overlays/actors/ovl_Elf_Msg/z_elf_msg.o"
-    include "build/data/overlays/actors/z_elf_msg.data.o"
-    include "build/data/overlays/actors/z_elf_msg.reloc.o"
+    include "build/src/overlays/actors/ovl_Elf_Msg/ovl_Elf_Msg_reloc.o"
 endseg
 
 beginseg
     name "ovl_Elf_Msg2"
     include "build/src/overlays/actors/ovl_Elf_Msg2/z_elf_msg2.o"
-    include "build/data/overlays/actors/z_elf_msg2.data.o"
-    include "build/data/overlays/actors/z_elf_msg2.reloc.o"
+    include "build/src/overlays/actors/ovl_Elf_Msg2/ovl_Elf_Msg2_reloc.o"
 endseg
 
 beginseg
@@ -2143,11 +2134,7 @@ endseg
 beginseg
     name "ovl_En_Bx"
     include "build/src/overlays/actors/ovl_En_Bx/z_en_bx.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Bx/ovl_En_Bx_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_bx.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2533,11 +2520,7 @@ endseg
 beginseg
     name "ovl_En_Gs"
     include "build/src/overlays/actors/ovl_En_Gs/z_en_gs.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Gs/ovl_En_Gs_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_gs.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2688,7 +2671,11 @@ endseg
 beginseg
     name "ovl_En_Insect"
     include "build/src/overlays/actors/ovl_En_Insect/z_en_insect.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Insect/ovl_En_Insect_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_insect.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2896,8 +2883,7 @@ endseg
 beginseg
     name "ovl_En_Niw_Girl"
     include "build/src/overlays/actors/ovl_En_Niw_Girl/z_en_niw_girl.o"
-    include "build/data/overlays/actors/z_en_niw_girl.data.o"
-    include "build/data/overlays/actors/z_en_niw_girl.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Niw_Girl/ovl_En_Niw_Girl_reloc.o"
 endseg
 
 beginseg
@@ -3368,15 +3354,13 @@ endseg
 beginseg
     name "ovl_En_Wonder_Talk"
     include "build/src/overlays/actors/ovl_En_Wonder_Talk/z_en_wonder_talk.o"
-    include "build/data/overlays/actors/z_en_wonder_talk.data.o"
-    include "build/data/overlays/actors/z_en_wonder_talk.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wonder_Talk/ovl_En_Wonder_Talk_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Wonder_Talk2"
     include "build/src/overlays/actors/ovl_En_Wonder_Talk2/z_en_wonder_talk2.o"
-    include "build/data/overlays/actors/z_en_wonder_talk2.data.o"
-    include "build/data/overlays/actors/z_en_wonder_talk2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wonder_Talk2/ovl_En_Wonder_Talk2_reloc.o"
 endseg
 
 beginseg
@@ -3405,8 +3389,7 @@ endseg
 beginseg
     name "ovl_En_Yukabyun"
     include "build/src/overlays/actors/ovl_En_Yukabyun/z_en_yukabyun.o"
-    include "build/data/overlays/actors/z_en_yukabyun.data.o"
-    include "build/data/overlays/actors/z_en_yukabyun.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Yukabyun/ovl_En_Yukabyun_reloc.o"
 endseg
 
 beginseg
