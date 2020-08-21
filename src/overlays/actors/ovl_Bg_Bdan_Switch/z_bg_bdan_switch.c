@@ -55,7 +55,7 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
     (ActorFunc)BgBdanSwitch_Draw,
 };
 
-extern UNK_PTR D_06005CF8;
+extern CollisionHeader D_06005CF8;
 extern Gfx D_060061A0[];
 extern Gfx D_06005A20[];
 
@@ -80,15 +80,15 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f D_8086E0E0 = { 0, 140.0f, 0 };
 
-void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
     s16 pad1;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
     s16 pad2;
 
     func_80043480(&this->actor, flag);
-    func_80041880(collision, &local_c);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
-    if (this->dynaPolyId == 0x32) {
+    func_80041880(collision, &colHeader);
+    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    if (this->dynaPolyId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
                      this->actor.id, this->actor.params);
     }
@@ -146,7 +146,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086D010(this, globalCtx, &D_06005CF8, 1);
+            func_8086D010(this, globalCtx, &D_06005CF8, DPM_PLAYER);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
@@ -503,15 +503,15 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086DF58(this, globalCtx, &D_060061A0);
+            func_8086DF58(this, globalCtx, D_060061A0);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8086DF58(this, globalCtx, &D_060061A0);
+            func_8086DF58(this, globalCtx, D_060061A0);
             func_800628A4(0, &this->collider);
             Matrix_MultVec3f(&D_8086E0E0, &this->actor.posRot2);
             break;
         case BLUE:
-            func_8086DF58(this, globalCtx, &D_06005A20);
+            func_8086DF58(this, globalCtx, D_06005A20);
     }
 }

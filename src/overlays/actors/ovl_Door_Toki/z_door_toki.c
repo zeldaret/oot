@@ -26,7 +26,7 @@ const ActorInit Door_Toki_InitVars = {
     NULL,
 };
 
-extern UNK_TYPE D_06007888;
+extern CollisionHeader D_06007888;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
@@ -35,18 +35,18 @@ static InitChainEntry sInitChain[] = {
 void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
     s32 pad;
-    CollisionHeader* sp1C = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->actor, 0);
-    DynaPolyInfo_Alloc(&D_06007888, &sp1C);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
+    func_80043480(&this->actor, DPM_UNK);
+    func_80041880(&D_06007888, &colHeader);
+    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 }
 
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx) {

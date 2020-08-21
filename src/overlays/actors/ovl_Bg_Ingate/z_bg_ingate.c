@@ -30,7 +30,7 @@ const ActorInit Bg_Ingate_InitVars = {
     (ActorFunc)BgIngate_Draw,
 };
 
-extern UNK_TYPE D_060011B8;
+extern CollisionHeader D_060011B8;
 extern Gfx D_06001040[];
 
 void BgIngate_SetupAction(BgIngate* this, BgIngateActionFunc actionFunc) {
@@ -41,12 +41,12 @@ void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgIngate* this = THIS;
 
     s32 pad;
-    s32 sp32 = 0;
+    CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna, 0);
-    func_80041880(&D_060011B8, &sp32);
+    func_80043480(&this->dyna, DPM_UNK);
+    func_80041880(&D_060011B8, &colHeader);
 
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp32);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if ((globalCtx->sceneNum != SCENE_SPOT20 || LINK_IS_CHILD) ||
         (((gSaveContext.eventChkInf[1] & 0x100)) && (gSaveContext.cutsceneIndex != 0xFFF0))) {

@@ -49,9 +49,12 @@ f32 D_808B90F4[] = {
     0.1f,
 };
 
-UNK_TYPE D_808B90FC[] = {
-    0x06002FE4,
-    0x0600261C,
+extern CollisionHeader D_06002FE4;
+extern CollisionHeader D_0600261C;
+
+CollisionHeader* D_808B90FC[] = {
+    &D_06002FE4,
+    &D_0600261C,
 };
 
 u32 D_808B9104[] = {
@@ -83,9 +86,12 @@ BgSpot18ObjInitFunc D_808B913C[] = {
     func_808B8C90,
 };
 
-static Gfx* sDlists[] = {
-    0x06002BC0,
-    0x06002370,
+extern Gfx D_06002BC0[];
+extern Gfx D_06002370[];
+
+static Gfx(*sDlists[]) = {
+    D_06002BC0,
+    D_06002370,
 };
 
 s32 func_808B8910(BgSpot18Obj* this, GlobalContext* globalCtx) {
@@ -126,11 +132,11 @@ s32 func_808B8A5C(BgSpot18Obj* this, GlobalContext* globalCtx) {
 
 s32 func_808B8A98(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
-    DynaPolyInfo_Alloc(D_808B90FC[this->dyna.actor.params & 0xF], &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    func_80043480(&this->dyna.actor, DPM_UNK);
+    func_80041880(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;
 }
 
@@ -195,7 +201,7 @@ void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Obj* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808B8DC0(BgSpot18Obj* this) {

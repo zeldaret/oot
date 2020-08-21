@@ -33,8 +33,8 @@ const ActorInit Bg_Mjin_InitVars = {
 extern UNK_TYPE D_06000000;
 extern Gfx D_06000140[];
 extern Gfx D_06000330[];
-extern UNK_TYPE D_06000330_;
-extern UNK_TYPE D_06000658;
+extern CollisionHeader D_06000330_;
+extern CollisionHeader D_06000658;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
@@ -67,23 +67,22 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMjin* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
-    CollisionHeader* local_c;
-    UNK_TYPE collision;
+    CollisionHeader* colHeader;
+    CollisionHeader* collision;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        local_c = NULL;
+        colHeader = NULL;
         this->dyna.actor.flags &= ~0x10;
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
+        func_80043480(&this->dyna.actor, 0);
         collision = this->dyna.actor.params != 0 ? &D_06000658 : &D_06000330_;
-        DynaPolyInfo_Alloc(collision, &local_c);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+        func_80041880(collision, &colHeader);
+        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         BgMjin_SetupAction(this, func_808A0920);
         this->dyna.actor.draw = BgMjin_Draw;
     }

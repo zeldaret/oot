@@ -28,10 +28,10 @@ const ActorInit En_Pu_box_InitVars = {
 };
 
 extern Gfx D_06000380[];
-extern UNK_TYPE D_060006D0;
+extern CollisionHeader D_060006D0;
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
     EnPubox* this = THIS;
 
     switch (thisx->params) {
@@ -56,17 +56,17 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->uncullZoneScale = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
     this->dyna.unk_160 = 0;
-    this->dyna.unk_15C = 0;
+    this->dyna.unk_15C = DPM_UNK;
     thisx->unk_1F = 1;
     thisx->gravity = -2.0f;
-    func_80041880(&D_060006D0, &local_c);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80041880(&D_060006D0, &colHeader);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPubox* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {

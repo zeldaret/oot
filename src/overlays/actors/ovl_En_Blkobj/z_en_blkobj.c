@@ -51,7 +51,7 @@ Gfx D_809C25A0[] = {
 
 extern Gfx D_060014E0[];
 extern Gfx D_060053D0[];
-extern UNK_TYPE D_06007564;
+extern CollisionHeader D_06007564;
 
 void func_809C2060(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -61,17 +61,16 @@ void func_809C2060(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    func_80043480(&this->dyna, DPM_UNK);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         this->unk_164 = 0xFF;
         func_809C2060(this, func_809C22F4);
     } else {
-        DynaPolyInfo_Alloc(&D_06007564, &localC);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+        func_80041880(&D_06007564, &colHeader);
+        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         func_809C2060(this, func_809C2148);
     }
 }
@@ -79,7 +78,7 @@ void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBlkobj* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_809C2148(EnBlkobj* this, GlobalContext* globalCtx) {
@@ -118,7 +117,7 @@ void func_809C2218(EnBlkobj* this, GlobalContext* globalCtx) {
             if (this->unk_164 > 0xFF) {
                 this->unk_164 = 0xFF;
                 func_809C2060(this, func_809C22F4);
-                DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             }
         }
     }

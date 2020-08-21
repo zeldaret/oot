@@ -31,7 +31,9 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-static UNK_PTR D_808B1F90[] = { NULL, 0x06005520, 0x0600283C, 0x06008458, 0x06007580 };
+extern CollisionHeader D_06005520, D_0600283C, D_06008458, D_06007580;
+
+static CollisionHeader* D_808B1F90[] = { NULL, &D_06005520, &D_0600283C, &D_06008458, &D_06007580 };
 
 static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
     func_808B1BEC,
@@ -96,13 +98,13 @@ s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx) {
 
 s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad[2];
 
-    if (D_808B1F90[thisx->params] != 0) {
-        func_80043480(thisx, 0);
-        func_80041880(D_808B1F90[thisx->params], &localC);
-        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    if (D_808B1F90[thisx->params] != NULL) {
+        func_80043480(thisx, DPM_UNK);
+        func_80041880(D_808B1F90[thisx->params], &colHeader);
+        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
     return 1;
 }

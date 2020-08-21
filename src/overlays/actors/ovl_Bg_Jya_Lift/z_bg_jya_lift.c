@@ -15,7 +15,8 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag);
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
+                            DynaPolyMoveFlag moveFlag);
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
 void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
@@ -43,16 +44,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_0600D7E8;
+extern CollisionHeader D_0600D7E8;
 extern Gfx D_0600CCE0[];
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag) {
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
+                            DynaPolyMoveFlag moveFlag) {
     s32 pad1;
-    s32 localConst = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, localConst);
+    func_80043480(&this->dyna, moveFlag);
+    func_80041880(collisionHeader, &colHeader);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -86,7 +88,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");
         D_8089A020 = 0;
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
 }
 

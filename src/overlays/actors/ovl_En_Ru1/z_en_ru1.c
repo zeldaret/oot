@@ -1347,15 +1347,15 @@ void func_80AED8DC(EnRu1* this) {
 
 void func_80AEDAE0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, thisx->floorPolySource);
+    Actor* dyna = func_8003EB84(&globalCtx->colCtx, thisx->floorPolySource);
 
-    if ((dyna == NULL) || (dyna->actor.id == ACTOR_EN_BOX)) {
+    if (dyna == NULL || dyna->id == ACTOR_EN_BOX) {
         thisx->bgCheckFlags &= ~0x19;
     }
 }
 
 void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
-    DynaPolyActor* temp_dyna;
+    Actor* temp_dyna;
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
@@ -1371,7 +1371,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speedXZ;
             if (temp_dyna != NULL) {
-                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
+                if (temp_dyna->id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
                 }
             } else {
@@ -1383,7 +1383,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
             }
             gravity = &this->actor.gravity;
             if (temp_dyna != NULL) {
-                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
+                if (temp_dyna->id != ACTOR_EN_BOX) {
                     *velocityY = 0.0f;
                     this->actor.minVelocityY = 0.0f;
                     *gravity = 0.0f;
@@ -1442,9 +1442,9 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEDEF4(EnRu1* this, GlobalContext* globalCtx) {
     f32* speedXZ = &this->actor.speedXZ;
-    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
+    Actor* dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
 
-    if ((dyna != NULL) && (dyna->actor.id == ACTOR_EN_BOX)) {
+    if (dyna != NULL && dyna->id == ACTOR_EN_BOX) {
         if (*speedXZ != 0.0f) {
             *speedXZ *= 1.1f;
         } else {
@@ -1549,13 +1549,13 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
-    DynaPolyActor* dyna;
-    u32 floorPolySource;
+    Actor* dyna;
+    s32 floorPolySource;
     if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != BGCHECK_SCENE)) {
         floorPolySource = this->actor.floorPolySource;
-        dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, floorPolySource);
-        if ((dyna != NULL) && (dyna->actor.id == ACTOR_BG_BDAN_SWITCH)) {
-            if ((((dyna->actor.params) >> 8) & 0x3F) == 0x38) {
+        dyna = func_8003EB84(&globalCtx->colCtx, floorPolySource);
+        if ((dyna != NULL) && (dyna->id == ACTOR_BG_BDAN_SWITCH)) {
+            if (((dyna->params >> 8) & 0x3F) == 0x38) {
                 gSaveContext.infTable[20] |= 1;
                 return;
             }
@@ -1567,16 +1567,16 @@ void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
 s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad[2];
     CollisionContext* colCtx;
-    DynaPolyActor* dynaActor;
+    Actor* dynaActor;
     s32 floorPolySource;
 
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != BGCHECK_SCENE)) {
+    if ((this->actor.bgCheckFlags & 1) && this->actor.floorPolySource != BGCHECK_SCENE) {
         colCtx = &globalCtx->colCtx;
         floorPolySource =
             this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
         dynaActor = func_8003EB84(colCtx, floorPolySource);
-        if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (dynaActor->actor.params == 0) &&
-            (!func_8008E988(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
+        if (dynaActor != NULL && dynaActor->id == ACTOR_BG_BDAN_OBJECTS && dynaActor->params == 0 &&
+            !func_8008E988(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;

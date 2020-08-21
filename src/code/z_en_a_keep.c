@@ -39,8 +39,10 @@ static ColliderCylinderInit sCylinderInit = {
     { 25, 60, 0, { 0, 0, 0 } },
 };
 
-static UNK_PTR D_8011546C[] = {
-    0x040394B0, 0x040394B0, 0x0403A120, 0x0403A480, 0x0403A7F0, 0x06000730,
+extern CollisionHeader D_040394B0, D_040394B0, D_0403A120, D_0403A480, D_0403A7F0, D_06000730;
+
+static CollisionHeader* D_8011546C[] = {
+    &D_040394B0, &D_040394B0, &D_0403A120, &D_0403A480, &D_0403A7F0, &D_06000730,
 };
 
 static Gfx* D_80115484[] = {
@@ -53,7 +55,7 @@ void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
 }
 
 void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    u32 sp34 = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad;
     EnAObj* this = THIS;
     f32 sp28;
@@ -93,7 +95,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->posRot2.pos = thisx->posRot.pos;
     this->dyna.dynaPolyId = -1;
     this->dyna.unk_160 = 0;
-    this->dyna.unk_15C = 0;
+    this->dyna.unk_15C = DPM_UNK;
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 200.0f;
 
@@ -150,15 +152,15 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->dyna.dynaPolyId != -1) {
-        DynaPolyInfo_Alloc(D_8011546C[this->dyna.dynaPolyId], &sp34);
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp34);
+        func_80041880(D_8011546C[this->dyna.dynaPolyId], &colHeader);
+        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
 }
 
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAObj* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
@@ -277,10 +279,7 @@ void func_8001D5C8(EnAObj* this, s16 params) {
 void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ += this->dyna.unk_150;
     this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
-
-    this->dyna.actor.speedXZ = (this->dyna.actor.speedXZ < -2.5f)
-                                   ? -2.5f
-                                   : ((this->dyna.actor.speedXZ > 2.5f) ? 2.5f : this->dyna.actor.speedXZ);
+    this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
 
     Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 

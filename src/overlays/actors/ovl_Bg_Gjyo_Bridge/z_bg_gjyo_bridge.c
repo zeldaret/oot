@@ -37,21 +37,21 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_06000600[];
-extern UNK_TYPE D_06000DB8;
+extern CollisionHeader D_06000DB8;
 extern CutsceneData D_02002640[];
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
     s32 pad;
-    s32 local_c;
+    CollisionHeader* colHeader;
 
-    local_c = 0;
+    colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000DB8, &local_c);
+    func_80043480(&this->dyna, DPM_UNK);
+    func_80041880(&D_06000DB8, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (gSaveContext.eventChkInf[4] & 0x2000) {
         this->actionFunc = func_808787A4;
@@ -65,7 +65,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx) {

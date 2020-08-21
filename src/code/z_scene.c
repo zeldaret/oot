@@ -233,8 +233,8 @@ void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.segment);
 
-    colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
-    colHeader->polygonArray = SEGMENTED_TO_VIRTUAL(colHeader->polygonArray);
+    colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
+    colHeader->polyList = SEGMENTED_TO_VIRTUAL(colHeader->polyList);
     colHeader->polygonTypes = SEGMENTED_TO_VIRTUAL(colHeader->polygonTypes);
     colHeader->cameraData = SEGMENTED_TO_VIRTUAL(colHeader->cameraData);
     colHeader->waterBoxes = SEGMENTED_TO_VIRTUAL(colHeader->waterBoxes);

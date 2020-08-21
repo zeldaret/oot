@@ -559,8 +559,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     f32 xzScale;
     Gfx* dispRefs[3];
 
-    if ((this->actor.floorPoly == NULL) ||
-        ((this->timer >= 0x51) && (this->actionFunc != EnWallmas_Stun))) {
+    if ((this->actor.floorPoly == NULL) || ((this->timer >= 0x51) && (this->actionFunc != EnWallmas_Stun))) {
         return;
     }
 

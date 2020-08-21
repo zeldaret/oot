@@ -41,17 +41,17 @@ void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjBlockstop* this = THIS;
-    DynaPolyActor* dynaActor;
+    Actor* dynaActor;
     Vec3f sp4C;
-    u32 sp48;
+    s32 bgId;
     s32 pad;
 
     if (func_8003DF10(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
-                      &this->actor.floorPoly, 0, 0, 1, 1, &sp48, &this->actor)) {
-        dynaActor = func_8003EB84(&globalCtx->colCtx, sp48);
+                      &this->actor.floorPoly, 0, 0, 1, 1, &bgId, &this->actor)) {
+        dynaActor = func_8003EB84(&globalCtx->colCtx, bgId);
 
-        if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_OBJ_OSHIHIKI)) {
-            if (((dynaActor->actor.params & 0x000F) == 3) || ((dynaActor->actor.params & 0x000F) == 7)) {
+        if (dynaActor != NULL && dynaActor->id == ACTOR_OBJ_OSHIHIKI) {
+            if ((dynaActor->params & 0x000F) == 3 || (dynaActor->params & 0x000F) == 7) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
             } else {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);

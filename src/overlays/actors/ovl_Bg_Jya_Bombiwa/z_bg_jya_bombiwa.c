@@ -40,19 +40,18 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_0600E710;
+extern CollisionHeader D_0600E710;
 extern Gfx D_0600E490[];
 extern Gfx D_0600EDC0[];
 
 void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag) {
     s16 pad1;
-    CollisionHeader** colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s16 pad2;
 
     func_80043480(&this->dyna, flag);
     func_80041880(arg2, &colHeader);
-    this->dyna.dynaPolyId =
-        func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.dynaPolyId == BG_ACTOR_MAX) {
 
         // Warning: move BG registration failed
@@ -77,7 +76,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                      thisx->params & 0x3F);
         osSyncPrintf(VT_SGR());
     }
-    BgJyaBombiwa_SetupDynaPoly(thisx, globalCtx, &D_0600E710, 0);
+    BgJyaBombiwa_SetupDynaPoly(thisx, globalCtx, &D_0600E710, DPM_UNK);
     BgJyaBombiwa_InitCollider(thisx, globalCtx);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         Actor_Kill(thisx);

@@ -1907,9 +1907,9 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
         arg2->unk_24 = sp44;
     }
 
-    arg2->unk_0C.x = arg2->unk_18->norm.x * (1.f / 32767);
-    arg2->unk_0C.y = arg2->unk_18->norm.y * (1.f / 32767);
-    arg2->unk_0C.z = arg2->unk_18->norm.z * (1.f / 32767);
+    arg2->unk_0C.x = arg2->unk_18->norm.x * COLPOLY_NORM_FRAC;
+    arg2->unk_0C.y = arg2->unk_18->norm.y * COLPOLY_NORM_FRAC;
+    arg2->unk_0C.z = arg2->unk_18->norm.z * COLPOLY_NORM_FRAC;
     arg2->unk_00.x = arg2->unk_0C.x + sp68.x;
     arg2->unk_00.y = arg2->unk_0C.y + sp68.y;
     arg2->unk_00.z = arg2->unk_0C.z + sp68.z;
@@ -1960,14 +1960,14 @@ f32 func_80044434(Camera* camera, Vec3f* arg1, Vec3f* arg2, s32* arg3) {
     CollisionPoly* sp28;
     f32 temp_ret = func_8003C940(&camera->globalCtx->colCtx, &sp28, arg3, arg2);
 
-    if (temp_ret == -32000.0f) {
+    if (temp_ret == BGCHECK_Y_MIN) {
         arg1->x = 0.0f;
         arg1->z = 0.0f;
         arg1->y = 1.0f;
     } else {
-        arg1->x = sp28->norm.x * (1.f / 32767);
-        arg1->y = sp28->norm.y * (1.f / 32767);
-        arg1->z = sp28->norm.z * (1.f / 32767);
+        arg1->x = sp28->norm.x * COLPOLY_NORM_FRAC;
+        arg1->y = sp28->norm.y * COLPOLY_NORM_FRAC;
+        arg1->z = sp28->norm.z * COLPOLY_NORM_FRAC;
     }
 
     return temp_ret;
@@ -1986,24 +1986,24 @@ f32 func_80044510(Camera* camera, Vec3f* arg1) {
 // 125 lines (loop)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044568.s")
 
-s16 func_80044740(Camera* camera, s32 arg1) {
-    return func_80041A4C(&camera->globalCtx->colCtx, arg1, 50);
+s16 func_80044740(Camera* camera, s32 camId) {
+    return func_80041A4C(&camera->globalCtx->colCtx, camId, BGCHECK_SCENE);
 }
 
-//struct_80041C10_ret
+// struct_80041C10_ret
 CamPosDataEntry* func_8004476C(Camera* camera) {
-    return func_80041C10(&camera->globalCtx->colCtx, camera->unk_148, 50);
+    return func_80041C10(&camera->globalCtx->colCtx, camera->unk_148, BGCHECK_SCENE);
 }
 
-s32 func_8004479C(Camera* camera, s32* arg1, Vec3f* arg2) {
+s32 func_8004479C(Camera* camera, s32* bgId, CollisionPoly* poly) {
     s32 temp_ret;
     PosRot sp20;
     s32 ret;
 
     func_8002EF44(&sp20, &camera->player->actor);
-    temp_ret = func_80041A28(&camera->globalCtx->colCtx, arg2, *arg1);
+    temp_ret = func_80041A28(&camera->globalCtx->colCtx, poly, *bgId);
 
-    if (func_80041A4C(&camera->globalCtx->colCtx, temp_ret, *arg1) == 0) {
+    if (func_80041A4C(&camera->globalCtx->colCtx, temp_ret, *bgId) == 0) {
         ret = -1;
     } else {
         ret = temp_ret;
@@ -2019,7 +2019,7 @@ s32 func_8004481C(Camera* camera, s16* arg1) {
 
     func_8002EF44(&sp28, &camera->player->actor);
     sp28.pos.y += Player_GetCameraYOffset(camera->player);
-    if (func_8003C940(&camera->globalCtx->colCtx, &sp44, &sp3C, &sp28.pos) == -32000.0f) {
+    if (func_8003C940(&camera->globalCtx->colCtx, &sp44, &sp3C, &sp28.pos) == BGCHECK_Y_MIN) {
         return 0;
     }
     *arg1 = func_80041B80(&camera->globalCtx->colCtx, sp44, sp3C);
@@ -2028,23 +2028,23 @@ s32 func_8004481C(Camera* camera, s16* arg1) {
 
 s32 func_800448CC(Camera* camera, f32* arg1) {
     PosRot sp34;
-    s32 sp30;
+    WaterBox* waterBox;
     s32 temp_ret;
 
     func_8002EF44(&sp34, &camera->player->actor);
     *arg1 = sp34.pos.y;
 
-    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, sp34.pos.x, sp34.pos.z, arg1, &sp30) == 0) {
-        *arg1 = -32000.0f;
+    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, sp34.pos.x, sp34.pos.z, arg1, &waterBox) == 0) {
+        *arg1 = BGCHECK_Y_MIN;
         return -1;
     }
     if (!(camera->player->stateFlags1 & 0x8000000)) {
-        *arg1 = -32000.0f;
+        *arg1 = BGCHECK_Y_MIN;
         return -1;
     }
 
-    temp_ret = func_80042538(&camera->globalCtx->colCtx, sp30);
-    if ((temp_ret <= 0) || (func_80042548(&camera->globalCtx->colCtx, sp30) <= 0)) {
+    temp_ret = func_80042538(&camera->globalCtx->colCtx, waterBox);
+    if ((temp_ret <= 0) || (func_80042548(&camera->globalCtx->colCtx, waterBox) <= 0)) {
         return -2;
     }
 
@@ -2054,19 +2054,19 @@ s32 func_800448CC(Camera* camera, f32* arg1) {
 f32 func_800449AC(Camera* camera, Vec3f* arg1, s32* arg2) {
     PosRot sp2C;
     f32 sp28;
-    s32 sp24;
+    WaterBox* waterBox;
 
     func_8002EF44(&sp2C, &camera->player->actor);
     sp28 = sp2C.pos.y;
 
-    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, arg1->x, arg1->z, &sp28, &sp24) == 0) {
-        return -32000.f;
+    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, arg1->x, arg1->z, &sp28, &waterBox) == 0) {
+        return BGCHECK_Y_MIN;
     }
     if (sp28 < arg1->y) {
-        return -32000.f;
+        return BGCHECK_Y_MIN;
     }
 
-    *arg2 = func_8004259C(&camera->globalCtx->colCtx, sp24);
+    *arg2 = func_8004259C(&camera->globalCtx->colCtx, waterBox);
     return sp28;
 }
 
@@ -3241,7 +3241,7 @@ void func_80058148(Camera* camera, Player* player) {
     camera->unk_68.z = 0.0f;
     camera->unk_68.x = 0.0f;
     camera->unk_68.y = 1.0f;
-    if (func_80044434(camera, &sp3C, &camera->at, &sp48) != -32000.0f) {
+    if (func_80044434(camera, &sp3C, &camera->at, &sp48) != BGCHECK_Y_MIN) {
         camera->unk_146 = sp48;
     }
     camera->unk_118 = -1;

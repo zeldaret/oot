@@ -94,9 +94,9 @@ typedef struct {
     /* 0x00 */ Vec3s        minBounds; //colAbsMin
     /* 0x06 */ Vec3s        maxBounds; //colAbsMax
     /* 0x0C */ u16          nbVertices;
-    /* 0x10 */ Vec3s*       vertexArray;
+    /* 0x10 */ Vec3s*       vtxList;    //vertexArray
     /* 0x14 */ u16          nbPolygons;
-    /* 0x18 */ CollisionPoly* polygonArray;
+    /* 0x18 */ CollisionPoly* polyList; //polygonArray
     /* 0x1C */ SurfaceType*   polygonTypes;
     /* 0x20 */ CamData*  cameraData;
     /* 0x24 */ u16       nbWaterBoxes;

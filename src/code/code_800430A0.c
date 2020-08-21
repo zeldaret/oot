@@ -10,23 +10,30 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     Vec3f sp38;
 
     if (func_8003E934(bgId)) {
-        SkinMatrix_SetScaleRotateYRPTranslate(&spD0, colCtx->dyna.bgActors[bgId].srp1.scale.x, colCtx->dyna.bgActors[bgId].srp1.scale.y, colCtx->dyna.bgActors[bgId].srp1.scale.z,
-            colCtx->dyna.bgActors[bgId].srp1.rot.x, colCtx->dyna.bgActors[bgId].srp1.rot.y, colCtx->dyna.bgActors[bgId].srp1.rot.z,
-            colCtx->dyna.bgActors[bgId].srp1.pos.x, colCtx->dyna.bgActors[bgId].srp1.pos.y, colCtx->dyna.bgActors[bgId].srp1.pos.z);
+        SkinMatrix_SetScaleRotateYRPTranslate(
+            &spD0, colCtx->dyna.bgActors[bgId].srp1.scale.x, colCtx->dyna.bgActors[bgId].srp1.scale.y,
+            colCtx->dyna.bgActors[bgId].srp1.scale.z, colCtx->dyna.bgActors[bgId].srp1.rot.x,
+            colCtx->dyna.bgActors[bgId].srp1.rot.y, colCtx->dyna.bgActors[bgId].srp1.rot.z,
+            colCtx->dyna.bgActors[bgId].srp1.pos.x, colCtx->dyna.bgActors[bgId].srp1.pos.y,
+            colCtx->dyna.bgActors[bgId].srp1.pos.z);
         if (SkinMatrix_Invert(&spD0, &sp90) != 2) {
-            SkinMatrix_SetScaleRotateYRPTranslate(&sp50, colCtx->dyna.bgActors[bgId].srp2.scale.x, colCtx->dyna.bgActors[bgId].srp2.scale.y, colCtx->dyna.bgActors[bgId].srp2.scale.z,
-                colCtx->dyna.bgActors[bgId].srp2.rot.x, colCtx->dyna.bgActors[bgId].srp2.rot.y, colCtx->dyna.bgActors[bgId].srp2.rot.z,
-                colCtx->dyna.bgActors[bgId].srp2.pos.x, colCtx->dyna.bgActors[bgId].srp2.pos.y, colCtx->dyna.bgActors[bgId].srp2.pos.z);
+            SkinMatrix_SetScaleRotateYRPTranslate(
+                &sp50, colCtx->dyna.bgActors[bgId].srp2.scale.x, colCtx->dyna.bgActors[bgId].srp2.scale.y,
+                colCtx->dyna.bgActors[bgId].srp2.scale.z, colCtx->dyna.bgActors[bgId].srp2.rot.x,
+                colCtx->dyna.bgActors[bgId].srp2.rot.y, colCtx->dyna.bgActors[bgId].srp2.rot.z,
+                colCtx->dyna.bgActors[bgId].srp2.pos.x, colCtx->dyna.bgActors[bgId].srp2.pos.y,
+                colCtx->dyna.bgActors[bgId].srp2.pos.z);
             SkinMatrix_Vec3fMtxFMultXYZ(&sp90, &actor->posRot.pos, &sp38);
             SkinMatrix_Vec3fMtxFMultXYZ(&sp50, &sp38, &pos);
             actor->posRot.pos = pos;
-            if (32760.0f <= pos.x || pos.x <= -32760.0f
-                || 32760.0f <= pos.y || pos.y <= -32760.0f
-                || 32760.0f <= pos.z || (pos.z <= -32760.0f)) {
+            if (32760.0f <= pos.x || pos.x <= -32760.0f || 32760.0f <= pos.y || pos.y <= -32760.0f ||
+                32760.0f <= pos.z || (pos.z <= -32760.0f)) {
 
                 osSyncPrintf(VT_FGCOL(RED));
                 // @bug file and line are not passed to osSyncPrintf
-                osSyncPrintf("BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n", pos.x, pos.y, pos.z);
+                osSyncPrintf(
+                    "BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n",
+                    pos.x, pos.y, pos.z);
                 // EUC-JP: 位置が妥当ではありません。 | Position is not valid
                 osSyncPrintf(VT_RST);
             }
@@ -61,32 +68,32 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
 }
 
 s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor) {
-    s32 sp24 = 0;
+    s32 result = false;
     DynaPolyActor* dynaActor;
 
     if (func_8003E934(bgId) == 0) {
-        return 0;
+        return false;
     }
 
     if ((colCtx->dyna.flags[bgId] & 2) || !(colCtx->dyna.flags[bgId] & 1)) {
-        return 0;
+        return false;
     }
 
-    dynaActor = func_8003EB84(colCtx, bgId);
+    dynaActor = (DynaPolyActor*)func_8003EB84(colCtx, bgId);
 
     if (dynaActor == NULL) {
-        return 0;
+        return false;
     }
 
     if (dynaActor->unk_15C & 1) {
         func_800430A0(colCtx, bgId, actor);
-        sp24 = 1;
+        result = true;
     }
 
     if (dynaActor->unk_15C & 2) {
         func_800432A0(colCtx, bgId, actor);
-        sp24 = 1;
+        result = true;
     }
 
-    return sp24;
+    return result;
 }

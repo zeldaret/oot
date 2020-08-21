@@ -43,18 +43,18 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_0600C4C8;
+extern CollisionHeader D_0600C4C8;
 extern Gfx D_0600C0A0[];
 
-void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
     s16 pad1;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
     s16 pad2;
 
     func_80043480(&this->actor, flag);
-    func_80041880(collision, &local_c);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
-    if (this->dynaPolyId == 0x32) {
+    func_80041880(collision, &colHeader);
+    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    if (this->dynaPolyId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
                      this->actor.id, this->actor.params);
     }
@@ -63,7 +63,7 @@ void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, u32 collisio
 void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
-    func_808932C0(this, globalCtx, &D_0600C4C8, 0);
+    func_808932C0(this, globalCtx, &D_0600C4C8, DPM_UNK);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808933BC(this);
 }
@@ -71,7 +71,7 @@ void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 void func_808933BC(BgJyaAmishutter* this) {

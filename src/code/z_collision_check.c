@@ -1232,13 +1232,13 @@ void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 #ifdef NON_MATCHING
 // Blue EffectSpark
 // .bss problems
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
     static EffectSparkInit D_8015D8A0;
     s32 sp24;
 
-    D_8015D8A0.position.x = (s32)v->x;
-    D_8015D8A0.position.y = (s32)v->y;
-    D_8015D8A0.position.z = (s32)v->z;
+    D_8015D8A0.position.x = (s32)pos->x;
+    D_8015D8A0.position.y = (s32)pos->y;
+    D_8015D8A0.position.z = (s32)pos->z;
     D_8015D8A0.uDiv = 5;
     D_8015D8A0.vDiv = 5;
     D_8015D8A0.colorStart[0].r = 10;
@@ -1281,20 +1281,20 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 #else
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* pos);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
 #endif // NON_MATCHING
 
 #ifdef NON_MATCHING
 // Green EffectSpark
 // .bss problems
-void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
     static EffectSparkInit D_8015DD68;
     s32 sp24;
 
-    D_8015DD68.position.x = (s32)v->x;
-    D_8015DD68.position.y = (s32)v->y;
-    D_8015DD68.position.z = (s32)v->z;
+    D_8015DD68.position.x = (s32)pos->x;
+    D_8015DD68.position.y = (s32)pos->y;
+    D_8015DD68.position.z = (s32)pos->z;
     D_8015DD68.uDiv = 5;
     D_8015DD68.vDiv = 5;
     D_8015DD68.colorStart[0].r = 10;
@@ -1337,7 +1337,7 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 #else
-void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
 #endif // NON_MATCHING
 

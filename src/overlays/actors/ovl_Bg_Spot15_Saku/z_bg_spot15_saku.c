@@ -32,16 +32,16 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
 };
 
 extern Gfx D_060003C0[];
-extern UNK_TYPE D_060004D0;
+extern CollisionHeader D_060004D0;
 
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Saku* this = THIS;
     s32 pad[2];
-    s32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
-    func_80043480(thisx, 0);
-    func_80041880(&D_060004D0, &local_c);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80043480(thisx, DPM_UNK);
+    func_80041880(&D_060004D0, &colHeader);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->scale.x = 0.1f;
     thisx->scale.y = 0.1f;
     thisx->scale.z = 0.1f;
@@ -57,7 +57,7 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Saku* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {

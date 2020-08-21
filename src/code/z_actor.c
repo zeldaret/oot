@@ -1148,16 +1148,16 @@ s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
     return 1;
 }
 
-UNK_TYPE D_8015BBA0;
-u32 D_8015BBA4;
+CollisionPoly* D_8015BBA0;
+s32 D_8015BBA4;
 
 s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3) {
     f32 sp34;
-    u32 sp30;
+    s32 bgId;
 
     arg2->y += 50.0f;
 
-    actor->groundY = func_8003CA0C(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &sp30, actor, arg2);
+    actor->groundY = func_8003CA0C(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &bgId, actor, arg2);
     actor->bgCheckFlags &= ~0x0086;
 
     if (actor->groundY <= BGCHECK_Y_MIN) {
@@ -1165,13 +1165,13 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     }
 
     sp34 = actor->groundY - actor->posRot.pos.y;
-    actor->floorPolySource = sp30;
+    actor->floorPolySource = bgId;
 
     if (sp34 >= 0.0f) {
         actor->bgCheckFlags |= 0x80;
 
         if (actor->bgCheckFlags & 0x10) {
-            if (sp30 != D_8015BBA4) {
+            if (bgId != D_8015BBA4) {
                 if (sp34 > 15.0f) {
                     actor->bgCheckFlags |= 0x100;
                 }
@@ -1210,10 +1210,10 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
     f32 sp74;
     s32 pad;
     Vec3f sp64;
-    u32 sp60;
+    s32 bgId;
     CollisionPoly* sp5C;
     f32 sp58;
-    UNK_TYPE sp54;
+    WaterBox* waterBox;
     f32 sp50;
     Vec3f sp44;
 
@@ -1225,14 +1225,14 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
 
     if (arg5 & 1) {
         if ((!(arg5 & 0x80) && func_8003D52C(&globalCtx->colCtx, &sp64, &actor->posRot.pos, &actor->pos4, arg3,
-                                             &actor->wallPoly, &sp60, actor, arg2)) ||
+                                             &actor->wallPoly, &bgId, actor, arg2)) ||
             ((arg5 & 0x80) && func_8003D594(&globalCtx->colCtx, &sp64, &actor->posRot.pos, &actor->pos4, arg3,
-                                            &actor->wallPoly, &sp60, actor, arg2))) {
+                                            &actor->wallPoly, &bgId, actor, arg2))) {
             sp5C = actor->wallPoly;
             Math_Vec3f_Copy(&actor->posRot.pos, &sp64);
             actor->wallPolyRot = atan2s(sp5C->norm.z, sp5C->norm.x);
             actor->bgCheckFlags |= 8;
-            actor->wallPolySource = sp60;
+            actor->wallPolySource = bgId;
         } else {
             actor->bgCheckFlags &= ~8;
         }
@@ -1255,7 +1255,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
         sp64.y = actor->pos4.y;
         func_8002E2AC(globalCtx, actor, &sp64, arg5);
         sp50 = actor->posRot.pos.y;
-        if (func_8004213C(globalCtx, &globalCtx->colCtx, actor->posRot.pos.x, actor->posRot.pos.z, &sp50, &sp54)) {
+        if (func_8004213C(globalCtx, &globalCtx->colCtx, actor->posRot.pos.x, actor->posRot.pos.z, &sp50, &waterBox)) {
             actor->waterY = sp50 - actor->posRot.pos.y;
             if (actor->waterY < 0.0f) {
                 actor->bgCheckFlags &= ~0x60;
@@ -1726,15 +1726,16 @@ void func_8002F994(Actor* actor, s32 arg1) {
     }
 }
 
-s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4) {
-    if (func_80041D4C(&globalCtx->colCtx, arg2, arg3) == 8) {
+// Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
+s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
+    if (func_80041D4C(&globalCtx->colCtx, poly, bgId) == 8) {
         globalCtx->unk_11D30[0] = 1;
-        func_8005DFAC(globalCtx, 0, arg4);
+        func_8005DFAC(globalCtx, NULL, pos);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 // Local data used for Farore's Wind light (stored in BSS, possibly a struct?)

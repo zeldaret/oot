@@ -33,27 +33,27 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060074EC;
+extern CollisionHeader D_060074EC;
 
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx);
 
 void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMizuUzu* this = THIS;
     s32 pad;
-    CollisionHeader* local_c = NULL;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(thisx, 0);
-    DynaPolyInfo_Alloc(&D_060074EC, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80043480(thisx, DPM_UNK);
+    func_80041880(&D_060074EC, &colHeader);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->actionFunc = func_8089F788;
 }
 
 void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMizuUzu* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {

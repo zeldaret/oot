@@ -191,7 +191,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         Matrix_RotateRPY(unkVar3, unkVar2, 0, 1);
         Matrix_MultVec3f(&D_809ED758, &this->unk_1F4);
         Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0);
-        func_80035844(&this->actor.posRot, &this->unk_1F4, &unkVar3, 0);
+        func_80035844(&this->actor.posRot.pos, &this->unk_1F4, &unkVar3, 0);
         Matrix_RotateRPY(unkVar3, unkVar2, 0, 1);
         Matrix_MultVec3f(&D_809ED74C, &this->unk_1F4);
         this->unk_1CE = Math_Vec3f_Pitch(&this->actor.posRot, &this->unk_1F4);
