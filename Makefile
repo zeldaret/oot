@@ -21,8 +21,8 @@ else
   $(error Please install or build mips-linux-gnu)
 endif
 
-CC       := tools/ido_recomp/linux/7.1/cc_wrapper.sh
-CC_OLD   := tools/ido_recomp/linux/5.3/cc_wrapper.sh
+CC       := tools/ido_recomp/linux/7.1/cc
+CC_OLD   := tools/ido_recomp/linux/5.3/cc
 
 # if OOT_QEMU is set, check that either QEMU_IRIX is set or qemu-irix package installed
 ifdef OOT_QEMU
