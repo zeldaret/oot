@@ -1006,8 +1006,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Goroiwa"
     include "build/src/overlays/actors/ovl_Bg_Jya_Goroiwa/z_bg_jya_goroiwa.o"
-    include "build/data/overlays/actors/z_bg_jya_goroiwa.data.o"
-    include "build/data/overlays/actors/z_bg_jya_goroiwa.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Goroiwa/ovl_Bg_Jya_Goroiwa_reloc.o"
 endseg
 
 beginseg
