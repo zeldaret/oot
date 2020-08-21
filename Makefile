@@ -37,6 +37,11 @@ OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
 CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 
+ifdef IDO_RECOMP
+  CC       := tools/ido_recomp/linux/7.1/cc_wrapper.sh
+  CC_OLD   := tools/ido_recomp/linux/5.3/cc_wrapper.sh
+endif
+
 # Check code syntax with host compiler
 CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
 
