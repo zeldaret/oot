@@ -22,18 +22,18 @@ typedef struct {
     /* 0x9 */ u8 unk_09;
     /* 0xA */ s16 unk_0A;
     /* 0xC */ s16 unk_0C;
-} LightContext;
+} LightContext; // size = 0x10
 
 typedef struct {
     /* 0x000 */ s32 numOccupied;
     /* 0x004 */ s32 nextFree;
     /* 0x008 */ LightNode lights[32];
-} LightsList;
+} LightsList; // size = 0x188
 
 typedef struct {
     /* 0x0 */ u8 type;
     /* 0x2 */ u16 params[6];
-} LightInfo;
+} LightInfo; // size = 0xE
 
 typedef struct {
     /* 0x0 */ s8 dirX;
@@ -43,7 +43,7 @@ typedef struct {
     /* 0x4 */ u8 green;
     /* 0x5 */ u8 blue;
     /* 0x6 */ u16 pad[3];
-} LightInfoDirectionalParams;
+} LightInfoDirectionalParams; // size = 0xC
 
 typedef struct {
     /* 0x0 */ s16 posX;
@@ -54,24 +54,26 @@ typedef struct {
     /* 0x8 */ u8 blue;
     /* 0x9 */ u8 unk_09;
     /* 0xA */ s16 radius;
-} LightInfoPositionalParams;
+} LightInfoPositionalParams; // size = 0xC
 
 typedef struct {
     /* 0x00 */ u8 numLights;
     /* 0x01 */ u8 enablePosLights;
     /* 0x02 */ UNK_TYPE1 pad2[6];
-    /* 0x08 */ Ambient ambient;
-    /* 0x10 */ Light lights[7];
-} LightMapper;
+    /* 0x10 */ Lights7 lights;
+} LightMapper; // size = 0x80
 
 typedef struct {
     /* 0x0 */ u8 type;
     /* 0x2 */ LightInfoDirectionalParams params;
-} LightInfoDirectional;
+} LightInfoDirectional; // size = 0xE
 
 typedef struct {
     /* 0x0 */ u8 type;
     /* 0x2 */ LightInfoPositionalParams params;
-} LightInfoPositional;
+} LightInfoPositional; // size = 0xE
+
+// prob not right name
+typedef void (*LightUpdateFunc)(struct LightMapper*, void* params, Vec3f vec);
 
 #endif
