@@ -351,6 +351,7 @@ void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx) {
 
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnExRuppy* this = THIS;
+    
     thisx->shape.rot.y += 1960;
     this->actionFunc(this, globalCtx);
     if (this->timer != 0) {
