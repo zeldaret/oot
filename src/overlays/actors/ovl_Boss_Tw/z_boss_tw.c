@@ -159,7 +159,7 @@ extern s16 D_8094C87C;
 extern s16 D_8094C87A;
 extern s8 D_8094C878;
 extern s16 D_8094C876;
-extern s16 D_8094C874;
+extern u16 D_8094C874;
 extern f32 D_8094C854;
 extern f32 D_8094C858;
 extern u8 D_8094C85D;
@@ -261,14 +261,11 @@ void BossTw_AddRingEffect(GlobalContext* globalCtx, Vec3f *initalPos, f32 scale,
     }
 }
 
-//#define NON_MATCHING
-#ifdef NON_MATCHING
 void func_80938FC4(GlobalContext* globalCtx , s32 arg1) {
-    BossTwEEffect* effects = globalCtx->actorEffects;
     BossTwEEffect* dot;
     s16 i;
     
-    for(i = 0, dot = &effects[0]; i < 0x96; i++, dot++){
+    for(dot = globalCtx->actorEffects, i = 0; i < 0x96; i++, dot++){
         if(dot->type == 0){
             dot->type = 5;
             dot->curSpeed = sZeroVector;
@@ -287,9 +284,6 @@ void func_80938FC4(GlobalContext* globalCtx , s32 arg1) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80938FC4.s")
-#endif
 
 // makes a flame again?
 void func_80939070(GlobalContext *globalCtx, Vec3f *initalPos, Vec3f *initalSpeed, Vec3f *accel, f32 scale, s16 args) {
@@ -616,7 +610,6 @@ void func_80939F88(BossTw *this, GlobalContext *globalCtx) {
 
 void func_8093A2AC(BossTw* this, GlobalContext* globalCtx);
 
-#ifdef NON_MATCHING
 // decide on action.
 void func_8093A0A8(BossTw *this, GlobalContext *globalCtx) {
     BossTw* attachedA = (BossTw*)this->actor.attachedA;
@@ -626,58 +619,52 @@ void func_8093A0A8(BossTw *this, GlobalContext *globalCtx) {
     this->actionFunc = func_8093A2AC;
     this->unk_4C8 = 0.0f;
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06006F28, -10.0f);
-    if (Math_Rand_ZeroOne() < 0.5f) {
-        if (this->actor.attachedA != NULL && attachedA->actionFunc == BossTw_ShootBeam) {
-            this->targetPos.x = attachedA->actor.posRot.pos.x + Math_Rand_CenteredFloat(200.0f);
-            this->targetPos.y = Math_Rand_ZeroFloat(200.0f) + 340.0f;
-            this->targetPos.z = attachedA->actor.posRot.pos.z + Math_Rand_CenteredFloat(200.0f);
-            this->timers[0] = (s32)Math_Rand_ZeroFloat(50.0f) + 50;
-            return;
-        }
-    }
-    if (Math_Rand_ZeroOne() < 0.5f) {
+    if ((Math_Rand_ZeroOne() < 0.5f) && (attachedA != NULL && attachedA->actionFunc == BossTw_ShootBeam)) {
+        this->targetPos.x = attachedA->actor.posRot.pos.x + Math_Rand_CenteredFloat(200.0f);
+        this->targetPos.y = Math_Rand_ZeroFloat(200.0f) + 340.0f;
+        this->targetPos.z = attachedA->actor.posRot.pos.z + Math_Rand_CenteredFloat(200.0f);
+        this->timers[0] = (s16)Math_Rand_ZeroFloat(50.0f) + 50;
+    } else if (Math_Rand_ZeroOne() < 0.5f) {
         this->targetPos.x = Math_Rand_CenteredFloat(800.0f);
         this->targetPos.y = Math_Rand_ZeroFloat(200.0f) + 340.0f;
         this->targetPos.z = Math_Rand_CenteredFloat(800.0f);
-        this->timers[0] = Math_Rand_ZeroFloat(50.0f) + 50;
-        return;
+        this->timers[0] = (s16)Math_Rand_ZeroFloat(50.0f) + 50;
+        
+    } else {
+        s16 idx = Math_Rand_ZeroFloat(3.99f);
+        this->targetPos = D_8094A8AC[idx];
+        this->timers[0] = 200;
+        this->unk_15E = 1;
     }
-    this->targetPos = D_8094A8AC[(s16)Math_Rand_ZeroFloat(3.99f)];
-    this->timers[0] = 200;
-    this->unk_15E = 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8093A0A8.s")
-#endif
-#undef NON_MATCHING
 
 // Fly around until timer hits 0
 void func_8093A2AC(BossTw *this, GlobalContext *globalCtx) {
-    f32 sp3C;
-    f32 sp38;
-    f32 sp34;
-    f32 sp30;
-    f32 sp2C;
-    f32 sp28;
+    f32 xDiff;
+    f32 yDiff;
+    f32 zDiff;
+    f32 pitch;
+    f32 yaw;
+    f32 xzDist;
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_FLY & ~SFX_FLAG);
     Math_SmoothScaleMaxF(&this->unk_4D0, 0.0f, 1.0f, 10.0f);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    sp3C = this->targetPos.x - this->actor.posRot.pos.x;
-    sp38 = this->targetPos.y - this->actor.posRot.pos.y;
-    sp34 = this->targetPos.z - this->actor.posRot.pos.z;
-    sp2C = (s16)(Math_atan2f(sp3C, sp34) * 10430.378f);
-    sp28 = sqrtf(SQ(sp3C) + SQ(sp34));
-    sp30 = (s16)(Math_atan2f(sp38, sp28) * 10430.378f);
-    Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, sp30, 0xA, this->unk_4C8);
-    Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, sp2C, 0xA, this->unk_4C8);
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, sp2C, 0xA, this->unk_4C8);
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.x, sp30, 0xA, this->unk_4C8);
+    xDiff = this->targetPos.x - this->actor.posRot.pos.x;
+    yDiff = this->targetPos.y - this->actor.posRot.pos.y;
+    zDiff = this->targetPos.z - this->actor.posRot.pos.z;
+    yaw = (s16)(Math_atan2f(xDiff, zDiff) * 10430.378f);
+    xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
+    pitch = (s16)(Math_atan2f(yDiff, xzDist) * 10430.378f);
+    Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, pitch, 0xA, this->unk_4C8);
+    Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, yaw, 0xA, this->unk_4C8);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, yaw, 0xA, this->unk_4C8);
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.x, pitch, 0xA, this->unk_4C8);
     Math_SmoothScaleMaxF(&this->unk_4C8, 4096.0f, 1.0f, 100.0f);
     Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 1.0f);
     func_8002D908(&this->actor);
     func_8002D7EC(&this->actor);
-    if ((this->timers[0] == 0) || (sp28 < 70.0f)) {
+    if ((this->timers[0] == 0) || (xzDist < 70.0f)) {
         func_80939F40(this, globalCtx);
     }
 }
@@ -768,7 +755,6 @@ void func_8093A5C4(BossTw *this, GlobalContext *globalCtx, s16 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8093A5C4.s")
 #endif
 #undef NON_MATCHING
-
 
 #ifdef NON_MATCHING
 s32 func_8093A940(BossTw *this, GlobalContext *globalCtx) {
@@ -2293,73 +2279,67 @@ void func_8093EE10(BossTw *this, GlobalContext *globalCtx) {
 void func_8093F9E4(BossTw* this, GlobalContext* globalCtx);
 extern AnimationHeader D_06024374;
 
-#ifdef NON_MATCHING
 void func_8093F108(BossTw *this, GlobalContext *globalCtx) {
     this->actionFunc = func_8093F9E4;
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06024374, -3.0f);
-    this->unk_440 = 0;
-    this->unk_152 = 0;
-    this->actor.flags &= ~1;
-    this->invincibilityTimer = 0x2710;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    this->unk_5FA = this->unk_440;
-    this->unk_150 = this->unk_152;
+    this->actor.flags &= ~1;
+    this->unk_5FA = this->unk_440 = 0;
+    this->unk_150 = this->unk_152 = 0;
+    this->invincibilityTimer = 10000;
     func_8093D3D8(koumePtr, globalCtx);
     func_8093D3D8(kotakePtr, globalCtx);
     kotakePtr->timers[0] = 8;
     this->unk_1D0 = 1.0f;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8093F108.s")
-#endif
 
 extern AnimationHeader D_0600230C;
 extern AnimationHeader D_06001D10;
 extern AnimationHeader D_060017E0;
 extern AnimationHeader D_060012A4;
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
     s16 sp3A;
     s16 sp38;
-    u8 sp37;
-    u8 sp36;
+    u8 kotakeAnim;
+    u8 koumeAnim;
     u8 sp35;
-    f32 *sp24;
-    s16 phi_v1;
-    s16 phi_v1_2;
-    s16 phi_v1_3;
-    s16 phi_v1_4;
 
     sp38 = 0;
-    sp37 = 0;
-    sp36 = 0;
+    kotakeAnim = 0;
+    koumeAnim = 0;
     sp35 = 0;
     sp3A = 0;
 
-    if (0x50 == this->unk_152) {
-        sp36 = 1;
+    if (this->unk_152 == 80) {
+        koumeAnim = 1;
     }
-    if (0x50 == this->unk_152) {
+
+    if (this->unk_152 == 80) {
         sp3A = 0x604B;
         sp35 = 0x32;
     }
+
     if (this->unk_152 == 0x8C) {
-        sp37 = 2;
-        sp36 = 2;
+        koumeAnim = kotakeAnim = 2;
     }
+
     if (this->unk_152 == 0xAA) {
-        sp37 = 3;
+        kotakeAnim = 3;
         kotakePtr->unk_164 = -0x4000;
         kotakePtr->unk_4C8 = 0.0f;
         Audio_PlayActorSound2(&kotakePtr->actor, NA_SE_EN_TWINROBA_SENSE);
         sp3A = 0x604C;
     }
+    
     if (this->unk_152 == 0xD2) {
         D_8094C874 = 0x1E;
     }
+
     if (this->unk_152 == 0x10E) {
-        sp36 = 3;
+        koumeAnim = 3;
         koumePtr->unk_164 = 0x4000;
         koumePtr->unk_4C8 = 0.0f;
         Audio_PlayActorSound2(&koumePtr->actor, NA_SE_EN_TWINROBA_SENSE);
@@ -2371,22 +2351,19 @@ void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
     }
 
     if (this->unk_152 == 0x15E) {
-        sp36 = 2;
-        sp37 = 2;
+        kotakeAnim = koumeAnim = 2;
         koumePtr->unk_164 = kotakePtr->unk_164 = 0;
         koumePtr->unk_4C8 = kotakePtr->unk_4C8 = 0.0f;
     }
     if (this->unk_152 == 0x17C) {
-        sp36 = 3;
-        sp37 = 3;
+        kotakeAnim = koumeAnim = 3;
     }
     if (this->unk_152 == 0x190) {
-        sp36 = 2;
-        sp37 = 2;
+        kotakeAnim = koumeAnim = 2;
     }
     if (this->unk_152 == 0x1AE) {
+        koumeAnim = 4;
         D_8094C874 = 0x1B3;
-        sp36 = 4;
         D_8094C878 = 1;
     }
 
@@ -2400,25 +2377,25 @@ void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
         sp3A = 0x604E;
     }
 
-    if (0x1E0 == this->unk_152) {
-        sp37 = 4;
+    if (this->unk_152 == 0x1E0) {
+        kotakeAnim = 4;
         kotakePtr->unk_164 = -0x4000;
     }
 
     if (this->unk_152 == 0x1F4) {
-        sp36 = 2;
+        koumeAnim = 2;
     }
-    if (0x1E0 == this->unk_152) {
+    if (this->unk_152 == 0x1E0) {
         sp38 = 0x604F;
     }
 
-    if (0x212 == this->unk_152) {
-        sp36 = 4;
+    if (this->unk_152 == 0x212) {
+        koumeAnim = 4;
         koumePtr->unk_164 = 0x4000;
         D_8094C87A = 0x14F;
         D_8094C87E = 1;
     }
-    if (0x212 == this->unk_152) {
+    if (this->unk_152 == 0x212) {
         sp3A = 0x6050;
     }
     if (this->unk_152 == 0x244) {
@@ -2445,17 +2422,18 @@ void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
         Audio_SetBGM(0x105000FF);
     }
     if (this->unk_152 == 0x35C) {
-        sp36 = 3;
-        sp37 = 3;
+        kotakeAnim = koumeAnim = 3;
     }
 
     if (this->unk_152 == 0x384) {
         Audio_PlayActorSound2(&koumePtr->actor, NA_SE_EN_TWINROBA_DIE);
         Audio_PlayActorSound2(&kotakePtr->actor, NA_SE_EN_TWINROBA_DIE);
     }
+
     if (this->unk_152 == 0x3A2) {
         sp3A = 0x6058;
     }
+
     if (sp3A != 0) {
         func_8010B680(globalCtx, sp3A, NULL);
         if (sp35 != 0) {
@@ -2464,37 +2442,39 @@ void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
             D_8094C878 = 0;
         }
     }
+
     if (sp38 != 0) {
         func_8010B680(globalCtx, sp38, NULL);
     }
-    switch(sp37){
+
+    switch(kotakeAnim){
         case 1:
-        SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_0600230C, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_0600230C, -5.0f);
+            break;
         case 2:
-        SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_06001D10, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_06001D10, -5.0f);
+            break;
         case 3:
-        SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_060017E0, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_060017E0, -5.0f);
+            break;
         case 4:
-        SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_060012A4, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&kotakePtr->skelAnime, &D_060012A4, -5.0f);
+            break;
     }
 
-    switch(sp36){
+    switch(koumeAnim){
         case 1:
-        SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_0600230C, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_0600230C, -5.0f);
+            break;
         case 2:
-        SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_06001D10, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_06001D10, -5.0f);
+            break;
         case 3:
-        SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_060017E0, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_060017E0, -5.0f);
+            break;
         case 4:
-        SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_060012A4, -5.0f);
-        break;
+            SkelAnime_ChangeAnimTransitionRepeat(&koumePtr->skelAnime, &D_060012A4, -5.0f);
+            break;
     }
 
     if (this->unk_152 >= 0x78 && this->unk_152 < 0x1F4) {
@@ -2502,7 +2482,7 @@ void func_8093F1C4(BossTw *this, GlobalContext *globalCtx) {
     }
 
     if (this->unk_152 >= 0x96) {
-        Math_SmoothScaleMaxF(&koumePtr->unk_1C8, (Math_Sins(this->unk_150 * 500) * 0.05f) + 0.4f, 0.1f, 0.01f);
+        Math_SmoothScaleMaxF(&koumePtr->unk_1C8, (Math_Sins(this->unk_150 * 2000) * 0.05f) + 0.4f, 0.1f, 0.01f);
         Math_SmoothScaleMaxF(&kotakePtr->unk_1C8, (Math_Coss(this->unk_150 * 1700) * 0.05f) + 0.4f, 0.1f, 0.01f);
         if (this->unk_152 >= 0x370) {
             Math_SmoothScaleMaxF(&kotakePtr->actor.posRot.pos.y, 2000.0f, 1.0f, this->actor.speedXZ);
@@ -3149,6 +3129,7 @@ extern Gfx D_0601BC00[];
 extern Gfx D_0601C1C0[];
 extern Gfx D_0601A790[];
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_80941BC0(BossTw *this, GlobalContext *globalCtx) {
     Gfx* sp88[4];
@@ -3176,6 +3157,7 @@ void func_80941BC0(BossTw *this, GlobalContext *globalCtx) {
     gSPSegment(temp_s0->polyXlu.p++, 0xD, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_152 & 0x7F, (this->unk_152 * 8) & 0xFF, 0x20, 0x40, 1, (-this->unk_152 * 2) & 0x3F, 0, 0x10, 0x10));
     gDPSetPrimColor(temp_s0->polyXlu.p++, 0, 0, 195, 225, 235, (s32)this->unk_1A8);
     gDPSetEnvColor(temp_s0->polyXlu.p++, 255, 255, 255, 128);
+    gDPSetRenderMode(temp_s0->polyXlu.p++, Z_CMP | IM_RD | CVG_DST_SAVE | ZMODE_DEC | FORCE_BL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA), G_RM_ZB_OVL_SURF2);
     gSPSetGeometryMode(temp_s0->polyXlu.p++, G_CULL_BACK | G_FOG);
     gSPDisplayList(temp_s0->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A790));
     Matrix_Pull();
@@ -3239,15 +3221,14 @@ extern Gfx D_0601A430[];
 
 #ifdef NON_MATCHING
 void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
-    Gfx *spA4[4];
-    GraphicsContext *temp_s2;
-    f32 temp_f0;
     s16 phi_s1;
+    GraphicsContext *temp_s2;
+    Gfx *spA4[4];
 
     temp_s2 = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(spA4, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x19BB);
+    Graph_OpenDisps(spA4, globalCtx->state.gfxCtx, "../z_boss_tw.c", 6587);
     gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0,  // tile 1
-        0, ((0 - this->unk_152) * 0xF) & 0xFF, // x1,y1
+        0, ((-this->unk_152) * 0xF) & 0xFF, // x1,y1
         0x20, 0x40, // width1, height1
         1, // tile2
         0, 0, // x2,y2
@@ -3256,7 +3237,7 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
     Matrix_Translate(0.0f, 0.0f, 5000.0f, MTXMODE_APPLY);
     Matrix_Scale(this->spawnPortalScale / 2000.0f, this->spawnPortalScale / 2000.0f, this->spawnPortalScale / 2000.0f, MTXMODE_APPLY);
     Matrix_RotateZ(this->portalRotation, MTXMODE_APPLY);
-    gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x19D6), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+    gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6614), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     if (this->actor.params == 0) {
         gDPSetPrimColor(temp_s2->polyXlu.p++, 0, 0, 135, 175, 165, (s32)this->spawnPortalAlpha);
         gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601CEE0));
@@ -3275,8 +3256,7 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
     for(phi_s1 = 0; phi_s1 < 8; phi_s1++){
         Matrix_Push();
         Matrix_Translate(0.0f, 0.0f, 5000.0f, MTXMODE_APPLY);
-        temp_f0 = phi_s1 * M_PI;
-        Matrix_RotateZ(((temp_f0 + temp_f0) * 0.125f) + this->flameRotation, MTXMODE_APPLY);
+        Matrix_RotateZ(((phi_s1 * M_PI) * 2.0f * 0.125f) + this->flameRotation, MTXMODE_APPLY);
         Matrix_Translate(0.0f, this->spawnPortalScale * 1.5f, 0.0f, MTXMODE_APPLY);
         gSPSegment(temp_s2->polyXlu.p++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
             ((this->unk_152 * 3) + (phi_s1 * 10)) & 0x7F, ((-this->unk_152 * 0xF) + (phi_s1 * 50)) & 0xFF, 
@@ -3285,11 +3265,11 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
             0x20, 0x20));
         Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
         func_800D1FD4(&globalCtx->mf_11DA0);
-        gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 0x1A5F), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+        gSPMatrix(temp_s2->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6751), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
         gSPDisplayList(temp_s2->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0601A430));
         Matrix_Pull();
     }
-    Graph_CloseDisps(spA4, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x1A64);
+    Graph_CloseDisps(spA4, globalCtx->state.gfxCtx, "../z_boss_tw.c", 6756);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809426F0.s")
@@ -3400,9 +3380,8 @@ void BossTw_Draw(Actor *thisx, GlobalContext *globalCtx) {
 extern Gfx D_0602D940[];
 extern Gfx D_0602D890[];
 
-#ifdef NON_MATCHING
 // BossTw_TwinRovaOverrideLimbDraw
-s32 func_80943950(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx) {
+s32 func_80943950(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx) {
     BossTw* this = THIS;
     GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
     Gfx *dispRefs[4];
@@ -3438,8 +3417,8 @@ s32 func_80943950(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
         case 19:
             if (this->unk_5F8 != 0) {
                 *dList = D_0602D940;
-                break;
             }
+            break;
 
         case 20:
             if (this->unk_5F8 != 0) {
@@ -3447,18 +3426,12 @@ s32 func_80943950(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
             }
             break;
     }
-    if (this->unk_5F8 != 0) {
-        if ((limbIndex == 0x22) || (limbIndex == 0x28)) {
-            *dList = NULL;
-        }
+    if (this->unk_5F8 != 0 && ((limbIndex == 0x22) || (limbIndex == 0x28))) {
+        *dList = NULL;
     }
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_tw.c", 7251);
     return 0;
 }
-#else
-s32 func_80943950(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80943950.s")
-#endif
 
 // BossTw_TwinrovaPostLimbDraw
 void func_80943D90(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, Actor *thisx) {
@@ -3503,15 +3476,16 @@ extern Gfx D_0601E3A0[];
 extern Gfx D_0601E2C0[];
 extern Gfx D_0601E9F0[];
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_80943F08(BossTw *this, GlobalContext *globalCtx) {
     f32 t;
     Player *spB0 = PLAYER;
     s16 temp_t0;
     s16 temp_a0;
-    Gfx *sp98[5];
     f32 sp60;
     GraphicsContext *temp_s0 = globalCtx->state.gfxCtx;
+    Gfx *sp98[4];
 
     Graph_OpenDisps(sp98, globalCtx->state.gfxCtx, (const char *) "../z_boss_tw.c", 0x1C8F);
     Matrix_Push();
@@ -3575,7 +3549,7 @@ void func_80943F08(BossTw *this, GlobalContext *globalCtx) {
     if (func_8008F098(globalCtx) && D_8094C858 > 0.0f) {
         sp60 = D_8094C872 > 0 ? 1.3f : 1.0f;
         Matrix_Mult(&spB0->mf_A20, MTXMODE_NEW);
-        Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+        Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
         gSPMatrix(temp_s0->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7486), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
         if (D_8094C850 != 0) {
@@ -3595,6 +3569,7 @@ void func_80943F08(BossTw *this, GlobalContext *globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80943F08.s")
 #endif
+#undef NON_MATCHING
 
 extern Gfx D_0601EC68[];
 
