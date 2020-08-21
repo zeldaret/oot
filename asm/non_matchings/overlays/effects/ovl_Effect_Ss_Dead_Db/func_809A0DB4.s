@@ -80,7 +80,7 @@ glabel func_809A0DB4
 /* 00434 809A0ED4 34211D60 */  ori     $at, $at, 0x1D60           ## $at = 00011D60
 /* 00438 809A0ED8 00812021 */  addu    $a0, $a0, $at              
 /* 0043C 809A0EDC 27A7002C */  addiu   $a3, $sp, 0x002C           ## $a3 = FFFFFFFC
-/* 00440 809A0EE0 0C029B84 */  jal     func_800A6E10              
+/* 00440 809A0EE0 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 00444 809A0EE4 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 00448 809A0EE8 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 0044C 809A0EEC 3C0C8013 */  lui     $t4, %hi(D_801333E8)

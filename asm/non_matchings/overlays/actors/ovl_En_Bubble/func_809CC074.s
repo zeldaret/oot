@@ -1,7 +1,7 @@
 glabel func_809CC074
 /* 00474 809CC074 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00478 809CC078 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 0047C 809CC07C 0C032C30 */  jal     func_800CB0C0              
+/* 0047C 809CC07C 0C032C30 */  jal     Math3D_Vec3fReflect              
 /* 00480 809CC080 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00484 809CC084 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00488 809CC088 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00

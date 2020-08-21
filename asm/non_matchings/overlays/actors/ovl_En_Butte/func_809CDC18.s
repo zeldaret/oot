@@ -216,7 +216,7 @@ glabel func_809CDC18
 .L809CDEE4:
 /* 00E74 809CDEE4 C60E002C */  lwc1    $f14, 0x002C($s0)          ## 0000002C
 /* 00E78 809CDEE8 8E060008 */  lw      $a2, 0x0008($s0)           ## 00000008
-/* 00E7C 809CDEEC 0C032D65 */  jal     func_800CB594              
+/* 00E7C 809CDEEC 0C032D65 */  jal     Math3D_Dist2DSq              
 /* 00E80 809CDEF0 8E070010 */  lw      $a3, 0x0010($s0)           ## 00000010
 /* 00E84 809CDEF4 822D0151 */  lb      $t5, 0x0151($s1)           ## 00000151
 /* 00E88 809CDEF8 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
@@ -256,7 +256,7 @@ glabel func_809CDC18
 /* 00F08 809CDF78 C62C08B8 */  lwc1    $f12, 0x08B8($s1)          ## 000008B8
 /* 00F0C 809CDF7C C62E08C0 */  lwc1    $f14, 0x08C0($s1)          ## 000008C0
 /* 00F10 809CDF80 8E060024 */  lw      $a2, 0x0024($s0)           ## 00000024
-/* 00F14 809CDF84 0C032D65 */  jal     func_800CB594              
+/* 00F14 809CDF84 0C032D65 */  jal     Math3D_Dist2DSq              
 /* 00F18 809CDF88 8E07002C */  lw      $a3, 0x002C($s0)           ## 0000002C
 /* 00F1C 809CDF8C 3C014561 */  lui     $at, 0x4561                ## $at = 45610000
 /* 00F20 809CDF90 44812000 */  mtc1    $at, $f4                   ## $f4 = 3600.00
