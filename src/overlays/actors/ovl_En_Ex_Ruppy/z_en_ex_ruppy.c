@@ -300,10 +300,10 @@ void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     Vec3f zeroVector;
     s16 explosionScale;
     s16 explosionScaleStep;
+    
     point1Vec = sPoint1Vec;
     zeroVector = sZeroVector;
     distToBlowUp = 50.0f;
-
     if (this->unk_152 == 2) {
         distToBlowUp = 30.0f;
     }
