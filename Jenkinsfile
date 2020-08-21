@@ -22,14 +22,14 @@ pipeline {
                 sh 'make -j'
             }
         }
-        stage('Build (ido recomp)') {
+        stage('Build') {
             when {
                 not {
                     branch 'master'
                 }
             }
             steps {
-                sh 'IDO_RECOMP=y make -j'
+                sh 'make -j'
             }
         }
         stage('Report Progress') {
