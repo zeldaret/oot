@@ -6897,23 +6897,16 @@ void Camera_PrintSettings(Camera *camera);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_PrintSettings.s")
 #endif
 
-//#define NON_MATCHING
-#ifdef NON_MATCHING
 s32 func_800588B4(Camera *camera) {
     f32 waterY;
+    s16 newQuakeId;
     s32 waterBoxProp;
-    s16 sp32;
-    s32 *sp2C;
-    f32 temp_f0;
-    s16 temp_v0_2;
-    s32 temp_a1;
-    s16 temp_v0;
-    s32 temp_v1;
-    u32 phi_v1;
-    s32* unk_11C = &camera->waterPrevCamSetting;
+    s32* waterPrevCamSetting = &camera->waterPrevCamSetting;
+    s16 waterCamIdx;
+    s16* quakeId = (s16*)&camera->waterQuakeId;
     Player* player = camera->player;
+    s16 prevBgId;
 
-    temp_v1 = camera->unk_14C;
     if(!(camera->unk_14C & 2) || sCameraSettings[camera->setting].unk_00 & 0x40000000) {
         return 0;
     }
@@ -6923,63 +6916,62 @@ s32 func_800588B4(Camera *camera) {
             Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE5, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
-            Camera_ChangeSettingFlags(camera, *unk_11C, 6);
+            Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, 6);
             camera->unk_14C &= ~((s16)0x8000);
         }
     }
     if (!(camera->unk_14C & (s16)0x8000)) {
-        temp_v0 = func_800448CC(camera, &waterY);
-        if (temp_v0 == -2) {
+        if (waterCamIdx = func_800448CC(camera, &waterY), waterCamIdx == -2) {
             // No camera data idx
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
                 camera->waterPrevCamIdx = camera->camDataIdx;
-                camera->waterQuakeId = -1;
+                *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
-                sp32 = camera->bgCheckId;
-                camera->bgCheckId = 0x32;
+                prevBgId = camera->bgCheckId;
+                camera->bgCheckId = 50;
                 Camera_ChangeSettingFlags(camera, CAM_SET_NORMAL3, 2);
-                *unk_11C = camera->setting;
-                camera->bgCheckId = sp32;
+                *waterPrevCamSetting = camera->setting;
+                camera->bgCheckId = prevBgId;
                 camera->camDataIdx = -2;
             }
-        } else if (temp_v0 != -1) {
+        } else if (waterCamIdx != -1) {
             // player is in a water box
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
                 camera->waterPrevCamIdx = camera->camDataIdx;
-                camera->waterQuakeId = -1;
+                *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
-                sp32 = camera->bgCheckId;
-                camera->bgCheckId = 0x32;
-                Camera_ChangeDataIdx(camera, temp_v0);
-                *unk_11C = camera->setting;
-                camera->bgCheckId = sp32;
+                prevBgId = camera->bgCheckId;
+                camera->bgCheckId = 50;
+                Camera_ChangeDataIdx(camera, waterCamIdx);
+                *waterPrevCamSetting = camera->setting;
+                camera->bgCheckId = prevBgId;
             }
         } else if (camera->unk_14C & 0x200) {
             // player is out of a water box.
             osSyncPrintf("camera: water: off\n");
             camera->unk_14C &= ~0x200;
-            sp32 = camera->bgCheckId;
-            camera->bgCheckId = (u16)0x32;
+            prevBgId = camera->bgCheckId;
+            camera->bgCheckId = 50;
             if (camera->waterPrevCamIdx < 0) {
                 func_80057FC4(camera);
                 camera->camDataIdx = -1;
             } else {
                 Camera_ChangeDataIdx(camera, camera->waterPrevCamIdx);
             }
-            camera->bgCheckId = sp32;
+            camera->bgCheckId = prevBgId;
         }
     }
 
     if (waterY = func_800449AC(camera, &camera->eye, &waterBoxProp), waterY != BGCHECK_Y_MIN) {
         camera->waterYPos = waterY;
-        if ((camera->unk_14C & 0x100) == 0) {
-            camera->unk_14C |= 0100;
+        if (!(camera->unk_14C & 0x100)) {
+            camera->unk_14C |= 0x100;
             osSyncPrintf("kankyo changed water, sound on\n");
             func_80070600(camera->globalCtx, waterBoxProp);
             camera->unk_150 = 0x50;
@@ -6988,22 +6980,22 @@ s32 func_800588B4(Camera *camera) {
         func_800F6828(0x20);
         
         if (PREG(81)) {
-            Quake_RemoveFromIdx(camera->waterQuakeId);
-            camera->waterQuakeId = -1;
+            Quake_RemoveFromIdx(*quakeId);
+            *quakeId = -1;
             PREG(81) = 0;
         }
 
-        if ((camera->waterQuakeId == -1) || (Quake_GetCountdown(camera->waterQuakeId) == 0xA)) {
-            camera->waterQuakeId = Quake_Add(camera, 5U);
-            if (camera->waterQuakeId != 0) {
-                Quake_SetSpeed(camera->waterQuakeId, 0x226);
-                Quake_SetQuakeValues(camera->waterQuakeId, 1, 1, 0xB4, 0);
-                Quake_SetCountdown(camera->waterQuakeId, 0x3E8);
+        if ((*quakeId == -1) || (Quake_GetCountdown(*quakeId) == 0xA)) {
+            if (*quakeId = newQuakeId = Quake_Add(camera, 5U), newQuakeId != 0) {
+                Quake_SetSpeed(*quakeId, 550);
+                Quake_SetQuakeValues(*quakeId, 1, 1, 180, 0);
+                Quake_SetCountdown(*quakeId, 1000);
             }
         }
+
         if (camera->unk_150 > 0) {
-            camera->unk_152 |= 8;
             camera->unk_150--;
+            camera->unk_152 |= 8;
             return;
         } else if (camera->globalCtx->sceneNum == 0x49) {
             camera->unk_152 |= 0x10;
@@ -7017,17 +7009,14 @@ s32 func_800588B4(Camera *camera) {
         camera->unk_14C &= ~0x100;
         osSyncPrintf("kankyo changed water off, sound off\n");
         func_800706A0(camera->globalCtx);
-        if (camera->waterQuakeId != 0) {
-            Quake_RemoveFromIdx(camera->waterQuakeId);
+        if (*quakeId != 0) {
+            Quake_RemoveFromIdx(*quakeId);
         }
         camera->unk_150 = 0;
         camera->unk_152 = 0;
     }
     func_800F6828(0);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800588B4.s")
-#endif
 
 /**
  * Sets the room to be hot camera quake flag
@@ -7178,7 +7167,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
         return outVec;
     }
 
-    sUpdateCameraDirection = 0;
+    sUpdateCameraDirection = false;
 
     if (camera->player != NULL) {
         func_8002EF44(&curPlayerPosRot, &camera->player->actor);
@@ -7191,9 +7180,9 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
         spAC = curPlayerPosRot.pos;
         spAC.y += Player_GetCameraYOffset(camera->player);
 
-        // This has to do with out of bounds Camera
         playerGroundY = func_8003CA0C(camera->globalCtx, &camera->globalCtx->colCtx, &playerFloorPoly, &bgCheckId, &camera->player->actor, &spAC);
         if (playerGroundY != BGCHECK_Y_MIN) {
+            // player is above ground.
             sOOBTimer = 0;
             camera->unk_108.x = playerFloorPoly->norm.x * COLPOLY_NORM_FRAC;
             camera->unk_108.y = playerFloorPoly->norm.y * COLPOLY_NORM_FRAC;
@@ -7201,6 +7190,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
             camera->bgCheckId = bgCheckId;
             camera->playerGroundY = playerGroundY;
         } else {
+            // player is not above ground.
             sOOBTimer++;
             if(1){
                 camera->unk_108.x = 0.0;
@@ -7228,7 +7218,7 @@ Vec3s *Camera_Update(Vec3s *outVec, Camera *camera) {
                     camDataIdx = func_8004479C(camera, &bgCheckId, playerFloorPoly);
                     if (camDataIdx != -1) {
                         camera->nextBGCheckId = bgCheckId;
-                        if (bgCheckId == 0x32) {
+                        if (bgCheckId == 50) {
                             camera->nextCamDataIdx = camDataIdx;
                         }
                     }
@@ -7467,12 +7457,10 @@ s32 Camera_ChangeMode(Camera *camera, s16 mode, u8 flags) {
             return 0;
         }
     } else {
-        if (mode == camera->mode) {
-            if (flags == 0) {
-                camera->unk_14A |= 0x20;
-                camera->unk_14A |= 2;
-                return -1;
-            }
+        if (mode == camera->mode && flags == 0) {
+            camera->unk_14A |= 0x20;
+            camera->unk_14A |= 2;
+            return -1;
         }
         camera->unk_14A |= 0x20;
         camera->unk_14A |= 2;
@@ -7599,7 +7587,7 @@ s16 Camera_ChangeSettingFlags(Camera *camera, s16 setting, s16 flags) {
     }
 
     if (setting == CAM_SET_NONE || setting >= CAM_SET_MAX) {
-        osSyncPrintf("\x1b[41;37mcamera: error: illegal camera set (%d) !!!!\n\x1b[m", setting);
+        osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, setting);
         return -0x63;
     }
 
@@ -7642,7 +7630,7 @@ s16 Camera_ChangeSettingFlags(Camera *camera, s16 setting, s16 flags) {
         Camera_CopyModeValuesToPREG(camera, camera->mode);
     }
     
-    osSyncPrintf("\x1b[1m%06u:\x1b[m camera: change camera[%d] set %s\n", camera->globalCtx->state.frames, camera->thisIdx, sCameraSettingNames[camera->setting]);
+    osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: change camera[%d] set %s\n", camera->globalCtx->state.frames, camera->thisIdx, sCameraSettingNames[camera->setting]);
     
     return setting;
 }

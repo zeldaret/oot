@@ -973,8 +973,7 @@ typedef struct {
     /* 0x0114 */ f32 waterYPos;
     /* 0x0118 */ s32 waterPrevCamIdx;
     /* 0x011C */ s32 waterPrevCamSetting;
-    /* 0x0120 */ s16 waterQuakeId;
-    /* 0x0122 */ s16 unk_122; // probably pad.
+    /* 0x0120 */ s32 waterQuakeId;
     /* 0x0124 */ CutsceneCameraPoint* atPoints;
     union {
         /* 0x0128 */ CutsceneCameraPoint* eyePoints;
