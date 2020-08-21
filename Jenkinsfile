@@ -16,10 +16,10 @@ pipeline {
         }
         stage('Build (qemu-irix)') {
             when {
-                branch 'OOT_QEMU=y master'
+                branch 'master'
             }
             steps {
-                sh 'make -j'
+                sh 'OOT_QEMU=y make -j'
             }
         }
         stage('Build') {
