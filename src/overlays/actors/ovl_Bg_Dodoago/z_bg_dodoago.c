@@ -53,8 +53,8 @@ s16 D_80872598 = 0x00000000;
 Color_RGBA8_n D_8087259C = { 100, 100, 100, 0 };
 Color_RGBA8_n D_808725A0 = { 40, 40, 40, 0 };
 
-Vec3f VELOCITY = { 0.0f, -1.5f, 0.0f };
-Vec3f ACCELERATION = { 0.0f, -0.20000000298023223876953125f, 0.0f };
+static Vec3f sVelocity = { 0.0f, -1.5f, 0.0f };
+static Vec3f sAcceleration = { 0.0f, -0.2f, 0.0f };
 
 static InitChainEntry D_808725BC[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -83,7 +83,7 @@ void func_80871A08(Vec3f* vec, GlobalContext* globalCtx) {
         currentPosition.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
         currentPosition.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
         currentPosition.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
-        func_80028B74(globalCtx, &currentPosition, &VELOCITY, &ACCELERATION, &primColor, &envColor);
+        func_80028B74(globalCtx, &currentPosition, &sVelocity, &sAcceleration, &primColor, &envColor);
     }
 }
 
@@ -255,8 +255,8 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 bomb = (EnBom*)this->colliders[2].base.oc;
             }
-            this->colliders[1].base.maskA &= 0xFFFD;
-            this->colliders[2].base.maskA &= 0xFFFD;
+            this->colliders[1].base.maskA &= ~2;
+            this->colliders[2].base.maskA &= ~2;
             if (bomb->actor.type == 3 && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
                 this->dyna.actor.attachedA = &bomb->actor;
                 bomb->timer = 0x32;
