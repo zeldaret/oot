@@ -1211,7 +1211,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
                     sp228 = Lights_CreateMapper(&globalCtx->lightCtx, gfxCtx);
-                    func_8007A474(sp228, globalCtx->lightCtx.head, 0);
+                    func_8007A474(sp228, globalCtx->lightCtx.head, NULL);
                     func_80079EFC(sp228, gfxCtx);
                 }
 

@@ -50,7 +50,7 @@ glabel BgPoSyokudai_Init
 /* 000A8 808A8158 00063403 */  sra     $a2, $a2, 16               
 /* 000AC 808A815C AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 000B0 808A8160 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 000B4 808A8164 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 000B4 808A8164 0C01E77C */  jal     Lights_InitPointLightGlow
 /* 000B8 808A8168 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000BC 808A816C 26050164 */  addiu   $a1, $s0, 0x0164           ## $a1 = 00000164
 /* 000C0 808A8170 AFA5003C */  sw      $a1, 0x003C($sp)           

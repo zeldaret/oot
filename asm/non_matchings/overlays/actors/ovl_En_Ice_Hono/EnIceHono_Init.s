@@ -77,7 +77,7 @@ glabel EnIceHono_Init
 /* 0031C 80A7330C AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 00320 80A73310 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00324 80A73314 AFA40030 */  sw      $a0, 0x0030($sp)           
-/* 00328 80A73318 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00328 80A73318 0C01E763 */  jal     Lights_InitPointLightNoGlow
               
 /* 0032C 80A7331C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00330 80A73320 8FA40044 */  lw      $a0, 0x0044($sp)           

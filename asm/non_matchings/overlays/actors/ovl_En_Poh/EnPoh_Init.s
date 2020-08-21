@@ -103,7 +103,7 @@ glabel EnPoh_Init
 /* 0017C 80ADDECC AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 00180 80ADDED0 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 00184 80ADDED4 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00188 80ADDED8 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 00188 80ADDED8 0C01E77C */  jal     Lights_InitPointLightGlow
               
 /* 0018C 80ADDEDC 8FA40030 */  lw      $a0, 0x0030($sp)           
 /* 00190 80ADDEE0 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

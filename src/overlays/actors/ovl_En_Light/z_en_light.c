@@ -55,17 +55,17 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.gameMode == 3) {
         // special case for the credits
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_InitType0PositionalLight(&this->posLightInfo, this->actor.posRot.pos.x,
+        Lights_InitPointLightNoGlow(&this->lightInfo, this->actor.posRot.pos.x,
                                         yOffset + (s16)this->actor.posRot.pos.y, this->actor.posRot.pos.z, 255, 255,
                                         180, -1);
     } else {
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_InitType2PositionalLight(&this->posLightInfo, this->actor.posRot.pos.x,
+        Lights_InitPointLightGlow(&this->lightInfo, this->actor.posRot.pos.x,
                                         yOffset + (s16)this->actor.posRot.pos.y, this->actor.posRot.pos.z, 255, 255,
                                         180, -1);
     }
 
-    this->lightNode = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->posLightInfo);
+    this->lightNode = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Actor_SetScale(&this->actor, D_80A9E840[this->actor.params & 0xF].scale * 0.0001f);
     this->timer = (s32)(Math_Rand_ZeroOne() * 255.0f);
 
@@ -101,7 +101,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     flameParams = &D_80A9E840[this->actor.params & 0xF];
     intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
     radius = (this->actor.params < 0) ? 100 : 300;
-    Lights_SetPositionalLightColorAndRadius(&this->posLightInfo, (flameParams->primColor.r * intensity),
+    Lights_PointLightSetColorRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
                                             (flameParams->primColor.b * intensity), radius);
     EnLight_UpdatePosRot(this, globalCtx);
@@ -144,7 +144,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, ((f32)flameParams->scale * 0.0001) * scale);
     intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
-    Lights_SetPositionalLightColorAndRadius(&this->posLightInfo, (flameParams->primColor.r * intensity),
+    Lights_PointLightSetColorRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
                                             (flameParams->primColor.b * intensity), 300.0f * scale);
     EnLight_UpdatePosRot(this, globalCtx);

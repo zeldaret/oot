@@ -112,7 +112,7 @@ glabel EnGb_Init
 /* 001B4 80A2F334 AFAC0018 */  sw      $t4, 0x0018($sp)
 /* 001B8 80A2F338 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 001BC 80A2F33C AFAA0010 */  sw      $t2, 0x0010($sp)
-/* 001C0 80A2F340 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 001C0 80A2F340 0C01E763 */  jal     Lights_InitPointLightNoGlow
 
 /* 001C4 80A2F344 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000370
 /* 001C8 80A2F348 4480C000 */  mtc1    $zero, $f24                ## $f24 = 0.00

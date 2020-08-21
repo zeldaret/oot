@@ -83,7 +83,7 @@ glabel EnElf_Init
 /* 008B0 80A024E0 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 008B4 80A024E4 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 008B8 80A024E8 AFA4003C */  sw      $a0, 0x003C($sp)           
-/* 008BC 80A024EC 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 008BC 80A024EC 0C01E77C */  jal     Lights_InitPointLightGlow
               
 /* 008C0 80A024F0 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 008C4 80A024F4 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
@@ -116,7 +116,7 @@ glabel EnElf_Init
 /* 0092C 80A0255C AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00930 80A02560 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 00934 80A02564 AFA4003C */  sw      $a0, 0x003C($sp)           
-/* 00938 80A02568 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00938 80A02568 0C01E763 */  jal     Lights_InitPointLightNoGlow
               
 /* 0093C 80A0256C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00940 80A02570 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

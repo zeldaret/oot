@@ -62,7 +62,7 @@ glabel EnPoSisters_Init
 /* 000E0 80AD9070 00073C03 */  sra     $a3, $a3, 16               
 /* 000E4 80AD9074 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 000E8 80AD9078 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 000EC 80AD907C 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 000EC 80AD907C 0C01E77C */  jal     Lights_InitPointLightGlow
               
 /* 000F0 80AD9080 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000F4 80AD9084 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC

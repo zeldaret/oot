@@ -339,7 +339,7 @@ glabel L80966C48
 /* 003F4 80966D44 AFAC001C */  sw      $t4, 0x001C($sp)           
 /* 003F8 80966D48 AFAB0018 */  sw      $t3, 0x0018($sp)           
 /* 003FC 80966D4C AFAA0014 */  sw      $t2, 0x0014($sp)           
-/* 00400 80966D50 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00400 80966D50 0C01E763 */  jal     Lights_InitPointLightNoGlow
               
 /* 00404 80966D54 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 00408 80966D58 8FA40054 */  lw      $a0, 0x0054($sp)           

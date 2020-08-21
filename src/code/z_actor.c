@@ -1738,7 +1738,7 @@ s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE arg2, UNK_TYP
 }
 
 // Local data used for Farore's Wind light (stored in BSS, possibly a struct?)
-LightInfoPositional D_8015BC00;
+LightInfo D_8015BC00;
 LightNode* D_8015BC10;
 s32 D_8015BC14;
 f32 D_8015BC18;
@@ -1768,7 +1768,7 @@ void func_8002FA60(GlobalContext* globalCtx) {
     lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
     lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-    Lights_InitType0PositionalLight(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
+    Lights_InitPointLightNoGlow(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
 
     D_8015BC10 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &D_8015BC00);
     D_8015BC14 = 0;
@@ -1937,7 +1937,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
         lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-        Lights_InitType0PositionalLight(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
+        Lights_InitPointLightNoGlow(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
                                         500.0f * spD4);
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 5474);

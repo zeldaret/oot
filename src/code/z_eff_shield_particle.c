@@ -51,7 +51,7 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
         this->lightDecay = initParams->lightDecay;
         if (this->lightDecay == true) {
             this->lightInfo.type = 0;
-            this->lightInfo.params = initParams->lightParams;
+            this->lightInfo.params.point = initParams->lightParams;
             this->light = Lights_Insert(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, &this->lightInfo);
         } else {
             this->light = NULL;
@@ -100,7 +100,7 @@ s32 EffectShieldParticle_Update(void* thisx) {
     }
 
     if (this->lightDecay == true) {
-        this->lightInfo.params.radius /= 2;
+        this->lightInfo.params.point.radius /= 2;
     }
 
     this->timer++;

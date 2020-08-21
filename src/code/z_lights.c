@@ -3,40 +3,38 @@
 
 LightsList sLightsList;
 
-void Lights_InitPositionalLight(LightInfoPositional* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
-                                s16 radius, u32 type) {
+void Lights_InitPointLight(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue, s16 radius,
+                           u32 type) {
     info->type = type;
-    info->params.posX = posX;
-    info->params.posY = posY;
-    info->params.posZ = posZ;
-    Lights_SetPositionalLightColorAndRadius(info, red, green, blue, radius);
+    info->params.point.posX = posX;
+    info->params.point.posY = posY;
+    info->params.point.posZ = posZ;
+    Lights_PointLightSetColorRadius(info, red, green, blue, radius);
 }
 
-void Lights_InitType0PositionalLight(LightInfoPositional* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
-                                     s16 radius) {
-    Lights_InitPositionalLight(info, posX, posY, posZ, red, green, blue, radius, 0);
+void Lights_InitPointLightNoGlow(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue, s16 radius) {
+    Lights_InitPointLight(info, posX, posY, posZ, red, green, blue, radius, 0);
 }
 
-void Lights_InitType2PositionalLight(LightInfoPositional* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
-                                     s16 radius) {
-    Lights_InitPositionalLight(info, posX, posY, posZ, red, green, blue, radius, 2);
+void Lights_InitPointLightGlow(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue, s16 radius) {
+    Lights_InitPointLight(info, posX, posY, posZ, red, green, blue, radius, 2);
 }
 
-void Lights_SetPositionalLightColorAndRadius(LightInfoPositional* info, u8 red, u8 green, u8 blue, s16 radius) {
-    info->params.red = red;
-    info->params.green = green;
-    info->params.blue = blue;
-    info->params.radius = radius;
+void Lights_PointLightSetColorRadius(LightInfo* info, u8 red, u8 green, u8 blue, s16 radius) {
+    info->params.point.red = red;
+    info->params.point.green = green;
+    info->params.point.blue = blue;
+    info->params.point.radius = radius;
 }
 
-void Lights_InitDirectional(LightInfoDirectional* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue) {
+void Lights_InitDirectional(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue) {
     info->type = 1;
-    info->params.dirX = dirX;
-    info->params.dirY = dirY;
-    info->params.dirZ = dirZ;
-    info->params.red = red;
-    info->params.green = green;
-    info->params.blue = blue;
+    info->params.directional.dirX = dirX;
+    info->params.directional.dirY = dirY;
+    info->params.directional.dirZ = dirZ;
+    info->params.directional.red = red;
+    info->params.directional.green = green;
+    info->params.directional.blue = blue;
 }
 
 void Lights_MapperInit(LightMapper* mapper, u8 red, u8 green, u8 blue) {
@@ -69,14 +67,13 @@ void func_80079EFC(LightMapper* mapper, GraphicsContext* gfxCtxArg) {
         gSPLight(gfxCtx->polyOpa.p++, light, i);
         gSPLight(gfxCtx->polyXlu.p++, light, i);
     }
-    i++;
+    i++; // ambient light is number of lights + 1, per the gbi docs
     gSPLight(gfxCtx->polyOpa.p++, &mapper->lights.a, i);
     gSPLight(gfxCtx->polyXlu.p++, &mapper->lights.a, i);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_lights.c", 352);
 }
 */
-
 
 Light* Lights_MapperGetNextFreeSlot(LightMapper* mapper) {
     if (mapper->numLights >= 7) {
@@ -86,24 +83,62 @@ Light* Lights_MapperGetNextFreeSlot(LightMapper* mapper) {
     }
 }
 
-void func_8007A0B4(LightMapper* mapper, LightInfoDirectionalParams* params, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A0B4.s")
+void func_8007A0B4(LightMapper* mapper, LightParams* params, Vec3f* vec);
+/*
+void func_8007A0B4(LightMapper* mapper, LightParams* params, Vec3f* vec) {
+    f32 xDiff;
+    f32 yDiff;
+    f32 zDiff;
+    f32 radius;
+    f32 posDiff;
+    f32 scale;
+    Light* light;
 
-void func_8007A40C(LightMapper* mapper, LightInfoDirectionalParams* params, s32 arg2) {
+    if (vec != NULL) {
+        xDiff = params->point.posX - vec->x;
+        yDiff = params->point.posY - vec->y;
+        zDiff = params->point.posZ - vec->z;
+        radius = params->point.radius;
+        posDiff = SQ(xDiff) + SQ(yDiff) + SQ(zDiff);
+        
+        if (posDiff < SQ(radius)) {
+            light = Lights_MapperGetNextFreeSlot(mapper);
+
+            if (light != NULL) {
+                posDiff = sqrtf(posDiff);
+
+                scale = 1.0f - SQ(posDiff / radius);
+
+                light->l.col[0] = light->l.colc[0] = params->point.red * scale;
+                light->l.col[1] = light->l.colc[1] = params->point.green * scale;
+                light->l.col[2] = light->l.colc[2] = params->point.blue * scale;
+
+                scale = (posDiff < 1.0f) ? 120.0f : 120.0f / posDiff;
+
+                light->l.dir[0] = xDiff * scale;
+                light->l.dir[1] = yDiff * scale;
+                light->l.dir[2] = zDiff * scale;
+            }
+        }
+    }
+}
+*/
+
+void func_8007A40C(LightMapper* mapper, LightParams* params, Vec3f* vec) {
     Light* light = Lights_MapperGetNextFreeSlot(mapper);
 
     if (light != NULL) {
-        light->l.col[0] = light->l.colc[0] = params->red;
-        light->l.col[1] = light->l.colc[1] = params->green;
-        light->l.col[2] = light->l.colc[2] = params->blue;
-        light->l.dir[0] = params->dirX;
-        light->l.dir[1] = params->dirY;
-        light->l.dir[2] = params->dirZ;
+        light->l.col[0] = light->l.colc[0] = params->directional.red;
+        light->l.col[1] = light->l.colc[1] = params->directional.green;
+        light->l.col[2] = light->l.colc[2] = params->directional.blue;
+        light->l.dir[0] = params->directional.dirX;
+        light->l.dir[1] = params->directional.dirY;
+        light->l.dir[2] = params->directional.dirZ;
     }
 }
 
-// Lights_UpdateAll?
-void func_8007A474(LightMapper* mapper, LightNode* head, Vec3f vec) {
+void func_8007A474(LightMapper* mapper, LightNode* head, Vec3f* vec) {
     LightUpdateFunc updateFuncs[] = { func_8007A0B4, func_8007A40C, func_8007A0B4 };
     LightInfo* info;
 
@@ -114,29 +149,29 @@ void func_8007A474(LightMapper* mapper, LightNode* head, Vec3f vec) {
     }
 }
 
-LightNode* Lights_FindFreeSlot() {
-    LightNode* ret;
+LightNode* Lights_FindSlot() {
+    LightNode* node;
 
     if (sLightsList.numOccupied >= 32) {
         return NULL;
     }
 
-    ret = &sLightsList.lights[sLightsList.nextFree];
+    node = &sLightsList.lights[sLightsList.nextFree];
 
-    while (ret->info != NULL) {
+    while (node->info != NULL) {
         sLightsList.nextFree++;
 
         if (sLightsList.nextFree < 32) {
-            ret++;
+            node++;
         } else {
             sLightsList.nextFree = 0;
-            ret = &sLightsList.lights[0];
+            node = &sLightsList.lights[0];
         }
     }
 
     sLightsList.numOccupied++;
 
-    return ret;
+    return node;
 }
 
 // return type must not be void to match
@@ -185,37 +220,38 @@ void Lights_RemoveAll(GlobalContext* globalCtx, LightContext* lightCtx) {
 }
 
 LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, void* info) {
-    LightNode* light;
+    LightNode* node;
 
-    light = Lights_FindFreeSlot();
-    if (light != NULL) {
-        light->info = info;
-        light->prev = NULL;
-        light->next = lightCtx->head;
+    node = Lights_FindSlot();
+
+    if (node != NULL) {
+        node->info = info;
+        node->prev = NULL;
+        node->next = lightCtx->head;
 
         if (lightCtx->head != NULL) {
-            lightCtx->head->prev = light;
+            lightCtx->head->prev = node;
         }
 
-        lightCtx->head = light;
+        lightCtx->head = node;
     }
 
-    return light;
+    return node;
 }
 
-void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light) {
-    if (light != NULL) {
-        if (light->prev != NULL) {
-            light->prev->next = light->next;
+void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
+    if (node != NULL) {
+        if (node->prev != NULL) {
+            node->prev->next = node->next;
         } else {
-            lightCtx->head = light->next;
+            lightCtx->head = node->next;
         }
 
-        if (light->next != NULL) {
-            light->next->prev = light->prev;
+        if (node->next != NULL) {
+            node->next->prev = node->prev;
         }
 
-        Lights_Free(light);
+        Lights_Free(node);
     }
 }
 
