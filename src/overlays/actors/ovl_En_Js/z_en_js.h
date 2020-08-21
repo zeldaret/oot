@@ -19,7 +19,7 @@ typedef struct EnJs {
     /* 0x0284 */ u16 unk_284;
     /* 0x0286 */ s16 unk_286;
     /* 0x0288 */ s16 unk_288;
-    /* 0x028C */ EnJsActionFunc actionfunc;
+    /* 0x028C */ EnJsActionFunc actionFunc;
 } EnJs; // size = 0x0290
 
 extern const ActorInit En_Js_InitVars;

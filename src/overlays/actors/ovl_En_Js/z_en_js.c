@@ -34,14 +34,14 @@ static ColliderCylinderInit sCylinderInit = {
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
 };
-s32 D_80A896DC[] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
+
 
 extern SkeletonHeader D_06005EA0;
 extern AnimationHeader D_0600045C;
 extern AnimationHeader D_0600018C;
 
-void En_Js_SetupAction(EnJs* this, EnJsActionFunc actionfunc) {
-    this->actionfunc = actionfunc;
+void En_Js_SetupAction(EnJs* this, EnJsActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -65,26 +65,20 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnJs* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 arg2) {
-    s16 temp;
-    s32 temp_2;
+    s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (func_8002F194(&this->actor, globalCtx)) {
         return 1;
     } else {
         this->actor.textId = arg2;
-        temp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-        if (temp >= 0) {
-            temp_2 = temp;
-        } else {
-            temp_2 = -temp;
-        }
-
-        if (temp_2 < 0x1801 && this->actor.xzDistFromLink < 100.0f) {
+        if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistFromLink < 100.0f) {
             this->unk_284 |= 1;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
@@ -99,14 +93,14 @@ void func_80A89008(EnJs* this) {
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (func_8002F334(&this->actor, globalCtx)) {
         func_80A89008(this);
         this->actor.flags &= ~0x10000;
     }
 }
 
 void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (func_8002F194(&this->actor, globalCtx)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
@@ -114,7 +108,7 @@ void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (func_8002F334(&this->actor, globalCtx)) {
         this->actor.textId = 0x6078U;
         En_Js_SetupAction(this, func_80A890C0);
         this->actor.flags |= 0x10000;
@@ -122,7 +116,7 @@ void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
+    if (func_8002F410(&this->actor, globalCtx)) {
         this->actor.attachedA = NULL;
         En_Js_SetupAction(this, func_80A8910C);
     } else {
@@ -131,13 +125,10 @@ void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
-    u8 temp_v0;
-
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
-                    // yes, but not enough rupees
                     func_8010B720(globalCtx, 0x6075);
                     func_80A89008(this);
                 } else {
@@ -159,8 +150,7 @@ void func_80A89294(EnJs* this) {
 }
 
 void func_80A89304(EnJs* this, GlobalContext* globalCtx) {
-    // 0x6077 - text for initial offer to buy something for 200 rupees
-    if (func_80A88F64(this, globalCtx, 0x6077) != 0) {
+    if (func_80A88F64(this, globalCtx, 0x6077)) {
         func_80A89294(this);
     }
 }
@@ -175,18 +165,18 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
-    if ((this->actor.bgCheckFlags & 1) != 0) {
+    if ((this->actor.bgCheckFlags & 1)) {
         if (func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
             Math_SmoothScaleMaxF(&this->actor.shape.unk_08, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {
         Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 1.0f, (sREG(81) / 10.0f) + 50.0f);
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
-    this->actionfunc(this, globalCtx);
-    if ((this->unk_284 & 1) != 0) {
+    this->actionFunc(this, globalCtx);
+    if ((this->unk_284 & 1)) {
         func_80038290(globalCtx, &this->actor, &this->unk_278, &this->unk_27E, this->actor.posRot2.pos);
     } else {
         Math_SmoothScaleMaxMinS(&this->unk_278.x, 0, 6, 0x1838, 0x64);
@@ -217,12 +207,15 @@ s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    static Vec3f D_80A896DC = {0.0f, 0.0f, 0.0f};
+    
     if (limbIndex == 12) {
-        Matrix_MultVec3f(D_80A896DC, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&D_80A896DC, &thisx->posRot2.pos);
     }
 }
 void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnJs* this = THIS;
+
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnJs_OverrideLimbDraw, EnJs_PostLimbDraw, &this->actor);
