@@ -14,9 +14,11 @@ typedef struct EnJs {
     /* 0x0198 */ SkelAnime skelAnime;
     /* 0x01DC */ Vec3s limbDrawTable[13];
     /* 0x022A */ Vec3s transitionDrawTable[13];
-    /* 0x0272 */ char unk_272[12];
+    /* 0x0278 */ Vec3s unk_278;
+    /* 0x027E */ Vec3s unk_27E;
     /* 0x0284 */ u16 unk_284;
-    /* 0x0286 */ char unk_286[6];
+    /* 0x0286 */ s16 unk_286;
+    /* 0x0288 */ s16 unk_288;
     /* 0x028C */ EnJsActionFunc actionfunc;
 } EnJs; // size = 0x0290
 
