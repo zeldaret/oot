@@ -69,13 +69,13 @@ void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 arg2) {
+u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
     s16 yawDiff;
 
     if (func_8002F194(&this->actor, globalCtx)) {
         return 1;
     } else {
-        this->actor.textId = arg2;
+        this->actor.textId = textId;
         yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
         if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistFromLink < 100.0f) {
@@ -208,7 +208,7 @@ s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     static Vec3f D_80A896DC = {0.0f, 0.0f, 0.0f};
-    
+
     if (limbIndex == 12) {
         Matrix_MultVec3f(&D_80A896DC, &thisx->posRot2.pos);
     }
