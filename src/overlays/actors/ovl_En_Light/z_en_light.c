@@ -82,7 +82,7 @@ void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {
     // update yaw for billboard effect
-    this->actor.shape.rot.y = func_8005A9F4(ACTIVE_CAM) + 0x8000;
+    this->actor.shape.rot.y = Camera_GetRealDirYaw(ACTIVE_CAM) + 0x8000;
 
     if (this->actor.attachedA != NULL) {
         Math_Vec3f_Copy(&this->actor.posRot.pos, &(this->actor.attachedA)->posRot.pos);
@@ -191,7 +191,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
     }
 
-    Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
+    Matrix_RotateY((s16)((Camera_GetRealDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
                    MTXMODE_APPLY);
 
     if (this->actor.params & 1) {
