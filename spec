@@ -3329,8 +3329,7 @@ endseg
 beginseg
     name "ovl_En_Weather_Tag"
     include "build/src/overlays/actors/ovl_En_Weather_Tag/z_en_weather_tag.o"
-    include "build/data/overlays/actors/z_en_weather_tag.data.o"
-    include "build/data/overlays/actors/z_en_weather_tag.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Weather_Tag/ovl_En_Weather_Tag_reloc.o"
 endseg
 
 beginseg
