@@ -329,16 +329,16 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 27:
             if (globalCtx->state.frames & 8) {
-                if (globalCtx->envCtx.unk_8C[0] < 40) {
-                    globalCtx->envCtx.unk_8C[0] += 2;
-                    globalCtx->envCtx.unk_8C[4] -= 3;
-                    globalCtx->envCtx.unk_8C[5] -= 3;
+                if (globalCtx->envCtx.unk_8C[0][0] < 40) {
+                    globalCtx->envCtx.unk_8C[0][0] += 2;
+                    globalCtx->envCtx.unk_8C[1][1] -= 3;
+                    globalCtx->envCtx.unk_8C[1][2] -= 3;
                 }
             } else {
-                if (globalCtx->envCtx.unk_8C[0] > 2) {
-                    globalCtx->envCtx.unk_8C[0] -= 2;
-                    globalCtx->envCtx.unk_8C[4] += 3;
-                    globalCtx->envCtx.unk_8C[5] += 3;
+                if (globalCtx->envCtx.unk_8C[0][0] > 2) {
+                    globalCtx->envCtx.unk_8C[0][0] -= 2;
+                    globalCtx->envCtx.unk_8C[1][1] += 3;
+                    globalCtx->envCtx.unk_8C[1][2] += 3;
                 }
             }
             break;

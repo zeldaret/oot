@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wonder_talk2.h"
+#include <vt.h>
 
 #define FLAGS 0x08000009
 
@@ -14,7 +15,12 @@ void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void func_80B3A10C(EnWonderTalk2* this, GlobalContext* globalCtx);
+void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx);
+void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx);
+void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx);
+void EnWonderTalk2_DoNothing(EnWonderTalk2* this, GlobalContext* globalCtx);
+
 const ActorInit En_Wonder_Talk2_InitVars = {
     ACTOR_EN_WONDER_TALK2,
     ACTORTYPE_ITEMACTION,
@@ -26,19 +32,266 @@ const ActorInit En_Wonder_Talk2_InitVars = {
     (ActorFunc)EnWonderTalk2_Update,
     NULL,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/EnWonderTalk2_Destroy.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/EnWonderTalk2_Init.s")
+s16 D_80B3A8E0[] = { 0x6, 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/func_80B3A10C.s")
+void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/func_80B3A15C.s")
+void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnWonderTalk2* this = THIS;
+    s32 offsetCounter;
+    s16 zOffset;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/func_80B3A3D4.s")
+    osSyncPrintf("\n\n");
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    this->unk_150 = (this->actor.params >> 6) & 0xFF;
+    if (this->actor.posRot.rot.z > 0) {
+        offsetCounter = 0;
+        zOffset = this->actor.posRot.rot.z;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/func_80B3A4F8.s")
+        while (zOffset > 10) {
+            zOffset -= 10;
+            offsetCounter += 1;
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/func_80B3A770.s")
+        this->unk_15C = zOffset * 40.0f;
+        if (offsetCounter > 6) {
+            offsetCounter = 0;
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Talk2/EnWonderTalk2_Update.s")
+        this->actor.unk_1F = D_80B3A8E0[offsetCounter];
+
+        osSyncPrintf("\n\n");
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元は？       ☆☆☆☆☆ %d\n" VT_RST, this->actor.posRot.rot.z);
+        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ レンジは？   ☆☆☆☆☆ %d\n" VT_RST, this->actor.unk_1F);
+        osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ は、範囲わ？ ☆☆☆☆☆ %f\n" VT_RST, this->unk_15C);
+        osSyncPrintf("\n\n");
+        osSyncPrintf("\n\n");
+        osSyncPrintf("\n\n");
+    }
+    this->posRot = this->actor.posRot.pos;
+    this->switchFlag = (this->actor.params & 0x3F);
+    this->unk_154 = ((this->actor.params >> 0xE) & 3);
+
+    if (this->switchFlag == 0x3F) {
+        this->switchFlag = -1;
+    }
+    if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
+        Actor_Kill(&this->actor);
+        return;
+    }
+    if ((this->unk_154 == 1) && (globalCtx->sceneNum == SCENE_MEN) && (this->switchFlag != 8) &&
+        (this->switchFlag != 0x16) && (this->switchFlag != 0x2F)) {
+
+        this->unk_15A = 0;
+        this->unk_154 = 4;
+    }
+    if (this->unk_154 == 3) {
+        this->actor.flags &= ~0x8000000;
+        this->actionFunc = EnWonderTalk2_DoNothing;
+    } else {
+        this->actionFunc = func_80B3A10C;
+    }
+}
+
+void func_80B3A10C(EnWonderTalk2* this, GlobalContext* globalCtx) {
+    this->actor.textId = 0x200;
+    this->actor.textId |= this->unk_150;
+    if (this->unk_154 == 1 || this->unk_154 == 4) {
+        this->actionFunc = func_80B3A4F8;
+    } else {
+        this->actionFunc = func_80B3A15C;
+    }
+}
+
+void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
+    Player* player;
+    Actor* actor;
+    s16 yawDiff;
+    s16 yawDiffTemp;
+
+    actor = &this->actor;
+    player = PLAYER;
+    this->unk_158++;
+    if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        if (this->unk_15A == 0) {
+            this->actor.flags &= -2;
+            this->unk_15A = 1;
+        }
+    } else {
+        if (func_8002F194(&this->actor, globalCtx) != 0) {
+            if ((this->switchFlag >= 0) && (this->unk_154 != 2)) {
+                Flags_SetSwitch(globalCtx, this->switchFlag);
+                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ セーブしたよ！おもいっきり！ %x\n" VT_RST, this->switchFlag);
+            }
+
+            this->actionFunc = func_80B3A10C;
+            return;
+        }
+
+        yawDiffTemp = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
+        yawDiff = ABS(yawDiffTemp);
+
+        if ((!((40.0f + this->unk_15C) < (*actor).xzDistFromLink)) &&
+            ((!(fabsf(player->actor.posRot.pos.y - (*actor).posRot.pos.y) > 100.0f)) && (yawDiff < 0x4000))) {
+            if (this->unk_158 >= 2) {
+                osSyncPrintf("\n\n");
+                // Transparent Message Kimi Set
+                osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" VT_RST, this->actor.params);
+                // Save Information
+                osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" VT_RST, this->switchFlag);
+                // Specified message type
+                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 指定メッセージ種類     %x\n" VT_RST, this->unk_150);
+                // Actual message type
+                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
+                // Specified range
+                osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.posRot.rot.z);
+                // Processing range
+                osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" VT_RST, this->unk_15C);
+                switch (this->unk_154) {
+                    case 0:
+                        // Normal
+                        osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆ 通常 ☆☆ \n" VT_RST);
+                        break;
+                    case 2:
+                        // Check only
+                        osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆ チェックのみ ☆☆ \n" VT_RST);
+                        break;
+                    case 3:
+                        // Lock only
+                        osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆ ロックのみ ☆☆ \n" VT_RST);
+                        break;
+                }
+            }
+
+            this->unk_158 = 0;
+            func_8002F1C4(&this->actor, globalCtx, this->unk_15C + 50.0f, 100.0f, 0);
+        }
+    }
+}
+
+void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
+    if (BREG(2)) {
+        // Oh
+        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ わー %d\n" VT_RST, func_8010BDBC(&globalCtx->msgCtx));
+    }
+
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+        case 5:
+        case 6:
+            if (func_80106BC8(globalCtx)) {
+                if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
+                    func_80106CCC(globalCtx);
+                }
+            } else {
+                break;
+            }
+        case 0:
+            if ((this->switchFlag >= 0) && (this->unk_154 != 4)) {
+                Flags_SetSwitch(globalCtx, this->switchFlag);
+                // (Forced) I saved! It's all about it!
+                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" VT_RST, this->switchFlag);
+            }
+
+            if (this->unk_154 == 4) {
+                this->unk_15A = 1;
+            }
+            this->actor.flags &= ~0x11;
+            func_8002DF54(globalCtx, NULL, 7);
+            this->unk_156 = 1;
+            this->actionFunc = func_80B3A4F8;
+            break;
+    }
+}
+
+void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
+    Player* player;
+
+    player = PLAYER;
+    this->unk_158++;
+    if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        if (this->unk_15A == 0) {
+            this->actor.flags &= ~1;
+            this->unk_15A = 1;
+        }
+    } else {
+        if ((this->unk_154 != 4) || (this->unk_15A == 0)) {
+            if (BREG(2) != 0) {
+                // distance
+                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ きょり %f\n" VT_RST, this->actor.xzDistFromLink);
+            }
+            if (((this->actor.xzDistFromLink < (40.0f + this->unk_15C)) &&
+                 (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f)) &&
+                !Gameplay_InCsMode(globalCtx)) {
+                if (this->unk_158 >= 2) {
+                    osSyncPrintf("\n\n");
+                    // Transparent Message Kimi Seto
+                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" VT_RST, this->actor.params);
+                    // Save Information
+                    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" VT_RST, this->switchFlag);
+                    // Specified message type
+                    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 指定メッセージ種類     %x\n" VT_RST, this->unk_150);
+                    // Real message type
+                    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
+                    // Specified range
+                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.posRot.rot.z);
+                    //  Processing range
+                    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" VT_RST, this->unk_15C);
+                    // What is your range?
+                    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ レンジは？ \t\t   %d\n" VT_RST, this->actor.unk_1F);
+                    osSyncPrintf("\n\n");
+                    osSyncPrintf("\n\n");
+                    switch (this->unk_154) {
+                        case 1:
+                            // Compulsion
+                            osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆ 強制 ☆☆ \n" VT_RST);
+                            break;
+                        case 4:
+                            // Geld Training Center Forced Check Only
+                            osSyncPrintf(VT_FGCOL(RED) " ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n" VT_RST);
+                            break;
+                    }
+
+                    osSyncPrintf("\n\n");
+                }
+                this->unk_158 = 0;
+                if (this->unk_156 == 0) {
+                    func_8010B680(globalCtx, this->actor.textId, NULL);
+                    func_8002DF54(globalCtx, NULL, 8);
+                    this->actor.flags |= 0x11;
+                    this->actionFunc = func_80B3A3D4;
+                }
+
+            } else {
+                this->unk_156 = 0;
+            }
+        }
+    }
+}
+
+void EnWonderTalk2_DoNothing(EnWonderTalk2* this, GlobalContext* globalCtx) {
+}
+
+void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnWonderTalk2* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+    this->actor.posRot.pos.y = this->posRot.y;
+
+    Actor_SetHeight(&this->actor, this->height);
+    if (BREG(0) != 0) {
+        if (this->unk_158 != 0) {
+            if ((this->unk_158 & 1) == 0) {
+                DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
+                                       this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
+                                       1.0f, 1.0f, 1.0f, 70, 70, 70, 255, 4, globalCtx->state.gfxCtx);
+            }
+        } else {
+            DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
+                                   this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f,
+                                   1.0f, 1.0f, 0, 0, 255, 255, 4, globalCtx->state.gfxCtx);
+        }
+    }
+}
