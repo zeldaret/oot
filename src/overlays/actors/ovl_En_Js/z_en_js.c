@@ -35,7 +35,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-
 extern SkeletonHeader D_06005EA0;
 extern AnimationHeader D_0600045C;
 extern AnimationHeader D_0600018C;
@@ -109,7 +108,7 @@ void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
 
 void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        this->actor.textId = 0x6078U;
+        this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
         this->actor.flags |= 0x10000;
     }
@@ -125,7 +124,7 @@ void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
@@ -165,7 +164,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
-    if ((this->actor.bgCheckFlags & 1)) {
+    if (this->actor.bgCheckFlags & 1) {
         if (func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
             Math_SmoothScaleMaxF(&this->actor.shape.unk_08, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
@@ -176,7 +175,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
     this->actionFunc(this, globalCtx);
-    if ((this->unk_284 & 1)) {
+    if (this->unk_284 & 1) {
         func_80038290(globalCtx, &this->actor, &this->unk_278, &this->unk_27E, this->actor.posRot2.pos);
     } else {
         Math_SmoothScaleMaxMinS(&this->unk_278.x, 0, 6, 0x1838, 0x64);
@@ -207,7 +206,7 @@ s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    static Vec3f D_80A896DC = {0.0f, 0.0f, 0.0f};
+    static Vec3f D_80A896DC = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 12) {
         Matrix_MultVec3f(&D_80A896DC, &thisx->posRot2.pos);
