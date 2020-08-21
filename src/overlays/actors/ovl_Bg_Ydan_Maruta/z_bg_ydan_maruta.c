@@ -26,7 +26,7 @@ const ActorInit Bg_Ydan_Maruta_InitVars = {
     (ActorFunc)BgYdanMaruta_Draw,
 };
 
-ColliderTrisItemInit sTrisItemsInit[2] = {
+ColliderTrisItemInit D_808BF300[2] = {
     {
         { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000004, 0x00, 0x00 }, 0x11, 0x01, 0x00 },
         { { { 220.0f, -10.0f, 0.0f }, { 220.0f, 10.0f, 0.0f }, { -220.0f, 10.0f, 0.0f } } },
@@ -37,13 +37,13 @@ ColliderTrisItemInit sTrisItemsInit[2] = {
     },
 };
 
-ColliderTrisInit sTrisInit = {
+ColliderTrisInit D_808BF378 = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
     2,
-    sTrisItemsInit,
+    D_808BF300,
 };
 
-InitChainEntry sInitChain[] = {
+InitChainEntry D_808BF388[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -55,7 +55,7 @@ extern Gfx D_06006570[];
 // Register issues
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
-    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
+    BgYdanMaruta* this = THIS;
     Vec3f sp4C[3];
     s32 pad;
     f32 sinRotY;
@@ -63,20 +63,20 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 localConst = 0;
     ColliderTrisItemInit* items;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
+    Actor_ProcessInitChain(thisx, D_808BF388);
     Collider_InitTris(globalCtx, &this->collider);
     Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, &this->items);
     this->unk_168 = thisx->params;
     thisx->params = ((thisx->params >> 8) & 0xFF) & 0xFF;
-    items = &sTrisItemsInit[1];
+    items = &D_808BF300[1];
     if (thisx->params == 0) {
-        items = &sTrisItemsInit[0];
+        items = &D_808BF300[0];
         this->actionFunc = func_808BEFF4;
     } else {
         DynaPolyInfo_SetActorMove(&this->dyna, 0);
         DynaPolyInfo_Alloc(&D_060066A8, &localConst);
         this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
-        thisx->initPosRot.pos.y = thisx->initPosRot.pos.y + -280.0f;
+        thisx->initPosRot.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->unk_168) != 0) {
             thisx->posRot.pos.y = thisx->initPosRot.pos.y;
             this->actionFunc = BgYdanMaruta_DoNothing;
@@ -103,6 +103,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanMaruta* this = THIS;
+
     Collider_DestroyTris(globalCtx, &this->collider);
     if (thisx->params == 1) {
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -113,7 +114,7 @@ void func_808BEFF4(BgYdanMaruta* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & 2) {
         func_8002F71C(globalCtx, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
     }
-    this->dyna.actor.shape.rot.x = (this->dyna.actor.shape.rot.x + 0x360);
+    this->dyna.actor.shape.rot.x += 0x360;
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
     func_8002F974(&this->dyna.actor, NA_SE_EV_TOGE_STICK_ROLLING - SFX_FLAG);
 }

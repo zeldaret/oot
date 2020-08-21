@@ -12,9 +12,7 @@ typedef struct BgYdanMaruta {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgYdanMarutaActionFunc actionFunc;
     /* 0x0168 */ u8 unk_168;
-    /* 0x0169 */ char unk_169;
-    /* 0x016A */ s16 unk_16A;//Timer?
-
+    /* 0x016A */ s16 unk_16A;
     /* 0x016C */ ColliderTris collider;
     /* 0x018C */ ColliderTrisItem items[2];
 } BgYdanMaruta; // size = 0x0244
