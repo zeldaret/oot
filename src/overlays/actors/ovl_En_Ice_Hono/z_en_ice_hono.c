@@ -73,7 +73,7 @@ f32 EnIceHono_SquareDist(Vec3f* pos1, Vec3f* pos2) {
 
     dx = pos1->x - pos2->x;
     dz = pos1->z - pos2->z;
-    return (dx * dx) + (dz * dz);
+    return SQ(dx) + SQ(dz);
 }
 
 void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {

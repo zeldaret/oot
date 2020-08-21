@@ -2631,8 +2631,7 @@ endseg
 beginseg
     name "ovl_En_Ice_Hono"
     include "build/src/overlays/actors/ovl_En_Ice_Hono/z_en_ice_hono.o"
-    include "build/data/overlays/actors/z_en_ice_hono.data.o"
-    include "build/data/overlays/actors/z_en_ice_hono.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ice_Hono/ovl_En_Ice_Hono_reloc.o"
 endseg
 
 beginseg
