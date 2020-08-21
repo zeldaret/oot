@@ -3,40 +3,40 @@ glabel BgYdanMaruta_Init
 /* 00004 808BED44 AFA5007C */  sw      $a1, 0x007C($sp)           
 /* 00008 808BED48 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0000C 808BED4C AFB0001C */  sw      $s0, 0x001C($sp)           
-/* 00010 808BED50 3C05808C */  lui     $a1, %hi(D_808BF388)       ## $a1 = 808C0000
+/* 00010 808BED50 3C05808C */  lui     $a1, %hi(sInitChain)       ## $a1 = 808C0000
 /* 00014 808BED54 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00018 808BED58 AFB10020 */  sw      $s1, 0x0020($sp)           
 /* 0001C 808BED5C AFA0003C */  sw      $zero, 0x003C($sp)         
 /* 00020 808BED60 0C01E037 */  jal     Actor_ProcessInitChain
               
-/* 00024 808BED64 24A5F388 */  addiu   $a1, $a1, %lo(D_808BF388)  ## $a1 = 808BF388
+/* 00024 808BED64 24A5F388 */  addiu   $a1, $a1, %lo(sInitChain)  ## $a1 = 808BF388
 /* 00028 808BED68 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
 /* 0002C 808BED6C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00030 808BED70 0C0171F8 */  jal     Collider_InitTris              
 /* 00034 808BED74 8FA4007C */  lw      $a0, 0x007C($sp)           
-/* 00038 808BED78 3C07808C */  lui     $a3, %hi(D_808BF378)       ## $a3 = 808C0000
+/* 00038 808BED78 3C07808C */  lui     $a3, %hi(sTrisInit)       ## $a3 = 808C0000
 /* 0003C 808BED7C 260E018C */  addiu   $t6, $s0, 0x018C           ## $t6 = 0000018C
 /* 00040 808BED80 AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 00044 808BED84 24E7F378 */  addiu   $a3, $a3, %lo(D_808BF378)  ## $a3 = 808BF378
+/* 00044 808BED84 24E7F378 */  addiu   $a3, $a3, %lo(sTrisInit)  ## $a3 = 808BF378
 /* 00048 808BED88 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 0004C 808BED8C 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00050 808BED90 0C0172EB */  jal     Collider_SetTris              
 /* 00054 808BED94 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00058 808BED98 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 0005C 808BED9C 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
-/* 00060 808BEDA0 3C11808C */  lui     $s1, %hi(D_808BF33C)       ## $s1 = 808C0000
+/* 00060 808BEDA0 3C11808C */  lui     $s1, %hi(sTrisItemsInit+0x3C)       ## $s1 = 808C0000
 /* 00064 808BEDA4 00194203 */  sra     $t0, $t9,  8               
 /* 00068 808BEDA8 310900FF */  andi    $t1, $t0, 0x00FF           ## $t1 = 00000000
 /* 0006C 808BEDAC A609001C */  sh      $t1, 0x001C($s0)           ## 0000001C
 /* 00070 808BEDB0 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C
-/* 00074 808BEDB4 2631F33C */  addiu   $s1, $s1, %lo(D_808BF33C)  ## $s1 = 808BF33C
+/* 00074 808BEDB4 2631F33C */  addiu   $s1, $s1, %lo(sTrisItemsInit+0x3C)  ## $s1 = 808BF33C
 /* 00078 808BEDB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0007C 808BEDBC 15400007 */  bne     $t2, $zero, .L808BEDDC     
 /* 00080 808BEDC0 A2180168 */  sb      $t8, 0x0168($s0)           ## 00000168
 /* 00084 808BEDC4 3C0B808C */  lui     $t3, %hi(func_808BEFF4)    ## $t3 = 808C0000
-/* 00088 808BEDC8 3C11808C */  lui     $s1, %hi(D_808BF300)       ## $s1 = 808C0000
+/* 00088 808BEDC8 3C11808C */  lui     $s1, %hi(sTrisItemsInit)       ## $s1 = 808C0000
 /* 0008C 808BEDCC 256BEFF4 */  addiu   $t3, $t3, %lo(func_808BEFF4) ## $t3 = 808BEFF4
-/* 00090 808BEDD0 2631F300 */  addiu   $s1, $s1, %lo(D_808BF300)  ## $s1 = 808BF300
+/* 00090 808BEDD0 2631F300 */  addiu   $s1, $s1, %lo(sTrisItemsInit)  ## $s1 = 808BF300
 /* 00094 808BEDD4 1000001F */  beq     $zero, $zero, .L808BEE54   
 /* 00098 808BEDD8 AE0B0164 */  sw      $t3, 0x0164($s0)           ## 00000164
 .L808BEDDC:
@@ -67,8 +67,8 @@ glabel BgYdanMaruta_Init
 /* 000EC 808BEE2C 10400007 */  beq     $v0, $zero, .L808BEE4C     
 /* 000F0 808BEE30 3C0D808C */  lui     $t5, %hi(func_808BF078)    ## $t5 = 808C0000
 /* 000F4 808BEE34 C60A000C */  lwc1    $f10, 0x000C($s0)          ## 0000000C
-/* 000F8 808BEE38 3C0C808C */  lui     $t4, %hi(func_808BF25C)    ## $t4 = 808C0000
-/* 000FC 808BEE3C 258CF25C */  addiu   $t4, $t4, %lo(func_808BF25C) ## $t4 = 808BF25C
+/* 000F8 808BEE38 3C0C808C */  lui     $t4, %hi(BgYdanMaruta_DoNothing)    ## $t4 = 808C0000
+/* 000FC 808BEE3C 258CF25C */  addiu   $t4, $t4, %lo(BgYdanMaruta_DoNothing) ## $t4 = 808BF25C
 /* 00100 808BEE40 AE0C0164 */  sw      $t4, 0x0164($s0)           ## 00000164
 /* 00104 808BEE44 10000003 */  beq     $zero, $zero, .L808BEE54   
 /* 00108 808BEE48 E60A0028 */  swc1    $f10, 0x0028($s0)          ## 00000028
