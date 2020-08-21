@@ -19,7 +19,7 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B533B0(EnZl3* this, GlobalContext* globalCtx);
+void func_80B533B0(Actor* thisx, GlobalContext* globalCtx);
 s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* thisx,
                   Gfx** gfx);
 void func_80B55550(EnZl3* this, GlobalContext* globalCtx);
@@ -160,10 +160,9 @@ extern AnimationHeader D_06001D8C;
 extern AnimationHeader D_06002348;
 extern AnimationHeader D_06002E54;
 
-void func_80B533B0(EnZl3* this, GlobalContext* globalCtx) {
-    s32 pad;
-    if (this) {} // Needed to match
-
+void func_80B533B0(Actor* thisx, GlobalContext* globalCtx) {
+    EnZl3* this = THIS;
+    
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &D_80B5A410);
 }
@@ -2501,7 +2500,7 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_ct通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     ActorShape_Init(shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     shape->unk_14 = 0;
-    func_80B533B0(this, globalCtx);
+    func_80B533B0(thisx, globalCtx);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06010D70, NULL, this->limbDrawTable, this->transitionDrawTable,
                      15);
 
