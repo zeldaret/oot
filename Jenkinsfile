@@ -29,8 +29,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'export IDO_RECOMP=y'
-                sh 'make -j'
+                sh 'IDO_RECOMP=y make -j'
             }
         }
         stage('Report Progress') {
