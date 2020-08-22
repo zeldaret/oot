@@ -26,9 +26,9 @@ void Lights_InitPointLightGlow(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g,
 }
 
 void Lights_PointLightSetColorRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius) {
-    info->params.point.r = r;
-    info->params.point.g = g;
-    info->params.point.b = b;
+    info->params.point.color.r = r;
+    info->params.point.color.g = g;
+    info->params.point.color.b = b;
     info->params.point.radius = radius;
 }
 
@@ -37,9 +37,9 @@ void Lights_InitDirectionalLight(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, 
     info->params.dir.x = x;
     info->params.dir.y = y;
     info->params.dir.z = z;
-    info->params.dir.r = r;
-    info->params.dir.g = g;
-    info->params.dir.b = b;
+    info->params.dir.color.r = r;
+    info->params.dir.color.g = g;
+    info->params.dir.color.b = b;
 }
 
 void Lights_ResetCollection(LightCollection* collection, u8 r, u8 g, u8 b) {
@@ -67,7 +67,7 @@ void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg) {
         gSPLight(gfxCtx->polyOpa.p++, light, i + 1);
         gSPLight(gfxCtx->polyXlu.p++, light, i + 1);
     }
-    // ambient light is number of lights + 1, per the gbi docs
+
     gSPLight(gfxCtx->polyOpa.p++, &collection->lights.a, i + 1);
     gSPLight(gfxCtx->polyXlu.p++, &collection->lights.a, i + 1);
 
@@ -106,9 +106,9 @@ void Lights_UpdatePoint(LightCollection* collection, LightParams* params, Vec3f*
                 scale = posDiff / scale;
                 scale = 1 - SQ(scale);
 
-                light->l.col[0] = light->l.colc[0] = params->point.r * scale;
-                light->l.col[1] = light->l.colc[1] = params->point.g * scale;
-                light->l.col[2] = light->l.colc[2] = params->point.b * scale;
+                light->l.col[0] = light->l.colc[0] = params->point.color.r * scale;
+                light->l.col[1] = light->l.colc[1] = params->point.color.g * scale;
+                light->l.col[2] = light->l.colc[2] = params->point.color.b * scale;
 
                 scale = (posDiff < 1.0f) ? 120.0f : 120.0f / posDiff;
 
@@ -124,9 +124,9 @@ void Lights_UpdateDirectional(LightCollection* collection, LightParams* params, 
     Light* light = Lights_CollectionFindSlot(collection);
 
     if (light != NULL) {
-        light->l.col[0] = light->l.colc[0] = params->dir.r;
-        light->l.col[1] = light->l.colc[1] = params->dir.g;
-        light->l.col[2] = light->l.colc[2] = params->dir.b;
+        light->l.col[0] = light->l.colc[0] = params->dir.color.r;
+        light->l.col[1] = light->l.colc[1] = params->dir.color.g;
+        light->l.col[2] = light->l.colc[2] = params->dir.color.b;
         light->l.dir[0] = params->dir.x;
         light->l.dir[1] = params->dir.y;
         light->l.dir[2] = params->dir.z;
@@ -265,12 +265,50 @@ LightCollection* func_8007A960(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     return collection;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
+void func_8007A9B4(GlobalContext* globalCtx) {
+    Vec3f pos;      // sp9C
+    Vec3f multDest; // sp88
+    f32 wDest;      // sp84
+    f32 wY;
+    f32 wX;
+    LightNode* node;
+    LightInfo* info;
 
-//void func_8007ABBC(GlobalContext* globalCtx);
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007ABBC.s")
-void func_8007ABBC(GlobalContext* globalCtx) {
-    f32 scale;
+    node = globalCtx->lightCtx.head;
+
+    while (node != NULL) {
+        info = node->info;
+
+        if (info->type == LIGHT_POINT_GLOW) {
+            pos.x = info->params.point.x;
+            pos.y = info->params.point.y;
+            pos.z = info->params.point.z;
+            func_8002BE04(globalCtx, &pos, &multDest, &wDest);
+            info->params.point.unk_09 = false;
+
+            if (multDest.y > 1.0f) {
+                wX = multDest.x * wDest;
+
+                if (fabsf(wX) < 1.0f) {
+                    wY = multDest.y * wDest;
+
+                    if (fabsf(wY) < 1.0f) {
+                        if ((((multDest.y * wDest) * 16352.0f) + 16352.0f) <
+                            (func_8006F0A0(wY, wDest,
+                                           gZBuffer[(s32)((wY * -240.f) + 240.f)][(s32)((wX * 320.f) + 320.f)] * 4 >> 3))) {
+                            info->params.point.unk_09 = true;
+                        }
+                    }
+                }
+            }
+        }
+        node = node->next;
+    }
+}
+
+void Lights_DrawGlow(GlobalContext* globalCtx) {
+    s32 pad;
     LightNode* node;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -285,19 +323,24 @@ void func_8007ABBC(GlobalContext* globalCtx) {
     gSPDisplayList(gfxCtx->polyXlu.p++, D_04015720);
 
     while (node != NULL) {
-        s32 pad1;
         LightInfo* info;
         LightPoint* params;
-        s32 pad[4];
+        f32 scale;
+        s32 pad[2];
+        u8* red;
+        u8* green;
         u8* blue;
 
         info = node->info;
         params = &info->params.point;
-        if ((info->type == LIGHT_POINT_GLOW) && (params->unk_09 != 0)) {
+        if ((info->type == LIGHT_POINT_GLOW) && (params->unk_09)) {
             scale = SQ(params->radius) * 0.0000026f;
-            blue = &params->b;
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, params->r, params->g, *blue,
-                            50);
+
+            red = &params->color.r; // these pointers to colors have to be a fake match..
+            green = &params->color.g;
+            blue = &params->color.b;
+
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, *red, *green, *blue, 50);
             Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),

@@ -2455,7 +2455,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     func_8002FBAC(globalCtx);
 
     if (IREG(32) == 0) {
-        func_8007ABBC(globalCtx);
+        Lights_DrawGlow(globalCtx);
     }
 
     if ((HREG(64) != 1) || (HREG(75) != 0)) {

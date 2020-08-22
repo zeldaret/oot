@@ -996,7 +996,7 @@ LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, Light
 void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
 LightCollection* func_8007A960(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue);
 // ? func_8007A9B4(?);
-// ? func_8007ABBC(?);
+void Lights_DrawGlow(GlobalContext* globalCtx);
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* ZeldaArena_Malloc(u32 size);
 void* ZeldaArena_MallocDebug(u32 size, const char* file, s32 line);
