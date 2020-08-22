@@ -71,7 +71,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, D_808BF388);
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_SetTris(globalCtx, &this->collider, thisx, &D_808BF378, &this->items);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &D_808BF378, &this->colliderItems);
     this->unk_168 = thisx->params;
     thisx->params = ((thisx->params >> 8) & 0xFF) & 0xFF;
     items = &D_808BF300[1];
@@ -181,6 +181,7 @@ void BgYdanMaruta_DoNothing(BgYdanMaruta* this, GlobalContext* globalCtx) {
 
 void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanMaruta* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
