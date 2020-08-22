@@ -6,8 +6,6 @@
 
 #define THIS ((EnExRuppy*)thisx)
 
-#define DIVING_GAME ((EnDivingGame*)this->actor.attachedA)
-
 void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,13 +15,22 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_Collect(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_DetermineFinalPos(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AEE0(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_SpawnSparkles(EnExRuppy* this, GlobalContext* globalCtx, s16 arg2, s32 arg3);
 
-s16 D_80A0B320[] = { 0x0000, 0x0001, 0x0002, 0x0013, 0x0014, 0x0000, 0x0001, 0x0005, 0x0014, 0x01F4, 0x0032, 0x0000 };
+s16 D_80A0B320[] = { ITEM00_RUPEE_GREEN,
+                     ITEM00_RUPEE_BLUE,
+                     ITEM00_RUPEE_RED,
+                     ITEM00_RUPEE_ORANGE,
+                     ITEM00_RUPEE_PURPLE,
+                     ITEM00_RUPEE_GREEN,
+                     ITEM00_RUPEE_BLUE,
+                     ITEM00_ARROWS_SINGLE,
+                     ITEM00_RUPEE_PURPLE,
+                     0x01F4,
+                     0x0032 };
 
 const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
@@ -39,11 +46,6 @@ const ActorInit En_Ex_Ruppy_InitVars = {
 
 Vec3f D_80A0B358[] = { { 0.0f, 0.1f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
 Vec3f D_80A0B370[] = { { 0.0f, 0.01f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
-Vec3f D_80A0B388 = { 0.0f, 0.1f, 0.0f };
-Vec3f D_80A0B394 = { 0.0f, 0.0f, 0.0f };
-static Vec3f sPoint1Vec = { 0.0f, 0.1f, 0.0f };
-static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
-UNK_PTR D_80A0B3B8[] = { 0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0, 0x00000000 };
 
 #ifdef NON_MATCHING
 // Regalloc
@@ -64,34 +66,34 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.room = -1;
             this->actor.gravity = 0.0f;
             // If you havnt won the diving game before you will get 5 blue ruppees.
-            if ((gSaveContext.eventChkInf[3] & 0x100) == 0) {
-                this->value = 5;
+            if (!(gSaveContext.eventChkInf[3] & 0x100)) {
+                this->rupeeValue = 5;
                 this->unk_150 = 1;
             } else {
                 phi_f12 = 200.99f;
-                if ((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) {
-                    phi_f12 = 200.99f + DIVING_GAME->unk_2AA * 10.0f;
+                if ((thisx->attachedA != NULL) && (thisx->attachedA->update != NULL)) {
+                    phi_f12 = 200.99f + ((EnDivingGame*)thisx->attachedA)->unk_2AA * 10.0f;
                 }
-                temp_v0 = (s16)Math_Rand_ZeroFloat(phi_f12);
+                temp_v0 = Math_Rand_ZeroFloat(phi_f12);
                 if ((temp_v0 >= 0) && (temp_v0 < 40)) {
-                    this->value = 1;
+                    this->rupeeValue = 1;
                     this->unk_150 = 0;
                 } else if ((temp_v0 >= 40) && (temp_v0 < 170)) {
-                    this->value = 5;
+                    this->rupeeValue = 5;
                     this->unk_150 = 1;
                 } else if ((temp_v0 >= 170) && (temp_v0 < 190)) {
-                    this->value = 20;
+                    this->rupeeValue = 20;
                     this->unk_150 = 2;
                 } else if ((temp_v0 >= 190) && (temp_v0 < 200)) {
-                    this->value = 50;
+                    this->rupeeValue = 50;
                     this->unk_150 = 4;
                 } else {
                     this->unk_160 = 0.02f;
                     Actor_SetScale(&this->actor, this->unk_160);
-                    this->value = 500;
+                    this->rupeeValue = 500;
                     this->unk_150 = 3;
-                    if ((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) {
-                        (DIVING_GAME->unk_2AA = 0);
+                    if ((thisx->attachedA != NULL) && (thisx->attachedA->update != NULL)) {
+                        ((EnDivingGame*)thisx->attachedA)->unk_2AA = 0;
                     }
                 }
             }
@@ -111,7 +113,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_150 = 4;
             } else {
                 Actor_SetScale(thisx, 0.02f);
-                this->unk_150 = (((s16)Math_Rand_ZeroFloat(3.99f)) & 0xFFFFu) + 1;
+                this->unk_150 = (s16)Math_Rand_ZeroFloat(3.99f) + 1;
             }
             this->actor.gravity = -3.0f;
             // Wow Coin
@@ -203,8 +205,9 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
     EnExRuppy_SpawnSparkles(this, globalCtx, 2, 0);
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
-    if (((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) &&
-        (((DIVING_GAME->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20)) || (this->timer == 0))) {
+    if ((this->actor.attachedA != NULL) && (this->actor.attachedA->update != NULL) &&
+        (((((EnDivingGame*)this->actor.attachedA)->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20)) ||
+         (this->timer == 0))) {
         this->isFalling = 1;
         this->actor.speedXZ = 0.0f;
         this->actor.velocity.z = 0.0f;
@@ -212,14 +215,16 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
         this->actor.velocity.x = 0.0f;
         this->actor.gravity = 0.0f;
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
-        this->actionFunc = EnExRuppy_DetermineFinalPos;
+        this->actionFunc = EnExRuppy_EnterWater;
     }
 }
 
-void EnExRuppy_DetermineFinalPos(EnExRuppy* this, GlobalContext* globalCtx) {
+void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 temp_f2;
-    if (((DIVING_GAME != NULL) && (DIVING_GAME->actor.update != NULL)) && ((DIVING_GAME->unk_2A2 == 2))) {
+
+    if (((this->actor.attachedA != NULL) && (this->actor.attachedA->update != NULL)) &&
+        (((EnDivingGame*)this->actor.attachedA)->unk_2A2 == 2)) {
         this->isFalling = 0;
         this->actor.posRot.pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.posRot.pos.y = ((Math_Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
@@ -249,7 +254,8 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = func_80A0AD88;
     }
-    if ((DIVING_GAME != 0) && (DIVING_GAME->actor.update != 0) && (DIVING_GAME->unk_29C == 0)) {
+    if (((this->actor.attachedA != NULL) && (this->actor.attachedA->update != NULL) &&
+         ((EnDivingGame*)this->actor.attachedA)->unk_29C == 0)) {
         this->timer = 20;
         this->actionFunc = func_80A0AEE0;
     }
@@ -257,17 +263,16 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
 
 void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx) {
     EnDivingGame* divingGame;
-    Vec3f unusedVec3f;
-    Vec3f unusedVec3f2;
+    Vec3f D_80A0B388 = { 0.0f, 0.1f, 0.0f };
+    Vec3f D_80A0B394 = { 0.0f, 0.0f, 0.0f };
     f32 localConst = 30.0f;
-    unusedVec3f = D_80A0B388;
-    unusedVec3f2 = D_80A0B394;
+
     if (this->timer == 0) {
         this->timer = 10;
         func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Math_Rand_ZeroFloat(0.03f) + 0.07f);
     }
-    if (DIVING_GAME != NULL) {
-        divingGame = DIVING_GAME;
+    if (this->actor.attachedA != NULL) {
+        divingGame = this->actor.attachedA;
         if (divingGame->actor.update != NULL) {
             if (divingGame->unk_29C == 0) {
                 this->timer = 20;
@@ -275,7 +280,7 @@ void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx) {
                 return;
             }
             if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
-                Rupees_ChangeBy(this->value);
+                Rupees_ChangeBy(this->rupeeValue);
                 func_80078884(NA_SE_SY_GET_RUPY);
                 divingGame->unk_2A4++;
                 Actor_Kill(&this->actor);
@@ -296,21 +301,19 @@ void func_80A0AEE0(EnExRuppy* this, GlobalContext* globalCtx) {
 
 void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     f32 distToBlowUp;
-    Vec3f point1Vec;
-    Vec3f zeroVector;
+    Vec3f point1Vec = { 0.0f, 0.1f, 0.0f };
+    Vec3f zeroVector = { 0.0f, 0.0f, 0.0f };
     s16 explosionScale;
     s16 explosionScaleStep;
-    point1Vec = sPoint1Vec;
-    zeroVector = sZeroVector;
     distToBlowUp = 50.0f;
 
     if (this->unk_152 == 2) {
         distToBlowUp = 30.0f;
     }
     if (this->actor.xyzDistFromLinkSq < SQ(distToBlowUp)) {
-        if (this->actor.attachedA != 0) {
-            if (this->actor.attachedA->update != 0) {
-                DIVING_GAME->transitionDrawTable[15].z = (u16)1;
+        if (this->actor.attachedA != NULL) {
+            if (this->actor.attachedA->update != NULL) {
+                ((EnDivingGame*)this->actor.attachedA)->transitionDrawTable[15].z = 1;
             }
         } else {
             // That idiot! error
@@ -336,7 +339,7 @@ void EnExRuppy_Collect(EnExRuppy* this, GlobalContext* globalCtx) {
     f32 localConst = 30.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
         func_80078884(NA_SE_SY_GET_RUPY);
-        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ((s16)D_80A0B320[this->unk_150] | 0x8000));
+        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (D_80A0B320[this->unk_150] | 0x8000));
         Actor_Kill(&this->actor);
     }
 }
@@ -359,6 +362,8 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
+
+UNK_PTR D_80A0B3B8[] = { 0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0 };
 
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnExRuppy* this = THIS;
