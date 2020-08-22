@@ -1797,7 +1797,7 @@ s16 func_8004391C(s16 arg0, s16 arg1, f32 arg2, s16 arg3) {
 
     return ret;
 }
-//*t = func_800439AC(sp4C.theta, *t, 0.4f, 0x7D0);
+
 s16 func_800439AC(s16 arg0, s16 arg1, f32 arg2, s16 arg3) {
     s16 temp1 = arg0 - arg1;
     s16 temp2;
@@ -1850,7 +1850,7 @@ Vec3f* func_80043BC4(Vec3f* arg0, Vec3s* arg1) {
 
 Vec3f* func_80043C28(Vec3f* arg0, Vec3f* arg1, VecSph* arg2) {
     Vec3f sp24, sp18;
-    OLib_VecSphRot90ToVec3f(&sp18, arg2);
+    OLib_VecSphGeoToVec3f(&sp18, arg2);
 
     sp24.x = arg1->x + sp18.x;
     sp24.y = arg1->y + sp18.y;
@@ -1880,7 +1880,7 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
     VecSph sp3C;
 
     colCtx = &camera->globalCtx->colCtx;
-    OLib_Vec3fDiffToVecSphRot90(&sp3C, arg1, &arg2->unk_00);
+    OLib_Vec3fDiffToVecSphGeo(&sp3C, arg1, &arg2->unk_00);
     sp3C.r += 8.0f;
     func_80043C28(&sp5C, arg1, &sp3C);
 
@@ -2152,9 +2152,9 @@ f32 func_80045714(Vec3f* arg0, s16 arg1, s16 arg2, f32 arg3) {
     VecSph sp1C;
     f32 sp18;
 
-    OLib_Vec3fToVecSphRot90(&sp1C, arg0);
-    sp18 = Math_Coss(sp1C.phi);
-    sp18 = fabsf(Math_Coss(arg1 - sp1C.theta) * sp18);
+    OLib_Vec3fToVecSphGeo(&sp1C, arg0);
+    sp18 = Math_Coss(sp1C.pitch);
+    sp18 = fabsf(Math_Coss(arg1 - sp1C.yaw) * sp18);
     return Math_Coss(arg1 - arg2) * (sp18 * arg3);
 }
 #else
@@ -2162,7 +2162,7 @@ f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045714.s")
 #endif
 
-f32 func_8007C0A8(f32, f32);
+f32 OLib_ClampMaxDist(f32, f32);
 
 s32 func_800457A8(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     f32 unused;
@@ -2180,7 +2180,7 @@ s32 func_800457A8(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
 
     sp2C = &camera->playerPosRot;
     if (arg3 != 0) {
-        sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, arg1->theta, OREG(9)), temp_ret);
+        sp50.y -= OLib_ClampMaxDist(func_80045714(&camera->unk_108, sp2C->rot.y, arg1->yaw, OREG(9)), temp_ret);
     }
     func_80043A3C(&sp50, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
 
@@ -2209,7 +2209,7 @@ s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
 
     temp_s1 = &camera->playerPosRot;
     if (arg4 != 0) {
-        sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, arg1->theta, OREG(9));
+        sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, arg1->yaw, OREG(9));
     }
 
     sp48 = temp_s1->pos.y - *arg3;
@@ -2253,9 +2253,9 @@ s32 func_80045B08(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     temp_s1 = &camera->playerPosRot;
 
     if (temp_ret < 0.0f) {
-        phi_f2 = Math_Coss(temp_s1->rot.y - arg1->theta);
+        phi_f2 = Math_Coss(temp_s1->rot.y - arg1->yaw);
     } else {
-        phi_f2 = -Math_Coss(temp_s1->rot.y - arg1->theta);
+        phi_f2 = -Math_Coss(temp_s1->rot.y - arg1->yaw);
     }
 
     sp48.y -= temp_ret * phi_f2 * OREG(9);
@@ -2306,7 +2306,7 @@ s32 func_800466F8(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     sp60.y = sp48 + arg2;
 
     if (arg4 != 0) {
-        sp60.y -= func_80045714(&camera->unk_108, camera->playerPosRot.rot.y, arg1->theta, OREG(9));
+        sp60.y -= func_80045714(&camera->unk_108, camera->playerPosRot.rot.y, arg1->yaw, OREG(9));
     }
 
     func_80043A3C(&sp60, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
@@ -2509,8 +2509,8 @@ s32 Camera_Normal3(Camera* camera) {
     sp44 = &camera->at;
     sp40 = &camera->eyeNext;
     playerPostRot = &camera->playerPosRot;
-    OLib_Vec3fDiffToVecSphRot90(&sp7C, sp44, sp48);
-    OLib_Vec3fDiffToVecSphRot90(&sp74, sp44, sp40);
+    OLib_Vec3fDiffToVecSphGeo(&sp7C, sp44, sp48);
+    OLib_Vec3fDiffToVecSphGeo(&sp74, sp44, sp40);
     D_8011D3E8 = 1;
     D_8011D3A0.w = normal3->unk_1E;
     unk20 = &normal3->unk_20;
@@ -2531,7 +2531,7 @@ s32 Camera_Normal3(Camera* camera) {
             unk20->unk_20 = camera->unk_104;
             unk20->unk_10 = normal3->unk_0C;
             unk20->unk_2A = 0xA;
-            unk20->unk_26 = (1.0f / OREG(23)) * (s16)(playerPostRot->rot.y - 0x7FFF - sp7C.theta);
+            unk20->unk_26 = (1.0f / OREG(23)) * (s16)(playerPostRot->rot.y - 0x7FFF - sp7C.yaw);
             unk20->unk_28 = OREG(23);
             camera->unk_15E = 1;
             unk20->unk_1A = 0;
@@ -2561,26 +2561,26 @@ s32 Camera_Normal3(Camera* camera) {
     camera->unk_CC.y = func_8004389C(OREG(3) * 0.01f, camera->unk_CC.y, sp94, 0.1f);
     camera->unk_CC.z = func_8004389C(OREG(4) * 0.01f, camera->unk_CC.z, sp94, 0.1f);
     temp_f0 = (1.0f / normal3->unk_10) * 0.5f;
-    unk20->unk_24 = func_8004391C(func_80044ADC(camera, sp7C.theta - 0x7FFF, 1), unk20->unk_24,
+    unk20->unk_24 = func_8004391C(func_80044ADC(camera, sp7C.yaw - 0x7FFF, 1), unk20->unk_24,
                                   temp_f0 + (temp_f0 * (1.0f - camera->unk_E0)), 0xF);
     func_800466F8(camera, &sp74, normal3->unk_00, &unk20->unk_20, 1);
     sp90 = (normal3->unk_08 + normal3->unk_04) * 0.5f;
-    OLib_Vec3fDiffToVecSphRot90(&sp84, sp44, sp40);
+    OLib_Vec3fDiffToVecSphGeo(&sp84, sp44, sp40);
     sp84.r = func_800469C0(camera, sp84.r, normal3->unk_04, normal3->unk_08, unk20->unk_2A);
     camera->dist = sp84.r;
     if (0.001f < camera->unk_D8) {
         sp84.r += (sp90 - sp84.r) * 0.002f;
     }
-    sp84.phi = func_8004391C(normal3->unk_1C - unk20->unk_24, sp74.phi, 1.0f / camera->unk_C0.y, 0xA);
-    if (OREG(5) < sp84.phi) {
-        sp84.phi = OREG(5);
+    sp84.pitch = func_8004391C(normal3->unk_1C - unk20->unk_24, sp74.pitch, 1.0f / camera->unk_C0.y, 0xA);
+    if (OREG(5) < sp84.pitch) {
+        sp84.pitch = OREG(5);
     }
-    if (sp84.phi < OREG(34)) {
-        sp84.phi = OREG(34);
+    if (sp84.pitch < OREG(34)) {
+        sp84.pitch = OREG(34);
     }
 
     // Probably some type of abs/clamp.
-    temp_a0 = playerPostRot->rot.y - (sp74.theta - 0x7FFF);
+    temp_a0 = playerPostRot->rot.y - (sp74.yaw - 0x7FFF);
     phi_v1_2 = -temp_a0;
     if (temp_a0 >= 0) {
         phi_v1_2 = temp_a0;
@@ -2595,14 +2595,14 @@ s32 Camera_Normal3(Camera* camera) {
     }
     temp_f16_2 = (phi_a0 * ((camera->unk_E0 * (1.0f - 0.5f)) + 0.5f)) / camera->unk_C0.z;
     if ((150.0f * (1.0f - camera->unk_E0)) < fabsf(temp_f16_2)) {
-        sp84.theta = sp74.theta + temp_f16_2;
-        // sp8A = sp74.theta + temp_f16_2;
+        sp84.yaw = sp74.yaw + temp_f16_2;
+        // sp8A = sp74.yaw + temp_f16_2;
     } else {
-        sp84.theta = sp74.theta;
+        sp84.yaw = sp74.yaw;
         // sp8A = sp7A;
     }
     if (unk20->unk_28 > 0) {
-        sp84.theta += unk20->unk_26;
+        sp84.yaw += unk20->unk_26;
         // sp8A = sp8A + unk20->unk_26;
 
         unk20->unk_28--;
@@ -2837,8 +2837,8 @@ void func_80054478(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     Vec3f sp1C;
 
     Camera_Vec3fCopy(arg1, &sp1C);
-    OLib_Vec3fToVecSphRot90(&sp28, &sp1C);
-    sp28.theta += arg0->rot.y;
+    OLib_Vec3fToVecSphGeo(&sp28, &sp1C);
+    sp28.yaw += arg0->rot.y;
     func_80043C28(arg2, &arg0->pos, &sp28);
 }
 
@@ -3222,8 +3222,8 @@ void func_80058148(Camera* camera, Player* player) {
     sp4C.r = 180.0f;
     camera->dist = 180.0f;
     camera->unk_134.y = sp54.rot.y;
-    sp4C.phi = 0x71C;
-    sp4C.theta = camera->unk_134.y - 0x7FFF;
+    sp4C.pitch = 0x71C;
+    sp4C.yaw = camera->unk_134.y - 0x7FFF;
     camera->unk_134.x = 0x71C;
     camera->unk_134.z = 0;
     camera->unk_13A = camera->unk_134;

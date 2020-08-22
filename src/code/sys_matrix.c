@@ -53,7 +53,7 @@ void Matrix_Mult(MtxF* mf, u8 mode) {
     MtxF* cmf = Matrix_GetCurrent();
 
     if (mode == MTXMODE_APPLY) {
-        func_800A6FA0(cmf, mf, cmf);
+        SkinMatrix_MtxFMtxFMult(cmf, mf, cmf);
     } else {
         Matrix_MtxFCopy(sCurrentMatrix, mf);
     }
@@ -78,7 +78,7 @@ void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
         ty = cmf->yw;
         cmf->ww += tx * x + ty * y + cmf->zw * z;
     } else {
-        func_800A7A24(cmf, x, y, z);
+        SkinMatrix_SetTranslate(cmf, x, y, z);
     }
 }
 
@@ -99,7 +99,7 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
         cmf->yw *= y;
         cmf->zw *= z;
     } else {
-        func_800A76A4(cmf, x, y, z);
+        SkinMatrix_SetScale(cmf, x, y, z);
     }
 }
 
@@ -382,7 +382,7 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
             cmf->zw = temp2 * cos - temp1 * sin;
         }
     } else {
-        func_800A7704(cmf, x, y, z);
+        SkinMatrix_SetRotateRPY(cmf, x, y, z);
     }
 }
 
@@ -540,82 +540,76 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D1694.s")
 #endif
 
-#ifdef NON_MATCHING
-// mostly regalloc differences
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
+    s32 temp;
     u16* m1 = (u16*)&dest->m[0][0];
     u16* m2 = (u16*)&dest->m[2][0];
-    s32 temp;
 
-    temp = src->xx * 65536.0f;
-    m1[0] = (temp >> 0x10) & 0xFFFF;
-    m2[0] = temp & 0xFFFF;
+    temp = src->xx * 0x10000;
+    m1[0] = (temp >> 0x10);
+    m1[16 + 0] = temp & 0xFFFF;
 
-    temp = src->xy * 65536.0f;
-    m1[1] = (temp >> 0x10) & 0xFFFF;
-    m2[1] = temp & 0xFFFF;
+    temp = src->xy * 0x10000;
+    m1[1] = (temp >> 0x10);
+    m1[16 + 1] = temp & 0xFFFF;
 
-    temp = src->xz * 65536.0f;
-    m1[2] = (temp >> 0x10) & 0xFFFF;
-    m2[2] = temp & 0xFFFF;
+    temp = src->xz * 0x10000;
+    m1[2] = (temp >> 0x10);
+    m1[16 + 2] = temp & 0xFFFF;
 
-    temp = src->xw * 65536.0f;
-    m1[3] = (temp >> 0x10) & 0xFFFF;
-    m2[3] = temp & 0xFFFF;
+    temp = src->xw * 0x10000;
+    m1[3] = (temp >> 0x10);
+    m1[16 + 3] = temp & 0xFFFF;
 
-    temp = src->yx * 65536.0f;
-    m1[4] = (temp >> 0x10) & 0xFFFF;
-    m2[4] = temp & 0xFFFF;
+    temp = src->yx * 0x10000;
+    m1[4] = (temp >> 0x10);
+    m1[16 + 4] = temp & 0xFFFF;
 
-    temp = src->yy * 65536.0f;
-    m1[5] = (temp >> 0x10) & 0xFFFF;
-    m2[5] = temp & 0xFFFF;
+    temp = src->yy * 0x10000;
+    m1[5] = (temp >> 0x10);
+    m1[16 + 5] = temp & 0xFFFF;
 
-    temp = src->yz * 65536.0f;
-    m1[6] = (temp >> 0x10) & 0xFFFF;
-    m2[6] = temp & 0xFFFF;
+    temp = src->yz * 0x10000;
+    m1[6] = (temp >> 0x10);
+    m1[16 + 6] = temp & 0xFFFF;
 
-    temp = src->yw * 65536.0f;
-    m1[7] = (temp >> 0x10) & 0xFFFF;
-    m2[7] = temp & 0xFFFF;
+    temp = src->yw * 0x10000;
+    m1[7] = (temp >> 0x10);
+    m1[16 + 7] = temp & 0xFFFF;
 
-    temp = src->zx * 65536.0f;
-    m1[8] = (temp >> 0x10) & 0xFFFF;
-    m2[8] = temp & 0xFFFF;
+    temp = src->zx * 0x10000;
+    m1[8] = (temp >> 0x10);
+    m1[16 + 8] = temp & 0xFFFF;
 
-    temp = src->zy * 65536.0f;
-    m1[9] = (temp >> 0x10) & 0xFFFF;
+    temp = src->zy * 0x10000;
+    m1[9] = (temp >> 0x10);
     m2[9] = temp & 0xFFFF;
 
-    temp = src->zz * 65536.0f;
-    m1[10] = (temp >> 0x10) & 0xFFFF;
+    temp = src->zz * 0x10000;
+    m1[10] = (temp >> 0x10);
     m2[10] = temp & 0xFFFF;
 
-    temp = src->zw * 65536.0f;
-    m1[11] = (temp >> 0x10) & 0xFFFF;
+    temp = src->zw * 0x10000;
+    m1[11] = (temp >> 0x10);
     m2[11] = temp & 0xFFFF;
 
-    temp = src->wx * 65536.0f;
-    m1[12] = (temp >> 0x10) & 0xFFFF;
+    temp = src->wx * 0x10000;
+    m1[12] = (temp >> 0x10);
     m2[12] = temp & 0xFFFF;
 
-    temp = src->wy * 65536.0f;
-    m1[13] = (temp >> 0x10) & 0xFFFF;
+    temp = src->wy * 0x10000;
+    m1[13] = (temp >> 0x10);
     m2[13] = temp & 0xFFFF;
 
-    temp = src->wz * 65536.0f;
-    m1[14] = (temp >> 0x10) & 0xFFFF;
+    temp = src->wz * 0x10000;
+    m1[14] = (temp >> 0x10);
     m2[14] = temp & 0xFFFF;
 
-    temp = src->ww * 65536.0f;
-    m1[15] = (temp >> 0x10) & 0xFFFF;
+    temp = src->ww * 0x10000;
+    m1[15] = (temp >> 0x10);
     m2[15] = temp & 0xFFFF;
-
     return dest;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/Matrix_MtxFToMtx.s")
-#endif
 
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line) {
     return Matrix_MtxFToMtx(Matrix_CheckFloats(sCurrentMatrix, file, line), dest);
@@ -625,7 +619,7 @@ Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
     return Matrix_ToMtx(Graph_Alloc(gfxCtx, sizeof(Mtx)), file, line);
 }
 
-Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
+Mtx* Matrix_SkinMatrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, Graph_Alloc(gfxCtx, sizeof(Mtx)));
 }
 

@@ -178,7 +178,7 @@ glabel func_8005B2AC
 /* AD26C0 8005B520 AFA8008C */  sw    $t0, 0x8c($sp)
 /* AD26C4 8005B524 AFAE0018 */  sw    $t6, 0x18($sp)
 /* AD26C8 8005B528 AFAD0014 */  sw    $t5, 0x14($sp)
-/* AD26CC 8005B52C 0C03322D */  jal   func_800CC8B4
+/* AD26CC 8005B52C 0C03322D */  jal   Math3D_DefPlane
 /* AD26D0 8005B530 AFAB0010 */   sw    $t3, 0x10($sp)
 /* AD26D4 8005B534 8FA8008C */  lw    $t0, 0x8c($sp)
 /* AD26D8 8005B538 240300FF */  li    $v1, 255

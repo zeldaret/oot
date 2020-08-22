@@ -141,7 +141,7 @@ void func_80A68870(EnHorseGanon* this) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
 
-            this->soundCount += 1;
+            this->soundCount++;
             if (this->soundCount >= 2) {
                 this->soundCount = 0;
             }

@@ -719,12 +719,10 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     FaultDrawer_SetCharPad(0, 0);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
     Input* curInput = &sFaultStructPtr->padInput;
     u32 addr = pc;
-    u32 count;
+    s32 count;
     u32 off;
 
     do {
@@ -766,34 +764,33 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         if (CHECK_PAD(curInput->cur, Z_TRIG)) {
             off = 0x100;
         }
+
         if (CHECK_PAD(curInput->cur, B_BUTTON)) {
             off <<= 8;
         }
-        if (CHECK_PAD(curInput->cur, U_JPAD)) {
+
+        if (CHECK_PAD(curInput->press, U_JPAD)) {
             addr -= off;
         }
-        if (CHECK_PAD(curInput->cur, D_JPAD)) {
+        if (CHECK_PAD(curInput->press, D_JPAD)) {
             addr += off;
         }
-        if (CHECK_PAD(curInput->cur, U_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, U_CBUTTONS)) {
             addr = pc;
         }
-        if (CHECK_PAD(curInput->cur, D_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, D_CBUTTONS)) {
             addr = sp;
         }
-        if (CHECK_PAD(curInput->cur, L_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, L_CBUTTONS)) {
             addr = unk0;
         }
-        if (CHECK_PAD(curInput->cur, R_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, R_CBUTTONS)) {
             addr = unk1;
         }
-    } while (!CHECK_PAD(curInput->cur, L_TRIG));
+    } while (!CHECK_PAD(curInput->press, L_TRIG));
 
     sFaultStructPtr->faultActive = true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawMemDump.s")
-#endif
 
 void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
     u32 sp = *spPtr;

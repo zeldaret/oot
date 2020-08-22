@@ -219,10 +219,11 @@ glabel EnHorseNormal_Draw
 /* 01EF4 80A6D144 27A40074 */  addiu   $a0, $sp, 0x0074           ## $a0 = FFFFFFA4
 /* 01EF8 80A6D148 E7AA0024 */  swc1    $f10, 0x0024($sp)          
 /* 01EFC 80A6D14C 46062200 */  add.s   $f8, $f4, $f6              
-/* 01F00 80A6D150 0C029EC1 */  jal     func_800A7B04              
+/* 01F00 80A6D150 0C029EC1 */  jal     SkinMatrix_SetScaleRotateYRPTranslate
+              
 /* 01F04 80A6D154 E7A80020 */  swc1    $f8, 0x0020($sp)           
 /* 01F08 80A6D158 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
-/* 01F0C 80A6D15C 0C029F9C */  jal     func_800A7E70              
+/* 01F0C 80A6D15C 0C029F9C */  jal     SkinMatrix_MtxFToNewMtx              
 /* 01F10 80A6D160 27A50074 */  addiu   $a1, $sp, 0x0074           ## $a1 = FFFFFFA4
 /* 01F14 80A6D164 10400075 */  beq     $v0, $zero, .L80A6D33C     
 /* 01F18 80A6D168 8FA800C4 */  lw      $t0, 0x00C4($sp)           
