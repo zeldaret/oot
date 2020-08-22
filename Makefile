@@ -6,8 +6,8 @@
 COMPARE ?= 1
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
 NON_MATCHING ?= 0
-# If USE_QEMU is 1, compile with QEMU_IRIX and the original compiler
-USE_QEMU ?= 0
+# If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
+ORIG_COMPILER ?= 0
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
@@ -26,8 +26,8 @@ endif
 CC       := tools/ido_recomp/linux/7.1/cc
 CC_OLD   := tools/ido_recomp/linux/5.3/cc
 
-# if USE_QEMU is 1, check that either QEMU_IRIX is set or qemu-irix package installed
-ifeq ($(USE_QEMU),1)
+# if ORIG_COMPILER is 1, check that either QEMU_IRIX is set or qemu-irix package installed
+ifeq ($(ORIG_COMPILER),1)
   ifndef QEMU_IRIX
     QEMU_IRIX := $(shell which qemu-irix)
     ifeq (, $(QEMU_IRIX))

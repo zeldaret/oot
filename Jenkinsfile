@@ -19,7 +19,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'USE_QEMU=1 make -j'
+                sh 'ORIG_COMPILER=1 make -j'
             }
         }
         stage('Build') {
