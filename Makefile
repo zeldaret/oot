@@ -27,10 +27,10 @@ CC_OLD   := tools/ido_recomp/linux/5.3/cc
 # if OOT_QEMU is set, check that either QEMU_IRIX is set or qemu-irix package installed
 ifdef OOT_QEMU
   ifndef QEMU_IRIX
-	QEMU_IRIX := $(shell which qemu-irix)
-	ifeq (, $(QEMU_IRIX))
-	  $(error Please install qemu-irix package or set QEMU_IRIX env var to the full qemu-irix binary path)
-	endif
+	  QEMU_IRIX := $(shell which qemu-irix)
+	  ifeq (, $(QEMU_IRIX))
+	    $(error Please install qemu-irix package or set QEMU_IRIX env var to the full qemu-irix binary path)
+	  endif
   endif
   CC        = $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
   CC_OLD    = $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
