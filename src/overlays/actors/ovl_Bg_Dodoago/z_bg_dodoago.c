@@ -18,7 +18,6 @@ void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc);
 
-void func_80871A08(Vec3f* vec, GlobalContext* globalCtx);
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx);
 void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx);
 void func_8087227C(BgDodoago* this, GlobalContext* globalCtx);
@@ -48,7 +47,7 @@ static ColliderCylinderInit sColCylinderInit1 = {
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
-s16 D_80872598 = 0x00000000;
+s16 D_80872598 = 0;
 
 Color_RGBA8_n D_8087259C = { 100, 100, 100, 0 };
 Color_RGBA8_n D_808725A0 = { 40, 40, 40, 0 };
@@ -64,9 +63,9 @@ static InitChainEntry D_808725BC[] = {
 };
 
 extern Gfx D_60013500[];
-extern s32 D_06001DDC;
+extern UNK_TYPE D_06001DDC;
 
-u8 D_808727C0[0x64];
+u8 D_808727C0[100];
 s32 D_80872824;
 
 void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
@@ -74,22 +73,22 @@ void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
 }
 
 void func_80871A08(Vec3f* vec, GlobalContext* globalCtx) {
-    Vec3f currentPosition;
+    Vec3f pos;
     Color_RGBA8_n primColor = D_8087259C;
     Color_RGBA8_n envColor = D_808725A0;
     s32 i;
 
     for (i = 4; i > 0; i--) {
-        currentPosition.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
-        currentPosition.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
-        currentPosition.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
-        func_80028B74(globalCtx, &currentPosition, &sVelocity, &sAcceleration, &primColor, &envColor);
+        pos.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
+        pos.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
+        pos.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
+        func_80028B74(globalCtx, &pos, &sVelocity, &sAcceleration, &primColor, &envColor);
     }
 }
 
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
-    s32 padding;
+    s32 pad;
     s32 localC = 0;
 
     Actor_ProcessInitChain(&this->dyna.actor, D_808725BC);
@@ -98,11 +97,10 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
 
-    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0) {
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         BgDodoago_SetupAction(this, func_8087227C);
         this->dyna.actor.shape.rot.x = 0x1333;
-        globalCtx->unk_11D30[1] = 0xFF;
-        globalCtx->unk_11D30[0] = globalCtx->unk_11D30[1];
+        globalCtx->unk_11D30[0] = globalCtx->unk_11D30[1] = 0xFF;
         return;
     }
 
@@ -141,18 +139,15 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             BgDodoago_SetupAction(this, func_80871FB8);
             func_800800F8(globalCtx, 0xD34, 0xA0, &this->dyna.actor, 0);
+        } else if (globalCtx->unk_11D30[this->unk_164] == 0) {
+            func_800800F8(globalCtx, 0xBF9, 0x28, &this->dyna.actor, 0);
+            BgDodoago_SetupAction(this, func_80872288);
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            if (globalCtx->unk_11D30[this->unk_164] == 0) {
-                func_800800F8(globalCtx, 0xBF9, 0x28, &this->dyna.actor, 0);
-                BgDodoago_SetupAction(this, func_80872288);
-                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-
-            } else {
-                func_800800F8(globalCtx, 0xBF9, 0x14, &this->dyna.actor, 0);
-                Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                D_80872824 += 0x1E;
-                return;
-            }
+            func_800800F8(globalCtx, 0xBF9, 0x14, &this->dyna.actor, 0);
+            Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            D_80872824 += 0x1E;
+            return;
         }
 
         if (D_80872598 == 0) {
@@ -162,7 +157,7 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
         }
     } else {
 
-        if (Flags_GetEventChkInf(0xB0) != 0) {
+        if (Flags_GetEventChkInf(0xB0)) {
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[2]);
@@ -226,9 +221,9 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
 
     if (Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
         BgDodoago_SetupAction(this, func_8087227C);
-        Audio_PlaySoundGeneral(0x281D, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else {
-        Audio_PlaySoundGeneral(0x201E, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }
 
@@ -248,18 +243,18 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (this->dyna.actor.attachedA == NULL) {
-        if (((s32)(this->colliders[1].base.maskA & 2) != 0) || ((this->colliders[2].base.maskA & 2) != 0)) {
+       if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
 
-            if ((s32)(this->colliders[1].base.maskA & 2) != 0) {
+            if ((s32)(this->colliders[1].base.maskA & 2)) {
                 bomb = (EnBom*)this->colliders[1].base.oc;
             } else {
                 bomb = (EnBom*)this->colliders[2].base.oc;
             }
             this->colliders[1].base.maskA &= ~2;
             this->colliders[2].base.maskA &= ~2;
-            if (bomb->actor.type == 3 && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
+            if (bomb->actor.type == ACTORTYPE_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
                 this->dyna.actor.attachedA = &bomb->actor;
-                bomb->timer = 0x32;
+                bomb->timer = 50;
                 bomb->actor.speedXZ = 0.0f;
                 D_80872824 = 0;
             }
@@ -268,7 +263,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
         D_80872824++;
         Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         if (D_808727C0[0] == 0 && D_80872824 >= 0x8D) {
-            if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) != 0) {
+            if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
                 D_808727C0[0]++;
             } else {
                 this->dyna.actor.attachedA = NULL;
@@ -283,7 +278,7 @@ void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 672);
-    if (Flags_GetEventChkInf(0xB0) != 0) {
+    if (Flags_GetEventChkInf(0xB0)) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
