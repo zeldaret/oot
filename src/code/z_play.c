@@ -1070,7 +1070,7 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc, stack usage and minor ordering differences
 void Gameplay_Draw(GlobalContext* globalCtx) {
-    LightMapper* sp228;
+    LightCollection* sp228;
     Vec3f sp21C;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4]; // 0x208
@@ -1210,7 +1210,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
-                    sp228 = Lights_CreateMapper(&globalCtx->lightCtx, gfxCtx);
+                    sp228 = Lights_NewCollection(&globalCtx->lightCtx, gfxCtx);
                     func_8007A474(sp228, globalCtx->lightCtx.head, NULL);
                     func_80079EFC(sp228, gfxCtx);
                 }

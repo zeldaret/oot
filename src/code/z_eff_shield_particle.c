@@ -51,10 +51,10 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
         this->lightDecay = initParams->lightDecay;
         if (this->lightDecay == true) {
             this->lightInfo.type = 0;
-            this->lightInfo.params.point = initParams->lightParams;
-            this->light = Lights_Insert(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, &this->lightInfo);
+            this->lightInfo.params.point = initParams->lightPoint;
+            this->lightNode = Lights_Insert(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, &this->lightInfo);
         } else {
-            this->light = NULL;
+            this->lightNode = NULL;
         }
     }
 }
@@ -63,10 +63,10 @@ void EffectShieldParticle_Destroy(void* thisx) {
     EffectShieldParticle* this = (EffectShieldParticle*)thisx;
 
     if ((this != NULL) && (this->lightDecay == true)) {
-        if (this->light == Effect_GetGlobalCtx()->lightCtx.head) {
-            Effect_GetGlobalCtx()->lightCtx.head = this->light->next;
+        if (this->lightNode == Effect_GetGlobalCtx()->lightCtx.head) {
+            Effect_GetGlobalCtx()->lightCtx.head = this->lightNode->next;
         }
-        Lights_Remove(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, this->light);
+        Lights_Remove(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, this->lightNode);
     }
 }
 

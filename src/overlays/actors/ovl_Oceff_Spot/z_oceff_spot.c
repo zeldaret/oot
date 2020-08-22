@@ -49,12 +49,12 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffSpot_SetupAction(this, OceffSpot_GrowCylinder);
 
     Lights_InitPointLightNoGlow(&this->lightInfo1, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                    this->actor.posRot.pos.z, 0x00, 0x00, 0x00, 0);
-    this->light1 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo1);
+                                    this->actor.posRot.pos.z, 0, 0, 0, 0);
+    this->lightNode1 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo1);
 
     Lights_InitPointLightNoGlow(&this->lightInfo2, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                    this->actor.posRot.pos.z, 0x00, 0x00, 0x00, 0);
-    this->light2 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo2);
+                                    this->actor.posRot.pos.z, 0, 0, 0, 0);
+    this->lightNode2 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo2);
     if (YREG(15)) {
         this->actor.scale.y = 2.4f;
     } else {
@@ -69,8 +69,8 @@ void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffSpot* this = THIS;
     Player* player = PLAYER;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light1);
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light2);
+    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNode1);
+    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNode2);
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer && globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].length) {
         player->unk_692 |= 0x40;

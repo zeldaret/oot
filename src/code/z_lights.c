@@ -1,118 +1,114 @@
 #include <ultra64.h>
 #include <global.h>
 
-LightsList sLightsList;
+typedef struct {
+    /* 0x000 */ s32 numOccupied;
+    /* 0x004 */ s32 searchIndex;
+    /* 0x008 */ LightNode lights[32];
+} LightsBuffer; // size = 0x188
 
-void Lights_InitPointLight(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue, s16 radius,
-                           u32 type) {
+LightsBuffer sLightsBuffer;
+
+void Lights_InitPointLight(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, u32 type) {
     info->type = type;
-    info->params.point.posX = posX;
-    info->params.point.posY = posY;
-    info->params.point.posZ = posZ;
-    Lights_PointLightSetColorRadius(info, red, green, blue, radius);
+    info->params.point.x = x;
+    info->params.point.y = y;
+    info->params.point.z = z;
+    Lights_PointLightSetColorRadius(info, r, g, b, radius);
 }
 
-void Lights_InitPointLightNoGlow(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue, s16 radius) {
-    Lights_InitPointLight(info, posX, posY, posZ, red, green, blue, radius, 0);
+void Lights_InitPointLightNoGlow(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
+    Lights_InitPointLight(info, x, y, z, r, g, b, radius, LIGHT_POINT_NOGLOW);
 }
 
-void Lights_InitPointLightGlow(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue, s16 radius) {
-    Lights_InitPointLight(info, posX, posY, posZ, red, green, blue, radius, 2);
+void Lights_InitPointLightGlow(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
+    Lights_InitPointLight(info, x, y, z, r, g, b, radius, LIGHT_POINT_GLOW);
 }
 
-void Lights_PointLightSetColorRadius(LightInfo* info, u8 red, u8 green, u8 blue, s16 radius) {
-    info->params.point.red = red;
-    info->params.point.green = green;
-    info->params.point.blue = blue;
+void Lights_PointLightSetColorRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius) {
+    info->params.point.r = r;
+    info->params.point.g = g;
+    info->params.point.b = b;
     info->params.point.radius = radius;
 }
 
-void Lights_InitDirectional(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue) {
-    info->type = 1;
-    info->params.directional.dirX = dirX;
-    info->params.directional.dirY = dirY;
-    info->params.directional.dirZ = dirZ;
-    info->params.directional.red = red;
-    info->params.directional.green = green;
-    info->params.directional.blue = blue;
+void Lights_InitDirectionalLight(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b) {
+    info->type = LIGHT_DIRECTIONAL;
+    info->params.dir.x = x;
+    info->params.dir.y = y;
+    info->params.dir.z = z;
+    info->params.dir.r = r;
+    info->params.dir.g = g;
+    info->params.dir.b = b;
 }
 
-void Lights_MapperInit(LightMapper* mapper, u8 red, u8 green, u8 blue) {
-    mapper->lights.a.l.col[0] = red;
-    mapper->lights.a.l.colc[0] = red;
-    mapper->lights.a.l.col[1] = green;
-    mapper->lights.a.l.colc[1] = green;
-    mapper->lights.a.l.col[2] = blue;
-    mapper->lights.a.l.colc[2] = blue;
-    mapper->numLights = 0;
+void Lights_ResetCollection(LightCollection* collection, u8 r, u8 g, u8 b) {
+    collection->lights.a.l.col[0] = collection->lights.a.l.colc[0] = r;
+    collection->lights.a.l.col[1] = collection->lights.a.l.colc[1] = g;
+    collection->lights.a.l.col[2] = collection->lights.a.l.colc[2] = b;
+    collection->numLights = 0;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_80079EFC.s")
-// Lights_Draw
 /*
-void func_80079EFC(LightMapper* mapper, GraphicsContext* gfxCtxArg) {
+void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg) {
     Light* light;
     s32 i;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
-
     gfxCtx = gfxCtxArg;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_lights.c", 339);
 
-    gSPNumLights(gfxCtx->polyOpa.p++, mapper->numLights);
-    gSPNumLights(gfxCtx->polyXlu.p++, mapper->numLights);
+    gSPNumLights(gfxCtx->polyOpa.p++, collection->numLights);
+    gSPNumLights(gfxCtx->polyXlu.p++, collection->numLights);
 
-    for (i = 0; i < mapper->numLights; i++) {
-        light = &mapper->lights.l[i];
-        gSPLight(gfxCtx->polyOpa.p++, light, i);
-        gSPLight(gfxCtx->polyXlu.p++, light, i);
+    for (i = 0; i < collection->numLights; i++) {
+        light = &collection->lights.l[i];
+        gSPLight(gfxCtx->polyOpa.p++, light, i + 1);
+        gSPLight(gfxCtx->polyXlu.p++, light, i + 1);
     }
-    i++; // ambient light is number of lights + 1, per the gbi docs
-    gSPLight(gfxCtx->polyOpa.p++, &mapper->lights.a, i);
-    gSPLight(gfxCtx->polyXlu.p++, &mapper->lights.a, i);
+    // ambient light is number of lights + 1, per the gbi docs
+    gSPLight(gfxCtx->polyOpa.p++, &collection->lights.a, i + 1);
+    gSPLight(gfxCtx->polyXlu.p++, &collection->lights.a, i + 1);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_lights.c", 352);
 }
 */
-
-Light* Lights_MapperGetNextFreeSlot(LightMapper* mapper) {
-    if (mapper->numLights >= 7) {
+Light* Lights_CollectionFindSlot(LightCollection* collection) {
+    if (collection->numLights >= 7) {
         return NULL;
     } else {
-        return &mapper->lights.l[mapper->numLights++];
+        return &collection->lights.l[collection->numLights++];
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A0B4.s")
-void func_8007A0B4(LightMapper* mapper, LightParams* params, Vec3f* vec);
-/*
-void func_8007A0B4(LightMapper* mapper, LightParams* params, Vec3f* vec) {
+void Lights_UpdatePoint(LightCollection* collection, LightParams* params, Vec3f* vec) {
     f32 xDiff;
     f32 yDiff;
     f32 zDiff;
-    f32 radius;
     f32 posDiff;
     f32 scale;
     Light* light;
 
     if (vec != NULL) {
-        xDiff = params->point.posX - vec->x;
-        yDiff = params->point.posY - vec->y;
-        zDiff = params->point.posZ - vec->z;
-        radius = params->point.radius;
+        xDiff = params->point.x - vec->x;
+        yDiff = params->point.y - vec->y;
+        zDiff = params->point.z - vec->z;
+        scale = params->point.radius;
         posDiff = SQ(xDiff) + SQ(yDiff) + SQ(zDiff);
-        
-        if (posDiff < SQ(radius)) {
-            light = Lights_MapperGetNextFreeSlot(mapper);
+
+        if (posDiff < SQ(scale)) {
+            light = Lights_CollectionFindSlot(collection);
 
             if (light != NULL) {
                 posDiff = sqrtf(posDiff);
+                if (1) {}
+                scale = posDiff / scale;
+                scale = 1 - SQ(scale);
 
-                scale = 1.0f - SQ(posDiff / radius);
-
-                light->l.col[0] = light->l.colc[0] = params->point.red * scale;
-                light->l.col[1] = light->l.colc[1] = params->point.green * scale;
-                light->l.col[2] = light->l.colc[2] = params->point.blue * scale;
+                light->l.col[0] = light->l.colc[0] = params->point.r * scale;
+                light->l.col[1] = light->l.colc[1] = params->point.g * scale;
+                light->l.col[2] = light->l.colc[2] = params->point.b * scale;
 
                 scale = (posDiff < 1.0f) ? 120.0f : 120.0f / posDiff;
 
@@ -123,28 +119,27 @@ void func_8007A0B4(LightMapper* mapper, LightParams* params, Vec3f* vec) {
         }
     }
 }
-*/
 
-void func_8007A40C(LightMapper* mapper, LightParams* params, Vec3f* vec) {
-    Light* light = Lights_MapperGetNextFreeSlot(mapper);
+void Lights_UpdateDirectional(LightCollection* collection, LightParams* params, Vec3f* vec) {
+    Light* light = Lights_CollectionFindSlot(collection);
 
     if (light != NULL) {
-        light->l.col[0] = light->l.colc[0] = params->directional.red;
-        light->l.col[1] = light->l.colc[1] = params->directional.green;
-        light->l.col[2] = light->l.colc[2] = params->directional.blue;
-        light->l.dir[0] = params->directional.dirX;
-        light->l.dir[1] = params->directional.dirY;
-        light->l.dir[2] = params->directional.dirZ;
+        light->l.col[0] = light->l.colc[0] = params->dir.r;
+        light->l.col[1] = light->l.colc[1] = params->dir.g;
+        light->l.col[2] = light->l.colc[2] = params->dir.b;
+        light->l.dir[0] = params->dir.x;
+        light->l.dir[1] = params->dir.y;
+        light->l.dir[2] = params->dir.z;
     }
 }
 
-void func_8007A474(LightMapper* mapper, LightNode* head, Vec3f* vec) {
-    LightUpdateFunc updateFuncs[] = { func_8007A0B4, func_8007A40C, func_8007A0B4 };
+void func_8007A474(LightCollection* collection, LightNode* head, Vec3f* vec) {
+    LightUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
     LightInfo* info;
 
     while (head != NULL) {
         info = head->info;
-        updateFuncs[info->type](mapper, &info->params, vec);
+        updateFuncs[info->type](collection, &info->params, vec);
         head = head->next;
     }
 }
@@ -152,24 +147,24 @@ void func_8007A474(LightMapper* mapper, LightNode* head, Vec3f* vec) {
 LightNode* Lights_FindSlot() {
     LightNode* node;
 
-    if (sLightsList.numOccupied >= 32) {
+    if (sLightsBuffer.numOccupied >= 32) {
         return NULL;
     }
 
-    node = &sLightsList.lights[sLightsList.nextFree];
+    node = &sLightsBuffer.lights[sLightsBuffer.searchIndex];
 
     while (node->info != NULL) {
-        sLightsList.nextFree++;
+        sLightsBuffer.searchIndex++;
 
-        if (sLightsList.nextFree < 32) {
+        if (sLightsBuffer.searchIndex < 32) {
             node++;
         } else {
-            sLightsList.nextFree = 0;
-            node = &sLightsList.lights[0];
+            sLightsBuffer.searchIndex = 0;
+            node = &sLightsBuffer.lights[0];
         }
     }
 
-    sLightsList.numOccupied++;
+    sLightsBuffer.numOccupied++;
 
     return node;
 }
@@ -177,9 +172,9 @@ LightNode* Lights_FindSlot() {
 // return type must not be void to match
 s32 Lights_Free(LightNode* light) {
     if (light != NULL) {
-        sLightsList.numOccupied--;
+        sLightsBuffer.numOccupied--;
         light->info = NULL;
-        sLightsList.nextFree = (light - sLightsList.lights) / sizeof(LightNode);
+        sLightsBuffer.searchIndex = (light - sLightsBuffer.lights) / sizeof(LightNode);
     }
 }
 
@@ -187,13 +182,13 @@ void func_8007A614(GlobalContext* globalCtx, LightContext* lightCtx) {
     Lights_ClearHead(globalCtx, lightCtx);
     Lights_SetAmbientColor(lightCtx, 80, 80, 80);
     func_8007A698(lightCtx, 0, 0, 0, 0x3E4, 0x3200);
-    bzero(&sLightsList, sizeof(sLightsList));
+    bzero(&sLightsBuffer, sizeof(sLightsBuffer));
 }
 
-void Lights_SetAmbientColor(LightContext* lightCtx, u8 red, u8 green, u8 blue) {
-    lightCtx->ambientRed = red;
-    lightCtx->ambientGreen = green;
-    lightCtx->ambientBlue = blue;
+void Lights_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
+    lightCtx->ambientRed = r;
+    lightCtx->ambientGreen = g;
+    lightCtx->ambientBlue = b;
 }
 
 void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5) {
@@ -204,7 +199,7 @@ void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, 
     lightCtx->unk_0C = arg5;
 }
 
-LightMapper* Lights_CreateMapper(LightContext* lightCtx, GraphicsContext* gfxCtx) {
+LightCollection* Lights_NewCollection(LightContext* lightCtx, GraphicsContext* gfxCtx) {
     return func_8007A960(gfxCtx, lightCtx->ambientRed, lightCtx->ambientGreen, lightCtx->ambientBlue);
 }
 
@@ -219,7 +214,7 @@ void Lights_RemoveAll(GlobalContext* globalCtx, LightContext* lightCtx) {
     }
 }
 
-LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, void* info) {
+LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info) {
     LightNode* node;
 
     node = Lights_FindSlot();
@@ -257,19 +252,59 @@ void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* 
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A824.s")
 
-LightMapper* func_8007A960(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue) {
-    LightMapper* mapper;
+LightCollection* func_8007A960(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
+    LightCollection* collection;
 
-    mapper = Graph_Alloc(gfxCtx, sizeof(LightMapper));
+    collection = Graph_Alloc(gfxCtx, sizeof(LightCollection));
 
-    mapper->lights.a.l.col[0] = mapper->lights.a.l.colc[0] = red;
-    mapper->lights.a.l.col[1] = mapper->lights.a.l.colc[1] = green;
-    mapper->lights.a.l.col[2] = mapper->lights.a.l.colc[2] = blue;
-    mapper->numLights = 0;
+    collection->lights.a.l.col[0] = collection->lights.a.l.colc[0] = r;
+    collection->lights.a.l.col[1] = collection->lights.a.l.colc[1] = g;
+    collection->lights.a.l.col[2] = collection->lights.a.l.colc[2] = b;
+    collection->numLights = 0;
 
-    return mapper;
+    return collection;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007ABBC.s")
+//void func_8007ABBC(GlobalContext* globalCtx);
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007ABBC.s")
+void func_8007ABBC(GlobalContext* globalCtx) {
+    f32 scale;
+    LightNode* node;
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
+
+    node = globalCtx->lightCtx.head;
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_lights.c", 887);
+
+    gfxCtx->polyXlu.p = func_800947AC(gfxCtx->polyXlu.p++);
+    gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_NOISE);
+    gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_MAGICSQ);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_04015720);
+
+    while (node != NULL) {
+        s32 pad1;
+        LightInfo* info;
+        LightPoint* params;
+        s32 pad[4];
+        u8* blue;
+
+        info = node->info;
+        params = &info->params.point;
+        if ((info->type == LIGHT_POINT_GLOW) && (params->unk_09 != 0)) {
+            scale = SQ(params->radius) * 0.0000026f;
+            blue = &params->b;
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, params->r, params->g, *blue,
+                            50);
+            Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
+            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(gfxCtx->polyXlu.p++, D_04015760);
+        }
+        node = node->next;
+    }
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_lights.c", 927);
+}
