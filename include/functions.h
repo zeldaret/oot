@@ -846,7 +846,7 @@ s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 void SaveContext_Init(void);
 // ? func_800636C0(?);
 void func_8006375C(s32 arg0, s32 arg1, float* d_80855320);
-// ? func_8006376C(?);
+void func_8006376C(u8 x, u8 y, u8 colorId, const char* text);
 // ? func_80063828(?);
 void func_8006390C(Input* input);
 // ? func_80063C04(?);

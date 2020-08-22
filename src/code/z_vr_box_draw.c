@@ -24,7 +24,7 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0, 0, 0, alpha);
     gSPTexture(gfxCtx->polyOpa.p++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON)
 
-        sSkyboxDrawMatrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sSkyboxDrawMatrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
     Matrix_Translate(x, y, z, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);

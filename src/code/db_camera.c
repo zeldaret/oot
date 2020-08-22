@@ -8,7 +8,7 @@ typedef struct {
     /* 0x0006 */ s16 unkIdx;
     /* 0x0008 */ s16 unk_08;
     /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ s32 unk_0C;
+    /* 0x000C */ s32 unk_0C; // indicates position vs lookAt?
     /* 0x0010 */ char unk_10[0x14];
     /* 0x0024 */ CutsceneCameraPoint position[129];
     /* 0x0834 */ CutsceneCameraPoint lookAt[129];
@@ -44,9 +44,9 @@ typedef struct {
 } DbCamera; // size = 0x10CC
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
+    /* 0x00 */ char letter;
     /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u16 mode;
+    /* 0x02 */ s16 mode;
     /* 0x04 */ CutsceneCameraPoint* position;
     /* 0x08 */ CutsceneCameraPoint* lookAt;
     /* 0x0C */ s16 nFrames;
@@ -60,6 +60,7 @@ extern s16 D_8016110C;
 extern s16 D_80161148;
 extern s16 D_8016114A;
 extern s16 D_8016111A;
+extern char D_8016128F[];
 
 
 const char* D_8012CEE0 = "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ";
@@ -128,11 +129,11 @@ char D_8012D114[] = "\x8Cﾌﾚ-ﾑ         \0\0";
 char D_8012D128[] = "\x8Cﾄ-ﾀﾙ         \0\0";
 char D_8012D13C[] = "\x8Cｷ-     /   ";
 
-void func_800B8DB0();
-void func_800B8BB0();
-s32 func_800B8F30(char* str);
+s32 func_800B8DB0(char* c);
+s32 func_800B8BB0(char* c);
+s32 func_800B8F30(char* c);
 
-void* D_8012D14C[] = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
+s32 (*D_8012D14C[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
 u8 D_8012D158[] = {
 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x04,
 };
@@ -141,6 +142,8 @@ u32 D_8012D170 = 0;
 extern DbCamera* D_80161108;
 extern GlobalContext* D_80161100;
 extern s32 D_801612EC;
+// is the size correct? todo: add ALIGN32 for sizeof in Mempak functions
+extern DbCameraCut D_80161150[16];
 
 Vec3f* func_800B3B50(Vec3f* outVec, Vec3f* inVec, VecSph* sph) {
     Vec3f ret;
@@ -343,8 +346,37 @@ void func_800B404C(PosRot* posRot, Vec3s* vec, Vec3f* outVec) {
     func_800B3FF4(posRot, &tempVec, outVec);
 }
 
-// easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4088.s")
+s32 func_800B4088(DbCamera* dbCamera, Camera* cam) {
+    CutsceneCameraPoint *position;
+    CutsceneCameraPoint *lookAt;
+    s32 i;
+
+    position = &dbCamera->sub.position[dbCamera->sub.unkIdx];
+    lookAt = &dbCamera->sub.lookAt[dbCamera->sub.unkIdx];
+
+    position->continueFlag = -1;
+    lookAt->continueFlag = position->continueFlag;
+    position->nextPointFrame = 0;
+    lookAt->nextPointFrame = 30;
+    lookAt->cameraRoll = position->cameraRoll = dbCamera->unk_4C * 1.40625f;
+    lookAt->viewAngle = position->viewAngle = dbCamera->fov;
+
+    if (dbCamera->sub.mode != 1) {
+        func_800B3EFC(&dbCamera->eye, &position->pos);
+        func_800B3EFC(&dbCamera->at, &lookAt->pos);
+    } else {
+        func_800B3F94(&cam->playerPosRot, &dbCamera->at, &lookAt->pos);
+        func_800B3F94(&cam->playerPosRot, &dbCamera->eye, &position->pos);
+    }
+
+    for (i = 0; i < (dbCamera->sub.nPoints - 2); i++) {
+        dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = 0;
+    }
+
+    dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = -1;
+
+    return dbCamera->sub.unkIdx;
+}
 
 s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr)
 {
@@ -363,7 +395,7 @@ s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr)
     }
 
     dbCamera->unk_4C = lookAt->cameraRoll;
-    dbCamera->unk_50 = dbCamera->unk_4C * 1.40625000f;
+    dbCamera->unk_50 = dbCamera->unk_4C * 1.40625f;
     dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
@@ -388,10 +420,38 @@ s32 func_800B42C0(DbCamera* dbCamera, Camera* cameraPtr) {
     return dbCamera->sub.unkIdx;
 }
 
-// easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4370.s")
+s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
+    CutsceneCameraPoint* lookAt = &dbCamera->sub.lookAt[idx];
+    CutsceneCameraPoint* position = &dbCamera->sub.position[idx];
+    VecSph sph;
+    Vec3f at;
 
-// ~easy
+    if (dbCamera->sub.mode != 1) {
+        if (dbCamera->sub.unk_0C != 0) {
+            func_800B3F54(&position->pos, &dbCamera->at);
+        } else {
+            func_800B3F54(&lookAt->pos, &dbCamera->at);
+        }
+    } else {
+        if (dbCamera->sub.unk_0C != 0) {
+            func_800B404C(&cam->playerPosRot, &position->pos, &at);
+        } else {
+            func_800B404C(&cam->playerPosRot, &lookAt->pos, &at);
+        }
+        dbCamera->at = at;
+    }
+    sph.pitch = 0x2000;
+    sph.yaw -= 0x7FFF;
+    sph.r = 250.0f;
+    func_800B3B50(&dbCamera->eye, &dbCamera->at, &sph);
+    dbCamera->unk_4C = lookAt->cameraRoll;
+    dbCamera->unk_50 = dbCamera->unk_4C * 1.40625f;
+    dbCamera->fov = lookAt->viewAngle;
+    return idx;
+}
+
+
+// easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B44E0.s")
 
 void func_800B4920(const char* name, s16 count, CutsceneCameraPoint* point) {
@@ -544,47 +604,203 @@ s32 func_800B4DE4(DbCamera *this, Camera *cam) {
 s32 func_800B8730() {
     s32 i;
     for (i = 0; i < ARRAY_COUNT(D_801612D0); i++) {
-        if (D_801612D0[i] == 'O') {
-            continue;
+        switch (D_801612D0[i])
+        {
+            case 'O':
+                break;
+            default:
+                return 'A' + i;
         }
-        
-        return 'A' + i;
     }
     
     return '?';
 }
 
-
-// ~easy
+// easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B87D8.s")
 
-// very easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8978.s")
+void func_800B8978(s32 idx, s32 shouldFree) {
+    if (D_80161150[idx].letter != '?') {
+        D_8016128F[D_80161150[idx].letter] = 'X';
+    }
 
-// easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8A0C.s")
+    if (shouldFree) {
+        DebugArena_FreeDebug(D_80161150[idx].lookAt, "../db_camera.c", 2784);
+        DebugArena_FreeDebug(D_80161150[idx].position, "../db_camera.c", 2785);
+    }
+
+    D_80161150[idx].letter = '?';
+    D_80161150[idx].lookAt = NULL;
+    D_80161150[idx].position = NULL;
+    D_80161150[idx].mode = 0;
+    D_80161150[idx].nFrames = 0;
+    D_80161150[idx].nPoints = 0;
+}
+
+s32 func_800B8A0C() {
+    s32 i;
+
+    D_801612EC = 0;
+    for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+        if (D_80161150[i].letter != '?') {
+            D_801612EC += ALIGN32(D_80161150[i].nPoints * sizeof(CutsceneCameraPoint)) * 2;
+        }
+    }
+    D_801612EC += 0x100;
+    D_801612EC = ALIGN256(D_801612EC);
+    return D_801612EC;
+}
 
 s32 func_800B8BA4(void) {
     return D_801612EC;
 }
 
-// ~easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8BB0.s")
+s32 func_800B8BB0(char* c) {
+    s32 i;
+    s32 size;
+    s32 off;
 
-// ~easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8DB0.s")
+    for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+        if (D_80161150[i].letter != '?') {
+            func_800B8978(i, true);
+            D_801612D0[i] = 'X';
+        }
+    }
 
-s32 func_800B8F30(char* str) {
-    return Mempak_DeleteFile(2, str[0]);
+    if (!Mempak_Read(2, *c, D_80161150, 0, sizeof(D_80161150))) {
+        return false;
+    }
+
+    off = sizeof(D_80161150);
+    for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+        if (D_80161150[i].letter != '?') {
+            size = D_80161150[i].nPoints * sizeof(CutsceneCameraPoint);
+
+            D_80161150[i].lookAt = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2844);
+            if (D_80161150[i].lookAt == NULL) {
+                // Debug camera memory allocation failure
+                osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2847);
+                return false;
+            }
+            if (!Mempak_Read(2, *c, D_80161150[i].lookAt, off, ALIGN32(size))) {
+                return false;
+            }
+            off += ALIGN32(size);
+
+            D_80161150[i].position = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2855);
+            if (D_80161150[i].position == NULL) {
+                // Debug camera memory allocation failure
+                osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2858);
+                return false;
+            }
+            if (!Mempak_Read(2, *c, D_80161150[i].position, off, ALIGN32(size))) {
+                return false;
+            }
+            off += ALIGN32(size);
+
+            D_8016128F[D_80161150[i].letter] = 'O';
+        }
+    }
+
+    return true;
+}
+
+s32 func_800B8DB0(char* c) {
+    s32 pad[2];
+    s32 ret;
+    u32 freeSize;
+    s32 off;
+    s32 size;
+    s32 i;
+
+    ret = Mempak_GetFileSize(2, *c);
+    freeSize =  Mempak_GetFreeBytes(2);
+
+    if (D_801612EC < (freeSize + ret)) {
+        if (!Mempak_Alloc(2, c, D_801612EC)) {
+            return false;
+        }
+
+        if (!Mempak_Write(2, *c, D_80161150, 0, sizeof(D_80161150))) {
+            Mempak_DeleteFile(2, *c);
+            return false;
+        }
+
+        off = sizeof(D_80161150);
+        for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+            if (D_80161150[i].letter != '?') {
+                size = D_80161150[i].nPoints * sizeof(CutsceneCameraPoint);
+
+                ret = Mempak_Write(2, *c, D_80161150[i].lookAt, off, ALIGN32(size));
+                if (!ret) {
+                    break;
+                }
+                off += ALIGN32(size);
+
+                ret = Mempak_Write(2, *c, D_80161150[i].position, off, ALIGN32(size));
+                if (!ret)
+                    break;
+
+                off += ALIGN32(size);
+            }
+            ret = true;
+        }
+
+        if (ret) {
+            return *c;
+        }
+        else {
+            Mempak_DeleteFile(2, *c);
+            return false;
+        }
+    }
+
+    return false;
+}
+
+s32 func_800B8F30(char* c) {
+    return Mempak_DeleteFile(2, *c);
+}
+
+void func_800B8F58(char* str, s16 y, s16 x, s32 colorId) {
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+        str[i*2+1] = D_80161150[i].letter;
+        str[i*2+0] = '-';
+    }
+
+    str[0x14] = str[i*2+1] = '\0';
+    func_8006376C(x, y, colorId, str);
+    str[0x14] = str[i*2+0] = '-';
+    func_8006376C(x+0x14, y, colorId, str+0x14);
+}
+
+void func_800B9060(Camera* cam) {
+    s32 i;
+    
+    Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n");
+
+    for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+        DbCameraCut* cut = &D_80161150[i];
+        if (cut->nPoints != 0) {
+            if (i != 0) {
+                osSyncPrintf("@@@\n@@@/* ** %d ** */\n@@@\n", i);
+            }
+
+            func_800B4920("Lookat", cut->nPoints, cut->lookAt);
+            func_800B4920("Position", cut->nPoints, cut->position);
+            osSyncPrintf("@@@static short  nPoints = %d;\n@@@\n", cut->nPoints);
+            osSyncPrintf("@@@static short  nFrames = %d;\n@@@\n", cut->nFrames);
+            osSyncPrintf("@@@static short  Mode = %d;\n@@@\n", cut->mode);
+        }
+    }
+
+    osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** finish! ***** */\n@@@\n");
 }
 
 // easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8F58.s")
-
-// easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B9060.s")
-
-// ~easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B91B0.s")
 
 void func_800B958C(Camera* cam, DbCamera* dbCam) {
@@ -596,7 +812,7 @@ void func_800B958C(Camera* cam, DbCamera* dbCam) {
     }
 
     for (i = 0; i < 0xF; i++) {
-        func_800B8978(i, 0);
+        func_800B8978(i, false);
     }
     D_80161108 = dbCam;
     D_8016110C = 0;
