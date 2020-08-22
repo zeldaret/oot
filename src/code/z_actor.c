@@ -1768,7 +1768,7 @@ void func_8002FA60(GlobalContext* globalCtx) {
     lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
     lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-    Lights_InitPointLightNoGlow(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
+    Lights_PointNoGlowSetData(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
 
     D_8015BC10 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &D_8015BC00);
     D_8015BC14 = 0;
@@ -1937,7 +1937,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
         lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-        Lights_InitPointLightNoGlow(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
+        Lights_PointNoGlowSetData(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
                                         500.0f * spD4);
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 5474);
@@ -1948,7 +1948,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 #endif
 
 void func_80030488(GlobalContext* globalCtx) {
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, D_8015BC10);
+    Lights_Free(globalCtx, &globalCtx->lightCtx, D_8015BC10);
 }
 
 void func_800304B0(GlobalContext* globalCtx) {
@@ -2181,7 +2181,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     lightCollection = Lights_NewCollection(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
 
-    func_8007A474(lightCollection, globalCtx->lightCtx.head, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
+    Lights_UpdateCollection(lightCollection, globalCtx->lightCtx.head, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
     func_80079EFC(lightCollection, globalCtx->state.gfxCtx);
 
     if (actor->flags & 0x1000) {

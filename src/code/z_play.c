@@ -1211,7 +1211,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
                     sp228 = Lights_NewCollection(&globalCtx->lightCtx, gfxCtx);
-                    func_8007A474(sp228, globalCtx->lightCtx.head, NULL);
+                    Lights_UpdateCollection(sp228, globalCtx->lightCtx.head, NULL);
                     func_80079EFC(sp228, gfxCtx);
                 }
 
@@ -1469,7 +1469,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->setupPathList = NULL;
     globalCtx->nbSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
-    func_8007A614(globalCtx, &globalCtx->lightCtx);
+    Lights_InitContext(globalCtx, &globalCtx->lightCtx);
     func_80098CBC(globalCtx, &globalCtx->nbTransitionActors);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;

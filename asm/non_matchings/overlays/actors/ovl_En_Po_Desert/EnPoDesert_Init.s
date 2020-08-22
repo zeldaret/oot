@@ -71,7 +71,7 @@ glabel EnPoDesert_Init
 /* 00100 80AD2DB0 AFAD0018 */  sw      $t5, 0x0018($sp)           
 /* 00104 80AD2DB4 AFAC0014 */  sw      $t4, 0x0014($sp)           
 /* 00108 80AD2DB8 AFAB0010 */  sw      $t3, 0x0010($sp)           
-/* 0010C 80AD2DBC 0C01E763 */  jal     Lights_InitPointLightNoGlow
+/* 0010C 80AD2DBC 0C01E763 */  jal     Lights_PointNoGlowSetData
               
 /* 00110 80AD2DC0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00114 80AD2DC4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)

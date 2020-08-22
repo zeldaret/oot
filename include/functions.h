@@ -903,7 +903,7 @@ void KaleidoSetup_Destroy(GlobalContext* globalCtx);
 // ? func_8006EE60(?);
 // ? func_8006EEBC(?);
 // ? func_8006EF10(?);
-// ? func_8006F0A0(?);
+s32 func_8006F0A0(s32 arg0);
 // ? func_8006F0D4(?);
 // ? func_8006F0FC(?);
 u8 func_8006F140(GlobalContext*, EnvironmentContext*, UNK_TYPE);
@@ -975,26 +975,25 @@ void Health_InitData(GlobalContext* globalCtx);
 void Health_UpdateData(GlobalContext* globalCtx);
 void Health_Draw(GlobalContext* globalCtx);
 void Health_HandleCriticalAlarm(GlobalContext* globalCtx);
-void Lights_InitPointLight(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
+void Lights_PointSetData(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
                                 s16 radius, u32 type);
-void Lights_InitPointLightNoGlow(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
+void Lights_PointNoGlowSetData(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
                                      s16 radius);
-void Lights_InitPointLightGlow(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
+void Lights_PointGlowSetData(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
                                      s16 radius);
-void Lights_PointLightSetColorRadius(LightInfo* info, u8 red, u8 green, u8 blue, s16 radius);
-void Lights_InitDirectionalLight(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue);
-void Lights_ResetCollection(LightCollection* collection, u8 red, u8 green, u8 blue);
-LightNode* Lights_FindSlot();
-s32 Lights_Free(LightNode* light);
-void func_8007A614(GlobalContext* globalCtx, LightContext* lightCtx);
+void Lights_PointSetColorAndRadius(LightInfo* info, u8 red, u8 green, u8 blue, s16 radius);
+void Lights_DirectionalSetData(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue);
+LightNode* Lights_FindBufSlot();
+s32 Lights_FreeNode(LightNode* light);
+void Lights_InitContext(GlobalContext* globalCtx, LightContext* lightCtx);
 void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5);
 void Lights_SetAmbientColor(LightContext* lightCtx, u8 red, u8 green, u8 blue);
 LightCollection* Lights_NewCollection(LightContext* lightCtx, GraphicsContext* gfxCtx);
 void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx);
-void Lights_RemoveAll(GlobalContext* globalCtx, LightContext* lightCtx);
+void Lights_ClearBuf(GlobalContext* globalCtx, LightContext* lightCtx);
 LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info);
-void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
-LightCollection* func_8007A960(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue);
+void Lights_Free(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
+LightCollection* Lights_AllocAndSetCollection(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue);
 // ? func_8007A9B4(?);
 void Lights_DrawGlow(GlobalContext* globalCtx);
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);

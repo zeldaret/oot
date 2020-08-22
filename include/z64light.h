@@ -11,7 +11,7 @@ typedef struct {
     /* 0x2 */ s16 y;
     /* 0x4 */ s16 z;
     /* 0x6 */ Color_RGB8 color;
-    /* 0x9 */ u8 unk_09;
+    /* 0x9 */ u8 drawGlow;
     /* 0xA */ s16 radius;
 } LightPoint; // size = 0xC
 
@@ -45,9 +45,7 @@ typedef struct LightNode {
 
 typedef struct {
     /* 0x0 */ LightNode* head;
-    /* 0x4 */ u8 ambientRed;
-    /* 0x5 */ u8 ambientGreen;
-    /* 0x6 */ u8 ambientBlue;
+    /* 0x4 */ Color_RGB8 ambient;
     /* 0x7 */ u8 unk_07;
     /* 0x8 */ u8 unk_08;
     /* 0x9 */ u8 unk_09;
@@ -61,6 +59,6 @@ typedef enum {
     /* 0x02 */ LIGHT_POINT_GLOW
 } LightTypes;
 
-typedef void (*LightUpdateFunc)(LightCollection*, LightParams* params, Vec3f* vec);
+typedef void (*CollectionUpdateFunc)(LightCollection*, LightParams* params, Vec3f* vec);
 
 #endif

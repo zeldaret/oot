@@ -92,7 +92,7 @@ glabel EnFr_Update
 /* 003E0 80A1AD80 AFA80018 */  sw      $t0, 0x0018($sp)
 /* 003E4 80A1AD84 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 003E8 80A1AD88 AFB80010 */  sw      $t8, 0x0010($sp)
-/* 003EC 80A1AD8C 0C01E763 */  jal     Lights_InitPointLightNoGlow
+/* 003EC 80A1AD8C 0C01E763 */  jal     Lights_PointNoGlowSetData
 
 /* 003F0 80A1AD90 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 003F4 80A1AD94 8FAA003C */  lw      $t2, 0x003C($sp)

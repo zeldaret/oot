@@ -79,7 +79,7 @@ glabel ObjSyokudai_Init
 /* 0011C 80B9F3CC AFAF0018 */  sw      $t7, 0x0018($sp)           
 /* 00120 80B9F3D0 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 00124 80B9F3D4 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 00128 80B9F3D8 0C01E77C */  jal     Lights_InitPointLightGlow
+/* 00128 80B9F3D8 0C01E77C */  jal     Lights_PointGlowSetData
               
 /* 0012C 80B9F3DC AFA40030 */  sw      $a0, 0x0030($sp)           
 /* 00130 80B9F3E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

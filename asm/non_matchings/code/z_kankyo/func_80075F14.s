@@ -51,7 +51,7 @@ glabel func_80075F14
 /* AED178 80075FD8 44079000 */  mfc1  $a3, $f18
 /* AED17C 80075FDC 00000000 */  nop   
 /* AED180 80075FE0 00073C00 */  sll   $a3, $a3, 0x10
-/* AED184 80075FE4 0C01E763 */  jal   Lights_InitPointLightNoGlow
+/* AED184 80075FE4 0C01E763 */  jal   Lights_PointNoGlowSetData
 /* AED188 80075FE8 00073C03 */   sra   $a3, $a3, 0x10
 /* AED18C 80075FEC 8FA40038 */  lw    $a0, 0x38($sp)
 /* AED190 80075FF0 3C068016 */  lui   $a2, %hi(D_8015FD88)
@@ -107,7 +107,7 @@ glabel func_80075F14
 /* AED258 800760B8 44079000 */  mfc1  $a3, $f18
 /* AED25C 800760BC 00000000 */  nop   
 /* AED260 800760C0 00073C00 */  sll   $a3, $a3, 0x10
-/* AED264 800760C4 0C01E763 */  jal   Lights_InitPointLightNoGlow
+/* AED264 800760C4 0C01E763 */  jal   Lights_PointNoGlowSetData
 /* AED268 800760C8 00073C03 */   sra   $a3, $a3, 0x10
 /* AED26C 800760CC 3C068016 */  lui   $a2, %hi(D_8015FDA0) # $a2, 0x8016
 /* AED270 800760D0 24C6FDA0 */  addiu $a2, %lo(D_8015FDA0) # addiu $a2, $a2, -0x260

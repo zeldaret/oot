@@ -126,7 +126,7 @@ glabel EnPoField_Init
 /* 001C8 80AD3CC8 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 001CC 80AD3CCC AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 001D0 80AD3CD0 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 001D4 80AD3CD4 0C01E77C */  jal     Lights_InitPointLightGlow
+/* 001D4 80AD3CD4 0C01E77C */  jal     Lights_PointGlowSetData
               
 /* 001D8 80AD3CD8 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 001DC 80AD3CDC 3C0F8003 */  lui     $t7, %hi(ActorShadow_DrawFunc_Circle)

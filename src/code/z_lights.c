@@ -1,6 +1,14 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define LIGHT_COL_R 0
+#define LIGHT_COL_G 1
+#define LIGHT_COL_B 2
+
+#define LIGHT_DIR_X 0
+#define LIGHT_DIR_Y 1
+#define LIGHT_DIR_Z 2
+
 typedef struct {
     /* 0x000 */ s32 numOccupied;
     /* 0x004 */ s32 searchIndex;
@@ -9,30 +17,30 @@ typedef struct {
 
 LightsBuffer sLightsBuffer;
 
-void Lights_InitPointLight(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, u32 type) {
+void Lights_PointSetData(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, u32 type) {
     info->type = type;
     info->params.point.x = x;
     info->params.point.y = y;
     info->params.point.z = z;
-    Lights_PointLightSetColorRadius(info, r, g, b, radius);
+    Lights_PointSetColorAndRadius(info, r, g, b, radius);
 }
 
-void Lights_InitPointLightNoGlow(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
-    Lights_InitPointLight(info, x, y, z, r, g, b, radius, LIGHT_POINT_NOGLOW);
+void Lights_PointNoGlowSetData(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
+    Lights_PointSetData(info, x, y, z, r, g, b, radius, LIGHT_POINT_NOGLOW);
 }
 
-void Lights_InitPointLightGlow(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
-    Lights_InitPointLight(info, x, y, z, r, g, b, radius, LIGHT_POINT_GLOW);
+void Lights_PointGlowSetData(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
+    Lights_PointSetData(info, x, y, z, r, g, b, radius, LIGHT_POINT_GLOW);
 }
 
-void Lights_PointLightSetColorRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius) {
+void Lights_PointSetColorAndRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius) {
     info->params.point.color.r = r;
     info->params.point.color.g = g;
     info->params.point.color.b = b;
     info->params.point.radius = radius;
 }
 
-void Lights_InitDirectionalLight(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b) {
+void Lights_DirectionalSetData(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b) {
     info->type = LIGHT_DIRECTIONAL;
     info->params.dir.x = x;
     info->params.dir.y = y;
@@ -42,20 +50,25 @@ void Lights_InitDirectionalLight(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, 
     info->params.dir.color.b = b;
 }
 
+// unused
 void Lights_ResetCollection(LightCollection* collection, u8 r, u8 g, u8 b) {
-    collection->lights.a.l.col[0] = collection->lights.a.l.colc[0] = r;
-    collection->lights.a.l.col[1] = collection->lights.a.l.colc[1] = g;
-    collection->lights.a.l.col[2] = collection->lights.a.l.colc[2] = b;
+    collection->lights.a.l.col[LIGHT_COL_R] = collection->lights.a.l.colc[LIGHT_COL_R] = r;
+    collection->lights.a.l.col[LIGHT_COL_G] = collection->lights.a.l.colc[LIGHT_COL_G] = g;
+    collection->lights.a.l.col[LIGHT_COL_B] = collection->lights.a.l.colc[LIGHT_COL_B] = b;
     collection->numLights = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_80079EFC.s")
-/*
+#ifdef NON_MATCHING
+// Lights_DrawCollection
+//
+// issues with incrementing in the loop
+// adding +1 to both i's outside of the loop helps immensely, but then its not equivalent anymore
 void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg) {
     Light* light;
     s32 i;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
+
     gfxCtx = gfxCtxArg;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_lights.c", 339);
 
@@ -68,12 +81,15 @@ void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg) {
         gSPLight(gfxCtx->polyXlu.p++, light, i + 1);
     }
 
-    gSPLight(gfxCtx->polyOpa.p++, &collection->lights.a, i + 1);
-    gSPLight(gfxCtx->polyXlu.p++, &collection->lights.a, i + 1);
+    gSPLight(gfxCtx->polyOpa.p++, &collection->lights.a, i);
+    gSPLight(gfxCtx->polyXlu.p++, &collection->lights.a, i);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_lights.c", 352);
 }
-*/
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_80079EFC.s")
+#endif
+
 Light* Lights_CollectionFindSlot(LightCollection* collection) {
     if (collection->numLights >= 7) {
         return NULL;
@@ -106,15 +122,15 @@ void Lights_UpdatePoint(LightCollection* collection, LightParams* params, Vec3f*
                 scale = posDiff / scale;
                 scale = 1 - SQ(scale);
 
-                light->l.col[0] = light->l.colc[0] = params->point.color.r * scale;
-                light->l.col[1] = light->l.colc[1] = params->point.color.g * scale;
-                light->l.col[2] = light->l.colc[2] = params->point.color.b * scale;
+                light->l.col[LIGHT_COL_R] = light->l.colc[LIGHT_COL_R] = params->point.color.r * scale;
+                light->l.col[LIGHT_COL_G] = light->l.colc[LIGHT_COL_G] = params->point.color.g * scale;
+                light->l.col[LIGHT_COL_B] = light->l.colc[LIGHT_COL_B] = params->point.color.b * scale;
 
                 scale = (posDiff < 1.0f) ? 120.0f : 120.0f / posDiff;
 
-                light->l.dir[0] = xDiff * scale;
-                light->l.dir[1] = yDiff * scale;
-                light->l.dir[2] = zDiff * scale;
+                light->l.dir[LIGHT_DIR_X] = xDiff * scale;
+                light->l.dir[LIGHT_DIR_Y] = yDiff * scale;
+                light->l.dir[LIGHT_DIR_Z] = zDiff * scale;
             }
         }
     }
@@ -124,17 +140,17 @@ void Lights_UpdateDirectional(LightCollection* collection, LightParams* params, 
     Light* light = Lights_CollectionFindSlot(collection);
 
     if (light != NULL) {
-        light->l.col[0] = light->l.colc[0] = params->dir.color.r;
-        light->l.col[1] = light->l.colc[1] = params->dir.color.g;
-        light->l.col[2] = light->l.colc[2] = params->dir.color.b;
-        light->l.dir[0] = params->dir.x;
-        light->l.dir[1] = params->dir.y;
-        light->l.dir[2] = params->dir.z;
+        light->l.col[LIGHT_COL_R] = light->l.colc[LIGHT_COL_R] = params->dir.color.r;
+        light->l.col[LIGHT_COL_G] = light->l.colc[LIGHT_COL_G] = params->dir.color.g;
+        light->l.col[LIGHT_COL_B] = light->l.colc[LIGHT_COL_B] = params->dir.color.b;
+        light->l.dir[LIGHT_DIR_X] = params->dir.x;
+        light->l.dir[LIGHT_DIR_Y] = params->dir.y;
+        light->l.dir[LIGHT_DIR_Z] = params->dir.z;
     }
 }
 
-void func_8007A474(LightCollection* collection, LightNode* head, Vec3f* vec) {
-    LightUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
+void Lights_UpdateCollection(LightCollection* collection, LightNode* head, Vec3f* vec) {
+    CollectionUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
     LightInfo* info;
 
     while (head != NULL) {
@@ -144,7 +160,7 @@ void func_8007A474(LightCollection* collection, LightNode* head, Vec3f* vec) {
     }
 }
 
-LightNode* Lights_FindSlot() {
+LightNode* Lights_FindBufSlot() {
     LightNode* node;
 
     if (sLightsBuffer.numOccupied >= 32) {
@@ -170,7 +186,7 @@ LightNode* Lights_FindSlot() {
 }
 
 // return type must not be void to match
-s32 Lights_Free(LightNode* light) {
+s32 Lights_FreeNode(LightNode* light) {
     if (light != NULL) {
         sLightsBuffer.numOccupied--;
         light->info = NULL;
@@ -178,7 +194,7 @@ s32 Lights_Free(LightNode* light) {
     }
 }
 
-void func_8007A614(GlobalContext* globalCtx, LightContext* lightCtx) {
+void Lights_InitContext(GlobalContext* globalCtx, LightContext* lightCtx) {
     Lights_ClearHead(globalCtx, lightCtx);
     Lights_SetAmbientColor(lightCtx, 80, 80, 80);
     func_8007A698(lightCtx, 0, 0, 0, 0x3E4, 0x3200);
@@ -186,9 +202,9 @@ void func_8007A614(GlobalContext* globalCtx, LightContext* lightCtx) {
 }
 
 void Lights_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
-    lightCtx->ambientRed = r;
-    lightCtx->ambientGreen = g;
-    lightCtx->ambientBlue = b;
+    lightCtx->ambient.r = r;
+    lightCtx->ambient.g = g;
+    lightCtx->ambient.b = b;
 }
 
 void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5) {
@@ -200,16 +216,16 @@ void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, 
 }
 
 LightCollection* Lights_NewCollection(LightContext* lightCtx, GraphicsContext* gfxCtx) {
-    return func_8007A960(gfxCtx, lightCtx->ambientRed, lightCtx->ambientGreen, lightCtx->ambientBlue);
+    return Lights_AllocAndSetCollection(gfxCtx, lightCtx->ambient.r, lightCtx->ambient.g, lightCtx->ambient.b);
 }
 
 void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx) {
     lightCtx->head = NULL;
 }
 
-void Lights_RemoveAll(GlobalContext* globalCtx, LightContext* lightCtx) {
+void Lights_ClearBuf(GlobalContext* globalCtx, LightContext* lightCtx) {
     while (lightCtx->head != NULL) {
-        Lights_Remove(globalCtx, lightCtx, lightCtx->head);
+        Lights_Free(globalCtx, lightCtx, lightCtx->head);
         lightCtx->head = lightCtx->head->next;
     }
 }
@@ -217,7 +233,7 @@ void Lights_RemoveAll(GlobalContext* globalCtx, LightContext* lightCtx) {
 LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info) {
     LightNode* node;
 
-    node = Lights_FindSlot();
+    node = Lights_FindBufSlot();
 
     if (node != NULL) {
         node->info = info;
@@ -234,7 +250,7 @@ LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, Light
     return node;
 }
 
-void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
+void Lights_Free(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
     if (node != NULL) {
         if (node->prev != NULL) {
             node->prev->next = node->next;
@@ -246,26 +262,29 @@ void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* 
             node->next->prev = node->prev;
         }
 
-        Lights_Free(node);
+        Lights_FreeNode(node);
     }
 }
 
+// unused 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A824.s")
 
-LightCollection* func_8007A960(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
+LightCollection* Lights_AllocAndSetCollection(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     LightCollection* collection;
 
     collection = Graph_Alloc(gfxCtx, sizeof(LightCollection));
 
-    collection->lights.a.l.col[0] = collection->lights.a.l.colc[0] = r;
-    collection->lights.a.l.col[1] = collection->lights.a.l.colc[1] = g;
-    collection->lights.a.l.col[2] = collection->lights.a.l.colc[2] = b;
+    collection->lights.a.l.col[LIGHT_COL_R] = collection->lights.a.l.colc[LIGHT_COL_R] = r;
+    collection->lights.a.l.col[LIGHT_COL_G] = collection->lights.a.l.colc[LIGHT_COL_G] = g;
+    collection->lights.a.l.col[LIGHT_COL_B] = collection->lights.a.l.colc[LIGHT_COL_B] = b;
     collection->numLights = 0;
 
     return collection;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
+// Lights_GlowCheck
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
+/*
 void func_8007A9B4(GlobalContext* globalCtx) {
     Vec3f pos;      // sp9C
     Vec3f multDest; // sp88
@@ -285,7 +304,7 @@ void func_8007A9B4(GlobalContext* globalCtx) {
             pos.y = info->params.point.y;
             pos.z = info->params.point.z;
             func_8002BE04(globalCtx, &pos, &multDest, &wDest);
-            info->params.point.unk_09 = false;
+            info->params.point.drawGlow = false;
 
             if (multDest.y > 1.0f) {
                 wX = multDest.x * wDest;
@@ -294,10 +313,10 @@ void func_8007A9B4(GlobalContext* globalCtx) {
                     wY = multDest.y * wDest;
 
                     if (fabsf(wY) < 1.0f) {
-                        if ((((multDest.y * wDest) * 16352.0f) + 16352.0f) <
+                        if ((((multDest.y * wDest) * 16352) + 16352) <
                             (func_8006F0A0(wY, wDest,
-                                           gZBuffer[(s32)((wY * -240.f) + 240.f)][(s32)((wX * 320.f) + 320.f)] * 4 >> 3))) {
-                            info->params.point.unk_09 = true;
+                                           gZBuffer[(s32)((wY * -240) + 240)][(s32)((wX * 320) + 320)] * 4 >> 3))) {
+                            info->params.point.drawGlow = true;
                         }
                     }
                 }
@@ -306,6 +325,7 @@ void func_8007A9B4(GlobalContext* globalCtx) {
         node = node->next;
     }
 }
+*/
 
 void Lights_DrawGlow(GlobalContext* globalCtx) {
     s32 pad;
@@ -314,6 +334,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     node = globalCtx->lightCtx.head;
+
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_lights.c", 887);
 
@@ -326,21 +347,16 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
         LightInfo* info;
         LightPoint* params;
         f32 scale;
-        s32 pad[2];
-        u8* red;
-        u8* green;
+        s32 pad[3];
         u8* blue;
 
         info = node->info;
         params = &info->params.point;
-        if ((info->type == LIGHT_POINT_GLOW) && (params->unk_09)) {
+        if ((info->type == LIGHT_POINT_GLOW) && (params->drawGlow)) {
             scale = SQ(params->radius) * 0.0000026f;
+            blue = &params->color.b; // this is 100% a fake match but I couldnt find anything else
 
-            red = &params->color.r; // these pointers to colors have to be a fake match..
-            green = &params->color.g;
-            blue = &params->color.b;
-
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, *red, *green, *blue, 50);
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, params->color.r, params->color.g, *blue, 50);
             Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
@@ -349,5 +365,6 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
         }
         node = node->next;
     }
+
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_lights.c", 927);
 }

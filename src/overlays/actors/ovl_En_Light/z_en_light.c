@@ -55,12 +55,12 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.gameMode == 3) {
         // special case for the credits
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_InitPointLightNoGlow(&this->lightInfo, this->actor.posRot.pos.x,
+        Lights_PointNoGlowSetData(&this->lightInfo, this->actor.posRot.pos.x,
                                         yOffset + (s16)this->actor.posRot.pos.y, this->actor.posRot.pos.z, 255, 255,
                                         180, -1);
     } else {
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_InitPointLightGlow(&this->lightInfo, this->actor.posRot.pos.x,
+        Lights_PointGlowSetData(&this->lightInfo, this->actor.posRot.pos.x,
                                         yOffset + (s16)this->actor.posRot.pos.y, this->actor.posRot.pos.z, 255, 255,
                                         180, -1);
     }
@@ -77,7 +77,7 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNode);
+    Lights_Free(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
 
 void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {
@@ -101,7 +101,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     flameParams = &D_80A9E840[this->actor.params & 0xF];
     intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
     radius = (this->actor.params < 0) ? 100 : 300;
-    Lights_PointLightSetColorRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
+    Lights_PointSetColorAndRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
                                             (flameParams->primColor.b * intensity), radius);
     EnLight_UpdatePosRot(this, globalCtx);
@@ -144,7 +144,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, ((f32)flameParams->scale * 0.0001) * scale);
     intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
-    Lights_PointLightSetColorRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
+    Lights_PointSetColorAndRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                             (flameParams->primColor.g * intensity),
                                             (flameParams->primColor.b * intensity), 300.0f * scale);
     EnLight_UpdatePosRot(this, globalCtx);

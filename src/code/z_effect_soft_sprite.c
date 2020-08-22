@@ -299,7 +299,7 @@ void EffectSs_DrawAll(GlobalContext* globalCtx) {
     s32 i;
 
     lightCollection = Lights_NewCollection(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
-    func_8007A474(lightCollection, globalCtx->lightCtx.head, NULL);
+    Lights_UpdateCollection(lightCollection, globalCtx->lightCtx.head, NULL);
     func_80079EFC(lightCollection, globalCtx->state.gfxCtx);
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {

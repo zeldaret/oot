@@ -65,7 +65,7 @@ glabel EnBdfire_Init
 /* 000CC 809BC0FC AFAB0018 */  sw      $t3, 0x0018($sp)           
 /* 000D0 809BC100 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 000D4 809BC104 AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 000D8 809BC108 0C01E763 */  jal     Lights_InitPointLightNoGlow
+/* 000D8 809BC108 0C01E763 */  jal     Lights_PointNoGlowSetData
 /* 000DC 809BC10C AFA40034 */  sw      $a0, 0x0034($sp)           
 /* 000E0 809BC110 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 000E4 809BC114 8FA60034 */  lw      $a2, 0x0034($sp)           

@@ -288,7 +288,7 @@ glabel BgSpot00Hanebasi_Init
 /* 003E4 808A9B64 00052C00 */  sll     $a1, $a1, 16               
 /* 003E8 808A9B68 00052C03 */  sra     $a1, $a1, 16               
 /* 003EC 808A9B6C AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 003F0 808A9B70 0C01E77C */  jal     Lights_InitPointLightGlow
+/* 003F0 808A9B70 0C01E77C */  jal     Lights_PointGlowSetData
               
 /* 003F4 808A9B74 AFA0001C */  sw      $zero, 0x001C($sp)         
 .L808A9B78:
