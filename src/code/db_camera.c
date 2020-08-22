@@ -616,8 +616,41 @@ s32 func_800B8730() {
     return '?';
 }
 
-// easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B87D8.s")
+char func_800B87D8(s32 idx, DbCameraSub* sub) {
+    s32 i;
+
+    D_80161150[idx].unk_01 = 0x61;
+    D_80161150[idx].letter = func_800B8730();
+    D_8016128F[D_80161150[idx].letter] = 'O';
+
+    i = sub->nPoints * sizeof(CutsceneCameraPoint);
+    D_80161150[idx].lookAt = DebugArena_MallocDebug(i, "../db_camera.c", 2748);
+    if (D_80161150[idx].lookAt == NULL) {
+        // Debug camera memory allocation failure
+        osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2751);
+        return '?';
+    }
+
+    D_80161150[idx].position = DebugArena_MallocDebug(i, "../db_camera.c", 2754);
+    if (D_80161150[idx].position == NULL) {
+        // Debug camera memory allocation failure
+        osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2757);
+        DebugArena_FreeDebug(D_80161150[idx].lookAt, "../db_camera.c", 2758);
+        D_80161150[idx].lookAt = NULL;
+        return '?';
+    }
+
+    D_80161150[idx].mode = sub->mode;
+    D_80161150[idx].nFrames = sub->nFrames;
+    D_80161150[idx].nPoints = sub->nPoints;
+
+    for (i = 0; i < sub->nPoints; i++) {
+        D_80161150[idx].lookAt[i] = sub->lookAt[i];
+        D_80161150[idx].position[i] = sub->position[i];
+    }
+
+    return D_80161150[idx].letter;
+}
 
 void func_800B8978(s32 idx, s32 shouldFree) {
     if (D_80161150[idx].letter != '?') {
@@ -802,6 +835,11 @@ void func_800B9060(Camera* cam) {
 
 // easy
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B91B0.s")
+/*
+void func_800B91B0(Camera* cam, DbCamera* dbCamera) {
+    
+}
+*/
 
 void func_800B958C(Camera* cam, DbCamera* dbCam) {
     s32 i;
