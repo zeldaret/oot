@@ -58,7 +58,7 @@ sudo apt-get install git build-essential binutils-mips-linux-gnu python3
 #### 2. Download and set up qemu-irix (optional)
 
 Note: We are currently testing a recompiled version of the compiler that does not require qemu-irix.
-This step may be worth trying if you are experiencing issues with the compiler.
+This step allows you to build with qemu-irix and the original compiler by adding `OG_COMPILER=1` to the `make` command in step 6, for example if you experience issues with the recompiled version.
 
 Download qemu-irix from the Releases section in the repository. Place it at a location of your choosing.
 
