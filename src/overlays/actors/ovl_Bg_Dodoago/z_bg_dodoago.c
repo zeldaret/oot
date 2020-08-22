@@ -16,8 +16,6 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc);
-
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx);
 void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx);
 void func_8087227C(BgDodoago* this, GlobalContext* globalCtx);
