@@ -1,6 +1,6 @@
-                temp_t1 = actionState + 1;
-                switch (temp_t1) { // switch 3
-                    case 1:        // switch 3
+                //temp_t1 = actionState + 1;
+                switch (actionState) { // switch 3
+                    case 0:        // switch 3
                         sp1CF = 1;
                         if (this->animationTimers[0] == 0) {
                             if (this->actor.colChkInfo.health == 0) {
@@ -25,10 +25,10 @@
                                 this->unk_2B0 = 100.0f;
                                 this->animationTimers[0] = (this->introState2 != 0) ? 0x2742 : 0x14;
                                 this->actionState = 1;
-                                if (this->unk_232 != 0) {
-                                    this->unk_232 = 0;
-                                    this->unk_246 += 1;
-                                    if ((this->unk_246 & 1) != 0) {
+                                if (this->startAttack != 0) {
+                                    this->startAttack = 0;
+                                    this->flightCount += 1;
+                                    if ((this->flightCount & 1) != 0) {
                                         this->unk_236 = 0;
                                         this->actionState = 0x64;
                                         this->animationTimers[0] = 0x12C;
@@ -42,7 +42,7 @@
                             }
                         }
                         break;
-                    case 2: // switch 3
+                    case 1: // switch 3
                         if (this->animationTimers[0] == 0) {
                             if (sqrtf((dx2 + (dy * dy)) + dz2) < 100.0f) {
                                 this->actionState = 2;
@@ -57,14 +57,14 @@
                         }
                         break;
 
-                    case 3: // switch 3
+                    case 2: // switch 3
                         sp1CF = 1;
                         if (this->animationTimers[0] == 0) {
                             this->actionFunc = &func_808CDE30;
-                            this->attackMode = 0x64;
+                            this->handoffSignal = 0x64;
                         }
                         break;
-                    case 4: // switch 3
+                    case 3: // switch 3
                         if (this->animationTimers[0] == 0) {
                             if (sqrtf((dx2 + (dy * dy)) + dz2) < 100.0f) {
                                 this->actor.posRot.pos = this->targetPosition;
@@ -81,7 +81,6 @@
                                 // This isn't a fake match. The game actually does this.
                             }
                         }
-                    case 0:
-                    default:
+                    //case 0:
                         break;
                 }

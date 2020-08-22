@@ -34,10 +34,9 @@ temp_t0 = actionState - 0xC8;
                     this->unk_2AC = 2000.0f;
                     Math_SmoothScaleMaxF(&this->unk_280, 0.3f, 1.0f, 0.05f);
                     if (this->animationTimers[0] == 0) {
-                        if ((this->unk_224 & 3) == 0) {
-                            temp_v0_8 = this->skinSegments;
-                            if (temp_v0_8 != 0) {
-                                this->skinSegments = temp_v0_8 - 1;
+                        if ((this->movementTimer & 3) == 0) {
+                            if (this->skinSegments != 0) {
+                                this->skinSegments--;
                                 if (this->skinSegments == 0) {
                                     Audio_SetBGM(0x21);
                                 }
@@ -47,7 +46,7 @@ temp_t0 = actionState - 0xC8;
                             }
                         }
                     }
-                    if ((this->unk_224 & 0x1F) == 0) {
+                    if ((this->movementTimer & 0x1F) == 0) {
                         this->roarTimer = 0x28;
                     }
                     if (this->skinSegments != 0) {
@@ -59,7 +58,7 @@ temp_t0 = actionState - 0xC8;
                         }
                         this->fogMode = 0xA;
                         sp150 = 1;
-                        if ((this->unk_224 & 0x1C) != 0) {
+                        if ((this->movementTimer & 0x1C) != 0) {
                             Audio_PlaySoundGeneral(0x30DA, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                         }
@@ -87,7 +86,7 @@ temp_t0 = actionState - 0xC8;
                     break;
                 case 2: // switch 2
                     temp_v1_3 = this->animationTimers[0];
-                    this->unk_244 = 1;
+                    this->stopFlag = 1;
                     this->fogMode = 3;
                     if (temp_v1_3 < 0x12) {
                         this->unk_13D0[temp_v1_3] = 1;
@@ -95,7 +94,7 @@ temp_t0 = actionState - 0xC8;
                     if (temp_v1_3 == 0) {
                         this->actionState = 0xCB;
                         this->animationTimers[0] = 0xF;
-                        this->unk_23C = 0;
+                        this->ceilingTargetIndex = 0;
                         player->actor.posRot.pos.y = 90.0f;
                         player->actor.posRot.pos.x = 40.0f;
                         player->actor.posRot.pos.z = 150.0f;
@@ -105,7 +104,7 @@ temp_t0 = actionState - 0xC8;
                     if (this->animationTimers[0] == 0) {
                         this->actionState = 0xCC;
                         this->animationTimers[0] = 0x14;
-                        this->unk_244 = 0;
+                        this->stopFlag = 0;
                     }
                     break;
                 case 4: // switch 2
@@ -124,10 +123,10 @@ temp_t0 = actionState - 0xC8;
                         if (this->actor.posRot.pos.y <= 110.0f) {
                             this->actor.velocity.y = 0.0f;
                             this->actor.posRot.pos.y = 110.0f;
-                            if (this->unk_23C == 0) {
-                                this->unk_23C++;
+                            if (this->ceilingTargetIndex == 0) {
+                                this->ceilingTargetIndex++;
                                 this->animationTimers[1] = 0x3C;
-                                this->unk_242 = 0x14;
+                                this->deathCameraShakeTimer = 0x14;
                                 Audio_PlaySoundGeneral(0x3889, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                                        &D_801333E8);
                                 func_8002DF54(globalCtx, &this->actor, 5);
@@ -186,6 +185,5 @@ temp_t0 = actionState - 0xC8;
                         Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x5F, this->actor.posRot.pos.x,
                                     this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
                     }
-                default:
                     break;
             }

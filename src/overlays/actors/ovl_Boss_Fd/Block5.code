@@ -8,5 +8,5 @@ this->unk_2A4 = 8.0f;
                     this->actionState = 0x33;
                     this->animationTimers[0] = 0x19;
                     this->animationTimers[2] = 0x96;
-                    this->unk_23C = 0;
+                    this->ceilingTargetIndex = 0;
                 }

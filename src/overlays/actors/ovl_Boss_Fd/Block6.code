@@ -1,16 +1,15 @@
-temp_v1_8 = this->unk_23C;
-            this->unk_2B0 = 200.0f;
+this->unk_2B0 = 200.0f;
             this->unk_2A4 = 8.0f;
-            temp_v0_10 = &D_808D1998[temp_v1_8];
+            temp_v0_10 = &D_808D1998[this->ceilingTargetIndex];
             this->unk_2AC = 10000.0f;
             this->targetPosition.x = temp_v0_10->x;
             this->targetPosition.y = temp_v0_10->y + 900.0f;
             this->targetPosition.z = temp_v0_10->z;
             if (this->animationTimers[0] == 0) {
-                this->unk_23C = temp_v1_8 + 1;
+                this->ceilingTargetIndex++;
                 this->animationTimers[0] = 0x19;
-                if (this->unk_23C >= 6) {
-                    this->unk_23C = 0;
+                if (this->ceilingTargetIndex >= 6) {
+                    this->ceilingTargetIndex = 0;
                 }
             }
             func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 2);
@@ -30,5 +29,5 @@ temp_v1_8 = this->unk_23C;
             if (this->animationTimers[2] == 0) {
                 this->actionState = 0;
                 this->animationTimers[0] = 0;
-                this->unk_232 = 0;
+                this->startAttack = 0;
             }

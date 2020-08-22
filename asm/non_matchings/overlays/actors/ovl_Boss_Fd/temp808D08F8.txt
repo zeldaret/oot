@@ -1,0 +1,197 @@
+void func_808D08F8(GlobalContext *globalCtx, BossFd *this) {
+    Gfx *sp158;
+    Mtx *spFC;
+    Vec3f spF0;
+    f32 spE4;
+    s16 spDC;
+    f32 spD4;
+    Vec3f spB0;
+    Vec3f spA4;
+    f32 sp8C;
+    f32 sp88;
+    f32 sp84;
+    u32 sp80;
+    ColliderJntSph *sp7C;
+    Actor *temp_v0_13;
+    ActorContext *temp_s0;
+    Gfx *temp_a0;
+    GraphicsContext *gfxCtx;
+    Vec3f *temp_s0_2;
+    f32 *temp_a0_2;
+    f32 temp_f12;
+    f32 temp_f20;
+    f32 temp_f2_2;
+    s32 temp_s1;
+    s32 temp_v0_16;
+    s16 temp_v0_5;
+    s16 temp_v0_6;
+    s32 temp_v0_8;
+    Mtx *temp_s5;
+    s32 phi_s1;
+    f32 phi_f20;
+    f32 phi_f20_2;
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    temp_s5 = Graph_Alloc(gfxCtx, 0x480);
+    gfxCtx = gfxCtx;
+    Graph_OpenDisps(&sp158, gfxCtx, "../z_boss_fd.c", 0x11ED);
+    if (this->skinSegments != 0) {
+        gfxCtx->polyOpa.p++;
+        polyOpa.p->words.w0 = 0xDB060024;
+        temp_a0 = D_808D1BB8[this->eyeState];
+        gfxCtx->polyOpa.p->words.w1 = ((temp_a0 & 0xFFFFFF) + gSegments[(temp_a0 * 0x10) >> 0x1C]) + 0x80000000;
+    }
+    gfxCtx->polyOpa.p++;
+    gfxCtx->polyOpa.p->words.w0 = 0xDB060020;
+    gfxCtx->polyOpa.p->words.w1 = Gfx_TwoTexScroll(gfxCtx, 0, this->bodyTextureFlow, this->bodyTextureRotation, 0x20, 0x20, 1, this->bodyTextureRipple1, this->bodyTextureRipple2, 0x20, 0x20);
+    gfxCtx->polyOpa.p++;
+    gfxCtx->polyOpa.p->words.w1 = -1;
+    gfxCtx->polyOpa.p->words.w0 = 0xFA000000;
+    gfxCtx->polyOpa.p++;
+    gfxCtx->polyOpa.p->words.w0 = 0xFB000000;
+    gfxCtx->polyOpa.p->words.w1 = ((u8) this->unk_270 & 0xFF) | -0x100;
+    osSyncPrintf("LH\n");
+    Matrix_Push();
+    temp_v0_5 = (D_808D1AC0[2] + this->leadBodySegment) % 0x64 ;
+    Matrix_Translate(this->bodySegmentsPos[temp_v0_5].x, this->bodySegmentsPos[temp_v0_5].y, this->bodySegmentsPos[temp_v0_5].z, 0);
+    Matrix_RotateY(this->bodySegmentsRot[temp_v0_5].y, 1);
+    Matrix_RotateX(-this->bodySegmentsRot[temp_v0_5].x, 1);
+    Matrix_Translate(-13.0f, -5.0f, 13.0f, 1);
+    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
+    SkelAnime_Draw(globalCtx, this->skelAnime2.skeleton, this->skelAnime2.limbDrawTbl, &func_808D00A4, 0, &this->actor);
+    Matrix_Pull();
+    osSyncPrintf("RH\n");
+    Matrix_Push();
+    temp_v0_6 = (D_808D1AC0[2] + this->leadBodySegment) % 0x64;
+    Matrix_Translate(this->bodySegmentsPos[temp_v0_6].x, this->bodySegmentsPos[temp_v0_6].y, this->bodySegmentsPos[temp_v0_6].z, 0);
+    Matrix_RotateY(this->bodySegmentsRot[temp_v0_6].y, 1);
+    Matrix_RotateX(-this->bodySegmentsRot[temp_v0_6].x, 1);
+    Matrix_Translate(13.0f, -5.0f, 13.0f, 1);
+    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
+    SkelAnime_Draw(globalCtx, this->skelAnime3.skeleton, this->skelAnime3.limbDrawTbl, &func_808D01C0, 0, &this->actor);
+    Matrix_Pull();
+    osSyncPrintf("BD\n");
+    gfxCtx->polyOpa.p++;
+    gfxCtx->polyOpa.p->words.w1 = temp_s5;
+    gfxCtx->polyOpa.p->words.w0 = 0xDB060034;
+    Matrix_Push();
+    sp7C = &this->collider1;
+loop_3:
+    for(phi_s1 = 0; phi_s1 < 0x12; phi_s1++,temp_s5++){
+        temp_v0_8 = (D_808D1AC0[phi_s1+1] + this->leadBodySegment) % 0x64;
+        Matrix_Translate(this->bodySegmentsPos[temp_v0_8].x, this->bodySegmentsPos[temp_v0_8].y, this->bodySegmentsPos[temp_v0_8].z, 0);
+        Matrix_RotateY(this->bodySegmentsRot[temp_v0_8].y, 1);
+        Matrix_RotateX(-this->bodySegmentsRot[temp_v0_8].x, 1);
+        Matrix_Translate(0.0f, 0.0f, 35.0f, 1);
+        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
+        if (phi_s1 < this->skinSegments) {
+            sp88 = phi_s1 * 7000.0f;
+            sp8C = Math_Sins((this->leadBodySegment * 5000.0f) + phi_s1 * 7000.0f);
+            temp_f2_2 = this->unk_280;
+            Matrix_Scale((temp_f2_2 * sp8C) + 1.0f, (temp_f2_2 * Math_Sins((this->leadBodySegment * 5000.0f) + phi_s1 * 7000.0f)) + 1.0f, 1.0f, 1);
+            Matrix_RotateY(1.5707964f, 1);
+            gfxCtx->polyOpa.p++;
+            gfxCtx->polyOpa.p->words.w1 = temp_s5;
+            gfxCtx->polyOpa.p->words.w0 = 0xDA380003;
+            gfxCtx->polyOpa.p++8;
+            gfxCtx->polyOpa.p->words.w0 = 0xDE000000;
+            gfxCtx->polyOpa.p->words.w1 = D_808D1BC4[phi_s1];
+        } else {
+            spF0 = D_808D1C0C;
+            if (this->unk13D0[phi_s1] < 2) {
+                spD4 = 0.1f;
+                sp80 = 0x600B2F8;
+                Matrix_Translate(0.0f, 0.0f, -1100.0f, 1);
+                Matrix_RotateY(-3.1415927f, 1);
+                phi_f20 = 0.1f;
+                if (phi_s1 >= 0xE) {
+                    temp_f12 = 1.0f - ((phi_s1 - 0xE) * 0.2f);
+                    sp84 = temp_f12;
+                    Matrix_Scale(temp_f12, temp_f12, 1.0f, 1);
+                    temp_f20 = 0.1f * sp84;
+                    spD4 = temp_f20;
+                    phi_f20 = temp_f20;
+                }
+                Matrix_Scale(0.1f, 0.1f, 0.1f, 1);
+                gfxCtx->polyOpa.p++;
+                gfxCtx->polyOpa.p->words.w0 = 0xDA380003;
+                gfxCtx->polyOpa.p->words.w1 = Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 0x12A0);
+                gfxCtx->polyOpa.p++;
+                gfxCtx->polyOpa.p->words.w0 = 0xDE000000;
+                temp_s0 = &globalCtx->actorCtx;
+                gfxCtx->polyOpa.p->words.w1 = sp80;
+                if (this->unk13D0[phi_s1] == 1) {
+                    this->unk13D0[phi_s1] = 2;
+                    Matrix_MultVec3f(&spF0, &spE4);
+                    Matrix_Get(&spFC);
+                    func_800D20CC(&spFC, &spDC, 0);
+                    temp_v0_13 = Actor_SpawnAttached(temp_s0, this, globalCtx, 0xAD, spE4, spE8, spEC, spDC, spDE, spE0, phi_s1 + 0xC8);
+                    temp_v0_13->scale.x = this->actor.scale.x * phi_f20;
+                    temp_v0_13->scale.y = this->actor.scale.y * spD4;
+                    temp_v0_13->scale.z = this->actor.scale.z * 0.1f;
+                }
+            }
+        }
+        if (phi_s1 > 0) {
+            func_800628A4(phi_s1 + 1, sp7C);
+        }
+    }
+    Matrix_Pull();
+    osSyncPrintf("BH\n");
+    gfxCtx->polyOpa.p++;
+    gfxCtx->polyOpa.p->words.w1 = 0;
+    gfxCtx->polyOpa.p->words.w0 = 0xE7000000;
+    gfxCtx->polyOpa.p++;
+    gfxCtx->polyOpa.p->words.w0 = 0xFB000000;
+    gfxCtx->polyOpa.p->words.w1 = (u8) this->unk_274| -0x100;
+    Matrix_Push();
+    phi_f20_2 = (this->actionState >= 0xCC) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f)
+    temp_v0_16 = D_808D1AC0[this->leadBodySegment] % 0x64;
+    Matrix_Translate(this->bodySegmentsPos[temp_v0_16].x, this->bodySegmentsPos[temp_v0_16].y,this->bodySegmentsPos[temp_v0_16].z, 0);
+    Matrix_RotateY(this->bodySegmentsRot[temp_v0_16].y, 1);
+    Matrix_RotateX(-this->bodySegmentsRot[temp_v0_16].x, 1);
+    Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * 3.1415927f, 1);
+    Matrix_Translate(0.0f, 0.0f, phi_f20_2, 1);
+    Matrix_Push();
+    Matrix_Translate(0.0f, 0.0f, 25.0f, 1);
+    osSyncPrintf("BHC\n");
+    func_800628A4(0, sp7C);
+    Matrix_Pull();
+    osSyncPrintf("BHCE\n");
+    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
+    SkelAnime_Draw(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl, &func_808D07A4, &func_808D08A4, &this->actor);
+    osSyncPrintf("SK\n");
+    spB0 = D_808D1C18;
+    spA4 = D_808D1C24;
+    func_80093D84(gfxCtx);
+    gfxCtx->polyXlu.p++;
+    gfxCtx->polyOpa.p->words.w0 = 0xDE000000;
+    gfxCtx->polyOpa.p->words.w1 = 0x6009168;
+    gfxCtx->polyXlu.p++;
+    gfxCtx->polyXlu.p->words.w0 = 0xFA000000;
+    gfxCtx->polyXlu.p->words.w1 = ( (u8) this->centerManeColor & 0xFF) << 0x10) | 0xFF000000) | 0xFF;
+    Matrix_Push();
+    Matrix_MultVec3f(&spB0, &this->centerManeHead);
+    //temp_s0_2 = this->fireManeRot;
+    func_808D02DC(globalCtx, this, this->centerManePos, this->fireManeRot, this->centerManeScale, 0);
+    Matrix_Pull();
+    gfxCtx->polyXlu.p++;
+    gfxCtx->polyOpa.p->words.w0 = 0xFA000000;
+    gfxCtx->polyOpa.p->words.w1 = ((( (u8) this->rightManeColor & 0xFF) << 0x10) | 0xFF000000) | 0xFF;
+    Matrix_Push();
+    Matrix_MultVec3f(&spA4, &this->rightManeHead);
+    func_808D02DC(globalCtx, this, this->rightManePos, this->fireManeRot, this->rightManeScale, 1);
+    Matrix_Pull();
+    gfxCtx->polyOpa.p++;
+    gfxCtx->polyOpa.p->words.w0 = 0xFA000000;
+    gfxCtx->polyOpa.p->words.w1 = ((((u8) this->leftManeColor & 0xFF) << 0x10) | 0xFF000000) | 0xFF;
+    Matrix_Push();
+    spA4.x *= -1.0f;
+    Matrix_MultVec3f(&spA4, &this->leftManeHead);
+    func_808D02DC(globalCtx, this, this->leftManePos, this->fireManeRot, this->leftManeScale, 2);
+    Matrix_Pull();
+    Matrix_Pull();
+    osSyncPrintf("END\n");
+    Graph_CloseDisps(&sp158, gfxCtx, "../z_boss_fd.c", 0x137B);
+}
+

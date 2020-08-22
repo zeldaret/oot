@@ -1,5 +1,5 @@
 this->actor.flags |= 0x1000000;
-                temp_f4_3 = Math_Sins(this->unk_224 * 2396.0f) * 30.0f;
+                temp_f4_3 = Math_Sins(this->movementTimer * 2396.0f) * 30.0f;
                 this->targetPosition.x = player->actor.posRot.pos.x;
                 this->targetPosition.y = (player->actor.posRot.pos.y + (this->unk_278 + temp_f4_3)) + 30.0f;
                 this->targetPosition.z = player->actor.posRot.pos.z;
@@ -14,7 +14,7 @@ this->actor.flags |= 0x1000000;
                     if (player->actor.posRot.pos.y < 70.0f) {
                         this->actionState = 0;
                         this->animationTimers[0] = 0;
-                        this->unk_232 = 0;
+                        this->startAttack = 0;
                     } else {
                         Math_SmoothScaleMaxF(&this->unk_278, 50.0f, 1.0f, 2.0f);
                     }

@@ -12,9 +12,9 @@ switch (this->introState2) { // switch 1
                     this->introState2 = 2;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
-                    this->unk_1404 = Gameplay_CreateSubCamera(globalCtx);
+                    this->introCameraState = Gameplay_CreateSubCamera(globalCtx);
                     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->unk_1404, 7);
+                    Gameplay_ChangeCameraStatus(globalCtx, this->introCameraState, 7);
                     player->actor.posRot.pos.x = 380.0f;
                     player->actor.posRot.pos.y = 100.0f;
                     player->actor.posRot.pos.z = 0.0f;
@@ -68,7 +68,7 @@ switch (this->introState2) { // switch 1
                         this->animationTimers[0] = 0x32;
                         this->actionState = 3;
                         this->actor.posRot.rot.x = 0x4000;
-                        this->unk_224 = 0;
+                        this->movementTimer = 0;
                         this->animationTimers[3] = 0xFA;
                         this->animationTimers[2] = 0x1D6;
                         this->unk_2A4 = 5.0f;
@@ -93,7 +93,7 @@ switch (this->introState2) { // switch 1
                 }
                 if (this->animationTimers[0] < 0x32) {
                     Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                    this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                     Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
                 }
                 if (this->animationTimers[0] == 0x28) {
@@ -105,12 +105,12 @@ switch (this->introState2) { // switch 1
                     this->unk_1480 = 0.0f;
                     this->unk_1474.y = 0.2f;
                     this->animationTimers[0] = 0x46;
-                    this->unk_224 = 0;
+                    this->movementTimer = 0;
                     this->unk_1484 = 0.02f;
                 }
                 break;
             case 4: // switch 1
-                this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
                 Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (this->animationTimers[0] == 0) {
@@ -130,11 +130,11 @@ switch (this->introState2) { // switch 1
                 break;
             case 5: // switch 1
                 this->unk_1484 = 0.005f;
-                this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
                 Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (this->animationTimers[0] == 0x64) {
-                    this->unk_2D6 = 1;
+                    this->collapsePlatform = 1;
                 }
                 if (this->animationTimers[0] == 0) {
                     this->introState2 = 6;
@@ -163,7 +163,7 @@ switch (this->introState2) { // switch 1
                     this->animationTimers[0] = 0x32;
                     this->actionState = 3;
                     this->actor.posRot.rot.x = 0x4000;
-                    this->unk_224 = 0;
+                    this->movementTimer = 0;
                     this->animationTimers[3] = 0xFA;
                     this->animationTimers[2] = 0x1D6;
                     this->unk_2A4 = 5.0f;
@@ -179,7 +179,7 @@ switch (this->introState2) { // switch 1
                 if (this->animationTimers[3] == 0xBE) {
                     this->unk_1474.z = 0.05f;
                     this->unk_1474.y = 0.05f;
-                    this->unk_2D6 = 2;
+                    this->collapsePlatform = 2;
                     this->unk_1474.x = 0.05f;
                     func_8002DF54(globalCtx, &this->actor, 1);
                 }
@@ -190,7 +190,7 @@ switch (this->introState2) { // switch 1
                     this->unk_1444.z = 25.0f;
                 } else {
                     Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
-                    this->unk_1488 = Math_Coss(this->unk_224 * 0x8000) * this->unk_148C;
+                    this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 }
                 if (this->animationTimers[3] == 0xA0) {
                     Audio_SetBGM(0x6B);
@@ -245,14 +245,14 @@ switch (this->introState2) { // switch 1
                     camera->eye = this->unk_1408;
                     camera->eyeNext = this->unk_1408;
                     camera->at = this->unk_1414;
-                    func_800C08AC(globalCtx, this->unk_1404, 0);
-                    this->unk_1404 = 0;
-                    this->introState1 = this->unk_1404;
-                    this->introState2 = this->unk_1404;
+                    func_800C08AC(globalCtx, this->introCameraState, 0);
+                    this->introCameraState = 0;
+                    this->introState1 = this->introCameraState;
+                    this->introState2 = this->introCameraState;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = &func_808CDE30;
-                    this->attackMode = 0x64;
+                    this->handoffSignal = 0x64;
                     gSaveContext.eventChkInf[7] |= 8;
                 }
         }

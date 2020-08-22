@@ -24,12 +24,6 @@ typedef struct {
     /* 0x38 */ f32 unk_38;
 } BossFdParticle; // size = 0x3C
 
-// typedef struct {
-    // /* 0x000 */ Vec3f pos[30];
-    // /* 0x168 */ f32 scale[30];
-    // /* 0x1E0 */ Vec3f head;
-// } BossFdFireMane; //size = 0x1EC
-
 typedef struct BossFd {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime1;
@@ -39,26 +33,26 @@ typedef struct BossFd {
     /* 0x021C */ s16 fireBreathTimer;
     /* 0x021E */ s16 skinSegments;
     /* 0x0220 */ u8 fogMode;
-    /* 0x0221 */ u8 unk_221;
+    /* 0x0221 */ u8 unk_221;  //Possibly unused
     /* 0x0222 */ s16 actionState;
-    /* 0x0224 */ s16 unk_224;
+    /* 0x0224 */ s16 movementTimer;
     /* 0x0226 */ s16 varianceTimer;
     /* 0x0228 */ s16 leadBodySegment;
     /* 0x022A */ s16 leadManeSegment;
-    /* 0x022C */ s16 unk_22C;
+    /* 0x022C */ s16 blinkTimer;
     /* 0x022E */ s16 roarTimer;
     /* 0x0230 */ s16 damageFlashTimer;
-    /* 0x0232 */ s16 unk_232;
-    /* 0x0234 */ s16 unk_234;
+    /* 0x0232 */ s16 startAttack;
+    /* 0x0234 */ s16 unk_234; //Not sure what uses these. They just get set to 0.
     /* 0x0236 */ s16 unk_236;
     /* 0x0238 */ s16 maneEmbersTimer;
     /* 0x023A */ s16 rockTimer;
-    /* 0x023C */ s16 unk_23C;
+    /* 0x023C */ s16 ceilingTargetIndex;
     /* 0x023E */ s16 invincibilityTimer;
     /* 0x0240 */ s16 holeSplashTimer;
-    /* 0x0242 */ s16 unk_242;
-    /* 0x0244 */ s16 unk_244;
-    /* 0x0246 */ s16 unk_246;
+    /* 0x0242 */ s16 deathCameraShakeTimer;
+    /* 0x0244 */ s16 stopFlag;
+    /* 0x0246 */ s16 flightCount;
     /* 0x0248 */ s16 animationTimers[6]; //Change name to just "timers"
     /* 0x0254 */ f32 bodyTextureFlow;
     /* 0x0258 */ f32 bodyTextureRotation;
@@ -85,12 +79,12 @@ typedef struct BossFd {
     /* 0x02BC */ Vec3f targetPosition;
     /* 0x02C8 */ Vec3f holePosition;
     /* 0x02D4 */ u8 holeIndex;
-    /* 0x02D5 */ s8 unk_2D5;
-    /* 0x02D6 */ u8 unk_2D6;
-    /* 0x02D7 */ u8 unk_2D7;
-    /* 0x02D8 */ u8 attackMode;
+    /* 0x02D5 */ u8 eyeState;
+    /* 0x02D6 */ u8 collapsePlatform;
+    /* 0x02D7 */ u8 faceGlow;
+    /* 0x02D8 */ u8 handoffSignal;
     /* 0x02D9 */ u8 unk_2D9;
-    /* 0x02DA */ u8 unk_2DA;
+    /* 0x02DA */ u8 unk_2DA; // Possibly padding
     /* 0x02DB */ u8 unk_2DB;
     /* 0x02DC */ Vec3f bodySegmentsRot[100];
     /* 0x078C */ Vec3f bodySegmentsPos[100];
@@ -114,16 +108,16 @@ typedef struct BossFd {
     /* 0x13F4 */ Vec3f fireBreathSpawnPoint;
     /* 0x1400 */ s16 introState1;
     /* 0x1402 */ s16 introState2;
-    /* 0x1404 */ s16 unk_1404;
+    /* 0x1404 */ s16 introCameraState;
     /* 0x1406 */ char unk_1406[2];
     /* 0x1408 */ Vec3f unk_1408;
     /* 0x1414 */ Vec3f unk_1414;
     /* 0x1420 */ char unk_1420[0x18];
-    /* 0x1438 */ Vec3f unk_1438;
+    /* 0x1438 */ Vec3f unk_1438;            //This is all related to the intro cutscene
     /* 0x1444 */ Vec3f unk_1444;
     /* 0x1450 */ Vec3f unk_1450;
     /* 0x145C */ Vec3f unk_145C;
-    /* 0x1468 */ Vec3f unk_1468;
+    /* 0x1468 */ Vec3f unk_1468; 
     /* 0x1474 */ Vec3f unk_1474;
     /* 0x1480 */ f32 unk_1480;
     /* 0x1484 */ f32 unk_1484;
