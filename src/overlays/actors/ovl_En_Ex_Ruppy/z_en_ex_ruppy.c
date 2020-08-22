@@ -305,8 +305,13 @@ void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     Vec3f zeroVector = { 0.0f, 0.0f, 0.0f };
     s16 explosionScale;
     s16 explosionScaleStep;
+<<<<<<< HEAD
+=======
+    
+    point1Vec = sPoint1Vec;
+    zeroVector = sZeroVector;
+>>>>>>> 450fb631e879b5493dea4eb135639b6234e99823
     distToBlowUp = 50.0f;
-
     if (this->unk_152 == 2) {
         distToBlowUp = 30.0f;
     }
@@ -354,6 +359,7 @@ void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx) {
 
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnExRuppy* this = THIS;
+    
     thisx->shape.rot.y += 1960;
     this->actionFunc(this, globalCtx);
     if (this->timer != 0) {
