@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_ydan_maruta.c
+ * Overlay: ovl_Bg_Ydan_Maruta
+ * Description: Rotating spike log in Deku Tree
+ */
+
 #include "z_bg_ydan_maruta.h"
 
 #define FLAGS 0x00000000
@@ -65,7 +71,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, D_808BF388);
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, &this->items);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &D_808BF378, &this->items);
     this->unk_168 = thisx->params;
     thisx->params = ((thisx->params >> 8) & 0xFF) & 0xFF;
     items = &D_808BF300[1];
@@ -77,7 +83,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         DynaPolyInfo_Alloc(&D_060066A8, &localConst);
         this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
         thisx->initPosRot.pos.y += -280.0f;
-        if (Flags_GetSwitch(globalCtx, this->unk_168) != 0) {
+        if (Flags_GetSwitch(globalCtx, this->unk_168)) {
             thisx->posRot.pos.y = thisx->initPosRot.pos.y;
             this->actionFunc = BgYdanMaruta_DoNothing;
         } else {
