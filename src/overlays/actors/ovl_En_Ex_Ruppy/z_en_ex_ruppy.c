@@ -20,17 +20,13 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AEE0(EnExRuppy* this, GlobalContext* globalCtx);
 
-s16 D_80A0B320[] = { ITEM00_RUPEE_GREEN,
-                     ITEM00_RUPEE_BLUE,
-                     ITEM00_RUPEE_RED,
-                     ITEM00_RUPEE_ORANGE,
-                     ITEM00_RUPEE_PURPLE,
-                     ITEM00_RUPEE_GREEN,
-                     ITEM00_RUPEE_BLUE,
-                     ITEM00_ARROWS_SINGLE,
-                     ITEM00_RUPEE_PURPLE,
-                     0x01F4,
-                     0x0032 };
+s16 Rupee_ID_Table[] = {
+    ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
+};
+
+s16 D_80A0B32B[] = {
+    0x0001, 0x0005, 0x0014, 0x01F4, 0x0032,
+};
 
 const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
@@ -338,7 +334,7 @@ void EnExRuppy_Collect(EnExRuppy* this, GlobalContext* globalCtx) {
     f32 localConst = 30.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
         func_80078884(NA_SE_SY_GET_RUPY);
-        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (D_80A0B320[this->unk_150] | 0x8000));
+        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (Rupee_ID_Table[this->unk_150] | 0x8000));
         Actor_Kill(&this->actor);
     }
 }
@@ -353,7 +349,7 @@ void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx) {
 
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnExRuppy* this = THIS;
-    
+
     thisx->shape.rot.y += 1960;
     this->actionFunc(this, globalCtx);
     if (this->timer != 0) {
