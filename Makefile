@@ -1,4 +1,4 @@
-.SUFFIXES:
+MAKEFLAGS += --no-builtin-rules
 
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
@@ -109,8 +109,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 #					 $(foreach f,$(TEXTURE_FILES_CI8:.ci8.png=.ci8),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom)
-$(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),$(shell mkdir -p build/$(dir)))
+$(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
