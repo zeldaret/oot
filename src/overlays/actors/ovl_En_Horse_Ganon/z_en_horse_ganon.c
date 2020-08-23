@@ -10,19 +10,19 @@
 
 #define THIS ((EnHorseGanon*)thisx)
 
+typedef struct {
+    /* 0x0 */ Vec3s unk_0;
+    /* 0x6 */ u8 unk_6;
+} unk_D_80A69248; // size = 0x8
+
 void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A68660(unk_D_80A69248* data, s32 index, Vec3f* vec);
-void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx);
-void func_80A68870(EnHorseGanon* this);
 void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx);
-void func_80A68B20(EnHorseGanon* this);
 void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
-void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx);
 
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
@@ -36,9 +36,7 @@ const ActorInit En_Horse_Ganon_InitVars = {
     (ActorFunc)EnHorseGanon_Draw,
 };
 
-AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4 };
-
-AnimationHeader* D_80A691C0[] = { 0x06002650, 0x06003858 };
+static AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4, 0x06002650, 0x06003858 };
 
 static f32 sAnimPlaybackSpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
@@ -68,23 +66,21 @@ static CollisionCheckInfoInit sColChkInfoInit = {
     0xFE,
 };
 
-unk_D_80A69248 D_80A69248[] = { { 0x09B8, 0x0126, 0x0E2C, 0x07 }, { 0x0C11, 0x017A, 0x1269, 0x07 },
-                                { 0x064E, 0xFEFB, 0x1DAC, 0x07 }, { 0x02F2, 0xFF45, 0x244F, 0x07 },
-                                { 0xF96E, 0xFE0C, 0x3122, 0x07 }, { 0xF328, 0xFE0C, 0x32D5, 0x07 },
-                                { 0xEBEA, 0xFE5F, 0x2D6E, 0x07 }, { 0xE95E, 0xFE27, 0x2565, 0x07 },
-                                { 0xE593, 0xFE0C, 0x20AC, 0x07 }, { 0xE625, 0xFE77, 0x1B07, 0x07 },
-                                { 0xEBB7, 0x007C, 0x1539, 0x07 }, { 0xF466, 0x0002, 0x11B9, 0x07 },
-                                { 0xF47B, 0xFFDD, 0x11AF, 0x07 }, { 0xF88D, 0xFFD1, 0x0BA2, 0x07 } };
+static unk_D_80A69248 D_80A69248[] = {
+    { 0x09B8, 0x0126, 0x0E2C, 0x07 }, { 0x0C11, 0x017A, 0x1269, 0x07 }, { 0x064E, 0xFEFB, 0x1DAC, 0x07 },
+    { 0x02F2, 0xFF45, 0x244F, 0x07 }, { 0xF96E, 0xFE0C, 0x3122, 0x07 }, { 0xF328, 0xFE0C, 0x32D5, 0x07 },
+    { 0xEBEA, 0xFE5F, 0x2D6E, 0x07 }, { 0xE95E, 0xFE27, 0x2565, 0x07 }, { 0xE593, 0xFE0C, 0x20AC, 0x07 },
+    { 0xE625, 0xFE77, 0x1B07, 0x07 }, { 0xEBB7, 0x007C, 0x1539, 0x07 }, { 0xF466, 0x0002, 0x11B9, 0x07 },
+    { 0xF47B, 0xFFDD, 0x11AF, 0x07 }, { 0xF88D, 0xFFD1, 0x0BA2, 0x07 },
+};
 
-s32 D_80A692B8[] = { 0, 0x00000010 };
+static s32 D_80A692B8[] = { 0, 16 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
 };
 
-static EnHorseGanonActionFunc sActionFuncs[] = { func_80A68AF0, func_80A68DB0, NULL };
-
-const f32 D_80A692D0 = 10430.3779f;
+static EnHorseGanonActionFunc sActionFuncs[] = { func_80A68AF0, func_80A68DB0 };
 
 extern SkeletonHeader D_06008668;
 extern AnimationHeader D_06004AA4;
@@ -133,24 +129,18 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc mismatch
 void func_80A68870(EnHorseGanon* this) {
-    if (this->skin.skelAnime.animCurrentFrame > D_80A692B8[this->soundCount]) {
-        if (D_80A692B8[this->soundCount] != 0 || !(this->skin.skelAnime.animCurrentFrame > D_80A692B8[1])) {
-            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+    if ((this->skin.skelAnime.animCurrentFrame > D_80A692B8[this->soundCount]) &&
+        (this->soundCount != 0 || !(this->skin.skelAnime.animCurrentFrame > D_80A692B8[1]))) {
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
 
-            this->soundCount++;
-            if (this->soundCount >= 2) {
-                this->soundCount = 0;
-            }
+        this->soundCount++;
+        if (this->soundCount >= 2) {
+            this->soundCount = 0;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68870.s")
-#endif
 
 void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGanon* this = THIS;
@@ -188,7 +178,7 @@ void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A68AC4(EnHorseGanon* this) {
     this->action = 0;
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skin.skelAnime, D_80A691C0[0]);
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skin.skelAnime, D_80A691B0[4]);
 }
 
 void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx) {
@@ -268,7 +258,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     temp_ret = func_8003C940(&globalCtx->colCtx, &col, &temp1, &v);
 
     this->unk_1F4 = temp_ret;
-    this->actor.shape.rot.x = D_80A692D0 * Math_atan2f(this->actor.posRot.pos.y - temp_ret, 30.0f);
+    this->actor.shape.rot.x = 10430.3779f * Math_atan2f(this->actor.posRot.pos.y - temp_ret, 30.0f);
 }
 
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
