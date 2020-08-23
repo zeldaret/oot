@@ -140,7 +140,7 @@ void Lights_UpdateDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
 }
 
 void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
-    CollectionUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
+    LightsUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
     LightInfo* info;
 
     while (head != NULL) {
@@ -311,6 +311,7 @@ void Lights_GlowDrawCheck(GlobalContext* globalCtx) {
 
     while (node != NULL) {
         params = &node->info->params.point;
+
         if (node->info->type == LIGHT_POINT_GLOW) {
             pos.x = params->x;
             pos.y = params->y;
@@ -360,6 +361,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
 
         info = node->info;
         params = &info->params.point;
+
         if ((info->type == LIGHT_POINT_GLOW) && (params->drawGlow)) {
             scale = SQ(params->radius) * 0.0000026f;
 
@@ -370,6 +372,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(gfxCtx->polyXlu.p++, D_04015760);
         }
+        
         node = node->next;
     }
 

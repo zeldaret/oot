@@ -59,6 +59,6 @@ typedef enum {
     /* 0x02 */ LIGHT_POINT_GLOW
 } LightTypes;
 
-typedef void (*CollectionUpdateFunc)(Lights*, LightParams* params, Vec3f* vec);
+typedef void (*LightsUpdateFunc)(Lights*, LightParams* params, Vec3f* vec);
 
 #endif
