@@ -1,4 +1,5 @@
 #include "z_demo_ec.h"
+#include "vt.h" //Verify that this is the right way
 
 #define FLAGS 0x00000010
 
@@ -232,35 +233,75 @@ const ActorInit Demo_Ec_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/DemoEc_Destroy.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/DemoEc_Init.s")
-
-void DemoEc_Init(Actor *thisx, GlobalContext *globalCtx) {
+void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoEc* this = THIS;
 
     if (( thisx->params < 0) || (thisx->params >= 0x23)) {
-        osSyncPrintf((const char *) "\x1b[31mDemo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n\x1b[m", thisx);
+        osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST, thisx);
         Actor_Kill(thisx);
-        return;
+    } else {
+        this->unk_194 = 0;
+        this->unk_198 = 0;
+    }
+}
+
+void func_8096D52C(DemoEc* this) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D54C.s")
+void func_8096D54C(DemoEc* this, GlobalContext* globalCtx) {
+    func_8002E4B4(globalCtx, &this->actor, 30.0f, 25.0f, 30.0f, 7);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D594.s")
+void func_8096D594(DemoEc *this, GlobalContext *globalCtx) {
+    this->skelAnime.flags = (this->skelAnime.flags | 3);
+    SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D5D4.s")
+void func_8096D5D4(DemoEc *this, GlobalContext *globalCtx) {
+    this->skelAnime.unk_3E = this->skelAnime.limbDrawTbl[0];
+    this->skelAnime.prevFramePos = this->skelAnime.limbDrawTbl[0];
+    this->skelAnime.flags = (this->skelAnime.flags | 3);
+    SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D64C.s")
+void func_8096D64C(DemoEc *this, GlobalContext *globalCtx) {
+    this->skelAnime.flags = (this->skelAnime.flags | 3);
+    SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D68C.s")
+void func_8096D68C(DemoEc *this, GlobalContext *globalCtx) {
+    s16 temp_v1;
+    s16 temp_v0;
+    s16 phi_v0;
+    s16 phi_v1;
+
+    phi_v1 = Math_Rand_S16Offset((u16)0x3C, (u16)0x3C);
+    temp_v0 = this->unk_190;
+    temp_v1 = this->unk_192;
+    if (this->unk_192 == 0) {
+        phi_v0 = 0;
+        phi_v1 = &this->unk_192;
+    } else {
+        temp_v1 = temp_v1 - 1;
+        phi_v0 = temp_v1;
+        phi_v1 = temp_v1;
+    }
+    if (phi_v0 == 0) {
+
     }
 
-    this->unk_194 = 0;
-    this->unk_198 = 0;
+    if (temp_v0 >= 3) {
+        temp_v0 = (u16)0;
+    }
 }
 
 
-
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D52C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D54C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D594.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D5D4.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D64C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D68C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D714.s")
 
