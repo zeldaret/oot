@@ -624,7 +624,7 @@ typedef struct {
     /* 0x0004 */ s16 yaw;
     /* 0x0006 */ s16 pitch;
     /* 0x0008 */ s16 animTimer;
-} Subj3_Anim; // size = 0xA
+} Subj3Anim; // size = 0xA
 
 typedef struct {
     /* 0x0000 */ f32 eyeNextYOffset;
@@ -634,7 +634,7 @@ typedef struct {
     /* 0x0010 */ Vec3f atOffset;
     /* 0x001C */ f32 fovTarget;
     /* 0x0020 */ s16 interfaceFlags;
-    /* 0x0024 */ Subj3_Anim anim;
+    /* 0x0024 */ Subj3Anim anim;
 } Subj3; // size = 0x2E
 
 typedef struct {
@@ -944,7 +944,11 @@ typedef union {
 } CameraParams;
 
 typedef struct {
+    // temporary union as I convert to a char buffer.
+    union {
     /* 0x0000 */ CameraParams params;
+    char paramData[0x50];
+    };
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
     /* 0x0068 */ Vec3f up;
