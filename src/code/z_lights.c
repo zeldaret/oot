@@ -283,16 +283,19 @@ LightCollection* Lights_AllocAndSetCollection(GraphicsContext* gfxCtx, u8 r, u8 
 }
 
 // Lights_GlowCheck
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
-/*
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_8007A9B4.s")
+
 void func_8007A9B4(GlobalContext* globalCtx) {
     Vec3f pos;      // sp9C
     Vec3f multDest; // sp88
     f32 wDest;      // sp84
-    f32 wY;
-    f32 wX;
+    s32 wX;
+    s32 wY;
+    s32 wZ;
     LightNode* node;
     LightInfo* info;
+    LightPoint* params;
+    s32 zBuf;
 
     node = globalCtx->lightCtx.head;
 
@@ -300,23 +303,27 @@ void func_8007A9B4(GlobalContext* globalCtx) {
         info = node->info;
 
         if (info->type == LIGHT_POINT_GLOW) {
-            pos.x = info->params.point.x;
-            pos.y = info->params.point.y;
-            pos.z = info->params.point.z;
+            params = &info->params.point;
+            pos.x = params->x;
+            pos.y = params->y;
+            pos.z = params->z;
             func_8002BE04(globalCtx, &pos, &multDest, &wDest);
-            info->params.point.drawGlow = false;
-
-            if (multDest.y > 1.0f) {
-                wX = multDest.x * wDest;
-
+            params->drawGlow = false;
+            wX = multDest.x * wDest;
+            wY = multDest.y * wDest;
+            wZ = multDest.z * wDest; 
+            if (multDest.z > 1.0f) {
+                
+                
                 if (fabsf(wX) < 1.0f) {
-                    wY = multDest.y * wDest;
+                 
+                  
 
                     if (fabsf(wY) < 1.0f) {
-                        if ((((multDest.y * wDest) * 16352) + 16352) <
-                            (func_8006F0A0(wY, wDest,
-                                           gZBuffer[(s32)((wY * -240) + 240)][(s32)((wX * 320) + 320)] * 4 >> 3))) {
-                            info->params.point.drawGlow = true;
+                        
+                        zBuf = gZBuffer[(s32) ((wY * -120.0f) + 120.0f)] [(s32) ((wX * 160.0f) + 160.0f)] * 4;
+                        if ((s32)(wZ ) < (func_8006F0A0(zBuf) >> 3)) {
+                            params->drawGlow = true;
                         }
                     }
                 }
@@ -325,7 +332,7 @@ void func_8007A9B4(GlobalContext* globalCtx) {
         node = node->next;
     }
 }
-*/
+
 
 void Lights_DrawGlow(GlobalContext* globalCtx) {
     s32 pad;
