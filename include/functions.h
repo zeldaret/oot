@@ -273,7 +273,7 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 // ? func_8002A3C4(?);
 // ? func_8002A484(?);
 // ? func_8002A4D4(?);
-// ? func_8002A5F4(?);
+void EffectSsExtra_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx);
 void func_8002A65C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 arg3, s16 arg4);
 void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, u32 arg4, s32 arg5, u32 arg6,
                    u32 arg7, u32 arg8, u32 arg9, u32 arg10, u32 arg11, u32 arg12, u32 arg13, u32 arg14, u32 arg15);
