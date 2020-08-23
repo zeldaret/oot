@@ -115,6 +115,7 @@ static void parse_input_file(const char *filename)
     struct Elf32_Symbol *syms;
     const void *data;
     size_t size;
+    int numRomSymbols;
     int i;
 
     data = util_read_whole_file(filename, &size);
@@ -122,14 +123,18 @@ static void parse_input_file(const char *filename)
     if (!elf32_init(&elf, data, size) || elf.machine != ELF_MACHINE_MIPS)
         util_fatal_error("%s is not a valid 32-bit MIPS ELF file", filename);
 
-    // sort symbols for fast access
+    // sort all symbols that contain the substring "Rom" for fast access
+    // (sorting all symbols costs 0.1s, might as well avoid that)
     syms = malloc(elf.numsymbols * sizeof(struct Elf32_Symbol));
+    numRomSymbols = 0;
     for (i = 0; i < elf.numsymbols; i++)
     {
-        if (!elf32_get_symbol(&elf, &syms[i], i))
+        if (!elf32_get_symbol(&elf, &syms[numRomSymbols], i))
             util_fatal_error("invalid or corrupt ELF file");
+        if (strstr(syms[numRomSymbols].name, "Rom"))
+            numRomSymbols++;
     }
-    qsort(syms, elf.numsymbols, sizeof(struct Elf32_Symbol), cmp_symbol_by_name);
+    qsort(syms, numRomSymbols, sizeof(struct Elf32_Symbol), cmp_symbol_by_name);
 
     // get ROM segments
     // sections of type SHT_PROGBITS and  whose name is ..secname are considered ROM segments
@@ -147,13 +152,13 @@ static void parse_input_file(const char *filename)
         {
             segment = add_rom_segment(sec.name + 2);
             segment->data = elf.data + sec.offset;
-            segment->romStart = find_rom_address(syms, elf.numsymbols, segment->name, "Start");
-            segment->romEnd = find_rom_address(syms, elf.numsymbols, segment->name, "End");
+            segment->romStart = find_rom_address(syms, numRomSymbols, segment->name, "Start");
+            segment->romEnd = find_rom_address(syms, numRomSymbols, segment->name, "End");
         }
             
     }
 
-    g_romSize = find_symbol_value(syms, elf.numsymbols, "_RomSize");
+    g_romSize = find_symbol_value(syms, numRomSymbols, "_RomSize");
 
     free(syms);
 }
