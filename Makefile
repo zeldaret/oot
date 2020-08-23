@@ -1,4 +1,4 @@
-.SUFFIXES:
+MAKEFLAGS += --no-builtin-rules
 
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
