@@ -297,6 +297,9 @@ D_060143A8 = 0x060143A8;
 // z_bg_spot17_funen
 D_06000B40 = 0x06000B40;
 
+// z_bg_spot17_bakudankabe
+D_06000A38 = 0x06000A38;
+
 // z_bg_spot00_break
 D_06000908 = 0x06000908;
 D_06000AF0 = 0x06000AF0;
