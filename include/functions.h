@@ -288,10 +288,10 @@ void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
 void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
 void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3);
-void ActorShadow_DrawFunc_Circle(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx);
-void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx);
-void ActorShadow_DrawFunc_Squiggly(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx);
-void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx);
+void ActorShadow_DrawFunc_Circle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void ActorShadow_DrawFunc_Squiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void ActorShadow_DrawFunc_Teardrop(Actor* actor, Lights* lights, GlobalContext* globalCtx);
 void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, UNK_PTR arg5);
 void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx);
 s32 Flags_GetSwitch(GlobalContext* globalCtx, s32 flag);
@@ -975,27 +975,28 @@ void Health_InitData(GlobalContext* globalCtx);
 void Health_UpdateData(GlobalContext* globalCtx);
 void Health_Draw(GlobalContext* globalCtx);
 void Health_HandleCriticalAlarm(GlobalContext* globalCtx);
-void Lights_PointSetData(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
+void Lights_PointSetInfo(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
                                 s16 radius, u32 type);
-void Lights_PointNoGlowSetData(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
+void Lights_PointNoGlowSetInfo(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
                                      s16 radius);
-void Lights_PointGlowSetData(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
+void Lights_PointGlowSetInfo(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 red, u8 green, u8 blue,
                                      s16 radius);
 void Lights_PointSetColorAndRadius(LightInfo* info, u8 red, u8 green, u8 blue, s16 radius);
-void Lights_DirectionalSetData(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue);
-void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg);
+void Lights_DirectionalSetInfo(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue);
+void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b);
+void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg);
 LightNode* Lights_FindBufSlot();
-s32 Lights_FreeNode(LightNode* light);
 void Lights_InitContext(GlobalContext* globalCtx, LightContext* lightCtx);
 void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5);
 void Lights_SetAmbientColor(LightContext* lightCtx, u8 red, u8 green, u8 blue);
-LightCollection* Lights_NewCollection(LightContext* lightCtx, GraphicsContext* gfxCtx);
+Lights* Lights_New(LightContext* lightCtx, GraphicsContext* gfxCtx);
 void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx);
-void Lights_ClearBuf(GlobalContext* globalCtx, LightContext* lightCtx);
 LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info);
-void Lights_Free(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
-LightCollection* Lights_AllocAndSetCollection(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue);
-void func_8007A9B4(GlobalContext* globalCtx);
+void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
+Lights* func_8007A824(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g, u8 b,
+                      s8 x, s8 y, s8 z);
+Lights* Lights_AllocAndInit(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
+void Lights_GlowDrawCheck(GlobalContext* globalCtx);
 void Lights_DrawGlow(GlobalContext* globalCtx);
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* ZeldaArena_Malloc(u32 size);

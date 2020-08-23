@@ -8,7 +8,7 @@ glabel D_8013C8B0
     .balign 4
 
 .text
-glabel func_80079EFC
+glabel Lights_Draw
 /* AF109C 80079EFC 27BDFF98 */  addiu $sp, $sp, -0x68
 /* AF10A0 80079F00 AFB10018 */  sw    $s1, 0x18($sp)
 /* AF10A4 80079F04 00808825 */  move  $s1, $a0

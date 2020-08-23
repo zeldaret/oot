@@ -88,7 +88,7 @@ glabel func_80B8D110
 /* 00204 80B8D254 922A001E */  lbu     $t2, 0x001E($s1)           ## 0000001E
 /* 00208 80B8D258 AFAA0018 */  sw      $t2, 0x0018($sp)           
 /* 0020C 80B8D25C 860B0298 */  lh      $t3, 0x0298($s0)           ## 00000298
-/* 00210 80B8D260 0C01E763 */  jal     Lights_PointNoGlowSetData
+/* 00210 80B8D260 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 00214 80B8D264 AFAB001C */  sw      $t3, 0x001C($sp)           
 /* 00218 80B8D268 1000000D */  beq     $zero, $zero, .L80B8D2A0   

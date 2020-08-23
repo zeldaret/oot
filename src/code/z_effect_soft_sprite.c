@@ -295,12 +295,12 @@ void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
 
 // original name: "EffectSoftSprite2_disp"
 void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    LightCollection* lightCollection;
+    Lights* lights;
     s32 i;
 
-    lightCollection = Lights_NewCollection(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
-    Lights_UpdateCollection(lightCollection, globalCtx->lightCtx.head, NULL);
-    func_80079EFC(lightCollection, globalCtx->state.gfxCtx);
+    lights = Lights_New(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
+    Lights_Update(lights, globalCtx->lightCtx.head, NULL);
+    Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {
         if (sEffectSsInfo.table[i].life > -1) {

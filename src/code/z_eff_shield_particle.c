@@ -66,7 +66,7 @@ void EffectShieldParticle_Destroy(void* thisx) {
         if (this->lightNode == Effect_GetGlobalCtx()->lightCtx.head) {
             Effect_GetGlobalCtx()->lightCtx.head = this->lightNode->next;
         }
-        Lights_Free(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, this->lightNode);
+        Lights_Remove(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, this->lightNode);
     }
 }
 

@@ -9,7 +9,7 @@ typedef struct {
 
 LightsBuffer sLightsBuffer;
 
-void Lights_PointSetData(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, u32 type) {
+void Lights_PointSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, u32 type) {
     info->type = type;
     info->params.point.x = x;
     info->params.point.y = y;
@@ -17,12 +17,12 @@ void Lights_PointSetData(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b,
     Lights_PointSetColorAndRadius(info, r, g, b, radius);
 }
 
-void Lights_PointNoGlowSetData(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
-    Lights_PointSetData(info, x, y, z, r, g, b, radius, LIGHT_POINT_NOGLOW);
+void Lights_PointNoGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
+    Lights_PointSetInfo(info, x, y, z, r, g, b, radius, LIGHT_POINT_NOGLOW);
 }
 
-void Lights_PointGlowSetData(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
-    Lights_PointSetData(info, x, y, z, r, g, b, radius, LIGHT_POINT_GLOW);
+void Lights_PointGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius) {
+    Lights_PointSetInfo(info, x, y, z, r, g, b, radius, LIGHT_POINT_GLOW);
 }
 
 void Lights_PointSetColorAndRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius) {
@@ -32,7 +32,7 @@ void Lights_PointSetColorAndRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius
     info->params.point.radius = radius;
 }
 
-void Lights_DirectionalSetData(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b) {
+void Lights_DirectionalSetInfo(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b) {
     info->type = LIGHT_DIRECTIONAL;
     info->params.dir.x = x;
     info->params.dir.y = y;
@@ -43,19 +43,17 @@ void Lights_DirectionalSetData(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8
 }
 
 // unused
-void Lights_ResetCollection(LightCollection* collection, u8 r, u8 g, u8 b) {
-    collection->lights.a.l.col[0] = collection->lights.a.l.colc[0] = r;
-    collection->lights.a.l.col[1] = collection->lights.a.l.colc[1] = g;
-    collection->lights.a.l.col[2] = collection->lights.a.l.colc[2] = b;
-    collection->numLights = 0;
+void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b) {
+    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = r;
+    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = g;
+    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = b;
+    lights->numLights = 0;
 }
 
 #ifdef NON_MATCHING
-// Lights_DrawCollection
-//
 // issues with incrementing in the loop
 // adding +1 to both i's outside of the loop helps immensely, but then its not equivalent anymore
-void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg) {
+void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg) {
     Light* light;
     s32 i;
     GraphicsContext* gfxCtx;
@@ -64,33 +62,33 @@ void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg) {
     gfxCtx = gfxCtxArg;
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_lights.c", 339);
 
-    gSPNumLights(gfxCtx->polyOpa.p++, collection->numLights);
-    gSPNumLights(gfxCtx->polyXlu.p++, collection->numLights);
+    gSPNumLights(gfxCtx->polyOpa.p++, lights->numLights);
+    gSPNumLights(gfxCtx->polyXlu.p++, lights->numLights);
 
-    for (i = 0; i < collection->numLights; i++) {
-        light = &collection->lights.l[i];
+    for (i = 0; i < lights->numLights; i++) {
+        light = &lights->l.l[i];
         gSPLight(gfxCtx->polyOpa.p++, light, i + 1);
         gSPLight(gfxCtx->polyXlu.p++, light, i + 1);
     }
 
-    gSPLight(gfxCtx->polyOpa.p++, &collection->lights.a, i);
-    gSPLight(gfxCtx->polyXlu.p++, &collection->lights.a, i);
+    gSPLight(gfxCtx->polyOpa.p++, &lights->l.a, i);
+    gSPLight(gfxCtx->polyXlu.p++, &lights->l.a, i);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_lights.c", 352);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/func_80079EFC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/Lights_Draw.s")
 #endif
 
-Light* Lights_CollectionFindSlot(LightCollection* collection) {
-    if (collection->numLights >= 7) {
+Light* Lights_FindSlot(Lights* lights) {
+    if (lights->numLights >= 7) {
         return NULL;
     } else {
-        return &collection->lights.l[collection->numLights++];
+        return &lights->l.l[lights->numLights++];
     }
 }
 
-void Lights_UpdatePoint(LightCollection* collection, LightParams* params, Vec3f* vec) {
+void Lights_UpdatePoint(Lights* lights, LightParams* params, Vec3f* vec) {
     f32 xDiff;
     f32 yDiff;
     f32 zDiff;
@@ -106,7 +104,7 @@ void Lights_UpdatePoint(LightCollection* collection, LightParams* params, Vec3f*
         posDiff = SQ(xDiff) + SQ(yDiff) + SQ(zDiff);
 
         if (posDiff < SQ(scale)) {
-            light = Lights_CollectionFindSlot(collection);
+            light = Lights_FindSlot(lights);
 
             if (light != NULL) {
                 posDiff = sqrtf(posDiff);
@@ -128,8 +126,8 @@ void Lights_UpdatePoint(LightCollection* collection, LightParams* params, Vec3f*
     }
 }
 
-void Lights_UpdateDirectional(LightCollection* collection, LightParams* params, Vec3f* vec) {
-    Light* light = Lights_CollectionFindSlot(collection);
+void Lights_UpdateDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
+    Light* light = Lights_FindSlot(lights);
 
     if (light != NULL) {
         light->l.col[0] = light->l.colc[0] = params->dir.color[0];
@@ -141,13 +139,13 @@ void Lights_UpdateDirectional(LightCollection* collection, LightParams* params, 
     }
 }
 
-void Lights_UpdateCollection(LightCollection* collection, LightNode* head, Vec3f* vec) {
+void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
     CollectionUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
     LightInfo* info;
 
     while (head != NULL) {
         info = head->info;
-        updateFuncs[info->type](collection, &info->params, vec);
+        updateFuncs[info->type](lights, &info->params, vec);
         head = head->next;
     }
 }
@@ -207,8 +205,8 @@ void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 numLig
     lightCtx->unk_0C = arg5;
 }
 
-LightCollection* Lights_NewCollection(LightContext* lightCtx, GraphicsContext* gfxCtx) {
-    return Lights_AllocAndSetCollection(gfxCtx, lightCtx->ambient.r, lightCtx->ambient.g, lightCtx->ambient.b);
+Lights* Lights_New(LightContext* lightCtx, GraphicsContext* gfxCtx) {
+    return Lights_AllocAndInit(gfxCtx, lightCtx->ambient.r, lightCtx->ambient.g, lightCtx->ambient.b);
 }
 
 void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx) {
@@ -217,7 +215,7 @@ void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx) {
 
 void Lights_ClearBuf(GlobalContext* globalCtx, LightContext* lightCtx) {
     while (lightCtx->head != NULL) {
-        Lights_Free(globalCtx, lightCtx, lightCtx->head);
+        Lights_Remove(globalCtx, lightCtx, lightCtx->head);
         lightCtx->head = lightCtx->head->next;
     }
 }
@@ -242,7 +240,7 @@ LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, Light
     return node;
 }
 
-void Lights_Free(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
+void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
     if (node != NULL) {
         if (node->prev != NULL) {
             node->prev->next = node->next;
@@ -259,48 +257,46 @@ void Lights_Free(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* no
 }
 
 // unused
-LightCollection* func_8007A824(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,
-                               u8 b, s8 x, s8 y, s8 z) {
-    LightCollection* collection;
+Lights* func_8007A824(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g, u8 b,
+                      s8 x, s8 y, s8 z) {
+    Lights* lights;
     s32 i;
 
-    collection = Graph_Alloc(gfxCtx, sizeof(LightCollection));
+    lights = Graph_Alloc(gfxCtx, sizeof(Lights));
 
-    collection->lights.a.l.col[0] = collection->lights.a.l.colc[0] = ambientR;
-    collection->lights.a.l.col[1] = collection->lights.a.l.colc[1] = ambientG;
-    collection->lights.a.l.col[2] = collection->lights.a.l.colc[2] = ambientB;
-    collection->numLights = numLights;
+    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = ambientR;
+    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = ambientG;
+    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = ambientB;
+    lights->numLights = numLights;
 
     for (i = 0; i < numLights; i++) {
-        collection->lights.l[i].l.col[0] = collection->lights.l[i].l.colc[0] = r;
-        collection->lights.l[i].l.col[1] = collection->lights.l[i].l.colc[1] = g;
-        collection->lights.l[i].l.col[2] = collection->lights.l[i].l.colc[2] = b;
-        collection->lights.l[i].l.dir[0] = x;
-        collection->lights.l[i].l.dir[1] = y;
-        collection->lights.l[i].l.dir[2] = z;
+        lights->l.l[i].l.col[0] = lights->l.l[i].l.colc[0] = r;
+        lights->l.l[i].l.col[1] = lights->l.l[i].l.colc[1] = g;
+        lights->l.l[i].l.col[2] = lights->l.l[i].l.colc[2] = b;
+        lights->l.l[i].l.dir[0] = x;
+        lights->l.l[i].l.dir[1] = y;
+        lights->l.l[i].l.dir[2] = z;
     }
 
-    func_80079EFC(collection, gfxCtx);
+    Lights_Draw(lights, gfxCtx);
 
-    return collection;
+    return lights;
 }
 
-LightCollection* Lights_AllocAndSetCollection(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
-    LightCollection* collection;
+Lights* Lights_AllocAndInit(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
+    Lights* lights;
 
-    collection = Graph_Alloc(gfxCtx, sizeof(LightCollection));
+    lights = Graph_Alloc(gfxCtx, sizeof(Lights));
 
-    collection->lights.a.l.col[0] = collection->lights.a.l.colc[0] = r;
-    collection->lights.a.l.col[1] = collection->lights.a.l.colc[1] = g;
-    collection->lights.a.l.col[2] = collection->lights.a.l.colc[2] = b;
-    collection->numLights = 0;
+    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = r;
+    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = g;
+    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = b;
+    lights->numLights = 0;
 
-    return collection;
+    return lights;
 }
 
-// Lights_GlowCheck
-
-void func_8007A9B4(GlobalContext* globalCtx) {
+void Lights_GlowDrawCheck(GlobalContext* globalCtx) {
     LightNode* node;
     LightPoint* params;
     Vec3f pos;

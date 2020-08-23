@@ -34,8 +34,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 numLights;
-    /* 0x08 */ Lightsn lights;
-} LightCollection; // size = 0x80
+    /* 0x08 */ Lightsn l;
+} Lights; // size = 0x80
 
 typedef struct LightNode {
     /* 0x0 */ LightInfo* info;
@@ -59,6 +59,6 @@ typedef enum {
     /* 0x02 */ LIGHT_POINT_GLOW
 } LightTypes;
 
-typedef void (*CollectionUpdateFunc)(LightCollection*, LightParams* params, Vec3f* vec);
+typedef void (*CollectionUpdateFunc)(Lights*, LightParams* params, Vec3f* vec);
 
 #endif

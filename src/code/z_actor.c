@@ -12,7 +12,7 @@ void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3
     shape->unk_14 = -1;
 }
 
-void func_8002B200(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx, Gfx* dlist, Color_RGBA8* color) {
+void func_8002B200(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* dlist, Color_RGBA8* color) {
     f32 temp1;
     f32 temp2;
     MtxF sp60;
@@ -60,18 +60,18 @@ void func_8002B200(Actor* actor, LightCollection* lightCollection, GlobalContext
     }
 }
 
-void ActorShadow_DrawFunc_Circle(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx) {
-    func_8002B200(actor, lightCollection, globalCtx, &D_04049210, NULL);
+void ActorShadow_DrawFunc_Circle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
+    func_8002B200(actor, lights, globalCtx, &D_04049210, NULL);
 }
 
 Color_RGBA8 D_80115F80 = { 255, 255, 255, 255 };
 
-void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx) {
-    func_8002B200(actor, lightCollection, globalCtx, &D_04049210, &D_80115F80);
+void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
+    func_8002B200(actor, lights, globalCtx, &D_04049210, &D_80115F80);
 }
 
-void ActorShadow_DrawFunc_Squiggly(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx) {
-    func_8002B200(actor, lightCollection, globalCtx, &D_04049AD0, NULL);
+void ActorShadow_DrawFunc_Squiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
+    func_8002B200(actor, lights, globalCtx, &D_04049AD0, NULL);
 }
 
 void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
@@ -100,7 +100,7 @@ void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3,
 
 #ifdef NON_MATCHING
 // saved register, stack usage and minor ordering differences
-void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightCollection* lightCollection, GlobalContext* globalCtx) {
+void ActorShadow_DrawFunc_Teardrop(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     MtxF spE8;
     f32 spE0[2];
@@ -130,7 +130,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightCollection* lightCollectio
         temp_14 = actor->shape.unk_14;
         actor->shape.unk_10 *= 0.3f;
         actor->shape.unk_14 *= ((temp_f20 - 20.0f) * 0.02f) > 1.0f ? 1.0f : ((temp_f20 - 20.0f) * 0.02f);
-        ActorShadow_DrawFunc_Circle(actor, lightCollection, globalCtx);
+        ActorShadow_DrawFunc_Circle(actor, lights, globalCtx);
         actor->shape.unk_10 = temp_10;
         actor->shape.unk_14 = temp_14;
     }
@@ -138,7 +138,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightCollection* lightCollectio
     if (temp_f20 < 200.0f) {
         phi_s7 = &actor->unk_CC[0];
         spAC = &spE0[0];
-        temp_s6 = lightCollection->numLights;
+        temp_s6 = lights->numLights;
         temp_s6 -= 2;
 
         gfxCtx = globalCtx->state.gfxCtx;
@@ -157,7 +157,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightCollection* lightCollectio
             phi_f2 = phi_s7->y - *spAC;
 
             if ((phi_f2 >= -1.0f) && (phi_f2 < 500.0f)) {
-                phi_s0 = &lightCollection->lights.l[0];
+                phi_s0 = &lights->l.l[0];
 
                 if (phi_f2 <= 0.0f) {
                     actor->shape.unk_15++;
@@ -1768,7 +1768,7 @@ void func_8002FA60(GlobalContext* globalCtx) {
     lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
     lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-    Lights_PointNoGlowSetData(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
+    Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
 
     D_8015BC10 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &D_8015BC00);
     D_8015BC14 = 0;
@@ -1937,7 +1937,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
         lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-        Lights_PointNoGlowSetData(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
+        Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
                                         500.0f * spD4);
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 5474);
@@ -1948,7 +1948,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 #endif
 
 void func_80030488(GlobalContext* globalCtx) {
-    Lights_Free(globalCtx, &globalCtx->lightCtx, D_8015BC10);
+    Lights_Remove(globalCtx, &globalCtx->lightCtx, D_8015BC10);
 }
 
 void func_800304B0(GlobalContext* globalCtx) {
@@ -2168,7 +2168,7 @@ void Actor_FaultPrint(Actor* actor, char* command) {
 
 void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     FaultClient faultClient;
-    LightCollection* lightCollection;
+    Lights* lights;
     GraphicsContext* gfxCtx;
     Camera* camera;
     Gfx* dispRefs[3];
@@ -2179,10 +2179,10 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6035);
 
-    lightCollection = Lights_NewCollection(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
+    lights = Lights_New(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
 
-    Lights_UpdateCollection(lightCollection, globalCtx->lightCtx.head, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
-    func_80079EFC(lightCollection, globalCtx->state.gfxCtx);
+    Lights_Update(lights, globalCtx->lightCtx.head, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
+    Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     if (actor->flags & 0x1000) {
         camera = &globalCtx->cameras[0];
@@ -2229,7 +2229,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     }
 
     if (actor->shape.shadowDrawFunc != NULL) {
-        actor->shape.shadowDrawFunc(actor, lightCollection, globalCtx);
+        actor->shape.shadowDrawFunc(actor, lights, globalCtx);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6119);

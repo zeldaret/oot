@@ -300,7 +300,7 @@ glabel func_80ADC970
 .L80ADCD94:
 /* 03E04 80ADCD94 44C9F800 */  ctc1    $t1, $31
 /* 03E08 80ADCD98 AFAA0018 */  sw      $t2, 0x0018($sp)           
-/* 03E0C 80ADCD9C 0C01E763 */  jal     Lights_PointNoGlowSetData
+/* 03E0C 80ADCD9C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 03E10 80ADCDA0 AFAB001C */  sw      $t3, 0x001C($sp)           
 /* 03E14 80ADCDA4 1000009D */  beq     $zero, $zero, .L80ADD01C   
@@ -466,7 +466,7 @@ glabel func_80ADC970
 .L80ADCFF4:
 /* 04064 80ADCFF4 44CCF800 */  ctc1    $t4, $31
 /* 04068 80ADCFF8 AFAD0018 */  sw      $t5, 0x0018($sp)           
-/* 0406C 80ADCFFC 0C01E77C */  jal     Lights_PointGlowSetData
+/* 0406C 80ADCFFC 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 04070 80ADD000 AFAE001C */  sw      $t6, 0x001C($sp)           
 /* 04074 80ADD004 10000005 */  beq     $zero, $zero, .L80ADD01C   

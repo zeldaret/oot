@@ -55,12 +55,12 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.gameMode == 3) {
         // special case for the credits
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_PointNoGlowSetData(&this->lightInfo, this->actor.posRot.pos.x,
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x,
                                         yOffset + (s16)this->actor.posRot.pos.y, this->actor.posRot.pos.z, 255, 255,
                                         180, -1);
     } else {
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_PointGlowSetData(&this->lightInfo, this->actor.posRot.pos.x,
+        Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x,
                                         yOffset + (s16)this->actor.posRot.pos.y, this->actor.posRot.pos.z, 255, 255,
                                         180, -1);
     }
@@ -77,7 +77,7 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
 
-    Lights_Free(globalCtx, &globalCtx->lightCtx, this->lightNode);
+    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
 
 void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {

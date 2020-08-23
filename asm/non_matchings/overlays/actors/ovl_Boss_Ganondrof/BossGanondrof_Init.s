@@ -78,7 +78,7 @@ glabel BossGanondrof_Init
 /* 0052C 80910B6C AFAC0018 */  sw      $t4, 0x0018($sp)           
 /* 00530 80910B70 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00534 80910B74 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 00538 80910B78 0C01E763 */  jal     Lights_PointNoGlowSetData
+/* 00538 80910B78 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 0053C 80910B7C 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00540 80910B80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
