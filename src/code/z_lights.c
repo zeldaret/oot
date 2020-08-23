@@ -50,9 +50,6 @@ void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b) {
     lights->numLights = 0;
 }
 
-#ifdef NON_MATCHING
-// issues with incrementing in the loop
-// adding +1 to both i's outside of the loop helps immensely, but then its not equivalent anymore
 void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg) {
     Light* light;
     s32 i;
@@ -64,21 +61,25 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg) {
 
     gSPNumLights(gfxCtx->polyOpa.p++, lights->numLights);
     gSPNumLights(gfxCtx->polyXlu.p++, lights->numLights);
+    
+    i = 0;
+    light = &lights->l.l[0];
 
-    for (i = 0; i < lights->numLights; i++) {
-        light = &lights->l.l[i];
-        gSPLight(gfxCtx->polyOpa.p++, light, i + 1);
-        gSPLight(gfxCtx->polyXlu.p++, light, i + 1);
+    while(i < lights->numLights) {
+        i++;
+        gSPLight(gfxCtx->polyOpa.p++, light, i);
+        gSPLight(gfxCtx->polyXlu.p++, light, i);
+        light++;
     }
+    
+    if(0){}
 
+    i++; // abmient light is total number of lights + 1
     gSPLight(gfxCtx->polyOpa.p++, &lights->l.a, i);
     gSPLight(gfxCtx->polyXlu.p++, &lights->l.a, i);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_lights.c", 352);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lights/Lights_Draw.s")
-#endif
 
 Light* Lights_FindSlot(Lights* lights) {
     if (lights->numLights >= 7) {
