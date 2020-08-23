@@ -45,7 +45,7 @@ static ColliderCylinderInit sColCylinderInit1 = {
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
-s16 D_80872598 = 0;
+s16 slsAttached = false;
 
 Color_RGBA8_n D_8087259C = { 100, 100, 100, 0 };
 Color_RGBA8_n D_808725A0 = { 40, 40, 40, 0 };
@@ -148,9 +148,9 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (D_80872598 == 0) {
+        if (!slsAttached) {
             this->dyna.actor.attachedA = attachedActor;
-            D_80872598 = 1;
+            slsAttached = true;
             D_80872824 = 0x32;
         }
     } else {
