@@ -4,7 +4,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Bomb/z_eff_ss_bomb.h"
 #include "overlays/effects/ovl_Effect_Ss_Bomb2/z_eff_ss_bomb2.h"
 #include "overlays/effects/ovl_Effect_Ss_Blast/z_eff_ss_blast.h"
-#include "overlays/effects/ovl_Effect_ss_Extra/z_eff_ss_extra.h"
+#include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Spk/z_eff_ss_g_spk.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
