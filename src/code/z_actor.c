@@ -157,7 +157,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightCollection* lightCollectio
             phi_f2 = phi_s7->y - *spAC;
 
             if ((phi_f2 >= -1.0f) && (phi_f2 < 500.0f)) {
-                phi_s0 = lightCollection->lights;
+                phi_s0 = &lightCollection->lights.l[0];
 
                 if (phi_f2 <= 0.0f) {
                     actor->shape.unk_15++;

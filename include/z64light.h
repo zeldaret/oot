@@ -10,7 +10,7 @@ typedef struct {
     /* 0x0 */ s16 x;
     /* 0x2 */ s16 y;
     /* 0x4 */ s16 z;
-    /* 0x6 */ Color_RGB8 color;
+    /* 0x6 */ u8 color[3];
     /* 0x9 */ u8 drawGlow;
     /* 0xA */ s16 radius;
 } LightPoint; // size = 0xC
@@ -19,7 +19,7 @@ typedef struct {
     /* 0x0 */ s8 x;
     /* 0x1 */ s8 y;
     /* 0x2 */ s8 z;
-    /* 0x3 */ Color_RGB8 color;
+    /* 0x3 */ u8 color[3];
 } LightDirectional; // size = 0x6
 
 typedef union {
@@ -34,11 +34,11 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 numLights;
-    /* 0x10 */ Lightsn lights;
+    /* 0x08 */ Lightsn lights;
 } LightCollection; // size = 0x80
 
 typedef struct LightNode {
-    /* 0x0 */ struct LightInfo* info;
+    /* 0x0 */ LightInfo* info;
     /* 0x4 */ struct LightNode* prev;
     /* 0x8 */ struct LightNode* next;
 } LightNode; // size = 0xC

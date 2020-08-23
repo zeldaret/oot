@@ -983,6 +983,7 @@ void Lights_PointGlowSetData(LightInfo* info, s16 posX, s16 posY, s16 posZ, u8 r
                                      s16 radius);
 void Lights_PointSetColorAndRadius(LightInfo* info, u8 red, u8 green, u8 blue, s16 radius);
 void Lights_DirectionalSetData(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue);
+void func_80079EFC(LightCollection* collection, GraphicsContext* gfxCtxArg);
 LightNode* Lights_FindBufSlot();
 s32 Lights_FreeNode(LightNode* light);
 void Lights_InitContext(GlobalContext* globalCtx, LightContext* lightCtx);
@@ -994,7 +995,7 @@ void Lights_ClearBuf(GlobalContext* globalCtx, LightContext* lightCtx);
 LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info);
 void Lights_Free(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
 LightCollection* Lights_AllocAndSetCollection(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue);
-// ? func_8007A9B4(?);
+void func_8007A9B4(GlobalContext* globalCtx);
 void Lights_DrawGlow(GlobalContext* globalCtx);
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* ZeldaArena_Malloc(u32 size);
