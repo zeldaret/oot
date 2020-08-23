@@ -32,7 +32,7 @@ typedef struct {
     /* 0x0040 */ s32 unk_40;
     /* 0x0044 */ s32 unk_44;
     /* 0x0048 */ f32 fov;
-    /* 0x004C */ s16 unk_4C;
+    /* 0x004C */ s16 roll;
     /* 0x004E */ char unk_4E[0x2];
     /* 0x0050 */ f32 unk_50;
     /* 0x0054 */ char unk_54[0x60-0x54];
@@ -53,13 +53,38 @@ typedef struct {
     /* 0x0E */ s16 nPoints;
 } DbCameraCut; // size = 0x10
 
-extern s16 D_8016111A;
+typedef struct {
+    /* 0x00 */ f32 curFrame;
+    /* 0x04 */ f32 unk_04; // frame count?
+    /* 0x08 */ s16 keyframe;
+    /* 0x0A */ s16 unk_0A;
+    /* 0x0C */ s16 unk_0C;
+    /* 0x10 */ Vec3f positionPos; // confusing name
+    /* 0x1C */ Vec3f lookAtPos;
+    /* 0x28 */ f32 roll;
+    /* 0x2C */ f32 fov;
+} DbCameraAnim; // size = 0x30
+
 extern char D_801612EA;
 extern char D_801612D0[26];
+
 extern s16 D_8016110C;
+
+extern DbCameraAnim D_80161110;
+/*
+extern s32 D_80161110;
+extern f32 D_80161114;
+extern s16 D_80161118;
+extern s16 D_8016111A;
+extern s16 D_8016111C;
+extern Vec3f D_80161120;
+extern Vec3f D_8016112C;
+extern f32 D_80161138;
+extern f32 D_8016113C;
+*/
+
 extern s16 D_80161148;
 extern s16 D_8016114A;
-extern s16 D_8016111A;
 extern char D_8016128F[];
 
 
@@ -125,8 +150,8 @@ char D_8012D0E4[] = "\x8DXｶｲﾃﾝ       \0\0";
 char D_8012D0F8[] = "\x8DYｶｲﾃﾝ       \0\0";
 u32 D_8012D10C = 100;
 u32 D_8012D110 = 0;
-char D_8012D114[] = "\x8Cﾌﾚ-ﾑ         \0\0";
-char D_8012D128[] = "\x8Cﾄ-ﾀﾙ         \0\0";
+char D_8012D114[] = "\x8Cﾌﾚ-ﾑ         ";
+char D_8012D128[] = "\x8Cﾄ-ﾀﾙ         ";
 char D_8012D13C[] = "\x8Cｷ-     /   ";
 
 s32 func_800B8DB0(char* c);
@@ -142,7 +167,7 @@ u32 D_8012D170 = 0;
 extern DbCamera* D_80161108;
 extern GlobalContext* D_80161100;
 extern s32 D_801612EC;
-// is the size correct? todo: add ALIGN32 for sizeof in Mempak functions
+// is the size correct? todo: add ALIGN32 for sizeof in Mempak functions, replace 0xF with sizeof()
 extern DbCameraCut D_80161150[16];
 
 Vec3f* func_800B3B50(Vec3f* outVec, Vec3f* inVec, VecSph* sph) {
@@ -358,7 +383,7 @@ s32 func_800B4088(DbCamera* dbCamera, Camera* cam) {
     lookAt->continueFlag = position->continueFlag;
     position->nextPointFrame = 0;
     lookAt->nextPointFrame = 30;
-    lookAt->cameraRoll = position->cameraRoll = dbCamera->unk_4C * 1.40625f;
+    lookAt->cameraRoll = position->cameraRoll = dbCamera->roll * 1.40625f;
     lookAt->viewAngle = position->viewAngle = dbCamera->fov;
 
     if (dbCamera->sub.mode != 1) {
@@ -394,8 +419,8 @@ s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr)
         func_800B404C(&cameraPtr->playerPosRot, &position->pos, &dbCamera->eye);
     }
 
-    dbCamera->unk_4C = lookAt->cameraRoll;
-    dbCamera->unk_50 = dbCamera->unk_4C * 1.40625f;
+    dbCamera->roll = lookAt->cameraRoll;
+    dbCamera->unk_50 = dbCamera->roll * 1.40625f;
     dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
@@ -444,15 +469,78 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
     sph.yaw -= 0x7FFF;
     sph.r = 250.0f;
     func_800B3B50(&dbCamera->eye, &dbCamera->at, &sph);
-    dbCamera->unk_4C = lookAt->cameraRoll;
-    dbCamera->unk_50 = dbCamera->unk_4C * 1.40625f;
+    dbCamera->roll = lookAt->cameraRoll;
+    dbCamera->unk_50 = dbCamera->roll * 1.40625f;
     dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
 
+void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
+    s32 i;
 
-// easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B44E0.s")
+    if (CHECK_PAD(D_80161100->state.input[2].press, R_CBUTTONS)) {
+        D_80161110.keyframe = 0;
+        D_80161110.unk_0A = 1;
+        D_80161110.curFrame = 0.0f;
+        D_80161110.unk_04 = 0;
+
+        for (i = 0; i < (dbCamera->sub.nPoints - 2); i++) {
+            dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = 0;
+        }
+
+        dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = -1;
+    }
+
+    if (dbCamera->sub.nPoints < 6) {
+        if (D_80161110.unk_0A != 0) {
+            Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            D_80161110.unk_0A = (u16)0;
+        }
+        func_8006376C(0x11, 0x17, 3, D_8012CEE0);
+        func_8006376C(0x12, 0x18, 3, D_8012CEE4);
+        func_8006376C(0x10, 0x1A, 1, D_8012CEE8);
+        return;
+    }
+
+    if (!func_800BB2B4(&D_80161110.positionPos, &D_80161110.roll, &D_80161110.fov, dbCamera->sub.position, &D_80161110.keyframe, &D_80161110.curFrame) && 
+        !func_800BB2B4(&D_80161110.lookAtPos, &D_80161110.roll, &D_80161110.fov,  dbCamera->sub.lookAt, &D_80161110.keyframe, &D_80161110.curFrame) && 
+        D_80161110.unk_0A == 1
+        ) {
+        Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        D_80161110.unk_04++;
+
+        if (dbCamera->sub.nFrames > 0 && dbCamera->sub.nFrames < D_80161110.unk_04) {
+            D_80161110.unk_0A = (u16)0;
+            func_8006376C(0xF, 0x1A, 1, D_8012CEEC);
+        }
+
+        if (dbCamera->sub.mode != 1) {
+            func_800B3F38(&D_80161110.positionPos, &dbCamera->eye);
+            func_800B3F38(&D_80161110.lookAtPos, &dbCamera->at);
+        }
+        else {
+            func_800B3FF4(&cam->playerPosRot, &D_80161110.lookAtPos, &dbCamera->at);
+            func_800B3FF4(&cam->playerPosRot, &D_80161110.positionPos, &dbCamera->eye);
+        }
+
+        dbCamera->fov = D_80161110.fov;
+        dbCamera->roll = D_80161110.roll;
+        dbCamera->unk_50 = D_80161110.roll * 1.40625f;
+
+        func_800B3DF8(D_80161110.unk_04, D_8012CFB4 + 8, 4);
+        func_8006376C(0x10, 0x17, 3, D_8012CFB4);
+        D_8012CFC4[5] = ((D_80161110.keyframe + 1) / 10) + '0';
+        D_8012CFC4[6] = ((D_80161110.keyframe + 1) % 10) + '0';
+        D_8012CFC4[8] = ((dbCamera->sub.nPoints - 5) / 10) + '0';
+        D_8012CFC4[9] = ((dbCamera->sub.nPoints - 5) % 10) + '0';
+        func_8006376C(0x10, 0x18, 3, D_8012CFC4);
+        func_8006376C(0x10, 0x1A, 1, D_8012CEF0);
+        return;
+    }
+
+    D_80161110.unk_0A = 0;
+    func_8006376C(0xF, 0x1A, 1, D_8012CEEC);
+}
 
 void func_800B4920(const char* name, s16 count, CutsceneCameraPoint* point) {
     s32 i;
@@ -559,7 +647,7 @@ void func_800B4D58(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->unk_3C = 0;
     dbCamera->unk_38 = -1;
     dbCamera->unk_40 = -1;
-    dbCamera->unk_4C = 0;
+    dbCamera->roll = 0;
     dbCamera->sub.unk_104C = dbCamera->sub.unk_104E;
     dbCamera->sub.unk_104A = dbCamera->sub.unk_104E;
     dbCamera->fov = 0.0f;
@@ -586,7 +674,7 @@ s32 func_800B4DE4(DbCamera *this, Camera *cam) {
     this->eye = cam->eye;
     this->unk_1C = cam->unk_68;
     this->fov = cam->fov;
-    this->unk_4C = 0;
+    this->roll = 0;
     this->sub.nPoints = 1;
     this->sub.unkIdx = 0;
     this->sub.unk_08 = 0;
@@ -833,13 +921,77 @@ void func_800B9060(Camera* cam) {
     osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** finish! ***** */\n@@@\n");
 }
 
-// easy
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B91B0.s")
-/*
-void func_800B91B0(Camera* cam, DbCamera* dbCamera) {
-    
+s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
+    s32 pointCount;
+    s32 curPoint;
+
+    while (D_80161150[D_8016110C].letter == '?') {
+        D_8016110C++;
+        if (D_8016110C >= 0xF) {
+            D_80161110.curFrame = 0.0f;
+            D_80161110.unk_04 = 0;
+            D_80161110.keyframe = 0;
+            D_80161110.unk_0A = 0;
+            D_8016110C = 0;
+            return 0;
+        }
+    }
+
+    if (!func_800BB2B4(&D_80161110.positionPos, &D_80161110.roll, &D_80161110.fov, D_80161150[D_8016110C].position, &D_80161110.keyframe, &D_80161110.curFrame) && 
+        !func_800BB2B4(&D_80161110.lookAtPos, &D_80161110.roll, &D_80161110.fov,  D_80161150[D_8016110C].lookAt, &D_80161110.keyframe, &D_80161110.curFrame)
+        ) {
+        
+        D_8012D13C[7] = ((D_80161110.keyframe + 1) / 10) + '0';
+        D_8012D13C[8] = ((D_80161110.keyframe + 1) % 10) + '0';
+        D_8012D13C[10] = ((D_80161150[D_8016110C].nPoints-5) / 10) + '0';
+        D_8012D13C[11] = ((D_80161150[D_8016110C].nPoints-5) % 10) + '0';
+        func_800B3DF8(D_80161110.unk_04, D_8012D114 + 10, 4);
+        func_8006376C(0xF, 0x16, 3, D_8012D114);
+        func_800B3DF8(D_80161110.unk_0C, D_8012D128 + 10, 4);
+        func_8006376C(0xF, 0x17, 3, D_8012D128);
+        func_8006376C(0xF, 0x18, 3, D_8012D13C);
+        func_8006376C(0x10, 0x1A, 1, D_8012CEF0);
+
+        D_80161110.unk_04++;
+        D_80161110.unk_0C++;
+
+        if (D_80161150[D_8016110C].nFrames > 0 && D_80161150[D_8016110C].nFrames < D_80161110.unk_04) {
+            D_8016110C++;
+            D_80161110.curFrame = 0.0f;
+            D_80161110.unk_04 = 0;
+            D_80161110.keyframe = 0;
+            return D_8016110C | 0x8000;
+        }
+
+        if (D_80161150[D_8016110C].mode != 1) {
+            func_800B3F38(&D_80161110.positionPos, &dbCamera->eye);
+            func_800B3F38(&D_80161110.lookAtPos, &dbCamera->at);
+        }
+        else {
+            func_800B3FF4(&cam->playerPosRot, &D_80161110.lookAtPos, &dbCamera->at);
+            func_800B3FF4(&cam->playerPosRot, &D_80161110.positionPos, &dbCamera->eye);
+        }
+
+        dbCamera->fov = D_80161110.fov;
+        dbCamera->roll = D_80161110.roll;
+        dbCamera->unk_50 = D_80161110.roll * 1.40625f;
+
+    } else {
+        D_8016110C++;
+        D_80161110.keyframe = 0;
+        D_80161110.curFrame = 0.0f;
+        D_80161110.unk_04 = 0;
+        if (D_8016110C == 0xF) {
+            D_8016110C = 0;
+            D_80161110.curFrame = 0.0f;
+            D_80161110.keyframe = 0;
+            D_80161110.unk_0A = 0;
+            return -1;
+        }
+    }
+
+    return D_8016110C | 0x8000;
 }
-*/
 
 void func_800B958C(Camera* cam, DbCamera* dbCam) {
     s32 i;
@@ -856,7 +1008,7 @@ void func_800B958C(Camera* cam, DbCamera* dbCam) {
     D_8016110C = 0;
     D_80161148 = 0;
     D_8016114A = -1;
-    D_8016111A = 0;
+    D_80161110.unk_0A = 0;
 }
 
 // hard
@@ -867,9 +1019,9 @@ void func_800BB03C(Camera* cameraPtr) {
 }
 
 void func_800BB060() {
-    D_8016111A = 0;
+    D_80161110.unk_0A = 0;
 }
 
 s32 func_800BB06C() {
-    return D_80161108->unk_00 == 2 && D_8016111A != 0;
+    return D_80161108->unk_00 == 2 && D_80161110.unk_0A != 0;
 }

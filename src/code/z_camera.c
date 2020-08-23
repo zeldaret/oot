@@ -2842,7 +2842,7 @@ void func_80054478(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     func_80043C28(arg2, &arg0->pos, &sp28);
 }
 
-s32 func_800BB2B4(Vec3f*, f32*, f32*, CutsceneCameraPoint*, s16*, Demo1_unk_04*);
+//s32 func_800BB2B4(Vec3f*, f32*, f32*, CutsceneCameraPoint*, s16*, Demo1_unk_04*);
 
 #ifdef NON_MATCHING
 s32 Camera_Demo1(Camera* camera) {

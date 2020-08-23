@@ -1470,7 +1470,7 @@ void ShrinkWindow_Update(s32 updateRate);
 // ? func_800B958C(?);
 // ? func_800B9638(?);
 // ? func_800BB0A0(?);
-// ? func_800BB2B4(?);
+s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyframe, f32* curFrame);
 s32 Mempak_Init(s32 controllerNb);
 s32 Mempak_GetFreeBytes(s32 controllerNb);
 s32 Mempak_FindFile(s32 controllerNb, char start, char end);
