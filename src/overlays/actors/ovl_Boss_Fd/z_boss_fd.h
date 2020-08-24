@@ -7,10 +7,6 @@
 struct BossFd;
 
 typedef void (*BossFdActionFunc)(struct BossFd*, GlobalContext*);
-
-typedef struct BossFd_eyes {
-    s16 eyes[5];
-} BossFd_eyes;
     
 
 typedef struct BossFdParticle {
@@ -38,7 +34,7 @@ typedef struct BossFd {
     /* 0x021C */ s16 fireBreathTimer;
     /* 0x021E */ s16 skinSegments;
     /* 0x0220 */ u8 fogMode;
-    /* 0x0221 */ u8 unk_221;  //Possibly unused
+    /* 0x0221 */ u8 unk_221;  //Possibly padding
     /* 0x0222 */ s16 actionState;
     /* 0x0224 */ s16 movementTimer;
     /* 0x0226 */ s16 varianceTimer;
@@ -48,7 +44,7 @@ typedef struct BossFd {
     /* 0x022E */ s16 roarTimer;
     /* 0x0230 */ s16 damageFlashTimer;
     /* 0x0232 */ s16 startAttack;
-    /* 0x0234 */ s16 unk_234; //Not sure what uses these. They just get set to 0.
+    /* 0x0234 */ s16 unk_234; //Could be used by attached actors
     /* 0x0236 */ s16 unk_236;
     /* 0x0238 */ s16 maneEmbersTimer;
     /* 0x023A */ s16 rockTimer;
@@ -59,27 +55,27 @@ typedef struct BossFd {
     /* 0x0244 */ s16 stopFlag;
     /* 0x0246 */ s16 flightCount;
     /* 0x0248 */ s16 animationTimers[6]; //Change name to just "timers"
-    /* 0x0254 */ f32 bodyTextureFlow;
-    /* 0x0258 */ f32 bodyTextureRotation;
-    /* 0x025C */ f32 bodyTextureRipple1;
-    /* 0x0260 */ f32 bodyTextureRipple2;
+    /* 0x0254 */ f32 bodyTex1Scroll;
+    /* 0x0258 */ f32 bodyTex1Rot;
+    /* 0x025C */ f32 bodyTex2Scroll;
+    /* 0x0260 */ f32 bodyTex2Rot;
     /* 0x0264 */ char unk_264[0xC];
-    /* 0x0270 */ f32 unk_270;
-    /* 0x0274 */ f32 unk_274;
-    /* 0x0278 */ f32 unk_278;
-    /* 0x027C */ f32 unk_27C;
-    /* 0x0280 */ f32 unk_280;
+    /* 0x0270 */ f32 bodyTex2Opacity;
+    /* 0x0274 */ f32 headTex2Opacity;
+    /* 0x0278 */ f32 targetLinkYOffset;
+    /* 0x027C */ f32 unk_27C; // Something to do with how he moves while dropping rocks
+    /* 0x0280 */ f32 bodyOscillation;
     /* 0x0284 */ f32 centerManeColor;
     /* 0x0288 */ f32 rightManeColor;
     /* 0x028c */ f32 leftManeColor;
     /* 0x0290 */ f32 maneEmberSpeed;
     /* 0x0294 */ f32 maneEmberRate;
     /* 0x0298 */ char unk_298[0xC];
-    /* 0x02A4 */ f32 unk_2A4;
-    /* 0x02A8 */ f32 unk_2A8;
-    /* 0x02AC */ f32 unk_2AC;
-    /* 0x02B0 */ f32 unk_2B0;
-    /* 0x02B4 */ f32 unk_2B4;
+    /* 0x02A4 */ f32 flightSpeed;
+    /* 0x02A8 */ f32 turnRate;
+    /* 0x02AC */ f32 maxTurnRate;
+    /* 0x02B0 */ f32 flightWobbleAmplitude;
+    /* 0x02B4 */ f32 flightWobbleRate;
     /* 0x02B8 */ char unk_2B8[4];
     /* 0x02BC */ Vec3f targetPosition;
     /* 0x02C8 */ Vec3f holePosition;
@@ -109,12 +105,12 @@ typedef struct BossFd {
     /* 0x13BC */ Vec3f leftManeHead;    
     /* 0x13C8 */ f32 flattenMane;
     /* 0x13CC */ f32 jawOpening;
-    /* 0x13D0 */ s16 unk_13D0[18];
+    /* 0x13D0 */ s16 bodyFallApart[18];
     /* 0x13F4 */ Vec3f fireBreathSpawnPoint;
     /* 0x1400 */ s16 introState1;
     /* 0x1402 */ s16 introState2;
     /* 0x1404 */ s16 introCameraState;
-    /* 0x1406 */ char unk_1406[2];
+    /* 0x1406 */ char unk_1406[2]; //Probably just padding
     /* 0x1408 */ Vec3f unk_1408;
     /* 0x1414 */ Vec3f unk_1414;
     /* 0x1420 */ char unk_1420[0x18];
