@@ -38,15 +38,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static f32 D_8087BD40 = 34.6;
-static f32 D_8087BD44 = -112.8;
-static f32 D_8087BD48 = 0.05;
-
 extern UNK_TYPE D_06000428;
-extern Gfx D_60001B00[];
-extern Gfx D_60002A08[];
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Init.s")
+extern Gfx D_060001B0[];
+extern Gfx D_060002A8[];
 
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHaka* this = THIS;
@@ -60,26 +54,20 @@ void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = func_8087B7E8;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Destroy.s")
-
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHaka* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B758.s")
-
 void func_8087B758(BgHaka* this, Player* player) {
     Vec3f sp1C;
 
     func_8002DBD0(&this->dyna.actor, &sp1C, &player->actor.posRot.pos);
-    if (fabsf(sp1C.x) < D_8087BD40 && D_8087BD44 < sp1C.z && sp1C.z < -36.0f) {
+    if (fabsf(sp1C.x) < 34.6f && -112.8f < sp1C.z && sp1C.z < -36.0f) {
         player->stateFlags2 |= 0x200;
     }
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B7E8.s")
 
 void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -105,14 +93,12 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
     func_8087B758(this, player);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087B938.s")
-
 void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 sp38;
     f32 temp_f0;
 
-    this->dyna.actor.speedXZ += D_8087BD48;
+    this->dyna.actor.speedXZ += 0.05f;
     temp_f0 = this->dyna.actor.speedXZ;
     if (temp_f0 > 1.5f) {
         this->dyna.actor.speedXZ = 1.5f;
@@ -139,8 +125,6 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
     func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087BAAC.s")
-
 void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -149,8 +133,6 @@ void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= -0x11;
     }
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087BAE4.s")
 
 void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -169,15 +151,11 @@ void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
     func_8087B758(this, player);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Update.s")
-
 void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHaka* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Draw.s")
 
 void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -188,10 +166,10 @@ void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 406), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_60001B00);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_060001B0);
     Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 416), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_60002A08);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_060002A8);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_haka.c", 421);
 }
