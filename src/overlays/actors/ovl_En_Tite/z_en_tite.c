@@ -25,8 +25,12 @@ void func_80B1A888(EnTite *this, GlobalContext *globalContext);
 void func_80B1A2A0(EnTite *this, GlobalContext *globalContext);
 void func_80B18CC4(EnTite *this, GlobalContext *globalContext);
 void func_80B1A6E4(EnTite *this, GlobalContext *globalContext);
+void func_80B19E94(EnTite *this, GlobalContext *globalContext);
 void func_80B1AA44(Actor *thisx);
 void func_80B1A63C(Actor *thisx);
+void func_80B18E08(Actor *thisx);
+void func_80B1985C(Actor *thisx);
+void func_80B19524(Actor *thisx);
 //EffectSsGRipple_Spawn
 void func_80029444(GlobalContext *globalCtxt, Vec3f *vec, s32 arg2, s32 arg3, s32 arg4);
 
@@ -66,7 +70,28 @@ void func_80B18C5C(Actor *thisx) {
     func_80B18A80(this, func_80B18CC4);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B18CC4.s")
+void func_80B18CC4(EnTite *this, GlobalContext *globalContext) {
+    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    if (this->actor.params == -2) {
+        if ((this->actor.bgCheckFlags & 0x20) != 0) {
+            this->actor.gravity = 0.0f;
+            Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.waterY, 1.0f, 2.0f, 0.0f);
+        } else {
+            this->actor.gravity = -1.0f;
+        }
+    }
+    if (((this->actor.bgCheckFlags & 3) != 0) && (this->actor.velocity.y <= 0.0f)) {
+        this->actor.velocity.y = 0.0f;
+    }
+    if (this->unk2E0 > 0) {
+        this->unk2E0--;
+    }
+    else if ((this->actor.xzDistFromLink < 300.0f) && (this->actor.yDistFromLink <= 80.0f)) {
+        func_80B19524(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B18E08.s")
 
@@ -80,7 +105,6 @@ void func_80B18C5C(Actor *thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B19918.s")
 
-void func_80B19E94();
 void func_80B19E28(Actor *thisx) {
     EnTite* this = THIS;
 
@@ -92,7 +116,69 @@ void func_80B19E28(Actor *thisx) {
     func_80B18A80(this, func_80B19E94);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B19E94.s")
+void func_80B19E94(EnTite *this, GlobalContext *globalContext) {
+    f32 temp_f0;
+    f32 temp_f0_2;
+    s16 temp_v0_3;
+    s16 temp_v0_4;
+    s16 temp_v1;
+    s32 temp_a0;
+    u16 temp_v0;
+    u16 temp_v0_2;
+    u16 temp_v0_5;
+    f32 phi_f2;
+    s32 phi_t0;
+    s32 phi_v1;
+    s32 phi_v1_2;
+    s32 phi_v1_3;
+    s16 temp;
+
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    if ((((this->actor.bgCheckFlags & 3) != 0)||((this->actor.params == -2) &&
+     ((this->actor.bgCheckFlags & 0x20) != 0))) && (this->actor.velocity.y <= 0.0f)) {
+        if ((this->actor.params != -2) || ((this->actor.bgCheckFlags & 0x20) == 0)) {
+            if (this->actor.groundY > -32000.0f) {
+                this->actor.posRot.pos.y = this->actor.groundY;
+            }
+        } else{
+            this->actor.velocity.y = 0.0f;
+            this->actor.gravity = 0.0f;
+            this->actor.posRot.pos.y += this->actor.waterY;
+        }
+    }
+
+    if ((this->actor.bgCheckFlags & 0x42) != 0) {
+        if ((this->actor.bgCheckFlags & 0x40) == 0) {
+            func_80033480(globalContext, &this->unk348, 1.0f, 2, 0x50, 0xF, 1);
+            func_80033480(globalContext, &this->unk354, 1.0f, 2, 0x50, 0xF, 1);
+            func_80033480(globalContext, &this->unk360, 1.0f, 2, 0x50, 0xF, 1);
+            func_80033480(globalContext, &this->unk36C, 1.0f, 2, 0x50, 0xF, 1);
+            Audio_PlayActorSound2(&this->actor, 0x387B);
+        } else {
+            this->actor.bgCheckFlags = (this->actor.bgCheckFlags & 0xFFBF);
+            Audio_PlayActorSound2(&this->actor, 0x388F);
+        }
+    }
+    temp = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
+    if ((this->actor.speedXZ == 0.0f) && (((this->actor.bgCheckFlags & 1) != 0) ||
+     ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x20) != 0)))){
+        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        this->unk2E8.atFlags &= ~0x2;
+        if ((300.0f < this->actor.xzDistFromLink) && (80.0f < this->actor.yDistFromLink) &&
+         (ABS(this->actor.shape.rot.x) < 0xFA0) && (ABS(this->actor.shape.rot.z) < 0xFA0) &&
+         (((this->actor.bgCheckFlags & 1) != 0) || ((this->actor.params == -2) &&
+         ((this->actor.bgCheckFlags & 0x20) != 0)))){
+            func_80B18C5C(&this->actor);
+        } else {
+            if ((this->actor.xzDistFromLink < 180.0f) && (this->actor.yDistFromLink <= 80.0f) && (ABS(temp) < 0x1771)) {
+                func_80B18E08(&this->actor);
+            } else {
+                func_80B1985C(&this->actor);
+            }
+        }
+    }
+    SkelAnime_FrameUpdateMatrix(&this->unk14C);
+}
 
 void func_80B1A1EC(Actor *thisx) {
     EnTite *this = THIS;
@@ -100,15 +186,13 @@ void func_80B1A1EC(Actor *thisx) {
     SkelAnime_ChangeAnim(&this->unk14C, &D_060012E4, 0.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_060012E4.genericHeader), 0, 4.0f);
     this->unk2BC = 7;
     thisx->speedXZ = -6.0f;
-    thisx->posRot.rot.y = (s16) thisx->yawTowardsLink;
+    thisx->posRot.rot.y = thisx->yawTowardsLink;
     if (this->unk2E4 == 0xF) {
         this->unk2E3 = 0x30;
     }
     Audio_PlayActorSound2(thisx, 0x389E);
     func_80B18A80(this, func_80B1A2A0);
 }
-
-// GOOD PROGRESS ON THIS ONE SO FAR, DIDN'T HAVE TIME TO FINISH
 
 void func_80B1A2A0(EnTite *this, GlobalContext *globalContext) {
     f32 temp_f0;
@@ -128,8 +212,8 @@ void func_80B1A2A0(EnTite *this, GlobalContext *globalContext) {
     s16 temp;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-    if ((((this->actor.bgCheckFlags & 3) != 0) || ((-2 == this->actor.params)) &&
-     ((this->actor.bgCheckFlags & 0x20) != 0)) && (this->actor.velocity.y <= 0.0f)){
+    if ((((this->actor.bgCheckFlags & 3) != 0) || ((this->actor.params == -2) &&
+     ((this->actor.bgCheckFlags & 0x20) != 0))) && (this->actor.velocity.y <= 0.0f)){
         if (((this->actor.params != -2) || ((this->actor.bgCheckFlags & 0x20) == 0))){
             if (this->actor.groundY > -32000.0f) {
                 this->actor.posRot.pos.y = this->actor.groundY;
@@ -166,7 +250,7 @@ void func_80B1A2A0(EnTite *this, GlobalContext *globalContext) {
                 func_80B1AA44(&this->actor);
             } else if ( ((300.0f < this->actor.xzDistFromLink) && (80.0f < this->actor.yDistFromLink) &&
                 (ABS(this->actor.shape.rot.x) < 0xFA0) && (ABS(this->actor.shape.rot.z) < 0xFA0)) &&
-                ((this->actor.bgCheckFlags & 1 != 0) || ((-2 == this->actor.params) && ((this->actor.bgCheckFlags & 0x20) != 0)))){
+                (((this->actor.bgCheckFlags & 1) != 0) || ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x20) != 0)))){
                 func_80B18C5C(&this->actor);
             } else{
                 if ((this->actor.xzDistFromLink < 180.0f) && (this->actor.yDistFromLink <= 80.0f) && 
@@ -180,8 +264,6 @@ void func_80B1A2A0(EnTite *this, GlobalContext *globalContext) {
     }
     SkelAnime_FrameUpdateMatrix(&this->unk14C);
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B1A2A0.s")
 
 void func_80B1A63C(Actor *thisx) {
     EnTite *this = THIS;
