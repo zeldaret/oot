@@ -8,7 +8,12 @@ struct BossFd;
 
 typedef void (*BossFdActionFunc)(struct BossFd*, GlobalContext*);
 
-typedef struct {
+typedef struct BossFd_eyes {
+    s16 eyes[5];
+} BossFd_eyes;
+    
+
+typedef struct BossFdParticle {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
     /* 0x18 */ Vec3f accel;
