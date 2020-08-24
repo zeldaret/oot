@@ -21,7 +21,6 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx);
 void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx);
 void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
     ACTORTYPE_BG,
@@ -33,15 +32,19 @@ const ActorInit Bg_Haka_InitVars = {
     (ActorFunc)BgHaka_Update,
     (ActorFunc)BgHaka_Draw,
 };
-*/
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(minVelocityY, 0, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
+
+static f32 D_8087BD40 = 34.6;
+static f32 D_8087BD44 = -112.8;
+static f32 D_8087BD48 = 0.05;
 
 extern UNK_TYPE D_06000428;
 extern Gfx D_60001B00[];
 extern Gfx D_60002A08[];
-extern InitChainEntry D_8087BCF0[];
-extern f32 D_8087BD40;
-extern f32 D_8087BD44;
-extern f32 D_8087BD48;
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Init.s")
 
@@ -50,7 +53,7 @@ void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 sp24 = 0;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_8087BCF0);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06000428, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
