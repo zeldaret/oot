@@ -5,7 +5,7 @@ typedef struct {
     /* 0x000 */ s32 numOccupied;
     /* 0x004 */ s32 searchIndex;
     /* 0x008 */ LightNode buf[32];
-} LightsBuffer;                    // size = 0x188
+} LightsBuffer; // size = 0x188
 
 LightsBuffer sLightsBuffer;
 
@@ -52,7 +52,7 @@ void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b) {
 
 /*
  * Draws every light in the provided Lights group.
- * 
+ *
  * Note: Due to how Lights_Update is implemented, this will end up drawing every light in the buffer,
  *       even if the light was not added by the system invoking this function.
  */
@@ -148,7 +148,7 @@ void Lights_UpdateDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
 
 /*
  * Updates every light that is currently in sLightsBuffer according to params contained in each node.
- * 
+ *
  * Note: This updates every light in the buffer and adds them all to a Lights group,
  *       even those that were not added by the system invoking this function.
  */
@@ -163,11 +163,15 @@ void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
     }
 }
 
+/*
+ * Finds a slot in the buffer to add a node so that it can be updated and drawn
+ *
+ * Note: Even though there is space for 32 nodes, only the first 7 will be drawn due to how Lights_Update and 
+ *       Lights_Draw are implemented.
+ */
 LightNode* Lights_FindBufSlot() {
     LightNode* node;
 
-    // even though there is space for 32 nodes, only 7 lights can be drawn at once 
-    // due to how Lights_Update is implemented
     if (sLightsBuffer.numOccupied >= 32) {
         return NULL;
     }
@@ -272,8 +276,8 @@ void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* 
 }
 
 // unused
-Lights* func_8007A824(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g, u8 b,
-                      s8 x, s8 y, s8 z) {
+Lights* Lights_AllocAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,
+                            u8 b, s8 x, s8 y, s8 z) {
     Lights* lights;
     s32 i;
 
@@ -371,8 +375,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
         LightInfo* info;
         LightPoint* params;
         f32 scale;
-        s32 pad[3];
-        u8* blue;
+        s32 pad[4];
 
         info = node->info;
         params = &info->params.point;

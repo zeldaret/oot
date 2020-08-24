@@ -993,7 +993,7 @@ Lights* Lights_New(LightContext* lightCtx, GraphicsContext* gfxCtx);
 void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx);
 LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info);
 void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
-Lights* func_8007A824(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g, u8 b,
+Lights* Lights_AllocAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g, u8 b,
                       s8 x, s8 y, s8 z);
 Lights* Lights_AllocAndInit(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
 void Lights_GlowDrawCheck(GlobalContext* globalCtx);
