@@ -47,7 +47,8 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable, this->transitionDrawTable, 16);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
+                     this->transitionDrawTable, 16);
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
@@ -218,8 +219,7 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
         this->unk_2E0 = 5.0f;
         this->unk_288 = 0.0f;
         this->actionFunc = func_809B59B0;
-    } else if (((this->actor.projectedPos.z > 0.0f) && 
-                (fabsf(sp34.x - this->actor.posRot.pos.x) < 50.0f) &&
+    } else if (((this->actor.projectedPos.z > 0.0f) && (fabsf(sp34.x - this->actor.posRot.pos.x) < 50.0f) &&
                 (fabsf(sp34.y - this->actor.posRot.pos.y) < 50.0f) &&
                 (fabsf(sp34.z - this->actor.posRot.pos.z) < 50.0f)) ||
                (this->actor.bgCheckFlags & 1)) {

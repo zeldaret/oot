@@ -344,8 +344,8 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = ACTIVE_CAM;
+    sp9C = (camera->setting == 25);
     polygon1 = &room->mesh->polygon1;
-    sp9C = (camera->setting ^ 25) == 0;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
     sp94 = (flags & 1) && polygonDlist->opa && !(SREG(25) & 2);
@@ -424,13 +424,11 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
 }
 
 // Room Draw Polygon Type 1 - Multi Format
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     Camera* camera;
     Gfx* spA8;
-    BgImage* bgImage;
     PolygonType1* polygon1;
+    BgImage* bgImage;
     PolygonDlist* polygonDlist;
     u32 sp98;
     u32 sp94;
@@ -443,7 +441,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = ACTIVE_CAM;
-    sp98 = (camera->setting ^ 25) == 0;
+    sp98 = (camera->setting == 25);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
@@ -488,9 +486,6 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 819);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80096B6C.s")
-#endif
 
 // Room Draw Polygon Type 1
 void func_80096F6C(GlobalContext* globalCtx, Room* room, u32 flags) {
