@@ -87,15 +87,13 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
                 this->dyna.actor.params = 0x64;
                 this->actionFunc = func_8087BAE4;
             }
+        } else if (0.0f < this->dyna.unk_150 ||
+                   (globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && Flags_GetSwitch(globalCtx, 0x23) == 0)) {
+            this->dyna.unk_150 = 0.0f;
+            player->stateFlags2 &= -0x11;
         } else {
-            if (0.0f < this->dyna.unk_150 ||
-                globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && Flags_GetSwitch(globalCtx, 0x23) == 0) {
-                this->dyna.unk_150 = 0.0f;
-                player->stateFlags2 &= -0x11;
-            } else {
-                this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
-                this->actionFunc = func_8087B938;
-            }
+            this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
+            this->actionFunc = func_8087B938;
         }
     }
     func_8087B758(this, player);
