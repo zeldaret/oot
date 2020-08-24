@@ -64,7 +64,7 @@ void func_8087B758(BgHaka* this, Player* player) {
     Vec3f sp1C;
 
     func_8002DBD0(&this->dyna.actor, &sp1C, &player->actor.posRot.pos);
-    if (fabsf(sp1C.x) < 34.6f && -112.8f < sp1C.z && sp1C.z < -36.0f) {
+    if (fabsf(sp1C.x) < 34.6f && sp1C.z > -112.8f && sp1C.z < -36.0f) {
         player->stateFlags2 |= 0x200;
     }
 }
