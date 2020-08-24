@@ -115,15 +115,19 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
         this->dyna.actor.speedXZ = temp_f0;
     }
     sp38 = Math_ApproxF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
-    this->dyna.actor.posRot.pos.x = Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z = Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.posRot.pos.x =
+        Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
+    this->dyna.actor.posRot.pos.z =
+        Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
     if (sp38 != 0) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= -0x11;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         } else if (gSaveContext.nightFlag != 0 && globalCtx->sceneNum == SCENE_SPOT02) {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.initPosRot.pos.x, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.initPosRot.pos.z, 0, this->dyna.actor.shape.rot.y, 0, 1);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.initPosRot.pos.x,
+                        this->dyna.actor.initPosRot.pos.y, this->dyna.actor.initPosRot.pos.z, 0,
+                        this->dyna.actor.shape.rot.y, 0, 1);
         }
         this->actionFunc = func_8087BAAC;
     }
