@@ -36,12 +36,14 @@ void func_80B18C5C(Actor *thisx);
 //EffectSsGRipple_Spawn
 void func_80029444(GlobalContext *globalCtxt, Vec3f *vec, s32 arg2, s32 arg3, s32 arg4);
 
-extern SkeletonHeader D_06003A20;
+//extern SkeletonHeader D_06003A20;
 extern AnimationHeader D_060012E4;
 extern AnimationHeader D_06000A14;
 
+/*
 extern InitChainEntry D_80B1B624[]; // TODO
 extern ColliderJntSphInit D_80B1B5F4; // TODO
+*/
 
 /*
 const ActorInit En_Tite_InitVars = {
@@ -56,16 +58,21 @@ const ActorInit En_Tite_InitVars = {
     (ActorFunc)EnTite_Draw,
 };
 */
+
+/*
+// this is possibly incorrect, I'm not getting OK when I add it
 static DamageTable sDamageTable = {
     0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x02, 0xF4,
     0x02, 0x02, 0x02, 0x02, 0xE0, 0xF3, 0xE0, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00
 };
+*/
 
 //EnTite_SetupAction
 void func_80B18A80(EnTite* this, EnTiteActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
+/*
 void EnTite_Init(Actor *thisx, GlobalContext *globalContext) {
     EnTite *this = THIS;
 
@@ -91,17 +98,17 @@ void EnTite_Init(Actor *thisx, GlobalContext *globalContext) {
         thisx->naviEnemyId += 1;
     }
     func_80B18C5C(thisx);
-}
+*/
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Init.s")
-
-typedef struct {
-    Actor actor;
-    char unk14C[0x6];
-    s16 unk152;
-}UnkAttachedActor;
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Init.s")
 
 void EnTite_Destroy(Actor *thisx, GlobalContext *globalContext) {
+    typedef struct {
+        Actor actor;
+        char unk14C[0x6];
+        s16 unk152;
+    }UnkAttachedActor;
+
     EnTite *this = THIS;
     UnkAttachedActor *attached; // I think this is En_Encount1
     
