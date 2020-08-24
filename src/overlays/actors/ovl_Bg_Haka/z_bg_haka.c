@@ -75,7 +75,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
     if (this->dyna.unk_150 != 0.0f) {
         if (globalCtx->sceneNum == SCENE_SPOT02 && LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
             this->dyna.unk_150 = 0.0f;
-            player->stateFlags2 &= -0x11;
+            player->stateFlags2 &= ~0x10;
             if (!Gameplay_InCsMode(globalCtx)) {
                 func_8010B680(globalCtx, 0x5073, NULL);
                 this->dyna.actor.params = 0x64;
@@ -84,7 +84,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
         } else if (0.0f < this->dyna.unk_150 ||
                    (globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && Flags_GetSwitch(globalCtx, 0x23) == 0)) {
             this->dyna.unk_150 = 0.0f;
-            player->stateFlags2 &= -0x11;
+            player->stateFlags2 &= ~0x10;
         } else {
             this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
             this->actionFunc = func_8087B938;
@@ -112,7 +112,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
         Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
     if (sp38 != 0) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= -0x11;
+        player->stateFlags2 &= ~0x10;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         } else if (gSaveContext.nightFlag != 0 && globalCtx->sceneNum == SCENE_SPOT02) {
@@ -130,7 +130,7 @@ void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
 
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= -0x11;
+        player->stateFlags2 &= ~0x10;
     }
 }
 
@@ -143,7 +143,7 @@ void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
     }
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= -0x11;
+        player->stateFlags2 &= ~0x10;
     }
     if (this->dyna.actor.params == 0) {
         this->actionFunc = func_8087B7E8;
