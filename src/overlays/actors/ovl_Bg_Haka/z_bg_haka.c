@@ -36,7 +36,9 @@ const ActorInit Bg_Haka_InitVars = {
 */
 
 extern UNK_TYPE D_06000428;
-extern InitChainEntry D_8087BCF0;
+extern Gfx D_60001B00[];
+extern Gfx D_60002A08[];
+extern InitChainEntry D_8087BCF0[];
 extern f32 D_8087BD40;
 extern f32 D_8087BD44;
 extern f32 D_8087BD48;
@@ -48,7 +50,7 @@ void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 sp24 = 0;
 
-    Actor_ProcessInitChain(&this->dyna.actor, &D_8087BCF0);
+    Actor_ProcessInitChain(&this->dyna.actor, D_8087BCF0);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06000428, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
@@ -172,4 +174,21 @@ void BgHaka_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Draw.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/BgHaka_Draw.s")
+
+void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_haka.c", 401);
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 406), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_60001B00);
+    Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 416), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_60002A08);
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_haka.c", 421);
+}
