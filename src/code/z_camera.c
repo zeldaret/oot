@@ -2611,16 +2611,18 @@ s32 Camera_Jump0(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_Battle1(Camera *camera) {
+    Vec3f* eye = &camera->eye;
+    Vec3f* at = &camera->at;
+    Vec3f* eyeNext = &camera->eyeNext;
     Vec3f sp128;
     Vec3f sp11C;
     Vec3f sp110;
     f32 spFC;
     f32 spF8;
     f32 spF4;
-    s32 spE8;
+    s32 spE8; 
     f32 spE4;
     CamColChk spBC;
     VecSph spB4;
@@ -2628,6 +2630,7 @@ s32 Camera_Battle1(Camera *camera) {
     VecSph spA4;
     VecSph sp9C;
     VecSph sp94;
+    PosRot* playerPosRot = &camera->playerPosRot;
     s16 sp8E;
     s16 sp8C;
     Player *player;
@@ -2637,97 +2640,28 @@ s32 Camera_Battle1(Camera *camera) {
     f32 sp7C;
     f32 sp78;
     f32 sp74;
+    Battle1* batt1 = (Battle1*)camera->paramData;
+    Battle1Anim* anim = &batt1->anim;
     f32 sp64;
-    Vec3f *sp4C;
-    Vec3f *sp48;
-    Vec3f *sp44;
-    PosRot *sp40;
-    PosRot *sp38;
-    Actor *temp_a3;
-    Battle1Anim *temp_s1;
-    Battle1Anim *temp_s1_2;
-    CameraModeValue *temp_v0_2;
-    GameInfo *temp_v1_10;
-    GameInfo *temp_v1_12;
-    GameInfo *temp_v1_15;
-    GameInfo *temp_v1_4;
-    GameInfo *temp_v1_5;
-    GameInfo *temp_v1_7;
-    PosRot *temp_a0_3;
-    PosRot *temp_v1_9;
-    Vec3f *temp_a1;
-    Vec3f *temp_a2;
-    Vec3f *temp_a2_2;
-    f32 temp_f0;
+
     f32 temp_f0_2;
-    f32 temp_f0_3;
-    f32 temp_f0_4;
-    f32 temp_f0_5;
-    f32 temp_f12;
     f32 temp_f12_2;
     f32 temp_f14;
-    f32 temp_f16;
-    f32 temp_f18;
-    f32 temp_f2;
     f32 temp_f2_2;
-    f32 temp_ret;
-    s16 temp_a1_2;
-    s16 temp_a2_3;
-    s16 temp_t6;
-    s16 temp_v0;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v0_7;
-    s16 temp_v0_9;
-    s16 temp_v1;
-    s16 temp_v1_11;
-    s32 temp_a0_4;
-    s32 temp_a1_3;
-    s32 temp_f4;
-    s32 temp_t0;
-    s16 temp_v0_6;
-    s32 temp_v0_8;
-    s16 temp_v1_13;
-    s32 temp_v1_14;
-    struct Actor *temp_v1_6;
-    struct Actor *temp_v1_8;
-    struct Player *temp_a0;
-    struct Player *temp_a0_2;
-    void *temp_v1_2;
-    void *temp_v1_3;
-    s16 phi_v1;
-    GameInfo **phi_a1;
-    GameInfo **phi_a1_2;
-    f32 phi_f16;
-    s16 phi_a2;
-    f32 phi_f2;
-    f32 phi_f2_2;
-    s32 phi_v0;
-    f32 phi_f2_3;
-    s32 phi_v0_2;
+    s16 temp_v1_14;
     s16 phi_t0;
-    s32 phi_t0_2;
     s16 phi_a0;
-    f32 phi_f2_4;
-    f32 phi_f0;
-    Battle1* batt1 = (Battle1*)camera->paramData;
-    Battle1Anim* anim;
-    CameraModeValue* values;
-    Vec3f* eye = &camera->eye;
-    Vec3f* at = &camera->at;
-    Vec3f* eyeNext = &camera->eyeNext;
-    PosRot* playerPosRot = &camera->playerPosRot;
-    PosRot* targetPosRot = &camera->targetPosRot;
     s16 var;
+    f32 var2;
+    f32 var3;
+    f32 var4;
 
     spE8 = 0;
     player = camera->player;
     sp64 = Player_GetCameraYOffset(player);
-    anim = &batt1->anim;
     if(RELOAD_PARAMS){
-        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        temp_f12 = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / sp64));
+        CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        f32 temp_f12 = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / sp64));
         batt1->unk_00 = NEXTPCT * sp64 * temp_f12;
         batt1->unk_04 = NEXTSETTING;
         batt1->unk_08 = NEXTSETTING;
@@ -2831,144 +2765,73 @@ s32 Camera_Battle1(Camera *camera) {
     if (anim->unk_1A == 0) {
         camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp84 ? batt1->unk_28 : batt1->unk_20);
     }
-
-    func_8002EEE4(targetPosRot, camera->target);
+    func_8002EEE4(&camera->targetPosRot, camera->target);
     if (anim->target != camera->target) { // 8518
         osSyncPrintf("camera: battle: change target %d -> \x1b[34m%d\x1b[m\n", anim->target->id, camera->target->id);
         camera->animState = 0;
         return true;
     }
 
-    func_800460A8(camera, &sp94, &targetPosRot->pos, sp84 ? batt1->unk_24 : batt1->unk_00, sp80, &anim->unk_08, &spA4, (sp84 ? 0x81 : 1) | batt1->interfaceFlags);
-    //sp8C = spA4.yaw;
+    func_800460A8(camera, &sp94, &camera->targetPosRot.pos, sp84 ? batt1->unk_24 : batt1->unk_00, sp80, &anim->unk_08, &spA4, (sp84 ? 0x81 : 1) | batt1->interfaceFlags);
     sp11C = playerPosRot->pos;
     sp8C = spA4.yaw;
     sp11C.y += sp64;
-    OLib_Vec3fDiffToVecSphGeo(&spA4, &sp11C, &targetPosRot->pos);
+    OLib_Vec3fDiffToVecSphGeo(&spA4, &sp11C, &camera->targetPosRot.pos);
     if (sp80 < spA4.r) {
         spE4 = 1.0f;
     } else {
         spE4 = spA4.r / sp80;
     }
-    //sp8C = spA4.yaw;
-    sp110 = targetPosRot->pos;
+    sp110 = camera->targetPosRot.pos;
     OLib_Vec3fDiffToVecSphGeo(&spAC, at, &sp110);
-    /*
-    phi_f2_3 = sp80;
-    if (spAC.r <= sp80) {
-        phi_f2_3 = spAC;
-    }
-    temp_v1_10 = gGameInfo;
-    spAC.r = sp80 - (phi_f2_3 * 0.5f);
-    */
     spAC.r = sp80 - ((spAC.r >= sp80 ? sp80 : spAC.r) * 0.5f);
-    temp_f0_2 = batt1->unk_08;
 
-    // temp_f18
     spF4 = F32_LERPIMP(batt1->unk_08, batt1->unk_0C, (1.1f - spE4));
-    // spF4 =  batt1->unk_08 + ((batt1->unk_0C - batt1->unk_08) * (1.1f - spE4));
-    //spF8 = (f32) temp_v1_10->unk1AE + temp_f18;
     spF8 = spF4 + OREG(13);
-    //spF4 = temp_f18;
 
-    // temp_f0_3
     spB4.r = camera->dist = Camera_LERPCeilF(sp80, camera->dist, PCT(OREG(11)), 2.0f);
-    var = BINANG_SUB(spAC.yaw, BINANG_ROT180(sp94.yaw));
-    //camera->dist = temp_f0_3;
-    //spB4 = temp_f0_3;
-    //spBA = sp9A;
+    //sp8C = spA4.yaw;
+    sp8C = BINANG_SUB(spAC.yaw, BINANG_ROT180(sp94.yaw));
     spB4.yaw = sp94.yaw;
-    //temp_v1_11 = anim->unk_1A;
-    //temp_v0_6 = spB2 - ((s32) ((sp9A - 0x7FFF) << 0x10) >> 0x10);
-    //temp_a1_3 = (s32) (temp_v0_6 << 0x10) >> 0x10;
-    //temp_a1_3 = (s16)temp_v0_6;
     if (anim->unk_1A != 0) { //8738
         if (anim->unk_1A >= OREG(24)) {
             sp86 = anim->unk_1A - OREG(24);
             OLib_Vec3fDiffToVecSphGeo(&spA4, at, eye);
             spA4.yaw = BINANG_ROT180(sp8C);
-            //temp_f0_4 = 1.0f / OREG(23);
-            //temp_f4 = (s32) ((f32) ((s32) ((anim->unk_16 - spAA) << 0x10) >> 0x10) * temp_f0_4);
-            //sp8E = (s16) temp_f4;
+            var3 = ((anim->unk_00 - spA4.r) * (1.0f / OREG(23)));
             sp8E = BINANG_SUB(anim->unk_16, spA4.yaw) * (1.0f / OREG(23));
-            //temp_t0 = (s32) ((s32) ((f32) ((s32) ((anim->unk_18 - spA8) << 0x10) >> 0x10) * temp_f0_4) << 0x10) >> 0x10;
             sp8C = BINANG_SUB(anim->unk_18, spA4.pitch);
             sp8C *= (1.0f / OREG(23));
-            //sp8C = (s16) temp_t0;
-            //spB4.r = Camera_LERPCeilF(((f32) sp86 * ((anim->unk_00 - spA4) * temp_f0_4)) + spA4, sp9C, (f32) temp_v1_12->unk1CC * 0.01f, 1.0f);
-            //spB4.yaw = Camera_LERPCeilS((s16) ((s32) ((spAA + (temp_f4 * sp86)) << 0x10) >> 0x10), spA2, (f32) gGameInfo->unk1CC * 0.01f, (u16)0xA);
-            //spB4.pitch = Camera_LERPCeilS((s16) ((s32) ((spA8 + (temp_t0 * sp86)) << 0x10) >> 0x10), spA0, (f32) gGameInfo->unk1CC * 0.01f, (u16)0xA);
-            spB4.r = Camera_LERPCeilF(sp86 * ((anim->unk_00 - spA4.r) * (1.0f / OREG(23))) + spA4.r, sp9C.r, PCT(OREG(28)), 1.0f);
-            spB4.yaw = Camera_LERPCeilS(spA4.yaw + (sp8E * sp86), sp9C.yaw, PCT(OREG(28)), 0xA);
-            spB4.pitch = Camera_LERPCeilS(spA4.pitch + (sp8C * sp86), sp9C.pitch, PCT(OREG(28)), 0xA);
+            spB4.r = Camera_LERPCeilF((sp86 * var3) + spA4.r, sp9C.r, PCT(OREG(28)), 1.0f);
+            if(1){
+            spB4.yaw = Camera_LERPCeilS((sp8E * sp86) + spB4.yaw, sp9C.yaw, PCT(OREG(28)), 0xA);
+            }
+            spB4.pitch = Camera_LERPCeilS((sp8C * sp86) + spA4.pitch, sp9C.pitch, PCT(OREG(28)), 0xA);
         } else {
             spE8 = 1;
         }
         anim->unk_1A--;
-        /*temp_a0_4 = (s32) (temp_v0_6 << 0x10) >> 0x10;
-        if (temp_a0_4 >= 0) {
-            phi_v0_2 = temp_a0_4;
-        } else {
-            phi_v0_2 = -temp_a0_4;
-        }*/
-        //temp_a0_4 = (s16)temp_v0_6;
-        //phi_v0_2 = ABS(temp_v0_6);
-        //temp_v1_13 = (s32) ((s32) ((temp_f18 * 182.04167f) + 0.5f) << 0x10) >> 0x10;
-        //temp_v1_13 = DEGF_TO_BINANG(spF4);
     } else if (ABS(BINANG_SUB(spAC.yaw, BINANG_ROT180(sp94.yaw))) > DEGF_TO_BINANG(spF4)) { // 8970
         sp8E = BINANG_SUB(spAC.yaw, BINANG_ROT180(sp94.yaw));
-        //spF4 = temp_f18;
-        // temp_f16
-        spFC = var * 0.00549325f;
-        // spFC = temp_f16;
-        temp_f2_2 = spF4 + (spF8 - spF4) * OLib_ClampMaxDist(spAC.r, spB4.r);
+        spFC = sp8C * 0.00549325f;
+        temp_f2_2 = F32_LERPIMP(spF4, spF8, OLib_ClampMaxDist(spAC.r, spB4.r));
         temp_f12_2 = ((temp_f2_2 * temp_f2_2) - 2.0f) / (temp_f2_2 - 360.0f);
-        temp_f14 = (spFC * spFC) / ((temp_f12_2 * spFC) + (2.0f - (360.0f * temp_f12_2)));
-        if (sp8E >= 0) {
-            //phi_t0 = (s32) ((temp_f14 * 182.04167f) + 0.5f) << 0x10;
-            phi_t0 = DEGF_TO_BINANG(temp_f14);
-        } else {
-            //phi_t0 = -(s32) ((s32) ((s32) ((temp_f14 * 182.04167f) + 0.5f) << 0x10) >> 0x10) << 0x10;
-            phi_t0 = -DEGF_TO_BINANG(temp_f14);
-        }
-        //spB4.yaw = ((sp9A - 0x7FFF) + (phi_t0 >> 0x10)) - 0x7FFF;
-        spB4.yaw = BINANG_ROT180(BINANG_ROT180(sp94.yaw) + phi_t0);
+        var2 = ((temp_f12_2 * spFC) + (2.0f - (360.0f * temp_f12_2)));
+        temp_f14 = SQ(spFC) / var2;
+
+        spB4.yaw = BINANG_ROT180(BINANG_ROT180(sp94.yaw) + 
+            (sp8E >= 0 ? DEGF_TO_BINANG(temp_f14) : (s16)-DEGF_TO_BINANG(temp_f14)));
     } else {
-        /*
-        phi_t0_2 = (s32) (-temp_v1_13 << 0x10) >> 0x10;
-        if (temp_a0_4 >= 0) {
-            phi_t0_2 = (s32) (temp_v1_13 << 0x10) >> 0x10;
-        }
-        */
-        //phi_t0_2 = ABS(temp_v1_13);
-        //spBA = sp9A - (s32) ((f32) (phi_t0_2 - temp_a0_4) * ((1.0f - camera->speedRatio) * 0.05f));
-        spB4.yaw = BINANG_SUB(sp94.yaw, BINANG_SUB(ABS(DEGF_TO_BINANG(spF4)), BINANG_SUB(spAC.yaw, BINANG_ROT180(sp94.yaw))) * ((1.0f - camera->speedRatio) * 0.05f));
+        var4 = ((1.0f - camera->speedRatio) * 0.05f);
+        sp8C = ABS(DEGF_TO_BINANG(spF4));
+        spB4.yaw = BINANG_SUB(sp94.yaw, (sp8C - (spAC.yaw - BINANG_ROT180(sp94.yaw))) * var4);
     
     }
 
     if (spE8 == 0) {
-        //temp_v0_8 = ((s32) (((((sp78 - sp7C) * spE4) + sp7C) * 182.04167f) + 0.5f) - (s32) ((f32) spA8 * (0.5f + (spE4 * 0.5f)))) + (s32) ((f32) spB0 * batt1->unk_18);
-        //temp_v1_14 = (s32) (temp_v0_8 << 0x10) >> 0x10;
-        temp_v1_14 = (s16)(spAC.pitch * batt1->unk_18) + (DEGF_TO_BINANG(F32_LERPIMP(sp7C, sp78, spE4)) - (s16)(spA4.pitch * (0.5f + (spE4 * 0.5f))));
-        /*if (temp_v1_14 < -0x2AA8) {
-            phi_a0 = (u16)-0x2AA8;
-        } else {
-            phi_a0 = (s16) ((s32) (temp_v0_8 << 0x10) >> 0x10);
-            if (temp_v1_14 >= 0x2AA9) {
-                phi_a0 = (u16)0x2AA8;
-            }
-        }*/
-        //phi_a0 = CLAMP(temp_v1_14, -0x2AA8, 0x2AA8);
-        
-        if((s16)temp_v1_14 < -0x2AA8){
-            phi_a0 = -0x2AA8;
-        } else {
-            phi_a0 = (s16)temp_v1_14;
-            if(temp_v1_14 > 0x2AA8){
-                phi_a0 = 0x2AA8;
-            }
-        }
-        spB4.pitch = Camera_LERPCeilS(phi_a0, sp94.pitch, anim->unk_10, 0xA);
+        sp8C = DEGF_TO_BINANG(F32_LERPIMP(sp7C, sp78, spE4));
+        sp8E = spAC.pitch * batt1->unk_18;
+        spB4.pitch = Camera_LERPCeilS(CLAMP(sp8E + (sp8C - (s16)(spA4.pitch * (0.5f + (spE4 * 0.5f)))), -0x2AA8, 0x2AA8), sp94.pitch, anim->unk_10, 0xA);
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spB4);
         spBC.pos = *eyeNext;
         if (camera->status == CAM_STATUS_ACTIVE) {
@@ -2987,21 +2850,8 @@ s32 Camera_Battle1(Camera *camera) {
             *eye = *eyeNext;
         }
     }
-    //temp_f0_5 = anim->unk_04;
     anim->unk_04 = anim->unk_04 + ((((OREG(36) * camera->speedRatio) * (1.0f - spE4)) - anim->unk_04) * PCT(OREG(37)));
-    //camera->roll = (s16) (s32) ((anim->anim->unk_04 * 182.04167f) + 0.5f);
     camera->roll = DEGF_TO_BINANG(anim->unk_04);
-    /*if (player->swordState != 0) {
-        phi_f2_4 = 0.8f;
-    } else {
-        if ((s32) gSaveContext.health < 0x11) {
-            phi_f0 = 0.8f;
-        } else {
-            phi_f0 = 1.0f;
-        }
-        phi_f2_4 = phi_f0;
-    }*/
-    //camera->fov = Camera_LERPCeilF(phi_f2_4 * (sp74 - ((sp74 * 0.05f) * spE4)), camera->fov, (bitwise f32) (bitwise s32) camera->fovUpdateRate, 1.0f);
     camera->fov = Camera_LERPCeilF((player->swordState != 0 ? 0.8f : gSaveContext.health <= 0x10 ? 0.8f : 1.0f) * 
                                     (sp74 - ((sp74 * 0.05f) * spE4)), camera->fov, camera->fovUpdateRate, 1.0f);
 }
@@ -3104,7 +2954,6 @@ s32 Camera_KeepOn2(Camera* camera) {
 
 s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5);
 
-//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_KeepOn3(Camera *camera) {
     KeepOn3* keep3 = &camera->params.keep3;
@@ -3299,7 +3148,6 @@ s32 Camera_KeepOn3(Camera *camera) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_KeepOn3.s")
 #endif
 
-//#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 Camera_KeepOn4(Camera *camera) {
     static Vec3f D_8015BD50;
@@ -5441,38 +5289,42 @@ s32 Camera_Demo2(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#ifdef NON_MATCHING
 /**
  * Opening large chests. 
  * The camera position will be at a fixed point, and rotate around at different intervals.
  * The direction, and initial position is dependent on when the camera was started.
 */
 s32 Camera_Demo3(Camera *camera) {
-    s32 pad;
-    Demo3* demo3 = &camera->params.demo3;
-    CameraModeValue* values;
-    Demo3Anim* anim = &demo3->anim;
+    Vec3f* eye = &camera->eye;
+    Vec3f* at = &camera->at;
+    Vec3f* eyeNext = &camera->eyeNext;
+    PosRot *camPlayerPosRot = &camera->playerPosRot;
+
     VecSph eyeAtOffset;
     VecSph eyeOffset;
     VecSph atOffset;
+    
     Vec3f sp74;
     Vec3f sp68;
     Vec3f sp5C;
+    
     f32 temp_f0;
-    s32 pad2;
+    s32 pad;
     u8 skipUpdateEye;
     f32 yOffset;
     s16 angle;
-    Vec3f* eye = &camera->eye;
-    Vec3f* at = &camera->at;
-    PosRot *camPlayerPosRot = &camera->playerPosRot;
+
+    Demo3* demo3 = &camera->params.demo3;
+    Demo3Anim* anim = &demo3->anim;
+    s32 pad2;
+
 
     skipUpdateEye = false;
     yOffset = Player_GetCameraYOffset(camera->player);
     camera->unk_14C &= ~0x10;
 
     if(RELOAD_PARAMS){
-        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         demo3->fov = NEXTSETTING;
         demo3->unk_04 = NEXTSETTING; // unused.
         demo3->interfaceFlags = NEXTSETTING;
@@ -5647,8 +5499,8 @@ skipeyeUpdate:
         eyeOffset.r = Camera_LERPCeilF(eyeOffset.r, eyeAtOffset.r, anim->unk_0C, 2.0f);
         eyeOffset.pitch = Camera_LERPCeilS(eyeOffset.pitch, eyeAtOffset.pitch, anim->unk_0C, 0xA);
         eyeOffset.yaw = Camera_LERPCeilS(eyeOffset.yaw, eyeAtOffset.yaw, anim->unk_0C, 0xA);
-        Camera_Vec3fVecSphGeoAdd(&camera->eyeNext, at, &eyeOffset);
-        *eye = camera->eyeNext;
+        Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeOffset);
+        *eye = *eyeNext;
     }
     
     camera->dist = OLib_Vec3fDist(at, eye);
@@ -5658,10 +5510,6 @@ skipeyeUpdate:
     camera->posOffset.z = camera->at.z - camPlayerPosRot->pos.z;
     return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Demo3.s")
-#endif
-#undef NON_MATCHING
 
 s32 Camera_Demo4(Camera* camera) {
     return Camera_NOP(camera);
