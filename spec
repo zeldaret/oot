@@ -683,9 +683,7 @@ endseg
 beginseg
     name "ovl_Bg_Dodoago"
     include "build/src/overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.o"
-    include "build/data/overlays/actors/z_bg_dodoago.data.o"
-    include "build/data/overlays/actors/z_bg_dodoago.bss.o"
-    include "build/data/overlays/actors/z_bg_dodoago.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Dodoago/ovl_Bg_Dodoago_reloc.o"
 endseg
 
 beginseg
