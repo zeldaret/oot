@@ -79,46 +79,23 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (0.0f != this->dyna.unk_150) {
-        if (globalCtx->sceneNum == SCENE_SPOT02) {
-            if (LINK_IS_CHILD) {
-                if (gSaveContext.nightFlag == 0) {
-                    this->dyna.unk_150 = 0.0f;
-                    player->stateFlags2 &= -0x11;
-                    if (!Gameplay_InCsMode(globalCtx)) {
-                        func_8010B680(globalCtx, 0x5073, NULL);
-                        this->dyna.actor.params = 0x64;
-                        this->actionFunc = func_8087BAE4;
-                    }
-                } else {
-block_6:
-                    if (!(0.0f < this->dyna.unk_150)) {
-                        if (globalCtx->sceneNum == SCENE_SPOT06) {
-                            if (LINK_IS_CHILD) {
-
-                                if (Flags_GetSwitch(globalCtx, 0x23) == 0) {
-block_10:
-                                    this->dyna.unk_150 = 0.0f;
-                                    player->stateFlags2 &= -0x11;
-                                } else {
-block_11:
-                                    this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
-                                    this->actionFunc = func_8087B938;
-                                }
-                            } else {
-                                goto block_11;
-                            }
-                        } else {
-                            goto block_11;
-                        }
-                    } else {
-                        goto block_10;
-                    }
-                }
-            } else {
-                goto block_6;
+        if (globalCtx->sceneNum == SCENE_SPOT02 && LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
+            this->dyna.unk_150 = 0.0f;
+            player->stateFlags2 &= -0x11;
+            if (!Gameplay_InCsMode(globalCtx)) {
+                func_8010B680(globalCtx, 0x5073, NULL);
+                this->dyna.actor.params = 0x64;
+                this->actionFunc = func_8087BAE4;
             }
         } else {
-            goto block_6;
+            if (0.0f < this->dyna.unk_150 ||
+                globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && Flags_GetSwitch(globalCtx, 0x23) == 0) {
+                this->dyna.unk_150 = 0.0f;
+                player->stateFlags2 &= -0x11;
+            } else {
+                this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
+                this->actionFunc = func_8087B938;
+            }
         }
     }
     func_8087B758(this, player);
