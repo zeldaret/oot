@@ -1641,7 +1641,7 @@ u32 func_8002F674(GlobalContext* globalCtx, Actor* actor) {
     }
 }
 
-void func_8002F698(GlobalContext* globalCtx, Actor* arg1, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6) {
+void func_8002F698(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6) {
     Player* player = PLAYER;
     player->unk_8A0 = arg6;
     player->unk_8A1 = arg5;
@@ -1650,20 +1650,20 @@ void func_8002F698(GlobalContext* globalCtx, Actor* arg1, f32 arg2, s16 arg3, f3
     player->unk_8A8 = arg4;
 }
 
-void func_8002F6D4(GlobalContext* globalCtx, Actor* arg1, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(globalCtx, arg1, arg2, arg3, arg4, 2, arg5);
+void func_8002F6D4(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
+    func_8002F698(globalCtx, actor, arg2, arg3, arg4, 2, arg5);
 }
 
-void func_8002F71C(GlobalContext* globalCtx, Actor* arg1, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F6D4(globalCtx, arg1, arg2, arg3, arg4, 0);
+void func_8002F71C(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
+    func_8002F6D4(globalCtx, actor, arg2, arg3, arg4, 0);
 }
 
-void func_8002F758(GlobalContext* globalCtx, Actor* arg1, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(globalCtx, arg1, arg2, arg3, arg4, 1, arg5);
+void func_8002F758(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
+    func_8002F698(globalCtx, actor, arg2, arg3, arg4, 1, arg5);
 }
 
-void func_8002F7A0(GlobalContext* globalCtx, Actor* arg1, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F758(globalCtx, arg1, arg2, arg3, arg4, 0);
+void func_8002F7A0(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
+    func_8002F758(globalCtx, actor, arg2, arg3, arg4, 0);
 }
 
 void func_8002F7DC(Actor* actor, u16 sfxId) {

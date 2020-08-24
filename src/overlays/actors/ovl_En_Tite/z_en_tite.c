@@ -109,7 +109,7 @@ void func_80B1A1EC(Actor *thisx) {
 }
 
 // GOOD PROGRESS ON THIS ONE SO FAR, DIDN'T HAVE TIME TO FINISH
-/*
+
 void func_80B1A2A0(EnTite *this, GlobalContext *globalContext) {
     f32 temp_f0;
     f32 temp_f0_2;
@@ -125,20 +125,20 @@ void func_80B1A2A0(EnTite *this, GlobalContext *globalContext) {
     s32 phi_v1;
     s32 phi_v1_2;
     s32 phi_v1_3;
+    s16 temp;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-    if (((this->actor.bgCheckFlags & 3) != 0) || ((-2 == this->actor.params) && ((this->actor.bgCheckFlags & 0x20) != 0))){
-        if (this->actor.velocity.y <= 0.0f){
-            if ((-2 != this->actor.params) || ((this->actor.bgCheckFlags & 0x20) == 0)){
-                if (-32000.0f < this->actor.groundY) {
-                    this->actor.posRot.pos.y = this->actor.groundY;
-                }
+    if ((((this->actor.bgCheckFlags & 3) != 0) || ((-2 == this->actor.params)) &&
+     ((this->actor.bgCheckFlags & 0x20) != 0)) && (this->actor.velocity.y <= 0.0f)){
+        if (((this->actor.params != -2) || ((this->actor.bgCheckFlags & 0x20) == 0))){
+            if (this->actor.groundY > -32000.0f) {
+                this->actor.posRot.pos.y = this->actor.groundY;
             }
-            else{
-                this->actor.velocity.y = 0;
-                this->actor.gravity = 0;
-                this->actor.posRot.pos.y += this->actor.waterY;
-            }
+        }
+        else{
+            this->actor.velocity.y = 0.0f;
+            this->actor.gravity = 0.0f;
+            this->actor.posRot.pos.y += this->actor.waterY;
         }
     }
 
@@ -155,34 +155,33 @@ void func_80B1A2A0(EnTite *this, GlobalContext *globalContext) {
             Audio_PlayActorSound2(&this->actor, 0x388F);
         }
     }
-    if ((this->actor.dmgEffectTimer == 0) && (0.0f == this->actor.speedXZ)){
-        if ((0.0f != this->actor.speedXZ)||(((this->actor.bgCheckFlags & 1) == 0) &&
-         (-2 == this->actor.params) && ((this->actor.bgCheckFlags & 0x20) != 0))) { 
-            this->actor.posRot.rot.y = this->actor.shape.rot.y;
-            if (this->actor.colChkInfo.health == 0) {
-                func_80B1A63C(&this->actor);
-            } else {
-                if (this->unk2BD == 2) {
-                    func_80B1AA44(&this->actor);
-                } else if ( ((300.0f < this->actor.xzDistFromLink) && (80.0f < this->actor.yDistFromLink) &&
-                 (ABS(this->actor.shape.rot.x) < 0xFA0) && (ABS(this->actor.shape.rot.x) < 0xFA0)) &&
-                  ((this->actor.bgCheckFlags & 1 != 0) || ((-2 == this->actor.params) && ((this->actor.bgCheckFlags & 0x20) != 0)))){
-                    func_80B18C5C(&this->actor);
-                } else{
-                    if ((this->actor.xzDistFromLink < 180.0f) && (this->actor.yDistFromLink <= 80.0f) && 
-                    (ABS(this->actor.yawTowardsLink - this->actor.shape.rot.y) < 0x1771)){
-                        func_80B18E08(&this->actor);
-                    } else {
-                        func_80B1985C(&this->actor);
-                    }
+    temp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    if (((this->actor.dmgEffectTimer == 0) && (this->actor.speedXZ == 0.0f)) && (((this->actor.bgCheckFlags & 1) != 0) ||
+        ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x20) != 0)))) { 
+        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        if (this->actor.colChkInfo.health == 0) {
+            func_80B1A63C(&this->actor);
+        } else {
+            if (this->unk2BD == 2) {
+                func_80B1AA44(&this->actor);
+            } else if ( ((300.0f < this->actor.xzDistFromLink) && (80.0f < this->actor.yDistFromLink) &&
+                (ABS(this->actor.shape.rot.x) < 0xFA0) && (ABS(this->actor.shape.rot.z) < 0xFA0)) &&
+                ((this->actor.bgCheckFlags & 1 != 0) || ((-2 == this->actor.params) && ((this->actor.bgCheckFlags & 0x20) != 0)))){
+                func_80B18C5C(&this->actor);
+            } else{
+                if ((this->actor.xzDistFromLink < 180.0f) && (this->actor.yDistFromLink <= 80.0f) && 
+                (ABS(temp) < 0x1771)){
+                    func_80B18E08(&this->actor);
+                } else {
+                    func_80B1985C(&this->actor);
                 }
             }
         }
     }
     SkelAnime_FrameUpdateMatrix(&this->unk14C);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B1A2A0.s")
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B1A2A0.s")
 
 void func_80B1A63C(Actor *thisx) {
     EnTite *this = THIS;
