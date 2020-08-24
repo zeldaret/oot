@@ -4,8 +4,8 @@
 typedef struct {
     /* 0x000 */ s32 numOccupied;
     /* 0x004 */ s32 searchIndex;
-    /* 0x008 */ LightNode lights[32];
-} LightsBuffer; // size = 0x188
+    /* 0x008 */ LightNode buf[32];
+} LightsBuffer;                    // size = 0x188
 
 LightsBuffer sLightsBuffer;
 
@@ -50,6 +50,12 @@ void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b) {
     lights->numLights = 0;
 }
 
+/*
+ * Draws every light in the provided Lights group.
+ * 
+ * Note: Due to how Lights_Update is implemented, this will end up drawing every light in the buffer,
+ *       even if the light was not added by the system invoking this function.
+ */
 void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg) {
     Light* light;
     s32 i;
@@ -61,18 +67,18 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg) {
 
     gSPNumLights(gfxCtx->polyOpa.p++, lights->numLights);
     gSPNumLights(gfxCtx->polyXlu.p++, lights->numLights);
-    
+
     i = 0;
     light = &lights->l.l[0];
 
-    while(i < lights->numLights) {
+    while (i < lights->numLights) {
         i++;
         gSPLight(gfxCtx->polyOpa.p++, light, i);
         gSPLight(gfxCtx->polyXlu.p++, light, i);
         light++;
     }
-    
-    if(0){}
+
+    if (0) {}
 
     i++; // abmient light is total number of lights + 1
     gSPLight(gfxCtx->polyOpa.p++, &lights->l.a, i);
@@ -140,6 +146,12 @@ void Lights_UpdateDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
     }
 }
 
+/*
+ * Updates every light that is currently in sLightsBuffer according to params contained in each node.
+ * 
+ * Note: This updates every light in the buffer and adds them all to a Lights group,
+ *       even those that were not added by the system invoking this function.
+ */
 void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
     LightsUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
     LightInfo* info;
@@ -154,11 +166,13 @@ void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
 LightNode* Lights_FindBufSlot() {
     LightNode* node;
 
+    // even though there is space for 32 nodes, only 7 lights can be drawn at once 
+    // due to how Lights_Update is implemented
     if (sLightsBuffer.numOccupied >= 32) {
         return NULL;
     }
 
-    node = &sLightsBuffer.lights[sLightsBuffer.searchIndex];
+    node = &sLightsBuffer.buf[sLightsBuffer.searchIndex];
 
     while (node->info != NULL) {
         sLightsBuffer.searchIndex++;
@@ -167,7 +181,7 @@ LightNode* Lights_FindBufSlot() {
             node++;
         } else {
             sLightsBuffer.searchIndex = 0;
-            node = &sLightsBuffer.lights[0];
+            node = &sLightsBuffer.buf[0];
         }
     }
 
@@ -181,7 +195,7 @@ s32 Lights_FreeNode(LightNode* light) {
     if (light != NULL) {
         sLightsBuffer.numOccupied--;
         light->info = NULL;
-        sLightsBuffer.searchIndex = (light - sLightsBuffer.lights) / sizeof(LightNode);
+        sLightsBuffer.searchIndex = (light - sLightsBuffer.buf) / sizeof(LightNode);
     }
 }
 
@@ -373,7 +387,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(gfxCtx->polyXlu.p++, D_04015760);
         }
-        
+
         node = node->next;
     }
 
