@@ -79,7 +79,7 @@ void func_8087B758(BgHaka* this, Player* player) {
 void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (0.0f != this->dyna.unk_150) {
+    if (this->dyna.unk_150 != 0.0f) {
         if (globalCtx->sceneNum == SCENE_SPOT02 && LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= -0x11;
