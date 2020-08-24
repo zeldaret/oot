@@ -250,28 +250,28 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
     }
 
-    if (globalCtx->envCtx.unk_8C[3] != 0) {
-        globalCtx->envCtx.unk_8C[3] -= 0x19;
+    if (globalCtx->envCtx.unk_8C[1][0] != 0) {
+        globalCtx->envCtx.unk_8C[1][0] -= 0x19;
     }
 
-    if (globalCtx->envCtx.unk_8C[4] != 0) {
-        globalCtx->envCtx.unk_8C[4] -= 0x19;
+    if (globalCtx->envCtx.unk_8C[1][1] != 0) {
+        globalCtx->envCtx.unk_8C[1][1] -= 0x19;
     }
 
-    if (globalCtx->envCtx.unk_8C[5] != 0) {
-        globalCtx->envCtx.unk_8C[5] -= 0x19;
+    if (globalCtx->envCtx.unk_8C[1][2] != 0) {
+        globalCtx->envCtx.unk_8C[1][2] -= 0x19;
     }
 
-    if (globalCtx->envCtx.unk_8C[0] != 0) {
-        globalCtx->envCtx.unk_8C[0] -= 0x19;
+    if (globalCtx->envCtx.unk_8C[0][0] != 0) {
+        globalCtx->envCtx.unk_8C[0][0] -= 0x19;
     }
 
-    if (globalCtx->envCtx.unk_8C[1] != 0) {
-        globalCtx->envCtx.unk_8C[1] -= 0x19;
+    if (globalCtx->envCtx.unk_8C[0][1] != 0) {
+        globalCtx->envCtx.unk_8C[0][1] -= 0x19;
     }
 
-    if (globalCtx->envCtx.unk_8C[2] != 0) {
-        globalCtx->envCtx.unk_8C[2] -= 0x19;
+    if (globalCtx->envCtx.unk_8C[0][2] != 0) {
+        globalCtx->envCtx.unk_8C[0][2] -= 0x19;
     }
 
     if (this->timer == 0) {
@@ -399,8 +399,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
-                globalCtx->envCtx.unk_8C[3] = globalCtx->envCtx.unk_8C[4] = globalCtx->envCtx.unk_8C[5] = 0xFA;
-                globalCtx->envCtx.unk_8C[0] = globalCtx->envCtx.unk_8C[1] = globalCtx->envCtx.unk_8C[2] = 0xFA;
+                globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
+                globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
                 func_8005AA1C(&globalCtx->cameras[0], 2, 0xB, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;

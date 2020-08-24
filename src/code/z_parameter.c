@@ -1134,8 +1134,6 @@ Gfx* Gfx_TextureI8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 te
     return displayListHead;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Inventory_SwapAgeEquipment(void) {
     s16 i;
     u16 temp;
@@ -1162,15 +1160,14 @@ void Inventory_SwapAgeEquipment(void) {
                 gSaveContext.equips.buttonItems[1] = ITEM_NUT;
                 gSaveContext.equips.cButtonSlots[0] = SLOT_NUT;
             } else {
-                gSaveContext.equips.cButtonSlots[0] = SLOT_NONE;
-                gSaveContext.equips.buttonItems[1] = ITEM_NONE;
+                gSaveContext.equips.buttonItems[1] = gSaveContext.equips.cButtonSlots[0] = ITEM_NONE;
             }
 
             gSaveContext.equips.buttonItems[2] = ITEM_BOMB;
+            gSaveContext.equips.buttonItems[3] = gSaveContext.items[SLOT_OCARINA];
             gSaveContext.equips.cButtonSlots[1] = SLOT_BOMB;
             gSaveContext.equips.cButtonSlots[2] = SLOT_OCARINA;
             gSaveContext.equips.equipment = 0x1122;
-            gSaveContext.equips.buttonItems[3] = gSaveContext.items[SLOT_OCARINA];
         } else {
             for (i = 0; i < 4; i++) {
                 gSaveContext.equips.buttonItems[i] = gSaveContext.adultEquips.buttonItems[i];
@@ -1232,9 +1229,6 @@ void Inventory_SwapAgeEquipment(void) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Inventory_SwapAgeEquipment.s")
-#endif
 
 void Interface_InitHorsebackArchery(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
@@ -1678,7 +1672,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
         return ITEM_NONE;
     } else if ((item == ITEM_HEART_PIECE_2) || (item == ITEM_HEART_PIECE)) {
-        gSaveContext.questItems += (1 << QUEST_HEART_PIECE);
+        gSaveContext.questItems += 1 << (QUEST_HEART_PIECE + 4);
         return ITEM_NONE;
     } else if (item == ITEM_HEART_CONTAINER) {
         gSaveContext.healthCapacity += 0x10;
@@ -1949,21 +1943,18 @@ void Inventory_DeleteItem(u16 item, u16 invSlot) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 s32 Inventory_ReplaceItem(GlobalContext* globalCtx, u16 oldItem, u16 newItem) {
     s16 i;
-    s16 j;
 
     for (i = 0; i < ARRAY_COUNT(gSaveContext.items); i++) {
         if (gSaveContext.items[i] == oldItem) {
             gSaveContext.items[i] = newItem;
             // Translates to: "Item Purge (%d)"
-            osSyncPrintf("アイテム消去(%d)", i);
-            for (j = 1; j < 4; j++) {
-                if (gSaveContext.equips.buttonItems[j] == oldItem) {
-                    gSaveContext.equips.buttonItems[j] = newItem;
-                    Interface_LoadItemIcon1(globalCtx, j);
+            osSyncPrintf("アイテム消去(%d)\n", i);
+            for (i = 1; i < 4; i++) {
+                if (gSaveContext.equips.buttonItems[i] == oldItem) {
+                    gSaveContext.equips.buttonItems[i] = newItem;
+                    Interface_LoadItemIcon1(globalCtx, i);
                     break;
                 }
             }
@@ -1973,9 +1964,6 @@ s32 Inventory_ReplaceItem(GlobalContext* globalCtx, u16 oldItem, u16 newItem) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Inventory_ReplaceItem.s")
-#endif
 
 s32 Inventory_HasEmptyBottle(void) {
     u8* items = gSaveContext.items;
@@ -2009,8 +1997,6 @@ s32 Inventory_HasSpecificBottle(u8 bottleItem) {
     }
 }
 
-#ifdef NON_MATCHING
-// save context pointer isn't reused after Interface_LoadItemIcon1 when it should be
 void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 cButton) {
     osSyncPrintf("item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, cButton,
                  gSaveContext.equips.cButtonSlots[cButton - 1],
@@ -2025,19 +2011,12 @@ void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 cButton) {
     gSaveContext.items[gSaveContext.equips.cButtonSlots[cButton - 1]] = item;
     gSaveContext.equips.buttonItems[cButton] = item;
 
-    if (1) {} // Improves codegen but may not be necessary
-
     Interface_LoadItemIcon1(globalCtx, cButton);
 
     globalCtx->pauseCtx.unk_23E = item;
-    gSaveContext.buttonStatus[0] = BTN_ENABLED;
+    gSaveContext.buttonStatus[cButton] = BTN_ENABLED;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Inventory_UpdateBottleItem.s")
-#endif
 
-#ifdef NON_MATCHING
-// mostly regalloc, minor ordering, and stack usage differences
 s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
     s32 bottleSlot;
     s16 i;
@@ -2051,22 +2030,20 @@ s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
                 if (gSaveContext.equips.buttonItems[j] == ITEM_FAIRY) {
                     gSaveContext.equips.buttonItems[j] = ITEM_BOTTLE;
                     Interface_LoadItemIcon1(globalCtx, j);
+                    i = 0;
                     bottleSlot = gSaveContext.equips.cButtonSlots[j - 1];
                     break;
                 }
             }
             // Translates to: "Fairy Usage＝%d"
             osSyncPrintf("妖精使用＝%d\n", bottleSlot);
-            gSaveContext.items[bottleSlot] = ITEM_BOTTLE;
+            gSaveContext.items[bottleSlot + i] = ITEM_BOTTLE;
             return 1;
         }
     }
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Inventory_ConsumeFairy.s")
-#endif
 
 void func_80086D5C(s32* buf, u16 size) {
     u16 i;
@@ -3960,16 +3937,14 @@ s16 sTimerDigits[5];
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_Draw.s")
 #endif
 
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;
     static s16 D_80125B64 = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = PLAYER;
-    s16 alpha;  // sp+0x3A
-    s16 alpha1; // sp+0x38
+    s16 alpha;
+    s16 alpha1;
     u16 action;
     Input* input = &globalCtx->state.input[2];
 
@@ -4164,14 +4139,14 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     switch (interfaceCtx->unk_1EC) {
         case 1:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 15700.0f) {
                 interfaceCtx->unk_1F4 = -15700.0f;
                 interfaceCtx->unk_1EC = 2;
             }
             break;
         case 2:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 0.0f) {
                 interfaceCtx->unk_1F4 = 0.0f;
                 interfaceCtx->unk_1EC = 0;
@@ -4184,14 +4159,14 @@ void Interface_Update(GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 15700.0f) {
                 interfaceCtx->unk_1F4 = -15700.0f;
                 interfaceCtx->unk_1EC = 2;
             }
             break;
         case 4:
-            interfaceCtx->unk_1F4 = interfaceCtx->unk_1F4 + (31400.0f / WREG(5));
+            interfaceCtx->unk_1F4 += 31400.0f / WREG(5);
             if (interfaceCtx->unk_1F4 >= 0.0f) {
                 interfaceCtx->unk_1F4 = 0.0f;
                 interfaceCtx->unk_1EC = 0;
@@ -4253,8 +4228,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             }
         }
 
-        sHBAScoreDigits[1] = 0;
-        sHBAScoreDigits[0] = 0;
+        sHBAScoreDigits[0] = sHBAScoreDigits[1] = 0;
         sHBAScoreDigits[2] = 0;
         sHBAScoreDigits[3] = gSaveContext.minigameScore;
 
@@ -4289,10 +4263,12 @@ void Interface_Update(GlobalContext* globalCtx) {
                 gSaveContext.unk_1422 = 2;
                 D_80125B64 = D_8011FB40;
                 D_8011FB40 = 400;
-            } else if ((D_80125B60 == 0) && (gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
-                gSaveContext.unk_1422 = 0;
-                D_8011FB40 = D_80125B64;
-                globalCtx->msgCtx.unk_E3EE = 4;
+            } else if (D_80125B60 == 0) {
+                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
+                    gSaveContext.unk_1422 = 0;
+                    D_8011FB40 = D_80125B64;
+                    globalCtx->msgCtx.unk_E3EE = 4;
+                }
             } else if (gSaveContext.dayTime > 0xC001) {
                 gSaveContext.unk_1422 = 0;
                 D_8011FB40 = D_80125B64;
@@ -4328,8 +4304,3 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 }
-#else
-u8 D_80125B60 = 0;
-s16 D_80125B64 = 0;
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_Update.s")
-#endif

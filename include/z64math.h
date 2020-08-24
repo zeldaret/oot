@@ -47,10 +47,10 @@ typedef struct {
 } TriNorm; // size = 0x34
 
 typedef struct {
-    s16 radius;
-    s16 height;
-    s16 yShift;
-    Vec3s pos;
+    /* 0x0000 */ s16 radius;
+    /* 0x0002 */ s16 height;
+    /* 0x0004 */ s16 yShift;
+    /* 0x0006 */ Vec3s pos;
 } Cylinder16; // size = 0x0C
 
 typedef struct {
@@ -61,15 +61,29 @@ typedef struct {
 } Cylinderf; // size = 0x18
 
 typedef struct {
-    Vec3f a;
-    Vec3f b;
+    /* 0x0000 */ Vec3f point;
+    /* 0x000C */ Vec3f dir;
+} InfiniteLine; // size = 0x18
+
+typedef struct {
+    /* 0x0000 */ Vec3f a;
+    /* 0x000C */ Vec3f b;
 } Linef; // size = 0x18
 
 // Defines a point in the spherical coordinate system
 typedef struct {
     f32 r;      // radius
-    s16 phi;    // polar (zenith) angle
-    s16 theta;  // azimuthal angle
+    s16 pitch;  // polar (zenith) angle
+    s16 yaw;    // azimuthal angle
 } VecSph; // size = 0x08
+
+#define IS_ZERO(f) (fabsf(f) < 0.008f)
+
+/**
+ * Trig macros
+*/
+#define DEGF_TO_BINANG(degreesf) ((s16)(degreesf * (65535.0f / 360.0f) + 0.5f))
+#define RADF_TO_DEGF(radf) (radf * (180.0f / M_PI))
+#define DEGF_TO_RADF(degf) (degf * (M_PI / 180.0f))
 
 #endif

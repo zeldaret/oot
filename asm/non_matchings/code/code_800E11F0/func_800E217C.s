@@ -25,7 +25,7 @@ glabel func_800E217C
 /* B59374 800E21D4 0019C940 */  sll   $t9, $t9, 5
 /* B59378 800E21D8 0279A021 */  addu  $s4, $s3, $t9
 /* B5937C 800E21DC 26943530 */  addiu $s4, $s4, 0x3530
-/* B59380 800E21E0 0C03A6DB */  jal   func_800E9B6C
+/* B59380 800E21E0 0C03A6DB */  jal   Audio_SequencePlayerDisable
 /* B59384 800E21E4 02802025 */   move  $a0, $s4
 /* B59388 800E21E8 8FA80034 */  lw    $t0, 0x34($sp)
 /* B5938C 800E21EC 8E62283C */  lw    $v0, 0x283c($s3)

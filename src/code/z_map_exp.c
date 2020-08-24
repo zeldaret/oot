@@ -8,7 +8,6 @@ s16 sPlayerInitialPosX = 0;
 s16 sPlayerInitialPosZ = 0;
 s16 sPlayerInitialDirection = 0;
 s16 sEntranceIconMapIndex = 0;
-s16 sLastRoomNum = 99;
 
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -515,9 +514,8 @@ s16 Map_GetFloorTextIndexOffset(s32 mapIndex, s32 floor) {
     return gMapData->floorTexIndexOffset[mapIndex][floor];
 }
 
-#ifdef NON_MATCHING
-// single extra load instruction
 void Map_Update(GlobalContext* globalCtx) {
+    static s16 sLastRoomNum = 99;
     Player* player = PLAYER;
     s32 mapIndex = gSaveContext.mapIndex;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
@@ -536,13 +534,6 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADAN:
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
-            case SCENE_GANON:
-            case SCENE_MEN:
-            case SCENE_GERUDOWAY:
-            case SCENE_GANONTIKA:
-            case SCENE_GANON_SONOGO:
-            case SCENE_GANONTIKA_SONOGO:
-            case SCENE_TAKARAYA:
                 interfaceCtx->unk_140[30] = 0;
                 if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
                     interfaceCtx->unk_140[31] = 1;
@@ -568,7 +559,6 @@ void Map_Update(GlobalContext* globalCtx) {
                     // Translates to "Current floor = %d Current room = %x Number of rooms = %d"
                     osSyncPrintf("現在階＝%d  現在部屋＝%x  部屋数＝%d\n", floor, interfaceCtx->mapRoomNum,
                                  gMapData->switchEntryCount[mapIndex]);
-                    if (interfaceCtx->mapRoomNum) {} // Improves codegen but may not be necessary
                     sLastRoomNum = interfaceCtx->mapRoomNum;
                 }
 
@@ -602,6 +592,3 @@ void Map_Update(GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_map_exp/Map_Update.s")
-#endif
