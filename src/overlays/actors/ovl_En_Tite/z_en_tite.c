@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tite.h"
+#include "vt.h"
 
 #define FLAGS 0x00000015
 
@@ -31,11 +32,16 @@ void func_80B1A63C(Actor *thisx);
 void func_80B18E08(Actor *thisx);
 void func_80B1985C(Actor *thisx);
 void func_80B19524(Actor *thisx);
+void func_80B18C5C(Actor *thisx);
 //EffectSsGRipple_Spawn
 void func_80029444(GlobalContext *globalCtxt, Vec3f *vec, s32 arg2, s32 arg3, s32 arg4);
 
+extern SkeletonHeader D_06003A20;
 extern AnimationHeader D_060012E4;
 extern AnimationHeader D_06000A14;
+
+extern InitChainEntry D_80B1B624[]; // TODO
+extern ColliderJntSphInit D_80B1B5F4; // TODO
 
 /*
 const ActorInit En_Tite_InitVars = {
@@ -50,15 +56,67 @@ const ActorInit En_Tite_InitVars = {
     (ActorFunc)EnTite_Draw,
 };
 */
+static DamageTable sDamageTable = {
+    0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x02, 0xF4,
+    0x02, 0x02, 0x02, 0x02, 0xE0, 0xF3, 0xE0, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00
+};
 
 //EnTite_SetupAction
 void func_80B18A80(EnTite* this, EnTiteActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Init.s")
+void EnTite_Init(Actor *thisx, GlobalContext *globalContext) {
+    EnTite *this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Destroy.s")
+    Actor_ProcessInitChain(thisx, D_80B1B624); // TODO D_
+    thisx->unk_1F = 3;
+    Actor_SetScale(thisx, 0.01f);
+    SkelAnime_Init(globalContext, &this->unk14C, &D_06003A20, &D_060012E4, this->limbDrawTable, this->transitionDrawTable, 25);
+    ActorShape_Init(&thisx->shape, -200.0f, ActorShadow_DrawFunc_Circle, 70.0f);
+    this->unk2BD = 0;
+    thisx->colChkInfo.damageTable = &sDamageTable;
+    this->unk2E0 = 0; // is this a u16???
+    this->unk2C4.unk_10 = 0;
+    thisx->posRot2.pos = thisx->posRot.pos;
+    thisx->posRot2.pos.y += 20.0f;
+    thisx->colChkInfo.health = 2;
+    thisx->colChkInfo.mass = 0xFE;
+    Collider_InitJntSph(globalContext, &this->unk2E8);
+    Collider_SetJntSph(globalContext,  &this->unk2E8, thisx, &D_80B1B5F4, &this->unk308); // TODO D_
+    this->unk2DC = 0x1D;
+    if (thisx->params == -2) {
+        this->unk2DC |= 0x40;
+        thisx->colChkInfo.health = 4;
+        thisx->naviEnemyId += 1;
+    }
+    func_80B18C5C(thisx);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Init.s")
+
+typedef struct {
+    Actor actor;
+    char unk14C[0x6];
+    s16 unk152;
+}UnkAttachedActor;
+
+void EnTite_Destroy(Actor *thisx, GlobalContext *globalContext) {
+    EnTite *this = THIS;
+    UnkAttachedActor *attached; // I think this is En_Encount1
+    
+    if (thisx->attachedA != NULL) {
+        attached = (UnkAttachedActor*)thisx->attachedA;
+        if (attached->unk152 > 0) {
+             attached->unk152--;
+        }
+        osSyncPrintf("\n\n");
+        // "Number of simultaneous occourances"
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, attached->unk152); 
+        osSyncPrintf("\n\n");
+    }
+    Collider_DestroyJntSph(globalContext, &this->unk2E8); //collider
+}
 
 void func_80B18C5C(Actor *thisx) {
     EnTite *this = THIS;
@@ -163,7 +221,7 @@ void func_80B19E94(EnTite *this, GlobalContext *globalContext) {
     if ((this->actor.speedXZ == 0.0f) && (((this->actor.bgCheckFlags & 1) != 0) ||
      ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x20) != 0)))){
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        this->unk2E8.atFlags &= ~0x2;
+        this->unk2E8.base.atFlags &= ~0x2;
         if ((300.0f < this->actor.xzDistFromLink) && (80.0f < this->actor.yDistFromLink) &&
          (ABS(this->actor.shape.rot.x) < 0xFA0) && (ABS(this->actor.shape.rot.z) < 0xFA0) &&
          (((this->actor.bgCheckFlags & 1) != 0) || ((this->actor.params == -2) &&
@@ -364,11 +422,11 @@ void func_80B1ABBC(Actor *thisx, GlobalContext *globalContext) {
     u8 phi_return;
     u16 num = 0x386D;
 
-    if (((this->unk2E8.acFlags & 2) != 0) && (this->unk2BC >= 6)) {
-        this->unk2E8.acFlags = (this->unk2E8.acFlags & 0xFFFD);
+    if (((this->unk2E8.base.acFlags & 2) != 0) && (this->unk2BC >= 6)) {
+        this->unk2E8.base.acFlags = (this->unk2E8.base.acFlags & 0xFFFD);
         if (thisx->colChkInfo.damageEffect != 0xE) {
             this->unk2E4 =  thisx->colChkInfo.damageEffect;
-            func_80035650(thisx, this->unk304, 0);
+            func_80035650(thisx, &this->unk2E8.list->body, 0);
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)){
                 if (this->unk2BC != 7){
                     func_8003426C(thisx, 0, 0x78, 0, 0x50);
@@ -465,8 +523,8 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->posRot2.pos = thisx->posRot.pos;
     thisx->posRot2.pos.y += 20.0f;
 
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk2E8);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk2E8);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk2E8.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk2E8.base);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B1B178.s")
