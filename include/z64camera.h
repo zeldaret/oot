@@ -691,7 +691,7 @@ typedef struct {
     Actor* unk_0C;
     Vec3f unk_10;
     s16 unk_1C;
-} KeepOn3_Unk2C;
+} Keep3Anim;
 
 typedef struct {
     f32 unk_00;
@@ -706,7 +706,7 @@ typedef struct {
     f32 unk_24;
     s16 unk_28;
     s16 unk_2A;
-    KeepOn3_Unk2C unk_2C;
+    Keep3Anim anim;
 } KeepOn3;
 
 typedef struct {
