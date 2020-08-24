@@ -29,8 +29,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern u32 D_06000A38;
-extern u32 D_60008A00;
-extern u32 D_60009600;
+extern Gfx D_60008A00[];
+extern Gfx D_60009600[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/func_808B6BC0.s")
 // void func_808B6BC0(void *arg0, GlobalContext *arg1) {
@@ -96,7 +96,6 @@ extern u32 D_60009600;
 //     func_80033480(arg1, (Vec3f *) temp_s4, 60.0f, 4, 0x6E, 0xA0, 1);
 // }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/BgSpot17Bakudankabe_Init.s")
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
     s32 pad;
@@ -112,49 +111,62 @@ void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/BgSpot17Bakudankabe_Destroy.s")
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/BgSpot17Bakudankabe_Update.s")
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    if (this->dyna.actor.xzDistFromLink < 650.0f && func_80033684(globalCtx, this) != 0) {
+    if (this->dyna.actor.xzDistFromLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != 0) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Actor_Kill(this);
+        Actor_Kill(&this->dyna.actor);
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/BgSpot17Bakudankabe_Draw.s")
-// void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-//     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-//     Gfx* dispRefs2[4];
-//     Gfx* dispRefs[4];
+void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    {
+        u32 gameplayFrames;
+        s8 sp62;
+        s8 sp63;
+        GraphicsContext* gfxCtx;
+        Gfx* dispRefs[4];
 
-//     s8 sp63 = coss((924 * globalCtx->gameplayFrames) & 0xFFFF) >> 8;
-//     s8 sp62 = coss((924 * globalCtx->gameplayFrames) & 0xFFFF) >> 8;
+        sp62 = coss((u16)(globalCtx->gameplayFrames * 1500)) >> 8;
+        sp63 = coss((u16)(globalCtx->gameplayFrames * 1500)) >> 8;
 
+        gfxCtx = globalCtx->state.gfxCtx;
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
 
-//     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
-//     func_80093D18(globalCtx->state.gfxCtx);
+        func_80093D18(globalCtx->state.gfxCtx);
 
-//     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273),
-//               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-//     gDPSetEnvColor(gfxCtx->polyOpa.p++, (sp63 >> 1) + 0xC0, (sp62 >> 1) + 0xC0, 0xFF, 0x80);
+        sp62 = (sp62 >> 1) + 0xC0;
+        sp63 = (sp63 >> 1) + 0xC0;
+        gameplayFrames = globalCtx->gameplayFrames;
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, sp62, sp63, 0xFF, 0x80);
 
-//     gSPDisplayList(gfxCtx->polyOpa.p++, &D_60008A00);
-//     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 283);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_60008A00);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 283);
+    }
 
-//     Graph_OpenDisps(dispRefs2, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 286);
-//     func_80093D84(globalCtx->state.gfxCtx);
-//     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290),
-//               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-//     gSPDisplayList(gfxCtx->polyXlu.p++, &D_60009600);
-//     Graph_CloseDisps(dispRefs2, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 295);
-// }
+    {
+        GraphicsContext* gfxCtx;
+        Gfx* dispRefs[4];
+
+        gfxCtx = globalCtx->state.gfxCtx;
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 286);
+        func_80093D84(globalCtx->state.gfxCtx);
+
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_60009600);
+
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 295);
+    }
+}
