@@ -135,20 +135,13 @@ typedef struct {
 } DynaLookup;
 
 typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 unk_06;
-} Vec4s; //don't use
-
-typedef struct {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ CollisionHeader* colHeader;
     /* 0x08 */ DynaLookup dynaLookup;
     /* 0x10 */ u16 vtxStartIndex; //dyna vtx index start
     /* 0x14 */ ScaleRotPos srp1;
     /* 0x34 */ ScaleRotPos srp2;
-    /* 0x54 */ Sphere16  unk_54;
+    /* 0x54 */ Sphere16  boundingSphere;
     /* 0x5C */ f32  minY;
     /* 0x60 */ f32  maxY;
 } ActorMesh; // size = 0x64
