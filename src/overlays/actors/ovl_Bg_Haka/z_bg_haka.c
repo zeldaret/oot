@@ -121,13 +121,13 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= -0x11;
         if (this->dyna.actor.params == 1) {
-            func_80078884(0x4802);
+            func_80078884(NA_SE_SY_CORRECT_CHIME);
         } else if (gSaveContext.nightFlag != 0 && globalCtx->sceneNum == SCENE_SPOT02) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.initPosRot.pos.x, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.initPosRot.pos.z, 0, this->dyna.actor.shape.rot.y, 0, 1);
         }
         this->actionFunc = func_8087BAAC;
     }
-    func_8002F974(&this->dyna.actor, 0x200A);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka/func_8087BAAC.s")
