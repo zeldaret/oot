@@ -201,9 +201,11 @@ u8 Audio_M64ReadU8(M64ScriptState* state) {
     return *(state->pc++);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_M64ReadS16.s")
-
-s16 Audio_M64ReadS16(M64ScriptState* state);
+s16 Audio_M64ReadS16(M64ScriptState* state) {
+    s16 ret = *(state->pc++) << 8;
+    ret = *(state->pc++) | ret;
+    return ret;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_M64ReadCompressedU16.s")
 
