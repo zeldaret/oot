@@ -173,7 +173,7 @@ typedef struct {
     /* 0x14C */ s32 bankDmaRemaining;
     /*       */ u8 pad_150[8];
     /* 0x158 */ s8 unk_158[8]; // "seqVariationEu"?
-} SequencePlayer;
+} SequencePlayer; // size = 0x160
 
 typedef struct {
     /*!0x0 */ u8 releaseRate;
@@ -485,7 +485,7 @@ typedef struct {
     /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0xB5C];
     /* 0x352C */ Note* gNotes;
-    /* 0x3530 */ char unk_3530[0x580];
+    /* 0x3530 */ SequencePlayer gSequencePlayers[4];
     /* 0x3AB0 */ SequenceChannelLayer gSequenceLayers[64];
     /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
     /* 0x5B84 */ s32 gNoteSubEuOffset;

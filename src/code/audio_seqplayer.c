@@ -446,6 +446,16 @@ void Audio_InitSequencePlayer(SequencePlayer* seqPlayer) {
     Audio_ResetSequencePlayer(seqPlayer);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_InitSequencePlayers.s")
+void Audio_InitSequencePlayers(void) {
+    s32 i;
 
-void Audio_InitSequencePlayers(void);
+    Audio_InitLayerFreelist();
+    for (i = 0; i < 64; i++) {
+        gAudioContext.gSequenceLayers[i].seqChannel = NULL;
+        gAudioContext.gSequenceLayers[i].enabled = 0;
+    }
+
+    for (i = 0; i < 4; i++) {
+        Audio_InitSequencePlayer(&gAudioContext.gSequencePlayers[i]);
+    }
+}
