@@ -35,53 +35,51 @@ extern Gfx D_500A880[];
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/func_808B6BC0.s")
 void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
-    Vec3f burstDepthX;
+    s32 pad[2];
+    s32 i;
     Vec3f burstDepthY;
-
-    f32 temp_f20;
+    Vec3f burstDepthX;
     f32 sinY;
     f32 cosY;
-    f32 temp_f2;
-    s16 scale;
-    s32 i;
-    s32 gravityInfluence;
-    s16 phi_v0;
-    f32 tempVar;
 
     sinY = Math_Sins(this->dyna.actor.shape.rot.y);
     cosY = Math_Coss(this->dyna.actor.shape.rot.y);
 
-    burstDepthX.z = 0.0f;
     burstDepthX.x = 0.0f;
+    burstDepthX.z = 0.0f;
 
-    for (i = 0; i < 0x14; i++) {
-        tempVar = 0.2f;
-        temp_f20 = (Math_Rand_ZeroOne() - 0.5f) * 140.0f;
-        temp_f2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
-      
-        burstDepthY.x = (this->dyna.actor.posRot.pos.x + (temp_f2 * sinY)) + (temp_f20 * cosY);
+    for (i = 0; i < 20; i++) {
+        s16 gravityInfluence;
+        s16 scale;
+        f32 temp1;
+        f32 temp2;
+        s32 rotationSpeed;
+
+        temp1 = (Math_Rand_ZeroOne() - 0.5f) * 140.0f;
+        temp2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
+
+        burstDepthY.x = (this->dyna.actor.posRot.pos.x + (temp2 * sinY)) + (temp1 * cosY);
         burstDepthY.y = (this->dyna.actor.posRot.pos.y + 30.0f) + (i * 6.5f);
-        burstDepthY.z = (this->dyna.actor.posRot.pos.z + (temp_f2 * cosY)) - (temp_f20 * sinY);
-       
-        burstDepthX.y = (Math_Rand_ZeroOne() - tempVar) * 12.0f;
+        burstDepthY.z = (this->dyna.actor.posRot.pos.z + (temp2 * cosY)) - (temp1 * sinY);
+
+        burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
         scale = (s16)((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
 
         if (scale < 0x14) {
             gravityInfluence = -0x12C;
+        } else if (scale < 0x23) {
+            gravityInfluence = -0x168;
         } else {
             gravityInfluence = -0x1A4;
-            if (scale < 0x23) {
-                gravityInfluence = -0x168;
-            }
         }
+
         if (Math_Rand_ZeroOne() < 0.4f) {
-            phi_v0 = 0x41;
+            rotationSpeed = 0x41;
         } else {
-            phi_v0 = 0x21;
-            do {} while(0); // Required to match
+            rotationSpeed = 0x21;
         }
-        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, phi_v0, 0x1E, 4, 0, scale,
-                      1, 3, 0x50, -1, 2, D_500A880);
+        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4, 0,
+                      scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_500A880);
     }
     Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.posRot.pos);
     func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
