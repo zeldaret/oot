@@ -1,4 +1,4 @@
-glabel func_800E9CA8
+glabel Audio_InitLayerFreelist
 /* B60E48 800E9CA8 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B60E4C 800E9CAC 3C028017 */  lui   $v0, %hi(gAudioContext) # $v0, 0x8017
 /* B60E50 800E9CB0 2442F180 */  addiu $v0, %lo(gAudioContext) # addiu $v0, $v0, -0xe80

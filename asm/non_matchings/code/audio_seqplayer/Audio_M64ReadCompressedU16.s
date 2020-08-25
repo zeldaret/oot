@@ -1,4 +1,4 @@
-glabel func_800E9D94
+glabel Audio_M64ReadCompressedU16
 /* B60F34 800E9D94 8C820000 */  lw    $v0, ($a0)
 /* B60F38 800E9D98 90430000 */  lbu   $v1, ($v0)
 /* B60F3C 800E9D9C 244E0001 */  addiu $t6, $v0, 1

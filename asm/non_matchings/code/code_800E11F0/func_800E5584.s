@@ -66,7 +66,7 @@ glabel L800E563C
 /* B5C810 800E5670 8E050004 */  lw    $a1, 4($s0)
 /* B5C814 800E5674 14A00005 */  bnez  $a1, .L800E568C
 /* B5C818 800E5678 00000000 */   nop
-/* B5C81C 800E567C 0C03A6D1 */  jal   func_800E9B44
+/* B5C81C 800E567C 0C03A6D1 */  jal   Audio_SequencePlayerDisableAsFinished
 /* B5C820 800E5680 24643530 */   addiu $a0, $v1, 0x3530
 /* B5C824 800E5684 100000B0 */  b     .L800E5948
 /* B5C828 800E5688 8FBF001C */   lw    $ra, 0x1c($sp)
@@ -249,7 +249,7 @@ glabel L800E58C8
 /* B5CA9C 800E58FC 001847C2 */  srl   $t0, $t8, 0x1f
 /* B5CAA0 800E5900 51000007 */  beql  $t0, $zero, .L800E5920
 /* B5CAA4 800E5904 24A50001 */   addiu $a1, $a1, 1
-/* B5CAA8 800E5908 0C03A6D1 */  jal   func_800E9B44
+/* B5CAA8 800E5908 0C03A6D1 */  jal   Audio_SequencePlayerDisableAsFinished
 /* B5CAAC 800E590C AFA50034 */   sw    $a1, 0x34($sp)
 /* B5CAB0 800E5910 3C028017 */  lui   $v0, %hi(D_801719DC) # $v0, 0x8017
 /* B5CAB4 800E5914 844219DC */  lh    $v0, %lo(D_801719DC)($v0)

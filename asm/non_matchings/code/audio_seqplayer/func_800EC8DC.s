@@ -2,7 +2,7 @@ glabel func_800EC8DC
 /* B63A7C 800EC8DC 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B63A80 800EC8E0 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B63A84 800EC8E4 AFB10018 */  sw    $s1, 0x18($sp)
-/* B63A88 800EC8E8 0C03A72A */  jal   func_800E9CA8
+/* B63A88 800EC8E8 0C03A72A */  jal   Audio_InitLayerFreelist
 /* B63A8C 800EC8EC AFB00014 */   sw    $s0, 0x14($sp)
 /* B63A90 800EC8F0 3C028017 */  lui   $v0, %hi(gAudioContext) # $v0, 0x8017
 /* B63A94 800EC8F4 3C038017 */  lui   $v1, %hi(D_80171180) # $v1, 0x8017

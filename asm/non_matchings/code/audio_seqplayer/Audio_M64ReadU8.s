@@ -1,4 +1,4 @@
-glabel func_800E9D48
+glabel Audio_M64ReadU8
 /* B60EE8 800E9D48 8C850000 */  lw    $a1, ($a0)
 /* B60EEC 800E9D4C 90A20000 */  lbu   $v0, ($a1)
 /* B60EF0 800E9D50 24AE0001 */  addiu $t6, $a1, 1

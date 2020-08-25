@@ -4,18 +4,21 @@
 extern u8 D_80130470[];
 extern AudioListItem gLayerFreeList;
 
-u16 func_800E9D48(void* arg0);
-u16 func_800E9D5C(void* arg0);
+u8 Audio_M64ReadU8(M64ScriptState* state);
 
-u16 func_800E9340(void* arg0, u8 arg1) {
+s16 Audio_M64ReadS16(M64ScriptState* state);
+
+u16 Audio_M64ReadCompressedU16(M64ScriptState* state);
+
+u16 func_800E9340(M64ScriptState* state, u8 arg1) {
     u8 temp_v0 = D_80130470[arg1];
     u8 loBits = temp_v0 & 3;
     u16 ret = 0;
     if (loBits == 1) {
         if ((temp_v0 & 0x80) == 0) {
-            ret = func_800E9D48(arg0);
+            ret = Audio_M64ReadU8(state);
         } else {
-            ret = func_800E9D5C(arg0);
+            ret = Audio_M64ReadS16(state);
         }
     }
     return ret;
@@ -162,35 +165,65 @@ void Audio_SequenceChannelDisable(SequenceChannel* seqChannel) {
     seqChannel->finished = 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9934.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerInitChannels.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9A2C.s")
+void Audio_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9AAC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisableChannels.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9B44.s")
+void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelEnable.s")
+
+void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, void* script);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisableAsFinished.s")
+
+void Audio_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisable.s")
 
+void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer);
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_AudioListPushBack.s")
+
+void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_AudioListPopBack.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9CA8.s")
+void* Audio_AudioListPopBack(AudioListItem* list);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9D48.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_InitLayerFreelist.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9D5C.s")
+void Audio_InitLayerFreelist(void);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9D94.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_M64ReadU8.s")
+
+u8 Audio_M64ReadU8(M64ScriptState* state);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_M64ReadS16.s")
+
+s16 Audio_M64ReadS16(M64ScriptState* state);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_M64ReadCompressedU16.s")
+
+u16 Audio_M64ReadCompressedU16(M64ScriptState* state);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9DD4.s")
 
+void func_800E9DD4(SequenceChannelLayer* layer);
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9ED8.s")
+
+void func_800E9ED8(SequenceChannelLayer* layer);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9F64.s")
 
+s32 func_800E9F64(SequenceChannelLayer *layer, s32 arg1);
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EA0C0.s")
+
+s32 func_800EA0C0(SequenceChannelLayer* layer);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EA440.s")
 

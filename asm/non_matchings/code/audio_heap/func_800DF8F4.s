@@ -43,7 +43,7 @@ glabel L800DF954
 /* B56B08 800DF968 261026B0 */  addiu $s0, %lo(D_801726B0) # addiu $s0, $s0, 0x26b0
 /* B56B0C 800DF96C 02002025 */  move  $a0, $s0
 .L800DF970:
-/* B56B10 800DF970 0C03A6D1 */  jal   func_800E9B44
+/* B56B10 800DF970 0C03A6D1 */  jal   Audio_SequencePlayerDisableAsFinished
 /* B56B14 800DF974 AFA5002C */   sw    $a1, 0x2c($sp)
 /* B56B18 800DF978 8FA5002C */  lw    $a1, 0x2c($sp)
 /* B56B1C 800DF97C 862A285C */  lh    $t2, 0x285c($s1)

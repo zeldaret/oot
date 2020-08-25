@@ -1,4 +1,4 @@
-glabel func_800E9AAC
+glabel Audio_SequenceChannelEnable
 /* B60C4C 800E9AAC 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B60C50 800E9AB0 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B60C54 800E9AB4 30A500FF */  andi  $a1, $a1, 0xff

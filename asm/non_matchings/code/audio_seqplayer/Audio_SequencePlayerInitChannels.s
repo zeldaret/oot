@@ -1,4 +1,4 @@
-glabel func_800E9934
+glabel Audio_SequencePlayerInitChannels
 /* B60AD4 800E9934 AFA50004 */  sw    $a1, 4($sp)
 /* B60AD8 800E9938 30A5FFFF */  andi  $a1, $a1, 0xffff
 /* B60ADC 800E993C 00803025 */  move  $a2, $a0

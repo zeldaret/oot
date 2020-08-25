@@ -3,7 +3,7 @@ glabel Audio_SequencePlayerDisable
 /* B60D10 800E9B70 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B60D14 800E9B74 AFB00018 */  sw    $s0, 0x18($sp)
 /* B60D18 800E9B78 00808025 */  move  $s0, $a0
-/* B60D1C 800E9B7C 0C03A68B */  jal   func_800E9A2C
+/* B60D1C 800E9B7C 0C03A68B */  jal   Audio_SequencePlayerDisableChannels
 /* B60D20 800E9B80 3405FFFF */   li    $a1, 65535
 /* B60D24 800E9B84 0C039F80 */  jal   Audio_NotePoolClear
 /* B60D28 800E9B88 2604009C */   addiu $a0, $s0, 0x9c
