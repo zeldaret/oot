@@ -27,6 +27,9 @@ void func_80B1A2A0(EnTite *this, GlobalContext *globalContext);
 void func_80B18CC4(EnTite *this, GlobalContext *globalContext);
 void func_80B1A6E4(EnTite *this, GlobalContext *globalContext);
 void func_80B19E94(EnTite *this, GlobalContext *globalContext);
+void func_80B18E7C(EnTite *this, GlobalContext *globalContext);
+void func_80B19918(EnTite *this, GlobalContext *globalContext);
+
 void func_80B1AA44(Actor *thisx);
 void func_80B1A63C(Actor *thisx);
 void func_80B18E08(Actor *thisx);
@@ -39,6 +42,8 @@ void func_80029444(GlobalContext *globalCtxt, Vec3f *vec, s32 arg2, s32 arg3, s3
 //extern SkeletonHeader D_06003A20;
 extern AnimationHeader D_060012E4;
 extern AnimationHeader D_06000A14;
+extern AnimationHeader D_0600083C;
+extern AnimationHeader D_06000C70;
 
 /*
 extern InitChainEntry D_80B1B624[]; // TODO
@@ -60,7 +65,7 @@ const ActorInit En_Tite_InitVars = {
 */
 
 /*
-// this is possibly incorrect, I'm not getting OK when I add it
+// this is possibly incorrect, or just in the wrong place in memory?
 static DamageTable sDamageTable = {
     0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x02, 0xF4,
     0x02, 0x02, 0x02, 0x02, 0xE0, 0xF3, 0xE0, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00
@@ -73,6 +78,7 @@ void func_80B18A80(EnTite* this, EnTiteActionFunc actionFunc) {
 }
 
 /*
+// Matching, just commented due to the sDamageTable issue
 void EnTite_Init(Actor *thisx, GlobalContext *globalContext) {
     EnTite *this = THIS;
 
@@ -99,7 +105,6 @@ void EnTite_Init(Actor *thisx, GlobalContext *globalContext) {
     }
     func_80B18C5C(thisx);
 */
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Init.s")
 
 void EnTite_Destroy(Actor *thisx, GlobalContext *globalContext) {
@@ -158,7 +163,18 @@ void func_80B18CC4(EnTite *this, GlobalContext *globalContext) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B18E08.s")
+void func_80B18E08(Actor *thisx) {
+    EnTite *this = THIS;
+
+    SkelAnime_ChangeAnimDefaultStop(&this->unk14C, &D_0600083C);
+    this->unk2BC = 9;
+    this->unk2E0 = 0;
+    this->unk2E2 = Math_Rand_S16Offset(1, 3);
+    thisx->speedXZ = 0.0f;
+    thisx->velocity.y = 0.0f;
+    thisx->posRot.rot.y = thisx->shape.rot.y;
+    func_80B18A80(this, func_80B18E7C);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B18E7C.s")
 
@@ -166,7 +182,21 @@ void func_80B18CC4(EnTite *this, GlobalContext *globalContext) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B195C0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B1985C.s")
+void func_80B1985C(Actor *thisx) {
+    EnTite *this = THIS;
+    SkelAnime_ChangeAnimDefaultRepeat(&this->unk14C, &D_06000C70);
+    this->unk2BC = 0xC;
+    thisx->velocity.y = 10.0f;
+    thisx->gravity = -1.0f;
+    thisx->speedXZ = 4.0f;
+    this->unk2E2 = Math_Rand_S16Offset(1, 3);
+    if ((thisx->params == -2) && ((thisx->bgCheckFlags & 0x20) != 0)) {
+        Audio_PlayActorSound2(thisx, 0x388E);
+    } else {
+        Audio_PlayActorSound2(thisx, 0x386C);
+    }
+    func_80B18A80(this, &func_80B19918);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B19918.s")
 
@@ -534,6 +564,27 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk2E8.base);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B1B178.s")
+// limbOveride?
+void func_80B1B178(GlobalContext* globalCtx, s32 arg1, Gfx** dList, s32 arg3, Actor *thisx, s32* arg5, s16 arg6) {
+    //Vec3f D_80B1B64C = { 2800.0f, -200.0f, 0.0f };
+    extern Vec3f D_80B1B64C;
+
+    EnTite *this = THIS;
+    switch (arg1){
+        case 8 :
+                Matrix_MultVec3f(&D_80B1B64C, &this->unk360);
+                break;
+        case 0xD :
+                Matrix_MultVec3f(&D_80B1B64C, &this->unk354);
+                break;
+        case 0x12 :
+                Matrix_MultVec3f(&D_80B1B64C, &this->unk36C);
+                break;
+        case 0x17 :
+                Matrix_MultVec3f(&D_80B1B64C, &this->unk348);
+                break;
+    }
+    func_80032F54(&this->unk2C4, arg1, 0, 0x18, 0x18, dList, -1);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Draw.s")
