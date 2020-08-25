@@ -62,7 +62,7 @@ glabel D_8012FAB4
 glabel D_8012FAC4
     .incbin "baserom.z64", 0xBA6C64, 0x10
 
-glabel D_8012FAD4
+glabel gDefaultEnvelope
     .incbin "baserom.z64", 0xBA6C74, 0x10
 
 glabel gZeroNoteSub

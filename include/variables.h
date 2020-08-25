@@ -624,7 +624,7 @@ extern f32 gPitchBendFrequencyScale[256];
 //extern ? D_8012F8B4;
 //extern ? D_8012FAB4;
 //extern ? D_8012FAC4;
-//extern ? D_8012FAD4;
+extern AdsrEnvelope gDefaultEnvelope[3];
 extern NoteSubEu gZeroNoteSub;
 extern NoteSubEu gDefaultNoteSub;
 extern u16 gHeadsetPanQuantization[0x10];

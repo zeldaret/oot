@@ -231,12 +231,12 @@ typedef struct {
 typedef struct SequenceChannel {
     /*!0x00 */ u8 enabled : 1;
     /*!0x00 */ u8 finished : 1;
-    /* 0x00 */ u8 stopScript : 1;
-    /* 0x00 */ u8 stopSomething2 : 1; // sets SequenceChannelLayer.stopSomething
-    /* 0x00 */ u8 hasInstrument : 1;
+    /*!0x00 */ u8 stopScript : 1;
+    /*!0x00 */ u8 stopSomething2 : 1; // sets SequenceChannelLayer.stopSomething
+    /*!0x00 */ u8 hasInstrument : 1;
     /*!0x00 */ u8 stereoHeadsetEffects : 1;
-    /* 0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
-    /* 0x00 */ u8 unused : 1;     // never read, set to 0
+    /*!0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
+    /*!0x00 */ u8 unused : 1;
     union {
         struct {
             /*!0x01 */ u8 freqScale : 1;
@@ -249,15 +249,16 @@ typedef struct SequenceChannel {
     /*!0x03 */ u8 muteBehavior;
     /*!0x04 */ u8 reverb;       // or dry/wet mix
     /*!0x05 */ u8 notePriority; // 0-3
-    /* 0x06 */ u8 someOtherPriority;
+    /*!0x06 */ u8 someOtherPriority;
     /*!0x07 */ u8 bankId;
     /*!0x08 */ u8 reverbIndex;
     /*!0x09 */ u8 bookOffset;
     /*!0x0A */ u8 newPan;
     /*!0x0B */ u8 panChannelWeight;  // proportion of pan that comes from the channel (0..128)
-    /* 0x0C */ u8 unk_0C;
-    /* 0x0D */ u8 padD[2];
-    /* 0x0F */ u8 unk_0F;
+    /*!0x0C */ u8 unk_0C;
+    /*!0x0D */ u8 unk_0D;
+    /*!0x0E */ u8 unk_0E;
+    /*!0x0F */ u8 unk_0F;
     /*!0x10 */ u16 vibratoRateStart;
     /*!0x12 */ u16 vibratoExtentStart;
     /*!0x14 */ u16 vibratoRateTarget;
@@ -265,29 +266,29 @@ typedef struct SequenceChannel {
     /*!0x18 */ u16 vibratoRateChangeDelay;
     /*!0x1A */ u16 vibratoExtentChangeDelay;
     /*!0x1C */ u16 vibratoDelay;
-    /* 0x1E */ u16 delay;
-    /* 0x20 */ u16 unk_20;
+    /*!0x1E */ u16 delay;
+    /*!0x20 */ u16 unk_20;
     /* 0x22 */ u16 pad22;
     /*!0x24 */ s16 instOrWave; // either 0 (none), instrument index + 1, or
                              // 0x80..0x83 for sawtooth/triangle/sine/square waves.
-    /* 0x26 */ s16 transposition;
+    /*!0x26 */ s16 transposition;
     /*!0x28 */ f32 volumeScale;
     /*!0x2C */ f32 volume;
     /*!0x30 */ s32 pan;
     /*!0x34 */ f32 appliedVolume;
-    /* 0x38 */ f32 freqScale;
+    /*!0x38 */ f32 freqScale;
     /* 0x3C */ u8 (*dynTable)[][2];
-    /* 0x40 */ struct Note* noteUnused;                  // never read
+    /*!0x40 */ struct Note* noteUnused;                  // never read
     /* 0x44 */ struct SequenceChannelLayer* layerUnused; // never read
     /* 0x48 */ Instrument* instrument;
     /*!0x4C */ SequencePlayer* seqPlayer;
-    /*!0x54 */ struct SequenceChannelLayer* layers[4];
-    /* 0x64 */ M64ScriptState scriptState;
-    /*      */ AdsrSettings adsr;
+    /*!0x50 */ struct SequenceChannelLayer* layers[4];
+    /*!0x60 */ M64ScriptState scriptState;
+    /*!0x7C */ AdsrSettings adsr;
     /*!0x84 */ NotePool notePool;
-    /* 0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
-    /* 0xCC */ s16* unk_CC;
-    /* 0xD0 */ ReverbBits reverbBits;
+    /*!0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
+    /*!0xCC */ s16* unk_CC;
+    /*!0xD0 */ ReverbBits reverbBits;
     /* 0xD1 */ char unk_D1[0x3];
 } SequenceChannel; // size = 0xD4
 
@@ -501,7 +502,7 @@ typedef struct {
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
 
-#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.gSequenceChannelNone)
+#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((ptr) != &gAudioContext.gSequenceChannelNone)
 
 #define ADSR_STATE_DISABLED 0
 #define ADSR_STATE_INITIAL 1

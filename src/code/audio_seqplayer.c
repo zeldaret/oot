@@ -23,9 +23,60 @@ u16 func_800E9340(void* arg0, u8 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E93A8.s")
 
-void Audio_SequenceChannelInit(SequenceChannel* seqChannel);
+void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelInit.s")
+    if (!IS_SEQUENCE_CHANNEL_VALID(seqChannel)) {
+        return;
+    }
+
+    seqChannel->enabled = 0;
+    seqChannel->finished = 0;
+    seqChannel->stopScript = 0;
+    seqChannel->stopSomething2 = 0;
+    seqChannel->hasInstrument = 0;
+    seqChannel->stereoHeadsetEffects = 0;
+    seqChannel->transposition = 0;
+    seqChannel->largeNotes = 0;
+    seqChannel->bookOffset = 0;
+    seqChannel->reverbBits.asByte = 0;
+    seqChannel->changes.asByte = 0xff;
+    seqChannel->scriptState.depth = 0;
+    seqChannel->newPan = 0x40;
+    seqChannel->panChannelWeight = 0x80;
+    seqChannel->unk_0D = 0;
+    seqChannel->unk_0E = 0;
+    seqChannel->noteUnused = NULL;
+    seqChannel->reverbIndex = 0;
+    seqChannel->reverb = 0;
+    seqChannel->unk_0C = 0;
+    seqChannel->notePriority = 3;
+    seqChannel->someOtherPriority = 1;
+    seqChannel->delay = 0;
+    seqChannel->adsr.envelope = gDefaultEnvelope;
+    seqChannel->adsr.releaseRate = 0xf0;
+    seqChannel->adsr.sustain = 0;
+    seqChannel->vibratoRateTarget = 0x800;
+    seqChannel->vibratoRateStart = 0x800;
+    seqChannel->vibratoExtentTarget = 0;
+    seqChannel->vibratoExtentStart = 0;
+    seqChannel->vibratoRateChangeDelay = 0;
+    seqChannel->vibratoExtentChangeDelay = 0;
+    seqChannel->vibratoDelay = 0;
+    seqChannel->unk_CC = NULL;
+    seqChannel->unk_20 = 0;
+    seqChannel->unk_0F = 0;
+    seqChannel->volume = 1.0f;
+    seqChannel->volumeScale = 1.0f;
+    seqChannel->freqScale = 1.0f;
+
+    for (i = 0; i < 8; i++) {
+        seqChannel->soundScriptIO[i] = -1;
+    }
+
+    seqChannel->unused = 0;
+    Audio_InitNoteLists(&seqChannel->notePool);
+}
 
 s32 Audio_SeqChannelSetLayer(struct SequenceChannel *seqChannel, s32 layerIndex) {
     struct SequenceChannelLayer *layer;
