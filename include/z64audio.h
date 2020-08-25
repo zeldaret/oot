@@ -290,7 +290,6 @@ typedef struct SequenceChannel {
     /*!0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
     /*!0xCC */ s16* unk_CC;
     /*!0xD0 */ ReverbBits reverbBits;
-    /* 0xD1 */ char unk_D1[0x3];
 } SequenceChannel; // size = 0xD4
 
 // Also known as a Track, according to sm64 debug strings.
@@ -298,13 +297,13 @@ typedef struct SequenceChannelLayer {
     /*!0x00 */ u8 enabled : 1;
     /*!0x00 */ u8 finished : 1;
     /*!0x00 */ u8 stopSomething : 1;
-    /* 0x00 */ u8 continuousNotes : 1; // keep the same note for consecutive notes with the same sound
+    /*!0x00 */ u8 continuousNotes : 1; // keep the same note for consecutive notes with the same sound
     /* 0x00 */ u8 unusedEu0b8 : 1;
     /* 0x00 */ u8 bit2 : 1;
     /* 0x00 */ u8 ignoreDrumPan : 1; // (wrong)
     /*!0x00 */ u8 notePropertiesNeedInit : 1;
     /*!0x01 */ ReverbBits reverbBits;
-    /* 0x02 */ u8 instOrWave;
+    /*!0x02 */ u8 instOrWave;
     /*!0x03 */ u8 noteDuration; // set to 0x80
     /* 0x04 */ u8 portamentoTargetNote;
     /* 0x05 */ u8 status; // probably doesn't exist
@@ -320,7 +319,7 @@ typedef struct SequenceChannelLayer {
                                   // 0..0x3f; this makes 0x40..0x7f accessible as well)
                                   // (likely wrong offset)
     /* 0x14 */ f32 unk14;
-    /* 0x18 */ AdsrSettings adsr;
+    /*!0x18 */ AdsrSettings adsr;
     /*!0x20 */ Portamento portamento;
     /*!0x2C */ struct Note* note;
     /*!0x30 */ f32 freqScale;
@@ -329,11 +328,11 @@ typedef struct SequenceChannelLayer {
     /* 0x3C */ s16 delayUnused;
     /*!0x40 */ f32 noteVelocity;
     /*!0x44 */ f32 noteFreqScale;
-    /* 0x48 */ Instrument* instrument;
+    /*!0x48 */ Instrument* instrument;
     /*!0x4C */ AudioBankSound* sound;
     /*!0x50 */ SequenceChannel* seqChannel;
     /*!0x54 */ M64ScriptState scriptState;
-    /* 0x70 */ AudioListItem listItem;
+    /*!0x70 */ AudioListItem listItem;
     // s16 shortNoteDefaultPlayPercentage;
     // s16 playPercentage;
 } SequenceChannelLayer; // size = 0x80

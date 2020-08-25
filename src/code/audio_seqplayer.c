@@ -117,8 +117,8 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel *seqChannel, s32 layerIndex) {
     layer->unusedEu0b8 = 0;
     layer->bit2 = 0;
     layer->ignoreDrumPan = 0;
-    layer->notePropertiesNeedInit = 0;
 
+    layer->notePropertiesNeedInit = 0;
     layer->reverbBits.asByte = 0;
     layer->portamento.mode = 0;
     layer->scriptState.depth = 0;
