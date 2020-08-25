@@ -54,7 +54,7 @@ glabel func_800EA0C0
 /* B612D0 800EA130 02602025 */  move  $a0, $s3
 /* B612D4 800EA134 02402825 */  move  $a1, $s2
 /* B612D8 800EA138 02003025 */  move  $a2, $s0
-/* B612DC 800EA13C 0C03A4EA */  jal   func_800E93A8
+/* B612DC 800EA13C 0C03A4EA */  jal   Audio_HandleScriptFlowControl
 /* B612E0 800EA140 00403825 */   move  $a3, $v0
 /* B612E4 800EA144 1040FFEC */  beqz  $v0, .L800EA0F8
 /* B612E8 800EA148 00000000 */   nop   

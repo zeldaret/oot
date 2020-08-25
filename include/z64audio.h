@@ -117,9 +117,10 @@ typedef struct {
 
 typedef struct {
     /*!0x00 */ u8* pc;
-    /* 0x04 */ u8* stack[4];
-    /* 0x14 */ u8 remLoopIters[4];
+    /*!0x04 */ u8* stack[4];
+    /*!0x14 */ u8 remLoopIters[4];
     /*!0x18 */ u8 depth;
+    /*!0x19 */ s8 value;
 } M64ScriptState; // size = 0x1C
 
 // Also known as a Group, according to sm64 debug strings.
@@ -147,7 +148,7 @@ typedef struct {
     /*!0x012 */ u16 fadeTimer;
     /*!0x014 */ u16 fadeTimerUnkEu;
     /* 0x016 */ char pad_016[0x2];
-    /* 0x018 */ u8* seqData;
+    /*!0x018 */ u8* seqData;
     /*!0x01C */ f32 fadeVolume;
     /*!0x020 */ f32 fadeVelocity;
     /*!0x024 */ f32 volume;

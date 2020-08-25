@@ -293,7 +293,7 @@ glabel L800EB0F4
 /* B62320 800EB180 02E02025 */  move  $a0, $s7
 /* B62324 800EB184 02C02825 */  move  $a1, $s6
 /* B62328 800EB188 02003025 */  move  $a2, $s0
-/* B6232C 800EB18C 0C03A4EA */  jal   func_800E93A8
+/* B6232C 800EB18C 0C03A4EA */  jal   Audio_HandleScriptFlowControl
 /* B62330 800EB190 8FA70060 */   lw    $a3, 0x60($sp)
 /* B62334 800EB194 1040FFD7 */  beqz  $v0, .L800EB0F4
 /* B62338 800EB198 00000000 */   nop   

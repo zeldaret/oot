@@ -31,8 +31,75 @@ u16 func_800E9340(M64ScriptState* state, u8 arg1) {
     return ret;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E93A8.s")
-// process m64 flow control commands
+s32 Audio_HandleScriptFlowControl(SequencePlayer* seqPlayer, M64ScriptState* state, s32 cmd, s32 arg) {
+    switch (cmd) {
+    case 0xFF:
+        if (state->depth == 0) {
+            return -1;
+        }
+        state->pc = state->stack[--state->depth];
+        break;
+
+    case 0xFD:
+        return Audio_M64ReadCompressedU16(state);
+
+    case 0xFE:
+        return 1;
+
+    case 0xFC:
+        state->stack[state->depth++] = state->pc;
+        state->pc = seqPlayer->seqData + (u16) arg;
+        break;
+
+    case 0xF8:
+        state->remLoopIters[state->depth] = arg;
+        state->stack[state->depth++] = state->pc;
+        break;
+
+    case 0xF7:
+        state->remLoopIters[state->depth - 1]--;
+        if (state->remLoopIters[state->depth - 1] != 0) {
+            state->pc = state->stack[state->depth - 1];
+        } else {
+            state->depth--;
+        }
+        break;
+
+    case 0xF6:
+        state->depth--;
+        break;
+
+    case 0xF5:
+    case 0xF9:
+    case 0xFA:
+    case 0xFB:
+        if (cmd == 0xFA && state->value != 0) {
+            break;
+        }
+        if (cmd == 0xF9 && state->value >= 0) {
+            break;
+        }
+        if (cmd == 0xF5 && state->value < 0) {
+            break;
+        }
+        state->pc = seqPlayer->seqData + (u16) arg;
+        break;
+
+    case 0xF2:
+    case 0xF3:
+    case 0xF4:
+        if (cmd == 0xF3 && state->value != 0) {
+            break;
+        }
+        if (cmd == 0xF2 && state->value >= 0) {
+            break;
+        }
+        state->pc += (s8) (arg & 0xFF);
+        break;
+    }
+
+    return 0;
+}
 
 void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     s32 i;
