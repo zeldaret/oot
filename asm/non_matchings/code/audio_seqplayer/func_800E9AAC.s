@@ -26,7 +26,7 @@ glabel func_800E9AAC
 /* B60CA8 800E9B08 02402025 */  move  $a0, $s2
 /* B60CAC 800E9B0C 51600004 */  beql  $t3, $zero, .L800E9B20
 /* B60CB0 800E9B10 26100001 */   addiu $s0, $s0, 1
-/* B60CB4 800E9B14 0C03A61E */  jal   func_800E9878
+/* B60CB4 800E9B14 0C03A61E */  jal   Audio_SeqChannelLayerFree
 /* B60CB8 800E9B18 02002825 */   move  $a1, $s0
 /* B60CBC 800E9B1C 26100001 */  addiu $s0, $s0, 1
 .L800E9B20:

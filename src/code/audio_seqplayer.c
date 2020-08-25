@@ -1,8 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-// #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9340.s")
-
 extern u8 D_80130470[];
 
 u16 func_800E9D48(void* arg0);
@@ -13,8 +11,11 @@ u16 func_800E9340(void* arg0, u8 arg1) {
     u8 loBits = temp_v0 & 3;
     u16 ret = 0;
     if (loBits == 1) {
-        if ((temp_v0 & 0x80) == 0) ret = func_800E9D48(arg0);
-        else ret = func_800E9D5C(arg0);
+        if ((temp_v0 & 0x80) == 0) {
+            ret = func_800E9D48(arg0);
+        } else {
+            ret = func_800E9D5C(arg0);
+        }
     }
     return ret;
 }
@@ -27,9 +28,20 @@ u16 func_800E9340(void* arg0, u8 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E97FC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9878.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SeqChannelLayerFree.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelDisable.s")
+void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIndex);
+
+void Audio_SequenceChannelDisable(SequenceChannel* seqChannel) {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        Audio_SeqChannelLayerFree(seqChannel, i);
+    }
+
+    Audio_NotePoolClear(&seqChannel->notePool);
+    seqChannel->enabled = 0;
+    seqChannel->finished = 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9934.s")
 

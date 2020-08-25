@@ -2109,7 +2109,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr);
 // ? func_800E9584(?);
 // ? func_800E96D8(?);
 // ? func_800E97FC(?);
-// ? func_800E9878(?);
+// ? Audio_SeqChannelLayerFree(?);
 void Audio_SequenceChannelDisable(SequenceChannel* seqChannel);
 // ? func_800E9934(?);
 // ? func_800E9A2C(?);

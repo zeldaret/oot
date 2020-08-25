@@ -1,4 +1,4 @@
-glabel func_800E9878
+glabel Audio_SeqChannelLayerFree
 /* B60A18 800E9878 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B60A1C 800E987C 00057080 */  sll   $t6, $a1, 2
 /* B60A20 800E9880 AFBF0014 */  sw    $ra, 0x14($sp)
