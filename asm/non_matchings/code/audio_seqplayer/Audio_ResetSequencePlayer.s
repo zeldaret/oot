@@ -1,4 +1,4 @@
-glabel func_800EC668
+glabel Audio_ResetSequencePlayer
 /* B63808 800EC668 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B6380C 800EC66C AFBF0024 */  sw    $ra, 0x24($sp)
 /* B63810 800EC670 AFB20020 */  sw    $s2, 0x20($sp)

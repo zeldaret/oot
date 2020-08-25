@@ -210,7 +210,7 @@ glabel jtbl_80149860
     .word L800EBC4C
 
 .text
-glabel func_800EB068
+glabel Audio_SequenceChannelProcessScript
 /* B62208 800EB068 27BDFF78 */  addiu $sp, $sp, -0x88
 /* B6220C 800EB06C AFBF003C */  sw    $ra, 0x3c($sp)
 /* B62210 800EB070 AFBE0038 */  sw    $fp, 0x38($sp)
@@ -388,7 +388,7 @@ glabel L800EB270
 /* B62474 800EB2D4 AFA90060 */  sw    $t1, 0x60($sp)
 glabel L800EB2D8
 /* B62478 800EB2D8 93A50063 */  lbu   $a1, 0x63($sp)
-/* B6247C 800EB2DC 0C03ABE6 */  jal   func_800EAF98
+/* B6247C 800EB2DC 0C03ABE6 */  jal   Audio_SetInstrument
 /* B62480 800EB2E0 02802025 */   move  $a0, $s4
 /* B62484 800EB2E4 1000FF83 */  b     .L800EB0F4
 /* B62488 800EB2E8 00000000 */   nop   
@@ -404,7 +404,7 @@ glabel L800EB2FC
 /* B624A8 800EB308 A2980000 */   sb    $t8, ($s4)
 glabel L800EB30C
 /* B624AC 800EB30C 93A50063 */  lbu   $a1, 0x63($sp)
-/* B624B0 800EB310 0C03AC11 */  jal   func_800EB044
+/* B624B0 800EB310 0C03AC11 */  jal   Audio_SequenceChannelSetVolume
 /* B624B4 800EB314 02802025 */   move  $a0, $s4
 /* B624B8 800EB318 928A0001 */  lbu   $t2, 1($s4)
 /* B624BC 800EB31C 35590040 */  ori   $t9, $t2, 0x40

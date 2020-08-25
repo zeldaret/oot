@@ -1,4 +1,4 @@
-glabel func_800EAF98
+glabel Audio_SetInstrument
 /* B62138 800EAF98 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B6213C 800EAF9C AFA5001C */  sw    $a1, 0x1c($sp)
 /* B62140 800EAFA0 30A500FF */  andi  $a1, $a1, 0xff
@@ -27,7 +27,7 @@ glabel func_800EAF98
 /* B62194 800EAFF4 AC980048 */   sw    $t8, 0x48($a0)
 .L800EAFF8:
 /* B62198 800EAFF8 2487007C */  addiu $a3, $a0, 0x7c
-/* B6219C 800EAFFC 0C03ABC9 */  jal   func_800EAF24
+/* B6219C 800EAFFC 0C03ABC9 */  jal   Audio_GetInstrument
 /* B621A0 800EB000 AFA40018 */   sw    $a0, 0x18($sp)
 /* B621A4 800EB004 8FA40018 */  lw    $a0, 0x18($sp)
 /* B621A8 800EB008 0002CC00 */  sll   $t9, $v0, 0x10

@@ -1,4 +1,4 @@
-glabel func_800EC564
+glabel Audio_ProcessSequences
 /* B63704 800EC564 3C038017 */  lui   $v1, %hi(gAudioContext) # $v1, 0x8017
 /* B63708 800EC568 2463F180 */  addiu $v1, %lo(gAudioContext) # addiu $v1, $v1, -0xe80
 /* B6370C 800EC56C 846E2854 */  lh    $t6, 0x2854($v1)
@@ -26,7 +26,7 @@ glabel func_800EC564
 /* B63760 800EC5C0 000957C2 */  srl   $t2, $t1, 0x1f
 /* B63764 800EC5C4 566A0008 */  bnel  $s3, $t2, .L800EC5E8
 /* B63768 800EC5C8 26520001 */   addiu $s2, $s2, 1
-/* B6376C 800EC5CC 0C03AF56 */  jal   func_800EBD58
+/* B6376C 800EC5CC 0C03AF56 */  jal   Audio_SequencePlayerProcessSequence
 /* B63770 800EC5D0 02002025 */   move  $a0, $s0
 /* B63774 800EC5D4 0C03A2A2 */  jal   Audio_SequencePlayerProcessSound
 /* B63778 800EC5D8 02002025 */   move  $a0, $s0

@@ -1,4 +1,4 @@
-glabel func_800EC8DC
+glabel Audio_InitSequencePlayers
 /* B63A7C 800EC8DC 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B63A80 800EC8E0 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B63A84 800EC8E4 AFB10018 */  sw    $s1, 0x18($sp)
@@ -21,7 +21,7 @@ glabel func_800EC8DC
 /* B63AC4 800EC924 26312C30 */  addiu $s1, %lo(gSequenceLayers) # addiu $s1, $s1, 0x2c30
 /* B63AC8 800EC928 261026B0 */  addiu $s0, %lo(D_801726B0) # addiu $s0, $s0, 0x26b0
 .L800EC92C:
-/* B63ACC 800EC92C 0C03B203 */  jal   func_800EC80C
+/* B63ACC 800EC92C 0C03B203 */  jal   Audio_InitSequencePlayer
 /* B63AD0 800EC930 02002025 */   move  $a0, $s0
 /* B63AD4 800EC934 26100160 */  addiu $s0, $s0, 0x160
 /* B63AD8 800EC938 1611FFFC */  bne   $s0, $s1, .L800EC92C

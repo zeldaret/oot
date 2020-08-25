@@ -552,7 +552,7 @@ glabel func_800DFBF8
 /* B575B8 800E0418 1420FF41 */  bnez  $at, .L800E0120
 /* B575BC 800E041C 27DE02C8 */   addiu $fp, $fp, 0x2c8
 .L800E0420:
-/* B575C0 800E0420 0C03B237 */  jal   func_800EC8DC
+/* B575C0 800E0420 0C03B237 */  jal   Audio_InitSequencePlayers
 /* B575C4 800E0424 00008825 */   move  $s1, $zero
 /* B575C8 800E0428 86D9285C */  lh    $t9, 0x285c($s6)
 /* B575CC 800E042C 3C108017 */  lui   $s0, %hi(D_801726B0) # $s0, 0x8017
@@ -562,7 +562,7 @@ glabel func_800DFBF8
 .L800E043C:
 /* B575DC 800E043C 0C03B1CD */  jal   func_800EC734
 /* B575E0 800E0440 02202025 */   move  $a0, $s1
-/* B575E4 800E0444 0C03B19A */  jal   func_800EC668
+/* B575E4 800E0444 0C03B19A */  jal   Audio_ResetSequencePlayer
 /* B575E8 800E0448 02002025 */   move  $a0, $s0
 /* B575EC 800E044C 86CA285C */  lh    $t2, 0x285c($s6)
 /* B575F0 800E0450 26310001 */  addiu $s1, $s1, 1

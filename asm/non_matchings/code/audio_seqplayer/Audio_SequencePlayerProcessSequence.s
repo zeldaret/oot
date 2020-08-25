@@ -163,7 +163,7 @@ glabel jtbl_80149A9C
     .word L800EC4A8
 
 .text
-glabel func_800EBD58
+glabel Audio_SequencePlayerProcessSequence
 /* B62EF8 800EBD58 27BDFF98 */  addiu $sp, $sp, -0x68
 /* B62EFC 800EBD5C AFBF0024 */  sw    $ra, 0x24($sp)
 /* B62F00 800EBD60 AFB20020 */  sw    $s2, 0x20($sp)
@@ -726,7 +726,7 @@ glabel L800EC4E4
 /* B636CC 800EC52C 00186FC2 */  srl   $t5, $t8, 0x1f
 /* B636D0 800EC530 51A00004 */  beql  $t5, $zero, .L800EC544
 /* B636D4 800EC534 26100004 */   addiu $s0, $s0, 4
-/* B636D8 800EC538 0C03AC1A */  jal   func_800EB068
+/* B636D8 800EC538 0C03AC1A */  jal   Audio_SequenceChannelProcessScript
 /* B636DC 800EC53C 00000000 */   nop   
 /* B636E0 800EC540 26100004 */  addiu $s0, $s0, 4
 .L800EC544:

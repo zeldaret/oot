@@ -333,28 +333,54 @@ s32 func_800EA0C0(SequenceChannelLayer* layer);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EA440.s")
 
+s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1);
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAAE0.s")
+
+s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAEF4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAF24.s")
+void func_800EAEF4(SequenceChannel* seqChannel, u8 arg1);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAF98.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_GetInstrument.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EB044.s")
+u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings *adsr);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EB068.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SetInstrument.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EBD58.s")
+void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC564.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelSetVolume.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC618.s")
+void Audio_SequenceChannelSetVolume(SequenceChannel* seqChannel, u8 volume);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC668.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelProcessScript.s")
+
+void Audio_SequenceChannelProcessScript(SequenceChannel* seqChannel);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerProcessSequence.s")
+
+void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_ProcessSequences.s")
+
+void Audio_ProcessSequences(s32 arg0);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_ProcessSequence.s")
+
+void Audio_ProcessSequence(SequencePlayer* seqPlayer);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_ResetSequencePlayer.s")
+
+void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC734.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC80C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_InitSequencePlayer.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC8DC.s")
+void Audio_InitSequencePlayer(SequencePlayer* seqPlayer);
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_InitSequencePlayers.s")
+
+void Audio_InitSequencePlayers(void);

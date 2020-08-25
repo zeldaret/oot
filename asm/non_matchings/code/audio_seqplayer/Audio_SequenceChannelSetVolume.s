@@ -1,4 +1,4 @@
-glabel func_800EB044
+glabel Audio_SequenceChannelSetVolume
 /* B621E4 800EB044 AFA50004 */  sw    $a1, 4($sp)
 /* B621E8 800EB048 30A500FF */  andi  $a1, $a1, 0xff
 /* B621EC 800EB04C 44852000 */  mtc1  $a1, $f4

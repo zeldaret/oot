@@ -158,7 +158,7 @@ glabel L800EA23C
 /* B61438 800EA298 02802025 */  move  $a0, $s4
 /* B6143C 800EA29C 320500FF */  andi  $a1, $s0, 0xff
 /* B61440 800EA2A0 26260048 */  addiu $a2, $s1, 0x48
-/* B61444 800EA2A4 0C03ABC9 */  jal   func_800EAF24
+/* B61444 800EA2A4 0C03ABC9 */  jal   Audio_GetInstrument
 /* B61448 800EA2A8 26270018 */   addiu $a3, $s1, 0x18
 /* B6144C 800EA2AC 1440FF92 */  bnez  $v0, .L800EA0F8
 /* B61450 800EA2B0 A2220002 */   sb    $v0, 2($s1)

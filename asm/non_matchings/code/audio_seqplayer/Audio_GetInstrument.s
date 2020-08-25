@@ -1,4 +1,4 @@
-glabel func_800EAF24
+glabel Audio_GetInstrument
 /* B620C4 800EAF24 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B620C8 800EAF28 AFA50024 */  sw    $a1, 0x24($sp)
 /* B620CC 800EAF2C 93A50027 */  lbu   $a1, 0x27($sp)
