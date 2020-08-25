@@ -45,7 +45,7 @@ UNK_TYPE D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
 
 static Color_RGB8 sHidanColor = { 165, 125, 55 };
 
-static Gfx* sDispLists[] = { 0x06000210, 0x06000210, 0x06000470 };
+static Gfx* sDLists[] = { 0x06000210, 0x06000210, 0x06000470 };
 
 void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -166,7 +166,7 @@ void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     gDPSetEnvColor(gfxCtx->polyOpa.p++, color->r, color->g, color->b, 255);
-    gSPDisplayList(gfxCtx->polyOpa.p++, sDispLists[thisx->params & 3]);
+    gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[thisx->params & 3]);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_hsblock.c", 399);
 }
