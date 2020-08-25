@@ -1,6 +1,14 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define PORTAMENTO_IS_SPECIAL(x) ((x).mode & 0x80)
+#define PORTAMENTO_MODE(x) ((x).mode & ~0x80)
+#define PORTAMENTO_MODE_1 1
+#define PORTAMENTO_MODE_2 2
+#define PORTAMENTO_MODE_3 3
+#define PORTAMENTO_MODE_4 4
+#define PORTAMENTO_MODE_5 5
+
 extern u8 D_80130470[];
 
 u8 Audio_M64ReadU8(M64ScriptState* state);
@@ -24,6 +32,7 @@ u16 func_800E9340(M64ScriptState* state, u8 arg1) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E93A8.s")
+// process m64 flow control commands
 
 void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     s32 i;
@@ -300,9 +309,19 @@ u16 Audio_M64ReadCompressedU16(M64ScriptState* state) {
 
 void func_800E9DD4(SequenceChannelLayer* layer);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9ED8.s")
+void func_800E9ED8(SequenceChannelLayer* layer) {
+    if (!layer->continuousNotes) {
+        Audio_SeqChanLayerNoteDecay(layer);
+    } else if (layer->note != NULL && layer->note->playbackState.wantedParentLayer == layer) {
+        Audio_SeqChanLayerNoteDecay(layer);
+    }
 
-void func_800E9ED8(SequenceChannelLayer* layer);
+    if (PORTAMENTO_MODE(layer->portamento) == PORTAMENTO_MODE_1 ||
+        PORTAMENTO_MODE(layer->portamento) == PORTAMENTO_MODE_2) {
+        layer->portamento.mode = 0;
+    }
+    layer->notePropertiesNeedInit = 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9F64.s")
 

@@ -123,6 +123,7 @@ typedef struct {
     /*!0x18 */ u8 depth;
 } M64ScriptState; // size = 0x1C
 
+// Also known as a Group, according to sm64 debug strings.
 typedef struct {
     /* 0x000 */ u8 enabled : 1;
     /* 0x000 */ u8 finished : 1;
@@ -227,6 +228,8 @@ typedef struct {
     /*!0x14 */ s16 unk_14[8];
 } NoteAttributes; // size = 0x24
 
+// Also known as a SubTrack, according to sm64 debug strings.
+// Confusingly, a SubTrack is a container of Tracks.
 typedef struct SequenceChannel {
     /*!0x00 */ u8 enabled : 1;
     /*!0x00 */ u8 finished : 1;
@@ -291,16 +294,16 @@ typedef struct SequenceChannel {
     /* 0xD1 */ char unk_D1[0x3];
 } SequenceChannel; // size = 0xD4
 
-// Maybe SequenceTrack?
+// Also known as a Track, according to sm64 debug strings.
 typedef struct SequenceChannelLayer {
     /*!0x00 */ u8 enabled : 1;
     /*!0x00 */ u8 finished : 1;
-    /* 0x00 */ u8 stopSomething : 1;   // ?
+    /*!0x00 */ u8 stopSomething : 1;
     /* 0x00 */ u8 continuousNotes : 1; // keep the same note for consecutive notes with the same sound
     /* 0x00 */ u8 unusedEu0b8 : 1;
     /* 0x00 */ u8 bit2 : 1;
     /* 0x00 */ u8 ignoreDrumPan : 1; // (wrong)
-    /* 0x00 */ u8 notePropertiesNeedInit : 1;
+    /*!0x00 */ u8 notePropertiesNeedInit : 1;
     /*!0x01 */ ReverbBits reverbBits;
     /* 0x02 */ u8 instOrWave;
     /*!0x03 */ u8 noteDuration; // set to 0x80
