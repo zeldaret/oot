@@ -343,9 +343,18 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1);
 
 void func_800EAEF4(SequenceChannel* seqChannel, u8 arg1);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_GetInstrument.s")
-
-u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings *adsr);
+u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings *adsr) {
+    Instrument *inst = Audio_GetInstrumentInner(seqChannel->bankId, instId);
+    if (inst == NULL) {
+        *instOut = NULL;
+        return 0;
+    }
+    adsr->envelope = inst->envelope;
+    adsr->releaseRate = inst->releaseRate;
+    *instOut = inst;
+    instId += 2;
+    return instId;
+}
 
 void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId) {
     if (instId >= 0x80) {
@@ -357,13 +366,10 @@ void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId) {
     } else if (instId == 0x7e) {
         seqChannel->instOrWave = 1;
         seqChannel->instrument = (Instrument *) 2;
-    } else {
-        if ((seqChannel->instOrWave =
-            Audio_GetInstrument(seqChannel, instId, &seqChannel->instrument, &seqChannel->adsr)) == 0)
-        {
-            seqChannel->hasInstrument = 0;
-            return;
-        }
+    } else if ((seqChannel->instOrWave =
+            Audio_GetInstrument(seqChannel, instId, &seqChannel->instrument, &seqChannel->adsr)) == 0) {
+        seqChannel->hasInstrument = 0;
+        return;
     }
     seqChannel->hasInstrument = 1;
 }

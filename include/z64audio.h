@@ -81,16 +81,15 @@ typedef struct {
     f32 tuning; // frequency scale factor
 } AudioBankSound;              // size = 0x8
 
-// UNCHANGED
 typedef struct {
     /* 0x00 */ u8 loaded;
-    /* 0x01 */ u8 normalRangeLo;
-    /* 0x02 */ u8 normalRangeHi;
-    /* 0x03 */ u8 releaseRate;
-    /* 0x04 */ AdsrEnvelope* envelope;
-    /* 0x08 */ AudioBankSound lowNotesSound;
-    /* 0x10 */ AudioBankSound normalNotesSound;
-    /* 0x18 */ AudioBankSound highNotesSound;
+    /*!0x01 */ u8 normalRangeLo;
+    /*!0x02 */ u8 normalRangeHi;
+    /*!0x03 */ u8 releaseRate;
+    /*!0x04 */ AdsrEnvelope* envelope;
+    /*!0x08 */ AudioBankSound lowNotesSound;
+    /*!0x10 */ AudioBankSound normalNotesSound;
+    /*!0x18 */ AudioBankSound highNotesSound;
 } Instrument; // size >= 0x20
 
 typedef struct {
@@ -173,9 +172,9 @@ typedef struct {
 } SequencePlayer;
 
 typedef struct {
-    u8 releaseRate;
-    u8 sustain;
-    AdsrEnvelope* envelope;
+    /*!0x0 */ u8 releaseRate;
+    /*!0x1 */ u8 sustain;
+    /*!0x4 */ AdsrEnvelope* envelope;
 } AdsrSettings; // size = 0x8
 
 typedef struct {
@@ -280,9 +279,9 @@ typedef struct SequenceChannel {
     /*!0x34 */ f32 appliedVolume;
     /*!0x38 */ f32 freqScale;
     /* 0x3C */ u8 (*dynTable)[][2];
-    /*!0x40 */ struct Note* noteUnused;                  // never read
-    /* 0x44 */ struct SequenceChannelLayer* layerUnused; // never read
-    /* 0x48 */ Instrument* instrument;
+    /*!0x40 */ struct Note* noteUnused;
+    /* 0x44 */ struct SequenceChannelLayer* layerUnused;
+    /*!0x48 */ Instrument* instrument;
     /*!0x4C */ SequencePlayer* seqPlayer;
     /*!0x50 */ struct SequenceChannelLayer* layers[4];
     /*!0x60 */ M64ScriptState scriptState;
