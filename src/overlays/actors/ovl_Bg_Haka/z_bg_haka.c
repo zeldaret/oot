@@ -82,7 +82,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_8087BAE4;
             }
         } else if (0.0f < this->dyna.unk_150 ||
-                   (globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && Flags_GetSwitch(globalCtx, 0x23) == 0)) {
+                   (globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && !Flags_GetSwitch(globalCtx, 0x23))) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
         } else {
