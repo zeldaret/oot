@@ -32,69 +32,68 @@ extern u32 D_06000A38;
 extern Gfx D_60008A00[];
 extern Gfx D_60009600[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/func_808B6BC0.s")
-// void func_808B6BC0(void *arg0, GlobalContext *arg1) {
-//     f32 spD0;
-//     f32 spCC;
-//     f32 spC8;
-//     f32 spC4;
-//     f32 spC0;
-//     f32 spBC;
-//     f32 *temp_s4;
-//     f32 *temp_s5;
-//     f32 temp_f20;
-//     f32 temp_f22;
-//     f32 temp_f24;
-//     f32 temp_f2;
-//     s32 temp_f18;
-//     s32 temp_s1;
-//     s32 temp_s3;
-//     s32 temp_v1;
-//     s32 phi_s1;
-//     ?32 phi_s0;
-//     ?32 phi_v0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/func_808B6BC0.s")
+void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
+    Vec3f temp0;
+    Vec3f temp1;
 
-//     temp_f22 = Math_Sins(arg0->unkB6);
-//     temp_f24 = Math_Coss(arg0->unkB6);
-//     temp_s5 = &spBC;
-//     temp_s4 = &spC8;
-//     spC4 = 0.0f;
-//     spBC = 0.0f;
-//     phi_s1 = 0;
-// loop_1:
-//     temp_f20 = (Math_Rand_ZeroOne() - 0.5f) * 140.0f;
-//     temp_f2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
-//     spC8 = (arg0->unk24 + (temp_f2 * temp_f22)) + (temp_f20 * temp_f24);
-//     spCC = (arg0->unk28 + 30.0f) + ((f32) phi_s1 * 6.5f);
-//     spD0 = (arg0->unk2C + (temp_f2 * temp_f24)) - (temp_f20 * temp_f22);
-//     spC0 = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
-//     temp_f18 = (s32) ((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
-//     temp_v1 = (s32) (temp_f18 << 0x10) >> 0x10;
-//     temp_s3 = (s32) (temp_f18 << 0x10) >> 0x10;
-//     if (temp_v1 < 0x14) {
-//         phi_s0 = -0x12C;
-//     } else {
-//         phi_s0 = -0x1A4;
-//         if (temp_v1 < 0x23) {
-//             phi_s0 = -0x168;
-//         }
-//     }
-//     if (Math_Rand_ZeroOne() < 0.4f) {
-//         phi_v0 = 0x41;
-//     } else {
-//         phi_v0 = 0x21;
-//     }
-//     func_80029E8C(arg1, (Vec3f *) temp_s4, (Vec3f *) temp_s5, (Vec3f *) temp_s4, phi_s0, phi_v0, 0x1E, 4, 0, temp_s3,
-//     1, 3, 0x50, -1, 2, 0x500A880); temp_s1 = phi_s1 + 1; phi_s1 = temp_s1; if (temp_s1 != 0x14) {
-//         goto loop_1;
-//     }
-//     Math_Vec3f_Copy((Vec3f *) temp_s4, arg0 + 0x24);
-//     func_80033480(arg1, (Vec3f *) temp_s4, 60.0f, 4, 0x6E, 0xA0, 1);
-//     spCC = spCC + 40.0f;
-//     func_80033480(arg1, (Vec3f *) temp_s4, 60.0f, 4, 0x78, 0xA0, 1);
-//     spCC = spCC + 40.0f;
-//     func_80033480(arg1, (Vec3f *) temp_s4, 60.0f, 4, 0x6E, 0xA0, 1);
-// }
+    Vec3f* burstDepthY;
+    Vec3f* burstDepthX;
+    f32 temp_f20;
+    f32 temp_f22;
+    f32 temp_f24;
+    f32 temp_f2;
+    s32 temp_f18;
+    s32 temp_s1;
+    s32 temp_s3;
+    s32 temp_v1;
+    s32 phi_s1;
+    s32 gravityInfluence;
+    s32 phi_v0;
+
+    temp_f22 = Math_Sins(this->dyna.actor.shape.rot.y);
+    temp_f24 = Math_Coss(this->dyna.actor.shape.rot.y);
+    burstDepthX = &temp0; // temp0  (BC)
+    burstDepthY = &temp1; // temp1  (C8)
+    temp0.x = 0.0f;
+    temp1.y = 0.0f;
+    phi_s1 = 0;
+
+    for (phi_s1 = 0; phi_s1 < 0x14; phi_s1++) {
+
+    loop_1:
+        temp_f20 = (Math_Rand_ZeroOne() - 0.5f) * 140.0f;
+        temp_f2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
+        temp0.x = (this->dyna.actor.posRot.pos.x + (temp_f2 * temp_f22)) + (temp_f20 * temp_f24); // temp0.x
+        temp0.y = (this->dyna.actor.posRot.pos.y + 30.0f) + ((f32)phi_s1 * 6.5f); // temp0.y
+        temp0.z = (this->dyna.actor.posRot.pos.z + (temp_f2 * temp_f24)) - (temp_f20 * temp_f22); // temp0.z
+        temp1.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f; // temp1.y
+        temp_f18 = (s32)((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
+        temp_v1 = (s32)(temp_f18 << 0x10) >> 0x10;
+        temp_s3 = (s32)(temp_f18 << 0x10) >> 0x10;
+        if (temp_v1 < 0x14) {
+            gravityInfluence = -0x12C;
+        } else {
+            gravityInfluence = -0x1A4;
+            if (temp_v1 < 0x23) {
+                gravityInfluence = -0x168;
+            }
+        }
+        if (Math_Rand_ZeroOne() < 0.4f) {
+            phi_v0 = 0x41;
+        } else {
+            phi_v0 = 0x21;
+        }
+        func_80029E8C(globalCtx, burstDepthY, burstDepthX, burstDepthY, gravityInfluence, phi_v0, 0x1E, 4, 0, temp_s3,
+                      1, 3, 0x50, -1, 2, 0x500A880);
+    }
+    Math_Vec3f_Copy((Vec3f*)burstDepthY, (Vec3f*)&this->dyna.actor.posRot);
+    func_80033480(globalCtx, (Vec3f*)burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
+    temp0.y += 40.0f;
+    func_80033480(globalCtx, (Vec3f*)burstDepthY, 60.0f, 4, 0x78, 0xA0, 1);
+    temp0.y += 40.0f;
+    func_80033480(globalCtx, (Vec3f*)burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
+}
 
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
