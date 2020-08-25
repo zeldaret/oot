@@ -289,7 +289,7 @@ typedef struct SequenceChannel {
     /* 0xCC */ s16* unk_CC;
     /* 0xD0 */ ReverbBits reverbBits;
     /* 0xD1 */ char unk_D1[0x3];
-} SequenceChannel;
+} SequenceChannel; // size = 0xD4
 
 // Maybe SequenceTrack?
 typedef struct SequenceChannelLayer {
@@ -480,7 +480,8 @@ typedef struct {
     /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x0B5C];
     /* 0x352C */ Note* gNotes;
-    /* 0x3530 */ char unk_3530[0x2654];
+    /* 0x3530 */ char unk_3530[0x2580];
+    /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
     /* 0x5B84 */ s32 gNoteSubEuOffset;
 } AudioContext;
 
@@ -500,7 +501,7 @@ typedef struct {
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
 
-#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gSequenceChannelNone)
+#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.gSequenceChannelNone)
 
 #define ADSR_STATE_DISABLED 0
 #define ADSR_STATE_INITIAL 1

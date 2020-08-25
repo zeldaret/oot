@@ -3595,7 +3595,7 @@ extern FaultThreadStruct gFaultStruct;
 //extern ? D_8016E750;
 //extern ? D_8016E9A4;
 //extern ? D_8016EE8B;
-extern AudioContext gAudioContext;
+extern AudioContext gAudioContext; // at 0x8016f180
 //extern ? D_8016F181;
 //extern ? D_8016F186;
 //extern ? D_8016F188;
@@ -3708,7 +3708,8 @@ extern f32* D_801726A0;
 //extern ? D_801729A8;
 //extern ? D_80172C30;
 //extern ? D_80172CA0;
-extern SequenceChannel gSequenceChannelNone;
+//extern SequenceChannel gSequenceChannelNone;
+// ... gAudioContext extends to at least here
 //extern ? D_80174CA0;
 //extern ? gLayerFreeList;
 extern NotePool gNoteFreeLists;
