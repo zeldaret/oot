@@ -31,51 +31,46 @@ static InitChainEntry sInitChain[] = {
 extern u32 D_06000A38;
 extern Gfx D_60008A00[];
 extern Gfx D_60009600[];
+extern Gfx D_500A880[];
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/func_808B6BC0.s")
 void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
-    Vec3f temp0;
-    Vec3f temp1;
+    Vec3f burstDepthX;
+    Vec3f burstDepthY;
 
-    Vec3f* burstDepthY;
-    Vec3f* burstDepthX;
     f32 temp_f20;
-    f32 temp_f22;
-    f32 temp_f24;
+    f32 sinY;
+    f32 cosY;
     f32 temp_f2;
-    s32 temp_f18;
-    s32 temp_s1;
-    s32 temp_s3;
-    s32 temp_v1;
-    s32 phi_s1;
+    s16 scale;
+    s32 i;
     s32 gravityInfluence;
-    s32 phi_v0;
+    s16 phi_v0;
+    f32 tempVar;
 
-    temp_f22 = Math_Sins(this->dyna.actor.shape.rot.y);
-    temp_f24 = Math_Coss(this->dyna.actor.shape.rot.y);
-    burstDepthX = &temp0; // temp0  (BC)
-    burstDepthY = &temp1; // temp1  (C8)
-    temp0.x = 0.0f;
-    temp1.y = 0.0f;
-    phi_s1 = 0;
+    sinY = Math_Sins(this->dyna.actor.shape.rot.y);
+    cosY = Math_Coss(this->dyna.actor.shape.rot.y);
 
-    for (phi_s1 = 0; phi_s1 < 0x14; phi_s1++) {
+    burstDepthX.z = 0.0f;
+    burstDepthX.x = 0.0f;
 
-    loop_1:
+    for (i = 0; i < 0x14; i++) {
+        tempVar = 0.2f;
         temp_f20 = (Math_Rand_ZeroOne() - 0.5f) * 140.0f;
         temp_f2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
-        temp0.x = (this->dyna.actor.posRot.pos.x + (temp_f2 * temp_f22)) + (temp_f20 * temp_f24); // temp0.x
-        temp0.y = (this->dyna.actor.posRot.pos.y + 30.0f) + ((f32)phi_s1 * 6.5f); // temp0.y
-        temp0.z = (this->dyna.actor.posRot.pos.z + (temp_f2 * temp_f24)) - (temp_f20 * temp_f22); // temp0.z
-        temp1.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f; // temp1.y
-        temp_f18 = (s32)((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
-        temp_v1 = (s32)(temp_f18 << 0x10) >> 0x10;
-        temp_s3 = (s32)(temp_f18 << 0x10) >> 0x10;
-        if (temp_v1 < 0x14) {
+      
+        burstDepthY.x = (this->dyna.actor.posRot.pos.x + (temp_f2 * sinY)) + (temp_f20 * cosY);
+        burstDepthY.y = (this->dyna.actor.posRot.pos.y + 30.0f) + (i * 6.5f);
+        burstDepthY.z = (this->dyna.actor.posRot.pos.z + (temp_f2 * cosY)) - (temp_f20 * sinY);
+       
+        burstDepthX.y = (Math_Rand_ZeroOne() - tempVar) * 12.0f;
+        scale = (s16)((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
+
+        if (scale < 0x14) {
             gravityInfluence = -0x12C;
         } else {
             gravityInfluence = -0x1A4;
-            if (temp_v1 < 0x23) {
+            if (scale < 0x23) {
                 gravityInfluence = -0x168;
             }
         }
@@ -83,16 +78,17 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
             phi_v0 = 0x41;
         } else {
             phi_v0 = 0x21;
+            do {} while(0); // Required to match
         }
-        func_80029E8C(globalCtx, burstDepthY, burstDepthX, burstDepthY, gravityInfluence, phi_v0, 0x1E, 4, 0, temp_s3,
-                      1, 3, 0x50, -1, 2, 0x500A880);
+        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, phi_v0, 0x1E, 4, 0, scale,
+                      1, 3, 0x50, -1, 2, D_500A880);
     }
-    Math_Vec3f_Copy((Vec3f*)burstDepthY, (Vec3f*)&this->dyna.actor.posRot);
-    func_80033480(globalCtx, (Vec3f*)burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
-    temp0.y += 40.0f;
-    func_80033480(globalCtx, (Vec3f*)burstDepthY, 60.0f, 4, 0x78, 0xA0, 1);
-    temp0.y += 40.0f;
-    func_80033480(globalCtx, (Vec3f*)burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
+    Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.posRot.pos);
+    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
+    burstDepthY.y += 40.0f;
+    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 0x78, 0xA0, 1);
+    burstDepthY.y += 40.0f;
+    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
 }
 
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
