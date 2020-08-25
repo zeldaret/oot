@@ -78,7 +78,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
             player->stateFlags2 &= ~0x10;
             if (!Gameplay_InCsMode(globalCtx)) {
                 func_8010B680(globalCtx, 0x5073, NULL);
-                this->dyna.actor.params = 0x64;
+                this->dyna.actor.params = 100;
                 this->actionFunc = func_8087BAE4;
             }
         } else if (0.0f < this->dyna.unk_150 ||
