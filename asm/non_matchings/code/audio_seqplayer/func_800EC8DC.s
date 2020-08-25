@@ -17,8 +17,8 @@ glabel func_800EC8DC
 /* B63AB4 800EC914 1420FFFA */  bnez  $at, .L800EC900
 /* B63AB8 800EC918 A04F3A30 */   sb    $t7, 0x3a30($v0)
 /* B63ABC 800EC91C 3C108017 */  lui   $s0, %hi(D_801726B0) # $s0, 0x8017
-/* B63AC0 800EC920 3C118017 */  lui   $s1, %hi(D_80172C30) # $s1, 0x8017
-/* B63AC4 800EC924 26312C30 */  addiu $s1, %lo(D_80172C30) # addiu $s1, $s1, 0x2c30
+/* B63AC0 800EC920 3C118017 */  lui   $s1, %hi(gSequenceLayers) # $s1, 0x8017
+/* B63AC4 800EC924 26312C30 */  addiu $s1, %lo(gSequenceLayers) # addiu $s1, $s1, 0x2c30
 /* B63AC8 800EC928 261026B0 */  addiu $s0, %lo(D_801726B0) # addiu $s0, $s0, 0x26b0
 .L800EC92C:
 /* B63ACC 800EC92C 0C03B203 */  jal   func_800EC80C

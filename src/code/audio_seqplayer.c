@@ -2,7 +2,6 @@
 #include <global.h>
 
 extern u8 D_80130470[];
-extern AudioListItem gLayerFreeList;
 
 u8 Audio_M64ReadU8(M64ScriptState* state);
 
@@ -86,7 +85,7 @@ s32 Audio_SeqChannelSetLayer(struct SequenceChannel *seqChannel, s32 layerIndex)
 
     if (seqChannel->layers[layerIndex] == NULL) {
         struct SequenceChannelLayer *layer;
-        layer = Audio_AudioListPopBack(&gLayerFreeList);
+        layer = Audio_AudioListPopBack(&gAudioContext.gLayerFreeList);
         seqChannel->layers[layerIndex] = layer;
         if (layer == NULL) {
             seqChannel->layers[layerIndex] = NULL;
@@ -148,7 +147,7 @@ void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIndex) {
     SequenceChannelLayer* layer = seqChannel->layers[layerIndex];
 
     if (layer != NULL) {
-        Audio_AudioListPushBack(&gLayerFreeList, &layer->listItem);
+        Audio_AudioListPushBack(&gAudioContext.gLayerFreeList, &layer->listItem);
         Audio_SeqChannelLayerDisable(layer);
         seqChannel->layers[layerIndex] = NULL;
     }
@@ -208,9 +207,21 @@ void* Audio_AudioListPopBack(AudioListItem* list) {
     return item->u.value;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_InitLayerFreelist.s")
+void Audio_InitLayerFreelist(void) {
+    s32 i;
 
-void Audio_InitLayerFreelist(void);
+    gAudioContext.gLayerFreeList.prev = &gAudioContext.gLayerFreeList;
+    gAudioContext.gLayerFreeList.next = &gAudioContext.gLayerFreeList;
+    gAudioContext.gLayerFreeList.u.count = 0;
+    gAudioContext.gLayerFreeList.pool = NULL;
+
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.gSequenceLayers); i++) {
+        gAudioContext.gSequenceLayers[i].listItem.u.value = &gAudioContext.gSequenceLayers[i];
+        gAudioContext.gSequenceLayers[i].listItem.prev = NULL;
+        Audio_AudioListPushBack(&gAudioContext.gLayerFreeList,
+                &gAudioContext.gSequenceLayers[i].listItem);
+    }
+}
 
 u8 Audio_M64ReadU8(M64ScriptState* state) {
     return *(state->pc++);

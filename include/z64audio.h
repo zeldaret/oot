@@ -117,10 +117,10 @@ typedef struct {
 } CtlEntry; // size = 0x14
 
 typedef struct {
-    u8* pc;
-    u8* stack[4];
-    u8 remLoopIters[4];
-    u8 depth;
+    /*!0x00 */ u8* pc;
+    /* 0x04 */ u8* stack[4];
+    /* 0x14 */ u8 remLoopIters[4];
+    /*!0x18 */ u8 depth;
 } M64ScriptState; // size = 0x1C
 
 typedef struct {
@@ -332,10 +332,9 @@ typedef struct SequenceChannelLayer {
     /*!0x50 */ SequenceChannel* seqChannel;
     /*!0x54 */ M64ScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
-    /* 0x80 */ s16 shortNoteDefaultPlayPercentage;
-    /* 0x82 */ s16 playPercentage;
-    /* 0x84 */ char unk_84[0xC];
-} SequenceChannelLayer;
+    // s16 shortNoteDefaultPlayPercentage;
+    // s16 playPercentage;
+} SequenceChannelLayer; // size = 0x80
 
 typedef struct {
     s16 adpcmdecState[0x10];
@@ -479,11 +478,13 @@ typedef struct {
     /* 0x2980 */ s32 gAudioErrorFlags;
     /* 0x2984 */ char unk_2984[0x3C];
     /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
-    /* 0x29D0 */ char unk_29D0[0x0B5C];
+    /* 0x29D0 */ char unk_29D0[0xB5C];
     /* 0x352C */ Note* gNotes;
-    /* 0x3530 */ char unk_3530[0x2580];
+    /* 0x3530 */ char unk_3530[0x580];
+    /* 0x3AB0 */ SequenceChannelLayer gSequenceLayers[64];
     /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
     /* 0x5B84 */ s32 gNoteSubEuOffset;
+    /* 0x5B88 */ AudioListItem gLayerFreeList;
 } AudioContext;
 
 typedef struct {

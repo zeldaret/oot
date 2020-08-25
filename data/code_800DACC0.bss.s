@@ -618,7 +618,7 @@ glabel D_80172894
 glabel D_801729A8
     .space 0x288
 
-glabel D_80172C30
+glabel gSequenceLayers
     .space 0x70
 
 glabel D_80172CA0

@@ -3706,12 +3706,12 @@ extern f32* D_801726A0;
 //extern ? D_8017280C;
 //extern ? D_8017280D;
 //extern ? D_801729A8;
-//extern ? D_80172C30;
+//extern ? gSequenceLayers;
 //extern ? D_80172CA0;
 //extern SequenceChannel gSequenceChannelNone;
-// ... gAudioContext extends to at least here
 //extern ? D_80174CA0;
 //extern ? gLayerFreeList;
+// ... gAudioContext extends to at least here
 extern NotePool gNoteFreeLists;
 //extern ? D_80174D28;
 //extern ? D_80174D38;
