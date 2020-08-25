@@ -1,7 +1,23 @@
 #include <ultra64.h>
 #include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9340.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9340.s")
+
+extern u8 D_80130470[];
+
+u16 func_800E9D48(void* arg0);
+u16 func_800E9D5C(void* arg0);
+
+u16 func_800E9340(void* arg0, u8 arg1) {
+    u8 temp_v0 = D_80130470[arg1];
+    u8 loBits = temp_v0 & 3;
+    u16 ret = 0;
+    if (loBits == 1) {
+        if ((temp_v0 & 0x80) == 0) ret = func_800E9D48(arg0);
+        else ret = func_800E9D5C(arg0);
+    }
+    return ret;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E93A8.s")
 
