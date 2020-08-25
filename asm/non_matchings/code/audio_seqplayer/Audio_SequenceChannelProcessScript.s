@@ -1128,7 +1128,7 @@ glabel L800EBCD8
 /* B62EA8 800EBD08 8E240050 */  lw    $a0, 0x50($s1)
 /* B62EAC 800EBD0C 50800004 */  beql  $a0, $zero, .L800EBD20
 /* B62EB0 800EBD10 26100004 */   addiu $s0, $s0, 4
-/* B62EB4 800EBD14 0C03A775 */  jal   func_800E9DD4
+/* B62EB4 800EBD14 0C03A775 */  jal   Audio_SeqChannelLayerProcessScript
 /* B62EB8 800EBD18 00000000 */   nop   
 /* B62EBC 800EBD1C 26100004 */  addiu $s0, $s0, 4
 .L800EBD20:

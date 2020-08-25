@@ -172,7 +172,7 @@ typedef struct {
     /* 0x148 */ u32 bankDmaCurrDevAddr;
     /* 0x14C */ s32 bankDmaRemaining;
     /*       */ u8 pad_150[8];
-    /* 0x158 */ s8 unk_158[8]; // "seqVariationEu"?
+    /* 0x158 */ s8 unk_158[8]; // seqVariationEu? soundScriptIO?
 } SequencePlayer; // size = 0x160
 
 typedef struct {

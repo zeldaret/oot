@@ -305,9 +305,48 @@ u16 Audio_M64ReadCompressedU16(M64ScriptState* state) {
     return ret;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9DD4.s")
+void func_800E9ED8(SequenceChannelLayer* layer);
+s32 func_800E9F64(SequenceChannelLayer *layer, s32 arg1);
+s32 func_800EA0C0(SequenceChannelLayer* layer);
+s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1);
+s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1);
 
-void func_800E9DD4(SequenceChannelLayer* layer);
+void Audio_SeqChannelLayerProcessScript(SequenceChannelLayer *layer) {
+    s32 val;
+
+    if (layer->enabled == 0) {
+        return;
+    }
+
+    if (layer->delay > 1) {
+        layer->delay--;
+        if (!layer->stopSomething && layer->delay <= layer->duration) {
+            Audio_SeqChanLayerNoteDecay(layer);
+            layer->stopSomething = 1;
+        }
+        return;
+    }
+
+    func_800E9ED8(layer);
+    val = func_800EA0C0(layer);
+    if (val == -1) {
+        return;
+    }
+
+    val = func_800EAAE0(layer, val);
+    if (val != -1) {
+        val = func_800EA440(layer, val);
+    }
+    if (val != -1) {
+        func_800E9F64(layer, val);
+    }
+
+    if (layer->stopSomething == 1) {
+        if ((layer->note != NULL) || layer->continuousNotes) {
+            Audio_SeqChanLayerNoteDecay(layer);
+        }
+    }
+}
 
 void func_800E9ED8(SequenceChannelLayer* layer) {
     if (!layer->continuousNotes) {
@@ -325,19 +364,11 @@ void func_800E9ED8(SequenceChannelLayer* layer) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9F64.s")
 
-s32 func_800E9F64(SequenceChannelLayer *layer, s32 arg1);
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EA0C0.s")
-
-s32 func_800EA0C0(SequenceChannelLayer* layer);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EA440.s")
 
-s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1);
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAAE0.s")
-
-s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1);
 
 void func_800EAEF4(SequenceChannel *seqChannel, u8 arg1) {
     if ((arg1 & 0xF) != 0) {
