@@ -19,11 +19,11 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE2B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SoundAlloc.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocDmaMemory.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE344.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE380.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SoundAlloc.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE3DC.s")
 

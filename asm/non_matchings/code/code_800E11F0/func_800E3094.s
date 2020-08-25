@@ -144,7 +144,7 @@ glabel func_800E3094
 .L800E329C:
 /* B5A43C 800E329C 3C048017 */  lui   $a0, %hi(D_80171B30) # $a0, 0x8017
 /* B5A440 800E32A0 24841B30 */  addiu $a0, %lo(D_80171B30) # addiu $a0, $a0, 0x1b30
-/* B5A444 800E32A4 0C0378E0 */  jal   func_800DE380
+/* B5A444 800E32A4 0C0378E0 */  jal   Audio_SoundAlloc
 /* B5A448 800E32A8 24050B00 */   li    $a1, 2816
 /* B5A44C 800E32AC 3C088017 */  lui   $t0, %hi(D_8016F18C) # $t0, 0x8017
 /* B5A450 800E32B0 2508F18C */  addiu $t0, %lo(D_8016F18C) # addiu $t0, $t0, -0xe74

@@ -290,7 +290,7 @@ glabel func_800DFBF8
 /* B571D8 800E0038 000528C0 */  sll   $a1, $a1, 3
 /* B571DC 800E003C 00A12823 */  subu  $a1, $a1, $at
 /* B571E0 800E0040 00052940 */  sll   $a1, $a1, 5
-/* B571E4 800E0044 0C0378E0 */  jal   func_800DE380
+/* B571E4 800E0044 0C0378E0 */  jal   Audio_SoundAlloc
 /* B571E8 800E0048 02602025 */   move  $a0, $s3
 /* B571EC 800E004C 0C03A1E2 */  jal   Audio_NoteInitAll
 /* B571F0 800E0050 AEC2352C */   sw    $v0, 0x352c($s6)
@@ -302,7 +302,7 @@ glabel func_800DFBF8
 /* B57208 800E0068 03190019 */  multu $t8, $t9
 /* B5720C 800E006C 00002812 */  mflo  $a1
 /* B57210 800E0070 00052940 */  sll   $a1, $a1, 5
-/* B57214 800E0074 0C0378E0 */  jal   func_800DE380
+/* B57214 800E0074 0C0378E0 */  jal   Audio_SoundAlloc
 /* B57218 800E0078 00000000 */   nop   
 /* B5721C 800E007C 3C108017 */  lui   $s0, %hi(gAudioContext) # $s0, 0x8017
 /* B57220 800E0080 3C118017 */  lui   $s1, %hi(D_8016F188) # $s1, 0x8017
@@ -460,19 +460,19 @@ glabel func_800DFBF8
 .L800E02C8:
 /* B57468 800E02C8 02602025 */  move  $a0, $s3
 /* B5746C 800E02CC 24050020 */  li    $a1, 32
-/* B57470 800E02D0 0C0378E0 */  jal   func_800DE380
+/* B57470 800E02D0 0C0378E0 */  jal   Audio_SoundAlloc
 /* B57474 800E02D4 00008825 */   move  $s1, $zero
 /* B57478 800E02D8 AE420030 */  sw    $v0, 0x30($s2)
 /* B5747C 800E02DC 02602025 */  move  $a0, $s3
-/* B57480 800E02E0 0C0378E0 */  jal   func_800DE380
+/* B57480 800E02E0 0C0378E0 */  jal   Audio_SoundAlloc
 /* B57484 800E02E4 24050020 */   li    $a1, 32
 /* B57488 800E02E8 AE420034 */  sw    $v0, 0x34($s2)
 /* B5748C 800E02EC 02602025 */  move  $a0, $s3
-/* B57490 800E02F0 0C0378E0 */  jal   func_800DE380
+/* B57490 800E02F0 0C0378E0 */  jal   Audio_SoundAlloc
 /* B57494 800E02F4 24050020 */   li    $a1, 32
 /* B57498 800E02F8 AE420038 */  sw    $v0, 0x38($s2)
 /* B5749C 800E02FC 02602025 */  move  $a0, $s3
-/* B574A0 800E0300 0C0378E0 */  jal   func_800DE380
+/* B574A0 800E0300 0C0378E0 */  jal   Audio_SoundAlloc
 /* B574A4 800E0304 24050020 */   li    $a1, 32
 /* B574A8 800E0308 AE42003C */  sw    $v0, 0x3c($s2)
 /* B574AC 800E030C 86D82854 */  lh    $t8, 0x2854($s6)
@@ -508,7 +508,7 @@ glabel func_800DFBF8
 /* B57518 800E0378 24050040 */   li    $a1, 64
 /* B5751C 800E037C AE420278 */  sw    $v0, 0x278($s2)
 /* B57520 800E0380 02602025 */  move  $a0, $s3
-/* B57524 800E0384 0C0378C2 */  jal   Audio_SoundAlloc
+/* B57524 800E0384 0C0378C2 */  jal   Audio_AllocDmaMemory
 /* B57528 800E0388 24050010 */   li    $a1, 16
 /* B5752C 800E038C AE420270 */  sw    $v0, 0x270($s2)
 /* B57530 800E0390 86A50014 */  lh    $a1, 0x14($s5)
@@ -527,7 +527,7 @@ glabel func_800DFBF8
 /* B5755C 800E03BC 24050040 */   li    $a1, 64
 /* B57560 800E03C0 AE42027C */  sw    $v0, 0x27c($s2)
 /* B57564 800E03C4 02602025 */  move  $a0, $s3
-/* B57568 800E03C8 0C0378C2 */  jal   Audio_SoundAlloc
+/* B57568 800E03C8 0C0378C2 */  jal   Audio_AllocDmaMemory
 /* B5756C 800E03CC 24050010 */   li    $a1, 16
 /* B57570 800E03D0 AE420274 */  sw    $v0, 0x274($s2)
 /* B57574 800E03D4 86A50016 */  lh    $a1, 0x16($s5)

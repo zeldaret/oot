@@ -428,7 +428,7 @@ void func_800EC734(s32 arg0) {
 
     seqPlayer = &gAudioContext.gSequencePlayers[arg0];
     for (i = 0; i < 0x10; i++) {
-        seqPlayer->channels[i] = func_800DE380(&gAudioContext.gNotesAndBuffersPool, sizeof(SequenceChannel));
+        seqPlayer->channels[i] = Audio_SoundAlloc(&gAudioContext.gNotesAndBuffersPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
             seqPlayer->channels[i] = &gAudioContext.gSequenceChannelNone;
         } else {
