@@ -421,12 +421,12 @@ void Audio_ResetSequencePlayer(SequencePlayer *seqPlayer) {
     }
 }
 
-void func_800EC734(s32 arg0) {
+void func_800EC734(s32 player) {
     SequenceChannel *seqChannel;
     SequencePlayer *seqPlayer;
     s32 i, j;
 
-    seqPlayer = &gAudioContext.gSequencePlayers[arg0];
+    seqPlayer = &gAudioContext.gSequencePlayers[player];
     for (i = 0; i < 0x10; i++) {
         seqPlayer->channels[i] = Audio_SoundAlloc(&gAudioContext.gNotesAndBuffersPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
