@@ -28,7 +28,7 @@ u16 func_800E9340(M64ScriptState* state, u8 arg1) {
 void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     s32 i;
 
-    if (!IS_SEQUENCE_CHANNEL_VALID(seqChannel)) {
+    if (seqChannel == &gAudioContext.gSequenceChannelNone) {
         return;
     }
 
@@ -133,7 +133,8 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel *seqChannel, s32 layerIndex) {
 
 void Audio_SeqChannelLayerDisable(SequenceChannelLayer* layer) {
     if (layer != NULL) {
-        if (IS_SEQUENCE_CHANNEL_VALID(layer->seqChannel) && layer->seqChannel->seqPlayer->finished == 1) {
+        if (layer->seqChannel != &gAudioContext.gSequenceChannelNone &&
+                layer->seqChannel->seqPlayer->finished == 1) {
             Audio_SeqChanLayerNoteRelease(layer);
         } else {
             Audio_SeqChanLayerNoteDecay(layer);
@@ -168,9 +169,17 @@ void Audio_SequenceChannelDisable(SequenceChannel* seqChannel) {
 
 void Audio_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisableChannels.s")
+void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused) {
+    SequenceChannel *seqChannel;
+    s32 i;
 
-void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused);
+    for (i = 0; i < 0x10; i++) {
+        seqChannel = seqPlayer->channels[i];
+        if (IS_SEQUENCE_CHANNEL_VALID(seqChannel) == 1) {
+            Audio_SequenceChannelDisable(seqChannel);
+        }
+    }
+}
 
 void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, void* script) {
     SequenceChannel *seqChannel = seqPlayer->channels[channelIndex];

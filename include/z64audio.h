@@ -502,7 +502,7 @@ typedef struct {
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
 
-#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((ptr) != &gAudioContext.gSequenceChannelNone)
+#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.gSequenceChannelNone)
 
 #define ADSR_STATE_DISABLED 0
 #define ADSR_STATE_INITIAL 1
