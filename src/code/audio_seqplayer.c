@@ -339,9 +339,15 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1);
 
 s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAEF4.s")
-
-void func_800EAEF4(SequenceChannel* seqChannel, u8 arg1);
+void func_800EAEF4(SequenceChannel *seqChannel, u8 arg1) {
+    if ((arg1 & 0xF) != 0) {
+        seqChannel->notePriority = arg1 & 0xF;
+    }
+    arg1 = arg1 >> 4;
+    if (arg1 != 0) {
+        seqChannel->someOtherPriority = arg1;
+    }
+}
 
 u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings *adsr) {
     Instrument *inst = Audio_GetInstrumentInner(seqChannel->bankId, instId);
