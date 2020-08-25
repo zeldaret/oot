@@ -124,11 +124,11 @@ typedef struct {
 
 // Also known as a Group, according to sm64 debug strings.
 typedef struct {
-    /* 0x000 */ u8 enabled : 1;
+    /*!0x000 */ u8 enabled : 1;
     /* 0x000 */ u8 finished : 1;
     /*!0x000 */ u8 muted : 1;
-    /* 0x000 */ u8 seqDmaInProgress : 1;
-    /* 0x000 */ u8 bankDmaInProgress : 1;
+    /*!0x000 */ u8 seqDmaInProgress : 1;
+    /*!0x000 */ u8 bankDmaInProgress : 1;
     /* 0x000 */ u8 recalculateVolume : 1;
     /* 0x000 */ u8 unk_0b2 : 1;
     /* 0x000 */ u8 unk_0b1 : 1;
@@ -171,6 +171,8 @@ typedef struct {
     /* 0x144 */ u8* bankDmaCurrMemAddr;
     /* 0x148 */ u32 bankDmaCurrDevAddr;
     /* 0x14C */ s32 bankDmaRemaining;
+    /*       */ u8 pad_150[8];
+    /* 0x158 */ s8 unk_158[8]; // "seqVariationEu"?
 } SequencePlayer;
 
 typedef struct {
