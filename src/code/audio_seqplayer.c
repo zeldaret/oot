@@ -172,9 +172,21 @@ void Audio_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits
 
 void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelEnable.s")
+void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, void* script) {
+    SequenceChannel *seqChannel = seqPlayer->channels[channelIndex];
+    s32 i;
 
-void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, void* script);
+    seqChannel->enabled = 1;
+    seqChannel->finished = 0;
+    seqChannel->scriptState.depth = 0;
+    seqChannel->scriptState.pc = script;
+    seqChannel->delay = 0;
+    for (i = 0; i < 4; i++) {
+        if (seqChannel->layers[i] != NULL) {
+            Audio_SeqChannelLayerFree(seqChannel, i);
+        }
+    }
+}
 
 void Audio_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
     seqPlayer->finished = 1;
