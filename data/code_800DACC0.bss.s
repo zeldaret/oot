@@ -630,7 +630,7 @@ glabel D_80174C30
 glabel D_80174CA0
     .space 0x68
 
-glabel D_80174D08
+glabel gLayerFreeList
     .space 0x10
 
 glabel gNoteFreeLists

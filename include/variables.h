@@ -3710,7 +3710,7 @@ extern f32* D_801726A0;
 //extern ? D_80172CA0;
 //extern ? D_80174C30;
 //extern ? D_80174CA0;
-//extern ? D_80174D08;
+//extern ? gLayerFreeList;
 extern NotePool gNoteFreeLists;
 //extern ? D_80174D28;
 //extern ? D_80174D38;

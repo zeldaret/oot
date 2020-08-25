@@ -1,4 +1,4 @@
-glabel func_800E97FC
+glabel Audio_SeqChannelLayerDisable
 /* B6099C 800E97FC 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B609A0 800E9800 10800019 */  beqz  $a0, .L800E9868
 /* B609A4 800E9804 AFBF0014 */   sw    $ra, 0x14($sp)

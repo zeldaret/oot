@@ -3,8 +3,8 @@ glabel func_800E9CA8
 /* B60E4C 800E9CAC 3C028017 */  lui   $v0, %hi(gAudioContext) # $v0, 0x8017
 /* B60E50 800E9CB0 2442F180 */  addiu $v0, %lo(gAudioContext) # addiu $v0, $v0, -0xe80
 /* B60E54 800E9CB4 AFB30024 */  sw    $s3, 0x24($sp)
-/* B60E58 800E9CB8 3C138017 */  lui   $s3, %hi(D_80174D08) # $s3, 0x8017
-/* B60E5C 800E9CBC 26734D08 */  addiu $s3, %lo(D_80174D08) # addiu $s3, $s3, 0x4d08
+/* B60E58 800E9CB8 3C138017 */  lui   $s3, %hi(gLayerFreeList) # $s3, 0x8017
+/* B60E5C 800E9CBC 26734D08 */  addiu $s3, %lo(gLayerFreeList) # addiu $s3, $s3, 0x4d08
 /* B60E60 800E9CC0 AFB40028 */  sw    $s4, 0x28($sp)
 /* B60E64 800E9CC4 AFB20020 */  sw    $s2, 0x20($sp)
 /* B60E68 800E9CC8 AFB1001C */  sw    $s1, 0x1c($sp)

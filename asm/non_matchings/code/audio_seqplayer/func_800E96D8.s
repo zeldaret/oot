@@ -7,8 +7,8 @@ glabel func_800E96D8
 /* B6088C 800E96EC 8CC70050 */  lw    $a3, 0x50($a2)
 /* B60890 800E96F0 14E0000B */  bnez  $a3, .L800E9720
 /* B60894 800E96F4 00E02025 */   move  $a0, $a3
-/* B60898 800E96F8 3C048017 */  lui   $a0, %hi(D_80174D08)
-/* B6089C 800E96FC 24844D08 */  addiu $a0, %lo(D_80174D08) # addiu $a0, $a0, 0x4d08
+/* B60898 800E96F8 3C048017 */  lui   $a0, %hi(gLayerFreeList)
+/* B6089C 800E96FC 24844D08 */  addiu $a0, %lo(gLayerFreeList) # addiu $a0, $a0, 0x4d08
 /* B608A0 800E9700 0C03A71A */  jal   Audio_AudioListPopBack
 /* B608A4 800E9704 AFA6001C */   sw    $a2, 0x1c($sp)
 /* B608A8 800E9708 8FA6001C */  lw    $a2, 0x1c($sp)

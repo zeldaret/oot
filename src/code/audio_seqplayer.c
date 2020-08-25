@@ -2,6 +2,7 @@
 #include <global.h>
 
 extern u8 D_80130470[];
+extern AudioListItem gLayerFreeList;
 
 u16 func_800E9D48(void* arg0);
 u16 func_800E9D5C(void* arg0);
@@ -26,11 +27,17 @@ u16 func_800E9340(void* arg0, u8 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E96D8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E97FC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SeqChannelLayerDisable.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SeqChannelLayerFree.s")
+void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIndex) {
+    SequenceChannelLayer* layer = seqChannel->layers[layerIndex];
 
-void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIndex);
+    if (layer != NULL) {
+        Audio_AudioListPushBack(&gLayerFreeList, &layer->listItem);
+        Audio_SeqChannelLayerDisable(layer);
+        seqChannel->layers[layerIndex] = NULL;
+    }
+}
 
 void Audio_SequenceChannelDisable(SequenceChannel* seqChannel) {
     s32 i;
