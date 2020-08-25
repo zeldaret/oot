@@ -165,12 +165,23 @@ void Audio_SequenceChannelDisable(SequenceChannel* seqChannel) {
     seqChannel->finished = 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerInitChannels.s")
+void Audio_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits) {
+    SequenceChannel* seqChannel;
+    s32 i;
 
-void Audio_SequencePlayerInitChannels(SequencePlayer* seqPlayer, u16 channelBits);
+    for (i = 0; i < 0x10; i++) {
+        if (channelBits & 1) {
+            seqChannel = seqPlayer->channels[i];
+            seqChannel->bankId = seqPlayer->defaultBank;
+            seqChannel->muteBehavior = seqPlayer->muteBehavior;
+            seqChannel->noteAllocPolicy = seqPlayer->noteAllocPolicy;
+        }
+        channelBits = channelBits >> 1;
+    }
+}
 
 void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused) {
-    SequenceChannel *seqChannel;
+    SequenceChannel* seqChannel;
     s32 i;
 
     for (i = 0; i < 0x10; i++) {
