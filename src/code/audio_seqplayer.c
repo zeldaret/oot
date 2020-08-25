@@ -347,9 +347,26 @@ void func_800EAEF4(SequenceChannel* seqChannel, u8 arg1);
 
 u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings *adsr);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SetInstrument.s")
-
-void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId);
+void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId) {
+    if (instId >= 0x80) {
+        seqChannel->instOrWave = instId;
+        seqChannel->instrument = NULL;
+    } else if (instId == 0x7f) {
+        seqChannel->instOrWave = 0;
+        seqChannel->instrument = (Instrument *) 1;
+    } else if (instId == 0x7e) {
+        seqChannel->instOrWave = 1;
+        seqChannel->instrument = (Instrument *) 2;
+    } else {
+        if ((seqChannel->instOrWave =
+            Audio_GetInstrument(seqChannel, instId, &seqChannel->instrument, &seqChannel->adsr)) == 0)
+        {
+            seqChannel->hasInstrument = 0;
+            return;
+        }
+    }
+    seqChannel->hasInstrument = 1;
+}
 
 void Audio_SequenceChannelSetVolume(SequenceChannel* seqChannel, u8 volume) {
     seqChannel->volume = (f32) (s32) volume / 127.0f;
