@@ -83,7 +83,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
     } else {
         Actor_ProcessInitChain(thisx, sInitChain);
-        
+
         // Rock destroyed by jya bomb
         osSyncPrintf("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", thisx->params);
     }
