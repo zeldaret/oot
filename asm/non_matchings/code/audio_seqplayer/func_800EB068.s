@@ -964,7 +964,7 @@ glabel L800EBAB4
 /* B62C58 800EBAB8 02C02025 */   move  $a0, $s6
 /* B62C5C 800EBABC 3051FFFF */  andi  $s1, $v0, 0xffff
 /* B62C60 800EBAC0 02802025 */  move  $a0, $s4
-/* B62C64 800EBAC4 0C03A5B6 */  jal   func_800E96D8
+/* B62C64 800EBAC4 0C03A5B6 */  jal   Audio_SeqChannelSetLayer
 /* B62C68 800EBAC8 02A02825 */   move  $a1, $s5
 /* B62C6C 800EBACC 1440FD89 */  bnez  $v0, .L800EB0F4
 /* B62C70 800EBAD0 00154080 */   sll   $t0, $s5, 2
@@ -985,7 +985,7 @@ glabel L800EBB00
 /* B62CA4 800EBB04 02802025 */  move  $a0, $s4
 /* B62CA8 800EBB08 13D9FD7A */  beq   $fp, $t9, .L800EB0F4
 /* B62CAC 800EBB0C 00000000 */   nop   
-/* B62CB0 800EBB10 0C03A5B6 */  jal   func_800E96D8
+/* B62CB0 800EBB10 0C03A5B6 */  jal   Audio_SeqChannelSetLayer
 /* B62CB4 800EBB14 02A02825 */   move  $a1, $s5
 /* B62CB8 800EBB18 105EFD76 */  beq   $v0, $fp, .L800EB0F4
 /* B62CBC 800EBB1C 00157080 */   sll   $t6, $s5, 2
@@ -1015,7 +1015,7 @@ glabel L800EBB6C
 /* B62D14 800EBB74 00028400 */  sll   $s0, $v0, 0x10
 /* B62D18 800EBB78 00108403 */  sra   $s0, $s0, 0x10
 /* B62D1C 800EBB7C 02802025 */  move  $a0, $s4
-/* B62D20 800EBB80 0C03A5B6 */  jal   func_800E96D8
+/* B62D20 800EBB80 0C03A5B6 */  jal   Audio_SeqChannelSetLayer
 /* B62D24 800EBB84 02A02825 */   move  $a1, $s5
 /* B62D28 800EBB88 1440FD5A */  bnez  $v0, .L800EB0F4
 /* B62D2C 800EBB8C 00154080 */   sll   $t0, $s5, 2

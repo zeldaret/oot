@@ -42,7 +42,7 @@ glabel func_800EC734
 /* B6396C 800EC7CC AC60005C */  sw    $zero, 0x5c($v1)
 /* B63970 800EC7D0 AC600050 */  sw    $zero, 0x50($v1)
 .L800EC7D4:
-/* B63974 800EC7D4 0C03A561 */  jal   func_800E9584
+/* B63974 800EC7D4 0C03A561 */  jal   Audio_SequenceChannelInit
 /* B63978 800EC7D8 8E040038 */   lw    $a0, 0x38($s0)
 /* B6397C 800EC7DC 26310004 */  addiu $s1, $s1, 4
 /* B63980 800EC7E0 1635FFEC */  bne   $s1, $s5, .L800EC794

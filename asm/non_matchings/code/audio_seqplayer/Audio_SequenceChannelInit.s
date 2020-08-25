@@ -1,4 +1,4 @@
-glabel func_800E9584
+glabel Audio_SequenceChannelInit
 /* B60724 800E9584 3C0E8017 */  lui   $t6, %hi(gAudioContext) # $t6, 0x8017
 /* B60728 800E9588 25CEF180 */  addiu $t6, %lo(gAudioContext) # addiu $t6, $t6, -0xe80
 /* B6072C 800E958C 27BDFFE8 */  addiu $sp, $sp, -0x18

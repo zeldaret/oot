@@ -23,9 +23,12 @@ u16 func_800E9340(void* arg0, u8 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E93A8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9584.s")
+void Audio_SequenceChannelInit(SequenceChannel* seqChannel);
+s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIndex);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E96D8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelInit.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SeqChannelSetLayer.s")
 
 void Audio_SeqChannelLayerDisable(SequenceChannelLayer* layer) {
     if (layer != NULL) {
