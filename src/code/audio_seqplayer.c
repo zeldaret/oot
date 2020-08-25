@@ -421,7 +421,27 @@ void Audio_ResetSequencePlayer(SequencePlayer *seqPlayer) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC734.s")
+void func_800EC734(s32 arg0) {
+    SequenceChannel *seqChannel;
+    SequencePlayer *seqPlayer;
+    s32 i, j;
+
+    seqPlayer = &gAudioContext.gSequencePlayers[arg0];
+    for (i = 0; i < 0x10; i++) {
+        seqPlayer->channels[i] = func_800DE380(&gAudioContext.gNotesAndBuffersPool, sizeof(SequenceChannel));
+        if (seqPlayer->channels[i] == NULL) {
+            seqPlayer->channels[i] = &gAudioContext.gSequenceChannelNone;
+        } else {
+            seqChannel = seqPlayer->channels[i];
+            seqChannel->seqPlayer = seqPlayer;
+            seqChannel->enabled = 0;
+            for (j = 0; j < 4; j++) {
+                seqChannel->layers[j] = NULL;
+            }
+        }
+        Audio_SequenceChannelInit(seqPlayer->channels[i]);
+    }
+}
 
 void Audio_InitSequencePlayer(SequencePlayer* seqPlayer) {
     s32 i, j;

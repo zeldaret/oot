@@ -1927,7 +1927,7 @@ void FaultDrawer_SetDefault();
 // ? func_800DE2B0(?);
 void* Audio_SoundAlloc(SoundAllocPool* pool, u32 size);
 // ? func_800DE344(?);
-// ? func_800DE380(?);
+void* func_800DE380(SoundAllocPool* pool, u32 size);
 // ? func_800DE3DC(?);
 // ? func_800DE434(?);
 // ? func_800DE45C(?);
