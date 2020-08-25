@@ -80,11 +80,11 @@ void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     Audio_InitNoteLists(&seqChannel->notePool);
 }
 
-s32 Audio_SeqChannelSetLayer(struct SequenceChannel *seqChannel, s32 layerIndex) {
-    struct SequenceChannelLayer *layer;
+s32 Audio_SeqChannelSetLayer(SequenceChannel *seqChannel, s32 layerIndex) {
+    SequenceChannelLayer *layer;
 
     if (seqChannel->layers[layerIndex] == NULL) {
-        struct SequenceChannelLayer *layer;
+        SequenceChannelLayer *layer;
         layer = Audio_AudioListPopBack(&gAudioContext.gLayerFreeList);
         seqChannel->layers[layerIndex] = layer;
         if (layer == NULL) {
@@ -176,9 +176,10 @@ void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelB
 
 void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, void* script);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisableAsFinished.s")
-
-void Audio_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer);
+void Audio_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
+    seqPlayer->finished = 1;
+    Audio_SequencePlayerDisable(seqPlayer);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisable.s")
 
@@ -196,7 +197,7 @@ void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item) {
 }
 
 void* Audio_AudioListPopBack(AudioListItem* list) {
-    struct AudioListItem *item = list->prev;
+    AudioListItem *item = list->prev;
     if (item == list) {
         return NULL;
     }
