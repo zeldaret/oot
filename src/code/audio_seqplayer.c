@@ -189,9 +189,17 @@ void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer);
 
 void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_AudioListPopBack.s")
-
-void* Audio_AudioListPopBack(AudioListItem* list);
+void* Audio_AudioListPopBack(AudioListItem* list) {
+    struct AudioListItem *item = list->prev;
+    if (item == list) {
+        return NULL;
+    }
+    item->prev->next = list;
+    list->prev = item->prev;
+    item->prev = NULL;
+    list->u.count--;
+    return item->u.value;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_InitLayerFreelist.s")
 
