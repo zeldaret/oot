@@ -31,7 +31,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     sub->bitField0.s.stereoStrongLeft = 0;
     sub->bitField0.s.stereoHeadsetEffects = sp24.stereoHeadsetEffects;
     sub->bitField0.s.usesHeadsetPanEffects = sp24.usesHeadsetPanEffects;
-    if (stereoHeadsetEffects && gSoundMode == 1) {
+    if (stereoHeadsetEffects && gAudioContext.gSoundMode == 1) {
         smallPanIndex = pan >> 1;
         if (smallPanIndex > 0x3f) {
             smallPanIndex = 0x3f;
@@ -43,7 +43,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
 
         volLeft = gHeadsetPanVolume[pan];
         volRight = gHeadsetPanVolume[0x7f - pan];
-    } else if (stereoHeadsetEffects && gSoundMode == 0) {
+    } else if (stereoHeadsetEffects && gAudioContext.gSoundMode == 0) {
         strongLeft = strongRight = 0;
         sub->headsetPanRight = 0;
         sub->headsetPanLeft = 0;
@@ -77,7 +77,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
                 break;
         }
 
-    } else if (gSoundMode == 3) {
+    } else if (gAudioContext.gSoundMode == 3) {
         sub->bitField0.s.stereoHeadsetEffects = 0;
         sub->bitField0.s.usesHeadsetPanEffects = 0;
         volLeft = 0.707f;
@@ -508,9 +508,9 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
             note->playbackState.unk_04 = 1;
             note->playbackState.adsr.action.s.decay = 1;
             if (seqLayer->adsr.releaseRate == 0) {
-                note->playbackState.adsr.fadeOutVel = D_801726A0[seqLayer->seqChannel->adsr.releaseRate];
+                note->playbackState.adsr.fadeOutVel = gAudioContext.unk_3520[seqLayer->seqChannel->adsr.releaseRate];
             } else {
-                note->playbackState.adsr.fadeOutVel = D_801726A0[seqLayer->adsr.releaseRate];
+                note->playbackState.adsr.fadeOutVel = gAudioContext.unk_3520[seqLayer->adsr.releaseRate];
             }
             note->playbackState.adsr.sustain =
                 ((f32)(s32)(seqLayer->seqChannel->adsr.sustain) * note->playbackState.adsr.current) / 256.0f;

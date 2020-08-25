@@ -258,7 +258,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                     break;
 
                 default:
-                    adsr->delay *= D_801719EC;
+                    adsr->delay *= gAudioContext.unk_286C;
                     if (adsr->delay == 0) {
                         adsr->delay = 1;
                     }

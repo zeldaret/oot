@@ -1,8 +1,8 @@
 glabel func_800EE6F4
 /* B65894 800EE6F4 3C0F8013 */  lui   $t7, %hi(D_80130F10) # $t7, 0x8013
 /* B65898 800EE6F8 81EF0F10 */  lb    $t7, %lo(D_80130F10)($t7)
-/* B6589C 800EE6FC 3C0E8017 */  lui   $t6, %hi(D_80171A1C) # $t6, 0x8017
-/* B658A0 800EE700 8DCE1A1C */  lw    $t6, %lo(D_80171A1C)($t6)
+/* B6589C 800EE6FC 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x289c) # $t6, 0x8017
+/* B658A0 800EE700 8DCE1A1C */  lw    $t6, %lo(gAudioContext+0x289c)($t6)
 /* B658A4 800EE704 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B658A8 800EE708 3C018017 */  lui   $at, %hi(D_8016BA04) # $at, 0x8017
 /* B658AC 800EE70C AFBF0014 */  sw    $ra, 0x14($sp)
