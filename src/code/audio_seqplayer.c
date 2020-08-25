@@ -351,9 +351,9 @@ u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** inst
 
 void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelSetVolume.s")
-
-void Audio_SequenceChannelSetVolume(SequenceChannel* seqChannel, u8 volume);
+void Audio_SequenceChannelSetVolume(SequenceChannel* seqChannel, u8 volume) {
+    seqChannel->volume = (f32) (s32) volume / 127.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelProcessScript.s")
 
