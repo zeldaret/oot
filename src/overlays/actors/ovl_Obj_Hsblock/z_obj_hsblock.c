@@ -54,7 +54,7 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
 void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, UNK_TYPE arg2, DynaPolyMoveFlag moveFlags) {
     s32 pad;
     s32 localC = 0;
-    s32 pa2[2];
+    s32 pad2[2];
 
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlags);
     DynaPolyInfo_Alloc(arg2, &localC);
@@ -145,7 +145,7 @@ void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGB8* color;
-    Color_RGB8 colorTmp;
+    Color_RGB8 defaultColor;
 
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
@@ -159,10 +159,10 @@ void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_HIDAN) {
         color = &sHidanColor;
     } else {
-        colorTmp.r = mREG(13);
-        colorTmp.g = mREG(14);
-        colorTmp.b = mREG(15);
-        color = &colorTmp;
+        defaultColor.r = mREG(13);
+        defaultColor.g = mREG(14);
+        defaultColor.b = mREG(15);
+        color = &defaultColor;
     }
 
     gDPSetEnvColor(gfxCtx->polyOpa.p++, color->r, color->g, color->b, 255);
