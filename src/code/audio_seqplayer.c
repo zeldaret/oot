@@ -197,9 +197,9 @@ void* Audio_AudioListPopBack(AudioListItem* list);
 
 void Audio_InitLayerFreelist(void);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_M64ReadU8.s")
-
-u8 Audio_M64ReadU8(M64ScriptState* state);
+u8 Audio_M64ReadU8(M64ScriptState* state) {
+    return *(state->pc++);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_M64ReadS16.s")
 
