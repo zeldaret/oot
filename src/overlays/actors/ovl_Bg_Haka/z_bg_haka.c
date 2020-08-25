@@ -136,7 +136,7 @@ void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx) {
 
 void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 pad;
+    s32 pad;
 
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.params -= 1;
