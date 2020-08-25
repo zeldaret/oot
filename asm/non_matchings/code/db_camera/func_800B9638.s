@@ -1061,7 +1061,7 @@ glabel func_800B9638
 /* B3177C 800BA5DC 27A4005C */  addiu $a0, $sp, 0x5c
 .L800BA5E0:
 /* B31780 800BA5E0 26450010 */  addiu $a1, $s2, 0x10
-/* B31784 800BA5E4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* B31784 800BA5E4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* B31788 800BA5E8 26460004 */   addiu $a2, $s2, 4
 /* B3178C 800BA5EC 3C018014 */  lui   $at, %hi(D_80143CD0)
 /* B31790 800BA5F0 C4323CD0 */  lwc1  $f18, %lo(D_80143CD0)($at)
@@ -1141,7 +1141,7 @@ glabel func_800B9638
 /* B318B0 800BA710 240EFFFF */  li    $t6, -1
 /* B318B4 800BA714 3C018016 */  lui   $at, %hi(D_8016114A) # $at, 0x8016
 /* B318B8 800BA718 A42E114A */  sh    $t6, %lo(D_8016114A)($at)
-/* B318BC 800BA71C 3C018016 */  lui   $at, %hi(D_8016114A) # $at, 0x8016
+/* B318BC 800BA71C 3C018016 */  lui   $at, %hi(D_801612EA) # $at, 0x8016
 /* B318C0 800BA720 240F002A */  li    $t7, 42
 /* B318C4 800BA724 10000006 */  b     .L800BA740
 /* B318C8 800BA728 A02F12EA */   sb    $t7, %lo(D_801612EA)($at)
