@@ -394,9 +394,32 @@ void Audio_ProcessSequences(s32 arg0);
 
 void Audio_ProcessSequence(SequencePlayer* seqPlayer);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_ResetSequencePlayer.s")
+void Audio_ResetSequencePlayer(SequencePlayer *seqPlayer) {
+    s32 i;
 
-void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer);
+    Audio_SequencePlayerDisable(seqPlayer);
+    seqPlayer->unk_0b2 = 0;
+    seqPlayer->delay = 0;
+    seqPlayer->state = 1;
+    seqPlayer->fadeTimer = 0;
+    seqPlayer->fadeTimerUnkEu = 0;
+    seqPlayer->tempoAcc = 0;
+    seqPlayer->tempo = 120 * TATUMS_PER_BEAT; // 120 BPM
+    seqPlayer->transposition = 0;
+    seqPlayer->unk_0E = 0;
+    seqPlayer->noteAllocPolicy = 0;
+    seqPlayer->shortNoteVelocityTable = gDefaultShortNoteVelocityTable;
+    seqPlayer->shortNoteDurationTable = gDefaultShortNoteDurationTable;
+    seqPlayer->unk_E0 = 0;
+    seqPlayer->fadeVolume = 1.0f;
+    seqPlayer->fadeVelocity = 0.0f;
+    seqPlayer->volume = 0.0f;
+    seqPlayer->muteVolumeScale = 0.5f;
+
+    for (i = 0; i < 0x10; i++) {
+        Audio_SequenceChannelInit(seqPlayer->channels[i]);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EC734.s")
 
