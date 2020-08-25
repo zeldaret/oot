@@ -308,14 +308,15 @@ typedef struct SequenceChannelLayer {
     /* 0x05 */ u8 status; // probably doesn't exist
     /*!0x06 */ u8 pan; // 0..128
     /*!0x07 */ u8 notePan;
-    /* 0x08 */ u16 portamentoTime;
-    /* 0x0A */ s16 transposition; // #semitones added to play commands
-                                  // (m64 instruction encoding only allows referring to the limited range
-                                  // 0..0x3f; this makes 0x40..0x7f accessible as well)
+    /*!0x08 */ s16 delay;
+    /*!0x0A */ s16 duration;
     /* 0x0C */ s16 unk_0C;
     /* 0x0E */ s16 unk_0E;
-    /* 0x10 */ s16 delay; // (wrong)
-    /* 0x12 */ s16 duration; // (wrong)
+    /* 0x10 */ u16 portamentoTime; // (likely wrong offset)
+    /* 0x12 */ s16 transposition; // #semitones added to play commands
+                                  // (m64 instruction encoding only allows referring to the limited range
+                                  // 0..0x3f; this makes 0x40..0x7f accessible as well)
+                                  // (likely wrong offset)
     /* 0x14 */ f32 unk14;
     /* 0x18 */ AdsrSettings adsr;
     /*!0x20 */ Portamento portamento;

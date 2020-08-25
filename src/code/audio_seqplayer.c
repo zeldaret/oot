@@ -115,13 +115,10 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel *seqChannel, s32 layerIndex) {
     layer->scriptState.depth = 0;
     layer->noteDuration = 0x80;
     layer->pan = 0x40;
-
-    // (also wrong)
-    layer->delay = 0;
     layer->portamentoTime = 0;
-    layer->transposition = 0;
+    layer->delay = 0;
+    layer->duration = 0;
     layer->unk_0C = 0;
-
     layer->note = NULL;
     layer->instrument = NULL;
     layer->freqScale = 1.0f;
