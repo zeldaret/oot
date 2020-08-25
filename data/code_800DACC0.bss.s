@@ -624,7 +624,7 @@ glabel D_80172C30
 glabel D_80172CA0
     .space 0x1F90
 
-glabel D_80174C30
+glabel gSequenceChannelNone
     .space 0x70
 
 glabel D_80174CA0

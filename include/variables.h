@@ -3708,7 +3708,7 @@ extern f32* D_801726A0;
 //extern ? D_801729A8;
 //extern ? D_80172C30;
 //extern ? D_80172CA0;
-//extern ? D_80174C30;
+extern SequenceChannel gSequenceChannelNone;
 //extern ? D_80174CA0;
 //extern ? gLayerFreeList;
 extern NotePool gNoteFreeLists;

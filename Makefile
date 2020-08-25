@@ -207,8 +207,8 @@ build/src/overlays/%.o: src/overlays/%.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_code/llcvt.o: src/libultra_code/llcvt.c

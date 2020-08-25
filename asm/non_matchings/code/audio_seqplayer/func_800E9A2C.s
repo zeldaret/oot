@@ -5,10 +5,10 @@ glabel func_800E9A2C
 /* B60BD8 800E9A38 AFB30024 */  sw    $s3, 0x24($sp)
 /* B60BDC 800E9A3C AFB1001C */  sw    $s1, 0x1c($sp)
 /* B60BE0 800E9A40 AFB00018 */  sw    $s0, 0x18($sp)
-/* B60BE4 800E9A44 3C128017 */  lui   $s2, %hi(D_80174C30) # $s2, 0x8017
+/* B60BE4 800E9A44 3C128017 */  lui   $s2, %hi(gSequenceChannelNone) # $s2, 0x8017
 /* B60BE8 800E9A48 AFBF002C */  sw    $ra, 0x2c($sp)
 /* B60BEC 800E9A4C AFA50034 */  sw    $a1, 0x34($sp)
-/* B60BF0 800E9A50 26524C30 */  addiu $s2, %lo(D_80174C30) # addiu $s2, $s2, 0x4c30
+/* B60BF0 800E9A50 26524C30 */  addiu $s2, %lo(gSequenceChannelNone) # addiu $s2, $s2, 0x4c30
 /* B60BF4 800E9A54 00008025 */  move  $s0, $zero
 /* B60BF8 800E9A58 00808825 */  move  $s1, $a0
 /* B60BFC 800E9A5C 24130001 */  li    $s3, 1

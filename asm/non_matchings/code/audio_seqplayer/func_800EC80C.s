@@ -2,9 +2,9 @@ glabel func_800EC80C
 /* B639AC 800EC80C 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B639B0 800EC810 00803025 */  move  $a2, $a0
 /* B639B4 800EC814 00801825 */  move  $v1, $a0
-/* B639B8 800EC818 3C028017 */  lui   $v0, %hi(D_80174C30) # $v0, 0x8017
+/* B639B8 800EC818 3C028017 */  lui   $v0, %hi(gSequenceChannelNone) # $v0, 0x8017
 /* B639BC 800EC81C AFBF0014 */  sw    $ra, 0x14($sp)
-/* B639C0 800EC820 24424C30 */  addiu $v0, %lo(D_80174C30) # addiu $v0, $v0, 0x4c30
+/* B639C0 800EC820 24424C30 */  addiu $v0, %lo(gSequenceChannelNone) # addiu $v0, $v0, 0x4c30
 /* B639C4 800EC824 24040010 */  li    $a0, 16
 /* B639C8 800EC828 00002825 */  move  $a1, $zero
 .L800EC82C:

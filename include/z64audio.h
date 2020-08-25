@@ -125,7 +125,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 enabled : 1;
-    /* 0x000 */ u8 finished : 1; // never read
+    /* 0x000 */ u8 finished : 1;
     /*!0x000 */ u8 muted : 1;
     /* 0x000 */ u8 seqDmaInProgress : 1;
     /* 0x000 */ u8 bankDmaInProgress : 1;
@@ -229,8 +229,8 @@ typedef struct {
 } NoteAttributes; // size = 0x24
 
 typedef struct SequenceChannel {
-    /* 0x00 */ u8 enabled : 1;
-    /* 0x00 */ u8 finished : 1;
+    /*!0x00 */ u8 enabled : 1;
+    /*!0x00 */ u8 finished : 1;
     /* 0x00 */ u8 stopScript : 1;
     /* 0x00 */ u8 stopSomething2 : 1; // sets SequenceChannelLayer.stopSomething
     /* 0x00 */ u8 hasInstrument : 1;
@@ -293,8 +293,8 @@ typedef struct SequenceChannel {
 
 // Maybe SequenceTrack?
 typedef struct SequenceChannelLayer {
-    /* 0x00 */ u8 enabled : 1;
-    /* 0x00 */ u8 finished : 1;
+    /*!0x00 */ u8 enabled : 1;
+    /*!0x00 */ u8 finished : 1;
     /* 0x00 */ u8 stopSomething : 1;   // ?
     /* 0x00 */ u8 continuousNotes : 1; // keep the same note for consecutive notes with the same sound
     /* 0x00 */ u8 unusedEu0b8 : 1;
@@ -497,6 +497,8 @@ typedef struct {
 
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
+
+#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gSequenceChannelNone)
 
 #define ADSR_STATE_DISABLED 0
 #define ADSR_STATE_INITIAL 1

@@ -16,9 +16,9 @@ glabel func_800EC734
 /* B6390C 800EC76C AFB00014 */  sw    $s0, 0x14($sp)
 /* B63910 800EC770 01F89021 */  addu  $s2, $t7, $t8
 /* B63914 800EC774 3C138017 */  lui   $s3, %hi(D_80171B40) # $s3, 0x8017
-/* B63918 800EC778 3C148017 */  lui   $s4, %hi(D_80174C30) # $s4, 0x8017
+/* B63918 800EC778 3C148017 */  lui   $s4, %hi(gSequenceChannelNone) # $s4, 0x8017
 /* B6391C 800EC77C AFBF002C */  sw    $ra, 0x2c($sp)
-/* B63920 800EC780 26944C30 */  addiu $s4, %lo(D_80174C30) # addiu $s4, $s4, 0x4c30
+/* B63920 800EC780 26944C30 */  addiu $s4, %lo(gSequenceChannelNone) # addiu $s4, $s4, 0x4c30
 /* B63924 800EC784 26731B40 */  addiu $s3, %lo(D_80171B40) # addiu $s3, $s3, 0x1b40
 /* B63928 800EC788 02408025 */  move  $s0, $s2
 /* B6392C 800EC78C 00008825 */  move  $s1, $zero
