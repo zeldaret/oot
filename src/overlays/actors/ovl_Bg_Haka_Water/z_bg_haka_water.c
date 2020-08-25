@@ -19,8 +19,8 @@ void func_80881D94(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Wait(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, GlobalContext* globalCtx);
 
-extern u32 D_06001E50;
-extern u32 D_06002010;
+extern Gfx D_06001E50[];
+extern Gfx D_06002010[];
 
 const ActorInit Bg_Haka_Water_InitVars = {
     ACTOR_BG_HAKA_WATER,
@@ -59,7 +59,7 @@ void BgHakaWater_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80881D94(BgHakaWater* this, GlobalContext* globalCtx) {
     s32 i;
 
-    for (i = 0; i < 9; ++i) {
+    for (i = 0; i < 9; i++) {
         globalCtx->colCtx.stat.colHeader->waterBoxes[i].unk_02 = (s16)this->actor.posRot.pos.y - 8;
     }
 }
@@ -135,7 +135,7 @@ void BgHakaWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_water.c", 312),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_06001E50);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_06001E50);
 
     Matrix_Translate(0.0f, 92.0f, -1680.0f, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
@@ -148,7 +148,7 @@ void BgHakaWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (u8)(5.1f * temp));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_water.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_06002010);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_06002010);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_haka_water.c", 332);
 }
