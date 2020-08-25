@@ -303,16 +303,17 @@ typedef struct SequenceChannelLayer {
     /* 0x00 */ u8 notePropertiesNeedInit : 1;
     /*!0x01 */ ReverbBits reverbBits;
     /* 0x02 */ u8 instOrWave;
-    /* 0x03 */ u8 status;
-    /* 0x04 */ u8 noteDuration; // set to 0x80
-    /* 0x05 */ u8 portamentoTargetNote;
+    /*!0x03 */ u8 noteDuration; // set to 0x80
+    /* 0x04 */ u8 portamentoTargetNote;
+    /* 0x05 */ u8 status; // probably doesn't exist
     /*!0x06 */ u8 pan; // 0..128
     /*!0x07 */ u8 notePan;
     /* 0x08 */ u16 portamentoTime;
     /* 0x0A */ s16 transposition; // #semitones added to play commands
-                                      // (m64 instruction encoding only allows referring to the limited range
-                                      // 0..0x3f; this makes 0x40..0x7f accessible as well)
-    /* 0x0C */ f32 unk0C;
+                                  // (m64 instruction encoding only allows referring to the limited range
+                                  // 0..0x3f; this makes 0x40..0x7f accessible as well)
+    /* 0x0C */ s16 unk_0C;
+    /* 0x0E */ s16 unk_0E;
     /* 0x10 */ s16 delay; // (wrong)
     /* 0x12 */ s16 duration; // (wrong)
     /* 0x14 */ f32 unk14;
@@ -320,18 +321,19 @@ typedef struct SequenceChannelLayer {
     /*!0x20 */ Portamento portamento;
     /*!0x2C */ struct Note* note;
     /*!0x30 */ f32 freqScale;
-    /* 0x34 */ s16 shortNoteDefaultPlayPercentage;
-    /* 0x36 */ s16 playPercentage; // it's not really a percentage...
+    /* 0x34 */ f32 unk_34;
     /*!0x38 */ f32 velocitySquare;
-    /* 0x3C */ s16 delayUnused; // set to 'delay', never read
+    /* 0x3C */ s16 delayUnused;
     /*!0x40 */ f32 noteVelocity;
     /*!0x44 */ f32 noteFreqScale;
     /* 0x48 */ Instrument* instrument;
     /*!0x4C */ AudioBankSound* sound;
     /*!0x50 */ SequenceChannel* seqChannel;
-    /* 0x54 */ M64ScriptState scriptState;
+    /*!0x54 */ M64ScriptState scriptState;
     /* 0x70 */ AudioListItem listItem;
-    /* 0x80 */ char unk_80[0x10];
+    /* 0x80 */ s16 shortNoteDefaultPlayPercentage;
+    /* 0x82 */ s16 playPercentage;
+    /* 0x84 */ char unk_84[0xC];
 } SequenceChannelLayer;
 
 typedef struct {

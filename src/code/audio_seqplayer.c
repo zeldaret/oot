@@ -24,11 +24,59 @@ u16 func_800E9340(void* arg0, u8 arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E93A8.s")
 
 void Audio_SequenceChannelInit(SequenceChannel* seqChannel);
-s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIndex);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelInit.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SeqChannelSetLayer.s")
+s32 Audio_SeqChannelSetLayer(struct SequenceChannel *seqChannel, s32 layerIndex) {
+    struct SequenceChannelLayer *layer;
+
+    if (seqChannel->layers[layerIndex] == NULL) {
+        struct SequenceChannelLayer *layer;
+        layer = Audio_AudioListPopBack(&gLayerFreeList);
+        seqChannel->layers[layerIndex] = layer;
+        if (layer == NULL) {
+            seqChannel->layers[layerIndex] = NULL;
+            return -1;
+        }
+    } else {
+        Audio_SeqChanLayerNoteDecay(seqChannel->layers[layerIndex]);
+    }
+
+    layer = seqChannel->layers[layerIndex];
+    layer->seqChannel = seqChannel;
+    layer->adsr = seqChannel->adsr;
+    layer->adsr.releaseRate = 0;
+    layer->enabled = 1;
+    layer->finished = 0;
+    layer->stopSomething = 0;
+    layer->continuousNotes = 0;
+
+    // (these are wrong)
+    layer->unusedEu0b8 = 0;
+    layer->bit2 = 0;
+    layer->ignoreDrumPan = 0;
+    layer->notePropertiesNeedInit = 0;
+
+    layer->reverbBits.asByte = 0;
+    layer->portamento.mode = 0;
+    layer->scriptState.depth = 0;
+    layer->noteDuration = 0x80;
+    layer->pan = 0x40;
+
+    // (also wrong)
+    layer->delay = 0;
+    layer->portamentoTime = 0;
+    layer->transposition = 0;
+    layer->unk_0C = 0;
+
+    layer->note = NULL;
+    layer->instrument = NULL;
+    layer->freqScale = 1.0f;
+    layer->unk_34 = 1.0f;
+    layer->velocitySquare = 0.0f;
+    layer->instOrWave = 0xff;
+    return 0;
+}
 
 void Audio_SeqChannelLayerDisable(SequenceChannelLayer* layer) {
     if (layer != NULL) {
