@@ -16,18 +16,18 @@ glabel Audio_SequencePlayerDisable
 /* B60D44 800E9BA4 3309FF7F */  andi  $t1, $t8, 0xff7f
 /* B60D48 800E9BA8 A2090000 */  sb    $t1, ($s0)
 /* B60D4C 800E9BAC 352A0040 */  ori   $t2, $t1, 0x40
-/* B60D50 800E9BB0 0C03864A */  jal   func_800E1928
+/* B60D50 800E9BB0 0C03864A */  jal   Audio_IsSeqLoadComplete
 /* B60D54 800E9BB4 A20A0000 */   sb    $t2, ($s0)
 /* B60D58 800E9BB8 10400003 */  beqz  $v0, .L800E9BC8
 /* B60D5C 800E9BBC 24050003 */   li    $a1, 3
-/* B60D60 800E9BC0 0C038692 */  jal   func_800E1A48
+/* B60D60 800E9BC0 0C038692 */  jal   Audio_SetSeqLoadStatus
 /* B60D64 800E9BC4 92040004 */   lbu   $a0, 4($s0)
 .L800E9BC8:
-/* B60D68 800E9BC8 0C03862C */  jal   func_800E18B0
+/* B60D68 800E9BC8 0C03862C */  jal   Audio_IsBankLoadComplete
 /* B60D6C 800E9BCC 92040005 */   lbu   $a0, 5($s0)
 /* B60D70 800E9BD0 10400003 */  beqz  $v0, .L800E9BE0
 /* B60D74 800E9BD4 24050004 */   li    $a1, 4
-/* B60D78 800E9BD8 0C038686 */  jal   func_800E1A18
+/* B60D78 800E9BD8 0C038686 */  jal   Audio_SetBankLoadStatus
 /* B60D7C 800E9BDC 92040005 */   lbu   $a0, 5($s0)
 .L800E9BE0:
 /* B60D80 800E9BE0 3C038017 */  lui   $v1, %hi(gAudioContext) # $v1, 0x8017

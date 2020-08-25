@@ -135,9 +135,8 @@ typedef struct {
     /* 0x001 */ u8 state;
     /* 0x002 */ u8 noteAllocPolicy;
     /* 0x003 */ u8 muteBehavior;
-    /* 0x004 */ u8 seqId;
-    /* 0x005 */ u8 defaultBank[1]; // must be an array to get a comparison
-                                 // to match; other u8's might also be part of that array
+    /*!0x004 */ u8 seqId;
+    /*!0x005 */ u8 defaultBank;
     /* 0x006 */ u8 loadingBankId;
     /* 0x007 */ s8 seqVariationEu[1];
     /* 0x008 */ u16 tempo; // beats per minute in JP, tatums per minute in US/EU

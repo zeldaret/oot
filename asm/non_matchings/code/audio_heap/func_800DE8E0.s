@@ -94,7 +94,7 @@ glabel func_800DE8E0
 /* B55BBC 800DEA1C AFA70024 */  sw    $a3, 0x24($sp)
 /* B55BC0 800DEA20 AFA8004C */  sw    $t0, 0x4c($sp)
 /* B55BC4 800DEA24 AFAB0030 */  sw    $t3, 0x30($sp)
-/* B55BC8 800DEA28 0C038686 */  jal   func_800E1A18
+/* B55BC8 800DEA28 0C038686 */  jal   Audio_SetBankLoadStatus
 /* B55BCC 800DEA2C A3AD003A */   sb    $t5, 0x3a($sp)
 /* B55BD0 800DEA30 8FA70024 */  lw    $a3, 0x24($sp)
 /* B55BD4 800DEA34 8FA8004C */  lw    $t0, 0x4c($sp)
@@ -135,7 +135,7 @@ glabel func_800DE8E0
 /* B55C50 800DEAB0 AFAB0030 */  sw    $t3, 0x30($sp)
 /* B55C54 800DEAB4 AFA8004C */  sw    $t0, 0x4c($sp)
 /* B55C58 800DEAB8 AFA70024 */  sw    $a3, 0x24($sp)
-/* B55C5C 800DEABC 0C038686 */  jal   func_800E1A18
+/* B55C5C 800DEABC 0C038686 */  jal   Audio_SetBankLoadStatus
 /* B55C60 800DEAC0 24050003 */   li    $a1, 3
 /* B55C64 800DEAC4 8FA70024 */  lw    $a3, 0x24($sp)
 /* B55C68 800DEAC8 8FA8004C */  lw    $t0, 0x4c($sp)

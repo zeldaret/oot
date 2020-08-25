@@ -1,4 +1,4 @@
-glabel func_800E1928
+glabel Audio_IsSeqLoadComplete
 /* B58AC8 800E1928 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B58ACC 800E192C 240100FF */  li    $at, 255
 /* B58AD0 800E1930 AFBF0014 */  sw    $ra, 0x14($sp)

@@ -1,4 +1,4 @@
-glabel func_800E18B0
+glabel Audio_IsBankLoadComplete
 /* B58A50 800E18B0 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B58A54 800E18B4 240100FF */  li    $at, 255
 /* B58A58 800E18B8 AFBF0014 */  sw    $ra, 0x14($sp)

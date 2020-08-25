@@ -183,7 +183,31 @@ void Audio_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerDisable.s")
 
-void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer);
+/*
+// the gBankLoadedPool struct isn't done yet, annoying to put into gAudioContext
+void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer) {
+    Audio_SequencePlayerDisableChannels(seqPlayer, 0xffff);
+    Audio_NotePoolClear(&seqPlayer->notePool);
+    seqPlayer->finished = 1;
+    seqPlayer->enabled = 0;
+
+    if (Audio_IsSeqLoadComplete(seqPlayer->seqId)) {
+        Audio_SetSeqLoadStatus(seqPlayer->seqId, 3);
+    }
+    if (Audio_IsBankLoadComplete(seqPlayer->defaultBank)) {
+        Audio_SetBankLoadStatus(seqPlayer->defaultBank, 4);
+    }
+
+    // (Note that if this is called from Audio_AllocBankOrSeq, the side will get swapped
+    // later in that function. Thus, we signal that we want to load into the slot
+    // of the bank that we no longer need.)
+    if (seqPlayer->defaultBank == gAudioContext.gBankLoadedPool.temporary.entries[0].id) {
+        gBankLoadedPool.temporary.nextSide = 1;
+    } else if (seqPlayer->defaultBank == gAudioContext.gBankLoadedPool.temporary.entries[1].id) {
+        gBankLoadedPool.temporary.nextSide = 0;
+    }
+}
+*/
 
 void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item) {
     if (item->prev == NULL) {
