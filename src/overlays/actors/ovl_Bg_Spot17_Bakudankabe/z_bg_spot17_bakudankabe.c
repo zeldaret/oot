@@ -31,9 +31,8 @@ static InitChainEntry sInitChain[] = {
 extern u32 D_06000A38;
 extern Gfx D_60008A00[];
 extern Gfx D_60009600[];
-extern Gfx D_500A880[];
+extern Gfx D_0500A880[];
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/func_808B6BC0.s")
 void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 i;
@@ -45,8 +44,8 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
     sinY = Math_Sins(this->dyna.actor.shape.rot.y);
     cosY = Math_Coss(this->dyna.actor.shape.rot.y);
 
-    burstDepthX.x = 0.0f;
     burstDepthX.z = 0.0f;
+    burstDepthX.x = 0.0f;
 
     for (i = 0; i < 20; i++) {
         s16 gravityInfluence;
@@ -58,35 +57,35 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
         temp1 = (Math_Rand_ZeroOne() - 0.5f) * 140.0f;
         temp2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
 
-        burstDepthY.x = (this->dyna.actor.posRot.pos.x + (temp2 * sinY)) + (temp1 * cosY);
-        burstDepthY.y = (this->dyna.actor.posRot.pos.y + 30.0f) + (i * 6.5f);
-        burstDepthY.z = (this->dyna.actor.posRot.pos.z + (temp2 * cosY)) - (temp1 * sinY);
+        burstDepthY.x = this->dyna.actor.posRot.pos.x + temp2 * sinY + (temp1 * cosY);
+        burstDepthY.y = this->dyna.actor.posRot.pos.y + 30.0f + (i * 6.5f);
+        burstDepthY.z = this->dyna.actor.posRot.pos.z + temp2 * cosY - (temp1 * sinY);
 
         burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
-        scale = (s16)((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
+        scale = Math_Rand_ZeroOne() * 55.0f + 8.0f;
 
-        if (scale < 0x14) {
-            gravityInfluence = -0x12C;
-        } else if (scale < 0x23) {
-            gravityInfluence = -0x168;
+        if (scale < 20) {
+            gravityInfluence = -300;
+        } else if (scale < 35) {
+            gravityInfluence = -360;
         } else {
-            gravityInfluence = -0x1A4;
+            gravityInfluence = -420;
         }
 
         if (Math_Rand_ZeroOne() < 0.4f) {
-            rotationSpeed = 0x41;
+            rotationSpeed = 65;
         } else {
-            rotationSpeed = 0x21;
+            rotationSpeed = 33;
         }
         func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4, 0,
-                      scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_500A880);
+                      scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
     Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.posRot.pos);
-    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
+    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);
     burstDepthY.y += 40.0f;
-    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 0x78, 0xA0, 1);
+    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 120, 160, 1);
     burstDepthY.y += 40.0f;
-    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 0x6E, 0xA0, 1);
+    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);
 }
 
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -95,7 +94,7 @@ void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 sp24 = 0;
 
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
-    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0) {
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -111,7 +110,7 @@ void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    if (this->dyna.actor.xzDistFromLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != 0) {
+    if (this->dyna.actor.xzDistFromLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
