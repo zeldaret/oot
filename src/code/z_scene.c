@@ -200,13 +200,11 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     ActorEntry* linkEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
                             globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
     s16 linkObjectId;
-    s32 linkAge;
 
     globalCtx->linkActorEntry = linkEntry;
-    globalCtx->linkAgeOnLoad = gSaveContext.linkAge;
+    globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
 
-    linkAge = gSaveContext.linkAge;
-    linkObjectId = gLinkObjectIds[linkAge];
+    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
 
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&globalCtx->objectCtx, linkObjectId);
@@ -455,19 +453,18 @@ void func_8009918C(GlobalContext* globalCtx, SceneCmd* cmd) {
 }
 
 // Scene Command 0x18: Alternate Headers
-#ifdef NON_MATCHING
-// minor ordering and regalloc differences
 void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
-    SceneCmd** altHeaders;
+    s32 pad;
     SceneCmd* altHeader;
 
-    osSyncPrintf("\n[ZU]sceneset age    =[%X]", gSaveContext.linkAge);
-    osSyncPrintf("\n[ZU]sceneset time   =[%X]", gSaveContext.cutsceneIndex);
-    osSyncPrintf("\n[ZU]sceneset counter=[%X]", gSaveContext.sceneSetupIndex);
+    osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.linkAge));
+    osSyncPrintf("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.cutsceneIndex));
+    osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneSetupIndex));
 
     if (gSaveContext.sceneSetupIndex != 0) {
-        altHeaders = SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment);
-        altHeader = altHeaders[gSaveContext.sceneSetupIndex - 1];
+        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment))[gSaveContext.sceneSetupIndex - 1];
+
+        if (1) {}
 
         if (altHeader != NULL) {
             Scene_ExecuteCommands(globalCtx, SEGMENTED_TO_VIRTUAL(altHeader));
@@ -477,8 +474,8 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
             if (gSaveContext.sceneSetupIndex == 3) {
-                altHeaders = SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment);
-                altHeader = altHeaders[gSaveContext.sceneSetupIndex - 2];
+                altHeader =
+                    ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment))[gSaveContext.sceneSetupIndex - 2];
 
                 // Translates to: "USING ADULT DAY DATA THERE!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
@@ -491,10 +488,6 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
         }
     }
 }
-#else
-void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene/func_800991A0.s")
-#endif
 
 // Scene Command 0x17: Cutscene Data
 void func_8009934C(GlobalContext* globalCtx, SceneCmd* cmd) {

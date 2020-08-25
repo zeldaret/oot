@@ -2859,7 +2859,7 @@ f32 func_8003FDDC(s8003FBF4* arg0) {
 #ifdef NON_MATCHING
 // regalloc
 s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* nodeId, f32* arg4, f32* arg5,
-                  CollisionPoly** arg6, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId) {
+                  CollisionPoly** outPoly, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId) {
     s32 padding;
     f32 spD0;
     s32 spCC = false; // result
@@ -2947,7 +2947,7 @@ s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna
                 if ((temp_f2 * spB8) <= 4.0f) {
                     // ab779c
                     if (func_80039A3C(colCtx, temp_s0, &spAC.x, &spAC.z, spC0, spBC, spB8, temp_f16, temp_f24, arg9,
-                                      arg6) != 0) {
+                                      outPoly) != 0) {
                         *outBgId = bgId;
                     }
                     spCC = true;
@@ -3021,7 +3021,7 @@ s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna
                             if (temp_f2_2 * spC0 <= 4.0f) {
                                 // ab7ac8
                                 if (func_80039A3C(colCtx, temp_s0, &spAC.x, &spAC.z, spC0, spBC, spB8, temp_f16,
-                                                  temp_f24, arg9, arg6) != 0) {
+                                                  temp_f24, arg9, outPoly)) {
                                     *outBgId = bgId;
                                 }
                                 spCC = true;
@@ -3044,7 +3044,7 @@ s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna
 }
 #else
 s32 func_80040284(CollisionContext* colCtx, u16 arg1, DynaCollisionContext* dyna, u16* nodeId, f32* arg4, f32* arg5,
-                  CollisionPoly** arg6, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId);
+                  CollisionPoly** outPoly, s32* outBgId, Vec3f* arg8, f32 arg9, s32 bgId);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80040284.s")
 #endif
 

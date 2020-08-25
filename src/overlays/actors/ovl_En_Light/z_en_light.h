@@ -8,7 +8,9 @@ struct EnLight;
 
 typedef struct EnLight {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x18];
+    /* 0x014C */ u8 timer;
+    /* 0x0150 */ z_Light* lightNode;
+    /* 0x0154 */ LightInfoPositional posLightInfo;
 } EnLight; // size = 0x0164
 
 extern const ActorInit En_Light_InitVars;

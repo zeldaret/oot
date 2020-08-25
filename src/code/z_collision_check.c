@@ -1283,7 +1283,7 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
 #else
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* pos);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
-#endif // NON_MATCHING
+#endif
 
 #ifdef NON_MATCHING
 // Green EffectSpark
@@ -1339,7 +1339,7 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
 #else
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
-#endif // NON_MATCHING
+#endif
 
 void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     func_800299AC(globalCtx, v);
@@ -2932,7 +2932,7 @@ void func_800628A4(s32 arg0, ColliderJntSph* collider) {
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800628A4.s")
-#endif // NON_MATCHING
+#endif
 
 #ifdef NON_MATCHING
 // Purple EffectSpark
@@ -2987,7 +2987,7 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062A28.s")
-#endif // NON_MATCHING
+#endif
 
 #ifdef NON_MATCHING
 // White EffectSpark (Bubbles?)
@@ -3042,7 +3042,7 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
-#endif // NON_MATCHING
+#endif
 
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     static EffectShieldParticleInit init = {
