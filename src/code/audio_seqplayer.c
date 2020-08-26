@@ -429,7 +429,38 @@ void func_800E9ED8(SequenceChannelLayer* layer) {
     layer->notePropertiesNeedInit = 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800E9F64.s")
+s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
+    if (!layer->stopSomething && layer->sound != NULL &&
+            layer->sound->sample->bits4 == 2 && layer->sound->sample->bits2 != 0) {
+        layer->stopSomething = 1;
+        return -1;
+    }
+
+    if (layer->continuousNotes == 1 && layer->ignoreDrumPan == 1) {
+        return 0;
+    }
+
+    if (layer->continuousNotes == 1 && layer->note != NULL && layer->unusedEu0b8 &&
+            arg1 == 1 && layer->note->playbackState.parentLayer == layer) {
+        if (layer->sound == NULL) {
+            Audio_InitSyntheticWave(layer->note, layer);
+        }
+    } else {
+        if (arg1 == 0) {
+            Audio_SeqChanLayerNoteDecay(layer);
+        }
+        layer->note = Audio_AllocNote(layer);
+        if (layer->note != NULL && layer->note->playbackState.parentLayer == layer) {
+            Audio_NoteVibratoInit(layer->note);
+        }
+    }
+
+    if (layer->note != NULL && layer->note->playbackState.parentLayer == layer) {
+        Note* note = layer->note;
+        Audio_NotePortamentoInit(note);
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EA0C0.s")
 

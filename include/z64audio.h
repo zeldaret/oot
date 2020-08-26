@@ -68,7 +68,8 @@ typedef struct {
 } AdpcmBook;
 
 typedef struct {
-    u8 unused;
+    u8 bits4 : 4;
+    u8 bits2 : 2;
     u8 loaded;
     u8* sampleAddr;
     AdpcmLoop* loop;
