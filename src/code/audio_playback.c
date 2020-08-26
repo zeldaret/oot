@@ -229,7 +229,7 @@ void Audio_ProcessNotes(void) {
                         }
                     } else {
                         if (playbackState->parentLayer != NO_LAYER) {
-                            playbackState->parentLayer->ignoreDrumPan = 1; // wrong field name
+                            playbackState->parentLayer->bit1 = 1;
                         }
                         Audio_NoteDisable(note);
                         Audio_AudioListRemove(&note->listItem);
@@ -239,7 +239,7 @@ void Audio_ProcessNotes(void) {
                 }
             } else if (playbackState->adsr.action.s.state == ADSR_STATE_DISABLED) {
                 if (playbackState->parentLayer != NO_LAYER) {
-                    playbackState->parentLayer->ignoreDrumPan = 1; // wrong field name
+                    playbackState->parentLayer->bit1 = 1;
                 }
                 Audio_NoteDisable(note);
                 Audio_AudioListRemove(&note->listItem);
@@ -441,7 +441,7 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
         return;
     }
 
-    seqLayer->unusedEu0b8 = 0;
+    seqLayer->bit3 = 0;
 
     if (seqLayer->note == NULL) {
         return;
@@ -754,7 +754,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer) {
     note->playbackState.parentLayer = seqLayer;
     playback->priority = seqLayer->seqChannel->notePriority;
     seqLayer->notePropertiesNeedInit = 1;
-    seqLayer->unusedEu0b8 = 1;
+    seqLayer->bit3 = 1;
     seqLayer->note = note;
     seqLayer->seqChannel->noteUnused = note;
     seqLayer->seqChannel->layerUnused = seqLayer;
@@ -906,7 +906,7 @@ Note* Audio_AllocNote(SequenceChannelLayer* seqLayer) {
     return ret;
 
 null_return:
-    seqLayer->unusedEu0b8 = 1;
+    seqLayer->bit3 = 1;
     return NULL;
 }
 

@@ -244,7 +244,7 @@ glabel L800EBE68
 /* B63014 800EBE74 14200014 */  bnez  $at, .L800EBEC8
 /* B63018 800EBE78 305000FF */   andi  $s0, $v0, 0xff
 /* B6301C 800EBE7C 02202025 */  move  $a0, $s1
-/* B63020 800EBE80 0C03A4D0 */  jal   func_800E9340
+/* B63020 800EBE80 0C03A4D0 */  jal   Audio_GetScriptControlFlowArgument
 /* B63024 800EBE84 320500FF */   andi  $a1, $s0, 0xff
 /* B63028 800EBE88 02402025 */  move  $a0, $s2
 /* B6302C 800EBE8C 02202825 */  move  $a1, $s1
