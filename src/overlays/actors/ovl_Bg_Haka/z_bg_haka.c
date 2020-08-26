@@ -73,7 +73,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->dyna.unk_150 != 0.0f) {
-        if (globalCtx->sceneNum == SCENE_SPOT02 && LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
+        if (globalCtx->sceneNum == SCENE_SPOT02 && LINK_IS_CHILD && !gSaveContext.nightFlag) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
             if (!Gameplay_InCsMode(globalCtx)) {
@@ -96,15 +96,9 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
 void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 sp38;
-    f32 temp_f0;
 
     this->dyna.actor.speedXZ += 0.05f;
-    temp_f0 = this->dyna.actor.speedXZ;
-    if (temp_f0 > 1.5f) {
-        this->dyna.actor.speedXZ = 1.5f;
-    } else {
-        this->dyna.actor.speedXZ = temp_f0;
-    }
+    this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 1.5f);
     sp38 = Math_ApproxF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
     this->dyna.actor.posRot.pos.x =
         Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
@@ -115,7 +109,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-        } else if (gSaveContext.nightFlag != 0 && globalCtx->sceneNum == SCENE_SPOT02) {
+        } else if (gSaveContext.nightFlag && globalCtx->sceneNum == SCENE_SPOT02) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.initPosRot.pos.x,
                         this->dyna.actor.initPosRot.pos.y, this->dyna.actor.initPosRot.pos.z, 0,
                         this->dyna.actor.shape.rot.y, 0, 1);
