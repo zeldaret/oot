@@ -92,50 +92,58 @@ void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
+#ifdef NON_MATCHING
+/*As this is right now, the only issue is stack. However, the
+gfxCtx and dispRefs are not defined in the proper spot based
+on a conversation I had in the Discord, but if I move it at all,
+the codegen gets way, way worse. I also tried to fit in a
+localGfxCtx in place of the gfxCtx, but that didn't seem to do
+much either. I also tried temps for state.frames and the array
+accesses, no dice. Finally, D_809FFC50 seems to want to be a u8
+in the function, but if I do that, the ROM is shifted by a lot,
+so I have to leave it as s32?*/
 void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Color_RGBA8_n D_809FFC40[] = { 0xFFFFAAFF, 0xFFFFAAFF };
-    static Color_RGBA8_n D_809FFC48[] = { 0xFF64FFFF, 0x64FFFFFF };
-    static u8 D_809FFC50[] = { 0x02010102, 0x00000201, 0x00020100, 0x02010002, 0x01000201, 0x00020100, 0x01020000};
- 
+    static Color_RGBA8_n D_809FFC40[] = { { 0xFF, 0xFF, 0xAA, 0xFF }, { 0xFF, 0xFF, 0xAA, 0xFF } };
+    static Color_RGBA8_n D_809FFC48[] = { { 0xFF, 0x64, 0xFF, 0xFF }, { 0x64, 0xFF, 0xFF, 0xFF } };
+    static u8 D_809FFC50[] = { 0x02010102, 0x00000201, 0x00020100, 0x02010002,
+                               0x01000201, 0x00020100, 0x01020000, 0x00000000 };
+
     EnDyExtra* this = THIS;
 
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
-    
     Vtx* data = (Vtx*)SEGMENTED_TO_VIRTUAL(&D_0601BFB0);
-    
     u8 unk[3];
     u32 i;
-    s32 pad2;
 
-
-    
-    
-    
-    unk[0] = 0.0f;
+    unk[0] = (s8)0.0f;
     unk[1] = (s8)(this->unk_158 * 240.0f);
     unk[2] = (s8)(this->unk_158 * 255.0f);
- 
+
     for (i = 0; i < 27; i++) {
         if (D_809FFC50[i]) {
             data[i].v.cn[3] = unk[D_809FFC50[i]];
         }
     }
+
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_dy_extra.c", 0x126);
     func_80093D84(globalCtx->state.gfxCtx);
- 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1, globalCtx->state.frames, globalCtx->state.frames * -8,
-                                0x10, 0x10));
- 
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1,
+                                globalCtx->state.frames, globalCtx->state.frames * -8, 0x10, 0x10));
     gDPPipeSync(gfxCtx->polyXlu.p++);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x80, D_809FFC40[this->unk_150].r, D_809FFC40[this->unk_150].g, D_809FFC40[this->unk_150].b, 255);
- 
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, D_809FFC48[this->unk_150].r, D_809FFC48[this->unk_150].g, D_809FFC48[this->unk_150].b, 128);
- 
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x80, D_809FFC40[this->unk_150].r, D_809FFC40[this->unk_150].g,
+                    D_809FFC40[this->unk_150].b, 255);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, D_809FFC48[this->unk_150].r, D_809FFC48[this->unk_150].g,
+                   D_809FFC48[this->unk_150].b, 128);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0601C160);
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_en_dy_extra.c", 325);
 }
+#else
+Color_RGBA8_n D_809FFC40[] = { { 0xFF, 0xFF, 0xAA, 0xFF }, { 0xFF, 0xFF, 0xAA, 0xFF } };
+Color_RGBA8_n D_809FFC48[] = { { 0xFF, 0x64, 0xFF, 0xFF }, { 0x64, 0xFF, 0xFF, 0xFF } };
+s32 D_809FFC50[] = { 0x02010102, 0x00000201, 0x00020100, 0x02010002, 0x01000201, 0x00020100, 0x01020000 };
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dy_Extra/EnDyExtra_Draw.s")
+#endif
