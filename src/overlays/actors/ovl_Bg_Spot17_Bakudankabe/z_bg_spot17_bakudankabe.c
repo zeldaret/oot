@@ -1,3 +1,9 @@
+/*
+* File: z_bg_spot17_bakudankabe.c
+* Overlay: ovl_Bg_Spot17_Bakudankabe
+* Description: Death Mountain Crater Bombable Wall
+*/
+
 #include "z_bg_spot17_bakudankabe.h"
 
 #define FLAGS 0x00000000
