@@ -244,6 +244,7 @@ void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
 // ? func_800295A0(?);
 // ? func_80029618(?);
 // ? func_80029694(?);
+void func_80029694(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, u32*, u32*, s16, u32, u32);
 // ? func_80029724(?);
 void func_800297A4(GlobalContext* globalCtx, Vec3f* vec, f32, s32, s32, s32, s32, s32, s32, s32);
 // ? func_800298EC(?);
