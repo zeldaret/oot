@@ -127,14 +127,14 @@ void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    s8 sp62;
-    s8 sp63;
+    s8 r;
+    s8 g;
     {
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];
 
-        sp62 = coss(globalCtx->gameplayFrames * 1500) >> 8;
-        sp63 = coss(globalCtx->gameplayFrames * 1500) >> 8;
+        r = coss(globalCtx->gameplayFrames * 1500) >> 8;
+        g = coss(globalCtx->gameplayFrames * 1500) >> 8;
 
         gfxCtx = globalCtx->state.gfxCtx;
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
@@ -144,10 +144,10 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        sp62 = (sp62 >> 1) + 0xC0;
-        sp63 = (sp63 >> 1) + 0xC0;
+        r = (r >> 1) + 0xC0;
+        g = (g >> 1) + 0xC0;
 
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, sp62, sp63, 255, 128);
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, r, g, 255, 128);
 
         gSPDisplayList(gfxCtx->polyOpa.p++, D_060008A0);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 283);
