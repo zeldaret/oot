@@ -157,7 +157,7 @@ void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Bakudankabe* this = THIS;
 
-    if ((this->collider.base.acFlags & 2) != 0) {
+    if (this->collider.base.acFlags & 2) {
         func_808B0324(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
