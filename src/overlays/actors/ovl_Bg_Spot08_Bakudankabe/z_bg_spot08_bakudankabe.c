@@ -68,7 +68,13 @@ void BgSpot08Bakudankabe_Init(Actor *thisx, GlobalContext *globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, D_808B08D0);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Destroy.s")
+void BgSpot08Bakudankabe_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot08Bakudankabe *this = THIS;
+    
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    Collider_DestroyJntSph(globalCtx, &this->collider);
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Update.s")
 
