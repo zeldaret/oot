@@ -8,7 +8,6 @@ struct EnDyExtra;
 
 typedef void (*EnDyExtraActionFunc)(struct EnDyExtra*, GlobalContext*);
 
-
 typedef struct EnDyExtra {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnDyExtraActionFunc actionFunc;
@@ -17,9 +16,7 @@ typedef struct EnDyExtra {
     /* 0x0154 */ s16 unk_154;
     /* 0x0156 */ char unk_156[2];
     /* 0x0158 */ f32 unk_158;
-    /* 0x015C */ f32 unk_15C;
-    /* 0x0160 */ f32 unk_160;
-    /* 0x0164 */ f32 unk_164;
+    /* 0x015C */ Vec3f unk_15C;
     /* 0x0168 */ Vec3f unk_168;
 } EnDyExtra; // size = 0x0174
 
