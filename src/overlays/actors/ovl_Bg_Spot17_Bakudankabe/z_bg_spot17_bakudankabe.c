@@ -28,9 +28,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern u32 D_06000A38;
-extern Gfx D_60008A00[];
-extern Gfx D_60009600[];
+extern UNK_TYPE D_06000A38;
+extern Gfx D_060008A0[];
+extern Gfx D_06000960[];
 extern Gfx D_0500A880[];
 
 void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
@@ -120,15 +120,15 @@ void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    s8 sp62;
+    s8 sp63;
     {
-        u32 gameplayFrames;
-        s8 sp62;
-        s8 sp63;
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];
 
-        sp62 = coss((u16)(globalCtx->gameplayFrames * 1500)) >> 8;
-        sp63 = coss((u16)(globalCtx->gameplayFrames * 1500)) >> 8;
+        sp62 = coss(globalCtx->gameplayFrames * 1500) >> 8;
+        sp63 = coss(globalCtx->gameplayFrames * 1500) >> 8;
 
         gfxCtx = globalCtx->state.gfxCtx;
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
@@ -140,10 +140,10 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         sp62 = (sp62 >> 1) + 0xC0;
         sp63 = (sp63 >> 1) + 0xC0;
-        gameplayFrames = globalCtx->gameplayFrames;
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, sp62, sp63, 0xFF, 0x80);
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_60008A00);
+        gDPSetEnvColor(gfxCtx->polyOpa.p++, sp62, sp63, 255, 128);
+
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_060008A0);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 283);
     }
 
@@ -157,7 +157,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_60009600);
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_06000960);
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 295);
     }
