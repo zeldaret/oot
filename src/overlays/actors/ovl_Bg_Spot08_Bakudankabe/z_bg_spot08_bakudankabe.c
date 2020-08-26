@@ -76,6 +76,21 @@ void BgSpot08Bakudankabe_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Update.s")
+void BgSpot08Bakudankabe_Update(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot08Bakudankabe *this = THIS;
+
+    if ((this->collider.base.acFlags & 2)) {
+        func_808B0324(this, globalCtx);
+        Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
+        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Actor_Kill(&this->dyna.actor);
+        return;
+    }
+    else if (this->dyna.actor.xzDistFromLink < 800.0f) {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Bakudankabe/BgSpot08Bakudankabe_Draw.s")
