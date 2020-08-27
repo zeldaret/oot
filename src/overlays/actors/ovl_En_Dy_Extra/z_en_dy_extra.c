@@ -11,9 +11,6 @@
 
 #define THIS ((EnDyExtra*)thisx)
 
-extern UNK_TYPE D_0601BFB0;
-extern Gfx* D_0601C160;
-
 void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -34,6 +31,9 @@ const ActorInit En_Dy_Extra_InitVars = {
     (ActorFunc)EnDyExtra_Draw,
 };
 
+extern UNK_TYPE D_0601BFB0;
+extern Gfx* D_0601C160;
+
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
@@ -43,7 +43,7 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     //"Big fairy effect"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-    this->unk_150 = this->actor.params;
+    this->params = this->actor.params;
     this->unk_15C.x = 0.025f;
     this->unk_15C.y = 0.039f;
     this->unk_15C.z = 0.025f;
@@ -59,11 +59,9 @@ void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
     if (this->actor.posRot.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
-    if (this->unk_154 == 0) {
-        if (this->unk_152 != 0) {
-            this->unk_154 = 0xC8;
-            this->actionFunc = func_809FF840;
-        }
+    if (this->unk_154 == 0 && this->unk_152 != 0) {
+        this->unk_154 = 0xC8;
+        this->actionFunc = func_809FF840;
     }
 }
 
@@ -71,11 +69,11 @@ void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->unk_154 == 0 || this->unk_158 < 0.02f) {
         Actor_Kill(&this->actor);
-    } else {
-        Math_SmoothDownscaleMaxF(&this->unk_158, 0.03f, 0.05f);
-        if (this->actor.posRot.pos.y < -55.0f) {
-            this->actor.velocity.y = 0.0f;
-        }
+        return;
+    }
+    Math_SmoothDownscaleMaxF(&this->unk_158, 0.03f, 0.05f);
+    if (this->actor.posRot.pos.y < -55.0f) {
+        this->actor.velocity.y = 0.0f;
     }
 }
 
@@ -92,8 +90,8 @@ void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Color_RGBA8_n D_809FFC40[] = { { 255, 255, 170, 255 }, { 255, 255, 170, 255 } };
-    static Color_RGBA8_n D_809FFC48[] = { { 255, 100, 255, 255 }, { 100, 255, 255, 255 } };
+    static Color_RGBA8_n primColors[] = { { 255, 255, 170, 255 }, { 255, 255, 170, 255 } };
+    static Color_RGBA8_n envColors[] = { { 255, 100, 255, 255 }, { 100, 255, 255, 255 } };
     static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02,
                                0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02 };
     EnDyExtra* this = THIS;
@@ -102,7 +100,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vtx* data = (Vtx*)SEGMENTED_TO_VIRTUAL(&D_0601BFB0);
     s32 i;
     u8 unk[3];
-    GraphicsContext* gfxCtx = localGfxCtx;
+    GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
     unk[0] = 0.0f;
@@ -125,10 +123,10 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPPipeSync(gfxCtx->polyXlu.p++);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x80, D_809FFC40[this->unk_150].r, D_809FFC40[this->unk_150].g,
-                    D_809FFC40[this->unk_150].b, 255);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, D_809FFC48[this->unk_150].r, D_809FFC48[this->unk_150].g,
-                   D_809FFC48[this->unk_150].b, 128);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x80, primColors[this->params].r, primColors[this->params].g,
+                    primColors[this->params].b, 255);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, envColors[this->params].r, envColors[this->params].g, envColors[this->params].b,
+                   128);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0601C160);
     Graph_CloseDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 325);
 }
