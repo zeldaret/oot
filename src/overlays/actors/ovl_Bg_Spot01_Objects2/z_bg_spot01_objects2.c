@@ -19,7 +19,6 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void func_808AC474(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void func_808AC4A4(BgSpot01Objects2* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
     ACTORTYPE_BG,
@@ -31,7 +30,11 @@ const ActorInit Bg_Spot01_Objects2_InitVars = {
     (ActorFunc)BgSpot01Objects2_Update,
     NULL,
 };
-*/
+
+s32 D_808AC500[] ={0xB0F43200, 0xB0F807D0, 0xB0FC05DC, 0x48500064};
+s32 D_808AC510[] ={0x06001EB0, 0x06002780, 0x06003078, 0x06001228, 0x06001528, 0x00000000, 0x00000000, 0x00000000};
+
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Objects2/BgSpot01Objects2_Init.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Objects2/BgSpot01Objects2_Destroy.s")
