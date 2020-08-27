@@ -14,6 +14,7 @@ void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80B93D90(ObjHsblock* this);
 void func_80B93DB0(ObjHsblock* this);
 void func_80B93DF4(ObjHsblock* this, GlobalContext* globalCtx);
@@ -43,7 +44,7 @@ static InitChainEntry sInitChain[] = {
 
 UNK_TYPE D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
 
-static Color_RGB8 sHidanColor = { 165, 125, 55 };
+static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 
 static Gfx* sDLists[] = { 0x06000210, 0x06000210, 0x06000470 };
 
@@ -157,7 +158,7 @@ void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (globalCtx->sceneNum == SCENE_HIDAN) {
-        color = &sHidanColor;
+        color = &sFireTempleColor;
     } else {
         defaultColor.r = mREG(13);
         defaultColor.g = mREG(14);
