@@ -385,7 +385,7 @@ glabel func_8003EE80
 /* AB65C4 8003F424 448E3000 */  mtc1  $t6, $f6
 /* AB65C8 8003F428 00000000 */  nop
 /* AB65CC 8003F42C 468034A0 */  cvt.s.w $f18, $f6
-/* AB65D0 8003F430 0C032D94 */  jal   func_800CB650
+/* AB65D0 8003F430 0C032D94 */  jal   Math3D_Vec3fDistSq
 /* AB65D4 8003F434 E7B200E4 */   swc1  $f18, 0xe4($sp)
 /* AB65D8 8003F438 C7A200EC */  lwc1  $f2, 0xec($sp)
 /* AB65DC 8003F43C 4600103C */  c.lt.s $f2, $f0
