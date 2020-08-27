@@ -1343,8 +1343,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot17_Bakudankabe"
     include "build/src/overlays/actors/ovl_Bg_Spot17_Bakudankabe/z_bg_spot17_bakudankabe.o"
-    include "build/data/overlays/actors/z_bg_spot17_bakudankabe.data.o"
-    include "build/data/overlays/actors/z_bg_spot17_bakudankabe.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot17_Bakudankabe/ovl_Bg_Spot17_Bakudankabe_reloc.o"
 endseg
 
 beginseg
