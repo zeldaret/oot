@@ -200,7 +200,6 @@ void func_80B18E7C(EnTite *this, GlobalContext *globalCtx) {
                 this->actor.gravity = -1.0f;
                 this->actor.speedXZ = 4.0f;
                 break;
-
             case 1:
                 this->actor.flags = (u32) (this->actor.flags | 0x1000000);
                 if (((this->actor.bgCheckFlags & 3) != 0) || ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x20) != 0))) {
@@ -239,7 +238,6 @@ void func_80B18E7C(EnTite *this, GlobalContext *globalCtx) {
                     func_80B19524(&this->actor);
                 }
                 break;
-            
             case 3:
                 if (0.0f == this->actor.waterY) {
                     this->unk2E0 = 2;
@@ -325,9 +323,21 @@ void func_80B18E7C(EnTite *this, GlobalContext *globalCtx) {
         }
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B18E7C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B19524.s")
+void func_80B19524(Actor *thisx) {
+    EnTite *this = THIS;
+
+    SkelAnime_ChangeAnimDefaultRepeat(&this->unk14C, &D_06000A14);
+    this->unk2BC = 0xA;
+    if (((thisx->bgCheckFlags & 3) != 0) || ((thisx->params == -2) && ((thisx->bgCheckFlags & 0x20) != 0))) {
+        if (thisx->velocity.y <= 0.0f) {
+            thisx->gravity = 0.0f;
+            thisx->velocity.y = 0.0f;
+            thisx->speedXZ = 0.0f;
+        }
+    }
+    func_80B18A80(this, &func_80B195C0);
+}
 
 void func_80B195C0(EnTite *this, GlobalContext *globalCtx) {
     s16 temp_a0;
