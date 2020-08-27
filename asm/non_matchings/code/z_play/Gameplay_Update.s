@@ -2024,7 +2024,7 @@ glabel L800BE148
 /* B35C70 800BEAD0 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B35C74 800BEAD4 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
 .L800BEAD8:
-/* B35C78 800BEAD8 0C02CE6E */  jal   func_800B39B8
+/* B35C78 800BEAD8 0C02CE6E */  jal   ShrinkWindow_Update
 /* B35C7C 800BEADC 84440110 */   lh    $a0, 0x110($v0)
 /* B35C80 800BEAE0 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B35C84 800BEAE4 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

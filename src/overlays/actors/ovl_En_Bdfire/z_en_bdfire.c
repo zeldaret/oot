@@ -17,7 +17,7 @@ void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bdfire_InitVars = {
-    ACTOR_PLAYER,
+    0,
     ACTORTYPE_ENEMY,
     FLAGS,
     OBJECT_KINGDODONGO,

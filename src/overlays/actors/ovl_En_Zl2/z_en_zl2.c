@@ -406,11 +406,9 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
     this->unk_20C[arg2] = arg1;
 }
 
-#ifdef NON_MATCHING
-// Some missing ABS instructions near the bottom of the section on lines 454-461
 void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_v1;
-    s32 temp_t0;
+    s16 temp_t0;
     s32 temp_t2;
     s32 temp_t3;
     s32 phi_v0;
@@ -420,7 +418,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 
     if (this->unk_24C != 0) {
         temp_v1 = this->unk_1DC[arg2] - arg1;
-        temp_t0 = (s16)temp_v1;
+        temp_t0 = temp_v1;
         temp_t2 = temp_t0;
         temp_t3 = this->unk_1AC[arg2];
         phi_v0 = temp_t3;
@@ -444,13 +442,13 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
             phi_t5 = ABS(this->unk_1AC[index1AC]);
         } else if (arg2 == 16) {
             index1AC = 15;
-            phi_t5 = ABS(this->unk_1AC[index1AC]);
+            phi_t5 = -ABS(this->unk_1AC[index1AC]);
         } else {
             index1AC = 18;
-            phi_t5 = ABS(this->unk_1AC[index1AC]);
+            phi_t5 = -ABS(this->unk_1AC[index1AC]);
         }
 
-        if ((s32)fabsf((f32)temp_t3) >= 0x8001) {
+        if ((s32)fabsf(temp_t3) > 0x8000) {
             if (arg1 > 0) {
                 temp_t3 -= 0x10000;
             } else {
@@ -462,7 +460,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
         }
 
         if (temp_t3 != 0) {
-            phi_v0 += (temp_t3 - temp_1AC) / 16;
+            phi_v0 += (temp_t3 - phi_v0) / 16;
         }
         if (phi_v0 != 0) {
             phi_v0 -= phi_v0 / 10;
@@ -471,7 +469,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 -= temp_t0 / 50;
         }
         temp_v1 += phi_v0;
-        if (((temp_1AC * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
             temp_v1 = 0;
             phi_v0 = 0;
         }
@@ -480,9 +478,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     }
     this->unk_20C[arg2] = arg1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F230.s")
-#endif
 
 s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                   Gfx** gfx) {
@@ -584,36 +579,31 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx);
-#ifdef NON_MATCHING
-// Stack issue in two instructions - made much better with the pad
 void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
-    s32 pad[2];
     EnZl2* this = THIS;
-    Player* player;
+    s32 pad[2];
 
     if (limbIndex == 10) {
         if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 900)) {
             gSPDisplayList((*gfx)++, &D_0600BAE8);
         }
 
-        player = PLAYER;
-        Matrix_Push();
-        if (player->unk_15D == 0xFF) {
-            Matrix_Put(&player->mf_A20);
-            Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
-            Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
-            Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
-            gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList((*gfx)++, &D_0600BAE8);
+        {
+            Player* player = PLAYER;
+            Matrix_Push();
+            if (player->unk_15D == 0xFF) {
+                Matrix_Put(&player->mf_A20);
+                Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
+                Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
+                Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
+                gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1253),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList((*gfx)++, &D_0600BAE8);
+            }
+            Matrix_Pull();
         }
-        Matrix_Pull();
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/EnZl2_PostLimbDraw.s")
-#endif
 
 void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
     s32 unk_274 = this->unk_274;
@@ -760,9 +750,9 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B501C4(EnZl2* this, s32 arg1) {
+void func_80B501C4(EnZl2* this, s32 alpha) {
     if (this->actor.attachedB != NULL) {
-        ((DoorWarp1*)this->actor.attachedB)->unk_1A8 = arg1;
+        ((DoorWarp1*)this->actor.attachedB)->alpha = alpha;
     }
 }
 
@@ -770,9 +760,9 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnZl2_GetNpcAction(globalCtx, 0);
 
     if (npcAction != NULL) {
-        this->actor.shape.unk_14 = this->unk_1A8 =
+        this->actor.shape.unk_14 = this->alpha =
             (1.0f - func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
-        func_80B501C4(this, this->unk_1A8);
+        func_80B501C4(this, this->alpha);
     }
 }
 
@@ -953,7 +943,7 @@ void func_80B50970(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B50980(EnZl2* this, GlobalContext* globalCtx) {
     this->action = 23;
     this->drawConfig = 2;
-    this->unk_1A8 = 0xFF;
+    this->alpha = 255;
 }
 
 void func_80B509A0(EnZl2* this, GlobalContext* globalCtx) {
@@ -1701,7 +1691,7 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp74));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp70));
     gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp64));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
@@ -1725,7 +1715,7 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
     gSPSegment(gfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_1A8);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,

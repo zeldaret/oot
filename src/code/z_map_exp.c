@@ -8,7 +8,6 @@ s16 sPlayerInitialPosX = 0;
 s16 sPlayerInitialPosZ = 0;
 s16 sPlayerInitialDirection = 0;
 s16 sEntranceIconMapIndex = 0;
-s16 sLastRoomNum = 99;
 
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -329,7 +328,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         gSPMatrix(gfxCtx->overlay.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0xFF);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 255);
         gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
 
         tempX = player->actor.posRot.pos.x;
@@ -344,7 +343,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 585),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xC8, 0xFF, 0x00, 0xFF);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 200, 255, 0, 255);
         gSPDisplayList(gfxCtx->overlay.p++, D_0400C820);
 
         tempX = sPlayerInitialPosX;
@@ -358,7 +357,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 603),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0xFF, 0xC8, 0x00, 0x00, 0xFF);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0xFF, 200, 0, 0, 255);
         gSPDisplayList(gfxCtx->overlay.p++, D_0400C820);
     }
 
@@ -395,7 +394,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                                       0, TEXEL0, 0, PRIMITIVE, 0);
 
                     if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
-                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x64, 0xFF, 0xFF, interfaceCtx->minimapAlpha);
+                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
                         gDPLoadTextureBlock_4b(gfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
                                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
@@ -515,9 +514,8 @@ s16 Map_GetFloorTextIndexOffset(s32 mapIndex, s32 floor) {
     return gMapData->floorTexIndexOffset[mapIndex][floor];
 }
 
-#ifdef NON_MATCHING
-// single extra load instruction
 void Map_Update(GlobalContext* globalCtx) {
+    static s16 sLastRoomNum = 99;
     Player* player = PLAYER;
     s32 mapIndex = gSaveContext.mapIndex;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
@@ -536,13 +534,6 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADAN:
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
-            case SCENE_GANON:
-            case SCENE_MEN:
-            case SCENE_GERUDOWAY:
-            case SCENE_GANONTIKA:
-            case SCENE_GANON_SONOGO:
-            case SCENE_GANONTIKA_SONOGO:
-            case SCENE_TAKARAYA:
                 interfaceCtx->unk_140[30] = 0;
                 if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
                     interfaceCtx->unk_140[31] = 1;
@@ -568,7 +559,6 @@ void Map_Update(GlobalContext* globalCtx) {
                     // Translates to "Current floor = %d Current room = %x Number of rooms = %d"
                     osSyncPrintf("現在階＝%d  現在部屋＝%x  部屋数＝%d\n", floor, interfaceCtx->mapRoomNum,
                                  gMapData->switchEntryCount[mapIndex]);
-                    if (interfaceCtx->mapRoomNum) {} // Improves codegen but may not be necessary
                     sLastRoomNum = interfaceCtx->mapRoomNum;
                 }
 
@@ -602,6 +592,3 @@ void Map_Update(GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_map_exp/Map_Update.s")
-#endif

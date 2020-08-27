@@ -67,10 +67,8 @@ BgSpot18ObjInitFunc D_808B910C[] = {
 };
 
 static InitChainEntry sInitChain1[] = {
-    ICHAIN_F32(minVelocityY, 65526, ICHAIN_CONTINUE),
-    ICHAIN_F32(gravity, 65532, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(minVelocityY, 65526, ICHAIN_CONTINUE),     ICHAIN_F32(gravity, 65532, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
@@ -253,8 +251,8 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     func_808B8DDC(this, globalCtx);
 
-    if (func_800CB594(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.x,
-                      this->dyna.actor.initPosRot.pos.z) >= 6400.0f) {
+    if (Math3D_Dist2DSq(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.x,
+                        this->dyna.actor.initPosRot.pos.z) >= 6400.0f) {
         func_808B9030(this);
         this->dyna.actor.posRot.pos.x =
             (Math_Sins(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;

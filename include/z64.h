@@ -142,7 +142,7 @@ typedef struct {
         /* 0x0E88 */ s32  tempCollectFlags;
     }                         fw;
     /* 0x0E8C */ char         unk_E8C[0x0010];
-    /* 0x0E9C */ u8           gsFlags[24];
+    /* 0x0E9C */ s32          gsFlags[6];
     /* 0x0EB4 */ char         unk_EB4[0x0010];
     /* 0x0EC4 */ s32          unk_EC4;
     /* 0x0EC8 */ char         unk_EC8[0x000C];
@@ -151,7 +151,9 @@ typedef struct {
     /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
     /* 0x0F34 */ char         unk_F34[0x0004];
     /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char         unk_F3C[0x040C];
+    /* 0x0F3C */ char         unk_F3C[0x0389];
+    /* 0x12C5 */ u8           unk_12C5;
+    /* 0x12C6 */ char         unk_12C6[0x0082];
     /* 0x1348 */ HorseData    horseData;
     /* 0x1352 */ u16          checksum; // "check_sum"
     /* 0x1354 */ s32          fileNum; // "file_no"
@@ -701,10 +703,11 @@ typedef struct {
     /* 0xE3E5 */ u8     choiceIndex;
     /* 0xE3E6 */ char   unk_E3E6[0x01];
     /* 0xE3E7 */ u8     unk_E3E7;
-    /* 0xE3E8 */ char   unk_E3E8[0x6];
+    /* 0xE3E8 */ char   unk_E3E8[0x04];
+    /* 0xE3EC */ u16    unk_E3EC;
     /* 0xE3EE */ u16    unk_E3EE;
     /* 0xE3F0 */ u16    unk_E3F0;
-    /* 0xE3F2 */ char   unk_E3F2[0x02];
+    /* 0xE3F2 */ u16    unk_E3F2;
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
@@ -833,9 +836,9 @@ typedef struct {
     /* 0x0238 */ s16    unk_238;
     /* 0x023A */ s16    unk_23A;
     /* 0x023C */ s16    unk_23C;
-    /* 0x023E */ s16    unk_23E;
+    /* 0x023E */ u16    unk_23E;
     /* 0x0240 */ s16    unk_240;
-    /* 0x0242 */ s16    unk_242;
+    /* 0x0242 */ u16    unk_242;
     /* 0x0244 */ s16    unk_244;
     /* 0x0246 */ s16    unk_246;
     /* 0x0248 */ s16    unk_248;
@@ -882,8 +885,8 @@ typedef struct {
     /* 0x2B */ s8       unk_2B;
     /* 0x2C */ s8       unk_2C;
     /* 0x2D */ char     unk_2D[0x5E];
-    /* 0x8C */ s16      unk_8C[6];
-    /* 0x98 */ char     unk_98[0x08];
+    /* 0x8C */ s16      unk_8C[3][3];
+    /* 0x9E */ s16      unk_9E;
     /* 0xA0 */ s16      unk_A0;
     /* 0xA2 */ char     unk_A2[0x06];
     /* 0xA8 */ s16      unk_A8;
@@ -894,7 +897,8 @@ typedef struct {
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ char     unk_BC[0x03];
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x18];
+    /* 0xC0 */ char     unk_C0[0x16];
+    /* 0xD6 */ s16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -1146,13 +1150,15 @@ typedef struct {
     /* 0x01E2 */ char unk_1E2[0x06];
 } TitleContext; // size = 0x1E8
 
+struct SelectContext;
+
 typedef struct {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct SelectContext*, s32);
     /* 0x08 */ s32 entranceIndex;
 } SceneSelectEntry; // size = 0xC
 
-typedef struct {
+typedef struct SelectContext {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ s32 unk_A4;
     /* 0x00A8 */ View view;
@@ -1281,7 +1287,8 @@ typedef struct {
 typedef enum {
     DPM_UNK = 0,
     DPM_PLAYER = 1,
-    DPM_ENEMY = 2
+    DPM_ENEMY = 2,
+    DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
 // Some animation related structure

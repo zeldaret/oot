@@ -74,7 +74,7 @@ glabel func_800A6AC4
 /* B1DD80 800A6BE0 00063403 */  sra   $a2, $a2, 0x10
 /* B1DD84 800A6BE4 00073C00 */  sll   $a3, $a3, 0x10
 /* B1DD88 800A6BE8 00073C03 */  sra   $a3, $a3, 0x10
-/* B1DD8C 800A6BEC 0C029EE1 */  jal   func_800A7B84
+/* B1DD8C 800A6BEC 0C029EE1 */  jal   SkinMatrix_SetRotateRPYTranslate
 /* B1DD90 800A6BF0 E7AC0018 */   swc1  $f12, 0x18($sp)
 /* B1DD94 800A6BF4 10000014 */  b     .L800A6C48
 /* B1DD98 800A6BF8 8E980000 */   lw    $t8, ($s4)
@@ -95,7 +95,7 @@ glabel func_800A6AC4
 /* B1DDD0 800A6C30 00073C00 */  sll   $a3, $a3, 0x10
 /* B1DDD4 800A6C34 00073C03 */  sra   $a3, $a3, 0x10
 /* B1DDD8 800A6C38 E7A00014 */  swc1  $f0, 0x14($sp)
-/* B1DDDC 800A6C3C 0C029EE1 */  jal   func_800A7B84
+/* B1DDDC 800A6C3C 0C029EE1 */  jal   SkinMatrix_SetRotateRPYTranslate
 /* B1DDE0 800A6C40 E7A00018 */   swc1  $f0, 0x18($sp)
 /* B1DDE4 800A6C44 8E980000 */  lw    $t8, ($s4)
 .L800A6C48:
@@ -152,7 +152,7 @@ glabel func_800A6AC4
 /* B1DEAC 800A6D0C 00073C00 */  sll   $a3, $a3, 0x10
 /* B1DEB0 800A6D10 00073C03 */  sra   $a3, $a3, 0x10
 /* B1DEB4 800A6D14 00063400 */  sll   $a2, $a2, 0x10
-/* B1DEB8 800A6D18 0C029EE1 */  jal   func_800A7B84
+/* B1DEB8 800A6D18 0C029EE1 */  jal   SkinMatrix_SetRotateRPYTranslate
 /* B1DEBC 800A6D1C 00063403 */   sra   $a2, $a2, 0x10
 /* B1DEC0 800A6D20 8E8E0000 */  lw    $t6, ($s4)
 /* B1DEC4 800A6D24 26310001 */  addiu $s1, $s1, 1
@@ -182,7 +182,8 @@ glabel func_800A6AC4
 /* B1DF20 800A6D80 46082280 */  add.s $f10, $f4, $f8
 /* B1DF24 800A6D84 E7AA0020 */  swc1  $f10, 0x20($sp)
 /* B1DF28 800A6D88 C6A6002C */  lwc1  $f6, 0x2c($s5)
-/* B1DF2C 800A6D8C 0C029EC1 */  jal   func_800A7B04
+/* B1DF2C 800A6D8C 0C029EC1 */  jal   SkinMatrix_SetScaleRotateYRPTranslate
+
 /* B1DF30 800A6D90 E7A60024 */   swc1  $f6, 0x24($sp)
 /* B1DF34 800A6D94 8E8A0000 */  lw    $t2, ($s4)
 /* B1DF38 800A6D98 02802025 */  move  $a0, $s4

@@ -24,12 +24,12 @@ glabel BgYdanMaruta_Init
 /* 00054 808BED94 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00058 808BED98 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 0005C 808BED9C 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
-/* 00060 808BEDA0 3C11808C */  lui     $s1, %hi(D_808BF33C)       ## $s1 = 808C0000
+/* 00060 808BEDA0 3C11808C */  lui     $s1, %hi(D_808BF300+0x3C)       ## $s1 = 808C0000
 /* 00064 808BEDA4 00194203 */  sra     $t0, $t9,  8               
 /* 00068 808BEDA8 310900FF */  andi    $t1, $t0, 0x00FF           ## $t1 = 00000000
 /* 0006C 808BEDAC A609001C */  sh      $t1, 0x001C($s0)           ## 0000001C
 /* 00070 808BEDB0 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C
-/* 00074 808BEDB4 2631F33C */  addiu   $s1, $s1, %lo(D_808BF33C)  ## $s1 = 808BF33C
+/* 00074 808BEDB4 2631F33C */  addiu   $s1, $s1, %lo(D_808BF300+0x3C)  ## $s1 = 808BF33C
 /* 00078 808BEDB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0007C 808BEDBC 15400007 */  bne     $t2, $zero, .L808BEDDC     
 /* 00080 808BEDC0 A2180168 */  sb      $t8, 0x0168($s0)           ## 00000168
@@ -67,8 +67,8 @@ glabel BgYdanMaruta_Init
 /* 000EC 808BEE2C 10400007 */  beq     $v0, $zero, .L808BEE4C     
 /* 000F0 808BEE30 3C0D808C */  lui     $t5, %hi(func_808BF078)    ## $t5 = 808C0000
 /* 000F4 808BEE34 C60A000C */  lwc1    $f10, 0x000C($s0)          ## 0000000C
-/* 000F8 808BEE38 3C0C808C */  lui     $t4, %hi(func_808BF25C)    ## $t4 = 808C0000
-/* 000FC 808BEE3C 258CF25C */  addiu   $t4, $t4, %lo(func_808BF25C) ## $t4 = 808BF25C
+/* 000F8 808BEE38 3C0C808C */  lui     $t4, %hi(BgYdanMaruta_DoNothing)    ## $t4 = 808C0000
+/* 000FC 808BEE3C 258CF25C */  addiu   $t4, $t4, %lo(BgYdanMaruta_DoNothing) ## $t4 = 808BF25C
 /* 00100 808BEE40 AE0C0164 */  sw      $t4, 0x0164($s0)           ## 00000164
 /* 00104 808BEE44 10000003 */  beq     $zero, $zero, .L808BEE54   
 /* 00108 808BEE48 E60A0028 */  swc1    $f10, 0x0028($s0)          ## 00000028

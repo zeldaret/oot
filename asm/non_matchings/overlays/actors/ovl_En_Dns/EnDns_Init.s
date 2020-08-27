@@ -44,11 +44,11 @@ glabel D_809F0678
     .balign 4
 
 glabel D_809F0694
-    .asciz "\x1B[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1B[m\n"
+    .asciz "\x1b[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1b[m\n"
     .balign 4
 
 glabel D_809F06C8
-    .asciz "\x1B[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1B[m\n"
+    .asciz "\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n"
     .balign 4
 
 .text
