@@ -37,6 +37,7 @@ s32 D_808B272C[] = { 0x450D3000, 0x42D80000, 0xC4C1C000 };
 Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
 
 extern UNK_TYPE D_06001A58;
+extern UNK_TYPE D_06001980;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/func_808B2180.s")
 
@@ -81,4 +82,8 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/BgSpot11Bakudankabe_Draw.s")
+void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext *globalCtx) {
+    BgSpot11Bakudankabe* this = THIS;
+    
+    Gfx_DrawDListOpa(globalCtx, &D_06001980);
+}
