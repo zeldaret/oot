@@ -108,7 +108,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80A4BE54(this, globalCtx);
     func_80A4D5E0(this);
     // Translation: (Goroiwa)
-    osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params, this->actor.params & 0xFF, ((s32) this->actor.params >> 8) & 3, ((s32) this->actor.params >> 0xA) & 1, this->actor.initPosRot.rot.z & 1);
+    osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params, this->actor.params & 0xFF, (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1, this->actor.initPosRot.rot.z & 1);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/EnGoroiwa_Destroy.s")
