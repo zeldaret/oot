@@ -499,22 +499,6 @@ typedef struct {
 } Parallel1;
 
 typedef struct {
-    Vec3f unk_00;
-    s32 unk_0C;
-    f32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    f32 unk_1C;
-    f32 unk_20;
-    s16 unk_24;
-    s16 unk_26;
-    s16 unk_28;
-    s16 unk_2A;
-} Normal1_Unk24;
-
-typedef struct {
     /* 0x0000 */ SwingAnimation swing;
     /* 0x001C */ f32 yOffset;
     /* 0x0020 */ f32 unk_20;
