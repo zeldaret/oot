@@ -12,7 +12,7 @@
 #define THIS ((EnDyExtra*)thisx)
 
 extern UNK_TYPE D_0601BFB0;
-extern UNK_TYPE D_0601C160;
+extern Gfx* D_0601C160;
 
 void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +43,6 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     //"Big fairy effect"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-
     this->unk_150 = this->actor.params;
     this->unk_15C.x = 0.025f;
     this->unk_15C.y = 0.039f;
@@ -92,31 +91,22 @@ void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
-#ifdef NON_MATCHING
-/*As this is right now, the only issue is stack. However, the
-gfxCtx and dispRefs are not defined in the proper spot based
-on a conversation I had in the Discord, but if I move it at all,
-the codegen gets way, way worse. I also tried to fit in a
-localGfxCtx in place of the gfxCtx, but that didn't seem to do
-much either. I also tried temps for state.frames and the array
-accesses, no dice. Finally, D_809FFC50 seems to want to be a u8
-in the function, but if I do that, the ROM is shifted by a lot,
-so I have to leave it as s32?*/
 void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Color_RGBA8_n D_809FFC40[] = { { 0xFF, 0xFF, 0xAA, 0xFF }, { 0xFF, 0xFF, 0xAA, 0xFF } };
     static Color_RGBA8_n D_809FFC48[] = { { 0xFF, 0x64, 0xFF, 0xFF }, { 0x64, 0xFF, 0xFF, 0xFF } };
-    static u8 D_809FFC50[] = { 0x02010102, 0x00000201, 0x00020100, 0x02010002,
-                               0x01000201, 0x00020100, 0x01020000, 0x00000000 };
-
+    static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01,
+                               0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02,
+                               0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
     EnDyExtra* this = THIS;
-
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    s32 pad;
+    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
     Vtx* data = (Vtx*)SEGMENTED_TO_VIRTUAL(&D_0601BFB0);
+    s32 i;
     u8 unk[3];
-    u32 i;
+    GraphicsContext* gfxCtx = localGfxCtx;
+    Gfx* dispRefs[4];
 
-    unk[0] = (s8)0.0f;
+    unk[0] = 0.0f;
     unk[1] = (s8)(this->unk_158 * 240.0f);
     unk[2] = (s8)(this->unk_158 * 255.0f);
 
@@ -126,7 +116,9 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_dy_extra.c", 0x126);
+    gfxCtx = localGfxCtx;
+
+    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 0x126);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1,
@@ -139,11 +131,5 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyXlu.p++, D_809FFC48[this->unk_150].r, D_809FFC48[this->unk_150].g,
                    D_809FFC48[this->unk_150].b, 128);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0601C160);
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_en_dy_extra.c", 325);
+    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 325);
 }
-#else
-Color_RGBA8_n D_809FFC40[] = { { 0xFF, 0xFF, 0xAA, 0xFF }, { 0xFF, 0xFF, 0xAA, 0xFF } };
-Color_RGBA8_n D_809FFC48[] = { { 0xFF, 0x64, 0xFF, 0xFF }, { 0x64, 0xFF, 0xFF, 0xFF } };
-s32 D_809FFC50[] = { 0x02010102, 0x00000201, 0x00020100, 0x02010002, 0x01000201, 0x00020100, 0x01020000 };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dy_Extra/EnDyExtra_Draw.s")
-#endif
