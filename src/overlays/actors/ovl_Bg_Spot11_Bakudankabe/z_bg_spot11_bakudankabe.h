@@ -8,7 +8,7 @@ struct BgSpot11Bakudankabe;
 
 typedef struct BgSpot11Bakudankabe {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ char unk_164[0x4C];
+    /* 0x0164 */ ColliderCylinder collider;
 } BgSpot11Bakudankabe; // size = 0x01B0
 
 extern const ActorInit Bg_Spot11_Bakudankabe_InitVars;

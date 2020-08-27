@@ -57,8 +57,13 @@ void BgSpot11Bakudankabe_Init(Actor *thisx, GlobalContext *globalCtx) {
     osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
+void BgSpot11Bakudankabe_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot11Bakudankabe *this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/BgSpot11Bakudankabe_Destroy.s")
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/BgSpot11Bakudankabe_Update.s")
 
