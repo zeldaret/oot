@@ -15,11 +15,12 @@ void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80B93DF4(ObjHsblock* this, GlobalContext* globalCtx);
+void func_80B93E5C(ObjHsblock* this, GlobalContext* globalCtx);
+
 void func_80B93D90(ObjHsblock* this);
 void func_80B93DB0(ObjHsblock* this);
-void func_80B93DF4(ObjHsblock* this, GlobalContext* globalCtx);
 void func_80B93E38(ObjHsblock* this);
-void func_80B93E5C(ObjHsblock* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
