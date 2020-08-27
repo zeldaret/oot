@@ -127,20 +127,18 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    GraphicsContext* tempgfxCtx; // oddly needs this to match
+    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = localGfxCtx;
     Gfx* dispRefs[4];
 
-    tempgfxCtx = globalCtx->state.gfxCtx;
-    gfxCtx = tempgfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 311);
+    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_bg_zg.c", 311);
 
-    func_80093D18(gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_zg.c", 315),
+    func_80093D18(localGfxCtx);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
     gSPDisplayList(gfxCtx->polyOpa.p++, D_06001080);
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 320);
+
+    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_bg_zg.c", 320);
 }
 
 void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {

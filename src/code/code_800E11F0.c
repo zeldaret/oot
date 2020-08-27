@@ -1,6 +1,8 @@
 #include <ultra64.h>
 #include <global.h>
 
+// like audio_load in sm64, but completely rewritten
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E11F0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E12DC.s")

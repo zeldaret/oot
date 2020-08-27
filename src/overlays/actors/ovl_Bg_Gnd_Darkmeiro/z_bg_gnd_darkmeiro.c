@@ -1,7 +1,7 @@
 /*
  * File: z_bg_gnd_darkmeiro.c
  * Overlay: ovl_Bg_Gnd_Darkmeiro
- * Description: Clear block
+ * Description: Transparent platform
  */
 
 #include "z_bg_gnd_darkmeiro.h"
@@ -10,18 +10,20 @@
 
 #define THIS ((BgGndDarkmeiro*)thisx)
 
+#define SWITCH ((this->dyna.actor.params >> 8) & 0x3F)
+
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGndDarkmeiro_Draw0(Actor* thisx, GlobalContext* globalCtx);
+void BgGndDarkmeiro_DrawSwitchedPlatform(Actor* thisx, GlobalContext* globalCtx);
+void BgGndDarkmeiro_DrawStaticPlatform(Actor* thisx, GlobalContext* globalCtx);
 
 void BgGndDarkmeiro_TogglePlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_NoAction(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_PlatformTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_StaticPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_SwitchedPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
-void BgGndDarkmeiro_Draw0(BgGndDarkmeiro* this, GlobalContext* globalCtx);
-void BgGndDarkmeiro_DrawSwitchedPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
-void BgGndDarkmeiro_DrawStaticPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
@@ -35,20 +37,21 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     NULL,
 };
 
+extern Gfx D_060088B0[];
+extern Gfx D_0600BEC0[];
+
 extern UNK_TYPE D_0600C080;
-extern UNK_TYPE D_060088B0;
-extern UNK_TYPE D_0600BEC0;
 
 void BgGndDarkmeiro_TogglePlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 
-    if ((this->actorState & 2) != 0) { // If the platform is active
-        if (this->timer1 == 0) {       // and the vanishing timer has run out,
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId); // remove its collision
-            this->actorState &= ~2;                                                   // and set it to inactive.
+    if ((this->actorState & 2) != 0) {
+        if (this->timer1 == 0) {
+            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            this->actorState &= ~2;
         }
-    } else if (this->timer1 != 0) { // If the vanishing timer has time left,
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId); // turn on the collision
-        this->actorState |= 2;                                                    // and set the platform to active.
+    } else if (this->timer1 != 0) {
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        this->actorState |= 2;
     }
 }
 
@@ -57,7 +60,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 local_c = 0;
     DynaCollisionContext* sp20;
 
-    this->actionFunc = BgGndDarkmeiro_NoAction; // Default action is doing nothing.
+    this->actionFunc = BgGndDarkmeiro_NoAction;
     Actor_SetScale(&this->dyna.actor, 0.1f);
 
     switch (thisx->params & 0xFF) {
@@ -69,47 +72,46 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             Transparent platforms appear when their switch flag is set and disappear 64 frames after
             their flag is unset. Transparent platforms with flag 0x3F ignore switches and are always on.*/
 
-            sp20 = &globalCtx->colCtx.dyna; // Needed for matching
+            sp20 = &globalCtx->colCtx.dyna;
             DynaPolyInfo_Alloc(&D_0600C080, &local_c);
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, sp20, &this->dyna.actor, local_c);
 
-            if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) { // If switch flag is 0x3F, use a static platform
+            if (SWITCH == 0x3F) {
                 this->actionFunc = BgGndDarkmeiro_StaticPlatform;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticPlatform;
             } else {
-                this->actorState = this->timer1 = this->timer2 = 0; // Initialize state and timers to 0
+                this->actorState = this->timer1 = this->timer2 = 0;
                 thisx->draw = BgGndDarkmeiro_DrawSwitchedPlatform;
                 this->actionFunc = BgGndDarkmeiro_SwitchedPlatform;
-                if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F) == 0) {
-                    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna,
-                                  this->dyna.dynaPolyId); // Turn off collision if switch is off
+                if (Flags_GetSwitch(globalCtx, SWITCH) == 0) {
+                    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 } else {
-                    this->timer1 = 64;     // Set vanishing timer if switch is on
-                    this->actorState |= 2; // Set active state if switch is on
+                    this->timer1 = 64;
+                    this->actorState |= 2;
                 }
             }
             break;
         case 2: /* Transparent platform timer.
         A transparent platform timer with switch flag N reacts to switch flags N+1 and N+2 being set,
         setting its own switch flag and a timer for 304 frames. There are separate timers for N+1
-        and N+2, and the timer sets flag N as long as either timer is above 64 frames. Despite the
-        name, it does not require any transparent platforms to be present to work.*/
+        and N+2, and the timer sets flag N as long as either timer is above 64 frames. Does not need
+        transparent platforms to be present to function.*/
 
-            this->actorState = this->timer1 = this->timer2 = 0; // initialize state and timers to 0
+            this->actorState = this->timer1 = this->timer2 = 0;
             this->actionFunc = BgGndDarkmeiro_PlatformTimer;
             thisx->draw = NULL;
-            if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1) != 0) {
-                this->timer1 = 64; // If switch N+1 is already set, turn on timer 1 with 64 frames on the clock.
+            if (Flags_GetSwitch(globalCtx, SWITCH + 1) != 0) {
+                this->timer1 = 64;
                 this->actorState |= 4;
             }
-            if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2) != 0) {
-                this->timer2 = 64; // If switch N+2 is already set, turn on timer 2 with 64 frames on the clock.
+            if (Flags_GetSwitch(globalCtx, SWITCH + 2) != 0) {
+                this->timer2 = 64;
                 this->actorState |= 8;
             }
             if ((this->timer1 != 0) || (this->timer2 != 0)) {
-                Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F); // If the timers are set, set switch N
+                Flags_SetSwitch(globalCtx, SWITCH);
             } else {
-                Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F); // If not, clear it.
+                Flags_UnsetSwitch(globalCtx, SWITCH);
             }
             break;
     }
@@ -126,54 +128,50 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_NoAction(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
-    // This mode 0's action function, as well as any undefined mode. As you can see, it does nothing.
+    // This mode 0's action function, as well as any undefined mode. It does nothing.
 }
 
 void BgGndDarkmeiro_PlatformTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     s16 timeLeft;
 
-    if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1) != 0) {    // If switch N+1 is active
-        if ((this->actorState & 4) != 0) {                                                 // and timer 1 is running,
-            if (this->timer1 > 0) {                                                        // if there's any time left,
-                this->timer1--;                                                            // decrement timer 1.
-            } else {                                                                       // If timer 1 has run out,
-                Flags_UnsetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1); // clear switch N+1
-                this->actorState &= ~4;                                                    // and turn off timer 1.
-            }                                                                              //
-        } else {                                                                           // If timer 1 isn't running,
-            this->actorState |= 4;                                                         // turn on timer 1,
-            this->timer1 = 304;                                                            // set it to 304 frames,
-            Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0,
-                                   &D_801333E8); // and play a whistling sound.
+    if (Flags_GetSwitch(globalCtx, SWITCH + 1) != 0) {
+        if ((this->actorState & 4) != 0) {
+            if (this->timer1 > 0) {
+                this->timer1--;
+            } else {
+                Flags_UnsetSwitch(globalCtx, SWITCH + 1);
+                this->actorState &= ~4;
+            }
+        } else {
+            this->actorState |= 4;
+            this->timer1 = 304;
+            Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
-    if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2) != 0) {    // If switch N+2 is active
-        if ((this->actorState & 8) != 0) {                                                 // and timer 2 is running,
-            if (this->timer2 > 0) {                                                        // if there's any time left,
-                this->timer2--;                                                            // decrement timer 2.
-            } else {                                                                       // If timer 2 has run out,
-                Flags_UnsetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2); // clear switch N+2
-                this->actorState &= ~8;                                                    // and turn off timer 2.
-            }                                                                              //
-        } else {                                                                           // If timer 2 isn't running,
-            this->actorState |= 8;                                                         // turn on timer 1,
-            this->timer2 = 304;                                                            // set it to 304 frames,
-            Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0,
-                                   &D_801333E8); // and play a whistling sound.
+    if (Flags_GetSwitch(globalCtx, SWITCH + 2) != 0) {
+        if ((this->actorState & 8) != 0) {
+            if (this->timer2 > 0) {
+                this->timer2--;
+            } else {
+                Flags_UnsetSwitch(globalCtx, SWITCH + 2);
+                this->actorState &= ~8;
+            }
+        } else {
+            this->actorState |= 8;
+            this->timer2 = 304;
+            Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
 
-    timeLeft = CLAMP_MIN(this->timer1, this->timer2); // Uses the larger timer for the clock sound
+    timeLeft = CLAMP_MIN(this->timer1, this->timer2);
     if (timeLeft > 0) {
-        func_8002F994(this, timeLeft); // If either timer is running, play the clock sound.
+        func_8002F994(&this->dyna.actor, timeLeft);
     }
-    if ((this->timer1 >= 64) || (this->timer2 >= 64)) {                    // If either timer has at least 64 left,
-        Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F); // set switch N.
+    if ((this->timer1 >= 64) || (this->timer2 >= 64)) {
+        Flags_SetSwitch(globalCtx, SWITCH);
     } else {
-        Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F); // If both are under 64, clear switch N.
+        Flags_UnsetSwitch(globalCtx, SWITCH);
     }
-    // Switch N is cleared 0x40 frames early to give the transparent platforms time to flicker and vanish
-    // in sync with the other switches. This flickering effect is bugged, though, so it doesn't happen.
 }
 
 void BgGndDarkmeiro_StaticPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
@@ -183,14 +181,14 @@ void BgGndDarkmeiro_StaticPlatform(BgGndDarkmeiro* this, GlobalContext* globalCt
 void BgGndDarkmeiro_SwitchedPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 
     if (this->timer1 > 0) {
-        this->timer1--; // If the vanishing timer isn't 0, decrement it.
+        this->timer1--;
     }
 
-    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F) != 0) {
-        this->timer1 = 64; // If the switch is on, reset the vanishing timer.
+    if (Flags_GetSwitch(globalCtx, SWITCH) != 0) {
+        this->timer1 = 64;
     }
 
-    BgGndDarkmeiro_TogglePlatform(this, globalCtx); // Set whether the platform is solid.
+    BgGndDarkmeiro_TogglePlatform(this, globalCtx);
 }
 
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -198,23 +196,24 @@ void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void BgGndDarkmeiro_Draw0(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListXlu(globalCtx, &D_060088B0); // Draws...something. Used by mode 0.
+void BgGndDarkmeiro_Draw0(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListXlu(globalCtx, D_060088B0); // This doesn't seem to draw anything.
 }
 
-void BgGndDarkmeiro_DrawSwitchedPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
+void BgGndDarkmeiro_DrawSwitchedPlatform(Actor* thisx, GlobalContext* globalCtx) {
+    BgGndDarkmeiro* this = THIS;
     s16 vanishTimer;
-    s32 vanishTimer32;
+    u16 vanishTimerU;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
     vanishTimer = this->timer1;
-    if (vanishTimer != 0) { // Platform only gets drawn if vanishing timer isn't zero.
+    if (vanishTimer != 0) {
         if (vanishTimer > 64) {
             this->timer2 = (this->timer2 < 120) ? this->timer2 + 8 : 127;
         } else if (vanishTimer > 16) {
-            vanishTimer32 = this->timer1;
-            this->timer2 = (Math_Coss((s16)vanishTimer32 * 4096) * 64.0f) + 127.0f;
+            vanishTimerU = this->timer1;
+            this->timer2 = (Math_Coss((s16)vanishTimerU * 4096) * 64.0f) + 127.0f;
             if (this->timer2 > 127) {
                 this->timer2 = 127;
             }
@@ -224,19 +223,19 @@ void BgGndDarkmeiro_DrawSwitchedPlatform(BgGndDarkmeiro* this, GlobalContext* gl
           // vanish when their switch is unset. Or it would if they didn't ignore all of their color data.
 
         gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, this->timer2);
-        Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
-        Gfx_DrawDListXlu(globalCtx, &D_0600BEC0); // Draws the platform.
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
+        Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
     }
 }
 
-void BgGndDarkmeiro_DrawStaticPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
+void BgGndDarkmeiro_DrawStaticPlatform(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
-    Gfx_DrawDListXlu(globalCtx, &D_0600BEC0); // Draws the platform.
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
+    Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
 }
