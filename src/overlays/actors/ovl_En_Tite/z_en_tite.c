@@ -249,19 +249,8 @@ void func_80B1985C(Actor *thisx) {
     func_80B18A80(this, &func_80B19918);
 }
 
-/*
 void func_80B19918(EnTite *this, GlobalContext *globalContext) {
-    f32 sp40;
     Vec3f sp3C;
-    Vec3f *sp38;
-    Vec3f *sp34;
-    Vec3f *sp30;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u8 temp_v1;
-    u16 phi_v0;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
     SkelAnime_FrameUpdateMatrix(&this->unk14C);
@@ -279,7 +268,7 @@ void func_80B19918(EnTite *this, GlobalContext *globalContext) {
 
     if (((this->actor.bgCheckFlags & 2) != 0) || ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x40) != 0))) {
         if (this->unk2E2 != 0) {
-            this->actor.unk2E2--;
+            this->unk2E2--;
         } else {
             func_80B18C5C(&this->actor);
         }
@@ -288,101 +277,75 @@ void func_80B19918(EnTite *this, GlobalContext *globalContext) {
     if ((((this->actor.bgCheckFlags & 3) != 0) || ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x60) != 0))) &&
      (this->actor.velocity.y <= 0.0f)){
         this->actor.speedXZ = 0.0f;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, (u16)1, (u16)0xFA0, 0);
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 0);
         this->actor.posRot.rot.y = (s16) this->actor.shape.rot.y;
-        if (-2 != this->actor.params) { // (1)
-block_18:
-            temp_f0 = this->actor.groundY;
-            if (-32000.0f < temp_f0) {
-                this->actor.posRot.pos.y = temp_f0;
+        if ((this->actor.params != -2) || ((this->actor.bgCheckFlags & 0x20) == 0)) { 
+            if (-32000.0f < this->actor.groundY) {
+                this->actor.posRot.pos.y = this->actor.groundY;
             }
-block_23:
-            temp_f0_2 = this->actor.xzDistFromLink;
-            if (!(300.0f < temp_f0_2)) { // (2)
-block_26:
-                if (!(temp_f0_2 <= 180.0f)) { // (3)
-block_34:
-                    this->actor.flags = (u32) (this->actor.flags | 0x1000000);
-                    this->actor.velocity.y = 10.0f;
-                    this->actor.speedXZ = 4.0f;
-                    this->actor.gravity = -1.0f;
-                    if (-2 != this->actor.params) { // (4)
-block_37:
-                        Audio_PlayActorSound2(&this->actor, (u16)0x386CU);
-                        return;
-                    }
-                    if ((this->actor.bgCheckFlags & 0x20) == 0) {
-                        goto block_37;
-                    }
-                    Audio_PlayActorSound2(&this->actor, (u16)0x388EU);
-                    return;
-                }
-                if (!(this->actor.yDistFromLink <= 80.0f)) {
-                    goto block_34;
-                }
-                if ((s32) this->actor.unk2E2 > 0) {
-                    this->actor.flags = (u32) (this->actor.flags | 0x1000000);
-                    this->actor.velocity.y = 10.0f;
-                    this->actor.speedXZ = 4.0f;
-                    this->actor.gravity = -1.0f;
-                    if (-2 != this->actor.params) {
-block_33:
-                        Audio_PlayActorSound2(&this->actor, (u16)0x386CU);
-                        return;
-                    }
-                    if ((this->actor.bgCheckFlags & 0x20) == 0) {
-                        goto block_33;
-                    }
-                    Audio_PlayActorSound2(&this->actor, (u16)0x388EU);
-                    return;
-                }
-                func_80B19524(&this->actor);
+        }else{
+            if ((this->actor.bgCheckFlags & 0x40) != 0) {
+                sp3C = this->actor.posRot.pos;
+                this->actor.bgCheckFlags = (u16) (this->actor.bgCheckFlags & 0xFFBF);
+                sp3C.y += this->actor.waterY;
+                this->actor.gravity = 0.0f;
+                this->actor.velocity.y = (f32) (this->actor.velocity.y * 0.75f);
+                func_80029444(globalContext, &sp3C, 0, 0x1F4, 0);
                 return;
             }
-            if (!(80.0f < this->actor.yDistFromLink)) {
-                goto block_26;
+            Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.waterY, 1.0f, 2.0f, 0.0f);
+            if (0.0f != this->actor.waterY) {
+                return;
             }
+        }
+        if (((this->actor.xzDistFromLink > 300.0f) && (this->actor.yDistFromLink > 80.0f))) { // (2)
             func_80B18C5C(&this->actor);
-            return;
-        }
-        temp_v0_2 = this->actor.bgCheckFlags;
-        if ((temp_v0_2 & 0x20) == 0) {
-            goto block_18;
-        }
-        if ((this->actor.bgCheckFlags & 0x40) != 0) {
-            sp3C.unk0 = (bitwise s32) this->actor.posRot.pos.x;
-            sp3C.unk4 = (bitwise s32) this->actor.posRot.pos.y;
-            sp3C.unk8 = (bitwise s32) this->actor.posRot.pos.z;
-            this->actor.bgCheckFlags = (u16) (this->actor.bgCheckFlags & 0xFFBF);
-            sp40 = sp40 + this->actor.waterY;
-            this->actor.gravity = 0.0f;
-            this->actor.velocity.y = (f32) (this->actor.velocity.y * 0.75f);
-            func_80029444(globalContext, &sp3C, 0, 0x1F4, 0);
-            return;
-        }
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.waterY, 1.0f, 2.0f, 0.0f);
-        if (0.0f == this->actor.waterY) {
-            goto block_23;
+        } else {
+            if (((this->actor.xzDistFromLink <= 180.0f)) && ((this->actor.yDistFromLink <= 80.0f))) { // (3)
+                if (this->unk2E2 <= 0){
+                    func_80B19524(&this->actor);
+                    return;
+                }
+                this->actor.velocity.y = 10.0f;
+                this->actor.speedXZ = 4.0f;
+                this->actor.flags |= 0x1000000;
+                this->actor.gravity = -1.0f;
+                if ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x20) != 0)) { // (4)
+                    Audio_PlayActorSound2(&this->actor, (u16)0x388EU);
+                    return;
+                }
+                else{
+                    Audio_PlayActorSound2(&this->actor, (u16)0x386CU);
+                    return;
+                }
+            }
+            this->actor.velocity.y = 10.0f;
+            this->actor.speedXZ = 4.0f;
+            this->actor.flags |= 0x1000000;
+            this->actor.gravity = -1.0f;
+            if ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 0x20) != 0)) { // (4)
+                Audio_PlayActorSound2(&this->actor, (u16)0x388EU);
+            }
+            else{
+                Audio_PlayActorSound2(&this->actor, (u16)0x386CU);
+            }
+        
         }
     } else {
-        this->actor.flags = (u32) (this->actor.flags | 0x1000000);
+        this->actor.flags |= 0x1000000;
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, (u16)1, (u16)0x3E8, 0);
         if (6.0f <= this->actor.velocity.y) {
             if ((this->actor.bgCheckFlags & 1) != 0) {
-                sp30 = &this->actor + 0x36C;
-                sp34 = &this->actor + 0x360;
-                sp38 = &this->actor + 0x354;
-                func_800355B8(globalContext, &this->actor + 0x348);
-                func_800355B8(globalContext, sp38);
-                func_800355B8(globalContext, sp34);
-                func_800355B8(globalContext, sp30);
+                func_800355B8(globalContext, &this->unk348);
+                func_800355B8(globalContext, &this->unk354);
+                func_800355B8(globalContext, &this->unk360);
+                func_800355B8(globalContext, &this->unk36C);
             }
         }
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B19918.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B19918.s")
 
 void func_80B19E28(Actor *thisx) {
     EnTite* this = THIS;
