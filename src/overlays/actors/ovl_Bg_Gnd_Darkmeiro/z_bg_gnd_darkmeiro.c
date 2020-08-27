@@ -54,8 +54,6 @@ void BgGndDarkmeiro_TogglePlatform(BgGndDarkmeiro *this, GlobalContext *globalCt
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_TogglePlatform.s")
-
 void BgGndDarkmeiro_Init(Actor *thisx, GlobalContext *globalCtx) {
 	BgGndDarkmeiro* this = THIS;
     s32 local_c = 0;
@@ -116,8 +114,6 @@ void BgGndDarkmeiro_Init(Actor *thisx, GlobalContext *globalCtx) {
 	if (globalCtx){}; //needed for matching
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_Init.s")
-
 void BgGndDarkmeiro_Destroy(Actor *thisx, GlobalContext* globalCtx) {
 	BgGndDarkmeiro* this = THIS;
 	
@@ -127,13 +123,9 @@ void BgGndDarkmeiro_Destroy(Actor *thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_Destroy.s")
-
 void BgGndDarkmeiro_NoAction(BgGndDarkmeiro *this, GlobalContext *globalCtx) {
 	//This is mode 0's action function. As you can see, it does nothing.
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_NoAction.s")
 
 void BgGndDarkmeiro_PlatformTimer(BgGndDarkmeiro *this, GlobalContext *globalCtx) {
     s16 phi_a1;
@@ -178,14 +170,9 @@ void BgGndDarkmeiro_PlatformTimer(BgGndDarkmeiro *this, GlobalContext *globalCtx
 	} //Switch N is cleared 0x40 frames early to give the transparent platforms time to flicker and vanish in sync with the other switches. This flickering effect is bugged, so it doesn't happen.
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_PlatformTimer.s")
-
-
 void BgGndDarkmeiro_StaticPlatform(BgGndDarkmeiro *this, GlobalContext *globalCtx) {
 	//Static platforms do nothing, just like this function.
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_StaticPlatform.s")
 
 void BgGndDarkmeiro_SwitchedPlatform(BgGndDarkmeiro *this, GlobalContext *globalCtx) {
 
@@ -200,21 +187,14 @@ void BgGndDarkmeiro_SwitchedPlatform(BgGndDarkmeiro *this, GlobalContext *global
     BgGndDarkmeiro_TogglePlatform(this, globalCtx); //Set whether the platform is solid.
 }
 
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_SwitchedPlatform.s")
-
 void BgGndDarkmeiro_Update(Actor *thisx, GlobalContext *globalCtx) {
 	BgGndDarkmeiro* this = THIS;
     this->actionFunc(this, globalCtx);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_Update.s")
-
 void BgGndDarkmeiro_Draw0(BgGndDarkmeiro *this, GlobalContext *globalCtx) {
     Gfx_DrawDListXlu(globalCtx, &D_060088B0); //Draws...something for mode 0.
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_Draw0.s")
 
 void BgGndDarkmeiro_DrawSwitchedPlatform(BgGndDarkmeiro *this, GlobalContext *globalCtx) {
 	s16 newvar;
@@ -244,8 +224,6 @@ void BgGndDarkmeiro_DrawSwitchedPlatform(BgGndDarkmeiro *this, GlobalContext *gl
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_DrawSwitchedPlatform.s")
-
 void BgGndDarkmeiro_DrawStaticPlatform(BgGndDarkmeiro *this, GlobalContext *globalCtx) {
     GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
     Gfx *dispRefs[4];
@@ -255,5 +233,3 @@ void BgGndDarkmeiro_DrawStaticPlatform(BgGndDarkmeiro *this, GlobalContext *glob
 	Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 0x189);
 	Gfx_DrawDListXlu(globalCtx, &D_0600BEC0); //Draws the platform.
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Darkmeiro/BgGndDarkmeiro_DrawStaticPlatform.s")

@@ -7,8 +7,10 @@
 struct BgVbSima;
 
 typedef struct BgVbSima {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x30];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ char unk_164[0x10]; //apparently unused
+    /* 0x0174 */ s16 varianceTimer;
+    /* 0x0176 */ char unk_176[6]; //apparently unused
 } BgVbSima; // size = 0x017C
 
 extern const ActorInit Bg_Vb_Sima_InitVars;
