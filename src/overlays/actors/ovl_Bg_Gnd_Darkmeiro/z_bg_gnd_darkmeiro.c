@@ -226,7 +226,9 @@ void BgGndDarkmeiro_DrawSwitchedPlatform(Actor* thisx, GlobalContext* globalCtx)
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, this->timer2);
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
+
         Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
+
     }
 }
 
@@ -237,5 +239,6 @@ void BgGndDarkmeiro_DrawStaticPlatform(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
+    
     Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
 }
