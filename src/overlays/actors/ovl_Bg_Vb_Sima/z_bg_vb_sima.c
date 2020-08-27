@@ -90,7 +90,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->varianceTimer++;
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num) == 0) {
         colPlat = bossFd->collapsePlatform;
-        if (colPlat == 1) { // Platform sinking during cutscene
+        if (colPlat == 1) {
             Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
             this->dyna.actor.posRot.pos.z += 2.0f * Math_Coss(this->varianceTimer * 0x8000);
             this->dyna.actor.shape.rot.x = (s16)Math_Sins(this->varianceTimer * 0x7000) * 0x37;
@@ -125,7 +125,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 func_8002836C(globalCtx, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
                               (s16)Math_Rand_ZeroFloat(100.0f) + 0x1F4, 0xA, 0x14);
-                // Spawns lava splashes around base.
+
                 for (i2 = 0; i2 < 3; i2++) {
                     emberVel.x = splashVel.x;
                     emberVel.y = Math_Rand_ZeroFloat(5.0f);

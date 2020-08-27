@@ -5,12 +5,11 @@
  */
 
 #include "z_boss_fd.h"
+#include "../ovl_En_Vb_Ball/z_en_vb_ball.h"
 
 #define FLAGS 0x00000035
 
 #define THIS ((BossFd*)thisx)
-
-//#define NON_MATCHING2
 
 void BossFd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossFd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +34,8 @@ void func_808CAFF4(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, V
 // Spawn Fire Breath
 
 void func_808CB100(BossFd* this, f32 arg1);
-void func_808CB198(BossFd* this, GlobalContext* globalCtx);
+void func_808CB198(BossFd* this, GlobalContext* globalCtx); // Cutscene camera stuff
+
 s32 func_808CB67C(BossFd* this); // Breathe Fire
 
 s32 func_808D00A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
@@ -105,8 +105,7 @@ const ActorInit Boss_Fd_InitVars = {
     (ActorFunc)BossFd_Update,
     (ActorFunc)BossFd_Draw,
 };
-////
-// D_808D1660
+
 static ColliderJntSphItemInit sJntSphItemsInit[19] = {
     {
         { 0x03, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
@@ -186,14 +185,12 @@ static ColliderJntSphItemInit sJntSphItemsInit[19] = {
     },
 };
 
-// D_808D190C
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_METAL_SHIELD, 0x11, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
     19,
     sJntSphItemsInit,
 };
 
-// D_808D191C
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
@@ -1060,8 +1057,8 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.y -= 1000.0f;
             }
             if (this->animationTimers[0] == 7) {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x5F, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                            this->actor.posRot.pos.z, 0, 0, 0, 0);
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.posRot.pos.x,
+                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
             }
             break;
         case -1: // Waiting before boss cutscene.
@@ -1439,7 +1436,7 @@ Vec3f D_808D1A78 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808D1A84 = { 0.0f, 0.0f, 0.0f };
 
 void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    Actor* bossFdRock; // Change to EnVbBall*
+    EnVbBall* bossFdRock;
     BossFd* this = THIS;
     BossFdParticle* temp_ptr = this->particles;
     f32 phi_f0_1;
@@ -1508,16 +1505,16 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->rockTimer != 0) {
         this->rockTimer--;
         if ((this->rockTimer & 0xF) == 0) {
-            bossFdRock = Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
-                                             this->actor.posRot.pos.x, 1000.0f, this->actor.posRot.pos.z, 0, 0,
-                                             (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
+            bossFdRock = (EnVbBall*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
+                                                        this->actor.posRot.pos.x, 1000.0f, this->actor.posRot.pos.z, 0,
+                                                        0, (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
             if (bossFdRock != 0) {
                 for (i1 = 0; i1 < 10; i1++) {
                     spB0 = D_808D1A60;
                     spA4 = D_808D1A6C;
-                    sp98.x = Math_Rand_CenteredFloat(300.0f) + bossFdRock->posRot.pos.x;
-                    sp98.y = Math_Rand_CenteredFloat(300.0f) + bossFdRock->posRot.pos.y;
-                    sp98.z = Math_Rand_CenteredFloat(300.0f) + bossFdRock->posRot.pos.z;
+                    sp98.x = Math_Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.x;
+                    sp98.y = Math_Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.y;
+                    sp98.z = Math_Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.z;
                     func_808CAE8C(temp_ptr, &sp98, &spB0, &spA4, (s16)Math_Rand_ZeroFloat(15.0f) + 0x14);
                 }
             }
@@ -1565,9 +1562,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_808CF448(BossFd* this, GlobalContext* globalCtx) {
     BossFdParticle* part = this->particles;
     Player* player = PLAYER;
-    Color_RGB8 sp8C[4] = {
-        { 0xFF, 0x80, 0x00 }, { 0xFF, 0x00, 0x00 }, { 0xFF, 0xFF, 0x00 }, { 0xFF, 0x00, 0x00 }
-    }; // D_808D1A90
+    Color_RGB8 sp8C[4] = { { 0xFF, 0x80, 0x00 }, { 0xFF, 0x00, 0x00 }, { 0xFF, 0xFF, 0x00 }, { 0xFF, 0x00, 0x00 } };
     Vec3f diff;
     s16 phi_v1;
     s16 i1;
@@ -1894,7 +1889,7 @@ void func_808D02DC(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec3f
             spB4.z = 0.0f;
         }
 
-        Matrix_RotateY((maneRot + temp_s4)->y, 0); // access has to be done like this to match
+        Matrix_RotateY((maneRot + temp_s4)->y, 0);
         Matrix_RotateX(-(maneRot + temp_s4)->x, 1);
 
         Matrix_MultVec3f(&spB4, &spA8);
@@ -1976,7 +1971,7 @@ void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
     s16 temp_v0_8;
     s16 phi_s1;
     f32 phi_f20_2;
-    Actor* temp_v0_13;
+    EnVbBall* newActor;
     MtxF spFC;
     Vec3f spF0;
     Vec3f spE4;
@@ -2089,12 +2084,13 @@ void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
                     func_800D20CC(&spFC, &spDC, 0);
-                    temp_v0_13 = Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, 0xAD, spE4.x,
-                                                     spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, phi_s1 + 0xC8);
+                    newActor =
+                        (EnVbBall*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
+                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, phi_s1 + 0xC8);
 
-                    temp_v0_13->scale.x = this->actor.scale.x * spD4;
-                    temp_v0_13->scale.y = this->actor.scale.y * spD4;
-                    temp_v0_13->scale.z = this->actor.scale.z * 0.1f;
+                    newActor->actor.scale.x = this->actor.scale.x * spD4;
+                    newActor->actor.scale.y = this->actor.scale.y * spD4;
+                    newActor->actor.scale.z = this->actor.scale.z * 0.1f;
                 }
             }
         }
