@@ -30,31 +30,77 @@ const ActorInit Bg_Spot11_Bakudankabe_InitVars = {
     (ActorFunc)BgSpot11Bakudankabe_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit =
-{
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 40, 80, 0, { 2259, 108, -1580 } },
 };
 
-s32 D_808B272C[] = { 0x450D3000, 0x42D80000, 0xC4C1C000 };
-
+Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
 Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
 
 extern UNK_TYPE D_06001A58;
 extern Gfx D_06001980[];
+extern Gfx D_0500A880[];
 
-void func_808B2180(BgSpot11Bakudankabe *this, GlobalContext *globalCtx) {
+void func_808B2180(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    this->collider.dim.pos.x += ((s16) this->dyna.actor.posRot.pos.x);
-    this->collider.dim.pos.y += ((s16) this->dyna.actor.posRot.pos.y);
-    this->collider.dim.pos.z += ((s16) this->dyna.actor.posRot.pos.z);
+    this->collider.dim.pos.x += ((s16)this->dyna.actor.posRot.pos.x);
+    this->collider.dim.pos.y += ((s16)this->dyna.actor.posRot.pos.y);
+    this->collider.dim.pos.z += ((s16)this->dyna.actor.posRot.pos.z);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/func_808B2218.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/func_808B2218.s")
+void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
+    Vec3f burstDepthY;
+    Vec3f burstDepthX;
+    s32 i;
+
+    burstDepthX.z = 0.0f;
+    burstDepthX.x = 0.0f;
+
+    for (i = 0; i < 20; i++) {
+        s16 scale;
+        s32 gravityInfluence;
+        s32 rotationSpeed;
+
+        if (!rotationSpeed) {}
+        Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &D_808B272C, &burstDepthY);
+
+        burstDepthY.x += ((Math_Rand_ZeroOne() - 0.5f) * 120.0f);
+        burstDepthY.y += (30.0f + (i * 6.5f));
+        burstDepthY.z += ((Math_Rand_ZeroOne() - 0.5f) * 20.0f);
+
+        burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
+        scale = ((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
+        
+        if (!gravityInfluence) {}
+
+        if (scale < 20) {
+            gravityInfluence = -0x12C;
+        } else if (scale < 0x23) {
+            gravityInfluence = -0x168;
+        } else {
+            gravityInfluence = -0x1A4;
+        }
+        if (Math_Rand_ZeroOne() < 0.4f) {
+            rotationSpeed = 0x41;
+        } else {
+            rotationSpeed = 0x21;
+        }
+        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4, 0,
+                      scale, 1, 3, 0x50, -1, 2, D_0500A880);
+    }
+    Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &D_808B272C, &burstDepthY);
+    func_80033480(globalCtx, &burstDepthY, 70.0f, 4, 0x6E, 0xA0, 1);
+    burstDepthY.y += 40.0f;
+    func_80033480(globalCtx, &burstDepthY, 70.0f, 5, 0x6E, 0xA0, 1);
+    burstDepthY.y += 40.0f;
+    func_80033480(globalCtx, &burstDepthY, 70.0f, 4, 0x6E, 0xA0, 1);
+}
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
@@ -95,8 +141,8 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
-    
+
     Gfx_DrawDListOpa(globalCtx, D_06001980);
 }
