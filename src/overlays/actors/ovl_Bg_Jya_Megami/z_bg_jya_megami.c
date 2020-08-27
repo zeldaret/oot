@@ -109,7 +109,7 @@ static Gfx* sDLists[] = {
     0x0600A418, 0x0600A568, 0x0600A6A0, 0x0600A7E0, 0x0600A978, 0x0600AAC8,
 };
 
-void BgJyaMegami_SetupDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, void* collision, DynaPolyMoveFlag flags) {
+void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, void* collision, DynaPolyMoveFlag flags) {
     s32 pad;
     u32 temp;
 
@@ -119,7 +119,7 @@ void BgJyaMegami_SetupDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, void
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
 }
 
-void BgJyaMegami_SetupCollider(BgJyaMegami* this, GlobalContext* globalCtx) {
+void BgJyaMegami_InitCollider(BgJyaMegami* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -159,8 +159,8 @@ void func_8089A41C(BgJyaMegami* this, GlobalContext* globalCtx, f32 arg2) {
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaMegami* this = THIS;
 
-    BgJyaMegami_SetupDynaPoly(this, globalCtx, &D_06005C4C, 0);
-    BgJyaMegami_SetupCollider(this, globalCtx);
+    BgJyaMegami_InitDynaPoly(this, globalCtx, &D_06005C4C, 0);
+    BgJyaMegami_InitCollider(this, globalCtx);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         Actor_Kill(&this->dyna.actor);
     } else {
