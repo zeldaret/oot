@@ -33,6 +33,8 @@ extern CollisionCheckInfoInit D_80A4DEB4;
 extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
 
+extern Gfx D_060006B0[];
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BCA0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD04.s")
@@ -88,13 +90,13 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     params = this->actor.params & 0xFF;
     if (params == 0xFF) {
         // Translation: Error: Invalid arg_data
-        osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 0x409, this->actor.params);
+        osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033, this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
     if (globalCtx->setupPathList[params].count < 2) {
         // Translation: Error: Invalid Path Data
-        osSyncPrintf("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 0x413);
+        osSyncPrintf("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 1043);
         Actor_Kill(&this->actor);
         return;
     }
@@ -111,7 +113,9 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params, this->actor.params & 0xFF, (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1, this->actor.initPosRot.rot.z & 1);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/EnGoroiwa_Destroy.s")
+void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D5E0.s")
 
@@ -133,6 +137,39 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DC00.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/EnGoroiwa_Update.s")
+void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnGoroiwa* this = THIS;
+    Player* player = PLAYER;
+    s32 pad;
+    UNK_TYPE sp30;
+    s32 temp_v0_2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/EnGoroiwa_Draw.s")
+    if (!(player->stateFlags1 & 0x300000C0)) {
+        if (this->timer > 0) {
+            this->timer--;
+        }
+        this->actionFunc(this, globalCtx);
+        temp_v0_2 = (this->actor.params >> 10) & 1;
+        if (temp_v0_2 != 0) {
+            if (temp_v0_2 == 1) {
+                func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+            }
+        } else {
+            this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor, &this->actor.posRot);
+        }
+        func_80A4CED8(this, globalCtx);
+        if (this->actor.xzDistFromLink < 300.0f) {
+            func_80A4BCA0(this);
+            if (this->unk_1D3 & 1 && this->timer <= 0) {
+                CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            }
+            if (this->unk_1D3 & 2 && this->timer <= 0) {
+                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            }
+        }
+    }
+}
+
+void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_060006B0);
+}
