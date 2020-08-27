@@ -31,8 +31,8 @@ const ActorInit En_Dy_Extra_InitVars = {
     (ActorFunc)EnDyExtra_Draw,
 };
 
-extern UNK_TYPE D_0601BFB0;
-extern Gfx* D_0601C160;
+extern Vtx D_0601BFB0[];
+extern Gfx D_0601C160[];
 
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -41,9 +41,9 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDyExtra* this = THIS;
 
     osSyncPrintf("\n\n");
-    //"Big fairy effect"
+    // "Big fairy effect"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-    this->params = this->actor.params;
+    this->type = this->actor.params;
     this->unk_15C.x = 0.025f;
     this->unk_15C.y = 0.039f;
     this->unk_15C.z = 0.025f;
@@ -97,7 +97,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDyExtra* this = THIS;
     s32 pad;
     GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
-    Vtx* data = (Vtx*)SEGMENTED_TO_VIRTUAL(&D_0601BFB0);
+    Vtx* vertices = SEGMENTED_TO_VIRTUAL(D_0601BFB0);
     s32 i;
     u8 unk[3];
     GraphicsContext* gfxCtx;
@@ -109,13 +109,13 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     for (i = 0; i < 27; i++) {
         if (D_809FFC50[i]) {
-            data[i].v.cn[3] = unk[D_809FFC50[i]];
+            vertices[i].v.cn[3] = unk[D_809FFC50[i]];
         }
     }
 
     gfxCtx = localGfxCtx;
 
-    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 0x126);
+    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 294);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1,
@@ -123,10 +123,9 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPPipeSync(gfxCtx->polyXlu.p++);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x80, primColors[this->params].r, primColors[this->params].g,
-                    primColors[this->params].b, 255);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, envColors[this->params].r, envColors[this->params].g, envColors[this->params].b,
-                   128);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_0601C160);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
+                    primColors[this->type].b, 255);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b, 128);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_0601C160);
     Graph_CloseDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 325);
 }
