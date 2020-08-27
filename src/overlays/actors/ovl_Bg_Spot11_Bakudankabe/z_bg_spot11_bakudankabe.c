@@ -30,16 +30,29 @@ const ActorInit Bg_Spot11_Bakudankabe_InitVars = {
     (ActorFunc)BgSpot11Bakudankabe_Draw,
 };
 
-s32 D_808B2700[] = { 0x0A000900, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000008,
-                     0x00000000, 0x00010000, 0x00280050, 0x000008D3, 0x006CF9D4 };
+static ColliderCylinderInit sCylinderInit =
+{
+    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 40, 80, 0, { 2259, 108, -1580 } },
+};
+
 s32 D_808B272C[] = { 0x450D3000, 0x42D80000, 0xC4C1C000 };
 
 Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
 
 extern UNK_TYPE D_06001A58;
-extern UNK_TYPE D_06001980;
+extern Gfx D_06001980[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/func_808B2180.s")
+void func_808B2180(BgSpot11Bakudankabe *this, GlobalContext *globalCtx) {
+    s32 pad;
+
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
+    this->collider.dim.pos.x += ((s16) this->dyna.actor.posRot.pos.x);
+    this->collider.dim.pos.y += ((s16) this->dyna.actor.posRot.pos.y);
+    this->collider.dim.pos.z += ((s16) this->dyna.actor.posRot.pos.z);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/func_808B2218.s")
 
@@ -85,5 +98,5 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext *globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
     
-    Gfx_DrawDListOpa(globalCtx, &D_06001980);
+    Gfx_DrawDListOpa(globalCtx, D_06001980);
 }
