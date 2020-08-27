@@ -16,7 +16,6 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808B2180(BgSpot11Bakudankabe* this, GlobalContext* globalCtx);
-void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot11_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT11_BAKUDANKABE,
@@ -53,53 +52,50 @@ void func_808B2180(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
     this->collider.dim.pos.z += ((s16)this->dyna.actor.posRot.pos.z);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot11_Bakudankabe/func_808B2218.s")
 void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
+    Actor* thisx = &this->dyna.actor;
     Vec3f burstDepthY;
     Vec3f burstDepthX;
     s32 i;
 
-    burstDepthX.z = 0.0f;
-    burstDepthX.x = 0.0f;
+    burstDepthX.z = 0;
+    burstDepthX.x = 0;
 
     for (i = 0; i < 20; i++) {
         s16 scale;
         s32 gravityInfluence;
         s32 rotationSpeed;
 
-        if (!rotationSpeed) {}
-        Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &D_808B272C, &burstDepthY);
+        Math_Vec3f_Sum(&thisx->posRot.pos, &D_808B272C, &burstDepthY);
 
-        burstDepthY.x += ((Math_Rand_ZeroOne() - 0.5f) * 120.0f);
+        burstDepthY.x += (Math_Rand_ZeroOne() - 0.5f) * 120.0f;
         burstDepthY.y += (30.0f + (i * 6.5f));
-        burstDepthY.z += ((Math_Rand_ZeroOne() - 0.5f) * 20.0f);
+        burstDepthY.z += (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
 
         burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
-        scale = ((Math_Rand_ZeroOne() * 55.0f) + 8.0f);
+        scale = (Math_Rand_ZeroOne() * 55.0f) + 8.0f;
         
-        if (!gravityInfluence) {}
-
         if (scale < 20) {
-            gravityInfluence = -0x12C;
-        } else if (scale < 0x23) {
-            gravityInfluence = -0x168;
+            gravityInfluence = -300;
+        } else if (scale < 35) {
+            gravityInfluence = -360;
         } else {
-            gravityInfluence = -0x1A4;
+            gravityInfluence = -420;
         }
         if (Math_Rand_ZeroOne() < 0.4f) {
-            rotationSpeed = 0x41;
+            rotationSpeed = 65;
         } else {
-            rotationSpeed = 0x21;
+            rotationSpeed = 33;
         }
         func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4, 0,
-                      scale, 1, 3, 0x50, -1, 2, D_0500A880);
+                      scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
-    Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &D_808B272C, &burstDepthY);
-    func_80033480(globalCtx, &burstDepthY, 70.0f, 4, 0x6E, 0xA0, 1);
-    burstDepthY.y += 40.0f;
-    func_80033480(globalCtx, &burstDepthY, 70.0f, 5, 0x6E, 0xA0, 1);
-    burstDepthY.y += 40.0f;
-    func_80033480(globalCtx, &burstDepthY, 70.0f, 4, 0x6E, 0xA0, 1);
+    Math_Vec3f_Sum(&thisx->posRot.pos, &D_808B272C, &burstDepthY);
+    func_80033480(globalCtx, &burstDepthY, 70, 4, 110, 160, 1);
+    burstDepthY.y += 40;
+    func_80033480(globalCtx, &burstDepthY, 70, 5, 110, 160, 1);
+    burstDepthY.y += 40;
+    func_80033480(globalCtx, &burstDepthY, 70, 4, 110, 160, 1);
 }
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
