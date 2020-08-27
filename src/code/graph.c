@@ -150,32 +150,28 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
     Fault_RemoveClient(&sGraphFaultClient);
 }
 
-// Close to matching, reordering at the end
-#ifdef NON_MATCHING
 void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     static u32 D_8012D260 = 0;
     static s32 sGraphCfbInfoIdx = 0;
 
+    OSTime time;
     OSTimer timer;
     OSMesg msg;
-    OSMesgQueue* mq;
-    u32 temp;
-    OSTime time;
     OSTask_t* task;
-    Gfx* dispRefs[3];
     OSScTask* scTask;
     CfbInfo* cfb;
+    s32 pad1;
 
-    mq = &gfxCtx->queue;
     task = &gfxCtx->task.list.t;
     scTask = &gfxCtx->task;
 
     D_8016A528 = osGetTime() - sGraphSetTaskTime - D_8016A558;
 
-    osSetTimer(&timer, 140625000, 0, mq, 666);
+    osSetTimer(&timer, 140625000, 0, &gfxCtx->queue, (OSMesg)666);
 
-    osRecvMesg(mq, &msg, OS_MESG_BLOCK);
+    osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_BLOCK);
     osStopTimer(&timer);
+
     if (msg == (OSMesg)666) {
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
@@ -185,24 +181,25 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
-        if (D_8012D260) {
-            temp = D_8012D260;
+        if (D_8012D260 != 0) {
             HREG(80) = 7;
             HREG(81) = 1;
-            HREG(82) = 2;
-            D_8012D260 = temp;
-            Graph_DisassembleUCode(temp);
+            HREG(83) = 2;
+            D_8012D260 = D_8012D260;
+            Graph_DisassembleUCode(D_8012D260);
         }
         Fault_AddHungupAndCrashImpl("RCP is HUNG UP!!", "Oh! MY GOD!!");
     }
-    osRecvMesg(mq, &msg, OS_MESG_NOBLOCK);
+
+    osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_NOBLOCK);
+
     D_8012D260 = gfxCtx->workBuffer;
-    if (gfxCtx->callback) {
+    if (gfxCtx->callback != NULL) {
         gfxCtx->callback(gfxCtx, gfxCtx->callbackParam);
     }
 
     time = osGetTime();
-    if (D_8016A550) {
+    if (D_8016A550 != 0) {
         D_8016A558 = (D_8016A558 + time) - D_8016A550;
         D_8016A550 = time;
     }
@@ -218,18 +215,22 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->ucode_data = SysUcode_GetUCodeData();
     task->ucode_size = 0x1000;
     task->ucode_data_size = 0x800;
-    task->dram_stack = gGfxSPTaskStack;
+    task->dram_stack = (u64*)gGfxSPTaskStack;
     task->dram_stack_size = sizeof(gGfxSPTaskStack);
     task->output_buff = gGfxSPTaskOutputBuffer;
-    task->output_buff_size =
-        gGfxSPTaskYieldBuffer; //! @bug (?) should be sizeof(gGfxSPTaskYieldBuffer), probably a typo
-    task->data_ptr = gfxCtx->workBuffer;
+    task->output_buff_size = (u64*)((u8*)gGfxSPTaskOutputBuffer + sizeof(gGfxSPTaskOutputBuffer));
+    task->data_ptr = (u64*)gfxCtx->workBuffer;
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 828);
-    task->data_size = (u32)gfxCtx->work.p - (u32)gfxCtx->workBuffer;
-    Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 830);
+    {
+        Gfx* dispRefs[5];
+        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 828);
+        task->data_size = (u32)gfxCtx->work.p - (u32)gfxCtx->workBuffer;
+        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 830);
+    }
 
-    task->yield_data_ptr = gGfxSPTaskYieldBuffer;
+    { s32 pad2; } // Necessary to match stack usage
+
+    task->yield_data_ptr = (u64*)gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
     scTask->next = NULL;
@@ -240,10 +241,10 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         gfxCtx->fbIdx--;
     }
 
+    scTask->msgQ = &gfxCtx->queue;
     scTask->msg = NULL;
-    scTask->msgQ = mq;
 
-    cfb = sGraphCfbInfos + sGraphCfbInfoIdx++;
+    cfb = &sGraphCfbInfos[sGraphCfbInfoIdx++];
     cfb->fb1 = gfxCtx->curFrameBuffer;
     cfb->swapBuffer = gfxCtx->curFrameBuffer;
     cfb->viMode = gfxCtx->viMode;
@@ -255,61 +256,68 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     scTask->framebuffer = cfb;
     sGraphCfbInfoIdx = sGraphCfbInfoIdx % ARRAY_COUNT(sGraphCfbInfos);
+
+    if (1) {}
+
     gfxCtx->schedMsgQ = &gSchedContext.cmdQ;
 
     osSendMesg(&gSchedContext.cmdQ, scTask, OS_MESG_BLOCK);
-    Sched_SendEntryMsg(&gSchedContext); // osScKickEntryMsg
+    Sched_SendEntryMsg(&gSchedContext);
 }
-#else
-u32 D_8012D260 = 0;
-u32 sGraphCfbInfoIdx = 0;
-#pragma GLOBAL_ASM("asm/non_matchings/code/graph/Graph_TaskSet00.s")
-#endif
 
-// Very close to matching, stack usage
-#ifdef NON_MATCHING
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
-    u32 problem;       // 0xC4 -> 0xD4
-    Gfx* dispRefs[5];  // 0xB0 -> 0xC0
-    Gfx* dispRefs2[9]; // 0x8C -> 0x9C
-    Gfx* dispRefs3[9]; // 0x68 -> 0x78
-    u64 time;
-    GfxPool* pool; // 0x4C -> 0x6C
+    u32 problem;
 
     gameState->unk_A0 = 0;
     Graph_InitTHGA(gfxCtx);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 966);
-    gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 開始", 0);
-    gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 開始", 0);
-    gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 開始", 0);
-    gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
-    Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 975);
+    {
+        Gfx* dispRefs[5];
+        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 966);
+
+        gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 開始", 0);
+        gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 開始", 0);
+        gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 開始", 0);
+        gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
+
+        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 975);
+    }
 
     GameState_ReqPadData(gameState);
     GameState_Update(gameState);
 
-    Graph_OpenDisps(dispRefs2, gfxCtx, "../graph.c", 987);
-    gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 終了", 0);
-    gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 終了", 0);
-    gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 終了", 0);
-    gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 終了", 0);
-    Graph_CloseDisps(dispRefs2, gfxCtx, "../graph.c", 996);
+    {
+        Gfx* dispRefs[5];
+        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 987);
 
-    Graph_OpenDisps(dispRefs3, gfxCtx, "../graph.c", 999);
-    gSPBranchList(gfxCtx->work.p++, gfxCtx->polyOpaBuffer);
-    gSPBranchList(gfxCtx->polyOpa.p++, gfxCtx->polyXluBuffer);
-    gSPBranchList(gfxCtx->polyXlu.p++, gfxCtx->overlayBuffer);
-    gDPPipeSync(gfxCtx->overlay.p++);
-    gDPFullSync(gfxCtx->overlay.p++);
-    gSPEndDisplayList(gfxCtx->overlay.p++);
-    Graph_CloseDisps(dispRefs3, gfxCtx, "../graph.c", 1028);
+        gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 終了", 0);
+        gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 終了", 0);
+        gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 終了", 0);
+        gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 終了", 0);
+
+        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 996);
+    }
+
+    {
+        Gfx* dispRefs[5];
+        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 999);
+
+        gSPBranchList(gfxCtx->work.p++, gfxCtx->polyOpaBuffer);
+        gSPBranchList(gfxCtx->polyOpa.p++, gfxCtx->polyXluBuffer);
+        gSPBranchList(gfxCtx->polyXlu.p++, gfxCtx->overlayBuffer);
+        gDPPipeSync(gfxCtx->overlay.p++);
+        gDPFullSync(gfxCtx->overlay.p++);
+        gSPEndDisplayList(gfxCtx->overlay.p++);
+
+        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 1028);
+    }
 
     if (HREG(80) == 10 && HREG(93) == 2) {
         HREG(80) = 7;
         HREG(81) = -1;
         HREG(83) = HREG(92);
     }
+
     if (HREG(80) == 7 && HREG(81) != 0) {
         if (HREG(82) == 3) {
             Fault_AddClient(&sGraphUcodeFaultClient, Graph_UCodeFaultClient, gfxCtx->workBuffer, "do_count_fault");
@@ -332,20 +340,24 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
 
     problem = false;
-    pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
-    if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
-        /*! @bug (?) : devs might've forgotten "problem = true;" */
-        osSyncPrintf("%c", 7);
-        // Dynamic area head is destroyed
-        osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
-        Fault_AddHungupAndCrash("../graph.c", 1070);
-    }
-    if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
-        problem = true;
-        osSyncPrintf("%c", 7);
-        // Dynamic region tail is destroyed
-        osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
-        Fault_AddHungupAndCrash("../graph.c", 1076);
+
+    {
+        GfxPool* pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
+
+        if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
+            // @bug (?) : devs might've forgotten "problem = true;"
+            osSyncPrintf("%c", 7);
+            // Dynamic area head is destroyed
+            osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
+            Fault_AddHungupAndCrash("../graph.c", 1070);
+        }
+        if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
+            problem = true;
+            osSyncPrintf("%c", 7);
+            // Dynamic region tail is destroyed
+            osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
+            Fault_AddHungupAndCrash("../graph.c", 1076);
+        }
     }
 
     if (THGA_IsCrash(&gfxCtx->polyOpa)) {
@@ -374,18 +386,23 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
 
     func_800F3054();
-    time = osGetTime();
-    D_8016A538 = gRSPGFXTotalTime;
-    D_8016A530 = gRSPAudioTotalTime;
-    D_8016A540 = gRDPTotalTime;
-    gRSPGFXTotalTime = 0;
-    gRSPAudioTotalTime = 0;
-    gRDPTotalTime = 0;
 
-    if (sGraphUpdateTime != 0) {
-        D_8016A548 = time - sGraphUpdateTime;
+    {
+        OSTime time = osGetTime();
+        s32 pad[4];
+
+        D_8016A538 = gRSPGFXTotalTime;
+        D_8016A530 = gRSPAudioTotalTime;
+        D_8016A540 = gRDPTotalTime;
+        gRSPGFXTotalTime = 0;
+        gRSPAudioTotalTime = 0;
+        gRDPTotalTime = 0;
+
+        if (sGraphUpdateTime != 0) {
+            D_8016A548 = time - sGraphUpdateTime;
+        }
+        sGraphUpdateTime = time;
     }
-    sGraphUpdateTime = time;
 
     if (D_8012DBC0 && CHECK_PAD(gameState->input[0].press, Z_TRIG) &&
         CHECK_PAD(gameState->input[0].cur, L_TRIG | R_TRIG)) {
@@ -401,9 +418,6 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gameState->running = false;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/graph/Graph_Update.s")
-#endif
 
 void Graph_ThreadEntry(void* arg0) {
     GraphicsContext gfxCtx;

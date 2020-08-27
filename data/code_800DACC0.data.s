@@ -44,11 +44,8 @@ glabel gWaveSamples
     .word D_8012EE90
     .word D_8012EE90
 
-glabel D_8012F0B4
-    .incbin "baserom.z64", 0xBA6254, 0x200
-
-glabel D_8012F2B4
-    .incbin "baserom.z64", 0xBA6454, 0x200
+glabel gPitchBendFrequencyScale
+    .incbin "baserom.z64", 0xBA6254, 0x400
 
 glabel D_8012F4B4
     .incbin "baserom.z64", 0xBA6654, 0x200

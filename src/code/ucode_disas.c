@@ -161,36 +161,26 @@ void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
     }
 }
 
-#ifdef NON_MATCHING
-// s4/s6 swap (basically same diff as UCodeDisas_ParseRenderMode)
 void UCodeDisas_ParseGeometryMode(UCodeDisas* this, u32 mode) {
     u32 first = true;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sUCodeDisasGeometryModes); i++) {
-        if (sUCodeDisasGeometryModes[i].value & mode) {
-            u32 cond = first;
-            if (!cond) {
-                DISAS_LOG("|");
-            }
-            first = false;
-
-            DISAS_LOG("%s", sUCodeDisasGeometryModes[i].name);
+        if ((sUCodeDisasGeometryModes[i].value & mode) == 0) {
+            continue;
         }
+
+        if (first) {
+        } else {
+            DISAS_LOG("|");
+        }
+        first = false;
+
+        DISAS_LOG("%s", sUCodeDisasGeometryModes[i].name);
     }
 }
-#else
-void UCodeDisas_ParseGeometryMode(UCodeDisas* this, u32 mode);
-#pragma GLOBAL_ASM("asm/non_matchings/code/ucode_disas/UCodeDisas_ParseGeometryMode.s")
-#endif
 
-#ifdef NON_MATCHING
-// s1/s2 swap (basically same diff as UCodeDisas_ParseGeometryMode)
 void UCodeDisas_ParseRenderMode(UCodeDisas* this, u32 mode) {
-    s32 i;
-    s32 a;
-    s32 b;
-
     static F3dzexRenderMode sUCodeDisasRenderModeFlags[] = {
         F3DZEX_RENDERMODE(AA_EN, 0x8),
         F3DZEX_RENDERMODE(Z_CMP, 0x10),
@@ -209,7 +199,6 @@ void UCodeDisas_ParseRenderMode(UCodeDisas* this, u32 mode) {
         F3DZEX_RENDERMODE(ALPHA_CVG_SEL, 0x2000),
         F3DZEX_RENDERMODE(FORCE_BL, 0x4000),
     };
-
     static const char* D_8012DDDC[4][4] = {
         { "G_BL_CLR_IN", "G_BL_CLR_MEM", "G_BL_CLR_BL", "G_BL_CLR_FOG" },
         { "G_BL_A_IN", "G_BL_A_FOG", "G_BL_A_SHADE", "G_BL_0" },
@@ -217,18 +206,24 @@ void UCodeDisas_ParseRenderMode(UCodeDisas* this, u32 mode) {
         { "G_BL_1MA", "G_BL_A_MEM", "G_BL_1", "G_BL_0" },
     };
 
+    s32 i;
+    s32 a;
+    s32 b;
+
     for (i = 0; i < ARRAY_COUNT(sUCodeDisasRenderModeFlags); i++) {
-        if ((mode & sUCodeDisasRenderModeFlags[i].mask) == sUCodeDisasRenderModeFlags[i].value) {
-            DISAS_LOG("%s|", sUCodeDisasRenderModeFlags[i].name);
+        if ((mode & sUCodeDisasRenderModeFlags[i].mask) != sUCodeDisasRenderModeFlags[i].value) {
+            continue;
         }
+
+        DISAS_LOG("%s|", sUCodeDisasRenderModeFlags[i].name);
     }
 
     a = (mode >> 18) & 0x3333;
     b = (mode >> 16) & 0x3333;
 
-    if (1) {}
     // clang-format off
-    if (this->enableLog == 0) {} else { osSyncPrintf("\nGBL_c1(%s, %s, %s, %s)|", D_8012DDDC[0][a >> 12 & 3], D_8012DDDC[1][a >> 8 & 3], D_8012DDDC[2][a >> 4 & 3], D_8012DDDC[3][a >> 0 & 3]); }
+    if (this->enableLog == 0) {} else { osSyncPrintf("\nGBL_c1(%s, %s, %s, %s)|",
+        D_8012DDDC[0][a >> 12 & 3], D_8012DDDC[1][a >> 8 & 3], D_8012DDDC[2][a >> 4 & 3], D_8012DDDC[3][a >> 0 & 3]); }
     // clang-format on
 
     if (this->enableLog) {
@@ -236,33 +231,6 @@ void UCodeDisas_ParseRenderMode(UCodeDisas* this, u32 mode) {
                      D_8012DDDC[2][b >> 4 & 3], D_8012DDDC[3][b >> 0 & 3]);
     }
 }
-#else
-F3dzexRenderMode sUCodeDisasRenderModeFlags[] = {
-    F3DZEX_RENDERMODE(AA_EN, 0x8),
-    F3DZEX_RENDERMODE(Z_CMP, 0x10),
-    F3DZEX_RENDERMODE(Z_UPD, 0x20),
-    F3DZEX_RENDERMODE(IM_RD, 0x40),
-    F3DZEX_RENDERMODE(CLR_ON_CVG, 0x80),
-    F3DZEX_RENDERMODE(CVG_DST_CLAMP, 0x300),
-    F3DZEX_RENDERMODE(CVG_DST_WRAP, 0x300),
-    F3DZEX_RENDERMODE(CVG_DST_FULL, 0x300),
-    F3DZEX_RENDERMODE(CVG_DST_SAVE, 0x300),
-    F3DZEX_RENDERMODE(ZMODE_OPA, 0xC00),
-    F3DZEX_RENDERMODE(ZMODE_INTER, 0xC00),
-    F3DZEX_RENDERMODE(ZMODE_XLU, 0xC00),
-    F3DZEX_RENDERMODE(ZMODE_DEC, 0xC00),
-    F3DZEX_RENDERMODE(CVG_X_ALPHA, 0x1000),
-    F3DZEX_RENDERMODE(ALPHA_CVG_SEL, 0x2000),
-    F3DZEX_RENDERMODE(FORCE_BL, 0x4000),
-};
-const char* D_8012DDDC[4][4] = {
-    { "G_BL_CLR_IN", "G_BL_CLR_MEM", "G_BL_CLR_BL", "G_BL_CLR_FOG" },
-    { "G_BL_A_IN", "G_BL_A_FOG", "G_BL_A_SHADE", "G_BL_0" },
-    { "G_BL_CLR_IN", "G_BL_CLR_MEM", "G_BL_CLR_BL", "G_BL_CLR_FOG" },
-    { "G_BL_1MA", "G_BL_A_MEM", "G_BL_1", "G_BL_0" },
-};
-#pragma GLOBAL_ASM("asm/non_matchings/code/ucode_disas/UCodeDisas_ParseRenderMode.s")
-#endif
 
 void UCodeDisas_PrintVertices(UCodeDisas* this, Vtx* vtx, s32 count, s32 start) {
     s32 i;
