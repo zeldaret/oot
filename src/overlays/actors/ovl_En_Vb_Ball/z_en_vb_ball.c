@@ -18,11 +18,11 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B29158(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                    Vec3f* acceleration, f32 scale);
-void func_80B29230(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                    Vec3f* acceleration, f32 scale);
-void func_80B292D0(EnVbBall* this, GlobalContext* globalCtx);
+void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx);
 
 extern Gfx D_06009F20[];
 extern Gfx D_0600B2F8[];
@@ -86,7 +86,7 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B29158(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                    Vec3f* acceleration, f32 scale) {
     s16 i1;
     for (i1 = 0; i1 < 180; i1++, particle++) {
@@ -103,7 +103,7 @@ void func_80B29158(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* po
     }
 }
 
-void func_80B29230(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                    Vec3f* acceleration, f32 scale) {
     s16 i1;
     for (i1 = 0; i1 < 180; i1++, particle++) {
@@ -119,7 +119,7 @@ void func_80B29230(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* po
     }
 }
 
-void func_80B292D0(EnVbBall* this, GlobalContext* globalCtx) {
+void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
     f32 pad[2];
     f32 angle;
@@ -150,7 +150,7 @@ void func_80B292D0(EnVbBall* this, GlobalContext* globalCtx) {
                 sp80.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
                 sp80.y = this->actor.groundY + 10.0f;
                 sp80.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-                func_80B29230(globalCtx, bossFd->particles, &sp80, &sp98, &sp8C, Math_Rand_ZeroFloat(80.0f) + 200.0f);
+                EnVbBall_SpawnDust(globalCtx, bossFd->particles, &sp80, &sp98, &sp8C, Math_Rand_ZeroFloat(80.0f) + 200.0f);
             }
         }
     }
@@ -191,7 +191,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = -1.0f;
     func_8002D7EC(&this->actor);
     if (this->actor.params >= 0xC8) {
-        func_80B292D0(this, globalCtx);
+        EnVbBall_UpdateBones(this, globalCtx);
     } else {
         Math_SmoothScaleMaxF(&this->shadowOpacity, 175.0f, 1.0f, 40.0f);
         temp_f20 = this->actor.scale.y * 1700.0f;
@@ -246,7 +246,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     spC0.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
                     spC0.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
                     spC0.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
-                    func_80B29158(globalCtx, bossFd->particles, &spC0, &spD8, &spCC,
+                    EnVbBall_SpawnDebris(globalCtx, bossFd->particles, &spC0, &spD8, &spCC,
                                   (s16)Math_Rand_ZeroFloat(12.0f) + 0xF);
                 }
                 for (i1 = 0; i1 < 10; i1++) {
@@ -260,7 +260,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     sp9C.y = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.y;
                     sp9C.z = Math_Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
 
-                    func_80B29230(globalCtx, bossFd->particles, &sp9C, &spB4, &spA8,
+                    EnVbBall_SpawnDust(globalCtx, bossFd->particles, &sp9C, &spB4, &spA8,
                                   Math_Rand_ZeroFloat(100.0f) + 350.0f);
                 }
             } else {
@@ -275,7 +275,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     sp78.y = Math_Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.y;
                     sp78.z = Math_Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.z;
                     if (globalCtx) {} // Needed for matching.
-                    func_80B29158(globalCtx, bossFd->particles, &sp78, &sp90, &sp84,
+                    EnVbBall_SpawnDebris(globalCtx, bossFd->particles, &sp78, &sp90, &sp84,
                                   (s16)Math_Rand_ZeroFloat(12.0f) + 0xF);
                 }
                 Actor_Kill(&this->actor);
