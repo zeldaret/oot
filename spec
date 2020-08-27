@@ -751,8 +751,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka"
     include "build/src/overlays/actors/ovl_Bg_Haka/z_bg_haka.o"
-    include "build/data/overlays/actors/z_bg_haka.data.o"
-    include "build/data/overlays/actors/z_bg_haka.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka/ovl_Bg_Haka_reloc.o"
 endseg
 
 beginseg
