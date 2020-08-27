@@ -28,6 +28,11 @@ const ActorInit En_Goroiwa_InitVars = {
     (ActorFunc)EnGoroiwa_Draw,
 };
 */
+
+extern CollisionCheckInfoInit D_80A4DEB4;
+extern InitChainEntry D_80A4DEF8;
+extern f32 D_80A4DF10[];
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BCA0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD04.s")
@@ -74,7 +79,37 @@ const ActorInit En_Goroiwa_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D0FC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/EnGoroiwa_Init.s")
+void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnGoroiwa* this = THIS;
+    s32 params;
+
+    Actor_ProcessInitChain(&this->actor, &D_80A4DEF8);
+    func_80A4BD04(this, globalCtx);
+    params = this->actor.params & 0xFF;
+    if (params == 0xFF) {
+        // Translation: Error: Invalid arg_data
+        osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 0x409, this->actor.params);
+        Actor_Kill(&this->actor);
+        return;
+    }
+    if (globalCtx->setupPathList[params].count < 2) {
+        // Translation: Error: Invalid Path Data
+        osSyncPrintf("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 0x413);
+        Actor_Kill(&this->actor);
+        return;
+    }
+    func_80061ED4(&this->actor.colChkInfo, NULL, &D_80A4DEB4);
+    ActorShape_Init(&this->actor.shape, D_80A4DF10[(this->actor.params >> 10) & 1], ActorShadow_DrawFunc_Circle, 9.4f);
+    this->actor.shape.unk_14 = 200;
+    func_80A4BE10(this, globalCtx);
+    func_80A4C188(this, globalCtx);
+    func_80A4C1C4(this, globalCtx, 0);
+    func_80A4C264(this);
+    func_80A4BE54(this, globalCtx);
+    func_80A4D5E0(this);
+    // Translation: (Goroiwa)
+    osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params, this->actor.params & 0xFF, ((s32) this->actor.params >> 8) & 3, ((s32) this->actor.params >> 0xA) & 1, this->actor.initPosRot.rot.z & 1);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/EnGoroiwa_Destroy.s")
 
