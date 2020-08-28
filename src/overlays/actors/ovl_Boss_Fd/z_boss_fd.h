@@ -38,8 +38,8 @@ typedef struct BossFd {
     /* 0x0222 */ s16 actionState;
     /* 0x0224 */ s16 movementTimer;
     /* 0x0226 */ s16 varianceTimer;
-    /* 0x0228 */ s16 leadBodySegment;
-    /* 0x022A */ s16 leadManeSegment;
+    /* 0x0228 */ s16 leadBodySeg;
+    /* 0x022A */ s16 leadManeSeg;
     /* 0x022C */ s16 blinkTimer;
     /* 0x022E */ s16 roarTimer;
     /* 0x0230 */ s16 damageFlashTimer;
@@ -64,7 +64,7 @@ typedef struct BossFd {
     /* 0x0274 */ f32 headTex2Opacity;
     /* 0x0278 */ f32 targetLinkYOffset;
     /* 0x027C */ f32 unk_27C; // Something to do with how he moves while dropping rocks
-    /* 0x0280 */ f32 bodyOscillation;
+    /* 0x0280 */ f32 bodyPulse;
     /* 0x0284 */ f32 centerManeColor;
     /* 0x0288 */ f32 rightManeColor;
     /* 0x028c */ f32 leftManeColor;
@@ -85,8 +85,8 @@ typedef struct BossFd {
     /* 0x02D7 */ u8 faceExposed;
     /* 0x02D8 */ u8 handoffSignal;
    //* 0x02D9 */ char unk_2D9[3];
-    /* 0x02DC */ Vec3f bodySegmentsRot[100];
-    /* 0x078C */ Vec3f bodySegmentsPos[100];
+    /* 0x02DC */ Vec3f bodySegsRot[100];
+    /* 0x078C */ Vec3f bodySegsPos[100];
     /* 0x0C3C */ Vec3f unk_C3C[3]; //Probably his right arm rotations
     /* 0x0C60 */ char unk_C60[0xC];
     /* 0x0C6C */ Vec3f unk_C6C[3]; //Probably his left arm rotations

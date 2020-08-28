@@ -338,9 +338,9 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider1, &this->actor, &sJntSphInit, this->colliderItems);
 
     for (i = 0; i < 100; i++) {
-        this->bodySegmentsPos[i].x = this->actor.posRot.pos.x;
-        this->bodySegmentsPos[i].y = this->actor.posRot.pos.y;
-        this->bodySegmentsPos[i].z = this->actor.posRot.pos.z;
+        this->bodySegsPos[i].x = this->actor.posRot.pos.x;
+        this->bodySegsPos[i].y = this->actor.posRot.pos.y;
+        this->bodySegsPos[i].z = this->actor.posRot.pos.z;
         if (i < 30) {
             this->centerManePos[i].x = this->actor.posRot.pos.x;
             this->centerManePos[i].y = this->actor.posRot.pos.y;
@@ -455,7 +455,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     dPerp = sqrtf(dx2 + dz2);
     pitchToTarget = (s16)(Math_atan2f(dy, dPerp) * 10430.378f);
     osSyncPrintf("MODE %d\n", this->actionState);
-    Math_SmoothScaleMaxF(&this->bodyOscillation, 0.1f, 1.0f, 0.02f);
+    Math_SmoothScaleMaxF(&this->bodyPulse, 0.1f, 1.0f, 0.02f);
 
     /****************************************************************************************
      *                                   Boss Intro Cutscene                                *
@@ -902,7 +902,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             this->flightWobbleAmplitude = 200.0f;
             this->flightWobbleRate = 1000.0f;
             this->maxTurnRate = 10000.0f;
-            Math_SmoothScaleMaxF(&this->bodyOscillation, 0.3f, 1.0f, 0.05f);
+            Math_SmoothScaleMaxF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
             if (this->animationTimers[1] == 0) {
                 this->actionState = 0xC9;
                 this->animationTimers[0] = 0x1E;
@@ -915,7 +915,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             this->targetPosition.x = 0.0f;
             this->targetPosition.z = 0.0f;
             this->maxTurnRate = 2000.0f;
-            Math_SmoothScaleMaxF(&this->bodyOscillation, 0.3f, 1.0f, 0.05f);
+            Math_SmoothScaleMaxF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
             if ((this->animationTimers[0] == 0) && ((this->movementTimer & 3) == 0)) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
@@ -945,10 +945,10 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
 
                 for (i1 = 0; i1 < sp150; i1++) {
                     temp_t1_2 = (s16)Math_Rand_ZeroFloat(99.9f);
-                    sp188.x = this->bodySegmentsPos[temp_t1_2].x;
-                    sp188.y = this->bodySegmentsPos[temp_t1_2].y - 10.0f;
+                    sp188.x = this->bodySegsPos[temp_t1_2].x;
+                    sp188.y = this->bodySegsPos[temp_t1_2].y - 10.0f;
                     sp164.y = 0.03f;
-                    sp188.z = this->bodySegmentsPos[temp_t1_2].z;
+                    sp188.z = this->bodySegsPos[temp_t1_2].z;
                     func_80029DBC(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 0x28, 0x64);
                     for (i2 = 0; i2 < 15; i2++) {
                         sp170.x = Math_Rand_CenteredFloat(20.0f);
@@ -1086,23 +1086,23 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
         }
         func_8002D7EC(&this->actor);
 
-        this->leadBodySegment++;
-        if (this->leadBodySegment >= 0x64) {
-            this->leadBodySegment = 0;
+        this->leadBodySeg++;
+        if (this->leadBodySeg >= 0x64) {
+            this->leadBodySeg = 0;
         }
-        temp_s0_4 = this->leadBodySegment;
-        this->bodySegmentsPos[temp_s0_4].x = this->actor.posRot.pos.x;
-        this->bodySegmentsPos[temp_s0_4].y = this->actor.posRot.pos.y;
-        this->bodySegmentsPos[temp_s0_4].z = this->actor.posRot.pos.z;
-        this->bodySegmentsRot[temp_s0_4].x = (this->actor.posRot.rot.x / 32768.0f) * 3.1415927f;
-        this->bodySegmentsRot[temp_s0_4].y = (this->actor.posRot.rot.y / 32768.0f) * 3.1415927f;
-        this->bodySegmentsRot[temp_s0_4].z = (this->actor.posRot.rot.z / 32768.0f) * 3.1415927f;
+        temp_s0_4 = this->leadBodySeg;
+        this->bodySegsPos[temp_s0_4].x = this->actor.posRot.pos.x;
+        this->bodySegsPos[temp_s0_4].y = this->actor.posRot.pos.y;
+        this->bodySegsPos[temp_s0_4].z = this->actor.posRot.pos.z;
+        this->bodySegsRot[temp_s0_4].x = (this->actor.posRot.rot.x / 32768.0f) * 3.1415927f;
+        this->bodySegsRot[temp_s0_4].y = (this->actor.posRot.rot.y / 32768.0f) * 3.1415927f;
+        this->bodySegsRot[temp_s0_4].z = (this->actor.posRot.rot.z / 32768.0f) * 3.1415927f;
 
-        this->leadManeSegment++;
-        if (this->leadManeSegment >= 0x1E) {
-            this->leadManeSegment = 0;
+        this->leadManeSeg++;
+        if (this->leadManeSeg >= 0x1E) {
+            this->leadManeSeg = 0;
         }
-        temp_s0_5 = this->leadManeSegment;
+        temp_s0_5 = this->leadManeSeg;
         this->centerManeScale[temp_s0_5] = (Math_Sins(((this->movementTimer * 5596.0f))) * 0.3f) + 1.0f;
         this->rightManeScale[temp_s0_5] = (Math_Sins(((this->movementTimer * 5496.0f))) * 0.3f) + 1.0f;
         this->leftManeScale[temp_s0_5] = (Math_Coss(((this->movementTimer * 5696.0f))) * 0.3f) + 1.0f;
@@ -1203,15 +1203,15 @@ void func_808CDE30(BossFd* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // Stack and regalloc problems. FPRs seem to be a big cause of it, due to the large number of float literals.
-static Vec3f D_808D1A40;
-static Vec3f D_808D1A4C;
+// static Vec3f D_808D1A40;
+// static Vec3f D_808D1A4C;
 static Color_RGBA8_n D_808D1A58;
 static Color_RGBA8_n D_808D1A5C;
 void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
 
     s16 sp106 = 0;
-    s16 spE8[] = { 0, 1, 2, 2, 1 }; // D_808D1A34
     s16 i1;
+    s16 spE8[] = { 0, 1, 2, 2, 1 }; // D_808D1A34
     f32 phi_f2;
     f32 phi_f0_2;
     f32 phi_f0;
@@ -1219,12 +1219,6 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
     Vec3f spD0;
     Vec3f spC4;
     Vec3f spB8;
-    f32 spB0;
-    f32 spAC;
-    Vec3f spA0;
-    Vec3f sp94;
-    Vec3f sp88;
-    Vec3f sp7C;
 
     if (this->fogMode == 0) {
         globalCtx->envCtx.unk_BF = 0;
@@ -1298,8 +1292,8 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(0x30D0, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         if (this->holeSplashTimer != 0) {
             this->holeSplashTimer--;
-            if ((this->actor.colChkInfo.health == 0) || (this->introState2 != 6) ||
-                (this->actor.posRot.rot.x >= 0x3001)) {
+            if ((this->actor.colChkInfo.health == 0) ||
+                ((this->introState2 == 6) && (this->actor.posRot.rot.x >= 0x3001))) {
                 if ((u8)this->fogMode == 0) {
                     globalCtx->envCtx.unk_D8 = 0.0f;
                 }
@@ -1307,15 +1301,17 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
             }
             for (i1 = 0; i1 < 5; i1++) {
                 spD0.x = Math_Rand_CenteredFloat(20.0f);
-                spD0.y = Math_Rand_ZeroFloat(5.0f) + 4.0f;
+                if (1) {
+                    spD0.y = Math_Rand_ZeroFloat(5.0f) + 4.0f;
+                }
                 spD0.z = Math_Rand_CenteredFloat(20.0f);
 
+                spC4.x = spC4.z = 0.0f;
+
                 spC4.y = -0.3f;
-                spC4.x = 0.0f;
-                spC4.z = 0.0f;
-                spB8.x = (spD0.x * 20.0f) / 10.0f + this->holePosition.x;
+                spB8.x = (spD0.x * 20.0f) / 10 + this->holePosition.x;
                 spB8.y = 100.0f;
-                spB8.z = (spD0.z * 20.0f) / 10.0f + this->holePosition.z;
+                spB8.z = (spD0.z * 20.0f) / 10 + this->holePosition.z;
 
                 func_8002836C(globalCtx, &spB8, &spD0, &spC4, &D_808D1A58, &D_808D1A5C,
                               (s16)Math_Rand_ZeroFloat(150.0f) + 0x320, 0xA, (s16)Math_Rand_ZeroFloat(5.0f) + 0x11);
@@ -1325,18 +1321,19 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
                 spD0.x = Math_Rand_CenteredFloat(10.0f);
                 spD0.y = Math_Rand_ZeroFloat(3.0f) + 3.0f;
                 spD0.z = Math_Rand_CenteredFloat(10.0f);
+
+                spC4.x = spC4.z = 0.0f;
+
                 spC4.y = -0.3f;
-                spC4.x = 0.0f;
-                spC4.z = 0.0f;
-                spB8.x = this->holePosition.x + (spD0.x * 50.0f) / 10.0f;
+                spB8.x = (spD0.x * 50.0f) / 10 + this->holePosition.x;
                 spB8.y = 100.0f;
-                spB8.z = this->holePosition.z + (spD0.z * 50.0f) / 10.0f;
+                spB8.z = (spD0.z * 50.0f) / 10 + this->holePosition.z;
                 func_8002836C(globalCtx, &spB8, &spD0, &spC4, &D_808D1A58, &D_808D1A5C, 0x1F4, 0xA, 0x14);
             }
         }
 
         for (i1 = 0; i1 < 8; i1++) {
-            spD0.x = Math_Rand_CenteredFloat(20.0f);
+            spD0.x = Math_Rand_CenteredFloat(20);
             spD0.y = Math_Rand_ZeroFloat(10.0f);
             spD0.z = Math_Rand_CenteredFloat(20.0f);
             spC4.y = 0.4f;
@@ -1353,25 +1350,29 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
         sp106 = (this->fireBreathTimer >= 6) ? 0xFF : this->fireBreathTimer * 0x32;
     }
     if (sp106 != 0) {
-        spA0 = D_808D1A40;
-        sp88 = D_808D1A4C;
+        f32 spB0;
+        f32 spAC;
+        Vec3f spA0 = { 0.0f, 0.0f, 0.0f };
+        Vec3f sp94;
+        Vec3f sp88 = { 0.0f, 0.0f, 0.0f };
+        Vec3f sp7C;
+        // Vec3f* sp6C;
         this->fogMode = 2;
         spA0.z = 30.0f;
 
         Audio_PlaySoundGeneral(0x30DB, &D_808D1A28, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-
         sp7C = this->fireBreathSpawnPoint;
         spAC = (this->actor.posRot.rot.y / 32768.0f) * 3.1415927f;
         spB0 = (((-this->actor.posRot.rot.x) / 32768.0f) * 3.1415927f) + 0.3f;
         Matrix_RotateY(spAC, 0);
         Matrix_RotateX(spB0, 1);
         Matrix_MultVec3f(&spA0, &sp94);
-        func_808CAFF4(this->particles, &sp7C, &sp94, &sp88, 300.0f + 50.0f * Math_Sins(this->varianceTimer * 0x2000),
+        func_808CAFF4(this->particles, &sp7C, &sp94, &sp88, 50.0f * Math_Sins(this->varianceTimer * 0x2000) + 300.f,
                       sp106, this->actor.posRot.rot.y);
         sp7C.x += sp94.x * 0.5f;
         sp7C.y += sp94.y * 0.5f;
         sp7C.z += sp94.z * 0.5f;
-        func_808CAFF4(this->particles, &sp7C, &sp94, &sp88, 300.0f + 50.0f * Math_Sins(this->varianceTimer * 0x2000),
+        func_808CAFF4(this->particles, &sp7C, &sp94, &sp88, 50.0f * Math_Sins(this->varianceTimer * 0x2000) + 300.0f,
                       sp106, this->actor.posRot.rot.y);
         spA0.x = 0.0f;
         spA0.z = 0.0f;
@@ -1383,10 +1384,11 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
             Matrix_RotateY(spAC, 0);
             Matrix_RotateX(spB0, 1);
             Matrix_MultVec3f(&spA0, &sp94);
-            sp88.x = (sp94.x * -10.0f) / 100.0f;
-            sp88.y = (sp94.y * -10.0f) / 100.0f;
-            sp88.z = (sp94.z * -10.0f) / 100.0f;
-            func_808CADC0(this->particles, &sp7C, &sp94, &sp88, (s16)Math_Rand_ZeroFloat(2.0f) + 8);
+            sp88.x = (sp94.x * -10.0f) / 100;
+            sp88.y = (sp94.y * -10.0f) / 100;
+            sp88.z = (sp94.z * -10.0f) / 100;
+            func_808CADC0(this->particles, &this->fireBreathSpawnPoint, &sp94, &sp88,
+                          (s16)Math_Rand_ZeroFloat(2.0f) + 8);
         }
     }
 
@@ -1397,8 +1399,8 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
         this->actor.flags |= 1;
     }
 }
-static Vec3f D_808D1A40 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_808D1A4C = { 0.0f, 0.0f, 0.0f };
+// static Vec3f D_808D1A40 = { 0.0f, 0.0f, 0.0f };
+// static Vec3f D_808D1A4C = { 0.0f, 0.0f, 0.0f };
 static Color_RGBA8_n D_808D1A58 = { 0xFF, 0xFF, 0x00, 0xFF };
 static Color_RGBA8_n D_808D1A5C = { 0xFF, 0x0A, 0x00, 0xFF };
 #else
@@ -1866,7 +1868,7 @@ void func_808D02DC(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec3f
     }
 
     for (phi_s2 = 0; phi_s2 < spC2; phi_s2++) {
-        temp_s4 = (this->leadManeSegment - (phi_s2 * 2) + 0x1E) % 0x1E;
+        temp_s4 = (this->leadManeSeg - (phi_s2 * 2) + 0x1E) % 0x1E;
 
         if (mode == 0) {
             spB4.x = spB4.z = 0.0f;
@@ -1955,48 +1957,18 @@ Gfx* D_808D1BC4[] = { D_060079A0, D_06007AC0, D_06007B70, D_06007BD0, D_06007C30
                       D_06007CF0, D_06007D50, D_06007DB0, D_06007E10, D_06007E70, D_06007ED0,
                       D_06007F30, D_06007F90, D_06007FF0, D_06008038, D_06008080, D_060080D8 };
 
-Vec3f D_808D1C0C = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808D1C18 = { 0.0f, 1700.0f, 7000.0f };
-Vec3f D_808D1C24 = { -1000.0f, 700.0f, 7000.0f };
-
-#ifdef NON_MATCHING
-// Regalloc and stack issues.
 void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Mtx* tempMat = Graph_Alloc(gfxCtx, 0x480);
-    Gfx* disprefs[4];
-    s16 temp_v0_16;
-    s16 temp_v0_5;
-    s16 temp_v0_6;
-    s16 temp_v0_8;
-    s16 phi_s1;
+    s16 segIndex;
+    s16 i1;
     f32 phi_f20_2;
-    EnVbBall* newActor;
-    MtxF spFC;
-    Vec3f spF0;
-    Vec3f spE4;
-    Vec3s spDC;
-    f32 spD4;
-    Vec3f spB0;
-    Vec3f spA4;
-    f32 sp84;
+    Mtx* tempMat = Graph_Alloc(globalCtx->state.gfxCtx, 0x480);
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* disprefs[4];
 
     Graph_OpenDisps(disprefs, globalCtx->state.gfxCtx, "../z_boss_fd.c", 0x11ED);
     if (this->skinSegments != 0) {
-        // gfxCtx->polyOpa.p++;
-        // gfxCtx->polyOpa.p->words.w0 = 0xDB060024;
-        // temp_a0 = D_808D1BB8[this->eyeState];
-        // gfxCtx->polyOpa.p->words.w1 = ((temp_a0 & 0xFFFFFF) + gSegments[(temp_a0 * 0x10) >> 0x1C]) + 0x80000000;
         gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_808D1BB8[this->eyeState]));
     }
-    // gfxCtx->polyOpa.p++;
-    // gfxCtx->polyOpa.p->words.w0 = 0xDB060020;
-    // gfxCtx->polyOpa.p->words.w1 = Gfx_TwoTexScroll(gfxCtx, 0, this->bodyTex1Scroll, this->bodyTex1Rot, 0x20, 0x20, 1,
-    // this->bodyTex2Scroll, this->bodyTex2Rot, 0x20, 0x20); gfxCtx->polyOpa.p++; gfxCtx->polyOpa.p->words.w1 = -1;
-    // gfxCtx->polyOpa.p->words.w0 = 0xFA000000;
-    // gfxCtx->polyOpa.p++;
-    // gfxCtx->polyOpa.p->words.w0 = 0xFB000000;
-    // gfxCtx->polyOpa.p->words.w1 = ((u8) this->bodyTex2Opacity & 0xFF) | -0x100;
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->bodyTex1Scroll, (s16)this->bodyTex1Rot, 0x20,
                                 0x20, 1, (s16)this->bodyTex2Scroll, (s16)this->bodyTex2Rot, 0x20, 0x20));
@@ -2005,117 +1977,99 @@ void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
 
     osSyncPrintf("LH\n");
     Matrix_Push();
-    temp_v0_5 = (D_808D1AC0[2] + this->leadBodySegment) % 0x64;
-    Matrix_Translate(this->bodySegmentsPos[temp_v0_5].x, this->bodySegmentsPos[temp_v0_5].y,
-                     this->bodySegmentsPos[temp_v0_5].z, 0);
-    Matrix_RotateY(this->bodySegmentsRot[temp_v0_5].y, 1);
-    Matrix_RotateX(-this->bodySegmentsRot[temp_v0_5].x, 1);
+    segIndex = (D_808D1AC0[2] + this->leadBodySeg) % 100;
+    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z, 0);
+    Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
+    Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
     Matrix_Translate(-13.0f, -5.0f, 13.0f, 1);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
     SkelAnime_Draw(globalCtx, this->skelAnime2.skeleton, this->skelAnime2.limbDrawTbl, &func_808D00A4, 0, &this->actor);
     Matrix_Pull();
     osSyncPrintf("RH\n");
     Matrix_Push();
-    temp_v0_6 = (D_808D1AC0[2] + this->leadBodySegment) % 0x64;
-    Matrix_Translate(this->bodySegmentsPos[temp_v0_6].x, this->bodySegmentsPos[temp_v0_6].y,
-                     this->bodySegmentsPos[temp_v0_6].z, 0);
-    Matrix_RotateY(this->bodySegmentsRot[temp_v0_6].y, 1);
-    Matrix_RotateX(-this->bodySegmentsRot[temp_v0_6].x, 1);
+    segIndex = (D_808D1AC0[2] + this->leadBodySeg) % 100;
+    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z, 0);
+    Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
+    Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
     Matrix_Translate(13.0f, -5.0f, 13.0f, 1);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
     SkelAnime_Draw(globalCtx, this->skelAnime3.skeleton, this->skelAnime3.limbDrawTbl, &func_808D01C0, 0, &this->actor);
     Matrix_Pull();
     osSyncPrintf("BD\n");
-
-    // gfxCtx->polyOpa.p++;
-    // gfxCtx->polyOpa.p->words.w1 = tempMat;
-    // gfxCtx->polyOpa.p->words.w0 = 0xDB060034;
     gSPSegment(gfxCtx->polyOpa.p++, 0x0D, tempMat);
 
     Matrix_Push();
-    for (phi_s1 = 0; phi_s1 < 0x12; phi_s1++, tempMat++) {
-        temp_v0_8 = (D_808D1AC0[phi_s1 + 1] + this->leadBodySegment) % 0x64;
-        Matrix_Translate(this->bodySegmentsPos[temp_v0_8].x, this->bodySegmentsPos[temp_v0_8].y,
-                         this->bodySegmentsPos[temp_v0_8].z, 0);
-        Matrix_RotateY(this->bodySegmentsRot[temp_v0_8].y, 1);
-        Matrix_RotateX(-this->bodySegmentsRot[temp_v0_8].x, 1);
+    for (i1 = 0; i1 < 0x12; i1++, tempMat++) {
+        segIndex = (D_808D1AC0[i1 + 1] + this->leadBodySeg) % 100;
+        Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
+                         0);
+        Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
+        Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
         Matrix_Translate(0.0f, 0.0f, 35.0f, 1);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
-        if (phi_s1 < this->skinSegments) {
-            Matrix_Scale(
-                (this->bodyOscillation * Math_Sins((this->leadBodySegment * 5000.0f) + phi_s1 * 7000.0f)) + 1.0f,
-                (this->bodyOscillation * Math_Sins((this->leadBodySegment * 5000.0f) + phi_s1 * 7000.0f)) + 1.0f, 1.0f,
-                1);
+        if (i1 < this->skinSegments) {
+            Matrix_Scale(1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) *
+                                 *((f32*)this + 0xA0)), // this->bodyPulse
+                         1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) *
+                                 *((f32*)this + 0xA0)), // this->bodyPulse
+                         1.0f, 1);
             Matrix_RotateY(1.5707964f, 1);
             Matrix_ToMtx(tempMat, "../z_boss_fd.c", 0x126F);
-            // gfxCtx->polyOpa.p++;
-            // gfxCtx->polyOpa.p->words.w1 = tempMat;
-            // gfxCtx->polyOpa.p->words.w0 = 0xDA380003;
-            // gfxCtx->polyOpa.p++;
-            // gfxCtx->polyOpa.p->words.w0 = 0xDE000000;
-            // gfxCtx->polyOpa.p->words.w1 = D_808D1BC4[phi_s1];
             gSPMatrix(gfxCtx->polyOpa.p++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gfxCtx->polyOpa.p++, D_808D1BC4[phi_s1]);
-
+            gSPDisplayList(gfxCtx->polyOpa.p++, D_808D1BC4[i1]);
         } else {
-            spF0 = D_808D1C0C;
-            if (this->bodyFallApart[phi_s1] < 2) {
+            MtxF spFC;
+            Vec3f spF0 = { 0.0f, 0.0f, 0.0f };
+            Vec3f spE4;
+            Vec3s spDC;
+            f32 spD8;
+            if (this->bodyFallApart[i1] < 2) {
+                f32 spD4 = 0.1f;
+                phi_f20_2 = 0.1f;
 
                 Matrix_Translate(0.0f, 0.0f, -1100.0f, 1);
                 Matrix_RotateY(-3.1415927f, 1);
-                spD4 = 0.1f;
-                if (phi_s1 >= 0xE) {
-                    sp84 = 1.0f - ((phi_s1 - 0xE) * 0.2f);
+                if (i1 >= 14) {
+                    f32 sp84 = 1.0f - ((i1 - 14) * 0.2f);
                     Matrix_Scale(sp84, sp84, 1.0f, 1);
-                    spD4 = 0.1f * sp84;
+                    phi_f20_2 = spD4 = 0.1f * sp84;
                 }
                 Matrix_Scale(0.1f, 0.1f, 0.1f, 1);
-                // gfxCtx->polyOpa.p++;
-                // gfxCtx->polyOpa.p->words.w0 = 0xDA380003;
-                // gfxCtx->polyOpa.p->words.w1 = Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 0x12A0);
-                // gfxCtx->polyOpa.p++;
-                // gfxCtx->polyOpa.p->words.w0 = 0xDE000000;
-                // gfxCtx->polyOpa.p->words.w1 = sp80;
                 gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 0x12A0),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(gfxCtx->polyOpa.p++, D_0600B2F8);
-                if (this->bodyFallApart[phi_s1] == 1) {
-                    this->bodyFallApart[phi_s1] = 2;
+
+                if (this->bodyFallApart[i1] == 1) {
+                    EnVbBall* newActor;
+                    this->bodyFallApart[i1] = 2;
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
                     func_800D20CC(&spFC, &spDC, 0);
                     newActor =
                         (EnVbBall*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
-                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, phi_s1 + 0xC8);
+                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i1 + 0xC8);
 
-                    newActor->actor.scale.x = this->actor.scale.x * spD4;
+                    newActor->actor.scale.x = this->actor.scale.x * phi_f20_2;
                     newActor->actor.scale.y = this->actor.scale.y * spD4;
                     newActor->actor.scale.z = this->actor.scale.z * 0.1f;
                 }
             }
         }
-        if (phi_s1 > 0) {
-            func_800628A4(phi_s1 + 1, &this->collider1);
+        if (i1 > 0) {
+            func_800628A4(i1 + 1, &this->collider1);
         }
     }
     Matrix_Pull();
     osSyncPrintf("BH\n");
-    // gfxCtx->polyOpa.p++;
-    // gfxCtx->polyOpa.p->words.w1 = 0;
-    // gfxCtx->polyOpa.p->words.w0 = 0xE7000000;
-    // gfxCtx->polyOpa.p++;
-    // gfxCtx->polyOpa.p->words.w0 = 0xFB000000;
-    // gfxCtx->polyOpa.p->words.w1 = (u8) this->headTex2Opacity| -0x100;
 
     gDPPipeSync(gfxCtx->polyOpa.p++);
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s32)this->headTex2Opacity);
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)this->headTex2Opacity);
     Matrix_Push();
-    phi_f20_2 = (this->actionState >= 0xCC) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f);
-    temp_v0_16 = (D_808D1AC0[0] + this->leadBodySegment) % 0x64;
-    Matrix_Translate(this->bodySegmentsPos[temp_v0_16].x, this->bodySegmentsPos[temp_v0_16].y,
-                     this->bodySegmentsPos[temp_v0_16].z, 0);
-    Matrix_RotateY(this->bodySegmentsRot[temp_v0_16].y, 1);
-    Matrix_RotateX(-this->bodySegmentsRot[temp_v0_16].x, 1);
+    phi_f20_2 = (this->actionState >= 204) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f);
+    segIndex = (D_808D1AC0[0] + this->leadBodySeg) % 100;
+    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z, 0);
+    Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
+    Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
     Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * 3.1415927f, 1);
     Matrix_Translate(0.0f, 0.0f, phi_f20_2, 1);
     Matrix_Push();
@@ -2128,42 +2082,29 @@ void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
     SkelAnime_Draw(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl, &func_808D07A4, &func_808D08A4,
                    &this->actor);
     osSyncPrintf("SK\n");
-    spB0 = D_808D1C18;
-    spA4 = D_808D1C24;
-    func_80093D84(globalCtx->state.gfxCtx);
-    // gfxCtx->polyXlu.p++;
-    // gfxCtx->polyOpa.p->words.w0 = 0xDE000000;
-    // gfxCtx->polyOpa.p->words.w1 = 0x6009168;
-    // gfxCtx->polyXlu.p++;
-    // gfxCtx->polyXlu.p->words.w0 = 0xFA000000;
-    // gfxCtx->polyXlu.p->words.w1 = ((( (u8) this->centerManeColor & 0xFF) << 0x10) | 0xFF000000) | 0xFF;
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06009168);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u8)this->centerManeColor, 0x00, 0xFF);
-    Matrix_Push();
-    Matrix_MultVec3f(&spB0, &this->centerManeHead);
-    func_808D02DC(globalCtx, this, this->centerManePos, this->fireManeRot, this->centerManeScale, 0);
-    Matrix_Pull();
-    // gfxCtx->polyXlu.p++;
-    // gfxCtx->polyOpa.p->words.w0 = 0xFA000000;
-    // gfxCtx->polyOpa.p->words.w1 = ((( (u8) this->rightManeColor & 0xFF) << 0x10) | 0xFF000000) | 0xFF;
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u8)this->rightManeColor, 0x00, 0xFF);
-    Matrix_Push();
-    Matrix_MultVec3f(&spA4, &this->rightManeHead);
-    func_808D02DC(globalCtx, this, this->rightManePos, this->fireManeRot, this->rightManeScale, 1);
-    Matrix_Pull();
-    // gfxCtx->polyOpa.p++;
-    // gfxCtx->polyOpa.p->words.w0 = 0xFA000000;
-    // gfxCtx->polyOpa.p->words.w1 = ((((u8) this->leftManeColor & 0xFF) << 0x10) | 0xFF000000) | 0xFF;
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u8)this->leftManeColor, 0x00, 0xFF);
-    Matrix_Push();
-    spA4.x *= -1.0f;
-    Matrix_MultVec3f(&spA4, &this->leftManeHead);
-    func_808D02DC(globalCtx, this, this->leftManePos, this->fireManeRot, this->leftManeScale, 2);
-    Matrix_Pull();
-    Matrix_Pull();
-    osSyncPrintf("END\n");
-    Graph_CloseDisps(disprefs, globalCtx->state.gfxCtx, "../z_boss_fd.c", 0x137B);
+    {
+        Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
+        Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
+        func_80093D84(globalCtx->state.gfxCtx);
+        gSPDisplayList(gfxCtx->polyXlu.p++, D_06009168);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, this->centerManeColor, 0x00, 0xFF);
+        Matrix_Push();
+        Matrix_MultVec3f(&spB0, &this->centerManeHead);
+        func_808D02DC(globalCtx, this, this->centerManePos, this->fireManeRot, this->centerManeScale, 0);
+        Matrix_Pull();
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, this->rightManeColor, 0x00, 0xFF);
+        Matrix_Push();
+        Matrix_MultVec3f(&spA4, &this->rightManeHead);
+        func_808D02DC(globalCtx, this, this->rightManePos, this->fireManeRot, this->rightManeScale, 1);
+        Matrix_Pull();
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, this->leftManeColor, 0x00, 0xFF);
+        Matrix_Push();
+        spA4.x *= -1.0f;
+        Matrix_MultVec3f(&spA4, &this->leftManeHead);
+        func_808D02DC(globalCtx, this, this->leftManePos, this->fireManeRot, this->leftManeScale, 2);
+        Matrix_Pull();
+        Matrix_Pull();
+        osSyncPrintf("END\n");
+        Graph_CloseDisps(disprefs, globalCtx->state.gfxCtx, "../z_boss_fd.c", 0x137B);
+    }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd/func_808D08F8.s")
-#endif
