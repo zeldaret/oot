@@ -9,6 +9,6 @@
 
 .balign 16
 
-glabel D_808A80A0
- .space 0x10
+# glabel D_808A80A0
+ # .space 0x10
 

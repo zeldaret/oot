@@ -616,6 +616,7 @@ void DynaPolyInfo_SetActorMove(DynaPolyActor* actor, DynaPolyMoveFlag flags);
 void func_800434A0(DynaPolyActor* dynaActor);
 void func_800434A8(DynaPolyActor* actor);
 void func_80043538(DynaPolyActor* dynaActor);
+s32 func_800435D8(GlobalContext* globalCtx, DynaPolyActor* actor, s8 arg2, s8 arg3, s8 arg4);
 s32 func_8004356C(DynaPolyActor* dynaActor);
 f32 func_800437F0(f32, f32);
 // ? func_8004389C(?);
