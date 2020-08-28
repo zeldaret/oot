@@ -3,6 +3,7 @@ glabel D_808AC56C
 	.asciz "-----バンク切り換え成功！！\n"
 	.balign 4
 
+
 .text
 glabel func_808AC2BC
 /* 0017C 808AC2BC 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
