@@ -12,7 +12,8 @@ typedef struct EnGoroiwa {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnGoroiwaActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph collider;
-    /* 0x0170 */ char unk_170[0x58];
+    /* 0x0170 */ ColliderJntSphItem colliderItem;
+    /* 0x01B0 */ char unk_1B0[0x18];
     /* 0x01C8 */ s16 timer;
     /* 0x01CA */ char unk_1CA[0x09];
     /* 0x01D3 */ u8 unk_1D3;

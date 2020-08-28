@@ -31,6 +31,7 @@ const ActorInit En_Goroiwa_InitVars = {
 };
 */
 
+extern ColliderJntSphInit D_80A4DEA4;
 extern CollisionCheckInfoInit D_80A4DEB4;
 extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
@@ -39,7 +40,16 @@ extern Gfx D_060006B0[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BCA0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD04.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD04.s")
+
+void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80A4DEA4, &this->colliderItem);
+    func_80A4BCA0(this);
+    this->collider.list->dim.worldSphere.radius = 0x3A;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD70.s")
 
