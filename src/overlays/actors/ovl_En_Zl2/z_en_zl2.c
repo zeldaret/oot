@@ -412,7 +412,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_t2;
     s32 temp_t3;
     s32 phi_v0;
-    s32 temp_1AC;
     s32 index1AC;
     s32 phi_t5;
 
@@ -422,7 +421,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
         temp_t2 = temp_t0;
         temp_t3 = this->unk_1AC[arg2];
         phi_v0 = temp_t3;
-        temp_1AC = phi_v0;
         temp_t3 = arg1 - this->unk_20C[arg2];
 
         if (arg2 == 1) {
