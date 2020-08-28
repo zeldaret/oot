@@ -1,4 +1,4 @@
-.SUFFIXES:
+MAKEFLAGS += --no-builtin-rules
 
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
@@ -6,6 +6,8 @@
 COMPARE ?= 1
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
 NON_MATCHING ?= 0
+# If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
+ORIG_COMPILER ?= 0
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
@@ -24,13 +26,13 @@ endif
 CC       := tools/ido_recomp/linux/7.1/cc
 CC_OLD   := tools/ido_recomp/linux/5.3/cc
 
-# if OOT_QEMU is set, check that either QEMU_IRIX is set or qemu-irix package installed
-ifdef OOT_QEMU
+# if ORIG_COMPILER is 1, check that either QEMU_IRIX is set or qemu-irix package installed
+ifeq ($(ORIG_COMPILER),1)
   ifndef QEMU_IRIX
-	QEMU_IRIX := $(shell which qemu-irix)
-	ifeq (, $(QEMU_IRIX))
-	  $(error Please install qemu-irix package or set QEMU_IRIX env var to the full qemu-irix binary path)
-	endif
+    QEMU_IRIX := $(shell which qemu-irix)
+    ifeq (, $(QEMU_IRIX))
+      $(error Please install qemu-irix package or set QEMU_IRIX env var to the full qemu-irix binary path)
+    endif
   endif
   CC        = $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
   CC_OLD    = $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
@@ -107,8 +109,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 #					 $(foreach f,$(TEXTURE_FILES_CI8:.ci8.png=.ci8),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom)
-$(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),$(shell mkdir -p build/$(dir)))
+$(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
