@@ -12,20 +12,20 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_Collect(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx);
+void EnExRuppy_WaitAsCollectible(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx);
 void func_80A0AEE0(EnExRuppy* this, GlobalContext* globalCtx);
 
-s16 Rupee_ID_Table[] = {
+static s16 sEnExRuppyCollectibleTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
 
-s16 D_80A0B32B[] = {
-    0x0001, 0x0005, 0x0014, 0x01F4, 0x0032,
+static s16 D_80A0B32B[] = {
+    1, 5, 20, 500, 50,
 };
 
 const ActorInit En_Ex_Ruppy_InitVars = {
@@ -40,8 +40,8 @@ const ActorInit En_Ex_Ruppy_InitVars = {
     (ActorFunc)EnExRuppy_Draw,
 };
 
-Vec3f D_80A0B358[] = { { 0.0f, 0.1f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
-Vec3f D_80A0B370[] = { { 0.0f, 0.01f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
+static Vec3f D_80A0B358[] = { { 0.0f, 0.1f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
+static Vec3f D_80A0B370[] = { { 0.0f, 0.01f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
 
 #ifdef NON_MATCHING
 // Regalloc
@@ -117,7 +117,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.unk_10 = 6.0f;
             this->actor.shape.unk_08 = 700.0f;
             this->actor.flags &= ~1;
-            this->actionFunc = EnExRuppy_BlowUp;
+            this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
         case 3: // Spawned by the guard in Hyrule courtyard
             Actor_SetScale(thisx, 0.02f);
@@ -139,7 +139,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.unk_10 = 6.0f;
             this->actor.shape.unk_08 = 700.0f;
             this->actor.flags &= ~1;
-            this->actionFunc = EnExRuppy_Collect;
+            this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
         case 4:
             this->actor.gravity = -3.0f;
@@ -295,7 +295,7 @@ void func_80A0AEE0(EnExRuppy* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
+void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     f32 distToBlowUp;
     Vec3f point1Vec = { 0.0f, 0.1f, 0.0f };
     Vec3f zeroVector = { 0.0f, 0.0f, 0.0f };
@@ -330,11 +330,11 @@ void EnExRuppy_BlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnExRuppy_Collect(EnExRuppy* this, GlobalContext* globalCtx) {
+void EnExRuppy_WaitAsCollectible(EnExRuppy* this, GlobalContext* globalCtx) {
     f32 localConst = 30.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
         func_80078884(NA_SE_SY_GET_RUPY);
-        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (Rupee_ID_Table[this->unk_150] | 0x8000));
+        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (sEnExRuppyCollectibleTypes[this->unk_150] | 0x8000));
         Actor_Kill(&this->actor);
     }
 }
