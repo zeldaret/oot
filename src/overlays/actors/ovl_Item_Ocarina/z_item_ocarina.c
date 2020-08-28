@@ -73,7 +73,7 @@ void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     LOG_NUM("no", params, "../z_item_ocarina.c", 210);
-    this->unk_150 = 1024;
+    this->spinRotOffset = 0x400;
 }
 
 void ItemOcarina_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -83,8 +83,8 @@ void ItemOcarina_Fly(ItemOcarina* this, GlobalContext* globalCtx) {
     Vec3f ripplePos;
 
     func_8002D7EC(&this->actor);
-    this->actor.shape.rot.x += this->unk_150 * 2;
-    this->actor.shape.rot.y += this->unk_150 * 3;
+    this->actor.shape.rot.x += this->spinRotOffset * 2;
+    this->actor.shape.rot.y += this->spinRotOffset * 3;
 
     if (this->actor.minVelocityY < this->actor.velocity.y) {
         this->actor.velocity.y += this->actor.gravity;
@@ -110,7 +110,7 @@ void ItemOcarina_Fly(ItemOcarina* this, GlobalContext* globalCtx) {
         this->actor.velocity.z = 0.0f;
         this->actor.gravity = -0.1f;
         this->actor.minVelocityY = -0.5f;
-        this->unk_150 = 0;
+        this->spinRotOffset = 0;
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
     }
 
@@ -134,8 +134,8 @@ void ItemOcarina_GetThrown(ItemOcarina* this, GlobalContext* globalCtx) {
 
 void func_80B864EC(ItemOcarina* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
-    this->actor.shape.rot.x += this->unk_150 * 2;
-    this->actor.shape.rot.y += this->unk_150 * 3;
+    this->actor.shape.rot.x += this->spinRotOffset * 2;
+    this->actor.shape.rot.y += this->spinRotOffset * 3;
 
     if (this->actor.minVelocityY < this->actor.velocity.y) {
         this->actor.velocity.y += this->actor.gravity;
@@ -199,7 +199,7 @@ void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ItemOcarina* this = THIS;
-    
+
     func_8002EBCC(thisx, globalCtx, 0);
     func_8002ED80(thisx, globalCtx, 0);
     func_800694A0(globalCtx, 0x2E);
