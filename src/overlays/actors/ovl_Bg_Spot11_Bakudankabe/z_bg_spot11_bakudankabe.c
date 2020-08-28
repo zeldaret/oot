@@ -109,7 +109,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_808B2180(this, globalCtx);
     DynaPolyInfo_Alloc(&D_06001A58, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, (Actor*)this, sp24);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     Actor_SetScale(&this->dyna.actor, 1.0f);
     osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
