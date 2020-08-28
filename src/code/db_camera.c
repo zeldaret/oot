@@ -13,7 +13,7 @@ typedef struct {
     /* 0x0024 */ CutsceneCameraPoint position[129];
     /* 0x0834 */ CutsceneCameraPoint lookAt[129];
     /* 0x1044 */ s16 unk_1044;
-    /* 0x1046 */ s16 unk_1046;
+    /* 0x1046 */ s16 unk_1046; // mempak callback index
     /* 0x1048 */ s16 unk_1048;
     /* 0x104A */ s16 unk_104A;
     /* 0x104C */ s16 unk_104C;
@@ -88,7 +88,7 @@ extern s16 D_8016114A;
 extern char D_8016128F[];
 
 
-const char* D_8012CEE0 = "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ";
+char* D_8012CEE0[] = { "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ" };
 const char* D_8012CEE4 = "\x8Dﾀﾘﾏｾﾝ｡";
 const char* D_8012CEE8 = "\x8Dｻｲｾｲﾃﾞｷﾏｾﾝ";
 const char* D_8012CEEC = "\x8Dｻｲｾｲｼｭｳﾘｮｳ";
@@ -111,7 +111,7 @@ const char* D_8012CF44 = "DEMO CONTROL";
 const char* D_8012CF48 = "\x8Cﾒﾓﾘ\x8Dｶﾞﾀﾘﾏｾﾝ";
 const char* D_8012CF4C = "p";
 const char* D_8012CF50[] = { "e", "s", "l", "c" };
-const char* D_8012CF60 = "\x8Cﾒﾓﾘﾊﾟｯｸ";
+const char* D_8012CF60[] = { "\x8Cﾒﾓﾘﾊﾟｯｸ" };
 const char* D_8012CF64 = "\x8Cｾｰﾌﾞ";
 const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ";
 const char* D_8012CF6C = "\x8Cｸﾘｱ-";
@@ -120,7 +120,7 @@ const char* D_8012CF74 = "FREE      BYTE";
 const char* D_8012CF78 = "NEED      BYTE";
 const char* D_8012CF7C = "\x8C*ﾒﾓﾘ-ﾊﾟｯｸ*";
 const char* D_8012CF80 = "\x8Dｦﾐﾂｹﾗﾚﾏｾﾝ";
-const char* D_8012CF84 = "\x8Cﾌｧｲﾙ \x8Dｦ";
+char* D_8012CF84 = "\x8Cﾌｧｲﾙ \x8Dｦ";
 const char* D_8012CF88[] = { "\x8Dｼﾃﾓｲｲﾃﾞｽｶ?", "\x8Dｹﾞﾝｻﾞｲﾍﾝｼｭｳﾁｭｳﾉ", "\x8Cﾌｧｲﾙ\x8Dﾊﾊｷｻﾚﾏｽ" };
 const char* D_8012CF94 = "\x8Dﾊｲ";
 const char* D_8012CF98 = "\x8Dｲｲｴ";
@@ -158,7 +158,7 @@ s32 func_800B8DB0(char* c);
 s32 func_800B8BB0(char* c);
 s32 func_800B8F30(char* c);
 
-s32 (*D_8012D14C[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
+//s32 (*D_8012D14C[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
 u8 D_8012D158[] = {
 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x04,
 };
@@ -169,6 +169,8 @@ extern GlobalContext* D_80161100;
 extern s32 D_801612EC;
 // is the size correct? todo: add ALIGN32 for sizeof in Mempak functions, replace 0xF with sizeof()
 extern DbCameraCut D_80161150[16];
+
+extern s32 D_80161104;
 
 Vec3f* func_800B3B50(Vec3f* outVec, Vec3f* inVec, VecSph* sph) {
     Vec3f ret;
@@ -290,6 +292,7 @@ Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
 }
 
 #else
+Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll);
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3BD4.s")
 #endif
 
@@ -496,7 +499,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             D_80161110.unk_0A = (u16)0;
         }
-        func_8006376C(0x11, 0x17, 3, D_8012CEE0);
+        func_8006376C(0x11, 0x17, 3, D_8012CEE0[0]);
         func_8006376C(0x12, 0x18, 3, D_8012CEE4);
         func_8006376C(0x10, 0x1A, 1, D_8012CEE8);
         return;
@@ -1011,8 +1014,480 @@ void func_800B958C(Camera* cam, DbCamera* dbCam) {
     D_80161110.unk_0A = 0;
 }
 
-// hard
+#ifndef NON_MATCHING
+s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
+    s32 idx1; // sp +0xA0
+    s32 idx2; // s0
+
+    char sp74[ARRAY_COUNT(D_80161150)-1];
+    DbCameraCut sp64;
+    VecSph sp5C;
+    //s32 (*callbacks[3])(char*);
+    s32 (*callbacks[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
+    char newLetter;
+
+    s32 flag;
+    s32 i;
+
+    // struct copy?
+    /*
+    callbacks[0] = D_8012D14C[0];
+    callbacks[1] = D_8012D14C[1];
+    callbacks[2] = D_8012D14C[2];
+    */
+
+    func_8006376C(0xE, 5, 0, D_8012CF44);
+    
+    idx1 = D_80161148 >> 1;
+    idx2 = D_8016114A >> 1;
+
+
+    switch (dbCamera->sub.unk_1046)
+    {
+    case 1:
+    case 2:
+    case 3:
+        switch (dbCamera->sub.unk_1044)
+        {
+        case 0x12D:
+        case 0x65:
+        case 0xC9:
+            break;
+            D_8012CEE0[41][9] = D_80161148 + 'A';
+            func_8006376C(0xC, 7, 5, D_8012CEE0[41]);
+            func_8006376C(0x12, 7, 5, D_8012CF60[dbCamera->sub.unk_1046]);
+            func_8006376C(0x16, 7, 5, D_8012CF9C[0]);
+
+            if (!callbacks[dbCamera->sub.unk_1046](&D_8012CEE0[41][9])) {
+                dbCamera->sub.unk_1044 += 8;
+            }
+            else {
+                dbCamera->sub.unk_1044++;
+            }
+            break;
+
+        case 1:
+            flag = 1;
+            for (i = 0; i < 5; i++) {
+                // (1 << i) ?
+                if (D_80161104 & flag) {
+                    sp74[i*2+1] = i + 'A';
+                }
+                else {
+                    sp74[i*2+1] = i + '?';
+                }
+                sp74[i*2+0] = '-';
+
+                flag <<= 1;
+            }
+            sp74[i*2+0] = '-';
+            sp74[i*2+1] = '\0';
+
+            if (CHECK_PAD(D_80161100->state.input[2].press, R_JPAD)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (D_80161148++ >= 4) {
+                    D_80161148 = 0;
+                }
+
+                if ((1 << D_80161148) & D_80161104) {
+                    D_8012D170 = Mempak_GetFileSize(2, D_80161148 + 'A');
+                    dbCamera->sub.unk_1046 = 2;
+                }
+                else {
+                    D_8012D170 = 0;
+                    dbCamera->sub.unk_1046 = 1;
+                }
+            }
+            if (CHECK_PAD(D_80161100->state.input[2].press, L_JPAD)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (D_80161148-- <= 4) {
+                    D_80161148 = 4;
+                }
+
+                if ((1 << D_80161148) & D_80161104) {
+                    D_8012D170 = Mempak_GetFileSize(2, D_80161148 + 'A');
+                    dbCamera->sub.unk_1046 = 2;
+                }
+                else {
+                    D_8012D170 = 0;
+                    dbCamera->sub.unk_1046 = 1;
+                }
+            }
+            func_8006376C(0xE, 7, 5, D_8012CF50[dbCamera->sub.unk_1046]);
+            func_8006376C(0xF, 7, 4, sp74);
+
+            func_8006376C((D_80161148 * 2) + 0x10, 7, 7, "_");
+            func_800B3DF8(func_800B8BA4(), sp74, 6);
+            func_8006376C(0xD, 9, 6, D_8012CF78);
+            func_8006376C(0x11, 9, 4, sp74);
+            func_800B3DF8(Mempak_GetFreeBytes(2), sp74, 6);
+            func_8006376C(0xD, 0xA, 6, D_8012CF74);
+            func_8006376C(0x11, 0xA, 4, sp74);
+            if (D_8012D170 != 0) {
+                func_800B3DF8(*(&D_8012D170 + 2), &sp74, 6);
+                func_8006376C(0xD, 0xB, 7, D_8012CFA8);
+                func_8006376C(0x11, 0xB, 4, sp74);
+            }
+            // sp+a0 ?
+            func_8006376C(0xF, 0x16, 1, D_8012CF7C);
+            func_8006376C(0x12, 0x17, D_8012D158[dbCamera->sub.unk_1046 + 2], D_8012CF64);
+            func_8006376C(0x12, 0x18, D_8012D158[dbCamera->sub.unk_1046 + 2], D_8012CF68);
+            func_8006376C(0x12, 0x19, D_8012D158[dbCamera->sub.unk_1046 + 2], D_8012CF6C);
+            func_8006376C(0xE, dbCamera->sub.unk_1046 + 0x16, 7, D_8012CF0C);
+            func_8006376C(0xD, 0x1A, 5, D_8012CF60[0]);
+            func_8006376C(0x14, 0x1A, 5, D_8012CF70);
+
+            if (CHECK_PAD(D_80161100->state.input[2].press, U_JPAD)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                dbCamera->sub.unk_1046--;
+                dbCamera->sub.unk_1046 %= 4;
+            }
+            if (CHECK_PAD(D_80161100->state.input[2].press, D_JPAD)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                dbCamera->sub.unk_1046++;
+                dbCamera->sub.unk_1046 %= 4;
+            }
+
+            if (CHECK_PAD(D_80161100->state.input[2].press, A_BUTTON)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                dbCamera->sub.unk_1048 = 0;
+                dbCamera->sub.unk_1044 = dbCamera->sub.unk_1046 * 0x64;
+            }
+            if (CHECK_PAD(D_80161100->state.input[2].press, B_BUTTON)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                dbCamera->sub.unk_1046 = 0;
+            }
+            break;
+
+        case 0xD1:
+        case 0x6D:
+            dbCamera->sub.unk_1048 ^= 1;
+            D_8012CEE0[41][9] = D_80161148 + 'A';
+            func_8006376C(0xD, 7, 5, D_8012CEE0[(dbCamera->sub.unk_1044 / 0x64) + 32]);
+            func_8006376C(0x11, 7, 5, D_8012CFAC);
+            func_8006376C(0x17, 7, 5, D_8012CFA4);
+            func_8006376C(0xD, 9, (dbCamera->sub.unk_1048 != 0) ? 1 : 6, "PRESS B BUTTON");
+
+            if (CHECK_PAD(D_80161100->state.input[2].press, A_BUTTON) || CHECK_PAD(D_80161100->state.input[2].press, B_BUTTON)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                dbCamera->sub.unk_1044 -= 9;
+            }
+            break;
+
+        case 0xCA:
+        case 0x66:
+            dbCamera->sub.unk_1048 ^= 1;
+            D_8012CEE0[41][9] = D_80161148 + 'A';
+            func_8006376C(0xD, 7, 5, D_8012CEE0[41]);
+            func_8006376C(0x13, 7, 5, D_8012CF60[dbCamera->sub.unk_1044 / 0x64]); // todo: 0x64 -> 100
+            func_8006376C(0x17, 7, 5, D_8012CFA4);
+            func_8006376C(0xD, 9, (dbCamera->sub.unk_1048 != 0) ? 1 : 6, "PRESS B BUTTON");
+
+            if (CHECK_PAD(D_80161100->state.input[2].press, A_BUTTON) || CHECK_PAD(D_80161100->state.input[2].press, B_BUTTON)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (dbCamera->sub.unk_1044 == 0xCA) {
+                    dbCamera->sub.unk_1046 = 0;
+                }
+                dbCamera->sub.unk_1044 = 0;
+            }
+            break;
+
+        case 0x12C:
+        case 0x64:
+        case 0x68:
+            if ((1 << D_80161148) & D_80161104) {
+                if (CHECK_PAD(D_80161100->state.input[2].press, L_JPAD) || CHECK_PAD(D_80161100->state.input[2].press, R_JPAD)) {
+                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    dbCamera->sub.unk_1048 ^= 1;
+                }
+                D_8012CEE0[41][9] = D_80161148 + 'A';
+                func_8006376C(0xA, 7, 5, D_8012CEE0[41]);
+                func_8006376C(0x10, 7, 5, D_8012CF60[dbCamera->sub.unk_1046]);
+                func_8006376C(0x14, 7, 5, D_8012CF88[0]);
+                
+                func_8006376C(0x11, 8, dbCamera->sub.unk_1048 ? 4 : 7, D_8012CF94);
+                func_8006376C(0x15, 8, dbCamera->sub.unk_1048 ? 7 : 4, D_8012CF98);
+
+                if (CHECK_PAD(D_80161100->state.input[2].press, A_BUTTON)) {
+                    if (dbCamera->sub.unk_1048 == 0) {
+                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        dbCamera->sub.unk_1044++;
+                    }
+                    else {
+                        Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        dbCamera->sub.unk_1044 = 0;
+                    }
+                }
+            }
+            else {
+                if (dbCamera->sub.unk_1044 == 0x64) {
+                    dbCamera->sub.unk_1044++;
+                }
+                else {
+                    dbCamera->sub.unk_1048 ^= 1;
+                    D_8012CF84[9] = D_80161148 + 'A';
+                    func_8006376C(0xD, 7, 5, D_8012CF84);
+                    func_8006376C(0x12, 7, 5, D_8012CF80);
+                    func_8006376C(0xD, 9, dbCamera->sub.unk_1048 ? 1 : 6, "PRESS B BUTTON");
+                }
+            }
+            if (CHECK_PAD(D_80161100->state.input[2].press, B_BUTTON)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                dbCamera->sub.unk_1044 = 0;
+            }
+            break;
+        
+        default:
+            if (Mempak_Init(2) == 0) {
+                func_8006376C(0xC, 0x1A, 4, D_8012CF60[0]);
+                func_8006376C(0x13, 0x1A, 4, D_8012CF80);
+                if (CHECK_PAD(D_80161100->state.input[2].press, B_BUTTON) ||
+                    CHECK_PAD(D_80161100->state.input[2].press, U_JPAD) || 
+                    CHECK_PAD(D_80161100->state.input[2].press, D_JPAD)) {
+                    
+                    Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    dbCamera->sub.unk_1046 = 0;
+                }
+                return 2;
+            }
+            D_80161104 = Mempak_FindFile(2, 'A', 'E');
+            dbCamera->sub.unk_1044 = 1;
+            func_800B8A0C();
+            if (((1 << D_80161148) & D_80161104) != 0) {
+                D_8012D170 = Mempak_GetFileSize(2, D_80161148 + 'A');
+                dbCamera->sub.unk_1046 = 2;
+            } else {
+                D_8012D170 = 0;
+                dbCamera->sub.unk_1046 = 1;
+            }
+            break;
+        }
+        break;
+    
+    default:
+        if (CHECK_PAD(D_80161100->state.input[2].press, U_JPAD)) {
+            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            dbCamera->sub.unk_1044 = 0;
+            dbCamera->sub.unk_1046--;
+            dbCamera->sub.unk_1046 %= 4; // todo: check if this is a bug (leading to OOB read)
+            D_80161148 = 0;
+        }
+        if (CHECK_PAD(D_80161100->state.input[2].press, D_JPAD)) {
+            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            dbCamera->sub.unk_1044 = 0;
+            dbCamera->sub.unk_1046++;
+            dbCamera->sub.unk_1046 %= 4; // todo: check if this is a bug (leading to OOB read)
+            D_80161148 = 0;
+        }
+
+        func_800B8F58(&sp74, 7, 5, 4);
+
+        if (D_80161110.unk_0A != 0) {
+            func_8006376C(4, 7, 5, D_8012CF4C);
+            func_8006376C(D_8016110C * 2 + 6, 7, 7, ">");
+
+            if (CHECK_PAD(D_80161100->state.input[2].press, U_CBUTTONS)) {
+                if (D_8016110C > 0) {
+                    D_8016110C--;
+                }
+
+                D_80161110.curFrame = 0.0f;
+                D_80161110.keyframe = 0;
+                D_80161110.unk_04 = 0.0f;
+            }
+            else if (CHECK_PAD(D_80161100->state.input[2].press, D_CBUTTONS)) {
+                if (D_8016110C > 0) {
+                    D_8016110C++;
+                }
+
+                D_80161110.curFrame = 0.0f;
+                D_80161110.keyframe = 0;
+                D_80161110.unk_04 = 0.0f;
+            }
+            else if (CHECK_PAD(D_80161100->state.input[2].press, L_CBUTTONS)) {
+                D_80161110.unk_0A = 0;
+                Interface_ChangeAlpha(2);
+                ShrinkWindow_SetVal(0);
+                D_8016110C = 0;
+                return 2;
+            }
+
+            if (func_800B91B0(cam, dbCamera) == 0) {
+                Interface_ChangeAlpha(2);
+                ShrinkWindow_SetVal(0);
+                Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
+            func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, (dbCamera->unk_50 * 182.04167f) + 0.5f);
+            return 2;
+        }
+
+        if (CHECK_PAD(D_80161100->state.input[1].press, R_CBUTTONS)) {
+            D_8015FCC8 = 0;
+            gSaveContext.cutsceneIndex = 0xFFFD;
+            gSaveContext.cutsceneTrigger = 1;
+            D_80161110.curFrame = 0.0f;
+            D_80161110.keyframe = 0;
+            D_80161110.unk_04 = 0.0f;
+            D_80161110.unk_0A = 1;
+            D_80161110.unk_0C = 0;
+            D_8016110C = 0;
+            Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
+
+        if (CHECK_PAD(D_80161100->state.input[2].press, L_TRIG)) {
+            if (sp74[D_80161148] == '?') {
+                D_8016114A = -1;
+                D_801612EA = '*';
+            }
+            else {
+                D_8016114A = D_80161148;
+                D_801612EA = D_80161150[idx1].letter;
+            }
+        }
+        else if (!CHECK_PAD(D_80161100->state.input[2].cur, L_TRIG)) {
+            if (D_8016114A != -1) {
+                switch (sp74[D_80161148])
+                {
+                    case '?':
+                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        D_80161150[idx1] = D_80161150[idx2];
+                        sp74[D_80161148] = '?'; // useless
+                        func_800B8978(idx2, false);
+                        break;
+                    case '-':
+                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+                        sp64 = D_80161150[idx2];
+                        if (D_8016114A < D_80161148) {
+                            // rotate right
+                            for (i = idx2; i < idx1 - 1 && i < ARRAY_COUNT(D_80161150)-1; i++) {
+                                D_80161150[i] = D_80161150[i+1];
+                            }
+                            D_80161150[idx1] = sp64;
+                        }
+                        else if (D_80161148 < D_8016114A) {
+                            // rotate left
+                            for (i = idx2; idx1 < i && i > 0; i--) {
+                                D_80161150[i] = D_80161150[i-1];
+                            }
+                            D_80161150[idx1] = sp64;
+                        }
+
+                        for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+                            sp74[i] = D_80161150[i].letter;
+                        }
+
+                        break;
+                    default:
+                        Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        break;
+                }
+                D_8016114A = -1;
+            }
+        }
+
+        if (CHECK_PAD(D_80161100->state.input[2].press, A_BUTTON)) {
+            if (sp74[D_80161148] == '?') {
+                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                newLetter = func_800B87D8(idx1, &dbCamera->sub);
+                sp74[D_80161148] = newLetter;
+                if (newLetter == '?') {
+                    func_8006376C(0xF, 0x18, 7, D_8012CF48);
+                }
+            }
+        }
+
+        if (CHECK_PAD(D_80161100->state.input[2].press, B_BUTTON)) {
+            if (sp74[D_80161148] != '?' && sp74[D_80161148] != '-') {
+                Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                sp74[D_80161148] = '?';
+                func_800B8978(idx1, true);
+            }
+        }
+
+        if (CHECK_PAD(D_80161100->state.input[2].press, R_TRIG)) {
+            if (sp74[D_80161148] != '?' && sp74[D_80161148] != '-') {
+                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+                for (i = 0; i < D_80161150[idx1].nPoints; i++) {
+                    dbCamera->sub.lookAt[i] = D_80161150[idx1].lookAt[i];
+                }
+                // why use another loop for that...
+                for (i = 0; i < D_80161150[idx1].nPoints; i++) {
+                    dbCamera->sub.position[i] = D_80161150[idx1].position[i];
+                }
+
+                dbCamera->sub.mode = D_80161150[idx1].mode;
+                dbCamera->sub.nFrames = D_80161150[idx1].nFrames;
+                dbCamera->sub.unkIdx = 0;
+                dbCamera->sub.nPoints = D_80161150[idx1].nPoints;
+                func_800B41DC(dbCamera, dbCamera->sub.unkIdx, cam);
+                sp74[D_80161148] = '?';
+                func_800B8978(idx1, true);
+                dbCamera->unk_00 = 1;
+            }
+        }
+
+        if (CHECK_PAD(D_80161100->state.input[2].press, R_JPAD)) {
+            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            if (D_80161148++ == 0x1E)
+                D_80161148 = 0;
+        }
+        if (CHECK_PAD(D_80161100->state.input[2].press, L_JPAD)) {
+            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            if (D_80161148-- == 0)
+                D_80161148 = 0x1E;
+        }
+
+        if (CHECK_PAD(D_80161100->state.input[2].cur, L_TRIG) && CHECK_PAD(D_80161100->state.input[2].press, R_CBUTTONS)) {
+            for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+                osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, D_80161150[i].letter, D_80161150[i].position, D_80161150[i].lookAt, D_80161150[i].nFrames, D_80161150[i].nPoints, D_80161150[i].mode);
+            }
+            func_800B9060(cam);
+        }
+        else if (CHECK_PAD(D_80161100->state.input[2].cur, L_TRIG) && CHECK_PAD(D_80161100->state.input[2].press, L_CBUTTONS)) {
+            Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            for (i = 0; i < ARRAY_COUNT(D_80161150)-1; i++) {
+                if (D_80161150[i].nPoints != 0) {
+                    osSyncPrintf("\n@@@ /* CUT [%d]\t*/", i);
+                    func_800B4B20(&D_80161150[i]);
+                }
+            }
+        }
+        else if (CHECK_PAD(D_80161100->state.input[2].press, R_CBUTTONS)) {
+            D_80161110.curFrame = 0.0f;
+            D_80161110.keyframe = 0;
+            D_80161110.unk_04 = 0.0f;
+            D_80161110.unk_0A = 1;
+            D_80161110.unk_0C = 0;
+            Interface_ChangeAlpha(50);
+            ShrinkWindow_SetVal(0x20);
+            D_8016110C = 0;
+            Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
+        
+        func_8006376C(4, 7, 5, D_8012CF50[0]);
+        sp74[1] = 0;
+        if (D_8016114A != -1) {
+            sp74[0] = D_801612EA;
+            func_8006376C(D_8016114A + 5, 7, 2, sp74);
+        }
+        else {
+            sp74[0] =  '_';
+        }
+        func_8006376C(D_80161148 + 5, 7, 7, sp74);
+
+        break;
+    }
+
+    return 1;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B9638.s")
+#endif
 
 void func_800BB03C(Camera* cameraPtr) {
     func_800B91B0(cameraPtr, D_80161108);

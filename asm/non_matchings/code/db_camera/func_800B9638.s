@@ -761,7 +761,7 @@ glabel func_800B9638
 /* B31270 800BA0D0 3C078013 */  lui   $a3, %hi(D_8012CF7C) # $a3, 0x8013
 /* B31274 800BA0D4 8CE7CF7C */  lw    $a3, %lo(D_8012CF7C)($a3)
 /* B31278 800BA0D8 27190002 */  addiu $t9, $t8, 2
-/* B3127C 800BA0DC AFB900A0 */  sw    $t9, 0xa0($sp)
+/* B3127C 800BA0DC AFB900A0 */  sw    $t9, 0xa0($sp) # spA0 = t8 + 2
 /* B31280 800BA0E0 2404000F */  li    $a0, 15
 /* B31284 800BA0E4 24050016 */  li    $a1, 22
 /* B31288 800BA0E8 0C018DDB */  jal   func_8006376C
@@ -770,7 +770,7 @@ glabel func_800B9638
 /* B31294 800BA0F4 3C0B8013 */  lui   $t3, %hi(D_8012D158) # $t3, 0x8013
 /* B31298 800BA0F8 256BD158 */  addiu $t3, %lo(D_8012D158) # addiu $t3, $t3, -0x2ea8
 /* B3129C 800BA0FC 00095080 */  sll   $t2, $t1, 2
-/* B312A0 800BA100 014B8021 */  addu  $s0, $t2, $t3
+/* B312A0 800BA100 014B8021 */  addu  $s0, $t2, $t3               # s0 = D_8012D158 + t2 * 4
 /* B312A4 800BA104 3C078013 */  lui   $a3, %hi(D_8012CF64) # $a3, 0x8013
 /* B312A8 800BA108 8CE7CF64 */  lw    $a3, %lo(D_8012CF64)($a3)
 /* B312AC 800BA10C 92060003 */  lbu   $a2, 3($s0)

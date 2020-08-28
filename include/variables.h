@@ -3369,7 +3369,7 @@ extern u16 D_8015FCC0;
 extern u16 D_8015FCC2;
 extern u16 D_8015FCC4;
 //extern ? D_8015FCC6;
-//extern ? D_8015FCC8;
+extern u8 D_8015FCC8;
 //extern ? D_8015FCCA;
 extern u8 D_8015FCF0;
 extern Vec3f D_8015FCF8;
