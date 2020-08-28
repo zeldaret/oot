@@ -27,8 +27,8 @@ const ActorInit Bg_Spot01_Objects2_InitVars = {
     (ActorFunc)BgSpot01Objects2_Init,
     (ActorFunc)BgSpot01Objects2_Destroy,
     (ActorFunc)BgSpot01Objects2_Update,
+    NULL,
 };
-
 
 static InitChainEntry D_808AC500[] = {
     ICHAIN_F32(uncullZoneForward, 12800, ICHAIN_CONTINUE),
@@ -42,7 +42,6 @@ Gfx* D_808AC510[] = { 0x06001EB0, 0x06002780, 0x06003078, 0x06001228, 0x06001528
 extern UNK_TYPE D_06001A38;
 extern UNK_TYPE D_06001C58;
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Objects2/BgSpot01Objects2_Init.s")
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Objects2* this = THIS;
 
@@ -74,7 +73,6 @@ void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, D_808AC500);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Objects2/BgSpot01Objects2_Destroy.s")
 void BgSpot01Objects2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
@@ -87,7 +85,6 @@ s32 func_808AC22C(Path* pathList, Vec3f* pos, s32 path, s32 waypoint) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Objects2/func_808AC2BC.s")
 void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
     s32 sp54;
     Actor* thisx = &this->dyna.actor;
@@ -104,14 +101,12 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
         DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
 
         switch (this->dyna.actor.params & 7) {
-            case 0: // Potion Shop Poster
-            case 1: // Shooting gallery Poster
-            case 2: // Bazaar Poster
-            case 3: // Shooting gallery
+
+            case 4: // Shooting gallery
                 DynaPolyInfo_Alloc(&D_06001A38, &sp54);
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
                 break;
-            case 4: // Shooting Gallery // Spawns Carpenter Sabooro during the day
+            case 3: // Shooting Gallery // Spawns Carpenter Sabooro during the day
                 DynaPolyInfo_Alloc(&D_06001C58, &sp54);
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
                 if (gSaveContext.nightFlag == 0) {
@@ -120,6 +115,10 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
                                         position.y, position.z, thisx->posRot.rot.x, thisx->posRot.rot.y,
                                         thisx->posRot.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
                 }
+                break;
+            case 0: // Potion Shop Poster
+            case 1: // Shooting gallery Poster
+            case 2: // Bazaar Poster
                 break;
         }
 
