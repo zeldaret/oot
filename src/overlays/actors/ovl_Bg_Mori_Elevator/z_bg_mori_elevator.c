@@ -107,7 +107,8 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
                 DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
                 DynaPolyInfo_Alloc(&D_060035F8, &localConst);
-                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
+                this->dyna.dynaPolyId =
+                    DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
                 BgMoriElevator_SetupWaitAfterInit(this);
                 break;
             case 1:

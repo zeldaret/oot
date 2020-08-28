@@ -1,4 +1,5 @@
 #include "z_en_heishi4.h"
+#include "vt.h"
 
 #define FLAGS 0x00000009
 
@@ -15,6 +16,11 @@ void func_80A56328(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx);
+void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx);
+void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx);
+void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx);
+void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx);
+void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx);
 
 const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
@@ -40,7 +46,8 @@ static ColliderCylinderInit sCylinderInit =
 extern SkeletonHeader D_0600BAC8;
 extern AnimationHeader D_0600C444;
 extern AnimationHeader D_06005C30;
-
+extern AnimationHeader D_0600C6C8;
+extern AnimationHeader D_0600C374;
 #ifdef NON_MATCHING
 //one small stack diff
 void EnHeishi4_Init(Actor *thisx, GlobalContext *globalCtx) {
@@ -84,18 +91,22 @@ void EnHeishi4_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->unk_27C =  ((thisx->params >> 8) & 0xFF);
     osSyncPrintf("\n\n");
                                 //☆☆☆☆☆ Soldier 2 sets completed! ☆☆☆☆☆
-    osSyncPrintf("\x1b[32m ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n\x1b[m", thisx->params);
+    osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
                                 //☆☆☆☆☆ The recognition is over!
-    osSyncPrintf("\x1b[33m ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n\x1b[m", this->unk_280);
+    osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" VT_RST, this->unk_280);
                             //☆☆☆☆☆ Message completed! ☆☆☆☆☆
-    osSyncPrintf("\x1b[35m ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n\x1b[m", ((s32) thisx->params >> 8) & 0xF);
+    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, ((s32) thisx->params >> 8) & 0xF);
     osSyncPrintf("\n\n");
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/EnHeishi4_Init.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/EnHeishi4_Destroy.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/EnHeishi4_Destroy.s")
+void EnHeishi4_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    EnHeishi4* this = THIS;
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56328.s")
 void func_80A56328(EnHeishi4 *this, GlobalContext *globalCtx) {
@@ -157,7 +168,20 @@ void func_80A563BC(EnHeishi4 *this, GlobalContext *globalCtx) {  //Rename to EnH
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56544.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56544.s")
+void func_80A56544(EnHeishi4 *this, GlobalContext *globalCtx) {
+    f32 frames = SkelAnime_GetFrameCount(&D_06005C30);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16) frames, 0, -10.0f);
+
+    if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
+        //Gyaa! It's an adult
+        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
+        Actor_Kill(&this->actor);
+    }
+    else {
+        this->actionFunc = func_80A56614;
+    }
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56614.s")
 void func_80A56614(EnHeishi4 *this, GlobalContext *globalCtx) {
@@ -200,17 +224,92 @@ void func_80A56614(EnHeishi4 *this, GlobalContext *globalCtx) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A5673C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A5673C.s")
+void func_80A5673C(EnHeishi4 *this, GlobalContext *globalCtx) {
+    if (gSaveContext.eventChkInf[4] & 0x20) {
+       // Get Master Sword Celebration!
+        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
+        Actor_Kill(&this->actor);
+        return;
+    }
+    this->unk_284 = 0;
+    if (gSaveContext.eventChkInf[8] & 1) {
+        if (!(gSaveContext.infTable[6] & 0x1000)) {
+            f32 frames = SkelAnime_GetFrameCount(&D_0600C444);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+            this->actor.textId = 0x7007;
+            this->unk_282 = 5;
+            this->unk_284 = 1;
+            //Start demo!
+            osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" VT_RST);
+        } else {
+            this->actor.textId = 0x7008;
+            this->unk_282 = 6;
+            //No reply
+            osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" VT_RST);
+        }
+        this->actionFunc = &func_80A56874;
+    }
+    else {
+        Actor_Kill(&this->actor);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56874.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56874.s")
+void func_80A56874(EnHeishi4 *this, GlobalContext *globalCtx) {
+    if (this->unk_284 != 0) {
+        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    }
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
+        if (this->unk_284 == 0) {
+            this->actionFunc = func_80A5673C;
+            return;
+        }
+        this->actionFunc = func_80A56900;
+    } else {
+        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56900.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56900.s")
+void func_80A56900(EnHeishi4 *this, GlobalContext *globalCtx) {
+    f32 frames = SkelAnime_GetFrameCount(&D_0600C6C8);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    this->actionFunc = &func_80A56994;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56994.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56994.s")
+void func_80A56994(EnHeishi4 *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    func_80038290(globalCtx, &this->actor, &this->unk_260.x, &this->unk_266.x, this->actor.posRot2.pos);
+    if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
+        if (func_80106BC8(globalCtx) != 0) {
+            func_80106CCC(globalCtx);
+            gSaveContext.infTable[0x6] |= 0x1000;
+            func_8002DF54(globalCtx, NULL, 8);
+            this->actionFunc = &func_80A56A50;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56A50.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56A50.s")
+void func_80A56A50(EnHeishi4 *this, GlobalContext *globalCtx) {
+    f32 temp_f0 = SkelAnime_GetFrameCount(&D_0600C374);
+    this->unk_288 = temp_f0;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, temp_f0, 2, -10.0f);
+    this->actionFunc = &func_80A56ACC;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56ACC.s")
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56ACC.s")
+void func_80A56ACC(EnHeishi4 *this, GlobalContext *globalCtx) {
+    f32 temp_f4 = this->skelAnime.animCurrentFrame;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (this->unk_288 <= temp_f4) {
+        func_8002DF54(globalCtx, NULL, 7);
+        this->actionFunc =  func_80A5673C;
+    }
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56B40.s")
 void func_80A56B40(EnHeishi4 *this, GlobalContext *globalCtx) {
@@ -261,8 +360,34 @@ void func_80A56B40(EnHeishi4 *this, GlobalContext *globalCtx) {
     func_8002F2F4(&this->actor, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/EnHeishi4_Update.s")
+void EnHeishi4_Update(Actor *thisx, GlobalContext *globalCtx) {
+    EnHeishi4* this = THIS;
+    Player* player = PLAYER;
+
+    thisx->posRot.pos = this->unk_26C;
+    Actor_SetHeight(thisx,  this->unk_278);
+    if (this->unk_280 != 7) {
+        this->unk_28C.unk_18 = player->actor.posRot.pos;
+        if (LINK_IS_CHILD) {
+            this->unk_28C.unk_18.x = (player->actor.posRot.pos.x - 10.0f);
+        }
+        func_80034A14(thisx, &this->unk_28C, 2, 4);
+        this->unk_260 = this->unk_28C.unk_08;
+        this->unk_266 = this->unk_28C.unk_0E;
+    }
+    this->unk_27E += 1;
+    this->actionFunc(thisx, globalCtx);
+    Actor_MoveForward(thisx);
+    func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
+    Collider_CylinderUpdate(thisx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/func_80A56E14.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/EnHeishi4_Draw.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi4/EnHeishi4_Draw.s")
+void EnHeishi4_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    EnHeishi4* this = THIS;
+    func_80093D18(globalCtx->state.gfxCtx);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, &this->skelAnime.limbDrawTbl, &func_80A56E14, 0, thisx);
+}
