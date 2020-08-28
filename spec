@@ -2289,8 +2289,7 @@ endseg
 beginseg
     name "ovl_En_Dy_Extra"
     include "build/src/overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.o"
-    include "build/data/overlays/actors/z_en_dy_extra.data.o"
-    include "build/data/overlays/actors/z_en_dy_extra.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dy_Extra/ovl_En_Dy_Extra_reloc.o"
 endseg
 
 beginseg
