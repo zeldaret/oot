@@ -23,8 +23,6 @@ void func_80B864EC(ItemOcarina* this, GlobalContext* globalCtx);
 void func_80B865E0(ItemOcarina* this, GlobalContext* globalCtx);
 void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx);
 
-extern CutsceneData D_0200F870[];
-
 const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORTYPE_ITEMACTION,
@@ -36,6 +34,8 @@ const ActorInit Item_Ocarina_InitVars = {
     (ActorFunc)ItemOcarina_Update,
     (ActorFunc)ItemOcarina_Draw,
 };
+
+extern CutsceneData D_0200F870[]; // song of time cutscene
 
 void ItemOcarina_SetupAction(ItemOcarina* this, ItemOcarinaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -184,7 +184,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
         this->actor.draw = NULL;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
-        
+
         if ((globalCtx->gameplayFrames & 13) == 0) {
             func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
@@ -198,6 +198,8 @@ void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ItemOcarina* this = THIS;
+    
     func_8002EBCC(thisx, globalCtx, 0);
     func_8002ED80(thisx, globalCtx, 0);
     func_800694A0(globalCtx, 0x2E);

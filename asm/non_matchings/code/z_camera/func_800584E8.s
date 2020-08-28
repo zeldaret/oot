@@ -166,7 +166,7 @@ glabel func_800584E8
 /* ACF8B0 80058710 0C018DDB */  jal   func_8006376C
 /* ACF8B4 80058714 24060005 */   li    $a2, 5
 /* ACF8B8 80058718 86190142 */  lh    $t9, 0x142($s0)
-/* ACF8BC 8005871C 3C188012 */  lui   $t8, %hi(sCameraSettings)
+/* ACF8BC 8005871C 3C188012 */  lui   $t8, %hi(sCameraSettings+4)
 /* ACF8C0 80058720 860E0144 */  lh    $t6, 0x144($s0)
 /* ACF8C4 80058724 001978C0 */  sll   $t7, $t9, 3
 /* ACF8C8 80058728 030FC021 */  addu  $t8, $t8, $t7
