@@ -188,9 +188,9 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->unk_150.x = 0x25;
                 this->actor.posRot.pos.y -= 200.0f;
 
-                Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                    this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500,
-                                    0, 0, 0x24);
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                                   this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500, 0,
+                                   0, 0x24);
 
                 tmpVec = D_80A117BC;
 
@@ -216,15 +216,15 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                                        (i * 8192) + randY, 0x4000, i + 0x64);
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                       (i * 8192) + randY, 0x4000, i + 0x64);
                 }
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                                        (i * 8192) + randY, 0, 0x23);
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                       (i * 8192) + randY, 0, 0x23);
                 }
             }
 
@@ -374,7 +374,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
     Vec3f sp54;
 
     osSyncPrintf("yari hikari 1\n");
-    horse = (EnfHG*)this->actor.attachedA;
+    horse = (EnfHG*)this->actor.parent;
     if ((this->unk_156 % 2) != 0) {
         Actor_SetScale(&this->actor, 6.0f);
     } else {
@@ -408,7 +408,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A10220.s")
 
 void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx) {
-    EnfHG* horse = (EnfHG*)this->actor.attachedA;
+    EnfHG* horse = (EnfHG*)this->actor.parent;
     f32 phi_f0;
     s32 tmp;
 

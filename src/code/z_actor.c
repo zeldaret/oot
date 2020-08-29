@@ -1028,7 +1028,7 @@ void func_8002DE74(GlobalContext* globalCtx, Player* player) {
 void func_8002DECC(GlobalContext* globalCtx, Player* player, Actor* actor) {
     player->rideActor = actor;
     player->stateFlags1 |= 0x800000;
-    actor->attachedB = &player->actor;
+    actor->child = &player->actor;
 }
 
 s32 func_8002DEEC(Player* player) {
@@ -1542,11 +1542,11 @@ void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3)
     *arg3 = sp1C.y * sp18 * -120.0f + 120.0f;
 }
 
-u32 func_8002F410(Actor* actor, GlobalContext* globalCtx) {
-    if (actor->attachedA != NULL) {
-        return 1;
+u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
+    if (actor->parent != NULL) {
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -1583,26 +1583,26 @@ void func_8002F580(Actor* actor, GlobalContext* globalCtx) {
     func_8002F554(actor, globalCtx, 0);
 }
 
-u32 func_8002F5A0(Actor* actor, GlobalContext* globalCtx) {
-    if (actor->attachedA == NULL) {
-        return 1;
+u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx) {
+    if (actor->parent == NULL) {
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
 void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
-    Actor* actorAttachedA = actorA->attachedA;
+    Actor* parent = actorA->parent;
 
-    if (actorAttachedA->id == ACTOR_PLAYER) {
-        Player* player = (Player*)actorAttachedA;
+    if (parent->id == ACTOR_PLAYER) {
+        Player* player = (Player*)parent;
         player->heldActor = actorB;
         player->interactRangeActor = actorB;
     }
 
-    actorAttachedA->attachedB = actorB;
-    actorB->attachedA = actorAttachedA;
-    actorA->attachedA = NULL;
+    parent->child = actorB;
+    actorB->parent = parent;
+    actorA->parent = NULL;
 }
 
 void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
@@ -1613,11 +1613,11 @@ void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-u32 func_8002F618(GlobalContext* globalCtx, Actor* actor) {
-    if (actor->attachedB != NULL) {
-        return 1;
+u32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor) {
+    if (actor->child != NULL) {
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -1633,11 +1633,11 @@ u32 func_8002F63C(GlobalContext* globalCtx, Actor* actor, s32 arg2) {
     return 0;
 }
 
-u32 func_8002F674(GlobalContext* globalCtx, Actor* actor) {
-    if (actor->attachedB == NULL) {
-        return 1;
+u32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor) {
+    if (actor->child == NULL) {
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -2073,7 +2073,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 actor = actor->next;
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
                        (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->navi) &&
-                        (actor != player->heldActor) && (&player->actor != actor->attachedA))) {
+                        (actor != player->heldActor) && (&player->actor != actor->parent))) {
                 func_80061E8C(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
@@ -2804,18 +2804,18 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     return actor;
 }
 
-Actor* Actor_SpawnAttached(ActorContext* actorCtx, Actor* attachedTo, GlobalContext* globalCtx, s16 actorId, f32 posX,
-                           f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params) {
+Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* globalCtx, s16 actorId, f32 posX,
+                          f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params) {
     Actor* spawnedActor = Actor_Spawn(actorCtx, globalCtx, actorId, posX, posY, posZ, rotX, rotY, rotZ, params);
     if (spawnedActor == NULL) {
         return NULL;
     }
 
-    attachedTo->attachedB = spawnedActor;
-    spawnedActor->attachedA = attachedTo;
+    parent->child = spawnedActor;
+    spawnedActor->parent = parent;
 
     if (spawnedActor->room >= 0) {
-        spawnedActor->room = attachedTo->room;
+        spawnedActor->room = parent->room;
     }
 
     return spawnedActor;
@@ -3147,8 +3147,8 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
         }
 
         mtx = &arg1->unk_00[arg1->unk_08];
-        spawnedEnPart = (EnPart*)Actor_SpawnAttached(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
-                                                     mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
+        spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
+                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
         if (spawnedEnPart != NULL) {
             func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
             spawnedEnPart->unk_150 = arg1->unk_0C[arg1->unk_08];
@@ -3220,7 +3220,7 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
     }
 }
 
-Actor* func_80033640(GlobalContext* globalCtx, Collider* collider) {
+Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) {
     if ((collider->acFlags & 0x2) && (collider->ac->type == ACTORTYPE_EXPLOSIVES)) {
         collider->acFlags &= ~0x2;
         return collider->ac;
@@ -3916,7 +3916,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
 
     switch (actor->params) {
         case 0:
-            if (func_8002F410(actor, globalCtx)) {
+            if (Actor_HasParent(actor, globalCtx)) {
                 actor->params = 1;
             } else if (!(actor->bgCheckFlags & 1)) {
                 Actor_MoveForward(actor);
@@ -3929,7 +3929,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if (func_8002F5A0(actor, globalCtx)) {
+            if (Actor_HasNoParent(actor, globalCtx)) {
                 actor->params = 0;
             }
             break;
@@ -4109,15 +4109,15 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
 }
 
 /**
- * Spawns En_Part (Dissipating Flames) actor attached to the given actor.
+ * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
 EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, Vec3f* arg3, s32 arg4, s32 unused,
                       GlobalContext* globalCtx, s16 params, s32 arg8) {
     EnPart* spawnedEnPart;
 
     spawnedEnPart =
-        (EnPart*)Actor_SpawnAttached(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
-                                     spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
+        (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
+                                    spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3->x;

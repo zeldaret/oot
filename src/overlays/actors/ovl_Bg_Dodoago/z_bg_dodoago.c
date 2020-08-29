@@ -45,7 +45,7 @@ static ColliderCylinderInit sColCylinderInit1 = {
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
-s16 slsAttached = false;
+s16 sHasParent = false;
 
 Color_RGBA8_n D_8087259C = { 100, 100, 100, 0 };
 Color_RGBA8_n D_808725A0 = { 40, 40, 40, 0 };
@@ -122,13 +122,12 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
-    Actor* attachedActor = func_80033640(globalCtx, &this->colliders[0].base);
+    Actor* explosive = Actor_GetCollidedExplosive(globalCtx, &this->colliders[0].base);
 
-    if (attachedActor != NULL) {
+    if (explosive != NULL) {
         this->unk_164 =
-            (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &attachedActor->posRot.pos) >= this->dyna.actor.shape.rot.y)
-                ? 1
-                : 0;
+            (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &explosive->posRot.pos) >= this->dyna.actor.shape.rot.y) ? 1
+                                                                                                                   : 0;
 
         if (((globalCtx->unk_11D30[0] == 0xFF) && (this->unk_164 == 1)) ||
             ((globalCtx->unk_11D30[1] == 0xFF) && (this->unk_164 == 0))) {
@@ -148,9 +147,9 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (!slsAttached) {
-            this->dyna.actor.attachedA = attachedActor;
-            slsAttached = true;
+        if (!sHasParent) {
+            this->dyna.actor.parent = explosive;
+            sHasParent = true;
             D_80872824 = 0x32;
         }
     } else {
@@ -219,9 +218,11 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
 
     if (Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
         BgDodoago_SetupAction(this, func_8087227C);
-        Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
     } else {
-        Audio_PlaySoundGeneral(NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                               &D_801333E0, &D_801333E8);
     }
 }
 
@@ -240,8 +241,8 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
     EnBom* bomb;
 
-    if (this->dyna.actor.attachedA == NULL) {
-       if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
+    if (this->dyna.actor.parent == NULL) {
+        if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
 
             if ((s32)(this->colliders[1].base.maskA & 2)) {
                 bomb = (EnBom*)this->colliders[1].base.oc;
@@ -251,7 +252,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->colliders[1].base.maskA &= ~2;
             this->colliders[2].base.maskA &= ~2;
             if (bomb->actor.type == ACTORTYPE_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
-                this->dyna.actor.attachedA = &bomb->actor;
+                this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;
                 bomb->actor.speedXZ = 0.0f;
                 D_80872824 = 0;
@@ -264,7 +265,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
                 D_808727C0[0]++;
             } else {
-                this->dyna.actor.attachedA = NULL;
+                this->dyna.actor.parent = NULL;
             }
         }
     }

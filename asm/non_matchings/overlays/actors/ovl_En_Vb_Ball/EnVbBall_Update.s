@@ -207,7 +207,7 @@ glabel EnVbBall_Update
 /* 008E0 80B29880 AFAB0024 */  sw      $t3, 0x0024($sp)           
 /* 008E4 80B29884 8628001C */  lh      $t0, 0x001C($s1)           ## 0000001C
 /* 008E8 80B29888 250C0001 */  addiu   $t4, $t0, 0x0001           ## $t4 = 00000001
-/* 008EC 80B2988C 0C00C916 */  jal     Actor_SpawnAttached
+/* 008EC 80B2988C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 008F0 80B29890 AFAC0028 */  sw      $t4, 0x0028($sp)           
 /* 008F4 80B29894 10400031 */  beq     $v0, $zero, .L80B2995C     

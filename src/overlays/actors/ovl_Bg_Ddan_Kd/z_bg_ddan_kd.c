@@ -60,7 +60,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 sp24 = 0;
 
-    this->previousCollidingExplosion = NULL;
+    this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
@@ -86,26 +86,25 @@ void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
-    Actor* currentCollidingExplosion;
+    Actor* explosive;
 
-    currentCollidingExplosion = func_80033640(globalCtx, &this->collider);
-    if (currentCollidingExplosion != NULL) {
+    explosive = Actor_GetCollidedExplosive(globalCtx, &this->collider);
+    if (explosive != NULL) {
         osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
-        currentCollidingExplosion->params = 2;
+        explosive->params = 2;
     }
-    if ((currentCollidingExplosion != NULL) && (this->previousCollidingExplosion != NULL) &&
-        (currentCollidingExplosion != this->previousCollidingExplosion) &&
-        (Math_Vec3f_DistXZ(&this->previousCollidingExplosionPos, &currentCollidingExplosion->posRot.pos) > 80.0f)) {
+    if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
+        (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->posRot.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
         func_800800F8(globalCtx, 0xBEA, 0x3E7, this, 0);
     } else {
         if (this->timer != 0) {
             this->timer -= 1;
         } else {
-            this->previousCollidingExplosion = currentCollidingExplosion;
-            if (currentCollidingExplosion != NULL) {
+            this->prevExplosive = explosive;
+            if (explosive != NULL) {
                 this->timer = 13;
-                this->previousCollidingExplosionPos = currentCollidingExplosion->posRot.pos;
+                this->prevExplosivePos = explosive->posRot.pos;
             }
         }
         Collider_CylinderUpdate(&this->dyna.actor, &this->collider);

@@ -69,9 +69,9 @@ void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, UNK_TYPE arg2, Dy
 
 void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 5) & 1) {
-        Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_OBJ_ICE_POLY, this->dyna.actor.posRot.pos.x,
-                            this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, this->dyna.actor.posRot.rot.x,
-                            this->dyna.actor.posRot.rot.y, this->dyna.actor.posRot.rot.z, 1);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_OBJ_ICE_POLY, this->dyna.actor.posRot.pos.x,
+                           this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, this->dyna.actor.posRot.rot.x,
+                           this->dyna.actor.posRot.rot.y, this->dyna.actor.posRot.rot.z, 1);
     }
 }
 

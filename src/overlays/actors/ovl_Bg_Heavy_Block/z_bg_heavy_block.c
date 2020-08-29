@@ -323,8 +323,8 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
-    // if attached A is set, start onepointdemo (cutscene) and quake
-    if (func_8002F410(&this->dyna.actor, globalCtx)) {
+    // if block has a parent link has lifted it, start onepointdemo (cutscene) and quake
+    if (Actor_HasParent(&this->dyna.actor, globalCtx)) {
         this->timer = 0;
 
         switch (this->dyna.actor.params & 0xFF) {
@@ -376,8 +376,8 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
     func_8002DF54(globalCtx, player, 8);
 
-    // if attachedA is NULL, link threw it
-    if (func_8002F5A0(&this->dyna.actor, globalCtx)) {
+    // if parent is NULL, link threw it
+    if (Actor_HasNoParent(&this->dyna.actor, globalCtx)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_HEAVY_THROW);
         this->actionFunc = BgHeavyBlock_Fly;
     }

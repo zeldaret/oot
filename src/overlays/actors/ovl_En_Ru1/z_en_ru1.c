@@ -1028,8 +1028,8 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
-    this->unk_278 = Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                        0, yawTowardsLink, 0, 5);
+    this->unk_278 = Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
+                                       0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1595,7 +1595,7 @@ void func_80AEE488(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     s8 curRoomNum;
 
-    if (func_8002F410(thisx, globalCtx)) {
+    if (Actor_HasParent(thisx, globalCtx)) {
         curRoomNum = globalCtx->roomCtx.curRoom.num;
         this->roomNum3 = curRoomNum;
         this->action = 31;
@@ -1663,7 +1663,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
     Player* player;
     f32* unk_370 = &this->unk_370;
 
-    if (func_8002F5A0(this, globalCtx)) {
+    if (Actor_HasNoParent(this, globalCtx)) {
         frameCount = SkelAnime_GetFrameCount(&D_06006B9C.genericHeader);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06006B9C, 1.0f, 0, frameCount, 0, -8.0f);
         func_80AED6DC(this, globalCtx);

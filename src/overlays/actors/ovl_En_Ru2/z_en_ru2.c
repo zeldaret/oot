@@ -252,7 +252,7 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = thisx->posRot.pos.y;
     f32 posZ = thisx->posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
@@ -261,8 +261,7 @@ void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = player->actor.posRot.pos.y + 50.0f;
     f32 posZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
-                        10);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0, 10);
     Item_Give(globalCtx, ITEM_MEDALLION_WATER);
 }
 
@@ -391,8 +390,8 @@ void func_80AF2E64() {
 }
 
 void func_80AF2E84(EnRu2* this, GlobalContext* globalCtx) {
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                        kREG(19) + 24.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 8);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
+                       kREG(19) + 24.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 8);
 }
 
 void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {

@@ -125,7 +125,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     if (this->flowerBombScale >= 1.0f) {
-        if (func_8002F410(&this->actor, globalCtx)) {
+        if (Actor_HasParent(&this->actor, globalCtx)) {
             bombFlower =
                 (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
                                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
@@ -136,10 +136,10 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
                 this->actor.flags &= ~1;
             } else {
-                player->actor.attachedB = NULL;
+                player->actor.child = NULL;
                 player->heldActor = NULL;
                 player->interactRangeActor = NULL;
-                this->actor.attachedA = NULL;
+                this->actor.parent = NULL;
                 player->stateFlags1 &= ~0x800;
             }
         } else if (this->bombCollider.base.acFlags & 2) {
@@ -169,13 +169,13 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                     this->flowerBombScale = 0.0f;
                 }
             } else {
-                if (!func_8002F410(&this->actor, globalCtx)) {
+                if (!Actor_HasParent(&this->actor, globalCtx)) {
                     func_8002F580(&this->actor, globalCtx);
                 } else {
-                    player->actor.attachedB = NULL;
+                    player->actor.child = NULL;
                     player->heldActor = NULL;
                     player->interactRangeActor = NULL;
-                    this->actor.attachedA = NULL;
+                    this->actor.parent = NULL;
                     player->stateFlags1 &= ~0x800;
                     this->actor.posRot.pos = this->actor.initPosRot.pos;
                 }
@@ -189,11 +189,11 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (func_8002F410(&this->actor, globalCtx)) {
-            player->actor.attachedB = NULL;
+        if (Actor_HasParent(&this->actor, globalCtx)) {
+            player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            this->actor.attachedA = NULL;
+            this->actor.parent = NULL;
             player->stateFlags1 &= ~0x800;
             this->actor.posRot.pos = this->actor.initPosRot.pos;
         }
@@ -201,7 +201,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
 }
 
 void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx)) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         // setting flowerBombScale does not do anything in the context of a bomb that link picks up
         // this and the assignment below are probably left overs
         this->flowerBombScale = 0.0f;
@@ -226,8 +226,8 @@ void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
 }
 
 void EnBombf_WaitForRelease(EnBombf* this, GlobalContext* globalCtx) {
-    // if attachedA is NULL bomb has been released
-    if (func_8002F5A0(&this->actor, globalCtx)) {
+    // if parent is NULL bomb has been released
+    if (Actor_HasNoParent(&this->actor, globalCtx)) {
         EnBombf_SetupAction(this, EnBombf_Move);
         EnBombf_Move(this, globalCtx);
     } else {
@@ -278,7 +278,7 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
         player = PLAYER;
 
         if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
-            player->actor.attachedB = NULL;
+            player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
             player->stateFlags1 &= ~0x800;
@@ -302,7 +302,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if ((!this->bumpOn) && (!func_8002F410(thisx, globalCtx)) &&
+    if ((!this->bumpOn) && (!Actor_HasParent(thisx, globalCtx)) &&
         ((thisx->xzDistFromLink >= 20.0f) || (ABS(thisx->yDistFromLink) >= 80.0f))) {
         this->bumpOn = true;
     }
@@ -387,7 +387,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 effPos.y += 10.0f;
 
-                if (func_8002F410(thisx, globalCtx)) {
+                if (Actor_HasParent(thisx, globalCtx)) {
                     effPos.y += 30.0f;
                 }
 
