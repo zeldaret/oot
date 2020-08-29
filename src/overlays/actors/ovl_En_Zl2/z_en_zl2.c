@@ -406,11 +406,9 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
     this->unk_20C[arg2] = arg1;
 }
 
-#ifdef NON_MATCHING
-// single register swap in a subu instruction
 void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_v1;
-    s32 temp_t0;
+    s16 temp_t0;
     s32 temp_t2;
     s32 temp_t3;
     s32 phi_v0;
@@ -420,7 +418,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 
     if (this->unk_24C != 0) {
         temp_v1 = this->unk_1DC[arg2] - arg1;
-        temp_t0 = (s16)temp_v1;
+        temp_t0 = temp_v1;
         temp_t2 = temp_t0;
         temp_t3 = this->unk_1AC[arg2];
         phi_v0 = temp_t3;
@@ -450,7 +448,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
             phi_t5 = -ABS(this->unk_1AC[index1AC]);
         }
 
-        if ((s32)fabsf((f32)temp_t3) > 0x8000) {
+        if ((s32)fabsf(temp_t3) > 0x8000) {
             if (arg1 > 0) {
                 temp_t3 -= 0x10000;
             } else {
@@ -462,7 +460,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
         }
 
         if (temp_t3 != 0) {
-            phi_v0 += (temp_t3 - temp_1AC) / 16;
+            phi_v0 += (temp_t3 - phi_v0) / 16;
         }
         if (phi_v0 != 0) {
             phi_v0 -= phi_v0 / 10;
@@ -471,7 +469,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 -= temp_t0 / 50;
         }
         temp_v1 += phi_v0;
-        if (((temp_1AC * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
             temp_v1 = 0;
             phi_v0 = 0;
         }
@@ -480,9 +478,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     }
     this->unk_20C[arg2] = arg1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F230.s")
-#endif
 
 s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                   Gfx** gfx) {
