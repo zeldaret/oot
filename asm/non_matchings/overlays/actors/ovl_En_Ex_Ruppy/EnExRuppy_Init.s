@@ -180,9 +180,9 @@ glabel L80A0A478
 /* 001E8 80A0A5F8 44812000 */  mtc1    $at, $f4                   ## $f4 = 700.00
 /* 001EC 80A0A5FC 860E0034 */  lh      $t6, 0x0034($s0)           ## 00000034
 /* 001F0 80A0A600 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
-/* 001F4 80A0A604 3C0880A1 */  lui     $t0, %hi(func_80A0AA3C)    ## $t0 = 80A10000
+/* 001F4 80A0A604 3C0880A1 */  lui     $t0, %hi(EnExRuppy_DropIntoWater)    ## $t0 = 80A10000
 /* 001F8 80A0A608 240F001E */  addiu   $t7, $zero, 0x001E         ## $t7 = 0000001E
-/* 001FC 80A0A60C 2508AA3C */  addiu   $t0, $t0, %lo(func_80A0AA3C) ## $t0 = 80A0AA3C
+/* 001FC 80A0A60C 2508AA3C */  addiu   $t0, $t0, %lo(EnExRuppy_DropIntoWater) ## $t0 = 80A0AA3C
 /* 00200 80A0A610 0301C824 */  and     $t9, $t8, $at              
 /* 00204 80A0A614 A6000034 */  sh      $zero, 0x0034($s0)         ## 00000034
 /* 00208 80A0A618 A60F0156 */  sh      $t7, 0x0156($s0)           ## 00000156
@@ -234,8 +234,8 @@ glabel L80A0A634
 /* 002A4 80A0A6B4 3C01442F */  lui     $at, 0x442F                ## $at = 442F0000
 /* 002A8 80A0A6B8 44818000 */  mtc1    $at, $f16                  ## $f16 = 700.00
 /* 002AC 80A0A6BC 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
-/* 002B0 80A0A6C0 3C1980A1 */  lui     $t9, %hi(func_80A0AF24)    ## $t9 = 80A10000
-/* 002B4 80A0A6C4 2739AF24 */  addiu   $t9, $t9, %lo(func_80A0AF24) ## $t9 = 80A0AF24
+/* 002B0 80A0A6C0 3C1980A1 */  lui     $t9, %hi(EnExRuppy_WaitToBlowUp)    ## $t9 = 80A10000
+/* 002B4 80A0A6C4 2739AF24 */  addiu   $t9, $t9, %lo(EnExRuppy_WaitToBlowUp) ## $t9 = 80A0AF24
 /* 002B8 80A0A6C8 01E1C024 */  and     $t8, $t7, $at              
 /* 002BC 80A0A6CC AE180004 */  sw      $t8, 0x0004($s0)           ## 00000004
 /* 002C0 80A0A6D0 AE19014C */  sw      $t9, 0x014C($s0)           ## 0000014C
@@ -293,8 +293,8 @@ glabel L80A0A6E0
 /* 00370 80A0A780 3C01442F */  lui     $at, 0x442F                ## $at = 442F0000
 /* 00374 80A0A784 44814000 */  mtc1    $at, $f8                   ## $f8 = 700.00
 /* 00378 80A0A788 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
-/* 0037C 80A0A78C 3C0D80A1 */  lui     $t5, %hi(func_80A0B070)    ## $t5 = 80A10000
-/* 00380 80A0A790 25ADB070 */  addiu   $t5, $t5, %lo(func_80A0B070) ## $t5 = 80A0B070
+/* 0037C 80A0A78C 3C0D80A1 */  lui     $t5, %hi(EnExRuppy_WaitAsCollectible)    ## $t5 = 80A10000
+/* 00380 80A0A790 25ADB070 */  addiu   $t5, $t5, %lo(EnExRuppy_WaitAsCollectible) ## $t5 = 80A0B070
 /* 00384 80A0A794 01616024 */  and     $t4, $t3, $at              
 /* 00388 80A0A798 AE0C0004 */  sw      $t4, 0x0004($s0)           ## 00000004
 /* 0038C 80A0A79C AE0D014C */  sw      $t5, 0x014C($s0)           ## 0000014C

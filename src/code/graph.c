@@ -221,12 +221,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->output_buff_size = (u64*)((u8*)gGfxSPTaskOutputBuffer + sizeof(gGfxSPTaskOutputBuffer));
     task->data_ptr = (u64*)gfxCtx->workBuffer;
 
-    {
-        Gfx* dispRefs[5];
-        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 828);
-        task->data_size = (u32)gfxCtx->work.p - (u32)gfxCtx->workBuffer;
-        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 830);
-    }
+    OPEN_DISPS(gfxCtx, "../graph.c", 828);
+    task->data_size = (u32)oGfxCtx->work.p - (u32)gfxCtx->workBuffer;
+    CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
     { s32 pad2; } // Necessary to match stack usage
 
@@ -271,46 +268,37 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     gameState->unk_A0 = 0;
     Graph_InitTHGA(gfxCtx);
 
-    {
-        Gfx* dispRefs[5];
-        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 966);
+    OPEN_DISPS(gfxCtx, "../graph.c", 966);
 
-        gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 開始", 0);
-        gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 開始", 0);
-        gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 開始", 0);
-        gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
+    gDPNoOpString(oGfxCtx->work.p++, "WORK_DISP 開始", 0);
+    gDPNoOpString(oGfxCtx->polyOpa.p++, "POLY_OPA_DISP 開始", 0);
+    gDPNoOpString(oGfxCtx->polyXlu.p++, "POLY_XLU_DISP 開始", 0);
+    gDPNoOpString(oGfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
 
-        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 975);
-    }
+    CLOSE_DISPS(gfxCtx, "../graph.c", 975);
 
     GameState_ReqPadData(gameState);
     GameState_Update(gameState);
 
-    {
-        Gfx* dispRefs[5];
-        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 987);
+    OPEN_DISPS(gfxCtx, "../graph.c", 987);
 
-        gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 終了", 0);
-        gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 終了", 0);
-        gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 終了", 0);
-        gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 終了", 0);
+    gDPNoOpString(oGfxCtx->work.p++, "WORK_DISP 終了", 0);
+    gDPNoOpString(oGfxCtx->polyOpa.p++, "POLY_OPA_DISP 終了", 0);
+    gDPNoOpString(oGfxCtx->polyXlu.p++, "POLY_XLU_DISP 終了", 0);
+    gDPNoOpString(oGfxCtx->overlay.p++, "OVERLAY_DISP 終了", 0);
 
-        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 996);
-    }
+    CLOSE_DISPS(gfxCtx, "../graph.c", 996);
 
-    {
-        Gfx* dispRefs[5];
-        Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 999);
+    OPEN_DISPS(gfxCtx, "../graph.c", 999);
 
-        gSPBranchList(gfxCtx->work.p++, gfxCtx->polyOpaBuffer);
-        gSPBranchList(gfxCtx->polyOpa.p++, gfxCtx->polyXluBuffer);
-        gSPBranchList(gfxCtx->polyXlu.p++, gfxCtx->overlayBuffer);
-        gDPPipeSync(gfxCtx->overlay.p++);
-        gDPFullSync(gfxCtx->overlay.p++);
-        gSPEndDisplayList(gfxCtx->overlay.p++);
+    gSPBranchList(oGfxCtx->work.p++, gfxCtx->polyOpaBuffer);
+    gSPBranchList(oGfxCtx->polyOpa.p++, gfxCtx->polyXluBuffer);
+    gSPBranchList(oGfxCtx->polyXlu.p++, gfxCtx->overlayBuffer);
+    gDPPipeSync(oGfxCtx->overlay.p++);
+    gDPFullSync(oGfxCtx->overlay.p++);
+    gSPEndDisplayList(oGfxCtx->overlay.p++);
 
-        Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 1028);
-    }
+    CLOSE_DISPS(gfxCtx, "../graph.c", 1028);
 
     if (HREG(80) == 10 && HREG(93) == 2) {
         HREG(80) = 7;
