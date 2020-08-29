@@ -2805,7 +2805,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
 }
 
 Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* globalCtx, s16 actorId, f32 posX,
-                        f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params) {
+                          f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params) {
     Actor* spawnedActor = Actor_Spawn(actorCtx, globalCtx, actorId, posX, posY, posZ, rotX, rotY, rotZ, params);
     if (spawnedActor == NULL) {
         return NULL;
@@ -3148,7 +3148,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
 
         mtx = &arg1->unk_00[arg1->unk_08];
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
-                                                  mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
+                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
         if (spawnedEnPart != NULL) {
             func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
             spawnedEnPart->unk_150 = arg1->unk_0C[arg1->unk_08];
@@ -4117,7 +4117,7 @@ EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, Vec3f* arg
 
     spawnedEnPart =
         (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
-                                  spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
+                                    spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3->x;

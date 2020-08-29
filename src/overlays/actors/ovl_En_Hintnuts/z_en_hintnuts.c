@@ -99,7 +99,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         EnHintnuts_SetupWait(this);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_HINTNUTS, this->actor.posRot.pos.x,
-                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.posRot.rot.y, 0, 0xA);
+                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.posRot.rot.y, 0, 0xA);
     }
 }
 

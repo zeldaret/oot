@@ -189,8 +189,8 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.y -= 200.0f;
 
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                 this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500, 0,
-                                 0, 0x24);
+                                   this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500, 0,
+                                   0, 0x24);
 
                 tmpVec = D_80A117BC;
 
@@ -217,14 +217,14 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 
                 for (i = 0; i < 8; i++) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                     this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                                     (i * 8192) + randY, 0x4000, i + 0x64);
+                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                       (i * 8192) + randY, 0x4000, i + 0x64);
                 }
 
                 for (i = 0; i < 8; i++) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                     this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                                     (i * 8192) + randY, 0, 0x23);
+                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                       (i * 8192) + randY, 0, 0x23);
                 }
             }
 

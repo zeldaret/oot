@@ -117,7 +117,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
         for (i = 0; i < ARRAY_COUNT(sRupeePositions); i++) {
             rupeePos = sRupeePositions[i];
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY, rupeePos.x, rupeePos.y,
-                             rupeePos.z, 0, 0, 0, 3);
+                               rupeePos.z, 0, 0, 0, 3);
         }
     }
 

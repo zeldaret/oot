@@ -403,7 +403,7 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx);
 Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId, f32 posX, f32 posY, f32 posZ,
                    s16 rotX, s16 rotY, s16 rotZ, s16 params);
 Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* globalCtx, s16 actorId, f32 posX,
-                           f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params);
+                          f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params);
 void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalContext* globalCtx);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalCtx);

@@ -391,7 +391,7 @@ void func_80AF2E64() {
 
 void func_80AF2E84(EnRu2* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                     kREG(19) + 24.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 8);
+                       kREG(19) + 24.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 8);
 }
 
 void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {

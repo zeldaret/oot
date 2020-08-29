@@ -59,7 +59,7 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_284 = 0;
     this->actor.gravity = -1.0f;
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_JSJUTAN, this->actor.posRot.pos.x,
-                     this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
 }
 
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {

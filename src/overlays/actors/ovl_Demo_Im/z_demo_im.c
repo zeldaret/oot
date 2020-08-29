@@ -319,8 +319,8 @@ void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
     f32 playerY = player->actor.posRot.pos.y + 80.0f;
     f32 playerZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, playerX, playerY, playerZ, 0, 0,
-                     0, 0xD);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, playerX, playerY, playerZ, 0,
+                       0, 0, 0xD);
     Item_Give(globalCtx, GI_BOMBCHUS_5);
 }
 
@@ -441,7 +441,7 @@ void func_809858A8(void) {
 
 void func_809858C8(DemoIm* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                     (kREG(17) + 24.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 6);
+                       (kREG(17) + 24.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 6);
 }
 
 void func_80985948(DemoIm* this, GlobalContext* globalCtx) {

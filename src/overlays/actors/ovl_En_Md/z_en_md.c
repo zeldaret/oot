@@ -602,7 +602,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.unk_1F = 6;
     this->alpha = 255;
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                     this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
+                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
 
     if (((globalCtx->sceneNum == SCENE_SPOT04) && !(gSaveContext.eventChkInf[0] & 0x10)) ||
         ((globalCtx->sceneNum == SCENE_SPOT04) && (gSaveContext.eventChkInf[0] & 0x10) &&
