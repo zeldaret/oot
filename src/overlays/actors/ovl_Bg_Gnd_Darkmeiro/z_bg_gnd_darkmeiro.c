@@ -20,7 +20,7 @@ void BgGndDarkmeiro_DrawSwitchedPlatform(Actor* thisx, GlobalContext* globalCtx)
 void BgGndDarkmeiro_DrawStaticPlatform(Actor* thisx, GlobalContext* globalCtx);
 
 void BgGndDarkmeiro_TogglePlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
-void BgGndDarkmeiro_NoAction(BgGndDarkmeiro* this, GlobalContext* globalCtx);
+void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_PlatformTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_StaticPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_SwitchedPlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx);
@@ -44,14 +44,14 @@ extern UNK_TYPE D_0600C080;
 
 void BgGndDarkmeiro_TogglePlatform(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 
-    if ((this->actorState & 2) != 0) {
+    if ((this->actionState & 2) != 0) {
         if (this->timer1 == 0) {
             func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-            this->actorState &= ~2;
+            this->actionState &= ~2;
         }
     } else if (this->timer1 != 0) {
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-        this->actorState |= 2;
+        this->actionState |= 2;
     }
 }
 
@@ -60,7 +60,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 local_c = 0;
     DynaCollisionContext* sp20;
 
-    this->actionFunc = BgGndDarkmeiro_NoAction;
+    this->actionFunc = BgGndDarkmeiro_DoNothing;
     Actor_SetScale(&this->dyna.actor, 0.1f);
 
     switch (thisx->params & 0xFF) {
@@ -80,14 +80,14 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = BgGndDarkmeiro_StaticPlatform;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticPlatform;
             } else {
-                this->actorState = this->timer1 = this->timer2 = 0;
+                this->actionState = this->timer1 = this->timer2 = 0;
                 thisx->draw = BgGndDarkmeiro_DrawSwitchedPlatform;
                 this->actionFunc = BgGndDarkmeiro_SwitchedPlatform;
                 if (Flags_GetSwitch(globalCtx, SWITCH) == 0) {
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 } else {
                     this->timer1 = 64;
-                    this->actorState |= 2;
+                    this->actionState |= 2;
                 }
             }
             break;
@@ -97,16 +97,16 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
         and N+2, and the timer sets flag N as long as either timer is above 64 frames. Does not need
         transparent platforms to be present to function.*/
 
-            this->actorState = this->timer1 = this->timer2 = 0;
+            this->actionState = this->timer1 = this->timer2 = 0;
             this->actionFunc = BgGndDarkmeiro_PlatformTimer;
             thisx->draw = NULL;
             if (Flags_GetSwitch(globalCtx, SWITCH + 1) != 0) {
                 this->timer1 = 64;
-                this->actorState |= 4;
+                this->actionState |= 4;
             }
             if (Flags_GetSwitch(globalCtx, SWITCH + 2) != 0) {
                 this->timer2 = 64;
-                this->actorState |= 8;
+                this->actionState |= 8;
             }
             if ((this->timer1 != 0) || (this->timer2 != 0)) {
                 Flags_SetSwitch(globalCtx, SWITCH);
@@ -127,37 +127,36 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgGndDarkmeiro_NoAction(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
-    // This mode 0's action function, as well as any undefined mode. It does nothing.
+void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_PlatformTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     s16 timeLeft;
 
     if (Flags_GetSwitch(globalCtx, SWITCH + 1) != 0) {
-        if ((this->actorState & 4) != 0) {
+        if ((this->actionState & 4) != 0) {
             if (this->timer1 > 0) {
                 this->timer1--;
             } else {
                 Flags_UnsetSwitch(globalCtx, SWITCH + 1);
-                this->actorState &= ~4;
+                this->actionState &= ~4;
             }
         } else {
-            this->actorState |= 4;
+            this->actionState |= 4;
             this->timer1 = 304;
             Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
     if (Flags_GetSwitch(globalCtx, SWITCH + 2) != 0) {
-        if ((this->actorState & 8) != 0) {
+        if ((this->actionState & 8) != 0) {
             if (this->timer2 > 0) {
                 this->timer2--;
             } else {
                 Flags_UnsetSwitch(globalCtx, SWITCH + 2);
-                this->actorState &= ~8;
+                this->actionState &= ~8;
             }
         } else {
-            this->actorState |= 8;
+            this->actionState |= 8;
             this->timer2 = 304;
             Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
@@ -219,8 +218,10 @@ void BgGndDarkmeiro_DrawSwitchedPlatform(Actor* thisx, GlobalContext* globalCtx)
             }
         } else {
             this->timer2 = vanishTimer * 8;
-        } // This block of code sets the transparency of the platforms and causes them to flash before they
-          // vanish when their switch is unset. Or it would if they didn't ignore all of their color data.
+        }
+        // @ bug
+        // This block of code sets the transparency of the platforms and causes them to flash before they
+        // vanish when their switch is cleared. Or it would if they didn't ignore all of their color data.
 
         gfxCtx = globalCtx->state.gfxCtx;
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
@@ -228,7 +229,6 @@ void BgGndDarkmeiro_DrawSwitchedPlatform(Actor* thisx, GlobalContext* globalCtx)
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
 
         Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
-
     }
 }
 
@@ -239,6 +239,6 @@ void BgGndDarkmeiro_DrawStaticPlatform(Actor* thisx, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
-    
+
     Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
 }
