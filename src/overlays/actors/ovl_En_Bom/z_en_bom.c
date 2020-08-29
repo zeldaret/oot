@@ -94,7 +94,7 @@ void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
-    // if attached A is not null, the bomb hasnt been released yet
+    // if bomb has a parent actor, the bomb hasnt been released yet
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnBom_SetupAction(this, EnBom_WaitForRelease);
         this->actor.room = -1;

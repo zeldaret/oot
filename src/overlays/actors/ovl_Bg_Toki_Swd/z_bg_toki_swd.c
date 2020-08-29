@@ -124,7 +124,7 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
 void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
     Player* player;
 
-    // if attached is set, sword has been pulled/placed from the pedestal
+    // if sword has a parent it has been pulled/placed from the pedestal
     if (Actor_HasParent(&this->actor, globalCtx)) {
         if (LINK_IS_CHILD) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);

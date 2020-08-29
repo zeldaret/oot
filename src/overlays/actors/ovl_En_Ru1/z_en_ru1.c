@@ -1028,8 +1028,8 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
-    this->unk_278 = Actor_SpawnChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                        0, yawTowardsLink, 0, 5);
+    this->unk_278 = Actor_SpawnChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ, 0,
+                                     yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {

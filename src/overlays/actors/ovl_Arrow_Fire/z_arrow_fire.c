@@ -1,7 +1,7 @@
 /*
  * File: z_arrow_fire.c
  * Overlay: ovl_Arrow_Fire
- * Description: Fire Arrow. Spawned by and attached to a normal arrow.
+ * Description: Fire Arrow. Spawned as a child of a normal arrow.
  */
 
 #include "z_arrow_fire.h"
@@ -73,13 +73,13 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
     if (this->radius < 10) {
         this->radius += 1;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
     func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_FIRE - SFX_FLAG);
 
-    // If arrow's attached is null, Link has fired the arrow
+    // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
@@ -156,7 +156,7 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
     distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * (1.0f / 24.0f);

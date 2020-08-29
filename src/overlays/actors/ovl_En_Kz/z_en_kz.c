@@ -319,8 +319,8 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
         if (!(gSaveContext.infTable[19] & 0x100)) {
             Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
-                                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
-                                0x04FF);
+                             this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+                             0x04FF);
         }
         this->actionFunc = EnKz_Wait;
     } else {

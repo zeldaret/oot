@@ -1,7 +1,7 @@
 /*
  * File: z_arrow_ice.c
  * Overlay: ovl_Arrow_Ice
- * Description: Ice Arrow. Spawned by and attached to a normal arrow.
+ * Description: Ice Arrow. Spawned as a child of a normal arrow.
  */
 
 #include "z_arrow_ice.h"
@@ -74,13 +74,13 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     if (this->radius < 10) {
         this->radius += 1;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
     func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE - SFX_FLAG);
 
-    // If arrow's attached is null, Link has fired the arrow
+    // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
@@ -157,7 +157,7 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
     distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * (1.0f / 24.0f);

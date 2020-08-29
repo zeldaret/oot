@@ -323,7 +323,7 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
-    // if attached A is set, start onepointdemo (cutscene) and quake
+    // if block has a parent link has lifted it, start onepointdemo (cutscene) and quake
     if (Actor_HasParent(&this->dyna.actor, globalCtx)) {
         this->timer = 0;
 

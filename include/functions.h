@@ -414,7 +414,7 @@ void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx);
 void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
                    s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
-Actor* func_80033640(GlobalContext* globalCtx, Collider* collider);
+Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
 void Actor_ChangeType(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorType);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);

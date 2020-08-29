@@ -323,24 +323,19 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx1;
-    
-    gfxCtx1 = globalCtx->state.gfxCtx; // temp created for the "real" gfxCtx. roman wants to name this gfxCtx
+    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = localGfxCtx;
+    Gfx* dispRefs[4];
 
-    {
-        GraphicsContext* gfxCtx2 = gfxCtx1; // temp created by the macro, assigned to whatever is passed in
-        // gets used in gfx commands mainly. but you will see both versions in the code in cases like these
-        Gfx* dispRefs[4];
+    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_bg_spot01_idohashira.c", 689);
+    func_80093D18(localGfxCtx);
 
-        gfxCtx2 = gfxCtx1; Graph_OpenDisps(dispRefs, gfxCtx1, "../z_bg_spot01_idohashira.c", 689);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    func_808AAF34(this, globalCtx);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000420);
 
-        func_80093D18(gfxCtx1);
-        gSPMatrix(gfxCtx2->polyOpa.p++, Matrix_NewMtx(gfxCtx1, "../z_bg_spot01_idohashira.c", 699),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_808AAF34(this, globalCtx);
-        gSPDisplayList(gfxCtx2->polyOpa.p++, D_06000420);
-        Graph_CloseDisps(dispRefs, gfxCtx1, "../z_bg_spot01_idohashira.c", 708);
-    }
+    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_bg_spot01_idohashira.c", 708);
 }
 
 void BgSpot01Idohashira_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -1,7 +1,7 @@
 /*
  * File: z_arrow_light.c
  * Overlay: ovl_Arrow_Light
- * Description: Light Arrow. Spawned by and attached to a normal arrow.
+ * Description: Light Arrow. Spawned as a child of a normal arrow.
  */
 
 #include "z_arrow_light.h"
@@ -74,13 +74,13 @@ void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
     if (this->radius < 10) {
         this->radius += 1;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
     func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_LIGHT - SFX_FLAG);
 
-    // If arrow's attached is null, Link has fired the arrow
+    // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
@@ -157,7 +157,7 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from parent arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
     distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * (1.0f / 24.0f);

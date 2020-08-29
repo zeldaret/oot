@@ -68,8 +68,8 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
     spawnPos = &block->posVecs[typeIdx];
 
     if (Actor_SpawnChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y,
-                            spawnPos->z, 0, block->rotY, 0,
-                            ((block->paramVal1 << 6) & 0xC0) | (block->paramVal2 & 0xF) | 0xFF00) == NULL) {
+                         spawnPos->z, 0, block->rotY, 0,
+                         ((block->paramVal1 << 6) & 0xC0) | (block->paramVal2 & 0xF) | 0xFF00) == NULL) {
         // Push-pull block failure
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);

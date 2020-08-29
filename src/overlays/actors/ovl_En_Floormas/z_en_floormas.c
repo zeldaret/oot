@@ -93,7 +93,7 @@ extern AnimationHeader D_06009244;
 
 void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
-    GlobalContext* gctx = globalCtx;
+    GlobalContext* globalCtx2 = globalCtx;
     s32 invisble;
     s32 pad;
 
@@ -121,16 +121,16 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         // spawn first small floormaster
         this->actor.parent =
-            Actor_Spawn(&gctx->actorCtx, gctx, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                        this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
+            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
         if (this->actor.parent == NULL) {
             Actor_Kill(&this->actor);
             return;
         }
         // spawn 2nd small floormaster
         this->actor.child =
-            Actor_Spawn(&gctx->actorCtx, gctx, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                        this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
+            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
         if (this->actor.child == NULL) {
             Actor_Kill(this->actor.parent);
             Actor_Kill(&this->actor);

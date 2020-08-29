@@ -709,8 +709,8 @@ void func_80B4FFF0(EnZl2* this, GlobalContext* globalCtx) {
         posY = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
         posZ = this->actor.posRot.pos.z;
 
-        Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0,
-                            0x4000, 0, 3);
+        Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
+                         0, 3);
         this->unk_248 = 1;
     }
 }

@@ -289,7 +289,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
             if (ACTOR_BG_SPOT15_SAKU != actor->dyna.actor.id) {
                 actor = (BgSpot15Saku*)(actor->dyna.actor.next);
             } else {
-                this->attachedGate = actor;
+                this->gate = actor;
                 actor->unk_168 = 1;
                 break;
             }
@@ -325,7 +325,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgSpot15Saku*)this->attachedGate;
+    gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
@@ -453,10 +453,10 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
     }
     if (this->unk_2EC <= frameCount) {
         while (gate != NULL) {
-            if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
+            if (gate->dyna.actor.id != ACTOR_BG_GATE_SHUTTER) {
                 gate = (BgGateShutter*)gate->dyna.actor.next;
             } else {
-                this->attachedGate = gate;
+                this->gate = gate;
                 gate->openingState = 1;
                 break;
             }
@@ -496,7 +496,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgGateShutter*)this->attachedGate;
+    gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
@@ -619,7 +619,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
             if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
                 gate = (BgGateShutter*)(gate->dyna.actor.next);
             } else {
-                this->attachedGate = gate;
+                this->gate = gate;
                 if (this->unk_30A != 2) {
                     gate->openingState = -1;
                     break;
