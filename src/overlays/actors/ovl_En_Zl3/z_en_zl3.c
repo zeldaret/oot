@@ -319,127 +319,154 @@ void func_80B53974(EnZl3* this, u8 arg1) {
 void func_80B53980(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
 /*void func_80B53980(EnZl3 *this, s16 arg1, s32 arg2) {
-    s16 temp_a1;
-    s16 temp_a3;
-    s32 temp_t0;
-    s32 temp_t0_2;
-    s32 temp_t0_3;
-    s32 temp_t5;
-    s32 temp_v0;
+    SkelAnime* skelAnime = &this->skelAnime;
+    s32 action;
+    s16 temp_t2;
+    s32 temp_a3;
     s32 temp_v0_2;
+    s32 temp_v0_3;
     s32 phi_t0;
     s32 phi_v1;
-    s32 phi_v1_2;
-    s32 phi_a3;
-    s32 phi_v1_3;
-    s16 phi_v1_4;
-    s32 phi_a3_2;
-    s32 phi_at;
-    s32 phi_t6;
-    s32 phi_v1_5;
-    s32 phi_at_2;
-    s32 phi_at_3;
+    s16 new_var;
 
-    temp_a1 = arg1;
+    action = this->action;
     if (this->unk_2FC != 0) {
-        temp_t0 = temp_a1 - this->unk_28C[arg2];
-        temp_a3 = this->unk_28C[arg2] + temp_a1;
-        phi_t0 = temp_t0;
-        if ((s32)fabsf((f32)temp_t0) >= 0x8001) {
-            phi_at = 0x10000;
+        new_var = (s16)(arg1 + this->unk_28C[arg2]);
+        temp_t2 = this->unk_25C[arg2];
+        phi_t0 = arg1 - this->unk_2BC[arg2];
+        temp_a3 = new_var;
+        phi_v1 = temp_t2;
+
+        if ((s32)fabsf(phi_t0) > 0x8000) {
             if (arg1 > 0) {
-                phi_at = 0xFFFF0000;
+                phi_t0 -= 0x10000;
+            } else {
+                phi_t0 += 0x10000;
             }
-            phi_t0 = temp_t0 + phi_at;
         }
-        if ((arg2 != 0) || (phi_v1 = (s32) this->unk_25C[arg2], (this->action != 4))) {
-            temp_t5 = phi_t0 - this->unk_25C[arg2];
-            phi_v1 = (s32) this->unk_25C[arg2];
+        
+        if ((arg2 != 0) || (action != 4)) {
             if (phi_t0 != 0) {
-                phi_t6 = temp_t5 >> 4;
-                if (temp_t5 < 0) {
-                    phi_t6 = (s32) (temp_t5 + 0xF) >> 4;
-                }
-                phi_v1 = (s32) (this->unk_25C[arg2] + phi_t6);
+                phi_v1 += (phi_t0 - temp_t2) / 16;
             }
         }
-        phi_v1_5 = phi_v1;
+
         if (phi_v1 != 0) {
-            phi_v1_5 = phi_v1 - (phi_v1 / 0xA);
+            phi_v1 -= phi_v1 / 10;
         }
-        temp_t0_2 = (s32) ((temp_a3 - temp_a1) << 0x10) >> 0x10;
-        phi_v1_2 = phi_v1_5;
-        if (temp_t0_2 != 0) {
-            phi_v1_2 = phi_v1_5 - (temp_t0_2 / 0x32);
+        
+        if ((s16)(temp_a3 - arg1) != 0) {
+            phi_v1 -= (s16)(temp_a3 - arg1) / 50;
         }
-        temp_a3 = temp_a3 + phi_v1_2;
-        temp_t0_3 = (s32) ((temp_a3 - temp_a1) << 0x10) >> 0x10;
-        phi_a3 = temp_a3;
-        phi_v1_3 = phi_v1_2;
-        if ((this->unk_25C[arg2] * phi_v1_2) <= 0) {
-            phi_a3 = temp_a3;
-            phi_v1_3 = phi_v1_2;
-            if (temp_t0_3 >= -0x63) {
-                phi_a3 = temp_a3;
-                phi_v1_3 = phi_v1_2;
-                if (temp_t0_3 < 0x64) {
-                    phi_a3 = temp_a1;
-                    phi_v1_3 = 0;
-                }
+
+        temp_a3 += phi_v1;
+        if ((temp_t2 * phi_v1) <= 0) {
+            if (((s16)(temp_a3 - arg1) > -0x64) && ((s16)(temp_a3 - arg1) < 0x64)) {
+                temp_a3 = arg1;
+                phi_v1 = 0;
             }
         }
-        phi_v1_4 = (s16) phi_v1_3;
-        phi_a3_2 = phi_a3;
+
         if (arg2 == 0) {
-            phi_v1_4 = (s16) phi_v1_3;
-            phi_a3_2 = phi_a3;
-            if (this->action == 3) {
-                temp_v0 = temp_a1 - 0x2AF8;
-                if (this->skelAnime.mode == 2) {
-                    temp_v0_2 = (s32) ((this->skelAnime.animCurrentFrame / this->unk_3DC) * -11000.0f) + temp_a1;
-                    phi_v1_4 = (s16) phi_v1_3;
-                    phi_a3_2 = phi_a3;
-                    if (phi_a3 >= temp_v0_2) {
-                        phi_v1_4 = (s16) phi_v1_3;
-                        phi_a3_2 = temp_v0_2;
-                        if (phi_v1_3 > 0) {
-                            phi_at_3 = phi_v1_3;
-                            if (phi_v1_3 < 0) {
-                                phi_at_3 = phi_v1_3 + 1;
-                            }
-                            phi_v1_4 = (s16) (0 - (phi_at_3 >> 1));
-                            phi_a3_2 = temp_v0_2;
+            if (action == 3) {
+                if (skelAnime->mode == 2) {
+                    temp_v0_3 = (s32) ((skelAnime->animCurrentFrame / this->unk_3DC) * -11000.0f) + arg1;
+                    if (temp_a3 >= temp_v0_3) {
+                        temp_a3 = temp_v0_3;
+                        if (phi_v1 > 0) {
+                            phi_v1 /= -2;
                         }
                     }
                 } else {
-                    phi_v1_4 = (s16) phi_v1_3;
-                    phi_a3_2 = phi_a3;
-                    if (phi_a3 >= temp_v0) {
-                        phi_v1_4 = (s16) phi_v1_3;
-                        phi_a3_2 = temp_v0;
-                        if (phi_v1_3 > 0) {
-                            phi_at_2 = phi_v1_3;
-                            if (phi_v1_3 < 0) {
-                                phi_at_2 = phi_v1_3 + 1;
-                            }
-                            phi_v1_4 = (s16) (0 - (phi_at_2 >> 1));
-                            phi_a3_2 = temp_v0;
+                    temp_v0_2 = arg1 - 0x2AF8;
+                    if (temp_a3 >= temp_v0_2) {
+                        temp_a3 = temp_v0_2;
+                        if (phi_v1 > 0) {
+                            phi_v1 /= -2;
                         }
                     }
                 }
             }
         }
-        this->unk_25C[arg2] = phi_v1_4;
-        this->unk_28C[arg2] = phi_a3_2 - temp_a1;
+        this->unk_25C[arg2] = phi_v1;
+        this->unk_28C[arg2] = temp_a3 - arg1;
     }
-    this->unk_28C[arg2] = temp_a1;
+    this->unk_2BC[arg2] = arg1;
 }*/
 
 void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53B64.s")
 
-void func_80B54360(EnZl3* this, s16 arg1, s32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B54360.s")
+void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
+    s32 temp_v1;
+    s16 temp_t0;
+    s32 temp_t2;
+    s32 temp_t3;
+    s32 phi_v0;
+    s32 index25C;
+    s32 phi_t5;
+
+    if (this->unk_2FC != 0) {
+        temp_v1 = this->unk_28C[arg2] - arg1;
+        temp_t0 = temp_v1;
+        temp_t2 = temp_t0;
+        temp_t3 = this->unk_25C[arg2];
+        phi_v0 = temp_t3;
+        temp_t3 = arg1 - this->unk_2BC[arg2];
+
+        if (arg2 == 1) {
+            index25C = 0;
+            phi_t5 = this->unk_25C[index25C];
+        } else if (arg2 == 4) {
+            index25C = 3;
+            phi_t5 = this->unk_25C[index25C];
+        } else if (arg2 == 7) {
+            index25C = 6;
+            phi_t5 = this->unk_25C[index25C];
+        } else if (arg2 == 10) {
+            index25C = 9;
+            phi_t5 = ABS(this->unk_25C[index25C]);
+        } else if (arg2 == 13) {
+            index25C = 12;
+            phi_t5 = ABS(this->unk_25C[index25C]);
+        } else if (arg2 == 16) {
+            index25C = 15;
+            phi_t5 = -ABS(this->unk_25C[index25C]);
+        } else {
+            index25C = 18;
+            phi_t5 = -ABS(this->unk_25C[index25C]);
+        }
+
+        if ((s32)fabsf(temp_t3) > 0x8000) {
+            if (arg1 > 0) {
+                temp_t3 -= 0x10000;
+            } else {
+                temp_t3 += 0x10000;
+            }
+        }
+        if (index25C >= 0) {
+            temp_t3 += phi_t5 / 3;
+        }
+
+        if (temp_t3 != 0) {
+            phi_v0 += (temp_t3 - phi_v0) / 16;
+        }
+        if (phi_v0 != 0) {
+            phi_v0 -= phi_v0 / 10;
+        }
+        if (temp_t0 != 0) {
+            phi_v0 -= temp_t0 / 50;
+        }
+        temp_v1 += phi_v0;
+        if (((this->unk_25C[arg2] * phi_v0) <= 0) && (temp_t2 > -0x64) && (temp_t2 < 0x64)) {
+            temp_v1 = 0;
+            phi_v0 = 0;
+        }
+        this->unk_25C[arg2] = phi_v0;
+        this->unk_28C[arg2] = arg1 + temp_v1;
+    }
+    this->unk_2BC[arg2] = arg1;
+}
 
 s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* this,
                   Gfx** gfx) {
