@@ -51,7 +51,7 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(thisx, 1);
     DynaPolyInfo_Alloc(&D_0600E1E8, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
-    if (Actor_SpawnChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
+    if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
                          thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
         Actor_Kill(thisx);
         return;

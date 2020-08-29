@@ -121,7 +121,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                     return;
                 }
             }
-            Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
                              this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
             this->unk_278 = Math_Rand_ZeroFloat(1000.0f) + 40.0f;
             this->unk_27A = 0;

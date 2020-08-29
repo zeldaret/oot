@@ -188,7 +188,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->unk_150.x = 0x25;
                 this->actor.posRot.pos.y -= 200.0f;
 
-                Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                  this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500, 0,
                                  0, 0x24);
 
@@ -216,13 +216,13 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                      this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
                                      (i * 8192) + randY, 0x4000, i + 0x64);
                 }
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                      this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
                                      (i * 8192) + randY, 0, 0x23);
                 }

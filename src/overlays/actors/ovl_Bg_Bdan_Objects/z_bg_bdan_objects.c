@@ -121,7 +121,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8086C6EC;
         } else {
             if (BgBdanObjects_GetContactRu1(this, 4)) {
-                if (Actor_SpawnChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_BIGOKUTA, thisx->initPosRot.pos.x,
+                if (Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_BIGOKUTA, thisx->initPosRot.pos.x,
                                      thisx->initPosRot.pos.y, thisx->initPosRot.pos.z, 0, thisx->shape.rot.y + 0x8000,
                                      0, 3) != NULL) {
                     thisx->child->posRot.pos.z = thisx->child->initPosRot.pos.z + 263.0f;
@@ -228,7 +228,7 @@ void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 
     if (BgBdanObjects_GetContactRu1(this, 3)) {
-        Actor_SpawnChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_BIGOKUTA,
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_BIGOKUTA,
                          this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 140.0f,
                          this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
         BgBdanObjects_SetContactRu1(this, 4);

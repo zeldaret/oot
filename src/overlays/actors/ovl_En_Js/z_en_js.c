@@ -58,7 +58,7 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     En_Js_SetupAction(this, func_80A89304);
     this->unk_284 = 0;
     this->actor.gravity = -1.0f;
-    Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_JSJUTAN, this->actor.posRot.pos.x,
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_JSJUTAN, this->actor.posRot.pos.x,
                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
 }
 
