@@ -3287,8 +3287,7 @@ endseg
 beginseg
     name "ovl_En_Vb_Ball"
     include "build/src/overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.o"
-    include "build/data/overlays/actors/z_en_vb_ball.data.o"
-    include "build/data/overlays/actors/z_en_vb_ball.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Vb_Ball/ovl_En_Vb_Ball_reloc.o"
 endseg
 
 beginseg
