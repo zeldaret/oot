@@ -7,10 +7,16 @@ struct DynaPolyActor;
 
 #define SS_NULL 0xFFFF
 #define COLPOLY_NORM_FRAC (1.0f / 32767)
+#define COLPOLY_GET_NORM(n) ((n) * COLPOLY_NORM_FRAC)
 
 #define COLPOLY_IGNORE_CEILING 1
 #define COLPOLY_IGNORE_WALL 2
 #define COLPOLY_IGNORE_FLOOR 4
+
+#define COLPOLY_IGNORE_NONE 0
+#define COLPOLY_IGNORE_CAMERA 1
+#define COLPOLY_IGNORE_ENTITY 2
+#define COLPOLY_IGNORE_PROJECTILES 4
 
 #define BG_ACTOR_MAX 50
 #define BGCHECK_SCENE BG_ACTOR_MAX
@@ -18,12 +24,16 @@ struct DynaPolyActor;
 #define VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
 #define VTX_INDEX(vI) ((vI)&0x1FFF)
 
-typedef struct {
-    u16 floor;
-    u16 wall;
-    u16 ceiling;
+#define FUNC_80041EA4_RESPAWN 5
+#define FUNC_80041EA4_MOUNT_WALL 6
+#define FUNC_80041EA4_STOP 8
+#define FUNC_80041EA4_VOID_OUT 12
 
-} Lookup;
+typedef struct {
+    Vec3f scale;
+    Vec3s rot;
+    Vec3f pos;
+} ScaleRotPos;
 
 typedef struct {
     /* 0x00 */ u16 type;
@@ -41,19 +51,11 @@ typedef struct {
     /* 0x0E */ s16 dist; // Plane distance from origin
 } CollisionPoly; // size = 0x10
 
-// FIXME: Update ZAP
-#define RoomPoly CollisionPoly
-
 typedef struct {
     /* 0x00 */ u16 cameraSType;
     /* 0x02 */ s16 numCameras;
     /* 0x04 */ void* camPosDataSeg;
 } CamData;
-
-typedef struct {
-    u32 unknown;
-    u32 camPosDataSeg;
-} CamPosDataEntry; // DO NOT USE
 
 typedef struct {
     s16 posX, posY, posZ;
@@ -77,12 +79,11 @@ typedef struct {
     // 0x0000_00FF = CamData index
 } WaterBox; // size = 0x10
 
-// FIXME: ZAP
-#define WaterBoxHeader WaterBox
-
 typedef struct {
     u32 data[2];
 } SurfaceType;
+// Type 1
+// 0x0800_0000 = wall damage
 
 typedef struct {
     /* 0x00 */ Vec3s minBounds; // colAbsMin
@@ -107,19 +108,19 @@ typedef struct {
     /* 0x02 */ u16 count;        // original name: short_slist_node_last_index
     /* 0x04 */ SSNode* tbl;      // original name: short_slist_node_tbl
     /* 0x08 */ u8* polyCheckTbl; // set to 1 if polygon has already been tested
-} StaticList_s;
+} SSNodeList;
 
 typedef struct {
     SSNode* tbl;
     s32 count;
     s32 max;
-} DynaList_s;
+} DynaSSNodeList;
 
 typedef struct {
-    Vec3f scale;
-    Vec3s rot;
-    Vec3f pos;
-} ScaleRotPos;
+    u16 floor;
+    u16 wall;
+    u16 ceiling;
+} Lookup;
 
 typedef struct {
     u16 polyStartIndex;
@@ -146,7 +147,7 @@ typedef struct {
     /* 0x138C */ u16 flags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
     /* 0x13F0 */ CollisionPoly* polyList; // pbuf
     /* 0x13F4 */ Vec3s* vtxList;          // pbuf
-    /* 0x13F8 */ DynaList_s polyNodes;
+    /* 0x13F8 */ DynaSSNodeList polyNodes;
     /* 0x1404 */ s32 polyNodesMax;
     /* 0x1408 */ s32 polyListMax;
     /* 0x140C */ s32 vtxListMax;
@@ -161,25 +162,24 @@ typedef struct CollisionContext {
     /* 0x28 */ Vec3f unitSize;
     /* 0x34 */ Vec3f inverseUnitSize;
     /* 0x40 */ Lookup* lookupTbl;
-    /* 0x44 */ StaticList_s polyNodes;
+    /* 0x44 */ SSNodeList polyNodes;
     /* 0x50 */ DynaCollisionContext dyna;
 } CollisionContext; // off 0x07C0 size = 0x1464
 
 typedef struct {
     /* 0x00 */ struct GlobalContext* globalCtx;
     /* 0x04 */ struct CollisionContext* colCtx;
-    /* 0x08 */ u16 unk_08;
-    /* 0x0A */ u16 unk_0A; // might not exist
-    /* 0x0C */ CollisionPoly** unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ Vec3f* unk_14;
+    /* 0x08 */ u16 xpFlags;
+    /* 0x0C */ CollisionPoly** resultPoly;
+    /* 0x10 */ f32 yIntersect;
+    /* 0x14 */ Vec3f* pos;
     /* 0x18 */ s32* bgId;
-    /* 0x1C */ struct Actor* unk_1C;
+    /* 0x1C */ struct Actor* actor;
     /* 0x20 */ u32 unk_20;
-    /* 0x24 */ f32 unk_24;
+    /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
     /* 0x2C */ u16* unk_2C;
-} s8003FBF4;
+} s8003FBF4; //dyna raycast?
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;
@@ -189,10 +189,20 @@ typedef struct {
     /* 0x10 */ Vec3f* pointA;
     /* 0x14 */ Vec3f* pointB;
     /* 0x18 */ Vec3f* unk18;
-    /* 0x1C */ CollisionPoly** unk1C;
+    /* 0x1C */ CollisionPoly** resultPoly;
     /* 0x20 */ s32 unk20; // flag & 0x8
-    /* 0x24 */ f32* unk24;
-    /* 0x28 */ f32 unk28;
-} s80041128;
+    /* 0x24 */ f32* distSq; //distance from pointA to poly squared
+    /* 0x28 */ f32 chkDist; //distance from poly
+} s80041128; //dyna ?
+
+
+// FIXME: Update ZAP
+#define RoomPoly CollisionPoly
+#define WaterBoxHeader WaterBox
+
+typedef struct {
+    u32 unknown;
+    u32 camPosDataSeg;
+} CamPosDataEntry; // DO NOT USE, use CamData instead
 
 #endif
