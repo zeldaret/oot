@@ -310,7 +310,7 @@ void func_80985358(DemoIm* this, GlobalContext* globalCtx) {
     f32 posY = this->actor.posRot.pos.y;
     f32 posZ = this->actor.posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
@@ -319,7 +319,7 @@ void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
     f32 playerY = player->actor.posRot.pos.y + 80.0f;
     f32 playerZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, playerX, playerY, playerZ, 0,
+    Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, playerX, playerY, playerZ, 0,
                         0, 0, 0xD);
     Item_Give(globalCtx, GI_BOMBCHUS_5);
 }
@@ -440,7 +440,7 @@ void func_809858A8(void) {
 }
 
 void func_809858C8(DemoIm* this, GlobalContext* globalCtx) {
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
+    Actor_SpawnChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
                         (kREG(17) + 24.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 6);
 }
 

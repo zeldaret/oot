@@ -122,11 +122,11 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
-    Actor* attachedActor = func_80033640(globalCtx, &this->colliders[0].base);
+    Actor* parentctor = func_80033640(globalCtx, &this->colliders[0].base);
 
-    if (attachedActor != NULL) {
+    if (parentctor != NULL) {
         this->unk_164 =
-            (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &attachedActor->posRot.pos) >= this->dyna.actor.shape.rot.y)
+            (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &parentctor->posRot.pos) >= this->dyna.actor.shape.rot.y)
                 ? 1
                 : 0;
 
@@ -149,7 +149,7 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
         }
 
         if (!slsAttached) {
-            this->dyna.actor.attachedA = attachedActor;
+            this->dyna.actor.parent = parentctor;
             slsAttached = true;
             D_80872824 = 0x32;
         }
@@ -240,7 +240,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
     EnBom* bomb;
 
-    if (this->dyna.actor.attachedA == NULL) {
+    if (this->dyna.actor.parent == NULL) {
        if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
 
             if ((s32)(this->colliders[1].base.maskA & 2)) {
@@ -251,7 +251,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->colliders[1].base.maskA &= ~2;
             this->colliders[2].base.maskA &= ~2;
             if (bomb->actor.type == ACTORTYPE_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
-                this->dyna.actor.attachedA = &bomb->actor;
+                this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;
                 bomb->actor.speedXZ = 0.0f;
                 D_80872824 = 0;
@@ -264,7 +264,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
                 D_808727C0[0]++;
             } else {
-                this->dyna.actor.attachedA = NULL;
+                this->dyna.actor.parent = NULL;
             }
         }
     }

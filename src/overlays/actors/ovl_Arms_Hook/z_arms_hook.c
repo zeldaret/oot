@@ -74,29 +74,29 @@ void ArmsHook_Wait(ArmsHook* this, GlobalContext* globalCtx) {
     Player* player;
     s32 length;
 
-    if (this->actor.attachedA == NULL) {
+    if (this->actor.parent == NULL) {
         player = PLAYER;
         // get correct timer length for hookshot or longshot
         length = (player->heldItemActionParam == 0x10) ? 13 : 26;
 
         ArmsHook_SetupAction(this, ArmsHook_Shoot);
         func_8002D9A4(&this->actor, 20.0f);
-        this->actor.attachedA = &PLAYER->actor;
+        this->actor.parent = &PLAYER->actor;
         this->timer = length;
     }
 }
 
 void func_80865044(ArmsHook* this) {
-    this->actor.attachedB = this->actor.attachedA;
-    this->actor.attachedA->attachedA = &this->actor;
+    this->actor.child = this->actor.parent;
+    this->actor.parent->parent = &this->actor;
 }
 
 s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
-    player->actor.attachedB = &this->actor;
+    player->actor.child = &this->actor;
     player->heldActor = &this->actor;
-    if (this->actor.attachedB != NULL) {
-        player->actor.attachedA = NULL;
-        this->actor.attachedB = NULL;
+    if (this->actor.child != NULL) {
+        player->actor.parent = NULL;
+        this->actor.child = NULL;
         return 1;
     }
     return 0;
@@ -110,7 +110,7 @@ void ArmsHook_DetachHookFromActor(ArmsHook* this) {
 }
 
 s32 ArmsHook_CheckForCancel(ArmsHook* this) {
-    Player* player = (Player*)this->actor.attachedA;
+    Player* player = (Player*)this->actor.parent;
     if (func_8008F104(player)) {
         if ((player->unk_154 != player->heldItemActionParam) || ((player->actor.flags & 0x100)) ||
             ((player->stateFlags1 & 0x4000080))) {
@@ -151,7 +151,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 velocity;
     s32 pad1;
 
-    if ((this->actor.attachedA == NULL) || (!func_8008F104(player))) {
+    if ((this->actor.parent == NULL) || (!func_8008F104(player))) {
         ArmsHook_DetachHookFromActor(this);
         Actor_Kill(&this->actor);
         return;
@@ -185,7 +185,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 grabbed = NULL;
                 this->grabbed = NULL;
             } else {
-                if (this->actor.attachedB != NULL) {
+                if (this->actor.child != NULL) {
                     sp94 = func_8002DB48(this, grabbed);
                     sp90 =
                         sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
@@ -203,7 +203,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
             velocity = 0.0f;
             phi_f16 = 0.0f;
         } else {
-            if (this->actor.attachedB != NULL) {
+            if (this->actor.child != NULL) {
                 velocity = 30.0f;
             } else {
                 if (grabbed != NULL) {
@@ -223,7 +223,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         newPos.y = bodyDistDiffVec.y * velocity;
         newPos.z = bodyDistDiffVec.z * velocity;
 
-        if (this->actor.attachedB == NULL) {
+        if (this->actor.child == NULL) {
             if ((grabbed != NULL) && (grabbed->id == ACTOR_BG_SPOT06_OBJECTS)) {
                 Math_Vec3f_Diff(&grabbed->posRot.pos, &this->grabbedDistDiff, &this->actor.posRot.pos);
                 phi_f16 = 1.0f;

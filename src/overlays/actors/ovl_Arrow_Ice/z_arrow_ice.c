@@ -65,7 +65,7 @@ void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     EnArrow* arrow;
 
-    arrow = (EnArrow*)this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -81,7 +81,7 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE - SFX_FLAG);
 
     // If arrow's attached is null, Link has fired the arrow
-    if (arrow->actor.attachedA == NULL) {
+    if (arrow->actor.parent == NULL) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
         ArrowIce_SetupAction(this, ArrowIce_Fly);
@@ -152,7 +152,7 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
     f32 distanceScaled;
     s32 pad;
 
-    arrow = (EnArrow*)this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -201,7 +201,7 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
-    arrow = (EnArrow*)this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.parent;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {

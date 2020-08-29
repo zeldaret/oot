@@ -264,7 +264,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    if ((getItemId != 0) && !func_8002F410(&this->actor, globalCtx)) {
+    if ((getItemId != 0) && !Actor_HasParent(&this->actor, globalCtx)) {
         func_8002F554(&this->actor, globalCtx, getItemId);
     }
 
@@ -409,7 +409,7 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->unk_152 != 0) {
-        if (!func_8002F410(&this->actor, globalCtx)) {
+        if (!Actor_HasParent(&this->actor, globalCtx)) {
             func_8002F434(&this->actor, globalCtx, this->unk_152, 50.0f, 80.0f);
             this->unk_15A++;
         } else {
@@ -520,7 +520,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!((this->actor.xzDistFromLink <= 30.0f) && (this->actor.yDistFromLink >= -50.0f) &&
           (this->actor.yDistFromLink <= 50.0f))) {
-        if (!func_8002F410(&this->actor, globalCtx)) {
+        if (!Actor_HasParent(&this->actor, globalCtx)) {
             return;
         }
     }
@@ -609,7 +609,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     params = &this->actor.params;
 
-    if ((getItemId != 0) && !func_8002F410(&this->actor, globalCtx)) {
+    if ((getItemId != 0) && !Actor_HasParent(&this->actor, globalCtx)) {
         func_8002F554(&this->actor, globalCtx, getItemId);
     }
 
@@ -621,7 +621,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         case ITEM00_SHIELD_HYLIAN:
         case ITEM00_TUNIC_ZORA:
         case ITEM00_TUNIC_GORON:
-            if (func_8002F410(&this->actor, globalCtx)) {
+            if (Actor_HasParent(&this->actor, globalCtx)) {
                 Flags_SetCollectible(globalCtx, this->collectibleFlag);
                 Actor_Kill(&this->actor);
             }
@@ -631,7 +631,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((*params <= ITEM00_RUPEE_RED) || (*params == ITEM00_RUPEE_ORANGE)) {
         Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (getItemId != 0) {
-        if (func_8002F410(&this->actor, globalCtx)) {
+        if (Actor_HasParent(&this->actor, globalCtx)) {
             Flags_SetCollectible(globalCtx, this->collectibleFlag);
             Actor_Kill(&this->actor);
         }

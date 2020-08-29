@@ -370,16 +370,16 @@ s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx);
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx);
 s8 func_8002F368(GlobalContext* globalCtx);
 void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3);
-u32 func_8002F410(Actor* actor, GlobalContext* globalCtx);
+u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx);
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange);
 void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId);
 void func_8002F580(Actor* actor, GlobalContext* globalCtx);
-u32 func_8002F5A0(Actor* actor, GlobalContext* globalCtx);
+u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx);
 void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx);
 void func_8002F5F0(Actor* actor, GlobalContext* globalCtx);
-u32 func_8002F618(GlobalContext* globalCtx, Actor* actor);
+u32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor);
 u32 func_8002F63C(GlobalContext* globalCtx, Actor* actor, s32 arg2);
-u32 func_8002F674(GlobalContext* globalCtx, Actor* actor);
+u32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor);
 void func_8002F698(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6);
 void func_8002F6D4(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5);
 void func_8002F71C(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
@@ -402,7 +402,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx);
 Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId, f32 posX, f32 posY, f32 posZ,
                    s16 rotX, s16 rotY, s16 rotZ, s16 params);
-Actor* Actor_SpawnAttached(ActorContext* actorCtx, Actor* attachedTo, GlobalContext* globalCtx, s16 actorId, f32 posX,
+Actor* Actor_SpawnChild(ActorContext* actorCtx, Actor* attachedTo, GlobalContext* globalCtx, s16 actorId, f32 posX,
                            f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params);
 void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalContext* globalCtx);

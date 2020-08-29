@@ -303,8 +303,8 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = func_80AA0EFC;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_WEIRD_EGG, 120.0f, 10.0f);

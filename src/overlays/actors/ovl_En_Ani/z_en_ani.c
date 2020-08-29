@@ -116,8 +116,8 @@ void func_809B0524(EnAni* this, GlobalContext* globalCtx) {
 }
 
 void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         if (LINK_IS_CHILD) {
             EnAni_SetupAction(this, func_809B04F0);
         } else {

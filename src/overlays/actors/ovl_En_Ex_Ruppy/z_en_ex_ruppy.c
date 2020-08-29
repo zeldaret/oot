@@ -67,8 +67,8 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_150 = 1;
             } else {
                 phi_f12 = 200.99f;
-                if ((thisx->attachedA != NULL) && (thisx->attachedA->update != NULL)) {
-                    phi_f12 = 200.99f + ((EnDivingGame*)thisx->attachedA)->unk_2AA * 10.0f;
+                if ((thisx->parent != NULL) && (thisx->parent->update != NULL)) {
+                    phi_f12 = 200.99f + ((EnDivingGame*)thisx->parent)->unk_2AA * 10.0f;
                 }
                 temp_v0 = Math_Rand_ZeroFloat(phi_f12);
                 if ((temp_v0 >= 0) && (temp_v0 < 40)) {
@@ -88,8 +88,8 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Actor_SetScale(&this->actor, this->unk_160);
                     this->rupeeValue = 500;
                     this->unk_150 = 3;
-                    if ((thisx->attachedA != NULL) && (thisx->attachedA->update != NULL)) {
-                        ((EnDivingGame*)thisx->attachedA)->unk_2AA = 0;
+                    if ((thisx->parent != NULL) && (thisx->parent->update != NULL)) {
+                        ((EnDivingGame*)thisx->parent)->unk_2AA = 0;
                     }
                 }
             }
@@ -201,8 +201,8 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
     EnExRuppy_SpawnSparkles(this, globalCtx, 2, 0);
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
-    if ((this->actor.attachedA != NULL) && (this->actor.attachedA->update != NULL) &&
-        (((((EnDivingGame*)this->actor.attachedA)->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20)) ||
+    if ((this->actor.parent != NULL) && (this->actor.parent->update != NULL) &&
+        (((((EnDivingGame*)this->actor.parent)->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20)) ||
          (this->timer == 0))) {
         this->isFalling = 1;
         this->actor.speedXZ = 0.0f;
@@ -219,8 +219,8 @@ void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 temp_f2;
 
-    if (((this->actor.attachedA != NULL) && (this->actor.attachedA->update != NULL)) &&
-        (((EnDivingGame*)this->actor.attachedA)->unk_2A2 == 2)) {
+    if (((this->actor.parent != NULL) && (this->actor.parent->update != NULL)) &&
+        (((EnDivingGame*)this->actor.parent)->unk_2A2 == 2)) {
         this->isFalling = 0;
         this->actor.posRot.pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.posRot.pos.y = ((Math_Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
@@ -250,8 +250,8 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = func_80A0AD88;
     }
-    if (((this->actor.attachedA != NULL) && (this->actor.attachedA->update != NULL) &&
-         ((EnDivingGame*)this->actor.attachedA)->unk_29C == 0)) {
+    if (((this->actor.parent != NULL) && (this->actor.parent->update != NULL) &&
+         ((EnDivingGame*)this->actor.parent)->unk_29C == 0)) {
         this->timer = 20;
         this->actionFunc = func_80A0AEE0;
     }
@@ -267,8 +267,8 @@ void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx) {
         this->timer = 10;
         func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Math_Rand_ZeroFloat(0.03f) + 0.07f);
     }
-    if (this->actor.attachedA != NULL) {
-        divingGame = this->actor.attachedA;
+    if (this->actor.parent != NULL) {
+        divingGame = this->actor.parent;
         if (divingGame->actor.update != NULL) {
             if (divingGame->unk_29C == 0) {
                 this->timer = 20;
@@ -306,9 +306,9 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
         distToBlowUp = 30.0f;
     }
     if (this->actor.xyzDistFromLinkSq < SQ(distToBlowUp)) {
-        if (this->actor.attachedA != NULL) {
-            if (this->actor.attachedA->update != NULL) {
-                ((EnDivingGame*)this->actor.attachedA)->transitionDrawTable[15].z = 1;
+        if (this->actor.parent != NULL) {
+            if (this->actor.parent->update != NULL) {
+                ((EnDivingGame*)this->actor.parent)->transitionDrawTable[15].z = 1;
             }
         } else {
             // That idiot! error
