@@ -166,7 +166,7 @@ glabel func_80B64AA8
 /* 022F8 80B64CB8 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 022FC 80B64CBC AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 02300 80B64CC0 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 02304 80B64CC4 0C00C916 */  jal     Actor_SpawnAttached
+/* 02304 80B64CC4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 02308 80B64CC8 E7AA0018 */  swc1    $f10, 0x0018($sp)          
 /* 0230C 80B64CCC 3C0480B6 */  lui     $a0, %hi(D_80B6533C)       ## $a0 = 80B60000

@@ -196,7 +196,7 @@ glabel L80B5DCB4
 /* 025C8 80B5DD78 92030208 */  lbu     $v1, 0x0208($s0)           ## 00000208
 glabel L80B5DD7C
 /* 025CC 80B5DD7C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 025D0 80B5DD80 0C00BD04 */  jal     func_8002F410              
+/* 025D0 80B5DD80 0C00BD04 */  jal     Actor_HasParent              
 /* 025D4 80B5DD84 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 025D8 80B5DD88 1040000A */  beq     $v0, $zero, .L80B5DDB4     
 /* 025DC 80B5DD8C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
