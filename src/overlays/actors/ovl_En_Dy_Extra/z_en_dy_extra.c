@@ -96,12 +96,10 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02 };
     EnDyExtra* this = THIS;
     s32 pad;
-    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(D_0601BFB0);
     s32 i;
     u8 unk[3];
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     unk[0] = 0.0f;
     unk[1] = (s8)(this->unk_158 * 240.0f);
@@ -113,19 +111,20 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    gfxCtx = localGfxCtx;
+    OPEN_DISPS(gfxCtx, "../z_en_dy_extra.c", 294);
 
-    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 294);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1,
                                 globalCtx->state.frames, globalCtx->state.frames * -8, 0x10, 0x10));
-    gDPPipeSync(gfxCtx->polyXlu.p++);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
+    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b, 128);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_0601C160);
-    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_en_dy_extra.c", 325);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b,
+                   128);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_0601C160);
+
+    CLOSE_DISPS(gfxCtx, "../z_en_dy_extra.c", 325);
 }

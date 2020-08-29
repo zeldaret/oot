@@ -78,19 +78,16 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp11C;
     MtxF spDC;
     MtxF sp9C;
     MtxF sp5C;
     Mtx* mtx;
     f32 scale;
-    s32 pad1;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    s32 pad;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_g_spk.c", 208);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 208);
 
     scale = this->regs[SS_G_SPK_SCALE] * 0.0025f;
 
@@ -102,20 +99,22 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp9C);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A7498[this->regs[SS_G_SPK_TEX_IDX]]));
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A7498[this->regs[SS_G_SPK_TEX_IDX]]));
 
         func_80094BC4(gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_SPK_PRIM_R], this->regs[SS_G_SPK_PRIM_G],
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_SPK_PRIM_R], this->regs[SS_G_SPK_PRIM_G],
                         this->regs[SS_G_SPK_PRIM_B], 255);
 
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_G_SPK_ENV_R], this->regs[SS_G_SPK_ENV_G],
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_SPK_ENV_R], this->regs[SS_G_SPK_ENV_G],
                        this->regs[SS_G_SPK_ENV_B], this->regs[SS_G_SPK_ENV_A]);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
     }
+
     if (1) {}
     if (1) {}
-    Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_g_spk.c", 255);
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 255);
 }
 
 void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

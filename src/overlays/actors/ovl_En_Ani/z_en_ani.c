@@ -314,17 +314,15 @@ void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAni* this = THIS;
     s32 pad;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ani.c", 719);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ani.c", 719);
     func_800943C8(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
 }

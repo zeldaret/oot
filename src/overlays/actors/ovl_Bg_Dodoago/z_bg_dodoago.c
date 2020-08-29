@@ -219,9 +219,11 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
 
     if (Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
         BgDodoago_SetupAction(this, func_8087227C);
-        Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
     } else {
-        Audio_PlaySoundGeneral(NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                               &D_801333E0, &D_801333E8);
     }
 }
 
@@ -241,7 +243,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (this->dyna.actor.attachedA == NULL) {
-       if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
+        if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
 
             if ((s32)(this->colliders[1].base.maskA & 2)) {
                 bomb = (EnBom*)this->colliders[1].base.oc;
@@ -272,15 +274,14 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 672);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 672);
     if (Flags_GetEventChkInf(0xB0)) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_60013500);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_60013500);
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 681);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 681);
 }

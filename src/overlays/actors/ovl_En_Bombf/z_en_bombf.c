@@ -401,7 +401,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
                 globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
                 globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
-                func_8005AA1C(&globalCtx->cameras[0], 2, 0xB, 8);
+                func_8005AA1C(&globalCtx->mainCamera, 2, 0xB, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
                 thisx->flags |= 0x20;
@@ -453,37 +453,35 @@ Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
 void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBombf* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* disRefs[4];
 
     if (1) {}
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&disRefs, globalCtx->state.gfxCtx, "../z_en_bombf.c", 1034);
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1034);
 
     if (thisx->params <= BOMBFLOWER_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
 
         if (thisx->params != BOMBFLOWER_BODY) {
-            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1041),
+            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1041),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gfxCtx->polyOpa.p++, D_06000340);
-            gSPDisplayList(gfxCtx->polyOpa.p++, D_06000530);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000340);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000530);
 
             Matrix_Translate(0.0f, 1000.0f, 0.0f, MTXMODE_APPLY);
             Matrix_Scale(this->flowerBombScale, this->flowerBombScale, this->flowerBombScale, MTXMODE_APPLY);
         }
 
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 200, 255, 200, 255);
-        gDPPipeSync(gfxCtx->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->flashIntensity, 20, 10, 0);
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1054),
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 200, 255, 200, 255);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->flashIntensity, 20, 10, 0);
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1054),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08,
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
                    SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(globalCtx->state.gfxCtx, globalCtx)));
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06000408);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000408);
     } else {
         func_800628A4(0, &this->explosionCollider);
     }
 
-    Graph_CloseDisps(&disRefs, globalCtx->state.gfxCtx, "../z_en_bombf.c", 1063);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1063);
 }

@@ -60,19 +60,14 @@ void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
-
-    u32 scroll;
-    OceffWipe3* this;
+    u32 scroll = globalCtx->state.frames & 0xFFF;
+    OceffWipe3* this = THIS;
     f32 z;
-    GraphicsContext* gfxCtx;
     u8 alpha;
-    u32 pad1;
+    s32 pad[2];
     Vec3f eye;
     Vtx* vtxPtr;
     Vec3f vec;
-    Gfx* dispRefs[5];
-    this = THIS;
-    scroll = globalCtx->state.frames & 0xFFF;
 
     eye = ACTIVE_CAM->eye;
     func_8005AFB4(&vec, ACTIVE_CAM);
@@ -93,8 +88,7 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
         vtxPtr[11].v.cn[3] = vtxPtr[13].v.cn[3] = vtxPtr[15].v.cn[3] = vtxPtr[17].v.cn[3] = vtxPtr[19].v.cn[3] =
             vtxPtr[21].v.cn[3] = alpha;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 343);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 343);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
@@ -103,15 +97,15 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 353),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 353),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 170, 255);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 200, 0, 128);
-    gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
-    gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64,
-                                                         64, 1, scroll * 8, scroll * (-8), 64, 64));
-    gSPDisplayList(gfxCtx->polyXlu.p++, sFrustrumDl);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 170, 255);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 100, 200, 0, 128);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64,
+                                                          64, 1, scroll * 8, scroll * (-8), 64, 64));
+    gSPDisplayList(oGfxCtx->polyXlu.p++, sFrustrumDl);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 370);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 370);
 }
