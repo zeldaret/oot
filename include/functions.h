@@ -258,7 +258,7 @@ void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);
 void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
 void EffectSsFhgFlash_Spawn2(GlobalContext*, Actor*, Vec3f*, s16, u8);
-// ? func_80029DBC(?);
+void func_80029DBC(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
 void func_80029E8C(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* burstDepthX, Vec3f* burstOrigin,
                    s16 gravityInfluence, s16 u0, s16 rotSpeed, s16 burstVel, u8 u1, s16 scale, u8 u2, s16 jitter,
                    s32 duration, s16 u3, s16 objectId, Gfx* dList);
@@ -844,6 +844,7 @@ void func_80062DAC(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2);
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
 s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 void SaveContext_Init(void);
+s32 func_800635D0(s32 flags);
 // ? func_800636C0(?);
 void func_8006375C(s32 arg0, s32 arg1, float* d_80855320);
 // ? func_8006376C(?);
@@ -857,6 +858,7 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(GlobalContext* globalCtx);
 void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx);
+void func_80064520(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064534(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx);
@@ -1503,7 +1505,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn);
 void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest);
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx);
 s16 Gameplay_GetActiveCamId(GlobalContext* globalCtx);
-void Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status);
+s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status);
 void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId);
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx);
 Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId);
