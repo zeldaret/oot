@@ -69,13 +69,7 @@ typedef struct EnBox {
      linked to different animation delays
     */
     /* 0x01A8 */ s32 unk1A8;
-    union {
-        struct {
-            /* 0x01AC */ s16 unk_1AC_16;
-            /* 0x01AE */ s16 unk1AE_1AC_32_lower;
-        };
-        /* 0x01AC */ s32 unk_1AC_32;
-    };
+    /* 0x01AC */ s32 unk_1AC;
     /* 0x01B0 */ f32 unk1B0; // 0-1, rotation-related, apparently unused (in z_en_box.c at least)
     /* 0x01B4 */ EnBoxActionFunc actionFunc;
     /* 0x01B8 */ Vec3s limbDrawTable[5];

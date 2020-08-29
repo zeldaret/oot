@@ -244,7 +244,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
             this->dyna.actor.shape.rot.z = 0;
             this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
             EnBox_SetActionFunc(this, &EnBox_WaitOpen);
-            func_800803F0(globalCtx, this->unk1AE_1AC_32_lower);
+            func_800803F0(globalCtx, this->unk_1AC);
         }
         Audio_PlaySoundGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -268,7 +268,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
 
     if (this->unk1A8 >= 0) {
         EnBox_SetActionFunc(this, &EnBox_Fall);
-        this->unk_1AC_32 = func_800800F8(globalCtx, 4500, 9999, &this->dyna.actor, 0);
+        this->unk_1AC = func_800800F8(globalCtx, 4500, 9999, &this->dyna.actor, 0);
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     } else if (this->unk1A8 >= -11) {
         this->unk1A8++;
