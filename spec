@@ -1418,8 +1418,7 @@ endseg
 beginseg
     name "ovl_Bg_Vb_Sima"
     include "build/src/overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.o"
-    include "build/data/overlays/actors/z_bg_vb_sima.data.o"
-    include "build/data/overlays/actors/z_bg_vb_sima.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Vb_Sima/ovl_Bg_Vb_Sima_reloc.o"
 endseg
 
 beginseg
