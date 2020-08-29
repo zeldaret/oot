@@ -273,15 +273,14 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 672);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 672);
     if (Flags_GetEventChkInf(0xB0)) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_60013500);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_60013500);
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 681);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 681);
 }

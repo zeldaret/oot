@@ -240,14 +240,14 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     s32 pad;
     Vec3f sp4C = sConstVec3f;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 573);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 573);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnNiwGirlOverrideLimbDraw, 0, &this->actor);
     func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);
 }

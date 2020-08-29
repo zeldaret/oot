@@ -159,36 +159,33 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     FlameParams* flameParams;
     Gfx* dList;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (1) {}
 
     flameParams = &D_80A9E840[this->actor.params & 0xF];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_light.c", 441);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_light.c", 441);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
     if (this->actor.params >= 0) {
         gSPSegment(
-            gfxCtx->polyXlu.p++, 0x08,
+            oGfxCtx->polyXlu.p++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
 
         dList = D_0404D4E0;
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
                         flameParams->primColor.b, flameParams->primColor.a);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b,
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b,
                        0);
     } else {
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) & 63),
                                     (this->timer * -6) & 127 * 1, 16, 32));
 
         dList = D_05000440;
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0xC0, 0xC0, 255, 200, 0, 0);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xC0, 0xC0, 255, 200, 0, 0);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
     }
 
     Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
@@ -199,9 +196,9 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_light.c", 488),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_light.c", 488),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, dList);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, dList);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_light.c", 491);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_light.c", 491);
 }

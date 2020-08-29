@@ -495,11 +495,8 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHeavyBlock* this = THIS;
     s32 pad;
     Player* player = PLAYER;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 904);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 904);
 
     if (BgHeavyBlock_LiftedUp == this->actionFunc) {
         func_800D1694(player->unk_3B0.x, player->unk_3B0.y, player->unk_3B0.z, &thisx->shape.rot);
@@ -513,11 +510,11 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&D_80884ED4, &thisx->initPosRot);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_060013C0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060013C0);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);
 }
 
 void BgHeavyBlock_DrawPiece(Actor* thisx, GlobalContext* globalCtx) {

@@ -364,18 +364,17 @@ UNK_PTR D_80A0B3B8[] = { 0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x04042
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnExRuppy* this = THIS;
     s32 pad;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (this->isFalling == 0) {
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 774);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 774);
+
         func_80093D18(globalCtx->state.gfxCtx);
         func_8002EBCC(thisx, globalCtx, 0);
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->unk_150]));
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_04042440);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 784);
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->unk_150]));
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04042440);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 784);
     }
 }

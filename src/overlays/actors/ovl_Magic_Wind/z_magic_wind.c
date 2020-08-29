@@ -226,39 +226,39 @@ void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, Actor* thisx) {
     MagicWind* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
+
     if (limbIndex == 1) {
-        gSPSegment(gfxCtx->polyXlu.p++, 8,
+        gSPSegment(oGfxCtx->polyXlu.p++, 8,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->state.frames * 9) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0xF) & 0xFF), 0x40, 0x40, 1,
                                     (globalCtx->state.frames * 0xF) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0x1E) & 0xFF), 0x40, 0x40));
 
     } else if (limbIndex == 2) {
-        gSPSegment(gfxCtx->polyXlu.p++, 9,
+        gSPSegment(oGfxCtx->polyXlu.p++, 9,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->state.frames * 3) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 5) & 0xFF), 0x40, 0x40, 1,
                                     (globalCtx->state.frames * 6) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0xA) & 0xFF), 0x40, 0x40));
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_magic_wind.c", 646);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 646);
+
     return 1;
 }
 
 void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
-    MagicWind* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    MagicWind* this = THIS;
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_magic_wind.c", 661);
+    OPEN_DISPS(gfxCtx, "../z_magic_wind.c", 661);
+
     if (this->actionFunc != MagicWind_WaitForTimer) {
-        gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 25);
+        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 25);
         SkelCurve_Draw(thisx, globalCtx, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
     }
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_magic_wind.c", 673);
+
+    CLOSE_DISPS(gfxCtx, "../z_magic_wind.c", 673);
 }

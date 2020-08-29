@@ -465,58 +465,56 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;
     s32 pad;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1723);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1723);
 
     if (thisx->params == 0x24) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
+        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
     } else if ((thisx->params == 0x26) || (thisx->params == 0x32)) {
         osSyncPrintf("yari hikari draw 1\n");
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
 
         if (this->fireMode > 0) {
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 255, 0);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 255, 0);
         } else {
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
         }
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
         Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * 3.1416f, 1);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06012160);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06012160);
     } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (u8)this->unk_188);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (u8)this->unk_188);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40, 1,
                                     (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_0600FAA0);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600FAA0);
     } else {
         osSyncPrintf("FF DRAW 1\n");
         Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 30, 0);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 30, 0);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_060105E0);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_060105E0);
         osSyncPrintf("FF DRAW 2\n");
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1900);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1900);
 }

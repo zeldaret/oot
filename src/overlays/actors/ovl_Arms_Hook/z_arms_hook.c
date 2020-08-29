@@ -308,13 +308,10 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp60;
     f32 sp5C;
     f32 sp58;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (player->actor.draw != NULL) {
         if (player->unk_15D == 0xF) {
-            gfxCtx = globalCtx->state.gfxCtx;
-            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arms_hook.c", 850);
+            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arms_hook.c", 850);
 
             if ((ArmsHook_Shoot != this->actionFunc) || (this->timer <= 0)) {
                 Matrix_MultVec3f(&D_80865B70, &this->unk_1E8);
@@ -329,9 +326,9 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             func_80090480(globalCtx, &this->collider.base, &this->unk_1CC, &sp6C, &sp60);
             func_80093D18(globalCtx->state.gfxCtx);
-            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
+            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gfxCtx->polyOpa.p++, D_0602B288);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, D_0602B288);
             Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
             Math_Vec3f_Diff(&player->unk_3C8, &this->actor.posRot.pos, &sp78);
             sp58 = SQ(sp78.x) + SQ(sp78.z);
@@ -339,11 +336,11 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateY(Math_atan2f(sp78.x, sp78.z), MTXMODE_APPLY);
             Matrix_RotateX(Math_atan2f(-sp78.y, sp5C), MTXMODE_APPLY);
             Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
-            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 910),
+            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 910),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gfxCtx->polyOpa.p++, D_0602AFF0);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, D_0602AFF0);
 
-            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arms_hook.c", 913);
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arms_hook.c", 913);
         }
     }
 }

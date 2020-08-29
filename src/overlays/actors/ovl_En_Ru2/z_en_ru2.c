@@ -475,21 +475,20 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     s16 temp = this->unk_2A4;
     UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          NULL, NULL, NULL, gfxCtx->polyXlu.p);
+    oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
+                                           skelAnime->dListCount, NULL, NULL, NULL, oGfxCtx->polyXlu.p);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
 
 void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
@@ -801,20 +800,20 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     s16 temp = this->unk_2A4;
     UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }
 
 void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {

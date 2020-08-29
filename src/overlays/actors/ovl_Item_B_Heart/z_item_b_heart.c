@@ -83,10 +83,8 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ItemBHeart* this = THIS;
     Actor* actorIt;
     u8 flag = 0;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_item_b_heart.c", 506);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 506);
 
     actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
 
@@ -101,17 +99,17 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (flag) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 551),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 551),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06001290);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06001470);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06001290);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06001470);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 557),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 557),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06001290);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06001470);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001290);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001470);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_item_b_heart.c", 561);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 561);
 }

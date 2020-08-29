@@ -149,13 +149,11 @@ void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGB8* color;
     Color_RGB8 defaultColor;
 
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_hsblock.c", 365);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_hsblock.c", 365);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_hsblock.c", 369),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_hsblock.c", 369),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (globalCtx->sceneNum == SCENE_HIDAN) {
@@ -167,8 +165,8 @@ void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
         color = &defaultColor;
     }
 
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, color->r, color->g, color->b, 255);
-    gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[thisx->params & 3]);
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, color->r, color->g, color->b, 255);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists[thisx->params & 3]);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_hsblock.c", 399);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_hsblock.c", 399);
 }

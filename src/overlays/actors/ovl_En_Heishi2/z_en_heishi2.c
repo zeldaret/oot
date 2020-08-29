@@ -830,28 +830,24 @@ void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06002C10);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi2* this;
-    GraphicsContext* gfxCtx;
-    s32 linkObjBankIndex;
+    EnHeishi2* this = THIS;
     Mtx* mtx;
-    Gfx* dispRefs[4];
+    s32 linkObjBankIndex;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1792);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1792);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    this = THIS;
+
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
                    EnHeishi2_PostLimbDraw, &this->actor);
     if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
@@ -862,11 +858,12 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(DEGTORAD(70.0), MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
-            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
-            gSPSegment(gfxCtx->polyOpa.p++, 0x0D, mtx);
-            gSPDisplayList(gfxCtx->polyOpa.p++, &D_0602B060);
-            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
+            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
+            gSPSegment(oGfxCtx->polyOpa.p++, 0x0D, mtx);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, &D_0602B060);
+            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1834);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1834);
 }

@@ -153,25 +153,21 @@ void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     BgTokiSwd* this = THIS;
     s32 pad[3];
-    GameState* state;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    state = &globalCtx->state;
-    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 727);
 
-    Graph_OpenDisps(dispRefs, state->gfxCtx, "../z_bg_toki_swd.c", 727);
-    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(globalCtx2->state.gfxCtx);
 
-    func_8002EBCC(&this->actor, globalCtx, 0);
+    func_8002EBCC(&this->actor, globalCtx2, 0);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, -(globalCtx->gameplayFrames % 0x80), 32, 32));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 742),
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
+               Gfx_TexScroll(globalCtx2->state.gfxCtx, 0, -(globalCtx2->gameplayFrames % 0x80), 32, 32));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 742),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06001BD0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001BD0);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 776);
+    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 776);
 }

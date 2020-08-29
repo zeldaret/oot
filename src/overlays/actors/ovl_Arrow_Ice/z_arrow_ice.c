@@ -196,9 +196,7 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Actor* tranform;
     u32 stateFrames;
-    GraphicsContext* gfxCtx;
     EnArrow* arrow;
-    Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
     arrow = (EnArrow*)this->actor.parent;
@@ -207,9 +205,9 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
-        // clang-format off
-        gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
-        // clang-format on
+
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
+
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateX(tranform->shape.rot.x * (M_PI / 32768), MTXMODE_APPLY);
@@ -218,18 +216,18 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         // Draw blue effect over the screen when arrow hits
         if (this->unk_164 > 0) {
-            gfxCtx->polyXlu.p = func_800937C0(gfxCtx->polyXlu.p);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, (s32)(10.0f * this->unk_164) & 0xFF,
+            oGfxCtx->polyXlu.p = func_800937C0(oGfxCtx->polyXlu.p);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, (s32)(10.0f * this->unk_164) & 0xFF,
                             (s32)(50.0f * this->unk_164) & 0xFF, (s32)(150.0f * this->unk_164) & 0xFF);
-            gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_DISABLE);
-            gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
-            gDPFillRectangle(gfxCtx->polyXlu.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+            gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_DISABLE);
+            gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_DISABLE);
+            gDPFillRectangle(oGfxCtx->polyXlu.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
         }
 
         // Draw ice on the arrow
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 170, 255, 255, this->alpha);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 255, 128);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 170, 255, 255, this->alpha);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 128);
         Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
@@ -238,13 +236,14 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         Matrix_Scale(this->radius * 0.2f, this->unk_160 * 3.0f, this->radius * 0.2f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 660),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 660),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
-        gSPDisplayList(gfxCtx->polyXlu.p++,
+        gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL);
+        gSPDisplayList(oGfxCtx->polyXlu.p++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 10) % 512, 4, 16));
-        gSPDisplayList(gfxCtx->polyXlu.p++, sVertexDL);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, sVertexDL);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
     }
 }
