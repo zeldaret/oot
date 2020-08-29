@@ -868,7 +868,7 @@ glabel L808E306C
 /* 0C8E8 808E3158 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 0C8EC 808E315C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 0C8F0 808E3160 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 0C8F4 808E3164 0C00C916 */  jal     Actor_SpawnAttached
+/* 0C8F4 808E3164 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0C8F8 808E3168 E7A60018 */  swc1    $f6, 0x0018($sp)           
 .L808E316C:
