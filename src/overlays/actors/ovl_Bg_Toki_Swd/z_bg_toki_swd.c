@@ -94,7 +94,7 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
         gSaveContext.cutsceneTrigger = 1;
     }
     if (LINK_IS_CHILD || ((gSaveContext.eventChkInf[5] & 0x20))) {
-        if (func_8002F410(&this->actor, globalCtx) != 0) {
+        if (Actor_HasParent(&this->actor, globalCtx)) {
             if (LINK_IS_CHILD) {
                 Item_Give(globalCtx, ITEM_SWORD_MASTER);
                 globalCtx->csCtx.segment = D_808BB2F0;
@@ -104,7 +104,7 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
             Audio_SetBGM(NA_BGM_STOP);
             Audio_SetBGM(0x53);
             gSaveContext.cutsceneTrigger = 1;
-            this->actor.attachedA = NULL;
+            this->actor.parent = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);
         } else {
             if (func_8002E084(&this->actor, 0x2000) != 0) {
@@ -124,8 +124,8 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
 void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
     Player* player;
 
-    // if attached is set, sword has been pulled/placed from the pedestal
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
+    // if sword has a parent it has been pulled/placed from the pedestal
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         if (LINK_IS_CHILD) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);
             this->actor.draw = NULL; // sword has been pulled, dont draw sword

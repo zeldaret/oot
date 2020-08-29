@@ -41,7 +41,7 @@ glabel func_808B1054
 /* 00788 808B10E8 86080018 */  lh      $t0, 0x0018($s0)           ## 00000018
 /* 0078C 808B10EC E7AC0040 */  swc1    $f12, 0x0040($sp)          
 /* 00790 808B10F0 AFA90028 */  sw      $t1, 0x0028($sp)           
-/* 00794 808B10F4 0C00C916 */  jal     Actor_SpawnAttached
+/* 00794 808B10F4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00798 808B10F8 AFA80024 */  sw      $t0, 0x0024($sp)           
 /* 0079C 808B10FC C7AC0040 */  lwc1    $f12, 0x0040($sp)          

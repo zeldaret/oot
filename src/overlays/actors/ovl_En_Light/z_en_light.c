@@ -84,8 +84,8 @@ void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {
     // update yaw for billboard effect
     this->actor.shape.rot.y = func_8005A9F4(ACTIVE_CAM) + 0x8000;
 
-    if (this->actor.attachedA != NULL) {
-        Math_Vec3f_Copy(&this->actor.posRot.pos, &(this->actor.attachedA)->posRot.pos);
+    if (this->actor.parent != NULL) {
+        Math_Vec3f_Copy(&this->actor.posRot.pos, &(this->actor.parent)->posRot.pos);
         this->actor.posRot.pos.y += 17.0f;
     }
 

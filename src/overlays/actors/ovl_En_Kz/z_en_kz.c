@@ -318,9 +318,9 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (LINK_IS_ADULT) {
         if (!(gSaveContext.infTable[19] & 0x100)) {
-            Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
-                                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
-                                0x04FF);
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
+                               this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+                               0x04FF);
         }
         this->actionFunc = EnKz_Wait;
     } else {
@@ -409,8 +409,8 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
     f32 xzRange;
     f32 yRange;
 
-    if (func_8002F410(this, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(this, globalCtx)) {
+        this->actor.parent = NULL;
         this->unk_1E0.unk_00 = 1;
         this->actionFunc = EnKz_StartTimer;
     } else {

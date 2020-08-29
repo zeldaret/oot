@@ -94,8 +94,8 @@ void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
-    // if attached A is not null, the bomb hasnt been released yet
-    if (func_8002F410(&this->actor, globalCtx)) {
+    // if bomb has a parent actor, the bomb hasnt been released yet
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         EnBom_SetupAction(this, EnBom_WaitForRelease);
         this->actor.room = -1;
         return;
@@ -134,8 +134,8 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
 }
 
 void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx) {
-    // if attachedA is NULL bomb has been released
-    if (func_8002F5A0(&this->actor, globalCtx)) {
+    // if parent is NULL bomb has been released
+    if (Actor_HasNoParent(&this->actor, globalCtx)) {
         EnBom_SetupAction(this, EnBom_Move);
         EnBom_Move(this, globalCtx);
     }
@@ -183,7 +183,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
         player = PLAYER;
 
         if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
-            player->actor.attachedB = NULL;
+            player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
             player->stateFlags1 &= ~0x800;
@@ -275,7 +275,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             effPos = thisx->posRot.pos;
 
             effPos.y += 10.0f;
-            if (func_8002F410(thisx, globalCtx)) {
+            if (Actor_HasParent(thisx, globalCtx)) {
                 effPos.y += 30.0f;
             }
 
@@ -305,7 +305,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(thisx, &this->bombCollider);
 
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
-        if (!func_8002F410(thisx, globalCtx) && this->bumpOn) {
+        if (!Actor_HasParent(thisx, globalCtx) && this->bumpOn) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider.base);
         }
 

@@ -7,7 +7,7 @@ glabel func_80A7F0A8
 /* 00C5C 80A7F0BC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00C60 80A7F0C0 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00C64 80A7F0C4 31CF0001 */  andi    $t7, $t6, 0x0001           ## $t7 = 00000000
-/* 00C68 80A7F0C8 0C00BD04 */  jal     func_8002F410              
+/* 00C68 80A7F0C8 0C00BD04 */  jal     Actor_HasParent              
 /* 00C6C 80A7F0CC A7AF0032 */  sh      $t7, 0x0032($sp)           
 /* 00C70 80A7F0D0 50400017 */  beql    $v0, $zero, .L80A7F130     
 /* 00C74 80A7F0D4 920B0161 */  lbu     $t3, 0x0161($s0)           ## 00000161

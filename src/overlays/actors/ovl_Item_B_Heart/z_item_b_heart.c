@@ -58,7 +58,7 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80B85264(this, globalCtx);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if (func_8002F410(&this->actor, globalCtx)) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         Flags_SetCollectible(globalCtx, 0x1F);
         Actor_Kill(&this->actor);
     } else {

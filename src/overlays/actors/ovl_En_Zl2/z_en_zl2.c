@@ -709,19 +709,19 @@ void func_80B4FFF0(EnZl2* this, GlobalContext* globalCtx) {
         posY = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
         posZ = this->actor.posRot.pos.z;
 
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0,
-                            0x4000, 0, 3);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
+                           0, 3);
         this->unk_248 = 1;
     }
 }
 
 void func_80B5008C(EnZl2* this) {
-    Actor* attachedB = this->actor.attachedB;
+    Actor* child = this->actor.child;
 
-    if (attachedB != NULL) {
-        attachedB->posRot.pos.x = this->actor.posRot.pos.x;
-        attachedB->posRot.pos.y = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
-        attachedB->posRot.pos.z = this->actor.posRot.pos.z;
+    if (child != NULL) {
+        child->posRot.pos.x = this->actor.posRot.pos.x;
+        child->posRot.pos.y = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
+        child->posRot.pos.z = this->actor.posRot.pos.z;
     }
 }
 
@@ -751,8 +751,8 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B501C4(EnZl2* this, s32 alpha) {
-    if (this->actor.attachedB != NULL) {
-        ((DoorWarp1*)this->actor.attachedB)->alpha = alpha;
+    if (this->actor.child != NULL) {
+        ((DoorWarp1*)this->actor.child)->alpha = alpha;
     }
 }
 
@@ -1200,12 +1200,12 @@ void func_80B512B8(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B51310(EnZl2* this, GlobalContext* globalCtx) {
-    Actor* attachedB;
+    Actor* child;
 
     if (EnZl2_GetNpcAction(globalCtx, 0) == NULL) {
-        attachedB = this->actor.attachedB;
-        if (attachedB != NULL) {
-            Actor_Kill(attachedB);
+        child = this->actor.child;
+        if (child != NULL) {
+            Actor_Kill(child);
         }
         Actor_Kill(&this->actor);
     }

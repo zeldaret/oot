@@ -223,7 +223,7 @@ void func_8098E86C(DemoSa* this, GlobalContext* globalCtx) {
     f32 posY = posRot->y;
     f32 posZ = posRot->z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {
@@ -232,8 +232,8 @@ void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {
     f32 posY = player->actor.posRot.pos.y + 80.0f;
     f32 posZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
-                        0xB);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
+                       0xB);
     Item_Give(globalCtx, ITEM_MEDALLION_FOREST);
 }
 
@@ -371,8 +371,8 @@ void func_8098EE08(void) {
 }
 
 void func_8098EE28(DemoSa* this, GlobalContext* globalCtx) {
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                        (kREG(23) + 25.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 4);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
+                       (kREG(23) + 25.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 4);
 }
 
 void func_8098EEA8(DemoSa* this, GlobalContext* globalCtx) {
@@ -604,8 +604,8 @@ void func_8098F83C(DemoSa* this, GlobalContext* globalCtx) {
     Vec3f* thisPos = &this->actor.posRot.pos;
 
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600B1A0, &D_0601113C, NULL, NULL, 0);
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, thisPos->x, thisPos->y, thisPos->z,
-                        0, 0, 0, 3);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, thisPos->x, thisPos->y, thisPos->z,
+                       0, 0, 0, 3);
     this->action = 16;
     this->drawConfig = 0;
     this->actor.shape.unk_14 = 0;

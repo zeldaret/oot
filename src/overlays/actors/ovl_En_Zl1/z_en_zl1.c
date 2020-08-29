@@ -513,11 +513,11 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
                 break;
             }
         case 2:
-            if (func_8002F410(this, globalCtx) != 0) {
+            if (Actor_HasParent(this, globalCtx)) {
                 func_800C078C(globalCtx, 0, this->unk_1E8);
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
                 Gameplay_ClearCamera(globalCtx, this->unk_1E8);
-                this->actor.attachedA = NULL;
+                this->actor.parent = NULL;
                 this->unk_1E2 += 1;
             } else {
                 func_8002F434(this, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);

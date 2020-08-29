@@ -68,7 +68,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     vec1.x = vec1.y = 0.0f;
     vec1.z = 50.0;
     Matrix_MultVec3f(&vec1, &vec2);
-    this->chasedEnNiw = (EnNiw*)Actor_SpawnAttached(
+    this->chasedEnNiw = (EnNiw*)Actor_SpawnAsChild(
         &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_NIW, this->actor.posRot.pos.x + vec2.x,
         this->actor.posRot.pos.y + vec2.y, this->actor.posRot.pos.z + vec2.z, 0, this->actor.posRot.rot.y, 0, 0xA);
     if (this->chasedEnNiw != NULL) {

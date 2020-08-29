@@ -43,7 +43,7 @@ void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("ORGAN MOVE 1\n");
     if (thisx->params == 1) {
-        dorf = (BossGanon*)thisx->attachedA;
+        dorf = (BossGanon*)thisx->parent;
         if (dorf->organFadeTimer == 0) {
             Actor_Kill(thisx);
         }
@@ -93,7 +93,7 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
 }
 
 void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanon* dorf = (BossGanon*)thisx->attachedA;
+    BossGanon* dorf = (BossGanon*)thisx->parent;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 205);
 
