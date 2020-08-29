@@ -177,10 +177,10 @@ glabel func_800B4E7C
 /* B2C0E4 800B4F44 3C078013 */  lui   $a3, %hi(D_801333E0) # $a3, 0x8013
 /* B2C0E8 800B4F48 3C0B8013 */  lui   $t3, %hi(D_801333E8) # $t3, 0x8013
 /* B2C0EC 800B4F4C 24E733E0 */  addiu $a3, %lo(D_801333E0) # addiu $a3, $a3, 0x33e0
-/* B2C0F0 800B4F50 3C018016 */  lui   $at, %hi(D_8016111A) # $at, 0x8016
+/* B2C0F0 800B4F50 3C018016 */  lui   $at, %hi(D_80161110+0xA) # $at, 0x8016
 /* B2C0F4 800B4F54 256B33E8 */  addiu $t3, %lo(D_801333E8) # addiu $t3, $t3, 0x33e8
 /* B2C0F8 800B4F58 3C058013 */  lui   $a1, %hi(D_801333D4) # $a1, 0x8013
-/* B2C0FC 800B4F5C A420111A */  sh    $zero, %lo(D_8016111A)($at)
+/* B2C0FC 800B4F5C A420111A */  sh    $zero, %lo(D_80161110+0xA)($at)
 /* B2C100 800B4F60 24A533D4 */  addiu $a1, %lo(D_801333D4) # addiu $a1, $a1, 0x33d4
 /* B2C104 800B4F64 AFAB0014 */  sw    $t3, 0x14($sp)
 /* B2C108 800B4F68 AFA70010 */  sw    $a3, 0x10($sp)

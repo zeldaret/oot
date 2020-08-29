@@ -65,34 +65,12 @@ typedef struct {
     /* 0x2C */ f32 fov;
 } DbCameraAnim; // size = 0x30
 
-extern char D_801612EA;
-extern char D_801612D0[26];
-
-extern s16 D_8016110C;
-
-extern DbCameraAnim D_80161110;
-/*
-extern s32 D_80161110;
-extern f32 D_80161114;
-extern s16 D_80161118;
-extern s16 D_8016111A;
-extern s16 D_8016111C;
-extern Vec3f D_80161120;
-extern Vec3f D_8016112C;
-extern f32 D_80161138;
-extern f32 D_8016113C;
-*/
-
-extern s16 D_80161148;
-extern s16 D_8016114A;
-extern char D_8016128F[];
-
-
 char* D_8012CEE0[] = { "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ" };
 const char* D_8012CEE4 = "\x8Dﾀﾘﾏｾﾝ｡";
 const char* D_8012CEE8 = "\x8Dｻｲｾｲﾃﾞｷﾏｾﾝ";
 const char* D_8012CEEC = "\x8Dｻｲｾｲｼｭｳﾘｮｳ";
 const char* D_8012CEF0 = "\x8Dｻｲｾｲﾁｭｳ!";
+
 const char* D_8012CEF4 = "DEMO CAMERA TOOL";
 const char* D_8012CEF8[] = { "\x8Dﾓｳﾊｲﾘﾏｾﾝ", "\x8Dﾄｳﾛｸ   ﾃﾝﾒ", "\x8Dﾍﾝｺｳ   /  " };
 const char* D_8012CF04 = ">            >";
@@ -107,6 +85,7 @@ const char* D_8012CF34 = "\x8C*ｶﾒﾗ\x8Dｲﾁ*";
 const char* D_8012CF38 = "DEBUG CAMERA";
 const char* D_8012CF3C = "\x8Cｾﾝﾀ-/ﾛｯｸ";
 const char* D_8012CF40 = "\x8Cｾﾝﾀ-/ﾌﾘ-";
+
 const char* D_8012CF44 = "DEMO CONTROL";
 const char* D_8012CF48 = "\x8Cﾒﾓﾘ\x8Dｶﾞﾀﾘﾏｾﾝ";
 const char* D_8012CF4C = "p";
@@ -128,6 +107,7 @@ const char* D_8012CF9C[] = { "\x8Dｼﾃｲﾏｽ", "\x8Dｳﾜｶﾞｷ" };
 const char* D_8012CFA4 = "\x8Dｼﾏｼﾀ";
 const char* D_8012CFA8 = "USE       BYTE";
 const char* D_8012CFAC = "\x8Dﾆｼｯﾊﾟｲ";
+
 const char* D_8012CFB0 = "\x8C\Eﾓ-ﾄﾞ\x8D  ｺﾃｲ";
 char D_8012CFB4[] = "\x8Cﾌﾚ-ﾑ       ";
 char D_8012CFC4[] = "\x8Cｷ-   /   ";
@@ -158,18 +138,21 @@ s32 func_800B8DB0(char* c);
 s32 func_800B8BB0(char* c);
 s32 func_800B8F30(char* c);
 
-//s32 (*D_8012D14C[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
-u32 D_8012D158[] = {
-    4, 4, 4, 7, 4, 4,
-};
-
-extern DbCamera* D_80161108;
-extern GlobalContext* D_80161100;
-extern s32 D_801612EC;
+GlobalContext* D_80161100;
+s32 D_80161104;
+DbCamera* D_80161108;
+s16 D_8016110C;
+DbCameraAnim D_80161110;
+s32 D_80161140;
+s32 D_80161144;
+s16 D_80161148;
+s16 D_8016114A;
 // is the size correct? todo: add ALIGN32 for sizeof in Mempak functions, replace 0xF with sizeof()
-extern DbCameraCut D_80161150[16];
-
-//extern s32 D_80161104;
+DbCameraCut D_80161150[16];
+char D_80161250[0x80];
+char D_801612D0[26];
+char D_801612EA;
+s32 D_801612EC;
 
 Vec3f* func_800B3B50(Vec3f* outVec, Vec3f* inVec, VecSph* sph) {
     Vec3f ret;
@@ -711,7 +694,7 @@ char func_800B87D8(s32 idx, DbCameraSub* sub) {
 
     D_80161150[idx].unk_01 = 0x61;
     D_80161150[idx].letter = func_800B8730();
-    D_8016128F[D_80161150[idx].letter] = 'O';
+    D_80161250[0x3F + D_80161150[idx].letter] = 'O';
 
     i = sub->nPoints * sizeof(CutsceneCameraPoint);
     D_80161150[idx].lookAt = DebugArena_MallocDebug(i, "../db_camera.c", 2748);
@@ -744,7 +727,7 @@ char func_800B87D8(s32 idx, DbCameraSub* sub) {
 
 void func_800B8978(s32 idx, s32 shouldFree) {
     if (D_80161150[idx].letter != '?') {
-        D_8016128F[D_80161150[idx].letter] = 'X';
+        D_80161250[0x3F + D_80161150[idx].letter] = 'X';
     }
 
     if (shouldFree) {
@@ -821,7 +804,7 @@ s32 func_800B8BB0(char* c) {
             }
             off += ALIGN32(size);
 
-            D_8016128F[D_80161150[i].letter] = 'O';
+            D_80161250[0x3F + D_80161150[i].letter] = 'O';
         }
     }
 
@@ -1014,6 +997,7 @@ void func_800B958C(Camera* cam, DbCamera* dbCam) {
 }
 
 #ifdef NON_MATCHING
+u32 D_8012D158[] = { 4, 4, 4, 7, 4, 4, };
 s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
 
     static u32 D_8012D170 = 0;
@@ -1025,19 +1009,11 @@ s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
     char sp74[ARRAY_COUNT(D_80161150)-1];
     DbCameraCut sp64;
     VecSph sp5C;
-    //s32 (*callbacks[3])(char*);
-    s32 (*callbacks[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
+    s32 (*callbacks[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 }; // sp + 0x50
     char newLetter;
 
     s32 flag;
     s32 i;
-
-    // struct copy?
-    /*
-    callbacks[0] = D_8012D14C[0];
-    callbacks[1] = D_8012D14C[1];
-    callbacks[2] = D_8012D14C[2];
-    */
 
     func_8006376C(0xE, 5, 0, D_8012CF44);
 
@@ -1083,7 +1059,7 @@ s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
                 }
             }
             else {
-                if (dbCamera->sub.unk_1044 == 0x64) {
+                if (dbCamera->sub.unk_1044 == 100) {
                     dbCamera->sub.unk_1044++;
                 }
                 else {
@@ -1111,7 +1087,7 @@ s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
             func_8006376C(0x12, 7, 5, D_8012CF60[dbCamera->sub.unk_1046]);
             func_8006376C(0x16, 7, 5, D_8012CF9C[0]);
 
-            if (callbacks[dbCamera->sub.unk_1046](&D_8012CEE0[41][9])) {
+            if (callbacks[dbCamera->sub.unk_1046](&D_8012CF84[9])) {
                 dbCamera->sub.unk_1044++;
                 return 1;
             }
@@ -1129,7 +1105,7 @@ s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
             dbCamera->sub.unk_1048 ^= 1;
             D_8012CEE0[41][9] = D_80161148 + 'A';
             func_8006376C(0xD, 7, 5, D_8012CEE0[41]);
-            func_8006376C(0x13, 7, 5, D_8012CF60[dbCamera->sub.unk_1044 / 0x64]); // todo: 0x64 -> 100
+            func_8006376C(0x13, 7, 5, D_8012CF60[dbCamera->sub.unk_1044 / 100]);
             func_8006376C(0x17, 7, 5, D_8012CFA4);
             func_8006376C(0xD, 9, (dbCamera->sub.unk_1048 != 0) ? 1 : 6, "PRESS B BUTTON");
 
@@ -1151,7 +1127,7 @@ s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
         {
             dbCamera->sub.unk_1048 ^= 1;
             D_8012CEE0[41][9] = D_80161148 + 'A';
-            func_8006376C(0xD, 7, 5, D_8012CEE0[(dbCamera->sub.unk_1044 / 0x64) + 32]);
+            func_8006376C(0xD, 7, 5, D_8012CEE0[(dbCamera->sub.unk_1044 / 100) + 32]);
             func_8006376C(0x11, 7, 5, D_8012CFAC);
             func_8006376C(0x17, 7, 5, D_8012CFA4);
             func_8006376C(0xD, 9, (dbCamera->sub.unk_1048 != 0) ? 1 : 6, "PRESS B BUTTON");
@@ -1164,8 +1140,7 @@ s32 func_800B9638(DbCamera* dbCamera, Camera* cam) {
             break;
         }
 
-        case 1:
-            goto block_1;
+        case 1: goto block_1;
 
         // 61d8
         default:
@@ -1264,7 +1239,7 @@ block_1:
                 if (CHECK_PAD(D_80161100->state.input[2].press, A_BUTTON)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     dbCamera->sub.unk_1048 = 0;
-                    dbCamera->sub.unk_1044 = dbCamera->sub.unk_1046 * 0x64;
+                    dbCamera->sub.unk_1044 = dbCamera->sub.unk_1046 * 100;
                 }
                 if (CHECK_PAD(D_80161100->state.input[2].press, B_BUTTON)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1509,6 +1484,9 @@ block_1:
     return 1;
 }
 #else
+s32 (*D_8012D14C[])(char*) = { func_800B8DB0, func_800B8BB0, func_800B8F30 };
+u32 D_8012D158[] = { 4, 4, 4, 7, 4, 4, };
+u32 D_8012D170 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B9638.s")
 #endif
 
