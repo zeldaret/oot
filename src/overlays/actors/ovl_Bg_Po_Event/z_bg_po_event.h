@@ -20,7 +20,7 @@ typedef struct BgPoEvent {
     /* 0x0169 */ u8 unk_169;
     /* 0x016A */ s8 unk_16A;
     /* 0x016B */ u8 unk_16B;
-    /* 0x016C */ BgPoEventUnion unk_16C;
+    /* 0x016C */ s16 unk_16C;
     /* 0x016E */ char unk_16E[2];
     /* 0x0170 */ ColliderTris collider1;
     /* 0x0190 */ ColliderTrisItem colliderItems[2];
