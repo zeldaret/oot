@@ -52,13 +52,14 @@ void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgVbSima* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
-    s16 i1;
+    s16 i;
 
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 1;
             particle->pos = *position;
