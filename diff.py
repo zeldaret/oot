@@ -3,6 +3,10 @@ import sys
 import re
 import os
 import ast
+try:
+    import argcomplete
+except ModuleNotFoundError:
+    argcomplete = None
 import argparse
 import subprocess
 import collections
@@ -42,7 +46,28 @@ except ModuleNotFoundError:
 # ==== CONFIG ====
 
 parser = argparse.ArgumentParser(description="Diff MIPS assembly.")
-parser.add_argument("start", help="Function name or address to start diffing from.")
+
+start_argument = parser.add_argument("start", help="Function name or address to start diffing from.")
+if argcomplete:
+    def complete_symbol(**kwargs):
+        prefix = kwargs['prefix']
+        completes = []
+        config = dict()
+        diff_settings.apply(config, dict())
+        with open(config['mapfile']) as f:
+            for line in f:
+                pos = line.find(prefix)
+                if pos >= 0 and (pos == 0 or line[pos-1] == ' '):
+                    symbolEndPos = line.find(' ', pos)
+                    if symbolEndPos == -1:
+                        symbol = line[pos:-1]
+                    else:
+                        symbol = line[pos:symbolEndPos]
+                    completes.append(symbol)
+        return completes
+    start_argument.completer = complete_symbol
+del start_argument
+
 parser.add_argument("end", nargs="?", help="Address to end diff at.")
 parser.add_argument(
     "-o",
@@ -160,6 +185,8 @@ parser.add_argument(
 if hasattr(diff_settings, "add_custom_arguments"):
     diff_settings.add_custom_arguments(parser)
 
+if argcomplete:
+    argcomplete.autocomplete(parser)
 args = parser.parse_args()
 
 # Set imgs, map file and make flags in a project-specific manner.
