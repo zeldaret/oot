@@ -1,40 +1,9 @@
 #!/usr/bin/env python3
 import sys
-import re
-import os
-import ast
-try:
-    import argcomplete
-except ModuleNotFoundError:
-    argcomplete = None
-import argparse
-import subprocess
-import collections
-import difflib
-import string
-import itertools
-import threading
-import queue
-import time
-
 
 def fail(msg):
     print(msg, file=sys.stderr)
     sys.exit(1)
-
-
-MISSING_PREREQUISITES = (
-    "Missing prerequisite python module {}. "
-    "Run `python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein cxxfilt` to install prerequisites (cxxfilt only needed with --source)."
-)
-
-try:
-    import attr
-    from colorama import Fore, Style, Back
-    import ansiwrap
-    import watchdog
-except ModuleNotFoundError as e:
-    fail(MISSING_PREREQUISITES.format(e.name))
 
 # Prefer to use diff_settings.py from the current working directory
 sys.path.insert(0, ".")
@@ -42,8 +11,15 @@ try:
     import diff_settings
 except ModuleNotFoundError:
     fail("Unable to find diff_settings.py in the same directory.")
+sys.path.pop(0)
 
-# ==== CONFIG ====
+# ==== COMMAND-LINE ====
+
+try:
+    import argcomplete
+except ModuleNotFoundError:
+    argcomplete = None
+import argparse
 
 parser = argparse.ArgumentParser(description="Diff MIPS assembly.")
 
@@ -187,6 +163,37 @@ if hasattr(diff_settings, "add_custom_arguments"):
 
 if argcomplete:
     argcomplete.autocomplete(parser)
+
+# ==== IMPORTS ====
+
+import re
+import os
+import ast
+import subprocess
+import collections
+import difflib
+import string
+import itertools
+import threading
+import queue
+import time
+
+
+MISSING_PREREQUISITES = (
+    "Missing prerequisite python module {}. "
+    "Run `python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein cxxfilt` to install prerequisites (cxxfilt only needed with --source)."
+)
+
+try:
+    import attr
+    from colorama import Fore, Style, Back
+    import ansiwrap
+    import watchdog
+except ModuleNotFoundError as e:
+    fail(MISSING_PREREQUISITES.format(e.name))
+
+# ==== CONFIG ====
+
 args = parser.parse_args()
 
 # Set imgs, map file and make flags in a project-specific manner.
