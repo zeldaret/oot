@@ -3,5 +3,6 @@
 "gDma.*" = "void"
 LOG = "void"
 SET_FULLSCREEN_VIEWPORT = "void"
+OPEN_DISPS_INNER = "void"
 ABS = "int"
 SQ = "int"
