@@ -118,6 +118,7 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
+    
 }
 
 void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
@@ -165,6 +166,7 @@ void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_StaticBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
+    
 }
 
 void BgGndDarkmeiro_SwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
@@ -182,10 +184,12 @@ void BgGndDarkmeiro_SwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
 
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgGndDarkmeiro* this = THIS;
+    
     this->actionFunc(this, globalCtx);
 }
 
 void BgGndDarkmeiro_Draw0(Actor* thisx, GlobalContext* globalCtx) {
+    
     Gfx_DrawDListXlu(globalCtx, D_060088B0);
 }
 
@@ -193,8 +197,6 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
     BgGndDarkmeiro* this = THIS;
     s16 vanishTimer;
     u16 vanishTimerU;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     vanishTimer = this->timer1;
     if (vanishTimer != 0) {
@@ -210,23 +212,20 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
             this->timer2 = vanishTimer * 8;
         }
 
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, this->timer2);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, this->timer2);
         //@ bug: Due to a bug in the display list, the transparency data is not used.
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
 
         Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
     }
 }
 
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
+    
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
 
     Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
 }
