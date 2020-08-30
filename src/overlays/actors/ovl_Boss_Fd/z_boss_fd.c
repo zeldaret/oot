@@ -392,7 +392,7 @@ void func_808CB6A8(BossFd* this, GlobalContext* globalCtx) {
     this->maxTurnRate = 1000.0f;
 }
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 // Control flow is correct and works when compiled. It's enormous, though, so matching will be hard.
 void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
 
@@ -418,26 +418,25 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     f32 dz2;
     f32 dPerp;
     Camera* camera;
-    Vec3f* temp_v0;
-    Vec3f* temp_v0_10;
-    Vec3f* temp_v0_12;
+    Vec3f* holePosition1;
+    Vec3f* ceilingTarget;
+    Vec3f* holePosition2;
     Vec3f* holeXYZ;
     Vec3f* tempC3C;
     Vec3f* tempC6C;
-    f32 temp_f12;
-    f32 temp_f2_2;
-    f32 temp_f4_3;
-    s16 temp_s0_4;
-    s16 temp_s0_5;
-    s16 temp_t1_2;
-    u8 temp_v0_11;
+    f32 dzDeath;
+    f32 dxDeath;
+    f32 yWobble;
+    s16 leadBodySeg;
+    s16 leadManeSeg;
+    s16 temp_rand2;
+    u8 temp_rand;
     Player* player = PLAYER;
     s16 i1;
     s16 i2;
     f32 phi_f20;
     f32 dx;
     f32 dz;
-    s16 actionState;
 
     sp1CF = 0;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
@@ -519,7 +518,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                         func_808CB100(this, 0.5f);
                         this->animationTimers[0] = 0;
                         this->holeIndex = 1;
-                        temp_v0 = &D_808D192C[this->holeIndex & 0xFF];
+                        holePosition1 = &D_808D192C[this->holeIndex & 0xFF];
                         this->unk_145C.x = 0.1f;
                         this->unk_145C.y = 0.1f;
                         this->unk_145C.z = 0.1f;
@@ -527,15 +526,15 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                         this->unk_1474.y = 0.1f;
                         this->unk_1474.z = 0.1f;
                         this->unk_1484 = 0.005f;
-                        this->targetPosition.x = temp_v0->x;
-                        this->targetPosition.y = temp_v0->y - 200.0f;
-                        this->targetPosition.z = temp_v0->z;
-                        this->animationTimers[0] = 0x32;
+                        this->targetPosition.x = holePosition1->x;
+                        this->targetPosition.y = holePosition1->y - 200.0f;
+                        this->targetPosition.z = holePosition1->z;
+                        this->animationTimers[0] = 50;
                         this->actionState = 3;
                         this->actor.posRot.rot.x = 0x4000;
                         this->movementTimer = 0;
-                        this->animationTimers[3] = 0xFA;
-                        this->animationTimers[2] = 0x1D6;
+                        this->animationTimers[3] = 250;
+                        this->animationTimers[2] = 470;
                         this->flightSpeed = 5.0f;
                     }
                 }
@@ -553,15 +552,15 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 player->actor.posRot.pos.z = 0.0f;
                 player->actor.speedXZ = 0.0f;
                 player->actor.shape.rot.y = player->actor.posRot.rot.y;
-                if (this->animationTimers[0] == 0x32) {
+                if (this->animationTimers[0] == 50) {
                     this->fogMode = 1;
                 }
-                if (this->animationTimers[0] < 0x32) {
+                if (this->animationTimers[0] < 50) {
                     Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                     Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
                 }
-                if (this->animationTimers[0] == 0x28) {
+                if (this->animationTimers[0] == 40) {
                     func_8002DF54(globalCtx, &this->actor, 0x13);
                 }
                 if (this->animationTimers[0] == 0) {
@@ -569,7 +568,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->unk_1468.y = player->actor.posRot.pos.y + 10.0f;
                     this->unk_1480 = 0.0f;
                     this->unk_1474.y = 0.2f;
-                    this->animationTimers[0] = 0x46;
+                    this->animationTimers[0] = 70;
                     this->movementTimer = 0;
                     this->unk_1484 = 0.02f;
                 }
@@ -587,7 +586,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->unk_1468.y = player->actor.posRot.pos.y - 150.0f;
                     this->unk_1468.z = player->actor.posRot.pos.z - 50.0f;
                     func_808CB100(this, 0.1f);
-                    this->animationTimers[0] = 0xAA;
+                    this->animationTimers[0] = 170;
                     this->unk_1480 = 0.0f;
                     this->unk_1484 = 0.0f;
                     func_8002DF54(globalCtx, &this->actor, 0x14);
@@ -598,7 +597,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
                 Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                if (this->animationTimers[0] == 0x64) {
+                if (this->animationTimers[0] == 100) {
                     this->collapsePlatform = 1;
                 }
                 if (this->animationTimers[0] == 0) {
@@ -625,12 +624,12 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->targetPosition.x = holeXYZ->x;
                     this->targetPosition.y = holeXYZ->y - 200.0f;
                     this->targetPosition.z = holeXYZ->z;
-                    this->animationTimers[0] = 0x32;
+                    this->animationTimers[0] = 50;
                     this->actionState = 3;
                     this->actor.posRot.rot.x = 0x4000;
                     this->movementTimer = 0;
-                    this->animationTimers[3] = 0xFA;
-                    this->animationTimers[2] = 0x1D6;
+                    this->animationTimers[3] = 250;
+                    this->animationTimers[2] = 470;
                     this->flightSpeed = 5.0f;
                 }
                 break;
@@ -638,10 +637,10 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 osSyncPrintf("WAY_SPD X = %f\n", this->unk_1444.x);
                 osSyncPrintf("WAY_SPD Y = %f\n", this->unk_1444.y);
                 osSyncPrintf("WAY_SPD Z = %f\n", this->unk_1444.z);
-                if ((this->animationTimers[3] >= 0xBF) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
+                if ((this->animationTimers[3] >= 191) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
                     Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
-                if (this->animationTimers[3] == 0xBE) {
+                if (this->animationTimers[3] == 190) {
                     this->unk_1474.z = 0.05f;
                     this->unk_1474.y = 0.05f;
                     this->collapsePlatform = 2;
@@ -657,14 +656,14 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
                     this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 }
-                if (this->animationTimers[3] == 0xA0) {
+                if (this->animationTimers[3] == 160) {
                     Audio_SetBGM(0x6B);
                 }
-                if ((this->animationTimers[3] == 0x82) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
+                if ((this->animationTimers[3] == 130) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&D_0600D700),
                                            0xA0, 0xB4, 0x80, 0x28);
                 }
-                if (this->animationTimers[3] < 0x65) {
+                if (this->animationTimers[3] < 101) {
                     this->unk_1438.z = 2.0f;
                     this->unk_1438.y = 2.0f;
                     this->unk_1438.x = 2.0f;
@@ -675,12 +674,12 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 if (this->actionState == 1) {
                     switch (this->introState1) {
                         case 0:
-                            this->animationTimers[5] = 0x64;
+                            this->animationTimers[5] = 100;
                             this->introState1 = 1;
                         case 1:
                             if (this->animationTimers[5] == 0) {
                                 this->introState1 = 2;
-                                this->animationTimers[5] = 0x4B;
+                                this->animationTimers[5] = 75;
                             }
                             break;
                         case 2:
@@ -694,9 +693,9 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                                 this->targetPosition.z = holeXYZ->z;
                                 this->introState1 = 3;
                             }
-                            if (this->animationTimers[5] == 0x1E) {
-                                this->roarTimer = 0x28;
-                                this->fireBreathTimer = 0x14;
+                            if (this->animationTimers[5] == 30) {
+                                this->roarTimer = 40;
+                                this->fireBreathTimer = 20;
                             }
                         case 3:
                             break;
@@ -717,7 +716,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = &func_808CDE30;
-                    this->handoffSignal = 0x64;
+                    this->handoffSignal = 100;
                     gSaveContext.eventChkInf[7] |= 8;
                 }
         }
@@ -735,39 +734,39 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             sp1CF = 1;
             if (this->animationTimers[0] == 0) {
                 if (this->actor.colChkInfo.health == 0) {
-                    this->actionState = 0xC8;
+                    this->actionState = 200;
                     this->animationTimers[0] = 0;
-                    this->animationTimers[1] = 0x64;
+                    this->animationTimers[1] = 100;
                 } else {
                     if (this->introState2 != 0) {
                         this->holeIndex = 6;
                     } else {
                         do {
-                            temp_v0_11 = Math_Rand_ZeroFloat(8.9f);
-                        } while (this->holeIndex == temp_v0_11);
-                        this->holeIndex = temp_v0_11;
+                            temp_rand = Math_Rand_ZeroFloat(8.9f);
+                        } while (this->holeIndex == temp_rand);
+                        this->holeIndex = temp_rand;
                     }
-                    temp_v0_12 = &D_808D192C[this->holeIndex];
-                    this->targetPosition.x = temp_v0_12->x;
-                    this->targetPosition.y = (temp_v0_12->y + 200.0f) + 50.0f;
-                    this->targetPosition.z = temp_v0_12->z;
+                    holePosition2 = &D_808D192C[this->holeIndex];
+                    this->targetPosition.x = holePosition2->x;
+                    this->targetPosition.y = (holePosition2->y + 200.0f) + 50.0f;
+                    this->targetPosition.z = holePosition2->z;
                     this->turnRate = 0.0f;
                     this->maxTurnRate = 1000.0f;
                     this->flightWobbleAmplitude = 100.0f;
-                    this->animationTimers[0] = (this->introState2 != 0) ? 0x2742 : 0x14;
+                    this->animationTimers[0] = (this->introState2 != 0) ? 10050 : 20;
                     this->actionState = 1;
                     if (this->startAttack != 0) {
                         this->startAttack = 0;
                         this->flightCount += 1;
                         if ((this->flightCount & 1) != 0) {
                             this->unk_236 = 0;
-                            this->actionState = 0x64;
-                            this->animationTimers[0] = 0x12C;
+                            this->actionState = 100;
+                            this->animationTimers[0] = 300;
                             this->maxTurnRate = 900.0f;
                             this->targetLinkYOffset = 300.0f;
                             this->unk_234 = this->unk_236;
                         } else {
-                            this->actionState = 0x32;
+                            this->actionState = 50;
                         }
                     }
                 }
@@ -782,8 +781,8 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->holePosition.x = this->targetPosition.x;
                     this->maxTurnRate = 10000.0f;
                     this->holePosition.z = this->targetPosition.z;
-                    this->animationTimers[0] = 0x96;
-                    this->roarTimer = 0x28;
+                    this->animationTimers[0] = 150;
+                    this->roarTimer = 40;
                 }
             }
             break;
@@ -791,7 +790,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             sp1CF = 1;
             if (this->animationTimers[0] == 0) {
                 this->actionFunc = &func_808CDE30;
-                this->handoffSignal = 0x64;
+                this->handoffSignal = 100;
             }
             break;
         case 3:
@@ -800,14 +799,14 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->actor.posRot.pos = this->targetPosition;
                     this->actionState = 0;
                     this->actor.posRot.rot.x = 0x4000;
-                    this->animationTimers[4] = 0x50;
+                    this->animationTimers[4] = 80;
                     this->targetPosition.y = D_808D192C[this->holeIndex].y + 200.0f;
                     this->maxTurnRate = 1000.0f;
                     this->holePosition.z = this->targetPosition.z;
                     this->holePosition.x = this->targetPosition.x;
                     this->flightWobbleAmplitude = 0.0f;
                     func_80033E1C(globalCtx, 1, 0x50, 0x5000);
-                    this->animationTimers[0] = (this->introState2 != 0) ? 0x32 : 0x32;
+                    this->animationTimers[0] = (this->introState2 != 0) ? 50 : 50;
                     // This isn't a fake match. The game actually does this.
                 }
             }
@@ -820,23 +819,23 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             this->targetPosition.z = -300.0f;
             this->maxTurnRate = 3000.0f;
             if (700.0f < this->actor.posRot.pos.y) {
-                this->actionState = 0x33;
-                this->animationTimers[0] = 0x19;
-                this->animationTimers[2] = 0x96;
+                this->actionState = 51;
+                this->animationTimers[0] = 25;
+                this->animationTimers[2] = 150;
                 this->ceilingTargetIndex = 0;
             }
             break;
         case 51: // Flying around the ceiling dropping rocks
             this->flightWobbleAmplitude = 200.0f;
             this->flightSpeed = 8.0f;
-            temp_v0_10 = &D_808D1998[this->ceilingTargetIndex];
+            ceilingTarget = &D_808D1998[this->ceilingTargetIndex];
             this->maxTurnRate = 10000.0f;
-            this->targetPosition.x = temp_v0_10->x;
-            this->targetPosition.y = temp_v0_10->y + 900.0f;
-            this->targetPosition.z = temp_v0_10->z;
+            this->targetPosition.x = ceilingTarget->x;
+            this->targetPosition.y = ceilingTarget->y + 900.0f;
+            this->targetPosition.z = ceilingTarget->z;
             if (this->animationTimers[0] == 0) {
                 this->ceilingTargetIndex++;
-                this->animationTimers[0] = 0x19;
+                this->animationTimers[0] = 25;
                 if (this->ceilingTargetIndex >= 6) {
                     this->ceilingTargetIndex = 0;
                 }
@@ -845,11 +844,11 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             if (this->animationTimers[1] == 0) {
                 osSyncPrintf("BGCHECKKKKKKKKKKKKKKKKKKKKKKK\n", 1000.0f);
                 if ((this->actor.bgCheckFlags & 0x10) != 0) {
-                    this->animationTimers[1] = 0xA;
+                    this->animationTimers[1] = 10;
                     this->unk_27C = -18384.0f;
                     Audio_PlaySoundGeneral(0x2802, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     func_80033E1C(globalCtx, 3, 0xA, 0x7530);
-                    this->rockTimer = 0x12C;
+                    this->rockTimer = 300;
                 }
             } else {
                 pitchToTarget = this->unk_27C;
@@ -863,15 +862,15 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             break;
         case 100: // Chasing Link and breathing fire at him
             this->actor.flags |= 0x1000000;
-            temp_f4_3 = Math_Sins(this->movementTimer * 2396.0f) * 30.0f;
+            yWobble = Math_Sins(this->movementTimer * 2396.0f) * 30.0f;
             this->targetPosition.x = player->actor.posRot.pos.x;
-            this->targetPosition.y = (player->actor.posRot.pos.y + (this->targetLinkYOffset + temp_f4_3)) + 30.0f;
+            this->targetPosition.y = (player->actor.posRot.pos.y + (this->targetLinkYOffset + yWobble)) + 30.0f;
             this->targetPosition.z = player->actor.posRot.pos.z;
             this->flightWobbleAmplitude = 0.0f;
-            if (((this->animationTimers[0] & 0x3F) == 0) && (this->animationTimers[0] < 0x1C2)) {
-                this->roarTimer = 0x28;
+            if (((this->animationTimers[0] & 0x3F) == 0) && (this->animationTimers[0] < 450)) {
+                this->roarTimer = 40;
                 if (func_808CB67C(this) != 0) {
-                    this->fireBreathTimer = 0x14;
+                    this->fireBreathTimer = 20;
                 }
             }
             if ((this->damageFlashTimer != 0) || (this->animationTimers[0] == 0) ||
@@ -889,23 +888,23 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->animationTimers[0] = 0;
             }
             if (this->animationTimers[0] == 0) {
-                this->animationTimers[0] = (s32)Math_Rand_ZeroFloat(10.0f) + 0xA;
+                this->animationTimers[0] = (s32)Math_Rand_ZeroFloat(10.0f) + 10;
                 do {
                     this->targetPosition.x = Math_Rand_CenteredFloat(200.0f);
                     this->targetPosition.y = 390.0f;
                     this->targetPosition.z = Math_Rand_CenteredFloat(200.0f);
-                    temp_f2_2 = this->targetPosition.x - this->actor.posRot.pos.x;
-                    temp_f12 = this->targetPosition.z - this->actor.posRot.pos.z;
+                    dxDeath = this->targetPosition.x - this->actor.posRot.pos.x;
+                    dzDeath = this->targetPosition.z - this->actor.posRot.pos.z;
 
-                } while (100.0f >= sqrtf((temp_f2_2 * temp_f2_2) + (temp_f12 * temp_f12)));
+                } while (100.0f >= sqrtf((dxDeath * dxDeath) + (dzDeath * dzDeath)));
             }
             this->flightWobbleAmplitude = 200.0f;
             this->flightWobbleRate = 1000.0f;
             this->maxTurnRate = 10000.0f;
             Math_SmoothScaleMaxF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
             if (this->animationTimers[1] == 0) {
-                this->actionState = 0xC9;
-                this->animationTimers[0] = 0x1E;
+                this->actionState = 201;
+                this->animationTimers[0] = 30;
             }
             break;
         case 201: // Skin burning off scene
@@ -923,12 +922,12 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                         Audio_SetBGM(0x21);
                     }
                 } else {
-                    this->actionState = 0xCA;
-                    this->animationTimers[0] = 0x1E;
+                    this->actionState = 202;
+                    this->animationTimers[0] = 30;
                 }
             }
             if ((this->movementTimer & 0x1F) == 0) {
-                this->roarTimer = 0x28;
+                this->roarTimer = 40;
             }
             if (this->skinSegments != 0) {
                 sp17C = D_808D19E0;
@@ -944,12 +943,12 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 }
 
                 for (i1 = 0; i1 < sp150; i1++) {
-                    temp_t1_2 = (s16)Math_Rand_ZeroFloat(99.9f);
-                    sp188.x = this->bodySegsPos[temp_t1_2].x;
-                    sp188.y = this->bodySegsPos[temp_t1_2].y - 10.0f;
+                    temp_rand2 = (s16)Math_Rand_ZeroFloat(99.9f);
+                    sp188.x = this->bodySegsPos[temp_rand2].x;
+                    sp188.y = this->bodySegsPos[temp_rand2].y - 10.0f;
                     sp164.y = 0.03f;
-                    sp188.z = this->bodySegsPos[temp_t1_2].z;
-                    func_80029DBC(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 0x28, 0x64);
+                    sp188.z = this->bodySegsPos[temp_rand2].z;
+                    func_80029DBC(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
                     for (i2 = 0; i2 < 15; i2++) {
                         sp170.x = Math_Rand_CenteredFloat(20.0f);
                         sp170.y = Math_Rand_CenteredFloat(20.0f);
@@ -965,12 +964,12 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
         case 202: // Skeleton breaks apart.
             this->stopFlag = 1;
             this->fogMode = 3;
-            if (this->animationTimers[0] < 0x12) {
+            if (this->animationTimers[0] < 18) {
                 this->bodyFallApart[this->animationTimers[0]] = 1;
             }
             if (this->animationTimers[0] == 0) {
-                this->actionState = 0xCB;
-                this->animationTimers[0] = 0xF;
+                this->actionState = 203;
+                this->animationTimers[0] = 15;
                 this->ceilingTargetIndex = 0;
                 player->actor.posRot.pos.y = 90.0f;
                 player->actor.posRot.pos.x = 40.0f;
@@ -979,8 +978,8 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             break;
         case 203: // Pause for effect
             if (this->animationTimers[0] == 0) {
-                this->actionState = 0xCC;
-                this->animationTimers[0] = 0x14;
+                this->actionState = 204;
+                this->animationTimers[0] = 20;
                 this->stopFlag = 0;
             }
             break;
@@ -989,7 +988,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
 
             if (this->animationTimers[0] == 1) {
                 this->actor.posRot.rot.y = 0;
-                this->actor.posRot.pos.x = this->actor.velocity.x = this->actor.velocity.z = 0.0f;
+                this->actor.posRot.pos.x = this->actor.velocity.x = this->actor.velocity.z = 0;
                 this->actor.posRot.pos.y = 900.0f;
                 this->actor.posRot.pos.z = 150.0f;
                 this->actor.shape.rot.z = 0x1200;
@@ -1001,8 +1000,8 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->actor.posRot.pos.y = 110.0f;
                     if (this->ceilingTargetIndex == 0) {
                         this->ceilingTargetIndex++;
-                        this->animationTimers[1] = 0x3C;
-                        this->deathCameraShakeTimer = 0x14;
+                        this->animationTimers[1] = 60;
+                        this->deathCameraShakeTimer = 20;
                         Audio_PlaySoundGeneral(0x3889, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         func_8002DF54(globalCtx, &this->actor, 5);
@@ -1027,8 +1026,8 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y = 0.0f;
             }
             if (this->animationTimers[1] == 1) {
-                this->actionState = 0xCD;
-                this->animationTimers[0] = 0x46;
+                this->actionState = 205;
+                this->animationTimers[0] = 70;
             }
             break;
         case 205: // Skull burns away
@@ -1038,7 +1037,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             this->maxTurnRate = 0.0f;
             this->flightSpeed = 0.0f;
             this->actor.speedXZ = 0.0f;
-            if ((this->animationTimers[0] < 0x32) && (this->animationTimers[0] > 0)) {
+            if ((this->animationTimers[0] < 50) && (this->animationTimers[0] > 0)) {
                 sp114 = D_808D1A10;
                 sp108 = D_808D1A1C;
                 Audio_PlaySoundGeneral(0x301C, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1046,9 +1045,9 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 sp120.y = (Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y) - 10.0f;
                 sp120.z = (Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z) + 5.0f;
                 sp108.y = 0.03f;
-                func_80029DBC(globalCtx, &sp120, &sp114, &sp108, (s16)Math_Rand_ZeroFloat(15.0f) + 0x1E, 0);
+                func_80029DBC(globalCtx, &sp120, &sp114, &sp108, (s16)Math_Rand_ZeroFloat(15.0f) + 30, 0);
             }
-            if (this->animationTimers[0] < 0x14) {
+            if (this->animationTimers[0] < 20) {
                 Math_SmoothDownscaleMaxF(&this->actor.scale.x, 1.0f, 0.0025f);
                 Actor_SetScale(&this->actor, this->actor.scale.x);
             }
@@ -1072,7 +1071,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     if (this->stopFlag == 0) {
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, angleToTarget, 0xA, this->turnRate);
 
-        if (((this->actionState == 0x64) || (this->actionState == 0x65)) && (this->actor.posRot.pos.y < 110.0f) &&
+        if (((this->actionState == 100) || (this->actionState == 101)) && (this->actor.posRot.pos.y < 110.0f) &&
             (pitchToTarget < 0.0f)) {
             pitchToTarget = 0.0f;
             Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 110.0f, 1.0f, 5.0f);
@@ -1081,37 +1080,37 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, pitchToTarget, 0xA, this->turnRate);
         Math_SmoothScaleMaxF(&this->turnRate, this->maxTurnRate, 1.0f, 20000.0f);
         Math_SmoothScaleMaxF(&this->actor.speedXZ, this->flightSpeed, 1.0f, 0.1f);
-        if (this->actionState < 0xCC) {
+        if (this->actionState < 204) {
             func_8002D908(&this->actor);
         }
         func_8002D7EC(&this->actor);
 
         this->leadBodySeg++;
-        if (this->leadBodySeg >= 0x64) {
+        if (this->leadBodySeg >= 100) {
             this->leadBodySeg = 0;
         }
-        temp_s0_4 = this->leadBodySeg;
-        this->bodySegsPos[temp_s0_4].x = this->actor.posRot.pos.x;
-        this->bodySegsPos[temp_s0_4].y = this->actor.posRot.pos.y;
-        this->bodySegsPos[temp_s0_4].z = this->actor.posRot.pos.z;
-        this->bodySegsRot[temp_s0_4].x = (this->actor.posRot.rot.x / 32768.0f) * 3.1415927f;
-        this->bodySegsRot[temp_s0_4].y = (this->actor.posRot.rot.y / 32768.0f) * 3.1415927f;
-        this->bodySegsRot[temp_s0_4].z = (this->actor.posRot.rot.z / 32768.0f) * 3.1415927f;
+        leadBodySeg = this->leadBodySeg;
+        this->bodySegsPos[leadBodySeg].x = this->actor.posRot.pos.x;
+        this->bodySegsPos[leadBodySeg].y = this->actor.posRot.pos.y;
+        this->bodySegsPos[leadBodySeg].z = this->actor.posRot.pos.z;
+        this->bodySegsRot[leadBodySeg].x = (this->actor.posRot.rot.x / 32768.0f) * 3.1415927f;
+        this->bodySegsRot[leadBodySeg].y = (this->actor.posRot.rot.y / 32768.0f) * 3.1415927f;
+        this->bodySegsRot[leadBodySeg].z = (this->actor.posRot.rot.z / 32768.0f) * 3.1415927f;
 
         this->leadManeSeg++;
-        if (this->leadManeSeg >= 0x1E) {
+        if (this->leadManeSeg >= 30) {
             this->leadManeSeg = 0;
         }
-        temp_s0_5 = this->leadManeSeg;
-        this->centerManeScale[temp_s0_5] = (Math_Sins(((this->movementTimer * 5596.0f))) * 0.3f) + 1.0f;
-        this->rightManeScale[temp_s0_5] = (Math_Sins(((this->movementTimer * 5496.0f))) * 0.3f) + 1.0f;
-        this->leftManeScale[temp_s0_5] = (Math_Coss(((this->movementTimer * 5696.0f))) * 0.3f) + 1.0f;
-        this->centerManePos[temp_s0_5] = this->centerManeHead;
-        this->fireManeRot[temp_s0_5].x = (this->actor.posRot.rot.x / 32768.0f) * 3.1415927f;
-        this->fireManeRot[temp_s0_5].y = (this->actor.posRot.rot.y / 32768.0f) * 3.1415927f;
-        this->fireManeRot[temp_s0_5].z = (this->actor.posRot.rot.z / 32768.0f) * 3.1415927f;
-        this->rightManePos[temp_s0_5] = this->rightManeHead;
-        this->leftManePos[temp_s0_5] = this->leftManeHead;
+        leadManeSeg = this->leadManeSeg;
+        this->centerManeScale[leadManeSeg] = (Math_Sins(((this->movementTimer * 5596.0f))) * 0.3f) + 1.0f;
+        this->rightManeScale[leadManeSeg] = (Math_Sins(((this->movementTimer * 5496.0f))) * 0.3f) + 1.0f;
+        this->leftManeScale[leadManeSeg] = (Math_Coss(((this->movementTimer * 5696.0f))) * 0.3f) + 1.0f;
+        this->centerManePos[leadManeSeg] = this->centerManeHead;
+        this->fireManeRot[leadManeSeg].x = (this->actor.posRot.rot.x / 32768.0f) * 3.1415927f;
+        this->fireManeRot[leadManeSeg].y = (this->actor.posRot.rot.y / 32768.0f) * 3.1415927f;
+        this->fireManeRot[leadManeSeg].z = (this->actor.posRot.rot.z / 32768.0f) * 3.1415927f;
+        this->rightManePos[leadManeSeg] = this->rightManeHead;
+        this->leftManePos[leadManeSeg] = this->leftManeHead;
 
         if ((this->actor.posRot.rot.x < 0x3000) && (this->actor.posRot.rot.x >= -0x2FFF)) {
             Math_SmoothScaleMaxF(&this->flattenMane, 1.0f, 1.0f, 0.05f);
@@ -1119,19 +1118,19 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->flattenMane, 0.5f, 1.0f, 0.05f);
         }
 
-        if (this->actionState < 0xCC) {
+        if (this->actionState < 204) {
             if ((this->actor.pos4.y < 90.0f) && (90.0f <= this->actor.posRot.pos.y)) {
-                this->animationTimers[4] = 0x50;
-                func_80033E1C(globalCtx, 1, 0x50, 0x5000);
-                this->roarTimer = 0x28;
-                this->maneEmbersTimer = 0x1E;
-                this->holeSplashTimer = 0xA;
+                this->animationTimers[4] = 80;
+                func_80033E1C(globalCtx, 1, 80, 0x5000);
+                this->roarTimer = 40;
+                this->maneEmbersTimer = 30;
+                this->holeSplashTimer = 10;
             }
             if ((90.0f < this->actor.pos4.y) && (this->actor.posRot.pos.y <= 90.0f)) {
-                this->animationTimers[4] = 0x50;
-                func_80033E1C(globalCtx, 1, 0x50, 0x5000);
-                this->maneEmbersTimer = 0x1E;
-                this->holeSplashTimer = 0xA;
+                this->animationTimers[4] = 80;
+                func_80033E1C(globalCtx, 1, 80, 0x5000);
+                this->maneEmbersTimer = 30;
+                this->holeSplashTimer = 10;
             }
         }
         if (sp1CF == 0) {
