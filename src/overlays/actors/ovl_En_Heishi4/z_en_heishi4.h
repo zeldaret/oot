@@ -23,7 +23,6 @@ typedef struct EnHeishi4 {
     /* 0x0280 */ s16 params;
     /* 0x0282 */ s16 unk_282;
     /* 0x0284 */ s16 unk_284;
-    /* 0x0286 */ char unk_286[0x2];
     /* 0x0288 */ f32 unk_288;
     /* 0x028C */ struct_80034A14_arg1 unk_28C;
     /* 0x02B4 */ u8 unk_2B4;

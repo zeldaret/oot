@@ -21,7 +21,6 @@ void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx);
 void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx);
-s32 EnHeishi4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 
 const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
@@ -35,9 +34,9 @@ const ActorInit En_Heishi4_InitVars = {
     (ActorFunc)EnHeishi4_Draw,
 };
 
-u32 EnHeishi4ReactionSet[] = {0x00000006, 0x00000007};
-//s32 D_80A56EF8[] = {0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000100, 0x00210028, 0x00000000, 0x00000000 ,};
-ColliderCylinderInit D_80A56EF8 = // Rename to sCylinderInit when EnHeishi4 is matching
+static u32 EnHeishi4ReactionSet[] = {0x00000006, 0x00000007};
+
+static ColliderCylinderInit sCylinderInit =
 {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
@@ -50,10 +49,8 @@ extern AnimationHeader D_06005C30;
 extern AnimationHeader D_0600C6C8;
 extern AnimationHeader D_0600C374;
 
-//one small stack diff
 void EnHeishi4_Init(Actor *thisx, GlobalContext *globalCtx) {
     EnHeishi4* this = THIS;
-    s32 pad1;
 
     Actor_SetScale(thisx, 0.01f);
     this->params =  thisx->params & 0xFF;
@@ -69,8 +66,8 @@ void EnHeishi4_Init(Actor *thisx, GlobalContext *globalCtx) {
         ActorShape_Init(&thisx->shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->limbDrawTable, &this->transitionDrawTable, 17);
     }
-    Collider_InitCylinder(globalCtx, &this->collider);//Stack issue is somewhere in here I think
-    Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80A56EF8);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
     this->collider.dim.yShift = 0;
     this->collider.dim.radius = 15;
     this->collider.dim.height = 70;
@@ -165,7 +162,6 @@ void func_80A56544(EnHeishi4 *this, GlobalContext *globalCtx) {
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16) frames, 0, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
-        //Gyaa! It's an adult
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
     }
@@ -213,11 +209,9 @@ void func_80A56614(EnHeishi4 *this, GlobalContext *globalCtx) {
 
 void func_80A5673C(EnHeishi4 *this, GlobalContext *globalCtx) {
     if (gSaveContext.eventChkInf[4] & 0x20) {
-       // Get Master Sword Celebration!
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
-        return;
-    }
+    } else {
     this->unk_284 = 0;
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
@@ -226,12 +220,10 @@ void func_80A5673C(EnHeishi4 *this, GlobalContext *globalCtx) {
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
             this->unk_284 = 1;
-            //Start demo!
             osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" VT_RST);
         } else {
             this->actor.textId = 0x7008;
             this->unk_282 = 6;
-            //No reply
             osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" VT_RST);
         }
         this->actionFunc = &func_80A56874;
@@ -239,6 +231,7 @@ void func_80A5673C(EnHeishi4 *this, GlobalContext *globalCtx) {
     else {
         Actor_Kill(&this->actor);
     }
+}
 }
 
 void func_80A56874(EnHeishi4 *this, GlobalContext *globalCtx) {
@@ -290,7 +283,7 @@ void func_80A56ACC(EnHeishi4 *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_288 <= currentFrame) {
         func_8002DF54(globalCtx, NULL, 7);
-        this->actionFunc =  func_80A5673C;
+        this->actionFunc = func_80A5673C;
     }
 }
 
@@ -344,14 +337,18 @@ void func_80A56B40(EnHeishi4 *this, GlobalContext *globalCtx) {
 
 void EnHeishi4_Update(Actor *thisx, GlobalContext *globalCtx) {
     EnHeishi4* this = THIS;
+    s32 pad;
     Player* player = PLAYER;
 
-    thisx->posRot.pos = this->pos;
+    //thisx->posRot.pos = this->pos;
+    thisx->posRot.pos.x = this->pos.x;
+    thisx->posRot.pos.y = this->pos.y;
+    thisx->posRot.pos.z = this->pos.z;
     Actor_SetHeight(thisx,  this->height);
     if (this->params != 7) {
         this->unk_28C.unk_18 = player->actor.posRot.pos;
         if (LINK_IS_CHILD) {
-            this->unk_28C.unk_18.x = player->actor.posRot.pos.x - 10.0f;
+            this->unk_28C.unk_18.y = (player->actor.posRot.pos.y - 10.0f);
         }
         func_80034A14(thisx, &this->unk_28C, 2, 4);
         this->unk_260 = this->unk_28C.unk_08;
@@ -361,19 +358,19 @@ void EnHeishi4_Update(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFunc(thisx, globalCtx);
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
-    Collider_CylinderUpdate(thisx, &this->collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-s32 EnHeishi4_OverrideLimbDraw(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx) {
+s32 EnHeishi_OverrideLimbDraw(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx) {
     EnHeishi4* this = THIS;
 
     if (limbIndex == 9) {
         rot->x += this->unk_266.y;
     }
     if (limbIndex == 16) {
-        rot->x += this->pos.y;
-        rot->z += this->pos.z;
+        rot->x += this->unk_260.y;
+        rot->z += this->unk_260.z;
     }
     return 0;
 }
@@ -382,5 +379,5 @@ void EnHeishi4_Draw(Actor *thisx, GlobalContext *globalCtx) {
     EnHeishi4* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi4_OverrideLimbDraw, 0, &this->actor);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi_OverrideLimbDraw, 0, &this->actor);
 }
