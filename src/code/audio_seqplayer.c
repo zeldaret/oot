@@ -972,9 +972,20 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* seqChannel);
 
 void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_ProcessSequences.s")
+void Audio_ProcessSequences(s32 arg0) {
+    SequencePlayer *seqPlayer;
+    u32 i;
 
-void Audio_ProcessSequences(s32 arg0);
+    gAudioContext.gNoteSubEuOffset = (gAudioContext.gAudioBufferParameters.unk_08 - arg0 - 1) * gAudioContext.gMaxSimultaneousNotes;
+    for (i = 0; i < (u32) gAudioContext.gAudioBufferParameters.unk_10; i++) {
+        seqPlayer = &gAudioContext.gSequencePlayers[i];
+        if (seqPlayer->enabled == 1) {
+            Audio_SequencePlayerProcessSequence(seqPlayer);
+            Audio_SequencePlayerProcessSound(seqPlayer);
+        }
+    }
+    Audio_ProcessNotes();
+}
 
 void Audio_ProcessSequence(SequencePlayer *seqPlayer) {
     while (seqPlayer->unk_DC > 0) {

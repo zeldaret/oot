@@ -452,7 +452,8 @@ typedef struct Note {
 } Note; // size = 0xE0
 
 typedef struct {
-    // all offsets here are wildly wrong
+    // all offsets here are wildly wrong, and the struct might not start at
+    // zero (it's embedded into another struct)
     /* 0x00 */ s16 presetUnk4; // audio frames per vsync?
     /* 0x02 */ u16 frequency;
     /* 0x04 */ u16 aiFrequency; // ?16
@@ -461,7 +462,7 @@ typedef struct {
     /* 0x0A */ s16 minAiBufferLength;
     /* 0x0C */ s16 updatesPerFrame;
     /* 0x0E */ s16 samplesPerUpdate;
-    /* 0x10 */ s16 samplesPerUpdateMax;
+    /* 0x10 */ s16 unk_10; // samplesPerUpdateMax;
     /* 0x12 */ s16 samplesPerUpdateMin;
     /*!0x14 */ f32 resampleRate;             // contains 32000.0f / frequency
     /*!0x18 */ f32 updatesPerFrameInv;       // 1.0f / updatesPerFrame
