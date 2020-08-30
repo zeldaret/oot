@@ -33,15 +33,13 @@ const ActorInit En_Ice_Hono_InitVars = {
     (ActorFunc)EnIceHono_Draw,
 };
 
-static ColliderCylinderInit sCylinderInitCapturableFlame =
-{
+static ColliderCylinderInit sCylinderInitCapturableFlame = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit sCylinderInitDroppedFlame =
-{
+static ColliderCylinderInit sCylinderInitDroppedFlame = {
     { COLTYPE_UNK10, 0x21, 0x00, 0x21, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
     { 12, 60, 0, { 0, 0, 0 } },
@@ -100,8 +98,8 @@ void EnIceHono_InitDroppedFlame(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = -0.3f;
     this->actor.minVelocityY = -4.0f;
     this->actor.shape.unk_08 = 0.0f;
-    this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z =
-    this->actor.posRot.rot.x = this->actor.posRot.rot.y = this->actor.posRot.rot.z = 0;
+    this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = this->actor.posRot.rot.x =
+        this->actor.posRot.rot.y = this->actor.posRot.rot.z = 0;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitDroppedFlame);
@@ -128,8 +126,7 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIceHono* this = THIS;
     s16 params = this->actor.params;
 
-    switch(this->actor.params)
-    {
+    switch (this->actor.params) {
         case -1:
             EnIceHono_InitCapturableFlame(&this->actor, globalCtx);
             break;
@@ -143,10 +140,9 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
-        Lights_InitType0PositionalLight(&this->lightInfo,
-                                        this->actor.posRot.pos.x,
-                              			(s16)this->actor.posRot.pos.y + 0x0A,
-                              			this->actor.posRot.pos.z, 0x9B, 0xD2, 0xFF, 0);
+        Lights_InitType0PositionalLight(&this->lightInfo, this->actor.posRot.pos.x,
+                                        (s16)this->actor.posRot.pos.y + 0x0A, this->actor.posRot.pos.z, 0x9B, 0xD2,
+                                        0xFF, 0);
         this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         this->unk154 = Math_Rand_ZeroOne() * 65535.5f;
         this->unk156 = Math_Rand_ZeroOne() * 65535.5f;
@@ -185,8 +181,7 @@ void EnIceHono_SetupActionCapturableFlame(EnIceHono* this) {
     this->actor.shape.unk_08 = -1000.0f;
 }
 
-void EnIceHono_CapturableFlame(EnIceHono* this, GlobalContext* globalCtx)
-{
+void EnIceHono_CapturableFlame(EnIceHono* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0)
         this->actor.attachedA = 0;
     else if (EnIceHono_LinkCloseAndFacing(this, globalCtx) != 0)
@@ -214,9 +209,9 @@ void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
     if (bgFlag != 0) {
         s32 i;
         for (i = 0; i != 0x10000; i += 0x2000) {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO,
-                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                        0, ((s32)(Math_Rand_ZeroOne() * 1000.0f) + i) - 0x1F4, 0, 1);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                        ((s32)(Math_Rand_ZeroOne() * 1000.0f) + i) - 0x1F4, 0, 1);
         }
         EnIceHono_SetupActionSpreadFlames(this);
     }
@@ -252,8 +247,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 4);
     if (this->timer < 0x19) {
         this->alpha -= 0xA;
-        this->alpha = this->alpha < 0 ? 0 :
-                      (this->alpha >= 0x100 ? 0xFF : this->alpha);
+        this->alpha = this->alpha < 0 ? 0 : (this->alpha >= 0x100 ? 0xFF : this->alpha);
     }
 
     if (this->alpha >= 0x65) {
@@ -267,9 +261,9 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
     if (this->timer == 0x2E) {
         s32 i;
         for (i = 0; i != 0xFFFA; i += 0x1999) {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO,
-                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                        0, ((s32)(Math_Rand_ZeroOne() * 1000.0f) + i) - 0x1F4, 0, 2);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                        ((s32)(Math_Rand_ZeroOne() * 1000.0f) + i) - 0x1F4, 0, 2);
         }
     }
 
@@ -311,8 +305,7 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
 
     if (this->timer < 0x19) {
         this->alpha -= 0xA;
-        this->alpha = this->alpha < 0 ? 0 :
-                      (this->alpha >= 0x100 ? 0xFF : this->alpha);
+        this->alpha = this->alpha < 0 ? 0 : (this->alpha >= 0x100 ? 0xFF : this->alpha);
     }
     if (this->timer <= 0) {
         Actor_Kill(&this->actor);
@@ -344,13 +337,9 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
             // Translates to: "impossible value(ratio = %f)"
             osSyncPrintf("ありえない値(ratio = %f)\n", (f64)temp_f2);
         }
-        Lights_InitType0PositionalLight(&this->lightInfo,
-                                        this->actor.posRot.pos.x,
-                                        (s16)this->actor.posRot.pos.y + 0x0A,
-                                        this->actor.posRot.pos.z,
-                                        (s32) (155.0f * temp_f2),
-                                        (s32) (210.0f * temp_f2),
-                                        (s32) (255.0f * temp_f2), 0x578);
+        Lights_InitType0PositionalLight(
+            &this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 0x0A, this->actor.posRot.pos.z,
+            (s32)(155.0f * temp_f2), (s32)(210.0f * temp_f2), (s32)(255.0f * temp_f2), 0x578);
     }
 
     if (this->actionFunc != 0) {
@@ -369,13 +358,17 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (globalCtx->state.frames * -20) % 512, 32, 128));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (globalCtx->state.frames * -20) % 512,
+                                32, 128));
 
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 170, 255, 255, this->alpha);
 
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 150, 255, 0);
 
-    Matrix_RotateY((s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY(
+        (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
+            0.0000958738f,
+        MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
