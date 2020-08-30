@@ -142,9 +142,9 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
 }
 
 void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) { // if attached is set
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         Rupees_ChangeBy(-sPrices[BEANS_BOUGHT]);
-        this->actor.attachedA = NULL;
+        this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
         return;
     }

@@ -121,8 +121,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                     return;
                 }
             }
-            Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
+                               this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
             this->unk_278 = Math_Rand_ZeroFloat(1000.0f) + 40.0f;
             this->unk_27A = 0;
             this->actor.unk_1F = 6;
@@ -205,8 +205,8 @@ void func_809DF730(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = func_809DF730;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);

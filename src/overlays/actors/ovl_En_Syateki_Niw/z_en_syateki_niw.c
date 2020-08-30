@@ -756,37 +756,33 @@ void func_80B132A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     EnSyatekiNiw_1* ptr = &this->unk_348[0];
     u8 flag = 0;
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    OPEN_DISPS(gfxCtx, "../z_en_syateki_niw.c", 1234);
 
-        Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_syateki_niw.c", 1234);
-        func_80093D84(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
 
-        for (i = 0; i < 5; i++, ptr++) {
-            if (ptr->unk_00 == 1) {
-                if (flag == 0) {
-                    gSPDisplayList(gfxCtx->polyXlu.p++, D_060023B0);
-                    flag++;
-                }
-
-                Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
-                func_800D1FD4(&globalCtx->mf_11DA0);
-                Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
-                Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
-                Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
-
-                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_06002428);
+    for (i = 0; i < 5; i++, ptr++) {
+        if (ptr->unk_00 == 1) {
+            if (flag == 0) {
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);
+                flag++;
             }
-        }
 
-        Graph_CloseDisps(dispRefs, gfxCtx, "../z_en_syateki_niw.c", 1257);
+            Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
+
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06002428);
+        }
     }
+
+    CLOSE_DISPS(gfxCtx, "../z_en_syateki_niw.c", 1257);
 }
