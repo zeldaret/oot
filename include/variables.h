@@ -622,7 +622,7 @@ extern f32 gPitchBendFrequencyScale[256];
 //extern ? D_8012F098;
 //extern ? D_8012F0B0;
 extern f32 D_8012F4B4[256];
-//extern ? D_8012F8B4;
+extern f32 gNoteFrequencies[];
 extern u8 gDefaultShortNoteVelocityTable[16];
 extern u8 gDefaultShortNoteDurationTable[16];
 extern AdsrEnvelope gDefaultEnvelope[3];

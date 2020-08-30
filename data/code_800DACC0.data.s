@@ -53,7 +53,7 @@ glabel D_8012F4B4
 glabel D_8012F6B4
     .incbin "baserom.z64", 0xBA6854, 0x200
 
-glabel D_8012F8B4
+glabel gNoteFrequencies
     .incbin "baserom.z64", 0xBA6A54, 0x200
 
 glabel gDefaultShortNoteVelocityTable

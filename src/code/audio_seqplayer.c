@@ -193,7 +193,7 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel *seqChannel, s32 layerIndex) {
     layer->transposition = 0;
     layer->delay = 0;
     layer->duration = 0;
-    layer->unk_0C = 0;
+    layer->delay2 = 0;
     layer->note = NULL;
     layer->instrument = NULL;
     layer->freqScale = 1.0f;
@@ -613,7 +613,202 @@ s32 func_800EA0C0(SequenceChannelLayer *layer) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EA440.s")
+s32 func_800EA440(SequenceChannelLayer *layer, s32 arg1) {
+    s32 sameSound;
+    s32 instOrWave;
+    s32 speed;
+    f32 temp_f14;
+    f32 temp_f2;
+    Portamento* portamento;
+    f32 freqScale;
+    f32 freqScale2;
+    AudioBankSound* sound;
+    Instrument *instrument;
+    Drum *drum;
+    AudioBankSound* unkInstrument;
+    SequenceChannel* seqChannel;
+    SequencePlayer* seqPlayer;
+    u8 cmd;
+    u16 unkInstrumentId;
+    s32 cmd2;
+    s32 vel;
+    f32 time;
+    f32 tuning;
+
+    sameSound = 1;
+    cmd = arg1;
+
+    instOrWave = layer->instOrWave;
+    seqChannel = layer->seqChannel;
+    seqPlayer = seqChannel->seqPlayer;
+
+    if (instOrWave == 0xFF) {
+        if (!seqChannel->hasInstrument) {
+            return -1;
+        }
+        instOrWave = seqChannel->instOrWave;
+    }
+
+    switch (instOrWave) {
+    case 0:
+        cmd += seqChannel->transposition + layer->transposition;
+        layer->semitone = cmd;
+        drum = Audio_GetDrum(seqChannel->bankId, cmd);
+        if (drum == NULL) {
+            layer->stopSomething = 1;
+            layer->delay2 = layer->delay;
+            return -1;
+        }
+        sound = &drum->sound;
+        layer->adsr.envelope = (AdsrEnvelope *) drum->envelope;
+        layer->adsr.releaseRate = (u8) drum->releaseRate;
+        if (!layer->ignoreDrumPan) {
+            layer->pan = drum->pan;
+        }
+        layer->sound = sound;
+        layer->freqScale = sound->tuning;
+        break;
+
+    case 1:
+        layer->semitone = cmd;
+        unkInstrumentId = (layer->transposition << 6) + cmd;
+        sound = (AudioBankSound*) Audio_GetUnkInstrument(seqChannel->bankId, unkInstrumentId);
+        if (sound == NULL) {
+            layer->stopSomething = 1;
+            layer->delay2 = layer->delay + 1;
+            return -1;
+        }
+        layer->sound = sound;
+        layer->freqScale = sound->tuning;
+        break;
+
+    default:
+        cmd += seqPlayer->transposition + seqChannel->transposition + layer->transposition;
+        cmd2 = cmd;
+        layer->semitone = cmd;
+        if (cmd >= 0x80) {
+            layer->stopSomething = 1;
+            return -1;
+        }
+        if (layer->instOrWave == 0xFF) {
+            instrument = seqChannel->instrument;
+        } else {
+            instrument = layer->instrument;
+        }
+
+        if (layer->portamento.mode != 0) {
+            portamento = &layer->portamento;
+            vel = (cmd > layer->portamentoTargetNote) ? cmd : layer->portamentoTargetNote;
+
+            if (instrument != NULL) {
+                sound = Audio_InstrumentGetAudioBankSound(instrument, vel);
+                sameSound = (layer->sound == sound);
+                layer->sound = sound;
+                tuning = sound->tuning;
+            } else {
+                layer->sound = NULL;
+                tuning = 1.0f;
+                if (instOrWave >= 0xC0) {
+                    layer->sound = &gAudioContext.largeSounds[instOrWave - 0xC0].sound;
+                }
+            }
+
+            temp_f2 = gNoteFrequencies[cmd2] * tuning;
+            temp_f14 = gNoteFrequencies[layer->portamentoTargetNote] * tuning;
+
+            switch (PORTAMENTO_MODE(*portamento)) {
+            case PORTAMENTO_MODE_1:
+            case PORTAMENTO_MODE_3:
+            case PORTAMENTO_MODE_5:
+                freqScale2 = temp_f2;
+                freqScale = temp_f14;
+                break;
+            case PORTAMENTO_MODE_2:
+            case PORTAMENTO_MODE_4:
+                freqScale = temp_f2;
+                freqScale2 = temp_f14;
+                break;
+            default:
+                freqScale = temp_f2;
+                freqScale2 = temp_f2;
+                break;
+            }
+
+            portamento->extent = (freqScale2 / freqScale) - 1.0f;
+
+            if (PORTAMENTO_IS_SPECIAL(*portamento)) {
+                speed = seqPlayer->tempo * 0x8000 / gAudioContext.unk_2898;
+                if (layer->delay != 0) {
+                    speed = speed * 0x100 / (layer->delay * layer->portamentoTime);
+                }
+            } else {
+                speed = 0x20000 / (layer->portamentoTime * gAudioContext.gAudioBufferParameters.unk_08);
+            }
+
+            if (speed >= 0x7FFF) {
+                speed = 0x7FFF;
+            } else if (speed < 1) {
+                speed = 1;
+            }
+
+            portamento->speed = speed;
+            portamento->cur = 0;
+            layer->freqScale = freqScale;
+            if (PORTAMENTO_MODE(*portamento) == PORTAMENTO_MODE_5) {
+                layer->portamentoTargetNote = cmd;
+            }
+            break;
+        }
+
+        if (instrument != NULL) {
+            sound = Audio_InstrumentGetAudioBankSound(instrument, cmd);
+            sameSound = (sound == layer->sound);
+            layer->sound = sound;
+            layer->freqScale = gNoteFrequencies[cmd2] * sound->tuning;
+        } else {
+            layer->sound = NULL;
+            layer->freqScale = gNoteFrequencies[cmd2];
+            if (instOrWave >= 0xC0) {
+                layer->sound = &gAudioContext.largeSounds[instOrWave - 0xC0].sound;
+            }
+        }
+        break;
+    }
+
+    layer->delay2 = layer->delay;
+    layer->freqScale *= layer->unk_34;
+    if (layer->delay == 0) {
+        if (layer->sound != NULL) {
+            time = (f32) layer->sound->sample->loop->end;
+        } else {
+            time = 0.0f;
+        }
+        time *= seqPlayer->tempo;
+        time *= gAudioContext.unk_2870;
+        time /= layer->freqScale;
+        if (time > 32766.0f) {
+            time = 32766.0f;
+        }
+        layer->duration = 0;
+        layer->delay = (u16) (s32) time + 1;
+        if (layer->portamento.mode != 0) {
+            // (It's a bit unclear if 'portamento' has actually always been
+            // set when this is reached...)
+            if (PORTAMENTO_IS_SPECIAL(*portamento)) {
+                s32 speed2;
+                speed2 = seqPlayer->tempo * 0x8000 / gAudioContext.unk_2898;
+                speed2 = speed2 * 0x100 / (layer->delay * layer->portamentoTime);
+                if (speed2 >= 0x7FFF) {
+                    speed2 = 0x7FFF;
+                } else if (speed2 < 1) {
+                    speed2 = 1;
+                }
+                portamento->speed = speed2;
+            }
+        }
+    }
+    return sameSound;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAAE0.s")
 
@@ -644,10 +839,10 @@ void Audio_SetInstrument(SequenceChannel* seqChannel, u8 instId) {
     if (instId >= 0x80) {
         seqChannel->instOrWave = instId;
         seqChannel->instrument = NULL;
-    } else if (instId == 0x7f) {
+    } else if (instId == 0x7F) {
         seqChannel->instOrWave = 0;
         seqChannel->instrument = (Instrument *) 1;
-    } else if (instId == 0x7e) {
+    } else if (instId == 0x7E) {
         seqChannel->instOrWave = 1;
         seqChannel->instrument = (Instrument *) 2;
     } else if ((seqChannel->instOrWave =

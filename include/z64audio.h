@@ -80,7 +80,12 @@ typedef struct {
 typedef struct {
     AudioBankSample* sample;
     f32 tuning; // frequency scale factor
-} AudioBankSound;              // size = 0x8
+} AudioBankSound; // size = 0x8
+
+typedef struct {
+    AudioBankSound sound; // offset might be wrong
+    u8 pad[0x2c0];
+} LargeSound; // size = 0x2C8
 
 typedef struct {
     /* 0x00 */ u8 loaded;
@@ -104,7 +109,7 @@ typedef struct {
 typedef struct {
     u32 unk_0;
     u32 unk_4;
-} UnkInstrument; // size = 0x8, new struct to OOT
+} UnkInstrument; // size = 0x8, new struct to OOT. Same as AudioBankSound?
 
 typedef struct {
     /* 0x00 */ u8 numInstruments;
@@ -311,13 +316,13 @@ typedef struct SequenceChannelLayer {
     /*!0x01 */ ReverbBits reverbBits;
     /*!0x02 */ u8 instOrWave;
     /*!0x03 */ u8 noteDuration;
-    /* 0x04 */ u8 status; // probably doesn't exist
+    /* 0x04 */ u8 semitone;
     /*!0x05 */ u8 portamentoTargetNote;
     /*!0x06 */ u8 pan; // 0..128
     /*!0x07 */ u8 notePan;
     /*!0x08 */ s16 delay;
     /*!0x0A */ s16 duration;
-    /* 0x0C */ s16 unk_0C;
+    /* 0x0C */ s16 delay2;
     /*!0x0E */ u16 portamentoTime;
     /*!0x10 */ s16 transposition; // #semitones added to play commands
                                   // (m64 instruction encoding only allows referring to the limited range
@@ -448,18 +453,19 @@ typedef struct Note {
 } Note; // size = 0xE0
 
 typedef struct {
+    // all offsets here are wildly wrong
     /* 0x00 */ s16 presetUnk4; // audio frames per vsync?
     /* 0x02 */ u16 frequency;
     /* 0x04 */ u16 aiFrequency; // ?16
     /* 0x06 */ s16 samplesPerFrameTarget;
-    /* 0x08 */ s16 maxAiBufferLength;
+    /* 0x08 */ s16 unk_08; // maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
     /* 0x0C */ s16 updatesPerFrame;
     /* 0x0E */ s16 samplesPerUpdate;
     /* 0x10 */ s16 samplesPerUpdateMax;
     /* 0x12 */ s16 samplesPerUpdateMin;
-    /* 0x14 */ f32 resampleRate;             // contains 32000.0f / frequency
-    /* 0x18 */ f32 updatesPerFrameInv;       // 1.0f / updatesPerFrame
+    /*!0x14 */ f32 resampleRate;             // contains 32000.0f / frequency
+    /*!0x18 */ f32 updatesPerFrameInv;       // 1.0f / updatesPerFrame
     /* 0x1C */ f32 unkUpdatesPerFrameScaled; // 3.0f / (1280.0f * updatesPerFrame)
 } AudioBufferParametersEU;
 
@@ -473,14 +479,17 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ char unk_0000[0x14];
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
-    /* 0x0018 */ char unk_0014[0x282C];
+    /* 0x0018 */ char unk_0018[0x280];
+    /* 0x0298 */ LargeSound largeSounds[1]; // size <= 14, offset might be wrong
+    /* 0x0560 */ char unk_0560[0x22E4];
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ char unk_2848[0x4];
     /* 0x284C */ AudioBufferParametersEU gAudioBufferParameters;
     /* 0x286C */ f32 unk_286C;
-    /* 0x2870 */ char unk_2870[0x24];
+    /* 0x2870 */ f32 unk_2870;
+    /* 0x2874 */ char unk_2874[0x20];
     /* 0x2894 */ s32 gMaxSimultaneousNotes;
-    /* 0x2898 */ char unk_2898[2];
+    /* 0x2898 */ s16 unk_2898;
     /* 0x289A */ s8 gSoundMode;
     /* 0x289B */ char unk_289B[0xE5];
     /* 0x2980 */ s32 gAudioErrorFlags;
