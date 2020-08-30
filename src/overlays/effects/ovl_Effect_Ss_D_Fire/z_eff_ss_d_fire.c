@@ -62,7 +62,7 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 }
 
 void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    GraphicsContext* localGfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp124;
     MtxF spE4;
     MtxF spA4;
@@ -71,39 +71,36 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     void* object;
     Mtx* mtx;
     f32 scale;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    localGfxCtx = globalCtx->state.gfxCtx;
+    
     object = globalCtx->objectCtx.status[this->regs[SS_D_FIRE_OBJ_BANK_IDX]].segment;
 
-    gfxCtx = localGfxCtx;
-    Graph_OpenDisps(&dispRefs, localGfxCtx, "../z_eff_ss_d_fire.c", 276);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) >= 0) {
         gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x06, object);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
         scale = this->regs[SS_D_FIRE_SCALE] / 100.0f;
-        func_800A7A24(&sp124, this->pos.x, this->pos.y, this->pos.z);
-        func_800A76A4(&spE4, scale, scale, 1.0f);
-        func_800A6FA0(&sp124, &globalCtx->mf_11DA0, &sp64);
-        func_800A6FA0(&sp64, &spE4, &spA4);
+        SkinMatrix_SetTranslate(&sp124, this->pos.x, this->pos.y, this->pos.z);
+        SkinMatrix_SetScale(&spE4, scale, scale, 1.0f);
+        SkinMatrix_MtxFMtxFMult(&sp124, &globalCtx->mf_11DA0, &sp64);
+        SkinMatrix_MtxFMtxFMult(&sp64, &spE4, &spA4);
 
-        mtx = func_800A7E70(gfxCtx, &spA4);
+        mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &spA4);
 
         if (mtx != NULL) {
-            gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            func_80094BC4(gfxCtx);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_D_FIRE_PRIM_R], this->regs[SS_D_FIRE_PRIM_G],
+            gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            func_80094BC4(oGfxCtx);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_D_FIRE_PRIM_R], this->regs[SS_D_FIRE_PRIM_G],
                             this->regs[SS_D_FIRE_PRIM_B], this->regs[SS_D_FIRE_PRIM_A]);
             gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
-            gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A09F8[this->regs[SS_D_FIRE_TEX_IDX]]));
-            gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A09F8[this->regs[SS_D_FIRE_TEX_IDX]]));
+            gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
         }
     }
 
-    Graph_CloseDisps(&dispRefs, localGfxCtx, (const char*)"../z_eff_ss_d_fire.c", 0x14A);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 330);
 }
 
 void EffectSsDFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

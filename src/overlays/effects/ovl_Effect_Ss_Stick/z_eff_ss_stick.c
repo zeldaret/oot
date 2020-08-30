@@ -8,7 +8,7 @@
 
 typedef enum {
     /* 0x00 */ SS_STICK_OBJ_BANK_IDX,
-    /* 0x01 */ SS_STICK_YAW,
+    /* 0x01 */ SS_STICK_YAW
 } EffectSsStickRegs;
 
 u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -51,16 +51,14 @@ u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 }
 
 void EffectSsStick_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 pad[2];
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    s32 pad;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_stick.c", 153);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_stick.c", 153);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
 
-    if (gSaveContext.linkAge != 0) {
+    if (LINK_IS_CHILD) {
         Matrix_Scale(0.01f, 0.0025f, 0.01f, MTXMODE_APPLY);
         Matrix_RotateRPY(0, this->regs[SS_STICK_YAW], 0, MTXMODE_APPLY);
     } else {
@@ -68,13 +66,14 @@ void EffectSsStick_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         Matrix_RotateRPY(0, this->regs[SS_STICK_YAW], globalCtx->state.frames * 10000, MTXMODE_APPLY);
     }
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(oGfxCtx, "../z_eff_ss_stick.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    func_80093D18(gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->regs[SS_STICK_OBJ_BANK_IDX]].segment);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, D_80125F98);
-    gSPDisplayList(gfxCtx->polyOpa.p++, this->displayList);
-    Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_stick.c", 188);
+    func_80093D18(oGfxCtx);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->regs[SS_STICK_OBJ_BANK_IDX]].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, D_80125F98);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, this->displayList);
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_stick.c", 188);
 }
 
 void EffectSsStick_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

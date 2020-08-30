@@ -37,7 +37,7 @@ extern Color_RGBA8_n D_801158CC;
 extern Color_RGBA8_n D_801158D0;
 
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR texture) {
-    GraphicsContext* localGfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 scale;
     MtxF sp120;
     MtxF spE0;
@@ -46,35 +46,31 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
     s32 pad1;
     Mtx* mtx;
     UNK_PTR* object;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    localGfxCtx = globalCtx->state.gfxCtx;
     object = globalCtx->objectCtx.status[this->regs[11]].segment;
 
-    gfxCtx = localGfxCtx;
-    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
+    OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
     scale = this->regs[1] * 0.0025f;
-    func_800A7A24(&sp120, this->pos.x, this->pos.y, this->pos.z);
-    func_800A76A4(&spE0, scale, scale, scale);
-    func_800A6FA0(&sp120, &globalCtx->mf_11DA0, &sp60);
-    func_800A6FA0(&sp60, &spE0, &spA0);
+    SkinMatrix_SetTranslate(&sp120, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&spE0, scale, scale, scale);
+    SkinMatrix_MtxFMtxFMult(&sp120, &globalCtx->mf_11DA0, &sp60);
+    SkinMatrix_MtxFMtxFMult(&sp60, &spE0, &spA0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x06, object);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
 
-    mtx = func_800A7E70(gfxCtx, &spA0);
+    mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &spA0);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(texture));
-        func_80094C50(gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[3], this->regs[4], this->regs[5], this->regs[6]);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[7], this->regs[8], this->regs[9], this->regs[10]);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(texture));
+        func_80094C50(oGfxCtx);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[3], this->regs[4], this->regs[5], this->regs[6]);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[7], this->regs[8], this->regs[9], this->regs[10]);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
     }
 
-    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_effect_soft_sprite_old_init.c", 243);
+    CLOSE_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 243);
 }
 
 // EffectSsDust Spawn Functions

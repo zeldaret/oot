@@ -4,7 +4,7 @@ glabel func_80A9B8D8
 /* 00940 80A9B8E0 AFB10018 */  sw      $s1, 0x0018($sp)           
 /* 00944 80A9B8E4 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 00948 80A9B8E8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 0094C 80A9B8EC 0C00BD04 */  jal     func_8002F410              
+/* 0094C 80A9B8EC 0C00BD04 */  jal     Actor_HasParent              
 /* 00950 80A9B8F0 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00954 80A9B8F4 5040000B */  beql    $v0, $zero, .L80A9B924     
 /* 00958 80A9B8F8 92020161 */  lbu     $v0, 0x0161($s0)           ## 00000161

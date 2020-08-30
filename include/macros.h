@@ -45,9 +45,7 @@
 
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
 
-#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    (curState)->init = newInit;                          \
-    (curState)->size = sizeof(newStruct);
+#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
@@ -61,7 +59,37 @@
 #define LOG_NUM(exp, value, file, line) LOG(exp, value, "%d", file, line)
 #define LOG_HEX(exp, value, file, line) LOG(exp, value, "%x", file, line)
 
-/*
+#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
+    (curState)->init = newInit;                          \
+    (curState)->size = sizeof(newStruct)
+
+#define SET_FULLSCREEN_VIEWPORT(view)      \
+    {                                      \
+        Viewport viewport;                 \
+        viewport.bottomY = SCREEN_HEIGHT;  \
+        viewport.rightX = SCREEN_WIDTH;    \
+        viewport.topY = 0;                 \
+        viewport.leftX = 0;                \
+        View_SetViewport(view, &viewport); \
+    }                                      \
+    (void)0
+
+#define OPEN_DISPS_INNER(gfxCtx, file, line)      \
+    oGfxCtx = gfxCtx;                             \
+    Graph_OpenDisps(dispRefs, gfxCtx, file, line)
+
+#define OPEN_DISPS(gfxCtx, file, line)       \
+    {                                        \
+        GraphicsContext* oGfxCtx;            \
+        Gfx* dispRefs[4];                    \
+        OPEN_DISPS_INNER(gfxCtx, file, line)
+
+#define CLOSE_DISPS(gfxCtx, file, line)                 \
+        Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
+    }                                                   \
+    (void)0
+
+/**
  * `x` vertex x
  * `y` vertex y
  * `z` vertex z
@@ -75,17 +103,5 @@
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
-
-#define SET_FULLSCREEN_VIEWPORT(view)     \
-    {                                      \
-        Viewport viewport;                 \
-        viewport.bottomY = SCREEN_HEIGHT;  \
-        viewport.rightX = SCREEN_WIDTH;    \
-        viewport.topY = 0;                 \
-        viewport.leftX = 0;                \
-        View_SetViewport(view, &viewport); \
-    }
-
-#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 
 #endif

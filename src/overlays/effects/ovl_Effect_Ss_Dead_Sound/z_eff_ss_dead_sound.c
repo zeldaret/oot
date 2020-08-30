@@ -11,7 +11,7 @@
 
 typedef enum {
     /* 0x0A */ SS_DEADSOUND_SFX_ID = 10,
-    /* 0x0B */ SS_DEADSOUND_REPEAT_MODE,
+    /* 0x0B */ SS_DEADSOUND_REPEAT_MODE
 } EffectSsDeadSoundRegs;
 
 #define REPEAT_MODE_OFF 1

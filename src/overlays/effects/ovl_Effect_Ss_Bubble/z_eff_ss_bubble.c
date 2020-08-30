@@ -41,16 +41,10 @@ u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 }
 
 void EffectSsBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    GraphicsContext* localGfxCtx;
-    f32 scale;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    f32 scale = this->regs[SS_BUBBLE_SCALE] / 100.0f;
 
-    localGfxCtx = globalCtx->state.gfxCtx;
-    scale = this->regs[SS_BUBBLE_SCALE] / 100.0f;
-
-    gfxCtx = localGfxCtx;
-    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_eff_ss_bubble.c", 154);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_bubble.c", 154);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
@@ -62,7 +56,7 @@ void EffectSsBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, this->displayList);
     gSPDisplayList(gfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
 
-    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_eff_ss_bubble.c", 179);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_bubble.c", 179);
 }
 
 void EffectSsBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

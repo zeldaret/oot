@@ -141,7 +141,7 @@ glabel L80A922CC
 /* 003E8 80A92388 AFAC0020 */  sw      $t4, 0x0020($sp)           
 /* 003EC 80A9238C 862D00B8 */  lh      $t5, 0x00B8($s1)           ## 000000B8
 /* 003F0 80A92390 AFAE0028 */  sw      $t6, 0x0028($sp)           
-/* 003F4 80A92394 0C00C916 */  jal     Actor_SpawnAttached
+/* 003F4 80A92394 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 003F8 80A92398 AFAD0024 */  sw      $t5, 0x0024($sp)           
 /* 003FC 80A9239C 10400161 */  beq     $v0, $zero, .L80A92924     

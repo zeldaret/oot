@@ -22,8 +22,8 @@ typedef enum {
 } EffectSsLightningRegs;
 
 u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809AB078(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809AB338(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Lightning_InitVars = {
     EFFECT_SS_LIGHTNING,
@@ -42,8 +42,8 @@ u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, 
     this->pos = initParams->pos;
     this->displayList = SEGMENTED_TO_VIRTUAL(D_0402CF30);
     this->life = initParams->life;
-    this->draw = func_809AB078;
-    this->update = func_809AB338;
+    this->draw = EffectSsLightning_Draw;
+    this->update = EffectSsLightning_Update;
     this->regs[SS_LIGHTNING_PRIM_R] = initParams->primColor.r;
     this->regs[SS_LIGHTNING_PRIM_G] = initParams->primColor.g;
     this->regs[SS_LIGHTNING_PRIM_B] = initParams->primColor.b;
@@ -72,8 +72,8 @@ void func_809AAFD4(GlobalContext* globalCtx, Vec3f* pos, s16 newReg10, EffectSs*
     EffectSs_Insert(globalCtx, &newLightning);
 }
 
-void func_809AB078(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    GraphicsContext* localGfxCtx;
+void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp1A4;
     MtxF sp164;
     MtxF sp124;
@@ -84,13 +84,8 @@ void func_809AB078(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     f32 yScale;
     s16 texIdx;
     f32 xzScale;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    localGfxCtx = globalCtx->state.gfxCtx;
-    
-    gfxCtx = localGfxCtx;
-    Graph_OpenDisps(dispRefs, localGfxCtx, "../z_eff_ss_lightning.c", 233);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_lightning.c", 233);
 
     yScale = this->regs[SS_LIGHTNING_SCALE] * 0.01f;
     texIdx = this->regs[SS_LIGHTNING_LIFE] - this->life;
@@ -99,35 +94,35 @@ void func_809AB078(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         texIdx = 7;
     }
 
-    func_800A7A24(&sp164, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetTranslate(&sp164, this->pos.x, this->pos.y, this->pos.z);
     xzScale = yScale * 0.6f;
-    func_800A76A4(&sp124, xzScale, yScale, xzScale);
-    func_800A7704(&spE4, this->unk_2C.x, this->unk_2C.y, this->regs[SS_LIGHTNING_A]);
-    func_800A6FA0(&sp164, &globalCtx->mf_11DA0, &spA4);
-    func_800A6FA0(&spA4, &spE4, &sp64);
-    func_800A6FA0(&sp64, &sp124, &sp1A4);
+    SkinMatrix_SetScale(&sp124, xzScale, yScale, xzScale);
+    SkinMatrix_SetRotateRPY(&spE4, this->unk_2C.x, this->unk_2C.y, this->regs[SS_LIGHTNING_A]);
+    SkinMatrix_MtxFMtxFMult(&sp164, &globalCtx->mf_11DA0, &spA4);
+    SkinMatrix_MtxFMtxFMult(&spA4, &spE4, &sp64);
+    SkinMatrix_MtxFMtxFMult(&sp64, &sp124, &sp1A4);
 
-    gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    mtx = func_800A7E70(gfxCtx, &sp1A4);
+    mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &sp1A4);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_80094C50(gfxCtx);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809AB538[texIdx]));
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_LIGHTNING_PRIM_R], this->regs[SS_LIGHTNING_PRIM_G],
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        func_80094C50(oGfxCtx);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809AB538[texIdx]));
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_LIGHTNING_PRIM_R], this->regs[SS_LIGHTNING_PRIM_G],
                         this->regs[SS_LIGHTNING_PRIM_B], this->regs[SS_LIGHTNING_PRIM_A]);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_LIGHTNING_ENV_R], this->regs[SS_LIGHTNING_ENV_G],
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_LIGHTNING_ENV_R], this->regs[SS_LIGHTNING_ENV_G],
                        this->regs[SS_LIGHTNING_ENV_B], this->regs[SS_LIGHTNING_ENV_A]);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
     }
 
-    Graph_CloseDisps(dispRefs, localGfxCtx, "../z_eff_ss_lightning.c", 281);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_lightning.c", 281);
 }
 
 #ifdef NON_MATCHING
 // regalloc and add swap issues. specific comments of the issues are in the function
-void func_809AB338(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 temp2;
     Vec3f newEffPos;
     s16 sp3E;
@@ -161,5 +156,5 @@ void func_809AB338(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Lightning/func_809AB338.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Lightning/EffectSsLightning_Update.s")
 #endif

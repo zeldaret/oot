@@ -18,7 +18,7 @@ typedef enum {
     /* 0x08 */ SS_G_RIPPLE_ENV_G,
     /* 0x09 */ SS_G_RIPPLE_ENV_B,
     /* 0x0A */ SS_G_RIPPLE_ENV_A,
-    /* 0x0B */ SS_G_RIPPLE_LIFE,
+    /* 0x0B */ SS_G_RIPPLE_LIFE
 } EffectSsG_RippleRegs;
 
 u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -68,7 +68,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 }
 
 void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
-    GraphicsContext* localGfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 radius;
     s32 pad;
     MtxF spDC;
@@ -77,44 +77,38 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
     Mtx* mtx;
     f32 yPos;
 
-    localGfxCtx = globalCtx->state.gfxCtx;
-    {
-        GraphicsContext* gfxCtx = localGfxCtx;
-        Gfx* dispRefs[4];
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 199);
 
-        Graph_OpenDisps(dispRefs, localGfxCtx, "../z_eff_ss_g_ripple.c", 199);
+    if (globalCtx) {}
 
-        if (globalCtx) {}
+    radius = this->regs[SS_G_RIPPLE_RADIUS] * 0.0025f;
 
-        radius = this->regs[SS_G_RIPPLE_RADIUS] * 0.0025f;
-
-        if ((this->regs[SS_G_RIPPLE_WATERBOX_NUM] != -1) &&
-            (this->regs[SS_G_RIPPLE_WATERBOX_NUM] < globalCtx->colCtx.stat.colHeader->nbWaterBoxes)) {
-            yPos = (this->regs[SS_G_RIPPLE_WATERBOX_NUM] + globalCtx->colCtx.stat.colHeader->waterBoxes)->unk_02;
-        } else {
-            yPos = this->pos.y;
-        }
-
-        func_800A7A24(&spDC, this->pos.x, yPos, this->pos.z);
-        func_800A76A4(&sp9C, radius, radius, radius);
-        func_800A6FA0(&spDC, &sp9C, &sp5C);
-
-        mtx = func_800A7E70(gfxCtx, &sp5C);
-
-        if (mtx != NULL) {
-            gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            func_80094BC4(gfxCtx);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_RIPPLE_PRIM_R], this->regs[SS_G_RIPPLE_PRIM_G],
-                            this->regs[SS_G_RIPPLE_PRIM_B], this->regs[SS_G_RIPPLE_PRIM_A]);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_G_RIPPLE_ENV_R], this->regs[SS_G_RIPPLE_ENV_G],
-                           this->regs[SS_G_RIPPLE_ENV_B], this->regs[SS_G_RIPPLE_ENV_A]);
-            gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_NOISE);
-            gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_NOISE);
-            gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
-        }
-
-        Graph_CloseDisps(dispRefs, localGfxCtx, "../z_eff_ss_g_ripple.c", 247);
+    if ((this->regs[SS_G_RIPPLE_WATERBOX_NUM] != -1) &&
+        (this->regs[SS_G_RIPPLE_WATERBOX_NUM] < globalCtx->colCtx.stat.colHeader->nbWaterBoxes)) {
+        yPos = (this->regs[SS_G_RIPPLE_WATERBOX_NUM] + globalCtx->colCtx.stat.colHeader->waterBoxes)->unk_02;
+    } else {
+        yPos = this->pos.y;
     }
+
+    SkinMatrix_SetTranslate(&spDC, this->pos.x, yPos, this->pos.z);
+    SkinMatrix_SetScale(&sp9C, radius, radius, radius);
+    SkinMatrix_MtxFMtxFMult(&spDC, &sp9C, &sp5C);
+
+    mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &sp5C);
+
+    if (mtx != NULL) {
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        func_80094BC4(oGfxCtx);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_RIPPLE_PRIM_R], this->regs[SS_G_RIPPLE_PRIM_G],
+                        this->regs[SS_G_RIPPLE_PRIM_B], this->regs[SS_G_RIPPLE_PRIM_A]);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_RIPPLE_ENV_R], this->regs[SS_G_RIPPLE_ENV_G],
+                       this->regs[SS_G_RIPPLE_ENV_B], this->regs[SS_G_RIPPLE_ENV_A]);
+        gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
+        gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_NOISE);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+    }
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 247);
 }
 
 void EffectSsGRipple_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

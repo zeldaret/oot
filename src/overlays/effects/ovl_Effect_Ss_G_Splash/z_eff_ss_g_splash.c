@@ -18,12 +18,12 @@ typedef enum {
     /* 0x08 */ SS_G_SPLASH_ENV_G,
     /* 0x09 */ SS_G_SPLASH_ENV_B,
     /* 0x0A */ SS_G_SPLASH_ENV_A,
-    /* 0x0B */ SS_G_SPLASH_B,
+    /* 0x0B */ SS_G_SPLASH_B
 } EffectSsG_SplashRegs;
 
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParams);
-void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A7864(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGSplash_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_G_Splash_InitVars = {
     EFFECT_SS_G_SPLASH,
@@ -43,8 +43,8 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->velocity = emptyVec;
     this->pos = initParams->pos;
 
-    this->draw = func_809A7760;
-    this->update = func_809A7864;
+    this->draw = EffectSsGSplash_Draw;
+    this->update = EffectSsGSplash_Update;
 
     if (initParams->scale == 0) {
         initParams->scale = 600;
@@ -110,7 +110,7 @@ UNK_PTR D_809A7954[] = {
     0x040255F0, 0x04025AF0, 0x04025FF0, 0x040264F0, 0x040269F0, 0x04026EF0, 0x040273F0, 0x040278F0,
 };
 
-void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 texIdx;
 
     switch (this->regs[SS_G_SPLASH_B]) {
@@ -121,6 +121,7 @@ void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             }
             EffectSs_DrawGEffect(globalCtx, this, D_809A7954[texIdx]);
             break;
+
         case 1:
             texIdx = this->regs[SS_G_SPLASH_TEX_IDX] / 0x64;
             if (texIdx >= 8) {
@@ -128,6 +129,7 @@ void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             }
             EffectSs_DrawGEffect(globalCtx, this, D_809A7954[texIdx]);
             break;
+
         case 2:
             texIdx = this->regs[SS_G_SPLASH_TEX_IDX] / 0x64;
             if (texIdx >= 8) {
@@ -135,12 +137,13 @@ void func_809A7760(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             }
             EffectSs_DrawGEffect(globalCtx, this, D_809A7954[texIdx]);
             break;
+            
         default:
             break;
     }
 }
 
-void func_809A7864(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsGSplash_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Vec3f newSplashPos;
 
     if ((this->regs[SS_G_SPLASH_B] == 1) && (this->life == 5)) {

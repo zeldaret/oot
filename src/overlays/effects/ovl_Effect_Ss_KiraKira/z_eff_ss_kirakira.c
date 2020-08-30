@@ -78,7 +78,7 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 }
 
 void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    GraphicsContext* localGfxCtx;
+    GraphicsContext* gfxCtx;
     f32 scale;
     s32 pad;
     MtxF mtxTrans;
@@ -88,37 +88,34 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     MtxF mtxRotYPersTrans;
     MtxF mtxResult;
     Mtx* mtx;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     scale = this->regs[SS_KIRAKIRA_SCALE] / 10000.0f;
-    localGfxCtx = globalCtx->state.gfxCtx;
+    gfxCtx = globalCtx->state.gfxCtx;
 
-    gfxCtx = localGfxCtx;
-    Graph_OpenDisps(&dispRefs, localGfxCtx, "../z_eff_ss_kirakira.c", 257);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_kirakira.c", 257);
 
-    func_800A7A24(&mtxTrans, this->pos.x, this->pos.y, this->pos.z);
-    func_800A7704(&mtxRotY, 0, 0, this->regs[SS_KIRAKIRA_YAW]);
-    func_800A76A4(&mtxScale, scale, scale, 1.0f);
-    func_800A6FA0(&mtxTrans, &globalCtx->mf_11DA0, &mtxPersTrans);
-    func_800A6FA0(&mtxPersTrans, &mtxRotY, &mtxRotYPersTrans);
-    func_800A6FA0(&mtxRotYPersTrans, &mtxScale, &mtxResult);
-    gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    SkinMatrix_SetTranslate(&mtxTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetRotateRPY(&mtxRotY, 0, 0, this->regs[SS_KIRAKIRA_YAW]);
+    SkinMatrix_SetScale(&mtxScale, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&mtxTrans, &globalCtx->mf_11DA0, &mtxPersTrans);
+    SkinMatrix_MtxFMtxFMult(&mtxPersTrans, &mtxRotY, &mtxRotYPersTrans);
+    SkinMatrix_MtxFMtxFMult(&mtxRotYPersTrans, &mtxScale, &mtxResult);
+    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     
-    mtx = func_800A7E70(gfxCtx, &mtxResult);
+    mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &mtxResult);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_80093C14(gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R], this->regs[SS_KIRAKIRA_PRIM_G],
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        func_80093C14(oGfxCtx);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R], this->regs[SS_KIRAKIRA_PRIM_G],
                         this->regs[SS_KIRAKIRA_PRIM_B],
                         (((s8) ((55.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life) + 200)));
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_KIRAKIRA_ENV_R], this->regs[SS_KIRAKIRA_ENV_G],
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_KIRAKIRA_ENV_R], this->regs[SS_KIRAKIRA_ENV_G],
                        this->regs[SS_KIRAKIRA_ENV_B], this->regs[SS_KIRAKIRA_ENV_A]);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
     }
-    
-    Graph_CloseDisps(&dispRefs, localGfxCtx, "../z_eff_ss_kirakira.c", 301);
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_kirakira.c", 301);
 }
 
 void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
