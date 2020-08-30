@@ -1904,190 +1904,6 @@ s32 Camera_Normal0(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#define NON_MATCHING
-#ifdef NON_MATCHING
-/**
- * Z-Targeting
-*/
-/*
-s32 Camera_Parallel1(Camera *camera) {
-    Vec3f spB4;
-    VecSph spA8;
-    VecSph spA0;
-    VecSph sp98;
-    CamColChk sp6C;
-    s16 sp6A;
-    Vec3f *sp3C;
-    Parallel1* para1 = &camera->params.para1;
-    Parallel1Anim *sp34 = &para1->anim;
-    f32 yOffset;
-    f32 temp_f0_2;
-    f32 yOffsetInverse;
-    f32 temp_f2;
-    f32 temp_f2_2;
-    s16 temp_a0;
-    s16 temp_a0_2;
-    s16 temp_t6;
-    s16 temp_v0_2;
-    s16 phi_v0;
-    s16 phi_v0_2;
-    s16 phi_a0;
-    f32 phi_f0;
-    Vec3f* eye = &camera->eye;
-    Vec3f* at = &camera->at;
-    Vec3f* eyeNext = &camera->eyeNext;
-    CameraModeValue* values;
-
-    yOffset = Player_GetCameraYOffset(camera->player);
-    if (RELOAD_PARAMS) {
-        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        yOffsetInverse = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / yOffset));
-        para1->unk_00 = NEXTPCT * yOffset * yOffsetInverse;
-        para1->distTarget = NEXTPCT * yOffset * yOffsetInverse;
-        para1->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
-        para1->yawTarget = DEGF_TO_BINANG(NEXTSETTING);
-        para1->unk_08 = NEXTSETTING;
-        para1->unk_0C = NEXTSETTING;
-        para1->fovTarget = NEXTSETTING;
-        para1->unk_14 = NEXTPCT;
-        para1->interfaceFlags = NEXTSETTING;
-        para1->unk_18 = NEXTPCT * yOffset * yOffsetInverse;
-        para1->unk_1C = NEXTPCT;
-    }
-    if (R_RELOAD_CAM_PARAMS) {
-        Camera_CopyPREGToModeValues(camera);
-    }
-
-    OLib_Vec3fDiffToVecSphGeo(&spA0, at, eye);
-    OLib_Vec3fDiffToVecSphGeo(&sp98, at, eyeNext);
-
-    switch(camera->animState){
-        case 0:
-        case 0xA:
-        case 0x14:
-        case 0x19:
-            sp34->unk_16 = 0;
-            sp34->unk_10 = 0;
-            if (para1->interfaceFlags & 4) {
-                sp34->animTimer = 20;
-            } else {
-                sp34->animTimer = OREG(23);
-            }
-            sp34->unk_00.x = 0;
-            sp34->yTarget = camera->playerPosRot.pos.y - camera->playerPosDelta.y;
-            camera->animState++;
-    }
-
-    if (sp34->animTimer != 0) {
-        if (para1->interfaceFlags & 2) {
-            sp34->yawTarget = BINANG_ROT180(camera->playerPosRot.rot.y) + para1->yawTarget;
-        } else if (para1->interfaceFlags & 4) {
-            sp34->yawTarget = para1->yawTarget;
-        } else {
-            sp34->yawTarget = sp98.yaw;
-        }
-    } else {
-        if (para1->interfaceFlags & 0x20) {
-            sp34->yawTarget = BINANG_ROT180(camera->playerPosRot.rot.y) + para1->yawTarget;
-        }
-        sCameraInterfaceFlags = para1->interfaceFlags;
-    }
-    
-    sp34->pitchTarget = para1->pitchTarget;
-    if(camera->animState == 0x15){
-        sp34->unk_16 = 1;
-        camera->animState = 1;
-    } else if(camera->animState == 0xB){
-        camera->animState = 1;
-    }
-    
-    {
-        f32 o26 = OREG(26);
-        spB4.y = PCT(OREG(25));
-        spB4.y *= camera->speedRatio;
-        spB4.x = PCT(o26) * camera->speedRatio;
-
-        camera->rUpdateRateInv = Camera_LERPCeilF(OREG(6), camera->rUpdateRateInv, spB4.y, 0.1f);
-        camera->yawUpdateRateInv = Camera_LERPCeilF(para1->unk_08, camera->yawUpdateRateInv, spB4.y, 0.1f);
-        camera->pitchUpdateRateInv = Camera_LERPCeilF(2.0f, camera->pitchUpdateRateInv, spB4.x, 0.1f);
-        camera->xzOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(2)), camera->xzOffsetUpdateRate, spB4.y, 0.1f);
-        camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, spB4.x, 0.1f);
-        camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->fovUpdateRate, camera->speedRatio * 0.05f, 0.1f);
-    }
-
-    sp34->unk_10 = para1->interfaceFlags & 1 ? 
-        Camera_LERPCeilS(func_80044ADC(camera, BINANG_ROT180(spA0.yaw), 1), sp34->unk_10, ((1.0f / para1->unk_0C) * 0.3f) + (((1.0f / para1->unk_0C) * 0.7f) * (1.0f - camera->speedRatio)), 0xF) :
-        0;
-    
-    if (camera->playerPosRot.pos.y == camera->playerGroundY || camera->player->actor.gravity > -0.1f || camera->player->stateFlags1 & 0x200000) {
-        sp34->yTarget = camera->playerPosRot.pos.y;
-        sp6A = 0;
-    } else {
-        sp6A = 1;
-    }
-
-    if (((para1->interfaceFlags & 0x80) == 0) && (sp6A == 0)) {
-        func_80045C74(camera, &sp98, para1->unk_00, &sp34->yTarget, para1->interfaceFlags & 1);
-    } else {
-        func_800458D4(camera, &sp98, para1->unk_18, &sp34->yTarget, para1->interfaceFlags & 1);
-    }
-
-    if (sp34->animTimer != 0) {
-        
-        camera->unk_14C |= 0x20;
-        if(1){
-            s32 t = (BINANG_SUB(sp34->yawTarget, spA0.yaw) / (s16)(((sp34->animTimer + 1) * sp34->animTimer) >> 1)) * sp34->animTimer;
-            spA8.pitch = spA0.pitch;
-            spA8.r = spA0.r;
-            spA8.yaw = spA0.yaw + t;
-        }
-        sp34->animTimer--;
-    } else {
-        s16 pitchTarg;
-        sp34->unk_16 = 0;
-        camera->dist = Camera_LERPCeilF(para1->distTarget, camera->dist, 1.0f / camera->rUpdateRateInv, 2.0f);
-        OLib_Vec3fDiffToVecSphGeo(&spA8, at, eyeNext);
-        spA8.r = camera->dist;
-        spA8.yaw = para1->interfaceFlags & 0x40 ?
-            Camera_LERPCeilS(sp34->yawTarget, sp98.yaw, 0.6f, 0xA) :
-            Camera_LERPCeilS(sp34->yawTarget, sp98.yaw, 0.8f, 0xA);
-
-        if(para1->interfaceFlags & 1){
-            pitchTarg = BINANG_SUB(sp34->pitchTarget, sp34->unk_10);
-        } else {
-             pitchTarg = sp34->pitchTarget;
-        }
-
-        spA8.pitch = Camera_LERPCeilS(pitchTarg, sp98.pitch, 1.0f / camera->pitchUpdateRateInv, 4);
-
-        if(spA8.pitch > OREG(5)){
-            spA8.pitch = OREG(5);
-        }
-        if(spA8.pitch < OREG(34)){
-            spA8.pitch = OREG(34);
-        }
-
-    }
-    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spA8);
-    if (camera->status == CAM_STATUS_ACTIVE) {
-        sp6C.unk_00 = *eyeNext;
-        if ((camera->globalCtx->envCtx.skyDisabled == 0) || para1->interfaceFlags & 0x10) {
-            func_80043D18(camera, at, &sp6C);
-            *eye = sp6C.unk_00;
-        } else {
-            func_80043F94(camera, at, &sp6C);
-            *eye = sp6C.unk_00;
-            OLib_Vec3fDiffToVecSphGeo(&spA8, eye, at);
-            camera->direction.x = spA8.pitch;
-            camera->direction.y = spA8.yaw;
-            camera->direction.z = 0;
-        }
-    }
-    camera->fov = Camera_LERPCeilF(para1->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
-    camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
-    camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? para1->unk_1C : para1->unk_14);
-}
-*/
 s32 Camera_Parallel1(Camera *camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
@@ -2104,15 +1920,16 @@ s32 Camera_Parallel1(Camera *camera) {
     s16 phi_a0;
     Parallel1* para1 = (Parallel1*)camera->paramData;
     Parallel1Anim* anim = &para1->anim;
-    s32 pad2;
-    f32 temp_f0;
+    f32 pad2;
+    f32 yOffset;
+    s32 pad3;
 
-    temp_f0 = Player_GetCameraYOffset(camera->player);
+    yOffset = Player_GetCameraYOffset(camera->player);
     if(RELOAD_PARAMS){
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / temp_f0));
-        para1->unk_00 = NEXTPCT * temp_f0 * yNormal;
-        para1->distTarget = NEXTPCT * temp_f0 * yNormal;
+        f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / yOffset));
+        para1->unk_00 = NEXTPCT * yOffset * yNormal;;
+        para1->distTarget = NEXTPCT * yOffset * yNormal;
         para1->pitchTarget = DEGF_TO_BINANG(NEXTSETTING);
         para1->yawTarget = DEGF_TO_BINANG(NEXTSETTING);
         para1->unk_08 = NEXTSETTING;
@@ -2120,7 +1937,7 @@ s32 Camera_Parallel1(Camera *camera) {
         para1->fovTarget = NEXTSETTING;
         para1->unk_14 = NEXTPCT;
         para1->interfaceFlags = NEXTSETTING;
-        para1->unk_18 = NEXTPCT * temp_f0 * yNormal;
+        para1->unk_18 = NEXTPCT * yOffset * yNormal;
         para1->unk_1C = NEXTPCT;
     }
 
@@ -2183,8 +2000,10 @@ s32 Camera_Parallel1(Camera *camera) {
     
     if (para1->interfaceFlags & 1) {
         tangle = func_80044ADC(camera, BINANG_ROT180(spA0.yaw), 1);
-        spB8 = (((1.0f / para1->unk_0C) * 0.3f) + ((1.0f / para1->unk_0C) * 0.7f)) * (1.0f - camera->speedRatio);
-        anim->unk_10 = Camera_LERPCeilS(tangle, anim->unk_10, spB8, 0xF);
+
+        spB8 = ((1.0f / para1->unk_0C) * 0.3f);
+        pad2 = (((1.0f / para1->unk_0C) * 0.7f) * (1.0f - camera->speedRatio));
+        anim->unk_10 = Camera_LERPCeilS(tangle, anim->unk_10, spB8 + pad2, 0xF);
     } else {
         anim->unk_10 = 0;
     }
@@ -2253,12 +2072,9 @@ s32 Camera_Parallel1(Camera *camera) {
         }
     }
     camera->fov = Camera_LERPCeilF(para1->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
-    camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
+    camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? para1->unk_1C : para1->unk_14);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Parallel1.s")
-#endif
 
 s32 Camera_Parallel2(Camera* camera) {
     return Camera_NOP(camera);
