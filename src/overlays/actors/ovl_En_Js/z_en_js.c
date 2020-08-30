@@ -58,8 +58,8 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     En_Js_SetupAction(this, func_80A89304);
     this->unk_284 = 0;
     this->actor.gravity = -1.0f;
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_JSJUTAN, this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_JSJUTAN, this->actor.posRot.pos.x,
+                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
 }
 
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -115,8 +115,8 @@ void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         En_Js_SetupAction(this, func_80A8910C);
     } else {
         func_8002F434(&this->actor, globalCtx, GI_BOMBCHUS_10, 10000.0f, 50.0f);

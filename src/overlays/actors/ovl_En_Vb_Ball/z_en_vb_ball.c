@@ -11,7 +11,7 @@
 
 #define THIS ((EnVbBall*)thisx)
 
-#define BOSSFD ((BossFd*)this->actor.attachedA)
+#define BOSSFD ((BossFd*)this->actor.parent)
 
 void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -220,7 +220,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                         spawnOffset.y = Math_Rand_ZeroFloat(3.0f) + 4.0f;
                         spawnOffset.z = Math_Rand_CenteredFloat(10.0f);
                     }
-                    newActor = (EnVbBall*)Actor_SpawnAttached(
+                    newActor = (EnVbBall*)Actor_SpawnAsChild(
                         &globalCtx->actorCtx, &this->actor, globalCtx, 0xAD, this->actor.posRot.pos.x + spawnOffset.x,
                         this->actor.posRot.pos.y + spawnOffset.y, this->actor.posRot.pos.z + spawnOffset.z, 0, 0,
                         this->actor.posRot.rot.z * 0.5f, this->actor.params + 1);
@@ -229,7 +229,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                             Audio_PlaySoundGeneral(0x38D7, &newActor->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                         }
-                        newActor->actor.attachedA = &BOSSFD->actor;
+                        newActor->actor.parent = &BOSSFD->actor;
                         newActor->actor.velocity = spawnOffset;
                         newActor->yRotVel = 0.0f;
                         temp_f0 = sqrtf((spawnOffset.x * spawnOffset.x) + (spawnOffset.z * spawnOffset.z));

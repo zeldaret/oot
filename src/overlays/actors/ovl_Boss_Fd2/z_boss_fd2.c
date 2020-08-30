@@ -11,7 +11,7 @@
 
 #define THIS ((BossFd2*)thisx)
 
-#define BOSSFD ((BossFd*)this->actor.attachedA)
+#define BOSSFD ((BossFd*)this->actor.parent)
 
 void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -839,7 +839,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 this->cutsceneCamera = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
-                Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
                                     0, 0, 0, -1);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }

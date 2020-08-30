@@ -318,7 +318,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 pad;
 
     Flags_SetSwitch(globalCtx, 0x14);
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_VB_SIMA, 680.0f, -100.0f, 0.0f, 0, 0, 0,
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_VB_SIMA, 680.0f, -100.0f, 0.0f, 0, 0, 0,
                         0x64);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -358,13 +358,13 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num) != 0) {
         Actor_Kill(&this->actor);
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0,
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0,
                             0, -1);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
         return;
     }
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.posRot.pos.x,
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->introState2);
 }
 
@@ -1507,7 +1507,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->rockTimer != 0) {
         this->rockTimer--;
         if ((this->rockTimer & 0xF) == 0) {
-            bossFdRock = (EnVbBall*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
+            bossFdRock = (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
                                                         this->actor.posRot.pos.x, 1000.0f, this->actor.posRot.pos.z, 0,
                                                         0, (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
             if (bossFdRock != 0) {
@@ -2046,7 +2046,7 @@ void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
                     Matrix_Get(&spFC);
                     func_800D20CC(&spFC, &spDC, 0);
                     newActor =
-                        (EnVbBall*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
+                        (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
                                                        spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i1 + 0xC8);
 
                     newActor->actor.scale.x = this->actor.scale.x * phi_f20_2;
