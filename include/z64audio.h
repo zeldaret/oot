@@ -480,7 +480,7 @@ typedef struct {
     /*!0x0*/ u8 *ptr;
     /* 0x4*/ u32 size;
     /*    */ u16 pad;
-    /* 0xA*/ u16 id; // seqId or bankId
+    /* 0xA*/ s16 id; // seqId or bankId
 } SeqOrBankEntry; // size = 0xC
 
 typedef struct
