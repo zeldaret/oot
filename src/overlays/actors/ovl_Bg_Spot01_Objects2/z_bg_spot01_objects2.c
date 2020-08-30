@@ -30,7 +30,7 @@ const ActorInit Bg_Spot01_Objects2_InitVars = {
     NULL,
 };
 
-static InitChainEntry D_808AC500[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 12800, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_CONTINUE),
@@ -49,13 +49,13 @@ void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0:
         case 1:
         case 2:
-            this->objectId = 0x180;
+            this->objectId = OBJECT_SPOT01_MATOYA;
             break;
         case 3:
-            this->objectId = 0x181;
+            this->objectId = OBJECT_SPOT01_MATOYAB;
             break;
         case 4:
-            this->objectId = 0x180;
+            this->objectId = OBJECT_SPOT01_MATOYA;
     }
 
     if (this->objectId >= 0) {
@@ -70,7 +70,7 @@ void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
     }
     this->actionFunc = func_808AC2BC;
-    Actor_ProcessInitChain(&this->dyna.actor, D_808AC500);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot01Objects2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -111,7 +111,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
                 if (gSaveContext.nightFlag == 0) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
-                    Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
                                         position.y, position.z, thisx->posRot.rot.x, thisx->posRot.rot.y,
                                         thisx->posRot.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
                 }
