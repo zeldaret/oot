@@ -129,14 +129,12 @@ s32 EffectSpark_Update(void* thisx) {
 }
 
 // original name: "EffectSparkInfo_disp"
-#ifdef NON_MATCHING
-// minor ordering and saved register usage differences
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     Vtx* vertices;
-    EffectSpark* this = (EffectSpark*)thisx; // sp1E0
-    EffectSparkElement* elem;
+    EffectSpark* this = (EffectSpark*)thisx;
     GlobalContext* globalCtx;
-    f32 ratio;
+    s32 i;
+    s32 j;
     u8 sp1D3;
     u8 sp1D2;
     u8 sp1D1;
@@ -153,10 +151,11 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     u8 sp1C6;
     u8 sp1C5;
     u8 sp1C4;
-    s32 i;
-    s32 j;
+    f32 ratio;
 
     globalCtx = Effect_GetGlobalCtx();
+
+    if (1) {}
 
     OPEN_DISPS(gfxCtx, "../z_eff_spark.c", 293);
 
@@ -182,7 +181,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         if (vertices == NULL) {
             // Translates to: "Memory Allocation Failure graph_malloc"
             osSyncPrintf("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n");
-            return;
+            goto end;
         }
 
         j = 0;
@@ -210,6 +209,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             MtxF spEC;
             MtxF spAC;
             MtxF sp6C;
+            EffectSparkElement* elem;
             Mtx* mtx;
             f32 temp;
 
@@ -267,11 +267,9 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
             j += 4;
 
-            if (this) {}
-
             mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp12C);
             if (mtx == NULL) {
-                break;
+                goto end;
             }
 
             gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -282,8 +280,6 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPPipeSync(oGfxCtx->polyXlu.p++);
     }
 
+end:
     CLOSE_DISPS(gfxCtx, "../z_eff_spark.c", 498);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_spark/EffectSpark_Draw.s")
-#endif

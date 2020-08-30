@@ -74,15 +74,14 @@
     }                                      \
     (void)0
 
-#define OPEN_DISPS_INNER(gfxCtx, file, line)      \
-    oGfxCtx = gfxCtx;                             \
-    Graph_OpenDisps(dispRefs, gfxCtx, file, line)
+extern GraphicsContext* oGfxCtx;
 
-#define OPEN_DISPS(gfxCtx, file, line)       \
-    {                                        \
-        GraphicsContext* oGfxCtx;            \
-        Gfx* dispRefs[4];                    \
-        OPEN_DISPS_INNER(gfxCtx, file, line)
+#define OPEN_DISPS(gfxCtx, file, line) \
+    {                                  \
+        GraphicsContext* oGfxCtx;      \
+        Gfx* dispRefs[4];              \
+        oGfxCtx = gfxCtx;              \
+        Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
 #define CLOSE_DISPS(gfxCtx, file, line)                 \
         Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
