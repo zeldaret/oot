@@ -1016,16 +1016,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     static s32 mempakFileSize = 0; //  D_8012D170
     static s32 sDbCameraMempakFiles;
 
-    s32 idx1; // sp+0xA0
+    s32 i;
+    s32 idx1; // 0xA0
     s32 idx2; // s0
 
-    char sp74[ARRAY_COUNT(sDbCameraCuts)-1]; // sp+0x74
-    DbCameraCut sp64; // sp+0x64
-    VecSph sp5C;
-    s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback }; // sp + 0x50
-
-    s32 flag;
-    s32 i;
+    char sp74[(ARRAY_COUNT(sDbCameraCuts)-1+4) * 2]; // 0x74
+    DbCameraCut sp64; // 0x64
+    VecSph sp5C; // 0x5C
+    s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback }; // 0x50 -> 0x54
 
     func_8006376C(0xE, 5, 0, D_8012CF44); // DEMO CONTROL
 
@@ -1159,8 +1157,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
 
         // 61d8
         default:
-        {
-            
+        {   
             if (Mempak_Init(2)) {
                 sDbCameraMempakFiles = Mempak_FindFile(2, 'A', 'E');
                 dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_CALLBACK);
@@ -1235,11 +1232,12 @@ block_1:
                     func_8006376C(0xD, 0xB, 7, D_8012CFA8);
                     func_8006376C(0x11, 0xB, 4, sp74);
                 }
-                // diff 657C: sp+a0 ?
+                // diff: regalloc
+                idx1 = (dbCamera->sub.demoCtrlActionIdx + 2);
                 func_8006376C(0xF, 0x16, 1, D_8012CF7C);
-                func_8006376C(0x12, 0x17, sDbCameraColors[dbCamera->sub.demoCtrlActionIdx + 2], D_8012CF64);
-                func_8006376C(0x12, 0x18, sDbCameraColors[dbCamera->sub.demoCtrlActionIdx + 1], D_8012CF68);
-                func_8006376C(0x12, 0x19, sDbCameraColors[dbCamera->sub.demoCtrlActionIdx + 0], D_8012CF6C);
+                func_8006376C(0x12, 0x17, sDbCameraColors[idx1], D_8012CF64);
+                func_8006376C(0x12, 0x18, sDbCameraColors[idx1-1], D_8012CF68);
+                func_8006376C(0x12, 0x19, sDbCameraColors[idx1-2], D_8012CF6C);
                 func_8006376C(0xE, dbCamera->sub.demoCtrlActionIdx + 0x16, 7, D_8012CF0C); // current selection
                 func_8006376C(0xD, 0x1A, 5, D_8012CF60[0]);
                 func_8006376C(0x14, 0x1A, 5, D_8012CF70);
@@ -1367,17 +1365,17 @@ block_1:
                 D_801612EA = sDbCameraCuts[idx1].letter;
             }
         }
-        // diff: sDbCameraGlobalContext->state.input[2].cur loaded twice
+        // diff 6b90: sDbCameraGlobalContext->state.input[2].cur loaded twice
+        // and then sDbCameraGlobalContext is only loaded once
         else if (!CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, L_TRIG)) {
             if (sDbCameraLastFileIdx != -1) {
-                switch (sp74[sDbCameraCurFileIdx])
-                {
+                switch (sp74[sDbCameraCurFileIdx]) {
                     case '?':
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         sDbCameraCuts[idx1] = sDbCameraCuts[idx2];
                         sp74[sDbCameraCurFileIdx] = '?'; // useless
                         DbCamera_ResetCut(idx2, false);
-                        break;
+                        break; // diff: missing sDbCameraGlobalContext
                     case '-':
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
@@ -1387,7 +1385,7 @@ block_1:
                             for (i = idx2; i < idx1 - 1 && i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
                                 sDbCameraCuts[i] = sDbCameraCuts[i+1];
                             }
-                            sDbCameraCuts[idx1] = sp64;
+                            sDbCameraCuts[idx1-1] = sp64;
                         }
                         else if (sDbCameraCurFileIdx < sDbCameraLastFileIdx) {
                             // rotate left
@@ -1398,9 +1396,9 @@ block_1:
                         }
 
                         for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
-                            sp74[i] = sDbCameraCuts[i].letter;
+                            sp74[i*2+1] = sDbCameraCuts[i].letter;
                         }
-                        break;
+                        break; // diff: missing sDbCameraGlobalContext
                     default:
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         break;
