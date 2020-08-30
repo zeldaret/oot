@@ -35,7 +35,7 @@ glabel D_80143CD0
 
 
 .text
-glabel func_800B9638
+glabel DbCamera_UpdateDemoControl
 /* B307D8 800B9638 27BDFF58 */  addiu $sp, $sp, -0xa8
 /* B307DC 800B963C 3C0E8013 */  lui   $t6, %hi(D_8012D14C) # $t6, 0x8013
 /* B307E0 800B9640 AFBF0034 */  sw    $ra, 0x34($sp)
@@ -521,7 +521,7 @@ glabel func_800B9638
 /* B30EE8 800B9D48 3C018016 */  lui   $at, %hi(sDbCameraMempakFiles) # $at, 0x8016
 /* B30EEC 800B9D4C AC221104 */  sw    $v0, %lo(sDbCameraMempakFiles)($at)
 /* B30EF0 800B9D50 240E0001 */  li    $t6, 1
-/* B30EF4 800B9D54 0C02E283 */  jal   func_800B8A0C
+/* B30EF4 800B9D54 0C02E283 */  jal   DbCamera_CalcMempakAllocSize
 /* B30EF8 800B9D58 A64E10C0 */   sh    $t6, 0x10c0($s2)
 /* B30EFC 800B9D5C 3C088016 */  lui   $t0, %hi(sDbCameraCurFileIdx) # $t0, 0x8016
 /* B30F00 800B9D60 85081148 */  lh    $t0, %lo(sDbCameraCurFileIdx)($t0)
@@ -701,12 +701,12 @@ glabel func_800B9638
 /* B31184 800B9FE4 24050007 */  li    $a1, 7
 /* B31188 800B9FE8 0C018DDB */  jal   func_8006376C
 /* B3118C 800B9FEC 24060007 */   li    $a2, 7
-/* B31190 800B9FF0 0C02E2E9 */  jal   func_800B8BA4
+/* B31190 800B9FF0 0C02E2E9 */  jal   DbCamera_GetMempakAllocSize
 /* B31194 800B9FF4 00000000 */   nop
 /* B31198 800B9FF8 00022400 */  sll   $a0, $v0, 0x10
 /* B3119C 800B9FFC 00042403 */  sra   $a0, $a0, 0x10
 /* B311A0 800BA000 27A50074 */  addiu $a1, $sp, 0x74
-/* B311A4 800BA004 0C02CF7E */  jal   func_800B3DF8
+/* B311A4 800BA004 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B311A8 800BA008 24060006 */   li    $a2, 6
 /* B311AC 800BA00C 3C078013 */  lui   $a3, %hi(D_8012CF78) # $a3, 0x8013
 /* B311B0 800BA010 8CE7CF78 */  lw    $a3, %lo(D_8012CF78)($a3)
@@ -724,7 +724,7 @@ glabel func_800B9638
 /* B311E0 800BA040 00022400 */  sll   $a0, $v0, 0x10
 /* B311E4 800BA044 00042403 */  sra   $a0, $a0, 0x10
 /* B311E8 800BA048 27A50074 */  addiu $a1, $sp, 0x74
-/* B311EC 800BA04C 0C02CF7E */  jal   func_800B3DF8
+/* B311EC 800BA04C 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B311F0 800BA050 24060006 */   li    $a2, 6
 /* B311F4 800BA054 3C078013 */  lui   $a3, %hi(D_8012CF74) # $a3, 0x8013
 /* B311F8 800BA058 8CE7CF74 */  lw    $a3, %lo(D_8012CF74)($a3)
@@ -743,7 +743,7 @@ glabel func_800B9638
 /* B3122C 800BA08C 3C048013 */   lui   $a0, %hi(D_8012D170+2) # $a0, 0x8013
 /* B31230 800BA090 8484D172 */  lh    $a0, %lo(D_8012D170+2)($a0)
 /* B31234 800BA094 27A50074 */  addiu $a1, $sp, 0x74
-/* B31238 800BA098 0C02CF7E */  jal   func_800B3DF8
+/* B31238 800BA098 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B3123C 800BA09C 24060006 */   li    $a2, 6
 /* B31240 800BA0A0 3C078013 */  lui   $a3, %hi(D_8012CFA8) # $a3, 0x8013
 /* B31244 800BA0A4 8CE7CFA8 */  lw    $a3, %lo(D_8012CFA8)($a3)
@@ -993,7 +993,7 @@ glabel func_800B9638
 /* B315EC 800BA44C 27A40074 */  addiu $a0, $sp, 0x74
 /* B315F0 800BA450 24050007 */  li    $a1, 7
 /* B315F4 800BA454 24060005 */  li    $a2, 5
-/* B315F8 800BA458 0C02E3D6 */  jal   func_800B8F58
+/* B315F8 800BA458 0C02E3D6 */  jal   DbCamera_DrawSlotLetters
 /* B315FC 800BA45C 24070004 */   li    $a3, 4
 /* B31600 800BA460 3C0D8016 */  lui   $t5, %hi(sDbCameraAnim+0xA) # $t5, 0x8016
 /* B31604 800BA464 85AD111A */  lh    $t5, %lo(sDbCameraAnim+0xA)($t5)
@@ -1247,7 +1247,7 @@ glabel func_800B9638
 /* B319B8 800BA818 AF2C000C */  sw    $t4, 0xc($t9)
 /* B319BC 800BA81C 85CE1148 */  lh    $t6, %lo(sDbCameraCurFileIdx)($t6)
 /* B319C0 800BA820 03AE7821 */  addu  $t7, $sp, $t6
-/* B319C4 800BA824 0C02E25E */  jal   func_800B8978
+/* B319C4 800BA824 0C02E25E */  jal   DbCamera_ResetCut
 /* B319C8 800BA828 A1E80074 */   sb    $t0, 0x74($t7)
 /* B319CC 800BA82C 3C048016 */  lui   $a0, %hi(sDbCameraGlobalContext) # $a0, 0x8016
 /* B319D0 800BA830 10000094 */  b     .L800BAA84
@@ -1439,7 +1439,7 @@ glabel func_800B9638
 /* B31C80 800BAAE0 0C03DCE3 */  jal   Audio_PlaySoundGeneral
 /* B31C84 800BAAE4 AFA70010 */   sw    $a3, 0x10($sp)
 /* B31C88 800BAAE8 8FA400A0 */  lw    $a0, 0xa0($sp)
-/* B31C8C 800BAAEC 0C02E1F6 */  jal   func_800B87D8
+/* B31C8C 800BAAEC 0C02E1F6 */  jal   DbCamera_InitCut
 /* B31C90 800BAAF0 2645007C */   addiu $a1, $s2, 0x7c
 /* B31C94 800BAAF4 3C0C8016 */  lui   $t4, %hi(sDbCameraCurFileIdx) # $t4, 0x8016
 /* B31C98 800BAAF8 858C1148 */  lh    $t4, %lo(sDbCameraCurFileIdx)($t4)
@@ -1487,7 +1487,7 @@ glabel func_800B9638
 /* B31D3C 800BAB9C 24050001 */  li    $a1, 1
 /* B31D40 800BABA0 03AB6021 */  addu  $t4, $sp, $t3
 /* B31D44 800BABA4 A1990074 */  sb    $t9, 0x74($t4)
-/* B31D48 800BABA8 0C02E25E */  jal   func_800B8978
+/* B31D48 800BABA8 0C02E25E */  jal   DbCamera_ResetCut
 /* B31D4C 800BABAC 8FA400A0 */   lw    $a0, 0xa0($sp)
 /* B31D50 800BABB0 3C048016 */  lui   $a0, %hi(sDbCameraGlobalContext) # $a0, 0x8016
 /* B31D54 800BABB4 8C841100 */  lw    $a0, %lo(sDbCameraGlobalContext)($a0)
@@ -1585,7 +1585,7 @@ glabel func_800B9638
 /* B31EAC 800BAD0C 24050001 */  li    $a1, 1
 /* B31EB0 800BAD10 03AFC021 */  addu  $t8, $sp, $t7
 /* B31EB4 800BAD14 A3080074 */  sb    $t0, 0x74($t8)
-/* B31EB8 800BAD18 0C02E25E */  jal   func_800B8978
+/* B31EB8 800BAD18 0C02E25E */  jal   DbCamera_ResetCut
 /* B31EBC 800BAD1C 8FA400A0 */   lw    $a0, 0xa0($sp)
 /* B31EC0 800BAD20 240A0001 */  li    $t2, 1
 /* B31EC4 800BAD24 AE4A0000 */  sw    $t2, ($s2)
@@ -1685,7 +1685,7 @@ glabel func_800B9638
 /* B32020 800BAE80 2401000F */  li    $at, 15
 /* B32024 800BAE84 1621FFEF */  bne   $s1, $at, .L800BAE44
 /* B32028 800BAE88 26100010 */   addiu $s0, $s0, 0x10
-/* B3202C 800BAE8C 0C02E418 */  jal   func_800B9060
+/* B3202C 800BAE8C 0C02E418 */  jal   DbCamera_PrintAllCuts
 /* B32030 800BAE90 8FA400AC */   lw    $a0, 0xac($sp)
 /* B32034 800BAE94 10000042 */  b     .L800BAFA0
 /* B32038 800BAE98 00000000 */   nop
@@ -1716,7 +1716,7 @@ glabel func_800B9638
 /* B32094 800BAEF4 26310001 */   addiu $s1, $s1, 1
 /* B32098 800BAEF8 0C00084C */  jal   osSyncPrintf
 /* B3209C 800BAEFC 02202825 */   move  $a1, $s1
-/* B320A0 800BAF00 0C02D2C8 */  jal   func_800B4B20
+/* B320A0 800BAF00 0C02D2C8 */  jal   DbCamera_PrintCutBytes
 /* B320A4 800BAF04 02002025 */   move  $a0, $s0
 /* B320A8 800BAF08 26310001 */  addiu $s1, $s1, 1
 .L800BAF0C:

@@ -123,7 +123,7 @@ glabel D_80143CCC
     .float 0.02
 
 .text
-glabel func_800B4E7C
+glabel DbCamera_Update
 /* B2C01C 800B4E7C 27BDFED8 */  addiu $sp, $sp, -0x128
 /* B2C020 800B4E80 AFB60064 */  sw    $s6, 0x64($sp)
 /* B2C024 800B4E84 248E0054 */  addiu $t6, $a0, 0x54
@@ -325,7 +325,7 @@ glabel func_800B4E7C
 /* B2C2E8 800B5148 8FB00124 */   lw    $s0, 0x124($sp)
 .L800B514C:
 /* B2C2EC 800B514C 02A02025 */  move  $a0, $s5
-/* B2C2F0 800B5150 0C02E58E */  jal   func_800B9638
+/* B2C2F0 800B5150 0C02E58E */  jal   DbCamera_UpdateDemoControl
 /* B2C2F4 800B5154 02E02825 */   move  $a1, $s7
 /* B2C2F8 800B5158 10000D6A */  b     .L800B8704
 /* B2C2FC 800B515C 8FBF006C */   lw    $ra, 0x6c($sp)
@@ -446,7 +446,7 @@ glabel func_800B4E7C
 /* B2C4A0 800B5300 8FA4007C */  lw    $a0, 0x7c($sp)
 /* B2C4A4 800B5304 87B9010A */  lh    $t9, 0x10a($sp)
 /* B2C4A8 800B5308 00802825 */  move  $a1, $a0
-/* B2C4AC 800B530C 0C02CED4 */  jal   func_800B3B50
+/* B2C4AC 800B530C 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C4B0 800B5310 A7B90102 */   sh    $t9, 0x102($sp)
 /* B2C4B4 800B5314 1000000B */  b     .L800B5344
 /* B2C4B8 800B5318 8EAD0040 */   lw    $t5, 0x40($s5)
@@ -458,7 +458,7 @@ glabel func_800B4E7C
 /* B2C4CC 800B532C 256C8001 */  addiu $t4, $t3, -0x7fff
 /* B2C4D0 800B5330 A7AA0100 */  sh    $t2, 0x100($sp)
 /* B2C4D4 800B5334 A7AC0102 */  sh    $t4, 0x102($sp)
-/* B2C4D8 800B5338 0C02CED4 */  jal   func_800B3B50
+/* B2C4D8 800B5338 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C4DC 800B533C 00E02825 */   move  $a1, $a3
 /* B2C4E0 800B5340 8EAD0040 */  lw    $t5, 0x40($s5)
 .L800B5344:
@@ -522,7 +522,7 @@ glabel func_800B4E7C
 /* B2C5B4 800B5414 8FA4007C */  lw    $a0, 0x7c($sp)
 /* B2C5B8 800B5418 87AF010A */  lh    $t7, 0x10a($sp)
 /* B2C5BC 800B541C 00802825 */  move  $a1, $a0
-/* B2C5C0 800B5420 0C02CED4 */  jal   func_800B3B50
+/* B2C5C0 800B5420 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C5C4 800B5424 A7AF0102 */   sh    $t7, 0x102($sp)
 /* B2C5C8 800B5428 1000000B */  b     .L800B5458
 /* B2C5CC 800B542C 8EAB0040 */   lw    $t3, 0x40($s5)
@@ -534,7 +534,7 @@ glabel func_800B4E7C
 /* B2C5E0 800B5440 252A8001 */  addiu $t2, $t1, -0x7fff
 /* B2C5E4 800B5444 A7B90100 */  sh    $t9, 0x100($sp)
 /* B2C5E8 800B5448 A7AA0102 */  sh    $t2, 0x102($sp)
-/* B2C5EC 800B544C 0C02CED4 */  jal   func_800B3B50
+/* B2C5EC 800B544C 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C5F0 800B5450 00E02825 */   move  $a1, $a3
 /* B2C5F4 800B5454 8EAB0040 */  lw    $t3, 0x40($s5)
 .L800B5458:
@@ -580,7 +580,7 @@ glabel func_800B4E7C
 /* B2C688 800B54E8 87AC010A */  lh    $t4, 0x10a($sp)
 /* B2C68C 800B54EC 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2C690 800B54F0 00802825 */  move  $a1, $a0
-/* B2C694 800B54F4 0C02CED4 */  jal   func_800B3B50
+/* B2C694 800B54F4 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C698 800B54F8 A7AC0102 */   sh    $t4, 0x102($sp)
 /* B2C69C 800B54FC 10000009 */  b     .L800B5524
 /* B2C6A0 800B5500 8EB80040 */   lw    $t8, 0x40($s5)
@@ -590,7 +590,7 @@ glabel func_800B4E7C
 /* B2C6AC 800B550C 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2C6B0 800B5510 25AE8001 */  addiu $t6, $t5, -0x7fff
 /* B2C6B4 800B5514 A7AE0102 */  sh    $t6, 0x102($sp)
-/* B2C6B8 800B5518 0C02CED4 */  jal   func_800B3B50
+/* B2C6B8 800B5518 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C6BC 800B551C 00A02025 */   move  $a0, $a1
 /* B2C6C0 800B5520 8EB80040 */  lw    $t8, 0x40($s5)
 .L800B5524:
@@ -629,7 +629,7 @@ glabel func_800B4E7C
 /* B2C73C 800B559C 8FA5007C */  lw    $a1, 0x7c($sp)
 /* B2C740 800B55A0 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2C744 800B55A4 A7B80102 */  sh    $t8, 0x102($sp)
-/* B2C748 800B55A8 0C02CED4 */  jal   func_800B3B50
+/* B2C748 800B55A8 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C74C 800B55AC 00A02025 */   move  $a0, $a1
 /* B2C750 800B55B0 10000009 */  b     .L800B55D8
 /* B2C754 800B55B4 8EAC0040 */   lw    $t4, 0x40($s5)
@@ -639,7 +639,7 @@ glabel func_800B4E7C
 /* B2C760 800B55C0 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2C764 800B55C4 252A8001 */  addiu $t2, $t1, -0x7fff
 /* B2C768 800B55C8 A7AA0102 */  sh    $t2, 0x102($sp)
-/* B2C76C 800B55CC 0C02CED4 */  jal   func_800B3B50
+/* B2C76C 800B55CC 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C770 800B55D0 00A02025 */   move  $a0, $a1
 /* B2C774 800B55D4 8EAC0040 */  lw    $t4, 0x40($s5)
 .L800B55D8:
@@ -677,14 +677,14 @@ glabel func_800B4E7C
 /* B2C7EC 800B564C A7AC0102 */   sh    $t4, 0x102($sp)
 /* B2C7F0 800B5650 8FA5007C */  lw    $a1, 0x7c($sp)
 /* B2C7F4 800B5654 27A600FC */  addiu $a2, $sp, 0xfc
-/* B2C7F8 800B5658 0C02CED4 */  jal   func_800B3B50
+/* B2C7F8 800B5658 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C7FC 800B565C 00A02025 */   move  $a0, $a1
 /* B2C800 800B5660 10000006 */  b     .L800B567C
 /* B2C804 800B5664 8EB80040 */   lw    $t8, 0x40($s5)
 .L800B5668:
 /* B2C808 800B5668 8FA50080 */  lw    $a1, 0x80($sp)
 /* B2C80C 800B566C 27A600FC */  addiu $a2, $sp, 0xfc
-/* B2C810 800B5670 0C02CED4 */  jal   func_800B3B50
+/* B2C810 800B5670 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C814 800B5674 00A02025 */   move  $a0, $a1
 /* B2C818 800B5678 8EB80040 */  lw    $t8, 0x40($s5)
 .L800B567C:
@@ -722,14 +722,14 @@ glabel func_800B4E7C
 /* B2C890 800B56F0 A7B80102 */   sh    $t8, 0x102($sp)
 /* B2C894 800B56F4 8FA5007C */  lw    $a1, 0x7c($sp)
 /* B2C898 800B56F8 27A600FC */  addiu $a2, $sp, 0xfc
-/* B2C89C 800B56FC 0C02CED4 */  jal   func_800B3B50
+/* B2C89C 800B56FC 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C8A0 800B5700 00A02025 */   move  $a0, $a1
 /* B2C8A4 800B5704 10000006 */  b     .L800B5720
 /* B2C8A8 800B5708 8EAB0040 */   lw    $t3, 0x40($s5)
 .L800B570C:
 /* B2C8AC 800B570C 8FA50080 */  lw    $a1, 0x80($sp)
 /* B2C8B0 800B5710 27A600FC */  addiu $a2, $sp, 0xfc
-/* B2C8B4 800B5714 0C02CED4 */  jal   func_800B3B50
+/* B2C8B4 800B5714 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C8B8 800B5718 00A02025 */   move  $a0, $a1
 /* B2C8BC 800B571C 8EAB0040 */  lw    $t3, 0x40($s5)
 .L800B5720:
@@ -772,7 +772,7 @@ glabel func_800B4E7C
 /* B2C944 800B57A4 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2C948 800B57A8 258D3FFF */  addiu $t5, $t4, 0x3fff
 /* B2C94C 800B57AC A7AD0102 */  sh    $t5, 0x102($sp)
-/* B2C950 800B57B0 0C02CED4 */  jal   func_800B3B50
+/* B2C950 800B57B0 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C954 800B57B4 00A02025 */   move  $a0, $a1
 /* B2C958 800B57B8 10000009 */  b     .L800B57E0
 /* B2C95C 800B57BC 8EA90040 */   lw    $t1, 0x40($s5)
@@ -782,7 +782,7 @@ glabel func_800B4E7C
 /* B2C968 800B57C8 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2C96C 800B57CC 25F8C001 */  addiu $t8, $t7, -0x3fff
 /* B2C970 800B57D0 A7B80102 */  sh    $t8, 0x102($sp)
-/* B2C974 800B57D4 0C02CED4 */  jal   func_800B3B50
+/* B2C974 800B57D4 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2C978 800B57D8 00A02025 */   move  $a0, $a1
 /* B2C97C 800B57DC 8EA90040 */  lw    $t1, 0x40($s5)
 .L800B57E0:
@@ -825,7 +825,7 @@ glabel func_800B4E7C
 /* B2CA04 800B5864 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2CA08 800B5868 254BC001 */  addiu $t3, $t2, -0x3fff
 /* B2CA0C 800B586C A7AB0102 */  sh    $t3, 0x102($sp)
-/* B2CA10 800B5870 0C02CED4 */  jal   func_800B3B50
+/* B2CA10 800B5870 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2CA14 800B5874 00A02025 */   move  $a0, $a1
 /* B2CA18 800B5878 10000009 */  b     .L800B58A0
 /* B2CA1C 800B587C 8EB80040 */   lw    $t8, 0x40($s5)
@@ -835,7 +835,7 @@ glabel func_800B4E7C
 /* B2CA28 800B5888 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2CA2C 800B588C 25AE3FFF */  addiu $t6, $t5, 0x3fff
 /* B2CA30 800B5890 A7AE0102 */  sh    $t6, 0x102($sp)
-/* B2CA34 800B5894 0C02CED4 */  jal   func_800B3B50
+/* B2CA34 800B5894 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2CA38 800B5898 00A02025 */   move  $a0, $a1
 /* B2CA3C 800B589C 8EB80040 */  lw    $t8, 0x40($s5)
 .L800B58A0:
@@ -900,7 +900,7 @@ glabel func_800B4E7C
 /* B2CB14 800B5974 8FA5007C */  lw    $a1, 0x7c($sp)
 /* B2CB18 800B5978 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2CB1C 800B597C A7AA0102 */  sh    $t2, 0x102($sp)
-/* B2CB20 800B5980 0C02CED4 */  jal   func_800B3B50
+/* B2CB20 800B5980 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2CB24 800B5984 00A02025 */   move  $a0, $a1
 /* B2CB28 800B5988 1000000C */  b     .L800B59BC
 /* B2CB2C 800B598C 8EB90040 */   lw    $t9, 0x40($s5)
@@ -913,7 +913,7 @@ glabel func_800B4E7C
 /* B2CB44 800B59A4 A7AD0100 */  sh    $t5, 0x100($sp)
 /* B2CB48 800B59A8 A7AF0102 */  sh    $t7, 0x102($sp)
 /* B2CB4C 800B59AC 27A600FC */  addiu $a2, $sp, 0xfc
-/* B2CB50 800B59B0 0C02CED4 */  jal   func_800B3B50
+/* B2CB50 800B59B0 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2CB54 800B59B4 00A02025 */   move  $a0, $a1
 /* B2CB58 800B59B8 8EB90040 */  lw    $t9, 0x40($s5)
 .L800B59BC:
@@ -980,7 +980,7 @@ glabel func_800B4E7C
 /* B2CC38 800B5A98 8FA5007C */  lw    $a1, 0x7c($sp)
 /* B2CC3C 800B5A9C 27A600FC */  addiu $a2, $sp, 0xfc
 /* B2CC40 800B5AA0 A7AB0102 */  sh    $t3, 0x102($sp)
-/* B2CC44 800B5AA4 0C02CED4 */  jal   func_800B3B50
+/* B2CC44 800B5AA4 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2CC48 800B5AA8 00A02025 */   move  $a0, $a1
 /* B2CC4C 800B5AAC 1000000C */  b     .L800B5AE0
 /* B2CC50 800B5AB0 8EA90040 */   lw    $t1, 0x40($s5)
@@ -993,7 +993,7 @@ glabel func_800B4E7C
 /* B2CC68 800B5AC8 A7AE0100 */  sh    $t6, 0x100($sp)
 /* B2CC6C 800B5ACC A7B80102 */  sh    $t8, 0x102($sp)
 /* B2CC70 800B5AD0 27A600FC */  addiu $a2, $sp, 0xfc
-/* B2CC74 800B5AD4 0C02CED4 */  jal   func_800B3B50
+/* B2CC74 800B5AD4 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2CC78 800B5AD8 00A02025 */   move  $a0, $a1
 /* B2CC7C 800B5ADC 8EA90040 */  lw    $t1, 0x40($s5)
 .L800B5AE0:
@@ -1246,7 +1246,7 @@ glabel func_800B4E7C
 /* B2D020 800B5E80 8FA5007C */  lw    $a1, 0x7c($sp)
 /* B2D024 800B5E84 01D04821 */  addu  $t1, $t6, $s0
 /* B2D028 800B5E88 A7A9010A */  sh    $t1, 0x10a($sp)
-/* B2D02C 800B5E8C 0C02CED4 */  jal   func_800B3B50
+/* B2D02C 800B5E8C 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2D030 800B5E90 02203025 */   move  $a2, $s1
 /* B2D034 800B5E94 87B90108 */  lh    $t9, 0x108($sp)
 /* B2D038 800B5E98 00195023 */  negu  $t2, $t9
@@ -1340,7 +1340,7 @@ glabel func_800B4E7C
 /* B2D184 800B5FE4 8FA50080 */  lw    $a1, 0x80($sp)
 /* B2D188 800B5FE8 0190C021 */  addu  $t8, $t4, $s0
 /* B2D18C 800B5FEC A7B8010A */  sh    $t8, 0x10a($sp)
-/* B2D190 800B5FF0 0C02CED4 */  jal   func_800B3B50
+/* B2D190 800B5FF0 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2D194 800B5FF4 02203025 */   move  $a2, $s1
 /* B2D198 800B5FF8 87AE0108 */  lh    $t6, 0x108($sp)
 /* B2D19C 800B5FFC A6AE10C6 */  sh    $t6, 0x10c6($s5)
@@ -1399,7 +1399,7 @@ glabel func_800B4E7C
 /* B2D26C 800B60CC 8E2A0000 */  lw    $t2, ($s1)
 /* B2D270 800B60D0 ACD90004 */  sw    $t9, 4($a2)
 /* B2D274 800B60D4 ACCA0000 */  sw    $t2, ($a2)
-/* B2D278 800B60D8 0C02CED4 */  jal   func_800B3B50
+/* B2D278 800B60D8 0C02CED4 */  jal   DbCamera_AddVecSph
 /* B2D27C 800B60DC E7A000FC */   swc1  $f0, 0xfc($sp)
 /* B2D280 800B60E0 8EA20000 */  lw    $v0, ($s5)
 .L800B60E4:
@@ -1453,12 +1453,12 @@ glabel func_800B4E7C
 /* B2D338 800B6198 3C048014 */  lui   $a0, %hi(D_801438AC) # $a0, 0x8014
 /* B2D33C 800B619C 248438AC */  addiu $a0, %lo(D_801438AC) # addiu $a0, $a0, 0x38ac
 /* B2D340 800B61A0 86A50080 */  lh    $a1, 0x80($s5)
-/* B2D344 800B61A4 0C02D248 */  jal   func_800B4920
+/* B2D344 800B61A4 0C02D248 */  jal   DbCamera_PrintPoints
 /* B2D348 800B61A8 26A608B0 */   addiu $a2, $s5, 0x8b0
 /* B2D34C 800B61AC 3C048014 */  lui   $a0, %hi(D_801438B4) # $a0, 0x8014
 /* B2D350 800B61B0 248438B4 */  addiu $a0, %lo(D_801438B4) # addiu $a0, $a0, 0x38b4
 /* B2D354 800B61B4 86A50080 */  lh    $a1, 0x80($s5)
-/* B2D358 800B61B8 0C02D248 */  jal   func_800B4920
+/* B2D358 800B61B8 0C02D248 */  jal   DbCamera_PrintPoints
 /* B2D35C 800B61BC 26A600A0 */   addiu $a2, $s5, 0xa0
 /* B2D360 800B61C0 3C048014 */  lui   $a0, %hi(D_801438C0) # $a0, 0x8014
 /* B2D364 800B61C4 248438C0 */  addiu $a0, %lo(D_801438C0) # addiu $a0, $a0, 0x38c0
@@ -1933,7 +1933,7 @@ glabel func_800B4E7C
 /* B2DA1C 800B687C 44042000 */  mfc1  $a0, $f4
 /* B2DA20 800B6880 00000000 */  nop
 /* B2DA24 800B6884 00042400 */  sll   $a0, $a0, 0x10
-/* B2DA28 800B6888 0C02CF7E */  jal   func_800B3DF8
+/* B2DA28 800B6888 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2DA2C 800B688C 00042403 */   sra   $a0, $a0, 0x10
 /* B2DA30 800B6890 3C078013 */  lui   $a3, %hi(D_8012D0E4) # $a3, 0x8013
 /* B2DA34 800B6894 24E7D0E4 */  addiu $a3, %lo(D_8012D0E4) # addiu $a3, $a3, -0x2f1c
@@ -1954,7 +1954,7 @@ glabel func_800B4E7C
 /* B2DA70 800B68D0 44043000 */  mfc1  $a0, $f6
 /* B2DA74 800B68D4 00000000 */  nop
 /* B2DA78 800B68D8 00042400 */  sll   $a0, $a0, 0x10
-/* B2DA7C 800B68DC 0C02CF7E */  jal   func_800B3DF8
+/* B2DA7C 800B68DC 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2DA80 800B68E0 00042403 */   sra   $a0, $a0, 0x10
 /* B2DA84 800B68E4 3C078013 */  lui   $a3, %hi(D_8012D0F8) # $a3, 0x8013
 /* B2DA88 800B68E8 24E7D0F8 */  addiu $a3, %lo(D_8012D0F8) # addiu $a3, $a3, -0x2f08
@@ -1970,7 +1970,7 @@ glabel func_800B4E7C
 /* B2DAB0 800B6910 44044000 */  mfc1  $a0, $f8
 /* B2DAB4 800B6914 00000000 */  nop
 /* B2DAB8 800B6918 00042400 */  sll   $a0, $a0, 0x10
-/* B2DABC 800B691C 0C02CF7E */  jal   func_800B3DF8
+/* B2DABC 800B691C 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2DAC0 800B6920 00042403 */   sra   $a0, $a0, 0x10
 /* B2DAC4 800B6924 3C078013 */  lui   $a3, %hi(D_8012D0D4) # $a3, 0x8013
 /* B2DAC8 800B6928 24E7D0D4 */  addiu $a3, %lo(D_8012D0D4) # addiu $a3, $a3, -0x2f2c
@@ -2004,7 +2004,7 @@ glabel func_800B4E7C
 /* B2DB34 800B6994 44042000 */  mfc1  $a0, $f4
 /* B2DB38 800B6998 00000000 */  nop
 /* B2DB3C 800B699C 00042400 */  sll   $a0, $a0, 0x10
-/* B2DB40 800B69A0 0C02CF7E */  jal   func_800B3DF8
+/* B2DB40 800B69A0 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2DB44 800B69A4 00042403 */   sra   $a0, $a0, 0x10
 /* B2DB48 800B69A8 27B20110 */  addiu $s2, $sp, 0x110
 /* B2DB4C 800B69AC 02403825 */  move  $a3, $s2
@@ -2021,7 +2021,7 @@ glabel func_800B4E7C
 /* B2DB78 800B69D8 44044000 */  mfc1  $a0, $f8
 /* B2DB7C 800B69DC 00000000 */  nop
 /* B2DB80 800B69E0 00042400 */  sll   $a0, $a0, 0x10
-/* B2DB84 800B69E4 0C02CF7E */  jal   func_800B3DF8
+/* B2DB84 800B69E4 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2DB88 800B69E8 00042403 */   sra   $a0, $a0, 0x10
 /* B2DB8C 800B69EC 24040010 */  li    $a0, 16
 /* B2DB90 800B69F0 24050018 */  li    $a1, 24
@@ -2037,7 +2037,7 @@ glabel func_800B4E7C
 /* B2DBB8 800B6A18 44042000 */  mfc1  $a0, $f4
 /* B2DBBC 800B6A1C 00000000 */  nop
 /* B2DBC0 800B6A20 00042400 */  sll   $a0, $a0, 0x10
-/* B2DBC4 800B6A24 0C02CF7E */  jal   func_800B3DF8
+/* B2DBC4 800B6A24 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2DBC8 800B6A28 00042403 */   sra   $a0, $a0, 0x10
 /* B2DBCC 800B6A2C 24040010 */  li    $a0, 16
 /* B2DBD0 800B6A30 24050019 */  li    $a1, 25
@@ -2193,14 +2193,14 @@ glabel func_800B4E7C
 /* B2DDF8 800B6C58 27B400D8 */  addiu $s4, $sp, 0xd8
 .L800B6C5C:
 /* B2DDFC 800B6C5C 02002025 */  move  $a0, $s0
-/* B2DE00 800B6C60 0C02CFD5 */  jal   func_800B3F54
+/* B2DE00 800B6C60 0C02CFD5 */  jal   DbCamera_Vec3SToF2
 /* B2DE04 800B6C64 02802825 */   move  $a1, $s4
 /* B2DE08 800B6C68 02C02025 */  move  $a0, $s6
 /* B2DE0C 800B6C6C 02802825 */  move  $a1, $s4
 /* B2DE10 800B6C70 0C02CFE5 */  jal   func_800B3F94
 /* B2DE14 800B6C74 02003025 */   move  $a2, $s0
 /* B2DE18 800B6C78 02202025 */  move  $a0, $s1
-/* B2DE1C 800B6C7C 0C02CFD5 */  jal   func_800B3F54
+/* B2DE1C 800B6C7C 0C02CFD5 */  jal   DbCamera_Vec3SToF2
 /* B2DE20 800B6C80 02802825 */   move  $a1, $s4
 /* B2DE24 800B6C84 02C02025 */  move  $a0, $s6
 /* B2DE28 800B6C88 02802825 */  move  $a1, $s4
@@ -2230,14 +2230,14 @@ glabel func_800B4E7C
 /* B2DE7C 800B6CDC 0C02D013 */  jal   func_800B404C
 /* B2DE80 800B6CE0 02803025 */   move  $a2, $s4
 /* B2DE84 800B6CE4 02802025 */  move  $a0, $s4
-/* B2DE88 800B6CE8 0C02CFBF */  jal   func_800B3EFC
+/* B2DE88 800B6CE8 0C02CFBF */  jal   DbCamera_Vec3FToS
 /* B2DE8C 800B6CEC 02002825 */   move  $a1, $s0
 /* B2DE90 800B6CF0 02C02025 */  move  $a0, $s6
 /* B2DE94 800B6CF4 02202825 */  move  $a1, $s1
 /* B2DE98 800B6CF8 0C02D013 */  jal   func_800B404C
 /* B2DE9C 800B6CFC 02803025 */   move  $a2, $s4
 /* B2DEA0 800B6D00 02802025 */  move  $a0, $s4
-/* B2DEA4 800B6D04 0C02CFBF */  jal   func_800B3EFC
+/* B2DEA4 800B6D04 0C02CFBF */  jal   DbCamera_Vec3FToS
 /* B2DEA8 800B6D08 02202825 */   move  $a1, $s1
 /* B2DEAC 800B6D0C 86AC0080 */  lh    $t4, 0x80($s5)
 /* B2DEB0 800B6D10 26520001 */  addiu $s2, $s2, 1
@@ -2514,14 +2514,14 @@ glabel func_800B4E7C
 /* B2E284 800B70E4 26B100A8 */  addiu $s1, $s5, 0xa8
 .L800B70E8:
 /* B2E288 800B70E8 02002025 */  move  $a0, $s0
-/* B2E28C 800B70EC 0C02CFD5 */  jal   func_800B3F54
+/* B2E28C 800B70EC 0C02CFD5 */  jal   DbCamera_Vec3SToF2
 /* B2E290 800B70F0 02802825 */   move  $a1, $s4
 /* B2E294 800B70F4 02C02025 */  move  $a0, $s6
 /* B2E298 800B70F8 02802825 */  move  $a1, $s4
 /* B2E29C 800B70FC 0C02CFE5 */  jal   func_800B3F94
 /* B2E2A0 800B7100 02003025 */   move  $a2, $s0
 /* B2E2A4 800B7104 02202025 */  move  $a0, $s1
-/* B2E2A8 800B7108 0C02CFD5 */  jal   func_800B3F54
+/* B2E2A8 800B7108 0C02CFD5 */  jal   DbCamera_Vec3SToF2
 /* B2E2AC 800B710C 02802825 */   move  $a1, $s4
 /* B2E2B0 800B7110 02C02025 */  move  $a0, $s6
 /* B2E2B4 800B7114 02802825 */  move  $a1, $s4
@@ -2546,14 +2546,14 @@ glabel func_800B4E7C
 /* B2E2F8 800B7158 0C02D013 */  jal   func_800B404C
 /* B2E2FC 800B715C 02803025 */   move  $a2, $s4
 /* B2E300 800B7160 02802025 */  move  $a0, $s4
-/* B2E304 800B7164 0C02CFBF */  jal   func_800B3EFC
+/* B2E304 800B7164 0C02CFBF */  jal   DbCamera_Vec3FToS
 /* B2E308 800B7168 02002825 */   move  $a1, $s0
 /* B2E30C 800B716C 02C02025 */  move  $a0, $s6
 /* B2E310 800B7170 02202825 */  move  $a1, $s1
 /* B2E314 800B7174 0C02D013 */  jal   func_800B404C
 /* B2E318 800B7178 02803025 */   move  $a2, $s4
 /* B2E31C 800B717C 02802025 */  move  $a0, $s4
-/* B2E320 800B7180 0C02CFBF */  jal   func_800B3EFC
+/* B2E320 800B7180 0C02CFBF */  jal   DbCamera_Vec3FToS
 /* B2E324 800B7184 02202825 */   move  $a1, $s1
 /* B2E328 800B7188 86B80080 */  lh    $t8, 0x80($s5)
 /* B2E32C 800B718C 26520001 */  addiu $s2, $s2, 1
@@ -2704,7 +2704,7 @@ glabel func_800B4E7C
 /* B2E53C 800B739C 44044000 */  mfc1  $a0, $f8
 /* B2E540 800B73A0 00000000 */  nop
 /* B2E544 800B73A4 00042400 */  sll   $a0, $a0, 0x10
-/* B2E548 800B73A8 0C02CF7E */  jal   func_800B3DF8
+/* B2E548 800B73A8 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E54C 800B73AC 00042403 */   sra   $a0, $a0, 0x10
 /* B2E550 800B73B0 86A90086 */  lh    $t1, 0x86($s5)
 /* B2E554 800B73B4 55200004 */  bnezl $t1, .L800B73C8
@@ -2726,7 +2726,7 @@ glabel func_800B4E7C
 /* B2E590 800B73F0 00195100 */  sll   $t2, $t9, 4
 /* B2E594 800B73F4 02AA5821 */  addu  $t3, $s5, $t2
 /* B2E598 800B73F8 856408B2 */  lh    $a0, 0x8b2($t3)
-/* B2E59C 800B73FC 0C02CF7E */  jal   func_800B3DF8
+/* B2E59C 800B73FC 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E5A0 800B7400 24060003 */   li    $a2, 3
 /* B2E5A4 800B7404 86AD0086 */  lh    $t5, 0x86($s5)
 /* B2E5A8 800B7408 24010001 */  li    $at, 1
@@ -2748,7 +2748,7 @@ glabel func_800B4E7C
 /* B2E5E4 800B7444 000C7900 */  sll   $t7, $t4, 4
 /* B2E5E8 800B7448 02AFC021 */  addu  $t8, $s5, $t7
 /* B2E5EC 800B744C 830408B1 */  lb    $a0, 0x8b1($t8)
-/* B2E5F0 800B7450 0C02CF7E */  jal   func_800B3DF8
+/* B2E5F0 800B7450 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E5F4 800B7454 24060003 */   li    $a2, 3
 /* B2E5F8 800B7458 86AE0086 */  lh    $t6, 0x86($s5)
 /* B2E5FC 800B745C 24010002 */  li    $at, 2
@@ -2833,7 +2833,7 @@ glabel func_800B4E7C
 /* B2E70C 800B756C 3C058013 */  lui   $a1, %hi(D_8012D0C0+0xA) # $a1, 0x8013
 /* B2E710 800B7570 24A5D0CA */  addiu $a1, %lo(D_8012D0C0+0xA) # addiu $a1, $a1, -0x2f36
 /* B2E714 800B7574 86A4007E */  lh    $a0, 0x7e($s5)
-/* B2E718 800B7578 0C02CF7E */  jal   func_800B3DF8
+/* B2E718 800B7578 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E71C 800B757C 24060005 */   li    $a2, 5
 /* B2E720 800B7580 86AE0086 */  lh    $t6, 0x86($s5)
 /* B2E724 800B7584 24010005 */  li    $at, 5
@@ -2904,7 +2904,7 @@ glabel func_800B4E7C
 /* B2E808 800B7668 44042000 */  mfc1  $a0, $f4
 /* B2E80C 800B766C 00000000 */  nop
 /* B2E810 800B7670 00042400 */  sll   $a0, $a0, 0x10
-/* B2E814 800B7674 0C02CF7E */  jal   func_800B3DF8
+/* B2E814 800B7674 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E818 800B7678 00042403 */   sra   $a0, $a0, 0x10
 /* B2E81C 800B767C 24040003 */  li    $a0, 3
 /* B2E820 800B7680 24050017 */  li    $a1, 23
@@ -2920,7 +2920,7 @@ glabel func_800B4E7C
 /* B2E848 800B76A8 44044000 */  mfc1  $a0, $f8
 /* B2E84C 800B76AC 00000000 */  nop
 /* B2E850 800B76B0 00042400 */  sll   $a0, $a0, 0x10
-/* B2E854 800B76B4 0C02CF7E */  jal   func_800B3DF8
+/* B2E854 800B76B4 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E858 800B76B8 00042403 */   sra   $a0, $a0, 0x10
 /* B2E85C 800B76BC 24040003 */  li    $a0, 3
 /* B2E860 800B76C0 24050018 */  li    $a1, 24
@@ -2936,7 +2936,7 @@ glabel func_800B4E7C
 /* B2E888 800B76E8 44042000 */  mfc1  $a0, $f4
 /* B2E88C 800B76EC 00000000 */  nop
 /* B2E890 800B76F0 00042400 */  sll   $a0, $a0, 0x10
-/* B2E894 800B76F4 0C02CF7E */  jal   func_800B3DF8
+/* B2E894 800B76F4 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E898 800B76F8 00042403 */   sra   $a0, $a0, 0x10
 /* B2E89C 800B76FC 24040003 */  li    $a0, 3
 /* B2E8A0 800B7700 24050019 */  li    $a1, 25
@@ -2982,7 +2982,7 @@ glabel func_800B4E7C
 /* B2E934 800B7794 44044000 */  mfc1  $a0, $f8
 /* B2E938 800B7798 00000000 */  nop
 /* B2E93C 800B779C 00042400 */  sll   $a0, $a0, 0x10
-/* B2E940 800B77A0 0C02CF7E */  jal   func_800B3DF8
+/* B2E940 800B77A0 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E944 800B77A4 00042403 */   sra   $a0, $a0, 0x10
 /* B2E948 800B77A8 2404001E */  li    $a0, 30
 /* B2E94C 800B77AC 24050017 */  li    $a1, 23
@@ -2998,7 +2998,7 @@ glabel func_800B4E7C
 /* B2E974 800B77D4 44042000 */  mfc1  $a0, $f4
 /* B2E978 800B77D8 00000000 */  nop
 /* B2E97C 800B77DC 00042400 */  sll   $a0, $a0, 0x10
-/* B2E980 800B77E0 0C02CF7E */  jal   func_800B3DF8
+/* B2E980 800B77E0 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E984 800B77E4 00042403 */   sra   $a0, $a0, 0x10
 /* B2E988 800B77E8 2404001E */  li    $a0, 30
 /* B2E98C 800B77EC 24050018 */  li    $a1, 24
@@ -3014,7 +3014,7 @@ glabel func_800B4E7C
 /* B2E9B4 800B7814 44044000 */  mfc1  $a0, $f8
 /* B2E9B8 800B7818 00000000 */  nop
 /* B2E9BC 800B781C 00042400 */  sll   $a0, $a0, 0x10
-/* B2E9C0 800B7820 0C02CF7E */  jal   func_800B3DF8
+/* B2E9C0 800B7820 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2E9C4 800B7824 00042403 */   sra   $a0, $a0, 0x10
 /* B2E9C8 800B7828 2404001E */  li    $a0, 30
 /* B2E9CC 800B782C 24050019 */  li    $a1, 25
@@ -3076,7 +3076,7 @@ glabel func_800B4E7C
 /* B2EA9C 800B78FC 44045000 */  mfc1  $a0, $f10
 /* B2EAA0 800B7900 00000000 */  nop
 /* B2EAA4 800B7904 00042400 */  sll   $a0, $a0, 0x10
-/* B2EAA8 800B7908 0C02CF7E */  jal   func_800B3DF8
+/* B2EAA8 800B7908 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2EAAC 800B790C 00042403 */   sra   $a0, $a0, 0x10
 /* B2EAB0 800B7910 3C078013 */  lui   $a3, %hi(D_8012D0E4) # $a3, 0x8013
 /* B2EAB4 800B7914 24E7D0E4 */  addiu $a3, %lo(D_8012D0E4) # addiu $a3, $a3, -0x2f1c
@@ -3098,7 +3098,7 @@ glabel func_800B4E7C
 /* B2EAF4 800B7954 44042000 */  mfc1  $a0, $f4
 /* B2EAF8 800B7958 00000000 */  nop
 /* B2EAFC 800B795C 00042400 */  sll   $a0, $a0, 0x10
-/* B2EB00 800B7960 0C02CF7E */  jal   func_800B3DF8
+/* B2EB00 800B7960 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2EB04 800B7964 00042403 */   sra   $a0, $a0, 0x10
 /* B2EB08 800B7968 3C078013 */  lui   $a3, %hi(D_8012D0F8) # $a3, 0x8013
 /* B2EB0C 800B796C 24E7D0F8 */  addiu $a3, %lo(D_8012D0F8) # addiu $a3, $a3, -0x2f08
@@ -3115,7 +3115,7 @@ glabel func_800B4E7C
 /* B2EB38 800B7998 44044000 */  mfc1  $a0, $f8
 /* B2EB3C 800B799C 00000000 */  nop
 /* B2EB40 800B79A0 00042400 */  sll   $a0, $a0, 0x10
-/* B2EB44 800B79A4 0C02CF7E */  jal   func_800B3DF8
+/* B2EB44 800B79A4 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2EB48 800B79A8 00042403 */   sra   $a0, $a0, 0x10
 /* B2EB4C 800B79AC 3C078013 */  lui   $a3, %hi(D_8012D0D4) # $a3, 0x8013
 /* B2EB50 800B79B0 24E7D0D4 */  addiu $a3, %lo(D_8012D0D4) # addiu $a3, $a3, -0x2f2c
@@ -3173,7 +3173,7 @@ glabel func_800B4E7C
 /* B2EC14 800B7A74 44045000 */  mfc1  $a0, $f10
 /* B2EC18 800B7A78 00000000 */  nop
 /* B2EC1C 800B7A7C 00042400 */  sll   $a0, $a0, 0x10
-/* B2EC20 800B7A80 0C02CF7E */  jal   func_800B3DF8
+/* B2EC20 800B7A80 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2EC24 800B7A84 00042403 */   sra   $a0, $a0, 0x10
 /* B2EC28 800B7A88 3C078013 */  lui   $a3, %hi(D_8012D0E4) # $a3, 0x8013
 /* B2EC2C 800B7A8C 24E7D0E4 */  addiu $a3, %lo(D_8012D0E4) # addiu $a3, $a3, -0x2f1c
@@ -3193,7 +3193,7 @@ glabel func_800B4E7C
 /* B2EC64 800B7AC4 44042000 */  mfc1  $a0, $f4
 /* B2EC68 800B7AC8 00000000 */  nop
 /* B2EC6C 800B7ACC 00042400 */  sll   $a0, $a0, 0x10
-/* B2EC70 800B7AD0 0C02CF7E */  jal   func_800B3DF8
+/* B2EC70 800B7AD0 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2EC74 800B7AD4 00042403 */   sra   $a0, $a0, 0x10
 /* B2EC78 800B7AD8 3C078013 */  lui   $a3, %hi(D_8012D0F8) # $a3, 0x8013
 /* B2EC7C 800B7ADC 24E7D0F8 */  addiu $a3, %lo(D_8012D0F8) # addiu $a3, $a3, -0x2f08
@@ -3208,7 +3208,7 @@ glabel func_800B4E7C
 /* B2ECA0 800B7B00 44044000 */  mfc1  $a0, $f8
 /* B2ECA4 800B7B04 00000000 */  nop
 /* B2ECA8 800B7B08 00042400 */  sll   $a0, $a0, 0x10
-/* B2ECAC 800B7B0C 0C02CF7E */  jal   func_800B3DF8
+/* B2ECAC 800B7B0C 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2ECB0 800B7B10 00042403 */   sra   $a0, $a0, 0x10
 /* B2ECB4 800B7B14 3C078013 */  lui   $a3, %hi(D_8012D0D4) # $a3, 0x8013
 /* B2ECB8 800B7B18 24E7D0D4 */  addiu $a3, %lo(D_8012D0D4) # addiu $a3, $a3, -0x2f2c
@@ -3321,10 +3321,10 @@ glabel func_800B4E7C
 /* B2EE5C 800B7CBC 24010001 */  li    $at, 1
 /* B2EE60 800B7CC0 11A10008 */  beq   $t5, $at, .L800B7CE4
 /* B2EE64 800B7CC4 02002025 */   move  $a0, $s0
-/* B2EE68 800B7CC8 0C02CFD5 */  jal   func_800B3F54
+/* B2EE68 800B7CC8 0C02CFD5 */  jal   DbCamera_Vec3SToF2
 /* B2EE6C 800B7CCC 02802825 */   move  $a1, $s4
 /* B2EE70 800B7CD0 02202025 */  move  $a0, $s1
-/* B2EE74 800B7CD4 0C02CFD5 */  jal   func_800B3F54
+/* B2EE74 800B7CD4 0C02CFD5 */  jal   DbCamera_Vec3SToF2
 /* B2EE78 800B7CD8 27A500B8 */   addiu $a1, $sp, 0xb8
 /* B2EE7C 800B7CDC 1000000A */  b     .L800B7D08
 /* B2EE80 800B7CE0 27A400FC */   addiu $a0, $sp, 0xfc
@@ -3606,7 +3606,7 @@ glabel func_800B4E7C
 /* B2F2A8 800B8108 44042000 */  mfc1  $a0, $f4
 /* B2F2AC 800B810C 00000000 */  nop
 /* B2F2B0 800B8110 00042400 */  sll   $a0, $a0, 0x10
-/* B2F2B4 800B8114 0C02CF7E */  jal   func_800B3DF8
+/* B2F2B4 800B8114 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F2B8 800B8118 00042403 */   sra   $a0, $a0, 0x10
 /* B2F2BC 800B811C 27B20110 */  addiu $s2, $sp, 0x110
 /* B2F2C0 800B8120 02403825 */  move  $a3, $s2
@@ -3623,7 +3623,7 @@ glabel func_800B4E7C
 /* B2F2EC 800B814C 44044000 */  mfc1  $a0, $f8
 /* B2F2F0 800B8150 00000000 */  nop
 /* B2F2F4 800B8154 00042400 */  sll   $a0, $a0, 0x10
-/* B2F2F8 800B8158 0C02CF7E */  jal   func_800B3DF8
+/* B2F2F8 800B8158 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F2FC 800B815C 00042403 */   sra   $a0, $a0, 0x10
 /* B2F300 800B8160 24040003 */  li    $a0, 3
 /* B2F304 800B8164 24050018 */  li    $a1, 24
@@ -3639,7 +3639,7 @@ glabel func_800B4E7C
 /* B2F32C 800B818C 44042000 */  mfc1  $a0, $f4
 /* B2F330 800B8190 00000000 */  nop
 /* B2F334 800B8194 00042400 */  sll   $a0, $a0, 0x10
-/* B2F338 800B8198 0C02CF7E */  jal   func_800B3DF8
+/* B2F338 800B8198 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F33C 800B819C 00042403 */   sra   $a0, $a0, 0x10
 /* B2F340 800B81A0 24040003 */  li    $a0, 3
 /* B2F344 800B81A4 24050019 */  li    $a1, 25
@@ -3669,7 +3669,7 @@ glabel func_800B4E7C
 /* B2F3A0 800B8200 44044000 */  mfc1  $a0, $f8
 /* B2F3A4 800B8204 00000000 */  nop
 /* B2F3A8 800B8208 00042400 */  sll   $a0, $a0, 0x10
-/* B2F3AC 800B820C 0C02CF7E */  jal   func_800B3DF8
+/* B2F3AC 800B820C 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F3B0 800B8210 00042403 */   sra   $a0, $a0, 0x10
 /* B2F3B4 800B8214 2404001E */  li    $a0, 30
 /* B2F3B8 800B8218 24050017 */  li    $a1, 23
@@ -3685,7 +3685,7 @@ glabel func_800B4E7C
 /* B2F3E0 800B8240 44042000 */  mfc1  $a0, $f4
 /* B2F3E4 800B8244 00000000 */  nop
 /* B2F3E8 800B8248 00042400 */  sll   $a0, $a0, 0x10
-/* B2F3EC 800B824C 0C02CF7E */  jal   func_800B3DF8
+/* B2F3EC 800B824C 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F3F0 800B8250 00042403 */   sra   $a0, $a0, 0x10
 /* B2F3F4 800B8254 2404001E */  li    $a0, 30
 /* B2F3F8 800B8258 24050018 */  li    $a1, 24
@@ -3701,7 +3701,7 @@ glabel func_800B4E7C
 /* B2F420 800B8280 44044000 */  mfc1  $a0, $f8
 /* B2F424 800B8284 00000000 */  nop
 /* B2F428 800B8288 00042400 */  sll   $a0, $a0, 0x10
-/* B2F42C 800B828C 0C02CF7E */  jal   func_800B3DF8
+/* B2F42C 800B828C 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F430 800B8290 00042403 */   sra   $a0, $a0, 0x10
 /* B2F434 800B8294 2404001E */  li    $a0, 30
 /* B2F438 800B8298 24050019 */  li    $a1, 25
@@ -3736,7 +3736,7 @@ glabel func_800B4E7C
 /* B2F4A4 800B8304 44045000 */  mfc1  $a0, $f10
 /* B2F4A8 800B8308 00000000 */  nop
 /* B2F4AC 800B830C 00042400 */  sll   $a0, $a0, 0x10
-/* B2F4B0 800B8310 0C02CF7E */  jal   func_800B3DF8
+/* B2F4B0 800B8310 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F4B4 800B8314 00042403 */   sra   $a0, $a0, 0x10
 /* B2F4B8 800B8318 3C078013 */  lui   $a3, %hi(D_8012D0E4) # $a3, 0x8013
 /* B2F4BC 800B831C 24E7D0E4 */  addiu $a3, %lo(D_8012D0E4) # addiu $a3, $a3, -0x2f1c
@@ -3757,7 +3757,7 @@ glabel func_800B4E7C
 /* B2F4F8 800B8358 44042000 */  mfc1  $a0, $f4
 /* B2F4FC 800B835C 00000000 */  nop
 /* B2F500 800B8360 00042400 */  sll   $a0, $a0, 0x10
-/* B2F504 800B8364 0C02CF7E */  jal   func_800B3DF8
+/* B2F504 800B8364 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F508 800B8368 00042403 */   sra   $a0, $a0, 0x10
 /* B2F50C 800B836C 3C078013 */  lui   $a3, %hi(D_8012D0F8) # $a3, 0x8013
 /* B2F510 800B8370 24E7D0F8 */  addiu $a3, %lo(D_8012D0F8) # addiu $a3, $a3, -0x2f08
@@ -3773,7 +3773,7 @@ glabel func_800B4E7C
 /* B2F538 800B8398 44043000 */  mfc1  $a0, $f6
 /* B2F53C 800B839C 00000000 */  nop
 /* B2F540 800B83A0 00042400 */  sll   $a0, $a0, 0x10
-/* B2F544 800B83A4 0C02CF7E */  jal   func_800B3DF8
+/* B2F544 800B83A4 0C02CF7E */  jal   DbCamera_SetTextValue
 /* B2F548 800B83A8 00042403 */   sra   $a0, $a0, 0x10
 /* B2F54C 800B83AC 3C078013 */  lui   $a3, %hi(D_8012D0D4) # $a3, 0x8013
 /* B2F550 800B83B0 24E7D0D4 */  addiu $a3, %lo(D_8012D0D4) # addiu $a3, $a3, -0x2f2c

@@ -576,7 +576,7 @@ glabel func_800591EC
 /* AD0AF8 80059958 8E0A008C */  lw    $t2, 0x8c($s0)
 /* AD0AFC 8005995C 2484BD80 */  addiu $a0, %lo(D_8015BD80) # addiu $a0, $a0, -0x4280
 /* AD0B00 80059960 02002825 */  move  $a1, $s0
-/* AD0B04 80059964 0C02D39F */  jal   func_800B4E7C
+/* AD0B04 80059964 0C02D39F */  jal   DbCamera_Update
 /* AD0B08 80059968 E54A00D0 */   swc1  $f10, 0xd0($t2)
 /* AD0B0C 8005996C 8E04008C */  lw    $a0, 0x8c($s0)
 /* AD0B10 80059970 3C058016 */  lui   $a1, %hi(D_8015BD90) # $a1, 0x8016

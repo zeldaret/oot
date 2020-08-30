@@ -3106,12 +3106,12 @@ void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalC
             PREG(i) = sPREGInit[i];
         }
 
-        func_800B958C(camera, &D_8015BD80, &gGameInfo);
+        DbCamera_Reset(camera, &D_8015BD80, &gGameInfo);
         sInitRegs = false;
         PREG(88) = -1;
     }
     camera->globalCtx = D_8015BD7C = globalCtx;
-    func_800B4D58(&D_8015BD80, camera);
+    DbCamera_Init(&D_8015BD80, camera);
     temp_a1 = D_8011D39C;
     D_8011D39C++;
     for (temp_a1 = D_8011D39C, D_8011D39C++; temp_a1 != 0; temp_a1 = D_8011D39C, D_8011D39C++) {

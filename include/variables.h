@@ -3432,7 +3432,7 @@ extern u8 D_801610DA;
 //extern ? D_801612D0;
 //extern ? D_801612D2;
 //extern ? D_801612EA;
-//extern ? D_801612EC;
+//extern ? sDbCameraMempakAllocSize;
 extern s32 gTrnsnUnkState;
 extern Color_RGBA8 D_801614B0;
 extern SpeedMeter gSpeedMeter;
