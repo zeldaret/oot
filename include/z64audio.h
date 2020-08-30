@@ -167,7 +167,7 @@ typedef struct {
     /*!0x094 */ u8* shortNoteVelocityTable;
     /*!0x098 */ u8* shortNoteDurationTable;
     /*!0x09C */ NotePool notePool;
-    /* 0x0DC */ u32 unk_DC; // OSMesgQueue seqDmaMesgQueue;
+    /* 0x0DC */ s32 unk_DC; // OSMesgQueue seqDmaMesgQueue;
     /* 0x0D0 */ u32 unk_E0;
     /* 0x0E4 */ u8 unk_E4[0x10];
     /* 0x0F4 */ OSMesg seqDmaMesg;

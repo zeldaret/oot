@@ -976,9 +976,13 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer);
 
 void Audio_ProcessSequences(s32 arg0);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_ProcessSequence.s")
-
-void Audio_ProcessSequence(SequencePlayer* seqPlayer);
+void Audio_ProcessSequence(SequencePlayer *seqPlayer) {
+    while (seqPlayer->unk_DC > 0) {
+        Audio_SequencePlayerProcessSequence(seqPlayer);
+        Audio_SequencePlayerProcessSound(seqPlayer);
+        seqPlayer->unk_DC--;
+    }
+}
 
 void Audio_ResetSequencePlayer(SequencePlayer *seqPlayer) {
     s32 i;
