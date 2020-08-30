@@ -11,7 +11,7 @@
 
 #define THIS ((BossFd2*)thisx)
 
-#define BOSSFD ((BossFd*)this->actor.attachedA)
+#define BOSSFD ((BossFd*)this->actor.parent)
 
 void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -839,8 +839,8 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 this->cutsceneCamera = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
-                Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
-                                    0, 0, 0, -1);
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
+                                   0, 0, 0, -1);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
             break;
@@ -1080,19 +1080,15 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     }
 
     if ((limbIndex == 32) || (limbIndex == 35) || (limbIndex == 36)) {
-        GraphicsContext* gfxCtx1 = globalCtx->state.gfxCtx;
-        Gfx* dispRefs1[4];
-        Graph_OpenDisps(dispRefs1, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x875);
-        gDPPipeSync(gfxCtx1->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx1->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->headTex2Opacity);
-        Graph_CloseDisps(dispRefs1, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87C);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x875);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->headTex2Opacity);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87C);
     } else {
-        GraphicsContext* gfxCtx2 = globalCtx->state.gfxCtx;
-        Gfx* dispRefs2[4];
-        Graph_OpenDisps(dispRefs2, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87E);
-        gDPPipeSync(gfxCtx2->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx2->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->bodyTex2Opacity);
-        Graph_CloseDisps(dispRefs2, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x885);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87E);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->bodyTex2Opacity);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x885);
     }
     if ((limbIndex > 0) && (limbIndex < 16)) {
         *dList = NULL;
@@ -1134,12 +1130,10 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
     Vec3f spBC;
     Vec3f spB0;
     s16 i;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x955);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x955);
     Matrix_Push();
-    gDPPipeSync(gfxCtx->polyOpa.p++);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
 
     for (i = 0; i < 10; i++) {
         if (i == 0) {
@@ -1212,22 +1206,22 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
         temp_f12 = (0.01f - (i * 0.0009f)) * spE8[i] * scale[i];
         Matrix_Scale(temp_f12, temp_f12, 0.01f * spE8[i], 1);
         Matrix_RotateX(1.5707964f, 1);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C2),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C2),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06004BC8);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06004BC8);
     }
     Matrix_Pull();
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C7);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C7);
 }
 
 void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
     f32 temp_f20;
     BossFd* bossFd = BOSSFD;
     s16 i1;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    // GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    // Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9D3);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9D3);
     if (1) {}
     for (i1 = 0; i1 < 10; i1++) {
         temp_f20 = i1 * 0x3200;
@@ -1238,21 +1232,21 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06004B48);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06004B48);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u32)bossFd->centerManeColor, 0x00, 0xFF);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xFF, bossFd->centerManeColor, 0x00, 0xFF);
     BossFd2_UpdateMane(this, globalCtx, &this->centerMane.head, this->centerMane.pos, this->centerMane.rot,
                        this->centerMane.pull, this->centerMane.scale);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u32)bossFd->rightManeColor, 0x00, 0xFF);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xFF, bossFd->rightManeColor, 0x00, 0xFF);
     BossFd2_UpdateMane(this, globalCtx, &this->rightMane.head, this->rightMane.pos, this->rightMane.rot,
                        this->rightMane.pull, this->rightMane.scale);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u32)bossFd->leftManeColor, 0x00, 0xFF);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xFF, bossFd->leftManeColor, 0x00, 0xFF);
     BossFd2_UpdateMane(this, globalCtx, &this->leftMane.head, this->leftMane.pos, this->leftMane.rot,
                        this->leftMane.pull, this->leftMane.scale);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA29);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA29);
 }
 
 Gfx* D_808D62C0[] = { D_06002B08, D_06002708, D_06002F08 };
@@ -1260,28 +1254,26 @@ Gfx* D_808D62C0[] = { D_06002B08, D_06002708, D_06002F08 };
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 pad;
     BossFd2* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA39);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA39);
     osSyncPrintf("FD2 draw start \n");
     if (this->actionFunc != BossFd2_Wait) {
         func_80093D18(globalCtx->state.gfxCtx);
         if ((this->damageFlashTimer & 2) != 0) {
-            gfxCtx->polyOpa.p = Gfx_SetFog(gfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0x384, 0x44B);
+            oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0x384, 0x44B);
         }
-        gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_808D62C0[this->eyeState]));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_808D62C0[this->eyeState]));
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08,
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->bodyTex1Scroll, (s16)this->bodyTex1Rot, 0x20,
                                     0x20, 1, (s16)this->bodyTex2Scroll, (s16)this->bodyTex2Rot, 0x20, 0x20));
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, 0x80);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, 0x80);
 
         SkelAnime_DrawSV(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl,
                          this->skelAnime1.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
-        gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
+        oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA80);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA80);
 }
