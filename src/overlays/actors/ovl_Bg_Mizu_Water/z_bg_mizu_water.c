@@ -26,10 +26,10 @@ typedef struct {
 } WaterLevel;
 
 static WaterLevel waterLevels[] = {
-    {0x00, 0},
-    {0x1E, 0},
-    {0x1D, -320},
-    {0x1C, -780},
+    { 0x00, 0 },
+    { 0x1E, 0 },
+    { 0x1D, -320 },
+    { 0x1C, -780 },
 };
 
 const ActorInit Bg_Mizu_Water_InitVars = {
@@ -47,10 +47,8 @@ const ActorInit Bg_Mizu_Water_InitVars = {
 static u32 unk_808A0550 = 0;
 static f32 unk_808A0554 = 110.0f;
 
-static u32 waterBoxIDs[] = {
-    0x00000002, 0x00000003, 0x00000005, 0x00000007,
-    0x0000000C, 0x00000014, 0x00000015, 0x00000016
-};
+static u32 waterBoxIDs[] = { 0x00000002, 0x00000003, 0x00000005, 0x00000007,
+                             0x0000000C, 0x00000014, 0x00000015, 0x00000016 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_STOP),
@@ -60,8 +58,7 @@ u32 BgMizuWater_getWaterLevelActionIndex(s16 switchID, GlobalContext* globalCtx)
     u32 ret;
 
     if (bREG(0) != 0) {
-        switch(bREG(1))
-        {
+        switch (bREG(1)) {
             case 0:
                 Flags_SetSwitch(globalCtx, 0x1C);
                 break;
@@ -89,12 +86,11 @@ u32 BgMizuWater_getWaterLevelActionIndex(s16 switchID, GlobalContext* globalCtx)
 void BgMizuWater_setWaterBoxesHeights(WaterBox* waterBoxes, s16 height) {
     u32 i;
 
-    for (i = 0; i < 8; i += 4)
-    {
+    for (i = 0; i < 8; i += 4) {
         waterBoxes[waterBoxIDs[i]].unk_02 = height;
-        waterBoxes[waterBoxIDs[i+1]].unk_02 = height;
-        waterBoxes[waterBoxIDs[i+2]].unk_02 = height;
-        waterBoxes[waterBoxIDs[i+3]].unk_02 = height;
+        waterBoxes[waterBoxIDs[i + 1]].unk_02 = height;
+        waterBoxes[waterBoxIDs[i + 2]].unk_02 = height;
+        waterBoxes[waterBoxIDs[i + 3]].unk_02 = height;
     }
 }
 
@@ -112,14 +108,11 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->baseY = initialActorY;
     this->targetY = initialActorY;
 
-    switch(this->type)
-    {
+    switch (this->type) {
         case 0:
             if (bREG(15) == 0) {
-                osSyncPrintf("<コンストラクト>%x %x %x\n",
-                            Flags_GetSwitch(globalCtx, 0x1C),
-                            Flags_GetSwitch(globalCtx, 0x1D),
-                            Flags_GetSwitch(globalCtx, 0x1E));
+                osSyncPrintf("<コンストラクト>%x %x %x\n", Flags_GetSwitch(globalCtx, 0x1C),
+                             Flags_GetSwitch(globalCtx, 0x1D), Flags_GetSwitch(globalCtx, 0x1E));
             }
             waterLevelActionIndex = BgMizuWater_getWaterLevelActionIndex(-1, globalCtx);
             this->actor.posRot.pos.y = waterLevels[waterLevelActionIndex].yDiff + this->baseY;
@@ -129,8 +122,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
             Flags_UnsetSwitch(globalCtx, 0x1D);
             Flags_UnsetSwitch(globalCtx, 0x1E);
 
-            switch(this->actor.params)
-            {
+            switch (this->actor.params) {
                 case 0x1E:
                     Flags_SetSwitch(globalCtx, 0x1E);
                     break;
@@ -155,7 +147,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 3:
             if (Flags_GetSwitch(globalCtx, this->switchTriggerID) != 0) {
                 this->actor.posRot.pos.y = this->baseY + 110.0f;
-                if(1){}
+                if (1) {}
                 this->targetY = this->actor.posRot.pos.y;
             }
             waterBoxes[8].unk_02 = this->actor.posRot.pos.y;
@@ -163,7 +155,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
             if (Flags_GetSwitch(globalCtx, this->switchTriggerID) != 0) {
                 this->actor.posRot.pos.y = this->baseY + 160.0f;
-                if(1){}
+                if (1) {}
                 this->targetY = this->actor.posRot.pos.y;
             }
             waterBoxes[16].unk_02 = this->actor.posRot.pos.y;
@@ -181,8 +173,7 @@ void BgMizuWater_Idle(BgMizuWater* this, GlobalContext* globalCtx) {
     s32 waterLevelActionIndex;
     s16 params;
 
-    switch(this->type)
-    {
+    switch (this->type) {
         case 0:
             params = this->actor.params;
             waterLevelActionIndex = BgMizuWater_getWaterLevelActionIndex(this->actor.params, globalCtx);
@@ -194,7 +185,7 @@ void BgMizuWater_Idle(BgMizuWater* this, GlobalContext* globalCtx) {
                 }
             }
             if ((params != this->actor.params) && (params != 0))
-                    Flags_UnsetSwitch(globalCtx, params);
+                Flags_UnsetSwitch(globalCtx, params);
             break;
         case 1:
             break;
@@ -229,8 +220,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
     WaterBox* waterBoxes;
 
     waterBoxes = globalCtx->colCtx.stat.colHeader->waterBoxes;
-    switch(this->type)
-    {
+    switch (this->type) {
         case 0:
             params = this->actor.params;
             waterLevelActionIndex = BgMizuWater_getWaterLevelActionIndex(this->actor.params, globalCtx);
@@ -294,8 +284,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
     if (this->targetY < this->actor.posRot.pos.y) {
         func_800AA000(0.0f, 0x78, 0x14, 0xA);
         func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
-    }
-    else if (this->targetY > this->actor.posRot.pos.y) {
+    } else if (this->targetY > this->actor.posRot.pos.y) {
         func_800AA000(0.0f, 0x78, 0x14, 0xA);
         func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
@@ -309,10 +298,8 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
     u32 pad;
 
     if (bREG(15) == 0) {
-        osSyncPrintf("%x %x %x\n",
-                    Flags_GetSwitch(globalCtx, 0x1C),
-                    Flags_GetSwitch(globalCtx, 0x1D),
-                    Flags_GetSwitch(globalCtx, 0x1E));
+        osSyncPrintf("%x %x %x\n", Flags_GetSwitch(globalCtx, 0x1C), Flags_GetSwitch(globalCtx, 0x1D),
+                     Flags_GetSwitch(globalCtx, 0x1E));
     }
 
     if (this->type == 0) {
@@ -324,10 +311,10 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
             unk1 = ((y - -835.0f) / 820.0f) * 200.0f;
         } else if (y < 445.0f) {
             unk0 = 1;
-            unk1 = 0xFF - (s32) (((y - -15.0f) / 460.0f) * 95.0f);
+            unk1 = 0xFF - (s32)(((y - -15.0f) / 460.0f) * 95.0f);
         } else if (y <= 765.0f) {
             unk0 = 2;
-            unk1 = 0xFF - (s32) (((y - 445.0f) / 320.0f) * 95.0f);
+            unk1 = 0xFF - (s32)(((y - 445.0f) / 320.0f) * 95.0f);
         }
         globalCtx->unk_11D30[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }
@@ -347,10 +334,11 @@ void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C,
-                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1, 0, -gameplayFrames * 1, 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1, 0,
+                                -gameplayFrames * 1, 32, 32));
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 749),
-                G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0xFF, 0xFF, 0x80);
 
