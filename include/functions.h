@@ -219,7 +219,7 @@ void func_800287AC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
                    s16 life);
 void func_80028990(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
-// ? func_80028B18(?);
+UNK_TYPE func_80028B18(GlobalContext* globalCtx, Vec3f*, Vec3f*, Vec3f*);
 void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_RGB8*);
 // ? func_80028BB0(?);
 // ? func_80028CEC(?);
