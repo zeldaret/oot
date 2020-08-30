@@ -29,13 +29,21 @@ if argcomplete:
         prefix = kwargs['prefix']
         completes = []
         config = dict()
+        # we don't have parser.parse_args()
+        # to pass to diff_settings.apply yet
         diff_settings.apply(config, dict())
-        with open(config['mapfile']) as f:
+        mapfile = config.get('mapfile')
+        if not mapfile:
+            return []
+        with open(mapfile) as f:
             for line in f:
                 pos = line.find(prefix)
+                # if found the prefix at start of a word
+                # (start of line or if there's a space before)
                 if pos >= 0 and (pos == 0 or line[pos-1] == ' '):
                     symbolEndPos = line.find(' ', pos)
                     if symbolEndPos == -1:
+                        # -1 strips the line return '\n'
                         symbol = line[pos:-1]
                     else:
                         symbol = line[pos:symbolEndPos]
