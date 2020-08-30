@@ -16,7 +16,6 @@ typedef struct BossFdParticle {
     /* 0x24 */ u8 type;
     /* 0x25 */ u8 timer1;
     /* 0x26 */ Color_RGB8 color;
-   //* 0x29 */ char pad;
     /* 0x2A */ s16 opacity;
     /* 0x2C */ s16 timer2;
     /* 0x2E */ s16 kbAngle;
@@ -84,7 +83,6 @@ typedef struct BossFd {
     /* 0x02D6 */ u8 collapsePlatform;
     /* 0x02D7 */ u8 faceExposed;
     /* 0x02D8 */ u8 handoffSignal;
-   //* 0x02D9 */ char unk_2D9[3];
     /* 0x02DC */ Vec3f bodySegsRot[100];
     /* 0x078C */ Vec3f bodySegsPos[100];
     /* 0x0C3C */ Vec3f unk_C3C[3]; //Probably his right arm rotations
@@ -108,7 +106,6 @@ typedef struct BossFd {
     /* 0x1400 */ s16 introState1;
     /* 0x1402 */ s16 introState2;
     /* 0x1404 */ s16 introCameraState;
-   //* 0x1406 */ char unk_1406[2];
     /* 0x1408 */ Vec3f unk_1408;
     /* 0x1414 */ Vec3f unk_1414;
     /* 0x1420 */ char unk_1420[0x18];

@@ -81,8 +81,9 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                           Vec3f* acceleration, f32 scale) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+    
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 2;
             particle->pos = *position;
@@ -98,8 +99,9 @@ void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Ve
 
 void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                         Vec3f* acceleration, f32 scale) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+    
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 3;
             particle->pos = *position;
@@ -117,7 +119,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
     f32 pad2;
     f32 pad1;
     f32 angle;
-    s16 i1;
+    s16 i;
 
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
     if ((this->actor.bgCheckFlags & 1) != 0) {
@@ -132,7 +134,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
                 Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_LAND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
             }
-            for (i1 = 0; i1 < 10; i1++) {
+            for (i = 0; i < 10; i++) {
                 Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
                 Vec3f dustAcc = { 0.0f, 0.0f, 0.0f };
                 Vec3f dustPos;
@@ -160,7 +162,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 pad3;
     f32 pad2;
     s16 spawnNum;
-    s16 i1;
+    s16 i;
     Vec3f spawnOffset;
     f32 temp_f0;
     f32 temp_f20;
@@ -193,7 +195,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                 } else {
                     spawnNum = 2;
                 }
-                for (i1 = 0; i1 < spawnNum; i1++) {
+                for (i = 0; i < spawnNum; i++) {
                     if (0x64 == this->actor.params) {
                         spawnOffset.x = Math_Rand_CenteredFloat(13.0f);
                         spawnOffset.y = Math_Rand_ZeroFloat(5.0f) + 6.0f;
@@ -209,7 +211,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                                                              this->actor.posRot.pos.z + spawnOffset.z, 0, 0,
                                                              this->actor.posRot.rot.z * 0.5f, this->actor.params + 1);
                     if (newActor != 0) {
-                        if ((i1 == 0) && (0x64 == this->actor.params)) {
+                        if ((i == 0) && (0x64 == this->actor.params)) {
                             Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROCK, &newActor->actor.projectedPos, 4,
                                                    &D_801333E0, &D_801333E0, &D_801333E8);
                         }
@@ -222,7 +224,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                         newActor->shadowOpacity = 200.0f;
                     }
                 }
-                for (i1 = 0; i1 < 15; i1++) {
+                for (i = 0; i < 15; i++) {
                     Vec3f debrisVel1 = { 0.0f, 0.0f, 0.0f };
                     Vec3f debrisAcc1 = { 0.0f, -1.0f, 0.0f };
                     Vec3f debrisPos1;
@@ -235,7 +237,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     EnVbBall_SpawnDebris(globalCtx, bossFd->particles, &debrisPos1, &debrisVel1, &debrisAcc1,
                                          (s16)Math_Rand_ZeroFloat(12.0f) + 15);
                 }
-                for (i1 = 0; i1 < 10; i1++) {
+                for (i = 0; i < 10; i++) {
                     Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
                     Vec3f dustAcc = { 0.0f, 0.0f, 0.0f };
                     Vec3f dustPos;
@@ -250,7 +252,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                                        Math_Rand_ZeroFloat(100.0f) + 350.0f);
                 }
             } else {
-                for (i1 = 0; i1 < 5; i1++) {
+                for (i = 0; i < 5; i++) {
                     Vec3f debrisVel2 = { 0.0f, 0.0f, 0.0f };
                     Vec3f debrisAcc2 = { 0.0f, -1.0f, 0.0f };
                     Vec3f debrisPos2;
