@@ -11,7 +11,7 @@
 
 #define THIS ((EnVbBall*)thisx)
 
-#define BOSSFD ((BossFd*)this->actor.attachedA)
+#define BOSSFD ((BossFd*)this->actor.parent)
 
 void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -220,7 +220,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                         spawnOffset.y = Math_Rand_ZeroFloat(3.0f) + 4.0f;
                         spawnOffset.z = Math_Rand_CenteredFloat(10.0f);
                     }
-                    newActor = (EnVbBall*)Actor_SpawnAttached(
+                    newActor = (EnVbBall*)Actor_SpawnAsChild(
                         &globalCtx->actorCtx, &this->actor, globalCtx, 0xAD, this->actor.posRot.pos.x + spawnOffset.x,
                         this->actor.posRot.pos.y + spawnOffset.y, this->actor.posRot.pos.z + spawnOffset.z, 0, 0,
                         this->actor.posRot.rot.z * 0.5f, this->actor.params + 1);
@@ -229,7 +229,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                             Audio_PlaySoundGeneral(0x38D7, &newActor->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                         }
-                        newActor->actor.attachedA = &BOSSFD->actor;
+                        newActor->actor.parent = &BOSSFD->actor;
                         newActor->actor.velocity = spawnOffset;
                         newActor->yRotVel = 0.0f;
                         temp_f0 = sqrtf((spawnOffset.x * spawnOffset.x) + (spawnOffset.z * spawnOffset.z));
@@ -295,28 +295,26 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnVbBall* this = THIS;
     f32 pad;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x25C);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x25C);
     if (1) {}
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x25F),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x25F),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params >= 0xC8) {
-        gSPDisplayList(gfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0600B2F8));
+        gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0600B2F8));
     } else {
-        gSPDisplayList(gfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_06009F20));
+        gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_06009F20));
         func_80094044(globalCtx->state.gfxCtx);
 
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, (s8)this->shadowOpacity);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, (s8)this->shadowOpacity);
         Matrix_Translate(this->actor.posRot.pos.x, 100.0f, this->actor.posRot.pos.z, 0);
         Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, 1);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x272),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x272),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_04049210));
+        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_04049210));
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x278);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x278);
 }
