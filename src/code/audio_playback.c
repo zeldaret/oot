@@ -407,21 +407,21 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
 
     switch (instrument) {
         case 0:
-            if (instId >= (gAudioContext.gCtlEntries[bankId].numDrums)) {
+            if (instId >= gAudioContext.gCtlEntries[bankId].numDrums) {
                 return -3;
             }
             gAudioContext.gCtlEntries[bankId].drums[instId] = (void*)arg3;
             break;
 
         case 1:
-            if (instId >= (gAudioContext.gCtlEntries[bankId].numUnkInstruments)) {
+            if (instId >= gAudioContext.gCtlEntries[bankId].numUnkInstruments) {
                 return -3;
             }
             gAudioContext.gCtlEntries[bankId].unkInstruments[instId] = *arg3;
             break;
 
         default:
-            if (instId >= (gAudioContext.gCtlEntries[bankId].numInstruments)) {
+            if (instId >= gAudioContext.gCtlEntries[bankId].numInstruments) {
                 return -3;
             }
             gAudioContext.gCtlEntries[bankId].instruments[instId] = (void*)arg3;
