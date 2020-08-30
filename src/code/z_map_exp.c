@@ -311,11 +311,10 @@ void Map_Init(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
+    s32 pad;
     Player* player = PLAYER;
-    s16 tempX, tempY, tempZ;
+    s16 tempX, tempZ;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 565);
 
@@ -335,8 +334,8 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         Matrix_Translate((R_COMPASS_OFFSET_X + tempX) / 10.0f, (R_COMPASS_OFFSET_Y - tempZ) / 10.0f, 0.0f, MTXMODE_NEW);
         Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
         Matrix_RotateX(-1.6f, MTXMODE_APPLY);
-        tempY = (0x7FFF - player->actor.shape.rot.y) / 0x400;
-        Matrix_RotateY(tempY / 10.0f, MTXMODE_APPLY);
+        tempX = (0x7FFF - player->actor.shape.rot.y) / 0x400;
+        Matrix_RotateY(tempX / 10.0f, MTXMODE_APPLY);
         gSPMatrix(oGfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 585),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -360,9 +359,6 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 607);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_map_exp/Minimap_DrawCompassIcons.s")
-#endif
 
 void Minimap_Draw(GlobalContext* globalCtx) {
     s32 pad[2];

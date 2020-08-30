@@ -19,6 +19,7 @@ void func_808BEFF4(BgYdanMaruta* this, GlobalContext* globalCtx);
 void BgYdanMaruta_DoNothing(BgYdanMaruta* this, GlobalContext* globalCtx);
 void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx);
 void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx);
+void func_808BF1EC(BgYdanMaruta* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ydan_Maruta_InitVars = {
     ACTOR_BG_YDAN_MARUTA,
@@ -57,13 +58,11 @@ extern UNK_TYPE D_060066A8;
 extern Gfx D_06008D88[];
 extern Gfx D_06006570[];
 
-#ifdef NON_MATCHING
-// Register issues
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 i;
+    s32 pad;
     BgYdanMaruta* this = THIS;
     Vec3f sp4C[3];
-    s32 pad;
+    s32 i;
     f32 sinRotY;
     f32 cosRotY;
     s32 localConst = 0;
@@ -72,13 +71,15 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, D_808BF388);
     Collider_InitTris(globalCtx, &this->collider);
     Collider_SetTris(globalCtx, &this->collider, thisx, &D_808BF378, &this->colliderItems);
-    this->unk_168 = thisx->params;
-    thisx->params = ((thisx->params >> 8) & 0xFF) & 0xFF;
-    items = &D_808BF300[1];
+
+    this->unk_168 = thisx->params & 0xFFFF;
+    thisx->params = (thisx->params >> 8) & 0xFF;
+
     if (thisx->params == 0) {
         items = &D_808BF300[0];
         this->actionFunc = func_808BEFF4;
     } else {
+        items = &D_808BF300[1];
         DynaPolyInfo_SetActorMove(&this->dyna, 0);
         DynaPolyInfo_Alloc(&D_060066A8, &localConst);
         this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
@@ -90,22 +91,24 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_808BF078;
         }
     }
+
     sinRotY = Math_Sins(thisx->shape.rot.y);
     cosRotY = Math_Coss(thisx->shape.rot.y);
+
     for (i = 0; i < 3; i++) {
         sp4C[i].x = (items->dim.vtx[i].x * cosRotY) + thisx->posRot.pos.x;
         sp4C[i].y = items->dim.vtx[i].y + thisx->posRot.pos.y;
         sp4C[i].z = thisx->posRot.pos.z - (items->dim.vtx[i].x * sinRotY);
     }
+
     func_800627A0(&this->collider, 0, &sp4C[0], &sp4C[1], &sp4C[2]);
+
     sp4C[1].x = (items->dim.vtx[2].x * cosRotY) + thisx->posRot.pos.x;
     sp4C[1].y = items->dim.vtx[0].y + thisx->posRot.pos.y;
     sp4C[1].z = thisx->posRot.pos.z - (items->dim.vtx[2].x * sinRotY);
+
     func_800627A0(&this->collider, 1, &sp4C[0], &sp4C[2], &sp4C[1]);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ydan_Maruta/BgYdanMaruta_Init.s")
-#endif
 
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanMaruta* this = THIS;
@@ -137,10 +140,8 @@ void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_EQUIVALENT
-// Casting issues and a branch issue
 void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx) {
-    s16 phi_v0;
+    s16 temp;
 
     if (this->unk_16A != 0) {
         this->unk_16A--;
@@ -148,25 +149,23 @@ void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         this->actionFunc = func_808BF1EC;
     }
-    phi_v0 = this->unk_16A;
-    if ((phi_v0 < 0) && ((phi_v0 % 4) != 0)) {
-        phi_v0 -= 4;
-    }
-    phi_v0 -= 2;
-    if (phi_v0 == -2) {
-        phi_v0 = 0;
+
+    if (1) {}
+
+    temp = (this->unk_16A % 4) - 2;
+    if (temp == -2) {
+        temp = 0;
     } else {
-        phi_v0 *= 2;
+        temp *= 2;
     }
+
     this->dyna.actor.posRot.pos.x =
-        (Math_Coss(this->dyna.actor.shape.rot.y) * phi_v0) + this->dyna.actor.initPosRot.pos.x;
+        (Math_Coss(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z =
-        (Math_Sins(this->dyna.actor.shape.rot.y) * phi_v0) + this->dyna.actor.initPosRot.pos.z;
+        (Math_Sins(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.z;
+
     func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ydan_Maruta/func_808BF108.s")
-#endif
 
 void func_808BF1EC(BgYdanMaruta* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y += 1.0f;
