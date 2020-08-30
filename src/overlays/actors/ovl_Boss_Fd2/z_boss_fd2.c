@@ -339,14 +339,14 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                     this->actor.posRot.pos.x = D_808D6124[i1].x;
                     this->actor.posRot.pos.z = D_808D6124[i1].z;
                     this->actionState = 0;
-                    this->timers[0] = 0xA;
+                    this->timers[0] = 10;
                 } else {
                     this->skelAnime1.animPlaybackSpeed = 1.0f;
                     this->animationLength = SkelAnime_GetFrameCount(&D_0600C1D0.genericHeader);
                     this->actionState = 2;
-                    Audio_PlayActorSound2(&this->actor, 0x38D1);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
                     this->actor.shape.rot.y = this->actor.yawTowardsLink;
-                    this->timers[0] = 0xF;
+                    this->timers[0] = 15;
                     this->actor.posRot.pos.y = 150.0f;
                     for (i1 = 0; i1 < 10; i1++) {
                         this->rightMane.pos[i1].x += Math_Rand_CenteredFloat(100.0f);
@@ -362,7 +362,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0);
             if ((this->timers[0] == 1) && (this->actor.xzDistFromLink < 120.0f)) {
                 func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.yawTowardsLink, 2.0f, 0x20);
-                Audio_PlayActorSound2(&player->actor, 0x83E);
+                Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
             if (func_800A56C8(&this->skelAnime1, this->animationLength) != 0) {
                 BossFd2_SetupIdle(this, globalCtx);
@@ -486,7 +486,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         if (this->skelAnime1.animCurrentFrame == 25.0f) {
             globalCtx->envCtx.unk_D8 = 0.0f;
         }
-        Audio_PlayActorSound2(&this->actor, 0x30DB);
+        Audio_PlayActorSound2(&this->actor,  NA_SE_EN_VALVAISA_FIRE - SFX_FLAG);
         if (50 < this->skelAnime1.animCurrentFrame) {
             spB2 = (70.0f - this->skelAnime1.animCurrentFrame) * 12.0f;
         } else {
@@ -566,8 +566,8 @@ void BossFd2_ClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
     if (func_800A56C8(&this->skelAnime1, 5.0f) != 0) {
-        Audio_PlayActorSound2(&this->actor, 0x38D1);
-        Audio_PlayActorSound2(&this->actor, 0x38D8);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
+        Audio_PlayActorSound2(&this->actor,  NA_SE_EN_VALVAISA_SW_NAIL);
     }
     if (func_800A56C8(&this->skelAnime1, this->animationLength) != 0) {
         BossFd2_SetupBurrow(this, globalCtx);
@@ -596,7 +596,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
     switch (this->actionState) {
         case 0:
             if (func_800A56C8(&this->skelAnime1, 13.0f) != 0) {
-                Audio_PlayActorSound2(&this->actor, 0x38D3);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI2);
             }
             if (func_800A56C8(&this->skelAnime1, this->animationLength - 3.0f) != 0) {
                 for (i1 = 0; i1 < 25; i1++) {
@@ -610,7 +610,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
                     sp6C.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot2.pos.z;
                     BossFd2_SpawnDust(bossFd->particles, &sp6C, &sp84, &sp78, Math_Rand_ZeroFloat(100.0f) + 300.0f);
                 }
-                Audio_PlayActorSound2(&this->actor, 0x3927);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_LAND);
             }
             if (func_800A56C8(&this->skelAnime1, this->animationLength) != 0) {
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime1, &D_0600A86C, -5.0f);
@@ -620,7 +620,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
             break;
         case 1:
             if ((this->varianceTimer & 0xF) == 0xF) {
-                Audio_PlayActorSound2(&this->actor, 0x38D4);
+                Audio_PlayActorSound2(&this->actor,  NA_SE_EN_VALVAISA_KNOCKOUT);
             }
             if (this->timers[0] == 0) {
                 BossFd2_SetupBurrow(this, globalCtx);
@@ -649,7 +649,7 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
         }
     } else if (this->actionState == 1) {
         if (func_800A56C8(&this->skelAnime1, 6.0f) != 0) {
-            Audio_PlayActorSound2(&this->actor, 0x38D6);
+            Audio_PlayActorSound2(&this->actor,  NA_SE_EN_VALVAISA_DAMAGE2);
         }
         if (func_800A56C8(&this->skelAnime1, 20.0f) != 0) {
             bossFd->animationTimers[4] = 30;
@@ -740,10 +740,10 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             if ((this->holeCounter == 1) || (this->holeCounter == 40)) {
                 this->screamTimer = 20;
                 if (this->holeCounter == 40) {
-                    func_800F8D04(0x38D9);
+                    func_800F8D04(NA_SE_EN_VALVAISA_DEAD);
                 }
 
-                Audio_PlayActorSound2(&this->actor, 0x38D6);
+                Audio_PlayActorSound2(&this->actor,  NA_SE_EN_VALVAISA_DAMAGE2);
             }
             Math_SmoothScaleMaxF(&this->skelAnime1.animPlaybackSpeed, sp7C, 1.0f, 1.0f);
             Matrix_RotateY(((this->actor.yawTowardsLink / 32768.0f) * 3.1415927f) + 0.2f, 0);
@@ -882,7 +882,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
         for (i1 = 0; i1 < 9; i1++) {
             if ((this->collider1.list[i1].body.toucherFlags & 2) != 0) {
                 this->collider1.list[i1].body.toucherFlags &= ~2;
-                Audio_PlayActorSound2(&player->actor, 0x83E);
+                Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
     }
@@ -905,9 +905,9 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 }
                 bossFd->faceExposed = 1;
                 BossFd2_SetupVulnerable(this, globalCtx);
-                this->invulnerabilityTimer = 0x1E;
+                this->invulnerabilityTimer = 30;
                 this->damageFlashTimer = 5;
-                Audio_PlayActorSound2(&this->actor, 0x38D2);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI1);
                 for (i1 = 0; i1 < 30; i1++) {
                     sp8C = D_808D61D0;
                     sp80 = D_808D61DC;
@@ -948,16 +948,16 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 this->damageFlashTimer = 10;
                 this->invulnerabilityTimer = 30000;
                 Audio_SetBGM(0x100100FF);
-                Audio_PlayActorSound2(&this->actor, 0x38D9);
+                Audio_PlayActorSound2(&this->actor,  NA_SE_EN_VALVAISA_DEAD);
                 func_80032C7C(globalCtx, &this->actor);
             } else if (temp_v0_4 != 0) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->damageFlashTimer = 10;
                 this->invulnerabilityTimer = 100;
-                Audio_PlayActorSound2(&this->actor, 0x38D5);
+                Audio_PlayActorSound2(&this->actor,  NA_SE_EN_VALVAISA_DAMAGE1);
             }
             if (temp_v0_4 != 0) {
-                for (i1 = 0; i1 < 0x1E; i1++) {
+                for (i1 = 0; i1 < 30; i1++) {
                     sp64 = D_808D61E8;
                     sp58 = D_808D61F4;
                     sp64.x = Math_Rand_CenteredFloat(6.0f);
@@ -967,7 +967,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                     sp4C.y = this->actor.posRot2.pos.y;
                     sp4C.z = this->actor.posRot2.pos.z;
                     BossFd2_SpawnSkullPiece(globalCtx, bossFd->particles, &sp4C, &sp64, &sp58,
-                                            (s16)Math_Rand_ZeroFloat(6.0f) + 0xA);
+                                            (s16)Math_Rand_ZeroFloat(6.0f) + 10);
                 }
             }
         }
