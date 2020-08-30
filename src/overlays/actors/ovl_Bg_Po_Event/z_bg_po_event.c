@@ -546,7 +546,77 @@ void func_808A7568(BgPoEvent *this, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/func_808A75B8.s")
+void func_808A75B8(BgPoEvent *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    s32 phi_v0;
+    BgPoEventActionFunc* phi_t1;
+
+    if (this->unk_16C != 0) {
+        this->unk_16C--;
+    }
+    if ((this->unk_16C == 0)||((this->dyna.actor.xzDistFromLink < 150.0f) && (this->dyna.actor.yDistFromLink < 50.0f))) {
+        goto block_14;
+    }
+    if ((func_8002DD78(&player->actor) == 0) || !(this->dyna.actor.xzDistFromLink < 320.0f)) {
+        goto block_17;
+    }
+
+    
+    if(this->unk_169 != 2) {
+        phi_v0 = 0;
+        if(this->dyna.actor.yDistFromLink < 100.0f) {
+            phi_v0 = 1;
+        }
+    } else {
+        phi_v0 = 0;
+        if(this->dyna.actor.yDistFromLink < 0.0f) {
+            phi_v0 = 1;
+        }
+    }
+    if ((phi_v0 == 0) || (func_8002DFC8(this, 0x2000, globalCtx) == 0)) {
+        goto block_17;
+    }
+block_14:
+    if ((this->dyna.actor.attachedA == NULL) && (this->dyna.actor.attachedB == NULL)) {
+            goto block_17;
+    }
+    this->unk_16C = 0;
+    Audio_PlayActorSound2(this, 0x38EC);
+    phi_t1 = &func_808A7568;
+    this->actionFunc = phi_t1;
+    return;
+block_17:
+    if ((this->collider1.base.acFlags & 2) == 0) {
+        return;
+    }
+    if (func_808A7444(this) == 0) {
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x91,
+                    this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y - 40.0f, this->dyna.actor.posRot.pos.z,
+                    0, this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + ((this->unk_168 - 1) << 8));
+        func_800800F8(globalCtx, 0xC58, 0x50, this, 0);
+        func_80078884(0x4802);
+
+    } else {
+        Audio_PlayActorSound2(this, 0x38EF);
+        func_800800F8(globalCtx, 0xC58, 0x23, this, 0);
+    }
+    if (this->dyna.actor.attachedA != NULL) {
+        this->dyna.actor.attachedA->attachedB = NULL;
+        this->dyna.actor.attachedA = NULL;
+    }
+    if (this->dyna.actor.attachedB != NULL) {
+        this->dyna.actor.attachedB->attachedA = NULL;
+        this->dyna.actor.attachedB = NULL;
+    }
+    this->unk_16C = 0x14;
+    this->actionFunc = &func_808A780C;
+}
+
+
+
+
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/func_808A75B8.s")
 
 void func_808A780C(BgPoEvent *this, GlobalContext *globalCtx) {
     Vec3f sp54;
