@@ -368,8 +368,6 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                 BossFd2_SetupIdle(this, globalCtx);
             }
             break;
-        default:
-            break;
     }
     osSyncPrintf("UP 2\n");
 }
@@ -627,8 +625,6 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 0) {
                 BossFd2_SetupBurrow(this, globalCtx);
             }
-            break;
-        default:
             break;
     }
 }
