@@ -20,7 +20,7 @@ glabel func_80833910
 /* 01748 80833958 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 0174C 8083395C AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 01750 80833960 AFA00024 */  sw      $zero, 0x0024($sp)         
-/* 01754 80833964 0C00C916 */  jal     Actor_SpawnAttached
+/* 01754 80833964 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 01758 80833968 AFB90020 */  sw      $t9, 0x0020($sp)           
 /* 0175C 8083396C 8FA5003C */  lw      $a1, 0x003C($sp)           

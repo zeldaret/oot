@@ -3250,7 +3250,7 @@ glabel L8091ED18
 /* 035AC 8091F0AC AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 035B0 8091F0B0 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 035B4 8091F0B4 2407005D */  addiu   $a3, $zero, 0x005D         ## $a3 = 0000005D
-/* 035B8 8091F0B8 0C00C916 */  jal     Actor_SpawnAttached
+/* 035B8 8091F0B8 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 035BC 8091F0BC E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 035C0 8091F0C0 3C014348 */  lui     $at, 0x4348                ## $at = 43480000

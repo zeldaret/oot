@@ -101,24 +101,23 @@ void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMjin* this = THIS;
     u32 dlist;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-    s32 objBankIndex;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
+
     if (thisx->params != 0) {
-        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
+        s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
         if (objBankIndex >= 0) {
             gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
         dlist = D_06000330;
     } else {
         dlist = D_06000140;
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, dlist);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
 }

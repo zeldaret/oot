@@ -256,15 +256,14 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriElevator* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06002AD0);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06002AD0);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
 }

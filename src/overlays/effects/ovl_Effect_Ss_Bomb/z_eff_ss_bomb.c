@@ -46,22 +46,19 @@ u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp12C;
     MtxF spEC;
     MtxF spAC;
     MtxF sp6C;
     Mtx* mtx;
-    s32 pad2;
+    s32 pad;
     f32 scale;
     s16 color;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (1) {}
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb.c", 168);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_bomb.c", 168);
 
     scale = this->regs[SS_BOMB_SCALE] / 100.0f;
 
@@ -70,23 +67,23 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     SkinMatrix_MtxFMtxFMult(&sp12C, &globalCtx->mf_11DA0, &sp6C);
     SkinMatrix_MtxFMtxFMult(&sp6C, &spEC, &spAC);
 
-    gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spAC);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099F588[this->regs[SS_BOMB_TEX_IDX]]));
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099F588[this->regs[SS_BOMB_TEX_IDX]]));
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
         func_80094C50(gfxCtx);
         color = this->life * 12.75f;
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, color, color, color, color);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, color, color, color, color);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
     }
 
-    Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb.c", 214);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb.c", 214);
 }
 
 void EffectSsBomb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

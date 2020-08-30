@@ -189,9 +189,8 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
                              Actor* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
         *dList = D_060059B0;
@@ -213,24 +212,25 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         rot->z += Math_Coss(this->unk_2EC[limbIndex]) * 200.0f;
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
 
     return 0;
 }
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 404);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 404);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnGuest_OverrideLimbDraw, NULL, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
 }

@@ -943,7 +943,7 @@ glabel L808D9E8C
 /* 036C8 808D9F38 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
 /* 036CC 808D9F3C E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 036D0 808D9F40 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 036D4 808D9F44 0C00C916 */  jal     Actor_SpawnAttached
+/* 036D4 808D9F44 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 036D8 808D9F48 E7B00014 */  swc1    $f16, 0x0014($sp)
 /* 036DC 808D9F4C 3C01C3EC */  lui     $at, 0xC3EC                ## $at = C3EC0000
