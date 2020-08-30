@@ -22,12 +22,11 @@ typedef struct BossFd2 {
     /* 0x014C */ SkelAnime skelAnime1;
     /* 0x0190 */ BossFd2ActionFunc actionFunc;
     /* 0x0194 */ u8 disableAT;
-   //* 0x0195 */ char unk_195;
     /* 0x0196 */ s16 turnToLink;
     /* 0x0198 */ s16 actionState;
     /* 0x019A */ s16 unkTimer; //Increments every frame, but nothing uses it.
     /* 0x019C */ s16 varianceTimer;
-    /* 0x019E */ char unk_19E[4];
+    /* 0x019E */ char unk_19E[4]; //seems to be unused
     /* 0x01A2 */ s16 blinkTimer;
     /* 0x01A4 */ s16 screamTimer;
     /* 0x01A6 */ s16 damageFlashTimer;
@@ -36,7 +35,6 @@ typedef struct BossFd2 {
     /* 0x01AC */ s16 fakeoutCount;
     /* 0x01AE */ char unk_1AE[0xE]; //seems to be unused
     /* 0x01BC */ s16 timers[5];
-   //* 0x01C6 */ char unk_1C6[2];
     /* 0x01C8 */ f32 bodyTex1Scroll;
     /* 0x01CC */ f32 bodyTex1Rot;
     /* 0x01D0 */ f32 bodyTex2Scroll;

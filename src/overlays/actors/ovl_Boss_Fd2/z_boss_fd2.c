@@ -148,9 +148,9 @@ static Vec3f D_808D61A0 = { 0.0, 0.0, 50.0 }; // Unused? BossFd uses a similar a
 
 void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                          Vec3f* acceleration, f32 scale) {
-    s16 i1;
+    s16 i;
 
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 2;
             particle->pos = *position;
@@ -166,9 +166,9 @@ void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec
 
 void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                              Vec3f* acceleration, f32 scale, s16 opacity, s16 kbAngle) {
-    s16 i1;
+    s16 i;
 
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 4;
             particle->timer1 = 0;
@@ -191,9 +191,9 @@ void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle,
 
 void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                         Vec3f* acceleration, f32 scale) {
-    s16 i1;
+    s16 i;
 
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 1;
             particle->pos = *position;
@@ -209,9 +209,9 @@ void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdParticle* particle, Vec3
 
 void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                              Vec3f* acceleration, f32 scale) {
-    s16 i1;
+    s16 i;
 
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 5;
             particle->pos = *position;
@@ -226,9 +226,9 @@ void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdParticle* particle,
 }
 
 void BossFd2_SpawnDust(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
-    s16 i1;
+    s16 i;
 
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 3;
             particle->pos = *position;
@@ -300,7 +300,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
     s8 health;
     BossFd* bossFd = BOSSFD;
     Player* player = PLAYER;
-    s16 i1;
+    s16 i;
     s16 phi_v0;
 
     osSyncPrintf("UP 1    mode %d\n", this->actionState);
@@ -341,9 +341,9 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 0) {
                 if (this->fakeoutCount != 0) {
                     this->fakeoutCount--;
-                    i1 = (s16)Math_Rand_ZeroFloat(8.9f);
-                    this->actor.posRot.pos.x = holeLocations[i1].x;
-                    this->actor.posRot.pos.z = holeLocations[i1].z;
+                    i = (s16)Math_Rand_ZeroFloat(8.9f);
+                    this->actor.posRot.pos.x = holeLocations[i].x;
+                    this->actor.posRot.pos.z = holeLocations[i].z;
                     this->actionState = 0;
                     this->timers[0] = 10;
                 } else {
@@ -354,11 +354,11 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                     this->actor.shape.rot.y = this->actor.yawTowardsLink;
                     this->timers[0] = 15;
                     this->actor.posRot.pos.y = 150.0f;
-                    for (i1 = 0; i1 < 10; i1++) {
-                        this->rightMane.pos[i1].x += Math_Rand_CenteredFloat(100.0f);
-                        this->rightMane.pos[i1].z += Math_Rand_CenteredFloat(100.0f);
-                        this->leftMane.pos[i1].x += Math_Rand_CenteredFloat(100.0f);
-                        this->leftMane.pos[i1].z += Math_Rand_CenteredFloat(100.0f);
+                    for (i = 0; i < 10; i++) {
+                        this->rightMane.pos[i].x += Math_Rand_CenteredFloat(100.0f);
+                        this->rightMane.pos[i].z += Math_Rand_CenteredFloat(100.0f);
+                        this->leftMane.pos[i].x += Math_Rand_CenteredFloat(100.0f);
+                        this->leftMane.pos[i].z += Math_Rand_CenteredFloat(100.0f);
                     }
                     bossFd->holeSplashTimer = 5;
                 }
@@ -473,7 +473,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 angleX;
     s16 angleY;
     s16 spB2 = 0;
-    s16 i1;
+    s16 i;
     BossFd* bossFd = BOSSFD;
     Player* player = PLAYER;
     Vec3f toLink;
@@ -543,7 +543,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         sp90.y = 17.0f;
         sp90.z = 0.0f;
 
-        for (i1 = 0; i1 < 6; i1++) {
+        for (i = 0; i < 6; i++) {
             temp_y = Math_Rand_ZeroFloat(6.2831855f);
             temp_x = Math_Rand_ZeroFloat(6.2831855f);
             Matrix_RotateY(temp_y, 0);
@@ -587,7 +587,7 @@ void BossFd2_SetupVulnerable(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
-    s16 i1;
+    s16 i;
 
     this->disableAT = 1;
     this->actor.flags |= 0x400;
@@ -598,7 +598,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI2);
             }
             if (func_800A56C8(&this->skelAnime1, this->animationLength - 3.0f) != 0) {
-                for (i1 = 0; i1 < 25; i1++) {
+                for (i = 0; i < 25; i++) {
                     Vec3f sp84;
                     Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
                     Vec3f sp6C;
@@ -862,7 +862,7 @@ void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
-    s16 i1;
+    s16 i;
     u8 phi_s2;
     u8 phi_s1;
     Player* player;
@@ -871,9 +871,9 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
         player = PLAYER;
-        for (i1 = 0; i1 < 9; i1++) {
-            if ((this->collider1.list[i1].body.toucherFlags & 2) != 0) {
-                this->collider1.list[i1].body.toucherFlags &= ~2;
+        for (i = 0; i < 9; i++) {
+            if ((this->collider1.list[i].body.toucherFlags & 2) != 0) {
+                this->collider1.list[i].body.toucherFlags &= ~2;
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
@@ -900,7 +900,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 this->invulnerabilityTimer = 30;
                 this->damageFlashTimer = 5;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI1);
-                for (i1 = 0; i1 < 30; i1++) {
+                for (i = 0; i < 30; i++) {
                     Vec3f sp8C = { 0.0f, 0.0f, 0.0f };
                     Vec3f sp80 = { 0.0f, -1.0f, 0.0f };
                     Vec3f sp74;
@@ -950,7 +950,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE1);
             }
             if (toucherFlags != 0) {
-                for (i1 = 0; i1 < 30; i1++) {
+                for (i = 0; i < 30; i++) {
                     Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
                     Vec3f sp58 = { 0.0f, -1.0f, 0.0f };
                     Vec3f sp4C;
@@ -1003,7 +1003,7 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossFd2* this = THIS;
-    s16 i1;
+    s16 i;
     s32 pad;
 
     osSyncPrintf("FD2 move start \n");
@@ -1014,9 +1014,9 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    for (i1 = 0; i1 < 5; i1++) {
-        if (this->timers[i1] != 0) {
-            this->timers[i1]--;
+    for (i = 0; i < 5; i++) {
+        if (this->timers[i] != 0) {
+            this->timers[i]--;
         }
     }
     if (this->damageFlashTimer != 0) {
@@ -1094,6 +1094,7 @@ static Vec3f D_808D623C = { 4000.0f, -1600.0, -2000.0f };
 
 void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     BossFd2* this = THIS;
+    
     if (limbIndex == 35) {
         Matrix_MultVec3f(&D_808D620C, &this->actor.posRot2.pos);
         Matrix_MultVec3f(&D_808D6218, &this->fireBreathSpawnPoint);
@@ -1207,15 +1208,15 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
 void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
     f32 temp_f20;
     BossFd* bossFd = BOSSFD;
-    s16 i1;
+    s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9D3);
     if (1) {}
-    for (i1 = 0; i1 < 10; i1++) {
-        temp_f20 = i1 * 0x3200;
-        this->centerMane.scale[i1] = 1.5f + 0.3f * Math_Sins(5596.0f * this->varianceTimer + temp_f20);
-        this->rightMane.scale[i1] = 1.5f + 0.3f * Math_Sins(5496.0f * this->varianceTimer + temp_f20);
-        this->leftMane.scale[i1] = 1.5f + 0.3f * Math_Coss(5696.0f * this->varianceTimer + temp_f20);
+    for (i = 0; i < 10; i++) {
+        temp_f20 = i * 0x3200;
+        this->centerMane.scale[i] = 1.5f + 0.3f * Math_Sins(5596.0f * this->varianceTimer + temp_f20);
+        this->rightMane.scale[i] = 1.5f + 0.3f * Math_Sins(5496.0f * this->varianceTimer + temp_f20);
+        this->leftMane.scale[i] = 1.5f + 0.3f * Math_Coss(5696.0f * this->varianceTimer + temp_f20);
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
