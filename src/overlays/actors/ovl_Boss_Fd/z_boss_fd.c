@@ -392,7 +392,7 @@ void func_808CB6A8(BossFd* this, GlobalContext* globalCtx) {
     this->maxTurnRate = 1000.0f;
 }
 
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 // Control flow is correct and works when compiled. It's enormous, though, so matching will be hard.
 void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
 
