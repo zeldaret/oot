@@ -223,7 +223,7 @@ void func_8098E86C(DemoSa* this, GlobalContext* globalCtx) {
     f32 posY = posRot->y;
     f32 posZ = posRot->z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {
@@ -232,8 +232,8 @@ void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {
     f32 posY = player->actor.posRot.pos.y + 80.0f;
     f32 posZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
-                        0xB);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
+                       0xB);
     Item_Give(globalCtx, ITEM_MEDALLION_FOREST);
 }
 
@@ -371,8 +371,8 @@ void func_8098EE08(void) {
 }
 
 void func_8098EE28(DemoSa* this, GlobalContext* globalCtx) {
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                        (kREG(23) + 25.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 4);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
+                       (kREG(23) + 25.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 4);
 }
 
 void func_8098EEA8(DemoSa* this, GlobalContext* globalCtx) {
@@ -457,21 +457,21 @@ void func_8098F1C0(DemoSa* this, GlobalContext* globalCtx) {
     s32 pad2;
     UNK_PTR sp6C = D_809900F4[unk_194];
     SkelAnime* skelAnime = &this->skelAnime;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 296);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 296);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, D_80116280);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          NULL, NULL, NULL, gfxCtx->polyXlu.p);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 325);
+    oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
+                                           skelAnime->dListCount, NULL, NULL, NULL, oGfxCtx->polyXlu.p);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 325);
 }
 
 void func_8098F390(DemoSa* this, GlobalContext* globalCtx) {
@@ -604,8 +604,8 @@ void func_8098F83C(DemoSa* this, GlobalContext* globalCtx) {
     Vec3f* thisPos = &this->actor.posRot.pos;
 
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600B1A0, &D_0601113C, NULL, NULL, 0);
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, thisPos->x, thisPos->y, thisPos->z,
-                        0, 0, 0, 3);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, thisPos->x, thisPos->y, thisPos->z,
+                       0, 0, 0, 3);
     this->action = 16;
     this->drawConfig = 0;
     this->actor.shape.unk_14 = 0;
@@ -796,21 +796,21 @@ void func_8098FEB4(DemoSa* this, GlobalContext* globalCtx) {
     s16 unk_194 = this->unk_194;
     UNK_PTR sp64 = D_809900F4[unk_194];
     SkelAnime* skelAnime = &this->skelAnime;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_demo_sa.c", 602);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa.c", 602);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp70));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp70));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp64));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp70));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp70));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp64));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                      DemoSa_OverrideLimbDraw, NULL, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_sa.c", 626);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa.c", 626);
 }
 
 void DemoSa_Draw(Actor* thisx, GlobalContext* globalCtx) {

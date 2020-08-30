@@ -199,7 +199,7 @@ glabel func_809B9B64
 /* 01B34 809B9E14 860E0032 */  lh      $t6, 0x0032($s0)           ## 00000032
 /* 01B38 809B9E18 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC
 /* 01B3C 809B9E1C A60E00B6 */  sh      $t6, 0x00B6($s0)           ## 000000B6
-/* 01B40 809B9E20 0C00CD90 */  jal     func_80033640              
+/* 01B40 809B9E20 0C00CD90 */  jal     Actor_GetCollidedExplosive              
 /* 01B44 809B9E24 8FA4005C */  lw      $a0, 0x005C($sp)           
 /* 01B48 809B9E28 10400003 */  beq     $v0, $zero, .L809B9E38     
 /* 01B4C 809B9E2C 00000000 */  nop

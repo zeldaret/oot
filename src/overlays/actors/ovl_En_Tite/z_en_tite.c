@@ -892,4 +892,69 @@ void func_80B1B178(GlobalContext* globalCtx, s32 arg1, Gfx** dList, s32 arg3, Ac
     func_80032F54(&this->unk2C4, arg1, 0, 0x18, 0x18, dList, -1);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Draw.s")
+void EnTite_Draw(void *arg0, GlobalContext *arg1) {
+    GraphicsContext *sp80;
+    Gfx *sp70;
+    f32 sp54;
+    f32 sp50;
+    f32 sp4C;
+    Gfx *temp_v0;
+    Gfx *temp_v0_2;
+    Gfx *temp_v0_3;
+    Gfx *temp_v0_4;
+    Gfx *temp_v0_5;
+    Gfx *temp_v0_6;
+    GraphicsContext *temp_a1;
+    s32 temp_t0;
+    u8 temp_t3;
+    void *temp_v0_7;
+
+    temp_a1 = arg1->state.gfxCtx;
+    sp80 = temp_a1;
+    Graph_OpenDisps(&sp70, temp_a1, (const char *) "../z_en_tite.c", 0x6A8);
+    func_80093D18(arg1->state.gfxCtx);
+    func_800628A4(0, arg0 + 0x2E8);
+    if (arg0->unk1C == -2) {
+        temp_v0 = sp80->polyOpa.p;
+        sp80->polyOpa.p = (Gfx *) (temp_v0 + 8);
+        temp_v0->words.w0 = 0xDB060020U;
+        temp_v0->words.w1 = (u32) ((gSegments[(u32) (0x6001300 * 0x10) >> 0x1C] + (0x6001300 & 0xFFFFFF)) + 0x80000000);
+        temp_v0_2 = sp80->polyOpa.p;
+        sp80->polyOpa.p = (Gfx *) (temp_v0_2 + 8);
+        temp_v0_2->words.w0 = 0xDB060024U;
+        temp_v0_2->words.w1 = (u32) ((gSegments[(u32) (0x6001700 * 0x10) >> 0x1C] + (0x6001700 & 0xFFFFFF)) + 0x80000000);
+        temp_v0_3 = sp80->polyOpa.p;
+        sp80->polyOpa.p = (Gfx *) (temp_v0_3 + 8);
+        temp_v0_3->words.w0 = 0xDB060028U;
+        temp_v0_3->words.w1 = (u32) ((gSegments[(u32) (0x6001900 * 0x10) >> 0x1C] + (0x6001900 & 0xFFFFFF)) + 0x80000000);
+    } else {
+        temp_v0_4 = sp80->polyOpa.p;
+        sp80->polyOpa.p = (Gfx *) (temp_v0_4 + 8);
+        temp_v0_4->words.w0 = 0xDB060020U;
+        temp_v0_4->words.w1 = (u32) ((gSegments[(u32) (0x6001B00 * 0x10) >> 0x1C] + (0x6001B00 & 0xFFFFFF)) + 0x80000000);
+        temp_v0_5 = sp80->polyOpa.p;
+        sp80->polyOpa.p = (Gfx *) (temp_v0_5 + 8);
+        temp_v0_5->words.w0 = 0xDB060024U;
+        temp_v0_5->words.w1 = (u32) ((gSegments[(u32) (0x6001F00 * 0x10) >> 0x1C] + (0x6001F00 & 0xFFFFFF)) + 0x80000000);
+        temp_v0_6 = sp80->polyOpa.p;
+        sp80->polyOpa.p = (Gfx *) (temp_v0_6 + 8);
+        temp_v0_6->words.w0 = 0xDB060028U;
+        temp_v0_6->words.w1 = (u32) ((gSegments[(u32) (0x6002100 * 0x10) >> 0x1C] + (0x6002100 & 0xFFFFFF)) + 0x80000000);
+    }
+    SkelAnime_Draw(arg1, arg0->unk150, arg0->unk16C, NULL, &func_80B1B178, arg0);
+    Graph_CloseDisps(&sp70, arg1->state.gfxCtx, (const char *) "../z_en_tite.c", 0x6C7);
+    if (arg0->unk2E3 != 0) {
+        temp_t3 = arg0->unk2E3 - 1;
+        temp_t0 = temp_t3 & 0xFF;
+        arg0->unk114 = (u8) (arg0->unk114 + 1);
+        arg0->unk2E3 = temp_t3;
+        if ((temp_t0 & 3) == 0) {
+            temp_v0_7 = ((temp_t0 >> 2) * 0xC) + &D_80B1B658;
+            sp4C = temp_v0_7->unk0 + arg0->unk24;
+            sp50 = temp_v0_7->unk4 + arg0->unk28;
+            sp54 = temp_v0_7->unk8 + arg0->unk2C;
+            func_8002A140(arg1, arg0, &sp4C, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.0f);
+        }
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Draw.s")

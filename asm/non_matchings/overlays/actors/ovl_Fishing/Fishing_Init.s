@@ -443,7 +443,7 @@ glabel Fishing_Init
 /* 0118C 80B6AB2C AFA00024 */  sw      $zero, 0x0024($sp)
 /* 01190 80B6AB30 E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 01194 80B6AB34 E7B20014 */  swc1    $f18, 0x0014($sp)
-/* 01198 80B6AB38 0C00C916 */  jal     Actor_SpawnAttached
+/* 01198 80B6AB38 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 0119C 80B6AB3C E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 011A0 80B6AB40 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

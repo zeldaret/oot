@@ -75,34 +75,33 @@ void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80977EA8(GlobalContext* globalCtx, Gfx* dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 181);
+    OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 181);
+
     func_80093D18(gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
-    gSPPopMatrix(gfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, dlist);
+    gSPPopMatrix(oGfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 188);
+    CLOSE_DISPS(gfxCtx, "../z_demo_geff.c", 188);
 }
 
 void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 204);
+    OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
     // Necessary to match
     if (!globalCtx) {}
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 212);
+    CLOSE_DISPS(gfxCtx, "../z_demo_geff.c", 212);
 }
 
 void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {

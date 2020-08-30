@@ -237,9 +237,9 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
                    Color_RGBA8* envColor, Color_RGBA8* primColor);
 // ? func_80029320(?);
 // ? func_800293A0(?);
-void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
-// ? func_80029444(?);
-// ? func_8002949C(?);
+void func_800293E4(GlobalContext* globalCtx, Vec3f* pos, f32, f32, f32, f32);
+void func_80029444(GlobalContext* globalCtx, Vec3f* pos, u32, u32, u32);
+void func_8002949C(GlobalContext* globalCtx, Vec3f* pos, u32, u32, u32, u32);
 // ? func_80029530(?);
 // ? func_80029568(?);
 // ? func_800295A0(?);
@@ -370,16 +370,16 @@ s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx);
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx);
 s8 func_8002F368(GlobalContext* globalCtx);
 void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3);
-u32 func_8002F410(Actor* actor, GlobalContext* globalCtx);
+u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx);
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange);
 void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId);
 void func_8002F580(Actor* actor, GlobalContext* globalCtx);
-u32 func_8002F5A0(Actor* actor, GlobalContext* globalCtx);
+u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx);
 void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx);
 void func_8002F5F0(Actor* actor, GlobalContext* globalCtx);
-u32 func_8002F618(GlobalContext* globalCtx, Actor* actor);
+u32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor);
 u32 func_8002F63C(GlobalContext* globalCtx, Actor* actor, s32 arg2);
-u32 func_8002F674(GlobalContext* globalCtx, Actor* actor);
+u32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor);
 void func_8002F698(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6);
 void func_8002F6D4(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5);
 void func_8002F71C(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
@@ -402,8 +402,8 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx);
 Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId, f32 posX, f32 posY, f32 posZ,
                    s16 rotX, s16 rotY, s16 rotZ, s16 params);
-Actor* Actor_SpawnAttached(ActorContext* actorCtx, Actor* attachedTo, GlobalContext* globalCtx, s16 actorId, f32 posX,
-                           f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params);
+Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* globalCtx, s16 actorId, f32 posX,
+                          f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params);
 void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalContext* globalCtx);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalCtx);
@@ -416,7 +416,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
 void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
                    s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
-Actor* func_80033640(GlobalContext* globalCtx, Collider* collider);
+Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
 void Actor_ChangeType(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorType);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);
