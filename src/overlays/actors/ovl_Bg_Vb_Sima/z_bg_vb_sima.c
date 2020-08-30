@@ -57,6 +57,7 @@ void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
     s16 i1;
+
     for (i1 = 0; i1 < 180; i1++, particle++) {
         if (particle->type == 0) {
             particle->type = 1;
@@ -95,7 +96,8 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.posRot.pos.z += 2.0f * Math_Coss(this->varianceTimer * 0x8000);
             this->dyna.actor.shape.rot.x = (s16)Math_Sins(this->varianceTimer * 0x7000) * 0x37;
             this->dyna.actor.shape.rot.z = (s16)Math_Sins(this->varianceTimer * 0x5000) * 0x37;
-            Audio_PlaySoundGeneral(0x205C, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                                   &D_801333E0, &D_801333E8);
         } else if (colPlat == 2) {
             Actor_Kill(&this->dyna.actor);
         }
@@ -124,7 +126,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 splashPos.z = this->dyna.actor.posRot.pos.z + edgeZ;
 
                 func_8002836C(globalCtx, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
-                              (s16)Math_Rand_ZeroFloat(100.0f) + 0x1F4, 0xA, 0x14);
+                              (s16)Math_Rand_ZeroFloat(100.0f) + 500, 0xA, 0x14);
 
                 for (i2 = 0; i2 < 3; i2++) {
                     emberVel.x = splashVel.x;
@@ -148,7 +150,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x11D);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x123),
