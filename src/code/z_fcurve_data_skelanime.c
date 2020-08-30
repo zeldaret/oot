@@ -99,24 +99,24 @@ s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve) {
     return ret;
 }
 
-#ifdef NON_MATCHING
-// Very minor stack alloc, lod = 0 gSPMatrix places gfxPtr at stack + 0x4c instead of 0x50
 void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve* skelCurve,
                         OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor) {
     SkelCurveLimb* limb = SEGMENTED_TO_VIRTUAL(skelCurve->limbList[limbIndex]);
-    Gfx* dispRefs[5];
-    Vec3f scale;
-    Vec3s rot;
-    Vec3f pos;
-    Gfx* d;
-    Vec3s* transform;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    s32 pad;
+    Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 279);
+
     Matrix_Push();
+
     if (overrideLimbDraw == NULL ||
         (overrideLimbDraw != NULL && overrideLimbDraw(globalCtx, skelCurve, limbIndex, actor))) {
+        Vec3f scale;
+        Vec3s rot;
+        Vec3f pos;
+        Gfx* dList;
+        Vec3s* transform;
+
         transform = &skelCurve->transforms[limbIndex];
         scale.x = transform->x * (1.0f / 1024.0f);
         scale.y = transform->y * (1.0f / 1024.0f);
@@ -129,30 +129,36 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
         pos.x = transform->x;
         pos.y = transform->y;
         pos.z = transform->z;
+
         Matrix_JointPosition(&pos, &rot);
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
+
         if (lod == 0) {
-            d = limb->dList[0];
-            if (d != NULL) {
+            s32 pad1;
+
+            dList = limb->dList[0];
+            if (dList != NULL) {
                 gSPMatrix(gfxCtx->polyOpa.p++,
                           Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyOpa.p++, d);
+                gSPDisplayList(gfxCtx->polyOpa.p++, dList);
             }
         } else if (lod == 1) {
-            d = limb->dList[0];
-            if (d != NULL) {
+            s32 pad2;
+
+            dList = limb->dList[0];
+            if (dList != NULL) {
                 gSPMatrix(gfxCtx->polyOpa.p++,
                           Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyOpa.p++, d);
+                gSPDisplayList(gfxCtx->polyOpa.p++, dList);
             }
-            d = limb->dList[1];
-            if (d != NULL) {
+            dList = limb->dList[1];
+            if (dList != NULL) {
                 gSPMatrix(gfxCtx->polyXlu.p++,
                           Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyXlu.p++, d);
+                gSPDisplayList(gfxCtx->polyXlu.p++, dList);
             }
         } else {
             // FcSkeletonInfo_draw_child (): Not supported
@@ -176,9 +182,6 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fcurve_data_skelanime/SkelCurve_DrawLimb.s")
-#endif
 
 void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
                     OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor2) {

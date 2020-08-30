@@ -537,10 +537,10 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     Mtx* projection;
     Mtx* viewing;
 
-    arg1 = (arg1 & view->flags) | (arg1 >> 4);
+    arg1 = (view->flags & arg1) | (arg1 >> 4);
 
     if (arg1 & 2) {
-        vp = Graph_Alloc(view->gfxCtx, sizeof(Vp));
+        vp = Graph_Alloc(gfxCtx, sizeof(Vp));
         LogUtils_CheckNullPointer("vp", vp, "../z_view.c", 910);
         View_ViewportToVp(vp, &view->viewport);
 

@@ -70,7 +70,7 @@ glabel func_80A4C814
 /* 00C6C 80A4C90C 00000000 */  nop
 /* 00C70 80A4C910 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 00C74 80A4C914 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00C78 80A4C918 0C032D94 */  jal     func_800CB650              
+/* 00C78 80A4C918 0C032D94 */  jal     Math3D_Vec3fDistSq              
 /* 00C7C 80A4C91C 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFD4
 /* 00C80 80A4C920 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
 /* 00C84 80A4C924 44818000 */  mtc1    $at, $f16                  ## $f16 = 25.00

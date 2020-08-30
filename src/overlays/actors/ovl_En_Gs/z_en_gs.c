@@ -342,8 +342,6 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc
 void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     f32 tmpf1;
     f32 tmpf2;
@@ -362,15 +360,15 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_19F == 1) {
         Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
         tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
-        this->unk_1A0[0].y += (s16)(this->unk_1E8 * 182.04445f);
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
         if (tmpf1 == 0.0f) {
             this->unk_200 = 0;
             this->unk_19F = 2;
         }
     }
     if (this->unk_19F == 2) {
-        this->unk_1A0[0].y = this->unk_1A0[0].y + (s32)(this->unk_1E8 * 182.04445f);
-        if ((this->unk_200++ < 0x29) ^ 1) {
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
+        if (this->unk_200++ > 0x28) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 1.5f;
             this->unk_1F0 = this->unk_1B4[1].y - 1.0f;
@@ -434,8 +432,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         this->unk_1B4[0].x += sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8;
-        this->unk_1B4[0].y =
-            this->unk_1B4[0].y + (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
+        this->unk_1B4[0].y += (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
         this->unk_200++;
         if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f) && (tmpf3 == 0.0f)) {
             this->unk_19C = 0;
@@ -446,10 +443,6 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONE_ROLLING);
     }
 }
-#else
-void func_80A4F13C(EnGs* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gs/func_80A4F13C.s")
-#endif
 
 void func_80A4F700(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_200-- <= 0) {

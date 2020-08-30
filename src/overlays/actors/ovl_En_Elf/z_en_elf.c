@@ -319,13 +319,13 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
     thisx->shape.unk_14 = 0xFF;
 
-    Lights_InitType2PositionalLight(&this->lightInfoPos2, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
+    Lights_InitType2PositionalLight(&this->lightInfoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
                                     255, 255, 255, 0);
-    this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfoPos2);
+    this->lightNodeGlow = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfoGlow);
 
-    Lights_InitType0PositionalLight(&this->lightInfoPos3, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
+    Lights_InitType0PositionalLight(&this->lightInfoNoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
                                     255, 255, 255, 0);
-    this->light2 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfoPos3);
+    this->lightNodeNoGlow = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
 
     this->flags = 0;
     this->dissapearTimer = 0x258;
@@ -431,8 +431,8 @@ void EnElf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnElf* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light2);
+    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNodeGlow);
+    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNodeNoGlow);
 }
 
 void func_80A02A20(EnElf* this, GlobalContext* globalCtx) {
@@ -814,15 +814,15 @@ void func_80A03B28(EnElf* this, GlobalContext* globalCtx) {
 
     if ((this->flags & 0x20) != 0) {
         player = PLAYER;
-        Lights_InitType0PositionalLight(&this->lightInfoPos3, player->actor.posRot.pos.x,
+        Lights_InitType0PositionalLight(&this->lightInfoNoGlow, player->actor.posRot.pos.x,
                                         (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 0xFF,
                                         0xFF, 0xFF, 0xC8);
     } else {
-        Lights_InitType0PositionalLight(&this->lightInfoPos3, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+        Lights_InitType0PositionalLight(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                         this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, -1);
     }
 
-    Lights_InitType2PositionalLight(&this->lightInfoPos2, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+    Lights_InitType2PositionalLight(&this->lightInfoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                     this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, light2Radius);
 
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
@@ -837,10 +837,8 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     Vec3f sp48;
     Player* player = PLAYER;
     Actor* arrowPointedActor;
-    f32 xScale; // 3c
+    f32 xScale;
     f32 distFromLinksHead;
-
-    
 
     func_80A0461C(this, globalCtx);
     func_80A03AB0(this, globalCtx);
@@ -889,10 +887,12 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
         switch (this->unk_2A8) {
             case 7:
-                func_80A02C98(this, &player->unk_908[8], 1.0f - (this->unk_2AE * 0.033333335f));
+                xScale = 1.0f - (this->unk_2AE * 0.033333335f);
+                func_80A02C98(this, &player->unk_908[8], xScale);
                 xScale = 1.0f - ((Math_Vec3f_DistXYZ(&player->unk_908[8], &this->actor.posRot.pos) - 5.0f) * 0.05f);
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
+                    //if (this->actor.scale.y){} // fixes regalloc, if 1 doesnt work
                     xScale = 0;
                 } else {
                     if (distFromLinksHead < 25.0f) {
@@ -1245,7 +1245,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
-    u8 rgbaDiff2C7;
+    u8 unk2C7;
     s32 pad;
     Player* player = PLAYER;
     EnElf* this = THIS;
@@ -1316,8 +1316,8 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         func_800773A8(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
     }
 
-    rgbaDiff2C7 = this->unk_2C7;
-    if (rgbaDiff2C7 > 0) {
+    unk2C7 = this->unk_2C7;
+    if (unk2C7 > 0) {
         this->unk_2C7--;
     }
 
@@ -1383,7 +1383,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    if ((this->unk_2A8 != 8) && (this->flags & 8) == 0) {
+    if ((this->unk_2A8 != 8) && !(this->flags & 8)) {
         if (!(player->stateFlags1 & 0x100000) || (kREG(90) < this->actor.projectedPos.z)) {
             dList = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Gfx) * 4);
 
@@ -1402,7 +1402,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetPrimColor(dList++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g, (u8)this->innerColor.b,
                             (u8)(this->innerColor.a * alphaScale));
 
-            if ((this->flags & 4) != 0) {
+            if (this->flags & 4) {
                 gDPSetRenderMode(dList++, G_RM_PASS, G_RM_CLD_SURF2);
             } else {
                 gDPSetRenderMode(dList++, G_RM_PASS, G_RM_ZB_CLD_SURF2);

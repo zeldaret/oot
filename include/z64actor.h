@@ -239,7 +239,7 @@ typedef struct Player {
     /* 0x01AC */ char       unk_1AC[0x004];
     /* 0x01B0 */ void*      getItemModel; // Pointer to the space where the get item model is allocated
     /* 0x01B4 */ SkelAnime  skelAnime;
-    /* 0x01F8 */ char       unk_1F8[0x1B4];
+    /* 0x01F8 */ char        unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
     /* 0x03B0 */ Vec3f      unk_3B0; // related to links hands
     /* 0x03BC */ char       unk_3BC[0x00C];

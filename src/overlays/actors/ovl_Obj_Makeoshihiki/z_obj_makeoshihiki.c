@@ -94,7 +94,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 cond2;
 
     for (i = 0; i < 3; i++) {
-        if (func_800CB650(&thisx->attachedB->posRot.pos, &block->posVecs[i]) < 0.001f) {
+        if (Math3D_Vec3fDistSq(&thisx->attachedB->posRot.pos, &block->posVecs[i]) < 0.001f) {
             if (block->unk_24[i] & 1) {
                 if ((thisx->params >> 6) & 1) {
                     sfxCond1 = false;

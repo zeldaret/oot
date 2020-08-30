@@ -55,22 +55,22 @@ sudo apt-get update
 sudo apt-get install git build-essential binutils-mips-linux-gnu python3
 ```
 
-#### 2. Download qemu-irix
+#### 2. Download and set up qemu-irix (optional)
+
+Note: We are currently testing a recompiled version of the compiler that does not require qemu-irix.
+This step allows you to build with qemu-irix and the original compiler by adding `ORIG_COMPILER=1` to the `make` command in step 6, for example if you experience issues with the recompiled version.
 
 Download qemu-irix from the Releases section in the repository. Place it at a location of your choosing.
-
-#### 3. Set environment variables
 
 Open up your .bashrc file (~/.bashrc), scroll to the bottom, and add the following, replacing the paths as necessary:
 
 ```text
 export QEMU_IRIX="path/to/your/qemu-irix"
-export MIPS_BINUTILS_PREFIX=mips-linux-gnu-
 ```
 
 Save and close/reopen your terminal window.
 
-#### 4. Clone the repository
+#### 3. Clone the repository
 
 Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, with a command such as:
 
@@ -78,12 +78,12 @@ Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, 
 git clone https://github.com/zeldaret/oot.git
 ```
 
-#### 5. Prepare a base ROM
+#### 4. Prepare a base ROM
 
 Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
 Rename the file to "baserom_original.z64" or "baserom_original.n64", depending on the original extension.
 
-#### 6. Setup the ROM and build process
+#### 5. Setup the ROM and build process
 
 Setup and extract everything from your ROM with the following command:
 
@@ -94,7 +94,7 @@ make setup
 This will generate a new ROM called "baserom.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
-#### 7. Build the ROM
+#### 6. Build the ROM
 
 Run make to build the ROM.
 Make sure your path to the project is not too long, otherwise this process may error.

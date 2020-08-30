@@ -16,10 +16,10 @@ typedef struct EnElf {
     /* 0x01EA */ Vec3s transitionDrawTable[15];
     /* 0x0244 */ Color_RGBAf innerColor;
     /* 0x0254 */ Color_RGBAf outerColor;
-    /* 0x0264 */ LightInfoPositional lightInfoPos2;
-    /* 0x0274 */ z_Light* light;
-    /* 0x0278 */ LightInfoPositional lightInfoPos3;
-    /* 0x0288 */ z_Light* light2;
+    /* 0x0264 */ LightInfoPositional lightInfoGlow;
+    /* 0x0274 */ z_Light* lightNodeGlow;
+    /* 0x0278 */ LightInfoPositional lightInfoNoGlow;
+    /* 0x0288 */ z_Light* lightNodeNoGlow;
     /* 0x028C */ Vec3f unk_28C; //pos copy
     /* 0x0298 */ Actor* elfMsg;
     /* 0x029C */ f32 unk_29C;
@@ -52,7 +52,7 @@ typedef enum {
     /* 0x04 */ FAIRY_SPAWNER,
     /* 0x05 */ FAIRY_REVIVE_DEATH,
     /* 0x06 */ FAIRY_HEAL,
-    /* 0x07 */ FAIRY_HEAL_BIG,
+    /* 0x07 */ FAIRY_HEAL_BIG
 } FairyType;
 
 extern const ActorInit En_Elf_InitVars;
