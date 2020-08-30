@@ -863,7 +863,7 @@ glabel func_80A10220
 /* 01B80 80A10DE0 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 01B84 80A10DE4 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 01B88 80A10DE8 AFAD001C */  sw      $t5, 0x001C($sp)           
-/* 01B8C 80A10DEC 0C00C916 */  jal     Actor_SpawnAttached
+/* 01B8C 80A10DEC 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 01B90 80A10DF0 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 01B94 80A10DF4 8FA20050 */  lw      $v0, 0x0050($sp)           

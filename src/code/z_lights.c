@@ -56,35 +56,32 @@ void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b) {
  * Note: Due to how Lights_Update is implemented, this will end up drawing every light in the buffer,
  *       even if the light was not added by the system invoking this function.
  */
-void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg) {
+void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
     Light* light;
     s32 i;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = gfxCtxArg;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_lights.c", 339);
+    OPEN_DISPS(gfxCtx, "../z_lights.c", 339);
 
-    gSPNumLights(gfxCtx->polyOpa.p++, lights->numLights);
-    gSPNumLights(gfxCtx->polyXlu.p++, lights->numLights);
+    gSPNumLights(oGfxCtx->polyOpa.p++, lights->numLights);
+    gSPNumLights(oGfxCtx->polyXlu.p++, lights->numLights);
 
     i = 0;
     light = &lights->l.l[0];
 
     while (i < lights->numLights) {
         i++;
-        gSPLight(gfxCtx->polyOpa.p++, light, i);
-        gSPLight(gfxCtx->polyXlu.p++, light, i);
+        gSPLight(oGfxCtx->polyOpa.p++, light, i);
+        gSPLight(oGfxCtx->polyXlu.p++, light, i);
         light++;
     }
 
     if (0) {}
 
     i++; // abmient light is total number of lights + 1
-    gSPLight(gfxCtx->polyOpa.p++, &lights->l.a, i);
-    gSPLight(gfxCtx->polyXlu.p++, &lights->l.a, i);
+    gSPLight(oGfxCtx->polyOpa.p++, &lights->l.a, i);
+    gSPLight(oGfxCtx->polyXlu.p++, &lights->l.a, i);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_lights.c", 352);
+    CLOSE_DISPS(gfxCtx, "../z_lights.c", 352);
 }
 
 Light* Lights_FindSlot(Lights* lights) {
@@ -166,7 +163,7 @@ void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
 /*
  * Finds a slot in the buffer to add a node so that it can be updated and drawn
  *
- * Note: Even though there is space for 32 nodes, only the first 7 will be drawn due to how Lights_Update and 
+ * Note: Even though there is space for 32 nodes, only the first 7 will be drawn due to how Lights_Update and
  *       Lights_Draw are implemented.
  */
 LightNode* Lights_FindBufSlot() {
@@ -358,18 +355,15 @@ void Lights_GlowDrawCheck(GlobalContext* globalCtx) {
 void Lights_DrawGlow(GlobalContext* globalCtx) {
     s32 pad;
     LightNode* node;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     node = globalCtx->lightCtx.head;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_lights.c", 887);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_lights.c", 887);
 
-    gfxCtx->polyXlu.p = func_800947AC(gfxCtx->polyXlu.p++);
-    gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_NOISE);
-    gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_MAGICSQ);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_04015720);
+    oGfxCtx->polyXlu.p = func_800947AC(oGfxCtx->polyXlu.p++);
+    gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
+    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_MAGICSQ);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04015720);
 
     while (node != NULL) {
         LightInfo* info;
@@ -383,16 +377,16 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
         if ((info->type == LIGHT_POINT_GLOW) && (params->drawGlow)) {
             scale = SQ(params->radius) * 0.0000026f;
 
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, params->color[0], params->color[1], params->color[2], 50);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, params->color[0], params->color[1], params->color[2], 50);
             Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_04015760);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04015760);
         }
 
         node = node->next;
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_lights.c", 927);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_lights.c", 927);
 }

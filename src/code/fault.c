@@ -536,21 +536,21 @@ void Fault_Wait5Seconds(void) {
     sFaultStructPtr->faultActive = true;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Fault_WaitForButtonCombo() {
     Input* curInput = &sFaultStructPtr->padInput;
-    Input** curInputPtr = &curInput;
     s32 state;
     u32 s1;
     u32 s2;
     u32 kDown;
     u32 kCur;
 
+    if (1) {}
+    if (1) {}
+
     osSyncPrintf(
         VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
-            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE)
-            VT_RST "\n");
+            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
+                                                                                                                                                     "\n");
     osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
         WHITE) ")" VT_RST "\n");
 
@@ -568,10 +568,8 @@ void Fault_WaitForButtonCombo() {
         kDown = curInput->press.in.button;
         kCur = curInput->cur.in.button;
 
-        if (kCur == 0) {
-            if (s1 == s2) {
-                s1 = 0;
-            }
+        if ((kCur == 0) && (s1 == s2)) {
+            s1 = 0;
         } else if (kDown != 0) {
             if (s1 == s2) {
                 state = 0;
@@ -682,9 +680,6 @@ void Fault_WaitForButtonCombo() {
         osWritebackDCacheAll();
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WaitForButtonCombo.s")
-#endif
 
 void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     u32* alignedAddr;

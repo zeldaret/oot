@@ -180,7 +180,7 @@ glabel BossGanondrof_Init
 /* 00694 80910CD4 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00698 80910CD8 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 0069C 80910CDC 8619001C */  lh      $t9, 0x001C($s0)           ## 00001C40
-/* 006A0 80910CE0 0C00C916 */  jal     Actor_SpawnAttached
+/* 006A0 80910CE0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 006A4 80910CE4 AFB90028 */  sw      $t9, 0x0028($sp)           
 /* 006A8 80910CE8 8FBF003C */  lw      $ra, 0x003C($sp)           

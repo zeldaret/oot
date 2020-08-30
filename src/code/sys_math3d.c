@@ -47,13 +47,9 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
 /**
  * Creates a line segment which is perpendicular to the line segments `lineAPointA`->`lineAPointB` and
  * `lineBPointA`->`lineBPointB`
- *
  */
 #ifdef NON_MATCHING
-/**
- * NON_MATCHING:
- * Lots of regalloc, but is functionally equivilent, some reordering.
- */
+// Lots of regalloc, but is functionally equivilent, some reordering.
 s32 Math3D_LineSegMakePerpLineSeg(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                   Vec3f* lineAIntersect, Vec3f* lineBIntersect) {
     f32 sp5C;

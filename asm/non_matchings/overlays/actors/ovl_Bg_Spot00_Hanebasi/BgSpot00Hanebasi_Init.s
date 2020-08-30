@@ -188,7 +188,7 @@ glabel BgSpot00Hanebasi_Init
 /* 00290 808A9A10 860900B6 */  lh      $t1, 0x00B6($s0)           ## 000000B6
 /* 00294 808A9A14 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 00298 808A9A18 AFA00024 */  sw      $zero, 0x0024($sp)         
-/* 0029C 808A9A1C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0029C 808A9A1C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 002A0 808A9A20 AFA90020 */  sw      $t1, 0x0020($sp)           
 /* 002A4 808A9A24 14400003 */  bne     $v0, $zero, .L808A9A34     
@@ -236,7 +236,7 @@ glabel BgSpot00Hanebasi_Init
 /* 00338 808A9AB8 860E00B6 */  lh      $t6, 0x00B6($s0)           ## 000000B6
 /* 0033C 808A9ABC AFAF0028 */  sw      $t7, 0x0028($sp)           
 /* 00340 808A9AC0 AFA00024 */  sw      $zero, 0x0024($sp)         
-/* 00344 808A9AC4 0C00C916 */  jal     Actor_SpawnAttached
+/* 00344 808A9AC4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00348 808A9AC8 AFAE0020 */  sw      $t6, 0x0020($sp)           
 /* 0034C 808A9ACC 14400005 */  bne     $v0, $zero, .L808A9AE4     
