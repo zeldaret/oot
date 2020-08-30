@@ -4,7 +4,6 @@
 "G_IM_SIZ_.*" = "int"
 "G_[AC]CMUX.*" = "int"
 LOG = "void"
-SET_NEXT_GAMESTATE = "void"
 SET_FULLSCREEN_VIEWPORT = "void"
 OPEN_DISPS = "void"
 CLOSE_DISPS = "void"
