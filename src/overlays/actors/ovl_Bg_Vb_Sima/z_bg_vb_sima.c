@@ -11,7 +11,7 @@
 
 #define THIS ((BgVbSima*)thisx)
 
-#define BOSSFD ((BossFd*)this->dyna.actor.attachedA)
+#define BOSSFD ((BossFd*)this->dyna.actor.parent)
 
 void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -148,13 +148,11 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x11D);
+    
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x11D);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x123),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x123),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000240);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x128);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000240);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x128);
 }

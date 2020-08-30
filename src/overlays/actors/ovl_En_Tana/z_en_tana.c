@@ -68,29 +68,27 @@ void EnTana_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B17FC4(Actor* thisx, GlobalContext* globalCtx) {
     EnTana* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, sDLists1[thisx->params]);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists1[thisx->params]);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
 }
 
 void func_80B1809C(Actor* thisx, GlobalContext* globalCtx) {
     EnTana* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sUnkSegments[thisx->params]));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sUnkSegments[thisx->params]));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, sDLists1[thisx->params]);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists1[thisx->params]);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
 }

@@ -29,7 +29,7 @@ glabel func_80B54F18
 /* 01BD4 80B54F84 46105080 */  add.s   $f2, $f10, $f16            
 /* 01BD8 80B54F88 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 01BDC 80B54F8C E7AC0018 */  swc1    $f12, 0x0018($sp)          
-/* 01BE0 80B54F90 0C00C916 */  jal     Actor_SpawnAttached
+/* 01BE0 80B54F90 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 01BE4 80B54F94 E7A20014 */  swc1    $f2, 0x0014($sp)           
 /* 01BE8 80B54F98 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
