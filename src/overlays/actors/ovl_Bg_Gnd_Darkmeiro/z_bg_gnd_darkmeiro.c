@@ -118,7 +118,6 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
-    
 }
 
 void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
@@ -135,7 +134,7 @@ void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
         } else {
             this->actionState |= 4;
             this->timer1 = 304;
-            Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_RED_EYE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
 
@@ -150,7 +149,7 @@ void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
         } else {
             this->actionState |= 8;
             this->timer2 = 304;
-            Audio_PlaySoundGeneral(0x2881U, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_RED_EYE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
 
@@ -166,7 +165,6 @@ void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_StaticBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
-    
 }
 
 void BgGndDarkmeiro_SwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
@@ -184,12 +182,12 @@ void BgGndDarkmeiro_SwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
 
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgGndDarkmeiro* this = THIS;
-    
+
     this->actionFunc(this, globalCtx);
 }
 
 void BgGndDarkmeiro_Draw0(Actor* thisx, GlobalContext* globalCtx) {
-    
+
     Gfx_DrawDListXlu(globalCtx, D_060088B0);
 }
 
@@ -222,7 +220,7 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, GlobalContext* globalCtx) {
-    
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
