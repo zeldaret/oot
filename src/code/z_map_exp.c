@@ -314,22 +314,19 @@ void Map_Init(GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc and minor ordering differences
 void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
     Player* player = PLAYER;
     s16 tempX, tempY, tempZ;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 565);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 565);
 
     if (globalCtx->interfaceCtx.minimapAlpha >= 0xAA) {
         func_80094A14(globalCtx->state.gfxCtx);
 
-        gSPMatrix(gfxCtx->overlay.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+        gSPMatrix(oGfxCtx->overlay.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPSetCombineLERP(oGfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 255);
-        gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+        gDPSetEnvColor(oGfxCtx->overlay.p++, 0, 0, 0, 255);
+        gDPSetCombineMode(oGfxCtx->overlay.p++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
 
         tempX = player->actor.posRot.pos.x;
         tempZ = player->actor.posRot.pos.z;
@@ -340,11 +337,11 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         Matrix_RotateX(-1.6f, MTXMODE_APPLY);
         tempY = (0x7FFF - player->actor.shape.rot.y) / 0x400;
         Matrix_RotateY(tempY / 10.0f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 585),
+        gSPMatrix(oGfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 585),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 200, 255, 0, 255);
-        gSPDisplayList(gfxCtx->overlay.p++, D_0400C820);
+        gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 200, 255, 0, 255);
+        gSPDisplayList(oGfxCtx->overlay.p++, D_0400C820);
 
         tempX = sPlayerInitialPosX;
         tempZ = sPlayerInitialPosZ;
@@ -354,14 +351,14 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         Matrix_Scale(VREG(9) / 100.0f, VREG(9) / 100.0f, VREG(9) / 100.0f, MTXMODE_APPLY);
         Matrix_RotateX(VREG(52) / 10.0f, MTXMODE_APPLY);
         Matrix_RotateY(sPlayerInitialDirection / 10.0f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 603),
+        gSPMatrix(oGfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 603),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0xFF, 200, 0, 0, 255);
-        gSPDisplayList(gfxCtx->overlay.p++, D_0400C820);
+        gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0xFF, 200, 0, 0, 255);
+        gSPDisplayList(oGfxCtx->overlay.p++, D_0400C820);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 607);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 607);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_map_exp/Minimap_DrawCompassIcons.s")
@@ -371,10 +368,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
     s32 pad[2];
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s32 mapIndex = gSaveContext.mapIndex;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 626);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 626);
 
     if (globalCtx->pauseCtx.state < 4) {
         switch (globalCtx->sceneNum) {
@@ -390,17 +385,17 @@ void Minimap_Draw(GlobalContext* globalCtx) {
             case SCENE_ICE_DOUKUTO:
                 if (!R_MINIMAP_TOGGLED) {
                     func_80094520(globalCtx->state.gfxCtx);
-                    gDPSetCombineLERP(gfxCtx->overlay.p++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE,
-                                      0, TEXEL0, 0, PRIMITIVE, 0);
+                    gDPSetCombineLERP(oGfxCtx->overlay.p++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0,
+                                      PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
 
                     if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
-                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
+                        gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
-                        gDPLoadTextureBlock_4b(gfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
+                        gDPLoadTextureBlock_4b(oGfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
                                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                                G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                        gSPTextureRectangle(gfxCtx->overlay.p++, R_DGN_MINIMAP_X << 2, R_DGN_MINIMAP_Y << 2,
+                        gSPTextureRectangle(oGfxCtx->overlay.p++, R_DGN_MINIMAP_X << 2, R_DGN_MINIMAP_Y << 2,
                                             (R_DGN_MINIMAP_X + 96) << 2, (R_DGN_MINIMAP_Y + 85) << 2, G_TX_RENDERTILE,
                                             0, 0, 1024, 1024);
                     }
@@ -447,16 +442,16 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                 if (!R_MINIMAP_TOGGLED) {
                     func_80094520(globalCtx->state.gfxCtx);
 
-                    gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-                    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_MINIMAP_COLOR(0), R_MINIMAP_COLOR(1),
+                    gDPSetCombineMode(oGfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, R_MINIMAP_COLOR(0), R_MINIMAP_COLOR(1),
                                     R_MINIMAP_COLOR(2), interfaceCtx->minimapAlpha);
 
-                    gDPLoadTextureBlock_4b(gfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_IA,
+                    gDPLoadTextureBlock_4b(oGfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_IA,
                                            gMapData->owMinimapWidth[mapIndex], gMapData->owMinimapHeight[mapIndex], 0,
                                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                    gSPTextureRectangle(gfxCtx->overlay.p++, R_OW_MINIMAP_X << 2, R_OW_MINIMAP_Y << 2,
+                    gSPTextureRectangle(oGfxCtx->overlay.p++, R_OW_MINIMAP_X << 2, R_OW_MINIMAP_Y << 2,
                                         (R_OW_MINIMAP_X + gMapData->owMinimapWidth[mapIndex]) << 2,
                                         (R_OW_MINIMAP_Y + gMapData->owMinimapHeight[mapIndex]) << 2, G_TX_RENDERTILE, 0,
                                         0, 1024, 1024);
@@ -468,11 +463,11 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
                              (gSaveContext.infTable[26] & gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
-                            gDPLoadTextureBlock(gfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
+                            gDPLoadTextureBlock(oGfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                                 G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                            gSPTextureRectangle(gfxCtx->overlay.p++,
+                            gSPTextureRectangle(oGfxCtx->overlay.p++,
                                                 gMapData->owEntranceIconPosX[sEntranceIconMapIndex] << 2,
                                                 gMapData->owEntranceIconPosY[sEntranceIconMapIndex] << 2,
                                                 (gMapData->owEntranceIconPosX[sEntranceIconMapIndex] + 8) << 2,
@@ -482,11 +477,11 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     }
 
                     if ((globalCtx->sceneNum == SCENE_SPOT08) && (gSaveContext.infTable[26] & gBitFlags[9])) {
-                        gDPLoadTextureBlock(gfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
+                        gDPLoadTextureBlock(oGfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                        gSPTextureRectangle(gfxCtx->overlay.p++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1024,
+                        gSPTextureRectangle(oGfxCtx->overlay.p++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1024,
                                             1024);
                     }
 
@@ -507,7 +502,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
         }
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 782);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 782);
 }
 
 s16 Map_GetFloorTextIndexOffset(s32 mapIndex, s32 floor) {

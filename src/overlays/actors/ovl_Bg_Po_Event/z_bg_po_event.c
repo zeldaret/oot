@@ -123,7 +123,7 @@ void func_808A6210(BgPoEvent *this, GlobalContext *globalCtx) {
             } else {
                 phi_t2 = this->unk_169 + 2;
             }
-            if (Actor_SpawnAttached(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
+            if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
                                     D_808A7D68[phi_t2], D_808A7D70[this->unk_169], D_808A7D74[this->unk_169],
                                     0, this->dyna.actor.shape.rot.y + 0x8000, 0,
                                     ((this->unk_169 + 1) << 0xC) + (this->unk_168 << 8) + this->dyna.actor.params) == 0) {
@@ -131,12 +131,12 @@ void func_808A6210(BgPoEvent *this, GlobalContext *globalCtx) {
                 return;
             }
             if (this->unk_169 == 0) {
-                if (this->dyna.actor.attachedB->attachedB == NULL) {
+                if (this->dyna.actor.child->child == NULL) {
                     Actor_Kill(&this->dyna.actor);
                     return;
                 }
-                this->dyna.actor.attachedA = this->dyna.actor.attachedB->attachedB;
-                this->dyna.actor.attachedB->attachedB->attachedB = &this->dyna.actor;
+                this->dyna.actor.parent = this->dyna.actor.child->child;
+                this->dyna.actor.child->child->child = &this->dyna.actor;
             }
         }
     }
@@ -159,7 +159,7 @@ void func_808A658C(BgPoEvent *this, GlobalContext *globalCtx) {
     DynaPolyInfo_Alloc(&D_06007860, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
      if ((this->unk_168 == 0) && (this->unk_169 != 3)) {
-        if (Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_BG_PO_EVENT,
+        if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_BG_PO_EVENT,
                                 D_808A7D78[this->unk_169], thisx->posRot.pos.y, D_808A7D80[this->unk_169],
                                 0, thisx->shape.rot.y, thisx->shape.rot.z - 0x4000,
                                ((this->unk_169 + 1) << 0xC) + (this->unk_168 << 8) + thisx->params) == NULL) {
@@ -167,17 +167,17 @@ void func_808A658C(BgPoEvent *this, GlobalContext *globalCtx) {
             return;
         }
         if (this->unk_169 == 0) {
-            if (thisx->attachedB->attachedB == 0) {
+            if (thisx->child->child == 0) {
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
-            if (thisx->attachedB->attachedB->attachedB == 0) {
+            if (thisx->child->child->child == 0) {
                 Actor_Kill(thisx);
-                Actor_Kill(thisx->attachedB);
+                Actor_Kill(thisx->child);
                 return;
             }
-            thisx->attachedA = thisx->attachedB->attachedB->attachedB;
-            thisx->attachedB->attachedB->attachedB->attachedB = thisx;
+            thisx->parent = thisx->child->child->child;
+            thisx->child->child->child->child = thisx;
         }
     }
     thisx->posRot.pos.y = 833.0f;
@@ -287,30 +287,30 @@ void func_808A6A94(BgPoEvent *this) {
 
     if ((this->unk_169 == 3) || (this->unk_169 == 1)) {
         temp_f6 = this->dyna.actor.posRot.pos.z;
-        temp_f10 = this->dyna.actor.attachedB->posRot.pos.z;
+        temp_f10 = this->dyna.actor.child->posRot.pos.z;
         if (this->unk_169 == 3) {
             phi_v1 = temp_f6;
             phi_a1 = temp_f10;
             phi_a3 = this->dyna.actor.posRot.pos.x;
-            phi_t0 = this->dyna.actor.attachedB->posRot.pos.x;
+            phi_t0 = this->dyna.actor.child->posRot.pos.x;
         } else { //this->unk_169 == 1
             phi_v1 = temp_f6;
             phi_a1 = temp_f10;
-            phi_a3 = this->dyna.actor.attachedB->posRot.pos.x;
+            phi_a3 = this->dyna.actor.child->posRot.pos.x;
             phi_t0 = this->dyna.actor.posRot.pos.x;
         }
     } else {
         temp_f6 = this->dyna.actor.posRot.pos.x;
-        temp_f10 = this->dyna.actor.attachedB->posRot.pos.x;
+        temp_f10 = this->dyna.actor.child->posRot.pos.x;
         if (this->unk_169 == 0) {
             phi_v1 = temp_f6;
             phi_a1 = temp_f10;
             phi_a3 = this->dyna.actor.posRot.pos.z;
-            phi_t0 = this->dyna.actor.attachedB->posRot.pos.z;
+            phi_t0 = this->dyna.actor.child->posRot.pos.z;
         } else { //this->unk_169 == 2
             phi_v1 = temp_f6;
             phi_a1 = temp_f10;
-            phi_a3 = this->dyna.actor.attachedB->posRot.pos.z;
+            phi_a3 = this->dyna.actor.child->posRot.pos.z;
             phi_t0 = this->dyna.actor.posRot.pos.z;
         }
     }
@@ -371,7 +371,6 @@ void func_808A6CCC(BgPoEvent *this, GlobalContext *globalCtx) {
         }
     } else {
         if((gSaveContext.timer1Value == 0) && (D_808A7D58[0] == 5)) {
-            //*((s16*)player + 0x340) &= ~0x10;
             player->stateFlags2 &= ~0x10;
             D_808A80A0 = 0x10;
             D_808A7D58[0] = 0;
@@ -443,7 +442,7 @@ void func_808A6F7C(BgPoEvent *this, GlobalContext *globalCtx) {
             return;
         }
         func_808A6A94(this);
-        func_808A6A94((BgPoEvent*) this->dyna.actor.attachedA);
+        func_808A6A94((BgPoEvent*) this->dyna.actor.parent);
     }
     func_8002F974(&this->dyna.actor, 0x200A);
 }
@@ -507,16 +506,16 @@ void func_808A7328(BgPoEvent* this, GlobalContext *globalCtx) {
 
 s32 func_808A7444(BgPoEvent *this) {
     
-    if ((this->dyna.actor.attachedA != NULL) && (this->dyna.actor.attachedB != NULL)) {
+    if ((this->dyna.actor.parent != NULL) && (this->dyna.actor.child != NULL)) {
         if (Math_Rand_ZeroOne() < 0.5f) {
-            D_808A80A0 = ((BgPoEvent*)this->dyna.actor.attachedA)->unk_169;
+            D_808A80A0 = ((BgPoEvent*)this->dyna.actor.parent)->unk_169;
         } else {
-            D_808A80A0 = ((BgPoEvent*)this->dyna.actor.attachedB)->unk_169;
+            D_808A80A0 = ((BgPoEvent*)this->dyna.actor.child)->unk_169;
         }
-    } else if (this->dyna.actor.attachedA != NULL) {
-        D_808A80A0 = ((BgPoEvent*)this->dyna.actor.attachedA)->unk_169;
-    } else if (this->dyna.actor.attachedB != NULL) {
-        D_808A80A0 = ((BgPoEvent*)this->dyna.actor.attachedB)->unk_169;
+    } else if (this->dyna.actor.parent != NULL) {
+        D_808A80A0 = ((BgPoEvent*)this->dyna.actor.parent)->unk_169;
+    } else if (this->dyna.actor.child != NULL) {
+        D_808A80A0 = ((BgPoEvent*)this->dyna.actor.child)->unk_169;
     } else {
         return 0;
     }
@@ -546,22 +545,21 @@ void func_808A7568(BgPoEvent *this, GlobalContext *globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
 void func_808A75B8(BgPoEvent *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     s32 phi_v0;
-    BgPoEventActionFunc* phi_t1;
 
     if (this->unk_16C != 0) {
         this->unk_16C--;
     }
+    
     if ((this->unk_16C == 0)||((this->dyna.actor.xzDistFromLink < 150.0f) && (this->dyna.actor.yDistFromLink < 50.0f))) {
         goto block_14;
     }
     if ((func_8002DD78(&player->actor) == 0) || !(this->dyna.actor.xzDistFromLink < 320.0f)) {
         goto block_17;
     }
-
-    
     if(this->unk_169 != 2) {
         phi_v0 = 0;
         if(this->dyna.actor.yDistFromLink < 100.0f) {
@@ -577,13 +575,12 @@ void func_808A75B8(BgPoEvent *this, GlobalContext *globalCtx) {
         goto block_17;
     }
 block_14:
-    if ((this->dyna.actor.attachedA == NULL) && (this->dyna.actor.attachedB == NULL)) {
+    if ((this->dyna.actor.parent == NULL) && (this->dyna.actor.child == NULL)) {
             goto block_17;
     }
     this->unk_16C = 0;
     Audio_PlayActorSound2(this, 0x38EC);
-    phi_t1 = &func_808A7568;
-    this->actionFunc = phi_t1;
+    this->actionFunc = &func_808A7568;
     return;
 block_17:
     if ((this->collider1.base.acFlags & 2) == 0) {
@@ -600,23 +597,20 @@ block_17:
         Audio_PlayActorSound2(this, 0x38EF);
         func_800800F8(globalCtx, 0xC58, 0x23, this, 0);
     }
-    if (this->dyna.actor.attachedA != NULL) {
-        this->dyna.actor.attachedA->attachedB = NULL;
-        this->dyna.actor.attachedA = NULL;
+    if (this->dyna.actor.parent != NULL) {
+        this->dyna.actor.parent->child = NULL;
+        this->dyna.actor.parent = NULL;
     }
-    if (this->dyna.actor.attachedB != NULL) {
-        this->dyna.actor.attachedB->attachedA = NULL;
-        this->dyna.actor.attachedB = NULL;
+    if (this->dyna.actor.child != NULL) {
+        this->dyna.actor.child->parent = NULL;
+        this->dyna.actor.child = NULL;
     }
     this->unk_16C = 0x14;
     this->actionFunc = &func_808A780C;
 }
-
-
-
-
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/func_808A75B8.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/func_808A75B8.s")
+#endif
 
 void func_808A780C(BgPoEvent *this, GlobalContext *globalCtx) {
     Vec3f sp54;
@@ -657,11 +651,9 @@ void BgPoEvent_Draw(Actor *thisx, GlobalContext *globalCtx) {
     Vec3f sp4C;
     f32 temp_f0;
     u8 phi_a0;
-    GraphicsContext * gfxCtx = globalCtx->state.gfxCtx;
-    Gfx * disprefs[4];
 
 
-    Graph_OpenDisps(disprefs, globalCtx->state.gfxCtx, "../z_bg_po_event.c", 0x5C9);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 0x5C9);
     func_80093D18(globalCtx->state.gfxCtx);
     if ((this->unk_168 == 3) || (this->unk_168 == 2)) {
         if (this->actionFunc == func_808A7500) {
@@ -671,12 +663,12 @@ void BgPoEvent_Draw(Actor *thisx, GlobalContext *globalCtx) {
         } else {
             phi_a0 = this->unk_16C; //note: cast from s16 to u8.
         }
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, phi_a0);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, phi_a0);
     }
-    gSPMatrix(gfxCtx->polyOpa.p++,Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 0x5DD), 
+    gSPMatrix(oGfxCtx->polyOpa.p++,Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 0x5DD), 
                 G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++,D_808A7D94[this->unk_168]);
-    Graph_CloseDisps(disprefs, globalCtx->state.gfxCtx, "../z_bg_po_event.c", 0x5E4);
+    gSPDisplayList(oGfxCtx->polyOpa.p++,D_808A7D94[this->unk_168]);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 0x5E4);
     
     if ((this->unk_168 == 0) || (this->unk_168 == 1)) {
         temp_f0 = (833.0f - thisx->posRot.pos.y) * 0.0025f;
