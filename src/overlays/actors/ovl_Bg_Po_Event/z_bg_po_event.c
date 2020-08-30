@@ -547,6 +547,7 @@ void func_808A7568(BgPoEvent *this, GlobalContext *globalCtx) {
 
 #ifdef NON_MATCHING
 void func_808A75B8(BgPoEvent *this, GlobalContext *globalCtx) {
+    Actor* thisx = &this->dyna.actor;
     Player* player = PLAYER;
     s32 phi_v0;
 
@@ -554,30 +555,31 @@ void func_808A75B8(BgPoEvent *this, GlobalContext *globalCtx) {
         this->unk_16C--;
     }
     
-    if ((this->unk_16C == 0)||((this->dyna.actor.xzDistFromLink < 150.0f) && (this->dyna.actor.yDistFromLink < 50.0f))) {
+    if ((this->unk_16C == 0)||((thisx->xzDistFromLink < 150.0f) && (thisx->yDistFromLink < 50.0f))) {
         goto block_14;
     }
-    if ((func_8002DD78(&player->actor) == 0) || !(this->dyna.actor.xzDistFromLink < 320.0f)) {
+    if (!((func_8002DD78(&player->actor) != 0) && (thisx->xzDistFromLink < 320.0f))) {
         goto block_17;
     }
     if(this->unk_169 != 2) {
         phi_v0 = 0;
-        if(this->dyna.actor.yDistFromLink < 100.0f) {
+        if(thisx->yDistFromLink < 100.0f) {
             phi_v0 = 1;
         }
     } else {
         phi_v0 = 0;
-        if(this->dyna.actor.yDistFromLink < 0.0f) {
+        if(thisx->yDistFromLink < 0.0f) {
             phi_v0 = 1;
         }
     }
-    if ((phi_v0 == 0) || (func_8002DFC8(this, 0x2000, globalCtx) == 0)) {
+    if (!((phi_v0 != 0) && (func_8002DFC8(this, 0x2000, globalCtx) != 0))) {
         goto block_17;
     }
 block_14:
-    if ((this->dyna.actor.parent == NULL) && (this->dyna.actor.child == NULL)) {
+    if (!((thisx->parent != NULL) || (thisx->child != NULL))) {
             goto block_17;
     }
+
     this->unk_16C = 0;
     Audio_PlayActorSound2(this, 0x38EC);
     this->actionFunc = &func_808A7568;
@@ -587,23 +589,23 @@ block_17:
         return;
     }
     if (func_808A7444(this) == 0) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x91,
-                    this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y - 40.0f, this->dyna.actor.posRot.pos.z,
-                    0, this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + ((this->unk_168 - 1) << 8));
-        func_800800F8(globalCtx, 0xC58, 0x50, this, 0);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x91, thisx->posRot.pos.x,
+                    thisx->posRot.pos.y - 40.0f, thisx->posRot.pos.z, 0,
+                    thisx->shape.rot.y, 0, thisx->params + ((this->unk_168 - 1) << 8));
+        func_800800F8(globalCtx, 0xC58, 0x50, thisx, 0);
         func_80078884(0x4802);
 
     } else {
-        Audio_PlayActorSound2(this, 0x38EF);
-        func_800800F8(globalCtx, 0xC58, 0x23, this, 0);
+        Audio_PlayActorSound2(thisx, 0x38EF);
+        func_800800F8(globalCtx, 0xC58, 0x23, thisx, 0);
     }
-    if (this->dyna.actor.parent != NULL) {
-        this->dyna.actor.parent->child = NULL;
-        this->dyna.actor.parent = NULL;
+    if (thisx->parent != NULL) {
+        thisx->parent->child = NULL;
+        thisx->parent = NULL;
     }
-    if (this->dyna.actor.child != NULL) {
-        this->dyna.actor.child->parent = NULL;
-        this->dyna.actor.child = NULL;
+    if (thisx->child != NULL) {
+        thisx->child->parent = NULL;
+        thisx->child = NULL;
     }
     this->unk_16C = 0x14;
     this->actionFunc = &func_808A780C;
