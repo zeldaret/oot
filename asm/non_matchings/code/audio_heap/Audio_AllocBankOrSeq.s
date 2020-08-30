@@ -1,4 +1,4 @@
-glabel func_800DE8E0
+glabel Audio_AllocBankOrSeq
 /* B55A80 800DE8E0 27BDFFB0 */  addiu $sp, $sp, -0x50
 /* B55A84 800DE8E4 AFB00018 */  sw    $s0, 0x18($sp)
 /* B55A88 800DE8E8 00808025 */  move  $s0, $a0
@@ -497,7 +497,7 @@ glabel func_800DE8E0
 .L800DEFAC:
 /* B5614C 800DEFAC AFA60058 */  sw    $a2, 0x58($sp)
 /* B56150 800DEFB0 AFA8004C */  sw    $t0, 0x4c($sp)
-/* B56154 800DEFB4 0C0378F7 */  jal   func_800DE3DC
+/* B56154 800DEFB4 0C0378F7 */  jal   Audio_Alloc
 /* B56158 800DEFB8 AFAB0030 */   sw    $t3, 0x30($sp)
 /* B5615C 800DEFBC 8FA8004C */  lw    $t0, 0x4c($sp)
 /* B56160 800DEFC0 2407000C */  li    $a3, 12

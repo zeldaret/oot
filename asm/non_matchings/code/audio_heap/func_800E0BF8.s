@@ -4,7 +4,7 @@ glabel func_800E0BF8
 /* B57DA0 800E0C00 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B57DA4 800E0C04 3C048017 */  lui   $a0, %hi(gAudioContext+0x2ee0) # $a0, 0x8017
 /* B57DA8 800E0C08 24842060 */  addiu $a0, %lo(gAudioContext+0x2ee0) # addiu $a0, $a0, 0x2060
-/* B57DAC 800E0C0C 0C0378F7 */  jal   func_800DE3DC
+/* B57DAC 800E0C0C 0C0378F7 */  jal   Audio_Alloc
 /* B57DB0 800E0C10 8FA50018 */   lw    $a1, 0x18($sp)
 /* B57DB4 800E0C14 14400003 */  bnez  $v0, .L800E0C24
 /* B57DB8 800E0C18 00402025 */   move  $a0, $v0

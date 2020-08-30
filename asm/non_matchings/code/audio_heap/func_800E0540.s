@@ -9,7 +9,7 @@ glabel func_800E0540
 /* B576FC 800E055C AFA60028 */  sw    $a2, 0x28($sp)
 /* B57700 800E0560 24841ED0 */  addiu $a0, %lo(gAudioContext+0x2d50) # addiu $a0, $a0, 0x1ed0
 /* B57704 800E0564 00C02825 */  move  $a1, $a2
-/* B57708 800E0568 0C0378F7 */  jal   func_800DE3DC
+/* B57708 800E0568 0C0378F7 */  jal   Audio_Alloc
 /* B5770C 800E056C AFAE0018 */   sw    $t6, 0x18($sp)
 /* B57710 800E0570 8FAF0018 */  lw    $t7, 0x18($sp)
 /* B57714 800E0574 3C198017 */  lui   $t9, %hi(gAudioContext) # $t9, 0x8017

@@ -8,13 +8,13 @@ glabel func_800DE258
 /* B55410 800DE270 11C00005 */  beqz  $t6, .L800DE288
 /* B55414 800DE274 00001825 */   move  $v1, $zero
 /* B55418 800DE278 3C048017 */  lui   $a0, %hi(gAudioContext+0x29a0) # $a0, 0x8017
-/* B5541C 800DE27C 0C0378E0 */  jal   Audio_SoundAlloc
+/* B5541C 800DE27C 0C0378E0 */  jal   Audio_AllocZeroed
 /* B55420 800DE280 24841B20 */   addiu $a0, %lo(gAudioContext+0x29a0) # addiu $a0, $a0, 0x1b20
 /* B55424 800DE284 00401825 */  move  $v1, $v0
 .L800DE288:
 /* B55428 800DE288 14600004 */  bnez  $v1, .L800DE29C
 /* B5542C 800DE28C 8FA40018 */   lw    $a0, 0x18($sp)
-/* B55430 800DE290 0C0378E0 */  jal   Audio_SoundAlloc
+/* B55430 800DE290 0C0378E0 */  jal   Audio_AllocZeroed
 /* B55434 800DE294 8FA5001C */   lw    $a1, 0x1c($sp)
 /* B55438 800DE298 00401825 */  move  $v1, $v0
 .L800DE29C:

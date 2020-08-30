@@ -470,11 +470,39 @@ typedef struct {
 } AudioBufferParametersEU;
 
 typedef struct {
-    u8* start;
-    u8* cur;
-    u32 size;
-    s32 unused; // set to 0, never read
-} SoundAllocPool;
+    /*!0x0*/ u8* start;
+    /*!0x4*/ u8* cur;
+    /*!0x8*/ u32 size;
+    /*!0xC*/ s32 unused; // set to 0, never read
+} SoundAllocPool; // size = 0x10
+
+typedef struct {
+    /*!0x0*/ u8 *ptr;
+    /* 0x4*/ u32 size;
+    /*    */ u16 pad;
+    /* 0xA*/ u16 id; // seqId or bankId
+} SeqOrBankEntry; // size = 0xC
+
+typedef struct
+{
+    /*!0x00*/ u32 numEntries;
+    /*!0x04*/ SoundAllocPool pool;
+    /* 0x14*/ SeqOrBankEntry entries[16];
+} PersistentPool; // size = 0xD4
+
+typedef struct
+{
+    /*!0x00*/ u32 nextSide;
+    /*!0x04*/ SoundAllocPool pool;
+    /*!0x14*/ SeqOrBankEntry entries[2];
+} TemporaryPool; // size = 0x3C
+
+typedef struct
+{
+    /*!0x000*/ PersistentPool persistent;
+    /*!0x0D4*/ TemporaryPool temporary;
+    /* 0x100*/ u8 pad[0x10];
+} SoundMultiPool; // size = 0x110
 
 typedef struct {
     /* 0x0000 */ char unk_0000[0x14];
@@ -482,7 +510,7 @@ typedef struct {
     /* 0x0018 */ char unk_0018[0x280];
     /* 0x0298 */ LargeSound largeSounds[1]; // size <= 14, offset might be wrong
     /* 0x0560 */ char unk_0560[0x22E4];
-    /* 0x2844 */ CtlEntry* gCtlEntries;
+    /*!0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ char unk_2848[0x4];
     /* 0x284C */ AudioBufferParametersEU gAudioBufferParameters;
     /* 0x286C */ f32 unk_286C;
@@ -490,19 +518,26 @@ typedef struct {
     /* 0x2874 */ char unk_2874[0x20];
     /* 0x2894 */ s32 gMaxSimultaneousNotes;
     /* 0x2898 */ s16 unk_2898;
-    /* 0x289A */ s8 gSoundMode;
+    /*!0x289A */ s8 gSoundMode;
     /* 0x289B */ char unk_289B[0xE1];
-    /* 0x297C */ u32 gAudioRandom;
-    /* 0x2980 */ s32 gAudioErrorFlags;
+    /*!0x297C */ u32 gAudioRandom;
+    /*!0x2980 */ s32 gAudioErrorFlags;
     /* 0x2984 */ char unk_2984[0x3C];
-    /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
-    /* 0x29D0 */ char unk_29D0[0xB50];
+    /*!0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
+    /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
+    /*!0x29F0 */ SoundAllocPool gSeqAndBankPool;
+    /*!0x2A00 */ SoundAllocPool gTemporaryCommonPool;
+    /*!0x2A10 */ SoundAllocPool gPersistentCommonPool;
+    /*!0x2A20 */ SoundMultiPool gSeqLoadedPool;
+    /*!0x2B30 */ SoundMultiPool gBankLoadedPool;
+    /*!0x2C40 */ SoundMultiPool gUnusedLoadedPool;
+    /* 0x2D50 */ char unk_2D50[0x7D0];
     /* 0x3520 */ f32* unk_3520;
     /* 0x3524 */ char unk_3524[8];
-    /* 0x352C */ Note* gNotes;
-    /* 0x3530 */ SequencePlayer gSequencePlayers[4];
-    /* 0x3AB0 */ SequenceChannelLayer gSequenceLayers[64];
-    /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
+    /*!0x352C */ Note* gNotes;
+    /*!0x3530 */ SequencePlayer gSequencePlayers[4];
+    /*!0x3AB0 */ SequenceChannelLayer gSequenceLayers[64];
+    /*!0x5AB0 */ SequenceChannel gSequenceChannelNone;
     /* 0x5B84 */ s32 gNoteSubEuOffset;
     /* 0x5B88 */ AudioListItem gLayerFreeList;
 } AudioContext;

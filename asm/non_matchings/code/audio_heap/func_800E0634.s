@@ -15,7 +15,7 @@ glabel func_800E0634
 .L800E0668:
 /* B57808 800E0668 3C048017 */  lui   $a0, %hi(gAudioContext+0x2ee0) # $a0, 0x8017
 /* B5780C 800E066C 24842060 */  addiu $a0, %lo(gAudioContext+0x2ee0) # addiu $a0, $a0, 0x2060
-/* B57810 800E0670 0C03790D */  jal   func_800DE434
+/* B57810 800E0670 0C03790D */  jal   Audio_SoundAllocPoolInit
 /* B57814 800E0674 8FA60018 */   lw    $a2, 0x18($sp)
 .L800E0678:
 /* B57818 800E0678 3C048017 */  lui   $a0, %hi(gAudioContext+0x29c0) # $a0, 0x8017
@@ -31,7 +31,7 @@ glabel func_800E0634
 .L800E06A0:
 /* B57840 800E06A0 3C048017 */  lui   $a0, %hi(gAudioContext+0x3174) # $a0, 0x8017
 /* B57844 800E06A4 248422F4 */  addiu $a0, %lo(gAudioContext+0x3174) # addiu $a0, $a0, 0x22f4
-/* B57848 800E06A8 0C03790D */  jal   func_800DE434
+/* B57848 800E06A8 0C03790D */  jal   Audio_SoundAllocPoolInit
 /* B5784C 800E06AC 8FA6001C */   lw    $a2, 0x1c($sp)
 /* B57850 800E06B0 3C038017 */  lui   $v1, %hi(gAudioContext) # $v1, 0x8017
 /* B57854 800E06B4 2463F180 */  addiu $v1, %lo(gAudioContext) # addiu $v1, $v1, -0xe80

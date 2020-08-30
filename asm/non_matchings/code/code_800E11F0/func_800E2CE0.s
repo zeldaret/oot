@@ -106,7 +106,7 @@ glabel L800E2E5C
 /* B59FFC 800E2E5C 02002025 */  move  $a0, $s0
 /* B5A000 800E2E60 8FA50054 */  lw    $a1, 0x54($sp)
 /* B5A004 800E2E64 24060001 */  li    $a2, 1
-/* B5A008 800E2E68 0C037A38 */  jal   func_800DE8E0
+/* B5A008 800E2E68 0C037A38 */  jal   Audio_AllocBankOrSeq
 /* B5A00C 800E2E6C 8FA70034 */   lw    $a3, 0x34($sp)
 /* B5A010 800E2E70 14400015 */  bnez  $v0, .L800E2EC8
 /* B5A014 800E2E74 AFA2004C */   sw    $v0, 0x4c($sp)
@@ -116,7 +116,7 @@ glabel L800E2E80
 /* B5A020 800E2E80 02002025 */  move  $a0, $s0
 /* B5A024 800E2E84 8FA50054 */  lw    $a1, 0x54($sp)
 /* B5A028 800E2E88 00003025 */  move  $a2, $zero
-/* B5A02C 800E2E8C 0C037A38 */  jal   func_800DE8E0
+/* B5A02C 800E2E8C 0C037A38 */  jal   Audio_AllocBankOrSeq
 /* B5A030 800E2E90 8FA70034 */   lw    $a3, 0x34($sp)
 /* B5A034 800E2E94 1440000C */  bnez  $v0, .L800E2EC8
 /* B5A038 800E2E98 AFA2004C */   sw    $v0, 0x4c($sp)
@@ -126,7 +126,7 @@ glabel L800E2EA4
 /* B5A044 800E2EA4 02002025 */  move  $a0, $s0
 /* B5A048 800E2EA8 8FA50054 */  lw    $a1, 0x54($sp)
 /* B5A04C 800E2EAC 24060002 */  li    $a2, 2
-/* B5A050 800E2EB0 0C037A38 */  jal   func_800DE8E0
+/* B5A050 800E2EB0 0C037A38 */  jal   Audio_AllocBankOrSeq
 /* B5A054 800E2EB4 8FA70034 */   lw    $a3, 0x34($sp)
 /* B5A058 800E2EB8 14400003 */  bnez  $v0, .L800E2EC8
 /* B5A05C 800E2EBC AFA2004C */   sw    $v0, 0x4c($sp)
