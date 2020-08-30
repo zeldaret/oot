@@ -124,8 +124,8 @@ void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     seqChannel->scriptState.depth = 0;
     seqChannel->newPan = 0x40;
     seqChannel->panChannelWeight = 0x80;
-    seqChannel->unk_0D = 0;
-    seqChannel->unk_0E = 0;
+    seqChannel->velocityRandomVariance = 0;
+    seqChannel->durationRandomVariance = 0;
     seqChannel->noteUnused = NULL;
     seqChannel->reverbIndex = 0;
     seqChannel->reverb = 0;
@@ -198,7 +198,7 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel *seqChannel, s32 layerIndex) {
     layer->instrument = NULL;
     layer->freqScale = 1.0f;
     layer->unk_34 = 1.0f;
-    layer->unk_38 = 0.0f;
+    layer->velocitySquare2 = 0.0f;
     layer->instOrWave = 0xff;
     return 0;
 }
@@ -810,7 +810,114 @@ s32 func_800EA440(SequenceChannelLayer *layer, s32 arg1) {
     return sameSound;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/func_800EAAE0.s")
+s32 func_800EAAE0(SequenceChannelLayer *layer, s32 arg1) {
+    M64ScriptState *state;
+    u16 playPercentage;
+    s32 velocity;
+    SequenceChannel *seqChannel;
+    SequencePlayer *seqPlayer;
+    s32 intDelta;
+    f32 floatDelta;
+
+    state = &layer->scriptState;
+    seqChannel = layer->seqChannel;
+    seqPlayer = seqChannel->seqPlayer;
+
+    if (arg1 == 0xC0) {
+        layer->delay = Audio_M64ReadCompressedU16(state);
+        layer->stopSomething = 1;
+        layer->bit1 = 0;
+        return -1;
+    }
+
+    layer->stopSomething = 0;
+    if (seqChannel->largeNotes == 1) {
+        switch (arg1 & 0xC0) {
+        case 0:
+            playPercentage = Audio_M64ReadCompressedU16(state);
+            velocity = *(state->pc++);
+            layer->noteDuration = *(state->pc++);
+            layer->playPercentage = playPercentage;
+            break;
+
+        case 0x40:
+            playPercentage = Audio_M64ReadCompressedU16(state);
+            velocity = *(state->pc++);
+            layer->noteDuration = 0;
+            layer->playPercentage = playPercentage;
+            break;
+
+        case 0x80:
+            playPercentage = layer->playPercentage;
+            velocity = *(state->pc++);
+            layer->noteDuration = *(state->pc++);
+            break;
+        }
+
+        if (velocity > 0x7F || velocity < 0) {
+            velocity = 0x7F;
+        }
+        layer->velocitySquare = (f32) velocity * (f32) velocity / 16129.0f;
+        arg1 -= (arg1 & 0xC0);
+    } else {
+        switch (arg1 & 0xC0) {
+        case 0:
+            playPercentage = Audio_M64ReadCompressedU16(state);
+            layer->playPercentage = playPercentage;
+            break;
+
+        case 0x40:
+            playPercentage = layer->shortNoteDefaultPlayPercentage;
+            break;
+
+        case 0x80:
+            playPercentage = layer->playPercentage;
+            break;
+        }
+        arg1 -= (arg1 & 0xC0);
+    }
+
+    if (seqChannel->velocityRandomVariance != 0) {
+        floatDelta = layer->velocitySquare * (f32) (gAudioContext.gAudioRandom % seqChannel->velocityRandomVariance) / 100.0f;
+        if ((gAudioContext.gAudioRandom & 0x8000) != 0) {
+            floatDelta = -floatDelta;
+        }
+        layer->velocitySquare2 = layer->velocitySquare + floatDelta;
+        if (layer->velocitySquare2 < 0.0f) {
+            layer->velocitySquare2 = 0.0f;
+        } else if (layer->velocitySquare2 > 1.0f) {
+            layer->velocitySquare2 = 1.0f;
+        }
+    } else {
+        layer->velocitySquare2 = layer->velocitySquare;
+    }
+
+    layer->delay = playPercentage;
+    layer->duration = (layer->noteDuration * playPercentage) >> 8;
+    if (seqChannel->durationRandomVariance != 0) {
+        // @bug should probably be durationRandomVariance
+        intDelta = (layer->duration * (gAudioContext.gAudioRandom % seqChannel->velocityRandomVariance)) / 100;
+        if ((gAudioContext.gAudioRandom & 0x4000) != 0) {
+            intDelta = -intDelta;
+        }
+        layer->duration += intDelta;
+        if (layer->duration < 0) {
+            layer->duration = 0;
+        } else if (layer->duration > layer->delay) {
+            layer->duration = layer->delay;
+        }
+    }
+
+    if ((seqPlayer->muted && (seqChannel->muteBehavior & (0x40 | 0x10)) != 0) || seqChannel->stopSomething2) {
+        layer->stopSomething = 1;
+        return -1;
+    }
+    if (seqPlayer->unk_DC != 0) {
+        layer->stopSomething = 1;
+        return -1;
+    }
+    return arg1;
+}
 
 void func_800EAEF4(SequenceChannel *seqChannel, u8 arg1) {
     if ((arg1 & 0xF) != 0) {

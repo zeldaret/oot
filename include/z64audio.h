@@ -167,7 +167,7 @@ typedef struct {
     /*!0x094 */ u8* shortNoteVelocityTable;
     /*!0x098 */ u8* shortNoteDurationTable;
     /*!0x09C */ NotePool notePool;
-    /* 0x0DC */ u8 unk_DC[4]; // OSMesgQueue seqDmaMesgQueue;
+    /* 0x0DC */ u32 unk_DC; // OSMesgQueue seqDmaMesgQueue;
     /* 0x0D0 */ u32 unk_E0;
     /* 0x0E4 */ u8 unk_E4[0x10];
     /* 0x0F4 */ OSMesg seqDmaMesg;
@@ -268,8 +268,8 @@ typedef struct SequenceChannel {
     /*!0x0A */ u8 newPan;
     /*!0x0B */ u8 panChannelWeight;  // proportion of pan that comes from the channel (0..128)
     /*!0x0C */ u8 unk_0C;
-    /*!0x0D */ u8 unk_0D;
-    /*!0x0E */ u8 unk_0E;
+    /*!0x0D */ u8 velocityRandomVariance;
+    /*!0x0E */ u8 durationRandomVariance;
     /*!0x0F */ u8 unk_0F;
     /*!0x10 */ u16 vibratoRateStart;
     /*!0x12 */ u16 vibratoExtentStart;
@@ -328,13 +328,13 @@ typedef struct SequenceChannelLayer {
                                   // (m64 instruction encoding only allows referring to the limited range
                                   // 0..0x3f; this makes 0x40..0x7f accessible as well)
     /*!0x12 */ s16 shortNoteDefaultPlayPercentage;
-    /* 0x14 */ f32 unk14;
+    /*!0x14 */ s16 playPercentage;
     /*!0x18 */ AdsrSettings adsr;
     /*!0x20 */ Portamento portamento;
     /*!0x2C */ struct Note* note;
     /*!0x30 */ f32 freqScale;
     /* 0x34 */ f32 unk_34;
-    /* 0x38 */ f32 unk_38;
+    /* 0x38 */ f32 velocitySquare2;
     /* 0x3C */ f32 velocitySquare;
     /*!0x40 */ f32 noteVelocity;
     /*!0x44 */ f32 noteFreqScale;
@@ -343,7 +343,6 @@ typedef struct SequenceChannelLayer {
     /*!0x50 */ SequenceChannel* seqChannel;
     /*!0x54 */ M64ScriptState scriptState;
     /*!0x70 */ AudioListItem listItem;
-    // s16 playPercentage;
 } SequenceChannelLayer; // size = 0x80
 
 typedef struct {
@@ -491,7 +490,8 @@ typedef struct {
     /* 0x2894 */ s32 gMaxSimultaneousNotes;
     /* 0x2898 */ s16 unk_2898;
     /* 0x289A */ s8 gSoundMode;
-    /* 0x289B */ char unk_289B[0xE5];
+    /* 0x289B */ char unk_289B[0xE1];
+    /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
     /* 0x2984 */ char unk_2984[0x3C];
     /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
