@@ -596,7 +596,7 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
         if (!osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK)) {
             roomCtx->status = 0;
             roomCtx->curRoom.segment = roomCtx->unk_34;
-            gSegments[3] = PHYSICAL_TO_VIRTUAL2(roomCtx->unk_34);
+            gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
 
             Scene_ExecuteCommands(globalCtx, roomCtx->curRoom.segment);
             func_8008E750(globalCtx, PLAYER);
@@ -613,7 +613,7 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
 
 void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags) {
     if (room->segment != NULL) {
-        gSegments[3] = PHYSICAL_TO_VIRTUAL(room->segment);
+        gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
         if (room->mesh->polygon.type >= ARRAY_COUNTU(sRoomDrawHandlers)) {
             __assert("this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
         }
