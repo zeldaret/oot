@@ -134,14 +134,14 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnYukabyun* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 366);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 366);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373),
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000970);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 378);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000970);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 378);
 }

@@ -506,23 +506,20 @@ void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDim
 
 void func_800907E4(GlobalContext* globalCtx, Player* player, Vec3f* arg2, s32 arg3) {
     f32 sp4C;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     sp4C = (player->exchangeItemId != 0) ? 6.0f : 14.0f;
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0x961);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 0x961);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(player->getItemModel);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, player->getItemModel);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x06, player->getItemModel);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, player->getItemModel);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x06, player->getItemModel);
 
     Matrix_Translate(arg2->x + (Math_Sins(player->actor.shape.rot.y) * 3.3f), arg2->y + sp4C,
                      arg2->z + ((3.3f + (IREG(90) / 10.0f)) * Math_Coss(player->actor.shape.rot.y)), MTXMODE_NEW);
     Matrix_RotateRPY(0, globalCtx->gameplayFrames * 1000, 0, MTXMODE_APPLY);
     Matrix_Scale(0.2f, 0.2f, 0.2f, MTXMODE_APPLY);
     func_800694A0(globalCtx, arg3 - 1);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0x975);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 0x975);
 }
 
 void func_800909B4(GlobalContext* globalCtx, Player* player) {
@@ -558,8 +555,6 @@ void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
     Vec3f sp68;
     f32 sp64;
     f32 sp60;
-    Gfx* dispRefs[5]; // TODO confirm size
-    GraphicsContext* gfxCtx;
 
     D_801260D0 = 0.0f;
     Matrix_MultVec3f(&D_801260C8, &sp8C);
@@ -567,10 +562,9 @@ void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
     Matrix_MultVec3f(&D_801260C8, &sp80);
 
     if (func_8003E188(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &sp98) != 0) {
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0xA0C);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 0xA0C);
 
-        gfxCtx->overlay.p = Gfx_CallSetupDL(gfxCtx->overlay.p, 7);
+        oGfxCtx->overlay.p = Gfx_CallSetupDL(oGfxCtx->overlay.p, 7);
 
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp74, &sp68, &sp64);
 
@@ -579,12 +573,12 @@ void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
         Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
 
-        gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(gfxCtx, "../z_player_lib.c", 0xA1B),
+        gSPMatrix(oGfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 0xA1B),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->overlay.p++, 0x06, globalCtx->objectCtx.status[player->actor.objBankIndex].segment);
-        gSPDisplayList(gfxCtx->overlay.p++, &D_0602CB48);
+        gSPSegment(oGfxCtx->overlay.p++, 0x06, globalCtx->objectCtx.status[player->actor.objBankIndex].segment);
+        gSPDisplayList(oGfxCtx->overlay.p++, &D_0602CB48);
 
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0xA20);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 0xA20);
     }
 }
 #else

@@ -1852,8 +1852,6 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (0) {} // Necessary to match
 
@@ -1861,18 +1859,17 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         if (0) {} // Also necessary to match
 
         if (BREG(0) != 0) {
-            gfxCtx = globalCtx->state.gfxCtx;
-            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4101);
+            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4101);
 
-            prevDisplayList = gfxCtx->polyOpa.p;
-            displayList = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
-            gSPDisplayList(gfxCtx->overlay.p++, displayList);
+            prevDisplayList = oGfxCtx->polyOpa.p;
+            displayList = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
+            gSPDisplayList(oGfxCtx->overlay.p++, displayList);
             Cutscene_DrawDebugInfo(globalCtx, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
             Graph_BranchDlist(prevDisplayList, displayList);
-            gfxCtx->polyOpa.p = displayList;
+            oGfxCtx->polyOpa.p = displayList;
 
-            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4108);
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4108);
         }
 
         csCtx->frames++;

@@ -6714,7 +6714,7 @@ void Camera_Init(Camera *camera, View *view, CollisionContext *colCtx, GlobalCon
 s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 arg2, f32 arg3, s16 arg4, s16 arg5, s16 arg6);
 
 void func_80057FC4(Camera* camera) {
-    if (camera != &camera->globalCtx->cameras[0]) {
+    if (camera != &camera->globalCtx->mainCamera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
     } else if (camera->globalCtx->roomCtx.curRoom.mesh->polygon.type != 1) {
@@ -6796,7 +6796,7 @@ void func_80058148(Camera* camera, Player* player) {
     camera->waterPrevCamSetting = -1;
     camera->unk_14C |= 4;
 
-    if (camera == &camera->globalCtx->cameras[0]) {
+    if (camera == &camera->globalCtx->mainCamera) {
         sCameraInterfaceFlags = 0xB200;
     } else {
         sCameraInterfaceFlags = 0;

@@ -68,7 +68,7 @@ glabel EnEiyer_Init
 /* 000F4 80A00094 AFA90028 */  sw      $t1, 0x0028($sp)           
 /* 000F8 80A00098 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 000FC 80A0009C 27284000 */  addiu   $t0, $t9, 0x4000           ## $t0 = 00004000
-/* 00100 80A000A0 0C00C916 */  jal     Actor_SpawnAttached
+/* 00100 80A000A0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00104 80A000A4 AFA80020 */  sw      $t0, 0x0020($sp)           
 /* 00108 80A000A8 54400006 */  bnel    $v0, $zero, .L80A000C4     

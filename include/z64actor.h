@@ -152,8 +152,8 @@ typedef struct Actor {
     /* 0x115 */ u8      isDrawn; // Indicates whether the actor is currently being drawn (but not seen through lens)
     /* 0x116 */ u8      unk_116;
     /* 0x117 */ u8      naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
-    /* 0x118 */ struct Actor* attachedA; // Attached By?
-    /* 0x11C */ struct Actor* attachedB; // Attached To?
+    /* 0x118 */ struct Actor* parent;
+    /* 0x11C */ struct Actor* child;
     /* 0x120 */ struct Actor* prev; // Previous Actor of this type
     /* 0x124 */ struct Actor* next; // Next Actor of this type
     /* 0x128 */ ActorFunc init; // Initialization Routine. Called by Actor_Init or Actor_UpdateAll

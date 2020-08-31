@@ -158,7 +158,7 @@ Note that this will be done in another tab while you leave the docker-sync tab g
 
 To get the container id, use `docker container ls` and use the ID from the container with image oot:latest in the following command:
 
-`docker exec-it <CONTAINER-ID> /bin/bash` You're in.
+`docker exec -it <CONTAINER-ID> /bin/bash` You're in.
 
 > Note: When done working, type Ctrl+c on the docker-sync tab to close the container and docker-sync.
 
