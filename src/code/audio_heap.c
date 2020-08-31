@@ -13,8 +13,9 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE1B4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE238.s")
-void func_800DE238(void* mem, u32 size);
+void func_800DE238(void* mem, u32 size) {
+    func_800E6880(mem, size);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE258.s")
 
