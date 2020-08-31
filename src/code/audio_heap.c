@@ -191,7 +191,18 @@ void Audio_SessionPoolsInit(AudioPoolSplit *split) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SeqAndBankPoolInit.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_PersistentPoolsInit.s")
+void Audio_PersistentPoolsInit(AudioPoolSplit *split) {
+    gAudioContext.gTemporaryCommonPool.cur = gAudioContext.gTemporaryCommonPool.start;
+    Audio_SoundAllocPoolInit(&gAudioContext.gSeqLoadedPool.persistent.pool,
+            Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantSeq), split->wantSeq);
+    Audio_SoundAllocPoolInit(&gAudioContext.gBankLoadedPool.persistent.pool,
+            Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantBank), split->wantBank);
+    Audio_SoundAllocPoolInit(&gAudioContext.gUnusedLoadedPool.persistent.pool,
+            Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantUnused), split->wantUnused);
+    Audio_PersistentPoolClear(&gAudioContext.gSeqLoadedPool.persistent);
+    Audio_PersistentPoolClear(&gAudioContext.gBankLoadedPool.persistent);
+    Audio_PersistentPoolClear(&gAudioContext.gUnusedLoadedPool.persistent);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_TemporaryPoolsInit.s")
 
