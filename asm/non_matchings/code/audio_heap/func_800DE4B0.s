@@ -65,7 +65,7 @@ glabel func_800DE4B0
 /* B55738 800DE598 000F7880 */  sll   $t7, $t7, 2
 /* B5573C 800DE59C 006FC021 */  addu  $t8, $v1, $t7
 /* B55740 800DE5A0 87040012 */  lh    $a0, 0x12($t8)
-/* B55744 800DE5A4 0C037812 */  jal   func_800DE048
+/* B55744 800DE5A4 0C037812 */  jal   Audio_DiscardBank
 /* B55748 800DE5A8 AFA3002C */   sw    $v1, 0x2c($sp)
 /* B5574C 800DE5AC 8FA3002C */  lw    $v1, 0x2c($sp)
 /* B55750 800DE5B0 8C680000 */  lw    $t0, ($v1)

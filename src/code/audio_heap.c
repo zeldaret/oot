@@ -7,7 +7,23 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DDF80.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE048.s")
+void Audio_DiscardBank(s32 bankId) {
+    s32 i;
+
+    for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+        struct Note *note = &gAudioContext.gNotes[i];
+
+        if (note->playbackState.bankId == bankId) {
+            if (note->playbackState.unk_04 == 0 && note->playbackState.priority != 0) {
+                note->playbackState.parentLayer->enabled = 0;
+                note->playbackState.parentLayer->finished = 1;
+            }
+            Audio_NoteDisable(note);
+            Audio_AudioListRemove(&note->listItem);
+            Audio_AudioListPushBack(&gNoteFreeLists.disabled, &note->listItem);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE12C.s")
 

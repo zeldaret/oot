@@ -345,7 +345,7 @@ glabel Audio_AllocBankOrSeq
 /* B55F28 800DED88 AFAB0030 */  sw    $t3, 0x30($sp)
 /* B55F2C 800DED8C AFA8004C */  sw    $t0, 0x4c($sp)
 /* B55F30 800DED90 AFA70024 */  sw    $a3, 0x24($sp)
-/* B55F34 800DED94 0C037812 */  jal   func_800DE048
+/* B55F34 800DED94 0C037812 */  jal   Audio_DiscardBank
 /* B55F38 800DED98 AFA3002C */   sw    $v1, 0x2c($sp)
 /* B55F3C 800DED9C 8FA3002C */  lw    $v1, 0x2c($sp)
 /* B55F40 800DEDA0 8FA70024 */  lw    $a3, 0x24($sp)
@@ -409,7 +409,7 @@ glabel Audio_AllocBankOrSeq
 /* B56018 800DEE78 84E4002A */  lh    $a0, 0x2a($a3)
 .L800DEE7C:
 /* B5601C 800DEE7C AFA70024 */  sw    $a3, 0x24($sp)
-/* B56020 800DEE80 0C037812 */  jal   func_800DE048
+/* B56020 800DEE80 0C037812 */  jal   Audio_DiscardBank
 /* B56024 800DEE84 AFA20020 */   sw    $v0, 0x20($sp)
 /* B56028 800DEE88 8FA20020 */  lw    $v0, 0x20($sp)
 /* B5602C 800DEE8C 8FA70024 */  lw    $a3, 0x24($sp)
@@ -479,7 +479,7 @@ glabel Audio_AllocBankOrSeq
 /* B56114 800DEF74 84E4001E */  lh    $a0, 0x1e($a3)
 .L800DEF78:
 /* B56118 800DEF78 AFA70024 */  sw    $a3, 0x24($sp)
-/* B5611C 800DEF7C 0C037812 */  jal   func_800DE048
+/* B5611C 800DEF7C 0C037812 */  jal   Audio_DiscardBank
 /* B56120 800DEF80 AFA20020 */   sw    $v0, 0x20($sp)
 /* B56124 800DEF84 8FA20020 */  lw    $v0, 0x20($sp)
 /* B56128 800DEF88 8FA70024 */  lw    $a3, 0x24($sp)
