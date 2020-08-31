@@ -1879,7 +1879,6 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Kakera"
     include "build/src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.o"
-    include "build/data/overlays/effects/z_eff_ss_kakera.data.o"
     include "build/data/overlays/effects/z_eff_ss_kakera.reloc.o"
 endseg
 
