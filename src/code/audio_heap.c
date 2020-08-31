@@ -154,7 +154,11 @@ void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size) {
     pool->unused = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_PersistentPoolClear.s")
+void Audio_PersistentPoolClear(PersistentPool* persistent) {
+    persistent->pool.unused = 0;
+    persistent->numEntries = 0;
+    persistent->pool.cur = persistent->pool.start;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_TemporaryPoolClear.s")
 
