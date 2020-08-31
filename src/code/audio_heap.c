@@ -17,7 +17,17 @@ void func_800DE238(void* mem, u32 size) {
     func_800E6880(mem, size);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE258.s")
+void* func_800DE258(SoundAllocPool *pool, u32 size) {
+    void* ret = NULL;
+
+    if (gAudioContext.gUnkPool.start != 0) {
+        ret = Audio_AllocZeroed(&gAudioContext.gUnkPool, size);
+    }
+    if (ret == NULL) {
+        ret = Audio_AllocZeroed(pool, size);
+    }
+    return ret;
+}
 
 void* func_800DE2B0(SoundAllocPool* pool, u32 size) {
     void* ret = NULL;
