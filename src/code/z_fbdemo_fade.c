@@ -35,12 +35,15 @@ TransitionFade* TransitionFade_Init(TransitionFade* this) {
 void TransitionFade_Destroy(TransitionFade* this) {
 }
 
-#ifdef NON_MATCHING
+/* #ifdef NON_MATCHING
 // Ordering differences around alpha temp
+
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_fade/TransitionFade_Update.s")
+#endif */
 void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
     s32 alpha;
     s16 newAlpha;
-    s32 phi_v0;
 
     switch (this->fadeType) {
         case 0:
@@ -77,9 +80,6 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_fade/TransitionFade_Update.s")
-#endif
 
 void TransitionFade_Draw(TransitionFade* this, Gfx** gfxP) {
     Gfx* gfx;
