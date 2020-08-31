@@ -1,6 +1,8 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define ALIGN16(val) (((val) + 0xF) & ~0xF)
+
 f32 func_800DDE20(f32 arg0) {
     return 256.0f * gAudioContext.gAudioBufferParameters.unk_1C / arg0;
 }
@@ -132,7 +134,7 @@ void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size) {
     return ret;
 }
 
-void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size) {
+void* Audio_AllocDmaMemoryZeroed(SoundAllocPool* pool, u32 size) {
     void* ret;
 
     ret = Audio_AllocZeroed(pool, size);
@@ -146,7 +148,11 @@ void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_Alloc.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SoundAllocPoolInit.s")
+void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size) {
+    pool->cur = pool->start = (u8 *) ALIGN16((u32) memAddr);
+    pool->size = size - ((u32) memAddr & 0xF);
+    pool->unused = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_PersistentPoolClear.s")
 
