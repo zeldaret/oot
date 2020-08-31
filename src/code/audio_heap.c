@@ -1,8 +1,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DDE20.s")
-f32 func_800DDE20(f32 arg0);
+f32 func_800DDE20(f32 arg0) {
+    return 256.0f * gAudioContext.gAudioBufferParameters.unk_1C / arg0;
+}
 
 void func_800DDE3C(void) {
     s32 i;
