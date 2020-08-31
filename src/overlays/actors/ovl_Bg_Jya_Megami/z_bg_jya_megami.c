@@ -291,30 +291,25 @@ void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 706);
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 706);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sRightSideCrumbles[this->crumbleIndex]));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sLeftSideCrumbles[this->crumbleIndex]));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 716),
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sRightSideCrumbles[this->crumbleIndex]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sLeftSideCrumbles[this->crumbleIndex]));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 716),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06005780);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 720);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06005780);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 720);
 }
 
 void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
     s32 pad;
     BgJyaMegamiPiece* piece;
     u32 i;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 746);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 746);
     func_80093D18(globalCtx->state.gfxCtx);
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
@@ -327,11 +322,12 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
         Matrix_Translate(sPiecesInit[i].unk_00.x * -10.0f, sPiecesInit[i].unk_00.y * -10.0f,
                          sPiecesInit[i].unk_00.z * -10.0f, MTXMODE_APPLY);
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 778),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 778),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[i]);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists[i]);
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 783);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 783);
 }
 
 void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalCtx) {

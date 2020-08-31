@@ -117,7 +117,7 @@ void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
 }
 
 void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == 1) {
             gSaveContext.eventChkInf[3] |= 2;
             Flags_SetSwitch(globalCtx, 0xB);
@@ -129,7 +129,7 @@ void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
 }
 
 void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == 1) {
             gSaveContext.eventChkInf[3] |= 2;
             Flags_SetSwitch(globalCtx, 0xB);

@@ -255,7 +255,7 @@ glabel BossFd_Update
 /* 04244 808CF004 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 04248 808CF008 240700AD */  addiu   $a3, $zero, 0x00AD         ## $a3 = 000000AD
 /* 0424C 808CF00C E7A60018 */  swc1    $f6, 0x0018($sp)           
-/* 04250 808CF010 0C00C916 */  jal     Actor_SpawnAttached
+/* 04250 808CF010 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 04254 808CF014 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
 /* 04258 808CF018 1040003E */  beq     $v0, $zero, .L808CF114     

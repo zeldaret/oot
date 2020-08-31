@@ -36,115 +36,118 @@ void FlagSet_Update(GlobalContext* globalCtx) {
         { &gSaveContext.eventInf[2], "event_inf[2]" },          { &gSaveContext.eventInf[3], "event_inf[3]" },
     };
 
-    GraphicsContext* gfxCtx;
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Input* input = &globalCtx->state.input[0];
     Gfx* gfx;
     Gfx* polyOpa;
-    Gfx* dispRefs[5];
-    GfxPrint printer;
-    Input* input = &globalCtx->state.input[0];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../flg_set.c", 131);
-    polyOpa = gfxCtx->polyOpa.p;
-    gfx = Graph_GfxPlusOne(polyOpa);
-    gSPDisplayList(gfxCtx->overlay.p++, gfx);
+    OPEN_DISPS(gfxCtx, "../flg_set.c", 131);
 
-    GfxPrint_Init(&printer);
-    GfxPrint_Open(&printer, gfx);
-    GfxPrint_SetColor(&printer, 250, 50, 50, 255);
-    GfxPrint_SetPos(&printer, 4, 13);
-    GfxPrint_Printf(&printer, entries[entryIdx].name);
-    GfxPrint_SetPos(&printer, 4, 15);
+    {
+        GfxPrint printer;
+        s32 pad;
 
-    for (bitIdx = 15; bitIdx >= 0; bitIdx--) {
-        if (bitIdx == curBit) {
-            GfxPrint_SetColor(&printer, 200, 200, 200, 255);
-        } else {
-            GfxPrint_SetColor(&printer, 100, 100, 100, 255);
+        polyOpa = oGfxCtx->polyOpa.p;
+        gfx = Graph_GfxPlusOne(polyOpa);
+        gSPDisplayList(oGfxCtx->overlay.p++, gfx);
+
+        GfxPrint_Init(&printer);
+        GfxPrint_Open(&printer, gfx);
+        GfxPrint_SetColor(&printer, 250, 50, 50, 255);
+        GfxPrint_SetPos(&printer, 4, 13);
+        GfxPrint_Printf(&printer, entries[entryIdx].name);
+        GfxPrint_SetPos(&printer, 4, 15);
+
+        for (bitIdx = 15; bitIdx >= 0; bitIdx--) {
+            if (bitIdx == curBit) {
+                GfxPrint_SetColor(&printer, 200, 200, 200, 255);
+            } else {
+                GfxPrint_SetColor(&printer, 100, 100, 100, 255);
+            }
+
+            if (*entries[entryIdx].value & (1 << bitIdx)) {
+                GfxPrint_Printf(&printer, "1");
+            } else {
+                GfxPrint_Printf(&printer, "0");
+            }
+
+            if ((bitIdx % 4) == 0) {
+                GfxPrint_Printf(&printer, " ");
+            }
         }
 
-        if (*entries[entryIdx].value & (1 << bitIdx)) {
-            GfxPrint_Printf(&printer, "1");
-        } else {
-            GfxPrint_Printf(&printer, "0");
-        }
-
-        if ((bitIdx % 4) == 0) {
-            GfxPrint_Printf(&printer, " ");
-        }
-    }
-
-    if (CHECK_PAD(input->press, L_JPAD)) {
-        timer = 10;
-        curBit++;
-    }
-    if (CHECK_PAD(input->press, R_JPAD)) {
-        curBit--;
-        timer = 10;
-    }
-
-    if (timer == 0) {
-        if (CHECK_PAD(input->cur, L_JPAD)) {
+        if (CHECK_PAD(input->press, L_JPAD)) {
+            timer = 10;
             curBit++;
-            timer = 2;
         }
-        if (CHECK_PAD(input->cur, R_JPAD)) {
+        if (CHECK_PAD(input->press, R_JPAD)) {
             curBit--;
-            timer = 2;
+            timer = 10;
         }
-    }
 
-    curBit %= 16;
-    if (CHECK_PAD(input->press, U_JPAD)) {
-        entryIdx--;
-        if (entryIdx < 0) {
-            entryIdx = 0;
+        if (timer == 0) {
+            if (CHECK_PAD(input->cur, L_JPAD)) {
+                curBit++;
+                timer = 2;
+            }
+            if (CHECK_PAD(input->cur, R_JPAD)) {
+                curBit--;
+                timer = 2;
+            }
         }
-        timer = 10;
-    }
-    if (CHECK_PAD(input->press, D_JPAD)) {
-        timer = 10;
-        entryIdx++;
-        if (!entries[entryIdx].value) {
-            entryIdx--;
-        }
-    }
 
-    if (timer == 0) {
-        if (CHECK_PAD(input->cur, U_JPAD)) {
+        curBit %= 16;
+        if (CHECK_PAD(input->press, U_JPAD)) {
             entryIdx--;
-            timer = 2;
             if (entryIdx < 0) {
                 entryIdx = 0;
             }
+            timer = 10;
         }
-        if (CHECK_PAD(input->cur, D_JPAD)) {
-            timer = 2;
+        if (CHECK_PAD(input->press, D_JPAD)) {
+            timer = 10;
             entryIdx++;
             if (!entries[entryIdx].value) {
                 entryIdx--;
             }
         }
-    }
 
-    if (CHECK_PAD(input->press, A_BUTTON)) {
-        *entries[entryIdx].value ^= (1 << curBit);
-    }
+        if (timer == 0) {
+            if (CHECK_PAD(input->cur, U_JPAD)) {
+                entryIdx--;
+                timer = 2;
+                if (entryIdx < 0) {
+                    entryIdx = 0;
+                }
+            }
+            if (CHECK_PAD(input->cur, D_JPAD)) {
+                timer = 2;
+                entryIdx++;
+                if (!entries[entryIdx].value) {
+                    entryIdx--;
+                }
+            }
+        }
 
-    if (timer != 0) {
-        timer--;
-    }
+        if (CHECK_PAD(input->press, A_BUTTON)) {
+            *entries[entryIdx].value ^= (1 << curBit);
+        }
 
-    gfx = GfxPrint_Close(&printer);
-    GfxPrint_Destroy(&printer);
-    gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(polyOpa, gfx);
-    gfxCtx->polyOpa.p = gfx;
+        if (timer != 0) {
+            timer--;
+        }
+
+        gfx = GfxPrint_Close(&printer);
+        GfxPrint_Destroy(&printer);
+
+        gSPEndDisplayList(gfx++);
+        Graph_BranchDlist(polyOpa, gfx);
+        oGfxCtx->polyOpa.p = gfx;
+    }
 
     if (CHECK_PAD(input->press, L_TRIG)) {
         globalCtx->pauseCtx.flag = 0;
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../flg_set.c", 241);
+    CLOSE_DISPS(gfxCtx, "../flg_set.c", 241);
 }
