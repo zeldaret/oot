@@ -312,7 +312,7 @@ glabel func_800DFBF8
 .L800E0090:
 /* B57230 800E0090 8EC52890 */  lw    $a1, 0x2890($s6)
 /* B57234 800E0094 02602025 */  move  $a0, $s3
-/* B57238 800E0098 0C0378D1 */  jal   func_800DE344
+/* B57238 800E0098 0C0378D1 */  jal   Audio_AllocDmaMemoryZeroed
 /* B5723C 800E009C 000528C0 */   sll   $a1, $a1, 3
 /* B57240 800E00A0 26100004 */  addiu $s0, $s0, 4
 /* B57244 800E00A4 1611FFFA */  bne   $s0, $s1, .L800E0090
@@ -504,7 +504,7 @@ glabel func_800DFBF8
 /* B57508 800E0368 51A0000F */  beql  $t5, $zero, .L800E03A8
 /* B5750C 800E036C AE400270 */   sw    $zero, 0x270($s2)
 /* B57510 800E0370 02602025 */  move  $a0, $s3
-/* B57514 800E0374 0C0378D1 */  jal   func_800DE344
+/* B57514 800E0374 0C0378D1 */  jal   Audio_AllocDmaMemoryZeroed
 /* B57518 800E0378 24050040 */   li    $a1, 64
 /* B5751C 800E037C AE420278 */  sw    $v0, 0x278($s2)
 /* B57520 800E0380 02602025 */  move  $a0, $s3
@@ -523,7 +523,7 @@ glabel func_800DFBF8
 /* B5754C 800E03AC 5180000F */  beql  $t4, $zero, .L800E03EC
 /* B57550 800E03B0 AE400274 */   sw    $zero, 0x274($s2)
 /* B57554 800E03B4 02602025 */  move  $a0, $s3
-/* B57558 800E03B8 0C0378D1 */  jal   func_800DE344
+/* B57558 800E03B8 0C0378D1 */  jal   Audio_AllocDmaMemoryZeroed
 /* B5755C 800E03BC 24050040 */   li    $a1, 64
 /* B57560 800E03C0 AE42027C */  sw    $v0, 0x27c($s2)
 /* B57564 800E03C4 02602025 */  move  $a0, $s3

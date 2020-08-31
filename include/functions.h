@@ -1940,7 +1940,7 @@ void FaultDrawer_SetDefault();
 // ? func_800DE258(?);
 // ? func_800DE2B0(?);
 void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size);
-// ? func_800DE344(?);
+void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size);
 void* Audio_AllocZeroed(SoundAllocPool* pool, u32 size);
 void* Audio_Alloc(SoundAllocPool* pool, u32 size);
 void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size);

@@ -30,7 +30,15 @@ void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size) {
     return ret;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE344.s")
+void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size) {
+    void* ret;
+
+    ret = Audio_AllocZeroed(pool, size);
+    if (ret != NULL) {
+        func_800DE238(ret, size);
+    }
+    return ret;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocZeroed.s")
 
