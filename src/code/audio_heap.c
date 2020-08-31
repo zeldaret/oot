@@ -11,7 +11,16 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE12C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE1B4.s")
+void Audio_DiscardSequence(s32 seqId) {
+    s32 i;
+
+    for (i = 0; i < gAudioContext.gAudioBufferParameters.unk_10; i++) {
+        if (gAudioContext.gSequencePlayers[i].enabled &&
+                gAudioContext.gSequencePlayers[i].seqId == seqId) {
+            Audio_SequencePlayerDisable(&gAudioContext.gSequencePlayers[i]);
+        }
+    }
+}
 
 void func_800DE238(void* mem, u32 size) {
     func_800E6880(mem, size);
