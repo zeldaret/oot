@@ -14,12 +14,21 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE1B4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE238.s")
+void func_800DE238(void* mem, u32 size);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE258.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE2B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocDmaMemory.s")
+void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size) {
+    void* ret;
+
+    ret = Audio_Alloc(pool, size);
+    if (ret != NULL) {
+        func_800DE238(ret, size);
+    }
+    return ret;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE344.s")
 
