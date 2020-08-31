@@ -36,10 +36,10 @@ void TransitionFade_Destroy(TransitionFade* this) {
 }
 
 #ifdef NON_MATCHING
-//Reoderings around temp_f8 and above
+// Ordering differences around alpha temp
 void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
-    s32 temp_f8;
-    s16 sp2A;
+    s32 alpha;
+    s16 newAlpha;
     s32 phi_v0;
 
     switch (this->fadeType) {
@@ -47,34 +47,33 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
             break;
         case 1:
             this->fadeTimer += updateRate;
-            phi_v0 = gSaveContext.fadeDuration;
-            if (this->fadeTimer >= phi_v0) {
+            if (this->fadeTimer >= gSaveContext.fadeDuration) {
                 this->fadeTimer = gSaveContext.fadeDuration;
                 this->isDone = 1;
             }
-            if (gSaveContext.fadeDuration == 0) {
+            if (!gSaveContext.fadeDuration) {
                 // Divide by 0! Zero is included in ZCommonGet fade_speed
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
-            temp_f8 = (255.0f * this->fadeTimer) / gSaveContext.fadeDuration;
-            this->fadeColor.a = (this->fadeDirection != 0) ? 255 - temp_f8 : temp_f8;
+            alpha = (this->fadeTimer * 255.0f) / gSaveContext.fadeDuration;
+            this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
             break;
         case 2:
-            sp2A = this->fadeColor.a;
+            newAlpha = this->fadeColor.a;
             if (iREG(50) != 0) {
                 if (iREG(50) < 0) {
-                    if (Math_ApproxS(&sp2A, 255, 255) != 0) {
+                    if (Math_ApproxS(&newAlpha, 255, 255) != 0) {
                         iREG(50) = 150;
                     }
                 } else {
                     Math_ApproxS(&iREG(50), 20, 60);
-                    if (Math_ApproxS(&sp2A, 0, iREG(50)) != 0) {
+                    if (Math_ApproxS(&newAlpha, 0, iREG(50)) != 0) {
                         iREG(50) = 0;
                         this->isDone = 1;
                     }
                 }
             }
-            this->fadeColor.a = sp2A;
+            this->fadeColor.a = newAlpha;
             break;
     }
 }
