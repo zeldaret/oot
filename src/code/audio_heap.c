@@ -2,8 +2,31 @@
 #include <global.h>
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DDE20.s")
+f32 func_800DDE20(f32 arg0);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DDE3C.s")
+void func_800DDE3C(void) {
+    s32 i;
+
+    gAudioContext.unk_3520[255] = func_800DDE20(0.25f);
+    gAudioContext.unk_3520[254] = func_800DDE20(0.33f);
+    gAudioContext.unk_3520[253] = func_800DDE20(0.5f);
+    gAudioContext.unk_3520[252] = func_800DDE20(0.66f);
+    gAudioContext.unk_3520[251] = func_800DDE20(0.75f);
+
+    for (i = 128; i < 251; i++) {
+        gAudioContext.unk_3520[i] = func_800DDE20(251 - i);
+    }
+
+    for (i = 16; i < 128; i++) {
+        gAudioContext.unk_3520[i] = func_800DDE20(572 - 4 * i);
+    }
+
+    for (i = 1; i < 16; i++) {
+        gAudioContext.unk_3520[i] = func_800DDE20(1380 - 60 * i);
+    }
+
+    gAudioContext.unk_3520[0] = 0.0f;
+}
 
 void Audio_ResetLoadStatus(void) {
     s32 i;
