@@ -1543,7 +1543,6 @@ s32 Camera_Normal1(Camera *camera) {
             camera->direction.z = 0;
         }
 
-        
         // crit wiggle
         if (gSaveContext.health <= 0x10 && ((camera->globalCtx->state.frames % 256) == 0)) {
             t2 = Math_Rand_ZeroOne() * 10000.0f;
@@ -1726,11 +1725,11 @@ s32 Camera_Normal2(Camera *camera) {
     return 1;
 }
 
-#define lerpt(v0,v1,t) v0+(t*(v1-v0))
-
-#ifdef NON_MATCHING
 // riding epona
 s32 Camera_Normal3(Camera *camera) {
+    Vec3f *sp48 = &camera->eye;
+    Vec3f *sp44 = &camera->at;
+    Vec3f *sp40 = &camera->eyeNext;
     f32 sp98;
     f32 sp94;
     f32 sp90;
@@ -1738,46 +1737,21 @@ s32 Camera_Normal3(Camera *camera) {
     VecSph sp84;
     VecSph sp7C;
     VecSph sp74;
-    Vec3f *sp48 = &camera->eye;
-    Vec3f *sp44 = &camera->at;
-    Vec3f *sp40 = &camera->eyeNext;
     PosRot *sp3C = &camera->playerPosRot;
-    Vec3f *temp_a1;
-    Vec3f *temp_a2;
-    Vec3f *temp_a2_2;
     f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f0_3;
-    f32 temp_f16;
-    f32 temp_f16_2;
-    f32 temp_f2;
-    f32 temp_f2_2;
-    f32 temp_f2_3;
     f32 temp_f6;
-    s16 temp_a0;
-    s16 temp_t3;
-    s16 temp_v0;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v0_6;
-    s16 temp_v0_7;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    s32 temp_a0_2;
-    s16 phi_v1;
-    s32 phi_v1_2;
     s16 phi_a0;
-    CameraModeValue* values;
+    s16 t2;
     Normal3* norm3 = &camera->params.norm3;
     Normal3Anim* anim = &norm3->anim;
+    f32 yOffset;
 
-    temp_f2 = Player_GetCameraYOffset(camera->player);
+    yOffset = Player_GetCameraYOffset(camera->player);
     if (RELOAD_PARAMS) {
-        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        norm3->unk_00 = NEXTSETTING * PCT(temp_f2);
-        norm3->unk_04 = NEXTSETTING * PCT(temp_f2);
-        norm3->unk_08 = NEXTSETTING * PCT(temp_f2);
+        CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        norm3->unk_00 = NEXTSETTING * PCT(yOffset);
+        norm3->unk_04 = NEXTSETTING * PCT(yOffset);
+        norm3->unk_08 = NEXTSETTING * PCT(yOffset);
         norm3->unk_1C = DEGF_TO_BINANG(NEXTSETTING);
         norm3->unk_0C = NEXTSETTING;
         norm3->unk_10 = NEXTSETTING;
@@ -1816,13 +1790,13 @@ s32 Camera_Normal3(Camera *camera) {
     }
     
     
-    temp_f16_2 = PCT(OREG(25)) * camera->speedRatio;
-    sp98 = temp_f16_2;
+    sp98 = PCT(OREG(25)) * camera->speedRatio;
     sp94 = PCT(OREG(26)) * camera->speedRatio;
     
     if (anim->unk_1A != 0) {
         camera->yawUpdateRateInv = Camera_LERPCeilF(norm3->unk_0C + (anim->unk_1A * 2), camera->yawUpdateRateInv, sp98, 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + (anim->unk_1A * 2), camera->pitchUpdateRateInv, sp94, 0.1f);
+        if(!sp98){}
         anim->unk_1A--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(norm3->unk_0C, camera->yawUpdateRateInv, sp98, 0.1f);
@@ -1833,17 +1807,20 @@ s32 Camera_Normal3(Camera *camera) {
     camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, sp94, 0.1f);
     camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->fovUpdateRate, sp94, 0.1f);
     
-    anim->unk_24 = Camera_LERPCeilS(func_80044ADC(camera, BINANG_ROT180(sp7C.yaw), 1), anim->unk_24, ((1.0f / norm3->unk_10) * 0.5f) + (((1.0f / norm3->unk_10) * 0.5f) * (1.0f - camera->speedRatio)), 0xF);
+    t2 = func_80044ADC(camera, BINANG_ROT180(sp7C.yaw), 1);
+    sp94 = ((1.0f / norm3->unk_10) * 0.5f);
+    temp_f0 = (((1.0f / norm3->unk_10) * 0.5f) * (1.0f - camera->speedRatio));
+    anim->unk_24 = Camera_LERPCeilS(t2, anim->unk_24, sp94 + temp_f0, 0xF);
     
     func_800466F8(camera, &sp74, norm3->unk_00, &anim->unk_20, 1);
-    
     sp90 = (norm3->unk_08 + norm3->unk_04) * 0.5f;
     OLib_Vec3fDiffToVecSphGeo(&sp84, sp44, sp40);
     camera->dist = sp84.r = Camera_ClampDist(camera, sp84.r, norm3->unk_04, norm3->unk_08, anim->unk_2A);
     if (camera->xzSpeed > 0.001f) {
-        sp84.r = F32_LERPIMP(sp84.r, sp90, 0.002f);
+        sp84.r += (sp90 - sp84.r) * 0.002f;
     }
-    sp84.pitch = Camera_LERPCeilS(BINANG_SUB(norm3->unk_1C, anim->unk_24), sp74.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
+    phi_a0 = BINANG_SUB(norm3->unk_1C, anim->unk_24);
+    sp84.pitch = Camera_LERPCeilS(phi_a0, sp74.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
     
     if (OREG(5) < sp84.pitch) {
         sp84.pitch = OREG(5);
@@ -1853,24 +1830,24 @@ s32 Camera_Normal3(Camera *camera) {
     }
 
     phi_a0 = BINANG_SUB(sp3C->rot.y, BINANG_ROT180(sp74.yaw));
-    if (ABS(phi_a0) >= 0x2AF9) {
+    if (ABS(phi_a0) > 0x2AF8) {
         if (phi_a0 > 0) {
             phi_a0 = 0x2AF8;
         } else {
             phi_a0 = -0x2AF8;
         }
     }
-    {
-        const f32 t = 0.5f;
-        const f32 t2 = 1.0f;
-        temp_f6 = camera->speedRatio * (t2 - t);
-        temp_f0 = t + temp_f6;
-        if(1){}
-        temp_f16_2 = (temp_f0 * phi_a0) / camera->yawUpdateRateInv;
-    
-    sp84.yaw = ((150.0f * (1.0f - camera->speedRatio)) < fabsf(temp_f16_2)) ?
-        sp84.yaw = sp74.yaw + temp_f16_2 : sp74.yaw;
-    }
+
+    sp90 = 1.0f;
+    sp98 = 0.5;
+    sp94 = camera->speedRatio;
+    sp90 -= sp98;
+    sp98 = sp98 + (sp94 * sp90);
+    sp98 = (sp98 * phi_a0) / camera->yawUpdateRateInv;
+
+    sp84.yaw = fabsf(sp98) > (150.0f * (1.0f - camera->speedRatio)) ?
+        (s16)(sp74.yaw + sp98) : 
+        sp74.yaw;
 
     if (anim->unk_28 > 0) {
         sp84.yaw += anim->unk_26;
@@ -1890,9 +1867,6 @@ s32 Camera_Normal3(Camera *camera) {
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, norm3->unk_18);
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Normal3.s")
-#endif
 
 s32 Camera_Normal4(Camera* camera) {
     return Camera_NOP(camera);
