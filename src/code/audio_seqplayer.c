@@ -158,22 +158,22 @@ void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     Audio_InitNoteLists(&seqChannel->notePool);
 }
 
-s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIndex) {
+s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIdx) {
     SequenceChannelLayer* layer;
 
-    if (seqChannel->layers[layerIndex] == NULL) {
+    if (seqChannel->layers[layerIdx] == NULL) {
         SequenceChannelLayer* layer;
         layer = Audio_AudioListPopBack(&gAudioContext.gLayerFreeList);
-        seqChannel->layers[layerIndex] = layer;
+        seqChannel->layers[layerIdx] = layer;
         if (layer == NULL) {
-            seqChannel->layers[layerIndex] = NULL;
+            seqChannel->layers[layerIdx] = NULL;
             return -1;
         }
     } else {
-        Audio_SeqChanLayerNoteDecay(seqChannel->layers[layerIndex]);
+        Audio_SeqChanLayerNoteDecay(seqChannel->layers[layerIdx]);
     }
 
-    layer = seqChannel->layers[layerIndex];
+    layer = seqChannel->layers[layerIdx];
     layer->seqChannel = seqChannel;
     layer->adsr = seqChannel->adsr;
     layer->adsr.releaseRate = 0;
@@ -215,13 +215,13 @@ void Audio_SeqChannelLayerDisable(SequenceChannelLayer* layer) {
     }
 }
 
-void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIndex) {
-    SequenceChannelLayer* layer = seqChannel->layers[layerIndex];
+void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIdx) {
+    SequenceChannelLayer* layer = seqChannel->layers[layerIdx];
 
     if (layer != NULL) {
         Audio_AudioListPushBack(&gAudioContext.gLayerFreeList, &layer->listItem);
         Audio_SeqChannelLayerDisable(layer);
-        seqChannel->layers[layerIndex] = NULL;
+        seqChannel->layers[layerIdx] = NULL;
     }
 }
 
@@ -263,8 +263,8 @@ void Audio_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelB
     }
 }
 
-void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, void* script) {
-    SequenceChannel* seqChannel = seqPlayer->channels[channelIndex];
+void Audio_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIdx, void* script) {
+    SequenceChannel* seqChannel = seqPlayer->channels[channelIdx];
     s32 i;
 
     seqChannel->enabled = 1;
@@ -1016,12 +1016,12 @@ void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     }
 }
 
-void func_800EC734(s32 seqPlayerIndex) {
+void func_800EC734(s32 seqPlayerIdx) {
     SequenceChannel* seqChannel;
     SequencePlayer* seqPlayer;
     s32 i, j;
 
-    seqPlayer = &gAudioContext.gSequencePlayers[seqPlayerIndex];
+    seqPlayer = &gAudioContext.gSequencePlayers[seqPlayerIdx];
     for (i = 0; i < 0x10; i++) {
         seqPlayer->channels[i] = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
