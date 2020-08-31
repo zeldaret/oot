@@ -272,6 +272,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     ColliderBody* body = &this->colCylinder[0].body;
     Player* player = PLAYER;
+
     if (player->stickFlameTimer != 0) {
         body->bumper.flags |= 2;
         this->colCylinder[1].body.bumper.flags &= ~2;
@@ -289,9 +290,8 @@ void EnSt_SetBodyCylinderAC(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_SetLegsCylinderAC(EnSt* this, GlobalContext* globalCtx) {
-    s16 angleTowardsLink;
+    s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
 
-    angleTowardsLink = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
     if (angleTowardsLink < 0x3FFC) {
         Collider_CylinderUpdate(&this->actor, &this->colCylinder[2]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[2].base);
@@ -389,13 +389,10 @@ s32 EnSt_CheckHitFrontside(EnSt* this) {
 }
 
 s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
-    ColliderCylinder* cyl;
-    s32 flags; // ac hit flags from colliders 0 and 1
-    s32 hit;
+    ColliderCylinder* cyl = &this->colCylinder[0];
+    s32 flags = 0; // ac hit flags from colliders 0 and 1
+    s32 hit = false;
 
-    flags = 0;
-    hit = false;
-    cyl = &this->colCylinder[0];
     if (cyl->base.acFlags & 2) {
         cyl->base.acFlags &= ~2;
         hit = true;
@@ -477,13 +474,12 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_SetColliderScale(EnSt* this) {
-    f32 scaleAmount;
+    f32 scaleAmount = 1.0f;
     f32 radius;
     f32 height;
     f32 yShift;
     s32 i;
 
-    scaleAmount = 1.0f;
     if (this->actor.params == 1) {
         scaleAmount = 1.4f;
     }
@@ -510,13 +506,9 @@ void EnSt_SetColliderScale(EnSt* this) {
 }
 
 s32 EnSt_SetTeethColor(EnSt* this, s16 redTarget, s16 greenTarget, s16 blueTarget, s16 minMaxStep) {
-    s16 red;
-    s16 green;
-    s16 blue;
-
-    red = this->teethR;
-    green = this->teethG;
-    blue = this->teethB;
+    s16 red = this->teethR;
+    s16 green = this->teethG;
+    s16 blue = this->teethB;
 
     minMaxStep = 255 / (s16)(0.6f * minMaxStep);
     if (minMaxStep <= 0) {
@@ -656,9 +648,8 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
  * Bobs up and down every 8 frames
  */
 void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
-    f32 ySpeedTarget;
+    f32 ySpeedTarget = 0.5f;
 
-    ySpeedTarget = 0.5f;
     if ((globalCtx->state.frames & 8) != 0) {
         ySpeedTarget *= -1.0f;
     }
@@ -700,6 +691,7 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
 s32 EnSt_IsCloseToInitalPos(EnSt* this) {
     f32 velY = this->actor.velocity.y;
     f32 checkY = this->actor.posRot.pos.y + (velY * 2.0f);
+
     if (checkY >= this->actor.initPosRot.pos.y) {
         return true;
     }
@@ -712,6 +704,7 @@ s32 EnSt_IsCloseToInitalPos(EnSt* this) {
 s32 EnSt_IsCloseToGround(EnSt* this) {
     f32 velY = this->actor.velocity.y;
     f32 checkY = this->actor.posRot.pos.y + (velY * 2.0f);
+
     if (checkY - this->actor.groundY <= this->groundYOffset) {
         return true;
     }
@@ -913,9 +906,8 @@ void EnSt_MoveToGround(EnSt* this, GlobalContext* globalCtx) {
  * The skulltulla is returning to the ceiling
  */
 void EnSt_ReturnToCeiling(EnSt* this, GlobalContext* globalCtx) {
-    f32 animPctDone;
+    f32 animPctDone = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
 
-    animPctDone = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
     if (animPctDone == 1.0f) {
         EnSt_SetReturnToCeilingAnimation(this);
     }
@@ -1010,7 +1002,6 @@ void EnSt_StartOnCeilingOrGround(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
-
     EnSt* this = THIS;
     s32 pad;
 
@@ -1083,6 +1074,7 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
 
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
     EnSt* this = THIS;
+
     func_800628A4(limbIndex, &this->colSph);
 }
 
