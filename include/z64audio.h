@@ -526,6 +526,13 @@ typedef struct
 } SoundMultiPool; // size = 0x110
 
 typedef struct {
+    u32 wantSeq;
+    u32 wantBank;
+    u32 wantUnused;
+    u32 wantCustom;
+} AudioPoolSplit; // size = 0x10
+
+typedef struct {
     /* 0x0000 */ char unk_0000[0x14];
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
     /* 0x0018 */ char unk_0018[0x280];
@@ -543,7 +550,10 @@ typedef struct {
     /* 0x289B */ char unk_289B[0xE1];
     /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
-    /* 0x2984 */ char unk_2984[0x3C];
+    /* 0x2984 */ char unk_2984[0xC];
+    /* 0x2990 */ SoundAllocPool gAudioSessionPool;
+    /* 0x29A0 */ char unk_29A0[0x10];
+    /* 0x29B0 */ SoundAllocPool gAudioInitPool;
     /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
     /* 0x29F0 */ SoundAllocPool gSeqAndBankPool;

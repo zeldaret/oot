@@ -57,7 +57,11 @@ void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_InitMainPools.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SessionPoolsInit.s")
+void Audio_SessionPoolsInit(AudioPoolSplit *split) {
+    gAudioContext.gAudioSessionPool.cur = gAudioContext.gAudioSessionPool.start;
+    Audio_SoundAllocPoolInit(&gAudioContext.gNotesAndBuffersPool, Audio_Alloc(&gAudioContext.gAudioSessionPool, split->wantSeq), split->wantSeq);
+    Audio_SoundAllocPoolInit(&gAudioContext.gSeqAndBankPool, Audio_Alloc(&gAudioContext.gAudioSessionPool, split->wantCustom), split->wantCustom);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SeqAndBankPoolInit.s")
 
