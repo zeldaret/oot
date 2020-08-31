@@ -552,7 +552,7 @@ typedef struct {
     /* 0x2980 */ s32 gAudioErrorFlags;
     /* 0x2984 */ char unk_2984[0xC];
     /* 0x2990 */ SoundAllocPool gAudioSessionPool;
-    /* 0x29A0 */ char unk_29A0[0x10];
+    /* 0x29A0 */ SoundAllocPool gUnkPool;
     /* 0x29B0 */ SoundAllocPool gAudioInitPool;
     /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
