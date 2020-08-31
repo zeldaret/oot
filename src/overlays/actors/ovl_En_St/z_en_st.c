@@ -116,9 +116,6 @@ void EnSt_SpawnDustEffects(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     }
 }
 
-/**
- * Spawns a ground effect on the ground with no velocity or acceleration
- */
 void EnSt_SpawnBlastEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
@@ -131,9 +128,6 @@ void EnSt_SpawnBlastEffect(EnSt* this, GlobalContext* globalCtx) {
     func_80028F84(globalCtx, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
-/**
- * Spawns an enemy dying effect with no velocity or acceleration.
- */
 void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f deadPos;
@@ -144,9 +138,6 @@ void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {
     func_8002A6B8(globalCtx, &deadPos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
 }
 
-/**
- * Creates a blur effect
- */
 s32 EnSt_CreateBlurEffect(GlobalContext* globalCtx) {
     EffectBlureInit1 blureInit;
 
@@ -195,9 +186,6 @@ s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
     return true;
 }
 
-/**
- * Adds the verticies for the blur effect
- */
 void EnSt_AddBlurVertex(EnSt* this) {
     Vec3f v1 = { 834.0f, 834.0f, 0.0f };
     Vec3f v2 = { 834.0f, -584.0f, 0.0f };
@@ -224,24 +212,15 @@ void EnSt_AddBlurSpace(EnSt* this) {
     EffectBlure_AddSpace(Effect_GetByIndex(this->blurIdx));
 }
 
-/**
- * Sets the animation to the waiting on the ceiling animation
- */
 void EnSt_SetWaitingAnimation(EnSt* this) {
     func_80034EC0(&this->skelAnime, sAnimations, 3);
 }
 
-/**
- * Sets the return to ceiling animation of the skulltulla
- */
 void EnSt_SetReturnToCeilingAnimation(EnSt* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_UP);
     func_80034EC0(&this->skelAnime, sAnimations, 2);
 }
 
-/**
- * Sets the landing animation of the skulltulla
- */
 void EnSt_SetLandAnimation(EnSt* this) {
     this->actor.posRot.pos.y = this->actor.groundY + this->groundYOffset;
     func_80034EC0(&this->skelAnime, sAnimations, 4);
@@ -290,9 +269,6 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->colSph, &this->actor, &sJntSphInit, this->colSphItems);
 }
 
-/**
- * Checks to see if the body was hit by a stick
- */
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     ColliderBody* body = &this->colCylinder[0].body;
     Player* player = PLAYER;
@@ -307,17 +283,11 @@ void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     }
 }
 
-/**
- * Sets the main body's backside collider to AC
- */
 void EnSt_SetBodyCylinderAC(EnSt* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, &this->colCylinder[0]);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[0].base);
 }
 
-/**
- * Sets the legs backside cylinders to AC
- */
 void EnSt_SetLegsCylinderAC(EnSt* this, GlobalContext* globalCtx) {
     s16 angleTowardsLink;
 
@@ -331,9 +301,6 @@ void EnSt_SetLegsCylinderAC(EnSt* this, GlobalContext* globalCtx) {
     }
 }
 
-/**
- * Sets the front side cylinders to OC
- */
 s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
     Vec3f cyloffsets[] = {
         { 40.0f, 0.0f, 0.0f },
@@ -363,9 +330,6 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
     return true;
 }
 
-/**
- * Updates the skulltulla's cylinders.
- */
 void EnSt_UpdateCylinders(EnSt* this, GlobalContext* globalCtx) {
     if ((this->actor.colChkInfo.health != 0) || (this->actionFunc == EnSt_FinishBouncing)) {
         if (DECR(this->gaveDamageSpinTimer) == 0) {
@@ -382,9 +346,6 @@ void EnSt_UpdateCylinders(EnSt* this, GlobalContext* globalCtx) {
     }
 }
 
-/**
- * Checks to see if the Skulltulla's colliders have hit link.
- */
 s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 hit;
@@ -413,9 +374,6 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
     return true;
 }
 
-/**
- * Checks to see if the front side of the skulltulla is hit.
- */
 s32 EnSt_CheckHitFrontside(EnSt* this) {
     u8 acFlags = this->colCylinder[2].base.acFlags;
     if (!!(acFlags & 2) == 0) {
@@ -518,9 +476,6 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     return false;
 }
 
-/**
- * Sets the scale of colliders
- */
 void EnSt_SetColliderScale(EnSt* this) {
     f32 scaleAmount;
     f32 radius;
@@ -554,9 +509,6 @@ void EnSt_SetColliderScale(EnSt* this) {
     this->groundYOffset = 32.0f * scaleAmount;
 }
 
-/**
- * Sets the color of the skulltulla's teeth
- */
 s32 EnSt_SetTeethColor(EnSt* this, s16 redTarget, s16 greenTarget, s16 blueTarget, s16 minMaxStep) {
     s16 red;
     s16 green;
@@ -580,9 +532,6 @@ s32 EnSt_SetTeethColor(EnSt* this, s16 redTarget, s16 greenTarget, s16 blueTarge
     return 1;
 }
 
-/**
- * Decrements the stun timer
- */
 s32 EnSt_DecrStunTimer(EnSt* this) {
     if (this->stunTimer == 0) {
         return 0;
@@ -1110,11 +1059,8 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSt* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_st.c", 2260);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2260);
     switch (limbIndex) {
         case 1:
             if (this->gaveDamageSpinTimer != 0 && this->swayTimer == 0) {
@@ -1127,11 +1073,11 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
             break;
         case 4:
             // teeth
-            gDPPipeSync(gfxCtx->polyOpa.p++);
-            gDPSetEnvColor(gfxCtx->polyOpa.p++, this->teethR, this->teethG, this->teethB, 0);
+            gDPPipeSync(oGfxCtx->polyOpa.p++);
+            gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->teethR, this->teethG, this->teethB, 0);
             break;
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_st.c", 2295);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2295);
     return 0;
 }
 
