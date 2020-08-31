@@ -11,7 +11,7 @@ void Audio_DiscardBank(s32 bankId) {
     s32 i;
 
     for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
-        struct Note *note = &gAudioContext.gNotes[i];
+        Note* note = &gAudioContext.gNotes[i];
 
         if (note->playbackState.bankId == bankId) {
             if (note->playbackState.unk_04 == 0 && note->playbackState.priority != 0) {
@@ -25,7 +25,22 @@ void Audio_DiscardBank(s32 bankId) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE12C.s")
+void func_800DE12C(s32 bankId) {
+    s32 i;
+
+    for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+        Note* note = &gAudioContext.gNotes[i];
+        NotePlaybackState* state = &note->playbackState;
+
+        if (state->bankId == bankId) {
+            if (state->priority != 0 && state->adsr.action.s.state == 6) {
+                state->priority = 1;
+                state->adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
+                state->adsr.action.s.release = 1;
+            }
+        }
+    }
+}
 
 void Audio_DiscardSequence(s32 seqId) {
     s32 i;
