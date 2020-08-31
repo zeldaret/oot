@@ -70,15 +70,13 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
         for (row = 0, rowTex = 0; row < this->row; row++, rowTex += 0x20) {
             gDPPipeSync(gfx++);
             gDPSetTextureImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, SEGMENT_ADDR(0xB, 0));
-            gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 9, 0x0000, G_TX_LOADTILE, 0, 
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, 
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 9, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPLoadSync(gfx++);
             gDPLoadTile(gfx++, G_TX_LOADTILE, rowTex, colTex, rowTex + 0x20, colTex + 0x20);
             gDPPipeSync(gfx++);
-            gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 9, 0x0000, G_TX_RENDERTILE, 0, 
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, 
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 9, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPSetTileSize(gfx++, G_TX_RENDERTILE, rowTex, colTex, rowTex + 0x20, colTex + 0x20);
             gSP1Quadrangle(gfx++, row, row + 1, row + this->row, row + this->row + 1, 0);
         }
@@ -86,14 +84,14 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
     gDPPipeSync(gfx++);
     gSPEndDisplayList(gfx++);
 
-    LOG("this->col * (1 + this->row * (1 + 7 + 1)) + 1 + 1", this->col * (1 + this->row * 9) + 2, "%d", "../z_fbdemo.c", 144);
+    LOG("this->col * (1 + this->row * (1 + 7 + 1)) + 1 + 1", this->col * (1 + this->row * 9) + 2, "%d", "../z_fbdemo.c",
+        144);
     LOG("gp - this->gfxtbl", gfx - this->gfx, "%d", "../z_fbdemo.c", 145);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_InitGraphics.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_InitData.s")
 void TransitionUnk_InitData(TransitionUnk* this) {
     s32 col;
     s32 row;
@@ -164,8 +162,7 @@ TransitionUnk* TransitionUnk_Init(TransitionUnk* this, s32 row, s32 col) {
     return this;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_SetData.s")
-void TransitionUnk_SetData(TransitionUnk *this) {
+void TransitionUnk_SetData(TransitionUnk* this) {
     s32 col;
     Vtx* vtx;
     s32 row;
@@ -196,8 +193,7 @@ void TransitionUnk_Draw(TransitionUnk* this, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_Update.s")
-void TransitionUnk_Update(TransitionUnk *this) {
+void TransitionUnk_Update(TransitionUnk* this) {
     f32 temp_f00;
     f32 temp_f12;
     s32 col;
@@ -206,8 +202,10 @@ void TransitionUnk_Update(TransitionUnk *this) {
 
     for (col = 0; col < this->col + 1; col++) {
         for (row = 0; row < this->row + 1; row++) {
-            temp_f00 =  (this->unk_0C + row + col * (this->row + 1))->unk_0 - (this->unk_0C + 5 + 4 * (this->row + 1))->unk_0;
-            temp_f12 = (this->unk_0C + row + col * (this->row + 1))->unk_4 - (this->unk_0C + 5 + 4 * (this->row + 1))->unk_4;
+            temp_f00 =
+                (this->unk_0C + row + col * (this->row + 1))->unk_0 - (this->unk_0C + 5 + 4 * (this->row + 1))->unk_0;
+            temp_f12 =
+                (this->unk_0C + row + col * (this->row + 1))->unk_4 - (this->unk_0C + 5 + 4 * (this->row + 1))->unk_4;
             phi_f14 = (SQ(temp_f00) + SQ(temp_f12)) / 100.0f;
             if (phi_f14 != 0.0f) {
                 if (phi_f14 < 1.0f) {
