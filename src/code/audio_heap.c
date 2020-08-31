@@ -5,7 +5,24 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DDE3C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DDF80.s")
+void Audio_ResetLoadStatus(void) {
+    s32 i;
+
+    for (i = 0; i < 0x30; i++) {
+        if (gAudioContext.unk_3468[i] != 5)
+            gAudioContext.unk_3468[i] = 0;
+    }
+
+    for (i = 0; i < 0x30; i++) {
+        if (gAudioContext.unk_3438[i] != 5)
+            gAudioContext.unk_3438[i] = 0;
+    }
+
+    for (i = 0; i < 0x80; i++) {
+        if (gAudioContext.unk_3498[i] != 5)
+            gAudioContext.unk_3498[i] = 0;
+    }
+}
 
 void Audio_DiscardBank(s32 bankId) {
     s32 i;
@@ -33,7 +50,7 @@ void func_800DE12C(s32 bankId) {
         NotePlaybackState* state = &note->playbackState;
 
         if (state->bankId == bankId) {
-            if (state->priority != 0 && state->adsr.action.s.state == 6) {
+            if (state->priority != 0 && state->adsr.action.s.state == ADSR_STATE_DECAY) {
                 state->priority = 1;
                 state->adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
                 state->adsr.action.s.release = 1;

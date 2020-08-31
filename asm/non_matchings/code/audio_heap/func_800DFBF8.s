@@ -281,7 +281,7 @@ glabel func_800DFBF8
 /* B571B4 800E0014 8C4F002C */  lw    $t7, 0x2c($v0)
 /* B571B8 800E0018 0C037A07 */  jal   Audio_TemporaryPoolsInit
 /* B571BC 800E001C AECF3434 */   sw    $t7, 0x3434($s6)
-/* B571C0 800E0020 0C0377E0 */  jal   func_800DDF80
+/* B571C0 800E0020 0C0377E0 */  jal   Audio_ResetLoadStatus
 /* B571C4 800E0024 00000000 */   nop   
 /* B571C8 800E0028 8EC52894 */  lw    $a1, 0x2894($s6)
 /* B571CC 800E002C 3C138017 */  lui   $s3, %hi(gAudioContext+0x29c0) # $s3, 0x8017
