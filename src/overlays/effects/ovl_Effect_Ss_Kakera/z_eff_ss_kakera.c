@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_kakera.c
  * Overlay: ovl_Effect_Ss_Kakera
- * Description:
+ * Description: Fragments. Appearance is determined by the supplied display list.
  */
 
 #include "z_eff_ss_kakera.h"
@@ -23,47 +23,15 @@ typedef enum {
 } EffectSsKakeraRegs;
 
 u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A9874(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809AA430(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsKakera_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 void func_809A9BA8(EffectSs* this, GlobalContext* globalCtx);
-
-f32 func_809A9DD8(EffectSs* this, s32 arg1);
-f32 func_809A9DEC(EffectSs* this, s32 arg1);
-f32 func_809A9DEC(EffectSs* this, s32 arg1);
-f32 func_809A9DEC(EffectSs* this, s32 arg1);
-f32 func_809A9E28(EffectSs* this, s32 arg1);
-f32 func_809A9E28(EffectSs* this, s32 arg1);
-f32 func_809A9E28(EffectSs* this, s32 arg1);
-f32 func_809A9E68(EffectSs* this, s32 arg1);
-f32 func_809A9E68(EffectSs* this, s32 arg1);
-f32 func_809A9E68(EffectSs* this, s32 arg1);
 
 EffectSsInit Effect_Ss_Kakera_InitVars = {
     EFFECT_SS_KAKERA,
     EffectSsKakera_Init,
 };
-
-// rgb
-Color_RGB8 D_809AA528[] = { { 255, 255, 255 }, { 235, 170, 130 } };
-
-s32 D_809AA530[] = {
-    0x3F800000, 0x42C80000, 0x42200000, 0x40A00000, 0x42C80000,
-    0x42200000, 0x40A00000, 0x42C80000, 0x42200000, 0x40A00000,
-};
-
-s32 D_809AA558[] = { 0x3D4CCCCD, 0x3F800000 };
-
-s32 D_809AA560[] = { 0x40800000, 0x3DCCCCCD, 0x3E99999A, 0x3F666666, 0xBDCCCCCD, 0xBE99999A, 0xBF666666 };
-
-s32 D_809AA57C[] = { 0x3DCCCCCD, 0x3F800000, 0x40C00000 };
-
-s32 D_809AA588[] = {
-    func_809A9DD8, func_809A9DEC, func_809A9DEC, func_809A9DEC, func_809A9E28,
-    func_809A9E28, func_809A9E28, func_809A9E68, func_809A9E68, func_809A9E68,
-};
-
-s32 D_809AA5B0[] = { 0x41200000, 0x41A00000, 0x42200000, 0x00000000 };
 
 u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsKakeraInitParams* initParams = (EffectSsKakeraInitParams*)initParamsx;
@@ -91,27 +59,37 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         LogUtils_HungupThread("../z_eff_kakera.c", 178);
     }
 
-    this->draw = func_809A9874;
-    this->update = func_809AA430;
+    this->draw = EffectSsKakera_Draw;
+    this->update = EffectSsKakera_Update;
     this->unk_2C = initParams->unk_18;
-    /* unk40 */ this->regs[SS_KAKERA_0] = initParams->unk_2C;
-    /* unk42 */ this->regs[SS_KAKERA_1] = initParams->unk_24;
-    /* unk44 */ this->regs[SS_KAKERA_PITCH] = Math_Rand_ZeroOne() * 32767.0f;
-    /* unk46 */ this->regs[SS_KAKERA_YAW] = Math_Rand_ZeroOne() * 32767.0f;
-    /* unk48 */ this->regs[SS_KAKERA_4] = initParams->unk_26;
-    /* unk4A */ this->regs[SS_KAKERA_5] = initParams->unk_28;
-    /* unk4C */ this->regs[SS_KAKERA_6] = initParams->unk_2A;
-    /* unk4E */ this->regs[SS_KAKERA_SCALE] = initParams->scale;
-    /* unk50 */ this->regs[SS_KAKERA_8] = initParams->unk_30;
-    /* unk52 */ this->regs[SS_KAKERA_9] = initParams->unk_32;
-    /* unk58 */ this->regs[SS_KAKERA_COLOR_IDX] = initParams->unk_38;
+    this->regs[SS_KAKERA_0] = initParams->unk_2C;
+    this->regs[SS_KAKERA_1] = initParams->unk_24;
+    this->regs[SS_KAKERA_PITCH] = Math_Rand_ZeroOne() * 32767.0f;
+    this->regs[SS_KAKERA_YAW] = Math_Rand_ZeroOne() * 32767.0f;
+    this->regs[SS_KAKERA_4] = initParams->unk_26;
+    this->regs[SS_KAKERA_5] = initParams->unk_28;
+    this->regs[SS_KAKERA_6] = initParams->unk_2A;
+    this->regs[SS_KAKERA_SCALE] = initParams->scale;
+    this->regs[SS_KAKERA_8] = initParams->unk_30;
+    this->regs[SS_KAKERA_9] = initParams->unk_32;
+    this->regs[SS_KAKERA_COLOR_IDX] = initParams->unk_38;
 
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9818.s")
+f32 func_809A9818(f32 arg0, f32 arg1) {
+    f32 temp_f2;
 
-void func_809A9874(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    if (arg1 < 0.0f) {
+        osSyncPrintf("範囲がマイナス！！(randomD_sectionUniformity)\n");
+    }
+
+    temp_f2 = Math_Rand_ZeroOne() * arg1;
+    return ((temp_f2 + temp_f2) - arg1) + arg0;
+}
+
+void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static Color_RGB8 D_809AA528[] = { { 255, 255, 255 }, { 235, 170, 130 } };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     f32 scale;
@@ -174,33 +152,257 @@ void func_809A9BA8(EffectSs* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9C10.s")
+// update velocity
+void func_809A9C10(EffectSs* this) {
+    f32 temp_f14;
+    f32 temp_f12;
+    f32 temp_f16;
+    f32 temp_f2;
+    f32 temp_f18;
+    f32 temp_f20;
+    f32 temp_f0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9DC0.s")
+    temp_f18 = this->regs[SS_KAKERA_5] * 0.0009765625f;
+    temp_f20 = this->regs[SS_KAKERA_6] * 0.0009765625f;
+    temp_f14 = (this->regs[SS_KAKERA_9] * 0.0009765625f) * 4.0f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9DD8.s")
+    temp_f2 = this->velocity.x - func_809A9818(0.0f, temp_f14);
+    temp_f16 = this->velocity.y - func_809A9818(0.0f, temp_f14);
+    temp_f12 = this->velocity.z - func_809A9818(0.0f, temp_f14);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9DEC.s")
+    if (temp_f2 > 0.0f) {
+        this->velocity.x -= ((temp_f2 * temp_f18) + (SQ(temp_f2) * temp_f20));
+    } else {
+        this->velocity.x -= ((temp_f2 * temp_f18) - (SQ(temp_f2) * temp_f20));
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9E28.s")
+    if (temp_f16 > 0.0f) {
+        temp_f0 = temp_f16 * temp_f18;
+        temp_f2 = SQ(temp_f16) * temp_f20;
+        this->velocity.y -= (temp_f0 + temp_f2);
+    } else {
+        temp_f0 = temp_f16 * temp_f18;
+        temp_f2 = SQ(temp_f16) * temp_f20;
+        this->velocity.y -= (temp_f0 - temp_f2);
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9E68.s")
+    if (temp_f12 > 0.0f) {
+        this->velocity.z -= (temp_f0 + temp_f2);
+    } else {
+        this->velocity.z -= (temp_f0 - temp_f2);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9E88.s")
+// reset accel
+void func_809A9DC0(EffectSs* this) {
+    this->accel.x = this->accel.y = this->accel.z = 0.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9F10.s")
+f32 func_809A9DD8(f32 arg0, s32 arg1) {
+    return 1.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9F4C.s")
+f32 D_809AA530[] = {
+    1.0f, 100.0f, 40.0f, 5.0f, 100.0f, 40.0f, 5.0f, 100.0f, 40.0f, 5.0f,
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809A9FD8.s")
+f32 func_809A9DEC(f32 arg0, s32 arg1) {
+    if (D_809AA530[arg1] < arg0) {
+        return D_809AA530[arg1] / arg0;
+    } else {
+        return 1.0f;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809AA0B8.s")
+f32 func_809A9E28(f32 arg0, s32 arg1) {
+    f32 temp = SQ(arg0);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809AA0EC.s")
+    if (D_809AA530[arg1] < temp) {
+        return D_809AA530[arg1] / temp;
+    } else {
+        return 1.0f;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809AA230.s")
+f32 func_809A9E68(f32 arg0, s32 arg1) {
+    return func_809A9E28(arg0, arg1);
+}
 
-void func_809AA430(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+s32 func_809A9E88(EffectSs* this, Vec3f* diff, f32 dist) {
+    static f32 D_809AA558[] = { 0.05f, 1.0f };
+    s32 temp_v0;
+    f32 phi_f0;
+
+    temp_v0 = this->regs[SS_KAKERA_0] & 3;
+
+    if (temp_v0 != 0) {
+
+        if (dist > 1.0f) {
+            phi_f0 = 1.0f / dist;
+        } else {
+            phi_f0 = 1.0f;
+        }
+
+        this->accel.x += ((D_809AA558[temp_v0 - 1] * diff->z) * phi_f0);
+        this->accel.z -= ((D_809AA558[temp_v0 - 1] * diff->x) * phi_f0);
+    }
+
+    return 1;
+}
+
+// update y accel
+s32 func_809A9F10(EffectSs* this, Vec3f* diff, f32 dist) {
+    static f32 D_809AA560[] = { 4.0f, 0.1f, 0.3f, 0.9f, -0.1f, -0.3f, -0.9f };
+    s32 temp_v0;
+
+    temp_v0 = (this->regs[SS_KAKERA_0] >> 2) & 7;
+
+    if (temp_v0 != 0) {
+        this->accel.y += D_809AA560[temp_v0];
+    }
+
+    return 1;
+}
+
+s32 func_809A9F4C(EffectSs* this, Vec3f* diff, f32 dist) {
+    static f32 D_809AA57C[] = { 0.1f, 1.0f, 6.0f };
+    s32 temp_v0;
+    f32 phi_f0;
+
+    temp_v0 = (this->regs[SS_KAKERA_0] >> 5) & 3;
+
+    if (temp_v0 != 0) {
+
+        if (dist > 1.0f) {
+            phi_f0 = 1.0f / dist;
+        } else {
+            phi_f0 = 1.0f;
+        }
+
+        this->accel.x -= ((diff->x * D_809AA57C[temp_v0 - 1]) * phi_f0);
+        this->accel.z -= ((diff->z * D_809AA57C[temp_v0 - 1]) * phi_f0);
+    }
+
+    return 1;
+}
+
+f32 (*D_809AA588[])(f32 dist, s32 arg1) = {
+    func_809A9DD8, func_809A9DEC, func_809A9DEC, func_809A9DEC, func_809A9E28,
+    func_809A9E28, func_809A9E28, func_809A9E68, func_809A9E68, func_809A9E68,
+};
+
+s32 func_809A9FD8(EffectSs* this, Vec3f* diff, f32 dist) {
+    f32 temp_f0;
+    s32 temp_a1;
+
+    temp_a1 = (this->regs[SS_KAKERA_0] >> 7) & 0xF;
+    temp_f0 = D_809AA588[temp_a1](dist, temp_a1);
+    temp_f0 = func_809A9818(temp_f0, (this->regs[SS_KAKERA_9] * temp_f0) * 0.0009765625f);
+
+    this->accel.x *= temp_f0;
+    this->accel.y *= temp_f0;
+    this->accel.z *= temp_f0;
+
+    this->accel.x += temp_f0 * 0.01f;
+    this->accel.y += temp_f0 * 0.01f;
+    this->accel.z += temp_f0 * 0.01f;
+
+    return 1;
+}
+
+s32 func_809AA0B8(EffectSs* this, Vec3f* diff, f32 dist) {
+    this->accel.y += this->regs[SS_KAKERA_1] * 0.00390625f;
+
+    return 1;
+}
+
+s32 func_809AA0EC(EffectSs* this) {
+    Vec3f diff;
+    f32 dist;
+
+    func_809A9DC0(this);
+
+    diff.x = this->pos.x - this->unk_2C.x;
+    diff.y = this->pos.y - this->unk_2C.y;
+    diff.z = this->pos.z - this->unk_2C.z;
+
+    dist = sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z));
+
+    if (dist > 1000.0f) {
+        return 0;
+    }
+
+    if (this->regs[SS_KAKERA_0] != 0) {
+        if (!func_809A9E88(this, &diff, dist)) {
+            return false;
+        }
+
+        if (!func_809A9F10(this, &diff, dist)) {
+            return false;
+        }
+
+        if (!func_809A9F4C(this, &diff, dist)) {
+            return false;
+        }
+
+        if (!func_809A9FD8(this, &diff, dist)) {
+            return false;
+        }
+    }
+
+    if (!func_809AA0B8(this, &diff, dist)) {
+        return false;
+    }
+
+    return true;
+}
+
+void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
+    static f32 D_809AA5B0[] = { 10.0f, 20.0f, 40.0f };
+    Player* player = PLAYER;
+
+    if (this->regs[SS_KAKERA_8] == 0) {
+        if ((((this->regs[SS_KAKERA_4] >> 4) & 1) * 0x10) == 0x10) {
+            if (this->pos.y <= (player->actor.groundY - ((this->regs[SS_KAKERA_4] >> 2) & 3))) {
+                this->regs[SS_KAKERA_9] = 0;
+                this->regs[SS_KAKERA_0] = 0;
+                this->regs[SS_KAKERA_4] &= ~0x60;
+                this->accel.x = this->accel.y = this->accel.z = 0.0f;
+                this->velocity.x = this->velocity.y = this->velocity.z = 0.0f;
+                this->regs[SS_KAKERA_5] = this->regs[SS_KAKERA_9];
+                this->regs[SS_KAKERA_1] = this->regs[SS_KAKERA_9];
+            }
+        } else {
+            if (this->pos.y <= ((player->actor.groundY - ((this->regs[SS_KAKERA_4] >> 2) & 3)) - 600.0f)) {
+                this->life = 0;
+            }
+        }
+    } else {
+        switch (this->regs[SS_KAKERA_4] & 3) {
+            case 0:
+                this->regs[SS_KAKERA_8] = 0;
+                break;
+            case 1:
+                if (this->velocity.y < 0.0f) {
+                    if (func_8003E30C(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->regs[SS_KAKERA_4] >> 2) & 3])) {
+                        this->velocity.x *= func_809A9818(0.9f, 0.2f);
+                        this->velocity.y *= -0.8f;
+                        this->velocity.z *= func_809A9818(0.9f, 0.2f);
+
+                        if (this->regs[SS_KAKERA_8] > 0) {
+                            this->regs[SS_KAKERA_8] -= 1;
+                        }
+                    }
+                }
+                break;
+            case 2:
+                if (func_8003E30C(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->regs[SS_KAKERA_4] >> 2) & 3])) {}
+                break;
+        }
+    }
+}
+
+void EffectSsKakera_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     switch (((this->regs[SS_KAKERA_4] >> 5) & 3) << 5) {
         case 0x20:
             this->regs[SS_KAKERA_PITCH] += 0xB;
@@ -218,7 +420,7 @@ void func_809AA430(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     func_809A9C10(this);
 
-    if (func_809AA0EC(this) == 0) {
+    if (!func_809AA0EC(this)) {
         this->life = 0;
     }
 

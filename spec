@@ -1820,7 +1820,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_G_Magma2"
     include "build/src/overlays/effects/ovl_Effect_Ss_G_Magma2/z_eff_ss_g_magma2.o"
-    include "build/data/overlays/effects/z_eff_ss_g_magma2.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_G_Magma2/ovl_Effect_Ss_G_Magma2_reloc.o"
 endseg
 
 beginseg
@@ -1879,7 +1879,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Kakera"
     include "build/src/overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.o"
-    include "build/data/overlays/effects/z_eff_ss_kakera.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Kakera/ovl_Effect_Ss_Kakera_reloc.o"
 endseg
 
 beginseg

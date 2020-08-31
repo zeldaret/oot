@@ -712,7 +712,7 @@ glabel BossDodongo_Update
 /* 032A4 808C4434 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 032A8 808C4438 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 032AC 808C443C 27A50080 */  addiu   $a1, $sp, 0x0080           ## $a1 = FFFFFFD0
-/* 032B0 808C4440 0C00A6E4 */  jal     func_80029B90              
+/* 032B0 808C4440 0C00A6E4 */  jal     EffectSsGMagma2_Spawn              
 /* 032B4 808C4444 AFA30014 */  sw      $v1, 0x0014($sp)           
 /* 032B8 808C4448 8626019E */  lh      $a2, 0x019E($s1)           ## 0000019E
 /* 032BC 808C444C 87AE0090 */  lh      $t6, 0x0090($sp)           

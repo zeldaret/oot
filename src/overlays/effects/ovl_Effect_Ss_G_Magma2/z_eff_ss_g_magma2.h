@@ -10,7 +10,7 @@ typedef struct {
     /* 0x10 */ Color_RGBA8 envColor;
     /* 0x14 */ s16 unk_14;
     /* 0x16 */ s16 unk_16;
-    /* 0x18 */ s16 unk_18;
+    /* 0x18 */ s16 scale;
 } EffectSsGMagma2InitParams; // size = 0x1C
 
 #endif
