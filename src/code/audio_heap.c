@@ -170,7 +170,10 @@ void Audio_TemporaryPoolClear(TemporaryPool* temporary) {
     temporary->entries[1].id = -1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE4A0.s")
+void func_800DE4A0(SoundAllocPool* pool) {
+    pool->unused = 0;
+    pool->cur = pool->start;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE4B0.s")
 
