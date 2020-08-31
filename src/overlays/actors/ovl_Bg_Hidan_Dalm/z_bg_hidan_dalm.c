@@ -8,15 +8,10 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx);
-#define BgHidanDalm_WaitInteraction func_80885F4C
+
 void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx);
 void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx);
 void BgHidanDalm_UpdateCollider(BgHidanDalm* this);
-
-// object
-extern Gfx D_0600BBF0[];
-extern Gfx D_0600BDF0[];
-extern UNK_TYPE D_0600DA10;
 
 const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
@@ -49,20 +44,20 @@ static ColliderTrisItemInit sTrisItemInit[4] = {
     },
 };
 
-#define sTrisInit D_80886590
-ColliderTrisInit sTrisInit = {
+ColliderTrisInit D_80886590 = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
     4,
     sTrisItemInit,
 };
 
-#define sInitChain D_808865A0
-InitChainEntry sInitChain[] = {
+InitChainEntry D_808865A0[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 65336, ICHAIN_STOP),
 };
 
-Vec3f D_808865A8 = { 0, 0, 0 };
+extern Gfx D_0600BBF0[];
+extern Gfx D_0600BDF0[];
+extern UNK_TYPE D_0600DA10;
 
 #ifdef NON_MATCHING
 // regalloc
@@ -72,26 +67,26 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 dynaUnk;
 
     dynaUnk = 0;
-    Actor_ProcessInitChain(thisx, sInitChain);
+    Actor_ProcessInitChain(thisx, D_808865A0);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
     DynaPolyInfo_Alloc(&D_0600DA10, &dynaUnk);
     // = ... & 0xFFFFFFFFFFFFFFFF; moves regalloc issues
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, dynaUnk);
     Collider_InitTris(globalCtx, &this->unk_16C);
-    Collider_SetTris(globalCtx, &this->unk_16C, thisx, &sTrisInit, this->unk_18C);
+    Collider_SetTris(globalCtx, &this->unk_16C, thisx, &D_80886590, this->unk_18C);
 
     switchFlag = thisx->params >> 8; /*
     // this instead of the line above solves half the regalloc issues
     switchFlag = thisx->params;
     switchFlag = switchFlag >> 8 & 0xFFFFFFFFFFFFFFFF;
     //*/
-    this->switchFlag = switchFlag; // can use thisx->params >> 8 without changes
+    this->switchFlag = switchFlag;   // can use thisx->params >> 8 without changes
     thisx->params &= 0xFF;
     // can use thisx->params >> 8 , seems to improve regalloc, but it changes codegen
     if (Flags_GetSwitch(globalCtx, switchFlag & 0xFF)) {
         Actor_Kill(thisx);
     } else {
-        this->actionFunc = &BgHidanDalm_WaitInteraction;
+        this->actionFunc = BgHidanDalm_WaitInteraction;
     }
 }
 #else
@@ -110,7 +105,7 @@ void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx) {
 
     if ((this->unk_16C.base.acFlags & 2) && !func_8008E988(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
-        this->unk_16C.base.acFlags &= ~(1 << 1);
+        this->unk_16C.base.acFlags &= ~2;
         if (this->unk_16C.list[0].body.bumperFlags & 2 || this->unk_16C.list[1].body.bumperFlags & 2) {
             this->dyna.actor.posRot.rot.y -= 0x4000;
         } else {
@@ -120,10 +115,10 @@ void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.z += 32.5f * Math_Coss(this->dyna.actor.posRot.rot.y);
 
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
-        this->dyna.actor.flags |= 1 << 4;
-        this->actionFunc = &BgHidanDalm_Shrink;
-        this->dyna.actor.bgCheckFlags &= ~(1 << 1);
-        this->dyna.actor.bgCheckFlags &= ~(1 << 3);
+        this->dyna.actor.flags |= 0x10;
+        this->actionFunc = BgHidanDalm_Shrink;
+        this->dyna.actor.bgCheckFlags &= ~2;
+        this->dyna.actor.bgCheckFlags &= ~8;
         this->dyna.actor.speedXZ = 10.0f;
         Flags_SetSwitch(globalCtx, this->switchFlag);
         func_8002F7DC(&PLAYER->actor, NA_SE_IT_HAMMER_HIT);
@@ -134,9 +129,10 @@ void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
+    static Vec3f accel = { 0, 0, 0 };
     s32 i;
-    Vec3f unkDir;
-    Vec3f unkPos;
+    Vec3f velocity;
+    Vec3f pos;
 
     if (Math_ApproxF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
         func_8002DF54(globalCtx, &this->dyna.actor, 7);
@@ -145,15 +141,15 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.scale.y = this->dyna.actor.scale.z = this->dyna.actor.scale.x;
 
-    unkPos.x = this->dyna.actor.posRot.pos.x;
-    unkPos.y = this->dyna.actor.posRot.pos.y + this->dyna.actor.scale.x * 160.0f;
-    unkPos.z = this->dyna.actor.posRot.pos.z;
+    pos.x = this->dyna.actor.posRot.pos.x;
+    pos.y = this->dyna.actor.posRot.pos.y + this->dyna.actor.scale.x * 160.0f;
+    pos.z = this->dyna.actor.posRot.pos.z;
 
-    for (i = 0; i != 4; i++) {
-        unkDir.x = 5.0f * Math_Sins(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
-        unkDir.z = 5.0f * Math_Coss(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
-        unkDir.y = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
-        func_80028B18(globalCtx, &unkPos, &unkDir, &D_808865A8);
+    for (i = 0; i < 4; i++) {
+        velocity.x = 5.0f * Math_Sins(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.z = 5.0f * Math_Coss(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
+        func_80028B18(globalCtx, &pos, &velocity, &accel);
     }
 }
 
@@ -161,8 +157,8 @@ void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, 10.0f, 15.0f, 32.0f, 5);
+    Actor_MoveForward(&this->dyna.actor);
+    func_8002E4B4(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f, 5);
 }
 
 /*

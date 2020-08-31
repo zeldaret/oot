@@ -49,14 +49,14 @@ glabel BgHidanDalm_Init
               
 /* 000AC 80885ECC 332500FF */  andi    $a1, $t9, 0x00FF           ## $a1 = 00000000
 /* 000B0 80885ED0 10400005 */  beq     $v0, $zero, .L80885EE8     
-/* 000B4 80885ED4 3C0A8088 */  lui     $t2, %hi(func_80885F4C)    ## $t2 = 80880000
+/* 000B4 80885ED4 3C0A8088 */  lui     $t2, %hi(BgHidanDalm_WaitInteraction)    ## $t2 = 80880000
 /* 000B8 80885ED8 0C00B55C */  jal     Actor_Kill
               
 /* 000BC 80885EDC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000C0 80885EE0 10000004 */  beq     $zero, $zero, .L80885EF4   
 /* 000C4 80885EE4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80885EE8:
-/* 000C8 80885EE8 254A5F4C */  addiu   $t2, $t2, %lo(func_80885F4C) ## $t2 = 00005F4C
+/* 000C8 80885EE8 254A5F4C */  addiu   $t2, $t2, %lo(BgHidanDalm_WaitInteraction) ## $t2 = 00005F4C
 /* 000CC 80885EEC AE0A0164 */  sw      $t2, 0x0164($s0)           ## 00000164
 /* 000D0 80885EF0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80885EF4:
