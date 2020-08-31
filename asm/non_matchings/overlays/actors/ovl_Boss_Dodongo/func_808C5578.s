@@ -1626,7 +1626,7 @@ glabel L808C5FE4
 /* 059E0 808C6B70 AFA00028 */  sw      $zero, 0x0028($sp)
 /* 059E4 808C6B74 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 059E8 808C6B78 E7A80014 */  swc1    $f8, 0x0014($sp)
-/* 059EC 808C6B7C 0C00C916 */  jal     Actor_SpawnAttached
+/* 059EC 808C6B7C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 059F0 808C6B80 E7AA0018 */  swc1    $f10, 0x0018($sp)
 /* 059F4 808C6B84 8FA401A4 */  lw      $a0, 0x01A4($sp)

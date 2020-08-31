@@ -176,7 +176,7 @@ glabel func_808A6210
 /* 00274 808A6484 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00278 808A6488 24070093 */  addiu   $a3, $zero, 0x0093         ## $a3 = 00000093
 /* 0027C 808A648C 018D7021 */  addu    $t6, $t4, $t5              
-/* 00280 808A6490 0C00C916 */  jal     Actor_SpawnAttached
+/* 00280 808A6490 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00284 808A6494 AFAE0028 */  sw      $t6, 0x0028($sp)           
 /* 00288 808A6498 54400006 */  bnel    $v0, $zero, .L808A64B4     

@@ -170,7 +170,7 @@ glabel L80AF637C
 /* 00E98 80AF63F8 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00E9C 80AF63FC AFA00020 */  sw      $zero, 0x0020($sp)
 /* 00EA0 80AF6400 AFA0001C */  sw      $zero, 0x001C($sp)
-/* 00EA4 80AF6404 0C00C916 */  jal     Actor_SpawnAttached
+/* 00EA4 80AF6404 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00EA8 80AF6408 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 00EAC 80AF640C 8FBF003C */  lw      $ra, 0x003C($sp)

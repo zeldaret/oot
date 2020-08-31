@@ -72,19 +72,16 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 
 // unused in the original game. looks like EffectSsBomb but with color
 void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp11C;
     MtxF spDC;
     MtxF sp9C;
     MtxF sp5C;
     Mtx* mtx;
-    s32 pad2;
+    s32 pad;
     f32 scale;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 298);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 298);
 
     scale = this->regs[SS_BOMB2_SCALE] * 0.01f;
     SkinMatrix_SetTranslate(&sp11C, this->pos.x, this->pos.y, this->pos.z);
@@ -95,23 +92,23 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp9C);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80094BC4(gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_BOMB2_PRIM_R], this->regs[SS_BOMB2_PRIM_G],
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_BOMB2_PRIM_R], this->regs[SS_BOMB2_PRIM_G],
                         this->regs[SS_BOMB2_PRIM_B], this->regs[SS_BOMB2_PRIM_A]);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_BOMB2_ENV_R], this->regs[SS_BOMB2_ENV_G],
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_BOMB2_ENV_R], this->regs[SS_BOMB2_ENV_G],
                        this->regs[SS_BOMB2_ENV_B], 0);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099FEE0[this->regs[SS_BOMB2_TEX_IDX]]));
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099FEE0[this->regs[SS_BOMB2_TEX_IDX]]));
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
         if (1) {}
         if (1) {}
     }
 
-    Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 345);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 345);
 }
 
 void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 pad1;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp1B4;
     MtxF sp174;
     MtxF sp134;
@@ -119,18 +116,13 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
     MtxF spB4;
     Mtx* mtx2;
     Mtx* mtx;
-    s32 pad;
-    s32 pad2;
-    s32 pad3;
+    s32 pad[3];
     f32 scale;
     f32 temp_f24;
     f32 mtxScale = 0.925f;
     s32 i;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 386);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 386);
 
     temp_f24 = this->regs[SS_BOMB2_A];
     scale = this->regs[SS_BOMB2_SCALE] * 0.01f;
@@ -141,18 +133,18 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp134);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx2 = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp134);
 
         if (mtx2 != NULL) {
             func_80094BC4(gfxCtx);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_BOMB2_PRIM_R], this->regs[SS_BOMB2_PRIM_G],
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_BOMB2_PRIM_R], this->regs[SS_BOMB2_PRIM_G],
                             this->regs[SS_BOMB2_PRIM_B], this->regs[SS_BOMB2_PRIM_A]);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_BOMB2_ENV_R], this->regs[SS_BOMB2_ENV_G],
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_BOMB2_ENV_R], this->regs[SS_BOMB2_ENV_G],
                            this->regs[SS_BOMB2_ENV_B], 0);
-            gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099FF00[this->regs[SS_BOMB2_TEX_IDX]]));
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_0400BFE8);
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_0400C040);
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099FF00[this->regs[SS_BOMB2_TEX_IDX]]));
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0400BFE8);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0400C040);
 
             Matrix_MtxToMtxF(mtx2, &spB4);
             Matrix_Put(&spB4);
@@ -160,9 +152,9 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
                 Matrix_Translate(0.0f, 0.0f, temp_f24, MTXMODE_APPLY);
                 Matrix_RotateZ((this->life * 0.02f) + 180.0f, MTXMODE_APPLY);
                 Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
-                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_bomb2.c", 448),
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_bomb2.c", 448),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_0400C040);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_0400C040);
                 mtxScale -= 0.15f;
             }
         }
@@ -170,7 +162,7 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
         if (1) {}
         if (1) {}
     }
-    Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_bomb2.c", 456);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 456);
 }
 
 void EffectSsBomb2_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

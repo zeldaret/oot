@@ -456,7 +456,7 @@ glabel L808D4594
 /* 02090 808D4700 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 02094 808D4704 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 02098 808D4708 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 0209C 808D470C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0209C 808D470C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 020A0 808D4710 E7A60014 */  swc1    $f6, 0x0014($sp)
 /* 020A4 808D4714 8FA40084 */  lw      $a0, 0x0084($sp)

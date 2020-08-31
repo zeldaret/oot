@@ -12,7 +12,7 @@ glabel func_800DD9F4
 /* B54BBC 800DDA1C 8CC30008 */   lw    $v1, 8($a2)
 /* B54BC0 800DDA20 00073040 */  sll   $a2, $a3, 1
 /* B54BC4 800DDA24 24C6000F */  addiu $a2, $a2, 0xf
-/* B54BC8 800DDA28 3C078013 */  lui   $a3, %hi(gWaveSamples+0x18) # $a3, 0x8013
+/* B54BC8 800DDA28 3C078013 */  lui   $a3, %hi(gWaveSamples+0x20) # $a3, 0x8013
 /* B54BCC 800DDA2C 02002025 */  move  $a0, $s0
 /* B54BD0 800DDA30 2401FFF0 */  li    $at, -16
 /* B54BD4 800DDA34 00C13024 */  and   $a2, $a2, $at
