@@ -2112,7 +2112,7 @@ void* Audio_AudioListPopBack(AudioListItem* list);
 void Audio_ProcessSequences(s32 arg0);
 void Audio_ProcessSequence(SequencePlayer* seqPlayer);
 void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer);
-void func_800EC734(s32 player);
+void func_800EC734(s32 seqPlayerIndex);
 void Audio_InitSequencePlayers(void);
 // ? func_800ECA00(?);
 // ? func_800ECA60(?);
