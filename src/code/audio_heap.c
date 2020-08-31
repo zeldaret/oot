@@ -160,7 +160,15 @@ void Audio_PersistentPoolClear(PersistentPool* persistent) {
     persistent->pool.cur = persistent->pool.start;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_TemporaryPoolClear.s")
+void Audio_TemporaryPoolClear(TemporaryPool* temporary) {
+    temporary->pool.unused = 0;
+    temporary->pool.cur = temporary->pool.start;
+    temporary->nextSide = 0;
+    temporary->entries[0].ptr = temporary->pool.start;
+    temporary->entries[1].ptr = temporary->pool.start + temporary->pool.size;
+    temporary->entries[0].id = -1;
+    temporary->entries[1].id = -1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE4A0.s")
 
