@@ -568,7 +568,8 @@ typedef struct {
     /* 0x3498 */ u8 unk_3498[0x80]; // gSeqLoadStatus?
     /* 0x3518 */ char unk_3518[8];
     /* 0x3520 */ f32* unk_3520;
-    /* 0x3524 */ char unk_3524[8];
+    /* 0x3524 */ u8* gAudioHeap;
+    /* 0x3528 */ u32 gAudioHeapSize;
     /* 0x352C */ Note* gNotes;
     /* 0x3530 */ SequencePlayer gSequencePlayers[4];
     /* 0x3AB0 */ SequenceChannelLayer gSequenceLayers[64];

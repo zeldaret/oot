@@ -156,7 +156,11 @@ void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE4B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_InitMainPools.s")
+void Audio_InitMainPools(s32 sizeForAudioInitPool) {
+    Audio_SoundAllocPoolInit(&gAudioContext.gAudioInitPool, gAudioContext.gAudioHeap, sizeForAudioInitPool);
+    Audio_SoundAllocPoolInit(&gAudioContext.gAudioSessionPool, gAudioContext.gAudioHeap + sizeForAudioInitPool, gAudioContext.gAudioHeapSize - sizeForAudioInitPool);
+    gAudioContext.gUnkPool.start = NULL;
+}
 
 void Audio_SessionPoolsInit(AudioPoolSplit *split) {
     gAudioContext.gAudioSessionPool.cur = gAudioContext.gAudioSessionPool.start;
