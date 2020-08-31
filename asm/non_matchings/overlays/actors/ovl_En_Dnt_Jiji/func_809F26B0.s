@@ -8,7 +8,7 @@ glabel func_809F26B0
               
 /* 00BE8 809F26C8 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00BEC 809F26CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00BF0 809F26D0 0C00BD04 */  jal     func_8002F410              
+/* 00BF0 809F26D0 0C00BD04 */  jal     Actor_HasParent              
 /* 00BF4 809F26D4 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00BF8 809F26D8 10400005 */  beq     $v0, $zero, .L809F26F0     
 /* 00BFC 809F26DC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

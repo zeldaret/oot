@@ -335,19 +335,17 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
     void* srcSegment8 = D_8097D440[temp];
     void* srcSegment9 = &D_0600E680;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
 
 void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {

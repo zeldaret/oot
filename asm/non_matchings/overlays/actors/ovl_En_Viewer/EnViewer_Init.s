@@ -44,7 +44,7 @@ glabel EnViewer_Init
 /* 000A8 80B2A2A8 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
 /* 000AC 80B2A2AC E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 000B0 80B2A2B0 E7A00014 */  swc1    $f0, 0x0014($sp)           
-/* 000B4 80B2A2B4 0C00C916 */  jal     Actor_SpawnAttached
+/* 000B4 80B2A2B4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 000B8 80B2A2B8 E7A00018 */  swc1    $f0, 0x0018($sp)           
 /* 000BC 80B2A2BC 3C0180B3 */  lui     $at, %hi(D_80B2D440)       ## $at = 80B30000
