@@ -95,18 +95,9 @@ AnimationHeader* D_80B1B634[] = {
 Vec3f D_80B1B64C = { 2800.0f, -200.0f, 0.0f };
 
 Vec3f D_80B1B658[12] = {
-    {20.0f, 20.0f, 0.0f},
-    {10.0f, 40.0f, 10.0f},
-    {-10.0f, 40.0f, 10.0f},
-    {-20.0f, 20.0f, 0.0f},
-    {10.0f, 40.0f, -10.0f},
-    {-10.0f, 40.0f, -10.0f},
-    {0.0f, 20.0f, -20.0f},
-    {10.0f, 0.0f, 10.0f},
-    {10.0f, 0.0f, -10.0f},
-    {0.0f, 20.0f, 20.0f},
-    {-10.0f, 0.0f, 10.0f},
-    {-10.0f, 0.0f, -10.0f},
+    { 20.0f, 20.0f, 0.0f },   { 10.0f, 40.0f, 10.0f },   { -10.0f, 40.0f, 10.0f }, { -20.0f, 20.0f, 0.0f },
+    { 10.0f, 40.0f, -10.0f }, { -10.0f, 40.0f, -10.0f }, { 0.0f, 20.0f, -20.0f },  { 10.0f, 0.0f, 10.0f },
+    { 10.0f, 0.0f, -10.0f },  { 0.0f, 20.0f, 20.0f },    { -10.0f, 0.0f, 10.0f },  { -10.0f, 0.0f, -10.0f },
 };
 
 // EnTite_SetupAction
@@ -114,16 +105,17 @@ void func_80B18A80(EnTite* this, EnTiteActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-
 // Matching, just commented due to the sDamageTable issue
-void EnTite_Init(Actor *thisx, GlobalContext *globalCtx) {
-    EnTite *this = THIS;
+void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnTite* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain); // TODO D_
     thisx->unk_1F = 3;
     Actor_SetScale(thisx, 0.01f);
-    SkelAnime_Init(globalCtx, &this->unk14C, &D_06003A20, &D_060012E4, this->limbDrawTable, this->transitionDrawTable,25);
-    ActorShape_Init(&thisx->shape, -200.0f, ActorShadow_DrawFunc_Circle, 70.0f); this->unk2BD = 0;
+    SkelAnime_Init(globalCtx, &this->unk14C, &D_06003A20, &D_060012E4, this->limbDrawTable, this->transitionDrawTable,
+                   25);
+    ActorShape_Init(&thisx->shape, -200.0f, ActorShadow_DrawFunc_Circle, 70.0f);
+    this->unk2BD = 0;
     thisx->colChkInfo.damageTable = sDamageTable;
     this->unk2E0 = 0; // is this a u16???
     this->unk2C4.unk_10 = 0;
@@ -132,7 +124,7 @@ void EnTite_Init(Actor *thisx, GlobalContext *globalCtx) {
     thisx->colChkInfo.health = 2;
     thisx->colChkInfo.mass = 0xFE;
     Collider_InitJntSph(globalCtx, &this->unk2E8);
-    Collider_SetJntSph(globalCtx,  &this->unk2E8, thisx, &sJntSphInit, &this->unk308); // TODO D_
+    Collider_SetJntSph(globalCtx, &this->unk2E8, thisx, &sJntSphInit, &this->unk308); // TODO D_
     this->unk2DC = 0x1D;
     if (thisx->params == -2) {
         this->unk2DC |= 0x40;
@@ -904,7 +896,7 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // postLimbDraw?
-s32 func_80B1B178(GlobalContext* globalCtx, s32 arg1, Gfx** dList, s32 arg3, Actor* thisx, s32* arg5, s16 arg6) {
+void func_80B1B178(GlobalContext* globalCtx, s32 arg1, Gfx** dList, s32 arg3, Actor* thisx, s32* arg5, s16 arg6) {
     extern Vec3f D_80B1B64C;
 
     EnTite* this = THIS;
@@ -923,54 +915,43 @@ s32 func_80B1B178(GlobalContext* globalCtx, s32 arg1, Gfx** dList, s32 arg3, Act
             break;
     }
     func_80032F54(&this->unk2C4, arg1, 0, 0x18, 0x18, dList, -1);
-    return 0;
 }
 
+#ifdef NON_MATCHING
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnTite* this = THIS;
-
-    Vec3f* vec;
-    Vec3f sp4C;
-    u8 decr;
-    u32 temp;
+    u8 new_var;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tite.c", 0x6A8);
     func_80093D18(globalCtx->state.gfxCtx);
     func_800628A4(0, &this->unk2E8);
-    
-    
-    
     if (thisx->params == -2) {
-        temp = D_06001300;
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(temp));
-        temp = D_06001700;
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(temp));
-        temp = D_06001900;
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(temp));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001300));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001700));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06001900));
     } else {
-        temp = D_06001B00;
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(temp));
-        temp = D_06001F00;
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(temp));
-        temp = D_06002100;
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(temp));
-        
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001B00));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001F00));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06002100));
     }
-    
-    SkelAnime_Draw(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, NULL, (PostLimbDraw)func_80B1B178, thisx);
+    SkelAnime_Draw(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, NULL, (PostLimbDraw)func_80B1B178,
+                   thisx);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tite.c", 0x6C7);
-    if (this->unk2E3 != 0) {;
+    new_var = this->unk2E3;
+    if (new_var != 0) {
+        s32 decr;
         thisx->dmgEffectTimer++;
-        decr = this->unk2E3 - 1;
-        this->unk2E3 = decr;
+        decr = --this->unk2E3;
         if ((decr & 3) == 0) {
-            vec = &D_80B1B658[(decr >> 2)];
-            sp4C.x = thisx->posRot.pos.x + vec->x;
-            sp4C.y = thisx->posRot.pos.y + vec->y;
-            sp4C.z = thisx->posRot.pos.z + vec->z;
+            Vec3f sp4C;
+            sp4C.x = D_80B1B658[(decr >> 2)].x + thisx->posRot.pos.x;
+            sp4C.y = D_80B1B658[(decr >> 2)].y + thisx->posRot.pos.y;
+            sp4C.z = D_80B1B658[(decr >> 2)].z + thisx->posRot.pos.z;
             // EffectSsEnIce Spawn Function
-            func_8002A140(globalCtx, thisx, &sp4C, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.0f);
+            func_8002A140(globalCtx, &this->actor, &sp4C, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.0f);
         }
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Draw.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Draw.s")
+#endif
