@@ -3585,7 +3585,7 @@ u32 func_800419B0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId, s32 s
         return 0;
     }
     surfaceTypes = colHeader->polygonTypes;
-    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     return surfaceTypes[poly->type].data[surfacePropId];
@@ -3621,11 +3621,11 @@ u16 func_80041A94(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
         return 0;
     }
     camData = colHeader->cameraData;
-    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     surfaceTypes = colHeader->polygonTypes;
-    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     return func_80041A4C(colCtx, func_80041A28(colCtx, poly, bgId), bgId);
@@ -3641,7 +3641,7 @@ u16 func_80041B24(CollisionContext* colCtx, u32 camId, s32 bgId) {
     }
 
     camData = colHeader->cameraData;
-    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     return camData[camId].numCameras;
@@ -3657,11 +3657,11 @@ u16 func_80041B80(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
         return 0;
     }
     camData = colHeader->cameraData;
-    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     surfaceTypes = colHeader->polygonTypes;
-    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     return func_80041B24(colCtx, func_80041A28(colCtx, poly, bgId), bgId);
@@ -3676,7 +3676,7 @@ CamPosData* func_80041C10(CollisionContext* colCtx, s32 camId, s32 bgId) {
         return 0;
     }
     camData = colHeader->cameraData;
-    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     return (CamPosData*)SEGMENTED_TO_VIRTUAL(camData[camId].camPosDataSeg);
@@ -3692,11 +3692,11 @@ CamPosData* func_80041C98(CollisionContext* colCtx, CollisionPoly* poly, s32 bgI
         return 0;
     }
     camData = colHeader->cameraData;
-    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     surfaceTypes = colHeader->polygonTypes;
-    if ((u32)surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (surfaceTypes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
     return func_80041C10(colCtx, func_80041A28(colCtx, poly, bgId), bgId);
@@ -3862,7 +3862,7 @@ s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32
     WaterBox* curWaterBox;
 
     colHeader = colCtx->colHeader;
-    if (colHeader->nbWaterBoxes == 0 || (u32)colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (colHeader->nbWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return false;
     }
 
@@ -3895,7 +3895,7 @@ s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg
     WaterBox* phi_v0;
 
     colHeader = colCtx->colHeader;
-    if (colHeader->nbWaterBoxes == 0 || (u32)colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (colHeader->nbWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         *outWaterBox = NULL;
         return -1;
     }
@@ -3941,7 +3941,7 @@ u16 func_80042548(CollisionContext* colCtx, WaterBox* waterBox) {
     v = func_80042538(colCtx, waterBox);
 
     camData = colCtx->colHeader->cameraData;
-    if ((u32)camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (camData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
 
@@ -3961,7 +3961,7 @@ s32 func_800425B0(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32
     WaterBox* curWaterBox;
 
     colHeader = colCtx->colHeader;
-    if (colHeader->nbWaterBoxes == 0 || (u32)colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (colHeader->nbWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return false;
     }
 
