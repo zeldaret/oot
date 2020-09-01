@@ -209,7 +209,7 @@ Vec3f D_808D1998[] = { { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  {
 
 void func_808CADC0(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
     s16 i;
-    
+
     for (i = 0; i < 150; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 1;
@@ -226,7 +226,7 @@ void func_808CADC0(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, V
 
 void func_808CAE8C(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
     s16 i;
-    
+
     for (i = 0; i < 150; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 2;
@@ -243,7 +243,7 @@ void func_808CAE8C(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, V
 
 void func_808CAF5C(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
     s16 i;
-    
+
     for (i = 0; i < 150; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 3;
@@ -260,7 +260,7 @@ void func_808CAF5C(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, V
 void func_808CAFF4(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale,
                    s16 opacity, s16 kbAngle) {
     s16 i;
-    
+
     for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 4;
@@ -283,7 +283,7 @@ void func_808CAFF4(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, V
 }
 
 void func_808CB100(BossFd* this, f32 arg1) {
-    
+
     this->unk_1438.x = fabsf(this->unk_1408.x - this->unk_1450.x) * arg1;
     this->unk_1438.y = fabsf(this->unk_1408.y - this->unk_1450.y) * arg1;
     this->unk_1438.z = fabsf(this->unk_1408.z - this->unk_1450.z) * arg1;
@@ -293,7 +293,7 @@ void func_808CB100(BossFd* this, f32 arg1) {
 }
 
 void func_808CB198(BossFd* this, GlobalContext* globalCtx) {
-    
+
     if (this->introCameraState != 0) {
         Math_SmoothScaleMaxF(&this->unk_1408.x, this->unk_1450.x, this->unk_145C.x, this->unk_1438.x * this->unk_1480);
         Math_SmoothScaleMaxF(&this->unk_1408.y, this->unk_1450.y, this->unk_145C.y, this->unk_1438.y * this->unk_1480);
@@ -315,7 +315,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Flags_SetSwitch(globalCtx, 0x14);
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_VB_SIMA, 680.0f, -100.0f, 0.0f, 0, 0, 0,
-                        0x64);
+                       0x64);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     Actor_SetScale(&this->actor, 0.05f);
@@ -354,14 +354,14 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num) != 0) {
         Actor_Kill(&this->actor);
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0,
-                            0, -1);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
+                           -1);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
         return;
     }
 
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->introState2);
+                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->introState2);
 }
 
 void BossFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -381,7 +381,7 @@ s32 func_808CB67C(BossFd* this) {
 }
 
 void func_808CB6A8(BossFd* this, GlobalContext* globalCtx) {
-    
+
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime1, &D_060115E4);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime2, &D_06011524);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime3, &D_06011464);
@@ -1177,7 +1177,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
 
 void func_808CDE30(BossFd* this, GlobalContext* globalCtx) {
     u8 temp_rand;
-    
+
     if (this->handoffSignal == 1) { // Set by BossFd2
         this->handoffSignal = 0;
         func_808CB6A8(this, globalCtx);
@@ -1309,10 +1309,10 @@ void func_808CE01C(BossFd* this, GlobalContext* globalCtx) {
                 spC4.y = -0.3f;
                 temp_X = (spD0.x * 20) / 10.0f;
                 temp_Z = (spD0.z * 20) / 10.0f;
-                spB8.x =  temp_X + this->holePosition.x;
+                spB8.x = temp_X + this->holePosition.x;
                 spB8.y = 100.0f;
-                spB8.z =  temp_Z + this->holePosition.z;
-                
+                spB8.z = temp_Z + this->holePosition.z;
+
                 func_8002836C(globalCtx, &spB8, &spD0, &spC4, &D_808D1A58, &D_808D1A5C,
                               (s16)Math_Rand_ZeroFloat(150.0f) + 800, 0xA, (s16)Math_Rand_ZeroFloat(5.0f) + 17);
             }
@@ -1490,8 +1490,8 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->rockTimer--;
         if ((this->rockTimer & 0xF) == 0) {
             bossFdRock = (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
-                                                        this->actor.posRot.pos.x, 1000.0f, this->actor.posRot.pos.z, 0,
-                                                        0, (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
+                                                       this->actor.posRot.pos.x, 1000.0f, this->actor.posRot.pos.z, 0,
+                                                       0, (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
             if (bossFdRock != 0) {
                 for (i = 0; i < 10; i++) {
                     spB0 = D_808D1A60;
@@ -1633,7 +1633,6 @@ void func_808CF898(BossFdParticle* ptr, GlobalContext* globalCtx) {
     f32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     BossFdParticle* particle;
-    
 
     particle = ptr;
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 0xFB7);
@@ -1920,7 +1919,7 @@ Vec3f D_808D1BAC = { 4000.0f, 0.0f, 0.0f };
 
 void func_808D08A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     BossFd* this = THIS;
-    
+
     if (limbIndex == 5) {
         Matrix_MultVec3f(&D_808D1BA0, &this->actor.posRot2.pos);
         Matrix_MultVec3f(&D_808D1BAC, &this->fireBreathSpawnPoint);
@@ -2022,7 +2021,7 @@ void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
                     func_800D20CC(&spFC, &spDC, 0);
                     newActor =
                         (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
-                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i1 + 0xC8);
+                                                      spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i1 + 0xC8);
 
                     newActor->actor.scale.x = this->actor.scale.x * phi_f20_2;
                     newActor->actor.scale.y = this->actor.scale.y * spD4;
