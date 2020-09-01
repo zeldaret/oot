@@ -15,9 +15,9 @@ typedef enum {
     /* 0x06 */ SS_DEAD_DD_ENV_R,
     /* 0x07 */ SS_DEAD_DD_ENV_G,
     /* 0x08 */ SS_DEAD_DD_ENV_B,
-    /* 0x09 */ SS_DEAD_DD_9,
-    /* 0x0A */ SS_DEAD_DD_A,
-    /* 0x0B */ SS_DEAD_DD_B
+    /* 0x09 */ SS_DEAD_DD_SCALE_STEP,
+    /* 0x0A */ SS_DEAD_DD_ALPHA_STEP,
+    /* 0x0B */ SS_DEAD_DD_ALPHA_MODE // if mode is 0 alpha decreases over time, otherwise it increases
 } EffectSsDeadDdRegs;
 
 u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -40,13 +40,13 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
         this->life = initParams->life;
-        this->regs[SS_DEAD_DD_9] = initParams->unk_26;
-        this->regs[SS_DEAD_DD_B] = initParams->unk_30;
+        this->regs[SS_DEAD_DD_SCALE_STEP] = initParams->scaleStep;
+        this->regs[SS_DEAD_DD_ALPHA_MODE] = initParams->alphaStep;
 
-        if (initParams->unk_30 != 0) {
-            this->regs[SS_DEAD_DD_A] = initParams->unk_30;
+        if (initParams->alphaStep != 0) {
+            this->regs[SS_DEAD_DD_ALPHA_STEP] = initParams->alphaStep;
         } else {
-            this->regs[SS_DEAD_DD_A] = initParams->alpha / initParams->life;
+            this->regs[SS_DEAD_DD_ALPHA_STEP] = initParams->alpha / initParams->life;
         }
 
         this->draw = func_809A12B4;
@@ -62,9 +62,9 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 
     } else if (initParams->drawMode == 1) {
         this->life = initParams->life;
-        this->regs[SS_DEAD_DD_9] = initParams->unk_26;
-        this->regs[SS_DEAD_DD_B] = 0;
-        this->regs[SS_DEAD_DD_A] = 155 / initParams->life;
+        this->regs[SS_DEAD_DD_SCALE_STEP] = initParams->scaleStep;
+        this->regs[SS_DEAD_DD_ALPHA_MODE] = 0;
+        this->regs[SS_DEAD_DD_ALPHA_STEP] = 155 / initParams->life;
         this->regs[SS_DEAD_DD_SCALE] = initParams->scale;
         this->regs[SS_DEAD_DD_PRIM_R] = 255;
         this->regs[SS_DEAD_DD_PRIM_G] = 255;
@@ -76,10 +76,10 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->draw = func_809A12B4;
         this->update = func_809A14B0;
 
-        for (i = initParams->unk_3C; i > 0; i--) {
-            this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->unk_38) + initParams->pos.x;
-            this->pos.y = ((Math_Rand_ZeroOne() - 0.5f) * initParams->unk_38) + initParams->pos.y;
-            this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->unk_38) + initParams->pos.z;
+        for (i = initParams->num; i > 0; i--) {
+            this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
+            this->pos.y = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.y;
+            this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.z;
             this->accel.x = this->velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
             this->accel.y = this->velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
             this->accel.z = this->velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
@@ -128,22 +128,22 @@ void func_809A12B4(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 void func_809A14B0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
-    this->regs[SS_DEAD_DD_SCALE] += this->regs[SS_DEAD_DD_9];
+    this->regs[SS_DEAD_DD_SCALE] += this->regs[SS_DEAD_DD_SCALE_STEP];
 
     if (this->regs[SS_DEAD_DD_SCALE] < 0) {
         this->regs[SS_DEAD_DD_SCALE] = 0;
     }
 
-    if (this->regs[SS_DEAD_DD_B] != 0) {
-        this->regs[SS_DEAD_DD_ALPHA] += this->regs[SS_DEAD_DD_A];
+    if (this->regs[SS_DEAD_DD_ALPHA_MODE] != 0) {
+        this->regs[SS_DEAD_DD_ALPHA] += this->regs[SS_DEAD_DD_ALPHA_STEP];
         if (this->regs[SS_DEAD_DD_ALPHA] > 255) {
             this->regs[SS_DEAD_DD_ALPHA] = 255;
         }
     } else {
-        if (this->regs[SS_DEAD_DD_ALPHA] < this->regs[SS_DEAD_DD_A]) {
+        if (this->regs[SS_DEAD_DD_ALPHA] < this->regs[SS_DEAD_DD_ALPHA_STEP]) {
             this->regs[SS_DEAD_DD_ALPHA] = 0;
         } else {
-            this->regs[SS_DEAD_DD_ALPHA] -= this->regs[SS_DEAD_DD_A];
+            this->regs[SS_DEAD_DD_ALPHA] -= this->regs[SS_DEAD_DD_ALPHA_STEP];
         }
     }
 }

@@ -1782,8 +1782,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Fcircle"
     include "build/src/overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.o"
-    include "build/data/overlays/effects/z_eff_ss_fcircle.data.o"
-    include "build/data/overlays/effects/z_eff_ss_fcircle.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Fcircle/ovl_Effect_Ss_Fcircle_reloc.o"
 endseg
 
 beginseg
@@ -1846,7 +1845,6 @@ endseg
 beginseg
     name "ovl_Effect_Ss_HitMark"
     include "build/src/overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.o"
-    include "build/data/overlays/effects/z_eff_ss_hitmark.data.o"
     include "build/data/overlays/effects/z_eff_ss_hitmark.reloc.o"
 endseg
 

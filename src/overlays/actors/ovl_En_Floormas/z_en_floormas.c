@@ -977,7 +977,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     if (this->actor.colChkInfo.damageEffect == 2) {
-                        func_8002A65C(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.scale.x * 4000.f,
+                        EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.scale.x * 4000.f,
                                       this->actor.scale.x * 4000.f);
                     }
                     EnFloormas_SetupTakeDamage(this);

@@ -500,7 +500,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
                 }
             } else {
                 if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
-                    func_8002A65C(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, 0x28);
+                    EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, 0x28);
                 }
 
                 EnWallmas_SetupTakeDamage(this);
