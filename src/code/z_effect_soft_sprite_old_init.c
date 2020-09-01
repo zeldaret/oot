@@ -18,6 +18,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 extern Color_RGBA8_n D_801158D4;
@@ -670,15 +671,48 @@ void func_80029E8C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A65C.s")
 
-// EffectSsDeadBb Spawn Functions
+// EffectSsDeadDb Spawn Functions
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A6B8.s")
 
 // EffectSsDeadDd Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A770.s")
+void func_8002A770(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 arg5, s16 primR,
+                   s16 primG, s16 primB, s16 alpha, s16 envR, s16 envG, s16 envB, s16 arg8, s32 life) {
+    EffectSsDeadDdInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A824.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+    initParams.drawMode = 0;
+    initParams.unk_26 = arg5;
+    initParams.primColor.r = primR;
+    initParams.primColor.g = primG;
+    initParams.primColor.b = primB;
+    initParams.alpha = alpha;
+    initParams.envColor.r = envR;
+    initParams.envColor.g = envG;
+    initParams.envColor.b = envB;
+    initParams.unk_30 = arg8;
+    initParams.life = life;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_DD, 120, &initParams);
+}
+
+void func_8002A824(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 arg3, f32 arg4, s32 arg5, s32 life) {
+    EffectSsDeadDdInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.scale = scale;
+    initParams.unk_26 = arg3;
+    initParams.unk_38 = arg4;
+    initParams.unk_3C = arg5;
+    initParams.life = life;
+    initParams.drawMode = 1;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_DD, 120, &initParams);
+}
 
 // EffectSsDeadDs Spawn Functions
 

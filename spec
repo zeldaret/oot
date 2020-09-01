@@ -1729,8 +1729,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Dead_Dd"
     include "build/src/overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.o"
-    include "build/data/overlays/effects/z_eff_ss_dead_dd.data.o"
-    include "build/data/overlays/effects/z_eff_ss_dead_dd.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Dead_Dd/ovl_Effect_Ss_Dead_Dd_reloc.o"
 endseg
 
 beginseg

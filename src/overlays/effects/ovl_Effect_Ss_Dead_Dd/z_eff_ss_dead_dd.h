@@ -8,6 +8,16 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
+    /* 0x24 */ s16 scale;
+    /* 0x26 */ s16 unk_26;
+    /* 0x28 */ Color_RGB8 primColor;
+    /* 0x2A */ u8 alpha;
+    /* 0x2C */ Color_RGB8 envColor;
+    /* 0x30 */ s16 unk_30;
+    /* 0x34 */ s32 life;
+    /* 0x38 */ f32 unk_38;
+    /* 0x3C */ s32 unk_3C;
+    /* 0x40 */ u8 drawMode;
 } EffectSsDeadDdInitParams; // size = 0x
 
 #endif
