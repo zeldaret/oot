@@ -75,7 +75,7 @@ glabel func_80040284
 /* AB74C4 80040324 01AE8021 */  addu  $s0, $t5, $t6
 /* AB74C8 80040328 02002025 */  move  $a0, $s0
 /* AB74CC 8004032C 27A600BC */  addiu $a2, $sp, 0xbc
-/* AB74D0 80040330 0C00E275 */  jal   func_800389D4
+/* AB74D0 80040330 0C00E275 */  jal   CollisionPoly_GetNormal
 /* AB74D4 80040334 27A700B8 */   addiu $a3, $sp, 0xb8
 /* AB74D8 80040338 C7AC00C0 */  lwc1  $f12, 0xc0($sp)
 /* AB74DC 8004033C C7AE00B8 */  lwc1  $f14, 0xb8($sp)
@@ -295,7 +295,7 @@ glabel func_80040284
 /* AB77F4 80040654 012C8021 */  addu  $s0, $t1, $t4
 /* AB77F8 80040658 02002025 */  move  $a0, $s0
 /* AB77FC 8004065C 27A600BC */  addiu $a2, $sp, 0xbc
-/* AB7800 80040660 0C00E275 */  jal   func_800389D4
+/* AB7800 80040660 0C00E275 */  jal   CollisionPoly_GetNormal
 /* AB7804 80040664 27A700B8 */   addiu $a3, $sp, 0xb8
 /* AB7808 80040668 C7AC00C0 */  lwc1  $f12, 0xc0($sp)
 /* AB780C 8004066C C7AE00B8 */  lwc1  $f14, 0xb8($sp)

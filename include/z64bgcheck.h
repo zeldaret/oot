@@ -7,12 +7,22 @@ struct DynaPolyActor;
 
 #define SS_NULL 0xFFFF
 #define COLPOLY_NORM_FRAC (1.0f / 32767)
-#define COLPOLY_GET_NORM(n) ((n) * COLPOLY_NORM_FRAC)
+#define COLPOLY_GET_NORM(n) ((n)*COLPOLY_NORM_FRAC)
 
-#define COLPOLY_IGNORE_CEILING 1
-#define COLPOLY_IGNORE_WALL 2
-#define COLPOLY_IGNORE_FLOOR 4
+// bccFlags
+#define BGCHECK_CHECK_WALL 1
+#define BGCHECK_CHECK_FLOOR 2
+#define BGCHECK_CHECK_CEILING 4
+#define BGCHECK_CHECK_ONE_FACE 8
+#define BGCHECK_CHECK_DYNA 0x10
 
+// bciFlags
+#define BGCHECK_IGNORE_NONE 0
+#define BGCHECK_IGNORE_CEILING 1
+#define BGCHECK_IGNORE_WALL 2
+#define BGCHECK_IGNORE_FLOOR 4
+
+// xpFlags
 #define COLPOLY_IGNORE_NONE 0
 #define COLPOLY_IGNORE_CAMERA 1
 #define COLPOLY_IGNORE_ENTITY 2
@@ -49,7 +59,7 @@ typedef struct {
                            // Value ranges from -0x7FFF to 0x7FFF, representing -1 to 1. 0x8000 is invalid
 
     /* 0x0E */ s16 dist; // Plane distance from origin
-} CollisionPoly; // size = 0x10
+} CollisionPoly;         // size = 0x10
 
 typedef struct {
     /* 0x00 */ u16 cameraSType;
@@ -139,20 +149,19 @@ typedef struct {
     /* 0x54 */ Sphere16 boundingSphere;
     /* 0x5C */ f32 minY;
     /* 0x60 */ f32 maxY;
-} ActorMesh; // size = 0x64
+} BgActor; // size = 0x64
 
 typedef struct {
     /* 0x0000 */ u8 unk_00;
-    /* 0x0004 */ ActorMesh bgActors[BG_ACTOR_MAX];
-    /* 0x138C */ u16 flags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
-    /* 0x13F0 */ CollisionPoly* polyList; // pbuf
-    /* 0x13F4 */ Vec3s* vtxList;          // pbuf
+    /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
+    /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
+    /* 0x13F0 */ CollisionPoly* polyList;        // pbuf
+    /* 0x13F4 */ Vec3s* vtxList;                 // pbuf
     /* 0x13F8 */ DynaSSNodeList polyNodes;
     /* 0x1404 */ s32 polyNodesMax;
     /* 0x1408 */ s32 polyListMax;
     /* 0x140C */ s32 vtxListMax;
-    /* 0x1410 */ u32 memSize;
-} DynaCollisionContext; // size = 0x1414 //810
+} DynaCollisionContext; // size = 0x1410 //810
 
 typedef struct CollisionContext {
     /* 0x00 */ CollisionHeader* colHeader;
@@ -164,6 +173,7 @@ typedef struct CollisionContext {
     /* 0x40 */ Lookup* lookupTbl;
     /* 0x44 */ SSNodeList polyNodes;
     /* 0x50 */ DynaCollisionContext dyna;
+    /* 0x1460 */ u32 memSize;
 } CollisionContext; // off 0x07C0 size = 0x1464
 
 typedef struct {
@@ -178,23 +188,22 @@ typedef struct {
     /* 0x20 */ u32 unk_20;
     /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
-    /* 0x2C */ u16* unk_2C;
-} s8003FBF4; //dyna raycast?
+    /* 0x2C */ u16* dynaLookupId;
+} DynaRaycast;
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;
     /* 0x04 */ u16 xpFlags;
     /* 0x08 */ DynaCollisionContext* dyna;
     /* 0x0C */ u16* dynaLookupId;
-    /* 0x10 */ Vec3f* pointA;
-    /* 0x14 */ Vec3f* pointB;
-    /* 0x18 */ Vec3f* unk18;
+    /* 0x10 */ Vec3f* posA;
+    /* 0x14 */ Vec3f* posB;
+    /* 0x18 */ Vec3f* posResult;
     /* 0x1C */ CollisionPoly** resultPoly;
-    /* 0x20 */ s32 unk20; // flag & 0x8
-    /* 0x24 */ f32* distSq; //distance from pointA to poly squared
-    /* 0x28 */ f32 chkDist; //distance from poly
-} s80041128; //dyna ?
-
+    /* 0x20 */ s32 chkOneFace; // bccFlags & 0x8
+    /* 0x24 */ f32* distSq;    // distance from posA to poly squared
+    /* 0x28 */ f32 chkDist;    // distance from poly
+} s80041128;                   // dyna ?
 
 // FIXME: Update ZAP
 #define RoomPoly CollisionPoly
