@@ -16,7 +16,7 @@ void BgSpot01Objects2_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void func_808AC474(BgSpot01Objects2* this, GlobalContext* globalCtx);
-void func_808AC4A4(Actor* this, GlobalContext* globalCtx);
+void func_808AC4A4(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
@@ -77,7 +77,7 @@ void BgSpot01Objects2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_808AC22C(Path* pathList, Vec3f* pos, s32 path, s32 waypoint) {
-    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(((Path*)pathList + path)->points))[waypoint];
+    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL((pathList + path)->points))[waypoint];
 
     pos->x = pointPos->x;
     pos->y = pointPos->y;
@@ -88,25 +88,24 @@ s32 func_808AC22C(Path* pathList, Vec3f* pos, s32 path, s32 waypoint) {
 void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
     s32 sp54;
     Actor* thisx = &this->dyna.actor;
-    s16 pad[2];
+    s32 pad;
     Vec3f position;
 
     sp54 = 0;
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex) != 0) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         // ---- Successful bank switching!!
         osSyncPrintf("-----バンク切り換え成功！！\n");
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
 
-        this->dyna.actor.objBankIndex = (s8)this->objBankIndex;
+        this->dyna.actor.objBankIndex = this->objBankIndex;
         DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
 
         switch (this->dyna.actor.params & 7) {
-
             case 4: // Shooting gallery
                 DynaPolyInfo_Alloc(&D_06001A38, &sp54);
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
                 break;
-            case 3: // Shooting Gallery // Spawns Carpenter Sabooro during the day
+            case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
                 DynaPolyInfo_Alloc(&D_06001C58, &sp54);
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
                 if (gSaveContext.nightFlag == 0) {
@@ -136,6 +135,6 @@ void BgSpot01Objects2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void func_808AC4A4(Actor* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_808AC510[this->params & 7]);
+void func_808AC4A4(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_808AC510[thisx->params & 7]);
 }
