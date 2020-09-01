@@ -146,7 +146,18 @@ void* Audio_AllocDmaMemoryZeroed(SoundAllocPool* pool, u32 size) {
     return ret;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocZeroed.s")
+void* Audio_AllocZeroed(SoundAllocPool* pool, u32 size) {
+    u8* ret = Audio_Alloc(pool, size);
+    u8* ptr;
+
+    if (ret != NULL) {
+        for (ptr = ret; ptr < pool->cur; ptr++) {
+            *ptr = 0;
+        }
+    }
+
+    return ret;
+}
 
 void* Audio_Alloc(SoundAllocPool* pool, u32 size) {
     u32 aligned = ALIGN16(size);
