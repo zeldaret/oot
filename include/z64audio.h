@@ -538,8 +538,8 @@ typedef struct
 } SoundMultiPool; // size = 0x110
 
 typedef struct {
-    u32 wantTemporary;
     u32 wantPersistent;
+    u32 wantTemporary;
 } AudioPoolSplit2; // size = 0x8
 
 typedef struct {
@@ -588,8 +588,8 @@ typedef struct {
     /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
     /* 0x29F0 */ SoundAllocPool gSeqAndBankPool;
-    /* 0x2A00 */ SoundAllocPool gTemporaryCommonPool;
-    /* 0x2A10 */ SoundAllocPool gPersistentCommonPool;
+    /* 0x2A00 */ SoundAllocPool gPersistentCommonPool;
+    /* 0x2A10 */ SoundAllocPool gTemporaryCommonPool;
     /* 0x2A20 */ SoundMultiPool gSeqLoadedPool;
     /* 0x2B30 */ SoundMultiPool gBankLoadedPool;
     /* 0x2C40 */ SoundMultiPool gUnusedLoadedPool; // rename after we figure out what this is

@@ -259,33 +259,33 @@ void Audio_SessionPoolsInit(AudioPoolSplit4* split) {
 
 void Audio_SeqAndBankPoolInit(AudioPoolSplit2 *split) {
     gAudioContext.gSeqAndBankPool.cur = gAudioContext.gSeqAndBankPool.start;
-    Audio_SoundAllocPoolInit(&gAudioContext.gTemporaryCommonPool,
-                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantTemporary), split->wantTemporary);
     Audio_SoundAllocPoolInit(&gAudioContext.gPersistentCommonPool,
                              Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantPersistent), split->wantPersistent);
+    Audio_SoundAllocPoolInit(&gAudioContext.gTemporaryCommonPool,
+                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantTemporary), split->wantTemporary);
 }
 
 void Audio_PersistentPoolsInit(AudioPoolSplit3* split) {
-    gAudioContext.gTemporaryCommonPool.cur = gAudioContext.gTemporaryCommonPool.start;
+    gAudioContext.gPersistentCommonPool.cur = gAudioContext.gPersistentCommonPool.start;
     Audio_SoundAllocPoolInit(&gAudioContext.gSeqLoadedPool.persistent.pool,
-                             Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantSeq), split->wantSeq);
+                             Audio_Alloc(&gAudioContext.gPersistentCommonPool, split->wantSeq), split->wantSeq);
     Audio_SoundAllocPoolInit(&gAudioContext.gBankLoadedPool.persistent.pool,
-                             Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantBank), split->wantBank);
+                             Audio_Alloc(&gAudioContext.gPersistentCommonPool, split->wantBank), split->wantBank);
     Audio_SoundAllocPoolInit(&gAudioContext.gUnusedLoadedPool.persistent.pool,
-                             Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantUnused), split->wantUnused);
+                             Audio_Alloc(&gAudioContext.gPersistentCommonPool, split->wantUnused), split->wantUnused);
     Audio_PersistentPoolClear(&gAudioContext.gSeqLoadedPool.persistent);
     Audio_PersistentPoolClear(&gAudioContext.gBankLoadedPool.persistent);
     Audio_PersistentPoolClear(&gAudioContext.gUnusedLoadedPool.persistent);
 }
 
 void Audio_TemporaryPoolsInit(AudioPoolSplit3* split) {
-    gAudioContext.gPersistentCommonPool.cur = gAudioContext.gPersistentCommonPool.start;
+    gAudioContext.gTemporaryCommonPool.cur = gAudioContext.gTemporaryCommonPool.start;
     Audio_SoundAllocPoolInit(&gAudioContext.gSeqLoadedPool.temporary.pool,
-                             Audio_Alloc(&gAudioContext.gPersistentCommonPool, split->wantSeq), split->wantSeq);
+                             Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantSeq), split->wantSeq);
     Audio_SoundAllocPoolInit(&gAudioContext.gBankLoadedPool.temporary.pool,
-                             Audio_Alloc(&gAudioContext.gPersistentCommonPool, split->wantBank), split->wantBank);
+                             Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantBank), split->wantBank);
     Audio_SoundAllocPoolInit(&gAudioContext.gUnusedLoadedPool.temporary.pool,
-                             Audio_Alloc(&gAudioContext.gPersistentCommonPool, split->wantUnused), split->wantUnused);
+                             Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantUnused), split->wantUnused);
     Audio_TemporaryPoolClear(&gAudioContext.gSeqLoadedPool.temporary);
     Audio_TemporaryPoolClear(&gAudioContext.gBankLoadedPool.temporary);
     Audio_TemporaryPoolClear(&gAudioContext.gUnusedLoadedPool.temporary);
