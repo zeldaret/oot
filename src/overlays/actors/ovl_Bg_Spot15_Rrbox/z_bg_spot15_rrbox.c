@@ -9,7 +9,8 @@ void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+s32 D_808B4590[] = { 0x00000000 };
+
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
     ACTORTYPE_BG,
@@ -21,7 +22,15 @@ const ActorInit Bg_Spot15_Rrbox_InitVars = {
     (ActorFunc)BgSpot15Rrbox_Update,
     (ActorFunc)BgSpot15Rrbox_Draw,
 };
-*/
+
+s32 D_808B45B4[] = { 0xC8500064,0xB0F403E8,0xB0F801F4,0x30FC03E8 };
+
+s32 D_808B45C4[] = { 0x44408000,0x44BA4000,0xC3958000,0x44408000,0x44C1C000,0xC3958000 };
+
+s32 D_808B45DC[] = { 0x41EFEB85,0x3C23D70A,0xC1EFEB85,0xC1EFEB85,0x3C23D70A,0xC1EFEB85,0xC1EFEB85,0x3C23D70A,0x41EFEB85,0x41EFEB85,0x3C23D70A,0x41EFEB85,0x00000000,0x3C23D70A,0x00000000 };
+
+s32 D_808B4618[] = { 0x00000000,0x00000000 };
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3960.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B39E8.s")
