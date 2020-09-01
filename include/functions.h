@@ -652,7 +652,7 @@ f32 func_800437F0(f32, f32);
 // ? Camera_UpdateInterface(?);
 // ? Camera_BGCheckCorner(?);
 // ? func_80045508(?);
-// ? func_80045714(?);
+// ? Camera_CalcSlopeYAdj(?);
 // ? func_800457A8(?);
 // ? func_800458D4(?);
 // ? func_80045B08(?);

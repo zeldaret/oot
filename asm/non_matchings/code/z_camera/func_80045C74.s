@@ -59,7 +59,7 @@ glabel func_80045C74
 /* ABCE84 80045CE4 87060006 */  lh    $a2, 6($t8)
 /* ABCE88 80045CE8 468031A0 */  cvt.s.w $f6, $f6
 /* ABCE8C 80045CEC 44073000 */  mfc1  $a3, $f6
-/* ABCE90 80045CF0 0C0115C5 */  jal   func_80045714
+/* ABCE90 80045CF0 0C0115C5 */  jal   Camera_CalcSlopeYAdj
 /* ABCE94 80045CF4 00000000 */   nop
 /* ABCE98 80045CF8 C7A80074 */  lwc1  $f8, 0x74($sp)
 /* ABCE9C 80045CFC 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016

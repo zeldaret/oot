@@ -84,7 +84,7 @@ glabel func_800460A8
 /* ABD2C0 80046120 87260006 */  lh    $a2, 6($t9)
 /* ABD2C4 80046124 46804220 */  cvt.s.w $f8, $f8
 /* ABD2C8 80046128 44074000 */  mfc1  $a3, $f8
-/* ABD2CC 8004612C 0C0115C5 */  jal   func_80045714
+/* ABD2CC 8004612C 0C0115C5 */  jal   Camera_CalcSlopeYAdj
 /* ABD2D0 80046130 00000000 */   nop
 /* ABD2D4 80046134 C7AA009C */  lwc1  $f10, 0x9c($sp)
 /* ABD2D8 80046138 46005101 */  sub.s $f4, $f10, $f0
