@@ -446,8 +446,82 @@ void func_800DF888(void) {
     }
 }
 
-// somewhat big
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF8F4.s")
+s32 Audio_ResetStep(void) {
+    s32 i;
+    s32 j;
+    s32 sp24;
+
+    if (gAudioContext.gAudioBufferParameters.presetUnk4 == 2) {
+        sp24 = 2;
+    } else {
+        sp24 = 1;
+    }
+
+    switch (gAudioContext.gAudioResetStatus) {
+        case 5:
+            for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
+                Audio_SequencePlayerDisableAsFinished(&gAudioContext.gSequencePlayers[i]);
+            }
+            gAudioContext.gAudioResetFadeOutFramesLeft = 2 / sp24;
+            gAudioContext.gAudioResetStatus--;
+            break;
+
+        case 4:
+            if (gAudioContext.gAudioResetFadeOutFramesLeft != 0) {
+                gAudioContext.gAudioResetFadeOutFramesLeft--;
+                func_800DF7C4();
+            } else {
+                for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+                    if (gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled &&
+                            gAudioContext.gNotes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
+                        gAudioContext.gNotes[i].playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
+                        gAudioContext.gNotes[i].playbackState.adsr.action.s.release = 1;
+                    }
+                }
+                gAudioContext.gAudioResetFadeOutFramesLeft = 8 / sp24;
+                gAudioContext.gAudioResetStatus--;
+            }
+            break;
+
+        case 3:
+            if (gAudioContext.gAudioResetFadeOutFramesLeft != 0) {
+                gAudioContext.gAudioResetFadeOutFramesLeft--;
+                func_800DF7C4();
+            } else {
+                gAudioContext.gAudioResetFadeOutFramesLeft = 2 / sp24;
+                gAudioContext.gAudioResetStatus--;
+            }
+            break;
+
+        case 2:
+            func_800DF888();
+            if (gAudioContext.gAudioResetFadeOutFramesLeft != 0) {
+                gAudioContext.gAudioResetFadeOutFramesLeft--;
+            } else {
+                gAudioContext.gAudioResetStatus--;
+                func_800E0CBC();
+                func_800E1148();
+            }
+            break;
+
+        case 1:
+            func_800DFBF8();
+            gAudioContext.gAudioResetStatus = 0;
+            for (i = 0; i < 3; i++) {
+                gAudioContext.unk_2974[i] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
+                for (j = 0; j < 0x580; j++) {
+                    gAudioContext.unk_2968[i][j] = 0;
+                }
+            }
+            break;
+    }
+
+    if (gAudioContext.gAudioResetStatus < 3) {
+        return 0;
+    }
+
+    return 1;
+}
 
 // big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DFBF8.s")

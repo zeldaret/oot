@@ -102,7 +102,7 @@ typedef struct {
     /* 0x04 */ f32 tuning; // frequency scale factor
 } AudioBankSound; // size = 0x8
 
-typedef struct {
+typedef struct { // reverb?
     /* 0x000 */ u8 pad_000[0x280];
     /* 0x280 */ AudioBankSound sound;
     /* 0x288 */ u8 pad_290[0x40];
@@ -475,9 +475,9 @@ typedef struct Note {
 typedef struct {
     /* 0x00 */ s16 presetUnk4;
     /* 0x02 */ u16 frequency;
-    /* 0x04 */ s16 aiFrequency;
-    /* 0x06 */ u16 samplesPerFrameTarget;
-    /* 0x08 */ u16 maxAiBufferLength;
+    /* 0x04 */ u16 aiFrequency;
+    /* 0x06 */ s16 samplesPerFrameTarget;
+    /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
     /* 0x0C */ s16 updatesPerFrame;
     /* 0x0E */ s16 samplesPerUpdate;
@@ -585,7 +585,8 @@ typedef struct {
     /* 0x3438 */ u8 gUnusedLoadStatus[0x30];
     /* 0x3468 */ u8 gBankLoadStatus[0x30];
     /* 0x3498 */ u8 gSeqLoadStatus[0x80];
-    /* 0x3518 */ char unk_3518[8];
+    /* 0x3518 */ volatile u8 gAudioResetStatus;
+    /* 0x351C */ s32 gAudioResetFadeOutFramesLeft;
     /* 0x3520 */ f32* unk_3520;
     /* 0x3524 */ u8* gAudioHeap;
     /* 0x3528 */ u32 gAudioHeapSize;
