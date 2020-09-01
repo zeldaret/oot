@@ -86,7 +86,7 @@ glabel EnJj_Init
 /* 00144 80A87944 86090032 */  lh      $t1, 0x0032($s0)           ## 00000032
 /* 00148 80A87948 AFA00028 */  sw      $zero, 0x0028($sp)
 /* 0014C 80A8794C AFA00024 */  sw      $zero, 0x0024($sp)
-/* 00150 80A87950 0C00C916 */  jal     Actor_SpawnAttached
+/* 00150 80A87950 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00154 80A87954 AFA90020 */  sw      $t1, 0x0020($sp)
 /* 00158 80A87958 AE020300 */  sw      $v0, 0x0300($s0)           ## 00000300

@@ -75,7 +75,7 @@ glabel BgHakaShip_Init
 /* 00108 8087F208 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 0010C 8087F20C AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00110 8087F210 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00114 8087F214 0C00C916 */  jal     Actor_SpawnAttached
+/* 00114 8087F214 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00118 8087F218 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 0011C 8087F21C 54400004 */  bnel    $v0, $zero, .L8087F230     

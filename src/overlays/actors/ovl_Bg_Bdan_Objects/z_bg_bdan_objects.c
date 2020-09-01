@@ -121,10 +121,10 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8086C6EC;
         } else {
             if (BgBdanObjects_GetContactRu1(this, 4)) {
-                if (Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_BIGOKUTA,
-                                        thisx->initPosRot.pos.x, thisx->initPosRot.pos.y, thisx->initPosRot.pos.z, 0,
-                                        thisx->shape.rot.y + 0x8000, 0, 3) != NULL) {
-                    thisx->attachedB->posRot.pos.z = thisx->attachedB->initPosRot.pos.z + 263.0f;
+                if (Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_BIGOKUTA,
+                                       thisx->initPosRot.pos.x, thisx->initPosRot.pos.y, thisx->initPosRot.pos.z, 0,
+                                       thisx->shape.rot.y + 0x8000, 0, 3) != NULL) {
+                    thisx->child->posRot.pos.z = thisx->child->initPosRot.pos.z + 263.0f;
                 }
                 thisx->posRot.rot.y = 0;
                 this->actionFunc = func_8086C618;
@@ -228,9 +228,9 @@ void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 
     if (BgBdanObjects_GetContactRu1(this, 3)) {
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_BIGOKUTA,
-                            this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 140.0f,
-                            this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_BIGOKUTA,
+                           this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 140.0f,
+                           this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
         BgBdanObjects_SetContactRu1(this, 4);
         this->unk_16A = 0xA;
         this->actionFunc = func_8086C55C;
@@ -247,9 +247,9 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.rot.y = 0;
         this->unk_16A = 0x3C;
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
-        this->dyna.actor.attachedB->posRot.pos.y = this->dyna.actor.posRot.pos.y + 140.0f;
+        this->dyna.actor.child->posRot.pos.y = this->dyna.actor.posRot.pos.y + 140.0f;
         this->actionFunc = func_8086C5BC;
-        func_800800F8(globalCtx, 0xC08, -0x63, this->dyna.actor.attachedB, 0);
+        func_800800F8(globalCtx, 0xC08, -0x63, this->dyna.actor.child, 0);
         player->actor.posRot.pos.x = -1130.0f;
         player->actor.posRot.pos.y = -1025.0f;
         player->actor.posRot.pos.z = -3500.0f;
@@ -265,8 +265,8 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
             func_800AA000(0.0f, 0x78, 0x14, 0xA);
             this->unk_16A = 0xB;
         }
-        if (this->dyna.actor.attachedB != NULL) {
-            this->dyna.actor.attachedB->posRot.pos.y = this->dyna.actor.posRot.pos.y + 140.0f;
+        if (this->dyna.actor.child != NULL) {
+            this->dyna.actor.child->posRot.pos.y = this->dyna.actor.posRot.pos.y + 140.0f;
         }
     }
 }
@@ -287,11 +287,11 @@ void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->unk_16A -= 1;
     }
     if (this->unk_16A == 0) {
-        if (this->dyna.actor.attachedB != NULL) {
-            if (this->dyna.actor.attachedB->params == 2) {
+        if (this->dyna.actor.child != NULL) {
+            if (this->dyna.actor.child->params == 2) {
                 this->actionFunc = func_8086C618;
-            } else if (this->dyna.actor.attachedB->params == 0) {
-                this->dyna.actor.attachedB->params = 1;
+            } else if (this->dyna.actor.child->params == 0) {
+                this->dyna.actor.child->params = 1;
             }
         }
     }

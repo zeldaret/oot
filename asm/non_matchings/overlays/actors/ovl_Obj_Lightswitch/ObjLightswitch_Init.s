@@ -108,7 +108,7 @@ glabel ObjLightswitch_Init
 /* 00534 80B970D4 AFAE0028 */  sw      $t6, 0x0028($sp)           
 /* 00538 80B970D8 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 0053C 80B970DC 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 00540 80B970E0 0C00C916 */  jal     Actor_SpawnAttached
+/* 00540 80B970E0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00544 80B970E4 AFAD0020 */  sw      $t5, 0x0020($sp)           
 /* 00548 80B970E8 1440000F */  bne     $v0, $zero, .L80B97128     

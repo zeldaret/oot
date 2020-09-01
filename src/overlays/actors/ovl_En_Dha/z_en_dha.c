@@ -149,8 +149,8 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
                 if (globalCtx->unk_11D4C(globalCtx, player) != 0) {
                     this->unk_1CA = 0;
                     this->unk_1CC++;
-                    if (this->actor.attachedA != NULL) {
-                        this->actor.attachedA->params = 1;
+                    if (this->actor.parent != NULL) {
+                        this->actor.parent->params = 1;
                     }
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
@@ -171,9 +171,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             this->unk_1D0.z = (((this->unk_1D0.z - this->actor.shape.rot.x) - this->unk_1CE) - this->unk_1D0.x);
         } else {
             if (player->stateFlags2 & 0x80) {
-                if (&this->actor == player->actor.attachedA) {
+                if (&this->actor == player->actor.parent) {
                     player->stateFlags2 &= ~0x80;
-                    player->actor.attachedA = NULL;
+                    player->actor.parent = NULL;
                     player->unk_850 = 200;
                 }
             }
@@ -209,9 +209,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     } else {
         unkVar = ~0x80;
         if (player->stateFlags2 & 0x80) {
-            if (&this->actor == player->actor.attachedA) {
+            if (&this->actor == player->actor.parent) {
                 player->stateFlags2 &= unkVar;
-                player->actor.attachedA = NULL;
+                player->actor.parent = NULL;
                 player->unk_850 = 200;
             }
         }
@@ -231,9 +231,9 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->stateFlags2 & 0x80) {
-        if (&this->actor == player->actor.attachedA) {
+        if (&this->actor == player->actor.parent) {
             player->stateFlags2 &= ~0x80;
-            player->actor.attachedA = NULL;
+            player->actor.parent = NULL;
             player->unk_850 = 200;
         }
     }
@@ -251,12 +251,12 @@ void EnDha_SetupDeath(EnDha* this) {
     this->unk_1C0 = 8;
     this->unk_1C8 = 300;
 
-    if (this->actor.attachedA != NULL) {
-        if (this->actor.attachedA->params != 0xA) {
+    if (this->actor.parent != NULL) {
+        if (this->actor.parent->params != 0xA) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
         }
-        if (this->actor.attachedA->params <= 0) {
-            this->actor.attachedA->params--;
+        if (this->actor.parent->params <= 0) {
+            this->actor.parent->params--;
         }
     }
     EnDha_SetupAction(this, EnDha_Die);
@@ -268,9 +268,9 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->stateFlags2 & 0x80) {
-        if (&this->actor == player->actor.attachedA) {
+        if (&this->actor == player->actor.parent) {
             player->stateFlags2 &= ~0x80;
-            player->actor.attachedA = NULL;
+            player->actor.parent = NULL;
             player->unk_850 = 200;
         }
     }
@@ -287,8 +287,8 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
                 return;
             }
             this->unk_1C8--;
-            if (this->actor.attachedA != 0) {
-                if (this->actor.attachedA->params == 0xA) {
+            if (this->actor.parent != 0) {
+                if (this->actor.parent->params == 0xA) {
                     Actor_Kill(&this->actor);
                     return;
                 }
@@ -321,8 +321,8 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (this->actor.attachedA != NULL) {
-        if (this->actor.attachedA->params == 0xA) {
+    if (this->actor.parent != NULL) {
+        if (this->actor.parent->params == 0xA) {
             EnDha_SetupDeath(this);
         }
     }
@@ -334,8 +334,8 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     colChkCtx = &globalCtx->colChkCtx;
 
-    if (this->actor.attachedA == NULL) {
-        this->actor.attachedA = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORTYPE_ENEMY, 10000.0f);
+    if (this->actor.parent == NULL) {
+        this->actor.parent = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORTYPE_ENEMY, 10000.0f);
     }
     EnDha_UpdateHealth(this, globalCtx);
     this->actionFunc(this, globalCtx);

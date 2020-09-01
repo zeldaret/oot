@@ -51,8 +51,8 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80043480(thisx, DPM_PLAYER);
     func_80041880(&D_0600E1E8, &colHeader);
     this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-    if (Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
-                            thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
+    if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
+                           thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
         Actor_Kill(thisx);
         return;
     }
@@ -62,13 +62,13 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
 void func_80886F24(BgHidanFslift* this) {
     Actor* thisx = &this->dyna.actor;
 
-    if (thisx->attachedB != NULL && thisx->attachedB->update != NULL) {
-        thisx->attachedB->posRot.pos.x = thisx->posRot.pos.x;
-        thisx->attachedB->posRot.pos.y = thisx->posRot.pos.y + 40.0f;
-        thisx->attachedB->posRot.pos.z = thisx->posRot.pos.z + -28.0f;
+    if (thisx->child != NULL && thisx->child->update != NULL) {
+        thisx->child->posRot.pos.x = thisx->posRot.pos.x;
+        thisx->child->posRot.pos.y = thisx->posRot.pos.y + 40.0f;
+        thisx->child->posRot.pos.z = thisx->posRot.pos.z + -28.0f;
         return;
     }
-    thisx->attachedB = NULL;
+    thisx->child = NULL;
 }
 
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {

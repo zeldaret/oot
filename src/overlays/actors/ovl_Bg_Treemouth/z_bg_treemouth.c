@@ -226,10 +226,9 @@ void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u16 alpha = 500;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 893);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 893);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
     if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
@@ -243,10 +242,10 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
         alpha = (globalCtx->unk_11D30[0] + 0x1F4);
     }
 
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 128, 128, 128, alpha * 0.1f);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 128, 128, 128, alpha * 0.1f);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_060009D0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_060009D0);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
 }
