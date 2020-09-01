@@ -103,9 +103,9 @@ typedef struct {
 } AudioBankSound; // size = 0x8
 
 typedef struct {
-    // contained within a larger struct, struct might not start at offset zero
-    /* 0x00 */ AudioBankSound sound; // offset might be wrong
-    /* 0x10 */ u8 pad[0x2c0];
+    /* 0x000 */ u8 pad_000[0x280];
+    /* 0x280 */ AudioBankSound sound;
+    /* 0x288 */ u8 pad_290[0x40];
 } LargeSound; // size = 0x2C8
 
 typedef struct {
@@ -477,7 +477,7 @@ typedef struct {
     // zero (it's embedded into another struct)
     /*?0x00 */ s16 presetUnk4;
     /*?0x02 */ u16 frequency;
-    /*?0x04 */ u16 aiFrequency;
+    /* 0x04 */ u16 aiFrequency;
     /*?0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 unk_08; // maxAiBufferLength;
     /*?0x0A */ s16 minAiBufferLength;
@@ -544,13 +544,15 @@ typedef struct {
 } AudioPoolSplit4; // size = 0x10
 
 typedef struct {
-    /* 0x0000 */ char unk_0000[0x14];
+    /* 0x0000 */ char unk_0000[1];
+    /* 0x0001 */ s8 unk_1;
+    /* 0x0002 */ char unk_0002[0x12];
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
-    /* 0x0018 */ char unk_0018[0x280];
-    /*?0x0298 */ LargeSound largeSounds[1]; // size <= 14, offset might be wrong
-    /* 0x0560 */ char unk_0560[0x22E4];
+    /* 0x0018 */ LargeSound largeSounds[1]; // size <= 14
+    /* 0x02E0 */ char unk_02E0[0x2564];
     /* 0x2844 */ CtlEntry* gCtlEntries;
-    /* 0x2848 */ char unk_2848[0x4];
+    /* 0x2848 */ s16 unk_2848;
+    /* 0x284A */ char unk_284A[0x2];
     /*?0x284C */ AudioBufferParametersEU gAudioBufferParameters; // offset might be wrong
     /* 0x286C */ f32 unk_286C;
     /* 0x2870 */ f32 unk_2870;

@@ -413,10 +413,26 @@ void func_800DF688(s16 *arg0, s32 arg1, s32 arg2) {
     }
 }
 
-void func_800DF7BC(s32 arg0) {
+void func_800DF7BC(LargeSound* arg0) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF7C4.s")
+s8 func_800DF7C4(void) {
+    s32 count;
+    s32 i;
+    s32 j;
+
+    if (gAudioContext.unk_2848 == 2) {
+        count = 2;
+    } else {
+        count = 1;
+    }
+
+    for (i = 0; i < gAudioContext.unk_1; i++) {
+        for (j = 0; j < count; j++) {
+            func_800DF7BC(&gAudioContext.largeSounds[i]);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF888.s")
 
