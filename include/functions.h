@@ -266,7 +266,7 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
                                   s16* linkDetected);
 // ? func_80029F44(?);
 // ? func_80029FAC(?);
-// ? func_8002A140(?);
+void func_8002A140(GlobalContext*, Actor*, Vec3f*, u8, u8, u8, u8, u8, u8, u8, f32);
 // ? func_8002A1DC(?);
 // ? func_8002A2A4(?);
 // ? func_8002A32C(?);
