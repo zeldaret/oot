@@ -294,8 +294,52 @@ void Audio_TemporaryPoolsInit(AudioPoolSplit3* split) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocBankOrSeq.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF074.s")
+void* func_800DF074(s32 poolIdx, s32 arg1, s32 id);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF0CC.s")
+void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
+    u32 i;
+    SoundMultiPool* loadedPool;
+    TemporaryPool* temporary;
+    PersistentPool* persistent;
+
+    switch (poolIdx) {
+        case 0:
+            loadedPool = &gAudioContext.gSeqLoadedPool;
+            break;
+        case 1:
+            loadedPool = &gAudioContext.gBankLoadedPool;
+            break;
+        case 2:
+            loadedPool = &gAudioContext.gUnusedLoadedPool;
+            break;
+    }
+
+
+    temporary = &loadedPool->temporary;
+    if (arg1 == 0) {
+        if (temporary->entries[0].id == id) {
+            temporary->nextSide = 1;
+            return temporary->entries[0].ptr;
+        } else if (temporary->entries[1].id == id) {
+            temporary->nextSide = 0;
+            return temporary->entries[1].ptr;
+        } else {
+            return NULL;
+        }
+    }
+
+    persistent = &loadedPool->persistent;
+    for (i = 0; i < persistent->numEntries; i++) {
+        if (persistent->entries[i].id == id) {
+            return persistent->entries[i].ptr;
+        }
+    }
+
+    if (arg1 == 2) {
+        return func_800DF074(poolIdx, 0, id);
+    }
+    return NULL;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF1D8.s")
 
