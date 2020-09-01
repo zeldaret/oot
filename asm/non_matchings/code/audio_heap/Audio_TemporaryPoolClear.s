@@ -1,4 +1,4 @@
-glabel func_800DE470
+glabel Audio_TemporaryPoolClear
 /* B55610 800DE470 8C820004 */  lw    $v0, 4($a0)
 /* B55614 800DE474 8C8E000C */  lw    $t6, 0xc($a0)
 /* B55618 800DE478 2403FFFF */  li    $v1, -1

@@ -29,7 +29,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalcul
         if (layer != NULL && layer->enabled && layer->note != NULL) {
             if (layer->notePropertiesNeedInit) {
                 layer->noteFreqScale = layer->freqScale * chanFreqScale;
-                layer->noteVelocity = layer->velocitySquare * seqChannel->appliedVolume;
+                layer->noteVelocity = layer->velocitySquare2 * seqChannel->appliedVolume;
                 layer->notePan = (seqChannel->pan + layer->pan * (0x80 - seqChannel->panChannelWeight)) >> 7;
                 layer->notePropertiesNeedInit = 0;
             } else {
@@ -37,7 +37,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalcul
                     layer->noteFreqScale = layer->freqScale * chanFreqScale;
                 }
                 if (seqChannel->changes.s.volume || recalculateVolume) {
-                    layer->noteVelocity = layer->velocitySquare * seqChannel->appliedVolume;
+                    layer->noteVelocity = layer->velocitySquare2 * seqChannel->appliedVolume;
                 }
                 if (seqChannel->changes.s.pan) {
                     layer->notePan = (seqChannel->pan + layer->pan * (0x80 - seqChannel->panChannelWeight)) >> 7;
@@ -258,7 +258,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                     break;
 
                 default:
-                    adsr->delay *= D_801719EC;
+                    adsr->delay *= gAudioContext.unk_286C;
                     if (adsr->delay == 0) {
                         adsr->delay = 1;
                     }
