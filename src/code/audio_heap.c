@@ -413,7 +413,7 @@ void func_800DF688(s16 *arg0, s32 arg1, s32 arg2) {
     }
 }
 
-void func_800DF7BC(LargeSound* arg0) {
+void func_800DF7BC(SynthesisReverb* arg0) {
 }
 
 void func_800DF7C4(void) {
@@ -429,7 +429,7 @@ void func_800DF7C4(void) {
 
     for (i = 0; i < gAudioContext.unk_1; i++) {
         for (j = 0; j < count; j++) {
-            func_800DF7BC(&gAudioContext.largeSounds[i]);
+            func_800DF7BC(&gAudioContext.gSynthesisReverbs[i]);
         }
     }
 }

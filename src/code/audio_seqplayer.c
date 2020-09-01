@@ -701,7 +701,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
                     layer->sound = NULL;
                     tuning = 1.0f;
                     if (instOrWave >= 0xC0) {
-                        layer->sound = &gAudioContext.largeSounds[instOrWave - 0xC0].sound;
+                        layer->sound = &gAudioContext.gSynthesisReverbs[instOrWave - 0xC0].sound;
                     }
                 }
 
@@ -761,7 +761,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
                 layer->sound = NULL;
                 layer->freqScale = gNoteFrequencies[cmd2];
                 if (instOrWave >= 0xC0) {
-                    layer->sound = &gAudioContext.largeSounds[instOrWave - 0xC0].sound;
+                    layer->sound = &gAudioContext.gSynthesisReverbs[instOrWave - 0xC0].sound;
                 }
             }
             break;

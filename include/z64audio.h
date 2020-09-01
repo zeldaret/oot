@@ -79,7 +79,7 @@ typedef struct {
     /*?0x08 */ u32 count;
     /*?0x0C */ char unk_0C[0x4];
     /*?0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
-} AdpcmLoop;
+} AdpcmLoop; // size = 0x30
 
 typedef struct {
     /*?0x00 */ s32 order;
@@ -90,23 +90,67 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 bits4 : 4;
     /* 0x00 */ u8 bits2 : 2;
-    /*?0x01 */ u8 loaded;
+    /* 0x00 */ u8 unk_bits2 : 2;
+    /* 0x01 */ u32 bits24 : 24;
     /*?0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
     /*?0x0C */ AdpcmBook* book;
-    /*?0x10 */ u32 sampleSize; // never read. either 0 or 1 mod 9, depending on padding
-} AudioBankSample;
+    /*?0x01 */ // u8 loaded;
+    /*?0x10 */ // u32 sampleSize; // never read. either 0 or 1 mod 9, depending on padding
+} AudioBankSample; // size = 0x10
 
 typedef struct {
     /* 0x00 */ AudioBankSample* sample;
     /* 0x04 */ f32 tuning; // frequency scale factor
 } AudioBankSound; // size = 0x8
 
-typedef struct { // reverb?
-    /* 0x000 */ u8 pad_000[0x280];
+typedef struct {
+    /*?0x00 */ s16 numSamplesAfterDownsampling;
+    /*?0x02 */ s16 chunkLen; // never read
+    /* 0x04 */ s16* toDownsampleLeft;
+    /* 0x08 */ s16* toDownsampleRight; // data pointed to by left and right are adjacent in memory
+    /*?0x0C */ s32 startPos; // start pos in ring buffer
+    /*?0x10 */ s16 lengthA; // first length in ring buffer (from startPos, at most until end)
+    /*?0x12 */ s16 lengthB; // second length in ring buffer (from pos 0)
+    /* 0x14 */ u8 pad[8];
+} ReverbRingBufferItem; // size = 0x1C
+
+typedef struct {
+    /* 0x000 */ u8 unk_00;
+    /* 0x001 */ u8 unk_01;
+    /* 0x002 */ u8 unk_02;
+    /* 0x003 */ u8 unk_03;
+    /* 0x004 */ u8 downsampleRate;
+    /* 0x005 */ u8 unk_05;
+    /* 0x006 */ u16 windowSize;
+    /* 0x008 */ u16 unk_08;
+    /* 0x00A */ u16 unk_0A;
+    /* 0x00C */ u16 unk_0C;
+    /* 0x00E */ u16 unk_0E;
+    /* 0x010 */ u16 unk_10;
+    /* 0x012 */ u16 unk_12;
+    /* 0x014 */ u16 unk_14;
+    /* 0x016 */ u16 unk_16;
+    /* 0x018 */ u8 unk_18;
+    /* 0x01C */ s32 unk_1C;
+    /* 0x020 */ s32 unk_20;
+    /* 0x024 */ s32 unk_24;
+    /* 0x028 */ s16* unk_28;
+    /* 0x02C */ s16* unk_2C;
+    /* 0x030 */ void* unk_30;
+    /* 0x034 */ void* unk_34;
+    /* 0x038 */ void* unk_38;
+    /* 0x03C */ void* unk_3C;
+    /* 0x040 */ ReverbRingBufferItem items[2][5];
+    /*?0x158 */ ReverbRingBufferItem items2[2][5];
+    /* 0x270 */ s16* unk_270;
+    /* 0x274 */ void* unk_274;
+    /* 0x278 */ s16* unk_278;
+    /* 0x27C */ void* unk_27C;
     /* 0x280 */ AudioBankSound sound;
-    /* 0x288 */ u8 pad_290[0x40];
-} LargeSound; // size = 0x2C8
+    /* 0x288 */ AudioBankSample sample;
+    /* 0x298 */ AdpcmLoop loop;
+} SynthesisReverb; // size = 0x2C8
 
 typedef struct {
     /*?0x00 */ u8 loaded;
@@ -473,16 +517,41 @@ typedef struct Note {
 } Note; // size = 0xE0
 
 typedef struct {
+    /* 0x00 */ u16 downsampleRate;
+    /* 0x02 */ u16 windowSize;
+    /* 0x04 */ u16 unk_4;
+    /* 0x06 */ u16 unk_6;
+    /* 0x08 */ u16 unk_8;
+    /* 0x0A */ u16 unk_A;
+    /* 0x0C */ u16 unk_C;
+    /* 0x0E */ u16 unk_E;
+    /* 0x10 */ u16 unk_10;
+    /* 0x12 */ u16 unk_12;
+    /* 0x14 */ u16 unk_14;
+    /* 0x16 */ u16 unk_16;
+} ReverbSettings; // size = 0x18
+
+typedef struct {
     /*?0x00 */ u32 frequency;
     /*?0x04 */ u8 unk_04;
     /* 0x05 */ u8 maxSimultaneousNotes;
     /* 0x06 */ u8 numSequencePlayers;
     /* 0x07 */ u8 pad_07[2];
     /* 0x09 */ u8 numReverbs;
-    /* 0x0A */ u8 pad_0A[6];
-    /* 0x10 */ u8 unk_10;
-    /* 0x12 */ u8 unk_12;
-} AudioSessionSettings;
+    /* 0x0A */ u8 pad_0A[2];
+    /* 0x0C */ ReverbSettings* reverbSettings;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 unk_12;
+    /* 0x14 */ s16 unk_14;
+    /* 0x18 */ u32 persistentSeqMem;
+    /* 0x1C */ u32 persistentBankMem;
+    /* 0x20 */ u32 persistentUnusedMem;
+    /* 0x24 */ u32 temporarySeqMem;
+    /* 0x28 */ u32 temporaryBankMem;
+    /* 0x2C */ u32 temporaryUnusedMem;
+    /* 0x30 */ s32 unk_30;
+    /* 0x34 */ s32 unk_34;
+} AudioSessionSettings; // size = 0x38
 
 typedef struct {
     /* 0x00 */ s16 presetUnk4;
@@ -559,10 +628,13 @@ typedef struct {
     /* 0x0000 */ char unk_0000[1];
     /* 0x0001 */ s8 unk_1;
     /* 0x0002 */ u16 unk_2;
-    /* 0x0004 */ char unk_0004[0x10];
+    /* 0x0004 */ u16 unk_4;
+    /* 0x0006 */ char unk_0006[0x0e];
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
-    /* 0x0018 */ LargeSound largeSounds[1]; // size <= 14
-    /* 0x02E0 */ char unk_02E0[0x2564];
+    /* 0x0018 */ SynthesisReverb gSynthesisReverbs[4];
+    /* 0x0B38 */ char unk_0B38[0xC34];
+    /* 0x176C */ s32 unk_176C;
+    /* 0x1770 */ char unk_1770[0x10D4];
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
@@ -575,7 +647,8 @@ typedef struct {
     /* 0x289A */ s8 gSoundMode;
     /* 0x289B */ char unk_289B[0xD];
     /* 0x28A8 */ s32 unk_28A8;
-    /* 0x28AC */ char unk_28AC[0xB8];
+    /* 0x28AC */ char unk_28AC[0xB4];
+    /* 0x2960 */ s32 unk_2960;
     /* 0x2964 */ s32 gRefreshRate;
     /* 0x2968 */ s16* unk_2968[3];
     /* 0x2974 */ s16 unk_2974[3];
