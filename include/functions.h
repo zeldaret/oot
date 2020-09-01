@@ -1946,7 +1946,7 @@ void* Audio_Alloc(SoundAllocPool* pool, u32 size);
 void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size);
 void Audio_PersistentPoolClear(PersistentPool* persistent);
 void Audio_TemporaryPoolClear(TemporaryPool* temporary);
-void func_800DE4B0(SoundAllocPool* pool);
+void func_800DE4B0(s32 poolIdx);
 void Audio_InitMainPools(s32 sizeForAudioInitPool);
 void Audio_SessionPoolsInit(AudioPoolSplit4* split);
 void Audio_SeqAndBankPoolInit(AudioPoolSplit2* split);

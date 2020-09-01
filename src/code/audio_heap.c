@@ -35,20 +35,20 @@ void Audio_ResetLoadStatus(void) {
     s32 i;
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.unk_3468[i] != 5) {
-            gAudioContext.unk_3468[i] = 0;
+        if (gAudioContext.gBankLoadStatus[i] != 5) {
+            gAudioContext.gBankLoadStatus[i] = 0;
         }
     }
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.unk_3438[i] != 5) {
-            gAudioContext.unk_3438[i] = 0;
+        if (gAudioContext.gUnusedLoadStatus[i] != 5) {
+            gAudioContext.gUnusedLoadStatus[i] = 0;
         }
     }
 
     for (i = 0; i < 0x80; i++) {
-        if (gAudioContext.unk_3498[i] != 5) {
-            gAudioContext.unk_3498[i] = 0;
+        if (gAudioContext.gSeqLoadStatus[i] != 5) {
+            gAudioContext.gSeqLoadStatus[i] = 0;
         }
     }
 }
@@ -199,7 +199,48 @@ void func_800DE4A0(SoundAllocPool* pool) {
     pool->cur = pool->start;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE4B0.s")
+void func_800DE4B0(s32 poolIdx) {
+    SoundMultiPool* loadedPool;
+    SoundAllocPool* persistentPool;
+    PersistentPool* persistent;
+    void* entryPtr;
+    u8* table;
+
+    switch (poolIdx) {
+        case 0:
+            loadedPool = &gAudioContext.gSeqLoadedPool;
+            table = gAudioContext.gSeqLoadStatus;
+            break;
+        case 1:
+            loadedPool = &gAudioContext.gBankLoadedPool;
+            table = gAudioContext.gBankLoadStatus;
+            break;
+        case 2:
+            loadedPool = &gAudioContext.gUnusedLoadedPool;
+            table = gAudioContext.gUnusedLoadStatus;
+            break;
+    }
+
+    persistent = &loadedPool->persistent;
+    persistentPool = &persistent->pool;
+
+    if (persistent->numEntries == 0) {
+        return;
+    }
+
+    entryPtr = persistent->entries[persistent->numEntries - 1].ptr;
+    persistentPool->cur = entryPtr;
+    persistentPool->unused--;
+
+    if (poolIdx == 2) {
+        func_800E0E6C(persistent->entries[persistent->numEntries - 1].id);
+    }
+    if (poolIdx == 1) {
+        Audio_DiscardBank(persistent->entries[persistent->numEntries - 1].id);
+    }
+    table[persistent->entries[persistent->numEntries - 1].id] = 0;
+    persistent->numEntries--;
+}
 
 void Audio_InitMainPools(s32 sizeForAudioInitPool) {
     Audio_SoundAllocPoolInit(&gAudioContext.gAudioInitPool, gAudioContext.gAudioHeap, sizeForAudioInitPool);
