@@ -374,9 +374,23 @@ void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
 // somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF5AC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF5DC.s")
+void func_800DF5DC(s16 *arg0, s32 arg1) {
+    s32 i;
+    s16* ptr = &D_80130228[8 * arg1];
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF630.s")
+    for (i = 0; i < 8; i++) {
+        arg0[i] = ptr[i];
+    }
+}
+
+void func_800DF630(s16 *arg0, s32 arg1) {
+    s32 i;
+    s16* ptr = &D_80130328[8 * (arg1 - 1)];
+
+    for (i = 0; i < 8; i++) {
+        arg0[i] = ptr[i];
+    }
+}
 
 void func_800DF688(s16 *arg0, s32 arg1, s32 arg2) {
     s32 i;
