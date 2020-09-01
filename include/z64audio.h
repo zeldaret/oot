@@ -528,9 +528,20 @@ typedef struct
 typedef struct {
     u32 wantSeq;
     u32 wantBank;
+} AudioPoolSplit2; // size = 0x8
+
+typedef struct {
+    u32 wantSeq;
+    u32 wantBank;
+    u32 wantUnused;
+} AudioPoolSplit3; // size = 0xC
+
+typedef struct {
+    u32 wantSeq;
+    u32 wantBank;
     u32 wantUnused;
     u32 wantCustom;
-} AudioPoolSplit; // size = 0x10
+} AudioPoolSplit4; // size = 0x10
 
 typedef struct {
     /* 0x0000 */ char unk_0000[0x14];
@@ -562,7 +573,11 @@ typedef struct {
     /* 0x2A20 */ SoundMultiPool gSeqLoadedPool;
     /* 0x2B30 */ SoundMultiPool gBankLoadedPool;
     /* 0x2C40 */ SoundMultiPool gUnusedLoadedPool;
-    /* 0x2D50 */ char unk_2D50[0x6E8];
+    /* 0x2D50 */ char unk_2D50[0x6B8];
+    /* 0x3408 */ AudioPoolSplit4 sSessionPoolSplit;
+    /* 0x3418 */ AudioPoolSplit2 sSeqAndBankPoolSplit;
+    /* 0x3420 */ AudioPoolSplit3 sPersistentCommonPoolSplit;
+    /* 0x342C */ AudioPoolSplit3 sTemporaryCommonPoolSplit;
     /* 0x3438 */ u8 unk_3438[0x30];
     /* 0x3468 */ u8 unk_3468[0x30]; // gBankLoadStatus?
     /* 0x3498 */ u8 unk_3498[0x80]; // gSeqLoadStatus?

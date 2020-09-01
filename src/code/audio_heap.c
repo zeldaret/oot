@@ -21,11 +21,11 @@ void func_800DDE3C(void) {
     }
 
     for (i = 16; i < 128; i++) {
-        gAudioContext.unk_3520[i] = func_800DDE20(572 - 4 * i);
+        gAudioContext.unk_3520[i] = func_800DDE20(4 * (143 - i));
     }
 
     for (i = 1; i < 16; i++) {
-        gAudioContext.unk_3520[i] = func_800DDE20(1380 - 60 * i);
+        gAudioContext.unk_3520[i] = func_800DDE20(60 * (23 - i));
     }
 
     gAudioContext.unk_3520[0] = 0.0f;
@@ -186,7 +186,7 @@ void Audio_InitMainPools(s32 sizeForAudioInitPool) {
     gAudioContext.gUnkPool.start = NULL;
 }
 
-void Audio_SessionPoolsInit(AudioPoolSplit* split) {
+void Audio_SessionPoolsInit(AudioPoolSplit4* split) {
     gAudioContext.gAudioSessionPool.cur = gAudioContext.gAudioSessionPool.start;
     Audio_SoundAllocPoolInit(&gAudioContext.gNotesAndBuffersPool,
                              Audio_Alloc(&gAudioContext.gAudioSessionPool, split->wantSeq), split->wantSeq);
@@ -194,9 +194,15 @@ void Audio_SessionPoolsInit(AudioPoolSplit* split) {
                              Audio_Alloc(&gAudioContext.gAudioSessionPool, split->wantCustom), split->wantCustom);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SeqAndBankPoolInit.s")
+void Audio_SeqAndBankPoolInit(AudioPoolSplit2 *split) {
+    gAudioContext.gSeqAndBankPool.cur = gAudioContext.gSeqAndBankPool.start;
+    Audio_SoundAllocPoolInit(&gAudioContext.gTemporaryCommonPool,
+                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantSeq), split->wantSeq);
+    Audio_SoundAllocPoolInit(&gAudioContext.gPersistentCommonPool,
+                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantBank), split->wantBank);
+}
 
-void Audio_PersistentPoolsInit(AudioPoolSplit* split) {
+void Audio_PersistentPoolsInit(AudioPoolSplit3* split) {
     gAudioContext.gTemporaryCommonPool.cur = gAudioContext.gTemporaryCommonPool.start;
     Audio_SoundAllocPoolInit(&gAudioContext.gSeqLoadedPool.persistent.pool,
                              Audio_Alloc(&gAudioContext.gTemporaryCommonPool, split->wantSeq), split->wantSeq);
@@ -209,7 +215,7 @@ void Audio_PersistentPoolsInit(AudioPoolSplit* split) {
     Audio_PersistentPoolClear(&gAudioContext.gUnusedLoadedPool.persistent);
 }
 
-void Audio_TemporaryPoolsInit(AudioPoolSplit* split) {
+void Audio_TemporaryPoolsInit(AudioPoolSplit3* split) {
     gAudioContext.gPersistentCommonPool.cur = gAudioContext.gPersistentCommonPool.start;
     Audio_SoundAllocPoolInit(&gAudioContext.gSeqLoadedPool.temporary.pool,
                              Audio_Alloc(&gAudioContext.gPersistentCommonPool, split->wantSeq), split->wantSeq);
