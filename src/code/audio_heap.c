@@ -4,7 +4,7 @@
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 
 f32 func_800DDE20(f32 arg0) {
-    return 256.0f * gAudioContext.gAudioBufferParameters.unk_1C / arg0;
+    return 256.0f * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled / arg0;
 }
 
 void func_800DDE3C(void) {
@@ -91,7 +91,7 @@ void func_800DE12C(s32 bankId) {
 void Audio_DiscardSequence(s32 seqId) {
     s32 i;
 
-    for (i = 0; i < gAudioContext.gAudioBufferParameters.unk_10; i++) {
+    for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
         if (gAudioContext.gSequencePlayers[i].enabled && gAudioContext.gSequencePlayers[i].seqId == seqId) {
             Audio_SequencePlayerDisable(&gAudioContext.gSequencePlayers[i]);
         }
@@ -421,7 +421,7 @@ void func_800DF7C4(void) {
     s32 i;
     s32 j;
 
-    if (gAudioContext.unk_2848 == 2) {
+    if (gAudioContext.gAudioBufferParameters.presetUnk4 == 2) {
         count = 2;
     } else {
         count = 1;
@@ -439,7 +439,7 @@ void func_800DF888(void) {
     s32 i;
 
     ind = gAudioContext.unk_28A8;
-    gAudioContext.unk_2974[ind] = gAudioContext.gAudioBufferParameters.unk_06;
+    gAudioContext.unk_2974[ind] = gAudioContext.gAudioBufferParameters.minAiBufferLength;
 
     for (i = 0; i < 0x580; i++) {
         gAudioContext.unk_2968[ind][i] = 0;

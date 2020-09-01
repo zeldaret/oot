@@ -734,7 +734,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
                         speed = speed * 0x100 / (layer->delay * layer->portamentoTime);
                     }
                 } else {
-                    speed = 0x20000 / (layer->portamentoTime * gAudioContext.gAudioBufferParameters.unk_08);
+                    speed = 0x20000 / (layer->portamentoTime * gAudioContext.gAudioBufferParameters.updatesPerFrame);
                 }
 
                 if (speed >= 0x7FFF) {
@@ -970,8 +970,8 @@ void Audio_ProcessSequences(s32 arg0) {
     u32 i;
 
     gAudioContext.gNoteSubEuOffset =
-        (gAudioContext.gAudioBufferParameters.unk_08 - arg0 - 1) * gAudioContext.gMaxSimultaneousNotes;
-    for (i = 0; i < (u32)gAudioContext.gAudioBufferParameters.unk_10; i++) {
+        (gAudioContext.gAudioBufferParameters.updatesPerFrame - arg0 - 1) * gAudioContext.gMaxSimultaneousNotes;
+    for (i = 0; i < (u32)gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
         seqPlayer = &gAudioContext.gSequencePlayers[i];
         if (seqPlayer->enabled == 1) {
             Audio_SequencePlayerProcessSequence(seqPlayer);

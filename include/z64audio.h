@@ -473,22 +473,21 @@ typedef struct Note {
 } Note; // size = 0xE0
 
 typedef struct {
-    // everything here is wildly wrong, and the struct might not start at
-    // zero (it's embedded into another struct)
-    /*?0x00 */ s16 presetUnk4;
-    /*?0x02 */ u16 frequency;
-    /*?0x04 */ u16 aiFrequency;
-    /* 0x06 */ s16 unk_06; // samplesPerFrameTarget;
-    /* 0x08 */ s16 unk_08; // maxAiBufferLength;
-    /*?0x0A */ s16 minAiBufferLength;
-    /*?0x0C */ s16 updatesPerFrame;
-    /*?0x0E */ s16 samplesPerUpdate;
-    /* 0x10 */ s16 unk_10; // samplesPerUpdateMax;
-    /*?0x12 */ s16 samplesPerUpdateMin;
-    /* 0x14 */ f32 resampleRate;
-    /* 0x18 */ f32 updatesPerFrameInv;
-    /* 0x1C */ f32 unk_1C; // unkUpdatesPerFrameScaled;
-} AudioBufferParametersEU;
+    /* 0x00 */ s16 presetUnk4;
+    /* 0x02 */ u16 frequency;
+    /* 0x04 */ s16 aiFrequency;
+    /* 0x06 */ u16 samplesPerFrameTarget;
+    /* 0x08 */ u16 maxAiBufferLength;
+    /* 0x0A */ s16 minAiBufferLength;
+    /* 0x0C */ s16 updatesPerFrame;
+    /* 0x0E */ s16 samplesPerUpdate;
+    /* 0x10 */ s16 samplesPerUpdateMax;
+    /* 0x12 */ s16 samplesPerUpdateMin;
+    /* 0x14 */ s16 numSequencePlayers;
+    /* 0x18 */ f32 resampleRate;
+    /* 0x1C */ f32 updatesPerFrameInv;
+    /* 0x20 */ f32 unkUpdatesPerFrameScaled;
+} AudioBufferParameters;
 
 typedef struct {
     /* 0x0 */ u8* start;
@@ -551,9 +550,7 @@ typedef struct {
     /* 0x0018 */ LargeSound largeSounds[1]; // size <= 14
     /* 0x02E0 */ char unk_02E0[0x2564];
     /* 0x2844 */ CtlEntry* gCtlEntries;
-    /* 0x2848 */ s16 unk_2848;
-    /* 0x284A */ char unk_284A[0x2];
-    /*?0x284C */ AudioBufferParametersEU gAudioBufferParameters; // offset might be wrong
+    /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
     /* 0x286C */ f32 unk_286C;
     /* 0x2870 */ f32 unk_2870;
     /* 0x2874 */ char unk_2874[0x20];
@@ -562,7 +559,8 @@ typedef struct {
     /* 0x289A */ s8 gSoundMode;
     /* 0x289B */ char unk_289B[0xD];
     /* 0x28A8 */ s32 unk_28A8;
-    /* 0x28AC */ char unk_28AC[0xBC];
+    /* 0x28AC */ char unk_28AC[0xB8];
+    /* 0x2964 */ s32 gRefreshRate;
     /* 0x2968 */ s16* unk_2968[3];
     /* 0x2974 */ s16 unk_2974[3];
     /* 0x297C */ u32 gAudioRandom;
