@@ -44,21 +44,19 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
     Input* input = &globalCtx->state.input[0];
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
 
     pauseCtx->inputX = input->rel.in.x;
     pauseCtx->inputY = input->rel.in.y;
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x02, interfaceCtx->parameterSegment);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x07, pauseCtx->unk_13C);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, pauseCtx->unk_128);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, pauseCtx->unk_12C);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, pauseCtx->unk_138);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, pauseCtx->unk_130);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0D, pauseCtx->unk_134);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x02, interfaceCtx->parameterSegment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x07, pauseCtx->unk_13C);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, pauseCtx->unk_128);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, pauseCtx->unk_12C);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, pauseCtx->unk_138);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, pauseCtx->unk_130);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0D, pauseCtx->unk_134);
 
     if (pauseCtx->flag == 0) {
         func_80823994(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
@@ -67,7 +65,7 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
         func_80820434(globalCtx, globalCtx->state.gfxCtx);
         func_800949A8(globalCtx->state.gfxCtx);
 
-        gDPSetCombineLERP(gfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+        gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
         func_80823994(pauseCtx, 0.0f, 0.0f, 64.0f);
@@ -82,7 +80,7 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
         func_808161AC(globalCtx);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3254);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3254);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_8082650C.s")

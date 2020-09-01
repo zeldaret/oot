@@ -1,10 +1,8 @@
 #include <ultra64.h>
 #include <global.h>
 
-#ifdef NON_MATCHING
-// regalloc differences, probably the same issue as __osGetId
 s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
-    s32 ret = 0;
+    s32 ret;
     u16 sum;
     u16 isum;
     u8 temp[BLOCKSIZE];
@@ -36,6 +34,7 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
         return (ret);
     }
+
     __osIdCheckSum((u16*)temp, &sum, &isum);
     id = (__OSPackId*)temp;
     if ((id->checksum != sum) || (id->invertedChecksum != isum)) {
@@ -61,7 +60,9 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
 
     bcopy(id, pfs->id, BLOCKSIZE);
 
-    pfs->version = (s32)id->version;
+    if (0) {}
+
+    pfs->version = id->version;
     pfs->banks = id->banks;
     pfs->inodeStartPage = 1 + DEF_DIR_PAGES + (2 * pfs->banks);
     pfs->dir_size = DEF_DIR_PAGES * PFS_ONE_PAGE;
@@ -69,17 +70,15 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     pfs->minode_table = (1 + pfs->banks) * PFS_ONE_PAGE;
     pfs->dir_table = pfs->minode_table + (pfs->banks * PFS_ONE_PAGE);
 
-    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_LABEL_AREA, (u8*)pfs->label)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_LABEL_AREA, pfs->label)) != 0) {
         return ret;
     }
 
     ret = osPfsChecker(pfs);
     pfs->status |= PFS_INITIALIZED;
+
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/pfsinitpak/osPfsInitPak.s")
-#endif
 
 s32 __osPfsCheckRamArea(OSPfs* pfs) {
     s32 i = 0;

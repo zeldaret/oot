@@ -836,9 +836,9 @@ typedef struct {
     /* 0x0238 */ s16    unk_238;
     /* 0x023A */ s16    unk_23A;
     /* 0x023C */ s16    unk_23C;
-    /* 0x023E */ s16    unk_23E;
+    /* 0x023E */ u16    unk_23E;
     /* 0x0240 */ s16    unk_240;
-    /* 0x0242 */ s16    unk_242;
+    /* 0x0242 */ u16    unk_242;
     /* 0x0244 */ s16    unk_244;
     /* 0x0246 */ s16    unk_246;
     /* 0x0248 */ s16    unk_248;
@@ -1208,7 +1208,8 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B4 */ char unk_B4[0x4];
     /* 0x000B8 */ View view;
-    /* 0x001E0 */ Camera cameras[4];
+    /* 0x001E0 */ Camera mainCamera;
+    /* 0x001E0 */ Camera subCameras[3];
     /* 0x00790 */ Camera* cameraPtrs[4];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
