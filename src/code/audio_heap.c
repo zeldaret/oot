@@ -293,8 +293,18 @@ void Audio_TemporaryPoolsInit(AudioPoolSplit3* split) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocBankOrSeq.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF074.s")
-void* func_800DF074(s32 poolIdx, s32 arg1, s32 id);
+void* func_800DF074(s32 poolIdx, s32 arg1, s32 id) {
+    void* ret;
+
+    ret = func_800E04E8(poolIdx, id);
+    if (ret != NULL) {
+        return ret;
+    }
+    if (arg1 == 3) {
+        return NULL;
+    }
+    return func_800DF0CC(poolIdx, arg1, id);
+}
 
 void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
     u32 i;

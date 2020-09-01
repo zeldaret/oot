@@ -1963,7 +1963,7 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id);
 // ? func_800DF888(?);
 // ? func_800DF8F4(?);
 // ? func_800DFBF8(?);
-// ? func_800E04E8(?);
+void* func_800E04E8(s32 poolIdx, s32 id);
 // ? func_800E0540(?);
 // ? func_800E05C4(?);
 // ? func_800E0634(?);
