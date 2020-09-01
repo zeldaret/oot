@@ -608,7 +608,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
     s32 unk_274 = this->unk_274;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[unk_274].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[unk_274].segment);
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {

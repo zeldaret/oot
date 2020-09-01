@@ -43,44 +43,50 @@ const ActorInit En_Ex_Ruppy_InitVars = {
 static Vec3f D_80A0B358[] = { { 0.0f, 0.1f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
 static Vec3f D_80A0B370[] = { { 0.0f, 0.01f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
 
-#ifdef NON_MATCHING
-// Regalloc
 void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnExRuppy* this = THIS;
-    s16 temp_v0;
-    f32 phi_f12;
-    f32 temp;
+    EnDivingGame* divingGame;
+    f32 temp1;
+    f32 temp2;
+    s16 temp3;
 
     this->unk_152 = this->actor.params;
-    // Index
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x" VT_RST, this->unk_152);
+
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->unk_152); // "Index"
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
+
     switch (this->unk_152) {
         case 0:
             this->unk_160 = 0.01f;
             Actor_SetScale(&this->actor, this->unk_160);
             this->actor.room = -1;
             this->actor.gravity = 0.0f;
-            // If you havnt won the diving game before you will get 5 blue ruppees.
+
+            // If you haven't won the diving game before, you will always get 5 rupees
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->rupeeValue = 5;
                 this->unk_150 = 1;
             } else {
-                phi_f12 = 200.99f;
-                if ((thisx->parent != NULL) && (thisx->parent->update != NULL)) {
-                    phi_f12 = 200.99f + ((EnDivingGame*)thisx->parent)->unk_2AA * 10.0f;
+                temp1 = 200.99f;
+                if (this->actor.parent != NULL) {
+                    divingGame = (EnDivingGame*)this->actor.parent;
+                    if (divingGame->actor.update != NULL) {
+                        temp2 = divingGame->unk_2AA * 10.0f;
+                        temp1 += temp2;
+                    }
                 }
-                temp_v0 = Math_Rand_ZeroFloat(phi_f12);
-                if ((temp_v0 >= 0) && (temp_v0 < 40)) {
+
+                temp3 = Math_Rand_ZeroFloat(temp1);
+                if ((temp3 >= 0) && (temp3 < 40)) {
                     this->rupeeValue = 1;
                     this->unk_150 = 0;
-                } else if ((temp_v0 >= 40) && (temp_v0 < 170)) {
+                } else if ((temp3 >= 40) && (temp3 < 170)) {
                     this->rupeeValue = 5;
                     this->unk_150 = 1;
-                } else if ((temp_v0 >= 170) && (temp_v0 < 190)) {
+                } else if ((temp3 >= 170) && (temp3 < 190)) {
                     this->rupeeValue = 20;
                     this->unk_150 = 2;
-                } else if ((temp_v0 >= 190) && (temp_v0 < 200)) {
+                } else if ((temp3 >= 190) && (temp3 < 200)) {
                     this->rupeeValue = 50;
                     this->unk_150 = 4;
                 } else {
@@ -88,39 +94,43 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Actor_SetScale(&this->actor, this->unk_160);
                     this->rupeeValue = 500;
                     this->unk_150 = 3;
-                    if ((thisx->parent != NULL) && (thisx->parent->update != NULL)) {
-                        ((EnDivingGame*)thisx->parent)->unk_2AA = 0;
+                    if (this->actor.parent != NULL) {
+                        divingGame = (EnDivingGame*)this->actor.parent;
+                        if (divingGame->actor.update != NULL) {
+                            divingGame->unk_2AA = 0;
+                        }
                     }
                 }
             }
-            temp_v0 = this->actor.posRot.rot.z;
-            this->actor.posRot.rot.z = 0;
-            this->timer = 30;
+
             this->actor.shape.unk_10 = 7.0f;
             this->actor.shape.unk_08 = 700.0f;
-            this->unk_15A = temp_v0;
+            this->unk_15A = this->actor.posRot.rot.z;
+            this->actor.posRot.rot.z = 0;
+            this->timer = 30;
             this->actor.flags &= ~1;
             this->actionFunc = EnExRuppy_DropIntoWater;
             break;
+
         case 1:
         case 2: // Giant pink ruppe that explodes when you touch it
             if (this->unk_152 == 1) {
-                Actor_SetScale(thisx, 0.1f);
+                Actor_SetScale(&this->actor, 0.1f);
                 this->unk_150 = 4;
             } else {
                 Actor_SetScale(thisx, 0.02f);
                 this->unk_150 = (s16)Math_Rand_ZeroFloat(3.99f) + 1;
             }
             this->actor.gravity = -3.0f;
-            // Wow Coin
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST); // "Wow Coin"
             this->actor.shape.unk_10 = 6.0f;
             this->actor.shape.unk_08 = 700.0f;
             this->actor.flags &= ~1;
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
+
         case 3: // Spawned by the guard in Hyrule courtyard
-            Actor_SetScale(thisx, 0.02f);
+            Actor_SetScale(&this->actor, 0.02f);
             this->unk_150 = 0;
             switch ((s16)Math_Rand_ZeroFloat(30.99f)) {
                 case 0:
@@ -128,32 +138,28 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                     break;
                 case 10:
                 case 20:
-                    this->unk_150 = 1;
-                    break;
                 case 30:
+                    this->unk_150 = 1;
                     break;
             }
             this->actor.gravity = -3.0f;
-            // Normal rupee
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST); // "Normal rupee"
             this->actor.shape.unk_10 = 6.0f;
             this->actor.shape.unk_08 = 700.0f;
             this->actor.flags &= ~1;
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
+
         case 4:
             this->actor.gravity = -3.0f;
             this->actor.flags &= ~1;
-            Actor_SetScale(thisx, 0.01f);
+            Actor_SetScale(&this->actor, 0.01f);
             this->actor.shape.unk_10 = 6.0f;
             this->actor.shape.unk_08 = -700.0f;
             this->actionFunc = func_80A0B0F4;
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Ruppy/EnExRuppy_Init.s")
-#endif
 
 void EnExRuppy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -268,7 +274,7 @@ void func_80A0AD88(EnExRuppy* this, GlobalContext* globalCtx) {
         func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Math_Rand_ZeroFloat(0.03f) + 0.07f);
     }
     if (this->actor.parent != NULL) {
-        divingGame = this->actor.parent;
+        divingGame = (EnDivingGame*)this->actor.parent;
         if (divingGame->actor.update != NULL) {
             if (divingGame->unk_29C == 0) {
                 this->timer = 20;
@@ -311,11 +317,11 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
                 ((EnDivingGame*)this->actor.parent)->transitionDrawTable[15].z = 1;
             }
         } else {
-            // That idiot! error
+            // "That idiot! error"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
-        // Stupid!
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST);
+
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST); // "Stupid!"
         explosionScale = 100;
         explosionScaleStep = 30;
         if (this->unk_152 == 2) {
@@ -350,7 +356,7 @@ void func_80A0B0F4(EnExRuppy* this, GlobalContext* globalCtx) {
 void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnExRuppy* this = THIS;
 
-    thisx->shape.rot.y += 1960;
+    this->actor.shape.rot.y += 1960;
     this->actionFunc(this, globalCtx);
     if (this->timer != 0) {
         this->timer--;
