@@ -21,7 +21,7 @@ void EnNb_SetSealingSFX(void) {
 }
 
 void EnNb_InitializeDemo6K(EnNb* this, GlobalContext* globalCtx) {
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
                         kREG(21) + 22.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 7);
 }
 
@@ -31,38 +31,38 @@ void EnNb_SetupHide(EnNb* this, GlobalContext* globalCtx) {
         this->drawMode = NB_DRAW_HIDE;
         this->alpha = 0;
         this->actor.shape.unk_14 = 0;
-        this->unk_280 = 0.0f;
+        this->alphaTimer = 0.0f;
         EnNb_SetSealingSFX();
     }
 }
 
 void EnNb_CheckToFade(EnNb* this, GlobalContext* globalCtx) {
-    f32* unk_280 = &this->unk_280;
+    f32* alphaTimer = &this->alphaTimer;
     s32 alpha;
 
     if (func_80AB1390(this, globalCtx, 4, 1)) {
-        *unk_280 += 1.0f;
-        if (*unk_280 >= kREG(5) + 10.0f) {
+        *alphaTimer += 1.0f;
+        if (*alphaTimer >= kREG(5) + 10.0f) {
             this->action = NB_ACTION_9;
             this->drawMode = NB_DRAW_DEFAULT;
-            *unk_280 = kREG(5) + 10.0f;
+            *alphaTimer = kREG(5) + 10.0f;
             this->alpha = 255;
             this->actor.shape.unk_14 = 0xFF;
             return;
         }
     } else {
-        *unk_280 -= 1.0f;
-        if (*unk_280 <= 0.0f) {
+        *alphaTimer -= 1.0f;
+        if (*alphaTimer <= 0.0f) {
             this->action = NB_ACTION_7;
             this->drawMode = NB_DRAW_NOTHING;
-            *unk_280 = 0.0f;
+            *alphaTimer = 0.0f;
             this->alpha = 0;
             this->actor.shape.unk_14 = 0;
             return;
         }
     }
 
-    alpha = (*unk_280 / (kREG(5) + 10.0f)) * 255.0f;
+    alpha = (*alphaTimer / (kREG(5) + 10.0f)) * 255.0f;
     this->alpha = alpha;
     this->actor.shape.unk_14 = alpha;
 }
@@ -71,11 +71,11 @@ void EnNb_SetupLightOrb(EnNb* this, GlobalContext* globalCtx) {
     if (func_80AB13D8(this, globalCtx, 4, 1)) {
         this->action = NB_SEAL_HIDE;
         this->drawMode = NB_DRAW_HIDE;
-        this->unk_280 = kREG(5) + 10.0f;
+        this->alphaTimer = kREG(5) + 10.0f;
         this->alpha = 255;
-        if (this->unk_288 == 0) {
+        if (this->flag == 0) {
             EnNb_InitializeDemo6K(this, globalCtx);
-            this->unk_288 = 1;
+            this->flag = 1;
         }
 
         this->actor.shape.unk_14 = 0xFF;

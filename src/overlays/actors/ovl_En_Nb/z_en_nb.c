@@ -172,14 +172,14 @@ void EnNb_GetPathInfo(EnNb* this, GlobalContext* globalCtx) {
         waypoint = EnNb_GetWaypoint(this);
         path += waypoint;
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
-        this->vec_2E4.x = pointPos[0].x;
-        this->vec_2E4.y = pointPos[0].y;
-        this->vec_2E4.z = pointPos[0].z;
-        this->vec_2F0.x = pointPos[1].x;
-        this->vec_2F0.y = pointPos[1].y;
-        this->vec_2F0.z = pointPos[1].z;
-        this->unk_2FC =
-            (Math_atan2f(this->vec_2F0.x - this->vec_2E4.x, this->vec_2F0.z - this->vec_2E4.z) * 10430.378f);
+        this->initialPos.x = pointPos[0].x;
+        this->initialPos.y = pointPos[0].y;
+        this->initialPos.z = pointPos[0].z;
+        this->finalPos.x = pointPos[1].x;
+        this->finalPos.y = pointPos[1].y;
+        this->finalPos.z = pointPos[1].z;
+        this->pathYaw =
+            (Math_atan2f(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) * 10430.378f);
         // "En_Nb_Get_path_info RAIL DATA GET! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", waypoint);
     } else {
@@ -256,9 +256,9 @@ void func_80AB11EC(EnNb* this) {
     this->action = NB_ACTION_7;
     this->drawMode = NB_DRAW_NOTHING;
     this->alpha = 0;
-    this->unk_288 = 0;
+    this->flag = 0;
     this->actor.shape.unk_14 = 0;
-    this->unk_280 = 0.0f;
+    this->alphaTimer = 0.0f;
 }
 
 void func_80AB1210(EnNb* this, GlobalContext* globalCtx) {
@@ -382,9 +382,9 @@ void EnNb_CheckToSpawnNearSpiritCrawlspace(EnNb* this, GlobalContext* globalCtx)
             this->drawMode = NB_DRAW_DEFAULT;
         } else {
             EnNb_SetCurrentAnim(this, &D_06004BB4, 0, 0.0f, 0);
-            this->unk_2E0 = 1;
+            this->headTurnFlag = 1;
             this->actor.flags |= 9;
-            this->actor.posRot.pos = this->vec_2F0;
+            this->actor.posRot.pos = this->finalPos;
             this->action = NB_IDLE_AFTER_TALK;
             this->drawMode = NB_DRAW_DEFAULT;
         }
@@ -395,21 +395,21 @@ void EnNb_CheckToSpawnNearSpiritCrawlspace(EnNb* this, GlobalContext* globalCtx)
 
 void func_80AB359C(EnNb* this) {
     PosRot* posRot = &this->actor.posRot;
-    Vec3f* vec_2E4 = &this->vec_2E4;
-    Vec3f* vec_2F0 = &this->vec_2F0;
+    Vec3f* initialPos = &this->initialPos;
+    Vec3f* finalPos = &this->finalPos;
     f32 f0;
     u16 temp_t1;
     s16 temp_2;
 
-    this->unk_2FE++;
+    this->movementTimer++;
     temp_2 = kREG(17);
     temp_t1 = temp_2;
     temp_t1 += 0x19; // Oddly needs all these temps to match
-    if (temp_t1 >= this->unk_2FE) {
-        f0 = func_8006F9BC(temp_t1, 0, this->unk_2FE, 3, 3);
-        posRot->pos.x = vec_2E4->x + (f0 * (vec_2F0->x - vec_2E4->x));
-        posRot->pos.y = vec_2E4->y + (f0 * (vec_2F0->y - vec_2E4->y));
-        posRot->pos.z = vec_2E4->z + (f0 * (vec_2F0->z - vec_2E4->z));
+    if (temp_t1 >= this->movementTimer) {
+        f0 = func_8006F9BC(temp_t1, 0, this->movementTimer, 3, 3);
+        posRot->pos.x = initialPos->x + (f0 * (finalPos->x - initialPos->x));
+        posRot->pos.y = initialPos->y + (f0 * (finalPos->y - initialPos->y));
+        posRot->pos.z = initialPos->z + (f0 * (finalPos->z - initialPos->z));
     }
 }
 
@@ -429,30 +429,24 @@ s32 EnNb_GetNoticedStatus(EnNb* this, GlobalContext* globalCtx) {
     }
     return false;
 }
+ 
+void func_80AB36DC(Actor* thisx, GlobalContext* globalCtx) {
+    EnNb* this = THIS;
+    u16 moveTime = this->movementTimer;
+    s16* shapeRot = &this->actor.shape.rot.y;
 
-#ifdef NON_MATCHING
-// regalloc, functionally equivalent, tested in-game
-void func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
-
-    u16 temp_a1;
-    s16 temp;
-    s32 unk_2FE;
-    unk_2FE = this->unk_2FE;
-    temp_a1 = kREG(17) + 0x19;
-    if (this->unk_2FE < ((u16)(temp_a1 - 4))) {
-        temp = 4 - this->unk_2FE;
-        if (temp > 0) {
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_2FC, temp, 0x1838, 0x64);
-        }
+    if ((((u16)((u16)(kREG(17) + 0x19) - 4))) > moveTime) {
+        s16 invScale = 4 - moveTime;
+        if (invScale > 0) {
+            Math_SmoothScaleMaxMinS(shapeRot, this->pathYaw, invScale, 0x1838, 0x64);
+        } 
     } else {
-        if ((temp = temp_a1 - this->unk_2FE) > 0) {
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, temp, 0x1838, 0x64);
+        s16 invScale = (u16)(kREG(17) + 0x19) - moveTime;
+        if (invScale > 0) {
+            Math_SmoothScaleMaxMinS(shapeRot, this->actor.initPosRot.rot.y, invScale, 0x1838, 0x64);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nb/func_80AB36DC.s")
-#endif
 
 void EnNb_CheckNoticed(EnNb* this, GlobalContext* globalCtx) {
     if (EnNb_GetNoticedStatus(this, globalCtx)) {
@@ -465,7 +459,7 @@ void EnNb_CheckNoticed(EnNb* this, GlobalContext* globalCtx) {
 void EnNb_SetupIdleCrawlspace(EnNb* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
         EnNb_SetCurrentAnim(this, &D_06004BB4, 0, -8.0f, 0);
-        this->unk_2E0 = 1;
+        this->headTurnFlag = 1;
         this->actor.flags |= 9;
         this->action = NB_IDLE_CRAWLSPACE;
     }
@@ -561,8 +555,8 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
-    u16 unk_2FE = this->unk_2FE;
-    if ((u16)(kREG(17) + 0x19) > unk_2FE) {
+    u16 movementTimer = this->movementTimer;
+    if ((u16)(kREG(17) + 0x19) > movementTimer) {
         if (arg2 != 0) {
             EnNb_SetCurrentAnim(this, &D_06009238, 0, 0.0f, 0);
         }
@@ -709,7 +703,7 @@ s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     struct_80034A14_arg1* struct_300 = &this->struct_300;
 
     s32 ret = 0;
-    if (this->unk_2E0 != 0) {
+    if (this->headTurnFlag != 0) {
 
         if (limbIndex == 8) {
             rot->x += struct_300->unk_0E.y;

@@ -106,7 +106,7 @@ glabel func_80BA2048
 /* 003C0 80BA21B0 316C8000 */  andi    $t4, $t3, 0x8000           ## $t4 = 00000000
 /* 003C4 80BA21B4 018D7025 */  or      $t6, $t4, $t5              ## $t6 = 00000000
 /* 003C8 80BA21B8 A44E001C */  sh      $t6, 0x001C($v0)           ## 0000001C
-/* 003CC 80BA21BC 0C032D94 */  jal     func_800CB650              
+/* 003CC 80BA21BC 0C032D94 */  jal     Math3D_Vec3fDistSq              
 /* 003D0 80BA21C0 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 003D4 80BA21C4 3C0180BA */  lui     $at, %hi(D_80BA2994)       ## $at = 80BA0000
 /* 003D8 80BA21C8 C4242994 */  lwc1    $f4, %lo(D_80BA2994)($at)  

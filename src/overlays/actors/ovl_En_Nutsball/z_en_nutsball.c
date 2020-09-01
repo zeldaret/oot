@@ -139,17 +139,16 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 327);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 327);
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateZ(thisx->initPosRot.rot.z * 9.58738e-05f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[thisx->params]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists[thisx->params]);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
 }

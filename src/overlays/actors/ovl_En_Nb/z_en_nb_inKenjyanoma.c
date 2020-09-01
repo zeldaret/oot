@@ -23,7 +23,7 @@ void EnNb_SpawnBlueWarp(EnNb* this, GlobalContext* globalCtx) {
     f32 posY = thisx->posRot.pos.y;
     f32 posZ = thisx->posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
@@ -32,7 +32,7 @@ void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
     f32 posY = player->actor.posRot.pos.y + 50.0f;
     f32 posZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
                         12);
     Item_Give(globalCtx, ITEM_MEDALLION_SPIRIT);
 }

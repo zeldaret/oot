@@ -816,7 +816,7 @@ glabel func_80917D98
 /* 02E80 80918890 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
 /* 02E84 80918894 2407005D */  addiu   $a3, $zero, 0x005D         ## $a3 = 0000005D
 /* 02E88 80918898 E7A40018 */  swc1    $f4, 0x0018($sp)           
-/* 02E8C 8091889C 0C00C916 */  jal     Actor_SpawnAttached
+/* 02E8C 8091889C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 02E90 809188A0 E7B20014 */  swc1    $f18, 0x0014($sp)          
 /* 02E94 809188A4 3C050001 */  lui     $a1, 0x0001                ## $a1 = 00010000

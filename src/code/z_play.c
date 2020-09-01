@@ -65,74 +65,74 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
         transitionCtx->setType = TransitionCircle_SetType;
         transitionCtx->setColor = TransitionCircle_SetColor;
         transitionCtx->setEnvColor = TransitionCircle_SetEnvColor;
-        return;
+    } else {
+        switch (transitionCtx->transitionType) {
+            case 1:
+                transitionCtx->init = TransitionTriforce_Init;
+                transitionCtx->destroy = TransitionTriforce_Destroy;
+                transitionCtx->start = TransitionTriforce_Start;
+                transitionCtx->isDone = TransitionTriforce_IsDone;
+                transitionCtx->draw = TransitionTriforce_Draw;
+                transitionCtx->update = TransitionTriforce_Update;
+                transitionCtx->setType = TransitionTriforce_SetType;
+                transitionCtx->setColor = TransitionTriforce_SetColor;
+                transitionCtx->setEnvColor = NULL;
+                break;
+            case 0:
+            case 8:
+                transitionCtx->init = TransitionWipe_Init;
+                transitionCtx->destroy = TransitionWipe_Destroy;
+                transitionCtx->start = TransitionWipe_Start;
+                transitionCtx->isDone = TransitionWipe_IsDone;
+                transitionCtx->draw = TransitionWipe_Draw;
+                transitionCtx->update = TransitionWipe_Update;
+                transitionCtx->setType = TransitionWipe_SetType;
+                transitionCtx->setColor = TransitionWipe_SetColor;
+                transitionCtx->setEnvColor = NULL;
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 17:
+            case 18:
+            case 19:
+                transitionCtx->init = TransitionFade_Init;
+                transitionCtx->destroy = TransitionFade_Destroy;
+                transitionCtx->start = TransitionFade_Start;
+                transitionCtx->isDone = TransitionFade_IsDone;
+                transitionCtx->draw = TransitionFade_Draw;
+                transitionCtx->update = TransitionFade_Update;
+                transitionCtx->setType = TransitionFade_SetType;
+                transitionCtx->setColor = TransitionFade_SetColor;
+                transitionCtx->setEnvColor = NULL;
+                break;
+            case 9:
+            case 10:
+                globalCtx->transitionMode = 4;
+                break;
+            case 11:
+                globalCtx->transitionMode = 10;
+                break;
+            case 12:
+                globalCtx->transitionMode = 7;
+                break;
+            case 14:
+                globalCtx->transitionMode = 12;
+                break;
+            case 15:
+                globalCtx->transitionMode = 14;
+                break;
+            case 16:
+                globalCtx->transitionMode = 16;
+                break;
+            default:
+                Fault_AddHungupAndCrash("../z_play.c", 2290);
+                break;
+        }
     }
-
-    switch (transitionCtx->transitionType) {
-        case 1:
-            transitionCtx->init = TransitionTriforce_Init;
-            transitionCtx->destroy = TransitionTriforce_Destroy;
-            transitionCtx->start = TransitionTriforce_Start;
-            transitionCtx->isDone = TransitionTriforce_IsDone;
-            transitionCtx->draw = TransitionTriforce_Draw;
-            transitionCtx->update = TransitionTriforce_Update;
-            transitionCtx->setType = TransitionTriforce_SetType;
-            transitionCtx->setColor = TransitionTriforce_SetColor;
-            transitionCtx->setEnvColor = NULL;
-            return;
-        case 0:
-        case 8:
-            transitionCtx->init = TransitionWipe_Init;
-            transitionCtx->destroy = TransitionWipe_Destroy;
-            transitionCtx->start = TransitionWipe_Start;
-            transitionCtx->isDone = TransitionWipe_IsDone;
-            transitionCtx->draw = TransitionWipe_Draw;
-            transitionCtx->update = TransitionWipe_Update;
-            transitionCtx->setType = TransitionWipe_SetType;
-            transitionCtx->setColor = TransitionWipe_SetColor;
-            transitionCtx->setEnvColor = NULL;
-            return;
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 17:
-        case 18:
-        case 19:
-            transitionCtx->init = TransitionFade_Init;
-            transitionCtx->destroy = TransitionFade_Destroy;
-            transitionCtx->start = TransitionFade_Start;
-            transitionCtx->isDone = TransitionFade_IsDone;
-            transitionCtx->draw = TransitionFade_Draw;
-            transitionCtx->update = TransitionFade_Update;
-            transitionCtx->setType = TransitionFade_SetType;
-            transitionCtx->setColor = TransitionFade_SetColor;
-            transitionCtx->setEnvColor = NULL;
-            return;
-        case 9:
-        case 10:
-            globalCtx->transitionMode = 4;
-            return;
-        case 11:
-            globalCtx->transitionMode = 10;
-            return;
-        case 12:
-            globalCtx->transitionMode = 7;
-            return;
-        case 14:
-            globalCtx->transitionMode = 12;
-            return;
-        case 15:
-            globalCtx->transitionMode = 14;
-            return;
-        case 16:
-            globalCtx->transitionMode = 16;
-            return;
-    }
-
-    Fault_AddHungupAndCrash("../z_play.c", 2290);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BC5E0.s")
@@ -223,18 +223,18 @@ void Gameplay_Init(GlobalContext* globalCtx) {
         globalCtx->cameraPtrs[i] = NULL;
     }
 
-    func_80057C6C(&globalCtx->cameras[0], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-    Camera_ChangeStatus(&globalCtx->cameras[0], 7);
+    func_80057C6C(&globalCtx->mainCamera, &globalCtx->view, &globalCtx->colCtx, globalCtx);
+    Camera_ChangeStatus(&globalCtx->mainCamera, 7);
 
     for (i = 0; i < 3; i++) {
-        func_80057C6C(&globalCtx->cameras[i + 1], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-        Camera_ChangeStatus(&globalCtx->cameras[i + 1], 0x100);
+        func_80057C6C(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
+        Camera_ChangeStatus(&globalCtx->subCameras[i], 0x100);
     }
 
-    globalCtx->cameraPtrs[0] = &globalCtx->cameras[0];
+    globalCtx->cameraPtrs[0] = &globalCtx->mainCamera;
     globalCtx->cameraPtrs[0]->uid = 0;
     globalCtx->activeCamera = 0;
-    func_8005AC48(&globalCtx->cameras[0], 0xFF);
+    func_8005AC48(&globalCtx->mainCamera, 0xFF);
     func_800A9D28(globalCtx, &globalCtx->sub_1F74);
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
@@ -385,13 +385,13 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     }
 
     player = PLAYER;
-    func_80058148(&globalCtx->cameras[0], player);
-    func_8005A444(&globalCtx->cameras[0], 0);
+    func_80058148(&globalCtx->mainCamera, player);
+    func_8005A444(&globalCtx->mainCamera, 0);
 
     playerStartCamId = player->actor.params & 0xFF;
     if (playerStartCamId != 0xFF) {
         osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartCamId);
-        func_8005A7A8(&globalCtx->cameras[0], playerStartCamId);
+        func_8005A7A8(&globalCtx->mainCamera, playerStartCamId);
     }
 
     if (YREG(15) == 0x20) {
@@ -453,9 +453,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         ActorOverlayTable_LogPrint();
     }
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     if (func_8008E6AC(&globalCtx->sub_7B8, &input[1]) != 0) {
         if ((globalCtx->transitionMode == 0) && (globalCtx->sceneLoadFlag != 0)) {
@@ -1070,39 +1070,37 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc, stack usage and minor ordering differences
 void Gameplay_Draw(GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     LightMapper* sp228;
     Vec3f sp21C;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4]; // 0x208
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_play.c", 3907);
+    OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x00, NULL);
-    gSPSegment(gfxCtx->overlay.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->overlay.p++, 0x00, NULL);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(gfxCtx->overlay.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(oGfxCtx->overlay.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(gfxCtx->overlay.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(oGfxCtx->overlay.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(gfxCtx->overlay.p++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(oGfxCtx->overlay.p++, 0x02, globalCtx->sceneSegment);
 
     func_80095248(gfxCtx, 0, 0, 0);
 
     if ((HREG(80) != 10) || (HREG(82) != 0)) {
-        gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
-        gfxCtx->polyXlu.p = func_800BC8A0(globalCtx, gfxCtx->polyXlu.p);
+        oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+        oGfxCtx->polyXlu.p = func_800BC8A0(globalCtx, oGfxCtx->polyXlu.p);
 
         func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
         func_800AAA50(&globalCtx->view, 15);
@@ -1122,12 +1120,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
                                                 Graph_Alloc(gfxCtx, sizeof(Mtx)));
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x01, globalCtx->unk_11DE0);
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x01, globalCtx->unk_11DE0);
 
         if ((HREG(80) != 10) || (HREG(92) != 0)) {
-            Gfx* sp1CC = gfxCtx->polyOpa.p;
-            Gfx* gfxP = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
-            gSPDisplayList(gfxCtx->overlay.p++, gfxP);
+            Gfx* sp1CC = oGfxCtx->polyOpa.p;
+            Gfx* gfxP = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
+            gSPDisplayList(oGfxCtx->overlay.p++, gfxP);
 
             if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
@@ -1151,13 +1149,13 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             gSPEndDisplayList(gfxP++);
             Graph_BranchDlist(sp1CC, gfxP);
-            gfxCtx->polyOpa.p = gfxP;
+            oGfxCtx->polyOpa.p = gfxP;
         }
 
         if (gTrnsnUnkState == 3) {
-            Gfx* sp88 = gfxCtx->polyOpa.p;
+            Gfx* sp88 = oGfxCtx->polyOpa.p;
             TransitionUnk_Draw(&sTrnsnUnk, &sp88);
-            gfxCtx->polyOpa.p = sp88;
+            oGfxCtx->polyOpa.p = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
             func_800C0ED8(&globalCtx->preRenderCtx, 0x140, 0xF0, gfxCtx->curFrameBuffer, gZBuffer);
@@ -1171,9 +1169,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             }
 
             if (R_PAUSE_MENU_MODE == 3) {
-                Gfx* sp84 = gfxCtx->polyOpa.p;
+                Gfx* sp84 = oGfxCtx->polyOpa.p;
                 func_800C24BC(&globalCtx->preRenderCtx, &sp84);
-                gfxCtx->polyOpa.p = sp84;
+                oGfxCtx->polyOpa.p = sp84;
                 goto Gameplay_Draw_DrawOverlayElements;
             } else {
                 s32 sp80;
@@ -1288,7 +1286,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
-                    Gfx* sp70 = gfxCtx->overlay.p;
+                    Gfx* sp70 = oGfxCtx->overlay.p;
                     globalCtx->preRenderCtx.unk_10 = gfxCtx->curFrameBuffer;
                     globalCtx->preRenderCtx.unk_14 = gZBuffer;
                     func_800C1F20(&globalCtx->preRenderCtx, &sp70);
@@ -1299,7 +1297,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                     } else {
                         gTrnsnUnkState = 2;
                     }
-                    gfxCtx->overlay.p = sp70;
+                    oGfxCtx->overlay.p = sp70;
                     globalCtx->preRenderCtx.unk_A3 = 2;
                     SREG(33) |= 1;
                 } else {
@@ -1325,7 +1323,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     func_80059EC8(ACTIVE_CAM);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_play.c", 4508);
+    CLOSE_DISPS(gfxCtx, "../z_play.c", 4508);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/Gameplay_Draw.s")
@@ -1493,7 +1491,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     if (globalCtx->sceneSegment == NULL) {
         __assert("this->sceneSegment != NULL", "../z_play.c", 4960);
     }
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);
 
@@ -1531,7 +1529,7 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
                      CYAN) " " VT_RST "\n",
                  i);
 
-    globalCtx->cameraPtrs[i] = &globalCtx->cameras[i];
+    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - 1];
     func_80057C6C(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
     globalCtx->cameraPtrs[i]->unk_164 = i;
 
@@ -1589,18 +1587,14 @@ Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId) {
 }
 
 s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3) {
-    u32 ret;
+    s32 ret = 0;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
-    Camera* camera;
+    Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    camera = globalCtx->cameraPtrs[camIdx];
-
-    ret = Camera_SetParam(camera, 1, arg2);
-    ret *= 2;
+    ret |= Camera_SetParam(camera, 1, arg2);
+    ret <<= 1;
     ret |= Camera_SetParam(camera, 2, arg3);
-
-    if (1) {} // Necessary to match
 
     camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
@@ -1618,22 +1612,16 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
     return ret;
 }
 
-#ifdef NON_MATCHING
-// missing an extra stack store/load instruction pair
 s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {
-    u32 ret;
+    s32 ret = 0;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
-    Camera* camera;
+    Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    camera = globalCtx->cameraPtrs[camIdx];
-
-    if (1) {} // Probably necessary to match
-
-    ret = Camera_SetParam(camera, 1, arg2);
-    ret *= 2;
+    ret |= Camera_SetParam(camera, 1, arg2);
+    ret <<= 1;
     ret |= Camera_SetParam(camera, 2, arg3);
-    ret *= 2;
+    ret <<= 1;
     ret |= Camera_SetParam(camera, 4, arg4);
 
     camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
@@ -1651,18 +1639,12 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C05E4.s")
-#endif
 
-#ifdef NON_MATCHING
-// missing an extra move instruction
 s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2) {
-    return (Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
+    s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1;
+    if (1) {}
+    return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0704.s")
-#endif
 
 s32 func_800C0744(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;

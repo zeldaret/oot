@@ -18,15 +18,15 @@ void EnNb_SetupCreditsSpawn(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetAlphaInCredits(EnNb* this) {
-    f32* unk_280 = &this->unk_280;
+    f32* alphaTimer = &this->alphaTimer;
     s32 alpha;
 
-    this->unk_280++;
-    if ((kREG(17) + 10.0f) <= this->unk_280) {
+    this->alphaTimer++;
+    if ((kREG(17) + 10.0f) <= this->alphaTimer) {
         this->alpha = 255;
         this->actor.shape.unk_14 = 0xFF;
     } else {
-        alpha = (*unk_280 / (kREG(17) + 10.0f)) * 255.0f;
+        alpha = (*alphaTimer / (kREG(17) + 10.0f)) * 255.0f;
         this->alpha = alpha;
         this->actor.shape.unk_14 = alpha;
     }
@@ -39,7 +39,7 @@ void EnNb_SetupCreditsFadeIn(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_SetupCreditsSit(EnNb* this) {
-    if (this->unk_280 >= kREG(17) + 10.0f) {
+    if (this->alphaTimer >= kREG(17) + 10.0f) {
         this->action = NB_CREDITS_SIT;
         this->drawMode = NB_DRAW_DEFAULT;
     }

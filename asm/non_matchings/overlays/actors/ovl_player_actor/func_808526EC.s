@@ -64,7 +64,7 @@ glabel func_808526EC
 /* 205C4 808527D4 24840A20 */  addiu   $a0, $a0, 0x0A20           ## $a0 = 00000A20
 /* 205C8 808527D8 46805420 */  cvt.s.w $f16, $f10                 
 /* 205CC 808527DC 46100480 */  add.s   $f18, $f0, $f16            
-/* 205D0 808527E0 0C029BBD */  jal     func_800A6EF4              
+/* 205D0 808527E0 0C029BBD */  jal     SkinMatrix_Vec3fMtxFMultXYZ              
 /* 205D4 808527E4 E7B2003C */  swc1    $f18, 0x003C($sp)          
 /* 205D8 808527E8 3C068085 */  lui     $a2, %hi(D_80855228)       ## $a2 = 80850000
 /* 205DC 808527EC 3C188085 */  lui     $t8, %hi(D_80855234)       ## $t8 = 80850000

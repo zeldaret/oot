@@ -145,9 +145,9 @@ void EnNb_CheckIfLookLeft(EnNb* this, UNK_TYPE arg1) {
 }
 
 void EnNb_SetupDemo6KInConfrontation(EnNb* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
-    if ((this->unk_288 == 0) && (arg2 != 0)) {
+    if ((this->flag == 0) && (arg2 != 0)) {
         EnNb_InitDemo6KInConfrontation(this, globalCtx);
-        this->unk_288 = 1;
+        this->flag = 1;
     }
 }
 
@@ -269,8 +269,8 @@ void EnNb_Run(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_ConfrontationDestroy(EnNb* this, GlobalContext* globalCtx) {
-    this->unk_290++;
-    if (this->unk_290 > 60.0f) {
+    this->timer++;
+    if (this->timer > 60.0f) {
         Actor_Kill(&this->actor);
     }
 }
