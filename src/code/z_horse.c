@@ -142,8 +142,6 @@ typedef struct {
     /* 0x10 */ s16 type;
 } struct_8011F9B8;
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_8006D684(GlobalContext* globalCtx, Player* player) {
     s32 pad;
     s32 i;
@@ -203,9 +201,9 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
 
         for (i = 0; i < ARRAY_COUNT(D_8011F9B8); i++) {
             if ((globalCtx->sceneNum == D_8011F9B8[i].scene) &&
-                (gSaveContext.cutsceneIndex == D_8011F9B8[i].cutsceneIndex)) {
+                (((void)0, gSaveContext.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
                 if (D_8011F9B8[i].type == 7) {
-                    if ((globalCtx->sceneNum == 99) && (gSaveContext.cutsceneIndex == 0xFFF1)) {
+                    if ((globalCtx->sceneNum == 99) && (((void)0, gSaveContext.cutsceneIndex) == 0xFFF1)) {
                         D_8011F9B8[i].pos.x = player->actor.posRot.pos.x;
                         D_8011F9B8[i].pos.y = player->actor.posRot.pos.y;
                         D_8011F9B8[i].pos.z = player->actor.posRot.pos.z;
@@ -223,7 +221,6 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                 } else if ((D_8011F9B8[i].type == 5) || (D_8011F9B8[i].type == 6) || (D_8011F9B8[i].type == 8)) {
                     Vec3f sp54;
                     s32 temp;
-                    s32 pad2;
 
                     temp = 0;
                     if (((gSaveContext.eventInf[0] & 0x10) >> 4) && D_8011F9B8[i].type == 6) {
@@ -261,21 +258,6 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
         }
     }
 }
-#else
-Vec3s D_8011F9A0[] = {
-    { 0xF46F, 0x0139, 0x1E14 },
-    { 0xF894, 0x0139, 0x1B67 },
-    { 0xF035, 0x0139, 0x1B15 },
-    { 0xF6F7, 0x0139, 0x1766 },
-};
-struct_8011F9B8 D_8011F9B8[] = {
-    { 93, 0xFFF0, 0x0E10, 0x0585, 0x0168, 0x8001, 8 }, { 99, 0xFFF0, 0xFF06, 0x0001, 0xF9D4, 0x4000, 6 },
-    { 99, 0xFFF1, 0x0000, 0x0000, 0x0000, 0x0000, 5 }, { 99, 0xFFF5, 0x0000, 0x0000, 0x0000, 0x0000, 7 },
-    { 81, 0xFFF3, 0xF46F, 0x0139, 0x1E14, 0x0000, 7 }, { 81, 0xFFF4, 0xF894, 0x0139, 0x1B67, 0x0000, 7 },
-    { 81, 0xFFF5, 0xF035, 0x0139, 0x1B15, 0x0000, 7 }, { 81, 0xFFF6, 0xF035, 0x0139, 0x1B15, 0x0000, 7 },
-};
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_horse/func_8006D684.s")
-#endif
 
 void func_8006DC68(GlobalContext* globalCtx, Player* player) {
     if (LINK_IS_ADULT) {

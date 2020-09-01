@@ -423,7 +423,7 @@ glabel L809131C4
 /* 02BD0 80913210 2407006D */  addiu   $a3, $zero, 0x006D         ## $a3 = 0000006D
 /* 02BD4 80913214 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 02BD8 80913218 E7A60014 */  swc1    $f6, 0x0014($sp)
-/* 02BDC 8091321C 0C00C916 */  jal     Actor_SpawnAttached
+/* 02BDC 8091321C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 02BE0 80913220 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 02BE4 80913224 AE50011C */  sw      $s0, 0x011C($s2)           ## 0000011C

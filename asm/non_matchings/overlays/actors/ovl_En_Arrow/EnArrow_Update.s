@@ -61,7 +61,7 @@ glabel EnArrow_Update
 /* 00E64 809B4784 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00E68 809B4788 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00E6C 809B478C AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00E70 809B4790 0C00C916 */  jal     Actor_SpawnAttached
+/* 00E70 809B4790 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00E74 809B4794 E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 00E78 809B4798 10000015 */  beq     $zero, $zero, .L809B47F0   
