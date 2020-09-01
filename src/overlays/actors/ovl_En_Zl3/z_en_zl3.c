@@ -316,83 +316,83 @@ void func_80B53974(EnZl3* this, u8 arg1) {
     this->unk_3C8 = arg1;
 }
 
-void func_80B53980(EnZl3* this, s16 arg1, s32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
-/*void func_80B53980(EnZl3 *this, s16 arg1, s32 arg2) {
+//void func_80B53980(EnZl3* this, s16 y, s32 idx);
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
+void func_80B53980(EnZl3 *this, s16 y, s32 idx) {
     SkelAnime* skelAnime = &this->skelAnime;
-    s32 action;
-    s16 temp_t2;
-    s32 temp_a3;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 phi_t0;
-    s32 phi_v1;
-    s16 new_var;
-
-    action = this->action;
+    s32 action = this->action;
+    EnZl3* this2 = this;
+    s16 y2 = y;
+    s32 yTemp;
+    f32 animCurrentFrame;
+    f32 unk_3DC;
+    
     if (this->unk_2FC != 0) {
-        new_var = (s16)(arg1 + this->unk_28C[arg2]);
-        temp_t2 = this->unk_25C[arg2];
-        phi_t0 = arg1 - this->unk_2BC[arg2];
-        temp_a3 = new_var;
-        phi_v1 = temp_t2;
+        s32 temp25C = this2->unk_25C[idx];
+        s32 temp28C = (s16)(y + this2->unk_28C[idx]);
+        s32 temp2BC = y - this2->unk_2BC[idx];
 
-        if ((s32)fabsf(phi_t0) > 0x8000) {
-            if (arg1 > 0) {
-                phi_t0 -= 0x10000;
+        if ((s32)fabsf(temp2BC) > 0x8000) {
+            if (y2 > 0) {
+                temp2BC -= 0x10000;
             } else {
-                phi_t0 += 0x10000;
-            }
-        }
-        
-        if ((arg2 != 0) || (action != 4)) {
-            if (phi_t0 != 0) {
-                phi_v1 += (phi_t0 - temp_t2) / 16;
+                temp2BC += 0x10000;
             }
         }
 
-        if (phi_v1 != 0) {
-            phi_v1 -= phi_v1 / 10;
-        }
-        
-        if ((s16)(temp_a3 - arg1) != 0) {
-            phi_v1 -= (s16)(temp_a3 - arg1) / 50;
-        }
-
-        temp_a3 += phi_v1;
-        if ((temp_t2 * phi_v1) <= 0) {
-            if (((s16)(temp_a3 - arg1) > -0x64) && ((s16)(temp_a3 - arg1) < 0x64)) {
-                temp_a3 = arg1;
-                phi_v1 = 0;
+        if ((idx != 0) || (action != 4)) {
+            if (temp2BC != 0) {
+                temp25C += (temp2BC - temp25C) / 16;
             }
         }
 
-        if (arg2 == 0) {
+        if (temp25C != 0) {
+            temp25C -= temp25C / 10;
+        }
+
+        if ((s16)(temp28C - y) != 0) {
+            temp25C -= (s16)(temp28C - y) / 50;
+        }
+
+        temp28C += temp25C;
+        if ((this->unk_25C[idx] * temp25C) <= 0) {
+            if (((s16)(temp28C - y) > -0x64) && ((s16)(temp28C - y) < 0x64)) {
+                temp28C = y;
+                temp25C = 0;
+            }
+        }
+
+        if (idx == 0) {
             if (action == 3) {
+                yTemp = y - 0x2AF8;
+
                 if (skelAnime->mode == 2) {
-                    temp_v0_3 = (s32) ((skelAnime->animCurrentFrame / this->unk_3DC) * -11000.0f) + arg1;
-                    if (temp_a3 >= temp_v0_3) {
-                        temp_a3 = temp_v0_3;
-                        if (phi_v1 > 0) {
-                            phi_v1 /= -2;
+                    animCurrentFrame = skelAnime->animCurrentFrame;
+                    unk_3DC = this->unk_3DC;
+                    if (1) { }
+
+                    yTemp = (s32)((animCurrentFrame / unk_3DC) * -11000.0f) + y;
+                    if (temp28C >= yTemp) {
+                        temp28C = yTemp;
+                        if (temp25C > 0) {
+                            temp25C /= -2;
                         }
                     }
                 } else {
-                    temp_v0_2 = arg1 - 0x2AF8;
-                    if (temp_a3 >= temp_v0_2) {
-                        temp_a3 = temp_v0_2;
-                        if (phi_v1 > 0) {
-                            phi_v1 /= -2;
+                    if (temp28C >= yTemp) {
+                        temp28C = yTemp;
+                        if (temp25C > 0) {
+                            temp25C /= -2;
                         }
                     }
                 }
             }
         }
-        this->unk_25C[arg2] = phi_v1;
-        this->unk_28C[arg2] = temp_a3 - arg1;
+        this->unk_25C[idx] = temp25C;
+        this->unk_28C[idx] = temp28C - y;
     }
-    this->unk_2BC[arg2] = arg1;
-}*/
+    this->unk_2BC[idx] = y;
+}
 
 void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53B64.s")
