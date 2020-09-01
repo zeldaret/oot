@@ -477,8 +477,8 @@ typedef struct {
     // zero (it's embedded into another struct)
     /*?0x00 */ s16 presetUnk4;
     /*?0x02 */ u16 frequency;
-    /* 0x04 */ u16 aiFrequency;
-    /*?0x06 */ s16 samplesPerFrameTarget;
+    /*?0x04 */ u16 aiFrequency;
+    /* 0x06 */ s16 unk_06; // samplesPerFrameTarget;
     /* 0x08 */ s16 unk_08; // maxAiBufferLength;
     /*?0x0A */ s16 minAiBufferLength;
     /*?0x0C */ s16 updatesPerFrame;
@@ -560,7 +560,11 @@ typedef struct {
     /* 0x2894 */ s32 gMaxSimultaneousNotes; // (bad name)
     /* 0x2898 */ s16 unk_2898;
     /* 0x289A */ s8 gSoundMode;
-    /* 0x289B */ char unk_289B[0xE1];
+    /* 0x289B */ char unk_289B[0xD];
+    /* 0x28A8 */ s32 unk_28A8;
+    /* 0x28AC */ char unk_28AC[0xBC];
+    /* 0x2968 */ s16* unk_2968[3];
+    /* 0x2974 */ s16 unk_2974[3];
     /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
     /* 0x2984 */ char unk_2984[0xC];

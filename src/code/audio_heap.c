@@ -416,7 +416,7 @@ void func_800DF688(s16 *arg0, s32 arg1, s32 arg2) {
 void func_800DF7BC(LargeSound* arg0) {
 }
 
-s8 func_800DF7C4(void) {
+void func_800DF7C4(void) {
     s32 count;
     s32 i;
     s32 j;
@@ -434,7 +434,17 @@ s8 func_800DF7C4(void) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF888.s")
+void func_800DF888(void) {
+    s32 ind;
+    s32 i;
+
+    ind = gAudioContext.unk_28A8;
+    gAudioContext.unk_2974[ind] = gAudioContext.gAudioBufferParameters.unk_06;
+
+    for (i = 0; i < 0x580; i++) {
+        gAudioContext.unk_2968[ind][i] = 0;
+    }
+}
 
 // somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF8F4.s")
