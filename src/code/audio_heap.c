@@ -413,7 +413,8 @@ void func_800DF688(s16 *arg0, s32 arg1, s32 arg2) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF7BC.s")
+void func_800DF7BC(s32 arg0) {
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF7C4.s")
 
