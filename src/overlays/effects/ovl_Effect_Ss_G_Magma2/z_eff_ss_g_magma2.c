@@ -46,7 +46,7 @@ u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 
     if ((objBankIndex >= 0) && (Object_IsLoaded(&globalCtx->objectCtx, objBankIndex))) {
         zeroVec = zeroVecSrc;
-        gSegments[6] = PHYSICAL_TO_VIRTUAL2(globalCtx->objectCtx.status[objBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         this->regs[SS_G_MAGMA2_OBJ_BANK_IDX] = objBankIndex;
         this->pos = initParams->pos;
         this->velocity = zeroVec;
@@ -86,7 +86,7 @@ void func_809A6568(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_g_magma2.c", 282),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

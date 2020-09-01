@@ -564,17 +564,19 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc in the switch, tmp in v1 rather than s0
 void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
-    s16 i;
-    s32 tmp;
     EnSyatekiNiw* this = THIS;
+    s32 pad;
+    s16 i;
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp78;
     Vec3f sp6C;
     Vec3f sp60;
+
+    if (1) {}
+    if (1) {}
+    if (1) {}
 
     func_80B132A8(this, globalCtx);
     this->unk_28C++;
@@ -640,30 +642,25 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    tmp = 0;
+    i = 0;
     switch (this->unk_29E) {
         case 0:
             if (globalCtx->unk_11E5C != 0) {
-                tmp = 1;
+                i = 1;
             }
             break;
 
         case 1:
-            tmp = 1;
+            i = 1;
             break;
     }
 
-    if (tmp) {
+    if (i != 0) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
-#else
-Vec3f D_80B136B8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B136C4 = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Niw/EnSyatekiNiw_Update.s")
-#endif
 
 s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 Actor* thisx) {

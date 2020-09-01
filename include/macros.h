@@ -4,9 +4,9 @@
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 
-#define PHYSICAL_TO_VIRTUAL(addr) ((u32)(addr) + 0x80000000)
-#define PHYSICAL_TO_VIRTUAL2(addr) ((u8*)(addr) - 0x80000000) // temp fix, update with master later for real fix
-#define SEGMENTED_TO_VIRTUAL(addr) (void*)(PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)]) + SEGMENT_OFFSET(addr))
+#define PHYSICAL_TO_VIRTUAL(addr) (void*)((u32)(addr) + 0x80000000)
+#define VIRTUAL_TO_PHYSICAL(addr) (u32)((u8*)(addr) - 0x80000000)
+#define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 
@@ -74,15 +74,14 @@
     }                                      \
     (void)0
 
-#define OPEN_DISPS_INNER(gfxCtx, file, line)      \
-    oGfxCtx = gfxCtx;                             \
-    Graph_OpenDisps(dispRefs, gfxCtx, file, line)
+extern GraphicsContext* oGfxCtx;
 
-#define OPEN_DISPS(gfxCtx, file, line)       \
-    {                                        \
-        GraphicsContext* oGfxCtx;            \
-        Gfx* dispRefs[4];                    \
-        OPEN_DISPS_INNER(gfxCtx, file, line)
+#define OPEN_DISPS(gfxCtx, file, line) \
+    {                                  \
+        GraphicsContext* oGfxCtx;      \
+        Gfx* dispRefs[4];              \
+        oGfxCtx = gfxCtx;              \
+        Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
 #define CLOSE_DISPS(gfxCtx, file, line)                 \
         Graph_CloseDisps(dispRefs, gfxCtx, file, line); \

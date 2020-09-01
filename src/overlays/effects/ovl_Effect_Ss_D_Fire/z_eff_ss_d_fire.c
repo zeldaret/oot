@@ -78,7 +78,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) >= 0) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
         scale = this->regs[SS_D_FIRE_SCALE] / 100.0f;
         SkinMatrix_SetTranslate(&sp124, this->pos.x, this->pos.y, this->pos.z);
@@ -94,7 +94,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_D_FIRE_PRIM_R], this->regs[SS_D_FIRE_PRIM_G],
                             this->regs[SS_D_FIRE_PRIM_B], this->regs[SS_D_FIRE_PRIM_A]);
-            gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
             gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A09F8[this->regs[SS_D_FIRE_TEX_IDX]]));
             gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
         }
