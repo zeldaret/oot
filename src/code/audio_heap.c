@@ -260,9 +260,9 @@ void Audio_SessionPoolsInit(AudioPoolSplit4* split) {
 void Audio_SeqAndBankPoolInit(AudioPoolSplit2 *split) {
     gAudioContext.gSeqAndBankPool.cur = gAudioContext.gSeqAndBankPool.start;
     Audio_SoundAllocPoolInit(&gAudioContext.gTemporaryCommonPool,
-                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantSeq), split->wantSeq);
+                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantTemporary), split->wantTemporary);
     Audio_SoundAllocPoolInit(&gAudioContext.gPersistentCommonPool,
-                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantBank), split->wantBank);
+                             Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantPersistent), split->wantPersistent);
 }
 
 void Audio_PersistentPoolsInit(AudioPoolSplit3* split) {

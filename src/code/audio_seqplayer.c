@@ -729,7 +729,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
                 portamento->extent = (freqScale2 / freqScale) - 1.0f;
 
                 if (PORTAMENTO_IS_SPECIAL(*portamento)) {
-                    speed = seqPlayer->tempo * 0x8000 / gAudioContext.unk_2898;
+                    speed = seqPlayer->tempo * 0x8000 / gAudioContext.gTempoInternalToExternal;
                     if (layer->delay != 0) {
                         speed = speed * 0x100 / (layer->delay * layer->portamentoTime);
                     }
@@ -788,7 +788,7 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
             // set when this is reached...)
             if (PORTAMENTO_IS_SPECIAL(*portamento)) {
                 s32 speed2;
-                speed2 = seqPlayer->tempo * 0x8000 / gAudioContext.unk_2898;
+                speed2 = seqPlayer->tempo * 0x8000 / gAudioContext.gTempoInternalToExternal;
                 speed2 = speed2 * 0x100 / (layer->delay * layer->portamentoTime);
                 if (speed2 >= 0x7FFF) {
                     speed2 = 0x7FFF;

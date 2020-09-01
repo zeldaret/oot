@@ -473,6 +473,18 @@ typedef struct Note {
 } Note; // size = 0xE0
 
 typedef struct {
+    /*?0x00 */ u32 frequency;
+    /*?0x04 */ u8 unk_04;
+    /* 0x05 */ u8 maxSimultaneousNotes;
+    /* 0x06 */ u8 numSequencePlayers;
+    /* 0x07 */ u8 pad_07[2];
+    /* 0x09 */ u8 numReverbs;
+    /* 0x0A */ u8 pad_0A[6];
+    /* 0x10 */ u8 unk_10;
+    /* 0x12 */ u8 unk_12;
+} AudioSessionSettings;
+
+typedef struct {
     /* 0x00 */ s16 presetUnk4;
     /* 0x02 */ u16 frequency;
     /* 0x04 */ u16 aiFrequency;
@@ -487,6 +499,7 @@ typedef struct {
     /* 0x18 */ f32 resampleRate;
     /* 0x1C */ f32 updatesPerFrameInv;
     /* 0x20 */ f32 unkUpdatesPerFrameScaled;
+    /* 0x24 */ f32 unk_24;
 } AudioBufferParameters;
 
 typedef struct {
@@ -525,8 +538,8 @@ typedef struct
 } SoundMultiPool; // size = 0x110
 
 typedef struct {
-    u32 wantSeq;
-    u32 wantBank;
+    u32 wantTemporary;
+    u32 wantPersistent;
 } AudioPoolSplit2; // size = 0x8
 
 typedef struct {
@@ -545,17 +558,20 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ char unk_0000[1];
     /* 0x0001 */ s8 unk_1;
-    /* 0x0002 */ char unk_0002[0x12];
+    /* 0x0002 */ u16 unk_2;
+    /* 0x0004 */ char unk_0004[0x10];
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
     /* 0x0018 */ LargeSound largeSounds[1]; // size <= 14
     /* 0x02E0 */ char unk_02E0[0x2564];
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
-    /* 0x286C */ f32 unk_286C;
     /* 0x2870 */ f32 unk_2870;
-    /* 0x2874 */ char unk_2874[0x20];
+    /* 0x2874 */ s32 unk_2874;
+    /* 0x2874 */ s32 unk_2878;
+    /* 0x287C */ char unk_287C[0x14];
+    /* 0x2890 */ s32 gMaxAudioCmds;
     /* 0x2894 */ s32 gMaxSimultaneousNotes; // (bad name)
-    /* 0x2898 */ s16 unk_2898;
+    /* 0x2898 */ s16 gTempoInternalToExternal;
     /* 0x289A */ s8 gSoundMode;
     /* 0x289B */ char unk_289B[0xD];
     /* 0x28A8 */ s32 unk_28A8;

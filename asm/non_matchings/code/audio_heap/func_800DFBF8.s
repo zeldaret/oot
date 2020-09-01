@@ -9,8 +9,8 @@ glabel func_800DFBF8
 /* B56DA0 800DFC00 3C168017 */  lui   $s6, %hi(gAudioContext) # $s6, 0x8017
 /* B56DA4 800DFC04 26D6F180 */  addiu $s6, %lo(gAudioContext) # addiu $s6, $s6, -0xe80
 /* B56DA8 800DFC08 92CE3519 */  lbu   $t6, 0x3519($s6)
-/* B56DAC 800DFC0C 3C188013 */  lui   $t8, %hi(D_801337C8) # $t8, 0x8013
-/* B56DB0 800DFC10 271837C8 */  addiu $t8, %lo(D_801337C8) # addiu $t8, $t8, 0x37c8
+/* B56DAC 800DFC0C 3C188013 */  lui   $t8, %hi(gAudioSessionPresets) # $t8, 0x8013
+/* B56DB0 800DFC10 271837C8 */  addiu $t8, %lo(gAudioSessionPresets) # addiu $t8, $t8, 0x37c8
 /* B56DB4 800DFC14 000E78C0 */  sll   $t7, $t6, 3
 /* B56DB8 800DFC18 01EE7823 */  subu  $t7, $t7, $t6
 /* B56DBC 800DFC1C 000F78C0 */  sll   $t7, $t7, 3
