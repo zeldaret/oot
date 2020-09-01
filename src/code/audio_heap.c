@@ -351,8 +351,27 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
     return NULL;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF1D8.s")
+void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
+    s32 i;
+    f32 tmp[16];
 
+    tmp[0] = (f32) (arg1 * 262159.0f);
+    tmp[8] = (f32) (arg0 * 262159.0f);
+    tmp[1] = (f32) ((arg1 * arg0) * 262159.0f);
+    tmp[9] = (f32) (((arg0 * arg0) + arg1) * 262159.0f);
+
+    for (i = 2; i < 8; i++) {
+        //! @bug they probably meant to store the value to tmp[i] and tmp[8 + i]
+        arg2[i] = arg1 * tmp[i - 2] + arg0 * tmp[i - 1];
+        arg2[8 + i] = arg1 * tmp[6 + i] + arg0 * tmp[7 + i];
+    }
+
+    for (i = 0; i < 16; i++) {
+        arg2[i] = tmp[i];
+    }
+}
+
+// somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF5AC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF5DC.s")
@@ -367,8 +386,10 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF888.s")
 
+// somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF8F4.s")
 
+// big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DFBF8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E04E8.s")
@@ -379,6 +400,7 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0634.s")
 
+// somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E06CC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0964.s")
@@ -399,6 +421,7 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0E90.s")
 
+// somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0EB4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E1148.s")
