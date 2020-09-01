@@ -161,15 +161,13 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences, probably the same issue as osPfsInitPak
 s32 __osGetId(OSPfs* pfs) {
-
-    u16 sum, isum;
+    u16 sum;
+    u16 isum;
     u8 temp[BLOCKSIZE];
+    __OSPackId* id;
     __OSPackId newid;
     s32 ret;
-    __OSPackId* id;
 
     if (pfs->activebank != 0) {
         if ((ret = __osPfsSelectBank(pfs, 0)) != 0) {
@@ -180,6 +178,7 @@ s32 __osGetId(OSPfs* pfs) {
     if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
         return ret;
     }
+
     __osIdCheckSum((u16*)temp, &sum, &isum);
     id = (__OSPackId*)temp;
     if ((id->checksum != sum) || (id->invertedChecksum != isum)) {
@@ -207,6 +206,8 @@ s32 __osGetId(OSPfs* pfs) {
 
     bcopy(id, pfs->id, BLOCKSIZE);
 
+    if (0) {}
+
     pfs->version = id->version;
 
     pfs->banks = id->banks;
@@ -215,15 +216,13 @@ s32 __osGetId(OSPfs* pfs) {
     pfs->inode_table = 1 * PFS_ONE_PAGE;
     pfs->minode_table = (1 + pfs->banks) * PFS_ONE_PAGE;
     pfs->dir_table = pfs->minode_table + (pfs->banks * PFS_ONE_PAGE);
+
     if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_LABEL_AREA, pfs->label)) != 0) {
         return ret;
     }
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/contpfs/__osGetId.s")
-#endif
 
 s32 __osCheckId(OSPfs* pfs) {
     u8 temp[BLOCKSIZE];

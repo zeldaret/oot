@@ -179,7 +179,7 @@ glabel EnChanger_Init
 /* 0016C 809D27FC AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00170 809D2800 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00174 809D2804 A7A30068 */  sh      $v1, 0x0068($sp)           
-/* 00178 809D2808 0C00C916 */  jal     Actor_SpawnAttached
+/* 00178 809D2808 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0017C 809D280C E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 00180 809D2810 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -344,7 +344,7 @@ glabel EnChanger_Init
 /* 003D4 809D2A64 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 003D8 809D2A68 E7B00014 */  swc1    $f16, 0x0014($sp)          
 /* 003DC 809D2A6C E7B20018 */  swc1    $f18, 0x0018($sp)          
-/* 003E0 809D2A70 0C00C916 */  jal     Actor_SpawnAttached
+/* 003E0 809D2A70 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 003E4 809D2A74 AFB90028 */  sw      $t9, 0x0028($sp)           
 /* 003E8 809D2A78 10400036 */  beq     $v0, $zero, .L809D2B54     
@@ -434,7 +434,7 @@ glabel EnChanger_Init
 /* 00510 809D2BA0 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 00514 809D2BA4 E7AA0014 */  swc1    $f10, 0x0014($sp)          
 /* 00518 809D2BA8 E7B00018 */  swc1    $f16, 0x0018($sp)          
-/* 0051C 809D2BAC 0C00C916 */  jal     Actor_SpawnAttached
+/* 0051C 809D2BAC 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00520 809D2BB0 AFAE0028 */  sw      $t6, 0x0028($sp)           
 /* 00524 809D2BB4 10400038 */  beq     $v0, $zero, .L809D2C98     

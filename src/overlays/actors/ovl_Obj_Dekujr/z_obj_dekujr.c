@@ -146,23 +146,23 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 frameCount;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 370);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 370);
+
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 379),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 379),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_060030D0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060030D0);
 
     frameCount = globalCtx->state.frames;
     gSPSegment(
-        gfxCtx->polyXlu.p++, 0x08,
+        oGfxCtx->polyXlu.p++, 0x08,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frameCount % 128, 0, 32, 32, 1, frameCount % 128, 0, 32, 32));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 399),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 399),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_060032D8);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 409);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060032D8);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 409);
 }
