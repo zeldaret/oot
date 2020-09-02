@@ -2157,7 +2157,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     lights = Lights_New(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
 
-    Lights_Update(lights, globalCtx->lightCtx.head, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
+    Lights_Update(lights, globalCtx->lightCtx.listHead, (actor->flags & 0x400000) ? NULL : &actor->posRot.pos);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     if (actor->flags & 0x1000) {

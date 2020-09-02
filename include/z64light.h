@@ -23,8 +23,8 @@ typedef struct {
 } LightDirectional; // size = 0x6
 
 typedef union {
-    /* 0x0 */ LightPoint point;
-    /* 0x0 */ LightDirectional dir;
+    LightPoint point;
+    LightDirectional dir;
 } LightParams; // size = 0xC
 
 typedef struct {
@@ -32,7 +32,7 @@ typedef struct {
     /* 0x2 */ LightParams params;
 } LightInfo; // size = 0xE
 
-typedef struct {
+typedef struct Lights{
     /* 0x00 */ u8 numLights;
     /* 0x08 */ Lightsn l;
 } Lights; // size = 0x80
@@ -44,7 +44,7 @@ typedef struct LightNode {
 } LightNode; // size = 0xC
 
 typedef struct {
-    /* 0x0 */ LightNode* head;
+    /* 0x0 */ LightNode* listHead;
     /* 0x4 */ Color_RGB8 ambient;
     /* 0x7 */ u8 unk_07;
     /* 0x8 */ u8 unk_08;
@@ -57,8 +57,8 @@ typedef enum {
     /* 0x00 */ LIGHT_POINT_NOGLOW,
     /* 0x01 */ LIGHT_DIRECTIONAL,
     /* 0x02 */ LIGHT_POINT_GLOW
-} LightTypes;
+} LightType;
 
-typedef void (*LightsUpdateFunc)(Lights*, LightParams* params, Vec3f* vec);
+typedef void (*LightsUpdateFunc)(Lights* lights, LightParams* params, Vec3f* vec);
 
 #endif

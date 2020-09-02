@@ -985,12 +985,13 @@ void Lights_PointSetColorAndRadius(LightInfo* info, u8 red, u8 green, u8 blue, s
 void Lights_DirectionalSetInfo(LightInfo* info, s8 dirX, s8 dirY, s8 dirZ, u8 red, u8 green, u8 blue);
 void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b);
 void Lights_Draw(Lights* lights, GraphicsContext* gfxCtxArg);
+void Lights_Update(Lights* lights, LightNode* listHead, Vec3f* vec);
 LightNode* Lights_FindBufSlot();
 void Lights_InitContext(GlobalContext* globalCtx, LightContext* lightCtx);
 void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 arg4, s16 arg5);
 void Lights_SetAmbientColor(LightContext* lightCtx, u8 red, u8 green, u8 blue);
 Lights* Lights_New(LightContext* lightCtx, GraphicsContext* gfxCtx);
-void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx);
+void Lights_InitList(GlobalContext* globalCtx, LightContext* lightCtx);
 LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info);
 void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* light);
 Lights* Lights_AllocAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,

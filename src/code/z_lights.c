@@ -1,10 +1,12 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define LIGHTS_BUFFER_SIZE 32
+
 typedef struct {
     /* 0x000 */ s32 numOccupied;
     /* 0x004 */ s32 searchIndex;
-    /* 0x008 */ LightNode buf[32];
+    /* 0x008 */ LightNode buf[LIGHTS_BUFFER_SIZE];
 } LightsBuffer; // size = 0x188
 
 LightsBuffer sLightsBuffer;
@@ -149,14 +151,14 @@ void Lights_UpdateDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
  * Note: This updates every light in the buffer and adds them all to a Lights group,
  *       even those that were not added by the system invoking this function.
  */
-void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
+void Lights_Update(Lights* lights, LightNode* listHead, Vec3f* vec) {
     LightsUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
     LightInfo* info;
 
-    while (head != NULL) {
-        info = head->info;
+    while (listHead != NULL) {
+        info = listHead->info;
         updateFuncs[info->type](lights, &info->params, vec);
-        head = head->next;
+        listHead = listHead->next;
     }
 }
 
@@ -169,7 +171,7 @@ void Lights_Update(Lights* lights, LightNode* head, Vec3f* vec) {
 LightNode* Lights_FindBufSlot() {
     LightNode* node;
 
-    if (sLightsBuffer.numOccupied >= 32) {
+    if (sLightsBuffer.numOccupied >= LIGHTS_BUFFER_SIZE) {
         return NULL;
     }
 
@@ -178,7 +180,7 @@ LightNode* Lights_FindBufSlot() {
     while (node->info != NULL) {
         sLightsBuffer.searchIndex++;
 
-        if (sLightsBuffer.searchIndex < 32) {
+        if (sLightsBuffer.searchIndex < LIGHTS_BUFFER_SIZE) {
             node++;
         } else {
             sLightsBuffer.searchIndex = 0;
@@ -201,7 +203,7 @@ s32 Lights_FreeNode(LightNode* light) {
 }
 
 void Lights_InitContext(GlobalContext* globalCtx, LightContext* lightCtx) {
-    Lights_ClearHead(globalCtx, lightCtx);
+    Lights_InitList(globalCtx, lightCtx);
     Lights_SetAmbientColor(lightCtx, 80, 80, 80);
     func_8007A698(lightCtx, 0, 0, 0, 0x3E4, 0x3200);
     bzero(&sLightsBuffer, sizeof(sLightsBuffer));
@@ -225,14 +227,14 @@ Lights* Lights_New(LightContext* lightCtx, GraphicsContext* gfxCtx) {
     return Lights_AllocAndInit(gfxCtx, lightCtx->ambient.r, lightCtx->ambient.g, lightCtx->ambient.b);
 }
 
-void Lights_ClearHead(GlobalContext* globalCtx, LightContext* lightCtx) {
-    lightCtx->head = NULL;
+void Lights_InitList(GlobalContext* globalCtx, LightContext* lightCtx) {
+    lightCtx->listHead = NULL;
 }
 
-void Lights_ClearBuf(GlobalContext* globalCtx, LightContext* lightCtx) {
-    while (lightCtx->head != NULL) {
-        Lights_Remove(globalCtx, lightCtx, lightCtx->head);
-        lightCtx->head = lightCtx->head->next;
+void Lights_DestroyList(GlobalContext* globalCtx, LightContext* lightCtx) {
+    while (lightCtx->listHead != NULL) {
+        Lights_Remove(globalCtx, lightCtx, lightCtx->listHead);
+        lightCtx->listHead = lightCtx->listHead->next;
     }
 }
 
@@ -244,13 +246,13 @@ LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, Light
     if (node != NULL) {
         node->info = info;
         node->prev = NULL;
-        node->next = lightCtx->head;
+        node->next = lightCtx->listHead;
 
-        if (lightCtx->head != NULL) {
-            lightCtx->head->prev = node;
+        if (lightCtx->listHead != NULL) {
+            lightCtx->listHead->prev = node;
         }
 
-        lightCtx->head = node;
+        lightCtx->listHead = node;
     }
 
     return node;
@@ -261,7 +263,7 @@ void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* 
         if (node->prev != NULL) {
             node->prev->next = node->next;
         } else {
-            lightCtx->head = node->next;
+            lightCtx->listHead = node->next;
         }
 
         if (node->next != NULL) {
@@ -323,7 +325,7 @@ void Lights_GlowDrawCheck(GlobalContext* globalCtx) {
     s32 wZ;
     s32 zBuf;
 
-    node = globalCtx->lightCtx.head;
+    node = globalCtx->lightCtx.listHead;
 
     while (node != NULL) {
         params = &node->info->params.point;
@@ -356,7 +358,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
     s32 pad;
     LightNode* node;
 
-    node = globalCtx->lightCtx.head;
+    node = globalCtx->lightCtx.listHead;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_lights.c", 887);
 

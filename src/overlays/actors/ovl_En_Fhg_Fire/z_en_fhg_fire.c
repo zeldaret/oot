@@ -142,8 +142,8 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
-        this->lightNode = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->unk_1A0);
-        Lights_PointNoGlowSetInfo(&this->unk_1A0, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 0xFF,
+        this->lightNode = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 0xFF,
                                   0xFF, 0xFF, 0xFF);
     }
 }

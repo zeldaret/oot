@@ -299,7 +299,7 @@ void EffectSs_DrawAll(GlobalContext* globalCtx) {
     s32 i;
 
     lights = Lights_New(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
-    Lights_Update(lights, globalCtx->lightCtx.head, NULL);
+    Lights_Update(lights, globalCtx->lightCtx.listHead, NULL);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {

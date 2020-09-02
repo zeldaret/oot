@@ -1209,7 +1209,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
                     sp228 = Lights_New(&globalCtx->lightCtx, gfxCtx);
-                    Lights_Update(sp228, globalCtx->lightCtx.head, NULL);
+                    Lights_Update(sp228, globalCtx->lightCtx.listHead, NULL);
                     Lights_Draw(sp228, gfxCtx);
                 }
 
