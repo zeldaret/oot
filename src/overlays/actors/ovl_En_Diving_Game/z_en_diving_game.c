@@ -105,7 +105,7 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx) {
     rupeePos.x = ((Math_Rand_ZeroOne() - 0.5f) * 30.0f) + this->actor.posRot.pos.x;
     rupeePos.y = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + (this->actor.posRot.pos.y + 30.0f);
     rupeePos.z = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.posRot.pos.z;
-    attached = (EnExRuppy*)Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
+    attached = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
                                                rupeePos.x, rupeePos.y, rupeePos.z, 0,
                                                (s16)Math_Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
     if (attached != 0) {
@@ -338,7 +338,7 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     this->unk_310 = fabsf(this->vec_2B8.y - this->unk_2F8) * 0.04f;
     this->unk_314 = fabsf(this->vec_2B8.z - this->unk_2FC) * 0.04f;
     func_800C04D8(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
-    func_800C0704(globalCtx, this->camId, globalCtx->cameras[0].fov);
+    func_800C0704(globalCtx, this->camId, globalCtx->mainCamera.fov);
     this->unk_294 = 0x3C;
     this->actionFunc = func_809EE408;
     this->unk_318 = 0.0f;
@@ -468,7 +468,7 @@ void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0))) {
         func_80106CCC(globalCtx);
-        this->actor.attachedA = NULL;
+        this->actor.parent = NULL;
         func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
         this->actionFunc = func_809EEA90;
     }
@@ -476,7 +476,7 @@ void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_809EEAF8;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
