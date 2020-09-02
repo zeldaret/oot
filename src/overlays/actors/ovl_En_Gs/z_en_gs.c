@@ -1,3 +1,9 @@
+/*
+ * File: z_en_gs.c
+ * Overlay: ovl_En_Gs
+ * Description: Gossip Stone
+ */
+
 #include "z_en_gs.h"
 
 #define FLAGS 0x02000009
@@ -10,16 +16,9 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A4F734(EnGs* this, GlobalContext* globalCtx);
-void func_80A4F77C(EnGs* this);
-
-void func_80A4E910(EnGs* this, GlobalContext* globalCtx);
-void func_80A4EA08(EnGs* this, GlobalContext* globalCtx);
-void func_80A4EB3C(EnGs* this, GlobalContext* globalCtx);
-void func_80A4ED34(EnGs* this, GlobalContext* globalCtx);
-void func_80A4F13C(EnGs* this, GlobalContext* globalCtx);
-void func_80A4E648(EnGs* this, GlobalContext* globalCtx);
-void func_80A4E470(EnGs* this, GlobalContext* globalCtx);
 void func_80A4F700(EnGs* this, GlobalContext* globalCtx);
+
+void func_80A4F77C(EnGs* this);
 
 extern Gfx D_0404D4E0[];
 extern Gfx D_06000950[];
@@ -53,26 +52,6 @@ DamageTable D_80A4FDD8 = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0,
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
-
-Color_RGBA8 D_80A4FDFC = { 0xFF, 0x32, 0x32, 0x00 };
-
-Color_RGBA8 D_80A4FE00 = { 0x32, 0x32, 0xFF, 0x00 };
-
-Color_RGBA8 D_80A4FE04 = { 0xFF, 0xFF, 0xFF, 0x00 };
-
-Vec3f D_80A4FE08 = { 0.0f, -0.3f, 0.0f };
-
-Color_RGBA8 D_80A4FE14 = { 0xC8, 0xC8, 0xC8, 0x80 };
-
-Color_RGBA8 D_80A4FE18 = { 0x64, 0x64, 0x64, 0x00 };
-
-Vec3f D_80A4FE1C = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80A4FE28 = { 0.0f, 0.0f, 0.0f };
-
-Vec3s D_80A4FE34 = { 0x0000, 0x0000, 0x0000 };
-
-Vec3f D_80A4FE3C = { 1.0f, 1.0f, 1.0f };
 
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGs* this = THIS;
@@ -267,10 +246,18 @@ void func_80A4EB3C(EnGs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
+    static Color_RGBA8 flashRed = { 255, 50, 50, 0 };
+    static Color_RGBA8 flashBlue = { 50, 50, 255, 0 };
+    static Color_RGBA8 baseWhite = { 255, 255, 255, 0 };
+    static Vec3f dustAccel = { 0.0f, -0.3f, 0.0f };
+    static Color_RGBA8 dustPrim = { 200, 200, 200, 128 };
+    static Color_RGBA8 dustEnv = { 100, 100, 100, 0 };
+    static Vec3f bomb2Velocity = { 0.0f, 0.0f, 0.0f };
+    static Vec3f bomb2Accel = { 0.0f, 0.0f, 0.0f };
     u8 i;
-    Vec3f sp60;
-    Vec3f sp5C;
-    Vec3f sp68;
+    Vec3f dustPos;
+    Vec3f dustVelocity;
+    Vec3f bomb2Pos;
 
     if (this->unk_19F == 0) {
         this->unk_200 = 0x28;
@@ -287,16 +274,16 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
 
     if (this->unk_19F == 2) {
         this->unk_200--;
-        Color_RGBA8_Copy(&this->unk_1E4, &D_80A4FE04);
+        Color_RGBA8_Copy(&this->flashColor, &baseWhite);
         if ((this->unk_200 < 0x50) && ((this->unk_200 % 0x14) < 8)) {
             if (this->unk_200 < 0x14) {
-                Color_RGBA8_Copy(&this->unk_1E4, &D_80A4FDFC);
+                Color_RGBA8_Copy(&this->flashColor, &flashRed);
                 if ((this->unk_200 % 0x14) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 }
             } else {
-                Color_RGBA8_Copy(&this->unk_1E4, &D_80A4FE00);
+                Color_RGBA8_Copy(&this->flashColor, &flashBlue);
                 if ((this->unk_200 % 0x14) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
@@ -312,14 +299,14 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
 
     if (this->unk_19F == 3) {
         for (i = 0; i < 3; i++) {
-            sp5C.x = Math_Rand_CenteredFloat(15.0f);
-            sp5C.y = Math_Rand_ZeroFloat(-1.0f);
-            sp5C.z = Math_Rand_CenteredFloat(15.0f);
-            sp60.x = this->actor.posRot.pos.x + (sp5C.x + sp5C.x);
-            sp60.y = this->actor.posRot.pos.y + 7.0f;
-            sp60.z = this->actor.posRot.pos.z + (sp5C.z + sp5C.z);
-            func_8002836C(globalCtx, &sp60, &sp5C, &D_80A4FE08, &D_80A4FE14, &D_80A4FE18,
-                          (s16)Math_Rand_ZeroFloat(50.0f) + 0xC8, 0x28, 0xF);
+            dustVelocity.x = Math_Rand_CenteredFloat(15.0f);
+            dustVelocity.y = Math_Rand_ZeroFloat(-1.0f);
+            dustVelocity.z = Math_Rand_CenteredFloat(15.0f);
+            dustPos.x = this->actor.posRot.pos.x + (dustVelocity.x + dustVelocity.x);
+            dustPos.y = this->actor.posRot.pos.y + 7.0f;
+            dustPos.z = this->actor.posRot.pos.z + (dustVelocity.z + dustVelocity.z);
+            func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrim, &dustEnv,
+                          (s16)Math_Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
 
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
@@ -336,11 +323,11 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_19F == 4) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 3);
         if (this->actor.bgCheckFlags & 0x18) {
-            sp68.x = this->actor.posRot.pos.x;
-            sp68.y = this->actor.posRot.pos.y;
-            sp68.z = this->actor.posRot.pos.z;
+            bomb2Pos.x = this->actor.posRot.pos.x;
+            bomb2Pos.y = this->actor.posRot.pos.y;
+            bomb2Pos.z = this->actor.posRot.pos.z;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
-            func_80028E84(globalCtx, &sp68, &D_80A4FE1C, &D_80A4FE28, 0x64, 0x14);
+            EffectSsBomb2_SpawnLayered(globalCtx, &bomb2Pos, &bomb2Velocity, &bomb2Accel, 100, 20);
             this->unk_200 = 10;
             this->unk_19E |= 8;
             this->actionFunc = func_80A4F700;
@@ -355,8 +342,6 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc
 void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     f32 tmpf1;
     f32 tmpf2;
@@ -375,15 +360,15 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_19F == 1) {
         Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
         tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
-        this->unk_1A0[0].y += (s16)(this->unk_1E8 * 182.04445f);
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
         if (tmpf1 == 0.0f) {
             this->unk_200 = 0;
             this->unk_19F = 2;
         }
     }
     if (this->unk_19F == 2) {
-        this->unk_1A0[0].y = this->unk_1A0[0].y + (s32)(this->unk_1E8 * 182.04445f);
-        if ((this->unk_200++ < 0x29) ^ 1) {
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
+        if (this->unk_200++ > 0x28) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 1.5f;
             this->unk_1F0 = this->unk_1B4[1].y - 1.0f;
@@ -447,8 +432,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         this->unk_1B4[0].x += sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8;
-        this->unk_1B4[0].y =
-            this->unk_1B4[0].y + (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
+        this->unk_1B4[0].y += (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
         this->unk_200++;
         if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f) && (tmpf3 == 0.0f)) {
             this->unk_19C = 0;
@@ -459,9 +443,6 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONE_ROLLING);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gs/func_80A4F13C.s")
-#endif
 
 void func_80A4F700(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_200-- <= 0) {
@@ -476,6 +457,8 @@ void func_80A4F734(EnGs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4F77C(EnGs* this) {
+    static Vec3s D_80A4FE34 = { 0, 0, 0 };
+    static Vec3f D_80A4FE3C = { 1.0f, 1.0f, 1.0f };
     s32 i;
 
     for (i = 0; i < 3; i++) {
@@ -541,12 +524,10 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGs* this = THIS;
     s32 tmp;
     u32 frames;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (!(this->unk_19E & 8)) {
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
+
         frames = globalCtx->gameplayFrames;
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
@@ -560,19 +541,19 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06000950);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000950);
 
         if (this->unk_19E & 4) {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, this->unk_1E4.r, this->unk_1E4.g, this->unk_1E4.b,
-                            this->unk_1E4.a);
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
+                            this->flashColor.a);
         } else {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
         }
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_060009D0);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06000A60);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_060009D0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000A60);
 
         Matrix_Pull();
         if (this->unk_19E & 2) {
@@ -580,15 +561,16 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(
-                gfxCtx->polyXlu.p++, 0x08,
+                oGfxCtx->polyXlu.p++, 0x08,
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_0404D4E0);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
         }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
     }
 }

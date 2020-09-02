@@ -151,7 +151,9 @@ typedef struct {
     /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
     /* 0x0F34 */ char         unk_F34[0x0004];
     /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char         unk_F3C[0x040C];
+    /* 0x0F3C */ char         unk_F3C[0x0389];
+    /* 0x12C5 */ u8           unk_12C5;
+    /* 0x12C6 */ char         unk_12C6[0x0082];
     /* 0x1348 */ HorseData    horseData;
     /* 0x1352 */ u16          checksum; // "check_sum"
     /* 0x1354 */ s32          fileNum; // "file_no"
@@ -834,9 +836,9 @@ typedef struct {
     /* 0x0238 */ s16    unk_238;
     /* 0x023A */ s16    unk_23A;
     /* 0x023C */ s16    unk_23C;
-    /* 0x023E */ s16    unk_23E;
+    /* 0x023E */ u16    unk_23E;
     /* 0x0240 */ s16    unk_240;
-    /* 0x0242 */ s16    unk_242;
+    /* 0x0242 */ u16    unk_242;
     /* 0x0244 */ s16    unk_244;
     /* 0x0246 */ s16    unk_246;
     /* 0x0248 */ s16    unk_248;
@@ -883,8 +885,8 @@ typedef struct {
     /* 0x2B */ s8       unk_2B;
     /* 0x2C */ s8       unk_2C;
     /* 0x2D */ char     unk_2D[0x5E];
-    /* 0x8C */ s16      unk_8C[6];
-    /* 0x98 */ char     unk_98[0x08];
+    /* 0x8C */ s16      unk_8C[3][3];
+    /* 0x9E */ s16      unk_9E;
     /* 0xA0 */ s16      unk_A0;
     /* 0xA2 */ char     unk_A2[0x06];
     /* 0xA8 */ s16      unk_A8;
@@ -1206,7 +1208,8 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B4 */ char unk_B4[0x4];
     /* 0x000B8 */ View view;
-    /* 0x001E0 */ Camera cameras[4];
+    /* 0x001E0 */ Camera mainCamera;
+    /* 0x001E0 */ Camera subCameras[3];
     /* 0x00790 */ Camera* cameraPtrs[4];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
@@ -1285,7 +1288,8 @@ typedef struct {
 typedef enum {
     DPM_UNK = 0,
     DPM_PLAYER = 1,
-    DPM_ENEMY = 2
+    DPM_ENEMY = 2,
+    DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
 // Some animation related structure

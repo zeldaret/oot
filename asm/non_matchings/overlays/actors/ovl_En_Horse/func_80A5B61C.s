@@ -38,7 +38,7 @@ glabel func_80A5B61C
 /* 00378 80A5B668 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 0037C 80A5B66C 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFF4
 /* 00380 80A5B670 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFD8
-/* 00384 80A5B674 0C033209 */  jal     func_800CC824              
+/* 00384 80A5B674 0C033209 */  jal     Math3D_RotateXZPlane              
 /* 00388 80A5B678 27A70044 */  addiu   $a3, $sp, 0x0044           ## $a3 = FFFFFFD4
 /* 0038C 80A5B67C C6060024 */  lwc1    $f6, 0x0024($s0)           ## 00000024
 /* 00390 80A5B680 C7A80048 */  lwc1    $f8, 0x0048($sp)           
@@ -89,7 +89,7 @@ glabel func_80A5B61C
 /* 0043C 80A5B72C 8FA60058 */  lw      $a2, 0x0058($sp)           
 /* 00440 80A5B730 8FA70060 */  lw      $a3, 0x0060($sp)           
 /* 00444 80A5B734 E7AA0010 */  swc1    $f10, 0x0010($sp)          
-/* 00448 80A5B738 0C03392E */  jal     func_800CE4B8              
+/* 00448 80A5B738 0C03392E */  jal     Math3D_PointDistToLine2D              
 /* 0044C 80A5B73C E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 00450 80A5B740 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00454 80A5B744 8FA50074 */  lw      $a1, 0x0074($sp)           

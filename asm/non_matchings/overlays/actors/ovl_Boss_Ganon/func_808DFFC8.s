@@ -1,3 +1,27 @@
+.rdata
+glabel D_808F7BE0
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7BF4
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7C08
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+.late_rodata
+glabel D_808F8160
+    .float 1.5707964
+
+glabel D_808F8164
+    .float 0.314159274101
+
+glabel D_808F8168
+    .float 1.5707964
+
+.text
 glabel func_808DFFC8
 /* 09758 808DFFC8 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0975C 808DFFCC AFBF003C */  sw      $ra, 0x003C($sp)           

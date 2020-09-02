@@ -4,7 +4,7 @@ glabel func_80B9A668
 /* 00730 80B9A670 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00734 80B9A674 C48E00EC */  lwc1    $f14, 0x00EC($a0)          ## 000000EC
 /* 00738 80B9A678 C48C00E4 */  lwc1    $f12, 0x00E4($a0)          ## 000000E4
-/* 0073C 80B9A67C 0C032D57 */  jal     func_800CB55C              
+/* 0073C 80B9A67C 0C032D57 */  jal     Math3D_Dist1DSq              
 /* 00740 80B9A680 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00744 80B9A684 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00748 80B9A688 3C0180BA */  lui     $at, %hi(D_80B9A800)       ## $at = 80BA0000

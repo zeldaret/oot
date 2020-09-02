@@ -58,7 +58,7 @@ glabel func_80995A84
 .L80995B58:
 /* 00F08 80995B58 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00F0C 80995B5C 26050220 */  addiu   $a1, $s0, 0x0220           ## $a1 = 00000220
-/* 00F10 80995B60 0C00CD90 */  jal     func_80033640              
+/* 00F10 80995B60 0C00CD90 */  jal     Actor_GetCollidedExplosive              
 /* 00F14 80995B64 AFA7003C */  sw      $a3, 0x003C($sp)           
 /* 00F18 80995B68 1040000E */  beq     $v0, $zero, .L80995BA4     
 /* 00F1C 80995B6C 8FA7003C */  lw      $a3, 0x003C($sp)           

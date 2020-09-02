@@ -77,7 +77,7 @@ glabel func_80A5A658
 /* 00B44 80A5A774 8CD90004 */  lw      $t9, 0x0004($a2)           ## 00000060
 /* 00B48 80A5A778 AC990004 */  sw      $t9, 0x0004($a0)           ## FFFFFFD4
 /* 00B4C 80A5A77C 8CC80008 */  lw      $t0, 0x0008($a2)           ## 00000064
-/* 00B50 80A5A780 0C032C30 */  jal     func_800CB0C0              
+/* 00B50 80A5A780 0C032C30 */  jal     Math3D_Vec3fReflect              
 /* 00B54 80A5A784 AC880008 */  sw      $t0, 0x0008($a0)           ## FFFFFFD8
 /* 00B58 80A5A788 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
 /* 00B5C 80A5A78C 44819000 */  mtc1    $at, $f18                  ## $f18 = 0.50
