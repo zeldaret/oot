@@ -1795,7 +1795,6 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Fire_Tail"
     include "build/src/overlays/effects/ovl_Effect_Ss_Fire_Tail/z_eff_ss_fire_tail.o"
-    include "build/data/overlays/effects/z_eff_ss_fire_tail.data.o"
     include "build/data/overlays/effects/z_eff_ss_fire_tail.reloc.o"
 endseg
 
@@ -1920,8 +1919,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Stone1"
     include "build/src/overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.o"
-    include "build/data/overlays/effects/z_eff_ss_stone1.data.o"
-    include "build/data/overlays/effects/z_eff_ss_stone1.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Stone1/ovl_Effect_Ss_Stone1_reloc.o"
 endseg
 
 beginseg

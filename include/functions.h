@@ -258,7 +258,7 @@ void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw);
 void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 // ? func_80029B30(?);
 // ? EffectSsGMagma2_Spawn(?);
-// ? func_80029C00(?);
+// ? EffectSsStone1_Spawn(?);
 // ? func_80029C50(?);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029CC8(?);

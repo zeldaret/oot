@@ -17,6 +17,7 @@
 #include "overlays/effects/ovl_Effect_Ss_G_Magma2/z_eff_ss_g_magma2.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.h"
@@ -559,7 +560,13 @@ void EffectSsGMagma2_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* pr
 
 // EffectSsStone1 Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029C00.s")
+void EffectSsStone1_Spawn(GlobalContext* globalCtx, Vec3f* pos, s32 arg2) {
+    EffectSsStone1InitParams initParams;
+
+    initParams.pos = *pos;
+    initParams.unk_C = arg2;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_STONE1, 128, &initParams);
+}
 
 // EffectSsHitMark Spawn Functions
 
