@@ -75,7 +75,7 @@ s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor) {
         return false;
     }
 
-    if ((colCtx->dyna.flags[bgId] & 2) || !(colCtx->dyna.flags[bgId] & 1)) {
+    if ((colCtx->dyna.bgActorFlags[bgId] & 2) || !(colCtx->dyna.bgActorFlags[bgId] & 1)) {
         return false;
     }
 
