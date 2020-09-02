@@ -1,6 +1,6 @@
 glabel func_800DE1B4
-/* B55354 800DE1B4 3C028017 */  lui   $v0, %hi(D_801719DC) # $v0, 0x8017
-/* B55358 800DE1B8 844219DC */  lh    $v0, %lo(D_801719DC)($v0)
+/* B55354 800DE1B4 3C028017 */  lui   $v0, %hi(gAudioContext+0x285c) # $v0, 0x8017
+/* B55358 800DE1B8 844219DC */  lh    $v0, %lo(gAudioContext+0x285c)($v0)
 /* B5535C 800DE1BC 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B55360 800DE1C0 AFB20020 */  sw    $s2, 0x20($sp)
 /* B55364 800DE1C4 AFB1001C */  sw    $s1, 0x1c($sp)
@@ -21,8 +21,8 @@ glabel func_800DE1B4
 /* B5539C 800DE1FC 26310001 */   addiu $s1, $s1, 1
 /* B553A0 800DE200 0C03A6DB */  jal   Audio_SequencePlayerDisable
 /* B553A4 800DE204 26043530 */   addiu $a0, $s0, 0x3530
-/* B553A8 800DE208 3C028017 */  lui   $v0, %hi(D_801719DC) # $v0, 0x8017
-/* B553AC 800DE20C 844219DC */  lh    $v0, %lo(D_801719DC)($v0)
+/* B553A8 800DE208 3C028017 */  lui   $v0, %hi(gAudioContext+0x285c) # $v0, 0x8017
+/* B553AC 800DE20C 844219DC */  lh    $v0, %lo(gAudioContext+0x285c)($v0)
 /* B553B0 800DE210 26310001 */  addiu $s1, $s1, 1
 .L800DE214:
 /* B553B4 800DE214 0222082A */  slt   $at, $s1, $v0

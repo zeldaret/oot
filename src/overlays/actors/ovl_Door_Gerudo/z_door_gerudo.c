@@ -150,20 +150,18 @@ void DoorGerudo_Update(Actor* thisx, GlobalContext* globalCtx) {
 void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorGerudo* this = THIS;
 
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 361);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_gerudo.c", 361);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000040);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000040);
 
     if (this->unk_166 != 0) {
         Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
         func_80033F54(globalCtx, this->unk_166, 0);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_gerudo.c", 377);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 377);
 }

@@ -39,11 +39,11 @@ glabel L800DF954
 /* B56AF8 800DF958 00002825 */  move  $a1, $zero
 /* B56AFC 800DF95C 5920000E */  blezl $t1, .L800DF998
 /* B56B00 800DF960 8FAB0024 */   lw    $t3, 0x24($sp)
-/* B56B04 800DF964 3C108017 */  lui   $s0, %hi(D_801726B0) # $s0, 0x8017
-/* B56B08 800DF968 261026B0 */  addiu $s0, %lo(D_801726B0) # addiu $s0, $s0, 0x26b0
+/* B56B04 800DF964 3C108017 */  lui   $s0, %hi(gAudioContext+0x3530) # $s0, 0x8017
+/* B56B08 800DF968 261026B0 */  addiu $s0, %lo(gAudioContext+0x3530) # addiu $s0, $s0, 0x26b0
 /* B56B0C 800DF96C 02002025 */  move  $a0, $s0
 .L800DF970:
-/* B56B10 800DF970 0C03A6D1 */  jal   func_800E9B44
+/* B56B10 800DF970 0C03A6D1 */  jal   Audio_SequencePlayerDisableAsFinished
 /* B56B14 800DF974 AFA5002C */   sw    $a1, 0x2c($sp)
 /* B56B18 800DF978 8FA5002C */  lw    $a1, 0x2c($sp)
 /* B56B1C 800DF97C 862A285C */  lh    $t2, 0x285c($s1)
@@ -185,9 +185,9 @@ glabel L800DFB54
 /* B56CF8 800DFB58 00000000 */   nop   
 /* B56CFC 800DFB5C 3C0F8017 */  lui   $t7, %hi(gAudioContext)
 /* B56D00 800DFB60 25E3F180 */  addiu $v1, $t7, %lo(gAudioContext)
-/* B56D04 800DFB64 3C078017 */  lui   $a3, %hi(D_8016F18C) # $a3, 0x8017
+/* B56D04 800DFB64 3C078017 */  lui   $a3, %hi(gAudioContext+0xc) # $a3, 0x8017
 /* B56D08 800DFB68 A2203518 */  sb    $zero, 0x3518($s1)
-/* B56D0C 800DFB6C 24E7F18C */  addiu $a3, %lo(D_8016F18C) # addiu $a3, $a3, -0xe74
+/* B56D0C 800DFB6C 24E7F18C */  addiu $a3, %lo(gAudioContext+0xc) # addiu $a3, $a3, -0xe74
 /* B56D10 800DFB70 00603025 */  move  $a2, $v1
 /* B56D14 800DFB74 24040B00 */  li    $a0, 2816
 .L800DFB78:
