@@ -36,6 +36,7 @@ void TransitionFade_Destroy(TransitionFade* this) {
 }
 
 #ifdef NON_MATCHING
+// ordering differences
 void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
     char pad[2];
     s16 newAlpha;
@@ -50,7 +51,7 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
                 this->fadeTimer = gSaveContext.fadeDuration;
                 this->isDone = 1;
             }
-            if (gSaveContext.fadeDuration == 0) {
+            if (!gSaveContext.fadeDuration) {
                 // Divide by 0! Zero is included in ZCommonGet fade_speed
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }

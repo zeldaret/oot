@@ -509,7 +509,7 @@ void func_800907E4(GlobalContext* globalCtx, Player* player, Vec3f* arg2, s32 ar
 
     sp4C = (player->exchangeItemId != 0) ? 6.0f : 14.0f;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 0x961);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(player->getItemModel);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(player->getItemModel);
 
     gSPSegment(oGfxCtx->polyOpa.p++, 0x06, player->getItemModel);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, player->getItemModel);
