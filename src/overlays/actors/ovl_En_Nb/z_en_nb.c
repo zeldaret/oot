@@ -199,10 +199,10 @@ void EnNb_GetPathInfo(EnNb* this, GlobalContext* globalCtx) {
         this->finalPos.z = pointPos[1].z;
         this->pathYaw =
             (Math_atan2f(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) * 10430.378f);
-        // "En_Nb_Get_path_info RAIL DATA GET! = %d!!!!!!!!!!!!!!"
+        // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", waypoint);
     } else {
-        // "En_Nb_Get_path_info RAIL DATA DOESN'T EXIST!!!!!!!!!!!!!!!!!!!!"
+        // "En_Nb_Get_path_info Rail Data Doesn't Exist!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
     }
 }
@@ -404,8 +404,7 @@ void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
     f32 posY = player->actor.posRot.pos.y + 50.0f;
     f32 posZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
-                        12);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0, 12);
     Item_Give(globalCtx, ITEM_MEDALLION_SPIRIT);
 }
 
@@ -467,6 +466,7 @@ void EnNb_SetupArmRaise(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_SetupRaisedArmTransition(EnNb* this, UNK_TYPE arg1) {
     AnimationHeader* animation = &D_06002B4C;
+
     if (arg1 != 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
@@ -511,6 +511,7 @@ void func_80AB193C(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_RaiseArm(EnNb* this, GlobalContext* globalCtx) {
     s32 unk;
+
     func_80AB1284(this, globalCtx);
     unk = EnNb_FrameUpdateMatrix(this);
     EnNb_UpdateEyes(this);
@@ -544,7 +545,7 @@ void EnNb_SetSealingSFX(void) {
 
 void EnNb_InitializeDemo6K(EnNb* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                        kREG(21) + 22.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 7);
+                       kREG(21) + 22.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 7);
 }
 
 void EnNb_SetupHide(EnNb* this, GlobalContext* globalCtx) {
@@ -639,8 +640,8 @@ void EnNb_DrawTransparency(EnNb* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          NULL, NULL, NULL, oGfxCtx->polyXlu.p);
+    oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
+                                           skelAnime->dListCount, NULL, NULL, NULL, oGfxCtx->polyXlu.p);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inKenjyanomaDemo02.c", 290);
 }
 
@@ -740,7 +741,7 @@ void EnNb_CheckKidnapCsMode(EnNb* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "En_Nb_Kidnap_Check_DemoMode: OPERATION DOESN'T EXIST!!!!!!!!"
+                    // "En_Nb_Kidnap_Check_DemoMode: Operation Doesn't Exist!!!!!!!!"
                     osSyncPrintf("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -989,6 +990,7 @@ void EnNb_Kneel(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_LookRight(EnNb* this, GlobalContext* globalCtx) {
     s32 unk;
+
     EnNb_UpdateEyes(this);
     unk = EnNb_FrameUpdateMatrix(this);
     EnNb_CheckIfLookingRight(this, unk);
@@ -1046,6 +1048,7 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
 
 s32 func_80AB2FC0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnNb* this = THIS;
+
     if (limbIndex == 15) {
         *dList = &D_06013158;
     }
@@ -1227,7 +1230,7 @@ s32 EnNb_GetNoticedStatus(EnNb* this, GlobalContext* globalCtx) {
     }
     return false;
 }
- 
+
 void func_80AB36DC(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
     u16 moveTime = this->movementTimer;
@@ -1237,7 +1240,7 @@ void func_80AB36DC(Actor* thisx, GlobalContext* globalCtx) {
         s16 invScale = 4 - moveTime;
         if (invScale > 0) {
             Math_SmoothScaleMaxMinS(shapeRot, this->pathYaw, invScale, 6200, 100);
-        } 
+        }
     } else {
         s16 invScale = (u16)(kREG(17) + 0x19) - moveTime;
         if (invScale > 0) {
@@ -1461,9 +1464,9 @@ void EnNb_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
         // "Main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
-    } else {
-        sActionFuncs[this->action](this, globalCtx);
+        return;
     }
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -1562,7 +1565,7 @@ void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
-    } else {
-        sDrawFuncs[this->drawMode](this, globalCtx);
+        return;
     }
+    sDrawFuncs[this->drawMode](this, globalCtx);
 }
