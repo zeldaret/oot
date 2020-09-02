@@ -4,6 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
+typedef enum {
+    /* 0x00 */ HEISHI4_KAKRIKO_ENTRANCE,
+    /* 0x04 */ HEISHI4_IMPA = 4,
+    /* 0x07 */ HEISHI4_DYING_GUARD = 7,
+    /* 0x08 */ HEISHI4_MARKET_NIGHT_GUARD,
+};
+
 struct EnHeishi4;
 
 typedef void (*EnHeishi4ActionFunc)(struct EnHeishi4*, GlobalContext*);

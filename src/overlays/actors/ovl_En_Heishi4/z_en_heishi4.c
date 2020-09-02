@@ -34,10 +34,9 @@ const ActorInit En_Heishi4_InitVars = {
     (ActorFunc)EnHeishi4_Draw,
 };
 
-static u32 EnHeishi4ReactionSet[] = {0x00000006, 0x00000007};
+static u32 EnHeishi4ReactionSet[] = { 0x00000006, 0x00000007 };
 
-static ColliderCylinderInit sCylinderInit =
-{
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 33, 40, 0, { 0, 0, 0 } },
@@ -49,66 +48,68 @@ extern AnimationHeader D_06005C30;
 extern AnimationHeader D_0600C6C8;
 extern AnimationHeader D_0600C374;
 
-void EnHeishi4_Init(Actor *thisx, GlobalContext *globalCtx) {
+void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
 
     Actor_SetScale(thisx, 0.01f);
-    this->params =  thisx->params & 0xFF;
+    this->params = thisx->params & 0xFF;
     thisx->colChkInfo.mass = 0xFF;
     this->pos = thisx->posRot.pos;
     thisx->unk_1F = 6;
     if (this->params == 7) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, &this->limbDrawTable, &this->transitionDrawTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, &this->limbDrawTable,
+                       &this->transitionDrawTable, 17);
     } else {
         this->height = 60.0f;
         ActorShape_Init(&thisx->shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->limbDrawTable, &this->transitionDrawTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->limbDrawTable,
+                       &this->transitionDrawTable, 17);
     }
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
     this->collider.dim.yShift = 0;
     this->collider.dim.radius = 15;
     this->collider.dim.height = 70;
-    switch (this->params){
-        case 0:
-        case 4:
+    switch (this->params) {
+        case HEISHI4_KAKRIKO_ENTRANCE:
+        case HEISHI4_IMPA:
             this->actionFunc = func_80A56328;
             break;
-        case 7:
+        case HEISHI4_DYING_GUARD:
             this->collider.dim.radius = 28;
             this->collider.dim.height = 5;
             this->actionFunc = func_80A5673C;
             break;
-        case 8:
+        case HEISHI4_MARKET_NIGHT_GUARD:
             this->actionFunc = func_80A56544;
             break;
     }
-    this->unk_27C =  ((thisx->params >> 8) & 0xFF);
+    this->unk_27C = ((thisx->params >> 8) & 0xFF);
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" VT_RST, this->params);
-    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, ((s32) thisx->params >> 8) & 0xF);
+    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, ((s32)thisx->params >> 8) & 0xF);
     osSyncPrintf("\n\n");
 }
 
-void EnHeishi4_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_80A56328(EnHeishi4 *this, GlobalContext *globalCtx) {
-   f32 frames = SkelAnime_GetFrameCount(&D_06005C30);
+void func_80A56328(EnHeishi4* this, GlobalContext* globalCtx) {
+    f32 frames = SkelAnime_GetFrameCount(&D_06005C30);
 
-   SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
-   this->actionFunc = func_80A563BC;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    this->actionFunc = func_80A563BC;
 }
 
-void func_80A563BC(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
     s16 reactionOffset;
-    
+
     this->unk_2B4 = 0;
     reactionOffset = this->params - 4;
     if (reactionOffset < 0) {
@@ -132,7 +133,7 @@ void func_80A563BC(EnHeishi4 *this, GlobalContext *globalCtx) {
             this->actionFunc = func_80A56B40;
             return;
         }
-        if (this->params == 4) {
+        if (this->params == HEISHI4_IMPA) {
             if (this->unk_284 == 0) {
                 this->actor.textId = 0x5079;
             } else {
@@ -153,24 +154,23 @@ void func_80A563BC(EnHeishi4 *this, GlobalContext *globalCtx) {
                 }
             }
         }
-    this->actionFunc = func_80A56B40;
+        this->actionFunc = func_80A56B40;
     }
 }
 
-void func_80A56544(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56544(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = SkelAnime_GetFrameCount(&D_06005C30);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16) frames, 0, -10.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
-    }
-    else {
+    } else {
         this->actionFunc = func_80A56614;
     }
 }
 
-void func_80A56614(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
     s16 reactionOffset;
 
     reactionOffset = this->params - 4;
@@ -207,42 +207,41 @@ void func_80A56614(EnHeishi4 *this, GlobalContext *globalCtx) {
     this->actionFunc = func_80A56B40;
 }
 
-void func_80A5673C(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[4] & 0x20) {
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
     } else {
-    this->unk_284 = 0;
-    if (gSaveContext.eventChkInf[8] & 1) {
-        if (!(gSaveContext.infTable[6] & 0x1000)) {
-            f32 frames = SkelAnime_GetFrameCount(&D_0600C444);
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
-            this->actor.textId = 0x7007;
-            this->unk_282 = 5;
-            this->unk_284 = 1;
-            osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" VT_RST);
+        this->unk_284 = 0;
+        if (gSaveContext.eventChkInf[8] & 1) {
+            if (!(gSaveContext.infTable[6] & 0x1000)) {
+                f32 frames = SkelAnime_GetFrameCount(&D_0600C444);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+                this->actor.textId = 0x7007;
+                this->unk_282 = 5;
+                this->unk_284 = 1;
+                osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" VT_RST);
+            } else {
+                this->actor.textId = 0x7008;
+                this->unk_282 = 6;
+                osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" VT_RST);
+            }
+            this->actionFunc = &func_80A56874;
         } else {
-            this->actor.textId = 0x7008;
-            this->unk_282 = 6;
-            osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" VT_RST);
+            Actor_Kill(&this->actor);
         }
-        this->actionFunc = &func_80A56874;
     }
-    else {
-        Actor_Kill(&this->actor);
-    }
-}
 }
 
-void func_80A56874(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
     if (this->unk_284 != 0) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     }
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->unk_284 == 0) {
             this->actionFunc = func_80A5673C;
-            
-        }else {
+
+        } else {
             this->actionFunc = func_80A56900;
         }
     } else {
@@ -250,14 +249,14 @@ void func_80A56874(EnHeishi4 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A56900(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = SkelAnime_GetFrameCount(&D_0600C6C8);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
     this->actionFunc = func_80A56994;
 }
 
-void func_80A56994(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80038290(globalCtx, &this->actor, &this->unk_260.x, &this->unk_266.x, this->actor.posRot2.pos);
     if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
@@ -270,14 +269,14 @@ void func_80A56994(EnHeishi4 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A56A50(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = SkelAnime_GetFrameCount(&D_0600C374);
     this->unk_288 = frames;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, 2, -10.0f);
     this->actionFunc = func_80A56ACC;
 }
 
-void func_80A56ACC(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 currentFrame = this->skelAnime.animCurrentFrame;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -287,7 +286,7 @@ void func_80A56ACC(EnHeishi4 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A56B40(EnHeishi4 *this, GlobalContext *globalCtx) {
+void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
     s16 reactionOffset;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -300,34 +299,34 @@ void func_80A56B40(EnHeishi4 *this, GlobalContext *globalCtx) {
     }
     if (Text_GetFaceReaction(globalCtx, EnHeishi4ReactionSet[reactionOffset]) != 0) {
         if (this->unk_2B4 == 0) {
-            if ((this->params == 0) || (this->params == 4)) {
+            if ((this->params == HEISHI4_KAKRIKO_ENTRANCE) || (this->params == HEISHI4_IMPA)) {
                 this->actionFunc = func_80A563BC;
                 return;
             }
-            if (this->params == 8) {
+            if (this->params == HEISHI4_MARKET_NIGHT_GUARD) {
                 this->actionFunc = func_80A56614;
                 return;
             }
         }
     } else {
         if (this->unk_2B4 != 0) {
-            if ((this->params == 0) || (this->params == 4)) {
+            if ((this->params == HEISHI4_KAKRIKO_ENTRANCE) || (this->params == HEISHI4_IMPA)) {
                 this->actionFunc = func_80A563BC;
                 return;
             }
-            if (this->params == 8) {
+            if (this->params == HEISHI4_MARKET_NIGHT_GUARD) {
                 this->actionFunc = func_80A56614;
                 return;
             }
         }
     }
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        if ((this->params == 0) || (this->params == 4)) {
+        if ((this->params == HEISHI4_KAKRIKO_ENTRANCE) || (this->params == HEISHI4_IMPA)) {
             this->unk_284 = 1;
             this->actionFunc = func_80A563BC;
             return;
         }
-        if (this->params == 8) {
+        if (this->params == HEISHI4_MARKET_NIGHT_GUARD) {
             this->actionFunc = &func_80A56614;
             return;
         }
@@ -335,17 +334,17 @@ void func_80A56B40(EnHeishi4 *this, GlobalContext *globalCtx) {
     func_8002F2F4(&this->actor, globalCtx);
 }
 
-void EnHeishi4_Update(Actor *thisx, GlobalContext *globalCtx) {
+void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
     s32 pad;
     Player* player = PLAYER;
 
-    //thisx->posRot.pos = this->pos;
+    // thisx->posRot.pos = this->pos;
     thisx->posRot.pos.x = this->pos.x;
     thisx->posRot.pos.y = this->pos.y;
     thisx->posRot.pos.z = this->pos.z;
-    Actor_SetHeight(thisx,  this->height);
-    if (this->params != 7) {
+    Actor_SetHeight(thisx, this->height);
+    if (this->params != HEISHI4_DYING_GUARD) {
         this->unk_28C.unk_18 = player->actor.posRot.pos;
         if (LINK_IS_CHILD) {
             this->unk_28C.unk_18.y = (player->actor.posRot.pos.y - 10.0f);
@@ -362,7 +361,8 @@ void EnHeishi4_Update(Actor *thisx, GlobalContext *globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-s32 EnHeishi_OverrideLimbDraw(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx) {
+s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                              Actor* thisx) {
     EnHeishi4* this = THIS;
 
     if (limbIndex == 9) {
@@ -375,9 +375,10 @@ s32 EnHeishi_OverrideLimbDraw(GlobalContext *globalCtx, s32 limbIndex, Gfx **dLi
     return 0;
 }
 
-void EnHeishi4_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void EnHeishi4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi_OverrideLimbDraw, 0, &this->actor);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi_OverrideLimbDraw, 0,
+                   &this->actor);
 }
