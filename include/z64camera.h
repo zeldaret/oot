@@ -309,30 +309,24 @@ typedef struct {
 } Demo3; // size = 0x20
 
 typedef struct {
-    /* 0x0000 */ Vec3f unk_00;
-    /* 0x000C */ s32 unk_0C;
-    /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ s16 unk_14;
-    /* 0x0016 */ s16 unk_16;
-    /* 0x0018 */ s16 unk_18;
-    /* 0x001A */ s16 unk_1A;
+    /* 0x0000 */ SwingAnimation swing;
     /* 0x001C */ f32 unk_1C;
     /* 0x0020 */ f32 unk_20;
-    /* 0x0024 */ s16 unk_24;
-    /* 0x0026 */ s16 unk_26;
-    /* 0x0028 */ s16 unk_28;
-    /* 0x002A */ s16 unk_2A;
+    /* 0x0024 */ s16 curPitch;
+    /* 0x0026 */ s16 yawUpdAmt;
+    /* 0x0028 */ s16 yawTimer;
+    /* 0x002A */ s16 distTimer;
 } Normal3Anim; // size = 0x2C
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ f32 unk_08;
-    /* 0x000C */ f32 unk_0C;
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 distMin;
+    /* 0x0008 */ f32 distMax;
+    /* 0x000C */ f32 yawUpdateSpeed;
     /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ f32 unk_14;
-    /* 0x0018 */ f32 unk_18;
-    /* 0x001C */ s16 unk_1C;
+    /* 0x0014 */ f32 fovTarget;
+    /* 0x0018 */ f32 maxAtLERPScale;
+    /* 0x001C */ s16 pitchTarget;
     /* 0x001E */ s16 interfaceFlags;
     /* 0x0020 */ Normal3Anim anim;
 } Normal3; // size = 0x4C

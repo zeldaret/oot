@@ -118,7 +118,7 @@ glabel Camera_Battle1
 /* AC2750 8004B5B0 AFB10028 */  sw    $s1, 0x28($sp)
 /* AC2754 8004B5B4 AFA000E8 */  sw    $zero, 0xe8($sp)
 /* AC2758 8004B5B8 8C840090 */  lw    $a0, 0x90($a0)
-/* AC275C 8004B5BC 0C00B721 */  jal   Player_GetCameraYOffset
+/* AC275C 8004B5BC 0C00B721 */  jal   Player_GetHeight
 /* AC2760 8004B5C0 AFA40088 */   sw    $a0, 0x88($sp)
 /* AC2764 8004B5C4 E7A00064 */  swc1  $f0, 0x64($sp)
 /* AC2768 8004B5C8 8602015E */  lh    $v0, 0x15e($s0)

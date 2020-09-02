@@ -70,7 +70,7 @@ glabel Camera_KeepOn1
 /* AC3C14 8004CA74 00808025 */  move  $s0, $a0
 /* AC3C18 8004CA78 AFBF002C */  sw    $ra, 0x2c($sp)
 /* AC3C1C 8004CA7C AFA00088 */  sw    $zero, 0x88($sp)
-/* AC3C20 8004CA80 0C00B721 */  jal   Player_GetCameraYOffset
+/* AC3C20 8004CA80 0C00B721 */  jal   Player_GetHeight
 /* AC3C24 8004CA84 8C840090 */   lw    $a0, 0x90($a0)
 /* AC3C28 8004CA88 E7A00070 */  swc1  $f0, 0x70($sp)
 /* AC3C2C 8004CA8C 8E0300A8 */  lw    $v1, 0xa8($s0)

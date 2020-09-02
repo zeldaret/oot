@@ -334,7 +334,7 @@ f32 func_8002DB8C(Actor* actorA, Actor* actorB);
 f32 func_8002DBB0(Actor* actor, Vec3f* arg1);
 void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2);
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB);
-f32 Player_GetCameraYOffset(Player* player);
+f32 Player_GetHeight(Player* player);
 f32 func_8002DCE4(Player* player);
 s32 func_8002DD6C(Player* player);
 s32 func_8002DD78(Player* player);

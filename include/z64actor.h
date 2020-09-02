@@ -206,6 +206,18 @@ typedef struct {
     /* 0x14 */ s32 unk_14;
 } struct_80032E24;
 
+typedef struct {
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ s32 unk_14C;
+    /* 0x150 */ char unk_150[0x0A0];
+    /* 0x1F0 */ u32 unk_1F0;
+    /* 0x1F4 */ char unk_1F4[0x01C];
+    /* 0x210 */ s32 unk_210;
+    /* 0x214 */ f32 unk_214;
+    /* 0x218 */ char unk_218[0x040];
+    /* 0x258 */ Vec3f unk_258;
+} HorseActor; // size >= 0x264
+
 struct Player;
 
 typedef void (*PlayerActionFunc)(struct Player*, struct GlobalContext*);
@@ -255,7 +267,7 @@ typedef struct Player {
     /* 0x0438 */ Actor*     interactRangeActor;
     /* 0x043C */ s8         unk_43C;
     /* 0x043D */ char       unk_43D[0x003];
-    /* 0x0440 */ Actor*     rideActor;
+    /* 0x0440 */ HorseActor*    rideActor;
     /* 0x0444 */ u8         action;
     /* 0x0445 */ char       unk_445[0x003];
     /* 0x0448 */ Actor*     unk_448;

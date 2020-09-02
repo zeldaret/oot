@@ -954,7 +954,7 @@ f32 Actor_HeightDiff(Actor* actorA, Actor* actorB) {
     return actorB->posRot.pos.y - actorA->posRot.pos.y;
 }
 
-f32 Player_GetCameraYOffset(Player* player) {
+f32 Player_GetHeight(Player* player) {
     f32 offset = (player->stateFlags1 & 0x800000) ? 32.0f : 0.0f;
 
     if (LINK_IS_ADULT) {

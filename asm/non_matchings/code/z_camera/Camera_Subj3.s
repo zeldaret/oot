@@ -25,7 +25,7 @@ glabel Camera_Subj3
 /* AC7654 800504B4 8E050090 */  lw    $a1, 0x90($s0)
 /* AC7658 800504B8 0C00BBB9 */  jal   func_8002EEE4
 /* AC765C 800504BC 02202025 */   move  $a0, $s1
-/* AC7660 800504C0 0C00B721 */  jal   Player_GetCameraYOffset
+/* AC7660 800504C0 0C00B721 */  jal   Player_GetHeight
 /* AC7664 800504C4 8E040090 */   lw    $a0, 0x90($s0)
 /* AC7668 800504C8 E7A0003C */  swc1  $f0, 0x3c($sp)
 /* AC766C 800504CC 8E03008C */  lw    $v1, 0x8c($s0)
