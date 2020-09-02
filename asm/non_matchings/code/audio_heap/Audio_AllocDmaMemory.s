@@ -1,7 +1,7 @@
-glabel Audio_SoundAlloc
+glabel Audio_AllocDmaMemory
 /* B554A8 800DE308 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B554AC 800DE30C AFBF0014 */  sw    $ra, 0x14($sp)
-/* B554B0 800DE310 0C0378F7 */  jal   func_800DE3DC
+/* B554B0 800DE310 0C0378F7 */  jal   Audio_Alloc
 /* B554B4 800DE314 AFA50024 */   sw    $a1, 0x24($sp)
 /* B554B8 800DE318 10400005 */  beqz  $v0, .L800DE330
 /* B554BC 800DE31C 00402025 */   move  $a0, $v0

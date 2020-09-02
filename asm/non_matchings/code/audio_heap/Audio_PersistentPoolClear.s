@@ -1,4 +1,4 @@
-glabel func_800DE45C
+glabel Audio_PersistentPoolClear
 /* B555FC 800DE45C 8C8E0004 */  lw    $t6, 4($a0)
 /* B55600 800DE460 AC800010 */  sw    $zero, 0x10($a0)
 /* B55604 800DE464 AC800000 */  sw    $zero, ($a0)

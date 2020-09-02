@@ -39,8 +39,8 @@ glabel func_800DF7C4
 /* B569E8 800DF848 26100001 */  addiu $s0, $s0, 1
 /* B569EC 800DF84C 1612FFFC */  bne   $s0, $s2, .L800DF840
 /* B569F0 800DF850 00000000 */   nop   
-/* B569F4 800DF854 3C028017 */  lui   $v0, %hi(D_8016F181) # $v0, 0x8017
-/* B569F8 800DF858 8042F181 */  lb    $v0, %lo(D_8016F181)($v0)
+/* B569F4 800DF854 3C028017 */  lui   $v0, %hi(gAudioContext+0x1) # $v0, 0x8017
+/* B569F8 800DF858 8042F181 */  lb    $v0, %lo(gAudioContext+0x1)($v0)
 .L800DF85C:
 /* B569FC 800DF85C 26730001 */  addiu $s3, $s3, 1
 /* B56A00 800DF860 0262082A */  slt   $at, $s3, $v0

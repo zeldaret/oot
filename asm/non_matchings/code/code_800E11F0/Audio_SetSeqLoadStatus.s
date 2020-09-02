@@ -1,4 +1,4 @@
-glabel func_800E1A48
+glabel Audio_SetSeqLoadStatus
 /* B58BE8 800E1A48 240100FF */  li    $at, 255
 /* B58BEC 800E1A4C 10810008 */  beq   $a0, $at, .L800E1A70
 /* B58BF0 800E1A50 3C0E8017 */   lui   $t6, %hi(gAudioContext) # $t6, 0x8017

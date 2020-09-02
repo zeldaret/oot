@@ -1,7 +1,7 @@
-glabel func_800DE380
+glabel Audio_AllocZeroed
 /* B55520 800DE380 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B55524 800DE384 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B55528 800DE388 0C0378F7 */  jal   func_800DE3DC
+/* B55528 800DE388 0C0378F7 */  jal   Audio_Alloc
 /* B5552C 800DE38C AFA40018 */   sw    $a0, 0x18($sp)
 /* B55530 800DE390 8FA40018 */  lw    $a0, 0x18($sp)
 /* B55534 800DE394 1040000C */  beqz  $v0, .L800DE3C8

@@ -1,4 +1,4 @@
-glabel func_800E1A18
+glabel Audio_SetBankLoadStatus
 /* B58BB8 800E1A18 240100FF */  li    $at, 255
 /* B58BBC 800E1A1C 10810008 */  beq   $a0, $at, .L800E1A40
 /* B58BC0 800E1A20 3C0E8017 */   lui   $t6, %hi(gAudioContext) # $t6, 0x8017
