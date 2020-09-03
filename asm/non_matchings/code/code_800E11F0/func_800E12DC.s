@@ -191,10 +191,10 @@ glabel func_800E12DC
 /* B58730 800E1590 0003C080 */  sll   $t8, $v1, 2
 /* B58734 800E1594 0303C023 */  subu  $t8, $t8, $v1
 /* B58738 800E1598 0018C0C0 */  sll   $t8, $t8, 3
-/* B5873C 800E159C 3C0C8017 */  lui   $t4, %hi(D_80171050) # $t4, 0x8017
+/* B5873C 800E159C 3C0C8017 */  lui   $t4, %hi(gAudioContext+0x1ed0) # $t4, 0x8017
 /* B58740 800E15A0 3C0F8015 */  lui   $t7, %hi(D_80149420) # $t7, 0x8015
 /* B58744 800E15A4 25EF9420 */  addiu $t7, %lo(D_80149420) # addiu $t7, $t7, -0x6be0
-/* B58748 800E15A8 258C1050 */  addiu $t4, %lo(D_80171050) # addiu $t4, $t4, 0x1050
+/* B58748 800E15A8 258C1050 */  addiu $t4, %lo(gAudioContext+0x1ed0) # addiu $t4, $t4, 0x1050
 /* B5874C 800E15AC 01382021 */  addu  $a0, $t1, $t8
 /* B58750 800E15B0 246D0001 */  addiu $t5, $v1, 1
 /* B58754 800E15B4 AD2D28A0 */  sw    $t5, 0x28a0($t1)

@@ -1,4 +1,4 @@
-glabel func_800DE3DC
+glabel Audio_Alloc
 /* B5557C 800DE3DC 8C860004 */  lw    $a2, 4($a0)
 /* B55580 800DE3E0 8C8E0000 */  lw    $t6, ($a0)
 /* B55584 800DE3E4 8C8F0008 */  lw    $t7, 8($a0)

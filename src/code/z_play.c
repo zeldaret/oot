@@ -453,9 +453,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         ActorOverlayTable_LogPrint();
     }
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     if (func_8008E6AC(&globalCtx->sub_7B8, &input[1]) != 0) {
         if ((globalCtx->transitionMode == 0) && (globalCtx->sceneLoadFlag != 0)) {
@@ -1076,9 +1076,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x00, NULL);
@@ -1491,7 +1491,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     if (globalCtx->sceneSegment == NULL) {
         __assert("this->sceneSegment != NULL", "../z_play.c", 4960);
     }
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);
 

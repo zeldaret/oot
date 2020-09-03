@@ -1,4 +1,4 @@
-glabel func_800DE434
+glabel Audio_SoundAllocPoolInit
 /* B555D4 800DE434 24A2000F */  addiu $v0, $a1, 0xf
 /* B555D8 800DE438 2401FFF0 */  li    $at, -16
 /* B555DC 800DE43C 30AE000F */  andi  $t6, $a1, 0xf
