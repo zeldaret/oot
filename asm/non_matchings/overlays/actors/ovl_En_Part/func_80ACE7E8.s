@@ -55,7 +55,7 @@ glabel func_80ACE7E8
 /* 00AE8 80ACE8B8 AFA90034 */  sw      $t1, 0x0034($sp)           
 /* 00AEC 80ACE8BC AFAA0038 */  sw      $t2, 0x0038($sp)           
 /* 00AF0 80ACE8C0 AFAB003C */  sw      $t3, 0x003C($sp)           
-/* 00AF4 80ACE8C4 0C00A9AE */  jal     func_8002A6B8              
+/* 00AF4 80ACE8C4 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 00AF8 80ACE8C8 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 00AFC 80ACE8CC 0C00B55C */  jal     Actor_Kill
               

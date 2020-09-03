@@ -294,7 +294,7 @@ void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
     pos.x = this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 15.0f;
     pos.z = this->actor.posRot.pos.z;
-    func_8002A6B8(globalCtx, &pos, &D_80A1A4D0, &D_80A1A4DC, 0x96, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
+    EffectSsDeadDb_Spawn(globalCtx, &pos, &D_80A1A4D0, &D_80A1A4DC, 0x96, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
     this->actionFunc = EnFloormas_SmShrink;
 }
 

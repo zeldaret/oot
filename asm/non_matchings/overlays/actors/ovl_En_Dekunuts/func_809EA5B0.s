@@ -45,7 +45,7 @@ glabel func_809EA5B0
 /* 010F8 809EA658 00C03825 */  or      $a3, $a2, $zero            ## $a3 = 809EABB0
 /* 010FC 809EA65C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01100 809EA660 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFF0
-/* 01104 809EA664 0C00A9AE */  jal     func_8002A6B8              
+/* 01104 809EA664 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 01108 809EA668 E7B00060 */  swc1    $f16, 0x0060($sp)          
 /* 0110C 809EA66C C6120028 */  lwc1    $f18, 0x0028($s0)          ## 00000028
 /* 01110 809EA670 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

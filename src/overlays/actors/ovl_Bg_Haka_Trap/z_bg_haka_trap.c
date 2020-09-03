@@ -243,7 +243,7 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
         vector.y = Math_Rand_ZeroOne() * 10.0f + this->dyna.actor.posRot.pos.y + 30.0f;
         vector.z = Math_Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
 
-        func_8002A6B8(globalCtx, &vector, &D_8088101C, &D_8088101C, 0x82, 0x14, 0xFF, 0xFF, 0x96, 0xAA, 0xFF, 0, 0, 1,
+        EffectSsDeadDb_Spawn(globalCtx, &vector, &D_8088101C, &D_8088101C, 0x82, 0x14, 0xFF, 0xFF, 0x96, 0xAA, 0xFF, 0, 0, 1,
                       9, 0);
     }
 
