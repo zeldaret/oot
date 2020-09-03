@@ -13,6 +13,7 @@
 #include "overlays/effects/ovl_Effect_Ss_G_Fire/z_eff_ss_g_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
+#include "overlays/effects/ovl_Effect_Ss_Dt_Bubble/z_eff_ss_dt_bubble.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
 #include "overlays/effects/ovl_Effect_Ss_Sibuki/z_eff_ss_sibuki.h"
 #include "overlays/effects/ovl_Effect_Ss_Sibuki2/z_eff_ss_sibuki2.h"
@@ -528,9 +529,38 @@ void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor,
 
 // EffectSsDtBubble Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029618.s")
+void EffectSsDtBubble_SpawnColorProfile(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                        s16 life, s16 colorProfile, s16 randXZ) {
+    EffectSsDtBubbleInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029694.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.customColor = false;
+    initParams.colorProfile = colorProfile;
+    initParams.scale = scale;
+    initParams.life = life;
+    initParams.randXZ = randXZ;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_DT_BUBBLE, 128, &initParams);
+}
+
+void EffectSsDtBubble_SpawnCustomColor(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                       Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 life, s16 randXZ) {
+    EffectSsDtBubbleInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    Color_RGBA8_Copy(&initParams.primColor, primColor);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    initParams.scale = scale;
+    initParams.life = life;
+    initParams.randXZ = randXZ;
+    initParams.customColor = true;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_DT_BUBBLE, 128, &initParams);
+}
 
 // EffectSsHahen Spawn Functions
 
@@ -565,7 +595,7 @@ void EffectSsSibuki_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
     EffectSs_Spawn(globalCtx, EFFECT_SS_SIBUKI, 128, &initParams);
 }
 
-void func_800299AC(GlobalContext* globalCtx, Vec3f* pos) {
+void EffectSsSibuki_SpawnGroup(GlobalContext* globalCtx, Vec3f* pos) {
     s16 i;
     Vec3f sp68;
     Vec3f sp5C;

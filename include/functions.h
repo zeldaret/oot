@@ -249,13 +249,13 @@ void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
                    s16 unk_16, s16 life, s16 unk_1A);
-// ? func_80029618(?);
-// ? func_80029694(?);
+// ? EffectSsDtBubble_SpawnColorProfile(?);
+// ? EffectSsDtBubble_SpawnCustomColor(?);
 // ? func_80029724(?);
 void func_800297A4(GlobalContext* globalCtx, Vec3f* vec, f32, s32, s32, s32, s32, s32, s32, s32);
 void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw);
 // ? EffectSsSibuki_Spawn(?);
-void func_800299AC(GlobalContext* globalCtx, Vec3f* pos);
+void EffectSsSibuki_SpawnGroup(GlobalContext* globalCtx, Vec3f* pos);
 // ? EffectSsSibuki2_Spawn(?);
 // ? EffectSsGMagma2_Spawn(?);
 // ? EffectSsStone1_Spawn(?);

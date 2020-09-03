@@ -242,7 +242,7 @@ glabel L80ACE3E4
 /* 006AC 80ACE47C 27A6008C */  addiu   $a2, $sp, 0x008C           ## $a2 = FFFFFFE4
 /* 006B0 80ACE480 27A70080 */  addiu   $a3, $sp, 0x0080           ## $a3 = FFFFFFD8
 /* 006B4 80ACE484 AFA20010 */  sw      $v0, 0x0010($sp)           
-/* 006B8 80ACE488 0C00A586 */  jal     func_80029618              
+/* 006B8 80ACE488 0C00A586 */  jal     EffectSsDtBubble_SpawnColorProfile              
 /* 006BC 80ACE48C AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 006C0 80ACE490 2610FFFF */  addiu   $s0, $s0, 0xFFFF           ## $s0 = 00000006
 /* 006C4 80ACE494 0601FFD7 */  bgez    $s0, .L80ACE3F4            

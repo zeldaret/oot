@@ -76,7 +76,7 @@ glabel func_80ABD728
 /* 00C8C 80ABD83C 02603025 */  or      $a2, $s3, $zero            ## $a2 = FFFFFFE0
 /* 00C90 80ABD840 02803825 */  or      $a3, $s4, $zero            ## $a3 = FFFFFFD4
 /* 00C94 80ABD844 AFA20010 */  sw      $v0, 0x0010($sp)           
-/* 00C98 80ABD848 0C00A586 */  jal     func_80029618              
+/* 00C98 80ABD848 0C00A586 */  jal     EffectSsDtBubble_SpawnColorProfile              
 /* 00C9C 80ABD84C AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00CA0 80ABD850 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 00CA4 80ABD854 2A21000A */  slti    $at, $s1, 0x000A           

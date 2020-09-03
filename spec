@@ -1748,8 +1748,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Dt_Bubble"
     include "build/src/overlays/effects/ovl_Effect_Ss_Dt_Bubble/z_eff_ss_dt_bubble.o"
-    include "build/data/overlays/effects/z_eff_ss_dt_bubble.data.o"
-    include "build/data/overlays/effects/z_eff_ss_dt_bubble.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Dt_Bubble/ovl_Effect_Ss_Dt_Bubble_reloc.o"
 endseg
 
 beginseg
