@@ -1,6 +1,7 @@
 #include "z_bg_jya_cobra.h"
 #include "overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.h"
 #include "overlays/actors/ovl_Mir_Ray/z_mir_ray.h"
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -21,8 +22,12 @@ extern Gfx D_06010C20[];
 extern UNK_TYPE D_0601167C;
 extern Gfx D_060117D0[];
 
-s32 D_80897270[] = { 0xFCE00000, 0xFCE00000, 0x00000800, 0xFFFFFFFF, 0x03200000, 0xFCE00000, 0x08000800, 0xFFFFFFFF,
-                     0x03200000, 0x03200000, 0x08000000, 0xFFFFFFFF, 0xFCE00000, 0x03200000, 0x00000000, 0xFFFFFFFF };
+Vtx D_80897270[] = {
+    VTX(-800, 0, -800, 0, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(800, 0, -800, 2048, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(800, 0, 800, 2048, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(-800, 0, 800, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+};
 
 Gfx D_808972B0[] = {
     gsDPPipeSync(),
@@ -65,7 +70,7 @@ u8 D_8089731C[] = { 0x00, 0x00, 0x20, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20, 0x00, 
 
 u8 D_80897398[] = { 0x20, 0x80, 0x20, 0x80, 0xA0, 0x80, 0x20, 0x80, 0x20, 0x00, 0x00, 0x00 };
 
-Vec3f D_808973A4[] = { { -6.0f, 100.0f, 7.6f } };
+Vec3f D_808973A4 = { -6.0f, 100.0f, 7.6f };
 
 Vec3f D_808973B0[] = { { -12.6f, 69.200005f, -10.0f }, { -9.0f, 43.0f, -1.0f }, { -3.0f, 15.0f, 8.6f },
                        { -8.6f, 15.0f, 13.5f },        { -6.6f, 26.0f, 11.6f }, { -12.5f, 43.0f, 8.0f },
@@ -77,7 +82,7 @@ Vec3f D_808973B0[] = { { -12.6f, 69.200005f, -10.0f }, { -9.0f, 43.0f, -1.0f }, 
                        { 0.0f, 26.0f, 11.6f },         { 0.0f, 88.4f, -1.4f },  { 0.0f, 95.700005f, 14.900001f },
                        { 0.0f, 101.4f, 5.0f } };
 
-Vec3f D_808974DC[] = { { 12.0f, 21.3000011f, -2.5f } };
+Vec3f D_808974DC = { 12.0f, 21.3000011f, -2.5f };
 
 Vec3f D_808974E8[] = { { 30.0f, 21.3000011f, -2.5f },
                        { -15.0f, 21.3000011f, -2.5f },
@@ -128,12 +133,13 @@ void func_8089593C(BgJyaCobra* this, GlobalContext* globalCtx, void* arg2, DynaP
 }
 
 void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_MIR_RAY, this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 57.0f, this->dyna.actor.posRot.pos.z, 0, 0, 0, 6);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_MIR_RAY, this->dyna.actor.posRot.pos.x,
+                       this->dyna.actor.posRot.pos.y + 57.0f, this->dyna.actor.posRot.pos.z, 0, 0, 0, 6);
     if (this->dyna.actor.child == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         //  	Ｅｒｒｏｒ : Mir Ray occurrence failure (%s %d)
         osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
     }
 }
 
@@ -699,9 +705,10 @@ void func_80896CB4(GlobalContext* globalCtx) {
 //     func_800D1694(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
 
 //     Matrix_Scale(0.1f, 0.1f, this->unk_190, MTXMODE_APPLY);
-//     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 939), G_MTX_NOPUSH |
-//     G_MTX_LOAD | G_MTX_MODELVIEW); gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)(this->unk_18C *
-//     140.0f)); gSPDisplayList(POLY_XLU_DISP++, D_060117D0);
+//     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 939),
+//               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+//     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)(this->unk_18C * 140.0f));
+//     gSPDisplayList(POLY_XLU_DISP++, D_060117D0);
 
 //     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 947);
 // }
@@ -710,11 +717,11 @@ void func_80896EE4(BgJyaCobra* this, GlobalContext* globalCtx) {
     u32 temp;
     s16 sp72;
     Vec3f sp64;
-    Vec3s *phi_a3;
+    Vec3s* phi_a3;
 
     sp72 = this->dyna.actor.params & 3;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, (const char *) "../z_bg_jya_cobra.c", 0x3C6);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 966);
 
     func_80094044(globalCtx->state.gfxCtx);
 
@@ -740,15 +747,18 @@ void func_80896EE4(BgJyaCobra* this, GlobalContext* globalCtx) {
     Matrix_Translate(0.0f, 0.0f, 40.0f, 1);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 120);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetTextureImage(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ALIGN16((s32)&this->unk_194));
-    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
     gDPLoadSync(POLY_XLU_DISP++);
     temp = sp72;
     gDPLoadBlock(POLY_XLU_DISP++, G_TX_LOADTILE, 0, 0, 2047, 256);
     if (!temp) {}
     gDPPipeSync(POLY_XLU_DISP++);
-    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
     gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 0, 0, 0x00FC, 0x00FC);
     gSPDisplayList(POLY_XLU_DISP++, D_808972B0);
 
@@ -766,10 +776,9 @@ void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 3) == 2) {
-        BgJyaBigmirror* attached = (BgJyaBigmirror*)this->dyna.actor.parent;
-        if (attached != NULL && (attached->unk_15C & 4) && (attached->unk_15C & 1)) {
+        BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
+        if (parent != NULL && (parent->unk_15C & 4) && (parent->unk_15C & 1)) {
             func_80896EE4(this, globalCtx);
-            return;
         }
     } else {
         func_80896EE4(this, globalCtx);
