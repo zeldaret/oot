@@ -62,13 +62,7 @@ void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 154);
 
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, this, &mtxMult, &mtxW);
-
-    if (mtxW < 1500.0f) {
-        scale = 3.0f;
-    } else {
-        scale = (mtxW / 1500.0f) * 3.0f;
-    }
-
+    scale = (mtxW < 1500.0f) ? 3.0f : (mtxW / 1500.0f) * 3.0f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stone1.c", 168),

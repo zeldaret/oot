@@ -1893,15 +1893,13 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Sibuki"
     include "build/src/overlays/effects/ovl_Effect_Ss_Sibuki/z_eff_ss_sibuki.o"
-    include "build/data/overlays/effects/z_eff_ss_sibuki.data.o"
     include "build/data/overlays/effects/z_eff_ss_sibuki.reloc.o"
 endseg
 
 beginseg
     name "ovl_Effect_Ss_Sibuki2"
     include "build/src/overlays/effects/ovl_Effect_Ss_Sibuki2/z_eff_ss_sibuki2.o"
-    include "build/data/overlays/effects/z_eff_ss_sibuki2.data.o"
-    include "build/data/overlays/effects/z_eff_ss_sibuki2.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Sibuki2/ovl_Effect_Ss_Sibuki2_reloc.o"
 endseg
 
 beginseg

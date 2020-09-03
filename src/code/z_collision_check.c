@@ -1343,9 +1343,9 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
 #endif
 
-void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
-    func_800299AC(globalCtx, v);
-    func_80062B80(globalCtx, v);
+void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
+    func_800299AC(globalCtx, pos);
+    func_80062B80(globalCtx, pos);
 }
 
 void func_8005E2A4(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
