@@ -34,13 +34,18 @@ const ActorInit En_Goroiwa_InitVars = {
 extern ColliderJntSphInit D_80A4DEA4;
 extern CollisionCheckInfoInit D_80A4DEB4;
 extern InitChainEntry D_80A4DEF8;
+extern f32 D_80A4DEC4[];
 extern f32 D_80A4DF10[];
 
 extern Gfx D_060006B0[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BCA0.s")
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD04.s")
+void func_80A4BCA0(EnGoroiwa* this) {
+    Sphere16* worldSphere = &this->collider.list->dim.worldSphere;
+    
+    worldSphere->center.x = this->actor.posRot.pos.x;
+    worldSphere->center.y = D_80A4DEC4[(this->actor.params >> 10) & 1] + this->actor.posRot.pos.y;
+    worldSphere->center.z = this->actor.posRot.pos.z;
+}
 
 void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
