@@ -57,7 +57,7 @@ s16 D_80897308[] = { 0, 0, 0, 0 };
 
 u8 D_80897310[] = { 1, 0, 1, 0 };
 
-s16 D_80897314[] = { 0xC000, 0000, 0x4000, 0000 };
+s16 D_80897314[] = { -0x4000, 0000, 0x4000, 0000 };
 
 u8 D_8089731C[] = { 0x00, 0x00, 0x20, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20, 0x00, 0x00, 0x00, 0x20, 0x80, 0xA0, 0xA3,
                     0xA3, 0xA3, 0xA0, 0x80, 0x20, 0x00, 0x20, 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80,
@@ -72,22 +72,26 @@ u8 D_80897398[] = { 0x20, 0x80, 0x20, 0x80, 0xA0, 0x80, 0x20, 0x80, 0x20, 0x00, 
 
 Vec3f D_808973A4 = { -6.0f, 100.0f, 7.6f };
 
-Vec3f D_808973B0[] = { { -12.6f, 69.200005f, -10.0f }, { -9.0f, 43.0f, -1.0f }, { -3.0f, 15.0f, 8.6f },
-                       { -8.6f, 15.0f, 13.5f },        { -6.6f, 26.0f, 11.6f }, { -12.5f, 43.0f, 8.0f },
-                       { -17.2f, 70.0f, 0.6f },        { -8.0f, 100.0f, 7.6f }, { 6.0f, 100.0f, 7.6f },
-                       { 12.6f, 69.200005f, -10.0f },  { 9.0f, 43.0f, -1.0f },  { 3.0f, 15.0f, 8.6f },
-                       { 8.6f, 15.0f, 13.5f },         { 6.6f, 26.0f, 11.6f },  { 12.5f, 43.0f, 8.0f },
-                       { 17.2f, 70.0f, 0.6f },         { 8.0f, 100.0f, 7.6f },  { 0.0f, 70.0f, -11.3f },
-                       { 0.0f, 44.6000023f, -2.0f },   { 0.0f, 15.0f, 10.6f },  { 0.0f, 15.0f, 0.3f },
-                       { 0.0f, 26.0f, 11.6f },         { 0.0f, 88.4f, -1.4f },  { 0.0f, 95.700005f, 14.900001f },
-                       { 0.0f, 101.4f, 5.0f } };
+Vec3f D_808973B0[] = {
+    { -12.6f, 69.200005f, -10.0f }, { -9.0f, 43.0f, -1.0f }, { -3.0f, 15.0f, 8.6f },
+    { -8.6f, 15.0f, 13.5f },        { -6.6f, 26.0f, 11.6f }, { -12.5f, 43.0f, 8.0f },
+    { -17.2f, 70.0f, 0.6f },        { -8.0f, 100.0f, 7.6f }, { 6.0f, 100.0f, 7.6f },
+    { 12.6f, 69.200005f, -10.0f },  { 9.0f, 43.0f, -1.0f },  { 3.0f, 15.0f, 8.6f },
+    { 8.6f, 15.0f, 13.5f },         { 6.6f, 26.0f, 11.6f },  { 12.5f, 43.0f, 8.0f },
+    { 17.2f, 70.0f, 0.6f },         { 8.0f, 100.0f, 7.6f },  { 0.0f, 70.0f, -11.3f },
+    { 0.0f, 44.6000023f, -2.0f },   { 0.0f, 15.0f, 10.6f },  { 0.0f, 15.0f, 0.3f },
+    { 0.0f, 26.0f, 11.6f },         { 0.0f, 88.4f, -1.4f },  { 0.0f, 95.700005f, 14.900001f },
+    { 0.0f, 101.4f, 5.0f },
+};
 
 Vec3f D_808974DC = { 12.0f, 21.3000011f, -2.5f };
 
-Vec3f D_808974E8[] = { { 30.0f, 21.3000011f, -2.5f },
-                       { -15.0f, 21.3000011f, -2.5f },
-                       { -30.0f, 21.3000011f, -2.5f },
-                       { 12.0f, 21.3000011f, -2.5f } };
+Vec3f D_808974E8[] = {
+    { 30.0f, 21.3000011f, -2.5f },
+    { -15.0f, 21.3000011f, -2.5f },
+    { -30.0f, 21.3000011f, -2.5f },
+    { 12.0f, 21.3000011f, -2.5f },
+};
 
 UNK_TYPE D_80897518[] = { 0x00000080, 0x000000A0, 0x000000A0, 0x00000080 };
 
@@ -208,110 +212,67 @@ void func_80895BEC(BgJyaCobra* this, GlobalContext* globalCtx) {
     player->actor.posRot.pos.z = this->dyna.actor.posRot.pos.z + sp2C.z;
 }
 
-s32 func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx);
+void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
-// lots of work to be done
-// s32 func_80895C74(BgJyaCobra *this, GlobalContext *globalCtx) {
-//     s16 temp_v0;
-//     s16 temp_v1_2;
-//     s16 temp_v1_3;
-//     s32 temp_v0_3;
-//     s32 temp_v0_4;
-//     s32 temp_v0_5;
-//     s32 temp_v0_6;
-//     s32 temp_v0_7;
-//     s32 temp_v1;
-//     BgJyaBigmirror* attached;
-//     u8 temp_v0_2;
-//     s32 phi_v0;
+// Small stack diffs
+// void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
+//     s16 phi_v0;
+//     s32 temp_v0 = this->dyna.actor.params;
+//     BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
 //     f32 phi_f0;
-//     f32 phi_f0_2;
-//     s32 phi_return;
 
-//     temp_v0 = this->dyna.actor.params;
-//     temp_v1 = temp_v0 & 3;
-//     attached = (BgJyaBigmirror*)this->dyna.actor.parent;
-//     phi_return = (s32) temp_v0;
-//     temp_v0_2 = attached->unk_15C;
-//     if (temp_v1 == 2 && attached != 0 && ((temp_v0_2 & 4) == 0 || (temp_v0_2 & 1))) {
-//         // phi_return = temp_v0_2;
-//         phi_return = Math_ApproxF(&this->unk_18C, 0.0f, 0.05f);
+//     if ((temp_v0 & 3) == 2 && parent != NULL && (!(parent->unk_15C & 4) || !(parent->unk_15C & 1))) {
+//         Math_ApproxF(&this->unk_18C, 0.0f, 0.05f);
 //     } else {
 //         this->unk_18C = 1.0f;
-//         if (D_80897310[temp_v1] != 0) {
-//             temp_v0_3 = (s32) ((this->dyna.actor.shape.rot.y - D_80897314[temp_v1]) << 0x10) >> 0x10;
-//             phi_v0 = temp_v0_3;
-//             phi_return = temp_v0_3;
-//             if (temp_v0_3 < 0) {
-//                 temp_v0_3 = (s32) ((0 - temp_v0_3) << 0x10) >> 0x10;
-//                 phi_v0 = temp_v0_3;
-//                 phi_return = temp_v0_3;
-//             }
-//             if (phi_v0 < 0x2000) {
-//                 if (phi_v0 != -0x8000) {
-//                     this->unk_18C = (f32) (this->unk_18C + ((f32) (phi_v0 - 0x2000) * 0.00018310547f));
-//                     phi_return = 0.0f;
-//                     if (this->unk_18C < 0.0f) {
-//                         this->unk_18C = 0.0f;
-//                         phi_return = 0.0f;
-//                     }
+//         if (D_80897310[(temp_v0 & 3)] != 0) {
+//             phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[(temp_v0 & 3)];
+//             phi_v0 = ABS(phi_v0);
+//             if (phi_v0 < 0x2000 && phi_v0 != -0x8000) {
+//                 this->unk_18C += ((phi_v0 - 0x2000) * 0.00018310547f);
+//                 if (this->unk_18C < 0.0f) {
+//                     this->unk_18C = 0.0f;
 //                 }
 //             }
 //         }
 //     }
-//     this->unk_180.x = (f32) this->dyna.actor.posRot.pos.x;
-//     this->unk_180.z = (f32) this->dyna.actor.posRot.pos.z;
-//     this->unk_180.y = (f32) (this->dyna.actor.posRot.pos.y + 57.0f);
-//     if ((temp_v0 & 3) == 0) {
+
+//     this->unk_180.x = this->dyna.actor.posRot.pos.x;
+//     this->unk_180.y = this->dyna.actor.posRot.pos.y + 57.0f;
+//     this->unk_180.z = this->dyna.actor.posRot.pos.z;
+
+//     if (!(temp_v0 & 3)) {
 //         this->unk_190 = 0.1f;
-//         return phi_return;
-//     }
-//     if ((temp_v0 & 3) == 1) {
-//         temp_v1_2 = this->dyna.actor.shape.rot.y;
-//         temp_v0_4 = (s32) ((temp_v1_2 - 0x8000) << 0x10) >> 0x10;
-//         if (temp_v0_4 < 0x500 && temp_v0_4 >= -0x4FF) {
+//     } else if ((temp_v0 & 3) == 1) {
+//         phi_f0 = 0.1f;
+//         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
+//         if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+//             phi_f0 = 0.34f;
+//         } else {
+//             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
+//             if (phi_v0 < 0x500 && phi_v0 >= -0x4FF && parent != NULL &&
+//                 (parent->unk_15C & 4)) {
 //                 phi_f0 = 0.34f;
-//         } else {
-//             temp_v0_5 = (s32) ((temp_v1_2 - 0x4000) << 0x10) >> 0x10;
-//             phi_f0 = 0.1f;
-//             if (temp_v0_5 < 0x500) {
-//                 phi_f0 = 0.1f;
-//                 if (temp_v0_5 >= -0x4FF) {
-//                     phi_f0 = 0.1f;
-//                     if (this->dyna.actor.parent != 0) {
-//                         phi_f0 = 0.1f;
-//                         if ((((BgJyaBigmirror*)this->dyna.actor.parent)->unk_15C & 4) != 0) {
-//                             phi_f0 = 0.34f;
-//                         }
-//                     }
-//                 }
 //             }
 //         }
-//         return Math_ApproxF(this + 0x190, phi_f0, 0.04f);
-//     }
-//     if ((temp_v0 & 3) == 2) {
-//         temp_v1_3 = this->dyna.actor.shape.rot.y;
-//         temp_v0_6 = (s32) ((temp_v1_3 - 0x8000) << 0x10) >> 0x10;
-//         if (temp_v0_6 < 0x500 && temp_v0_6 >= -0x4FF) {
-//             phi_f0_2 = 0.34f;
+//         Math_ApproxF(&this->unk_190, phi_f0, 0.04f);
+//     } else if ((temp_v0 & 3) == 2) {
+//         phi_f0 = 0.1f;
+//         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
+//         if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+//             phi_f0 = 0.34f;
 //         } else {
-//             temp_v0_7 = (s32) ((temp_v1_3 + 0xFFFF4000) << 0x10) >> 0x10;
-//             phi_f0_2 = 0.1f;
-//             if (temp_v0_7 < 0x500) {
-//                 phi_f0_2 = 0.1f;
-//                 if (temp_v0_7 >= -0x4FF) {
-//                     phi_f0_2 = 0.34f;
-//                 }
+//             phi_v0 = this->dyna.actor.shape.rot.y + 0xFFFF4000;
+//             if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+//                 phi_f0 = 0.34f;
 //             }
 //         }
-//         phi_return = Math_ApproxF(this + 0x190, phi_f0_2, 0.04f);
+//         Math_ApproxF(&this->unk_190, phi_f0, 0.04f);
 //     }
-//     return phi_return;
 // }
 
 void func_80895EF0(BgJyaCobra* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895EF0.s")
-
 // void func_80895EF0(BgJyaCobra *this) {
 //     Vec3f spD4;
 //     Vec3f spC8;
@@ -327,7 +288,7 @@ void func_80895EF0(BgJyaCobra* this);
 //     s32 temp_a0_4;
 //     s32 temp_a1;
 //     s32 temp_f18;
-//     s32 temp_s2;
+//     u8* temp_s2;
 //     s32 temp_s6;
 //     s32 temp_s6_2;
 //     s32 temp_t0;
@@ -357,7 +318,7 @@ void func_80895EF0(BgJyaCobra* this);
 //     s32 phi_v0_2;
 //     s32 phi_v1_3;
 
-//     temp_s2 = ALIGN16((s32) &this->unk_194);
+//     temp_s2 = (u8*)ALIGN16((s32) &this->unk_194);
 //     Lib_MemSet(temp_s2, 0x1000, 0);
 //     Matrix_RotateX(0.7853982f, (u8)0U);
 //     if ((this->dyna.actor.params & 3) == 0) {
@@ -389,20 +350,20 @@ void func_80895EF0(BgJyaCobra* this);
 //             phi_t1 = 0;
 //             do {
 //                 temp_t0 = phi_t3 << 6;
-//                 if ((phi_t3 & -0x40) == 0) {
+//                 if ((phi_t3 & ~0x3F) == 0) {
 //                     temp_v1 = temp_f18 - 5;
 //                     temp_a0_2 = temp_f18 - 3;
 //                     temp_a1 = temp_f18 - 4;
-//                     if ((temp_v1 & -0x40) == 0) {
+//                     if ((temp_v1 & ~0x3F) == 0) {
 //                         temp_v0 = (temp_t0 + temp_v1) + temp_s2;
 //                         *temp_v0 = (u8) (*temp_v0 | *(D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1)));
 //                     }
-//                     if ((temp_a1 & -0x40) == 0) {
+//                     if ((temp_a1 & ~0x3F) == 0) {
 //                         temp_v0 = (temp_t0 + temp_a1) + temp_s2;
 //                         *temp_v0 = (u8) (*temp_v0 | *(&(*(D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1))) +
 //                         1));
 //                     }
-//                     if ((temp_a0_2 & -0x40) == 0) {
+//                     if ((temp_a0_2 & ~0x3F) == 0) {
 //                         temp_v0 = (temp_t0 + temp_a0_2) + temp_s2;
 //                         *temp_v0 = (u8) (*temp_v0 | *(&(*(D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1))) +
 //                         2));
@@ -414,22 +375,22 @@ void func_80895EF0(BgJyaCobra* this);
 //                     phi_a2 = temp_v0_4 - 3;
 //                     phi_a3 = temp_v0_4 - 2;
 //                     do {
-//                         if ((phi_v1 & -0x40) == 0) {
+//                         if ((phi_v1 & ~0x3F) == 0) {
 //                             temp_v0 = (temp_t0 + phi_v1) + temp_s2;
 //                             *temp_v0 = (u8) (*temp_v0 | *((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1)) +
 //                             phi_a0));
 //                         }
-//                         if ((phi_a1 & -0x40) == 0) {
+//                         if ((phi_a1 & ~0x3F) == 0) {
 //                             temp_v0 = (temp_t0 + phi_a1) + temp_s2;
 //                             *temp_v0 = (u8) (*temp_v0 | *(&(*((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1))
 //                             + phi_a0)) + 1));
 //                         }
-//                         if ((phi_a2 & -0x40) == 0) {
+//                         if ((phi_a2 & ~0x3F) == 0) {
 //                             temp_v0 = (temp_t0 + phi_a2) + temp_s2;
 //                             *temp_v0 = (u8) (*temp_v0 | *(&(*((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1))
 //                             + phi_a0)) + 2));
 //                         }
-//                         if ((phi_a3 & -0x40) == 0) {
+//                         if ((phi_a3 & ~0x3F) == 0) {
 //                             temp_v0 = (temp_t0 + phi_a3) + temp_s2;
 //                             *temp_v0 = (u8) (*temp_v0 | *(&(*((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1))
 //                             + phi_a0)) + 3));
@@ -471,11 +432,11 @@ void func_80895EF0(BgJyaCobra* this);
 //             phi_a1_2 = (s32) (((88.0f - spBC.z) * 0.64f) + 0.5f) - 1;
 //             phi_t1_2 = 0;
 //             do {
-//                 if ((phi_a1_2 & -0x40) == 0) {
+//                 if ((phi_a1_2 & ~0x3F) == 0) {
 //                     phi_v1_2 = (s32) (((spBC.x + 50.0f) * 0.64f) + 0.5f) - 1;
 //                     phi_a0_2 = 0;
 //                     do {
-//                         if ((phi_v1_2 & -0x40) == 0) {
+//                         if ((phi_v1_2 & ~0x3F) == 0) {
 //                             temp_v0 = ((phi_a1_2 << 6) + phi_v1_2) + temp_s2;
 //                             *temp_v0 = (u8) (*temp_v0 | *((D_80897398 + ((phi_t1_2 * 4) - phi_t1_2)) + phi_a0_2));
 //                         }
