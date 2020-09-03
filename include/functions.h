@@ -319,7 +319,7 @@ void Actor_Kill(Actor* actor);
 void Actor_SetHeight(Actor* actor, f32 offset);
 void Actor_SetScale(Actor* actor, f32 scale);
 void Actor_SetObjectDependency(GlobalContext* globalCtx, Actor* actor);
-void func_8002D7EC(Actor* actor);
+s16 func_8002D7EC(Actor* actor);
 void func_8002D868(Actor* actor);
 void Actor_MoveForward(Actor* actor);
 void func_8002D908(Actor* actor);
