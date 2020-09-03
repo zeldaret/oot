@@ -484,7 +484,7 @@ glabel Camera_KeepOn3
 /* AC5254 8004E0B4 14400005 */  bnez  $v0, .L8004E0CC
 /* AC5258 8004E0B8 02602025 */   move  $a0, $s3
 /* AC525C 8004E0BC 02202825 */  move  $a1, $s1
-/* AC5260 8004E0C0 0C010FCD */  jal   func_80043F34
+/* AC5260 8004E0C0 0C010FCD */  jal   Camera_BGCheck
 /* AC5264 8004E0C4 02403025 */   move  $a2, $s2
 /* AC5268 8004E0C8 10400016 */  beqz  $v0, .L8004E124
 .L8004E0CC:
@@ -649,7 +649,7 @@ glabel Camera_KeepOn3
 /* AC54DC 8004E33C E6600100 */  swc1  $f0, 0x100($s3)
 /* AC54E0 8004E340 8FA60048 */  lw    $a2, 0x48($sp)
 /* AC54E4 8004E344 02602025 */  move  $a0, $s3
-/* AC54E8 8004E348 0C010FCD */  jal   func_80043F34
+/* AC54E8 8004E348 0C010FCD */  jal   Camera_BGCheck
 /* AC54EC 8004E34C 02002825 */   move  $a1, $s0
 /* AC54F0 8004E350 8FB80038 */  lw    $t8, 0x38($sp)
 /* AC54F4 8004E354 8719001C */  lh    $t9, 0x1c($t8)

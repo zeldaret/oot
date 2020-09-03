@@ -196,7 +196,7 @@ glabel Camera_Jump2
 /* AC1644 8004A4A4 ACAD0004 */  sw    $t5, 4($a1)
 /* AC1648 8004A4A8 8D0E0008 */  lw    $t6, 8($t0)
 /* AC164C 8004A4AC ACAE0008 */  sw    $t6, 8($a1)
-/* AC1650 8004A4B0 0C011144 */  jal   func_80044510
+/* AC1650 8004A4B0 0C011144 */  jal   Camera_GetFloorY
 /* AC1654 8004A4B4 AFA8002C */   sw    $t0, 0x2c($sp)
 /* AC1658 8004A4B8 3C01C6FA */  li    $at, 0xC6FA0000 # 0.000000
 /* AC165C 8004A4BC 44819000 */  mtc1  $at, $f18
@@ -515,7 +515,7 @@ glabel Camera_Jump2
 /* AC1B00 8004A960 27A600C8 */  addiu $a2, $sp, 0xc8
 /* AC1B04 8004A964 27A70088 */  addiu $a3, $sp, 0x88
 /* AC1B08 8004A968 460A9100 */  add.s $f4, $f18, $f10
-/* AC1B0C 8004A96C 0C01110D */  jal   func_80044434
+/* AC1B0C 8004A96C 0C01110D */  jal   Camera_GetFloorYNorm
 /* AC1B10 8004A970 E7A400D0 */   swc1  $f4, 0xd0($sp)
 /* AC1B14 8004A974 3C01C6FA */  li    $at, 0xC6FA0000 # 0.000000
 /* AC1B18 8004A978 44813000 */  mtc1  $at, $f6
@@ -664,7 +664,7 @@ glabel Camera_Jump2
 /* AC1D40 8004ABA0 ACD80004 */  sw    $t8, 4($a2)
 /* AC1D44 8004ABA4 8DEB0008 */  lw    $t3, 8($t7)
 /* AC1D48 8004ABA8 ACCB0008 */  sw    $t3, 8($a2)
-/* AC1D4C 8004ABAC 0C010F46 */  jal   func_80043D18
+/* AC1D4C 8004ABAC 0C010F46 */  jal   Camera_BGCheckInfo
 /* AC1D50 8004ABB0 8FA50034 */   lw    $a1, 0x34($sp)
 /* AC1D54 8004ABB4 10400030 */  beqz  $v0, .L8004AC78
 /* AC1D58 8004ABB8 8FAD0030 */   lw    $t5, 0x30($sp)
@@ -686,7 +686,7 @@ glabel Camera_Jump2
 /* AC1D98 8004ABF8 A7AE00B2 */   sh    $t6, 0xb2($sp)
 /* AC1D9C 8004ABFC 02002025 */  move  $a0, $s0
 /* AC1DA0 8004AC00 8FA50034 */  lw    $a1, 0x34($sp)
-/* AC1DA4 8004AC04 0C010F46 */  jal   func_80043D18
+/* AC1DA4 8004AC04 0C010F46 */  jal   Camera_BGCheckInfo
 /* AC1DA8 8004AC08 27A60060 */   addiu $a2, $sp, 0x60
 /* AC1DAC 8004AC0C 1040000A */  beqz  $v0, .L8004AC38
 /* AC1DB0 8004AC10 00002025 */   move  $a0, $zero
@@ -712,7 +712,7 @@ glabel Camera_Jump2
 /* AC1DFC 8004AC5C 27A600B4 */   addiu $a2, $sp, 0xb4
 /* AC1E00 8004AC60 02002025 */  move  $a0, $s0
 /* AC1E04 8004AC64 8FA50034 */  lw    $a1, 0x34($sp)
-/* AC1E08 8004AC68 0C010FCD */  jal   func_80043F34
+/* AC1E08 8004AC68 0C010FCD */  jal   Camera_BGCheck
 /* AC1E0C 8004AC6C 8FA60038 */   lw    $a2, 0x38($sp)
 /* AC1E10 8004AC70 10000009 */  b     .L8004AC98
 /* AC1E14 8004AC74 C7A400B4 */   lwc1  $f4, 0xb4($sp)

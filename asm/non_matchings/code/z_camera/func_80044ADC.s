@@ -101,7 +101,7 @@ glabel func_80044ADC
 /* ABBDB4 80044C14 46082200 */  add.s $f8, $f4, $f8
 /* ABBDB8 80044C18 E42ACE58 */  swc1  $f10, %lo(D_8015CE58)($at)
 /* ABBDBC 80044C1C 3C018016 */  lui   $at, %hi(D_8015CE58)
-/* ABBDC0 80044C20 0C010F46 */  jal   func_80043D18
+/* ABBDC0 80044C20 0C010F46 */  jal   Camera_BGCheckInfo
 /* ABBDC4 80044C24 E428CE60 */   swc1  $f8, %lo(D_8015CE58+0x8)($at)
 /* ABBDC8 80044C28 87AB007A */  lh    $t3, 0x7a($sp)
 /* ABBDCC 80044C2C 11600006 */  beqz  $t3, .L80044C48
@@ -159,13 +159,13 @@ glabel func_80044ADC
 /* ABBE94 80044CF4 E7A60030 */  swc1  $f6, 0x30($sp)
 /* ABBE98 80044CF8 24C6CE58 */  addiu $a2, %lo(D_8015CE58) # addiu $a2, $a2, -0x31a8
 /* ABBE9C 80044CFC 02002025 */  move  $a0, $s0
-/* ABBEA0 80044D00 0C01115A */  jal   func_80044568
+/* ABBEA0 80044D00 0C01115A */  jal   Camera_GetFloorYLayer
 /* ABBEA4 80044D04 27A5004C */   addiu $a1, $sp, 0x4c
 /* ABBEA8 80044D08 46000406 */  mov.s $f16, $f0
 /* ABBEAC 80044D0C 1000000E */  b     .L80044D48
 /* ABBEB0 80044D10 46000486 */   mov.s $f18, $f0
 .L80044D14:
-/* ABBEB4 80044D14 0C01115A */  jal   func_80044568
+/* ABBEB4 80044D14 0C01115A */  jal   Camera_GetFloorYLayer
 /* ABBEB8 80044D18 27A70034 */   addiu $a3, $sp, 0x34
 /* ABBEBC 80044D1C 3C068016 */  lui   $a2, %hi(D_8015CE58) # $a2, 0x8016
 /* ABBEC0 80044D20 3C018016 */  lui   $at, %hi(D_8015CE50)
@@ -173,7 +173,7 @@ glabel func_80044ADC
 /* ABBEC8 80044D28 24C6CE58 */  addiu $a2, %lo(D_8015CE58) # addiu $a2, $a2, -0x31a8
 /* ABBECC 80044D2C 02002025 */  move  $a0, $s0
 /* ABBED0 80044D30 27A5004C */  addiu $a1, $sp, 0x4c
-/* ABBED4 80044D34 0C01115A */  jal   func_80044568
+/* ABBED4 80044D34 0C01115A */  jal   Camera_GetFloorYLayer
 /* ABBED8 80044D38 27A70034 */   addiu $a3, $sp, 0x34
 /* ABBEDC 80044D3C 3C018016 */  lui   $at, %hi(D_8015CE50)
 /* ABBEE0 80044D40 C432CE50 */  lwc1  $f18, %lo(D_8015CE50)($at)

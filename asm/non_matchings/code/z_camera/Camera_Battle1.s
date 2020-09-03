@@ -1084,7 +1084,7 @@ glabel Camera_Battle1
 /* AC35C4 8004C424 11600005 */  beqz  $t3, .L8004C43C
 /* AC35C8 8004C428 30580002 */   andi  $t8, $v0, 2
 .L8004C42C:
-/* AC35CC 8004C42C 0C010F46 */  jal   func_80043D18
+/* AC35CC 8004C42C 0C010F46 */  jal   Camera_BGCheckInfo
 /* AC35D0 8004C430 8FA50048 */   lw    $a1, 0x48($sp)
 /* AC35D4 8004C434 10000017 */  b     .L8004C494
 /* AC35D8 8004C438 27B900BC */   addiu $t9, $sp, 0xbc

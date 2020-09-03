@@ -127,7 +127,7 @@ glabel func_80046E20
 /* ABE17C 80046FDC 8FA50034 */  lw    $a1, 0x34($sp)
 /* ABE180 80046FE0 ACCB0004 */  sw    $t3, 4($a2)
 /* ABE184 80046FE4 8E0C0008 */  lw    $t4, 8($s0)
-/* ABE188 80046FE8 0C010F46 */  jal   func_80043D18
+/* ABE188 80046FE8 0C010F46 */  jal   Camera_BGCheckInfo
 /* ABE18C 80046FEC ACCC0008 */   sw    $t4, 8($a2)
 /* ABE190 80046FF0 3C068016 */  lui   $a2, %hi(D_8015CED0) # $a2, 0x8016
 /* ABE194 80046FF4 1440004B */  bnez  $v0, .L80047124

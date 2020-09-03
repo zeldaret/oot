@@ -62,7 +62,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         gSaveContext.horseData.scene = globalCtx->sceneNum;
 
         if (globalCtx->sceneNum == SCENE_SPOT12) {
-            player->rideActor->room = -1;
+            player->rideActor->actor.room = -1;
         }
     } else if ((globalCtx->sceneNum == SCENE_SPOT12) && (gSaveContext.minigameState == 3)) {
         Actor* horseActor;
@@ -189,7 +189,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
         gSaveContext.horseData.scene = globalCtx->sceneNum;
 
         if (globalCtx->sceneNum == SCENE_SPOT12) {
-            player->rideActor->room = -1;
+            player->rideActor->actor.room = -1;
         }
     } else {
         static struct_8011F9B8 D_8011F9B8[] = {

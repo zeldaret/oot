@@ -80,15 +80,6 @@ CameraModeValue var[] = { \
     { yOffset, 0 }, { eyeDist, 1 }, { minDistForRot, 2 }, { timerInit, 22 }, { phi, 3 }, { fovTarget, 7 }, { atMaxLERPScale, 8 }, { interfaceFlags, 9 }, \
 }
 
-/**
- * Copies scene camera data to dpos and drot
-*/
-#define CPY_SCENECAM(dpos,drot) { \
-    Camera_Vec3sToVec3f(dpos, &sceneCamData->pos); \
-    *eye = *(dpos); \
-    drot = sceneCamData->rot; \
-}
-
 /*==================================================================*/
 // Data
 s16 sOREGInit[] = {

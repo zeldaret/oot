@@ -496,7 +496,7 @@ typedef struct {
     /* 0x0000 */ SwingAnimation swing;
     /* 0x001C */ f32 yOffset;
     /* 0x0020 */ f32 unk_20;
-    /* 0x0024 */ s16 unk_24;
+    /* 0x0024 */ s16 slopePitchAdj;
     /* 0x0026 */ s16 swingYawTarget;
     /* 0x0028 */ s16 unk_28;
     /* 0x002A */ s16 startSwingTimer;
