@@ -41,7 +41,7 @@ extern Gfx D_060006B0[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
     Sphere16* worldSphere = &this->collider.list->dim.worldSphere;
-    
+
     worldSphere->center.x = this->actor.posRot.pos.x;
     worldSphere->center.y = D_80A4DEC4[(this->actor.params >> 10) & 1] + this->actor.posRot.pos.y;
     worldSphere->center.z = this->actor.posRot.pos.z;
@@ -56,7 +56,10 @@ void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->collider.list->dim.worldSphere.radius = 0x3A;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD70.s")
+void func_80A4BD70(EnGoroiwa* this, u8 arg1) {
+    this->unk_1D3 &= ~3;
+    this->unk_1D3 |= arg1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BD8C.s")
 
@@ -172,7 +175,7 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
             }
         } else {
-            this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor, &this->actor.posRot);
+            this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor, &this->actor.posRot.pos);
         }
         func_80A4CED8(this, globalCtx);
         if (this->actor.xzDistFromLink < 300.0f) {
