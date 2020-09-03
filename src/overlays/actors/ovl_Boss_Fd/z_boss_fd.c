@@ -398,7 +398,7 @@ Vec3f D_808D1A04 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808D1A10 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
 
-// #ifndef NON_MATCHING
+#ifdef NON_MATCHING
 // Control flow is correct and works when compiled. It's enormous, though, so matching will be hard.
 void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = 0;
@@ -1167,9 +1167,9 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
         }
     }
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd/func_808CB718.s")
-// #endif
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd/func_808CB718.s")
+#endif
 
 void func_808CDE30(BossFd* this, GlobalContext* globalCtx) {
     u8 temp_rand;
