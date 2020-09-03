@@ -101,15 +101,15 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     SkinMatrix_MtxFMtxFMult(&mtxPersTrans, &mtxRotY, &mtxRotYPersTrans);
     SkinMatrix_MtxFMtxFMult(&mtxRotYPersTrans, &mtxScale, &mtxResult);
     gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    
+
     mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &mtxResult);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80093C14(oGfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R], this->regs[SS_KIRAKIRA_PRIM_G],
-                        this->regs[SS_KIRAKIRA_PRIM_B],
-                        (((s8) ((55.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life) + 200)));
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R],
+                        this->regs[SS_KIRAKIRA_PRIM_G], this->regs[SS_KIRAKIRA_PRIM_B],
+                        (((s8)((55.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life) + 200)));
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_KIRAKIRA_ENV_R], this->regs[SS_KIRAKIRA_ENV_G],
                        this->regs[SS_KIRAKIRA_ENV_B], this->regs[SS_KIRAKIRA_ENV_A]);
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);

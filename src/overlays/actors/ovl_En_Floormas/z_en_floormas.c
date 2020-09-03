@@ -294,7 +294,8 @@ void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
     pos.x = this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 15.0f;
     pos.z = this->actor.posRot.pos.z;
-    EffectSsDeadDb_Spawn(globalCtx, &pos, &D_80A1A4D0, &D_80A1A4DC, 0x96, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
+    EffectSsDeadDb_Spawn(globalCtx, &pos, &D_80A1A4D0, &D_80A1A4DC, 0x96, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1,
+                         9, 1);
     this->actionFunc = EnFloormas_SmShrink;
 }
 
@@ -977,8 +978,8 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     if (this->actor.colChkInfo.damageEffect == 2) {
-                        EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.scale.x * 4000.f,
-                                      this->actor.scale.x * 4000.f);
+                        EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos,
+                                              this->actor.scale.x * 4000.f, this->actor.scale.x * 4000.f);
                     }
                     EnFloormas_SetupTakeDamage(this);
                 }

@@ -137,7 +137,7 @@ void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             }
             EffectSs_DrawGEffect(globalCtx, this, D_809A7954[texIdx]);
             break;
-            
+
         default:
             break;
     }

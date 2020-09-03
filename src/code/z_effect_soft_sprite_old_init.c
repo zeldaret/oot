@@ -778,8 +778,8 @@ void EffectSsFCircle_Spawn(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s
 // EffectSsDeadDb Spawn Functions
 
 void EffectSsDeadDb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
-                   s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused, s32 arg14,
-                   s16 arg15) {
+                          s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused,
+                          s32 arg14, s16 arg15) {
     EffectSsDeadDbInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);

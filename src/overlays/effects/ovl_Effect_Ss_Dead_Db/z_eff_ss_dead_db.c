@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_dead_db.c
  * Overlay: ovl_Effect_Ss_Dead_Db
- * Description:
+ * Description: Flames and sound used when an enemy dies
  */
 
 #include "z_eff_ss_dead_db.h"

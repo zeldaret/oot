@@ -55,7 +55,7 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->regs[SS_G_MAGMA_ENV_G] = 0;
     this->regs[SS_G_MAGMA_ENV_B] = 0;
     this->regs[SS_G_MAGMA_ENV_A] = 0;
-    
+
     return 1;
 }
 

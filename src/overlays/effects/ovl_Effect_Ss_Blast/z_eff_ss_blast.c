@@ -79,7 +79,7 @@ void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
-    
+
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_blast.c", 204);
 }
 

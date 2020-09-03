@@ -219,8 +219,8 @@ void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &D_80B30D70, &D_80B30D70, 0xFA, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0,
-                  0, 0xFF, 1, 9, 1);
+    EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &D_80B30D70, &D_80B30D70, 0xFA, -0xA, 0xFF, 0xFF, 0xFF,
+                         0xFF, 0, 0, 0xFF, 1, 9, 1);
 
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xC0);
     this->actionFunc = EnWallmas_Die;

@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_sibuki.c
  * Overlay: ovl_Effect_Ss_Sibuki
- * Description:
+ * Description: Bubbles (only used by gohma and gohmalings in the original game)
  */
 
 #include "z_eff_ss_sibuki.h"
@@ -21,8 +21,8 @@ typedef enum {
 } EffectSsSibukiRegs;
 
 u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809AB7EC(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809AB9DC(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Sibuki_InitVars = {
     EFFECT_SS_SIBUKI,
@@ -48,8 +48,8 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 
     this->life = ((s16)((Math_Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
     this->regs[SS_SIBUKI_8] = initParams->unk_24 + 1;
-    this->draw = func_809AB7EC;
-    this->update = func_809AB9DC;
+    this->draw = EffectSsSibuki_Draw;
+    this->update = EffectSsSibuki_Update;
     this->regs[SS_SIBUKI_9] = initParams->unk_26;
     this->regs[SS_SIBUKI_SCALE] = initParams->unk_28;
     this->regs[SS_SIBUKI_PRIM_R] = 100;
@@ -64,7 +64,7 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     return 1;
 }
 
-void func_809AB7EC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 scale;
 
@@ -87,11 +87,10 @@ void func_809AB7EC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki.c", 198);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Sibuki/func_809AB9DC.s")
-/*
-void func_809AB9DC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s16 sp2E;
+void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    s32 pad[3];
     f32 temp_f2;
+    s16 sp2E;
     Player* player = PLAYER;
 
     if (this->pos.y <= player->actor.groundY) {
@@ -103,8 +102,7 @@ void func_809AB9DC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
         if (this->regs[SS_SIBUKI_8] == 0) {
             sp2E = func_8005A948(Gameplay_GetCamera(globalCtx, 0));
-
-            temp_f2 = ((KREG(23) + 20.0f) * (0.1f * Math_Rand_ZeroOne())) + ((200.0f + KREG(20)) * 0.01f);
+            temp_f2 = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
             if (this->regs[SS_SIBUKI_9] != 0) {
                 temp_f2 *= -1.0f;
@@ -113,9 +111,8 @@ void func_809AB9DC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             this->velocity.x = Math_Coss(sp2E) * temp_f2;
             this->velocity.z = -Math_Sins(sp2E) * temp_f2;
 
-            this->velocity.y = ((KREG(24) + 20.0f) * (0.1f * Math_Rand_ZeroOne())) + ((700.0f + KREG(21)) * 0.01f);
-
-            this->accel.y = (KREG(25) * (0.1f * Math_Rand_ZeroOne())) + ((-100.0f + KREG(22)) * 0.01f);
+            this->velocity.y = ((700.0f + KREG(21)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(24) + 20.0f));
+            this->accel.y = ((-100.0f + KREG(22)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * KREG(25));
 
             if (KREG(3) != 0) {
                 this->velocity.x *= (KREG(3) * 0.01f);
@@ -130,4 +127,3 @@ void func_809AB9DC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         }
     }
 }
-*/

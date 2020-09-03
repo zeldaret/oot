@@ -162,7 +162,7 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
         if (1) {}
         if (1) {}
     }
-    
+
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 456);
 }
 

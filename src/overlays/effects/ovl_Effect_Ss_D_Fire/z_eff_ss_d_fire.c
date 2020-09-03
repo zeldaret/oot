@@ -72,7 +72,6 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Mtx* mtx;
     f32 scale;
 
-    
     object = globalCtx->objectCtx.status[this->regs[SS_D_FIRE_OBJ_BANK_IDX]].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
