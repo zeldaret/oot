@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_sibuki2.c
  * Overlay: ovl_Effect_Ss_Sibuki2
- * Description:
+ * Description: Unfinished and unused bubble effect
  */
 
 #include "z_eff_ss_sibuki2.h"

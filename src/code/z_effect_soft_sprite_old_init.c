@@ -25,6 +25,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Db/z_eff_ss_dead_db.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Ds/z_eff_ss_dead_ds.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 extern Color_RGBA8_n D_801158D4;
@@ -826,7 +827,7 @@ void func_8002A770(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_DD, 120, &initParams);
 }
 
-// unused in the original game
+// unused
 void func_8002A824(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleStep, f32 randPosScale, s32 num,
                    s32 life) {
     EffectSsDeadDdInitParams initParams;
@@ -844,9 +845,24 @@ void func_8002A824(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleSte
 
 // EffectSsDeadDs Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A894.s")
+void EffectSsDeadDs_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                          s16 alpha, s32 life) {
+    EffectSsDeadDsInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A90C.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.alpha = alpha;
+    initParams.life = life;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_DS, 100, &initParams);
+}
+
+void EffectSsDeadDs_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleStep, s16 alpha,
+                                    s32 life) {
+    EffectSsDeadDs_Spawn(globalCtx, pos, &D_801158C0, &D_801158C0, scale, scaleStep, alpha, life);
+}
 
 // EffectSsDeadSound Spawn Functions
 

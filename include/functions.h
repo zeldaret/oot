@@ -288,8 +288,8 @@ void func_8002A770(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
                    s16 primR, s16 primG, s16 primB, s16 alpha, s16 envR, s16 envG, s16 envB, s16 alphaStep, s32 life);
 void func_8002A824(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleStep, f32 randPosScale, s32 num,
                    s32 life);
-// ? func_8002A894(?);
-// ? func_8002A90C(?);
+// ? EffectSsDeadDs_Spawn(?);
+// ? EffectSsDeadDs_SpawnStationary(?);
 void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28,
                                        s32 life);
 // ? func_8002AA44(?);
@@ -489,7 +489,7 @@ void ActorOverlayTable_Cleanup(void);
 // ? func_800388E8(?);
 // ? func_80038924(?);
 // ? func_800389D4(?);
-void func_80038A28(CollisionPoly*, f32, f32, f32, MtxF*);
+void func_80038A28(CollisionPoly* poly, f32 x, f32 y, f32 z, MtxF* mtxF);
 f32 func_80038B7C(CollisionPoly*, Vec3f*);
 // ? func_80038BE0(?);
 // ? func_80038D48(?);
@@ -525,6 +525,7 @@ f32 func_80038B7C(CollisionPoly*, Vec3f*);
 // ? T_BGCheck_getBGDataInfo(?);
 // ? func_8003C55C(?);
 // ? func_8003C614(?);
+f32 func_8003C890(CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos);
 f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
 f32 func_8003C9A4(CollisionContext*, CollisionPoly**, UNK_PTR, Actor*, Vec3f*);
@@ -532,6 +533,8 @@ f32 func_8003CA0C(GlobalContext*, CollisionContext*, CollisionPoly**, u32*, Acto
 f32 func_8003CB30(CollisionContext*, CollisionPoly*, Vec3f*, MtxF*);
 f32 func_8003CCA4(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
 // ? func_8003CDD4(?);
+s32 func_8003D464(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 arg4,
+                  CollisionPoly** outPoly, f32 checkHeight);
 s32 func_8003D52C(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, f32, CollisionPoly**, u32*, Actor*, f32);
 s32 func_8003D594(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, f32, CollisionPoly**, u32*, Actor*, f32);
 // ? func_8003D600(?);

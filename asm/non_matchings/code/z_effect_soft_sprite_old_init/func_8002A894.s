@@ -1,4 +1,4 @@
-glabel func_8002A894
+glabel EffectSsDeadDs_Spawn
 /* AA1A34 8002A894 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* AA1A38 8002A898 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AA1A3C 8002A89C AFA40048 */  sw    $a0, 0x48($sp)
