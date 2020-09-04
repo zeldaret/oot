@@ -261,7 +261,7 @@ glabel BgSpot00Hanebasi_Init
 /* 00384 808A9B04 26060170 */  addiu   $a2, $s0, 0x0170           ## $a2 = 00000170
 /* 00388 808A9B08 0500001B */  bltz    $t0, .L808A9B78            
 /* 0038C 808A9B0C 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
-/* 00390 808A9B10 0C01E9D9 */  jal     Lights_Insert
+/* 00390 808A9B10 0C01E9D9 */  jal     LightContext_InsertNewNode
               
 /* 00394 808A9B14 AFA60048 */  sw      $a2, 0x0048($sp)           
 /* 00398 808A9B18 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C

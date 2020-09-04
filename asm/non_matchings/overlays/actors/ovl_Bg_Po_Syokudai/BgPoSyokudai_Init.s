@@ -25,7 +25,7 @@ glabel BgPoSyokudai_Init
 /* 00044 808A80F4 26060154 */  addiu   $a2, $s0, 0x0154           ## $a2 = 00000154
 /* 00048 808A80F8 AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 0004C 808A80FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00050 808A8100 0C01E9D9 */  jal     Lights_Insert
+/* 00050 808A8100 0C01E9D9 */  jal     LightContext_InsertNewNode
 /* 00054 808A8104 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 00058 808A8108 C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028
 /* 0005C 808A810C C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024

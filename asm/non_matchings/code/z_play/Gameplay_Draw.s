@@ -530,12 +530,12 @@ glabel Gameplay_Draw
 /* B36728 800BF588 1160000E */  beqz  $t3, .L800BF5C4
 /* B3672C 800BF58C 260407A8 */   addiu $a0, $s0, 0x7a8
 .L800BF590:
-/* B36730 800BF590 0C01E9B1 */  jal   Lights_New
+/* B36730 800BF590 0C01E9B1 */  jal   LightContext_NewLights
 /* B36734 800BF594 02202825 */   move  $a1, $s1
 /* B36738 800BF598 AFA20228 */  sw    $v0, 0x228($sp)
 /* B3673C 800BF59C 8E0507A8 */  lw    $a1, 0x7a8($s0)
 /* B36740 800BF5A0 00402025 */  move  $a0, $v0
-/* B36744 800BF5A4 0C01E91D */  jal   Lights_Update
+/* B36744 800BF5A4 0C01E91D */  jal   Lights_BindAll
 /* B36748 800BF5A8 00003025 */   move  $a2, $zero
 /* B3674C 800BF5AC 8FA40228 */  lw    $a0, 0x228($sp)
 /* B36750 800BF5B0 0C01E7BF */  jal   Lights_Draw

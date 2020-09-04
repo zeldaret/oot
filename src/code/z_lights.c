@@ -11,7 +11,7 @@ typedef struct {
 
 LightsBuffer sLightsBuffer;
 
-void Lights_PointSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, u32 type) {
+void Lights_PointSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, s32 type) {
     info->type = type;
     info->params.point.x = x;
     info->params.point.y = y;
@@ -45,18 +45,15 @@ void Lights_DirectionalSetInfo(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8
 }
 
 // unused
-void Lights_Reset(Lights* lights, u8 r, u8 g, u8 b) {
-    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = r;
-    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = g;
-    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = b;
+void Lights_Reset(Lights* lights, u8 ambentR, u8 ambentG, u8 ambentB) {
+    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = ambentR;
+    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = ambentG;
+    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = ambentB;
     lights->numLights = 0;
 }
 
 /*
- * Draws every light in the provided Lights group.
- *
- * Note: Due to how Lights_Update is implemented, this will end up drawing every light in the buffer,
- *       even if the light was not added by the system invoking this function.
+ * Draws every light in the provided Lights group
  */
 void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
     Light* light;
@@ -94,7 +91,7 @@ Light* Lights_FindSlot(Lights* lights) {
     }
 }
 
-void Lights_UpdatePoint(Lights* lights, LightParams* params, Vec3f* vec) {
+void Lights_BindPoint(Lights* lights, LightParams* params, Vec3f* vec) {
     f32 xDiff;
     f32 yDiff;
     f32 zDiff;
@@ -132,7 +129,7 @@ void Lights_UpdatePoint(Lights* lights, LightParams* params, Vec3f* vec) {
     }
 }
 
-void Lights_UpdateDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
+void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
     Light* light = Lights_FindSlot(lights);
 
     if (light != NULL) {
@@ -146,28 +143,24 @@ void Lights_UpdateDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
 }
 
 /*
- * Updates every light that is currently in sLightsBuffer according to params contained in each node.
+ * For every node in a provided list, try to find a free slot in the provided Lights group and bind
+ * a light node to it. Then apply color and positional/directional info for each light
+ * based on the parameters supplied by the node.
  *
- * Note: This updates every light in the buffer and adds them all to a Lights group,
- *       even those that were not added by the system invoking this function.
+ * Note: Light nodes in a given list can only be binded to however many free slots are
+ * available in the Lights group. This is at most 7 slots for a new group, but could be less.
  */
-void Lights_Update(Lights* lights, LightNode* listHead, Vec3f* vec) {
-    LightsUpdateFunc updateFuncs[] = { Lights_UpdatePoint, Lights_UpdateDirectional, Lights_UpdatePoint };
+void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec) {
+    LightsBindFunc bindFuncs[] = { Lights_BindPoint, Lights_BindDirectional, Lights_BindPoint };
     LightInfo* info;
 
     while (listHead != NULL) {
         info = listHead->info;
-        updateFuncs[info->type](lights, &info->params, vec);
+        bindFuncs[info->type](lights, &info->params, vec);
         listHead = listHead->next;
     }
 }
 
-/*
- * Finds a slot in the buffer to add a node so that it can be updated and drawn
- *
- * Note: Even though there is space for 32 nodes, only the first 7 will be drawn due to how Lights_Update and
- *       Lights_Draw are implemented.
- */
 LightNode* Lights_FindBufSlot() {
     LightNode* node;
 
@@ -202,14 +195,14 @@ s32 Lights_FreeNode(LightNode* light) {
     }
 }
 
-void Lights_InitContext(GlobalContext* globalCtx, LightContext* lightCtx) {
-    Lights_InitList(globalCtx, lightCtx);
-    Lights_SetAmbientColor(lightCtx, 80, 80, 80);
+void LightContext_Init(GlobalContext* globalCtx, LightContext* lightCtx) {
+    LightContext_InitList(globalCtx, lightCtx);
+    LightContext_SetAmbientColor(lightCtx, 80, 80, 80);
     func_8007A698(lightCtx, 0, 0, 0, 0x3E4, 0x3200);
     bzero(&sLightsBuffer, sizeof(sLightsBuffer));
 }
 
-void Lights_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
+void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
     lightCtx->ambient.r = r;
     lightCtx->ambient.g = g;
     lightCtx->ambient.b = b;
@@ -223,22 +216,31 @@ void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 numLig
     lightCtx->unk_0C = arg5;
 }
 
-Lights* Lights_New(LightContext* lightCtx, GraphicsContext* gfxCtx) {
-    return Lights_AllocAndInit(gfxCtx, lightCtx->ambient.r, lightCtx->ambient.g, lightCtx->ambient.b);
+/*
+ * Allocate a new Lights group and initilize the ambient color with that provided by LightContext
+ */
+Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx) {
+    return Lights_New(gfxCtx, lightCtx->ambient.r, lightCtx->ambient.g, lightCtx->ambient.b);
 }
 
-void Lights_InitList(GlobalContext* globalCtx, LightContext* lightCtx) {
+void LightContext_InitList(GlobalContext* globalCtx, LightContext* lightCtx) {
     lightCtx->listHead = NULL;
 }
 
-void Lights_DestroyList(GlobalContext* globalCtx, LightContext* lightCtx) {
+void LightContext_DestroyList(GlobalContext* globalCtx, LightContext* lightCtx) {
     while (lightCtx->listHead != NULL) {
-        Lights_Remove(globalCtx, lightCtx, lightCtx->listHead);
+        LightContext_RemoveNode(globalCtx, lightCtx, lightCtx->listHead);
         lightCtx->listHead = lightCtx->listHead->next;
     }
 }
 
-LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info) {
+/*
+ * Insert a new light node into the list pointed to by LightContext
+ *
+ * Note: Due to the limited number of slots in a Lights group, inserting too many nodes in the
+ * list may result in older entries not being bound to a Light when calling Lights_BindAll
+ */
+LightNode* LightContext_InsertNewNode(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info) {
     LightNode* node;
 
     node = Lights_FindBufSlot();
@@ -258,7 +260,7 @@ LightNode* Lights_Insert(GlobalContext* globalCtx, LightContext* lightCtx, Light
     return node;
 }
 
-void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
+void LightContext_RemoveNode(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
     if (node != NULL) {
         if (node->prev != NULL) {
             node->prev->next = node->next;
@@ -275,8 +277,8 @@ void Lights_Remove(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* 
 }
 
 // unused
-Lights* Lights_AllocAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,
-                            u8 b, s8 x, s8 y, s8 z) {
+Lights* Lights_NewAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,
+                          u8 b, s8 x, s8 y, s8 z) {
     Lights* lights;
     s32 i;
 
@@ -301,20 +303,20 @@ Lights* Lights_AllocAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u
     return lights;
 }
 
-Lights* Lights_AllocAndInit(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
+Lights* Lights_New(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB) {
     Lights* lights;
 
     lights = Graph_Alloc(gfxCtx, sizeof(Lights));
 
-    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = r;
-    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = g;
-    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = b;
+    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = ambientR;
+    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = ambientG;
+    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = ambientB;
     lights->numLights = 0;
 
     return lights;
 }
 
-void Lights_GlowDrawCheck(GlobalContext* globalCtx) {
+void Lights_GlowCheck(GlobalContext* globalCtx) {
     LightNode* node;
     LightPoint* params;
     Vec3f pos;

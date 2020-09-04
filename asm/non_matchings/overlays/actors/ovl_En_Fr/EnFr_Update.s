@@ -65,7 +65,7 @@ glabel EnFr_Update
 /* 00378 80A1AD18 2606035C */  addiu   $a2, $s0, 0x035C           ## $a2 = 0000035C
 /* 0037C 80A1AD1C AFA60030 */  sw      $a2, 0x0030($sp)
 /* 00380 80A1AD20 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00384 80A1AD24 0C01E9D9 */  jal     Lights_Insert
+/* 00384 80A1AD24 0C01E9D9 */  jal     LightContext_InsertNewNode
 
 /* 00388 80A1AD28 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 0038C 80A1AD2C C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008

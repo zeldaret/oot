@@ -63,7 +63,7 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
                                 this->actor.posRot.pos.z, 255, 255, 180, -1);
     }
 
-    this->lightNode = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    this->lightNode = LightContext_InsertNewNode(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Actor_SetScale(&this->actor, D_80A9E840[this->actor.params & 0xF].scale * 0.0001f);
     this->timer = (s32)(Math_Rand_ZeroOne() * 255.0f);
 
@@ -75,7 +75,7 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNode);
+    LightContext_RemoveNode(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
 
 void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {

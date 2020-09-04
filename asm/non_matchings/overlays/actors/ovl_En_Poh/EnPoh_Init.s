@@ -77,7 +77,7 @@ glabel EnPoh_Init
 /* 00118 80ADDE68 260602AC */  addiu   $a2, $s0, 0x02AC           ## $a2 = 000002AC
 /* 0011C 80ADDE6C AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 00120 80ADDE70 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00124 80ADDE74 0C01E9D9 */  jal     Lights_Insert
+/* 00124 80ADDE74 0C01E9D9 */  jal     LightContext_InsertNewNode
               
 /* 00128 80ADDE78 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 0012C 80ADDE7C C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008

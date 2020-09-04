@@ -39,7 +39,7 @@ glabel EnPoSisters_Init
 /* 00088 80AD9018 2606029C */  addiu   $a2, $s0, 0x029C           ## $a2 = 0000029C
 /* 0008C 80AD901C AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 00090 80AD9020 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00094 80AD9024 0C01E9D9 */  jal     Lights_Insert
+/* 00094 80AD9024 0C01E9D9 */  jal     LightContext_InsertNewNode
               
 /* 00098 80AD9028 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 0009C 80AD902C C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008

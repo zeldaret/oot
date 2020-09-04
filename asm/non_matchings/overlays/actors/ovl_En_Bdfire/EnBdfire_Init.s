@@ -69,7 +69,7 @@ glabel EnBdfire_Init
 /* 000DC 809BC10C AFA40034 */  sw      $a0, 0x0034($sp)           
 /* 000E0 809BC110 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 000E4 809BC114 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 000E8 809BC118 0C01E9D9 */  jal     Lights_Insert
+/* 000E8 809BC118 0C01E9D9 */  jal     LightContext_InsertNewNode
 /* 000EC 809BC11C 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
 /* 000F0 809BC120 1000004D */  beq     $zero, $zero, .L809BC258   
 /* 000F4 809BC124 AE0201D0 */  sw      $v0, 0x01D0($s0)           ## 000001D0
