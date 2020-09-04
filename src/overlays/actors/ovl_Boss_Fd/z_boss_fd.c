@@ -399,9 +399,9 @@ Vec3f D_808D1A10 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
 
 #ifdef NON_MATCHING
-//Somehow doesn't use rodata value D_808D1EB4 = 0.01f. It would occur after the 85.56f float 
-//literal in case 6 of the boss intro switch statement but before the next switch statement.
-//All other instructions match.
+// Somehow doesn't use rodata value D_808D1EB4 = 0.01f. It would occur after the 85.56f float
+// literal in case 6 of the boss intro switch statement but before the next switch statement.
+// All other instructions match.
 void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = 0;
     s16 i1;
@@ -440,36 +440,34 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     f32 phi_f20;
     f32 pad2;
     f32 pad1;
-    
-    
-    
+
     SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime2);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime3);
-    dx = this->targetPosition.x  - this->actor.posRot.pos.x;
+    dx = this->targetPosition.x - this->actor.posRot.pos.x;
     dy = this->targetPosition.y - this->actor.posRot.pos.y;
     dz = this->targetPosition.z - this->actor.posRot.pos.z;
     dx += Math_Sins(this->movementTimer * (2096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
     dy += Math_Sins(this->movementTimer * (1096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
     dz += Math_Sins(this->movementTimer * (1796.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
     angleToTarget = (s16)(Math_atan2f(dx, dz) * 10430.378f);
-    pitchToTarget = (s16)(Math_atan2f(dy, sqrtf(dx*dx + dz*dz)) * 10430.378f);
-    
+    pitchToTarget = (s16)(Math_atan2f(dy, sqrtf(dx * dx + dz * dz)) * 10430.378f);
+
     osSyncPrintf("MODE %d\n", this->actionState);
-    
+
     Math_SmoothScaleMaxF(&this->bodyPulse, 0.1f, 1.0f, 0.02);
 
     /****************************************************************************************
      *                                   Boss Intro Cutscene                                *
      ****************************************************************************************/
-    
+
     if (this->introState2 != 0) {
-        Player* player2 = PLAYER; //definitely needed for match
+        Player* player2 = PLAYER; // definitely needed for match
         Camera* camera = Gameplay_GetCamera(globalCtx, 0);
         switch (this->introState2) {
-            case 1: // switch 
+            case 1: // switch
                 this->fogMode = 3;
-                this->targetPosition.x  = 0.0f;
+                this->targetPosition.x = 0.0f;
                 this->targetPosition.y = -110.0f;
                 this->targetPosition.z = 0.0;
                 this->maxTurnRate = 10000.0f;
@@ -562,7 +560,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 if (this->animationTimers[0] < 50) {
                     Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
-                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8*0.01f);
+                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8 * 0.01f);
                 }
                 if (this->animationTimers[0] == 40) {
                     func_8002DF54(globalCtx, &this->actor, 0x13);
@@ -575,12 +573,11 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->unk_1484 = 0.02f;
                     this->animationTimers[0] = 70;
                     this->movementTimer = 0;
-                    
                 }
                 break;
             case 4: // switch 1
                 this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
-                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8*0.01f);
+                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8 * 0.01f);
                 Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (this->animationTimers[0] == 0) {
                     this->introState2 = 5;
@@ -600,7 +597,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             case 5: // switch 1
                 this->unk_1484 = 0.005f;
                 this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
-                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8*0.01f);
+                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8 * 0.01f);
                 Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (this->animationTimers[0] == 100) {
                     this->collapsePlatform = 1;
@@ -652,15 +649,14 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->unk_1444.y = 85.56f;
                     this->unk_1444.z = 25.0f;
                 } else {
-                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f,0.8*0.01f);
+                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8 * 0.01f);
                     this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 }
                 if (this->animationTimers[3] == 160) {
                     Audio_SetBGM(0x6B);
                 }
                 if ((this->animationTimers[3] == 130) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
-                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(&D_0600D700),
+                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&D_0600D700),
                                            0xA0, 0xB4, 0x80, 0x28);
                 }
                 if (this->animationTimers[3] < 101) {
@@ -749,14 +745,14 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->targetPosition.z = D_808D192C[this->holeIndex].z;
                     this->turnRate = 0.0f;
                     this->maxTurnRate = 1000.0f;
-                    if(this->introState2 != 0) {
+                    if (this->introState2 != 0) {
                         this->animationTimers[0] = 10050;
                     } else {
                         this->animationTimers[0] = 20;
                     }
                     this->flightWobbleAmplitude = 100.0f;
                     this->actionState = 1;
-                    
+
                     if (this->startAttack != 0) {
                         this->startAttack = 0;
                         this->flightCount += 1;
@@ -765,7 +761,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                             this->animationTimers[0] = 300;
                             this->maxTurnRate = 900.0f;
                             this->targetLinkYOffset = 300.0f;
-                            this->unk_234 =  this->unk_236 = 0;
+                            this->unk_234 = this->unk_236 = 0;
                         } else {
                             this->actionState = 50;
                         }
@@ -774,7 +770,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((this->animationTimers[0] == 0) && (sqrtf(dx*dx + dy*dy + dz*dz) < 100.0f)) {
+            if ((this->animationTimers[0] == 0) && (sqrtf(dx * dx + dy * dy + dz * dz) < 100.0f)) {
                 this->actionState = 2;
                 this->targetPosition.y = D_808D192C[this->holeIndex].y - 70.0f;
                 this->maxTurnRate = 10000.0f;
@@ -793,7 +789,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if ((this->animationTimers[0] == 0) && (sqrtf(dx*dx + dy*dy + dz*dz) < 100.0f)) {
+            if ((this->animationTimers[0] == 0) && (sqrtf(dx * dx + dy * dy + dz * dz) < 100.0f)) {
                 this->actor.posRot.pos = this->targetPosition;
                 this->actionState = 0;
                 this->actor.posRot.rot.x = 0x4000;
@@ -803,19 +799,18 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->flightWobbleAmplitude = 0.0f;
                 this->holePosition.x = this->targetPosition.x;
                 this->holePosition.z = this->targetPosition.z;
-                
-                
+
                 func_80033E1C(globalCtx, 1, 0x50, 0x5000);
-                if(this->introState2) {
+                if (this->introState2) {
                     this->animationTimers[0] = 50;
                 } else { // This isn't a fake match. The game actually does this.
                     this->animationTimers[0] = 50;
                 }
             }
             break;
-        case 50: // Flying up to the ceiling to drop rocks  
+        case 50: // Flying up to the ceiling to drop rocks
             this->flightSpeed = 8;
-            this->targetPosition.x = 0.0f; //float regalloc problems
+            this->targetPosition.x = 0.0f; // float regalloc problems
             this->targetPosition.y = 700.0f;
             this->targetPosition.z = -300.0f;
             this->flightWobbleAmplitude = 200.0f;
@@ -826,7 +821,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->animationTimers[2] = 150;
                 this->ceilingTargetIndex = 0;
             }
-            break; 
+            break;
         case 51: // Flying around the ceiling dropping rocks
             this->flightSpeed = 8;
             this->flightWobbleAmplitude = 200.0f;
@@ -886,7 +881,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case 200: // Start of death cutscene
-            if (sqrtf(dx*dx + dz*dz) < 50.0f) {
+            if (sqrtf(dx * dx + dz * dz) < 50.0f) {
                 this->animationTimers[0] = 0;
             }
             if (this->animationTimers[0] == 0) {
@@ -930,30 +925,29 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             if ((this->movementTimer & 0x1F) == 0) {
                 this->roarTimer = 40;
             }
-            
+
             if (this->skinSegments != 0) {
                 sp17C = D_808D19E0;
                 sp164 = D_808D19EC;
-                
+
                 if (this->fogMode == 0) {
                     globalCtx->envCtx.unk_D8 = 0;
                 }
                 this->fogMode = 0xA;
-                
+
                 sp150 = 1;
                 if (this->movementTimer & 0x1C) {
                     Audio_PlaySoundGeneral(0x30DA, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 for (i1 = 0; i1 < sp150; i1++) {
-                    if(sp150){ // needed for match
+                    if (sp150) { // needed for match
                         temp_rand2 = Math_Rand_ZeroFloat(99.9f);
                         sp188.x = this->bodySegsPos[temp_rand2].x;
                         sp188.y = this->bodySegsPos[temp_rand2].y - 10.0f;
                         sp188.z = this->bodySegsPos[temp_rand2].z;
                         sp164.y = 0.03f;
-                        func_80029DBC(globalCtx, &sp188, &sp17C, &sp164,
-                                       (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
-                    
+                        func_80029DBC(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
+
                         for (i2 = 0; i2 < 15; i2++) {
                             sp170.x = Math_Rand_CenteredFloat(20.0f);
                             sp170.y = Math_Rand_CenteredFloat(20.0f);
@@ -961,8 +955,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                             sp158.y = 0.4f;
                             sp158.x = Math_Rand_CenteredFloat(0.5f);
                             sp158.z = Math_Rand_CenteredFloat(0.5f);
-                            func_808CADC0(this->particles, &sp188, &sp170, &sp158,
-                                            (s16)Math_Rand_ZeroFloat(3.0f) + 8);
+                            func_808CADC0(this->particles, &sp188, &sp170, &sp158, (s16)Math_Rand_ZeroFloat(3.0f) + 8);
                         }
                     }
                 }
@@ -991,8 +984,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case 204: // Skull falls to the ground
-            this->turnRate = this->maxTurnRate = this->actor.speedXZ =this->flightSpeed =  0;
-            
+            this->turnRate = this->maxTurnRate = this->actor.speedXZ = this->flightSpeed = 0;
 
             if (this->animationTimers[0] == 1) {
                 this->actor.posRot.pos.x = 0;
@@ -1002,7 +994,6 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.z = 0x1200;
                 this->actor.velocity.x = 0;
                 this->actor.velocity.z = 0;
-                
             }
             if (this->animationTimers[0] == 0) {
                 if (this->actor.posRot.pos.y <= 110.0f) {
@@ -1025,8 +1016,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                             sp12C.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
                             sp12C.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
                             sp12C.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
-                            func_808CAF5C(this->particles, &sp12C, &sp144, &sp138,
-                                          Math_Rand_ZeroFloat(100.0f) + 300);
+                            func_808CAF5C(this->particles, &sp12C, &sp144, &sp138, Math_Rand_ZeroFloat(100.0f) + 300);
                         }
                     }
                 } else {
@@ -1043,7 +1033,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
         case 205: // Skull burns away
             this->actor.velocity.y = 0.0f;
             this->actor.posRot.pos.y = 110.0f;
-            this->turnRate = this->maxTurnRate = this->actor.speedXZ =this->flightSpeed =  0.0f;
+            this->turnRate = this->maxTurnRate = this->actor.speedXZ = this->flightSpeed = 0.0f;
 
             if ((this->animationTimers[0] < 50) && (this->animationTimers[0] > 0)) {
                 sp114 = D_808D1A10;
@@ -1075,7 +1065,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     /*************************************************************************************************
      *                                 Body segments and Mane                                        *
      *************************************************************************************************/
-    
+
     if (this->stopFlag == 0) {
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, angleToTarget, 0xA, this->turnRate);
 
@@ -1097,7 +1087,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
         if (this->leadBodySeg >= 100) {
             this->leadBodySeg = 0;
         }
-        i4 = this->leadBodySeg; //s0
+        i4 = this->leadBodySeg; // s0
         this->bodySegsPos[i4].x = this->actor.posRot.pos.x;
         this->bodySegsPos[i4].y = this->actor.posRot.pos.y;
         this->bodySegsPos[i4].z = this->actor.posRot.pos.z;
@@ -1109,7 +1099,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
         if (this->leadManeSeg >= 30) {
             this->leadManeSeg = 0;
         }
-        i4 = this->leadManeSeg; //s0
+        i4 = this->leadManeSeg; // s0
         this->centerManeScale[i4] = (Math_Sins(this->movementTimer * 5596.0f) * 0.3f) + 1.0f;
         this->rightManeScale[i4] = (Math_Sins(this->movementTimer * 5496.0f) * 0.3f) + 1.0f;
         this->leftManeScale[i4] = (Math_Coss(this->movementTimer * 5696.0f) * 0.3f) + 1.0f;
@@ -1141,7 +1131,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 this->holeSplashTimer = 10;
             }
         }
-        
+
         if (sp1CF == 0) {
             spE0[0].x = spE0[0].y = Math_Sins(((this->movementTimer * 1500.0f))) * 3000.0f;
             spE0[1].x = Math_Sins(((this->movementTimer * 2000.0f))) * 4000.0f;
@@ -1154,14 +1144,14 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             spBC[2].x = Math_Sins(((this->movementTimer * 1900.0f))) * -2000.0f;
             spBC[2].y = Math_Sins(((this->movementTimer * 1700.0f))) * -2000.0f;
 
-            for (i3 = 0; i3 < 3; i3++) { //s3
+            for (i3 = 0; i3 < 3; i3++) { // s3
                 Math_SmoothScaleMaxF(&this->unk_C3C[i3].x, spE0[i3].x, 1.0f, 1000.0f);
                 Math_SmoothScaleMaxF(&this->unk_C3C[i3].y, spE0[i3].y, 1.0f, 1000.0f);
                 Math_SmoothScaleMaxF(&this->unk_C6C[i3].x, spBC[i3].x, 1.0f, 1000.0f);
                 Math_SmoothScaleMaxF(&this->unk_C6C[i3].y, spBC[i3].y, 1.0f, 1000.0f);
             }
         } else {
-            for (i2 = 0; i2 < 3; i2++) {//s0
+            for (i2 = 0; i2 < 3; i2++) { // s0
                 phi_f20 = 0.0f;
                 Math_SmoothDownscaleMaxF(&this->unk_C3C[i2].y, 0.1f, 100.0f);
                 Math_SmoothDownscaleMaxF(&this->unk_C6C[i2].y, 0.1f, 100.0f);
@@ -1984,9 +1974,9 @@ void func_808D08F8(GlobalContext* globalCtx, BossFd* this) {
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
         if (i1 < this->skinSegments) {
             Matrix_Scale(1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) *
-                                    *((f32*)this+0xA0)), // this->bodyPulse
+                                 *((f32*)this + 0xA0)), // this->bodyPulse
                          1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) *
-                                    *((f32*)this+0xA0)), // this->bodyPulse
+                                 *((f32*)this + 0xA0)), // this->bodyPulse
                          1.0f, 1);
             Matrix_RotateY(1.5707964f, 1);
             Matrix_ToMtx(tempMat, "../z_boss_fd.c", 0x126F);
