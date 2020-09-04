@@ -15,8 +15,6 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
-
 void func_80A4D5E0(EnGoroiwa* this);
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
 
@@ -105,7 +103,31 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BF28.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C080.s")
+void func_80A4C080(EnGoroiwa* this) {
+    s16 temp_v0 = (this->actor.params >> 8) & 3;
+
+    if (this->waypoint2 < 0) {
+        if (temp_v0 == 0 || temp_v0 == 1) {
+            this->waypoint1 = this->unk_1CA;
+            this->waypoint2 = this->unk_1CA - 1;
+            this->unk_1D0 = -1;
+        } else if (temp_v0 == 3) {
+            this->waypoint1 = 0;
+            this->waypoint2 = 1;
+            this->unk_1D0 = 1;
+        }
+    } else if (this->waypoint2 > this->unk_1CA) {
+        if (temp_v0 == 0 || temp_v0 == 1) {
+            this->waypoint1 = 0;
+            this->waypoint2 = 1;
+            this->unk_1D0 = 1;
+        } else if (temp_v0 == 3) {
+            this->waypoint1 = this->unk_1CA;
+            this->waypoint2 = this->unk_1CA - 1;
+            this->unk_1D0 = -1;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C134.s")
 
@@ -167,6 +189,7 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CB78.s")
 
+void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CED8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D074.s")
