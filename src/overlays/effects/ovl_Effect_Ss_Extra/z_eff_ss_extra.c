@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_extra.c
  * Overlay: ovl_Effect_Ss_Extra
- * Description: Horseback Archery Points
+ * Description: Minigame Score Points
  */
 
 #include "z_eff_ss_extra.h"
@@ -38,7 +38,7 @@ u32 EffectSsExtra_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 
     if ((objBankIndex >= 0) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
         oldSeg6 = gSegments[6];
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
@@ -62,7 +62,7 @@ void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     void* object = globalCtx->objectCtx.status[this->regs[SS_EXTRA_OBJ_IDX]].segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_extra.c", 168);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
