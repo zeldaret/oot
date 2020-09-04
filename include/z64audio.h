@@ -625,7 +625,7 @@ typedef struct {
 } AudioPoolSplit4; // size = 0x10
 
 typedef struct {
-    /* 0x0000 */ char unk_0000[1];
+    /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 gNumSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;
     /* 0x0004 */ u16 unk_4;
@@ -669,8 +669,7 @@ typedef struct {
     /* 0x2A20 */ SoundMultiPool gSeqLoadedPool;
     /* 0x2B30 */ SoundMultiPool gBankLoadedPool;
     /* 0x2C40 */ SoundMultiPool gUnusedLoadedPool; // rename after we figure out what this is
-    /* 0x2D50 */ char unk_2D50[0xC];
-    /* 0x2D5C */ s32 unk_2D5C;
+    /* 0x2D50 */ SoundAllocPool unk_2D50;
     /* 0x2D60 */ SeqOrBankEntry unk_2D60[1]; // unknown size
     /* 0x2D6C */ char unk_2D6C[0x69C];
     /* 0x3408 */ AudioPoolSplit4 sSessionPoolSplit;

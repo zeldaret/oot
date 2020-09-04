@@ -716,7 +716,7 @@ void func_800DFBF8(void) {
 void* func_800E04E8(s32 poolIdx, s32 id) {
     s32 i;
 
-    for (i = 0; i < gAudioContext.unk_2D5C; i++) {
+    for (i = 0; i < gAudioContext.unk_2D50.unused; i++) {
         if (gAudioContext.unk_2D60[i].poolIndex == poolIdx && gAudioContext.unk_2D60[i].id == id) {
             return gAudioContext.unk_2D60[i].ptr;
         }
@@ -724,7 +724,24 @@ void* func_800E04E8(s32 poolIdx, s32 id) {
     return NULL;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0540.s")
+void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
+    void* ret;
+    s32 sp18;
+
+    sp18 = gAudioContext.unk_2D50.unused;
+
+    ret = Audio_Alloc(&gAudioContext.unk_2D50, size);
+    gAudioContext.unk_2D60[sp18].ptr = ret;
+    if (ret == NULL) {
+        return NULL;
+    }
+    gAudioContext.unk_2D60[sp18].poolIndex = poolIdx;
+    gAudioContext.unk_2D60[sp18].id = id;
+    gAudioContext.unk_2D60[sp18].size = size;
+#ifdef AVOID_UB
+    return ret;
+#endif
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E05C4.s")
 
