@@ -85,7 +85,7 @@ bool func_80A4BD8C(Vec3f* arg0, Vec3f* arg1) {
 
 void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
+    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint2];
     Vec3f pos;
 
     pos.x = pointPos->x;
@@ -105,8 +105,8 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void func_80A4C188(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->unk_1CA = globalCtx->setupPathList[this->actor.params & 0xFF].count - 1;
-    this->unk_1CC = 0;
-    this->waypoint = 1;
+    this->waypoint1 = 0;
+    this->waypoint2 = 1;
     this->unk_1D0 = 1;
 }
 
@@ -124,7 +124,28 @@ void func_80A4C264(EnGoroiwa* this) {
     this->unk_1C0 = 1.0f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C27C.s")
+s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
+    Vec3s* temp_t1 = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint2];
+    Vec3s* temp_t0 = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint1];
+
+    if (temp_t1->x == temp_t0->x && temp_t1->z == temp_t0->z) {
+        if (temp_t1->y == temp_t0->y) {
+            // Translation: Error: Invalid path data (points overlap)
+            osSyncPrintf("Error : レールデータ不正(点が重なっている)");
+            osSyncPrintf("(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 559, this->actor.params);
+        }
+
+        if (temp_t1->y > temp_t0->y) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C3A4.s")
 
