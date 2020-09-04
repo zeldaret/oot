@@ -584,7 +584,6 @@ endseg
 beginseg
     name "ovl_player_actor"
     include "build/src/overlays/actors/ovl_player_actor/z_player.o"
-    include "build/data/overlays/actors/z_player.data.o"
     include "build/data/overlays/actors/z_player.bss.o"
     include "build/data/overlays/actors/z_player.reloc.o"
 endseg

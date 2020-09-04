@@ -237,7 +237,7 @@ typedef struct {
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ char unk_20[0x04];
+    /* 0x20 */ f32 unk_20;
     /* 0x24 */ f32 unk_24;
     /* 0x28 */ f32 unk_28;
     /* 0x2C */ f32 unk_2C;

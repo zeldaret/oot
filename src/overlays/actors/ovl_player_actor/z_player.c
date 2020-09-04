@@ -13,10 +13,103 @@
 
 #define THIS ((Player*)thisx)
 
+typedef struct {
+    /* 0x00 */ u8 itemId;
+    /* 0x01 */ u8 field; // various bit-packed data
+    /* 0x02 */ s8 gi;    // defines the draw id and chest opening animation
+    /* 0x03 */ u8 textId;
+    /* 0x04 */ u16 objectId;
+} GetItemEntry; // size = 0x06
+
+#define GET_ITEM(itemId, objectId, drawId, textId, field, chestAnim) \
+    { itemId, field, (chestAnim != 0 ? 1 : -1) * (drawId + 1), textId, objectId }
+
+#define CHEST_ANIM_SHORT 0
+#define CHEST_ANIM_LONG 1
+
+typedef struct {
+    /* 0x00 */ u16 unk_00;
+    /* 0x02 */ s16 unk_02;
+} struct_80832924; // size = 0x04
+
+typedef struct {
+    /* 0x00 */ u8 itemId;
+    /* 0x02 */ s16 actorId;
+} struct_80854188; // size = 0x04
+
+typedef struct {
+    /* 0x00 */ LinkAnimetionEntry* anim;
+    /* 0x04 */ u8 unk_04;
+} struct_808540F4; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ LinkAnimetionEntry* unk_00;
+    /* 0x04 */ LinkAnimetionEntry* unk_04;
+    /* 0x08 */ LinkAnimetionEntry* unk_08;
+    /* 0x0C */ u8 unk_0C;
+    /* 0x0D */ u8 unk_0D;
+} struct_80854190; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ s16 yaw;
+} struct_808382DC; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ LinkAnimetionEntry* unk_00;
+    /* 0x04 */ LinkAnimetionEntry* unk_04;
+    /* 0x08 */ u8 unk_08;
+    /* 0x09 */ u8 unk_09;
+} struct_80854554; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ LinkAnimetionEntry* anim;
+    /* 0x04 */ f32 unk_04;
+    /* 0x04 */ f32 unk_08;
+} struct_80854578; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ s8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 unk_02;
+    /* 0x03 */ u8 unk_03;
+    /* 0x04 */ u16 unk_04;
+} struct_80854600; // size = 0x06
+
+typedef struct {
+    /* 0x00 */ s16 actorId;
+    /* 0x02 */ u8 itemId;
+    /* 0x03 */ u8 actionParam;
+    /* 0x04 */ u8 textId;
+} BottleCatchInfo; // size = 0x06
+
+typedef struct {
+    /* 0x00 */ s16 actorId;
+    /* 0x02 */ s16 actorParams;
+} BottleDropInfo; // size = 0x04
+
+typedef struct {
+    /* 0x00 */ s8 type;
+    /* 0x04 */ union {
+        void* ptr;
+        void (*func)(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+    };
+} struct_80854B18; // size = 0x08
+
+void func_80833770(GlobalContext* globalCtx, Player* this);
+void func_80833790(GlobalContext* globalCtx, Player* this);
+void func_8083379C(GlobalContext* globalCtx, Player* this);
+void func_8083377C(GlobalContext* globalCtx, Player* this);
+void func_808337D4(GlobalContext* globalCtx, Player* this);
+void func_80833910(GlobalContext* globalCtx, Player* this);
+void func_80833984(GlobalContext* globalCtx, Player* this);
 void func_8083399C(GlobalContext* globalCtx, Player* this, s8 actionParam);
+s32 func_8083485C(Player* this, GlobalContext* globalCtx);
+s32 func_808349DC(Player* this, GlobalContext* globalCtx);
 s32 func_80834A2C(Player* this, GlobalContext* globalCtx);
 s32 func_80834B5C(Player* this, GlobalContext* globalCtx);
 s32 func_80834C74(Player* this, GlobalContext* globalCtx);
+s32 func_8083501C(Player* this, GlobalContext* globalCtx);
 s32 func_808351D4(Player* this, GlobalContext* globalCtx);
 s32 func_808353D8(Player* this, GlobalContext* globalCtx);
 s32 func_80835588(Player* this, GlobalContext* globalCtx);
@@ -29,7 +122,23 @@ s32 func_80835B60(Player* this, GlobalContext* globalCtx);
 s32 func_80835C08(Player* this, GlobalContext* globalCtx);
 void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item);
 void func_80839F90(Player* this, GlobalContext* globalCtx);
+s32 func_80838A14(Player* this, GlobalContext* globalCtx);
+s32 func_80839800(Player* this, GlobalContext* globalCtx);
+s32 func_8083B040(Player* this, GlobalContext* globalCtx);
+s32 func_8083B998(Player* this, GlobalContext* globalCtx);
+s32 func_8083B644(Player* this, GlobalContext* globalCtx);
+s32 func_8083BDBC(Player* this, GlobalContext* globalCtx);
+s32 func_8083C1DC(Player* this, GlobalContext* globalCtx);
+s32 func_8083C2B0(Player* this, GlobalContext* globalCtx);
+s32 func_8083C544(Player* this, GlobalContext* globalCtx);
 s32 func_8083C61C(GlobalContext* globalCtx, Player* this);
+void func_8083CA20(GlobalContext* globalCtx, Player* this);
+void func_8083CA54(GlobalContext* globalCtx, Player* this);
+void func_8083CA9C(GlobalContext* globalCtx, Player* this);
+s32 func_8083E0FC(Player* this, GlobalContext* globalCtx);
+s32 func_8083E5A8(Player* this, GlobalContext* globalCtx);
+s32 func_8083EB44(Player* this, GlobalContext* globalCtx);
+s32 func_8083F7BC(Player* this, GlobalContext* globalCtx);
 void func_80840450(Player* this, GlobalContext* globalCtx);
 void func_808407CC(Player* this, GlobalContext* globalCtx);
 void func_80840BC8(Player* this, GlobalContext* globalCtx);
@@ -68,9 +177,17 @@ void func_80846260(Player* this, GlobalContext* globalCtx);
 void func_80846358(Player* this, GlobalContext* globalCtx);
 void func_80846408(Player* this, GlobalContext* globalCtx);
 void func_808464B0(Player* this, GlobalContext* globalCtx);
-void func_8084B530(Player* this, GlobalContext* globalCtx);
 void func_80846578(Player* this, GlobalContext* globalCtx);
+void func_80846648(GlobalContext* globalCtx, Player* this);
+void func_80846660(GlobalContext* globalCtx, Player* this);
+void func_808467D4(GlobalContext* globalCtx, Player* this);
+void func_808468A8(GlobalContext* globalCtx, Player* this);
+void func_808468E8(GlobalContext* globalCtx, Player* this);
+void func_80846978(GlobalContext* globalCtx, Player* this);
+void func_808469BC(GlobalContext* globalCtx, Player* this);
+void func_80846A68(GlobalContext* globalCtx, Player* this);
 void func_8084B1D8(Player* this, GlobalContext* globalCtx);
+void func_8084B530(Player* this, GlobalContext* globalCtx);
 void func_8084B78C(Player* this, GlobalContext* globalCtx);
 void func_8084B898(Player* this, GlobalContext* globalCtx);
 void func_8084B9E4(Player* this, GlobalContext* globalCtx);
@@ -122,9 +239,80 @@ void func_808507F4(Player* this, GlobalContext* globalCtx);
 void func_80850AEC(Player* this, GlobalContext* globalCtx);
 void func_80850C68(Player* this, GlobalContext* globalCtx);
 void func_80850E84(Player* this, GlobalContext* globalCtx);
+void func_80851008(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851030(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851050(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851094(GlobalContext* globalCtx, Player* this, void* anim);
+void func_808510B4(GlobalContext* globalCtx, Player* this, void* anim);
+void func_808510D4(GlobalContext* globalCtx, Player* this, void* anim);
+void func_808510F4(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851114(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851134(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851154(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851174(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851194(GlobalContext* globalCtx, Player* this, void* anim);
+void func_808511B4(GlobalContext* globalCtx, Player* this, void* anim);
+void func_808511D4(GlobalContext* globalCtx, Player* this, void* anim);
+void func_808511FC(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851248(GlobalContext* globalCtx, Player* this, void* anim);
+void func_80851294(GlobalContext* globalCtx, Player* this, void* anim);
+void func_808512E0(GlobalContext* globalCtx, Player* this, void* arg2);
+void func_808515A4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851788(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808518DC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808519EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851B90(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851D2C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851368(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851E64(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851F84(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851E90(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852080(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808521F4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_8085225C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808524B0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852544(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852564(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852608(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808514C0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_8085157C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851998(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808519C0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851688(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851750(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851828(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_8085190C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851A50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851BE8(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851CA4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808521B8(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851D80(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851DEC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851E28(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808513BC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851ECC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80851FB0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852048(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852174(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852234(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852450(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852298(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852480(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852328(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852358(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852388(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852648(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808524D0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852514(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852554(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808525C0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_8085283C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_808528C8(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
 void func_80852280(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
 void func_80852944(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
 void func_808529D0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
+void func_80852C50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
 void func_80852E14(Player* this, GlobalContext* globalCtx);
 s32 func_80852EC8(GlobalContext* globalCtx);
 s32 func_80852EFC(GlobalContext* globalCtx);
@@ -134,309 +322,1203 @@ void func_80853080(Player* this, GlobalContext* globalCtx);
 s32 func_808530E0(GlobalContext* globalCtx, s32 damage);
 void func_80853148(GlobalContext* globalCtx, Actor* actor);
 
-typedef struct {
-    /* 0x00 */ u8 itemId;
-    /* 0x01 */ u8 field;
-    /* 0x02 */ s8 gi;
-    /* 0x03 */ u8 textId;
-    /* 0x04 */ u16 objectId;
-} GetItemEntry; // size = 0x06
-
-typedef struct {
-    /* 0x00 */ s16 id;
-    /* 0x02 */ s16 params;
-} BottleActorInfo; // size = 0x04
-
-typedef struct {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ s16 unk_02;
-} struct_80832924; // size = 0x04
-
-typedef struct {
-    /* 0x00 */ u8 item;
-    /* 0x02 */ s16 actorId;
-} struct_80854188; // size = 0x04
-
-typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* anim;
-    /* 0x04 */ u8 unk_04;
-} struct_808540F4; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* unk_00;
-    /* 0x04 */ LinkAnimetionEntry* unk_04;
-    /* 0x08 */ LinkAnimetionEntry* unk_08;
-    /* 0x0C */ u8 unk_0C;
-    /* 0x0D */ u8 unk_0D;
-} struct_80854190; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ s16 yaw;
-} struct_808382DC; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* unk_00;
-    /* 0x04 */ LinkAnimetionEntry* unk_04;
-    /* 0x08 */ u8 unk_08;
-    /* 0x09 */ u8 unk_09;
-} struct_80854554; // size = 0x0C
-
-typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* anim;
-    /* 0x04 */ f32 unk_04;
-    /* 0x04 */ f32 unk_08;
-} struct_80854578; // size = 0x0C
-
-typedef struct {
-    /* 0x00 */ s8 unk_00;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
-    /* 0x04 */ u16 unk_04;
-} struct_80854600; // size = 0x06
-
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
-    /* 0x04 */ u8 unk_04;
-} struct_80854A04; // size = 0x06
-
-typedef struct {
-    /* 0x00 */ s8 type;
-    /* 0x04 */ union {
-        void (*func)(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
-        LinkAnimetionEntry* anim;
-    };
-} struct_80854B18; // size = 0x08
-
-// .data
-extern u8 D_80853410[];
-extern AgeProperties D_80853428[];
-extern u32 D_808535D0;
-extern f32 D_808535D4;
-extern s16 D_808535D8;
-extern s16 D_808535DC;
-extern s32 D_808535E0;
-extern s32 D_808535E4;
-extern f32 D_808535E8;
-extern f32 D_808535EC;
-extern u32 D_808535F0;
-extern u32 D_808535F4;
-extern s16 D_808535F8;
-extern s16 D_808535FC;
-extern f32 D_80853600;
-extern s32 D_80853604;
-extern s32 D_80853608;
-extern s32 D_8085360C;
-extern s16 D_80853610;
-extern s32 D_80853614;
-extern s32 D_80853618;
-extern u16 D_8085361C[];
-extern GetItemEntry D_80853624[];
-extern LinkAnimetionEntry* D_80853914[];
-extern LinkAnimetionEntry* D_8085392C[];
-extern LinkAnimetionEntry* D_80853944[];
-extern LinkAnimetionEntry* D_8085395C[];
-extern LinkAnimetionEntry* D_80853974[];
-extern LinkAnimetionEntry* D_8085398C[];
-extern LinkAnimetionEntry* D_808539EC[];
-extern LinkAnimetionEntry* D_808539A4[];
-extern LinkAnimetionEntry* D_808539BC[];
-extern LinkAnimetionEntry* D_80853A04[];
-extern LinkAnimetionEntry* D_80853A1C[];
-extern LinkAnimetionEntry* D_80853A34[];
-extern LinkAnimetionEntry* D_80853A4C[];
-extern LinkAnimetionEntry* D_80853A64[];
-extern LinkAnimetionEntry* D_80853A7C[];
-extern LinkAnimetionEntry* D_80853A94[];
-extern LinkAnimetionEntry* D_80853AAC[];
-extern LinkAnimetionEntry* D_80853AC4[];
-extern LinkAnimetionEntry* D_80853ADC[];
-extern LinkAnimetionEntry* D_80853AF4[];
-extern LinkAnimetionEntry* D_80853B0C[];
-extern LinkAnimetionEntry* D_80853B24[];
-extern LinkAnimetionEntry* D_80853B3C[];
-extern LinkAnimetionEntry* D_80853B54[];
-extern LinkAnimetionEntry* D_80853B6C[];
-extern LinkAnimetionEntry* D_80853B9C[];
-extern LinkAnimetionEntry* D_80853B84[];
-extern LinkAnimetionEntry* D_80853BB4[];
-extern LinkAnimetionEntry* D_80853BCC[];
-extern LinkAnimetionEntry* D_80853BE4[];
-extern LinkAnimetionEntry* D_80853BFC[];
-extern LinkAnimetionEntry* D_80853C14[];
-extern LinkAnimetionEntry* D_80853C2C[];
-extern LinkAnimetionEntry* D_80853C44[];
-extern LinkAnimetionEntry* D_80853C5C[];
-extern LinkAnimetionEntry* D_80853C74[];
-extern LinkAnimetionEntry* D_80853C8C[];
-extern LinkAnimetionEntry* D_80853CA4[];
-extern LinkAnimetionEntry* D_80853CBC[];
-extern LinkAnimetionEntry* D_80853CD4[];
-extern LinkAnimetionEntry* D_80853CEC[];
-extern LinkAnimetionEntry* D_80853D04[];
-extern LinkAnimetionEntry* D_80853D1C[];
-extern LinkAnimetionEntry* D_80853D34[];
-extern LinkAnimetionEntry* D_80853D4C[][3];
-extern LinkAnimetionEntry* D_80853D7C[];
-extern struct_80832924* D_80853E4C[];
-extern u8 D_80853E7C[];
-extern s8 D_80853E9C[];
-extern UNK_PTR D_80853EDC[];
-extern void (*D_80853FE8[])(GlobalContext* globalCtx, Player* this);
-extern struct_808540F4 D_808540F4[];
-extern s8 D_80854164[][6];
-extern struct_80854188 D_80854188[];
-extern struct_80854190 D_80854190[];
-extern Vec3f D_8085451C;
-extern LinkAnimetionEntry* D_80854350[2];
-extern LinkAnimetionEntry* D_80854358[2];
-extern LinkAnimetionEntry* D_80854360[2];
-extern LinkAnimetionEntry* D_80854368[2];
-extern LinkAnimetionEntry* D_80854370[2];
-extern LinkAnimetionEntry* D_80854378[2];
-extern u8 D_80854380[2];
-extern u8 D_80854384[2];
-extern u16 D_80854388[];
-extern u8 D_80854390[];
-extern u16 D_80854398[];
-extern u8 D_808543A0[];
-extern LinkAnimetionEntry* D_808543A4[];
-extern LinkAnimetionEntry* D_808543B4[];
-extern LinkAnimetionEntry* D_808543AC[];
-extern LinkAnimetionEntry* D_808543BC[];
-extern LinkAnimetionEntry* D_808543C4[];
-extern LinkAnimetionEntry* D_808543CC[];
-extern LinkAnimetionEntry* D_808543D4[];
-extern u16 D_808543DC[];
-extern s8 D_808543E0[];
-extern s8 D_808543E8[];
-extern s8 D_808543F4[];
-extern s8 D_80854400[];
-extern s8 D_80854408[];
-extern s8 D_80854414[];
-extern s8 D_80854418[];
-extern s8 D_80854424[];
-extern s8 D_80854430[];
-extern s8 D_80854440[];
-extern s8 D_80854444[];
-extern s32 (*D_80854448[])(Player* this, GlobalContext* globalCtx);
-extern s8 D_80854480[];
-extern s8 D_80854484[];
-extern u32 D_80854488[][2];
-extern LinkAnimetionEntry* D_808544B0[];
-extern struct_808382DC D_808544D4;
-extern struct_808382DC D_808544E4;
-extern u8 D_808544F4[];
-extern s16 D_808544F8[];
-extern u8 D_80854514[];
-extern u8 D_80854528[];
-extern LinkAnimetionEntry* D_80854548[];
-extern struct_80854554 D_80854554[];
-extern Vec3f D_8085456C;
-extern struct_80854578 D_80854578[2];
-extern LinkAnimetionEntry* D_80854590[];
-extern Vec3f D_808545B4;
-extern Vec3f D_808545C0;
-extern LinkAnimetionEntry* D_808545CC[];
-extern struct_80832924 D_808545DC[];
-extern Vec3f D_808545E4;
-extern struct_80832924 D_808545F0[];
-extern struct_80854600 D_80854600[];
-extern struct_80832924 D_8085460C[];
-extern struct_80832924 D_8085461C[];
-extern ColliderCylinderInit D_80854624;
-extern ColliderQuadInit D_80854650;
-extern ColliderQuadInit D_808546A0;
-extern u8 D_808546F0[];
-extern Vec3f D_808546F4;
-extern s16 D_80854700[];
-extern InitChainEntry D_80854708[];
-extern EffectBlureInit2 D_8085470C;
-extern Vec3s D_80854730;
-extern void (*D_80854738[])(GlobalContext* globalCtx, Player* this);
-extern Vec3f D_80854778;
-extern f32 D_80854784[];
-extern u8 D_80854790[];
-extern Vec3f D_80854798;
-extern Vec3f D_808547A4;
-extern Vec3f D_808547B0;
-extern Color_RGBA8_n D_808547BC;
-extern Color_RGBA8_n D_808547C0;
-extern s8 D_808547C4[];
-extern Vec3f D_80854814;
-extern f32 D_80854820[];
-extern f32 D_8085482C[];
-extern Vec3f D_80854838;
-extern Gfx* D_80854840[];
-extern Vec3s D_80854864;
-extern s32 D_8085486C;
-extern struct_80832924 D_80854870[];
-extern struct_80832924 D_80854878[];
-extern Vec3f D_80854880;
-extern Vec3f D_8085488C;
-extern struct_80832924 D_808548A8[];
-extern struct_80832924 D_808548B4[];
-extern struct_80832924 D_808548D8[];
-extern Vec3f D_808548FC[];
-extern Vec3f D_80854914[];
-extern Vec3f D_8085492C[];
-extern LinkAnimetionEntry* D_8085493C[];
-extern LinkAnimetionEntry* D_80854960[];
-extern LinkAnimetionEntry* D_8085498C[];
-extern u8 D_80854998[2][2];
-extern Vec3s D_8085499C;
-extern struct_80832924 D_808549A4[];
-extern struct_80832924 D_808549C4[];
-extern struct_80832924 D_808549D0[];
-extern s16 D_808549D4[];
-extern struct_80832924 D_808549E0[];
-extern struct_80832924 D_808549F0[];
-extern struct_80832924 D_808549F4[];
-extern u8 D_808549D7[]; // fake symbol
-extern struct_80854A04 D_80854A04[];
-extern Vec3f D_80854A1C;
-extern BottleActorInfo D_80854A28[];
-extern struct_80832924 D_80854A34[];
-extern struct_80832924 D_80854A3C[];
-extern Vec3f D_80854A40;
-extern Vec3f D_80854A4C;
-extern LinkAnimetionEntry* D_80854A58[];
-extern LinkAnimetionEntry* D_80854A64[];
-extern LinkAnimetionEntry* D_80854A70[];
-extern u8 D_80854A7C[];
-extern struct_80832924 D_80854A80[];
-extern struct_80832924 D_80854A8C[][2];
-extern void (*D_80854AA4[])(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim);
-extern struct_80854B18 D_80854B18[];
-extern struct_80854B18 D_80854E50[];
-extern struct_80832924 D_80855188[];
-extern Vec3f D_80855198;
-extern struct_80832924 D_808551A4[];
-extern struct_80832924 D_808551AC[];
-extern struct_80832924 D_808551B4[];
-extern struct_80832924 D_808551B8[];
-extern struct_80832924 D_808551BC[];
-extern struct_80832924 D_808551C8[];
-extern struct_80832924 D_808551D8[];
-extern struct_80832924 D_808551E0[];
-extern struct_80832924 D_808551E8[];
-extern struct_80832924 D_808551F0[];
-extern struct_80832924 D_808551F8[];
-extern void (*D_808551FC[])(Player* this, GlobalContext* globalCtx);
-extern LinkAnimetionEntry* D_80855208[];
-extern Vec3s D_80855210[2][2];
-extern Vec3f D_80855228;
-extern Color_RGB8 D_80855234;
-extern Color_RGB8 D_80855238;
-
-// .bss
+// .bss (ordering is wrong when migrated to C)
 extern s32 D_80858AA0;
 extern s32 D_80858AA4;
 extern Vec3f D_80858AA8;
 extern Input* D_80858AB4;
+
+// .data
+u8 D_80853410[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+
+AgeProperties D_80853428[] = {
+    {
+        56.0f,
+        90.0f,
+        1.0f,
+        111.0f,
+        70.0f,
+        79.4f,
+        59.0f,
+        41.0f,
+        19.0f,
+        36.0f,
+        44.8f,
+        56.0f,
+        68.0f,
+        70.0f,
+        18.0f,
+        15.0f,
+        70.0f,
+        { 0x0009, 0x123F, 0x0167 },
+        {
+            { 0x0008, 0x1256, 0x017C },
+            { 0x0009, 0x17EA, 0x0167 },
+            { 0x0008, 0x1256, 0x017C },
+            { 0x0009, 0x17EA, 0x0167 },
+        },
+        {
+            { 0x0009, 0x17EA, 0x0167 },
+            { 0x0009, 0x1E0D, 0x017C },
+            { 0x0009, 0x17EA, 0x0167 },
+            { 0x0009, 0x1E0D, 0x017C },
+        },
+        {
+            { 0x0008, 0x1256, 0x017C },
+            { 0x0009, 0x17EA, 0x0167 },
+        },
+        {
+            { -0x0638, 0x1256, 0x017C },
+            { -0x0637, 0x17EA, 0x0167 },
+        },
+        0x00,
+        0x80,
+        0x04002718,
+        0x04002720,
+        0x04002838,
+        0x04002E70,
+        0x04002E78,
+        { 0x04002E80, 0x04002E88, 0x04002D90, 0x04002D98 },
+        { 0x04002D70, 0x04002D78 },
+        { 0x04002E50, 0x04002E58 },
+        { 0x04002E68, 0x04002E60 },
+    },
+    {
+        40.0f,
+        60.0f,
+        0.6470588446f,
+        71.0f,
+        50.0f,
+        47.0f,
+        39.0f,
+        27.0f,
+        19.0f,
+        22.0f,
+        29.6f,
+        32.0f,
+        48.0f,
+        45.29412079f,
+        14.0f,
+        12.0f,
+        55.0f,
+        { -0x0018, 0x0DED, 0x036C },
+        {
+            { -0x0018, 0x0D92, 0x035E },
+            { -0x0018, 0x1371, 0x03A9 },
+            { 0x0008, 0x1256, 0x017C },
+            { 0x0009, 0x17EA, 0x0167 },
+        },
+        {
+            { -0x0018, 0x1371, 0x03A9 },
+            { -0x0018, 0x195F, 0x03A9 },
+            { 0x0009, 0x17EA, 0x0167 },
+            { 0x0009, 0x1E0D, 0x017C },
+        },
+        {
+            { 0x0008, 0x1256, 0x017C },
+            { 0x0009, 0x17EA, 0x0167 },
+        },
+        {
+            { -0x0638, 0x1256, 0x017C },
+            { -0x0637, 0x17EA, 0x0167 },
+        },
+        0x20,
+        0x00,
+        0x04002318,
+        0x04002360,
+        0x040023A8,
+        0x040023E0,
+        0x040023E8,
+        { 0x040023F0, 0x040023F8, 0x04002D90, 0x04002D98 },
+        { 0x04002D70, 0x04002D78 },
+        { 0x040023C0, 0x040023C8 },
+        { 0x040023D8, 0x040023D0 },
+    },
+};
+
+u32 D_808535D0 = false;
+f32 D_808535D4 = 0.0f;
+s16 D_808535D8 = 0;
+s16 D_808535DC = 0;
+s32 D_808535E0 = 0;
+s32 D_808535E4 = 0;
+f32 D_808535E8 = 1.0f;
+f32 D_808535EC = 1.0f;
+u32 D_808535F0 = 0;
+u32 D_808535F4 = 0;
+s16 D_808535F8 = 0;
+s16 D_808535FC = 0;
+f32 D_80853600 = 0.0f;
+s32 D_80853604 = 0;
+s32 D_80853608 = 0;
+s32 D_8085360C = 0;
+s16 D_80853610 = 0;
+s32 D_80853614 = 0;
+s32 D_80853618 = 0;
+
+u16 D_8085361C[] = {
+    NA_SE_VO_LI_SWEAT,
+    NA_SE_VO_LI_SNEEZE,
+    NA_SE_VO_LI_RELAX,
+    NA_SE_VO_LI_FALL_L,
+};
+
+GetItemEntry D_80853624[] = {
+    GET_ITEM(ITEM_BOMBS_5, OBJECT_GI_BOMB_1, 0x1F, 0x32, 0x59, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_NUTS_5, OBJECT_GI_NUTS, 0x11, 0x34, 0x0C, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOMBCHU, OBJECT_GI_BOMB_2, 0x27, 0x33, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOW, OBJECT_GI_BOW, 0x34, 0x31, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SLINGSHOT, OBJECT_GI_PACHINKO, 0x32, 0x30, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BOOMERANG, OBJECT_GI_BOOMERANG, 0x33, 0x35, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_STICK, OBJECT_GI_STICK, 0x1A, 0x37, 0x0D, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_HOOKSHOT, OBJECT_GI_HOOKSHOT, 0x2C, 0x36, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_LONGSHOT, OBJECT_GI_HOOKSHOT, 0x2D, 0x4F, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_LENS, OBJECT_GI_GLASSES, 0x35, 0x39, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_LETTER_ZELDA, OBJECT_GI_LETTER, 0x3A, 0x69, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_OCARINA_TIME, OBJECT_GI_OCARINA, 0x2E, 0x3A, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_HAMMER, OBJECT_GI_HAMMER, 0x40, 0x38, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_COJIRO, OBJECT_GI_NIWATORI, 0x5D, 0x02, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BOTTLE, OBJECT_GI_BOTTLE, 0x00, 0x42, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_POTION_RED, OBJECT_GI_LIQUID, 0x37, 0x43, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_POTION_GREEN, OBJECT_GI_LIQUID, 0x36, 0x44, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_POTION_BLUE, OBJECT_GI_LIQUID, 0x38, 0x45, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_FAIRY, OBJECT_GI_BOTTLE, 0x00, 0x46, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MILK_BOTTLE, OBJECT_GI_MILK, 0x2F, 0x98, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_LETTER_RUTO, OBJECT_GI_BOTTLE_LETTER, 0x44, 0x99, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BEAN, OBJECT_GI_BEAN, 0x3D, 0x48, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_MASK_SKULL, OBJECT_GI_SKJ_MASK, 0x4E, 0x10, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MASK_SPOOKY, OBJECT_GI_REDEAD_MASK, 0x31, 0x11, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_CHICKEN, OBJECT_GI_NIWATORI, 0x43, 0x48, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MASK_KEATON, OBJECT_GI_KI_TAN_MASK, 0x30, 0x12, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MASK_BUNNY, OBJECT_GI_RABIT_MASK, 0x4F, 0x13, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MASK_TRUTH, OBJECT_GI_TRUTH_MASK, 0x50, 0x17, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_POCKET_EGG, OBJECT_GI_EGG, 0x28, 0x01, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_POCKET_CUCCO, OBJECT_GI_NIWATORI, 0x43, 0x48, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_ODD_MUSHROOM, OBJECT_GI_MUSHROOM, 0x53, 0x03, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_ODD_POTION, OBJECT_GI_POWDER, 0x52, 0x04, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SAW, OBJECT_GI_SAW, 0x3F, 0x05, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SWORD_BROKEN, OBJECT_GI_BROKENSWORD, 0x55, 0x08, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_PRESCRIPTION, OBJECT_GI_PRESCRIPTION, 0x56, 0x09, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_FROG, OBJECT_GI_FROG, 0x59, 0x0D, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_EYEDROPS, OBJECT_GI_EYE_LOTION, 0x51, 0x0E, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_CLAIM_CHECK, OBJECT_GI_TICKETSTONE, 0x54, 0x0A, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SWORD_KOKIRI, OBJECT_GI_SWORD_1, 0x73, 0xA4, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SWORD_BGS, OBJECT_GI_LONGSWORD, 0x42, 0x4B, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SHIELD_DEKU, OBJECT_GI_SHIELD_1, 0x1C, 0x4C, 0xA0, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_SHIELD_HYLIAN, OBJECT_GI_SHIELD_2, 0x2B, 0x4D, 0xA0, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_SHIELD_MIRROR, OBJECT_GI_SHIELD_3, 0x39, 0x4E, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_TUNIC_GORON, OBJECT_GI_CLOTHES, 0x3B, 0x50, 0xA0, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_TUNIC_ZORA, OBJECT_GI_CLOTHES, 0x3C, 0x51, 0xA0, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BOOTS_IRON, OBJECT_GI_BOOTS_2, 0x46, 0x53, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BOOTS_HOVER, OBJECT_GI_HOVERBOOTS, 0x5E, 0x54, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_QUIVER_40, OBJECT_GI_ARROWCASE, 0x15, 0x56, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_QUIVER_50, OBJECT_GI_ARROWCASE, 0x16, 0x57, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BOMB_BAG_20, OBJECT_GI_BOMBPOUCH, 0x17, 0x58, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BOMB_BAG_30, OBJECT_GI_BOMBPOUCH, 0x18, 0x59, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BOMB_BAG_40, OBJECT_GI_BOMBPOUCH, 0x19, 0x5A, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_GAUNTLETS_SILVER, OBJECT_GI_GLOVES, 0x48, 0x5B, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_GAUNTLETS_GOLD, OBJECT_GI_GLOVES, 0x49, 0x5C, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SCALE_SILVER, OBJECT_GI_SCALE, 0x29, 0xCD, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SCALE_GOLDEN, OBJECT_GI_SCALE, 0x2A, 0xCE, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_STONE_OF_AGONY, OBJECT_GI_MAP, 0x20, 0x68, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_GERUDO_CARD, OBJECT_GI_GERUDO, 0x23, 0x7B, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_OCARINA_FAIRY, OBJECT_GI_OCARINA_0, 0x45, 0x3A, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SEEDS, OBJECT_GI_SEED, 0x47, 0xDC, 0x50, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_HEART_CONTAINER, OBJECT_GI_HEARTS, 0x12, 0xC6, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_HEART_PIECE_2, OBJECT_GI_HEARTS, 0x13, 0xC2, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_KEY_BOSS, OBJECT_GI_BOSSKEY, 0x09, 0xC7, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_COMPASS, OBJECT_GI_COMPASS, 0x0A, 0x67, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_DUNGEON_MAP, OBJECT_GI_MAP, 0x1B, 0x66, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_KEY_SMALL, OBJECT_GI_KEY, 0x01, 0x60, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_MAGIC_SMALL, OBJECT_GI_MAGICPOT, 0x1D, 0x52, 0x6F, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_MAGIC_LARGE, OBJECT_GI_MAGICPOT, 0x1E, 0x52, 0x6E, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_WALLET_ADULT, OBJECT_GI_PURSE, 0x21, 0x5E, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_WALLET_GIANT, OBJECT_GI_PURSE, 0x22, 0x5F, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_WEIRD_EGG, OBJECT_GI_EGG, 0x28, 0x9A, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_HEART, OBJECT_GI_HEART, 0x08, 0x55, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_ARROWS_SMALL, OBJECT_GI_ARROW, 0x24, 0xE6, 0x48, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_ARROWS_MEDIUM, OBJECT_GI_ARROW, 0x25, 0xE6, 0x49, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_ARROWS_LARGE, OBJECT_GI_ARROW, 0x26, 0xE6, 0x4A, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_GREEN, OBJECT_GI_RUPY, 0x6C, 0x6F, 0x00, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_BLUE, OBJECT_GI_RUPY, 0x6D, 0xCC, 0x01, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_RED, OBJECT_GI_RUPY, 0x6E, 0xF0, 0x02, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_HEART_CONTAINER, OBJECT_GI_HEARTS, 0x12, 0xC6, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MILK, OBJECT_GI_MILK, 0x2F, 0x98, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MASK_GORON, OBJECT_GI_GOLONMASK, 0x5A, 0x14, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MASK_ZORA, OBJECT_GI_ZORAMASK, 0x5B, 0x15, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_MASK_GERUDO, OBJECT_GI_GERUDOMASK, 0x5C, 0x16, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BRACELET, OBJECT_GI_BRACELET, 0x57, 0x79, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_RUPEE_PURPLE, OBJECT_GI_RUPY, 0x70, 0xF1, 0x14, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_GOLD, OBJECT_GI_RUPY, 0x71, 0xF2, 0x13, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_SWORD_BGS, OBJECT_GI_LONGSWORD, 0x42, 0x0C, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_ARROW_FIRE, OBJECT_GI_M_ARROW, 0x5F, 0x70, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_ARROW_ICE, OBJECT_GI_M_ARROW, 0x60, 0x71, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_ARROW_LIGHT, OBJECT_GI_M_ARROW, 0x61, 0x72, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_SKULL_TOKEN, OBJECT_GI_SUTARU, 0x62, 0xB4, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_DINS_FIRE, OBJECT_GI_GODDESS, 0x63, 0xAD, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_FARORES_WIND, OBJECT_GI_GODDESS, 0x64, 0xAE, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_NAYRUS_LOVE, OBJECT_GI_GODDESS, 0x65, 0xAF, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BULLET_BAG_30, OBJECT_GI_DEKUPOUCH, 0x6B, 0x07, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BULLET_BAG_40, OBJECT_GI_DEKUPOUCH, 0x6B, 0x07, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_STICKS_5, OBJECT_GI_STICK, 0x1A, 0x37, 0x0D, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_STICKS_10, OBJECT_GI_STICK, 0x1A, 0x37, 0x0D, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_NUTS_5, OBJECT_GI_NUTS, 0x11, 0x34, 0x0C, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_NUTS_10, OBJECT_GI_NUTS, 0x11, 0x34, 0x0C, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOMB, OBJECT_GI_BOMB_1, 0x1F, 0x32, 0x59, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOMBS_10, OBJECT_GI_BOMB_1, 0x1F, 0x32, 0x59, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOMBS_20, OBJECT_GI_BOMB_1, 0x1F, 0x32, 0x59, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOMBS_30, OBJECT_GI_BOMB_1, 0x1F, 0x32, 0x59, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_SEEDS_30, OBJECT_GI_SEED, 0x47, 0xDC, 0x50, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOMBCHUS_5, OBJECT_GI_BOMB_2, 0x27, 0x33, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BOMBCHUS_20, OBJECT_GI_BOMB_2, 0x27, 0x33, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_FISH, OBJECT_GI_FISH, 0x3E, 0x47, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BUG, OBJECT_GI_INSECT, 0x67, 0x7A, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BLUE_FIRE, OBJECT_GI_FIRE, 0x66, 0x5D, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_POE, OBJECT_GI_GHOST, 0x69, 0x97, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_BIG_POE, OBJECT_GI_GHOST, 0x6F, 0xF9, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_KEY_SMALL, OBJECT_GI_KEY, 0x01, 0xF3, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_GREEN, OBJECT_GI_RUPY, 0x6C, 0xF4, 0x00, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_BLUE, OBJECT_GI_RUPY, 0x6D, 0xF5, 0x01, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_RED, OBJECT_GI_RUPY, 0x6E, 0xF6, 0x02, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_RUPEE_PURPLE, OBJECT_GI_RUPY, 0x70, 0xF7, 0x14, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_HEART_PIECE_2, OBJECT_GI_HEARTS, 0x13, 0xFA, 0x80, CHEST_ANIM_LONG),
+    GET_ITEM(ITEM_STICK_UPGRADE_20, OBJECT_GI_STICK, 0x1A, 0x90, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_STICK_UPGRADE_30, OBJECT_GI_STICK, 0x1A, 0x91, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_NUT_UPGRADE_30, OBJECT_GI_NUTS, 0x11, 0xA7, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_NUT_UPGRADE_40, OBJECT_GI_NUTS, 0x11, 0xA8, 0x80, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_BULLET_BAG_50, OBJECT_GI_DEKUPOUCH, 0x72, 0x6C, 0x80, CHEST_ANIM_LONG),
+    { ITEM_NONE },
+    { ITEM_NONE },
+};
+
+LinkAnimetionEntry* D_80853914[] = {
+    0x04003240, 0x04003238, 0x04003238, 0x04002BE0, 0x04003240, 0x04003240,
+};
+
+LinkAnimetionEntry* D_8085392C[] = {
+    0x04003290, 0x04003268, 0x04003268, 0x04002BF8, 0x04003290, 0x04003290,
+};
+
+LinkAnimetionEntry* D_80853944[] = {
+    0x04003140, 0x04002B38, 0x04003138, 0x04002B40, 0x04003140, 0x04003140,
+};
+
+LinkAnimetionEntry* D_8085395C[] = {
+    0x04002E98, 0x040029E8, 0x04002E98, 0x040029F0, 0x04002E98, 0x04002E98,
+};
+
+LinkAnimetionEntry* D_80853974[] = {
+    0x04002FB0, 0x04002FA8, 0x04002FB0, 0x04002A40, 0x04002FB0, 0x04002FB0,
+};
+
+LinkAnimetionEntry* D_8085398C[] = {
+    0x04003220, 0x04002590, 0x04002590, 0x04002BC0, 0x04003220, 0x04003220,
+};
+
+LinkAnimetionEntry* D_808539A4[] = {
+    0x04003230, 0x040025D0, 0x040025D0, 0x04002BD0, 0x04003230, 0x04003230,
+};
+
+LinkAnimetionEntry* D_808539BC[] = {
+    0x04002BB0, 0x040031F8, 0x040031F8, 0x04002BB0, 0x04002BB0, 0x04002BB0,
+};
+
+LinkAnimetionEntry* D_808539D4[] = {
+    0x04003088, 0x04002A70, 0x04002A70, 0x04003088, 0x04003088, 0x04003088,
+};
+
+LinkAnimetionEntry* D_808539EC[] = {
+    0x04002750, 0x04002748, 0x04002748, 0x04002750, 0x04002750, 0x04002750,
+};
+
+LinkAnimetionEntry* D_80853A04[] = {
+    0x04002330, 0x04002330, 0x04002330, 0x04002330, 0x04002330, 0x04002330,
+};
+
+LinkAnimetionEntry* D_80853A1C[] = {
+    0x04002760, 0x04002758, 0x04002758, 0x04002760, 0x04002760, 0x04002760,
+};
+
+LinkAnimetionEntry* D_80853A34[] = {
+    0x04002338, 0x04002338, 0x04002338, 0x04002338, 0x04002338, 0x04002338,
+};
+
+LinkAnimetionEntry* D_80853A4C[] = {
+    0x04002E08, 0x04002E00, 0x04002E00, 0x04002E08, 0x04002E08, 0x04002E08,
+};
+
+LinkAnimetionEntry* D_80853A64[] = {
+    0x04003028, 0x04003020, 0x04003020, 0x04003028, 0x04003028, 0x04003028,
+};
+
+LinkAnimetionEntry* D_80853A7C[] = {
+    0x04003170, 0x04003168, 0x04003168, 0x04003170, 0x04003170, 0x04003170,
+};
+
+LinkAnimetionEntry* D_80853A94[] = {
+    0x04003038, 0x04003030, 0x04003030, 0x04002A68, 0x04003038, 0x04003038,
+};
+
+LinkAnimetionEntry* D_80853AAC[] = {
+    0x04002FC0, 0x04002FB8, 0x04002FB8, 0x04002FC8, 0x04002FC0, 0x04002FC0,
+};
+
+LinkAnimetionEntry* D_80853AC4[] = {
+    0x04003278, 0x04003270, 0x04003270, 0x04002BE8, 0x04003278, 0x04003278,
+};
+
+LinkAnimetionEntry* D_80853ADC[] = {
+    0x04003288, 0x04003280, 0x04003280, 0x04002BF0, 0x04003288, 0x04003288,
+};
+
+LinkAnimetionEntry* D_80853AF4[] = {
+    0x04002EB8, 0x04002EA0, 0x04002EA0, 0x04002EB8, 0x040026C8, 0x04002EB8,
+};
+
+LinkAnimetionEntry* D_80853B0C[] = {
+    0x04002ED8, 0x04002ED0, 0x04002ED0, 0x04002ED8, 0x040026D0, 0x04002ED8,
+};
+
+LinkAnimetionEntry* D_80853B24[] = {
+    0x04002EB0, 0x04002EA8, 0x04002EA8, 0x04002EB0, 0x04002EB0, 0x04002EB0,
+};
+
+LinkAnimetionEntry* D_80853B3C[] = {
+    0x04003190, 0x04003188, 0x04003188, 0x04002B68, 0x04003190, 0x04003190,
+};
+
+LinkAnimetionEntry* D_80853B54[] = {
+    0x04003178, 0x04002568, 0x04002568, 0x04002B58, 0x04003178, 0x04003178,
+};
+
+LinkAnimetionEntry* D_80853B6C[] = {
+    0x04003180, 0x04002570, 0x04002570, 0x04002B60, 0x04003180, 0x04003180,
+};
+
+LinkAnimetionEntry* D_80853B84[] = {
+    0x04002D60, 0x04002D58, 0x04002D58, 0x04002D60, 0x04002D60, 0x04002D60,
+};
+
+LinkAnimetionEntry* D_80853B9C[] = {
+    0x04002BB8, 0x04003218, 0x04003218, 0x04002BB8, 0x04002BB8, 0x04002BB8,
+};
+
+LinkAnimetionEntry* D_80853BB4[] = {
+    0x04002BC8, 0x04003228, 0x04003228, 0x04002BC8, 0x04002BC8, 0x04002BC8,
+};
+
+LinkAnimetionEntry* D_80853BCC[] = {
+    0x040031C8, 0x040031C0, 0x040031C0, 0x040031C8, 0x040031C8, 0x040031C8,
+};
+
+LinkAnimetionEntry* D_80853BE4[] = {
+    0x04003118, 0x04003110, 0x04003110, 0x04003118, 0x04003118, 0x04003118,
+};
+
+LinkAnimetionEntry* D_80853BFC[] = {
+    0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8,
+};
+
+LinkAnimetionEntry* D_80853C14[] = {
+    0x04002E30, 0x04002E18, 0x04002E18, 0x04002E30, 0x04002E30, 0x04002E30,
+};
+
+LinkAnimetionEntry* D_80853C2C[] = {
+    0x04002E40, 0x04002E38, 0x04002E38, 0x04002E40, 0x04002E40, 0x04002E40,
+};
+
+LinkAnimetionEntry* D_80853C44[] = {
+    0x04002E28, 0x04002E20, 0x04002E20, 0x04002E28, 0x04002E28, 0x04002E28,
+};
+
+LinkAnimetionEntry* D_80853C5C[] = {
+    0x040030C8, 0x040030C0, 0x040030C0, 0x040030C8, 0x040030C8, 0x040030C8,
+};
+
+LinkAnimetionEntry* D_80853C74[] = {
+    0x040030D8, 0x040030D0, 0x040030D0, 0x040030D8, 0x040030D8, 0x040030D8,
+};
+
+LinkAnimetionEntry* D_80853C8C[] = {
+    0x040030B8, 0x040030B0, 0x040030B0, 0x040030B8, 0x040030B8, 0x040030B8,
+};
+
+LinkAnimetionEntry* D_80853CA4[] = {
+    0x04002F20, 0x04002F18, 0x04002F18, 0x04002F20, 0x04002F20, 0x04002F20,
+};
+
+LinkAnimetionEntry* D_80853CBC[] = {
+    0x04002FF0, 0x04002FE8, 0x04002FE8, 0x04002FF0, 0x04002FF0, 0x04002FF0,
+};
+
+LinkAnimetionEntry* D_80853CD4[] = {
+    0x04003010, 0x04003008, 0x04003008, 0x04003010, 0x04003010, 0x04003010,
+};
+
+LinkAnimetionEntry* D_80853CEC[] = {
+    0x04003000, 0x04002FF8, 0x04002FF8, 0x04003000, 0x04003000, 0x04003000,
+};
+
+LinkAnimetionEntry* D_80853D04[] = {
+    0x04002EF0, 0x04002EE8, 0x04002EE8, 0x04002EF8, 0x04002EF0, 0x04002EF0,
+};
+
+LinkAnimetionEntry* D_80853D1C[] = {
+    0x040031E0, 0x040031D8, 0x040031D8, 0x040031E8, 0x040031E0, 0x040031E0,
+};
+
+LinkAnimetionEntry* D_80853D34[] = {
+    0x04003468, 0x04003438, 0x04003438, 0x04003468, 0x04003468, 0x04003468,
+};
+
+LinkAnimetionEntry* D_80853D4C[][3] = {
+    { 0x04002A28, 0x04002A38, 0x04002A30 },
+    { 0x04002950, 0x04002960, 0x04002958 },
+    { 0x040029D0, 0x040029E0, 0x040029D8 },
+    { 0x04002988, 0x04002998, 0x04002990 },
+};
+
+LinkAnimetionEntry* D_80853D7C[] = {
+    0x04003248, 0x04003200, 0x04003258, 0x04003210, 0x04003250, 0x04003208, 0x04003250,
+    0x04003208, 0x04003430, 0x040033F0, 0x04003430, 0x040033F0, 0x04003430, 0x040033F0,
+    0x040033F8, 0x040033D0, 0x04003400, 0x040033D8, 0x04003420, 0x04003420, 0x04003408,
+    0x040033E0, 0x04003410, 0x040033E8, 0x04003418, 0x04003418, 0x04003428, 0x04003428,
+};
+
+struct_80832924 D_80853DEC[] = {
+    { NA_SE_VO_LI_SNEEZE, -0x2008 },
+};
+
+struct_80832924 D_80853DF0[] = {
+    { NA_SE_VO_LI_SWEAT, -0x2012 },
+};
+
+struct_80832924 D_80853DF4[] = {
+    { NA_SE_VO_LI_BREATH_REST, -0x200D },
+};
+
+struct_80832924 D_80853DF8[] = {
+    { NA_SE_VO_LI_BREATH_REST, -0x200A },
+};
+
+struct_80832924 D_80853DFC[] = {
+    { NA_SE_PL_CALM_HIT, 0x82C }, { NA_SE_PL_CALM_HIT, 0x830 },  { NA_SE_PL_CALM_HIT, 0x834 },
+    { NA_SE_PL_CALM_HIT, 0x838 }, { NA_SE_PL_CALM_HIT, -0x83C },
+};
+
+struct_80832924 D_80853E10[] = {
+    { 0, 0x4019 }, { 0, 0x401E }, { 0, 0x402C }, { 0, 0x4030 }, { 0, 0x4034 }, { 0, -0x4038 },
+};
+
+struct_80832924 D_80853E28[] = {
+    { NA_SE_IT_SHIELD_POSTURE, 0x810 },
+    { NA_SE_IT_SHIELD_POSTURE, 0x814 },
+    { NA_SE_IT_SHIELD_POSTURE, -0x846 },
+};
+
+struct_80832924 D_80853E34[] = {
+    { NA_SE_IT_HAMMER_SWING, 0x80A },
+    { NA_SE_VO_LI_AUTO_JUMP, 0x200A },
+    { NA_SE_IT_SWORD_SWING, 0x816 },
+    { NA_SE_VO_LI_SWORD_N, -0x2016 },
+};
+
+struct_80832924 D_80853E44[] = {
+    { NA_SE_IT_SWORD_SWING, 0x827 },
+    { NA_SE_VO_LI_SWORD_N, -0x2027 },
+};
+
+struct_80832924 D_80853E4C[] = {
+    { NA_SE_VO_LI_RELAX, -0x2014 },
+};
+
+struct_80832924* D_80853E50[] = {
+    D_80853DEC, D_80853DF0, D_80853DF4, D_80853DF8, D_80853DFC, D_80853E10,
+    D_80853E28, D_80853E34, D_80853E44, D_80853E4C, NULL,
+};
+
+u8 D_80853E7C[] = {
+    0, 0, 1, 1, 2, 2, 2, 2, 10, 10, 10, 10, 10, 10, 3, 3, 4, 4, 8, 8, 5, 5, 6, 6, 7, 7, 9, 9, 0,
+};
+
+// Used to map item IDs to action params
+s8 D_80853E9C[] = {
+    0x06, 0x1B, 0x12, 0x08, 0x09, 0x1A, 0x0F, 0x1C, 0x1D, 0x13, 0x10, 0x11, 0x0A, 0x18, 0x14, 0x42,
+    0x2E, 0x07, 0x0B, 0x19, 0x1E, 0x25, 0x27, 0x26, 0x2A, 0x1F, 0x28, 0x24, 0x20, 0x21, 0x23, 0x29,
+    0x22, 0x2C, 0x2D, 0x2B, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x03, 0x2F, 0x30, 0x31,
+    0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x09, 0x0A, 0x0B, 0x04, 0x03, 0x05,
+};
+
+s32 (*D_80853EDC[])(Player* this, GlobalContext* globalCtx) = {
+    func_8083485C, func_8083485C, func_8083485C, func_808349DC, func_808349DC, func_808349DC, func_8083485C,
+    func_8083485C, func_8083501C, func_8083501C, func_8083501C, func_8083501C, func_8083501C, func_8083501C,
+    func_8083501C, func_8083501C, func_8083501C, func_8083501C, func_808356E8, func_808356E8, func_80835800,
+    func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C,
+    func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C,
+    func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C,
+    func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C,
+    func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C,
+    func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C, func_8083485C,
+    func_8083485C, func_8083485C, func_8083485C, func_8083485C,
+};
+
+void (*D_80853FE8[])(GlobalContext* globalCtx, Player* this) = {
+    func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_8083377C,
+    func_80833790, func_8083379C, func_8083379C, func_8083379C, func_8083379C, func_8083379C, func_8083379C,
+    func_8083379C, func_8083379C, func_80833910, func_80833910, func_808337D4, func_808337D4, func_80833984,
+    func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770,
+    func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770,
+    func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770,
+    func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770,
+    func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770,
+    func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770, func_80833770,
+    func_80833770, func_80833770, func_80833770, func_80833770,
+};
+
+struct_808540F4 D_808540F4[] = {
+    { 0x04002F50, 12 }, { 0x04003080, 6 }, { 0x04002C68, 8 },  { 0x04003090, 8 },  { 0x04002A20, 8 },
+    { 0x04002F30, 10 }, { 0x04002C58, 7 }, { 0x04002C60, 11 }, { 0x04002F50, 12 }, { 0x04003078, 4 },
+    { 0x04003058, 4 },  { 0x04002F38, 4 }, { 0x040024E0, 5 },  { 0x04002F48, 13 },
+};
+
+s8 D_80854164[][6] = {
+    { 8, -5, -3, -6, 8, 11 }, { 5, 0, -1, 4, 5, 9 },    { 3, 1, 0, 2, 3, 9 },
+    { 6, -4, -2, 7, 6, 10 },  { 8, -5, -3, -6, 8, 11 }, { 8, -5, -3, -6, 8, 11 },
+};
+
+struct_80854188 D_80854188[] = {
+    { ITEM_BOMB, ACTOR_EN_BOM },
+    { ITEM_BOMBCHU, ACTOR_EN_BOM_CHU },
+};
+
+struct_80854190 D_80854190[] = {
+    { 0x04002A80, 0x04002A90, 0x04002A88, 1, 4 },  { 0x040028C0, 0x040028C8, 0x04002498, 1, 4 },
+    { 0x04002A98, 0x04002AA0, 0x04002540, 0, 5 },  { 0x040028D0, 0x040028D8, 0x040024A0, 1, 7 },
+    { 0x04002968, 0x04002970, 0x040024C0, 1, 4 },  { 0x04002880, 0x04002888, 0x04002478, 0, 5 },
+    { 0x04002978, 0x04002980, 0x040024C8, 2, 8 },  { 0x04002890, 0x04002898, 0x04002480, 3, 8 },
+    { 0x040029A0, 0x040029A8, 0x040024D0, 0, 4 },  { 0x040028A0, 0x040028A8, 0x04002488, 0, 5 },
+    { 0x040029B0, 0x040029B8, 0x040024D8, 0, 6 },  { 0x040028B0, 0x040028B8, 0x04002490, 1, 5 },
+    { 0x04002AA8, 0x04002AB0, 0x04002548, 0, 3 },  { 0x040028E0, 0x040028E8, 0x040024A8, 0, 3 },
+    { 0x04002AB8, 0x04002AC0, 0x04002550, 1, 9 },  { 0x040028F0, 0x040028F8, 0x040024B0, 1, 8 },
+    { 0x04002A60, 0x04002A50, 0x04002A50, 1, 10 }, { 0x04002900, 0x04002910, 0x04002910, 1, 11 },
+    { 0x04002A50, 0x04002A58, 0x04002A58, 1, 2 },  { 0x04002910, 0x04002908, 0x04002908, 1, 2 },
+    { 0x04002B80, 0x04002B88, 0x04002B88, 1, 5 },  { 0x04002B70, 0x04002B78, 0x04002B78, 1, 4 },
+    { 0x04002C40, 0x04002C50, 0x04002C48, 3, 10 }, { 0x04002C70, 0x04002C80, 0x04002C78, 2, 11 },
+    { 0x04002B28, 0x04002B30, 0x04002560, 0, 12 }, { 0x04002940, 0x04002948, 0x040024B8, 0, 15 },
+    { 0x040029C0, 0x040029C8, 0x04002560, 0, 16 }, { 0x040029C0, 0x040029C8, 0x040024B8, 0, 16 },
+};
+
+LinkAnimetionEntry* D_80854350[] = {
+    0x04002AE8,
+    0x04002920,
+};
+
+LinkAnimetionEntry* D_80854358[] = {
+    0x04002AE0,
+    0x04002920,
+};
+
+LinkAnimetionEntry* D_80854360[] = {
+    0x04002AF0,
+    0x04002928,
+};
+
+LinkAnimetionEntry* D_80854368[] = {
+    0x04002AF8,
+    0x04002930,
+};
+
+LinkAnimetionEntry* D_80854370[] = {
+    0x04002B00,
+    0x04002938,
+};
+
+LinkAnimetionEntry* D_80854378[] = {
+    0x04002AD8,
+    0x04002918,
+};
+
+u8 D_80854380[2] = { 0x18, 0x19 };
+u8 D_80854384[2] = { 0x1A, 0x1B };
+
+u16 D_80854388[] = { B_BUTTON, L_CBUTTONS, D_CBUTTONS, R_CBUTTONS };
+
+// Magic spell costs
+u8 D_80854390[] = { 12, 24, 24, 12, 24, 12 };
+
+u16 D_80854398[] = { NA_SE_IT_BOW_DRAW, NA_SE_IT_SLING_DRAW, NA_SE_IT_HOOKSHOT_READY };
+
+u8 D_808543A0[] = { 4, 4, 8 };
+
+LinkAnimetionEntry* D_808543A4[] = {
+    0x040025C0,
+    0x040025C8,
+};
+
+LinkAnimetionEntry* D_808543AC[] = {
+    0x04002580,
+    0x04002588,
+};
+
+LinkAnimetionEntry* D_808543B4[] = {
+    0x04002510,
+    0x04002518,
+};
+
+LinkAnimetionEntry* D_808543BC[] = {
+    0x04002510,
+    0x04002520,
+};
+
+LinkAnimetionEntry* D_808543C4[] = {
+    0x04002EC0,
+    0x04002A08,
+};
+
+LinkAnimetionEntry* D_808543CC[] = {
+    0x040026F0,
+    0x04002CC8,
+};
+
+LinkAnimetionEntry* D_808543D4[] = {
+    0x040026C0,
+    0x04002CC0,
+};
+
+u16 D_808543DC[] = { NA_SE_IT_BOW_FLICK, NA_SE_IT_SLING_FLICK };
+
+s8 D_808543E0[] = { 13, 2, 4, 9, 10, 11, 8, -7 };
+s8 D_808543E8[] = { 13, 1, 2, 5, 3, 4, 9, 10, 11, 7, 8, -6 };
+s8 D_808543F4[] = { 13, 1, 2, 3, 4, 9, 10, 11, 8, 7, -6 };
+s8 D_80854400[] = { 13, 2, 4, 9, 10, 11, 8, -7 };
+s8 D_80854408[] = { 13, 2, 4, 9, 10, 11, 12, 8, -7 };
+s8 D_80854414[] = { -7 };
+s8 D_80854418[] = { 0, 11, 1, 2, 3, 5, 4, 9, 8, 7, -6 };
+s8 D_80854424[] = { 0, 11, 1, 2, 3, 12, 5, 4, 9, 8, 7, -6 };
+s8 D_80854430[] = { 13, 1, 2, 3, 12, 5, 4, 9, 10, 11, 8, 7, -6 };
+s8 D_80854440[] = { 10, 8, -7 };
+s8 D_80854444[] = { 0, 12, 5, -4 };
+
+s32 (*D_80854448[])(Player* this, GlobalContext* globalCtx) = {
+    func_8083B998, func_80839800, func_8083E5A8, func_8083E0FC, func_8083B644, func_8083F7BC, func_8083C1DC,
+    func_80850224, func_8083C544, func_8083EB44, func_8083BDBC, func_8083C2B0, func_80838A14, func_8083B040,
+};
+
+s8 D_80854480[] = { 12, 4, 4, 8 };
+s8 D_80854484[] = { 22, 23, 22, 23 };
+
+u32 D_80854488[][2] = {
+    { 0x00000200, 0x08000000 }, { 0x00000100, 0x02000000 }, { 0x00000400, 0x04000000 },
+    { 0x00000002, 0x08000000 }, { 0x00000040, 0x40000000 },
+};
+
+LinkAnimetionEntry* D_808544B0[] = {
+    0x04002F80, 0x04002F78, 0x04002DE0, 0x04002DD8, 0x04002F70, 0x04002528, 0x04002DC8, 0x040024F0,
+};
+
+u8 D_808544D0[] = { 2, 1, 1 }; // inline .data
+
+struct_808382DC D_808544D4 = { { 1992.0f, 403.0f, -3432.0f }, 0 };
+struct_808382DC D_808544E4 = { { 1200.0f, -1343.0f, 3850.0f }, 0 };
+
+u8 D_808544F4[] = { 0x78, 0x3C };
+
+s16 D_808544F8[] = {
+    0x045B, 0x0482, 0x0340, 0x044B, 0x02A2, 0x0201, 0x03B8, 0x04EE, 0x03C0, 0x0463, 0x01CD, 0x0394, 0x0340, 0x057C,
+};
+
+u8 D_80854514[] = { 11, 9, 3, 5, 7 };
+
+Vec3f D_8085451C = { 0.0f, 0.0f, 100.0f };
+
+u8 D_80854528[] = {
+    GI_LETTER_ZELDA, GI_WEIRD_EGG,    GI_CHICKEN,     GI_BEAN,        GI_POCKET_EGG,   GI_POCKET_CUCCO,
+    GI_COJIRO,       GI_ODD_MUSHROOM, GI_ODD_POTION,  GI_SAW,         GI_SWORD_BROKEN, GI_PERSCRIPTION,
+    GI_FROG,         GI_EYEDROPS,     GI_CLAIM_CHECK, GI_MASK_SKULL,  GI_MASK_SPOOKY,  GI_MASK_KEATON,
+    GI_MASK_BUNNY,   GI_MASK_TRUTH,   GI_MASK_GORON,  GI_MASK_ZORA,   GI_MASK_GERUDO,  GI_LETTER_RUTO,
+    GI_LETTER_RUTO,  GI_LETTER_RUTO,  GI_LETTER_RUTO, GI_LETTER_RUTO, GI_LETTER_RUTO,
+};
+
+LinkAnimetionEntry* D_80854548[] = {
+    0x04002F88,
+    0x04002690,
+    0x04003198,
+};
+
+struct_80854554 D_80854554[] = {
+    { 0x04002648, 0x04002640, 2, 3 },
+    { 0x04002680, 0x04002678, 5, 3 },
+};
+
+Vec3f D_8085456C = { 0.0f, 100.0f, 40.0f };
+
+struct_80854578 D_80854578[] = {
+    { 0x04003398, 35.16999817f, 6.609999657f },
+    { 0x040033A8, -34.15999985f, 7.909999847f },
+};
+
+LinkAnimetionEntry* D_80854590[] = {
+    0x04002EE0,
+    0x040031D0,
+};
+
+// unknown data (unused)
+s32 D_80854598[] = {
+    0xFFDB0871, 0xF8310000, 0x00940470, 0xF3980000, 0xFFB504A9, 0x0C9F0000, 0x08010402,
+};
+
+Vec3f D_808545B4 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_808545C0 = { 0.0f, 0.0f, 0.0f };
+
+LinkAnimetionEntry* D_808545CC[] = {
+    0x04002B10,
+    0x04002B20,
+    0x04002B08,
+    0x04002B18,
+};
+
+struct_80832924 D_808545DC[] = {
+    { 0, 0x4014 },
+    { 0, -0x401E },
+};
+
+Vec3f D_808545E4 = { 0.0f, 0.0f, 5.0f };
+
+struct_80832924 D_808545F0[] = {
+    { NA_SE_PL_BOUND, 0x103C },
+    { 0, 0x408C },
+    { 0, 0x40A4 },
+    { 0, -0x40AA },
+};
+
+struct_80854600 D_80854600[] = {
+    { -0x08, 0xB4, 0x28, 0x64, NA_SE_VO_LI_LAND_DAMAGE_S },
+    { -0x10, 0xFF, 0x8C, 0x96, NA_SE_VO_LI_LAND_DAMAGE_S },
+};
+
+struct_80832924 D_8085460C[] = {
+    { NA_SE_VO_LI_SWORD_N, 0x2001 },
+    { NA_SE_PL_WALK_GROUND, 0x1806 },
+    { NA_SE_PL_ROLL, 0x806 },
+    { 0, -0x2812 },
+};
+
+struct_80832924 D_8085461C[] = {
+    { NA_SE_VO_LI_SWORD_L, 0x2031 },
+    { NA_SE_VO_LI_SWORD_N, -0x20E6 },
+};
+
+ColliderCylinderInit D_80854624 = {
+    { COLTYPE_UNK5, 0x00, 0x11, 0x39, 0x08, COLSHAPE_CYLINDER },
+    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 12, 60, 0, { 0, 0, 0 } },
+};
+
+ColliderQuadInit D_80854650 = {
+    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
+    { 0x02, { 0x00000100, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+ColliderQuadInit D_808546A0 = {
+    { COLTYPE_METAL_SHIELD, 0x09, 0x15, 0x00, 0x08, COLSHAPE_QUAD },
+    { 0x02, { 0x00100000, 0x00, 0x00 }, { 0xDFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+u8 D_808546F0[] = { ITEM_SWORD_MASTER, ITEM_SWORD_KOKIRI };
+
+Vec3f D_808546F4 = { -1.0f, 69.0f, 20.0f };
+
+s16 D_80854700[] = { ACTOR_MAGIC_WIND, ACTOR_MAGIC_DARK, ACTOR_MAGIC_FIRE };
+
+InitChainEntry D_80854708[] = {
+    ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
+};
+
+EffectBlureInit2 D_8085470C = {
+    0, 8, 0, { 255, 255, 255, 255 }, { 255, 255, 255, 64 }, { 255, 255, 255, 0 }, { 255, 255, 255, 0 }, 4,
+    0, 2, 0, { 0, 0, 0, 0 },         { 0, 0, 0, 0 },
+};
+
+Vec3s D_80854730 = { -57, 3377, 0 };
+
+void (*D_80854738[])(GlobalContext* globalCtx, Player* this) = {
+    func_80846648, func_808467D4, func_80846660, func_808468A8, func_808468E8, func_808469BC,
+    func_80846A68, func_80846978, func_8083CA54, func_8083CA54, func_8083CA54, func_8083CA54,
+    func_8083CA54, func_8083CA20, func_8083CA54, func_8083CA9C,
+};
+
+Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
+
+f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
+
+u8 D_80854790[] = { 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C };
+
+Vec3f D_80854798 = { 0.0f, 18.0f, 0.0f };
+
+Vec3f D_808547A4 = { 0.0f, 0.5f, 0.0f };
+
+Vec3f D_808547B0 = { 0.0f, 0.5f, 0.0f };
+
+Color_RGBA8_n D_808547BC = { 255, 255, 100, 255 };
+Color_RGBA8_n D_808547C0 = { 255, 50, 0, 0 };
+
+s8 D_808547C4[] = {
+    0,  3,  3,  5,   4,   8,   9,   13, 14, 15, 16, 17, 18, -22, 23, 24, 25,  26, 27,  28,  29, 31, 32, 33, 34, -35,
+    30, 36, 38, -39, -40, -41, 42,  43, 45, 46, 0,  0,  0,  67,  48, 47, -50, 51, -52, -53, 54, 55, 56, 57, 58, 59,
+    60, 61, 62, 63,  64,  -65, -66, 68, 11, 69, 70, 71, 8,  8,   72, 73, 78,  79, 80,  89,  90, 91, 92, 77, 19, 94,
+};
+
+Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
+
+f32 D_80854820[] = { 2.0f, 4.0f, 7.0f };
+f32 D_8085482C[] = { 0.5f, 1.0f, 3.0f };
+
+Vec3f D_80854838 = { 0.0f, 0.0f, -30.0f };
+
+Gfx* D_80854844[] = {
+    0x0602B060, 0x0602AD40, 0x0602AF70, 0x0602CA38, 0x0602B350, 0x0602B580, 0x0602B788, 0x0602B1F0,
+};
+
+Vec3s D_80854864 = { 0, 0, 0 };
+
+s32 D_8085486C = 0xFF; // inline .data
+
+struct_80832924 D_80854870[] = {
+    { NA_SE_PL_SLIP, 0x1003 },
+    { NA_SE_PL_SLIP, -0x1015 },
+};
+
+struct_80832924 D_80854878[] = {
+    { NA_SE_PL_SLIP, 0x1004 },
+    { NA_SE_PL_SLIP, -0x1018 },
+};
+
+Vec3f D_80854880 = { 0.0f, 26.0f, -40.0f };
+
+Vec3f D_8085488C = { 0.0f, 0.0f, 26.0f }; // inline .data
+
+f32 D_80854898[] = { 10.0f, 20.0f };
+f32 D_808548A0[] = { 40.0f, 50.0f };
+
+struct_80832924 D_808548A8[] = {
+    { NA_SE_PL_WALK_LADDER, 0x80A },
+    { NA_SE_PL_WALK_LADDER, 0x814 },
+    { NA_SE_PL_WALK_LADDER, -0x81E },
+};
+
+struct_80832924 D_808548B4[] = {
+    { 0, 0x3028 }, { 0, 0x3030 }, { 0, 0x3038 }, { 0, 0x3040 },  { 0, 0x3048 },
+    { 0, 0x3050 }, { 0, 0x3058 }, { 0, 0x3060 }, { 0, -0x3068 },
+};
+
+struct_80832924 D_808548D8[] = {
+    { 0, 0x300A }, { 0, 0x3012 }, { 0, 0x301A }, { 0, 0x3022 },  { 0, 0x3034 },
+    { 0, 0x303C }, { 0, 0x3044 }, { 0, 0x304C }, { 0, -0x3054 },
+};
+
+Vec3f D_808548FC[] = {
+    { 40.0f, 0.0f, 0.0f },
+    { -40.0f, 0.0f, 0.0f },
+};
+
+Vec3f D_80854914[] = {
+    { 60.0f, 20.0f, 0.0f },
+    { -60.0f, 20.0f, 0.0f },
+};
+
+Vec3f D_8085492C[] = {
+    { 60.0f, -20.0f, 0.0f },
+    { -60.0f, -20.0f, 0.0f },
+};
+
+LinkAnimetionEntry* D_80854944[] = {
+    0x04003370, 0x04003368, 0x04003380, 0x04003358, 0x04003338, 0x04003348, 0x04003350, NULL, NULL,
+};
+
+LinkAnimetionEntry* D_80854968[] = {
+    0x04003388, 0x04003388, 0x04003388, 0x04003360, 0x04003340, 0x04003340, 0x04003340, NULL, NULL,
+};
+
+LinkAnimetionEntry* D_8085498C[] = {
+    0x040033C8,
+    0x040033B8,
+    0x040033C0,
+};
+
+u8 D_80854998[2][2] = {
+    { 32, 58 },
+    { 25, 42 },
+};
+
+Vec3s D_8085499C = { -69, 7146, -266 };
+
+struct_80832924 D_808549A4[] = {
+    { NA_SE_PL_CALM_HIT, 0x830 }, { NA_SE_PL_CALM_HIT, 0x83A },  { NA_SE_PL_CALM_HIT, 0x844 },
+    { NA_SE_PL_CALM_PAT, 0x85C }, { NA_SE_PL_CALM_PAT, 0x86E },  { NA_SE_PL_CALM_PAT, 0x87E },
+    { NA_SE_PL_CALM_PAT, 0x884 }, { NA_SE_PL_CALM_PAT, -0x888 },
+};
+
+struct_80832924 D_808549C4[] = {
+    { 0, 0x2800 },
+    { NA_SE_PL_GET_OFF_HORSE, 0x80A },
+    { NA_SE_PL_SLIPDOWN, -0x819 },
+};
+
+struct_80832924 D_808549D0[] = {
+    { 0x839, -0x800 },
+};
+
+s16 D_808549D4[] = { 0x0600, 0x04F6, 0x0604, 0x01F1, 0x0568, 0x05F4 };
+
+struct_80832924 D_808549E0[] = {
+    { 0, 0x3857 },
+    { NA_SE_VO_LI_CLIMB_END, 0x2057 },
+    { NA_SE_VO_LI_AUTO_JUMP, 0x2045 },
+    { 0, -0x287B },
+};
+
+struct_80832924 D_808549F0[] = {
+    { NA_SE_IT_MASTER_SWORD_SWING, -0x83C },
+};
+
+struct_80832924 D_808549F4[] = {
+    { NA_SE_VO_LI_AUTO_JUMP, 0x2005 },
+    { 0, -0x280F },
+};
+
+u8 D_808549FC[] = {
+    0x01, 0x03, 0x02, 0x04, 0x04,
+};
+
+BottleCatchInfo D_80854A04[] = {
+    { ACTOR_EN_ELF, ITEM_FAIRY, 0x2A, 0x46 },
+    { ACTOR_EN_FISH, ITEM_FISH, 0x1F, 0x47 },
+    { ACTOR_EN_ICE_HONO, ITEM_BLUE_FIRE, 0x20, 0x5D },
+    { ACTOR_EN_INSECT, ITEM_BUG, 0x21, 0x7A },
+};
+
+Vec3f D_80854A1C = { 0.0f, 0.0f, 5.0f };
+
+BottleDropInfo D_80854A28[] = {
+    { ACTOR_EN_FISH, 0 },
+    { ACTOR_EN_ICE_HONO, 0 },
+    { ACTOR_EN_INSECT, 2 },
+};
+
+struct_80832924 D_80854A34[] = {
+    { NA_SE_VO_LI_AUTO_JUMP, 0x2026 },
+    { NA_SE_EV_BOTTLE_CAP_OPEN, -0x828 },
+};
+
+struct_80832924 D_80854A3C[] = {
+    { NA_SE_PL_PUT_OUT_ITEM, -0x81E },
+};
+
+Vec3f D_80854A40 = { 0.0f, 40.0f, 45.0f };
+
+Vec3f D_80854A4C = { 0.0f, 0.0f, 0.0f };
+
+LinkAnimetionEntry* D_80854A58[] = {
+    0x04002CF8,
+    0x04002CE0,
+    0x04002D10,
+};
+
+LinkAnimetionEntry* D_80854A64[] = {
+    0x04002D00,
+    0x04002CE8,
+    0x04002D18,
+};
+
+LinkAnimetionEntry* D_80854A70[] = {
+    0x04002D08,
+    0x04002CF0,
+    0x04002D20,
+};
+
+u8 D_80854A7C[] = { 70, 10, 10 };
+
+struct_80832924 D_80854A80[] = {
+    { NA_SE_PL_SKIP, 0x814 },
+    { NA_SE_VO_LI_SWORD_N, 0x2014 },
+    { 0, -0x301A },
+
+};
+
+struct_80832924 D_80854A8C[][2] = {
+    {
+        { 0, 0x4014 },
+        { NA_SE_VO_LI_MAGIC_FROL, -0x201E },
+    },
+    {
+        { 0, 0x4014 },
+        { NA_SE_VO_LI_MAGIC_NALE, -0x202C },
+    },
+    {
+        { NA_SE_VO_LI_MAGIC_ATTACK, 0x2014 },
+        { NA_SE_IT_SWORD_SWING_HARD, -0x814 },
+    },
+};
+
+void (*D_80854AA4[])(GlobalContext*, Player*, void*) = {
+    NULL,          func_80851008, func_80851030, func_80851094, func_808510B4, func_808510D4, func_808510F4,
+    func_80851114, func_80851134, func_80851154, func_80851174, func_808511D4, func_808511FC, func_80851294,
+    func_80851050, func_80851194, func_808511B4, func_80851248, func_808512E0,
+};
+
+struct_80832924 D_80854AF0[] = {
+    { 0, 0x2822 },
+    { NA_SE_PL_CALM_HIT, 0x82D },
+    { NA_SE_PL_CALM_HIT, 0x833 },
+    { NA_SE_PL_CALM_HIT, -0x840 },
+};
+
+struct_80832924 D_80854B00[] = {
+    { NA_SE_VO_LI_SURPRISE, 0x2003 }, { 0, 0x300F }, { 0, 0x3018 }, { 0, 0x301E }, { NA_SE_VO_LI_FALL_L, -0x201F },
+};
+
+struct_80832924 D_80854B14[] = {
+    { 0, -0x300A },
+};
+
+struct_80854B18 D_80854B18[] = {
+    { 0, NULL },           { -1, func_808515A4 }, { 2, 0x04002790 },     { 0, NULL },           { 0, NULL },
+    { 3, 0x04002740 },     { 0, NULL },           { 0, NULL },           { -1, func_808515A4 }, { 2, 0x04002778 },
+    { -1, func_80851788 }, { 3, 0x04002860 },     { -1, func_808518DC }, { 7, 0x04002348 },     { 5, 0x04002350 },
+    { 5, 0x04002358 },     { 5, 0x040023B0 },     { 7, 0x040023B8 },     { -1, func_808519EC }, { 2, 0x04002728 },
+    { 2, 0x04002738 },     { 0, NULL },           { -1, func_80851B90 }, { 3, 0x040027A8 },     { 9, 0x04002DB0 },
+    { 2, 0x04002DC0 },     { -1, func_80851D2C }, { 2, 0x04003098 },     { 3, 0x04002780 },     { -1, func_808515A4 },
+    { 2, 0x04003088 },     { 0, NULL },           { 0, NULL },           { 5, 0x04002320 },     { -1, func_80851368 },
+    { -1, func_80851E64 }, { 5, 0x04002328 },     { 16, 0x04002F90 },    { -1, func_80851F84 }, { -1, func_80851E90 },
+    { 6, 0x04002410 },     { 6, 0x04002418 },     { -1, func_80852080 }, { 5, 0x04002390 },     { -1, func_808521F4 },
+    { -1, func_8085225C }, { -1, func_80852280 }, { 5, 0x040023A0 },     { 5, 0x04002368 },     { -1, func_808515A4 },
+    { 5, 0x04002370 },     { 5, 0x040027B0 },     { 5, 0x040027B8 },     { 5, 0x040027C0 },     { 3, 0x04002768 },
+    { 3, 0x040027D8 },     { 4, 0x040027E0 },     { 3, 0x04002380 },     { 3, 0x04002828 },     { 6, 0x04002470 },
+    { 6, 0x040032A8 },     { 14, 0x040032A0 },    { 3, 0x040032A0 },     { 5, 0x04002AE8 },     { 16, 0x04002450 },
+    { 15, 0x04002460 },    { 15, 0x04002458 },    { 3, 0x04002440 },     { 3, 0x04002438 },     { 3, 0x04002C88 },
+    { 6, 0x04003450 },     { 6, 0x04003448 },     { 6, 0x04003460 },     { 6, 0x04003440 },     { 3, 0x04002798 },
+    { 3, 0x04002818 },     { 4, 0x04002848 },     { 3, 0x04002850 },     { 3, 0x040034E0 },     { 3, 0x040034D8 },
+    { 6, 0x040034C8 },     { 3, 0x04003470 },     { 3, 0x04003478 },     { 3, 0x040034C0 },     { 3, 0x04003480 },
+    { 3, 0x04003490 },     { 3, 0x04003488 },     { 3, 0x04003498 },     { 3, 0x040034B0 },     { -1, func_808524B0 },
+    { 3, 0x04003420 },     { -1, func_80852544 }, { -1, func_80852564 }, { 3, 0x04003250 },     { -1, func_80852608 },
+    { 3, 0x04002810 },     { 3, 0x04002838 },     { 3, 0x04002CD0 },     { 3, 0x04002CD8 },     { 3, 0x04002868 },
+    { 3, 0x040027E8 },     { 3, 0x040027F8 },     { 3, 0x04002800 },
+};
+
+struct_80854B18 D_80854E50[] = {
+    { 0, NULL },           { -1, func_808514C0 }, { -1, func_8085157C }, { -1, func_80851998 }, { -1, func_808519C0 },
+    { 11, NULL },          { -1, func_80852C50 }, { -1, func_80852944 }, { -1, func_80851688 }, { -1, func_80851750 },
+    { -1, func_80851828 }, { -1, func_808521B8 }, { -1, func_8085190C }, { 11, NULL },          { 11, NULL },
+    { 11, NULL },          { 18, D_80854AF0 },    { 11, NULL },          { -1, func_80851A50 }, { 12, 0x04002730 },
+    { 11, NULL },          { 0, NULL },           { -1, func_80851BE8 }, { 11, NULL },          { -1, func_80851CA4 },
+    { 11, NULL },          { 17, 0x040030A8 },    { 11, NULL },          { 11, NULL },          { 11, NULL },
+    { -1, func_80851D80 }, { -1, func_80851DEC }, { -1, func_80851E28 }, { 18, D_80854B00 },    { -1, func_808513BC },
+    { 11, NULL },          { 11, NULL },          { 11, NULL },          { 11, NULL },          { -1, func_80851ECC },
+    { -1, func_80851FB0 }, { -1, func_80852048 }, { -1, func_80852174 }, { 13, 0x04002398 },    { -1, func_80852234 },
+    { 0, NULL },           { 0, NULL },           { 11, NULL },          { -1, func_80852450 }, { -1, func_80851688 },
+    { -1, func_80852298 }, { 13, 0x040027D0 },    { -1, func_80852480 }, { 13, 0x040027C8 },    { -1, func_80852328 },
+    { 11, NULL },          { 11, NULL },          { 12, 0x04002388 },    { -1, func_80852358 }, { 11, NULL },
+    { 18, D_80854B14 },    { 11, NULL },          { 11, NULL },          { 11, NULL },          { 11, NULL },
+    { -1, func_80852388 }, { 17, 0x04002450 },    { 12, 0x04002448 },    { 12, 0x04002450 },    { 11, NULL },
+    { -1, func_808526EC }, { 17, 0x04003468 },    { -1, func_808526EC }, { 17, 0x04003468 },    { 12, 0x040027A0 },
+    { 12, 0x04002820 },    { 11, NULL },          { 12, 0x04002858 },    { 12, 0x040034D0 },    { 13, 0x040034F0 },
+    { 12, 0x040034E8 },    { 12, 0x040034A8 },    { 11, NULL },          { 11, NULL },          { 11, NULL },
+    { 11, NULL },          { -1, func_80852648 }, { 11, NULL },          { 12, 0x040034A0 },    { -1, func_808524D0 },
+    { -1, func_80852514 }, { -1, func_80852554 }, { -1, func_808525C0 }, { 11, NULL },          { 11, NULL },
+    { 11, NULL },          { -1, func_8085283C }, { -1, func_808528C8 }, { -1, func_808528C8 }, { 12, 0x04002870 },
+    { 12, 0x040027F0 },    { 12, 0x04002808 },    { 12, 0x04002450 },
+};
+
+struct_80832924 D_80855188[] = {
+    { 0x0, 0x302A },
+    { 0x0, -0x3030 },
+};
+
+LinkAnimetionEntry* D_80855190[] = {
+    0x04002720,
+    0x04002360,
+};
+
+Vec3f D_80855198 = { -1.0f, 70.0f, 20.0f };
+
+// not struct_80832924?
+struct_80832924 D_808551A4[] = {
+    { 0x182D, 0x0 },
+    { 0x1836, 0x6800 },
+};
+
+struct_80832924 D_808551AC[] = {
+    { 0x0, 0x401D },
+    { 0x0, -0x4027 },
+};
+
+struct_80832924 D_808551B4[] = {
+    { 0x0, -0x281E },
+};
+
+struct_80832924 D_808551B8[] = {
+    { 0x1803, -0x80C },
+};
+
+struct_80832924 D_808551BC[] = {
+    { 0x6811, 0x2023 },
+    { 0x830, 0x8EC },
+    { 0x830, -0x900 },
+};
+
+struct_80832924 D_808551C8[] = {
+    { 0x82A, 0x843 },
+    { 0x0, 0x4854 },
+    { 0x0, 0x485A },
+    { 0x0, -0x4860 },
+};
+
+struct_80832924 D_808551D8[] = {
+    { 0x850, 0x1014 },
+    { 0x850, -0x101E },
+};
+
+struct_80832924 D_808551E0[] = {
+    { 0x0, 0x300A },
+    { 0x0, -0x3018 },
+};
+
+struct_80832924 D_808551E8[] = {
+    { 0x0, 0x400F },
+    { 0x0, -0x4023 },
+};
+
+struct_80832924 D_808551F0[] = {
+    { 0x0, 0x300F },
+    { 0x0, -0x3021 },
+};
+
+struct_80832924 D_808551F8[] = {
+    { 0x870, -0x84E },
+};
+
+void (*D_808551FC[])(Player* this, GlobalContext* globalCtx) = {
+    func_8084377C,
+    func_80843954,
+    func_80843A38,
+};
+
+LinkAnimetionEntry* D_80855208[] = {
+    0x040034B8,
+    0x04003458,
+};
+
+Vec3s D_80855210[2][2] = {
+    { { -200, 700, 100 }, { 800, 600, 800 } },
+    { { -200, 500, 0 }, { 600, 400, 600 } },
+};
+
+Vec3f D_80855228 = { 0.0f, 0.0f, 0.0f };
+
+Color_RGB8 D_80855234 = { 255, 255, 255 };
+Color_RGB8 D_80855238 = { 0, 128, 128 };
 
 // external segments
 extern LinkAnimetionEntry D_04002340;
@@ -482,8 +1564,10 @@ extern LinkAnimetionEntry D_04002908;
 extern LinkAnimetionEntry D_04002AC8;
 extern LinkAnimetionEntry D_04002C00;
 extern LinkAnimetionEntry D_04002C08;
+extern LinkAnimetionEntry D_04002C10;
 extern LinkAnimetionEntry D_04002C18;
 extern LinkAnimetionEntry D_04002C20;
+extern LinkAnimetionEntry D_04002C28;
 extern LinkAnimetionEntry D_04002C30;
 extern LinkAnimetionEntry D_04002C38;
 extern LinkAnimetionEntry D_04002C90;
@@ -585,6 +1669,7 @@ s32 func_80832224(Player* this) {
 
 s32 func_8083224C(GlobalContext* globalCtx) {
     Player* this = PLAYER;
+
     return (this->actor.flags & 0x100) == 0x100;
 }
 
@@ -996,6 +2081,7 @@ s32 func_808332E4(Player* this) {
 
 void func_808332F4(Player* this, GlobalContext* globalCtx) {
     GetItemEntry* giEntry = &D_80853624[this->getItemId - 1];
+
     this->unk_862 = ABS(giEntry->gi);
 }
 
@@ -1023,7 +2109,7 @@ s32 func_80833350(Player* this) {
 
 void func_808333FC(Player* this, s32 arg1) {
     if (D_80853E7C[arg1] != 0) {
-        func_80832924(this, D_80853E4C[D_80853E7C[arg1]]);
+        func_80832924(this, D_80853E50[D_80853E7C[arg1] - 1]);
     }
 }
 
@@ -1162,7 +2248,7 @@ void func_808337D4(GlobalContext* globalCtx, Player* this) {
                 globalCtx->bombchuBowlingAmmo = -1;
             }
         } else {
-            Inventory_ChangeAmmo(sp48->item, -1);
+            Inventory_ChangeAmmo(sp48->itemId, -1);
         }
 
         this->interactRangeActor = sp44;
@@ -1561,12 +2647,12 @@ void func_80834894(Player* this) {
 
 void func_808348EC(GlobalContext* globalCtx, Player* this) {
     struct_808540F4* ptr = &D_808540F4[this->unk_15A];
-    f32 phi_f0;
+    f32 temp;
 
-    phi_f0 = ptr->unk_04;
-    phi_f0 = (this->skelAnime2.animPlaybackSpeed < 0.0f) ? phi_f0 - 1.0f : phi_f0;
+    temp = ptr->unk_04;
+    temp = (this->skelAnime2.animPlaybackSpeed < 0.0f) ? temp - 1.0f : temp;
 
-    if (func_800A4530(&this->skelAnime2, phi_f0)) {
+    if (func_800A4530(&this->skelAnime2, temp)) {
         func_80834594(globalCtx, this);
     }
 
@@ -1983,6 +3069,7 @@ s32 func_808359FC(Player* this, GlobalContext* globalCtx) {
         EnBoom* boomerang =
             (EnBoom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOOM, posX, this->actor.posRot.pos.y + 30.0f,
                                  posZ, this->actor.posRot2.rot.x, yaw, 0, 0);
+
         this->unk_688 = &boomerang->actor;
         if (boomerang != NULL) {
             boomerang->moveTo = this->unk_664;
@@ -2001,8 +3088,6 @@ s32 func_808359FC(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80835B60(Player* this, GlobalContext* globalCtx) {
-    s32 phi_return;
-
     if (func_80834758(globalCtx, this)) {
         return 1;
     }
@@ -2126,7 +3211,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
             if ((globalCtx->bombchuBowlingAmmo == 0) &&
                 (((actionParam == 6) && (AMMO(ITEM_STICK) == 0)) || ((actionParam == 0x2E) && (AMMO(ITEM_BEAN) == 0)) ||
                  (temp = func_8008F270(this, actionParam),
-                  ((temp >= 0) && ((AMMO(D_80854188[temp].item) == 0) ||
+                  ((temp >= 0) && ((AMMO(D_80854188[temp].itemId) == 0) ||
                                    (globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
             } else if (actionParam == 0x42) {
@@ -8048,7 +9133,6 @@ void func_80846AAC(Player* this, GlobalContext* globalCtx, SkeletonHeader* skelH
 #ifdef NON_MATCHING
 // mostly regalloc differences
 void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 age;
     Player* this = THIS;
     Scene* scene = globalCtx->loadedScene;
     s32 temp;
@@ -8079,7 +9163,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80835F44(globalCtx, this, ITEM_NONE);
     func_8008ECAC(globalCtx, this);
     this->unk_153 = this->currentBoots;
-    func_80846AAC(this, globalCtx, D_80125B70[age = gSaveContext.linkAge]);
+    func_80846AAC(this, globalCtx, D_80125B70[((void)0, gSaveContext.linkAge)]);
     this->giObjectSegment = (void*)(((u32)ZeldaArena_MallocDebug(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
 
     sp50 = gSaveContext.respawnFlag;
@@ -8757,7 +9841,7 @@ void func_80848B44(GlobalContext* globalCtx, Player* this) {
 
         this->unk_892 -= 20;
 
-        if (sp34 >= 0x29) {
+        if (sp34 > 0x28) {
             sp34 = 0x28;
         }
 
@@ -9031,7 +10115,7 @@ void func_80848F9C(Player* this, GlobalContext* globalCtx, Input* input) {
             if (!(this->stateFlags1 & 1) && (this->stateFlags1 & 0x800000)) {
                 HorseActor* ride = this->rideActor;
                 CollisionPoly* sp5C;
-                u32 sp58;
+                s32 sp58;
                 Vec3f sp4C;
 
                 if (!(ride->actor.bgCheckFlags & 1)) {
@@ -9245,7 +10329,7 @@ void func_80848F9C(Player* this, GlobalContext* globalCtx, Input* input) {
 #endif
 
 #ifdef NON_MATCHING
-// matches besides bss reordering
+// matches but requires .bss which doesn't compile in the right order when migrated to C
 void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_80858AB8;
     Player* this = THIS;
@@ -9279,7 +10363,7 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (this->stateFlags1 & 0x20000020) {
-            bzero(&sp44, sizeof(Input));
+            bzero(&sp44, sizeof(sp44));
         } else {
             sp44 = globalCtx->state.input[0];
             if (this->unk_88E != 0) {
@@ -9304,7 +10388,7 @@ extern s16 D_80858AC8[8];
 
 #ifdef NON_MATCHING
 // matches but requires local .data
-void func_8084A0E8(GlobalContext* globalCtx, Player* player, s32 arg2, Gfx* dList, void* arg4) {
+void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 arg2, Gfx* dList, void* arg4) {
     static s32 D_8085486C = 255;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -9315,14 +10399,13 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* player, s32 arg2, Gfx* dLis
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, dList);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, dList);
 
-    func_8008F470(globalCtx, player->skelAnime.skeleton, player->skelAnime.limbDrawTbl, player->skelAnime.dListCount,
-                  arg2, player->currentTunic, player->currentBoots, player->actor.shape.unk_06, arg4, func_80090D20,
-                  &player->actor);
+    func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, arg2,
+                  this->currentTunic, this->currentBoots, this->actor.shape.unk_06, arg4, func_80090D20, &this->actor);
 
-    if ((arg4 == func_80090014) && (player->currentMask != 0)) {
+    if ((arg4 == func_80090014) && (this->currentMask != 0)) {
         Mtx* sp70 = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Mtx));
 
-        if (player->currentMask == 4) {
+        if (this->currentMask == 4) {
             Vec3s sp68;
 
             gSPSegment(gfxCtx->polyOpa.p++, 0x0B, sp70);
@@ -9340,15 +10423,15 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* player, s32 arg2, Gfx* dLis
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
         }
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_80854840[player->currentMask]);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_80854844[this->currentMask - 1]);
     }
 
-    if ((player->currentBoots == 2) && !(player->actor.bgCheckFlags & 1) && !(player->stateFlags1 & 0x800000) &&
-        (player->unk_893 != 0)) {
+    if ((this->currentBoots == 2) && !(this->actor.bgCheckFlags & 1) && !(this->stateFlags1 & 0x800000) &&
+        (this->unk_893 != 0)) {
         s32 sp5C;
-        s32 unk_893 = player->unk_893;
+        s32 unk_893 = this->unk_893;
 
-        if (player->unk_893 < 0x13) {
+        if (this->unk_893 < 0x13) {
             if (unk_893 >= 0xF) {
                 D_8085486C = (0x13 - unk_893) * 51.0f;
             } else if (unk_893 < 0x13) {
@@ -9364,7 +10447,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* player, s32 arg2, Gfx* dLis
                 D_8085486C = D_8085486C * (sp5C * 0.11111111f);
             }
 
-            func_800D1694(player->actor.posRot.pos.x, player->actor.posRot.pos.y + 2.0f, player->actor.posRot.pos.z,
+            func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 2.0f, this->actor.posRot.pos.z,
                           &D_80854864);
             Matrix_Scale(4.0f, 4.0f, 4.0f, MTXMODE_APPLY);
 
@@ -10085,9 +11168,6 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8084BF1C.s")
 #endif
 
-extern f32 D_80854898[2];
-extern f32 D_808548A0[2];
-
 void func_8084C5F8(Player* this, GlobalContext* globalCtx) {
     s32 temp;
     f32* sp38;
@@ -10300,7 +11380,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
             }
             func_80832264(globalCtx, this, D_8085498C[temp]);
         } else {
-            this->skelAnime.linkAnimetionSeg = D_8085493C[this->unk_850];
+            this->skelAnime.linkAnimetionSeg = D_80854944[this->unk_850 - 2];
             SkelAnime_SetTransition(globalCtx, &this->skelAnime, 8.0f);
             if (this->unk_850 < 4) {
                 func_80834644(globalCtx, this);
@@ -10375,7 +11455,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
                     anim = &D_040033B0;
                 } else if ((rideActor->unk_1F0 & 0x100) ? true : false) {
                     if ((this->unk_850 >= 2) && (this->unk_850 != 99)) {
-                        anim = D_80854960[this->unk_850];
+                        anim = D_80854968[this->unk_850 - 2];
                     }
                 }
 
@@ -10953,7 +12033,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
                     gSaveContext.healthAccumulator = phi_v1 * 0x10;
                 }
             } else {
-                sp28 = D_808549D7[this->unk_154];
+                sp28 = D_808549FC[this->unk_154 - 0x25];
 
                 if (sp28 & 1) {
                     gSaveContext.healthAccumulator = 0x140;
@@ -10987,7 +12067,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
 
 void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
     struct_80854554* sp24;
-    struct_80854A04* entry;
+    BottleCatchInfo* catchInfo;
     s32 temp;
     s32 i;
 
@@ -10997,7 +12077,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         if (this->unk_84F != 0) {
             if (this->unk_850 == 0) {
-                func_8010B680(globalCtx, D_80854A04[this->unk_84F - 1].unk_04, &this->actor);
+                func_8010B680(globalCtx, D_80854A04[this->unk_84F - 1].textId, &this->actor);
                 func_800F5C64(0x922);
                 this->unk_850 = 1;
             } else if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
@@ -11019,9 +12099,9 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
                     }
 
                     if (this->interactRangeActor != NULL) {
-                        entry = &D_80854A04[0];
-                        for (i = 0; i < 4; i++, entry++) {
-                            if (this->interactRangeActor->id == entry->unk_00) {
+                        catchInfo = &D_80854A04[0];
+                        for (i = 0; i < 4; i++, catchInfo++) {
+                            if (this->interactRangeActor->id == catchInfo->actorId) {
                                 break;
                             }
                         }
@@ -11031,7 +12111,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
                             this->unk_850 = 0;
                             this->stateFlags1 |= 0x30000000;
                             this->interactRangeActor->parent = &this->actor;
-                            func_8008ED9C(globalCtx, this, entry->unk_02, ABS(entry->unk_03));
+                            func_8008ED9C(globalCtx, this, catchInfo->itemId, ABS(catchInfo->actionParam));
                             func_808322D0(globalCtx, this, sp24->unk_04);
                             func_80835EA4(globalCtx, 4);
                         }
@@ -11069,11 +12149,11 @@ void func_8084EFC0(Player* this, GlobalContext* globalCtx) {
         func_8083C0E8(this, globalCtx);
         func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
     } else if (func_800A4530(&this->skelAnime, 76.0f)) {
-        BottleActorInfo* actorInfo = &D_80854A28[this->unk_154 - 0x1F];
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, actorInfo->id,
+        BottleDropInfo* dropInfo = &D_80854A28[this->unk_154 - 0x1F];
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, dropInfo->actorId,
                     (Math_Sins(this->actor.shape.rot.y) * 5.0f) + this->unk_3B0.x, this->unk_3B0.y,
                     (Math_Coss(this->actor.shape.rot.y) * 5.0f) + this->unk_3B0.z, 0x4000, this->actor.shape.rot.y, 0,
-                    actorInfo->params);
+                    dropInfo->actorParams);
         func_8008ED9C(globalCtx, this, ITEM_BOTTLE, 0x1E);
     } else {
         func_80832924(this, D_80854A34);
@@ -11734,10 +12814,9 @@ void func_80850AEC(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// matches besides bss reordering
+extern Vec3s D_80858AD8[25];
+
 void func_80850C68(Player* this, GlobalContext* globalCtx) {
-    static Vec3s D_80858AD8[25];
     f32 updateScale;
 
     if ((this->unk_850 != 0) && ((this->unk_858 != 0.0f) || (this->stickLength != 0.0f))) {
@@ -11749,7 +12828,7 @@ void func_80850C68(Player* this, GlobalContext* globalCtx) {
         func_800A431C(globalCtx, &this->skelAnime, &D_04002C38, this->skelAnime.animCurrentFrame,
                       (this->unk_858 < 0.0f) ? &D_04002C18 : &D_04002C20, 5.0f, fabsf(this->unk_858), this->unk_318);
         func_800A43B8(globalCtx, &this->skelAnime, &D_04002C38, this->skelAnime.animCurrentFrame,
-                      (this->stickLength < 0.0f) ? &D_04002C18 : &D_04002C20, 5.0f, fabsf(this->stickLength),
+                      (this->stickLength < 0.0f) ? &D_04002C28 : &D_04002C10, 5.0f, fabsf(this->stickLength),
                       D_80858AD8);
         func_800A42E4(globalCtx, &this->skelAnime, 0.5f);
     } else if (func_800A3BC0(globalCtx, &this->skelAnime)) {
@@ -11767,9 +12846,6 @@ void func_80850C68(Player* this, GlobalContext* globalCtx) {
         func_80832B0C(globalCtx, this, &D_04002C00);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80850C68.s")
-#endif
 
 void func_80850E84(Player* this, GlobalContext* globalCtx) {
     if (func_800A3BC0(globalCtx, &this->skelAnime) && (this->stickFlameTimer == 0)) {
@@ -11796,86 +12872,86 @@ void func_80850F9C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* a
     func_80832210(this);
 }
 
-void func_80851008(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851008(GlobalContext* globalCtx, Player* this, void* anim) {
     func_80832210(this);
 }
 
-void func_80851030(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851030(GlobalContext* globalCtx, Player* this, void* anim) {
     func_80850ED8(globalCtx, this, anim);
 }
 
-void func_80851050(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851050(GlobalContext* globalCtx, Player* this, void* anim) {
     func_80832DB0(this);
     func_80832C2C(globalCtx, this, anim);
     func_80832210(this);
 }
 
-void func_80851094(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851094(GlobalContext* globalCtx, Player* this, void* anim) {
     func_80850F1C(globalCtx, this, anim);
 }
 
-void func_808510B4(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808510B4(GlobalContext* globalCtx, Player* this, void* anim) {
     func_80850F9C(globalCtx, this, anim);
 }
 
-void func_808510D4(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808510D4(GlobalContext* globalCtx, Player* this, void* anim) {
     func_8083308C(globalCtx, this, anim);
 }
 
-void func_808510F4(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808510F4(GlobalContext* globalCtx, Player* this, void* anim) {
     func_8083303C(globalCtx, this, anim, 0x9C);
 }
 
-void func_80851114(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851114(GlobalContext* globalCtx, Player* this, void* anim) {
     func_8083313C(globalCtx, this, anim);
 }
 
-void func_80851134(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851134(GlobalContext* globalCtx, Player* this, void* anim) {
     func_808330EC(globalCtx, this, anim, 0x9C);
 }
 
-void func_80851154(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851154(GlobalContext* globalCtx, Player* this, void* anim) {
     func_80832264(globalCtx, this, anim);
 }
 
-void func_80851174(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851174(GlobalContext* globalCtx, Player* this, void* anim) {
     func_80832284(globalCtx, this, anim);
 }
 
-void func_80851194(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851194(GlobalContext* globalCtx, Player* this, void* anim) {
     func_808322D0(globalCtx, this, anim);
 }
 
-void func_808511B4(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808511B4(GlobalContext* globalCtx, Player* this, void* anim) {
     func_808322A4(globalCtx, this, anim);
 }
 
-void func_808511D4(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808511D4(GlobalContext* globalCtx, Player* this, void* anim) {
     func_800A3BC0(globalCtx, &this->skelAnime);
 }
 
-void func_808511FC(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808511FC(GlobalContext* globalCtx, Player* this, void* anim) {
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         func_80850F9C(globalCtx, this, anim);
         this->unk_850 = 1;
     }
 }
 
-void func_80851248(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851248(GlobalContext* globalCtx, Player* this, void* anim) {
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         func_80832DBC(this);
         func_808322A4(globalCtx, this, anim);
     }
 }
 
-void func_80851294(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80851294(GlobalContext* globalCtx, Player* this, void* anim) {
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         func_8083313C(globalCtx, this, anim);
         this->unk_850 = 1;
     }
 }
 
-void func_808512E0(GlobalContext* globalCtx, Player* this, struct_80832924* arg2) {
+void func_808512E0(GlobalContext* globalCtx, Player* this, void* arg2) {
     func_800A3BC0(globalCtx, &this->skelAnime);
     func_80832924(this, arg2);
 }
@@ -11996,7 +13072,7 @@ void func_80851750(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     func_80832924(this, D_80855188);
 }
 
-f32 func_80851788(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
+void func_80851788(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     this->stateFlags1 &= ~0x2000000;
 
     this->currentYaw = this->actor.shape.rot.y = this->actor.posRot.rot.y =
@@ -12067,7 +13143,7 @@ void func_808519EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 }
 
 void func_80851A50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
-    struct_80832924* sp2C;
+    struct_80832924* sp2C; // not struct_80832924*?
     Gfx** phi_v0;
 
     func_800A3BC0(globalCtx, &this->skelAnime);
@@ -12202,24 +13278,19 @@ void func_80852080(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     func_80832698(this, NA_SE_VO_LI_FALL_L);
 }
 
-#ifdef NON_MATCHING
 void func_808520BC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     f32 startX = arg2->startPos.x;
-    f32 endX = arg2->endPos.x;
     f32 startY = arg2->startPos.y;
-    f32 endY = arg2->endPos.y;
     f32 startZ = arg2->startPos.z;
-    f32 endZ = arg2->endPos.z;
+    f32 distX = (arg2->endPos.x - startX);
+    f32 distY = (arg2->endPos.y - startY);
+    f32 distZ = (arg2->endPos.z - startZ);
     f32 sp4 = (f32)(globalCtx->csCtx.frames - arg2->startFrame) / (f32)(arg2->endFrame - arg2->startFrame);
 
-    this->actor.posRot.pos.x = (endX - startX) * sp4 + startX;
-    this->actor.posRot.pos.y = (endY - startY) * sp4 + startY;
-    this->actor.posRot.pos.z = (endZ - startZ) * sp4 + startZ;
+    this->actor.posRot.pos.x = distX * sp4 + startX;
+    this->actor.posRot.pos.y = distY * sp4 + startY;
+    this->actor.posRot.pos.z = distZ * sp4 + startZ;
 }
-#else
-void func_808520BC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_808520BC.s")
-#endif
 
 void func_80852174(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     func_808520BC(globalCtx, this, arg2);
@@ -12433,7 +13504,7 @@ void func_80852A54(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
 void func_80852B4C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2, struct_80854B18* arg3) {
     if (arg3->type > 0) {
-        D_80854AA4[arg3->type](globalCtx, this, arg3->anim);
+        D_80854AA4[arg3->type](globalCtx, this, arg3->ptr);
     } else if (arg3->type < 0) {
         arg3->func(globalCtx, this, arg2);
     }

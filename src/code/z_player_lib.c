@@ -308,48 +308,36 @@ s32 func_8008E9F8(Player* player, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_8008EA40(Player* player) {
-    s32 age;
-
     if ((player->stateFlags1 & 0x400000) &&
         ((player->unk_154 < 0) || (player->unk_154 == player->heldItemActionParam))) {
         if (!func_8008F1A0(player) && !func_8008E9D0(player)) {
             player->unk_15D = 0x0A;
-            player->unk_160 = &D_80125F40[0x0A][age = gSaveContext.linkAge];
+            player->unk_160 = &D_80125F40[0x0A][(void)0, gSaveContext.linkAge];
             if (player->unk_15E == 0x12) {
                 player->unk_15E = 0x10;
             } else if (player->unk_15E == 0x13) {
                 player->unk_15E = 0x11;
             }
-            player->unk_168 = &D_80125F40[player->unk_15E][age = gSaveContext.linkAge];
+            player->unk_168 = &D_80125F40[player->unk_15E][(void)0, gSaveContext.linkAge];
             player->unk_15B = 2;
             player->unk_154 = -1;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EA40.s")
-#endif
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_8008EB2C(Player* player, s32 arg1) {
     s32 age;
 
     player->unk_15C = D_80125C98[arg1][1];
     player->unk_15D = D_80125C98[arg1][2];
     player->unk_15E = D_80125C98[arg1][3];
-    player->unk_164 = &D_80125F40[D_80125C98[arg1][1]][age = gSaveContext.linkAge];
-    player->unk_160 = &D_80125F40[D_80125C98[arg1][2]][age = gSaveContext.linkAge];
-    player->unk_168 = &D_80125F40[D_80125C98[arg1][3]][age = gSaveContext.linkAge];
-    player->unk_16C = &D_80125F40[D_80125C98[arg1][4]][age = gSaveContext.linkAge];
+    player->unk_164 = &D_80125F40[D_80125C98[arg1][1]][(void)0, gSaveContext.linkAge];
+    player->unk_160 = &D_80125F40[D_80125C98[arg1][2]][(void)0, gSaveContext.linkAge];
+    player->unk_168 = &D_80125F40[D_80125C98[arg1][3]][(void)0, gSaveContext.linkAge];
+    player->unk_16C = &D_80125F40[D_80125C98[arg1][4]][(void)0, gSaveContext.linkAge];
     func_8008EA40(player);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EB2C.s")
-#endif
 
 void func_8008EC04(Player* player, s32 arg1) {
     player->unk_158 = arg1;
@@ -736,17 +724,17 @@ void func_8008F87C(GlobalContext* globalCtx, Player* player, SkelAnime* skelAnim
 
     if ((player->actor.scale.y >= 0.0f) && !(player->stateFlags1 & 0x80) &&
         (func_8008F0D8(player, player->unk_154) < 0)) {
-        s32 age;
+        s32 pad;
 
-        sp7C = D_80126058[age = gSaveContext.linkAge];
-        sp78 = D_80126060[age = gSaveContext.linkAge];
-        sp74 = D_80126068[age = gSaveContext.linkAge] - player->unk_6C4;
+        sp7C = D_80126058[((void)0, gSaveContext.linkAge)];
+        sp78 = D_80126060[((void)0, gSaveContext.linkAge)];
+        sp74 = D_80126068[((void)0, gSaveContext.linkAge)] - player->unk_6C4;
 
         Matrix_Push();
         Matrix_JointPosition(pos, rot);
         Matrix_MultVec3f(&D_8012602C, &spA4);
-        Matrix_JointPosition(&D_80126038[age = gSaveContext.linkAge], &skelAnime->limbDrawTbl[arg6]);
-        Matrix_Translate(D_80126050[age = gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_JointPosition(&D_80126038[((void)0, gSaveContext.linkAge)], &skelAnime->limbDrawTbl[arg6]);
+        Matrix_Translate(D_80126050[((void)0, gSaveContext.linkAge)], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_8012602C, &sp98);
         Matrix_MultVec3f(&D_80126070, &sp8C);
         Matrix_Pull();
@@ -916,21 +904,20 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
 s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     Player* player = (Player*)actor;
-    s32 age;
 
     if (func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, actor) == 0) {
         if (player->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == 15) {
-            *dList = D_80125F18[age = gSaveContext.linkAge];
+            *dList = D_80125F18[((void)0, gSaveContext.linkAge)];
         } else if (limbIndex == 16) {
-            *dList = D_80125F20[age = gSaveContext.linkAge];
+            *dList = D_80125F20[((void)0, gSaveContext.linkAge)];
         } else if (limbIndex == 17) {
-            *dList = D_80125F28[age = gSaveContext.linkAge];
+            *dList = D_80125F28[((void)0, gSaveContext.linkAge)];
         } else if (limbIndex == 18) {
-            *dList = D_80125F30[age = gSaveContext.linkAge];
+            *dList = D_80125F30[((void)0, gSaveContext.linkAge)];
         } else if (limbIndex == 19) {
-            *dList = func_8008F104(player) ? D_0602A738 : D_80125F38[age = gSaveContext.linkAge];
+            *dList = func_8008F104(player) ? D_0602A738 : D_80125F38[((void)0, gSaveContext.linkAge)];
         } else {
             *dList = NULL;
         }
@@ -1109,8 +1096,8 @@ f32 D_801260E0[] = {
 Gfx* D_801260F8[] = { 0x0602AD58, 0x06018478 };
 
 Color_RGB8 D_80126100[] = {
-    { 255, 255, 255 }, { 80, 80, 255 }, { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
-    { 255, 0, 255 }, { 200, 200, 100 }, { 255, 0, 0 }, { 0, 0, 255 }, { 0, 255, 0 },
+    { 255, 255, 255 }, { 80, 80, 255 },   { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
+    { 255, 0, 255 },   { 200, 200, 100 }, { 255, 0, 0 },     { 0, 0, 255 }, { 0, 255, 0 },
     { 255, 255, 255 }, { 255, 255, 255 }, { 80, 80, 255 },
 };
 
@@ -1346,28 +1333,28 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     s16 sp46;
     u32 size;
-    void* ptr1;
-    void* ptr2;
     void* ptr;
+    void* ptr2;
 
-    sp46 = gLinkObjectIds[gSaveContext.linkAge];
-    ptr1 = segment + 0x3800;
     ptr2 = segment + 0x8800;
+    sp46 = gLinkObjectIds[(void)0, gSaveContext.linkAge];
 
     size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
-    DmaMgr_SendRequest1(ptr1, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c", 2982);
+    DmaMgr_SendRequest1(segment + 0x3800, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c",
+                        2982);
 
     size = gObjectTable[sp46].vromEnd - gObjectTable[sp46].vromStart;
-    DmaMgr_SendRequest1(ptr2, gObjectTable[sp46].vromStart, size, "../z_player_lib.c", 2988);
+    DmaMgr_SendRequest1(segment + 0x8800, gObjectTable[sp46].vromStart, size, "../z_player_lib.c", 2988);
 
     ptr = (void*)ALIGN16((u32)ptr2 + size);
 
     if (ptr) {}
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(segment + 0x3800);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(segment + 0x8800);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, D_80125B70[gSaveContext.linkAge], &D_04003238, 9, ptr, ptr, 22);
+    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, D_80125B70[(void)0, gSaveContext.linkAge], &D_04003238, 9, ptr,
+                                ptr, 22);
 
     return (u32)size + 0x8890;
 }
@@ -1412,7 +1399,7 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
         return 0;
     }
 
-    *dList = D_80125F40[phi_a2][phi_v1 + (age = gSaveContext.linkAge)];
+    *dList = D_80125F40[phi_a2][phi_v1 + ((void)0, gSaveContext.linkAge)];
 
     return 0;
 }
@@ -1469,8 +1456,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
     gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img2);
     gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
     gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
-    gDPSetFillColor(oGfxCtx->polyOpa.p++,
-                    (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
+    gDPSetFillColor(oGfxCtx->polyOpa.p++, (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
     gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, width - 1, height - 1);
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
@@ -1478,8 +1464,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
     gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img1);
     gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
     gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
-    gDPSetFillColor(oGfxCtx->polyOpa.p++,
-                    (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
+    gDPSetFillColor(oGfxCtx->polyOpa.p++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
     gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, width - 1, height - 1);
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
@@ -1538,8 +1523,8 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* 
     Vec3s* srcTable;
     s32 i;
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(segment + 0x3800);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(segment + 0x8800);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
     if (LINK_IS_CHILD) {
         if (arg8 == 1) {
