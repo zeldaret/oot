@@ -828,7 +828,8 @@ void func_80061EFC(CollisionCheckInfo* info, DamageTable* damageTable, Collision
 // ? func_800622E4(?);
 s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C,
                                       Vec3f* arg3, Actor** arg4, s32 arg5);
-// ? func_800626B0(?);
+s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3,
+                  Actor** arg4, s32 arg5);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 void func_80062718(ColliderCylinder* collider, Vec3s* pos);
 // ? func_80062734(?);
