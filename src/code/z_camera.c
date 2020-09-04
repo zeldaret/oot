@@ -2391,8 +2391,6 @@ s32 Camera_Jump1(Camera *camera) {
     return true;
 }
 
-
-#ifdef NON_MATCHING
 // Climbing ladders/vines
 s32 Camera_Jump2(Camera *camera) {
     Vec3f* eye = &camera->eye;
@@ -2413,15 +2411,17 @@ s32 Camera_Jump2(Camera *camera) {
     PosRot *sp2C = &camera->playerPosRot;
     s16 phi_v0;
     s16 phi_v1_3;
-    Jump2* jump2 = &camera->params.jump2;
+    Jump2* jump2 = (Jump2*)camera->paramData;
     Jump2Anim* anim = &jump2->anim;
+    CameraModeValue* values;
     f32 yOffset;
+    f32 yNormal;
     
     yOffset = Player_GetHeight(camera->player);
 
     if (RELOAD_PARAMS) {
-        CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / yOffset));
+        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / yOffset));
         jump2->unk_00 = PCT((camera->playerPosDelta.y > 0.0f ? -10.0f : 10.0f) + NEXTSETTING) * yOffset * yNormal;
         jump2->unk_04 = NEXTPCT * yOffset * yNormal;
         jump2->unk_08 = NEXTPCT * yOffset * yNormal;
@@ -2484,11 +2484,12 @@ s32 Camera_Jump2(Camera *camera) {
     func_800457A8(camera, &spA4, jump2->unk_00, 0);
     OLib_Vec3fDiffToVecSphGeo(&spB4, at, eye);
     
-    temp_f16 = jump2->unk_08 + (jump2->unk_08 * jump2->unk_0C);
-    temp_f14 = jump2->unk_04 - (jump2->unk_04 * jump2->unk_0C);
+    temp_f16 = jump2->unk_04;
+    sp90 = jump2->unk_08 + (jump2->unk_08 * jump2->unk_0C);
+    temp_f14 = temp_f16 - (jump2->unk_04 * jump2->unk_0C);
     
-    if(spB4.r > temp_f16){
-        spB4.r = temp_f16;
+    if(spB4.r > sp90){
+        spB4.r = sp90;
     } else if (spB4.r < temp_f14){
         spB4.r = temp_f14;
     }
@@ -2519,7 +2520,7 @@ s32 Camera_Jump2(Camera *camera) {
     } else if ((sp2C->pos.y - anim->unk_00) < yOffset) {
         camera->pitchUpdateRateInv = Camera_LERPCeilF(20.0f, camera->pitchUpdateRateInv, PCT(OREG(26)), 0.1f);
         camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, PCT(OREG(26)), 0.1f);
-        spB4.pitch = Camera_LERPCeilS(0x1F4, spB4.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
+        spB4.pitch = Camera_LERPCeilS(0x1F4, spA4.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
     } else {
         camera->pitchUpdateRateInv = 100.0f;
         camera->rUpdateRateInv = 100.0f;
@@ -2555,10 +2556,6 @@ s32 Camera_Jump2(Camera *camera) {
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Jump2.s")
-#endif
-#undef NON_MATCHING
 
 // swimming
 s32 Camera_Jump3(Camera *camera) {  
