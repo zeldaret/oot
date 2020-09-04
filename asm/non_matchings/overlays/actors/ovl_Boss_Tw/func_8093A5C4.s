@@ -118,7 +118,7 @@ glabel func_8093A5C4
 /* 01A7C 8093A74C AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 01A80 8093A750 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 01A84 8093A754 240700DC */  addiu   $a3, $zero, 0x00DC         ## $a3 = 000000DC
-/* 01A88 8093A758 0C00C916 */  jal     Actor_SpawnAttached
+/* 01A88 8093A758 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 01A8C 8093A75C E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 01A90 8093A760 10400067 */  beq     $v0, $zero, .L8093A900     
@@ -182,7 +182,7 @@ glabel func_8093A5C4
 /* 01B6C 8093A83C AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 01B70 8093A840 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 01B74 8093A844 240700DC */  addiu   $a3, $zero, 0x00DC         ## $a3 = 000000DC
-/* 01B78 8093A848 0C00C916 */  jal     Actor_SpawnAttached
+/* 01B78 8093A848 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 01B7C 8093A84C E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 01B80 8093A850 1040002B */  beq     $v0, $zero, .L8093A900     

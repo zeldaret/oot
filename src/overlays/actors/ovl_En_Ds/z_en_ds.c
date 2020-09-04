@@ -88,8 +88,8 @@ void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
         gSaveContext.timer2State = 0;
     } else {
@@ -169,8 +169,8 @@ int EnDs_CheckRupeesAndBottle() {
 }
 
 void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);

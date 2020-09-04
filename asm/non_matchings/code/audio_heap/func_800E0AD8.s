@@ -40,7 +40,7 @@ glabel func_800E0AD8
 /* B57D00 800E0B60 02003025 */   move  $a2, $s0
 /* B57D04 800E0B64 50400008 */  beql  $v0, $zero, .L800E0B88
 /* B57D08 800E0B68 26100001 */   addiu $s0, $s0, 1
-/* B57D0C 800E0B6C 0C03862C */  jal   func_800E18B0
+/* B57D0C 800E0B6C 0C03862C */  jal   Audio_IsBankLoadComplete
 /* B57D10 800E0B70 02002025 */   move  $a0, $s0
 /* B57D14 800E0B74 10400003 */  beqz  $v0, .L800E0B84
 /* B57D18 800E0B78 02402025 */   move  $a0, $s2

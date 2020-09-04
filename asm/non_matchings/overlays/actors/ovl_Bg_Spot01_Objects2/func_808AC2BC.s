@@ -111,7 +111,7 @@ glabel L808AC394
 /* 002F4 808AC434 332800FF */  andi    $t0, $t9, 0x00FF           ## $t0 = 00000000
 /* 002F8 808AC438 00084A00 */  sll     $t1, $t0,  8               
 /* 002FC 808AC43C 252A0001 */  addiu   $t2, $t1, 0x0001           ## $t2 = 00000001
-/* 00300 808AC440 0C00C916 */  jal     Actor_SpawnAttached
+/* 00300 808AC440 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00304 808AC444 AFAA0028 */  sw      $t2, 0x0028($sp)           
 glabel L808AC448

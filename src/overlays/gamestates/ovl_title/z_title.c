@@ -69,15 +69,13 @@ void Title_Draw(TitleContext* this) {
 
     u16 y;
     u16 idx;
-    char pad1[0x4];
+    s32 pad1;
     Vec3f v3;
     Vec3f v1;
     Vec3f v2;
-    char pad2[0x8];
-    GraphicsContext* gfxCtx = this->state.gfxCtx;
-    Gfx* dispRefs[4];
+    s32 pad2[2];
 
-    Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 395);
+    OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 395);
 
     v3.x = 69;
     v3.y = 69;
@@ -90,61 +88,62 @@ void Title_Draw(TitleContext* this) {
     v2.z = 1119.0837;
 
     func_8002EABC(&v1, &v2, &v3, this->state.gfxCtx);
-    gSPSetLights1(gfxCtx->polyOpa.p++, sTitleLights);
+    gSPSetLights1(oGfxCtx->polyOpa.p++, sTitleLights);
     Title_SetupView(this, 0, 150.0, 300.0);
     func_80093D18(this->state.gfxCtx);
     Matrix_Translate(-53.0, -5.0, 0, MTXMODE_NEW);
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
     Matrix_RotateRPY(0, sTitleRotY, 0, MTXMODE_APPLY);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_01002720);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_01002720);
     func_800944C4(this->state.gfxCtx);
-    gDPPipeSync(gfxCtx->polyOpa.p++);
-    gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_2CYCLE);
-    gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_XLU_SURF2, G_RM_OPA_CI | CVG_DST_WRAP);
-    gDPSetCombineLERP(gfxCtx->polyOpa.p++, TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE,
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_2CYCLE);
+    gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_XLU_SURF2, G_RM_OPA_CI | CVG_DST_WRAP);
+    gDPSetCombineLERP(oGfxCtx->polyOpa.p++, TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE,
                       ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
-    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 170, 255, 255, 255);
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 255, 128);
+    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 170, 255, 255, 255);
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 128);
 
-    gDPLoadMultiBlock(gfxCtx->polyOpa.p++, &D_01001800, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+    gDPLoadMultiBlock(oGfxCtx->polyOpa.p++, &D_01001800, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 11);
 
     for (idx = 0, y = 94; idx < 16; idx++, y += 2) {
-        gDPLoadTextureBlock(gfxCtx->polyOpa.p++, &D_01000000[0x180 * idx], G_IM_FMT_I, G_IM_SIZ_8b, 192, 2, 0,
+        gDPLoadTextureBlock(oGfxCtx->polyOpa.p++, &D_01000000[0x180 * idx], G_IM_FMT_I, G_IM_SIZ_8b, 192, 2, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gDPSetTileSize(gfxCtx->polyOpa.p++, 1, this->uls, (this->ult & 0x7F) - idx * 4, 0, 0);
-        gSPTextureRectangle(gfxCtx->polyOpa.p++, 388, y << 2, 1156, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
+        gDPSetTileSize(oGfxCtx->polyOpa.p++, 1, this->uls, (this->ult & 0x7F) - idx * 4, 0, 0);
+        gSPTextureRectangle(oGfxCtx->polyOpa.p++, 388, y << 2, 1156, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
     }
 
     func_8007672C(this->state.gfxCtx, 0, 0, 0, (s16)this->coverAlpha, 2);
 
     sTitleRotY += 300;
 
-    Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 483);
+    CLOSE_DISPS(this->state.gfxCtx, "../z_title.c", 483);
 }
 
 void Title_Main(TitleContext* this) {
-    GraphicsContext* gfxCtx = this->state.gfxCtx;
-    Gfx* dispRefs[5];
-    s32 pad[2];
-    Gfx* gfx;
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 494);
+    OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 494);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0, NULL);
-    gSPSegment(gfxCtx->polyOpa.p++, 1, this->staticSegment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 1, this->staticSegment);
     func_80095248(this->state.gfxCtx, 0, 0, 0);
     Title_Calc(this);
     Title_Draw(this);
+
     if (D_8012DBC0) {
-        gfx = gfxCtx->polyOpa.p;
+        Gfx* gfx = oGfxCtx->polyOpa.p;
+        s32 pad;
+
         Title_PrintBuildInfo(&gfx);
-        gfxCtx->polyOpa.p = gfx;
+        oGfxCtx->polyOpa.p = gfx;
     }
+
     if (this->exit) {
         gSaveContext.seqIndex = 0xFF;
         gSaveContext.nightSeqIndex = 0xFF;
@@ -153,7 +152,7 @@ void Title_Main(TitleContext* this) {
         SET_NEXT_GAMESTATE(&this->state, Opening_Init, OpeningContext);
     }
 
-    Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 541);
+    CLOSE_DISPS(this->state.gfxCtx, "../z_title.c", 541);
 }
 
 void Title_Destroy(TitleContext* this) {
