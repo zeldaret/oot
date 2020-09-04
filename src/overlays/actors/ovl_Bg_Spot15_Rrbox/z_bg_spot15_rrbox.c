@@ -122,9 +122,11 @@ void func_808B4084(void *arg0, ? arg1) {
 }
 */
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/BgSpot15Rrbox_Init.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/BgSpot15Rrbox_Destroy.s")
+void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot15Rrbox* this = THIS;
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    D_808B4590 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3CA0.s")
 
@@ -135,6 +137,40 @@ void func_808B4084(void *arg0, ? arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4010.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4084.s")
+
+/*
+void func_808B40AC(void *arg0, void *arg1) {
+    void *sp1C;
+    void *temp_a0;
+    void *temp_v1;
+    void *phi_a0;
+
+    temp_v1 = arg1->unk1C44;
+    if ((s32) arg0->unk168 <= 0) {
+        if (0.001f < fabsf(arg0->unk150)) {
+            sp1C = temp_v1;
+            temp_a0 = arg0;
+            phi_a0 = temp_a0;
+            if (func_808B3AAC() == 0) {
+block_5:
+                arg1->unk1C44->unk680 = (s32) (arg1->unk1C44->unk680 & -0x11);
+                phi_a0->unk150 = 0.0f;
+                return;
+            }
+            sp1C = temp_v1;
+            arg0 = temp_a0;
+            phi_a0 = arg0;
+            if (func_808B4010(temp_a0, arg1) != 0) {
+                goto block_5;
+            }
+            arg0->unk17C = (f32) arg0->unk150;
+            func_808B4178(arg0, arg1);
+            return;
+        }
+    }
+    temp_v1->unk680 = (s32) (temp_v1->unk680 & -0x11);
+    arg0->unk150 = 0.0f;
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B40AC.s")
 
