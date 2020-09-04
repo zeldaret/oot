@@ -713,7 +713,16 @@ void func_800DFBF8(void) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DFBF8.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E04E8.s")
+void* func_800E04E8(s32 poolIdx, s32 id) {
+    s32 i;
+
+    for (i = 0; i < gAudioContext.unk_2D5C; i++) {
+        if (gAudioContext.unk_2D60[i].poolIndex == poolIdx && gAudioContext.unk_2D60[i].id == id) {
+            return gAudioContext.unk_2D60[i].ptr;
+        }
+    }
+    return NULL;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0540.s")
 

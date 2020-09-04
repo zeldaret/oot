@@ -581,7 +581,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u8 *ptr;
     /*?0x4 */ u32 size;
-    /*     */ u16 pad;
+    /* 0x8 */ s16 poolIndex;
     /* 0xA */ s16 id; // seqId or bankId
 } SeqOrBankEntry; // size = 0xC
 
@@ -669,7 +669,10 @@ typedef struct {
     /* 0x2A20 */ SoundMultiPool gSeqLoadedPool;
     /* 0x2B30 */ SoundMultiPool gBankLoadedPool;
     /* 0x2C40 */ SoundMultiPool gUnusedLoadedPool; // rename after we figure out what this is
-    /* 0x2D50 */ char unk_2D50[0x6B8];
+    /* 0x2D50 */ char unk_2D50[0xC];
+    /* 0x2D5C */ s32 unk_2D5C;
+    /* 0x2D60 */ SeqOrBankEntry unk_2D60[1]; // unknown size
+    /* 0x2D6C */ char unk_2D6C[0x69C];
     /* 0x3408 */ AudioPoolSplit4 sSessionPoolSplit;
     /* 0x3418 */ AudioPoolSplit2 sSeqAndBankPoolSplit;
     /* 0x3420 */ AudioPoolSplit3 sPersistentCommonPoolSplit;
