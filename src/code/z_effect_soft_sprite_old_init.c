@@ -9,20 +9,22 @@
 #include "overlays/effects/ovl_Effect_Ss_D_Fire/z_eff_ss_d_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Bubble/z_eff_ss_bubble.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Ripple/z_eff_ss_g_ripple.h"
+#include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Magma/z_eff_ss_g_magma.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Fire/z_eff_ss_g_fire.h"
-#include "overlays/effects/ovl_Effect_Ss_G_Splash/z_eff_ss_g_splash.h"
 #include "overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.h"
 #include "overlays/effects/ovl_Effect_Ss_Dt_Bubble/z_eff_ss_dt_bubble.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "overlays/effects/ovl_Effect_Ss_Stick/z_eff_ss_stick.h"
 #include "overlays/effects/ovl_Effect_Ss_Sibuki/z_eff_ss_sibuki.h"
 #include "overlays/effects/ovl_Effect_Ss_Sibuki2/z_eff_ss_sibuki2.h"
 #include "overlays/effects/ovl_Effect_Ss_G_Magma2/z_eff_ss_g_magma2.h"
-#include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
 #include "overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Db/z_eff_ss_dead_db.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.h"
@@ -568,9 +570,40 @@ void EffectSsDtBubble_SpawnCustomColor(GlobalContext* globalCtx, Vec3f* pos, Vec
 
 // EffectSsHahen Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029724.s")
+void EffectSsHahen_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused, s16 scale,
+                         s16 objId, s16 arg7, Gfx* dList) {
+    EffectSsHahenInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_800297A4.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.dList = dList;
+    initParams.unused = unused;
+    initParams.scale = scale;
+    initParams.objId = objId;
+    initParams.unk_2E = arg7;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_HAHEN, 128, &initParams);
+}
+
+void func_800297A4(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s16 unused, s16 scaleBase, s16 scaleRange, s16 num,
+                   s16 objId, s16 arg8, Gfx* dList) {
+    s32 i;
+    Vec3f velocity;
+    Vec3f accel;
+
+    accel.y = -0.07f * arg2;
+    accel.x = accel.z = 0.0f;
+
+    for (i = 0; i < num; i++) {
+        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * arg2;
+        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * arg2;
+        velocity.y = ((Math_Rand_ZeroOne() * 0.5f) + 0.5f) * arg2;
+
+        EffectSsHahen_Spawn(globalCtx, pos, &velocity, &accel, unused, Math_Rand_S16Offset(scaleBase, scaleRange),
+                            objId, arg8, dList);
+    }
+}
 
 // EffectSsStick Spawn Functions
 
@@ -676,6 +709,8 @@ void EffectSsHitMark_SpawnCustomScale(GlobalContext* globalCtx, s32 arg1, s16 sc
     EffectSsHitMark_Spawn(globalCtx, arg1, scale, pos);
 }
 
+// EffectSsFhgFlash Spawn Functions
+
 void EffectSsFhgFlash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, u8 arg5) {
     EffectSsFhgFlashInitParams initParams;
 
@@ -776,7 +811,16 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
 
 // EffectSsExtra Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A5F4.s")
+void EffectSsExtra_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx) {
+    EffectSsExtraInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+    initParams.scoreIdx = scoreIdx;
+    EffectSs_Spawn(globalCtx, EFFECT_SS_EXTRA, 100, &initParams);
+}
 
 // EffectSsFCircle Spawn Functions
 

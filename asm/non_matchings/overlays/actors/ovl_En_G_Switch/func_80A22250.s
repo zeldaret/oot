@@ -82,7 +82,7 @@ glabel func_80A22250
 /* 004C4 80A22384 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 004C8 80A22388 27A60038 */  addiu   $a2, $sp, 0x0038           ## $a2 = FFFFFFD0
 /* 004CC 80A2238C 27A70044 */  addiu   $a3, $sp, 0x0044           ## $a3 = FFFFFFDC
-/* 004D0 80A22390 0C00A97D */  jal     func_8002A5F4              
+/* 004D0 80A22390 0C00A97D */  jal     EffectSsExtra_Spawn              
 /* 004D4 80A22394 E7A8003C */  swc1    $f8, 0x003C($sp)           
 /* 004D8 80A22398 86220150 */  lh      $v0, 0x0150($s1)           ## 00000150
 .L80A2239C:

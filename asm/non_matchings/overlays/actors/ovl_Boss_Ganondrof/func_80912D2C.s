@@ -985,7 +985,7 @@ glabel L8091352C
 /* 033EC 80913A2C 27A60088 */  addiu   $a2, $sp, 0x0088           ## $a2 = FFFFFFC8
 /* 033F0 80913A30 27A70070 */  addiu   $a3, $sp, 0x0070           ## $a3 = FFFFFFB0
 /* 033F4 80913A34 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 033F8 80913A38 0C00A5C9 */  jal     func_80029724
+/* 033F8 80913A38 0C00A5C9 */  jal     EffectSsHahen_Spawn
 /* 033FC 80913A3C AFA00020 */  sw      $zero, 0x0020($sp)
 .L80913A40:
 /* 03400 80913A40 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001

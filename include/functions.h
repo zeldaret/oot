@@ -251,8 +251,9 @@ void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor,
                    s16 unk_16, s16 life, s16 unk_1A);
 // ? EffectSsDtBubble_SpawnColorProfile(?);
 // ? EffectSsDtBubble_SpawnCustomColor(?);
-// ? func_80029724(?);
-void func_800297A4(GlobalContext* globalCtx, Vec3f* vec, f32, s32, s32, s32, s32, s32, s32, s32);
+// ? EffectSsHahen_Spawn(?);
+void func_800297A4(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s16 unused, s16 scaleBase, s16 scaleRange, s16 num,
+                   s16 objId, s16 arg8, Gfx* dList);
 void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw);
 // ? EffectSsSibuki_Spawn(?);
 void EffectSsSibuki_SpawnGroup(GlobalContext* globalCtx, Vec3f* pos);
@@ -279,7 +280,7 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 // ? func_8002A3C4(?);
 // ? func_8002A484(?);
 // ? func_8002A4D4(?);
-// ? func_8002A5F4(?);
+void EffectSsExtra_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx);
 void EffectSsFCircle_Spawn(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 radius, s16 height);
 void EffectSsDeadDb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                    s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused, s32 arg14,
