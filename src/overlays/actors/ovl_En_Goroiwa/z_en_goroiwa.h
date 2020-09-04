@@ -15,7 +15,9 @@ typedef struct EnGoroiwa {
     /* 0x0170 */ ColliderJntSphItem colliderItem;
     /* 0x01B0 */ char unk_1B0[0x18];
     /* 0x01C8 */ s16 timer;
-    /* 0x01CA */ char unk_1CA[0x09];
+    /* 0x01CA */ char unk_1CA[0x04];
+    /* 0x01CE */ s16 unk_1CE;
+    /* 0x01D0 */ char unk_1D0[0x03];
     /* 0x01D3 */ u8 unk_1D3;
 } EnGoroiwa; // size = 0x01D4
 
