@@ -11,16 +11,16 @@ glabel func_800E2CE0
 /* B59EA4 800E2D04 00402825 */   move  $a1, $v0
 /* B59EA8 800E2D08 24030001 */  li    $v1, 1
 /* B59EAC 800E2D0C 12030010 */  beq   $s0, $v1, .L800E2D50
-/* B59EB0 800E2D10 3C0F8017 */   lui   $t7, %hi(D_801725E8)
+/* B59EB0 800E2D10 3C0F8017 */   lui   $t7, %hi(gAudioContext+0x3468)
 /* B59EB4 800E2D14 24010002 */  li    $at, 2
 /* B59EB8 800E2D18 12010013 */  beq   $s0, $at, .L800E2D68
-/* B59EBC 800E2D1C 3C188017 */   lui   $t8, %hi(D_801725B8)
+/* B59EBC 800E2D1C 3C188017 */   lui   $t8, %hi(gAudioContext+0x3438)
 /* B59EC0 800E2D20 10000018 */  b     .L800E2D84
 /* B59EC4 800E2D24 02002025 */   move  $a0, $s0
 .L800E2D28:
-/* B59EC8 800E2D28 3C0E8017 */  lui   $t6, %hi(D_80172618)
+/* B59EC8 800E2D28 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x3498)
 /* B59ECC 800E2D2C 01C27021 */  addu  $t6, $t6, $v0
-/* B59ED0 800E2D30 91CE2618 */  lbu   $t6, %lo(D_80172618)($t6)
+/* B59ED0 800E2D30 91CE2618 */  lbu   $t6, %lo(gAudioContext+0x3498)($t6)
 /* B59ED4 800E2D34 24010001 */  li    $at, 1
 /* B59ED8 800E2D38 15C10003 */  bne   $t6, $at, .L800E2D48
 /* B59EDC 800E2D3C 00000000 */   nop
@@ -31,14 +31,14 @@ glabel func_800E2CE0
 /* B59EEC 800E2D4C 02002025 */   move  $a0, $s0
 .L800E2D50:
 /* B59EF0 800E2D50 01E27821 */  addu  $t7, $t7, $v0
-/* B59EF4 800E2D54 91EF25E8 */  lbu   $t7, %lo(D_801725E8)($t7)
+/* B59EF4 800E2D54 91EF25E8 */  lbu   $t7, %lo(gAudioContext+0x3468)($t7)
 /* B59EF8 800E2D58 546F000A */  bnel  $v1, $t7, .L800E2D84
 /* B59EFC 800E2D5C 02002025 */   move  $a0, $s0
 /* B59F00 800E2D60 1000009D */  b     .L800E2FD8
 /* B59F04 800E2D64 00001025 */   move  $v0, $zero
 .L800E2D68:
 /* B59F08 800E2D68 0302C021 */  addu  $t8, $t8, $v0
-/* B59F0C 800E2D6C 931825B8 */  lbu   $t8, %lo(D_801725B8)($t8)
+/* B59F0C 800E2D6C 931825B8 */  lbu   $t8, %lo(gAudioContext+0x3438)($t8)
 /* B59F10 800E2D70 54780004 */  bnel  $v1, $t8, .L800E2D84
 /* B59F14 800E2D74 02002025 */   move  $a0, $s0
 /* B59F18 800E2D78 10000097 */  b     .L800E2FD8
@@ -106,7 +106,7 @@ glabel L800E2E5C
 /* B59FFC 800E2E5C 02002025 */  move  $a0, $s0
 /* B5A000 800E2E60 8FA50054 */  lw    $a1, 0x54($sp)
 /* B5A004 800E2E64 24060001 */  li    $a2, 1
-/* B5A008 800E2E68 0C037A38 */  jal   func_800DE8E0
+/* B5A008 800E2E68 0C037A38 */  jal   Audio_AllocBankOrSeq
 /* B5A00C 800E2E6C 8FA70034 */   lw    $a3, 0x34($sp)
 /* B5A010 800E2E70 14400015 */  bnez  $v0, .L800E2EC8
 /* B5A014 800E2E74 AFA2004C */   sw    $v0, 0x4c($sp)
@@ -116,7 +116,7 @@ glabel L800E2E80
 /* B5A020 800E2E80 02002025 */  move  $a0, $s0
 /* B5A024 800E2E84 8FA50054 */  lw    $a1, 0x54($sp)
 /* B5A028 800E2E88 00003025 */  move  $a2, $zero
-/* B5A02C 800E2E8C 0C037A38 */  jal   func_800DE8E0
+/* B5A02C 800E2E8C 0C037A38 */  jal   Audio_AllocBankOrSeq
 /* B5A030 800E2E90 8FA70034 */   lw    $a3, 0x34($sp)
 /* B5A034 800E2E94 1440000C */  bnez  $v0, .L800E2EC8
 /* B5A038 800E2E98 AFA2004C */   sw    $v0, 0x4c($sp)
@@ -126,7 +126,7 @@ glabel L800E2EA4
 /* B5A044 800E2EA4 02002025 */  move  $a0, $s0
 /* B5A048 800E2EA8 8FA50054 */  lw    $a1, 0x54($sp)
 /* B5A04C 800E2EAC 24060002 */  li    $a2, 2
-/* B5A050 800E2EB0 0C037A38 */  jal   func_800DE8E0
+/* B5A050 800E2EB0 0C037A38 */  jal   Audio_AllocBankOrSeq
 /* B5A054 800E2EB4 8FA70034 */   lw    $a3, 0x34($sp)
 /* B5A058 800E2EB8 14400003 */  bnez  $v0, .L800E2EC8
 /* B5A05C 800E2EBC AFA2004C */   sw    $v0, 0x4c($sp)
@@ -194,12 +194,12 @@ glabel L800E2EA4
 /* B5A144 800E2FA4 1000000C */  b     .L800E2FD8
 /* B5A148 800E2FA8 8FA2004C */   lw    $v0, 0x4c($sp)
 .L800E2FAC:
-/* B5A14C 800E2FAC 0C038692 */  jal   func_800E1A48
+/* B5A14C 800E2FAC 0C038692 */  jal   Audio_SetSeqLoadStatus
 /* B5A150 800E2FB0 8FA5003C */   lw    $a1, 0x3c($sp)
 /* B5A154 800E2FB4 10000008 */  b     .L800E2FD8
 /* B5A158 800E2FB8 8FA2004C */   lw    $v0, 0x4c($sp)
 .L800E2FBC:
-/* B5A15C 800E2FBC 0C038686 */  jal   func_800E1A18
+/* B5A15C 800E2FBC 0C038686 */  jal   Audio_SetBankLoadStatus
 /* B5A160 800E2FC0 8FA5003C */   lw    $a1, 0x3c($sp)
 /* B5A164 800E2FC4 10000004 */  b     .L800E2FD8
 /* B5A168 800E2FC8 8FA2004C */   lw    $v0, 0x4c($sp)
