@@ -22,7 +22,7 @@ typedef struct EnGoroiwa {
     /* 0x01CC */ s16 waypoint1;
     /* 0x01CE */ s16 waypoint2;
     /* 0x01D0 */ s16 unk_1D0;
-    /* 0x01D2 */ char unk_1D2[0x01];
+    /* 0x01D2 */ u8 unk_1D2;
     /* 0x01D3 */ u8 unk_1D3;
 } EnGoroiwa; // size = 0x01D4
 

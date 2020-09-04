@@ -15,7 +15,6 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A4BE10(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
 
 void func_80A4D5E0(EnGoroiwa* this);
@@ -82,7 +81,15 @@ bool func_80A4BD8C(Vec3f* arg0, Vec3f* arg1) {
     return true;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BE10.s")
+void func_80A4BE10(EnGoroiwa* this, GlobalContext* globalCtx) {
+    if (globalCtx->sceneNum == SCENE_SPOT04) {
+        this->unk_1D2 = 1;
+        mREG(12) = 920;
+    } else {
+        this->unk_1D2 = 0;
+        mREG(12) = 1000;
+    }
+}
 
 void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
