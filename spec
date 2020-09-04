@@ -1785,8 +1785,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Fhg_Flash"
     include "build/src/overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.o"
-    include "build/data/overlays/effects/z_eff_ss_fhg_flash.data.o"
-    include "build/data/overlays/effects/z_eff_ss_fhg_flash.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Fhg_Flash/ovl_Effect_Ss_Fhg_Flash_reloc.o"
 endseg
 
 beginseg
@@ -1834,7 +1833,6 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Hahen"
     include "build/src/overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.o"
-    include "build/data/overlays/effects/z_eff_ss_hahen.data.o"
     include "build/data/overlays/effects/z_eff_ss_hahen.reloc.o"
 endseg
 

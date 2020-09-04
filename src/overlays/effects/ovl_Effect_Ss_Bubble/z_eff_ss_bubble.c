@@ -19,14 +19,14 @@ EffectSsInit Effect_Ss_Bubble_InitVars = {
     EffectSsBubble_Init,
 };
 
-extern Gfx D_04055DB0[];
-extern Gfx D_04055EB0[];
+extern UNK_TYPE D_04055DB0;
+extern UNK_TYPE D_04055EB0;
 extern Gfx D_0401A160[];
 
 u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBubbleInitParams* initParams = (EffectSsBubbleInitParams*)initParamsx;
 
-    this->displayList = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? D_04055DB0 : D_04055EB0);
+    this->displayList = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
     this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.x;
     this->pos.y =
         (((Math_Rand_ZeroOne() - 0.5f) * initParams->yPosRandScale) + initParams->yPosOffset) + initParams->pos.y;

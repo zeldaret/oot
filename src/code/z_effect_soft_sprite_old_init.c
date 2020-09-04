@@ -722,8 +722,9 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 
 // EffectSsKakera Spawn Functions
 
-void func_80029E8C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3, s16 arg4, s16 arg5, s16 arg6,
-                   s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 arg13, s16 objId, Gfx* dList) {
+void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3, s16 arg4, s16 arg5,
+                          s16 arg6, s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 arg13, s16 objId,
+                          Gfx* dList) {
     EffectSsKakeraInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);

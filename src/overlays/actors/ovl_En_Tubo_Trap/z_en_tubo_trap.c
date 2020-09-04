@@ -104,7 +104,7 @@ void EnTuboTrap_SpawnFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
             temp = 32;
         }
 
-        func_80029E8C(globalCtx, &spC8, &spBC, actorPos, -240, temp, 10, 10, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
+        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, actorPos, -240, temp, 10, 10, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
                       0, 32, 60, -1, 3, &D_05017A60);
     }
 
@@ -149,7 +149,7 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
             temp = 32;
         }
 
-        func_80029E8C(globalCtx, &spC8, &spBC, actorPos, -180, temp, 30, 30, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
+        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, actorPos, -180, temp, 30, 30, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
                       0, 32, 70, -1, 3, &D_05017A60);
     }
 }

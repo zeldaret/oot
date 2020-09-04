@@ -103,7 +103,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         } else {
             u0 = 32;
         }
-        func_80029E8C(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80, -1, 2,
+        EffectSsKakera_Spawn(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80, -1, 2,
                       dlist);
     }
 

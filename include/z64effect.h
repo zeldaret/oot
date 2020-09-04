@@ -214,7 +214,7 @@ typedef struct EffectSs {
     /* 0x24 */ void (*update)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x28 */ void (*draw)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x2C */ Vec3f unk_2C;
-    /* 0x38 */ Gfx* displayList;
+    /* 0x38 */ void* displayList;
     /* 0x3C */ void* unk_3C;
     /* 0x40 */ s16 regs[13]; // specific per effect
     /* 0x5A */ u16 flags;

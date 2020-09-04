@@ -12,6 +12,6 @@ typedef struct {
     /* 0x26 */ u8 unk_26;
     /* 0x28 */ Actor* unk_28;
     /* 0x2C */ u8 unk_2C;
-} EffectSsFhgFlashInitParams;
+} EffectSsFhgFlashInitParams; // size = 0x30
 
 #endif

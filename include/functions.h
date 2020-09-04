@@ -265,7 +265,7 @@ void EffectSsHitMark_SpawnFixedScale(GlobalContext* globalCtx, s32 a, Vec3f* pos
 void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
 void EffectSsFhgFlash_Spawn2(GlobalContext*, Actor*, Vec3f*, s16, u8);
 // ? func_80029DBC(?);
-void func_80029E8C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3,
+void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3,
                    s16 arg4, s16 arg5, s16 arg6, s16 arg7, s16 arg8, s16 arg9, s16 arg10, s16 arg11,
                    s32 arg12, s16 arg13, s16 objectId, Gfx* dList);
 void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4,

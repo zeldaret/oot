@@ -5,7 +5,7 @@
  */
 
 #include "z_en_fhg_fire.h"
-#include "../ovl_En_fHG/z_en_fhg.h"
+#include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
 #define FLAGS 0x00000030
 

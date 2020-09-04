@@ -103,7 +103,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
         temp_s3.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
         scale = sEffectScales[i];
         u0 = (scale >= 11) ? 37 : 33;
-        func_80029E8C(globalCtx, &temp_s2, &temp_s3, &temp_s2, -400, u0, 10, 2, 0, scale, 1, 0, 80, -1, OBJECT_BOMBIWA,
+        EffectSsKakera_Spawn(globalCtx, &temp_s2, &temp_s3, &temp_s2, -400, u0, 10, 2, 0, scale, 1, 0, 80, -1, OBJECT_BOMBIWA,
                       dlist);
     }
     func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 8, 100, 160, 1);
