@@ -750,7 +750,41 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
 // somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E06CC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0964.s")
+void func_800E0964(UNK_PTR arg0, s32 bankId) {
+    Drum *drum;
+    Instrument *inst;
+    UnkInstrument *unkInst;
+    s32 instId;
+    s32 drumId;
+    s32 unkInstId;
+
+    for (instId = 0; instId < gAudioContext.gCtlEntries[bankId].numInstruments; instId++) {
+        inst = Audio_GetInstrumentInner(bankId, instId);
+        if (inst != NULL) {
+            if (inst->normalRangeLo != 0) {
+                func_800E0BB4(arg0, inst->lowNotesSound.sample);
+            }
+            if (inst->normalRangeHi != 0x7F) {
+                func_800E0BB4(arg0, inst->highNotesSound.sample);
+            }
+            func_800E0BB4(arg0, inst->normalNotesSound.sample);
+        }
+    }
+
+    for (drumId = 0; drumId < gAudioContext.gCtlEntries[bankId].numDrums; drumId++) {
+        drum = Audio_GetDrum(bankId, drumId);
+        if (drum != NULL) {
+            func_800E0BB4(arg0, drum->sound.sample);
+        }
+    }
+
+    for (unkInstId = 0; unkInstId < gAudioContext.gCtlEntries[bankId].numUnkInstruments; unkInstId++) {
+        unkInst = Audio_GetUnkInstrument(bankId, unkInstId);
+        if (unkInst != NULL) {
+            func_800E0BB4(arg0, unkInst->unk_0);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0AD8.s")
 

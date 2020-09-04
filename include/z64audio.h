@@ -172,7 +172,7 @@ typedef struct {
 } Drum; // size >= 0x14
 
 typedef struct {
-    u32 unk_0;
+    AudioBankSample* unk_0;
     u32 unk_4;
 } UnkInstrument; // TODO: probably the same as AudioBankSound
 
@@ -671,7 +671,8 @@ typedef struct {
     /* 0x2C40 */ SoundMultiPool gUnusedLoadedPool; // rename after we figure out what this is
     /* 0x2D50 */ SoundAllocPool unk_2D50;
     /* 0x2D60 */ SeqOrBankEntry unk_2D60[1]; // unknown size
-    /* 0x2D6C */ char unk_2D6C[0x69C];
+    /* 0x2D6C */ char unk_2D6C[0x698];
+    /* 0x3404 */ s32 unk_3404;
     /* 0x3408 */ AudioPoolSplit4 sSessionPoolSplit;
     /* 0x3418 */ AudioPoolSplit2 sSeqAndBankPoolSplit;
     /* 0x3420 */ AudioPoolSplit3 sPersistentCommonPoolSplit;
