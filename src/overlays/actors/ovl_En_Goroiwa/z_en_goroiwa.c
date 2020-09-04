@@ -85,7 +85,7 @@ bool func_80A4BD8C(Vec3f* arg0, Vec3f* arg1) {
 
 void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->unk_1CE];
+    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
     Vec3f pos;
 
     pos.x = pointPos->x;
@@ -106,7 +106,7 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
 void func_80A4C188(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->unk_1CA = globalCtx->setupPathList[this->actor.params & 0xFF].count - 1;
     this->unk_1CC = 0;
-    this->unk_1CE = 1;
+    this->waypoint = 1;
     this->unk_1D0 = 1;
 }
 
