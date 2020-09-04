@@ -8,7 +8,6 @@ struct BossSst;
 
 typedef void (*BossSstActionFunc)(struct BossSst*, GlobalContext*);
 
-
 typedef struct {
     /* 0x0000 */ Vec3f unk_00;
     /* 0x0010 */ Vec3f unk_0C;

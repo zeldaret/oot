@@ -371,6 +371,7 @@ Vec3f D_809373DC[] = {
 
 Vec3f D_8093743C = { 0.0f, 0.0f, 0.0f };
 u32 D_80937448 = 0;
+u32 D_8093744C[] = {0,0,0,0,0,0};
 
 Color_RGBA8 D_80937464 = { 255, 255, 255, 255 };
 Color_RGBA8 D_80937468 = { 0, 0, 0, 255 };
@@ -439,7 +440,7 @@ static ColliderJntSphItemInit sJntSphItemsInit2[11] = {
     },
 };
 
-static ColliderJntSphInit sJntSphInit2 =
+ColliderJntSphInit sJntSphInit2 =
 {
     { COLTYPE_UNK0, 0x10, 0x09, 0x38, 0x10, COLSHAPE_JNTSPH },
     11, sJntSphItemsInit2,
@@ -494,14 +495,14 @@ static ColliderJntSphItemInit sJntSphItemsInit1[11] = {
 };
 
 // D_809377BC
-static ColliderJntSphInit sJntSphInit1 =
+ ColliderJntSphInit sJntSphInit1 =
 {
     { COLTYPE_UNK12, 0x10, 0x0D, 0x38, 0x10, COLSHAPE_JNTSPH },
     11, sJntSphItemsInit1,
 };
 
 // D_809377CC
-static ColliderCylinderInit sCylinderInit1 =
+ ColliderCylinderInit sCylinderInit1 =
 {
     { COLTYPE_UNK0, 0x00, 0x08, 0x00, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
@@ -509,7 +510,7 @@ static ColliderCylinderInit sCylinderInit1 =
 };
 
 // D_809377F8
-static ColliderCylinderInit sCylinderInit2 =
+ ColliderCylinderInit sCylinderInit2 =
 {
     { COLTYPE_UNK10, 0x10, 0x00, 0x00, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x20000000, 0x04, 0x10 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
@@ -560,20 +561,21 @@ AnimationHeader* D_80937884[] = {
 };
 
 // D_8093788C
-static InitChainEntry sInitChain[] = {
+InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 41, ICHAIN_CONTINUE),
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 20, ICHAIN_STOP),
 };
 
-Color_RGBA8_n D_80937898[4] = { 
-    { 80, 80, 150, 255 },
+// Color_RGBA8 D_80937898 = { 80, 80, 150, 255 };
+// Color_RGBA8 D_8093789C = { 40, 40, 80, 255 };
+// Color_RGBA8 D_809378A0 = { 0, 0, 0, 255 };
+// Color_RGBA8 D_809378A4 = { 100, 100, 100, 0 };
+Color_RGBA8 D_80937898[] = {{ 80, 80, 150, 255 },
     { 40, 40, 80, 255 },
     { 0, 0, 0, 255 }, 
     { 100, 100, 100, 0 }
 };
-
-//Color_RGBA8_n D_8093789C = { 40, 40, 80, 255 };
 
 s32 D_809378A8 = 0;
 Vec3f D_809378AC = { 0.0f, 0.0f, 0.0f };
@@ -583,6 +585,7 @@ Vec3f D_809378C4[] = {
     {-160.0f, 0.0f, 250.0f },
     {160.0f, 0.0f, 250.0f }
 };
+s32 D_809378E8 = 0;
 
 BossSst* D_80938C90; // Head?
 BossSst* D_80938C98[2]; // Hands?
@@ -598,10 +601,13 @@ s16 D_80938CC4; // cam
 // stack
 void BossSst_Init(Actor* thisx, GlobalContext *globalCtx) {
     BossSst* this = THIS;
+    ColliderCylinder* collider2 = &this->collider2;
+    ColliderJntSph* collider1 = &this->collider1;
+    //ActorContext* actorCtx = &globalCtx->actorCtx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    Collider_InitCylinder(globalCtx, &this->collider2);
-    Collider_InitJntSph(globalCtx, &this->collider1);
+    Collider_InitCylinder(globalCtx, collider2);
+    Collider_InitJntSph(globalCtx, collider1);
     func_80061ED4(&this->actor.colChkInfo, &D_8093782C, &D_80937824);
     Flags_SetSwitch(globalCtx, 0x14);
     if (this->actor.params == -1) {
@@ -609,8 +615,8 @@ void BossSst_Init(Actor* thisx, GlobalContext *globalCtx) {
             D_80937340.x, D_80937340.y, D_80937340.z, 0, 0, 0, 0);
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06017C40, &D_0600E7B8, this->limbDrawTable, this->transitionDrawTable, 45);
         ActorShape_Init(&this->actor.shape, 70000.0f, ActorShadow_DrawFunc_Circle, 95.0f);
-        Collider_SetJntSph(globalCtx, &this->collider1, &this->actor, &sJntSphInit1, this->colliderItems);
-        Collider_SetCylinder(globalCtx, &this->collider2, &this->actor, &sCylinderInit1);
+        Collider_SetJntSph(globalCtx, collider1, &this->actor, &sJntSphInit1, this->colliderItems);
+        Collider_SetCylinder(globalCtx, collider2, &this->actor, &sCylinderInit1);
         D_80938C90 = this;
         this->actor.posRot.pos.x = 0.0f;
         this->actor.posRot.pos.y = 0.0f;
@@ -644,8 +650,8 @@ void BossSst_Init(Actor* thisx, GlobalContext *globalCtx) {
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 9);
         }
     } else {
-        Collider_SetJntSph(globalCtx, &this->collider1, &this->actor, &sJntSphInit2, this->colliderItems);
-        Collider_SetCylinder(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
+        Collider_SetJntSph(globalCtx, collider1, &this->actor, &sJntSphInit2, this->colliderItems);
+        Collider_SetCylinder(globalCtx, collider2, &this->actor, &sCylinderInit2);
         if (this->actor.params == 0) {
             SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004DE0, &D_060002E8, this->limbDrawTable, this->transitionDrawTable, 27);
             this->unk_194 = -1;
@@ -978,11 +984,8 @@ void func_8092DB30(BossSst *this) {
     this->actionFunc = func_8092DB4C;
 }
 
-#ifdef NON_MATCHING
-// Regalloc in the middle
 void func_8092DB4C(BossSst *this, GlobalContext *globalCtx) {
-    f32 tmpf1;
-    u8 tmp;
+    s32 tmp;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((this->unk_195 == 0) &&
@@ -996,13 +999,8 @@ void func_8092DB4C(BossSst *this, GlobalContext *globalCtx) {
     }
 
     if (this->unk_198 == 0) {
-        if ((PLAYER->actor.posRot.pos.y > -50.0f) && !(PLAYER->stateFlags1 & 0x6080)) {
-            tmpf1 = Math_Rand_ZeroOne();
-            tmp = 0;
-            if (tmpf1 <= 0.5f) {
-                tmp++;
-            }
-
+        if ((PLAYER->actor.posRot.pos.y > -50.0f) && ((PLAYER->stateFlags1 & 0x6080) == 0)) {
+            tmp = (Math_Rand_ZeroOne() <= 0.5f);
             D_80938C98[tmp]->unk_195 = 1;
             func_8092DA6C(this);
         } else {
@@ -1014,10 +1012,8 @@ void func_8092DB4C(BossSst *this, GlobalContext *globalCtx) {
             func_80933D2C(this, NA_SE_EN_SHADEST_PRAY);
         }
     }
+    
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Sst/func_8092DB4C.s")
-#endif
 
 void func_8092DCEC(BossSst *this, s32 arg1) {
     if (arg1 != 0) {
@@ -1177,10 +1173,10 @@ void func_8092E510(BossSst *this, GlobalContext *globalCtx) {
     s32 sp30;
     f32 tmpf2;
 
-    Math_ApproxF(&D_80938CA8[1].x, 600.0f, 20.0f);
+    Math_ApproxF(&D_80938CA8[0].z, 600.0f, 20.0f);
     Math_ApproxF(&D_80938CA8[1].z, 600.0f, 20.0f);
     Math_ApproxF(&D_80938CA8[0].x, 200.0f, 20.0f);
-    Math_ApproxF(&D_80938CA8[0].z, -200.0f, 20.0f);
+    Math_ApproxF(&D_80938CA8[1].x, -200.0f, 20.0f);
     this->actor.velocity.y += this->actor.gravity;
     sp30 = SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     tmpf2 = this->skelAnime.animCurrentFrame;
@@ -1230,10 +1226,10 @@ void func_8092E790(BossSst *this) {
 
 void func_8092E830(BossSst *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&D_80938CA8[1].x, 600.0f, 20.0f);
+    Math_ApproxF(&D_80938CA8[0].z, 600.0f, 20.0f);
     Math_ApproxF(&D_80938CA8[1].z, 600.0f, 20.0f);
     Math_ApproxF(&D_80938CA8[0].x, 200.0f, 20.0f);
-    Math_ApproxF(&D_80938CA8[0].z, -200.0f, 20.0f);
+    Math_ApproxF(&D_80938CA8[1].x, -200.0f, 20.0f);
     if ((this->actor.flags & 0x2000) == 0x2000) {
         this->unk_198 += 2;
         this->unk_198 = CLAMP_MAX(this->unk_198, 0x32);
@@ -1523,12 +1519,12 @@ void func_8092F894(BossSst *this) {
     this->actionFunc = func_8092F8F0;
 }
 
+//Color_RGBA8 D_80937898
 #ifdef NON_MATCHING
 // RGBA assigns
 void func_8092F8F0(BossSst *this, GlobalContext *globalCtx) {
-    s32 i;
     Vec3f sp7C;
-    Color_RGBA8_n* color1;
+    s32 i;
 
     this->unk_198--;
     if (this->unk_196 == 0) {
@@ -1560,7 +1556,7 @@ void func_8092F8F0(BossSst *this, GlobalContext *globalCtx) {
     }
 
     D_80937898[0].a = this->unk_700[0].unk_24;
-    D_80937898[1].a = this->unk_700[0].unk_24;
+    D_80937898[0].a = this->unk_700[0].unk_24;
 
     for (i = 0; i < 5; i++) {
         sp7C.x = Math_Rand_CenteredFloat(800.0f) + D_80937340.x;
@@ -1892,25 +1888,14 @@ void func_80930B18(BossSst *this) {
     this->actionFunc = func_80930BC0;
 }
 
-
-#ifdef NON_MATCHING
-// tmp2/f1 shouldn't exist, can't elide it
 void func_80930BC0(BossSst *this, GlobalContext *globalCtx) {
     s32 tmp;
-    s32 tmp2;
-    f32 tmpf1;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     tmp = Math_ApproxF(&this->actor.posRot.pos.y, 50.0f, 4.0f);
     tmp &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->unk_1A4, 0x200);
     tmp &= Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_1A4, 0x400);
-
-    tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_3C4, D_80938C90->actor.xzDistFromLink, 0.5f, 60.0f, 1.0f);
-    tmp2 = 0;
-    if (tmpf1 < 10.0f) {
-        tmp2 = 1;
-    }
-    tmp &= tmp2;
+    tmp &= Math_SmoothScaleMaxMinF(&this->unk_3C4, D_80938C90->actor.xzDistFromLink, 0.5f, 60.0f, 1.0f) < 10.0f;
 
     this->actor.posRot.pos.x = (Math_Sins(this->actor.posRot.rot.y) * this->unk_3C4) + D_80938C90->actor.posRot.pos.x;
     this->actor.posRot.pos.z = (Math_Coss(this->actor.posRot.rot.y) * this->unk_3C4) + D_80938C90->actor.posRot.pos.z;
@@ -1920,9 +1905,6 @@ void func_80930BC0(BossSst *this, GlobalContext *globalCtx) {
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Sst/func_80930BC0.s")
-#endif
 
 void func_80930CE4(BossSst *this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_80937854[this->actor.params], 5.0f);
@@ -2034,11 +2016,7 @@ void func_80931210(BossSst *this) {
     this->actionFunc = func_80931300;
 }
 
-#ifdef NON_MATCHING
-// Same tmp & pattern
 void func_80931300(BossSst *this, GlobalContext *globalCtx) {
-    f32 tmpf1;
-    s32 tmp;
 
     if (this->unk_198 != 0) {
         if (this->unk_198 != 0) {
@@ -2056,26 +2034,15 @@ void func_80931300(BossSst *this, GlobalContext *globalCtx) {
         this->unk_195 &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->unk_1A6, 0x600);
         this->unk_195 &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->unk_1A4, 0x200);
         this->unk_195 &= Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_1A4, 0x400);
+        this->unk_195 &= Math_SmoothScaleMaxMinF(&this->unk_3C4, D_80938C90->actor.xzDistFromLink, 0.5f, 50.0f, 1.0f) < 10.0f;
+        this->unk_195 &= Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 95.0f, 0.5f, 30.0f, 1.0f) < 1.0f;
         
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_3C4, D_80938C90->actor.xzDistFromLink, 0.5f, 50.0f, 1.0f);
-        this->unk_195 &= (tmpf1 < 10.0f) ? 1 : 0;
-        //this->unk_195 &= tmp;
-
-        tmp = 0;
-        if (Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 95.0f, 0.5f, 30.0f, 1.0f) < 1.0f) {
-            tmp = 1;
-        }
-        this->unk_195 &= tmp;
-
         this->actor.posRot.pos.x = (Math_Sins(this->actor.posRot.rot.y) * this->unk_3C4) + D_80938C90->actor.posRot.pos.x;
         this->actor.posRot.pos.z = (Math_Coss(this->actor.posRot.rot.y) * this->unk_3C4) + D_80938C90->actor.posRot.pos.z;
     } else if (((BossSst*)this->actor.attachedB)->unk_195 != 0) {
         this->unk_198 = 0x14;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Sst/func_80931300.s")
-#endif
 
 void func_809314F0(BossSst *this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_80937854[this->actor.params], 3.0f);
@@ -3031,13 +2998,14 @@ void BossSst_Update(Actor *thisx, GlobalContext *globalCtx) {
 // D_80938CC0 wrong type
 void func_80934338(Actor *thisx, GlobalContext *globalCtx) {
     BossSst *this = THIS;
+    s32 dy;
 
     func_8002DBD0(&this->actor, &D_80938CA8[1], &D_80938C98[1]->actor.posRot.pos);
     func_8002DBD0(&this->actor, &D_80938CA8[0], &D_80938C98[0]->actor.posRot.pos);
 
     D_80938CC0[0] = D_80938C98[0]->actor.shape.rot.y - this->actor.shape.rot.y;
     D_80938CC0[1] = D_80938C98[1]->actor.shape.rot.y - this->actor.shape.rot.y;
-
+    
     func_80933EE0(this, globalCtx);
     this->actionFunc(this, globalCtx);
     if (this->unk_194 != 0) {
@@ -3112,15 +3080,8 @@ s32 func_80934628(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
     return 0;
 }
 
-#ifdef NON_MATCHING
-// the loop
 void BossSst_Draw(Actor *thisx, GlobalContext *globalCtx) {
-    BossSst *this = THIS;
-    BossSstStruct2* ptr;
-    BossSstStruct2* ptr2;
-    s32 i;
-    u32 what;
-    u32 me;
+    BossSst* this = THIS;
 
     GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
@@ -3138,36 +3099,39 @@ void BossSst_Draw(Actor *thisx, GlobalContext *globalCtx) {
     }
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_809345A4, func_809345F0, &this->actor);
+    
     if (this->unk_9D2 >= 2) {
+        BossSstStruct2* phi_s0;
+        BossSstStruct2* phi_a0;
+        s32 i;
+        s32 phi_s5;
+        s32 sp8C;
+        s32 pad2;
+        
         func_80093D84(globalCtx->state.gfxCtx);
-        // s0 = ptr, for func_800CB650 arg1, func_800D1694
-
-
-        //ptr2 = &this->unk_9D4[(((this->unk_9D0 + 4) % 7) + 2) % 7];
-        //what = (this->unk_9D0 + 4) / 7;
-        //me = what * 0x1C;
-        ptr = this->unk_9D4 + (this->unk_9D0 + 4) % 7;
-        for (i = 0; i < this->unk_9D2 >> 1; i++) {
-            if (func_800CB650(&this->unk_9D4[(what + 2) % 7].unk_00, &ptr->unk_00) > 900.0f) {
-                func_800D1694(ptr->unk_00.x, ptr->unk_00.y, ptr->unk_00.z, &ptr->unk_0C);
+        
+        sp8C = (this->unk_9D2 >> 1);
+        phi_s5 = (this->unk_9D0 + 4) % 7;
+        phi_s0 = &this->unk_9D4[phi_s5];
+        phi_a0 = &this->unk_9D4[(phi_s5 + 2) % 7];
+        for(i = 0; i < sp8C; i++) {
+            if (900.0f < func_800CB650(&phi_a0->unk_00, &phi_s0->unk_00)) {
+                func_800D1694(phi_s0->unk_00.x, phi_s0->unk_00.y, phi_s0->unk_00.z, &phi_s0->unk_0C);
                 Matrix_Scale(0.02f, 0.02f, 0.02f, 1);
 
                 gSPSegment(gfxCtx->polyXlu.p++, 0x08, D_809369A8);
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, ((3 - i) * 10) + 20, ((3 - i) * 20) + 50, ((3 - i) * 30) + 70, 0);
-
-                gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80934628, NULL, ptr, gfxCtx->polyXlu.p);
+                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, ((3 - i) * 10) + 20, 0, ((3 - i) * 20) + 50, ((3 - i) * 30) + 70);
+                
+                gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx,this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, &func_80934628, 0, &phi_s0->unk_00, gfxCtx->polyXlu.p);
             }
-            //what = (what + 5) % 7;
-            ptr++;
+            phi_s5 = (phi_s5 + 5) % 7;
+            phi_a0 = phi_s0;
+            phi_s0 = &this->unk_9D4[phi_s5];
         }
     }
-
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_sst.c", 6654);
-    func_8093639C(&this->actor, globalCtx);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_sst.c", 0x19FE);
+    func_8093639C(thisx, globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Sst/BossSst_Draw.s")
-#endif
 
 s32 func_80934A44(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor* thisx, Gfx **gfx) {
     BossSst *this = THIS;
@@ -3559,26 +3523,23 @@ void func_809360FC(BossSst *this, GlobalContext *globalCtx) {
     }
 }
 
-#ifdef NON_EQUIVALENT
-// globalCtx needs to be on the stack
 void func_8093639C(Actor* thisx, GlobalContext *globalCtx) {
     BossSst* this = THIS;
-
     s32 i;
     BossSstStruct1* ptr;
-    f32 tmpf1;
+    f32 pad;
 
     if (this->unk_196 != 0) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
 
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_sst.c", 7302);
-        func_80093D84(globalCtx2->state.gfxCtx);
+        func_80093D84(globalCtx->state.gfxCtx);
         if (this->unk_196 == 1) {
             gSPSegment(gfxCtx->polyXlu.p++, 0x08, 
-                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 0, 
-                    globalCtx->gameplayFrames % 256, 0x20, 0x10, 1, 0, 
-                    (globalCtx->gameplayFrames * 2) % 256, 0x40, 0x20));
+                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 
+                    (u8)globalCtx->gameplayFrames, 0x20, 0x10, 1, 0, 
+                    (u8)(globalCtx->gameplayFrames * 2), 0x40, 0x20));
             gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x32, 0x64, this->unk_700[0].unk_24);
             gSPDisplayList(gfxCtx->polyXlu.p++, D_06017EE0);
 
@@ -3595,18 +3556,19 @@ void func_8093639C(Actor* thisx, GlobalContext *globalCtx) {
                     Matrix_RotateRPY(ptr->unk_18.x, ptr->unk_18.y, ptr->unk_18.z, 1);
                     Matrix_Scale(ptr->unk_1E * 0.001f, ptr->unk_1E * 0.001f, ptr->unk_1E * 0.001f, 1);
                     
-                    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_boss_sst.c", 7350), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7350), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(gfxCtx->polyXlu.p++, D_06017F80);
                 }
             }
         } else if (this->unk_196 == 2) {
+            f32 tmpf1 = 0.005f;
             gDPPipeSync(gfxCtx->polyXlu.p++);
             gSPSegment(gfxCtx->polyXlu.p++, 0x08, 
-                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 
-                    globalCtx->gameplayFrames % 128, 0, 0x20, 0x40, 1, 0, 
-                    (-globalCtx->gameplayFrames * 15) % 256, 0x20, 0x40));
+                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+                    globalCtx->gameplayFrames & 0x7F, 0, 0x20, 0x40, 1, 0, 
+                    (u8)(globalCtx->gameplayFrames * -15), 0x20, 0x40));
 
-            for (i = 0, tmpf1 = 0.005f; i < 3; i++, tmpf1 -= 0.001f) {
+            for (i = 0; i < 3; i++, tmpf1 -= 0.001f) {
 
                 ptr = &this->unk_700[i];
                 if (ptr->unk_20 != 0) {
@@ -3616,7 +3578,7 @@ void func_8093639C(Actor* thisx, GlobalContext *globalCtx) {
                     gDPPipeSync(gfxCtx->polyXlu.p++);
                     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0x1E, 0x00, 0x1E, ptr->unk_24 * ptr->unk_20);
                     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x1E, 0x00, 0x1E, 0x00);
-                    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_boss_sst.c", 7396), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7396), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(gfxCtx->polyXlu.p++, D_040184B0);
                 }
             }
@@ -3629,7 +3591,7 @@ void func_8093639C(Actor* thisx, GlobalContext *globalCtx) {
                 Matrix_Translate(ptr->unk_00.x, ptr->unk_00.y, ptr->unk_00.z, 0);
                 Matrix_Scale(ptr->unk_1E * 0.001f, 1.0f, ptr->unk_1E * 0.001f, 1);
 
-                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_boss_sst.c", 7423), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7423), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(gfxCtx->polyXlu.p++, D_809372C0);
                 ptr++;
             }
@@ -3638,6 +3600,3 @@ void func_8093639C(Actor* thisx, GlobalContext *globalCtx) {
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_sst.c", 7433);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Sst/func_8093639C.s")
-#endif
