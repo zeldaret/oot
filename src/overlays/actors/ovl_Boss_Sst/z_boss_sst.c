@@ -5,6 +5,8 @@
 
 #define THIS ((BossSst*)thisx)
 
+#define NON_MATCHING
+
 void BossSst_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossSst_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossSst_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -2994,7 +2996,7 @@ void BossSst_Update(Actor *thisx, GlobalContext *globalCtx) {
     func_809360FC(this, globalCtx);
 }
 
-#ifdef NON_EQUIVALENT
+#ifdef NON_MATCHING
 // D_80938CC0 wrong type
 void func_80934338(Actor *thisx, GlobalContext *globalCtx) {
     BossSst *this = THIS;
