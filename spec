@@ -1228,8 +1228,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot01_Objects2"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Objects2/z_bg_spot01_objects2.o"
-    include "build/data/overlays/actors/z_bg_spot01_objects2.data.o"
-    include "build/data/overlays/actors/z_bg_spot01_objects2.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot01_Objects2/ovl_Bg_Spot01_Objects2_reloc.o"
 endseg
 
 beginseg
@@ -1777,8 +1776,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Extra"
     include "build/src/overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.o"
-    include "build/data/overlays/effects/z_eff_ss_extra.data.o"
-    include "build/data/overlays/effects/z_eff_ss_extra.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Extra/ovl_Effect_Ss_Extra_reloc.o"
 endseg
 
 beginseg
