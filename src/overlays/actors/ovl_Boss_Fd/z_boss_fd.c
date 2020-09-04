@@ -399,23 +399,24 @@ Vec3f D_808D1A10 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
 
 #ifdef NON_MATCHING
-// Control flow is correct and works when compiled. It's enormous, though, so matching will be hard.
+//Somehow doesn't use rodata value D_808D1EB4 = 0.01f. It would occur after the 85.56f float 
+//literal in case 6 of the boss intro switch statement but before the next switch statement.
+//All other instructions match.
 void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = 0;
-    s16 i4;
-    f32 pad4;
+    s16 i1;
+    s16 i2;
+    s16 i3;
     f32 dx;
     f32 dy;
     f32 dz;
-    f32 pad3;
+    f32 pad5;
     f32 angleToTarget;
     f32 pitchToTarget;
-    s16 i1;
-    s16 i2;
-    f32 pad5;
     Vec3f* holePosition1;
-    s16 i3;
+    f32 pad4;
     u8 temp_rand;
+    Player* player = PLAYER;
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
@@ -424,7 +425,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     Vec3f sp170;
     Vec3f sp164;
     Vec3f sp158;
-    f32 pad2;
+    f32 pad3;
     s16 temp_rand2;
     s16 sp150;
     Vec3f sp144;
@@ -433,12 +434,12 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     Vec3f sp120;
     Vec3f sp114;
     Vec3f sp108;
-    f32 pad;
+    s16 i4;
     Vec3f spE0[3];
     Vec3f spBC[3];
     f32 phi_f20;
-    Player* player = PLAYER;
-    BossFdParticle* parts;
+    f32 pad2;
+    f32 pad1;
     
     
     
@@ -544,7 +545,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 break;
             case 2: // switch 1
                 if (this->animationTimers[0] == 0) {
-                    this->unk_1484 = 0.0010000002f;
+                    this->unk_1484 = 0.001;
                     this->animationTimers[0] = 0x64;
                     this->introState2 = 3;
                 }
@@ -561,7 +562,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 if (this->animationTimers[0] < 50) {
                     Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
-                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8*0.01f);
                 }
                 if (this->animationTimers[0] == 40) {
                     func_8002DF54(globalCtx, &this->actor, 0x13);
@@ -579,7 +580,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                 break;
             case 4: // switch 1
                 this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
-                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8*0.01f);
                 Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (this->animationTimers[0] == 0) {
                     this->introState2 = 5;
@@ -599,7 +600,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             case 5: // switch 1
                 this->unk_1484 = 0.005f;
                 this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
-                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8*0.01f);
                 Audio_PlaySoundGeneral(0x304E, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (this->animationTimers[0] == 100) {
                     this->collapsePlatform = 1;
@@ -651,14 +652,15 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     this->unk_1444.y = 85.56f;
                     this->unk_1444.z = 25.0f;
                 } else {
-                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.007999999f);
+                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f,0.8*0.01f);
                     this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 }
                 if (this->animationTimers[3] == 160) {
                     Audio_SetBGM(0x6B);
                 }
                 if ((this->animationTimers[3] == 130) && ((gSaveContext.eventChkInf[7] & 8) == 0)) {
-                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&D_0600D700),
+                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
+                                           SEGMENTED_TO_VIRTUAL(&D_0600D700),
                                            0xA0, 0xB4, 0x80, 0x28);
                 }
                 if (this->animationTimers[3] < 101) {
@@ -694,9 +696,8 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                                 this->roarTimer = 40;
                                 this->fireBreathTimer = 20;
                             }
-                        case 3:
                             break;
-                        default:
+                        case 3:
                             break;
                     }
                 }
@@ -725,7 +726,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
     /***********************************************************************************************
      *                              Attacks and Death Cutscene                                     *
      ***********************************************************************************************/
-    
+
     switch (this->actionState) {
         case 0: // Cases 0 - 3 deal with flying in and out of holes
             sp1CF = 1;
@@ -944,22 +945,25 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(0x30DA, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 for (i1 = 0; i1 < sp150; i1++) {
-                    temp_rand2 = Math_Rand_ZeroFloat(99.9f);
-                    sp188.x = this->bodySegsPos[temp_rand2].x;
-                    sp188.y = this->bodySegsPos[temp_rand2].y - 10.0f;
-                    sp188.z = this->bodySegsPos[temp_rand2].z;
-                    sp164.y = 0.03f;
-                    func_80029DBC(globalCtx, &sp188, &sp17C, &sp164,
-                                   (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
-                    for (i2 = 0; i2 < 15; i2++) {
-                        sp170.x = Math_Rand_CenteredFloat(20.0f);
-                        sp170.y = Math_Rand_CenteredFloat(20.0f);
-                        sp170.z = Math_Rand_CenteredFloat(20.0f);
-                        sp158.y = 0.4f;
-                        sp158.x = Math_Rand_CenteredFloat(0.5f);
-                        sp158.z = Math_Rand_CenteredFloat(0.5f);
-                        func_808CADC0(this->particles, &sp188, &sp170, &sp158,
-                                        (s16)Math_Rand_ZeroFloat(3.0f) + 8);
+                    if(sp150){ // needed for match
+                        temp_rand2 = Math_Rand_ZeroFloat(99.9f);
+                        sp188.x = this->bodySegsPos[temp_rand2].x;
+                        sp188.y = this->bodySegsPos[temp_rand2].y - 10.0f;
+                        sp188.z = this->bodySegsPos[temp_rand2].z;
+                        sp164.y = 0.03f;
+                        func_80029DBC(globalCtx, &sp188, &sp17C, &sp164,
+                                       (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
+                    
+                        for (i2 = 0; i2 < 15; i2++) {
+                            sp170.x = Math_Rand_CenteredFloat(20.0f);
+                            sp170.y = Math_Rand_CenteredFloat(20.0f);
+                            sp170.z = Math_Rand_CenteredFloat(20.0f);
+                            sp158.y = 0.4f;
+                            sp158.x = Math_Rand_CenteredFloat(0.5f);
+                            sp158.z = Math_Rand_CenteredFloat(0.5f);
+                            func_808CADC0(this->particles, &sp188, &sp170, &sp158,
+                                            (s16)Math_Rand_ZeroFloat(3.0f) + 8);
+                        }
                     }
                 }
             }
