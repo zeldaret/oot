@@ -31,8 +31,8 @@ const ActorInit En_Goroiwa_InitVars = {
 
 extern ColliderJntSphInit D_80A4DEA4;
 extern CollisionCheckInfoInit D_80A4DEB4;
-extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DEC4[];
+extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
 
 extern Gfx D_060006B0[];
