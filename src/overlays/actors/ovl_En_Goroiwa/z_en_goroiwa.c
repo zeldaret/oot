@@ -105,7 +105,12 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C164.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C188.s")
+void func_80A4C188(EnGoroiwa* this, GlobalContext* globalCtx) {
+    this->unk_1CA = globalCtx->setupPathList[this->actor.params & 0xFF].count - 1;
+    this->unk_1CC = 0;
+    this->unk_1CE = 1;
+    this->unk_1D0 = 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C1C4.s")
 
