@@ -134,7 +134,7 @@ glabel func_809B3FDC
 /* 00878 809B4198 AFA70044 */  sw      $a3, 0x0044($sp)
 /* 0087C 809B419C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00880 809B41A0 24060096 */  addiu   $a2, $zero, 0x0096         ## $a2 = 00000096
-/* 00884 809B41A4 0C00A732 */  jal     func_80029CC8
+/* 00884 809B41A4 0C00A732 */  jal     EffectSsHitMark_SpawnCustomScale
 /* 00888 809B41A8 AFA30050 */  sw      $v1, 0x0050($sp)
 /* 0088C 809B41AC 8FA30050 */  lw      $v1, 0x0050($sp)
 /* 00890 809B41B0 5060004D */  beql    $v1, $zero, .L809B42E8

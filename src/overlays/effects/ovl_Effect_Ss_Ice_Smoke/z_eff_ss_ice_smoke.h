@@ -9,6 +9,6 @@ typedef struct {
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
     /* 0x24 */ s16 scale;
-} EffectSsIceSmokeInitParams; // size = 0x
+} EffectSsIceSmokeInitParams; // size = 0x28
 
 #endif

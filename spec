@@ -1841,7 +1841,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_HitMark"
     include "build/src/overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.o"
-    include "build/data/overlays/effects/z_eff_ss_hitmark.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_HitMark/ovl_Effect_Ss_HitMark_reloc.o"
 endseg
 
 beginseg

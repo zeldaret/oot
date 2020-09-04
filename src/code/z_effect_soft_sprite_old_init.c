@@ -21,6 +21,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.h"
+#include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Db/z_eff_ss_dead_db.h"
@@ -657,11 +658,23 @@ void EffectSsStone1_Spawn(GlobalContext* globalCtx, Vec3f* pos, s32 arg2) {
 
 // EffectSsHitMark Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029C50.s")
+void EffectSsHitMark_Spawn(GlobalContext* globalCtx, s32 arg1, s16 scale, Vec3f* pos) {
+    EffectSsHitMarkInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029CA4.s")
+    initParams.unk_00 = arg1;
+    initParams.scale = scale;
+    Math_Vec3f_Copy(&initParams.pos, pos);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029CC8.s")
+    EffectSs_Spawn(globalCtx, EFFECT_SS_HITMARK, 128, &initParams);
+}
+
+void EffectSsHitMark_SpawnFixedScale(GlobalContext* globalCtx, s32 arg1, Vec3f* pos) {
+    EffectSsHitMark_Spawn(globalCtx, arg1, 300, pos);
+}
+
+void EffectSsHitMark_SpawnCustomScale(GlobalContext* globalCtx, s32 arg1, s16 scale, Vec3f* pos) {
+    EffectSsHitMark_Spawn(globalCtx, arg1, scale, pos);
+}
 
 void EffectSsFhgFlash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, u8 arg5) {
     EffectSsFhgFlashInitParams initParams;

@@ -15,7 +15,7 @@ typedef enum {
     /* 0x05 */ SS_HITMARK_5,
     /* 0x06 */ SS_HITMARK_6,
     /* 0x07 */ SS_HITMARK_7,
-    /* 0x08 */ SS_HITMARK_8,
+    /* 0x08 */ SS_HITMARK_SCALE,
     /* 0x09 */ SS_HITMARK_9,
     /* 0x0A */ SS_HITMARK_A,
     /* 0x0B */ SS_HITMARK_B,
@@ -23,30 +23,13 @@ typedef enum {
 } EffectSsHitMarkRegs;
 
 u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A824C(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A8484(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsHitMark_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsHitMark_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-typedef struct {
-    /* 0x00 */ Color_RGB8 primColor;
-    /* 0x04 */ Color_RGB8 envColor;
-} HitMarkInfo;
-/*
-s32 D_809A85B0[] = { 0xFFFFFFFF, 0xFF00FFFF, 0xFFFF0000, 0xFFC864C8, 0x96009664, 0x00643200,
-                     0xFFFFFFFF, 0x0000FFFF, 0x00FF0000, 0xFFFFFF00, 0xFFC8FFFF, 0xFF9600FF };
-*/
-/*
 Color_RGB8 D_809A85B0[] = {
     { 255, 255, 255 }, { 255, 255, 0 }, { 255, 255, 255 }, { 255, 0, 0 },   { 255, 200, 100 }, { 200, 150, 0 },
     { 150, 100, 0 },   { 100, 50, 0 },  { 255, 255, 255 }, { 255, 0, 0 },   { 255, 255, 0 },   { 255, 0, 0 },
     { 255, 255, 255 }, { 0, 255, 200 }, { 255, 255, 255 }, { 150, 0, 255 },
-};
-*/
-
-HitMarkInfo D_809A85B0[] = {
-    { { 255, 255, 255 }, { 255, 255, 0 } }, { { 255, 255, 255 }, { 255, 0, 0 } },
-    { { 255, 200, 100 }, { 200, 150, 0 } }, { { 150, 100, 0 }, { 100, 50, 0 } },
-    { { 255, 255, 255 }, { 255, 0, 0 } },   { { 255, 255, 0 }, { 255, 0, 0 } },
-    { { 255, 255, 255 }, { 0, 255, 200 } }, { { 255, 255, 255 }, { 150, 0, 255 } },
 };
 
 UNK_PTR D_809A85E0[] = {
@@ -61,11 +44,8 @@ EffectSsInit Effect_Ss_HitMark_InitVars = {
     EffectSsHitMark_Init,
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_HitMark/EffectSsHitMark_Init.s")
-/*
 u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
-    HitMarkInfo* temp_v1;
-    s32 idx;
+    s32 colorIdx;
     EffectSsHitMarkInitParams* initParams = (EffectSsHitMarkInitParams*)initParamsx;
     this->pos = initParams->pos;
     this->displayList = SEGMENTED_TO_VIRTUAL(D_04021770);
@@ -76,23 +56,73 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         this->life = 8;
     }
 
-    this->draw = func_809A824C;
-    this->update = func_809A8484;
+    this->draw = EffectSsHitMark_Draw;
+    this->update = EffectSsHitMark_Update;
+    colorIdx = initParams->unk_00 * 4;
     this->regs[SS_HITMARK_0] = 0;
-    temp_v1 = &D_809A85B0[initParams->unk_00 * 3];
-
-
     this->regs[SS_HITMARK_1] = initParams->unk_00;
-    this->regs[SS_HITMARK_2] = temp_v1->primColor.r;
-    this->regs[SS_HITMARK_3] = temp_v1->primColor.g;
-    this->regs[SS_HITMARK_4] = temp_v1->primColor.b;
-    this->regs[SS_HITMARK_5] = temp_v1->envColor.r;
-    this->regs[SS_HITMARK_6] = temp_v1->envColor.g;
-    this->regs[SS_HITMARK_7] = temp_v1->envColor.b;
-    this->regs[SS_HITMARK_8] = initParams->scale;
+    this->regs[SS_HITMARK_2] = D_809A85B0[colorIdx].r;
+    this->regs[SS_HITMARK_3] = D_809A85B0[colorIdx].g;
+    this->regs[SS_HITMARK_4] = D_809A85B0[colorIdx].b;
+    this->regs[SS_HITMARK_5] = D_809A85B0[colorIdx + 1].r;
+    this->regs[SS_HITMARK_6] = D_809A85B0[colorIdx + 1].g;
+    this->regs[SS_HITMARK_7] = D_809A85B0[colorIdx + 1].b;
+    this->regs[SS_HITMARK_SCALE] = initParams->scale;
+
     return 1;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_HitMark/func_809A824C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_HitMark/func_809A8484.s")
+void EffectSsHitMark_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    MtxF sp11C;
+    MtxF spDC;
+    MtxF sp9C;
+    MtxF sp5C;
+    Mtx* mtx;
+    f32 scale;
+    s32 pad;
+
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_hitmark.c", 297);
+
+    SkinMatrix_SetTranslate(&sp11C, this->pos.x, this->pos.y, this->pos.z);
+    scale = this->regs[SS_HITMARK_SCALE] / 100.0f;
+    SkinMatrix_SetScale(&spDC, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&sp11C, &globalCtx->mf_11DA0, &sp5C);
+    SkinMatrix_MtxFMtxFMult(&sp5C, &spDC, &sp9C);
+    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp9C);
+
+    if (mtx != NULL) {
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+                   SEGMENTED_TO_VIRTUAL(D_809A85E0[(this->regs[SS_HITMARK_1] * 8) + (this->regs[SS_HITMARK_0])]));
+        func_80094C50(gfxCtx);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_HITMARK_2], this->regs[SS_HITMARK_3],
+                        this->regs[SS_HITMARK_4], 255);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_HITMARK_5], this->regs[SS_HITMARK_6],
+                       this->regs[SS_HITMARK_7], 0);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+    }
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_hitmark.c", 341);
+}
+
+void EffectSsHitMark_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    s32 colorIdx;
+
+    if (this->regs[SS_HITMARK_1] == 1) {
+        this->regs[SS_HITMARK_0] = (15 - this->life) / 2;
+    } else {
+        this->regs[SS_HITMARK_0] = 7 - this->life;
+    }
+
+    if (this->regs[SS_HITMARK_0] != 0) {
+        colorIdx = this->regs[SS_HITMARK_1] * 4 + 2;
+        this->regs[SS_HITMARK_2] = func_80027DD4(this->regs[SS_HITMARK_2], D_809A85B0[colorIdx].r, this->life + 1);
+        this->regs[SS_HITMARK_3] = func_80027DD4(this->regs[SS_HITMARK_3], D_809A85B0[colorIdx].g, this->life + 1);
+        this->regs[SS_HITMARK_4] = func_80027DD4(this->regs[SS_HITMARK_4], D_809A85B0[colorIdx].b, this->life + 1);
+        this->regs[SS_HITMARK_5] = func_80027DD4(this->regs[SS_HITMARK_5], D_809A85B0[colorIdx + 1].r, this->life + 1);
+        this->regs[SS_HITMARK_6] = func_80027DD4(this->regs[SS_HITMARK_6], D_809A85B0[colorIdx + 1].g, this->life + 1);
+        this->regs[SS_HITMARK_7] = func_80027DD4(this->regs[SS_HITMARK_7], D_809A85B0[colorIdx + 1].b, this->life + 1);
+    }
+}

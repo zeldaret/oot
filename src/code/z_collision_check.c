@@ -1361,7 +1361,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
 
     flags = colliderBody->toucherFlags & 0x18;
     if (flags == 0 && collider->type != COLTYPE_METAL_SHIELD) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1371,7 +1371,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 0) {
-        func_80029CA4(globalCtx, 3, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 3, arg3);
         if (collider->actor == NULL) {
             func_80062D60(globalCtx, arg3);
             return;
@@ -1380,7 +1380,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 8) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1390,7 +1390,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 0x10) {
-        func_80029CA4(globalCtx, 1, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 1, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1459,13 +1459,13 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
                 func_80062E14(globalCtx, arg5, &left->actor->projectedPos);
             }
         } else if (D_8011DF40[right->type].unk01 != 5) {
-            func_80029CA4(globalCtx, D_8011DF40[right->type].unk01, arg5);
+            EffectSsHitMark_SpawnFixedScale(globalCtx, D_8011DF40[right->type].unk01, arg5);
             if ((rightBody->bumperFlags & 0x20) == 0) {
                 func_8005E4F8(left, rightBody);
             }
         }
     } else {
-        func_80029CA4(globalCtx, 0, arg5);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg5);
         if (right->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
