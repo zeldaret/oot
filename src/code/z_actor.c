@@ -1756,7 +1756,7 @@ void func_8002FA60(GlobalContext* globalCtx) {
 
     Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
 
-    D_8015BC10 = LightContext_InsertNewNode(globalCtx, &globalCtx->lightCtx, &D_8015BC00);
+    D_8015BC10 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &D_8015BC00);
     D_8015BC14 = 0;
     D_8015BC18 = 0.0f;
 }
@@ -1929,7 +1929,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 #endif
 
 void func_80030488(GlobalContext* globalCtx) {
-    LightContext_RemoveNode(globalCtx, &globalCtx->lightCtx, D_8015BC10);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015BC10);
 }
 
 void func_800304B0(GlobalContext* globalCtx) {

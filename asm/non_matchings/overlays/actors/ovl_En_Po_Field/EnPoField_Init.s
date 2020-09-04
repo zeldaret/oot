@@ -100,7 +100,7 @@ glabel EnPoField_Init
 /* 00164 80AD3C64 26060234 */  addiu   $a2, $s0, 0x0234           ## $a2 = 00000234
 /* 00168 80AD3C68 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 0016C 80AD3C6C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00170 80AD3C70 0C01E9D9 */  jal     LightContext_InsertNewNode
+/* 00170 80AD3C70 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 00174 80AD3C74 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 00178 80AD3C78 C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008

@@ -28,12 +28,12 @@ glabel func_800763A8
 /* AED5A8 80076408 26B007A8 */  addiu $s0, $s5, 0x7a8
 /* AED5AC 8007640C 3C068016 */  lui   $a2, %hi(D_8015FD84)
 /* AED5B0 80076410 8CC6FD84 */  lw    $a2, %lo(D_8015FD84)($a2)
-/* AED5B4 80076414 0C01E9F1 */  jal   LightContext_RemoveNode
+/* AED5B4 80076414 0C01E9F1 */  jal   LightContext_RemoveLight
 /* AED5B8 80076418 02002825 */   move  $a1, $s0
 /* AED5BC 8007641C 3C068016 */  lui   $a2, %hi(D_8015FD98)
 /* AED5C0 80076420 8CC6FD98 */  lw    $a2, %lo(D_8015FD98)($a2)
 /* AED5C4 80076424 02A02025 */  move  $a0, $s5
-/* AED5C8 80076428 0C01E9F1 */  jal   LightContext_RemoveNode
+/* AED5C8 80076428 0C01E9F1 */  jal   LightContext_RemoveLight
 /* AED5CC 8007642C 02002825 */   move  $a1, $s0
 /* AED5D0 80076430 10000063 */  b     .L800765C0
 /* AED5D4 80076434 00000000 */   nop   

@@ -85,7 +85,7 @@ glabel EnGb_Init
 /* 0014C 80A2F2CC 26500370 */  addiu   $s0, $s2, 0x0370           ## $s0 = 00000370
 /* 00150 80A2F2D0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000370
 /* 00154 80A2F2D4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00158 80A2F2D8 0C01E9D9 */  jal     LightContext_InsertNewNode
+/* 00158 80A2F2D8 0C01E9D9 */  jal     LightContext_InsertLight
 
 /* 0015C 80A2F2DC 266507A8 */  addiu   $a1, $s3, 0x07A8           ## $a1 = 000007A8
 /* 00160 80A2F2E0 C6440008 */  lwc1    $f4, 0x0008($s2)           ## 00000008

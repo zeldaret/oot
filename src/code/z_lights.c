@@ -143,11 +143,11 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
 }
 
 /*
- * For every node in a provided list, try to find a free slot in the provided Lights group and bind
- * a light node to it. Then apply color and positional/directional info for each light
+ * For every light in a provided list, try to find a free slot in the provided Lights group and bind
+ * a light to it. Then apply color and positional/directional info for each light
  * based on the parameters supplied by the node.
  *
- * Note: Light nodes in a given list can only be binded to however many free slots are
+ * Note: Lights in a given list can only be binded to however many free slots are
  * available in the Lights group. This is at most 7 slots for a new group, but could be less.
  */
 void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec) {
@@ -229,18 +229,18 @@ void LightContext_InitList(GlobalContext* globalCtx, LightContext* lightCtx) {
 
 void LightContext_DestroyList(GlobalContext* globalCtx, LightContext* lightCtx) {
     while (lightCtx->listHead != NULL) {
-        LightContext_RemoveNode(globalCtx, lightCtx, lightCtx->listHead);
+        LightContext_RemoveLight(globalCtx, lightCtx, lightCtx->listHead);
         lightCtx->listHead = lightCtx->listHead->next;
     }
 }
 
 /*
- * Insert a new light node into the list pointed to by LightContext
+ * Insert a new light into the list pointed to by LightContext
  *
- * Note: Due to the limited number of slots in a Lights group, inserting too many nodes in the
+ * Note: Due to the limited number of slots in a Lights group, inserting too many lights in the
  * list may result in older entries not being bound to a Light when calling Lights_BindAll
  */
-LightNode* LightContext_InsertNewNode(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info) {
+LightNode* LightContext_InsertLight(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info) {
     LightNode* node;
 
     node = Lights_FindBufSlot();
@@ -260,7 +260,7 @@ LightNode* LightContext_InsertNewNode(GlobalContext* globalCtx, LightContext* li
     return node;
 }
 
-void LightContext_RemoveNode(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
+void LightContext_RemoveLight(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node) {
     if (node != NULL) {
         if (node->prev != NULL) {
             node->prev->next = node->next;

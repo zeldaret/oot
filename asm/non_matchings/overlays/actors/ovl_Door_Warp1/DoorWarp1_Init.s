@@ -61,7 +61,7 @@ glabel DoorWarp1_Init
 /* 000D0 80998850 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 000D4 80998854 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 000D8 80998858 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000DC 8099885C 0C01E9D9 */  jal     LightContext_InsertNewNode
+/* 000DC 8099885C 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 000E0 80998860 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 000E4 80998864 C6060024 */  lwc1    $f6, 0x0024($s0)           ## 00000024
@@ -90,7 +90,7 @@ glabel DoorWarp1_Init
 /* 0013C 809988BC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00140 809988C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00144 809988C4 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 00148 809988C8 0C01E9D9 */  jal     LightContext_InsertNewNode
+/* 00148 809988C8 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 0014C 809988CC 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00150 809988D0 AE0201D8 */  sw      $v0, 0x01D8($s0)           ## 000001D8

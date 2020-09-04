@@ -989,8 +989,8 @@ void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 numLig
 Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx);
 void LightContext_InitList(GlobalContext* globalCtx, LightContext* lightCtx);
 void LightContext_DestroyList(GlobalContext* globalCtx, LightContext* lightCtx);
-LightNode* LightContext_InsertNewNode(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info);
-void LightContext_RemoveNode(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node);
+LightNode* LightContext_InsertLight(GlobalContext* globalCtx, LightContext* lightCtx, LightInfo* info);
+void LightContext_RemoveLight(GlobalContext* globalCtx, LightContext* lightCtx, LightNode* node);
 Lights* Lights_NewAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,
                           u8 b, s8 x, s8 y, s8 z);
 Lights* Lights_New(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB);
