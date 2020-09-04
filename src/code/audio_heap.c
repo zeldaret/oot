@@ -805,4 +805,25 @@ void func_800E0964(UNK_PTR arg0, s32 bankId) {
 // somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0EB4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E1148.s")
+void func_800E1148(void) {
+    SoundMultiPool* pool;
+    PersistentPool* persistent;
+    TemporaryPool* temporary;
+    u32 i;
+
+    pool = &gAudioContext.gUnusedLoadedPool;
+    temporary = &pool->temporary;
+
+    if (temporary->entries[0].id != -1) {
+        func_800E0E6C(temporary->entries[0].id);
+    }
+
+    if (temporary->entries[1].id != -1) {
+        func_800E0E6C(temporary->entries[1].id);
+    }
+
+    persistent = &pool->persistent;
+    for (i = 0; i < persistent->numEntries; i++) {
+        func_800E0E6C(persistent->entries[i].id);
+    }
+}

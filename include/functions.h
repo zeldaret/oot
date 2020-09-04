@@ -1969,7 +1969,7 @@ void func_800E0634(s32 arg0, s32 arg1);
 void* func_800E06CC(u32 size);
 // ? func_800E0964(?);
 // ? func_800E0AD8(?);
-void func_800E0BB4(UNK_PTR arg0, AudioBankSample* arg1);
+void func_800E0BB4(UNK_PTR arg0, AudioBankSample* sample);
 void* func_800E0BF8(u32 size);
 // ? func_800E0C80(?);
 void func_800E0CBC(void);

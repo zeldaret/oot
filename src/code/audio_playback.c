@@ -389,7 +389,7 @@ UnkInstrument* Audio_GetUnkInstrument(s32 bankId, s32 unkInstrumentId) {
         gAudioContext.gAudioErrorFlags = ((bankId << 8) + unkInstrumentId) + 0x5000000;
     }
 
-    if (unkInstrument->unk_0 == 0) {
+    if (unkInstrument->unk_0 == NULL) {
         return NULL;
     }
 

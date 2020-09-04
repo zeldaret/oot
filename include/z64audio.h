@@ -179,7 +179,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 numInstruments;
     /* 0x01 */ u8 numDrums;
-    /* 0x02 */ char unk_02[0x02];
+    /* 0x02 */ u8 unk_02;
+    /* 0x03 */ u8 unk_03;
     /* 0x04 */ u16 numUnkInstruments;
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
