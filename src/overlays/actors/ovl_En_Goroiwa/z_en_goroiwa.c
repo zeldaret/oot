@@ -16,7 +16,6 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A4BE10(EnGoroiwa* this, GlobalContext* globalCtx);
-void func_80A4C264(EnGoroiwa* this);
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D5E0(EnGoroiwa* this);
 
@@ -119,7 +118,10 @@ void func_80A4C1C4(EnGoroiwa* this, GlobalContext* globalCtx, s32 waypoint) {
     this->actor.posRot.pos.z = pointPos->z;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C264.s")
+void func_80A4C264(EnGoroiwa* this) {
+    this->unk_1B0 = 1.0f;
+    this->unk_1C0 = 1.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C27C.s")
 
