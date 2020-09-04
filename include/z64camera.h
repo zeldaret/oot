@@ -425,26 +425,26 @@ typedef struct {
 } Jump1; // size 0x48
 
 typedef struct {
-    f32 unk_00;
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-} Jump2Anim;
+    /* 0x0000 */ f32 floorY;
+    /* 0x0004 */ s16 yawTarget;
+    /* 0x0006 */ s16 initYawDiff; // unused, set but not read.
+    /* 0x0008 */ s16 yawAdj;
+    /* 0x000A */ s16 onFloor; // unused, set but not read
+    /* 0x000C */ s16 animTimer;
+} Jump2Anim; // size = 0x10
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ f32 unk_08;
-    /* 0x000C */ f32 unk_0C;
-    /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ f32 unk_14;
-    /* 0x0018 */ f32 unk_18;
-    /* 0x001C */ f32 unk_1C;
+    /* 0x0000 */ f32 atYOffset;
+    /* 0x0004 */ f32 minDist;
+    /* 0x0008 */ f32 maxDist;
+    /* 0x000C */ f32 minMaxDistFactor;
+    /* 0x0010 */ f32 yawUpdRateTarget;
+    /* 0x0014 */ f32 xzUpdRateTarget;
+    /* 0x0018 */ f32 fovTarget;
+    /* 0x001C */ f32 atLERPStepScale;
     /* 0x0020 */ s16 interfaceFlags;
     /* 0x0024 */ Jump2Anim anim;
-} Jump2; // size = 0x22
+} Jump2; // size = 0x34
 
 typedef struct {
     /* 0x0000 */ SwingAnimation swing;

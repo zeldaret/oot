@@ -880,21 +880,21 @@ f32 Camera_CalcSlopeYAdj(Vec3f* floorNorm, s16 playerYRot, s16 eyeAtYaw, f32 adj
 }
 
 /**
- * Calculates new at vector for the camera pointint in `eyeAtDir`
+ * Calculates new at vector for the camera pointing in `eyeAtDir`
 */
 s32 func_800457A8(Camera* camera, VecSph* eyeAtDir, f32 extraYOffset, s16 calcSlope) {
-    f32 unused;
+    Vec3f* at = &camera->at;
     Vec3f posOffsetTarget;
     Vec3f atTarget;
-    s32 unused2;
+    s32 pad2;
     PosRot* playerPosRot = &camera->playerPosRot;
     f32 yOffset;
 
     yOffset = Player_GetHeight(camera->player);
 
     posOffsetTarget.x = 0.f;
-    posOffsetTarget.z = 0.f;
     posOffsetTarget.y = yOffset + extraYOffset;
+    posOffsetTarget.z = 0.f;
 
     if (calcSlope) {
         posOffsetTarget.y -= OLib_ClampMaxDist(Camera_CalcSlopeYAdj(&camera->floorNorm, playerPosRot->rot.y, eyeAtDir->yaw, OREG(9)), yOffset);
@@ -906,7 +906,7 @@ s32 func_800457A8(Camera* camera, VecSph* eyeAtDir, f32 extraYOffset, s16 calcSl
     atTarget.y = playerPosRot->pos.y + camera->posOffset.y;
     atTarget.z = playerPosRot->pos.z + camera->posOffset.z;
 
-    Camera_LERPCeilVec3f(&atTarget, &camera->at, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
+    Camera_LERPCeilVec3f(&atTarget, at, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
 
     return true;
 }
@@ -2396,40 +2396,40 @@ s32 Camera_Jump2(Camera *camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
-    Vec3f spC8;
-    Vec3f spBC;
-    VecSph spB4;
-    VecSph spAC;
-    VecSph spA4;
-    VecSph sp9C;
+    Vec3f bgChkPos;
+    Vec3f floorNorm;
+    VecSph adjAtToEyeDir;
+    VecSph bgChkPara;
+    VecSph atToEyeNextDir;
+    VecSph atToEyeDir;
     f32 temp_f14;
     f32 temp_f16;
     f32 sp90;
     f32 sp8C;
-    s32 sp88;
-    CamColChk sp60;
-    PosRot *sp2C = &camera->playerPosRot;
-    s16 phi_v0;
-    s16 phi_v1_3;
+    s32 bgId;
+    CamColChk camBgChk;
+    PosRot *playerPosRot = &camera->playerPosRot;
+    s16 yawDiff;
+    s16 playerYawRot180;
     Jump2* jump2 = (Jump2*)camera->paramData;
     Jump2Anim* anim = &jump2->anim;
     CameraModeValue* values;
-    f32 yOffset;
+    f32 playerHeight;
     f32 yNormal;
     
-    yOffset = Player_GetHeight(camera->player);
+    playerHeight = Player_GetHeight(camera->player);
 
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / yOffset));
-        jump2->unk_00 = PCT((camera->playerPosDelta.y > 0.0f ? -10.0f : 10.0f) + NEXTSETTING) * yOffset * yNormal;
-        jump2->unk_04 = NEXTPCT * yOffset * yNormal;
-        jump2->unk_08 = NEXTPCT * yOffset * yNormal;
-        jump2->unk_0C = NEXTPCT;
-        jump2->unk_10 = NEXTSETTING;
-        jump2->unk_14 = NEXTPCT;
-        jump2->unk_18 = NEXTSETTING;
-        jump2->unk_1C = NEXTPCT;
+        yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
+        jump2->atYOffset = PCT((camera->playerPosDelta.y > 0.0f ? -10.0f : 10.0f) + NEXTSETTING) * playerHeight * yNormal;
+        jump2->minDist = NEXTPCT * playerHeight * yNormal;
+        jump2->maxDist = NEXTPCT * playerHeight * yNormal;
+        jump2->minMaxDistFactor = NEXTPCT;
+        jump2->yawUpdRateTarget = NEXTSETTING;
+        jump2->xzUpdRateTarget = NEXTPCT;
+        jump2->fovTarget = NEXTSETTING;
+        jump2->atLERPStepScale = NEXTPCT;
         jump2->interfaceFlags = NEXTSETTING;
     }
 
@@ -2437,122 +2437,137 @@ s32 Camera_Jump2(Camera *camera) {
         Camera_CopyPREGToModeValues(camera);
     }
     
-    OLib_Vec3fDiffToVecSphGeo(&sp9C, at, eye);
-    OLib_Vec3fDiffToVecSphGeo(&spA4, at, eyeNext);
+    OLib_Vec3fDiffToVecSphGeo(&atToEyeDir, at, eye);
+    OLib_Vec3fDiffToVecSphGeo(&atToEyeNextDir, at, eyeNext);
     
     sCameraInterfaceFlags =jump2->interfaceFlags;
     
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
-        spC8 = sp2C->pos;
-        anim->unk_00 = Camera_GetFloorY(camera, &spC8);
-        anim->unk_04 = spA4.yaw;
-        anim->unk_06 = 0;
-        if (anim->unk_00 == BGCHECK_Y_MIN) {
+        bgChkPos = playerPosRot->pos;
+        anim->floorY = Camera_GetFloorY(camera, &bgChkPos);
+        anim->yawTarget = atToEyeNextDir.yaw;
+        anim->initYawDiff = 0;
+        if (anim->floorY == BGCHECK_Y_MIN) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: climb: no floor \n" VT_RST);
-            anim->unk_0A = -1;
-            anim->unk_00 = sp2C->pos.y - 1000.0f;
-        } else if (sp2C->pos.y - anim->unk_00 < yOffset) {
-            anim->unk_0A = 1;
+            anim->onFloor = -1;
+            anim->floorY = playerPosRot->pos.y - 1000.0f;
+        } else if (playerPosRot->pos.y - anim->floorY < playerHeight) {
+            // player's model is within the height of the floor. 
+            anim->onFloor = 1;
         } else {
-            anim->unk_0A = -1;
+            anim->onFloor = -1;
         }
         
-        phi_v0 = BINANG_SUB(BINANG_ROT180(sp2C->rot.y), spA4.yaw);
-        anim->unk_06 = ((phi_v0 / OREG(23)) / 4) * 3;
+        yawDiff = BINANG_SUB(BINANG_ROT180(playerPosRot->rot.y), atToEyeNextDir.yaw);
+        anim->initYawDiff = ((yawDiff / OREG(23)) / 4) * 3;
         if(jump2->interfaceFlags & 2){
-            anim->unk_08 = 0xA;
+            anim->yawAdj = 0xA;
         } else {
-            anim->unk_08 = 0x2710;
+            anim->yawAdj = 0x2710;
         }
 
-        sp2C->pos.x -= camera->playerPosDelta.x;
-        sp2C->pos.y -= camera->playerPosDelta.y;
-        sp2C->pos.z -= camera->playerPosDelta.z;
-        anim->unk_0C = OREG(23);
+        playerPosRot->pos.x -= camera->playerPosDelta.x;
+        playerPosRot->pos.y -= camera->playerPosDelta.y;
+        playerPosRot->pos.z -= camera->playerPosDelta.z;
+        anim->animTimer = OREG(23);
         camera->animState++;
-        camera->atLERPStepScale = jump2->unk_1C;
+        camera->atLERPStepScale = jump2->atLERPStepScale;
     }
 
     sp90 = PCT(OREG(25)) * camera->speedRatio;
     sp8C = PCT(OREG(26)) * camera->speedRatio;
-    camera->yawUpdateRateInv = Camera_LERPCeilF(jump2->unk_10, camera->yawUpdateRateInv, sp90, 0.1f);
-    camera->xzOffsetUpdateRate = Camera_LERPCeilF(jump2->unk_14, camera->xzOffsetUpdateRate, sp90, 0.1f);
+    camera->yawUpdateRateInv = Camera_LERPCeilF(jump2->yawUpdRateTarget, camera->yawUpdateRateInv, sp90, 0.1f);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(jump2->xzUpdRateTarget, camera->xzOffsetUpdateRate, sp90, 0.1f);
     camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, sp8C, 0.1f);
     
     camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->yOffsetUpdateRate, camera->speedRatio * 0.05f, 0.1f);
     camera->rUpdateRateInv = OREG(27);
-    func_800457A8(camera, &spA4, jump2->unk_00, 0);
-    OLib_Vec3fDiffToVecSphGeo(&spB4, at, eye);
+
+    func_800457A8(camera, &atToEyeNextDir, jump2->atYOffset, 0);
+    OLib_Vec3fDiffToVecSphGeo(&adjAtToEyeDir, at, eye);
     
-    temp_f16 = jump2->unk_04;
-    sp90 = jump2->unk_08 + (jump2->unk_08 * jump2->unk_0C);
-    temp_f14 = temp_f16 - (jump2->unk_04 * jump2->unk_0C);
+    temp_f16 = jump2->minDist;
+    sp90 = jump2->maxDist + (jump2->maxDist * jump2->minMaxDistFactor);
+    temp_f14 = temp_f16 - (jump2->minDist * jump2->minMaxDistFactor);
     
-    if(spB4.r > sp90){
-        spB4.r = sp90;
-    } else if (spB4.r < temp_f14){
-        spB4.r = temp_f14;
+    if(adjAtToEyeDir.r > sp90){
+        adjAtToEyeDir.r = sp90;
+    } else if (adjAtToEyeDir.r < temp_f14){
+        adjAtToEyeDir.r = temp_f14;
     }
     
-    phi_v0 = BINANG_SUB(BINANG_ROT180(sp2C->rot.y), spB4.yaw);
-    if (anim->unk_0C != 0) {
-        anim->unk_04 = BINANG_ROT180(sp2C->rot.y);
-        anim->unk_0C--;
-        spB4.yaw = Camera_LERPCeilS(anim->unk_04, spA4.yaw, 0.5f, 0xA);
-    } else if (anim->unk_08 < ABS(phi_v0)) {
-        phi_v1_3 = BINANG_ROT180(sp2C->rot.y);
-        spB4.yaw = Camera_LERPFloorS(((phi_v0 < 0) ?
-                    (s16)(phi_v1_3 + anim->unk_08) :
-                    (s16)(phi_v1_3 - anim->unk_08)), spA4.yaw, 0.1f, 0xA);
+    yawDiff = BINANG_SUB(BINANG_ROT180(playerPosRot->rot.y), adjAtToEyeDir.yaw);
+    if (anim->animTimer != 0) {
+        anim->yawTarget = BINANG_ROT180(playerPosRot->rot.y);
+        anim->animTimer--;
+        adjAtToEyeDir.yaw = Camera_LERPCeilS(anim->yawTarget, atToEyeNextDir.yaw, 0.5f, 0xA);
+    } else if (anim->yawAdj < ABS(yawDiff)) {
+        playerYawRot180 = BINANG_ROT180(playerPosRot->rot.y);
+        adjAtToEyeDir.yaw = Camera_LERPFloorS(((yawDiff < 0) ?
+                    (s16)(playerYawRot180 + anim->yawAdj) :
+                    (s16)(playerYawRot180 - anim->yawAdj)), atToEyeNextDir.yaw, 0.1f, 0xA);
     } else {
-        spB4.yaw = Camera_LERPCeilS(spB4.yaw, spA4.yaw, 0.25f, 0xA);
+        adjAtToEyeDir.yaw = Camera_LERPCeilS(adjAtToEyeDir.yaw, atToEyeNextDir.yaw, 0.25f, 0xA);
     }
 
-    spC8.x = sp2C->pos.x + (Math_Sins(sp2C->rot.y) * 25.0f);
-    spC8.y = sp2C->pos.y + (yOffset * 2.2f);
-    spC8.z = sp2C->pos.z + (Math_Coss(sp2C->rot.y) * 25.0f);
+    // Check the floor at the top of the climb
+    bgChkPos.x = playerPosRot->pos.x + (Math_Sins(playerPosRot->rot.y) * 25.0f);
+    bgChkPos.y = playerPosRot->pos.y + (playerHeight * 2.2f);
+    bgChkPos.z = playerPosRot->pos.z + (Math_Coss(playerPosRot->rot.y) * 25.0f);
     
-    sp90 = Camera_GetFloorYNorm(camera, &spBC, &spC8, &sp88);
-    if ((sp90 != BGCHECK_Y_MIN) && (sp2C->pos.y < sp90)) {
+    sp90 = Camera_GetFloorYNorm(camera, &floorNorm, &bgChkPos, &bgId);
+    if ((sp90 != BGCHECK_Y_MIN) && (playerPosRot->pos.y < sp90)) {
+        // top of the climb is within 2.2x of the player's height.
         camera->pitchUpdateRateInv = Camera_LERPCeilF(20.0f, camera->pitchUpdateRateInv, PCT(OREG(26)), 0.1f);
         camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, PCT(OREG(26)), 0.1f);
-        spB4.pitch = Camera_LERPCeilS(0x1F4, spA4.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
-    } else if ((sp2C->pos.y - anim->unk_00) < yOffset) {
+        adjAtToEyeDir.pitch = Camera_LERPCeilS(0x1F4, atToEyeNextDir.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
+    } else if ((playerPosRot->pos.y - anim->floorY) < playerHeight) {
+        // player is within his height of the ground.
         camera->pitchUpdateRateInv = Camera_LERPCeilF(20.0f, camera->pitchUpdateRateInv, PCT(OREG(26)), 0.1f);
         camera->rUpdateRateInv = Camera_LERPCeilF(20.0f, camera->rUpdateRateInv, PCT(OREG(26)), 0.1f);
-        spB4.pitch = Camera_LERPCeilS(0x1F4, spA4.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
+        adjAtToEyeDir.pitch = Camera_LERPCeilS(0x1F4, atToEyeNextDir.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
     } else {
         camera->pitchUpdateRateInv = 100.0f;
         camera->rUpdateRateInv = 100.0f;
     }
 
-    if(spB4.pitch >= 0x2AF9){
-        spB4.pitch = 0x2AF8;
-    }
-    if(spB4.pitch < -0x2AF8){
-        spB4.pitch = - 0x2AF8;
+    // max pitch to +/- ~ 60 degrees
+    if(adjAtToEyeDir.pitch > 0x2AF8){
+        adjAtToEyeDir.pitch = 0x2AF8;
     }
 
-    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spB4);
-    sp60.pos = *eyeNext;
-    if (Camera_BGCheckInfo(camera, at, &sp60)) {
-        spC8 = sp60.pos;
-        spAC.r = spB4.r;
-        spAC.pitch = 0;
-        spAC.yaw = spB4.yaw;
-        Camera_Vec3fVecSphGeoAdd(&sp60, at, &spAC);
-        if (Camera_BGCheckInfo(camera, at, &sp60)) {
-            *eye = spC8;
+    if(adjAtToEyeDir.pitch < -0x2AF8){
+        adjAtToEyeDir.pitch = - 0x2AF8;
+    }
+
+    Camera_Vec3fVecSphGeoAdd(eyeNext, at, &adjAtToEyeDir);
+    camBgChk.pos = *eyeNext;
+    if (Camera_BGCheckInfo(camera, at, &camBgChk)) {
+        // Collision detected between at->eyeNext, Check if collision between
+        // at->eyeNext, but parallel to at (pitch = 0).
+        bgChkPos = camBgChk.pos;
+        bgChkPara.r = adjAtToEyeDir.r;
+        bgChkPara.pitch = 0;
+        bgChkPara.yaw = adjAtToEyeDir.yaw;
+        Camera_Vec3fVecSphGeoAdd(&camBgChk.pos, at, &bgChkPara);
+        if (Camera_BGCheckInfo(camera, at, &camBgChk)) {
+            // Collision found between parallel at->eyeNext, set eye position to
+            // first collsion point.
+            *eye = bgChkPos;
         } else {
-            spB4.pitch = Camera_LERPCeilS(0, spB4.pitch, 0.2f, 0xA);
-            Camera_Vec3fVecSphGeoAdd(eye, at, &spB4);
+            // no collision found with the parallel at->eye, animate to be parallel
+            adjAtToEyeDir.pitch = Camera_LERPCeilS(0, adjAtToEyeDir.pitch, 0.2f, 0xA);
+            Camera_Vec3fVecSphGeoAdd(eye, at, &adjAtToEyeDir);
+            // useless?
             Camera_BGCheck(camera, at, eye);
         }
     } else {
+        // no collision detected.
         *eye = *eyeNext;
     }
-    camera->dist = spB4.r;
-    camera->fov = Camera_LERPCeilF(jump2->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
+
+    camera->dist = adjAtToEyeDir.r;
+    camera->fov = Camera_LERPCeilF(jump2->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     return true;
 }
