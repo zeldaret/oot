@@ -929,6 +929,7 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
             if ((this->movementTimer & 0x1F) == 0) {
                 this->roarTimer = 40;
             }
+            
             if (this->skinSegments != 0) {
                 sp17C = D_808D19E0;
                 sp164 = D_808D19EC;
@@ -937,18 +938,19 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                     globalCtx->envCtx.unk_D8 = 0;
                 }
                 this->fogMode = 0xA;
+                
                 sp150 = 1;
                 if (this->movementTimer & 0x1C) {
                     Audio_PlaySoundGeneral(0x30DA, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
-                
                 for (i1 = 0; i1 < sp150; i1++) {
                     temp_rand2 = Math_Rand_ZeroFloat(99.9f);
                     sp188.x = this->bodySegsPos[temp_rand2].x;
                     sp188.y = this->bodySegsPos[temp_rand2].y - 10.0f;
                     sp188.z = this->bodySegsPos[temp_rand2].z;
                     sp164.y = 0.03f;
-                    func_80029DBC(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
+                    func_80029DBC(globalCtx, &sp188, &sp17C, &sp164,
+                                   (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
                     for (i2 = 0; i2 < 15; i2++) {
                         sp170.x = Math_Rand_CenteredFloat(20.0f);
                         sp170.y = Math_Rand_CenteredFloat(20.0f);
@@ -956,7 +958,8 @@ void func_808CB718(BossFd* this, GlobalContext* globalCtx) {
                         sp158.y = 0.4f;
                         sp158.x = Math_Rand_CenteredFloat(0.5f);
                         sp158.z = Math_Rand_CenteredFloat(0.5f);
-                        func_808CADC0(this->particles, &sp188, &sp170, &sp158, (s16)Math_Rand_ZeroFloat(3.0f) + 8);
+                        func_808CADC0(this->particles, &sp188, &sp170, &sp158,
+                                        (s16)Math_Rand_ZeroFloat(3.0f) + 8);
                     }
                 }
             }
