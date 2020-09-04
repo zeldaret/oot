@@ -16,7 +16,6 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A4BE10(EnGoroiwa* this, GlobalContext* globalCtx);
-void func_80A4C1C4(EnGoroiwa* this, GlobalContext* globalCtx, s32 arg2);
 void func_80A4C264(EnGoroiwa* this);
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D5E0(EnGoroiwa* this);
@@ -86,14 +85,14 @@ bool func_80A4BD8C(Vec3f* arg0, Vec3f* arg1) {
 
 void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    Vec3s* temp = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->unk_1CE];
-    Vec3f temp2;
+    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->unk_1CE];
+    Vec3f pos;
 
-    temp2.x = temp->x;
-    temp2.y = temp->y;
-    temp2.z = temp->z;
+    pos.x = pointPos->x;
+    pos.y = pointPos->y;
+    pos.z = pointPos->z;
 
-    this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &temp2);
+    this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BF28.s")
@@ -111,7 +110,14 @@ void func_80A4C188(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->unk_1D0 = 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C1C4.s")
+void func_80A4C1C4(EnGoroiwa* this, GlobalContext* globalCtx, s32 waypoint) {
+    Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
+    Vec3s* pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[waypoint];
+
+    this->actor.posRot.pos.x = pointPos->x;
+    this->actor.posRot.pos.y = pointPos->y;
+    this->actor.posRot.pos.z = pointPos->z;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C264.s")
 
