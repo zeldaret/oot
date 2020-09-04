@@ -15,8 +15,6 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A4BCA0(EnGoroiwa* this);
-
 /*
 const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
