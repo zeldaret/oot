@@ -5,8 +5,7 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
-    /* 0x02 */ char unk_02[2];
+    /* 0x00 */ s32 unk_00;
     /* 0x04 */ s16 scale;
     /* 0x08 */ Vec3f pos;
 } EffectSsHitMarkInitParams; // size = 0x14

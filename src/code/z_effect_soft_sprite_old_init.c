@@ -27,6 +27,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Dd/z_eff_ss_dead_dd.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Ds/z_eff_ss_dead_ds.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "overlays/effects/ovl_Effect_Ss_Ice_Smoke/z_eff_ss_ice_smoke.h"
 
 extern Color_RGBA8_n D_801158D4;
 extern Color_RGBA8_n D_801158D8;
@@ -892,4 +893,13 @@ void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16
 
 // EffectSsIceSmoke Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002AA44.s")
+void EffectSsIceSmoke_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale) {
+    EffectSsIceSmokeInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_ICE_SMOKE, 128, &initParams);
+}

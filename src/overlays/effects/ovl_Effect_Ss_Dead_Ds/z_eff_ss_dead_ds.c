@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_dead_ds.c
  * Overlay: ovl_Effect_Ss_Dead_Ds
- * Description:
+ * Description: Burn mark on the floor
  */
 
 #include "z_eff_ss_dead_ds.h"

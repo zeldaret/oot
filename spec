@@ -1854,8 +1854,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Ice_Smoke"
     include "build/src/overlays/effects/ovl_Effect_Ss_Ice_Smoke/z_eff_ss_ice_smoke.o"
-    include "build/data/overlays/effects/z_eff_ss_ice_smoke.data.o"
-    include "build/data/overlays/effects/z_eff_ss_ice_smoke.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Ice_Smoke/ovl_Effect_Ss_Ice_Smoke_reloc.o"
 endseg
 
 beginseg
