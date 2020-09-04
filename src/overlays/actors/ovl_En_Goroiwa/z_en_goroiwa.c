@@ -18,6 +18,7 @@ void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80A4BE10(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D5E0(EnGoroiwa* this);
+void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Goroiwa_InitVars = {
@@ -179,7 +180,11 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &THIS->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D5E0.s")
+void func_80A4D5E0(EnGoroiwa* this) {
+    this->actionFunc = func_80A4D624;
+    func_80A4BD70(this, 3);
+    this->unk_1C0 = 1.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D624.s")
 
