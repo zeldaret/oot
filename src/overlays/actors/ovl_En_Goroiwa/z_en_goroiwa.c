@@ -15,6 +15,13 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80A4BE10(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4C188(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4C1C4(EnGoroiwa* this, GlobalContext* globalCtx, s32 arg2);
+void func_80A4C264(EnGoroiwa* this);
+void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4D5E0(EnGoroiwa* this);
+
 /*
 const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
@@ -204,10 +211,10 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actor.xzDistFromLink < 300.0f) {
             func_80A4BCA0(this);
             if (this->unk_1D3 & 1 && this->timer <= 0) {
-                CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+                CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
             if (this->unk_1D3 & 2 && this->timer <= 0) {
-                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }
     }
