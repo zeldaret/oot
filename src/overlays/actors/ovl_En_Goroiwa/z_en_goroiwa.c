@@ -129,9 +129,17 @@ void func_80A4C080(EnGoroiwa* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C134.s")
+void func_80A4C134(EnGoroiwa* this) {
+    this->waypoint1 = this->waypoint2;
+    this->waypoint2 += this->unk_1D0;
+    func_80A4C080(this);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C164.s")
+void func_80A4C164(EnGoroiwa* this) {
+    this->unk_1D0 *= -1;
+    this->waypoint1 = this->waypoint2;
+    this->waypoint2 += this->unk_1D0;
+}
 
 void func_80A4C188(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->unk_1CA = globalCtx->setupPathList[this->actor.params & 0xFF].count - 1;
