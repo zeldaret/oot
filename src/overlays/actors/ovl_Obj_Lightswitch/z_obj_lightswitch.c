@@ -10,36 +10,38 @@
 
 #define THIS ((ObjLightswitch*)thisx)
 
+enum FaceTextureIndex { EYES_CLOSED, EYES_OPEN, EYES_OPEN_SMILING };
+
 void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B96BA0(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B96C3C(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B96D00(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B96D80(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B971A8(ObjLightswitch* this);
-void func_80B971D8(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B972B8(ObjLightswitch* this);
-void func_80B972D8(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B973C8(ObjLightswitch* this);
-void func_80B97400(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B97518(ObjLightswitch* this);
-void func_80B97540(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B97630(ObjLightswitch* this);
-void func_80B97648(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B97690(ObjLightswitch* this);
-void func_80B976A8(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B977D0(ObjLightswitch* this, GlobalContext* globalCtx);
-void func_80B97B50(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_InitCollider(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_OffInit(ObjLightswitch* this);
+void ObjLightswitch_Off(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_TurnOnInit(ObjLightswitch* this);
+void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_OnInit(ObjLightswitch* this);
+void ObjLightswitch_On(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_TurnOffInit(ObjLightswitch* this);
+void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_DisappearDelayInit(ObjLightswitch* this);
+void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_DisappearInit(ObjLightswitch* this);
+void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx);
+void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx);
 
-extern Gfx D_06000260[];
-extern Gfx D_06000398[];
-extern Gfx D_06000408[];
-extern UNK_TYPE D_06000420[];
-extern UNK_TYPE D_06000C20[];
-extern UNK_TYPE D_06001420[];
+extern Gfx D_06000260[]; // face, uses rgba16 32x32 texture at 0x08000000, branches to dlist 0x09000000, uses env color
+extern Gfx D_06000398[]; // flame ring, branches to dlist 0x09000000, uses env color
+extern Gfx D_06000408[]; // a square, geometry only
+extern UNK_TYPE D_06000420[]; // rgba16 32x32 eyes open
+extern UNK_TYPE D_06000C20[]; // rgba16 32x32 eyes closed
+extern UNK_TYPE D_06001420[]; // rgba16 32x32 eyes open, smiling
 
 const ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
@@ -53,48 +55,51 @@ const ActorInit Obj_Lightswitch_InitVars = {
     (ActorFunc)ObjLightswitch_Draw,
 };
 
-static ColliderJntSphItemInit D_80B97F20[] = {
+static ColliderJntSphItemInit sColliderJntSphItemInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00200000, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0, { { 0, 0, 0 }, 19 }, 100 },
     },
 };
-static ColliderJntSphInit D_80B97F44 = {
+static ColliderJntSphInit sColliderJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    D_80B97F20,
+    sColliderJntSphItemInit,
 };
-static CollisionCheckInfoInit D_80B97F54 = { 0, 0xC, 0x3C, 0xFF };
-static UNK_PTR D_80B97F5C[] = { D_06000C20, D_06000420, D_06001420 };
+static CollisionCheckInfoInit sCollisionCheckInfoInit = { 0, 0xC, 0x3C, 0xFF };
+
+static UNK_PTR faceTextures[] = { D_06000C20, D_06000420, D_06001420 };
+
 static Vec3f D_80B97F68 = { -1707, 843, -180 };
 static Vec3f D_80B97F74 = { 0, 0, 0 };
-static InitChainEntry D_80B97F80[] = {
+
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void func_80B96BA0(ObjLightswitch* this, GlobalContext* globalCtx) {
+void ObjLightswitch_InitCollider(ObjLightswitch* this, GlobalContext* globalCtx) {
     s32 pad;
     Collider_InitJntSph(globalCtx, &this->col);
-    Collider_SetJntSph(globalCtx, &this->col, &this->actor, &D_80B97F44, this->colItems);
+    Collider_SetJntSph(globalCtx, &this->col, &this->actor, &sColliderJntSphInit, this->colItems);
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->actor.scale.y),
                   this->actor.posRot.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
     func_800628A4(0, &this->col);
 }
 
-void func_80B96C3C(ObjLightswitch* this, GlobalContext* globalCtx) {
+void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor; // required
     s32 temp_v1;
 
     if (!Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F)) {
-        temp_v1 = (this->actor.params >> 4) & 3;
+        temp_v1 = this->actor.params >> 4 & 3;
         Flags_SetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
-        if (temp_v1 == 1) {
+        if (temp_v1 == OBJLIGHTSWITCH_TYPE_1) {
             func_800806BC(globalCtx, thisx, 0x4807);
-        } else if (temp_v1 == 3) {
+        } else if (temp_v1 == OBJLIGHTSWITCH_TYPE_BURN) {
             func_800806BC(globalCtx, thisx, 0x4806);
         } else {
             func_800806BC(globalCtx, thisx, 0x4802);
@@ -102,16 +107,16 @@ void func_80B96C3C(ObjLightswitch* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B96D00(ObjLightswitch* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F) != 0) {
+void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx) {
+    if (Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F)) {
         Flags_UnsetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
-        if ((this->actor.params >> 4 & 3) == 1) {
+        if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_1) {
             func_800806BC(globalCtx, &this->actor, 0x4807);
         }
     }
 }
 
-void func_80B96D80(ObjLightswitch* this, GlobalContext* globalCtx) {
+void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* globalCtx) {
     Vec3f pos;
     f32 s;
     f32 c;
@@ -122,8 +127,8 @@ void func_80B96D80(ObjLightswitch* this, GlobalContext* globalCtx) {
 
     s = Math_Sins(this->actor.shape.rot.y);
     c = Math_Coss(this->actor.shape.rot.y);
-    if (this->unk1BC >= 0x1900) {
-        x = (CLAMP_MAX((1.0f - 1.0f / 16320 * this->unk1BC) * 400.0f, 60.0f) - 30.0f + 30.0f) * Math_Rand_ZeroOne();
+    if (this->alpha >= (100 << 6)) {
+        x = (CLAMP_MAX((1.0f - 1.0f / (255 << 6) * this->alpha) * 400.0f, 60.0f) - 30.0f + 30.0f) * Math_Rand_ZeroOne();
         y = x - 30.0f;
         if (x > 30.0f) {
             x = 30.0f;
@@ -151,16 +156,16 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switchFlagSet = Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
     removeSelf = 0;
-    Actor_ProcessInitChain(&this->actor, D_80B97F80);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetHeight(&this->actor, 0.0f);
     if (switchFlagSet) {
-        if ((this->actor.params >> 4 & 3) == 3) {
+        if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_BURN) {
             removeSelf = 1;
         } else {
-            func_80B973C8(this);
+            ObjLightswitch_OnInit(this);
         }
     } else {
-        func_80B971A8(this);
+        ObjLightswitch_OffInit(this);
     }
     if ((this->actor.params & 1) == 1) {
         if (switchFlagSet) {
@@ -182,8 +187,8 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             removeSelf = 1;
         }
     }
-    func_80B96BA0(this, globalCtx);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &D_80B97F54);
+    ObjLightswitch_InitCollider(this, globalCtx);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
     if (removeSelf) {
         Actor_Kill(&this->actor);
     }
@@ -194,150 +199,149 @@ void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &THIS->col);
 }
 
-void func_80B971A8(ObjLightswitch* this) {
-    this->actionFunc = func_80B971D8;
-    this->unk1B4 = 0;
-    this->unk1B6 = 0x26C0;
-    this->unk1B8 = 0x1F40;
-    this->unk1BA = 0x3FC0;
-    this->unk1BC = 0x3FC0;
+void ObjLightswitch_OffInit(ObjLightswitch* this) {
+    this->actionFunc = ObjLightswitch_Off;
+    this->faceTextureIndex = EYES_CLOSED;
+    this->red = 155 << 6;
+    this->green = 125 << 6;
+    this->blue = 255 << 6;
+    this->alpha = 255 << 6;
 }
 
-void func_80B971D8(ObjLightswitch* this, GlobalContext* globalCtx) {
+void ObjLightswitch_Off(ObjLightswitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params >> 4 & 3) {
-        case 0:
-        case 2:
+        case OBJLIGHTSWITCH_TYPE_STAY_ON:
+        case OBJLIGHTSWITCH_TYPE_2:
             if (this->col.base.acFlags & 2) {
-                func_80B972B8(this);
-                func_80B96C3C(this, globalCtx);
+                ObjLightswitch_TurnOnInit(this);
+                ObjLightswitch_SetSwitchFlag(this, globalCtx);
             }
             break;
-        case 1:
-            if ((this->col.base.acFlags & 2) && !(this->unk1C2 & 2)) {
-                func_80B972B8(this);
-                func_80B96C3C(this, globalCtx);
+        case OBJLIGHTSWITCH_TYPE_1:
+            if ((this->col.base.acFlags & 2) && !(this->prevFrameACflags & 2)) {
+                ObjLightswitch_TurnOnInit(this);
+                ObjLightswitch_SetSwitchFlag(this, globalCtx);
             }
             break;
-        case 3:
+        case OBJLIGHTSWITCH_TYPE_BURN:
             if (this->col.base.acFlags & 2) {
-                func_80B97630(this);
-                func_80B96C3C(this, globalCtx);
+                ObjLightswitch_DisappearDelayInit(this);
+                ObjLightswitch_SetSwitchFlag(this, globalCtx);
             }
             break;
     }
 }
 
-void func_80B972B8(ObjLightswitch* this) {
-    this->actionFunc = func_80B972D8;
-    this->unk1B2 = 0x64;
-    this->unk1B0 = 0;
-    this->unk1B4 = 0;
+void ObjLightswitch_TurnOnInit(ObjLightswitch* this) {
+    this->actionFunc = ObjLightswitch_TurnOn;
+    this->toggleDelay = 100;
+    this->timer = 0;
+    this->faceTextureIndex = EYES_CLOSED;
 }
 
-void func_80B972D8(ObjLightswitch* this, GlobalContext* globalCtx) {
-    if (func_8005B198() == this->actor.type || this->unk1B2 <= 0) {
-        if (this->unk1B0 == 0) {
+void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
+    if (func_8005B198() == this->actor.type || this->toggleDelay <= 0) {
+        if (this->timer == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRIFORCE_FLASH);
         }
-        this->unk1B0++;
-        Math_ApproxS(&this->unk1C0, -0xAA, 0xA);
-        this->unk1BE = this->unk1BE + this->unk1C0;
-        this->unk1B6 = this->unk1B0 * 0x140 + 0x26C0;
-        this->unk1B8 = this->unk1B0 * 0x1A0 + 0x1F40;
-        if (this->unk1B0 >= 0x14) {
-            func_80B973C8(this);
-        } else if (this->unk1B0 == 0xF) {
-            this->unk1B4 = 1;
+        this->timer++;
+        Math_ApproxS(&this->flameRingRotSpeed, -0xAA, 0xA);
+        this->flameRingRot += this->flameRingRotSpeed;
+        this->red = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
+        this->green = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
+        if (this->timer >= 20) {
+            ObjLightswitch_OnInit(this);
+        } else if (this->timer == 15) {
+            this->faceTextureIndex = EYES_OPEN;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
 
-void func_80B973C8(ObjLightswitch* this) {
-    this->actionFunc = func_80B97400;
-    this->unk1B4 = 2;
-    this->unk1B6 = 0x3FC0;
-    this->unk1B8 = 0x3FC0;
-    this->unk1BA = 0x3FC0;
-    this->unk1BC = 0x3FC0;
-    this->unk1C0 = -0xAA;
-    this->unk1B0 = 0;
+void ObjLightswitch_OnInit(ObjLightswitch* this) {
+    this->actionFunc = ObjLightswitch_On;
+    this->faceTextureIndex = EYES_OPEN_SMILING;
+    this->red = 255 << 6;
+    this->green = 255 << 6;
+    this->blue = 255 << 6;
+    this->alpha = 255 << 6;
+    this->flameRingRotSpeed = -0xAA;
+    this->timer = 0;
 }
 
-void func_80B97400(ObjLightswitch* this, GlobalContext* globalCtx) {
+void ObjLightswitch_On(ObjLightswitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params >> 4 & 3) {
-        case 0:
+        case OBJLIGHTSWITCH_TYPE_STAY_ON:
             if (!Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F)) {
-                func_80B97518(this);
+                ObjLightswitch_TurnOffInit(this);
             }
             break;
-        case 1:
-            if (this->col.base.acFlags & 2) {
-                if (!(this->unk1C2 & 2)) {
-                    func_80B97518(this);
-                    func_80B96D00(this, globalCtx);
-                }
+        case OBJLIGHTSWITCH_TYPE_1:
+            if (this->col.base.acFlags & 2 && !(this->prevFrameACflags & 2)) {
+                ObjLightswitch_TurnOffInit(this);
+                ObjLightswitch_ClearSwitchFlag(this, globalCtx);
             }
             break;
-        case 2:
+        case OBJLIGHTSWITCH_TYPE_2:
             if (!(this->col.base.acFlags & 2)) {
-                if (this->unk1B0 >= 7) {
-                    func_80B97518(this);
-                    func_80B96D00(this, globalCtx);
+                if (this->timer >= 7) {
+                    ObjLightswitch_TurnOffInit(this);
+                    ObjLightswitch_ClearSwitchFlag(this, globalCtx);
                 } else {
-                    this->unk1B0++;
+                    this->timer++;
                 }
             } else {
-                this->unk1B0 = 0;
+                this->timer = 0;
             }
             break;
     }
-    this->unk1BE += this->unk1C0;
+    this->flameRingRot += this->flameRingRotSpeed;
 }
 
-void func_80B97518(ObjLightswitch* this) {
-    this->actionFunc = func_80B97540;
-    this->unk1B2 = 0x64;
-    this->unk1B0 = 0x14;
-    this->unk1B4 = 1;
+void ObjLightswitch_TurnOffInit(ObjLightswitch* this) {
+    this->actionFunc = ObjLightswitch_TurnOff;
+    this->toggleDelay = 100;
+    this->timer = 20;
+    this->faceTextureIndex = EYES_OPEN;
 }
 
-void func_80B97540(ObjLightswitch* this, GlobalContext* globalCtx) {
-    if ((this->actor.params >> 4 & 3) != 1 || func_8005B198() == this->actor.type || this->unk1B2 <= 0) {
-        this->unk1B0--;
-        Math_ApproxS(&this->unk1C0, 0, 0xA);
-        this->unk1BE += this->unk1C0;
-        this->unk1B6 = this->unk1B0 * 0x140 + 0x26C0;
-        this->unk1B8 = this->unk1B0 * 0x1A0 + 0x1F40;
-        if (this->unk1B0 <= 0) {
-            func_80B971A8(this);
-        } else if (this->unk1B0 == 0xF) {
-            this->unk1B4 = 0;
+void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
+    if ((this->actor.params >> 4 & 3) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.type ||
+        this->toggleDelay <= 0) {
+        this->timer--;
+        Math_ApproxS(&this->flameRingRotSpeed, 0, 0xA);
+        this->flameRingRot += this->flameRingRotSpeed;
+        this->red = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
+        this->green = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
+        if (this->timer <= 0) {
+            ObjLightswitch_OffInit(this);
+        } else if (this->timer == 15) {
+            this->faceTextureIndex = EYES_CLOSED;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
 
-void func_80B97630(ObjLightswitch* this) {
-    this->actionFunc = func_80B97648;
-    this->unk1B2 = 0x64;
+void ObjLightswitch_DisappearDelayInit(ObjLightswitch* this) {
+    this->actionFunc = ObjLightswitch_DisappearDelay;
+    this->toggleDelay = 100;
 }
 
-void func_80B97648(ObjLightswitch* this, GlobalContext* globalCtx) {
-    if (func_8005B198() == this->actor.type || this->unk1B2 <= 0) {
-        func_80B97690(this);
+void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCtx) {
+    if (func_8005B198() == this->actor.type || this->toggleDelay <= 0) {
+        ObjLightswitch_DisappearInit(this);
     }
 }
 
-void func_80B97690(ObjLightswitch* this) {
-    this->actionFunc = func_80B976A8;
-    this->unk1BC = 0x3FC0;
+void ObjLightswitch_DisappearInit(ObjLightswitch* this) {
+    this->actionFunc = ObjLightswitch_Disappear;
+    this->alpha = 255 << 6;
 }
 
-void func_80B976A8(ObjLightswitch* this, GlobalContext* globalCtx) {
-    this->unk1BC -= 200;
-    func_80B96D80(this, globalCtx);
-    if (this->unk1BC < 0) {
+void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx) {
+    this->alpha -= 200;
+    ObjLightswitch_SpawnDisappearEffects(this, globalCtx);
+    if (this->alpha < 0) {
         Actor_Kill(&this->actor);
     }
 }
@@ -348,8 +352,8 @@ void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (globalCtx) {}
 
-    if (this->unk1B2 > 0) {
-        this->unk1B2--;
+    if (this->toggleDelay > 0) {
+        this->toggleDelay--;
     }
 
     this->actionFunc(this, globalCtx);
@@ -362,14 +366,14 @@ void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.posRot.pos.z = child->posRot.pos.z;
             Actor_SetHeight(&this->actor, 0.0f);
         }
-        this->unk1C2 = this->col.base.acFlags;
+        this->prevFrameACflags = this->col.base.acFlags;
         this->col.base.acFlags &= ~2;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->col.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->col.base);
     }
 }
 
-void func_80B977D0(ObjLightswitch* this, GlobalContext* globalCtx) {
+void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     Actor* child;
     Vec3f pos;
     Vec3s rot;
@@ -378,13 +382,13 @@ void func_80B977D0(ObjLightswitch* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     /*
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (u8)(this->unk1B6 >> 6), (u8)(this->unk1B8 >> 6), (u8)(this->unk1BA >> 6),
-                   (u8)(this->unk1BC >> 6));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (u8)(this->red >> 6), (u8)(this->green >> 6), (u8)(this->blue >> 6),
+                   (u8)(this->alpha >> 6));
     */
     gDPSetColor(oGfxCtx->polyOpa.p++, G_SETENVCOLOR,
-                ((((u8)(this->unk1BA >> 6)) & 0xFF) << 8) |
-                    (((((u8)(this->unk1B6 >> 6)) & 0xFF) << 24) | ((((u8)(this->unk1B8 >> 6)) & 0xFF) << 16) |
-                     ((((u8)(this->unk1BC >> 6)) & 0xFF) << 0)));
+                ((((u8)(this->blue >> 6)) & 0xFF) << 8) |
+                    (((((u8)(this->red >> 6)) & 0xFF) << 24) | ((((u8)(this->green >> 6)) & 0xFF) << 16) |
+                     ((((u8)(this->alpha >> 6)) & 0xFF) << 0)));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09, &D_80116280[2]);
 
     if ((this->actor.params & 1) == 1) {
@@ -403,19 +407,19 @@ void func_80B977D0(ObjLightswitch* this, GlobalContext* globalCtx) {
 
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 841),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B97F5C[this->unk1B4]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(faceTextures[this->faceTextureIndex]));
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000260);
 
     rot.x = this->actor.shape.rot.x;
     rot.y = this->actor.shape.rot.y;
-    rot.z = this->actor.shape.rot.z + this->unk1BE;
+    rot.z = this->actor.shape.rot.z + this->flameRingRot;
     func_800D1694(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 859),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000398);
 
-    rot.z = this->actor.shape.rot.z - this->unk1BE;
+    rot.z = this->actor.shape.rot.z - this->flameRingRot;
     func_800D1694(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 873),
@@ -425,7 +429,7 @@ void func_80B977D0(ObjLightswitch* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 878);
 }
 
-void func_80B97B50(ObjLightswitch* this, GlobalContext* globalCtx) {
+void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f sp68;
     Vec3s sp60;
@@ -434,9 +438,9 @@ void func_80B97B50(ObjLightswitch* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     gDPSetColor(oGfxCtx->polyXlu.p++, G_SETENVCOLOR,
-                ((((u8)(this->unk1BA >> 6)) & 0xFF) << 8) |
-                    (((((u8)(this->unk1B6 >> 6)) & 0xFF) << 24) | ((((u8)(this->unk1B8 >> 6)) & 0xFF) << 16) |
-                     ((((u8)(this->unk1BC >> 6)) & 0xFF) << 0)));
+                ((((u8)(this->blue >> 6)) & 0xFF) << 8) |
+                    (((((u8)(this->red >> 6)) & 0xFF) << 24) | ((((u8)(this->green >> 6)) & 0xFF) << 16) |
+                     ((((u8)(this->alpha >> 6)) & 0xFF) << 0)));
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09, D_80116280);
 
     sp68.x = this->actor.posRot.pos.x;
@@ -445,12 +449,12 @@ void func_80B97B50(ObjLightswitch* this, GlobalContext* globalCtx) {
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 912),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B97F5C[this->unk1B4]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(faceTextures[this->faceTextureIndex]));
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000260);
 
     sp60.x = this->actor.shape.rot.x;
     sp60.y = this->actor.shape.rot.y;
-    sp60.z = this->actor.shape.rot.z + this->unk1BE;
+    sp60.z = this->actor.shape.rot.z + this->flameRingRot;
 
     func_800D1694(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
@@ -458,7 +462,7 @@ void func_80B97B50(ObjLightswitch* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000398);
 
-    sp60.z = this->actor.shape.rot.z - this->unk1BE;
+    sp60.z = this->actor.shape.rot.z - this->flameRingRot;
     func_800D1694(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 944),
@@ -470,15 +474,15 @@ void func_80B97B50(ObjLightswitch* this, GlobalContext* globalCtx) {
 
 void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ObjLightswitch* this = THIS;
-    s32 temp_v1 = this->unk1BC >> 6 & 0xFF;
+    s32 alpha = this->alpha >> 6 & 0xFF;
 
     if ((this->actor.params & 1) == 1) {
         func_800628A4(0, &this->col);
     }
 
-    if ((this->actor.params >> 4 & 3) == 3 && (temp_v1 > 0 || temp_v1 < 0xFF)) {
-        func_80B97B50(this, globalCtx);
+    if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_BURN && (alpha > 0 || alpha < 0xFF)) {
+        ObjLightswitch_DrawXlu(this, globalCtx);
     } else {
-        func_80B977D0(this, globalCtx);
+        ObjLightswitch_DrawOpa(this, globalCtx);
     }
 }

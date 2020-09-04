@@ -6,24 +6,42 @@
 
 struct ObjLightswitch;
 
-typedef void(*ObjLightswitchActionFunc)(struct ObjLightswitch*, GlobalContext*);
+typedef void (*ObjLightswitchActionFunc)(struct ObjLightswitch*, GlobalContext*);
+
+enum ObjLightswitch_Type {
+    /*
+    doesn't turn off unless the switch flag is cleared some other way
+    */
+    OBJLIGHTSWITCH_TYPE_STAY_ON,
+    /*
+    turns on and off
+    */
+    OBJLIGHTSWITCH_TYPE_1,
+    /*
+    turns on and off
+    */
+    OBJLIGHTSWITCH_TYPE_2,
+    /*
+    disappears when turned on
+    */
+    OBJLIGHTSWITCH_TYPE_BURN
+};
 
 typedef struct ObjLightswitch {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ObjLightswitchActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph col;
     /* 0x0170 */ ColliderJntSphItem colItems[1];
-    /* 0x01B0 */ s16 unk1B0;
-    /* 0x01B2 */ s16 unk1B2;
-    /* 0x01B4 */ s16 unk1B4;
-    /* 0x01B6 */ s16 unk1B6;
-    /* 0x01B8 */ s16 unk1B8;
-    /* 0x01BA */ s16 unk1BA;
-    /* 0x01BC */ s16 unk1BC;
-    /* 0x01BE */ s16 unk1BE;
-    /* 0x01C0 */ s16 unk1C0;
-    /* 0x01C2 */ u8 unk1C2;
-    // char unk1C3; // padding?
+    /* 0x01B0 */ s16 timer;       // collision-related threshold and controls animation/logic when turning on/off
+    /* 0x01B2 */ s16 toggleDelay; // timer ticking down used for delaying tuning on/off or disappearing, can be bypassed
+    /* 0x01B4 */ s16 faceTextureIndex; // texture used by the center part of the sun
+    /* 0x01B6 */ s16 red;              // (0-255 color component) << 6
+    /* 0x01B8 */ s16 green;            // same
+    /* 0x01BA */ s16 blue;             // same
+    /* 0x01BC */ s16 alpha;            // same
+    /* 0x01BE */ s16 flameRingRot;
+    /* 0x01C0 */ s16 flameRingRotSpeed;
+    /* 0x01C2 */ u8 prevFrameACflags;
 } ObjLightswitch; // size = 0x01C4
 
 extern const ActorInit Obj_Lightswitch_InitVars;
