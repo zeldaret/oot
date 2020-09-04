@@ -7,8 +7,10 @@
 struct BgSpot15Rrbox;
 
 typedef struct BgSpot15Rrbox {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x38];
+    /* 0x0000 */ DynaPolyActor dyna;
+
+    /* 0x0164 */ char unk_164[28];
+    /* 0x0180 */ s32 unk_180;
 } BgSpot15Rrbox; // size = 0x0184
 
 extern const ActorInit Bg_Spot15_Rrbox_InitVars;
