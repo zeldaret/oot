@@ -17,6 +17,7 @@ void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A4BE10(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
+
 void func_80A4D5E0(EnGoroiwa* this);
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
 
