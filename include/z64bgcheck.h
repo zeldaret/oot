@@ -64,16 +64,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u16 cameraSType;
     /* 0x02 */ s16 numCameras;
-    /* 0x04 */ void* camPosDataSeg;
+    /* 0x04 */ Vec3s* camPosData;
 } CamData;
-
-typedef struct {
-    s16 posX, posY, posZ;
-    s16 rotX, rotY, rotZ;
-    s16 fov;
-    s16 unk_0E; // jfifId;
-    s16 unk;
-} CamPosData;
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -103,7 +95,7 @@ typedef struct {
     /* 0x14 */ u16 nbPolygons;
     /* 0x18 */ CollisionPoly* polyList; // polygonArray
     /* 0x1C */ SurfaceType* polygonTypes;
-    /* 0x20 */ CamData* cameraData;
+    /* 0x20 */ CamData* cameraDataList;
     /* 0x24 */ u16 nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // BGDataInfo
@@ -144,8 +136,8 @@ typedef struct {
     /* 0x04 */ CollisionHeader* colHeader;
     /* 0x08 */ DynaLookup dynaLookup;
     /* 0x10 */ u16 vtxStartIndex; // dyna vtx index start
-    /* 0x14 */ ScaleRotPos srp1;
-    /* 0x34 */ ScaleRotPos srp2;
+    /* 0x14 */ ScaleRotPos prevSrp;
+    /* 0x34 */ ScaleRotPos curSrp;
     /* 0x54 */ Sphere16 boundingSphere;
     /* 0x5C */ f32 minY;
     /* 0x60 */ f32 maxY;
@@ -204,14 +196,5 @@ typedef struct {
     /* 0x24 */ f32* distSq;    // distance from posA to poly squared
     /* 0x28 */ f32 chkDist;    // distance from poly
 } s80041128;                   // dyna ?
-
-// FIXME: Update ZAP
-#define RoomPoly CollisionPoly
-#define WaterBoxHeader WaterBox
-
-typedef struct {
-    u32 unknown;
-    u32 camPosDataSeg;
-} CamPosDataEntry; // DO NOT USE, use CamData instead
 
 #endif

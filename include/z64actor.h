@@ -137,7 +137,7 @@ typedef struct Actor {
     /* 0x0F4 */ f32     uncullZoneForward; // amount to increase the uncull zone forward by (in projected space)
     /* 0x0F8 */ f32     uncullZoneScale; // amount to increase the uncull zone scale by (in projected space)
     /* 0x0FC */ f32     uncullZoneDownward; // amount to increase uncull zone downward by (in projected space)
-    /* 0x100 */ Vec3f   pos4;
+    /* 0x100 */ Vec3f   pos4; // previous position
     /* 0x10C */ u8      unk_10C; // Z-Target related
     /* 0x10D */ u8      unk_10D; // Z-Target related
     /* 0x10E */ u16     textId; // Text id to pass to link/display when interacting with an actor

@@ -1990,8 +1990,7 @@ s16 func_80044740(Camera* camera, s32 camId) {
     return func_80041A4C(&camera->globalCtx->colCtx, camId, BGCHECK_SCENE);
 }
 
-// struct_80041C10_ret
-CamPosDataEntry* func_8004476C(Camera* camera) {
+Vec3s* func_8004476C(Camera* camera) {
     return func_80041C10(&camera->globalCtx->colCtx, camera->unk_148, BGCHECK_SCENE);
 }
 
