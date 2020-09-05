@@ -823,7 +823,27 @@ void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0AD8.s")
+void func_800E0AD8(UnkHeapEntry* entry) {
+    s32 numBanks;
+    s32 unk2;
+    s32 unk3;
+    s32 bankId;
+
+    numBanks = *gAudioContext.unk_2834;
+    for (bankId = 0; bankId < numBanks; bankId++) {
+        unk2 = gAudioContext.gCtlEntries[bankId].unk_02;
+        unk3 = gAudioContext.gCtlEntries[bankId].unk_03;
+        if (((unk2 != 0xFF) && (entry->unk_02 == unk2)) ||
+                ((unk3 != 0xFF) && (entry->unk_02 == unk3)) ||
+                entry->unk_02 == 0) {
+            if (func_800DF074(1, 2, bankId) != NULL) {
+                if (Audio_IsBankLoadComplete(bankId) != 0) {
+                    func_800E0964(entry, bankId);
+                }
+            }
+        }
+    }
+}
 
 void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample *sample) {
     if (sample != NULL) {
