@@ -17,6 +17,7 @@ void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A4D5E0(EnGoroiwa* this);
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Goroiwa_InitVars = {
@@ -191,7 +192,26 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C594.s")
 
+#ifdef NON_MATCHING
+bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
+    Path* path;
+    Vec3s* temp_a3;
+    bool temp_v1;
+    bool temp_v0;
+
+    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    func_8002D868(&this->actor);
+    path = &globalCtx->setupPathList[this->actor.params & 0xFF];
+    temp_a3 = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint2];
+    temp_v1 = Math_ApproxF(&this->actor.posRot.pos.x, temp_a3->x, fabsf(this->actor.velocity.x)) & 1;
+    temp_v0 = temp_v1 & Math_ApproxF(&this->actor.posRot.pos.z, temp_a3->z, fabsf(this->actor.velocity.z));
+    this->actor.posRot.pos.y += this->actor.velocity.y;
+
+    return temp_v0;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C6C8.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C814.s")
 
@@ -232,7 +252,7 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     Matrix_RotateX(this->actor.shape.rot.x * (2 * M_PI / 65536), 1);
     Matrix_RotateZ(this->actor.shape.rot.z * (2 * M_PI / 65536), 1);
     Matrix_Get(&mtx);
-    func_800D20CC(&mtx, &this->actor.shape, 0);
+    func_800D20CC(&mtx, &this->actor.shape.rot, 0);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CED8.s")
@@ -298,7 +318,19 @@ void func_80A4D5E0(EnGoroiwa* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D624.s")
 
+#ifdef NON_MATCHING
+void func_80A4D8CC(EnGoroiwa* this) {
+    this->actionFunc = func_80A4D944;
+    func_80A4BD70(this, 2);
+    this->actor.gravity = -0.86f;
+    this->actor.minVelocityY = -15.0f;
+    this->actor.velocity.y = 5.0f;
+    this->unk_1C0 = 1.0f;
+    this->actor.speedXZ *= 0.15f;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D8CC.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D944.s")
 
