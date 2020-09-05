@@ -807,7 +807,9 @@ void func_800E0E6C(s32 id) {
     func_800E0EB4(0, id);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0E90.s")
+void func_800E0E90(s32 id) {
+    func_800E0EB4(1, id);
+}
 
 // somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0EB4.s")
