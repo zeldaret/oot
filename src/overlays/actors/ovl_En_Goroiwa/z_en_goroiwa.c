@@ -20,6 +20,8 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D9DC(EnGoroiwa* this);
 void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Goroiwa_InitVars = {
@@ -356,13 +358,51 @@ void func_80A4D9DC(EnGoroiwa* this) {
     this->unk_1C0 = 0.0f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DA3C.s")
+void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx) {
+    if (this->unk_1C4 > 0) {
+        this->unk_1C4 -= 1;
+    } else {
+        this->collider.base.atFlags &= ~2;
+        func_80A4D5E0(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DA7C.s")
+void func_80A4DA7C(EnGoroiwa* this) {
+    this->actionFunc = func_80A4DAD0;
+    func_80A4BD70(this, 3);
+    this->unk_1C0 = 0.0f;
+    this->actor.velocity.y = fabsf(this->actor.speedXZ) * 0.1f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DAD0.s")
+void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags &= ~2;
+        func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
+        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        if ((this->actor.initPosRot.rot.z & 1) == 1) {
+            this->timer = 50;
+            return;
+        }
+    } else if (func_80A4CA50(this, globalCtx) != 0) {
+        func_80A4D074(this, globalCtx);
+        func_80A4D5E0(this);
+        this->actor.speedXZ = 0.0f;
+    }
+}
 
+#ifdef NON_MATCHING
+void func_80A4DB90(EnGoroiwa* this) {
+    this->actionFunc = func_80A4DC00;
+    func_80A4BD70(this, 3);
+    this->unk_1C6 = 0;
+    this->unk_1C0 = 0.3f;
+    this->unk_1D3 |= 8;
+    this->unk_1D3 &= ~0x10;
+    this->actor.velocity.y = fabsf(this->actor.speedXZ) * -0.3f;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DB90.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DC00.s")
 

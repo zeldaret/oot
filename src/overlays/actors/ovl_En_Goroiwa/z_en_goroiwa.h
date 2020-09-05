@@ -17,7 +17,7 @@ typedef struct EnGoroiwa {
     /* 0x01BC */ f32 unk_1BC;
     /* 0x01C0 */ f32 unk_1C0;
     /* 0x01C4 */ s16 unk_1C4;
-    /* 0x01C6 */ char unk_1C6[0x02];
+    /* 0x01C6 */ s16 unk_1C6;
     /* 0x01C8 */ s16 timer;
     /* 0x01CA */ s16 unk_1CA;
     /* 0x01CC */ s16 waypoint1;
