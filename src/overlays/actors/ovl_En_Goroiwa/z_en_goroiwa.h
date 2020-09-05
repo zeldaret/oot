@@ -13,8 +13,8 @@ typedef struct EnGoroiwa {
     /* 0x014C */ EnGoroiwaActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph collider;
     /* 0x0170 */ ColliderJntSphItem colliderItem;
-    /* 0x01B0 */ f32 unk_1B0;
-    /* 0x01B4 */ char unk_1B4[0x0C];
+    /* 0x01B0 */ Vec3f unk_1B0;
+    /* 0x01BC */ f32 unk_1BC;
     /* 0x01C0 */ f32 unk_1C0;
     /* 0x01C4 */ char unk_1C4[0x04];
     /* 0x01C8 */ s16 timer;

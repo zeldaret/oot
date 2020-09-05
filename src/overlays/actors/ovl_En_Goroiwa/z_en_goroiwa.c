@@ -35,6 +35,7 @@ const ActorInit En_Goroiwa_InitVars = {
 extern ColliderJntSphInit D_80A4DEA4;
 extern CollisionCheckInfoInit D_80A4DEB4;
 extern f32 D_80A4DEC4[];
+extern Vec3f D_80A4DEE4;
 extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
 
@@ -101,6 +102,7 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos);
 }
 
+void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BF28.s")
 
 void func_80A4C080(EnGoroiwa* this) {
@@ -158,7 +160,7 @@ void func_80A4C1C4(EnGoroiwa* this, GlobalContext* globalCtx, s32 waypoint) {
 }
 
 void func_80A4C264(EnGoroiwa* this) {
-    this->unk_1B0 = 1.0f;
+    this->unk_1B0.x = 1.0f;
     this->unk_1C0 = 1.0f;
 }
 
@@ -197,10 +199,58 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CB78.s")
 
-void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CED8.s")
+#ifdef NON_MATCHING
+void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
+    f32 sp8C;
+    Vec3f sp80;
+    Vec3f sp74;
+    MtxF mtx;
+    Vec3f sp28;
+    f32 phi_f12;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D074.s")
+    if (this->unk_1D3 & 8) {
+        phi_f12 = this->unk_1BC;
+    } else {
+        phi_f12 = this->unk_1BC = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.pos4) * 0.016806724f;
+    }
+    sp8C = phi_f12 * this->unk_1C0;
+    if (this->unk_1D3 & 8) {
+        func_80A4BF28(this, globalCtx, &sp28);
+        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, &sp80);
+    } else {
+        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, &sp80);
+    }
+
+    if (func_80A4BD8C(&sp74, &sp80)) {
+        this->unk_1B0 = sp74;
+    } else {
+        sp74 = this->unk_1B0;
+    }
+
+    func_800D23FC(sp8C, &sp74, 0);
+    Matrix_RotateY(this->actor.shape.rot.y * (2 * M_PI / 65536), 1);
+    Matrix_RotateX(this->actor.shape.rot.x * (2 * M_PI / 65536), 1);
+    Matrix_RotateZ(this->actor.shape.rot.z * (2 * M_PI / 65536), 1);
+    Matrix_Get(&mtx);
+    func_800D20CC(&mtx, &this->actor.shape, 0);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CED8.s")
+#endif
+
+void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s16 temp_v0 = (this->actor.params >> 8) & 3;
+
+    func_80A4C134(this);
+
+    if (temp_v0 == 0 || temp_v0 == 1) {
+        if (this->waypoint1 == 0 || this->waypoint1 == this->unk_1CA) {
+            func_80A4C1C4(this, globalCtx, this->waypoint1);
+        }
+    }
+
+    func_80A4BE54(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D0FC.s")
 
