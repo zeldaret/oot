@@ -390,21 +390,32 @@ void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_80A4DB90(EnGoroiwa* this) {
     this->actionFunc = func_80A4DC00;
     func_80A4BD70(this, 3);
-    this->unk_1C6 = 0;
     this->unk_1C0 = 0.3f;
+    this->unk_1C6 = 0;
+    this->actor.velocity.y = fabsf(this->actor.speedXZ) * -0.3f;
     this->unk_1D3 |= 8;
     this->unk_1D3 &= ~0x10;
-    this->actor.velocity.y = fabsf(this->actor.speedXZ) * -0.3f;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DB90.s")
-#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DC00.s")
+void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags &= ~2;
+        func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
+        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        if ((this->actor.initPosRot.rot.z & 1) == 1) {
+            this->timer = 50;
+            return;
+        }
+    } else if (func_80A4CB78(this, globalCtx) != 0) {
+        func_80A4D074(this, globalCtx);
+        func_80A4D5E0(this);
+        this->unk_1D3 &= ~8;
+        this->actor.speedXZ = 0.0f;
+    }
+}
 
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
