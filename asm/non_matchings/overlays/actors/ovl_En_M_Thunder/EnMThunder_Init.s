@@ -45,12 +45,12 @@ glabel EnMThunder_Init
 /* 000AC 80A9F08C AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 000B0 80A9F090 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 000B4 80A9F094 AFA40030 */  sw      $a0, 0x0030($sp)           
-/* 000B8 80A9F098 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 000B8 80A9F098 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 000BC 80A9F09C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 000C0 80A9F0A0 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 000C4 80A9F0A4 8FA60030 */  lw      $a2, 0x0030($sp)           
-/* 000C8 80A9F0A8 0C01E9D9 */  jal     Lights_Insert
+/* 000C8 80A9F0A8 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 000CC 80A9F0AC 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
 /* 000D0 80A9F0B0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

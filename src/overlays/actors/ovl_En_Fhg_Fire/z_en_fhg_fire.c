@@ -142,9 +142,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
-        this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, (void*)(&this->unk_1A0));
-        Lights_InitType0PositionalLight(&this->unk_1A0, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
-                                        0xFF, 0xFF, 0xFF, 0xFF);
+        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 0xFF,
+                                  0xFF, 0xFF, 0xFF);
     }
 }
 
@@ -156,7 +156,7 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 0x32) {
-        Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     }
 }
 

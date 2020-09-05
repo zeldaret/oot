@@ -14,7 +14,7 @@ struct Actor;
 struct GlobalContext;
 
 // From z64light.h
-struct LightMapper;
+struct Lights;
 
 typedef struct {
     Vec3f pos;
@@ -98,7 +98,7 @@ typedef struct {
     /* 0x00 */ Vec3s  rot; // Current actor shape rotation
     /* 0x06 */ u8     unk_06;
     /* 0x08 */ f32    unk_08; // Model y axis offset. Represents model space units. collision mesh related
-    /* 0x0C */ void (*shadowDrawFunc)(struct Actor*, struct LightMapper*, struct GlobalContext*);
+    /* 0x0C */ void (*shadowDrawFunc)(struct Actor*, struct Lights*, struct GlobalContext*);
     /* 0x10 */ f32    unk_10;
     /* 0x14 */ u8     unk_14;
     /* 0x15 */ u8     unk_15;
