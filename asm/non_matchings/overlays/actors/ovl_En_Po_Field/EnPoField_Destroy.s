@@ -9,7 +9,7 @@ glabel EnPoField_Destroy
 /* 00224 80AD3D24 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00228 80AD3D28 8CE60230 */  lw      $a2, 0x0230($a3)           ## 00000230
 /* 0022C 80AD3D2C AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 00230 80AD3D30 0C01E9F1 */  jal     Lights_Remove
+/* 00230 80AD3D30 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00234 80AD3D34 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00238 80AD3D38 8FA50018 */  lw      $a1, 0x0018($sp)           

@@ -77,12 +77,12 @@ glabel EnIceHono_Init
 /* 0031C 80A7330C AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 00320 80A73310 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00324 80A73314 AFA40030 */  sw      $a0, 0x0030($sp)           
-/* 00328 80A73318 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00328 80A73318 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 0032C 80A7331C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00330 80A73320 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00334 80A73324 8FA60030 */  lw      $a2, 0x0030($sp)           
-/* 00338 80A73328 0C01E9D9 */  jal     Lights_Insert
+/* 00338 80A73328 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 0033C 80A7332C 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
 /* 00340 80A73330 0C03F66B */  jal     Math_Rand_ZeroOne

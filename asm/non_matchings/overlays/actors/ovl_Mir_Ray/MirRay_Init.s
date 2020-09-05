@@ -146,12 +146,12 @@ glabel MirRay_Init
 /* 003E4 80B8D434 AFAC001C */  sw      $t4, 0x001C($sp)           
 /* 003E8 80B8D438 AFAB0018 */  sw      $t3, 0x0018($sp)           
 /* 003EC 80B8D43C AFAA0014 */  sw      $t2, 0x0014($sp)           
-/* 003F0 80B8D440 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 003F0 80B8D440 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 003F4 80B8D444 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 003F8 80B8D448 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 003FC 80B8D44C 8FA60030 */  lw      $a2, 0x0030($sp)           
-/* 00400 80B8D450 0C01E9D9 */  jal     Lights_Insert
+/* 00400 80B8D450 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 00404 80B8D454 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
 /* 00408 80B8D458 3C01C406 */  lui     $at, 0xC406                ## $at = C4060000
