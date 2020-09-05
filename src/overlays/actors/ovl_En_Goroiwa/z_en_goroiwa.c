@@ -261,7 +261,7 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
         sp8C = this->unk_1BC;
     }
     sp8C *= this->unk_1C0;
-    // temp needed to match
+    // temp assignment needed to match
     temp = &sp80;
     if (this->unk_1D3 & 8) {
         func_80A4BF28(this, globalCtx, &sp28);
