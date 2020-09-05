@@ -230,9 +230,9 @@ bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
 bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CB78.s")
 
-#ifdef NON_MATCHING
-// Stack issues
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f* temp;
     f32 sp8C;
     Vec3f sp80;
     Vec3f sp74;
@@ -246,6 +246,8 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
         sp8C = this->unk_1BC;
     }
     sp8C *= this->unk_1C0;
+    // Needed to match
+    temp = &sp80;
     if (this->unk_1D3 & 8) {
         func_80A4BF28(this, globalCtx, &sp28);
         Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, &sp80);
@@ -266,9 +268,6 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     Matrix_Get(&mtx);
     func_800D20CC(&mtx, &this->actor.shape.rot, 0);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CED8.s")
-#endif
 
 void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
     s16 temp_v0 = (this->actor.params >> 8) & 3;
