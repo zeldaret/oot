@@ -332,7 +332,18 @@ void func_80A4D8CC(EnGoroiwa* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D8CC.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D944.s")
+void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
+    func_80A4C6C8(this, globalCtx);
+    if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.velocity.y < 0.0f) {
+            if (this->unk_1D3 & 4 && (this->actor.initPosRot.rot.z & 1) == 1) {
+                func_80A4C164(this);
+                func_80A4BE54(this, globalCtx);
+            }
+            func_80A4D9DC(this);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D9DC.s")
 
