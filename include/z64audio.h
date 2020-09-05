@@ -589,7 +589,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 unk_00;
     /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
+    /* 0x02 */ s8 unk_02;
     /* 0x01 */ char pad[0x5];
     /* 0x08 */ void* unk_08;
     /* 0x0C */ s32 unk_0C;

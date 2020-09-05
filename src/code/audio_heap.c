@@ -845,8 +845,11 @@ UnkHeapEntry* func_800E0BF8(u32 size) {
     return entry;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0C80.s")
-void func_800E0C80(UnkHeapEntry* arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_800E0C80(UnkHeapEntry* entry, s32 arg1, s32 arg2, s32 arg3) {
+    if ((entry->unk_02 == arg1) || (entry->unk_02 == arg2) || (entry->unk_02 == 0)) {
+        func_800E0964(entry, arg3);
+    }
+}
 
 void func_800E0CBC(void) {
     s32 count;
