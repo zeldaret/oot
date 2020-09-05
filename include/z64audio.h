@@ -172,7 +172,7 @@ typedef struct {
 } Drum; // size >= 0x14
 
 typedef struct {
-    AudioBankSample* unk_0;
+    AudioBankSample* sample;
     u32 unk_4;
 } UnkInstrument; // TODO: probably the same as AudioBankSound
 
@@ -642,6 +642,18 @@ typedef struct {
 } AudioPoolSplit4; // size = 0x10
 
 typedef struct {
+    u8* unk_0;
+    u8* unk_4;
+    u32 unk_8;
+    s8 unk_C;
+} Struct_800E0E0C_2;
+
+typedef struct {
+    char pad[0xC];
+    Struct_800E0E0C_2 unk_C[1]; // unknown size
+} ManyStruct_800E0E0C_2;
+
+typedef struct {
     /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 gNumSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;
@@ -655,7 +667,8 @@ typedef struct {
     /* 0x2620 */ s32 gSampleDmaNumListItems;
     /* 0x2624 */ char unk_2624[0x210];
     /* 0x2834 */ s16* unk_2834;
-    /* 0x2838 */ char unk_2838[0xC];
+    /* 0x2838 */ ManyStruct_800E0E0C_2* unk_2838;
+    /* 0x283C */ char unk_283C[0x8];
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
