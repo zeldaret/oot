@@ -11,6 +11,7 @@ void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808B3A34(BgSpot15Rrbox* this);
 void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
 
 s16 D_808B4590 = 0;
 
@@ -178,11 +179,9 @@ block_5:
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B43D0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B44B8.s")
-
-// void func_808B44B8(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
-//     &this->actionFunc = &func_808B44CC;
-// }
+void func_808B44B8(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+    this->actionFunc = &func_808B44CC;
+}
 
 void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
     Player *temp_v0 = PLAYER;
@@ -190,8 +189,6 @@ void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
     temp_v0->stateFlags2 = (s32) (temp_v0->stateFlags2 & -0x11);
     this->dyna.unk_150 = 0.0f;
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B44CC.s")
 
 void BgSpot15Rrbox_Update(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
 
