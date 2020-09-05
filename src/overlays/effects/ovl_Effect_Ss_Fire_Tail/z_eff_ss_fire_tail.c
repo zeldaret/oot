@@ -83,24 +83,25 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 yaw;
     Player* player;
     Actor* actor;
+    s16 limb;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fire_tail.c", 182);
 
     spA0.x = spA0.y = spA0.z = 0.0f;
     actor = this->unk_3C;
 
-    if (actor != NULL) {
+    if (actor != NULL) { // 16C
         this->unk_2C = actor->velocity;
-
-        if (this->regs[SS_FIRE_TAIL_B] < 0) {
+        limb = this->regs[SS_FIRE_TAIL_B];
+        if (limb < 0) { // 194
             Matrix_Translate(this->pos.x + actor->posRot.pos.x, this->pos.y + actor->posRot.pos.y,
                              this->pos.z + actor->posRot.pos.z, MTXMODE_NEW);
         } else {
             player = PLAYER;
 
-            this->pos.x = player->unk_908[this->regs[SS_FIRE_TAIL_B]].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
-            this->pos.y = player->unk_908[this->regs[SS_FIRE_TAIL_B]].y;
-            this->pos.z = player->unk_908[this->regs[SS_FIRE_TAIL_B]].z - (Math_Coss(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
+            this->pos.x = player->unk_908[limb].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
+            this->pos.y = player->unk_908[limb].y;
+            this->pos.z = player->unk_908[limb].z - (Math_Coss(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
 
             Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
         }
@@ -111,9 +112,9 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     yaw = Math_Vec3f_Yaw(&spA0, &this->unk_2C) - func_8005A9F4(ACTIVE_CAM);
     sp9C = fabsf(Math_Coss(yaw));
     sp98 = Math_Sins(yaw);
-    sp94 = Math_Vec3f_DistXZ(&spA0, &this->unk_2C) / (this->regs[SS_FIRE_TAIL_A] * 0.1f);
+    sp94 = Math_Vec3f_DistXZ(&spA0, &this->unk_2C) / (this->regs[SS_FIRE_TAIL_A] * 0.1f); // div being weird
 
-    Matrix_RotateY((((func_8005A9F4(ACTIVE_CAM) + 0x8000))) * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY(((((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000)))) * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateZ(((this->regs[SS_FIRE_TAIL_2] * sp98) * sp94) * 0.017453292f, MTXMODE_APPLY);
 
     temp_f2 = 1.0f - ((this->life + 1) / this->regs[SS_FIRE_TAIL_1]);

@@ -66,7 +66,7 @@ glabel func_809EA5B0
 /* 0114C 809EA6AC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01150 809EA6B0 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFF0
 /* 01154 809EA6B4 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
-/* 01158 809EA6B8 0C00A5E9 */  jal     func_800297A4              
+/* 01158 809EA6B8 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 0115C 809EA6BC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01160 809EA6C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01164 809EA6C4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000

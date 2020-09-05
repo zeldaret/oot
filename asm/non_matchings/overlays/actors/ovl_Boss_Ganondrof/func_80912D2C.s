@@ -951,7 +951,7 @@ glabel L8091352C
 /* 03370 809139B0 0018CC03 */  sra     $t9, $t8, 16
 /* 03374 809139B4 2728000F */  addiu   $t0, $t9, 0x000F           ## $t0 = 0000000F
 /* 03378 809139B8 AFA80010 */  sw      $t0, 0x0010($sp)
-/* 0337C 809139BC 0C00A76F */  jal     func_80029DBC
+/* 0337C 809139BC 0C00A76F */  jal     EffectSsKFire_Spawn
 /* 03380 809139C0 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 03384 809139C4 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

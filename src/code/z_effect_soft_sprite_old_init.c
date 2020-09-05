@@ -22,6 +22,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Stone1/z_eff_ss_stone1.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
@@ -393,8 +394,8 @@ void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 }
 
 void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
-    Color_RGBA8 envColor = D_801158EC;  // probably inline when data is migrated
-    Color_RGBA8 primColor = D_801158F0; // probably inline when data is migrated
+    Color_RGBA8 envColor = D_801158EC;
+    Color_RGBA8 primColor = D_801158F0;
 
     func_800292DC(globalCtx, actor, pos, velocity, accel, &envColor, &primColor);
 }
@@ -402,8 +403,8 @@ void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 // unused
 void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                    s16 scaleStep) {
-    Color_RGBA8 envColor = D_801158F4;  // probably inline when data is migrated
-    Color_RGBA8 primColor = D_801158F8; // probably inline when data is migrated
+    Color_RGBA8 envColor = D_801158F4;
+    Color_RGBA8 primColor = D_801158F8;
     s32 randOffset;
 
     randOffset = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
@@ -519,16 +520,16 @@ void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos) {
 // EffectSsLightning Spawn Functions
 
 void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
-                   s16 unk_16, s16 life, s16 unk_1A) {
+                   s16 yaw, s16 life, s16 numBolts) {
     EffectSsLightningInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Color_RGBA8_Copy(&initParams.primColor, primColor);
     Color_RGBA8_Copy(&initParams.envColor, envColor);
     initParams.scale = scale;
-    initParams.unk_16 = unk_16;
+    initParams.yaw = yaw;
     initParams.life = life;
-    initParams.unk_1A = unk_1A;
+    initParams.numBolts = numBolts;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_LIGHTNING, 128, &initParams);
 }
@@ -586,8 +587,8 @@ void EffectSsHahen_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     EffectSs_Spawn(globalCtx, EFFECT_SS_HAHEN, 128, &initParams);
 }
 
-void func_800297A4(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s16 unused, s16 scaleBase, s16 scaleRange, s16 num,
-                   s16 objId, s16 arg8, Gfx* dList) {
+void EffectSsHahen_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s16 unused, s16 scaleBase, s16 scaleRange,
+                              s16 num, s16 objId, s16 arg8, Gfx* dList) {
     s32 i;
     Vec3f velocity;
     Vec3f accel;
@@ -738,18 +739,28 @@ void EffectSsFhgFlash_Spawn2(GlobalContext* globalCtx, Actor* arg1, Vec3f* pos, 
 
 // EffectSsKFire Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029DBC.s")
+void EffectSsKFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4, u8 arg5) {
+    EffectSsKFireInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.unk_24 = arg4;
+    initParams.unk_26 = arg5;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_K_FIRE, 128, &initParams);
+}
 
 // EffectSsSolderSrchBall Spawn Functions
 
-void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4,
+void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused,
                                   s16* linkDetected) {
     EffectSsSolderSrchBallInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
-    initParams.unk_24 = arg4;
+    initParams.unused = unused;
     initParams.linkDetected = linkDetected;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_SOLDER_SRCH_BALL, 128, &initParams);

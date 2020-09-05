@@ -97,7 +97,7 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
 }
 
 void func_80B43BCC(EnYukabyun* this, GlobalContext* globalCtx) {
-    func_800297A4(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 0x514, 0x12C, 0xF, 0x5F, 0xA, &D_06000A60);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 0x514, 0x12C, 0xF, 0x5F, 0xA, &D_06000A60);
     Actor_Kill(&this->actor);
 }
 

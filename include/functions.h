@@ -252,7 +252,7 @@ void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor,
 // ? EffectSsDtBubble_SpawnColorProfile(?);
 // ? EffectSsDtBubble_SpawnCustomColor(?);
 // ? EffectSsHahen_Spawn(?);
-void func_800297A4(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s16 unused, s16 scaleBase, s16 scaleRange, s16 num,
+void EffectSsHahen_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s16 unused, s16 scaleBase, s16 scaleRange, s16 num,
                    s16 objId, s16 arg8, Gfx* dList);
 void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw);
 // ? EffectSsSibuki_Spawn(?);
@@ -265,7 +265,7 @@ void EffectSsHitMark_SpawnFixedScale(GlobalContext* globalCtx, s32 a, Vec3f* pos
 // ? EffectSsHitMark_SpawnCustomScale(?);
 void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
 void EffectSsFhgFlash_Spawn2(GlobalContext*, Actor*, Vec3f*, s16, u8);
-// ? func_80029DBC(?);
+// ? EffectSsKFire_Spawn(?);
 void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3,
                    s16 arg4, s16 arg5, s16 arg6, s16 arg7, s16 arg8, s16 arg9, s16 arg10, s16 arg11,
                    s32 arg12, s16 arg13, s16 objectId, Gfx* dList);

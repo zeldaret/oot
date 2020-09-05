@@ -6,6 +6,10 @@
 
 #include "z_eff_ss_solder_srch_ball.h"
 
+typedef enum {
+    /* 0x01 */ SS_SOLDER_SRCH_BALL_UNUSED = 1
+} EffectSsLightningRegs;
+
 u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
@@ -22,7 +26,7 @@ u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* t
     this->accel = initParams->accel;
     this->update = EffectSsSolderSrchBall_Update;
     this->life = 100;
-    this->regs[1] = initParams->unk_24;
+    this->regs[SS_SOLDER_SRCH_BALL_UNUSED] = initParams->unused;
     this->unk_3C = initParams->linkDetected;
     return 1;
 }

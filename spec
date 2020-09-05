@@ -1857,8 +1857,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_K_Fire"
     include "build/src/overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.o"
-    include "build/data/overlays/effects/z_eff_ss_k_fire.data.o"
-    include "build/data/overlays/effects/z_eff_ss_k_fire.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_K_Fire/ovl_Effect_Ss_K_Fire_reloc.o"
 endseg
 
 beginseg
@@ -1876,17 +1875,13 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Lightning"
     include "build/src/overlays/effects/ovl_Effect_Ss_Lightning/z_eff_ss_lightning.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/effects/ovl_Effect_Ss_Lightning/ovl_Effect_Ss_Lightning_reloc.o"
-#else
-    include "build/data/overlays/effects/z_eff_ss_lightning.reloc.o"
-#endif
 endseg
 
 beginseg
     name "ovl_Effect_Ss_Sibuki"
     include "build/src/overlays/effects/ovl_Effect_Ss_Sibuki/z_eff_ss_sibuki.o"
-    include "build/data/overlays/effects/z_eff_ss_sibuki.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_Sibuki/ovl_Effect_Ss_Sibuki_reloc.o"
 endseg
 
 beginseg
