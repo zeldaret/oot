@@ -110,8 +110,42 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos);
 }
 
-void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2);
+#ifdef NON_MATCHING
+// Regalloc issues
+void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2) {
+    Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
+    Vec3s* points;
+    s16 temp_t0;
+    s16 temp_v0 = (this->actor.params >> 8) & 3;
+    Vec3s* temp_v0_2;
+
+    temp_t0 = this->waypoint1 - this->unk_1D0;
+
+    if (temp_t0 < 0) {
+        if (temp_v0 == 0 || temp_v0 == 1) {
+            temp_t0 = this->unk_1CA;
+        } else if (temp_v0 == 3) {
+            temp_t0 = 1;
+        }
+    } else {
+        if (this->unk_1CA < temp_t0) {
+            if (temp_v0 == 0 || temp_v0 == 1) {
+                temp_t0 = 0;
+            } else if (temp_v0 == 3) {
+                temp_t0 = this->unk_1CA - 1;
+            }
+        }
+    }
+
+    points = SEGMENTED_TO_VIRTUAL(path->points);
+    temp_v0_2 = &points[this->waypoint1];
+    arg2->x = temp_v0_2->x - points[temp_t0].x;
+    arg2->y = temp_v0_2->x - points[temp_t0].y;
+    arg2->z = temp_v0_2->x - points[temp_t0].z;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BF28.s")
+#endif
 
 void func_80A4C080(EnGoroiwa* this) {
     s16 temp_v0 = (this->actor.params >> 8) & 3;
@@ -197,10 +231,10 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
     Vec3f sp7C;
-    s32 phi_s1;
+    s32 i;
     s16 phi_s0 = 0;
 
-    for (phi_s1 = 0; phi_s1 < 8; phi_s1++) {
+    for (i = 0; i < 8; i++) {
         phi_s0 += 20000;
         sp7C.x = ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(phi_s0)) + arg1->x;
         sp7C.y = ((Math_Rand_ZeroOne() - 0.5f) * 40.0f) + arg1->y;
@@ -210,7 +244,23 @@ void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C594.s")
+void func_80A4C594(GlobalContext* globalCtx, Vec3f* arg1) {
+    Vec3f sp4C;
+    s32 i;
+    s16 temp_s0 = 0;
+
+    for (i = 0; i < 11; i++) {
+        temp_s0 += 5958;
+        sp4C.x = (Math_Sins(temp_s0) * 55.0f) + arg1->x;
+        sp4C.y = arg1->y;
+        sp4C.z = (Math_Coss(temp_s0) * 55.0f) + arg1->z;
+        func_8002949C(globalCtx, &sp4C, 0, 0, 0, 350);
+    }
+
+    func_80029444(globalCtx, arg1, 300, 700, 0);
+    func_80029444(globalCtx, arg1, 500, 900, 4);
+    func_80029444(globalCtx, arg1, 500, 1300, 8);
+}
 
 bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path;
