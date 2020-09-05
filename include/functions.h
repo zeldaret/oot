@@ -1965,7 +1965,7 @@ void func_800DFBF8(void);
 void* func_800E04E8(s32 poolIdx, s32 id);
 // ? func_800E0540(?);
 // ? func_800E05C4(?);
-void func_800E0634(s32 arg0, s32 arg1);
+void func_800E0634(u32 arg0, u32 arg1);
 void* func_800E06CC(u32 size);
 // ? func_800E0964(?);
 // ? func_800E0AD8(?);

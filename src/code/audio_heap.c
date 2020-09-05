@@ -750,7 +750,24 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E05C4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0634.s")
+void func_800E0634(u32 arg0, u32 arg1) {
+    void *mem;
+
+    mem = func_800DE2B0(&gAudioContext.gNotesAndBuffersPool, arg0);
+    if (mem == NULL) {
+        gAudioContext.unk_2EE0.pool.size = 0;
+    } else {
+        Audio_SoundAllocPoolInit(&gAudioContext.unk_2EE0.pool, mem, arg0);
+    }
+    mem = func_800DE2B0(&gAudioContext.gNotesAndBuffersPool, arg1);
+    if (mem == NULL) {
+        gAudioContext.unk_3174.pool.size = 0;
+    } else {
+        Audio_SoundAllocPoolInit(&gAudioContext.unk_3174.pool, mem, arg1);
+    }
+    gAudioContext.unk_2EE0.size = 0;
+    gAudioContext.unk_3174.size = 0;
+}
 
 // somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E06CC.s")
