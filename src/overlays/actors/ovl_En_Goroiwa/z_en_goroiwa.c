@@ -231,21 +231,21 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CB78.s")
 
 #ifdef NON_MATCHING
+// Stack issues
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     f32 sp8C;
     Vec3f sp80;
     Vec3f sp74;
     MtxF mtx;
     Vec3f sp28;
-    f32 phi_f12;
 
     if (this->unk_1D3 & 8) {
-        phi_f12 = this->unk_1BC;
+        sp8C = this->unk_1BC;
     } else {
-        phi_f12 = this->unk_1BC = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.pos4) * 0.016806724f;
+        this->unk_1BC = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.pos4) * 0.016806724f;
+        sp8C = this->unk_1BC;
     }
-    phi_f12 *= this->unk_1C0;
-    sp8C = phi_f12;
+    sp8C *= this->unk_1C0;
     if (this->unk_1D3 & 8) {
         func_80A4BF28(this, globalCtx, &sp28);
         Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, &sp80);
