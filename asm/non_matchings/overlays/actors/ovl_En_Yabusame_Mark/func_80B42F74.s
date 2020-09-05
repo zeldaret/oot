@@ -302,7 +302,7 @@ glabel func_80B42F74
 /* 00560 80B43320 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFDC
 /* 00564 80B43324 27A60050 */  addiu   $a2, $sp, 0x0050           ## $a2 = FFFFFFE8
 /* 00568 80B43328 27A7005C */  addiu   $a3, $sp, 0x005C           ## $a3 = FFFFFFF4
-/* 0056C 80B4332C 0C00A97D */  jal     func_8002A5F4              
+/* 0056C 80B4332C 0C00A97D */  jal     EffectSsExtra_Spawn              
 /* 00570 80B43330 AFA90014 */  sw      $t1, 0x0014($sp)           
 .L80B43334:
 /* 00574 80B43334 8FBF001C */  lw      $ra, 0x001C($sp)           

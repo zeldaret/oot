@@ -453,9 +453,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         ActorOverlayTable_LogPrint();
     }
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     if (func_8008E6AC(&globalCtx->sub_7B8, &input[1]) != 0) {
         if ((globalCtx->transitionMode == 0) && (globalCtx->sceneLoadFlag != 0)) {
@@ -1071,14 +1071,14 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 // regalloc, stack usage and minor ordering differences
 void Gameplay_Draw(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    LightMapper* sp228;
+    Lights* sp228;
     Vec3f sp21C;
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x00, NULL);
@@ -1208,9 +1208,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
-                    sp228 = Lights_CreateMapper(&globalCtx->lightCtx, gfxCtx);
-                    func_8007A474(sp228, globalCtx->lightCtx.lightsHead, 0);
-                    func_80079EFC(sp228, gfxCtx);
+                    sp228 = LightContext_NewLights(&globalCtx->lightCtx, gfxCtx);
+                    Lights_BindAll(sp228, globalCtx->lightCtx.listHead, NULL);
+                    Lights_Draw(sp228, gfxCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
@@ -1467,7 +1467,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->setupPathList = NULL;
     globalCtx->nbSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
-    func_8007A614(globalCtx, &globalCtx->lightCtx);
+    LightContext_Init(globalCtx, &globalCtx->lightCtx);
     func_80098CBC(globalCtx, &globalCtx->nbTransitionActors);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;
@@ -1491,7 +1491,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     if (globalCtx->sceneSegment == NULL) {
         __assert("this->sceneSegment != NULL", "../z_play.c", 4960);
     }
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);
 
