@@ -846,8 +846,34 @@ UnkHeapEntry* func_800E0BF8(u32 size) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0C80.s")
+void func_800E0C80(UnkHeapEntry* arg0, s32 arg1, s32 arg2, s32 arg3);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0CBC.s")
+void func_800E0CBC(void) {
+    s32 count;
+    s32 unk2;
+    s32 unk3;
+    s32 i;
+    s32 j;
+
+    count = *gAudioContext.unk_2834;
+    for (i = 0; i < count; i++) {
+        unk2 = gAudioContext.gCtlEntries[i].unk_02;
+        unk3 = gAudioContext.gCtlEntries[i].unk_03;
+        if ((unk2 == 0xFF) && (unk3 == 0xFF)) {
+            continue;
+        }
+        if (func_800DF074(1, 3, i) == NULL || !Audio_IsBankLoadComplete(i)) {
+            continue;
+        }
+
+        for (j = 0; j < gAudioContext.unk_2EE0.size; j++) {
+            func_800E0C80(&gAudioContext.unk_2EE0.entries[j], temp_s2, temp_s3, i);
+        }
+        for (j = 0; j < gAudioContext.unk_3174.size; j++) {
+            func_800E0C80(&gAudioContext.unk_3174.entries[j], temp_s2, temp_s3, i);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0E0C.s")
 
