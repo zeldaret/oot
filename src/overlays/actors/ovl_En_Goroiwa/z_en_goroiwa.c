@@ -250,12 +250,12 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     temp = &sp80;
     if (this->unk_1D3 & 8) {
         func_80A4BF28(this, globalCtx, &sp28);
-        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, &sp80);
+        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, temp);
     } else {
-        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, &sp80);
+        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, temp);
     }
 
-    if (func_80A4BD8C(&sp74, &sp80)) {
+    if (func_80A4BD8C(&sp74, temp)) {
         this->unk_1B0 = sp74;
     } else {
         sp74 = this->unk_1B0;
