@@ -1,4 +1,4 @@
-glabel func_80A96048
+glabel EnKarebaba_UpdateState_Dead_ItemDrop
 /* 00CF8 80A96048 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00CFC 80A9604C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00D00 80A96050 AFA5001C */  sw      $a1, 0x001C($sp)           
@@ -17,7 +17,7 @@ glabel func_80A96048
 /* 00D30 80A96080 15E00005 */  bne     $t7, $zero, .L80A96098     
 /* 00D34 80A96084 00000000 */  nop
 .L80A96088:
-/* 00D38 80A96088 0C2A5618 */  jal     func_80A95860              
+/* 00D38 80A96088 0C2A5618 */  jal     EnKarebaba_StateChange_Inactive              
 /* 00D3C 80A9608C 00000000 */  nop
 /* 00D40 80A96090 10000004 */  beq     $zero, $zero, .L80A960A4   
 /* 00D44 80A96094 8FBF0014 */  lw      $ra, 0x0014($sp)           

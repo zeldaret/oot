@@ -1,4 +1,4 @@
-glabel func_80A960B0
+glabel EnKarebaba_UpdateState_Retract
 /* 00D60 80A960B0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00D64 80A960B4 AFB00030 */  sw      $s0, 0x0030($sp)           
 /* 00D68 80A960B8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -29,7 +29,7 @@ glabel func_80A960B0
 /* 00DC0 80A96110 00000000 */  nop
 /* 00DC4 80A96114 50400004 */  beql    $v0, $zero, .L80A96128     
 /* 00DC8 80A96118 860E00B6 */  lh      $t6, 0x00B6($s0)           ## 000000B6
-/* 00DCC 80A9611C 0C2A5552 */  jal     func_80A95548              
+/* 00DCC 80A9611C 0C2A5552 */  jal     EnKarebaba_StateChange_Idle              
 /* 00DD0 80A96120 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DD4 80A96124 860E00B6 */  lh      $t6, 0x00B6($s0)           ## 000000B6
 .L80A96128:

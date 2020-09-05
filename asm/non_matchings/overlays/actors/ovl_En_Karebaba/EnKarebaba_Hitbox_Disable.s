@@ -1,4 +1,4 @@
-glabel func_80A954C0
+glabel EnKarebaba_Hitbox_Disable
 /* 00170 80A954C0 90980255 */  lbu     $t8, 0x0255($a0)           ## 00000255
 /* 00174 80A954C4 3C08FFCF */  lui     $t0, 0xFFCF                ## $t0 = FFCF0000
 /* 00178 80A954C8 24020019 */  addiu   $v0, $zero, 0x0019         ## $v0 = 00000019

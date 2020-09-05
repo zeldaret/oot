@@ -1,4 +1,4 @@
-glabel func_80A957E0
+glabel EnKarebaba_StateChange_Retract
 /* 00490 80A957E0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00494 80A957E4 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 00498 80A957E8 AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -23,11 +23,11 @@ glabel func_80A957E0
 /* 004E0 80A95830 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 004E4 80A95834 E7A60010 */  swc1    $f6, 0x0010($sp)
-/* 004E8 80A95838 0C2A5530 */  jal     func_80A954C0
+/* 004E8 80A95838 0C2A5530 */  jal     EnKarebaba_Hitbox_Disable
 /* 004EC 80A9583C 8FA40028 */  lw      $a0, 0x0028($sp)
 /* 004F0 80A95840 8FB80028 */  lw      $t8, 0x0028($sp)
-/* 004F4 80A95844 3C0F80A9 */  lui     $t7, %hi(func_80A960B0)    ## $t7 = 80A90000
-/* 004F8 80A95848 25EF60B0 */  addiu   $t7, $t7, %lo(func_80A960B0) ## $t7 = 80A960B0
+/* 004F4 80A95844 3C0F80A9 */  lui     $t7, %hi(EnKarebaba_UpdateState_Retract)    ## $t7 = 80A90000
+/* 004F8 80A95848 25EF60B0 */  addiu   $t7, $t7, %lo(EnKarebaba_UpdateState_Retract) ## $t7 = 80A960B0
 /* 004FC 80A9584C AF0F0190 */  sw      $t7, 0x0190($t8)           ## 00000190
 /* 00500 80A95850 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 00504 80A95854 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

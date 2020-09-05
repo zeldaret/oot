@@ -1,4 +1,4 @@
-glabel func_80A959D8
+glabel EnKarebaba_UpdateState_Idle
 /* 00688 80A959D8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0068C 80A959DC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00690 80A959E0 AFA5001C */  sw      $a1, 0x001C($sp)           
@@ -17,7 +17,7 @@ glabel func_80A959D8
 /* 006C4 80A95A14 00000000 */  nop
 /* 006C8 80A95A18 45020004 */  bc1fl   .L80A95A2C                 
 /* 006CC 80A95A1C 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 006D0 80A95A20 0C2A5567 */  jal     func_80A9559C              
+/* 006D0 80A95A20 0C2A5567 */  jal     EnKarebaba_StateChange_Awaken              
 /* 006D4 80A95A24 00000000 */  nop
 /* 006D8 80A95A28 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A95A2C:

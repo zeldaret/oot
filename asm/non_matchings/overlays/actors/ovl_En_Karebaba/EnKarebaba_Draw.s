@@ -57,8 +57,8 @@ glabel EnKarebaba_Draw
 /* 0126C 80A965BC 0C024F46 */  jal     func_80093D18
 /* 01270 80A965C0 8E840000 */  lw      $a0, 0x0000($s4)           ## 00000000
 /* 01274 80A965C4 8E620190 */  lw      $v0, 0x0190($s3)           ## 00000190
-/* 01278 80A965C8 3C0E80A9 */  lui     $t6, %hi(func_80A96048)    ## $t6 = 80A90000
-/* 0127C 80A965CC 25CE6048 */  addiu   $t6, $t6, %lo(func_80A96048) ## $t6 = 80A96048
+/* 01278 80A965C8 3C0E80A9 */  lui     $t6, %hi(EnKarebaba_UpdateState_Dead_ItemDrop)    ## $t6 = 80A90000
+/* 0127C 80A965CC 25CE6048 */  addiu   $t6, $t6, %lo(EnKarebaba_UpdateState_Dead_ItemDrop) ## $t6 = 80A96048
 /* 01280 80A965D0 15C20021 */  bne     $t6, $v0, .L80A96658
 /* 01284 80A965D4 00000000 */  nop
 /* 01288 80A965D8 8662001C */  lh      $v0, 0x001C($s3)           ## 0000001C
@@ -95,8 +95,8 @@ glabel EnKarebaba_Draw
 /* 01300 80A96650 1000006E */  beq     $zero, $zero, .L80A9680C
 /* 01304 80A96654 AC6A0004 */  sw      $t2, 0x0004($v1)           ## 00000004
 .L80A96658:
-/* 01308 80A96658 3C0B80A9 */  lui     $t3, %hi(func_80A96184)    ## $t3 = 80A90000
-/* 0130C 80A9665C 256B6184 */  addiu   $t3, $t3, %lo(func_80A96184) ## $t3 = 80A96184
+/* 01308 80A96658 3C0B80A9 */  lui     $t3, %hi(EnKarebaba_UpdateState_Inactive)    ## $t3 = 80A90000
+/* 0130C 80A9665C 256B6184 */  addiu   $t3, $t3, %lo(EnKarebaba_UpdateState_Inactive) ## $t3 = 80A96184
 /* 01310 80A96660 1162006A */  beq     $t3, $v0, .L80A9680C
 /* 01314 80A96664 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 01318 80A96668 3C0580A9 */  lui     $a1, %hi(D_80A96A68)       ## $a1 = 80A90000
@@ -118,11 +118,11 @@ glabel EnKarebaba_Draw
 /* 01354 80A966A4 0C034261 */  jal     Matrix_Translate
 /* 01358 80A966A8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0135C 80A966AC 8E620190 */  lw      $v0, 0x0190($s3)           ## 00000190
-/* 01360 80A966B0 3C0C80A9 */  lui     $t4, %hi(func_80A961DC)    ## $t4 = 80A90000
-/* 01364 80A966B4 258C61DC */  addiu   $t4, $t4, %lo(func_80A961DC) ## $t4 = 80A961DC
+/* 01360 80A966B0 3C0C80A9 */  lui     $t4, %hi(EnKarebaba_UpdateState_Regrow)    ## $t4 = 80A90000
+/* 01364 80A966B4 258C61DC */  addiu   $t4, $t4, %lo(EnKarebaba_UpdateState_Regrow) ## $t4 = 80A961DC
 /* 01368 80A966B8 11820004 */  beq     $t4, $v0, .L80A966CC
-/* 0136C 80A966BC 3C0D80A9 */  lui     $t5, %hi(func_80A95940)    ## $t5 = 80A90000
-/* 01370 80A966C0 25AD5940 */  addiu   $t5, $t5, %lo(func_80A95940) ## $t5 = 80A95940
+/* 0136C 80A966BC 3C0D80A9 */  lui     $t5, %hi(EnKarebaba_UpdateState_Grow)    ## $t5 = 80A90000
+/* 01370 80A966C0 25AD5940 */  addiu   $t5, $t5, %lo(EnKarebaba_UpdateState_Grow) ## $t5 = 80A95940
 /* 01374 80A966C4 15A2000A */  bne     $t5, $v0, .L80A966F0
 /* 01378 80A966C8 3C0180A9 */  lui     $at, %hi(D_80A96B68)       ## $at = 80A90000
 .L80A966CC:
@@ -150,8 +150,8 @@ glabel EnKarebaba_Draw
 /* 013C8 80A96718 0C034421 */  jal     Matrix_RotateRPY
 /* 013CC 80A9671C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 013D0 80A96720 8E6F0190 */  lw      $t7, 0x0190($s3)           ## 00000190
-/* 013D4 80A96724 3C0380A9 */  lui     $v1, %hi(func_80A95D90)    ## $v1 = 80A90000
-/* 013D8 80A96728 24635D90 */  addiu   $v1, $v1, %lo(func_80A95D90) ## $v1 = 80A95D90
+/* 013D4 80A96724 3C0380A9 */  lui     $v1, %hi(EnKarebaba_UpdateState_Dying)    ## $v1 = 80A90000
+/* 013D8 80A96728 24635D90 */  addiu   $v1, $v1, %lo(EnKarebaba_UpdateState_Dying) ## $v1 = 80A95D90
 /* 013DC 80A9672C 146F0004 */  bne     $v1, $t7, .L80A96740
 /* 013E0 80A96730 24190003 */  addiu   $t9, $zero, 0x0003         ## $t9 = 00000003
 /* 013E4 80A96734 24180002 */  addiu   $t8, $zero, 0x0002         ## $t8 = 00000002
@@ -215,11 +215,11 @@ glabel EnKarebaba_Draw
 /* 014B4 80A96804 0C009982 */  jal     func_80026608
 /* 014B8 80A96808 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L80A9680C:
-/* 014BC 80A9680C 3C0B80A9 */  lui     $t3, %hi(func_80A95D90)    ## $t3 = 80A90000
-/* 014C0 80A96810 256B5D90 */  addiu   $t3, $t3, %lo(func_80A95D90) ## $t3 = 80A95D90
+/* 014BC 80A9680C 3C0B80A9 */  lui     $t3, %hi(EnKarebaba_UpdateState_Dying)    ## $t3 = 80A90000
+/* 014C0 80A96810 256B5D90 */  addiu   $t3, $t3, %lo(EnKarebaba_UpdateState_Dying) ## $t3 = 80A95D90
 /* 014C4 80A96814 3C0580A9 */  lui     $a1, %hi(D_80A96A68)       ## $a1 = 80A90000
-/* 014C8 80A96818 3C1080A9 */  lui     $s0, %hi(func_80A95940)    ## $s0 = 80A90000
-/* 014CC 80A9681C 26105940 */  addiu   $s0, $s0, %lo(func_80A95940) ## $s0 = 80A95940
+/* 014C8 80A96818 3C1080A9 */  lui     $s0, %hi(EnKarebaba_UpdateState_Grow)    ## $s0 = 80A90000
+/* 014CC 80A9681C 26105940 */  addiu   $s0, $s0, %lo(EnKarebaba_UpdateState_Grow) ## $s0 = 80A95940
 /* 014D0 80A96820 24A56A68 */  addiu   $a1, $a1, %lo(D_80A96A68)  ## $a1 = 80A96A68
 /* 014D4 80A96824 AFAB004C */  sw      $t3, 0x004C($sp)
 /* 014D8 80A96828 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
@@ -318,7 +318,7 @@ glabel EnKarebaba_Draw
 /* 01644 80A96994 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 01648 80A96998 51000004 */  beql    $t0, $zero, .L80A969AC
 /* 0164C 80A9699C 8FBF003C */  lw      $ra, 0x003C($sp)
-/* 01650 80A969A0 0C2A5913 */  jal     func_80A9644C
+/* 01650 80A969A0 0C2A5913 */  jal     EnKarebaba_Draw_CenterShadow
 /* 01654 80A969A4 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000000
 /* 01658 80A969A8 8FBF003C */  lw      $ra, 0x003C($sp)
 .L80A969AC:

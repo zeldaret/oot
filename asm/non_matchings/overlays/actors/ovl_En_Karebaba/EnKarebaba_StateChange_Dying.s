@@ -3,7 +3,7 @@ glabel D_80A96B44
     .float -0.8
 
 .text
-glabel func_80A956D0
+glabel EnKarebaba_StateChange_Dying
 /* 00380 80A956D0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00384 80A956D4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00388 80A956D8 A480001C */  sh      $zero, 0x001C($a0)         ## 0000001C
@@ -25,8 +25,8 @@ glabel func_80A956D0
               
 /* 003C8 80A95718 24053862 */  addiu   $a1, $zero, 0x3862         ## $a1 = 00003862
 /* 003CC 80A9571C 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 003D0 80A95720 3C0880A9 */  lui     $t0, %hi(func_80A95D90)    ## $t0 = 80A90000
-/* 003D4 80A95724 25085D90 */  addiu   $t0, $t0, %lo(func_80A95D90) ## $t0 = 80A95D90
+/* 003D0 80A95720 3C0880A9 */  lui     $t0, %hi(EnKarebaba_UpdateState_Dying)    ## $t0 = 80A90000
+/* 003D4 80A95724 25085D90 */  addiu   $t0, $t0, %lo(EnKarebaba_UpdateState_Dying) ## $t0 = 80A95D90
 /* 003D8 80A95728 8C980004 */  lw      $t8, 0x0004($a0)           ## 00000004
 /* 003DC 80A9572C AC880190 */  sw      $t0, 0x0190($a0)           ## 00000190
 /* 003E0 80A95730 37190030 */  ori     $t9, $t8, 0x0030           ## $t9 = 00000030

@@ -1,4 +1,4 @@
-glabel func_80A95860
+glabel EnKarebaba_StateChange_Inactive
 /* 00510 80A95860 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00514 80A95864 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00518 80A95868 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -15,7 +15,7 @@ glabel func_80A95860
 /* 00544 80A95894 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00548 80A95898 E7A00018 */  swc1    $f0, 0x0018($sp)
-/* 0054C 80A9589C 0C2A5530 */  jal     func_80A954C0
+/* 0054C 80A9589C 0C2A5530 */  jal     EnKarebaba_Hitbox_Disable
 /* 00550 80A958A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00554 80A958A4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00558 80A958A8 240FC000 */  addiu   $t7, $zero, 0xC000         ## $t7 = FFFFC000
@@ -28,8 +28,8 @@ glabel func_80A95860
 /* 00574 80A958C4 0C01DF90 */  jal     Math_Vec3f_Copy
               ## Vec3f_Copy
 /* 00578 80A958C8 E60000C4 */  swc1    $f0, 0x00C4($s0)           ## 000000C4
-/* 0057C 80A958CC 3C1980A9 */  lui     $t9, %hi(func_80A96184)    ## $t9 = 80A90000
-/* 00580 80A958D0 27396184 */  addiu   $t9, $t9, %lo(func_80A96184) ## $t9 = 80A96184
+/* 0057C 80A958CC 3C1980A9 */  lui     $t9, %hi(EnKarebaba_UpdateState_Inactive)    ## $t9 = 80A90000
+/* 00580 80A958D0 27396184 */  addiu   $t9, $t9, %lo(EnKarebaba_UpdateState_Inactive) ## $t9 = 80A96184
 /* 00584 80A958D4 AE190190 */  sw      $t9, 0x0190($s0)           ## 00000190
 /* 00588 80A958D8 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 0058C 80A958DC 8FB00028 */  lw      $s0, 0x0028($sp)

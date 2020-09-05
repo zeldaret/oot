@@ -1,4 +1,4 @@
-glabel func_80A9559C
+glabel EnKarebaba_StateChange_Awaken
 /* 0024C 80A9559C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00250 80A955A0 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 00254 80A955A4 AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -26,8 +26,8 @@ glabel func_80A9559C
 
 /* 002A4 80A955F4 240539E2 */  addiu   $a1, $zero, 0x39E2         ## $a1 = 000039E2
 /* 002A8 80A955F8 8FAF0028 */  lw      $t7, 0x0028($sp)
-/* 002AC 80A955FC 3C0E80A9 */  lui     $t6, %hi(func_80A95A38)    ## $t6 = 80A90000
-/* 002B0 80A95600 25CE5A38 */  addiu   $t6, $t6, %lo(func_80A95A38) ## $t6 = 80A95A38
+/* 002AC 80A955FC 3C0E80A9 */  lui     $t6, %hi(EnKarebaba_UpdateState_Awaken)    ## $t6 = 80A90000
+/* 002B0 80A95600 25CE5A38 */  addiu   $t6, $t6, %lo(EnKarebaba_UpdateState_Awaken) ## $t6 = 80A95A38
 /* 002B4 80A95604 ADEE0190 */  sw      $t6, 0x0190($t7)           ## 00000190
 /* 002B8 80A95608 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 002BC 80A9560C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

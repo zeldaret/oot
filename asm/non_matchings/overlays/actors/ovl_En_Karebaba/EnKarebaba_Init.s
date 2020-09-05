@@ -74,12 +74,12 @@ glabel EnKarebaba_Init
 /* 000F8 80A95448 AE0001F4 */  sw      $zero, 0x01F4($s0)         ## 000001F4
 /* 000FC 80A9544C 17200005 */  bne     $t9, $zero, .L80A95464     
 /* 00100 80A95450 00000000 */  nop
-/* 00104 80A95454 0C2A553E */  jal     func_80A954F8              
+/* 00104 80A95454 0C2A553E */  jal     EnKarebaba_StateChange_Hidden              
 /* 00108 80A95458 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0010C 80A9545C 10000004 */  beq     $zero, $zero, .L80A95470   
 /* 00110 80A95460 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80A95464:
-/* 00114 80A95464 0C2A5552 */  jal     func_80A95548              
+/* 00114 80A95464 0C2A5552 */  jal     EnKarebaba_StateChange_Idle              
 /* 00118 80A95468 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0011C 80A9546C 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80A95470:

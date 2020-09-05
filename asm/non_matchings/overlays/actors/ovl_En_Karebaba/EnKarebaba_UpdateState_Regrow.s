@@ -6,7 +6,7 @@ glabel D_80A96B58
     .float 0.005
 
 .text
-glabel func_80A961DC
+glabel EnKarebaba_UpdateState_Regrow
 /* 00E8C 80A961DC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00E90 80A961E0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00E94 80A961E4 AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -52,7 +52,7 @@ glabel func_80A961DC
 /* 00F30 80A96280 0C00CDD2 */  jal     Actor_ChangeType
               
 /* 00F34 80A96284 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 00F38 80A96288 0C2A5552 */  jal     func_80A95548              
+/* 00F38 80A96288 0C2A5552 */  jal     EnKarebaba_StateChange_Idle              
 /* 00F3C 80A9628C 8FA40020 */  lw      $a0, 0x0020($sp)           
 .L80A96290:
 /* 00F40 80A96290 8FBF0014 */  lw      $ra, 0x0014($sp)           

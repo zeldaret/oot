@@ -16,7 +16,7 @@ glabel D_80A96B60
     .float 0.15
 
 .text
-glabel func_80A9644C
+glabel EnKarebaba_Draw_CenterShadow
 /* 010FC 80A9644C 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 01100 80A96450 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01104 80A96454 AFB00020 */  sw      $s0, 0x0020($sp)           

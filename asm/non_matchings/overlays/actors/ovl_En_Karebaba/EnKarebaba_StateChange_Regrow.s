@@ -1,4 +1,4 @@
-glabel func_80A958EC
+glabel EnKarebaba_StateChange_Regrow
 /* 0059C 80A958EC 3C0141B0 */  lui     $at, 0x41B0                ## $at = 41B00000
 /* 005A0 80A958F0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 005A4 80A958F4 44812000 */  mtc1    $at, $f4                   ## $f4 = 22.00
@@ -14,8 +14,8 @@ glabel func_80A958EC
               
 /* 005CC 80A9591C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 005D0 80A95920 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 005D4 80A95924 3C0F80A9 */  lui     $t7, %hi(func_80A961DC)    ## $t7 = 80A90000
-/* 005D8 80A95928 25EF61DC */  addiu   $t7, $t7, %lo(func_80A961DC) ## $t7 = 80A961DC
+/* 005D4 80A95924 3C0F80A9 */  lui     $t7, %hi(EnKarebaba_UpdateState_Regrow)    ## $t7 = 80A90000
+/* 005D8 80A95928 25EF61DC */  addiu   $t7, $t7, %lo(EnKarebaba_UpdateState_Regrow) ## $t7 = 80A961DC
 /* 005DC 80A9592C AC8F0190 */  sw      $t7, 0x0190($a0)           ## 00000190
 /* 005E0 80A95930 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 005E4 80A95934 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

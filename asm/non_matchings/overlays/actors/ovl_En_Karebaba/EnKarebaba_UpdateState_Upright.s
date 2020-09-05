@@ -1,4 +1,4 @@
-glabel func_80A95B0C
+glabel EnKarebaba_UpdateState_Upright
 /* 007BC 80A95B0C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 007C0 80A95B10 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 007C4 80A95B14 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -34,7 +34,7 @@ glabel func_80A95B0C
 /* 00828 80A95B78 33280002 */  andi    $t0, $t9, 0x0002           ## $t0 = 00000000
 /* 0082C 80A95B7C 11000008 */  beq     $t0, $zero, .L80A95BA0     
 /* 00830 80A95B80 24A50024 */  addiu   $a1, $a1, 0x0024           ## $a1 = 00000024
-/* 00834 80A95B84 0C2A55B4 */  jal     func_80A956D0              
+/* 00834 80A95B84 0C2A55B4 */  jal     EnKarebaba_StateChange_Dying              
 /* 00838 80A95B88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0083C 80A95B8C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00840 80A95B90 0C00CB1F */  jal     func_80032C7C              
@@ -52,7 +52,7 @@ glabel func_80A95B0C
 /* 00868 80A95BB8 00000000 */  nop
 /* 0086C 80A95BBC 45020006 */  bc1fl   .L80A95BD8                 
 /* 00870 80A95BC0 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
-/* 00874 80A95BC4 0C2A55F8 */  jal     func_80A957E0              
+/* 00874 80A95BC4 0C2A55F8 */  jal     EnKarebaba_StateChange_Retract              
 /* 00878 80A95BC8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0087C 80A95BCC 10000007 */  beq     $zero, $zero, .L80A95BEC   
 /* 00880 80A95BD0 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -60,7 +60,7 @@ glabel func_80A95B0C
 .L80A95BD8:
 /* 00888 80A95BD8 55200004 */  bnel    $t1, $zero, .L80A95BEC     
 /* 0088C 80A95BDC 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 00890 80A95BE0 0C2A55AE */  jal     func_80A956B8              
+/* 00890 80A95BE0 0C2A55AE */  jal     EnKarebaba_StateChange_Spin              
 /* 00894 80A95BE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00898 80A95BE8 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80A95BEC:

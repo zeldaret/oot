@@ -3,7 +3,7 @@ glabel D_80A96B50
     .float 0.005
 
 .text
-glabel func_80A95D90
+glabel EnKarebaba_UpdateState_Dying
 /* 00A40 80A95D90 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00A44 80A95D94 F7B40028 */  sdc1    $f20, 0x0028($sp)          
 /* 00A48 80A95D98 4480A000 */  mtc1    $zero, $f20                ## $f20 = 0.00
@@ -177,7 +177,7 @@ glabel func_80A95D90
 /* 00CB4 80A96004 0C00A1B3 */  jal     func_800286CC              
 /* 00CB8 80A96008 02203825 */  or      $a3, $s1, $zero            ## $a3 = 80A96A5C
 /* 00CBC 80A9600C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 00CC0 80A96010 0C2A55D2 */  jal     func_80A95748              
+/* 00CC0 80A96010 0C2A55D2 */  jal     EnKarebaba_StateChange_Dead_ItemDrop              
 /* 00CC4 80A96014 02A02825 */  or      $a1, $s5, $zero            ## $a1 = 00000000
 .L80A96018:
 /* 00CC8 80A96018 8FBF005C */  lw      $ra, 0x005C($sp)           
