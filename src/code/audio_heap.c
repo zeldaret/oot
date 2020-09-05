@@ -306,7 +306,7 @@ void* func_800DF074(s32 poolIdx, s32 arg1, s32 id) {
     return func_800DF0CC(poolIdx, arg1, id);
 }
 
-void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
+void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 bankId) {
     u32 i;
     SoundMultiPool* loadedPool;
     TemporaryPool* temporary;
@@ -327,10 +327,10 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
 
     temporary = &loadedPool->temporary;
     if (arg1 == 0) {
-        if (temporary->entries[0].id == id) {
+        if (temporary->entries[0].id == bankId) {
             temporary->nextSide = 1;
             return temporary->entries[0].ptr;
-        } else if (temporary->entries[1].id == id) {
+        } else if (temporary->entries[1].id == bankId) {
             temporary->nextSide = 0;
             return temporary->entries[1].ptr;
         } else {
@@ -340,13 +340,13 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id) {
 
     persistent = &loadedPool->persistent;
     for (i = 0; i < persistent->numEntries; i++) {
-        if (persistent->entries[i].id == id) {
+        if (persistent->entries[i].id == bankId) {
             return persistent->entries[i].ptr;
         }
     }
 
     if (arg1 == 2) {
-        return func_800DF074(poolIdx, 0, id);
+        return func_800DF074(poolIdx, 0, bankId);
     }
     return NULL;
 }
@@ -418,7 +418,7 @@ void func_800DF688(s16 *arg0, s32 arg1, s32 arg2) {
     }
 }
 
-void func_800DF7BC(SynthesisReverb* arg0) {
+void func_800DF7BC(SynthesisReverb* reverb) {
 }
 
 void func_800DF7C4(void) {
@@ -787,7 +787,7 @@ void func_800E0634(u32 arg0, u32 arg1) {
 // somewhat big
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E06CC.s")
 
-void func_800E0964(UNK_PTR arg0, s32 bankId) {
+void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
     Drum *drum;
     Instrument *inst;
     UnkInstrument *unkInst;
@@ -799,26 +799,26 @@ void func_800E0964(UNK_PTR arg0, s32 bankId) {
         inst = Audio_GetInstrumentInner(bankId, instId);
         if (inst != NULL) {
             if (inst->normalRangeLo != 0) {
-                func_800E0BB4(arg0, inst->lowNotesSound.sample);
+                func_800E0BB4(entry, inst->lowNotesSound.sample);
             }
             if (inst->normalRangeHi != 0x7F) {
-                func_800E0BB4(arg0, inst->highNotesSound.sample);
+                func_800E0BB4(entry, inst->highNotesSound.sample);
             }
-            func_800E0BB4(arg0, inst->normalNotesSound.sample);
+            func_800E0BB4(entry, inst->normalNotesSound.sample);
         }
     }
 
     for (drumId = 0; drumId < gAudioContext.gCtlEntries[bankId].numDrums; drumId++) {
         drum = Audio_GetDrum(bankId, drumId);
         if (drum != NULL) {
-            func_800E0BB4(arg0, drum->sound.sample);
+            func_800E0BB4(entry, drum->sound.sample);
         }
     }
 
     for (unkInstId = 0; unkInstId < gAudioContext.gCtlEntries[bankId].numUnkInstruments; unkInstId++) {
         unkInst = Audio_GetUnkInstrument(bankId, unkInstId);
         if (unkInst != NULL) {
-            func_800E0BB4(arg0, unkInst->unk_0);
+            func_800E0BB4(entry, unkInst->unk_0);
         }
     }
 }
@@ -845,35 +845,35 @@ UnkHeapEntry* func_800E0BF8(u32 size) {
     return entry;
 }
 
-void func_800E0C80(UnkHeapEntry* entry, s32 arg1, s32 arg2, s32 arg3) {
+void func_800E0C80(UnkHeapEntry* entry, s32 arg1, s32 arg2, s32 bankId) {
     if ((entry->unk_02 == arg1) || (entry->unk_02 == arg2) || (entry->unk_02 == 0)) {
-        func_800E0964(entry, arg3);
+        func_800E0964(entry, bankId);
     }
 }
 
 void func_800E0CBC(void) {
-    s32 count;
+    s32 numBanks;
     s32 unk2;
     s32 unk3;
-    s32 i;
+    s32 bankId;
     s32 j;
 
-    count = *gAudioContext.unk_2834;
-    for (i = 0; i < count; i++) {
-        unk2 = gAudioContext.gCtlEntries[i].unk_02;
-        unk3 = gAudioContext.gCtlEntries[i].unk_03;
+    numBanks = *gAudioContext.unk_2834;
+    for (bankId = 0; bankId < numBanks; bankId++) {
+        unk2 = gAudioContext.gCtlEntries[bankId].unk_02;
+        unk3 = gAudioContext.gCtlEntries[bankId].unk_03;
         if ((unk2 == 0xFF) && (unk3 == 0xFF)) {
             continue;
         }
-        if (func_800DF074(1, 3, i) == NULL || !Audio_IsBankLoadComplete(i)) {
+        if (func_800DF074(1, 3, bankId) == NULL || !Audio_IsBankLoadComplete(bankId)) {
             continue;
         }
 
         for (j = 0; j < gAudioContext.unk_2EE0.size; j++) {
-            func_800E0C80(&gAudioContext.unk_2EE0.entries[j], temp_s2, temp_s3, i);
+            func_800E0C80(&gAudioContext.unk_2EE0.entries[j], unk2, unk3, bankId);
         }
         for (j = 0; j < gAudioContext.unk_3174.size; j++) {
-            func_800E0C80(&gAudioContext.unk_3174.entries[j], temp_s2, temp_s3, i);
+            func_800E0C80(&gAudioContext.unk_3174.entries[j], unk2, unk3, bankId);
         }
     }
 }
