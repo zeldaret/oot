@@ -40,7 +40,7 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
-        this->displayList = SEGMENTED_TO_VIRTUAL(D_060098A0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(D_060098A0);
         this->life = initParams->life;
         this->regs[SS_D_FIRE_SCALE] = initParams->scale;
         this->regs[SS_D_FIRE_SCALE_STEP] = initParams->scaleStep;
@@ -95,7 +95,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                             this->regs[SS_D_FIRE_PRIM_B], this->regs[SS_D_FIRE_PRIM_A]);
             gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
             gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A09F8[this->regs[SS_D_FIRE_TEX_IDX]]));
-            gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
         }
     }
 

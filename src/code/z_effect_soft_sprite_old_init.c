@@ -25,6 +25,7 @@
 #include "overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
 #include "overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Db/z_eff_ss_dead_db.h"
@@ -81,7 +82,7 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
         func_80094C50(oGfxCtx);
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[3], this->regs[4], this->regs[5], this->regs[6]);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[7], this->regs[8], this->regs[9], this->regs[10]);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 243);
@@ -816,9 +817,41 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
 
 // EffectSsEnFire Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A4D4.s")
+void func_8002A4D4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 unk_10, s16 unk_12, s16 unk_14, s16 unk_16) {
+    EffectSsEnFireInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A54C.s")
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.actor = actor;
+    initParams.unk_10 = unk_10;
+    initParams.unk_12 = unk_12;
+    initParams.reg8 = unk_14;
+    initParams.reg7 = unk_16;
+
+    if (actor != NULL) {
+        Audio_PlayActorSound2(actor, NA_SE_EV_FLAME_IGNITION);
+    }
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_EN_FIRE, 128, &initParams);
+}
+
+void func_8002A54C(GlobalContext* globalCtx, Actor* actor, Vec3s* vec, s16 arg3, s16 arg4, s16 arg5, s16 arg6) {
+    EffectSsEnFireInitParams initParams;
+
+    initParams.pos.x = vec->x;
+    initParams.pos.y = vec->y;
+    initParams.pos.z = vec->z;
+    initParams.actor = actor;
+    initParams.unk_10 = arg3;
+    initParams.unk_12 = arg4;
+    initParams.reg8 = arg5 | 0x8000;
+    initParams.reg7 = arg6;
+
+    if (actor != NULL) {
+        Audio_PlayActorSound2(actor, NA_SE_EV_FLAME_IGNITION);
+    }
+
+    EffectSs_Spawn(globalCtx, 0x1D, 0x80, &initParams);
+}
 
 // EffectSsExtra Spawn Functions
 

@@ -53,7 +53,7 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->displayList = SEGMENTED_TO_VIRTUAL(&D_0400BF80);
+    this->gfx = SEGMENTED_TO_VIRTUAL(&D_0400BF80);
     this->life = 24;
     this->update = EffectSsBomb2_Update;
     this->draw = sDrawFuncs[initParams->drawMode];
@@ -99,7 +99,7 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_BOMB2_ENV_R], this->regs[SS_BOMB2_ENV_G],
                        this->regs[SS_BOMB2_ENV_B], 0);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099FEE0[this->regs[SS_BOMB2_TEX_IDX]]));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
         if (1) {}
         if (1) {}
     }

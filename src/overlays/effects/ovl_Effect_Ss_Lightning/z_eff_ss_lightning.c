@@ -40,7 +40,7 @@ u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, 
     EffectSsLightningInitParams* initParams = (EffectSsLightningInitParams*)initParamsx;
 
     this->pos = initParams->pos;
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_0402CF30);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_0402CF30);
     this->life = initParams->life;
     this->draw = EffectSsLightning_Draw;
     this->update = EffectSsLightning_Update;
@@ -98,7 +98,7 @@ void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this)
     SkinMatrix_SetTranslate(&sp164, this->pos.x, this->pos.y, this->pos.z);
     xzScale = yScale * 0.6f;
     SkinMatrix_SetScale(&sp124, xzScale, yScale, xzScale);
-    SkinMatrix_SetRotateRPY(&spE4, this->unk_2C.x, this->unk_2C.y, this->regs[SS_LIGHTNING_YAW]);
+    SkinMatrix_SetRotateRPY(&spE4, this->vec.x, this->vec.y, this->regs[SS_LIGHTNING_YAW]);
     SkinMatrix_MtxFMtxFMult(&sp164, &globalCtx->mf_11DA0, &spA4);
     SkinMatrix_MtxFMtxFMult(&spA4, &spE4, &sp64);
     SkinMatrix_MtxFMtxFMult(&sp64, &sp124, &sp1A4);
@@ -115,7 +115,7 @@ void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this)
                         this->regs[SS_LIGHTNING_PRIM_B], this->regs[SS_LIGHTNING_PRIM_A]);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_LIGHTNING_ENV_R], this->regs[SS_LIGHTNING_ENV_G],
                        this->regs[SS_LIGHTNING_ENV_B], this->regs[SS_LIGHTNING_ENV_A]);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_lightning.c", 281);

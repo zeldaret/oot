@@ -41,9 +41,9 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->accel = initParams->accel;
 
     if (KREG(2) != 0) {
-        this->displayList = SEGMENTED_TO_VIRTUAL(D_04055EB0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(D_04055EB0);
     } else {
-        this->displayList = SEGMENTED_TO_VIRTUAL(D_04055DB0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(D_04055DB0);
     }
 
     this->life = ((s16)((Math_Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
@@ -81,7 +81,7 @@ void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                     this->regs[SS_SIBUKI_PRIM_B], this->regs[SS_SIBUKI_PRIM_A]);
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->regs[SS_SIBUKI_ENV_R], this->regs[SS_SIBUKI_ENV_G],
                    this->regs[SS_SIBUKI_ENV_B], this->regs[SS_SIBUKI_ENV_A]);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, this->displayList);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, this->gfx);
     gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki.c", 198);

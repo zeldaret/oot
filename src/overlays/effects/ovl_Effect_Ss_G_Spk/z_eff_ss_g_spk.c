@@ -20,7 +20,7 @@ typedef enum {
     /* 0x0A */ SS_G_SPK_SCALE_STEP
 } EffectSsGSpkRegs;
 
-#define SPARK_SOURCE ((Actor*)this->unk_3C)
+#define SPARK_SOURCE ((Actor*)this->actor)
 
 u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -47,13 +47,13 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_04025550);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_04025550);
 
     if (initParams->updateMode == 0) {
         this->life = 10;
-        this->unk_2C.x = initParams->pos.x - initParams->actor->posRot.pos.x;
-        this->unk_2C.y = initParams->pos.y - initParams->actor->posRot.pos.y;
-        this->unk_2C.z = initParams->pos.z - initParams->actor->posRot.pos.z;
+        this->vec.x = initParams->pos.x - initParams->actor->posRot.pos.x;
+        this->vec.y = initParams->pos.y - initParams->actor->posRot.pos.y;
+        this->vec.z = initParams->pos.z - initParams->actor->posRot.pos.z;
         this->update = EffectSsGSpk_Update;
     } else {
         this->life = 5;
@@ -72,7 +72,7 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     this->regs[SS_G_SPK_TEX_IDX] = 0;
     this->regs[SS_G_SPK_SCALE] = initParams->scale;
     this->regs[SS_G_SPK_SCALE_STEP] = initParams->scaleStep;
-    this->unk_3C = initParams->actor;
+    this->actor = initParams->actor;
 
     return 1;
 }
@@ -108,7 +108,7 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_SPK_ENV_R], this->regs[SS_G_SPK_ENV_G],
                        this->regs[SS_G_SPK_ENV_B], this->regs[SS_G_SPK_ENV_A]);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     if (1) {}
@@ -124,14 +124,14 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (SPARK_SOURCE != NULL) {
         if ((SPARK_SOURCE->type == ACTORTYPE_EXPLOSIVES) && (SPARK_SOURCE->update != NULL)) {
-            this->pos.x = SPARK_SOURCE->posRot.pos.x + this->unk_2C.x;
-            this->pos.y = SPARK_SOURCE->posRot.pos.y + this->unk_2C.y;
-            this->pos.z = SPARK_SOURCE->posRot.pos.z + this->unk_2C.z;
+            this->pos.x = SPARK_SOURCE->posRot.pos.x + this->vec.x;
+            this->pos.y = SPARK_SOURCE->posRot.pos.y + this->vec.y;
+            this->pos.z = SPARK_SOURCE->posRot.pos.z + this->vec.z;
         }
     }
 
-    this->unk_2C.x += this->accel.x;
-    this->unk_2C.z += this->accel.z;
+    this->vec.x += this->accel.x;
+    this->vec.z += this->accel.z;
 
     this->regs[SS_G_SPK_TEX_IDX]++;
     this->regs[SS_G_SPK_TEX_IDX] &= 3;

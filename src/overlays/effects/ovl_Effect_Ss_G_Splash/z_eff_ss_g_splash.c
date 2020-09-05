@@ -50,7 +50,7 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         initParams->scale = 600;
     }
 
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_04027DF0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_04027DF0);
     this->life = 8;
     this->regs[SS_G_SPLASH_SCALE] = initParams->scale;
     this->regs[SS_G_SPLASH_TEX_IDX] = 0;

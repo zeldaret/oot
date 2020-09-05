@@ -46,7 +46,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->displayList = SEGMENTED_TO_VIRTUAL(&D_04010050);
+    this->gfx = SEGMENTED_TO_VIRTUAL(&D_04010050);
     this->life = initParams->life;
     this->update = sUpdateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;
@@ -125,7 +125,7 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                         this->regs[SS_DUST_PRIM_B], 255);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_DUST_ENV_R], this->regs[SS_DUST_ENV_G],
                        this->regs[SS_DUST_ENV_B], this->regs[SS_DUST_ENV_A]);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dust.c", 389);

@@ -38,7 +38,7 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     EffectSsFireTailInitParams* initParams = (EffectSsFireTailInitParams*)initParamsx;
 
     this->pos = initParams->pos;
-    this->unk_2C = initParams->unk_14;
+    this->vec = initParams->unk_14;
     this->velocity.x = 0.0f;
     this->velocity.y = 0.0f;
     this->velocity.z = 0.0f;
@@ -46,7 +46,7 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->accel.y = 0.0f;
     this->accel.z = 0.0f;
     this->life = initParams->life;
-    this->unk_3C = initParams->actor;
+    this->actor = initParams->actor;
     this->draw = func_809A5858;
     this->update = func_809A5D98;
     this->regs[SS_FIRE_TAIL_SCALE] = initParams->unk_10 * 1000.0f;
@@ -88,10 +88,10 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_fire_tail.c", 182);
 
     spA0.x = spA0.y = spA0.z = 0.0f;
-    actor = this->unk_3C;
+    actor = this->actor;
 
     if (actor != NULL) { // 16C
-        this->unk_2C = actor->velocity;
+        this->vec = actor->velocity;
         limb = this->regs[SS_FIRE_TAIL_B];
         if (limb < 0) { // 194
             Matrix_Translate(this->pos.x + actor->posRot.pos.x, this->pos.y + actor->posRot.pos.y,
@@ -109,10 +109,10 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     }
 
-    yaw = Math_Vec3f_Yaw(&spA0, &this->unk_2C) - func_8005A9F4(ACTIVE_CAM);
+    yaw = Math_Vec3f_Yaw(&spA0, &this->vec) - func_8005A9F4(ACTIVE_CAM);
     sp9C = fabsf(Math_Coss(yaw));
     sp98 = Math_Sins(yaw);
-    sp94 = Math_Vec3f_DistXZ(&spA0, &this->unk_2C) / (this->regs[SS_FIRE_TAIL_A] * 0.1f); // div being weird
+    sp94 = Math_Vec3f_DistXZ(&spA0, &this->vec) / (this->regs[SS_FIRE_TAIL_A] * 0.1f); // div being weird
 
     Matrix_RotateY(((((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000)))) * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateZ(((this->regs[SS_FIRE_TAIL_2] * sp98) * sp94) * 0.017453292f, MTXMODE_APPLY);

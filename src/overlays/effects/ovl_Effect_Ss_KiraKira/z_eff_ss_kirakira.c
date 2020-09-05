@@ -44,12 +44,12 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 
     if ((this->life = initParams->life) < 0) {
         this->life = -this->life;
-        this->displayList = SEGMENTED_TO_VIRTUAL(D_04037880);
+        this->gfx = SEGMENTED_TO_VIRTUAL(D_04037880);
         this->update = func_809AAD6C;
         this->regs[SS_KIRAKIRA_ENV_A] = initParams->scale;
         this->regs[SS_KIRAKIRA_SCALE] = 0;
     } else {
-        this->displayList = SEGMENTED_TO_VIRTUAL(D_04037880);
+        this->gfx = SEGMENTED_TO_VIRTUAL(D_04037880);
 
         if (initParams->updateMode == 0) {
             this->update = func_809AABF0;
@@ -112,7 +112,7 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
                         (((s8)((55.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life) + 200)));
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_KIRAKIRA_ENV_R], this->regs[SS_KIRAKIRA_ENV_G],
                        this->regs[SS_KIRAKIRA_ENV_B], this->regs[SS_KIRAKIRA_ENV_A]);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_kirakira.c", 301);

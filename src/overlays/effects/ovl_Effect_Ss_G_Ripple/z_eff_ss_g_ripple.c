@@ -45,7 +45,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->accel = zeroVec;
     this->velocity = zeroVec;
     this->pos = initParams->pos;
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_040254B0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_040254B0);
     this->life = initParams->life + 20;
     this->flags = 0;
     this->draw = EffectSsGRipple_Draw;
@@ -105,7 +105,7 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
                        this->regs[SS_G_RIPPLE_ENV_B], this->regs[SS_G_RIPPLE_ENV_A]);
         gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
         gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_NOISE);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 247);

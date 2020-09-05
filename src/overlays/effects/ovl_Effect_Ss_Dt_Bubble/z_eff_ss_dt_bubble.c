@@ -42,7 +42,7 @@ u32 EffectSsDtBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     // @bug Math_Rand_ZeroOne in the macro means a random number is rolled for both parts of the macro.
     // In the base game this works out because both addresses are segment 4, but it may break if
     // the addresses were changed to refer to different segments
-    this->displayList = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
 
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
@@ -96,7 +96,7 @@ void EffectSsDtBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_DT_BUBBLE_ENV_R], this->regs[SS_DT_BUBBLE_ENV_G],
                    this->regs[SS_DT_BUBBLE_ENV_B],
                    (this->regs[SS_DT_BUBBLE_ENV_A] * this->life) / this->regs[SS_DT_BUBBLE_LIFE_START]);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, this->displayList);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, this->gfx);
     gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dt_bubble.c", 236);

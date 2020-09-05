@@ -55,7 +55,7 @@ u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         this->draw = func_809A6568;
         this->update = func_809A67C0;
 
-        this->displayList = SEGMENTED_TO_VIRTUAL(D_06025A90);
+        this->gfx = SEGMENTED_TO_VIRTUAL(D_06025A90);
         this->regs[SS_G_MAGMA2_TEX_IDX] = 0;
         this->regs[SS_G_MAGMA2_9] = initParams->unk_16;
         this->regs[SS_G_MAGMA2_8] = initParams->unk_14;
@@ -102,7 +102,7 @@ void func_809A6568(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_MAGMA2_ENV_R], this->regs[SS_G_MAGMA2_ENV_G], 0,
                    this->regs[SS_G_MAGMA2_ENV_A]);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A6860[this->regs[SS_G_MAGMA2_TEX_IDX]]));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 311);
 }

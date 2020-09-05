@@ -43,7 +43,7 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_04031FE0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_04031FE0);
     this->life = initParams->unk_34;
     this->flags = 4;
     this->regs[SS_DEAD_DB_SCALE_STEP] = initParams->scaleStep;
@@ -90,7 +90,7 @@ void EffectSsDeadDb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_DEAD_DB_PRIM_R], this->regs[SS_DEAD_DB_PRIM_G],
                         this->regs[SS_DEAD_DB_PRIM_B], this->regs[SS_DEAD_DB_PRIM_A]);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A0F28[this->regs[SS_DEAD_DB_1]]));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dead_db.c", 247);
@@ -134,7 +134,7 @@ void EffectSsDeadDb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     }
 
     if ((this->regs[SS_DEAD_DB_A] != 0) && (this->regs[SS_DEAD_DB_1] == 1)) {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->pos, &this->unk_2C, &w);
-        Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->unk_2C, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->pos, &this->vec, &w);
+        Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->vec, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }

@@ -26,12 +26,13 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsEnIce_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_En_Ice_InitVars = {
     EFFECT_SS_EN_ICE,
     EffectSsEnIce_Init,
 };
-*/
+
+Vec3f D_809A3B88 = { 0.0f, 0.0f, 0.0f };
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_En_Ice/EffectSsEnIce_Init.s")
 

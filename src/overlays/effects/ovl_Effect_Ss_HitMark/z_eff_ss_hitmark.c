@@ -48,7 +48,7 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     s32 colorIdx;
     EffectSsHitMarkInitParams* initParams = (EffectSsHitMarkInitParams*)initParamsx;
     this->pos = initParams->pos;
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_04021770);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_04021770);
 
     if (initParams->unk_00 == 1) {
         this->life = 16;
@@ -102,7 +102,7 @@ void EffectSsHitMark_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                         this->regs[SS_HITMARK_PRIM_B], 255);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_HITMARK_ENV_R], this->regs[SS_HITMARK_ENV_G],
                        this->regs[SS_HITMARK_ENV_B], 0);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_hitmark.c", 341);
 }

@@ -893,6 +893,10 @@ D_0400CD80 = 0x0400CD80;
 // z_eff_ss_k_fire
 D_0404D4E0 = 0x0404D4E0;
 
+// z_eff_ss_en_fire
+D_0404D5A0 = 0x0404D5A0;
+D_0404D4E0 = 0x0404D4E0;
+
 // z_en_fhg_fire
 D_0600FAA0 = 0x0600FAA0;
 D_0600FCF8 = 0x0600FCF8;

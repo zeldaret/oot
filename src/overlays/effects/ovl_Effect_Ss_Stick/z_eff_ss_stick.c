@@ -35,10 +35,10 @@ u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     Vec3f pos;
 
     this->regs[SS_STICK_OBJ_BANK_IDX] = Object_GetIndex(&globalCtx->objectCtx, ageInfoEntry->objectID);
-    this->displayList = ageInfoEntry->displayList;
+    this->gfx = ageInfoEntry->displayList;
     pos = initParams->pos;
     this->pos = pos;
-    this->unk_2C = pos;
+    this->vec = pos;
     this->regs[SS_STICK_YAW] = initParams->yaw;
     this->velocity.x = Math_Sins(initParams->yaw) * 6.0f;
     this->velocity.z = Math_Coss(initParams->yaw) * 6.0f;
@@ -71,7 +71,7 @@ void EffectSsStick_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_80093D18(oGfxCtx);
     gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->regs[SS_STICK_OBJ_BANK_IDX]].segment);
     gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, D_80125F98);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, this->displayList);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_stick.c", 188);
 }

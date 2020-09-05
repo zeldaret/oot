@@ -1756,14 +1756,12 @@ endseg
 beginseg
     name "ovl_Effect_Ss_En_Fire"
     include "build/src/overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.o"
-    include "build/data/overlays/effects/z_eff_ss_en_fire.data.o"
     include "build/data/overlays/effects/z_eff_ss_en_fire.reloc.o"
 endseg
 
 beginseg
     name "ovl_Effect_Ss_En_Ice"
     include "build/src/overlays/effects/ovl_Effect_Ss_En_Ice/z_eff_ss_en_ice.o"
-    include "build/data/overlays/effects/z_eff_ss_en_ice.data.o"
     include "build/data/overlays/effects/z_eff_ss_en_ice.reloc.o"
 endseg
 
@@ -1842,7 +1840,6 @@ endseg
 beginseg
     name "ovl_Effect_Ss_Ice_Piece"
     include "build/src/overlays/effects/ovl_Effect_Ss_Ice_Piece/z_eff_ss_ice_piece.o"
-    include "build/data/overlays/effects/z_eff_ss_ice_piece.data.o"
     include "build/data/overlays/effects/z_eff_ss_ice_piece.reloc.o"
 endseg
 

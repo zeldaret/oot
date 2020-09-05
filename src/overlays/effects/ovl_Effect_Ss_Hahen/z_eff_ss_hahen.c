@@ -49,15 +49,15 @@ u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->life = 200;
 
     if (initParams->dList != NULL) {
-        this->displayList = initParams->dList;
+        this->gfx = initParams->dList;
         this->regs[SS_HAHEN_OBJ_ID] = initParams->objId;
         func_809A79F0(this, globalCtx);
     } else {
-        this->displayList = SEGMENTED_TO_VIRTUAL(D_0400C0D0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(D_0400C0D0);
         this->regs[SS_HAHEN_OBJ_ID] = -1;
     }
 
-    if ((this->regs[SS_HAHEN_OBJ_ID] == 0x69) && (this->displayList == D_0400CD80)) {
+    if ((this->regs[SS_HAHEN_OBJ_ID] == 0x69) && (this->gfx == D_0400CD80)) {
         this->draw = func_809A7D9C;
     } else {
         this->draw = func_809A7BFC;
@@ -91,7 +91,7 @@ void func_809A7BFC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_hahen.c", 228),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, this->displayList);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_hahen.c", 236);
 }
@@ -117,7 +117,7 @@ void func_809A7D9C(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetCombineLERP(oGfxCtx->polyOpa.p++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0,
                       SHADE, 0, PRIMITIVE, 0);
     gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x0, 0x01, 100, 100, 120, 255);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, this->displayList);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_hahen.c", 288);
 }

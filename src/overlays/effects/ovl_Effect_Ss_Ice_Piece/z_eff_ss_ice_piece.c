@@ -26,12 +26,10 @@ u32 EffectSsIcePiece_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 void EffectSsIcePiece_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsIcePiece_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_Ice_Piece_InitVars = {
     EFFECT_SS_ICE_PIECE,
     EffectSsIcePiece_Init,
 };
-*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Ice_Piece/EffectSsIcePiece_Init.s")
 

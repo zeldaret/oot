@@ -43,7 +43,7 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->priority = 101;
 
     if (initParams->dList != NULL) {
-        this->displayList = initParams->dList;
+        this->gfx = initParams->dList;
         objId = initParams->objId;
 
         if (objId == OBJECT_GAMEPLAY_KEEP || objId == OBJECT_GAMEPLAY_FIELD_KEEP ||
@@ -61,7 +61,7 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 
     this->draw = EffectSsKakera_Draw;
     this->update = EffectSsKakera_Update;
-    this->unk_2C = initParams->unk_18;
+    this->vec = initParams->unk_18;
     this->regs[SS_KAKERA_0] = initParams->unk_2C;
     this->regs[SS_KAKERA_1] = initParams->unk_24;
     this->regs[SS_KAKERA_PITCH] = Math_Rand_ZeroOne() * 32767.0f;
@@ -125,7 +125,7 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                             D_809AA528[colorIdx].b, 255);
         }
 
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     } else {
         gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 286),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -136,7 +136,7 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                             D_809AA528[colorIdx].b, 255);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_kakera.c", 302);
@@ -322,9 +322,9 @@ s32 func_809AA0EC(EffectSs* this) {
 
     func_809A9DC0(this);
 
-    diff.x = this->pos.x - this->unk_2C.x;
-    diff.y = this->pos.y - this->unk_2C.y;
-    diff.z = this->pos.z - this->unk_2C.z;
+    diff.x = this->pos.x - this->vec.x;
+    diff.y = this->pos.y - this->vec.y;
+    diff.z = this->pos.z - this->vec.z;
 
     dist = sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z));
 

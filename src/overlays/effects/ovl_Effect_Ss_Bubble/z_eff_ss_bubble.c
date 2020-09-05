@@ -26,12 +26,12 @@ extern Gfx D_0401A160[];
 u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBubbleInitParams* initParams = (EffectSsBubbleInitParams*)initParamsx;
 
-    this->displayList = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
     this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.x;
     this->pos.y =
         (((Math_Rand_ZeroOne() - 0.5f) * initParams->yPosRandScale) + initParams->yPosOffset) + initParams->pos.y;
     this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.z;
-    Math_Vec3f_Copy(&this->unk_2C, &this->pos);
+    Math_Vec3f_Copy(&this->vec, &this->pos);
     this->life = 1;
     this->regs[SS_BUBBLE_SCALE] = (((Math_Rand_ZeroOne() * 0.5f) + 1.0f) * initParams->scale) * 100;
     this->draw = EffectSsBubble_Draw;
@@ -53,7 +53,7 @@ void EffectSsBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_80093D18(gfxCtx);
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 150, 150, 150, 0);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, this->displayList);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, this->gfx);
     gSPDisplayList(gfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bubble.c", 179);
@@ -80,8 +80,8 @@ void EffectSsBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->life = -1;
     } else {
         this->life++;
-        this->pos.x = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + this->unk_2C.x;
+        this->pos.x = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + this->vec.x;
         this->accel.y = (Math_Rand_ZeroOne() - 0.3f) * 0.2f;
-        this->pos.z = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + this->unk_2C.z;
+        this->pos.z = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + this->vec.z;
     }
 }

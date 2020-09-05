@@ -42,7 +42,7 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->pos = initParams->pos;
     this->draw = EffectSsGFire_Draw;
     this->update = EffectSsGFire_Update;
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_0401C220);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_0401C220);
     this->life = 8;
     this->flags = 0;
     this->regs[SS_G_FIRE_SCALE] = 200;

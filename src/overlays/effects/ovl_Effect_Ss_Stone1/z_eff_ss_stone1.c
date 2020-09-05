@@ -43,7 +43,7 @@ u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     Vec3f pos = initParams->pos;
 
     this->pos = pos;
-    this->unk_2C = pos;
+    this->vec = pos;
     this->life = 8;
     this->regs[SS_STONE1_0] = initParams->unk_C;
     this->draw = EffectSsStone1_Draw;

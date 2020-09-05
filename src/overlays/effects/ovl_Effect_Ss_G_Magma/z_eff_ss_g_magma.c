@@ -42,7 +42,7 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->pos = initParams->pos;
     this->draw = EffectSsGMagma_Draw;
     this->update = EffectSsGMagma_Update;
-    this->displayList = SEGMENTED_TO_VIRTUAL(D_04024410);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_04024410);
     this->life = 16;
     this->regs[SS_G_MAGMA_SCALE] = (s16)(Math_Rand_ZeroOne() * 100.0f) + 200;
     this->regs[SS_G_MAGMA_TEX_IDX] = 0;

@@ -27,11 +27,11 @@ u32 EffectSsFcircle_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     EffectSsFcircleInitParams* initParams = (EffectSsFcircleInitParams*)initParamsx;
 
     this->pos = initParams->pos;
-    this->unk_3C = initParams->actor;
-    this->unk_2C.x = initParams->pos.x - initParams->actor->posRot.pos.x;
-    this->unk_2C.y = initParams->pos.y - initParams->actor->posRot.pos.y;
-    this->unk_2C.z = initParams->pos.z - initParams->actor->posRot.pos.z;
-    this->displayList = D_040184B0;
+    this->actor = initParams->actor;
+    this->vec.x = initParams->pos.x - initParams->actor->posRot.pos.x;
+    this->vec.y = initParams->pos.y - initParams->actor->posRot.pos.y;
+    this->vec.z = initParams->pos.z - initParams->actor->posRot.pos.z;
+    this->gfx = D_040184B0;
     this->life = 20;
     this->draw = EffectSsFcircle_Draw;
     this->update = EffectSsFcircle_Update;
@@ -68,19 +68,19 @@ void EffectSsFcircle_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                                 ((globalCtx->gameplayFrames) * -0xF) % 256, 32, 64));
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 220, 0, (this->life * 12.75f));
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fcircle.c", 186);
 }
 
 void EffectSsFcircle_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    Actor* actor = this->unk_3C;
+    Actor* actor = this->actor;
 
     if (actor != NULL) {
         if (actor->update != NULL) {
-            this->pos.x = actor->posRot.pos.x + this->unk_2C.x;
-            this->pos.y = actor->posRot.pos.y + this->unk_2C.y;
-            this->pos.z = actor->posRot.pos.z + this->unk_2C.z;
+            this->pos.x = actor->posRot.pos.x + this->vec.x;
+            this->pos.y = actor->posRot.pos.y + this->vec.y;
+            this->pos.z = actor->posRot.pos.z + this->vec.z;
             this->regs[SS_FCIRCLE_YAW] = actor->shape.rot.y;
 
             if (actor->dmgEffectTimer > 20) {
@@ -91,7 +91,7 @@ void EffectSsFcircle_Update(GlobalContext* globalCtx, u32 index, EffectSs* this)
 
             Math_ApproxS(&this->regs[SS_FCIRCLE_SCALE], 100, 20);
         } else {
-            this->unk_3C = NULL;
+            this->actor = NULL;
         }
     }
 }

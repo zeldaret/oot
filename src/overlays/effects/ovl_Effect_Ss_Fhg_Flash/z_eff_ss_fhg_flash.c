@@ -123,14 +123,14 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
             this->regs[SS_FHG_FLASH_0] = 0xFF;
             this->draw = func_809A49B8;
             this->update = func_809A4E28;
-            this->displayList = SEGMENTED_TO_VIRTUAL(D_06012160);
+            this->gfx = SEGMENTED_TO_VIRTUAL(D_06012160);
             gSegments[6] = oldSeg6;
         } else {
             osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
             return 0;
         }
     } else {
-        this->unk_3C = initParams->unk_28;
+        this->actor = initParams->unk_28;
         sp24 = sp40;
         this->accel = sp24;
         this->velocity = sp24;
@@ -143,10 +143,10 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 
         if (initParams->unk_26 != 0) {
             this->pos = sp34;
-            this->displayList = SEGMENTED_TO_VIRTUAL(D_809A5100);
+            this->gfx = SEGMENTED_TO_VIRTUAL(D_809A5100);
         } else {
             this->pos = initParams->pos;
-            this->displayList = SEGMENTED_TO_VIRTUAL(D_809A5100);
+            this->gfx = SEGMENTED_TO_VIRTUAL(D_809A5100);
         }
     }
     return 1;
@@ -176,7 +176,7 @@ void func_809A49B8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_RotateZ((this->regs[SS_FHG_FLASH_3] / 32768.0f) * 3.1416f, MTXMODE_APPLY); // pi?
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 326),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 330);
 }
@@ -209,7 +209,7 @@ void func_809A4BE8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_RotateZ((this->regs[SS_FHG_FLASH_3] / 32768.0f) * 3.1416f, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 395),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 399);
 }
@@ -253,7 +253,7 @@ void func_809A4EC0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         this->pos.y = player->unk_908[randomLimb].y + Math_Rand_CenteredFloat(15.0f);
         this->pos.z = player->unk_908[randomLimb].z + Math_Rand_CenteredFloat(10.0f);
     } else if (this->regs[SS_FHG_FLASH_4] == 2) {
-        phantomGanon = (BossGanondrof*)this->unk_3C;
+        phantomGanon = (BossGanondrof*)this->actor;
         randomLimb = Math_Rand_ZeroFloat(23.9f);
         this->pos.x = phantomGanon->limbPos[randomLimb].x + Math_Rand_CenteredFloat(15.0f);
         this->pos.y = phantomGanon->limbPos[randomLimb].y + Math_Rand_CenteredFloat(20.0f);
