@@ -184,7 +184,14 @@ block_5:
 //     &this->actionFunc = &func_808B44CC;
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B44CC.s")
+void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
+    Player *temp_v0 = PLAYER;
+
+    temp_v0->stateFlags2 = (s32) (temp_v0->stateFlags2 & -0x11);
+    this->dyna.unk_150 = 0.0f;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B44CC.s")
 
 void BgSpot15Rrbox_Update(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
 
