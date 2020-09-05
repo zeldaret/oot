@@ -803,7 +803,9 @@ void func_800E0964(UNK_PTR arg0, s32 bankId) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0E0C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0E6C.s")
+void func_800E0E6C(s32 id) {
+    func_800E0EB4(0, id);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0E90.s")
 
