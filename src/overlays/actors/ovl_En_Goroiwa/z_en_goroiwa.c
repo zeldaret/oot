@@ -197,26 +197,22 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C594.s")
 
-#ifdef NON_MATCHING
 bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path;
-    Vec3s* temp_a3;
-    bool temp_v1;
     bool temp_v0;
+    s32 pad;
+    Vec3s* temp_a3;
 
     Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     func_8002D868(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     temp_a3 = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint2];
-    temp_v1 = Math_ApproxF(&this->actor.posRot.pos.x, temp_a3->x, fabsf(this->actor.velocity.x)) & 1;
-    temp_v0 = temp_v1 & Math_ApproxF(&this->actor.posRot.pos.z, temp_a3->z, fabsf(this->actor.velocity.z));
+    temp_v0 = Math_ApproxF(&this->actor.posRot.pos.x, temp_a3->x, fabsf(this->actor.velocity.x)) & 1;
+    temp_v0 &= Math_ApproxF(&this->actor.posRot.pos.z, temp_a3->z, fabsf(this->actor.velocity.z));
     this->actor.posRot.pos.y += this->actor.velocity.y;
 
     return temp_v0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C6C8.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C814.s")
 
