@@ -748,7 +748,7 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
 #endif
 }
 
-void* func_800E05C4(u32 size, s32 arg1, s32 arg2, s8 arg3, s32 arg4) {
+void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4) {
     UnkHeapEntry *entry;
 
     if (arg4 == 0) {
@@ -825,7 +825,14 @@ void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0AD8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0BB4.s")
+void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample *sample) {
+    if (sample != NULL) {
+        if (sample->sampleAddr == entry->unk_08) {
+            sample->sampleAddr = entry->unk_0C;
+            sample->bits2 = entry->unk_01;
+        }
+    }
+}
 
 UnkHeapEntry* func_800E0BF8(u32 size) {
     UnkPool* pool;

@@ -588,11 +588,11 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01;
+    /* 0x01 */ s8 unk_01;
     /* 0x02 */ s8 unk_02;
-    /* 0x01 */ char pad[0x5];
+    /* 0x03 */ char pad[0x5];
     /* 0x08 */ void* unk_08;
-    /* 0x0C */ s32 unk_0C;
+    /* 0x0C */ void* unk_0C;
     /* 0x10 */ u32 size;
 } UnkHeapEntry; // size = 0x14
 

@@ -1964,7 +1964,7 @@ s32 Audio_ResetStep(void);
 void func_800DFBF8(void);
 void* func_800E04E8(s32 poolIdx, s32 id);
 // ? func_800E0540(?);
-void* func_800E05C4(u32 size, s32 arg1, s32 arg2, s8 arg3, s32 arg4);
+void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4);
 void func_800E0634(u32 arg0, u32 arg1);
 void* func_800E06CC(u32 size);
 void func_800E0964(UnkHeapEntry* entry, s32 bankId);
