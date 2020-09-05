@@ -16,7 +16,7 @@ glabel ObjSyokudai_Destroy
 /* 001F0 80B9F4A0 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 001F4 80B9F4A4 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 001F8 80B9F4A8 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
-/* 001FC 80B9F4AC 0C01E9F1 */  jal     Lights_Remove
+/* 001FC 80B9F4AC 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00200 80B9F4B0 8DC601E8 */  lw      $a2, 0x01E8($t6)           ## 000001E8
 /* 00204 80B9F4B4 8FBF0014 */  lw      $ra, 0x0014($sp)           

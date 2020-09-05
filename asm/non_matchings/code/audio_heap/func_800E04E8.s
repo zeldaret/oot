@@ -1,6 +1,6 @@
 glabel func_800E04E8
-/* B57688 800E04E8 3C038017 */  lui   $v1, %hi(D_80171EDC) # $v1, 0x8017
-/* B5768C 800E04EC 8C631EDC */  lw    $v1, %lo(D_80171EDC)($v1)
+/* B57688 800E04E8 3C038017 */  lui   $v1, %hi(gAudioContext+0x2d5c) # $v1, 0x8017
+/* B5768C 800E04EC 8C631EDC */  lw    $v1, %lo(gAudioContext+0x2d5c)($v1)
 /* B57690 800E04F0 00A03025 */  move  $a2, $a1
 /* B57694 800E04F4 3C058017 */  lui   $a1, %hi(gAudioContext) # $a1, 0x8017
 /* B57698 800E04F8 1860000E */  blez  $v1, .L800E0534
