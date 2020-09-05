@@ -323,19 +323,15 @@ void func_80A4D5E0(EnGoroiwa* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D624.s")
 
-#ifdef NON_MATCHING
 void func_80A4D8CC(EnGoroiwa* this) {
     this->actionFunc = func_80A4D944;
     func_80A4BD70(this, 2);
     this->actor.gravity = -0.86f;
     this->actor.minVelocityY = -15.0f;
+    this->actor.speedXZ *= 0.15f;
     this->actor.velocity.y = 5.0f;
     this->unk_1C0 = 1.0f;
-    this->actor.speedXZ *= 0.15f;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D8CC.s")
-#endif
 
 void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
     func_80A4C6C8(this, globalCtx);
