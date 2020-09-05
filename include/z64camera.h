@@ -616,22 +616,22 @@ typedef struct {
 } Subj3; // size = 0x2E
 
 typedef struct {
-    Linef unk_00;
-    f32 unk_18;
-    f32 unk_1C;
-    f32 unk_20;
-    f32 unk_24;
-    f32 unk_28;
-    s16 unk_2C;
-    s16 unk_2E;
-    s16 unk_30;
-    s16 unk_32;
-} Subj4Anim;
+    /* 0x0000 */ Linef unk_00;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ f32 unk_20;
+    /* 0x0024 */ f32 unk_24;
+    /* 0x0028 */ f32 unk_28;
+    /* 0x002C */ s16 unk_2C;
+    /* 0x002E */ s16 unk_2E;
+    /* 0x0030 */ s16 unk_30;
+    /* 0x0032 */ s16 unk_32;
+} Subj4Anim; // size = 0x34
 
 typedef struct {
-    s16 interfaceFlags;
-    Subj4Anim anim;
-} Subj4;
+    /* 0x0000 */ s16 interfaceFlags;
+    /* 0x0004 */ Subj4Anim anim;
+} Subj4; // size = 0x38
 
 typedef struct {
     /* 0x0000 */ s16 animTimer;
@@ -665,27 +665,27 @@ typedef struct {
 } Fixed4; // size = 0x24
 
 typedef struct {
-    Vec3f unk_00;
-    Actor* unk_0C;
-    Vec3f unk_10;
-    s16 unk_1C;
-} Keep3Anim;
+    /* 0x0000 */ Vec3f unk_00;
+    /* 0x000C */ Actor* target;
+    /* 0x0010 */ Vec3f atTarget;
+    /* 0x001C */ s16 animTimer;
+} Keep3Anim; // size = 0x20
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    f32 unk_1C;
-    f32 unk_20;
-    f32 unk_24;
-    s16 unk_28;
-    s16 unk_2A;
-    Keep3Anim anim;
-} KeepOn3;
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 minDist;
+    /* 0x0008 */ f32 maxDist;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ f32 fovTarget;
+    /* 0x0024 */ f32 atLERPScaleMax;
+    /* 0x0028 */ s16 initTimer;
+    /* 0x002A */ s16 flags;
+    /* 0x002C */ Keep3Anim anim;
+} KeepOn3; // size = 0x4C
 
 typedef struct {
     f32 unk_00;
