@@ -133,9 +133,9 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-Vec3f D_808D6124[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-                       { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-                       { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
+static Vec3f holeLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
+                                 { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
+                                 { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
@@ -144,12 +144,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 
-Vec3f D_808D61A0 = { 0.0, 0.0, 50.0 }; // Unused? BossFd uses this for sound effects.
+static Vec3f D_808D61A0 = { 0.0, 0.0, 50.0 }; // Unused? BossFd uses a similar array for sound effects.
 
 void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                          Vec3f* acceleration, f32 scale) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 2;
             particle->pos = *position;
@@ -165,8 +166,9 @@ void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec
 
 void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                              Vec3f* acceleration, f32 scale, s16 opacity, s16 kbAngle) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 4;
             particle->timer1 = 0;
@@ -189,8 +191,9 @@ void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle,
 
 void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                         Vec3f* acceleration, f32 scale) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 1;
             particle->pos = *position;
@@ -206,8 +209,9 @@ void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdParticle* particle, Vec3
 
 void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                              Vec3f* acceleration, f32 scale) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 5;
             particle->pos = *position;
@@ -222,8 +226,9 @@ void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdParticle* particle,
 }
 
 void BossFd2_SpawnDust(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 3;
             particle->pos = *position;
@@ -257,6 +262,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BossFd2* this = THIS;
+
     SkelAnime_Free(&this->skelAnime1, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider1);
 }
@@ -271,8 +277,8 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
     this->actionFunc = BossFd2_Emerge;
     this->skelAnime1.animPlaybackSpeed = 0.0f;
     temp_rand = (s16)Math_Rand_ZeroFloat(8.9f);
-    this->actor.posRot.pos.x = D_808D6124[temp_rand].x;
-    this->actor.posRot.pos.z = D_808D6124[temp_rand].z;
+    this->actor.posRot.pos.x = holeLocations[temp_rand].x;
+    this->actor.posRot.pos.z = holeLocations[temp_rand].z;
     this->actionState = 0;
     osSyncPrintf("UP INIT 2\n");
     this->timers[0] = 10;
@@ -291,10 +297,10 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
-    s8 temp_v0_4;
+    s8 health;
     BossFd* bossFd = BOSSFD;
     Player* player = PLAYER;
-    s16 i1;
+    s16 i;
     s16 phi_v0;
 
     osSyncPrintf("UP 1    mode %d\n", this->actionState);
@@ -314,14 +320,14 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                 this->actionState = 1;
                 this->holeCounter++;
                 this->actor.posRot.pos.y = -200.0f;
-                temp_v0_4 = bossFd->actor.colChkInfo.health;
-                if (temp_v0_4 == 24) {
+                health = bossFd->actor.colChkInfo.health;
+                if (health == 24) {
                     phi_v0 = 30;
-                } else if (temp_v0_4 >= 18) {
+                } else if (health >= 18) {
                     phi_v0 = 25;
-                } else if (temp_v0_4 >= 12) {
+                } else if (health >= 12) {
                     phi_v0 = 20;
-                } else if (temp_v0_4 >= 6) {
+                } else if (health >= 6) {
                     phi_v0 = 10;
                 } else {
                     phi_v0 = 5;
@@ -335,24 +341,24 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 0) {
                 if (this->fakeoutCount != 0) {
                     this->fakeoutCount--;
-                    i1 = (s16)Math_Rand_ZeroFloat(8.9f);
-                    this->actor.posRot.pos.x = D_808D6124[i1].x;
-                    this->actor.posRot.pos.z = D_808D6124[i1].z;
+                    i = (s16)Math_Rand_ZeroFloat(8.9f);
+                    this->actor.posRot.pos.x = holeLocations[i].x;
+                    this->actor.posRot.pos.z = holeLocations[i].z;
                     this->actionState = 0;
-                    this->timers[0] = 0xA;
+                    this->timers[0] = 10;
                 } else {
                     this->skelAnime1.animPlaybackSpeed = 1.0f;
                     this->animationLength = SkelAnime_GetFrameCount(&D_0600C1D0.genericHeader);
                     this->actionState = 2;
-                    Audio_PlayActorSound2(&this->actor, 0x38D1);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
                     this->actor.shape.rot.y = this->actor.yawTowardsLink;
-                    this->timers[0] = 0xF;
+                    this->timers[0] = 15;
                     this->actor.posRot.pos.y = 150.0f;
-                    for (i1 = 0; i1 < 10; i1++) {
-                        this->rightMane.pos[i1].x += Math_Rand_CenteredFloat(100.0f);
-                        this->rightMane.pos[i1].z += Math_Rand_CenteredFloat(100.0f);
-                        this->leftMane.pos[i1].x += Math_Rand_CenteredFloat(100.0f);
-                        this->leftMane.pos[i1].z += Math_Rand_CenteredFloat(100.0f);
+                    for (i = 0; i < 10; i++) {
+                        this->rightMane.pos[i].x += Math_Rand_CenteredFloat(100.0f);
+                        this->rightMane.pos[i].z += Math_Rand_CenteredFloat(100.0f);
+                        this->leftMane.pos[i].x += Math_Rand_CenteredFloat(100.0f);
+                        this->leftMane.pos[i].z += Math_Rand_CenteredFloat(100.0f);
                     }
                     bossFd->holeSplashTimer = 5;
                 }
@@ -362,13 +368,11 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0);
             if ((this->timers[0] == 1) && (this->actor.xzDistFromLink < 120.0f)) {
                 func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.yawTowardsLink, 2.0f, 0x20);
-                Audio_PlayActorSound2(&player->actor, 0x83E);
+                Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
             if (func_800A56C8(&this->skelAnime1, this->animationLength) != 0) {
                 BossFd2_SetupIdle(this, globalCtx);
             }
-            break;
-        default:
             break;
     }
     osSyncPrintf("UP 2\n");
@@ -376,20 +380,20 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_SetupIdle(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
-    s8 temp_v0;
+    s8 health;
     s16 phi_v0;
 
     osSyncPrintf("UP INIT 1\n");
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime1, &D_0600AE90);
     this->actionFunc = BossFd2_Idle;
-    temp_v0 = bossFd->actor.colChkInfo.health;
-    if (temp_v0 == 24) {
+    health = bossFd->actor.colChkInfo.health;
+    if (health == 24) {
         phi_v0 = 50;
-    } else if (temp_v0 >= 18) {
+    } else if (health >= 18) {
         phi_v0 = 40;
-    } else if (temp_v0 >= 12) {
+    } else if (health >= 12) {
         phi_v0 = 40;
-    } else if (temp_v0 >= 6) {
+    } else if (health >= 6) {
         phi_v0 = 30;
     } else {
         phi_v0 = 20;
@@ -454,14 +458,12 @@ void BossFd2_Burrow(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupBreatheFire(BossFd2* this, GlobalContext* globalCtx) {
+
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime1, &D_060073CC, -5.0f);
     this->actionFunc = BossFd2_BreatheFire;
     this->animationLength = SkelAnime_GetFrameCount(&D_060073CC.genericHeader);
     this->actionState = 0;
 }
-
-Vec3f D_808D61AC = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808D61B8 = { 0.0f, 0.0f, 0.0f };
 
 void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     f32 temp_f22;
@@ -471,14 +473,10 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 angleX;
     s16 angleY;
     s16 spB2 = 0;
-    s16 i1;
+    s16 i;
     BossFd* bossFd = BOSSFD;
     Player* player = PLAYER;
     Vec3f toLink;
-    Vec3f sp90;
-    Vec3f sp84;
-    Vec3f sp78;
-    Vec3f sp6C;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
     if (func_800A56C8(&this->skelAnime1, this->animationLength) != 0) {
@@ -488,7 +486,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         if (this->skelAnime1.animCurrentFrame == 25.0f) {
             globalCtx->envCtx.unk_D8 = 0.0f;
         }
-        Audio_PlayActorSound2(&this->actor, 0x30DB);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_FIRE - SFX_FLAG);
         if (50 < this->skelAnime1.animCurrentFrame) {
             spB2 = (70.0f - this->skelAnime1.animCurrentFrame) * 12.0f;
         } else {
@@ -520,8 +518,10 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxS(&this->fireBreathAngle.x, 0, 5, 0x7D0);
     }
     if (spB2 != 0) {
-        sp90 = D_808D61AC;
-        sp78 = D_808D61B8;
+        Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
+        Vec3f sp84;
+        Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
+        Vec3f sp6C;
         bossFd->fogMode = 2;
         sp90.z = 30.0f;
         sp6C = this->fireBreathSpawnPoint;
@@ -543,7 +543,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         sp90.y = 17.0f;
         sp90.z = 0.0f;
 
-        for (i1 = 0; i1 < 6; i1++) {
+        for (i = 0; i < 6; i++) {
             temp_y = Math_Rand_ZeroFloat(6.2831855f);
             temp_x = Math_Rand_ZeroFloat(6.2831855f);
             Matrix_RotateY(temp_y, 0);
@@ -559,6 +559,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
+
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime1, &D_0600B7A4, -5.0f);
     this->actionFunc = BossFd2_ClawSwipe;
     this->animationLength = SkelAnime_GetFrameCount(&D_0600B7A4.genericHeader);
@@ -568,8 +569,8 @@ void BossFd2_ClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
     if (func_800A56C8(&this->skelAnime1, 5.0f) != 0) {
-        Audio_PlayActorSound2(&this->actor, 0x38D1);
-        Audio_PlayActorSound2(&this->actor, 0x38D8);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_SW_NAIL);
     }
     if (func_800A56C8(&this->skelAnime1, this->animationLength) != 0) {
         BossFd2_SetupBurrow(this, globalCtx);
@@ -577,20 +578,16 @@ void BossFd2_ClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupVulnerable(BossFd2* this, GlobalContext* globalCtx) {
+
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime1, &D_0600A31C);
     this->animationLength = SkelAnime_GetFrameCount(&D_0600A31C.genericHeader);
     this->actionFunc = BossFd2_Vulnerable;
     this->actionState = 0;
 }
 
-Vec3f D_808D61C4 = { 0.0f, 0.0f, 0.0f };
-
 void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
-    s16 i1;
-    Vec3f sp84;
-    Vec3f sp78;
-    Vec3f sp6C;
+    s16 i;
 
     this->disableAT = 1;
     this->actor.flags |= 0x400;
@@ -598,11 +595,13 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
     switch (this->actionState) {
         case 0:
             if (func_800A56C8(&this->skelAnime1, 13.0f) != 0) {
-                Audio_PlayActorSound2(&this->actor, 0x38D3);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI2);
             }
             if (func_800A56C8(&this->skelAnime1, this->animationLength - 3.0f) != 0) {
-                for (i1 = 0; i1 < 25; i1++) {
-                    sp78 = D_808D61C4;
+                for (i = 0; i < 25; i++) {
+                    Vec3f sp84;
+                    Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
+                    Vec3f sp6C;
                     sp84.x = Math_Rand_CenteredFloat(8.0f);
                     sp84.y = Math_Rand_ZeroFloat(1.0f);
                     sp84.z = Math_Rand_CenteredFloat(8.0f);
@@ -612,7 +611,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
                     sp6C.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot2.pos.z;
                     BossFd2_SpawnDust(bossFd->particles, &sp6C, &sp84, &sp78, Math_Rand_ZeroFloat(100.0f) + 300.0f);
                 }
-                Audio_PlayActorSound2(&this->actor, 0x3927);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_LAND);
             }
             if (func_800A56C8(&this->skelAnime1, this->animationLength) != 0) {
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime1, &D_0600A86C, -5.0f);
@@ -622,18 +621,17 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
             break;
         case 1:
             if ((this->varianceTimer & 0xF) == 0xF) {
-                Audio_PlayActorSound2(&this->actor, 0x38D4);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_KNOCKOUT);
             }
             if (this->timers[0] == 0) {
                 BossFd2_SetupBurrow(this, globalCtx);
             }
             break;
-        default:
-            break;
     }
 }
 
 void BossFd2_SetupDamaged(BossFd2* this, GlobalContext* globalCtx) {
+
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime1, &D_06007850);
     this->animationLength = SkelAnime_GetFrameCount(&D_06007850.genericHeader);
     this->actionFunc = BossFd2_Damaged;
@@ -653,7 +651,7 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
         }
     } else if (this->actionState == 1) {
         if (func_800A56C8(&this->skelAnime1, 6.0f) != 0) {
-            Audio_PlayActorSound2(&this->actor, 0x38D6);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
         }
         if (func_800A56C8(&this->skelAnime1, 20.0f) != 0) {
             bossFd->animationTimers[4] = 30;
@@ -672,6 +670,7 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
+
     this->animationLength = SkelAnime_GetFrameCount(&D_060089DC.genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime1, &D_060089DC, 1.0f, 0.0f, this->animationLength, 3, -3.0f);
     this->actionFunc = BossFd2_Death;
@@ -680,6 +679,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_UpdateCutsceneCamera(BossFd2* this, GlobalContext* globalCtx) {
+
     if (this->cutsceneCamera != 0) {
         Math_SmoothScaleMaxF(&this->unk_1394.x, this->unk_13DC.x, this->unk_13E8.x, this->unk_13C4.x * this->unk_140C);
         Math_SmoothScaleMaxF(&this->unk_1394.y, this->unk_13DC.y, this->unk_13E8.y, this->unk_13C4.y * this->unk_140C);
@@ -744,10 +744,10 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             if ((this->holeCounter == 1) || (this->holeCounter == 40)) {
                 this->screamTimer = 20;
                 if (this->holeCounter == 40) {
-                    func_800F8D04(0x38D9);
+                    func_800F8D04(NA_SE_EN_VALVAISA_DEAD);
                 }
 
-                Audio_PlayActorSound2(&this->actor, 0x38D6);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
             }
             Math_SmoothScaleMaxF(&this->skelAnime1.animPlaybackSpeed, sp7C, 1.0f, 1.0f);
             Matrix_RotateY(((this->actor.yawTowardsLink / 32768.0f) * 3.1415927f) + 0.2f, 0);
@@ -852,6 +852,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
+
     if (bossFd->handoffSignal == 100) {
         bossFd->handoffSignal = 0;
         BossFd2_SetupEmerge(this, globalCtx);
@@ -860,33 +861,20 @@ void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx) {
     }
 }
 
-Vec3f D_808D61D0 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808D61DC = { 0.0f, -1.0f, 0.0f };
-Vec3f D_808D61E8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808D61F4 = { 0.0f, -1.0f, 0.0f };
-
 void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
-
-    s16 i1;
+    s16 i;
     u8 phi_s2;
     u8 phi_s1;
     Player* player;
     BossFd* bossFd = BOSSFD;
     ColliderBody* hurtbox;
-    Vec3f sp8C;
-    Vec3f sp80;
-    Vec3f sp74;
-    u32 temp_v0_4;
-    Vec3f sp64;
-    Vec3f sp58;
-    Vec3f sp4C;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
         player = PLAYER;
-        for (i1 = 0; i1 < 9; i1++) {
-            if ((this->collider1.list[i1].body.toucherFlags & 2) != 0) {
-                this->collider1.list[i1].body.toucherFlags &= ~2;
-                Audio_PlayActorSound2(&player->actor, 0x83E);
+        for (i = 0; i < 9; i++) {
+            if ((this->collider1.list[i].body.toucherFlags & 2) != 0) {
+                this->collider1.list[i].body.toucherFlags &= ~2;
+                Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
     }
@@ -909,12 +897,13 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 }
                 bossFd->faceExposed = 1;
                 BossFd2_SetupVulnerable(this, globalCtx);
-                this->invulnerabilityTimer = 0x1E;
+                this->invulnerabilityTimer = 30;
                 this->damageFlashTimer = 5;
-                Audio_PlayActorSound2(&this->actor, 0x38D2);
-                for (i1 = 0; i1 < 30; i1++) {
-                    sp8C = D_808D61D0;
-                    sp80 = D_808D61DC;
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI1);
+                for (i = 0; i < 30; i++) {
+                    Vec3f sp8C = { 0.0f, 0.0f, 0.0f };
+                    Vec3f sp80 = { 0.0f, -1.0f, 0.0f };
+                    Vec3f sp74;
                     sp8C.x = Math_Rand_CenteredFloat(10.0f);
                     sp8C.y = Math_Rand_ZeroFloat(5.0f) + 8.0f;
                     sp8C.z = Math_Rand_CenteredFloat(10.0f);
@@ -926,10 +915,10 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
+            u32 toucherFlags;
             phi_s2 = 0;
-            temp_v0_4 = func_800635D0(hurtbox->toucher.flags);
-            phi_s1 = temp_v0_4;
-            if (temp_v0_4 == 0) {
+            phi_s1 = toucherFlags = func_800635D0(hurtbox->toucher.flags);
+            if (toucherFlags == 0) {
                 phi_s1 = ((hurtbox->toucher.flags & 0x1000) != 0) ? 4 : 2;
             } else {
                 phi_s2 = 1;
@@ -937,7 +926,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
             if ((hurtbox->toucher.flags & 0x80) != 0) {
                 phi_s1 = 0;
             }
-            temp_v0_4 = phi_s1;
+            toucherFlags = phi_s1;
             if (((s8)bossFd->actor.colChkInfo.health >= 3) || (phi_s2 != 0)) {
                 bossFd->actor.colChkInfo.health -= phi_s1;
                 osSyncPrintf("\x1b[32m");
@@ -952,18 +941,19 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 this->damageFlashTimer = 10;
                 this->invulnerabilityTimer = 30000;
                 Audio_SetBGM(0x100100FF);
-                Audio_PlayActorSound2(&this->actor, 0x38D9);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
                 func_80032C7C(globalCtx, &this->actor);
-            } else if (temp_v0_4 != 0) {
+            } else if (toucherFlags != 0) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->damageFlashTimer = 10;
                 this->invulnerabilityTimer = 100;
-                Audio_PlayActorSound2(&this->actor, 0x38D5);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE1);
             }
-            if (temp_v0_4 != 0) {
-                for (i1 = 0; i1 < 0x1E; i1++) {
-                    sp64 = D_808D61E8;
-                    sp58 = D_808D61F4;
+            if (toucherFlags != 0) {
+                for (i = 0; i < 30; i++) {
+                    Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
+                    Vec3f sp58 = { 0.0f, -1.0f, 0.0f };
+                    Vec3f sp4C;
                     sp64.x = Math_Rand_CenteredFloat(6.0f);
                     sp64.y = Math_Rand_ZeroFloat(4.0f) + 6.0f;
                     sp64.z = Math_Rand_CenteredFloat(6.0f);
@@ -971,7 +961,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                     sp4C.y = this->actor.posRot2.pos.y;
                     sp4C.z = this->actor.posRot2.pos.z;
                     BossFd2_SpawnSkullPiece(globalCtx, bossFd->particles, &sp4C, &sp64, &sp58,
-                                            (s16)Math_Rand_ZeroFloat(6.0f) + 0xA);
+                                            (s16)Math_Rand_ZeroFloat(6.0f) + 10);
                 }
             }
         }
@@ -1013,7 +1003,7 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossFd2* this = THIS;
-    s16 i1;
+    s16 i;
     s32 pad;
 
     osSyncPrintf("FD2 move start \n");
@@ -1024,9 +1014,9 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    for (i1 = 0; i1 < 5; i1++) {
-        if (this->timers[i1] != 0) {
-            this->timers[i1]--;
+    for (i = 0; i < 5; i++) {
+        if (this->timers[i] != 0) {
+            this->timers[i]--;
         }
     }
     if (this->damageFlashTimer != 0) {
@@ -1080,19 +1070,15 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     }
 
     if ((limbIndex == 32) || (limbIndex == 35) || (limbIndex == 36)) {
-        GraphicsContext* gfxCtx1 = globalCtx->state.gfxCtx;
-        Gfx* dispRefs1[4];
-        Graph_OpenDisps(dispRefs1, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x875);
-        gDPPipeSync(gfxCtx1->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx1->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->headTex2Opacity);
-        Graph_CloseDisps(dispRefs1, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87C);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x875);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->headTex2Opacity);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87C);
     } else {
-        GraphicsContext* gfxCtx2 = globalCtx->state.gfxCtx;
-        Gfx* dispRefs2[4];
-        Graph_OpenDisps(dispRefs2, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87E);
-        gDPPipeSync(gfxCtx2->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx2->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->bodyTex2Opacity);
-        Graph_CloseDisps(dispRefs2, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x885);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x87E);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, (s8)bossFd->bodyTex2Opacity);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x885);
     }
     if ((limbIndex > 0) && (limbIndex < 16)) {
         *dList = NULL;
@@ -1100,14 +1086,15 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     return 0;
 }
 
-Vec3f D_808D620C = { 4500.0f, 0.0f, 0.0f };
-Vec3f D_808D6218 = { 4000.0f, 0.0f, 0.0f };
-Vec3f D_808D6224 = { 4000.0f, -2900.0, 2000.0f };
-Vec3f D_808D6230 = { 4000.0f, -1600.0, 0.0f };
-Vec3f D_808D623C = { 4000.0f, -1600.0, -2000.0f };
+static Vec3f D_808D620C = { 4500.0f, 0.0f, 0.0f };
+static Vec3f D_808D6218 = { 4000.0f, 0.0f, 0.0f };
+static Vec3f D_808D6224 = { 4000.0f, -2900.0, 2000.0f };
+static Vec3f D_808D6230 = { 4000.0f, -1600.0, 0.0f };
+static Vec3f D_808D623C = { 4000.0f, -1600.0, -2000.0f };
 
 void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     BossFd2* this = THIS;
+    
     if (limbIndex == 35) {
         Matrix_MultVec3f(&D_808D620C, &this->actor.posRot2.pos);
         Matrix_MultVec3f(&D_808D6218, &this->fireBreathSpawnPoint);
@@ -1134,12 +1121,10 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
     Vec3f spBC;
     Vec3f spB0;
     s16 i;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x955);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x955);
     Matrix_Push();
-    gDPPipeSync(gfxCtx->polyOpa.p++);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
 
     for (i = 0; i < 10; i++) {
         if (i == 0) {
@@ -1212,47 +1197,45 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
         temp_f12 = (0.01f - (i * 0.0009f)) * spE8[i] * scale[i];
         Matrix_Scale(temp_f12, temp_f12, 0.01f * spE8[i], 1);
         Matrix_RotateX(1.5707964f, 1);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C2),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C2),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06004BC8);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06004BC8);
     }
     Matrix_Pull();
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C7);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9C7);
 }
 
 void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
     f32 temp_f20;
     BossFd* bossFd = BOSSFD;
-    s16 i1;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    s16 i;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9D3);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0x9D3);
     if (1) {}
-    for (i1 = 0; i1 < 10; i1++) {
-        temp_f20 = i1 * 0x3200;
-        this->centerMane.scale[i1] = 1.5f + 0.3f * Math_Sins(5596.0f * this->varianceTimer + temp_f20);
-        this->rightMane.scale[i1] = 1.5f + 0.3f * Math_Sins(5496.0f * this->varianceTimer + temp_f20);
-        this->leftMane.scale[i1] = 1.5f + 0.3f * Math_Coss(5696.0f * this->varianceTimer + temp_f20);
+    for (i = 0; i < 10; i++) {
+        temp_f20 = i * 0x3200;
+        this->centerMane.scale[i] = 1.5f + 0.3f * Math_Sins(5596.0f * this->varianceTimer + temp_f20);
+        this->rightMane.scale[i] = 1.5f + 0.3f * Math_Sins(5496.0f * this->varianceTimer + temp_f20);
+        this->leftMane.scale[i] = 1.5f + 0.3f * Math_Coss(5696.0f * this->varianceTimer + temp_f20);
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06004B48);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06004B48);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u32)bossFd->centerManeColor, 0x00, 0xFF);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xFF, bossFd->centerManeColor, 0x00, 0xFF);
     BossFd2_UpdateMane(this, globalCtx, &this->centerMane.head, this->centerMane.pos, this->centerMane.rot,
                        this->centerMane.pull, this->centerMane.scale);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u32)bossFd->rightManeColor, 0x00, 0xFF);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xFF, bossFd->rightManeColor, 0x00, 0xFF);
     BossFd2_UpdateMane(this, globalCtx, &this->rightMane.head, this->rightMane.pos, this->rightMane.rot,
                        this->rightMane.pull, this->rightMane.scale);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, (u32)bossFd->leftManeColor, 0x00, 0xFF);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xFF, bossFd->leftManeColor, 0x00, 0xFF);
     BossFd2_UpdateMane(this, globalCtx, &this->leftMane.head, this->leftMane.pos, this->leftMane.rot,
                        this->leftMane.pull, this->leftMane.scale);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA29);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA29);
 }
 
 Gfx* D_808D62C0[] = { D_06002B08, D_06002708, D_06002F08 };
@@ -1260,28 +1243,26 @@ Gfx* D_808D62C0[] = { D_06002B08, D_06002708, D_06002F08 };
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 pad;
     BossFd2* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA39);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA39);
     osSyncPrintf("FD2 draw start \n");
     if (this->actionFunc != BossFd2_Wait) {
         func_80093D18(globalCtx->state.gfxCtx);
         if ((this->damageFlashTimer & 2) != 0) {
-            gfxCtx->polyOpa.p = Gfx_SetFog(gfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0x384, 0x44B);
+            oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0x384, 0x44B);
         }
-        gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_808D62C0[this->eyeState]));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_808D62C0[this->eyeState]));
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08,
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->bodyTex1Scroll, (s16)this->bodyTex1Rot, 0x20,
                                     0x20, 1, (s16)this->bodyTex2Scroll, (s16)this->bodyTex2Rot, 0x20, 0x20));
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, 0x80);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xFF, 0xFF, 0xFF, 0x80);
 
         SkelAnime_DrawSV(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl,
                          this->skelAnime1.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
-        gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
+        oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA80);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 0xA80);
 }
