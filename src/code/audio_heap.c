@@ -795,7 +795,23 @@ void func_800E0964(UNK_PTR arg0, s32 bankId) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0BB4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0BF8.s")
+UnkHeapEntry* func_800E0BF8(u32 size) {
+    UnkPool* pool;
+    UnkHeapEntry* entry;
+    void* mem;
+
+    pool = &gAudioContext.unk_2EE0;
+    mem = Audio_Alloc(&pool->pool, size);
+    if (mem == NULL) {
+        return NULL;
+    }
+    entry = &pool->entries[pool->size];
+    entry->unk_00 = 1;
+    entry->unk_08 = mem;
+    entry->size = size;
+    pool->size++;
+    return entry;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0C80.s")
 

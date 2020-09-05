@@ -586,6 +586,20 @@ typedef struct {
     /* 0xA */ s16 id; // seqId or bankId
 } SeqOrBankEntry; // size = 0xC
 
+typedef struct {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ char pad[0x7];
+    /* 0x08 */ void* unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ u32 size;
+} UnkHeapEntry; // size = 0x14
+
+typedef struct {
+    /* 0x000 */ SoundAllocPool pool;
+    /* 0x010 */ UnkHeapEntry entries[32];
+    /* 0x290 */ s32 size;
+} UnkPool; // size = 0x294
+
 typedef struct
 {
     /* 0x00*/ u32 numEntries;
@@ -637,7 +651,9 @@ typedef struct {
     /* 0x176C */ s32 unk_176C;
     /* 0x1770 */ char unk_1770[0xEB0];
     /* 0x2620 */ s32 gSampleDmaNumListItems;
-    /* 0x2624 */ char unk_2624[0x220];
+    /* 0x2624 */ char unk_2624[0x210];
+    /* 0x2834 */ s16* unk_2834;
+    /* 0x2838 */ char unk_2838[0xC];
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
@@ -671,9 +687,9 @@ typedef struct {
     /* 0x2B30 */ SoundMultiPool gBankLoadedPool;
     /* 0x2C40 */ SoundMultiPool gUnusedLoadedPool; // rename after we figure out what this is
     /* 0x2D50 */ SoundAllocPool unk_2D50;
-    /* 0x2D60 */ SeqOrBankEntry unk_2D60[1]; // unknown size
-    /* 0x2D6C */ char unk_2D6C[0x698];
-    /* 0x3404 */ s32 unk_3404;
+    /* 0x2D60 */ SeqOrBankEntry unk_2D60[32];
+    /* 0x2EE0 */ UnkPool unk_2EE0;
+    /* 0x3174 */ UnkPool unk_3174;
     /* 0x3408 */ AudioPoolSplit4 sSessionPoolSplit;
     /* 0x3418 */ AudioPoolSplit2 sSeqAndBankPoolSplit;
     /* 0x3420 */ AudioPoolSplit3 sPersistentCommonPoolSplit;
