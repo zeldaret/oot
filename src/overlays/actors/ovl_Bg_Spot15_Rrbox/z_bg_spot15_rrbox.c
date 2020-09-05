@@ -6,7 +6,7 @@
 
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot15Rrbox_Update(BgSpot15Rrbox* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808B3A34(BgSpot15Rrbox* this);
 void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
@@ -15,6 +15,7 @@ void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 s16 D_808B4590 = 0;
 
 extern s32 D_06000348;
+extern Gfx D_06000180;
 
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
@@ -107,21 +108,6 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
-/*
-
-void func_808B44B8(void *arg0, ? arg1) {
-    arg0->unk164 = &func_808B44CC;
-}
-
-void func_808B4084(void *arg0, ? arg1) {
-    arg0->unk164 = &func_808B40AC;
-    arg0->unk6C = 0.0f;
-    arg0->unk5C = 0.0f;
-    arg0->unk60 = 0.0f;
-    arg0->unk64 = 0.0f;
-}
-*/
-
 void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot15Rrbox* this = THIS;
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -136,6 +122,15 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4010.s")
 
+/*
+void func_808B4084(void *arg0, ? arg1) {
+    arg0->unk164 = &func_808B40AC;
+    arg0->unk6C = 0.0f;
+    arg0->unk5C = 0.0f;
+    arg0->unk60 = 0.0f;
+    arg0->unk64 = 0.0f;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4084.s")
 
 /*
@@ -170,6 +165,7 @@ block_5:
     }
     temp_v1->unk680 = (s32) (temp_v1->unk680 & -0x11);
     arg0->unk150 = 0.0f;
+
 }*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B40AC.s")
@@ -185,11 +181,25 @@ block_5:
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B44B8.s")
 
 // void func_808B44B8(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
-//     &this->unk_164 = &func_808B44CC;
+//     &this->actionFunc = &func_808B44CC;
 // }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B44CC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/BgSpot15Rrbox_Update.s")
+void BgSpot15Rrbox_Update(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/BgSpot15Rrbox_Draw.s")
+    if (this->unk_168 > 0) {
+        this->unk_168--;
+    }
+    this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
+    this->unk_16C = Math_Sins(this->dyna.actor.posRot.rot.y);
+    this->unk_170 = Math_Coss(this->dyna.actor.posRot.rot.y);
+    this->actionFunc(this, globalCtx);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/BgSpot15Rrbox_Update.s")
+
+
+void BgSpot15Rrbox_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, &D_06000180);
+}
