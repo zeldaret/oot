@@ -220,8 +220,18 @@ bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C814.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CA50.s")
+bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
+    Vec3s* temp_t0 = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint2];
 
+    Math_ApproxF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
+    this->actor.posRot.pos.x = temp_t0->x;
+    this->actor.posRot.pos.z = temp_t0->z;
+    return Math_ApproxF(&this->actor.posRot.pos.y, temp_t0->y, fabsf(this->actor.velocity.y));
+}
+
+bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CB78.s")
 
 #ifdef NON_MATCHING
@@ -379,7 +389,7 @@ void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
             this->timer = 50;
             return;
         }
-    } else if (func_80A4CA50(this, globalCtx) != 0) {
+    } else if (func_80A4CA50(this, globalCtx)) {
         func_80A4D074(this, globalCtx);
         func_80A4D5E0(this);
         this->actor.speedXZ = 0.0f;
@@ -405,7 +415,7 @@ void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
             this->timer = 50;
             return;
         }
-    } else if (func_80A4CB78(this, globalCtx) != 0) {
+    } else if (func_80A4CB78(this, globalCtx)) {
         func_80A4D074(this, globalCtx);
         func_80A4D5E0(this);
         this->unk_1D3 &= ~8;
