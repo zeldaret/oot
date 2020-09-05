@@ -41,6 +41,8 @@ extern ColliderJntSphInit D_80A4DEA4;
 extern CollisionCheckInfoInit D_80A4DEB4;
 extern f32 D_80A4DEC4[];
 extern Vec3f D_80A4DEE4;
+extern Vec3f D_80A4DECC;
+extern Vec3f D_80A4DED8;
 extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
 extern s16 D_80A4DF28[];
@@ -193,7 +195,27 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
     return 0;
 }
 
+#ifdef NON_MATCHING
+// Stack problems
+void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
+    f32 rand;
+    s16 phi_s0 = 0;
+    Vec3f sp7C;
+    s32 phi_s1;
+
+    for (phi_s1 = 0; phi_s1 < 8; phi_s1++) {
+        phi_s0 += 20000;
+        rand = Math_Rand_ZeroOne(); sp7C.x = (Math_Sins(phi_s0) * (47.0f * ((rand * 0.5f) + 0.5f))) + arg1->x;
+        rand = Math_Rand_ZeroOne();
+        sp7C.y = ((rand - 0.5f) * 40.0f) + arg1->y;
+        rand = Math_Rand_ZeroOne(); sp7C.z = (Math_Coss(phi_s0) * (47.0f * ((rand * 0.5f) + 0.5f))) + arg1->z;
+        func_800286CC(globalCtx, &sp7C, &D_80A4DECC, &D_80A4DED8, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100, 80);
+        func_800286CC(globalCtx, &sp7C, &D_80A4DECC, &D_80A4DED8, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80, 80);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C3A4.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C594.s")
 
