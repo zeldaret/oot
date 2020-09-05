@@ -244,7 +244,8 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     } else {
         phi_f12 = this->unk_1BC = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.pos4) * 0.016806724f;
     }
-    sp8C = phi_f12 * this->unk_1C0;
+    phi_f12 *= this->unk_1C0;
+    sp8C = phi_f12;
     if (this->unk_1D3 & 8) {
         func_80A4BF28(this, globalCtx, &sp28);
         Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, &sp80);
