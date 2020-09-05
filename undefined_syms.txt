@@ -896,3 +896,6 @@ D_0600018C = 0x0600018C;
 // z_en_dy_extra
 D_0601BFB0 = 0x0601BFB0;
 D_0601C160 = 0x0601C160;
+
+// z_bg_menkuri_eye
+D_06002D20 = 0x06002D20;
