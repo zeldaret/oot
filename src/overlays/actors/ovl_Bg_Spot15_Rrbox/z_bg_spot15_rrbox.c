@@ -177,7 +177,35 @@ block_5:
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4380.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B43D0.s")
+void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+    f32 groundY;
+    Player *player = PLAYER;
+    Actor *actor = &this->dyna.actor;
+
+    if (0.001f < fabsf(this->dyna.unk_150)) {
+        this->dyna.unk_150 = 0.0f;
+        player->stateFlags2 = player->stateFlags2 & -0x11;
+    }
+
+    Actor_MoveForward(actor);
+
+    if (actor->posRot.pos.y <= -31990.0f) {
+        osSyncPrintf((const char *) "Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", 
+            "../z_bg_spot15_rrbox.c", 0x257, actor->params);
+
+        Actor_Kill(actor);
+
+        return;
+    }
+
+    groundY = actor->groundY;
+
+    if (-0.001f <= (groundY - actor->posRot.pos.y)) {
+        actor->posRot.pos.y = groundY;
+        func_808B4084(this, globalCtx);
+        Audio_PlayActorSound2(this, 0x28C9U);
+    }
+}
 
 void func_808B44B8(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->actionFunc = &func_808B44CC;
@@ -200,9 +228,6 @@ void BgSpot15Rrbox_Update(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
     this->unk_170 = Math_Coss(this->dyna.actor.posRot.rot.y);
     this->actionFunc(this, globalCtx);
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/BgSpot15Rrbox_Update.s")
-
 
 void BgSpot15Rrbox_Draw(Actor *thisx, GlobalContext *globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06000180);
