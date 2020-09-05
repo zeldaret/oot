@@ -79,12 +79,12 @@ glabel ObjSyokudai_Init
 /* 0011C 80B9F3CC AFAF0018 */  sw      $t7, 0x0018($sp)           
 /* 00120 80B9F3D0 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 00124 80B9F3D4 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 00128 80B9F3D8 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 00128 80B9F3D8 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 0012C 80B9F3DC AFA40030 */  sw      $a0, 0x0030($sp)           
 /* 00130 80B9F3E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00134 80B9F3E4 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
-/* 00138 80B9F3E8 0C01E9D9 */  jal     Lights_Insert
+/* 00138 80B9F3E8 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 0013C 80B9F3EC 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00140 80B9F3F0 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C

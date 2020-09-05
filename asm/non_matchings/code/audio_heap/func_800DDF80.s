@@ -1,7 +1,7 @@
 glabel func_800DDF80
 /* B55120 800DDF80 3C038017 */  lui   $v1, %hi(gAudioContext) # $v1, 0x8017
-/* B55124 800DDF84 3C028017 */  lui   $v0, %hi(D_8016F1B0) # $v0, 0x8017
-/* B55128 800DDF88 2442F1B0 */  addiu $v0, %lo(D_8016F1B0) # addiu $v0, $v0, -0xe50
+/* B55124 800DDF84 3C028017 */  lui   $v0, %hi(gAudioContext+0x30) # $v0, 0x8017
+/* B55128 800DDF88 2442F1B0 */  addiu $v0, %lo(gAudioContext+0x30) # addiu $v0, $v0, -0xe50
 /* B5512C 800DDF8C 2463F180 */  addiu $v1, %lo(gAudioContext) # addiu $v1, $v1, -0xe80
 /* B55130 800DDF90 24040005 */  li    $a0, 5
 /* B55134 800DDF94 906E3468 */  lbu   $t6, 0x3468($v1)
@@ -15,8 +15,8 @@ glabel func_800DDF80
 /* B5514C 800DDFAC 5420FFFA */  bnezl $at, .L800DDF98
 /* B55150 800DDFB0 906E3468 */   lbu   $t6, 0x3468($v1)
 /* B55154 800DDFB4 3C038017 */  lui   $v1, %hi(gAudioContext) # $v1, 0x8017
-/* B55158 800DDFB8 3C028017 */  lui   $v0, %hi(D_8016F1B0) # $v0, 0x8017
-/* B5515C 800DDFBC 2442F1B0 */  addiu $v0, %lo(D_8016F1B0) # addiu $v0, $v0, -0xe50
+/* B55158 800DDFB8 3C028017 */  lui   $v0, %hi(gAudioContext+0x30) # $v0, 0x8017
+/* B5515C 800DDFBC 2442F1B0 */  addiu $v0, %lo(gAudioContext+0x30) # addiu $v0, $v0, -0xe50
 /* B55160 800DDFC0 2463F180 */  addiu $v1, %lo(gAudioContext) # addiu $v1, $v1, -0xe80
 /* B55164 800DDFC4 906F3438 */  lbu   $t7, 0x3438($v1)
 .L800DDFC8:
@@ -29,8 +29,8 @@ glabel func_800DDF80
 /* B5517C 800DDFDC 5420FFFA */  bnezl $at, .L800DDFC8
 /* B55180 800DDFE0 906F3438 */   lbu   $t7, 0x3438($v1)
 /* B55184 800DDFE4 3C038017 */  lui   $v1, %hi(gAudioContext) # $v1, 0x8017
-/* B55188 800DDFE8 3C028017 */  lui   $v0, %hi(D_8016F200) # $v0, 0x8017
-/* B5518C 800DDFEC 2442F200 */  addiu $v0, %lo(D_8016F200) # addiu $v0, $v0, -0xe00
+/* B55188 800DDFE8 3C028017 */  lui   $v0, %hi(gAudioContext+0x80) # $v0, 0x8017
+/* B5518C 800DDFEC 2442F200 */  addiu $v0, %lo(gAudioContext+0x80) # addiu $v0, $v0, -0xe00
 /* B55190 800DDFF0 2463F180 */  addiu $v1, %lo(gAudioContext) # addiu $v1, $v1, -0xe80
 /* B55194 800DDFF4 90783498 */  lbu   $t8, 0x3498($v1)
 .L800DDFF8:

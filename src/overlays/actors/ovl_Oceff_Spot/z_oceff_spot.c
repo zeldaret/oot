@@ -48,13 +48,13 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     OceffSpot_SetupAction(this, OceffSpot_GrowCylinder);
 
-    Lights_InitType0PositionalLight(&this->lightInfo1, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                    this->actor.posRot.pos.z, 0x00, 0x00, 0x00, 0);
-    this->light1 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo1);
+    Lights_PointNoGlowSetInfo(&this->lightInfo1, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                              this->actor.posRot.pos.z, 0, 0, 0, 0);
+    this->lightNode1 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo1);
 
-    Lights_InitType0PositionalLight(&this->lightInfo2, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                    this->actor.posRot.pos.z, 0x00, 0x00, 0x00, 0);
-    this->light2 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo2);
+    Lights_PointNoGlowSetInfo(&this->lightInfo2, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                              this->actor.posRot.pos.z, 0, 0, 0, 0);
+    this->lightNode2 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo2);
     if (YREG(15)) {
         this->actor.scale.y = 2.4f;
     } else {
@@ -69,8 +69,8 @@ void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffSpot* this = THIS;
     Player* player = PLAYER;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light1);
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light2);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode1);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode2);
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer && globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].length) {
         player->unk_692 |= 0x40;
@@ -135,16 +135,15 @@ void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
     temp = (2.0f - this->unk_174) * this->unk_174;
     func_800773A8(globalCtx, temp * 0.5F, 880.0f, 0.2f, 0.9f);
 
-    Lights_InitType0PositionalLight(&this->lightInfo1, (s16)this->actor.posRot.pos.x,
-                                    (s16)this->actor.posRot.pos.y + 55.0f, (s16)this->actor.posRot.pos.z,
-                                    (s32)(255.0f * temp), (s32)(255.0f * temp), (s32)(200.0f * temp),
-                                    (s16)(100.0f * temp));
+    Lights_PointNoGlowSetInfo(&this->lightInfo1, (s16)this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 55.0f,
+                              (s16)this->actor.posRot.pos.z, (s32)(255.0f * temp), (s32)(255.0f * temp),
+                              (s32)(200.0f * temp), (s16)(100.0f * temp));
 
-    Lights_InitType0PositionalLight(
-        &this->lightInfo2, (s16)this->actor.posRot.pos.x + Math_Sins(player->actor.shape.rot.y) * 20.0f,
-        (s16)this->actor.posRot.pos.y + 20.0f,
-        (s16)this->actor.posRot.pos.z + Math_Coss(player->actor.shape.rot.y) * 20.0f, (s32)(255.0f * temp),
-        (s32)(255.0f * temp), (s32)(200.0f * temp), (s16)(100.0f * temp));
+    Lights_PointNoGlowSetInfo(&this->lightInfo2,
+                              (s16)this->actor.posRot.pos.x + Math_Sins(player->actor.shape.rot.y) * 20.0f,
+                              (s16)this->actor.posRot.pos.y + 20.0f,
+                              (s16)this->actor.posRot.pos.z + Math_Coss(player->actor.shape.rot.y) * 20.0f,
+                              (s32)(255.0f * temp), (s32)(255.0f * temp), (s32)(200.0f * temp), (s16)(100.0f * temp));
 }
 
 void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {

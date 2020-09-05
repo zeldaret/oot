@@ -19,35 +19,35 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE2B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SoundAlloc.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocDmaMemory.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE344.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE380.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocZeroed.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE3DC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_Alloc.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE434.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SoundAllocPoolInit.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE45C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_PersistentPoolClear.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE470.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_TemporaryPoolClear.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE4A0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE4B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE5F0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_InitMainPools.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE650.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SessionPoolsInit.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE6D4.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_SeqAndBankPoolInit.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE758.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_PersistentPoolsInit.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE81C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_TemporaryPoolsInit.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DE8E0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocBankOrSeq.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DF074.s")
 
