@@ -18,6 +18,8 @@ void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80A4D5E0(EnGoroiwa* this);
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4D9DC(EnGoroiwa* this);
+void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Goroiwa_InitVars = {
@@ -39,6 +41,7 @@ extern f32 D_80A4DEC4[];
 extern Vec3f D_80A4DEE4;
 extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
+extern s16 D_80A4DF28[];
 
 extern Gfx D_060006B0[];
 
@@ -345,7 +348,13 @@ void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D9DC.s")
+void func_80A4D9DC(EnGoroiwa* this) {
+    this->actionFunc = func_80A4DA3C;
+    this->actor.speedXZ = 0.0f;
+    func_80A4BD70(this, 2);
+    this->unk_1C4 = D_80A4DF28[this->actor.initPosRot.rot.z & 1];
+    this->unk_1C0 = 0.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4DA3C.s")
 
