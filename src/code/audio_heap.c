@@ -905,7 +905,24 @@ void func_800E0CBC(void) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E0E0C.s")
+typedef struct {
+    u8* unk_0;
+    u8* unk_4;
+    u32 unk_8;
+    u8 unk_C;
+} Struct_800E0E0C;
+
+void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
+    if (sample != NULL) {
+        u8* start = arg0->unk_0;
+        u8* end = arg0->unk_0 + arg0->unk_8;
+        u8* sampleAddr = sample->sampleAddr;
+        if (start <= sampleAddr && sampleAddr < end) {
+            sample->sampleAddr = sampleAddr - start + arg0->unk_4;
+            sample->bits2 = arg0->unk_C & 0xFF;
+        }
+    }
+}
 
 void func_800E0E6C(s32 id) {
     func_800E0EB4(0, id);
