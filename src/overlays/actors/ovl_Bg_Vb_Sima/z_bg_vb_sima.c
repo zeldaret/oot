@@ -52,12 +52,14 @@ void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgVbSima* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
-    s16 i1;
-    for (i1 = 0; i1 < 180; i1++, particle++) {
+    s16 i;
+
+    for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 1;
             particle->pos = *position;
@@ -95,7 +97,8 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.posRot.pos.z += 2.0f * Math_Coss(this->varianceTimer * 0x8000);
             this->dyna.actor.shape.rot.x = (s16)Math_Sins(this->varianceTimer * 0x7000) * 0x37;
             this->dyna.actor.shape.rot.z = (s16)Math_Sins(this->varianceTimer * 0x5000) * 0x37;
-            Audio_PlaySoundGeneral(0x205C, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                                   &D_801333E0, &D_801333E8);
         } else if (colPlat == 2) {
             Actor_Kill(&this->dyna.actor);
         }
@@ -124,7 +127,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 splashPos.z = this->dyna.actor.posRot.pos.z + edgeZ;
 
                 func_8002836C(globalCtx, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
-                              (s16)Math_Rand_ZeroFloat(100.0f) + 0x1F4, 0xA, 0x14);
+                              (s16)Math_Rand_ZeroFloat(100.0f) + 500, 0xA, 0x14);
 
                 for (i2 = 0; i2 < 3; i2++) {
                     emberVel.x = splashVel.x;
@@ -148,13 +151,11 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x11D);
+    
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x11D);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x123),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x123),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000240);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x128);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000240);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x128);
 }
