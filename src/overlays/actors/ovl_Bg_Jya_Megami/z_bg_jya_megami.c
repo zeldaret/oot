@@ -133,8 +133,8 @@ void func_8089A1DC(GlobalContext* globalCtx, Vec3f* burstOrigin, Vec3f* burstDep
     for (i = 0; i < num; i++) {
         s32 idx = ((s16)(Math_Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
         s16 u0 = ((idx < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
-        EffectSsKakera_Spawn(globalCtx, burstOrigin, burstDepthX, burstOrigin, -90, u0, D_8089B16C[idx], 4, 0, D_8089B14C[idx],
-                      0, 5, D_8089B15C[idx], -1, OBJECT_JYA_OBJ, D_0600B9F8);
+        EffectSsKakera_Spawn(globalCtx, burstOrigin, burstDepthX, burstOrigin, -90, u0, D_8089B16C[idx], 4, 0,
+                             D_8089B14C[idx], 0, 5, D_8089B15C[idx], -1, OBJECT_JYA_OBJ, D_0600B9F8);
         if (Math_Rand_ZeroOne() < 0.45f) {
             Math_Vec3f_Copy(&spB4, burstOrigin);
             spB4.z += 25.0f;

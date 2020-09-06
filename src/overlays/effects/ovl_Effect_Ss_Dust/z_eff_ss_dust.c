@@ -19,7 +19,7 @@ typedef enum {
     /* 0x09 */ SS_DUST_SCALE,
     /* 0x0A */ SS_DUST_SCALE_STEP,
     /* 0x0B */ SS_DUST_DRAW_FLAGS,
-    /* 0x0C */ SS_DUST_LIFE_START
+    /* 0x0C */ SS_DUST_LIFESPAN
 } EffectSsDustRegs;
 
 u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -73,7 +73,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     this->regs[SS_DUST_TEX_IDX] = 0;
     this->regs[SS_DUST_SCALE] = initParams->scale;
     this->regs[SS_DUST_SCALE_STEP] = initParams->scaleStep;
-    this->regs[SS_DUST_LIFE_START] = initParams->life;
+    this->regs[SS_DUST_LIFESPAN] = initParams->life;
     this->regs[SS_DUST_DRAW_FLAGS] = initParams->drawFlags;
 
     return 1;
@@ -135,12 +135,12 @@ void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
     this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
 
-    if ((this->regs[SS_DUST_LIFE_START] >= this->life) && (this->life >= (this->regs[SS_DUST_LIFE_START] - 7))) {
-        if (this->regs[SS_DUST_LIFE_START] >= 5) {
-            this->regs[SS_DUST_TEX_IDX] = this->regs[SS_DUST_LIFE_START] - this->life;
+    if ((this->regs[SS_DUST_LIFESPAN] >= this->life) && (this->life >= (this->regs[SS_DUST_LIFESPAN] - 7))) {
+        if (this->regs[SS_DUST_LIFESPAN] >= 5) {
+            this->regs[SS_DUST_TEX_IDX] = this->regs[SS_DUST_LIFESPAN] - this->life;
         } else {
             this->regs[SS_DUST_TEX_IDX] =
-                ((this->regs[SS_DUST_LIFE_START] - this->life) * (8 / this->regs[SS_DUST_LIFE_START]));
+                ((this->regs[SS_DUST_LIFESPAN] - this->life) * (8 / this->regs[SS_DUST_LIFESPAN]));
         }
     } else {
         this->regs[SS_DUST_TEX_IDX] = 7;

@@ -25,6 +25,7 @@
 #include "overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "overlays/effects/ovl_Effect_Ss_Ice_Piece/z_eff_ss_ice_piece.h"
 #include "overlays/effects/ovl_Effect_Ss_Fire_Tail/z_eff_ss_fire_tail.h"
 #include "overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
@@ -35,22 +36,37 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "overlays/effects/ovl_Effect_Ss_Ice_Smoke/z_eff_ss_ice_smoke.h"
 
-extern Color_RGBA8 D_801158D4;
-extern Color_RGBA8 D_801158D8;
-extern Color_RGBA8 D_801158D0;
-extern Color_RGBA8 D_801158DC;
-extern Color_RGBA8 D_801158E0;
-extern Color_RGBA8 D_801158E4;
-extern Color_RGBA8 D_801158E8;
-extern Color_RGBA8 D_801158EC;
-extern Color_RGBA8 D_801158F0;
-extern Color_RGBA8 D_801158F4;
-extern Color_RGBA8 D_801158F8;
-extern Vec3f D_801158C0;
-extern Color_RGBA8 D_801158CC;
-extern Vec3f D_801158FC;
-extern Vec3f D_80115908;
-extern Vec3f D_80115914;
+Vec3f D_801158C0 = { 0.0f, 0.0f, 0.0f };
+Color_RGBA8 D_801158CC = { 170, 130, 90, 255 };
+Color_RGBA8 D_801158D0 = { 100, 60, 20, 255 };
+Color_RGBA8 D_801158D4 = { 255, 255, 200, 255 };
+Color_RGBA8 D_801158D8 = { 255, 200, 0, 0 };
+Color_RGBA8 D_801158DC = { 255, 255, 255, 255 };
+Color_RGBA8 D_801158E0 = { 200, 200, 200, 0 };
+Color_RGBA8 D_801158E4 = { 255, 255, 255, 255 };
+Color_RGBA8 D_801158E8 = { 200, 200, 200, 0 };
+Color_RGBA8 D_801158EC = { 255, 255, 150, 255 };
+Color_RGBA8 D_801158F0 = { 255, 0, 0, 0 };
+Color_RGBA8 D_801158F4 = { 255, 255, 150, 255 };
+Color_RGBA8 D_801158F8 = { 255, 0, 0, 0 };
+Vec3f D_801158FC = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80115908 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80115914 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80115920 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_8011592C[] = {
+    { 0.0f, 70.0f, 0.0f },
+    { 0.0f, 45.0f, 20.0f },
+    { 17.320474f, 45.0f, 9.999695f },
+    { 17.320474f, 45.0f, -9.999695f },
+    { 0.0f, 45.0f, -20.0f },
+    { -17.320474f, 45.0f, -9.999695f },
+    { -17.320474f, 45.0f, 9.999695f },
+    { 0.0f, 20.0f, 20.0f },
+    { 17.320474f, 20.0f, -9.999695f },
+    { -17.320474f, 20.0f, -9.999695f },
+};
+Color_RGBA8 D_801159A4 = { 255, 255, 0, 255 };
+Color_RGBA8 D_801159A8 = { 255, 0, 0, 255 };
 
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR texture) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -796,10 +812,42 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
 
 // EffectSsIcePiece Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029F44.s")
+void func_80029F44(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, s32 life) {
+    EffectSsIcePieceInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    initParams.scale = scale;
+    initParams.life = life;
+    EffectSs_Spawn(globalCtx, 0x1A, 0x80, &initParams);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029FAC.s")
+/*
+void func_80029FAC(GlobalContext* globalCtx, Vec3f* refPos, f32 scale) {
+    s32 i;
+    Vec3f velocity; // sp80
+    Vec3f pos; // sp74
+    f32 temp_f2;
 
+    D_80115920.y = -0.2f;
+
+    for (i = 0; i < ARRAY_COUNT(D_8011592C); i++) {
+        pos = *refPos;
+        temp_f2 = Math_Rand_ZeroFloat(1.0f) + 0.5f;
+        velocity.x = (D_8011592C[i].x * 0.18f) * temp_f2;
+        velocity.y = (D_8011592C[i].y * 0.18f) * temp_f2;
+        velocity.z = (D_8011592C[i].z * 0.18f) * temp_f2;
+        // temps for array accesses?
+        pos.x += D_8011592C[i].x;
+        pos.y += D_8011592C[i].y;
+        pos.z += D_8011592C[i].z;
+        func_80029F44(globalCtx, &pos, (Math_Rand_ZeroFloat(1.0f) + 0.5f) * ((scale * 1.3f) * 100.0f), &velocity,
+                      &D_80115920, 25);
+    }
+}
+*/
 // EffectSsEnIce Spawn Functions
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A140.s")
@@ -890,7 +938,7 @@ void func_8002A54C(GlobalContext* globalCtx, Actor* actor, Vec3s* vec, s16 arg3,
         Audio_PlayActorSound2(actor, NA_SE_EV_FLAME_IGNITION);
     }
 
-    EffectSs_Spawn(globalCtx, 0x1D, 0x80, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_EN_FIRE, 128, &initParams);
 }
 
 // EffectSsExtra Spawn Functions

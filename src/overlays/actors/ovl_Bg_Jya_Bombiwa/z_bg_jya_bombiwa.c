@@ -131,8 +131,8 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
                 burstVelocity = 80;
             }
         }
-        EffectSsKakera_Spawn(globalCtx, &temp, &temp2, &temp, -400, tempS, rotationSpeed, burstVelocity, 0, tScale, 1, 20, 80,
-                      -1, OBJECT_JYA_OBJ, D_0600EDC0);
+        EffectSsKakera_Spawn(globalCtx, &temp, &temp2, &temp, -400, tempS, rotationSpeed, burstVelocity, 0, tScale, 1,
+                             20, 80, -1, OBJECT_JYA_OBJ, D_0600EDC0);
     }
     temp.x = this->dyna.actor.posRot.pos.x;
     temp.y = this->dyna.actor.posRot.pos.y + 70.0f;

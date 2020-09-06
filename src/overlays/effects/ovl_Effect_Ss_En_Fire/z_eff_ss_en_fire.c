@@ -20,8 +20,8 @@ typedef enum {
 } EffectSsEnFireRegs;
 
 u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A2D28(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A3060(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_En_Fire_InitVars = {
     EFFECT_SS_EN_FIRE,
@@ -45,8 +45,8 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->actor = initParams->actor;
 
     this->regs[SS_EN_FIRE_9] = Math_Rand_ZeroOne() * 20.0f;
-    this->draw = func_809A2D28;
-    this->update = func_809A3060;
+    this->draw = EffectSsEnFire_Draw;
+    this->update = EffectSsEnFire_Update;
     this->regs[SS_EN_FIRE_3] = -15;
 
     if (initParams->reg7 < 0) {
@@ -72,7 +72,7 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     return 1;
 }
 
-void func_809A2D28(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 scale;
     s16 cam;
@@ -99,8 +99,9 @@ void func_809A2D28(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, redGreen * 12.7f, 0, 0, 0);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, redGreen * 12.7f, redGreen * 12.7f, 0, 255);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
-                                      ((this->regs[SS_EN_FIRE_9]) * -0x14) & 0x1FF, 0x20, 0x80));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
+                                ((this->regs[SS_EN_FIRE_9]) * -0x14) & 0x1FF, 0x20, 0x80));
 
     if (((this->regs[SS_EN_FIRE_8] & 0x7FFF) != 0) || (this->life < 18)) {
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D5A0);
@@ -110,7 +111,6 @@ void func_809A2D28(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_fire.c", 213);
 }
-
 
 typedef struct {
     /* 0x000 */ Actor actor;
@@ -122,7 +122,7 @@ typedef struct {
     /* 0x14C */ Vec3s fireTable[10];
 } FireActorS;
 
-void func_809A3060(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     this->regs[SS_EN_FIRE_9]++;
 

@@ -50,7 +50,6 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     f32 xzScale;
     f32 yScale;
 
-
     xzScale = this->regs[SS_K_FIRE_XZ_SCALE] / 10000.0f;
     yScale = this->regs[SS_K_FIRE_Y_SCALE] / 10000.0f;
 
@@ -70,8 +69,8 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, this->regs[SS_K_FIRE_ALPHA]);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 255, 0);
     }
-    
-    if (1){}
+
+    if (1) {}
 
     gDPPipeSync(oGfxCtx->polyXlu.p++);
     func_800D1FD4(&globalCtx->mf_11DA0);

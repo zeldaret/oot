@@ -119,8 +119,8 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
             rotationSpeed = 33;
         }
 
-        EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4, 0,
-                      scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+        EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
+                             4, 0, scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
 
     for (i = 0; i < ARRAY_COUNT(D_808B08AC); i++) {

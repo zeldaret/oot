@@ -13,8 +13,8 @@ glabel func_80029FAC
 /* AA114C 80029FAC 3C018013 */  lui   $at, %hi(D_80135C54)
 /* AA1150 80029FB0 C4245C54 */  lwc1  $f4, %lo(D_80135C54)($at)
 /* AA1154 80029FB4 27BDFF70 */  addiu $sp, $sp, -0x90
-/* AA1158 80029FB8 3C018011 */  lui   $at, %hi(D_80115924)
-/* AA115C 80029FBC E4245924 */  swc1  $f4, %lo(D_80115924)($at)
+/* AA1158 80029FB8 3C018011 */  lui   $at, %hi(D_80115920+4)
+/* AA115C 80029FBC E4245924 */  swc1  $f4, %lo(D_80115920+4)($at)
 /* AA1160 80029FC0 3C018013 */  lui   $at, %hi(D_80135C58)
 /* AA1164 80029FC4 44866000 */  mtc1  $a2, $f12
 /* AA1168 80029FC8 C4265C58 */  lwc1  $f6, %lo(D_80135C58)($at)

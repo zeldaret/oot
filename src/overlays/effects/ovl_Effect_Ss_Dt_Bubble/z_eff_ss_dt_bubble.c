@@ -17,7 +17,7 @@ typedef enum {
     /* 0x07 */ SS_DT_BUBBLE_ENV_A,
     /* 0x08 */ SS_DT_BUBBLE_RAND_XZ,
     /* 0x09 */ SS_DT_BUBBLE_SCALE,
-    /* 0x0A */ SS_DT_BUBBLE_LIFE_START
+    /* 0x0A */ SS_DT_BUBBLE_LIFESPAN
 } EffectSsDt_BubbleRegs;
 
 u32 EffectSsDtBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -71,7 +71,7 @@ u32 EffectSsDtBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 
     this->regs[SS_DT_BUBBLE_RAND_XZ] = initParams->randXZ;
     this->regs[SS_DT_BUBBLE_SCALE] = initParams->scale;
-    this->regs[SS_DT_BUBBLE_LIFE_START] = initParams->life;
+    this->regs[SS_DT_BUBBLE_LIFESPAN] = initParams->life;
     this->draw = EffectSsDtBubble_Draw;
     this->update = EffectSsDtBubble_Update;
 
@@ -92,10 +92,10 @@ void EffectSsDtBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     func_80093C14(gfxCtx);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_DT_BUBBLE_PRIM_R], this->regs[SS_DT_BUBBLE_PRIM_G],
                     this->regs[SS_DT_BUBBLE_PRIM_B],
-                    (this->regs[SS_DT_BUBBLE_PRIM_A] * this->life) / this->regs[SS_DT_BUBBLE_LIFE_START]);
+                    (this->regs[SS_DT_BUBBLE_PRIM_A] * this->life) / this->regs[SS_DT_BUBBLE_LIFESPAN]);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_DT_BUBBLE_ENV_R], this->regs[SS_DT_BUBBLE_ENV_G],
                    this->regs[SS_DT_BUBBLE_ENV_B],
-                   (this->regs[SS_DT_BUBBLE_ENV_A] * this->life) / this->regs[SS_DT_BUBBLE_LIFE_START]);
+                   (this->regs[SS_DT_BUBBLE_ENV_A] * this->life) / this->regs[SS_DT_BUBBLE_LIFESPAN]);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08, this->gfx);
     gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
 

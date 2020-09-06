@@ -19,7 +19,7 @@ typedef enum {
     /* 0x09 */ SS_KIRAKIRA_ENV_A,
     /* 0x0A */ SS_KIRAKIRA_ALPHA_STEP,
     /* 0x0B */ SS_KIRAKIRA_SCALE,
-    /* 0x0C */ SS_KIRAKIRA_LIFE_START
+    /* 0x0C */ SS_KIRAKIRA_LIFESPAN
 } EffectSsKiraKiraRegs;
 
 u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -72,7 +72,7 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->regs[SS_KIRAKIRA_ENV_G] = initParams->envColor.g;
     this->regs[SS_KIRAKIRA_ENV_B] = initParams->envColor.b;
     this->regs[SS_KIRAKIRA_ALPHA_STEP] = initParams->alphaStep;
-    this->regs[SS_KIRAKIRA_LIFE_START] = initParams->life;
+    this->regs[SS_KIRAKIRA_LIFESPAN] = initParams->life;
 
     return 1;
 }
@@ -109,7 +109,7 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         func_80093C14(oGfxCtx);
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R],
                         this->regs[SS_KIRAKIRA_PRIM_G], this->regs[SS_KIRAKIRA_PRIM_B],
-                        (((s8)((55.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life) + 200)));
+                        (((s8)((55.0f / this->regs[SS_KIRAKIRA_LIFESPAN]) * this->life) + 200)));
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_KIRAKIRA_ENV_R], this->regs[SS_KIRAKIRA_ENV_G],
                        this->regs[SS_KIRAKIRA_ENV_B], this->regs[SS_KIRAKIRA_ENV_A]);
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
@@ -158,5 +158,5 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->regs[SS_KIRAKIRA_SCALE] =
-        this->regs[SS_KIRAKIRA_ENV_A] * Math_Sins((32768.0f / this->regs[SS_KIRAKIRA_LIFE_START]) * this->life);
+        this->regs[SS_KIRAKIRA_ENV_A] * Math_Sins((32768.0f / this->regs[SS_KIRAKIRA_LIFESPAN]) * this->life);
 }

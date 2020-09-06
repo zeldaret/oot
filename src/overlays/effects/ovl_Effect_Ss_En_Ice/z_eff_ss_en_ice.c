@@ -33,7 +33,6 @@ EffectSsInit Effect_Ss_En_Ice_InitVars = {
 
 Vec3f D_809A3B88 = { 0.0f, 0.0f, 0.0f };
 
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_En_Ice/EffectSsEnIce_Init.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_En_Ice/func_809A35DC.s")

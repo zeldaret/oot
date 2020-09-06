@@ -18,7 +18,7 @@ typedef enum {
     /* 0x08 */ SS_LIGHTNING_NUM_BOLTS,
     /* 0x09 */ SS_LIGHTNING_SCALE,
     /* 0x0A */ SS_LIGHTNING_YAW,
-    /* 0x0B */ SS_LIGHTNING_LIFE_START
+    /* 0x0B */ SS_LIGHTNING_LIFESPAN
 } EffectSsLightningRegs;
 
 u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -55,7 +55,7 @@ u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, 
     this->regs[SS_LIGHTNING_NUM_BOLTS] = initParams->numBolts;
     this->regs[SS_LIGHTNING_SCALE] = initParams->scale;
     this->regs[SS_LIGHTNING_YAW] = initParams->yaw;
-    this->regs[SS_LIGHTNING_LIFE_START] = initParams->life;
+    this->regs[SS_LIGHTNING_LIFESPAN] = initParams->life;
 
     return 1;
 }
@@ -68,8 +68,8 @@ void EffectSsLightning_NewLightning(GlobalContext* globalCtx, Vec3f* pos, s16 ya
     newLightning.pos = *pos;
     newLightning.regs[SS_LIGHTNING_NUM_BOLTS]--;
     newLightning.regs[SS_LIGHTNING_YAW] = yaw;
-    newLightning.life = newLightning.regs[SS_LIGHTNING_LIFE_START];
-    
+    newLightning.life = newLightning.regs[SS_LIGHTNING_LIFESPAN];
+
     EffectSs_Insert(globalCtx, &newLightning);
 }
 
@@ -89,7 +89,7 @@ void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this)
     OPEN_DISPS(gfxCtx, "../z_eff_ss_lightning.c", 233);
 
     yScale = this->regs[SS_LIGHTNING_SCALE] * 0.01f;
-    texIdx = this->regs[SS_LIGHTNING_LIFE_START] - this->life;
+    texIdx = this->regs[SS_LIGHTNING_LIFESPAN] - this->life;
 
     if (texIdx >= 8) {
         texIdx = 7;
@@ -127,7 +127,7 @@ void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* thi
     s16 yaw;
     f32 scale;
 
-    if ((this->regs[SS_LIGHTNING_NUM_BOLTS] != 0) && ((this->life + 1) == this->regs[SS_LIGHTNING_LIFE_START])) {
+    if ((this->regs[SS_LIGHTNING_NUM_BOLTS] != 0) && ((this->life + 1) == this->regs[SS_LIGHTNING_LIFESPAN])) {
 
         yaw = this->regs[SS_LIGHTNING_YAW] +
               (((Math_Rand_ZeroOne() < 0.5f) ? -1 : 1) * ((s16)((Math_Rand_ZeroOne() * 3640.0f)) + 0xE38));
