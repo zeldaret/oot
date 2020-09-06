@@ -17,8 +17,8 @@ typedef struct EnIceHono {
     /* 0x0156 */ s16 unk156;
     /* 0x0158 */ f32 smallFlameTargetYScale;
     /* 0x015C */ ColliderCylinder collider;
-    /* 0x01A8 */ z_Light* light;
-    /* 0x01AC */ LightInfoPositional lightInfo;
+    /* 0x01A8 */ LightNode* lightNode;
+    /* 0x01AC */ LightInfo lightInfo;
 } EnIceHono; // size = 0x01BC
 
 extern const ActorInit En_Ice_Hono_InitVars;
