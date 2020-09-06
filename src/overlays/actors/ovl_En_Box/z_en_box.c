@@ -41,11 +41,6 @@ void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnBox_SetActionFunc(EnBox*, EnBoxActionFunc);
-void EnBox_ClipToGround(EnBox*, GlobalContext*);
-void EnBox_RandomMovement(EnBox*, Vec3f*, Vec3f*, Vec3f*);
-void EnBox_SpawnLandingEffects(EnBox*, GlobalContext*);
-void EnBox_Fall(EnBox*, GlobalContext*);
 void EnBox_FallOnSwitchFlag(EnBox*, GlobalContext*);
 void func_809C9700(EnBox*, GlobalContext*);
 void EnBox_AppearOnSwitchFlag(EnBox*, GlobalContext*);
@@ -54,11 +49,6 @@ void EnBox_AppearInit(EnBox*, GlobalContext*);
 void EnBox_AppearAnimation(EnBox*, GlobalContext*);
 void EnBox_WaitOpen(EnBox*, GlobalContext*);
 void EnBox_Open(EnBox*, GlobalContext*);
-void func_809C9EF8(EnBox*, GlobalContext*);
-void EnBox_PostLimbDraw2(GlobalContext*, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx);
-Gfx* EnBox_EmptyDList(GraphicsContext*);
-Gfx* func_809CA4A0(GraphicsContext*);
-Gfx* func_809CA518(GraphicsContext*);
 
 extern AnimationHeader D_06000128;
 extern AnimationHeader D_0600024C;
@@ -236,10 +226,10 @@ void EnBox_RandomMovement(EnBox* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel
     accel->z = 0.0f;
 }
 
-/*
-Spawns effects randomly around the chest
-Used when the chest hits the ground after falling (FALL types)
-*/
+/**
+ * Spawns effects randomly around the chest
+ * Used when the chest hits the ground after falling (FALL types)
+ */
 void EnBox_SpawnLandingEffects(EnBox* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f pos;
@@ -252,9 +242,9 @@ void EnBox_SpawnLandingEffects(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
-Used while the chest is falling (FALL types)
-*/
+/**
+ * Used while the chest is falling (FALL types)
+ */
 void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
     f32 yDiff;
 
@@ -378,9 +368,9 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
-The chest is ready to appear, possibly waiting for camera/cutscene-related stuff to happen
-*/
+/**
+ * The chest is ready to appear, possibly waiting for camera/cutscene-related stuff to happen
+ */
 void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx) {
     if (func_8005B198() == this->dyna.actor.type || this->unk_1A8 != 0) {
         EnBox_SetActionFunc(this, EnBox_AppearAnimation);
@@ -409,10 +399,10 @@ void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
-Chest is ready to be open
-something else (like, Link's actor?) probably sets unk_1F4 from outside this actor's code?
-*/
+/**
+ * Chest is ready to be open
+ * something else (like, Link's actor?) probably sets unk_1F4 from outside this actor's code?
+ */
 void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     f32 frameCount;
     AnimationHeader* anim;
@@ -460,9 +450,9 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
-Plays an animation to its end, playing sounds at key points
-*/
+/**
+ * Plays an animation to its end, playing sounds at key points
+ */
 void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
     u16 sfxId;
 
