@@ -13,6 +13,7 @@ void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
 void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx);
+void func_808B40AC(void *arg0, void *arg1);
 
 s16 D_808B4590 = 0;
 
@@ -143,7 +144,7 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 //         sp80.y = sp80.y + actor->pos4.y;
 //         sp80.z = sp80.z + actor->posRot.pos.z;
 
-//         temp_f0 = func_8003CA64(&globalCtx->colCtx, actor->floorPoly, &sp64, this, &sp80, 0.0f);
+//         temp_f0 = func_8003CA64(&globalCtx->colCtx, actor->floorPoly, &sp64, &this, &sp80, 0);
 
 //         if (phi_f22 < temp_f0) {
 //             this->unk_180 = sp64;
@@ -152,23 +153,20 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 //     }
 // }
 
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3DDC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3F58.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4010.s")
 
-/*
-void func_808B4084(void *arg0, ? arg1) {
-    arg0->unk164 = &func_808B40AC;
-    arg0->unk6C = 0.0f;
-    arg0->unk5C = 0.0f;
-    arg0->unk60 = 0.0f;
-    arg0->unk64 = 0.0f;
+void func_808B4084(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+    this->actionFunc = &func_808B40AC;
+    this->dyna.actor.gravity = 0.0f;
+    this->dyna.actor.velocity.x = 0.0f;
+    this->dyna.actor.velocity.y = 0.0f;
+    this->dyna.actor.velocity.z = 0.0f;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4084.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4084.s")
 
 /*
 void func_808B40AC(void *arg0, void *arg1) {
