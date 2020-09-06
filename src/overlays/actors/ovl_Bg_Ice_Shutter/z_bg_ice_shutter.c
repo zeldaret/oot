@@ -59,7 +59,7 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&(THIS->dyna), 0);
     sp28 = thisx->params & 0xFF;
     thisx->params = ((thisx->params >> 8) & 0xFF);
-    DynaPolyInfo_Alloc(0x6002854, &localC);
+    DynaPolyInfo_Alloc(&D_06002854, &localC);
     THIS->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
     if (sp28 == 2) {
         thisx->shape.rot.x = (s16)-0x4000;
