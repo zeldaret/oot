@@ -318,9 +318,15 @@ bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 bool func_80042244(GlobalContext*, CollisionContext*, f32, f32, f32*, f32*);
 
+// Regalloc issues
 bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
+    Vec3s* pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
     f32 sp78;
     f32 sp74;
+    f32 temp;
+    s32 temp_v0_2;
     CollisionPoly *sp68;
     Vec3f sp5C;
     u32 sp50;
@@ -328,10 +334,7 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     f32 sp40;
     f32 sp3C;
     Vec3f sp30;
-    Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     f32 temp_f0_2;
-    s32 temp_v0_2;
-    Vec3s* pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
 
     sp78 = pointPos->y;
     Math_ApproxF(&this->actor.velocity.y, -14.0f, 1.0f);
@@ -354,7 +357,9 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
                     sp5C.y = this->actor.posRot.pos.y + 50.0f;
                     sp5C.z = this->actor.posRot.pos.z;
                     temp_f0_2 = func_8003CA0C(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
-                    if (fabsf(temp_f0_2 - (this->actor.posRot.pos.y - 59.5f)) < 15.0f) {
+                    // temp needed to match
+                    temp = temp_f0_2 - (this->actor.posRot.pos.y - 59.5f);
+                    if (fabsf(temp) < 15.0f) {
                         sp44.x = this->actor.posRot.pos.x;
                         sp44.y = temp_f0_2 + 10.0f;
                         sp44.z = this->actor.posRot.pos.z;
@@ -375,8 +380,8 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
             if (this->actor.posRot.pos.y <= sp3C) {
                 this->unk_1D3 |= 0x10;
                 if (sp3C < sp74) {
-                    sp30.y = sp3C;
                     sp30.x = this->actor.posRot.pos.x;
+                    sp30.y = sp3C;
                     sp30.z = this->actor.posRot.pos.z;
                     func_80A4C594(globalCtx, &sp30);
                     this->actor.velocity.y *= 0.2f;
