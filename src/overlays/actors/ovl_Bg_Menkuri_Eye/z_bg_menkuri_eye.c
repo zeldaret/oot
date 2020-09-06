@@ -73,7 +73,6 @@ void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriEye* this = THIS;
-    s32 temp;
 
     if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
         if (this->unk_14C != -1) {
@@ -86,24 +85,17 @@ void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    if (this->collider.base.acFlags & 2) {
-        temp = ABS((s16)(this->collider.base.ac->posRot.rot.y - this->actor.shape.rot.y));
-        if (temp > 0x5000) {
-            this->collider.base.acFlags &= ~0x2;
-            if (this->unk_14C == -1) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
-                D_8089C1A0 += 1;
-                if (D_8089C1A0 > 4) {
-                    D_8089C1A0 = 4;
-                } else {
-                    D_8089C1A0 = D_8089C1A0;
-                }
-            }
-            this->unk_14C = 0x1A0;
-            if (D_8089C1A0 == 4) {
-                Flags_SetSwitch(globalCtx, this->actor.params);
-                func_80078884(NA_SE_SY_CORRECT_CHIME);
-            }
+    if ((this->collider.base.acFlags & 2) && (ABS((s16)(this->collider.base.ac->posRot.rot.y - this->actor.shape.rot.y)) > 0x5000)){
+        this->collider.base.acFlags &= ~0x2;
+        if (this->unk_14C == -1) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
+            D_8089C1A0 += 1;
+            D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
+        }
+        this->unk_14C = 0x1A0;
+        if (D_8089C1A0 == 4) {
+            Flags_SetSwitch(globalCtx, this->actor.params);
+            func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
     }
     if (this->unk_14C == -1) {
