@@ -11,7 +11,6 @@ void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx);
 void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx);
-void BgHidanDalm_UpdateCollider(BgHidanDalm* this);
 
 const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
@@ -59,54 +58,42 @@ extern Gfx D_0600BBF0[];
 extern Gfx D_0600BDF0[];
 extern UNK_TYPE D_0600DA10;
 
-#ifdef NON_MATCHING
-// regalloc
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
-    s32 switchFlag;
+    s32 pad;
     u32 dynaUnk;
 
     dynaUnk = 0;
     Actor_ProcessInitChain(thisx, D_808865A0);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
     DynaPolyInfo_Alloc(&D_0600DA10, &dynaUnk);
-    // = ... & 0xFFFFFFFFFFFFFFFF; moves regalloc issues
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, dynaUnk);
-    Collider_InitTris(globalCtx, &this->unk_16C);
-    Collider_SetTris(globalCtx, &this->unk_16C, thisx, &D_80886590, this->unk_18C);
+    Collider_InitTris(globalCtx, &this->collider);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &D_80886590, this->colliderItems);
 
-    switchFlag = thisx->params >> 8; /*
-    // this instead of the line above solves half the regalloc issues
-    switchFlag = thisx->params;
-    switchFlag = switchFlag >> 8 & 0xFFFFFFFFFFFFFFFF;
-    //*/
-    this->switchFlag = switchFlag;   // can use thisx->params >> 8 without changes
+    this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    // can use thisx->params >> 8 , seems to improve regalloc, but it changes codegen
-    if (Flags_GetSwitch(globalCtx, switchFlag & 0xFF)) {
+    if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Actor_Kill(thisx);
     } else {
         this->actionFunc = BgHidanDalm_WaitInteraction;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Dalm/BgHidanDalm_Init.s")
-#endif
 
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-    Collider_DestroyTris(globalCtx, &this->unk_16C);
+    Collider_DestroyTris(globalCtx, &this->collider);
 }
 
 void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->unk_16C.base.acFlags & 2) && !func_8008E988(globalCtx) &&
+    if ((this->collider.base.acFlags & 2) && !func_8008E988(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
-        this->unk_16C.base.acFlags &= ~2;
-        if (this->unk_16C.list[0].body.bumperFlags & 2 || this->unk_16C.list[1].body.bumperFlags & 2) {
+        this->collider.base.acFlags &= ~2;
+        if (this->collider.list[0].body.bumperFlags & 2 || this->collider.list[1].body.bumperFlags & 2) {
             this->dyna.actor.posRot.rot.y -= 0x4000;
         } else {
             this->dyna.actor.posRot.rot.y += 0x4000;
@@ -124,7 +111,7 @@ void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx) {
         func_8002F7DC(&PLAYER->actor, NA_SE_IT_HAMMER_HIT);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_DARUMA_VANISH);
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_16C.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
@@ -161,9 +148,9 @@ void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f, 5);
 }
 
-/*
-Update vertices of collider tris based on the current matrix
-*/
+/**
+ * Update vertices of collider tris based on the current matrix
+ */
 void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
     Vec3f pos2;
     Vec3f pos1;
@@ -172,16 +159,16 @@ void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
     Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[0], &pos0);
     Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[1], &pos1);
     Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[2], &pos2);
-    func_800627A0(&this->unk_16C, 0, &pos0, &pos1, &pos2);
+    func_800627A0(&this->collider, 0, &pos0, &pos1, &pos2);
     Matrix_MultVec3f(&sTrisItemInit[1].dim.vtx[2], &pos1);
-    func_800627A0(&this->unk_16C, 1, &pos0, &pos2, &pos1);
+    func_800627A0(&this->collider, 1, &pos0, &pos2, &pos1);
 
     Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[0], &pos0);
     Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[1], &pos1);
     Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[2], &pos2);
-    func_800627A0(&this->unk_16C, 2, &pos0, &pos1, &pos2);
+    func_800627A0(&this->collider, 2, &pos0, &pos1, &pos2);
     Matrix_MultVec3f(&sTrisItemInit[3].dim.vtx[1], &pos2);
-    func_800627A0(&this->unk_16C, 3, &pos0, &pos2, &pos1);
+    func_800627A0(&this->collider, 3, &pos0, &pos2, &pos1);
 }
 
 void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -193,7 +180,7 @@ void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Gfx_DrawDListOpa(globalCtx, D_0600BDF0);
     }
 
-    if (this->actionFunc == &BgHidanDalm_WaitInteraction) {
+    if (this->actionFunc == BgHidanDalm_WaitInteraction) {
         BgHidanDalm_UpdateCollider(this);
     }
 }
