@@ -6,6 +6,8 @@
 
 #include "z_en_goroiwa.h"
 
+#include <vt.h>
+
 #define FLAGS 0x00000010
 
 #define THIS ((EnGoroiwa*)thisx)
@@ -20,7 +22,9 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D9DC(EnGoroiwa* this);
 void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4DA7C(EnGoroiwa* this);
 void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4DB90(EnGoroiwa* this);
 void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx);
 
 /*
@@ -46,6 +50,8 @@ extern Vec3f D_80A4DED8;
 extern f32 D_80A4DEF0[];
 extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
+extern bool (*D_80A4DF18[])(EnGoroiwa* this);
+extern void (*D_80A4DF20[])(EnGoroiwa* this);
 extern s16 D_80A4DF28[];
 
 extern Gfx D_0400D340[];
@@ -527,7 +533,102 @@ void func_80A4D5E0(EnGoroiwa* this) {
     this->unk_1C0 = 1.0f;
 }
 
+#ifdef NON_MATCHING
+void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s16 temp_v0_2;
+    s16 temp_v0_3;
+    s16 temp_v0_4;
+    s32 temp_v0_5;
+    s16 temp_v1;
+    s16 temp_v1_2;
+    u8 temp_t9;
+
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags &= ~2;
+        temp_v1 = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
+        this->unk_1D3 &= ~4;
+        if (temp_v1 >= -0x3FFF && temp_v1 < 0x4000) {
+            this->unk_1D3 |= 4;
+            if (!((this->actor.params >> 10) & 1)) {
+                if ((this->actor.initPosRot.rot.z & 1) != 1) {
+block_5:
+                    func_80A4C164(this);
+                    func_80A4BE54(this, globalCtx);
+                }
+            } else {
+                goto block_5;
+            }
+        }
+        func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 0);
+        osSyncPrintf(VT_FGCOL(CYAN));
+        osSyncPrintf("Player ぶっ飛ばし\n");
+        osSyncPrintf(VT_RST);
+        D_80A4DF20[(this->actor.params >> 10) & 1](this);
+        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        if ((this->actor.initPosRot.rot.z & 1) == 1) {
+            this->timer = 50;
+        }
+    } else {
+        if (D_80A4DF18[(this->actor.params >> 10) & 1](this)) {
+            temp_v1_2 = (this->actor.params >> 8) & 3;
+            if (temp_v1_2 == 1) {
+                temp_v0_2 = this->waypoint2;
+                if (temp_v0_2 != 0) {
+                    if (this->unk_1CA == temp_v0_2) {
+block_12:
+                        func_80A4D0FC(this, globalCtx);
+                    }
+                } else {
+                    goto block_12;
+                }
+            }
+            func_80A4D074(this, globalCtx);
+            if (temp_v1_2 == 3) {
+                temp_v0_3 = this->waypoint1;
+                if (temp_v0_3 != 0) {
+                    if (this->unk_1CA == temp_v0_3) {
+block_16:
+                        func_80A4D9DC(this);
+                    } else {
+block_17:
+                        if (((this->actor.params >> 0xA) & 1) == 0) {
+                            temp_v0_4 = this->waypoint1;
+                            if (temp_v0_4 != 0) {
+                                if (this->unk_1CA != temp_v0_4) {
+                                    temp_v0_5 = func_80A4C27C(this, globalCtx);
+                                    if (temp_v0_5 > 0) {
+                                        func_80A4DA7C(this);
+                                    } else {
+                                        if (temp_v0_5 < 0) {
+                                            func_80A4DB90(this);
+                                        } else {
+                                            func_80A4D5E0(this);
+                                        }
+                                    }
+                                } else {
+block_25:
+                                    func_80A4D5E0(this);
+                                }
+                            } else {
+                                goto block_25;
+                            }
+                        } else {
+                            goto block_25;
+                        }
+                    }
+                } else {
+                    goto block_16;
+                }
+            } else {
+                goto block_17;
+            }
+        }
+    }
+    Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D624.s")
+#endif
 
 void func_80A4D8CC(EnGoroiwa* this) {
     this->actionFunc = func_80A4D944;
