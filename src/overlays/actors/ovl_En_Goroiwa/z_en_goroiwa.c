@@ -315,7 +315,6 @@ bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     return Math_ApproxF(&this->actor.posRot.pos.y, temp_t0->y, fabsf(this->actor.velocity.y));
 }
 
-#ifdef NON_MATCHING
 bool func_80042244(GlobalContext*, CollisionContext*, f32, f32, f32*, f32*);
 
 // Stack issues
@@ -327,7 +326,7 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     f32 sp74;
     f32 temp;
     s32 temp_v0_2;
-    CollisionPoly *sp68;
+    CollisionPoly* sp68;
     Vec3f sp5C;
     s32 pad2;
     u32 sp50;
@@ -396,9 +395,6 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
     return false;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4CB78.s")
-#endif
 
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
