@@ -61,16 +61,6 @@ void func_80AE7494(EnRl* this) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE74B4.s")
-/*s8 func_80AE74B4(EnRl* this, GlobalContext* globalCtx, s32 arg2, s32 arg3) {
-    CsCmdActorAction* temp_v0 = globalCtx->csCtx.npcActions[arg3];
-
-    if (globalCtx->csCtx.state == 0 || temp_v0 == 0 || (arg2 & 0xFFFF != temp_v0->action)) {
-        return 0;
-    }
-    else{
-        return temp_v0;
-    }
-}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE74FC.s")
 
@@ -83,7 +73,7 @@ void func_80AE7668(EnRl *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     s16 temp;
 
-    this->unk_198 = 1;
+    this->drawConfig = 1;
     this->action = 1;
     temp = this->actor.posRot.rot.y + 0x8000;
     player->actor.shape.rot.y = temp;
@@ -143,7 +133,6 @@ void func_80AE7C64(EnRl *this, GlobalContext *globalCtx) {
     func_80AE73D8(this, globalCtx);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE7C94.s")
 void func_80AE7C94(EnRl *this, GlobalContext *globalCtx) {
     func_80AE744C(this, globalCtx);
     func_80AE7494(this);
@@ -188,4 +177,12 @@ void func_80AE7FD0(EnRl *this, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE7FDC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/EnRl_Draw.s")
+void EnRl_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    EnRl* this = THIS;
+
+    if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AE81D0[this->drawConfig] == NULL) {
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        return;
+    }
+    D_80AE81D0[this->drawConfig](this, globalCtx);
+}

@@ -14,7 +14,7 @@ typedef struct EnRl {
     /* 0x0190 */ s16 unk_190;
     /* 0x0192 */ s16 unk_192;
     /* 0x0194 */ s32 action;
-    /* 0x0198 */ s32 unk_198;
+    /* 0x0198 */ s32 drawConfig;
     /* 0x019C */ f32 unk_19C;
     /* 0x01A0 */ s32 unk_1A0;
     /* 0x01A4 */ char unk_1A4[0x8];
