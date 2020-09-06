@@ -8,8 +8,8 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
-    /* 0x24 */ Color_RGBA8_u32 envColor;
-    /* 0x28 */ Color_RGBA8_u32 primColor;
+    /* 0x24 */ Color_RGBA8 envColor;
+    /* 0x28 */ Color_RGBA8 primColor;
     /* 0x2C */ s16 radius;
     /* 0x2E */ s16 radiusStep;
     /* 0x30 */ s16 radiusStepDecr;

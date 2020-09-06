@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-void func_80026230(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3) {
+void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3) {
     f32 cos;
     Gfx* displayListHead;
     f32 absCos;
@@ -29,7 +29,7 @@ void func_80026230(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 129);
 }
 
-void func_80026400(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3) {
+void func_80026400(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3) {
     Gfx* displayListHead;
     f32 cos;
 
@@ -62,7 +62,7 @@ void func_80026608(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 164);
 }
 
-void func_80026690(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3) {
+void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3) {
     f32 cos;
     Gfx* displayListHead;
     f32 absCos;
@@ -90,7 +90,7 @@ void func_80026690(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 194);
 }
 
-void func_80026860(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3) {
+void func_80026860(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3) {
     f32 cos;
     Gfx* displayListHead;
 

@@ -307,7 +307,7 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
 #ifdef NON_MATCHING
 // regalloc and saved register usage differences
 void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
-                                   Color_RGBA8_u32* color1, Color_RGBA8_u32* color2) {
+                                   Color_RGBA8* color1, Color_RGBA8* color2) {
     Vec3s sp30;
     EffectBlureElement* elem;
     f32 mode4Param;
@@ -393,7 +393,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
 }
 #else
 void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
-                                   Color_RGBA8_u32* color1, Color_RGBA8_u32* color2);
+                                   Color_RGBA8* color1, Color_RGBA8* color2);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_blure/EffectBlure_GetComputedValues.s")
 #endif
 
@@ -413,8 +413,8 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
     Vec3s sp8C;
     Vec3s sp84;
     f32 ratio;
-    Color_RGBA8_u32 sp7C;
-    Color_RGBA8_u32 sp78;
+    Color_RGBA8 sp7C;
+    Color_RGBA8 sp78;
     Vec3f sp6C;
     Vec3f sp60;
     Vec3f sp54;
@@ -892,8 +892,8 @@ void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
     Vec3s sp74;
     Vec3s sp6C;
     f32 ratio;
-    Color_RGBA8_u32 sp64;
-    Color_RGBA8_u32 sp60;
+    Color_RGBA8 sp64;
+    Color_RGBA8 sp60;
 
     vtxCount = this->numElements * 4;
 

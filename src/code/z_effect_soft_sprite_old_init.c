@@ -38,14 +38,14 @@
 extern Color_RGBA8 D_801158D4;
 extern Color_RGBA8 D_801158D8;
 extern Color_RGBA8 D_801158D0;
-extern Color_RGBA8_u32 D_801158DC;
-extern Color_RGBA8_u32 D_801158E0;
-extern Color_RGBA8_u32 D_801158E4;
-extern Color_RGBA8_u32 D_801158E8;
-extern Color_RGBA8_u32 D_801158EC;
-extern Color_RGBA8_u32 D_801158F0;
-extern Color_RGBA8_u32 D_801158F4;
-extern Color_RGBA8_u32 D_801158F8;
+extern Color_RGBA8 D_801158DC;
+extern Color_RGBA8 D_801158E0;
+extern Color_RGBA8 D_801158E4;
+extern Color_RGBA8 D_801158E8;
+extern Color_RGBA8 D_801158EC;
+extern Color_RGBA8 D_801158F0;
+extern Color_RGBA8 D_801158F4;
+extern Color_RGBA8 D_801158F8;
 extern Vec3f D_801158C0;
 extern Color_RGBA8 D_801158CC;
 extern Vec3f D_801158FC;
@@ -327,8 +327,8 @@ void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* vel
 
 // EffectSsBlast Spawn Functions
 
-void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_u32* envColor,
-                         Color_RGBA8_u32* primColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
+void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
+                         Color_RGBA8* primColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -349,8 +349,8 @@ void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, &D_801158DC, &D_801158E0, radius, radiusStep, 35, life);
 }
 
-void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_u32* envColor,
-                   Color_RGBA8_u32* primColor, s16 life) {
+void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
+                   Color_RGBA8* primColor, s16 life) {
     EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, envColor, primColor, 100, 375, 35, life);
 }
 
@@ -361,7 +361,7 @@ void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 // EffectSsGSpk Spawn Functions
 
 void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8_u32* envColor, Color_RGBA8_u32* primColor, s16 scale, s16 scaleStep) {
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep) {
     EffectSsGSpkInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -379,7 +379,7 @@ void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 
 // unused
 void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8_u32* envColor, Color_RGBA8_u32* primColor, s16 scale, s16 scaleStep) {
+                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep) {
     EffectSsGSpkInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -396,8 +396,8 @@ void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 }
 
 void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
-    Color_RGBA8_u32 envColor = D_801158EC;
-    Color_RGBA8_u32 primColor = D_801158F0;
+    Color_RGBA8 envColor = D_801158EC;
+    Color_RGBA8 primColor = D_801158F0;
 
     func_800292DC(globalCtx, actor, pos, velocity, accel, &envColor, &primColor);
 }
@@ -405,8 +405,8 @@ void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 // unused
 void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                    s16 scaleStep) {
-    Color_RGBA8_u32 envColor = D_801158F4;
-    Color_RGBA8_u32 primColor = D_801158F8;
+    Color_RGBA8 envColor = D_801158F4;
+    Color_RGBA8 primColor = D_801158F8;
     s32 randOffset;
 
     randOffset = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
@@ -424,7 +424,7 @@ void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 }
 
 void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8_u32* envColor, Color_RGBA8_u32* primColor) {
+                   Color_RGBA8* envColor, Color_RGBA8* primColor) {
     func_80029060(globalCtx, actor, pos, velocity, accel, envColor, primColor, 100, 5);
 }
 
@@ -521,7 +521,7 @@ void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos) {
 
 // EffectSsLightning Spawn Functions
 
-void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_u32* primColor, Color_RGBA8_u32* envColor, s16 scale,
+void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
                    s16 yaw, s16 life, s16 numBolts) {
     EffectSsLightningInitParams initParams;
 
@@ -555,7 +555,7 @@ void EffectSsDtBubble_SpawnColorProfile(GlobalContext* globalCtx, Vec3f* pos, Ve
 }
 
 void EffectSsDtBubble_SpawnCustomColor(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                                       Color_RGBA8_u32* primColor, Color_RGBA8_u32* envColor, s16 scale, s16 life, s16 randXZ) {
+                                       Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 life, s16 randXZ) {
     EffectSsDtBubbleInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -667,7 +667,7 @@ void EffectSsSibuki2_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity
 
 // EffectSsGMagma2 Spawn Functions
 
-void EffectSsGMagma2_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_u32* primColor, Color_RGBA8_u32* envColor,
+void EffectSsGMagma2_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
                            s16 arg4, s16 arg5, s16 scale) {
     EffectSsGMagma2InitParams initParams;
 
