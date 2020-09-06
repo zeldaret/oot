@@ -110,13 +110,11 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos);
 }
 
-#ifdef NON_MATCHING
-// Regalloc issues
 void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2) {
     s16 temp_v0 = (this->actor.params >> 8) & 3;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    Vec3s* points;
     s16 temp_t0 = this->waypoint1 - this->unk_1D0;
+    Vec3s* temp_a1;
     Vec3s* temp_v0_2;
 
     if (temp_t0 < 0) {
@@ -135,15 +133,12 @@ void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2) {
         }
     }
 
-    points = SEGMENTED_TO_VIRTUAL(path->points);
-    temp_v0_2 = &points[this->waypoint1];
-    arg2->x = temp_v0_2->x - points[temp_t0].x;
-    arg2->y = temp_v0_2->x - points[temp_t0].y;
-    arg2->z = temp_v0_2->x - points[temp_t0].z;
+    temp_v0_2 = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint1];
+    temp_a1 = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[temp_t0];
+    arg2->x = temp_v0_2->x - temp_a1->x;
+    arg2->y = temp_v0_2->x - temp_a1->y;
+    arg2->z = temp_v0_2->x - temp_a1->z;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4BF28.s")
-#endif
 
 void func_80A4C080(EnGoroiwa* this) {
     s16 temp_v0 = (this->actor.params >> 8) & 3;
