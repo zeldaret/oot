@@ -199,7 +199,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
-    Color_RGBA8_n dustColor = { 255, 255, 255, 255 };
+    Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
     EnBom* this = THIS;
 

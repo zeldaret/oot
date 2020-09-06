@@ -47,8 +47,8 @@ static ColliderCylinderInit sColCylinderInit1 = {
 
 s16 sHasParent = false;
 
-Color_RGBA8_n D_8087259C = { 100, 100, 100, 0 };
-Color_RGBA8_n D_808725A0 = { 40, 40, 40, 0 };
+Color_RGBA8 D_8087259C = { 100, 100, 100, 0 };
+Color_RGBA8 D_808725A0 = { 40, 40, 40, 0 };
 
 static Vec3f sVelocity = { 0.0f, -1.5f, 0.0f };
 static Vec3f sAcceleration = { 0.0f, -0.2f, 0.0f };
@@ -72,8 +72,8 @@ void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
 
 void func_80871A08(Vec3f* vec, GlobalContext* globalCtx) {
     Vec3f pos;
-    Color_RGBA8_n primColor = D_8087259C;
-    Color_RGBA8_n envColor = D_808725A0;
+    Color_RGBA8 primColor = D_8087259C;
+    Color_RGBA8 envColor = D_808725A0;
     s32 i;
 
     for (i = 4; i > 0; i--) {

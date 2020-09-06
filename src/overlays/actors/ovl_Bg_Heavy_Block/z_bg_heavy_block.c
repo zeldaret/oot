@@ -210,8 +210,8 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
 void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 posZ, f32 velX, f32 velY, f32 velZ,
                             u8 dustParams) {
-    Color_RGBA8_n primColor;
-    Color_RGBA8_n envColor;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
     Vec3f eye;
     Vec3f at;
     s16 sp6E;

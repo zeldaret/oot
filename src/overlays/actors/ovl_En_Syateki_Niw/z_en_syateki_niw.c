@@ -212,8 +212,8 @@ void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     Vec3f dustVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f dustAccel = { 0.0f, 0.2f, 0.0f };
-    Color_RGBA8_n dustPrimColor = { 0, 0, 0, 255 };
-    Color_RGBA8_n dustEnvColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustPrimColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustEnvColor = { 0, 0, 0, 255 };
     Vec3f dustPos;
     f32 tmpf2;
     f32 sp4C;

@@ -176,11 +176,11 @@ void EffectSpark_Init(void* thisx, void* initParamsx);
 void EffectSpark_Destroy(void* thisx);
 s32 EffectSpark_Update(void* thisx);
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx);
-void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
-void func_80026400(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026230(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3);
+void func_80026400(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3);
 void func_80026608(GlobalContext* globalCtx);
-void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
-void func_80026860(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026690(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3);
+void func_80026860(GlobalContext* globalCtx, Color_RGBA8_u32* color, s16 arg2, s16 arg3);
 void func_80026A6C(GlobalContext* globalCtx);
 GlobalContext* Effect_GetGlobalCtx(void);
 void* Effect_GetByIndex(s32 index);
@@ -202,14 +202,14 @@ s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2);
 s16 func_80027E34(s16 arg0, s16 arg1, f32 arg2);
 u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment);
-void func_8002829C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
-                   Color_RGBA8_n* envColor, s16 scale, s16 scaleStep);
-void func_8002836C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
-                   Color_RGBA8_n* envColor, s16 scale, s16 scaleStep, s16 life);
-void func_800283D4(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
-                   Color_RGBA8_n* envColor, s16 scale, s16 scaleStep, s16 life);
-void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, Color_RGBA8_n* arg4,
-                   Color_RGBA8_n* arg5, s16 arg6, s16 arg7, s16 arg8);
+void func_8002829C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_8002836C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
+void func_800283D4(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
+void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, Color_RGBA8* arg4,
+                   Color_RGBA8* arg5, s16 arg6, s16 arg7, s16 arg8);
 void func_8002857C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void func_8002865C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
 void func_800286CC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
@@ -220,34 +220,34 @@ void func_800287AC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 void func_80028990(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028B18(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
-void func_80028B74(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
-                   Color_RGBA8_n* envColor);
-void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
-                   Color_RGBA8_n* envColor, s16 scale, s32 life);
-void func_80028CEC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n* primColor,
-                   Color_RGBA8_n* envColor, s16 scale, s32 life);
+void func_80028B74(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor);
+void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s32 life);
+void func_80028CEC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s32 life);
 void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                 s16  scaleStep);
 void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
                    s16 life);
-void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
-                   Color_RGBA8* primColor, s16 life);
+void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_u32* envColor,
+                   Color_RGBA8_u32* primColor, s16 life);
 void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep);
+                   Color_RGBA8_u32* envColor, Color_RGBA8_u32* primColor, s16 scale, s16 scaleStep);
 void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8* envColor, Color_RGBA8* primColor);
+                   Color_RGBA8_u32* envColor, Color_RGBA8_u32* primColor);
 void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                    s16 alpha, s16 fadeDelay, s32 life);
 void func_800293A0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha, s16 fadeDelay);
 void EffectSsBubble_Spawn(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
 void EffectSsGRipple_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 radius, s16 radiusMax, s16 life);
-void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor,
+void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
                            s16 arg4, s16 scale);
 void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos);
-void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
+void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8_u32* primColor, Color_RGBA8_u32* envColor, s16 scale,
                    s16 unk_16, s16 life, s16 unk_1A);
 // ? EffectSsDtBubble_SpawnColorProfile(?);
 // ? EffectSsDtBubble_SpawnCustomColor(?);

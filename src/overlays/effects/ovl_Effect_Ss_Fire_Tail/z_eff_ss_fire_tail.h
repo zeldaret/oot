@@ -10,8 +10,8 @@ typedef struct {
     /* 0x10 */ f32 scale;
     /* 0x14 */ Vec3f unk_14;
     /* 0x20 */ s16 unk_20;
-    /* 0x22 */ Color_RGBA8_n primColor; 
-    /* 0x26 */ Color_RGBA8_n envColor;
+    /* 0x22 */ Color_RGBA8 primColor; 
+    /* 0x26 */ Color_RGBA8 envColor;
     /* 0x2A */ s16 unk_2A;
     /* 0x2C */ s16 unk_2C;
     /* 0x30 */ s32 life;

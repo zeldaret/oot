@@ -2177,8 +2177,8 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, globalCtx->objectCtx.status[actor->objBankIndex].segment);
 
     if (actor->dmgEffectTimer != 0) {
-        // Must be inline data to match
         Color_RGBA8 sp2C = { 0, 0, 0, 255 };
+
         if (actor->dmgEffectParams & 0x8000) {
             sp2C.r = sp2C.g = sp2C.b = ((actor->dmgEffectParams & 0x1F00) >> 5) | 7;
         } else if (actor->dmgEffectParams & 0x4000) {

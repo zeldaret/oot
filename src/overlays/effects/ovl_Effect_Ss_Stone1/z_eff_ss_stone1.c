@@ -21,8 +21,8 @@ EffectSsInit Effect_Ss_Stone1_InitVars = {
 
 typedef struct {
     /* 0x00 */ void* texture;
-    /* 0x04 */ Color_RGBA8 primColor;
-    /* 0x08 */ Color_RGBA8 envColor;
+    /* 0x04 */ Color_RGBA8_u32 primColor;
+    /* 0x08 */ Color_RGBA8_u32 envColor;
 } EffStoneDrawParams;
 
 EffStoneDrawParams D_809ACA08[] = {

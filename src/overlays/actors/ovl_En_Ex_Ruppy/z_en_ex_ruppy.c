@@ -168,8 +168,8 @@ void EnExRuppy_SpawnSparkles(EnExRuppy* this, GlobalContext* globalCtx, s16 arg2
     Vec3f sparklePos;
     Vec3f sparkleVelocity;
     Vec3f sparkleAccel;
-    Color_RGBA8_n primColor;
-    Color_RGBA8_n envColor;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
     s32 i;
     s16 sparkleScale;
     s16 sparkleLife;

@@ -9,7 +9,7 @@ Input* D_8012D1F8 = NULL;
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
 VisMono D_80161498;
-Color_RGBA8 D_801614B0;
+Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
 u64 D_801614D0[0xA00];

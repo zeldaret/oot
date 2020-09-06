@@ -24,8 +24,8 @@ u32 EffectSsDtBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 void EffectSsDtBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsDtBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-Color_RGBA8_n sPrimColors[] = { { 255, 255, 100, 255 }, { 150, 255, 255, 255 }, { 100, 255, 255, 255 } };
-Color_RGBA8_n sEnvColors[] = { { 170, 0, 0, 255 }, { 0, 100, 0, 255 }, { 0, 0, 255, 255 } };
+Color_RGBA8 sPrimColors[] = { { 255, 255, 100, 255 }, { 150, 255, 255, 255 }, { 100, 255, 255, 255 } };
+Color_RGBA8 sEnvColors[] = { { 170, 0, 0, 255 }, { 0, 100, 0, 255 }, { 0, 0, 255, 255 } };
 
 EffectSsInit Effect_Ss_Dt_Bubble_InitVars = {
     EFFECT_SS_DT_BUBBLE,
