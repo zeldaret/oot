@@ -113,13 +113,11 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // Regalloc issues
 void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2) {
+    s16 temp_v0 = (this->actor.params >> 8) & 3;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* points;
-    s16 temp_t0;
-    s16 temp_v0 = (this->actor.params >> 8) & 3;
+    s16 temp_t0 = this->waypoint1 - this->unk_1D0;
     Vec3s* temp_v0_2;
-
-    temp_t0 = this->waypoint1 - this->unk_1D0;
 
     if (temp_t0 < 0) {
         if (temp_v0 == 0 || temp_v0 == 1) {
