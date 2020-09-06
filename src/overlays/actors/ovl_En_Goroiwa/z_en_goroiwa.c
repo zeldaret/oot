@@ -317,7 +317,6 @@ bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 bool func_80042244(GlobalContext*, CollisionContext*, f32, f32, f32*, f32*);
 
-// Stack issues
 bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
@@ -328,13 +327,13 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 temp_v0_2;
     CollisionPoly* sp68;
     Vec3f sp5C;
+    f32 temp_f0_2;
     s32 pad2;
     u32 sp50;
     Vec3f sp44;
     f32 sp40;
     f32 sp3C;
     Vec3f sp30;
-    f32 temp_f0_2;
 
     sp78 = pointPos->y;
     Math_ApproxF(&this->actor.velocity.y, -14.0f, 1.0f);
