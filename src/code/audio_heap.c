@@ -61,8 +61,8 @@ void Audio_DiscardBank(s32 bankId) {
 
         if (note->playbackState.bankId == bankId) {
             if (note->playbackState.unk_04 == 0 && note->playbackState.priority != 0) {
-                note->playbackState.parentLayer->enabled = 0;
-                note->playbackState.parentLayer->finished = 1;
+                note->playbackState.parentLayer->enabled = false;
+                note->playbackState.parentLayer->finished = true;
             }
             Audio_NoteDisable(note);
             Audio_AudioListRemove(&note->listItem);
@@ -82,7 +82,7 @@ void func_800DE12C(s32 bankId) {
             if (state->priority != 0 && state->adsr.action.s.state == ADSR_STATE_DECAY) {
                 state->priority = 1;
                 state->adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
-                state->adsr.action.s.release = 1;
+                state->adsr.action.s.release = true;
             }
         }
     }
@@ -733,7 +733,7 @@ s32 Audio_ResetStep(void) {
                     if (gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled &&
                             gAudioContext.gNotes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
                         gAudioContext.gNotes[i].playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
-                        gAudioContext.gNotes[i].playbackState.adsr.action.s.release = 1;
+                        gAudioContext.gNotes[i].playbackState.adsr.action.s.release = true;
                     }
                 }
                 gAudioContext.gAudioResetFadeOutFramesLeft = 8 / sp24;

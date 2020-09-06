@@ -120,10 +120,10 @@ glabel func_800DFBF8
 /* B56F4C 800DFDAC A6D9285C */  sh    $t9, 0x285c($s6)
 .L800DFDB0:
 /* B56F50 800DFDB0 950A0014 */  lhu   $t2, 0x14($t0)
-/* B56F54 800DFDB4 3C0B8015 */  lui   $t3, %hi(D_8014A6C0+2) # $t3, 0x8015
+/* B56F54 800DFDB4 3C0B8015 */  lui   $t3, %hi(gTatumsPerBeat) # $t3, 0x8015
 /* B56F58 800DFDB8 3C018015 */  lui   $at, %hi(D_80149410)
 /* B56F5C 800DFDBC A6CA0002 */  sh    $t2, 2($s6)
-/* B56F60 800DFDC0 856BA6C2 */  lh    $t3, %lo(D_8014A6C0+2)($t3)
+/* B56F60 800DFDC0 856BA6C2 */  lh    $t3, %lo(gTatumsPerBeat)($t3)
 /* B56F64 800DFDC4 C4329410 */  lwc1  $f18, %lo(D_80149410)($at)
 /* B56F68 800DFDC8 C6D02960 */  lwc1  $f16, 0x2960($s6)
 /* B56F6C 800DFDCC 448B2000 */  mtc1  $t3, $f4
