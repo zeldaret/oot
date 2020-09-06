@@ -26,6 +26,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_Ice_Piece/z_eff_ss_ice_piece.h"
+#include "overlays/effects/ovl_Effect_Ss_En_Ice/z_eff_ss_en_ice.h"
 #include "overlays/effects/ovl_Effect_Ss_Fire_Tail/z_eff_ss_fire_tail.h"
 #include "overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
@@ -835,11 +836,71 @@ void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 sc
 
 // EffectSsEnIce Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A140.s")
+void func_8002A140(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 primR, s16 primG, s16 primB, s16 primA,
+                   s16 envR, s16 envG, s16 envB, f32 scale) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A1DC.s")
+    EffectSsEnIceInitParams initParams;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A2A4.s")
+    initParams.actor = actor;
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    initParams.unk_38 = 0;
+    initParams.primColor.r = primR;
+    initParams.primColor.g = primG;
+    initParams.primColor.b = primB;
+    initParams.primColor.a = primA;
+    initParams.envColor.r = envR;
+    initParams.envColor.g = envG;
+    initParams.envColor.b = envB;
+    initParams.scale = scale;
+
+    if (actor != NULL) {
+        Audio_PlayActorSound2(actor, NA_SE_PL_FREEZE_S);
+    }
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_EN_ICE, 80, &initParams);
+}
+
+void func_8002A1DC(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR, s16 primG, s16 primB, s16 primA,
+                   s16 envR, s16 envG, s16 envB, f32 scale) {
+
+    EffectSsEnIceInitParams initParams;
+
+    initParams.actor = actor;
+    initParams.pos.x = pos->x;
+    initParams.pos.y = pos->y;
+    initParams.pos.z = pos->z;
+    initParams.primColor.r = primR;
+    initParams.primColor.g = primG;
+    initParams.primColor.b = primB;
+    initParams.primColor.a = primA;
+    initParams.envColor.r = envR;
+    initParams.envColor.g = envG;
+    initParams.envColor.b = envB;
+    initParams.unk_38 = 0;
+    initParams.scale = scale;
+
+    if (actor != NULL) {
+        Audio_PlayActorSound2(actor, NA_SE_PL_FREEZE_S);
+    }
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_EN_ICE, 80, &initParams);
+}
+
+void func_8002A2A4(GlobalContext* arg0, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s32 life) {
+    EffectSsEnIceInitParams initParams;
+
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.velocity, velocity);
+    Math_Vec3f_Copy(&initParams.accel, accel);
+    Color_RGBA8_Copy(&initParams.primColor, primColor);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    initParams.scale = scale;
+    initParams.life = life;
+    initParams.unk_38 = 1;
+
+    EffectSs_Spawn(arg0, EFFECT_SS_EN_ICE, 128, &initParams);
+}
 
 // EffectSsFireTail Spawn Functions
 
@@ -861,26 +922,20 @@ void func_8002A32C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 scale
     EffectSs_Spawn(globalCtx, EFFECT_SS_FIRE_TAIL, 128, &initParams);
 }
 
-Color_RGBA8 D_801159A4 = { 255, 255, 0, 255 };
-Color_RGBA8 D_801159A8 = { 255, 0, 0, 255 };
+void func_8002A3C4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3, s16 arg4, f32 arg5) {
+    static Color_RGBA8 D_801159A4 = { 255, 255, 0, 255 };
+    static Color_RGBA8 D_801159A8 = { 255, 0, 0, 255 };
 
-void func_8002A3C4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3, s16 arg4, f32 arg5);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A3C4.s")
-// void func_8002A3C4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3, s16 arg4, f32 arg5) {
-//     s32 temp_f8;
+    D_801159A4.g = (s32)(255.0f * arg5);
+    D_801159A4.b = 0;
 
-//     D_801159A4.b = 0;
-//     temp_f8 = 255.0f * arg5;
-//     D_801159A4.g = temp_f8;
-//     D_801159A8.g = 0;
-//     D_801159A8.b = 0;
-//     D_801159A8.r = temp_f8;
-//     D_801159A4.r = temp_f8;
+    D_801159A8.g = 0;
+    D_801159A8.b = 0;
+    D_801159A4.r = D_801159A8.r = (s32)(255.0f * arg5);
 
-//     func_8002A32C(globalCtx, actor, pos, arg3, &actor->velocity, 0xF, &D_801159A4, &D_801159A8, (arg5 == 1.0f) ? 0 :
-//     1,
-//                   arg4, 1);
-// }
+    func_8002A32C(globalCtx, actor, pos, arg3, &actor->velocity, 0xF, &D_801159A4, &D_801159A8, (arg5 == 1.0f) ? 0 : 1,
+                  arg4, 1);
+}
 
 void func_8002A484(GlobalContext* globalCtx, f32 scale, s16 bodypartIdx, f32 colorIntensity) {
     Player* player = PLAYER;
