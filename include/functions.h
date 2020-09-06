@@ -271,8 +271,8 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
                    s32 arg12, s16 arg13, s16 objectId, Gfx* dList);
 void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4,
                                   s16* linkDetected);
-// ? func_80029F44(?);
-// ? func_80029FAC(?);
+// ? EffectSsIcePiece_Spawn(?);
+// ? EffectSsIcePiece_SpawnBurst(?);
 // ? func_8002A140(?);
 // ? func_8002A1DC(?);
 // ? func_8002A2A4(?);

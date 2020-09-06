@@ -786,7 +786,7 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
 
 // EffectSsIcePiece Spawn Functions
 
-void func_80029F44(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, s32 life) {
+void EffectSsIcePiece_Spawn(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, s32 life) {
     EffectSsIcePieceInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -797,46 +797,42 @@ void func_80029F44(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* veloc
     EffectSs_Spawn(globalCtx, 0x1A, 0x80, &initParams);
 }
 
-Vec3f D_80115920 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_8011592C[] = {
-    { 0.0f, 70.0f, 0.0f },
-    { 0.0f, 45.0f, 20.0f },
-    { 17.320474f, 45.0f, 9.999695f },
-    { 17.320474f, 45.0f, -9.999695f },
-    { 0.0f, 45.0f, -20.0f },
-    { -17.320474f, 45.0f, -9.999695f },
-    { -17.320474f, 45.0f, 9.999695f },
-    { 0.0f, 20.0f, 20.0f },
-    { 17.320474f, 20.0f, -9.999695f },
-    { -17.320474f, 20.0f, -9.999695f },
-};
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_80029FAC.s")
-/*
-void func_80029FAC(GlobalContext* globalCtx, Vec3f* refPos, f32 scale) {
+void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 scale) {
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    static Vec3f vecScales[] = {
+        { 0.0f, 70.0f, 0.0f },
+        { 0.0f, 45.0f, 20.0f },
+        { 17.320474f, 45.0f, 9.999695f },
+        { 17.320474f, 45.0f, -9.999695f },
+        { 0.0f, 45.0f, -20.0f },
+        { -17.320474f, 45.0f, -9.999695f },
+        { -17.320474f, 45.0f, 9.999695f },
+        { 0.0f, 20.0f, 20.0f },
+        { 17.320474f, 20.0f, -9.999695f },
+        { -17.320474f, 20.0f, -9.999695f },
+    };
     s32 i;
-    Vec3f velocity; // sp80
-    Vec3f pos; // sp74
-    f32 temp_f2;
+    Vec3f velocity;
+    Vec3f pos;
+    f32 velocityScale;
 
-    D_80115920.y = -0.2f;
+    accel.y = -0.2f;
 
-    for (i = 0; i < ARRAY_COUNT(D_8011592C); i++) {
+    for (i = 0; i < ARRAY_COUNT(vecScales); i++) {
         pos = *refPos;
-        temp_f2 = Math_Rand_ZeroFloat(1.0f) + 0.5f;
-        velocity.x = (D_8011592C[i].x * 0.18f) * temp_f2;
-        velocity.y = (D_8011592C[i].y * 0.18f) * temp_f2;
-        velocity.z = (D_8011592C[i].z * 0.18f) * temp_f2;
-        // temps for array accesses?
-        pos.x += D_8011592C[i].x;
-        pos.y += D_8011592C[i].y;
-        pos.z += D_8011592C[i].z;
-        func_80029F44(globalCtx, &pos, (Math_Rand_ZeroFloat(1.0f) + 0.5f) * ((scale * 1.3f) * 100.0f), &velocity,
-                      &D_80115920, 25);
+        velocityScale = Math_Rand_ZeroFloat(1.0f) + 0.5f;
+        velocity.x = (vecScales[i].x * 0.18f) * velocityScale;
+        velocity.y = (vecScales[i].y * 0.18f) * velocityScale;
+        velocity.z = (vecScales[i].z * 0.18f) * velocityScale;
+        pos.x += vecScales[i].x;
+        pos.y += vecScales[i].y;
+        pos.z += vecScales[i].z;
+
+        EffectSsIcePiece_Spawn(globalCtx, &pos, (Math_Rand_ZeroFloat(1.0f) + 0.5f) * ((scale * 1.3f) * 100.0f),
+                               &velocity, &accel, 25);
     }
 }
-*/
+
 // EffectSsEnIce Spawn Functions
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A140.s")

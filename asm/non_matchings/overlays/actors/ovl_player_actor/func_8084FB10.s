@@ -21,7 +21,7 @@ glabel func_8084FB10
 /* 1D948 8084FB58 A20F084F */  sb      $t7, 0x084F($s0)           ## 0000084F
 /* 1D94C 8084FB5C 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 1D950 8084FB60 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
-/* 1D954 8084FB64 0C00A7EB */  jal     func_80029FAC              
+/* 1D954 8084FB64 0C00A7EB */  jal     EffectSsIcePiece_SpawnBurst              
 /* 1D958 8084FB68 8E060050 */  lw      $a2, 0x0050($s0)           ## 00000050
 /* 1D95C 8084FB6C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 1D960 8084FB70 0C00BDF7 */  jal     func_8002F7DC              
