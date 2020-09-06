@@ -329,6 +329,7 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 temp_v0_2;
     CollisionPoly *sp68;
     Vec3f sp5C;
+    s32 pad2;
     u32 sp50;
     Vec3f sp44;
     f32 sp40;
