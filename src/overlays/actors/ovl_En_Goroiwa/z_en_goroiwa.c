@@ -293,9 +293,9 @@ bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
         sp38.z = sp2C.z - temp_t1->z;
     }
     func_80A4BD8C(&this->actor.velocity, &sp38);
-    this->actor.velocity.x = this->actor.velocity.x * this->actor.speedXZ;
-    this->actor.velocity.y = this->actor.velocity.y * this->actor.speedXZ;
-    this->actor.velocity.z = this->actor.velocity.z * this->actor.speedXZ;
+    this->actor.velocity.x *= this->actor.speedXZ;
+    this->actor.velocity.y *= this->actor.speedXZ;
+    this->actor.velocity.z *= this->actor.speedXZ;
     result = Math_ApproxF(&this->actor.posRot.pos.x, sp2C.x, fabsf(this->actor.velocity.x)) & 1;
     result &= Math_ApproxF(&this->actor.posRot.pos.y, sp2C.y, fabsf(this->actor.velocity.y));
     result &= Math_ApproxF(&this->actor.posRot.pos.z, sp2C.z, fabsf(this->actor.velocity.z));
