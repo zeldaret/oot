@@ -60,12 +60,12 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = BgGndDarkmeiro_DoNothing;
     Actor_SetScale(&this->dyna.actor, 0.1f);
 
-    switch (thisx->params & 0xFF) {
-        case MODE_ZERO:
+    switch (this->dyna.actor.params & 0xFF) {
+        case DARKMEIRO_MODE_ZERO:
             this->dyna.actor.draw = BgGndDarkmeiro_Draw0;
             this->dyna.actor.flags |= 0x80;
             break;
-        case CLEAR_BLOCK:
+        case DARKMEIRO_CLEAR_BLOCK:
             DynaPolyInfo_Alloc(&D_0600C080, &local_c);
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
 
@@ -84,7 +84,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case BLOCK_TIMER:
+        case DARKMEIRO_BLOCK_TIMER:
             this->actionState = this->timer1 = this->timer2 = 0;
             this->actionFunc = BgGndDarkmeiro_BlockTimer;
             thisx->draw = NULL;
@@ -205,7 +205,7 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, this->timer2);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 198, 202, 208, this->timer2);
         //@ bug: Due to a bug in the display list, the transparency data is not used.
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
 
@@ -215,7 +215,7 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xC6, 0xCA, 0xD0, 0xFF);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 198, 202, 208, 255);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
 
     Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
