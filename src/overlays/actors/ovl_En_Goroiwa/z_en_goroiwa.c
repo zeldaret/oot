@@ -272,7 +272,38 @@ bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     return temp_v0;
 }
 
+#ifdef NON_MATCHING
+bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
+    Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
+    Vec3s* temp_v0 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
+    Vec3s* temp_t1 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint1;
+    Vec3f sp38;
+    Vec3f sp2C;
+    bool result;
+
+    sp2C.x = temp_v0->x;
+    sp2C.y = temp_v0->y;
+    sp2C.z = temp_v0->z;
+    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    if (Math3D_Vec3fDistSq(&sp2C, &this->actor.posRot.pos.x) < 25.0f) {
+        Math_Vec3f_Diff(&sp2C, &this->actor.posRot.pos.x, &sp38);
+    } else {
+        sp38.x = sp2C.x - temp_t1->x;
+        sp38.y = sp2C.y - temp_t1->y;
+        sp38.z = sp2C.z - temp_t1->z;
+    }
+    func_80A4BD8C(&this->actor.velocity, &sp38);
+    this->actor.velocity.x = this->actor.velocity.x * this->actor.speedXZ;
+    this->actor.velocity.y = this->actor.velocity.y * this->actor.speedXZ;
+    this->actor.velocity.z = this->actor.velocity.z * this->actor.speedXZ;
+    result = Math_ApproxF(&this->actor.posRot.pos.x, sp2C.x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_ApproxF(&this->actor.posRot.pos.y, sp2C.y, fabsf(this->actor.velocity.y));
+    result &= Math_ApproxF(&this->actor.posRot.pos.z, sp2C.z, fabsf(this->actor.velocity.z));
+    return result;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4C814.s")
+#endif
 
 bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
