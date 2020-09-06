@@ -91,30 +91,30 @@ typedef enum ObjSwitch_SubTypeCrystal {
 typedef struct ObjSwitch {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ObjSwitchActionFunc actionFunc;
-    s16 framesUntilRelease; // ticks down to 0, used for OBJSWITCH_SUBTYPE_FLOOR_2 and OBJSWITCH_SUBTYPE_FLOOR_3
-    s16 crystalHitDelay;    // a cooldown for collision checks?
-    s16 toggleDelay;        // ticks down to 0, used in all types as cooldown, but many things can bypass it
-    u8 enableToggleDelay;   // boolean related to having turned on or off, if false ignore toggleDelay
-    s16 eyeOpenFrame;       // texture index: 0-3 open-closed (for animation purposes)
-    UNK_PTR crystalSubtype1texture;
+    /* 0x0168 */ s16 framesUntilRelease; // ticks down to 0, used for SUBTYPE_FLOOR_2 and SUBTYPE_FLOOR_3
+    /* 0x016A */ s16 crystalHitDelay;    // a cooldown for collision checks?
+    /* 0x016C */ s16 toggleDelay;      // ticks down to 0, used in all types as cooldown, but many things can bypass it
+    /* 0x016E */ u8 enableToggleDelay; // boolean related to having turned on or off, if false ignore toggleDelay
+    /* 0x0170 */ s16 eyeOpenFrame;     // texture index: 0-3 open-closed (for animation purposes)
+    /* 0x0174 */ UNK_PTR crystalSubtype1texture;
     // these 4 are used for TwoTexScroll ()
-    u8 twoTexScroll_x1;
-    u8 twoTexScroll_y1;
-    u8 twoTexScroll_x2;
-    u8 twoTexScroll_y2;
-    Color_RGB8 crystalColor;
+    /* 0x0178 */ u8 twoTexScroll_x1;
+    /* 0x0179 */ u8 twoTexScroll_y1;
+    /* 0x017A */ u8 twoTexScroll_x2;
+    /* 0x017B */ u8 twoTexScroll_y2;
+    /* 0x017C */ Color_RGB8 crystalColor;
     union {
-        u8 lastFrameDynaUnk160;      // floor type
-        u8 lastFrameColliderACflags; // eye, crystal type
+        /* 0x017F */ u8 lastFrameDynaUnk160;      // floor type
+        /* 0x017F */ u8 lastFrameColliderACflags; // eye, crystal type
     };
     union {
         struct {
-            ColliderJntSph col;
-            ColliderJntSphItem items[2];
+            /* 0x0180 */ ColliderJntSph col;
+            /* 0x01A0 */ ColliderJntSphItem items[2];
         } jntSph;
         struct {
-            ColliderTris col;
-            ColliderTrisItem items[2];
+            /* 0x0180 */ ColliderTris col;
+            /* 0x01A0 */ ColliderTrisItem items[2];
         } tris;
     };
 } ObjSwitch; // size = 0x0258

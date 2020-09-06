@@ -20,16 +20,6 @@ void ObjSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjSwitch_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjSwitch_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle);
-void ObjSwitch_InitDynapoly(Actor* thisx, GlobalContext* globalCtx, UNK_PTR arg2, DynaPolyMoveFlag flags);
-void ObjSwitch_InitJntSphCollider(ObjSwitch* this, GlobalContext* globalCtx, ColliderJntSphInit* colliderJntSphInit);
-void ObjSwitch_InitTrisCollider(ObjSwitch* this, GlobalContext* globalCtx, ColliderTrisInit* colliderTrisInit);
-Actor* ObjSwitch_SpawnIce(ObjSwitch* this, GlobalContext* globalCtx);
-
-void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx);
-void ObjSwitch_SetOff(ObjSwitch* this, GlobalContext* globalCtx);
-void ObjSwitch_UpdateTwoTexScrollXY(ObjSwitch* this);
-
 void ObjSwitch_FloorUpInit(ObjSwitch* this);
 void ObjSwitch_FloorUp(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_FloorPressInit(ObjSwitch* this);
@@ -39,7 +29,6 @@ void ObjSwitch_FloorDown(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_FloorReleaseInit(ObjSwitch* this);
 void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx);
 
-s32 ObjSwitch_EyeIsHit(ObjSwitch* this);
 void ObjSwitch_EyeFrozenInit(ObjSwitch* this);
 void ObjSwitch_EyeInit(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_EyeOpenInit(ObjSwitch* this);
@@ -59,11 +48,6 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this);
 void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx);
-
-void ObjSwitch_DrawFloor(ObjSwitch* this, GlobalContext* globalCtx);
-void ObjSwitch_DrawFloorRusty(ObjSwitch* this, GlobalContext* globalCtx);
-void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx);
-void ObjSwitch_DrawCrystal(ObjSwitch* this, GlobalContext* globalCtx);
 
 extern Gfx D_05005800[]; // floor switch, regular
 extern Gfx D_05005AD0[]; // floor switch, rusty
@@ -221,10 +205,10 @@ Actor* ObjSwitch_SpawnIce(ObjSwitch* this, GlobalContext* globalCtx) {
                               thisx->posRot.rot.z, SWITCH_FLAG << 8);
 }
 
-/*
-used by all types, sets the switch flag
-has minor unclear side effects
-*/
+/**
+ * used by all types, sets the switch flag
+ * has minor unclear side effects
+ */
 void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 subType;
@@ -249,10 +233,10 @@ void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
-used by all types, clears the switch flag
-has minor unclear side effects
-*/
+/**
+ * used by all types, clears the switch flag
+ * has minor unclear side effects
+ */
 void ObjSwitch_SetOff(ObjSwitch* this, GlobalContext* globalCtx) {
     this->enableToggleDelay = 0;
     if (Flags_GetSwitch(globalCtx, SWITCH_FLAG)) {
@@ -361,9 +345,9 @@ void ObjSwitch_FloorUpInit(ObjSwitch* this) {
     this->actionFunc = ObjSwitch_FloorUp;
 }
 
-/*
-The floor switch is released and can be pressed using the appropriate method
-*/
+/**
+ * The floor switch is released and can be pressed using the appropriate method
+ */
 void ObjSwitch_FloorUp(ObjSwitch* this, GlobalContext* globalCtx) {
     if (TYPE == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         if ((this->tris.col.base.acFlags & 2) != 0) {
@@ -408,9 +392,9 @@ void ObjSwitch_FloorPressInit(ObjSwitch* this) {
     this->toggleDelay = 100;
 }
 
-/*
-The switch is being pressed (animation)
-*/
+/**
+ * The switch is being pressed (animation)
+ */
 void ObjSwitch_FloorPress(ObjSwitch* this, GlobalContext* globalCtx) {
     if (SUBTYPE == OBJSWITCH_SUBTYPE_FLOOR_3 || !this->enableToggleDelay || func_8005B198() == this->dyna.actor.type ||
         this->toggleDelay <= 0) {
@@ -429,9 +413,9 @@ void ObjSwitch_FloorDownInit(ObjSwitch* this) {
     this->actionFunc = ObjSwitch_FloorDown;
 }
 
-/*
-The switch is pressed and may be released depending on its sub-type
-*/
+/**
+ * The switch is pressed and may be released depending on its sub-type
+ */
 void ObjSwitch_FloorDown(ObjSwitch* this, GlobalContext* globalCtx) {
     switch (SUBTYPE) {
         case OBJSWITCH_SUBTYPE_FLOOR_0:
@@ -468,9 +452,9 @@ void ObjSwitch_FloorReleaseInit(ObjSwitch* this) {
     this->toggleDelay = 100;
 }
 
-/*
-The switch is being released (animation)
-*/
+/**
+ * The switch is being released (animation)
+ */
 void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx) {
     s16 subType;
 
@@ -488,9 +472,9 @@ void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
-Check if this eye switch was hit
-*/
+/**
+ * Check if this eye switch was hit
+ */
 s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     Actor* collidingActor;
     s16 rotYdiff;
@@ -524,9 +508,9 @@ void ObjSwitch_EyeOpenInit(ObjSwitch* this) {
     this->eyeOpenFrame = 0;
 }
 
-/*
-The eye is open and can be closed by being hit
-*/
+/**
+ * The eye is open and can be closed by being hit
+ */
 void ObjSwitch_EyeOpen(ObjSwitch* this, GlobalContext* globalCtx) {
     if (ObjSwitch_EyeIsHit(this) || FROZEN) {
         ObjSwitch_EyeClosingInit(this);
@@ -540,9 +524,9 @@ void ObjSwitch_EyeClosingInit(ObjSwitch* this) {
     this->toggleDelay = 100;
 }
 
-/*
-The eye is closing (4-frames animation)
-*/
+/**
+ * The eye is closing (4-frames animation)
+ */
 void ObjSwitch_EyeClosing(ObjSwitch* this, GlobalContext* globalCtx) {
     if (!this->enableToggleDelay || func_8005B198() == this->dyna.actor.type || this->toggleDelay <= 0) {
         this->eyeOpenFrame++;
@@ -558,9 +542,9 @@ void ObjSwitch_EyeClosedInit(ObjSwitch* this) {
     this->eyeOpenFrame = 3;
 }
 
-/*
-The eye is closed and may be opened depending on sub-type
-*/
+/**
+ * The eye is closed and may be opened depending on sub-type
+ */
 void ObjSwitch_EyeClosed(ObjSwitch* this, GlobalContext* globalCtx) {
     switch (SUBTYPE) {
         case OBJSWITCH_SUBTYPE_EYE_0:
@@ -584,9 +568,9 @@ void ObjSwitch_EyeOpeningInit(ObjSwitch* this) {
     this->toggleDelay = 100;
 }
 
-/*
-The eye is opening (4-frames animation)
-*/
+/**
+ * The eye is opening (4-frames animation)
+ */
 void ObjSwitch_EyeOpening(ObjSwitch* this, GlobalContext* globalCtx) {
     if (SUBTYPE != OBJSWITCH_SUBTYPE_EYE_1 || !this->enableToggleDelay || func_8005B198() == this->dyna.actor.type ||
         this->toggleDelay <= 0) {
@@ -606,9 +590,9 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
     this->actionFunc = ObjSwitch_CrystalOff;
 }
 
-/*
-The crystal is off
-*/
+/**
+ * The crystal is off
+ */
 void ObjSwitch_CrystalOff(ObjSwitch* this, GlobalContext* globalCtx) {
     switch (SUBTYPE) {
         case OBJSWITCH_SUBTYPE_CRYSTAL_0:
@@ -643,9 +627,9 @@ void ObjSwitch_CrystalTurnOnInit(ObjSwitch* this) {
     this->toggleDelay = 100;
 }
 
-/*
-The crystal is being turned on
-*/
+/**
+ * The crystal is being turned on
+ */
 void ObjSwitch_CrystalTurnOn(ObjSwitch* this, GlobalContext* globalCtx) {
     if (!this->enableToggleDelay || func_8005B198() == this->dyna.actor.type || this->toggleDelay <= 0) {
         ObjSwitch_CrystalOnInit(this);
@@ -664,9 +648,9 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this) {
     this->actionFunc = ObjSwitch_CrystalOn;
 }
 
-/*
-The crystal is on
-*/
+/**
+ * The crystal is on
+ */
 void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx) {
     switch (SUBTYPE) {
         case OBJSWITCH_SUBTYPE_CRYSTAL_0:
@@ -693,9 +677,9 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this) {
     this->toggleDelay = 100;
 }
 
-/*
-The crystal is being turned off
-*/
+/**
+ * The crystal is being turned off
+ */
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx) {
     if (SUBTYPE != OBJSWITCH_SUBTYPE_CRYSTAL_1 || !this->enableToggleDelay ||
         func_8005B198() == this->dyna.actor.type || this->toggleDelay <= 0) {
