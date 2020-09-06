@@ -315,81 +315,73 @@ bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     return Math_ApproxF(&this->actor.posRot.pos.y, temp_t0->y, fabsf(this->actor.velocity.y));
 }
 
-bool func_80042244(GlobalContext*, CollisionContext*, f32, f32, f32*, f32*);
-
 bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
-    f32 sp78;
-    f32 sp74;
+    f32 pointY;
+    f32 thisY;
     f32 temp;
-    s32 temp_v0_2;
+    s32 quakeIdx;
     CollisionPoly* sp68;
     Vec3f sp5C;
     f32 temp_f0_2;
     s32 pad2;
     u32 sp50;
     Vec3f sp44;
-    f32 sp40;
-    f32 sp3C;
+    WaterBox* waterBox;
+    f32 ySurface;
     Vec3f sp30;
 
-    sp78 = pointPos->y;
+    pointY = pointPos->y;
     Math_ApproxF(&this->actor.velocity.y, -14.0f, 1.0f);
     this->actor.posRot.pos.x = pointPos->x;
     this->actor.posRot.pos.z = pointPos->z;
-    sp74 = this->actor.posRot.pos.y;
+    thisY = this->actor.posRot.pos.y;
     if (1) {}
     this->actor.posRot.pos.y += this->actor.velocity.y;
-    if (this->actor.velocity.y < 0.0f) {
-        if (this->actor.posRot.pos.y <= sp78) {
-            if (this->unk_1C6 == 0) {
-                if (this->actor.xzDistFromLink < 600.0f) {
-                    temp_v0_2 = Quake_Add(ACTIVE_CAM, 3);
-                    Quake_SetSpeed(temp_v0_2, -0x3CB0);
-                    Quake_SetQuakeValues(temp_v0_2, 3, 0, 0, 0);
-                    Quake_SetCountdown(temp_v0_2, 7);
-                }
-                this->unk_1C0 = 0.0f;
-                if (!(this->unk_1D3 & 0x10)) {
-                    sp5C.x = this->actor.posRot.pos.x;
-                    sp5C.y = this->actor.posRot.pos.y + 50.0f;
-                    sp5C.z = this->actor.posRot.pos.z;
-                    temp_f0_2 = func_8003CA0C(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
-                    // temp needed to match
-                    temp = temp_f0_2 - (this->actor.posRot.pos.y - 59.5f);
-                    if (fabsf(temp) < 15.0f) {
-                        sp44.x = this->actor.posRot.pos.x;
-                        sp44.y = temp_f0_2 + 10.0f;
-                        sp44.z = this->actor.posRot.pos.z;
-                        func_80A4C3A4(globalCtx, &sp44);
-                    }
+    if (this->actor.velocity.y < 0.0f && this->actor.posRot.pos.y <= pointY) {
+        if (this->unk_1C6 == 0) {
+            if (this->actor.xzDistFromLink < 600.0f) {
+                quakeIdx = Quake_Add(ACTIVE_CAM, 3);
+                Quake_SetSpeed(quakeIdx, -0x3CB0);
+                Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
+                Quake_SetCountdown(quakeIdx, 7);
+            }
+            this->unk_1C0 = 0.0f;
+            if (!(this->unk_1D3 & 0x10)) {
+                sp5C.x = this->actor.posRot.pos.x;
+                sp5C.y = this->actor.posRot.pos.y + 50.0f;
+                sp5C.z = this->actor.posRot.pos.z;
+                temp_f0_2 = func_8003CA0C(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
+                // temp needed to match
+                temp = temp_f0_2 - (this->actor.posRot.pos.y - 59.5f);
+                if (fabsf(temp) < 15.0f) {
+                    sp44.x = this->actor.posRot.pos.x;
+                    sp44.y = temp_f0_2 + 10.0f;
+                    sp44.z = this->actor.posRot.pos.z;
+                    func_80A4C3A4(globalCtx, &sp44);
                 }
             }
-            if (this->unk_1C6 > 0) {
-                return true;
-            }
-            this->unk_1C6 += 1;
-            this->actor.velocity.y *= -0.3f;
-            this->actor.posRot.pos.y = sp78 - ((this->actor.posRot.pos.y - sp78) * 0.3f);
         }
+        if (this->unk_1C6 > 0) {
+            return true;
+        }
+        this->unk_1C6 += 1;
+        this->actor.velocity.y *= -0.3f;
+        this->actor.posRot.pos.y = pointY - ((this->actor.posRot.pos.y - pointY) * 0.3f);
     }
-    if (this->unk_1C6 == 0) {
-        if (func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &sp3C, &sp40)) {
-            if (this->actor.posRot.pos.y <= sp3C) {
-                this->unk_1D3 |= 0x10;
-                if (sp3C < sp74) {
-                    sp30.x = this->actor.posRot.pos.x;
-                    sp30.y = sp3C;
-                    sp30.z = this->actor.posRot.pos.z;
-                    func_80A4C594(globalCtx, &sp30);
-                    this->actor.velocity.y *= 0.2f;
-                }
-                if (this->actor.velocity.y < -8.0f) {
-                    this->actor.velocity.y = -8.0f;
-                }
-            }
+    if (this->unk_1C6 == 0 && func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &ySurface, &waterBox) && this->actor.posRot.pos.y <= ySurface) {
+        this->unk_1D3 |= 0x10;
+        if (ySurface < thisY) {
+            sp30.x = this->actor.posRot.pos.x;
+            sp30.y = ySurface;
+            sp30.z = this->actor.posRot.pos.z;
+            func_80A4C594(globalCtx, &sp30);
+            this->actor.velocity.y *= 0.2f;
+        }
+        if (this->actor.velocity.y < -8.0f) {
+            this->actor.velocity.y = -8.0f;
         }
     }
     return false;
