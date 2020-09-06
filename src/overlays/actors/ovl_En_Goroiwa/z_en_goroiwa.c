@@ -444,22 +444,30 @@ void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
 void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3f burstDepthY;
     Vec3f burstDepthX;
+    Vec3f* pos = &this->actor.posRot.pos;
+    f32 temp_f20;
+    f32 temp_f20_2;
     f32 temp_f22;
     f32 temp_f24;
-    s16 angle2;
+    f32 temp_f16;
     s16 temp_v0 = (this->actor.params >> 10) & 1;
     s16 angle1 = 0;
+    s16 angle2;
     s32 i;
-    Vec3f* pos = &this->actor.posRot.pos;
+
+    // janky hack alert
+    f32* temp = &temp_f24;
 
     for (i = 0; i < 16; i++) {
         temp_f22 = Math_Sins(angle1);
         temp_f24 = Math_Coss(angle1);
         angle2 = Math_Rand_ZeroOne() * 65535.0f;
-        burstDepthY.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
-        burstDepthY.y = D_80A4DEF0[temp_v0] + (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * Math_Sins(angle2));
+        temp_f16 = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
+        burstDepthY.x = temp_f16;
+        temp_f20_2 = Math_Sins(angle2);
+        burstDepthY.y = D_80A4DEF0[temp_v0] + (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2);
         burstDepthY.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
-        burstDepthX.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2) * 0.2f;
+        burstDepthX.x = temp_f16 * 0.2f;
         burstDepthX.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
         burstDepthX.z = burstDepthY.z * 0.2f;
         Math_Vec3f_Sum(&burstDepthY, &this->actor.posRot.pos, &burstDepthY);
@@ -468,7 +476,7 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
 
     burstDepthY.x = pos->x;
-    burstDepthY.y = D_80A4DEF0[temp_v0] + pos->y;
+    burstDepthY.y = pos->y + D_80A4DEF0[temp_v0];
     burstDepthY.z = pos->z;
     func_80033480(globalCtx, &burstDepthY, 80.0f, 5, 70, 110, 1);
     func_80033480(globalCtx, &burstDepthY, 90.0f, 5, 110, 160, 1);
