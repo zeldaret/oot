@@ -14,9 +14,11 @@ typedef struct BgSpot15Rrbox {
     /* 0x0164 */ BgSpot15RrboxActionFunc actionFunc;
     /* 0x0168 */ s16 unk_168; 
     /* 0x016A */ char unk_16A[2];
-    /* 0x016C */ float unk_16C; 
+    /* 0x016C */ f32 unk_16C; 
     /* 0x0170 */ f32 unk_170;
-    /* 0x0174 */ char unk_174[12];
+    /* 0x0174 */ f32 unk_174;
+    /* 0x0178 */ f32 unk_178;
+    /* 0x017C */ f32 unk_17C;
     /* 0x0180 */ s32 unk_180;
 } BgSpot15Rrbox; // size = 0x0184
 
