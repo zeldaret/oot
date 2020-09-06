@@ -25,6 +25,7 @@
 #include "overlays/effects/ovl_Effect_Ss_K_Fire/z_eff_ss_k_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "overlays/effects/ovl_Effect_Ss_Fire_Tail/z_eff_ss_fire_tail.h"
 #include "overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Extra/z_eff_ss_extra.h"
 #include "overlays/effects/ovl_Effect_Ss_Fcircle/z_eff_ss_fcircle.h"
@@ -71,15 +72,15 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
     SkinMatrix_SetScale(&spE0, scale, scale, scale);
     SkinMatrix_MtxFMtxFMult(&sp120, &globalCtx->mf_11DA0, &sp60);
     SkinMatrix_MtxFMtxFMult(&sp60, &spE0, &spA0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
 
-    mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &spA0);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spA0);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(texture));
-        func_80094C50(oGfxCtx);
+        func_80094C50(gfxCtx);
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[3], this->regs[4], this->regs[5], this->regs[6]);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[7], this->regs[8], this->regs[9], this->regs[10]);
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
@@ -809,11 +810,50 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
 
 // EffectSsFireTail Spawn Functions
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A32C.s")
+void func_8002A32C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 scale, Vec3f* arg4, s16 arg5,
+                   Color_RGBA8_n* primColor, Color_RGBA8_n* envColor, s16 arg8, s16 arg9, s32 life) {
+    EffectSsFireTailInitParams initParams;
 
+    Math_Vec3f_Copy(&initParams.pos, pos);
+    Math_Vec3f_Copy(&initParams.unk_14, arg4);
+    Color_RGBA8_Copy(&initParams.primColor, primColor);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    initParams.unk_20 = arg5;
+    initParams.actor = actor;
+    initParams.scale = scale;
+    initParams.unk_2A = arg8;
+    initParams.unk_2C = arg9;
+    initParams.life = life;
+
+    EffectSs_Spawn(globalCtx, EFFECT_SS_FIRE_TAIL, 128, &initParams);
+}
+
+// Color_RGBA8_n D_801159A4 = { 255, 255, 0, 255 };
+// Color_RGBA8_n D_801159A8 = { 255, 0, 0, 255 };
+
+void func_8002A3C4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3, s16 arg4, f32 arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A3C4.s")
+// void func_8002A3C4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3, s16 arg4, f32 arg5) {
+//     s32 temp_f8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A484.s")
+//     D_801159A4.b = 0;
+//     temp_f8 = 255.0f * arg5;
+//     D_801159A4.g = temp_f8;
+//     D_801159A8.g = 0;
+//     D_801159A8.b = 0;
+//     D_801159A8.r = temp_f8;
+//     D_801159A4.r = temp_f8;
+
+//     func_8002A32C(globalCtx, actor, pos, arg3, &actor->velocity, 0xF, &D_801159A4, &D_801159A8, (arg5 == 1.0f) ? 0 :
+//     1,
+//                   arg4, 1);
+// }
+
+void func_8002A484(GlobalContext* globalCtx, f32 scale, s16 bodypartIdx, f32 colorIntensity) {
+    Player* player = PLAYER;
+
+    func_8002A3C4(globalCtx, player, &player->unk_908[bodypartIdx], scale, bodypartIdx, colorIntensity);
+}
 
 // EffectSsEnFire Spawn Functions
 
@@ -863,6 +903,7 @@ void EffectSsExtra_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.scale = scale;
     initParams.scoreIdx = scoreIdx;
+
     EffectSs_Spawn(globalCtx, EFFECT_SS_EXTRA, 100, &initParams);
 }
 

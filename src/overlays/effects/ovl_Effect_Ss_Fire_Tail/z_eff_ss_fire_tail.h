@@ -7,7 +7,7 @@
 typedef struct {
     /* 0x00 */ Actor* actor;
     /* 0x04 */ Vec3f pos;
-    /* 0x10 */ f32 unk_10;
+    /* 0x10 */ f32 scale;
     /* 0x14 */ Vec3f unk_14;
     /* 0x20 */ s16 unk_20;
     /* 0x22 */ Color_RGBA8_n primColor; 

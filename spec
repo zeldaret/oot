@@ -1756,7 +1756,7 @@ endseg
 beginseg
     name "ovl_Effect_Ss_En_Fire"
     include "build/src/overlays/effects/ovl_Effect_Ss_En_Fire/z_eff_ss_en_fire.o"
-    include "build/data/overlays/effects/z_eff_ss_en_fire.reloc.o"
+    include "build/src/overlays/effects/ovl_Effect_Ss_En_Fire/ovl_Effect_Ss_En_Fire_reloc.o"
 endseg
 
 beginseg

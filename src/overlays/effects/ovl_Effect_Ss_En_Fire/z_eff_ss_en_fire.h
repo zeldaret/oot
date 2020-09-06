@@ -11,6 +11,6 @@ typedef struct {
     /* 0x12 */ s16 unk_12;
     /* 0x14 */ s16 reg8;
     /* 0x16 */ s16 reg7;
-} EffectSsEnFireInitParams; // size = 0x
+} EffectSsEnFireInitParams; // size = 0x18
 
 #endif

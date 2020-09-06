@@ -49,7 +49,7 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->actor = initParams->actor;
     this->draw = func_809A5858;
     this->update = func_809A5D98;
-    this->regs[SS_FIRE_TAIL_SCALE] = initParams->unk_10 * 1000.0f;
+    this->regs[SS_FIRE_TAIL_SCALE] = initParams->scale * 1000.0f;
     this->regs[SS_FIRE_TAIL_1] = initParams->life;
     this->regs[SS_FIRE_TAIL_2] = -0xA;
     this->regs[SS_FIRE_TAIL_3] = -0xF;
