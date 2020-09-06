@@ -17,10 +17,6 @@ void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void ObjLightswitch_InitCollider(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* globalCtx);
 void ObjLightswitch_OffInit(ObjLightswitch* this);
 void ObjLightswitch_Off(ObjLightswitch* this, GlobalContext* globalCtx);
 void ObjLightswitch_TurnOnInit(ObjLightswitch* this);
@@ -33,8 +29,6 @@ void ObjLightswitch_DisappearDelayInit(ObjLightswitch* this);
 void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCtx);
 void ObjLightswitch_DisappearInit(ObjLightswitch* this);
 void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000260[]; // face, uses rgba16 32x32 texture at 0x08000000, branches to dlist 0x09000000, uses env color
 extern Gfx D_06000398[]; // flame ring, branches to dlist 0x09000000, uses env color
