@@ -318,7 +318,7 @@ bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 bool func_80042244(GlobalContext*, CollisionContext*, f32, f32, f32*, f32*);
 
-// Regalloc issues
+// Stack issues
 bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
