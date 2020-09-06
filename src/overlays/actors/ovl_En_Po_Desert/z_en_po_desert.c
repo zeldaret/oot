@@ -58,7 +58,7 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, D_80AD39CC);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, &this->unk_1A8, &this->unk_1E4, 10);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->unk_1A8, this->unk_1E4, 10);
     collider = &this->collider;
     Collider_InitCylinder(globalCtx,collider);
     Collider_SetCylinder(globalCtx, collider, &this->actor, &D_80AD39A0);
@@ -82,6 +82,7 @@ void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
+// EnPoDesert_InitPath
 void func_80AD2E64(EnPoDesert* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s* pathPoint;
@@ -150,16 +151,16 @@ void func_80AD3194(EnPoDesert* this, GlobalContext* globalCtx) {
     if (this->unk_194 != 0) {
         this->unk_194--;
     }
-    temp_f20 = sinf(this->unk_194 * 0.15707964f) * 5.0f;
+    temp_f20 = sinf(this->unk_194 * (M_PI/20.0f)) * 5.0f;
     this->actor.posRot.pos.x += temp_f20 * Math_Coss(this->actor.shape.rot.y);
     this->actor.posRot.pos.z += temp_f20 * Math_Sins(this->actor.shape.rot.y);
     if (this->unk_194 == 0) {
         this->unk_194 = 40;
     }
-    temp_f20 = func_8002DBB0(this, &this->actor.initPosRot.pos);
-    this->actor.posRot.rot.y = func_8002DAC0(this, &this->actor.initPosRot.pos);
+    temp_f20 = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
+    this->actor.posRot.rot.y = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
-    this->actor.speedXZ = sinf(this->unk_196 * 0.09817477f) * 2.5f + 5.5f;
+    this->actor.speedXZ = sinf(this->unk_196 * (M_PI/32.0f)) * 2.5f + 5.5f;
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     this->unk_1A4 = this->actor.initPosRot.pos.y - ((temp_f20 * this->unk_1A0) / this->unk_19C);
     if (temp_f20 < 40.0f) {
@@ -193,8 +194,8 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AD305C(this);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
     Actor_SetHeight(&this->actor, 42.0f);
-    Collider_CylinderUpdate(this, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (globalCtx->actorCtx.unk_03 != 0) {
         this->actor.flags |= 0x81;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
@@ -227,9 +228,9 @@ void func_80AD3594(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     if (limbIndex == 7) {
         Matrix_MultVec3f(&D_80AD39D8, &vec);
         rand = Math_Rand_ZeroOne();
-        color.r = (s16)(rand * 30.0f) + 0xE1;
-        color.g = (s16)(rand * 100.0f) + 0x9B;
-        color.b = (s16)(rand * 160.0f) + 0x5F;
+        color.r = (s16)(rand * 30.0f) + 225;
+        color.g = (s16)(rand * 100.0f) + 155;
+        color.b = (s16)(rand * 160.0f) + 95;
         if ((this->actor.flags & 0x80) == 0x80) {
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);

@@ -101,7 +101,7 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, D_80AD8D28);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, &this->unk_1A0, &this->unk_20C, 18);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->unk_1A0, this->unk_20C, 18);
     Collider_InitCylinder(globalCtx,  &this->collider);
     Collider_SetCylinder(globalCtx,  &this->collider, &this->actor, &D_80AD8CF8);
     this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
@@ -190,12 +190,8 @@ void func_80AD7BF0(EnPoRelay* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
-/* #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 // Single stack difference
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7C64.s")
-#endif */
 void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     Player* player = PLAYER; // sp5C
     Vec3f vec; // sp50
@@ -207,8 +203,8 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
         this->unk_196--;
     }
     if (this->unk_196 == 0 && Math_Rand_ZeroOne() < 0.03f) {
-        this->unk_196 = 0x20;
-        if (this->unk_198 < 0x17) {
+        this->unk_196 = 32;
+        if (this->unk_198 < 23) {
             rand = Math_Rand_ZeroOne() * 3.0f;
             if (rand < 1.0f) {
                 multiplier = 1.0f;
@@ -221,28 +217,29 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
                         Math_Coss(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.x, 
                         this->actor.posRot.pos.y, 
                         Math_Sins(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.z, 
-                        0, (this->unk_19A + 0x8000) - (8192.0f * multiplier), 0, 2);
+                        0, (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
         }
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_19A, 2, 4096, 256);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
     this->actor.shape.rot.y = this->actor.posRot.rot.y + (this->unk_196 * 0x800) + 0x8000;
     if (this->unk_198 < 23) {
+        // If the player travels along a different path to Dampé that converges later
         if ((Math3D_PointInSquare2D(660.0f, 840.0f, -4480.0f, -3760.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0) || 
             (Math3D_PointInSquare2D(1560.0f, 1740.0f, -4030.0f, -3670.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0) || 
             (Math3D_PointInSquare2D(1580.0f, 2090.0f, -3030.0f, -2500.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0)) {
-            speed = (this->unk_194 != 0) ? player->actor.speedXZ * 1.399999976158142f : player->actor.speedXZ * 1.2000000476837158f;
+            speed = (this->unk_194 != 0) ? player->actor.speedXZ * 1.4f : player->actor.speedXZ * 1.2f;
         } else if (this->actor.xzDistFromLink < 150.0f) {
-            speed = (this->unk_194 != 0) ? player->actor.speedXZ * 1.2000000476837158f : player->actor.speedXZ;
+            speed = (this->unk_194 != 0) ? player->actor.speedXZ * 1.2f : player->actor.speedXZ;
         } else if (this->actor.xzDistFromLink < 300.0f) {
-            speed = (this->unk_194 != 0) ? player->actor.speedXZ : player->actor.speedXZ * 0.800000011920929f;
+            speed = (this->unk_194 != 0) ? player->actor.speedXZ : player->actor.speedXZ * 0.8f;
         } else if (this->unk_194 != 0) {
             speed = 4.5f;
         } else {
             speed = 3.5f;
         }
         multiplier = 250.0f - this->actor.xzDistFromLink;
-        multiplier = (multiplier < 0.0f) ? 0.0f : multiplier;
-        speed += multiplier * 0.019999999552965164f + 1.0f;
+        multiplier = CLAMP_MIN(multiplier, 0.0f);
+        speed += multiplier * 0.02f + 1.0f;
         Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.5f, 1.5f);
     } else {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
@@ -264,6 +261,9 @@ void func_80AD7C64(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
     func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/func_80AD7C64.s")
+#endif
 
 void func_80AD8174(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, -0x4000, 0x800);

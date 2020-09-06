@@ -246,7 +246,7 @@ void func_8002949C(GlobalContext* globalCtx, Vec3f* pos, u32, u32, u32, u32);
 // ? func_80029618(?);
 // ? func_80029694(?);
 // ? func_80029724(?);
-void func_800297A4(GlobalContext* globalCtx, Vec3f* vec, f32, s32, s32, s32, s32, s32, s32, s32);
+void func_800297A4(GlobalContext* globalCtx, Vec3f* vec, f32, s32, s32, s32, s32, s32, s32, Gfx*);
 // ? func_800298EC(?);
 // ? func_8002993C(?);
 void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
@@ -1189,6 +1189,7 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
                       u32 y2, s32 width2, s32 height2);
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
+Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
 void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(GlobalContext* globalCtx, Room* room, Input* arg2, UNK_TYPE arg3);
@@ -2208,7 +2209,8 @@ void func_800F4C58(Vec3f*, u16, u8);
 void func_800F574C(f32 arg0, UNK_TYPE arg2);
 void func_800F595C(u16);
 void func_800F59E8(u16);
-// ? func_800F5ACC(?);
+void func_800F5ACC(u16);
+void func_800F5B58(void);
 // ? func_800F5C64(?);
 // ? func_800F5CF8(?);
 // ? func_800F5E18(?);
@@ -2248,6 +2250,7 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u32 a2, u32* a3, u32* a4, u32*
 // ? func_800F87A0(?);
 // ? func_800F8884(?);
 void func_800F89E8(Vec3f*);
+void func_800F8A44(Vec3f*, u16 sfxId);
 void func_800F8D04(u32 a0);
 // ? func_800F8D04(?);
 // ? func_800F8E3C(?);

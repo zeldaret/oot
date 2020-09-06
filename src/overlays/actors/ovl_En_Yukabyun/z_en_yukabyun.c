@@ -44,7 +44,7 @@ static InitChainEntry sInitChain[] = {
 
 UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000 };
 
-extern UNK_TYPE D_06000A60;
+extern Gfx D_06000A60[];
 extern Gfx D_06000970[];
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -97,7 +97,7 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
 }
 
 void func_80B43BCC(EnYukabyun* this, GlobalContext* globalCtx) {
-    func_800297A4(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 0x514, 0x12C, 0xF, 0x5F, 0xA, &D_06000A60);
+    func_800297A4(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 0x514, 0x12C, 0xF, 0x5F, 0xA, D_06000A60);
     Actor_Kill(&this->actor);
 }
 

@@ -147,7 +147,7 @@ void func_80AD3D68(EnPoField* this, GlobalContext* globalCtx) {
     Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 5);
     this->actor.shape.rot.x = 0;
     Lights_SetPositionalLightColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
-    this->unk_196 = 0xC8;
+    this->unk_196 = 200;
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.flags &= ~0x00010001;
     this->collider.base.acFlags &= ~1;
@@ -278,7 +278,7 @@ void func_80AD42B0(EnPoField* this) {
     this->actor.initPosRot.pos.y = this->actor.posRot.pos.y;
     this->actor.scale.x = 0.0f;
     this->actor.scale.y = 0.0f;
-    Audio_PlayActorSound2(this, NA_SE_EV_METAL_BOX_BOUND);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EV_METAL_BOX_BOUND);
     if (this->actor.params == 1) {
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
     }
@@ -454,7 +454,7 @@ void func_80AD4CA4(EnPoField* this, GlobalContext* globalCtx) {
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
-    if (func_8002DBB0(this, &D_80AD7104) > 3000.0f) {
+    if (func_8002DBB0(&this->actor, &D_80AD7104) > 3000.0f) {
         phi_t0 = (s16)(this->actor.yawTowardsLink - func_8002DAC0(&this->actor, &D_80AD7104) - 0x8000) * 0.2f;
     } else {
         phi_t0 = 0;
@@ -595,7 +595,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
-    if (func_8002F194(this, globalCtx) != 0) {
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
         func_80AD444C(this);
         return;
     }
@@ -610,7 +610,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
         func_8002F2F4(&this->actor, globalCtx);
     } else {
         this->actor.flags &= ~0x10000;
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     this->actor.posRot.pos.y = (Math_Sins(this->unk_194 * 0x800) * 5.0f) + this->actor.initPosRot.pos.y;
     if (this->unk_194 != 0) {
@@ -721,7 +721,7 @@ void func_80AD5D60(EnPoField* this, GlobalContext* globalCtx) {
         this->collider2.dim.pos.x = this->unk_224.x;
         this->collider2.dim.pos.y = this->unk_224.y;
         this->collider2.dim.pos.z = this->unk_224.z;
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
     }
 }
 
@@ -813,10 +813,10 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
         func_80AD619C(this);
         func_80AD6330(this);
-        Collider_CylinderUpdate(this, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (this->collider.base.acFlags & 1) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }
@@ -876,7 +876,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, Gfx_EnvColor(globalCtx->state.gfxCtx, info->unk_6, info->unk_7, info->unk_8, 255));
-        if (this->unk_217 == 0xFF || this->unk_217 == 0) {
+        if (this->unk_217 == 255 || this->unk_217 == 0) {
             gSPSegment(oGfxCtx->polyOpa.p++, 0x08, Gfx_EnvColor(globalCtx->state.gfxCtx, this->unk_214, this->unk_215, this->unk_216, this->unk_217));
             gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, D_80116280 + 2);
             oGfxCtx->polyOpa.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80AD65C8, func_80AD66D0, &this->actor, oGfxCtx->polyOpa.p);

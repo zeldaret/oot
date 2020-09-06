@@ -119,7 +119,7 @@ void func_808BC6F8(BgTreemouth* this, GlobalContext* globalCtx) {
         sp34.x = (Math_Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Math_Rand_ZeroOne() * 2026.0f) + -2163.0f;
-        func_800297A4(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, -1, 10, 0);
+        func_800297A4(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, -1, 10, NULL);
     }
 }
 
