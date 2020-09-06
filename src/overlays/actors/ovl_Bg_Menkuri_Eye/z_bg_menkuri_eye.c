@@ -28,7 +28,7 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
 };
 
 extern Gfx D_06002D20[];
-UNK_TYPE D_8089C1A0;
+s32 D_8089C1A0;
 
 static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
@@ -53,7 +53,7 @@ void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     this->collider.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
     this->collider.list->dim.worldSphere.center.y = this->actor.posRot.pos.y;
     this->collider.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
@@ -62,7 +62,7 @@ void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
         D_8089C1A0 = 0;
     }
-    this->unk_14C = -1;
+    this->framesUntilDisable = -1;
 }
 
 void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -75,30 +75,31 @@ void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriEye* this = THIS;
 
     if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
-        if (this->unk_14C != -1) {
-            if (this->unk_14C != 0) {
-                this->unk_14C -= 1;
+        if (this->framesUntilDisable != -1) {
+            if (this->framesUntilDisable != 0) {
+                this->framesUntilDisable -= 1;
             }
-            if (this->unk_14C == 0) {
-                this->unk_14C = -1;
+            if (this->framesUntilDisable == 0) {
+                this->framesUntilDisable = -1;
                 D_8089C1A0 -= 1;
             }
         }
     }
-    if ((this->collider.base.acFlags & 2) && (ABS((s16)(this->collider.base.ac->posRot.rot.y - this->actor.shape.rot.y)) > 0x5000)){
+    if ((this->collider.base.acFlags & 2) &&
+        (ABS((s16)(this->collider.base.ac->posRot.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
         this->collider.base.acFlags &= ~0x2;
-        if (this->unk_14C == -1) {
+        if (this->framesUntilDisable == -1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
             D_8089C1A0 += 1;
             D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
         }
-        this->unk_14C = 0x1A0;
+        this->framesUntilDisable = 416;
         if (D_8089C1A0 == 4) {
             Flags_SetSwitch(globalCtx, this->actor.params);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
     }
-    if (this->unk_14C == -1) {
+    if (this->framesUntilDisable == -1) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     Actor_SetHeight(&this->actor, 0.0f);
@@ -111,13 +112,11 @@ void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 292);
     func_80093D84(globalCtx->state.gfxCtx);
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xC8, 0x00, 0x00, 0xFF);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 0, 0, 255);
+    } else if (this->framesUntilDisable == -1) {
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 0, 0, 0);
     } else {
-        if (this->unk_14C == -1) {
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xC8, 0x00, 0x00, 0x00);
-        } else {
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xC8, 0x00, 0x00, 0xFF);
-        }
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 0, 0, 255);
     }
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0);
     Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1);
