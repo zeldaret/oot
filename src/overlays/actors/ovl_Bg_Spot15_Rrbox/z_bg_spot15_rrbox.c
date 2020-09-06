@@ -283,7 +283,27 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3DDC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3F58.s")
+
+s32 func_808B3F58(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
+    if (func_808B3CA0(this, globalCtx, 0) != 0) {
+        return 1;
+    }
+    if (func_808B3CA0(this, globalCtx, 1) != 0) {
+        return 1;
+    }
+    if (func_808B3CA0(this, globalCtx, 2) != 0) {
+        return 1;
+    }
+    if (func_808B3CA0(this, globalCtx, 3) != 0) {
+        return 1;
+    }
+    if (func_808B3CA0(this, globalCtx, 4) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3F58.s")
 
 // void func_808B4010(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
 //     Vec3f temp_f0;
@@ -337,8 +357,6 @@ void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->actionFunc = func_808B4194;
     this->dyna.actor.gravity = 0.0f;
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4178.s")
 
 // void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
 //     s32 approxFValue;
