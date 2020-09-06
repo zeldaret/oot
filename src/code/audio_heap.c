@@ -291,7 +291,260 @@ void Audio_TemporaryPoolsInit(AudioPoolSplit3* split) {
     Audio_TemporaryPoolClear(&gAudioContext.gUnusedLoadedPool.temporary);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/Audio_AllocBankOrSeq.s")
+void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
+    SoundMultiPool *loadedPool;
+    TemporaryPool* tp;
+    SoundAllocPool* pool;
+    void* mem;
+    void* ret;
+    u8 firstVal;
+    u8 secondVal;
+    s32 i;
+    u8* table;
+    s32 side;
+
+    switch (poolIdx) {
+        case 0:
+            loadedPool = &gAudioContext.gSeqLoadedPool;
+            table = gAudioContext.gSeqLoadStatus;
+            break;
+        case 1:
+            loadedPool = &gAudioContext.gBankLoadedPool;
+            table = gAudioContext.gBankLoadStatus;
+            break;
+        case 2:
+            loadedPool = &gAudioContext.gUnusedLoadedPool;
+            table = gAudioContext.gUnusedLoadStatus;
+            break;
+    }
+
+    if (arg2 == 0) {
+        tp = &loadedPool->temporary;
+        pool = &tp->pool;
+
+        if (pool->size < size) {
+            return NULL;
+        }
+
+        firstVal = (tp->entries[0].id == -1) ? 0 : table[tp->entries[0].id];
+        secondVal = (tp->entries[1].id == -1) ? 0 : table[tp->entries[1].id];
+
+        if (poolIdx == 1) {
+            if (firstVal == 4) {
+                for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+                    if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[0].id &&
+                            gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
+                        break;
+                    }
+                }
+
+                if (i == gAudioContext.gMaxSimultaneousNotes) {
+                    Audio_SetBankLoadStatus(tp->entries[0].id, 3);
+                    firstVal = 3;
+                }
+            }
+
+            if (secondVal == 4) {
+                for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+                    if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[1].id &&
+                            gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
+                        break;
+                    }
+                }
+
+                if (i == gAudioContext.gMaxSimultaneousNotes) {
+                    Audio_SetBankLoadStatus(tp->entries[1].id, 3);
+                    secondVal = 3;
+                }
+            }
+        }
+
+        if (firstVal == 0) {
+            tp->nextSide = 0;
+        } else if (secondVal == 0) {
+            tp->nextSide = 1;
+        } else if (firstVal == 3 && secondVal == 3) {
+            // Use the opposite side from last time.
+        } else if (firstVal == 3) {
+            tp->nextSide = 0;
+        } else if (secondVal == 3) {
+            tp->nextSide = 1;
+        } else {
+            // Check if there is a side which isn't in active use, if so, evict that one.
+            if (poolIdx == 0) {
+                if (firstVal == 2) {
+                    for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
+                        if (gAudioContext.gSequencePlayers[i].enabled != 0 &&
+                                gAudioContext.gSequencePlayers[i].seqId == tp->entries[0].id) {
+                            break;
+                        }
+                    }
+
+                    if (i == gAudioContext.gAudioBufferParameters.numSequencePlayers) {
+                        tp->nextSide = 0;
+                        goto done;
+                    }
+                }
+
+                if (secondVal == 2) {
+                    for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
+                        if (gAudioContext.gSequencePlayers[i].enabled != 0 &&
+                                gAudioContext.gSequencePlayers[i].seqId == tp->entries[1].id) {
+                            break;
+                        }
+                    }
+
+                    if (i == gAudioContext.gAudioBufferParameters.numSequencePlayers) {
+                        tp->nextSide = 1;
+                        goto done;
+                    }
+                }
+            } else if (poolIdx == 1) {
+                if (firstVal == 2) {
+                    for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+                        if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[0].id &&
+                                gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
+                            break;
+                        }
+                    }
+                    if (i == gAudioContext.gMaxSimultaneousNotes) {
+                        tp->nextSide = 0;
+                        goto done;
+                    }
+                }
+
+                if (secondVal == 2) {
+                    for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+                        if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[1].id &&
+                            gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
+                                break;
+                        }
+                    }
+                    if (i == gAudioContext.gMaxSimultaneousNotes) {
+                        tp->nextSide = 1;
+                        goto done;
+                    }
+                }
+            }
+
+            // No such luck. Evict the side that wasn't chosen last time, except
+            // if it is being loaded into.
+            if (tp->nextSide == 0) {
+                if (firstVal == 1) {
+                    if (secondVal == 1) {
+                        goto fail;
+                    }
+                    tp->nextSide = 1;
+                }
+            } else {
+                if (secondVal == 1) {
+                    if (firstVal == 1) {
+                        goto fail;
+                    }
+                    tp->nextSide = 0;
+                }
+            }
+
+            if (0) {
+fail:
+                // Both sides are being loaded into.
+                return NULL;
+            }
+        }
+done:
+
+        side = tp->nextSide;
+
+        if (tp->entries[side].id != -1) {
+            if (poolIdx == 2) {
+                func_800E0E6C(tp->entries[side].id);
+            }
+            table[tp->entries[side].id] = 0;
+            if (poolIdx == 1) {
+                Audio_DiscardBank(tp->entries[side].id);
+            }
+        }
+
+        switch (side) {
+            case 0:
+                tp->entries[0].ptr = pool->start;
+                tp->entries[0].id = id;
+                tp->entries[0].size = size;
+                pool->cur = pool->start + size;
+
+                if (tp->entries[1].id != -1 && tp->entries[1].ptr < pool->cur) {
+                    if (poolIdx == 2) {
+                        func_800E0E6C(tp->entries[1].id);
+                    }
+
+                    table[tp->entries[1].id] = 0;
+                    switch (poolIdx) {
+                        case 0:
+                            Audio_DiscardSequence((s32) tp->entries[1].id);
+                            break;
+                        case 1:
+                            Audio_DiscardBank((s32) tp->entries[1].id);
+                            break;
+                    }
+
+                    tp->entries[1].id = -1;
+                    tp->entries[1].ptr = pool->start + pool->size;
+                }
+
+                ret = tp->entries[0].ptr;
+                break;
+
+            case 1:
+                tp->entries[1].ptr = (u8*)((u32)(pool->start + pool->size - size) & ~0xF);
+                tp->entries[1].id = id;
+                tp->entries[1].size = size;
+                if (tp->entries[0].id != -1 && tp->entries[1].ptr < pool->cur) {
+                    if (poolIdx == 2) {
+                        func_800E0E6C(tp->entries[0].id);
+                    }
+
+                    table[tp->entries[0].id] = 0;
+                    switch (poolIdx) {
+                        case 0:
+                            Audio_DiscardSequence(tp->entries[0].id);
+                            break;
+                        case 1:
+                            Audio_DiscardBank(tp->entries[0].id);
+                            break;
+                    }
+
+                    tp->entries[0].id = -1;
+                    pool->cur = pool->start;
+                }
+                ret = tp->entries[1].ptr;
+                break;
+
+            default:
+                return NULL;
+        }
+
+        tp->nextSide ^= 1;
+        return ret;
+    }
+
+    mem = Audio_Alloc(&loadedPool->persistent.pool, size);
+    loadedPool->persistent.entries[loadedPool->persistent.numEntries].ptr = mem;
+
+    if (mem == NULL) {
+        switch (arg2) {
+            case 2:
+                return Audio_AllocBankOrSeq(poolIdx, size, 0, id);
+
+            case 0:
+            case 1:
+                return NULL;
+        }
+    }
+
+    loadedPool->persistent.entries[loadedPool->persistent.numEntries].id = id;
+    loadedPool->persistent.entries[loadedPool->persistent.numEntries].size = size;
+    return loadedPool->persistent.entries[loadedPool->persistent.numEntries++].ptr;
+}
 
 void* func_800DF074(s32 poolIdx, s32 arg1, s32 id) {
     void* ret;

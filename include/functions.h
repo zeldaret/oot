@@ -1952,7 +1952,7 @@ void Audio_SessionPoolsInit(AudioPoolSplit4* split);
 void Audio_SeqAndBankPoolInit(AudioPoolSplit2* split);
 void Audio_PersistentPoolsInit(AudioPoolSplit3* split);
 void Audio_TemporaryPoolsInit(AudioPoolSplit3* split);
-// void* Audio_AllocBankOrSeq(?);
+void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id);
 void* func_800DF074(s32 poolIdx, s32 arg1, s32 id);
 void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id);
 void func_800DF5DC(s16* arg0, s32 arg1);

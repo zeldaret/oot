@@ -575,13 +575,13 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u8* start;
     /* 0x4 */ u8* cur;
-    /* 0x8 */ u32 size;
+    /* 0x8 */ s32 size;
     /* 0xC */ s32 unused; // set to 0, never read
 } SoundAllocPool; // size = 0x10
 
 typedef struct {
     /* 0x0 */ u8 *ptr;
-    /*?0x4 */ u32 size;
+    /* 0x4 */ u32 size;
     /* 0x8 */ s16 poolIndex;
     /* 0xA */ s16 id; // seqId or bankId
 } SeqOrBankEntry; // size = 0xC
