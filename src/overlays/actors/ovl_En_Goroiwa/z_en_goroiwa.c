@@ -74,18 +74,18 @@ void func_80A4BD70(EnGoroiwa* this, u8 arg1) {
 }
 
 bool func_80A4BD8C(Vec3f* arg0, Vec3f* arg1) {
-    f32 temp_f0 = Math3D_Vec3fMagnitude(arg1);
-    f32 temp_f2;
+    f32 magnitude = Math3D_Vec3fMagnitude(arg1);
+    f32 scale;
 
-    if (temp_f0 < 0.001f) {
+    if (magnitude < 0.001f) {
         return false;
     }
 
-    temp_f2 = 1.0f / temp_f0;
+    scale = 1.0f / magnitude;
 
-    arg0->x = arg1->x * temp_f2;
-    arg0->y = arg1->y * temp_f2;
-    arg0->z = arg1->z * temp_f2;
+    arg0->x = arg1->x * scale;
+    arg0->y = arg1->y * scale;
+    arg0->z = arg1->z * scale;
 
     return true;
 }
@@ -116,8 +116,8 @@ void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2) {
     s16 temp_v0 = (this->actor.params >> 8) & 3;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     s16 temp_t0 = this->waypoint1 - this->unk_1D0;
-    Vec3s* temp_a1;
-    Vec3s* temp_v0_2;
+    Vec3s* pointPos;
+    Vec3s* pointPos1;
 
     if (temp_t0 < 0) {
         if (temp_v0 == 0 || temp_v0 == 1) {
@@ -135,11 +135,11 @@ void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2) {
         }
     }
 
-    temp_v0_2 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint1;
-    temp_a1 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + temp_t0;
-    arg2->x = temp_v0_2->x - temp_a1->x;
-    arg2->y = temp_v0_2->x - temp_a1->y;
-    arg2->z = temp_v0_2->x - temp_a1->z;
+    pointPos1 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint1;
+    pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + temp_t0;
+    arg2->x = pointPos1->x - pointPos->x;
+    arg2->y = pointPos1->x - pointPos->y;
+    arg2->z = pointPos1->x - pointPos->z;
 }
 
 void func_80A4C080(EnGoroiwa* this) {
@@ -204,17 +204,17 @@ void func_80A4C264(EnGoroiwa* this) {
 s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    Vec3s* temp_t1 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
-    Vec3s* temp_t0 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint1;
+    Vec3s* pointPos2 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
+    Vec3s* pointPos1 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint1;
 
-    if (temp_t1->x == temp_t0->x && temp_t1->z == temp_t0->z) {
-        if (temp_t1->y == temp_t0->y) {
+    if (pointPos2->x == pointPos1->x && pointPos2->z == pointPos1->z) {
+        if (pointPos2->y == pointPos1->y) {
             // Translation: Error: Invalid path data (points overlap)
             osSyncPrintf("Error : レールデータ不正(点が重なっている)");
             osSyncPrintf("(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 559, this->actor.params);
         }
 
-        if (temp_t1->y > temp_t0->y) {
+        if (pointPos2->y > pointPos1->y) {
             return 1;
         } else {
             return -1;
@@ -259,40 +259,40 @@ void func_80A4C594(GlobalContext* globalCtx, Vec3f* arg1) {
 
 bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path;
-    bool temp_v0;
+    bool result;
     s32 pad;
-    Vec3s* temp_a3;
+    Vec3s* pointPos;
 
     Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     func_8002D868(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    temp_a3 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
-    temp_v0 = Math_ApproxF(&this->actor.posRot.pos.x, temp_a3->x, fabsf(this->actor.velocity.x)) & 1;
-    temp_v0 &= Math_ApproxF(&this->actor.posRot.pos.z, temp_a3->z, fabsf(this->actor.velocity.z));
+    pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
+    result = Math_ApproxF(&this->actor.posRot.pos.x, pointPos->x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_ApproxF(&this->actor.posRot.pos.z, pointPos->z, fabsf(this->actor.velocity.z));
     this->actor.posRot.pos.y += this->actor.velocity.y;
 
-    return temp_v0;
+    return result;
 }
 
 bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     s32 pad;
-    Vec3s* temp_v0 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
-    Vec3s* temp_t1 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint1;
+    Vec3s* pointPos2 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
+    Vec3s* pointPos1 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint1;
     bool result;
     Vec3f sp38;
     Vec3f sp2C;
 
-    sp2C.x = temp_v0->x;
-    sp2C.y = temp_v0->y;
-    sp2C.z = temp_v0->z;
+    sp2C.x = pointPos2->x;
+    sp2C.y = pointPos2->y;
+    sp2C.z = pointPos2->z;
     Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     if (Math3D_Vec3fDistSq(&sp2C, &this->actor.posRot.pos) < 25.0f) {
         Math_Vec3f_Diff(&sp2C, &this->actor.posRot.pos, &sp38);
     } else {
-        sp38.x = sp2C.x - temp_t1->x;
-        sp38.y = sp2C.y - temp_t1->y;
-        sp38.z = sp2C.z - temp_t1->z;
+        sp38.x = sp2C.x - pointPos1->x;
+        sp38.y = sp2C.y - pointPos1->y;
+        sp38.z = sp2C.z - pointPos1->z;
     }
     func_80A4BD8C(&this->actor.velocity, &sp38);
     this->actor.velocity.x *= this->actor.speedXZ;
@@ -307,12 +307,12 @@ bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
 bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    Vec3s* temp_t0 = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
+    Vec3s* pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint2;
 
     Math_ApproxF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
-    this->actor.posRot.pos.x = temp_t0->x;
-    this->actor.posRot.pos.z = temp_t0->z;
-    return Math_ApproxF(&this->actor.posRot.pos.y, temp_t0->y, fabsf(this->actor.velocity.y));
+    this->actor.posRot.pos.x = pointPos->x;
+    this->actor.posRot.pos.z = pointPos->z;
+    return Math_ApproxF(&this->actor.posRot.pos.y, pointPos->y, fabsf(this->actor.velocity.y));
 }
 
 bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
@@ -535,14 +535,12 @@ void func_80A4D8CC(EnGoroiwa* this) {
 
 void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
     func_80A4C6C8(this, globalCtx);
-    if (this->actor.bgCheckFlags & 1) {
-        if (this->actor.velocity.y < 0.0f) {
-            if (this->unk_1D3 & 4 && (this->actor.initPosRot.rot.z & 1) == 1) {
-                func_80A4C164(this);
-                func_80A4BE54(this, globalCtx);
-            }
-            func_80A4D9DC(this);
+    if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y < 0.0f) {
+        if (this->unk_1D3 & 4 && (this->actor.initPosRot.rot.z & 1) == 1) {
+            func_80A4C164(this);
+            func_80A4BE54(this, globalCtx);
         }
+        func_80A4D9DC(this);
     }
 }
 
