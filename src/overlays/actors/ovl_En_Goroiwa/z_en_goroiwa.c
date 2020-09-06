@@ -339,6 +339,8 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
 
     sp78 = pointPos->y;
     Math_ApproxF(&this->actor.velocity.y, -14.0f, 1.0f);
+    // Janky hack alert
+    if (!this->actor.posRot.pos.y) {}
     this->actor.posRot.pos.x = pointPos->x;
     this->actor.posRot.pos.z = pointPos->z;
     sp74 = this->actor.posRot.pos.y;
