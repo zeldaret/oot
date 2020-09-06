@@ -7,7 +7,7 @@ glabel BgPoSyokudai_Destroy
 /* 002B0 808A8360 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002B4 808A8364 8DC60150 */  lw      $a2, 0x0150($t6)           ## 00000150
 /* 002B8 808A8368 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 002BC 808A836C 0C01E9F1 */  jal     Lights_Remove
+/* 002BC 808A836C 0C01E9F1 */  jal     LightContext_RemoveLight
 /* 002C0 808A8370 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 002C4 808A8374 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002C8 808A8378 8FA4001C */  lw      $a0, 0x001C($sp)           

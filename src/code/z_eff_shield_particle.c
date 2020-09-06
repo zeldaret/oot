@@ -50,11 +50,12 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
 
         this->lightDecay = initParams->lightDecay;
         if (this->lightDecay == true) {
-            this->lightInfo.type = 0;
-            this->lightInfo.params = initParams->lightParams;
-            this->light = Lights_Insert(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, &this->lightInfo);
+            this->lightInfo.type = LIGHT_POINT_NOGLOW;
+            this->lightInfo.params.point = initParams->lightPoint;
+            this->lightNode =
+                LightContext_InsertLight(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, &this->lightInfo);
         } else {
-            this->light = NULL;
+            this->lightNode = NULL;
         }
     }
 }
@@ -63,10 +64,10 @@ void EffectShieldParticle_Destroy(void* thisx) {
     EffectShieldParticle* this = (EffectShieldParticle*)thisx;
 
     if ((this != NULL) && (this->lightDecay == true)) {
-        if (this->light == Effect_GetGlobalCtx()->lightCtx.lightsHead) {
-            Effect_GetGlobalCtx()->lightCtx.lightsHead = this->light->next;
+        if (this->lightNode == Effect_GetGlobalCtx()->lightCtx.listHead) {
+            Effect_GetGlobalCtx()->lightCtx.listHead = this->lightNode->next;
         }
-        Lights_Remove(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, this->light);
+        LightContext_RemoveLight(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, this->lightNode);
     }
 }
 
@@ -100,7 +101,7 @@ s32 EffectShieldParticle_Update(void* thisx) {
     }
 
     if (this->lightDecay == true) {
-        this->lightInfo.params.radius /= 2;
+        this->lightInfo.params.point.radius /= 2;
     }
 
     this->timer++;
