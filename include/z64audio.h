@@ -587,11 +587,11 @@ typedef struct {
 } SeqOrBankEntry; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
+    /* 0x00 */ s8 unk_00;
     /* 0x01 */ s8 unk_01;
     /* 0x02 */ s8 unk_02;
     /* 0x03 */ char pad[0x5];
-    /* 0x08 */ void* unk_08;
+    /* 0x08 */ u8* unk_08;
     /* 0x0C */ void* unk_0C;
     /* 0x10 */ u32 size;
 } UnkHeapEntry; // size = 0x14
@@ -654,6 +654,14 @@ typedef struct {
 } ManyStruct_800E0E0C_2;
 
 typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ AudioBankSample* sample;
+    /* 0x08 */ u8* unk_08;
+    /* 0x0C */ s32 pad;
+    /* 0x10 */ s32 unk_10;
+} AudioStruct0D68; // size = 0x14
+
+typedef struct {
     /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 gNumSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;
@@ -661,7 +669,9 @@ typedef struct {
     /* 0x0006 */ char unk_0006[0x0e];
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
     /* 0x0018 */ SynthesisReverb gSynthesisReverbs[4];
-    /* 0x0B38 */ char unk_0B38[0xC34];
+    /* 0x0B38 */ char unk_0B38[0x230];
+    /* 0x0D68 */ AudioStruct0D68 unk_0D68[128]; // guessing at size
+    /* 0x1768 */ char unk_1768[4];
     /* 0x176C */ s32 unk_176C;
     /* 0x1770 */ char unk_1770[0xEB0];
     /* 0x2620 */ s32 gSampleDmaNumListItems;

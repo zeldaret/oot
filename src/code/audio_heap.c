@@ -784,8 +784,85 @@ void func_800E0634(u32 arg0, u32 arg1) {
     gAudioContext.unk_3174.size = 0;
 }
 
-// somewhat big
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800E06CC.s")
+UnkHeapEntry* func_800E06CC(u32 size) {
+    u8* allocAfter;
+    u8* allocBefore;
+    void* mem;
+    s32 index;
+    s32 i;
+    UnkHeapEntry* ret;
+    AudioStruct0D68* thing;
+    UnkPool* unkPool;
+    u8* start;
+    u8* end;
+
+    unkPool = &gAudioContext.unk_3174;
+    allocBefore = unkPool->pool.cur;
+    mem = Audio_Alloc(&unkPool->pool, size);
+    if (mem == NULL) {
+        u8* old = unkPool->pool.cur;
+        unkPool->pool.cur = unkPool->pool.start;
+        mem = Audio_Alloc(&unkPool->pool, size);
+        if (mem == NULL) {
+            unkPool->pool.cur = old;
+            return NULL;
+        }
+        allocBefore = unkPool->pool.start;
+    }
+
+    allocAfter = unkPool->pool.cur;
+
+    index = -1;
+    for (i = 0; i < gAudioContext.unk_176C; i++) {
+        thing = &gAudioContext.unk_0D68[i];
+        if (thing->unk_10 == 0) {
+            start = thing->unk_08;
+            end = thing->unk_08 + thing->sample->bits24 - 1;
+
+            if (end < allocBefore && start < allocBefore) {
+                continue;
+            }
+            if (end >= allocAfter && start >= allocAfter) {
+                continue;
+            }
+
+            // Overlap
+            thing->unk_10 = 1;
+        }
+    }
+
+    for (i = 0; i < unkPool->size; i++) {
+        if (unkPool->entries[i].unk_00 == 0) {
+            continue;
+        }
+
+        start = unkPool->entries[i].unk_08;
+        end = start + unkPool->entries[i].size - 1;
+
+        if (end < allocBefore && start < allocBefore) {
+            continue;
+        }
+        if (end >= allocAfter && start >= allocAfter) {
+            continue;
+        }
+
+        // Overlap. Discard existing entry?
+        func_800E0AD8(&unkPool->entries[i]);
+        if (index == -1) {
+            index = i;
+        }
+    }
+
+    if (index == -1) {
+        index = unkPool->size++;
+    }
+
+    ret = &unkPool->entries[index];
+    ret->unk_00 = 1;
+    ret->unk_08 = mem;
+    ret->size = size;
+    return ret;
+}
 
 void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
     Drum *drum;
