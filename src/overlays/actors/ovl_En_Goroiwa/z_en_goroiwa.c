@@ -550,43 +550,41 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
             this->timer = 50;
         }
-    } else {
-        if (D_80A4DF18[(this->actor.params >> 10) & 1](this)) {
-            temp_v1_2 = (this->actor.params >> 8) & 3;
-            if (temp_v1_2 == 1) {
-                if (this->waypoint2 == 0 || this->unk_1CA == this->waypoint2) {
-                    func_80A4D0FC(this, globalCtx);
-                }
+    } else if (D_80A4DF18[(this->actor.params >> 10) & 1](this)) {
+        temp_v1_2 = (this->actor.params >> 8) & 3;
+        if (temp_v1_2 == 1) {
+            if (this->waypoint2 == 0 || this->unk_1CA == this->waypoint2) {
+                func_80A4D0FC(this, globalCtx);
             }
-            func_80A4D074(this, globalCtx);
-            if (temp_v1_2 == 3) {
-                if (this->waypoint1 != 0) {
-                    if (this->unk_1CA == this->waypoint1) {
+        }
+        func_80A4D074(this, globalCtx);
+        if (temp_v1_2 == 3) {
+            if (this->waypoint1 != 0) {
+                if (this->unk_1CA == this->waypoint1) {
 block_16:
-                        func_80A4D9DC(this);
-                    } else {
+                    func_80A4D9DC(this);
+                } else {
 block_17:
-                        if (!((this->actor.params >> 10) & 1) && this->waypoint1 != 0) {
-                            if (this->unk_1CA != this->waypoint1) {
-                                temp_v0_5 = func_80A4C27C(this, globalCtx);
-                                if (temp_v0_5 > 0) {
-                                    func_80A4DA7C(this);
-                                } else if (temp_v0_5 < 0) {
-                                    func_80A4DB90(this);
-                                } else {
-                                    func_80A4D5E0(this);
-                                }
+                    if (!((this->actor.params >> 10) & 1) && this->waypoint1 != 0) {
+                        if (this->unk_1CA != this->waypoint1) {
+                            temp_v0_5 = func_80A4C27C(this, globalCtx);
+                            if (temp_v0_5 > 0) {
+                                func_80A4DA7C(this);
+                            } else if (temp_v0_5 < 0) {
+                                func_80A4DB90(this);
                             } else {
                                 func_80A4D5E0(this);
                             }
+                        } else {
+                            func_80A4D5E0(this);
                         }
                     }
-                } else {
-                    goto block_16;
                 }
             } else {
-                goto block_17;
+                goto block_16;
             }
+        } else {
+            goto block_17;
         }
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
