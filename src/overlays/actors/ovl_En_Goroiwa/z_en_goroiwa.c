@@ -54,7 +54,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
     },
 };
 
-static ColliderJntSphInit sJntSphInit =  {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
     sJntSphItemsInit,
@@ -71,12 +71,9 @@ static Vec3f D_80A4DEE4 = { 0.0f, 1.0f, 0.0f };
 static f32 D_80A4DEF0[] = { 0.0f, 59.5f };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, 64676, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(minVelocityY, 50536, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, 64676, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, 50536, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
 static f32 D_80A4DF10[] = { 0.0f, 595.0f };
@@ -407,7 +404,10 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
         this->actor.velocity.y *= -0.3f;
         this->actor.posRot.pos.y = pointY - ((this->actor.posRot.pos.y - pointY) * 0.3f);
     }
-    if (this->unk_1C6 == 0 && func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &ySurface, &waterBox) && this->actor.posRot.pos.y <= ySurface) {
+    if (this->unk_1C6 == 0 &&
+        func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &ySurface,
+                      &waterBox) &&
+        this->actor.posRot.pos.y <= ySurface) {
         this->unk_1D3 |= 0x10;
         if (ySurface < thisY) {
             sp30.x = this->actor.posRot.pos.x;
@@ -502,7 +502,8 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
         burstDepthX.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
         burstDepthX.z = burstDepthY.z * 0.2f;
         Math_Vec3f_Sum(&burstDepthY, pos, &burstDepthY);
-        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, -340, 33, 28, 2, 0, (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, -1, 1, D_0400D340);
+        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, -340, 33, 28, 2, 0,
+                      (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, -1, 1, D_0400D340);
     }
 
     burstDepthY.x = pos->x;
@@ -521,7 +522,8 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     params = this->actor.params & 0xFF;
     if (params == 0xFF) {
         // Translation: Error: Invalid arg_data
-        osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033, this->actor.params);
+        osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033,
+                     this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -541,7 +543,9 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80A4BE54(this, globalCtx);
     func_80A4D5E0(this);
     // Translation: (Goroiwa)
-    osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params, this->actor.params & 0xFF, (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1, this->actor.initPosRot.rot.z & 1);
+    osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params,
+                 this->actor.params & 0xFF, (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1,
+                 this->actor.initPosRot.rot.z & 1);
 }
 
 void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -714,7 +718,8 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
             }
         } else {
-            this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor, &this->actor.posRot.pos);
+            this->actor.groundY =
+                func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor, &this->actor.posRot.pos);
         }
         func_80A4CED8(this, globalCtx);
         if (this->actor.xzDistFromLink < 300.0f) {
