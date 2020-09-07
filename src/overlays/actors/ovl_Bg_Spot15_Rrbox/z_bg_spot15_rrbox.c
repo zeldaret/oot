@@ -10,18 +10,18 @@ void BgSpot15Rrbox_Update(BgSpot15Rrbox* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
-void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx);
+void func_808B40AC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+void func_808B4380(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
-void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
+void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 // Prototypes for functions external to this file
 f32 func_8003CA64(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos, f32 chkDist);
-s32 func_800435D8(GlobalContext *globalCtx, DynaPolyActor *dyna, s16 arg2, s16 arg3, s16 arg4);
+s32 func_800435D8(GlobalContext* globalCtx, DynaPolyActor* dyna, s16 arg2, s16 arg3, s16 arg4);
 
 s16 D_808B4590 = 0;
 
@@ -52,13 +52,11 @@ Vec3f D_808B45C4[] = {
     { 770.0f, 1550.0f, -299.0f },
 };
 
-Vec3f D_808B45DC[] = { 
-    { 29.99f, 0.01f, -29.99f },
-    { -29.99f, 0.01f, -29.99f }, 
-    { -29.99f, 0.01f, 29.99f }, 
-    { 29.99f, 0.01f, 29.99f }, 
-    { 0.0f, 0.01f, 0.0f }
-};
+Vec3f D_808B45DC[] = { { 29.99f, 0.01f, -29.99f },
+                       { -29.99f, 0.01f, -29.99f },
+                       { -29.99f, 0.01f, 29.99f },
+                       { 29.99f, 0.01f, 29.99f },
+                       { 0.0f, 0.01f, 0.0f } };
 
 s32 D_808B4618[] = { 0, 0 };
 
@@ -78,7 +76,7 @@ void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32* arg2, s32
     }
 }
 
-void func_808B39E8(Vec3f *arg0, Vec3f *arg1, f32 arg2, f32 arg3) {
+void func_808B39E8(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
     arg0->x = ((arg1->z * arg2) + (arg1->x * arg3));
     arg0->y = arg1->y;
     arg0->z = ((arg1->z * arg3) - (arg1->x * arg2));
@@ -88,7 +86,7 @@ void func_808B3A34(BgSpot15Rrbox* this) {
     this->unk_180 = 50;
 }
 
-bool func_808B3A40(BgSpot15Rrbox *this, GlobalContext* globalCtx) {
+bool func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     DynaPolyActor* temp_v0;
 
     temp_v0 = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->unk_180);
@@ -102,22 +100,20 @@ bool func_808B3A40(BgSpot15Rrbox *this, GlobalContext* globalCtx) {
     return false;
 }
 
-s32 func_808B3AAC(BgSpot15Rrbox *this, GlobalContext *globalCxt) {
+s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCxt) {
     s16 phi_v0;
-    Actor *actor = &this->dyna.actor;
+    Actor* actor = &this->dyna.actor;
 
     if (globalCxt->sceneNum == 0x4C) {
         return 1;
-    }
-    else if (func_808B3A40(this, globalCxt) != 0) {
+    } else if (func_808B3A40(this, globalCxt) != 0) {
         return 0;
     }
 
     if (actor->posRot.pos.x <= 930.0f && -360.0f <= actor->posRot.pos.z) {
         if (0.0f <= this->dyna.unk_150) {
             phi_v0 = actor->posRot.rot.y;
-        } 
-        else {
+        } else {
             phi_v0 = actor->posRot.rot.y + 0x8000;
         }
 
@@ -146,13 +142,13 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
-void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     D_808B4590 = 0;
 }
 
-s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
+s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     f32 chkDist = 0.0f;
     Vec3f sp38;
     Vec3f sp2C;
@@ -169,13 +165,8 @@ s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
     sp38.y += this->dyna.actor.pos4.y;
     sp38.z += this->dyna.actor.posRot.pos.z;
 
-    this->dyna.actor.groundY = func_8003CA64(
-        &globalCtx->colCtx, 
-        &this->dyna.actor.floorPoly,
-        &this->unk_180, 
-        &this->dyna.actor, 
-        &sp38, 
-        chkDist);
+    this->dyna.actor.groundY = func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->unk_180,
+                                             &this->dyna.actor, &sp38, chkDist);
 
     if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
@@ -184,11 +175,11 @@ s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
     return 0;
 }
 
-f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
+f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     int i;
     Vec3f tempVector2;
     Vec3f tempVector1;
-    Actor *actor = &this->dyna.actor;
+    Actor* actor = &this->dyna.actor;
     f32 yIntersect;
     f32 returnValue = -32000.0f;
     s32 sp64;
@@ -204,9 +195,9 @@ f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
         tempVector2.x += actor->posRot.pos.x;
         tempVector2.y += actor->pos4.y;
         tempVector2.z += actor->posRot.pos.z;
-        
+
         yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &sp64, actor, &tempVector2, 0);
-        
+
         if (returnValue < yIntersect) {
             returnValue = yIntersect;
             this->unk_180 = sp64;
@@ -235,16 +226,11 @@ s32 func_808B3F58(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B4010(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    return func_800435D8(
-        globalCtx, 
-        &this->dyna, 
-        this->dyna.actor.scale.x * 290.0f,
-        this->dyna.actor.scale.x * 290.0f + 20.0f,
-        1.0f
-    ) == 0; 
+    return func_800435D8(globalCtx, &this->dyna, this->dyna.actor.scale.x * 290.0f,
+                         this->dyna.actor.scale.x * 290.0f + 20.0f, 1.0f) == 0;
 }
 
-void func_808B4084(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808B40AC;
     this->dyna.actor.gravity = 0.0f;
     this->dyna.actor.velocity.x = 0.0f;
@@ -252,8 +238,8 @@ void func_808B4084(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->dyna.actor.velocity.z = 0.0f;
 }
 
-void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
-    Player *player = PLAYER;
+void func_808B40AC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
 
     if (this->unk_168 <= 0 && fabsf(this->dyna.unk_150) > 0.001f) {
         if (func_808B3AAC(this, globalCtx) != 0 && func_808B4010(this, globalCtx) == 0) {
@@ -270,18 +256,18 @@ void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->dyna.unk_150 = 0.0f;
 }
 
-void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808B4194;
     this->dyna.actor.gravity = 0.0f;
 }
 
-void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 sign;
-    Player *player = PLAYER;
+    Player* player = PLAYER;
     f32 temp_f0_2;
     s32 approxFValue;
 
-    Actor *actor = &this->dyna.actor;
+    Actor* actor = &this->dyna.actor;
 
     this->unk_174 = this->unk_174 + 0.5f;
     if (2.0f < this->unk_174) {
@@ -294,7 +280,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
 
     sign = 0.0f <= this->unk_17C ? 1.0f : -1.0f;
 
-    temp_f0_2 = ((float) sign) * this->unk_178;
+    temp_f0_2 = ((float)sign) * this->unk_178;
     actor->posRot.pos.x = actor->initPosRot.pos.x + (temp_f0_2 * this->unk_16C);
     actor->posRot.pos.z = actor->initPosRot.pos.z + (temp_f0_2 * this->unk_170);
 
@@ -306,8 +292,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
         this->unk_178 = 0.0f;
         this->unk_174 = 0.0f;
         func_808B4380(this, globalCtx);
-    } 
-    else {
+    } else {
         if (approxFValue) {
             player = PLAYER;
             if (func_808B4010(this, globalCtx) != 0) {
@@ -329,7 +314,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     Audio_PlayActorSound2(actor, 0x200AU);
 }
 
-void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+void func_808B4380(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.x = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.velocity.z = 0.0f;
@@ -338,10 +323,10 @@ void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->actionFunc = func_808B43D0;
 }
 
-void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 groundY;
-    Player *player = PLAYER;
-    Actor *actor = &this->dyna.actor;
+    Player* player = PLAYER;
+    Actor* actor = &this->dyna.actor;
 
     if (0.001f < fabsf(this->dyna.unk_150)) {
         this->dyna.unk_150 = 0.0f;
@@ -351,8 +336,8 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     Actor_MoveForward(actor);
 
     if (actor->posRot.pos.y <= -31990.0f) {
-        osSyncPrintf((const char *) "Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", 
-            "../z_bg_spot15_rrbox.c", 0x257, actor->params);
+        osSyncPrintf((const char*)"Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n",
+                     "../z_bg_spot15_rrbox.c", 0x257, actor->params);
 
         Actor_Kill(actor);
 
@@ -368,18 +353,18 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     }
 }
 
-void func_808B44B8(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808B44CC;
 }
 
-void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
-    Player *temp_v0 = PLAYER;
+void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
+    Player* temp_v0 = PLAYER;
 
-    temp_v0->stateFlags2 = (s32) (temp_v0->stateFlags2 & -0x11);
+    temp_v0->stateFlags2 = (s32)(temp_v0->stateFlags2 & -0x11);
     this->dyna.unk_150 = 0.0f;
 }
 
-void BgSpot15Rrbox_Update(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
+void BgSpot15Rrbox_Update(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
     if (this->unk_168 > 0) {
         this->unk_168--;
@@ -390,6 +375,6 @@ void BgSpot15Rrbox_Update(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void BgSpot15Rrbox_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06000180);
 }
