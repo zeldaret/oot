@@ -6,7 +6,7 @@
 
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot15Rrbox_Update(BgSpot15Rrbox* thisx, GlobalContext* globalCtx);
+void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
@@ -364,7 +364,8 @@ void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     this->dyna.unk_150 = 0.0f;
 }
 
-void BgSpot15Rrbox_Update(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
+void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot15Rrbox* this = THIS;
 
     if (this->unk_168 > 0) {
         this->unk_168--;
