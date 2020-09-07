@@ -312,63 +312,59 @@ void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->dyna.actor.gravity = 0.0f;
 }
 
-// void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
-//     s32 approxFValue;
-//     f32 phi_f2;
-//     f32 temp_f0_2;
-//     Player *player = PLAYER;
-//     Actor *actor = &this->dyna.actor;
+void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+    f32 sign;
+    Player *player = PLAYER;
+    f32 temp_f0_2;
+    s32 approxFValue;
 
-//     this->unk_174 = this->unk_174 + 0.5f;
-//     if (2.0f < this->unk_174) {
-//         this->unk_174 = 2.0f;
-//     } else {
-//         this->unk_174 = this->unk_174;
-//     }
+    Actor *actor = &this->dyna.actor;
 
-//     approxFValue = Math_ApproxF(&this->unk_178, 20.0f, this->unk_174);
+    this->unk_174 = this->unk_174 + 0.5f;
+    if (2.0f < this->unk_174) {
+        this->unk_174 = 2.0f;
+    } else {
+        this->unk_174 = this->unk_174;
+    }
 
-//     if (0.0f <= this->unk_17C) {
-//         phi_f2 = 1.0f;
-//     } else {
-//         phi_f2 = -1.0f;
-//     }
+    approxFValue = Math_ApproxF(&this->unk_178, 20.0f, this->unk_174);
 
-//     temp_f0_2 = phi_f2 * this->unk_178;
-//     actor->posRot.pos.x = actor->initPosRot.pos.x + (temp_f0_2 * this->unk_16C);
-//     actor->posRot.pos.z = actor->initPosRot.pos.z + (temp_f0_2 * this->unk_170);
+    sign = 0.0f <= this->unk_17C ? 1.0f : -1.0f;
 
-//     if (func_808B3F58(this, globalCtx) == 0) {
-//         actor->initPosRot.pos.x = actor->posRot.pos.x;
-//         actor->initPosRot.pos.z = actor->posRot.pos.z;
-//         player->stateFlags2 &= ~0x10;
-//         this->dyna.unk_150 = 0.0f;
-//         this->unk_178 = 0.0f;
-//         this->unk_174 = 0.0f;
-//         func_808B4380(this, globalCtx);
-//     } 
-//     else {
-//         if (approxFValue != 0) {
-//             if (func_808B4010(this, globalCtx) != 0) {
-//                 Audio_PlayActorSound2(actor, 0x28C9);
-//             }
-//             if (func_808B3A40(this, globalCtx) != 0) {
-//                 func_80078884(0x4802);
-//             }
-//             actor->initPosRot.pos.x = actor->posRot.pos.x;
-//             actor->initPosRot.pos.z = actor->posRot.pos.z;
-//             player->stateFlags2 &= ~0x10;
-//             this->dyna.unk_150 = 0.0f;
-//             this->unk_178 = 0.0f;
-//             this->unk_174 = 0.0f;
-//             this->unk_168 = 10;
-//             func_808B4084(this, globalCtx);
-//         }
-//     }
-//     Audio_PlayActorSound2(actor, 0x200AU);
-// }
+    temp_f0_2 = ((float) sign) * this->unk_178;
+    actor->posRot.pos.x = actor->initPosRot.pos.x + (temp_f0_2 * this->unk_16C);
+    actor->posRot.pos.z = actor->initPosRot.pos.z + (temp_f0_2 * this->unk_170);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4194.s")
+    if (func_808B3F58(this, globalCtx) == 0) {
+        actor->initPosRot.pos.x = actor->posRot.pos.x;
+        actor->initPosRot.pos.z = actor->posRot.pos.z;
+        player->stateFlags2 &= ~0x10;
+        this->dyna.unk_150 = 0.0f;
+        this->unk_178 = 0.0f;
+        this->unk_174 = 0.0f;
+        func_808B4380(this, globalCtx);
+    } 
+    else {
+        if (approxFValue) {
+            player = PLAYER;
+            if (func_808B4010(this, globalCtx) != 0) {
+                Audio_PlayActorSound2(actor, NA_SE_EV_WOOD_BOUND);
+            }
+            if (func_808B3A40(this, globalCtx)) {
+                func_80078884(NA_SE_SY_CORRECT_CHIME);
+            }
+            actor->initPosRot.pos.x = actor->posRot.pos.x;
+            actor->initPosRot.pos.z = actor->posRot.pos.z;
+            player->stateFlags2 &= ~0x10;
+            this->dyna.unk_150 = 0.0f;
+            this->unk_178 = 0.0f;
+            this->unk_174 = 0.0f;
+            this->unk_168 = 10;
+            func_808B4084(this, globalCtx);
+        }
+    }
+    Audio_PlayActorSound2(actor, 0x200AU);
+}
 
 void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->dyna.actor.velocity.x = 0.0f;
