@@ -15,7 +15,7 @@ typedef struct BgPoEvent {
     /* 0x0169 */ u8 actorIndex;
     /* 0x016A */ s8 direction;
     /* 0x016C */ s16 timer;
-    /* 0x0170 */ ColliderTris collider1;
+    /* 0x0170 */ ColliderTris collider;
     /* 0x0190 */ ColliderTrisItem colliderItems[2];
 } BgPoEvent; // size = 0x0248
 
