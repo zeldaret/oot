@@ -626,7 +626,7 @@ void func_80A4D9DC(EnGoroiwa* this) {
 
 void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->unk_1C4 > 0) {
-        this->unk_1C4 -= 1;
+        this->unk_1C4--;
     } else {
         this->collider.base.atFlags &= ~2;
         func_80A4D5E0(this);
