@@ -62,12 +62,14 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 254 };
 
+// Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
-
 static f32 D_80A4DEC4[] = { 0.0f, 59.5f };
+
 static Vec3f D_80A4DECC = { 0.0f, 0.0f, 0.0f };
 static Vec3f D_80A4DED8 = { 0.0f, 0.3f, 0.0f };
 static Vec3f D_80A4DEE4 = { 0.0f, 1.0f, 0.0f };
+
 static f32 D_80A4DEF0[] = { 0.0f, 59.5f };
 
 static InitChainEntry sInitChain[] = {
@@ -77,8 +79,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 static f32 D_80A4DF10[] = { 0.0f, 595.0f };
+
 static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
 static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
+
 static s16 D_80A4DF28[] = { 20, 6 };
 
 extern Gfx D_0400D340[];
