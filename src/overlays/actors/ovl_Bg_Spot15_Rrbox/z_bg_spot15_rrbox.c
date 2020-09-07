@@ -8,7 +8,6 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Update(BgSpot15Rrbox* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_808B3A34(BgSpot15Rrbox* this);
 void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
@@ -18,7 +17,8 @@ f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
 f32 func_8003CA64(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos, f32 chkDist);
 void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx);
 void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-
+s32 func_800435D8(GlobalContext *globalCtx, DynaPolyActor *dyna, s16 arg2, s16 arg3, s16 arg4);
+s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2);
 s16 D_808B4590 = 0;
 
 extern s32 D_06000348;
@@ -98,63 +98,29 @@ bool func_808B3A40(BgSpot15Rrbox *this, GlobalContext* globalCtx) {
     return false;
 }
 
-// u16 func_808B3AAC(Actor *arg0, GlobalContext *arg1) {
-//     s32 phi_v0;
-
-//     if (arg1->sceneNum == 0x4C) {
-
-//     } else {
-//         if (func_808B3A40(arg0, arg1) != 0) {
-//             return (u16)0U;
-//         }
-//         if (arg0->posRot.pos.x <= 930.0f) {
-//             if (-360.0f <= arg0->posRot.pos.z) {
-//                 if (0.0f <= arg0->unk150) {
-//                     phi_v0 = (s32) arg0->posRot.rot.y;
-//                 } else {
-//                     phi_v0 = (s32) ((arg0->posRot.rot.y + 0x8000) << 0x10) >> 0x10;
-//                 }
-//                 if (phi_v0 >= 0x2000) {
-// block_12:
-//                     return (u16)1U;
-//                 }
-//                 if (phi_v0 < -0x5FFF) {
-//                     goto block_12;
-//                 }
-//                 return *(&gSaveContext + 0xED6) & 0x10;
-//             }
-//         }
-//     }
-//     return (u16)1U;
-// }
-
 // s32 func_808B3AAC(BgSpot15Rrbox *this, GlobalContext *globalCxt) {
 //     s16 phi_v0;
+//     Actor *actor = &this->dyna.actor;
 
 //     if (globalCxt->sceneNum == 0x4C) {
-//         return 1;
+//         return 1.0f;
 //     }
 //     else if (func_808B3A40(this, globalCxt) != 0) {
 //         return 0;
 //     }
 
-//     if (this->dyna.actor.posRot.pos.x <= 930.0f) {
-
-//         if (-360.0f <= this->dyna.actor.posRot.pos.z) {
-
-//             if (0.0f <= this->dyna.unk_150) {
-//                 phi_v0 = this->dyna.actor.posRot.rot.y;
-//             } 
-//             else {
-//                 phi_v0 = this->dyna.actor.posRot.rot.y + 0x8000;
-//             }
-
-//             if (phi_v0 >= 0x2000 || phi_v0 >= -0x5FFF) {
-//                 return 0;
-//             }
-
-//             return 0x10 & (gSaveContext.eventChkInf[1]);
+//     if (actor->posRot.pos.x <= 930.0f && -360.0f <= actor->posRot.pos.z) {
+//         if (0.0f <= this->dyna.unk_150) {
+//             phi_v0 = actor->posRot.rot.y;
+//         } 
+//         else {
+//             phi_v0 = actor->posRot.rot.y + 0x8000;
 //         }
+
+//         if (phi_v0 >= 0x2000 || phi_v0 >= -0x5FFF) {
+//             return 1;
+//         }
+//         return gSaveContext.eventChkInf[1] & 0x10;
 //     }
 
 //     return 1;
@@ -187,32 +153,32 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 // s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
 //     Vec3f sp38;
 //     Vec3f sp2C;
-//     Vec3f *temp_v0;
-//     s32 phi_return;
-//     Actor *actor = &this->dyna.actor;
 
 //     func_808B3A34(this);
 
-//     temp_v0 = &D_808B45DC[arg2];
-//     sp2C.x = temp_v0->x * (actor->scale.x * 10.0f);
-//     sp2C.y = temp_v0->y * (actor->scale.y * 10.0f);
-//     sp2C.z = temp_v0->z * (actor->scale.z * 10.0f);
+//     sp2C.x = D_808B45DC[arg2].x * (this->dyna.actor.scale.x * 10.0f);
+//     sp2C.y = D_808B45DC[arg2].y * (this->dyna.actor.scale.y * 10.0f);
+//     sp2C.z = D_808B45DC[arg2].z * (this->dyna.actor.scale.z * 10.0f);
 
 //     func_808B39E8(&sp38, &sp2C, this->unk_16C, this->unk_170);
 
-//     sp38.x = sp38.x + actor->posRot.pos.x;
-//     sp38.y = sp38.y + actor->pos4.y;
-//     sp38.z = sp38.z + actor->posRot.pos.z;
+//     sp38.x = sp38.x + this->dyna.actor.posRot.pos.x;
+//     sp38.y = sp38.y + this->dyna.actor.pos4.y;
+//     sp38.z = sp38.z + this->dyna.actor.posRot.pos.z;
 
-//     actor->groundY = func_8003CA64(
-//         &globalCtx->colCtx, &actor->floorPoly, &this->unk_180, actor, &sp38, 0.0f);
+//     this->dyna.actor.groundY = func_8003CA64(
+//         &globalCtx->colCtx, 
+//         &this->dyna.actor.floorPoly,
+//         &this->unk_180, 
+//         &this->dyna.actor, 
+//         &sp38, 
+//         0.0f);
 
-//     phi_return = 0;
-//     if (-0.001f <= (actor->groundY - actor->posRot.pos.y)) {
-//         actor->posRot.pos.y = actor->groundY;
-//         phi_return = 1;
+//     if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
+//         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
+//         return 1;
 //     }
-//     return phi_return;
+//     return 0;
 // }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3CA0.s")
@@ -225,21 +191,21 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 //     f32 returnValue = -32000.0f;
 //     Actor *actor = &this->dyna.actor;
 //     int i;
-// 
+
 //     func_808B3A34(this);
 //     for (i = 0; i < ARRAY_COUNT(D_808B45DC); i++) {
 //         tempVector1.x = D_808B45DC[i].x * (actor->scale.x * 10.0f);
 //         tempVector1.y = D_808B45DC[i].y * (actor->scale.y * 10.0f);
 //         tempVector1.z = D_808B45DC[i].z * (actor->scale.z * 10.0f);
-// 
+
 //         func_808B39E8(&tempVector2, &tempVector1, this->unk_16C, this->unk_170);
-// 
-//         tempVector2.x = tempVector2.x + actor->posRot.pos.x;
-//         tempVector2.y = tempVector2.y + actor->pos4.y;
-//         tempVector2.z = tempVector2.z + actor->posRot.pos.z;
-//         
-//         yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &sp64, actor, &tempVector2, 0.0f);
-//         
+
+//         tempVector2.x += actor->posRot.pos.x;
+//         tempVector2.y += actor->pos4.y;
+//         tempVector2.z += actor->posRot.pos.z;
+        
+//         yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &sp64, actor, &tempVector2, 0);
+        
 //         if (returnValue < yIntersect) {
 //             this->unk_180 = sp64;
 //             returnValue = yIntersect;
@@ -303,23 +269,17 @@ s32 func_808B3F58(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3F58.s")
+s32 func_808B4010(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
+    return func_800435D8(
+        globalCtx, 
+        &this->dyna, 
+        this->dyna.actor.scale.x * 290.0f,
+        this->dyna.actor.scale.x * 290.0f + 20.0f,
+        1.0f
+    ) == 0; 
+}
 
-// void func_808B4010(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
-//     Vec3f temp_f0;
-
-//     temp_f0.x = this->dyna.actor.scale.x * 290.0f;
-//     temp_f0.y = this->dyna.actor.scale.y * 290.0f;
-//     temp_f0.z = this->dyna.actor.scale.z * 290.0f;
-//     func_800435D8(
-//         &this->dyna.actor, 
-//         &globalCtx, 
-//         (temp_f0.x << 0x10) >> 0x10, 
-//         ((temp_f0.x + 20.0f) << 0x10) >> 0x10, 
-//         1);
-// }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4010.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4010.s")
 
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->actionFunc = func_808B40AC;
