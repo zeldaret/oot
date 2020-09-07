@@ -8,19 +8,21 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Update(BgSpot15Rrbox* thisx, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
-void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
-void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx);
 void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
-f32 func_8003CA64(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos, f32 chkDist);
-void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-s32 func_800435D8(GlobalContext *globalCtx, DynaPolyActor *dyna, s16 arg2, s16 arg3, s16 arg4);
-s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2);
 void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-s32 func_808B3AAC(BgSpot15Rrbox *this, GlobalContext *globalCxt);
+void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx);
+void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx);
+void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx);
+void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx);
+void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
+
+// Prototypes for functions external to this file
+f32 func_8003CA64(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos, f32 chkDist);
+s32 func_800435D8(GlobalContext *globalCtx, DynaPolyActor *dyna, s16 arg2, s16 arg3, s16 arg4);
+
 s16 D_808B4590 = 0;
 
 extern s32 D_06000348;
@@ -61,17 +63,17 @@ Vec3f D_808B45DC[] = {
 s32 D_808B4618[] = { 0, 0 };
 
 void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32* arg2, s32 flags) {
-    s32 pad1 = 0;
+    s32 temp1 = 0xAB;
     s32 sp30 = 0;
-    s32 pad2 = 0;
+    u32 temp2 = 0x32;
 
     DynaPolyInfo_SetActorMove(&this->dyna, flags);
     DynaPolyInfo_Alloc(arg2, &sp30);
 
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
 
-    if (this->dyna.dynaPolyId == 0x32) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 0xAB,
+    if (this->dyna.dynaPolyId == temp2) {
+        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", temp1,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
 }
