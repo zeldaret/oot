@@ -521,7 +521,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
     s32 params;
 
-    Actor_ProcessInitChain(&this->actor, &sInitChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     func_80A4BD04(this, globalCtx);
     params = this->actor.params & 0xFF;
     if (params == 0xFF) {
