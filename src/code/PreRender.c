@@ -304,6 +304,8 @@ void func_800C2118(PreRenderContext* this, Gfx** dList) {
     func_800C0F28(this, dList, this->zbufSave, this->zbuf);
 }
 
+#ifdef NON_MATCHING
+// regalloc differences in gDPLoadMultiTile
 void func_800C213C(PreRenderContext* this, Gfx** dList) {
     Gfx* dListHead;
     s32 y;
@@ -346,23 +348,13 @@ void func_800C213C(PreRenderContext* this, Gfx** dList) {
         ult = y2;
         lry = (y2 + add - 1);
 
-#ifdef NON_MATCHING
-        // regalloc
         gDPLoadMultiTile(dListHead++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
                          this->height, uls, ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gDPLoadMultiTile(dListHead++, this->cvgSave, 0x0160, 1, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls,
                          ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                          G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-#else
-        {
-            // clang-format off
-            s16 new_var = 1;
-            { gDPSetTextureImage(dListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbufSave); gDPSetTile(dListHead++, 0, 2, (((((lrx)-(uls)+1) * G_IM_SIZ_16b_TILE_BYTES)+7)>>3), 0x0000, G_TX_LOADTILE, 0 , 0 | 0, 0, 0, 0 | 0, 0, 0); gDPLoadSync(dListHead++); do { if (1) { { Gfx *_g = (Gfx *) (dListHead++); _g->words.w0 = (((unsigned int) ((((unsigned int) 0xf4) & ((0x01 << 8) - 1)) << 24)) | ((unsigned int) ((((unsigned int) (uls << 2)) & ((0x01 << 12) - 1)) << 12))) | ((unsigned int) ((((unsigned int) (ult << 2)) & ((0x01 << 12) - 1)) << 0)); _g->words.w1 = (((unsigned int) ((((unsigned int) 7) & ((0x01 << 3) - 1)) << 24)) | ((unsigned int) ((((unsigned int) (lrx << 2)) & ((0x01 << 12) - 1)) << 12))) | ((unsigned int) ((((unsigned int) (lry << 2)) & ((0x01 << 12) - 1)) << 0)); } }  } while (0); gDPPipeSync(dListHead++); gDPSetTile(dListHead++, 0, 2, (((((lrx)-(uls)+1) * G_IM_SIZ_16b_LINE_BYTES)+7)>>3), 0x0000, 0, 0, 0 | 0, 0, 0, 0 | 0, 0, 0); gDPSetTileSize(dListHead++, 0, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); } ;
-            { gDPSetTextureImage(dListHead++, 4, 1, this->width, this->cvgSave); do { { Gfx *_g = (Gfx *) (dListHead++); _g->words.w0 = (((((unsigned int) ((((unsigned int) 0xf5) & ((0x01 << 8) - 1)) << 24)) | ((unsigned int) ((((unsigned int) 4) & ((0x01 << 3) - 1)) << 21))) | ((unsigned int) ((((unsigned int) new_var) & ((0x01 << 2) - new_var)) << 19))) | ((unsigned int) ((((unsigned int) (((((lrx - uls) + new_var) * new_var) + 7) >> 3)) & ((0x01 << 9) - new_var)) << 9))) | ((unsigned int) ((((unsigned int) 0x0160) & ((0x01 << 9) - new_var)) << 0)); _g->words.w1 = ((((((((unsigned int) ((((unsigned int) 7) & ((0x01 << 3) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 20))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 18))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 14))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 10))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 8))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 4))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 0)); } } while (0); gDPLoadSync(dListHead++); gDPLoadTile( dListHead++, G_TX_LOADTILE, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); gDPPipeSync(dListHead++); do { { Gfx *_g = (Gfx *) (dListHead++); _g->words.w0 = (((((unsigned int) ((((unsigned int) 0xf5) & ((0x01 << 8) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 4) & ((0x01 << 3) - new_var)) << 21))) | ((unsigned int) ((((unsigned int) new_var) & ((0x01 << 2) - new_var)) << 19))) | ((unsigned int) ((((unsigned int) (((((lrx - uls) + new_var) * new_var) + 7) >> 3)) & ((0x01 << 9) - new_var)) << 9))) | ((unsigned int) ((((unsigned int) 0x0160) & ((0x01 << 9) - new_var)) << 0)); _g->words.w1 = ((((((((unsigned int) ((((unsigned int) new_var) & ((0x01 << 3) - new_var)) << 24)) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 20))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - new_var)) << 18))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 14))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - new_var)) << 10))) | ((unsigned int) ((((unsigned int) (0 | 0)) & ((0x01 << 2) - 1)) << 8))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - 1)) << 4))) | ((unsigned int) ((((unsigned int) 0) & ((0x01 << 4) - 1)) << 0)); } } while (0); gDPSetTileSize(dListHead++, new_var, (uls)<<G_TEXTURE_IMAGE_FRAC, (ult)<<G_TEXTURE_IMAGE_FRAC, (lrx)<<G_TEXTURE_IMAGE_FRAC, (lry)<<G_TEXTURE_IMAGE_FRAC); } ;
-            // clang-format on
-        }
-#endif
+
         gSPTextureRectangle(dListHead++, uls << 2, ult << 2, (lrx + 1) << 2, (lry + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
@@ -374,6 +366,9 @@ void func_800C213C(PreRenderContext* this, Gfx** dList) {
     gDPPipeSync(dListHead++);
     *dList = dListHead;
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/PreRender/func_800C213C.s")
+#endif
 
 void func_800C24BC(PreRenderContext* this, Gfx** dList) {
     func_800C0F28(this, dList, this->fbufSave, this->fbuf);
