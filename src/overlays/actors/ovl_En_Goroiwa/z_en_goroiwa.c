@@ -83,7 +83,7 @@ static f32 D_80A4DF10[] = { 0.0f, 595.0f };
 static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
 static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
 
-static s16 D_80A4DF28[] = { 20, 6 };
+static s16 sWaitDurations[] = { 20, 6 };
 
 extern Gfx D_0400D340[];
 extern Gfx D_060006B0[];
@@ -641,7 +641,7 @@ void func_80A4D9DC(EnGoroiwa* this) {
     this->actionFunc = func_80A4DA3C;
     this->actor.speedXZ = 0.0f;
     func_80A4BD70(this, 2);
-    this->waitTimer = D_80A4DF28[this->actor.initPosRot.rot.z & 1];
+    this->waitTimer = sWaitDurations[this->actor.initPosRot.rot.z & 1];
     this->unk_1C0 = 0.0f;
 }
 
