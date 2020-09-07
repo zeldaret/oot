@@ -543,6 +543,7 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         }
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 0);
         osSyncPrintf(VT_FGCOL(CYAN));
+        // Translation: Player knocked down
         osSyncPrintf("Player ぶっ飛ばし\n");
         osSyncPrintf(VT_RST);
         D_80A4DF20[(this->actor.params >> 10) & 1](this);
