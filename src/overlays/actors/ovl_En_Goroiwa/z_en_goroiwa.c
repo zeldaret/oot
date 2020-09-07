@@ -446,39 +446,33 @@ void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
     func_80A4BE54(this, globalCtx);
 }
 
-#ifdef NON_MATCHING
 void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s16 angle1;
+    s16 angle2;
+    s32 pad;
+    Vec3f* pos = &this->actor.posRot.pos;
     Vec3f burstDepthY;
     Vec3f burstDepthX;
-    Vec3f* pos = &this->actor.posRot.pos;
+    f32 temp_f24;
+    f32 temp_f22;
     f32 temp_f20;
     f32 temp_f20_2;
-    f32 temp_f22;
-    f32 temp_f24;
-    f32 temp_f16;
     s16 temp_v0 = (this->actor.params >> 10) & 1;
-    s16 angle1 = 0;
-    s16 angle2;
     s32 i;
 
-    // janky hack alert
-    f32* temp = &temp_f24;
-
-    for (i = 0; i < 16; i++) {
+    for (i = 0, angle1 = 0; i < 16; i++, angle1 += 0x4E20) {
         temp_f22 = Math_Sins(angle1);
         temp_f24 = Math_Coss(angle1);
         angle2 = Math_Rand_ZeroOne() * 65535.0f;
-        temp_f16 = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
-        burstDepthY.x = temp_f16;
+        burstDepthY.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
         temp_f20_2 = Math_Sins(angle2);
-        burstDepthY.y = D_80A4DEF0[temp_v0] + (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2);
+        burstDepthY.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + D_80A4DEF0[temp_v0];
         burstDepthY.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
-        burstDepthX.x = temp_f16 * 0.2f;
+        burstDepthX.x = burstDepthY.x * 0.2f;
         burstDepthX.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
         burstDepthX.z = burstDepthY.z * 0.2f;
-        Math_Vec3f_Sum(&burstDepthY, &this->actor.posRot.pos, &burstDepthY);
+        Math_Vec3f_Sum(&burstDepthY, pos, &burstDepthY);
         func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, -340, 33, 28, 2, 0, (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, -1, 1, D_0400D340);
-        angle1 += 0x4E20;
     }
 
     burstDepthY.x = pos->x;
@@ -487,9 +481,6 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &burstDepthY, 80.0f, 5, 70, 110, 1);
     func_80033480(globalCtx, &burstDepthY, 90.0f, 5, 110, 160, 1);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D0FC.s")
-#endif
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
