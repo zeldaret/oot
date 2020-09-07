@@ -1870,8 +1870,8 @@ void func_808D02DC(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec3f
                          (manePos + temp_s4)->z + spA8.z, 0);
         Matrix_RotateY((maneRot + temp_s4)->y + phi_f20, 1);
         Matrix_RotateX(-((maneRot + temp_s4)->x + phi_f22), 1);
-        Matrix_Scale(maneScale[temp_s4] * (0.01f - (phi_s2 * 0.0008f)),
-                     maneScale[temp_s4] * (0.01f - (phi_s2 * 0.0008f)), 0.01f, 1);
+        Matrix_Scale(maneScale[temp_s4] * (0.01f - (i * 0.0008f)),
+                     maneScale[temp_s4] * (0.01f - (i * 0.0008f)), 0.01f, 1);
         Matrix_RotateX(-M_PI / 2.0f, 1);
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 0x1180),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
