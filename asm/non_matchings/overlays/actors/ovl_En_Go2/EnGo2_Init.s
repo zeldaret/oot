@@ -1,3 +1,40 @@
+.late_rodata
+glabel jtbl_80A4872C
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+    .word L80A46594
+
+glabel jtbl_80A48758
+    .word L80A46810
+    .word L80A46704
+    .word L80A4689C
+    .word L80A46860
+    .word L80A468FC
+    .word L80A46810
+    .word L80A46940
+    .word L80A46678
+    .word L80A46678
+    .word L80A46678
+    .word L80A46678
+    .word L80A46678
+    .word L80A46940
+    .word L80A466BC
+
+glabel D_80A48790
+    .float 0.6
+
+glabel D_80A48794
+    .float 0.6
+
+.text
 glabel EnGo2_Init
 /* 0379C 80A464CC 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 037A0 80A464D0 AFB00028 */  sw      $s0, 0x0028($sp)

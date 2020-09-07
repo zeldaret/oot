@@ -74,7 +74,7 @@ glabel func_8086F260
 /* 001EC 8086F34C 860C001C */  lh      $t4, 0x001C($s0)           ## 0000001C
 /* 001F0 8086F350 AFA30048 */  sw      $v1, 0x0048($sp)           
 /* 001F4 8086F354 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 001F8 8086F358 0C00C916 */  jal     Actor_SpawnAttached
+/* 001F8 8086F358 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 001FC 8086F35C AFAC0028 */  sw      $t4, 0x0028($sp)           
 /* 00200 8086F360 10400032 */  beq     $v0, $zero, .L8086F42C     

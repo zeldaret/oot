@@ -1,22 +1,22 @@
 .rdata
 glabel D_80B16EA0
-    .asciz "[36m 追放タロン \n[m"
+    .asciz "\x1b[36m 追放タロン \n\x1b[m"
     .balign 4
 
 glabel D_80B16EB8
-    .asciz "[36m 出戻りタロン \n[m"
+    .asciz "\x1b[36m 出戻りタロン \n\x1b[m"
     .balign 4
 
 glabel D_80B16ED0
-    .asciz "[36m 夜はいない \n[m"
+    .asciz "\x1b[36m 夜はいない \n\x1b[m"
     .balign 4
 
 glabel D_80B16EE8
-    .asciz "[36m その他のタロン \n[m"
+    .asciz "\x1b[36m その他のタロン \n\x1b[m"
     .balign 4
 
 glabel D_80B16F04
-    .asciz "[36m ロンロン牧場の倉庫 の タロン\n[m"
+    .asciz "\x1b[36m ロンロン牧場の倉庫 の タロン\n\x1b[m"
     .balign 4
 
 .text

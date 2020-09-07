@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_808F7E5C
+    .float 10000.0
+
+glabel D_808F7E60
+    .float 5000.0
+
+glabel D_808F7E64
+    .float 5000.0
+
+glabel D_808F7E68
+    .float 5000.0
+
+.text
 glabel BossGanon_Init
 /* 00928 808D7198 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0092C 808D719C AFBF003C */  sw      $ra, 0x003C($sp)
@@ -135,7 +149,7 @@ glabel BossGanon_Init
 /* 00B04 808D7374 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00B08 808D7378 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00B0C 808D737C E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 00B10 808D7380 0C00C916 */  jal     Actor_SpawnAttached
+/* 00B10 808D7380 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00B14 808D7384 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00B18 808D7388 3C018090 */  lui     $at, %hi(D_808F93C0)       ## $at = 80900000

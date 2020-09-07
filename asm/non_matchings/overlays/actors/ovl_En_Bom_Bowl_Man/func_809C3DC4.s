@@ -1,18 +1,18 @@
 .rdata
 glabel D_809C4B2C
-    .asciz "[31m☆ game_play->bomchu_game_flag ☆ %d\n[m"
+    .asciz "\x1b[31m☆ game_play->bomchu_game_flag ☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_809C4B5C
-    .asciz "[31m☆ 壁１の状態どう？ ☆ %d\n[m"
+    .asciz "\x1b[31m☆ 壁１の状態どう？ ☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_809C4B80
-    .asciz "[31m☆ 壁２の状態どう？ ☆ %d\n[m"
+    .asciz "\x1b[31m☆ 壁２の状態どう？ ☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_809C4BA4
-    .asciz "[31m☆ 穴情報	     ☆ %d\n[m"
+    .asciz "\x1b[31m☆ 穴情報	     ☆ %d\n\x1b[m"
     .balign 4
 
 glabel D_809C4BC4
@@ -20,11 +20,11 @@ glabel D_809C4BC4
     .balign 4
 
 glabel D_809C4BC8
-    .asciz "[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_809C4BFC
-    .asciz "[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 .text

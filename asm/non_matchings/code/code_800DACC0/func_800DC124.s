@@ -1,0 +1,19 @@
+glabel func_800DC124
+/* B532C4 800DC124 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B532C8 800DC128 AFBF0014 */  sw    $ra, 0x14($sp)
+/* B532CC 800DC12C AFA70024 */  sw    $a3, 0x24($sp)
+/* B532D0 800DC130 90CE0004 */  lbu   $t6, 4($a2)
+/* B532D4 800DC134 00073C00 */  sll   $a3, $a3, 0x10
+/* B532D8 800DC138 24010001 */  li    $at, 1
+/* B532DC 800DC13C 15C10004 */  bne   $t6, $at, .L800DC150
+/* B532E0 800DC140 00073C03 */   sra   $a3, $a3, 0x10
+/* B532E4 800DC144 0C036FD7 */  jal   func_800DBF5C
+/* B532E8 800DC148 00000000 */   nop
+/* B532EC 800DC14C 00402025 */  move  $a0, $v0
+.L800DC150:
+/* B532F0 800DC150 8FBF0014 */  lw    $ra, 0x14($sp)
+/* B532F4 800DC154 27BD0018 */  addiu $sp, $sp, 0x18
+/* B532F8 800DC158 00801025 */  move  $v0, $a0
+/* B532FC 800DC15C 03E00008 */  jr    $ra
+/* B53300 800DC160 00000000 */   nop
+

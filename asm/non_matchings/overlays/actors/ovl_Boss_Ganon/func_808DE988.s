@@ -1,3 +1,17 @@
+.rdata
+glabel D_808F7A50
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7A64
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7A78
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+.text
 glabel func_808DE988
 /* 08118 808DE988 3C0E808E */  lui     $t6, %hi(D_808E4D80)       ## $t6 = 808E0000
 /* 0811C 808DE98C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
