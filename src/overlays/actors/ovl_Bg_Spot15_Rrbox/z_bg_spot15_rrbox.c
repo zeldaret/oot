@@ -265,7 +265,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 sign;
     Player* player = PLAYER;
     f32 temp_f0_2;
-    s32 approxFValue;
+    s32 approxFResult;
 
     Actor* actor = &this->dyna.actor;
 
@@ -276,7 +276,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         this->unk_174 = this->unk_174;
     }
 
-    approxFValue = Math_ApproxF(&this->unk_178, 20.0f, this->unk_174);
+    approxFResult = Math_ApproxF(&this->unk_178, 20.0f, this->unk_174);
 
     sign = 0.0f <= this->unk_17C ? 1.0f : -1.0f;
 
@@ -293,7 +293,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         this->unk_174 = 0.0f;
         func_808B4380(this, globalCtx);
     } else {
-        if (approxFValue) {
+        if (approxFResult) {
             player = PLAYER;
             if (func_808B4010(this, globalCtx) != 0) {
                 Audio_PlayActorSound2(actor, NA_SE_EV_WOOD_BOUND);
