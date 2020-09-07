@@ -524,6 +524,7 @@ void func_80A4D5E0(EnGoroiwa* this) {
     this->unk_1C0 = 1.0f;
 }
 
+#ifdef NON_MATCHING
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 temp_v0_5;
     s16 temp_v1;
@@ -597,6 +598,9 @@ block_25:
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D624.s")
+#endif
 
 void func_80A4D8CC(EnGoroiwa* this) {
     this->actionFunc = func_80A4D944;
