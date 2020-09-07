@@ -586,7 +586,7 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         D_80A4DF20[(this->actor.params >> 10) & 1](this);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
-            this->timer = 50;
+            this->timer2 = 50;
         }
     } else if (D_80A4DF18[(this->actor.params >> 10) & 1](this, globalCtx)) {
         temp_v1_2 = (this->actor.params >> 8) & 3;
@@ -641,13 +641,13 @@ void func_80A4D9DC(EnGoroiwa* this) {
     this->actionFunc = func_80A4DA3C;
     this->actor.speedXZ = 0.0f;
     func_80A4BD70(this, 2);
-    this->unk_1C4 = D_80A4DF28[this->actor.initPosRot.rot.z & 1];
+    this->timer1 = D_80A4DF28[this->actor.initPosRot.rot.z & 1];
     this->unk_1C0 = 0.0f;
 }
 
 void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx) {
-    if (this->unk_1C4 > 0) {
-        this->unk_1C4--;
+    if (this->timer1 > 0) {
+        this->timer1--;
     } else {
         this->collider.base.atFlags &= ~2;
         func_80A4D5E0(this);
@@ -667,7 +667,7 @@ void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
-            this->timer = 50;
+            this->timer2 = 50;
             return;
         }
     } else if (func_80A4CA50(this, globalCtx)) {
@@ -693,7 +693,7 @@ void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
-            this->timer = 50;
+            this->timer2 = 50;
             return;
         }
     } else if (func_80A4CB78(this, globalCtx)) {
@@ -712,8 +712,8 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 temp_v0_2;
 
     if (!(player->stateFlags1 & 0x300000C0)) {
-        if (this->timer > 0) {
-            this->timer--;
+        if (this->timer2 > 0) {
+            this->timer2--;
         }
         this->actionFunc(this, globalCtx);
         temp_v0_2 = (this->actor.params >> 10) & 1;
@@ -728,10 +728,10 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80A4CED8(this, globalCtx);
         if (this->actor.xzDistFromLink < 300.0f) {
             func_80A4BCA0(this);
-            if (this->unk_1D3 & 1 && this->timer <= 0) {
+            if (this->unk_1D3 & 1 && this->timer2 <= 0) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
-            if (this->unk_1D3 & 2 && this->timer <= 0) {
+            if (this->unk_1D3 & 2 && this->timer2 <= 0) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }
