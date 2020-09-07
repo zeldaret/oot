@@ -566,26 +566,19 @@ block_16:
                         func_80A4D9DC(this);
                     } else {
 block_17:
-                        if (!((this->actor.params >> 10) & 1)) {
-                            if (this->waypoint1 != 0) {
-                                if (this->unk_1CA != this->waypoint1) {
-                                    temp_v0_5 = func_80A4C27C(this, globalCtx);
-                                    if (temp_v0_5 > 0) {
-                                        func_80A4DA7C(this);
-                                    } else if (temp_v0_5 < 0) {
-                                        func_80A4DB90(this);
-                                    } else {
-                                        func_80A4D5E0(this);
-                                    }
+                        if (!((this->actor.params >> 10) & 1) && this->waypoint1 != 0) {
+                            if (this->unk_1CA != this->waypoint1) {
+                                temp_v0_5 = func_80A4C27C(this, globalCtx);
+                                if (temp_v0_5 > 0) {
+                                    func_80A4DA7C(this);
+                                } else if (temp_v0_5 < 0) {
+                                    func_80A4DB90(this);
                                 } else {
-block_25:
                                     func_80A4D5E0(this);
                                 }
                             } else {
-                                goto block_25;
+                                func_80A4D5E0(this);
                             }
-                        } else {
-                            goto block_25;
                         }
                     }
                 } else {
