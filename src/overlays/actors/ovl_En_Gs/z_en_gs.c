@@ -342,8 +342,6 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc
 void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     f32 tmpf1;
     f32 tmpf2;
@@ -362,15 +360,15 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_19F == 1) {
         Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
         tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
-        this->unk_1A0[0].y += (s16)(this->unk_1E8 * 182.04445f);
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
         if (tmpf1 == 0.0f) {
             this->unk_200 = 0;
             this->unk_19F = 2;
         }
     }
     if (this->unk_19F == 2) {
-        this->unk_1A0[0].y = this->unk_1A0[0].y + (s32)(this->unk_1E8 * 182.04445f);
-        if ((this->unk_200++ < 0x29) ^ 1) {
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
+        if (this->unk_200++ > 0x28) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 1.5f;
             this->unk_1F0 = this->unk_1B4[1].y - 1.0f;
@@ -434,8 +432,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         this->unk_1B4[0].x += sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8;
-        this->unk_1B4[0].y =
-            this->unk_1B4[0].y + (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
+        this->unk_1B4[0].y += (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
         this->unk_200++;
         if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f) && (tmpf3 == 0.0f)) {
             this->unk_19C = 0;
@@ -446,10 +443,6 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONE_ROLLING);
     }
 }
-#else
-void func_80A4F13C(EnGs* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gs/func_80A4F13C.s")
-#endif
 
 void func_80A4F700(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_200-- <= 0) {
@@ -531,12 +524,10 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGs* this = THIS;
     s32 tmp;
     u32 frames;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (!(this->unk_19E & 8)) {
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
+
         frames = globalCtx->gameplayFrames;
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
@@ -550,19 +541,19 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06000950);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000950);
 
         if (this->unk_19E & 4) {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
                             this->flashColor.a);
         } else {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
         }
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_060009D0);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06000A60);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_060009D0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000A60);
 
         Matrix_Pull();
         if (this->unk_19E & 2) {
@@ -570,15 +561,16 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(
-                gfxCtx->polyXlu.p++, 0x08,
+                oGfxCtx->polyXlu.p++, 0x08,
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_0404D4E0);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
         }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
     }
 }

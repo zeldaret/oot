@@ -26,7 +26,7 @@ glabel Camera_Subj4
 .L80050B70:
 /* AC7D10 80050B70 862F0142 */  lh    $t7, 0x142($s1)
 .L80050B74:
-/* AC7D14 80050B74 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC7D14 80050B74 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC7D18 80050B78 86280144 */  lh    $t0, 0x144($s1)
 /* AC7D1C 80050B7C 000FC0C0 */  sll   $t8, $t7, 3
 /* AC7D20 80050B80 0338C821 */  addu  $t9, $t9, $t8
@@ -64,7 +64,7 @@ glabel Camera_Subj4
 /* AC7D94 80050BF4 2633005C */  addiu $s3, $s1, 0x5c
 /* AC7D98 80050BF8 02603025 */  move  $a2, $s3
 /* AC7D9C 80050BFC 02402825 */  move  $a1, $s2
-/* AC7DA0 80050C00 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC7DA0 80050C00 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC7DA4 80050C04 27A4005C */   addiu $a0, $sp, 0x5c
 /* AC7DA8 80050C08 86380000 */  lh    $t8, ($s1)
 /* AC7DAC 80050C0C 3C018012 */  lui   $at, %hi(D_8011D3A0)
@@ -284,7 +284,7 @@ glabel Camera_Subj4
 /* AC80E0 80050F40 00E03025 */  move  $a2, $a3
 /* AC80E4 80050F44 AFA70034 */  sw    $a3, 0x34($sp)
 /* AC80E8 80050F48 02002025 */  move  $a0, $s0
-/* AC80EC 80050F4C 0C032AE5 */  jal   Math3D_LineVsPos
+/* AC80EC 80050F4C 0C032AE5 */  jal   Math3D_LineClosestToPoint
 /* AC80F0 80050F50 27A5006C */   addiu $a1, $sp, 0x6c
 /* AC80F4 80050F54 8FA50034 */  lw    $a1, 0x34($sp)
 /* AC80F8 80050F58 C60A000C */  lwc1  $f10, 0xc($s0)

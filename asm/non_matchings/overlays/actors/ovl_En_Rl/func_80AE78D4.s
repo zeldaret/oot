@@ -25,7 +25,7 @@ glabel func_80AE78D4
 /* 00680 80AE7930 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00684 80AE7934 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00688 80AE7938 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 0068C 80AE793C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0068C 80AE793C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00690 80AE7940 E7A60018 */  swc1    $f6, 0x0018($sp)           
 /* 00694 80AE7944 8FBF0034 */  lw      $ra, 0x0034($sp)           

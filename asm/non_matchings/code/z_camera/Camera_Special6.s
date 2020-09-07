@@ -31,7 +31,7 @@ glabel Camera_Special6
 .L80056FB4:
 /* ACE154 80056FB4 860F0142 */  lh    $t7, 0x142($s0)
 .L80056FB8:
-/* ACE158 80056FB8 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* ACE158 80056FB8 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* ACE15C 80056FBC 860B0144 */  lh    $t3, 0x144($s0)
 /* ACE160 80056FC0 000FC0C0 */  sll   $t8, $t7, 3
 /* ACE164 80056FC4 0338C821 */  addu  $t9, $t9, $t8
@@ -54,7 +54,7 @@ glabel Camera_Special6
 /* ACE1A0 80057000 26120050 */  addiu $s2, $s0, 0x50
 /* ACE1A4 80057004 02403025 */  move  $a2, $s2
 /* ACE1A8 80057008 02202825 */  move  $a1, $s1
-/* ACE1AC 8005700C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ACE1AC 8005700C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ACE1B0 80057010 27A40074 */   addiu $a0, $sp, 0x74
 /* ACE1B4 80057014 0C0111DB */  jal   func_8004476C
 /* ACE1B8 80057018 02002025 */   move  $a0, $s0

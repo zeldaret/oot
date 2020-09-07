@@ -22,7 +22,7 @@ glabel func_809C5DDC
 /* 005F8 809C5E28 10000042 */  beq     $zero, $zero, .L809C5F34   
 /* 005FC 809C5E2C 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L809C5E30:
-/* 00600 809C5E30 0C00BD68 */  jal     func_8002F5A0              
+/* 00600 809C5E30 0C00BD68 */  jal     Actor_HasNoParent              
 /* 00604 809C5E34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00608 809C5E38 1040003D */  beq     $v0, $zero, .L809C5F30     
 /* 0060C 809C5E3C 8FB80034 */  lw      $t8, 0x0034($sp)           

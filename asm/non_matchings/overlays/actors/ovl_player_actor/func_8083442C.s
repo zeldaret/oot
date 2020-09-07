@@ -83,7 +83,7 @@ glabel func_8083442C
 /* 02350 80834560 860C00B6 */  lh      $t4, 0x00B6($s0)           ## 000000B6
 /* 02354 80834564 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 02358 80834568 AFAD0028 */  sw      $t5, 0x0028($sp)           
-/* 0235C 8083456C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0235C 8083456C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 02360 80834570 AFAC0020 */  sw      $t4, 0x0020($sp)           
 /* 02364 80834574 AE0203AC */  sw      $v0, 0x03AC($s0)           ## 000003AC

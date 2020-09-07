@@ -2,7 +2,7 @@ glabel func_80A99504
 /* 02754 80A99504 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02758 80A99508 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0275C 80A9950C AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 02760 80A99510 0C00BD04 */  jal     func_8002F410              
+/* 02760 80A99510 0C00BD04 */  jal     Actor_HasParent              
 /* 02764 80A99514 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 02768 80A99518 10400006 */  beq     $v0, $zero, .L80A99534     
 /* 0276C 80A9951C 8FA40020 */  lw      $a0, 0x0020($sp)           

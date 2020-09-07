@@ -14,7 +14,7 @@ struct Actor;
 struct GlobalContext;
 
 // From z64light.h
-struct LightMapper;
+struct Lights;
 
 typedef struct {
     Vec3f pos;
@@ -98,7 +98,7 @@ typedef struct {
     /* 0x00 */ Vec3s  rot; // Current actor shape rotation
     /* 0x06 */ u8     unk_06;
     /* 0x08 */ f32    unk_08; // Model y axis offset. Represents model space units. collision mesh related
-    /* 0x0C */ void (*shadowDrawFunc)(struct Actor*, struct LightMapper*, struct GlobalContext*);
+    /* 0x0C */ void (*shadowDrawFunc)(struct Actor*, struct Lights*, struct GlobalContext*);
     /* 0x10 */ f32    unk_10;
     /* 0x14 */ u8     unk_14;
     /* 0x15 */ u8     unk_15;
@@ -152,8 +152,8 @@ typedef struct Actor {
     /* 0x115 */ u8      isDrawn; // Indicates whether the actor is currently being drawn (but not seen through lens)
     /* 0x116 */ u8      unk_116;
     /* 0x117 */ u8      naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
-    /* 0x118 */ struct Actor* attachedA; // Attached By?
-    /* 0x11C */ struct Actor* attachedB; // Attached To?
+    /* 0x118 */ struct Actor* parent;
+    /* 0x11C */ struct Actor* child;
     /* 0x120 */ struct Actor* prev; // Previous Actor of this type
     /* 0x124 */ struct Actor* next; // Next Actor of this type
     /* 0x128 */ ActorFunc init; // Initialization Routine. Called by Actor_Init or Actor_UpdateAll
@@ -239,7 +239,7 @@ typedef struct Player {
     /* 0x01AC */ char       unk_1AC[0x004];
     /* 0x01B0 */ void*      getItemModel; // Pointer to the space where the get item model is allocated
     /* 0x01B4 */ SkelAnime  skelAnime;
-    /* 0x01F8 */ char       unk_1F8[0x1B4];
+    /* 0x01F8 */ char        unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
     /* 0x03B0 */ Vec3f      unk_3B0; // related to links hands
     /* 0x03BC */ char       unk_3BC[0x00C];
@@ -345,7 +345,9 @@ typedef struct Player {
     /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
     /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
     /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
-    /* 0x0908 */ char       unk_908[0x54];
+    /* 0x0908 */ char       unk_908[0x04];
+    /* 0x090C */ f32        unk_90C;
+    /* 0x0910 */ char       unk_910[0x4C];
     /* 0x095C */ Vec3f      unk_95C;
     /* 0x0968 */ char       unk_968[0x78];
     /* 0x09E0 */ MtxF       mf_9E0;
