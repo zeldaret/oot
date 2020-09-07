@@ -12,13 +12,15 @@ void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44CC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
 void func_808B43D0(BgSpot15Rrbox* this, GlobalContext *globalCtx);
-void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx); 
+void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx);
 f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx);
 f32 func_8003CA64(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos, f32 chkDist);
 void func_808B4380(BgSpot15Rrbox* this, GlobalContext *globalCtx);
 void func_808B4194(BgSpot15Rrbox* this, GlobalContext *globalCtx);
 s32 func_800435D8(GlobalContext *globalCtx, DynaPolyActor *dyna, s16 arg2, s16 arg3, s16 arg4);
 s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2);
+void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx);
+s32 func_808B3AAC(BgSpot15Rrbox *this, GlobalContext *globalCxt);
 s16 D_808B4590 = 0;
 
 extern s32 D_06000348;
@@ -279,8 +281,6 @@ s32 func_808B4010(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     ) == 0; 
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B4010.s")
-
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->actionFunc = func_808B40AC;
     this->dyna.actor.gravity = 0.0f;
@@ -289,29 +289,23 @@ void func_808B4084(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->dyna.actor.velocity.z = 0.0f;
 }
 
-// void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
-//     Player *player = PLAYER;
+void func_808B40AC(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
+    Player *player = PLAYER;
 
-//     if (this->unk_168 <= 0) {
-//         if (fabsf(this->dyna.unk_150) >= 0.001f) {
-//             if (func_808B3AAC() == 0) {
-//                 while (func_808B4010(this, globalCtx) != 0) {
-//                     player->stateFlags2 = (player->stateFlags2 & -0x11);
-//                     this->dyna.unk_150 = 0.0f;
-//                     return;
-//                 }
-//             }
-//             this->unk_17C = this->dyna.unk_150;
-//             func_808B4178(this, globalCtx);
-//             return;
-//         }
-//     }
-//     player->stateFlags2 = (player->stateFlags2 & -0x11);
-//     this->dyna.unk_150 = 0.0f;
+    if (this->unk_168 <= 0 && fabsf(this->dyna.unk_150) > 0.001f) {
+        if (func_808B3AAC(this, globalCtx) != 0 && func_808B4010(this, globalCtx) == 0) {
+            this->unk_17C = this->dyna.unk_150;
+            func_808B4178(this, globalCtx);
+            return;
+        }
 
-// }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B40AC.s")
+        player->stateFlags2 &= ~0x10;
+        this->dyna.unk_150 = 0.0f;
+        return;
+    }
+    player->stateFlags2 &= ~0x10;
+    this->dyna.unk_150 = 0.0f;
+}
 
 void func_808B4178(BgSpot15Rrbox* this, GlobalContext *globalCtx) {
     this->actionFunc = func_808B4194;
