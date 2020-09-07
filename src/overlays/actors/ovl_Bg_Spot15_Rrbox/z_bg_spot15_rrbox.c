@@ -100,35 +100,35 @@ bool func_808B3A40(BgSpot15Rrbox *this, GlobalContext* globalCtx) {
     return false;
 }
 
-// s32 func_808B3AAC(BgSpot15Rrbox *this, GlobalContext *globalCxt) {
-//     s16 phi_v0;
-//     Actor *actor = &this->dyna.actor;
+s32 func_808B3AAC(BgSpot15Rrbox *this, GlobalContext *globalCxt) {
+    s16 phi_v0;
+    Actor *actor = &this->dyna.actor;
 
-//     if (globalCxt->sceneNum == 0x4C) {
-//         return 1.0f;
-//     }
-//     else if (func_808B3A40(this, globalCxt) != 0) {
-//         return 0;
-//     }
+    if (globalCxt->sceneNum == 0x4C) {
+        return 1;
+    }
+    else if (func_808B3A40(this, globalCxt) != 0) {
+        return 0;
+    }
 
-//     if (actor->posRot.pos.x <= 930.0f && -360.0f <= actor->posRot.pos.z) {
-//         if (0.0f <= this->dyna.unk_150) {
-//             phi_v0 = actor->posRot.rot.y;
-//         } 
-//         else {
-//             phi_v0 = actor->posRot.rot.y + 0x8000;
-//         }
+    if (actor->posRot.pos.x <= 930.0f && -360.0f <= actor->posRot.pos.z) {
+        if (0.0f <= this->dyna.unk_150) {
+            phi_v0 = actor->posRot.rot.y;
+        } 
+        else {
+            phi_v0 = actor->posRot.rot.y + 0x8000;
+        }
 
-//         if (phi_v0 >= 0x2000 || phi_v0 >= -0x5FFF) {
-//             return 1;
-//         }
-//         return gSaveContext.eventChkInf[1] & 0x10;
-//     }
+        if (phi_v0 < 0x2000 && phi_v0 >= -0x5FFF) {
+            return gSaveContext.eventChkInf[1] & 0x10;
+        }
+        return 1;
+    }
 
-//     return 1;
-// }
+    return 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3AAC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3AAC.s")
 
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
