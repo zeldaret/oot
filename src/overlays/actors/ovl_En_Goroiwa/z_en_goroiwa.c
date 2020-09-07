@@ -525,13 +525,9 @@ void func_80A4D5E0(EnGoroiwa* this) {
 }
 
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
     s32 temp_v0_5;
     s16 temp_v1;
     s16 temp_v1_2;
-    u8 temp_t9;
 
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
@@ -557,8 +553,7 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         if (D_80A4DF18[(this->actor.params >> 10) & 1](this)) {
             temp_v1_2 = (this->actor.params >> 8) & 3;
             if (temp_v1_2 == 1) {
-                temp_v0_2 = this->waypoint2;
-                if (temp_v0_2 == 0 || this->unk_1CA == temp_v0_2) {
+                if (this->waypoint2 == 0 || this->unk_1CA == this->waypoint2) {
                     func_80A4D0FC(this, globalCtx);
                 }
             }
