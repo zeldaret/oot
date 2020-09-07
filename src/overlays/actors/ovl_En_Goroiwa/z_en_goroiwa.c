@@ -50,7 +50,7 @@ extern Vec3f D_80A4DED8;
 extern f32 D_80A4DEF0[];
 extern InitChainEntry D_80A4DEF8;
 extern f32 D_80A4DF10[];
-extern bool (*D_80A4DF18[])(EnGoroiwa* this);
+extern bool (*D_80A4DF18[])(EnGoroiwa* this, GlobalContext* globalCtx);
 extern void (*D_80A4DF20[])(EnGoroiwa* this);
 extern s16 D_80A4DF28[];
 
@@ -524,7 +524,6 @@ void func_80A4D5E0(EnGoroiwa* this) {
     this->unk_1C0 = 1.0f;
 }
 
-#ifdef NON_MATCHING
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 temp_v0_5;
     s16 temp_v1;
@@ -532,8 +531,8 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
-        temp_v1 = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
         this->unk_1D3 &= ~4;
+        temp_v1 = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
         if (temp_v1 >= -0x3FFF && temp_v1 < 0x4000) {
             this->unk_1D3 |= 4;
             if ((this->actor.params >> 10) & 1 || (this->actor.initPosRot.rot.z & 1) != 1) {
@@ -551,48 +550,33 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
             this->timer = 50;
         }
-    } else if (D_80A4DF18[(this->actor.params >> 10) & 1](this)) {
+    } else if (D_80A4DF18[(this->actor.params >> 10) & 1](this, globalCtx)) {
         temp_v1_2 = (this->actor.params >> 8) & 3;
         if (temp_v1_2 == 1) {
-            if (this->waypoint2 == 0 || this->unk_1CA == this->waypoint2) {
+            if (this->waypoint2 == 0 || this->waypoint2 == this->unk_1CA) {
                 func_80A4D0FC(this, globalCtx);
             }
         }
         func_80A4D074(this, globalCtx);
-        if (temp_v1_2 == 3) {
-            if (this->waypoint1 != 0) {
-                if (this->unk_1CA == this->waypoint1) {
-block_16:
-                    func_80A4D9DC(this);
+        if ((temp_v1_2 == 3) && (this->waypoint1 == 0 || this->waypoint1 == this->unk_1CA)) {
+            func_80A4D9DC(this);
+        } else {
+            if (!((this->actor.params >> 10) & 1) && this->waypoint1 != 0 && this->waypoint1 != this->unk_1CA) {
+                temp_v0_5 = func_80A4C27C(this, globalCtx);
+                if (temp_v0_5 > 0) {
+                    func_80A4DA7C(this);
+                } else if (temp_v0_5 < 0) {
+                    func_80A4DB90(this);
                 } else {
-block_17:
-                    if (!((this->actor.params >> 10) & 1) && this->waypoint1 != 0) {
-                        if (this->unk_1CA != this->waypoint1) {
-                            temp_v0_5 = func_80A4C27C(this, globalCtx);
-                            if (temp_v0_5 > 0) {
-                                func_80A4DA7C(this);
-                            } else if (temp_v0_5 < 0) {
-                                func_80A4DB90(this);
-                            } else {
-                                func_80A4D5E0(this);
-                            }
-                        } else {
-                            func_80A4D5E0(this);
-                        }
-                    }
+                    func_80A4D5E0(this);
                 }
             } else {
-                goto block_16;
+                func_80A4D5E0(this);
             }
-        } else {
-            goto block_17;
         }
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goroiwa/func_80A4D624.s")
-#endif
 
 void func_80A4D8CC(EnGoroiwa* this) {
     this->actionFunc = func_80A4D944;
