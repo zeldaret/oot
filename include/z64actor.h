@@ -277,7 +277,7 @@ typedef struct Player {
     /* 0x066C */ s32        unk_66C;
     /* 0x0670 */ u32        swordEffectId;
     /* 0x0674 */ PlayerActionFunc  actionFunc;
-    /* 0x0678 */ u32        ageProperties;
+    /* 0x0678 */ u16*       ageProperties;
     /* 0x067C */ u32        stateFlags1;
     /* 0x0680 */ u32        stateFlags2;
     /* 0x0684 */ Actor*     unk_684;
@@ -312,7 +312,7 @@ typedef struct Player {
     /* 0x0840 */ u16        unk_840;
     /* 0x0842 */ s8         swordAnimation;
     /* 0x0843 */ s8         swordState;
-    /* 0x0844 */ u8         unk_844;
+    /* 0x0844 */ s8         unk_844;
     /* 0x0845 */ u8         unk_845;
     /* 0x0846 */ u8         unk_846;
     /* 0x0847 */ char       unk_847[0x004];
