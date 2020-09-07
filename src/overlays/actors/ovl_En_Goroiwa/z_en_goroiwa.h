@@ -16,9 +16,9 @@ typedef struct EnGoroiwa {
     /* 0x01B0 */ Vec3f unk_1B0;
     /* 0x01BC */ f32 unk_1BC;
     /* 0x01C0 */ f32 unk_1C0;
-    /* 0x01C4 */ s16 timer1;
+    /* 0x01C4 */ s16 idleTimer;
     /* 0x01C6 */ s16 unk_1C6;
-    /* 0x01C8 */ s16 timer2;
+    /* 0x01C8 */ s16 collisionTimer;
     /* 0x01CA */ s16 unk_1CA;
     /* 0x01CC */ s16 waypoint1;
     /* 0x01CE */ s16 waypoint2;
