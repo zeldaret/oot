@@ -150,38 +150,37 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     D_808B4590 = 0;
 }
 
-// s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
-//     Vec3f sp2C;
-//     Vec3f sp38;
+s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
+    s32 pad;
+    Vec3f sp38;
+    Vec3f sp2C;
 
-//     func_808B3A34(this);
+    func_808B3A34(this);
 
-//     sp2C.x = D_808B45DC[arg2].x * (this->dyna.actor.scale.x * 10.0f);
-//     sp2C.y = D_808B45DC[arg2].y * (this->dyna.actor.scale.y * 10.0f);
-//     sp2C.z = D_808B45DC[arg2].z * (this->dyna.actor.scale.z * 10.0f);
+    sp2C.x = D_808B45DC[arg2].x * (this->dyna.actor.scale.x * 10.0f);
+    sp2C.y = D_808B45DC[arg2].y * (this->dyna.actor.scale.y * 10.0f);
+    sp2C.z = D_808B45DC[arg2].z * (this->dyna.actor.scale.z * 10.0f);
 
-//     func_808B39E8(&sp38, &sp2C, this->unk_16C, this->unk_170);
+    func_808B39E8(&sp38, &sp2C, this->unk_16C, this->unk_170);
 
-//     sp38.x += this->dyna.actor.posRot.pos.x;
-//     sp38.y += this->dyna.actor.pos4.y;
-//     sp38.z += this->dyna.actor.posRot.pos.z;
+    sp38.x += this->dyna.actor.posRot.pos.x;
+    sp38.y += this->dyna.actor.pos4.y;
+    sp38.z += this->dyna.actor.posRot.pos.z;
 
-//     this->dyna.actor.groundY = func_8003CA64(
-//         &globalCtx->colCtx, 
-//         &this->dyna.actor.floorPoly,
-//         &this->unk_180, 
-//         &this->dyna.actor, 
-//         &sp38, 
-//         0.0f);
+    this->dyna.actor.groundY = func_8003CA64(
+        &globalCtx->colCtx, 
+        &this->dyna.actor.floorPoly,
+        &this->unk_180, 
+        &this->dyna.actor, 
+        &sp38, 
+        0.0f);
 
-//     if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
-//         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
-//         return 1;
-//     }
-//     return 0;
-// }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3CA0.s")
+    if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
+        this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
+        return 1;
+    }
+    return 0;
+}
 
 f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
     int i;
