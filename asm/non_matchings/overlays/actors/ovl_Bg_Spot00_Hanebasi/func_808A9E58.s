@@ -92,7 +92,7 @@ glabel func_808A9E58
 /* 00808 808A9F88 44099000 */  mfc1    $t1, $f18                  
 /* 0080C 808A9F8C 00063400 */  sll     $a2, $a2, 16               
 /* 00810 808A9F90 00063403 */  sra     $a2, $a2, 16               
-/* 00814 808A9F94 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 00814 808A9F94 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 00818 808A9F98 AFA9001C */  sw      $t1, 0x001C($sp)           
 /* 0081C 808A9F9C 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -7,7 +7,7 @@ glabel MirRay_Destroy
 /* 00550 80B8D5A0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00554 80B8D5A4 8DC6029C */  lw      $a2, 0x029C($t6)           ## 0000029C
 /* 00558 80B8D5A8 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 0055C 80B8D5AC 0C01E9F1 */  jal     Lights_Remove
+/* 0055C 80B8D5AC 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00560 80B8D5B0 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00564 80B8D5B4 8FA20018 */  lw      $v0, 0x0018($sp)           
