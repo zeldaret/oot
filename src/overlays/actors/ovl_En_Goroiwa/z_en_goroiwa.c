@@ -641,13 +641,13 @@ void func_80A4D9DC(EnGoroiwa* this) {
     this->actionFunc = func_80A4DA3C;
     this->actor.speedXZ = 0.0f;
     func_80A4BD70(this, 2);
-    this->idleTimer = D_80A4DF28[this->actor.initPosRot.rot.z & 1];
+    this->waitTimer = D_80A4DF28[this->actor.initPosRot.rot.z & 1];
     this->unk_1C0 = 0.0f;
 }
 
 void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx) {
-    if (this->idleTimer > 0) {
-        this->idleTimer--;
+    if (this->waitTimer > 0) {
+        this->waitTimer--;
     } else {
         this->collider.base.atFlags &= ~2;
         func_80A4D5E0(this);
