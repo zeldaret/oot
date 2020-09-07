@@ -80,7 +80,7 @@ glabel func_80ACFEF8
 /* 00B60 80AD0000 46080280 */  add.s   $f10, $f0, $f8             
 /* 00B64 80AD0004 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00B68 80AD0008 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00B6C 80AD000C 0C00C916 */  jal     Actor_SpawnAttached
+/* 00B6C 80AD000C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00B70 80AD0010 E7AA0018 */  swc1    $f10, 0x0018($sp)          
 /* 00B74 80AD0014 1040000D */  beq     $v0, $zero, .L80AD004C     

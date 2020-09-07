@@ -120,7 +120,7 @@ glabel BossMo_Init
 /* 00764 8091C264 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00768 8091C268 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 0076C 8091C26C E7A00018 */  swc1    $f0, 0x0018($sp)           
-/* 00770 8091C270 0C00C916 */  jal     Actor_SpawnAttached
+/* 00770 8091C270 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00774 8091C274 E7A80014 */  swc1    $f8, 0x0014($sp)           
 /* 00778 8091C278 3C01C38C */  lui     $at, 0xC38C                ## $at = C38C0000
@@ -185,7 +185,7 @@ glabel BossMo_Init
 /* 00850 8091C350 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00854 8091C354 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00858 8091C358 240700C4 */  addiu   $a3, $zero, 0x00C4         ## $a3 = 000000C4
-/* 0085C 8091C35C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0085C 8091C35C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00860 8091C360 E7AA0018 */  swc1    $f10, 0x0018($sp)          
 /* 00864 8091C364 3C018092 */  lui     $at, %hi(D_80925CD4)       ## $at = 80920000

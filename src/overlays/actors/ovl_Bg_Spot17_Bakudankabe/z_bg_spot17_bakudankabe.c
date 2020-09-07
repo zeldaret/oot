@@ -127,44 +127,32 @@ void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    s8 r;
-    s8 g;
-    {
-        GraphicsContext* gfxCtx;
-        Gfx* dispRefs[4];
+    s8 r = coss(globalCtx->gameplayFrames * 1500) >> 8;
+    s8 g = coss(globalCtx->gameplayFrames * 1500) >> 8;
 
-        r = coss(globalCtx->gameplayFrames * 1500) >> 8;
-        g = coss(globalCtx->gameplayFrames * 1500) >> 8;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
 
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
+    func_80093D18(globalCtx->state.gfxCtx);
 
-        func_80093D18(globalCtx->state.gfxCtx);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    r = (r >> 1) + 0xC0;
+    g = (g >> 1) + 0xC0;
 
-        r = (r >> 1) + 0xC0;
-        g = (g >> 1) + 0xC0;
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, r, g, 255, 128);
 
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, r, g, 255, 128);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060008A0);
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_060008A0);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 283);
-    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 283);
 
-    {
-        GraphicsContext* gfxCtx;
-        Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 286);
 
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 286);
-        func_80093D84(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06000960);
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000960);
 
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 295);
-    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 295);
 }

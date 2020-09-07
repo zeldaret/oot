@@ -316,9 +316,9 @@ void func_80B53974(EnZl3* this, u8 arg1) {
     this->unk_3C8 = arg1;
 }
 
-//void func_80B53980(EnZl3* this, s16 y, s32 idx);
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
-void func_80B53980(EnZl3 *this, s16 y, s32 idx) {
+void func_80B53980(EnZl3* this, s16 y, s32 idx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
+/*void func_80B53980(EnZl3 *this, s16 y, s32 idx) {
     SkelAnime* skelAnime = &this->skelAnime;
     s32 action = this->action;
     EnZl3* this2 = this;
@@ -392,7 +392,7 @@ void func_80B53980(EnZl3 *this, s16 y, s32 idx) {
         this->unk_28C[idx] = temp28C - y;
     }
     this->unk_2BC[idx] = y;
-}
+}*/
 
 void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53B64.s")
@@ -659,7 +659,7 @@ void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
         posY = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
         posZ = this->actor.posRot.pos.z;
 
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0,
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0,
                             0x4000, 0, 3);
         this->unk_2F8 = 1;
     }
@@ -680,31 +680,31 @@ void func_80B54FB4(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B55054(EnZl3* this) {
-    Actor* attachedB;
+    Actor* child;
     f32* temp_v0;
 
     if (this->unk_328 != 0) {
-        attachedB = this->actor.attachedB;
-        if (attachedB != NULL) {
+        child = this->actor.child;
+        if (child != NULL) {
             temp_v0 = &this->unk_2EC;
             if (*temp_v0 < 19.0f) {
-                ((DoorWarp1*)attachedB)->alpha = (20.0f - *temp_v0) * 12.75f;
+                ((DoorWarp1*)child)->alpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
             } else {
-                Actor_Kill(attachedB);
-                this->actor.attachedB = NULL;
+                Actor_Kill(child);
+                this->actor.child = NULL;
             }
         }
     }
 }
 
 void func_80B550F0(EnZl3* this) {
-    Actor* attachedB = this->actor.attachedB;
+    Actor* child = this->actor.child;
 
-    if (attachedB != NULL) {
-        attachedB->posRot.pos.x = this->actor.posRot.pos.x;
-        attachedB->posRot.pos.y = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
-        attachedB->posRot.pos.z = this->actor.posRot.pos.z;
+    if (child != NULL) {
+        child->posRot.pos.x = this->actor.posRot.pos.x;
+        child->posRot.pos.y = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
+        child->posRot.pos.z = this->actor.posRot.pos.z;
     }
 }
 
@@ -778,10 +778,10 @@ void func_80B553E8(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B55408(EnZl3* this) {
-    Actor* attachedB = this->actor.attachedB;
+    Actor* child = this->actor.child;
 
-    if (attachedB != NULL) {
-        Actor_Kill(attachedB);
+    if (child != NULL) {
+        Actor_Kill(child);
     }
     Actor_Kill(&this->actor);
 }

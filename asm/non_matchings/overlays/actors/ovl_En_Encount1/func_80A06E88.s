@@ -270,7 +270,7 @@ glabel func_80A06E88
 /* 00B00 80A07220 AFA80028 */  sw      $t0, 0x0028($sp)           
 /* 00B04 80A07224 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 00B08 80A07228 E7AA0014 */  swc1    $f10, 0x0014($sp)          
-/* 00B0C 80A0722C 0C00C916 */  jal     Actor_SpawnAttached
+/* 00B0C 80A0722C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00B10 80A07230 E7B00018 */  swc1    $f16, 0x0018($sp)          
 /* 00B14 80A07234 10400013 */  beq     $v0, $zero, .L80A07284     

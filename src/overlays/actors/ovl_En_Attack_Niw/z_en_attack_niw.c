@@ -65,9 +65,9 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAttackNiw* this = THIS;
-    EnNiw* cucco = (EnNiw*)this->actor.attachedA;
+    EnNiw* cucco = (EnNiw*)this->actor.parent;
 
-    if (this->actor.attachedA != NULL) {
+    if (this->actor.parent != NULL) {
         if ((cucco->actor.update != NULL) && (cucco->unk_296 > 0)) {
             cucco->unk_296--;
         }
@@ -356,8 +356,8 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     tmpf1 = 20.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
-        cucco = (EnNiw*)this->actor.attachedA;
-        if ((this->actor.attachedA->update != NULL) && (this->actor.attachedA != NULL) && (cucco != NULL) &&
+        cucco = (EnNiw*)this->actor.parent;
+        if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
             (cucco->unk_26A == 0) && (player->invincibilityTimer == 0)) {
             func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
             cucco->unk_26A = 0x46;
