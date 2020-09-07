@@ -1823,7 +1823,7 @@ void func_808D02DC(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec3f
     f32 spC8[] = { -0.4636457f, -0.33661291f, -0.14879614f, 0.024927188f, 0.07478157f,
                    0.04995025f, 0.09961288f,  0.0f,         0.0f,         0.0f };
     s16 temp_s4;
-    s16 phi_s2;
+    s16 i;
     s16 spC2;
     Vec3f spB4;
     Vec3f spA8;
@@ -1837,27 +1837,27 @@ void func_808D02DC(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec3f
         spC2 = 0xA;
     }
 
-    for (phi_s2 = 0; phi_s2 < spC2; phi_s2++) {
-        temp_s4 = (this->leadManeSeg - (phi_s2 * 2) + 30) % 30;
+    for (i = 0; i < spC2; i++) {
+        temp_s4 = (this->leadManeSeg - (i * 2) + 30) % 30;
 
         if (mode == 0) {
             spB4.x = spB4.z = 0.0f;
-            spB4.y = ((sp140[phi_s2] * 0.1f) * 10.0f) * this->flattenMane;
+            spB4.y = ((sp140[i] * 0.1f) * 10.0f) * this->flattenMane;
             phi_f20 = 0.0f;
-            phi_f22 = spC8[phi_s2] * this->flattenMane;
+            phi_f22 = spC8[i] * this->flattenMane;
         } else if (mode == 1) {
-            phi_f22 = (spC8[phi_s2] * this->flattenMane) * 0.7f;
-            phi_f20 = spF0[phi_s2] * this->flattenMane;
+            phi_f22 = (spC8[i] * this->flattenMane) * 0.7f;
+            phi_f20 = spF0[i] * this->flattenMane;
 
-            spB4.y = (sp140[phi_s2] * this->flattenMane) * 0.7f;
-            spB4.x = -sp118[phi_s2] * this->flattenMane;
+            spB4.y = (sp140[i] * this->flattenMane) * 0.7f;
+            spB4.x = -sp118[i] * this->flattenMane;
             spB4.z = 0.0f;
         } else {
-            phi_f22 = (spC8[phi_s2] * this->flattenMane) * 0.7f;
-            phi_f20 = -spF0[phi_s2] * this->flattenMane;
+            phi_f22 = (spC8[i] * this->flattenMane) * 0.7f;
+            phi_f20 = -spF0[i] * this->flattenMane;
 
-            spB4.y = (sp140[phi_s2] * this->flattenMane) * 0.7f;
-            spB4.x = sp118[phi_s2] * this->flattenMane;
+            spB4.y = (sp140[i] * this->flattenMane) * 0.7f;
+            spB4.x = sp118[i] * this->flattenMane;
             spB4.z = 0.0f;
         }
 
