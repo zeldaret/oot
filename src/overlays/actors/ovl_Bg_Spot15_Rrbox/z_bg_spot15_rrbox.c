@@ -55,7 +55,7 @@ Vec3f D_808B45DC[] = {
     { -29.99f, 0.01f, -29.99f }, 
     { -29.99f, 0.01f, 29.99f }, 
     { 29.99f, 0.01f, 29.99f }, 
-    { 0, 0.01f, 0 }
+    { 0.0f, 0.01f, 0.0f }
 };
 
 s32 D_808B4618[] = { 0, 0 };
@@ -128,8 +128,6 @@ s32 func_808B3AAC(BgSpot15Rrbox *this, GlobalContext *globalCxt) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3AAC.s")
-
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
@@ -153,8 +151,8 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 }
 
 // s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
-//     Vec3f sp38;
 //     Vec3f sp2C;
+//     Vec3f sp38;
 
 //     func_808B3A34(this);
 
@@ -164,9 +162,9 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 //     func_808B39E8(&sp38, &sp2C, this->unk_16C, this->unk_170);
 
-//     sp38.x = sp38.x + this->dyna.actor.posRot.pos.x;
-//     sp38.y = sp38.y + this->dyna.actor.pos4.y;
-//     sp38.z = sp38.z + this->dyna.actor.posRot.pos.z;
+//     sp38.x += this->dyna.actor.posRot.pos.x;
+//     sp38.y += this->dyna.actor.pos4.y;
+//     sp38.z += this->dyna.actor.posRot.pos.z;
 
 //     this->dyna.actor.groundY = func_8003CA64(
 //         &globalCtx->colCtx, 
@@ -185,72 +183,36 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3CA0.s")
 
-// f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
-//     Vec3f tempVector1;
-//     Vec3f tempVector2;
-//     s32 sp64;
-//     f32 yIntersect;
-//     f32 returnValue = -32000.0f;
-//     Actor *actor = &this->dyna.actor;
-//     int i;
+f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
+    int i;
+    Vec3f tempVector2;
+    Vec3f tempVector1;
+    Actor *actor = &this->dyna.actor;
+    f32 yIntersect;
+    f32 returnValue = -32000.0f;
+    s32 sp64;
 
-//     func_808B3A34(this);
-//     for (i = 0; i < ARRAY_COUNT(D_808B45DC); i++) {
-//         tempVector1.x = D_808B45DC[i].x * (actor->scale.x * 10.0f);
-//         tempVector1.y = D_808B45DC[i].y * (actor->scale.y * 10.0f);
-//         tempVector1.z = D_808B45DC[i].z * (actor->scale.z * 10.0f);
+    func_808B3A34(this);
+    for (i = 0; i < ARRAY_COUNT(D_808B45DC); i++) {
+        tempVector1.x = D_808B45DC[i].x * (actor->scale.x * 10.0f);
+        tempVector1.y = D_808B45DC[i].y * (actor->scale.y * 10.0f);
+        tempVector1.z = D_808B45DC[i].z * (actor->scale.z * 10.0f);
 
-//         func_808B39E8(&tempVector2, &tempVector1, this->unk_16C, this->unk_170);
+        func_808B39E8(&tempVector2, &tempVector1, this->unk_16C, this->unk_170);
 
-//         tempVector2.x += actor->posRot.pos.x;
-//         tempVector2.y += actor->pos4.y;
-//         tempVector2.z += actor->posRot.pos.z;
+        tempVector2.x += actor->posRot.pos.x;
+        tempVector2.y += actor->pos4.y;
+        tempVector2.z += actor->posRot.pos.z;
         
-//         yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &sp64, actor, &tempVector2, 0);
+        yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &sp64, actor, &tempVector2, 0);
         
-//         if (returnValue < yIntersect) {
-//             this->unk_180 = sp64;
-//             returnValue = yIntersect;
-//         }
-//     }
-//     return returnValue;
-// }
-
-// f32 func_808B3DDC(BgSpot15Rrbox *this, GlobalContext *globalCtx) {
-//     Vec3f sp74;
-//     Vec3f sp80;
-//     s32 sp64;
-//     f32 temp_f0;
-//     f32 phi_f22 = -32000.0f;
-//     Actor *actor = &this->dyna.actor;
-//     int i;
-// 
-//     func_808B3A34(this);
-// 
-//     for (i = 0; i < ARRAY_COUNT(D_808B45DC); i++) {
-// 
-//         sp74.x = D_808B45DC[i].x * (actor->scale.x * 10.0f);
-//         sp74.y = D_808B45DC[i].y * (actor->scale.y * 10.0f);
-//         sp74.z = D_808B45DC[i].z * (actor->scale.z * 10.0f);
-// 
-//         func_808B39E8(&sp80, &sp74, this->unk_16C, this->unk_170);
-// 
-//         sp80.x = sp80.x + actor->posRot.pos.x;
-//         sp80.y = sp80.y + actor->pos4.y;
-//         sp80.z = sp80.z + actor->posRot.pos.z;
-// 
-//         temp_f0 = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &sp64, actor, &sp80, 0);
-// 
-//         if (phi_f22 < temp_f0) {
-//             this->unk_180 = sp64;
-//             phi_f22 = temp_f0;
-//         }
-//     }
-//     return phi_f22_2;
-// }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Rrbox/func_808B3DDC.s")
-
+        if (returnValue < yIntersect) {
+            returnValue = yIntersect;
+            this->unk_180 = sp64;
+        }
+    }
+    return returnValue;
+}
 
 s32 func_808B3F58(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     if (func_808B3CA0(this, globalCtx, 0) != 0) {
