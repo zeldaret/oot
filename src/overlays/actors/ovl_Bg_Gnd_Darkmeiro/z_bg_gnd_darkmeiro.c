@@ -17,7 +17,6 @@ void BgGndDarkmeiro_Draw0(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, GlobalContext* globalCtx);
 
-void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_StaticBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
@@ -41,7 +40,7 @@ extern Gfx D_0600BEC0[];
 extern UNK_TYPE D_0600C080;
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
-    if ((this->actionState & 2) != 0) {
+    if (this->actionState & 2) {
         if (this->timer1 == 0) {
             func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             this->actionState &= ~2;
@@ -76,7 +75,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionState = this->timer1 = this->timer2 = 0;
                 thisx->draw = BgGndDarkmeiro_DrawSwitchBlock;
                 this->actionFunc = BgGndDarkmeiro_SwitchBlock;
-                if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F)) == 0) {
+                if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 } else {
                     this->timer1 = 64;
@@ -97,9 +96,9 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionState |= 8;
             }
             if ((this->timer1 != 0) || (this->timer2 != 0)) {
-                Flags_SetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F));
+                Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
             } else {
-                Flags_UnsetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F));
+                Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
             }
             break;
     }
@@ -122,7 +121,7 @@ void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     s16 timeLeft;
 
     if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1)) {
-        if ((this->actionState & 4) != 0) {
+        if (this->actionState & 4) {
             if (this->timer1 > 0) {
                 this->timer1--;
             } else {
@@ -137,7 +136,7 @@ void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     }
 
     if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2)) {
-        if ((this->actionState & 8) != 0) {
+        if (this->actionState & 8) {
             if (this->timer2 > 0) {
                 this->timer2--;
             } else {
@@ -156,9 +155,9 @@ void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
         func_8002F994(&this->dyna.actor, timeLeft);
     }
     if ((this->timer1 >= 64) || (this->timer2 >= 64)) {
-        Flags_SetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F));
+        Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
     } else {
-        Flags_UnsetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F));
+        Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
     }
 }
 
@@ -170,7 +169,7 @@ void BgGndDarkmeiro_SwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
         this->timer1--;
     }
 
-    if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F))) {
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         this->timer1 = 64;
     }
 
@@ -196,7 +195,7 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
         if (vanishTimer > 64) {
             this->timer2 = (this->timer2 < 120) ? this->timer2 + 8 : 127;
         } else if (vanishTimer > 16) {
-            this->timer2 = (Math_Coss((u16)this->timer1 * 4096) * 64.0f) + 127.0f;
+            this->timer2 = (Math_Coss((u16)this->timer1 * 0x1000) * 64.0f) + 127.0f;
             if (this->timer2 > 127) {
                 this->timer2 = 127;
             }
