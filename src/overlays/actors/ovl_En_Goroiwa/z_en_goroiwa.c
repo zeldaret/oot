@@ -12,10 +12,18 @@
 
 #define THIS ((EnGoroiwa*)thisx)
 
+typedef bool (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, GlobalContext* globalCtx);
+typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);
+
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx);
+bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4D9DC(EnGoroiwa* this);
+void func_80A4D8CC(EnGoroiwa* this);
 
 void func_80A4D5E0(EnGoroiwa* this);
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
@@ -27,7 +35,6 @@ void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4DB90(EnGoroiwa* this);
 void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORTYPE_PROP,
@@ -39,20 +46,43 @@ const ActorInit En_Goroiwa_InitVars = {
     (ActorFunc)EnGoroiwa_Update,
     (ActorFunc)EnGoroiwa_Draw,
 };
-*/
 
-extern ColliderJntSphInit D_80A4DEA4;
-extern CollisionCheckInfoInit D_80A4DEB4;
-extern f32 D_80A4DEC4[];
-extern Vec3f D_80A4DEE4;
-extern Vec3f D_80A4DECC;
-extern Vec3f D_80A4DED8;
-extern f32 D_80A4DEF0[];
-extern InitChainEntry D_80A4DEF8;
-extern f32 D_80A4DF10[];
-extern bool (*D_80A4DF18[])(EnGoroiwa* this, GlobalContext* globalCtx);
-extern void (*D_80A4DF20[])(EnGoroiwa* this);
-extern s16 D_80A4DF28[];
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
+    {
+        { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        { 0, { { 0, 0, 0 }, 58 }, 100 },
+    },
+};
+
+static ColliderJntSphInit sJntSphInit =  {
+    { COLTYPE_UNK10, 0x11, 0x00, 0x39, 0x20, COLSHAPE_JNTSPH },
+    1,
+    sJntSphItemsInit,
+};
+
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 254 };
+
+static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
+
+static f32 D_80A4DEC4[] = { 0.0f, 59.5f };
+static Vec3f D_80A4DECC = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80A4DED8 = { 0.0f, 0.3f, 0.0f };
+static Vec3f D_80A4DEE4 = { 0.0f, 1.0f, 0.0f };
+static f32 D_80A4DEF0[] = { 0.0f, 59.5f };
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32_DIV1000(gravity, 64676, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(minVelocityY, 50536, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+};
+
+static f32 D_80A4DF10[] = { 0.0f, 595.0f };
+static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
+static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
+static s16 D_80A4DF28[] = { 20, 6 };
 
 extern Gfx D_0400D340[];
 extern Gfx D_060006B0[];
@@ -69,7 +99,7 @@ void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80A4DEA4, &this->colliderItem);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     func_80A4BCA0(this);
     this->collider.list->dim.worldSphere.radius = 0x3A;
 }
@@ -486,7 +516,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
     s32 params;
 
-    Actor_ProcessInitChain(&this->actor, &D_80A4DEF8);
+    Actor_ProcessInitChain(&this->actor, &sInitChain);
     func_80A4BD04(this, globalCtx);
     params = this->actor.params & 0xFF;
     if (params == 0xFF) {
@@ -501,7 +531,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_80061ED4(&this->actor.colChkInfo, NULL, &D_80A4DEB4);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, D_80A4DF10[(this->actor.params >> 10) & 1], ActorShadow_DrawFunc_Circle, 9.4f);
     this->actor.shape.unk_14 = 200;
     func_80A4BE10(this, globalCtx);
