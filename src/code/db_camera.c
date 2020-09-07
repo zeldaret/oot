@@ -1023,7 +1023,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     char sp74[(ARRAY_COUNT(sDbCameraCuts)-1+4) * 2]; // 0x74
     DbCameraCut sp64; // 0x64
     VecSph sp5C; // 0x5C
-    s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback }; // 0x50 -> 0x54
+    s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback }; // 0x50
 
     func_8006376C(0xE, 5, 0, D_8012CF44); // DEMO CONTROL
 
@@ -1216,7 +1216,7 @@ block_1:
                         dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
                     }
                 }
-                // diff 6440: regalloc
+                // 6440 diff: regalloc
                 func_8006376C(0xE, 7, 5, D_8012CF50[dbCamera->sub.demoCtrlActionIdx]);
                 func_8006376C(0xF, 7, 4, sp74);
 
@@ -1365,7 +1365,7 @@ block_1:
                 D_801612EA = sDbCameraCuts[idx1].letter;
             }
         }
-        // diff 6b90: sDbCameraGlobalContext->state.input[2].cur loaded twice
+        // 6b90 diff: sDbCameraGlobalContext->state.input[2].cur loaded twice
         // and then sDbCameraGlobalContext is only loaded once
         else if (!CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, L_TRIG)) {
             if (sDbCameraLastFileIdx != -1) {
