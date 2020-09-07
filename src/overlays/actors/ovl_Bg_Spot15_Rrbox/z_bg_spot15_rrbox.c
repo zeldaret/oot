@@ -153,7 +153,7 @@ void BgSpot15Rrbox_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 }
 
 s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
-    s32 pad;
+    f32 chkDist = 0.0f;
     Vec3f sp38;
     Vec3f sp2C;
 
@@ -175,7 +175,7 @@ s32 func_808B3CA0(BgSpot15Rrbox *this, GlobalContext *globalCtx, s32 arg2) {
         &this->unk_180, 
         &this->dyna.actor, 
         &sp38, 
-        0.0f);
+        chkDist);
 
     if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
