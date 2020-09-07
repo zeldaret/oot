@@ -17,7 +17,6 @@ void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx);
-void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale);
 
 extern UNK_TYPE D_06000D68;
 extern Gfx D_06000240[];
@@ -36,18 +35,18 @@ const ActorInit Bg_Vb_Sima_InitVars = {
 
 static InitChainEntry sInitChain[] = { ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP) };
 
-Color_RGBA8_n colorYellow = { 0xFF, 0xFF, 0x00, 0xFF };
-Color_RGBA8_n colorRed = { 0xFF, 0x0A, 0x00, 0xFF };
+static Color_RGBA8_n colorYellow = { 255, 255, 0, 255 };
+static Color_RGBA8_n colorRed = { 255, 10, 0, 255 };
 
 void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgVbSima* this = THIS;
-    Actor* actorPtr = &this->dyna.actor;
+    s32 pad;
     s32 local_c = 0;
 
-    Actor_ProcessInitChain(actorPtr, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
     DynaPolyInfo_Alloc(&D_06000D68, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, actorPtr, local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
 }
 
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -66,7 +65,7 @@ void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* veloc
             particle->vel = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
-            particle->opacity = 0xFF;
+            particle->opacity = 255;
             particle->timer1 = (s16)Math_Rand_ZeroFloat(10.0f);
             break;
         }
@@ -90,7 +89,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 minus1;
 
     this->varianceTimer++;
-    if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num) == 0) {
+    if (!Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         colPlat = bossFd->collapsePlatform;
         if (colPlat == 1) {
             Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
@@ -151,7 +150,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x11D);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x123),

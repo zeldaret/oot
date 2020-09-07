@@ -18,12 +18,6 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
-                          Vec3f* acceleration, f32 scale);
-void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
-                        Vec3f* acceleration, f32 scale);
-void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx);
-
 extern Gfx D_06009F20[];
 extern Gfx D_0600B2F8[];
 
@@ -82,7 +76,7 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                           Vec3f* acceleration, f32 scale) {
     s16 i;
-    
+
     for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 2;
@@ -100,7 +94,7 @@ void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Ve
 void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                         Vec3f* acceleration, f32 scale) {
     s16 i;
-    
+
     for (i = 0; i < 180; i++, particle++) {
         if (particle->type == 0) {
             particle->type = 3;
@@ -122,7 +116,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
     s16 i;
 
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
-    if ((this->actor.bgCheckFlags & 1) != 0) {
+    if (this->actor.bgCheckFlags & 1) {
         if (this->actor.velocity.y <= 0.0f) {
             this->xRotVel = Math_Rand_CenteredFloat(16384.0f);
             this->yRotVel = Math_Rand_CenteredFloat(16384.0f);
@@ -130,7 +124,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
             this->actor.velocity.x = sinf(angle) * 10.0f;
             this->actor.velocity.z = cosf(angle) * 10.0f;
             this->actor.velocity.y = this->actor.velocity.y * -0.5f;
-            if ((this->actor.params & 1) != 0) {
+            if (this->actor.params & 1) {
                 Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_LAND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
             }
@@ -168,9 +162,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 temp_f20;
 
     this->unkTimer2++;
-    if (this->unkTimer1 != 0) {
-        this->unkTimer1--;
-    }
+    DECR(this->unkTimer1);
     this->actor.shape.rot.x += (s16)this->xRotVel;
     this->actor.shape.rot.y += (s16)this->yRotVel;
     this->actor.velocity.y += -1.0f;
@@ -184,19 +176,19 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.posRot.pos.y -= temp_f20;
         func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
         this->actor.posRot.pos.y += temp_f20;
-        if (((this->actor.bgCheckFlags & 1) != 0) && (this->actor.velocity.y <= 0.0f)) {
-            if ((0x64 == this->actor.params) || (this->actor.params == 0x65)) {
+        if ((this->actor.bgCheckFlags & 1) && (this->actor.velocity.y <= 0.0f)) {
+            if ((this->actor.params == 0x64) || (this->actor.params == 0x65)) {
                 Actor_Kill(&this->actor);
-                if (0x64 == this->actor.params) {
+                if (this->actor.params == 0x64) {
                     func_80033E88(&this->actor, globalCtx, 5, 0xA);
                 }
-                if (0x64 == this->actor.params) {
+                if (this->actor.params == 0x64) {
                     spawnNum = 2;
                 } else {
                     spawnNum = 2;
                 }
                 for (i = 0; i < spawnNum; i++) {
-                    if (0x64 == this->actor.params) {
+                    if (this->actor.params == 0x64) {
                         spawnOffset.x = Math_Rand_CenteredFloat(13.0f);
                         spawnOffset.y = Math_Rand_ZeroFloat(5.0f) + 6.0f;
                         spawnOffset.z = Math_Rand_CenteredFloat(13);
@@ -210,8 +202,8 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                                                              this->actor.posRot.pos.y + spawnOffset.y,
                                                              this->actor.posRot.pos.z + spawnOffset.z, 0, 0,
                                                              this->actor.posRot.rot.z * 0.5f, this->actor.params + 1);
-                    if (newActor != 0) {
-                        if ((i == 0) && (0x64 == this->actor.params)) {
+                    if (newActor != NULL) {
+                        if ((i == 0) && (this->actor.params == 0x64)) {
                             Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROCK, &newActor->actor.projectedPos, 4,
                                                    &D_801333E0, &D_801333E0, &D_801333E8);
                         }
@@ -269,7 +261,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
             }
         }
-        if ((this->collider1.base.atFlags & 2) != 0) {
+        if (this->collider1.base.atFlags & 2) {
             Player* player = PLAYER;
             this->collider1.base.atFlags &= ~2;
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
@@ -284,7 +276,7 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x25C);
-    if (1) {}
+    if (1) {} // needed for match
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x25F),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -295,7 +287,7 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_06009F20));
         func_80094044(globalCtx->state.gfxCtx);
 
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, (s8)this->shadowOpacity);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);
         Matrix_Translate(this->actor.posRot.pos.x, 100.0f, this->actor.posRot.pos.z, 0);
         Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, 1);
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 0x272),
