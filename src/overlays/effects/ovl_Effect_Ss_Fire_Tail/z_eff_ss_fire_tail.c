@@ -120,17 +120,17 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     sin *= this->regs[SS_FIRE_TAIL_2];
     sin *= dist;
     Matrix_RotateZ(sin * 0.017453292f, MTXMODE_APPLY);
-
-    // scale = 1.0f - ((f32)(this->life + 1) / this->regs[SS_FIRE_TAIL_1]);
     
     spA0.x = spA0.y = spA0.z = (1.0f - SQ(1.0f - ((f32)(this->life + 1) / this->regs[SS_FIRE_TAIL_1]))) *
                                (this->regs[SS_FIRE_TAIL_SCALE] * 0.000010000001f);
-    // spA0.x = spA0.y = spA0.z = scale;
+
     Matrix_Scale(spA0.x, spA0.y, spA0.z, MTXMODE_APPLY);
 
-    spA0.y = ((((this->regs[SS_FIRE_TAIL_3] * 0.01f) * cos) * dist) + 1.0f);
-    spA0.y = CLAMP_MIN(spA0.y, 0.1f);
-    Matrix_Scale(1.0f, spA0.y, 1.0f / spA0.y, 1);
+    cos = ((((this->regs[SS_FIRE_TAIL_3] * 0.01f) * cos) * dist) + 1.0f);
+    if (cos < 0.1f) {
+        cos = 0.1f;
+    }
+    Matrix_Scale(1.0f, cos, 1.0f / cos, 1);
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_fire_tail.c", 238),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
