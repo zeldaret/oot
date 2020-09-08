@@ -43,11 +43,11 @@ void BgHakaWater_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
-        this->isLowered = 1;
+        this->isLowered = true;
         this->actor.initPosRot.pos.y -= 200.0f;
         this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
     } else {
-        this->isLowered = 0;
+        this->isLowered = false;
     }
     func_80881D94(this, globalCtx);
     this->actionFunc = BgHakaWater_Wait;
@@ -68,11 +68,11 @@ void BgHakaWater_Wait(BgHakaWater* this, GlobalContext* globalCtx) {
     if ((!this->isLowered && Flags_GetSwitch(globalCtx, this->actor.params)) ||
         (this->isLowered && !Flags_GetSwitch(globalCtx, this->actor.params))) {
         if (this->isLowered) {
-            this->isLowered = 0;
+            this->isLowered = false;
             this->actor.draw = BgHakaWater_Draw;
             this->actor.initPosRot.pos.y += 200.0f;
         } else {
-            this->isLowered = 1;
+            this->isLowered = true;
             this->actor.initPosRot.pos.y -= 200.0f;
         }
         this->actionFunc = BgHakaWater_ChangeWaterLevel;
@@ -81,10 +81,10 @@ void BgHakaWater_Wait(BgHakaWater* this, GlobalContext* globalCtx) {
 
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, GlobalContext* globalCtx) {
     if (!this->isLowered && Flags_GetSwitch(globalCtx, this->actor.params)) {
-        this->isLowered = 1;
+        this->isLowered = true;
         this->actor.initPosRot.pos.y -= 200.0f;
     } else if (this->isLowered && !Flags_GetSwitch(globalCtx, this->actor.params)) {
-        this->isLowered = 0;
+        this->isLowered = false;
         this->actor.initPosRot.pos.y += 200.0f;
     }
 
