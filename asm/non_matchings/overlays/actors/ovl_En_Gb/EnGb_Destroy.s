@@ -12,7 +12,7 @@ glabel EnGb_Destroy
 /* 00450 80A2F5D0 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00454 80A2F5D4 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 00458 80A2F5D8 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
-/* 0045C 80A2F5DC 0C01E9F1 */  jal     Lights_Remove
+/* 0045C 80A2F5DC 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00460 80A2F5E0 8DC6036C */  lw      $a2, 0x036C($t6)           ## 0000036C
 /* 00464 80A2F5E4 8FA4001C */  lw      $a0, 0x001C($sp)           

@@ -134,7 +134,7 @@ glabel L80998AA0
 /* 00370 80998AF0 AFA80018 */  sw      $t0, 0x0018($sp)           
 /* 00374 80998AF4 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 00378 80998AF8 AFB80010 */  sw      $t8, 0x0010($sp)           
-/* 0037C 80998AFC 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 0037C 80998AFC 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 00380 80998B00 260401C8 */  addiu   $a0, $s0, 0x01C8           ## $a0 = 000001C8
 /* 00384 80998B04 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
@@ -160,7 +160,7 @@ glabel L80998AA0
 /* 003D4 80998B54 AFAF0018 */  sw      $t7, 0x0018($sp)           
 /* 003D8 80998B58 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 003DC 80998B5C AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 003E0 80998B60 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 003E0 80998B60 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 003E4 80998B64 260401DC */  addiu   $a0, $s0, 0x01DC           ## $a0 = 000001DC
 /* 003E8 80998B68 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C

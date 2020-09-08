@@ -321,7 +321,6 @@ beginseg
     include "build/src/code/z_lifemeter.o"
     include "build/data/z_lifemeter.data.o"
     include "build/src/code/z_lights.o"
-    include "build/data/z_lights.data.o"
     include "build/src/code/z_malloc.o"
     include "build/src/code/z_map_mark.o"
     include "build/src/code/z_moji.o"
@@ -838,8 +837,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Dalm"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Dalm/z_bg_hidan_dalm.o"
-    include "build/data/overlays/actors/z_bg_hidan_dalm.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_dalm.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Dalm/ovl_Bg_Hidan_Dalm_reloc.o"
 endseg
 
 beginseg
@@ -2543,8 +2541,7 @@ endseg
 beginseg
     name "ovl_En_Heishi4"
     include "build/src/overlays/actors/ovl_En_Heishi4/z_en_heishi4.o"
-    include "build/data/overlays/actors/z_en_heishi4.data.o"
-    include "build/data/overlays/actors/z_en_heishi4.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi4/ovl_En_Heishi4_reloc.o"
 endseg
 
 beginseg
