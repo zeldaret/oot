@@ -36,8 +36,8 @@ extern u8 D_04006020[];
 extern Gfx D_0400C820[];
 extern u32 D_0400CB70;
 extern u32 D_04010130;
-//extern ? D_04015720;
-//extern ? D_04015760;
+extern Gfx D_04015720[];
+extern Gfx D_04015760[];
 //extern ? D_0401A0B0;
 extern u32 D_0401E370;
 //extern ? D_0402CF30;
@@ -3644,7 +3644,7 @@ extern OSPifRam pifMempakBuf;
 //extern ? D_801759BA;
 //extern ? D_801759BC;
 //extern ? D_801759BE;
-extern u16 gZBuffer[SCREEN_WIDTH * SCREEN_HEIGHT]; // 0x25800 bytes
+extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u8 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE]; // 0xC00 bytes
 extern u8 gGfxSPTaskStack[0x400]; // 0x400 bytes

@@ -89,7 +89,7 @@ glabel func_80AD6C4C
 /* 03250 80AD6D50 00063403 */  sra     $a2, $a2, 16               
 /* 03254 80AD6D54 00073C03 */  sra     $a3, $a3, 16               
 /* 03258 80AD6D58 AFAA001C */  sw      $t2, 0x001C($sp)           
-/* 0325C 80AD6D5C 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 0325C 80AD6D5C 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 03260 80AD6D60 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 03264 80AD6D64 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
