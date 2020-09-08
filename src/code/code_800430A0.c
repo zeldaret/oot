@@ -3,28 +3,28 @@
 #include <vt.h>
 
 void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
-    MtxF srp1;
-    MtxF srp1Inv;
-    MtxF srp2;
+    MtxF prevSrp;
+    MtxF prevSrpInv;
+    MtxF curSrp;
     Vec3f pos;
     Vec3f tempPos;
 
     if (func_8003E934(bgId)) {
         SkinMatrix_SetScaleRotateYRPTranslate(
-            &srp1, colCtx->dyna.bgActors[bgId].srp1.scale.x, colCtx->dyna.bgActors[bgId].srp1.scale.y,
-            colCtx->dyna.bgActors[bgId].srp1.scale.z, colCtx->dyna.bgActors[bgId].srp1.rot.x,
-            colCtx->dyna.bgActors[bgId].srp1.rot.y, colCtx->dyna.bgActors[bgId].srp1.rot.z,
-            colCtx->dyna.bgActors[bgId].srp1.pos.x, colCtx->dyna.bgActors[bgId].srp1.pos.y,
-            colCtx->dyna.bgActors[bgId].srp1.pos.z);
-        if (SkinMatrix_Invert(&srp1, &srp1Inv) != 2) {
+            &prevSrp, colCtx->dyna.bgActors[bgId].prevSrp.scale.x, colCtx->dyna.bgActors[bgId].prevSrp.scale.y,
+            colCtx->dyna.bgActors[bgId].prevSrp.scale.z, colCtx->dyna.bgActors[bgId].prevSrp.rot.x,
+            colCtx->dyna.bgActors[bgId].prevSrp.rot.y, colCtx->dyna.bgActors[bgId].prevSrp.rot.z,
+            colCtx->dyna.bgActors[bgId].prevSrp.pos.x, colCtx->dyna.bgActors[bgId].prevSrp.pos.y,
+            colCtx->dyna.bgActors[bgId].prevSrp.pos.z);
+        if (SkinMatrix_Invert(&prevSrp, &prevSrpInv) != 2) {
             SkinMatrix_SetScaleRotateYRPTranslate(
-                &srp2, colCtx->dyna.bgActors[bgId].srp2.scale.x, colCtx->dyna.bgActors[bgId].srp2.scale.y,
-                colCtx->dyna.bgActors[bgId].srp2.scale.z, colCtx->dyna.bgActors[bgId].srp2.rot.x,
-                colCtx->dyna.bgActors[bgId].srp2.rot.y, colCtx->dyna.bgActors[bgId].srp2.rot.z,
-                colCtx->dyna.bgActors[bgId].srp2.pos.x, colCtx->dyna.bgActors[bgId].srp2.pos.y,
-                colCtx->dyna.bgActors[bgId].srp2.pos.z);
-            SkinMatrix_Vec3fMtxFMultXYZ(&srp1Inv, &actor->posRot.pos, &tempPos);
-            SkinMatrix_Vec3fMtxFMultXYZ(&srp2, &tempPos, &pos);
+                &curSrp, colCtx->dyna.bgActors[bgId].curSrp.scale.x, colCtx->dyna.bgActors[bgId].curSrp.scale.y,
+                colCtx->dyna.bgActors[bgId].curSrp.scale.z, colCtx->dyna.bgActors[bgId].curSrp.rot.x,
+                colCtx->dyna.bgActors[bgId].curSrp.rot.y, colCtx->dyna.bgActors[bgId].curSrp.rot.z,
+                colCtx->dyna.bgActors[bgId].curSrp.pos.x, colCtx->dyna.bgActors[bgId].curSrp.pos.y,
+                colCtx->dyna.bgActors[bgId].curSrp.pos.z);
+            SkinMatrix_Vec3fMtxFMultXYZ(&prevSrpInv, &actor->posRot.pos, &tempPos);
+            SkinMatrix_Vec3fMtxFMultXYZ(&curSrp, &tempPos, &pos);
             actor->posRot.pos = pos;
             if (32760.0f <= pos.x || pos.x <= -32760.0f || 32760.0f <= pos.y || pos.y <= -32760.0f ||
                 32760.0f <= pos.z || pos.z <= -32760.0f) {
@@ -34,17 +34,17 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
                 osSyncPrintf(
                     "BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n",
                     pos.x, pos.y, pos.z);
-                // 位置が妥当ではありません。 | Position is not valid
+                // EUC-JP: 位置が妥当ではありません。 | Position is not valid
                 osSyncPrintf(VT_RST);
             }
         }
     }
 }
 
-//Rotate actor
+// Rotate actor
 void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     if (func_8003E934(bgId)) {
-        s16 rot = colCtx->dyna.bgActors[bgId].srp2.rot.y - colCtx->dyna.bgActors[bgId].srp1.rot.y;
+        s16 rot = colCtx->dyna.bgActors[bgId].curSrp.rot.y - colCtx->dyna.bgActors[bgId].prevSrp.rot.y;
 
         if (actor->id == 0) {
             ((Player*)actor)->currentYaw += rot;

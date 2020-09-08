@@ -109,7 +109,8 @@ static Gfx* sDLists[] = {
     0x0600A418, 0x0600A568, 0x0600A6A0, 0x0600A7E0, 0x0600A978, 0x0600AAC8,
 };
 
-void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
+void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                              DynaPolyMoveFlag flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 

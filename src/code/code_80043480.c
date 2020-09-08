@@ -1,7 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-// we previously had this named as DynaPolyInfo_SetActorMove
 void func_80043480(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
     dynaActor->dynaPolyId = -1;
     dynaActor->unk_15C = flags;
@@ -103,14 +102,16 @@ s32 func_800435D8(GlobalContext* globalCtx, DynaPolyActor* actor, s16 arg2, s16 
     posB.x = sign * a3 * sin + posA.x;
     posB.y = posA.y;
     posB.z = sign * a3 * cos + posA.z;
-    if (func_8003DFA0(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId, actor, 0.0f)) {
+    if (func_8003DFA0(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId, actor,
+                      0.0f)) {
         return false;
     }
     posA.x = (actor->actor.posRot.pos.x * 2) - posA.x;
     posA.z = (actor->actor.posRot.pos.z * 2) - posA.z;
     posB.x = sign * a3 * sin + posA.x;
     posB.z = sign * a3 * cos + posA.z;
-    if (func_8003DFA0(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId, actor, 0.0f)) {
+    if (func_8003DFA0(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId, actor,
+                      0.0f)) {
         return false;
     }
     return true;

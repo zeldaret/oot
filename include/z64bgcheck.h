@@ -27,6 +27,7 @@ struct DynaPolyActor;
 #define COLPOLY_IGNORE_CAMERA 1
 #define COLPOLY_IGNORE_ENTITY 2
 #define COLPOLY_IGNORE_PROJECTILES 4
+#define COLPOLY_SNORM(x) ((short)((x) * 32767))
 
 #define BG_ACTOR_MAX 50
 #define BGCHECK_SCENE BG_ACTOR_MAX
@@ -38,6 +39,8 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_MOUNT_WALL 6
 #define FUNC_80041EA4_STOP 8
 #define FUNC_80041EA4_VOID_OUT 12
+
+#define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
 
 typedef struct {
     Vec3f scale;
@@ -77,7 +80,7 @@ typedef struct {
 
     // 0x0008_0000 = ?
     // 0x0007_E000 = Room Index, 0x3F = all rooms
-    // 0x0000_1F00 = ?
+    // 0x0000_1F00 = Lighting Settings Index
     // 0x0000_00FF = CamData index
 } WaterBox; // size = 0x10
 
@@ -144,7 +147,7 @@ typedef struct {
 } BgActor; // size = 0x64
 
 typedef struct {
-    /* 0x0000 */ u8 unk_00;
+    /* 0x0000 */ u8 bitFlag;
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
     /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
     /* 0x13F0 */ CollisionPoly* polyList;        // pbuf
@@ -180,14 +183,14 @@ typedef struct {
     /* 0x20 */ u32 unk_20;
     /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
-    /* 0x2C */ u16* dynaLookupId;
+    /* 0x2C */ u16* nodeId;
 } DynaRaycast;
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;
     /* 0x04 */ u16 xpFlags;
     /* 0x08 */ DynaCollisionContext* dyna;
-    /* 0x0C */ u16* dynaLookupId;
+    /* 0x0C */ u16* nodeId;
     /* 0x10 */ Vec3f* posA;
     /* 0x14 */ Vec3f* posB;
     /* 0x18 */ Vec3f* posResult;
@@ -195,6 +198,6 @@ typedef struct {
     /* 0x20 */ s32 chkOneFace; // bccFlags & 0x8
     /* 0x24 */ f32* distSq;    // distance from posA to poly squared
     /* 0x28 */ f32 chkDist;    // distance from poly
-} s80041128;                   // dyna ?
+} DynaLineTest;                   // dyna ?
 
 #endif

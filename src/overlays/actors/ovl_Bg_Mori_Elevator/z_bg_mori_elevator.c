@@ -106,8 +106,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
                 func_80043480(&this->dyna, DPM_PLAYER);
                 func_80041880(&D_060035F8, &colHeader);
-                this->dyna.dynaPolyId =
-                    func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+                this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 BgMoriElevator_SetupWaitAfterInit(this);
                 break;
             case 1:
