@@ -43,12 +43,12 @@ void func_80891AC0(BgIceShutter* thisx) {
     f32 sp24;
 
     sp24 = Math_Sins(thisx->dyna.actor.shape.rot.x) * thisx->dyna.actor.velocity.y;
-    thisx->dyna.actor.posRot.pos.y = (f32)((Math_Coss(thisx->dyna.actor.shape.rot.x) * thisx->dyna.actor.velocity.y) +
-                                           thisx->dyna.actor.initPosRot.pos.y);
+    thisx->dyna.actor.posRot.pos.y =
+        (Math_Coss(thisx->dyna.actor.shape.rot.x) * thisx->dyna.actor.velocity.y) + thisx->dyna.actor.initPosRot.pos.y;
     thisx->dyna.actor.posRot.pos.x =
-        (f32)((Math_Sins(thisx->dyna.actor.shape.rot.y) * sp24) + thisx->dyna.actor.initPosRot.pos.x);
+        (Math_Sins(thisx->dyna.actor.shape.rot.y) * sp24) + thisx->dyna.actor.initPosRot.pos.x;
     thisx->dyna.actor.posRot.pos.z =
-        (f32)((Math_Coss(thisx->dyna.actor.shape.rot.y) * sp24) + thisx->dyna.actor.initPosRot.pos.z);
+        (Math_Coss(thisx->dyna.actor.shape.rot.y) * sp24) + thisx->dyna.actor.initPosRot.pos.z;
 }
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -60,12 +60,11 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     localC = 0;
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&((BgIceShutter*)thisx)->dyna, 0);
+    DynaPolyInfo_SetActorMove(&THIS->dyna, 0);
     sp28 = thisx->params & 0xFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
     DynaPolyInfo_Alloc(&D_06002854, &localC);
-    ((BgIceShutter*)thisx)->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    THIS->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
     if (sp28 == 2) {
         thisx->shape.rot.x = (s16)(-0x4000);
     }
@@ -74,20 +73,20 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (Flags_GetClear(globalCtx, thisx->room) != 0) {
             Actor_Kill(thisx);
         } else {
-            ((BgIceShutter*)thisx)->actionFunc = &func_80891CF4;
+            THIS->actionFunc = &func_80891CF4;
         }
 
     } else if (Flags_GetSwitch(globalCtx, thisx->params) != 0) {
         Actor_Kill(thisx);
     } else {
-        ((BgIceShutter*)thisx)->actionFunc = &func_80891D6C;
+        THIS->actionFunc = &func_80891D6C;
     }
 
     if (sp28 == 2) {
         temp_f6 = Math_Sins(thisx->shape.rot.x) * 50.0f;
-        thisx->posRot2.pos.x = ((Math_Sins(thisx->shape.rot.y) * temp_f6) + thisx->initPosRot.pos.x);
+        thisx->posRot2.pos.x = (Math_Sins(thisx->shape.rot.y) * temp_f6) + thisx->initPosRot.pos.x;
         thisx->posRot2.pos.y = thisx->initPosRot.pos.y;
-        thisx->posRot2.pos.z = (thisx->initPosRot.pos.z + (Math_Coss(thisx->shape.rot.y) * temp_f6));
+        thisx->posRot2.pos.z = thisx->initPosRot.pos.z + (Math_Coss(thisx->shape.rot.y) * temp_f6);
         return;
     }
 
