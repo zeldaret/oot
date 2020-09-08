@@ -66,8 +66,8 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 254 };
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
 static f32 D_80A4DEC4[] = { 0.0f, 59.5f };
 
-static Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
-static Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
+static Vec3f sEffectVelocity = { 0.0f, 0.0f, 0.0f };
+static Vec3f sEffectAccel = { 0.0f, 0.3f, 0.0f };
 static Vec3f D_80A4DEE4 = { 0.0f, 1.0f, 0.0f };
 
 static f32 D_80A4DEF0[] = { 0.0f, 59.5f };
@@ -271,9 +271,9 @@ void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
         effectPos.x = ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle)) + arg1->x;
         effectPos.y = ((Math_Rand_ZeroOne() - 0.5f) * 40.0f) + arg1->y;
         effectPos.z = ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle) + arg1->z;
-        func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100,
+        func_800286CC(globalCtx, &effectPos, &sEffectVelocity, &sEffectAccel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100,
                       80);
-        func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80,
+        func_800286CC(globalCtx, &effectPos, &sEffectVelocity, &sEffectAccel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80,
                       80);
     }
 }
