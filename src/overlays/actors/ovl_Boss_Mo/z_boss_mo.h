@@ -9,17 +9,17 @@ struct BossMo;
 typedef void (*BossMoActionFunc)(struct BossMo*, GlobalContext*);
 
 typedef struct BossMoParticle {
-    /* 0x00 */ Vec3f unk_00;
-    /* 0x0C */ Vec3f unk_0C;
-    /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ u8 unk_24;
-    /* 0x25 */ u8 unk_25;
-    /* 0x26 */ u8 unk_26;
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ Vec3f vel;
+    /* 0x18 */ Vec3f accel;
+    /* 0x24 */ u8 type;
+    /* 0x25 */ u8 timer1;
+    /* 0x26 */ u8 stopTimer;
     /* 0x28 */ s16 unk_28; // unused?
-    /* 0x2A */ s16 unk_2A;
+    /* 0x2A */ s16 opacity;
     /* 0x2C */ s16 unk_2C;
     /* 0x2E */ s16 unk_2E;
-    /* 0x30 */ f32 unk_30;
+    /* 0x30 */ f32 scale;
     /* 0x34 */ f32 unk_34;
     /* 0x38 */ f32 unk_38;
     /* 0x3C */ Vec3f* unk_3C;
@@ -28,7 +28,7 @@ typedef struct BossMoParticle {
 typedef struct BossMo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Actor* unk_14C;
-    /* 0x0150 */ BossMoActionFunc unk_150;
+    /* 0x0150 */ BossMoActionFunc actionFunc;
     /* 0x0154 */ u8 unk_154;
     /* 0x0155 */ u8 unk_155;
     /* 0x0156 */ u8 unk_156;
@@ -51,7 +51,7 @@ typedef struct BossMo {
     /* 0x0178 */ s16 unk_178;
     /* 0x017A */ s16 unk_17A;
     /* 0x017C */ s16 unk_17C;
-    /* 0x017E */ s16 unk_17E[5];
+    /* 0x017E */ s16 timers[5];
     /* 0x0188 */ f32 unk_188;
     /* 0x018C */ f32 unk_18C;
     /* 0x0190 */ f32 unk_190;
