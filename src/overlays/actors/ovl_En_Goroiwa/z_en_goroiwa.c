@@ -64,31 +64,13 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 254 };
 
 // Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
-static f32 D_80A4DEC4[] = { 0.0f, 59.5f };
-
-static Vec3f sEffectVelocity = { 0.0f, 0.0f, 0.0f };
-static Vec3f sEffectAccel = { 0.0f, 0.3f, 0.0f };
-static Vec3f D_80A4DEE4 = { 0.0f, 1.0f, 0.0f };
-
-static f32 D_80A4DEF0[] = { 0.0f, 59.5f };
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, 64676, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, 50536, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
-};
-
-static f32 D_80A4DF10[] = { 0.0f, 595.0f };
-
-static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
-static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
-
-static s16 sWaitDurations[] = { 20, 6 };
 
 extern Gfx D_0400D340[];
 extern Gfx D_060006B0[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
+    static f32 D_80A4DEC4[] = { 0.0f, 59.5f };
+
     Sphere16* worldSphere = &this->collider.list->dim.worldSphere;
 
     worldSphere->center.x = this->actor.posRot.pos.x;
@@ -262,6 +244,9 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
+    static Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
+    static Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
+
     Vec3f effectPos;
     s32 i;
     s16 angle = 0;
@@ -271,9 +256,9 @@ void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
         effectPos.x = ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle)) + arg1->x;
         effectPos.y = ((Math_Rand_ZeroOne() - 0.5f) * 40.0f) + arg1->y;
         effectPos.z = ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle) + arg1->z;
-        func_800286CC(globalCtx, &effectPos, &sEffectVelocity, &sEffectAccel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100,
+        func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100,
                       80);
-        func_800286CC(globalCtx, &effectPos, &sEffectVelocity, &sEffectAccel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80,
+        func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80,
                       80);
     }
 }
@@ -430,6 +415,8 @@ bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
+    static Vec3f unitY = { 0.0f, 1.0f, 0.0f };
+
     s32 pad;
     Vec3f* temp;
     f32 sp8C;
@@ -449,9 +436,9 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     temp = &sp80;
     if (this->unk_1D3 & 8) {
         func_80A4BF28(this, globalCtx, &sp28);
-        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, temp);
+        Math3D_Vec3f_Cross(&unitY, &this->actor.velocity, temp);
     } else {
-        Math3D_Vec3f_Cross(&D_80A4DEE4, &this->actor.velocity, temp);
+        Math3D_Vec3f_Cross(&unitY, &this->actor.velocity, temp);
     }
 
     if (func_80A4BD8C(&sp74, temp)) {
@@ -483,6 +470,8 @@ void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
+    static f32 D_80A4DEF0[] = { 0.0f, 59.5f };
+
     s16 angle1;
     s16 angle2;
     s32 pad;
@@ -519,7 +508,15 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &burstDepthY, 90.0f, 5, 110, 160, 1);
 }
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32_DIV1000(gravity, 64676, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, 50536, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+};
+
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
+    static f32 D_80A4DF10[] = { 0.0f, 595.0f };
+
     EnGoroiwa* this = THIS;
     s32 params;
 
@@ -565,6 +562,9 @@ void func_80A4D5E0(EnGoroiwa* this) {
 }
 
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
+    static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
+    static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
+
     s32 temp_v0_5;
     s16 temp_v1;
     s16 temp_v1_2;
@@ -640,10 +640,12 @@ void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4D9DC(EnGoroiwa* this) {
+    static s16 waitDurations[] = { 20, 6 };
+
     this->actionFunc = func_80A4DA3C;
     this->actor.speedXZ = 0.0f;
     func_80A4BD70(this, 2);
-    this->waitTimer = sWaitDurations[this->actor.initPosRot.rot.z & 1];
+    this->waitTimer = waitDurations[this->actor.initPosRot.rot.z & 1];
     this->unk_1C0 = 0.0f;
 }
 
