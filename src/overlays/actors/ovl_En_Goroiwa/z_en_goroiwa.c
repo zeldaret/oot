@@ -475,9 +475,9 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     s16 angle1;
     s16 angle2;
     s32 pad;
-    Vec3f* pos = &this->actor.posRot.pos;
-    Vec3f burstDepthY;
-    Vec3f burstDepthX;
+    Vec3f* thisPos = &this->actor.posRot.pos;
+    Vec3f effectPos;
+    Vec3f effectVelocity;
     f32 temp_f24;
     f32 temp_f22;
     f32 temp_f20;
@@ -489,23 +489,23 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
         temp_f22 = Math_Sins(angle1);
         temp_f24 = Math_Coss(angle1);
         angle2 = Math_Rand_ZeroOne() * 65535.0f;
-        burstDepthY.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
+        effectPos.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
         temp_f20_2 = Math_Sins(angle2);
-        burstDepthY.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + D_80A4DEF0[temp_v0];
-        burstDepthY.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
-        burstDepthX.x = burstDepthY.x * 0.2f;
-        burstDepthX.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
-        burstDepthX.z = burstDepthY.z * 0.2f;
-        Math_Vec3f_Sum(&burstDepthY, pos, &burstDepthY);
-        func_80029E8C(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, -340, 33, 28, 2, 0,
+        effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + D_80A4DEF0[temp_v0];
+        effectPos.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
+        effectVelocity.x = effectPos.x * 0.2f;
+        effectVelocity.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
+        effectVelocity.z = effectPos.z * 0.2f;
+        Math_Vec3f_Sum(&effectPos, thisPos, &effectPos);
+        func_80029E8C(globalCtx, &effectPos, &effectVelocity, &effectPos, -340, 33, 28, 2, 0,
                       (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, -1, 1, D_0400D340);
     }
 
-    burstDepthY.x = pos->x;
-    burstDepthY.y = pos->y + D_80A4DEF0[temp_v0];
-    burstDepthY.z = pos->z;
-    func_80033480(globalCtx, &burstDepthY, 80.0f, 5, 70, 110, 1);
-    func_80033480(globalCtx, &burstDepthY, 90.0f, 5, 110, 160, 1);
+    effectPos.x = thisPos->x;
+    effectPos.y = thisPos->y + D_80A4DEF0[temp_v0];
+    effectPos.z = thisPos->z;
+    func_80033480(globalCtx, &effectPos, 80.0f, 5, 70, 110, 1);
+    func_80033480(globalCtx, &effectPos, 90.0f, 5, 110, 160, 1);
 }
 
 static InitChainEntry sInitChain[] = {
