@@ -32,6 +32,9 @@ const ActorInit Bg_Ice_Shutter_InitVars = {
     (ActorFunc)BgIceShutter_Draw,
 };
 
+extern UNK_TYPE D_06002854;
+extern Gfx D_06002740[];
+
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
@@ -47,9 +50,6 @@ void func_80891AC0(BgIceShutter* thisx) {
     thisx->dyna.actor.posRot.pos.z =
         (f32)((Math_Coss(thisx->dyna.actor.shape.rot.y) * sp24) + thisx->dyna.actor.initPosRot.pos.z);
 }
-
-extern UNK_TYPE D_06002854;
-extern Gfx D_06002740[];
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 pad;
