@@ -50,7 +50,7 @@ glabel func_808A1190
 /* 0063C 808A11FC AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00640 808A1200 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00644 808A1204 E7A60014 */  swc1    $f6, 0x0014($sp)           
-/* 00648 808A1208 0C00C916 */  jal     Actor_SpawnAttached
+/* 00648 808A1208 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0064C 808A120C E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 00650 808A1210 10400006 */  beq     $v0, $zero, .L808A122C     
@@ -82,7 +82,7 @@ glabel func_808A1190
 /* 006AC 808A126C AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 006B0 808A1270 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 006B4 808A1274 E7B00014 */  swc1    $f16, 0x0014($sp)          
-/* 006B8 808A1278 0C00C916 */  jal     Actor_SpawnAttached
+/* 006B8 808A1278 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 006BC 808A127C E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 006C0 808A1280 10400006 */  beq     $v0, $zero, .L808A129C     

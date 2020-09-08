@@ -14,18 +14,17 @@ ElfMessage sAdultSariaMsgs[] = {
     { 0x06, 0x30, 0x6C, 0x69 }, { 0x06, 0x30, 0x6C, 0x6A }, { 0xE0, 0x00, 0x6D, 0x00 },
 };
 
-#ifdef NON_MATCHING
-// minor ordering and regalloc differences
 u32 ElfMessage_CheckCondition(ElfMessage* msg) {
-    u16 temp;
+    s32 type = msg->byte0 & 0x1E;
+    u16 flag;
 
-    switch (msg->byte0 & 0x1E) {
+    switch (type) {
         case 0:
-            temp = 1 << (msg->byte1 & 0x0F);
-            return ((msg->byte0 & 1) == 1) == !!(gSaveContext.eventChkInf[(msg->byte1 & 0xF0) >> 4] & temp);
+            flag = 1 << (msg->byte1 & 0x0F);
+            return ((msg->byte0 & 1) == 1) == ((flag & gSaveContext.eventChkInf[(msg->byte1 & 0xF0) >> 4]) != 0);
         case 2:
             return ((msg->byte0 & 1) == 1) ==
-                   !!(gBitFlags[msg->byte1 - ITEM_KEY_BOSS] & gSaveContext.dungeonItems[gSaveContext.mapIndex]);
+                   ((gSaveContext.dungeonItems[gSaveContext.mapIndex] & gBitFlags[msg->byte1 - ITEM_KEY_BOSS]) != 0);
         case 4:
             return ((msg->byte0 & 1) == 1) == (msg->byte3 == INV_CONTENT(msg->byte1));
         case 6:
@@ -34,16 +33,16 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                     return ((msg->byte0 & 1) == 1) == ((msg->byte1 & 0x0F) == CUR_UPG_VALUE(UPG_STRENGTH));
                 case 0x10:
                     return ((msg->byte0 & 1) == 1) ==
-                           !!((gBitFlags[msg->byte3 - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) &
-                              gSaveContext.equipment);
+                           (((gBitFlags[msg->byte3 - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) &
+                             gSaveContext.equipment) != 0);
                 case 0x20:
                     return ((msg->byte0 & 1) == 1) ==
-                           !!(CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET));
+                           ((CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET)) != 0);
                 case 0x30:
                     return ((msg->byte0 & 1) == 1) ==
-                           !!(CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST));
+                           ((CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST)) != 0);
                 case 0x40:
-                    return ((msg->byte0 & 1) == 1) == !!gSaveContext.magicAcquired;
+                    return ((msg->byte0 & 1) == 1) == (((void)0, gSaveContext.magicAcquired) != 0);
             }
     }
 
@@ -53,10 +52,6 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
 
     return false;
 }
-#else
-u32 ElfMessage_CheckCondition(ElfMessage* msg);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_elf_message/ElfMessage_CheckCondition.s")
-#endif
 
 u32 func_8006BE88(ElfMessage** msgp) {
     u32 temp = true;

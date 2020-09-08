@@ -108,7 +108,7 @@ glabel func_80ACF920
 /* 005F4 80ACFA94 46080280 */  add.s   $f10, $f0, $f8             
 /* 005F8 80ACFA98 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 005FC 80ACFA9C AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00600 80ACFAA0 0C00C916 */  jal     Actor_SpawnAttached
+/* 00600 80ACFAA0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00604 80ACFAA4 E7AA0018 */  swc1    $f10, 0x0018($sp)          
 /* 00608 80ACFAA8 1040000C */  beq     $v0, $zero, .L80ACFADC     

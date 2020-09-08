@@ -1208,12 +1208,13 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B4 */ char unk_B4[0x4];
     /* 0x000B8 */ View view;
-    /* 0x001E0 */ Camera cameras[4];
+    /* 0x001E0 */ Camera mainCamera;
+    /* 0x001E0 */ Camera subCameras[3];
     /* 0x00790 */ Camera* cameraPtrs[4];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;
-    /* 0x007A8 */ LightingContext lightCtx;
+    /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ SubGlobalContext7B8 sub_7B8;
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
