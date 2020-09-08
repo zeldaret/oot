@@ -188,10 +188,10 @@ s32 D_80AA9E20[] = {
 s32 D_80AA9E44[] = { 0xC57A0000, 0x45DAC000, 0x455AC000, 0xC57A0000, 0x00000000, 0x455AC000,
                      0x457A0000, 0x00000000, 0x455AC000, 0x00000000, 0x00000000 };
 
-SkeletonHeader D_06008F38;
-AnimationHeader D_060028E0;
-SkeletonHeader D_06014190;
-AnimationHeader D_0600EBE4;
+extern SkeletonHeader D_06008F38;
+extern AnimationHeader D_060028E0;
+extern SkeletonHeader D_06014190;
+extern AnimationHeader D_0600EBE4;
 
 void func_80AA68FC(EnMb* this, GlobalContext* globalCtx);
 void func_80AA6898(EnMb* this);
