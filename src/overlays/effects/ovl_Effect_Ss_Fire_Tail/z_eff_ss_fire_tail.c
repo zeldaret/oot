@@ -69,37 +69,30 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     return 1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Fire_Tail/func_809A5858.s")
-
 void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
-    Vec3f spA0;
     s16 yaw;
+    Vec3f spA0;
     f32 cos;
     f32 sin;
     f32 dist;
 
-    // f32 scale;
-    // f32 temp_f2;
-    // f32 scale2;
-
     OPEN_DISPS(gfxCtx, "../z_eff_fire_tail.c", 182);
 
-    spA0.x = 0.0f;
-    spA0.y = 0.0f;
-    spA0.z = 0.0f;
+    spA0.x = spA0.y = spA0.z = 0.0f;
 
-    if (this->actor != NULL) { // 16C
+    if (this->actor != NULL) {
 
         this->vec = this->actor->velocity;
 
-        if (this->regs[SS_FIRE_TAIL_B] < 0) { // 194
+        if (this->regs[SS_FIRE_TAIL_B] < 0) {
             Matrix_Translate(this->pos.x + this->actor->posRot.pos.x, this->pos.y + this->actor->posRot.pos.y,
                              this->pos.z + this->actor->posRot.pos.z, MTXMODE_NEW);
         } else {
-            Player* player = PLAYER; // stacks a lil messy. this might need to go after null check
+            Player* player = PLAYER;
             s16 bodypart = this->regs[SS_FIRE_TAIL_B];
+
             this->pos.x = player->unk_908[bodypart].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
             this->pos.y = player->unk_908[bodypart].y;
             this->pos.z = player->unk_908[bodypart].z - (Math_Coss(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
@@ -114,22 +107,18 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     cos = fabsf(Math_Coss(yaw));
     sin = Math_Sins(yaw);
     dist = Math_Vec3f_DistXZ(&spA0, &this->vec) / (this->regs[SS_FIRE_TAIL_A] * 0.1f);
-
-    
     Matrix_RotateY(((((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000)))) * 0.0000958738f, MTXMODE_APPLY);
-    sin *= this->regs[SS_FIRE_TAIL_2];
-    sin *= dist;
-    Matrix_RotateZ(sin * 0.017453292f, MTXMODE_APPLY);
-    
-    spA0.x = spA0.y = spA0.z = (1.0f - SQ(1.0f - ((f32)(this->life + 1) / this->regs[SS_FIRE_TAIL_1]))) *
-                               (this->regs[SS_FIRE_TAIL_SCALE] * 0.000010000001f);
-
+    Matrix_RotateZ(sin * this->regs[SS_FIRE_TAIL_2] * dist * 0.017453292f, MTXMODE_APPLY);
+    sin = 1.0f - ((f32)(this->life + 1) / this->regs[SS_FIRE_TAIL_1]);
+    sin = 1.0f - SQ(sin);
+    spA0.x = spA0.y = spA0.z = sin * (this->regs[SS_FIRE_TAIL_SCALE] * 0.000010000001f);
     Matrix_Scale(spA0.x, spA0.y, spA0.z, MTXMODE_APPLY);
-
     cos = ((((this->regs[SS_FIRE_TAIL_3] * 0.01f) * cos) * dist) + 1.0f);
+    
     if (cos < 0.1f) {
         cos = 0.1f;
     }
+
     Matrix_Scale(1.0f, cos, 1.0f / cos, 1);
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_fire_tail.c", 238),
