@@ -33,7 +33,6 @@ typedef struct BossFd {
     /* 0x021C */ s16 fireBreathTimer;
     /* 0x021E */ s16 skinSegments;
     /* 0x0220 */ u8 fogMode;
-    /* 0x0221 */ u8 unk_221;  //Possibly padding
     /* 0x0222 */ s16 actionState;
     /* 0x0224 */ s16 movementTimer;
     /* 0x0226 */ s16 varianceTimer;
@@ -43,7 +42,7 @@ typedef struct BossFd {
     /* 0x022E */ s16 roarTimer;
     /* 0x0230 */ s16 damageFlashTimer;
     /* 0x0232 */ s16 startAttack;
-    /* 0x0234 */ s16 unk_234; //Could be used by attached actors
+    /* 0x0234 */ s16 unk_234; // Seem to be unused
     /* 0x0236 */ s16 unk_236;
     /* 0x0238 */ s16 maneEmbersTimer;
     /* 0x023A */ s16 rockTimer;
@@ -53,7 +52,7 @@ typedef struct BossFd {
     /* 0x0242 */ s16 deathCameraShakeTimer;
     /* 0x0244 */ s16 stopFlag;
     /* 0x0246 */ s16 flightCount;
-    /* 0x0248 */ s16 animationTimers[6]; //Change name to just "timers"
+    /* 0x0248 */ s16 timers[6];
     /* 0x0254 */ f32 bodyTex1Scroll;
     /* 0x0258 */ f32 bodyTex1Rot;
     /* 0x025C */ f32 bodyTex2Scroll;
@@ -119,7 +118,7 @@ typedef struct BossFd {
     /* 0x1484 */ f32 unk_1484;
     /* 0x1488 */ f32 unk_1488;
     /* 0x148C */ f32 unk_148C;
-    /* 0x1490 */ ColliderJntSph collider1;
+    /* 0x1490 */ ColliderJntSph collider;
     /* 0x14B0 */ ColliderJntSphItem colliderItems[19];
     /* 0x1970 */ BossFdParticle particles[180];
 } BossFd; // size = 0x43A0

@@ -151,10 +151,10 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x11D);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 285);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x123),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 291),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000240);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 0x128);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 296);
 }

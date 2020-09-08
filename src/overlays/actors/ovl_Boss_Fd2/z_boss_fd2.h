@@ -19,7 +19,7 @@ typedef struct BossFd2Mane {
 
 typedef struct BossFd2 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime1;
+    /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossFd2ActionFunc actionFunc;
     /* 0x0194 */ u8 disableAT;
     /* 0x0196 */ s16 turnToLink;
@@ -69,7 +69,7 @@ typedef struct BossFd2 {
     /* 0x1410 */ f32 unk_1410;
     /* 0x1414 */ f32 unk_1414;
     /* 0x1418 */ char unk_1418[4];
-    /* 0x141C */ ColliderJntSph collider1;
+    /* 0x141C */ ColliderJntSph collider;
     /* 0x143C */ ColliderJntSphItem colliderItems[9];
 } BossFd2; // size = 0x167C
 
