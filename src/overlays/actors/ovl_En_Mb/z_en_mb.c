@@ -201,136 +201,75 @@ void func_80AA6898(EnMb* this);
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Init.s")
 
 void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
-    EnMb* this = THIS;
-    //ColliderCylinder* sp38;
-    //ActorShape* sp34;
-    //ActorShape* temp_a0;
-   // ColliderCylinder* temp_a1;
-   // ColliderCylinder* temp_a1_2;
-    //ColliderCylinder* temp_a1_3;
-    //s16 temp_a1_4;
     s32 phi_v1;
     s16 temp_a0_2;
-    s16 tempParams;
+    Player* player = PLAYER;
+    EnMb* this = THIS;
 
-    Actor_ProcessInitChain(thisx, (InitChainEntry*)D_80AA9D44);
-    //temp_a0 = &thisx->shape;
-    //sp34 = temp_a0;
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 46.0f);
-    thisx->colChkInfo.mass = 0xFF;
-    thisx->colChkInfo.damageTable = sDamageTable;
-  //  temp_a1 = &this->collider1;
-
-    //sp38 = temp_a1;
+    Actor_ProcessInitChain(&this->actor, (InitChainEntry*)D_80AA9D44);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 46.0f);
+    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.damageTable = sDamageTable;
     Collider_InitCylinder(globalCtx, &this->collider1);
-    Collider_SetCylinder(globalCtx, &this->collider1, thisx, &sCylinderInit);
-
-    //temp_a1_2 = &this->collider3;
-    //sp38 = temp_a1_2;
+    Collider_SetCylinder(globalCtx, &this->collider1, &this->actor, &sCylinderInit);
     Collider_InitTris(globalCtx, &this->collider3);
-    Collider_SetTris(globalCtx, &this->collider3, thisx, &sTrisInit, this->collider3Items);
-
-    //temp_a1_3 = &this->collider2;
-   // sp38 = temp_a1_3;
+    Collider_SetTris(globalCtx, &this->collider3, &this->actor, &sTrisInit, THIS->collider3Items);
     Collider_InitQuad(globalCtx, &this->collider2);
-    Collider_SetQuad(globalCtx, &this->collider2, thisx, &sQuadInit);
-    tempParams = thisx->params;
-    switch(tempParams){
+    Collider_SetQuad(globalCtx, &this->collider2, &this->actor, &sQuadInit);
+     phi_v1 = this->actor.params;
+     switch (phi_v1){
         case -1:
             SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, &this->limbDrawTable,
                              &this->transitionDrawTable, 28);
-            thisx->colChkInfo.health = 2;
-            thisx->colChkInfo.mass = 0xFE;
+            this->actor.colChkInfo.health = 2;
+            this->actor.colChkInfo.mass = 0xFE;
             this->unk_360 = 1000.0f;
             this->unk_364 = 1750.0f;
-            func_80AA6830(thisx);
+            func_80AA6830(&this->actor);
             return;
         case 0:
             SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, &this->limbDrawTable,
                              &this->transitionDrawTable, 28);
-            thisx->colChkInfo.health = 6;
-            thisx->colChkInfo.mass = 0xFF;
-            thisx->colChkInfo.damageTable = &sDamageTable2;
-            Actor_SetScale(thisx, 0.02f);
+            this->actor.colChkInfo.health = 6;
+            this->actor.colChkInfo.mass = 0xFF;
+            this->actor.colChkInfo.damageTable = &sDamageTable2;
+            Actor_SetScale(&this->actor, 0.02f);
             this->collider1.dim.height = 0xAA;
             this->collider1.dim.radius = 0x2D;
-            thisx->uncullZoneForward = 4000.0f;
-            thisx->uncullZoneScale = 800.0f;
-            thisx->uncullZoneDownward = 1800.0f;
-           // this->collider2.body.toucher.flags = 0x20000000;
+            this->actor.uncullZoneForward = 4000.0f;
+            this->actor.uncullZoneScale = 800.0f;
+            this->actor.uncullZoneDownward = 1800.0f;
             this->unk_364 = 710.0f;
-            // temp_a1_4 = thisx->posRot.rot.y;
-            temp_a0_2 = (thisx->posRot.rot.y - Math_Vec3f_Yaw(&thisx->posRot, &player->actor.posRot));
+            this->collider2.body.toucher.flags = 0x20000000;
+            temp_a0_2 = (this->actor.posRot.rot.y - Math_Vec3f_Yaw(&this->actor.posRot, &player->actor.posRot));
             if (temp_a0_2 >= 0) {
                 phi_v1 = temp_a0_2;
             } else {
                 phi_v1 = 0 - temp_a0_2;
             }
             if (phi_v1 >= 0x4001) {
-                thisx->posRot.rot.y = (thisx->posRot.rot.y + 0x8000);
-                thisx->shape.rot.y = thisx->posRot.rot.y;
-                thisx->posRot.pos.z = (thisx->posRot.pos.z + 600.0f);
+                this->actor.posRot.rot.y = THIS->actor.posRot.rot.y + 0x8000;
+                this->actor.shape.rot.y =  THIS->actor.posRot.rot.y;
+                this->actor.posRot.pos.z = THIS->actor.posRot.pos.z + 600.0f;
             }
-            thisx->flags = (thisx->flags & -2);
-            ActorShape_Init(&thisx->shape, 0.0f, (void*)&ActorShadow_DrawFunc_Teardrop, 90.0f);
-            thisx->naviEnemyId = (s16)(thisx->naviEnemyId + 1);
+            ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Teardrop, 90.0f);
+            this->actor.flags &= -2;// (thisx->flags & -2);
+            this->actor.naviEnemyId++;
             func_80AA6898(this);
             return;
     }
-   /* if (tempParams != -1) {
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, &this->limbDrawTable,
-                         &this->transitionDrawTable, 28);
-        thisx->colChkInfo.health = 2;
-        thisx->colChkInfo.mass = 0xFE;
-        this->unk_360 = 1000.0f;
-        this->unk_364 = 1750.0f;
-        func_80AA6830(thisx);
-        return;
-    }
-    if (tempParams != 0) {
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, &this->limbDrawTable,
-                         &this->transitionDrawTable, 28);
-        thisx->colChkInfo.health = 6;
-        thisx->colChkInfo.mass = 0xFF;
-        thisx->colChkInfo.damageTable = &sDamageTable2;
-        Actor_SetScale(thisx, 0.02f);
-        this->collider1.dim.height = 0xAA;
-        this->collider1.dim.radius = 0x2D;
-        thisx->uncullZoneForward = 4000.0f;
-        thisx->uncullZoneScale = 800.0f;
-        thisx->uncullZoneDownward = 1800.0f;
-        this->collider2.body.toucher.flags = 0x20000000;
-        this->unk_364 = 710.0f;
-      //  temp_a1_4 = thisx->posRot.rot.y;
-        temp_a0_2 = (thisx->posRot.rot.y - Math_Vec3f_Yaw(&thisx->posRot, &player->actor.posRot));
-        if (temp_a0_2 >= 0) {
-            phi_v1 = temp_a0_2;
-        } else {
-            phi_v1 = 0 - temp_a0_2;
-        }
-        if (phi_v1 >= 0x4001) {
-            thisx->posRot.rot.y = (thisx->posRot.rot.y + 0x8000);
-            thisx->shape.rot.y = thisx->posRot.rot.y;
-            thisx->posRot.pos.z = (thisx->posRot.pos.z + 600.0f);
-        }
-        ActorShape_Init(&thisx->shape, 0.0f, (void*)&ActorShadow_DrawFunc_Teardrop, 90.0f);
-        thisx->flags = (thisx->flags & -2);
-        thisx->naviEnemyId = (thisx->naviEnemyId + 1);
-        func_80AA6898(this);
-        return;
-    }*/
+
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, &this->limbDrawTable, &this->transitionDrawTable, 28);
-    Actor_SetScale(thisx, 0.014f);
-    this->unk_35D = (thisx->params & 0xFF00);
-    thisx->params = 1;
+    Actor_SetScale(&this->actor, 0.014f);
+    this->unk_35D = (THIS->actor.params & 0xFF00) >>8;
+    this->actor.params = 1;
     this->unk_35C = 0;
-    thisx->colChkInfo.health = 1;
-    thisx->colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.health = 1;
+    this->actor.colChkInfo.mass = 0xFE;
     this->unk_360 = 350.0f;
-    thisx->flags = (thisx->flags & -2);
     this->unk_364 = 1750.0f;
-    func_80AA68FC(this, globalCtx);
+    this->actor.flags &= -2;// (thisx->flags & -2);
+    func_80AA68FC(THIS, globalCtx);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Destroy.s")
