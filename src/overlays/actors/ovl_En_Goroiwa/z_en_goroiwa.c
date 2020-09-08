@@ -294,7 +294,6 @@ bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     result = Math_ApproxF(&this->actor.posRot.pos.x, pointPos->x, fabsf(this->actor.velocity.x)) & 1;
     result &= Math_ApproxF(&this->actor.posRot.pos.z, pointPos->z, fabsf(this->actor.velocity.z));
     this->actor.posRot.pos.y += this->actor.velocity.y;
-
     return result;
 }
 
