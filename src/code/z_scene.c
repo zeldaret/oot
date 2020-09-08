@@ -336,7 +336,7 @@ void func_80098B74(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.segment);
     for (i = 0; i < cmd->lightList.num; i++) {
-        Lights_Insert(globalCtx, &globalCtx->lightCtx, lightInfo);
+        LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
         lightInfo++;
     }
 }

@@ -113,7 +113,7 @@ glabel EnMThunder_Update
 /* 00CE0 80A9FCC0 46040182 */  mul.s   $f6, $f0, $f4              
 /* 00CE4 80A9FCC4 4600320D */  trunc.w.s $f8, $f6                   
 /* 00CE8 80A9FCC8 440C4000 */  mfc1    $t4, $f8                   
-/* 00CEC 80A9FCCC 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00CEC 80A9FCCC 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 00CF0 80A9FCD0 AFAC001C */  sw      $t4, 0x001C($sp)           
 /* 00CF4 80A9FCD4 8FBF002C */  lw      $ra, 0x002C($sp)           

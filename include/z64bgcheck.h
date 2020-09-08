@@ -198,6 +198,6 @@ typedef struct {
     /* 0x20 */ s32 chkOneFace; // bccFlags & 0x8
     /* 0x24 */ f32* distSq;    // distance from posA to poly squared
     /* 0x28 */ f32 chkDist;    // distance from poly
-} DynaLineTest;                   // dyna ?
+} DynaLineTest;
 
 #endif

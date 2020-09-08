@@ -17,7 +17,7 @@ glabel BgSpot00Hanebasi_Destroy
 /* 00444 808A9BC4 24E507A8 */  addiu   $a1, $a3, 0x07A8           ## $a1 = 000007A8
 /* 00448 808A9BC8 05E20004 */  bltzl   $t7, .L808A9BDC            
 /* 0044C 808A9BCC 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00450 808A9BD0 0C01E9F1 */  jal     Lights_Remove
+/* 00450 808A9BD0 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00454 808A9BD4 8C46016C */  lw      $a2, 0x016C($v0)           ## 0000016C
 /* 00458 808A9BD8 8FBF0014 */  lw      $ra, 0x0014($sp)           

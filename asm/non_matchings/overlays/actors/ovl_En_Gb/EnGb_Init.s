@@ -85,7 +85,7 @@ glabel EnGb_Init
 /* 0014C 80A2F2CC 26500370 */  addiu   $s0, $s2, 0x0370           ## $s0 = 00000370
 /* 00150 80A2F2D0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000370
 /* 00154 80A2F2D4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00158 80A2F2D8 0C01E9D9 */  jal     Lights_Insert
+/* 00158 80A2F2D8 0C01E9D9 */  jal     LightContext_InsertLight
 
 /* 0015C 80A2F2DC 266507A8 */  addiu   $a1, $s3, 0x07A8           ## $a1 = 000007A8
 /* 00160 80A2F2E0 C6440008 */  lwc1    $f4, 0x0008($s2)           ## 00000008
@@ -112,7 +112,7 @@ glabel EnGb_Init
 /* 001B4 80A2F334 AFAC0018 */  sw      $t4, 0x0018($sp)
 /* 001B8 80A2F338 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 001BC 80A2F33C AFAA0010 */  sw      $t2, 0x0010($sp)
-/* 001C0 80A2F340 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 001C0 80A2F340 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 001C4 80A2F344 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000370
 /* 001C8 80A2F348 4480C000 */  mtc1    $zero, $f24                ## $f24 = 0.00
