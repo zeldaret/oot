@@ -15,7 +15,6 @@ typedef struct BossMoParticle {
     /* 0x24 */ u8 unk_24;
     /* 0x25 */ u8 unk_25;
     /* 0x26 */ u8 unk_26;
-    /* 0x27 */ u8 unk_27; // unused?
     /* 0x28 */ s16 unk_28; // unused?
     /* 0x2A */ s16 unk_2A;
     /* 0x2C */ s16 unk_2C;
@@ -33,7 +32,6 @@ typedef struct BossMo {
     /* 0x0154 */ u8 unk_154;
     /* 0x0155 */ u8 unk_155;
     /* 0x0156 */ u8 unk_156;
-    ///* 0x0157 */ char unk_157;
     /* 0x0158 */ s16 unk_158;
     /* 0x015A */ s16 unk_15A;
     /* 0x015C */ s16 unk_15C;
@@ -76,20 +74,17 @@ typedef struct BossMo {
     /* 0x01D0 */ u8 unk_1D0; //unused?
     /* 0x01D1 */ u8 unk_1D1;
     /* 0x01D2 */ u8 unk_1D2;
-    ///* 0x01D3 */ char unk_1D3;
     /* 0x01D4 */ Vec3f unk_1D4;
     /* 0x01E0 */ f32 unk_1E0;
     /* 0x01E4 */ Vec3f unk_1E4;
     /* 0x01F0 */ s16 unk_1F0;
     /* 0x01F2 */ s16 unk_1F2;
     /* 0x01F4 */ s16 unk_1F4;
-    ///* 0x01F6 */ char unk_1F6[2];
     /* 0x01F8 */ f32 unk_1F8[300];
     /* 0x06A8 */ Vec3f unk_6A8[41]; 
     /* 0x087C */ Vec3f unk_894[41];
     /* 0x0A68 */ Vec3f unk_A80[41];
     /* 0x0C60 */ Vec3s unk_C6C[41];
-    ///* 0x0D62 */ char unk_D62[2];
     /* 0x0D64 */ f32 unk_D64;
     /* 0x0D68 */ f32 unk_D68;
     /* 0x0D6C */ f32 unk_D6C;
@@ -98,7 +93,6 @@ typedef struct BossMo {
     /* 0x0F60 */ s16 unk_F60;
     /* 0x0F62 */ s16 unk_F62;
     /* 0x0F64 */ s16 unk_F64;
-    ///* 0x0F66 */ char unk_F66[2];
     /* 0x0F68 */ Vec3f unk_F68;
     /* 0x0F74 */ Vec3f unk_F74;
     /* 0x0F80 */ Vec3f unk_F80;
