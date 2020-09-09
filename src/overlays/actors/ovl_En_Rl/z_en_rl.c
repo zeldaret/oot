@@ -139,8 +139,7 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
     s16 sceneNum = globalCtx->sceneNum;
 
     if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0 &&
-          globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 &&
-          !this->unk_1A8) {
+        globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 && !this->unk_1A8) {
         player = PLAYER;
         pos.x = player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y + 80.0f;
@@ -344,9 +343,9 @@ void EnRl_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->action < 0) || (this->action > 7) || (sActionFuncs[this->action] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
-    } else {
-        sActionFuncs[this->action](this, globalCtx);
+        return;
     }
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void EnRl_Init(Actor* thisx, GlobalContext* globalCtx) {
