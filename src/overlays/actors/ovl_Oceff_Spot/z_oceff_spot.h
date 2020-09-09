@@ -10,10 +10,10 @@ typedef void (*OceffSpotActionFunc)(struct OceffSpot*, GlobalContext*);
 
 typedef struct OceffSpot {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ z_Light* light1;
-    /* 0x0150 */ LightInfoPositional lightInfo1;
-    /* 0x0160 */ z_Light* light2;
-    /* 0x0164 */ LightInfoPositional lightInfo2;
+    /* 0x014C */ LightNode* lightNode1;
+    /* 0x0150 */ LightInfo lightInfo1;
+    /* 0x0160 */ LightNode* lightNode2;
+    /* 0x0164 */ LightInfo lightInfo2;
     /* 0x0174 */ f32 unk_174;
     /* 0x0178 */ u16 timer;
     /* 0x017C */ OceffSpotActionFunc actionFunc;

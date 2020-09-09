@@ -28,12 +28,12 @@ glabel func_800E1C78
 .L800E1CE0:
 /* B58E80 800E1CE0 8E020000 */  lw    $v0, ($s0)
 /* B58E84 800E1CE4 24010001 */  li    $at, 1
-/* B58E88 800E1CE8 3C198017 */  lui   $t9, %hi(D_801719B8) # $t9, 0x8017
+/* B58E88 800E1CE8 3C198017 */  lui   $t9, %hi(gAudioContext+0x2838) # $t9, 0x8017
 /* B58E8C 800E1CEC 00021900 */  sll   $v1, $v0, 4
 /* B58E90 800E1CF0 00031F82 */  srl   $v1, $v1, 0x1e
 /* B58E94 800E1CF4 1461000B */  bne   $v1, $at, .L800E1D24
 /* B58E98 800E1CF8 00603825 */   move  $a3, $v1
-/* B58E9C 800E1CFC 8F3919B8 */  lw    $t9, %lo(D_801719B8)($t9)
+/* B58E9C 800E1CFC 8F3919B8 */  lw    $t9, %lo(gAudioContext+0x2838)($t9)
 /* B58EA0 800E1D00 3C0100FF */  lui   $at, (0x00FFFFFF >> 16) # lui $at, 0xff
 /* B58EA4 800E1D04 3421FFFF */  ori   $at, (0x00FFFFFF & 0xFFFF) # ori $at, $at, 0xffff
 /* B58EA8 800E1D08 8E040004 */  lw    $a0, 4($s0)

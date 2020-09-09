@@ -1285,7 +1285,7 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 #else
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
-#endif // NON_MATCHING
+#endif
 
 #ifdef NON_MATCHING
 // Green EffectSpark
@@ -1341,7 +1341,7 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 #else
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
-#endif // NON_MATCHING
+#endif
 
 void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     func_800299AC(globalCtx, v);
@@ -2934,7 +2934,7 @@ void func_800628A4(s32 arg0, ColliderJntSph* collider) {
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800628A4.s")
-#endif // NON_MATCHING
+#endif
 
 #ifdef NON_MATCHING
 // Purple EffectSpark
@@ -2989,7 +2989,7 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062A28.s")
-#endif // NON_MATCHING
+#endif
 
 #ifdef NON_MATCHING
 // White EffectSpark (Bubbles?)
@@ -3044,7 +3044,7 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
-#endif // NON_MATCHING
+#endif
 
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     static EffectShieldParticleInit init = {
@@ -3068,9 +3068,9 @@ void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     init.position.x = (s32)v->x;
     init.position.y = (s32)v->y;
     init.position.z = (s32)v->z;
-    init.lightParams.posX = init.position.x;
-    init.lightParams.posY = init.position.y;
-    init.lightParams.posZ = init.position.z;
+    init.lightPoint.x = init.position.x;
+    init.lightPoint.y = init.position.y;
+    init.lightPoint.z = init.position.z;
 
     Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
 }
@@ -3111,9 +3111,9 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     init.position.x = (s32)v->x;
     init.position.y = (s32)v->y;
     init.position.z = (s32)v->z;
-    init.lightParams.posX = init.position.x;
-    init.lightParams.posY = init.position.y;
-    init.lightParams.posZ = init.position.z;
+    init.lightPoint.x = init.position.x;
+    init.lightPoint.y = init.position.y;
+    init.lightPoint.z = init.position.z;
 
     Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
