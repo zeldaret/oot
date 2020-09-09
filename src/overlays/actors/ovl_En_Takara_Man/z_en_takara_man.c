@@ -15,7 +15,9 @@ void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx);
+
+
 const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
     ACTORTYPE_NPC,
@@ -27,8 +29,17 @@ const ActorInit En_Takara_Man_InitVars = {
     (ActorFunc)EnTakaraMan_Update,
     (ActorFunc)EnTakaraMan_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/EnTakaraMan_Destroy.s")
+
+u8 D_80B17DD0 = 0;
+
+UNK_PTR sTakaraEyeTextures[] = {
+    0x06000970,
+    0x06000D70,
+};
+
+void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/EnTakaraMan_Init.s")
 

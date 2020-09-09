@@ -28,7 +28,7 @@ glabel EnTakaraMan_Draw
 /* 00790 80B17CF0 3C19DB06 */  lui     $t9, 0xDB06                ## $t9 = DB060000
 /* 00794 80B17CF4 37390020 */  ori     $t9, $t9, 0x0020           ## $t9 = DB060020
 /* 00798 80B17CF8 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
-/* 0079C 80B17CFC 3C0480B1 */  lui     $a0, %hi(D_80B17DD4)       ## $a0 = 80B10000
+/* 0079C 80B17CFC 3C0480B1 */  lui     $a0, %hi(sTakaraEyeTextures)       ## $a0 = 80B10000
 /* 007A0 80B17D00 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 007A4 80B17D04 24780008 */  addiu   $t8, $v1, 0x0008           ## $t8 = 00000008
 /* 007A8 80B17D08 ACB802C0 */  sw      $t8, 0x02C0($a1)           ## 000002C0
@@ -38,7 +38,7 @@ glabel EnTakaraMan_Draw
 /* 007B8 80B17D18 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 007BC 80B17D1C 00084880 */  sll     $t1, $t0,  2
 /* 007C0 80B17D20 00892021 */  addu    $a0, $a0, $t1
-/* 007C4 80B17D24 8C847DD4 */  lw      $a0, %lo(D_80B17DD4)($a0)
+/* 007C4 80B17D24 8C847DD4 */  lw      $a0, %lo(sTakaraEyeTextures)($a0)
 /* 007C8 80B17D28 3C1980B1 */  lui     $t9, %hi(func_80B17C4C)    ## $t9 = 80B10000
 /* 007CC 80B17D2C 27397C4C */  addiu   $t9, $t9, %lo(func_80B17C4C) ## $t9 = 80B17C4C
 /* 007D0 80B17D30 00045900 */  sll     $t3, $a0,  4
