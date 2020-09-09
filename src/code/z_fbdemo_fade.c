@@ -36,11 +36,10 @@ void TransitionFade_Destroy(TransitionFade* this) {
 }
 
 #ifdef NON_MATCHING
-// ordering differences
+// Ordering differences around alpha temp
 void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
-    char pad[2];
-    s16 newAlpha;
     s32 alpha;
+    s16 newAlpha;
 
     switch (this->fadeType) {
         case 0:
@@ -56,17 +55,17 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
             alpha = (this->fadeTimer * 255.0f) / gSaveContext.fadeDuration;
-            this->fadeColor.a = this->fadeDirection != 0 ? 0xFF - alpha : alpha;
+            this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
             break;
         case 2:
             newAlpha = this->fadeColor.a;
             if (iREG(50) != 0) {
                 if (iREG(50) < 0) {
-                    if (Math_ApproxS(&newAlpha, 0xFF, 0xFF) != 0) {
-                        iREG(50) = 0x96;
+                    if (Math_ApproxS(&newAlpha, 255, 255) != 0) {
+                        iREG(50) = 150;
                     }
                 } else {
-                    Math_ApproxS(&iREG(50), 0x14, 0x3C);
+                    Math_ApproxS(&iREG(50), 20, 60);
                     if (Math_ApproxS(&newAlpha, 0, iREG(50)) != 0) {
                         iREG(50) = 0;
                         this->isDone = 1;

@@ -425,7 +425,7 @@ glabel ObjSyokudai_Update
 /* 00800 80B9FAB0 260401EC */  addiu   $a0, $s0, 0x01EC           ## $a0 = 000001EC
 /* 00804 80B9FAB4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00808 80B9FAB8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
-/* 0080C 80B9FABC 0C01E796 */  jal     Lights_SetPositionalLightColorAndRadius
+/* 0080C 80B9FABC 0C01E796 */  jal     Lights_PointSetColorAndRadius
               
 /* 00810 80B9FAC0 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00814 80B9FAC4 920F01E6 */  lbu     $t7, 0x01E6($s0)           ## 000001E6

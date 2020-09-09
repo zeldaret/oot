@@ -25,7 +25,7 @@ glabel BgPoSyokudai_Init
 /* 00044 808A80F4 26060154 */  addiu   $a2, $s0, 0x0154           ## $a2 = 00000154
 /* 00048 808A80F8 AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 0004C 808A80FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00050 808A8100 0C01E9D9 */  jal     Lights_Insert
+/* 00050 808A8100 0C01E9D9 */  jal     LightContext_InsertLight
 /* 00054 808A8104 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 00058 808A8108 C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028
 /* 0005C 808A810C C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
@@ -50,7 +50,7 @@ glabel BgPoSyokudai_Init
 /* 000A8 808A8158 00063403 */  sra     $a2, $a2, 16               
 /* 000AC 808A815C AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 000B0 808A8160 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 000B4 808A8164 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 000B4 808A8164 0C01E77C */  jal     Lights_PointGlowSetInfo
 /* 000B8 808A8168 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000BC 808A816C 26050164 */  addiu   $a1, $s0, 0x0164           ## $a1 = 00000164
 /* 000C0 808A8170 AFA5003C */  sw      $a1, 0x003C($sp)           
