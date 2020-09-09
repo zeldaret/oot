@@ -3175,7 +3175,7 @@ endseg
 beginseg
     name "ovl_En_Takara_Man"
     include "build/src/overlays/actors/ovl_En_Takara_Man/z_en_takara_man.o"
-    include "build/data/overlays/actors/z_en_takara_man.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Takara_Man/ovl_En_Takara_Man_reloc.o"
 endseg
 
 beginseg
