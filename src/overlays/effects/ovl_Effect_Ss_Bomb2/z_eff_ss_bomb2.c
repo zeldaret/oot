@@ -30,24 +30,15 @@ EffectSsInit Effect_Ss_Bomb2_InitVars = {
     EffectSsBomb2_Init,
 };
 
-static void* sDrawFuncs[] = {
-    EffectSsBomb2_DrawFade,
-    EffectSsBomb2_DrawLayered,
-};
-
-static UNK_PTR D_8099FEE0[] = {
-    0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
-};
-
-static UNK_PTR D_8099FF00[] = {
-    0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
-};
-
 extern Gfx D_0400BF80[];
 extern Gfx D_0400BFE8[];
 extern Gfx D_0400C040[];
 
 u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    static void* sDrawFuncs[] = {
+        EffectSsBomb2_DrawFade,
+        EffectSsBomb2_DrawLayered,
+    };
     EffectSsBomb2InitParams* initParams = (EffectSsBomb2InitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
@@ -72,6 +63,9 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 
 // unused in the original game. looks like EffectSsBomb but with color
 void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static UNK_PTR textures[] = {
+        0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
+    };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp11C;
     MtxF spDC;
@@ -98,7 +92,7 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
                         this->regs[SS_BOMB2_PRIM_B], this->regs[SS_BOMB2_PRIM_A]);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_BOMB2_ENV_R], this->regs[SS_BOMB2_ENV_G],
                        this->regs[SS_BOMB2_ENV_B], 0);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099FEE0[this->regs[SS_BOMB2_TEX_IDX]]));
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->regs[SS_BOMB2_TEX_IDX]]));
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
         if (1) {}
         if (1) {}
@@ -108,6 +102,9 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
 }
 
 void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static UNK_PTR textures[] = {
+        0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
+    };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp1B4;
     MtxF sp174;
@@ -142,7 +139,7 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
                             this->regs[SS_BOMB2_PRIM_B], this->regs[SS_BOMB2_PRIM_A]);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_BOMB2_ENV_R], this->regs[SS_BOMB2_ENV_G],
                            this->regs[SS_BOMB2_ENV_B], 0);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8099FF00[this->regs[SS_BOMB2_TEX_IDX]]));
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->regs[SS_BOMB2_TEX_IDX]]));
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_0400BFE8);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_0400C040);
 
@@ -158,7 +155,6 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
                 mtxScale -= 0.15f;
             }
         }
-
         if (1) {}
         if (1) {}
     }

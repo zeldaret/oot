@@ -237,7 +237,7 @@ void EffectSsKiraKira_SpawnSmall(GlobalContext* globalCtx, Vec3f* pos, Vec3f* ve
 }
 
 void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                            Color_RGBA8* envColor, s16 scale, s32 life) {
+                   Color_RGBA8* envColor, s16 scale, s32 life) {
     EffectSsKiraKiraInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -320,15 +320,15 @@ void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* vel
 
 // EffectSsBlast Spawn Functions
 
-void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
-                         Color_RGBA8* primColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
+void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                         Color_RGBA8* envColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
-    Color_RGBA8_Copy(&initParams.envColor, envColor);
     Color_RGBA8_Copy(&initParams.primColor, primColor);
+    Color_RGBA8_Copy(&initParams.envColor, envColor);
     initParams.radius = radius;
     initParams.radiusStep = radiusStep;
     initParams.radiusStepDecr = radiusStepDecr;
