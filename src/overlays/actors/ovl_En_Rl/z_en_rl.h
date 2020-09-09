@@ -17,7 +17,7 @@ typedef struct EnRl {
     /* 0x0194 */ s32 action;
     /* 0x0198 */ s32 drawConfig;
     /* 0x019C */ f32 unk_19C;
-    /* 0x01A0 */ s32 unk_1A0;
+    /* 0x01A0 */ s32 alpha;
     /* 0x01A4 */ u32 unk_1A4;
     /* 0x01A8 */ s32 unk_1A8;
 } EnRl; // size = 0x01AC
