@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 def apply(config, args):
     config['mapfile'] = 'build/z64.map'
     config['myimg'] = 'zelda_ocarina_mq_dbg.z64'
