@@ -69,12 +69,12 @@ extern Gfx D_0400D340[];
 extern Gfx D_060006B0[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
-    static f32 D_80A4DEC4[] = { 0.0f, 59.5f };
+    static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
 
     Sphere16* worldSphere = &this->collider.list->dim.worldSphere;
 
     worldSphere->center.x = this->actor.posRot.pos.x;
-    worldSphere->center.y = D_80A4DEC4[(this->actor.params >> 10) & 1] + this->actor.posRot.pos.y;
+    worldSphere->center.y = this->actor.posRot.pos.y + colliderHeightOffset[(this->actor.params >> 10) & 1];
     worldSphere->center.z = this->actor.posRot.pos.z;
 }
 
