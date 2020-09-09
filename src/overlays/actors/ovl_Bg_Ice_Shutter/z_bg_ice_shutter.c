@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_ice_shutter.h"
+#include "sfx.h"
 
 #define FLAGS 0x00000010
 
@@ -16,7 +17,6 @@ void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80891CF4(BgIceShutter* thisx, GlobalContext* globalCtx);
-void func_80891AC0(BgIceShutter* thisx);
 void func_80891D6C(BgIceShutter* thisx, GlobalContext* globalCtx);
 void func_80891DD4(BgIceShutter* thisx, GlobalContext* globalCtx);
 
@@ -52,7 +52,7 @@ void func_80891AC0(BgIceShutter* thisx) {
 }
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
-    f32 pad;
+    BgIceShutter* this = THIS;
     f32 sp24;
     s32 localC;
     s32 sp28;
@@ -60,26 +60,28 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     localC = 0;
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&THIS->dyna, 0);
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
     sp28 = thisx->params & 0xFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
     DynaPolyInfo_Alloc(&D_06002854, &localC);
-    THIS->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
     if (sp28 == 2) {
-        thisx->shape.rot.x = (s16)(-0x4000);
+        thisx->shape.rot.x = -0x4000;
     }
 
     if (sp28 != 1) {
-        if (Flags_GetClear(globalCtx, thisx->room) != 0) {
+        if (Flags_GetClear(globalCtx, thisx->room)) {
             Actor_Kill(thisx);
         } else {
-            THIS->actionFunc = &func_80891CF4;
+            this->actionFunc = func_80891CF4;
         }
 
-    } else if (Flags_GetSwitch(globalCtx, thisx->params) != 0) {
-        Actor_Kill(thisx);
     } else {
-        THIS->actionFunc = &func_80891D6C;
+        if (Flags_GetSwitch(globalCtx, thisx->params)) {
+            Actor_Kill(thisx);
+        } else {
+            this->actionFunc = func_80891D6C;
+        }
     }
 
     if (sp28 == 2) {
@@ -87,43 +89,42 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->posRot2.pos.x = (Math_Sins(thisx->shape.rot.y) * temp_f6) + thisx->initPosRot.pos.x;
         thisx->posRot2.pos.y = thisx->initPosRot.pos.y;
         thisx->posRot2.pos.z = thisx->initPosRot.pos.z + (Math_Coss(thisx->shape.rot.y) * temp_f6);
-        return;
+    } else {
+        Actor_SetHeight(thisx, 50.0f);
     }
-
-    Actor_SetHeight(thisx, 50.0f);
 }
 
 void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, THIS->dyna.dynaPolyId);
 }
 
-void func_80891CF4(BgIceShutter* thisx, GlobalContext* globalCtx) {
-    if (Flags_GetTempClear(globalCtx, thisx->dyna.actor.room) != 0) {
-        Flags_SetClear(globalCtx, thisx->dyna.actor.room);
-        Audio_PlaySoundAtPosition(globalCtx, &(thisx->dyna.actor.posRot), 0x1E, 0x2814);
-        thisx->actionFunc = &func_80891DD4;
-        if (thisx->dyna.actor.shape.rot.x == 0) {
-            func_80080480(globalCtx, thisx);
+void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {
+    if (Flags_GetTempClear(globalCtx, this->dyna.actor.room) != 0) {
+        Flags_SetClear(globalCtx, this->dyna.actor.room);
+        Audio_PlaySoundAtPosition(globalCtx, &(this->dyna.actor.posRot), 0x1E, 0x2814);
+        this->actionFunc = &func_80891DD4;
+        if (this->dyna.actor.shape.rot.x == 0) {
+            func_80080480(globalCtx, this);
         }
     }
 }
 
-void func_80891D6C(BgIceShutter* thisx, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, thisx->dyna.actor.params) != 0) {
-        Audio_PlaySoundAtPosition(globalCtx, &(thisx->dyna.actor.posRot), 0x1E, 0x2814);
-        thisx->actionFunc = &func_80891DD4;
-        func_80080480(globalCtx, thisx);
+void func_80891D6C(BgIceShutter* this, GlobalContext* globalCtx) {
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) != 0) {
+        Audio_PlaySoundAtPosition(globalCtx, &(this->dyna.actor.posRot), 0x1E, NA_SE_EV_SLIDE_DOOR_OPEN);
+        this->actionFunc = &func_80891DD4;
+        func_80080480(globalCtx, this);
     }
 }
 
-void func_80891DD4(BgIceShutter* thisx, GlobalContext* globalCtx) {
-    Math_ApproxF(&thisx->dyna.actor.speedXZ, 30.0f, 2.0f);
-    if (Math_ApproxF(&thisx->dyna.actor.velocity.y, 210.0f, thisx->dyna.actor.speedXZ) != 0) {
-        Actor_Kill(thisx);
+void func_80891DD4(BgIceShutter* this, GlobalContext* globalCtx) {
+    Math_ApproxF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
+    if (Math_ApproxF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
+        Actor_Kill(this);
         return;
     }
 
-    func_80891AC0(thisx);
+    func_80891AC0(this);
 }
 
 void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
