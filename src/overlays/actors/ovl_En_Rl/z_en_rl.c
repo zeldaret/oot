@@ -44,15 +44,15 @@ void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AE72D0(EnRl* this) {
     s32 pad[3];
     s16* timer = &this->timer;
-    s16* unk_190 = &this->unk_190;
+    s16* eyeTextureIndex = &this->eyeTextureIndex;
 
     if (DECR(*timer) == 0) {
         *timer = Math_Rand_S16Offset(60, 60);
     }
 
-    *unk_190 = *timer;
-    if (*unk_190 > 2) {
-        *unk_190 = 0;
+    *eyeTextureIndex = *timer;
+    if (*eyeTextureIndex > 2) {
+        *eyeTextureIndex = 0;
     }
 }
 
@@ -279,7 +279,7 @@ void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE7BF8(EnRl* this, s32 arg1) {
-    if (arg1) {
+    if (arg1 != 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06000830, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_06000830.genericHeader), 0, 0.0f);
         this->action = 7;
@@ -319,7 +319,7 @@ void func_80AE7D40(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s16 temp = this->unk_190;
+    s16 temp = this->eyeTextureIndex;
     s32 addr = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -363,7 +363,7 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s16 temp = this->unk_190;
+    s16 temp = this->eyeTextureIndex;
     s32 addr = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
