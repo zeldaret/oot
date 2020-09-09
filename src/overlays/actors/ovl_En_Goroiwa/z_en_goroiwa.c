@@ -469,7 +469,7 @@ void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
-    static f32 D_80A4DEF0[] = { 0.0f, 59.5f };
+    static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
 
     s16 angle1;
     s16 angle2;
@@ -490,7 +490,7 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
         angle2 = Math_Rand_ZeroOne() * 65535.0f;
         effectPos.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
         temp_f20_2 = Math_Sins(angle2);
-        effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + D_80A4DEF0[temp_v0];
+        effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
         effectPos.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
         effectVelocity.x = effectPos.x * 0.2f;
         effectVelocity.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
@@ -501,7 +501,7 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
 
     effectPos.x = thisPos->x;
-    effectPos.y = thisPos->y + D_80A4DEF0[temp_v0];
+    effectPos.y = thisPos->y + colliderHeightOffset[temp_v0];
     effectPos.z = thisPos->z;
     func_80033480(globalCtx, &effectPos, 80.0f, 5, 70, 110, 1);
     func_80033480(globalCtx, &effectPos, 90.0f, 5, 110, 160, 1);
