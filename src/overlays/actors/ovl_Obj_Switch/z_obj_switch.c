@@ -49,25 +49,9 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx);
 
-extern Gfx D_05005800[]; // floor switch, regular
 extern Gfx D_05005AD0[]; // floor switch, rusty
-extern Gfx D_05005D50[]; // floor switch, blue
 extern UNK_TYPE D_05005FB8;
-extern Gfx D_05006170[]; // floor switch, red
-extern Gfx D_05006610[]; // eye switch (without the eye?), yellow
-extern Gfx D_05006810[]; // same, silver
-extern Gfx D_05006D10[]; // crystal switch (base + (colored?) inner crystal)
-extern Gfx D_05006E60[]; // crystal switch (outer crystal layer)
-extern Gfx D_05007340[]; // crystal switch (base + (uncolored?) inner crystal)
-extern Gfx D_05007488[]; // crystal switch (outer crystal layer)
 // rgba16 32x32 textures
-extern UNK_TYPE D_050090A0[]; // yellow eye, closed (4/4)
-extern UNK_TYPE D_050098A0[]; // yellow eye, almost open (2/4)
-extern UNK_TYPE D_0500A0A0[]; // yellow eye, almost closed (3/4)
-extern UNK_TYPE D_0500A8A0[]; // yellow eye, open (1/4)
-extern UNK_TYPE D_0500B0A0[]; // silver eye, open (1/3)
-extern UNK_TYPE D_0500B8A0[]; // silver eye, half-closed (2/3)
-extern UNK_TYPE D_0500C0A0[]; // silver eye, closed (3/3)
 extern UNK_TYPE D_050144B0[]; // red plasma/cloud
 extern UNK_TYPE D_05014CB0[]; // blue plasma/cloud
 
@@ -136,12 +120,47 @@ static InitChainEntry sInitChain[] = {
 };
 
 // these 5 arrays are indexed by subtype
-static Gfx* floorDlists[] = { D_05005800, D_05006170, D_05005D50, D_05005D50 };
-static UNK_PTR eyeTextures[2][4] = { { D_0500A8A0, D_050098A0, D_0500A0A0, D_050090A0 },
-                                     { D_0500B0A0, D_0500B8A0, D_0500C0A0, D_0500C0A0 } };
-static Gfx* eyeDlists[] = { D_05006610, D_05006810 };
-static Gfx* crystalDlistsXLU[] = { D_05006E60, D_05007488, 0, 0, D_05006E60 };
-static Gfx* crystalDlistsOPA[] = { D_05006D10, D_05007340, 0, 0, D_05006D10 };
+static Gfx* floorDlists[] = {
+    0x05005800, // regular
+    0x05006170, // red
+    0x05005D50, // blue
+    0x05005D50, // blue
+};
+static UNK_PTR eyeTextures[2][4] = {
+    // rgba16 32x32 textures
+    // yellow eye
+    {
+        0x0500A8A0, // open
+        0x050098A0, // almost open
+        0x0500A0A0, // almost closed
+        0x050090A0, // closed
+    },
+    // silver eye
+    {
+        0x0500B0A0, // open
+        0x0500B8A0, // half-closed
+        0x0500C0A0, // closed
+        0x0500C0A0, // closed
+    },
+};
+static Gfx* eyeDlists[] = {
+    0x05006610, // eye switch (without the eye?), yellow
+    0x05006810, // same, silver
+};
+static Gfx* crystalDlistsXLU[] = {
+    0x05006E60, // crystal switch (outer crystal layer)
+    0x05007488, // crystal switch (outer crystal layer)
+    NULL,       // crystal subtypes 2, 3 don't exist
+    NULL,
+    0x05006E60, // crystal switch (outer crystal layer)
+};
+static Gfx* crystalDlistsOPA[] = {
+    0x05006D10, // crystal switch (base + (colored?) inner crystal)
+    0x05007340, // crystal switch (base + (uncolored?) inner crystal)
+    NULL,       // crystal subtypes 2, 3 don't exist
+    NULL,
+    0x05006D10, // crystal switch (base + (colored?) inner crystal)
+};
 
 void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
     f32 s = Math_Sins(angle);
