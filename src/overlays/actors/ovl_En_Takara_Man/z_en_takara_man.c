@@ -5,6 +5,7 @@
  */
 
 #include "z_en_takara_man.h"
+#include <vt.h>
 
 #define FLAGS 0x08000039
 
@@ -14,9 +15,15 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx);
+s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 Actor* thisx);
 
-void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx);
-
+void EnTakaraMan_InitAnimation(EnTakaraMan* this, GlobalContext* globalCtx);
+void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx);
+void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx);
+void EnTakaraMan_SetChoiceTextID(EnTakaraMan* this, GlobalContext* globalCtx);
+void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx);
+void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx);
 
 const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
@@ -30,33 +37,201 @@ const ActorInit En_Takara_Man_InitVars = {
     (ActorFunc)EnTakaraMan_Draw,
 };
 
-u8 D_80B17DD0 = 0;
+static u8 sTakaraIsInitialized = false;
 
-UNK_PTR sTakaraEyeTextures[] = {
-    0x06000970,
-    0x06000D70,
-};
+extern SkeletonHeader D_06004FE0;
+extern AnimationHeader D_06000498;
 
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/EnTakaraMan_Init.s")
+void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnTakaraMan* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/func_80B176E0.s")
+    if (sTakaraIsInitialized) {
+        Actor_Kill(thisx);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
+        return;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/func_80B1778C.s")
+    sTakaraIsInitialized = true;
+    osSyncPrintf("\n\n");
+    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST,
+                 globalCtx->actorCtx.flags.chest); // "Bun! %x" (needs a better translation)
+    globalCtx->actorCtx.flags.chest = 0;
+    gSaveContext.dungeonKeys[gSaveContext.mapIndex] = -1;
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl, this->transitionDrawTbl,
+                     10);
+    thisx->posRot2.pos = thisx->posRot.pos;
+    this->pos = thisx->posRot.pos;
+    thisx->posRot.pos.x = 133.0f;
+    thisx->posRot.pos.y = -12.0f;
+    thisx->posRot.pos.z = 102.0f;
+    Actor_SetScale(&this->actor, 0.013f);
+    this->eyePos = 90.0f;
+    this->curRoomNum = thisx->room;
+    thisx->room = 0xFF;
+    thisx->posRot.rot.y = thisx->shape.rot.y = -0x4E20;
+    thisx->unk_1F = 1;
+    this->actionFunc = EnTakaraMan_InitAnimation;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/func_80B17934.s")
+void EnTakaraMan_InitAnimation(EnTakaraMan* this, GlobalContext* globalCtx) {
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000498.genericHeader);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/func_80B17A6C.s")
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f); // cast required
+    if (!this->unk_214) {
+        this->actor.textId = 0x6D; // "Open the chest and..Surprise! ... 10 Rupees to play .. Yes/No"
+        this->dialogState = 4;
+    }
+    this->actionFunc = func_80B1778C;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/func_80B17AC4.s")
+void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
+    s16 yawDiff;
+    s16 yawDiffTemp;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/func_80B17B14.s")
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (func_8002F194(&this->actor, globalCtx) && this->dialogState != 6) {
+        if (!this->unk_214) {
+            this->actionFunc = EnTakaraMan_SetChoiceTextID;
+        } else {
+            this->actionFunc = func_80B17B14;
+        }
+    } else {
+        yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        if (globalCtx->roomCtx.curRoom.num == 6) {
+            if (!this->unk_21A) {
+                this->actor.textId = 0x6E; // "Great! You are a real gambler!"
+                this->unk_21A = 1;
+                this->dialogState = 6;
+            }
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/EnTakaraMan_Update.s")
+        if (!this->unk_21A && this->unk_214) {
+            if (Flags_GetSwitch(globalCtx, 0x32)) {
+                this->actor.textId = 0x84; // "Thanks a lot!"
+                this->dialogState = 5;
+            } else {
+                this->actor.textId = 0x704C; // "With that key, proceed to the room ahead. Go, go!"
+                this->dialogState = 6;
+            }
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/func_80B17C4C.s")
+        yawDiff = ABS(yawDiffTemp);
+        if (yawDiff < 0x4300) {
+            if (globalCtx->roomCtx.curRoom.num != this->curRoomNum) {
+                this->actor.flags &= ~1;
+                this->unk_218 = 0;
+            } else {
+                if (!this->unk_218) {
+                    this->actor.flags |= 1;
+                    this->unk_218 = 1;
+                }
+                func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            }
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Takara_Man/EnTakaraMan_Draw.s")
+void EnTakaraMan_SetChoiceTextID(EnTakaraMan* this, GlobalContext* globalCtx) {
+    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case CHOICE_YES:
+                if (gSaveContext.rupees >= 10) {
+                    func_80106CCC(globalCtx);
+                    Rupees_ChangeBy(-10);
+                    this->unk_214 = 1;
+                    this->actor.parent = NULL;
+                    func_8002F434(&this->actor, globalCtx, GI_DOOR_KEY, 2000.0f, 1000.0f);
+                    this->actionFunc = func_80B17A6C;
+                } else {
+                    func_80106CCC(globalCtx);
+                    this->actor.textId = 0x85; // "You don't have enough Rupees!"
+                    func_8010B720(globalCtx, this->actor.textId);
+                    this->dialogState = 5;
+                    this->actionFunc = func_80B17B14;
+                }
+                break;
+            case CHOICE_NO:
+                func_80106CCC(globalCtx);
+                this->actor.textId = 0x2D; // "All right. You don't have to play if you don't want to."
+                func_8010B720(globalCtx, this->actor.textId);
+                this->dialogState = 5;
+                this->actionFunc = func_80B17B14;
+                break;
+        }
+    }
+}
+
+void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actionFunc = func_80B17AC4;
+    } else {
+        func_8002F434(&this->actor, globalCtx, GI_DOOR_KEY, 2000.0f, 1000.0f);
+    }
+}
+
+void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+        this->actionFunc = EnTakaraMan_InitAnimation;
+    }
+}
+
+void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx) {
+    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
+        func_80106CCC(globalCtx);
+        this->actionFunc = EnTakaraMan_InitAnimation;
+    }
+}
+
+void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnTakaraMan* this = THIS;
+
+    if (this->eyeTimer != 0) {
+        this->eyeTimer--;
+    }
+    Actor_SetHeight(&this->actor, this->eyePos);
+    func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.posRot2.pos);
+    if (this->eyeTimer == 0) {
+        this->eyeTextureIdx++;
+        if (this->eyeTextureIdx >= 2) {
+            this->eyeTextureIdx = 0;
+            this->eyeTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+        }
+    }
+    this->unk_212++;
+    this->actionFunc(this, globalCtx);
+}
+
+s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 Actor* thisx) {
+    EnTakaraMan* this = THIS;
+
+    if (limbIndex == 1) {
+        rot->x += this->unk_232.y;
+    }
+    if (limbIndex == 8) {
+        rot->x += this->unk_22C.y;
+        rot->z += this->unk_22C.z;
+    }
+    return 0;
+}
+
+void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_PTR sTakaraEyeTextures[] = {
+        0x06000970,
+        0x06000D70,
+    };
+
+    EnTakaraMan* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 528);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTakaraEyeTextures[this->eyeTextureIdx]));
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     EnTakaraMan_OverrideLimbDraw, NULL, &this->actor);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 544);
+}
