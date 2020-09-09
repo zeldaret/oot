@@ -778,7 +778,8 @@ s32 Audio_ResetStep(void) {
     return 1;
 }
 
-#ifdef NON_MATCHING
+#ifdef NON_EQUIVALENT
+// first half matches, reorderings and regalloc in second half
 void func_800DFBF8(void) {
     s32 pad[6];
     s32 i;
@@ -912,7 +913,6 @@ void func_800DFBF8(void) {
         reverb->useReverb = 8;
         reverb->unk_28 = func_800DE258(&gAudioContext.gNotesAndBuffersPool, reverb->windowSize * sizeof(s16));
         reverb->unk_2C = func_800DE258(&gAudioContext.gNotesAndBuffersPool, reverb->windowSize * sizeof(s16));
-        // windowSize = reverb->windowSize;
         reverb->unk_1C = 0;
         reverb->unk_20 = 0;
         reverb->unk_03 = 0;
@@ -1011,6 +1011,8 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
     gAudioContext.unk_2D60[sp18].poolIndex = poolIdx;
     gAudioContext.unk_2D60[sp18].id = id;
     gAudioContext.unk_2D60[sp18].size = size;
+    // @bug missing return? "ret" is in v0, but doing an explicit return
+    // uses an additional register.
 #ifdef AVOID_UB
     return ret;
 #endif
