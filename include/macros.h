@@ -24,9 +24,6 @@
 
 #define ACTIVE_CAM globalCtx->cameraPtrs[globalCtx->activeCamera]
 
-#define CHOICE_YES 0
-#define CHOICE_NO  1
-
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
 #define LINK_IS_CHILD (gSaveContext.linkAge != 0)

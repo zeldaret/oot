@@ -137,7 +137,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
 void EnTakaraMan_SetChoiceTextID(EnTakaraMan* this, GlobalContext* globalCtx) {
     if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
-            case CHOICE_YES:
+            case 0: // Yes
                 if (gSaveContext.rupees >= 10) {
                     func_80106CCC(globalCtx);
                     Rupees_ChangeBy(-10);
@@ -153,7 +153,7 @@ void EnTakaraMan_SetChoiceTextID(EnTakaraMan* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80B17B14;
                 }
                 break;
-            case CHOICE_NO:
+            case 1: // No
                 func_80106CCC(globalCtx);
                 this->actor.textId = 0x2D; // "All right. You don't have to play if you don't want to."
                 func_8010B720(globalCtx, this->actor.textId);
