@@ -71,12 +71,11 @@ void func_80AE73D8(EnRl* this, GlobalContext* globalCtx) {
     static s32 D_80AE81AC = 0;
 
     if (globalCtx->csCtx.state == 0) {
-        if (D_80AE81AC != 0) {
+        if (D_80AE81AC) {
             if (this->actor.params == 2) {
                 func_80AE7358(this);
             }
             D_80AE81AC = 0;
-            return;
         }
     } else if (D_80AE81AC == 0) {
         D_80AE81AC = 1;
@@ -139,9 +138,9 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 sceneNum = globalCtx->sceneNum;
 
-    if (((gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0 &&
+    if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0 &&
           globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 &&
-          this->unk_1A8 == 0))) {
+          !this->unk_1A8) {
         player = PLAYER;
         pos.x = player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y + 80.0f;
@@ -177,7 +176,7 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE772C(EnRl* this, s32 arg1) {
-    if (arg1 != 0) {
+    if (arg1) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06000830, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_06000830.genericHeader), 0, 0.0f);
         this->action = 3;
@@ -272,7 +271,7 @@ void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
         this->drawConfig = 2;
         this->unk_19C = kREG(5) + 10.0f;
         this->alpha = 255;
-        if (this->unk_1A4 == 0) {
+        if (!this->unk_1A4) {
             func_80AE78D4(this, globalCtx);
             this->unk_1A4 = 1;
         }
@@ -343,7 +342,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
 void EnRl_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRl* this = THIS;
 
-    if ((this->action < 0) || (this->action > 7) || (sActionFuncs[this->action] == 0)) {
+    if ((this->action < 0) || (this->action > 7) || (sActionFuncs[this->action] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[this->action](this, globalCtx);
