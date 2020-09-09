@@ -19,9 +19,6 @@ void func_80881D94(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Wait(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, GlobalContext* globalCtx);
 
-extern Gfx D_06001E50[];
-extern Gfx D_06002010[];
-
 const ActorInit Bg_Haka_Water_InitVars = {
     ACTOR_BG_HAKA_WATER,
     ACTORTYPE_PROP,
@@ -34,9 +31,12 @@ const ActorInit Bg_Haka_Water_InitVars = {
     (ActorFunc)BgHakaWater_Draw,
 };
 
-InitChainEntry sInitChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
+
+extern Gfx D_06001E50[];
+extern Gfx D_06002010[];
 
 void BgHakaWater_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaWater* this = THIS;
