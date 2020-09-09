@@ -257,7 +257,7 @@ void Audio_SessionPoolsInit(AudioPoolSplit4* split) {
                              Audio_Alloc(&gAudioContext.gAudioSessionPool, split->wantCustom), split->wantCustom);
 }
 
-void Audio_SeqAndBankPoolInit(AudioPoolSplit2 *split) {
+void Audio_SeqAndBankPoolInit(AudioPoolSplit2* split) {
     gAudioContext.gSeqAndBankPool.cur = gAudioContext.gSeqAndBankPool.start;
     Audio_SoundAllocPoolInit(&gAudioContext.gPersistentCommonPool,
                              Audio_Alloc(&gAudioContext.gSeqAndBankPool, split->wantPersistent), split->wantPersistent);
@@ -292,7 +292,7 @@ void Audio_TemporaryPoolsInit(AudioPoolSplit3* split) {
 }
 
 void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
-    SoundMultiPool *loadedPool;
+    SoundMultiPool* loadedPool;
     TemporaryPool* tp;
     SoundAllocPool* pool;
     void* mem;
@@ -333,7 +333,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
             if (firstVal == 4) {
                 for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
                     if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[0].id &&
-                            gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
+                        gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
                         break;
                     }
                 }
@@ -347,7 +347,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
             if (secondVal == 4) {
                 for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
                     if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[1].id &&
-                            gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
+                        gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
                         break;
                     }
                 }
@@ -375,7 +375,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                 if (firstVal == 2) {
                     for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
                         if (gAudioContext.gSequencePlayers[i].enabled != 0 &&
-                                gAudioContext.gSequencePlayers[i].seqId == tp->entries[0].id) {
+                            gAudioContext.gSequencePlayers[i].seqId == tp->entries[0].id) {
                             break;
                         }
                     }
@@ -389,7 +389,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                 if (secondVal == 2) {
                     for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
                         if (gAudioContext.gSequencePlayers[i].enabled != 0 &&
-                                gAudioContext.gSequencePlayers[i].seqId == tp->entries[1].id) {
+                            gAudioContext.gSequencePlayers[i].seqId == tp->entries[1].id) {
                             break;
                         }
                     }
@@ -403,7 +403,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                 if (firstVal == 2) {
                     for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
                         if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[0].id &&
-                                gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
+                            gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
                             break;
                         }
                     }
@@ -417,7 +417,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
                     for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
                         if (gAudioContext.gNotes[i].playbackState.bankId == tp->entries[1].id &&
                             gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled != 0) {
-                                break;
+                            break;
                         }
                     }
                     if (i == gAudioContext.gMaxSimultaneousNotes) {
@@ -446,12 +446,12 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
             }
 
             if (0) {
-fail:
+            fail:
                 // Both sides are being loaded into.
                 return NULL;
             }
         }
-done:
+    done:
 
         side = tp->nextSide;
 
@@ -480,10 +480,10 @@ done:
                     table[tp->entries[1].id] = 0;
                     switch (poolIdx) {
                         case 0:
-                            Audio_DiscardSequence((s32) tp->entries[1].id);
+                            Audio_DiscardSequence((s32)tp->entries[1].id);
                             break;
                         case 1:
-                            Audio_DiscardBank((s32) tp->entries[1].id);
+                            Audio_DiscardBank((s32)tp->entries[1].id);
                             break;
                     }
 
@@ -577,7 +577,6 @@ void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 bankId) {
             break;
     }
 
-
     temporary = &loadedPool->temporary;
     if (arg1 == 0) {
         if (temporary->entries[0].id == bankId) {
@@ -608,10 +607,10 @@ void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
     s32 i;
     f32 tmp[16];
 
-    tmp[0] = (f32) (arg1 * 262159.0f);
-    tmp[8] = (f32) (arg0 * 262159.0f);
-    tmp[1] = (f32) ((arg1 * arg0) * 262159.0f);
-    tmp[9] = (f32) (((arg0 * arg0) + arg1) * 262159.0f);
+    tmp[0] = (f32)(arg1 * 262159.0f);
+    tmp[8] = (f32)(arg0 * 262159.0f);
+    tmp[1] = (f32)((arg1 * arg0) * 262159.0f);
+    tmp[9] = (f32)(((arg0 * arg0) + arg1) * 262159.0f);
 
     for (i = 2; i < 8; i++) {
         //! @bug they probably meant to store the value to tmp[i] and tmp[8 + i]
@@ -650,19 +649,16 @@ void func_800DF630(s16* arg0, s32 arg1) {
     }
 }
 
-void func_800DF688(s16 *arg0, s32 arg1, s32 arg2) {
+void func_800DF688(s16* arg0, s32 arg1, s32 arg2) {
     s32 i;
 
     if (arg1 == 0 && arg2 == 0) {
         func_800DF5DC(arg0, 0);
-    }
-    else if (arg2 == 0) {
+    } else if (arg2 == 0) {
         func_800DF5DC(arg0, arg1);
-    }
-    else if (arg1 == 0) {
+    } else if (arg1 == 0) {
         func_800DF630(arg0, arg2);
-    }
-    else {
+    } else {
         s16* ptr1 = &D_80130228[8 * arg1];
         s16* ptr2 = &D_80130328[8 * (arg2 - 1)];
         for (i = 0; i < 8; i++) {
@@ -731,8 +727,9 @@ s32 Audio_ResetStep(void) {
             } else {
                 for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
                     if (gAudioContext.gNotes[i].noteSubEu.bitField0.s.enabled &&
-                            gAudioContext.gNotes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
-                        gAudioContext.gNotes[i].playbackState.adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
+                        gAudioContext.gNotes[i].playbackState.adsr.action.s.state != ADSR_STATE_DISABLED) {
+                        gAudioContext.gNotes[i].playbackState.adsr.fadeOutVel =
+                            gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
                         gAudioContext.gNotes[i].playbackState.adsr.action.s.release = true;
                     }
                 }
@@ -791,7 +788,7 @@ void func_800DFBF8(void) {
     s32 persistentMem;
     s32 temporaryMem;
     s32 totalMem;
-    AudioSessionSettings *preset;
+    AudioSessionSettings* preset;
     s32 wantMisc;
     u32 intMask;
 
@@ -799,17 +796,28 @@ void func_800DFBF8(void) {
     gAudioContext.gSampleDmaNumListItems = 0;
     gAudioContext.gAudioBufferParameters.frequency = preset->frequency;
     gAudioContext.gAudioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.gAudioBufferParameters.frequency);
-    gAudioContext.gAudioBufferParameters.samplesPerFrameTarget = ((gAudioContext.gAudioBufferParameters.frequency / gAudioContext.gRefreshRate) + 0xF) & 0xFFF0;
-    gAudioContext.gAudioBufferParameters.minAiBufferLength = gAudioContext.gAudioBufferParameters.samplesPerFrameTarget - 0x10;
-    gAudioContext.gAudioBufferParameters.maxAiBufferLength = gAudioContext.gAudioBufferParameters.samplesPerFrameTarget + 0x10;
-    gAudioContext.gAudioBufferParameters.updatesPerFrame = ((gAudioContext.gAudioBufferParameters.samplesPerFrameTarget + 0x10) / 0xD0) + 1;
-    gAudioContext.gAudioBufferParameters.samplesPerUpdate = (gAudioContext.gAudioBufferParameters.samplesPerFrameTarget / gAudioContext.gAudioBufferParameters.updatesPerFrame) & ~7;
-    gAudioContext.gAudioBufferParameters.samplesPerUpdateMax = gAudioContext.gAudioBufferParameters.samplesPerUpdate + 8;
-    gAudioContext.gAudioBufferParameters.samplesPerUpdateMin = gAudioContext.gAudioBufferParameters.samplesPerUpdate - 8;
-    gAudioContext.gAudioBufferParameters.resampleRate = 32000.0f / (s32) gAudioContext.gAudioBufferParameters.frequency;
-    gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled = (1.0f / 256.0f) / gAudioContext.gAudioBufferParameters.updatesPerFrame;
+    gAudioContext.gAudioBufferParameters.samplesPerFrameTarget =
+        ((gAudioContext.gAudioBufferParameters.frequency / gAudioContext.gRefreshRate) + 0xF) & 0xFFF0;
+    gAudioContext.gAudioBufferParameters.minAiBufferLength =
+        gAudioContext.gAudioBufferParameters.samplesPerFrameTarget - 0x10;
+    gAudioContext.gAudioBufferParameters.maxAiBufferLength =
+        gAudioContext.gAudioBufferParameters.samplesPerFrameTarget + 0x10;
+    gAudioContext.gAudioBufferParameters.updatesPerFrame =
+        ((gAudioContext.gAudioBufferParameters.samplesPerFrameTarget + 0x10) / 0xD0) + 1;
+    gAudioContext.gAudioBufferParameters.samplesPerUpdate =
+        (gAudioContext.gAudioBufferParameters.samplesPerFrameTarget /
+         gAudioContext.gAudioBufferParameters.updatesPerFrame) &
+        ~7;
+    gAudioContext.gAudioBufferParameters.samplesPerUpdateMax =
+        gAudioContext.gAudioBufferParameters.samplesPerUpdate + 8;
+    gAudioContext.gAudioBufferParameters.samplesPerUpdateMin =
+        gAudioContext.gAudioBufferParameters.samplesPerUpdate - 8;
+    gAudioContext.gAudioBufferParameters.resampleRate = 32000.0f / (s32)gAudioContext.gAudioBufferParameters.frequency;
+    gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled =
+        (1.0f / 256.0f) / gAudioContext.gAudioBufferParameters.updatesPerFrame;
     gAudioContext.gAudioBufferParameters.unk_24 = gAudioContext.gAudioBufferParameters.updatesPerFrame * 0.25f;
-    gAudioContext.gAudioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.gAudioBufferParameters.updatesPerFrame;
+    gAudioContext.gAudioBufferParameters.updatesPerFrameInv =
+        1.0f / gAudioContext.gAudioBufferParameters.updatesPerFrame;
     gAudioContext.unk_2874 = preset->unk_10;
     gAudioContext.unk_2878 = preset->unk_12;
 
@@ -819,7 +827,8 @@ void func_800DFBF8(void) {
         gAudioContext.gAudioBufferParameters.numSequencePlayers = 4;
     }
     gAudioContext.unk_2 = preset->unk_14;
-    gAudioContext.gTempoInternalToExternal = (u32) (gAudioContext.gAudioBufferParameters.updatesPerFrame * 2880000.0f / gTatumsPerBeat / gAudioContext.unk_2960);
+    gAudioContext.gTempoInternalToExternal = (u32)(gAudioContext.gAudioBufferParameters.updatesPerFrame * 2880000.0f /
+                                                   gTatumsPerBeat / gAudioContext.unk_2960);
 
     gAudioContext.unk_2870 = gAudioContext.gRefreshRate;
     gAudioContext.unk_2870 *= gAudioContext.gAudioBufferParameters.updatesPerFrame;
@@ -836,7 +845,9 @@ void func_800DFBF8(void) {
         gAudioContext.gAudioBufferParameters.maxAiBufferLength -= 0x10;
     }
 
-    gAudioContext.gMaxAudioCmds = gAudioContext.gMaxSimultaneousNotes * 0x10 * gAudioContext.gAudioBufferParameters.updatesPerFrame + preset->numReverbs * 0x18 + 0x140;
+    gAudioContext.gMaxAudioCmds =
+        gAudioContext.gMaxSimultaneousNotes * 0x10 * gAudioContext.gAudioBufferParameters.updatesPerFrame +
+        preset->numReverbs * 0x18 + 0x140;
 
     persistentMem = preset->persistentSeqMem + preset->persistentBankMem + preset->persistentUnusedMem + 0x10;
     temporaryMem = preset->temporarySeqMem + preset->temporaryBankMem + preset->temporaryUnusedMem + 0x10;
@@ -863,13 +874,17 @@ void func_800DFBF8(void) {
     Audio_TemporaryPoolsInit(&gAudioContext.sTemporaryCommonPoolSplit);
 
     Audio_ResetLoadStatus();
-    gAudioContext.gNotes = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, gAudioContext.gMaxSimultaneousNotes * sizeof(Note));
+    gAudioContext.gNotes =
+        Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, gAudioContext.gMaxSimultaneousNotes * sizeof(Note));
     Audio_NoteInitAll();
     Audio_InitNoteFreeList();
-    gAudioContext.gNoteSubsEu = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, gAudioContext.gAudioBufferParameters.updatesPerFrame * gAudioContext.gMaxSimultaneousNotes * sizeof(NoteSubEu));
+    gAudioContext.gNoteSubsEu = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool,
+                                                  gAudioContext.gAudioBufferParameters.updatesPerFrame *
+                                                      gAudioContext.gMaxSimultaneousNotes * sizeof(NoteSubEu));
 
     for (i = 0; i != 2; i++) {
-        gAudioContext.gAudioCmdBuffers[i] = Audio_AllocDmaMemoryZeroed(&gAudioContext.gNotesAndBuffersPool, gAudioContext.gMaxAudioCmds * sizeof(u64));
+        gAudioContext.gAudioCmdBuffers[i] =
+            Audio_AllocDmaMemoryZeroed(&gAudioContext.gNotesAndBuffersPool, gAudioContext.gMaxAudioCmds * sizeof(u64));
     }
 
     gAudioContext.unk_3520 = Audio_Alloc(&gAudioContext.gNotesAndBuffersPool, 0x100 * sizeof(f32));
@@ -913,7 +928,7 @@ void func_800DFBF8(void) {
         reverb->loop.count = 1;
         reverb->loop.end = reverb->windowSize;
         reverb->sound.tuning = 1.0f;
-        reverb->sample.sampleAddr = (u8*) reverb->unk_28;
+        reverb->sample.sampleAddr = (u8*)reverb->unk_28;
 
         if (reverb->downsampleRate != 1) {
             reverb->unk_0E = 0x8000 / reverb->downsampleRate;
@@ -1002,7 +1017,7 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
 }
 
 void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4) {
-    UnkHeapEntry *entry;
+    UnkHeapEntry* entry;
 
     if (arg4 == 0) {
         entry = func_800E06CC(size);
@@ -1019,7 +1034,7 @@ void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4) {
 }
 
 void func_800E0634(u32 arg0, u32 arg1) {
-    void *mem;
+    void* mem;
 
     mem = func_800DE2B0(&gAudioContext.gNotesAndBuffersPool, arg0);
     if (mem == NULL) {
@@ -1118,9 +1133,9 @@ UnkHeapEntry* func_800E06CC(u32 size) {
 }
 
 void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
-    Drum *drum;
-    Instrument *inst;
-    UnkInstrument *unkInst;
+    Drum* drum;
+    Instrument* inst;
+    UnkInstrument* unkInst;
     s32 instId;
     s32 drumId;
     s32 unkInstId;
@@ -1163,9 +1178,8 @@ void func_800E0AD8(UnkHeapEntry* entry) {
     for (bankId = 0; bankId < numBanks; bankId++) {
         unk2 = gAudioContext.gCtlEntries[bankId].unk_02;
         unk3 = gAudioContext.gCtlEntries[bankId].unk_03;
-        if (((unk2 != 0xFF) && (entry->unk_02 == unk2)) ||
-                ((unk3 != 0xFF) && (entry->unk_02 == unk3)) ||
-                entry->unk_02 == 0) {
+        if (((unk2 != 0xFF) && (entry->unk_02 == unk2)) || ((unk3 != 0xFF) && (entry->unk_02 == unk3)) ||
+            entry->unk_02 == 0) {
             if (func_800DF074(1, 2, bankId) != NULL) {
                 if (Audio_IsBankLoadComplete(bankId) != 0) {
                     func_800E0964(entry, bankId);
@@ -1175,7 +1189,7 @@ void func_800E0AD8(UnkHeapEntry* entry) {
     }
 }
 
-void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample *sample) {
+void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample* sample) {
     if (sample != NULL) {
         if (sample->sampleAddr == entry->unk_08) {
             sample->sampleAddr = entry->unk_0C;
@@ -1313,10 +1327,8 @@ void func_800E0EB4(s32 arg0, s32 id) {
             }
 
             if (unk2 == id) {
-            }
-            else if (unk3 == id) {
-            }
-            else {
+            } else if (unk3 == id) {
+            } else {
                 continue;
             }
 
