@@ -22,7 +22,7 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 
-UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
+s32 D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
 
 extern SkeletonHeader D_06007B38;
 extern AnimationHeader D_06000A3C;
@@ -34,7 +34,21 @@ void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE72D0.s")
+
+void func_80AE72D0(EnRl* this) {
+    s32 pad[3];
+    s16* unk_192 = &this->unk_192;
+    s16* unk_190 = &this->unk_190;
+
+    if (DECR(*unk_192) == 0) {
+        *unk_192 = Math_Rand_S16Offset(0x3C, 0x3C);
+    }
+
+    *unk_190 = *unk_192;
+    if (*unk_190 >= 3) {
+        *unk_190 = 0;
+    }
+}
 
 void func_80AE7358(EnRl* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000A3C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000A3C.genericHeader),
@@ -113,22 +127,24 @@ void func_80AE7544(EnRl* this, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, 0, 0, 0);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE7590.s")
-/*void func_80AE7590(EnRl *this, GlobalContext *globalCtx) {
-    CsCmdActorAction* csCmdActorAction;
-    Player* player = PLAYER;
+void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Player* player;
+    Vec3f pos;
+    s16 sceneNum = globalCtx->sceneNum;
 
-    if (gSaveContext.sceneSetupIndex == 4 && globalCtx->sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0) {
-        csCmdActorAction = globalCtx->csCtx.npcActions[6];
-        if (csCmdActorAction != NULL && csCmdActorAction->action == 2 ) {
-            if (this->unk_1A8 == 0) {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, player->actor.posRot.pos.x,
-player->actor.posRot.pos.y + 80.0f, player->actor.posRot.pos.z, 0, 0, 0, 0xE); Item_Give(globalCtx,
-ITEM_MEDALLION_LIGHT); this->unk_1A8 = 1;
-            }
-        }
+    if (((gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0 &&
+          globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 &&
+          this->unk_1A8 == 0))) {
+        player = PLAYER;
+        pos.x = player->actor.posRot.pos.x;
+        pos.y = player->actor.posRot.pos.y + 80.0f;
+        pos.z = player->actor.posRot.pos.z;
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, pos.x, pos.y, pos.z, 0, 0, 0, 0xE);
+        Item_Give(globalCtx, ITEM_MEDALLION_LIGHT);
+        this->unk_1A8 = 1;
     }
-}*/
+}
 
 void func_80AE7668(EnRl* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -213,6 +229,45 @@ void func_80AE7954(EnRl* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE79A4.s")
+/*void func_80AE79A4(EnRl *this, GlobalContext *globalCtx) {
+    f32 *temp_v0;
+    f32 *temp_v0_2;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    s32 temp_f4;
+    f32 phi_f0;
+
+    if (func_80AE74B4(this, globalCtx, 4, 0) != 0) {
+        temp_v0 = &this->unk_19C;
+        *temp_v0 = (f32) (*temp_v0 + 1.0f);
+        temp_f0 = *temp_v0;
+        phi_f0 = temp_f0;
+        if (((f32) KREG(5) + 10.0f) <= temp_f0) {
+            this->action = 7;
+            this->drawConfig = 1;
+            *temp_v0 = (f32) ((f32) KREG(5) + 10.0f);
+            this->unk_1A0 = 0xFF;
+            this->actor.shape.unk_14 = (u8) 0xFF;
+            return;
+        }
+    } else {
+        temp_v0_2 = &this->unk_19C;
+        *temp_v0_2 = (f32) (*temp_v0_2 - 1.0f);
+        temp_f0_2 = *temp_v0_2;
+        phi_f0 = temp_f0_2;
+        if (temp_f0_2 <= 0.0f) {
+            this->action = 4;
+            this->drawConfig = 0;
+            *temp_v0_2 = 0.0f;
+            this->unk_1A0 = 0;
+            this->actor.shape.unk_14 = (u8)0U;
+            return;
+        }
+    }
+    temp_f4 = (s32) ((phi_f0 / ((f32) KREG(5) + 10.0f)) * 255.0f);
+    this->unk_1A0 = temp_f4;
+    this->actor.shape.unk_14 = (u8) temp_f4;
+}*/
 
 void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
     if (func_80AE74B4(this, globalCtx, 3, 0)) {
@@ -271,27 +326,26 @@ void func_80AE7D40(EnRl* this, GlobalContext* globalCtx) {
     func_80AE73D8(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE7D94.s")
-/*void func_80AE7D94(EnRl *this, GlobalContext *globalCtx) {
+void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_190;
     s32 addr = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
-    s32 pad1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 304);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AE81A0[addr]));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AE81A0[addr]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_1A0);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280);
 
     oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
-skelAnime->dListCount, 0, 0, 0, oGfxCtx->polyXlu.p);
+                                           skelAnime->dListCount, NULL, NULL, NULL, oGfxCtx->polyXlu.p);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 331);
-}*/
+}
 
 void EnRl_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRl* this = THIS;
@@ -316,7 +370,25 @@ void EnRl_Init(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rl/func_80AE7FDC.s")
+void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s16 temp = this->unk_190;
+    s32 addr = D_80AE81A0[temp];
+    SkelAnime* skelAnime = &this->skelAnime;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 416);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
+                     &this->actor);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 437);
+}
 
 void EnRl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRl* this = THIS;
