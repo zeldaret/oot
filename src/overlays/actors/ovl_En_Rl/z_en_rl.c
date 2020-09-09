@@ -70,12 +70,14 @@ void func_80AE7358(EnRl* this) {
 void func_80AE73D8(EnRl* this, GlobalContext* globalCtx) {
     static s32 D_80AE81AC = 0;
 
-    if (globalCtx->csCtx.state == 0 && D_80AE81AC != 0) {
-        if (this->actor.params == 2) {
-            func_80AE7358(this);
+    if (globalCtx->csCtx.state == 0) {
+        if (D_80AE81AC != 0) {
+            if (this->actor.params == 2) {
+                func_80AE7358(this);
+            }
+            D_80AE81AC = 0;
+            return;
         }
-        D_80AE81AC = 0;
-        return;
     } else if (D_80AE81AC == 0) {
         D_80AE81AC = 1;
     }
@@ -167,7 +169,6 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         csCmdActorAction = globalCtx->csCtx.npcActions[0];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
-
             SkelAnime_ChangeAnim(&this->skelAnime, &D_0600040C, 1.0f, 0.0f,
                                  SkelAnime_GetFrameCount(&D_0600040C.genericHeader), 2, 0.0f);
             this->action = 2;
@@ -240,7 +241,7 @@ void func_80AE79A4(EnRl* this, GlobalContext* globalCtx) {
         if (*unk_19C >= kREG(5) + 10.0f) {
             this->action = 7;
             this->drawConfig = 1;
-            *unk_19C = KREG(1349) + 10.0f;
+            *unk_19C = kREG(5) + 10.0f;
             this->alpha = alpha;
             this->actor.shape.unk_14 = alpha;
             return;
@@ -256,7 +257,7 @@ void func_80AE79A4(EnRl* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    alpha = (*unk_19C / (KREG(1349) + 10.0f)) * 255.0f;
+    alpha = (*unk_19C / (kREG(5) + 10.0f)) * 255.0f;
     this->alpha = alpha;
     this->actor.shape.unk_14 = alpha;
 }
@@ -279,7 +280,7 @@ void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AE7BF8(EnRl* this, UNK_TYPE arg1) {
+void func_80AE7BF8(EnRl* this, s32 arg1) {
     if (arg1 != 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06000830, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_06000830.genericHeader), 0, 0.0f);
