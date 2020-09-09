@@ -43,14 +43,14 @@ void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AE72D0(EnRl* this) {
     s32 pad[3];
-    s16* unk_192 = &this->unk_192;
+    s16* timer = &this->timer;
     s16* unk_190 = &this->unk_190;
 
-    if (DECR(*unk_192) == 0) {
-        *unk_192 = Math_Rand_S16Offset(60, 60);
+    if (DECR(*timer) == 0) {
+        *timer = Math_Rand_S16Offset(60, 60);
     }
 
-    *unk_190 = *unk_192;
+    *unk_190 = *timer;
     if (*unk_190 > 2) {
         *unk_190 = 0;
     }
@@ -62,7 +62,7 @@ void func_80AE7358(EnRl* this) {
     this->action = 4;
     this->drawConfig = 0;
     this->alpha = 0;
-    this->unk_1A4 = 0;
+    this->lightBallSpawned = 0;
     this->actor.shape.unk_14 = 0;
     this->unk_19C = 0.0f;
 }
@@ -139,14 +139,14 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
     s16 sceneNum = globalCtx->sceneNum;
 
     if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0 &&
-        globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 && !this->unk_1A8) {
+        globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 && !this->lightMedallionGiven) {
         player = PLAYER;
         pos.x = player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y + 80.0f;
         pos.z = player->actor.posRot.pos.z;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, pos.x, pos.y, pos.z, 0, 0, 0, 0xE);
         Item_Give(globalCtx, ITEM_MEDALLION_LIGHT);
-        this->unk_1A8 = 1;
+        this->lightMedallionGiven = 1;
     }
 }
 
@@ -270,16 +270,16 @@ void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
         this->drawConfig = 2;
         this->unk_19C = kREG(5) + 10.0f;
         this->alpha = 255;
-        if (!this->unk_1A4) {
+        if (!this->lightBallSpawned) {
             func_80AE78D4(this, globalCtx);
-            this->unk_1A4 = 1;
+            this->lightBallSpawned = 1;
         }
         this->actor.shape.unk_14 = 0xFF;
     }
 }
 
 void func_80AE7BF8(EnRl* this, s32 arg1) {
-    if (arg1 != 0) {
+    if (arg1) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06000830, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_06000830.genericHeader), 0, 0.0f);
         this->action = 7;
