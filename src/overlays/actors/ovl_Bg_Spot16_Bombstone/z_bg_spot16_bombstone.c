@@ -12,60 +12,28 @@ s16 func_808B4E58(BgSpot16Bombstone *this, GlobalContext *globalCtx, s16 arg3);
 // s16 func_808B4D9C(BgSpot16Bombstone *this, GlobalContext *globalCtx, s16 arg3);
 
 
-s32 D_808B5DD0 = 0.0f;
-s32 D_808B5DD4 = 0.0f;
+s16 D_808B5DD0 = 0;
+s16 D_808B5DD4 = 0;
 s32 D_808B5DD8[] = {
+
     0x00080004, 0x004607D0, 0xFCE00000, 
     0x00640000, 0x00000000, 0x00060003, 
-    0x003200C8, 0x0A28C350, 0x005A0000, 
-    0x00000000, 0x00050003, 0x0028F63C, 
-    0x019030B0, 0x00320000, 0x00000000,
-    0x00030001, 0x003C0258, 0xFF9CAFC8,
+    0x003200C8, 0x0A28C350, 0x005A0000,
+    0x00000000, 0x00050003, 0x0028F63C,
+    0x019030B0, 0x00320000, 0x00000000, 
+    0x00030001, 0x003C0258, 0xFF9CAFC8, 
     0x00320000, 0x00000000, 0x00030001, 
-    0x0028F2B8, 0xFF9C6590, 0x001E0000,
+    0x0028F2B8, 0xFF9C6590, 0x001E0000, 
     0x00000000, 0x00060009, 0x00280000, 
     0x0BB8D8F0, 0x001E0000, 0x00000000
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[9] = {
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0, { { 0, 50, 0 }, 288 }, 100 },
     },
-    {
-        { 0x0C, { 0x20000000, 0x00, 0x00 }, { 0x808B5E50, 0x0A, 0x00 }, 0x00, 0x01, 0x00 },
-        { 0, { { 0, 0, 0 }, 0 }, 0 },
-    },
-    {
-        { 0x00, { 0x00000000, 0x00, 0x01 }, { 0x00BE0050, 0x00, 0x00 }, 0x00, 0x00, 0x00 },
-        { 0, { { 10, 60, -10 }, 260 }, 480 },
-    },
-    {
-        { 0x00, { 0x00000032, 0x00, 0x00 }, { 0x017C000D, 0x00, 0x01 }, 0x00, 0x14, 0x00 },
-        { 0, { { 260, 10, 2 }, 20 }, 40 },
-    },
-    {
-        { 0x00, { 0x00960007, 0x00, 0x03 }, { 0x0064001E, 0x00, 0xD2 }, 0x00, 0x07, 0x00 },
-        { 0, { { 120, 10, 160 }, 40 }, 10 },
-    },
-    {
-        { 0x00, { 0x006E0041, 0x00, 0x96 }, { 0x00070006, 0xFF, 0xC4 }, 0x00, 0x6D, 0x00 },
-        { 0, { { 7, 7, -14 }, 80 }, 127 },
-    },
-    {
-        { 0x00, { 0x00070008, 0x00, 0x14 }, { 0x001E008C, 0x00, 0xC8 }, 0x00, 0x09, 0xFF },
-        { 0, { { 40, 200, 180 }, 7 }, 10 },
-    },
-    {
-        { 0x00, { 0xFFE20064, 0x00, 0x78 }, { 0x000AFF92, 0x00, 0x1D }, 0x00, 0x8C, 0x01 },
-        { 0, { { 11, 30, 20 }, 30 }, 80 },
-    },
-    {
-        { 0x00, { 0x000C0028, 0x00, 0x1E }, { 0x00AA010E, 0x00, 0x11 }, 0xFF, 0xD8, 0x00 },
-        { 255, { { 140, 86, 6 }, 13 }, 50 },
-    },
 };
-
 
 static ColliderJntSphInit sJntSphInit =
 {
@@ -79,38 +47,9 @@ s32 D_808B5E84[] = {
     0x00000000, 0x00010000, 0x00BE0050, 
     0x0000000A, 0x00000032
 };
+
 s32 D_808B5EB0[] = {
-    0x0000000A, 0x003CFFF6, 0x010401E0, 
-    0x00070000, 0x00000032, 0x00000104, 
-    0x017C000D, 0x0001001E, 0x00140014, 
-    0x00A00104, 0x000A0002, 0x00140028, 
-    0x001400C8, 0x00960007, 0x0003FFD8, 
-    0x0064001E, 0x00D20064, 0x00070004, 
-    0x000A0078, 0x000A00A0, 0x0028000A, 
-    0x0005FFA7, 0x006E0041, 0x00960118, 
-    0x00070006, 0xFFC40070, 0x006D006E, 
-    0x00820007, 0x0007FFF2, 0x0050007F, 
-    0x008C00D2, 0x00070008, 0x00140032, 
-    0x001E008C, 0x00C80007, 0x0009FFEC, 
-    0x00140028, 0x00C800B4, 0x0007000A, 
-    0x001E0028, 0xFFE20064, 0x00780007, 
-    0x000AFF92, 0x001D0078, 0x008C0118, 
-    0x000A000B, 0x001E0014, 0x001E0050, 
-    0x00C80006, 0x000C0028, 0x001EFFE2, 
-    0x00AA010E, 0x0011000D, 0xFFD80032, 
-    0xFFEC008C, 0x00560006, 0x000D0032, 
-    0x00320032, 0x009600C8, 0x000A000E, 
-    0x00280028, 0xFFD8003C, 0x00A00006, 
-    0x000FFFE2, 0x00140032, 0x00AA012C, 
-    0x00060010, 0x00280032, 0x001400AA, 
-    0x00780007, 0x0010001E, 0x0032003C, 
-    0x009600C8, 0x00060011, 0x000A000A, 
-    0x00000082, 0x00DC0006, 0x0012000A, 
-    0x00280014, 0x00B400DC, 0x000B0013, 
-    0x000A0005, 0x0000006E, 0x00460011, 
-    0x0013FFEC, 0x0032FFE2, 0x009600C8, 
-    0x00060014, 0x00500032, 0x00000096, 
-    0x00C80008
+ 0x0000000A, 0x003CFFF6, 0x010401E0, 0x00070000, 0x00000032, 0x00000104, 0x017C000D, 0x0001001E, 0x00140014, 0x00A00104, 0x000A0002, 0x00140028, 0x001400C8, 0x00960007, 0x0003FFD8, 0x0064001E, 0x00D20064, 0x00070004, 0x000A0078, 0x000A00A0, 0x0028000A, 0x0005FFA7, 0x006E0041, 0x00960118, 0x00070006, 0xFFC40070, 0x006D006E, 0x00820007, 0x0007FFF2, 0x0050007F, 0x008C00D2, 0x00070008, 0x00140032, 0x001E008C, 0x00C80007, 0x0009FFEC, 0x00140028, 0x00C800B4, 0x0007000A, 0x001E0028, 0xFFE20064, 0x00780007, 0x000AFF92, 0x001D0078, 0x008C0118, 0x000A000B, 0x001E0014, 0x001E0050, 0x00C80006, 0x000C0028, 0x001EFFE2, 0x00AA010E, 0x0011000D, 0xFFD80032, 0xFFEC008C, 0x00560006, 0x000D0032, 0x00320032, 0x009600C8, 0x000A000E, 0x00280028, 0xFFD8003C, 0x00A00006, 0x000FFFE2, 0x00140032, 0x00AA012C, 0x00060010, 0x00280032, 0x001400AA, 0x00780007, 0x0010001E, 0x0032003C, 0x009600C8, 0x00060011, 0x000A000A, 0x00000082, 0x00DC0006, 0x0012000A, 0x00280014, 0x00B400DC, 0x000B0013, 0x000A0005, 0x0000006E, 0x00460011, 0x0013FFEC, 0x0032FFE2, 0x009600C8, 0x00060014, 0x00500032, 0x00000096, 0x00C80008
 };
 
 const ActorInit Bg_Spot16_Bombstone_InitVars = {
@@ -125,11 +64,17 @@ const ActorInit Bg_Spot16_Bombstone_InitVars = {
     (ActorFunc)BgSpot16Bombstone_Draw,
 };
 
+/*
 static InitChainEntry D_808B603C[] = {
     ICHAIN_F32(wallPoly, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(floorPoly, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(wallPolySource, 1000, ICHAIN_STOP),
 };
+*/
+
+// InitChain
+s32 D_808B603C[] = { 
+    0xB0F407D0, 0xB0F801F4, 0x30FC03E8 };
 
 s32 D_808B6048[] = {
     0xB06CFFFF, 0xB070FFF6, 0xB0F403E8, 
@@ -141,24 +86,24 @@ s32 D_808B605C[] = {
 s32 D_808B6068[] = {
     0x00000000, 0x3ECCCCCD, 0x00000000
 };
+
 s32 D_808B6074[] = {
     0x42840000, 0x424C0000, 0x42400000, 
     0x42100000, 0x41A80000
 };
-s32 D_808B6088[] = {
-    0x00, 0x00, 0x00, 
-    0x01, 0x00, 0x02, 
-    0x00, 0x03, 0x00, 
-    0x04
+
+s16 D_808B6088[] = {
+    0x00, 0x00, 
+    0x00, 0x01, 
+    0x00, 0x02, 
+    0x00, 0x03, 
+    0x00, 0x04
 };
 
-s32 D_808B6092[] = {
-    0x00, 0x00, 0x00, 
-    0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 
-    0x00, 0x00, 0x00, 
-    0x00, 0x00
+s8 D_808B6092[] ={
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
 
 s16 func_808B4C30(BgSpot16Bombstone *this) {
     s16 temp_v0;
@@ -169,21 +114,33 @@ s16 func_808B4C30(BgSpot16Bombstone *this) {
     return temp_v0;
 }
 
-// void func_808B4C4C(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
-//     ColliderJntSph *sp20;
-//     ColliderJntSph *temp_a1;
+void func_808B4C4C(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
+    ColliderJntSph *colliderJntSph;
 
-//     temp_a1 = this->unk_164; 
-//     sp20 = temp_a1;
-//     Collider_InitJntSph(globalCtx, temp_a1);
-//     Collider_SetJntSph(globalCtx, temp_a1, this->actor, sJntSphInit, this->unk_184);
-//     arg0->unk180->unk30 = (s16) (s32) arg0->posRot.pos.x;
-//     arg0->unk180->unk32 = (s16) (s32) (arg0->posRot.pos.y + 50.0f);
-//     arg0->unk180->unk34 = (s16) (s32) arg0->posRot.pos.z;
-//     arg0->unk180->unk36 = (u16)0x78;
+    colliderJntSph = &this->colliderJntSph; 
+    Collider_InitJntSph(globalCtx, colliderJntSph);
+    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderJntSphItem);
+    this->colliderJntSph.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->colliderJntSph.list->dim.worldSphere.center.y = (this->actor.posRot.pos.y + 50.0f);
+    this->colliderJntSph.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->colliderJntSph.list->dim.worldSphere.radius = 0x78;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4C4C.s")
+
+// void func_808B4D04(Actor *arg0, GlobalContext *arg1) {
+//     ColliderCylinder *sp18;
+//     ColliderCylinder *temp_a1;
+
+//     temp_a1 = arg0 + 0x1C4;
+//     sp18 = temp_a1;
+//     arg0 = arg0;
+//     Collider_InitCylinder(arg1, temp_a1);
+//     Collider_SetCylinder(arg1, temp_a1, arg0, (ColliderCylinderInit *) D_808B5E84);
+//     arg0->unk20A = (s16) (arg0->unk20A + (s32) arg0->posRot.pos.x);
+//     arg0->unk20C = (s16) (arg0->unk20C + (s32) arg0->posRot.pos.y);
+//     arg0->unk20E = (s16) (arg0->unk20E + (s32) arg0->posRot.pos.z);
 // }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4C4C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4D04.s")
 
@@ -205,6 +162,42 @@ s16 func_808B4C30(BgSpot16Bombstone *this) {
 // }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4D9C.s")
+
+/*
+? func_808B4E58(Actor *arg0, ObjectContext *arg1) {
+    f32 sp20;
+    f32 temp_f16;
+    s8 *temp_a2;
+    void *temp_v0;
+    void *temp_v0_2;
+
+    Actor_ProcessInitChain(arg0, (InitChainEntry *) D_808B6048);
+    temp_v0 = (arg0->params * 0x14) + D_808B5DD8;
+    arg0->speedXZ = (f32) temp_v0->unk0;
+    arg0->velocity.y = (f32) temp_v0->unk2;
+    Actor_SetScale(arg0, (f32) temp_v0->unk4 * 0.0016666667f);
+    arg0->unk210 = (s16) (s32) (f32) (D_808B5DD8 + (arg0->params * 0x14))->unk6;
+    arg0->unk212 = (s16) (s32) (f32) (D_808B5DD8 + (arg0->params * 0x14))->unk8;
+    arg0->posRot.rot.y = (s16) (D_808B5DD8 + (arg0->params * 0x14))->unkA;
+    sp20 = Math_Sins(arg0->posRot.rot.y);
+    temp_v0_2 = (arg0->params * 0x14) + D_808B5DD8;
+    temp_f16 = Math_Coss(arg0->posRot.rot.y) * 50.0f;
+    arg0->posRot.pos.x = (f32) ((sp20 * 50.0f) + arg0->initPosRot.pos.x);
+    arg0->posRot.pos.z = (f32) (temp_f16 + arg0->initPosRot.pos.z);
+    arg0->posRot.pos.y = (f32) ((f32) temp_v0_2->unkC + arg0->initPosRot.pos.y);
+    arg0->shape.rot.x = (s16) temp_v0_2->unkE;
+    arg0->shape.rot.y = (s16) temp_v0_2->unk10;
+    arg0->unk150 = 0x60009E0;
+    arg0->shape.rot.z = (s16) temp_v0_2->unk12;
+    arg0->unk214 = Object_GetIndex(arg1 + 0x117A4, (u16)0x163);
+    temp_a2 = "../z_bg_spot16_bombstone.c";
+    if ((s32) arg0->unk214 < 0) {
+        osSyncPrintf((const char *) "Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", arg0->params, temp_a2, 0x24D);
+        return 0;
+    }
+    func_808B5AF0(arg0, temp_a2);
+    return 1;
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4E58.s")
 
@@ -244,36 +237,433 @@ s16 func_808B4C30(BgSpot16Bombstone *this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Init.s")
 
+// void BgSpot16Bombstone_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+//     ColliderJntSph *temp_a1;
+
+//     if (thisx->params == 0xFF) {
+//         temp_a1 = thisx + 0x164;
+//         thisx = thisx;
+//         Collider_DestroyJntSph(globalCtx, temp_a1);
+//         Collider_DestroyCylinder(globalCtx, thisx + 0x1C4);
+//     }
+// }
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Destroy.s")
 
+/*
+void func_808B51A8(void *arg0, GlobalContext *arg1) {
+    f32 sp34;
+    f32 sp30;
+    f32 sp2C;
+    f32 temp_f0;
+
+    temp_f0 = arg0->unk50;
+    sp2C = arg0->unk24;
+    sp30 = arg0->unk28 + 50.0f;
+    sp34 = arg0->unk2C;
+    func_80033480(arg1, (Vec3f *) &sp2C, temp_f0 * 150.0f, 2, (s32) ((s32) (temp_f0 * 250.0f) << 0x10) >> 0x10, 0xA0, 1);
+}
+*/
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B51A8.s")
+/*
+void func_808B5240(void *arg0, GlobalContext *arg1) {
+    f32 sp58;
+    f32 sp54;
+    f32 sp50;
+    f32 *temp_a1;
+    f32 temp_f0;
+    f32 temp_f2;
+    s16 temp_t0;
+    void *temp_v0;
+    void *temp_v1;
+
+loop_1:
+    temp_t0 = arg0->unk158;
+    if ((u32) temp_t0 < 0x1AU) {
+        if ((s32) arg0->unk154 >= (s32) *(D_808B5EB0 + (temp_t0 * 0xE))) {
+            temp_v1 = arg0 + 0x24;
+            temp_a1 = &sp50;
+            temp_v0 = D_808B5EB0 + (((s32) (temp_t0 << 0x10) >> 0x10) * 0xE);
+            temp_f2 = (f32) temp_v0->unk6;
+            temp_f0 = (f32) temp_v0->unk2;
+            sp50 = ((arg0->unk15C * temp_f2) + (temp_f0 * arg0->unk160)) + temp_v1->unk0;
+            sp54 = (f32) temp_v0->unk4 + temp_v1->unk4;
+            sp58 = ((arg0->unk160 * temp_f2) - (temp_f0 * arg0->unk15C)) + temp_v1->unk8;
+            func_800287AC(arg1, (Vec3f *) temp_a1, (Vec3f *) D_808B605C, (Vec3f *) D_808B6068, (?32) temp_v0->unk8, (?32) temp_v0->unkA, (?32) temp_v0->unkC);
+            arg0->unk158 = (s16) (arg0->unk158 + 1);
+            goto loop_1;
+        }
+    }
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5240.s")
 
+/*
+void func_808B53A8(void *arg0, GlobalContext *arg1) {
+    f32 spC0;
+    f32 spBC;
+    f32 spB8;
+    f32 spB4;
+    f32 spB0;
+    f32 spAC;
+    f32 *temp_s3;
+    f32 *temp_s4;
+    s32 *temp_s0;
+    s32 phi_v0;
+    s32 *phi_s0;
+
+    phi_v0 = 0;
+    if (arg0->unk1C == 0) {
+        Actor_Spawn(arg1 + 0x1C24, arg1, (u16)0xCD, (bitwise f32) arg0->unk24, arg0->unk28, arg0->unk2C, 0, 0, 0, 5);
+        phi_v0 = 3;
+    }
+    if (phi_v0 < 5) {
+        temp_s4 = &spAC;
+        temp_s3 = &spB8;
+        phi_s0 = &D_808B6074[phi_v0];
+loop_4:
+        spB8 = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + (bitwise f32) arg0->unk24;
+        spBC = ((Math_Rand_ZeroOne() * 5.0f) + arg0->unk28) + 8.0f;
+        spC0 = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + arg0->unk2C;
+        spAC = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
+        spB0 = (f32) ((f64) (fabsf(arg0->unk60) * 1.3f) + ((f64) Math_Rand_ZeroOne() * 14.0));
+        spB4 = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
+        func_80029E8C(arg1, (Vec3f *) temp_s3, (Vec3f *) temp_s4, arg0 + 0x24, -0x1A4, 0x31, 0xF, 0xF, 0, (s32) ((s32) ((*phi_s0 * arg0->unk50) * 3.0f) << 0x10) >> 0x10, 2, 0x40, 0xA0, -1, 0x163, 0x60009E0);
+        temp_s0 = phi_s0 + 4;
+        phi_s0 = temp_s0;
+        if (temp_s0 != D_808B6088) {
+            goto loop_4;
+        }
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B53A8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B561C.s")
+void func_808B561C(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
+    PosRot *temp_s1;
+    int i;
+
+    temp_s1 = &this->actor.posRot;
+    for (i = 0; i < ARRAY_COUNT(D_808B6088); i++)
+    {
+        if (Actor_Spawn(&globalCtx->actorCtx, 
+                        globalCtx, 
+                        0xCD, 
+                        temp_s1->pos.x, 
+                        temp_s1->pos.y, 
+                        temp_s1->pos.z, 
+                        0, 
+                        0, 
+                        0, 
+                        D_808B6088[i]) == 0) {
+            return;
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bombstone/func_809B561C.s")
+
+/*
+void func_808B56BC(void *arg0, void *arg1) {
+    void *sp3C;
+    s32 sp28;
+    f32 temp_f0;
+    f32 temp_f2;
+    s32 temp_a0;
+    s32 temp_v0;
+    void *temp_a2;
+    s32 phi_v1;
+
+    temp_a2 = arg1->unk1C44;
+    if (arg0->unk90 < 130.0f) {
+        temp_f0 = arg0->unk94;
+        if (temp_f0 < 160.0f) {
+            if (-10.0f <= temp_f0) {
+                temp_v0 = arg0->unk8A - arg0->unkB6;
+                phi_v1 = 0 - temp_v0;
+                if (temp_v0 >= 0) {
+                    phi_v1 = temp_v0;
+                }
+                temp_a0 = (s32) ((phi_v1 - 0x3FFF) << 0x10) >> 0x10;
+                if (temp_a0 > 0) {
+                    sp28 = temp_a0;
+                    sp3C = temp_a2;
+                    temp_f2 = Math_Sins((s16) temp_a0) * arg0->unk90;
+                    if (0.0f <= temp_f2) {
+                        temp_a2->unk24 = (f32) (temp_a2->unk24 + (temp_f2 * arg0->unk15C));
+                        temp_a2->unk2C = (f32) (temp_a2->unk2C + (temp_f2 * arg0->unk160));
+                        return;
+                    }
+                    osSyncPrintf((const char *) "Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n", "../z_bg_spot16_bombstone.c", 0x3A7, arg0->unk1C, sp28);
+                }
+            }
+        }
+    }
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B56BC.s")
 
+/*
+s32 func_808B57E0(s32 arg0, GlobalContext *arg1) {
+    f32 temp_ret;
+    s16 temp_t0;
+    s16 temp_v0_2;
+    s32 temp_v0;
+    s32 temp_v0_3;
+    void *temp_v0_4;
+    void *temp_v1;
+    s32 phi_return;
+
+    temp_v0_2 = D_808B5DD4;
+    temp_v1 = arg1->unk1C44;
+    if ((s32) temp_v0_2 > 0) {
+        D_808B5DD4 = (s16) (temp_v0_2 - 1);
+    }
+    temp_v0 = D_808B5DD0;
+    if (temp_v0 != 0) {
+        if (temp_v0->unk130 == 0) {
+            D_808B5DD0 = 0;
+            return temp_v0;
+        }
+        phi_return = temp_v0;
+        if ((s32) D_808B5DD4 <= 0) {
+            phi_return = temp_v0;
+            if (temp_v0->unk28 < 1400.0f) {
+                temp_ret = Math3D_Dist1DSq(temp_v0->unk24 + 1579.0f, temp_v0->unk2C + 790.0f);
+                phi_return = (bitwise s32) temp_ret;
+                if (temp_ret < 160000.0f) {
+                    temp_v0_3 = D_808B5DD0;
+                    phi_return = temp_v0_3;
+                    if (temp_v0_3->unk1C == 0) {
+                        temp_t0 = temp_v0_3->unk1F8;
+                        phi_return = temp_v0_3;
+                        if ((s32) temp_t0 > 0) {
+                            D_808B5DD4 = (s16) (temp_t0 + 0x14);
+                            return (s32) func_800800F8(arg1, (u16)0x1054, D_808B5DD4, NULL, 0);
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        phi_return = temp_v0;
+        if ((temp_v1->unk67C & 0x800) != 0) {
+            temp_v0_4 = temp_v1->unk3AC;
+            phi_return = (s32) temp_v0_4;
+            if (temp_v0_4 != 0) {
+                phi_return = (s32) temp_v0_4;
+                if (temp_v0_4->unk2 == 3) {
+                    phi_return = (s32) temp_v0_4;
+                    if (temp_v0_4->unk0 == 0x4C) {
+                        D_808B5DD0 = (s32) temp_v0_4;
+                        phi_return = (s32) temp_v0_4;
+                    }
+                }
+            }
+        }
+    }
+    return phi_return;
+}
+*/
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B57E0.s")
 
+/*
+void func_808B5934(void *arg0) {
+    arg0->unk134 = &BgSpot16Bombstone_Draw;
+    arg0->unk14C = &func_808B5950;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5934.s")
+
+/*
+s16 func_808B5950(void *arg0, GlobalContext *arg1) {
+    CollisionCheckContext *sp30;
+    Collider *sp2C;
+    Collider *temp_a2;
+    CollisionCheckContext *temp_a1;
+    GameInfo *temp_v1;
+    s16 temp_ret;
+    s16 temp_v0;
+    u8 temp_v0_2;
+
+    func_808B56BC();
+    func_808B57E0(arg0, arg1);
+    temp_v0_2 = arg0->unk1D5;
+    if ((temp_v0_2 & 2) != 0) {
+        arg0->unk1D5 = (u8) (temp_v0_2 & 0xFFFD);
+        func_808B561C(arg0, arg1);
+        func_800800F8(arg1, (u16)0x1054, (u16)0x32, NULL, 0);
+        Flags_SetSwitch(arg1, (s32) arg0->unk156);
+        gSaveContext.unkED8 = (u16) (gSaveContext.unkED8 | 8);
+        func_808B5A78(arg0);
+    } else {
+        temp_a1 = &arg1->colChkCtx;
+        sp30 = temp_a1;
+        CollisionCheck_SetAC(arg1, temp_a1, arg0 + 0x1C4);
+        temp_a2 = arg0 + 0x164;
+        sp2C = temp_a2;
+        CollisionCheck_SetOC(arg1, temp_a1, temp_a2);
+        CollisionCheck_SetAC(arg1, temp_a1, temp_a2);
+    }
+    temp_v1 = gGameInfo;
+    temp_v0 = temp_v1->unk11D4;
+    if (temp_v0 == 1) {
+        temp_ret = func_808B561C(arg0, arg1);
+        gGameInfo->unk11D4 = (u16)-0xA;
+        return temp_ret;
+    }
+    if ((s32) temp_v0 < 0) {
+        temp_v1->unk11D4 = (s16) (temp_v0 + 1);
+    }
+    return temp_v0;
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5950.s")
 
+// void func_808B5A78(BgSpot16Bombstone *this) {
+//     arg0->unk154 = 0;
+//     arg0->unk158 = 0;
+//     arg0->unk134 = 0;
+//     arg0->unk14C = &func_808B5A94;
+// }
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5A78.s")
+
+/*
+void func_808B5A94(Actor *arg0) {
+    s16 temp_v0;
+    s32 phi_v0;
+
+    func_808B5240();
+    temp_v0 = arg0->unk154;
+    phi_v0 = (s32) temp_v0;
+    if (temp_v0 == 0x38) {
+        arg0 = arg0;
+        func_80078884((u16)0x4802U);
+        phi_v0 = (s32) arg0->unk154;
+    }
+    if (phi_v0 >= 0x3D) {
+        Actor_Kill(arg0);
+    }
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5A94.s")
 
+/*
+void func_808B5AF0(void *arg0) {
+    arg0->unk14C = &func_808B5B04;
+    arg0->unk134 = 0;
+}
+*/
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5AF0.s")
+
+/*
+void func_808B5B04(void *arg0, s32 arg1) {
+    if (Object_IsLoaded(arg1 + 0x117A4, (s32) arg0->unk214) != 0) {
+        func_808B5B58(arg0);
+        arg0->unk134 = &BgSpot16Bombstone_Draw;
+    }
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5B04.s")
 
+/*
+void func_808B5B58(void *arg0) {
+    arg0->unk154 = (u16)0;
+    arg0->unk14C = &func_808B5B6C;
+}
+*/
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5B58.s")
+
+/*
+void func_808B5B6C(Actor *arg0, GlobalContext *arg1) {
+    u16 temp_v0;
+
+    Actor_MoveForward(arg0);
+    arg0->shape.rot.x = (s16) (arg0->shape.rot.x + arg0->unk210);
+    arg0->shape.rot.z = (s16) (arg0->shape.rot.z + arg0->unk212);
+    if ((s32) arg0->unk154 >= 0x3D) {
+        Actor_Kill(arg0);
+        return;
+    }
+    temp_v0 = arg0->bgCheckFlags;
+    if ((temp_v0 & 8) != 0) {
+block_5:
+        func_808B53A8(arg0, arg1);
+        func_808B51A8(arg0, arg1);
+        Audio_PlaySoundAtPosition(arg1, (Vec3f *) &arg0->posRot, 0x14, (u16)0x2852U);
+        Actor_Kill(arg0);
+        return;
+    }
+    if ((temp_v0 & 1) != 0) {
+        if (arg0->velocity.y < 0.0f) {
+            goto block_5;
+        }
+    }
+    func_8002E4B4(arg1, arg0, 17.5f, 35.0f, 0.0f, 5);
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5B6C.s")
 
+
+// void BgSpot16Bombstone_Update(Actor *thisx, GlobalContext *globalCtx) {
+//     void *temp_v0;
+
+//     temp_v0 = thisx->unk14C;
+//     thisx->unk154 = (s16) (thisx->unk154 + 1);
+//     if (temp_v0 != 0) {
+//         temp_v0();
+//     }
+// }
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Update.s")
+
+/*
+void BgSpot16Bombstone_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    Gfx *sp34;
+    Gfx *sp30;
+    Gfx *temp_v0;
+    Gfx *temp_v0_2;
+    Gfx *temp_v0_3;
+    Gfx *temp_v0_4;
+    GraphicsContext *temp_a1;
+    GraphicsContext *temp_s0;
+
+    temp_a1 = globalCtx->state.gfxCtx;
+    temp_s0 = temp_a1;
+    Graph_OpenDisps(&sp34, temp_a1, (const char *) "../z_bg_spot16_bombstone.c", 0x4E5);
+    func_80093D18(globalCtx->state.gfxCtx);
+    temp_v0 = temp_s0->polyOpa.p;
+    temp_s0->polyOpa.p = (Gfx *) (temp_v0 + 8);
+    temp_v0->words.w0 = 0xDA380003U;
+    sp30 = temp_v0;
+    sp30->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_bg_spot16_bombstone.c", 0x4E9);
+    if (thisx->params == 0xFF) {
+        temp_v0_2 = temp_s0->polyOpa.p;
+        temp_s0->polyOpa.p = (Gfx *) (temp_v0_2 + 8);
+        temp_v0_2->words.w0 = 0xDE000000U;
+        temp_v0_2->words.w1 = (u32) thisx->unk150;
+    } else {
+        temp_v0_3 = temp_s0->polyOpa.p;
+        temp_s0->polyOpa.p = (Gfx *) (temp_v0_3 + 8);
+        temp_v0_3->words.w0 = 0xDB060018U;
+        temp_v0_3->words.w1 = (u32) globalCtx->objectCtx.status[thisx->unk214].segment;
+        temp_v0_4 = temp_s0->polyOpa.p;
+        temp_s0->polyOpa.p = (Gfx *) (temp_v0_4 + 8);
+        temp_v0_4->words.w0 = 0xDE000000U;
+        temp_v0_4->words.w1 = (u32) thisx->unk150;
+    }
+    Graph_CloseDisps(&sp34, globalCtx->state.gfxCtx, (const char *) "../z_bg_spot16_bombstone.c", 0x4FA);
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Draw.s")

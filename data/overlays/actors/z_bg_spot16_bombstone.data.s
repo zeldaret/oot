@@ -30,6 +30,8 @@ glabel Bg_Spot16_Bombstone_InitVars
 .word BgSpot16Bombstone_Destroy
 .word BgSpot16Bombstone_Update
 .word BgSpot16Bombstone_Draw
+glabel D_808B603C
+ .word 0xB0F407D0, 0xB0F801F4, 0x30FC03E8
 glabel D_808B6048
  .word 0xB06CFFFF, 0xB070FFF6, 0xB0F403E8, 0xB0F800C8, 0x30FC03E8
 glabel D_808B605C
