@@ -28,8 +28,8 @@ glabel EnKarebaba_StateChange_Inactive
 /* 00574 80A958C4 0C01DF90 */  jal     Math_Vec3f_Copy
               ## Vec3f_Copy
 /* 00578 80A958C8 E60000C4 */  swc1    $f0, 0x00C4($s0)           ## 000000C4
-/* 0057C 80A958CC 3C1980A9 */  lui     $t9, %hi(EnKarebaba_UpdateState_Inactive)    ## $t9 = 80A90000
-/* 00580 80A958D0 27396184 */  addiu   $t9, $t9, %lo(EnKarebaba_UpdateState_Inactive) ## $t9 = 80A96184
+/* 0057C 80A958CC 3C1980A9 */  lui     $t9, %hi(EnKarebaba_Wait)    ## $t9 = 80A90000
+/* 00580 80A958D0 27396184 */  addiu   $t9, $t9, %lo(EnKarebaba_Wait) ## $t9 = 80A96184
 /* 00584 80A958D4 AE190190 */  sw      $t9, 0x0190($s0)           ## 00000190
 /* 00588 80A958D8 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 0058C 80A958DC 8FB00028 */  lw      $s0, 0x0028($sp)

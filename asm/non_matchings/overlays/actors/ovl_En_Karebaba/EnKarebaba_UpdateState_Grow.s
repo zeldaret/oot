@@ -6,7 +6,7 @@ glabel D_80A96B4C
     .float 0.005
 
 .text
-glabel EnKarebaba_UpdateState_Grow
+glabel EnKarebaba_Grow
 /* 005F0 80A95940 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 005F4 80A95944 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 005F8 80A95948 AFA50024 */  sw      $a1, 0x0024($sp)           

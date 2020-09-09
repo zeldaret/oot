@@ -3,7 +3,7 @@ glabel D_80A96B50
     .float 0.005
 
 .text
-glabel EnKarebaba_UpdateState_Dying
+glabel EnKarebaba_Dying
 /* 00A40 80A95D90 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00A44 80A95D94 F7B40028 */  sdc1    $f20, 0x0028($sp)          
 /* 00A48 80A95D98 4480A000 */  mtc1    $zero, $f20                ## $f20 = 0.00

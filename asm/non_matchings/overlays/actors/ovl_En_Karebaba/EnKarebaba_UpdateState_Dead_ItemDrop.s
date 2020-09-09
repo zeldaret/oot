@@ -1,4 +1,4 @@
-glabel EnKarebaba_UpdateState_Dead_ItemDrop
+glabel EnKarebaba_DeadItemDrop
 /* 00CF8 80A96048 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00CFC 80A9604C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00D00 80A96050 AFA5001C */  sw      $a1, 0x001C($sp)           

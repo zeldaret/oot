@@ -1,4 +1,4 @@
-glabel EnKarebaba_UpdateState_Inactive
+glabel EnKarebaba_Wait
 /* 00E34 80A96184 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00E38 80A96188 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00E3C 80A9618C 00802825 */  or      $a1, $a0, $zero            ## $a1 = 00000000

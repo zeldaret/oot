@@ -25,8 +25,8 @@ glabel EnKarebaba_StateChange_Dying
               
 /* 003C8 80A95718 24053862 */  addiu   $a1, $zero, 0x3862         ## $a1 = 00003862
 /* 003CC 80A9571C 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 003D0 80A95720 3C0880A9 */  lui     $t0, %hi(EnKarebaba_UpdateState_Dying)    ## $t0 = 80A90000
-/* 003D4 80A95724 25085D90 */  addiu   $t0, $t0, %lo(EnKarebaba_UpdateState_Dying) ## $t0 = 80A95D90
+/* 003D0 80A95720 3C0880A9 */  lui     $t0, %hi(EnKarebaba_Dying)    ## $t0 = 80A90000
+/* 003D4 80A95724 25085D90 */  addiu   $t0, $t0, %lo(EnKarebaba_Dying) ## $t0 = 80A95D90
 /* 003D8 80A95728 8C980004 */  lw      $t8, 0x0004($a0)           ## 00000004
 /* 003DC 80A9572C AC880190 */  sw      $t0, 0x0190($a0)           ## 00000190
 /* 003E0 80A95730 37190030 */  ori     $t9, $t8, 0x0030           ## $t9 = 00000030

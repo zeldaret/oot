@@ -14,8 +14,8 @@ glabel EnKarebaba_StateChange_Regrow
               
 /* 005CC 80A9591C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 005D0 80A95920 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 005D4 80A95924 3C0F80A9 */  lui     $t7, %hi(EnKarebaba_UpdateState_Regrow)    ## $t7 = 80A90000
-/* 005D8 80A95928 25EF61DC */  addiu   $t7, $t7, %lo(EnKarebaba_UpdateState_Regrow) ## $t7 = 80A961DC
+/* 005D4 80A95924 3C0F80A9 */  lui     $t7, %hi(EnKarebaba_Regrow)    ## $t7 = 80A90000
+/* 005D8 80A95928 25EF61DC */  addiu   $t7, $t7, %lo(EnKarebaba_Regrow) ## $t7 = 80A961DC
 /* 005DC 80A9592C AC8F0190 */  sw      $t7, 0x0190($a0)           ## 00000190
 /* 005E0 80A95930 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 005E4 80A95934 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

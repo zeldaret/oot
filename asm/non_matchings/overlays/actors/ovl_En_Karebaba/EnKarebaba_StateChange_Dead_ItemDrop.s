@@ -27,10 +27,10 @@ glabel EnKarebaba_StateChange_Dead_ItemDrop
 /* 00454 80A957A4 E4C600C4 */  swc1    $f6, 0x00C4($a2)           ## 000000C4
 /* 00458 80A957A8 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 0045C 80A957AC 2401FFDF */  addiu   $at, $zero, 0xFFDF         ## $at = FFFFFFDF
-/* 00460 80A957B0 3C0980A9 */  lui     $t1, %hi(EnKarebaba_UpdateState_Dead_ItemDrop)    ## $t1 = 80A90000
+/* 00460 80A957B0 3C0980A9 */  lui     $t1, %hi(EnKarebaba_DeadItemDrop)    ## $t1 = 80A90000
 /* 00464 80A957B4 8CD90004 */  lw      $t9, 0x0004($a2)           ## 00000004
 /* 00468 80A957B8 241800C8 */  addiu   $t8, $zero, 0x00C8         ## $t8 = 000000C8
-/* 0046C 80A957BC 25296048 */  addiu   $t1, $t1, %lo(EnKarebaba_UpdateState_Dead_ItemDrop) ## $t1 = 80A96048
+/* 0046C 80A957BC 25296048 */  addiu   $t1, $t1, %lo(EnKarebaba_DeadItemDrop) ## $t1 = 80A96048
 /* 00470 80A957C0 03214024 */  and     $t0, $t9, $at              
 /* 00474 80A957C4 A4D8001C */  sh      $t8, 0x001C($a2)           ## 0000001C
 /* 00478 80A957C8 ACC80004 */  sw      $t0, 0x0004($a2)           ## 00000004
