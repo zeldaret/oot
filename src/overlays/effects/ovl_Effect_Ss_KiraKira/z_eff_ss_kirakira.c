@@ -7,7 +7,7 @@
 #include "z_eff_ss_kirakira.h"
 
 typedef enum {
-    /* 0x00 */ SS_KIRAKIRA_YAW_STEP,
+    /* 0x00 */ SS_KIRAKIRA_ROTATION_SPEED,
     /* 0x01 */ SS_KIRAKIRA_YAW,
     /* 0x02 */ SS_KIRAKIRA_PRIM_R,
     /* 0x03 */ SS_KIRAKIRA_PRIM_G,
@@ -62,8 +62,8 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     }
 
     this->draw = EffectSsKiraKira_Draw;
-    this->regs[SS_KIRAKIRA_YAW_STEP] = initParams->yaw;
-    this->regs[SS_KIRAKIRA_YAW] = initParams->yawStep;
+    this->regs[SS_KIRAKIRA_ROTATION_SPEED] = initParams->rotationSpeed;
+    this->regs[SS_KIRAKIRA_YAW] = initParams->yaw;
     this->regs[SS_KIRAKIRA_PRIM_R] = initParams->primColor.r;
     this->regs[SS_KIRAKIRA_PRIM_G] = initParams->primColor.g;
     this->regs[SS_KIRAKIRA_PRIM_B] = initParams->primColor.b;
@@ -102,11 +102,11 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     SkinMatrix_MtxFMtxFMult(&mtxRotYPersTrans, &mtxScale, &mtxResult);
     gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &mtxResult);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mtxResult);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_80093C14(oGfxCtx);
+        func_80093C14(gfxCtx);
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R],
                         this->regs[SS_KIRAKIRA_PRIM_G], this->regs[SS_KIRAKIRA_PRIM_B],
                         (((s8)((55.0f / this->regs[SS_KIRAKIRA_LIFESPAN]) * this->life) + 200)));
@@ -133,7 +133,7 @@ void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         }
     }
 
-    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_YAW_STEP];
+    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROTATION_SPEED];
 }
 
 void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -153,7 +153,7 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         }
     }
 
-    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_YAW_STEP];
+    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROTATION_SPEED];
 }
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {

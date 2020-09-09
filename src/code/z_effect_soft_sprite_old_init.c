@@ -49,12 +49,12 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
     s32 pad1;
     Mtx* mtx;
     UNK_PTR* object;
-
-    object = globalCtx->objectCtx.status[this->regs[11]].segment;
+    // note
+    object = globalCtx->objectCtx.status[this->regs[SS_G_TYPE]].segment;
 
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
-    scale = this->regs[1] * 0.0025f;
+    scale = this->regs[SS_G_SCALE] * 0.0025f;
     SkinMatrix_SetTranslate(&sp120, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&spE0, scale, scale, scale);
     SkinMatrix_MtxFMtxFMult(&sp120, &globalCtx->mf_11DA0, &sp60);
@@ -68,8 +68,10 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR text
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(texture));
         func_80094C50(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[3], this->regs[4], this->regs[5], this->regs[6]);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[7], this->regs[8], this->regs[9], this->regs[10]);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_PRIM_R], this->regs[SS_G_PRIM_G],
+                        this->regs[SS_G_PRIM_B], this->regs[SS_G_PRIM_A]);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_ENV_R], this->regs[SS_G_ENV_G], this->regs[SS_G_ENV_B],
+                       this->regs[SS_G_ENV_A]);
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
@@ -222,20 +224,20 @@ void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos) {
 
 // EffectSsKiraKira Spawn Functions
 
-void func_80028B18(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+void EffectSsKiraKira_SpawnSmallYellow(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     Color_RGBA8 primColor = { 255, 255, 200, 255 };
     Color_RGBA8 envColor = { 255, 200, 0, 0 };
 
     func_80028BB0(globalCtx, pos, velocity, accel, &primColor, &envColor, 1000, 16);
 }
 
-void func_80028B74(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor) {
+void EffectSsKiraKira_SpawnSmall(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                 Color_RGBA8* primColor, Color_RGBA8* envColor) {
     func_80028BB0(globalCtx, pos, velocity, accel, primColor, envColor, 1000, 16);
 }
 
 void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s32 life) {
+                            Color_RGBA8* envColor, s16 scale, s32 life) {
     EffectSsKiraKiraInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -245,8 +247,8 @@ void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     initParams.accel.y = ((Math_Rand_ZeroOne() * initParams.accel.y) + initParams.accel.y) * 0.5f;
     initParams.life = life;
     initParams.updateMode = 0;
-    initParams.yaw = 0x1518;
-    initParams.yawStep = Math_Rand_ZeroOne() * 16384.0f;
+    initParams.rotationSpeed = 0x1518;
+    initParams.yaw = Math_Rand_ZeroOne() * 16384.0f;
     initParams.scale = scale;
     initParams.primColor = *primColor;
     initParams.envColor = *envColor;
@@ -264,8 +266,8 @@ void func_80028CEC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.life = life;
     initParams.updateMode = 1;
-    initParams.yaw = 0x1518;
-    initParams.yawStep = Math_Rand_ZeroOne() * 16384.0f;
+    initParams.rotationSpeed = 0x1518;
+    initParams.yaw = Math_Rand_ZeroOne() * 16384.0f;
     initParams.scale = scale;
     Color_RGBA8_Copy(&initParams.primColor, primColor);
     Color_RGBA8_Copy(&initParams.envColor, envColor);
@@ -478,11 +480,11 @@ void EffectSsGRipple_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 radius, s16
 // EffectSsGSplash Spawn Functions
 
 void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
-                           s16 arg4, s16 scale) {
+                           s16 type, s16 scale) {
     EffectSsGSplashInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
-    initParams.unk_0C = arg4;
+    initParams.type = type;
     initParams.scale = scale;
 
     if (primColor != NULL) {
@@ -940,7 +942,7 @@ void func_8002A3C4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3,
 void func_8002A484(GlobalContext* globalCtx, f32 scale, s16 bodypartIdx, f32 colorIntensity) {
     Player* player = PLAYER;
 
-    func_8002A3C4(globalCtx, player, &player->unk_908[bodypartIdx], scale, bodypartIdx, colorIntensity);
+    func_8002A3C4(globalCtx, &player->actor, &player->unk_908[bodypartIdx], scale, bodypartIdx, colorIntensity);
 }
 
 // EffectSsEnFire Spawn Functions

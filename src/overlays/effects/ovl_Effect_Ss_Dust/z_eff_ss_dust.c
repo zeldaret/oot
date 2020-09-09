@@ -34,7 +34,7 @@ EffectSsInit Effect_Ss_Dust_InitVars = {
 
 static void* sUpdateFuncs[] = { EffectSsDust_Update, EffectSsBlast_UpdateFire };
 
-static UNK_PTR D_809A2A50[] = { 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
+static UNK_PTR sTextures[] = { 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
                                 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0 };
 
 extern Gfx D_04010050[];
@@ -97,14 +97,14 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     SkinMatrix_SetScale(&sp104, scale, scale, 1.0f);
     SkinMatrix_MtxFMtxFMult(&sp144, &globalCtx->mf_11DA0, &sp84);
     SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
-
     gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spC4);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A2A50[this->regs[SS_DUST_TEX_IDX]]));
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->regs[SS_DUST_TEX_IDX]]));
         oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
         gDPPipeSync(oGfxCtx->polyXlu.p++);
 
@@ -145,6 +145,7 @@ void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     } else {
         this->regs[SS_DUST_TEX_IDX] = 7;
     }
+
     this->regs[SS_DUST_SCALE] += this->regs[SS_DUST_SCALE_STEP];
 }
 

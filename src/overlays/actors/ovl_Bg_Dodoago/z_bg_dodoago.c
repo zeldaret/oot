@@ -80,7 +80,7 @@ void func_80871A08(Vec3f* vec, GlobalContext* globalCtx) {
         pos.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
         pos.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
         pos.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
-        func_80028B74(globalCtx, &pos, &sVelocity, &sAcceleration, &primColor, &envColor);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sVelocity, &sAcceleration, &primColor, &envColor);
     }
 }
 

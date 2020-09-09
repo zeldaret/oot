@@ -13,8 +13,8 @@ typedef struct {
     /* 0x2C */ s16 alphaStep;
     /* 0x2E */ s16 scale;
     /* 0x30 */ s32 life;
-    /* 0x34 */ s16 yaw;
-    /* 0x36 */ s16 yawStep;
+    /* 0x34 */ s16 rotationSpeed;
+    /* 0x36 */ s16 yaw;
     /* 0x38 */ u8 updateMode;
 } EffectSsKiraKiraInitParams; // size = 0x3C
 

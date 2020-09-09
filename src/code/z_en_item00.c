@@ -336,7 +336,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(10.0f);
         pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(10.0f);
         pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(10.0f);
-        func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -394,7 +394,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
-        func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
