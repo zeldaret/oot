@@ -77,7 +77,7 @@ void func_80AE73D8(EnRl* this, GlobalContext* globalCtx) {
             }
             D_80AE81AC = 0;
         }
-    } else if (D_80AE81AC == 0) {
+    } else if (!D_80AE81AC) {
         D_80AE81AC = 1;
     }
 }
@@ -330,7 +330,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280);
 
     oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
                                            skelAnime->dListCount, NULL, NULL, NULL, oGfxCtx->polyXlu.p);
