@@ -1,7 +1,7 @@
 /*
  * File: z_bg_ice_shutter.c
  * Overlay: ovl_Bg_Ice_Shutter
- * Description: 2D Ice Bars
+ * Description: Vertical Ice Bars (Doors) in Ice Cavern
  */
 
 #include "z_bg_ice_shutter.h"
