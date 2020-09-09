@@ -131,7 +131,7 @@ glabel func_8096784C
 /* 0108C 809679DC 00073C03 */  sra     $a3, $a3, 16               
 /* 01090 809679E0 00063403 */  sra     $a2, $a2, 16               
 /* 01094 809679E4 44082000 */  mfc1    $t0, $f4                   
-/* 01098 809679E8 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 01098 809679E8 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 0109C 809679EC AFA8001C */  sw      $t0, 0x001C($sp)           
 /* 010A0 809679F0 8FBF002C */  lw      $ra, 0x002C($sp)           

@@ -75,7 +75,7 @@ glabel func_80A1CD24
 /* 02468 80A1CE08 00052C03 */  sra     $a1, $a1, 16
 /* 0246C 80A1CE0C AFA9001C */  sw      $t1, 0x001C($sp)
 /* 02470 80A1CE10 AFAC0014 */  sw      $t4, 0x0014($sp)
-/* 02474 80A1CE14 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 02474 80A1CE14 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 02478 80A1CE18 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 0247C 80A1CE1C 8FA80058 */  lw      $t0, 0x0058($sp)
