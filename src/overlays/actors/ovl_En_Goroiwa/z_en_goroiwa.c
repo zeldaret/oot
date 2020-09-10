@@ -253,9 +253,9 @@ void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
 
     for (i = 0; i < 8; i++) {
         angle += 0x4E20;
-        effectPos.x = ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle)) + arg1->x;
-        effectPos.y = ((Math_Rand_ZeroOne() - 0.5f) * 40.0f) + arg1->y;
-        effectPos.z = ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle) + arg1->z;
+        effectPos.x = arg1->x + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle));
+        effectPos.y = arg1->y + ((Math_Rand_ZeroOne() - 0.5f) * 40.0f);
+        effectPos.z = arg1->z + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle);
         func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100,
                       80);
         func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80,
@@ -270,9 +270,9 @@ void func_80A4C594(GlobalContext* globalCtx, Vec3f* arg1) {
 
     for (i = 0; i < 11; i++) {
         angle += 0x1746;
-        sp4C.x = (Math_Sins(angle) * 55.0f) + arg1->x;
+        sp4C.x = arg1->x + (Math_Sins(angle) * 55.0f);
         sp4C.y = arg1->y;
-        sp4C.z = (Math_Coss(angle) * 55.0f) + arg1->z;
+        sp4C.z = arg1->z + (Math_Coss(angle) * 55.0f);
         func_8002949C(globalCtx, &sp4C, 0, 0, 0, 350);
     }
 
