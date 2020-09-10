@@ -669,7 +669,6 @@ void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
             this->collisionTimer = 50;
-            return;
         }
     } else if (func_80A4CA50(this, globalCtx)) {
         func_80A4D074(this, globalCtx);
