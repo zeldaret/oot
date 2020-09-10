@@ -706,21 +706,20 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad;
     UNK_TYPE sp30;
-    s32 temp_v0_2;
 
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->collisionTimer > 0) {
             this->collisionTimer--;
         }
         this->actionFunc(this, globalCtx);
-        temp_v0_2 = (this->actor.params >> 10) & 1;
-        if (temp_v0_2 != 0) {
-            if (temp_v0_2 == 1) {
+        switch ((this->actor.params >> 10) & 1) {
+            case 1:
                 func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
-            }
-        } else {
-            this->actor.groundY =
-                func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor, &this->actor.posRot.pos);
+                break;
+            case 0:
+                this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor,
+                                                    &this->actor.posRot.pos);
+                break;
         }
         func_80A4CED8(this, globalCtx);
         if (this->actor.xzDistFromLink < 300.0f) {
