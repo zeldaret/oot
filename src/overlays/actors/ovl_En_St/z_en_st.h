@@ -6,12 +6,12 @@
 
 struct EnSt;
 
-typedef void (*EnStFunc)(struct EnSt* this, GlobalContext* globalCtx);
+typedef void (*EnStActionFunc)(struct EnSt* this, GlobalContext* globalCtx);
 
 typedef struct EnSt {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ EnStFunc actionFunc;
+    /* 0x0190 */ EnStActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder colCylinder[6];
     /* 0x035C */ ColliderJntSph colSph;
     /* 0x037C */ ColliderJntSphItem colSphItems[1];
@@ -39,7 +39,7 @@ typedef struct EnSt {
     /* 0x03E4 */ Vec3f unusedPos;
     /* 0x03F0 */ Vec3f ceilingPos;
     /* 0x03FC */ char unk_3FC[0x8];
-    /* 0x0404 */ s32 blurIdx;
+    /* 0x0404 */ s32 blureIdx;
     /* 0x0408 */ f32 colliderScale;
     /* 0x040C */ f32 groundYOffset;
     /* 0x0410 */ s16 swayAngle;

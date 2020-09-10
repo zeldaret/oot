@@ -16,21 +16,21 @@ void EnSt_Die(EnSt* this, GlobalContext* globalCtx);
 void EnSt_BounceAround(EnSt* this, GlobalContext* globalCtx);
 void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx);
 
-static Vtx unusedVtx[] = {
+static Vtx sUnusedVertices[] = {
     VTX(-1, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(1, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(1, 100, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(-1, 100, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-static Gfx unusedGfx[] = {
+static Gfx sUnusedDList[] = {
     gsDPPipeSync(),
     gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
     gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
     gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
     gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
-    gsSPVertex(unusedVtx, 4, 0),
+    gsSPVertex(sUnusedVertices, 4, 0),
     gsSP1Triangle(0, 1, 2, 0),
     gsSP1Triangle(0, 2, 3, 0),
     gsSPEndDisplayList(),
@@ -88,7 +88,7 @@ struct_80034EC0_Entry sAnimations[] = {
     { &D_06000304, 6.0f, 0.0f, -1.0f, 0x01, -8.0f }, { &D_06005B98, 2.0f, 0.0f, -1.0f, 0x01, -8.0f },
 };
 
-void EnSt_SetupAction(EnSt* this, EnStFunc* actionFunc) {
+void EnSt_SetupAction(EnSt* this, EnStActionFunc* actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -100,7 +100,6 @@ void EnSt_SpawnDustEffects(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     Color_RGBA8_n envColor = { 100, 60, 20, 0 };
     Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
     Vec3f initialYAccel = { 0.0f, 0.3f, 0.0f };
-
     Vec3f dustPos;
     s16 yAngle;
     s32 i;
@@ -118,7 +117,6 @@ void EnSt_SpawnDustEffects(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
 
 void EnSt_SpawnBlastEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-
     Vec3f blastPos;
 
     blastPos.x = this->actor.posRot.pos.x;
@@ -138,30 +136,28 @@ void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {
     func_8002A6B8(globalCtx, &deadPos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
 }
 
-s32 EnSt_CreateBlurEffect(GlobalContext* globalCtx) {
+s32 EnSt_CreateBlureEffect(GlobalContext* globalCtx) {
     EffectBlureInit1 blureInit;
-
     u8 p1StartColor[] = { 255, 255, 255, 75 };
     u8 p2StartColor[] = { 255, 255, 255, 75 };
     u8 p1EndColor[] = { 255, 255, 255, 0 };
     u8 p2EndColor[] = { 255, 255, 255, 0 };
-
     s32 i;
-    s32 blurIdx;
+    s32 blureIdx;
 
     for (i = 0; i < 4; i++) {
-        ((u8*)&blureInit.p1StartColor)[i] = p1StartColor[i];
-        ((u8*)&blureInit.p2StartColor)[i] = p2StartColor[i];
-        ((u8*)&blureInit.p1EndColor)[i] = p1EndColor[i];
-        ((u8*)&blureInit.p2EndColor)[i] = p2EndColor[i];
+        blureInit.p1StartColor[i] = p1StartColor[i];
+        blureInit.p2StartColor[i] = p2StartColor[i];
+        blureInit.p1EndColor[i] = p1EndColor[i];
+        blureInit.p2EndColor[i] = p2EndColor[i];
     }
 
     blureInit.elemDuration = 6;
     blureInit.unkFlag = 0;
     blureInit.calcMode = 3;
 
-    Effect_Add(globalCtx, &blurIdx, 1, 0, 0, &blureInit);
-    return blurIdx;
+    Effect_Add(globalCtx, &blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
+    return blureIdx;
 }
 
 /**
@@ -178,7 +174,6 @@ s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
     checkPos.z = this->actor.posRot.pos.z;
     if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &checkPos, &this->ceilingPos, &poly, 0, 0, 1, 1,
                        &bgId)) {
-        // no ceiling was found, ceiling position will be set to 1000 units above the skulltulla.
         return false;
     }
     this->unusedPos = this->actor.posRot.pos;
@@ -189,7 +184,6 @@ s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
 void EnSt_AddBlurVertex(EnSt* this) {
     Vec3f v1 = { 834.0f, 834.0f, 0.0f };
     Vec3f v2 = { 834.0f, -584.0f, 0.0f };
-
     Vec3f v1Pos;
     Vec3f v2Pos;
 
@@ -205,11 +199,11 @@ void EnSt_AddBlurVertex(EnSt* this) {
     Matrix_MultVec3f(&v1, &v1Pos);
     Matrix_MultVec3f(&v2, &v2Pos);
     Matrix_Pull();
-    EffectBlure_AddVertex(Effect_GetByIndex(this->blurIdx), &v1Pos, &v2Pos);
+    EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &v1Pos, &v2Pos);
 }
 
 void EnSt_AddBlurSpace(EnSt* this) {
-    EffectBlure_AddSpace(Effect_GetByIndex(this->blurIdx));
+    EffectBlure_AddSpace(Effect_GetByIndex(this->blureIdx));
 }
 
 void EnSt_SetWaitingAnimation(EnSt* this) {
@@ -228,9 +222,6 @@ void EnSt_SetLandAnimation(EnSt* this) {
     this->animFrames = this->skelAnime.totalFrames;
 }
 
-/**
- * Sets the dropping animation and sets the velocity of the skulltulla downwards
- */
 void EnSt_SetDropAnimAndVel(EnSt* this) {
     if (this->takeDamageSpinTimer == 0) {
         func_80034EC0(&this->skelAnime, sAnimations, 4);
@@ -307,7 +298,6 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
         { 0.0f, 0.0f, 0.0f },
         { -40.0f, 0.0f, 0.0f },
     };
-
     Vec3f cylPos;
     s32 i;
 
@@ -376,6 +366,7 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
 
 s32 EnSt_CheckHitFrontside(EnSt* this) {
     u8 acFlags = this->colCylinder[2].base.acFlags;
+
     if (!!(acFlags & 2) == 0) {
         // not hit
         return false;
@@ -528,7 +519,7 @@ s32 EnSt_DecrStunTimer(EnSt* this) {
     if (this->stunTimer == 0) {
         return 0;
     }
-    this->stunTimer--;
+    this->stunTimer--; // @bug ? no return but v0 ends up being stunTimer before decrement
 }
 
 /**
@@ -644,9 +635,6 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
     return true;
 }
 
-/**
- * Bobs up and down every 8 frames
- */
 void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
     f32 ySpeedTarget = 0.5f;
 
@@ -656,9 +644,6 @@ void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->actor.velocity.y, ySpeedTarget, 0.4f, 1000.0f, 0.0f);
 }
 
-/**
- * Dertermines if the skulltulla is close enough to the player.
- */
 s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 yDist;
@@ -685,9 +670,6 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
     return true;
 }
 
-/**
- * Checks to see if the skulltulla is close to it's inital position at it's current speed
- */
 s32 EnSt_IsCloseToInitalPos(EnSt* this) {
     f32 velY = this->actor.velocity.y;
     f32 checkY = this->actor.posRot.pos.y + (velY * 2.0f);
@@ -698,9 +680,6 @@ s32 EnSt_IsCloseToInitalPos(EnSt* this) {
     return false;
 }
 
-/**
- * Checks to see if the skulltulla is close to the ground at its current speed.
- */
 s32 EnSt_IsCloseToGround(EnSt* this) {
     f32 velY = this->actor.velocity.y;
     f32 checkY = this->actor.posRot.pos.y + (velY * 2.0f);
@@ -764,7 +743,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 14.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTable, this->transDrawTable, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
-    this->blurIdx = EnSt_CreateBlurEffect(globalCtx);
+    this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
     if (thisx->params == 2) {
         this->actor.flags |= 0x80;
@@ -787,16 +766,13 @@ void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnSt* this = THIS;
     s32 i;
 
-    Effect_Delete(globalCtx, this->blurIdx);
+    Effect_Delete(globalCtx, this->blureIdx);
     for (i = 0; i < 6; i++) {
         Collider_DestroyCylinder(globalCtx, &this->colCylinder[i]);
     }
     Collider_DestroyJntSph(globalCtx, &this->colSph);
 }
 
-/**
- * Skulltulla waits on the ceiling for the player to be close
- */
 void EnSt_WaitOnCeiling(EnSt* this, GlobalContext* globalCtx) {
     if (EnSt_IsCloseToPlayer(this, globalCtx)) {
         EnSt_SetDropAnimAndVel(this);
@@ -842,9 +818,6 @@ void EnSt_WaitOnGround(EnSt* this, GlobalContext* globalCtx) {
     EnSt_Bob(this, globalCtx);
 }
 
-/**
- * Skulltulla lands on the ground
- */
 void EnSt_LandOnGround(EnSt* this, GlobalContext* globalCtx) {
     if (this->animFrames != 0) {
         this->animFrames--;
@@ -870,15 +843,11 @@ void EnSt_LandOnGround(EnSt* this, GlobalContext* globalCtx) {
         // the skulltulla has hit the ground.
         this->sfxTimer = 0;
         EnSt_SetupAction(this, EnSt_WaitOnGround);
-        return;
     } else {
         Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.3f, 1.0f, 0.0f);
     }
 }
 
-/**
- * The skulltulla is moving towards the ground.
- */
 void EnSt_MoveToGround(EnSt* this, GlobalContext* globalCtx) {
     if (this->takeDamageSpinTimer != 0) {
         this->takeDamageSpinTimer--;
@@ -902,9 +871,6 @@ void EnSt_MoveToGround(EnSt* this, GlobalContext* globalCtx) {
     }
 }
 
-/**
- * The skulltulla is returning to the ceiling
- */
 void EnSt_ReturnToCeiling(EnSt* this, GlobalContext* globalCtx) {
     f32 animPctDone = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
 
@@ -986,9 +952,6 @@ void EnSt_Die(EnSt* this, GlobalContext* globalCtx) {
     }
 }
 
-/**
- * Determine if the skulltulla should start on the ceiling or the ground.
- */
 void EnSt_StartOnCeilingOrGround(EnSt* this, GlobalContext* globalCtx) {
     if (!EnSt_IsCloseToGround(this)) {
         this->rotAwayTimer = 60;
@@ -1004,7 +967,6 @@ void EnSt_StartOnCeilingOrGround(EnSt* this, GlobalContext* globalCtx) {
 void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSt* this = THIS;
     s32 pad;
-
     Color_RGBA8_n color = { 0, 0, 0, 0 };
 
     if (this->actor.flags & 0x8000) {
