@@ -2055,8 +2055,6 @@ void func_80086D5C(s32* buf, u16 size) {
 
 u32 sDoActionTextures[] = { 0x07000000, 0x07000180 };
 
-#ifdef NON_MATCHING
-// 0x80000000 is reused in the 2 *_TO_VIRTUAL macros when it shouldn't
 void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 arg2) {
     if (action >= 0x1D) {
         action = 0x0A;
@@ -2077,14 +2075,10 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 a
                             &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
-        gSegments[7] = PHYSICAL_TO_VIRTUAL(interfaceCtx->do_actionSegment);
+        gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->do_actionSegment);
         func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[arg2]), 0x180 / 4);
     }
 }
-#else
-void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_LoadActionLabel.s")
-#endif
 
 void Interface_SetDoAction(GlobalContext* globalCtx, u16 action) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;

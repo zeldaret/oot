@@ -52,7 +52,7 @@ glabel func_80A03B28
 /* 01FBC 80A03BEC 44064000 */  mfc1    $a2, $f8                   
 /* 01FC0 80A03BF0 00000000 */  nop
 /* 01FC4 80A03BF4 00063400 */  sll     $a2, $a2, 16               
-/* 01FC8 80A03BF8 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 01FC8 80A03BF8 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 01FCC 80A03BFC 00063403 */  sra     $a2, $a2, 16               
 /* 01FD0 80A03C00 10000019 */  beq     $zero, $zero, .L80A03C68   
@@ -79,7 +79,7 @@ glabel func_80A03B28
 /* 02020 80A03C50 AFAE0018 */  sw      $t6, 0x0018($sp)           
 /* 02024 80A03C54 A7A30036 */  sh      $v1, 0x0036($sp)           
 /* 02028 80A03C58 AFAD0014 */  sw      $t5, 0x0014($sp)           
-/* 0202C 80A03C5C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 0202C 80A03C5C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 02030 80A03C60 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 02034 80A03C64 87A30036 */  lh      $v1, 0x0036($sp)           
@@ -106,7 +106,7 @@ glabel func_80A03B28
 /* 02084 80A03CB4 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 02088 80A03CB8 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 0208C 80A03CBC AFA3001C */  sw      $v1, 0x001C($sp)           
-/* 02090 80A03CC0 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 02090 80A03CC0 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 02094 80A03CC4 26040264 */  addiu   $a0, $s0, 0x0264           ## $a0 = 00000264
 /* 02098 80A03CC8 C60C0064 */  lwc1    $f12, 0x0064($s0)          ## 00000064
