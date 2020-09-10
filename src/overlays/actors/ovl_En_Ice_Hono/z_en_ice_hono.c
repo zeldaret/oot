@@ -180,10 +180,11 @@ void EnIceHono_SetupActionCapturableFlame(EnIceHono* this) {
 }
 
 void EnIceHono_CapturableFlame(EnIceHono* this, GlobalContext* globalCtx) {
-    if (Actor_HasParent(&this->actor, globalCtx))
-        this->actor.parent = 0;
-    else if (EnIceHono_LinkCloseAndFacing(this, globalCtx))
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
+    } else if (EnIceHono_LinkCloseAndFacing(this, globalCtx)) {
         func_8002F434(&this->actor, globalCtx, 0x7E, 60.0f, 100.0f);
+    }
 
     if (this->actor.xzDistFromLink < 200.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -248,13 +249,11 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
         this->alpha = CLAMP(this->alpha, 0, 255);
     }
 
-    if (this->alpha > 100) {
-        if (this->timer < 40) {
-            Collider_CylinderUpdate(&this->actor, &this->collider);
-            this->collider.dim.radius = this->actor.scale.x * 6000.0f;
-            this->collider.dim.height = this->actor.scale.y * 8000.0f;
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        }
+    if ((this->alpha > 100) && (this->timer < 40)) {
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        this->collider.dim.radius = this->actor.scale.x * 6000.0f;
+        this->collider.dim.height = this->actor.scale.y * 8000.0f;
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     if (this->timer == 46) {
         s32 i;
@@ -362,7 +361,7 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_RotateY(
         (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
-            0.0000958738f,
+            (M_PI / 0x8000),
         MTXMODE_APPLY);
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),
