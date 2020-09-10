@@ -32,23 +32,19 @@ EffectSsInit Effect_Ss_Dust_InitVars = {
     EffectSsDust_Init,
 };
 
-static void* sUpdateFuncs[] = { EffectSsDust_Update, EffectSsBlast_UpdateFire };
-
-static UNK_PTR sTextures[] = { 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
-                                0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0 };
-
 extern Gfx D_04010050[];
 
 u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    static void* updateFuncs[] = { EffectSsDust_Update, EffectSsBlast_UpdateFire };
     s32 randColorOffset;
     EffectSsDustInitParams* initParams = (EffectSsDustInitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(&D_04010050);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_04010050);
     this->life = initParams->life;
-    this->update = sUpdateFuncs[initParams->updateMode];
+    this->update = updateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;
 
     if (initParams->drawFlags & 4) {
@@ -79,12 +75,16 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     return 1;
 }
 
+static UNK_PTR sTextures[] = {
+    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0,
+};
+
 void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    MtxF sp144;
-    MtxF sp104;
-    MtxF spC4;
-    MtxF sp84;
+    MtxF mtxTrans;
+    MtxF mtxScale;
+    MtxF mtxResult;
+    MtxF mtxTransPers;
     s32 pad;
     Mtx* mtx;
     f32 scale;
@@ -92,14 +92,13 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_ss_dust.c", 321);
 
     scale = this->regs[SS_DUST_SCALE] * 0.0025f;
-
-    SkinMatrix_SetTranslate(&sp144, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetScale(&sp104, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&sp144, &globalCtx->mf_11DA0, &sp84);
-    SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
+    SkinMatrix_SetTranslate(&mtxTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&mtxScale, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&mtxTrans, &globalCtx->mf_11DA0, &mtxTransPers);
+    SkinMatrix_MtxFMtxFMult(&mtxTransPers, &mtxScale, &mtxResult);
     gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spC4);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mtxResult);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -135,7 +134,7 @@ void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
     this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
 
-    if ((this->regs[SS_DUST_LIFESPAN] >= this->life) && (this->life >= (this->regs[SS_DUST_LIFESPAN] - 7))) {
+    if ((this->life <= this->regs[SS_DUST_LIFESPAN]) && (this->life >= (this->regs[SS_DUST_LIFESPAN] - 7))) {
         if (this->regs[SS_DUST_LIFESPAN] >= 5) {
             this->regs[SS_DUST_TEX_IDX] = this->regs[SS_DUST_LIFESPAN] - this->life;
         } else {
