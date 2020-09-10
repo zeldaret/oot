@@ -301,7 +301,7 @@ bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
     bool result;
-    Vec3f sp38;
+    Vec3f posDiff;
     Vec3f nextPointPosF;
 
     nextPointPosF.x = nextPointPos->x;
@@ -309,13 +309,13 @@ bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     nextPointPosF.z = nextPointPos->z;
     Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.posRot.pos) < 25.0f) {
-        Math_Vec3f_Diff(&nextPointPosF, &this->actor.posRot.pos, &sp38);
+        Math_Vec3f_Diff(&nextPointPosF, &this->actor.posRot.pos, &posDiff);
     } else {
-        sp38.x = nextPointPosF.x - currentPointPos->x;
-        sp38.y = nextPointPosF.y - currentPointPos->y;
-        sp38.z = nextPointPosF.z - currentPointPos->z;
+        posDiff.x = nextPointPosF.x - currentPointPos->x;
+        posDiff.y = nextPointPosF.y - currentPointPos->y;
+        posDiff.z = nextPointPosF.z - currentPointPos->z;
     }
-    EnGoroiwa_Vec3fNormalize(&this->actor.velocity, &sp38);
+    EnGoroiwa_Vec3fNormalize(&this->actor.velocity, &posDiff);
     this->actor.velocity.x *= this->actor.speedXZ;
     this->actor.velocity.y *= this->actor.speedXZ;
     this->actor.velocity.z *= this->actor.speedXZ;
