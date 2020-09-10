@@ -594,7 +594,8 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         if ((temp_v1_2 == 3) && (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint)) {
             func_80A4D9DC(this);
         } else {
-            if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0 && this->currentWaypoint != this->endWaypoint) {
+            if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0 &&
+                this->currentWaypoint != this->endWaypoint) {
                 temp_v0_5 = func_80A4C27C(this, globalCtx);
                 if (temp_v0_5 > 0) {
                     func_80A4DA7C(this);
