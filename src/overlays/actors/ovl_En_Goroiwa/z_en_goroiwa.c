@@ -20,13 +20,9 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx);
-s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx);
-void func_80A4D9DC(EnGoroiwa* this);
-void func_80A4D8CC(EnGoroiwa* this);
-
 void func_80A4D5E0(EnGoroiwa* this);
 void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
+void func_80A4D8CC(EnGoroiwa* this);
 void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D9DC(EnGoroiwa* this);
 void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx);
@@ -71,7 +67,7 @@ extern Gfx D_060006B0[];
 void func_80A4BCA0(EnGoroiwa* this) {
     static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
 
-    Sphere16* worldSphere = &this->collider.list->dim.worldSphere;
+    Sphere16* worldSphere = &this->collider.list[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.posRot.pos.x;
     worldSphere->center.y = this->actor.posRot.pos.y + colliderHeightOffset[(this->actor.params >> 10) & 1];
@@ -84,7 +80,7 @@ void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     func_80A4BCA0(this);
-    this->collider.list->dim.worldSphere.radius = 58;
+    this->collider.list[0].dim.worldSphere.radius = 58;
 }
 
 void func_80A4BD70(EnGoroiwa* this, u8 arg1) {
