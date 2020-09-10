@@ -517,19 +517,19 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     static f32 D_80A4DF10[] = { 0.0f, 595.0f };
 
     EnGoroiwa* this = THIS;
-    s32 params;
+    s32 pathIdx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_80A4BD04(this, globalCtx);
-    params = this->actor.params & 0xFF;
-    if (params == 0xFF) {
+    pathIdx = this->actor.params & 0xFF;
+    if (pathIdx == 0xFF) {
         // Translation: Error: Invalid arg_data
         osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033,
                      this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
-    if (globalCtx->setupPathList[params].count < 2) {
+    if (globalCtx->setupPathList[pathIdx].count < 2) {
         // Translation: Error: Invalid Path Data
         osSyncPrintf("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 1043);
         Actor_Kill(&this->actor);
