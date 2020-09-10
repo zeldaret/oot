@@ -597,7 +597,7 @@ u16 func_80041F34(CollisionContext*, CollisionPoly*, u8);
 // ? func_80042048(?);
 // ? func_80042108(?);
 s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, UNK_PTR);
-bool func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox);
+s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox);
 // ? func_80042538(?);
 // ? func_80042548(?);
 // ? func_8004259C(?);

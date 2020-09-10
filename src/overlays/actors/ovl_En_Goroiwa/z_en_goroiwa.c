@@ -12,7 +12,7 @@
 
 #define THIS ((EnGoroiwa*)thisx)
 
-typedef bool (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, GlobalContext* globalCtx);
+typedef s32 (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, GlobalContext* globalCtx);
 typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -20,8 +20,8 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx);
-bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx);
+s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx);
+s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx);
 void func_80A4D9DC(EnGoroiwa* this);
 void func_80A4D8CC(EnGoroiwa* this);
 
@@ -92,7 +92,7 @@ void func_80A4BD70(EnGoroiwa* this, u8 arg1) {
     this->unk_1D3 |= arg1;
 }
 
-bool EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
+s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
     f32 magnitude = Math3D_Vec3fMagnitude(a);
     f32 scale;
 
@@ -279,9 +279,9 @@ void func_80A4C594(GlobalContext* globalCtx, Vec3f* arg1) {
     func_80029444(globalCtx, arg1, 500, 1300, 8);
 }
 
-bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path;
-    bool result;
+    s32 result;
     s32 pad;
     Vec3s* nextPointPos;
 
@@ -295,12 +295,12 @@ bool func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     return result;
 }
 
-bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     s32 pad;
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
-    bool result;
+    s32 result;
     Vec3f posDiff;
     Vec3f nextPointPosF;
 
@@ -325,7 +325,7 @@ bool func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     return result;
 }
 
-bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
@@ -336,7 +336,7 @@ bool func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     return Math_ApproxF(&this->actor.posRot.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
 }
 
-bool func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
