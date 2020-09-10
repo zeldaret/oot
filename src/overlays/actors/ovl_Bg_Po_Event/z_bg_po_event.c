@@ -12,7 +12,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_BlockWait(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockShake(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx);
-void BgPoEvent_BlockLift(BgPoEvent* this, GlobalContext* globalCtx);
+void BgPoEvent_BlockStop(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockReset(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx);
@@ -85,6 +85,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
     f32 sins;
     f32 scaley;
     s32 phi_t2;
+    Actor* newPainting;
 
     sins = Math_Sins(this->dyna.actor.shape.rot.y);
     coss = Math_Coss(this->dyna.actor.shape.rot.y);
@@ -107,15 +108,12 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
         func_800627A0(&this->collider, i1, &sp9C[0], &sp9C[1], &sp9C[2]);
     }
     if ((this->actorType != 4) && (this->actorIndex != 2)) {
-        if (this->actorType == 2) {
-            phi_t2 = this->actorIndex;
-        } else {
-            phi_t2 = this->actorIndex + 2;
-        }
-        if (Actor_SpawnAsChild(
-                &globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT, paintingsX[phi_t2],
-                paintingsY[this->actorIndex], paintingsZ[this->actorIndex], 0, this->dyna.actor.shape.rot.y + 0x8000, 0,
-                ((this->actorIndex + 1) << 0xC) + (this->actorType << 8) + this->dyna.actor.params) == NULL) {
+        phi_t2 = (this->actorType == 2) ? this->actorIndex : this->actorIndex + 2;
+        newPainting = Actor_SpawnAsChild(
+            &globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT, paintingsX[phi_t2],
+            paintingsY[this->actorIndex], paintingsZ[this->actorIndex], 0, this->dyna.actor.shape.rot.y + 0x8000, 0,
+            ((this->actorIndex + 1) << 0xC) + (this->actorType << 8) + this->dyna.actor.params);
+        if (newPainting == NULL) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
@@ -139,7 +137,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
-    s32 pad;
+    Actor* newBlock;
     s32 local_c = 0;
     s32 dummy;
 
@@ -147,11 +145,12 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Alloc(&D_06007860, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
     if ((this->actorType == 0) && (this->actorIndex != 3)) {
-        if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
+        newBlock =
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
                                blocksX[this->actorIndex], this->dyna.actor.posRot.pos.y, blocksZ[this->actorIndex], 0,
                                this->dyna.actor.shape.rot.y, this->dyna.actor.shape.rot.z - 0x4000,
-                               ((this->actorIndex + 1) << 0xC) + (this->actorType << 8) + this->dyna.actor.params) ==
-            NULL) {
+                               ((this->actorIndex + 1) << 0xC) + (this->actorType << 8) + this->dyna.actor.params);
+        if (newBlock == NULL) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
@@ -308,23 +307,23 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
             }
         }
         this->direction = 0;
-        this->actionFunc = BgPoEvent_BlockLift;
+        this->actionFunc = BgPoEvent_BlockStop;
     }
 }
 
-void BgPoEvent_BlockLift(BgPoEvent* this, GlobalContext* globalCtx) {
+void BgPoEvent_BlockStop(BgPoEvent* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Actor* newActor;
+    Actor* amy;
 
     if (puzzleState == 0xF) {
         this->actionFunc = BgPoEvent_BlockSolved;
         if ((this->actorType == 0) && (this->actorIndex == 0)) {
-            newActor =
+            amy =
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->dyna.actor.posRot.pos.x + 30.0f,
                             this->dyna.actor.posRot.pos.y - 30.0f, this->dyna.actor.posRot.pos.z + 30.0f, 0,
                             this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 0x300);
-            if (newActor != NULL) {
-                func_800800F8(globalCtx, 0xC62, 0x1E, newActor, 0);
+            if (amy != NULL) {
+                func_800800F8(globalCtx, 0xC62, 0x1E, amy, 0);
             }
             func_80078884(0x4802);
             gSaveContext.timer1State = 0xA;
@@ -344,7 +343,7 @@ void BgPoEvent_BlockLift(BgPoEvent* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_RISING);
                 func_8002DF54(globalCtx, &player->actor, 8);
             }
-        } else if (0.0f != this->dyna.unk_150) {
+        } else if (this->dyna.unk_150 != 0.0f) {
             if (this->direction == 0) {
                 if (func_800435D8(globalCtx, &this->dyna, 0x1E, 0x32, -0x14) != 0) {
                     blocksAtRest--;
@@ -388,7 +387,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
         this->dyna.actor.speedXZ = 0.0f;
         this->direction = 5;
         blocksAtRest++;
-        this->actionFunc = BgPoEvent_BlockLift;
+        this->actionFunc = BgPoEvent_BlockStop;
         if (this->actorType == 1) {
             return;
         }
@@ -431,7 +430,7 @@ void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_AmyWait(BgPoEvent* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2) != 0) {
+    if (this->collider.base.acFlags & 2) {
         puzzleState |= 0x20;
         this->timer = 5;
         func_8003426C(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
