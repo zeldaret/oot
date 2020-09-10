@@ -14,7 +14,7 @@ typedef struct {
     /* 0x2C */ Color_RGBA8 envColor;
     /* 0x30 */ s16 unused;
     /* 0x34 */ s32 unk_34;
-    /* 0x38 */ s16 unk_38;
+    /* 0x38 */ s16 playSound;
 } EffectSsDeadDbInitParams; // size = 0x3C
 
 #endif

@@ -21,8 +21,8 @@ typedef enum {
 } EffectSsDeadDdRegs;
 
 u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A12B4(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A14B0(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsDeadDd_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsDeadDd_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Dead_Dd_InitVars = {
     EFFECT_SS_DEAD_DD,
@@ -49,8 +49,8 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
             this->regs[SS_DEAD_DD_ALPHA_STEP] = initParams->alpha / initParams->life;
         }
 
-        this->draw = func_809A12B4;
-        this->update = func_809A14B0;
+        this->draw = EffectSsDeadDd_Draw;
+        this->update = EffectSsDeadDd_Update;
         this->regs[SS_DEAD_DD_SCALE] = initParams->scale;
         this->regs[SS_DEAD_DD_PRIM_R] = initParams->primColor.r;
         this->regs[SS_DEAD_DD_PRIM_G] = initParams->primColor.g;
@@ -73,8 +73,8 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->regs[SS_DEAD_DD_ENV_R] = 250;
         this->regs[SS_DEAD_DD_ENV_G] = 180;
         this->regs[SS_DEAD_DD_ENV_B] = 0;
-        this->draw = func_809A12B4;
-        this->update = func_809A14B0;
+        this->draw = EffectSsDeadDd_Draw;
+        this->update = EffectSsDeadDd_Update;
 
         for (i = initParams->num; i > 0; i--) {
             this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
@@ -93,7 +93,7 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     return 1;
 }
 
-void func_809A12B4(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsDeadDd_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF spDC;
     MtxF sp9C;
@@ -126,7 +126,7 @@ void func_809A12B4(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dead_dd.c", 259);
 }
 
-void func_809A14B0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsDeadDd_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     this->regs[SS_DEAD_DD_SCALE] += this->regs[SS_DEAD_DD_SCALE_STEP];
 

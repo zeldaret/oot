@@ -13,7 +13,7 @@ typedef struct {
     /* 0x2C */ Color_RGBA8 primColor;
     /* 0x30 */ Color_RGBA8 envColor;
     /* 0x34 */ s32 life;
-    /* 0x38 */ s16 unk_38;
+    /* 0x38 */ s16 type;
 } EffectSsEnIceInitParams; // size = 0x3C
 
 #endif

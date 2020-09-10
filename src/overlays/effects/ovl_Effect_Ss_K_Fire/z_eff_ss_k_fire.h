@@ -8,8 +8,8 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
-    /* 0x24 */ s16 unk_24;
-    /* 0x26 */ u8 unk_26;
+    /* 0x24 */ s16 scale;
+    /* 0x26 */ u8 type;
 } EffectSsKFireInitParams; // size = 0x28
 
 #endif

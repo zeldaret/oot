@@ -8,7 +8,7 @@
 
 typedef enum {
     /* 0x00 */ SS_DEAD_DB_SCALE,
-    /* 0x01 */ SS_DEAD_DB_1,
+    /* 0x01 */ SS_DEAD_DB_TEX_IDX,
     /* 0x02 */ SS_DEAD_DB_PRIM_R,
     /* 0x03 */ SS_DEAD_DB_PRIM_G,
     /* 0x04 */ SS_DEAD_DB_PRIM_B,
@@ -17,7 +17,7 @@ typedef enum {
     /* 0x07 */ SS_DEAD_DB_ENV_G,
     /* 0x08 */ SS_DEAD_DB_ENV_B,
     /* 0x09 */ SS_DEAD_DB_SCALE_STEP,
-    /* 0x0A */ SS_DEAD_DB_A,
+    /* 0x0A */ SS_DEAD_DB_PLAY_SOUND,
     /* 0x0B */ SS_DEAD_DB_B
 } EffectSsDead_DbRegs;
 
@@ -30,7 +30,7 @@ EffectSsInit Effect_Ss_Dead_Db_InitVars = {
     EffectSsDeadDb_Init,
 };
 
-UNK_PTR D_809A0F28[] = {
+static UNK_PTR sTextures[] = {
     0x0402CFE0, 0x0402D7E0, 0x0402DFE0, 0x0402E7E0, 0x0402EFE0,
     0x0402F7E0, 0x0402FFE0, 0x040307E0, 0x04030FE0, 0x040317E0,
 };
@@ -51,8 +51,8 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->draw = EffectSsDeadDb_Draw;
     this->update = EffectSsDeadDb_Update;
     this->regs[SS_DEAD_DB_SCALE] = initParams->scale;
-    this->regs[SS_DEAD_DB_1] = 0;
-    this->regs[SS_DEAD_DB_A] = initParams->unk_38;
+    this->regs[SS_DEAD_DB_TEX_IDX] = 0;
+    this->regs[SS_DEAD_DB_PLAY_SOUND] = initParams->playSound;
     this->regs[SS_DEAD_DB_PRIM_R] = initParams->primColor.r;
     this->regs[SS_DEAD_DB_PRIM_G] = initParams->primColor.g;
     this->regs[SS_DEAD_DB_PRIM_B] = initParams->primColor.b;
@@ -89,7 +89,7 @@ void EffectSsDeadDb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                        this->regs[SS_DEAD_DB_ENV_B], 0);
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_DEAD_DB_PRIM_R], this->regs[SS_DEAD_DB_PRIM_G],
                         this->regs[SS_DEAD_DB_PRIM_B], this->regs[SS_DEAD_DB_PRIM_A]);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A0F28[this->regs[SS_DEAD_DB_1]]));
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->regs[SS_DEAD_DB_TEX_IDX]]));
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
@@ -100,7 +100,7 @@ void EffectSsDeadDb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     f32 w;
     f32 pad;
 
-    this->regs[SS_DEAD_DB_1] = (f32)((this->regs[SS_DEAD_DB_B] - this->life) * 9) / this->regs[SS_DEAD_DB_B];
+    this->regs[SS_DEAD_DB_TEX_IDX] = (f32)((this->regs[SS_DEAD_DB_B] - this->life) * 9) / this->regs[SS_DEAD_DB_B];
     this->regs[SS_DEAD_DB_SCALE] += this->regs[SS_DEAD_DB_SCALE_STEP];
 
     this->regs[SS_DEAD_DB_PRIM_R] -= 10;
@@ -133,7 +133,7 @@ void EffectSsDeadDb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->regs[SS_DEAD_DB_ENV_B] = 0;
     }
 
-    if ((this->regs[SS_DEAD_DB_A] != 0) && (this->regs[SS_DEAD_DB_1] == 1)) {
+    if (this->regs[SS_DEAD_DB_PLAY_SOUND] && (this->regs[SS_DEAD_DB_TEX_IDX] == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->pos, &this->vec, &w);
         Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->vec, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }

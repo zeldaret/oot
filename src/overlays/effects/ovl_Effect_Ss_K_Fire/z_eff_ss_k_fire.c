@@ -8,11 +8,11 @@
 
 typedef enum {
     /* 0x00 */ SS_K_FIRE_ALPHA,
-    /* 0x02 */ SS_K_FIRE_2 = 2,
-    /* 0x03 */ SS_K_FIRE_3,
+    /* 0x02 */ SS_K_FIRE_SCROLL = 2,
+    /* 0x03 */ SS_K_FIRE_TYPE,
     /* 0x04 */ SS_K_FIRE_Y_SCALE,
     /* 0x05 */ SS_K_FIRE_XZ_SCALE,
-    /* 0x06 */ SS_K_FIRE_6 = 6,
+    /* 0x06 */ SS_K_FIRE_SCALE = 6,
     /* 0x0A */ SS_K_FIRE_A = 10
 } EffectSsK_FireRegs;
 
@@ -34,10 +34,10 @@ u32 EffectSsKFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
     this->life = 100;
-    this->regs[SS_K_FIRE_6] = initParams->unk_24;
+    this->regs[SS_K_FIRE_SCALE] = initParams->scale;
     this->regs[SS_K_FIRE_ALPHA] = 255;
-    this->regs[SS_K_FIRE_2] = (s16)Math_Rand_ZeroFloat(5.0f) - 0x19;
-    this->regs[SS_K_FIRE_3] = initParams->unk_26;
+    this->regs[SS_K_FIRE_SCROLL] = (s16)Math_Rand_ZeroFloat(5.0f) - 0x19;
+    this->regs[SS_K_FIRE_TYPE] = initParams->type;
     this->draw = EffectSsKFire_Draw;
     this->update = EffectSsKFire_Update;
 
@@ -60,9 +60,9 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
-                                globalCtx->state.frames * this->regs[SS_K_FIRE_2], 0x20, 0x80));
+                                globalCtx->state.frames * this->regs[SS_K_FIRE_SCROLL], 0x20, 0x80));
 
-    if (this->regs[SS_K_FIRE_3] >= 0x64) {
+    if (this->regs[SS_K_FIRE_TYPE] >= 0x64) {
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 0, this->regs[SS_K_FIRE_ALPHA]);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 10, 0, 0);
     } else {
@@ -87,15 +87,15 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void EffectSsKFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    if (this->regs[SS_K_FIRE_XZ_SCALE] < this->regs[SS_K_FIRE_6]) {
+    if (this->regs[SS_K_FIRE_XZ_SCALE] < this->regs[SS_K_FIRE_SCALE]) {
         this->regs[SS_K_FIRE_XZ_SCALE] += 4;
         this->regs[SS_K_FIRE_Y_SCALE] += 4;
 
-        if (this->regs[SS_K_FIRE_6] < this->regs[SS_K_FIRE_XZ_SCALE]) {
-            this->regs[SS_K_FIRE_XZ_SCALE] = this->regs[SS_K_FIRE_6];
+        if (this->regs[SS_K_FIRE_SCALE] < this->regs[SS_K_FIRE_XZ_SCALE]) {
+            this->regs[SS_K_FIRE_XZ_SCALE] = this->regs[SS_K_FIRE_SCALE];
 
-            if (this->regs[SS_K_FIRE_3] != 3) {
-                this->regs[SS_K_FIRE_Y_SCALE] = this->regs[SS_K_FIRE_6];
+            if (this->regs[SS_K_FIRE_TYPE] != 3) {
+                this->regs[SS_K_FIRE_Y_SCALE] = this->regs[SS_K_FIRE_SCALE];
             }
         }
     } else {
@@ -108,7 +108,7 @@ void EffectSsKFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         }
     }
 
-    if (this->regs[SS_K_FIRE_3] == 3) {
-        this->regs[SS_K_FIRE_Y_SCALE] = this->regs[SS_K_FIRE_Y_SCALE] + 1;
+    if (this->regs[SS_K_FIRE_TYPE] == 3) {
+        this->regs[SS_K_FIRE_Y_SCALE]++;
     }
 }

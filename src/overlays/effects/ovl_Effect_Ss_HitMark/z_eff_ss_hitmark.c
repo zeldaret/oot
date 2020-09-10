@@ -7,32 +7,28 @@
 #include "z_eff_ss_hitmark.h"
 
 typedef enum {
-    /* 0x00 */ SS_HITMARK_0,
-    /* 0x01 */ SS_HITMARK_1,
+    /* 0x00 */ SS_HITMARK_TEX_IDX,
+    /* 0x01 */ SS_HITMARK_TYPE,
     /* 0x02 */ SS_HITMARK_PRIM_R,
     /* 0x03 */ SS_HITMARK_PRIM_G,
     /* 0x04 */ SS_HITMARK_PRIM_B,
     /* 0x05 */ SS_HITMARK_ENV_R,
     /* 0x06 */ SS_HITMARK_ENV_G,
     /* 0x07 */ SS_HITMARK_ENV_B,
-    /* 0x08 */ SS_HITMARK_SCALE,
-    /* 0x09 */ SS_HITMARK_9,
-    /* 0x0A */ SS_HITMARK_A,
-    /* 0x0B */ SS_HITMARK_B,
-    /* 0x0C */ SS_HITMARK_C,
+    /* 0x08 */ SS_HITMARK_SCALE
 } EffectSsHitMarkRegs;
 
 u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsHitMark_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsHitMark_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-Color_RGB8 D_809A85B0[] = {
+static Color_RGB8 sColors[] = {
     { 255, 255, 255 }, { 255, 255, 0 }, { 255, 255, 255 }, { 255, 0, 0 },   { 255, 200, 100 }, { 200, 150, 0 },
     { 150, 100, 0 },   { 100, 50, 0 },  { 255, 255, 255 }, { 255, 0, 0 },   { 255, 255, 0 },   { 255, 0, 0 },
     { 255, 255, 255 }, { 0, 255, 200 }, { 255, 255, 255 }, { 150, 0, 255 },
 };
 
-UNK_PTR D_809A85E0[] = {
+static UNK_PTR sTextures[] = {
     0x0401F370, 0x0401F4F0, 0x0401F670, 0x0401F7F0, 0x0401F970, 0x0401FAF0, 0x0401FC70, 0x0401FDF0,
     0x0401FF70, 0x040200F0, 0x04020270, 0x040203F0, 0x04020570, 0x040206F0, 0x04020870, 0x040209F0,
     0x04020B70, 0x04020CF0, 0x04020E70, 0x04020FF0, 0x04021170, 0x040212F0, 0x04021470, 0x040215F0,
@@ -50,7 +46,7 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->pos = initParams->pos;
     this->gfx = SEGMENTED_TO_VIRTUAL(D_04021770);
 
-    if (initParams->unk_00 == 1) {
+    if (initParams->type == 1) {
         this->life = 16;
     } else {
         this->life = 8;
@@ -58,15 +54,15 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 
     this->draw = EffectSsHitMark_Draw;
     this->update = EffectSsHitMark_Update;
-    colorIdx = initParams->unk_00 * 4;
-    this->regs[SS_HITMARK_0] = 0;
-    this->regs[SS_HITMARK_1] = initParams->unk_00;
-    this->regs[SS_HITMARK_PRIM_R] = D_809A85B0[colorIdx].r;
-    this->regs[SS_HITMARK_PRIM_G] = D_809A85B0[colorIdx].g;
-    this->regs[SS_HITMARK_PRIM_B] = D_809A85B0[colorIdx].b;
-    this->regs[SS_HITMARK_ENV_R] = D_809A85B0[colorIdx + 1].r;
-    this->regs[SS_HITMARK_ENV_G] = D_809A85B0[colorIdx + 1].g;
-    this->regs[SS_HITMARK_ENV_B] = D_809A85B0[colorIdx + 1].b;
+    colorIdx = initParams->type * 4;
+    this->regs[SS_HITMARK_TEX_IDX] = 0;
+    this->regs[SS_HITMARK_TYPE] = initParams->type;
+    this->regs[SS_HITMARK_PRIM_R] = sColors[colorIdx].r;
+    this->regs[SS_HITMARK_PRIM_G] = sColors[colorIdx].g;
+    this->regs[SS_HITMARK_PRIM_B] = sColors[colorIdx].b;
+    this->regs[SS_HITMARK_ENV_R] = sColors[colorIdx + 1].r;
+    this->regs[SS_HITMARK_ENV_G] = sColors[colorIdx + 1].g;
+    this->regs[SS_HITMARK_ENV_B] = sColors[colorIdx + 1].b;
     this->regs[SS_HITMARK_SCALE] = initParams->scale;
 
     return 1;
@@ -95,8 +91,9 @@ void EffectSsHitMark_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-                   SEGMENTED_TO_VIRTUAL(D_809A85E0[(this->regs[SS_HITMARK_1] * 8) + (this->regs[SS_HITMARK_0])]));
+        gSPSegment(
+            oGfxCtx->polyXlu.p++, 0x08,
+            SEGMENTED_TO_VIRTUAL(sTextures[(this->regs[SS_HITMARK_TYPE] * 8) + (this->regs[SS_HITMARK_TEX_IDX])]));
         func_80094C50(gfxCtx);
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_HITMARK_PRIM_R], this->regs[SS_HITMARK_PRIM_G],
                         this->regs[SS_HITMARK_PRIM_B], 255);
@@ -110,25 +107,25 @@ void EffectSsHitMark_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void EffectSsHitMark_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 colorIdx;
 
-    if (this->regs[SS_HITMARK_1] == 1) {
-        this->regs[SS_HITMARK_0] = (15 - this->life) / 2;
+    if (this->regs[SS_HITMARK_TYPE] == 1) {
+        this->regs[SS_HITMARK_TEX_IDX] = (15 - this->life) / 2;
     } else {
-        this->regs[SS_HITMARK_0] = 7 - this->life;
+        this->regs[SS_HITMARK_TEX_IDX] = 7 - this->life;
     }
 
-    if (this->regs[SS_HITMARK_0] != 0) {
-        colorIdx = this->regs[SS_HITMARK_1] * 4 + 2;
+    if (this->regs[SS_HITMARK_TEX_IDX] != 0) {
+        colorIdx = this->regs[SS_HITMARK_TYPE] * 4 + 2;
         this->regs[SS_HITMARK_PRIM_R] =
-            func_80027DD4(this->regs[SS_HITMARK_PRIM_R], D_809A85B0[colorIdx].r, this->life + 1);
+            func_80027DD4(this->regs[SS_HITMARK_PRIM_R], sColors[colorIdx].r, this->life + 1);
         this->regs[SS_HITMARK_PRIM_G] =
-            func_80027DD4(this->regs[SS_HITMARK_PRIM_G], D_809A85B0[colorIdx].g, this->life + 1);
+            func_80027DD4(this->regs[SS_HITMARK_PRIM_G], sColors[colorIdx].g, this->life + 1);
         this->regs[SS_HITMARK_PRIM_B] =
-            func_80027DD4(this->regs[SS_HITMARK_PRIM_B], D_809A85B0[colorIdx].b, this->life + 1);
+            func_80027DD4(this->regs[SS_HITMARK_PRIM_B], sColors[colorIdx].b, this->life + 1);
         this->regs[SS_HITMARK_ENV_R] =
-            func_80027DD4(this->regs[SS_HITMARK_ENV_R], D_809A85B0[colorIdx + 1].r, this->life + 1);
+            func_80027DD4(this->regs[SS_HITMARK_ENV_R], sColors[colorIdx + 1].r, this->life + 1);
         this->regs[SS_HITMARK_ENV_G] =
-            func_80027DD4(this->regs[SS_HITMARK_ENV_G], D_809A85B0[colorIdx + 1].g, this->life + 1);
+            func_80027DD4(this->regs[SS_HITMARK_ENV_G], sColors[colorIdx + 1].g, this->life + 1);
         this->regs[SS_HITMARK_ENV_B] =
-            func_80027DD4(this->regs[SS_HITMARK_ENV_B], D_809A85B0[colorIdx + 1].b, this->life + 1);
+            func_80027DD4(this->regs[SS_HITMARK_ENV_B], sColors[colorIdx + 1].b, this->life + 1);
     }
 }

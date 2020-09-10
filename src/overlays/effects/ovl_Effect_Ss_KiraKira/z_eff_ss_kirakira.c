@@ -7,7 +7,7 @@
 #include "z_eff_ss_kirakira.h"
 
 typedef enum {
-    /* 0x00 */ SS_KIRAKIRA_ROTATION_SPEED,
+    /* 0x00 */ SS_KIRAKIRA_ROT_SPEED,
     /* 0x01 */ SS_KIRAKIRA_YAW,
     /* 0x02 */ SS_KIRAKIRA_PRIM_R,
     /* 0x03 */ SS_KIRAKIRA_PRIM_G,
@@ -62,7 +62,7 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     }
 
     this->draw = EffectSsKiraKira_Draw;
-    this->regs[SS_KIRAKIRA_ROTATION_SPEED] = initParams->rotationSpeed;
+    this->regs[SS_KIRAKIRA_ROT_SPEED] = initParams->rotSpeed;
     this->regs[SS_KIRAKIRA_YAW] = initParams->yaw;
     this->regs[SS_KIRAKIRA_PRIM_R] = initParams->primColor.r;
     this->regs[SS_KIRAKIRA_PRIM_G] = initParams->primColor.g;
@@ -133,7 +133,7 @@ void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         }
     }
 
-    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROTATION_SPEED];
+    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROT_SPEED];
 }
 
 void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -153,7 +153,7 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         }
     }
 
-    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROTATION_SPEED];
+    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROT_SPEED];
 }
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {

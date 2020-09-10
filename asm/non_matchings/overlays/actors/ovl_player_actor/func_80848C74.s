@@ -148,7 +148,7 @@ glabel func_80848C74
 /* 16C2C 80848E3C 46001006 */  mov.s   $f0, $f2                   
 .L80848E40:
 /* 16C30 80848E40 44070000 */  mfc1    $a3, $f0                   
-/* 16C34 80848E44 0C00A921 */  jal     func_8002A484              
+/* 16C34 80848E44 0C00A921 */  jal     EffectSsFireTail_SpawnFlameOnPlayer              
 /* 16C38 80848E48 AFA3004C */  sw      $v1, 0x004C($sp)           
 /* 16C3C 80848E4C 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 16C40 80848E50 44818000 */  mtc1    $at, $f16                  ## $f16 = 20.00

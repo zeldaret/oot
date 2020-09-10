@@ -8,7 +8,7 @@
 
 typedef enum {
     /* 0x00 */ SS_KAKERA_0,
-    /* 0x01 */ SS_KAKERA_1,
+    /* 0x01 */ SS_KAKERA_GRAVITY,
     /* 0x02 */ SS_KAKERA_PITCH,
     /* 0x03 */ SS_KAKERA_YAW,
     /* 0x04 */ SS_KAKERA_4,
@@ -63,7 +63,7 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->update = EffectSsKakera_Update;
     this->vec = initParams->unk_18;
     this->regs[SS_KAKERA_0] = initParams->unk_2C;
-    this->regs[SS_KAKERA_1] = initParams->unk_24;
+    this->regs[SS_KAKERA_GRAVITY] = initParams->gravity;
     this->regs[SS_KAKERA_PITCH] = Math_Rand_ZeroOne() * 32767.0f;
     this->regs[SS_KAKERA_YAW] = Math_Rand_ZeroOne() * 32767.0f;
     this->regs[SS_KAKERA_4] = initParams->unk_26;
@@ -311,7 +311,7 @@ s32 func_809A9FD8(EffectSs* this, Vec3f* diff, f32 dist) {
 }
 
 s32 func_809AA0B8(EffectSs* this, Vec3f* diff, f32 dist) {
-    this->accel.y += this->regs[SS_KAKERA_1] * 0.00390625f;
+    this->accel.y += this->regs[SS_KAKERA_GRAVITY] * 0.00390625f;
 
     return 1;
 }
@@ -370,7 +370,7 @@ void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
                 this->accel.x = this->accel.y = this->accel.z = 0.0f;
                 this->velocity.x = this->velocity.y = this->velocity.z = 0.0f;
                 this->regs[SS_KAKERA_5] = this->regs[SS_KAKERA_9];
-                this->regs[SS_KAKERA_1] = this->regs[SS_KAKERA_9];
+                this->regs[SS_KAKERA_GRAVITY] = this->regs[SS_KAKERA_9];
             }
         } else {
             if (this->pos.y <= ((player->actor.groundY - ((this->regs[SS_KAKERA_4] >> 2) & 3)) - 600.0f)) {

@@ -1344,7 +1344,7 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #endif
 
 void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
-    EffectSsSibuki_SpawnGroup(globalCtx, pos);
+    EffectSsSibuki_SpawnBurst(globalCtx, pos);
     func_80062B80(globalCtx, pos);
 }
 

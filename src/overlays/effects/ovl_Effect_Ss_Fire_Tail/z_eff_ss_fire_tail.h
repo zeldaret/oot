@@ -12,8 +12,8 @@ typedef struct {
     /* 0x20 */ s16 unk_20;
     /* 0x22 */ Color_RGBA8 primColor; 
     /* 0x26 */ Color_RGBA8 envColor;
-    /* 0x2A */ s16 unk_2A;
-    /* 0x2C */ s16 unk_2C;
+    /* 0x2A */ s16 type;
+    /* 0x2C */ s16 bodypart;
     /* 0x30 */ s32 life;
 } EffectSsFireTailInitParams; // size = 0x
 

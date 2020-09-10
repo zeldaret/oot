@@ -15,8 +15,8 @@ typedef enum {
     /* 0x05 */ SS_SIBUKI_ENV_G,
     /* 0x06 */ SS_SIBUKI_ENV_B,
     /* 0x07 */ SS_SIBUKI_ENV_A,
-    /* 0x08 */ SS_SIBUKI_8,
-    /* 0x09 */ SS_SIBUKI_9,
+    /* 0x08 */ SS_SIBUKI_MOVE_DELAY,
+    /* 0x09 */ SS_SIBUKI_DIRECTION,
     /* 0x0A */ SS_SIBUKI_SCALE
 } EffectSsSibukiRegs;
 
@@ -47,11 +47,11 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     }
 
     this->life = ((s16)((Math_Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
-    this->regs[SS_SIBUKI_8] = initParams->unk_24 + 1;
+    this->regs[SS_SIBUKI_MOVE_DELAY] = initParams->moveDelay + 1;
     this->draw = EffectSsSibuki_Draw;
     this->update = EffectSsSibuki_Update;
-    this->regs[SS_SIBUKI_9] = initParams->unk_26;
-    this->regs[SS_SIBUKI_SCALE] = initParams->unk_28;
+    this->regs[SS_SIBUKI_DIRECTION] = initParams->direction;
+    this->regs[SS_SIBUKI_SCALE] = initParams->scale;
     this->regs[SS_SIBUKI_PRIM_R] = 100;
     this->regs[SS_SIBUKI_PRIM_G] = 100;
     this->regs[SS_SIBUKI_PRIM_B] = 100;
@@ -89,27 +89,27 @@ void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad[3];
-    f32 temp_f2;
-    s16 sp2E;
+    f32 xzVelScale;
+    s16 yaw;
     Player* player = PLAYER;
 
     if (this->pos.y <= player->actor.groundY) {
         this->life = 0;
     }
 
-    if (this->regs[SS_SIBUKI_8] != 0) {
-        this->regs[SS_SIBUKI_8]--;
+    if (this->regs[SS_SIBUKI_MOVE_DELAY] != 0) {
+        this->regs[SS_SIBUKI_MOVE_DELAY]--;
 
-        if (this->regs[SS_SIBUKI_8] == 0) {
-            sp2E = func_8005A948(Gameplay_GetCamera(globalCtx, 0));
-            temp_f2 = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(23) + 20.0f));
+        if (this->regs[SS_SIBUKI_MOVE_DELAY] == 0) {
+            yaw = func_8005A948(Gameplay_GetCamera(globalCtx, 0));
+            xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
-            if (this->regs[SS_SIBUKI_9] != 0) {
-                temp_f2 *= -1.0f;
+            if (this->regs[SS_SIBUKI_DIRECTION] != 0) {
+                xzVelScale *= -1.0f;
             }
 
-            this->velocity.x = Math_Coss(sp2E) * temp_f2;
-            this->velocity.z = -Math_Sins(sp2E) * temp_f2;
+            this->velocity.x = Math_Coss(yaw) * xzVelScale;
+            this->velocity.z = -Math_Sins(yaw) * xzVelScale;
 
             this->velocity.y = ((700.0f + KREG(21)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(24) + 20.0f));
             this->accel.y = ((-100.0f + KREG(22)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * KREG(25));

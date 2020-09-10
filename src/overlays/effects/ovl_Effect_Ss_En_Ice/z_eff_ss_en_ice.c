@@ -10,7 +10,7 @@ typedef enum {
     /* 0x00 */ SS_EN_ICE_LIFESPAN,
     /* 0x01 */ SS_EN_ICE_YAW,
     /* 0x02 */ SS_EN_ICE_PITCH,
-    /* 0x03 */ SS_EN_ICE_PITCH_STEP,
+    /* 0x03 */ SS_EN_ICE_ROT_SPEED,
     /* 0x04 */ SS_EN_ICE_PRIM_R,
     /* 0x05 */ SS_EN_ICE_PRIM_G,
     /* 0x06 */ SS_EN_ICE_PRIM_B,
@@ -37,7 +37,7 @@ extern Gfx D_04033818[];
 u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsEnIceInitParams* initParams = (EffectSsEnIceInitParams*)initParamsx;
 
-    if (initParams->unk_38 == 0) {
+    if (initParams->type == 0) {
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
         this->pos = initParams->pos;
@@ -60,7 +60,7 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->regs[SS_EN_ICE_ENV_B] = initParams->envColor.b;
         this->regs[SS_EN_ICE_ALPHA_MODE] = 1;
         this->regs[SS_EN_ICE_PITCH] = Math_Rand_CenteredFloat(65536.0f);
-    } else if (initParams->unk_38 == 1) {
+    } else if (initParams->type == 1) {
         this->pos = initParams->pos;
         this->vec = initParams->pos;
         this->velocity = initParams->velocity;
@@ -168,5 +168,5 @@ void func_809A3988(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void func_809A3B60(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->regs[SS_EN_ICE_PITCH] += this->regs[SS_EN_ICE_PITCH_STEP];
+    this->regs[SS_EN_ICE_PITCH] += this->regs[SS_EN_ICE_ROT_SPEED];
 }

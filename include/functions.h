@@ -256,15 +256,15 @@ void EffectSsHahen_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s1
                    s16 objId, s16 arg8, Gfx* dList);
 void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw);
 // ? EffectSsSibuki_Spawn(?);
-void EffectSsSibuki_SpawnGroup(GlobalContext* globalCtx, Vec3f* pos);
+void EffectSsSibuki_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos);
 // ? EffectSsSibuki2_Spawn(?);
 // ? EffectSsGMagma2_Spawn(?);
 // ? EffectSsStone1_Spawn(?);
 // ? EffectSsHitMark_Spawn(?);
 void EffectSsHitMark_SpawnFixedScale(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? EffectSsHitMark_SpawnCustomScale(?);
-void EffectSsFhgFlash_Spawn(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
-void EffectSsFhgFlash_Spawn2(GlobalContext*, Actor*, Vec3f*, s16, u8);
+void func_80029CF0(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
+void func_80029D5C(GlobalContext*, Actor*, Vec3f*, s16, u8);
 // ? EffectSsKFire_Spawn(?);
 void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3,
                    s16 arg4, s16 arg5, s16 arg6, s16 arg7, s16 arg8, s16 arg9, s16 arg10, s16 arg11,
@@ -276,9 +276,9 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 // ? func_8002A140(?);
 // ? func_8002A1DC(?);
 // ? func_8002A2A4(?);
-// ? func_8002A32C(?);
-// ? func_8002A3C4(?);
-// ? func_8002A484(?);
+// ? EffectSsFireTail_Spawn(?);
+// ? EffectSsFireTail_SpawnFlame(?);
+// ? EffectSsFireTail_SpawnFlameOnPlayer(?);
 // ? func_8002A4D4(?);
 void EffectSsExtra_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx);
 void EffectSsFCircle_Spawn(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 radius, s16 height);

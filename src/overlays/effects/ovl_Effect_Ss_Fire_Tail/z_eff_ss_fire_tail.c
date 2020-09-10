@@ -18,9 +18,9 @@ typedef enum {
     /* 0x08 */ SS_FIRE_TAIL_ENV_G,
     /* 0x09 */ SS_FIRE_TAIL_ENV_B,
     /* 0x0A */ SS_FIRE_TAIL_A,
-    /* 0x0B */ SS_FIRE_TAIL_B,
-    /* 0x0C */ SS_FIRE_TAIL_C,
-} EffectSsFire_TailRegs;
+    /* 0x0B */ SS_FIRE_TAIL_BODYPART,
+    /* 0x0C */ SS_FIRE_TAIL_TYPE
+} EffectSsFireTailRegs;
 
 u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -63,8 +63,8 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->regs[SS_FIRE_TAIL_ENV_R] = initParams->envColor.r;
     this->regs[SS_FIRE_TAIL_ENV_G] = initParams->envColor.g;
     this->regs[SS_FIRE_TAIL_ENV_B] = initParams->envColor.b;
-    this->regs[SS_FIRE_TAIL_B] = initParams->unk_2C;
-    this->regs[SS_FIRE_TAIL_C] = initParams->unk_2A;
+    this->regs[SS_FIRE_TAIL_BODYPART] = initParams->bodypart;
+    this->regs[SS_FIRE_TAIL_TYPE] = initParams->type;
 
     return 1;
 }
@@ -73,25 +73,25 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     s16 yaw;
-    Vec3f spA0;
-    f32 cos;
-    f32 sin;
+    Vec3f scale;
+    f32 temp1;
+    f32 temp2;
     f32 dist;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fire_tail.c", 182);
 
-    spA0.x = spA0.y = spA0.z = 0.0f;
+    scale.x = scale.y = scale.z = 0.0f;
 
     if (this->actor != NULL) {
 
         this->vec = this->actor->velocity;
 
-        if (this->regs[SS_FIRE_TAIL_B] < 0) {
+        if (this->regs[SS_FIRE_TAIL_BODYPART] < 0) {
             Matrix_Translate(this->pos.x + this->actor->posRot.pos.x, this->pos.y + this->actor->posRot.pos.y,
                              this->pos.z + this->actor->posRot.pos.z, MTXMODE_NEW);
         } else {
             Player* player = PLAYER;
-            s16 bodypart = this->regs[SS_FIRE_TAIL_B];
+            s16 bodypart = this->regs[SS_FIRE_TAIL_BODYPART];
 
             this->pos.x = player->unk_908[bodypart].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
             this->pos.y = player->unk_908[bodypart].y;
@@ -103,23 +103,23 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     }
 
-    yaw = Math_Vec3f_Yaw(&spA0, &this->vec) - func_8005A9F4(ACTIVE_CAM);
-    cos = fabsf(Math_Coss(yaw));
-    sin = Math_Sins(yaw);
-    dist = Math_Vec3f_DistXZ(&spA0, &this->vec) / (this->regs[SS_FIRE_TAIL_A] * 0.1f);
+    yaw = Math_Vec3f_Yaw(&scale, &this->vec) - func_8005A9F4(ACTIVE_CAM);
+    temp1 = fabsf(Math_Coss(yaw));
+    temp2 = Math_Sins(yaw);
+    dist = Math_Vec3f_DistXZ(&scale, &this->vec) / (this->regs[SS_FIRE_TAIL_A] * 0.1f);
     Matrix_RotateY(((((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000)))) * 0.0000958738f, MTXMODE_APPLY);
-    Matrix_RotateZ(sin * this->regs[SS_FIRE_TAIL_2] * dist * 0.017453292f, MTXMODE_APPLY);
-    sin = 1.0f - ((f32)(this->life + 1) / this->regs[SS_FIRE_TAIL_1]);
-    sin = 1.0f - SQ(sin);
-    spA0.x = spA0.y = spA0.z = sin * (this->regs[SS_FIRE_TAIL_SCALE] * 0.000010000001f);
-    Matrix_Scale(spA0.x, spA0.y, spA0.z, MTXMODE_APPLY);
-    cos = ((((this->regs[SS_FIRE_TAIL_3] * 0.01f) * cos) * dist) + 1.0f);
-    
-    if (cos < 0.1f) {
-        cos = 0.1f;
+    Matrix_RotateZ(temp2 * this->regs[SS_FIRE_TAIL_2] * dist * 0.017453292f, MTXMODE_APPLY);
+    temp2 = 1.0f - ((f32)(this->life + 1) / this->regs[SS_FIRE_TAIL_1]);
+    temp2 = 1.0f - SQ(temp2);
+    scale.x = scale.y = scale.z = temp2 * (this->regs[SS_FIRE_TAIL_SCALE] * 0.000010000001f);
+    Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
+    temp1 = ((((this->regs[SS_FIRE_TAIL_3] * 0.01f) * temp1) * dist) + 1.0f);
+
+    if (temp1 < 0.1f) {
+        temp1 = 0.1f;
     }
 
-    Matrix_Scale(1.0f, cos, 1.0f / cos, 1);
+    Matrix_Scale(1.0f, temp1, 1.0f / temp1, MTXMODE_APPLY);
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_fire_tail.c", 238),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -130,9 +130,9 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                    this->regs[SS_FIRE_TAIL_ENV_B], 0);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
-                                ((globalCtx->state.frames) * -0x14) & 0x1FF, 32, 128));
+                                (globalCtx->state.frames * -0x14) & 0x1FF, 32, 128));
 
-    if (this->regs[SS_FIRE_TAIL_C] != 0) {
+    if (this->regs[SS_FIRE_TAIL_TYPE] != 0) {
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D5A0);
     } else {
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
