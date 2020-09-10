@@ -388,7 +388,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     dy += Math_Sins(this->movementTimer * (1096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
     dz += Math_Sins(this->movementTimer * (1796.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
     angleToTarget = (s16)(Math_atan2f(dx, dz) * (0x8000 / M_PI));
-    pitchToTarget = (s16)(Math_atan2f(dy, sqrtf(dx * dx + dz * dz)) * (0x8000 / M_PI));
+    pitchToTarget = (s16)(Math_atan2f(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI));
 
     osSyncPrintf("MODE %d\n", this->actionState);
 
@@ -711,7 +711,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((this->timers[0] == 0) && (sqrtf(dx * dx + dy * dy + dz * dz) < 100.0f)) {
+            if ((this->timers[0] == 0) && (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 100.0f)) {
                 this->actionState = 2;
                 this->targetPosition.y = holeLocations[this->holeIndex].y - 70.0f;
                 this->maxTurnRate = 10000.0f;
@@ -730,7 +730,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if ((this->timers[0] == 0) && (sqrtf(dx * dx + dy * dy + dz * dz) < 100.0f)) {
+            if ((this->timers[0] == 0) && (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 100.0f)) {
                 this->actor.posRot.pos = this->targetPosition;
                 this->actionState = 0;
                 this->actor.posRot.rot.x = 0x4000;
@@ -806,7 +806,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->targetPosition.y = player->actor.posRot.pos.y + temp_y + 30.0f;
             this->targetPosition.z = player->actor.posRot.pos.z;
             this->flightWobbleAmplitude = 0.0f;
-            if (!(this->timers[0] & 0x3F) && (this->timers[0] < 450)) {
+            if (((this->timers[0] % 64) == 0) && (this->timers[0] < 450)) {
                 this->roarTimer = 40;
                 if (BossFd_FacingLink(this)) {
                     this->fireBreathTimer = 20;
@@ -822,7 +822,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case 200: // Start of death cutscene
-            if (sqrtf(dx * dx + dz * dz) < 50.0f) {
+            if (sqrtf(SQ(dx) + SQ(dz)) < 50.0f) {
                 this->timers[0] = 0;
             }
             if (this->timers[0] == 0) {
@@ -833,7 +833,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->targetPosition.z = Math_Rand_CenteredFloat(200.0f);
                     temp_x = this->targetPosition.x - this->actor.posRot.pos.x;
                     temp_z = this->targetPosition.z - this->actor.posRot.pos.z;
-                } while (!(sqrtf((temp_x * temp_x) + (temp_z * temp_z)) > 100.0f));
+                } while (!(sqrtf(SQ(temp_x) + SQ(temp_z)) > 100.0f));
             }
             this->flightWobbleAmplitude = 200.0f;
             this->flightWobbleRate = 1000.0f;
@@ -986,7 +986,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->actor.posRot.pos.y = 110.0f;
             this->turnRate = this->maxTurnRate = this->actor.speedXZ = this->flightSpeed = 0.0f;
 
-            if ((this->timers[0] < 50) && (this->timers[0] > 0)) {
+            if ((50 > this->timers[0]) && (this->timers[0] > 0)) {
                 Vec3f sp120;
                 Vec3f sp114 = { 0.0f, 0.0f, 0.0f };
                 Vec3f sp108 = { 0.0f, 0.03f, 0.0f };
@@ -1052,9 +1052,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->bodySegsPos[i4].x = this->actor.posRot.pos.x;
         this->bodySegsPos[i4].y = this->actor.posRot.pos.y;
         this->bodySegsPos[i4].z = this->actor.posRot.pos.z;
-        this->bodySegsRot[i4].x = (this->actor.posRot.rot.x / 32768.0f) * M_PI;
-        this->bodySegsRot[i4].y = (this->actor.posRot.rot.y / 32768.0f) * M_PI;
-        this->bodySegsRot[i4].z = (this->actor.posRot.rot.z / 32768.0f) * M_PI;
+        this->bodySegsRot[i4].x = (this->actor.posRot.rot.x / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].y = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].z = (this->actor.posRot.rot.z / (f32)0x8000) * M_PI;
 
         this->leadManeSeg++;
         if (this->leadManeSeg >= 30) {
@@ -1065,9 +1065,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->rightManeScale[i4] = (Math_Sins(this->movementTimer * 5496.0f) * 0.3f) + 1.0f;
         this->leftManeScale[i4] = (Math_Coss(this->movementTimer * 5696.0f) * 0.3f) + 1.0f;
         this->centerManePos[i4] = this->centerManeHead;
-        this->fireManeRot[i4].x = (this->actor.posRot.rot.x / 32768.0f) * M_PI;
-        this->fireManeRot[i4].y = (this->actor.posRot.rot.y / 32768.0f) * M_PI;
-        this->fireManeRot[i4].z = (this->actor.posRot.rot.z / 32768.0f) * M_PI;
+        this->fireManeRot[i4].x = (this->actor.posRot.rot.x / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].y = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].z = (this->actor.posRot.rot.z / (f32)0x8000) * M_PI;
         this->rightManePos[i4] = this->rightManeHead;
         this->leftManePos[i4] = this->leftManeHead;
 
@@ -1259,7 +1259,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         if (this->holeSplashTimer != 0) {
             this->holeSplashTimer--;
             if ((this->actor.colChkInfo.health == 0) ||
-                ((this->introState2 == 6) && (this->actor.posRot.rot.x >= 0x3001))) {
+                ((this->introState2 == 6) && (this->actor.posRot.rot.x > 0x3000))) {
                 if ((u8)this->fogMode == 0) {
                     globalCtx->envCtx.unk_D8 = 0.0f;
                 }
@@ -1325,8 +1325,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_FIRE - SFX_FLAG, &D_808D1A28, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         sp7C = this->fireBreathSpawnPoint;
-        spAC = (this->actor.posRot.rot.y / 32768.0f) * M_PI;
-        spB0 = (((-this->actor.posRot.rot.x) / 32768.0f) * M_PI) + 0.3f;
+        spAC = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
+        spB0 = (((-this->actor.posRot.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
         Matrix_RotateY(spAC, 0);
         Matrix_RotateX(spB0, 1);
         Matrix_MultVec3f(&spA0, &sp94);
@@ -1522,7 +1522,7 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                 particle->color.r = colors[cInd].r;
                 particle->color.g = colors[cInd].g;
                 particle->color.b = colors[cInd].b;
-                particle->opacity -= 0x14;
+                particle->opacity -= 20;
                 if (particle->opacity <= 0) {
                     particle->opacity = 0;
                     particle->type = 0;
@@ -1792,7 +1792,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4419);
 
     maneLength = this->skinSegments;
-    if (maneLength >= 11) {
+    if (maneLength > 10) {
         maneLength = 10;
     }
 
@@ -1998,7 +1998,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z, 0);
     Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
-    Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * M_PI, 1);
+    Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * M_PI, 1);
     Matrix_Translate(0.0f, 0.0f, temp_float, 1);
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 25.0f, 1);

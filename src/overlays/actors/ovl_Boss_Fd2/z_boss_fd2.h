@@ -32,7 +32,7 @@ typedef struct BossFd2 {
     /* 0x01A4 */ s16 screamTimer;
     /* 0x01A6 */ s16 damageFlashTimer;
     /* 0x01A8 */ s16 holeCounter;
-    /* 0x01AA */ s16 invulnerabilityTimer;
+    /* 0x01AA */ s16 invincibilityTimer;
     /* 0x01AC */ s16 fakeoutCount;
     /* 0x01AE */ char unk_1AE[2];
     /* 0x01B0 */ char unk_1B0[0xC];

@@ -277,7 +277,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
     Player* player = PLAYER;
     s16 i;
-    s16 phi_v0;
+    s16 holeTime;
 
     osSyncPrintf("UP 1    mode %d\n", this->actionState);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -298,17 +298,17 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.y = -200.0f;
                 health = bossFd->actor.colChkInfo.health;
                 if (health == 24) {
-                    phi_v0 = 30;
+                    holeTime = 30;
                 } else if (health >= 18) {
-                    phi_v0 = 25;
+                    holeTime = 25;
                 } else if (health >= 12) {
-                    phi_v0 = 20;
+                    holeTime = 20;
                 } else if (health >= 6) {
-                    phi_v0 = 10;
+                    holeTime = 10;
                 } else {
-                    phi_v0 = 5;
+                    holeTime = 5;
                 }
-                this->timers[0] = phi_v0;
+                this->timers[0] = holeTime;
                 bossFd->timers[4] = this->timers[0] + 10;
                 osSyncPrintf("UP 1.7 \n");
             }
@@ -357,24 +357,24 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_SetupIdle(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
     s8 health;
-    s16 phi_v0;
+    s16 idleTime;
 
     osSyncPrintf("UP INIT 1\n");
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600AE90);
     this->actionFunc = BossFd2_Idle;
     health = bossFd->actor.colChkInfo.health;
     if (health == 24) {
-        phi_v0 = 50;
+        idleTime = 50;
     } else if (health >= 18) {
-        phi_v0 = 40;
+        idleTime = 40;
     } else if (health >= 12) {
-        phi_v0 = 40;
+        idleTime = 40;
     } else if (health >= 6) {
-        phi_v0 = 30;
+        idleTime = 30;
     } else {
-        phi_v0 = 20;
+        idleTime = 20;
     }
-    this->timers[0] = phi_v0;
+    this->timers[0] = idleTime;
 }
 
 void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
@@ -442,17 +442,15 @@ void BossFd2_SetupBreatheFire(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
-    f32 temp_f22;
-    f32 temp_f20;
-    f32 temp_x;
-    f32 temp_y;
+    s16 i;
+    Vec3f toLink;
     s16 angleX;
     s16 angleY;
     s16 breathOpacity = 0;
-    s16 i;
     BossFd* bossFd = BOSSFD;
     Player* player = PLAYER;
-    Vec3f toLink;
+    f32 temp_x;
+    f32 temp_y;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_800A56C8(&this->skelAnime, this->animationLength)) {
@@ -472,16 +470,16 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         toLink.y = player->actor.posRot.pos.y - this->fireBreathSpawnPoint.y;
         toLink.z = player->actor.posRot.pos.z - this->fireBreathSpawnPoint.z;
         angleY = atan2s(toLink.z, toLink.x);
-        angleX = -atan2s(sqrtf((toLink.x * toLink.x) + (toLink.z * toLink.z)), toLink.y);
+        angleX = -atan2s(sqrtf(SQ(toLink.x) + SQ(toLink.z)), toLink.y);
         angleY -= this->actor.shape.rot.y;
-        if (angleY >= 0x1F41) {
+        if (angleY > 0x1F40) {
             angleY = 0x1F40;
         }
         if (angleY < -0x1F40) {
             angleY = -0x1F40;
         }
         angleX += (-0x1B58);
-        if (angleX >= 0x3E9) {
+        if (angleX > 0x3E8) {
             angleX = 0x3E8;
         }
         if (angleX < -0xFA0) {
@@ -494,6 +492,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxS(&this->fireBreathAngle.x, 0, 5, 0x7D0);
     }
     if (breathOpacity != 0) {
+        f32 breathScale;
         Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
         Vec3f sp84;
         Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
@@ -506,14 +505,14 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         Matrix_RotateY(temp_y, 0);
         Matrix_RotateX(temp_x, 1);
         Matrix_MultVec3f(&sp90, &sp84);
-        temp_f22 = 300.0f + 50.0f * Math_Sins(this->varianceTimer * 0x2000);
-        BossFd2_SpawnFireBreath(globalCtx, bossFd->particles, &sp6C, &sp84, &sp78, temp_f22, breathOpacity,
+        breathScale = 300.0f + 50.0f * Math_Sins(this->varianceTimer * 0x2000);
+        BossFd2_SpawnFireBreath(globalCtx, bossFd->particles, &sp6C, &sp84, &sp78, breathScale, breathOpacity,
                                 this->actor.shape.rot.y + this->fireBreathAngle.y);
         sp6C.x += sp84.x * 0.5f;
         sp6C.y += sp84.y * 0.5f;
         sp6C.z += sp84.z * 0.5f;
-        temp_f20 = 300.0f + 50.0f * Math_Sins(this->varianceTimer * 0x2000);
-        BossFd2_SpawnFireBreath(globalCtx, bossFd->particles, &sp6C, &sp84, &sp78, temp_f20, breathOpacity,
+        breathScale = 300.0f + 50.0f * Math_Sins(this->varianceTimer * 0x2000);
+        BossFd2_SpawnFireBreath(globalCtx, bossFd->particles, &sp6C, &sp84, &sp78, breathScale, breathOpacity,
                                 this->actor.shape.rot.y + this->fireBreathAngle.y);
         sp90.x = 0.0f;
         sp90.y = 17.0f;
@@ -650,7 +649,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
     this->animationLength = SkelAnime_GetFrameCount(&D_060089DC.genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060089DC, 1.0f, 0.0f, this->animationLength, 3, -3.0f);
     this->actionFunc = BossFd2_Death;
-    this->actor.flags = this->actor.flags & ~1;
+    this->actor.flags &= ~1;
     this->cutsceneState = 0;
 }
 
@@ -676,11 +675,11 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
     Vec3f sp64;
     BossFd* bossFd = BOSSFD;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
-    Vec3f* temp_eye;
-    Vec3f* temp_at;
+    f32 pad3;
+    f32 pad2;
+    f32 pad1;
+    f32 camShake;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 temp_f0;
-    s32 pad1;
 
     SkelAnime_FrameUpdateMatrix(skelAnime);
     switch (this->cutsceneState) {
@@ -726,7 +725,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
             }
             Math_SmoothScaleMaxF(&this->skelAnime.animPlaybackSpeed, sp7C, 1.0f, 1.0f);
-            Matrix_RotateY(((this->actor.yawTowardsLink / 32768.0f) * M_PI) + 0.2f, 0);
+            Matrix_RotateY(((this->actor.yawTowardsLink / (f32)0x8000) * M_PI) + 0.2f, 0);
             sp70.x = 0.0f;
             sp70.y = 0.0f;
             sp70.z = 250.0f;
@@ -764,7 +763,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             break;
         case 3:
             if (bossFd->actor.posRot.pos.y < 80.0f) {
-                if (bossFd->actor.posRot.rot.x >= 0x3001) {
+                if (bossFd->actor.posRot.rot.x > 0x3000) {
                     this->unk_13F4 = bossFd->actor.posRot.pos;
                     this->unk_13F4.y = 80.0f;
                     this->unk_13DC.x = bossFd->actor.posRot.pos.x;
@@ -800,11 +799,11 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->unk_13DC.z, 220.0f, 0.5f, 1.15f);
             if (bossFd->deathCameraShakeTimer != 0) {
                 bossFd->deathCameraShakeTimer--;
-                temp_f0 = bossFd->deathCameraShakeTimer / 0.5f;
-                if (temp_f0 >= 20.0f) {
-                    temp_f0 = 20.0f;
+                camShake = bossFd->deathCameraShakeTimer / 0.5f;
+                if (camShake >= 20.0f) {
+                    camShake = 20.0f;
                 }
-                this->unk_1414 = (bossFd->deathCameraShakeTimer & 1) ? temp_f0 : -temp_f0;
+                this->unk_1414 = (bossFd->deathCameraShakeTimer & 1) ? camShake : -camShake;
             }
             if (bossFd->actionState == 205) {
                 this->cutsceneState = 5;
@@ -839,8 +838,8 @@ void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
-    u8 phi_s2;
-    u8 phi_s1;
+    u8 canKill;
+    u8 damage;
     Player* player;
     BossFd* bossFd = BOSSFD;
     ColliderBody* hurtbox;
@@ -868,12 +867,12 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
         if (!bossFd->faceExposed) {
             if (hurtbox->toucher.flags & 0x40000040) {
                 bossFd->actor.colChkInfo.health -= 2;
-                if ((s8)bossFd->actor.colChkInfo.health < 3) {
+                if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
                 }
                 bossFd->faceExposed = 1;
                 BossFd2_SetupVulnerable(this, globalCtx);
-                this->invulnerabilityTimer = 30;
+                this->invincibilityTimer = 30;
                 this->damageFlashTimer = 5;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI1);
                 for (i = 0; i < 30; i++) {
@@ -892,21 +891,21 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
             }
         } else {
             u32 toucherFlags;
-            phi_s2 = 0;
-            phi_s1 = toucherFlags = func_800635D0(hurtbox->toucher.flags);
+            canKill = 0;
+            damage = toucherFlags = func_800635D0(hurtbox->toucher.flags);
             if (toucherFlags == 0) {
-                phi_s1 = (hurtbox->toucher.flags & 0x1000) ? 4 : 2;
+                damage = (hurtbox->toucher.flags & 0x1000) ? 4 : 2;
             } else {
-                phi_s2 = 1;
+                canKill = 1;
             }
             if (hurtbox->toucher.flags & 0x80) {
-                phi_s1 = 0;
+                damage = 0;
             }
-            toucherFlags = phi_s1;
-            if (((s8)bossFd->actor.colChkInfo.health >= 3) || phi_s2) {
-                bossFd->actor.colChkInfo.health -= phi_s1;
+            toucherFlags = damage;
+            if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
+                bossFd->actor.colChkInfo.health -= damage;
                 osSyncPrintf("\x1b[32m");
-                osSyncPrintf("damage   %d\n", phi_s1);
+                osSyncPrintf("damage   %d\n", damage);
             }
             osSyncPrintf("\x1b[m");
             osSyncPrintf("hp %d\n", bossFd->actor.colChkInfo.health);
@@ -915,14 +914,14 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 bossFd->actor.colChkInfo.health = 0;
                 BossFd2_SetupDeath(this, globalCtx);
                 this->damageFlashTimer = 10;
-                this->invulnerabilityTimer = 30000;
+                this->invincibilityTimer = 30000;
                 Audio_SetBGM(0x100100FF);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
                 func_80032C7C(globalCtx, &this->actor);
             } else if (toucherFlags != 0) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->damageFlashTimer = 10;
-                this->invulnerabilityTimer = 100;
+                this->invincibilityTimer = 100;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE1);
             }
             if (toucherFlags != 0) {
@@ -945,8 +944,8 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
-    f32 phi_f0;
-    f32 phi_f2;
+    f32 maxOpen;
+    f32 openRate;
     s16 sp24[5] = { 0, 1, 2, 2, 1 };
 
     if (((this->varianceTimer % 8) == 0) && (Math_Rand_ZeroOne() < 0.3f)) {
@@ -964,13 +963,13 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
     DECR(this->blinkTimer);
 
     if (this->screamTimer != 0) {
-        phi_f0 = 6000.0f;
-        phi_f2 = 1300.0f;
+        maxOpen = 6000.0f;
+        openRate = 1300.0f;
     } else {
-        phi_f0 = (this->varianceTimer & 0x10) ? 1000.0f : 0.0f;
-        phi_f2 = 700.0f;
+        maxOpen = (this->varianceTimer & 0x10) ? 1000.0f : 0.0f;
+        openRate = 700.0f;
     }
-    Math_SmoothScaleMaxF(&this->jawOpening, phi_f0, 0.3f, phi_f2);
+    Math_SmoothScaleMaxF(&this->jawOpening, maxOpen, 0.3f, openRate);
 
     DECR(this->screamTimer);
 }
@@ -978,36 +977,36 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossFd2* this = THIS;
     s16 i;
-    s32 pad;
-
+    
     osSyncPrintf("FD2 move start \n");
     this->disableAT = 0;
     this->actor.flags &= ~0x400;
     this->varianceTimer++;
     this->unkTimer++;
 
-    this->actionFunc(this, globalCtx);
-
+    this->actionFunc(this, globalCtx); 
     for (i = 0; i < 5; i++) {
-        if (this->timers[i] != 0) {
+        if(this->timers[i] != 0){
             this->timers[i]--;
         }
     }
-    if (this->damageFlashTimer != 0) {
+    if(this->damageFlashTimer != 0) {
         this->damageFlashTimer--;
     }
-    if (this->invulnerabilityTimer != 0) {
-        this->invulnerabilityTimer--;
+    if(this->invincibilityTimer != 0) {
+        this->invincibilityTimer--;
     }
-
+    
     if (this->cutsceneState == 0) {
-        if (this->invulnerabilityTimer == 0) {
+        Collider* collider = &this->collider.base;
+        
+        if (this->invincibilityTimer == 0) {
             BossFd2_CollisionCheck(this, globalCtx);
         }
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
         if (!this->disableAT) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, collider);
         }
     }
 
@@ -1032,12 +1031,14 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         rot->y -= (f32)this->fireBreathAngle.y;
         rot->z += (f32)this->fireBreathAngle.x;
     }
-    if (limbIndex != 32) {
-        if ((limbIndex == 35) || (limbIndex == 36)) {
+    switch(limbIndex) {
+        case 35:
+        case 36:
             rot->z -= this->jawOpening * 0.1f;
-        }
-    } else {
-        rot->z += this->jawOpening;
+            break;
+        case 32:
+            rot->z += this->jawOpening;
+            break;
     }
     if ((bossFd->faceExposed == 1) && (limbIndex == 35)) {
         *dList = D_06004E38;
@@ -1054,7 +1055,7 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, (s8)bossFd->bodyTex2Opacity);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2181);
     }
-    if ((limbIndex > 0) && (limbIndex < 16)) {
+    if ((0 < limbIndex) && (limbIndex < 16)) {
         *dList = NULL;
     }
     return 0;
@@ -1081,9 +1082,9 @@ void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Vec3f* pos, Vec3f* rot, Vec3f* pull,
                         f32* scale) {
-    f32 sp138[] = { 0.0f, 100.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-    f32 sp110[] = { 0.0f, 5.0f, -10.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f };
-    f32 spE8[] = { 0.4f, 0.6f, 0.8f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+    f32 sp138[10] = { 0.0f, 100.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+    f32 sp110[10] = { 0.0f, 5.0f, -10.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f };
+    f32 spE8[10] = { 0.4f, 0.6f, 0.8f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
     f32 temp_f12;
     f32 temp_f23;
     f32 temp_f5;
@@ -1113,20 +1114,21 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
     }
 
     for (i = 1; i < 10; i++) {
-        temp_f22 = ((pos + i)->x + (pull + i)->x) - (pos + i - 1)->x;
-        phi_f0 = sp138[i] + (((pos + i)->y + (pull + i)->y) - 2.0f);
-
+        temp_f22 = (pos + i)->x + (pull + i)->x - (pos + i - 1)->x;
+        
+        phi_f0 = (pos + i)->y + (pull + i)->y - 2.0f + sp138[i];
         temp_f2 = (pos + i - 1)->y + sp110[i];
-        if (temp_f2 < phi_f0) {
+        if (phi_f0 > temp_f2) {
             phi_f0 = temp_f2;
         }
         if ((head->y >= -910.0f) && (phi_f0 < 110.0f)) {
             phi_f0 = 110.0f;
         }
         temp_f24 = phi_f0 - (pos + i - 1)->y;
-        temp_f20 = ((pos + i)->z + (pull + i)->z) - (pos + i - 1)->z;
+        
+        temp_f20 = (pos + i)->z + (pull + i)->z - (pos + i - 1)->z;
         temp_f5 = atan2f(temp_f20, temp_f22);
-        temp_f23 = -atan2f(sqrtf((temp_f22 * temp_f22) + (temp_f20 * temp_f20)), temp_f24);
+        temp_f23 = -atan2f(sqrtf(SQ(temp_f22) + SQ(temp_f20)), temp_f24);
         (rot + i - 1)->y = temp_f5;
         (rot + i - 1)->x = temp_f23;
         spBC.x = 0.0f;
@@ -1180,17 +1182,17 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
 }
 
 void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
-    f32 temp_f20;
+    f32 pad;
     BossFd* bossFd = BOSSFD;
     s16 i;
+    
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2515);
     if (1) {}
     for (i = 0; i < 10; i++) {
-        temp_f20 = i * 0x3200;
-        this->centerMane.scale[i] = 1.5f + 0.3f * Math_Sins(5596.0f * this->varianceTimer + temp_f20);
-        this->rightMane.scale[i] = 1.5f + 0.3f * Math_Sins(5496.0f * this->varianceTimer + temp_f20);
-        this->leftMane.scale[i] = 1.5f + 0.3f * Math_Coss(5696.0f * this->varianceTimer + temp_f20);
+        this->centerMane.scale[i] = 1.5f + 0.3f * Math_Sins(5596.0f * this->varianceTimer + i * 0x3200);
+        this->rightMane.scale[i] = 1.5f + 0.3f * Math_Sins(5496.0f * this->varianceTimer + i * 0x3200);
+        this->leftMane.scale[i] = 1.5f + 0.3f * Math_Coss(5696.0f * this->varianceTimer + i * 0x3200);
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
