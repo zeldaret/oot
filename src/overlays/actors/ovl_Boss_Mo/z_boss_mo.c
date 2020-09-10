@@ -4,10 +4,12 @@
 
 #define THIS ((BossMo*)thisx)
 
+#define WATER_LEVEL globalCtx->colCtx.stat.colHeader->waterBoxes[0].unk_02
+
 void BossMo_Init(Actor* thisx, GlobalContext* globalCtx);    //**
 void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx); //**
 void func_80922D30(Actor* thisx, GlobalContext* globalCtx);  //**
-void BossMo_Update(Actor* thisx, GlobalContext* globalCtx);  //
+void BossMo_Update(Actor* thisx, GlobalContext* globalCtx);  //**
 void func_80924228(Actor* thisx, GlobalContext* globalCtx);  //
 void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx);    //**
 
@@ -21,15 +23,15 @@ void func_8091BF38(BossMoParticle* particle, Vec3f* pos, f32 scale);            
 void func_8091BFFC(BossMoParticle* particle, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale, Vec3f* vec4);    //**
 
 void func_8091C4E0(BossMo* this, GlobalContext* globalCtx); //**
-void func_8091C538(BossMo* this, GlobalContext* globalCtx);
+void func_8091C538(BossMo* this, GlobalContext* globalCtx); //
 void func_8091F2FC(BossMo* this, GlobalContext* globalCtx); //**
 void func_8091F5A8(BossMo* this, GlobalContext* globalCtx); //
 void func_809206C4(BossMo* this, GlobalContext* globalCtx); //
 void func_80921280(BossMo* this, GlobalContext* globalCtx); //**
-void func_809216D0(BossMo* this, GlobalContext* globalCtx);
+void func_809216D0(BossMo* this, GlobalContext* globalCtx); //
 
 void func_809237C4(BossMo* this, s32 item, ColliderJntSph* collider1, Vec3f* center); //**
-void func_80923870(BossMo* this, GlobalContext* globalCtx);                        //
+void func_80923870(BossMo* this, GlobalContext* globalCtx);                        //**
 void func_80923FDC(BossMo* this, GlobalContext* globalCtx);                        //**
 void func_80924D70(BossMo* this, GlobalContext* globalCtx); //**
 void func_80925480(BossMoParticle* particle, GlobalContext* globalCtx); //**
@@ -48,6 +50,7 @@ extern Gfx D_06004C50[];
 extern Gfx D_06006700[];
 extern Gfx D_06006838[];
 extern Gfx D_06007C00[];
+extern UNK_PTR D_801305D0;
 
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
@@ -160,54 +163,6 @@ ColliderCylinderInit D_8092603C = {
     { 20, 40, -20, { 0, 0, 0 } },
 };
 
-Vec3f D_80926068 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80926074 = { 0.0f, -1.0f, 0.0f }; // inline
-Vec3f D_80926080 = { 0.0f, 0.0f, 0.0f };  // inline
-
-s16 D_8092608C[41] = { 0, 0, 0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  4, 8, 8, 8, 9, 9, 9,
-                       9, 9, 9, 12, 15, 15, 15, 15, 15, 15, 15, 20, 20, 20, 0, 0, 0, 0, 0, 0 };
-s16 D_809260E0[41] = { 0, 0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, -5, -5, -5,
-                       0, 5, 10, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 0, 0, 0, 0,  0 };
-s16 D_80926134[41] = { 0, 5, 6, 7, 8, 8, 7, 6, 6, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-InitChainEntry D_80926188[4] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 37, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
-};
-
-Vec3f D_80926198 = { 0.0f, 0.0f, 0.0f };
-
-u8 D_809261A4[21] = { 0, 1, 2, 3, 4, 15, 19, 5, 14, 16, 17, 18, 6, 13, 20, 7, 12, 11, 10, 9, 8 };
-
-Vec2f D_809261BC[21] = { { -360.0f, -360.0f }, { -180.0f, -360.0f }, { 0.0f, -360.0f }, { 180.0f, -360.0f },
-                         { 360.0f, -360.0f },  { -360.0f, -180.0f }, { 0.0f, -180.0f }, { 360.0f, -180.0f },
-                         { -360.0f, 0.0f },    { -180.0f, 0.0f },    { 0.0f, 0.0f },    { 180.0f, 0.0f },
-                         { 360.0f, 0.0f },     { -360.0f, 180.0f },  { 0.0f, 180.0f },  { 360.0f, 180.0f },
-                         { -360.0f, 360.0f },  { -180.0f, 360.0f },  { 0.0f, 360.0f },  { 180.0f, 360.0f },
-                         { 360.0f, 360.0f } };
-
-f32 D_80926264[41] = { 3.56f, 3.25f, 2.96f, 2.69f, 2.44f, 2.21f, 2.0f, 1.81f, 1.64f, 1.49f, 1.36f, 1.25f, 1.16f, 1.09f,
-                       1.04f, 1.01f, 1.0f,  1.0f,  1.0f,  1.0f,  1.0f, 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,
-                       1.0f,  1.0f,  1.0f,  1.0f,  0.98f, 0.95f, 0.9f, 0.8f,  0.6f,  1.0f,  1.0f,  1.0f,  1.0f };
-f32 D_80926308[41] = { 0.0f,      2.95804f,  4.123106f, 4.974937f, 5.656854f, 6.22495f,  6.708204f,
-                       7.123903f, 7.483315f, 7.794229f, 8.062258f, 8.291562f, 8.485281f, 8.645808f,
-                       8.774964f, 8.87412f,  8.944272f, 8.9861f,   9.0f,      8.9861f,   8.944272f,
-                       8.87412f,  8.774964f, 8.645808f, 8.485281f, 8.291562f, 8.062258f, 7.794229f,
-                       7.483315f, 7.123903f, 6.708204f, 6.22495f,  5.656854f, 4.974937f, 4.123106f,
-                       2.95804f,  0.0f,      0.0f,      0.0f,      0.0f,      0.0f };
-
-Vec3f D_809263AC = { 0.0f, 0.0f, 0.0f }; // inline?
-
-Vec3f D_809263B8[6] = { { -360.0f, -190.0f, 0.0f },  { 250.0f, -190.0f, 0.0f }, { 300.0f, -120.0f, -278.0f },
-                        { 180.0f, -80.0f, -340.0f }, { 180.0f, 0.0f, -340.0f }, { 180.0f, 60.0f, -230.0f } };
-
-f32 D_80926400[11] = { 0.1f, 0.15f, 0.2f, 0.3f, 0.4f, 0.43f, 0.4f, 0.3f, 0.2f, 0.15f, 0.1f };
-
-Vec3f D_8092642C = { 0.0f, 0.0f, 0.0f }; // inline
-
 BossMoParticle D_80927AC0[300];
 s32 D_8092C5C0;
 s32 D_8092C5C4;
@@ -251,6 +206,8 @@ s32 func_8091BC40(Vec3f* pos, f32 margin) {
     return 0;
 }
 
+Vec3f D_80926068 = { 0.0f, 0.0f, 0.0f };
+
 void func_8091BD38(BossMoParticle* particle, Vec3f* pos, f32 scale, f32 val2, s16 val3, s16 partnum, u8 type) {
     s16 i;
 
@@ -280,7 +237,7 @@ void func_8091BD38(BossMoParticle* particle, Vec3f* pos, f32 scale, f32 val2, s1
 
 void func_8091BE5C(s16 type, BossMoParticle* particle, Vec3f* pos, Vec3f* vel, f32 scale) {
     s16 i;
-    Vec3f sp00 = D_80926074;
+    Vec3f sp00 = { 0.0f, -1.0f, 0.0f };
 
     for (i = 0; i < 290; i++, particle++) {
         if (particle->type == 0) {
@@ -301,7 +258,7 @@ void func_8091BE5C(s16 type, BossMoParticle* particle, Vec3f* pos, Vec3f* vel, f
 
 void func_8091BF38(BossMoParticle* particle, Vec3f* pos, f32 scale) {
     s16 i;
-    Vec3f sp00 = D_80926080;
+    Vec3f sp00 = { 0.0f, 0.0f, 0.0f };
 
     for (i = 0; i < 290; i++, particle++) {
         if (particle->type == 0) {
@@ -341,30 +298,42 @@ void func_8091BFFC(BossMoParticle* particle, Vec3f* pos, Vec3f* vel, Vec3f* acce
     }
 }
 
+s16 D_8092608C[41] = { 0, 0, 0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  4, 8, 8, 8, 9, 9, 9,
+                       9, 9, 9, 12, 15, 15, 15, 15, 15, 15, 15, 20, 20, 20, 0, 0, 0, 0, 0, 0 };
+s16 D_809260E0[41] = { 0, 0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, -5, -5, -5,
+                       0, 5, 10, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 0, 0, 0, 0,  0 };
+s16 D_80926134[41] = { 0, 5, 6, 7, 8, 8, 7, 6, 6, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+InitChainEntry D_80926188[4] = {
+    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 37, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+};
+
+Vec3f D_80926198 = { 0.0f, 0.0f, 0.0f };
+
 void BossMo_Init(Actor* thisx, GlobalContext* globalCtx) {
     BossMo* this = THIS;
     u16 i;
-    f32 temp_f0;
     ColliderCylinder* collider2 = &this->collider2;
-    Vec3f sp4C;
 
     Actor_ProcessInitChain(&this->actor, D_80926188);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     if (this->actor.params != 0x64) {
         Flags_SetSwitch(globalCtx, 0x14);
         D_80925CD0 = this;
-        temp_f0 = globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02;
-        this->unk_1BC = temp_f0;
-        globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 = temp_f0;
+        WATER_LEVEL = this->waterLevel = WATER_LEVEL;
         globalCtx->unk_11D30[0] = 0xA0;
         globalCtx->unk_11E10 = &D_80927AC0;
         for (i = 0; i < 0x12C; i++) {
-            D_80927AC0[i].unk_24 = 0;
+            D_80927AC0[i].type = 0;
         }
         this->actor.posRot.pos.x = 200.0f;
-        this->actor.posRot.pos.y = globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 + 50.0f;
+        this->actor.posRot.pos.y = WATER_LEVEL + 50.0f;
         this->unk_18C = 5.0f;
-        this->unk_1D1 = 1;
+        this->drawActor = 1;
         this->actor.colChkInfo.health = 0x14;
         this->actor.colChkInfo.mass = 0;
         this->actor.params = 0;
@@ -377,15 +346,15 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx) {
                                0, 0, -1);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
             globalCtx->unk_11D30[0] = 0xFF;
-            globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 = -0x1F4;
+            WATER_LEVEL = -0x1F4;
         } else {
             if (gSaveContext.eventChkInf[7] & 0x10) {
                 Audio_SetBGM(0x1B);
-                this->unk_D64 = 5.0f;
+                this->tentMaxAngle = 5.0f;
                 this->timers[0] = 50;
             } else {
-                this->unk_F60 = 1;
-                this->unk_158 = 0x14;
+                this->cutsceneState = 1;
+                this->actionState = 0x14;
                 this->actor.posRot.pos.x = 1000.0f;
                 this->timers[0] = 60;
             }
@@ -400,15 +369,13 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 0.01f);
         func_8091C4E0(this, globalCtx);
         this->actor.colChkInfo.mass = 0xFF;
-        globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 = -0x32;
-        this->unk_1C4 = 90.0f;
-        this->actor.posRot.pos.y = globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02;
-        sp4C = this->actor.posRot.pos;
-        this->unk_1D4 = sp4C;
-        this->actor.pos4 = sp4C;
+        WATER_LEVEL = -0x32;
+        this->waterTexOpacity = 90.0f;
+        this->actor.posRot.pos.y = WATER_LEVEL;
+        this->actor.pos4 = this->targetPos = this->actor.posRot.pos;
         Collider_InitJntSph(globalCtx, &this->collider1);
         Collider_SetJntSph(globalCtx, &this->collider1, &this->actor, &D_8092602C, this->colliderItems);
-        this->unk_D64 = 1.0f;
+        this->tentMaxAngle = 1.0f;
     }
 }
 
@@ -424,11 +391,718 @@ void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_8091C4E0(BossMo* this, GlobalContext* globalCtx) {
     this->actionFunc = func_8091C538;
-    this->unk_158 = 10;
+    this->actionState = 10;
     this->timers[0] = 50 + (s16)Math_Rand_ZeroFloat(20.0f);
 }
 
+u8 D_809261A4[21] = { 0, 1, 2, 3, 4, 15, 19, 5, 14, 16, 17, 18, 6, 13, 20, 7, 12, 11, 10, 9, 8 };
+
+Vec2f D_809261BC[21] = { { -360.0f, -360.0f }, { -180.0f, -360.0f }, { 0.0f, -360.0f }, { 180.0f, -360.0f },
+                         { 360.0f, -360.0f },  { -360.0f, -180.0f }, { 0.0f, -180.0f }, { 360.0f, -180.0f },
+                         { -360.0f, 0.0f },    { -180.0f, 0.0f },    { 0.0f, 0.0f },    { 180.0f, 0.0f },
+                         { 360.0f, 0.0f },     { -360.0f, 180.0f },  { 0.0f, 180.0f },  { 360.0f, 180.0f },
+                         { -360.0f, 360.0f },  { -180.0f, 360.0f },  { 0.0f, 360.0f },  { 180.0f, 360.0f },
+                         { 360.0f, 360.0f } };
+
+f32 D_80926264[41] = { 3.56f, 3.25f, 2.96f, 2.69f, 2.44f, 2.21f, 2.0f, 1.81f, 1.64f, 1.49f, 1.36f, 1.25f, 1.16f, 1.09f,
+                       1.04f, 1.01f, 1.0f,  1.0f,  1.0f,  1.0f,  1.0f, 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,
+                       1.0f,  1.0f,  1.0f,  1.0f,  0.98f, 0.95f, 0.9f, 0.8f,  0.6f,  1.0f,  1.0f,  1.0f,  1.0f };
+f32 D_80926308[41] = { 0.0f,      2.95804f,  4.123106f, 4.974937f, 5.656854f, 6.22495f,  6.708204f,
+                       7.123903f, 7.483315f, 7.794229f, 8.062258f, 8.291562f, 8.485281f, 8.645808f,
+                       8.774964f, 8.87412f,  8.944272f, 8.9861f,   9.0f,      8.9861f,   8.944272f,
+                       8.87412f,  8.774964f, 8.645808f, 8.485281f, 8.291562f, 8.062258f, 7.794229f,
+                       7.483315f, 7.123903f, 6.708204f, 6.22495f,  5.656854f, 4.974937f, 4.123106f,
+                       2.95804f,  0.0f,      0.0f,      0.0f,      0.0f,      0.0f };
+
+#ifdef NON_MATCHING
+//The Sins for loops have serious problems. Also it's massive.
+void func_8091C538(BossMo *this, GlobalContext *globalCtx) {
+    s16 indS1;
+    s16 sp1B4 = 0;
+    s32 buttons;
+    Player* player = PLAYER;
+    s16 indS0;
+    s16 indT5;
+    Camera *camera1;
+    Camera *camera2;
+    BossMo* otherTent = (BossMo*) this->otherTent; //sp19C
+    f32 sp198;
+    f32 sp194;
+    f32 sp190;
+    f32 sp18C;
+    f32 sp188;
+    f32 sp184;
+    f32 sp180;
+    f32 sp17C;
+    s16 sp17A;
+    s16 pad178;
+    Vec3f sp16C;
+    f32 rand_angle;
+    f32 rand_f;
+    f32 temp_f22;
+    f32 temp_f24;
+    f32 dx;
+    f32 dy;
+    f32 dz;
+    f32 pad14C;
+    f32 pad148;
+    f32 pad144;
+    Vec3f sp138;
+    Vec3f sp12C;
+    Vec3f sp120;
+    f32 pad11C;
+    f32 pad118;
+    f32 pad114;
+    f32 pad110;
+    f32 pad10C;
+    f32 pad108;
+    Vec3f spFC;
+    Vec3f spF0;
+    BossMo** newTent;
+    Vec3f spE0;
+    Vec3f spD4;
+    Vec3f spC8;
+
+    if (this->actionState < 0xCC) {
+        this->actor.posRot.pos.y = WATER_LEVEL;
+    }
+    if((this->actionState == 0) || (this->actionState >= 0xC8) || (this->actionState == 0x65) || (this->actionState == 1) || (this->actionState == 5)) {
+        if (this->actionState == 0) {
+            if (D_80925CD0->cutsceneState != 0) {
+                sp198 = 2000.0f;
+                sp194 = 3000.0f;
+                sp190 = 1000.0f;
+                sp18C = 1500.0f;
+                sp188 = 2500.0f;
+                sp184 = 1000.0f;
+                sp180 = 10.0f;
+                sp17C = 10.0f;
+            } else {
+                sp198 = 2000.0f;
+                sp194 = 3000.0f;
+                sp190 = 1000.0f;
+                sp18C = 1500.0f;
+                sp188 = 2500.0f;
+                sp184 = 1000.0f;
+                sp180 = 20.0f;
+                sp17C = 30.0f;
+            }
+        } else if (this->actionState == 1) {
+            sp198 = 2500.0f;
+            sp194 = -1000.0f;
+            sp190 = 3000.0f;
+            sp18C = 1500.0f;
+            sp188 = 2500.0f;
+            sp184 = 0.0;
+            sp180 = 30.0f;
+            sp17C = 60.0f;
+            if (((this->unk_17C % 0x10) == 0) && (this->timers[0] < 0x1E)) {
+                func_800F4B58(&this->unk_1010, 0x38F2, &D_801305D0);
+            }
+        } else if (this->actionState == 5) {
+            if (this->timers[0] >= 0x29) {
+                sp198 = 1300.0f;
+                sp194 = -3200.0f;
+                sp190 = 7000.0f;
+                sp18C = 800.0f;
+                sp188 = 2500.0f;
+                sp184 = 5000.0f;
+                sp180 = 30.0f;
+                sp17C =  60.0f;
+                if ((this->unk_17C % 0x20) == 0) {
+                    func_800F4B58(&this->unk_1010, 0x38F2, &D_801305D0);
+                    func_800AA000(0.0f, 0x64, 5, 2);
+                    func_8002F7DC(&player->actor, *((u16*)(player->ageProperties)+0x49) + 0x6806);
+                }
+            } else {
+                sp198 = 2000.0f;
+                sp194 = -1000.0f;
+                sp190 = 5000.0f;
+                sp18C = 1500.0f;
+                sp188 = 2500.0f;
+                sp184 = 100.0f;
+                sp180 = 70.0f;
+                sp17C = 70.0f;
+                if ((this->unk_17C % 0x10) == 0) {
+                    func_800F4B58(&this->unk_1010, 0x38F2, &D_801305D0);
+                    func_800AA000(0.0f, 0xA0, 5, 4);
+                    func_8002F7DC(&player->actor, *((u16*)(player->ageProperties)+0x49) + 0x6806);
+                }
+            }
+        } else if (this->actionState == 0x65) {
+            sp198 = 1300.0f;
+            sp194 = 3200.0f;
+            sp190 = 7000.0f;
+            sp18C = 800.0f;
+            sp188 = 2500.0f;
+            sp184 = 5000.0f;
+            sp180 = 30.0f;
+            sp17C = 30.0f;
+        } else if (this->actionState >= 0xC8) {
+            sp198 = -400.0f;
+            sp194 = -3200.0f;
+            sp190 = 0.0;
+            sp18C = 2300.0f;
+            sp188 = 3200.0f;
+            sp184 = 1000.0f;
+            sp180 = 30.0f;
+            sp17C = 60.0f;
+        }
+        Math_SmoothScaleMaxF(&this->unk_190, sp198, 1.0f, sp180);
+        Math_SmoothScaleMaxF(&this->unk_188, sp194, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->unk_18C, sp190, 1.0f, sp17C);
+        Math_SmoothScaleMaxF(&this->unk_19C, sp18C, 1.0f, sp180);
+        Math_SmoothScaleMaxF(&this->unk_194, sp188, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->unk_198, sp184, 1.0f, sp17C);
+        this->tentAngle += (s32)this->unk_190;
+        this->unk_170 += (s32)this->unk_19C;
+    }
+    switch(this->actionState) {
+        case 10:
+            this->actor.flags &= ~1;
+            if (this == D_80925CD8) {
+                this->actionState = 0xB;
+                this->timers[0] = 0x46;
+                this->actor.shape.rot.y = this->actor.yawTowardsLink;
+            }
+            break;
+        case 11:
+            this->drawActor = 1;
+            this->baseBubblesTimer = 0x14;
+            if (this->timers[0] < 0x14) {
+                Math_SmoothScaleMaxF(&this->tentRippleSize, 0.15f, 0.5f, 0.01f);
+                Math_SmoothScaleMaxF(&this->baseOpacity, 150.0f, 1.0f, 5.0f);
+                if (150.0f <= this->baseOpacity) {
+                    this->actionState = 0;
+                    this->timers[0] = 0x3C;
+                }
+            }
+            if (this->timers[0] >= 0x33) {
+               sp17A = 1;
+            } else if(this->timers[0] >= 0x29) {
+               sp17A = 3;
+            } else if(this->timers[0] >= 0x1F) {
+               sp17A = 5;
+            } else if(this->timers[0] >= 0x15) {
+               sp17A = 8;
+            } else {
+               sp17A = 3;
+            }
+            for(indS1 = 0; indS1 < sp17A; indS1++) {
+                rand_f = Math_Rand_ZeroFloat(50.0f);
+                rand_angle = Math_Rand_ZeroFloat(65536.0f);
+                sp16C =  this->actor.posRot.pos;
+                sp16C.x += sinf(rand_angle) * rand_f;
+                sp16C.z += cosf(rand_angle) * rand_f;
+                sp16C.y = WATER_LEVEL;
+                func_8091BD38(globalCtx->unk_11E10,  &sp16C, 40.0f, 110.0f, 0x50, 0x122, 1);
+            }
+            break;
+        case 0:
+        case 1:
+            if (D_80925CD0->cutsceneState == 0) {
+                func_80078914(&this->unk_1010, 0x30F0);
+            }
+            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                temp_f22 = this->unk_18C * ((indS1 * 0.025f) * Math_Sins(((s16)this->unk_188 * indS1) + this->tentAngle));
+                temp_f24 = this->unk_198 * ((indS1 * 0.025f) * Math_Sins(((s16)this->unk_194 * indS1) + this->unk_170));
+                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * 5.0f, 0.1f, 0.4f);
+                if (indS1 == 28) {
+                    sp1B4 = this->tentRot[indS1].x;
+                }
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+            }
+            this->targetPos = this->actor.posRot.pos;
+            Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.75f, 1.0f, 0.04f);
+            if (this->actionState == 1) {
+                Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + this->unk_1CE, 0xA, 0x1F4);
+            }
+            Math_SmoothScaleMaxF(&this->unk_1A0, 1.0f, 0.5f, 0.04f);
+            if (D_80925CD0->cutsceneState != 0) {
+                Math_SmoothScaleMaxF(&this->tentMaxAngle, 1.0f, 1.0f, 0.001f);
+                Math_SmoothScaleMaxF(&this->tentSpeed, 240.0f, 1.0f, 3.0f);
+            } else {
+                Math_SmoothScaleMaxF(&this->tentMaxAngle, 1.0f, 1.0f, 0.002f);
+                Math_SmoothScaleMaxF(&this->tentSpeed, 400.0f, 1.0f, 6.0f);
+            }
+            if (this->actionState == 0) {
+                if ((this->timers[0] == 0) && ((otherTent == NULL) || ((otherTent->actionState != 4) && (otherTent->actionState != 5)))) {
+                    this->actionState = 1;
+                    this->timers[0] = 0x32;
+                    func_800F4BE8();
+                    this->unk_1CE = Math_Rand_CenteredFloat(4096.0f);
+                    this->actionState = this->actionState;
+                }
+            } else {
+                if ((this->timers[0] == 0) && (this->tentRot[28].x >= 0) && (sp1B4 < 0)) {
+                    this->actionState = 2;
+                    if (this == D_80925CD4) {
+                        this->timers[0] = 0xAF;
+                    } else {
+                        this->timers[0] = 0x37;
+                    }
+                }
+            }
+            break;
+        case 2:
+            this->actor.flags |= 0x1000000;
+            func_80078914(&this->unk_1010, 0x30F1);
+            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * ((((0x28 - indS1) * 25.0f) / 100.0f) + 5.0f), 0.5f, 0.7f);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, D_80926134[indS1] * 0x100, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, 0, 1.0f / this->tentMaxAngle, this->tentSpeed);
+            }
+            this->targetPos = this->actor.posRot.pos;
+            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01f);
+            Math_SmoothScaleMaxF(&this->tentSpeed, 160.0f, 1.0f, 50.0f);
+            if ((this->timers[0] == 0) || (this->linkHitTimer != 0)){
+                dx = this->tentPos[22].x - player->actor.posRot.pos.x;
+                dy = this->tentPos[22].y - player->actor.posRot.pos.y;
+                dz = this->tentPos[22].z - player->actor.posRot.pos.z;
+                if ((fabsf(dy) < 50.0f) && ((otherTent == NULL) || ((otherTent->actionState != 4) && (otherTent->actionState != 5)))
+                    && (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 120.0f)) {
+
+                    this->tentMaxAngle = .001f;
+                    this->actionState = 3;
+                    this->timers[0] = 0x28;
+                    this->tentSpeed = 0;
+                    if ((s16)(this->actor.shape.rot.y - this->actor.yawTowardsLink) >= 0) {
+                        this->unk_176 = 0;
+                    } else {
+                        this->unk_176 = 1;
+                    }
+                } else {
+                    this->tentMaxAngle = .001f;
+                    this->actionState = 0;
+                    this->unk_190 = this->unk_19C = this->unk_18C = this->unk_198 = this->tentSpeed = 0;
+                    this->timers[0] = 0x1E;
+                    if ((300.0f < fabsf(player->actor.posRot.pos.x - this->actor.posRot.pos.x)) 
+                        || (player->actor.posRot.pos.y < WATER_LEVEL) 
+                        || ((otherTent != NULL) && ((otherTent->actionState == 4) || (otherTent->actionState == 5)))
+                        || (300.0f < fabsf(player->actor.posRot.pos.z - this->actor.posRot.pos.z))) {
+                            
+                        this->actionState = 0x65;
+                        this->timers[0] = 0x4B;
+                    }
+                }
+            }
+            break;
+        case 3:
+        case 4:
+            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1, 0.4f);
+            if (this->timers[0] == 0x7D) {
+                this->tentMaxAngle = .001f;
+                this->tentSpeed = 0;
+            }
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                if (this->timers[0] >= 0x1A) {
+                    if (this->unk_176 == 0) {
+                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, D_8092608C[indS1] * 0x100, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                    } else {
+                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, D_8092608C[indS1] * -0x100, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                    }
+                } else {
+                    if (this->unk_176 == 0) {
+                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, D_809260E0[indS1] * 0x100, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                    } else {
+                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, D_809260E0[indS1] * -0x100, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                    }
+                }
+            }
+            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.1, 1.0f, 0.01f);
+            Math_SmoothScaleMaxF(&this->tentSpeed, 960.0f, 1.0f, 30.0f);
+            if (this->timers[0] >= 0x1E) {
+                Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0xC8);
+            }
+            if (this->actionState == 3) {
+                if ((this->timers[0] >= 5) && (this->linkHitTimer != 0) && (player->actor.parent == NULL)){
+                    if (globalCtx->unk_11D4C(globalCtx, &player->actor) != 0) {
+                        player->actor.parent = (Actor*) this;
+                        this->actionState = 4;
+                        func_80078914(&this->unk_1010, 0x38F3);
+                        Audio_PlaySoundGeneral(0x6805, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    } else {
+                        this->timers[0] = 0x1E;
+                        this->actionState = 0;
+                        this->tentMaxAngle = .001f;
+                        this->tentSpeed = 0;
+                        this->unk_198 = 0;
+                        this->unk_18C = 0;
+                        this->unk_19C = 0;
+                        this->unk_190 = 0;
+                    }
+                }
+                if (this->timers[0] == 4) {
+                    
+                    this->actionState = 0;
+                    this->tentMaxAngle = .001f;
+                    this->tentSpeed = 0;
+                    this->unk_198 = 0;
+                    this->unk_18C = 0;
+                    this->unk_19C = 0;
+                    this->unk_190 = 0;
+                    this->timers[0] = 0x1E;
+                }
+            }
+            if (this->actionState == 4) {
+                player->unk_850 = 0xA;
+                player->actor.speedXZ = player->actor.velocity.y = 0;
+                Math_SmoothScaleMaxF(&player->actor.posRot.pos.x, this->grabPosRot.pos.x, 0.5f, 20.0f);
+                Math_SmoothScaleMaxF(&player->actor.posRot.pos.y, this->grabPosRot.pos.y, 0.5f, 20.0f);
+                Math_SmoothScaleMaxF(&player->actor.posRot.pos.z, this->grabPosRot.pos.z, 0.5f, 20.0f);
+                Math_SmoothScaleMaxS(&player->actor.shape.rot.x, this->grabPosRot.rot.x, 2, 0x7D0);
+                Math_SmoothScaleMaxS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
+                Math_SmoothScaleMaxS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
+                if (this->timers[0] == 0) {
+                    camera1 = Gameplay_GetCamera(globalCtx, 0);
+                    this->actionState = 5;
+                    this->tentMaxAngle = .001f;
+                    this->unk_190 = this->unk_19C = this->unk_18C = this->unk_198 = this->tentSpeed = 0;
+                    this->timers[0] = 0x96;
+                    this->mashCounter = 0;
+                    this->unk_17C = 0x1E;
+                    func_800F4BE8();
+                    func_80064520(globalCtx, &globalCtx->csCtx);
+                    this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
+                    Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+                    Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
+                    this->unk_F68 = camera1->eye;
+                    this->unk_F74 = camera1->at;
+                    this->unk_1004 = Math_atan2f(this->unk_F68.x - this->actor.posRot.pos.x, this->unk_F68.z - this->actor.posRot.pos.z);
+                    this->unk_1008 = 0;
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        case 5: // switch 2
+            if (this->timers[0] == 0x8A) {
+                ShrinkWindow_SetVal(0);
+                Interface_ChangeAlpha(0xB);
+            }
+            if ((this->timers[0] % 8) == 0) {
+                globalCtx->unk_11D58(globalCtx, -1);
+            }
+            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1, 0.4f);
+            sp1B4 = this->tentRot[15].x;
+            buttons = *((u16*)globalCtx+0x10);
+            if ((~(buttons | ~0x8000) == 0) || (~(buttons | ~0x4000) == 0)){
+                this->mashCounter++;
+            }
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                if (indS1 < 0x14) {
+                    temp_f22 = this->unk_18C * (indS1 * 0.025f * Math_Sins(((s16)this->unk_188 * indS1) + this->tentAngle));
+                    temp_f24 = this->unk_198 * (indS1 * 0.025f * Math_Sins(((s16)this->unk_194 * indS1) + this->unk_170));
+                    Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * ((((0x28 - indS1) * 25.0f) / 100.0f) + 5.0f), 0.1, 0.1);
+                    Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                    Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                }
+            }
+            player->unk_850 = 0xA;
+            player->actor.posRot.pos.x = this->grabPosRot.pos.x;
+            player->actor.posRot.pos.y = this->grabPosRot.pos.y;
+            player->actor.posRot.pos.z = this->grabPosRot.pos.z;
+            player->actor.posRot.rot.x = player->actor.shape.rot.x = this->grabPosRot.rot.x;
+            player->actor.posRot.rot.y = player->actor.shape.rot.y = this->grabPosRot.rot.y;
+            player->actor.posRot.rot.z = player->actor.shape.rot.z = this->grabPosRot.rot.z;
+            player->actor.speedXZ = 0;
+            player->actor.velocity.y = 0;
+            Math_SmoothScaleMaxF(&this->unk_1A0, 1.0f, 0.5f, 0.01f);
+            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.5f, 1.0f, 0.005f);
+            Math_SmoothScaleMaxF(&this->tentSpeed, 480.0f, 1.0f, 10.0f);
+            Math_SmoothScaleMaxF(&this->tentPulse, 0.3f, 0.5f, 0.03f);
+            if (((this->mashCounter >= 0x28) || (this->timers[0] == 0)) && (this->tentRot[15].x < 0) && (sp1B4 >= 0)) {
+                this->actionState = 0x65;
+                this->invincibilityTimer = 0x32;
+                if ((Actor*)this == player->actor.parent) {
+                    player->unk_850 = 0x65;
+                    player->actor.parent = NULL;
+                    player->action = 0;
+                    if (this->timers[0] == 0) {
+                        func_8002F6D4(globalCtx, &this->actor, 20.0f, this->actor.shape.rot.y + 0x8000, 10.0f, 0);
+                    }
+                }
+                this->timers[0] = 0x4B;
+            }
+            if (this->cutsceneCamera != 0) {
+                sp138.x = 0;
+                sp138.y = 100.0f;
+                sp138.z = 200.0f;
+                this->unk_1004 -= this->unk_1008;
+                Math_SmoothScaleMaxF(&this->unk_1008, 0.01f, 1.0f, 0.002f);
+                Matrix_RotateY(this->unk_1004, 0);
+                Matrix_MultVec3f(&sp138, &sp12C);
+                Math_SmoothScaleMaxF(&this->unk_F68.x, this->actor.posRot.pos.x + sp12C.x, 0.1f, 10.0f);
+                Math_SmoothScaleMaxF(&this->unk_F68.y, this->actor.posRot.pos.y + sp12C.y, 0.1f, 10.0f);
+                Math_SmoothScaleMaxF(&this->unk_F68.z, this->actor.posRot.pos.z + sp12C.z, 0.1f, 10.0f);
+                Math_SmoothScaleMaxF(&this->unk_F74.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
+                Math_SmoothScaleMaxF(&this->unk_F74.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
+                Math_SmoothScaleMaxF(&this->unk_F74.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
+                func_800C04D8(globalCtx, this->cutsceneCamera, &this->unk_F74, &this->unk_F68);
+            }
+            break;
+        case 100:
+            func_80078914(&this->unk_1010, 0x2028);
+            if ((Actor*)this == player->actor.parent) {
+                player->unk_850 = 0x65;
+                player->actor.parent = NULL;
+                player->action = 0;
+            }
+            Math_SmoothScaleMaxF(&this->tentRippleSize, 0.15f, 0.5f, 0.01f);
+            if (this->meltIndex < 0x29) {
+                for(indS0 = 0; indS0 < 10; indS0++) {
+                    sp120 = this->tentPos[this->meltIndex];
+                    sp120.x += Math_Rand_CenteredFloat(30.0f);
+                    sp120.y += Math_Rand_CenteredFloat(30.0f);
+                    sp120.z += Math_Rand_CenteredFloat(30.0f);
+                    func_8091BF38(globalCtx->unk_11E10, &sp120, Math_Rand_ZeroFloat(0.1) + 0.2f);
+                }
+            this->meltIndex++;
+            }
+            Math_SmoothScaleMaxF(&this->cutScale, 0.0, 1.0f, 0.2f);
+            if ((this->meltIndex >= 0x29) || (this->timers[0] == 0)) {
+                this->actionState = 0x65;
+                this->timers[0] = 0x4B;
+                this->tentMaxAngle = 0.005f;
+                this->tentSpeed = 50.0f;
+                this->unk_18C = 7000.0f;
+                this->unk_198 = 5000.0f;
+            }
+            break;
+        case 101:
+            if (this->cutsceneCamera != 0) {
+                Math_SmoothScaleMaxF(&this->unk_F74.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
+                Math_SmoothScaleMaxF(&this->unk_F74.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
+                Math_SmoothScaleMaxF(&this->unk_F74.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
+                func_800C04D8(globalCtx, this->cutsceneCamera, &this->unk_F74, &this->unk_F68);
+                if (player->actor.posRot.pos.y <= 42.0f) {
+                    camera2 = Gameplay_GetCamera(globalCtx, 0);
+                    camera2->eye = this->unk_F68;
+                    camera2->eyeNext = this->unk_F68;
+                    camera2->at = this->unk_F74;
+                    func_800C08AC(globalCtx, this->cutsceneCamera, 0);
+                    this->cutsceneCamera = 0;
+                    func_80064534(globalCtx, &globalCtx->csCtx);
+                }
+            }
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                temp_f22 = this->unk_1A0 * (indS1 * 0.025f * Math_Sins(((s16)this->unk_188 * indS1) + this->tentAngle) * this->unk_18C);
+                temp_f24 = this->unk_1A0 * (indS1 * 0.025f * Math_Sins(((s16)this->unk_194 * indS1) + this->unk_170) * this->unk_198);
+                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * 5.0f, 0.5f, 0.2f);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+            }
+            Math_SmoothScaleMaxF(&this->unk_1A0, 0, 0.5f, 0.02f);
+            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01f);
+            Math_SmoothScaleMaxF(&this->tentSpeed, 320.0f, 1.0f, 50.0f);
+            if (this->timers[0] == 0) {
+                this->actor.flags &= ~1;
+                Math_SmoothScaleMaxF(&this->baseOpacity, 0.0f, 1.0f, 5.0f);
+                for(indS1 = 0; indS1 < 40; indS1++) {
+                    indT5 = Math_Rand_ZeroFloat(20.9f);
+                    spFC.x = 0;
+                    spFC.y = 0;
+                    spFC.z = 0;
+                    indS0 = D_809261A4[indT5];
+                    Matrix_RotateY((player->actor.posRot.rot.y / 32768.0f) * 3.1415927f, 0);
+                    Matrix_MultVec3f(&spFC, &spF0);
+                    spF0.x += player->actor.posRot.pos.x;
+                    spF0.z += player->actor.posRot.pos.z;
+                    if ((fabsf(spF0.x - D_809261BC[indS0].x) <= 320.0f) && (fabsf(spF0.z - D_809261BC[indS0].y) <= 320.0f)
+                        && ((D_80925CD8 == NULL) || (indS0 != D_80925CD8->tentSpawnPos))) {
+                        this->targetPos.x = D_809261BC[indS0].x;
+                        this->targetPos.z = D_809261BC[indS0].y;
+                        this->tentSpawnPos = indS0;
+                        this->timers[0] = (s16)Math_Rand_ZeroFloat(20.0f) + 30;
+                        this->actionState = 102;
+                        break;
+                    }
+                }
+            }
+            
+            if ((this == D_80925CD4) && (D_80925CD0->hitCount >= 3) && (D_80925CD8 == NULL)) {
+                D_80925CD8 = (BossMo*) Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BOSS_MO, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0x64);
+                D_80925CD8->tentSpawnPos = this->tentSpawnPos;
+                if (D_80925CD8->tentSpawnPos >= 0xB) {
+                    D_80925CD8->tentSpawnPos--;
+                } else {
+                    D_80925CD8->tentSpawnPos++;
+                }
+                D_80925CD8->targetPos.x = D_809261BC[D_80925CD8->tentSpawnPos].x;
+                D_80925CD8->targetPos.z = D_809261BC[D_80925CD8->tentSpawnPos].y;
+                D_80925CD8->timers[0] = 100;
+                D_80925CD8->actionState = 102;
+                D_80925CD8->otherTent = (Actor*) D_80925CD4;
+                D_80925CD4->otherTent = (Actor*) D_80925CD8;
+            }
+            break;
+        case 102:
+            this->actor.flags &= ~1;
+            Math_SmoothScaleMaxF(&this->baseOpacity, 0.0f, 1.0f, 5.0f);
+            if ((this->baseOpacity <= 0.5f) && (this->timers[0] == 0)) {
+                this->meltIndex = 0;
+                this->actor.posRot.pos.x = this->targetPos.x;
+                this->actor.posRot.pos.z = this->targetPos.z;
+                this->actor.pos4 = this->actor.posRot.pos;
+                this->cutScale = 1.0f;
+                this->actionState = 0xA;
+                this->cutIndex = this->meltIndex;
+                this->timers[0] = (s16)Math_Rand_ZeroFloat(20.0f) + 10;
+                this->unk_190 = this->unk_19C = this->unk_18C = this->unk_198 = this->tentSpeed = 0;
+                this->tentMaxAngle = 0.001f;
+            }
+            break;
+        case 200:
+            this->actor.shape.rot.y = 0x4000;
+            break;
+        case 203:
+            this->baseBubblesTimer = 0x14;
+            Math_SmoothScaleMaxF(&D_80925CD0->waterLevel, -300.0f, 0.1f, 0.8f);
+            this->actor.flags &= ~1;
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                temp_f22 = this->unk_18C * (indS1 * 0.025f * Math_Sins(((s16)this->unk_188 * indS1) + this->tentAngle));
+                temp_f24 = this->unk_198 * (indS1 * 0.025f * Math_Sins(((s16)this->unk_194 * indS1) + this->unk_170));
+                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * 5.0f, 0.1f, 0.4f);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+            }
+            this->actor.speedXZ = 0.0f;
+            Math_SmoothScaleMaxF(&this->unk_1A0, 4.3f, 0.5f, 0.04f);
+            Math_SmoothScaleMaxF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
+            break;
+        case 201:
+            this->baseBubblesTimer = 0x14;
+            this->actor.shape.rot.y = 0x4000;
+            this->actor.shape.rot.x = -0x8000;
+            this->actor.posRot.pos.y = D_80925CD0->waterLevel + 650.0f;
+            Math_SmoothScaleMaxF(&D_80925CD0->waterLevel, -300.0f, 0.1f, 1.3f);
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                temp_f22 = this->unk_18C * (indS1 * 0.025f * Math_Sins(((s16)this->unk_188 * indS1) + this->tentAngle));
+                temp_f24 = this->unk_198 * (indS1 * 0.025f * Math_Sins(((s16)this->unk_194 * indS1) + this->unk_170));
+                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * 5.0f, 0.1f, 0.4f);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+            }
+            this->actor.speedXZ = 0.0f;
+            Math_SmoothScaleMaxF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
+            break;
+        case 202:
+            this->baseBubblesTimer = 0x14;
+            Math_SmoothScaleMaxF(&D_80925CD0->waterLevel, -295.0f, 0.1f, 1.3f);
+            this->actor.posRot.pos.y = D_80925CD0->waterLevel + 650.0f;
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                temp_f22 = this->unk_18C * (indS1 * 0.025f * Math_Sins(((s16)this->unk_188 * indS1) + this->tentAngle));
+                temp_f24 = this->unk_198 * (indS1 * 0.025f * Math_Sins(((s16)this->unk_194 * indS1) + this->unk_170));
+                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * 5.0f, 0.1f, 0.4f);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+            }
+            this->actor.speedXZ = 0.0f;
+            this->noBubbles--;
+            Math_SmoothScaleMaxF(&this->unk_1A0, 0.1f, 0.1f, 0.03f);
+            Math_SmoothScaleMaxF(&this->tentPulse, 0.02f, 0.5f, 0.015f);
+            if ((this->timers[0] > 0) && (this->timers[0] < 0x28)) {
+                Math_SmoothScaleMaxF(&this->actor.scale.x, 0.035f, 0.05f, this->unk_1C0);
+                if (this->timers[0] == 1) {
+                    this->unk_1C0 = 0.0f;
+                }
+            } else if (this->timers[0] == 0) {
+                Math_SmoothScaleMaxF(&this->actor.scale.x, 0.001f, 0.05f, this->unk_1C0);
+            }
+            Math_SmoothScaleMaxF(&this->unk_1C0, 0.00045f, 0.1f, 0.00001f);
+            break;
+        case 205:
+            for(indS1 = 0; indS1 < 41; indS1++) {
+                if (this->timers[0] != 0) {
+                    Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * 5.0f, 0.05f, this->tentSpeed);
+                } else {
+                    Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->unk_1A0 * 5.0f, 0.3f, 100.0f);
+                }
+                this->tentRot[indS1].x = this->tentRot[indS1].z = 0;
+            }
+            this->tentPulse = 0.0f;
+            if (this->timers[0] != 0) {
+                this->actor.posRot.pos.y = D_80925CD0->waterLevel + 650.0f;
+                this->unk_1A0 = 0.5f;
+                Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0015f, 0.05f, this->tentMaxAngle);
+                Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.00035f, 1.0f, 0.0000175f);
+                Math_SmoothScaleMaxF(&this->tentSpeed, 0.1f, 1.0f, 0.005f);
+                this->actor.velocity.y = 0.0f;
+            } else {
+                this->unk_1A0 = 0.2f;
+                this->unk_1A0 += Math_Sins(this->pulseTimer * 0x2000) * 0.05f;
+                Math_SmoothScaleMaxF(&this->actor.scale.x, 0.002f + (Math_Coss(this->pulseTimer * 0x2000) * 0.0005f), 0.5f, 0.0005f);
+                this->actor.posRot.pos.y += this->actor.velocity.y;
+                this->actor.velocity.y -= 1.0f;
+                if (this->actor.posRot.pos.y >= -250.0f) {
+                    break;
+                } else {
+                    this->actor.posRot.pos.y = -250.0f;
+                    this->actor.velocity.y = 0.0f;
+                    this->drawActor = 0;
+                    this->actionState = 0xCE;
+                    this->timers[0] = 0x3C;
+                    func_80078914(&this->unk_1010, 0x38F7);
+                    for(indS1 = 0; indS1 < 300; indS1++) {
+                        spC8.z = 0.0f;
+                        spC8.y = 0.0f;
+                        spC8.z = indS1 * 0.03f;
+                        Matrix_RotateY(indS1 * 0.23f, 0);
+                        Matrix_MultVec3f(&spC8, &spE0);
+                        spE0.y = Math_Rand_ZeroFloat(7.0f) + 4.0f;
+                        spD4 = this->actor.posRot.pos;
+                        spD4.x += spE0.x * 3.0f;
+                        spD4.y += (spE0.y * 3.0f) - 30.0f;
+                        if (spD4.y < -280.0f) {
+                            spD4.y = -280.0f;
+                        }
+                        spD4.z += spE0.z * 3.0f;
+                        func_8091BE5C(3, globalCtx->unk_11E10, &spD4, &spE0, ((0x12C - indS1) * 0.0015f) + 0.13f);
+                    }
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x5D, this->actor.posRot.pos.x, -280.0f, this->actor.posRot.pos.z, 0, 0, 0, -1);
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x5F, this->actor.posRot.pos.x + 200.0f, -280.0f, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                    Audio_SetBGM(0x21);
+                    Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
+    if (((this->actionState == 2) || (this->actionState == 0xCA) 
+            || (this->actionState == 3) || (this->actionState == 4)) 
+        && (Math_Rand_ZeroOne() < 0.8f) && (0.001f < this->actor.scale.x)) {
+        Vec3f spBC;
+        Vec3f spB0 = { 0.0f, 0.0f, 0.0f };
+        f32 padAC;
+        f32 padA8;
+        f32 padA4;
+        f32 padA0;
+        
+        if (this->actionState >= 0xCA) {
+            indS1 = 38;
+            padAC = Math_Rand_ZeroFloat(0.1) + .1f;
+            spBC.y = this->tentPos[indS1].y;
+        } else {
+            indS1 = (s16)Math_Rand_ZeroFloat(20.0f) + 18;
+            padAC = Math_Rand_ZeroFloat(0.02f) + 0.05f;
+            spBC.y = this->tentPos[indS1].y - 10.0f;
+        }
+        padA8 = (this->actor.scale.x * 100.0f) * 20.0f;
+        spBC.x = Math_Rand_CenteredFloat(padA8) + this->tentPos[indS1].x;
+        spBC.z = Math_Rand_CenteredFloat(padA8) + this->tentPos[indS1].z;
+        func_8091BE5C(3, globalCtx->unk_11E10, &spBC, &spB0, padAC);
+    }
+}
+#else
+Vec3f D_809263AC = { 0.0f, 0.0f, 0.0f };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Mo/func_8091C538.s")
+#endif
 
 void func_8091F2FC(BossMo* this, GlobalContext* globalCtx) {
     s16 i1;
@@ -444,36 +1118,39 @@ void func_8091F2FC(BossMo* this, GlobalContext* globalCtx) {
                 this->collider1.list[i2].body.toucherFlags &= ~2;
             }
             temp_s0 = this->collider1.list[i1].body.acHitItem;
-            this->unk_160 = 5;
+            this->invincibilityTimer = 5;
             if ((temp_s0->toucher.flags << 0xE) < 0) {
                 func_80078914(&this->unk_1010, 0x38F4);
-                this->unk_172 = 0xF;
-                this->unk_174 = this->unk_172 + 1;
-                this->unk_158 = 0x64;
+                this->cutIndex = 0xF;
+                this->meltIndex = this->cutIndex + 1;
+                this->actionState = 0x64;
                 this->timers[0] = 0x28;
-                this->unk_1A8 = 1.0f;
+                this->cutScale = 1.0f;
             } else if (temp_s0->toucher.flags & 0x0D800600) {
-                this->unk_1D2 = 5;
+                this->linkHitTimer = 5;
             }
-            this->unk_1E0 = 0.2f;
+            this->tentRippleSize = 0.2f;
             for (i2 = 0; i2 < 10; i2++) {
                 sp78.x = Math_Rand_CenteredFloat(8.0f);
                 sp78.y = Math_Rand_ZeroFloat(7.0f) + 4.0f;
                 sp78.z = Math_Rand_CenteredFloat(8.0f);
-                sp84 = this->unk_D70[2 * i1];
+                sp84 = this->tentPos[2 * i1];
                 sp84.x += sp78.x * 3.0f;
                 sp84.z += sp78.z * 3.0f;
                 func_8091BE5C(3, globalCtx->unk_11E10, &sp84, &sp78, Math_Rand_ZeroFloat(0.08f) + 0.13f);
             }
-            return;
+            break;
         } else if (this->collider1.list[i1].body.toucherFlags & 2) {
             this->collider1.list[i1].body.toucherFlags &= ~2;
-            this->unk_1D2 = 5;
-            return;
+            this->linkHitTimer = 5;
+            break;
         }
     }
 }
-s
+
+Vec3f D_809263B8[6] = { { -360.0f, -190.0f, 0.0f },  { 250.0f, -190.0f, 0.0f }, { 300.0f, -120.0f, -278.0f },
+                        { 180.0f, -80.0f, -340.0f }, { 180.0f, 0.0f, -340.0f }, { 180.0f, 60.0f, -230.0f } };
+
 #ifdef NON_MATCHING
 // atan2f section has issues.
 void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
@@ -496,10 +1173,10 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
     f32 pad;
     f32 pad2;
 
-    if (this->unk_F60 < 4) {
-        this->unk_F5C = 80.0f;
+    if (this->cutsceneState < 4) {
+        this->cameraZoom = 80.0f;
     }
-    switch (this->unk_F60) {
+    switch (this->cutsceneState) {
         case 1:
             if (this->timers[0] == 1) {
                 func_8010B680(globalCtx, 0x403F, NULL);
@@ -514,15 +1191,15 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
                  (fabsf(player->actor.posRot.pos.x - -180.0f) < 40.0f))) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
-                this->unk_F62 = Gameplay_CreateSubCamera(globalCtx);
+                this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-                Gameplay_ChangeCameraStatus(globalCtx, this->unk_F62, 7);
+                Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
                 this->actor.speedXZ = 0.0f;
-                this->unk_F60 = 2;
+                this->cutsceneState = 2;
                 this->timers[2] = 0x32;
-                this->unk_15C = this->unk_15A = 0;
+                this->rippleTimer = this->pulseTimer = 0;
                 this->actor.posRot.rot.y = 0x721A;
-                D_80925CD4->unk_158 = 0;
+                D_80925CD4->actionState = 0;
                 D_80925CD4->timers[0] = 0x7530;
                 Audio_SetBGM(0x103200FF);
                 func_80106CCC(globalCtx);
@@ -541,8 +1218,8 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
             this->unk_F74.y = -330.0f;
             this->unk_F74.z = 0.0f;
             if (this->timers[2] == 0) {
-                this->unk_F60 = 3;
-                this->unk_15A = 0;
+                this->cutsceneState = 3;
+                this->pulseTimer = 0;
             } else if (this->timers[2] < 0x32) {
                 sp64.x = (this->unk_F68.x + 20.0f) + 10.0f;
                 sp64.y = -250.0f;
@@ -555,25 +1232,25 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
             break;
         case 3:
             Math_SmoothScaleMaxF(&this->unk_100C, 0.1f, 1.0f, 0.002f);
-            this->unk_1D4 = D_809263B8[this->unk_F64];
-            if (this->unk_F64 == 5) {
-                phi_f2 = Math_Sins(this->unk_15A * 0x500) * 20.0f;
+            this->targetPos = D_809263B8[this->targetIndex];
+            if (this->targetIndex == 5) {
+                phi_f2 = Math_Sins(this->pulseTimer * 0x500) * 20.0f;
             } else {
-                phi_f2 = Math_Sins(this->unk_15A * 0x500) * 5.0f;
+                phi_f2 = Math_Sins(this->pulseTimer * 0x500) * 5.0f;
             }
-            dx = this->unk_1D4.x - this->unk_F68.x;
-            dy = this->unk_1D4.y - this->unk_F68.y + phi_f2;
-            dz = this->unk_1D4.z - this->unk_F68.z;
+            dx = this->targetPos.x - this->unk_F68.x;
+            dy = this->targetPos.y - this->unk_F68.y + phi_f2;
+            dz = this->targetPos.z - this->unk_F68.z;
             dYaw = Math_atan2f(dx, dz);
             dPitch = Math_atan2f(dy, sqrtf(SQ(dx) + SQ(dz)));
             Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, (s16)(dYaw * 10430.378f), 5, (s16)this->unk_1008);
             Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, (s16)(dPitch * 10430.378f), 5, (s16)this->unk_1008);
-            if (this->unk_15A == 0x96) {
+            if (this->pulseTimer == 0x96) {
                 this->unk_FB0.x = fabsf(this->unk_F74.x - player->actor.posRot.pos.x);
                 this->unk_FB0.y = fabsf(this->unk_F74.y - player->actor.posRot.pos.y);
                 this->unk_FB0.z = fabsf(this->unk_F74.z - player->actor.posRot.pos.z);
             }
-            if (this->unk_15A >= 0x96) {
+            if (this->pulseTimer >= 0x96) {
                 Math_SmoothScaleMaxF(&this->unk_F74.x, player->actor.posRot.pos.x, 0.1f,
                                      this->unk_FB0.x * this->unk_FEC);
                 Math_SmoothScaleMaxF(&this->unk_F74.y, player->actor.posRot.pos.y + 50.0f, 0.1f,
@@ -582,24 +1259,23 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
                                      this->unk_FB0.z * this->unk_FEC);
                 Math_SmoothScaleMaxF(&this->unk_FEC, 0.02f, 1.0f, 0.001f);
             }
-            if (this->unk_15A == 0xBE) {
+            if (this->pulseTimer == 0xBE) {
                 func_80078914(&D_80926198, 0x38F6);
             }
-            if ((this->unk_15A >= 0x97) && (this->unk_15A < 0xB4)) {
+            if ((this->pulseTimer >= 0x97) && (this->pulseTimer < 0xB4)) {
                 sp58.x = (this->unk_F68.x + 20.0f) + 10.0f;
                 sp58.y = -250.0f;
                 sp58.z = this->unk_F68.z;
                 func_800293E4(globalCtx, &sp58, 0.0f, 10.0f, 50.0f, Math_Rand_ZeroFloat(0.05f) + 0.13f);
             }
-
             phi_f16 = 4096.0f;
             phi_f14 = 0.1f;
-            if ((this->unk_15A >= 0x65) && (this->unk_15A < 0xDC)) {
+            if ((this->pulseTimer >= 0x65) && (this->pulseTimer < 0xDC)) {
                 phi_f12 = 0.0f;
-            } else if (this->unk_15A >= 0x15F) {
+            } else if (this->pulseTimer >= 0x15F) {
                 phi_f12 = 2.0f;
                 phi_f14 = 0.4f;
-            } else if (this->unk_15A >= 0xDD) {
+            } else if (this->pulseTimer >= 0xDD) {
                 phi_f12 = 7.0f;
                 phi_f14 = 0.3f;
                 phi_f16 = 8192.0f;
@@ -607,12 +1283,12 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
                 phi_f12 = 4.0f;
             }
 
-            if (this->unk_15A >= 0xFB) {
+            if (this->pulseTimer >= 0xFB) {
                 Math_SmoothScaleMaxF(&this->unk_188, 100.0f, 1.0f, 1.0f);
             }
-            if (this->unk_F64 < 5) {
+            if (this->targetIndex < 5) {
                 if (sqrtf(dx * dx + dz * dz + dy * dy) < 40.0f) {
-                    this->unk_F64++;
+                    this->targetIndex++;
                     this->unk_1008 = 0.0f;
                 }
             } else {
@@ -621,28 +1297,28 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
             }
             Math_SmoothScaleMaxF(&this->actor.speedXZ, phi_f12, 1.0f, phi_f14);
             Math_SmoothScaleMaxF(&this->unk_1008, phi_f16, 1.0f, 128.0f);
-            if (this->unk_15A == 0x20D) {
+            if (this->pulseTimer == 0x20D) {
                 func_8002DF54(globalCtx, &this->actor, 2);
             }
-            if (this->unk_15A >= 0x21D) {
-                this->unk_F60 = 4;
+            if (this->pulseTimer >= 0x21D) {
+                this->cutsceneState = 4;
                 func_8002DF54(globalCtx, &this->actor, 1);
-                D_80925CD4->unk_1D1 = 1;
+                D_80925CD4->drawActor = 1;
                 player->actor.posRot.pos.x = 180.0f;
                 player->actor.posRot.pos.z = -210.0f;
                 player->actor.posRot.rot.y = -0x8000;
                 player->actor.shape.rot.y = player->actor.posRot.rot.y;
                 this->unk_100C = 0.0f;
-                D_80925CD4->unk_1A4 = 150.0;
+                D_80925CD4->baseOpacity = 150.0;
                 this->actor.speedXZ = 0.0f;
                 this->timers[2] = 0xC8;
-                this->unk_F5C = 60.0f;
+                this->cameraZoom = 60.0f;
                 this->actor.posRot.pos = D_80925CD4->actor.posRot.pos;
-                this->unk_158 = 0x15;
+                this->actionState = 0x15;
                 this->actor.flags &= ~1;
                 D_80925CD4->actor.flags |= 1;
             } else {
-                D_80925CD4->unk_16E = 0xCEC;
+                D_80925CD4->tentAngle = 0xCEC;
                 D_80925CD4->unk_190 = 0.0f;
                 D_80925CD4->unk_188 = 1000.0f;
                 D_80925CD4->unk_18C = 2500.0f;
@@ -656,7 +1332,7 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
                 this->unk_F74.x = 170.0f;
                 this->unk_F74.y = 40.0;
                 this->unk_F74.z = -280.0f;
-                D_80925CD4->unk_16E = 0xCEC;
+                D_80925CD4->tentAngle = 0xCEC;
                 D_80925CD4->unk_190 = 0.0f;
                 D_80925CD4->unk_188 = 1000.0f;
                 D_80925CD4->unk_18C = 2500.0f;
@@ -677,8 +1353,8 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
                     this->unk_FC8.x = this->unk_FC8.y = this->unk_FC8.z = 0.1f;
                     this->unk_FEC = 0.0f;
                     this->unk_FF0 = 0.01f;
-                    this->unk_D64 = 0.001f;
-                    this->unk_D68 = 0.0f;
+                    this->tentMaxAngle = 0.001f;
+                    this->tentSpeed = 0.0f;
                     sp9F = 1;
                 }
             } else {
@@ -693,7 +1369,7 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
                 this->unk_FA4.y = fabsf(this->unk_F68.y - 133.0f) * 0.1f;
                 this->unk_FA4.z = fabsf(this->unk_F68.z - -191.0f) * 0.1f;
                 if (1) {}
-                this->unk_F60 = 5;
+                this->cutsceneState = 5;
                 this->timers[2] = 0x6E;
                 this->unk_FBC.x = 111.0f;
                 this->unk_FBC.y = 133.0f;
@@ -724,7 +1400,7 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
             this->unk_FD4.y = 58.0f;
             this->unk_FD4.z = -247.0f;
             if (this->timers[2] == 0x64) {
-                D_80925CD4->unk_158 = 0x65;
+                D_80925CD4->actionState = 0x65;
                 D_80925CD4->timers[0] = 0x32;
             }
             if (this->timers[2] == 0x14) {
@@ -732,21 +1408,21 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
                 camera2->eye = this->unk_F68;
                 camera2->eyeNext = this->unk_F68;
                 camera2->at = this->unk_F74;
-                func_800C08AC(globalCtx, this->unk_F62, 0);
-                this->unk_F60 = this->unk_F62 = 0;
+                func_800C08AC(globalCtx, this->cutsceneCamera, 0);
+                this->cutsceneState = this->cutsceneCamera = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }
             break;
     }
-    if (D_80925CD4->unk_158 == 0) {
+    if (D_80925CD4->actionState == 0) {
         D_80925CD4->actor.posRot.pos.x = 180.0f;
         D_80925CD4->actor.posRot.pos.z = -360.0f;
         D_80925CD4->actor.pos4 = D_80925CD4->actor.posRot.pos;
         D_80925CD4->actor.speedXZ = 0.0f;
         D_80925CD4->actor.shape.rot.y = D_80925CD4->actor.yawTowardsLink;
     }
-    if (this->unk_F62 != 0) {
+    if (this->cutsceneCamera != 0) {
         if (sp9F) {
             Math_SmoothScaleMaxF(&this->unk_F68.x, this->unk_FBC.x, this->unk_FC8.x, this->unk_FA4.x * this->unk_FEC);
             Math_SmoothScaleMaxF(&this->unk_F68.y, this->unk_FBC.y, this->unk_FC8.y, this->unk_FA4.y * this->unk_FEC);
@@ -755,24 +1431,24 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->unk_F74.y, this->unk_FD4.y, this->unk_FE0.y, this->unk_FB0.y * this->unk_FEC);
             Math_SmoothScaleMaxF(&this->unk_F74.z, this->unk_FD4.z, this->unk_FE0.z, this->unk_FB0.z * this->unk_FEC);
             Math_SmoothScaleMaxF(&this->unk_FEC, 1.0f, 1.0f, this->unk_FF0);
-        } else if (this->unk_F60 < 4) {
+        } else if (this->cutsceneState < 4) {
             func_8002D908(&this->actor);
             this->unk_F68.x += this->actor.velocity.x;
             this->unk_F68.y += this->actor.velocity.y;
             this->unk_F68.z += this->actor.velocity.z;
         }
-        this->unk_F80.x = this->unk_F80.z = sinf(this->unk_15C * 0.03f) * this->unk_100C * (-2.0f);
+        this->unk_F80.x = this->unk_F80.z = sinf(this->rippleTimer * 0.03f) * this->unk_100C * (-2.0f);
         this->unk_F80.y = 1.0f;
-        func_800C05E4(globalCtx, this->unk_F62, &this->unk_F74, &this->unk_F68, &this->unk_F80);
+        func_800C05E4(globalCtx, this->cutsceneCamera, &this->unk_F74, &this->unk_F68, &this->unk_F80);
         camera->eye = this->unk_F68;
         camera->eyeNext = this->unk_F68;
         camera->at = this->unk_F74;
-        func_800C0704(globalCtx, this->unk_F62, this->unk_F5C);
+        func_800C0704(globalCtx, this->cutsceneCamera, this->cameraZoom);
     }
 
-    if ((this->unk_F60 >= 3) && (this->unk_15A >= 0x21D)) {
+    if ((this->cutsceneState >= 3) && (this->pulseTimer >= 0x21D)) {
         func_80078914(&D_80925CD4->unk_1010, 0x30F0);
-    } else if (this->unk_F60 >= 2) {
+    } else if (this->cutsceneState >= 2) {
         func_80078914(&D_80926198, 0x30F5);
     }
 }
@@ -794,16 +1470,16 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
     Vec3f sp54;
     Vec3f sp48;
     Vec3f sp38;
-    f32 pad;
+    BossMo* pad;
 
-    switch (this->unk_F60) {
+    switch (this->cutsceneState) {
         case 0x64:
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->unk_F62 = Gameplay_CreateSubCamera(globalCtx);
+            this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, this->unk_F62, 7);
-            this->unk_F60 = 0x96;
+            Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
+            this->cutsceneState = 0x96;
             this->unk_F68 = camera->eye;
             this->timers[0] = 0x5A;
             dx = this->actor.posRot.pos.x - this->unk_F68.x;
@@ -812,7 +1488,7 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
             this->unk_FFC = sqrtf(dx * dx + dz * dz);
             this->unk_1008 = 0.0f;
         case 0x96:
-            this->unk_1A4 = 0.0f;
+            this->baseOpacity = 0.0f;
             if (this->timers[0] & 4) {
                 phi_f0 = 0.005f;
                 sp7C = 0.015f;
@@ -848,13 +1524,13 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
                     sp48.z += 2.0f * sp54.z;
                     func_8091BE5C(3, globalCtx->unk_11E10, &sp48, &sp54, Math_Rand_ZeroFloat(0.08f) + 0.13f);
                 }
-                this->unk_1D1 = 0;
+                this->drawActor = 0;
                 this->actor.flags &= ~1;
                 Audio_PlayActorSound2(&this->actor, 0x38F7);
                 Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x46, 0x38F9);
             }
             if (this->timers[0] == 0) {
-                this->unk_F60 = 0x65;
+                this->cutsceneState = 0x65;
                 this->unk_FFC = 490.0f;
                 this->actor.posRot.pos.y = -1000.0f;
                 this->unk_18C = 15.0f;
@@ -863,28 +1539,28 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
                 this->unk_F68.y = 50.0f;
                 this->unk_F68.z = 0.0f;
                 this->unk_F74.z = 0.0f;
-                this->unk_F74.x = 0.0;
+                this->unk_F74.x = 0;
                 this->unk_F74.y = -100.0f;
-                this->unk_15C = this->unk_15A = 0;
+                this->rippleTimer = this->pulseTimer = 0;
                 this->unk_FE0.y = 0.05f;
                 this->unk_FB0.y = 4.0f;
                 this->unk_FEC = 0.0f;
                 this->unk_FF0 = 0.02f;
                 this->unk_FD4.y = 320.0f;
                 this->timers[0] = 0x64;
-                D_80925CD4->unk_1D1 = 1;
-                D_80925CD4->unk_158 = 0xCB;
+                D_80925CD4->drawActor = 1;
+                D_80925CD4->actionState = 0xCB;
                 D_80925CD4->actor.shape.rot.x = 0;
                 D_80925CD4->actor.posRot.pos.x = 0.0f;
                 D_80925CD4->actor.posRot.pos.y = -50.0f;
                 D_80925CD4->actor.posRot.pos.z = 0.0f;
                 D_80925CD4->unk_1A0 = 1.0f;
-                D_80925CD4->unk_D6C = 0.2f;
-                D_80925CD0->unk_1BC = -50.0f;
+                D_80925CD4->tentPulse = 0.2f;
+                D_80925CD0->waterLevel = -50.0f;
                 D_80925CD4->unk_1C0 = 0.0f;
-                D_80925CD4->unk_17A = 0;
+                D_80925CD4->noBubbles = 0;
                 for (i = 0; i < 41; i++) {
-                    D_80925CD4->unk_6A8[i].y = 5.0f;
+                    D_80925CD4->tentStretch[i].y = 5.0f;
                 }
                 D_80925CD4->unk_190 = -400.0f;
                 D_80925CD4->unk_188 = -3200.0f;
@@ -892,25 +1568,24 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
                 D_80925CD4->unk_19C = 3000.0f;
                 D_80925CD4->unk_194 = 2500.0f;
                 D_80925CD4->unk_198 = 4000.0f;
-                D_80925CD4->unk_D64 = 1.0f;
-                D_80925CD4->unk_D68 = 20480.0f;
-                D_80925CD4->unk_1A4 = 150.0f;
-                D_80925CD4->unk_174 = 0;
-                D_80925CD4->unk_172 = D_80925CD4->unk_174;
-                D_80925CD4->unk_1A8 = 1.0f;
+                D_80925CD4->tentMaxAngle = 1.0f;
+                D_80925CD4->tentSpeed = 20480.0f;
+                D_80925CD4->baseOpacity = 150.0f;
+                D_80925CD4->cutIndex = D_80925CD4->meltIndex = 0;
+                D_80925CD4->cutScale = 1.0f;
                 Actor_SetScale(&D_80925CD4->actor, 0.01f);
             }
             break;
         case 0x65:
             if (this->timers[0] == 0) {
-                this->unk_F60 = 0x66;
+                this->cutsceneState = 0x66;
                 this->unk_F74.y = -200.0f;
                 this->unk_FD4.y = 320.0f;
                 this->unk_FE0.y = 0.05f;
                 this->unk_FB0.y = 4.0f;
                 this->unk_FEC = 0.0f;
                 this->unk_FF0 = 0.0f;
-                D_80925CD4->unk_158 = 0xC9;
+                D_80925CD4->actionState = 0xC9;
                 this->timers[0] = 0x7D;
                 D_80925CD4->unk_1A0 = 3.7000003f;
                 this->unk_1004 = 0.5f;
@@ -921,8 +1596,8 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
         case 0x66:
             if (this->timers[0] == 0) {
                 this->unk_FF0 = 0.02f;
-                D_80925CD4->unk_158 = 0xCA;
-                this->unk_F60 = 0x67;
+                D_80925CD4->actionState = 0xCA;
+                this->cutsceneState = 0x67;
                 D_80925CD4->timers[0] = 0x78;
                 this->timers[0] = 0x96;
             }
@@ -930,7 +1605,7 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->unk_1004, 0.0f, 0.05f, 0.0029999996f);
             Math_SmoothScaleMaxF(&this->unk_FFC, 490.0f, 0.1f, 1.0f);
             if (this->timers[0] == 0) {
-                this->unk_F60 = 0x68;
+                this->cutsceneState = 0x68;
                 this->timers[0] = 0x8C;
                 this->unk_1008 = 0.0f;
                 this->unk_1000 = 0.0f;
@@ -938,10 +1613,10 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
             break;
         case 0x68:
             if (0x1E == this->timers[0]) {
-                D_80925CD4->unk_158 = 0xCD;
+                D_80925CD4->actionState = 0xCD;
                 D_80925CD4->timers[0] = 0x1E;
-                D_80925CD4->unk_D64 = 0.0f;
-                D_80925CD4->unk_D68 = D_80925CD4->unk_D64;
+                D_80925CD4->tentMaxAngle = 0.0f;
+                D_80925CD4->tentSpeed = D_80925CD4->tentMaxAngle;
             }
             if (this->timers[0] == 0) {
                 if (-100.0f < this->unk_F68.y) {
@@ -958,15 +1633,15 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->unk_1004, -1.5707964f, 0.05f, this->unk_1008);
             Math_SmoothScaleMaxF(&this->unk_1000, 3.0f, 1.0f, 0.05f);
             Math_SmoothScaleMaxF(&this->unk_1008, 0.012999999f, 1.0f, 0.0005f);
-            if (D_80925CD4->unk_158 == 0xCE) {
+            if (D_80925CD4->actionState == 0xCE) {
                 Math_SmoothScaleMaxF(&this->unk_FFC, 200.0f, 0.02f, this->unk_1000);
                 if (D_80925CD4->timers[0] == 0) {
-                    this->unk_F60 = 0x69;
+                    this->cutsceneState = 0x69;
                     camera->eye = this->unk_F68;
                     camera->eyeNext = this->unk_F68;
                     camera->at = this->unk_F74;
-                    func_800C08AC(globalCtx, this->unk_F62, 0);
-                    this->unk_F62 = 0;
+                    func_800C08AC(globalCtx, this->cutsceneCamera, 0);
+                    this->cutsceneCamera = 0;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     D_80925CD4->actor.posRot.pos.y = -1000.0f;
@@ -978,25 +1653,25 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
         case 0x69:
             break;
     }
-    if ((this->unk_F60 >= 0x65) && (this->unk_F60 < 0x69)) {
-        if (this->unk_15A < 0x1F4) {
+    if ((this->cutsceneState >= 0x65) && (this->cutsceneState < 0x69)) {
+        if (this->pulseTimer < 0x1F4) {
             func_80078914(&D_80926198, 0x30F0);
         }
-        if ((this->unk_15A < 0x1EA) && (this->unk_15A >= 0xE7)) {
+        if ((this->pulseTimer < 0x1EA) && (this->pulseTimer >= 0xE7)) {
             func_80078914(&D_80926198, 0x2075);
         }
-        if (this->unk_15A < 0xDC) {
+        if (this->pulseTimer < 0xDC) {
             func_80078914(&D_80926198, 0x2074);
         }
     }
-    if (D_80925CD0->unk_1BC < -200.0f) {
+    if (D_80925CD0->waterLevel < -200.0f) {
         globalCtx->unk_11D30[0]++;
         if (globalCtx->unk_11D30[0] >= 0xFF) {
             globalCtx->unk_11D30[0] = 0xFF;
         }
     }
-    if (D_80925CD0->unk_1BC < -250.0f) {
-        Math_SmoothScaleMaxF(&D_80925CD4->unk_1C4, 0.0f, 1.0f, 3.0f);
+    if (D_80925CD0->waterLevel < -250.0f) {
+        Math_SmoothScaleMaxF(&D_80925CD4->waterTexOpacity, 0.0f, 1.0f, 3.0f);
     }
     Math_SmoothScaleMaxF(&this->unk_18C, 0.0f, 0.1f, 0.05f);
     sp70.x = this->unk_FFC;
@@ -1006,10 +1681,10 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&sp70, &sp64);
     this->unk_F68.x = this->unk_F74.x + sp64.x;
     this->unk_F68.z = this->unk_F74.z + sp64.z;
-    if (this->unk_F62 != 0) {
+    if (this->cutsceneCamera != 0) {
         Math_SmoothScaleMaxF(&this->unk_F74.y, this->unk_FD4.y, this->unk_FE0.y, this->unk_FB0.y * this->unk_FEC);
         Math_SmoothScaleMaxF(&this->unk_FEC, 1.0f, 1.0f, this->unk_FF0);
-        func_800C04D8(globalCtx, this->unk_F62, &this->unk_F74, &this->unk_F68);
+        func_800C04D8(globalCtx, this->cutsceneCamera, &this->unk_F74, &this->unk_F68);
     }
 }
 #else
@@ -1029,8 +1704,8 @@ void func_80921280(BossMo* this, GlobalContext* globalCtx) {
     osSyncPrintf("Core_Damage_check START\n");
     if (this->collider2.base.atFlags & 2) {
         this->collider2.base.atFlags &= ~2;
-        if (this->unk_158 == 2) {
-            this->unk_168 = 1;
+        if (this->actionState == 2) {
+            this->waitUnderwater = 1;
             this->timers[0] = 0x96;
         }
     }
@@ -1039,36 +1714,36 @@ void func_80921280(BossMo* this, GlobalContext* globalCtx) {
         osSyncPrintf("Core_Damage_check 当り！！\n");
         this->collider2.base.acFlags &= ~2;
         if ((temp_s0->toucher.flags << 0xE) < 0) {
-            if (this->unk_158 == 0xA) {
-                this->unk_158 = 0xB;
+            if (this->actionState == 0xA) {
+                this->actionState = 0xB;
             }
         }
         osSyncPrintf("Core_Damage_check 当り 2 ！！\n");
-        if ((this->unk_158 != 2) && (this->unk_160 == 0)) {
-            damage = func_800635D0(temp_s0->toucher.flags);
-            if ((damage != 0) && (this->unk_158 < 0xA)) {
+        if ((this->actionState != 2) && (this->invincibilityTimer == 0)) {
+            damage = (u8)func_800635D0(temp_s0->toucher.flags);
+            if ((damage != 0) && (this->actionState < 0xA)) {
                 osSyncPrintf("Core_Damage_check 剣 当り！！\n");
-                this->unk_158 = 5;
+                this->actionState = 5;
                 this->timers[0] = 0x19;
 
                 this->actor.speedXZ = 15.0f;
 
                 this->actor.posRot.rot.y = this->actor.yawTowardsLink + 0x8000;
-                this->unk_15E = 0xF;
+                this->damageFlashTimer = 0xF;
                 Audio_PlayActorSound2(&this->actor, 0x39EC);
                 this->actor.colChkInfo.health -= damage;
-                this->unk_155++;
+                this->hitCount++;
                 if ((s8)this->actor.colChkInfo.health <= 0) {
-                    if (((D_80925CD4->unk_F62 == 0) && (D_80925CD8 == NULL)) ||
-                        ((D_80925CD4->unk_F62 == 0) && (D_80925CD8 != NULL) && (D_80925CD8->unk_F62 == 0))) {
+                    if (((D_80925CD4->cutsceneCamera == 0) && (D_80925CD8 == NULL)) ||
+                        ((D_80925CD4->cutsceneCamera == 0) && (D_80925CD8 != NULL) && (D_80925CD8->cutsceneCamera == 0))) {
                         func_80032C7C(globalCtx, &this->actor);
                         Audio_SetBGM(0x100100FF);
-                        this->unk_F60 = 0x64;
-                        D_80925CD4->unk_1D1 = 0;
-                        D_80925CD4->unk_158 = 0xC8;
-                        D_80925CD4->unk_1A4 = 0.0f;
+                        this->cutsceneState = 0x64;
+                        D_80925CD4->drawActor = 0;
+                        D_80925CD4->actionState = 0xC8;
+                        D_80925CD4->baseOpacity = 0.0f;
                         if (D_80925CD8 != NULL) {
-                            D_80925CD8->unk_154 = 1;
+                            D_80925CD8->tent2KillTimer = 1;
                         }
                         if (player->actor.parent != NULL) {
                             player->unk_850 = 0x65;
@@ -1079,27 +1754,27 @@ void func_80921280(BossMo* this, GlobalContext* globalCtx) {
                         this->actor.colChkInfo.health = 1;
                     }
                 }
-                this->unk_160 = 0xA;
+                this->invincibilityTimer = 0xA;
             } else {
                 flags = temp_s0->toucher.flags;
                 if (((flags << 0xB) >= 0) && (flags & 0x80)) {
-                    if (this->unk_158 >= 0xA) {
+                    if (this->actionState >= 0xA) {
                         func_80078914(&D_80925CD4->unk_1010, 0x38F4);
-                        D_80925CD4->unk_172 = this->unk_164;
-                        D_80925CD4->unk_174 = D_80925CD4->unk_172 + 1;
-                        D_80925CD4->unk_1A8 = 1.0f;
-                        D_80925CD4->unk_158 = 0x64;
+                        D_80925CD4->cutIndex = this->corePos;
+                        D_80925CD4->meltIndex = D_80925CD4->cutIndex + 1;
+                        D_80925CD4->cutScale = 1.0f;
+                        D_80925CD4->actionState = 0x64;
                         D_80925CD4->timers[0] = 0x28;
                         D_80925CD4->actor.flags &= ~1;
                         if (player->actor.parent == (Actor*)D_80925CD4) {
                             player->unk_850 = 0x65;
-                            player->actor.parent = 0;
+                            player->actor.parent = NULL;
                             player->action = 0;
                         }
                     }
-                    this->unk_158 = 5;
+                    this->actionState = 5;
                     this->timers[0] = 0x1E;
-                    this->unk_160 = 0xA;
+                    this->invincibilityTimer = 0xA;
                     this->actor.speedXZ = 0.0f;
                 }
             }
@@ -1118,7 +1793,359 @@ void func_80921280(BossMo* this, GlobalContext* globalCtx) {
     osSyncPrintf("\x1b[m");
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Mo/func_809216D0.s")
+f32 D_80926400[11] = { 0.1f, 0.15f, 0.2f, 0.3f, 0.4f, 0.43f, 0.4f, 0.3f, 0.2f, 0.15f, 0.1f };
+
+void func_809216D0(BossMo *this, GlobalContext *globalCtx) {
+    u8 spE7;
+    Player* player = PLAYER;
+    f32 spDC;
+    f32 spD8;
+    f32 spD4;
+    f32 spD0;
+    f32 spCC;
+    s16 index;
+    s16 i;
+    s32 temp;
+    f32 phi_f0;
+    f32 phi_f2;
+    Vec3f spB0;
+    Vec3f spA4;
+    Vec3f sp98;
+    f32 pad2;
+    f32 pad;
+    s16 i2;
+    f32 sp88;
+    s32 sp48;
+    f32 sp80;
+    f32 sp7C;
+    Vec3f sp70;
+    Vec3f sp64;
+    f32 sp60;
+    f32 sp5C;
+    f32 phi_f12;
+    
+    
+    this->waterTex1x += -1.0f;
+    this->waterTex1y += -1.0f;
+    this->waterTex2x = this->waterTex2x;
+    this->waterTex2y++; //These are not fake matches.
+    
+    Math_SmoothScaleMaxF(&this->baseOpacity, 255.0f, 1.0f, 10.0f);
+    if ((this->cutsceneState != 0) && (this->cutsceneState < 0x64)) {
+        func_8091F5A8(this, globalCtx);
+        if (this->actionState == 0x14) {
+            this->actor.flags &= ~1;
+            return;
+        }
+    } else if(this->cutsceneState >= 0x64) {
+        func_809206C4(this, globalCtx);
+        return;
+    }
+    if ((0xA > this->actionState) && (this->actionState >= 0) && (this->actor.posRot.pos.y > WATER_LEVEL)) {
+        if (this->actor.velocity.y > 0.0f) {
+            phi_f0 = 0.005f;
+            phi_f2 = 0.015f;
+        } else {
+            phi_f0 = 0.015f;
+            phi_f2 = 0.005f;
+        }
+    } else {
+        phi_f0 = phi_f2 =  0.008f;
+    }
+    Math_SmoothScaleMaxF(&this->actor.scale.x, phi_f0, 0.2f, 0.001f);
+    this->actor.scale.z = this->actor.scale.x;
+    Math_SmoothScaleMaxF(&this->actor.scale.y, phi_f2, 0.2f, 0.001f);
+    this->drawShadow = func_8091BC40(&this->actor.posRot.pos, 15.0f);
+    spE7 = func_8091BC40(&this->actor.posRot.pos, 0.0f);
+    if ((player->actor.posRot.pos.y < (WATER_LEVEL - 50.0f)) && ((this->actionState == 0) || (this->actionState == 1)) ){
+        this->actionState = 2;
+        this->actor.speedXZ = 0.0f;
+        this->waitUnderwater = 0;
+    }
+    switch(this->actionState) {
+        case 0:
+            this->actor.flags |= 1;
+            if ((this->timers[0]== 0) && ((D_80925CD4->actionState == 0xA) || (D_80925CD4->actionState == 0)) && (this->actor.posRot.pos.y < WATER_LEVEL)) {
+                this->actor.speedXZ = 0.0f;
+                this->actionState = 1;
+                if (D_80925CD4->actionState == 0xA) {
+                    D_80925CD4->actionState = 0xB;
+                    D_80925CD4->timers[0]= 0x46;
+                    D_80925CD4->actor.shape.rot.y = D_80925CD4->actor.yawTowardsLink;
+                }
+            }
+            break;
+        case 1:
+            if ((D_80925CD4->actionState == 0x66) || (D_80925CD4->actionState == 0xA)) {
+                this->actionState = 0;
+                this->timers[0]= 0x46;
+            }
+            if (D_80925CD4->actionState == 0x64) {
+                this->actionState = 0xA;
+                this->corePos = 0;
+                this->timers[0]= 0;
+            }
+            if (D_80925CD4->actionState == 2) {
+                this->actionState = 0xA;
+                this->corePos = 0;
+                this->timers[0]= 0;
+                this->actor.speedXZ = 0.0f;
+            }
+            break;
+        case 2:
+            if (player->actor.posRot.pos.y >= WATER_LEVEL) {
+                this->actionState = 0;
+                this->actor.speedXZ = 0.0f;
+            }
+            break;
+        case 5:
+            this->actor.flags |=  1;
+            if (this->timers[0]== 0) {
+                this->actionState = 0;
+                this->timers[0]= 0x1E;
+            }
+            if (this->actor.posRot.pos.y < WATER_LEVEL) {
+                this->actionState = 1;
+                this->timers[0]= 0x32;
+                this->actor.speedXZ = 0.0f;
+            }
+            break;
+        case -11:
+            break;
+    }
+    if (this->timers[0]== 0) {
+        switch(this->actionState) {
+            case 0xA:
+                this->actor.flags |= 1;
+                this->corePos++;
+                if (D_80925CD4->actionState == 2) {
+                    temp = (s16)(Math_Sins(this->pulseTimer * 0x300) * 10.0f) + 15;
+                    if (this->corePos >= temp) {
+                        this->corePos = temp;
+                    }
+                }
+                if ((D_80925CD4->actionState != 2) && (0x64 != D_80925CD4->actionState)) {
+                    this->actionState = 0xB;
+                    this->timers[0]= 0;
+                }
+                break;
+            case 0xB:
+                this->corePos--;
+                if (this->corePos <= 0) {
+                    this->actionState = 1;
+                    this->timers[0]= 0x64;
+                    this->tentSpeed = 0.0f;
+                    this->actor.speedXZ = 0.0f;
+                }
+                this->timers[0]= 0;
+                break;
+            case 0x15:
+                this->actor.flags &= ~1;
+                this->corePos = this->corePos + 1;
+                temp = (s16)(Math_Sins(this->pulseTimer * 0x500) * 10.0f) + 15;
+                if (this->corePos >= temp) {
+                    this->corePos = temp;
+                }
+                if (D_80925CD4->actionState != 0) {
+                    this->actionState = 0xB;
+                    this->timers[0]= 0;
+                }
+                break;
+        }
+    }
+    if (this->actionState >= 0xA) {
+        if (this->corePos < 0) {
+            this->corePos = 0;
+        } else if (this->corePos > 0x28) {
+            this->corePos = 0x28;
+        }
+        index = ((0x12C - (this->corePos * 2)) + D_80925CD4->tentWidthIndex) % 0x12C;
+        sp88 = D_80925CD4->tentWidth[index] * D_80926264[this->corePos];
+        for(i2 = -5; i2 < 6; i2++) {
+            index = (this->corePos + i2) - 2;
+            if((0 <= index) && (index <= 0x28)) {
+                Math_SmoothScaleMaxF(&D_80925CD4->tentScale[index].x, ((D_80926400[i2 + 5] * 300.0f) / 100.0f) + sp88, 0.75f, 5.0f);
+            }
+        }
+        this->targetPos.x = D_80925CD4->tentPos[this->corePos].x;
+        this->targetPos.y = D_80925CD4->tentPos[this->corePos].y;
+        this->targetPos.z = D_80925CD4->tentPos[this->corePos].z;
+        if (this->corePos < 2) {
+            this->targetPos.y -= 20.0f;
+        }
+        Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->targetPos.x, 0.5f, this->actor.speedXZ);
+        Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->targetPos.y, 0.5f, this->actor.speedXZ);
+        Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->targetPos.z, 0.5f, this->actor.speedXZ);
+        Math_SmoothScaleMaxF(&this->actor.speedXZ, 30.0f, 1.0f, 1.0f);
+    } else {
+        switch(this->actionState) {
+            case 0:
+                sp80 = Math_Sins(this->rippleTimer * 0x800) * 100.0f;
+                sp7C = Math_Coss(this->rippleTimer * 0x800) * 100.0f;
+                Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, D_80925CD4->targetPos.x + sp80, 0.05f, this->actor.speedXZ);
+                Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, D_80925CD4->targetPos.z + sp7C, 0.05f, this->actor.speedXZ);
+                Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
+                break;
+            case 5:
+                this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
+                this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+                this->actor.posRot.pos.x += this->actor.velocity.x;
+                this->actor.posRot.pos.z += this->actor.velocity.z;
+                break;
+        }
+        if ((this->actionState == 0) || (this->actionState == 5)) {
+            this->actor.posRot.pos.y += this->actor.velocity.y;
+            this->actor.velocity.y -= 1.0f;
+            func_8002E4B4(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, 1);
+            spA4.x = spA4.y = spA4.z = 0.0f;
+            for(i = 0; i < 1; i++ ) {
+                spB0.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+                spB0.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+                spB0.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                func_8091BE5C(3, globalCtx->unk_11E10, &spB0, &spA4, Math_Rand_ZeroFloat(0.02f) + 0.05f);
+            };
+
+            if (spE7 != 0) {
+                if (this->actor.posRot.pos.y <= 10) {
+                    this->actor.posRot.pos.y = 10;
+                    this->actor.velocity.y = -0.01f;
+                    if (this->timers[1] != 0) {
+                        if (this->timers[1] == 1) {
+                            this->actor.velocity.y = 6.0f;
+                        }
+                    } else {
+                        this->timers[1] = 2;
+                        Audio_PlayActorSound2(&this->actor, 0x38DD);
+                        for(i = 0; i < 10; i++) {
+                            spA4.x = Math_Rand_CenteredFloat(4.0f);
+                            spA4.y = Math_Rand_ZeroFloat(2.0f) + 3.0f;
+                            spA4.z = Math_Rand_CenteredFloat(4.0f);
+                            spB0 = this->actor.posRot.pos;
+                            spB0.x += spA4.x;
+                            spB0.z += spA4.z;
+                            func_8091BE5C(3, globalCtx->unk_11E10, &spB0, &spA4, Math_Rand_ZeroFloat(0.08f) + 0.13f);
+                        }
+                        spA4.x = spA4.y = spA4.z = 0.0f;
+                        spB0 = this->actor.posRot.pos;
+                        spB0.y = 0.0f;
+                        func_8091BE5C(3, globalCtx->unk_11E10, &spB0, &spA4, 0.4f);
+                    }
+                }
+            } else if (this->actor.posRot.pos.y < WATER_LEVEL) {
+                this->actor.velocity.y = func_8091BC40(&this->actor.posRot.pos, 40.0f) ? 15.0f : 6.0f;
+                if ((this->actor.posRot.pos.y + 15.0f) >= WATER_LEVEL) {
+                    Audio_PlayActorSound2(&this->actor, 0x38F7);
+                }
+            }
+        } else if (this->actionState >= 0) {
+            if (this->actor.posRot.pos.y <  WATER_LEVEL) {
+                if (this->actionState == 1) {
+                    this->targetPos.x = D_80925CD4->targetPos.x;
+                    this->targetPos.y = D_80925CD4->actor.posRot.pos.y - 40.0f;
+                    this->targetPos.z = D_80925CD4->targetPos.z;
+                    Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
+                } else if (this->actionState == 2){
+                    switch(this->waitUnderwater) {
+                        case 0:
+                            this->targetPos = player->actor.posRot.pos;
+                            this->targetPos.y += 30.0f;
+                            sp70.x = 0.0f;
+                            sp70.y = 0.0f;
+                            sp70.z = 100.0f;
+                            Matrix_RotateY((player->actor.posRot.rot.y / 32768.0f) * 3.1415927f, 0);
+                            Matrix_MultVec3f(&sp70, &sp64);
+                            this->targetPos.x = player->actor.posRot.pos.x + sp64.x;
+                            this->targetPos.y = player->actor.posRot.pos.y + 30.0f;
+                            this->targetPos.z = player->actor.posRot.pos.z + sp64.z;
+                            Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 1.0f);
+                            if (this->timers[0] == 0) {
+                                this->waitUnderwater = 1;
+                                this->timers[0] = (s16)Math_Rand_ZeroFloat(50.0f) + 50;
+                            }
+                            break;
+                        case 1:
+                            Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 1.0f, 0.5f);
+                            if (this->timers[0] == 0) {
+                                this->waitUnderwater = 0;
+                                this->timers[0]= (s16)Math_Rand_ZeroFloat(20.0f) + 20;
+                                Audio_PlayActorSound2(&this->actor, 0x38DE);
+                            }
+                        break;
+                    }
+                }
+                this->targetPos.x += Math_Sins(this->pulseTimer * 3096.0f) * 30.0f;
+                this->targetPos.y += Math_Sins(this->pulseTimer * 2096.0f) * 30.0f;
+                this->targetPos.z += Math_Sins(this->pulseTimer * 2796.0f) * 30.0f;
+                this->tentMaxAngle = 5.0f;
+                this->tentSpeed = 4000.0f;
+                spDC = this->targetPos.x - this->actor.posRot.pos.x;
+                spD8 = this->targetPos.y - this->actor.posRot.pos.y;
+                spD4 = this->targetPos.z - this->actor.posRot.pos.z;
+                spCC = (s16)(Math_atan2f(spDC, spD4) * 10430.378f);
+                spD0 = (s16)(Math_atan2f(spD8, sqrtf((spDC * spDC) + (spD4 * spD4))) * 10430.378f);
+                Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
+                Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
+                func_8002D908(&this->actor);
+            } else {
+                this->actor.posRot.pos.y += this->actor.velocity.y;
+                this->actor.velocity.y -= 1.0f;
+            }
+            func_8002D7EC(&this->actor);
+            temp = (this->actor.posRot.pos.y < -200.0f) ? 5 : 1;
+            this->actor.posRot.pos.y -= 20.0f;
+            func_8002E4B4(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, temp);
+            this->actor.posRot.pos.y += 20.0f;
+        }
+    }
+    if ((this->actor.posRot.pos.y < WATER_LEVEL) && (WATER_LEVEL <= this->actor.pos4.y)) {
+        if (this->actor.velocity.y < -5.0f) {
+            Audio_PlayActorSound2(&this->actor, 0x38F7);
+        } else {
+            Audio_PlayActorSound2(&this->actor, 0x38DF);
+        }
+        if ((this->timers[3] != 0) || ((D_80925CD4->unk_1A0 > 0.2f) && (fabsf(this->actor.posRot.pos.x - D_80925CD4->actor.posRot.pos.x) < 30.0f) && (fabsf(this->actor.posRot.pos.z - D_80925CD4->actor.posRot.pos.z) < 30.0f))){
+            
+        } else {
+            this->timers[3] = 8;
+            for(i = 0; i < 10; i++) {
+                sp5C = Math_Rand_ZeroFloat(3.14f);
+                sp60 = Math_Rand_ZeroFloat(0.6f) + 1.6f;
+                spA4.x = Math_Sins(((i * 65536.0f) / 10.0f) + sp5C) * sp60;
+                spA4.z = Math_Coss(((i * 65536.0f) / 10.0f) + sp5C) * sp60;
+                spA4.y = Math_Rand_ZeroFloat(0.3f) + 3.0f;
+                
+                spB0 = this->actor.posRot.pos;
+                spB0.x += spA4.x * 3.0f;
+                spB0.y = WATER_LEVEL;
+                spB0.z += spA4.z * 3.0f;
+                func_8091BE5C(4, globalCtx->unk_11E10, &spB0, &spA4, Math_Rand_ZeroFloat(0.075f) + 0.15f);
+            }
+            spB0 = this->actor.posRot.pos;
+            spB0.y = WATER_LEVEL;
+            func_8091BD38(globalCtx->unk_11E10, &spB0, 100.0f, 800.0f, 0x64, 0x122, 1);
+            func_8091BD38(globalCtx->unk_11E10, &spB0, 50.0f, 600.0f, 0x46, 0x122, 1);
+            func_8091BD38(globalCtx->unk_11E10, &spB0, 0, 400.0f, 0x32, 0x122, 1);
+        }
+    }
+    if ((this->actor.posRot.pos.y < WATER_LEVEL) || (this->actionState >= 0xA)) {
+        for(i = 0; i < 3; i++) {
+            sp98.x = sp98.z = 0.0f;
+            spA4.x = spA4.y = spA4.z = 0.0f;
+            if (this->actionState >= 0xA) {
+                sp98.y = 0.0f;
+                phi_f12 = 10.0f;
+            } else {
+                sp98.y = 0.1f;
+                phi_f12 = 20.0f;
+            }
+            spB0.x = Math_Rand_CenteredFloat(phi_f12) + this->actor.posRot.pos.x;
+            spB0.y = Math_Rand_CenteredFloat(phi_f12) + this->actor.posRot.pos.y;
+            spB0.z = Math_Rand_CenteredFloat(phi_f12) + this->actor.posRot.pos.z;
+            func_8091BFFC(globalCtx->unk_11E10, &spB0, &spA4, &sp98, Math_Rand_ZeroFloat(0.05f) + 0.1f, 0);
+        }
+    }
+    func_80921280(this, globalCtx);
+}
 
 void func_80922D30(Actor* thisx, GlobalContext* globalCtx) {
     BossMo* this = THIS;
@@ -1126,26 +2153,25 @@ void func_80922D30(Actor* thisx, GlobalContext* globalCtx) {
     f32 pad;
     Player* player = PLAYER;
 
-    osSyncPrintf("CORE mode = <%d>\n", this->unk_158);
+    osSyncPrintf("CORE mode = <%d>\n", this->actionState);
     if (D_80925CD8 == NULL) {
-        globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 = D_80925CD4->unk_1C8 + (s16)this->unk_1BC;
+        WATER_LEVEL = D_80925CD4->waterLevelMod + (s16)this->waterLevel;
     } else {
-        globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 =
-            D_80925CD8->unk_1C8 + ((s16)this->unk_1BC + D_80925CD4->unk_1C8);
+        WATER_LEVEL = D_80925CD8->waterLevelMod + ((s16)this->waterLevel + D_80925CD4->waterLevelMod);
     }
     this->actor.flags |= 0x200;
     this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->unk_15C++;
-    DECR(this->unk_15E);
-    DECR(this->unk_160);
-    this->unk_15A++;
+    this->rippleTimer++;
+    DECR(this->damageFlashTimer);
+    DECR(this->invincibilityTimer);
+    this->pulseTimer++;
     for (i = 0; i < 5; i++) {
         DECR(this->timers[i]);
     }
     func_809216D0(this, globalCtx);
     Collider_CylinderUpdate(&this->actor, &this->collider2);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
-    if ((this->unk_158 != 5) || (this->actor.posRot.pos.y < globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02)) {
+    if ((this->actionState != 5) || (this->actor.posRot.pos.y < WATER_LEVEL)) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
     } else {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
@@ -1157,163 +2183,151 @@ void func_80922D30(Actor* thisx, GlobalContext* globalCtx) {
     func_80925C18();
 }
 
-#ifdef NON_MATCHING
-// lots of stuff
 void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BossMo* this = THIS;
-    Player* player = PLAYER;
-    BossMo* unkActor;
     s16 i;
     s16 index;
-    f32 temp_f16;
-    f32 phi_f0_2;
+    BossMo* this = THIS;
+    Player* player = PLAYER;
+    f32 pad2;
     f32 phi_f0;
 
-    if ((this == D_80925CD8) && (this->unk_154 != 0)) {
-        this->unk_154++;
+    if ((this == D_80925CD8) && (this->tent2KillTimer != 0)) {
+        this->tent2KillTimer++;
         this->actor.draw = NULL;
-        if ((u8)this->unk_154 >= 0x15) {
+        if ((u8)this->tent2KillTimer >= 0x15) {
             Actor_Kill(&this->actor);
             func_800F89E8(&this->unk_1010);
             D_80925CD8 = NULL;
-            return;
         }
     } else {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->unk_D70[41], &this->unk_1010,
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->tentPos[40], &this->unk_1010,
                                      &this->actor.projectedW);
-        osSyncPrintf("MO : Move mode = <%d>\n", this->unk_158);
+        osSyncPrintf("MO : Move mode = <%d>\n", this->actionState);
         Math_SmoothScaleMaxS(&player->actor.shape.rot.x, 0, 5, 0x3E8);
         Math_SmoothScaleMaxS(&player->actor.shape.rot.z, 0, 5, 0x3E8);
-        this->unk_16A++;
-        this->unk_15C++;
+        this->rippleTimer++;
         this->unk_17C++;
-        this->unk_15A++;
-        if (this->unk_16A >= 300) {
-            this->unk_16A = 0;
+        this->pulseTimer++;
+        this->tentWidthIndex++;
+        if (this->tentWidthIndex >= 300) {
+            this->tentWidthIndex = 0;
         }
-        this->unk_16C -= 0xBB8;
-        this->unk_1F8[this->unk_16A] = (Math_Sins(this->unk_16C) * this->unk_D6C) + (1.0f + this->unk_D6C);
+        this->tentPulseTimer -= 0xBB8;
+        index = this->tentWidthIndex;
+        this->tentWidth[index] = (Math_Sins(this->tentPulseTimer) * this->tentPulse) + (1.0f + this->tentPulse);
         for (i = 0; i < 41; i++) {
-            if (this->unk_158 >= 0xC8) {
-                if (this->unk_158 >= 0xC9) {
-                    if (this->unk_158 == 0xCD) {
-                        if (this->timers[0] != 0) {
-                            phi_f0 = D_80925CDC[i];
-                        } else {
-                            phi_f0 = D_80926308[i];
-                        }
-                        Math_SmoothScaleMaxF(&this->unk_894[i].x, phi_f0, 0.5f, 100.0f);
+            if (this->actionState >= 0xC8) {
+                if (this->actionState >= 0xC9) {
+                    if (this->actionState == 0xCD) {
+                        phi_f0 = (this->timers[0] != 0) ?  D_80925CDC[i] : D_80926308[i];
+                        Math_SmoothScaleMaxF(&this->tentScale[i].x, phi_f0, 0.5f, 100.0f);
                     } else {
-                        index = ((this->unk_16A + (i * 2)) + 0xDC) % 0x12C;
-                        Math_SmoothScaleMaxF(&this->unk_894[i].x,
-                                             (D_80926264[i] * D_80926264[i]) + this->unk_1F8[index], 0.5f, 0.3f);
+                        index = ((this->tentWidthIndex + (i * 2)) + 220) % 300;
+                        phi_f0 = this->tentWidth[index] + (D_80926264[i] * D_80926264[i]);
+                        Math_SmoothScaleMaxF(&this->tentScale[i].x, phi_f0, 0.5f, 0.3f);
                     }
                 } else {
-                    index = ((this->unk_16A - (i * 2)) + 0x12C) % 0x12C;
-                    this->unk_894[i].x = D_80926264[i] * this->unk_1F8[index];
+                    index = ((this->tentWidthIndex - (i * 2)) + 300) % 300;
+                    phi_f0 = this->tentWidth[index] * D_80926264[i];
+                    this->tentScale[i].x = phi_f0;
                 }
             } else {
-                index = ((this->unk_16A - (i * 2)) + 0x12C) % 0x12C;
-                Math_SmoothScaleMaxF(&this->unk_894[i].x, D_80926264[i] * this->unk_1F8[index], 0.5f, 0.3f);
+                index = ((this->tentWidthIndex - (i * 2)) + 300) % 300;
+                phi_f0 = this->tentWidth[index] * D_80926264[i];
+                Math_SmoothScaleMaxF(&this->tentScale[i].x, phi_f0, 0.5f, 0.3f);
             }
-
-            temp_f16 = Math_Sins((this->unk_15C * 12000.0f) + (i * 20000.0f));
-            this->unk_894[i].y = this->unk_894[i].z = this->unk_894[i].x;
-            this->unk_A80[i].y = this->unk_A80[i].z = this->unk_A80[i].x = temp_f16 * this->unk_1E0;
+            phi_f0 =  Math_Sins((this->rippleTimer * 12000.0f) + (i * 20000.0f));
+            this->tentRipple[i].x =  (1.0f*phi_f0) * this->tentRippleSize;
+            this->tentScale[i].y = this->tentScale[i].z = this->tentScale[i].x;
+            this->tentRipple[i].y = this->tentRipple[i].z = this->tentRipple[i].x;
         }
-        Math_SmoothScaleMaxF(&this->unk_1E0, 0.0f, 0.1f, 0.005f);
-        Math_SmoothScaleMaxF(&this->unk_D6C, 0.2f, 0.5f, 0.01f);
+        
+        
+        Math_SmoothScaleMaxF(&this->tentRippleSize, 0.0f, 0.1f, 0.005f);
+        Math_SmoothScaleMaxF(&this->tentPulse, 0.2f, 0.5f, 0.01f);
         this->actionFunc(this, globalCtx);
-
         for (i = 0; i < 5; i++) {
             DECR(this->timers[i]);
         }
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xA, 0xC8);
         Actor_MoveForward(&this->actor);
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.0f, 1.0f, 0.02f);
+        Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.0, 1.0f, 0.02f);
 
         if (func_8091BC40(&this->actor.posRot.pos, 40) != 0) {
             this->actor.posRot.pos = this->actor.pos4;
         }
-        if ((this->unk_15C & 7) == 0) {
+        if ((this->rippleTimer % 8) == 0) {
+            f32 phi_f0_2;
             Vec3f sp94 = this->actor.posRot.pos;
-            if (this->unk_158 < 0xC8) {
+            
+            if (this->actionState < 0xC8) {
                 phi_f0_2 = 400.0f;
             } else {
-                phi_f0_2 = 0.0f;
-                if (this->unk_158 >= 0xC9) {
-                    sp94 = this->unk_D70[38];
-                    phi_f0_2 = 0.0f;
+                phi_f0_2 = 0.0;
+                if (this->actionState >= 0xC9) {
+                    sp94 = this->tentPos[38];
                 }
             }
-            func_8091BD38(globalCtx->unk_11E10, &sp94, phi_f0_2, phi_f0_2 * 3.0f, this->unk_1A4 * 0.6666f, 300, 2);
+            func_8091BD38(globalCtx->unk_11E10, &sp94, phi_f0_2, phi_f0_2 * 3.0f, this->baseOpacity * 0.6666f, 300, 2);
         }
-        if (this->unk_1CC != 0) {
+        if (this->baseBubblesTimer != 0) {
             Vec3f sp88;
             Vec3f sp7C;
             Vec3f sp70;
-            Vec3f sp64 = D_8092642C;
+            Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
+            f32 pad;
 
-            this->unk_1CC--;
-            sp88.x = 0.0f;
-            sp88.y = 0.0f;
+            this->baseBubblesTimer--;
+            sp88.x = 0.0;
+            sp88.y = 0.0;
             sp88.z = 100.0f;
-            Matrix_RotateY(Math_Rand_ZeroFloat(6.2831855f), 0);
+            Matrix_RotateY(Math_Rand_ZeroFloat(2.0f*M_PI), 0);
             Matrix_MultVec3f(&sp88, &sp7C);
-            if ((this->unk_158 >= 0xC9) && (this->unk_158 != 0xCB)) {
+            if ((this->actionState >= 0xC9) && (this->actionState != 0xCB)) {
                 i = 38;
             } else {
                 i = 0;
-                if (this->unk_158 < 0x64) {
+                if (this->actionState < 0x64) {
                     func_80078914(&this->unk_1010, 0x30FA);
-                    i = 0;
                 }
             }
-            sp70.x = this->unk_D70[i].x + sp7C.x;
-            sp70.y = Math_Rand_ZeroFloat(20.0f) + (globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 - 40.0f);
-            sp70.z = this->unk_D70[i].z + sp7C.z;
+            sp70.x = this->tentPos[i].x + sp7C.x;
+            sp70.y = (WATER_LEVEL - 40.0f) + Math_Rand_ZeroFloat(20.0f);
+            sp70.z = this->tentPos[i].z + sp7C.z;
             func_8091BFFC(globalCtx->unk_11E10, &sp70, &sp64, &sp64, Math_Rand_ZeroFloat(0.05f) + 0.2f,
-                          &this->unk_D70[i]);
+                          &this->tentPos[i]);
         }
-        DECR(this->unk_15E);
-        DECR(this->unk_160);
-        DECR(this->unk_1D2);
-
-        if (this->unk_1D1) {
+        
+        DECR(this->damageFlashTimer);
+        DECR(this->invincibilityTimer);
+        DECR(this->linkHitTimer);
+        
+        if (this->drawActor) {
             func_8091F2FC(this, globalCtx);
-
-            if (this->unk_160 == 0) {
-                if ((this->unk_158 != 4) && (this->unk_158 != 5)) {
-                    unkActor = (BossMo*)this->unk_14C;
-                    if ((unkActor == NULL) || ((unkActor->unk_158 != 4) && (unkActor->unk_158 != 5))) {
-                        if (this->unk_172 == 0) {
-                            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
-                            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
-                        }
-                    }
+            if ((this->invincibilityTimer == 0) && (this->actionState != 4) && (this->actionState != 5)) {
+                BossMo* otherTent = (BossMo*)this->otherTent;
+                if (((otherTent == NULL) || ((otherTent->actionState != 4) && (otherTent->actionState != 5))) && (this->cutIndex == 0)) {
+                    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
+                    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
                 }
             }
-
-            if (this->unk_172 == 0) {
+            if (this->cutIndex == 0) {
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
             }
         }
-        this->unk_162++;
-        this->unk_164++;
-        this->unk_166 -= 3;
-        this->unk_168++;
-        Math_SmoothDownscaleMaxF(&this->unk_1C8, 0.1f, 0.2);
+        this->baseTex1x++;
+        this->baseTex1y++;
+        this->baseTex2x -= 3;
+        this->baseTex2y++;
+        Math_SmoothDownscaleMaxF(&this->waterLevelMod, 0.1f, 0.2f);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Mo/BossMo_Update.s")
-#endif
 
 void func_809237C4(BossMo* this, s32 item, ColliderJntSph* collider1, Vec3f* center) {
     collider1->list[item].dim.worldSphere.center.x = center->x;
     collider1->list[item].dim.worldSphere.center.y = center->y;
     collider1->list[item].dim.worldSphere.center.z = center->z;
-    if (this->unk_158 < 6) {
+    if (this->actionState < 6) {
         collider1->list[item].dim.worldSphere.radius =
             collider1->list[item].dim.modelSphere.radius * collider1->list[item].dim.scale;
     } else {
@@ -1329,19 +2343,16 @@ s32 D_80926438[41] = { 0x06007C78, 0x06007D38, 0x06007D88, 0x06007DD0, 0x06007E1
 
 Vec3f D_809264DC = { -16.0f, 13.0f, 30.0f }; // inline
 Vec3f D_809264E8 = { 0.0f, 0.0f, 0.0f };
-
-#ifdef NON_MATCHING
-// float regalloc
 void func_80923870(BossMo* this, GlobalContext* globalCtx) {
-    s16 phi_s1;
-    s16 phi_s4;
+    s16 i;
+    s16 notCut;
     s16 index;
-    Mtx* phi_s7;
+    Mtx* matrix;
     f32 phi_f20;
     f32 phi_f22;
     Vec3f sp110;
 
-    phi_s7 = Graph_Alloc(globalCtx->state.gfxCtx, 41 * sizeof(Mtx));
+    matrix = Graph_Alloc(globalCtx->state.gfxCtx, 41 * sizeof(Mtx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 0x18DE);
 
@@ -1352,7 +2363,7 @@ void func_80923870(BossMo* this, GlobalContext* globalCtx) {
 
     gDPPipeSync(oGfxCtx->polyXlu.p++);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, phi_s7);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, matrix);
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0);
     Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * 3.1415927f, 1);
@@ -1360,54 +2371,54 @@ void func_80923870(BossMo* this, GlobalContext* globalCtx) {
 
     func_8091BB00(0x0001, 0x71AC, 0x263A);
 
-    for (phi_s1 = 0; phi_s1 < 41; phi_s1++, phi_s7++) {
+    for (i = 0; i < 41; i++, matrix++) {
         f32 pad;
         f32 pad2;
-        if (phi_s1 < 2) {
+        if (i < 2) {
             Matrix_Push();
             Matrix_Scale(0.0f, 0.0f, 0.0f, 1);
-            phi_s4 = 1;
+            notCut = 1;
         } else {
-            if (phi_s1 >= 3) {
-                Matrix_Translate(0.0f, this->unk_6A8[phi_s1 - 2].y, 0.0f, 1);
-                Matrix_RotateX((this->unk_C6C[phi_s1 - 2].x / 32768.0f) * 3.1415927f, 1);
-                Matrix_RotateZ((this->unk_C6C[phi_s1 - 2].z / 32768.0f) * 3.1415927f, 1);
+            if (i >= 3) {
+                Matrix_Translate(0.0f, this->tentStretch[i - 2].y, 0.0f, 1);
+                Matrix_RotateX((this->tentRot[i - 2].x / 32768.0f) * 3.1415927f, 1);
+                Matrix_RotateZ((this->tentRot[i - 2].z / 32768.0f) * 3.1415927f, 1);
             }
             Matrix_Push();
-            Matrix_Scale((this->unk_894[phi_s1 - 2].x + this->unk_A80[phi_s1 - 2].x) * this->actor.scale.x,
-                         (this->unk_894[phi_s1 - 2].y + this->unk_A80[phi_s1 - 2].y) * this->actor.scale.y,
-                         (this->unk_894[phi_s1 - 2].z + this->unk_A80[phi_s1 - 2].z) * this->actor.scale.z, 1);
-            phi_s4 = 1;
-            if ((phi_s1 >= this->unk_172) && (this->unk_174 >= phi_s1)) {
-                Matrix_Scale(this->unk_1A8, this->unk_1A8, this->unk_1A8, 1);
-                phi_s4 = 0;
+            Matrix_Scale((this->tentScale[i - 2].x + this->tentRipple[i - 2].x) * this->actor.scale.x,
+                         (this->tentScale[i - 2].y + this->tentRipple[i - 2].y) * this->actor.scale.y,
+                         (this->tentScale[i - 2].z + this->tentRipple[i - 2].z) * this->actor.scale.z, 1);
+            notCut = 1;
+            if ((i >= this->cutIndex) && (this->meltIndex >= i)) {
+                Matrix_Scale(this->cutScale, this->cutScale, this->cutScale, 1);
+                notCut = 0;
             }
         }
 
-        index = ((this->unk_16A - (phi_s1 * 2)) + 300) % 300;
-        if (this->unk_158 < 0xC8) {
-            Matrix_RotateY(((((this->unk_1F8[index] - 1.0f) - this->unk_D6C) * 1000) / 1000.0f) * this->unk_1A0, 1);
+        index = ((this->tentWidthIndex - (i * 2)) + 300) % 300;
+        if (this->actionState < 0xC8) {
+            Matrix_RotateY(((((this->tentWidth[index] - 1.0f) - this->tentPulse) * 1000) / 1000.0f) * (*this).unk_1A0, 1);
         }
         Matrix_RotateX(1.5707964f, 1);
-        Matrix_ToMtx(phi_s7, "../z_boss_mo.c", 0x1934);
+        Matrix_ToMtx(matrix, "../z_boss_mo.c", 0x1934);
 
-        gSPMatrix(oGfxCtx->polyXlu.p++, phi_s7, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(oGfxCtx->polyXlu.p++, matrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        if (phi_s1 == 0) {
-            func_8002EB44(&this->unk_D70[phi_s1], &globalCtx->view.eye, &sp110, globalCtx->state.gfxCtx);
+        if (i == 0) {
+            func_8002EB44(&this->tentPos[i], &globalCtx->view.eye, &sp110, globalCtx->state.gfxCtx);
         }
 
-        if (phi_s1 == 0) {
+        if (i == 0) {
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06007C00);
         } else {
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_80926438[phi_s1]);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_80926438[i]);
         }
 
         Matrix_Pull();
 
-        if ((phi_s1 >= 2) && phi_s4 && (phi_s1 < (this->unk_17A + 38))) {
-            if ((this->unk_158 == 0xC9) || (this->unk_158 == 0xCA)) {
-                phi_f20 = this->unk_15A & 3;
+        if ((i >= 2) && notCut && (i < (this->noBubbles + 38))) {
+            if ((this->actionState == 0xC9) || (this->actionState == 0xCA)) {
+                phi_f20 = this->pulseTimer & 3;
                 phi_f20 *= -15.0f;
                 phi_f22 = ((0.18f + func_8091BB1C() * 0.1f) * this->actor.scale.x) * 100.0f;
             } else {
@@ -1415,9 +2426,9 @@ void func_80923870(BossMo* this, GlobalContext* globalCtx) {
                 phi_f22 = (((func_8091BB1C() * (0.08f)) + .08f) * this->actor.scale.x) * 100.0f;
             }
             Matrix_Push();
-            Matrix_Translate(((func_8091BB1C() - 0.5f) * 10.0f) * this->unk_894[phi_s1 - 2].x,
+            Matrix_Translate(((func_8091BB1C() - 0.5f) * 10.0f) * this->tentScale[i - 2].x,
                              ((func_8091BB1C() - 0.5f) * 3.0f) + phi_f20,
-                             ((func_8091BB1C() - 0.5f) * 10.0f) * this->unk_894[phi_s1 - 2].z, 1);
+                             ((func_8091BB1C() - 0.5f) * 10.0f) * this->tentScale[i - 2].z, 1);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(phi_f22, phi_f22, 1.0f, 1);
 
@@ -1429,11 +2440,11 @@ void func_80923870(BossMo* this, GlobalContext* globalCtx) {
             Matrix_Pull();
         }
 
-        Matrix_MultVec3f(&D_809264E8, &this->unk_D70[phi_s1]);
-        if (phi_s1 == 36) {
+        Matrix_MultVec3f(&D_809264E8, &this->tentPos[i]);
+        if (i == 36) {
             Matrix_MultVec3f(&D_809264E8, &this->actor.posRot2.pos);
         }
-        if (phi_s1 == 24) {
+        if (i == 24) {
             MtxF sp98;
             Vec3f sp8C = D_809264DC;
             Vec3s sp84;
@@ -1441,26 +2452,23 @@ void func_80923870(BossMo* this, GlobalContext* globalCtx) {
             if (this->unk_176 != 0) {
                 sp8C.x *= -1.0f;
             }
-            Matrix_MultVec3f(&sp8C, &this->unk_1E4);
+            Matrix_MultVec3f(&sp8C, &this->grabPosRot.pos);
             Matrix_RotateX(-1.7180586f, 1);
             Matrix_Get(&sp98);
             func_800D20CC(&sp98, &sp84, 0);
-            this->unk_1F0 = sp84.x;
-            this->unk_1F2 = sp84.y;
-            this->unk_1F4 = sp84.z;
+            this->grabPosRot.rot.x = sp84.x;
+            this->grabPosRot.rot.y = sp84.y;
+            this->grabPosRot.rot.z = sp84.z;
             Matrix_Pull();
         }
-        if ((phi_s1 < 38) && ((phi_s1 & 1) == 1)) {
-            func_809237C4(this, phi_s1 / 2, &this->collider1, &this->unk_D70[phi_s1]);
+        if ((i < 38) && ((i & 1) == 1)) {
+            func_809237C4(this, i / 2, &this->collider1, &this->tentPos[i]);
         }
     }
 
     Matrix_Pull();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 0x19AB);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Mo/func_80923870.s")
-#endif
 
 void func_80923FDC(BossMo* this, GlobalContext* globalCtx) {
     f32 pad;
@@ -1470,15 +2478,15 @@ void func_80923FDC(BossMo* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
     func_80093D84(globalCtx->state.gfxCtx);
-    Matrix_Translate(0.0f, globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02, 0.0f, 0);
+    Matrix_Translate(0.0f, WATER_LEVEL, 0.0f, 0);
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x0D,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_1AC, (s16)this->unk_1B0, 0x20, 0x20, 1,
-                                (s16)this->unk_1B4, (s16)this->unk_1B8, 0x20, 0x20));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->waterTex1x, (s16)this->waterTex1y, 0x20, 0x20, 1,
+                                (s16)this->waterTex2x, (s16)this->waterTex2y, 0x20, 0x20));
 
     gDPPipeSync(oGfxCtx->polyXlu.p++);
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 0xC8, 0xFF, 0xFF, (s8)D_80925CD4->unk_1C4);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 0xC8, 0xFF, 0xFF, (s8)D_80925CD4->waterTexOpacity);
 
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, 0x50);
 
@@ -1493,31 +2501,31 @@ void func_80923FDC(BossMo* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// float regalloc
+// float regalloc in atan2f and matrices
 void func_80924228(Actor* thisx, GlobalContext* globalCtx) {
     BossMo* this = THIS;
     s16 temp_v1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 0x1A20);
-    if (globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02 < this->actor.posRot.pos.y) {
+    if (WATER_LEVEL < this->actor.posRot.pos.y) {
         func_80923FDC(this, globalCtx);
     }
-    if (this->unk_1D1 != 0) {
+    if (this->drawActor != 0) {
         func_80093D84(globalCtx->state.gfxCtx);
 
         gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, D_80925CD4->unk_15C * 3, D_80925CD4->unk_15C * 3, 0x20,
-                                    0x20, 1, D_80925CD4->unk_15C * -3, D_80925CD4->unk_15C * -3, 0x20, 0x20));
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, D_80925CD4->rippleTimer * 3, D_80925CD4->rippleTimer * 3, 0x20,
+                                    0x20, 1, D_80925CD4->rippleTimer * -3, D_80925CD4->rippleTimer * -3, 0x20, 0x20));
         gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, D_80925CD4->unk_15C * 5, 0, 0x20, 0x20, 1, 0,
-                                    D_80925CD4->unk_15C * -0xA, 0x20, 0x20));
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, D_80925CD4->rippleTimer * 5, 0, 0x20, 0x20, 1, 0,
+                                    D_80925CD4->rippleTimer * -0xA, 0x20, 0x20));
 
-        Matrix_RotateX(this->unk_15A * 0.5f, 1);
-        Matrix_RotateZ(this->unk_15A * 0.8f, 1);
+        Matrix_RotateX(this->pulseTimer * 0.5f, 1);
+        Matrix_RotateZ(this->pulseTimer * 0.8f, 1);
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 0x1A4F),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xFF, (s8)this->unk_1A4);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xFF, (s8)this->baseOpacity);
 
         func_8002ED80(&this->actor, globalCtx, 0);
 
@@ -1526,18 +2534,18 @@ void func_80924228(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(oGfxCtx->polyXlu.p++);
 
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0xDC, 0xFF, 0x80);
-        if ((this->unk_15E & 1) != 0) {
+        if ((this->damageFlashTimer & 1) != 0) {
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0x3C, 0x00, 0xFF);
         } else {
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xFF, 0xFF);
         }
         gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(&D_06006838));
 
-        if (((this->unk_166 != 0) && (0.0f <= this->actor.posRot.pos.y)) ||
-            (this->actor.posRot.pos.y < globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02)) {
+        if (((this->drawShadow != 0) && (0.0f <= this->actor.posRot.pos.y)) ||
+            (this->actor.posRot.pos.y < WATER_LEVEL)) {
             f32 spA0;
             s16 sp9E;
-            if (this->actor.posRot.pos.y < globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02) {
+            if (this->actor.posRot.pos.y < WATER_LEVEL) {
                 spA0 = -280.0f;
                 sp9E = 0x64;
             } else {
@@ -1558,11 +2566,11 @@ void func_80924228(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.posRot.pos.y < globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02) {
+    if (this->actor.posRot.pos.y < WATER_LEVEL) {
         func_80923FDC(this, globalCtx);
     }
 
-    if ((this->unk_F62 != 0) && (this->unk_F60 < 4)) {
+    if ((this->cutsceneCamera != 0) && (this->cutsceneState < 4)) {
         f32 sp8C;
         f32 sp88;
         f32 sp84;
@@ -1577,14 +2585,14 @@ void func_80924228(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, (s8)this->unk_188);
 
         gSPSegment(oGfxCtx->polyXlu.p++, 0x0D,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)D_80925CD4->unk_1AC, (s16)D_80925CD4->unk_1B0,
-                                    0x20, 0x20, 1, (s16)D_80925CD4->unk_1B4, (s16)D_80925CD4->unk_1B8, 0x20, 0x20));
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)D_80925CD4->waterTex1x, (s16)D_80925CD4->waterTex1y,
+                                    0x20, 0x20, 1, (s16)D_80925CD4->waterTex2x, (s16)D_80925CD4->waterTex2y, 0x20, 0x20));
         sp8C = this->unk_F74.x - this->unk_F68.x;
         sp88 = this->unk_F74.y - this->unk_F68.y;
         sp84 = this->unk_F74.z - this->unk_F68.z;
 
         sp7C = Math_atan2f(sp8C, sp84);
-        sp78 = -Math_atan2f(sp88, sqrtf(sp8C * sp8C + sp84 * sp84));
+        sp78 = -Math_atan2f(sp88,sqrtf(sp8C + sp84));
 
         sp6C.x = 0.0f;
         sp6C.y = 0.0f;
@@ -1594,13 +2602,12 @@ void func_80924228(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateX(sp78, 1);
         Matrix_MultVec3f(&sp6C, &sp60);
         Matrix_Translate(this->unk_F68.x + sp60.x, this->unk_F68.y + sp60.y, this->unk_F68.z + sp60.z, 0);
-        if (1) {}
         Matrix_RotateY(sp7C, 1);
         Matrix_RotateX(sp78, 1);
-        Matrix_RotateZ(-(this->unk_15C * 0.01f), 1);
-        Matrix_RotateZ(this->unk_15C * 0.1f, 1);
+        Matrix_RotateZ(-(this->rippleTimer * 0.01f), 1);
+        Matrix_RotateZ(this->rippleTimer * 0.1f, 1);
         Matrix_Scale(0.825f, 1.175f, 0.825f, 1);
-        Matrix_RotateZ(-(this->unk_15C * 0.1f), 1);
+        Matrix_RotateZ(-(this->rippleTimer * 0.1f), 1);
         Matrix_RotateX(M_PI / 2.0f, 1);
         Matrix_Scale(0.05f, 1.0f, 0.05f, 1);
 
@@ -1625,20 +2632,20 @@ void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (1) {}
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s8)(this->unk_1A4 * 1.5f));
+    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0xFF, (s8)(this->baseOpacity * 1.5f));
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0x96, 0x96, 0x96, 0x00);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_162, this->unk_164, 0x20, 0x20, 1, this->unk_166,
-                                this->unk_168, 0x20, 0x20));
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 0xC8, 0xFF, 0xFF, (s8)((this->unk_1A4 * 12.0f) / 10.0f));
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, (s8)this->unk_1A4);
-    temp_f0 = Math_Sins(this->unk_15C * 0xB00) * 30.0f;
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->baseTex1x, this->baseTex1y, 0x20, 0x20, 1, this->baseTex2x,
+                                this->baseTex2y, 0x20, 0x20));
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 0xC8, 0xFF, 0xFF, (s8)((this->baseOpacity * 12.0f) / 10.0f));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, (s8)this->baseOpacity);
+    temp_f0 = Math_Sins(this->rippleTimer * 0xB00) * 30.0f;
     temp_a0 = (s16)temp_f0 + 350;
     gSPTexture(oGfxCtx->polyXlu.p++, temp_a0, temp_a0, 0, G_TX_RENDERTILE, G_ON);
 
-    if (this->unk_1D1 != 0) {
+    if (this->drawActor != 0) {
         func_80923870(this, globalCtx);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 0x1B6F);
@@ -1668,8 +2675,8 @@ void func_80924D70(BossMo *this, GlobalContext *globalCtx) {
                 particle->stopTimer--;
             }
             if (particle->type < 3) {
-                if (this->unk_F60 >= 0x64) {
-                    particle->pos.y = globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02;
+                if (this->cutsceneState >= 0x64) {
+                    particle->pos.y = WATER_LEVEL;
                 }
                 Math_SmoothScaleMaxF(&particle->scale, particle->unk_34, 0.2f, particle->unk_38);
                 if (particle->unk_2C == 0) {
@@ -1687,7 +2694,7 @@ void func_80924D70(BossMo *this, GlobalContext *globalCtx) {
                 }
             } else if(particle->type == 7) {
                 if (particle->unk_3C == NULL) {
-                    if ((particle->accel.y > 0.0f) && (particle->pos.y >= globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02)) {
+                    if ((particle->accel.y > 0.0f) && (particle->pos.y >= WATER_LEVEL)) {
                          particle->type = 0;
                     } else {
                         if (particle->vel.y > 2.0f) {
@@ -1714,7 +2721,7 @@ void func_80924D70(BossMo *this, GlobalContext *globalCtx) {
                     if (particle->timer1 >= 0x15) {
                         particle->opacity -= 0x1E;
                         particle->accel.y = 1.5f;
-                        if ((particle->opacity <= 0) || (particle->pos.y >= globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02))  {
+                        if ((particle->opacity <= 0) || (particle->pos.y >= WATER_LEVEL))  {
                             particle->opacity = 0;
                             particle->type = 0;
                         }
@@ -1773,9 +2780,9 @@ void func_80924D70(BossMo *this, GlobalContext *globalCtx) {
                             particle->type = 6;
                             particle->opacity = 0x96;
                             particle->unk_38 = (particle->scale * 15.0f) * 0.15f;
-                        } else if (particle->pos.y <= globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02) {
+                        } else if (particle->pos.y <= WATER_LEVEL) {
                             Vec3f sp78 = particle->pos;
-                            sp78.y = globalCtx->colCtx.stat.colHeader->waterBoxes->unk_02;
+                            sp78.y = WATER_LEVEL;
                             if (particle->type == 4) {
                                 func_8091BD38(globalCtx->unk_11E10, &sp78, 60.0f, 160.0f, 0x50, 0x122, 1);
                             } else {
@@ -1969,13 +2976,13 @@ u16 D_80926518[532] = {
 };
 
 void func_80925C18(void) {
-    if (gGameInfo->data[0x980] != 0) {
-        gGameInfo->data[0x980]--;
+    if (BREG(0x20) != 0) {
+        BREG(0x20)--;
         Audio_SetBGM(0x100100FF);
-        func_80078914(&D_8092650C, D_80926518[gGameInfo->data[0x981]]);
+        func_80078914(&D_8092650C, D_80926518[BREG(0x21)]);
     }
-    if (gGameInfo->data[0x982] != 0) {
-        gGameInfo->data[0x982] = 0;
-        Audio_SetBGM((u16)gGameInfo->data[0x983]);
+    if (BREG(0x22) != 0) {
+        BREG(0x22) = 0;
+        Audio_SetBGM((u16)BREG(0x23));
     }
 }
