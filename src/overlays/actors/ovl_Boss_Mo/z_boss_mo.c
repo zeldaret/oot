@@ -2590,9 +2590,8 @@ void func_80924228(Actor* thisx, GlobalContext* globalCtx) {
         sp8C = this->unk_F74.x - this->unk_F68.x;
         sp88 = this->unk_F74.y - this->unk_F68.y;
         sp84 = this->unk_F74.z - this->unk_F68.z;
-
         sp7C = Math_atan2f(sp8C, sp84);
-        sp78 = -Math_atan2f(sp88,sqrtf(sp8C + sp84));
+        sp78 = -Math_atan2f(sp88, sqrtf(sp8C * sp8C + sp84 * sp84));
 
         sp6C.x = 0.0f;
         sp6C.y = 0.0f;
