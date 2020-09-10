@@ -481,7 +481,7 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     for (i = 0, angle1 = 0; i < 16; i++, angle1 += 0x4E20) {
         temp_f22 = Math_Sins(angle1);
         temp_f24 = Math_Coss(angle1);
-        angle2 = Math_Rand_ZeroOne() * 65535.0f;
+        angle2 = Math_Rand_ZeroOne() * 0xFFFF;
         effectPos.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
         temp_f20_2 = Math_Sins(angle2);
         effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
