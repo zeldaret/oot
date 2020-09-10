@@ -726,32 +726,32 @@ typedef struct {
 } Special7; // size = 0x4
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    Actor* unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-} Keep1Anim;
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ Actor* unk_0C;
+    /* 0x0010 */ s16 unk_10;
+    /* 0x0012 */ s16 unk_12;
+    /* 0x0014 */ s16 unk_14;
+    /* 0x0016 */ s16 unk_16;
+} Keep1Anim; // size = 0x18
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    f32 unk_1C;
-    f32 unk_20;
-    f32 unk_24;
-    f32 unk_28;
-    f32 unk_2C;
-    s16 interfaceFlags;
-    Keep1Anim anim;
-} KeepOn1;
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ f32 unk_20;
+    /* 0x0024 */ f32 unk_24;
+    /* 0x0028 */ f32 unk_28;
+    /* 0x002C */ f32 unk_2C;
+    /* 0x0030 */ s16 interfaceFlags;
+    /* 0x0034 */ Keep1Anim anim;
+} KeepOn1; // size = 0x4C
 
 typedef struct {
     /* 0x0000 */ s16 animTimer;
