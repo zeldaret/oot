@@ -10,10 +10,11 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 // TODO: Remove later if unnecessary
-void func_80A6C6B0(EnHorseNormal* this);
-void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BC48(EnHorseNormal* this);
+void func_80A6C4CC(EnHorseNormal* this);
+void func_80A6C6B0(EnHorseNormal* this);
+void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem);
 
 /*
 const ActorInit En_Horse_Normal_InitVars = {
@@ -35,6 +36,7 @@ extern ColliderCylinderInit D_80A6D3C0;
 extern ColliderJntSphInit D_80A6D410;
 extern CollisionCheckInfoInit D_80A6D420;
 extern InitChainEntry D_80A6D4EC[];
+extern Vec3f D_80A6D548;
 
 extern AnimationHeader D_06004580;
 extern SkeletonHeader D_06009FAC;
@@ -131,8 +133,6 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Init.s")
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Destroy.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B91C.s")
@@ -167,4 +167,106 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6CC88.s")
 
+#ifdef NON_EQUIVALENT
+void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnHorseNormal* this = THIS;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    MtxF sp74;
+    Vec3f sp64;
+    s16 sp62;
+    f32 sp5C;
+    Mtx* temp_v0_3;
+    Mtx* temp_v0_4;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f0_3;
+    f32 temp_f0_4;
+    f32 temp_f2;
+    s16 temp_v0_2;
+
+    OPEN_DISPS(gfxCtx, "../z_en_horse_normal.c", 2224);
+
+    if ((globalCtx->sceneNum != SCENE_SPOT20) || (globalCtx->sceneNum != SCENE_MALON_STABLE)) {
+        func_80A6C8E0(thisx, globalCtx);
+    } else {
+
+    }
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_800A6330(&this->actor, globalCtx, &this->unk_154, func_80A6CAFC, 1);
+    if (this->unk_14C == 3) {
+        sp64 = D_80A6D548;
+        temp_f2 = thisx->posRot.pos.y;
+        sp5C = temp_f2 - thisx->groundY;
+        temp_v0_2 = globalCtx->sceneNum;
+        if (temp_v0_2 == 0x36) {
+            temp_f0 = thisx->posRot.pos.x;
+            if (((355.0f == temp_f0) && (0.0f == temp_f2)) && (-245.0f == thisx->posRot.pos.z)) {
+                sp64.y = 0.0f;
+                sp62 = 0x7FFF;
+                sp64.x = 235.0f;
+                sp64.z = 100.0f;
+            } else {
+                if (238.0f == temp_f0) {
+                    if (0.0f == temp_f2) {
+                        if (-245.0f == thisx->posRot.pos.z) {
+                            sp64.y = 0.0f;
+                            sp62 = 0x7FFF;
+                            sp64.x = 478.0f;
+                            sp64.z = 100.0f;
+                        }
+                    }
+                }
+            }
+        } else {
+            if (temp_v0_2 == 0x63) {
+                temp_f0_2 = thisx->posRot.pos.x;
+                if (((-730.0f == temp_f0_2) && (0.0f == temp_f2)) && (-1100.0f == thisx->posRot.pos.z)) {
+                    sp64.y = 0.0f;
+                    sp62 = 0;
+                    sp64.x = 780.0f;
+                    sp64.z = -80.0f;
+                } else {
+                    if (880.0f == temp_f0_2) {
+                        if (0.0f == temp_f2) {
+                            if (-1170.0f == thisx->posRot.pos.z) {
+                                sp64.y = 0.0f;
+                                sp62 = 0;
+                                sp64.x = -1000.0f;
+                                sp64.z = -70.0f;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        func_80A6CC88(globalCtx, thisx, &sp64);
+        temp_f0_3 = thisx->scale.y;
+        SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, temp_f0_3, thisx->scale.z, thisx->shape.rot.x, sp62, thisx->shape.rot.z, sp64.x, (this->actor.shape.unk_08 * temp_f0_3) + sp64.y, sp64.z);
+        temp_v0_3 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
+        if (temp_v0_3 != NULL) {
+            gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(oGfxCtx->polyOpa.p++, temp_v0_3, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            func_800A63CC(this, globalCtx, &this->unk_154, 0, 0, 1, 0, 3);
+            this->unk_2D4.dim.pos.x = sp64.x;
+            this->unk_2D4.dim.pos.y = sp64.y;
+            this->unk_2D4.dim.pos.z = sp64.z;
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_2D4.base);
+            func_80094044(globalCtx->state.gfxCtx);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
+            Matrix_Translate(sp64.x, sp64.y, sp64.z, 0);
+            temp_f0_4 = (1.0f - (sp5C * 0.01f)) * thisx->shape.unk_10;
+            Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
+            Matrix_RotateY(sp62 * 0.0000958738f, 1);
+            temp_v0_4 = Matrix_NewMtx(gfxCtx, "../z_en_horse_normal.c", 2329);
+            if (temp_v0_4 != NULL) {
+                gSPMatrix(oGfxCtx->polyXlu.p++, temp_v0_4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_04049AD0);
+            }
+        }
+    }
+
+    CLOSE_DISPS(gfxCtx, "../z_en_horse_normal.c", 2339);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Draw.s")
+#endif
