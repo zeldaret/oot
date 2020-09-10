@@ -983,42 +983,46 @@ s32 func_80045B08(Camera* camera, VecSph* eyeAtDir, f32 yExtra, s16 arg3) {
 
     return 1;
 }
-#ifdef NON_MATCHING
+
 /**
  * Adjusts the camera's at position for Camera_Parallel1
 */
 // regalloc and some minor reordering. 
 s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
-    f32 temp_f0_4;
-    Vec3f sp70;
-    Vec3f atTarget;
-    f32 sp54;
     Vec3f *at = &camera->at;
+    Vec3f posOffsetTarget;
+    Vec3f atTarget;
+    Vec3f* eye = &camera->eye;
     PosRot *playerPosRot = &camera->playerPosRot;
-    f32 temp_f14_2;
     f32 temp_f2;
-    f32 phi_f20;
     f32 phi_f16;
+    f32 sp54;
+    f32 phi_f20;
+    f32 temp_f0_4;
 
-    posOffsetTarget.y = Player_GetHeight(camera->player) + arg2;
+    temp_f0_4 = Player_GetHeight(camera->player);
     posOffsetTarget.x = 0.0f;
+    posOffsetTarget.y = temp_f0_4 + arg2;
     posOffsetTarget.z = 0.0f;
+
     if (PREG(76) && arg4) {
         posOffsetTarget.y -= Camera_CalcSlopeYAdj(&camera->floorNorm, playerPosRot->rot.y, arg1->yaw, OREG(9));
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f || camera->player->stateFlags1 & 0x200000) {
         *arg3 = Camera_LERPCeilF(playerPosRot->pos.y, *arg3, PCT(OREG(43)), 0.1f);
-        posOffsetTarget.y -= playerPosRot->pos.y - *arg3;
+        phi_f20 = playerPosRot->pos.y - *arg3;
+        posOffsetTarget.y -= phi_f20;
         Camera_LERPCeilVec3f(&posOffsetTarget, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
     } else {
         // this condition can basically never be met, due to the decision to call
         // this function in Camera_Parallel1 
         if (!PREG(75)) {
-            phi_f20 = sp3C->pos.y - *arg3;
+            phi_f20 = playerPosRot->pos.y - *arg3;
             sp54 = OLib_Vec3fDistXZ(at, &camera->eye);
+            phi_f16 = sp54;
             Math_atan2f(phi_f20, sp54);
-            temp_f2 = Math_tanf(DEG_TO_RAD(camera->fov * 0.4f)) * sp54;
+            temp_f2 = Math_tanf(DEG_TO_RAD(camera->fov * 0.4f)) * phi_f16;
             if (temp_f2 < phi_f20) {
                 *arg3 += phi_f20 - temp_f2;
                 phi_f20 = temp_f2;
@@ -1029,17 +1033,13 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
             posOffsetTarget.y -= phi_f20;
         } else {
             phi_f20 = playerPosRot->pos.y - *arg3;
-            temp_f0_4 = Math_atan2f(phi_f20, OLib_Vec3fDistXZ(at, &camera->eye));
-            temp_f14_2 = DEG_TO_RAD(OREG(32));
-            if (temp_f14_2 < temp_f0_4) {
-                phi_f16 = 1.0f - sinf(temp_f0_4 - temp_f14_2);
+            temp_f2 = Math_atan2f(phi_f20, OLib_Vec3fDistXZ(at, eye));
+            if (DEG_TO_RAD(OREG(32)) < temp_f2) {
+                phi_f16 = 1 - sinf(temp_f2 - DEG_TO_RAD(OREG(32)));
+            } else if (temp_f2 < DEG_TO_RAD(OREG(33))) {
+                phi_f16 = 1 - sinf(DEG_TO_RAD(OREG(33)) - temp_f2);
             } else {
-                temp_f14_2 = DEG_TO_RAD(OREG(33));
-                if (temp_f0_4 < temp_f14_2) {
-                    phi_f16 = 1.0f - sinf(temp_f14_2 - temp_f0_4);
-                } else {
-                    phi_f16 = 1.0f;
-                }
+                phi_f16 = 1;
             }
             posOffsetTarget.y -= phi_f20 * phi_f16;
         }
@@ -1047,19 +1047,13 @@ s32 func_80045C74(Camera *camera, VecSph *arg1, f32 arg2, f32 *arg3, s16 arg4) {
         camera->yOffsetUpdateRate = PCT(OREG(29));
         camera->xzOffsetUpdateRate = PCT(OREG(30));
     }
-
     atTarget.x = playerPosRot->pos.x + camera->posOffset.x;
     atTarget.y = playerPosRot->pos.y + camera->posOffset.y;
     atTarget.z = playerPosRot->pos.z + camera->posOffset.z;
     Camera_LERPCeilVec3f(&atTarget, at, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045C74.s")
-#endif
 
-//#define NON_MATCHING
-#ifdef NON_MATCHING
 /**
  * Adjusts at position for Camera_Battle1 and Camera_KeepOn1
 */
@@ -1071,10 +1065,10 @@ s32 func_800460A8(Camera *camera, VecSph *eyeAtDir, Vec3f *targetPos, f32 arg3, 
     Vec3f* floorNorm = &camera->floorNorm;
     VecSph sp74;
     PosRot *sp50 = &camera->playerPosRot;
-    f32 temp_f0_2;
-    f32 sp68;
     f32 phi_f20;
     f32 phi_f16;
+    f32 sp68;
+    f32 temp_f0_2;
     f32 temp_f0;
 
     temp_f0 = Player_GetHeight(camera->player);
@@ -1092,7 +1086,7 @@ s32 func_800460A8(Camera *camera, VecSph *eyeAtDir, Vec3f *targetPos, f32 arg3, 
     OLib_Vec3fDiffToVecSphGeo(targetPlayerGeo, &sp8C, targetPos);
     sp74 = *targetPlayerGeo;
     if (arg4 < sp74.r) {
-        sp74.r *= PCT(OREG(38));
+        sp74.r = sp74.r * PCT(OREG(38));
     } else {
         temp_f0_2 = OLib_ClampMaxDist((sp50->pos.y - camera->playerGroundY) / temp_f0, 1.0f);
         sp74.r = (sp74.r *  PCT(OREG(39))) - (((PCT(OREG(39)) - PCT(OREG(38))) * sp74.r) * (sp74.r / arg4));
@@ -1111,21 +1105,22 @@ s32 func_800460A8(Camera *camera, VecSph *eyeAtDir, Vec3f *targetPos, f32 arg3, 
         osSyncPrintf("%f (%f %f %f) %f\n", sp74.r / arg4, sp80.x, sp80.y, sp80.z, camera->atLERPStepScale);
     }
 
-    sp98.x += sp80.x;
-    sp98.y += sp80.y;
-    sp98.z += sp80.z;
+    sp98.x = sp98.x + sp80.x;
+    sp98.y = sp98.y + sp80.y;
+    sp98.z = sp98.z + sp80.z;
 
-    if (camera->playerPosRot.pos.y == camera->playerGroundY || -0.1f < camera->player->actor.gravity || camera->player->stateFlags1 & 0x200000) {
+    if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f || camera->player->stateFlags1 & 0x200000) {
         *arg5 = Camera_LERPCeilF(sp50->pos.y, *arg5, PCT(OREG(43)), 0.1f);
-        sp68 = camera->xzOffsetUpdateRate;
         phi_f20 = sp50->pos.y - *arg5;
-        sp98.y = sp98.y - phi_f20;
-        Camera_LERPCeilVec3f(&sp98, &camera->posOffset, camera->yOffsetUpdateRate, sp68, 0.1f);
+        sp98.y -= phi_f20;
+        Camera_LERPCeilVec3f(&sp98, &camera->posOffset, camera->yOffsetUpdateRate, camera->xzOffsetUpdateRate, 0.1f);
     } else {
         if (!(flags & 0x80)) {
             phi_f20 = sp50->pos.y - *arg5;;
-            Math_atan2f(phi_f20, sp68 = OLib_Vec3fDistXZ(sp54, &camera->eye));
-            temp_f0_2 = Math_tanf(DEG_TO_RAD(camera->fov * 0.4f)) * sp68;
+            sp68 = OLib_Vec3fDistXZ(sp54, &camera->eye);
+            phi_f16 = sp68;
+            Math_atan2f(phi_f20, sp68);
+            temp_f0_2 = Math_tanf(DEG_TO_RAD(camera->fov * 0.4f)) * phi_f16;
             if (temp_f0_2 < phi_f20) {
                 *arg5 = *arg5 + (phi_f20 - temp_f0_2);
                 phi_f20 = temp_f0_2;
@@ -1137,14 +1132,15 @@ s32 func_800460A8(Camera *camera, VecSph *eyeAtDir, Vec3f *targetPos, f32 arg3, 
         } else {
             phi_f20 = sp50->pos.y - *arg5;
             temp_f0_2 = Math_atan2f(phi_f20, OLib_Vec3fDistXZ(sp54, &camera->eye));
-            if (DEG_TO_RAD(OREG(32)) < temp_f0_2) {
+            
+            if (temp_f0_2 > DEG_TO_RAD(OREG(32))) {
                 phi_f16 = 1.0f - sinf(temp_f0_2 - DEG_TO_RAD(OREG(32)));
-            } else if (DEG_TO_RAD(OREG(33)) > temp_f0_2) {
+            } else if (temp_f0_2 < DEG_TO_RAD(OREG(33))) {
                 phi_f16 = 1.0f - sinf(DEG_TO_RAD(OREG(33)) - temp_f0_2);
             } else {
                 phi_f16 = 1.0f;
             }
-            sp98.y = sp98.y - (phi_f20 * phi_f16);
+            sp98.y -= (phi_f20 * phi_f16);
         }
 
         Camera_LERPCeilVec3f(&sp98, &camera->posOffset, PCT(OREG(29)), PCT(OREG(30)), 0.1f);
@@ -1158,11 +1154,6 @@ s32 func_800460A8(Camera *camera, VecSph *eyeAtDir, Vec3f *targetPos, f32 arg3, 
     Camera_LERPCeilVec3f(&sp8C, sp54, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
     return 1;
 }
-#else
-s32 func_800460A8(Camera *camera, VecSph *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32 *arg5, VecSph *arg6, s16 arg7);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800460A8.s")
-#endif
-#undef NON_MATCHING
 
 s32 func_800466F8(Camera* camera, VecSph* eyeAtDir, f32 arg2, f32* arg3, s16 calcSlope) {
     Vec3f* at = &camera->at;
