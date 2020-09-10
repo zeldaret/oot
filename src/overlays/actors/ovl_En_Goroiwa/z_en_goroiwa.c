@@ -447,9 +447,9 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
 
     func_800D23FC(sp8C, &sp74, 0);
-    Matrix_RotateY(this->actor.shape.rot.y * (2 * M_PI / 65536), 1);
-    Matrix_RotateX(this->actor.shape.rot.x * (2 * M_PI / 65536), 1);
-    Matrix_RotateZ(this->actor.shape.rot.z * (2 * M_PI / 65536), 1);
+    Matrix_RotateY(this->actor.shape.rot.y * (2.0f * M_PI / 65536.0f), 1);
+    Matrix_RotateX(this->actor.shape.rot.x * (2.0f * M_PI / 65536.0f), 1);
+    Matrix_RotateZ(this->actor.shape.rot.z * (2.0f * M_PI / 65536.0f), 1);
     Matrix_Get(&mtx);
     func_800D20CC(&mtx, &this->actor.shape.rot, 0);
 }
