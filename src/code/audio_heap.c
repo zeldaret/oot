@@ -1,8 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-#define ALIGN16(val) (((val) + 0xF) & ~0xF)
-
 f32 func_800DDE20(f32 arg0) {
     return 256.0f * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled / arg0;
 }

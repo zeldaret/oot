@@ -92,11 +92,9 @@ typedef struct {
     /* 0x00 */ u8 bits2 : 2;
     /* 0x00 */ u8 unk_bits2 : 2;
     /* 0x01 */ u32 bits24 : 24;
-    /*?0x04 */ u8* sampleAddr;
+    /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
     /*?0x0C */ AdpcmBook* book;
-    /*?0x01 */ // u8 loaded;
-    /*?0x10 */ // u32 sampleSize; // never read. either 0 or 1 mod 9, depending on padding
 } AudioBankSample; // size = 0x10
 
 typedef struct {
