@@ -13,11 +13,11 @@
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgGndDarkmeiro_Draw0(Actor* thisx, GlobalContext* globalCtx);
+void BgGndDarkmeiro_DrawZero(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx);
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, GlobalContext* globalCtx);
 
-void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx);
+void BgGndDarkmeiro_ModeZero(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_StaticBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_SwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx);
@@ -40,14 +40,14 @@ extern Gfx D_0600BEC0[];
 extern UNK_TYPE D_0600C080;
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
-    if (this->actionState & 2) {
+    if (this->actionFlags & 2) {
         if (this->timer1 == 0) {
             func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-            this->actionState &= ~2;
+            this->actionFlags &= ~2;
         }
     } else if (this->timer1 != 0) {
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-        this->actionState |= 2;
+        this->actionFlags |= 2;
     }
 }
 
@@ -56,12 +56,12 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 local_c = 0;
     s32 pad;
 
-    this->actionFunc = BgGndDarkmeiro_DoNothing;
+    this->updateFunc = BgGndDarkmeiro_ModeZero;
     Actor_SetScale(&this->dyna.actor, 0.1f);
 
     switch (this->dyna.actor.params & 0xFF) {
         case DARKMEIRO_MODE_ZERO:
-            this->dyna.actor.draw = BgGndDarkmeiro_Draw0;
+            this->dyna.actor.draw = BgGndDarkmeiro_DrawZero;
             this->dyna.actor.flags |= 0x80;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
@@ -69,31 +69,31 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
 
             if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) {
-                this->actionFunc = BgGndDarkmeiro_StaticBlock;
+                this->updateFunc = BgGndDarkmeiro_StaticBlock;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
             } else {
-                this->actionState = this->timer1 = this->timer2 = 0;
+                this->actionFlags = this->timer1 = this->timer2 = 0;
                 thisx->draw = BgGndDarkmeiro_DrawSwitchBlock;
-                this->actionFunc = BgGndDarkmeiro_SwitchBlock;
+                this->updateFunc = BgGndDarkmeiro_SwitchBlock;
                 if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 } else {
                     this->timer1 = 64;
-                    this->actionState |= 2;
+                    this->actionFlags |= 2;
                 }
             }
             break;
         case DARKMEIRO_BLOCK_TIMER:
-            this->actionState = this->timer1 = this->timer2 = 0;
-            this->actionFunc = BgGndDarkmeiro_BlockTimer;
+            this->actionFlags = this->timer1 = this->timer2 = 0;
+            this->updateFunc = BgGndDarkmeiro_BlockTimer;
             thisx->draw = NULL;
             if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1)) {
                 this->timer1 = 64;
-                this->actionState |= 4;
+                this->actionFlags |= 4;
             }
             if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2)) {
                 this->timer2 = 64;
-                this->actionState |= 8;
+                this->actionFlags |= 8;
             }
             if ((this->timer1 != 0) || (this->timer2 != 0)) {
                 Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
@@ -114,37 +114,37 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgGndDarkmeiro_DoNothing(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
+void BgGndDarkmeiro_ModeZero(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndDarkmeiro_BlockTimer(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     s16 timeLeft;
 
     if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1)) {
-        if (this->actionState & 4) {
+        if (this->actionFlags & 4) {
             if (this->timer1 > 0) {
                 this->timer1--;
             } else {
                 Flags_UnsetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1);
-                this->actionState &= ~4;
+                this->actionFlags &= ~4;
             }
         } else {
-            this->actionState |= 4;
+            this->actionFlags |= 4;
             this->timer1 = 304;
             Audio_PlaySoundGeneral(NA_SE_EV_RED_EYE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
 
     if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2)) {
-        if (this->actionState & 8) {
+        if (this->actionFlags & 8) {
             if (this->timer2 > 0) {
                 this->timer2--;
             } else {
                 Flags_UnsetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2);
-                this->actionState &= ~8;
+                this->actionFlags &= ~8;
             }
         } else {
-            this->actionState |= 8;
+            this->actionFlags |= 8;
             this->timer2 = 304;
             Audio_PlaySoundGeneral(NA_SE_EV_RED_EYE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
@@ -179,10 +179,10 @@ void BgGndDarkmeiro_SwitchBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
 void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgGndDarkmeiro* this = THIS;
 
-    this->actionFunc(this, globalCtx);
+    this->updateFunc(this, globalCtx);
 }
 
-void BgGndDarkmeiro_Draw0(Actor* thisx, GlobalContext* globalCtx) {
+void BgGndDarkmeiro_DrawZero(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListXlu(globalCtx, D_060088B0);
 }
 
