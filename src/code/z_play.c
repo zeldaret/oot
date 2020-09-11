@@ -1672,8 +1672,8 @@ s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 setti
     return Camera_ChangeSetting(camera, setting);
 }
 
-void Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 setting) {
-    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, camId), setting);
+s32 Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 setting) {
+    return Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, camId), setting);
 }
 
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {

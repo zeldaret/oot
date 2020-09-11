@@ -1510,7 +1510,7 @@ s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov);
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll);
 void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 camId1, s16 camId2);
 s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3);
-void Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 arg2);
+s32 Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 arg2);
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2);
 void Gameplay_SaveSceneFlags(GlobalContext* globalCtx);
 void Gameplay_SetupRespawnPoint(GlobalContext* globalCtx, s32 respawnMode, s32 playerParams);
