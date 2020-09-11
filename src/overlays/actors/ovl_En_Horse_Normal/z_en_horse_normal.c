@@ -165,7 +165,28 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6CAFC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6CC88.s")
+void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
+    f32 animCurrentFrame = this->unk_154.skelAnime.animCurrentFrame;
+    f32 wDest;
+
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg2, &this->unk_1E8, &wDest);
+    this->unk_1F4 = this->unk_1E8;
+    this->unk_1F4.y += 120.0f;
+    
+    if (this->unk_150 == 0 && animCurrentFrame > 28.0f && !(this->unk_1E4 & 8)) {
+        this->unk_1E4 |= 8;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_SANDDUST, &this->unk_1E8, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (this->unk_150 == 3 && animCurrentFrame > 25.0f && !(this->unk_1E4 & 0x10)) {
+        this->unk_1E4 |= 0x10;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_LAND2, &this->unk_1E8, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (this->unk_150 == 3 && this->unk_1E4 & 0x20) {
+        this->unk_1E4 &= ~0x20;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_1F4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (this->unk_150 == 1 && this->unk_1E4 & 0x20) {
+        this->unk_1E4 &= ~0x20;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_1F4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+}
 
 #ifdef NON_EQUIVALENT
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -239,7 +260,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
         }
-        func_80A6CC88(globalCtx, thisx, &sp64);
+        func_80A6CC88(globalCtx, this, &sp64);
         temp_f0_3 = thisx->scale.y;
         SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, temp_f0_3, thisx->scale.z, thisx->shape.rot.x, sp62, thisx->shape.rot.z, sp64.x, (this->actor.shape.unk_08 * temp_f0_3) + sp64.y, sp64.z);
         temp_v0_3 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
