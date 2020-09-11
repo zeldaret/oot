@@ -566,7 +566,7 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         this->collider.base.atFlags &= ~2;
         this->unk_1D3 &= ~4;
         yawDiff = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
-        if (yawDiff >= -0x3FFF && yawDiff < 0x4000) {
+        if (yawDiff > -0x4000 && yawDiff < 0x4000) {
             this->unk_1D3 |= 4;
             if ((this->actor.params >> 10) & 1 || (this->actor.initPosRot.rot.z & 1) != 1) {
                 func_80A4C164(this);
@@ -691,7 +691,6 @@ void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
             this->collisionTimer = 50;
-            return;
         }
     } else if (func_80A4CB78(this, globalCtx)) {
         func_80A4D074(this, globalCtx);
