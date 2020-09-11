@@ -172,7 +172,7 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg2, &this->unk_1E8, &wDest);
     this->unk_1F4 = this->unk_1E8;
     this->unk_1F4.y += 120.0f;
-    
+
     if (this->unk_150 == 0 && animCurrentFrame > 28.0f && !(this->unk_1E4 & 8)) {
         this->unk_1E4 |= 8;
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_SANDDUST, &this->unk_1E8, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -198,71 +198,45 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp5C;
     Mtx* temp_v0_3;
     Mtx* temp_v0_4;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f0_3;
     f32 temp_f0_4;
-    f32 temp_f2;
-    s16 temp_v0_2;
 
     OPEN_DISPS(gfxCtx, "../z_en_horse_normal.c", 2224);
 
-    if ((globalCtx->sceneNum != SCENE_SPOT20) || (globalCtx->sceneNum != SCENE_MALON_STABLE)) {
+    if (globalCtx->sceneNum != SCENE_SPOT20 || globalCtx->sceneNum != SCENE_MALON_STABLE) {
         func_80A6C8E0(thisx, globalCtx);
-    } else {
-
     }
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->unk_154, func_80A6CAFC, 1);
     if (this->unk_14C == 3) {
         sp64 = D_80A6D548;
-        temp_f2 = thisx->posRot.pos.y;
-        sp5C = temp_f2 - thisx->groundY;
-        temp_v0_2 = globalCtx->sceneNum;
-        if (temp_v0_2 == 0x36) {
-            temp_f0 = thisx->posRot.pos.x;
-            if (((355.0f == temp_f0) && (0.0f == temp_f2)) && (-245.0f == thisx->posRot.pos.z)) {
-                sp64.y = 0.0f;
-                sp62 = 0x7FFF;
+        sp5C = this->actor.posRot.pos.y - this->actor.groundY;
+        if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
+            if (this->actor.posRot.pos.x == 355.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -245.0f) {
                 sp64.x = 235.0f;
+                sp64.y = 0.0f;
                 sp64.z = 100.0f;
-            } else {
-                if (238.0f == temp_f0) {
-                    if (0.0f == temp_f2) {
-                        if (-245.0f == thisx->posRot.pos.z) {
-                            sp64.y = 0.0f;
-                            sp62 = 0x7FFF;
-                            sp64.x = 478.0f;
-                            sp64.z = 100.0f;
-                        }
-                    }
-                }
+                sp62 = 0x7FFF;
+            } else if (this->actor.posRot.pos.x == 238.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -245.0f) {
+                sp64.x = 478.0f;
+                sp64.y = 0.0f;
+                sp64.z = 100.0f;
+                sp62 = 0x7FFF;
             }
-        } else {
-            if (temp_v0_2 == 0x63) {
-                temp_f0_2 = thisx->posRot.pos.x;
-                if (((-730.0f == temp_f0_2) && (0.0f == temp_f2)) && (-1100.0f == thisx->posRot.pos.z)) {
-                    sp64.y = 0.0f;
-                    sp62 = 0;
-                    sp64.x = 780.0f;
-                    sp64.z = -80.0f;
-                } else {
-                    if (880.0f == temp_f0_2) {
-                        if (0.0f == temp_f2) {
-                            if (-1170.0f == thisx->posRot.pos.z) {
-                                sp64.y = 0.0f;
-                                sp62 = 0;
-                                sp64.x = -1000.0f;
-                                sp64.z = -70.0f;
-                            }
-                        }
-                    }
-                }
+        } else if (globalCtx->sceneNum == SCENE_SPOT20) {
+            if (this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -1100.0f) {
+                sp64.x = 780.0f;
+                sp64.y = 0.0f;
+                sp64.z = -80.0f;
+                sp62 = 0;
+            } else if (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -1170.0f) {
+                sp64.x = -1000.0f;
+                sp64.y = 0.0f;
+                sp64.z = -70.0f;
+                sp62 = 0;
             }
         }
         func_80A6CC88(globalCtx, this, &sp64);
-        temp_f0_3 = thisx->scale.y;
-        SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, temp_f0_3, thisx->scale.z, thisx->shape.rot.x, sp62, thisx->shape.rot.z, sp64.x, (this->actor.shape.unk_08 * temp_f0_3) + sp64.y, sp64.z);
+        SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, this->actor.scale.y, thisx->scale.z, thisx->shape.rot.x, sp62, thisx->shape.rot.z, sp64.x, (this->actor.shape.unk_08 * this->actor.scale.y) + sp64.y, sp64.z);
         temp_v0_3 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
         if (temp_v0_3 != NULL) {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -275,7 +249,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80094044(globalCtx->state.gfxCtx);
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
             Matrix_Translate(sp64.x, sp64.y, sp64.z, 0);
-            temp_f0_4 = (1.0f - (sp5C * 0.01f)) * thisx->shape.unk_10;
+            temp_f0_4 = (1.0f - (sp5C * 0.01f)) * this->actor.shape.unk_10;
             Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
             Matrix_RotateY(sp62 * 0.0000958738f, 1);
             temp_v0_4 = Matrix_NewMtx(gfxCtx, "../z_en_horse_normal.c", 2329);
