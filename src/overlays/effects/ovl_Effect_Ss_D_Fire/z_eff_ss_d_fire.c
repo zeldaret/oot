@@ -12,7 +12,7 @@
 #define rPrimColorG regs[3]
 #define rPrimColorB regs[4]
 #define rPrimColorA regs[5]
-#define rAlphaDecayDelay regs[6]
+#define rFadeDelay regs[6]
 #define rScaleStep regs[9]
 #define rObjBankIdx regs[10]
 #define rYAccelStep regs[11] // has no effect due to how its implemented
@@ -49,7 +49,7 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->rPrimColorG = 255;
         this->rPrimColorB = 50;
         this->rPrimColorA = initParams->alpha;
-        this->rAlphaDecayDelay = initParams->alphaDecayDelay;
+        this->rFadeDelay = initParams->fadeDelay;
 
         return 1;
     }
@@ -105,7 +105,7 @@ void EffectSsDFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->rTexIdx &= 3;
     this->rScale += this->rScaleStep;
 
-    if (this->rAlphaDecayDelay >= this->life) {
+    if (this->rFadeDelay >= this->life) {
         this->rPrimColorA -= 5;
         if (this->rPrimColorA < 0) {
             this->rPrimColorA = 0;

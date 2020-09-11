@@ -201,99 +201,137 @@ void EffectSs_DrawAll(GlobalContext* globalCtx);
 s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2);
 s16 func_80027E34(s16 arg0, s16 arg1, f32 arg2);
 u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
-void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment);
+void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* texture);
+void EffectSsDust_Spawn(GlobalContext* globalCtx, u16 drawFlags, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                        Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life,
+                        u8 updateMode);
 void func_8002829C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_80028304(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
                    Color_RGBA8* envColor, s16 scale, s16 scaleStep);
 void func_8002836C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
                    Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
 void func_800283D4(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
                    Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
-void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, Color_RGBA8* arg4,
-                   Color_RGBA8* arg5, s16 arg6, s16 arg7, s16 arg8);
+void func_8002843C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
+void func_800284A4(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_80028510(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
 void func_8002857C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_800285EC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void func_8002865C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
 void func_800286CC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
 void func_8002873C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                    s16 life);
 void func_800287AC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                    s16 life);
+void func_8002881C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor);
+void func_80028858(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor);
 void func_80028990(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void func_80028A54(GlobalContext* globalCtx, f32 randScale, Vec3f* srcPos);
 void EffectSsKiraKira_SpawnSmallYellow(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
-void EffectSsKiraKira_SpawnSmall(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor);
+void EffectSsKiraKira_SpawnSmall(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                 Color_RGBA8* primColor, Color_RGBA8* envColor);
 void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
                    Color_RGBA8* envColor, s16 scale, s32 life);
 void func_80028CEC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
                    Color_RGBA8* envColor, s16 scale, s32 life);
+void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void EffectSsBomb2_SpawnFade(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
-                                s16  scaleStep);
-void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
+                                s16 scaleStep);
+void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                         Color_RGBA8* envColor, s16 radius, s16 expansionRate, s16 expansionDecay, s16 life);
+void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 expansionRate,
                    s16 life);
 void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
                    Color_RGBA8* primColor, s16 life);
 void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void func_80029060(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8* envColor, Color_RGBA8* primColor, s16 scale, s16 scaleStep);
+                   Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_800290F0(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep);
 void func_80029184(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                   s16 scaleStep);
 void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8* envColor, Color_RGBA8* primColor);
+                   Color_RGBA8* primColor, Color_RGBA8* envColor);
 void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
-                   s16 alpha, s16 fadeDelay, s32 life);
+                         s16 alpha, s16 fadeDelay, s32 life);
 void func_800293A0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha, s16 fadeDelay);
-void EffectSsBubble_Spawn(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
+void EffectSsBubble_Spawn(GlobalContext* globalCtx, Vec3f* pos, f32 yPosOffset, f32 yPosRandScale, f32 xzPosRandScale,
+                          f32 scale);
 void EffectSsGRipple_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 radius, s16 radiusMax, s16 life);
 void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
-                           s16 arg4, s16 scale);
+                           s16 type, s16 scale);
 void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
-                   s16 unk_16, s16 life, s16 unk_1A);
-// ? EffectSsDtBubble_SpawnColorProfile(?);
-// ? EffectSsDtBubble_SpawnCustomColor(?);
-// ? EffectSsHahen_Spawn(?);
-void EffectSsHahen_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos, f32 arg2, s16 unused, s16 scaleBase, s16 scaleRange, s16 num,
-                   s16 objId, s16 arg8, Gfx* dList);
+                   s16 yaw, s16 life, s16 numBolts);
+void EffectSsDtBubble_SpawnColorProfile(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                        s16 life, s16 colorProfile, s16 randXZ);
+void EffectSsDtBubble_SpawnCustomColor(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                       Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 life, s16 randXZ);
+void EffectSsHahen_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused, s16 scale,
+                         s16 objId, s16 life, Gfx* dList);
+void EffectSsHahen_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos, f32 burstScale, s16 unused, s16 scale,
+                              s16 randScaleRange, s16 count, s16 objId, s16 life, Gfx* dList);
 void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw);
-// ? EffectSsSibuki_Spawn(?);
+void EffectSsSibuki_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 moveDelay,
+                          s16 direction, s16 scale);
 void EffectSsSibuki_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos);
-// ? EffectSsSibuki2_Spawn(?);
-// ? EffectSsGMagma2_Spawn(?);
-// ? EffectSsStone1_Spawn(?);
-// ? EffectSsHitMark_Spawn(?);
-void EffectSsHitMark_SpawnFixedScale(GlobalContext* globalCtx, s32 a, Vec3f* pos);
-// ? EffectSsHitMark_SpawnCustomScale(?);
-void func_80029CF0(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, s16, u8);
-void func_80029D5C(GlobalContext*, Actor*, Vec3f*, s16, u8);
-// ? EffectSsKFire_Spawn(?);
-void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3,
-                   s16 arg4, s16 arg5, s16 arg6, s16 arg7, s16 arg8, s16 arg9, s16 arg10, s16 arg11,
-                   s32 arg12, s16 arg13, s16 objectId, Gfx* dList);
-void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 arg4,
+void EffectSsSibuki2_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale);
+void EffectSsGMagma2_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
+                           s16 updateRate, s16 drawMode, s16 scale);
+void EffectSsStone1_Spawn(GlobalContext* globalCtx, Vec3f* pos, s32 arg2);
+void EffectSsHitMark_Spawn(GlobalContext* globalCtx, s32 type, s16 scale, Vec3f* pos);
+void EffectSsHitMark_SpawnFixedScale(GlobalContext* globalCtx, s32 type, Vec3f* pos);
+void EffectSsHitMark_SpawnCustomScale(GlobalContext* globalCtx, s32 type, s16 scale, Vec3f* pos);
+void func_80029CF0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, u8 arg5);
+void func_80029D5C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, u8 arg4);
+void EffectSsKFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scaleMax, u8 type);
+void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused,
                                   s16* linkDetected);
-// ? EffectSsIcePiece_Spawn(?);
-// ? EffectSsIcePiece_SpawnBurst(?);
-// ? func_8002A140(?);
-// ? func_8002A1DC(?);
-// ? func_8002A2A4(?);
-// ? EffectSsFireTail_Spawn(?);
-// ? EffectSsFireTail_SpawnFlame(?);
-// ? EffectSsFireTail_SpawnFlameOnPlayer(?);
-// ? func_8002A4D4(?);
+void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3, s16 gravity, s16 arg5,
+                          s16 arg6, s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 colorIdx,
+                          s16 objId, Gfx* dList);
+void EffectSsIcePiece_Spawn(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, s32 life);
+void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 scale);
+void func_8002A140(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 primR, s16 primG, s16 primB, s16 primA,
+                   s16 envR, s16 envG, s16 envB, f32 scale);
+void func_8002A1DC(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR, s16 primG, s16 primB, s16 primA,
+                   s16 envR, s16 envG, s16 envB, f32 scale);
+void func_8002A2A4(GlobalContext* arg0, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s32 life);
+void EffectSsFireTail_Spawn(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 scale, Vec3f* arg4, s16 arg5,
+                            Color_RGBA8* primColor, Color_RGBA8* envColor, s16 type, s16 bodypart, s32 life);
+void EffectSsFireTail_SpawnFlame(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3, s16 bodypart,
+                                 f32 colorIntensity);
+void EffectSsFireTail_SpawnFlameOnPlayer(GlobalContext* globalCtx, f32 scale, s16 bodypartIdx, f32 colorIntensity);
+void func_8002A4D4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, s16 unk_12, s16 flags, s16 bodypart);
+void func_8002A54C(GlobalContext* globalCtx, Actor* actor, Vec3s* vec, s16 scale, s16 arg4, s16 flags, s16 bodypart);
 void EffectSsExtra_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx);
 void EffectSsFCircle_Spawn(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 radius, s16 height);
 void EffectSsDeadDb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
-                   s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused, s32 arg14,
-                   s16 arg15);
+                          s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused,
+                          s32 arg14, s16 playSound);
 void func_8002A770(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                    s16 primR, s16 primG, s16 primB, s16 alpha, s16 envR, s16 envG, s16 envB, s16 alphaStep, s32 life);
 void func_8002A824(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleStep, f32 randPosScale, s32 num,
                    s32 life);
-// ? EffectSsDeadDs_Spawn(?);
-// ? EffectSsDeadDs_SpawnStationary(?);
-void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28,
-                                       s32 life);
-// ? EffectSsIceSmoke_Spawn(?);
+void EffectSsDeadDs_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                          s16 alpha, s32 life);
+void EffectSsDeadDs_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleStep, s16 alpha,
+                                    s32 life);
+void EffectSsDeadSound_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
+                             s16 lowerPriority, s16 repeatMode, s32 life);
+void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority,
+                                       s16 repeatMode, s32 life);
+void EffectSsIceSmoke_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale);
 void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
 void Overlay_FreeGameState(GameStateOverlay* overlayEntry);

@@ -363,10 +363,10 @@ void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 }
 
 void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
-    static Color_RGBA8 D_801158E4 = { 255, 255, 255, 255 };
-    static Color_RGBA8 D_801158E8 = { 200, 200, 200, 0 };
+    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 envColor = { 200, 200, 200, 0 };
 
-    func_80028FD8(globalCtx, pos, velocity, accel, &D_801158E4, &D_801158E8, 10);
+    func_80028FD8(globalCtx, pos, velocity, accel, &primColor, &envColor, 10);
 }
 
 // EffectSsGSpk Spawn Functions
@@ -442,7 +442,7 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 // EffectSsDFire Spawn Functions
 
 void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
-                         s16 alpha, s16 alphaDecayDelay, s32 life) {
+                         s16 alpha, s16 fadeDelay, s32 life) {
     EffectSsDFireInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -451,7 +451,7 @@ void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
     initParams.alpha = alpha;
-    initParams.alphaDecayDelay = alphaDecayDelay;
+    initParams.fadeDelay = fadeDelay;
     initParams.life = life;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_D_FIRE, 128, &initParams);
@@ -666,13 +666,13 @@ void EffectSsSibuki_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
 
 void EffectSsSibuki_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos) {
     s16 i;
-    Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
-    Vec3f zeroVec3 = { 0.0f, 0.0f, 0.0f };
+    Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
+    Vec3f unusedZeroVec2 = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s16 randDirection = Math_Rand_ZeroOne() * 1.99f;
 
     for (i = 0; i < KREG(19) + 30; i++) {
-        EffectSsSibuki_Spawn(globalCtx, pos, &zeroVec3, &zeroVec3, i / (KREG(27) + 6), randDirection, KREG(18) + 40);
+        EffectSsSibuki_Spawn(globalCtx, pos, &zeroVec, &zeroVec, i / (KREG(27) + 6), randDirection, KREG(18) + 40);
     }
 }
 
