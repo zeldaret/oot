@@ -6,15 +6,12 @@
 
 #include "z_eff_ss_k_fire.h"
 
-typedef enum {
-    /* 0x00 */ SS_K_FIRE_ALPHA,
-    /* 0x02 */ SS_K_FIRE_SCROLL = 2,
-    /* 0x03 */ SS_K_FIRE_TYPE,
-    /* 0x04 */ SS_K_FIRE_Y_SCALE,
-    /* 0x05 */ SS_K_FIRE_XZ_SCALE,
-    /* 0x06 */ SS_K_FIRE_SCALE = 6,
-    /* 0x0A */ SS_K_FIRE_A = 10
-} EffectSsK_FireRegs;
+#define rAlpha regs[0]
+#define rScroll regs[2]
+#define rType regs[3]
+#define rYScale regs[4]
+#define rXZScale regs[5]
+#define rScaleMax regs[6]
 
 u32 EffectSsKFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -34,10 +31,10 @@ u32 EffectSsKFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
     this->life = 100;
-    this->regs[SS_K_FIRE_SCALE] = initParams->scale;
-    this->regs[SS_K_FIRE_ALPHA] = 255;
-    this->regs[SS_K_FIRE_SCROLL] = (s16)Math_Rand_ZeroFloat(5.0f) - 0x19;
-    this->regs[SS_K_FIRE_TYPE] = initParams->type;
+    this->rScaleMax = initParams->scaleMax;
+    this->rAlpha = 255;
+    this->rScroll = (s16)Math_Rand_ZeroFloat(5.0f) - 0x19;
+    this->rType = initParams->type;
     this->draw = EffectSsKFire_Draw;
     this->update = EffectSsKFire_Update;
 
@@ -50,8 +47,8 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     f32 xzScale;
     f32 yScale;
 
-    xzScale = this->regs[SS_K_FIRE_XZ_SCALE] / 10000.0f;
-    yScale = this->regs[SS_K_FIRE_Y_SCALE] / 10000.0f;
+    xzScale = this->rXZScale / 10000.0f;
+    yScale = this->rYScale / 10000.0f;
 
     OPEN_DISPS(gfxCtx, "../z_eff_k_fire.c", 152);
 
@@ -60,13 +57,13 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
-                                globalCtx->state.frames * this->regs[SS_K_FIRE_SCROLL], 0x20, 0x80));
+                                globalCtx->state.frames * this->rScroll, 0x20, 0x80));
 
-    if (this->regs[SS_K_FIRE_TYPE] >= 0x64) {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 0, this->regs[SS_K_FIRE_ALPHA]);
+    if (this->rType >= 100) {
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 0, this->rAlpha);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 10, 0, 0);
     } else {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, this->regs[SS_K_FIRE_ALPHA]);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, this->rAlpha);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 255, 0);
     }
 
@@ -76,7 +73,7 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_800D1FD4(&globalCtx->mf_11DA0);
 
     if ((index & 1) != 0) {
-        Matrix_RotateY(3.1415927f, MTXMODE_APPLY); // pi?
+        Matrix_RotateY(M_PI, MTXMODE_APPLY);
     }
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_k_fire.c", 215),
@@ -87,28 +84,28 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void EffectSsKFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    if (this->regs[SS_K_FIRE_XZ_SCALE] < this->regs[SS_K_FIRE_SCALE]) {
-        this->regs[SS_K_FIRE_XZ_SCALE] += 4;
-        this->regs[SS_K_FIRE_Y_SCALE] += 4;
+    if (this->rXZScale < this->rScaleMax) {
+        this->rXZScale += 4;
+        this->rYScale += 4;
 
-        if (this->regs[SS_K_FIRE_SCALE] < this->regs[SS_K_FIRE_XZ_SCALE]) {
-            this->regs[SS_K_FIRE_XZ_SCALE] = this->regs[SS_K_FIRE_SCALE];
+        if (this->rXZScale > this->rScaleMax) {
+            this->rXZScale = this->rScaleMax;
 
-            if (this->regs[SS_K_FIRE_TYPE] != 3) {
-                this->regs[SS_K_FIRE_Y_SCALE] = this->regs[SS_K_FIRE_SCALE];
+            if (this->rType != 3) {
+                this->rYScale = this->rScaleMax;
             }
         }
     } else {
-        if (this->regs[SS_K_FIRE_ALPHA] > 0) {
-            this->regs[SS_K_FIRE_ALPHA] -= 10;
-            if (this->regs[SS_K_FIRE_ALPHA] <= 0) {
-                this->regs[SS_K_FIRE_ALPHA] = 0;
+        if (this->rAlpha > 0) {
+            this->rAlpha -= 10;
+            if (this->rAlpha <= 0) {
+                this->rAlpha = 0;
                 this->life = 0;
             }
         }
     }
 
-    if (this->regs[SS_K_FIRE_TYPE] == 3) {
-        this->regs[SS_K_FIRE_Y_SCALE]++;
+    if (this->rType == 3) {
+        this->rYScale++;
     }
 }

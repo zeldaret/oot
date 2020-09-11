@@ -1,26 +1,24 @@
 /*
  * File: z_eff_ss_en_ice.c
  * Overlay: ovl_Effect_Ss_En_Ice
- * Description:
+ * Description: Ice clumps (Ice Arrow)
  */
 
 #include "z_eff_ss_en_ice.h"
 
-typedef enum {
-    /* 0x00 */ SS_EN_ICE_LIFESPAN,
-    /* 0x01 */ SS_EN_ICE_YAW,
-    /* 0x02 */ SS_EN_ICE_PITCH,
-    /* 0x03 */ SS_EN_ICE_ROT_SPEED,
-    /* 0x04 */ SS_EN_ICE_PRIM_R,
-    /* 0x05 */ SS_EN_ICE_PRIM_G,
-    /* 0x06 */ SS_EN_ICE_PRIM_B,
-    /* 0x07 */ SS_EN_ICE_PRIM_A,
-    /* 0x08 */ SS_EN_ICE_ENV_R,
-    /* 0x09 */ SS_EN_ICE_ENV_G,
-    /* 0x0A */ SS_EN_ICE_ENV_B,
-    /* 0x0B */ SS_EN_ICE_ALPHA_MODE,
-    /* 0x0C */ SS_EN_ICE_SCALE,
-} EffectSsEn_IceRegs;
+#define rLifespan regs[0]
+#define rYaw regs[1]
+#define rPitch regs[2]
+#define rRotSpeed regs[3]
+#define rPrimColorR regs[4]
+#define rPrimColorG regs[5]
+#define rPrimColorB regs[6]
+#define rPrimColorA regs[7]
+#define rEnvColorR regs[8]
+#define rEnvColorG regs[9]
+#define rEnvColorB regs[10]
+#define rAlphaMode regs[11]
+#define rScale regs[12]
 
 u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -50,16 +48,16 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->actor = initParams->actor;
         this->draw = EffectSsEnIce_Draw;
         this->update = func_809A3988;
-        this->regs[SS_EN_ICE_SCALE] = initParams->scale * 100.0f;
-        this->regs[SS_EN_ICE_PRIM_R] = initParams->primColor.r;
-        this->regs[SS_EN_ICE_PRIM_G] = initParams->primColor.g;
-        this->regs[SS_EN_ICE_PRIM_B] = initParams->primColor.b;
-        this->regs[SS_EN_ICE_PRIM_A] = initParams->primColor.a;
-        this->regs[SS_EN_ICE_ENV_R] = initParams->envColor.r;
-        this->regs[SS_EN_ICE_ENV_G] = initParams->envColor.g;
-        this->regs[SS_EN_ICE_ENV_B] = initParams->envColor.b;
-        this->regs[SS_EN_ICE_ALPHA_MODE] = 1;
-        this->regs[SS_EN_ICE_PITCH] = Math_Rand_CenteredFloat(65536.0f);
+        this->rScale = initParams->scale * 100.0f;
+        this->rPrimColorR = initParams->primColor.r;
+        this->rPrimColorG = initParams->primColor.g;
+        this->rPrimColorB = initParams->primColor.b;
+        this->rPrimColorA = initParams->primColor.a;
+        this->rEnvColorR = initParams->envColor.r;
+        this->rEnvColorG = initParams->envColor.g;
+        this->rEnvColorB = initParams->envColor.b;
+        this->rAlphaMode = 1;
+        this->rPitch = Math_Rand_CenteredFloat(65536.0f);
     } else if (initParams->type == 1) {
         this->pos = initParams->pos;
         this->vec = initParams->pos;
@@ -68,18 +66,18 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->life = initParams->life;
         this->draw = EffectSsEnIce_Draw;
         this->update = func_809A3B60;
-        this->regs[SS_EN_ICE_LIFESPAN] = initParams->life;
-        this->regs[SS_EN_ICE_SCALE] = initParams->scale * 100.0f;
-        this->regs[SS_EN_ICE_YAW] = atan2s(initParams->velocity.z, initParams->velocity.x);
-        this->regs[SS_EN_ICE_PITCH] = 0;
-        this->regs[SS_EN_ICE_PRIM_R] = initParams->primColor.r;
-        this->regs[SS_EN_ICE_PRIM_G] = initParams->primColor.g;
-        this->regs[SS_EN_ICE_PRIM_B] = initParams->primColor.b;
-        this->regs[SS_EN_ICE_PRIM_A] = initParams->primColor.a;
-        this->regs[SS_EN_ICE_ENV_R] = initParams->envColor.r;
-        this->regs[SS_EN_ICE_ENV_G] = initParams->envColor.g;
-        this->regs[SS_EN_ICE_ENV_B] = initParams->envColor.b;
-        this->regs[SS_EN_ICE_ALPHA_MODE] = 0;
+        this->rLifespan = initParams->life;
+        this->rScale = initParams->scale * 100.0f;
+        this->rYaw = atan2s(initParams->velocity.z, initParams->velocity.x);
+        this->rPitch = 0;
+        this->rPrimColorR = initParams->primColor.r;
+        this->rPrimColorG = initParams->primColor.g;
+        this->rPrimColorB = initParams->primColor.b;
+        this->rPrimColorA = initParams->primColor.a;
+        this->rEnvColorR = initParams->envColor.r;
+        this->rEnvColorG = initParams->envColor.g;
+        this->rEnvColorB = initParams->envColor.b;
+        this->rAlphaMode = 0;
     } else {
         osSyncPrintf("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n");
         return 0;
@@ -92,21 +90,20 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     f32 scale;
-    Vec3f sp80;
+    Vec3f hiliteLightDir;
     u32 gameplayFrames;
     f32 alpha;
 
-    scale = this->regs[SS_EN_ICE_SCALE] * 0.01f;
+    scale = this->rScale * 0.01f;
     gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(gfxCtx, "../z_eff_en_ice.c", 235);
 
-    if (this->regs[SS_EN_ICE_ALPHA_MODE] != 0) {
+    if (this->rAlphaMode != 0) {
         alpha = this->life * 12;
     } else {
-
-        if ((this->regs[SS_EN_ICE_LIFESPAN] > 0) && (this->life < (this->regs[SS_EN_ICE_LIFESPAN] >> 1))) {
-            alpha = ((this->life * 2.0f) / this->regs[SS_EN_ICE_LIFESPAN]);
+        if ((this->rLifespan > 0) && (this->life < (this->rLifespan >> 1))) {
+            alpha = ((this->life * 2.0f) / this->rLifespan);
             alpha *= 255.0f;
         } else {
             alpha = 255.0f;
@@ -115,24 +112,23 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    Matrix_RotateY(this->regs[SS_EN_ICE_YAW] * 0.0000958738f, MTXMODE_APPLY);
-    Matrix_RotateX(this->regs[SS_EN_ICE_PITCH] * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY(this->rYaw * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateX(this->rPitch * 0.0000958738f, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_en_ice.c", 261),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    sp80.x = 89.8f;
-    sp80.y = 0.0f;
-    sp80.z = 89.8f;
+    hiliteLightDir.x = 89.8f;
+    hiliteLightDir.y = 0.0f;
+    hiliteLightDir.z = 89.8f;
 
     func_80093D84(globalCtx->state.gfxCtx);
-    func_8002EB44(this, &globalCtx->view.eye, &sp80, globalCtx->state.gfxCtx);
+    func_8002EB44(&this->pos, &globalCtx->view.eye, &hiliteLightDir, globalCtx->state.gfxCtx);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames & 0xFF, 0x20, 0x10, 1, 0,
                                 (gameplayFrames * 2) & 0xFF, 0x40, 0x20));
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, this->regs[SS_EN_ICE_PRIM_R], this->regs[SS_EN_ICE_PRIM_G],
-                    this->regs[SS_EN_ICE_PRIM_B], this->regs[SS_EN_ICE_PRIM_A]);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_EN_ICE_ENV_R], this->regs[SS_EN_ICE_ENV_G],
-                   this->regs[SS_EN_ICE_ENV_B], (u32)alpha);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                    this->rPrimColorA);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, (u32)alpha);
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_04033818);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_ice.c", 294);
@@ -142,15 +138,16 @@ void func_809A3988(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 rand;
 
     if ((this->actor != NULL) && (this->actor->update != NULL)) {
-
         if ((this->life >= 9) && (this->actor->dmgEffectTimer != 0) && (!(this->actor->dmgEffectParams & 0xC000))) {
             this->pos.x = this->actor->posRot.pos.x + this->vec.x;
             this->pos.y = this->actor->posRot.pos.y + this->vec.y;
             this->pos.z = this->actor->posRot.pos.z + this->vec.z;
             this->life++;
         } else if (this->life == 9) {
-            this->accel.x = Math_Sins(Math_Vec3f_Yaw(&this->actor->posRot, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
-            this->accel.z = Math_Coss(Math_Vec3f_Yaw(&this->actor->posRot, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
+            this->accel.x =
+                Math_Sins(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
+            this->accel.z =
+                Math_Coss(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }
@@ -168,5 +165,5 @@ void func_809A3988(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void func_809A3B60(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->regs[SS_EN_ICE_PITCH] += this->regs[SS_EN_ICE_ROT_SPEED];
+    this->rPitch += this->rRotSpeed; // rRotSpeed is not initialized so this does nothing
 }

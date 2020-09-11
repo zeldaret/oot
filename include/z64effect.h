@@ -270,19 +270,4 @@ typedef enum {
     /* 0x25 */ EFFECT_SS_TYPE_MAX // originally "EFFECT_SS2_TYPE_LAST_LABEL"
 } EffectSsType;
 
-typedef enum {
-    /* 0x00 */ SS_G_TEX_IDX,
-    /* 0x01 */ SS_G_SCALE,
-    /* 0x02 */ SS_G_TEX_IDX_STEP,
-    /* 0x03 */ SS_G_PRIM_R,
-    /* 0x04 */ SS_G_PRIM_G,
-    /* 0x05 */ SS_G_PRIM_B,
-    /* 0x06 */ SS_G_PRIM_A,
-    /* 0x07 */ SS_G_ENV_R,
-    /* 0x08 */ SS_G_ENV_G,
-    /* 0x09 */ SS_G_ENV_B,
-    /* 0x0A */ SS_G_ENV_A,
-    /* 0x0B */ SS_G_TYPE
-} EffectSsGRegs;
-
 #endif

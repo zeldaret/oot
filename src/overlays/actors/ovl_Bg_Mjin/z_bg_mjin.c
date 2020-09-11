@@ -106,7 +106,7 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params != 0) {
         s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
-        if (objBankIndex >= 0) {
+        if (objBankIndex > -1) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
         gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));

@@ -7,13 +7,11 @@
 #include "z_eff_ss_fhg_flash.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 
-typedef enum {
-    /* 0x00 */ SS_FHG_FLASH_ALPHA,
-    /* 0x02 */ SS_FHG_FLASH_OBJ_BANK_IDX = 2,
-    /* 0x03 */ SS_FHG_FLASH_XZ_ROT,
-    /* 0x04 */ SS_FHG_FLASH_4 = 4,
-    /* 0x08 */ SS_FHG_FLASH_SCALE = 8
-} EffectSsFhg_FlashRegs;
+#define rAlpha regs[0]
+#define rObjBankIdx regs[2]
+#define rXZRot regs[3]
+#define rReg4 regs[4]
+#define rScale regs[8]
 
 u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void func_809A49B8(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -36,23 +34,23 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     s32 objBankIdx;
     Vec3f zeroVecSrc = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
-    u32 oldSeg6;
+    void* oldSeg6;
     Vec3f zeroVec;
 
     if (initParams->unk_2C == 0) {
         objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FHG);
 
-        if ((objBankIdx >= 0) && (Object_IsLoaded(&globalCtx->objectCtx, objBankIdx))) {
+        if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
             oldSeg6 = gSegments[6];
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIdx].segment);
-            this->regs[SS_FHG_FLASH_OBJ_BANK_IDX] = objBankIdx;
+            this->rObjBankIdx = objBankIdx;
             this->pos = initParams->pos;
             this->velocity = initParams->velocity;
             this->accel = initParams->accel;
-            this->regs[SS_FHG_FLASH_4] = initParams->unk_26;
+            this->rReg4 = initParams->unk_26;
             this->life = 100;
-            this->regs[SS_FHG_FLASH_SCALE] = initParams->scale;
-            this->regs[SS_FHG_FLASH_ALPHA] = 255;
+            this->rScale = initParams->scale;
+            this->rAlpha = 255;
             this->draw = func_809A49B8;
             this->update = func_809A4E28;
             this->gfx = SEGMENTED_TO_VIRTUAL(D_06012160);
@@ -67,11 +65,11 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
         this->accel = zeroVec;
         this->velocity = zeroVec;
         this->life = (s16)(Math_Rand_ZeroOne() * 10.0f) + 111;
-        this->regs[SS_FHG_FLASH_SCALE] = (s16)Math_Rand_ZeroFloat(initParams->scale) + initParams->scale;
-        this->regs[SS_FHG_FLASH_ALPHA] = 255;
+        this->rScale = (s16)Math_Rand_ZeroFloat(initParams->scale) + initParams->scale;
+        this->rAlpha = 255;
         this->draw = func_809A4BE8;
         this->update = func_809A4EC0;
-        this->regs[SS_FHG_FLASH_4] = initParams->unk_26;
+        this->rReg4 = initParams->unk_26;
 
         if (initParams->unk_26 != 0) {
             this->pos = sp34;
@@ -95,8 +93,8 @@ void func_809A49B8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     f32 scale;
     void* object;
 
-    scale = this->regs[SS_FHG_FLASH_SCALE] / 100.0f;
-    object = globalCtx->objectCtx.status[this->regs[SS_FHG_FLASH_OBJ_BANK_IDX]].segment;
+    scale = this->rScale / 100.0f;
+    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 
@@ -105,12 +103,11 @@ void func_809A49B8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, this->regs[SS_FHG_FLASH_ALPHA]);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, sColors[this->regs[SS_FHG_FLASH_4]].r, sColors[this->regs[SS_FHG_FLASH_4]].g,
-                   sColors[this->regs[SS_FHG_FLASH_4]].b, 0);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, this->rAlpha);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, sColors[this->rReg4].r, sColors[this->rReg4].g, sColors[this->rReg4].b, 0);
     gDPPipeSync(oGfxCtx->polyXlu.p++);
     func_800D1FD4(&globalCtx->mf_11DA0);
-    Matrix_RotateZ((this->regs[SS_FHG_FLASH_XZ_ROT] / 32768.0f) * 3.1416f, MTXMODE_APPLY); // pi?
+    Matrix_RotateZ((this->rXZRot / 32768.0f) * 3.1416f, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 326),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
@@ -123,16 +120,16 @@ void func_809A4BE8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     f32 scale;
 
-    scale = this->regs[SS_FHG_FLASH_SCALE] / 100.0f;
+    scale = this->rScale / 100.0f;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 346);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-    if (this->regs[SS_FHG_FLASH_4] != 0) {
+    if (this->rReg4 != 0) {
         func_80094044(globalCtx->state.gfxCtx);
-        Matrix_RotateX((this->regs[SS_FHG_FLASH_XZ_ROT] / 32768.0f) * 1.1416f, MTXMODE_APPLY);
+        Matrix_RotateX((this->rXZRot / 32768.0f) * 1.1416f, MTXMODE_APPLY);
         gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2);
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
@@ -141,9 +138,9 @@ void func_809A4BE8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     }
 
     gDPPipeSync(oGfxCtx->polyXlu.p++);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, this->regs[SS_FHG_FLASH_ALPHA]);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, this->rAlpha);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 155, 0);
-    Matrix_RotateZ((this->regs[SS_FHG_FLASH_XZ_ROT] / 32768.0f) * 3.1416f, MTXMODE_APPLY);
+    Matrix_RotateZ((this->rXZRot / 32768.0f) * 3.1416f, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 395),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
@@ -154,54 +151,54 @@ void func_809A4BE8(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void func_809A4E28(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 rand = (Math_Rand_ZeroOne() * 20000.0f);
 
-    this->regs[SS_FHG_FLASH_XZ_ROT] = (this->regs[SS_FHG_FLASH_XZ_ROT] + rand) + 0x4000;
+    this->rXZRot = (this->rXZRot + rand) + 0x4000;
 
-    if (this->regs[SS_FHG_FLASH_SCALE] > 0) {
-        this->regs[SS_FHG_FLASH_SCALE] -= 10;
+    if (this->rScale > 0) {
+        this->rScale -= 10;
 
-        if (this->regs[SS_FHG_FLASH_SCALE] <= 0) {
-            this->regs[SS_FHG_FLASH_SCALE] = 0;
+        if (this->rScale <= 0) {
+            this->rScale = 0;
             this->life = 0;
         }
     }
 
-    if (this->regs[SS_FHG_FLASH_ALPHA] > 0) {
-        this->regs[SS_FHG_FLASH_ALPHA] -= 10;
+    if (this->rAlpha > 0) {
+        this->rAlpha -= 10;
 
-        if (this->regs[SS_FHG_FLASH_ALPHA] <= 0) {
-            this->regs[SS_FHG_FLASH_ALPHA] = 0;
+        if (this->rAlpha <= 0) {
+            this->rAlpha = 0;
         }
     }
 }
 
 void func_809A4EC0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s16 randomLimb;
+    s16 randBodypart;
     Player* player;
     BossGanondrof* phantomGanon;
     s16 rand;
 
     rand = (Math_Rand_ZeroOne() * 20000.0f);
-    this->regs[SS_FHG_FLASH_XZ_ROT] = (this->regs[SS_FHG_FLASH_XZ_ROT] + rand) + 0x4000;
+    this->rXZRot = (this->rXZRot + rand) + 0x4000;
 
-    if (this->regs[SS_FHG_FLASH_4] == 1) {
+    if (this->rReg4 == 1) {
         player = PLAYER;
-        randomLimb = Math_Rand_ZeroFloat(17.9f);
-        this->pos.x = player->unk_908[randomLimb].x + Math_Rand_CenteredFloat(10.0f);
-        this->pos.y = player->unk_908[randomLimb].y + Math_Rand_CenteredFloat(15.0f);
-        this->pos.z = player->unk_908[randomLimb].z + Math_Rand_CenteredFloat(10.0f);
-    } else if (this->regs[SS_FHG_FLASH_4] == 2) {
+        randBodypart = Math_Rand_ZeroFloat(17.9f);
+        this->pos.x = player->unk_908[randBodypart].x + Math_Rand_CenteredFloat(10.0f);
+        this->pos.y = player->unk_908[randBodypart].y + Math_Rand_CenteredFloat(15.0f);
+        this->pos.z = player->unk_908[randBodypart].z + Math_Rand_CenteredFloat(10.0f);
+    } else if (this->rReg4 == 2) {
         phantomGanon = (BossGanondrof*)this->actor;
-        randomLimb = Math_Rand_ZeroFloat(23.9f);
-        this->pos.x = phantomGanon->limbPos[randomLimb].x + Math_Rand_CenteredFloat(15.0f);
-        this->pos.y = phantomGanon->limbPos[randomLimb].y + Math_Rand_CenteredFloat(20.0f);
-        this->pos.z = phantomGanon->limbPos[randomLimb].z + Math_Rand_CenteredFloat(15.0f);
+        randBodypart = Math_Rand_ZeroFloat(23.9f);
+        this->pos.x = phantomGanon->limbPos[randBodypart].x + Math_Rand_CenteredFloat(15.0f);
+        this->pos.y = phantomGanon->limbPos[randBodypart].y + Math_Rand_CenteredFloat(20.0f);
+        this->pos.z = phantomGanon->limbPos[randBodypart].z + Math_Rand_CenteredFloat(15.0f);
     }
 
     if (this->life < 100) {
-        this->regs[SS_FHG_FLASH_ALPHA] -= 50;
+        this->rAlpha -= 50;
 
-        if (this->regs[SS_FHG_FLASH_ALPHA] < 0) {
-            this->regs[SS_FHG_FLASH_ALPHA] = 0;
+        if (this->rAlpha < 0) {
+            this->rAlpha = 0;
             this->life = 0;
         }
     }

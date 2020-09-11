@@ -6,10 +6,8 @@
 
 #include "z_eff_ss_bomb.h"
 
-typedef enum {
-    /* 0x00 */ SS_BOMB_SCALE,
-    /* 0x01 */ SS_BOMB_TEX_IDX
-} EffectSsBombRegs;
+#define rScale regs[0]
+#define rTexIdx regs[1]
 
 u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -32,8 +30,8 @@ u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     this->life = 20;
     this->draw = EffectSsBomb_Draw;
     this->update = EffectSsBomb_Update;
-    this->regs[SS_BOMB_SCALE] = 100;
-    this->regs[SS_BOMB_TEX_IDX] = 0;
+    this->rScale = 100;
+    this->rTexIdx = 0;
 
     return 1;
 }
@@ -47,10 +45,10 @@ static void* sTextures[] = {
 
 void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    MtxF mtxTrans;
-    MtxF mtxScale;
-    MtxF mtxResult;
-    MtxF mtxTransPers;
+    MtxF mfTrans;
+    MtxF mfScale;
+    MtxF mfResult;
+    MtxF mfTrans11DA0;
     Mtx* mtx;
     s32 pad;
     f32 scale;
@@ -60,20 +58,20 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_bomb.c", 168);
 
-    scale = this->regs[SS_BOMB_SCALE] / 100.0f;
+    scale = this->rScale / 100.0f;
 
-    SkinMatrix_SetTranslate(&mtxTrans, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetScale(&mtxScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mtxTrans, &globalCtx->mf_11DA0, &mtxTransPers);
-    SkinMatrix_MtxFMtxFMult(&mtxTransPers, &mtxScale, &mtxResult);
+    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
+    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
 
     gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mtxResult);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->regs[SS_BOMB_TEX_IDX]]));
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
         gDPPipeSync(oGfxCtx->polyXlu.p++);
         func_80094C50(gfxCtx);
         color = this->life * 12.75f;
@@ -87,11 +85,11 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void EffectSsBomb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    if ((this->life < 21) && (this->life >= 17)) {
-        this->regs[SS_BOMB_TEX_IDX] = (20 - this->life);
+    if ((this->life < 21) && (this->life > 16)) {
+        this->rTexIdx = (20 - this->life);
     } else {
-        this->regs[SS_BOMB_SCALE] += 0;
-        this->regs[SS_BOMB_TEX_IDX] = 3;
+        this->rScale += 0;
+        this->rTexIdx = 3;
     }
 
     this->accel.x = ((Math_Rand_ZeroOne() * 0.4f) - 0.2f);

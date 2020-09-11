@@ -200,7 +200,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                     randVec.z = Math_Rand_CenteredFloat(30.f);
                     tmpVec.y = -0.2f;
                     func_80029CF0(globalCtx, &this->actor.posRot.pos, &randVec, &tmpVec,
-                                           (s16)(Math_Rand_ZeroOne() * 100.0f) + 240, 0);
+                                  (s16)(Math_Rand_ZeroOne() * 100.0f) + 240, 0);
                 }
 
                 func_80033E88(&this->actor, globalCtx, 4, 10);

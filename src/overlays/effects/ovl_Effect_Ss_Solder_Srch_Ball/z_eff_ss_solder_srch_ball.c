@@ -6,9 +6,7 @@
 
 #include "z_eff_ss_solder_srch_ball.h"
 
-typedef enum {
-    /* 0x01 */ SS_SOLDER_SRCH_BALL_UNUSED = 1
-} EffectSsLightningRegs;
+#define rUnused regs[1]
 
 u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -26,7 +24,7 @@ u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* t
     this->accel = initParams->accel;
     this->update = EffectSsSolderSrchBall_Update;
     this->life = 100;
-    this->regs[SS_SOLDER_SRCH_BALL_UNUSED] = initParams->unused;
+    this->rUnused = initParams->unused;
     this->actor = initParams->linkDetected; // actor field was incorrectly used as a pointer to something else
     return 1;
 }

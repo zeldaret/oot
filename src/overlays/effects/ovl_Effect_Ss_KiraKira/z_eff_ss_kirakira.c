@@ -6,21 +6,19 @@
 
 #include "z_eff_ss_kirakira.h"
 
-typedef enum {
-    /* 0x00 */ SS_KIRAKIRA_ROT_SPEED,
-    /* 0x01 */ SS_KIRAKIRA_YAW,
-    /* 0x02 */ SS_KIRAKIRA_PRIM_R,
-    /* 0x03 */ SS_KIRAKIRA_PRIM_G,
-    /* 0x04 */ SS_KIRAKIRA_PRIM_B,
-    /* 0x05 */ SS_KIRAKIRA_PRIM_A,
-    /* 0x06 */ SS_KIRAKIRA_ENV_R,
-    /* 0x07 */ SS_KIRAKIRA_ENV_G,
-    /* 0x08 */ SS_KIRAKIRA_ENV_B,
-    /* 0x09 */ SS_KIRAKIRA_ENV_A,
-    /* 0x0A */ SS_KIRAKIRA_ALPHA_STEP,
-    /* 0x0B */ SS_KIRAKIRA_SCALE,
-    /* 0x0C */ SS_KIRAKIRA_LIFESPAN
-} EffectSsKiraKiraRegs;
+#define rRotSpeed regs[0]
+#define rYaw regs[1]
+#define rPrimColorR regs[2]
+#define rPrimColorG regs[3]
+#define rPrimColorB regs[4]
+#define rPrimColorA regs[5]
+#define rEnvColorR regs[6]
+#define rEnvColorG regs[7]
+#define rEnvColorB regs[8]
+#define rEnvColorA regs[9]
+#define rAlphaStep regs[10]
+#define rScale regs[11]
+#define rLifespan regs[12]
 
 u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -46,8 +44,8 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
         this->life = -this->life;
         this->gfx = SEGMENTED_TO_VIRTUAL(D_04037880);
         this->update = func_809AAD6C;
-        this->regs[SS_KIRAKIRA_ENV_A] = initParams->scale;
-        this->regs[SS_KIRAKIRA_SCALE] = 0;
+        this->rEnvColorA = initParams->scale;
+        this->rScale = 0;
     } else {
         this->gfx = SEGMENTED_TO_VIRTUAL(D_04037880);
 
@@ -57,22 +55,22 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
             this->update = func_809AACAC;
         }
 
-        this->regs[SS_KIRAKIRA_ENV_A] = initParams->envColor.a;
-        this->regs[SS_KIRAKIRA_SCALE] = initParams->scale;
+        this->rEnvColorA = initParams->envColor.a;
+        this->rScale = initParams->scale;
     }
 
     this->draw = EffectSsKiraKira_Draw;
-    this->regs[SS_KIRAKIRA_ROT_SPEED] = initParams->rotSpeed;
-    this->regs[SS_KIRAKIRA_YAW] = initParams->yaw;
-    this->regs[SS_KIRAKIRA_PRIM_R] = initParams->primColor.r;
-    this->regs[SS_KIRAKIRA_PRIM_G] = initParams->primColor.g;
-    this->regs[SS_KIRAKIRA_PRIM_B] = initParams->primColor.b;
-    this->regs[SS_KIRAKIRA_PRIM_A] = initParams->primColor.a;
-    this->regs[SS_KIRAKIRA_ENV_R] = initParams->envColor.r;
-    this->regs[SS_KIRAKIRA_ENV_G] = initParams->envColor.g;
-    this->regs[SS_KIRAKIRA_ENV_B] = initParams->envColor.b;
-    this->regs[SS_KIRAKIRA_ALPHA_STEP] = initParams->alphaStep;
-    this->regs[SS_KIRAKIRA_LIFESPAN] = initParams->life;
+    this->rRotSpeed = initParams->rotSpeed;
+    this->rYaw = initParams->yaw;
+    this->rPrimColorR = initParams->primColor.r;
+    this->rPrimColorG = initParams->primColor.g;
+    this->rPrimColorB = initParams->primColor.b;
+    this->rPrimColorA = initParams->primColor.a;
+    this->rEnvColorR = initParams->envColor.r;
+    this->rEnvColorG = initParams->envColor.g;
+    this->rEnvColorB = initParams->envColor.b;
+    this->rAlphaStep = initParams->alphaStep;
+    this->rLifespan = initParams->life;
 
     return 1;
 }
@@ -81,37 +79,35 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     GraphicsContext* gfxCtx;
     f32 scale;
     s32 pad;
-    MtxF mtxTrans;
-    MtxF mtxRotY;
-    MtxF mtxScale;
-    MtxF mtxPersTrans;
-    MtxF mtxRotYPersTrans;
-    MtxF mtxResult;
+    MtxF mfTrans;
+    MtxF mfRotY;
+    MtxF mfScale;
+    MtxF mfTrans11DA0;
+    MtxF mfTrans11DA0RotY;
+    MtxF mfResult;
     Mtx* mtx;
 
-    scale = this->regs[SS_KIRAKIRA_SCALE] / 10000.0f;
+    scale = this->rScale / 10000.0f;
     gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_kirakira.c", 257);
 
-    SkinMatrix_SetTranslate(&mtxTrans, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetRotateRPY(&mtxRotY, 0, 0, this->regs[SS_KIRAKIRA_YAW]);
-    SkinMatrix_SetScale(&mtxScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mtxTrans, &globalCtx->mf_11DA0, &mtxPersTrans);
-    SkinMatrix_MtxFMtxFMult(&mtxPersTrans, &mtxRotY, &mtxRotYPersTrans);
-    SkinMatrix_MtxFMtxFMult(&mtxRotYPersTrans, &mtxScale, &mtxResult);
+    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetRotateRPY(&mfRotY, 0, 0, this->rYaw);
+    SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
+    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfRotY, &mfTrans11DA0RotY);
+    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0RotY, &mfScale, &mfResult);
     gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mtxResult);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80093C14(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->regs[SS_KIRAKIRA_PRIM_R],
-                        this->regs[SS_KIRAKIRA_PRIM_G], this->regs[SS_KIRAKIRA_PRIM_B],
-                        (((s8)((55.0f / this->regs[SS_KIRAKIRA_LIFESPAN]) * this->life) + 200)));
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_KIRAKIRA_ENV_R], this->regs[SS_KIRAKIRA_ENV_G],
-                       this->regs[SS_KIRAKIRA_ENV_B], this->regs[SS_KIRAKIRA_ENV_A]);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                        (((s8)((55.0f / this->rLifespan) * this->life) + 200)));
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
@@ -121,19 +117,17 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
     this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->regs[SS_KIRAKIRA_ENV_A] += this->regs[SS_KIRAKIRA_ALPHA_STEP];
+    this->rEnvColorA += this->rAlphaStep;
 
-    if (this->regs[SS_KIRAKIRA_ENV_A] < 0) {
-        this->regs[SS_KIRAKIRA_ENV_A] = 0;
-        this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
-    } else {
-        if (this->regs[SS_KIRAKIRA_ENV_A] >= 256) {
-            this->regs[SS_KIRAKIRA_ENV_A] = 255;
-            this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
-        }
+    if (this->rEnvColorA < 0) {
+        this->rEnvColorA = 0;
+        this->rAlphaStep = -this->rAlphaStep;
+    } else if (this->rEnvColorA > 255) {
+        this->rEnvColorA = 255;
+        this->rAlphaStep = -this->rAlphaStep;
     }
 
-    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROT_SPEED];
+    this->rYaw += this->rRotSpeed;
 }
 
 void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -141,22 +135,19 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->velocity.z *= 0.95f;
     this->accel.x = Math_Rand_CenteredFloat(0.2f);
     this->accel.z = Math_Rand_CenteredFloat(0.2f);
-    this->regs[SS_KIRAKIRA_ENV_A] += this->regs[SS_KIRAKIRA_ALPHA_STEP];
+    this->rEnvColorA += this->rAlphaStep;
 
-    if (this->regs[SS_KIRAKIRA_ENV_A] < 0) {
-        this->regs[SS_KIRAKIRA_ENV_A] = 0;
-        this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
-    } else {
-        if (this->regs[SS_KIRAKIRA_ENV_A] >= 256) {
-            this->regs[SS_KIRAKIRA_ENV_A] = 255;
-            this->regs[SS_KIRAKIRA_ALPHA_STEP] = -this->regs[SS_KIRAKIRA_ALPHA_STEP];
-        }
+    if (this->rEnvColorA < 0) {
+        this->rEnvColorA = 0;
+        this->rAlphaStep = -this->rAlphaStep;
+    } else if (this->rEnvColorA > 255) {
+        this->rEnvColorA = 255;
+        this->rAlphaStep = -this->rAlphaStep;
     }
 
-    this->regs[SS_KIRAKIRA_YAW] += this->regs[SS_KIRAKIRA_ROT_SPEED];
+    this->rYaw += this->rRotSpeed;
 }
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->regs[SS_KIRAKIRA_SCALE] =
-        this->regs[SS_KIRAKIRA_ENV_A] * Math_Sins((32768.0f / this->regs[SS_KIRAKIRA_LIFESPAN]) * this->life);
+    this->rScale = this->rEnvColorA * Math_Sins((32768.0f / this->rLifespan) * this->life);
 }

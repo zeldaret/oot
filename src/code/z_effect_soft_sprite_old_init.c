@@ -37,7 +37,20 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "overlays/effects/ovl_Effect_Ss_Ice_Smoke/z_eff_ss_ice_smoke.h"
 
-Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
+
+// effects that use this draw function are responsible for making sure their reg usage lines up with those listed here
+#define rTexIdx regs[0]
+#define rScale regs[1]
+#define rPrimColorR regs[3]
+#define rPrimColorG regs[4]
+#define rPrimColorB regs[5]
+#define rPrimColorA regs[6]
+#define rEnvColorR regs[7]
+#define rEnvColorG regs[8]
+#define rEnvColorB regs[9]
+#define rEnvColorA regs[10]
+#define rObjBankIdx regs[11]
 
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* texture) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -49,12 +62,12 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* textur
     s32 pad1;
     Mtx* mtx;
     void* object;
-    // note
-    object = globalCtx->objectCtx.status[this->regs[SS_G_TYPE]].segment;
+
+    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
-    scale = this->regs[SS_G_SCALE] * 0.0025f;
+    scale = this->rScale * 0.0025f;
     SkinMatrix_SetTranslate(&sp120, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&spE0, scale, scale, scale);
     SkinMatrix_MtxFMtxFMult(&sp120, &globalCtx->mf_11DA0, &sp60);
@@ -68,10 +81,9 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* textur
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(texture));
         func_80094C50(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_PRIM_R], this->regs[SS_G_PRIM_G],
-                        this->regs[SS_G_PRIM_B], this->regs[SS_G_PRIM_A]);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_ENV_R], this->regs[SS_G_ENV_G], this->regs[SS_G_ENV_B],
-                       this->regs[SS_G_ENV_A]);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                        this->rPrimColorA);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
@@ -136,8 +148,8 @@ void func_80028510(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     EffectSsDust_Spawn(globalCtx, 1, pos, velocity, accel, primColor, envColor, scale, scaleStep, 10, 1);
 }
 
-Color_RGBA8 sDustBrownPrim = { 170, 130, 90, 255 };
-Color_RGBA8 sDustBrownEnv = { 100, 60, 20, 255 };
+static Color_RGBA8 sDustBrownPrim = { 170, 130, 90, 255 };
+static Color_RGBA8 sDustBrownEnv = { 100, 60, 20, 255 };
 
 void func_8002857C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     EffectSsDust_Spawn(globalCtx, 4, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, 100, 5, 10, 0);
@@ -321,7 +333,7 @@ void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* vel
 // EffectSsBlast Spawn Functions
 
 void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 radius, s16 radiusStep, s16 radiusStepDecr, s16 life) {
+                         Color_RGBA8* envColor, s16 radius, s16 expansionRate, s16 expansionDecay, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -330,19 +342,19 @@ void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     Color_RGBA8_Copy(&initParams.primColor, primColor);
     Color_RGBA8_Copy(&initParams.envColor, envColor);
     initParams.radius = radius;
-    initParams.radiusStep = radiusStep;
-    initParams.radiusStepDecr = radiusStepDecr;
+    initParams.expansionRate = expansionRate;
+    initParams.expansionDecay = expansionDecay;
     initParams.life = life;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_BLAST, 128, &initParams);
 }
 
-void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 radiusStep,
+void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 expansionRate,
                    s16 life) {
     static Color_RGBA8 primColor = { 255, 255, 255, 255 };
     static Color_RGBA8 envColor = { 200, 200, 200, 0 };
 
-    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, &primColor, &envColor, radius, radiusStep, 35, life);
+    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, &primColor, &envColor, radius, expansionRate, 35, life);
 }
 
 void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
@@ -419,7 +431,6 @@ void func_800291D8(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
     envColor.b += randOffset;
     envColor.a += randOffset;
 
-
     func_80029060(globalCtx, actor, pos, velocity, accel, &primColor, &envColor, scale, scaleStep);
 }
 
@@ -431,7 +442,7 @@ void func_800292DC(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, Vec3f* ve
 // EffectSsDFire Spawn Functions
 
 void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
-                         s16 alpha, s16 fadeDelay, s32 life) {
+                         s16 alpha, s16 alphaDecayDelay, s32 life) {
     EffectSsDFireInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -440,7 +451,7 @@ void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
     initParams.alpha = alpha;
-    initParams.fadeDelay = fadeDelay;
+    initParams.alphaDecayDelay = alphaDecayDelay;
     initParams.life = life;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_D_FIRE, 128, &initParams);
@@ -753,13 +764,13 @@ void func_80029D5C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale
 
 // EffectSsKFire Spawn Functions
 
-void EffectSsKFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, u8 type) {
+void EffectSsKFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scaleMax, u8 type) {
     EffectSsKFireInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
-    initParams.scale = scale;
+    initParams.scaleMax = scaleMax;
     initParams.type = type;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_K_FIRE, 128, &initParams);
@@ -783,8 +794,8 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 // EffectSsKakera Spawn Functions
 
 void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* arg3, s16 gravity, s16 arg5,
-                          s16 arg6, s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 arg13, s16 objId,
-                          Gfx* dList) {
+                          s16 arg6, s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 colorIdx,
+                          s16 objId, Gfx* dList) {
     EffectSsKakeraInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -799,7 +810,7 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
     initParams.unk_30 = arg10;
     initParams.unk_32 = arg11;
     initParams.life = life;
-    initParams.unk_38 = arg13;
+    initParams.colorIdx = colorIdx;
     initParams.objId = objId;
     initParams.dList = dList;
 

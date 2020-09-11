@@ -6,6 +6,18 @@
 
 #include "z_eff_ss_g_fire.h"
 
+#define rTexIdx regs[0]
+#define rScale regs[1]
+#define rTexIdxStep regs[2]
+#define rPrimColorR regs[3]
+#define rPrimColorG regs[4]
+#define rPrimColorB regs[5]
+#define rPrimColorA regs[6]
+#define rEnvColorR regs[7]
+#define rEnvColorG regs[8]
+#define rEnvColorB regs[9]
+#define rEnvColorA regs[10]
+
 u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsGFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -31,30 +43,30 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->gfx = SEGMENTED_TO_VIRTUAL(D_0401C220);
     this->life = 8;
     this->flags = 0;
-    this->regs[SS_G_SCALE] = 200;
-    this->regs[SS_G_TEX_IDX] = 0;
-    this->regs[SS_G_TEX_IDX_STEP] = 50;
-    this->regs[SS_G_PRIM_R] = 255;
-    this->regs[SS_G_PRIM_G] = 220;
-    this->regs[SS_G_PRIM_B] = 80;
-    this->regs[SS_G_PRIM_A] = 255;
-    this->regs[SS_G_ENV_R] = 130;
-    this->regs[SS_G_ENV_G] = 30;
-    this->regs[SS_G_ENV_B] = 0;
-    this->regs[SS_G_ENV_A] = 0;
+    this->rScale = 200;
+    this->rTexIdx = 0;
+    this->rTexIdxStep = 50;
+    this->rPrimColorR = 255;
+    this->rPrimColorG = 220;
+    this->rPrimColorB = 80;
+    this->rPrimColorA = 255;
+    this->rEnvColorR = 130;
+    this->rEnvColorG = 30;
+    this->rEnvColorB = 0;
+    this->rEnvColorA = 0;
 
     return 1;
 }
 
 void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    UNK_PTR D_809A60E4[] = {
+    void* textures[] = {
         0x0401A220, 0x0401A620, 0x0401AA20, 0x0401AE20, 0x0401B220, 0x0401B620, 0x0401BA20, 0x0401BE20,
     };
-    s16 texIdx = (this->regs[SS_G_TEX_IDX] / 100) % 7;
+    s16 texIdx = (this->rTexIdx / 100) % 7;
 
-    EffectSs_DrawGEffect(globalCtx, this, D_809A60E4[texIdx]);
+    EffectSs_DrawGEffect(globalCtx, this, textures[texIdx]);
 }
 
 void EffectSsGFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->regs[SS_G_TEX_IDX] += this->regs[SS_G_TEX_IDX_STEP];
+    this->rTexIdx += this->rTexIdxStep;
 }

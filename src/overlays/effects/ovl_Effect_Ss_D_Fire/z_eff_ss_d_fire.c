@@ -6,18 +6,16 @@
 
 #include "z_eff_ss_d_fire.h"
 
-typedef enum {
-    /* 0x00 */ SS_D_FIRE_SCALE,
-    /* 0x01 */ SS_D_FIRE_TEX_IDX,
-    /* 0x02 */ SS_D_FIRE_PRIM_R,
-    /* 0x03 */ SS_D_FIRE_PRIM_G,
-    /* 0x04 */ SS_D_FIRE_PRIM_B,
-    /* 0x05 */ SS_D_FIRE_PRIM_A,
-    /* 0x06 */ SS_D_FIRE_FADE_DELAY, // determines when alpha will start decaying relative to current life
-    /* 0x09 */ SS_D_FIRE_SCALE_STEP = 9,
-    /* 0x0A */ SS_D_FIRE_OBJ_BANK_IDX,
-    /* 0x0B */ SS_D_FIRE_Y_ACCEL_STEP // has no effect due to how its implemented
-} EffectSsD_FireRegs;
+#define rScale regs[0]
+#define rTexIdx regs[1]
+#define rPrimColorR regs[2]
+#define rPrimColorG regs[3]
+#define rPrimColorB regs[4]
+#define rPrimColorA regs[5]
+#define rAlphaDecayDelay regs[6]
+#define rScaleStep regs[9]
+#define rObjBankIdx regs[10]
+#define rYAccelStep regs[11] // has no effect due to how its implemented
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -28,32 +26,30 @@ EffectSsInit Effect_Ss_D_Fire_InitVars = {
     EffectSsDFire_Init,
 };
 
-UNK_PTR D_809A09F8[] = { 0x060090A0, 0x060092A0, 0x060094A0, 0x060096A0 };
-
 extern Gfx D_060098A0[];
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDFireInitParams* initParams = (EffectSsDFireInitParams*)initParamsx;
     s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO);
 
-    if (objBankIndex >= 0) {
+    if (objBankIndex > -1) {
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
         this->gfx = SEGMENTED_TO_VIRTUAL(D_060098A0);
         this->life = initParams->life;
-        this->regs[SS_D_FIRE_SCALE] = initParams->scale;
-        this->regs[SS_D_FIRE_SCALE_STEP] = initParams->scaleStep;
-        this->regs[SS_D_FIRE_Y_ACCEL_STEP] = 0;
-        this->regs[SS_D_FIRE_OBJ_BANK_IDX] = objBankIndex;
+        this->rScale = initParams->scale;
+        this->rScaleStep = initParams->scaleStep;
+        this->rYAccelStep = 0;
+        this->rObjBankIdx = objBankIndex;
         this->draw = EffectSsDFire_Draw;
         this->update = EffectSsDFire_Update;
-        this->regs[SS_D_FIRE_TEX_IDX] = ((s16)(globalCtx->state.frames % 4) ^ 3);
-        this->regs[SS_D_FIRE_PRIM_R] = 255;
-        this->regs[SS_D_FIRE_PRIM_G] = 255;
-        this->regs[SS_D_FIRE_PRIM_B] = 50;
-        this->regs[SS_D_FIRE_PRIM_A] = initParams->alpha;
-        this->regs[SS_D_FIRE_FADE_DELAY] = initParams->fadeDelay;
+        this->rTexIdx = ((s16)(globalCtx->state.frames % 4) ^ 3);
+        this->rPrimColorR = 255;
+        this->rPrimColorG = 255;
+        this->rPrimColorB = 50;
+        this->rPrimColorA = initParams->alpha;
+        this->rAlphaDecayDelay = initParams->alphaDecayDelay;
 
         return 1;
     }
@@ -61,40 +57,42 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     return 0;
 }
 
+static void* sTextures[] = { 0x060090A0, 0x060092A0, 0x060094A0, 0x060096A0 };
+
 void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    MtxF sp124;
-    MtxF spE4;
-    MtxF spA4;
-    MtxF sp64;
+    MtxF mfTrans;
+    MtxF mfScale;
+    MtxF mfResult;
+    MtxF mfTrans11DA0;
     s32 pad;
     void* object;
     Mtx* mtx;
     f32 scale;
 
-    object = globalCtx->objectCtx.status[this->regs[SS_D_FIRE_OBJ_BANK_IDX]].segment;
+    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
 
-    if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) >= 0) {
+    if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) > -1) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
-        scale = this->regs[SS_D_FIRE_SCALE] / 100.0f;
-        SkinMatrix_SetTranslate(&sp124, this->pos.x, this->pos.y, this->pos.z);
-        SkinMatrix_SetScale(&spE4, scale, scale, 1.0f);
-        SkinMatrix_MtxFMtxFMult(&sp124, &globalCtx->mf_11DA0, &sp64);
-        SkinMatrix_MtxFMtxFMult(&sp64, &spE4, &spA4);
+        scale = this->rScale / 100.0f;
+        SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
+        SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
+        SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
+        SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
 
-        mtx = SkinMatrix_MtxFToNewMtx(oGfxCtx, &spA4);
+        mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
         if (mtx != NULL) {
             gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            func_80094BC4(oGfxCtx);
+            func_80094BC4(gfxCtx);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_D_FIRE_PRIM_R], this->regs[SS_D_FIRE_PRIM_G],
-                            this->regs[SS_D_FIRE_PRIM_B], this->regs[SS_D_FIRE_PRIM_A]);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                            this->rPrimColorA);
             gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A09F8[this->regs[SS_D_FIRE_TEX_IDX]]));
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
             gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
         }
     }
@@ -103,26 +101,27 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void EffectSsDFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->regs[SS_D_FIRE_TEX_IDX] = ++this->regs[SS_D_FIRE_TEX_IDX] & 3;
-    this->regs[SS_D_FIRE_SCALE] += this->regs[SS_D_FIRE_SCALE_STEP];
+    this->rTexIdx++;
+    this->rTexIdx &= 3;
+    this->rScale += this->rScaleStep;
 
-    if (this->regs[SS_D_FIRE_FADE_DELAY] >= this->life) {
-        this->regs[SS_D_FIRE_PRIM_A] -= 5;
-        if (this->regs[SS_D_FIRE_PRIM_A] < 0) {
-            this->regs[SS_D_FIRE_PRIM_A] = 0;
+    if (this->rAlphaDecayDelay >= this->life) {
+        this->rPrimColorA -= 5;
+        if (this->rPrimColorA < 0) {
+            this->rPrimColorA = 0;
         }
     } else {
-        this->regs[SS_D_FIRE_PRIM_A] += 15;
-        if (this->regs[SS_D_FIRE_PRIM_A] > 255) {
-            this->regs[SS_D_FIRE_PRIM_A] = 255;
+        this->rPrimColorA += 15;
+        if (this->rPrimColorA > 255) {
+            this->rPrimColorA = 255;
         }
     }
 
     if (this->accel.y < 0.0f) {
-        this->accel.y += this->regs[SS_D_FIRE_Y_ACCEL_STEP] * 0.01f;
+        this->accel.y += this->rYAccelStep * 0.01f;
     }
 
     if (this->life <= 0) {
-        this->regs[SS_D_FIRE_Y_ACCEL_STEP] += 0;
+        this->rYAccelStep += 0;
     }
 }

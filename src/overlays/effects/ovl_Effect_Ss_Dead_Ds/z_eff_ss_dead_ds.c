@@ -6,21 +6,19 @@
 
 #include "z_eff_ss_dead_ds.h"
 
-typedef enum {
-    /* 0x00 */ SS_DEAD_DS_SCALE,
-    /* 0x01 */ SS_DEAD_CALC_DONE,
-    /* 0x02 */ SS_DEAD_DS_ROLL,
-    /* 0x03 */ SS_DEAD_DS_PITCH,
-    /* 0x04 */ SS_DEAD_DS_YAW,
-    /* 0x05 */ SS_DEAD_DS_ALPHA,
-    /* 0x09 */ SS_DEAD_DS_SCALE_STEP = 9,
-    /* 0x0A */ SS_DEAD_DS_ALPHA_STEP,
-    /* 0x0B */ SS_DEAD_DS_LIFE_HALF
-} EffectSsDead_DsRegs;
+#define rScale regs[0]
+#define rTimer regs[1]
+#define rRoll regs[2]
+#define rPitch regs[3]
+#define rYaw regs[4]
+#define rAlpha regs[5]
+#define rScaleStep regs[9]
+#define rAlphaStep regs[10]
+#define rHalfOfLife regs[11]
 
 u32 EffectSsDeadDs_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A16F4(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A1A08(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsDeadDs_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Dead_Ds_InitVars = {
     EFFECT_SS_DEAD_DS,
@@ -36,71 +34,70 @@ u32 EffectSsDeadDs_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
     this->life = initParams->life;
-    this->regs[SS_DEAD_DS_SCALE_STEP] = initParams->scaleStep;
-    this->regs[SS_DEAD_DS_LIFE_HALF] = initParams->life / 2;
-    this->regs[SS_DEAD_DS_ALPHA_STEP] = initParams->alpha / this->regs[SS_DEAD_DS_LIFE_HALF];
-    this->draw = func_809A16F4;
-    this->update = func_809A1A08;
-    this->regs[SS_DEAD_DS_SCALE] = initParams->scale;
-    this->regs[SS_DEAD_DS_ALPHA] = initParams->alpha;
-    this->regs[SS_DEAD_CALC_DONE] = false;
+    this->rScaleStep = initParams->scaleStep;
+    this->rHalfOfLife = initParams->life / 2;
+    this->rAlphaStep = initParams->alpha / this->rHalfOfLife;
+    this->draw = EffectSsDeadDs_Draw;
+    this->update = EffectSsDeadDs_Update;
+    this->rScale = initParams->scale;
+    this->rAlpha = initParams->alpha;
+    this->rTimer = 0;
 
     return 1;
 }
 
-void func_809A16F4(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     f32 scale;
     s32 pad1;
     s32 pad2;
-    MtxF sp88;
+    MtxF mf;
     f32 temp;
-    Vec3f sp78;
+    Vec3f pos;
     CollisionPoly* floorPoly;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 157);
 
-    scale = this->regs[SS_DEAD_DS_SCALE] * 0.01f;
+    scale = this->rScale * 0.01f;
     func_80094BC4(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, this->regs[SS_DEAD_DS_ALPHA]);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, this->rAlpha);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0);
-    sp78 = this->pos;
+    pos = this->pos;
 
-    if (!this->regs[SS_DEAD_CALC_DONE]) {
+    if (this->rTimer == 0) {
         Vec3s rpy;
         Vec3f sp44;
 
-        sp44.x = sp78.x - this->velocity.x;
-        sp44.y = sp78.y - this->velocity.y;
-        sp44.z = sp78.z - this->velocity.z;
+        sp44.x = pos.x - this->velocity.x;
+        sp44.y = pos.y - this->velocity.y;
+        sp44.z = pos.z - this->velocity.z;
 
-        if (func_8003D464(&globalCtx->colCtx, &this->pos, &sp78, &sp44, 1.5f, &floorPoly, 1.0f)) {
-            func_80038A28(floorPoly, this->pos.x, this->pos.y, this->pos.z, &sp88);
-            Matrix_Put(&sp88);
+        if (func_8003D464(&globalCtx->colCtx, &this->pos, &pos, &sp44, 1.5f, &floorPoly, 1.0f)) {
+            func_80038A28(floorPoly, this->pos.x, this->pos.y, this->pos.z, &mf);
+            Matrix_Put(&mf);
         } else {
-            sp78.y++;
-            temp = func_8003C890(&globalCtx->colCtx, &floorPoly, &sp78);
+            pos.y++;
+            temp = func_8003C890(&globalCtx->colCtx, &floorPoly, &pos);
 
             if (floorPoly != NULL) {
-                func_80038A28(floorPoly, this->pos.x, temp + 1.5f, this->pos.z, &sp88);
-                Matrix_Put(&sp88);
+                func_80038A28(floorPoly, this->pos.x, temp + 1.5f, this->pos.z, &mf);
+                Matrix_Put(&mf);
             } else {
                 Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
-                Matrix_Get(&sp88);
+                Matrix_Get(&mf);
             }
         }
 
-        func_800D2264(&sp88, &rpy, 0);
-        this->regs[SS_DEAD_DS_ROLL] = rpy.x;
-        this->regs[SS_DEAD_DS_PITCH] = rpy.y;
-        this->regs[SS_DEAD_DS_YAW] = rpy.z;
-        this->pos.y = sp88.wy;
-        this->regs[SS_DEAD_CALC_DONE]++;
+        func_800D2264(&mf, &rpy, 0);
+        this->rRoll = rpy.x;
+        this->rPitch = rpy.y;
+        this->rYaw = rpy.z;
+        this->pos.y = mf.wy;
+        this->rTimer++;
     }
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->regs[SS_DEAD_DS_ROLL], this->regs[SS_DEAD_DS_PITCH], this->regs[SS_DEAD_DS_YAW],
-                     MTXMODE_APPLY);
+    Matrix_RotateRPY(this->rRoll, this->rPitch, this->rYaw, MTXMODE_APPLY);
     Matrix_RotateX(1.57f, MTXMODE_APPLY);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 246),
@@ -112,17 +109,17 @@ void func_809A16F4(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 255);
 }
 
-void func_809A1A08(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    if (this->life < this->regs[SS_DEAD_DS_LIFE_HALF]) {
+void EffectSsDeadDs_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    if (this->life < this->rHalfOfLife) {
 
-        this->regs[SS_DEAD_DS_SCALE] += this->regs[SS_DEAD_DS_SCALE_STEP];
-        if (this->regs[SS_DEAD_DS_SCALE] < 0) {
-            this->regs[SS_DEAD_DS_SCALE] = 0;
+        this->rScale += this->rScaleStep;
+        if (this->rScale < 0) {
+            this->rScale = 0;
         }
 
-        this->regs[SS_DEAD_DS_ALPHA] -= this->regs[SS_DEAD_DS_ALPHA_STEP];
-        if (this->regs[SS_DEAD_DS_ALPHA] < 0) {
-            this->regs[SS_DEAD_DS_ALPHA] = 0;
+        this->rAlpha -= this->rAlphaStep;
+        if (this->rAlpha < 0) {
+            this->rAlpha = 0;
         }
     }
 }

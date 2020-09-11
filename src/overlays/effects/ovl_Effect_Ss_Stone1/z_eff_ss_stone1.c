@@ -6,9 +6,7 @@
 
 #include "z_eff_ss_stone1.h"
 
-typedef enum {
-    /* 0x00 */ SS_STONE1_0
-} EffectSsStone1Regs;
+#define rReg0 regs[0]
 
 u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -23,9 +21,9 @@ typedef struct {
     /* 0x00 */ void* texture;
     /* 0x04 */ Color_RGBA8 primColor;
     /* 0x08 */ Color_RGBA8 envColor;
-} EffStoneDrawParams;
+} EffStoneDrawInfo;
 
-EffStoneDrawParams D_809ACA08[] = {
+static EffStoneDrawInfo sDrawInfo[] = {
     { 0x04029A90, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
     { 0x04029690, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
     { 0x04029290, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
@@ -45,7 +43,7 @@ u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->pos = pos;
     this->vec = pos;
     this->life = 8;
-    this->regs[SS_STONE1_0] = initParams->unk_C;
+    this->rReg0 = initParams->unk_C;
     this->draw = EffectSsStone1_Draw;
     this->update = EffectSsStone1_Update;
 
@@ -54,15 +52,15 @@ u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 
 void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    EffStoneDrawParams* drawParams = &D_809ACA08[this->life];
-    Vec3f mtxMult;
-    f32 mtxW;
+    EffStoneDrawInfo* drawParams = &sDrawInfo[this->life];
+    Vec3f mfVec;
+    f32 mfW;
     f32 scale;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 154);
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, this, &mtxMult, &mtxW);
-    scale = (mtxW < 1500.0f) ? 3.0f : (mtxW / 1500.0f) * 3.0f;
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->pos, &mfVec, &mfW);
+    scale = (mfW < 1500.0f) ? 3.0f : (mfW / 1500.0f) * 3.0f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stone1.c", 168),
@@ -78,7 +76,7 @@ void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void EffectSsStone1_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    if ((this->life == 6) && (this->regs[SS_STONE1_0] != 0)) {
+    if ((this->life == 6) && (this->rReg0 != 0)) {
         iREG(50) = 0;
     }
 }

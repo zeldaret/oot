@@ -11,8 +11,8 @@ typedef struct {
     /* 0x24 */ Color_RGBA8 primColor;
     /* 0x28 */ Color_RGBA8 envColor;
     /* 0x2C */ s16 radius;
-    /* 0x2E */ s16 radiusStep;
-    /* 0x30 */ s16 radiusStepDecr;
+    /* 0x2E */ s16 expansionRate;
+    /* 0x30 */ s16 expansionDecay;
     /* 0x32 */ s16 life;
 } EffectSsBlastParams; // size = 0x34
 

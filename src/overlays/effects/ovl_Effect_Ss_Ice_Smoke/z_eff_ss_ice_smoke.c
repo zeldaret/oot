@@ -6,11 +6,9 @@
 
 #include "z_eff_ss_ice_smoke.h"
 
-typedef enum {
-    /* 0x00 */ SS_ICE_SMOKE_OBJ_BANK_IDX,
-    /* 0x01 */ SS_ICE_SMOKE_ALPHA,
-    /* 0x02 */ SS_ICE_SMOKE_SCALE
-} EffectSsIce_SmokeRegs;
+#define rObjBankIdx regs[0]
+#define rAlpha regs[1]
+#define rScale regs[2]
 
 u32 EffectSsIceSmoke_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -32,15 +30,15 @@ u32 EffectSsIceSmoke_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 
     objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
-    if ((objBankIdx >= 0) && (Object_IsLoaded(&globalCtx->objectCtx, objBankIdx))) {
+    if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
         oldSeg6 = gSegments[6];
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIdx].segment);
         Math_Vec3f_Copy(&this->pos, &initParams->pos);
         Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
         Math_Vec3f_Copy(&this->accel, &initParams->accel);
-        this->regs[SS_ICE_SMOKE_OBJ_BANK_IDX] = objBankIdx;
-        this->regs[SS_ICE_SMOKE_ALPHA] = 0;
-        this->regs[SS_ICE_SMOKE_SCALE] = initParams->scale;
+        this->rObjBankIdx = objBankIdx;
+        this->rAlpha = 0;
+        this->rScale = initParams->scale;
         this->life = 50;
         this->draw = EffectSsIceSmoke_Draw;
         this->update = EffectSsIceSmoke_Update;
@@ -61,26 +59,26 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     f32 scale;
     s32 objBankIdx;
 
-    object = globalCtx->objectCtx.status[this->regs[SS_ICE_SMOKE_OBJ_BANK_IDX]].segment;
+    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 155);
 
     objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
-    if ((objBankIdx >= 0) && (Object_IsLoaded(&globalCtx->objectCtx, objBankIdx))) {
+    if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
         gDPPipeSync(oGfxCtx->polyXlu.p++);
         func_80093D84(globalCtx->state.gfxCtx);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
         gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_060030A0));
         gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 195, 235, 235, this->regs[SS_ICE_SMOKE_ALPHA]);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 195, 235, 235, this->rAlpha);
         gSPSegment(
             oGfxCtx->polyXlu.p++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->life * 3, this->life * 15, 32, 64, 1, 0, 0, 32, 32));
         Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
         func_800D1FD4(&globalCtx->mf_11DA0);
-        scale = this->regs[SS_ICE_SMOKE_SCALE] * 0.0001f;
+        scale = this->rScale * 0.0001f;
         Matrix_Scale(scale, scale, 1.0f, MTXMODE_APPLY);
 
         mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 196);
@@ -101,9 +99,9 @@ void EffectSsIceSmoke_Update(GlobalContext* globalCtx, u32 index, EffectSs* this
 
     objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
-    if ((objBankIdx >= 0) && (Object_IsLoaded(&globalCtx->objectCtx, objBankIdx))) {
-        if (this->regs[SS_ICE_SMOKE_ALPHA] < 100) {
-            this->regs[SS_ICE_SMOKE_ALPHA] += 10;
+    if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
+        if (this->rAlpha < 100) {
+            this->rAlpha += 10;
         }
     } else {
         this->life = -1;

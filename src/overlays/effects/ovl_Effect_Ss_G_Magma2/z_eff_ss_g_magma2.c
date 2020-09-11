@@ -6,26 +6,24 @@
 
 #include "z_eff_ss_g_magma2.h"
 
-typedef enum {
-    /* 0x00 */ SS_G_MAGMA2_PRIM_R,
-    /* 0x01 */ SS_G_MAGMA2_PRIM_G,
-    /* 0x02 */ SS_G_MAGMA2_PRIM_A,
-    /* 0x03 */ SS_G_MAGMA2_ENV_R,
-    /* 0x04 */ SS_G_MAGMA2_ENV_G,
-    /* 0x05 */ SS_G_MAGMA2_ENV_A,
-    /* 0x06 */ SS_G_MAGMA2_TEX_IDX,
-    /* 0x07 */ SS_G_MAGMA2_TIMER,
-    /* 0x08 */ SS_G_MAGMA2_UPDATE_RATE,
-    /* 0x09 */ SS_G_MAGMA2_DRAW_MODE,
-    /* 0x0A */ SS_G_MAGMA2_OBJ_BANK_IDX,
-    /* 0x0B */ SS_G_MAGMA2_SCALE
-} EffectSsG_Magma2Regs;
+#define rPrimColorR regs[0]
+#define rPrimColorG regs[1]
+#define rPrimColorA regs[2]
+#define rEnvColorR regs[3]
+#define rEnvColorG regs[4]
+#define rEnvColorA regs[5]
+#define rTexIdx regs[6]
+#define rTimer regs[7]
+#define rUpdateRate regs[8]
+#define rDrawMode regs[9]
+#define rObjBankIdx regs[10]
+#define rScale regs[11]
 
 u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsGMagma2_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-static UNK_PTR sTextures[] = {
+static void* sTextures[] = {
     0x0602E4E0, 0x0602E8E0, 0x0602ECE0, 0x0602F0E0, 0x0602F4E0, 0x0602F8E0, 0x0602FCE0,
     0x060300E0, 0x060304E0, 0x060308E0, 0x060308E0, 0x060308E0, 0x060308E0,
 };
@@ -44,10 +42,10 @@ u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     Vec3f zeroVec;
     EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
 
-    if ((objBankIndex >= 0) && (Object_IsLoaded(&globalCtx->objectCtx, objBankIndex))) {
+    if ((objBankIndex > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
         zeroVec = zeroVecSrc;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
-        this->regs[SS_G_MAGMA2_OBJ_BANK_IDX] = objBankIndex;
+        this->rObjBankIdx = objBankIndex;
         this->pos = initParams->pos;
         this->velocity = zeroVec;
         this->accel = zeroVec;
@@ -55,16 +53,16 @@ u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         this->draw = EffectSsGMagma2_Draw;
         this->update = EffectSsGMagma2_Update;
         this->gfx = SEGMENTED_TO_VIRTUAL(D_06025A90);
-        this->regs[SS_G_MAGMA2_TEX_IDX] = 0;
-        this->regs[SS_G_MAGMA2_DRAW_MODE] = initParams->drawMode;
-        this->regs[SS_G_MAGMA2_UPDATE_RATE] = initParams->updateRate;
-        this->regs[SS_G_MAGMA2_SCALE] = initParams->scale;
-        this->regs[SS_G_MAGMA2_PRIM_R] = initParams->primColor.r;
-        this->regs[SS_G_MAGMA2_PRIM_G] = initParams->primColor.g;
-        this->regs[SS_G_MAGMA2_PRIM_A] = initParams->primColor.a;
-        this->regs[SS_G_MAGMA2_ENV_R] = initParams->envColor.r;
-        this->regs[SS_G_MAGMA2_ENV_G] = initParams->envColor.g;
-        this->regs[SS_G_MAGMA2_ENV_A] = initParams->envColor.a;
+        this->rTexIdx = 0;
+        this->rDrawMode = initParams->drawMode;
+        this->rUpdateRate = initParams->updateRate;
+        this->rScale = initParams->scale;
+        this->rPrimColorR = initParams->primColor.r;
+        this->rPrimColorG = initParams->primColor.g;
+        this->rPrimColorA = initParams->primColor.a;
+        this->rEnvColorR = initParams->envColor.r;
+        this->rEnvColorG = initParams->envColor.g;
+        this->rEnvColorA = initParams->envColor.a;
 
         return 1;
     }
@@ -78,8 +76,8 @@ void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     f32 scale;
     void* object;
 
-    scale = this->regs[SS_G_MAGMA2_SCALE] / 100.0f;
-    object = globalCtx->objectCtx.status[this->regs[SS_G_MAGMA2_OBJ_BANK_IDX]].segment;
+    scale = this->rScale / 100.0f;
+    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 261);
 
@@ -90,44 +88,42 @@ void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_g_magma2.c", 282),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->regs[SS_G_MAGMA2_DRAW_MODE] == 0) {
+    if (this->rDrawMode == 0) {
         oGfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x3D);
     } else {
         oGfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
     }
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_MAGMA2_PRIM_R], this->regs[SS_G_MAGMA2_PRIM_G], 0,
-                    this->regs[SS_G_MAGMA2_PRIM_A]);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_MAGMA2_ENV_R], this->regs[SS_G_MAGMA2_ENV_G], 0,
-                   this->regs[SS_G_MAGMA2_ENV_A]);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->regs[SS_G_MAGMA2_TEX_IDX]]));
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, 0, this->rPrimColorA);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, 0, this->rEnvColorA);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
     gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 311);
 }
 
 void EffectSsGMagma2_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->regs[SS_G_MAGMA2_TIMER] += this->regs[SS_G_MAGMA2_UPDATE_RATE];
+    this->rTimer += this->rUpdateRate;
 
-    if (this->regs[SS_G_MAGMA2_TIMER] >= 10) {
-        this->regs[SS_G_MAGMA2_TIMER] -= 10;
-        this->regs[SS_G_MAGMA2_TEX_IDX]++;
+    if (this->rTimer >= 10) {
+        this->rTimer -= 10;
+        this->rTexIdx++;
 
-        if (this->regs[SS_G_MAGMA2_TEX_IDX] >= 10) {
+        if (this->rTexIdx >= 10) {
             this->life = 0;
         }
 
-        if (this->regs[SS_G_MAGMA2_DRAW_MODE] == 0) {
-            this->regs[SS_G_MAGMA2_PRIM_G] -= 26;
+        if (this->rDrawMode == 0) {
+            this->rPrimColorG -= 26;
 
-            if (this->regs[SS_G_MAGMA2_PRIM_G] <= 0) {
-                this->regs[SS_G_MAGMA2_PRIM_G] = 0;
+            if (this->rPrimColorG <= 0) {
+                this->rPrimColorG = 0;
             }
 
-            this->regs[SS_G_MAGMA2_ENV_R] -= 26;
+            this->rEnvColorR -= 26;
 
-            if (this->regs[SS_G_MAGMA2_ENV_R] <= 0) {
-                this->regs[SS_G_MAGMA2_ENV_R] = 0;
+            if (this->rEnvColorR <= 0) {
+                this->rEnvColorR = 0;
             }
         }
     }

@@ -6,18 +6,16 @@
 
 #include "z_eff_ss_en_fire.h"
 
-typedef enum {
-    /* 0x00 */ SS_EN_FIRE_SCALE_MAX,
-    /* 0x01 */ SS_EN_FIRE_SCALE,
-    /* 0x02 */ SS_EN_FIRE_LIFESPAN,
-    /* 0x03 */ SS_EN_FIRE_UNUSED,
-    /* 0x04 */ SS_EN_FIRE_PITCH,
-    /* 0x05 */ SS_EN_FIRE_YAW,
-    /* 0x06 */ SS_EN_FIRE_6,
-    /* 0x07 */ SS_EN_FIRE_BODYPART,
-    /* 0x08 */ SS_EN_FIRE_FLAGS,
-    /* 0x09 */ SS_EN_FIRE_SCROLL
-} EffectSsEnFireRegs;
+#define rScaleMax regs[0]
+#define rScale regs[1]
+#define rLifespan regs[2]
+#define rUnused regs[3]
+#define rPitch regs[4]
+#define rYaw regs[5]
+#define rReg6 regs[6]
+#define rBodypart regs[7]
+#define rFlags regs[8]
+#define rScroll regs[9]
 
 u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -41,33 +39,31 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->accel = zeroVec;
     this->velocity = zeroVec;
     this->life = 20;
-    this->regs[SS_EN_FIRE_LIFESPAN] = this->life;
+    this->rLifespan = this->life;
     this->actor = initParams->actor;
-
-    this->regs[SS_EN_FIRE_SCROLL] = Math_Rand_ZeroOne() * 20.0f;
+    this->rScroll = Math_Rand_ZeroOne() * 20.0f;
     this->draw = EffectSsEnFire_Draw;
     this->update = EffectSsEnFire_Update;
-    this->regs[SS_EN_FIRE_UNUSED] = -15;
+    this->rUnused = -15;
 
     if (initParams->bodypart < 0) {
-        this->regs[SS_EN_FIRE_YAW] =
-            Math_Vec3f_Yaw(&initParams->actor->posRot, &initParams->pos) - initParams->actor->shape.rot.y;
-        this->regs[SS_EN_FIRE_PITCH] =
-            Math_Vec3f_Pitch(&initParams->actor->posRot, &initParams->pos) - initParams->actor->shape.rot.x;
-        this->vec.z = Math_Vec3f_DistXYZ(&initParams->pos, &initParams->actor->posRot);
+        this->rYaw = Math_Vec3f_Yaw(&initParams->actor->posRot.pos, &initParams->pos) - initParams->actor->shape.rot.y;
+        this->rPitch =
+            Math_Vec3f_Pitch(&initParams->actor->posRot.pos, &initParams->pos) - initParams->actor->shape.rot.x;
+        this->vec.z = Math_Vec3f_DistXYZ(&initParams->pos, &initParams->actor->posRot.pos);
     }
 
-    this->regs[SS_EN_FIRE_SCALE_MAX] = initParams->scale;
+    this->rScaleMax = initParams->scale;
 
     if ((initParams->unk_12 & 0x8000) != 0) {
-        this->regs[SS_EN_FIRE_SCALE] = initParams->scale;
+        this->rScale = initParams->scale;
     } else {
-        this->regs[SS_EN_FIRE_SCALE] = 0;
+        this->rScale = 0;
     }
 
-    this->regs[SS_EN_FIRE_6] = initParams->unk_12 & 0x7FFF;
-    this->regs[SS_EN_FIRE_BODYPART] = initParams->bodypart;
-    this->regs[SS_EN_FIRE_FLAGS] = initParams->flags;
+    this->rReg6 = initParams->unk_12 & 0x7FFF;
+    this->rBodypart = initParams->bodypart;
+    this->rFlags = initParams->flags;
 
     return 1;
 }
@@ -85,7 +81,7 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     camYaw = (func_8005A9F4(ACTIVE_CAM) + 0x8000);
     Matrix_RotateY(camYaw * 0.0000958738f, MTXMODE_APPLY);
 
-    scale = Math_Sins(this->life * 0x333) * (this->regs[SS_EN_FIRE_SCALE] * 0.00005f);
+    scale = Math_Sins(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_en_fire.c", 180),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -100,10 +96,10 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, redGreen * 12.7f, 0, 0, 0);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x0, 0x80, redGreen * 12.7f, redGreen * 12.7f, 0, 255);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
-                                (this->regs[SS_EN_FIRE_SCROLL] * -0x14) & 0x1FF, 0x20, 0x80));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, (this->rScroll * -0x14) & 0x1FF,
+                                0x20, 0x80));
 
-    if (((this->regs[SS_EN_FIRE_FLAGS] & 0x7FFF) != 0) || (this->life < 18)) {
+    if (((this->rFlags & 0x7FFF) != 0) || (this->life < 18)) {
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D5A0);
     } else {
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
@@ -124,35 +120,33 @@ typedef struct {
 
 void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
-    this->regs[SS_EN_FIRE_SCROLL]++;
+    this->rScroll++;
 
     if (this->actor != NULL) {
         if (this->actor->dmgEffectTimer >= 22) {
             this->life++;
         }
         if (this->actor->update != NULL) {
-            Math_SmoothScaleMaxMinS(&this->regs[SS_EN_FIRE_SCALE], this->regs[SS_EN_FIRE_SCALE_MAX], 1,
-                                    this->regs[SS_EN_FIRE_SCALE_MAX] >> 3, 0);
+            Math_SmoothScaleMaxMinS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
 
-            if (this->regs[SS_EN_FIRE_BODYPART] < 0) {
+            if (this->rBodypart < 0) {
                 Matrix_Translate(this->actor->posRot.pos.x, this->actor->posRot.pos.y, this->actor->posRot.pos.z,
                                  MTXMODE_NEW);
-                Matrix_RotateY((this->regs[SS_EN_FIRE_YAW] + this->actor->shape.rot.y) * 0.0000958738f, MTXMODE_APPLY);
-                Matrix_RotateX((this->regs[SS_EN_FIRE_PITCH] + this->actor->shape.rot.x) * 0.0000958738f,
-                               MTXMODE_APPLY);
+                Matrix_RotateY((this->rYaw + this->actor->shape.rot.y) * 0.0000958738f, MTXMODE_APPLY);
+                Matrix_RotateX((this->rPitch + this->actor->shape.rot.x) * 0.0000958738f, MTXMODE_APPLY);
                 Matrix_MultVec3f(&this->vec, &this->pos);
             } else {
-                if ((this->regs[SS_EN_FIRE_FLAGS] & 0x8000)) {
-                    this->pos.x = ((FireActorS*)this->actor)->firePos[this->regs[SS_EN_FIRE_BODYPART]].x;
-                    this->pos.y = ((FireActorS*)this->actor)->firePos[this->regs[SS_EN_FIRE_BODYPART]].y;
-                    this->pos.z = ((FireActorS*)this->actor)->firePos[this->regs[SS_EN_FIRE_BODYPART]].z;
+                if ((this->rFlags & 0x8000)) {
+                    this->pos.x = ((FireActorS*)this->actor)->firePos[this->rBodypart].x;
+                    this->pos.y = ((FireActorS*)this->actor)->firePos[this->rBodypart].y;
+                    this->pos.z = ((FireActorS*)this->actor)->firePos[this->rBodypart].z;
                 } else {
-                    this->pos.x = ((FireActorF*)this->actor)->firePos[this->regs[SS_EN_FIRE_BODYPART]].x;
-                    this->pos.y = ((FireActorF*)this->actor)->firePos[this->regs[SS_EN_FIRE_BODYPART]].y;
-                    this->pos.z = ((FireActorF*)this->actor)->firePos[this->regs[SS_EN_FIRE_BODYPART]].z;
+                    this->pos.x = ((FireActorF*)this->actor)->firePos[this->rBodypart].x;
+                    this->pos.y = ((FireActorF*)this->actor)->firePos[this->rBodypart].y;
+                    this->pos.z = ((FireActorF*)this->actor)->firePos[this->rBodypart].z;
                 }
             }
-        } else if (this->regs[SS_EN_FIRE_6] != 0) {
+        } else if (this->rReg6 != 0) {
             this->life = 0;
         } else {
             this->actor = NULL;

@@ -6,19 +6,17 @@
 
 #include "z_eff_ss_sibuki.h"
 
-typedef enum {
-    /* 0x00 */ SS_SIBUKI_PRIM_R,
-    /* 0x01 */ SS_SIBUKI_PRIM_G,
-    /* 0x02 */ SS_SIBUKI_PRIM_B,
-    /* 0x03 */ SS_SIBUKI_PRIM_A,
-    /* 0x04 */ SS_SIBUKI_ENV_R,
-    /* 0x05 */ SS_SIBUKI_ENV_G,
-    /* 0x06 */ SS_SIBUKI_ENV_B,
-    /* 0x07 */ SS_SIBUKI_ENV_A,
-    /* 0x08 */ SS_SIBUKI_MOVE_DELAY,
-    /* 0x09 */ SS_SIBUKI_DIRECTION,
-    /* 0x0A */ SS_SIBUKI_SCALE
-} EffectSsSibukiRegs;
+#define rPrimColorR regs[0]
+#define rPrimColorG regs[1]
+#define rPrimColorB regs[2]
+#define rPrimColorA regs[3]
+#define rEnvColorR regs[4]
+#define rEnvColorG regs[5]
+#define rEnvColorB regs[6]
+#define rEnvColorA regs[7]
+#define rMoveDelay regs[8]
+#define rDirection regs[9]
+#define rScale regs[10]
 
 u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -29,8 +27,8 @@ EffectSsInit Effect_Ss_Sibuki_InitVars = {
     EffectSsSibuki_Init,
 };
 
-extern Gfx D_04055EB0[]; // not gfx?
-extern Gfx D_04055DB0[];
+extern void* D_04055EB0;
+extern void* D_04055DB0;
 extern Gfx D_0401A160[];
 
 u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
@@ -41,34 +39,32 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->accel = initParams->accel;
 
     if (KREG(2) != 0) {
-        this->gfx = SEGMENTED_TO_VIRTUAL(D_04055EB0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(&D_04055EB0);
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(D_04055DB0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(&D_04055DB0);
     }
 
     this->life = ((s16)((Math_Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
-    this->regs[SS_SIBUKI_MOVE_DELAY] = initParams->moveDelay + 1;
+    this->rMoveDelay = initParams->moveDelay + 1;
     this->draw = EffectSsSibuki_Draw;
     this->update = EffectSsSibuki_Update;
-    this->regs[SS_SIBUKI_DIRECTION] = initParams->direction;
-    this->regs[SS_SIBUKI_SCALE] = initParams->scale;
-    this->regs[SS_SIBUKI_PRIM_R] = 100;
-    this->regs[SS_SIBUKI_PRIM_G] = 100;
-    this->regs[SS_SIBUKI_PRIM_B] = 100;
-    this->regs[SS_SIBUKI_PRIM_A] = 100;
-    this->regs[SS_SIBUKI_ENV_R] = 255;
-    this->regs[SS_SIBUKI_ENV_G] = 255;
-    this->regs[SS_SIBUKI_ENV_B] = 255;
-    this->regs[SS_SIBUKI_ENV_A] = 255;
+    this->rDirection = initParams->direction;
+    this->rScale = initParams->scale;
+    this->rPrimColorR = 100;
+    this->rPrimColorG = 100;
+    this->rPrimColorB = 100;
+    this->rPrimColorA = 100;
+    this->rEnvColorR = 255;
+    this->rEnvColorG = 255;
+    this->rEnvColorB = 255;
+    this->rEnvColorA = 255;
 
     return 1;
 }
 
 void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    f32 scale;
-
-    scale = this->regs[SS_SIBUKI_SCALE] / 100.0f;
+    f32 scale = this->rScale / 100.0f;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_sibuki.c", 163);
 
@@ -77,10 +73,9 @@ void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_sibuki.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D18(gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->regs[SS_SIBUKI_PRIM_R], this->regs[SS_SIBUKI_PRIM_G],
-                    this->regs[SS_SIBUKI_PRIM_B], this->regs[SS_SIBUKI_PRIM_A]);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->regs[SS_SIBUKI_ENV_R], this->regs[SS_SIBUKI_ENV_G],
-                   this->regs[SS_SIBUKI_ENV_B], this->regs[SS_SIBUKI_ENV_A]);
+    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                    this->rPrimColorA);
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
     gSPSegment(oGfxCtx->polyOpa.p++, 0x08, this->gfx);
     gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
 
@@ -97,14 +92,14 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->life = 0;
     }
 
-    if (this->regs[SS_SIBUKI_MOVE_DELAY] != 0) {
-        this->regs[SS_SIBUKI_MOVE_DELAY]--;
+    if (this->rMoveDelay != 0) {
+        this->rMoveDelay--;
 
-        if (this->regs[SS_SIBUKI_MOVE_DELAY] == 0) {
+        if (this->rMoveDelay == 0) {
             yaw = func_8005A948(Gameplay_GetCamera(globalCtx, 0));
             xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
-            if (this->regs[SS_SIBUKI_DIRECTION] != 0) {
+            if (this->rDirection != 0) {
                 xzVelScale *= -1.0f;
             }
 
@@ -122,8 +117,8 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
             }
         }
     } else {
-        if (this->regs[SS_SIBUKI_SCALE] != 0) {
-            this->regs[SS_SIBUKI_SCALE] = (this->regs[SS_SIBUKI_SCALE] - KREG(26)) - 3;
+        if (this->rScale != 0) {
+            this->rScale = (this->rScale - KREG(26)) - 3;
         }
     }
 }
