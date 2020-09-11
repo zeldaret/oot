@@ -211,24 +211,28 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp64 = D_80A6D548;
         sp5C = this->actor.posRot.pos.y - this->actor.groundY;
         if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-            if (this->actor.posRot.pos.x == 355.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -245.0f) {
+            if (this->actor.posRot.pos.x == 355.0f && this->actor.posRot.pos.y == 0.0f &&
+                this->actor.posRot.pos.z == -245.0f) {
                 sp64.x = 235.0f;
                 sp64.y = 0.0f;
                 sp64.z = 100.0f;
                 sp62 = 0x7FFF;
-            } else if (this->actor.posRot.pos.x == 238.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -245.0f) {
+            } else if (this->actor.posRot.pos.x == 238.0f && this->actor.posRot.pos.y == 0.0f &&
+                       this->actor.posRot.pos.z == -245.0f) {
                 sp64.x = 478.0f;
                 sp64.y = 0.0f;
                 sp64.z = 100.0f;
                 sp62 = 0x7FFF;
             }
         } else if (globalCtx->sceneNum == SCENE_SPOT20) {
-            if (this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -1100.0f) {
+            if (this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f &&
+                this->actor.posRot.pos.z == -1100.0f) {
                 sp64.x = 780.0f;
                 sp64.y = 0.0f;
                 sp64.z = -80.0f;
                 sp62 = 0;
-            } else if (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f && this->actor.posRot.pos.z == -1170.0f) {
+            } else if (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f &&
+                       this->actor.posRot.pos.z == -1170.0f) {
                 sp64.x = -1000.0f;
                 sp64.y = 0.0f;
                 sp64.z = -70.0f;
@@ -236,7 +240,9 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         func_80A6CC88(globalCtx, this, &sp64);
-        SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, this->actor.scale.y, thisx->scale.z, thisx->shape.rot.x, sp62, thisx->shape.rot.z, sp64.x, (this->actor.shape.unk_08 * this->actor.scale.y) + sp64.y, sp64.z);
+        SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, this->actor.scale.y, thisx->scale.z,
+                                              thisx->shape.rot.x, sp62, thisx->shape.rot.z, sp64.x,
+                                              (this->actor.shape.unk_08 * this->actor.scale.y) + sp64.y, sp64.z);
         temp_v0_3 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
         if (temp_v0_3 != NULL) {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
