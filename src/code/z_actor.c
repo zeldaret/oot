@@ -3128,7 +3128,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
                                                     mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
         if (spawnedEnPart != NULL) {
             func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
-            spawnedEnPart->unk_150 = arg1->unk_0C[arg1->unk_08];
+            spawnedEnPart->displayList = arg1->unk_0C[arg1->unk_08];
             spawnedEnPart->actor.scale = actor->scale;
         }
 
@@ -4092,11 +4092,11 @@ EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, Vec3f* arg
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3->x;
-        spawnedEnPart->unk_150 = arg8;
-        spawnedEnPart->unk_14C = 2;
-        spawnedEnPart->unk_14E = arg4;
-        spawnedEnPart->unk_154 = arg3->y;
-        spawnedEnPart->unk_158 = arg3->z;
+        spawnedEnPart->displayList = arg8;
+        spawnedEnPart->action = 2;
+        spawnedEnPart->delay = arg4;
+        spawnedEnPart->rotation = arg3->y;
+        spawnedEnPart->rotationSpeed = arg3->z;
         return spawnedEnPart;
     }
 

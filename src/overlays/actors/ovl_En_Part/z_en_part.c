@@ -1,3 +1,9 @@
+/*
+ * File: z_en_part.c
+ * Overlay: ovl_En_Part
+ * Description: Particle emitter for enemies' death
+ */
+
 #include "z_en_part.h"
 
 #define FLAGS 0x00000010
@@ -9,7 +15,12 @@ void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx);
+void func_80ACE13C(EnPart* this, GlobalContext* globalCtx);
+void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx);
+void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx);
+void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx);
+
 const ActorInit En_Part_InitVars = {
     ACTOR_EN_PART,
     ACTORTYPE_ITEMACTION,
@@ -21,23 +32,305 @@ const ActorInit En_Part_InitVars = {
     (ActorFunc)EnPart_Update,
     (ActorFunc)EnPart_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/EnPart_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/EnPart_Destroy.s")
+static Vec3f D_80ACF1B0 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80ACF1BC = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80ACF1C8 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80ACF1D4 = { 0.0f, 8.0f, 0.0f };
+static Vec3f D_80ACF1E0 = { 0.0f, -1.5f, 0.0f };
+static Vec3f D_80ACF1EC = { 0.0f, 0.0f, 0.0f };
+static EnPartActionFunc sActionFuncs[] = { func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8, func_80ACE7E8 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/func_80ACDDE8.s")
+extern UNK_PTR D_06001300[];
+extern UNK_PTR D_06001700[];
+extern UNK_PTR D_06001900[];
+extern UNK_PTR D_06001B00[];
+extern UNK_PTR D_06001F00[];
+extern UNK_PTR D_06002100[];
+extern Gfx D_06002FF0[];
+extern Gfx D_06015380[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/func_80ACE13C.s")
+void EnPart_Init(Actor* thisx, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/func_80ACE5B8.s")
+void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/func_80ACE5C8.s")
+void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
+    f32 sign = 1.0f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/func_80ACE7E8.s")
+    this->action = 1;
+    this->actor.posRot.rot.y = Math_Rand_ZeroOne() * 20000.0f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/EnPart_Update.s")
+    switch (this->actor.params) {
+        case 0:
+            this->actor.velocity.y = 0.0f;
+            this->actor.gravity = -0.3f - Math_Rand_ZeroOne() * 0.5f;
+            this->rotationSpeed = 0.3f;
+            this->delay = 25;
+            this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            break;
+        case 13:
+            this->delay = 400;
+        case 12:
+            this->actor.speedXZ = Math_Rand_CenteredFloat(6.0f);
+            this->actor.initPosRot.pos = this->actor.posRot.pos;
+            this->delay += 60;
+            this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
+            this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
+            this->rotationSpeed = 0.15f;
+            break;
+        case 14:
+            func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1); // ~0x7FFE
+        case 1:
+        case 4:
+        case 9:
+        case 10:
+            this->delay += (s16)(Math_Rand_ZeroOne() * 17.0f) + 5;
+        case 2:
+            this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
+            this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
+            this->rotationSpeed = 0.15f;
+            break;
+        case 11:
+            func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1);
+        case 3:
+            this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
+            this->delay = (s16)(Math_Rand_ZeroOne() * 17.0f) + 10;
+            this->actor.velocity.y = Math_Rand_ZeroOne() * 3.0f + 8.0f;
+            this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.3f;
+            this->rotationSpeed = 0.15f;
+            break;
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+            this->actor.posRot.rot.y = this->actor.parent->shape.rot.y;
+            if (this->displayList == D_06015380) {
+                sign = -1.0f;
+            }
+            this->actor.velocity.y = 0.0f;
+            this->actor.speedXZ = 6.0f * sign;
+            this->actor.gravity = -1.2f;
+            this->rotationSpeed = 0.15f * sign;
+            ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+            this->delay = 18;
+            break;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/func_80ACEAC0.s")
+void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
+    s32 i;
+    Vec3f pos;
+    Vec3f velocity = D_80ACF1B0;
+    Vec3f accel = D_80ACF1BC;
+    Vec3f zero = D_80ACF1C8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Part/EnPart_Draw.s")
+    if ((this->actor.params == 12) || (this->actor.params == 13)) {
+        func_8002E4B4(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x1D);
+
+        if ((this->actor.bgCheckFlags & 1) || (this->actor.posRot.pos.y <= this->actor.groundY)) {
+            this->action = 4;
+            this->actor.speedXZ = 0.0f;
+            this->actor.gravity = 0.0f;
+            this->actor.velocity.y = 0.0f;
+        }
+
+        if (this->actor.params == 13) {
+            if ((this->actor.parent != NULL) && (this->actor.parent->update == NULL)) {
+                this->actor.parent = NULL;
+            }
+        }
+    } else if (this->delay <= 0) {
+        switch (this->actor.params) {
+            case 1:
+            case 9:
+            case 10:
+            case 14:
+                func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero,
+                              (s16)(this->actor.scale.y * 100.0f) * 40, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0xFF, 0, 1, 9, 1);
+                break;
+            case 3:
+            case 11:
+                func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero,
+                              (s16)(this->actor.scale.y * 100.0f) * 40, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
+                break;
+            case 4:
+                for (i = 7; i >= 0; i--) {
+                    pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(60.0f);
+                    pos.y = this->actor.posRot.pos.y + this->actor.shape.unk_08 * this->actor.scale.y +
+                            Math_Rand_CenteredFloat(50.0f);
+                    pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(60.0f);
+                    velocity.y = Math_Rand_ZeroOne() + 1.0f;
+                    func_80029618(globalCtx, &pos, &velocity, &accel, Math_Rand_S16Offset(80, 100), 0x19, 0, 1);
+                }
+                break;
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+                for (i = 4; i >= 0; i--) {
+                    pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(25.0f);
+                    pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(40.0f);
+                    pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(25.0f);
+                    func_8002A6B8(globalCtx, &pos, &zero, &zero, 0x28, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
+                }
+                break;
+        }
+
+        Actor_Kill(&this->actor);
+        return;
+    }
+
+    this->delay -= 1;
+    this->rotation += this->rotationSpeed;
+}
+
+void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx) {
+    this->action = 3;
+}
+
+void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    Vec3f velocity;
+    Vec3f accel;
+    u8 invincibilityTimer;
+
+    this->delay -= 1;
+    if (this->delay == 0) {
+        Actor_Kill(&this->actor);
+        return;
+    }
+
+    velocity = D_80ACF1D4;
+    accel = D_80ACF1E0;
+
+    if (sqrt(this->actor.xyzDistFromLinkSq) <= 40.0f) {
+        invincibilityTimer = player->invincibilityTimer;
+        if (player->invincibilityTimer <= 0) {
+            if (player->invincibilityTimer < -39) {
+                player->invincibilityTimer = 0;
+            } else {
+                player->invincibilityTimer = 0;
+                globalCtx->unk_11D58(globalCtx, -8);
+            }
+        }
+        func_8002F71C(globalCtx, this->actor.parent, (650.0f - this->actor.parent->xzDistFromLink) * 0.04f + 4.0f,
+                      this->actor.parent->posRot.rot.y, 8.0f);
+        player->invincibilityTimer = invincibilityTimer;
+        this->delay = 1;
+    }
+
+    func_80033480(globalCtx, &this->actor.posRot.pos, 0.0f, 1, 300, 150, 1);
+    velocity.x = Math_Rand_CenteredFloat(16.0f);
+    func_80029724(globalCtx, &this->actor.posRot.pos, &velocity, &accel, 20,
+                  (s32)((Math_Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, 0);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_GNDWAVE - SFX_FLAG);
+}
+
+void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
+    Vec3f zero = D_80ACF1EC;
+    f32 dist;
+
+    if ((this->actor.parent == NULL) || (this->actor.parent->update == NULL)) {
+        func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero, (s16)(this->actor.scale.y * 100.0f) * 40, 7,
+                      0xFF, 0xFF, 0xFF, 0xFF, 0, 0xFF, 0, 1, 9, 1);
+        Actor_Kill(&this->actor);
+        return;
+    }
+
+    if (this->delay == 0) {
+        dist = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f, 5.0f, 0.0f);
+        dist += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 1.0f, 5.0f, 0.0f);
+        dist += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f, 5.0f, 0.0f);
+        dist += Math_SmoothScaleMaxMinF(&this->rotation, 0.0f, 1.0f, 0.25f, 0.0f);
+        if (dist == 0.0f) {
+            this->actor.parent->initPosRot.rot.x -= 1;
+            this->delay -= 1;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
+        }
+    } else if (this->delay > 0) {
+        this->delay -= 1;
+    }
+
+    if (this->actor.parent->colChkInfo.health) {
+        Actor_Kill(&this->actor);
+    }
+}
+
+void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnPart* this = THIS;
+
+    Actor_MoveForward(&this->actor);
+
+    if ((this->actor.params > 4 && this->actor.params < 9) || this->actor.params < 0) {
+        func_8002E4B4(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 5);
+        if (this->actor.params >= 0) {
+            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+            if (thisx->bgCheckFlags & 1) {
+                thisx->bgCheckFlags &= ~1;
+                thisx->velocity.y = 6.0f;
+            }
+        }
+    }
+
+    sActionFuncs[this->action](this, globalCtx);
+}
+
+Gfx* func_80ACEAC0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
+    Gfx* displayList;
+    Gfx* displayListHead;
+
+    displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    displayListHead = displayList;
+
+    gDPPipeSync(displayListHead++);
+    gDPSetPrimColor(displayListHead++, 0, 0, primR, primG, primB, 255);
+    gDPSetEnvColor(displayListHead++, envR, envG, envB, 255);
+    gSPEndDisplayList(displayListHead++);
+
+    return displayList;
+}
+
+void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnPart* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_part.c", 647);
+
+    if (thisx->params > 0) {
+        Matrix_RotateZ(this->rotation, MTXMODE_APPLY);
+    }
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_8002EBCC(thisx, globalCtx, 0);
+
+    if (thisx->params == 5) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80ACEAC0(globalCtx->state.gfxCtx, 245, 255, 205, 30, 35, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80ACEAC0(globalCtx->state.gfxCtx, 185, 135, 25, 20, 20, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80ACEAC0(globalCtx->state.gfxCtx, 255, 255, 255, 30, 40, 20));
+    } else if (thisx->params == 6) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80ACEAC0(globalCtx->state.gfxCtx, 55, 65, 55, 0, 0, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80ACEAC0(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80ACEAC0(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+    } else if (thisx->params == 7) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80ACEAC0(globalCtx->state.gfxCtx, 255, 255, 255, 180, 180, 180));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80ACEAC0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80ACEAC0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+    } else if ((thisx->params == 9) && (this->displayList == D_06002FF0)) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_06001300));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_06001700));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_06001900));
+    } else if ((thisx->params == 10) && (this->displayList == D_06002FF0)) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_06001B00));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_06001F00));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_06002100));
+    }
+
+    if (this->displayList != NULL) {
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_part.c", 696),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, this->displayList);
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_part.c", 700);
+}
