@@ -26,9 +26,19 @@ static ColliderCylinderInit sCylinderInit = {
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
-s32 D_808A898C[] = { 0xFFAAFFFF, 0xFFC800FF, 0x00AAFFFF, 0xAAFF00FF };
+static Color_RGBA8 primColors[] = {
+    { 255, 170, 255, 255 },
+    { 255, 200, 0, 255 },
+    { 0, 170, 255, 255 },
+    { 170, 255, 0, 255 },
+};
 
-s32 D_808A899C[] = { 0x6400FFFF, 0xFF0000FF, 0x0000FFFF, 0x009600FF };
+static Color_RGBA8 envColors[] = {
+    { 100, 0, 255, 255 },
+    { 255, 0, 0, 255 },
+    { 0, 0, 255, 255 },
+    { 0, 150, 0, 255 },
+};
 
 const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
@@ -45,6 +55,9 @@ const ActorInit Bg_Po_Syokudai_InitVars = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
+
+extern Gfx D_060003A0[]; // Display List
+extern Gfx D_0404D4E0[]; // Display List
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
@@ -116,4 +129,51 @@ void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->flameTextureScroll++;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Syokudai/BgPoSyokudai_Draw.s")
+void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgPoSyokudai* this = THIS;
+
+    f32 lightBrightness;
+    u8 red;
+    u8 green;
+    u8 blue;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060003A0);
+
+    if (Flags_GetSwitch(globalCtx, this->actor.params)) {
+        Color_RGBA8* primColor = &primColors[this->poeSisterColor];
+        Color_RGBA8* envColor = &envColors[this->poeSisterColor];
+
+        lightBrightness = (0.3f * Math_Rand_ZeroOne()) + 0.7f;
+
+        red = (u8)(primColor->r * lightBrightness);
+        green = (u8)(primColor->g * lightBrightness);
+        blue = (u8)(primColor->b * lightBrightness);
+
+        Lights_PointSetColorAndRadius(&this->lightInfo, red, green, blue, 200);
+
+        func_80093D84(globalCtx->state.gfxCtx);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
+                                    (this->flameTextureScroll * -20) & 0x1FF, 32, 128));
+
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, primColor->r, primColor->g, primColor->b, 255);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, envColor->r, envColor->g, envColor->b, 255);
+
+        Matrix_Translate(0.0f, 52.0f, 0.0f, 1);
+        Matrix_RotateY(
+            (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
+                (M_PI / (f32)0x8000),
+            1);
+        Matrix_Scale(0.0027f, 0.0027f, 0.0027f, 1);
+
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 373);
+}
