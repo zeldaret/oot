@@ -92,7 +92,16 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->flameTextureScroll = (s16)(Math_Rand_ZeroOne() * 20.0f);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Syokudai/BgPoSyokudai_Destroy.s")
+void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgPoSyokudai* this = THIS;
+
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+
+    if (globalCtx->envCtx.unk_BF != 0xFF) {
+        globalCtx->envCtx.unk_BF = 0xFF;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Syokudai/BgPoSyokudai_Update.s")
 
