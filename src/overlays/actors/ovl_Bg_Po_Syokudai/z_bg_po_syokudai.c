@@ -15,6 +15,9 @@
 #define POE_SISTER_BLUE 2   // Beth
 #define POE_SISTER_GREEN 3  // Amy
 
+#define IS_POE_SISTER_BEATEN(color) Flags_GetSwitch(globalCtx, 0x1C + POE_SISTER_##color)
+#define IS_THIS_POE_SISTER_BEATEN() Flags_GetSwitch(globalCtx, this->actor.params)
+
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -82,21 +85,20 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.dim.pos.y = this->actor.posRot.pos.y;
     this->collider.dim.pos.z = this->actor.posRot.pos.z;
 
-    if (this->poeSisterColor == POE_SISTER_PURPLE && Flags_GetSwitch(globalCtx, 0x1F) &&
-        Flags_GetSwitch(globalCtx, 0x1E) && Flags_GetSwitch(globalCtx, 0x1D) &&
-        !Flags_GetSwitch(globalCtx, this->actor.params)) {
+    if (this->poeSisterColor == POE_SISTER_PURPLE && IS_POE_SISTER_BEATEN(GREEN) && IS_POE_SISTER_BEATEN(BLUE) &&
+        IS_POE_SISTER_BEATEN(RED) && !IS_THIS_POE_SISTER_BEATEN()) {
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0,
                     this->actor.params);
         globalCtx->envCtx.unk_BF = 0x4;
 
-    } else if (!Flags_GetSwitch(globalCtx, 0x1C) && !Flags_GetSwitch(globalCtx, 0x1B)) {
+    } else if (!IS_POE_SISTER_BEATEN(PURPLE) && !Flags_GetSwitch(globalCtx, 0x1B)) {
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.posRot.pos.x,
                     this->actor.posRot.pos.y + 52.0f, this->actor.posRot.pos.z, 0, 0, 0,
                     (this->poeSisterColor << 8) + this->actor.params + 0x1000);
 
-    } else if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
+    } else if (!IS_THIS_POE_SISTER_BEATEN()) {
         if (globalCtx->envCtx.unk_BF == 0xFF) {
             globalCtx->envCtx.unk_BF = 4;
         }
@@ -144,7 +146,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_060003A0);
 
-    if (Flags_GetSwitch(globalCtx, this->actor.params)) {
+    if (IS_THIS_POE_SISTER_BEATEN()) {
         Color_RGBA8* primColor = &primColors[this->poeSisterColor];
         Color_RGBA8* envColor = &envColors[this->poeSisterColor];
 
