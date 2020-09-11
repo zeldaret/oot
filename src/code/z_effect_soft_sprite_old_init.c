@@ -55,10 +55,10 @@ static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* texture) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 scale;
-    MtxF sp120;
-    MtxF spE0;
-    MtxF spA0;
-    MtxF sp60;
+    MtxF mfTrans;
+    MtxF mfScale;
+    MtxF mfResult;
+    MtxF mfTrans11DA0;
     s32 pad1;
     Mtx* mtx;
     void* object;
@@ -68,14 +68,14 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* textur
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
     scale = this->rScale * 0.0025f;
-    SkinMatrix_SetTranslate(&sp120, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetScale(&spE0, scale, scale, scale);
-    SkinMatrix_MtxFMtxFMult(&sp120, &globalCtx->mf_11DA0, &sp60);
-    SkinMatrix_MtxFMtxFMult(&sp60, &spE0, &spA0);
+    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&mfScale, scale, scale, scale);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
+    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
 
-    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spA0);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

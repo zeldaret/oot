@@ -17,7 +17,7 @@
 #define rEnvColorG regs[8]
 #define rEnvColorB regs[9]
 #define rEnvColorA regs[10]
-#define rType regs[11] // in EffectSs_DrawGEffect this reg is used as an object bank index
+#define rType regs[11] // in EffectSs_DrawGEffect this is used as an object bank index for what gets loaded to segment 6
 
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParams);
 void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
