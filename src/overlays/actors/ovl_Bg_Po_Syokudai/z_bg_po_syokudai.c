@@ -103,6 +103,17 @@ void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Syokudai/BgPoSyokudai_Update.s")
+void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgPoSyokudai* this = THIS;
+
+    s32 pad;
+
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    if (Flags_GetSwitch(globalCtx, this->actor.params)) {
+        func_8002F974(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+    }
+    this->flameTextureScroll++;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Syokudai/BgPoSyokudai_Draw.s")
