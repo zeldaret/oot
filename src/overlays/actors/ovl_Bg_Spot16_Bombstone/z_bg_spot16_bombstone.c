@@ -22,7 +22,6 @@ extern s32 D_060009E0;
 s16 D_808B5DD0 = 0;
 s16 D_808B5DD4 = 0;
 
-
 D_808B5DD8Struct D_808B5DD8[6] = {
     { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
     { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
@@ -74,14 +73,10 @@ const ActorInit Bg_Spot16_Bombstone_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(wallPoly, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(floorPoly, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(wallPolySource, 1000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
-// 
-// InitChain
-// s32 D_808B603C[] = {
-//     0xB0F407D0, 0xB0F801F4, 0x30FC03E8 };
 
 s32 D_808B6048[] = { 0xB06CFFFF, 0xB070FFF6, 0xB0F403E8, 0xB0F800C8, 0x30FC03E8 };
 s32 D_808B605C[] = { 0x00000000, 0x00000000, 0x00000000 };
@@ -89,9 +84,9 @@ s32 D_808B6068[] = { 0x00000000, 0x3ECCCCCD, 0x00000000 };
 
 s32 D_808B6074[] = { 0x42840000, 0x424C0000, 0x42400000, 0x42100000, 0x41A80000 };
 
-s16 D_808B6088[] = { 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x04 };
+s16 D_808B6088[] = {0, 1, 2, 3, 4};
 
-s8 D_808B6092[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+s16 D_808B6092[] = {0x00};
 
 s16 func_808B4C30(BgSpot16Bombstone* this) {
     s16 temp_v0;
@@ -137,7 +132,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     func_808B4D04(this, globalCtx);
     this->unk_15C = Math_Sins(this->actor.shape.rot.y);
     this->unk_160 = Math_Coss(this->actor.shape.rot.y);
-    this->unk_150 = D_06000C20;
+    this->unk_150 = &D_06000C20;
 
     func_808B5934(this);
     return 1;
@@ -145,53 +140,53 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4D9C.s")
 
-s16 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
+// s16 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 
-    f32 multiplier = 50.0f;
-    f32 scaleMultiplier = 0.0016666667f;
-    f32 sinValue;
-    f32 temp;
-    f32 cosValue;
-    Actor* actor = &this->actor;
+//     f32 multiplier = 50.0f;
+//     f32 scaleMultiplier = 0.0016666667f;
+//     f32 sinValue;
+//     f32 temp;
+//     f32 cosValue;
+//     Actor* actor = &this->actor;
 
-    Actor_ProcessInitChain(actor, sInitChain);
+//     Actor_ProcessInitChain(actor, sInitChain);
 
-    actor->speedXZ = D_808B5DD8[actor->params].speed;
-    actor->velocity.y = D_808B5DD8[actor->params].velocity;
+//     actor->speedXZ = D_808B5DD8[actor->params].speed;
+//     actor->velocity.y = D_808B5DD8[actor->params].velocity;
 
-    Actor_SetScale(actor, D_808B5DD8[actor->params].scale * scaleMultiplier);
+//     Actor_SetScale(actor, D_808B5DD8[actor->params].scale * scaleMultiplier);
 
-    temp = D_808B5DD8[actor->params].unk_6;
-    this->unk_210 = temp;
+//     temp = D_808B5DD8[actor->params].unk_6;
+//     this->unk_210 = temp;
 
-    temp = D_808B5DD8[actor->params].unk_8;
-    this->unk_212 = temp;
+//     temp = D_808B5DD8[actor->params].unk_8;
+//     this->unk_212 = temp;
 
-    actor->posRot.rot.y = D_808B5DD8[actor->params].unk_A;
+//     actor->posRot.rot.y = D_808B5DD8[actor->params].unk_A;
 
-    sinValue = Math_Sins(this->actor.posRot.rot.y);
-    cosValue = Math_Coss(this->actor.posRot.rot.y);
+//     sinValue = Math_Sins(this->actor.posRot.rot.y);
+//     cosValue = Math_Coss(this->actor.posRot.rot.y);
 
-    actor->posRot.pos.x = (sinValue * multiplier) + actor->initPosRot.pos.x;
-    actor->posRot.pos.y = D_808B5DD8[actor->params].unk_C + actor->initPosRot.pos.y;
-    actor->posRot.pos.z = (cosValue * multiplier) + actor->initPosRot.pos.z;
+//     actor->posRot.pos.x = (sinValue * multiplier) + actor->initPosRot.pos.x;
+//     actor->posRot.pos.y = D_808B5DD8[actor->params].unk_C + actor->initPosRot.pos.y;
+//     actor->posRot.pos.z = (cosValue * multiplier) + actor->initPosRot.pos.z;
 
-    actor->shape.rot.x = D_808B5DD8[actor->params].unk_E.x;
-    actor->shape.rot.y = D_808B5DD8[actor->params].unk_E.y;
-    actor->shape.rot.z = D_808B5DD8[actor->params].unk_E.z;
+//     actor->shape.rot.x = D_808B5DD8[actor->params].unk_E.x;
+//     actor->shape.rot.y = D_808B5DD8[actor->params].unk_E.y;
+//     actor->shape.rot.z = D_808B5DD8[actor->params].unk_E.z;
 
-    this->unk_150 = &D_060009E0;
-    this->unk_214 = Object_GetIndex(&globalctx->objectCtx, 0x163);
+//     this->unk_150 = &D_060009E0;
+//     this->unk_214 = Object_GetIndex(&globalctx->objectCtx, 0x163);
 
-    if (this->unk_214 < 0) {
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params,
-                     "../z_bg_spot16_bombstone.c", 0x24D);
-        return 0;
-    }
+//     if (this->unk_214 < 0) {
+//         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params,
+//                      "../z_bg_spot16_bombstone.c", 0x24D);
+//         return 0;
+//     }
 
-    func_808B5AF0(this);
-    return 1;
-}
+//     func_808B5AF0(this);
+//     return 1;
+// }
 
 // s16 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 //     Actor *actor = &this->actor;
@@ -230,7 +225,7 @@ s16 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 //     return 1;
 // }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4E58.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4E58.s")
 
 // void BgSpot16Bombstone_Init(Actor *thisx, GlobalContext *globalCtx) {
 //     short phi_v1;
@@ -369,19 +364,25 @@ temp_s0; if (temp_s0 != D_808B6088) { goto loop_4;
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B53A8.s")
 
 void func_808B561C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
-    PosRot* temp_s1;
     int i;
+    PosRot* temp_s1;
 
     temp_s1 = &this->actor.posRot;
     for (i = 0; i < ARRAY_COUNT(D_808B6088); i++) {
-        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0xCD, temp_s1->pos.x, temp_s1->pos.y, temp_s1->pos.z, 0, 0, 0,
+        if (Actor_Spawn(&globalCtx->actorCtx, 
+                        globalCtx, 
+                        0xCD, 
+                        temp_s1->pos.x, 
+                        temp_s1->pos.y, 
+                        temp_s1->pos.z, 
+                        0, 
+                        0, 
+                        0,
                         D_808B6088[i]) == 0) {
             return;
         }
     }
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bombstone/func_809B561C.s")
 
 /*
 void func_808B56BC(void *arg0, void *arg1) {

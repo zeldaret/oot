@@ -19,6 +19,14 @@ typedef struct D_808B5DD8Struct {
     Vec3s unk_E; // assigned to actor.shape.rot
 } D_808B5DD8Struct; // size = 0x14
 
+typedef struct D_808B6088Struct {
+    s16 temp0;
+    s16 temp1;
+    s16 temp2;
+    s16 temp3;
+    s16 temp4;
+} D_808B6088Struct;
+
 typedef struct BgSpot16Bombstone {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BgSpot16BombstoneActionFunc actionFunc;
