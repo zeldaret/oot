@@ -10,19 +10,22 @@ typedef void (*EnMbActionFunc)(struct EnMb*, GlobalContext*);
 
 typedef struct EnMb {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x40];
+    /* 0x014C */ char unk_14C[0x3C];
+    /* 0x0188 */ u8 unk_188;
+    /* 0x0189 */ char unk_189[3];
     /* 0x018C */ SkelAnime skelAnime;
     /* 0x01D0 */ Vec3s limbDrawTable[28];
     /* 0x0278 */ Vec3s transitionDrawTable[28];
     /* 0x0320 */ s32 unk_320;
     /* 0x0324 */ EnMbActionFunc actionFunc; 
-    /* 0x0328 */ char unk_328[0x2];
+    /* 0x0328 */ s16 unk_328;
     /* 0x032A */ s16 unk_32A;
-    /* 0x032C */ s16 unk_32C;
+    /* 0x032C */ s16 soundTimer;
     /* 0x032E */ s16 unk_32E;
     /* 0x0330 */ char unk_330[2];
     /* 0x0332 */ s16 unk_332;
-    /* 0x0334 */ char unk_334[0x28]; 
+    /* 0x0334 */ s16 chaseHitboxEnable;
+    /* 0x0334 */ char unk_336[0x26]; 
     /* 0x035C */ u8 unk_35C;
     /* 0x035D */ s8 unk_35D;
     /* 0x035E */ char unk_35E;

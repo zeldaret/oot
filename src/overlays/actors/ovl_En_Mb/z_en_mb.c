@@ -199,6 +199,11 @@ extern SkeletonHeader D_06014190;
 extern AnimationHeader D_0600EBE4;
 extern AnimationHeader D_060041A8;
 extern AnimationHeader D_06009FC0;
+extern AnimationHeader D_06002C10;
+extern AnimationHeader D_06002F10;
+extern AnimationHeader D_06009280;
+extern AnimationHeader D_06001950;
+
 
 void func_80AA68FC(EnMb* this, GlobalContext* globalCtx);
 void func_80AA6898(EnMb* this);
@@ -206,6 +211,10 @@ void func_80AA7134(EnMb* this, GlobalContext* globalCtx);
 void func_80AA6830(EnMb* this);
 void func_80AA6974(EnMb* this);
 void func_80AA87D8(EnMb* this, GlobalContext* globalCtx);
+void func_80AA77D0(EnMb* this, GlobalContext* globalCtx);
+void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx);
+void func_80AA7310(EnMb* this, GlobalContext* globalCtx);
+void func_80AA702C(EnMb* this, GlobalContext* globalCtx);
 
 void func_80AA6050(EnMb* this, EnMbActionFunc actionFunc) {//Setup Action Func
     this->actionFunc = actionFunc;
@@ -319,13 +328,36 @@ void func_80AA6974(EnMb *this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6A18.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6AC8.s")
+void func_80AA6AC8(EnMb *this) {
+    f32 frameCount;
+
+    frameCount =  SkelAnime_GetFrameCount(&D_06002C10);
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime,&D_06002C10, -4.0f);
+    this->unk_320 = 10;
+    this->actor.speedXZ = 0.0f;
+    this->unk_32E = (s16)frameCount + 6;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_AT);
+    if (this->actor.params == -1) {
+        func_80AA6050(this, func_80AA77D0);
+    } else {
+        func_80AA6050(this, func_80AA7CAC);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6B80.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6BF0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6CC0.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6CC0.s")
+void func_80AA6CC0(EnMb *this) {
+    //this = this;
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06009280);
+    this->unk_320 = 11;
+    this->unk_32A = 0;
+    this->unk_32E = 5;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SLIDE);
+    func_80AA6050(this, func_80AA7310);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6D20.s")
 
@@ -337,16 +369,62 @@ void func_80AA6974(EnMb *this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6F04.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6F8C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6F8C.s")
+void func_80AA6F8C(EnMb* this) {
+    this->unk_320 = 5;
+    this->actor.speedXZ = 0.0f;
+    func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+    if (this->unk_188 == 6) {
+        this->unk_328 = 0x28;
+    } else {
+        if (this->actor.params != 0) {
+            SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_06001950, 0.0f);
+        }
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    }
+    func_80AA6050(this, func_80AA702C);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA702C.s")
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA702C.s")
+void func_80AA702C(EnMb *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    
+    if ((player->stateFlags2 & 0x80) != 0) {
+        if (&this->actor == player->actor.parent) {
+            player->stateFlags2 = (player->stateFlags2 & -0x81);
+            player->actor.parent = 0;
+            player->unk_850 = 200;
+            func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
+            this->chaseHitboxEnable = 0;
+        }
+    }
+    if (this->actor.dmgEffectTimer == 0) {
+        if (this->actor.params == 0) {
+            if (this->actor.colChkInfo.health != 0) {
+                if (this->unk_320 != 3) {
+                    func_80AA6898(this);
+                    return;
+                }
+                func_80AA6E7C(this);
+                return;
+            }
+            func_80AA6F04(this);
+            return;
+        }
+        if (this->actor.colChkInfo.health == 0) {
+            func_80AA8FC8(this);//Die
+        } else {
+            func_80AA8E88(this);
+        }
+    }
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7134.s")
 void func_80AA7134(EnMb *this, GlobalContext *globalCtx) {
     s16 phi_v0;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-   // temp_v1 = this->unk_32A;
     if (this->unk_32A == 0) {
         phi_v0 = 0;
     } else {
@@ -362,13 +440,76 @@ void func_80AA7134(EnMb *this, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA71AC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7310.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7310.s")
+void func_80AA7310(EnMb *this, GlobalContext *globalCtx) {
+    s32 pad;
+
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
+    if (1.0f < this->actor.speedXZ) {
+        func_80033260(globalCtx, &this->actor, &this->actor.posRot, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
+    }
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        if (this->unk_32A == 0) {
+            this->unk_32E = (this->unk_32E - 1);
+            if (this->unk_32E == 0) {
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C10, -1.0f, (f32) SkelAnime_GetFrameCount(&D_06002C10), 0.0f, 2, 0.0f);
+                this->unk_32A = 1;
+                this->actor.speedXZ = 0.0f;
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
+                return;
+            }
+        } else {
+            if (this->actor.params < 0) {
+                func_80AA6974(this);
+                this->unk_32E = 0x50;
+                this->soundTimer = this->unk_32E;
+                this->unk_32A = this->unk_32E;
+                return;
+            }
+            func_80AA68FC(this, globalCtx);
+        }
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7478.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA74BC.s")
 
+#ifdef NON_MATCHING
+//Regaloc 
+void func_80AA77D0(EnMb *this, GlobalContext *globalCtx) {//Chase link
+    s32 currentFrame;
+    s16 temp_v0;
+
+    temp_v0 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    if (temp_v0 < 0) {
+        temp_v0 =- temp_v0;
+    }
+    currentFrame = this->skelAnime.animCurrentFrame;
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06002F10);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
+    }
+    if (this->unk_32E != 0) {
+        this->unk_32E--;
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 3000, 0);
+    } else {
+        this->actor.speedXZ = 10.0f;
+        this->chaseHitboxEnable = 1;
+        func_80033260(globalCtx, &this->actor, &this->actor.posRot, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
+        if ((currentFrame != (s32)this->skelAnime.animCurrentFrame) && ((currentFrame == 2) || (currentFrame == 6))){
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
+        }
+    }
+    if (temp_v0 >= 0x1389) {
+        this->chaseHitboxEnable = 0;
+        func_80AA6CC0(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA77D0.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
 
@@ -416,31 +557,31 @@ void func_80AA87D8(EnMb *this, GlobalContext *globalCtx) {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 750, 0);
         this->actor.flags =  (this->actor.flags | 1);
         if (this->actor.xzDistFromLink < 500.0f) {
-            if ( temp_v1 < 5000) {
+            if ( temp_v1 < 0x1388) {
                 func_80AA6AC8(this);
             }
         }
     } else {
         this->actor.flags = (this->actor.flags & -2);
-        if ((this->unk_360 < Math_Vec3f_DistXZ(&this->actor.posRot,  &this->actor.initPosRot)) ||  (this->unk_32C != 0)) {
+        if ((this->unk_360 < Math_Vec3f_DistXZ(&this->actor.posRot,  &this->actor.initPosRot)) ||  (this->soundTimer != 0)) {
             Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot, &this->actor.initPosRot), 1, 750, 0);
         } else {
  
         }
-        if ( this->unk_32C != 0) {
-            this->unk_32C = this->unk_32C - 1;
+        if ( this->soundTimer != 0) {
+            this->soundTimer = this->soundTimer - 1;
         }
         if (this->unk_32E != 0) {
             this->unk_32E = this->unk_32E - 1;
         }
-        if ( this->unk_32C == 0) {
+        if ( this->soundTimer == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
         }
         this->unk_32A = this->unk_32A - 1;
         if (this->unk_32A == 0) {
             if (0.7f < Math_Rand_ZeroOne()) {
                 this->unk_32A = Math_Rand_S16Offset(0x32, 0x46);
-                this->unk_32C = Math_Rand_S16Offset(0xF, 0x28);
+                this->soundTimer = Math_Rand_S16Offset(0xF, 0x28);
             } else {
                 func_80AA6830(this);
             }
@@ -465,7 +606,7 @@ block_31:
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
-else
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA87D8.s")
 #endif
 
