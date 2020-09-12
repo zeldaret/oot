@@ -22,8 +22,6 @@ ICHAIN_MACROS = [
 
 Z64_ACTOR_PATH = "../include/z64actor.h"
 
-actor_variable_names = {}
-
 def get_rom_address(offset):
     # Run the sym_info script and parse out the ROM address
     stream = os.popen('cd .. && python3 sym_info.py ' + offset)
@@ -31,6 +29,7 @@ def get_rom_address(offset):
     rom_address = re.match(r'.*ROM:\s+(.*),.*', output)
 
     if rom_address:
+        # Get the address from index 1 and chop off the 0x part
         return rom_address[1][2:]
     return None
 
@@ -40,11 +39,11 @@ def get_actor_var_names():
     with open(Z64_ACTOR_PATH) as actor_h:
         for line in actor_h:
             if in_actor:
-                # Check if we've reached the end of the Actor struct
                 if "}" in line:
+                    # Reached the end of the actor struct so break out
                     break
                 
-                # Parse out the memory address from the comment and the variable name
+                # Parse out the memory address (from the comment) and the variable name
                 regex = r'.*\/\* (.*) \*\/\s+(struct)?\s*.+\s+(.+);.*'
                 actor_var_info = re.match(regex, line)
 
