@@ -916,3 +916,7 @@ D_0600018C = 0x0600018C;
 // z_en_dy_extra
 D_0601BFB0 = 0x0601BFB0;
 D_0601C160 = 0x0601C160;
+
+// z_bg_ddan_jd
+D_06003CE0 = 0x06003CE0; //collision
+D_060037B8 = 0x060037B8; //dlist
