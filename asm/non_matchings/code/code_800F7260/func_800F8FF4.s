@@ -3,9 +3,9 @@ glabel func_800F8FF4
 /* B70198 800F8FF8 000E7B02 */  srl   $t7, $t6, 0xc
 /* B7019C 800F8FFC 31F800FF */  andi  $t8, $t7, 0xff
 /* B701A0 800F9000 0018C880 */  sll   $t9, $t8, 2
-/* B701A4 800F9004 3C038013 */  lui   $v1, %hi(D_801333A8)
+/* B701A4 800F9004 3C038013 */  lui   $v1, %hi(gSoundBanks)
 /* B701A8 800F9008 00791821 */  addu  $v1, $v1, $t9
-/* B701AC 800F900C 8C6333A8 */  lw    $v1, %lo(D_801333A8)($v1)
+/* B701AC 800F900C 8C6333A8 */  lw    $v1, %lo(gSoundBanks)($v1)
 /* B701B0 800F9010 240600FF */  li    $a2, 255
 /* B701B4 800F9014 24070030 */  li    $a3, 48
 /* B701B8 800F9018 9062002D */  lbu   $v0, 0x2d($v1)

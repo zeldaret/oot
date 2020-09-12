@@ -2,9 +2,9 @@ glabel func_800F87A0
 /* B6F940 800F87A0 27BDFF80 */  addiu $sp, $sp, -0x80
 /* B6F944 800F87A4 AFB60030 */  sw    $s6, 0x30($sp)
 /* B6F948 800F87A8 309600FF */  andi  $s6, $a0, 0xff
-/* B6F94C 800F87AC 3C0F8013 */  lui   $t7, %hi(D_801333A8) # $t7, 0x8013
+/* B6F94C 800F87AC 3C0F8013 */  lui   $t7, %hi(gSoundBanks) # $t7, 0x8013
 /* B6F950 800F87B0 AFB20020 */  sw    $s2, 0x20($sp)
-/* B6F954 800F87B4 25EF33A8 */  addiu $t7, %lo(D_801333A8) # addiu $t7, $t7, 0x33a8
+/* B6F954 800F87B4 25EF33A8 */  addiu $t7, %lo(gSoundBanks) # addiu $t7, $t7, 0x33a8
 /* B6F958 800F87B8 00167080 */  sll   $t6, $s6, 2
 /* B6F95C 800F87BC 01CF9021 */  addu  $s2, $t6, $t7
 /* B6F960 800F87C0 8E430000 */  lw    $v1, ($s2)

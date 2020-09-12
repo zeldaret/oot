@@ -8,10 +8,10 @@ glabel func_800F32F0
 /* B6A494 800F32F4 308400FF */  andi  $a0, $a0, 0xff
 /* B6A498 800F32F8 AFA50004 */  sw    $a1, 4($sp)
 /* B6A49C 800F32FC 00047080 */  sll   $t6, $a0, 2
-/* B6A4A0 800F3300 3C0F8013 */  lui   $t7, %hi(D_801333A8)
+/* B6A4A0 800F3300 3C0F8013 */  lui   $t7, %hi(gSoundBanks)
 /* B6A4A4 800F3304 30A500FF */  andi  $a1, $a1, 0xff
 /* B6A4A8 800F3308 01EE7821 */  addu  $t7, $t7, $t6
-/* B6A4AC 800F330C 8DEF33A8 */  lw    $t7, %lo(D_801333A8)($t7)
+/* B6A4AC 800F330C 8DEF33A8 */  lw    $t7, %lo(gSoundBanks)($t7)
 /* B6A4B0 800F3310 0005C080 */  sll   $t8, $a1, 2
 /* B6A4B4 800F3314 0305C023 */  subu  $t8, $t8, $a1
 /* B6A4B8 800F3318 0018C100 */  sll   $t8, $t8, 4

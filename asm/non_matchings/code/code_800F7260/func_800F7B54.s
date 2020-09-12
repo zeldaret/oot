@@ -6,8 +6,8 @@ glabel func_800F7B54
 /* B6ED04 800F7B64 AFB00018 */  sw    $s0, 0x18($sp)
 /* B6ED08 800F7B68 030B0019 */  multu $t8, $t3
 /* B6ED0C 800F7B6C 309000FF */  andi  $s0, $a0, 0xff
-/* B6ED10 800F7B70 3C0F8013 */  lui   $t7, %hi(D_801333A8) # $t7, 0x8013
-/* B6ED14 800F7B74 25EF33A8 */  addiu $t7, %lo(D_801333A8) # addiu $t7, $t7, 0x33a8
+/* B6ED10 800F7B70 3C0F8013 */  lui   $t7, %hi(gSoundBanks) # $t7, 0x8013
+/* B6ED14 800F7B74 25EF33A8 */  addiu $t7, %lo(gSoundBanks) # addiu $t7, $t7, 0x33a8
 /* B6ED18 800F7B78 00107080 */  sll   $t6, $s0, 2
 /* B6ED1C 800F7B7C 01CF5021 */  addu  $t2, $t6, $t7
 /* B6ED20 800F7B80 8D490000 */  lw    $t1, ($t2)

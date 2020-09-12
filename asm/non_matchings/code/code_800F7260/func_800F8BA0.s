@@ -3,13 +3,13 @@ glabel func_800F8BA0
 /* B6FD44 800F8BA4 AFBE0038 */  sw    $fp, 0x38($sp)
 /* B6FD48 800F8BA8 AFA50094 */  sw    $a1, 0x94($sp)
 /* B6FD4C 800F8BAC 97BE0096 */  lhu   $fp, 0x96($sp)
-/* B6FD50 800F8BB0 3C088013 */  lui   $t0, %hi(D_801333A8) # $t0, 0x8013
+/* B6FD50 800F8BB0 3C088013 */  lui   $t0, %hi(gSoundBanks) # $t0, 0x8013
 /* B6FD54 800F8BB4 AFB40028 */  sw    $s4, 0x28($sp)
 /* B6FD58 800F8BB8 33CEF000 */  andi  $t6, $fp, 0xf000
 /* B6FD5C 800F8BBC 000E7B03 */  sra   $t7, $t6, 0xc
 /* B6FD60 800F8BC0 31F800FF */  andi  $t8, $t7, 0xff
 /* B6FD64 800F8BC4 0018C880 */  sll   $t9, $t8, 2
-/* B6FD68 800F8BC8 250833A8 */  addiu $t0, %lo(D_801333A8) # addiu $t0, $t0, 0x33a8
+/* B6FD68 800F8BC8 250833A8 */  addiu $t0, %lo(gSoundBanks) # addiu $t0, $t0, 0x33a8
 /* B6FD6C 800F8BCC 0328A021 */  addu  $s4, $t9, $t0
 /* B6FD70 800F8BD0 8E890000 */  lw    $t1, ($s4)
 /* B6FD74 800F8BD4 AFBF003C */  sw    $ra, 0x3c($sp)

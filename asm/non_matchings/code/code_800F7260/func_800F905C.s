@@ -59,10 +59,10 @@ glabel func_800F905C
 /* B702D4 800F9134 28410007 */  slti  $at, $v0, 7
 /* B702D8 800F9138 5420FFEF */  bnezl $at, .L800F90F8
 /* B702DC 800F913C 00026880 */   sll   $t5, $v0, 2
-/* B702E0 800F9140 3C0A8013 */  lui   $t2, %hi(D_801333C4) # $t2, 0x8013
-/* B702E4 800F9144 3C098013 */  lui   $t1, %hi(D_801333A8) # $t1, 0x8013
-/* B702E8 800F9148 252933A8 */  addiu $t1, %lo(D_801333A8) # addiu $t1, $t1, 0x33a8
-/* B702EC 800F914C 254A33C4 */  addiu $t2, %lo(D_801333C4) # addiu $t2, $t2, 0x33c4
+/* B702E0 800F9140 3C0A8013 */  lui   $t2, %hi(sBankSizes) # $t2, 0x8013
+/* B702E4 800F9144 3C098013 */  lui   $t1, %hi(gSoundBanks) # $t1, 0x8013
+/* B702E8 800F9148 252933A8 */  addiu $t1, %lo(gSoundBanks) # addiu $t1, $t1, 0x33a8
+/* B702EC 800F914C 254A33C4 */  addiu $t2, %lo(sBankSizes) # addiu $t2, $t2, 0x33c4
 /* B702F0 800F9150 00001025 */  move  $v0, $zero
 /* B702F4 800F9154 240B0030 */  li    $t3, 48
 .L800F9158:
