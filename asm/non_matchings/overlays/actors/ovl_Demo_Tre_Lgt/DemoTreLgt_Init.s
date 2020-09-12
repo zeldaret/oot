@@ -1,3 +1,18 @@
+.rdata
+glabel D_80993DC0
+    # Construct failure
+    .asciz "Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n"
+    .balign 4
+
+glabel D_80993DE4
+    .asciz "1"
+    .balign 4
+
+glabel D_80993DE8
+    .asciz "../z_demo_tre_lgt.c"
+    .balign 4
+
+.text
 glabel DemoTreLgt_Init
 /* 00000 809936C0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 809936C4 AFB00018 */  sw      $s0, 0x0018($sp)

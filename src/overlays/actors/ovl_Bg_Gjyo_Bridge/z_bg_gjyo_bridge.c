@@ -31,14 +31,14 @@ const ActorInit Bg_Gjyo_Bridge_InitVars = {
     (ActorFunc)BgGjyoBridge_Draw,
 };
 
-static InitChainEntry initChain[] = {
-    ICHAIN_F32(unk_F8, 800, ICHAIN_CONTINUE),
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06000600;
+extern Gfx D_06000600[];
 extern UNK_TYPE D_06000DB8;
-extern UNK_TYPE D_02002640;
+extern CutsceneData D_02002640[];
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
@@ -47,7 +47,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     local_c = 0;
 
-    Actor_ProcessInitChain(thisx, &initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06000DB8, &local_c);
 
@@ -102,26 +102,23 @@ void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgGjyoBridge_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 8,
+    gSPSegment(oGfxCtx->polyXlu.p++, 8,
                Gfx_TexScroll(globalCtx->state.gfxCtx, globalCtx->gameplayFrames & 127,
                              globalCtx->gameplayFrames * -3 & 127, 32, 32));
 
-    gSPSegment(gfxCtx->polyXlu.p++, 9,
+    gSPSegment(oGfxCtx->polyXlu.p++, 9,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, -globalCtx->gameplayFrames & 127, 32, 32, 1, 0,
                                 globalCtx->gameplayFrames & 127, 32, 32));
 
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_06000600);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000600);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 285);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 285);
 }

@@ -15,11 +15,9 @@ VisMono sMonoColors;
 unk_80166528 D_80166528;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
-char sBtnChars[] = {
-    'A', 'B', 'Z', 'S', 'u', 'l', 'd', 'r', '*', '+', 'L', 'R', 'u', 'd', 'l', 'r', '\0',
-};
 
 void GameState_FaultPrint(void) {
+    static char sBtnChars[] = "ABZSuldr*+LRudlr";
     s32 i;
 
     osSyncPrintf("last_button=%04x\n", sLastButtonPressed);
@@ -116,54 +114,45 @@ void func_800C4344(GameState* gameState) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc mostly
 void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
     static const u16 sInpDispBtnColors[] = {
-        GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(31, 31, 0, 1),
-        GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1),
-        GPACK_RGBA5551(31, 0, 31, 1),  GPACK_RGBA5551(0, 31, 31, 1),  GPACK_RGBA5551(15, 15, 15, 1),
-        GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1),
-        GPACK_RGBA5551(31, 0, 0, 1),   GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(0, 31, 15, 1),
-        GPACK_RGBA5551(0, 0, 31, 1),
+        GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),
+        GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1),
+        GPACK_RGBA5551(0, 255, 255, 1),   GPACK_RGBA5551(255, 0, 255, 1),   GPACK_RGBA5551(120, 120, 120, 1),
+        GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1),
+        GPACK_RGBA5551(255, 0, 0, 1),     GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(0, 255, 0, 1),
+        GPACK_RGBA5551(0, 0, 255, 1),
     };
-    s32 i, j;
-    s32 lrx, lry, ulx, uly;
+    s32 i, j, k;
     Gfx* gfxP = *gfx;
+
     gDPPipeSync(gfxP++);
     gDPSetOtherMode(gfxP++,
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
 
-    for (i = 0, j = 1; i < 0x10; i++, j++) {
+    for (i = 0; i < 16; i++) {
+        j = i;
         if (input & (1 << i)) {
             gDPSetFillColor(gfxP++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
-            ulx = i * 4 + 226;
-            uly = 220;
-            lrx = j * 4 + 225;
-            lry = 223;
-            gDPFillRectangle(gfxP++, ulx, uly, lrx, lry);
+            k = i + 1;
+            gDPFillRectangle(gfxP++, (j * 4) + 226, 220, (k * 4) + 225, 223);
             gDPPipeSync(gfxP++);
         }
-    };
+    }
 
     *gfx = gfxP;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_DrawInputDisplay.s")
-#endif
 
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx* newDList;
     Gfx* polyOpaP;
-    Gfx* dispRefs[5];
-    char pad[0x10];
-    GfxPrint printChars[2];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../game.c", 746);
-    newDList = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
-    gSPDisplayList(gfxCtx->overlay.p++, newDList);
+    OPEN_DISPS(gfxCtx, "../game.c", 746);
+
+    newDList = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
+    gSPDisplayList(oGfxCtx->overlay.p++, newDList);
 
     if (R_ENABLE_FB_FILTER == 1) {
         GameState_SetFBFilter(&newDList);
@@ -175,14 +164,19 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
-        GfxPrint_Ctor(printChars);
-        GfxPrint_Open(printChars, newDList);
-        func_800EEA50(printChars);
-        newDList = GfxPrint_Close(printChars);
-        GfxPrint_Dtor(printChars);
+        s32 pad;
+        GfxPrint printer;
+
+        GfxPrint_Init(&printer);
+        GfxPrint_Open(&printer, newDList);
+        func_800EEA50(&printer);
+        newDList = GfxPrint_Close(&printer);
+        GfxPrint_Destroy(&printer);
     }
 
     if (R_ENABLE_ARENA_DBG < 0) {
+        s32 pad;
+
         DebugArena_Display();
         SystemArena_Display();
         //% 08x bytes left until the death of Hyrule (game_alloc)
@@ -190,13 +184,13 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         R_ENABLE_ARENA_DBG = 0;
     }
 
-    if (1) {
-        gSPEndDisplayList(newDList++);
-        Graph_BranchDlist(polyOpaP, newDList);
-        gfxCtx->polyOpa.p = newDList;
-    }
+    gSPEndDisplayList(newDList++);
+    Graph_BranchDlist(polyOpaP, newDList);
+    oGfxCtx->polyOpa.p = newDList;
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../game.c", 800);
+    if (1) {}
+
+    CLOSE_DISPS(gfxCtx, "../game.c", 800);
 
     func_80063D7C(gfxCtx);
 
@@ -207,49 +201,43 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 }
 
 void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
-    Gfx* dispRef[5];
+    OPEN_DISPS(gfxCtx, "../game.c", 814);
 
-    Graph_OpenDisps(dispRef, gfxCtx, "../game.c", 814);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0, 0);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0xE, gZBuffer);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0, 0);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0xE, gZBuffer);
+    gSPSegment(oGfxCtx->overlay.p++, 0, 0);
+    gSPSegment(oGfxCtx->overlay.p++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(oGfxCtx->overlay.p++, 0xE, gZBuffer);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0, 0);
-    gSPSegment(gfxCtx->polyOpa.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(gfxCtx->polyOpa.p++, 0xE, gZBuffer);
-    gSPSegment(gfxCtx->polyXlu.p++, 0, 0);
-    gSPSegment(gfxCtx->polyXlu.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(gfxCtx->polyXlu.p++, 0xE, gZBuffer);
-    gSPSegment(gfxCtx->overlay.p++, 0, 0);
-    gSPSegment(gfxCtx->overlay.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(gfxCtx->overlay.p++, 0xE, gZBuffer);
-
-    Graph_CloseDisps(dispRef, gfxCtx, "../game.c", 838);
+    CLOSE_DISPS(gfxCtx, "../game.c", 838);
 }
 
 void func_800C49F4(GraphicsContext* gfxCtx) {
     Gfx* newDlist;
     Gfx* polyOpaP;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../game.c", 846);
+    OPEN_DISPS(gfxCtx, "../game.c", 846);
 
-    newDlist = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
-    gSPDisplayList(gfxCtx->overlay.p++, newDlist);
+    newDlist = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
+    gSPDisplayList(oGfxCtx->overlay.p++, newDlist);
 
-    // necessary to match
-    if (1) {
-        gSPEndDisplayList(newDlist++);
-        Graph_BranchDlist(polyOpaP, newDlist);
-        gfxCtx->polyOpa.p = newDlist;
-    }
+    gSPEndDisplayList(newDlist++);
+    Graph_BranchDlist(polyOpaP, newDlist);
+    oGfxCtx->polyOpa.p = newDlist;
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../game.c", 865);
+    if (1) {}
+
+    CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
 
 void GameState_ReqPadData(GameState* gameState) {
     PadMgr_RequestPadData(&gPadMgr, &gameState->input, 1);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences and additional redundant instructions
 void GameState_Update(GameState* gameState) {
     GraphicsContext* gfxCtx = gameState->gfxCtx;
 
@@ -259,7 +247,7 @@ void GameState_Update(GameState* gameState) {
 
     func_800C4344(gameState);
 
-    if (SREG(63) == 1) {
+    if (SREG(63) == 1u) {
         if (SREG(48) < 0) {
             SREG(48) = 0;
             gfxCtx->viMode = &gViConfigMode;
@@ -278,22 +266,22 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viFeatures = gViConfigFeatures;
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
-        if (SREG(63) == 6 || (SREG(63) == 2 && osTvType == 1)) {
+        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == 1)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 5 || (SREG(63) == 2 && osTvType == 2)) {
+        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == 2)) {
             gfxCtx->viMode = &osViModeMpalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 4 || (SREG(63) == 2 && osTvType == 0)) {
+        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == 0)) {
             gfxCtx->viMode = &osViModePalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 3 || (SREG(63) == 2 && osTvType == 0)) {
+        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == 0)) {
             gfxCtx->viMode = &osViModeFpalLan1;
             gfxCtx->yScale = 0.833f;
         }
@@ -326,16 +314,13 @@ void GameState_Update(GameState* gameState) {
         }
     }
 
-    if (R_PAUSE_MENU_MODE != 2) {
+    if (R_PAUSE_MENU_MODE != 2u) {
         GameState_Draw(gameState, gfxCtx);
         func_800C49F4(gfxCtx);
     }
 
     gameState->frames++;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_Update.s")
-#endif
 
 void GameState_InitArena(GameState* gameState, size_t size) {
     void* arena;
@@ -355,10 +340,8 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     }
 }
 
-#ifdef NON_MATCHING
-// stack
 void GameState_Realloc(GameState* gameState, size_t size) {
-    s32 pad;
+    GameAlloc* alloc = &gameState->alloc;
     void* gameArena;
     u32 systemMaxFree;
     u32 systemFree;
@@ -367,7 +350,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
     thaBufp = gameState->tha.bufp;
     THA_Dt(&gameState->tha);
-    GameAlloc_Free(&gameState->alloc, thaBufp);
+    GameAlloc_Free(alloc, thaBufp);
     // Hyrule temporarily released !!
     osSyncPrintf("ハイラル一時解放!!\n");
     SystemArena_GetSizes(&systemMaxFree, &systemFree, &systemAlloc);
@@ -384,7 +367,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
     // Hyral reallocate size =% u bytes
     osSyncPrintf("ハイラル再確保 サイズ＝%u バイト\n", size);
-    gameArena = GameAlloc_MallocDebug(&gameState->alloc, size, "../game.c", 1033);
+    gameArena = GameAlloc_MallocDebug(alloc, size, "../game.c", 1033);
     if (gameArena != NULL) {
         THA_Ct(&gameState->tha, gameArena, size);
         // Successful reacquisition of Hyrule
@@ -397,9 +380,6 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         Fault_AddHungupAndCrash("../game.c", 1044);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_Realloc.s")
-#endif
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
     u64 startTime;
@@ -428,7 +408,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
     startTime = endTime;
     GameState_InitArena(gameState, 0x100000);
-    SREG(30) = 3;
+    R_UPDATE_RATE = 3;
     init(gameState);
 
     endTime = osGetTime();

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A48728
+    .float 3.6000001
+
+.text
 glabel func_80A45DA4
 /* 03074 80A45DA4 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 03078 80A45DA8 8482001C */  lh      $v0, 0x001C($a0)           ## 0000001C

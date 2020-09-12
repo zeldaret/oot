@@ -1,7 +1,7 @@
 /*
  * File: z_bg_ddan_kd.c
  * Overlay: ovl_Bg_Ddan_Kd
- * Description: Stone stairs in Dodongo's Cavern
+ * Description: Falling stairs in Dodongo's Cavern
  */
 
 #include "z_bg_ddan_kd.h"
@@ -31,17 +31,17 @@ const ActorInit Bg_Ddan_Kd_InitVars = {
     (ActorFunc)BgDdanKd_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x39, 0x00, 0x00, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 245, 180, -400, { 0, 0, 0 } },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 32767, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneScale, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
 };
 
 static f32 D_808718FC[] = { 0.0f, 5.0f };
@@ -49,7 +49,7 @@ static f32 D_80871904[] = { 0.0f };
 static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
 
 extern UNK_TYPE D_06004F30;
-extern UNK_TYPE D_060048A8;
+extern Gfx D_060048A8[];
 
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -60,12 +60,12 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 sp24 = 0;
 
-    this->previousCollidingExplosion = NULL;
+    this->prevExplosive = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, &initChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &cylinderInit);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
     DynaPolyInfo_Alloc(&D_06004F30, &sp24);
 
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
@@ -86,26 +86,25 @@ void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
-    Actor* currentCollidingExplosion;
+    Actor* explosive;
 
-    currentCollidingExplosion = func_80033640(globalCtx, &this->collider);
-    if (currentCollidingExplosion != NULL) {
+    explosive = Actor_GetCollidedExplosive(globalCtx, &this->collider);
+    if (explosive != NULL) {
         osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
-        currentCollidingExplosion->params = 2;
+        explosive->params = 2;
     }
-    if ((currentCollidingExplosion != NULL) && (this->previousCollidingExplosion != NULL) &&
-        (currentCollidingExplosion != this->previousCollidingExplosion) &&
-        (Math_Vec3f_DistXZ(&this->previousCollidingExplosionPos, &currentCollidingExplosion->posRot.pos) > 80.0f)) {
+    if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
+        (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->posRot.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
         func_800800F8(globalCtx, 0xBEA, 0x3E7, this, 0);
     } else {
         if (this->timer != 0) {
             this->timer -= 1;
         } else {
-            this->previousCollidingExplosion = currentCollidingExplosion;
-            if (currentCollidingExplosion != NULL) {
+            this->prevExplosive = explosive;
+            if (explosive != NULL) {
                 this->timer = 13;
-                this->previousCollidingExplosionPos = currentCollidingExplosion->posRot.pos;
+                this->prevExplosivePos = explosive->posRot.pos;
             }
         }
         Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
@@ -140,8 +139,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             }
             sp5C.x += 80.0f + Math_Rand_ZeroOne() * 10.0f;
             sp50.x -= 80.0f + Math_Rand_ZeroOne() * 10.0f;
-            sp5C.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
-            sp50.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
+            sp5C.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
+            sp50.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
@@ -155,13 +154,14 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             sp5C = this->dyna.actor.posRot.pos;
             sp5C.z += 560.0f + Math_Rand_ZeroOne() * 5.0f;
             sp5C.x += (Math_Rand_ZeroOne() - 0.5f) * 160.0f;
-            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.unk_80 + 20.0f);
+            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.groundY + 20.0f);
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
         }
-        func_8005AA1C(&globalCtx->cameras, 0, sp4C * 0.6f, 3);
-        Audio_PlaySoundGeneral(0x2027, &this->dyna.actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        func_8005AA1C(&globalCtx->mainCamera, 0, sp4C * 0.6f, 3);
+        Audio_PlaySoundGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                               &D_801333E0, &D_801333E8);
     }
 }
 

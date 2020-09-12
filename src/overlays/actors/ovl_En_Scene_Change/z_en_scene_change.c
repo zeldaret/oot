@@ -15,7 +15,7 @@ void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx);
+void EnSceneChange_DoNothing(EnSceneChange* this, GlobalContext* globalCtx);
 
 const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
@@ -36,13 +36,13 @@ void EnSceneChange_SetupAction(EnSceneChange* this, EnSceneChangeActionFunc acti
 void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSceneChange* this = THIS;
 
-    EnSceneChange_SetupAction(this, func_80AF8CAC);
+    EnSceneChange_SetupAction(this, EnSceneChange_DoNothing);
 }
 
 void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx) {
+void EnSceneChange_DoNothing(EnSceneChange* this, GlobalContext* globalCtx) {
 }
 
 void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -56,18 +56,15 @@ void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* displayList;
     s32 pad2[2];
     Gfx* displayListHead;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     displayList = Graph_Alloc(globalCtx->state.gfxCtx, 0x3C0);
 
-    gfxCtx = globalCtx->state.gfxCtx;
-
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
 
     displayListHead = displayList;
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, displayListHead);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, displayListHead);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
 }

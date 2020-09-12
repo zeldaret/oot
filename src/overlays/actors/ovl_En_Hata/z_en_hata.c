@@ -27,7 +27,7 @@ const ActorInit En_Hata_InitVars = {
     (ActorFunc)EnHata_Draw,
 };
 
-static UNK_TYPE4 sUnusedData[] = {
+static UNK_TYPE sUnusedData[] = {
     0x0A000939, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000080, 0x00000000,
     0x00050100, 0x001000F6, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xFF000000,
 };
@@ -40,25 +40,25 @@ extern UNK_TYPE D_060000C0;
 
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
-    u32 pad;
+    s32 pad;
     u32 temp;
     f32 frameCount;
 
     temp = 0;
-    frameCount = (f32)SkelAnime_GetFrameCount(&D_06000444.genericHeader);
+    frameCount = SkelAnime_GetFrameCount(&D_06000444.genericHeader);
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
     DynaPolyInfo_Alloc(&D_060000C0, &temp);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
-    this->dyna.actor.unk_F8 = 500.0f;
-    this->dyna.actor.unk_FC = 550.0f;
-    this->dyna.actor.unk_F4 = 2200.0f;
+    this->dyna.actor.uncullZoneScale = 500.0f;
+    this->dyna.actor.uncullZoneDownward = 550.0f;
+    this->dyna.actor.uncullZoneForward = 2200.0f;
     this->invScale = 6;
     this->maxStep = 1000;
     this->minStep = 1;
-    this->unk_278 = (s16)(Math_Rand_ZeroOne() * 65535.0f);
+    this->unk_278 = Math_Rand_ZeroOne() * 65535.0f;
 }
 
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {

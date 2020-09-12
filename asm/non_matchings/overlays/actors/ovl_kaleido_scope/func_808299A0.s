@@ -1,3 +1,48 @@
+.rdata
+
+glabel D_80830520
+ .word 0x00000000, 0x00000001, 0x00000002, 0x00000003
+
+glabel D_80830530
+ .word 0x00000002, 0x00000002, 0x00000002, 0x00000003
+
+glabel D_80830540
+ .word 0x00000003, 0x00000001, 0x00000000, 0x00000000
+
+glabel D_80830550
+ .word 0x00000002, 0x00000001, 0x00000000, 0x00000000
+
+glabel D_80830560
+ .word 0x00000000, 0x00000001, 0x00000002, 0x00000004
+
+glabel D_80830570
+ .word 0x00000000, 0x00000001, 0x00000002, 0x00000002
+
+glabel D_80830580
+    .asciz "../z_lmap_mark.c"
+    .balign 4
+
+glabel D_80830594
+    .asciz "../z_lmap_mark.c"
+    .balign 4
+
+glabel D_808305A8
+    .asciz "../z_lmap_mark.c"
+    .balign 4
+
+.late_rodata
+
+glabel jtbl_808305BC
+.word L80829C28
+.word L80829C28
+.word L80829C28
+.word L80829C28
+.word L80829C28
+.word L80829C28
+.word L80829C28
+.word L80829C28
+
+.text
 glabel func_808299A0
 /* 16180 808299A0 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 16184 808299A4 3C0F8016 */  lui     $t7, %hi(gGameInfo)

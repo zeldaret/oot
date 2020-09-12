@@ -1,5 +1,4 @@
 #include "z_en_ru1.h"
-
 #include <z64cutscene_commands.h>
 
 // clang-format off
@@ -109,9 +108,9 @@ CutsceneData D_80AF0880[] = {
     CS_PLAY_BGM_LIST(1),
         CS_PLAY_BGM(0x0052, 74, 75, 0x0000, 0x00000000, 0xFFFFFFF1, 0x00000000, 0x0000004E, 0xFFFFFFF1, 0x00000000, 0x0000004E),
     CS_END(),
-    CS_PAD(),
-    CS_PAD(),
 };
+
+u32 D_80AF10A0 = 0;
 
 CutsceneData D_80AF10A4[] = {
     CS_BEGIN_CUTSCENE(14, 1299),
@@ -198,9 +197,9 @@ CutsceneData D_80AF10A4[] = {
         CS_CAM_FOCUS_POINT(CS_CMD_CONTINUE, 0x00, 30, 30.306555f, -1426, -857, -3190, 0x00E8),
         CS_CAM_FOCUS_POINT(CS_CMD_STOP, 0x00, 30, 30.306555f, -1426, -857, -3190, 0x00EA),
     CS_END(),
-    CS_PAD(),
-    CS_PAD(),
 };
+
+u32 D_80AF1724 = 0;
 
 CutsceneData D_80AF1728[] = {
     CS_BEGIN_CUTSCENE(7, 1160),
@@ -236,6 +235,5 @@ CutsceneData D_80AF1728[] = {
         CS_TEXT_NONE(0, 35),
         CS_TEXT_DISPLAY_TEXTBOX(0x404F, 35, 70, 0x0000, 0xFFFF, 0xFFFF),
     CS_END(),
-    CS_PAD(),
 };
 // clang-format on

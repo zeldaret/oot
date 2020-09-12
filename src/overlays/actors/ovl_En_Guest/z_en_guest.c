@@ -1,3 +1,9 @@
+/*
+ * File: z_en_guest.c
+ * Overlay: ovl_En_Guest
+ * Description: Happy Mask Shop Customer
+ */
+
 #include "z_en_guest.h"
 #include <vt.h>
 
@@ -14,13 +20,6 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx);
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx);
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_060000F0;
-extern AnimationHeader D_060042AC;
-extern UNK_TYPE D_060005FC;
-extern UNK_TYPE D_060006FC;
-extern UNK_TYPE D_060007FC;
-extern Gfx D_060059B0[];
-
 const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
     ACTORTYPE_NPC,
@@ -33,7 +32,7 @@ const ActorInit En_Guest_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit_Set3 sColliderInit = {
+static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 60, 0, { 0, 0, 0 } },
@@ -45,10 +44,14 @@ static InitChainEntry sInitChain[] = {
 };
 
 UNK_PTR D_80A50BA4[] = {
-    &D_060005FC,
-    &D_060006FC,
-    &D_060007FC,
+    0x060005FC,
+    0x060006FC,
+    0x060007FC,
 };
+
+extern SkeletonHeader D_060000F0;
+extern AnimationHeader D_060042AC;
+extern Gfx D_060059B0[];
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
@@ -75,7 +78,7 @@ void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    u32 padding;
+    s32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
         this->actor.flags &= ~0x10;
@@ -83,7 +86,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable,
                          16);
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060042AC, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
 
@@ -91,7 +94,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = func_80A505CC;
 
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sColliderInit);
+        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
         Actor_SetHeight(&this->actor, 60.0f);
 
@@ -129,7 +132,7 @@ void func_80A5046C(EnGuest* this) {
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A5057C;
-    } else if (this->actor.xzDistanceFromLink < 100.0f) {
+    } else if (this->actor.xzDistFromLink < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
 }
@@ -144,7 +147,7 @@ void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
 
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    u32 padding;
+    s32 pad;
     Player* player;
 
     player = PLAYER;
@@ -163,7 +166,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80034F54(globalCtx, this->unk_2CC, this->unk_2EC, 16);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Actor_SetHeight(&this->actor, 60.0f);
@@ -186,9 +189,8 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
                              Actor* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
         *dList = D_060059B0;
@@ -210,24 +212,25 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         rot->z += Math_Coss(this->unk_2EC[limbIndex]) * 200.0f;
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
 
     return 0;
 }
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 404);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 404);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnGuest_OverrideLimbDraw, NULL, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
 }

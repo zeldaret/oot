@@ -1,6 +1,6 @@
 #include <ultra64.h>
+#include <ultra64/controller.h>
 #include <global.h>
-#include <PR/os_cont.h>
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -56,11 +56,10 @@ u8 D_8015FCE4;       // only written to, never read
 void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx);
 
 void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneContext* csCtx) {
-    u8 pad[0x1C];
     GfxPrint printer;
     u8 pad2[8];
 
-    GfxPrint_Ctor(&printer);
+    GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *dlist);
     GfxPrint_SetPos(&printer, 22, 25);
     GfxPrint_SetColor(&printer, 255, 255, 55, 32);
@@ -71,7 +70,7 @@ void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneConte
     GfxPrint_SetPos(&printer, 4, 26);
     GfxPrint_Printf(&printer, "%s", "SKIP=(START) or (Cursole Right)");
     *dlist = GfxPrint_Close(&printer);
-    GfxPrint_Dtor(&printer);
+    GfxPrint_Destroy(&printer);
 }
 
 void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
@@ -138,7 +137,7 @@ u32 func_8006472C(GlobalContext* globalCtx, CutsceneContext* csCtx, f32 target) 
 
 void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -149,7 +148,7 @@ void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     func_80068C3C(globalCtx, csCtx);
     Interface_ChangeAlpha(1);
-    func_800B3840(0x20);
+    ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
         func_800F68BC(1);
@@ -297,15 +296,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             gSaveContext.eventChkInf[6] |= 0x0200;
             break;
         case 22:
-            D_801614B0.r = 0xFF;
-            D_801614B0.g = 0xFF;
-            D_801614B0.b = 0xFF;
-            D_801614B0.a = 0xFF;
+            D_801614B0.r = 255;
+            D_801614B0.g = 255;
+            D_801614B0.b = 255;
+            D_801614B0.a = 255;
             break;
         case 23:
-            D_801614B0.r = 0xFF;
-            D_801614B0.g = 0xB4;
-            D_801614B0.b = 0x64;
+            D_801614B0.r = 255;
+            D_801614B0.g = 180;
+            D_801614B0.b = 100;
             D_801614B0.a = 255.0f * temp;
             break;
         case 24:
@@ -330,16 +329,16 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 27:
             if (globalCtx->state.frames & 8) {
-                if (globalCtx->envCtx.unk_8C[0] < 40) {
-                    globalCtx->envCtx.unk_8C[0] += 2;
-                    globalCtx->envCtx.unk_8C[4] -= 3;
-                    globalCtx->envCtx.unk_8C[5] -= 3;
+                if (globalCtx->envCtx.unk_8C[0][0] < 40) {
+                    globalCtx->envCtx.unk_8C[0][0] += 2;
+                    globalCtx->envCtx.unk_8C[1][1] -= 3;
+                    globalCtx->envCtx.unk_8C[1][2] -= 3;
                 }
             } else {
-                if (globalCtx->envCtx.unk_8C[0] > 2) {
-                    globalCtx->envCtx.unk_8C[0] -= 2;
-                    globalCtx->envCtx.unk_8C[4] += 3;
-                    globalCtx->envCtx.unk_8C[5] += 3;
+                if (globalCtx->envCtx.unk_8C[0][0] > 2) {
+                    globalCtx->envCtx.unk_8C[0][0] -= 2;
+                    globalCtx->envCtx.unk_8C[1][1] += 3;
+                    globalCtx->envCtx.unk_8C[1][2] += 3;
                 }
             }
             break;
@@ -359,7 +358,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 globalCtx->envCtx.unk_E6 = 1;
             }
-            func_800788CC(0x20C0);
+            func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
         case 33:
             gSaveContext.unk_1422 = 1;
@@ -1372,7 +1371,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, 7);
                 func_800C0874(globalCtx, csCtx->unk_14, 0x21);
                 sp28 = csCtx->cameraFocus->cameraRoll * 1.40625f;
-                func_8005AA90(sp2C, 64, &sp28);
+                Camera_SetParam(sp2C, 64, &sp28);
                 sp3C.x = csCtx->cameraFocus->pos.x;
                 sp3C.y = csCtx->cameraFocus->pos.y;
                 sp3C.z = csCtx->cameraFocus->pos.z;
@@ -1441,11 +1440,11 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             if (D_8011E1C0 != cmd->base) {
                 D_8011E1C0 = cmd->base;
                 if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    func_8010B680(globalCtx, cmd->textId1, 0);
+                    func_8010B680(globalCtx, cmd->textId1, NULL);
                 } else {
-                    func_8010B680(globalCtx, cmd->base, 0);
+                    func_8010B680(globalCtx, cmd->base, NULL);
                 }
                 return;
             }
@@ -1853,8 +1852,6 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (0) {} // Necessary to match
 
@@ -1862,18 +1859,17 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         if (0) {} // Also necessary to match
 
         if (BREG(0) != 0) {
-            gfxCtx = globalCtx->state.gfxCtx;
-            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4101);
+            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4101);
 
-            prevDisplayList = gfxCtx->polyOpa.p;
-            displayList = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
-            gSPDisplayList(gfxCtx->overlay.p++, displayList);
+            prevDisplayList = oGfxCtx->polyOpa.p;
+            displayList = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
+            gSPDisplayList(oGfxCtx->overlay.p++, displayList);
             Cutscene_DrawDebugInfo(globalCtx, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
             Graph_BranchDlist(prevDisplayList, displayList);
-            gfxCtx->polyOpa.p = displayList;
+            oGfxCtx->polyOpa.p = displayList;
 
-            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4108);
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4108);
         }
 
         csCtx->frames++;
@@ -1965,8 +1961,8 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
             if (gSaveContext.cutsceneTrigger == 0) {
                 Interface_ChangeAlpha(1);
-                func_800B3840(0x20);
-                func_800B38A4(0x20);
+                ShrinkWindow_SetVal(0x20);
+                ShrinkWindow_SetCurrentVal(0x20);
                 csCtx->state++;
             }
 
@@ -2019,10 +2015,10 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
-    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", gSaveContext.respawnFlag);
+    s32 temp; // inline temp needed to match regalloc
+
+    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", temp = gSaveContext.respawnFlag);
 
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.entranceIndex == 0x01E1) && !Flags_GetEventChkInf(0xAC)) {
@@ -2041,21 +2037,18 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(0xC4) &&
-                   (gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_TOKINOMA)) {
+                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(0xC4);
             gSaveContext.entranceIndex = 0x0053;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(0xC7) &&
-                   (gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_GANON_DEMO)) {
+                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(0xC7);
             gSaveContext.entranceIndex = 0x0517;
             gSaveContext.cutsceneIndex = 0xFFF0;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_demo/Cutscene_HandleConditionalTriggers.s")
-#endif
 
 void Cutscene_SetSegment(GlobalContext* globalCtx, u32 segment) {
     if (SEGMENT_NUMBER(segment) != 0) {

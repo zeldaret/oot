@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AB87D8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB87DC
+    .asciz "\x1b[32m ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel D_80AB8AD0
+    .float 0.3
+
+.text
 glabel func_80AB5FA0
 /* 00820 80AB5FA0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00824 80AB5FA4 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -70,7 +84,7 @@ glabel func_80AB5FA0
 /* 00924 80AB60A4 24070144 */  addiu   $a3, $zero, 0x0144         ## $a3 = 00000144
 /* 00928 80AB60A8 E7A40014 */  swc1    $f4, 0x0014($sp)           
 /* 0092C 80AB60AC E7B00010 */  swc1    $f16, 0x0010($sp)          
-/* 00930 80AB60B0 0C00C916 */  jal     Actor_SpawnAttached
+/* 00930 80AB60B0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00934 80AB60B4 E7A20018 */  swc1    $f2, 0x0018($sp)           
 /* 00938 80AB60B8 10400007 */  beq     $v0, $zero, .L80AB60D8     

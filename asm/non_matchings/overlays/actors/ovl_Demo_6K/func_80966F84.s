@@ -61,7 +61,7 @@ glabel func_80966F84
 /* 006FC 8096704C AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00700 80967050 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00704 80967054 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00708 80967058 0C00C916 */  jal     Actor_SpawnAttached
+/* 00708 80967058 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0070C 8096705C E7A60018 */  swc1    $f6, 0x0018($sp)           
 /* 00710 80967060 3C063CA3 */  lui     $a2, 0x3CA3                ## $a2 = 3CA30000

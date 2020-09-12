@@ -29,10 +29,10 @@ const ActorInit Bg_Pushbox_InitVars = {
     (ActorFunc)BgPushbox_Draw,
 };
 
-extern u32 D_06000000;
-extern u32 D_06000350;
+extern Gfx D_06000000[];
+extern UNK_TYPE D_06000350;
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
@@ -46,7 +46,7 @@ void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
     s32 pad2;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06000350, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
@@ -79,13 +79,14 @@ void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 263);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 263);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 269),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 269),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000000);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06000000);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
 }

@@ -5,7 +5,6 @@
  */
 
 #include "z_bg_zg.h"
-
 #include <vt.h>
 
 #define FLAGS 0x00000010
@@ -24,16 +23,16 @@ void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
 void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
-static const BgZgActionFunc actionFuncs[] = {
+static BgZgActionFunc sActionFuncs[] = {
     func_808C0CD4,
     func_808C0D08,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static const BgZgDrawFunc drawFuncs[] = {
+static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 
@@ -49,8 +48,8 @@ const ActorInit Bg_Zg_InitVars = {
     (ActorFunc)BgZg_Draw,
 };
 
-extern u32 D_06001080;
-extern u32 D_060011D4;
+extern Gfx D_06001080[];
+extern UNK_TYPE D_060011D4;
 
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
@@ -59,17 +58,20 @@ void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808C0C50(BgZg* this) {
-    Audio_PlaySoundGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                           &D_801333E8);
 }
 
 s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 flag = (thisx->params >> 8) & 0xFF;
+
     return Flags_GetSwitch(globalCtx, flag);
 }
 
 s32 func_808C0CC8(BgZg* this) {
     s32 flag = this->dyna.actor.params & 0xFF;
+
     return flag;
 }
 
@@ -93,11 +95,11 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
     s32 action = this->action;
 
-    if (((action < 0) || (1 < action)) || (actionFuncs[action] == NULL)) {
+    if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
         // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        actionFuncs[action](&this->dyna.actor, globalCtx);
+        sActionFuncs[action](&this->dyna.actor, globalCtx);
     }
 }
 
@@ -106,7 +108,7 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 local_c;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(thisx, DPM_UNK);
     local_c = 0;
     DynaPolyInfo_Alloc(&D_060011D4, &local_c);
@@ -125,30 +127,26 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    GraphicsContext* tempgfxCtx; // oddly needs this to match
-    Gfx* dispRefs[4];
+    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
 
-    tempgfxCtx = globalCtx->state.gfxCtx;
-    gfxCtx = tempgfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 311);
+    OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
-    func_80093D18(gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_zg.c", 315),
+    func_80093D18(localGfxCtx);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001080);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001080);
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 320);
+    CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);
 }
 
 void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
-    s32 action = this->drawConfig;
+    s32 drawConfig = this->drawConfig;
 
-    if (((action < 0) || (action > 0)) || drawFuncs[action] == NULL) {
+    if (((drawConfig < 0) || (drawConfig > 0)) || sDrawFuncs[drawConfig] == NULL) {
         // Translates to: "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        drawFuncs[action](this, globalCtx);
+        sDrawFuncs[drawConfig](this, globalCtx);
     }
 }

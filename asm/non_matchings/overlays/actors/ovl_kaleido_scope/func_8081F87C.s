@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_8082FA98
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FAB4
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+.text
 glabel func_8081F87C
 /* 0C05C 8081F87C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0C060 8081F880 AFB00018 */  sw      $s0, 0x0018($sp)           

@@ -235,7 +235,7 @@ glabel BgPoSyokudai_Draw
 .L808A8734:
 /* 00684 808A8734 44CBF800 */  ctc1    $t3, $31
 /* 00688 808A8738 30E700FF */  andi    $a3, $a3, 0x00FF           ## $a3 = 000000FF
-/* 0068C 808A873C 0C01E796 */  jal     Lights_SetPositionalLightColorAndRadius
+/* 0068C 808A873C 0C01E796 */  jal     Lights_PointSetColorAndRadius
 /* 00690 808A8740 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 00694 808A8744 0C024F61 */  jal     func_80093D84              
 /* 00698 808A8748 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000

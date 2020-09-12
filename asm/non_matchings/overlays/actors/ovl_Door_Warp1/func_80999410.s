@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8099C744
+ .word 0xBDCCCCCD
+
+.text
 glabel func_80999410
 /* 00C90 80999410 AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 00C94 80999414 3C01809A */  lui     $at, %hi(D_8099C744)       ## $at = 809A0000

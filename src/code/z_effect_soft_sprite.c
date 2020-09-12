@@ -88,8 +88,8 @@ void EffectSs_Reset(EffectSs* effectSs) {
     effectSs->priority = 128;
     effectSs->draw = NULL;
     effectSs->update = NULL;
-    effectSs->unk_38 = 0;
-    effectSs->unk_3C = 0;
+    effectSs->displayList = NULL;
+    effectSs->unk_3C = NULL;
 
     for (i = 0; i < ARRAY_COUNT(effectSs->regs); i++) {
         effectSs->regs[i] = 0;
@@ -295,12 +295,12 @@ void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
 
 // original name: "EffectSoftSprite2_disp"
 void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    LightMapper* lightMapper;
+    Lights* lights;
     s32 i;
 
-    lightMapper = Lights_CreateMapper(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
-    func_8007A474(lightMapper, globalCtx->lightCtx.lightsHead, 0);
-    func_80079EFC(lightMapper, globalCtx->state.gfxCtx);
+    lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
+    Lights_BindAll(lights, globalCtx->lightCtx.listHead, NULL);
+    Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {
         if (sEffectSsInfo.table[i].life > -1) {

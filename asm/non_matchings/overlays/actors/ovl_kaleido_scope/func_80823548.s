@@ -1,3 +1,22 @@
+.rdata
+
+glabel D_8082FCE4
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FD00
+    .asciz "zoom_name=%d\n"
+    .balign 4
+
+glabel D_8082FD10
+    .asciz "J_N=%d  point=%d\n"
+    .balign 4
+
+glabel D_8082FD24
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+.text
 glabel func_80823548
 /* 0FD28 80823548 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0FD2C 8082354C 3C030001 */  lui     $v1, 0x0001                ## $v1 = 00010000

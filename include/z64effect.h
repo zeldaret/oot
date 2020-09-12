@@ -132,7 +132,7 @@ typedef struct {
     /* 0x24 */ f32 maxInitialSpeed;
     /* 0x28 */ f32 lengthCutoff;
     /* 0x2C */ u8 duration;
-    /* 0x2E */ LightInfoPositionalParams lightParams;
+    /* 0x2E */ LightPoint lightPoint;
     /* 0x3C */ s32 lightDecay; // halves light radius every frame when set to 1
 } EffectShieldParticleInit; // size = 0x40
 
@@ -152,8 +152,8 @@ typedef struct {
     /* 0x1AC */ f32 lengthCutoff;
     /* 0x1B0 */ u8 duration;
     /* 0x1B1 */ u8 timer;
-    /* 0x1B2 */ LightInfoPositional lightInfo;
-    /* 0x1C0 */ z_Light* light;
+    /* 0x1B2 */ LightInfo lightInfo;
+    /* 0x1C0 */ LightNode* lightNode;
     /* 0x1C4 */ s32 lightDecay; // halves light radius every frame when set to 1
 } EffectShieldParticle; // size = 0x1C8
 
@@ -175,7 +175,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 size;
-    /* 0x04 */ void (*init)(void* effect, void* initParms);
+    /* 0x04 */ void (*init)(void* effect, void* initParams);
     /* 0x08 */ void (*destroy)(void* effect);
     /* 0x0C */ s32 (*update)(void* effect);
     /* 0x10 */ void (*draw)(void* effect, struct GraphicsContext* gfxCtx);
@@ -214,8 +214,8 @@ typedef struct EffectSs {
     /* 0x24 */ void (*update)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x28 */ void (*draw)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
     /* 0x2C */ Vec3f unk_2C;
-    /* 0x38 */ u32 unk_38;
-    /* 0x3C */ u32 unk_3C;
+    /* 0x38 */ Gfx* displayList;
+    /* 0x3C */ void* unk_3C;
     /* 0x40 */ s16 regs[13]; // specific per effect
     /* 0x5A */ u16 flags;
     /* 0x5C */ s16 life; // -1 means this entry is free

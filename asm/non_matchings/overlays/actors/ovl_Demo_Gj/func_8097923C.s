@@ -1,6 +1,6 @@
 .rdata
 glabel D_8097C050
-    .asciz "[31mDemo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n[m"
+    .asciz "\x1b[31mDemo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n\x1b[m"
     .balign 4
 
 .late_rodata

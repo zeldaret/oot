@@ -1,7 +1,7 @@
 /*
  * File: z_bg_jya_amishutter.c
  * Overlay: Bg_Jya_Amishutter
- * Description: Circular Metal Grate (Spirit Temple)
+ * Description: Circular metal grate. Lifts up when you get close to it.
  */
 
 #include "z_bg_jya_amishutter.h"
@@ -36,15 +36,15 @@ const ActorInit Bg_Jya_Amishutter_InitVars = {
     (ActorFunc)BgJyaAmishutter_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
 extern UNK_TYPE D_0600C4C8;
-extern UNK_TYPE D_0600C0A0;
+extern Gfx D_0600C0A0[];
 
 void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
     s16 pad1;
@@ -64,7 +64,7 @@ void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
     func_808932C0(this, globalCtx, &D_0600C4C8, 0);
-    Actor_ProcessInitChain(&this->actor, initChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808933BC(this);
 }
 
@@ -79,8 +79,8 @@ void func_808933BC(BgJyaAmishutter* this) {
 }
 
 void func_808933CC(BgJyaAmishutter* this) {
-    if (this->actor.xzDistanceFromLink < 60.0f) {
-        if (fabsf(this->actor.yDistanceFromLink) < 30.0f) {
+    if (this->actor.xzDistFromLink < 60.0f) {
+        if (fabsf(this->actor.yDistFromLink) < 30.0f) {
             func_80893428(this);
         }
     }
@@ -95,7 +95,7 @@ void func_80893438(BgJyaAmishutter* this) {
         func_808934B0(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->actor, 0x2036);
+        func_8002F974(&this->actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -104,7 +104,7 @@ void func_808934B0(BgJyaAmishutter* this) {
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
-    if (this->actor.xzDistanceFromLink > 300.0f) {
+    if (this->actor.xzDistFromLink > 300.0f) {
         func_808934FC(this);
     }
 }
@@ -118,7 +118,7 @@ void func_8089350C(BgJyaAmishutter* this) {
         func_808933BC(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->actor, 0x2036);
+        func_8002F974(&this->actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -129,5 +129,5 @@ void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_0600C0A0);
+    Gfx_DrawDListOpa(globalCtx, D_0600C0A0);
 }

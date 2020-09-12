@@ -27,7 +27,7 @@ glabel func_8010F494
 /* B86640 8010F4A0 AFBF0024 */  sw    $ra, 0x24($sp)
 /* B86644 8010F4A4 AFA40060 */  sw    $a0, 0x60($sp)
 /* B86648 8010F4A8 AFA50064 */  sw    $a1, 0x64($sp)
-/* B8664C 8010F4AC 0C03EEE3 */  jal   GfxPrint_Ctor
+/* B8664C 8010F4AC 0C03EEE3 */  jal   GfxPrint_Init
 /* B86650 8010F4B0 02002025 */   move  $a0, $s0
 /* B86654 8010F4B4 8FAE0064 */  lw    $t6, 0x64($sp)
 /* B86658 8010F4B8 02002025 */  move  $a0, $s0
@@ -76,7 +76,7 @@ glabel func_8010F494
 /* B86704 8010F564 02002025 */   move  $a0, $s0
 /* B86708 8010F568 8FB90064 */  lw    $t9, 0x64($sp)
 /* B8670C 8010F56C 02002025 */  move  $a0, $s0
-/* B86710 8010F570 0C03EF05 */  jal   GfxPrint_Dtor
+/* B86710 8010F570 0C03EF05 */  jal   GfxPrint_Destroy
 /* B86714 8010F574 AF220000 */   sw    $v0, ($t9)
 /* B86718 8010F578 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B8671C 8010F57C 8FB00020 */  lw    $s0, 0x20($sp)

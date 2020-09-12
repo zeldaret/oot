@@ -1,7 +1,7 @@
 /*
  * File: z_en_ma1.c
  * Overlay: En_Ma1
- * Description:
+ * Description: Child Malon
  */
 
 #include "z_en_ma1.h"
@@ -39,13 +39,13 @@ const ActorInit En_Ma1_InitVars = {
     (ActorFunc)EnMa1_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80AA166C = {
+CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -58,13 +58,13 @@ struct_D_80AA1678 D_80AA1678[] = {
 
 Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
 
-u32 D_80AA16C4[] = {
+UNK_PTR D_80AA16C4[] = {
     0x06001F18,
     0x06002B18,
     0x06002F18,
 };
 
-u32 D_80AA16D0[] = {
+UNK_PTR D_80AA16D0[] = {
     0x06001B18,
     0x06002318,
     0x06002718,
@@ -251,8 +251,8 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA166C);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
 
     if (!func_80AA08C4(this, globalCtx)) {
         Actor_Kill(&this->actor);
@@ -303,8 +303,8 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = func_80AA0EFC;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_WEIRD_EGG, 120.0f, 10.0f);
@@ -338,11 +338,11 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
-            func_8010B680(globalCtx, this->actor.textId, 0);
+            func_8010B680(globalCtx, this->actor.textId, NULL);
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;
-        } else if (this->actor.xzDistanceFromLink < 30.0f + (f32)this->collider.dim.radius) {
+        } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -432,19 +432,20 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMa1* this = THIS;
     Camera* camera;
     f32 someFloat;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
+
     camera = ACTIVE_CAM;
     someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA16C4[this->unk_1E6]));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA16C4[this->unk_1E6]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1261);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1261);
 }

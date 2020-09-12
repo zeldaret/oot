@@ -1,6 +1,6 @@
 .rdata
 glabel D_8097071C
-    .asciz "\x1B[31m Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n\x1B[m"
+    .asciz "\x1b[31m Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n\x1b[m"
     .balign 4
 
 .text

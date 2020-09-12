@@ -1,7 +1,7 @@
 /*
  * File: z_demo_geff.c
  * Overlay: Demo_Geff
- * Description:
+ * Description: Ganon's Lair Rubble Fragment
  */
 
 #include "z_demo_geff.h"
@@ -25,21 +25,21 @@ void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
 void func_809784D4(DemoGeff* this, GlobalContext* globalCtx);
 void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
 
-s16 objectIds[] = {
+static s16 sObjectIDs[] = {
     OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
 };
 
-DemoGeffInitFunc initFuncs[] = {
+static DemoGeffInitFunc sInitFuncs[] = {
     func_80978030, func_80978030, func_80978030, func_80978030, func_80978030,
     func_80978030, func_80978030, func_80978030, func_80978030,
 };
 
-DemoGeffActionFunc actionFuncs[] = {
+static DemoGeffActionFunc sActionFuncs[] = {
     func_809783D4,
     func_80978308,
 };
 
-DemoGeffDrawFunc drawFuncs[] = {
+static DemoGeffDrawFunc sDrawFuncs[] = {
     func_809784D4,
     func_80978344,
 };
@@ -56,7 +56,7 @@ const ActorInit Demo_Geff_InitVars = {
     (ActorFunc)DemoGeff_Draw,
 };
 
-extern UNK_TYPE D_06000EA0;
+extern Gfx D_06000EA0[];
 
 void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -73,36 +73,35 @@ void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->drawConfig = 0;
 }
 
-void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
+void func_80977EA8(GlobalContext* globalCtx, Gfx* dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 181);
+    OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 181);
+
     func_80093D18(gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
-    gSPPopMatrix(gfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, dlist);
+    gSPPopMatrix(oGfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 188);
+    CLOSE_DISPS(gfxCtx, "../z_demo_geff.c", 188);
 }
 
 void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 204);
+    OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
     // Necessary to match
     if (!globalCtx) {}
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 212);
+    CLOSE_DISPS(gfxCtx, "../z_demo_geff.c", 212);
 }
 
 void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
@@ -174,12 +173,12 @@ void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
-    func_80977EA8(globalCtx, &D_06000EA0);
+    func_80977EA8(globalCtx, D_06000EA0);
 }
 
 void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
-    DemoGeffInitFunc initFunc = initFuncs[params];
+    DemoGeffInitFunc initFunc = sInitFuncs[params];
     if (initFunc == NULL) {
         osSyncPrintf(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
         Actor_Kill(&this->actor);
@@ -192,7 +191,7 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
     ObjectContext* objCtx = &globalCtx->objectCtx;
     Actor* thisx = &this->actor;
     s32 params = thisx->params;
-    s16 objectId = objectIds[params];
+    s16 objectId = sObjectIDs[params];
     s32 objBankIndex = Object_GetIndex(objCtx, objectId);
     s32 pad;
 
@@ -210,11 +209,11 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
 void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGeff* this = THIS;
 
-    if (this->action < 0 || this->action >= 2 || actionFuncs[this->action] == NULL) {
+    if (this->action < 0 || this->action >= 2 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    actionFuncs[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
@@ -224,12 +223,12 @@ void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGeff* this = THIS;
     s32 drawConfig = this->drawConfig;
 
-    if (drawConfig < 0 || drawConfig >= 2 || drawFuncs[drawConfig] == NULL) {
+    if (drawConfig < 0 || drawConfig >= 2 || sDrawFuncs[drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     if (drawConfig != 0) {
         func_80977F80(this, globalCtx);
     }
-    drawFuncs[drawConfig](this, globalCtx);
+    sDrawFuncs[drawConfig](this, globalCtx);
 }

@@ -176,7 +176,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     Player* player = PLAYER;
     s16 sp32;
     s16 sp30;
-    f32 xzDistanceFromLink;
+    f32 xzDistFromLink;
     f32 yaw;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
@@ -191,7 +191,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 
     yaw = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     yaw -= this->actor.shape.rot.y;
-    if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistanceFromLink < 265.0f)) {
+    if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistFromLink < 265.0f)) {
         this->actor.flags &= ~1;
         return 0;
     }
@@ -203,13 +203,13 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
         return 0;
     }
 
-    xzDistanceFromLink = this->actor.xzDistanceFromLink;
-    this->actor.xzDistanceFromLink = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
+    xzDistFromLink = this->actor.xzDistFromLink;
+    this->actor.xzDistFromLink = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     if (func_8002F2CC(&this->actor, globalCtx, unkf) == 0) {
-        this->actor.xzDistanceFromLink = xzDistanceFromLink;
+        this->actor.xzDistFromLink = xzDistFromLink;
         return 0;
     }
-    this->actor.xzDistanceFromLink = xzDistanceFromLink;
+    this->actor.xzDistFromLink = xzDistFromLink;
     this->actor.textId = callback1(globalCtx, this);
 
     return 0;
@@ -318,9 +318,9 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (LINK_IS_ADULT) {
         if (!(gSaveContext.infTable[19] & 0x100)) {
-            Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
-                                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
-                                0x04FF);
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
+                               this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+                               0x04FF);
         }
         this->actionFunc = EnKz_Wait;
     } else {
@@ -409,14 +409,14 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
     f32 xzRange;
     f32 yRange;
 
-    if (func_8002F410(this, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(this, globalCtx)) {
+        this->actor.parent = NULL;
         this->unk_1E0.unk_00 = 1;
         this->actionFunc = EnKz_StartTimer;
     } else {
         getItemID = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
-        yRange = fabsf(this->actor.yDistanceFromLink) + 1.0f;
-        xzRange = this->actor.xzDistanceFromLink + 1.0f;
+        yRange = fabsf(this->actor.yDistFromLink) + 1.0f;
+        xzRange = this->actor.xzDistFromLink + 1.0f;
         func_8002F434(&this->actor, globalCtx, getItemID, xzRange, yRange);
     }
 }
@@ -476,14 +476,13 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         0x06001C70,
     };
     EnKz* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
+
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
                      EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }

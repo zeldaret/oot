@@ -27,8 +27,8 @@ const ActorInit En_Lightbox_InitVars = {
     (ActorFunc)EnLightbox_Draw,
 };
 
-extern u32 D_06000B70;
-extern u32 D_06001F10;
+extern Gfx D_06000B70[];
+extern UNK_TYPE D_06001F10;
 
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
@@ -73,17 +73,17 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnLightbox* this = THIS;
 
     if (this->dyna.unk_162 != 0) {
-        if (func_8002F5A0(thisx, globalCtx)) {
+        if (Actor_HasNoParent(thisx, globalCtx)) {
             this->dyna.unk_162 = 0;
         }
     } else {
-        if (func_8002F410(thisx, globalCtx)) {
+        if (Actor_HasParent(thisx, globalCtx)) {
             this->dyna.unk_162++;
         } else {
             if (thisx->speedXZ) {
                 if (thisx->bgCheckFlags & 8) {
                     thisx->posRot.rot.y = (thisx->posRot.rot.y + thisx->wallPolyRot) - thisx->posRot.rot.y;
-                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0,
+                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     thisx->speedXZ *= 0.7f;
                     thisx->bgCheckFlags &= ~0x8;
@@ -95,7 +95,7 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 Math_ApproxF(&thisx->speedXZ, 0, IREG(58) / 100.0f);
                 if ((thisx->bgCheckFlags & 2) && (thisx->velocity.y < IREG(59) / 100.0f)) {
-                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0,
+                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     thisx->velocity.y *= IREG(60) / 100.0f;
                     thisx->bgCheckFlags &= ~0x1;
@@ -111,5 +111,5 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06000B70);
+    Gfx_DrawDListOpa(globalCtx, D_06000B70);
 }

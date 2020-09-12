@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-// fmodf? unused
+// fmodf?
 f32 func_801067F0(f32 arg0, f32 arg1) {
     s32 sp4;
 

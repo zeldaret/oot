@@ -1,3 +1,13 @@
+.rdata
+glabel D_8013C64C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+glabel D_8013C65C
+    .asciz "../z_kankyo.c"
+    .balign 4
+
+.text
 glabel func_80074FF4
 /* AEC194 80074FF4 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* AEC198 80074FF8 AFBF0014 */  sw    $ra, 0x14($sp)

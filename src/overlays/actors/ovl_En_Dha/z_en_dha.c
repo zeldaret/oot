@@ -23,9 +23,6 @@ void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_06000BD8;
-extern AnimationHeader D_060015B0;
-
 const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORTYPE_ENEMY,
@@ -38,12 +35,12 @@ const ActorInit En_Dha_InitVars = {
     (ActorFunc)EnDha_Draw,
 };
 
-static DamageTable damageTable = { {
+static DamageTable sDamageTable = { {
     0x00, 0xF2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF2, 0xF4, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF4, 0xF2, 0xF4, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
 } };
 
-static ColliderJntSphItemInit colliderItemsInit[] = {
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 1, { { 0, 0, 0 }, 12 }, 100 },
@@ -66,17 +63,20 @@ static ColliderJntSphItemInit colliderItemsInit[] = {
     },
 };
 
-static ColliderJntSphInit colliderInit = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK6, 0x00, 0x09, 0x19, 0x10, COLSHAPE_JNTSPH },
     5,
-    &colliderItemsInit,
+    &sJntSphItemsInit,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x2E, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
+
+extern SkeletonHeader D_06000BD8;
+extern AnimationHeader D_060015B0;
 
 void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -85,8 +85,8 @@ void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
-    this->actor.colChkInfo.damageTable = &damageTable;
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
                      this->transitionDrawTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);
@@ -96,7 +96,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.health = 8;
     this->unk_1CE = -0x4000;
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &colliderInit, &this->colliderItem);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     this->actor.flags &= ~1;
     func_809EC9C8(this);
 }
@@ -140,7 +140,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     } else {
         playerPos.y += 56.0f;
     }
-    if (this->actor.xzDistanceFromLink <= 100.0f) {
+    if (this->actor.xzDistFromLink <= 100.0f) {
         this->unk_1D0.y = 0;
         this->unk_1D0.z = this->unk_1D0.y;
         this->unk_1D6.x = this->unk_1D0.y;
@@ -149,8 +149,8 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
                 if (globalCtx->unk_11D4C(globalCtx, player) != 0) {
                     this->unk_1CA = 0;
                     this->unk_1CC++;
-                    if (this->actor.attachedA != NULL) {
-                        this->actor.attachedA->params = 1;
+                    if (this->actor.parent != NULL) {
+                        this->actor.parent->params = 1;
                     }
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
@@ -171,9 +171,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             this->unk_1D0.z = (((this->unk_1D0.z - this->actor.shape.rot.x) - this->unk_1CE) - this->unk_1D0.x);
         } else {
             if (player->stateFlags2 & 0x80) {
-                if (&this->actor == player->actor.attachedA) {
+                if (&this->actor == player->actor.parent) {
                     player->stateFlags2 &= ~0x80;
-                    player->actor.attachedA = NULL;
+                    player->actor.parent = NULL;
                     player->unk_850 = 200;
                 }
             }
@@ -209,9 +209,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     } else {
         unkVar = ~0x80;
         if (player->stateFlags2 & 0x80) {
-            if (&this->actor == player->actor.attachedA) {
+            if (&this->actor == player->actor.parent) {
                 player->stateFlags2 &= unkVar;
-                player->actor.attachedA = NULL;
+                player->actor.parent = NULL;
                 player->unk_850 = 200;
             }
         }
@@ -231,9 +231,9 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->stateFlags2 & 0x80) {
-        if (&this->actor == player->actor.attachedA) {
+        if (&this->actor == player->actor.parent) {
             player->stateFlags2 &= ~0x80;
-            player->actor.attachedA = NULL;
+            player->actor.parent = NULL;
             player->unk_850 = 200;
         }
     }
@@ -251,12 +251,12 @@ void EnDha_SetupDeath(EnDha* this) {
     this->unk_1C0 = 8;
     this->unk_1C8 = 300;
 
-    if (this->actor.attachedA != NULL) {
-        if (this->actor.attachedA->params != 0xA) {
+    if (this->actor.parent != NULL) {
+        if (this->actor.parent->params != 0xA) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
         }
-        if (this->actor.attachedA->params <= 0) {
-            this->actor.attachedA->params--;
+        if (this->actor.parent->params <= 0) {
+            this->actor.parent->params--;
         }
     }
     EnDha_SetupAction(this, EnDha_Die);
@@ -268,9 +268,9 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->stateFlags2 & 0x80) {
-        if (&this->actor == player->actor.attachedA) {
+        if (&this->actor == player->actor.parent) {
             player->stateFlags2 &= ~0x80;
-            player->actor.attachedA = NULL;
+            player->actor.parent = NULL;
             player->unk_850 = 200;
         }
     }
@@ -287,8 +287,8 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
                 return;
             }
             this->unk_1C8--;
-            if (this->actor.attachedA != 0) {
-                if (this->actor.attachedA->params == 0xA) {
+            if (this->actor.parent != 0) {
+                if (this->actor.parent->params == 0xA) {
                     Actor_Kill(&this->actor);
                     return;
                 }
@@ -321,8 +321,8 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (this->actor.attachedA != NULL) {
-        if (this->actor.attachedA->params == 0xA) {
+    if (this->actor.parent != NULL) {
+        if (this->actor.parent->params == 0xA) {
             EnDha_SetupDeath(this);
         }
     }
@@ -334,8 +334,8 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     colChkCtx = &globalCtx->colChkCtx;
 
-    if (this->actor.attachedA == NULL) {
-        this->actor.attachedA = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORTYPE_ENEMY, 10000.0f);
+    if (this->actor.parent == NULL) {
+        this->actor.parent = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORTYPE_ENEMY, 10000.0f);
     }
     EnDha_UpdateHealth(this, globalCtx);
     this->actionFunc(this, globalCtx);

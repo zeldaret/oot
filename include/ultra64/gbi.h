@@ -7,6 +7,8 @@
 
 /* Types */
 
+/* Private macro to wrap other macros in do {...} while (0) */
+#define _DW(macro) do {macro} while (0)
 
 #define F3DEX_GBI_2
 
@@ -2632,7 +2634,7 @@ _DW({									\
  * Macros to turn texture on/off
  */
 # define gSPTexture(pkt, s, t, level, tile, on)				\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = (_SHIFTL(G_TEXTURE,24,8) | 			\
@@ -2640,7 +2642,7 @@ _DW({									\
 			_SHIFTL((level),11,3) | _SHIFTL((tile),8,3) |	\
 			_SHIFTL((on),1,7));				\
 	_g->words.w1 = (_SHIFTL((s),16,16) | _SHIFTL((t),0,16));	\
-}
+})
 # define gsSPTexture(s, t, level, tile, on)				\
 {									\
 	(_SHIFTL(G_TEXTURE,24,8) | _SHIFTL(BOWTIE_VAL,16,8) |		\
@@ -2743,11 +2745,11 @@ _DW({									\
  *	gSPLoadGeometryMode(pkt, word) sets GeometryMode directly.
  */
 #define	gSPGeometryMode(pkt, c, s)					\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 	_g->words.w0 = _SHIFTL(G_GEOMETRYMODE,24,8)|_SHIFTL(~(u32)(c),0,24);\
 	_g->words.w1 = (u32)(s);					\
-}
+})
 
 #define	gsSPGeometryMode(c, s)						\
 {									\
@@ -2762,12 +2764,12 @@ _DW({									\
 
 #else	/* F3DEX_GBI_2 */
 #define	gSPSetGeometryMode(pkt, word)					\
-_DW({									\
+{									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = _SHIFTL(G_SETGEOMETRYMODE, 24, 8);		\
 	_g->words.w1 = (unsigned int)(word);				\
-})
+}
 
 #define	gsSPSetGeometryMode(word)					\
 {									\
@@ -2775,12 +2777,12 @@ _DW({									\
 }
 
 #define	gSPClearGeometryMode(pkt, word)					\
-_DW({									\
+{									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = _SHIFTL(G_CLEARGEOMETRYMODE, 24, 8);		\
 	_g->words.w1 = (unsigned int)(word);				\
-})
+}
 
 #define	gsSPClearGeometryMode(word)					\
 {									\
@@ -4488,13 +4490,11 @@ _DW({									\
 #define gDPNoOpFloat(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 4)
 #define gDPNoOpQuiet(pkt)					gDma1p(pkt, G_NOOP, 0, 0, 5)
 #define gDPNoOpVerbose(pkt, n)				gDma1p(pkt, G_NOOP, 0, n, 5)
-#define gDPNoOpCallBack(pkt, callback)		gDma1p(pkt, G_NOOP, callback, 0, 6)
+#define gDPNoOpCallBack(pkt, callback, arg)	gDma1p(pkt, G_NOOP, callback, arg, 6)
 #define gDPNoOpOpenDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 7)
 #define gDPNoOpCloseDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 8)
+#define gDPNoOpTag3(pkt, type, data, n)		gDma1p(pkt, G_NOOP, data, n, type)
 
 #endif
-
-/* Private macro to wrap other macros in do {...} while (0) */
-#define _DW(macro) do {macro} while (0)
 
 #endif

@@ -31,8 +31,8 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
     (ActorFunc)BgSpot15Saku_Draw,
 };
 
-extern u32 D_060003C0;
-extern u32 D_060004D0;
+extern Gfx D_060003C0[];
+extern UNK_TYPE D_060004D0;
 
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Saku* this = THIS;
@@ -70,10 +70,10 @@ void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
 void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (!this->unk_17C) {
-        Audio_PlayActorSound2(thisx, 0x2067);
+        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->posRot.pos.z -= 2.0f;
         if (thisx->posRot.pos.z < 2660.0f) {
-            Audio_PlayActorSound2(thisx, 0x280E);
+            Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_17C = 0x1E;
             this->actionFunc = func_808B4A04;
         }
@@ -95,15 +95,13 @@ void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_060003C0);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060003C0);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }
