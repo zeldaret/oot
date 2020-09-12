@@ -7,8 +7,15 @@
 void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashira4_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void BgMoriHashira4_SetupObjectCheck(BgMoriHashira4* this);
+void BgMoriHashira4_SetupPillars(BgMoriHashira4* this);
+void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx);
+void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx);
+void BgMoriHashira4_ObjectCheck(BgMoriHashira4* this, GlobalContext* globalCtx);
+void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx);
+
 const ActorInit Bg_Mori_Hashira4_InitVars = {
     ACTOR_BG_MORI_HASHIRA4,
     ACTORTYPE_BG,
@@ -20,27 +27,139 @@ const ActorInit Bg_Mori_Hashira4_InitVars = {
     (ActorFunc)BgMoriHashira4_Update,
     NULL,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A3060.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A3068.s")
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 700, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/BgMoriHashira4_Init.s")
+extern ColHeader D_06001AF8;
+extern ColHeader D_060089E0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/BgMoriHashira4_Destroy.s")
+Gfx* D_808A35D0[] = { 0x06001300, 0x06008840 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A325C.s")
+s16 D_808A37C0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A3280.s")
+void BgMoriHashira4_SetActionFunc(BgMoriHashira4* this, BgMoriHashira4ActionFunc func) {
+    this->actionFunc = func;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A32F8.s")
+void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx, ColHeader* collision, s32 moveFlag) {
+    s32 pad;
+    ColHeader* colHeader;
+    s32 pad2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A331C.s")
+    colHeader = NULL;
+    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
+    DynaPolyInfo_Alloc(collision, &colHeader);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A3354.s")
+    if (this->dyna.dynaPolyId == 0x32) {
+        // Warning : move BG login failed
+        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 0x9B,
+                     this->dyna.actor.id, this->dyna.actor.params);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A3400.s")
+void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgMoriHashira4* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/BgMoriHashira4_Update.s")
+    this->switchFlag = (this->dyna.actor.params >> 8) & 0x3F;
+    this->dyna.actor.params &= 0xFF;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A3484.s")
+    if (this->dyna.actor.params == 0) {
+        BgMoriHashira4_InitDynaPoly(this, globalCtx, &D_06001AF8, DPM_UNK3);
+    } else {
+        BgMoriHashira4_InitDynaPoly(this, globalCtx, &D_060089E0, DPM_UNK);
+    }
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, 0x73);
+    if (this->objBankIndex < 0) {
+        Actor_Kill(&this->dyna.actor);
+        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
+                     "../z_bg_mori_hashira4.c", 0xC4);
+    } else if ((this->dyna.actor.params != 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        Actor_Kill(&this->dyna.actor);
+    } else {
+        Actor_SetHeight(&this->dyna.actor, 50.0f);
+        BgMoriHashira4_SetupObjectCheck(this);
+        osSyncPrintf("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
+        D_808A37C0 = 0;
+    }
+}
+
+void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgMoriHashira4* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+}
+
+void BgMoriHashira4_SetupObjectCheck(BgMoriHashira4* this) {
+    BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_ObjectCheck);
+}
+
+void BgMoriHashira4_ObjectCheck(BgMoriHashira4* this, GlobalContext* globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+        this->gateTimer = 0;
+        if (this->dyna.actor.params == 0) {
+            BgMoriHashira4_SetupPillars(this);
+        } else {
+            BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_GateWait);
+        }
+        this->dyna.actor.draw = BgMoriHashira4_Draw;
+    }
+}
+
+void BgMoriHashira4_SetupPillars(BgMoriHashira4* this) {
+    BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_PillarsRotate);
+}
+
+void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx) {
+    this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y += 0x96;
+    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+}
+
+void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx) {
+    if (Flags_GetSwitch(globalCtx, this->switchFlag) || (this->gateTimer != 0)) {
+        this->gateTimer++;
+        if (this->gateTimer > 30) {
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+            BgMoriHashira4_SetActionFunc(this, &BgMoriHashira4_GateOpen);
+            func_800800F8(globalCtx, 0x177A, 0x14, &this->dyna.actor, 0);
+            D_808A37C0++;
+        }
+    }
+}
+
+void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx) {
+    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 10.0f)) {
+        Actor_Kill(&this->dyna.actor);
+    }
+}
+
+void BgMoriHashira4_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgMoriHashira4* this = THIS;
+
+    if (this->actionFunc != NULL) {
+        this->actionFunc(this, globalCtx);
+    }
+}
+
+void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgMoriHashira4* this = THIS;
+    s32 pad;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->objBankIndex].segment);
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_808A35D0[this->dyna.actor.params]);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 348);
+}
