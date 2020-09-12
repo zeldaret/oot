@@ -135,8 +135,7 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {
 void BgDdanJd_MoveEffects(BgDdanJd* this, GlobalContext* globalCtx) {
     Vec3f dustPos;
 
-    // Generate random dust particles at the platform's base. The platform's x and z thickness is 130 units, but the
-    // lengths of the sides are 110 units due to it's octagonal shape
+    // Generate random dust particles at the platform's base.
 
     dustPos.y = this->dyna.actor.initPosRot.pos.y;
     if ((globalCtx->gameplayFrames & 1) != 0) {
