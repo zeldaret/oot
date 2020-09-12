@@ -34,6 +34,7 @@ tools/overlayhelpers/batchdisasm/mipsdisasm/*
 tools/disasm/output/*
 tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
+diff2.py
 ctx.c
 tools/*dSYM/
 

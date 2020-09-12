@@ -357,26 +357,27 @@ void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
     this->maxTurnRate = 1000.0f;
 }
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 // Somehow doesn't use rodata value D_808D1EB4 = 0.01f. It would occur after the 85.56f float
 // literal in case 6 of the boss intro switch statement but before the next switch statement.
 // All instructions match.
 void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = 0;
+    u8 temp_rand;
     s16 i1;
     s16 i2;
     s16 i3;
     f32 dx;
     f32 dy;
     f32 dz;
-    u8 temp_rand;
+    Player* player = PLAYER;
     f32 angleToTarget;
     f32 pitchToTarget;
     Vec3f* holePosition1;
-    Player* player = PLAYER;
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
+    f32 pad;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime2);
@@ -578,9 +579,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                            &D_801333E0, &D_801333E8);
                 }
                 if (this->timers[3] == 190) {
-                    this->unk_1474.z = 0.05f;
-                    this->unk_1474.y = 0.05f;
-                    this->unk_1474.x = 0.05f;
+                    this->unk_1474.x = this->unk_1474.y = this->unk_1474.z = 0.05f;
                     this->collapsePlatform = 2;
                     func_8002DF54(globalCtx, &this->actor, 1);
                 }
@@ -590,7 +589,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->unk_1444.y = 85.56f;
                     this->unk_1444.z = 25.0f;
                 } else {
-                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.8 * 0.01f);
+                    Math_SmoothScaleMaxF(&this->unk_148C, 2.0f, 1.0f, 0.1 * 0.08f);
                     this->unk_1488 = Math_Coss(this->movementTimer * 0x8000) * this->unk_148C;
                 }
                 if (this->timers[3] == 160) {
@@ -601,9 +600,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                            0xA0, 0xB4, 0x80, 0x28);
                 }
                 if (this->timers[3] <= 100) {
-                    this->unk_1438.z = 2.0f;
-                    this->unk_1438.y = 2.0f;
-                    this->unk_1438.x = 2.0f;
+                    this->unk_1438.x = this->unk_1438.y = this->unk_1438.z = 2.0f;
                     this->unk_1450.x = player2->actor.posRot.pos.x + 50.0f;
                     this->unk_1450.y = player2->actor.posRot.pos.y + 50.0f;
                     this->unk_1450.z = player2->actor.posRot.pos.z + 50.0f;
@@ -625,7 +622,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                 this->timers[0] = 0;
                                 this->holeIndex = 7;
                                 this->targetPosition.x = holeLocations[this->holeIndex].x;
-                                this->targetPosition.y = (holeLocations[this->holeIndex].y + 200.0f) + 50.0f;
+                                this->targetPosition.y = holeLocations[this->holeIndex].y + 200.0f + 50.0f;
                                 this->targetPosition.z = holeLocations[this->holeIndex].z;
                                 this->introState1 = 3;
                             }
@@ -654,16 +651,15 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->handoffSignal = 100;
                     gSaveContext.eventChkInf[7] |= 8;
                 }
+                break;
         }
         BossFd_UpdateCamera2(this, globalCtx);
     } else {
         this->flightSpeed = 5.0f;
     }
-
     /***********************************************************************************************
      *                              Attacks and Death Cutscene                                     *
      ***********************************************************************************************/
-
     switch (this->actionState) {
         case 0: // Cases 0 - 3 deal with flying in and out of holes
             sp1CF = 1;
