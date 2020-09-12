@@ -35,6 +35,7 @@ tools/disasm/output/*
 tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
 ctx.c
+diff2.py
 tools/*dSYM/
 
 # Assets

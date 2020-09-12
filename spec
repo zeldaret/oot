@@ -1479,7 +1479,7 @@ endseg
 beginseg
     name "ovl_Boss_Ganondrof"
     include "build/src/overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.o"
-    include "build/data/overlays/actors/z_boss_ganondrof.data.o"
+    //include "build/data/overlays/actors/z_boss_ganondrof.data.o"
     include "build/data/overlays/actors/z_boss_ganondrof.reloc.o"
 endseg
 
