@@ -357,7 +357,7 @@ void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
     this->maxTurnRate = 1000.0f;
 }
 
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 // Somehow doesn't use rodata value D_808D1EB4 = 0.01f. It would occur after the 85.56f float
 // literal in case 6 of the boss intro switch statement but before the next switch statement.
 // All instructions match.
