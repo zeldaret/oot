@@ -2997,7 +2997,6 @@ endseg
 beginseg
     name "ovl_En_Reeba"
     include "build/src/overlays/actors/ovl_En_Reeba/z_en_reeba.o"
-    include "build/data/overlays/actors/z_en_reeba.data.o"
     include "build/data/overlays/actors/z_en_reeba.reloc.o"
 endseg
 
