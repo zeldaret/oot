@@ -38,9 +38,9 @@ static InitChainEntry sInitChain[] = {
 extern ColHeader D_06001AF8;
 extern ColHeader D_060089E0;
 
-Gfx* D_808A35D0[] = { 0x06001300, 0x06008840 };
+static Gfx* displayLists[] = { 0x06001300, 0x06008840 };
 
-s16 D_808A37C0;
+static s16 unkTimer; //seems to be unused
 
 void BgMoriHashira4_SetActionFunc(BgMoriHashira4* this, BgMoriHashira4ActionFunc func) {
     this->actionFunc = func;
@@ -87,7 +87,7 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetHeight(&this->dyna.actor, 50.0f);
         BgMoriHashira4_SetupObjectCheck(this);
         osSyncPrintf("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
-        D_808A37C0 = 0;
+        unkTimer = 0;
     }
 }
 
@@ -129,7 +129,7 @@ void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
             BgMoriHashira4_SetActionFunc(this, &BgMoriHashira4_GateOpen);
             func_800800F8(globalCtx, 0x177A, 0x14, &this->dyna.actor, 0);
-            D_808A37C0++;
+            unkTimer++;
         }
     }
 }
@@ -160,6 +160,6 @@ void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_808A35D0[this->dyna.actor.params]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, displayLists[this->dyna.actor.params]);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 348);
 }
