@@ -228,16 +228,8 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
     Mtx* temp_v0_4;
-    GraphicsContext* oGfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-    MtxF sp74;
-    Mtx* temp_v0_3;
-    Vec3f sp64;
-    s16 sp62;
-    f32 sp5C;
-    f32 temp_f0_4;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
 
     if (!(globalCtx->sceneNum == SCENE_SPOT20 && globalCtx->sceneNum == SCENE_MALON_STABLE)) {
         func_80A6C8E0(this, globalCtx);
@@ -245,8 +237,13 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
     if (this->unk_14C == 3) {
-        sp64 = D_80A6D548;
-        sp5C = this->actor.posRot.pos.y - this->actor.groundY;
+        MtxF sp74;
+        Mtx* temp_v0_3;
+        Vec3f sp64 = D_80A6D548;
+        s16 sp62;
+        f32 sp5C = this->actor.posRot.pos.y - this->actor.groundY;
+        f32 temp_f0_4;
+
         if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
             if (this->actor.posRot.pos.x == 355.0f && this->actor.posRot.pos.y == 0.0f &&
                 this->actor.posRot.pos.z == -245.0f) {
@@ -305,5 +302,5 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2339);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2339);
 }
