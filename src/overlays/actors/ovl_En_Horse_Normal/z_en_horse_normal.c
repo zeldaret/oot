@@ -239,8 +239,8 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         func_80A6CC88(globalCtx, this, &sp64);
-        SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, this->actor.scale.y, thisx->scale.z,
-                                              thisx->shape.rot.x, sp62, thisx->shape.rot.z, sp64.x,
+        SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
+                                              this->actor.shape.rot.x, sp62, this->actor.shape.rot.z, sp64.x,
                                               (this->actor.shape.unk_08 * this->actor.scale.y) + sp64.y, sp64.z);
         temp_v0_3 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
         if (temp_v0_3 != NULL) {
