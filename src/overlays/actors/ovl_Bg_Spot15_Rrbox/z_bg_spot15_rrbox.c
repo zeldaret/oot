@@ -83,13 +83,13 @@ void func_808B39E8(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
 }
 
 void func_808B3A34(BgSpot15Rrbox* this) {
-    this->unk_180 = 50;
+    this->bgId = 50;
 }
 
-bool func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
+s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     DynaPolyActor* temp_v0;
 
-    temp_v0 = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->unk_180);
+    temp_v0 = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->bgId);
 
     if (temp_v0 != 0) {
         if (Math3D_Dist2DSq(temp_v0->actor.posRot.pos.x, temp_v0->actor.posRot.pos.z, this->dyna.actor.posRot.pos.x,
@@ -165,7 +165,7 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     sp38.y += this->dyna.actor.pos4.y;
     sp38.z += this->dyna.actor.posRot.pos.z;
 
-    this->dyna.actor.groundY = func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->unk_180,
+    this->dyna.actor.groundY = func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
                                              &this->dyna.actor, &sp38, chkDist);
 
     if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
@@ -182,7 +182,7 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     Actor* actor = &this->dyna.actor;
     f32 yIntersect;
     f32 returnValue = -32000.0f;
-    s32 sp64;
+    s32 bgId;
 
     func_808B3A34(this);
     for (i = 0; i < ARRAY_COUNT(D_808B45DC); i++) {
@@ -196,11 +196,11 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         tempVector2.y += actor->pos4.y;
         tempVector2.z += actor->posRot.pos.z;
 
-        yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &sp64, actor, &tempVector2, 0);
+        yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &tempVector2, 0);
 
         if (returnValue < yIntersect) {
             returnValue = yIntersect;
-            this->unk_180 = sp64;
+            this->bgId = bgId;
         }
     }
     return returnValue;
