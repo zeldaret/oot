@@ -188,7 +188,6 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
     }
 }
 
-#ifdef NON_EQUIVALENT
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
     Mtx* temp_v0_4;
@@ -245,7 +244,9 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                               this->actor.shape.rot.x, sp62, this->actor.shape.rot.z, sp64.x,
                                               (this->actor.shape.unk_08 * this->actor.scale.y) + sp64.y, sp64.z);
         temp_v0_3 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
-        if (temp_v0_3 != NULL) {
+        if (temp_v0_3 == NULL) {
+            return;
+        } else {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPMatrix(oGfxCtx->polyOpa.p++, temp_v0_3, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_800A63CC(this, globalCtx, &this->unk_154, 0, 0, 1, 0, 3);
@@ -269,6 +270,3 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2339);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Draw.s")
-#endif
