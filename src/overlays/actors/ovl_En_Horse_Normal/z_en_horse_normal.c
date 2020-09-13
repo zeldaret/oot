@@ -260,7 +260,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             temp_v0_4 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
             if (temp_v0_4 != NULL) {
                 gSPMatrix(oGfxCtx->polyXlu.p++, temp_v0_4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_04049AD0);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, &D_04049AD0);
             }
         }
     }
