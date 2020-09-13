@@ -262,7 +262,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
 
-    if (!(globalCtx->sceneNum == SCENE_SPOT20 && globalCtx->sceneNum == SCENE_MALON_STABLE)) {
+    if (globalCtx->sceneNum != SCENE_SPOT20 || globalCtx->sceneNum != SCENE_MALON_STABLE) {
         func_80A6C8E0(this, globalCtx);
     }
     func_80093D18(globalCtx->state.gfxCtx);
