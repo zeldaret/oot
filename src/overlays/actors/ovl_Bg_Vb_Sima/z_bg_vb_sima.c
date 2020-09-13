@@ -59,8 +59,8 @@ void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* veloc
     s16 i;
 
     for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == 0) {
-            particle->type = 1;
+        if (particle->type == FD_NULL) {
+            particle->type = FD_EMBER;
             particle->pos = *position;
             particle->vel = *velocity;
             particle->accel = *acceleration;
@@ -118,9 +118,11 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 splashVel.x = edgeX * 0.05f;
                 splashVel.y = Math_Rand_ZeroFloat(3.0f) + 3.0f;
                 splashVel.z = edgeZ * 0.05f;
+
                 splashAcc.y = -0.3f;
                 splashAcc.x = splashVel.x;
                 splashAcc.z = splashVel.z;
+
                 splashPos.x = this->dyna.actor.posRot.pos.x + edgeX;
                 splashPos.y = -80.0f;
                 splashPos.z = this->dyna.actor.posRot.pos.z + edgeZ;

@@ -449,7 +449,7 @@ glabel L808CB988
 /* 00D84 808CBB44 46184100 */  add.s   $f4, $f8, $f24             
 /* 00D88 808CBB48 E6C4146C */  swc1    $f4, 0x146C($s6)           ## 0000146C
 /* 00D8C 808CBB4C C606002C */  lwc1    $f6, 0x002C($s0)           ## 0000002C
-/* 00D90 808CBB50 0C232C40 */  jal     BossFd_UpdateCamera1              
+/* 00D90 808CBB50 0C232C40 */  jal     BossFd_SetCameraSpeed              
 /* 00D94 808CBB54 E6C61470 */  swc1    $f6, 0x1470($s6)           ## 00001470
 /* 00D98 808CBB58 3C01808D */  lui     $at, %hi(D_808D1E6C)       ## $at = 808D0000
 /* 00D9C 808CBB5C C4221E6C */  lwc1    $f2, %lo(D_808D1E6C)($at)  
@@ -500,7 +500,7 @@ glabel L808CB988
 /* 00E50 808CBC10 44814000 */  mtc1    $at, $f8                   ## $f8 = 120.00
 /* 00E54 808CBC14 46062281 */  sub.s   $f10, $f4, $f6             
 /* 00E58 808CBC18 E6C8146C */  swc1    $f8, 0x146C($s6)           ## 0000146C
-/* 00E5C 808CBC1C 0C232C40 */  jal     BossFd_UpdateCamera1              
+/* 00E5C 808CBC1C 0C232C40 */  jal     BossFd_SetCameraSpeed              
 /* 00E60 808CBC20 E6CA1458 */  swc1    $f10, 0x1458($s6)          ## 00001458
 /* 00E64 808CBC24 3C01808D */  lui     $at, %hi(D_808D1E70)       ## $at = 808D0000
 /* 00E68 808CBC28 C4201E70 */  lwc1    $f0, %lo(D_808D1E70)($at)  
@@ -702,7 +702,7 @@ glabel L808CBE20
 /* 01140 808CBF00 E6C6146C */  swc1    $f6, 0x146C($s6)           ## 0000146C
 /* 01144 808CBF04 C60A002C */  lwc1    $f10, 0x002C($s0)          ## 0000002C
 /* 01148 808CBF08 46185201 */  sub.s   $f8, $f10, $f24            
-/* 0114C 808CBF0C 0C232C40 */  jal     BossFd_UpdateCamera1              
+/* 0114C 808CBF0C 0C232C40 */  jal     BossFd_SetCameraSpeed              
 /* 01150 808CBF10 E6C81470 */  swc1    $f8, 0x1470($s6)           ## 00001470
 /* 01154 808CBF14 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 01158 808CBF18 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
@@ -795,7 +795,7 @@ glabel L808CBF44
 /* 0129C 808CC05C E6CA1468 */  swc1    $f10, 0x1468($s6)          ## 00001468
 /* 012A0 808CC060 E6C61458 */  swc1    $f6, 0x1458($s6)           ## 00001458
 /* 012A4 808CC064 E6C8146C */  swc1    $f8, 0x146C($s6)           ## 0000146C
-/* 012A8 808CC068 0C232C40 */  jal     BossFd_UpdateCamera1              
+/* 012A8 808CC068 0C232C40 */  jal     BossFd_SetCameraSpeed              
 /* 012AC 808CC06C E6C41470 */  swc1    $f4, 0x1470($s6)           ## 00001470
 /* 012B0 808CC070 3C01808D */  lui     $at, %hi(D_808D1E8C)       ## $at = 808D0000
 /* 012B4 808CC074 C4261E8C */  lwc1    $f6, %lo(D_808D1E8C)($at)  
@@ -1162,7 +1162,7 @@ glabel L808CC140
 /* 017EC 808CC5AC 3C128013 */  lui     $s2, %hi(D_801333E0)
 /* 017F0 808CC5B0 265233E0 */  addiu   $s2, %lo(D_801333E0)
 /* 017F4 808CC5B4 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
-/* 017F8 808CC5B8 0C232C66 */  jal     BossFd_UpdateCamera2              
+/* 017F8 808CC5B8 0C232C66 */  jal     BossFd_UpdateCamera              
 /* 017FC 808CC5BC 8FA501D4 */  lw      $a1, 0x01D4($sp)           
 /* 01800 808CC5C0 1000000F */  beq     $zero, $zero, .L808CC600   
 /* 01804 808CC5C4 86C20222 */  lh      $v0, 0x0222($s6)           ## 00000222
