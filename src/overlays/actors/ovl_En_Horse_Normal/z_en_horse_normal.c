@@ -258,7 +258,7 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
 
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
-    Mtx* temp_v0_4;
+    Mtx* mtx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
 
@@ -269,10 +269,10 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
     if (this->unk_14C == 3) {
         MtxF sp74;
-        Mtx* temp_v0_3;
+        Mtx* skinMtx;
         Vec3f sp64 = D_80A6D548;
         s16 sp62;
-        f32 sp5C = this->actor.posRot.pos.y - this->actor.groundY;
+        f32 distFromGround = this->actor.posRot.pos.y - this->actor.groundY;
         f32 temp_f0_4;
 
         if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
@@ -308,12 +308,12 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkinMatrix_SetScaleRotateYRPTranslate(&sp74, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
                                               this->actor.shape.rot.x, sp62, this->actor.shape.rot.z, sp64.x,
                                               (this->actor.shape.unk_08 * this->actor.scale.y) + sp64.y, sp64.z);
-        temp_v0_3 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
-        if (temp_v0_3 == NULL) {
+        skinMtx = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &sp74);
+        if (skinMtx == NULL) {
             return;
         } else {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPMatrix(oGfxCtx->polyOpa.p++, temp_v0_3, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(oGfxCtx->polyOpa.p++, skinMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_800A63CC(this, globalCtx, &this->skin, 0, 0, 1, 0, 3);
             this->unk_2D4.dim.pos.x = sp64.x;
             this->unk_2D4.dim.pos.y = sp64.y;
@@ -322,12 +322,12 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80094044(globalCtx->state.gfxCtx);
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
             Matrix_Translate(sp64.x, sp64.y, sp64.z, 0);
-            temp_f0_4 = (1.0f - (sp5C * 0.01f)) * this->actor.shape.unk_10;
+            temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.unk_10;
             Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
             Matrix_RotateY(sp62 * (2.0f * M_PI / 0x10000), 1);
-            temp_v0_4 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
-            if (temp_v0_4 != NULL) {
-                gSPMatrix(oGfxCtx->polyXlu.p++, temp_v0_4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
+            if (mtx != NULL) {
+                gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(oGfxCtx->polyXlu.p++, D_04049AD0);
             }
         }
