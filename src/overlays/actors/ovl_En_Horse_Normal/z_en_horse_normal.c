@@ -191,7 +191,6 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
 #ifdef NON_EQUIVALENT
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp74;
     Vec3f sp64;
     s16 sp62;
@@ -200,10 +199,10 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Mtx* temp_v0_4;
     f32 temp_f0_4;
 
-    OPEN_DISPS(gfxCtx, "../z_en_horse_normal.c", 2224);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
 
-    if (globalCtx->sceneNum != SCENE_SPOT20 || globalCtx->sceneNum != SCENE_MALON_STABLE) {
-        func_80A6C8E0(thisx, globalCtx);
+    if (!(globalCtx->sceneNum == SCENE_SPOT20 && globalCtx->sceneNum == SCENE_MALON_STABLE)) {
+        func_80A6C8E0(this, globalCtx);
     }
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->unk_154, func_80A6CAFC, 1);
@@ -258,7 +257,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             temp_f0_4 = (1.0f - (sp5C * 0.01f)) * this->actor.shape.unk_10;
             Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
             Matrix_RotateY(sp62 * 0.0000958738f, 1);
-            temp_v0_4 = Matrix_NewMtx(gfxCtx, "../z_en_horse_normal.c", 2329);
+            temp_v0_4 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
             if (temp_v0_4 != NULL) {
                 gSPMatrix(oGfxCtx->polyXlu.p++, temp_v0_4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(oGfxCtx->polyXlu.p++, D_04049AD0);
@@ -266,7 +265,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    CLOSE_DISPS(gfxCtx, "../z_en_horse_normal.c", 2339);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2339);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Draw.s")
