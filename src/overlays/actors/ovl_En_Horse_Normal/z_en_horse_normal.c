@@ -93,8 +93,8 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->actor.shape.rot.z = 0;
         this->actor.initPosRot.rot.z = this->actor.posRot.rot.z = this->actor.shape.rot.z;
-        func_800A663C(globalCtx, &this->unk_154, &D_06009FAC, &D_06004580);
-        SkelAnime_ChangeAnimDefaultStop(&this->unk_154.skelAnime, D_80A6D370[this->unk_150]);
+        func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
+        SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A6D370[this->unk_150]);
         if ((this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f &&
              this->actor.posRot.pos.z == -1100.0f) ||
             (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f &&
@@ -107,24 +107,24 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            func_800A663C(globalCtx, &this->unk_154, &D_06009FAC, &D_06004580);
-            SkelAnime_ChangeAnimDefaultStop(&this->unk_154.skelAnime, D_80A6D370[this->unk_150]);
+            func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
+            SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A6D370[this->unk_150]);
             func_80A6C6B0(this);
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_SPOT12) {
         if (this->actor.posRot.pos.x == 3707.0f && this->actor.posRot.pos.y == 1413.0f &&
             this->actor.posRot.pos.z == -665.0f) {
-            func_800A663C(globalCtx, &this->unk_154, &D_06009FAC, &D_06004580);
-            SkelAnime_ChangeAnimDefaultStop(&this->unk_154.skelAnime, D_80A6D370[this->unk_150]);
+            func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
+            SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A6D370[this->unk_150]);
             func_80A6C4CC(this);
             return;
         }
-        func_800A663C(globalCtx, &this->unk_154, &D_06009FAC, &D_06004580);
-        SkelAnime_ChangeAnimDefaultStop(&this->unk_154.skelAnime, D_80A6D370[this->unk_150]);
+        func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
+        SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A6D370[this->unk_150]);
     } else {
-        func_800A663C(globalCtx, &this->unk_154, &D_06009FAC, &D_06004580);
-        SkelAnime_ChangeAnimDefaultStop(&this->unk_154.skelAnime, D_80A6D370[this->unk_150]);
+        func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
+        SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A6D370[this->unk_150]);
     }
     if ((this->actor.params & 0xF0) == 0x10 && (this->actor.params & 0xF) != 0xF) {
         func_80A6B91C(this, globalCtx);
@@ -133,7 +133,14 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Destroy.s")
+void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnHorseNormal* this = THIS;
+
+    func_800A6888(globalCtx, &this->skin);
+    Collider_DestroyCylinder(globalCtx, &this->unk_228);
+    Collider_DestroyCylinder(globalCtx, &this->unk_2D4);
+    Collider_DestroyJntSph(globalCtx, &this->unk_274);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B91C.s")
 
@@ -166,7 +173,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6CAFC.s")
 
 void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
-    f32 animCurrentFrame = this->unk_154.skelAnime.animCurrentFrame;
+    f32 animCurrentFrame = this->skin.skelAnime.animCurrentFrame;
     f32 wDest;
 
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg2, &this->unk_1E8, &wDest);
@@ -206,7 +213,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80A6C8E0(this, globalCtx);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->unk_154, func_80A6CAFC, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
     if (this->unk_14C == 3) {
         sp64 = D_80A6D548;
         sp5C = this->actor.posRot.pos.y - this->actor.groundY;
@@ -249,7 +256,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPMatrix(oGfxCtx->polyOpa.p++, temp_v0_3, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            func_800A63CC(this, globalCtx, &this->unk_154, 0, 0, 1, 0, 3);
+            func_800A63CC(this, globalCtx, &this->skin, 0, 0, 1, 0, 3);
             this->unk_2D4.dim.pos.x = sp64.x;
             this->unk_2D4.dim.pos.y = sp64.y;
             this->unk_2D4.dim.pos.z = sp64.z;

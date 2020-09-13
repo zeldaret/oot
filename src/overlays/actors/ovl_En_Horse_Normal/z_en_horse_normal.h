@@ -10,7 +10,7 @@ typedef struct EnHorseNormal {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 unk_14C;
     /* 0x0150 */ s32 unk_150;
-    /* 0x0154 */ PSkinAwb unk_154;
+    /* 0x0154 */ PSkinAwb skin;
     /* 0x01E4 */ u16 unk_1E4;
     /* 0x01E6 */ char unk_1E6[0x02];
     /* 0x01E8 */ Vec3f unk_1E8;
