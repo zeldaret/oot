@@ -256,7 +256,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(sp64.x, sp64.y, sp64.z, 0);
             temp_f0_4 = (1.0f - (sp5C * 0.01f)) * this->actor.shape.unk_10;
             Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
-            Matrix_RotateY(sp62 * 0.0000958738f, 1);
+            Matrix_RotateY(sp62 * (2.0f * M_PI / 0x10000), 1);
             temp_v0_4 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
             if (temp_v0_4 != NULL) {
                 gSPMatrix(oGfxCtx->polyXlu.p++, temp_v0_4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
