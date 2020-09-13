@@ -7,6 +7,7 @@
 #include <ultra64/controller.h>
 #include <z64light.h>
 #include <z64actor.h>
+#include <z64player.h>
 #include <z64audio.h>
 #include <z64object.h>
 #include <z64cutscene.h>
@@ -1235,15 +1236,15 @@ typedef struct GlobalContext {
     /* 0x11D30 */ s16 unk_11D30[2];
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
-    /* 0x11D3C */ void (*unk_11D3C)(Player* player, struct GlobalContext* globalCtx, SkeletonHeader* skelHeader);
-    /* 0x11D40 */ void (*unk_11D40)(Player* player, struct GlobalContext* globalCtx, Input* input);
-    /* 0x11D44 */ s32 (*unk_11D44)(struct GlobalContext* globalCtx);
-    /* 0x11D48 */ s32 (*unk_11D48)(struct GlobalContext* globalCtx);
-    /* 0x11D4C */ s32 (*unk_11D4C)(struct GlobalContext* globalCtx, Player* player);
-    /* 0x11D50 */ s32 (*unk_11D50)(struct GlobalContext* globalCtx, Actor* actor, s32 action);
-    /* 0x11D54 */ void (*unk_11D54)(Player* player, struct GlobalContext* globalCtx);
-    /* 0x11D58 */ s32 (*unk_11D58)(struct GlobalContext* globalCtx, s32 damage);
-    /* 0x11D5C */ void (*unk_11D5C)(struct GlobalContext* globalCtx, Actor* actor);
+    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, SkeletonHeader* skelHeader);
+    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
+    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
+    /* 0x11D48 */ s32 (*startPlayerFishing)(struct GlobalContext* globalCtx);
+    /* 0x11D4C */ s32 (*grabPlayer)(struct GlobalContext* globalCtx, Player* player);
+    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct GlobalContext* globalCtx, Actor* actor, s32 mode);
+    /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
+    /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
+    /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
     /* 0x11D60 */ MtxF mf_11D60;
     /* 0x11DA0 */ MtxF mf_11DA0;
     /* 0x11DE0 */ Mtx* unk_11DE0;

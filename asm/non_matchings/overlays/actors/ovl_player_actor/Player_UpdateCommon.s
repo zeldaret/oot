@@ -12,13 +12,13 @@ glabel D_808554D8
     .float 0.8
 
 .text
-glabel func_80848F9C
+glabel Player_UpdateCommon
 /* 16D8C 80848F9C 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
-/* 16D90 80848FA0 3C018086 */  lui     $at, %hi(D_80858AB4)       ## $at = 80860000
+/* 16D90 80848FA0 3C018086 */  lui     $at, %hi(sControlInput)       ## $at = 80860000
 /* 16D94 80848FA4 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 16D98 80848FA8 AFB00020 */  sw      $s0, 0x0020($sp)
 /* 16D9C 80848FAC AFA50084 */  sw      $a1, 0x0084($sp)
-/* 16DA0 80848FB0 AC268AB4 */  sw      $a2, %lo(D_80858AB4)($at)
+/* 16DA0 80848FB0 AC268AB4 */  sw      $a2, %lo(sControlInput)($at)
 /* 16DA4 80848FB4 80820A86 */  lb      $v0, 0x0A86($a0)           ## 00000A86
 /* 16DA8 80848FB8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 16DAC 80848FBC 04410009 */  bgez    $v0, .L80848FE4
@@ -431,7 +431,7 @@ glabel func_80848F9C
 /* 1734C 8084955C 00000000 */  nop
 /* 17350 80849560 45010021 */  bc1t    .L808495E8
 /* 17354 80849564 00000000 */  nop
-/* 17358 80849568 0C023A62 */  jal     func_8008E988
+/* 17358 80849568 0C023A62 */  jal     Player_InCsMode
 /* 1735C 8084956C 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17360 80849570 1440001D */  bne     $v0, $zero, .L808495E8
 /* 17364 80849574 00000000 */  nop
@@ -628,7 +628,7 @@ glabel func_80848F9C
 /* 17610 80849820 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 17614 80849824 8FA40084 */  lw      $a0, 0x0084($sp)
 .L80849828:
-/* 17618 80849828 0C023A37 */  jal     func_8008E8DC
+/* 17618 80849828 0C023A37 */  jal     Player_InBlockingCsMode
 /* 1761C 8084982C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 17620 80849830 54400054 */  bnel    $v0, $zero, .L80849984
 /* 17624 80849834 8FA70084 */  lw      $a3, 0x0084($sp)

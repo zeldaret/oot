@@ -1577,7 +1577,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
             this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
         dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
         if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (dynaActor->actor.params == 0) &&
-            (!func_8008E988(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
+            (!Player_InCsMode(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
@@ -1641,7 +1641,7 @@ s32 func_80AEE6D0(EnRu1* this, GlobalContext* globalCtx) {
     s8 curRoomNum = globalCtx->roomCtx.curRoom.num;
 
     if ((!(gSaveContext.infTable[20] & 0x10)) && (func_80AEB124(globalCtx) != 0)) {
-        if (func_8008E988(globalCtx) == 0) {
+        if (!Player_InCsMode(globalCtx)) {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004648, 1.0f, 0,
                                  SkelAnime_GetFrameCount(&D_06004350.genericHeader), 0, -8.0f);
             func_80AED600(this);

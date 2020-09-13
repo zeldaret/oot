@@ -3369,7 +3369,7 @@ void func_80059EC8(Camera* camera) {
             player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
-            if (player->action != 0) {
+            if (player->csMode != 0) {
                 func_8002DF54(camera->globalCtx, &player->actor, 7);
                 osSyncPrintf("camera: player demo end!!\n");
             }

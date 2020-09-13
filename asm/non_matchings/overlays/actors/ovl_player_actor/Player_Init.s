@@ -14,7 +14,7 @@ glabel Player_Init
 /* 14AE0 80846CF0 00A11021 */  addu    $v0, $a1, $at              
 /* 14AE4 80846CF4 8C4E242C */  lw      $t6, 0x242C($v0)           ## 0000242C
 /* 14AE8 80846CF8 00250821 */  addu    $at, $at, $a1              
-/* 14AEC 80846CFC 3C188084 */  lui     $t8, %hi(func_80846AAC)    ## $t8 = 80840000
+/* 14AEC 80846CFC 3C188084 */  lui     $t8, %hi(Player_InitCommon)    ## $t8 = 80840000
 /* 14AF0 80846D00 AFAE005C */  sw      $t6, 0x005C($sp)           
 /* 14AF4 80846D04 A0201E5D */  sb      $zero, 0x1E5D($at)         ## 00011E5D
 /* 14AF8 80846D08 804F1E5D */  lb      $t7, 0x1E5D($v0)           ## 00001E5D
@@ -23,21 +23,21 @@ glabel Player_Init
 /* 14B04 80846D14 A02F1E5C */  sb      $t7, 0x1E5C($at)           ## 00011E5C
 /* 14B08 80846D18 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 14B0C 80846D1C 00250821 */  addu    $at, $at, $a1              
-/* 14B10 80846D20 27186AAC */  addiu   $t8, $t8, %lo(func_80846AAC) ## $t8 = 80846AAC
+/* 14B10 80846D20 27186AAC */  addiu   $t8, $t8, %lo(Player_InitCommon) ## $t8 = 80846AAC
 /* 14B14 80846D24 AC381D3C */  sw      $t8, 0x1D3C($at)           ## 00011D3C
 /* 14B18 80846D28 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 14B1C 80846D2C 3C198085 */  lui     $t9, %hi(func_80848F9C)    ## $t9 = 80850000
-/* 14B20 80846D30 27398F9C */  addiu   $t9, $t9, %lo(func_80848F9C) ## $t9 = 80848F9C
+/* 14B1C 80846D2C 3C198085 */  lui     $t9, %hi(Player_UpdateCommon)    ## $t9 = 80850000
+/* 14B20 80846D30 27398F9C */  addiu   $t9, $t9, %lo(Player_UpdateCommon) ## $t9 = 80848F9C
 /* 14B24 80846D34 00250821 */  addu    $at, $at, $a1              
 /* 14B28 80846D38 AC391D40 */  sw      $t9, 0x1D40($at)           ## 00011D40
 /* 14B2C 80846D3C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 14B30 80846D40 3C098085 */  lui     $t1, %hi(func_80852EC8)    ## $t1 = 80850000
-/* 14B34 80846D44 25292EC8 */  addiu   $t1, $t1, %lo(func_80852EC8) ## $t1 = 80852EC8
+/* 14B30 80846D40 3C098085 */  lui     $t1, %hi(Player_IsDroppingFish)    ## $t1 = 80850000
+/* 14B34 80846D44 25292EC8 */  addiu   $t1, $t1, %lo(Player_IsDroppingFish) ## $t1 = 80852EC8
 /* 14B38 80846D48 00250821 */  addu    $at, $at, $a1              
 /* 14B3C 80846D4C AC291D44 */  sw      $t1, 0x1D44($at)           ## 00011D44
 /* 14B40 80846D50 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 14B44 80846D54 3C0A8085 */  lui     $t2, %hi(func_80852EFC)    ## $t2 = 80850000
-/* 14B48 80846D58 254A2EFC */  addiu   $t2, $t2, %lo(func_80852EFC) ## $t2 = 80852EFC
+/* 14B44 80846D54 3C0A8085 */  lui     $t2, %hi(Player_StartFishing)    ## $t2 = 80850000
+/* 14B48 80846D58 254A2EFC */  addiu   $t2, $t2, %lo(Player_StartFishing) ## $t2 = 80852EFC
 /* 14B4C 80846D5C 00250821 */  addu    $at, $at, $a1              
 /* 14B50 80846D60 AC2A1D48 */  sw      $t2, 0x1D48($at)           ## 00011D48
 /* 14B54 80846D64 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -56,8 +56,8 @@ glabel Player_Init
 /* 14B88 80846D98 00250821 */  addu    $at, $at, $a1              
 /* 14B8C 80846D9C AC2D1D54 */  sw      $t5, 0x1D54($at)           ## 00011D54
 /* 14B90 80846DA0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 14B94 80846DA4 3C0E8085 */  lui     $t6, %hi(func_808530E0)    ## $t6 = 80850000
-/* 14B98 80846DA8 25CE30E0 */  addiu   $t6, $t6, %lo(func_808530E0) ## $t6 = 808530E0
+/* 14B94 80846DA4 3C0E8085 */  lui     $t6, %hi(Player_InflictDamage)    ## $t6 = 80850000
+/* 14B98 80846DA8 25CE30E0 */  addiu   $t6, $t6, %lo(Player_InflictDamage) ## $t6 = 808530E0
 /* 14B9C 80846DAC 00250821 */  addu    $at, $at, $a1              
 /* 14BA0 80846DB0 AC2E1D58 */  sw      $t6, 0x1D58($at)           ## 00011D58
 /* 14BA4 80846DB4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -77,10 +77,10 @@ glabel Player_Init
 /* 14BDC 80846DEC 0019C880 */  sll     $t9, $t9,  2               
 /* 14BE0 80846DF0 0338C821 */  addu    $t9, $t9, $t8              
 /* 14BE4 80846DF4 0019C880 */  sll     $t9, $t9,  2               
-/* 14BE8 80846DF8 3C098085 */  lui     $t1, %hi(D_80853428)       ## $t1 = 80850000
+/* 14BE8 80846DF8 3C098085 */  lui     $t1, %hi(sAgeProperties)       ## $t1 = 80850000
 /* 14BEC 80846DFC 0338C821 */  addu    $t9, $t9, $t8              
 /* 14BF0 80846E00 0019C880 */  sll     $t9, $t9,  2               
-/* 14BF4 80846E04 25293428 */  addiu   $t1, $t1, %lo(D_80853428)  ## $t1 = 80853428
+/* 14BF4 80846E04 25293428 */  addiu   $t1, $t1, %lo(sAgeProperties)  ## $t1 = 80853428
 /* 14BF8 80846E08 03295021 */  addu    $t2, $t9, $t1              
 /* 14BFC 80846E0C 240C00FF */  addiu   $t4, $zero, 0x00FF         ## $t4 = 000000FF
 /* 14C00 80846E10 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -93,18 +93,18 @@ glabel Player_Init
 /* 14C1C 80846E2C 0C20D7D1 */  jal     func_80835F44              
 /* 14C20 80846E30 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
 /* 14C24 80846E34 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 14C28 80846E38 0C023B2B */  jal     func_8008ECAC              
+/* 14C28 80846E38 0C023B2B */  jal     Player_SetEquipmentData              
 /* 14C2C 80846E3C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 14C30 80846E40 820D014F */  lb      $t5, 0x014F($s0)           ## 0000014F
-/* 14C34 80846E44 3C068012 */  lui     $a2, %hi(D_80125B70)
+/* 14C34 80846E44 3C068012 */  lui     $a2, %hi(gPlayerSkelHeaders)
 /* 14C38 80846E48 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 14C3C 80846E4C A20D0153 */  sb      $t5, 0x0153($s0)           ## 00000153
 /* 14C40 80846E50 8E470004 */  lw      $a3, 0x0004($s2)           ## 8015E664
 /* 14C44 80846E54 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 14C48 80846E58 00077080 */  sll     $t6, $a3,  2               
 /* 14C4C 80846E5C 00CE3021 */  addu    $a2, $a2, $t6              
-/* 14C50 80846E60 0C211AAB */  jal     func_80846AAC              
-/* 14C54 80846E64 8CC65B70 */  lw      $a2, %lo(D_80125B70)($a2)
+/* 14C50 80846E60 0C211AAB */  jal     Player_InitCommon              
+/* 14C54 80846E64 8CC65B70 */  lw      $a2, %lo(gPlayerSkelHeaders)($a2)
 /* 14C58 80846E68 3C058085 */  lui     $a1, %hi(D_80855290)       ## $a1 = 80850000
 /* 14C5C 80846E6C 24A55290 */  addiu   $a1, $a1, %lo(D_80855290)  ## $a1 = 80855290
 /* 14C60 80846E70 24043008 */  addiu   $a0, $zero, 0x3008         ## $a0 = 00003008

@@ -599,7 +599,7 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
             gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
 
             Scene_ExecuteCommands(globalCtx, roomCtx->curRoom.segment);
-            func_8008E750(globalCtx, PLAYER);
+            Player_SetBootData(globalCtx, PLAYER);
             Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
 
             return 1;
