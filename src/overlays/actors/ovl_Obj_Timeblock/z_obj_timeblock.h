@@ -10,9 +10,14 @@ typedef void (*ObjTimeblockActionFunc)(struct ObjTimeblock*, GlobalContext*);
 
 typedef struct ObjTimeblock {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ char unk_164[0x4];
+    /* 0x0164 */ char unk_164[4];
     /* 0x0168 */ ObjTimeblockActionFunc actionFunc;
-    /* 0x016C */ char unk_16C[0x10];
+    /* 0x016C */ char unk_16C[8];
+    /* 0x0174 */ u8 unk_174;
+    /* 0x0175 */ u8 unk_175;
+    /* 0x0176 */ u8 unk_176;
+    /* 0x0177 */ u8 unk_177;
+    /* 0x0178 */ u8 unk_178;
 } ObjTimeblock; // size = 0x017C
 
 extern const ActorInit Obj_Timeblock_InitVars;
