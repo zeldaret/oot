@@ -191,15 +191,17 @@ void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
 #ifdef NON_EQUIVALENT
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
+    Mtx* temp_v0_4;
+    GraphicsContext* oGfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
     MtxF sp74;
+    Mtx* temp_v0_3;
     Vec3f sp64;
     s16 sp62;
     f32 sp5C;
-    Mtx* temp_v0_3;
-    Mtx* temp_v0_4;
     f32 temp_f0_4;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2224);
 
     if (!(globalCtx->sceneNum == SCENE_SPOT20 && globalCtx->sceneNum == SCENE_MALON_STABLE)) {
         func_80A6C8E0(this, globalCtx);
@@ -265,7 +267,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2339);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2339);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Draw.s")
