@@ -4,6 +4,8 @@
 
 #define THIS ((EnHorseNormal*)thisx)
 
+typedef void (*EnHorseNormalUnkFunc)(EnHorseNormal* this, GlobalContext* globalCtx);
+
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -15,6 +17,12 @@ void func_80A6BC48(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem);
+
+void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Normal_InitVars = {
@@ -36,6 +44,7 @@ extern ColliderCylinderInit D_80A6D3C0;
 extern ColliderJntSphInit D_80A6D410;
 extern CollisionCheckInfoInit D_80A6D420;
 extern InitChainEntry D_80A6D4EC[];
+extern EnHorseNormalUnkFunc D_80A6D534[];
 extern Vec3f D_80A6D548;
 
 extern AnimationHeader D_06004580;
@@ -168,7 +177,28 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6C8E0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Update.s")
+void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnHorseNormal* this = THIS;
+    s32 pad;
+
+    D_80A6D534[this->unk_14C](this, globalCtx);
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
+    if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.posRot.pos.z < -2400.0f) {
+        this->actor.posRot.pos.z = -2400.0f;
+    }
+    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.posRot2.pos.y += 70.0f;
+    this->unk_204 = this->actor.projectedPos;
+    this->unk_204.y += 120.0f;
+    Collider_CylinderUpdate(&this->actor, &this->unk_228);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_228);
+    if (this->actor.speedXZ == 0.0f) {
+        this->actor.colChkInfo.mass = 0xFF;
+    } else {
+        this->actor.colChkInfo.mass = 0xFE;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6CAFC.s")
 

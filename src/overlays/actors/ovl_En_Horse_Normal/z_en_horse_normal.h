@@ -15,7 +15,9 @@ typedef struct EnHorseNormal {
     /* 0x01E6 */ char unk_1E6[0x02];
     /* 0x01E8 */ Vec3f unk_1E8;
     /* 0x01F4 */ Vec3f unk_1F4;
-    /* 0x0200 */ char unk_200[0x28];
+    /* 0x0200 */ s32 unk_200;
+    /* 0x0204 */ Vec3f unk_204;
+    /* 0x0210 */ char unk_210[0x18];
     /* 0x0228 */ ColliderCylinder unk_228;
     /* 0x0274 */ ColliderJntSph unk_274;
     /* 0x0294 */ ColliderJntSphItem unk_294;
