@@ -42,6 +42,7 @@ extern ColliderCylinderInit D_80A6D394;
 extern ColliderCylinderInit D_80A6D3C0;
 extern ColliderJntSphInit D_80A6D410;
 extern CollisionCheckInfoInit D_80A6D420;
+extern f32 D_80A6D4C8[];
 extern InitChainEntry D_80A6D4EC[];
 extern EnHorseNormalUnkFunc D_80A6D534[];
 extern Vec3f D_80A6D548;
@@ -51,7 +52,21 @@ extern SkeletonHeader D_06009FAC;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B250.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B30C.s")
+f32 func_80A6B30C(EnHorseNormal *this) {
+    f32 result;
+
+    if (this->unk_150 == 4) {
+        result =  D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.5f;
+    } else if (this->unk_150 == 5) {
+        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.33333334f;
+    } else if (this->unk_150 == 6) {
+        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.2f;
+    } else {
+        result = D_80A6D4C8[this->unk_150];
+    }
+
+    return result;
+}
 
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
@@ -198,7 +213,7 @@ void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx) {
         }
 
         SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f,
-                             SkelAnime_GetFrameCount(D_80A6D370[this->unk_150]), 2, 0.0f);
+                             SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
     }
 }
 
@@ -223,7 +238,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_204 = this->actor.projectedPos;
     this->unk_204.y += 120.0f;
     Collider_CylinderUpdate(&this->actor, &this->unk_228);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_228);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_228.base);
     if (this->actor.speedXZ == 0.0f) {
         this->actor.colChkInfo.mass = 0xFF;
     } else {
