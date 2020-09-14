@@ -5,7 +5,8 @@ import sys
 import struct
 import argparse
 import re
-import search_symbol
+from overlayhelpers.filemap import FileResult, GetFromVRam, GetFromRom
+import binascii
 
 ICHAIN_MACROS = [
     'ICHAIN_U8',
@@ -25,15 +26,22 @@ Z64_ACTOR_PATH = "../include/z64actor.h"
 Z64_MAP_PATH = "../build/z64.map"
 
 def get_rom_address(offset):
-    map_file = os.path.dirname(os.path.realpath(__file__)) + "/" + Z64_MAP_PATH
-    sym_info = search_symbol.search_symbol(offset, map_file)[0]
-    sym_info = "{0:06X}".format(sym_info)
-    return sym_info
+
+    if "D_" in offset:
+        offset = offset[2:]
+
+    offset = int(offset, 16)
+
+    if offset >= 0x80000000:
+        result = GetFromVRam(offset)
+        offset = result.vrom.start + result.offset
+
+    return hex(offset)
 
 def get_actor_var_names():
     in_actor = False
     actor_vars = {}
-    with open(Z64_ACTOR_PATH) as actor_h:
+    with open(os.path.dirname(os.path.realpath(__file__)) + "/" + Z64_ACTOR_PATH) as actor_h:
         for line in actor_h:
             if in_actor:
                 if "}" in line:
@@ -60,9 +68,8 @@ def main():
     parser.add_argument('offset', help='ROM offset or symbol of an InitChain')
     args = parser.parse_args()
     
-    # Check if it was a symbol provided and convert it to a ROM address if so
-    if 'D_' in args.offset:
-        args.offset = get_rom_address(args.offset)
+    # Get the ROM address, if the offset is already a ROM address it will just be returned.
+    args.offset = get_rom_address(args.offset)
 
     romOff = int(args.offset, 16)
 
