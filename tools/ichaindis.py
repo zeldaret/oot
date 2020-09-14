@@ -25,7 +25,7 @@ Z64_ACTOR_PATH = "../include/z64actor.h"
 
 def get_rom_address(offset):
 
-    if "D_" in offset:
+    if offset.startswith("D_"):
         offset = offset[2:]
 
     offset = int(offset, 16)
@@ -64,6 +64,7 @@ def main():
     parser = argparse.ArgumentParser(description='Decompiles an InitChain')
     parser.add_argument('filename', help='ROM file path')
     parser.add_argument('offset', help='ROM offset or symbol of an InitChain')
+    parser.add_argument('--no-names', action="store_true", help='Don''t attempt to parse variable offsets into names')
     args = parser.parse_args()
     
     # Get the ROM address, if the offset is already a ROM address it will just be returned.
@@ -93,7 +94,7 @@ def main():
 
         var_name = '{0:X}'.format(offset)
 
-        if var_name in actor_variable_names:
+        if var_name in actor_variable_names and not args.no_names:
             var_name = actor_variable_names[var_name]
         else:
             var_name = "unk_" + var_name
