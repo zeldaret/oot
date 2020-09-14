@@ -65,23 +65,24 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx,
 }
 
 void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     BgMoriHashira4* this = THIS;
 
     this->switchFlag = (this->dyna.actor.params >> 8) & 0x3F;
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {
-        BgMoriHashira4_InitDynaPoly(this, globalCtx, &D_06001AF8, DPM_UNK3);
+        BgMoriHashira4_InitDynaPoly(this, globalCtx2, &D_06001AF8, DPM_UNK3);
     } else {
-        BgMoriHashira4_InitDynaPoly(this, globalCtx, &D_060089E0, DPM_UNK);
+        BgMoriHashira4_InitDynaPoly(this, globalCtx2, &D_060089E0, DPM_UNK);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
+    this->objBankIndex = Object_GetIndex(&globalCtx2->objectCtx, OBJECT_MORI_TEX);
     if (this->objBankIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
                      "../z_bg_mori_hashira4.c", 196);
-    } else if ((this->dyna.actor.params != 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+    } else if ((this->dyna.actor.params != 0) && Flags_GetSwitch(globalCtx2, this->switchFlag)) {
         Actor_Kill(&this->dyna.actor);
     } else {
         Actor_SetHeight(&this->dyna.actor, 50.0f);
@@ -92,9 +93,10 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     BgMoriHashira4* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_Free(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void BgMoriHashira4_SetupObjectCheck(BgMoriHashira4* this) {
@@ -141,25 +143,26 @@ void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriHashira4_Update(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     BgMoriHashira4* this = THIS;
 
     if (this->actionFunc != NULL) {
-        this->actionFunc(this, globalCtx);
+        this->actionFunc(this, globalCtx2);
     }
 }
 
 void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     BgMoriHashira4* this = THIS;
-    s32 pad;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);
-    func_80093D18(globalCtx->state.gfxCtx);
+    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);
+    func_80093D18(globalCtx2->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->objBankIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx2->objectCtx.status[this->objBankIndex].segment);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(oGfxCtx->polyOpa.p++, displayLists[this->dyna.actor.params]);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 348);
+    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_mori_hashira4.c", 348);
 }
