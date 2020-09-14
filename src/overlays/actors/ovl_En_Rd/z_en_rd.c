@@ -115,11 +115,11 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params >= -1) {
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->limbDrawTable,
                          this->transitionDrawTable, 26);
-        this->actor.naviEnemyId = 0x2A;
+        this->actor.naviEnemyId = 42;
     } else {
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->limbDrawTable,
                          this->transitionDrawTable, 26);
-        this->actor.naviEnemyId = 0x2D;
+        this->actor.naviEnemyId = 45;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -280,7 +280,7 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
     Color_RGBA8 sp40 = D_80AE4924;
     Color_RGBA8 sp3C = D_80AE4928;
     Player *player = PLAYER;
-    char pad[2];
+    s32 pad;
     s16 sp32 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
     
     this->skelAnime.animPlaybackSpeed = this->actor.speedXZ;
@@ -312,6 +312,7 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
     }
 
     DECR(this->unk_307);
+
     if ((this->unk_307 == 0) && (func_8002DB48(&this->actor, &player->actor) <= 45.0f) && (func_8002E084(&this->actor, 0x38E3))) {
         player->actor.freezeTimer = 0;
         if (globalCtx->unk_11D4C(globalCtx, &player->actor) != 0) {
@@ -456,7 +457,7 @@ void func_80AE3454(EnRd *this, GlobalContext *globalCtx) {
         Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x5DC, 0);
     case 2:
         if (!(player->stateFlags2 & 0x80)) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_060046F8), 3, 0.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_060046F8.genericHeader), 3, 0.0f);
             this->unk_304++;
             this->unk_31B = 4;
             return;
@@ -466,13 +467,13 @@ void func_80AE3454(EnRd *this, GlobalContext *globalCtx) {
             Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1500.0f, 1.0f, 150.0f, 0.0f);
         }
         
-        Math_SmoothScaleMaxMinF(&this->actor.posRot, (Math_Sins(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f, 10.0f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, (Math_Sins(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f, 10.0f, 0.0f);
         Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f, 10.0f, 0.0f);
         Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, (Math_Coss(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f, 10.0f, 0.0f);
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
         
         if (this->skelAnime.animCurrentFrame == 0.0f) {
-            Audio_PlayActorSound2(this, NA_SE_EN_REDEAD_ATTACK);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_ATTACK);
         }
         this->unk_319--;
         
@@ -581,7 +582,7 @@ void func_80AE3B18(EnRd* this, GlobalContext* globalCtx) {
 
         if (this->actor.parent != NULL) {
             func_80AE31DC(this);
-        } else if (func_8002DB6C(player, &this->actor.initPosRot.pos) >= 150.0f) {
+        } else if (func_8002DB6C(&player->actor, &this->actor.initPosRot.pos) >= 150.0f) {
             func_80AE2F50(this, globalCtx);
         } else {
             func_80AE2B90(this, globalCtx);
@@ -603,7 +604,7 @@ void func_80AE3C20(EnRd* this) {
 
 void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
     if (this->actor.type != 6) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this, 6);
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
     }
 
     Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x7D0, 0);
@@ -675,34 +676,42 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
     }
 }
 
+// Regalloc..I can get the score lower by using permuter suggestions, but they all seem silly
+#ifdef NON_MATCHING
 void func_80AE3F9C(EnRd *this, GlobalContext *globalCtx) {
     s16 unk_310;
     s16 shapeRotY;
-    s32 bTemp;
-    s16 aTemp;
+    s16 yawTowardsLink;
+    s16 new_var;
+    s16 temp_v0;
     s16 phi_a3;
     s16 phi_v0;
 
-
-    //unk_310 = this->unk_310;
+    unk_310 = this->unk_310;
     shapeRotY = this->actor.shape.rot.y;
-    bTemp = shapeRotY + this->unk_310;
-    aTemp = this->actor.yawTowardsLink - bTemp;
+    yawTowardsLink = this->actor.yawTowardsLink;
+    new_var = unk_310 + shapeRotY;
+    
+    temp_v0 = yawTowardsLink - new_var;
+    phi_a3 = CLAMP(temp_v0, -500, 500);
 
-    phi_a3 = CLAMP(aTemp, -500, 500);
-    phi_v0 = CLAMP((s16)(aTemp - this->unk_30E), -500, 500);
+    temp_v0 -= this->unk_30E;
+    phi_v0 = CLAMP(temp_v0, -500, 500);
 
-    if (aTemp >= 0) {
+    if ((s16)(yawTowardsLink - shapeRotY) >= 0) {
         this->unk_310 += ABS(phi_a3);
         this->unk_30E += ABS(phi_v0);
     } else {
         this->unk_310 -= ABS(phi_a3);
         this->unk_30E -= ABS(phi_v0);
     }
-
+    
     this->unk_310 = CLAMP(this->unk_310, -18783, 18783);
     this->unk_30E = CLAMP(this->unk_30E, -9583, 9583);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rd/func_80AE3F9C.s")
+#endif
 
 void func_80AE4114(EnRd *this, GlobalContext *globalCtx) {
     s32 pad;
