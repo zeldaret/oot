@@ -81,7 +81,8 @@ def main():
 
     print ('static InitChainEntry sInitChain[] = {')
 
-    actor_variable_names = get_actor_var_names()
+    if not args.no_names:
+        actor_variable_names = get_actor_var_names()
 
     while True:
         entry = struct.unpack('>I', romData[romOff:romOff+4])[0]
@@ -94,7 +95,7 @@ def main():
 
         var_name = '{0:X}'.format(offset)
 
-        if var_name in actor_variable_names and not args.no_names:
+        if not args.no_names and var_name in actor_variable_names:
             var_name = actor_variable_names[var_name]
         else:
             var_name = "unk_" + var_name
