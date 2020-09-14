@@ -99,7 +99,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCxt) {
 
     if (globalCxt->sceneNum == 0x4C) {
         return 1;
-    } else if (func_808B3A40(this, globalCxt) != 0) {
+    } else if (func_808B3A40(this, globalCxt)) {
         return 0;
     }
 
@@ -110,7 +110,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCxt) {
             phi_v0 = actor->posRot.rot.y + 0x8000;
         }
 
-        if (phi_v0 < 0x2000 && phi_v0 >= -0x5FFF) {
+        if (phi_v0 < 0x2000 && phi_v0 > -0x6000) {
             return gSaveContext.eventChkInf[1] & 0x10;
         }
         return 1;
@@ -125,7 +125,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_808B3960(this, globalCtx, &D_06000348, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
-    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) != 0) {
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         func_808B44B8(this, globalCtx);
         this->dyna.actor.posRot.pos = D_808B45C4[D_808B4590];
         D_808B4590++;
@@ -163,9 +163,9 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
 
     if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
@@ -200,22 +200,22 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B3F58(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    if (func_808B3CA0(this, globalCtx, 0) != 0) {
-        return 1;
+    if (func_808B3CA0(this, globalCtx, 0)) {
+        return true;
     }
-    if (func_808B3CA0(this, globalCtx, 1) != 0) {
-        return 1;
+    if (func_808B3CA0(this, globalCtx, 1)) {
+        return true;
     }
-    if (func_808B3CA0(this, globalCtx, 2) != 0) {
-        return 1;
+    if (func_808B3CA0(this, globalCtx, 2)) {
+        return true;
     }
-    if (func_808B3CA0(this, globalCtx, 3) != 0) {
-        return 1;
+    if (func_808B3CA0(this, globalCtx, 3)) {
+        return true;
     }
-    if (func_808B3CA0(this, globalCtx, 4) != 0) {
-        return 1;
+    if (func_808B3CA0(this, globalCtx, 4)) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
 s32 func_808B4010(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
@@ -238,15 +238,16 @@ void func_808B40AC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         if (func_808B3AAC(this, globalCtx) != 0 && func_808B4010(this, globalCtx) == 0) {
             this->unk_17C = this->dyna.unk_150;
             func_808B4178(this, globalCtx);
-            return;
         }
-
+        else {
+            player->stateFlags2 &= ~0x10;
+            this->dyna.unk_150 = 0.0f;
+        }
+    }
+    else {
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
-        return;
     }
-    player->stateFlags2 &= ~0x10;
-    this->dyna.unk_150 = 0.0f;
 }
 
 void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
