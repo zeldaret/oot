@@ -18,8 +18,6 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 // TODO: Remove later if unnecessary
-void func_800A63CC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin, s32, s32, s32, s32, s32);
-
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BC48(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
