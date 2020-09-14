@@ -88,7 +88,7 @@ struct_80034EC0_Entry sAnimations[] = {
     { &D_06000304, 6.0f, 0.0f, -1.0f, 0x01, -8.0f }, { &D_06005B98, 2.0f, 0.0f, -1.0f, 0x01, -8.0f },
 };
 
-void EnSt_SetupAction(EnSt* this, EnStActionFunc* actionFunc) {
+void EnSt_SetupAction(EnSt* this, EnStActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
