@@ -49,7 +49,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTakaraMan* this = THIS;
 
     if (sTakaraIsInitialized) {
-        Actor_Kill(thisx);
+        Actor_Kill(&this->actor);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
         return;
     }
@@ -100,12 +100,10 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
         }
     } else {
         yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-        if (globalCtx->roomCtx.curRoom.num == 6) {
-            if (!this->unk_21A) {
-                this->actor.textId = 0x6E; // "Great! You are a real gambler!"
-                this->unk_21A = 1;
-                this->dialogState = 6;
-            }
+        if (globalCtx->roomCtx.curRoom.num == 6 && !this->unk_21A) {
+            this->actor.textId = 0x6E; // "Great! You are a real gambler!"
+            this->unk_21A = 1;
+            this->dialogState = 6;
         }
 
         if (!this->unk_21A && this->unk_214) {
@@ -188,9 +186,8 @@ void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx) {
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnTakaraMan* this = THIS;
 
-    if (this->eyeTimer != 0) {
-        this->eyeTimer--;
-    }
+    DECR(this->eyeTimer);
+
     Actor_SetHeight(&this->actor, this->eyePos);
     func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.posRot2.pos);
     if (this->eyeTimer == 0) {
