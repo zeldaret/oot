@@ -3585,7 +3585,7 @@ extern FaultThreadStruct gFaultStruct;
 //extern ? D_8016E1B0;
 //extern ? D_8016E1B8;
 //extern ? D_8016E260;
-extern u8 D_8016E264;
+//extern ? D_8016E264;
 //extern ? D_8016E270;
 //extern ? D_8016E2E0;
 //extern ? D_8016E2F8;
