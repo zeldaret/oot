@@ -1,7 +1,7 @@
 /*
  * File: z_en_horse_normal.c
  * Overlay: ovl_En_Horse_Normal
- * Description: Non-rideable horses (Lon Lon Ranch and Stables)
+ * Description: Non-rideable horses (Lon Lon Ranch and Stable)
  */
 
 #include "z_en_horse_normal.h"
