@@ -1045,9 +1045,7 @@ endseg
 beginseg
     name "ovl_Bg_Menkuri_Eye"
     include "build/src/overlays/actors/ovl_Bg_Menkuri_Eye/z_bg_menkuri_eye.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.data.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.bss.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Menkuri_Eye/ovl_Bg_Menkuri_Eye_reloc.o"
 endseg
 
 beginseg
