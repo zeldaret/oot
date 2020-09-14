@@ -1,3 +1,9 @@
+/*
+ * File: z_en_horse_normal.c
+ * Overlay: ovl_En_Horse_Normal
+ * Description: Non-rideable horses (Lon Lon Ranch and Stables)
+ */
+
 #include "z_en_horse_normal.h"
 
 #define FLAGS 0x00000000
