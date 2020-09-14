@@ -60,22 +60,15 @@ static ColliderTrisInit sTrisInit = {
 };
 
 static u8 blocksAtRest = 0;
+
 static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-static s16 paintingsX[] = { -1302, -866, 1421, 985 };
-static s16 paintingsY[] = { 1107, 1091 };
-static s16 paintingsZ[] = { -3384, -3252 };
-static s16 blocksX[] = { 2149, 1969, 1909 };
-static s16 blocksZ[] = { -1410, -1350, -1530 };
 
-static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
-};
-
-static s32 firstFall = 0;
-static f32 blockPushDist = 0.0f;
 static u8 puzzleState;
 
 void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
+    static s16 paintingsX[] = { -1302, -866, 1421, 985 };
+    static s16 paintingsY[] = { 1107, 1091 };
+    static s16 paintingsZ[] = { -3384, -3252 };
     ColliderTrisItemInit* item;
     Vec3f* vtxVec;
     s32 i1;
@@ -137,6 +130,8 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
+    static s16 blocksX[] = { 2149, 1969, 1909 };
+    static s16 blocksZ[] = { -1410, -1350, -1530 };
     Actor* newBlock;
     s32 local_c = 0;
     s32 dummy;
@@ -175,40 +170,43 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
+    static InitChainEntry sInitChain[] = {
+        ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+    };
+    GlobalContext* globalCtx2 = globalCtx;
     BgPoEvent* this = THIS;
-    ColliderTris* collider;
-
+    
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->actorType = (thisx->params >> 8) & 0xF;
     this->actorIndex = (thisx->params >> 0xC) & 0xF;
     this->dyna.actor.params &= 0x3F;
 
     if (this->actorType >= 2) {
-        collider = &this->collider;
-        Collider_InitTris(globalCtx, collider);
-        Collider_SetTris(globalCtx, collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
-        if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
+        Collider_InitTris(globalCtx2, &this->collider);
+        Collider_SetTris(globalCtx2, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        if (Flags_GetSwitch(globalCtx2, this->dyna.actor.params)) {
             Actor_Kill(&this->dyna.actor);
         } else {
-            BgPoEvent_InitPaintings(this, globalCtx);
+            BgPoEvent_InitPaintings(this, globalCtx2);
         }
     } else {
-        DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
+        DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+        if (Flags_GetSwitch(globalCtx2, this->dyna.actor.params)) {
             Actor_Kill(&this->dyna.actor);
         } else {
-            BgPoEvent_InitBlocks(this, globalCtx);
+            BgPoEvent_InitBlocks(this, globalCtx2);
         }
     }
 }
 
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     BgPoEvent* this = THIS;
-
+    
     if (this->actorType >= 2) {
-        Collider_DestroyTris(globalCtx, &this->collider);
+        Collider_DestroyTris(globalCtx2, &this->collider);
     } else {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPolyInfo_Free(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
         if ((this->actorType == 1) && (gSaveContext.timer1Value > 0)) {
             gSaveContext.timer1State = 0xA;
         }
@@ -287,7 +285,7 @@ void BgPoEvent_BlockCheck(BgPoEvent* this) {
 }
 
 void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
-    s32* temp1 = &firstFall;
+    static s32 firstFall = 0;
 
     this->dyna.actor.velocity.y++;
     if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, 433.0f, this->dyna.actor.velocity.y)) {
@@ -300,7 +298,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             func_80033E88(&this->dyna.actor, globalCtx, 5, 5);
             func_80088B34(this->timer);
-            if (*temp1 == 0) {
+            if (firstFall == 0) {
                 firstFall = 1;
             } else {
                 func_8002DF54(globalCtx, &PLAYER->actor, 7);
@@ -327,7 +325,6 @@ void BgPoEvent_BlockStop(BgPoEvent* this, GlobalContext* globalCtx) {
             }
             func_80078884(0x4802);
             gSaveContext.timer1State = 0xA;
-            return;
         }
     } else {
         if ((gSaveContext.timer1Value == 0) && (blocksAtRest == 5)) {
@@ -365,6 +362,7 @@ void BgPoEvent_BlockStop(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
+    static f32 blockPushDist = 0.0f;
     f32 displacement;
     s32 blockStop;
     Player* player = PLAYER;
@@ -455,7 +453,6 @@ void BgPoEvent_AmyPuzzle(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 s32 BgPoEvent_NextPicture(BgPoEvent* this) {
-
     if ((this->dyna.actor.parent != NULL) && (this->dyna.actor.child != NULL)) {
         if (Math_Rand_ZeroOne() < 0.5f) {
             puzzleState = ((BgPoEvent*)this->dyna.actor.parent)->actorIndex;
@@ -566,27 +563,27 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     BgPoEvent* this = THIS;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx2);
     if ((this->actionFunc == BgPoEvent_AmyWait) || (this->actionFunc == BgPoEvent_PaintingPresent)) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
     }
 }
 
-Gfx* displayLists[] = { D_060075A0, D_060079E0, D_06006830, D_06006D60, D_06007230 };
-
 void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Gfx* displayLists[] = { D_060075A0, D_060079E0, D_06006830, D_06006D60, D_06007230 };
+    GlobalContext* globalCtx2 = globalCtx;
     BgPoEvent* this = THIS;
-    f32 pad;
-    f32 pad2;
+    u8 opacity;
     Vec3f sp58;
     Vec3f sp4C;
-    f32 temp_f0;
-    u8 opacity;
+    f32 sp48;
+    f32 pad44;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1481);
-    func_80093D18(globalCtx->state.gfxCtx);
+    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_po_event.c", 1481);
+    func_80093D18(globalCtx2->state.gfxCtx);
     if ((this->actorType == 3) || (this->actorType == 2)) {
         if (this->actionFunc == BgPoEvent_PaintingEmpty) {
             opacity = 255;
@@ -597,20 +594,20 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, opacity);
     }
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1501),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_po_event.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyOpa.p++, displayLists[this->actorType]);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1508);
 
     if ((this->actorType == 0) || (this->actorType == 1)) {
-        temp_f0 = (833.0f - this->dyna.actor.posRot.pos.y) * 0.0025f;
-        if (!(temp_f0 > 1.0f)) {
+        sp48 = (833.0f - this->dyna.actor.posRot.pos.y) * 0.0025f;
+        if (!(sp48 > 1.0f)) {
             sp58.x = this->dyna.actor.posRot.pos.x;
             sp58.y = this->dyna.actor.posRot.pos.y - 30.0f;
             sp58.z = this->dyna.actor.posRot.pos.z;
             sp4C.y = 1.0f;
-            sp4C.x = sp4C.z = (temp_f0 * 0.3f) + 0.4f;
-            func_80033C30(&sp58, &sp4C, (u8)(155.0f + temp_f0 * 100.0f), globalCtx);
+            sp4C.x = sp4C.z = (sp48 * 0.3f) + 0.4f;
+            func_80033C30(&sp58, &sp4C, (u8)(155.0f + sp48 * 100.0f), globalCtx);
         }
     }
 }
