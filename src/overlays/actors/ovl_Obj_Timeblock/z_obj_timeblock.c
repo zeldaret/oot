@@ -109,7 +109,9 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
                  (this->dyna.actor.params >> 0xB) & 7, (this->dyna.actor.params >> 0xA) & 1);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/ObjTimeblock_Destroy.s")
+void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, THIS->dyna.dynaPolyId);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA032C.s")
 
