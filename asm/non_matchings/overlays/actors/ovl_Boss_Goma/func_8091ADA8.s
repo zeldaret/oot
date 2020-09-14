@@ -25,7 +25,7 @@ glabel func_8091ADA8
 /* 053F4 8091AE04 AFAF0020 */  sw      $t7, 0x0020($sp)           
 /* 053F8 8091AE08 AFAE0028 */  sw      $t6, 0x0028($sp)           
 /* 053FC 8091AE0C 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 05400 8091AE10 0C00C916 */  jal     Actor_SpawnAttached
+/* 05400 8091AE10 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 05404 8091AE14 E7B00018 */  swc1    $f16, 0x0018($sp)          
 /* 05408 8091AE18 87B90042 */  lh      $t9, 0x0042($sp)           

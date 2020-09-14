@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void ObjHamishi_Init(ObjHamishi* this, GlobalContext* globalCtx);
-void ObjHamishi_Destroy(ObjHamishi* this, GlobalContext* globalCtx);
-void ObjHamishi_Update(ObjHamishi* this, GlobalContext* globalCtx);
-void ObjHamishi_Draw(ObjHamishi* this, GlobalContext* globalCtx);
+#define THIS ((ObjHamishi*)thisx)
+
+void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjHamishi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Hamishi_InitVars = {

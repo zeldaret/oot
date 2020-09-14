@@ -37,14 +37,14 @@ glabel EnSa_Init
 /* 00CB0 80AF6210 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00CB4 80AF6214 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00CB8 80AF6218 AFA50040 */  sw      $a1, 0x0040($sp)
-/* 00CBC 80AF621C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00CBC 80AF621C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00CC0 80AF6220 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00CC4 80AF6224 3C0780AF */  lui     $a3, %hi(D_80AF7260)       ## $a3 = 80AF0000
 /* 00CC8 80AF6228 8FA50040 */  lw      $a1, 0x0040($sp)
 /* 00CCC 80AF622C 24E77260 */  addiu   $a3, $a3, %lo(D_80AF7260)  ## $a3 = 80AF7260
 /* 00CD0 80AF6230 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00CD4 80AF6234 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00CD4 80AF6234 0C01712B */  jal     Collider_SetCylinder
 
 /* 00CD8 80AF6238 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00CDC 80AF623C 3C0680AF */  lui     $a2, %hi(D_80AF728C)       ## $a2 = 80AF0000
@@ -170,7 +170,7 @@ glabel L80AF637C
 /* 00E98 80AF63F8 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00E9C 80AF63FC AFA00020 */  sw      $zero, 0x0020($sp)
 /* 00EA0 80AF6400 AFA0001C */  sw      $zero, 0x001C($sp)
-/* 00EA4 80AF6404 0C00C916 */  jal     Actor_SpawnAttached
+/* 00EA4 80AF6404 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00EA8 80AF6408 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 00EAC 80AF640C 8FBF003C */  lw      $ra, 0x003C($sp)

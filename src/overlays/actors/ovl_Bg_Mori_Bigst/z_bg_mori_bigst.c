@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000010
 
-void BgMoriBigst_Init(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_Destroy(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_Update(BgMoriBigst* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriBigst*)thisx)
+
+void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Bigst_InitVars = {

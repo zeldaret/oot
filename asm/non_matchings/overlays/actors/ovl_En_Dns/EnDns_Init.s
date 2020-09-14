@@ -44,11 +44,11 @@ glabel D_809F0678
     .balign 4
 
 glabel D_809F0694
-    .asciz "\x1B[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1B[m\n"
+    .asciz "\x1b[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1b[m\n"
     .balign 4
 
 glabel D_809F06C8
-    .asciz "\x1B[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1B[m\n"
+    .asciz "\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n"
     .balign 4
 
 .text
@@ -116,14 +116,14 @@ glabel EnDns_Init
 /* 000D0 809EF420 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000D4 809EF424 2605026C */  addiu   $a1, $s0, 0x026C           ## $a1 = 0000026C
 /* 000D8 809EF428 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 000DC 809EF42C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000DC 809EF42C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000E0 809EF430 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000E4 809EF434 3C07809F */  lui     $a3, %hi(D_809F03E0)       ## $a3 = 809F0000
 /* 000E8 809EF438 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 000EC 809EF43C 24E703E0 */  addiu   $a3, $a3, %lo(D_809F03E0)  ## $a3 = 809F03E0
 /* 000F0 809EF440 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 000F4 809EF444 0C017114 */  jal     func_8005C450
+/* 000F4 809EF444 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 000F8 809EF448 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000FC 809EF44C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00100 809EF450 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

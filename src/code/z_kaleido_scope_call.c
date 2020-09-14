@@ -7,8 +7,8 @@ float D_80161398;
 u32 D_8016139C;
 void* D_801613A0;
 
-extern void func_80826CB4(GlobalContext*); // KaleidoScope_Update
-extern void func_808262B8(GlobalContext*); // KaleidoScope_Draw
+extern void KaleidoScope_Update(GlobalContext*);
+extern void KaleidoScope_Draw(GlobalContext*);
 
 void KaleidoScopeCall_LoadPlayer() {
     if ((u32)gKaleidoMgrCurOvl != (u32)&gKaleidoMgrOverlayTable[KALEIDO_OVL_PLAYER_ACTOR]) {
@@ -28,33 +28,33 @@ void KaleidoScopeCall_LoadPlayer() {
 void KaleidoScopeCall_Init(GlobalContext* globalCtx) {
     // Kaleidoscope replacement construct
     osSyncPrintf("カレイド・スコープ入れ替え コンストラクト \n");
-    sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(func_80826CB4);
-    sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(func_808262B8);
+    sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(KaleidoScope_Update);
+    sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(KaleidoScope_Draw);
 
-    LOG_ADDRESS("kaleido_scope_move", func_80826CB4, "../z_kaleido_scope_call.c", 98);
+    LOG_ADDRESS("kaleido_scope_move", KaleidoScope_Update, "../z_kaleido_scope_call.c", 98);
     LOG_ADDRESS("kaleido_scope_move_func", sKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
-    LOG_ADDRESS("kaleido_scope_draw", func_808262B8, "../z_kaleido_scope_call.c", 100);
+    LOG_ADDRESS("kaleido_scope_draw", KaleidoScope_Draw, "../z_kaleido_scope_call.c", 100);
     LOG_ADDRESS("kaleido_scope_draw_func", sKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
-    func_8006ECF4(globalCtx);
+    KaleidoSetup_Init(globalCtx);
 }
 
 void KaleidoScopeCall_Destroy(GlobalContext* globalCtx) {
-    // Kaleidoscope replacement
+    // Kaleidoscope replacement destruction
     osSyncPrintf("カレイド・スコープ入れ替え デストラクト \n");
-    func_8006EE48(globalCtx);
+    KaleidoSetup_Destroy(globalCtx);
 }
 
 // regalloc
 #ifdef NON_MATCHING
 void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
-    u32 pad;
+    s32 pad;
     PauseContext* pauseCtx;
 
     pauseCtx = &globalCtx->pauseCtx;
 
     if (pauseCtx->state != 0 || pauseCtx->flag != 0) {
         if (pauseCtx->state == 1) {
-            if (func_800B38FC() == 0) {
+            if (ShrinkWindow_GetCurrentVal() == 0) {
                 HREG(80) = 7;
                 HREG(82) = 3;
                 R_PAUSE_MENU_MODE = 1;
@@ -70,7 +70,7 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
             pauseCtx->unk_1EC = 0;
             pauseCtx->state++;
         } else if (pauseCtx->state == 2 || pauseCtx->state == 9) {
-            osSyncPrintf("R_PAUSE_MENU_MODE=%d\n", R_PAUSE_MENU_MODE);
+            osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_MENU_MODE);
             if (R_PAUSE_MENU_MODE >= 3) {
                 pauseCtx->state++;
             }

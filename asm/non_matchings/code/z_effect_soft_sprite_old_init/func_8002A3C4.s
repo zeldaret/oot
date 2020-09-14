@@ -3,7 +3,7 @@ glabel func_8002A3C4
 /* AA1568 8002A3C8 3C01437F */  li    $at, 0x437F0000 # 0.000000
 /* AA156C 8002A3CC C7AC004C */  lwc1  $f12, 0x4c($sp)
 /* AA1570 8002A3D0 44812000 */  mtc1  $at, $f4
-/* AA1574 8002A3D4 3C018011 */  lui   $at, %hi(D_801159A6) # 0.000000
+/* AA1574 8002A3D4 3C018011 */  lui   $at, %hi(D_801159A5) # 0.000000
 /* AA1578 8002A3D8 A02059A6 */  sb    $zero, %lo(D_801159A6)($at)
 /* AA157C 8002A3DC 460C2182 */  mul.s $f6, $f4, $f12
 /* AA1580 8002A3E0 44877000 */  mtc1  $a3, $f14
@@ -18,7 +18,7 @@ glabel func_8002A3C4
 /* AA15A4 8002A404 2418000F */  li    $t8, 15
 /* AA15A8 8002A408 44024000 */  mfc1  $v0, $f8
 /* AA15AC 8002A40C 240A0001 */  li    $t2, 1
-/* AA15B0 8002A410 A02259A5 */  sb    $v0, 0x59a5($at)
+/* AA15B0 8002A410 A02259A5 */  sb    $v0, %lo(D_801159A5)($at)
 /* AA15B4 8002A414 3C018011 */  lui   $at, %hi(D_801159A8) # $at, 0x8011
 /* AA15B8 8002A418 A02059A9 */  sb    $zero, %lo(D_801159A9)($at)
 /* AA15BC 8002A41C A02059AA */  sb    $zero, %lo(D_801159AA)($at)

@@ -1,6 +1,6 @@
 .rdata
 glabel D_801398C0
-    .asciz "\x1B[34mcamera: personalize ---\x1B[m\n"
+    .asciz "\x1b[34mcamera: personalize ---\x1b[m\n"
     .balign 4
 
 .text
@@ -12,7 +12,7 @@ glabel func_80058148
 /* ACF2F8 80058158 AFA5006C */  sw    $a1, 0x6c($sp)
 /* ACF2FC 8005815C 0C00BBD1 */  jal   func_8002EF44
 /* ACF300 80058160 27A40054 */   addiu $a0, $sp, 0x54
-/* ACF304 80058164 0C00B721 */  jal   func_8002DC84
+/* ACF304 80058164 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACF308 80058168 8FA4006C */   lw    $a0, 0x6c($sp)
 /* ACF30C 8005816C 8FAE006C */  lw    $t6, 0x6c($sp)
 /* ACF310 80058170 27A20054 */  addiu $v0, $sp, 0x54
@@ -122,10 +122,10 @@ glabel func_80058148
 /* ACF4A4 80058304 A6020156 */  sh    $v0, 0x156($s0)
 /* ACF4A8 80058308 02002025 */  move  $a0, $s0
 /* ACF4AC 8005830C 86050144 */  lh    $a1, 0x144($s0)
-/* ACF4B0 80058310 0C01144A */  jal   func_80045128
+/* ACF4B0 80058310 0C01144A */  jal   Camera_CopyModeValuesToPREG
 /* ACF4B4 80058314 E6100100 */   swc1  $f16, 0x100($s0)
 /* ACF4B8 80058318 0C016C11 */  jal   func_8005B044
-/* ACF4BC 8005831C 00000000 */   nop   
+/* ACF4BC 8005831C 00000000 */   nop
 /* ACF4C0 80058320 3C048014 */  lui   $a0, %hi(D_801398C0) # $a0, 0x8014
 /* ACF4C4 80058324 0C00084C */  jal   osSyncPrintf
 /* ACF4C8 80058328 248498C0 */   addiu $a0, %lo(D_801398C0) # addiu $a0, $a0, -0x6740
@@ -139,5 +139,5 @@ glabel func_80058148
 /* ACF4E4 80058344 8FB00018 */  lw    $s0, 0x18($sp)
 /* ACF4E8 80058348 27BD0068 */  addiu $sp, $sp, 0x68
 /* ACF4EC 8005834C 03E00008 */  jr    $ra
-/* ACF4F0 80058350 00000000 */   nop   
+/* ACF4F0 80058350 00000000 */   nop
 

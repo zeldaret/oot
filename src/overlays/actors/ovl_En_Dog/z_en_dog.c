@@ -1,17 +1,19 @@
 /*
  * File: z_en_dog.c
  * Overlay: ovl_En_Dog
- * Description: Dog actor that Link can interact with
+ * Description: Dog
  */
 
 #include "z_en_dog.h"
 
 #define FLAGS 0x00000000
 
-void EnDog_Init(EnDog* this, GlobalContext* globalCtx);
-void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx);
-void EnDog_Update(EnDog* this, GlobalContext* globalCtx);
-void EnDog_Draw(EnDog* this, GlobalContext* globalCtx);
+#define THIS ((EnDog*)thisx)
+
+void EnDog_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDog_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx);
 void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx);
@@ -32,13 +34,13 @@ const ActorInit En_Dog_InitVars = {
     (ActorFunc)EnDog_Draw,
 };
 
-static ColliderCylinderInit cylinderInit = {
-    0x06, 0x00,       0x09, 0x39, 0x10,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x01,       0x01, 0x00, 0x0010, 0x0014, 0x0000,     0x0000, 0x0000, 0x0000,
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK6, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 16, 20, 0, { 0 } },
 };
 
-static Sub98Init5 sub98Data = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -46,7 +48,7 @@ static Sub98Init5 sub98Data = {
     0x32,   // mass
 };
 
-static struct_80034EC0_Entry animations[] = {
+static struct_80034EC0_Entry sAnimations[] = {
     { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
     { 0x06000D78, 1.0f, 0.0f, -1.0f, 0x00, -6.0f }, { 0x06000278, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
     { 0x06001150, 1.0f, 0.0f, 4.0f, 0x02, -6.0f },  { 0x06001150, 1.0f, 5.0f, 25.0f, 0x04, -6.0f },
@@ -124,19 +126,19 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
                 animation = 6;
                 break;
         }
-        func_80034EC0(&this->skelAnime, &animations, animation);
+        func_80034EC0(&this->skelAnime, sAnimations, animation);
     }
 
     switch (this->behavior) {
         case DOG_SIT:
             if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
-                func_80034EC0(&this->skelAnime, &animations, 5);
+                func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
             if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
-                func_80034EC0(&this->skelAnime, &animations, 7);
+                func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
             break;
@@ -155,8 +157,8 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 }
 
 s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.collideFlags & 2)) {
-        this->collider.base.collideFlags &= ~2;
+    if (this->collider.base.acFlags & 2) {
+        this->collider.base.acFlags &= ~2;
         return 2;
     }
 
@@ -164,7 +166,7 @@ s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if ((this->collider.base.maskB & 1)) {
+    if (this->collider.base.maskB & 1) {
         this->collider.base.maskB &= ~1;
         if (gSaveContext.dogParams != 0) {
             return 0;
@@ -218,16 +220,14 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
-    SkelAnime* skelAnime;
+void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
     s16 followingDog;
-    ColliderCylinderMain* collider;
+    s32 pad;
 
-    collider = &this->collider;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    skelAnime = &this->skelAnime;
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
-    func_80034EC0(skelAnime, animations, 0);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
+    func_80034EC0(&this->skelAnime, sAnimations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
         this->actor.params = (this->actor.params & 0xF0FF) | ((((this->actor.params & 0x0F00) >> 8) + 1) << 8);
@@ -239,9 +239,9 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    ActorCollider_AllocCylinder(globalCtx, collider);
-    ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.sub_98, 0, &sub98Data);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;
@@ -277,9 +277,9 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
@@ -351,16 +351,16 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.xzDistanceFromLink > 400.0f) {
+    if (this->actor.xzDistFromLink > 400.0f) {
         if (this->nextBehavior != DOG_SIT && this->nextBehavior != DOG_SIT_2) {
             this->nextBehavior = DOG_BOW;
         }
         gSaveContext.dogParams = 0;
         speed = 0.0f;
-    } else if (this->actor.xzDistanceFromLink > 100.0f) {
+    } else if (this->actor.xzDistFromLink > 100.0f) {
         this->nextBehavior = DOG_RUN;
         speed = 4.0f;
-    } else if (this->actor.xzDistanceFromLink < 40.0f) {
+    } else if (this->actor.xzDistFromLink < 40.0f) {
         if (this->nextBehavior != DOG_BOW && this->nextBehavior != DOG_BOW_2) {
             this->nextBehavior = DOG_BOW;
         }
@@ -372,16 +372,16 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
 
-    if (!(this->actor.xzDistanceFromLink > 400.0f)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.rotTowardsLinkY, 10, 1000, 1);
+    if (!(this->actor.xzDistFromLink > 400.0f)) {
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 10, 1000, 1);
         this->actor.shape.rot = this->actor.posRot.rot;
     }
 }
 
 void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistanceFromLink < 200.0f) {
+    if (this->actor.xzDistFromLink < 200.0f) {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (this->actor.rotTowardsLinkY ^ 0x8000), 10, 1000, 1);
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (this->actor.yawTowardsLink ^ 0x8000), 10, 1000, 1);
     } else {
         this->actionFunc = EnDog_FaceLink;
     }
@@ -394,12 +394,12 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
     f32 absAngleDiff;
 
     // if the dog is more than 200 units away from Link, turn to face him then wait
-    if (200.0f <= this->actor.xzDistanceFromLink) {
+    if (200.0f <= this->actor.xzDistFromLink) {
         this->nextBehavior = DOG_WALK;
 
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
 
-        rotTowardLink = this->actor.rotTowardsLinkY;
+        rotTowardLink = this->actor.yawTowardsLink;
         prevRotY = this->actor.posRot.rot.y;
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, rotTowardLink, 10, 1000, 1);
 
@@ -419,50 +419,49 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
-    this->unusedAngle = (this->actor.rotTowardsLinkY - this->actor.shape.rot.y);
+    this->unusedAngle = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
 
     // If another dog is following Link and he gets within 200 units of waiting dog, run away
-    if ((gSaveContext.dogParams != 0) && (this->actor.xzDistanceFromLink < 200.0f)) {
+    if ((gSaveContext.dogParams != 0) && (this->actor.xzDistFromLink < 200.0f)) {
         this->nextBehavior = DOG_RUN;
         this->actionFunc = EnDog_RunAway;
     }
 }
 
-void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
+    s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
-    ActorCollider_Cylinder_Update(&this->actor, &this->collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-s32 EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     return 0;
 }
 
-void EnDog_Callback2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
 }
 
-void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
-    s32 pad;
-    Color_RGBA8 colors[] = { { 0xFF, 0xFF, 0xC8, 0x00 }, { 0x96, 0x64, 0x32, 0x00 } };
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
+    Color_RGBA8 colors[] = { { 255, 255, 200, 0 }, { 150, 100, 50, 0 } };
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPPipeSync(gfxCtx->polyOpa.p++);
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnDog_Callback1, EnDog_Callback2, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
+                     EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

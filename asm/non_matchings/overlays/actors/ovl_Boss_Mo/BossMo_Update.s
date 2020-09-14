@@ -60,7 +60,7 @@ glabel BossMo_Update
 /* 074FC 80922FFC 02212021 */  addu    $a0, $s1, $at              
 /* 07500 80923000 26450F50 */  addiu   $a1, $s2, 0x0F50           ## $a1 = 00000F50
 /* 07504 80923004 264700F0 */  addiu   $a3, $s2, 0x00F0           ## $a3 = 000000F0
-/* 07508 80923008 0C029B84 */  jal     func_800A6E10              
+/* 07508 80923008 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 0750C 8092300C AFB100BC */  sw      $s1, 0x00BC($sp)           
 /* 07510 80923010 3C048092 */  lui     $a0, %hi(D_809269F8)       ## $a0 = 80920000
 /* 07514 80923014 248469F8 */  addiu   $a0, $a0, %lo(D_809269F8)  ## $a0 = 809269F8
@@ -559,12 +559,12 @@ glabel BossMo_Update
 /* 07C10 80923710 00818021 */  addu    $s0, $a0, $at              
 /* 07C14 80923714 2651101C */  addiu   $s1, $s2, 0x101C           ## $s1 = 0000101C
 /* 07C18 80923718 02203025 */  or      $a2, $s1, $zero            ## $a2 = 0000101C
-/* 07C1C 8092371C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 07C1C 8092371C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 07C20 80923720 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024
 /* 07C24 80923724 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 07C28 80923728 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024
-/* 07C2C 8092372C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 07C2C 8092372C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 07C30 80923730 02203025 */  or      $a2, $s1, $zero            ## $a2 = 0000101C
 .L80923734:
@@ -575,7 +575,7 @@ glabel BossMo_Update
 /* 07C40 80923740 17000004 */  bne     $t8, $zero, .L80923754     
 /* 07C44 80923744 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 07C48 80923748 00812821 */  addu    $a1, $a0, $at              
-/* 07C4C 8092374C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 07C4C 8092374C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 07C50 80923750 2646101C */  addiu   $a2, $s2, 0x101C           ## $a2 = 0000101C
 .L80923754:

@@ -97,12 +97,12 @@ glabel BossFd_Update
 /* 04020 808CEDE0 26711490 */  addiu   $s1, $s3, 0x1490           ## $s1 = 00001490
 /* 04024 808CEDE4 00818021 */  addu    $s0, $a0, $at              
 /* 04028 808CEDE8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0402C 808CEDEC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0402C 808CEDEC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 04030 808CEDF0 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00001490
 /* 04034 808CEDF4 8FA400DC */  lw      $a0, 0x00DC($sp)           
 /* 04038 808CEDF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0403C 808CEDFC 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 0403C 808CEDFC 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 04040 808CEE00 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00001490
 /* 04044 808CEE04 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
@@ -255,7 +255,7 @@ glabel BossFd_Update
 /* 04244 808CF004 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 04248 808CF008 240700AD */  addiu   $a3, $zero, 0x00AD         ## $a3 = 000000AD
 /* 0424C 808CF00C E7A60018 */  swc1    $f6, 0x0018($sp)           
-/* 04250 808CF010 0C00C916 */  jal     Actor_SpawnAttached
+/* 04250 808CF010 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 04254 808CF014 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
 /* 04258 808CF018 1040003E */  beq     $v0, $zero, .L808CF114     

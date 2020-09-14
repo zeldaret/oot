@@ -36,7 +36,7 @@ glabel func_809F3F6C
 /* 00D30 809F3FF0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00D34 809F3FF4 24070168 */  addiu   $a3, $zero, 0x0168         ## $a3 = 00000168
 /* 00D38 809F3FF8 E7A20014 */  swc1    $f2, 0x0014($sp)
-/* 00D3C 809F3FFC 0C00C916 */  jal     Actor_SpawnAttached
+/* 00D3C 809F3FFC 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00D40 809F4000 E7AC0018 */  swc1    $f12, 0x0018($sp)
 /* 00D44 809F4004 14400006 */  bne     $v0, $zero, .L809F4020

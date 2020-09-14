@@ -4,7 +4,7 @@ glabel func_80A734F8
 /* 00510 80A73500 AFB10020 */  sw      $s1, 0x0020($sp)           
 /* 00514 80A73504 AFB0001C */  sw      $s0, 0x001C($sp)           
 /* 00518 80A73508 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 0051C 80A7350C 0C00BD04 */  jal     func_8002F410              
+/* 0051C 80A7350C 0C00BD04 */  jal     Actor_HasParent              
 /* 00520 80A73510 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00524 80A73514 10400003 */  beq     $v0, $zero, .L80A73524     
 /* 00528 80A73518 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -33,7 +33,7 @@ glabel func_80A734F8
 /* 0057C 80A7356C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00580 80A73570 45020004 */  bc1fl   .L80A73584                 
 /* 00584 80A73574 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00588 80A73578 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00588 80A73578 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0058C 80A7357C 2606015C */  addiu   $a2, $s0, 0x015C           ## $a2 = 0000015C
 /* 00590 80A73580 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

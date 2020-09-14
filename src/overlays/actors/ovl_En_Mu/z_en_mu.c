@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000009
 
-void EnMu_Init(EnMu* this, GlobalContext* globalCtx);
-void EnMu_Destroy(EnMu* this, GlobalContext* globalCtx);
-void EnMu_Update(EnMu* this, GlobalContext* globalCtx);
-void EnMu_Draw(EnMu* this, GlobalContext* globalCtx);
+#define THIS ((EnMu*)thisx)
+
+void EnMu_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMu_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Mu_InitVars = {

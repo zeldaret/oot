@@ -24,14 +24,14 @@ glabel EnKanban_Init
 /* 000F4 80A92094 35F80001 */  ori     $t8, $t7, 0x0001           ## $t8 = 00000001
 /* 000F8 80A92098 AE180004 */  sw      $t8, 0x0004($s0)           ## 00000004
 /* 000FC 80A9209C AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00100 80A920A0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00100 80A920A0 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00104 80A920A4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00108 80A920A8 3C0780A9 */  lui     $a3, %hi(D_80A94490)       ## $a3 = 80A90000
 /* 0010C 80A920AC 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00110 80A920B0 24E74490 */  addiu   $a3, $a3, %lo(D_80A94490)  ## $a3 = 80A94490
 /* 00114 80A920B4 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00118 80A920B8 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00118 80A920B8 0C01712B */  jal     Collider_SetCylinder
               
 /* 0011C 80A920BC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00120 80A920C0 3C0480A9 */  lui     $a0, %hi(D_80A94FE0)       ## $a0 = 80A90000

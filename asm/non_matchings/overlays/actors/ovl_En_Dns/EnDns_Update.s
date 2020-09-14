@@ -50,14 +50,14 @@ glabel EnDns_Update
 /* 00FDC 809F032C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000026C
 /* 00FE0 809F0330 11600009 */  beq     $t3, $zero, .L809F0358     
 /* 00FE4 809F0334 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00FE8 809F0338 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00FE8 809F0338 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00FEC 809F033C AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 00FF0 809F0340 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00FF4 809F0344 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00FF8 809F0348 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00FFC 809F034C 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 01000 809F0350 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01000 809F0350 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01004 809F0354 00812821 */  addu    $a1, $a0, $at              
 .L809F0358:

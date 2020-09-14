@@ -8,11 +8,13 @@
 
 #define FLAGS 0x00000009
 
-void EnTana_Init(EnTana* this, GlobalContext* globalCtx);
-void EnTana_Destroy(EnTana* this, GlobalContext* globalCtx);
-void EnTana_Update(EnTana* this, GlobalContext* globalCtx);
-void func_80B17FC4(EnTana* this, GlobalContext* globalCtx);
-void func_80B1809C(EnTana* this, GlobalContext* globalCtx);
+#define THIS ((EnTana*)thisx)
+
+void EnTana_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTana_Update(Actor* thisx, GlobalContext* globalCtx);
+void func_80B17FC4(Actor* thisx, GlobalContext* globalCtx);
+void func_80B1809C(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
@@ -26,69 +28,67 @@ const ActorInit En_Tana_InitVars = {
     NULL,
 };
 
-static char* shelfTypes[] = {
+static char* sShelfTypes[] = {
     "木の棚", // "Wooden Shelves"
     "石の棚", // "Stone Shelves"
 };
 
-static const ActorFunc drawFuncs[] = {
-    (ActorFunc)func_80B17FC4,
-    (ActorFunc)func_80B1809C,
-    (ActorFunc)func_80B1809C,
+static const ActorFunc sDrawFuncs[] = {
+    func_80B17FC4,
+    func_80B1809C,
+    func_80B1809C,
 };
 
-static Gfx* dListTbl[] = {
+static Gfx* sDLists1[] = {
     0x06000B80,
     0x060027E8,
     0x060027E8,
 };
 
-static Gfx* dListTbl2[] = {
+static UNK_PTR sUnkSegments[] = {
     NULL,
     0x06000E08,
     0x06001608,
 };
 
-void EnTana_Init(EnTana* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
-    osSyncPrintf("☆☆☆ %s ☆☆☆\n", shelfTypes[thisx->params]);
+void EnTana_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnTana* this = THIS;
+
+    osSyncPrintf("☆☆☆ %s ☆☆☆\n", sShelfTypes[thisx->params]);
     Actor_SetScale(thisx, 1.0f);
     thisx->flags &= ~1;
-    thisx->draw = drawFuncs[thisx->params];
+    thisx->draw = sDrawFuncs[thisx->params];
 }
 
-void EnTana_Destroy(EnTana* this, GlobalContext* globalCtx) {
+void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnTana_Update(EnTana* this, GlobalContext* globalCtx) {
+void EnTana_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80B17FC4(EnTana* this, GlobalContext* globalCtx) {
+void func_80B17FC4(Actor* thisx, GlobalContext* globalCtx) {
+    EnTana* this = THIS;
 
-    Actor* thisx = &this->actor;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[thisx->params]);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists1[thisx->params]);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
 }
 
-void func_80B1809C(EnTana* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+void func_80B1809C(Actor* thisx, GlobalContext* globalCtx) {
+    EnTana* this = THIS;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(dListTbl2[thisx->params]));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sUnkSegments[thisx->params]));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[thisx->params]);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists1[thisx->params]);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
 }

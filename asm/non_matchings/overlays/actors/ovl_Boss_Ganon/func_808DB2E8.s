@@ -1,3 +1,16 @@
+.late_rodata
+glabel jtbl_808F7FD0
+    .word L808DB404
+    .word L808DB448
+    .word L808DB498
+    .word L808DB864
+    .word L808DB99C
+    .word L808DBAB0
+
+glabel D_808F7FE8
+    .float 3.14159274101
+
+.text
 glabel func_808DB2E8
 /* 04A78 808DB2E8 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 04A7C 808DB2EC AFB10048 */  sw      $s1, 0x0048($sp)
@@ -510,7 +523,7 @@ glabel L808DB99C
 /* 05184 808DB9F4 862F008A */  lh      $t7, 0x008A($s1)           ## 0000008A
 /* 05188 808DB9F8 AFB80028 */  sw      $t8, 0x0028($sp)
 /* 0518C 808DB9FC AFA00024 */  sw      $zero, 0x0024($sp)
-/* 05190 808DBA00 0C00C916 */  jal     Actor_SpawnAttached
+/* 05190 808DBA00 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 05194 808DBA04 AFAF0020 */  sw      $t7, 0x0020($sp)
 /* 05198 808DBA08 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001

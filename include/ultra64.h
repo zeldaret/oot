@@ -13,7 +13,6 @@
 #include <ultra64/rdp.h>
 #include <ultra64/rsp.h>
 #include <ultra64/os_thread.h>
-//#include <ultra64/thread.h>
 #include <ultra64/convert.h>
 #include <ultra64/time.h>
 #include <ultra64/os_message.h>

@@ -4,39 +4,39 @@ glabel D_80B4374C
     .balign 4
 
 glabel D_80B43750
-    .asciz "[32m☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B43778
-    .asciz "[32m☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B437A0
-    .asciz "[32m☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B437C8
-    .asciz "[33m☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B437F0
-    .asciz "[33m☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B43818
-    .asciz "[33m☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[33m☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B43840
-    .asciz "[35m☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B43868
-    .asciz "[35m☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n\x1b[m"
     .balign 4
 
 glabel D_80B43890
-    .asciz "[35m☆☆☆☆☆ point ☆☆☆☆☆ %d\n[m"
+    .asciz "\x1b[35m☆☆☆☆☆ point ☆☆☆☆☆ %d\n\x1b[m"
     .balign 4
 
 .late_rodata
@@ -302,7 +302,7 @@ glabel func_80B42F74
 /* 00560 80B43320 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFDC
 /* 00564 80B43324 27A60050 */  addiu   $a2, $sp, 0x0050           ## $a2 = FFFFFFE8
 /* 00568 80B43328 27A7005C */  addiu   $a3, $sp, 0x005C           ## $a3 = FFFFFFF4
-/* 0056C 80B4332C 0C00A97D */  jal     func_8002A5F4              
+/* 0056C 80B4332C 0C00A97D */  jal     EffectSsExtra_Spawn              
 /* 00570 80B43330 AFA90014 */  sw      $t1, 0x0014($sp)           
 .L80B43334:
 /* 00574 80B43334 8FBF001C */  lw      $ra, 0x001C($sp)           

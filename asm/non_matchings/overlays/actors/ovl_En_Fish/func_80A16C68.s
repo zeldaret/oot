@@ -64,7 +64,7 @@ glabel func_80A16C68
 /* 01AB4 80A16D34 00812821 */  addu    $a1, $a0, $at              
 /* 01AB8 80A16D38 45000003 */  bc1f    .L80A16D48                 
 /* 01ABC 80A16D3C 00000000 */  nop
-/* 01AC0 80A16D40 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01AC0 80A16D40 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01AC4 80A16D44 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 .L80A16D48:
@@ -78,7 +78,7 @@ glabel func_80A16C68
               
 /* 01AE4 80A16D64 00000000 */  nop
 /* 01AE8 80A16D68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01AEC 80A16D6C 0C00BD04 */  jal     func_8002F410              
+/* 01AEC 80A16D6C 0C00BD04 */  jal     Actor_HasParent              
 /* 01AF0 80A16D70 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 01AF4 80A16D74 1040000D */  beq     $v0, $zero, .L80A16DAC     
 /* 01AF8 80A16D78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

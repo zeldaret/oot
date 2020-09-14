@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnStream_Init(EnStream* this, GlobalContext* globalCtx);
-void EnStream_Destroy(EnStream* this, GlobalContext* globalCtx);
-void EnStream_Update(EnStream* this, GlobalContext* globalCtx);
-void EnStream_Draw(EnStream* this, GlobalContext* globalCtx);
+#define THIS ((EnStream*)thisx)
+
+void EnStream_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Stream_InitVars = {

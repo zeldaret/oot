@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void BossGanon_Init(BossGanon* this, GlobalContext* globalCtx);
-void BossGanon_Destroy(BossGanon* this, GlobalContext* globalCtx);
-void BossGanon_Update(BossGanon* this, GlobalContext* globalCtx);
-void BossGanon_Draw(BossGanon* this, GlobalContext* globalCtx);
+#define THIS ((BossGanon*)thisx)
+
+void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Ganon_InitVars = {
@@ -101,18 +103,6 @@ const ActorInit Boss_Ganon_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/BossGanon_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE734.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE784.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE7E0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE828.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE884.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE8E0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE928.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808DE988.s")
 

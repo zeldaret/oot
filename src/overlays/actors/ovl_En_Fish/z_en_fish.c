@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void EnFish_Init(EnFish* this, GlobalContext* globalCtx);
-void EnFish_Destroy(EnFish* this, GlobalContext* globalCtx);
-void EnFish_Update(EnFish* this, GlobalContext* globalCtx);
-void EnFish_Draw(EnFish* this, GlobalContext* globalCtx);
+#define THIS ((EnFish*)thisx)
+
+void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFish_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fish_InitVars = {

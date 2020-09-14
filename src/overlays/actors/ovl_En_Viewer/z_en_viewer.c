@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnViewer_Init(EnViewer* this, GlobalContext* globalCtx);
-void EnViewer_Destroy(EnViewer* this, GlobalContext* globalCtx);
-void EnViewer_Update(EnViewer* this, GlobalContext* globalCtx);
-void EnViewer_Draw(EnViewer* this, GlobalContext* globalCtx);
+#define THIS ((EnViewer*)thisx)
+
+void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Viewer_InitVars = {

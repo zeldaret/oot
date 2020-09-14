@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
+#define THIS ((BgGndDarkmeiro*)thisx)
+
+void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80878C30(BgGndDarkmeiro* this, GlobalContext* globalCtx);
-void BgGndDarkmeiro_Init(BgGndDarkmeiro* this, GlobalContext* globalCtx);
-void BgGndDarkmeiro_Destroy(BgGndDarkmeiro* this, GlobalContext* globalCtx);
-void BgGndDarkmeiro_Update(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void func_80878F28(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void func_80878F34(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void func_80879128(BgGndDarkmeiro* this, GlobalContext* globalCtx);

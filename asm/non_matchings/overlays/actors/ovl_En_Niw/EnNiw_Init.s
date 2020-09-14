@@ -1,3 +1,48 @@
+.rdata
+glabel D_80AB8720
+    .asciz "\x1b[33m☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+glabel D_80AB8754
+    .asciz "\x1b[33m☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+glabel D_80AB8788
+    .asciz "\x1b[33m 通常鶏index %d\n\x1b[m"
+    .balign 4
+
+glabel D_80AB87A4
+    .asciz "\x1b[33m☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80AB87D4
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB8A50
+    .float 1530.0
+
+glabel D_80AB8A54
+    .float 3.99
+
+glabel jtbl_80AB8A58
+    .word L80AB5A44
+    .word L80AB5A28
+    .word L80AB5A64
+    .word L80AB5AE8
+    .word L80AB5A84
+    .word L80AB5AF4
+    .word L80AB5AA4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AF4
+    .word L80AB5AC4
+    .word L80AB5AD0
+
+.text
 glabel EnNiw_Init
 /* 00000 80AB5780 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00004 80AB5784 AFBF0034 */  sw      $ra, 0x0034($sp)
@@ -259,7 +304,7 @@ glabel L80AB5AF4
 /* 00374 80AB5AF4 2650030C */  addiu   $s0, $s2, 0x030C           ## $s0 = 0000030C
 .L80AB5AF8:
 /* 00378 80AB5AF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000030C
-/* 0037C 80AB5AFC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0037C 80AB5AFC 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00380 80AB5B00 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00384 80AB5B04 8642001C */  lh      $v0, 0x001C($s2)           ## 0000001C
@@ -280,7 +325,7 @@ glabel L80AB5AF4
 .L80AB5B3C:
 /* 003BC 80AB5B3C 3C0780AC */  lui     $a3, %hi(D_80AB86B0)       ## $a3 = 80AC0000
 /* 003C0 80AB5B40 24E786B0 */  addiu   $a3, $a3, %lo(D_80AB86B0)  ## $a3 = 80AB86B0
-/* 003C4 80AB5B44 0C01712B */  jal     ActorCollider_InitCylinder
+/* 003C4 80AB5B44 0C01712B */  jal     Collider_SetCylinder
 
 /* 003C8 80AB5B48 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 003CC 80AB5B4C 8FAD0054 */  lw      $t5, 0x0054($sp)
@@ -300,7 +345,7 @@ glabel L80AB5AF4
 .L80AB5B80:
 /* 00400 80AB5B80 3C0780AC */  lui     $a3, %hi(D_80AB8684)       ## $a3 = 80AC0000
 /* 00404 80AB5B84 24E78684 */  addiu   $a3, $a3, %lo(D_80AB8684)  ## $a3 = 80AB8684
-/* 00408 80AB5B88 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00408 80AB5B88 0C01712B */  jal     Collider_SetCylinder
 
 /* 0040C 80AB5B8C 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 .L80AB5B90:

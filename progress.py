@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 
+import argparse
+import csv
+import git
 import os
 import re
-import argparse
 
 parser = argparse.ArgumentParser(description="Computes current progress throughout the whole project.")
 parser.add_argument("-m", "--matching", dest='matching', action='store_true',
                     help="Output matching progress instead of decompilation progress")
+parser.add_argument("-c", "--csv", dest="csv", action="store_true",
+                    help="Output results in CSV format")
 args = parser.parse_args()
 
-NON_MATCHING_PATTERN = "#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
+NON_MATCHING_PATTERN = r"#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
 
 def GetNonMatchingFunctions(files):
     functions = []
@@ -110,19 +114,27 @@ ovlPct = 100 * ovl / ovlSize
 compiled_bytes = total
 bytesPerHeartPiece = compiled_bytes / 80
 
-adjective = "decompiled" if not args.matching else "matched"
-
-print(str(total) + " total bytes of decompilable code\n")
-print(str(src) + " bytes " + adjective + " in src " + str(srcPct) + "%\n")
-print(str(boot) + "/" + str(bootSize) + " bytes " + adjective + " in boot " + str(bootPct) + "%\n")
-print(str(code) + "/" + str(codeSize) + " bytes " + adjective + " in code " + str(codePct) + "%\n")
-print(str(ovl) + "/" + str(ovlSize) + " bytes " + adjective + " in overlays " + str(ovlPct) + "%\n")
-print("------------------------------------\n")
-
-heartPieces = int(src / bytesPerHeartPiece)
-rupees = int(((src % bytesPerHeartPiece) * 100) / bytesPerHeartPiece)
-
-if (rupees > 0):
-    print("You have " + str(heartPieces) + "/80 heart pieces and " + str(rupees) + " rupee(s).\n")
+if args.csv:
+    version = 1
+    git_object = git.Repo().head.object
+    timestamp = str(git_object.committed_date)
+    git_hash = git_object.hexsha
+    csv_list = [str(version), timestamp, git_hash, str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(src), str(asm), str(len(nonMatchingFunctions))]
+    print(",".join(csv_list))
 else:
-    print("You have " + str(heartPieces) + "/80 heart pieces.\n")
+    adjective = "decompiled" if not args.matching else "matched"
+
+    print(str(total) + " total bytes of decompilable code\n")
+    print(str(src) + " bytes " + adjective + " in src " + str(srcPct) + "%\n")
+    print(str(boot) + "/" + str(bootSize) + " bytes " + adjective + " in boot " + str(bootPct) + "%\n")
+    print(str(code) + "/" + str(codeSize) + " bytes " + adjective + " in code " + str(codePct) + "%\n")
+    print(str(ovl) + "/" + str(ovlSize) + " bytes " + adjective + " in overlays " + str(ovlPct) + "%\n")
+    print("------------------------------------\n")
+
+    heartPieces = int(src / bytesPerHeartPiece)
+    rupees = int(((src % bytesPerHeartPiece) * 100) / bytesPerHeartPiece)
+
+    if (rupees > 0):
+        print("You have " + str(heartPieces) + "/80 heart pieces and " + str(rupees) + " rupee(s).\n")
+    else:
+        print("You have " + str(heartPieces) + "/80 heart pieces.\n")

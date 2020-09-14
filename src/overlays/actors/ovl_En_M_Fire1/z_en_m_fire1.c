@@ -1,16 +1,18 @@
 /*
  * File: z_en_m_fire1.c
  * Overlay: ovl_En_M_Fire1
- * Description: The attack from a Deku Nut. Spawned by ovl_En_Arrow.
+ * Description: Deku Nut Hitbox
  */
 
 #include "z_en_m_fire1.h"
 
 #define FLAGS 0x00000000
 
-void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx);
-void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx);
-void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx);
+#define THIS ((EnMFire1*)thisx)
+
+void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_M_Fire1_InitVars = {
     ACTOR_EN_M_FIRE1,
@@ -24,38 +26,38 @@ const ActorInit En_M_Fire1_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x09, 0x00,       0x00, 0x08, 0x01, 0x00, 0x00, 0x02,   0x00,   0x00,   0x00,   0x00000001, 0x00,   0x00,
-    0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x19, 0x0000, 0x0000, 0x0000, 0x00C8, 0x00C8,     0x0000,
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_CYLINDER },
+    { 0x02, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+    { 200, 200, 0, { 0 } }
 };
 
-void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
+void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnMFire1* this = THIS;
     s32 pad;
-    EnMFire1* thisLocal;
-
-    thisLocal = this;
 
     if (this->actor.params < 0) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &thisLocal->actor, ACTORTYPE_ITEMACTION);
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ITEMACTION);
     }
 
-    ActorCollider_AllocCylinder(globalCtx, &thisLocal->capsule);
-    ActorCollider_InitCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
-void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* capsule = &this->capsule;
-    ActorCollider_FreeCylinder(globalCtx, capsule);
+void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnMFire1* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
+void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnMFire1* this = THIS;
     s32 pad;
-    EnMFire1* thisLocal = this;
 
-    if (Math_ApproxF(&thisLocal->unk_0198, 1.0, 0.2)) {
+    if (Math_ApproxF(&this->unk_198, 1.0f, 0.2f)) {
         Actor_Kill(&this->actor);
     } else {
-        ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->capsule);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &thisLocal->capsule);
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }

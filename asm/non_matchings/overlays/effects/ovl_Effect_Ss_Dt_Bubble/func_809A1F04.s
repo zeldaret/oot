@@ -1,3 +1,21 @@
+.rdata
+glabel D_809A2220
+    .asciz "../z_eff_ss_dt_bubble.c"
+    .balign 4
+
+glabel D_809A2238
+    .asciz "../z_eff_ss_dt_bubble.c"
+    .balign 4
+
+glabel D_809A2250
+    .asciz "../z_eff_ss_dt_bubble.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A2268
+    .float 0.004
+
+.text
 glabel func_809A1F04
 /* 00254 809A1F04 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00258 809A1F08 AFB00014 */  sw      $s0, 0x0014($sp)           

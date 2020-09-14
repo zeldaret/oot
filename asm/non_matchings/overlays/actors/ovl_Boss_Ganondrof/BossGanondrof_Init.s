@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_8091540C
+    .float -3315.0
+
+glabel D_80915410
+    .float -3315.0
+
+.text
 glabel BossGanondrof_Init
 /* 00430 80910A70 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00434 80910A74 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -43,7 +51,7 @@ glabel BossGanondrof_Init
 /* 004C4 80910B04 A21800AF */  sb      $t8, 0x00AF($s0)           ## 000000AF
 /* 004C8 80910B08 260604D0 */  addiu   $a2, $s0, 0x04D0           ## $a2 = 000004D0
 /* 004CC 80910B0C AFA60044 */  sw      $a2, 0x0044($sp)           
-/* 004D0 80910B10 0C01E9D9 */  jal     Lights_Insert
+/* 004D0 80910B10 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 004D4 80910B14 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 004D8 80910B18 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
@@ -70,7 +78,7 @@ glabel BossGanondrof_Init
 /* 0052C 80910B6C AFAC0018 */  sw      $t4, 0x0018($sp)           
 /* 00530 80910B70 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00534 80910B74 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 00538 80910B78 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00538 80910B78 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 0053C 80910B7C 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00540 80910B80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -84,26 +92,26 @@ glabel BossGanondrof_Init
 /* 0055C 80910B9C 260504E0 */  addiu   $a1, $s0, 0x04E0           ## $a1 = 000004E0
 .L80910BA0:
 /* 00560 80910BA0 AFA50040 */  sw      $a1, 0x0040($sp)           
-/* 00564 80910BA4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00564 80910BA4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00568 80910BA8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0056C 80910BAC 2605052C */  addiu   $a1, $s0, 0x052C           ## $a1 = 0000052C
 /* 00570 80910BB0 AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 00574 80910BB4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00574 80910BB4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00578 80910BB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0057C 80910BBC 3C078091 */  lui     $a3, %hi(D_80914CD0)       ## $a3 = 80910000
 /* 00580 80910BC0 24E74CD0 */  addiu   $a3, $a3, %lo(D_80914CD0)  ## $a3 = 80914CD0
 /* 00584 80910BC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00588 80910BC8 8FA50040 */  lw      $a1, 0x0040($sp)           
-/* 0058C 80910BCC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0058C 80910BCC 0C01712B */  jal     Collider_SetCylinder
               
 /* 00590 80910BD0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00594 80910BD4 3C078091 */  lui     $a3, %hi(D_80914CFC)       ## $a3 = 80910000
 /* 00598 80910BD8 24E74CFC */  addiu   $a3, $a3, %lo(D_80914CFC)  ## $a3 = 80914CFC
 /* 0059C 80910BDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 005A0 80910BE0 8FA50044 */  lw      $a1, 0x0044($sp)           
-/* 005A4 80910BE4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 005A4 80910BE4 0C01712B */  jal     Collider_SetCylinder
               
 /* 005A8 80910BE8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 005AC 80910BEC 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
@@ -172,7 +180,7 @@ glabel BossGanondrof_Init
 /* 00694 80910CD4 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00698 80910CD8 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 0069C 80910CDC 8619001C */  lh      $t9, 0x001C($s0)           ## 00001C40
-/* 006A0 80910CE0 0C00C916 */  jal     Actor_SpawnAttached
+/* 006A0 80910CE0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 006A4 80910CE4 AFB90028 */  sw      $t9, 0x0028($sp)           
 /* 006A8 80910CE8 8FBF003C */  lw      $ra, 0x003C($sp)           

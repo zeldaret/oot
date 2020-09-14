@@ -1,3 +1,77 @@
+.late_rodata
+glabel D_808F802C
+    .float 463.0
+
+glabel D_808F8030
+    .float 463.0
+
+glabel D_808F8034
+    .float 0.075
+
+glabel D_808F8038
+    .float 0.08
+
+glabel D_808F803C
+    .float 0.2
+
+glabel D_808F8040
+    .float 0.62831854
+
+glabel D_808F8044
+    .float 1.5707964
+
+glabel D_808F8048
+    .float 6.2831855
+
+glabel D_808F804C
+    .float 0.7853982
+
+glabel jtbl_808F8050
+    .word L808DE3B0
+    .word L808DDF20
+    .word L808DDF48
+    .word L808DDF80
+    .word L808DDFB8
+    .word L808DDFF4
+    .word L808DE014
+    .word L808DE058
+    .word L808DE0B8
+    .word L808DE118
+    .word L808DE160
+    .word L808DE1A4
+    .word L808DE1EC
+    .word L808DE268
+    .word L808DE2B0
+    .word L808DE2E8
+    .word L808DE308
+    .word L808DE350
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE394
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DE3B0
+    .word L808DDFD8
+
+glabel D_808F80E4
+    .float 1.2566371
+
+glabel D_808F80E8
+    .float 13107.2
+
+.text
 glabel BossGanon_Update
 /* 06D60 808DD5D0 27BDFED0 */  addiu   $sp, $sp, 0xFED0           ## $sp = FFFFFED0
 /* 06D64 808DD5D4 AFBF0074 */  sw      $ra, 0x0074($sp)           
@@ -225,7 +299,7 @@ glabel BossGanon_Update
 /* 07078 808DD8E8 02C18821 */  addu    $s1, $s6, $at              
 /* 0707C 808DD8EC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000001
 /* 07080 808DD8F0 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
-/* 07084 808DD8F4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 07084 808DD8F4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 07088 808DD8F8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000610
 /* 0708C 808DD8FC 86AA02D4 */  lh      $t2, 0x02D4($s5)           ## 000002D4
@@ -233,7 +307,7 @@ glabel BossGanon_Update
 /* 07094 808DD904 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000001
 /* 07098 808DD908 55400012 */  bnel    $t2, $zero, .L808DD954     
 /* 0709C 808DD90C 92AE0199 */  lbu     $t6, 0x0199($s5)           ## 00000199
-/* 070A0 808DD910 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 070A0 808DD910 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 070A4 808DD914 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000610
 /* 070A8 808DD918 8EA30194 */  lw      $v1, 0x0194($s5)           ## 00000194
@@ -248,7 +322,7 @@ glabel BossGanon_Update
 /* 070CC 808DD93C 11A30004 */  beq     $t5, $v1, .L808DD950       
 /* 070D0 808DD940 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 070D4 808DD944 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000001
-/* 070D8 808DD948 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 070D8 808DD948 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 070DC 808DD94C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000610
 .L808DD950:
@@ -1224,7 +1298,7 @@ glabel L808DE3B0
 /* 07E74 808DE6E4 000D7400 */  sll     $t6, $t5, 16               
 /* 07E78 808DE6E8 000E7C03 */  sra     $t7, $t6, 16               
 /* 07E7C 808DE6EC 25F86000 */  addiu   $t8, $t7, 0x6000           ## $t8 = 00006000
-/* 07E80 808DE6F0 0C00C916 */  jal     Actor_SpawnAttached
+/* 07E80 808DE6F0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 07E84 808DE6F4 AFB80020 */  sw      $t8, 0x0020($sp)           
 /* 07E88 808DE6F8 A2A00274 */  sb      $zero, 0x0274($s5)         ## 00000274

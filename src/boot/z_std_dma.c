@@ -11,7 +11,7 @@ const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
 
 u32 D_80009460 = 0;
-u32 sDmaMgrDmaBuffSize = 0x2000;
+u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrDataExistError = 0;
 const char* sDmaMgrFileNames[0x5FC] = {
     "makerom",
@@ -1575,9 +1575,9 @@ s32 DmaMgr_DMARomToRam(u32 rom, u32 ram, u32 size) {
     OSMesg msg;
     s32 ret;
     u32 buffSize;
-    u32 pad[2];
+    s32 pad[2];
 
-    buffSize = sDmaMgrDmaBuffSize;
+    buffSize = gDmaMgrDmaBuffSize;
     if (buffSize == 0) {
         buffSize = 0x2000;
     }
@@ -1750,7 +1750,7 @@ const char* DmaMgr_GetFileNameImpl(u32 vrom) {
         iter++;
         name++;
     }
-    // BUG: since the devs forgot to return in case the file isn't found, the return value will be a pointer to the end
+    //! @bug Since the devs forgot to return in case the file isn't found, the return value will be a pointer to the end
     // of gDmaDataTable
 }
 

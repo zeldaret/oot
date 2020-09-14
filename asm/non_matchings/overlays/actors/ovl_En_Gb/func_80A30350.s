@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A307C0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+glabel D_80A307D0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+glabel D_80A307E0
+    .asciz "../z_en_gb.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A30800
+    .float 0.007
+
+.text
 glabel func_80A30350
 /* 011D0 80A30350 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 011D4 80A30354 AFB5005C */  sw      $s5, 0x005C($sp)
@@ -136,7 +154,7 @@ glabel func_80A30350
 /* 013E4 80A30564 24058000 */  addiu   $a1, $zero, 0x8000         ## $a1 = FFFF8000
 /* 013E8 80A30568 11C00003 */  beq     $t6, $zero, .L80A30578
 /* 013EC 80A3056C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 013F0 80A30570 0C034421 */  jal     Matrix_RotateZYX
+/* 013F0 80A30570 0C034421 */  jal     Matrix_RotateRPY
 /* 013F4 80A30574 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 .L80A30578:
 /* 013F8 80A30578 4406B000 */  mfc1    $a2, $f22

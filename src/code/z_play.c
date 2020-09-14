@@ -6,16 +6,16 @@ void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 Input* D_8012D1F8 = NULL;
 
-TransitionStruct D_801613B0;
-s32 D_80161490;
-VisMonoStruct D_80161498;
+TransitionUnk sTrnsnUnk;
+s32 gTrnsnUnkState;
+VisMono D_80161498;
 Color_RGBA8 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
 u64 D_801614D0[0xA00];
 
 void func_800BC450(GlobalContext* globalCtx) {
-    func_8005A7A8(globalCtx->cameraPtrs[globalCtx->activeCamera], globalCtx->unk_1242B - 1);
+    func_8005A7A8(ACTIVE_CAM, globalCtx->unk_1242B - 1);
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
@@ -48,98 +48,98 @@ void func_800BC590(GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // single minor ordering difference
-void func_800BC5E0(GlobalContext* globalCtx, s32 arg1) {
+void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
     TransitionContext* transitionCtx = &globalCtx->transitionCtx;
 
     bzero(transitionCtx, sizeof(TransitionContext));
 
-    transitionCtx->unk_228 = arg1;
+    transitionCtx->transitionType = transitionType;
 
-    if ((transitionCtx->unk_228 >> 5) == 1) {
-        transitionCtx->unk_22C = func_800B301C;
-        transitionCtx->unk_230 = func_800B3044;
-        transitionCtx->unk_23C = func_800B2E30;
-        transitionCtx->unk_24C = func_800B346C;
-        transitionCtx->unk_238 = func_800B31D0;
-        transitionCtx->unk_234 = func_800B304C;
-        transitionCtx->unk_240 = func_800B3474;
-        transitionCtx->unk_244 = func_800B34CC;
-        transitionCtx->unk_248 = func_800B34D4;
-        return;
+    if ((transitionCtx->transitionType >> 5) == 1) {
+        transitionCtx->init = TransitionCircle_Init;
+        transitionCtx->destroy = TransitionCircle_Destroy;
+        transitionCtx->start = TransitionCircle_Start;
+        transitionCtx->isDone = TransitionCircle_IsDone;
+        transitionCtx->draw = TransitionCircle_Draw;
+        transitionCtx->update = TransitionCircle_Update;
+        transitionCtx->setType = TransitionCircle_SetType;
+        transitionCtx->setColor = TransitionCircle_SetColor;
+        transitionCtx->setEnvColor = TransitionCircle_SetEnvColor;
+    } else {
+        switch (transitionCtx->transitionType) {
+            case 1:
+                transitionCtx->init = TransitionTriforce_Init;
+                transitionCtx->destroy = TransitionTriforce_Destroy;
+                transitionCtx->start = TransitionTriforce_Start;
+                transitionCtx->isDone = TransitionTriforce_IsDone;
+                transitionCtx->draw = TransitionTriforce_Draw;
+                transitionCtx->update = TransitionTriforce_Update;
+                transitionCtx->setType = TransitionTriforce_SetType;
+                transitionCtx->setColor = TransitionTriforce_SetColor;
+                transitionCtx->setEnvColor = NULL;
+                break;
+            case 0:
+            case 8:
+                transitionCtx->init = TransitionWipe_Init;
+                transitionCtx->destroy = TransitionWipe_Destroy;
+                transitionCtx->start = TransitionWipe_Start;
+                transitionCtx->isDone = TransitionWipe_IsDone;
+                transitionCtx->draw = TransitionWipe_Draw;
+                transitionCtx->update = TransitionWipe_Update;
+                transitionCtx->setType = TransitionWipe_SetType;
+                transitionCtx->setColor = TransitionWipe_SetColor;
+                transitionCtx->setEnvColor = NULL;
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 17:
+            case 18:
+            case 19:
+                transitionCtx->init = TransitionFade_Init;
+                transitionCtx->destroy = TransitionFade_Destroy;
+                transitionCtx->start = TransitionFade_Start;
+                transitionCtx->isDone = TransitionFade_IsDone;
+                transitionCtx->draw = TransitionFade_Draw;
+                transitionCtx->update = TransitionFade_Update;
+                transitionCtx->setType = TransitionFade_SetType;
+                transitionCtx->setColor = TransitionFade_SetColor;
+                transitionCtx->setEnvColor = NULL;
+                break;
+            case 9:
+            case 10:
+                globalCtx->transitionMode = 4;
+                break;
+            case 11:
+                globalCtx->transitionMode = 10;
+                break;
+            case 12:
+                globalCtx->transitionMode = 7;
+                break;
+            case 14:
+                globalCtx->transitionMode = 12;
+                break;
+            case 15:
+                globalCtx->transitionMode = 14;
+                break;
+            case 16:
+                globalCtx->transitionMode = 16;
+                break;
+            default:
+                Fault_AddHungupAndCrash("../z_play.c", 2290);
+                break;
+        }
     }
-
-    switch (transitionCtx->unk_228) {
-        case 1:
-            transitionCtx->unk_22C = func_800B2438;
-            transitionCtx->unk_230 = func_800B24D0;
-            transitionCtx->unk_23C = func_800B2400;
-            transitionCtx->unk_24C = func_800B2944;
-            transitionCtx->unk_238 = func_800B2604;
-            transitionCtx->unk_234 = func_800B24D8;
-            transitionCtx->unk_240 = func_800B25F4;
-            transitionCtx->unk_244 = func_800B25EC;
-            transitionCtx->unk_248 = NULL;
-            return;
-        case 0:
-        case 8:
-            transitionCtx->unk_22C = func_800B2A88;
-            transitionCtx->unk_230 = func_800B2AB0;
-            transitionCtx->unk_23C = func_800B29D0;
-            transitionCtx->unk_24C = func_800B2DD4;
-            transitionCtx->unk_238 = func_800B2B98;
-            transitionCtx->unk_234 = func_800B2AB8;
-            transitionCtx->unk_240 = func_800B2DDC;
-            transitionCtx->unk_244 = func_800B2E1C;
-            transitionCtx->unk_248 = NULL;
-            return;
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 17:
-        case 18:
-        case 19:
-            transitionCtx->unk_22C = func_800B3538;
-            transitionCtx->unk_230 = func_800B3560;
-            transitionCtx->unk_23C = func_800B34E0;
-            transitionCtx->unk_24C = func_800B37DC;
-            transitionCtx->unk_238 = func_800B3718;
-            transitionCtx->unk_234 = func_800B3568;
-            transitionCtx->unk_240 = func_800B37EC;
-            transitionCtx->unk_244 = func_800B37E4;
-            transitionCtx->unk_248 = NULL;
-            return;
-        case 9:
-        case 10:
-            globalCtx->unk_1241B = 4;
-            return;
-        case 11:
-            globalCtx->unk_1241B = 10;
-            return;
-        case 12:
-            globalCtx->unk_1241B = 7;
-            return;
-        case 14:
-            globalCtx->unk_1241B = 12;
-            return;
-        case 15:
-            globalCtx->unk_1241B = 14;
-            return;
-        case 16:
-            globalCtx->unk_1241B = 16;
-            return;
-    }
-
-    Fault_AddHungupAndCrash("../z_play.c", 2290);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BC5E0.s")
 #endif
 
 void func_800BC88C(GlobalContext* globalCtx) {
-    globalCtx->transitionCtx.unk_228 = -1;
+    globalCtx->transitionCtx.transitionType = -1;
 }
 
 Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
@@ -157,24 +157,24 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     R_PAUSE_MENU_MODE = 0;
 
     func_800C0F08(&globalCtx->preRenderCtx);
-    func_800271A8(globalCtx);
-    Effect_SS_Clear(globalCtx);
-    func_8005D400(globalCtx, &globalCtx->sub_11E60);
+    Effect_DeleteAll(globalCtx);
+    EffectSs_ClearAll(globalCtx);
+    CollisionCheck_DestroyContext(globalCtx, &globalCtx->colChkCtx);
 
-    if (D_80161490 == 3) {
-        func_800B1DBC(&D_801613B0);
-        D_80161490 = 0;
+    if (gTrnsnUnkState == 3) {
+        TransitionUnk_Destroy(&sTrnsnUnk);
+        gTrnsnUnkState = 0;
     }
 
-    if (globalCtx->unk_1241B == 3) {
-        globalCtx->transitionCtx.unk_230(&globalCtx->transitionCtx);
+    if (globalCtx->transitionMode == 3) {
+        globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx.data);
         func_800BC88C(globalCtx);
-        globalCtx->unk_1241B = 0;
+        globalCtx->transitionMode = 0;
     }
 
-    func_800B3968();
-    func_800B3560(&globalCtx->sub_1241C);
-    func_800AD054(&D_80161498);
+    ShrinkWindow_Destroy();
+    TransitionFade_Destroy(&globalCtx->transitionFade);
+    VisMono_Destroy(&D_80161498);
 
     if (gSaveContext.linkAge != globalCtx->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -213,7 +213,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     }
 
     SystemArena_Display();
-    func_800C4F20(globalCtx, 0x1D4790);
+    GameState_Realloc(globalCtx, 0x1D4790);
     KaleidoManager_Init(globalCtx);
     View_Init(&globalCtx->view, gfxCtx);
     func_800F6828(0);
@@ -223,26 +223,26 @@ void Gameplay_Init(GlobalContext* globalCtx) {
         globalCtx->cameraPtrs[i] = NULL;
     }
 
-    func_80057C6C(&globalCtx->cameras[0], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-    Camera_ChangeStatus(&globalCtx->cameras[0], 7);
+    func_80057C6C(&globalCtx->mainCamera, &globalCtx->view, &globalCtx->colCtx, globalCtx);
+    Camera_ChangeStatus(&globalCtx->mainCamera, 7);
 
     for (i = 0; i < 3; i++) {
-        func_80057C6C(&globalCtx->cameras[i + 1], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-        Camera_ChangeStatus(&globalCtx->cameras[i + 1], 0x100);
+        func_80057C6C(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
+        Camera_ChangeStatus(&globalCtx->subCameras[i], 0x100);
     }
 
-    globalCtx->cameraPtrs[0] = &globalCtx->cameras[0];
-    globalCtx->cameraPtrs[0]->unk_130 = 0;
+    globalCtx->cameraPtrs[0] = &globalCtx->mainCamera;
+    globalCtx->cameraPtrs[0]->uid = 0;
     globalCtx->activeCamera = 0;
-    func_8005AC48(&globalCtx->cameras[0], 0xFF);
+    func_8005AC48(&globalCtx->mainCamera, 0xFF);
     func_800A9D28(globalCtx, &globalCtx->sub_1F74);
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
     func_80110450(globalCtx);
     func_8006BA00(globalCtx);
-    func_80026C2C(globalCtx);
-    func_800272B0(globalCtx, 0x55);
-    func_8005D3BC(globalCtx, &globalCtx->sub_11E60);
+    Effect_InitContext(globalCtx);
+    EffectSs_InitInfo(globalCtx, 0x55);
+    func_8005D3BC(globalCtx, &globalCtx->colChkCtx);
     SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
     func_8006450C(globalCtx, &globalCtx->csCtx);
 
@@ -323,7 +323,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
-                func_8010B680(globalCtx, 0x3066, 0);
+                func_8010B680(globalCtx, 0x3066, NULL);
             }
             gSaveContext.nextDayTime = 0xFFFE;
         } else {
@@ -336,10 +336,10 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     func_800C0EA8(&globalCtx->preRenderCtx);
     func_800C0E70(&globalCtx->preRenderCtx, 0x140, 0xF0, 0, 0, 0);
     func_800C0ED8(&globalCtx->preRenderCtx, 0x140, 0xF0, 0, 0);
-    D_80161490 = 0;
-    globalCtx->unk_1241B = 0;
+    gTrnsnUnkState = 0;
+    globalCtx->transitionMode = 0;
     func_8008E6A0(&globalCtx->sub_7B8);
-    func_800FD9A0((u32)osGetTime());
+    Math_Rand_Seed((u32)osGetTime());
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
     globalCtx->state.destroy = Gameplay_Destroy;
@@ -360,18 +360,18 @@ void Gameplay_Init(GlobalContext* globalCtx) {
         globalCtx->fadeTransition = 6;
     }
 
-    func_800B3908();
-    func_800B3538(&globalCtx->sub_1241C);
-    func_800B37EC(&globalCtx->sub_1241C, 3);
-    func_800B37E4(&globalCtx->sub_1241C, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
-    func_800B34E0(&globalCtx->sub_1241C);
-    func_800AD000(&D_80161498);
-    D_801614B0.a = 0x00;
-    func_8006C3A0(globalCtx);
+    ShrinkWindow_Init();
+    TransitionFade_Init(&globalCtx->transitionFade);
+    TransitionFade_SetType(&globalCtx->transitionFade, 3);
+    TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(160, 160, 160, 255));
+    TransitionFade_Start(&globalCtx->transitionFade);
+    VisMono_Init(&D_80161498);
+    D_801614B0.a = 0;
+    Flags_UnsetAllEnv(globalCtx);
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
     zAllocSize = THA_GetSize(&globalCtx->state.tha);
-    zAlloc = Game_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = GameState_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (void*)(((u32)zAlloc + 8) & ~0xF);
     ZeldaArena_Init(zAllocAligned, zAllocSize - (u32)zAllocAligned + (u32)zAlloc);
     osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
@@ -385,13 +385,13 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     }
 
     player = PLAYER;
-    func_80058148(&globalCtx->cameras[0], player);
-    func_8005A444(&globalCtx->cameras[0], 0);
+    func_80058148(&globalCtx->mainCamera, player);
+    func_8005A444(&globalCtx->mainCamera, 0);
 
     playerStartCamId = player->actor.params & 0xFF;
     if (playerStartCamId != 0xFF) {
         osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartCamId);
-        func_8005A7A8(&globalCtx->cameras[0], playerStartCamId);
+        func_8005A7A8(&globalCtx->mainCamera, playerStartCamId);
     }
 
     if (YREG(15) == 0x20) {
@@ -404,8 +404,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     Interface_SetSceneRestrictions(globalCtx);
     func_800758AC(globalCtx);
-    gSaveContext.seqIndex = globalCtx->soundCtx.musicSeq;
-    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nighttimeSFX;
+    gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
+    gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
     func_8002DF18(globalCtx, PLAYER);
     func_800A390C(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
@@ -453,35 +453,35 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         ActorOverlayTable_LogPrint();
     }
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     if (func_8008E6AC(&globalCtx->sub_7B8, &input[1]) != 0) {
-        if ((globalCtx->unk_1241B == 0) && (globalCtx->sceneLoadFlag != 0)) {
-            globalCtx->unk_1241B = 1;
+        if ((globalCtx->transitionMode == 0) && (globalCtx->sceneLoadFlag != 0)) {
+            globalCtx->transitionMode = 1;
         }
 
-        if (D_80161490 != 0) {
-            switch (D_80161490) {
+        if (gTrnsnUnkState != 0) {
+            switch (gTrnsnUnkState) {
                 case 2:
-                    if (func_800B1E84(&D_801613B0, 10, 7) == 0) {
+                    if (TransitionUnk_Init(&sTrnsnUnk, 10, 7) == 0) {
                         osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
-                        D_80161490 = 0;
+                        gTrnsnUnkState = 0;
                     } else {
-                        D_801613B0.unk_DC = gZBuffer;
-                        D_80161490 = 3;
+                        sTrnsnUnk.zBuffer = gZBuffer;
+                        gTrnsnUnkState = 3;
                         R_UPDATE_RATE = 1;
                     }
                     break;
                 case 3:
-                    func_800B23E8(&D_801613B0);
+                    func_800B23E8(&sTrnsnUnk);
                     break;
             }
         }
 
-        if (globalCtx->unk_1241B != 0) {
-            switch (globalCtx->unk_1241B) {
+        if (globalCtx->transitionMode != 0) {
+            switch (globalCtx->transitionMode) {
                 case 1:
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         s16 sp6E = 0;
@@ -508,78 +508,86 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         func_800BC5E0(globalCtx, CREG(12));
                     }
 
-                    if (globalCtx->unk_1241B >= 4) {
+                    if (globalCtx->transitionMode >= 4) {
                         break;
                     }
 
                 case 2:
-                    globalCtx->transitionCtx.unk_22C(&globalCtx->transitionCtx);
+                    globalCtx->transitionCtx.init(&globalCtx->transitionCtx.data);
 
-                    if ((globalCtx->transitionCtx.unk_228 >> 5) == 1) {
-                        globalCtx->transitionCtx.unk_240(&globalCtx->transitionCtx,
-                                                         globalCtx->transitionCtx.unk_228 | 0x80);
+                    if ((globalCtx->transitionCtx.transitionType >> 5) == 1) {
+                        globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data,
+                                                         globalCtx->transitionCtx.transitionType | 0x80);
                     }
 
                     gSaveContext.unk_1419 = 14;
-                    if ((globalCtx->transitionCtx.unk_228 == 8) || (globalCtx->transitionCtx.unk_228 == 9)) {
+                    if ((globalCtx->transitionCtx.transitionType == 8) ||
+                        (globalCtx->transitionCtx.transitionType == 9)) {
                         gSaveContext.unk_1419 = 28;
                     }
 
                     gSaveContext.fadeDuration = 60;
-                    if ((globalCtx->transitionCtx.unk_228 == 4) || (globalCtx->transitionCtx.unk_228 == 5)) {
+                    if ((globalCtx->transitionCtx.transitionType == 4) ||
+                        (globalCtx->transitionCtx.transitionType == 5)) {
                         gSaveContext.fadeDuration = 20;
-                    } else if ((globalCtx->transitionCtx.unk_228 == 6) || (globalCtx->transitionCtx.unk_228 == 7)) {
+                    } else if ((globalCtx->transitionCtx.transitionType == 6) ||
+                               (globalCtx->transitionCtx.transitionType == 7)) {
                         gSaveContext.fadeDuration = 150;
-                    } else if (globalCtx->transitionCtx.unk_228 == 17) {
+                    } else if (globalCtx->transitionCtx.transitionType == 17) {
                         gSaveContext.fadeDuration = 2;
                     }
 
-                    if ((globalCtx->transitionCtx.unk_228 == 3) || (globalCtx->transitionCtx.unk_228 == 5) ||
-                        (globalCtx->transitionCtx.unk_228 == 7) || (globalCtx->transitionCtx.unk_228 == 13) ||
-                        (globalCtx->transitionCtx.unk_228 == 17)) {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
-                        if (globalCtx->transitionCtx.unk_248 != NULL) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+                    if ((globalCtx->transitionCtx.transitionType == 3) ||
+                        (globalCtx->transitionCtx.transitionType == 5) ||
+                        (globalCtx->transitionCtx.transitionType == 7) ||
+                        (globalCtx->transitionCtx.transitionType == 13) ||
+                        (globalCtx->transitionCtx.transitionType == 17)) {
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(160, 160, 160, 255));
+                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
+                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
+                                                                 RGBA8(160, 160, 160, 255));
                         }
-                    } else if (globalCtx->transitionCtx.unk_228 == 18) {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0x8C, 0x8C, 0x64, 0xFF));
-                        if (globalCtx->transitionCtx.unk_248 != NULL) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0x8C, 0x8C, 0x64, 0xFF));
+                    } else if (globalCtx->transitionCtx.transitionType == 18) {
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(140, 140, 100, 255));
+                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
+                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
+                                                                 RGBA8(140, 140, 100, 255));
                         }
-                    } else if (globalCtx->transitionCtx.unk_228 == 19) {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0x46, 0x64, 0x6E, 0xFF));
-                        if (globalCtx->transitionCtx.unk_248 != NULL) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0x46, 0x64, 0x6E, 0xFF));
+                    } else if (globalCtx->transitionCtx.transitionType == 19) {
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(70, 100, 110, 255));
+                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
+                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
+                                                                 RGBA8(70, 100, 110, 255));
                         }
                     } else {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0x00, 0x00, 0x00, 0x00));
-                        if (globalCtx->transitionCtx.unk_248 != NULL) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0x00, 0x00, 0x00, 0x00));
+                        globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(0, 0, 0, 0));
+                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
+                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data, RGBA8(0, 0, 0, 0));
                         }
                     }
 
                     if (globalCtx->sceneLoadFlag == -0x14) {
-                        globalCtx->transitionCtx.unk_240(&globalCtx->transitionCtx, 1);
+                        globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data, 1);
                     } else {
-                        globalCtx->transitionCtx.unk_240(&globalCtx->transitionCtx, 2);
+                        globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data, 2);
                     }
 
-                    globalCtx->transitionCtx.unk_23C(&globalCtx->transitionCtx);
+                    globalCtx->transitionCtx.start(&globalCtx->transitionCtx);
 
-                    if (globalCtx->transitionCtx.unk_228 == 13) {
-                        globalCtx->unk_1241B = 11;
+                    if (globalCtx->transitionCtx.transitionType == 13) {
+                        globalCtx->transitionMode = 11;
                     } else {
-                        globalCtx->unk_1241B = 3;
+                        globalCtx->transitionMode = 3;
                     }
                     break;
 
                 case 3:
-                    if (globalCtx->transitionCtx.unk_24C(&globalCtx->transitionCtx) != 0) {
-                        if (globalCtx->transitionCtx.unk_228 >= 56) {
+                    if (globalCtx->transitionCtx.isDone(&globalCtx->transitionCtx) != 0) {
+                        if (globalCtx->transitionCtx.transitionType >= 56) {
                             if (globalCtx->sceneLoadFlag == -0x14) {
-                                globalCtx->transitionCtx.unk_230(&globalCtx->transitionCtx);
+                                globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
                                 func_800BC88C(globalCtx);
-                                globalCtx->unk_1241B = 0;
+                                globalCtx->transitionMode = 0;
                             }
                         } else if (globalCtx->sceneLoadFlag != -0x14) {
                             globalCtx->state.running = 0;
@@ -593,23 +601,23 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                 SET_NEXT_GAMESTATE(&globalCtx->state, func_80811A20, char[0x1CAE0]);
                             }
                         } else {
-                            globalCtx->transitionCtx.unk_230(&globalCtx->transitionCtx);
+                            globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
                             func_800BC88C(globalCtx);
-                            globalCtx->unk_1241B = 0;
-                            if (D_80161490 == 3) {
-                                func_800B1DBC(&D_801613B0);
-                                D_80161490 = 0;
+                            globalCtx->transitionMode = 0;
+                            if (gTrnsnUnkState == 3) {
+                                TransitionUnk_Destroy(&sTrnsnUnk);
+                                gTrnsnUnkState = 0;
                                 R_UPDATE_RATE = 3;
                             }
                         }
                         globalCtx->sceneLoadFlag = 0;
                     } else {
-                        globalCtx->transitionCtx.unk_234(&globalCtx->transitionCtx, R_UPDATE_RATE);
+                        globalCtx->transitionCtx.update(&globalCtx->transitionCtx.data, R_UPDATE_RATE);
                     }
                     break;
             }
 
-            switch (globalCtx->unk_1241B) {
+            switch (globalCtx->transitionMode) {
                 case 4:
                     D_801614C8 = 0;
                     globalCtx->envCtx.unk_E1 = 1;
@@ -618,10 +626,10 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     globalCtx->envCtx.unk_E2[2] = 0xA0;
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.unk_E2[3] = 0;
-                        globalCtx->unk_1241B = 5;
+                        globalCtx->transitionMode = 5;
                     } else {
                         globalCtx->envCtx.unk_E2[3] = 0xFF;
-                        globalCtx->unk_1241B = 6;
+                        globalCtx->transitionMode = 6;
                     }
                     break;
 
@@ -632,7 +640,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->unk_1241B = 0;
+                        globalCtx->transitionMode = 0;
                     } else {
                         D_801614C8++;
                     }
@@ -641,10 +649,10 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 6:
                     globalCtx->envCtx.unk_E2[3] = (1 - D_801614C8 / 20.0f) * 255.0f;
                     if (D_801614C8 >= 20 && 1) {
-                        D_80161490 = 0;
+                        gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->unk_1241B = 0;
+                        globalCtx->transitionMode = 0;
                         globalCtx->envCtx.unk_E1 = 0;
                     } else {
                         D_801614C8++;
@@ -659,10 +667,10 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     globalCtx->envCtx.unk_E2[2] = 0x96;
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.unk_E2[3] = 0;
-                        globalCtx->unk_1241B = 5;
+                        globalCtx->transitionMode = 5;
                     } else {
                         globalCtx->envCtx.unk_E2[3] = 0xFF;
-                        globalCtx->unk_1241B = 6;
+                        globalCtx->transitionMode = 6;
                     }
                     break;
 
@@ -673,41 +681,42 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->unk_1241B = 0;
+                        globalCtx->transitionMode = 0;
                     } else {
-                        D_80161490 = 0;
+                        gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->unk_1241B = 0;
+                        globalCtx->transitionMode = 0;
                     }
                     break;
 
                 case 11:
                     if (gSaveContext.unk_1410 != 0) {
-                        globalCtx->unk_1241B = 3;
+                        globalCtx->transitionMode = 3;
                     }
                     break;
 
                 case 12:
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.unk_E6 = 1;
-                        globalCtx->unk_1241B = 13;
+                        globalCtx->transitionMode = 13;
                     } else {
                         globalCtx->envCtx.unk_E6 = 2;
                         globalCtx->envCtx.unk_E7 = 0xFF;
                         globalCtx->envCtx.unk_E8 = 0xFF;
-                        globalCtx->unk_1241B = 13;
+                        globalCtx->transitionMode = 13;
                     }
                     break;
 
                 case 13:
-                    Audio_PlaySoundGeneral(0x20C0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 < 0x6E) {
-                            D_80161490 = 0;
+                            gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->unk_1241B = 0;
+                            globalCtx->transitionMode = 0;
                         }
                     } else {
                         if (globalCtx->envCtx.unk_E8 == 0xFF) {
@@ -716,7 +725,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                             SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                             gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->unk_1241B = 0;
+                            globalCtx->transitionMode = 0;
                         }
                     }
                     break;
@@ -727,20 +736,21 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         globalCtx->envCtx.unk_E7 = 0xFF;
                         globalCtx->envCtx.unk_E8 = 0xFF;
                         LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471); // "It's here!!!!!!!!!"
-                        globalCtx->unk_1241B = 15;
+                        globalCtx->transitionMode = 15;
                     } else {
-                        globalCtx->unk_1241B = 12;
+                        globalCtx->transitionMode = 12;
                     }
                     break;
 
                 case 15:
-                    Audio_PlaySoundGeneral(0x20C0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.unk_E7 <= 0) {
-                            D_80161490 = 0;
+                            gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->unk_1241B = 0;
+                            globalCtx->transitionMode = 0;
                         }
                     }
                     break;
@@ -752,17 +762,17 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     globalCtx->envCtx.unk_E2[1] = 0;
                     globalCtx->envCtx.unk_E2[2] = 0;
                     globalCtx->envCtx.unk_E2[3] = 0xFF;
-                    globalCtx->unk_1241B = 17;
+                    globalCtx->transitionMode = 17;
                     break;
 
                 case 17:
                     if (gSaveContext.unk_1410 != 0) {
                         globalCtx->envCtx.unk_E2[3] = gSaveContext.unk_1410;
                         if (gSaveContext.unk_1410 < 0x65) {
-                            D_80161490 = 0;
+                            gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->unk_1241B = 0;
+                            globalCtx->transitionMode = 0;
                         }
                     }
                     break;
@@ -774,13 +784,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         }
 
         temp = HREG(63);
-        if (1 && (D_80161490 != 3)) {
+        if (1 && (gTrnsnUnkState != 3)) {
             if (1 && temp) {
                 LOG_NUM("1", 1, "../z_play.c", 3542);
             }
 
             if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0)) {
-                func_8006EA30(globalCtx);
+                KaleidoSetup_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {
@@ -834,25 +844,25 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3612);
                     }
 
-                    func_8006139C(globalCtx, &globalCtx->sub_11E60);
+                    func_8006139C(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3618);
                     }
 
-                    func_80061C98(globalCtx, &globalCtx->sub_11E60);
+                    CollisionCheck_OC(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3624);
                     }
 
-                    func_800622E4(globalCtx, &globalCtx->sub_11E60);
+                    func_800622E4(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3631);
                     }
 
-                    func_8005D40C(globalCtx, &globalCtx->sub_11E60);
+                    CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3637);
@@ -878,13 +888,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3651);
                     }
 
-                    func_80026F70(globalCtx);
+                    Effect_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3657);
                     }
 
-                    Effect_SS_UpdateAllParticles(globalCtx);
+                    EffectSs_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3662);
@@ -911,7 +921,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if (globalCtx->unk_1242B != 0) {
-                if (!~(input[0].press.in.button | ~8)) {
+                if (CHECK_PAD(input[0].press, U_CBUTTONS)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
@@ -931,7 +941,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3708);
             }
 
-            func_800B1744(&globalCtx->skyboxCtx);
+            SkyboxDraw_Update(&globalCtx->skyboxCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3716);
@@ -983,13 +993,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);
             }
 
-            func_800B39B8(R_UPDATE_RATE);
+            ShrinkWindow_Update(R_UPDATE_RATE);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3783);
             }
 
-            func_800B3568(&globalCtx->sub_1241C, R_UPDATE_RATE);
+            TransitionFade_Update(&globalCtx->transitionFade, R_UPDATE_RATE);
         }
     }
 
@@ -1058,41 +1068,39 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// regalloc, stakc usage and minor ordering differences
+// regalloc, stack usage and minor ordering differences
 void Gameplay_Draw(GlobalContext* globalCtx) {
-    LightMapper* sp228;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Lights* sp228;
     Vec3f sp21C;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4]; // 0x208
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_play.c", 3907);
+    OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x00, NULL);
-    gSPSegment(gfxCtx->overlay.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->overlay.p++, 0x00, NULL);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(gfxCtx->overlay.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(oGfxCtx->overlay.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(gfxCtx->overlay.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(oGfxCtx->overlay.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(gfxCtx->overlay.p++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(oGfxCtx->overlay.p++, 0x02, globalCtx->sceneSegment);
 
     func_80095248(gfxCtx, 0, 0, 0);
 
     if ((HREG(80) != 10) || (HREG(82) != 0)) {
-        gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
-        gfxCtx->polyXlu.p = func_800BC8A0(globalCtx, gfxCtx->polyXlu.p);
+        oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+        oGfxCtx->polyXlu.p = func_800BC8A0(globalCtx, oGfxCtx->polyXlu.p);
 
         func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
         func_800AAA50(&globalCtx->view, 15);
@@ -1112,47 +1120,42 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
                                                 Graph_Alloc(gfxCtx, sizeof(Mtx)));
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x01, globalCtx->unk_11DE0);
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x01, globalCtx->unk_11DE0);
 
         if ((HREG(80) != 10) || (HREG(92) != 0)) {
-            Gfx* sp1CC = gfxCtx->polyOpa.p;
-            Gfx* sp1D0 = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
-            gSPDisplayList(gfxCtx->overlay.p++, sp1D0);
+            Gfx* sp1CC = oGfxCtx->polyOpa.p;
+            Gfx* gfxP = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
+            gSPDisplayList(oGfxCtx->overlay.p++, gfxP);
 
-            if ((globalCtx->unk_1241B == 3) || (globalCtx->unk_1241B == 11) ||
-                (globalCtx->transitionCtx.unk_228 >= 56)) {
-                View view;         // 0xA0
-                Viewport viewport; // 0x90
+            if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
+                (globalCtx->transitionCtx.transitionType >= 56)) {
+                View view; // 0xA0
 
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;
 
-                // clang-format off
-                viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
-                viewport.topY = 0; viewport.leftX = 0;
-                // clang-format on
+                SET_FULLSCREEN_VIEWPORT(&view);
 
-                View_SetViewport(&view, &viewport);
-                func_800AB9EC(&view, 15, &sp1D0);
-                globalCtx->transitionCtx.unk_238(&globalCtx->transitionCtx, &sp1D0);
+                func_800AB9EC(&view, 15, &gfxP);
+                globalCtx->transitionCtx.draw(&globalCtx->transitionCtx.data, &gfxP);
             }
 
-            func_800B3718(&globalCtx->sub_1241C, &sp1D0);
+            TransitionFade_Draw(&globalCtx->transitionFade, &gfxP);
 
-            if (D_801614B0.a > 0x00) {
-                D_80161498.color.rgba = D_801614B0.rgba;
-                func_800AD5C0(&D_80161498, &sp1D0);
+            if (D_801614B0.a > 0) {
+                D_80161498.primColor.rgba = D_801614B0.rgba;
+                VisMono_Draw(&D_80161498, &gfxP);
             }
 
-            gSPEndDisplayList(sp1D0++);
-            Graph_BranchDlist(sp1CC, sp1D0);
-            gfxCtx->polyOpa.p = sp1D0;
+            gSPEndDisplayList(gfxP++);
+            Graph_BranchDlist(sp1CC, gfxP);
+            oGfxCtx->polyOpa.p = gfxP;
         }
 
-        if (D_80161490 == 3) {
-            Gfx* sp88 = gfxCtx->polyOpa.p;
-            func_800B2188(&D_801613B0, &sp88);
-            gfxCtx->polyOpa.p = sp88;
+        if (gTrnsnUnkState == 3) {
+            Gfx* sp88 = oGfxCtx->polyOpa.p;
+            TransitionUnk_Draw(&sTrnsnUnk, &sp88);
+            oGfxCtx->polyOpa.p = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
             func_800C0ED8(&globalCtx->preRenderCtx, 0x140, 0xF0, gfxCtx->curFrameBuffer, gZBuffer);
@@ -1166,9 +1169,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             }
 
             if (R_PAUSE_MENU_MODE == 3) {
-                Gfx* sp84 = gfxCtx->polyOpa.p;
+                Gfx* sp84 = oGfxCtx->polyOpa.p;
                 func_800C24BC(&globalCtx->preRenderCtx, &sp84);
-                gfxCtx->polyOpa.p = sp84;
+                oGfxCtx->polyOpa.p = sp84;
                 goto Gameplay_Draw_DrawOverlayElements;
             } else {
                 s32 sp80;
@@ -1178,12 +1181,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         if ((globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
                             if ((globalCtx->skyboxId == 1) || (skyboxId == 5)) {
                                 func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
-                                func_800B10C4(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
-                                              globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
-                                              globalCtx->view.eye.z);
+                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
+                                                globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
+                                                globalCtx->view.eye.z);
                             } else if (globalCtx->skyboxCtx.unk_140 == 0) {
-                                func_800B10C4(&globalCtx->skyboxCtx, gfxCtx, skyboxId, 0, globalCtx->view.eye.x,
-                                              globalCtx->view.eye.y, globalCtx->view.eye.z);
+                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, skyboxId, 0, globalCtx->view.eye.x,
+                                                globalCtx->view.eye.y, globalCtx->view.eye.z);
                             }
                         }
                     }
@@ -1205,9 +1208,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
-                    sp228 = Lights_CreateMapper(&globalCtx->lightCtx, gfxCtx);
-                    func_8007A474(sp228, globalCtx->lightCtx.lightsHead, 0);
-                    func_80079EFC(sp228, gfxCtx);
+                    sp228 = LightContext_NewLights(&globalCtx->lightCtx, gfxCtx);
+                    Lights_BindAll(sp228, globalCtx->lightCtx.listHead, NULL);
+                    Lights_Draw(sp228, gfxCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
@@ -1225,12 +1228,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (globalCtx->cameraPtrs[globalCtx->activeCamera]->unk_142 != 0x19) {
+                        if (ACTIVE_CAM->setting != 0x19) {
                             Vec3f sp74;
-                            func_8005AFB4(&sp74, globalCtx->cameraPtrs[globalCtx->activeCamera]);
-                            func_800B10C4(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
-                                          globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
-                                          globalCtx->view.eye.z + sp74.z);
+                            func_8005AFB4(&sp74, ACTIVE_CAM);
+                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
+                                            globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
+                                            globalCtx->view.eye.z + sp74.z);
                         }
                     }
                 }
@@ -1282,8 +1285,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                     DebugDisplay_DrawObjects(globalCtx);
                 }
 
-                if ((R_PAUSE_MENU_MODE == 1) || (D_80161490 == 1)) {
-                    Gfx* sp70 = gfxCtx->overlay.p;
+                if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
+                    Gfx* sp70 = oGfxCtx->overlay.p;
                     globalCtx->preRenderCtx.unk_10 = gfxCtx->curFrameBuffer;
                     globalCtx->preRenderCtx.unk_14 = gZBuffer;
                     func_800C1F20(&globalCtx->preRenderCtx, &sp70);
@@ -1292,9 +1295,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         func_800C20B4(&globalCtx->preRenderCtx, &sp70);
                         R_PAUSE_MENU_MODE = 2;
                     } else {
-                        D_80161490 = 2;
+                        gTrnsnUnkState = 2;
                     }
-                    gfxCtx->overlay.p = sp70;
+                    oGfxCtx->overlay.p = sp70;
                     globalCtx->preRenderCtx.unk_A3 = 2;
                     SREG(33) |= 1;
                 } else {
@@ -1309,17 +1312,18 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     if (globalCtx->view.unk_124 != 0) {
         Vec3s sp50;
-        func_800591EC(&sp50, globalCtx->cameraPtrs[globalCtx->activeCamera]);
+        func_800591EC(&sp50, ACTIVE_CAM);
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
-            func_800B1030(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
+            SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y,
+                                    globalCtx->view.eye.z);
         }
     }
 
-    func_80059EC8(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+    func_80059EC8(ACTIVE_CAM);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_play.c", 4508);
+    CLOSE_DISPS(gfxCtx, "../z_play.c", 4508);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/Gameplay_Draw.s")
@@ -1356,7 +1360,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
     }
 
     if (1 && HREG(63)) {
-        LOG_NUM("1", 1, "../z_play.c", 4583)
+        LOG_NUM("1", 1, "../z_play.c", 4583);
     }
 
     Gameplay_Draw(globalCtx);
@@ -1371,47 +1375,46 @@ s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
     return (globalCtx->csCtx.state != 0) || func_8008E988(globalCtx);
 }
 
-#ifdef NON_MATCHING
-// saved register usage differences and possibly stack usage or regalloc differences
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
-    PosRot sp50;
-    f32 temp_f0;
-    f32 phi_f12;
-    f32 phi_f16;
+    CollisionPoly sp50;
+    f32 temp1;
+    f32 temp2;
+    f32 temp3;
     f32 sp40;
     f32 sp3C;
     f32 sp38;
     f32 sp34;
+    s32 pad[5];
 
-    sp40 = func_8003CB30(globalCtx, &globalCtx->colCtx, &sp50, mf);
+    sp40 = func_8003CB30(&globalCtx->colCtx, &sp50, vec, mf);
 
     if (sp40 > -32000.0f) {
-        sp3C = sp50.rot.x * (1.0f / 32767.0f);
-        sp38 = sp50.rot.y * (1.0f / 32767.0f);
-        sp34 = sp50.rot.z * (1.0f / 32767.0f);
+        sp3C = sp50.norm.x * (1.0f / 32767.0f);
+        sp38 = sp50.norm.y * (1.0f / 32767.0f);
+        sp34 = sp50.norm.z * (1.0f / 32767.0f);
 
-        temp_f0 = sqrtf(1.0f - SQ(sp3C));
+        temp1 = sqrtf(1.0f - SQ(sp3C));
 
-        if (temp_f0 != 0.0f) {
-            phi_f12 = sp38 * temp_f0;
-            phi_f16 = -sp34 * temp_f0;
+        if (temp1 != 0.0f) {
+            temp2 = sp38 * temp1;
+            temp3 = -sp34 * temp1;
         } else {
-            phi_f12 = 0.0f;
-            phi_f16 = 0.0f;
+            temp3 = 0.0f;
+            temp2 = 0.0f;
         }
 
-        mf->xx = temp_f0;
-        mf->xy = -sp3C * phi_f12;
-        mf->xz = sp3C * phi_f16;
+        mf->xx = temp1;
+        mf->xy = -sp3C * temp2;
+        mf->xz = sp3C * temp3;
         mf->yx = sp3C;
         mf->yy = sp38;
-        mf->zy = phi_f16;
-        mf->zz = phi_f12;
+        mf->yz = sp34;
+        mf->zy = temp3;
+        mf->zz = temp2;
         mf->xw = 0.0f;
         mf->yw = 0.0f;
         mf->zx = 0.0f;
         mf->zw = 0.0f;
-        mf->yz = sp34;
         mf->wx = vec->x;
         mf->wy = sp40;
         mf->wz = vec->z;
@@ -1437,16 +1440,13 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
 
     return sp40;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BFCB8.s")
-#endif
 
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     u32 size;
     void* allocp;
 
     size = file->vromEnd - file->vromStart;
-    allocp = Game_Alloc(&globalCtx->state, size, "../z_play.c", 4692);
+    allocp = GameState_Alloc(&globalCtx->state, size, "../z_play.c", 4692);
     DmaMgr_SendRequest1(allocp, file->vromStart, size, "../z_play.c", 4694);
 
     return allocp;
@@ -1467,7 +1467,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->setupPathList = NULL;
     globalCtx->nbSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
-    func_8007A614(globalCtx, &globalCtx->lightCtx);
+    LightContext_Init(globalCtx, &globalCtx->lightCtx);
     func_80098CBC(globalCtx, &globalCtx->nbTransitionActors);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;
@@ -1491,7 +1491,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     if (globalCtx->sceneSegment == NULL) {
         __assert("this->sceneSegment != NULL", "../z_play.c", 4960);
     }
-    gSegments[2] = PHYSICAL_TO_VIRTUAL(globalCtx->sceneSegment);
+    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);
 
@@ -1529,7 +1529,7 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
                      CYAN) " " VT_RST "\n",
                  i);
 
-    globalCtx->cameraPtrs[i] = &globalCtx->cameras[i];
+    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - 1];
     func_80057C6C(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
     globalCtx->cameraPtrs[i]->unk_164 = i;
 
@@ -1587,20 +1587,16 @@ Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId) {
 }
 
 s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3) {
-    u32 ret;
+    s32 ret = 0;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
-    Camera* camera;
+    Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    camera = globalCtx->cameraPtrs[camIdx];
+    ret |= Camera_SetParam(camera, 1, arg2);
+    ret <<= 1;
+    ret |= Camera_SetParam(camera, 2, arg3);
 
-    ret = func_8005AA90(camera, 1, arg2);
-    ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
-
-    if (1) {} // Necessary to match
-
-    camera->unk_DC = Math3D_Vec3f_DistXYZ(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1616,25 +1612,19 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
     return ret;
 }
 
-#ifdef NON_MATCHING
-// missing an extra stack store/load instruction pair
 s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {
-    u32 ret;
+    s32 ret = 0;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
-    Camera* camera;
+    Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    camera = globalCtx->cameraPtrs[camIdx];
+    ret |= Camera_SetParam(camera, 1, arg2);
+    ret <<= 1;
+    ret |= Camera_SetParam(camera, 2, arg3);
+    ret <<= 1;
+    ret |= Camera_SetParam(camera, 4, arg4);
 
-    if (1) {} // Probably necessary to match
-
-    ret = func_8005AA90(camera, 1, arg2);
-    ret *= 2;
-    ret |= func_8005AA90(camera, 2, arg3);
-    ret *= 2;
-    ret |= func_8005AA90(camera, 4, arg4);
-
-    camera->unk_DC = func_800CB678(arg2, arg3);
+    camera->dist = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {
@@ -1649,25 +1639,19 @@ s32 func_800C05E4(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3,
 
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C05E4.s")
-#endif
 
-#ifdef NON_MATCHING
-// missing an extra move instruction
 s32 func_800C0704(GlobalContext* globalCtx, s16 camId, f32 arg2) {
-    return (func_8005AA90(globalCtx->cameraPtrs[camId], 32, &arg2) & 1);
+    s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], 32, &arg2) & 1;
+    if (1) {}
+    return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0704.s")
-#endif
 
 s32 func_800C0744(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
     Camera* camera;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    camera->unk_15A = arg2;
+    camera->roll = arg2;
 
     return 1;
 }
@@ -1679,13 +1663,13 @@ void func_800C078C(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
     func_8005AE64(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
 }
 
-void func_800C0808(GlobalContext* globalCtx, s16 camId, s32 arg2, s16 arg3) {
+s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 arg3) {
     Camera* camera;
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    func_80058148(camera, arg2);
-    func_8005A77C(camera, arg3);
+    func_80058148(camera, player);
+    return func_8005A77C(camera, arg3);
 }
 
 void func_800C0874(GlobalContext* globalCtx, s16 camId, s16 arg2) {
@@ -1719,7 +1703,7 @@ s16 func_800C09A4(GlobalContext* globalCtx, s16 camId) {
     Camera* camera = globalCtx->cameraPtrs[camId];
 
     if (camera != NULL) {
-        return camera->unk_130;
+        return camera->uid;
     } else {
         return -1;
     }
@@ -1730,9 +1714,9 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 
     if (camera != NULL) {
         return 0;
-    } else if (camera->unk_130 != arg2) {
+    } else if (camera->uid != arg2) {
         return 0;
-    } else if (camera->unk_140 != 7) {
+    } else if (camera->status != 7) {
         return 2;
     } else {
         return 1;
@@ -1779,7 +1763,7 @@ void Gameplay_TriggerVoidOut(GlobalContext* globalCtx) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags = globalCtx->actorCtx.flags.tempCollect;
     gSaveContext.respawnFlag = 1;
     globalCtx->sceneLoadFlag = 0x14;
-    globalCtx->nextEntranceIndex = gSaveContext.respawn[0].entranceIndex;
+    globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
     globalCtx->fadeTransition = 2;
 }
 
@@ -1812,7 +1796,7 @@ s32 func_800C0CB8(GlobalContext* globalCtx) {
 }
 
 s32 func_800C0D28(GlobalContext* globalCtx) {
-    return (globalCtx->sub_7B8.unk_0 != 0);
+    return (globalCtx->sub_7B8.toggle != 0);
 }
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {

@@ -6,7 +6,7 @@ glabel EnPoSisters_Destroy
 /* 00258 80AD91E8 8CE60298 */  lw      $a2, 0x0298($a3)           ## 00000298
 /* 0025C 80AD91EC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00260 80AD91F0 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
-/* 00264 80AD91F4 0C01E9F1 */  jal     Lights_Remove
+/* 00264 80AD91F4 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00268 80AD91F8 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 0026C 80AD91FC 8FA70018 */  lw      $a3, 0x0018($sp)           
@@ -21,7 +21,7 @@ glabel EnPoSisters_Destroy
 /* 00290 80AD9220 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00294 80AD9224 8FA4001C */  lw      $a0, 0x001C($sp)           
 .L80AD9228:
-/* 00298 80AD9228 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00298 80AD9228 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0029C 80AD922C 24E502AC */  addiu   $a1, $a3, 0x02AC           ## $a1 = 000002AC
 /* 002A0 80AD9230 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -21,7 +21,7 @@ MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
 
 void Matrix_Init(GameState* gameState) {
-    sCurrentMatrix = Game_Alloc(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
+    sCurrentMatrix = GameState_Alloc(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
     sMatrixStack = sCurrentMatrix;
 }
 
@@ -53,7 +53,7 @@ void Matrix_Mult(MtxF* mf, u8 mode) {
     MtxF* cmf = Matrix_GetCurrent();
 
     if (mode == MTXMODE_APPLY) {
-        func_800A6FA0(cmf, mf, cmf);
+        SkinMatrix_MtxFMtxFMult(cmf, mf, cmf);
     } else {
         Matrix_MtxFCopy(sCurrentMatrix, mf);
     }
@@ -78,7 +78,7 @@ void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
         ty = cmf->yw;
         cmf->ww += tx * x + ty * y + cmf->zw * z;
     } else {
-        func_800A7A24(cmf, x, y, z);
+        SkinMatrix_SetTranslate(cmf, x, y, z);
     }
 }
 
@@ -99,7 +99,7 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
         cmf->yw *= y;
         cmf->zw *= z;
     } else {
-        func_800A76A4(cmf, x, y, z);
+        SkinMatrix_SetScale(cmf, x, y, z);
     }
 }
 
@@ -301,7 +301,7 @@ void Matrix_RotateZ(f32 z, u8 mode) {
  * by `x` degrees. (roll-pitch-yaw)
  * Original Name: Matrix_RotateXYZ, changed to reflect rotation order.
  */
-void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
+void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1;
     f32 temp2;
@@ -382,15 +382,14 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
             cmf->zw = temp2 * cos - temp1 * sin;
         }
     } else {
-        func_800A7704(cmf, x, y, z);
+        SkinMatrix_SetRotateRPY(cmf, x, y, z);
     }
 }
 
 /*
- * Translates the top of the matrix stack by `translation` units,
- * then rotates that matrix by `rotation` in Z-Y-X order (roll-pitch-yaw)
+ * Roll-pitch-yaw rotation and position
  */
-void Matrix_TranslateThenRotateZYX(Vec3f* translation, Vec3s* rotation) {
+void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin;
     f32 cos;
@@ -402,25 +401,25 @@ void Matrix_TranslateThenRotateZYX(Vec3f* translation, Vec3s* rotation) {
 
     temp1 = cmf->xx;
     temp2 = cmf->yx;
-    cmf->wx += temp1 * translation->x + temp2 * translation->y + cmf->zx * translation->z;
+    cmf->wx += temp1 * position->x + temp2 * position->y + cmf->zx * position->z;
     cmf->xx = temp1 * cos + temp2 * sin;
     cmf->yx = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xy;
     temp2 = cmf->yy;
-    cmf->wy += temp1 * translation->x + temp2 * translation->y + cmf->zy * translation->z;
+    cmf->wy += temp1 * position->x + temp2 * position->y + cmf->zy * position->z;
     cmf->xy = temp1 * cos + temp2 * sin;
     cmf->yy = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xz;
     temp2 = cmf->yz;
-    cmf->wz += temp1 * translation->x + temp2 * translation->y + cmf->zz * translation->z;
+    cmf->wz += temp1 * position->x + temp2 * position->y + cmf->zz * position->z;
     cmf->xz = temp1 * cos + temp2 * sin;
     cmf->yz = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xw;
     temp2 = cmf->yw;
-    cmf->ww += temp1 * translation->x + temp2 * translation->y + cmf->zw * translation->z;
+    cmf->ww += temp1 * position->x + temp2 * position->y + cmf->zw * position->z;
     cmf->xw = temp1 * cos + temp2 * sin;
     cmf->yw = temp2 * cos - temp1 * sin;
 
@@ -541,82 +540,76 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D1694.s")
 #endif
 
-#ifdef NON_MATCHING
-// mostly regalloc differences
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
+    s32 temp;
     u16* m1 = (u16*)&dest->m[0][0];
     u16* m2 = (u16*)&dest->m[2][0];
-    s32 temp;
 
-    temp = src->xx * 65536.0f;
-    m1[0] = (temp >> 0x10) & 0xFFFF;
-    m2[0] = temp & 0xFFFF;
+    temp = src->xx * 0x10000;
+    m1[0] = (temp >> 0x10);
+    m1[16 + 0] = temp & 0xFFFF;
 
-    temp = src->xy * 65536.0f;
-    m1[1] = (temp >> 0x10) & 0xFFFF;
-    m2[1] = temp & 0xFFFF;
+    temp = src->xy * 0x10000;
+    m1[1] = (temp >> 0x10);
+    m1[16 + 1] = temp & 0xFFFF;
 
-    temp = src->xz * 65536.0f;
-    m1[2] = (temp >> 0x10) & 0xFFFF;
-    m2[2] = temp & 0xFFFF;
+    temp = src->xz * 0x10000;
+    m1[2] = (temp >> 0x10);
+    m1[16 + 2] = temp & 0xFFFF;
 
-    temp = src->xw * 65536.0f;
-    m1[3] = (temp >> 0x10) & 0xFFFF;
-    m2[3] = temp & 0xFFFF;
+    temp = src->xw * 0x10000;
+    m1[3] = (temp >> 0x10);
+    m1[16 + 3] = temp & 0xFFFF;
 
-    temp = src->yx * 65536.0f;
-    m1[4] = (temp >> 0x10) & 0xFFFF;
-    m2[4] = temp & 0xFFFF;
+    temp = src->yx * 0x10000;
+    m1[4] = (temp >> 0x10);
+    m1[16 + 4] = temp & 0xFFFF;
 
-    temp = src->yy * 65536.0f;
-    m1[5] = (temp >> 0x10) & 0xFFFF;
-    m2[5] = temp & 0xFFFF;
+    temp = src->yy * 0x10000;
+    m1[5] = (temp >> 0x10);
+    m1[16 + 5] = temp & 0xFFFF;
 
-    temp = src->yz * 65536.0f;
-    m1[6] = (temp >> 0x10) & 0xFFFF;
-    m2[6] = temp & 0xFFFF;
+    temp = src->yz * 0x10000;
+    m1[6] = (temp >> 0x10);
+    m1[16 + 6] = temp & 0xFFFF;
 
-    temp = src->yw * 65536.0f;
-    m1[7] = (temp >> 0x10) & 0xFFFF;
-    m2[7] = temp & 0xFFFF;
+    temp = src->yw * 0x10000;
+    m1[7] = (temp >> 0x10);
+    m1[16 + 7] = temp & 0xFFFF;
 
-    temp = src->zx * 65536.0f;
-    m1[8] = (temp >> 0x10) & 0xFFFF;
-    m2[8] = temp & 0xFFFF;
+    temp = src->zx * 0x10000;
+    m1[8] = (temp >> 0x10);
+    m1[16 + 8] = temp & 0xFFFF;
 
-    temp = src->zy * 65536.0f;
-    m1[9] = (temp >> 0x10) & 0xFFFF;
+    temp = src->zy * 0x10000;
+    m1[9] = (temp >> 0x10);
     m2[9] = temp & 0xFFFF;
 
-    temp = src->zz * 65536.0f;
-    m1[10] = (temp >> 0x10) & 0xFFFF;
+    temp = src->zz * 0x10000;
+    m1[10] = (temp >> 0x10);
     m2[10] = temp & 0xFFFF;
 
-    temp = src->zw * 65536.0f;
-    m1[11] = (temp >> 0x10) & 0xFFFF;
+    temp = src->zw * 0x10000;
+    m1[11] = (temp >> 0x10);
     m2[11] = temp & 0xFFFF;
 
-    temp = src->wx * 65536.0f;
-    m1[12] = (temp >> 0x10) & 0xFFFF;
+    temp = src->wx * 0x10000;
+    m1[12] = (temp >> 0x10);
     m2[12] = temp & 0xFFFF;
 
-    temp = src->wy * 65536.0f;
-    m1[13] = (temp >> 0x10) & 0xFFFF;
+    temp = src->wy * 0x10000;
+    m1[13] = (temp >> 0x10);
     m2[13] = temp & 0xFFFF;
 
-    temp = src->wz * 65536.0f;
-    m1[14] = (temp >> 0x10) & 0xFFFF;
+    temp = src->wz * 0x10000;
+    m1[14] = (temp >> 0x10);
     m2[14] = temp & 0xFFFF;
 
-    temp = src->ww * 65536.0f;
-    m1[15] = (temp >> 0x10) & 0xFFFF;
+    temp = src->ww * 0x10000;
+    m1[15] = (temp >> 0x10);
     m2[15] = temp & 0xFFFF;
-
     return dest;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/Matrix_MtxFToMtx.s")
-#endif
 
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line) {
     return Matrix_MtxFToMtx(Matrix_CheckFloats(sCurrentMatrix, file, line), dest);
@@ -626,7 +619,7 @@ Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
     return Matrix_ToMtx(Graph_Alloc(gfxCtx, sizeof(Mtx)), file, line);
 }
 
-Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
+Mtx* Matrix_SkinMatrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, Graph_Alloc(gfxCtx, sizeof(Mtx)));
 }
 
@@ -936,7 +929,7 @@ void func_800D2A98(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     MtxF mf;
 
     func_800D2A34(&mf, arg1, arg2, arg3, arg4);
-    func_801064E0(&mf, mtx);
+    guMtxF2L(&mf, mtx);
 }
 
 void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {

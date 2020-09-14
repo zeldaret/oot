@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void ObjIcePoly_Init(ObjIcePoly* this, GlobalContext* globalCtx);
-void ObjIcePoly_Destroy(ObjIcePoly* this, GlobalContext* globalCtx);
-void ObjIcePoly_Update(ObjIcePoly* this, GlobalContext* globalCtx);
-void ObjIcePoly_Draw(ObjIcePoly* this, GlobalContext* globalCtx);
+#define THIS ((ObjIcePoly*)thisx)
+
+void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Ice_Poly_InitVars = {

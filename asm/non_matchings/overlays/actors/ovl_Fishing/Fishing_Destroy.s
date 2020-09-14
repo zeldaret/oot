@@ -13,7 +13,7 @@ glabel Fishing_Destroy
 /* 01548 80B6AEE8 24E507A8 */  addiu   $a1, $a3, 0x07A8           ## $a1 = 000007A8
 /* 0154C 80B6AEEC 54410006 */  bnel    $v0, $at, .L80B6AF08
 /* 01550 80B6AEF0 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 01554 80B6AEF4 0C01E9F1 */  jal     Lights_Remove
+/* 01554 80B6AEF4 0C01E9F1 */  jal     LightContext_RemoveLight
 
 /* 01558 80B6AEF8 8C66021C */  lw      $a2, 0x021C($v1)           ## 0000021C
 /* 0155C 80B6AEFC 10000007 */  beq     $zero, $zero, .L80B6AF1C
@@ -22,7 +22,7 @@ glabel Fishing_Destroy
 .L80B6AF08:
 /* 01568 80B6AF08 14410003 */  bne     $v0, $at, .L80B6AF18
 /* 0156C 80B6AF0C 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 01570 80B6AF10 0C016F32 */  jal     func_8005BCC8
+/* 01570 80B6AF10 0C016F32 */  jal     Collider_DestroyJntSph
 /* 01574 80B6AF14 24650230 */  addiu   $a1, $v1, 0x0230           ## $a1 = 00000230
 .L80B6AF18:
 /* 01578 80B6AF18 8FBF0014 */  lw      $ra, 0x0014($sp)

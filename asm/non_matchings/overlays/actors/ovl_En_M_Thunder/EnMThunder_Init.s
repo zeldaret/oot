@@ -9,14 +9,14 @@ glabel EnMThunder_Init
 /* 00024 80A9F004 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00028 80A9F008 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0002C 80A9F00C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00030 80A9F010 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00030 80A9F010 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00034 80A9F014 AFA60044 */  sw      $a2, 0x0044($sp)           
 /* 00038 80A9F018 3C0780AA */  lui     $a3, %hi(D_80AA0420)       ## $a3 = 80AA0000
 /* 0003C 80A9F01C 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00040 80A9F020 24E70420 */  addiu   $a3, $a3, %lo(D_80AA0420)  ## $a3 = 80AA0420
 /* 00044 80A9F024 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00048 80A9F028 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00048 80A9F028 0C01712B */  jal     Collider_SetCylinder
               
 /* 0004C 80A9F02C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 80A9F030 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
@@ -45,12 +45,12 @@ glabel EnMThunder_Init
 /* 000AC 80A9F08C AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 000B0 80A9F090 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 000B4 80A9F094 AFA40030 */  sw      $a0, 0x0030($sp)           
-/* 000B8 80A9F098 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 000B8 80A9F098 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 000BC 80A9F09C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 000C0 80A9F0A0 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 000C4 80A9F0A4 8FA60030 */  lw      $a2, 0x0030($sp)           
-/* 000C8 80A9F0A8 0C01E9D9 */  jal     Lights_Insert
+/* 000C8 80A9F0A8 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 000CC 80A9F0AC 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
 /* 000D0 80A9F0B0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

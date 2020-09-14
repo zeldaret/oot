@@ -30,7 +30,7 @@ glabel func_809B75A0
 /* 012C0 809B7610 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 012C4 809B7614 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 012C8 809B7618 2406395B */  addiu   $a2, $zero, 0x395B         ## $a2 = 0000395B
-/* 012CC 809B761C 0C00AA7D */  jal     func_8002A9F4
+/* 012CC 809B761C 0C00AA7D */  jal     EffectSsDeadSound_SpawnStationary
 /* 012D0 809B7620 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 012D4 809B7624 AE60014C */  sw      $zero, 0x014C($s3)         ## 0000014C
 /* 012D8 809B7628 24110054 */  addiu   $s1, $zero, 0x0054         ## $s1 = 00000054
@@ -92,7 +92,7 @@ glabel func_809B75A0
 /* 013A4 809B76F4 00042400 */  sll     $a0, $a0, 16
 /* 013A8 809B76F8 00042403 */  sra     $a0, $a0, 16
 /* 013AC 809B76FC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 013B0 809B7700 0C034421 */  jal     Matrix_RotateZYX
+/* 013B0 809B7700 0C034421 */  jal     Matrix_RotateRPY
 /* 013B4 809B7704 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 013B8 809B7708 3C04809C */  lui     $a0, %hi(D_809B8080)       ## $a0 = 809C0000
 /* 013BC 809B770C 24848080 */  addiu   $a0, $a0, %lo(D_809B8080)  ## $a0 = 809B8080
@@ -136,7 +136,7 @@ glabel func_809B75A0
 /* 01448 809B7798 00042400 */  sll     $a0, $a0, 16
 /* 0144C 809B779C 00042403 */  sra     $a0, $a0, 16
 /* 01450 809B77A0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 01454 809B77A4 0C034421 */  jal     Matrix_RotateZYX
+/* 01454 809B77A4 0C034421 */  jal     Matrix_RotateRPY
 /* 01458 809B77A8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 0145C 809B77AC 03C02025 */  or      $a0, $s8, $zero            ## $a0 = FFFFFFEC
 /* 01460 809B77B0 0C0346BD */  jal     Matrix_MultVec3f

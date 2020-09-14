@@ -44,7 +44,7 @@ glabel func_8008FCC8
 /* B06EA8 8008FD08 AC2F0018 */  sw    $t7, %lo(D_80160018)($at)
 /* B06EAC 8008FD0C 3C018016 */  lui   $at, %hi(D_80160000)
 /* B06EB0 8008FD10 1320001B */  beqz  $t9, .L8008FD80
-/* B06EB4 8008FD14 AC380000 */   sw    $t8, ($at)
+/* B06EB4 8008FD14 AC380000 */   sw    $t8, %lo(D_80160000)($at)
 /* B06EB8 8008FD18 920201E9 */  lbu   $v0, 0x1e9($s0)
 /* B06EBC 8008FD1C 3C018014 */  lui   $at, %hi(D_8013E90C)
 /* B06EC0 8008FD20 30430004 */  andi  $v1, $v0, 4
@@ -110,7 +110,7 @@ glabel func_8008FCC8
 /* B06F9C 8008FDFC 24070001 */  li    $a3, 1
 /* B06FA0 8008FE00 84440000 */  lh    $a0, ($v0)
 /* B06FA4 8008FE04 84450002 */  lh    $a1, 2($v0)
-/* B06FA8 8008FE08 0C034421 */  jal   Matrix_RotateZYX
+/* B06FA8 8008FE08 0C034421 */  jal   Matrix_RotateRPY
 /* B06FAC 8008FE0C 84460004 */   lh    $a2, 4($v0)
 /* B06FB0 8008FE10 8FA20040 */  lw    $v0, 0x40($sp)
 /* B06FB4 8008FE14 44800000 */  mtc1  $zero, $f0

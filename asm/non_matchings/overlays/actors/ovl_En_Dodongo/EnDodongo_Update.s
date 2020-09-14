@@ -43,7 +43,7 @@ glabel EnDodongo_Update
 /* 01D7C 809F9FCC 26060588 */  addiu   $a2, $s0, 0x0588           ## $a2 = 00000588
 /* 01D80 809F9FD0 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01D84 809F9FD4 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 01D88 809F9FD8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01D88 809F9FD8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01D8C 809F9FDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01D90 809F9FE0 8E030304 */  lw      $v1, 0x0304($s0)           ## 00000304
@@ -51,7 +51,7 @@ glabel EnDodongo_Update
 /* 01D98 809F9FE8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01D9C 809F9FEC 10610004 */  beq     $v1, $at, .L809FA000       
 /* 01DA0 809F9FF0 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 01DA4 809F9FF4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01DA4 809F9FF4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01DA8 809F9FF8 26060454 */  addiu   $a2, $s0, 0x0454           ## $a2 = 00000454
 /* 01DAC 809F9FFC 8E030304 */  lw      $v1, 0x0304($s0)           ## 00000304
@@ -60,7 +60,7 @@ glabel EnDodongo_Update
 /* 01DB4 809FA004 14200005 */  bne     $at, $zero, .L809FA01C     
 /* 01DB8 809FA008 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01DBC 809FA00C 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 01DC0 809FA010 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01DC0 809FA010 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01DC4 809FA014 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01DC8 809FA018 8E030304 */  lw      $v1, 0x0304($s0)           ## 00000304
@@ -94,7 +94,7 @@ glabel EnDodongo_Update
 /* 01E2C 809FA07C 00000000 */  nop
 /* 01E30 809FA080 45000003 */  bc1f    .L809FA090                 
 /* 01E34 809FA084 00000000 */  nop
-/* 01E38 809FA088 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01E38 809FA088 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 01E3C 809FA08C 260603D4 */  addiu   $a2, $s0, 0x03D4           ## $a2 = 000003D4
 .L809FA090:

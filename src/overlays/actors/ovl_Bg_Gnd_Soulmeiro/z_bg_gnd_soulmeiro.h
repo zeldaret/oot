@@ -4,10 +4,14 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgGndSoulmeiro;
+
+typedef void (*BgGndSoulmeiroActionFunc)(struct BgGndSoulmeiro*, GlobalContext*);
+
+typedef struct BgGndSoulmeiro {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x50];
-    /* 0x019C */ ActorFunc actionFunc;
+    /* 0x019C */ BgGndSoulmeiroActionFunc actionFunc;
 } BgGndSoulmeiro; // size = 0x01A0
 
 extern const ActorInit Bg_Gnd_Soulmeiro_InitVars;

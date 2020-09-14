@@ -1,3 +1,21 @@
+.late_rodata
+.late_rodata_alignment 8
+glabel jtbl_8099C7F0
+    .word L8099C550
+    .word L8099C520
+    .word L8099C540
+    .word L8099C540
+    .word L8099C540
+    .word L8099C560
+    .word L8099C540
+    .word L8099C540
+    .word L8099C540
+    .word L8099C540
+    .word L8099C540
+    .word L8099C540
+    .word L8099C540
+
+.text
 glabel DoorWarp1_Draw
 /* 03D70 8099C4F0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 03D74 8099C4F4 AFBF0014 */  sw      $ra, 0x0014($sp)           

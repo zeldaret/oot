@@ -39,7 +39,7 @@ glabel EnPoSisters_Init
 /* 00088 80AD9018 2606029C */  addiu   $a2, $s0, 0x029C           ## $a2 = 0000029C
 /* 0008C 80AD901C AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 00090 80AD9020 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00094 80AD9024 0C01E9D9 */  jal     Lights_Insert
+/* 00094 80AD9024 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 00098 80AD9028 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 0009C 80AD902C C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
@@ -62,19 +62,19 @@ glabel EnPoSisters_Init
 /* 000E0 80AD9070 00073C03 */  sra     $a3, $a3, 16               
 /* 000E4 80AD9074 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 000E8 80AD9078 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 000EC 80AD907C 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 000EC 80AD907C 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 000F0 80AD9080 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000F4 80AD9084 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC
 /* 000F8 80AD9088 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000FC 80AD908C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000FC 80AD908C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00100 80AD9090 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00104 80AD9094 3C0780AE */  lui     $a3, %hi(D_80ADD730)       ## $a3 = 80AE0000
 /* 00108 80AD9098 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 0010C 80AD909C 24E7D730 */  addiu   $a3, $a3, %lo(D_80ADD730)  ## $a3 = 80ADD730
 /* 00110 80AD90A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00114 80AD90A4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00114 80AD90A4 0C01712B */  jal     Collider_SetCylinder
               
 /* 00118 80AD90A8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0011C 80AD90AC 3C0580AE */  lui     $a1, %hi(D_80ADD764)       ## $a1 = 80AE0000

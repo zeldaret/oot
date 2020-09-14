@@ -26,7 +26,7 @@ glabel BossFd_Init
 /* 005A0 808CB360 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 005A4 808CB364 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 005A8 808CB368 E7A60014 */  swc1    $f6, 0x0014($sp)           
-/* 005AC 808CB36C 0C00C916 */  jal     Actor_SpawnAttached
+/* 005AC 808CB36C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 005B0 808CB370 E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 005B4 808CB374 3C05808D */  lui     $a1, %hi(D_808D191C)       ## $a1 = 808D0000
@@ -97,7 +97,7 @@ glabel BossFd_Init
 /* 00698 808CB458 E6000024 */  swc1    $f0, 0x0024($s0)           ## 00000024
 /* 0069C 808CB45C E60A0028 */  swc1    $f10, 0x0028($s0)          ## 00000028
 /* 006A0 808CB460 AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 006A4 808CB464 0C016EFE */  jal     func_8005BBF8              
+/* 006A4 808CB464 0C016EFE */  jal     Collider_InitJntSph              
 /* 006A8 808CB468 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 006AC 808CB46C 3C07808D */  lui     $a3, %hi(D_808D190C)       ## $a3 = 808D0000
 /* 006B0 808CB470 261914B0 */  addiu   $t9, $s0, 0x14B0           ## $t9 = 000014B0
@@ -105,7 +105,7 @@ glabel BossFd_Init
 /* 006B8 808CB478 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 006BC 808CB47C 24E7190C */  addiu   $a3, $a3, %lo(D_808D190C)  ## $a3 = 808D190C
 /* 006C0 808CB480 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006C4 808CB484 0C017014 */  jal     func_8005C050              
+/* 006C4 808CB484 0C017014 */  jal     Collider_SetJntSph              
 /* 006C8 808CB488 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 006CC 808CB48C 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 006D0 808CB490 2404000C */  addiu   $a0, $zero, 0x000C         ## $a0 = 0000000C
@@ -175,7 +175,7 @@ glabel BossFd_Init
 /* 007B8 808CB578 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 007BC 808CB57C E7B20014 */  swc1    $f18, 0x0014($sp)          
 /* 007C0 808CB580 E7B00010 */  swc1    $f16, 0x0010($sp)          
-/* 007C4 808CB584 0C00C916 */  jal     Actor_SpawnAttached
+/* 007C4 808CB584 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 007C8 808CB588 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 007CC 808CB58C 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
@@ -211,7 +211,7 @@ glabel BossFd_Init
 /* 0083C 808CB5FC AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00840 808CB600 E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 00844 808CB604 860E1402 */  lh      $t6, 0x1402($s0)           ## 00001402
-/* 00848 808CB608 0C00C916 */  jal     Actor_SpawnAttached
+/* 00848 808CB608 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0084C 808CB60C AFAE0028 */  sw      $t6, 0x0028($sp)           
 /* 00850 808CB610 8FBF003C */  lw      $ra, 0x003C($sp)           

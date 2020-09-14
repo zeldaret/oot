@@ -9,17 +9,17 @@ glabel EnPoField_Destroy
 /* 00224 80AD3D24 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00228 80AD3D28 8CE60230 */  lw      $a2, 0x0230($a3)           ## 00000230
 /* 0022C 80AD3D2C AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 00230 80AD3D30 0C01E9F1 */  jal     Lights_Remove
+/* 00230 80AD3D30 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00234 80AD3D34 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00238 80AD3D38 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0023C 80AD3D3C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00240 80AD3D40 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00240 80AD3D40 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00244 80AD3D44 24A50290 */  addiu   $a1, $a1, 0x0290           ## $a1 = 00000290
 /* 00248 80AD3D48 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0024C 80AD3D4C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00250 80AD3D50 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00250 80AD3D50 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00254 80AD3D54 24A50244 */  addiu   $a1, $a1, 0x0244           ## $a1 = 00000244
 .L80AD3D58:

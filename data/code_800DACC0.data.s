@@ -3,24 +3,49 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .data
 
+.balign 16
+
+glabel D_8012E090
+    .incbin "baserom.z64", 0xBA5230, 0x200
+
+glabel D_8012E290
+    .incbin "baserom.z64", 0xBA5430, 0x200
+
+glabel D_8012E490
+    .incbin "baserom.z64", 0xBA5630, 0x200
+
+glabel D_8012E690
+    .incbin "baserom.z64", 0xBA5830, 0x200
+
+glabel D_8012E890
+    .incbin "baserom.z64", 0xBA5A30, 0x200
+
+glabel D_8012EA90
+    .incbin "baserom.z64", 0xBA5C30, 0x200
+
+glabel D_8012EC90
+    .incbin "baserom.z64", 0xBA5E30, 0x200
+
+glabel D_8012EE90
+    .incbin "baserom.z64", 0xBA6030, 0x200
+
 glabel gWaveSamples
-    .incbin "baserom.z64", 0xBA6230, 0x8
+    .word D_8012E090
+    .word D_8012E290
+    .word D_8012E490
+    .word D_8012E690
+    .word D_8012E890
+    .word D_8012EA90
+    .word D_8012EC90
+    .word D_8012EE90
+    .word D_8012EE90
 
-glabel D_8012F098
-    .incbin "baserom.z64", 0xBA6238, 0x18
-
-glabel D_8012F0B0
-    .incbin "baserom.z64", 0xBA6250, 0x4
-
-glabel D_8012F0B4
-    .incbin "baserom.z64", 0xBA6254, 0x200
-
-glabel D_8012F2B4
-    .incbin "baserom.z64", 0xBA6454, 0x200
+glabel gPitchBendFrequencyScale
+    .incbin "baserom.z64", 0xBA6254, 0x400
 
 glabel D_8012F4B4
     .incbin "baserom.z64", 0xBA6654, 0x200
@@ -28,16 +53,16 @@ glabel D_8012F4B4
 glabel D_8012F6B4
     .incbin "baserom.z64", 0xBA6854, 0x200
 
-glabel D_8012F8B4
+glabel gNoteFrequencies
     .incbin "baserom.z64", 0xBA6A54, 0x200
 
-glabel D_8012FAB4
+glabel gDefaultShortNoteVelocityTable
     .incbin "baserom.z64", 0xBA6C54, 0x10
 
-glabel D_8012FAC4
+glabel gDefaultShortNoteDurationTable
     .incbin "baserom.z64", 0xBA6C64, 0x10
 
-glabel D_8012FAD4
+glabel gDefaultEnvelope
     .incbin "baserom.z64", 0xBA6C74, 0x10
 
 glabel gZeroNoteSub

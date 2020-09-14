@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000030
 
-void MirRay_Init(MirRay* this, GlobalContext* globalCtx);
-void MirRay_Destroy(MirRay* this, GlobalContext* globalCtx);
-void MirRay_Update(MirRay* this, GlobalContext* globalCtx);
-void MirRay_Draw(MirRay* this, GlobalContext* globalCtx);
+#define THIS ((MirRay*)thisx)
+
+void MirRay_Init(Actor* thisx, GlobalContext* globalCtx);
+void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void MirRay_Update(Actor* thisx, GlobalContext* globalCtx);
+void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Mir_Ray_InitVars = {

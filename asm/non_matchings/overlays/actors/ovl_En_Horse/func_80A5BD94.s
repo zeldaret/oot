@@ -134,7 +134,7 @@ glabel func_80A5BD94
 /* 00C84 80A5BF74 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00C88 80A5BF78 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000024
 /* 00C8C 80A5BF7C 02803025 */  or      $a2, $s4, $zero            ## $a2 = 000000E4
-/* 00C90 80A5BF80 0C029B84 */  jal     func_800A6E10
+/* 00C90 80A5BF80 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW
 /* 00C94 80A5BF84 02A03825 */  or      $a3, $s5, $zero            ## $a3 = 000000F0
 .L80A5BF88:
 /* 00C98 80A5BF88 3C0A80A6 */  lui     $t2, %hi(D_80A665DA)       ## $t2 = 80A60000

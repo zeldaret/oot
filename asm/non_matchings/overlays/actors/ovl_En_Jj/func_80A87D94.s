@@ -60,7 +60,7 @@ glabel func_80A87D94
 /* 0065C 80A87E5C AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 00660 80A87E60 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00664 80A87E64 E7A60014 */  swc1    $f6, 0x0014($sp)           
-/* 00668 80A87E68 0C00C916 */  jal     Actor_SpawnAttached
+/* 00668 80A87E68 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0066C 80A87E6C E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 00670 80A87E70 960B030A */  lhu     $t3, 0x030A($s0)           ## 0000030A

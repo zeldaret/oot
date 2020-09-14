@@ -56,14 +56,14 @@ glabel ObjBean_Update
 /* 020E4 80B90B64 44093000 */  mfc1    $t1, $f6                   
 /* 020E8 80B90B68 00000000 */  nop
 /* 020EC 80B90B6C A60901A8 */  sh      $t1, 0x01A8($s0)           ## 000001A8
-/* 020F0 80B90B70 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 020F0 80B90B70 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 020F4 80B90B74 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 020F8 80B90B78 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 020FC 80B90B7C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02100 80B90B80 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 02104 80B90B84 02212821 */  addu    $a1, $s1, $at              
-/* 02108 80B90B88 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02108 80B90B88 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0210C 80B90B8C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02110 80B90B90 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

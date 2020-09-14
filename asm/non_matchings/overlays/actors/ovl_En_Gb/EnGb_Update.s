@@ -29,7 +29,7 @@ glabel EnGb_Update
 /* 00C5C 80A2FDDC 0261A021 */  addu    $s4, $s3, $at              
 /* 00C60 80A2FDE0 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000000
 /* 00C64 80A2FDE4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00C68 80A2FDE8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00C68 80A2FDE8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00C6C 80A2FDEC 2646023C */  addiu   $a2, $s2, 0x023C           ## $a2 = 0000023C
 /* 00C70 80A2FDF0 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
@@ -38,7 +38,7 @@ glabel EnGb_Update
 .L80A2FDFC:
 /* 00C7C 80A2FDFC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00C80 80A2FE00 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000000
-/* 00C84 80A2FE04 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00C84 80A2FE04 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00C88 80A2FE08 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000288
 /* 00C8C 80A2FE0C 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C

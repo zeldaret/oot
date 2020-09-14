@@ -4,9 +4,11 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x64];
+struct BgSpot11Bakudankabe;
+
+typedef struct BgSpot11Bakudankabe {
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ ColliderCylinder collider;
 } BgSpot11Bakudankabe; // size = 0x01B0
 
 extern const ActorInit Bg_Spot11_Bakudankabe_InitVars;

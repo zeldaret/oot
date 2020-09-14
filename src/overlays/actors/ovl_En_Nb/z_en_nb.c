@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void EnNb_Init(EnNb* this, GlobalContext* globalCtx);
-void EnNb_Destroy(EnNb* this, GlobalContext* globalCtx);
-void EnNb_Update(EnNb* this, GlobalContext* globalCtx);
-void EnNb_Draw(EnNb* this, GlobalContext* globalCtx);
+#define THIS ((EnNb*)thisx)
+
+void EnNb_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnNb_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnNb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Nb_InitVars = {

@@ -7,9 +7,10 @@
     }
 
 static OSTask sTmpTask;
+
 OSTask* _VirtualToPhysicalTask(OSTask* intp) {
-    OSTask* tp;
-    tp = &sTmpTask;
+    OSTask* tp = &sTmpTask;
+
     bcopy(intp, tp, sizeof(OSTask));
 
     _osVirtualToPhysical(tp->t.ucode);
@@ -22,12 +23,9 @@ OSTask* _VirtualToPhysicalTask(OSTask* intp) {
     return tp;
 }
 
-#ifdef NON_MATCHING
-// very close to matching, just regalloc
 void osSpTaskLoad(OSTask* intp) {
+    OSTask* tp = _VirtualToPhysicalTask(intp);
 
-    OSTask* tp;
-    tp = _VirtualToPhysicalTask(intp);
     if (tp->t.flags & OS_TASK_YIELDED) {
         tp->t.ucode_data = tp->t.yield_data_ptr;
         tp->t.ucode_data_size = tp->t.yield_data_size;
@@ -38,11 +36,11 @@ void osSpTaskLoad(OSTask* intp) {
     }
     osWritebackDCache(tp, sizeof(OSTask));
     __osSpSetStatus(SP_CLR_SIG0 | SP_CLR_SIG1 | SP_CLR_SIG2 | SP_SET_INTR_BREAK);
-    while (__osSpSetPc(SP_IMEM_START) == -1) {
+    while (__osSpSetPc((void*)SP_IMEM_START) == -1) {
         ;
     }
 
-    while (__osSpRawStartDma(1, (SP_IMEM_START - sizeof(*tp)), tp, sizeof(OSTask)) == -1) {
+    while (__osSpRawStartDma(1, (void*)(SP_IMEM_START - sizeof(*tp)), tp, sizeof(OSTask)) == -1) {
         ;
     }
 
@@ -50,13 +48,10 @@ void osSpTaskLoad(OSTask* intp) {
         ;
     }
 
-    while (__osSpRawStartDma(1, SP_IMEM_START, tp->t.ucode_boot, tp->t.ucode_boot_size) == -1) {
+    while (__osSpRawStartDma(1, (void*)SP_IMEM_START, tp->t.ucode_boot, tp->t.ucode_boot_size) == -1) {
         ;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sptask/osSpTaskLoad.s")
-#endif
 
 void osSpTaskStartGo(OSTask* tp) {
 

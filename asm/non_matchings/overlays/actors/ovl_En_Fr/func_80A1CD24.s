@@ -75,7 +75,7 @@ glabel func_80A1CD24
 /* 02468 80A1CE08 00052C03 */  sra     $a1, $a1, 16
 /* 0246C 80A1CE0C AFA9001C */  sw      $t1, 0x001C($sp)
 /* 02470 80A1CE10 AFAC0014 */  sw      $t4, 0x0014($sp)
-/* 02474 80A1CE14 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 02474 80A1CE14 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 02478 80A1CE18 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 0247C 80A1CE1C 8FA80058 */  lw      $t0, 0x0058($sp)
@@ -173,7 +173,7 @@ glabel func_80A1CD24
 /* 025EC 80A1CF8C 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 025F0 80A1CF90 860500B6 */  lh      $a1, 0x00B6($s0)           ## 000000B6
 /* 025F4 80A1CF94 860600B8 */  lh      $a2, 0x00B8($s0)           ## 000000B8
-/* 025F8 80A1CF98 0C034421 */  jal     Matrix_RotateZYX
+/* 025F8 80A1CF98 0C034421 */  jal     Matrix_RotateRPY
 /* 025FC 80A1CF9C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 02600 80A1CFA0 8E0502B4 */  lw      $a1, 0x02B4($s0)           ## 000002B4
 /* 02604 80A1CFA4 8E0602D0 */  lw      $a2, 0x02D0($s0)           ## 000002D0

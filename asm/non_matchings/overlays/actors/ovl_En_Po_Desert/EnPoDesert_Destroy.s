@@ -7,12 +7,12 @@ glabel EnPoDesert_Destroy
 /* 00180 80AD2E30 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00184 80AD2E34 8DC60224 */  lw      $a2, 0x0224($t6)           ## 00000224
 /* 00188 80AD2E38 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 0018C 80AD2E3C 0C01E9F1 */  jal     Lights_Remove
+/* 0018C 80AD2E3C 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00190 80AD2E40 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00194 80AD2E44 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00198 80AD2E48 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0019C 80AD2E4C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0019C 80AD2E4C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001A0 80AD2E50 24A50238 */  addiu   $a1, $a1, 0x0238           ## $a1 = 00000238
 /* 001A4 80AD2E54 8FBF0014 */  lw      $ra, 0x0014($sp)           

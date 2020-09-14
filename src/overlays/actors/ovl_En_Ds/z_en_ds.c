@@ -8,28 +8,14 @@
 
 #define FLAGS 0x00000009
 
-void EnDs_Init(EnDs* this, GlobalContext* globalCtx);
-void EnDs_Destroy(EnDs* this, GlobalContext* globalCtx);
-void EnDs_Update(EnDs* this, GlobalContext* globalCtx);
-void EnDs_Draw(EnDs* this, GlobalContext* globalCtx);
+#define THIS ((EnDs*)thisx)
 
-void EnDs_Talk(EnDs* this, GlobalContext* globalCtx);
-void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx);
-void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx);
-void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx);
-void EnDs_BrewOddPotion2(EnDs* this, GlobalContext* globalCtx);
-void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx);
-void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx);
-int EnDs_CheckRupeesAndBottle();
-void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx);
+void EnDs_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDs_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx);
-
-UNK_TYPE func_809FDA38(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnDs* this);
-void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this);
 
 const ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
@@ -46,16 +32,14 @@ const ActorInit En_Ds_InitVars = {
 extern SkeletonHeader D_06004768;
 extern AnimationHeader D_0600039C;
 
-Vec3f mtxSrc = { 1100.0f, 500.0f, 0.0f };
-
-void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
-    SkelAnime* skelAnime = &this->skelAnime;
+void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
 
-    this->actor.sub_98.mass = 0xFF;
+    this->actor.colChkInfo.mass = 0xFF;
 
     Actor_SetScale(this, 0.013f);
 
@@ -66,7 +50,7 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
     this->unk_1E4 = 0.0f;
 }
 
-void EnDs_Destroy(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
@@ -104,8 +88,8 @@ void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
         gSaveContext.timer2State = 0;
     } else {
@@ -185,8 +169,8 @@ int EnDs_CheckRupeesAndBottle() {
 }
 
 void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
@@ -222,7 +206,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
 
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 unkAngle;
+    s16 yawDiff;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (func_8002F368(globalCtx) == 8) {
@@ -241,17 +225,19 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
             this->actionFunc = EnDs_Talk;
         }
     } else {
-        unkAngle = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         this->actor.textId = 0x5048;
 
-        if ((ABS(unkAngle) < 0x2151) && (this->actor.xzDistanceFromLink < 200.0f)) {
+        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistFromLink < 200.0f)) {
             func_8002F298(this, globalCtx, 100.0f, 8);
             this->unk_1E8 |= 1;
         }
     }
 }
 
-void EnDs_Update(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnDs* this = THIS;
+
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
@@ -268,8 +254,8 @@ void EnDs_Update(EnDs* this, GlobalContext* globalCtx) {
     }
 }
 
-UNK_TYPE func_809FDA38(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnDs* this) {
-    EnDs* enDs = this;
+s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnDs* this = THIS;
 
     if (limbIndex == 5) {
         rot->x += this->unk_1D8.y;
@@ -278,14 +264,18 @@ UNK_TYPE func_809FDA38(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     return 0;
 }
 
-void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
+
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&mtxSrc, &actor->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
     }
 }
 
-void EnDs_Draw(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnDs* this = THIS;
+
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     &func_809FDA38, &func_809FDA7C, this);
+                     EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00005215
 
-void EnPoSisters_Init(EnPoSisters* this, GlobalContext* globalCtx);
-void EnPoSisters_Destroy(EnPoSisters* this, GlobalContext* globalCtx);
-void EnPoSisters_Update(EnPoSisters* this, GlobalContext* globalCtx);
-void EnPoSisters_Draw(EnPoSisters* this, GlobalContext* globalCtx);
+#define THIS ((EnPoSisters*)thisx)
+
+void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Po_Sisters_InitVars = {

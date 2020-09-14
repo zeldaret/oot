@@ -1,3 +1,50 @@
+.late_rodata
+glabel D_808F81DC
+    .float 3.14159274101
+
+glabel jtbl_808F81E0
+    .word L808E26AC
+    .word L808E28B8
+    .word L808E306C
+    .word L808E306C
+    .word L808E306C
+    .word L808E306C
+    .word L808E306C
+    .word L808E306C
+    .word L808E306C
+    .word L808E306C
+    .word L808E28FC
+    .word L808E29A8
+    .word L808E2E70
+
+glabel D_808F8214
+    .float 10430.378
+
+glabel D_808F8218
+    .float 10430.378
+
+glabel D_808F821C
+    .float 10430.378
+
+glabel D_808F8220
+    .float 10430.378
+
+glabel D_808F8224
+    .float 10430.378
+
+glabel D_808F8228
+    .float 0.1
+
+glabel D_808F822C
+    .float 10430.378
+
+glabel D_808F8230
+    .float 10430.378
+
+glabel D_808F8234
+    .float 465.0
+
+.text
 glabel func_808E2544
 /* 0BCD4 808E2544 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 0BCD8 808E2548 AFBF0044 */  sw      $ra, 0x0044($sp)           
@@ -538,7 +585,7 @@ glabel L808E29A8
 /* 0C4BC 808E2D2C 26300610 */  addiu   $s0, $s1, 0x0610           ## $s0 = 00000610
 .L808E2D30:
 /* 0C4C0 808E2D30 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000610
-/* 0C4C4 808E2D34 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0C4C4 808E2D34 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 0C4C8 808E2D38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0C4CC 808E2D3C 862A01B8 */  lh      $t2, 0x01B8($s1)           ## 000001B8
@@ -547,7 +594,7 @@ glabel L808E29A8
 /* 0C4D8 808E2D48 15400004 */  bne     $t2, $zero, .L808E2D5C     
 /* 0C4DC 808E2D4C 8FA400A4 */  lw      $a0, 0x00A4($sp)           
 /* 0C4E0 808E2D50 00812821 */  addu    $a1, $a0, $at              
-/* 0C4E4 808E2D54 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0C4E4 808E2D54 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0C4E8 808E2D58 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000610
 .L808E2D5C:
@@ -821,7 +868,7 @@ glabel L808E306C
 /* 0C8E8 808E3158 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 0C8EC 808E315C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 0C8F0 808E3160 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 0C8F4 808E3164 0C00C916 */  jal     Actor_SpawnAttached
+/* 0C8F4 808E3164 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0C8F8 808E3168 E7A60018 */  swc1    $f6, 0x0018($sp)           
 .L808E316C:

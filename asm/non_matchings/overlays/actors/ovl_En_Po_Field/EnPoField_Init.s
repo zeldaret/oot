@@ -69,26 +69,26 @@ glabel EnPoField_Init
 /* 000F8 80AD3BF8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000FC 80AD3BFC 26050244 */  addiu   $a1, $s0, 0x0244           ## $a1 = 00000244
 /* 00100 80AD3C00 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00104 80AD3C04 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00104 80AD3C04 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00108 80AD3C08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0010C 80AD3C0C 3C0780AD */  lui     $a3, %hi(D_80AD7080)       ## $a3 = 80AD0000
 /* 00110 80AD3C10 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00114 80AD3C14 24E77080 */  addiu   $a3, $a3, %lo(D_80AD7080)  ## $a3 = 80AD7080
 /* 00118 80AD3C18 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0011C 80AD3C1C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0011C 80AD3C1C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00120 80AD3C20 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00124 80AD3C24 26050290 */  addiu   $a1, $s0, 0x0290           ## $a1 = 00000290
 /* 00128 80AD3C28 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 0012C 80AD3C2C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0012C 80AD3C2C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00130 80AD3C30 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00134 80AD3C34 3C0780AD */  lui     $a3, %hi(D_80AD70AC)       ## $a3 = 80AD0000
 /* 00138 80AD3C38 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 0013C 80AD3C3C 24E770AC */  addiu   $a3, $a3, %lo(D_80AD70AC)  ## $a3 = 80AD70AC
 /* 00140 80AD3C40 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00144 80AD3C44 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00144 80AD3C44 0C01712B */  jal     Collider_SetCylinder
               
 /* 00148 80AD3C48 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 80AD3C4C 3C0580AD */  lui     $a1, %hi(D_80AD70E0)       ## $a1 = 80AD0000
@@ -100,7 +100,7 @@ glabel EnPoField_Init
 /* 00164 80AD3C64 26060234 */  addiu   $a2, $s0, 0x0234           ## $a2 = 00000234
 /* 00168 80AD3C68 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 0016C 80AD3C6C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00170 80AD3C70 0C01E9D9 */  jal     Lights_Insert
+/* 00170 80AD3C70 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 00174 80AD3C74 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 00178 80AD3C78 C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
@@ -126,7 +126,7 @@ glabel EnPoField_Init
 /* 001C8 80AD3CC8 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 001CC 80AD3CCC AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 001D0 80AD3CD0 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 001D4 80AD3CD4 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 001D4 80AD3CD4 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 001D8 80AD3CD8 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 001DC 80AD3CDC 3C0F8003 */  lui     $t7, %hi(ActorShadow_DrawFunc_Circle)

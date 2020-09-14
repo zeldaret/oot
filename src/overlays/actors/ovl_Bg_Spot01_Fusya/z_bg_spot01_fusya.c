@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx);
-void BgSpot01Fusya_Destroy(BgSpot01Fusya* this, GlobalContext* globalCtx);
-void BgSpot01Fusya_Update(BgSpot01Fusya* this, GlobalContext* globalCtx);
-void BgSpot01Fusya_Draw(BgSpot01Fusya* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Fusya*)thisx)
+
+void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
 
@@ -27,21 +29,23 @@ const ActorInit Bg_Spot01_Fusya_InitVars = {
     (ActorFunc)BgSpot01Fusya_Draw,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 12800, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 1300, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1300, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 12800, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 1300, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1300, ICHAIN_STOP),
 };
 
-extern u32 D_06000100;
+extern Gfx D_06000100[];
 
-void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, ActorFunc actionFunc) {
+void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, BgSpot01FusyaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->actor, initChain);
+void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Fusya* this = THIS;
+
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->unk_154 = 100.0f;
     this->unk_158 = 100.0f;
     this->unk_15C = 0.5f;
@@ -51,35 +55,36 @@ void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     BgSpot01Fusya_SetupAction(this, func_808AAA50);
 }
 
-void BgSpot01Fusya_Destroy(BgSpot01Fusya* this, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     f32 temp;
     Actor* thisx = &this->actor;
+
     if (gSaveContext.eventChkInf[6] & 0x20) {
         this->unk_158 = 1800.0f;
     }
     thisx->shape.rot.z += this->unk_154;
     temp = ((this->unk_154 - 100.0f) / 1700.0f) + 1.0f;
-    func_800F436C(&thisx->unk_E4, 0x2085, temp);
+    func_800F436C(&thisx->projectedPos, 0x2085, temp);
     Math_SmoothScaleMaxF(&this->unk_154, this->unk_158, this->unk_15C, 100.0f);
 }
 
-void BgSpot01Fusya_Update(BgSpot01Fusya* this, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Fusya* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void BgSpot01Fusya_Draw(BgSpot01Fusya* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 210);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 210);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000100);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000100);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
 }

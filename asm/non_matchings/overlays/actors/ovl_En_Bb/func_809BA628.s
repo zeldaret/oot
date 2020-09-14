@@ -292,7 +292,7 @@ glabel func_809BA628
 /* 02708 809BA9E8 86040030 */  lh      $a0, 0x0030($s0)           ## 00000030
 /* 0270C 809BA9EC 86050032 */  lh      $a1, 0x0032($s0)           ## 00000032
 /* 02710 809BA9F0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 02714 809BA9F4 0C034421 */  jal     Matrix_RotateZYX
+/* 02714 809BA9F4 0C034421 */  jal     Matrix_RotateRPY
 /* 02718 809BA9F8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 0271C 809BA9FC C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 02720 809BAA00 0C0343B5 */  jal     Matrix_RotateZ
@@ -349,7 +349,7 @@ glabel func_809BA628
 /* 027E0 809BAAC0 460A3480 */  add.s   $f18, $f6, $f10
 /* 027E4 809BAAC4 46128100 */  add.s   $f4, $f16, $f18
 /* 027E8 809BAAC8 E6040274 */  swc1    $f4, 0x0274($s0)           ## 00000274
-/* 027EC 809BAACC 0C00CD90 */  jal     func_80033640
+/* 027EC 809BAACC 0C00CD90 */  jal     Actor_GetCollidedExplosive
 /* 027F0 809BAAD0 8FA40074 */  lw      $a0, 0x0074($sp)
 /* 027F4 809BAAD4 54400008 */  bnel    $v0, $zero, .L809BAAF8
 /* 027F8 809BAAD8 860E0268 */  lh      $t6, 0x0268($s0)           ## 00000268

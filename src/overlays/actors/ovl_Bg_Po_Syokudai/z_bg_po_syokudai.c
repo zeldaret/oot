@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgPoSyokudai_Init(BgPoSyokudai* this, GlobalContext* globalCtx);
-void BgPoSyokudai_Destroy(BgPoSyokudai* this, GlobalContext* globalCtx);
-void BgPoSyokudai_Update(BgPoSyokudai* this, GlobalContext* globalCtx);
-void BgPoSyokudai_Draw(BgPoSyokudai* this, GlobalContext* globalCtx);
+#define THIS ((BgPoSyokudai*)thisx)
+
+void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Po_Syokudai_InitVars = {

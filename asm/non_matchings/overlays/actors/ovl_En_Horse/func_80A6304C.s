@@ -27,7 +27,7 @@ glabel func_80A6304C
 /* 07DB8 80A630A8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07DBC 80A630AC 5520000E */  bnel    $t1, $zero, .L80A630E8     
 /* 07DC0 80A630B0 8E0A020C */  lw      $t2, 0x020C($s0)           ## 0000020C
-/* 07DC4 80A630B4 0C00BD86 */  jal     func_8002F618              
+/* 07DC4 80A630B4 0C00BD86 */  jal     Actor_HasChild              
 /* 07DC8 80A630B8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 07DCC 80A630BC 24030001 */  addiu   $v1, $zero, 0x0001         ## $v1 = 00000001
 /* 07DD0 80A630C0 14430008 */  bne     $v0, $v1, .L80A630E4       
@@ -46,7 +46,7 @@ glabel func_80A6304C
 /* 07DFC 80A630EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07E00 80A630F0 546A0011 */  bnel    $v1, $t2, .L80A63138       
 /* 07E04 80A630F4 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 07E08 80A630F8 0C00BD9D */  jal     func_8002F674              
+/* 07E08 80A630F8 0C00BD9D */  jal     Actor_HasNoChild              
 /* 07E0C 80A630FC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 07E10 80A63100 24030001 */  addiu   $v1, $zero, 0x0001         ## $v1 = 00000001
 /* 07E14 80A63104 1443000B */  bne     $v0, $v1, .L80A63134       

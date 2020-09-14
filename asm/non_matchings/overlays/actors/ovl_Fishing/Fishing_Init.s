@@ -75,7 +75,7 @@ glabel Fishing_Init
 /* 00C4C 80B6A5EC AC32E070 */  sw      $s2, %lo(D_80B7E070)($at)
 /* 00C50 80B6A5F0 8E050000 */  lw      $a1, 0x0000($s0)           ## 80B7E070
 /* 00C54 80B6A5F4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00C58 80B6A5F8 0C016EFE */  jal     func_8005BBF8
+/* 00C58 80B6A5F8 0C016EFE */  jal     Collider_InitJntSph
 /* 00C5C 80B6A5FC 24A50230 */  addiu   $a1, $a1, 0x0230           ## $a1 = 00000230
 /* 00C60 80B6A600 8E030000 */  lw      $v1, 0x0000($s0)           ## 80B7E070
 /* 00C64 80B6A604 3C0780B8 */  lui     $a3, %hi(D_80B7A888)       ## $a3 = 80B80000
@@ -84,7 +84,7 @@ glabel Fishing_Init
 /* 00C70 80B6A610 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00C74 80B6A614 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00C78 80B6A618 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00C7C 80B6A61C 0C017014 */  jal     func_8005C050
+/* 00C7C 80B6A61C 0C017014 */  jal     Collider_SetJntSph
 /* 00C80 80B6A620 24650230 */  addiu   $a1, $v1, 0x0230           ## $a1 = 00000230
 /* 00C84 80B6A624 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 00C88 80B6A628 A649001C */  sh      $t1, 0x001C($s2)           ## 0000001C
@@ -443,7 +443,7 @@ glabel Fishing_Init
 /* 0118C 80B6AB2C AFA00024 */  sw      $zero, 0x0024($sp)
 /* 01190 80B6AB30 E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 01194 80B6AB34 E7B20014 */  swc1    $f18, 0x0014($sp)
-/* 01198 80B6AB38 0C00C916 */  jal     Actor_SpawnAttached
+/* 01198 80B6AB38 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 0119C 80B6AB3C E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 011A0 80B6AB40 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -596,7 +596,7 @@ glabel Fishing_Init
 /* 013B8 80B6AD58 35090009 */  ori     $t1, $t0, 0x0009           ## $t1 = 00000009
 /* 013BC 80B6AD5C AE490004 */  sw      $t1, 0x0004($s2)           ## 00000004
 /* 013C0 80B6AD60 266507A8 */  addiu   $a1, $s3, 0x07A8           ## $a1 = 000007A8
-/* 013C4 80B6AD64 0C01E9D9 */  jal     Lights_Insert
+/* 013C4 80B6AD64 0C01E9D9 */  jal     LightContext_InsertLight
 
 /* 013C8 80B6AD68 26460220 */  addiu   $a2, $s2, 0x0220           ## $a2 = 00000220
 /* 013CC 80B6AD6C 1000004A */  beq     $zero, $zero, .L80B6AE98

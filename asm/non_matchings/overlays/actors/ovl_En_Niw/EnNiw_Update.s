@@ -1,3 +1,65 @@
+.rdata
+glabel D_80AB880C
+    .asciz "\x1b[32m☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8838
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8868
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8898
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB88C8
+    .asciz "\x1b[32m☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB88F8
+    .asciz "\x1b[32m☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8928
+    .asciz "\x1b[32m☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8958
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8988
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB89B8
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB89E8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB89EC
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB89F0
+    .asciz "\x1b[33m☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+glabel D_80AB8A1C
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB8B0C
+    .float -0.15
+
+.text
 glabel EnNiw_Update
 /* 01DB4 80AB7534 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 01DB8 80AB7538 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -670,7 +732,7 @@ glabel EnNiw_Update
 /* 02720 80AB7EA0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02724 80AB7EA4 3C0C80AB */  lui     $t4, %hi(func_80AB6BF8)    ## $t4 = 80AB0000
 /* 02728 80AB7EA8 258C6BF8 */  addiu   $t4, $t4, %lo(func_80AB6BF8) ## $t4 = 80AB6BF8
-/* 0272C 80AB7EAC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0272C 80AB7EAC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02730 80AB7EB0 AFAC003C */  sw      $t4, 0x003C($sp)           
 /* 02734 80AB7EB4 8622001C */  lh      $v0, 0x001C($s1)           ## 0000001C
@@ -686,7 +748,7 @@ glabel EnNiw_Update
 /* 0275C 80AB7EDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02760 80AB7EE0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02764 80AB7EE4 00812821 */  addu    $a1, $a0, $at              
-/* 02768 80AB7EE8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02768 80AB7EE8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0276C 80AB7EEC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000030C
 .L80AB7EF0:
@@ -710,7 +772,7 @@ glabel EnNiw_Update
 /* 027B4 80AB7F34 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 027B8 80AB7F38 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 027BC 80AB7F3C 00812821 */  addu    $a1, $a0, $at              
-/* 027C0 80AB7F40 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 027C0 80AB7F40 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 027C4 80AB7F44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000030C
 .L80AB7F48:

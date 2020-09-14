@@ -19,13 +19,22 @@ done < data_list.txt
 comm -3 <(sort old_list.txt) <(sort cur_list.txt) > diff.txt
 comm -3 <(sort old_data_list.txt) <(sort list.txt) >> diff.txt
 
+rm old_list.txt cur_list.txt old_data_list.txt data_list.txt list.txt
+
 if [ "$1" = "-d" ]
 then
 	if [ -s diff.txt ]
 	then
-		git rm $(cat diff.txt)
+		rm $(cat diff.txt)
 	fi
 	rm diff.txt
+else
+	if [ -s diff.txt ]
+	then
+		cat diff.txt
+		rm diff.txt
+		exit 55
+	else
+		rm diff.txt
+	fi
 fi
-
-rm old_list.txt cur_list.txt old_data_list.txt data_list.txt list.txt

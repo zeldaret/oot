@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnDaikuKakariko_Init(EnDaikuKakariko* this, GlobalContext* globalCtx);
-void EnDaikuKakariko_Destroy(EnDaikuKakariko* this, GlobalContext* globalCtx);
-void EnDaikuKakariko_Update(EnDaikuKakariko* this, GlobalContext* globalCtx);
-void EnDaikuKakariko_Draw(EnDaikuKakariko* this, GlobalContext* globalCtx);
+#define THIS ((EnDaikuKakariko*)thisx)
+
+void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDaikuKakariko_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDaikuKakariko_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Daiku_Kakariko_InitVars = {

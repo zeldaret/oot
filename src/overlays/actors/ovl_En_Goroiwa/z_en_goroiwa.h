@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnGoroiwa;
+
+typedef struct EnGoroiwa {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x88];
 } EnGoroiwa; // size = 0x01D4

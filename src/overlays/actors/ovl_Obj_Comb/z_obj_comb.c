@@ -8,14 +8,16 @@
 
 #define FLAGS 0x00000000
 
-void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx);
+#define THIS ((ObjComb*)thisx)
+
+void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx);
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_SetWait(ObjComb* this);
+void ObjComb_SetupWait(ObjComb* this);
 void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Comb_InitVars = {
@@ -30,32 +32,34 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-UNK_TYPE D_80B922E0[] = {
-    0x00000000, 0x00000000, 0x00000000, 0x4001FFFE, 0x00000000, 0x00010100, 0x00000000, 0x00000000, 0x000F0064,
+ColliderJntSphItemInit sJntSphItemsInit[1] = {
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { 0x00, { { 0, 0, 0 }, 15 }, 100 },
+    },
 };
 
-UNK_TYPE D_80B92304[] = {
-    0x0A000909,
-    0x20000000,
-    0x00000001,
-    &D_80B922E0,
+ColliderJntSphInit sJntSphInit = {
+    { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
+    1,
+    &sJntSphItemsInit,
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 900, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 900, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_050095B0;
-extern UNK_TYPE D_05009940;
+extern Gfx D_050095B0[];
+extern Gfx D_05009940[];
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f posSum;
     Vec3f pos2;
-    Gfx** dlist = &D_05009940;
+    Gfx** dlist = D_05009940;
     s16 scale;
     s16 angle = 0;
     s16 gravityInfluence;
@@ -99,8 +103,8 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         } else {
             u0 = 32;
         }
-        Effect_SpawnFragment(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80,
-                             -1, 2, dlist);
+        func_80029E8C(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80, -1, 2,
+                      dlist);
     }
 
     posSum.x = this->actor.posRot.pos.x;
@@ -128,20 +132,20 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
-    s32 pad;
+void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, &initChain);
-    func_8005BBF8(globalCtx, &this->collider);
-    func_8005C050(globalCtx, &this->collider, this, &D_80B92304, &this->colliderBody);
-    ObjComb_SetWait(this);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, this, &sJntSphInit, &this->colliderItems);
+    ObjComb_SetupWait(this);
 }
 
-void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx) {
-    func_8005BCC8(globalCtx, &this->collider);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    Collider_DestroyJntSph(globalCtx, &THIS->collider);
 }
 
-void ObjComb_SetWait(ObjComb* this) {
+void ObjComb_SetupWait(ObjComb* this) {
     this->actionFunc = ObjComb_Wait;
 }
 
@@ -153,9 +157,9 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.collideFlags & 0x2) != 0) {
-        this->collider.collideFlags &= ~0x2;
-        toucherFlags = this->colliderBodyPtr->colliding->toucher.flags;
+    if ((this->collider.base.acFlags & 0x2) != 0) {
+        this->collider.base.acFlags &= ~0x2;
+        toucherFlags = this->collider.list->body.acHitItem->toucher.flags;
         if (toucherFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
@@ -164,28 +168,27 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
             Actor_Kill(this);
         }
     } else {
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 
     if (this->actor.update != NULL) {
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }
 
-void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx) {
+void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
+
     this->unk_1B2 += 12000;
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
     this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 
-void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
-    s32 pad;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
     func_80093D18(globalCtx->state.gfxCtx);
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (118.0f * this->actor.scale.y),
@@ -196,11 +199,12 @@ void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, 1);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_050095B0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_050095B0);
 
     func_800628A4(0, &this->collider);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

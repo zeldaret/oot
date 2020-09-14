@@ -1,9 +1,8 @@
 #include <ultra64.h>
 #include <global.h>
-#include <sched.h>
 
 void MsgEvent_SendNullTask() {
-    u32 pad[4];
+    s32 pad[4];
     OSScTask task;
     OSMesgQueue queue;
     OSMesg msg;
@@ -17,6 +16,6 @@ void MsgEvent_SendNullTask() {
     task.list.t.type = M_NULTASK;
     osCreateMesgQueue(task.msgQ, &msg, 1);
     osSendMesg(&gSchedContext.cmdQ, &task, OS_MESG_BLOCK);
-    func_800C95F8(&gSchedContext); // osScKickEntryMsg
+    Sched_SendEntryMsg(&gSchedContext);
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
 }

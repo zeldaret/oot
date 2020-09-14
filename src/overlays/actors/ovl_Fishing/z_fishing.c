@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void Fishing_Init(Fishing* this, GlobalContext* globalCtx);
-void Fishing_Destroy(Fishing* this, GlobalContext* globalCtx);
-void Fishing_Update(Fishing* this, GlobalContext* globalCtx);
-void Fishing_Draw(Fishing* this, GlobalContext* globalCtx);
+#define THIS ((Fishing*)thisx)
+
+void Fishing_Init(Actor* thisx, GlobalContext* globalCtx);
+void Fishing_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void Fishing_Update(Actor* thisx, GlobalContext* globalCtx);
+void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Fishing_InitVars = {

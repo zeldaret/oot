@@ -22,7 +22,7 @@ glabel func_808C52E0
 /* 041A0 808C5330 84AE00B6 */  lh      $t6, 0x00B6($a1)           ## 000000B6
 /* 041A4 808C5334 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 041A8 808C5338 AFAF0028 */  sw      $t7, 0x0028($sp)           
-/* 041AC 808C533C 0C00C916 */  jal     Actor_SpawnAttached
+/* 041AC 808C533C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 041B0 808C5340 AFAE0020 */  sw      $t6, 0x0020($sp)           
 /* 041B4 808C5344 8FBF0034 */  lw      $ra, 0x0034($sp)           

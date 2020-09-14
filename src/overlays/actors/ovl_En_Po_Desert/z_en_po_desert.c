@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00001090
 
-void EnPoDesert_Init(EnPoDesert* this, GlobalContext* globalCtx);
-void EnPoDesert_Destroy(EnPoDesert* this, GlobalContext* globalCtx);
-void EnPoDesert_Update(EnPoDesert* this, GlobalContext* globalCtx);
-void EnPoDesert_Draw(EnPoDesert* this, GlobalContext* globalCtx);
+#define THIS ((EnPoDesert*)thisx)
+
+void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Po_Desert_InitVars = {

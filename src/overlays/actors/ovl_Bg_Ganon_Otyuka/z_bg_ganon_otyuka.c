@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void BgGanonOtyuka_Init(BgGanonOtyuka* this, GlobalContext* globalCtx);
-void BgGanonOtyuka_Destroy(BgGanonOtyuka* this, GlobalContext* globalCtx);
-void BgGanonOtyuka_Update(BgGanonOtyuka* this, GlobalContext* globalCtx);
-void BgGanonOtyuka_Draw(BgGanonOtyuka* this, GlobalContext* globalCtx);
+#define THIS ((BgGanonOtyuka*)thisx)
+
+void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx);
 void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx);
 void func_808760DC(BgGanonOtyuka* this, GlobalContext* globalCtx);

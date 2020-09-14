@@ -17,7 +17,7 @@ glabel BgHidanSekizou_Init
 /* 003F0 8088D2B0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003F4 8088D2B4 26300174 */  addiu   $s0, $s1, 0x0174           ## $s0 = 00000174
 /* 003F8 8088D2B8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000174
-/* 003FC 8088D2BC 0C016EFE */  jal     func_8005BBF8              
+/* 003FC 8088D2BC 0C016EFE */  jal     Collider_InitJntSph              
 /* 00400 8088D2C0 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00404 8088D2C4 3C078089 */  lui     $a3, %hi(D_8088E258)       ## $a3 = 80890000
 /* 00408 8088D2C8 262E0194 */  addiu   $t6, $s1, 0x0194           ## $t6 = 00000194
@@ -25,7 +25,7 @@ glabel BgHidanSekizou_Init
 /* 00410 8088D2D0 24E7E258 */  addiu   $a3, $a3, %lo(D_8088E258)  ## $a3 = 8088E258
 /* 00414 8088D2D4 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00418 8088D2D8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000174
-/* 0041C 8088D2DC 0C017014 */  jal     func_8005C050              
+/* 0041C 8088D2DC 0C017014 */  jal     Collider_SetJntSph              
 /* 00420 8088D2E0 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
 /* 00424 8088D2E4 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 .L8088D2E8:

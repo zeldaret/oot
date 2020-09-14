@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void EnWood02_Init(EnWood02* this, GlobalContext* globalCtx);
-void EnWood02_Destroy(EnWood02* this, GlobalContext* globalCtx);
-void EnWood02_Update(EnWood02* this, GlobalContext* globalCtx);
-void EnWood02_Draw(EnWood02* this, GlobalContext* globalCtx);
+#define THIS ((EnWood02*)thisx)
+
+void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wood02_InitVars = {

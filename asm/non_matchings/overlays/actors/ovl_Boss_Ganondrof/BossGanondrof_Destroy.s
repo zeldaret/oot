@@ -1,3 +1,13 @@
+.rdata
+glabel D_80915140
+    .asciz "DT1\n"
+    .balign 4
+
+glabel D_80915148
+    .asciz "DT2\n"
+    .balign 4
+
+.text
 glabel BossGanondrof_Destroy
 /* 006BC 80910CFC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 006C0 80910D00 AFB00014 */  sw      $s0, 0x0014($sp)
@@ -13,11 +23,11 @@ glabel BossGanondrof_Destroy
 /* 006E4 80910D24 0C0295BC */  jal     SkelAnime_Free
 /* 006E8 80910D28 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 006EC 80910D2C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006F0 80910D30 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 006F0 80910D30 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 006F4 80910D34 260504E0 */  addiu   $a1, $s0, 0x04E0           ## $a1 = 000004E0
 /* 006F8 80910D38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006FC 80910D3C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 006FC 80910D3C 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 00700 80910D40 2605052C */  addiu   $a1, $s0, 0x052C           ## $a1 = 0000052C
 /* 00704 80910D44 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -25,7 +35,7 @@ glabel BossGanondrof_Destroy
 /* 0070C 80910D4C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00710 80910D50 15C10003 */  bne     $t6, $at, .L80910D60
 /* 00714 80910D54 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
-/* 00718 80910D58 0C01E9F1 */  jal     Lights_Remove
+/* 00718 80910D58 0C01E9F1 */  jal     LightContext_RemoveLight
 
 /* 0071C 80910D5C 8E0604CC */  lw      $a2, 0x04CC($s0)           ## 000004CC
 .L80910D60:

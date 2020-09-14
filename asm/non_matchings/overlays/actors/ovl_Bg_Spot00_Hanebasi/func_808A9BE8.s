@@ -36,7 +36,7 @@ glabel func_808A9BE8
 /* 004E8 808A9C68 51A00016 */  beql    $t5, $zero, .L808A9CC4     
 /* 004EC 808A9C6C 84D800B4 */  lh      $t8, 0x00B4($a2)           ## 000000B4
 /* 004F0 808A9C70 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 004F4 808A9C74 0C01B129 */  jal     func_8006C4A4              
+/* 004F4 808A9C74 0C01B129 */  jal     Flags_GetEnv              
 /* 004F8 808A9C78 AFA8001C */  sw      $t0, 0x001C($sp)           
 /* 004FC 808A9C7C 3C078016 */  lui     $a3, %hi(gSaveContext)
 /* 00500 808A9C80 24E7E660 */  addiu   $a3, %lo(gSaveContext)

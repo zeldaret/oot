@@ -1,3 +1,24 @@
+.rdata
+glabel D_809A1A80
+    .asciz "../z_eff_ss_dead_ds.c"
+    .balign 4
+
+glabel D_809A1A98
+    .asciz "../z_eff_ss_dead_ds.c"
+    .balign 4
+
+glabel D_809A1AB0
+    .asciz "../z_eff_ss_dead_ds.c"
+    .balign 4
+
+.late_rodata
+glabel D_809A1AC8
+    .float 0.01
+
+glabel D_809A1ACC
+    .float 1.57
+
+.text
 glabel func_809A16F4
 /* 000E4 809A16F4 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 000E8 809A16F8 AFB00024 */  sw      $s0, 0x0024($sp)
@@ -146,7 +167,7 @@ glabel func_809A16F4
 /* 00314 809A1924 86040044 */  lh      $a0, 0x0044($s0)           ## 00000044
 /* 00318 809A1928 86050046 */  lh      $a1, 0x0046($s0)           ## 00000046
 /* 0031C 809A192C 86060048 */  lh      $a2, 0x0048($s0)           ## 00000048
-/* 00320 809A1930 0C034421 */  jal     Matrix_RotateZYX
+/* 00320 809A1930 0C034421 */  jal     Matrix_RotateRPY
 /* 00324 809A1934 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00328 809A1938 3C01809A */  lui     $at, %hi(D_809A1ACC)       ## $at = 809A0000
 /* 0032C 809A193C C42C1ACC */  lwc1    $f12, %lo(D_809A1ACC)($at)

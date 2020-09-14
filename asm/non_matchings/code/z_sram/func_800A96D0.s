@@ -1,3 +1,10 @@
+.rdata
+glabel D_80140E2C
+    .asciz "ＣＬＥＡＲ終了\n"
+    # EUC-JP: ＣＬＥＡＲ終了 | Clear End
+    .balign 4
+
+.text
 glabel func_800A96D0
 /* B20870 800A96D0 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B20874 800A96D4 AFBF001C */  sw    $ra, 0x1c($sp)
