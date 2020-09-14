@@ -6,7 +6,6 @@ import struct
 import argparse
 import re
 from overlayhelpers.filemap import FileResult, GetFromVRam, GetFromRom
-import binascii
 
 ICHAIN_MACROS = [
     'ICHAIN_U8',
@@ -23,7 +22,6 @@ ICHAIN_MACROS = [
 ]
 
 Z64_ACTOR_PATH = "../include/z64actor.h"
-Z64_MAP_PATH = "../build/z64.map"
 
 def get_rom_address(offset):
 
