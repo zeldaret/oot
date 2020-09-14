@@ -270,7 +270,7 @@ void EffectSsGSplash_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* pr
                            s16 type, s16 scale);
 void EffectSsGMagma_Spawn(GlobalContext* globalCtx, Vec3f* pos);
 void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos);
-void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
+void EffectSsLightning_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
                    s16 yaw, s16 life, s16 numBolts);
 void EffectSsDtBubble_SpawnColorProfile(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                         s16 life, s16 colorProfile, s16 randXZ);

@@ -167,7 +167,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
                 sp58.x = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
                 sp58.y = Math_Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
                 sp58.z = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
-                func_800295A0(globalCtx, &sp58, &D_809D2558, &D_809D255C, 0xE6, tmp16, 6, 0);
+                EffectSsLightning_Spawn(globalCtx, &sp58, &D_809D2558, &D_809D255C, 0xE6, tmp16, 6, 0);
             }
         }
 

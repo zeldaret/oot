@@ -15,9 +15,9 @@
 #define rEnvColorB regs[6]
 #define rEnvColorA regs[7]
 #define rAlphaTarget regs[8]
-#define rRadius regs[9]
-#define rExpansionRate regs[10]
-#define rExpansionDecay regs[11]
+#define rScale regs[9]
+#define rScaleStep regs[10]
+#define rScaleStepDecay regs[11]
 
 u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -50,9 +50,9 @@ u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->rEnvColorB = initParams->envColor.b;
     this->rEnvColorA = initParams->envColor.a;
     this->rAlphaTarget = initParams->primColor.a / initParams->life;
-    this->rRadius = initParams->radius;
-    this->rExpansionRate = initParams->expansionRate;
-    this->rExpansionDecay = initParams->expansionDecay;
+    this->rScale = initParams->scale;
+    this->rScaleStep = initParams->scaleStep;
+    this->rScaleStepDecay = initParams->sclaeStepDecay;
     return 1;
 }
 
@@ -64,7 +64,7 @@ void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_blast.c", 170);
 
-    radius = this->rRadius * 0.0025f;
+    radius = this->rScale * 0.0025f;
 
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
@@ -82,9 +82,9 @@ void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Math_ApproxS(&this->rPrimColorA, 0, this->rAlphaTarget);
-    this->rRadius += this->rExpansionRate;
+    this->rScale += this->rScaleStep;
 
-    if (this->rExpansionRate != 0) {
-        this->rExpansionRate -= this->rExpansionDecay;
+    if (this->rScaleStep != 0) {
+        this->rScaleStep -= this->rScaleStepDecay;
     }
 }

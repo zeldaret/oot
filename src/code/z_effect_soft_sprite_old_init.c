@@ -333,7 +333,7 @@ void EffectSsBomb2_SpawnLayered(GlobalContext* globalCtx, Vec3f* pos, Vec3f* vel
 // EffectSsBlast Spawn Functions
 
 void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 radius, s16 expansionRate, s16 expansionDecay, s16 life) {
+                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 sclaeStepDecay, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -341,25 +341,25 @@ void EffectSsBlast_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     Math_Vec3f_Copy(&initParams.accel, accel);
     Color_RGBA8_Copy(&initParams.primColor, primColor);
     Color_RGBA8_Copy(&initParams.envColor, envColor);
-    initParams.radius = radius;
-    initParams.expansionRate = expansionRate;
-    initParams.expansionDecay = expansionDecay;
+    initParams.scale = scale;
+    initParams.scaleStep = scaleStep;
+    initParams.sclaeStepDecay = sclaeStepDecay;
     initParams.life = life;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_BLAST, 128, &initParams);
 }
 
-void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 radius, s16 expansionRate,
+void func_80028F84(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
                    s16 life) {
     static Color_RGBA8 primColor = { 255, 255, 255, 255 };
     static Color_RGBA8 envColor = { 200, 200, 200, 0 };
 
-    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, &primColor, &envColor, radius, expansionRate, 35, life);
+    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, &primColor, &envColor, scale, scaleStep, 35, life);
 }
 
-void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* envColor,
-                   Color_RGBA8* primColor, s16 life) {
-    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, envColor, primColor, 100, 375, 35, life);
+void func_80028FD8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 life) {
+    EffectSsBlast_Spawn(globalCtx, pos, velocity, accel, primColor, envColor, 100, 375, 35, life);
 }
 
 void func_80029024(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
@@ -532,8 +532,8 @@ void EffectSsGFire_Spawn(GlobalContext* globalCtx, Vec3f* pos) {
 
 // EffectSsLightning Spawn Functions
 
-void func_800295A0(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale,
-                   s16 yaw, s16 life, s16 numBolts) {
+void EffectSsLightning_Spawn(GlobalContext* globalCtx, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
+                             s16 scale, s16 yaw, s16 life, s16 numBolts) {
     EffectSsLightningInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -639,6 +639,10 @@ void EffectSsHahen_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos, f32 burstSca
 
 // EffectSsStick Spawn Functions
 
+/**
+ * As child, spawn a broken stick fragment
+ * As adult, spawn a broken sword fragment
+ */
 void EffectSsStick_Spawn(GlobalContext* globalCtx, Vec3f* pos, s16 yaw) {
     EffectSsStickInitParams initParams;
 
@@ -678,6 +682,7 @@ void EffectSsSibuki_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos) {
 
 // EffectSsSibuki2 Spawn Functions
 
+// unused
 void EffectSsSibuki2_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale) {
     EffectSsSibuki2InitParams initParams;
 
