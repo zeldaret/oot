@@ -96,7 +96,7 @@ def main():
         else:
             var_name = "unk_" + var_name
         
-        print('    {0}({1}, {2}, {3}),'.format(var_name, offset, value, ('ICHAIN_CONTINUE' if cont == 1 else 'ICHAIN_STOP')))
+        print('    {0}({1}, {2}, {3}),'.format(ICHAIN_MACROS[t], var_name, value, ('ICHAIN_CONTINUE' if cont == 1 else 'ICHAIN_STOP')))
         if cont == 0:
             break
     print ('};')
