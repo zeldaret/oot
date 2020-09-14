@@ -64,7 +64,7 @@ def main():
     parser = argparse.ArgumentParser(description='Decompiles an InitChain')
     parser.add_argument('filename', help='ROM file path')
     parser.add_argument('offset', help='ROM offset or symbol of an InitChain')
-    parser.add_argument('--no-names', action="store_true", help='Don''t attempt to parse variable offsets into names')
+    parser.add_argument('--no-names', action="store_true", help='Disable using names from the actor struct')
     args = parser.parse_args()
     
     # Get the ROM address, if the offset is already a ROM address it will just be returned.
