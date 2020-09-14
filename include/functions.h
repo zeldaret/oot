@@ -2162,7 +2162,7 @@ void Audio_InitSequencePlayers(void);
 // ? func_800F3990(?);
 // ? func_800F3A08(?);
 // ? func_800F3ED4(?);
-// ? func_800F3F3C(?);
+void func_800F3F3C(u8);
 // ? func_800F3F84(?);
 // ? func_800F4010(?);
 void func_800F436C(UNK_TYPE arg0, s16 arg1, f32 arg2);
