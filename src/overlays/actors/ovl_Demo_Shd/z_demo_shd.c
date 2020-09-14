@@ -49,9 +49,6 @@ void DemoShd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction0;
-    CsCmdActorAction* npcAction1;
-
     if ((globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL) ||
         (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL)) {
         if (globalCtx->csCtx.frames == 800) {
@@ -63,7 +60,8 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.state != 0) {
-        npcAction0 = globalCtx->csCtx.npcActions[0];
+        CsCmdActorAction* npcAction0 = globalCtx->csCtx.npcActions[0];
+
         if (npcAction0 != NULL) {
             if (npcAction0->action == 2) {
                 if ((this->unk_14C & 1) == 0) {
@@ -77,7 +75,8 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.state != 0) {
-        npcAction1 = globalCtx->csCtx.npcActions[1];
+        CsCmdActorAction* npcAction1 = globalCtx->csCtx.npcActions[1];
+
         if (npcAction1 != NULL) {
             if (npcAction1->action == 2) {
                 if ((this->unk_14C & 2) == 0) {
