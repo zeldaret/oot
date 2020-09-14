@@ -9,6 +9,7 @@
 #define FLAGS 0x0A000011
 
 #define THIS ((ObjTimeblock*)thisx)
+#define BOOL(x) (x ? 1 : 0)
 
 #define BLOCK_OF_TIME_JA "時のブロック"
 
@@ -17,7 +18,6 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-u8 func_80B9FFA0(ObjTimeblock* this);
 void func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0514(ObjTimeblock* this);
 void func_80BA0758(ObjTimeblock* this);
@@ -57,7 +57,25 @@ static InitChainEntry sInitChain[] = {
 
 s32 D_80BA0B38[] = { 0x64788C50, 0x8CC86496, 0xC864C8F0, 0x506E8C46, 0xA0E15064, 0x82646EBE };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80B9FFA0.s")
+// generates value for unk_178
+u32 func_80B9FFA0(ObjTimeblock* this) {
+    if (!((this->dyna.actor.params >> 10) & 1)) {
+        u32 temp_unk_177 = this->unk_177;
+        if (temp_unk_177 == 0) {
+            return this->unk_175;
+        } else {
+            u8 temp_unk_flag = BOOL((this->dyna.actor.params >> 15) & 1);
+            if (temp_unk_177 == 1) {
+                return this->unk_174 ^ temp_unk_flag;
+            } else {
+                u8 linkIsYoung = BOOL(LINK_AGE_IN_YEARS == 5);
+                return this->unk_174 ^ temp_unk_flag ^ linkIsYoung;
+            }
+        }
+    } else {
+        return BOOL((this->dyna.actor.params >> 15) & 1) ^ this->unk_174;
+    }
+}
 
 // spawnDemoEffect
 void func_80BA0058(ObjTimeblock* this, GlobalContext* globalCtx) {
@@ -97,8 +115,8 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->dyna.actor, unk_actorParams[(this->dyna.actor.params >> 8) & 1].height);
 
-    this->unk_174 = Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)) ? 1 : 0;
-    this->unk_175 = ((this->dyna.actor.params >> 0xF) & 1) ? 1 : 0;
+    this->unk_174 = BOOL(Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F)));
+    this->unk_175 = BOOL((this->dyna.actor.params >> 0xF) & 1);
     this->unk_178 = func_80B9FFA0(this);
 
     if (!((this->dyna.actor.params >> 0xA) & 1)) {
