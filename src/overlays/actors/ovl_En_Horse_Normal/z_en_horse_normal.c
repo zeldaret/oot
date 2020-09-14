@@ -45,6 +45,7 @@ extern ColliderCylinderInit D_80A6D394;
 extern ColliderCylinderInit D_80A6D3C0;
 extern ColliderJntSphInit D_80A6D410;
 extern CollisionCheckInfoInit D_80A6D420;
+extern s32 D_80A6D4C0[];
 extern f32 D_80A6D4C8[];
 extern InitChainEntry D_80A6D4EC[];
 extern EnHorseNormalUnkFunc D_80A6D534[];
@@ -53,13 +54,23 @@ extern Vec3f D_80A6D548;
 extern AnimationHeader D_06004580;
 extern SkeletonHeader D_06009FAC;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B250.s")
+void func_80A6B250(EnHorseNormal* this) {
+    if (D_80A6D4C0[this->unk_200] < this->skin.skelAnime.animCurrentFrame &&
+        ((this->unk_200 != 0) || !(D_80A6D4C0[1] < this->skin.skelAnime.animCurrentFrame))) {
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+        this->unk_200 += 1;
+        if (this->unk_200 >= 2) {
+            this->unk_200 = 0;
+        }
+    }
+}
 
-f32 func_80A6B30C(EnHorseNormal *this) {
+f32 func_80A6B30C(EnHorseNormal* this) {
     f32 result;
 
     if (this->unk_150 == 4) {
-        result =  D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.5f;
+        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.5f;
     } else if (this->unk_150 == 5) {
         result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.33333334f;
     } else if (this->unk_150 == 6) {
