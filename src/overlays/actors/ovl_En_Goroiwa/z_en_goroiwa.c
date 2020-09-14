@@ -502,7 +502,7 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, 64676, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, 50536, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -860, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
@@ -593,20 +593,18 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         func_80A4D074(this, globalCtx);
         if ((temp_v1_2 == 3) && (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint)) {
             func_80A4D9DC(this);
-        } else {
-            if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0 &&
-                this->currentWaypoint != this->endWaypoint) {
-                temp_v0_5 = func_80A4C27C(this, globalCtx);
-                if (temp_v0_5 > 0) {
-                    func_80A4DA7C(this);
-                } else if (temp_v0_5 < 0) {
-                    func_80A4DB90(this);
-                } else {
-                    func_80A4D5E0(this);
-                }
+        } else if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0 &&
+                   this->currentWaypoint != this->endWaypoint) {
+            temp_v0_5 = func_80A4C27C(this, globalCtx);
+            if (temp_v0_5 > 0) {
+                func_80A4DA7C(this);
+            } else if (temp_v0_5 < 0) {
+                func_80A4DB90(this);
             } else {
                 func_80A4D5E0(this);
             }
+        } else {
+            func_80A4D5E0(this);
         }
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
