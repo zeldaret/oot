@@ -12,16 +12,19 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 // TODO: Remove later if unnecessary
+void func_800A63CC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin, s32, s32, s32, s32, s32);
+
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BC48(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem);
 
+f32 func_80A6B30C(EnHorseNormal* this);
+void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
-f32 func_80A6B30C(EnHorseNormal* this);
+void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Normal_InitVars = {
@@ -329,7 +332,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPMatrix(oGfxCtx->polyOpa.p++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            func_800A63CC(this, globalCtx, &this->skin, 0, 0, 1, 0, 3);
+            func_800A63CC(&this->actor, globalCtx, &this->skin, 0, 0, 1, 0, 3);
             this->unk_2D4.dim.pos.x = sp64.x;
             this->unk_2D4.dim.pos.y = sp64.y;
             this->unk_2D4.dim.pos.z = sp64.z;
