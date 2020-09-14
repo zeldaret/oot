@@ -23,14 +23,12 @@ extern s32 D_060009E0;
 s16 D_808B5DD0 = { 0 };
 s16 D_808B5DD4 = { 0 };
 
-D_808B5DD8Struct D_808B5DD8[6] = {
-    { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
-    { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
-    { 0x0005, 0x0003, 0x0028, 0xF63C, 0x0190, 0x30B0, 0x0032, 0x0000, 0x0000, 0x0000 },
-    { 0x0003, 0x0001, 0x003C, 0x0258, 0xFF9C, 0xAFC8, 0x0032, 0x0000, 0x0000, 0x0000 },
-    { 0x0003, 0x0001, 0x0028, 0xF2B8, 0xFF9C, 0x6590, 0x001E, 0x0000, 0x0000, 0x0000 },
-    { 0x0006, 0x0009, 0x0028, 0x0000, 0x0BB8, 0xD8F0, 0x001E, 0x0000, 0x0000, 0x0000 }
-};
+D_808B5DD8Struct D_808B5DD8[6] = { { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
+                                   { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
+                                   { 0x0005, 0x0003, 0x0028, 0xF63C, 0x0190, 0x30B0, 0x0032, 0x0000, 0x0000, 0x0000 },
+                                   { 0x0003, 0x0001, 0x003C, 0x0258, 0xFF9C, 0xAFC8, 0x0032, 0x0000, 0x0000, 0x0000 },
+                                   { 0x0003, 0x0001, 0x0028, 0xF2B8, 0xFF9C, 0x6590, 0x001E, 0x0000, 0x0000, 0x0000 },
+                                   { 0x0006, 0x0009, 0x0028, 0x0000, 0x0BB8, 0xD8F0, 0x001E, 0x0000, 0x0000, 0x0000 } };
 
 // sJntSphItemsInit
 // static ColliderJntSphItemInit D_808B5E50[1] = {
@@ -41,29 +39,43 @@ static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     },
 };
 
-// sJntSphInit 
+// sJntSphInit
 // static ColliderJntSphInit D_808B5E74 = {
-static ColliderJntSphInit sJntSphInit =
-{
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_JNTSPH },
-    1, sJntSphItemsInit,
+    1,
+    sJntSphItemsInit,
 };
 
 s32 D_808B5E84[] = { 0x0A000900, 0x00010000, 0x00000000, 0x00000000, 0x00000000, 0x00000008,
                      0x00000000, 0x00010000, 0x00BE0050, 0x0000000A, 0x00000032 };
 
-s32 D_808B5EB0[] = { 0x0000000A, 0x003CFFF6, 0x010401E0, 0x00070000, 0x00000032, 0x00000104, 0x017C000D, 0x0001001E,
-                     0x00140014, 0x00A00104, 0x000A0002, 0x00140028, 0x001400C8, 0x00960007, 0x0003FFD8, 0x0064001E,
-                     0x00D20064, 0x00070004, 0x000A0078, 0x000A00A0, 0x0028000A, 0x0005FFA7, 0x006E0041, 0x00960118,
-                     0x00070006, 0xFFC40070, 0x006D006E, 0x00820007, 0x0007FFF2, 0x0050007F, 0x008C00D2, 0x00070008,
-                     0x00140032, 0x001E008C, 0x00C80007, 0x0009FFEC, 0x00140028, 0x00C800B4, 0x0007000A, 0x001E0028,
-                     0xFFE20064, 0x00780007, 0x000AFF92, 0x001D0078, 0x008C0118, 0x000A000B, 0x001E0014, 0x001E0050,
-                     0x00C80006, 0x000C0028, 0x001EFFE2, 0x00AA010E, 0x0011000D, 0xFFD80032, 0xFFEC008C, 0x00560006,
-                     0x000D0032, 0x00320032, 0x009600C8, 0x000A000E, 0x00280028, 0xFFD8003C, 0x00A00006, 0x000FFFE2,
-                     0x00140032, 0x00AA012C, 0x00060010, 0x00280032, 0x001400AA, 0x00780007, 0x0010001E, 0x0032003C,
-                     0x009600C8, 0x00060011, 0x000A000A, 0x00000082, 0x00DC0006, 0x0012000A, 0x00280014, 0x00B400DC,
-                     0x000B0013, 0x000A0005, 0x0000006E, 0x00460011, 0x0013FFEC, 0x0032FFE2, 0x009600C8, 0x00060014,
-                     0x00500032, 0x00000096, 0x00C80008 };
+D_808B5EB0Struct D_808B5EB0[] = { { 0x0000, 0x000A, 0x003C, 0xFFF6, 0x0104, 0x01E0, 0x0007 },
+                                  { 0x0000, 0x0000, 0x0032, 0x0000, 0x0104, 0x017C, 0x000D },
+                                  { 0x0001, 0x001E, 0x0014, 0x0014, 0x00A0, 0x0104, 0x000A },
+                                  { 0x0002, 0x0014, 0x0028, 0x0014, 0x00C8, 0x0096, 0x0007 },
+                                  { 0x0003, 0xFFD8, 0x0064, 0x001E, 0x00D2, 0x0064, 0x0007 },
+                                  { 0x0004, 0x000A, 0x0078, 0x000A, 0x00A0, 0x0028, 0x000A },
+                                  { 0x0005, 0xFFA7, 0x006E, 0x0041, 0x0096, 0x0118, 0x0007 },
+                                  { 0x0006, 0xFFC4, 0x0070, 0x006D, 0x006E, 0x0082, 0x0007 },
+                                  { 0x0007, 0xFFF2, 0x0050, 0x007F, 0x008C, 0x00D2, 0x0007 },
+                                  { 0x0008, 0x0014, 0x0032, 0x001E, 0x008C, 0x00C8, 0x0007 },
+                                  { 0x0009, 0xFFEC, 0x0014, 0x0028, 0x00C8, 0x00B4, 0x0007 },
+                                  { 0x000A, 0x001E, 0x0028, 0xFFE2, 0x0064, 0x0078, 0x0007 },
+                                  { 0x000A, 0xFF92, 0x001D, 0x0078, 0x008C, 0x0118, 0x000A },
+                                  { 0x000B, 0x001E, 0x0014, 0x001E, 0x0050, 0x00C8, 0x0006 },
+                                  { 0x000C, 0x0028, 0x001E, 0xFFE2, 0x00AA, 0x010E, 0x0011 },
+                                  { 0x000D, 0xFFD8, 0x0032, 0xFFEC, 0x008C, 0x0056, 0x0006 },
+                                  { 0x000D, 0x0032, 0x0032, 0x0032, 0x0096, 0x00C8, 0x000A },
+                                  { 0x000E, 0x0028, 0x0028, 0xFFD8, 0x003C, 0x00A0, 0x0006 },
+                                  { 0x000F, 0xFFE2, 0x0014, 0x0032, 0x00AA, 0x012C, 0x0006 },
+                                  { 0x0010, 0x0028, 0x0032, 0x0014, 0x00AA, 0x0078, 0x0007 },
+                                  { 0x0010, 0x001E, 0x0032, 0x003C, 0x0096, 0x00C8, 0x0006 },
+                                  { 0x0011, 0x000A, 0x000A, 0x0000, 0x0082, 0x00DC, 0x0006 },
+                                  { 0x0012, 0x000A, 0x0028, 0x0014, 0x00B4, 0x00DC, 0x000B },
+                                  { 0x0013, 0x000A, 0x0005, 0x0000, 0x006E, 0x0046, 0x0011 },
+                                  { 0x0013, 0xFFEC, 0x0032, 0xFFE2, 0x0096, 0x00C8, 0x0006 },
+                                  { 0x0014, 0x0050, 0x0032, 0x0000, 0x0096, 0x00C8, 0x0008 } };
 
 const ActorInit Bg_Spot16_Bombstone_InitVars = {
     ACTOR_BG_SPOT16_BOMBSTONE,
@@ -87,13 +99,13 @@ static InitChainEntry sInitChain[] = {
 // s32 D_808B603C[] = { 0xB0F407D0, 0xB0F801F4, 0x30FC03E8};
 
 s32 D_808B6048[] = { 0xB06CFFFF, 0xB070FFF6, 0xB0F403E8, 0xB0F800C8, 0x30FC03E8 };
-s32 D_808B605C[] = { 0, 0, 0 };
-s32 D_808B6068[] = { 0x00000000, 0x3ECCCCCD, 0x00000000 };
+Vec3f D_808B605C = { 0, 0, 0 };
+Vec3i D_808B6068 = { 0x00000000, 0x3ECCCCCD, 0x00000000 };
 
 s32 D_808B6074[] = { 0x42840000, 0x424C0000, 0x42400000, 0x42100000, 0x41A80000 };
 
 // s32 D_808B6088[] = {0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x04};
-s16 D_808B6088[] = {0, 1, 2, 3, 4};
+s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 // s16 D_808B6092[] = {0x00};
 
@@ -225,7 +237,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 //             break;
 //         default:
 //             osSyncPrintf("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n",
-//                 "../z_bg_spot16_bombstone.c", 0x29C, this->actor.params); 
+//                 "../z_bg_spot16_bombstone.c", 0x29C, this->actor.params);
 //             phi_v1 = 0;
 //             break;
 //     }
@@ -261,62 +273,80 @@ void func_808B51A8(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     tempPosRot.y = this->actor.posRot.pos.y + 50.0f;
     tempPosRot.z = this->actor.posRot.pos.z;
 
-    func_80033480(
-        globalCtx, 
-        &tempPosRot, 
-        scaleX1, 
-        2, 
-        scaleX2,
-        0xA0, 
-        1
-    );
+    func_80033480(globalCtx, &tempPosRot, scaleX1, 2, scaleX2, 0xA0, 1);
 }
-
-// void func_808B51A8(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
-//     Vec3f *tempVector;
-//     s16 temp1;
-//     s16 temp2;
-
-//     temp1 = this->actor.scale.x * 150.0f;
-//     temp2 = this->actor.scale.x * 250.0f;
-//     tempVector = &this->actor.posRot.pos;
-//     func_80033480(globalCtx, tempVector, temp1, 2, temp2, 0xA0, 1);
-// }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B51A8.s")
 
-/*
-void func_808B5240(void *arg0, GlobalContext *arg1) {
-    f32 sp58;
-    f32 sp54;
-    f32 sp50;
-    f32 *temp_a1;
-    f32 temp_f0;
-    f32 temp_f2;
-    s16 temp_t0;
-    void *temp_v0;
-    void *temp_v1;
+// void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
+//     D_808B5EB0Struct *currentElement;
+//     Vec3f position;
+//     Vec3f actorPos = this->actor.posRot.pos;
+//     Vec3f velocity;
+//     Vec3i acceleration;
 
-loop_1:
-    temp_t0 = arg0->unk158;
-    if ((u32) temp_t0 < 0x1AU) {
-        if ((s32) arg0->unk154 >= (s32) *(D_808B5EB0 + (temp_t0 * 0xE))) {
-            temp_v1 = arg0 + 0x24;
-            temp_a1 = &sp50;
-            temp_v0 = D_808B5EB0 + (((s32) (temp_t0 << 0x10) >> 0x10) * 0xE);
-            temp_f2 = (f32) temp_v0->unk6;
-            temp_f0 = (f32) temp_v0->unk2;
-            sp50 = ((arg0->unk15C * temp_f2) + (temp_f0 * arg0->unk160)) + temp_v1->unk0;
-            sp54 = (f32) temp_v0->unk4 + temp_v1->unk4;
-            sp58 = ((arg0->unk160 * temp_f2) - (temp_f0 * arg0->unk15C)) + temp_v1->unk8;
-            func_800287AC(arg1, (Vec3f *) temp_a1, (Vec3f *) D_808B605C, (Vec3f *) D_808B6068, (?32) temp_v0->unk8,
-(?32) temp_v0->unkA, (?32) temp_v0->unkC); arg0->unk158 = (s16) (arg0->unk158 + 1); goto loop_1;
+//     currentElement = &D_808B5EB0[this->unk_158];
+
+//     velocity = D_808B605C;
+//     acceleration = D_808B6068;
+//     while (this->unk_158 < 26 && this->unk_154 >= currentElement->unk_0) {
+
+//         position.x = ((this->unk_15C * currentElement->unk_6) + (currentElement->unk_2 * 
+//             this->unk_160)) + actorPos.x;
+//         position.y = currentElement->unk_4 + this->actor.posRot.pos.y;
+//         position.z = ((this->unk_160 * currentElement->unk_6) - (currentElement->unk_2 * 
+//             this->unk_15C)) + actorPos.z;
+
+//         func_800287AC(
+//             globalCtx,
+//             &position,
+//             &velocity,
+//             &acceleration,
+//             currentElement->unk_8,
+//             currentElement->unk_A,
+//             currentElement->unk_C
+//         );
+//         this->unk_158++;
+        
+//         currentElement = &D_808B5EB0[this->unk_158];
+//     }
+// }
+
+void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
+    s32 tempUnk6;
+    s16 new_var;
+    s16 index;
+    f32 tempUnk2;
+    Vec3f newPos;
+    Vec3f* actorPos = &this->actor.posRot.pos;
+
+    if (1) {}
+
+    while (1) {
+        if ((this->unk_158 >= 26U) || (this->unk_154 < D_808B5EB0[this->unk_158].unk_0)) {
+            return;
         }
+
+        index = this->unk_158;
+        tempUnk2 = D_808B5EB0[index].unk_2;
+        new_var = D_808B5EB0[index].unk_6;
+        tempUnk6 = D_808B5EB0[index].unk_6;
+        newPos.x = ((this->unk_15C * new_var) + (tempUnk2 * this->unk_160)) + actorPos->x;
+        newPos.y = D_808B5EB0[index].unk_4 + actorPos->y;
+        newPos.z = ((this->unk_160 * tempUnk6) - (tempUnk2 * this->unk_15C)) + actorPos->z;
+        func_800287AC(
+            globalCtx, 
+            &newPos, 
+            &D_808B605C, 
+            &D_808B6068, 
+            D_808B5EB0[index].unk_8, 
+            D_808B5EB0[index].unk_A,
+            D_808B5EB0[index].unk_C);
+        this->unk_158++;
     }
 }
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5240.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bombstone/func_808B5240.s")
 
 /*
 void func_808B53A8(void *arg0, GlobalContext *arg1) {
@@ -363,15 +393,7 @@ void func_808B561C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     temp_s1 = &this->actor.posRot;
     for (i = 0; i < ARRAY_COUNT(D_808B6088); i++) {
-        if (Actor_Spawn(&globalCtx->actorCtx, 
-                        globalCtx, 
-                        0xCD, 
-                        temp_s1->pos.x, 
-                        temp_s1->pos.y, 
-                        temp_s1->pos.z, 
-                        0, 
-                        0, 
-                        0,
+        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0xCD, temp_s1->pos.x, temp_s1->pos.y, temp_s1->pos.z, 0, 0, 0,
                         D_808B6088[i]) == 0) {
             return;
         }
