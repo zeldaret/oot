@@ -74,11 +74,11 @@ f32 func_80A6B30C(EnHorseNormal* this) {
     f32 result;
 
     if (this->unk_150 == 4) {
-        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.5f;
+        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * (1 / 2.0f);
     } else if (this->unk_150 == 5) {
-        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.33333334f;
+        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * (1 / 3.0f);
     } else if (this->unk_150 == 6) {
-        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * 0.2f;
+        result = D_80A6D4C8[this->unk_150] * this->actor.speedXZ * (1 / 5.0f);
     } else {
         result = D_80A6D4C8[this->unk_150];
     }
@@ -121,16 +121,14 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else {
-            if (Flags_GetEventChkInf(0x18) || (DREG(1) != 0)) {
-                if (this->actor.posRot.rot.z != 7) {
-                    Actor_Kill(&this->actor);
-                    return;
-                }
-            } else if (this->actor.posRot.rot.z != 5) {
+        } else if (Flags_GetEventChkInf(0x18) || (DREG(1) != 0)) {
+            if (this->actor.posRot.rot.z != 7) {
                 Actor_Kill(&this->actor);
                 return;
             }
+        } else if (this->actor.posRot.rot.z != 5) {
+            Actor_Kill(&this->actor);
+            return;
         }
         this->actor.shape.rot.z = 0;
         this->actor.initPosRot.rot.z = this->actor.posRot.rot.z = this->actor.shape.rot.z;
@@ -146,13 +144,12 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
         if (!gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);
-            return;
         } else {
             func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
             SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A6D370[this->unk_150]);
             func_80A6C6B0(this);
-            return;
         }
+        return;
     } else if (globalCtx->sceneNum == SCENE_SPOT12) {
         if (this->actor.posRot.pos.x == 3707.0f && this->actor.posRot.pos.y == 1413.0f &&
             this->actor.posRot.pos.z == -665.0f) {
