@@ -8,13 +8,13 @@ struct EnRd;
 
 typedef void (*EnRdActionFunc)(struct EnRd*, GlobalContext*);
 
-typedef struct {
+typedef struct EnRd {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s unkFire[10];
     /* 0x0188 */ SkelAnime skelAnime;
     /* 0x01CC */ Vec3s limbDrawTable[26];
     /* 0x0268 */ Vec3s transitionDrawTable[26];
-    /* 0x0304 */ char unk_304;
+    /* 0x0304 */ u8 unk_304;
     /* 0x0305 */ u8 unk_305;
     /* 0x0306 */ u8 unk_306;
     /* 0x0307 */ u8 unk_307;
@@ -31,7 +31,6 @@ typedef struct {
     /* 0x031B */ u8 unk_31B;
     /* 0x031C */ u8 unk_31C;
     /* 0x031D */ u8 unk_31D;
-    ///* 0x031E */ char unk_31E[2];
     /* 0x0320 */ ColliderCylinder collider;
 } EnRd; // size = 0x036C
 
