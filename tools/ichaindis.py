@@ -64,7 +64,7 @@ def main():
     parser = argparse.ArgumentParser(description='Decompiles an InitChain')
     parser.add_argument('filename', help='ROM file path')
     parser.add_argument('offset', help='ROM offset or symbol of an InitChain')
-    parser.add_argument('--no-names', action="store_true", help='Disable using names from the actor struct')
+    parser.add_argument('--names', action="store_true", help='Retrieve variable names from the actor struct')
     args = parser.parse_args()
     
     # Get the ROM address, if the offset is already a ROM address it will just be returned.
@@ -81,7 +81,7 @@ def main():
 
     print ('static InitChainEntry sInitChain[] = {')
 
-    if not args.no_names:
+    if args.names:
         actor_variable_names = get_actor_var_names()
 
     while True:
@@ -95,7 +95,7 @@ def main():
 
         var_name = '{0:X}'.format(offset)
 
-        if not args.no_names and var_name in actor_variable_names:
+        if args.names and var_name in actor_variable_names:
             var_name = actor_variable_names[var_name]
         else:
             var_name = "unk_" + var_name
