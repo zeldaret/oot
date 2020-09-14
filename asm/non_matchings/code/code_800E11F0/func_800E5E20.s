@@ -2,8 +2,8 @@ glabel func_800E5E20
 /* B5CFC0 800E5E20 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B5CFC4 800E5E24 AFA40020 */  sw    $a0, 0x20($sp)
 /* B5CFC8 800E5E28 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B5CFCC 800E5E2C 3C048017 */  lui   $a0, %hi(D_80170FA0) # $a0, 0x8017
-/* B5CFD0 800E5E30 24840FA0 */  addiu $a0, %lo(D_80170FA0) # addiu $a0, $a0, 0xfa0
+/* B5CFCC 800E5E2C 3C048017 */  lui   $a0, %hi(gAudioContext+0x1e20) # $a0, 0x8017
+/* B5CFD0 800E5E30 24840FA0 */  addiu $a0, %lo(gAudioContext+0x1e20) # addiu $a0, $a0, 0xfa0
 /* B5CFD4 800E5E34 27A5001C */  addiu $a1, $sp, 0x1c
 /* B5CFD8 800E5E38 0C000CA0 */  jal   osRecvMesg
 /* B5CFDC 800E5E3C 00003025 */   move  $a2, $zero
