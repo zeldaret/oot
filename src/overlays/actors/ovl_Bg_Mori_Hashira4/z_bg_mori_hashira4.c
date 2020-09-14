@@ -59,7 +59,7 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx,
 
     if (this->dyna.dynaPolyId == 0x32) {
         // Warning : move BG login failed
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 0x9B,
+        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
 }
@@ -76,11 +76,11 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
         BgMoriHashira4_InitDynaPoly(this, globalCtx, &D_060089E0, DPM_UNK);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, 0x73);
+    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->objBankIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-                     "../z_bg_mori_hashira4.c", 0xC4);
+                     "../z_bg_mori_hashira4.c", 196);
     } else if ((this->dyna.actor.params != 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Actor_Kill(&this->dyna.actor);
     } else {
@@ -127,7 +127,7 @@ void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx) {
         this->gateTimer++;
         if (this->gateTimer > 30) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
-            BgMoriHashira4_SetActionFunc(this, &BgMoriHashira4_GateOpen);
+            BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_GateOpen);
             func_800800F8(globalCtx, 0x177A, 0x14, &this->dyna.actor, 0);
             unkTimer++;
         }
