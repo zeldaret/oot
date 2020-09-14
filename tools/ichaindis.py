@@ -5,6 +5,7 @@ import sys
 import struct
 import argparse
 import re
+import search_symbol
 
 ICHAIN_MACROS = [
     'ICHAIN_U8',
@@ -21,17 +22,13 @@ ICHAIN_MACROS = [
 ]
 
 Z64_ACTOR_PATH = "../include/z64actor.h"
+Z64_MAP_PATH = "../build/z64.map"
 
 def get_rom_address(offset):
-    # Run the sym_info script and parse out the ROM address
-    stream = os.popen('cd .. && python3 sym_info.py ' + offset)
-    output = stream.read()
-    rom_address = re.match(r'.*ROM:\s+(.*),.*', output)
-
-    if rom_address:
-        # Get the address from index 1 and chop off the 0x part
-        return rom_address[1][2:]
-    return None
+    map_file = os.path.dirname(os.path.realpath(__file__)) + "/" + Z64_MAP_PATH
+    sym_info = search_symbol.search_symbol(offset, map_file)[0]
+    sym_info = "{0:06X}".format(sym_info)
+    return sym_info
 
 def get_actor_var_names():
     in_actor = False
