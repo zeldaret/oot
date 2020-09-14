@@ -59,7 +59,12 @@ s32 D_80BA0B38[] = { 0x64788C50, 0x8CC86496, 0xC864C8F0, 0x506E8C46, 0xA0E15064,
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80B9FFA0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0058.s")
+// spawnDemoEffect
+void func_80BA0058(ObjTimeblock* this, GlobalContext* globalCtx) {
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.posRot.pos.x,
+                this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, 0, 0,
+                unk_actorParams[(this->dyna.actor.params >> 8) & 1].demoEffectParams);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA00CC.s")
 

@@ -1133,4 +1133,3 @@ D_060089E0 = 0x060089E0;
 
 // z_obj_timeblock
 D_06000B30 = 0x06000B30;
-D_80BA0AF8 = 0x80BA0AF8; // TO REMOVE when func_80BA0058 is done
