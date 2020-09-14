@@ -19,6 +19,9 @@ void func_808B5AF0(BgSpot16Bombstone* this);
 
 extern s16 D_06000C20;
 extern s32 D_060009E0;
+extern Gfx D_DA380003;
+extern Gfx D_DE000000;
+extern Gfx D_DB060018;
 
 s16 D_808B5DD0 = { 0 };
 s16 D_808B5DD4 = { 0 };
@@ -306,14 +309,8 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         newPos.x = ((this->unk_15C * new_var) + (tempUnk2 * this->unk_160)) + actorPos->x;
         newPos.y = D_808B5EB0[index].unk_4 + actorPos->y;
         newPos.z = ((this->unk_160 * tempUnk6) - (tempUnk2 * this->unk_15C)) + actorPos->z;
-        func_800287AC(
-            globalCtx, 
-            &newPos, 
-            &D_808B605C, 
-            &D_808B6068, 
-            D_808B5EB0[index].unk_8, 
-            D_808B5EB0[index].unk_A,
-            D_808B5EB0[index].unk_C);
+        func_800287AC(globalCtx, &newPos, &D_808B605C, &D_808B6068, D_808B5EB0[index].unk_8, D_808B5EB0[index].unk_A,
+                      D_808B5EB0[index].unk_C);
         this->unk_158++;
     }
 }
@@ -543,7 +540,7 @@ void func_808B5A78(BgSpot16Bombstone* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5A78.s")
 
-void func_808B5A94(BgSpot16Bombstone* this, GlobalContext *globalCtx) {
+void func_808B5A94(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     s16 temp;
 
     func_808B5240(this, globalCtx);
@@ -626,43 +623,45 @@ void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Update.s")
 
-/*
-void BgSpot16Bombstone_Draw(Actor *thisx, GlobalContext *globalCtx) {
-    Gfx *sp34;
-    Gfx *sp30;
-    Gfx *temp_v0;
-    Gfx *temp_v0_2;
-    Gfx *temp_v0_3;
-    Gfx *temp_v0_4;
-    GraphicsContext *temp_a1;
-    GraphicsContext *temp_s0;
+void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
 
-    temp_a1 = globalCtx->state.gfxCtx;
-    temp_s0 = temp_a1;
-    Graph_OpenDisps(&sp34, temp_a1, (const char *) "../z_bg_spot16_bombstone.c", 0x4E5);
+    GraphicsContext* tempGfxCtx = globalCtx->state.gfxCtx;
+    Gfx* tempPolyOpaP;
+    Gfx* tempPolyOpaP2;
+    Gfx* tempPolyOpaP3;
+    Gfx* tempPolyOpaP4;
+    Gfx* sp34;
+
+    Graph_OpenDisps(&sp34, tempGfxCtx, "../z_bg_spot16_bombstone.c", 0x4E5);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    temp_v0 = temp_s0->polyOpa.p;
-    temp_s0->polyOpa.p = (Gfx *) (temp_v0 + 8);
-    temp_v0->words.w0 = 0xDA380003U;
-    sp30 = temp_v0;
-    sp30->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_bg_spot16_bombstone.c", 0x4E9);
-    if (thisx->params == 0xFF) {
-        temp_v0_2 = temp_s0->polyOpa.p;
-        temp_s0->polyOpa.p = (Gfx *) (temp_v0_2 + 8);
-        temp_v0_2->words.w0 = 0xDE000000U;
-        temp_v0_2->words.w1 = (u32) thisx->unk150;
-    } else {
-        temp_v0_3 = temp_s0->polyOpa.p;
-        temp_s0->polyOpa.p = (Gfx *) (temp_v0_3 + 8);
-        temp_v0_3->words.w0 = 0xDB060018U;
-        temp_v0_3->words.w1 = (u32) globalCtx->objectCtx.status[thisx->unk214].segment;
-        temp_v0_4 = temp_s0->polyOpa.p;
-        temp_s0->polyOpa.p = (Gfx *) (temp_v0_4 + 8);
-        temp_v0_4->words.w0 = 0xDE000000U;
-        temp_v0_4->words.w1 = (u32) thisx->unk150;
-    }
-    Graph_CloseDisps(&sp34, globalCtx->state.gfxCtx, (const char *) "../z_bg_spot16_bombstone.c", 0x4FA);
-}
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Draw.s")
+    tempPolyOpaP = tempGfxCtx->polyOpa.p;
+    tempGfxCtx->polyOpa.p = tempPolyOpaP + 8;
+
+    tempPolyOpaP->words.w0 = &D_DA380003;
+    tempPolyOpaP->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 0x4E9);
+
+    if (1) {}
+
+    if (this->actor.params == 0xFF) {
+        tempPolyOpaP2 = tempGfxCtx->polyOpa.p;
+        tempGfxCtx->polyOpa.p = tempPolyOpaP2 + 8;
+        tempPolyOpaP2->words.w0 = &D_DE000000;
+        tempPolyOpaP2->words.w1 = this->unk_150;
+    } else {
+        tempPolyOpaP3 = tempGfxCtx->polyOpa.p;
+        tempGfxCtx->polyOpa.p = tempPolyOpaP3 + 8;
+        tempPolyOpaP3->words.w0 = &D_DB060018;
+        tempPolyOpaP3->words.w1 = globalCtx->objectCtx.status[this->unk_214].segment;
+        tempPolyOpaP4 = tempGfxCtx->polyOpa.p;
+        tempGfxCtx->polyOpa.p = tempPolyOpaP4 + 8;
+        tempPolyOpaP4->words.w0 = &D_DE000000;
+        tempPolyOpaP4->words.w1 = this->unk_150;
+    }
+
+    Graph_CloseDisps(&sp34, globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 0x4FA);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Draw.s")
