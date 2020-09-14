@@ -15,7 +15,7 @@ void func_808B5B58(BgSpot16Bombstone* this);
 void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5934(BgSpot16Bombstone* this);
 void func_808B5AF0(BgSpot16Bombstone* this);
-s16 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx);
+// s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx);
 
 extern s16 D_06000C20;
 extern s32 D_060009E0;
@@ -99,12 +99,12 @@ static InitChainEntry sInitChain[] = {
 // s32 D_808B603C[] = { 0xB0F407D0, 0xB0F801F4, 0x30FC03E8};
 
 s32 D_808B6048[] = { 0xB06CFFFF, 0xB070FFF6, 0xB0F403E8, 0xB0F800C8, 0x30FC03E8 };
+
 Vec3f D_808B605C = { 0, 0, 0 };
 Vec3i D_808B6068 = { 0x00000000, 0x3ECCCCCD, 0x00000000 };
 
 s32 D_808B6074[] = { 0x42840000, 0x424C0000, 0x42400000, 0x42100000, 0x41A80000 };
 
-// s32 D_808B6088[] = {0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x04};
 s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 // s16 D_808B6092[] = {0x00};
@@ -166,11 +166,11 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4D9C.s")
 
-// s16 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
+// s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 
-//     f32 multiplier = 50.0f;
-//     f32 scaleMultiplier = 0.0016666667f;
 //     Actor* actor = &this->actor;
+//     f32 scaleMultiplier = 0.0016666667f;
+//     f32 multiplier = 50.0f;
 //     f32 sinValue;
 //     f32 temp;
 //     f32 temp2;
@@ -207,7 +207,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
 //     if (this->unk_214 < 0) {
 //         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params,
-//                      "../z_bg_spot16_bombstone.c", 0x24D);
+//                         "../z_bg_spot16_bombstone.c", 0x24D);
 //         return 0;
 //     }
 
