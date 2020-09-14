@@ -40,12 +40,8 @@ typedef struct BossGanondrof {
     /* 0x01D4 */ f32 unk_1D4[4];
     /* 0x01E4 */ char unk_1E4[0x1C];
     /* 0x0200 */ Vec3f unk_200;
-    /* 0x020C */ Vec3f unk_20C[1]; // unk size, fix me
-    /* 0x0218 */ char unk_218[0xA8];
-    /* 0x02C0 */ f32 unk_2C0;
-    /* 0x02C4 */ f32 unk_2C4;
-    /* 0x02C8 */ f32 unk_2C8;
-    /* 0x02CC */ char unk_2CC[0x90];
+    /* 0x020C */ Vec3f unk_20C[26]; // unk size, fix me
+    /* 0x0344 */ char unk_344[0x18];
     /* 0x035C */ s16 unk_35C;
     /* 0x035E */ s16 unk_35E;
     /* 0x0360 */ Vec3f unk_360;

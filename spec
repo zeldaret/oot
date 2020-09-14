@@ -2346,7 +2346,7 @@ endseg
 beginseg
     name "ovl_En_Fhg_Fire"
     include "build/src/overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.o"
-    include "build/data/overlays/actors/z_en_fhg_fire.data.o"
+    //include "build/data/overlays/actors/z_en_fhg_fire.data.o"
     include "build/data/overlays/actors/z_en_fhg_fire.reloc.o"
 endseg
 

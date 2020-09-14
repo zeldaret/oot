@@ -289,9 +289,9 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
         Vec3f sp88;
         Vec3f sp7C = { 0.0f, 0.0f, 0.0f };
         Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
-        sp88.x = Math_Rand_CenteredFloat(10.0f) + this->unk_2C0;
-        sp88.y = Math_Rand_ZeroFloat(-5.0f) + this->unk_2C4;
-        sp88.z = (Math_Rand_CenteredFloat(10.0f) + this->unk_2C8) + 5.0f;
+        sp88.x = this->unk_20C[15].x + Math_Rand_CenteredFloat(10.0f);
+        sp88.y = this->unk_20C[15].y + Math_Rand_ZeroFloat(-5.0f);
+        sp88.z = this->unk_20C[15].z + Math_Rand_CenteredFloat(10.0f) + 5.0f;
         sp70.y = 0.03f;
         func_80029DBC(globalCtx, &sp88, &sp7C, &sp70, (s16)Math_Rand_ZeroFloat(10.0f) + 5, 0);
     }
