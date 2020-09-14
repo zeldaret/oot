@@ -21,7 +21,7 @@ CsCmdActorAction* EnNb_GetNpcCsAction(GlobalContext* globalCtx, s32 npcActionIdx
 void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animationHeader, u8 mode, f32 arg3, s32 arg4);
 void EnNb_ComeUpImpl(EnNb* this, GlobalContext* globalCtx);
 void EnNb_SetupChamberCsImpl(EnNb* this, GlobalContext* globalCtx);
-void EnNb_SetupRaisedArmTransition(EnNb* this, UNK_TYPE arg1);
+void EnNb_SetupRaisedArmTransition(EnNb* this,s32 animFinished);
 void EnNb_SetupMedallion(EnNb* this, GlobalContext* globalCtx);
 void EnNb_SetupChamberCs(EnNb* this, GlobalContext* globalCtx);
 void EnNb_SetupChamberWarp(EnNb* this, GlobalContext* globalCtx);
@@ -43,7 +43,7 @@ void EnNb_InitKidnap(EnNb* this, GlobalContext* globalCtx);
 void EnNb_PlayCrySFX(EnNb* this, GlobalContext* globalCtx);
 void EnNb_PlayAgonySFX(EnNb* this, GlobalContext* globalCtx);
 void EnNb_SetupCaptureCutsceneState(EnNb* this, GlobalContext* globalCtx);
-void EnNb_SetRaisedArmCaptureAnim(EnNb* this, UNK_TYPE arg1);
+void EnNb_SetRaisedArmCaptureAnim(EnNb* this, s32 animFinished);
 void EnNb_CheckKidnapCsMode(EnNb* this, GlobalContext* globalCtx);
 void func_80AB23A8(EnNb* this, GlobalContext* globalCtx);
 void EnNb_MovingInPortal(EnNb* this, GlobalContext* globalCtx);
@@ -266,7 +266,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     }
 
     *eyeIdx = *blinkTimer;
-    if (*eyeIdx >= 3) {
+    if (*eyeIdx >= ARRAY_COUNT(sEyeSegments)) {
         *eyeIdx = 0;
     }
 }
@@ -283,7 +283,7 @@ void func_80AB11EC(EnNb* this) {
 void func_80AB1210(EnNb* this, GlobalContext* globalCtx) {
     s32 one; // required to match
     if (globalCtx->csCtx.state == 0) {
-        if ((D_80AB4318 != 0)) {
+        if (D_80AB4318) {
             if (this->actor.params == NB_TYPE_DEMO02) {
                 func_80AB11EC(this);
             }
@@ -292,7 +292,7 @@ void func_80AB1210(EnNb* this, GlobalContext* globalCtx) {
         }
     } else {
         one = 1;
-        if (D_80AB4318 == 0) {
+        if (!D_80AB4318) {
             D_80AB4318 = one;
         }
     }
@@ -464,10 +464,10 @@ void EnNb_SetupArmRaise(EnNb* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnNb_SetupRaisedArmTransition(EnNb* this, UNK_TYPE arg1) {
+void EnNb_SetupRaisedArmTransition(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_06002B4C;
 
-    if (arg1 != 0) {
+    if (animFinished) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
         this->action = NB_CHAMBER_RAISE_ARM_TRANSITION;
@@ -664,9 +664,9 @@ void EnNb_PlayAgonySFX(EnNb* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnNb_SetPosRotInPortal(EnNb* this, GlobalContext* globalCtx) {
+void EnNb_SetPosInPortal(EnNb* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(globalCtx, 1);
-    PosRot* posRot = &this->actor.posRot;
+    Vec3f* pos = &this->actor.posRot.pos;
     f32 f0;
     s32 pad;
     Vec3f startPos;
@@ -679,9 +679,9 @@ void EnNb_SetPosRotInPortal(EnNb* this, GlobalContext* globalCtx) {
         endPos.x = csCmdNPCAction->endPos.x;
         endPos.y = csCmdNPCAction->endPos.y;
         endPos.z = csCmdNPCAction->endPos.z;
-        posRot->pos.x = ((endPos.x - startPos.x) * f0) + startPos.x;
-        posRot->pos.y = ((endPos.y - startPos.y) * f0) + startPos.y;
-        posRot->pos.z = ((endPos.z - startPos.z) * f0) + startPos.z;
+        pos->x = ((endPos.x - startPos.x) * f0) + startPos.x;
+        pos->y = ((endPos.y - startPos.y) * f0) + startPos.y;
+        pos->z = ((endPos.z - startPos.z) * f0) + startPos.z;
     }
 }
 
@@ -692,9 +692,9 @@ void EnNb_SetupCaptureCutsceneState(EnNb* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = 0;
 }
 
-void EnNb_SetRaisedArmCaptureAnim(EnNb* this, UNK_TYPE arg1) {
+void EnNb_SetRaisedArmCaptureAnim(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_06001350;
-    if (arg1 != 0) {
+    if (animFinished) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
     }
@@ -767,7 +767,7 @@ void EnNb_SuckedInByPortal(EnNb* this, GlobalContext* globalCtx) {
     EnNb_UpdateEyes(this);
     animFinished = EnNb_FrameUpdateMatrix(this);
     EnNb_SetRaisedArmCaptureAnim(this, animFinished);
-    EnNb_SetPosRotInPortal(this, globalCtx);
+    EnNb_SetPosInPortal(this, globalCtx);
     EnNb_CheckKidnapCsMode(this, globalCtx);
 }
 
@@ -792,7 +792,7 @@ void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && ((func_800A56C8(skelAnime, 18.0f) != 0) || (func_800A56C8(skelAnime, 25.0f) != 0))) {
+    if (skelAnime->mode == 2 && (func_800A56C8(skelAnime, 18.0f) || func_800A56C8(skelAnime, 25.0f))) {
         func_80078914(&this->actor.projectedPos, NA_SE_EV_HUMAN_BOUND);
     }
 }
@@ -801,7 +801,7 @@ void EnNb_PlayLookRightSFX(EnNb* this) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && (func_800A56C8(skelAnime, 9.0f) != 0)) {
+    if (skelAnime->mode == 2 && func_800A56C8(skelAnime, 9.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
@@ -810,7 +810,7 @@ void EnNb_PlayLookLeftSFX(EnNb* this) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((func_800A56C8(skelAnime, 9.0f) != 0) || (func_800A56C8(skelAnime, 13.0f) != 0)) {
+    if (func_800A56C8(skelAnime, 9.0f) || func_800A56C8(skelAnime, 13.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
@@ -853,9 +853,9 @@ void EnNb_SetupKneel(EnNb* this) {
     this->actor.shape.unk_14 = 0xFF;
 }
 
-void EnNb_CheckIfKneeling(EnNb* this, UNK_TYPE arg1) {
+void EnNb_CheckIfKneeling(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_060046A8;
-    if (arg1 != 0) {
+    if (animFinished) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
         this->drawMode = NB_DRAW_KNEEL;
@@ -871,9 +871,9 @@ void EnNb_SetupLookRight(EnNb* this) {
     this->actor.shape.unk_14 = 0xFF;
 }
 
-void EnNb_CheckIfLookingRight(EnNb* this, UNK_TYPE arg1) {
+void EnNb_CheckIfLookingRight(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_06004030;
-    if (arg1 != 0) {
+    if (animFinished) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
         this->drawMode = NB_DRAW_LOOK_DIRECTION;
@@ -889,16 +889,16 @@ void EnNb_SetupLookLeft(EnNb* this) {
     this->actor.shape.unk_14 = 0xFF;
 }
 
-void EnNb_CheckIfLookLeft(EnNb* this, UNK_TYPE arg1) {
+void EnNb_CheckIfLookLeft(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_060035A8;
-    if (arg1 != 0) {
+    if (animFinished) {
         SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animation->genericHeader), 0, 0.0f);
     }
 }
 
-void EnNb_SetupDemo6KInConfrontation(EnNb* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
-    if ((this->flag == 0) && (arg2 != 0)) {
+void EnNb_SetupDemo6KInConfrontation(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
+    if (!this->flag && animFinished) {
         EnNb_InitDemo6KInConfrontation(this, globalCtx);
         this->flag = 1;
     }
@@ -1112,8 +1112,8 @@ void EnNb_SetupCreditsHeadTurn(EnNb* this) {
     this->action = NB_CREDITS_HEAD_TURN;
 }
 
-void EnNb_CheckIfLookingUp(EnNb* this, UNK_TYPE arg1) {
-    if (arg1 != 0) {
+void EnNb_CheckIfLookingUp(EnNb* this, s32 animFinished) {
+    if (animFinished) {
         EnNb_SetCurrentAnim(this, &D_06005614, 0, 0.0f, 0);
     }
 }
@@ -1255,8 +1255,8 @@ void EnNb_CheckNoticed(EnNb* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnNb_SetupIdleCrawlspace(EnNb* this, UNK_TYPE arg1) {
-    if (arg1 != 0) {
+void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
+    if (animFinished) {
         EnNb_SetCurrentAnim(this, &D_06004BB4, 0, -8.0f, 0);
         this->headTurnFlag = 1;
         this->actor.flags |= 9;
@@ -1265,7 +1265,7 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, UNK_TYPE arg1) {
 }
 
 void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (func_8002F194(&this->actor, globalCtx)) {
         this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= 9;
@@ -1280,7 +1280,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_SetupPathMovement(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &D_06004E60, 2, -8.0f, 0);
-    gSaveContext.eventChkInf[9] |= 16;
+    gSaveContext.eventChkInf[9] |= 0x10;
     this->action = NB_IN_PATH;
     this->actor.flags &= ~9;
 }
@@ -1353,10 +1353,10 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
+void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
     u16 movementTimer = this->movementTimer;
     if ((u16)(kREG(17) + 0x19) > movementTimer) {
-        if (arg2 != 0) {
+        if (animFinished) {
             EnNb_SetCurrentAnim(this, &D_06009238, 0, 0.0f, 0);
         }
     } else {
@@ -1368,7 +1368,7 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
 void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
     u16 maskReaction;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (func_8002F194(&this->actor, globalCtx)) {
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= 9;
