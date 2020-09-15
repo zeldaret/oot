@@ -30,7 +30,7 @@ f32 cosf(f32 x) {
 
     if (xpt < 0x136) {
 
-        absx = ULTRA_ABS(x);
+        absx = (x > 0) ? x : -x;
 
         dx = absx;
 
