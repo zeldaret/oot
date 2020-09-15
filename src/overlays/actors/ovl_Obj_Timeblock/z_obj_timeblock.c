@@ -18,7 +18,9 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx);
+UNK_TYPE func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx);
+s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx);
+s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0514(ObjTimeblock* this);
 void func_80BA0758(ObjTimeblock* this);
 void func_80BA083C(ObjTimeblock* this);
@@ -138,7 +140,20 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA032C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA040C.s")
+// mainActionFunc
+s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
+    Player* playerActor = (Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first;
+
+    if (func_80BA032C(this, globalCtx)) {
+        if ((playerActor->stateFlags2 << 7) < 0) {
+            func_8010BD58(globalCtx, 1);
+            this->actionFunc = &func_80BA0480;
+        } else {
+            playerActor->stateFlags2 |= 0x800000;
+        }
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0480.s")
 
