@@ -143,7 +143,7 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19C = 2;
     } else {
         func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
-        if ((sp26 >= 0) && (sp26 < 0x141) && (sp24 >= 0) && (sp24 < 0xF1) && (this->unk_19C != 3)) {
+        if ((sp26 >= 0) && (sp26 <= SCREEN_WIDTH) && (sp24 >= 0) && (sp24 <= SCREEN_HEIGHT) && (this->unk_19C != 3)) {
             if (func_8002F2CC(&this->actor, globalCtx, 40.0f) == 1) {
                 if (func_8008F080(globalCtx) == 8) {
                     this->actor.textId = 0x2054;
