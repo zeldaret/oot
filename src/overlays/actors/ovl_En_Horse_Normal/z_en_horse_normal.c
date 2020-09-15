@@ -250,7 +250,6 @@ void func_80A6BE6C(EnHorseNormal *this, GlobalContext *globalCtx) {
     s32 temp_v0;
     s32 temp_v0_3;
     s32 temp_v1;
-    u16 temp_t3;
     u16 temp_t9;
     s32 phi_t0;
     s32 phi_t0_2;
@@ -364,9 +363,8 @@ block_26:
 block_38:
             if (phi_t0_2 != phi_v1_2) {
                 this->unk_150 = phi_t0_2;
-                temp_t3 = this->unk_1E4 & 0xFFFE;
-                this->unk_1E4 = temp_t3;
-                this->unk_1E4 = (u16) (temp_t3 & 0xFFFD);
+                this->unk_1E4 &= ~1;
+                this->unk_1E4 &= ~2;
                 if (phi_t0_2 == 1) {
                     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 } else {
