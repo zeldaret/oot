@@ -549,8 +549,6 @@ s16 Camera_XZAngle(Vec3f* to, Vec3f* from) {
     return DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(from->x - to->x, from->z - to->z)));
 }
 
-#ifdef NON_MATCHING
-// matching, but marked NON_MATCHING until bss is resolved.
 s16 func_80044ADC(Camera *camera, s16 yaw, s16 arg2) {
     static f32 D_8015CE50;
     static f32 D_8015CE54;
@@ -620,11 +618,6 @@ s16 func_80044ADC(Camera *camera, s16 yaw, s16 arg2) {
     return temp_s0 + temp_s1;
             
 }
-#else
-s16 func_80044ADC(Camera* camera, s16, s32);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044ADC.s")
-#endif
-#undef NON_MATCHING
 
 Vec3f *Camera_CalcUpFromPitchYawRoll(Vec3f *dest, s16 pitch, s16 yaw, s16 roll) {
     f32 sinPitch;
@@ -1285,8 +1278,6 @@ s16 Camera_CalcDefaultYaw(Camera* camera, s16 cur, s16 target, f32 arg3, f32 acc
     return cur + (s16)(angDelta * velocity * velFactor * yawUpdRate);
 }
 
-#ifdef NON_MATCHING
-// matching, but cannot be compiled unitl other in function statics are added.
 void func_80046E20(Camera *camera, VecSph *eyeAdjustment, f32 minDist, f32 arg3, f32 *arg4, SwingAnimation *anim) {
     static CamColChk atEyeColChk;
     static CamColChk eyeAtColChk;
@@ -1385,11 +1376,6 @@ void func_80046E20(Camera *camera, VecSph *eyeAdjustment, f32 minDist, f32 arg3,
             break;
     }
 }
-#else
-void func_80046E20(Camera *arg0, VecSph *arg1, f32 arg2, f32 arg3, f32 *arg4, SwingAnimation *arg5);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046E20.s")
-#endif
-#undef NON_MATCHING
 
 s32 Camera_NOP(Camera* camera) {
     return true;
@@ -3673,6 +3659,9 @@ s32 Camera_KeepOn4(Camera *camera) {
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
 }
 #else
+Vec3f D_8015BD50;
+Vec3f D_8015BD60;
+Vec3f D_8015BD70;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_KeepOn4.s")
 #endif
 #undef NON_MATCHING
