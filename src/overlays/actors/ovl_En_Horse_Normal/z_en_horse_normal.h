@@ -22,7 +22,8 @@ typedef struct EnHorseNormal {
     /* 0x0274 */ ColliderJntSph unk_274;
     /* 0x0294 */ ColliderJntSphItem unk_294;
     /* 0x02D4 */ ColliderCylinder unk_2D4;
-    /* 0x0320 */ char unk_320[0x08];
+    /* 0x0320 */ char unk_320[0x04];
+    /* 0x0324 */ s32 waypoint;
 } EnHorseNormal; // size = 0x0328
 
 extern const ActorInit En_Horse_Normal_InitVars;

@@ -26,6 +26,7 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* c
 
 f32 func_80A6B30C(EnHorseNormal* this);
 void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx);
@@ -182,7 +183,30 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B91C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B9D0.s")
+void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx) {
+    Path* path = &globalCtx->setupPathList[this->actor.params & 0xF];
+    Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
+    f32 dx;
+    f32 dz;
+    s32 pad;
+
+    pointPos += this->waypoint;
+    dx = pointPos->x - this->actor.posRot.pos.x;
+    dz = pointPos->z - this->actor.posRot.pos.z;
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(dx, dz) * 10430.378f, 10, 2000, 1);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    if (SQ(dx) + SQ(dz) < 600.0f) {
+        this->waypoint += 1;
+        if (this->waypoint >= path->count) {
+            this->waypoint = 0;
+        }
+    }
+    this->skin.skelAnime.animPlaybackSpeed = func_80A6B30C(this);
+    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+        SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+        func_80A6BCEC(this);
+    }
+}
 
 void func_80A6BBAC(EnHorseNormal* this) {
     this->unk_14C = 0;
@@ -205,7 +229,14 @@ void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BC48.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BCEC.s")
+void func_80A6BCEC(EnHorseNormal* this) {
+    if (this->unk_150 == 5) {
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (this->unk_150 == 6) {
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BD7C.s")
 
