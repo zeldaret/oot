@@ -616,7 +616,10 @@ void DynaPolyInfo_SetActorMove(DynaPolyActor* actor, DynaPolyMoveFlag flags);
 void func_800434A0(DynaPolyActor* dynaActor);
 void func_800434A8(DynaPolyActor* actor);
 void func_80043538(DynaPolyActor* dynaActor);
+s32 func_80043548(DynaPolyActor* dynaActor);
 s32 func_8004356C(DynaPolyActor* dynaActor);
+s32 func_80043590(DynaPolyActor* dynaActor);
+s32 func_800435B4(DynaPolyActor* dynaActor);
 f32 func_800437F0(f32, f32);
 // ? func_8004389C(?);
 // ? func_800438DC(?);
@@ -920,6 +923,7 @@ void func_80073988(GlobalContext*, EnvironmentContext*, View*, GraphicsContext*,
 // ? func_80073A5C(?);
 f32 func_800746DC();
 // ? func_80074704(?);
+void func_80074CE8(GlobalContext* globalCtx, s32 arg1);
 // ? func_80074D6C(?);
 // ? func_80074FF4(?);
 // ? func_800750C0(?);

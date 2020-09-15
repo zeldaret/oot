@@ -7,8 +7,24 @@
 void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void BgMoriBigst_SetupObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_ObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_InitialNoop(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SpawnStalfos(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_StalfosWait(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupFall(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_Quake(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupSpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_StalfosPairWait(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_FinalNoop(BgMoriBigst* this, GlobalContext* globalCtx);
+
+extern ColHeader D_0600221C;
+extern Gfx D_06001E50[];
+
 const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
     ACTORTYPE_BG,
@@ -20,39 +36,219 @@ const ActorInit Bg_Mori_Bigst_InitVars = {
     (ActorFunc)BgMoriBigst_Update,
     NULL,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A0BC0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A0BC8.s")
+void BgMoriBigst_SetActionFunction(BgMoriBigst* this, BgMoriBigstActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/BgMoriBigst_Init.s")
+void BgMoriBigst_InitDynapoly(BgMoriBigst* this, GlobalContext* globalCtx, ColHeader* collision, s32 moveFlag) {
+    s32 pad;
+    ColHeader* colHeader = NULL;
+    s32 pad2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/BgMoriBigst_Destroy.s")
+    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
+    DynaPolyInfo_Alloc(collision, &colHeader);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A0DDC.s")
+    if (this->dyna.dynaPolyId == 0x32) {
+        // Warning : move BG login failed
+        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_bigst.c", 190,
+                     this->dyna.actor.id, this->dyna.actor.params);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A0E04.s")
+void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
+    static InitChainEntry sInitChain[] = {
+        ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
+        ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),    ICHAIN_F32_DIV1000(gravity, 65036, ICHAIN_CONTINUE),
+        ICHAIN_F32_DIV1000(minVelocityY, 53536, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+    };
+    GlobalContext* globalCtx2 = globalCtx;
+    BgMoriBigst* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A0ED0.s")
+    // mori (bigST.keyceiling)
+    osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
+                 Flags_GetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F),
+                 Flags_GetTempClear(globalCtx2, this->dyna.actor.room),
+                 Flags_GetClear(globalCtx2, this->dyna.actor.room), PLAYER->actor.posRot.pos.y);
+    BgMoriBigst_InitDynapoly(this, globalCtx2, &D_0600221C, DPM_UNK);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->objBankIndex = Object_GetIndex(&globalCtx2->objectCtx, OBJECT_MORI_TEX);
+    if (this->objBankIndex < 0) {
+        // [Big Stalfos key ceiling] bank danger!
+        osSyncPrintf("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
+        osSyncPrintf("%s %d\n", "../z_bg_mori_bigst.c", 234);
+        Actor_Kill(&this->dyna.actor);
+    } else {
+        if (Flags_GetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F)) {
+            this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+        } else {
+            this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 270.0f;
+        }
+        Actor_SetHeight(&this->dyna.actor, 50.0f);
+        BgMoriBigst_SetupObjectCheck(this, globalCtx2);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A0EF4.s")
+void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
+    BgMoriBigst* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A0FB0.s")
+    DynaPolyInfo_Free(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A1024.s")
+void BgMoriBigst_SetupObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetActionFunction(this, BgMoriBigst_ObjectCheck);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A104C.s")
+void BgMoriBigst_ObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx) {
+    Actor* thisx = &this->dyna.actor;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A10D4.s")
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+        thisx->draw = BgMoriBigst_Draw;
+        if (Flags_GetClear(globalCtx, thisx->room) && (PLAYER->actor.posRot.pos.y > 700.0f)) {
+            if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
+                BgMoriBigst_FinalNoop(this, globalCtx);
+            } else {
+                BgMoriBigst_SpawnStalfos(this, globalCtx);
+            }
+        } else {
+            BgMoriBigst_InitialNoop(this, globalCtx);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A1164.s")
+void BgMoriBigst_InitialNoop(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetActionFunction(this, NULL);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A1190.s")
+void BgMoriBigst_SpawnStalfos(BgMoriBigst* this, GlobalContext* globalCtx) {
+    Actor* stalfos;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A12C4.s")
+    BgMoriBigst_SetActionFunction(this, BgMoriBigst_StalfosWait);
+    Flags_UnsetClear(globalCtx, this->dyna.actor.room);
+    stalfos = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_TEST, 209.0f, 827.0f,
+                                 -3320.0f, 0, 0, 0, 1);
+    if (stalfos != NULL) {
+        this->dyna.actor.child = NULL;
+        this->dyna.actor.initPosRot.rot.z++;
+    } else {
+        // Second Stalfos failure
+        osSyncPrintf("Warning : 第２スタルフォス発生失敗\n");
+    }
+    Flags_SetClear(globalCtx, this->dyna.actor.room);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A1320.s")
+void BgMoriBigst_StalfosWait(BgMoriBigst* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/BgMoriBigst_Update.s")
+    if ((this->dyna.actor.initPosRot.rot.z == 0) &&
+        ((this->dyna.actor.initPosRot.pos.y - 5.0f) <= PLAYER->actor.posRot.pos.y)) {
+        BgMoriBigst_SetupFall(this, globalCtx);
+        func_800800F8(globalCtx, 0xC94, 0x48, &this->dyna.actor, 0);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A13B4.s")
+void BgMoriBigst_SetupFall(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetActionFunction(this, BgMoriBigst_Fall);
+}
+
+void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
+    Actor_MoveForward(&this->dyna.actor);
+    if (this->dyna.actor.posRot.pos.y <= this->dyna.actor.initPosRot.pos.y) {
+        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+        BgMoriBigst_Quake(this, globalCtx);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+        func_800800F8(globalCtx, 0x3FC, 8, &this->dyna.actor, 0);
+        func_8002DF38(globalCtx, NULL, 0x3C);
+    }
+}
+
+void BgMoriBigst_Quake(BgMoriBigst* this, GlobalContext* globalCtx) {
+    Camera** cameras = globalCtx->cameraPtrs;
+    s32 quake;
+
+    BgMoriBigst_SetActionFunction(this, BgMoriBigst_SetupSpawnStalfosPair);
+    this->waitTimer = 18;
+    quake = Quake_Add(cameras[globalCtx->activeCamera], 3);
+    Quake_SetSpeed(quake, 0x61A8);
+    Quake_SetQuakeValues(quake, 5, 0, 0, 0);
+    Quake_SetCountdown(quake, 16);
+}
+
+void BgMoriBigst_SetupSpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx) {
+    if (this->waitTimer <= 0) {
+        BgMoriBigst_SpawnStalfosPair(this, globalCtx);
+    }
+}
+
+void BgMoriBigst_SpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx) {
+    Actor* stalfos1;
+    Actor* stalfos2;
+
+    BgMoriBigst_SetActionFunction(this, BgMoriBigst_StalfosPairWait);
+    Flags_UnsetClear(globalCtx, this->dyna.actor.room);
+    stalfos1 =
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, 2, 70.0f, 827.0f, -3383.0f, 0, 0, 0, 5);
+    if (stalfos1 != NULL) {
+        this->dyna.actor.child = NULL;
+        this->dyna.actor.initPosRot.rot.z++;
+    } else {
+        // Warning: 3-1 Stalfos failure
+        osSyncPrintf("Warning : 第３-1スタルフォス発生失敗\n");
+    }
+    stalfos2 =
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, 2, 170.0f, 827.0f, -3260.0f, 0, 0, 0, 5);
+    if (stalfos2 != NULL) {
+        this->dyna.actor.child = NULL;
+        this->dyna.actor.initPosRot.rot.z++;
+    } else {
+        // Warning: 3-2 Stalfos failure
+        osSyncPrintf("Warning : 第３-2スタルフォス発生失敗\n");
+    }
+    Flags_SetClear(globalCtx, this->dyna.actor.room);
+}
+
+void BgMoriBigst_StalfosPairWait(BgMoriBigst* this, GlobalContext* globalCtx) {
+    if ((this->dyna.actor.initPosRot.rot.z == 0) && !func_8008E988(globalCtx)) {
+        Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
+        BgMoriBigst_FinalNoop(this, globalCtx);
+    }
+}
+
+void BgMoriBigst_FinalNoop(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetActionFunction(this, NULL);
+}
+
+void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
+    BgMoriBigst* this = THIS;
+
+    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    if (this->waitTimer > 0) {
+        this->waitTimer--;
+    }
+    if (func_80043590(&this->dyna)) {
+        func_80074CE8(globalCtx2, 6);
+    }
+    if (this->actionFunc != NULL) {
+        this->actionFunc(this, globalCtx2);
+    }
+}
+
+void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
+    BgMoriBigst* this = THIS;
+
+    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
+    func_80093D18(globalCtx2->state.gfxCtx);
+
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx2->objectCtx.status[this->objBankIndex].segment);
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001E50);
+    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_mori_bigst.c", 553);
+}
