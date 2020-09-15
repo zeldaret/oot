@@ -217,10 +217,10 @@ glabel EnKarebaba_Draw
 .L80A9680C:
 /* 014BC 80A9680C 3C0B80A9 */  lui     $t3, %hi(EnKarebaba_Dying)    ## $t3 = 80A90000
 /* 014C0 80A96810 256B5D90 */  addiu   $t3, $t3, %lo(EnKarebaba_Dying) ## $t3 = 80A95D90
-/* 014C4 80A96814 3C0580A9 */  lui     $a1, %hi(D_80A96A68)       ## $a1 = 80A90000
+/* 014C4 80A96814 3C0580A9 */  lui     $a1, %hi(BLACK_COLOR)       ## $a1 = 80A90000
 /* 014C8 80A96818 3C1080A9 */  lui     $s0, %hi(EnKarebaba_Grow)    ## $s0 = 80A90000
 /* 014CC 80A9681C 26105940 */  addiu   $s0, $s0, %lo(EnKarebaba_Grow) ## $s0 = 80A95940
-/* 014D0 80A96820 24A56A68 */  addiu   $a1, $a1, %lo(D_80A96A68)  ## $a1 = 80A96A68
+/* 014D0 80A96820 24A56A68 */  addiu   $a1, $a1, %lo(BLACK_COLOR)  ## $a1 = 80A96A68
 /* 014D4 80A96824 AFAB004C */  sw      $t3, 0x004C($sp)
 /* 014D8 80A96828 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 014DC 80A9682C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001

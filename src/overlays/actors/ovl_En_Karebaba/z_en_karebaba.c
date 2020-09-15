@@ -87,7 +87,6 @@ Gfx* DisplayLists[] = {
 
 Vec3f VEC_ZERO2 = { 0.0f, 0.0f, 0.0f };
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/EnKarebaba_Init.s")
 void EnKarebaba_Init(EnKarebaba* this, GlobalContext* globalCtx) {
     Actor* base = (Actor*) this;
 
@@ -111,13 +110,11 @@ void EnKarebaba_Init(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/EnKarebaba_Destroy.s")
 void EnKarebaba_Destroy(EnKarebaba* this, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->hitbox2);
     Collider_DestroyCylinder(globalCtx, &this->hitbox1);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A954C0.s")
 void EnKarebaba_DisableHitbox(EnKarebaba* this) {
     this->hitbox2.dim.radius = 7;
     this->hitbox2.dim.height = 25;
@@ -127,7 +124,6 @@ void EnKarebaba_DisableHitbox(EnKarebaba* this) {
     this->hitbox1.dim.height = 25;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A954F8.s")
 void EnKarebaba_SetupHidden(EnKarebaba* this) {
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.shape.rot.x = -16384;
@@ -135,7 +131,6 @@ void EnKarebaba_SetupHidden(EnKarebaba* this) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 14.0f;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95548.s")
 void EnKarebaba_SetupIdle(EnKarebaba* this) {
     Actor_SetScale(&this->actor, 0.005f);
     this->actor.shape.rot.x = -16384;
@@ -143,16 +138,14 @@ void EnKarebaba_SetupIdle(EnKarebaba* this) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 14.0f;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A9559C.s")
 void EnKarebaba_SetupAwaken(EnKarebaba* this) {
-    UNK_PTR anim;
+    AnimationHeader* anim;
     anim = &ANIM_KAREBABA;
     SkelAnime_ChangeAnim(&this->skelAnime, anim, 4.0f, 0, SkelAnime_GetFrameCount(anim), 0, -3);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_UP | 0x100);
     this->actionFunc = &EnKarebaba_Awaken;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95618.s")
 void EnKarebaba_SetupUpright(EnKarebaba* this) {
     if (this->actionFunc != &EnKarebaba_Spin) {
         Actor_SetScale(&this->actor, 0.01f);
@@ -168,13 +161,11 @@ void EnKarebaba_SetupUpright(EnKarebaba* this) {
     this->actionFunc = &EnKarebaba_Upright;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A956B8.s")
 void EnKarebaba_SetupSpin(EnKarebaba* this) {
     this->actor.params = 40;
     this->actionFunc = &EnKarebaba_Spin;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A956D0.s")
 void EnKarebaba_SetupDying(EnKarebaba* this) {
     this->actor.params = 0;
     this->actor.gravity = -0.8f;
@@ -186,7 +177,6 @@ void EnKarebaba_SetupDying(EnKarebaba* this) {
     this->actionFunc = &EnKarebaba_Dying;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95748.s")
 void EnKarebaba_SetupDeadItemDrop(EnKarebaba *this, GlobalContext *globalCtx) {
     Actor_SetScale(&this->actor, 0.03f);
     this->actor.shape.rot.x -= 16384;
@@ -200,18 +190,16 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba *this, GlobalContext *globalCtx) {
     this->actionFunc = &EnKarebaba_DeadItemDrop;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A957E0.s")
 void EnKarebaba_SetupRetract(EnKarebaba* this) {
-    UNK_PTR anim;
+    AnimationHeader* anim;
     anim = &ANIM_KAREBABA;
     SkelAnime_ChangeAnim(&this->skelAnime, anim, -3.0f, SkelAnime_GetFrameCount(anim), 0.0f, 2, -3.0f);
     EnKarebaba_DisableHitbox(this);
     this->actionFunc = &EnKarebaba_Retract;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95860.s")
 void EnKarebaba_SetupWait(EnKarebaba* this) {
-    UNK_PTR anim;
+    AnimationHeader* anim;
     anim = &ANIM_KAREBABA;
     SkelAnime_ChangeAnim(&this->skelAnime, anim, 0.0f, 0.0f, 0.0f, 2, 0.0f); // Anim Mode == STOP
     EnKarebaba_DisableHitbox(this);
@@ -223,7 +211,6 @@ void EnKarebaba_SetupWait(EnKarebaba* this) {
     this->actionFunc = &EnKarebaba_Wait;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A958EC.s")
 void EnKarebaba_SetupRegrow(EnKarebaba* this) {
     this->actor.shape.unk_08 = 0.0f;
     this->actor.shape.unk_10 = 22.0f;
@@ -232,7 +219,6 @@ void EnKarebaba_SetupRegrow(EnKarebaba* this) {
     this->actionFunc = &EnKarebaba_Regrow;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95940.s")
 void EnKarebaba_Grow(EnKarebaba* this, GlobalContext* globalCtx) {
     f32 scale;
 
@@ -245,14 +231,12 @@ void EnKarebaba_Grow(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A959D8.s")
 void EnKarebaba_Idle(EnKarebaba* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 200.0f && fabsf(this->actor.yDistFromLink) < 30.0f) {
         EnKarebaba_SetupAwaken(this);
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95A38.s")
 void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_ApproxF(&this->actor.scale.x, 0.01f, 0.0005f);
@@ -264,7 +248,6 @@ void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
     func_800297A4(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95B0C.s")
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
     Player* player = (Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first;
 
@@ -295,7 +278,6 @@ void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95BFC.s")
 void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     s32 value;
     f32 thing;
@@ -338,9 +320,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A95D90.s")
 void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
-    //s32 fifty = 50;
     s32 i;
     Vec3f position;
     Vec3f rotation;
@@ -382,7 +362,6 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A96048.s")
 void EnKarebaba_DeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
     if (this->actor.params != 0) {
         this->actor.params--;
@@ -396,7 +375,6 @@ void EnKarebaba_DeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
     func_8002F554(&this->actor, globalCtx, GI_STICKS_1);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A960B0.s")
 void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_ApproxF(&this->actor.scale.x, 0.005f, 0.0005f);
@@ -411,7 +389,6 @@ void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     func_800297A4(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A96184.s")
 void EnKarebaba_Wait(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
@@ -423,7 +400,6 @@ void EnKarebaba_Wait(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A961DC.s")
 void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
     f32 tmp;
 
@@ -440,7 +416,6 @@ void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/EnKarebaba_Update.s")
 void EnKarebaba_Update(EnKarebaba* this, GlobalContext* globalCtx) {
     f32 temp, unused, unused2;
 
@@ -471,7 +446,6 @@ void EnKarebaba_Update(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Karebaba/func_80A9644C.s")
 void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
     MtxF matrix;
 
@@ -489,8 +463,6 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1034);
 }
 
-//80a96a78/..7c
-//80a96a68/..78
 #ifdef NON_MATCHING
 void EnKarebaba_Draw(EnKarebaba* this, GlobalContext* globalCtx) {
     f32 scale;
