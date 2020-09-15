@@ -53,6 +53,8 @@ extern CollisionCheckInfoInit D_80A6D420;
 extern s32 D_80A6D4C0[];
 extern f32 D_80A6D4C8[];
 extern InitChainEntry D_80A6D4EC[];
+extern s32 D_80A6D4F4[];
+extern s32 D_80A6D510[];
 extern EnHorseNormalUnkFunc D_80A6D534[];
 extern Vec3f D_80A6D548;
 
@@ -240,7 +242,196 @@ void func_80A6BCEC(EnHorseNormal* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BD7C.s")
 
+#if FALSE
+void func_80A6BE6C(EnHorseNormal *this, GlobalContext *globalCtx) {
+    s32 sp4C;
+    f32 sp40;
+    s16 temp_v0_2;
+    s32 temp_v0;
+    s32 temp_v0_3;
+    s32 temp_v1;
+    u16 temp_t3;
+    u16 temp_t9;
+    s32 phi_t0;
+    s32 phi_t0_2;
+    s32 phi_v1;
+    s32 phi_v1_2;
+    s32 phi_t0_3;
+
+    temp_v1 = this->unk_150;
+    temp_v0 = D_80A6D510[temp_v1];
+    if (temp_v0 != 0) {
+        if (temp_v0 != 1) {
+            phi_t0_2 = temp_v1;
+            phi_v1 = temp_v1;
+            if (temp_v0 != 2) {
+                phi_t0_2 = temp_v1;
+                phi_v1 = temp_v1;
+                if (temp_v0 != 3) {
+                    phi_t0_2 = temp_v1;
+                    phi_v1 = temp_v1;
+                }
+            }
+        } else {
+            if (Math_Rand_ZeroOne(this) < 0.1f) {
+                this->unk_218 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
+            }
+            this->actor.speedXZ += this->unk_218;
+            if (this->actor.speedXZ <= 0.0f) {
+                this->actor.speedXZ = 0.0f;
+                this->unk_218 = 0.0f;
+                phi_t0 = 0;
+            } else {
+                if (this->actor.speedXZ < 3.0f) {
+                    func_80A6B250(this);
+                    phi_t0 = 4;
+                } else {
+                    if (this->actor.speedXZ < 6.0f) {
+                        phi_t0 = 5;
+                    } else {
+                        if (this->actor.speedXZ < 8.0f) {
+                            phi_t0 = 6;
+                        } else {
+                            this->actor.speedXZ = 8.0f;
+                            phi_t0 = 6;
+                        }
+                    }
+                }
+            }
+            sp4C = phi_t0;
+            if (!(Math_Rand_ZeroOne() < 0.1f)) {
+                if (this->unk_21E == 0) {
+                    if (!(this->actor.bgCheckFlags & 8)) {
+                        if (!(this->unk_228.base.maskA & 2)) {
+                            if (this->unk_274.base.maskA & 2) {
+block_22:
+                                sp4C = phi_t0;
+                                this->unk_21E = (s16) (s32) ((f32) this->unk_21E + ((Math_Rand_ZeroOne() * 30.0f) - 15.0f));
+                                temp_v0_2 = this->unk_21E;
+                                if (temp_v0_2 >= 0x33) {
+                                    this->unk_21E = 0x32;
+block_26:
+                                } else {
+                                    if (temp_v0_2 < -0x32) {
+                                        this->unk_21E = -0x32;
+                                        goto block_26;
+                                    }
+                                }
+                            }
+                        } else {
+                            goto block_22;
+                        }
+                    } else {
+                        goto block_22;
+                    }
+                }
+            } else {
+                goto block_22;
+            }
+            this->unk_21C += this->unk_21E;
+            if (this->unk_21C < -0x12C) {
+                this->unk_21C = -0x12C;
+            } else {
+                if (this->unk_21C >= 0x12D) {
+                    this->unk_21C = 0x12C;
+                } else {
+                    sp4C = phi_t0;
+                    if (Math_Rand_ZeroOne() < 0.25f) {
+                        if (fabsf(this->unk_21C) < 100.0f) {
+                            this->unk_21C = 0;
+                            this->unk_21E = 0;
+                        }
+                    }
+                }
+            }
+            this->actor.posRot.rot.y += this->unk_21C;
+            this->actor.shape.rot.y = this->actor.posRot.rot.y;
+            phi_v1 = this->unk_150;
+        }
+    } else {
+        sp4C = temp_v1;
+        func_80A6BD7C(this);
+        this->actor.speedXZ = 0.0f;
+        this->unk_218 = 0.0f;
+        phi_t0_2 = temp_v1;
+        phi_v1 = this->unk_150;
+    }
+    phi_v1_2 = phi_v1;
+    if (phi_t0_2 == phi_v1) {
+        sp4C = phi_t0_2;
+        if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+            phi_v1_2 = this->unk_150;
+block_38:
+            if (phi_t0_2 != phi_v1_2) {
+                this->unk_150 = phi_t0_2;
+                temp_t3 = this->unk_1E4 & 0xFFFE;
+                this->unk_1E4 = temp_t3;
+                this->unk_1E4 = (u16) (temp_t3 & 0xFFFD);
+                if (phi_t0_2 == 1) {
+                    Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                } else {
+                    if (phi_t0_2 == 3) {
+                        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    } else {
+                        func_80A6BCEC(this);
+                    }
+                }
+                sp40 = func_80A6B30C(this);
+                SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, (f32) SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
+                return;
+            }
+            temp_v0_3 = D_80A6D510[phi_v1_2];
+            if (temp_v0_3 != 0) {
+                phi_t0_3 = phi_t0_2;
+                if (temp_v0_3 != 1) {
+                    phi_t0_3 = phi_t0_2;
+                    if (temp_v0_3 != 2) {
+                        phi_t0_3 = phi_t0_2;
+                        if (temp_v0_3 != 3) {
+                            phi_t0_3 = phi_t0_2;
+                        }
+                    }
+                }
+            } else {
+                if (Math_Rand_ZeroOne() < 0.25f) {
+                    this->unk_218 = 1.0f;
+                    phi_t0_3 = 4;
+                } else {
+                    this->actor.speedXZ = 0.0f;
+                    this->unk_218 = 0.0f;
+                    phi_t0_3 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2.0f)];
+                }
+            }
+            this->unk_1E4 &= ~1;
+            this->unk_1E4 &= ~2;
+            if (phi_t0_3 == 1) {
+                sp4C = phi_t0_3;
+                Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            } else {
+                if (phi_t0_3 == 3) {
+                    sp4C = phi_t0_3;
+                    Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                } else {
+                    sp4C = phi_t0_3;
+                    func_80A6BCEC(this);
+                }
+            }
+            if (sp4C != this->unk_150) {
+                this->unk_150 = sp4C;
+                sp40 = func_80A6B30C(this);
+                SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
+                return;
+            }
+            sp40 = func_80A6B30C(this);
+            SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+        }
+    } else {
+        goto block_38;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BE6C.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6C4CC.s")
 
