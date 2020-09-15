@@ -10335,14 +10335,11 @@ Vec3s D_80854864 = { 0, 0, 0 };
 
 void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDList, OverrideLimbDraw overrideLimbDraw) {
     static s32 D_8085486C = 255;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player.c", 19228);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19228);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, cullDList);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, cullDList);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, cullDList);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, cullDList);
 
     func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, lod,
                   this->currentTunic, this->currentBoots, this->actor.shape.unk_06, overrideLimbDraw, func_80090D20,
@@ -10354,7 +10351,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             Vec3s sp68;
 
-            gSPSegment(gfxCtx->polyOpa.p++, 0x0B, sp70);
+            gSPSegment(oGfxCtx->polyOpa.p++, 0x0B, sp70);
 
             sp68.x = D_80858AC8[1] + 0x3E2;
             sp68.y = D_80858AC8[2] + 0xDBE;
@@ -10369,7 +10366,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
         }
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_80854844[this->currentMask - 1]);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_80854844[this->currentMask - 1]);
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) &&
@@ -10397,18 +10394,18 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                           &D_80854864);
             Matrix_Scale(4.0f, 4.0f, 4.0f, MTXMODE_APPLY);
 
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, 0,
                                         (globalCtx->gameplayFrames * -15) % 128, 16, 32));
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, D_8085486C);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 120, 90, 30, 128);
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_04037E30);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, D_8085486C);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 120, 90, 30, 128);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04037E30);
         }
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player.c", 19328);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19328);
 }
 
 void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
