@@ -5,7 +5,7 @@
  */
 
 #include "z_elf_msg.h"
-#include <vt.h>
+#include "vt.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x00000010

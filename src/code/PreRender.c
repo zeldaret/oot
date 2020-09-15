@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void PreRender_SetValuesSave(PreRenderContext* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;
