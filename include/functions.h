@@ -704,7 +704,7 @@ s32 func_8005B198();
 // ? func_8005B1A4(?);
 DamageTable* DamageTable_Get(s32 index);
 // ? func_8005B280(?);
-// ? func_8005B2AC(?);
+void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_DestroyBase(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_SetBase_Actor(GlobalContext* globalCtx, Collider* collider, ColliderInit_Actor* src);
