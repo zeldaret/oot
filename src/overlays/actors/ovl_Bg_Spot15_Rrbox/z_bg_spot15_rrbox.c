@@ -271,7 +271,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     actor->posRot.pos.x = actor->initPosRot.pos.x + (temp_f0_2 * this->unk_16C);
     actor->posRot.pos.z = actor->initPosRot.pos.z + (temp_f0_2 * this->unk_170);
 
-    if (func_808B3F58(this, globalCtx)) {
+    if (!func_808B3F58(this, globalCtx)) {
         actor->initPosRot.pos.x = actor->posRot.pos.x;
         actor->initPosRot.pos.z = actor->posRot.pos.z;
         player->stateFlags2 &= ~0x10;
