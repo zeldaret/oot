@@ -4067,15 +4067,9 @@ s32 Camera_Subj2(Camera* camera) {
     return Camera_NOP(camera);
 }
 
-#ifdef NON_MATCHING
 /** 
  * First person view
 */
-#define TGEO(v0, v1, t){ \
-    sp58 = (v0)->r + (((v1)->r - (v0)->r) * t); \
-    sp52 = (v0)->yaw + (BINANG_SUB((v1)->yaw, (v0)->yaw) * t); \
-    sp50 = (v0)->pitch + (BINANG_SUB((v1)->pitch, (v0)->pitch) * t); \
-}
 s32 Camera_Subj3(Camera *camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
@@ -4094,8 +4088,7 @@ s32 Camera_Subj3(Camera *camera) {
     Subj3* subj3 = (Subj3*)camera->paramData;
     Subj3Anim* anim = &subj3->anim;
     CameraModeValue* values;
-    s32 pad;
-    s32 pad2;
+    Vec3f* pad2;
     f32 playerHeight;
 
     func_8002EEE4(&sp60, &camera->player->actor);
@@ -4119,8 +4112,8 @@ s32 Camera_Subj3(Camera *camera) {
     subj3->fovTarget = NEXTSETTING;
     subj3->interfaceFlags = NEXTSETTING;
     sp84.r = subj3->eyeNextDist;
-    sp84.pitch = sp60.rot.x;
     sp84.yaw = BINANG_ROT180(sp60.rot.y);
+    sp84.pitch = sp60.rot.x;
     sp98 = sp60.pos;
     sp98.y += subj3->eyeNextYOffset;
 
@@ -4143,24 +4136,25 @@ s32 Camera_Subj3(Camera *camera) {
     tsph.yaw = anim->yaw;
     tsph.pitch = anim->pitch;
     if (anim->animTimer != 0) {
-
         temp_f0_3 = (1.0f / anim->animTimer);
-        VEC3F_LERPIMPDST(at, at, &sp98, temp_f0_3);
+        pad2 = at;
+        at->x = at->x + (sp98.x - pad2->x) * temp_f0_3;
+        at->y = at->y + (sp98.y - pad2->y) * temp_f0_3;
+        at->z = at->z + (sp98.z - pad2->z) * temp_f0_3;
 
         temp_f0_3 = (1.0f / OREG(23));
-        sp58 = temp_f0_3;
-        sp58 = (tsph.r - sp84.r) * sp58;
-        sp58 = sp84.r + sp58;
-        sp52 = (s16)(sp84.yaw + (BINANG_SUB(tsph.yaw, sp84.yaw) * temp_f0_3));
-        sp50 = (s16)(sp84.pitch + (BINANG_SUB(tsph.pitch, sp84.pitch) * temp_f0_3));
+        sp58 = (tsph.r - sp84.r) * temp_f0_3;
+        sp52 = BINANG_SUB(tsph.yaw, sp84.yaw) * temp_f0_3;
+        sp50 = BINANG_SUB(tsph.pitch, sp84.pitch) * temp_f0_3;
 
-        sp7C.r = Camera_LERPCeilF(sp84.r + (anim->animTimer * sp58), sp7C.r, PCT(OREG(28)), 1.0f);
-        sp7C.yaw = Camera_LERPCeilS(sp84.yaw + (anim->animTimer * sp52), sp7C.yaw, PCT(OREG(28)), 0xA);
-        sp7C.pitch = Camera_LERPCeilS(sp84.pitch + (anim->animTimer * sp50), sp7C.pitch, PCT(OREG(28)), 0xA);
+        sp7C.r = Camera_LERPCeilF(sp84.r + (sp58 * anim->animTimer), sp7C.r, PCT(OREG(28)), 1.0f);
+        sp7C.yaw = Camera_LERPCeilS(sp84.yaw + (sp52 * anim->animTimer), sp7C.yaw, PCT(OREG(28)), 0xA);
+        sp7C.pitch = Camera_LERPCeilS(sp84.pitch + (sp50 * anim->animTimer), sp7C.pitch, PCT(OREG(28)), 0xA);
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &sp7C);
         
         *eye = *eyeNext;
         anim->animTimer--;
+
         if (camera->globalCtx->envCtx.skyDisabled == 0) {
             Camera_BGCheck(camera, at, eye);
         } else {
@@ -4181,8 +4175,8 @@ s32 Camera_Subj3(Camera *camera) {
         at->y = subj3->atOffset.y + sp60.pos.y;
         at->z = subj3->atOffset.z + sp60.pos.z;
         sp7C.r = subj3->eyeNextDist;
-        sp7C.pitch = sp60.rot.x;
         sp7C.yaw = BINANG_ROT180(sp60.rot.y);
+        sp7C.pitch = sp60.rot.x;
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &sp7C);
         sp7C.r = subj3->eyeDist;
         Camera_Vec3fVecSphGeoAdd(eye, at, &sp7C);
@@ -4196,10 +4190,6 @@ s32 Camera_Subj3(Camera *camera) {
     camera->atLERPStepScale = 0.0f;
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_Subj3.s")
-#endif
-#undef NON_MATCHING
 
 s32 Camera_Subj4(Camera *camera) {
     Vec3f *eye = &camera->eye;
