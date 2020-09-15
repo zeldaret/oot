@@ -377,20 +377,20 @@ glabel Gameplay_Init
 /* B340E8 800BCF48 34212124 */  ori   $at, (0x00012124 & 0xFFFF) # ori $at, $at, 0x2124
 /* B340EC 800BCF4C 02218021 */  addu  $s0, $s1, $at
 /* B340F0 800BCF50 02002025 */  move  $a0, $s0
-/* B340F4 800BCF54 0C0303AA */  jal   func_800C0EA8
+/* B340F4 800BCF54 0C0303AA */  jal   PreRender_Init
 /* B340F8 800BCF58 A5600190 */   sh    $zero, 0x190($t3)
 /* B340FC 800BCF5C 02002025 */  move  $a0, $s0
 /* B34100 800BCF60 24050140 */  li    $a1, 320
 /* B34104 800BCF64 240600F0 */  li    $a2, 240
 /* B34108 800BCF68 00003825 */  move  $a3, $zero
 /* B3410C 800BCF6C AFA00010 */  sw    $zero, 0x10($sp)
-/* B34110 800BCF70 0C03039C */  jal   func_800C0E70
+/* B34110 800BCF70 0C03039C */  jal   PreRender_SetValuesSave
 /* B34114 800BCF74 AFA00014 */   sw    $zero, 0x14($sp)
 /* B34118 800BCF78 02002025 */  move  $a0, $s0
 /* B3411C 800BCF7C 24050140 */  li    $a1, 320
 /* B34120 800BCF80 240600F0 */  li    $a2, 240
 /* B34124 800BCF84 00003825 */  move  $a3, $zero
-/* B34128 800BCF88 0C0303B6 */  jal   func_800C0ED8
+/* B34128 800BCF88 0C0303B6 */  jal   PreRender_SetValues
 /* B3412C 800BCF8C AFA00010 */   sw    $zero, 0x10($sp)
 /* B34130 800BCF90 3C018016 */  lui   $at, %hi(gTrnsnUnkState) # $at, 0x8016
 /* B34134 800BCF94 AC201490 */  sw    $zero, %lo(gTrnsnUnkState)($at)
