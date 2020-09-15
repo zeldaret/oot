@@ -243,12 +243,12 @@ typedef struct {
     /* 0x0008 */ s16 interfaceFlags;
     /* 0x000A */ s16 unk_0A;
     /* 0x000C */ Special9Anim anim;
-} Special9; // size = 0x10
+} Special9Params; // size = 0x10
 
 typedef struct {
     /* 0x0000 */ DoorParams doorParams;
-    /* 0x000C */ Special9 spec9;
-} PersonalizedDoor; // size = 0x1C
+    /* 0x000C */ Special9Params params;
+} Special9; // size = 0x1C
 
 typedef struct {
     /* 0x0000 */ f32 lerpAtScale;
@@ -685,28 +685,28 @@ typedef struct {
 } KeepOn3; // size = 0x4C
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-} KeepOn4_Unk20;
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ s16 unk_0C;
+    /* 0x000E */ s16 unk_0E;
+    /* 0x0010 */ s16 unk_10;
+    /* 0x0012 */ s16 unk_12;
+    /* 0x0014 */ s16 unk_14;
+} KeepOn4_Unk20; // size = 0x14
 
 typedef struct {
-    f32 unk_00;
-    f32 unk_04;
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14;
-    f32 unk_18;
-    s16  unk_1C;
-    s16 unk_1E;
-    KeepOn4_Unk20 unk_20;
-} KeepOn4;
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ f32 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ s16 unk_1C;
+    /* 0x001E */ s16 unk_1E;
+    /* 0x0020 */ KeepOn4_Unk20 unk_20;
+} KeepOn4; // size = 0x34
 
 typedef struct {
     f32 initalPlayerY;
@@ -879,7 +879,7 @@ typedef struct {
 
 typedef union {
     DoorParams doorParams;
-    PersonalizedDoor doorCam;
+    Special9 doorCam;
     Special0 spec0;
     Demo1 demo1;
     Normal3 norm3;

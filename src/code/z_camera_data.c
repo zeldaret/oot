@@ -47,6 +47,7 @@ CameraModeValue D_8011A3A0[] = {
 };
 
 CameraModeValue D_8011A3C8[] = {
+    /* CAM_FUNC_PARA1 */
     { -20, 0 }, { 250, 1 }, { 0x0000, 3 },
     { 0x0000, 10 }, { 5, 4 }, { 5, 5 },
     { 45, 7 }, { 50, 8 }, { 0x200A, 9 },
@@ -158,6 +159,7 @@ CameraModeValue D_8011A638[] = {
 };
 
 CameraModeValue D_8011A660[] = {
+    /* CAM_FUNC_PARA1 */
     { 0, 0 },  { 250, 1 }, { 25, 3 },   { 0, 10 },   { 5, 4 },   { 5, 5 },
     { 70, 7 }, { 30, 8 },  { 8298, 9 }, { -20, 11 }, { 30, 12 },
 };
@@ -668,16 +670,18 @@ CameraModeValue sSetDoor0ModeNormVals[] = {
     { 0x3200, 9 },   /* flags */
 };
 
-CameraModeValue D_8011B240[] = {
-    { -5, 0 },
-    { 60, 7 },
-    { 12802, 9 },
+CameraModeValue sSetDoorCModeNormVals[] = {
+    /* CAM_FUNC_SPEC9 */
+    { -5, 0 },      /* yOffset */
+    { 60, 7 },      /* unk_04 (unused) */
+    { 0x3202, 9 },  /* flags */
 };
 
-CameraModeValue D_8011B24C[] = {
-    { -5, 0 },
-    { 60, 7 },
-    { 12810, 9 },
+CameraModeValue sSetDoorCModeParaVals[] = {
+    /* CAM_FUNC_SPEC9 */
+    { -5, 0 },      /* yOffset */
+    { 60, 7 },      /* unk_04 (unused) */
+    { 0x320A, 9 },  /* flags */
 };
 
 CameraModeValue sSetRail3ModeNormVals[] = {
@@ -740,9 +744,19 @@ CameraModeValue D_8011B2B0[] = {
     { 0x3200, 9 },  /* flags */
 };
 
-CameraModeValue D_8011B2B4[] = {
-    { -50, 0 }, { 450, 1 }, { 40, 3 }, { 180, 10 }, { 5, 4 },   { 5, 5 },
-    { 70, 7 },  { 30, 8 },  { 12, 9 }, { -50, 11 }, { 20, 12 },
+CameraModeValue sSetMori1ModeNormVals[] = {
+    /* CAM_FUNC_PARA1 */
+    { -50, 0 },     /* yOffset */
+    { 450, 1 },     /* distTarget */
+    { 40, 3 },      /* pitchTarget */
+    { 180, 10 },    /* yawTarget */
+    { 5, 4 },       /* unk_08 */
+    { 5, 5 },       /* unk_0C */
+    { 70, 7 },      /* fovTarget */
+    { 30, 8 },      /* unk_14 */
+    { 0x000C, 9 },  /* flags */
+    { -50, 11 },    /* unk_18 */
+    { 20, 12 },     /* unk_1C */
 };
 
 CameraModeValue D_8011B2E0[] = {
@@ -842,10 +856,11 @@ CameraModeValue D_8011B474[] = {
     { 10, 5 },  { 100, 6 }, { 60, 7 },  { 30, 8 }, { -4094, 9 },
 };
 
-CameraModeValue D_8011B49C[] = {
-    { -30, 0 },
-    { 60, 7 },
-    { 266, 9 },
+CameraModeValue sSetScn0ModeNormVals[] = {
+    /* CAM_FUNC_SPEC9 */
+    { -30, 0 },     /* yOffset */
+    { 60, 7 },      /* unk_04 (unused) */
+    { 0x10A, 9 },   /* flags */
 };
 
 CameraModeValue D_8011B4A8[] = {
@@ -1604,8 +1619,8 @@ CameraMode sCamSetDoor0Modes[] = {
 };
 
 CameraMode sCamSetDoorCModes[] = {
-    { CAM_FUNC_SPEC9, 3, D_8011B240 }, // CAM_MODE_NORMAL
-    { CAM_FUNC_SPEC9, 3, D_8011B24C }, // CAM_MODE_PARALLEL
+    { CAM_FUNC_SPEC9, 3, sSetDoorCModeNormVals }, // CAM_MODE_NORMAL
+    { CAM_FUNC_SPEC9, 3, sSetDoorCModeParaVals }, // CAM_MODE_PARALLEL
 };
 
 CameraMode sCamSetRail3Modes[] = {
@@ -1646,7 +1661,7 @@ CameraMode sCamSetDemo1Modes[] = {
 };
 
 CameraMode sCamSetMori1Modes[] = {
-    { CAM_FUNC_PARA1, 11, D_8011B2B4 }, // CAM_MODE_NORMAL
+    { CAM_FUNC_PARA1, 11, sSetMori1ModeNormVals }, // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL }, // CAM_MODE_PARALLEL
     { CAM_FUNC_NONE, 0, NULL }, // CAM_MODE_KEEPON
     { CAM_FUNC_PARA3, 1, D_8011B2E0 }, // CAM_MODE_TALK
@@ -1717,7 +1732,7 @@ CameraMode sCamSetLiftBeanModes[] = {
 };
 
 CameraMode sCamSetScene0Modes[] = {
-    { CAM_FUNC_SPEC9, 3, D_8011B49C }, // CAM_MODE_NORMAL
+    { CAM_FUNC_SPEC9, 3, sSetScn0ModeNormVals }, // CAM_MODE_NORMAL
 };
 
 CameraMode sCamSetScene1Modes[] = {
