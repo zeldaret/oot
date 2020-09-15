@@ -20,7 +20,7 @@ void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 s16 D_808B4590 = 0;
 
-extern s32 D_06000348;
+extern UNK_TYPE D_06000348;
 extern Gfx D_06000180;
 
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
@@ -55,7 +55,7 @@ Vec3f D_808B45DC[] = { { 29.99f, 0.01f, -29.99f },
 
 s32 D_808B4618[] = { 0, 0 };
 
-void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32* arg2, s32 flags) {
+void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, UNK_TYPE* arg2, DynaPolyMoveFlag flags) {
     s32 pad;
     s32 sp30 = 0;
     u32 pad2;
@@ -72,9 +72,9 @@ void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32* arg2, s32
 }
 
 void func_808B39E8(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
-    arg0->x = ((arg1->z * arg2) + (arg1->x * arg3));
+    arg0->x = (arg1->z * arg2) + (arg1->x * arg3);
     arg0->y = arg1->y;
-    arg0->z = ((arg1->z * arg3) - (arg1->x * arg2));
+    arg0->z = (arg1->z * arg3) - (arg1->x * arg2);
 }
 
 void func_808B3A34(BgSpot15Rrbox* this) {
@@ -82,11 +82,9 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 }
 
 s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    DynaPolyActor* temp_v0;
+    DynaPolyActor* temp_v0 = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->bgId);
 
-    temp_v0 = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->bgId);
-
-    if (temp_v0 != 0 && Math3D_Dist2DSq(temp_v0->actor.posRot.pos.x, temp_v0->actor.posRot.pos.z,
+    if (temp_v0 != NULL && Math3D_Dist2DSq(temp_v0->actor.posRot.pos.x, temp_v0->actor.posRot.pos.z,
                                         this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z) < 0.01f) {
         return true;
     }
@@ -94,35 +92,35 @@ s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCxt) {
-    s16 phi_v0;
+    s16 rotY;
     Actor* actor = &this->dyna.actor;
 
     if (globalCxt->sceneNum == 0x4C) {
-        return 1;
+        return true;
     } else if (func_808B3A40(this, globalCxt)) {
-        return 0;
+        return false;
     }
 
     if (actor->posRot.pos.x <= 930.0f && -360.0f <= actor->posRot.pos.z) {
         if (0.0f <= this->dyna.unk_150) {
-            phi_v0 = actor->posRot.rot.y;
+            rotY = actor->posRot.rot.y;
         } else {
-            phi_v0 = actor->posRot.rot.y + 0x8000;
+            rotY = actor->posRot.rot.y + 0x8000;
         }
 
-        if (phi_v0 < 0x2000 && phi_v0 > -0x6000) {
+        if (rotY < 0x2000 && rotY > -0x6000) {
             return gSaveContext.eventChkInf[1] & 0x10;
         }
-        return 1;
+        return true;
     }
 
-    return 1;
+    return true;
 }
 
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
-    func_808B3960(this, globalCtx, &D_06000348, 0);
+    func_808B3960(this, globalCtx, &D_06000348, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -137,6 +135,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     D_808B4590 = 0;
 }
@@ -169,7 +168,7 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    int i;
+    s32 i;
     Vec3f tempVector2;
     Vec3f tempVector1;
     Actor* actor = &this->dyna.actor;
@@ -235,7 +234,7 @@ void func_808B40AC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->unk_168 <= 0 && fabsf(this->dyna.unk_150) > 0.001f) {
-        if (func_808B3AAC(this, globalCtx) != 0 && func_808B4010(this, globalCtx) == 0) {
+        if (func_808B3AAC(this, globalCtx) && !func_808B4010(this, globalCtx)) {
             this->unk_17C = this->dyna.unk_150;
             func_808B4178(this, globalCtx);
         }
@@ -260,21 +259,17 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 temp_f0_2;
     s32 approxFResult;
-
     Actor* actor = &this->dyna.actor;
 
-    this->unk_174 = this->unk_174 + 0.5f;
-    if (2.0f < this->unk_174) {
-        this->unk_174 = 2.0f;
-    } else {
-        this->unk_174 = this->unk_174;
-    }
+    this->unk_174 += 0.5f;
+
+    this->unk_174 = CLAMP_MAX(this->unk_174, 2.0f);
 
     approxFResult = Math_ApproxF(&this->unk_178, 20.0f, this->unk_174);
 
     sign = 0.0f <= this->unk_17C ? 1.0f : -1.0f;
 
-    temp_f0_2 = ((float)sign) * this->unk_178;
+    temp_f0_2 = ((f32)sign) * this->unk_178;
     actor->posRot.pos.x = actor->initPosRot.pos.x + (temp_f0_2 * this->unk_16C);
     actor->posRot.pos.z = actor->initPosRot.pos.z + (temp_f0_2 * this->unk_170);
 
@@ -288,7 +283,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         func_808B4380(this, globalCtx);
     } else if (approxFResult) {
         player = PLAYER;
-        if (func_808B4010(this, globalCtx) != 0) {
+        if (func_808B4010(this, globalCtx)) {
             Audio_PlayActorSound2(actor, NA_SE_EV_WOOD_BOUND);
         }
         if (func_808B3A40(this, globalCtx)) {
@@ -350,9 +345,9 @@ void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    Player* temp_v0 = PLAYER;
+    Player* player = PLAYER;
 
-    temp_v0->stateFlags2 = (s32)(temp_v0->stateFlags2 & -0x11);
+    player->stateFlags2 &= ~0x10;
     this->dyna.unk_150 = 0.0f;
 }
 
