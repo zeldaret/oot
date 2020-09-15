@@ -85,7 +85,7 @@ s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     DynaPolyActor* temp_v0 = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->bgId);
 
     if (temp_v0 != NULL && Math3D_Dist2DSq(temp_v0->actor.posRot.pos.x, temp_v0->actor.posRot.pos.z,
-                                        this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z) < 0.01f) {
+                                           this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z) < 0.01f) {
         return true;
     }
     return false;
@@ -218,8 +218,8 @@ s32 func_808B3F58(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808B4010(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    return func_800435D8(globalCtx, &this->dyna, this->dyna.actor.scale.x * 290.0f,
-                         this->dyna.actor.scale.x * 290.0f + 20.0f, 1.0f) == 0;
+    return !func_800435D8(globalCtx, &this->dyna, this->dyna.actor.scale.x * 290.0f,
+                         this->dyna.actor.scale.x * 290.0f + 20.0f, 1.0f);
 }
 
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
@@ -237,13 +237,11 @@ void func_808B40AC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         if (func_808B3AAC(this, globalCtx) && !func_808B4010(this, globalCtx)) {
             this->unk_17C = this->dyna.unk_150;
             func_808B4178(this, globalCtx);
-        }
-        else {
+        } else {
             player->stateFlags2 &= ~0x10;
             this->dyna.unk_150 = 0.0f;
         }
-    }
-    else {
+    } else {
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
     }
