@@ -133,6 +133,7 @@ void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgIceShutter* this = THIS;
     this->actionFunc(this, globalCtx);
 }
+
 void BgIceShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, D_06002740);
 }
