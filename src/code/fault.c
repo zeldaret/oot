@@ -110,22 +110,21 @@ u32 Fault_ProcessClient(u32 callback, u32 param0, u32 param1) {
     return a.ret;
 }
 
-#ifdef NON_MATCHING
-// minor ordering differences
 void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* param1) {
     OSIntMask mask;
-    u32 alreadyExists = false;
-    FaultClient* iter;
+    s32 alreadyExists = false;
 
     mask = osSetIntMask(1);
 
-    iter = sFaultStructPtr->clients;
-    while (iter != NULL) {
-        if (iter == client) {
-            alreadyExists = true;
-            goto end;
+    {
+        FaultClient* iter = sFaultStructPtr->clients;
+        while (iter != NULL) {
+            if (iter == client) {
+                alreadyExists = true;
+                goto end;
+            }
+            iter = iter->next;
         }
-        iter = iter->next;
     }
 
     client->callback = callback;
@@ -140,9 +139,6 @@ end:
         osSyncPrintf(VT_COL(RED, WHITE) "fault_AddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddClient.s")
-#endif
 
 void Fault_RemoveClient(FaultClient* client) {
     FaultClient* iter;
@@ -182,22 +178,21 @@ void Fault_RemoveClient(FaultClient* client) {
     }
 }
 
-#ifdef NON_MATCHING
-// minor ordering differences
 void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* param) {
-    FaultAddrConvClient* iter;
-    u32 alreadyExists = false;
     OSIntMask mask;
+    u32 alreadyExists = false;
 
     mask = osSetIntMask(1);
 
-    iter = sFaultStructPtr->addrConvClients;
-    while (iter != NULL) {
-        if (iter == client) {
-            alreadyExists = true;
-            goto end;
+    {
+        FaultAddrConvClient* iter = sFaultStructPtr->addrConvClients;
+        while (iter != NULL) {
+            if (iter == client) {
+                alreadyExists = true;
+                goto end;
+            }
+            iter = iter->next;
         }
-        iter = iter->next;
     }
 
     client->callback = callback;
@@ -211,9 +206,6 @@ end:
         osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddAddrConvClient.s")
-#endif
 
 void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     FaultAddrConvClient* iter;
