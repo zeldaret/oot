@@ -18,7 +18,6 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-UNK_TYPE func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx);
 s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx);
 s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0514(ObjTimeblock* this);
@@ -48,7 +47,7 @@ Unk_actorParams unk_actorParams[] = {
     { 0.60, 40.0, 0x0019 },
 };
 
-s32 D_80BA0B08[] = { 0x42700000, 0x42C80000, 0x430C0000, 0x43340000, 0x435C0000, 0x43820000, 0x43960000, 0x43960000 };
+f32 D_80BA0B08[] = { 60.0, 100.0, 140.0, 180.0, 220.0, 260.0, 300.0, 300.0 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
@@ -138,7 +137,26 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, THIS->dyna.dynaPolyId);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA032C.s")
+extern s32 func_80043590(DynaPolyActor* actor);
+
+u8 func_80BA032C(ObjTimeblock *this, GlobalContext *globalCtx) {
+    Vec3f unk_measure;
+    f32 unk_threshold;
+
+    if ((this->unk_178) && (func_80043590(&this->dyna))) {
+        return 0;
+    }
+
+    if (this->dyna.actor.xzDistFromLink <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7]) {
+        func_8002DBD0(&this->dyna.actor, &unk_measure, &(globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)->posRot.pos);
+        unk_threshold = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
+        if (unk_threshold < fabsf(unk_measure.x) || unk_threshold < fabsf(unk_measure.z)) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 // mainActionFunc
 s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
