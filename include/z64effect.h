@@ -65,10 +65,10 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ char unk_00[0x184];
-    /* 0x184 */ Color_RGBA8_n p1StartColor;
-    /* 0x188 */ Color_RGBA8_n p2StartColor;
-    /* 0x18C */ Color_RGBA8_n p1EndColor;
-    /* 0x190 */ Color_RGBA8_n p2EndColor;
+    /* 0x184 */ u8 p1StartColor[4];
+    /* 0x188 */ u8 p2StartColor[4];
+    /* 0x18C */ u8 p1EndColor[4];
+    /* 0x190 */ u8 p2EndColor[4];
     /* 0x194 */ s32 elemDuration;
     /* 0x198 */ s32 unkFlag;
     /* 0x19C */ s32 calcMode;
@@ -78,10 +78,10 @@ typedef struct {
     /* 0x00 */ s32 calcMode;
     /* 0x04 */ u16 flags;
     /* 0x06 */ s16 addAngleChange;
-    /* 0x08 */ Color_RGBA8_n p1StartColor;
-    /* 0x0C */ Color_RGBA8_n p2StartColor;
-    /* 0x10 */ Color_RGBA8_n p1EndColor;
-    /* 0x14 */ Color_RGBA8_n p2EndColor;
+    /* 0x08 */ u8 p1StartColor[4];
+    /* 0x0C */ u8 p2StartColor[4];
+    /* 0x10 */ u8 p1EndColor[4];
+    /* 0x14 */ u8 p2EndColor[4];
     /* 0x18 */ u8 elemDuration;
     /* 0x19 */ u8 unkFlag;
     /* 0x1A */ u8 drawMode; // 0: simple; 1: simple with alt colors; 2+: smooth
@@ -132,7 +132,7 @@ typedef struct {
     /* 0x24 */ f32 maxInitialSpeed;
     /* 0x28 */ f32 lengthCutoff;
     /* 0x2C */ u8 duration;
-    /* 0x2E */ LightInfoPositionalParams lightParams;
+    /* 0x2E */ LightPoint lightPoint;
     /* 0x3C */ s32 lightDecay; // halves light radius every frame when set to 1
 } EffectShieldParticleInit; // size = 0x40
 
@@ -152,8 +152,8 @@ typedef struct {
     /* 0x1AC */ f32 lengthCutoff;
     /* 0x1B0 */ u8 duration;
     /* 0x1B1 */ u8 timer;
-    /* 0x1B2 */ LightInfoPositional lightInfo;
-    /* 0x1C0 */ z_Light* light;
+    /* 0x1B2 */ LightInfo lightInfo;
+    /* 0x1C0 */ LightNode* lightNode;
     /* 0x1C4 */ s32 lightDecay; // halves light radius every frame when set to 1
 } EffectShieldParticle; // size = 0x1C8
 

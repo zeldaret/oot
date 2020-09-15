@@ -67,9 +67,9 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     spawnPos = &block->posVecs[typeIdx];
 
-    if (Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y,
-                            spawnPos->z, 0, block->rotY, 0,
-                            ((block->paramVal1 << 6) & 0xC0) | (block->paramVal2 & 0xF) | 0xFF00) == NULL) {
+    if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y,
+                           spawnPos->z, 0, block->rotY, 0,
+                           ((block->paramVal1 << 6) & 0xC0) | (block->paramVal2 & 0xF) | 0xFF00) == NULL) {
         // Push-pull block failure
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
@@ -78,7 +78,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (block->unk_24[typeIdx] & 2) {
-        ((ObjOshihiki*)thisx->attachedB)->unk_1BE = 1;
+        ((ObjOshihiki*)thisx->child)->unk_1BE = 1;
     }
     thisx->posRot.rot.z = thisx->shape.rot.z = 0;
     osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params,
@@ -94,7 +94,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 cond2;
 
     for (i = 0; i < 3; i++) {
-        if (Math3D_Vec3fDistSq(&thisx->attachedB->posRot.pos, &block->posVecs[i]) < 0.001f) {
+        if (Math3D_Vec3fDistSq(&thisx->child->posRot.pos, &block->posVecs[i]) < 0.001f) {
             if (block->unk_24[i] & 1) {
                 if ((thisx->params >> 6) & 1) {
                     sfxCond1 = false;
@@ -127,7 +127,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sFlagSwitchFuncs[sFlags[i][1]](globalCtx, (thisx->params >> 8) & 0x3F);
 
             if (block->unk_24[i] & 2) {
-                ((ObjOshihiki*)thisx->attachedB)->unk_1BE = 1;
+                ((ObjOshihiki*)thisx->child)->unk_1BE = 1;
             }
 
             break;

@@ -86,11 +86,10 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// regalloc
+// regalloc differences
 void KaleidoSetup_Init(GlobalContext* globalCtx) {
-
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
-    s32 temp;
+
     pauseCtx->state = 0;
     pauseCtx->flag = 0;
     pauseCtx->unk_208 = 0;
@@ -110,7 +109,6 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     pauseCtx->unk_21A = VREG(30) + 3;
     pauseCtx->unk_21C = 0;
     pauseCtx->unk_21E = 1;
-    temp = pauseCtx->unk_21E;
     pauseCtx->unk_220 = 10;
     pauseCtx->unk_222 = 0;
     pauseCtx->unk_22C = 0;
@@ -125,15 +123,16 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     pauseCtx->unk_242 = 999;
     pauseCtx->unk_244 = 59;
     pauseCtx->unk_246 = 0;
-    pauseCtx->unk_248 = (VREG(30) + 3) & 0xFFFF;
+    pauseCtx->unk_248 = VREG(30) + 3;
     pauseCtx->unk_24A = 0;
+    pauseCtx->unk_24C = pauseCtx->unk_21E;
     pauseCtx->unk_25A = -40;
     pauseCtx->unk_25C = 0;
     pauseCtx->unk_25E = 0;
     pauseCtx->unk_260 = 4;
     pauseCtx->unk_264 = -1;
     pauseCtx->unk_238 = 0;
-    pauseCtx->unk_24C = temp;
+
     View_Init(&pauseCtx->view, globalCtx->state.gfxCtx);
 }
 #else

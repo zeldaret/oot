@@ -22,7 +22,7 @@ typedef struct EnBom {
 
 typedef enum {
     /* 0x00 */ BOMB_BODY,
-    /* 0x01 */ BOMB_EXPLOSION,
+    /* 0x01 */ BOMB_EXPLOSION
 } EnBomType;
 
 extern const ActorInit En_Bom_InitVars;

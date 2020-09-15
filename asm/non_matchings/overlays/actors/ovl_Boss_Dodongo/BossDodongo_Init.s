@@ -151,7 +151,7 @@ glabel BossDodongo_Init
 /* 009C8 808C1B58 AFA00028 */  sw      $zero, 0x0028($sp)
 /* 009CC 808C1B5C E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 009D0 808C1B60 E7A40014 */  swc1    $f4, 0x0014($sp)
-/* 009D4 808C1B64 0C00C916 */  jal     Actor_SpawnAttached
+/* 009D4 808C1B64 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 009D8 808C1B68 E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 009DC 808C1B6C 3C01808D */  lui     $at, %hi(D_808CA658)       ## $at = 808D0000

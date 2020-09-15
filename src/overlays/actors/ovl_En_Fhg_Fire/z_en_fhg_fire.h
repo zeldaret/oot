@@ -29,9 +29,9 @@ typedef struct EnFhgFire {
     /* 0x0188 */ f32 unk_188;
     /* 0x018C */ f32 unk_18C;
     /* 0x0190 */ char unk_190[0x0C];
-    /* 0x019C */ z_Light* light;
-    /* 0x01A0 */ LightInfoPositional unk_1A0;
-    /* 0x01AE */ char padding_1AE[2];
+    /* 0x019C */ LightNode* lightNode;
+    /* 0x01A0 */ LightInfo lightInfo;
+    /* 0x01AE */ char unk_1AE[2];
     /* 0x01B0 */ ColliderCylinder collider;
     /* 0x01FC */ u8 unk_1FC;
     /* 0x01FD */ char unk_1FD;

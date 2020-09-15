@@ -122,44 +122,45 @@ void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Doughnut* this = THIS;
-    u32 scroll;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[5];
+    u32 scroll = globalCtx->gameplayFrames & 0xFFFF;
+    s32 pad;
 
-    scroll = globalCtx->gameplayFrames & 0xFFFF;
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 210);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 210);
+
     func_80093D84(globalCtx->state.gfxCtx);
+
     if (1) {}
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213),
+
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->fireFlag & 1) {
         gSPSegment(
-            gfxCtx->polyXlu.p++, 0x08,
+            oGfxCtx->polyXlu.p++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * (-1), 0, 16, 32, 1, scroll, scroll * (-2), 16, 32));
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, this->envColorAlpha);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06000660);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, this->envColorAlpha);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000660);
     } else {
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 255, 255, this->envColorAlpha);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 255);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06000FC0);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, this->envColorAlpha);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 255);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000FC0);
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 238);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 238);
 }
 
 // Draw function for outwardly expanding and dissipating
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Doughnut* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 245);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 245);
+
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
+
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 255, 255, this->envColorAlpha);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06000FC0);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 256);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, this->envColorAlpha);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 255);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000FC0);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 256);
 }

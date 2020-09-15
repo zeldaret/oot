@@ -5,7 +5,7 @@ OSViMode osViModeNtscLan1 = {
     {
         // comRegs
         0x311E,    // ctrl
-        0x140,     // width
+        SCREEN_WIDTH,     // width
         0x3E52239, // burst
         0x20D,     // vSync
         0xC15,     // hSync

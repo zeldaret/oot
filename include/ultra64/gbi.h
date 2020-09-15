@@ -2634,7 +2634,7 @@ _DW({									\
  * Macros to turn texture on/off
  */
 # define gSPTexture(pkt, s, t, level, tile, on)				\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = (_SHIFTL(G_TEXTURE,24,8) | 			\
@@ -2642,7 +2642,7 @@ _DW({									\
 			_SHIFTL((level),11,3) | _SHIFTL((tile),8,3) |	\
 			_SHIFTL((on),1,7));				\
 	_g->words.w1 = (_SHIFTL((s),16,16) | _SHIFTL((t),0,16));	\
-}
+})
 # define gsSPTexture(s, t, level, tile, on)				\
 {									\
 	(_SHIFTL(G_TEXTURE,24,8) | _SHIFTL(BOWTIE_VAL,16,8) |		\

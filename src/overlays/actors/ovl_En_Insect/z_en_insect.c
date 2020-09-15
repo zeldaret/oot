@@ -275,9 +275,9 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
         (this->unk_31A < 4)) {
         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y,
                                  Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), 2000);
-    } else if (this->actor.attachedB != NULL && &this->actor != this->actor.attachedB) {
+    } else if (this->actor.child != NULL && &this->actor != this->actor.child) {
         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y,
-                                 Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.attachedB->posRot.pos), 2000);
+                                 Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.child->posRot.pos), 2000);
     }
 
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -713,10 +713,10 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnInsect* this = THIS;
     s32 phi_v0;
 
-    if (this->actor.attachedB != NULL) {
-        if (this->actor.attachedB->update == NULL) {
-            if (&this->actor != this->actor.attachedB) {
-                this->actor.attachedB = NULL;
+    if (this->actor.child != NULL) {
+        if (this->actor.child->update == NULL) {
+            if (&this->actor != this->actor.child) {
+                this->actor.child = NULL;
             }
         }
     }
@@ -758,8 +758,8 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002E4B4(globalCtx, &this->actor, 8.0f, 5.0f, 0.0f, phi_v0);
         }
 
-        if (func_8002F410(&this->actor, globalCtx) != 0) {
-            this->actor.attachedA = NULL;
+        if (Actor_HasParent(&this->actor, globalCtx)) {
+            this->actor.parent = NULL;
             phi_v0 = this->actor.params & 3;
 
             if (phi_v0 == 2 || phi_v0 == 3) {
