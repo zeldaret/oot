@@ -91,17 +91,17 @@ s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     return false;
 }
 
-s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCxt) {
+s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     s16 rotY;
     Actor* actor = &this->dyna.actor;
 
-    if (globalCxt->sceneNum == 0x4C) {
+    if (globalCtx->sceneNum == SCENE_SOUKO) {
         return true;
-    } else if (func_808B3A40(this, globalCxt)) {
+    } else if (func_808B3A40(this, globalCtx)) {
         return false;
     }
 
-    if (actor->posRot.pos.x <= 930.0f && -360.0f <= actor->posRot.pos.z) {
+    if (actor->posRot.pos.x <= 930.0f && actor->posRot.pos.z >= -360.0f) {
         if (0.0f <= this->dyna.unk_150) {
             rotY = actor->posRot.rot.y;
         } else {
@@ -219,7 +219,7 @@ s32 func_808B3F58(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
 s32 func_808B4010(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     return !func_800435D8(globalCtx, &this->dyna, this->dyna.actor.scale.x * 290.0f,
-                         this->dyna.actor.scale.x * 290.0f + 20.0f, 1.0f);
+                          this->dyna.actor.scale.x * 290.0f + 20.0f, 1.0f);
 }
 
 void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
@@ -271,7 +271,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     actor->posRot.pos.x = actor->initPosRot.pos.x + (temp_f0_2 * this->unk_16C);
     actor->posRot.pos.z = actor->initPosRot.pos.z + (temp_f0_2 * this->unk_170);
 
-    if (func_808B3F58(this, globalCtx) == 0) {
+    if (func_808B3F58(this, globalCtx)) {
         actor->initPosRot.pos.x = actor->posRot.pos.x;
         actor->initPosRot.pos.z = actor->posRot.pos.z;
         player->stateFlags2 &= ~0x10;
