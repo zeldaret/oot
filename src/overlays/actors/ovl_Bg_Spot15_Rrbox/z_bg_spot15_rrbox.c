@@ -57,13 +57,13 @@ s32 D_808B4618[] = { 0, 0 };
 
 void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, UNK_TYPE* arg2, DynaPolyMoveFlag flags) {
     s32 pad;
-    s32 sp30 = 0;
+    UNK_TYPE tempUnkType = 0;
     u32 pad2;
 
     DynaPolyInfo_SetActorMove(&this->dyna, flags);
-    DynaPolyInfo_Alloc(arg2, &sp30);
+    DynaPolyInfo_Alloc(arg2, &tempUnkType);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, tempUnkType);
 
     if (this->dyna.dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
@@ -82,10 +82,11 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 }
 
 s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    DynaPolyActor* temp_v0 = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->bgId);
+    DynaPolyActor* dynaPolyActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->bgId);
 
-    if (temp_v0 != NULL && Math3D_Dist2DSq(temp_v0->actor.posRot.pos.x, temp_v0->actor.posRot.pos.z,
-                                           this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z) < 0.01f) {
+    if (dynaPolyActor != NULL &&
+        Math3D_Dist2DSq(dynaPolyActor->actor.posRot.pos.x, dynaPolyActor->actor.posRot.pos.z,
+                        this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z) < 0.01f) {
         return true;
     }
     return false;
@@ -142,23 +143,23 @@ void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     f32 chkDist = 0.0f;
-    Vec3f sp38;
-    Vec3f sp2C;
+    Vec3f actorPosition;
+    Vec3f actorScale;
 
     func_808B3A34(this);
 
-    sp2C.x = D_808B45DC[arg2].x * (this->dyna.actor.scale.x * 10.0f);
-    sp2C.y = D_808B45DC[arg2].y * (this->dyna.actor.scale.y * 10.0f);
-    sp2C.z = D_808B45DC[arg2].z * (this->dyna.actor.scale.z * 10.0f);
+    actorScale.x = D_808B45DC[arg2].x * (this->dyna.actor.scale.x * 10.0f);
+    actorScale.y = D_808B45DC[arg2].y * (this->dyna.actor.scale.y * 10.0f);
+    actorScale.z = D_808B45DC[arg2].z * (this->dyna.actor.scale.z * 10.0f);
 
-    func_808B39E8(&sp38, &sp2C, this->unk_16C, this->unk_170);
+    func_808B39E8(&actorPosition, &actorScale, this->unk_16C, this->unk_170);
 
-    sp38.x += this->dyna.actor.posRot.pos.x;
-    sp38.y += this->dyna.actor.pos4.y;
-    sp38.z += this->dyna.actor.posRot.pos.z;
+    actorPosition.x += this->dyna.actor.posRot.pos.x;
+    actorPosition.y += this->dyna.actor.pos4.y;
+    actorPosition.z += this->dyna.actor.posRot.pos.z;
 
     this->dyna.actor.groundY =
-        func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId, &this->dyna.actor, &sp38, chkDist);
+        func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId, &this->dyna.actor, &actorPosition, chkDist);
 
     if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
@@ -169,8 +170,8 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
 
 f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     s32 i;
-    Vec3f tempVector2;
-    Vec3f tempVector1;
+    Vec3f position;
+    Vec3f scale;
     Actor* actor = &this->dyna.actor;
     f32 yIntersect;
     f32 returnValue = -32000.0f;
@@ -178,17 +179,17 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
     func_808B3A34(this);
     for (i = 0; i < ARRAY_COUNT(D_808B45DC); i++) {
-        tempVector1.x = D_808B45DC[i].x * (actor->scale.x * 10.0f);
-        tempVector1.y = D_808B45DC[i].y * (actor->scale.y * 10.0f);
-        tempVector1.z = D_808B45DC[i].z * (actor->scale.z * 10.0f);
+        scale.x = D_808B45DC[i].x * (actor->scale.x * 10.0f);
+        scale.y = D_808B45DC[i].y * (actor->scale.y * 10.0f);
+        scale.z = D_808B45DC[i].z * (actor->scale.z * 10.0f);
 
-        func_808B39E8(&tempVector2, &tempVector1, this->unk_16C, this->unk_170);
+        func_808B39E8(&position, &scale, this->unk_16C, this->unk_170);
 
-        tempVector2.x += actor->posRot.pos.x;
-        tempVector2.y += actor->pos4.y;
-        tempVector2.z += actor->posRot.pos.z;
+        position.x += actor->posRot.pos.x;
+        position.y += actor->pos4.y;
+        position.z += actor->posRot.pos.z;
 
-        yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &tempVector2, 0);
+        yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &position, 0);
 
         if (returnValue < yIntersect) {
             returnValue = yIntersect;
@@ -255,7 +256,7 @@ void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 sign;
     Player* player = PLAYER;
-    f32 temp_f0_2;
+    f32 tempUnk178;
     s32 approxFResult;
     Actor* actor = &this->dyna.actor;
 
@@ -267,9 +268,9 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
     sign = 0.0f <= this->unk_17C ? 1.0f : -1.0f;
 
-    temp_f0_2 = ((f32)sign) * this->unk_178;
-    actor->posRot.pos.x = actor->initPosRot.pos.x + (temp_f0_2 * this->unk_16C);
-    actor->posRot.pos.z = actor->initPosRot.pos.z + (temp_f0_2 * this->unk_170);
+    tempUnk178 = ((f32)sign) * this->unk_178;
+    actor->posRot.pos.x = actor->initPosRot.pos.x + (tempUnk178 * this->unk_16C);
+    actor->posRot.pos.z = actor->initPosRot.pos.z + (tempUnk178 * this->unk_170);
 
     if (!func_808B3F58(this, globalCtx)) {
         actor->initPosRot.pos.x = actor->posRot.pos.x;
