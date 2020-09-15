@@ -15,12 +15,6 @@ void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx);
-void func_80ACE13C(EnPart* this, GlobalContext* globalCtx);
-void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx);
-void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx);
-void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx);
-
 const ActorInit En_Part_InitVars = {
     ACTOR_EN_PART,
     ACTORTYPE_ITEMACTION,
@@ -33,20 +27,12 @@ const ActorInit En_Part_InitVars = {
     (ActorFunc)EnPart_Draw,
 };
 
-static Vec3f D_80ACF1B0 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_80ACF1BC = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_80ACF1C8 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_80ACF1D4 = { 0.0f, 8.0f, 0.0f };
-static Vec3f D_80ACF1E0 = { 0.0f, -1.5f, 0.0f };
-static Vec3f D_80ACF1EC = { 0.0f, 0.0f, 0.0f };
-static EnPartActionFunc sActionFuncs[] = { func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8, func_80ACE7E8 };
-
-extern UNK_PTR D_06001300[];
-extern UNK_PTR D_06001700[];
-extern UNK_PTR D_06001900[];
-extern UNK_PTR D_06001B00[];
-extern UNK_PTR D_06001F00[];
-extern UNK_PTR D_06002100[];
+extern UNK_TYPE D_06001300[];
+extern UNK_TYPE D_06001700[];
+extern UNK_TYPE D_06001900[];
+extern UNK_TYPE D_06001B00[];
+extern UNK_TYPE D_06001F00[];
+extern UNK_TYPE D_06002100[];
 extern Gfx D_06002FF0[];
 extern Gfx D_06015380[];
 
@@ -120,6 +106,10 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
+    static Vec3f D_80ACF1B0 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_80ACF1BC = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_80ACF1C8 = { 0.0f, 0.0f, 0.0f };
+
     s32 i;
     Vec3f pos;
     Vec3f velocity = D_80ACF1B0;
@@ -136,10 +126,8 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 0.0f;
         }
 
-        if (this->actor.params == 13) {
-            if ((this->actor.parent != NULL) && (this->actor.parent->update == NULL)) {
-                this->actor.parent = NULL;
-            }
+        if ((this->actor.params == 13) && (this->actor.parent != NULL) && (this->actor.parent->update == NULL)) {
+            this->actor.parent = NULL;
         }
     } else if (this->delay <= 0) {
         switch (this->actor.params) {
@@ -182,7 +170,7 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->delay -= 1;
+    this->delay--;
     this->rotation += this->rotationSpeed;
 }
 
@@ -191,12 +179,15 @@ void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
+    static Vec3f D_80ACF1D4 = { 0.0f, 8.0f, 0.0f };
+    static Vec3f D_80ACF1E0 = { 0.0f, -1.5f, 0.0f };
+
     Player* player = PLAYER;
     Vec3f velocity;
     Vec3f accel;
     u8 invincibilityTimer;
 
-    this->delay -= 1;
+    this->delay--;
     if (this->delay == 0) {
         Actor_Kill(&this->actor);
         return;
@@ -208,7 +199,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
     if (sqrt(this->actor.xyzDistFromLinkSq) <= 40.0f) {
         invincibilityTimer = player->invincibilityTimer;
         if (player->invincibilityTimer <= 0) {
-            if (player->invincibilityTimer < -39) {
+            if (player->invincibilityTimer <= -40) {
                 player->invincibilityTimer = 0;
             } else {
                 player->invincibilityTimer = 0;
@@ -229,6 +220,8 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
+    static Vec3f D_80ACF1EC = { 0.0f, 0.0f, 0.0f };
+
     Vec3f zero = D_80ACF1EC;
     f32 dist;
 
@@ -245,12 +238,12 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
         dist += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f, 5.0f, 0.0f);
         dist += Math_SmoothScaleMaxMinF(&this->rotation, 0.0f, 1.0f, 0.25f, 0.0f);
         if (dist == 0.0f) {
-            this->actor.parent->initPosRot.rot.x -= 1;
-            this->delay -= 1;
+            this->actor.parent->initPosRot.rot.x--;
+            this->delay--;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
         }
     } else if (this->delay > 0) {
-        this->delay -= 1;
+        this->delay--;
     }
 
     if (this->actor.parent->colChkInfo.health) {
@@ -259,6 +252,9 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
+    static EnPartActionFunc sActionFuncs[] = { func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8,
+                                               func_80ACE7E8 };
+
     EnPart* this = THIS;
 
     Actor_MoveForward(&this->actor);
