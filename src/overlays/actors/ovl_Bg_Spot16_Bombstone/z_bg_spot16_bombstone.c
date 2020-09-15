@@ -625,43 +625,23 @@ void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
+    s32 pad;
 
-    GraphicsContext* tempGfxCtx = globalCtx->state.gfxCtx;
-    Gfx* tempPolyOpaP;
-    Gfx* tempPolyOpaP2;
-    Gfx* tempPolyOpaP3;
-    Gfx* tempPolyOpaP4;
-    Gfx* sp34;
-
-    Graph_OpenDisps(&sp34, tempGfxCtx, "../z_bg_spot16_bombstone.c", 0x4E5);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1253);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    tempPolyOpaP = tempGfxCtx->polyOpa.p;
-    tempGfxCtx->polyOpa.p = tempPolyOpaP + 8;
-
-    tempPolyOpaP->words.w0 = &D_DA380003;
-    tempPolyOpaP->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 0x4E9);
-
-    if (1) {}
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == 0xFF) {
-        tempPolyOpaP2 = tempGfxCtx->polyOpa.p;
-        tempGfxCtx->polyOpa.p = tempPolyOpaP2 + 8;
-        tempPolyOpaP2->words.w0 = &D_DE000000;
-        tempPolyOpaP2->words.w1 = this->unk_150;
+        gSPDisplayList(oGfxCtx->polyOpa.p++, this->unk_150);
     } else {
-        tempPolyOpaP3 = tempGfxCtx->polyOpa.p;
-        tempGfxCtx->polyOpa.p = tempPolyOpaP3 + 8;
-        tempPolyOpaP3->words.w0 = &D_DB060018;
-        tempPolyOpaP3->words.w1 = globalCtx->objectCtx.status[this->unk_214].segment;
-        tempPolyOpaP4 = tempGfxCtx->polyOpa.p;
-        tempGfxCtx->polyOpa.p = tempPolyOpaP4 + 8;
-        tempPolyOpaP4->words.w0 = &D_DE000000;
-        tempPolyOpaP4->words.w1 = this->unk_150;
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->unk_214].segment);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, this->unk_150);
     }
 
-    Graph_CloseDisps(&sp34, globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 0x4FA);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1274);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Draw.s")
