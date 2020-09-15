@@ -321,7 +321,6 @@ beginseg
     include "build/src/code/z_lifemeter.o"
     include "build/data/z_lifemeter.data.o"
     include "build/src/code/z_lights.o"
-    include "build/data/z_lights.data.o"
     include "build/src/code/z_malloc.o"
     include "build/src/code/z_map_mark.o"
     include "build/src/code/z_moji.o"
@@ -715,8 +714,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Darkmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Darkmeiro/z_bg_gnd_darkmeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_darkmeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_darkmeiro.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Darkmeiro/ovl_Bg_Gnd_Darkmeiro_reloc.o"
 endseg
 
 beginseg
@@ -811,8 +809,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Water"
     include "build/src/overlays/actors/ovl_Bg_Haka_Water/z_bg_haka_water.o"
-    include "build/data/overlays/actors/z_bg_haka_water.data.o"
-    include "build/data/overlays/actors/z_bg_haka_water.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Water/ovl_Bg_Haka_Water_reloc.o"
 endseg
 
 beginseg
@@ -838,8 +835,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Dalm"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Dalm/z_bg_hidan_dalm.o"
-    include "build/data/overlays/actors/z_bg_hidan_dalm.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_dalm.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Dalm/ovl_Bg_Hidan_Dalm_reloc.o"
 endseg
 
 beginseg
@@ -1048,9 +1044,7 @@ endseg
 beginseg
     name "ovl_Bg_Menkuri_Eye"
     include "build/src/overlays/actors/ovl_Bg_Menkuri_Eye/z_bg_menkuri_eye.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.data.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.bss.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Menkuri_Eye/ovl_Bg_Menkuri_Eye_reloc.o"
 endseg
 
 beginseg
@@ -2544,8 +2538,7 @@ endseg
 beginseg
     name "ovl_En_Heishi4"
     include "build/src/overlays/actors/ovl_En_Heishi4/z_en_heishi4.o"
-    include "build/data/overlays/actors/z_en_heishi4.data.o"
-    include "build/data/overlays/actors/z_en_heishi4.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi4/ovl_En_Heishi4_reloc.o"
 endseg
 
 beginseg
@@ -3117,8 +3110,7 @@ endseg
 beginseg
     name "ovl_En_St"
     include "build/src/overlays/actors/ovl_En_St/z_en_st.o"
-    include "build/data/overlays/actors/z_en_st.data.o"
-    include "build/data/overlays/actors/z_en_st.reloc.o"
+    include "build/src/overlays/actors/ovl_En_St/ovl_En_St_reloc.o"
 endseg
 
 beginseg
