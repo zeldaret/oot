@@ -44,9 +44,9 @@ typedef struct {
     /* 0x0E */ s16 height;
 } HanaParams; // size 0x10
 
-HanaParams D_80B93AA4[] = { { 0x05000500, 0.00999999977648f, 0.0f, -1, 0 },
-                            { 0x0500A880, 0.10000000149f, 58.0f, 10, 18 },
-                            { 0x0500B9D0, 0.40000000596f, 0.0f, 12, 44 } };
+HanaParams D_80B93AA4[] = { { 0x05000500, 0.01f, 0.0f, -1, 0 },
+                            { 0x0500A880, 0.1f, 58.0f, 10, 18 },
+                            { 0x0500B9D0, 0.4f, 0.0f, 12, 44 } };
 
 InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
@@ -57,6 +57,7 @@ InitChainEntry sInitChain[] = {
 
 void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
+
     s16 type = thisx->params & 3;
     HanaParams* hanaParams = &D_80B93AA4[type];
 
@@ -79,6 +80,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
+
     if (D_80B93AA4[thisx->params & 3].radius >= 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
@@ -86,6 +88,7 @@ void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
+
     if (D_80B93AA4[thisx->params & 3].radius >= 0 && thisx->xzDistFromLink < 400.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
