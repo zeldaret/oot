@@ -161,7 +161,7 @@ void func_80B8598C(ItemEtcetera* this, GlobalContext* globalCtx) {
     vec.x = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
     vec.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
     vec.z = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
-    func_80028BB0(globalCtx, &vec, &D_80B85D74, &D_80B85D80, &D_80B85D8C, &D_80B85D90, 0x1388, 0x10);
+    EffectSsKiraKira_SpawnDispersed(globalCtx, &vec, &D_80B85D74, &D_80B85D80, &D_80B85D8C, &D_80B85D90, 0x1388, 0x10);
 }
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx) {

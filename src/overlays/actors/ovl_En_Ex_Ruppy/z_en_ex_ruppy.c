@@ -197,8 +197,8 @@ void EnExRuppy_SpawnSparkles(EnExRuppy* this, GlobalContext* globalCtx, s16 arg2
         sparklePos.x = (Math_Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.x;
         sparklePos.y = (Math_Rand_ZeroOne() - 0.5f) * 10.0f + (this->actor.posRot.pos.y + this->unk_160 * 600.0f);
         sparklePos.z = (Math_Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.z;
-        func_80028BB0(globalCtx, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor, sparkleScale,
-                      sparkleLife);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor,
+                                        sparkleScale, sparkleLife);
     }
 }
 

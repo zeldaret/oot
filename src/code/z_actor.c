@@ -1843,7 +1843,8 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             spA4.y = Math_Rand_ZeroOne() * 6.0f + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
             spA4.z = Math_Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-            func_80028BB0(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000, 0x10);
+            EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
+                                            0x10);
 
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];

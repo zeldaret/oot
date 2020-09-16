@@ -240,16 +240,16 @@ void EffectSsKiraKira_SpawnSmallYellow(GlobalContext* globalCtx, Vec3f* pos, Vec
     Color_RGBA8 primColor = { 255, 255, 200, 255 };
     Color_RGBA8 envColor = { 255, 200, 0, 0 };
 
-    func_80028BB0(globalCtx, pos, velocity, accel, &primColor, &envColor, 1000, 16);
+    EffectSsKiraKira_SpawnDispersed(globalCtx, pos, velocity, accel, &primColor, &envColor, 1000, 16);
 }
 
 void EffectSsKiraKira_SpawnSmall(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                                  Color_RGBA8* primColor, Color_RGBA8* envColor) {
-    func_80028BB0(globalCtx, pos, velocity, accel, primColor, envColor, 1000, 16);
+    EffectSsKiraKira_SpawnDispersed(globalCtx, pos, velocity, accel, primColor, envColor, 1000, 16);
 }
 
-void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s32 life) {
+void EffectSsKiraKira_SpawnDispersed(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                     Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s32 life) {
     EffectSsKiraKiraInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -269,8 +269,8 @@ void func_80028BB0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     EffectSs_Spawn(globalCtx, 1, 128, &initParams);
 }
 
-void func_80028CEC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s32 life) {
+void EffectSsKiraKira_SpawnFocused(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                   Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s32 life) {
     EffectSsKiraKiraInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -457,7 +457,8 @@ void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
     EffectSs_Spawn(globalCtx, EFFECT_SS_D_FIRE, 128, &initParams);
 }
 
-void func_800293A0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha, s16 fadeDelay) {
+void EffectSsDFire_SpawnFixedScale(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha,
+                                   s16 fadeDelay) {
     EffectSsDFire_Spawn(globalCtx, pos, velocity, accel, 100, 35, alpha, fadeDelay, 8);
 }
 
@@ -742,27 +743,42 @@ void EffectSsHitMark_SpawnCustomScale(GlobalContext* globalCtx, s32 type, s16 sc
 
 // EffectSsFhgFlash Spawn Functions
 
-void func_80029CF0(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, u8 arg5) {
+/**
+ * Spawn a light ball effect
+ *
+ * param changes the color of the ball. Refer to FhgFlashLightBallParam for the options.
+ * Note: this type requires OBJECT_FHG to be loaded
+ */
+void EffectSsFhgFlash_SpawnLightBall(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                     u8 param) {
     EffectSsFhgFlashInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.scale = scale;
-    initParams.unk_26 = arg5;
-    initParams.unk_2C = 0;
+    initParams.param = param;
+    initParams.type = FHGFLASH_LIGHTBALL;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
 }
 
-void func_80029D5C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, u8 arg4) {
+/**
+ * Spawn a lightning shock effect
+ *
+ * param determines where the ligntning should go
+ * 0: dont attach to any actor. spawns at the position specified by pos
+ * 1: spawn at one of Player's body parts, chosen at random
+ * 2: spawn at one of Phantom Ganon's body parts, chosen at random
+ */
+void EffectSsFhgFlash_SpawnLightning(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, u8 param) {
     EffectSsFhgFlashInitParams initParams;
 
     initParams.actor = actor;
     Math_Vec3f_Copy(&initParams.pos, pos);
     initParams.scale = scale;
-    initParams.unk_26 = arg4;
-    initParams.unk_2C = 1;
+    initParams.param = param;
+    initParams.type = FHGFLASH_LIGHTNING;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
 }
@@ -1162,7 +1178,11 @@ void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16
 }
 
 // EffectSsIceSmoke Spawn Functions
-
+/**
+ * Spawn an Ice Smoke effect
+ *
+ * Note: this effect requires OBJECT_FZ to be loaded
+ */
 void EffectSsIceSmoke_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale) {
     EffectSsIceSmokeInitParams initParams;
 

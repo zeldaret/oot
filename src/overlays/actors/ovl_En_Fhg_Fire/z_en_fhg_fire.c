@@ -199,8 +199,8 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                     randVec.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
                     randVec.z = Math_Rand_CenteredFloat(30.f);
                     tmpVec.y = -0.2f;
-                    func_80029CF0(globalCtx, &this->actor.posRot.pos, &randVec, &tmpVec,
-                                  (s16)(Math_Rand_ZeroOne() * 100.0f) + 240, 0);
+                    EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &randVec, &tmpVec,
+                                                    (s16)(Math_Rand_ZeroOne() * 100.0f) + 240, 0);
                 }
 
                 func_80033E88(&this->actor, globalCtx, 4, 10);
@@ -283,7 +283,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     if (Math_Rand_ZeroOne() < 0.5f) {
         pos = this->actor.posRot.pos;
         pos.y -= 20.0f;
-        func_80029D5C(globalCtx, &this->actor, &pos, 0xC8, 0);
+        EffectSsFhgFlash_SpawnLightning(globalCtx, &this->actor, &pos, 0xC8, 0);
     }
 
     Actor_MoveForward(&this->actor);
@@ -396,7 +396,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
             sp6C.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
             sp54.y = -0.08f;
 
-            func_80029CF0(globalCtx, &sp6C, &tmp, &sp54, (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, 0);
+            EffectSsFhgFlash_SpawnLightBall(globalCtx, &sp6C, &tmp, &sp54, (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, 0);
         }
     }
 
