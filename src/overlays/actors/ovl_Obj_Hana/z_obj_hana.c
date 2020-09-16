@@ -33,7 +33,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 8, 10, 0, { 0, 0, 0 } },
 };
 
-// sColChkInfoInit
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 0xC, 0x3C, 0xFF };
 
 typedef struct {
@@ -58,7 +57,7 @@ InitChainEntry sInitChain[] = {
 void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    s16 type = thisx->params & 3;
+    s16 type = this->actor.params & 3;
     HanaParams* hanaParams = &D_80B93AA4[type];
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -70,7 +69,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         this->collider.dim.radius = hanaParams->radius;
         this->collider.dim.height = hanaParams->height;
-        func_80061ED4(&thisx->colChkInfo, NULL, &sColChkInfoInit);
+        func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
     if (type == 2 && (gSaveContext.eventChkInf[4] & 1) != 0) {
@@ -81,7 +80,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (D_80B93AA4[thisx->params & 3].radius >= 0) {
+    if (D_80B93AA4[this->actor.params & 3].radius >= 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
@@ -89,7 +88,7 @@ void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (D_80B93AA4[thisx->params & 3].radius >= 0 && thisx->xzDistFromLink < 400.0f) {
+    if (D_80B93AA4[this->actor.params & 3].radius >= 0 && this->actor.xzDistFromLink < 400.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
