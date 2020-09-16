@@ -40,7 +40,7 @@ static InitChainEntry sInitChain[] = {
 extern Gfx D_06000420[];
 extern UNK_TYPE D_06000534;
 
-void BgSpot18Shutter_Init(Actor* thisx, GlobalContext *globalCtx) {
+void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgSpot18Shutter* this = THIS;
     s32 param = (this->dyna.actor.params >> 8) & 1;
@@ -79,17 +79,16 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext *globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
 }
 
-void BgSpot18Shutter_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Shutter* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void func_808B95AC(BgSpot18Shutter *this, GlobalContext *globalCtx) {
-
+void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
-void func_808B95B8(BgSpot18Shutter *this, GlobalContext *globalCtx) {
+void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         Actor_SetHeight(&this->dyna.actor, 70.0f);
         func_80080480(globalCtx, this);
@@ -97,7 +96,7 @@ void func_808B95B8(BgSpot18Shutter *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_808B9618(BgSpot18Shutter *this, GlobalContext *globalCtx) {
+void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[16] & 0x200) {
         Actor_SetHeight(&this->dyna.actor, 70.0f);
         if (((this->dyna.actor.params >> 8) & 1) == 0) {
@@ -109,7 +108,7 @@ void func_808B9618(BgSpot18Shutter *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_808B9698(BgSpot18Shutter *this, GlobalContext *globalCtx) {
+void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 180.0f, 1.44f) != 0) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
@@ -118,11 +117,14 @@ void func_808B9698(BgSpot18Shutter *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_808B971C(BgSpot18Shutter *this, GlobalContext *globalCtx) {
+void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     f32 sin = Math_Sins(this->dyna.actor.posRot.rot.y);
     f32 cos = Math_Coss(this->dyna.actor.posRot.rot.y);
-    s32 flag = Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (125.0f * cos), fabsf(cos)) & 1;
-    flag &= Math_ApproxF(&this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.z - (125.0f * sin), fabsf(sin));
+    s32 flag =
+        Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (125.0f * cos), fabsf(cos)) &
+        1;
+    flag &=
+        Math_ApproxF(&this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.z - (125.0f * sin), fabsf(sin));
 
     if (flag) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
@@ -132,12 +134,12 @@ void func_808B971C(BgSpot18Shutter *this, GlobalContext *globalCtx) {
     }
 }
 
-void BgSpot18Shutter_Update(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot18Shutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Shutter* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-void BgSpot18Shutter_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot18Shutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, D_06000420);
 }
