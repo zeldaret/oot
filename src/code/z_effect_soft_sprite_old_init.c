@@ -1019,7 +1019,7 @@ void EffectSsEnFire_SpawnVec3f(GlobalContext* globalCtx, Actor* actor, Vec3f* po
     EffectSs_Spawn(globalCtx, EFFECT_SS_EN_FIRE, 128, &initParams);
 }
 
-//// note: if bodyPart is greater than -1 the actor MUST have a table of Vec3s positions at offset 0x14C in the instance
+// note: if bodyPart is greater than -1 the actor MUST have a table of Vec3s positions at offset 0x14C in the instance
 void EffectSsEnFire_SpawnVec3s(GlobalContext* globalCtx, Actor* actor, Vec3s* vec, s16 scale, s16 arg4, s16 flags,
                                s16 bodyPart) {
     EffectSsEnFireInitParams initParams;

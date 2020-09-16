@@ -20,7 +20,15 @@ typedef enum {
 } FhgFlashType;
 
 typedef enum {
-    /* 0x00 */ FHGFLASH_LIGHTBALL_,
+    /* 0x00 */ FHGFLASH_LIGHTBALL_GREEN,
+    /* 0x01 */ FHGFLASH_LIGHTBALL_LIGHTBLUE,
+    /* 0x02 */ FHGFLASH_LIGHTBALL_RED,
+    /* 0x03 */ FHGFLASH_LIGHTBALL_YELLOW,
+    /* 0x04 */ FHGFLASH_LIGHTBALL_BLUE,
+    /* 0x05 */ FHGFLASH_LIGHTBALL_PURPLE,
+    /* 0x06 */ FHGFLASH_LIGHTBALL_ORANGE,
+    /* 0x07 */ FHGFLASH_LIGHTBALL_WHITE1,
+    /* 0x08 */ FHGFLASH_LIGHTBALL_WHITE2,
 } FhgFlashLightBallParam;
 
 typedef enum {
