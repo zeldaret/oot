@@ -2625,7 +2625,7 @@ s32 Camera_Battle1(Camera *camera) {
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f sp128;
-    Vec3f sp11C;
+    Vec3f playerHead;
     Vec3f sp110;
     f32 var3;
     f32 var2;
@@ -2636,7 +2636,7 @@ s32 Camera_Battle1(Camera *camera) {
     f32 spF4;
     f32 temp_f2_2;
     f32 temp_f14;
-    s32 spE8; 
+    s32 skipEyeAtCalc; 
     f32 spE4;
     CamColChk spBC;
     VecSph spB4;
@@ -2649,35 +2649,35 @@ s32 Camera_Battle1(Camera *camera) {
     s16 sp8C;
     Player *player;
     s16 sp86;
-    s16 sp84;
-    f32 sp80;
+    s16 isOffGround;
+    f32 distance;
     f32 sp7C;
     f32 sp78;
-    f32 sp74;
+    f32 fov;
     Battle1* batt1 = (Battle1*)camera->paramData;
     Battle1Anim* anim = &batt1->anim;
     s32 pad;
     f32 playerHeight;
 
-    spE8 = 0;
+    skipEyeAtCalc = false;
     player = camera->player;
     playerHeight = Player_GetHeight(camera->player);
     if(RELOAD_PARAMS){
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + PCT(OREG(46))) - (PCT(OREG(46)) * (68.0f / playerHeight));
-        batt1->unk_00 = NEXTPCT * playerHeight * yNormal;
-        batt1->unk_04 = NEXTSETTING;
-        batt1->unk_08 = NEXTSETTING;
-        batt1->unk_0C = NEXTSETTING;
+        batt1->yOffset = NEXTPCT * playerHeight * yNormal;
+        batt1->distance = NEXTSETTING;
+        batt1->swingYawInitial = NEXTSETTING;
+        batt1->swingYawFinal = NEXTSETTING;
         batt1->unk_10 = NEXTSETTING;
         batt1->unk_14 = NEXTSETTING;
         batt1->unk_18 = NEXTPCT;
-        batt1->unk_1C = NEXTSETTING;
-        batt1->unk_20 = NEXTPCT;
+        batt1->fov = NEXTSETTING;
+        batt1->atLERPScaleOnGround = NEXTPCT;
         batt1->interfaceFlags = NEXTSETTING;
-        batt1->unk_24 = NEXTPCT * playerHeight * yNormal;
-        batt1->unk_28 = NEXTPCT;
-        anim->unk_1C = 0x28;
+        batt1->yOffsetOffGround = NEXTPCT * playerHeight * yNormal;
+        batt1->atLERPScaleOffGround = NEXTPCT;
+        anim->chargeTimer = 40;
         anim->unk_10 = PCT(OREG(12));
     }
     
@@ -2685,37 +2685,38 @@ s32 Camera_Battle1(Camera *camera) {
         Camera_CopyPREGToModeValues(camera);
     }
 
-    sp80 = batt1->unk_04;
+    distance = batt1->distance;
     sp7C = batt1->unk_10;
     sp78 = batt1->unk_14;
-    sp74 = batt1->unk_1C;
+    fov = batt1->fov;
     
     if (camera->player->stateFlags1 & 0x1000) {
+        // charging sword.
         anim->unk_10 = Camera_LERPCeilF(PCT(OREG(12)) * 0.5f, anim->unk_10, PCT(OREG(25)), 0.1f);
         camera->xzOffsetUpdateRate = Camera_LERPCeilF(0.2f, camera->xzOffsetUpdateRate, PCT(OREG(25)), 0.1f);
         camera->yOffsetUpdateRate = Camera_LERPCeilF(0.2f, camera->yOffsetUpdateRate, PCT(OREG(25)), 0.1f);
-        if (anim->unk_1C >= -0x13) {
-            anim->unk_1C--;
+        if (anim->chargeTimer >= -19) {
+            anim->chargeTimer--;
         } else {
-            sp80 = 250.0f;
+            distance = 250.0f;
             sp7C = 50.0f;
             sp78 = 40.0f;
-            sp74 = 60.0f;
+            fov = 60.0f;
         }
-    } else if (anim->unk_1C < 0) {
-        sp80 = 250.0f;
+    } else if (anim->chargeTimer < 0) {
+        distance = 250.0f;
         sp7C = 50.0f;
         sp78 = 40.0f;
-        sp74 = 60.0f;
-        anim->unk_1C++;
+        fov = 60.0f;
+        anim->chargeTimer++;
     } else {
-        anim->unk_1C = 0x28;
+        anim->chargeTimer = 40;
         anim->unk_10 = Camera_LERPCeilF(PCT(OREG(12)), anim->unk_10, PCT(OREG(25)), 0.1f);
         camera->xzOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(40)), camera->xzOffsetUpdateRate, PCT(OREG(25)) * camera->speedRatio, 0.1f);
         camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(40)), camera->yOffsetUpdateRate, PCT(OREG(26)) * camera->speedRatio, 0.1f);
     }
     camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->fovUpdateRate, camera->speedRatio * 0.05f, 0.1f);
-    playerHeight += batt1->unk_00;
+    playerHeight += batt1->yOffset;
     OLib_Vec3fDiffToVecSphGeo(&sp9C, at, eye);
     OLib_Vec3fDiffToVecSphGeo(&sp94, at, eyeNext);
     if(camera->target == NULL || camera->target->update == NULL){
@@ -2731,7 +2732,7 @@ s32 Camera_Battle1(Camera *camera) {
     
     if(camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14){   
         anim->unk_14 = 0;
-        anim->unk_04 = 0.0f;
+        anim->roll = 0.0f;
         anim->target = camera->target;
         camera->animState++;
         if (anim->target->id > 0) {
@@ -2742,10 +2743,10 @@ s32 Camera_Battle1(Camera *camera) {
             Camera_ChangeModeDefaultFlags(camera, CAM_MODE_PARALLEL);
             return true;
         }
-        anim->unk_1A = OREG(23) + OREG(24);
-        anim->unk_16 = sp9C.yaw;
-        anim->unk_18 = sp9C.pitch;
-        anim->unk_00 = sp9C.r;
+        anim->animTimer = OREG(23) + OREG(24);
+        anim->initialEyeToAtYaw = sp9C.yaw;
+        anim->initialEyeToAtPitch = sp9C.pitch;
+        anim->initialEyeToAtDist = sp9C.r;
         anim->unk_08 = playerPosRot->pos.y - camera->playerPosDelta.y;
     }
 
@@ -2757,14 +2758,14 @@ s32 Camera_Battle1(Camera *camera) {
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f || camera->player->stateFlags1 & 0x200000){
-        sp84 = false;
+        isOffGround = false;
         anim->unk_08 = playerPosRot->pos.y;
     } else {
-        sp84 = true;
+        isOffGround = true;
     }
 
-    if (anim->unk_1A == 0) {
-        camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp84 ? batt1->unk_28 : batt1->unk_20);
+    if (anim->animTimer == 0) {
+        camera->atLERPStepScale = Camera_ClampLERPScale(camera, isOffGround ? batt1->atLERPScaleOffGround : batt1->atLERPScaleOnGround);
     }
     func_8002EEE4(&camera->targetPosRot, camera->target);
     if (anim->target != camera->target) { 
@@ -2773,39 +2774,39 @@ s32 Camera_Battle1(Camera *camera) {
         return true;
     }
 
-    func_800460A8(camera, &sp94, &camera->targetPosRot.pos, sp84 ? batt1->unk_24 : batt1->unk_00, sp80, &anim->unk_08, &spA4, (sp84 ? 0x81 : 1) | batt1->interfaceFlags);
+    func_800460A8(camera, &sp94, &camera->targetPosRot.pos, isOffGround ? batt1->yOffsetOffGround : batt1->yOffset, distance, &anim->unk_08, &spA4, (isOffGround ? 0x81 : 1) | batt1->interfaceFlags);
     sp8C = spA4.yaw;
-    sp11C = playerPosRot->pos;
-    sp11C.y += playerHeight;
-    OLib_Vec3fDiffToVecSphGeo(&spA4, &sp11C, &camera->targetPosRot.pos);
-    spE4 = spA4.r > sp80 ? 1 : spA4.r / sp80;
+    playerHead = playerPosRot->pos;
+    playerHead.y += playerHeight;
+    OLib_Vec3fDiffToVecSphGeo(&spA4, &playerHead, &camera->targetPosRot.pos);
+    spE4 = spA4.r > distance ? 1 : spA4.r / distance;
     sp110 = camera->targetPosRot.pos;
     OLib_Vec3fDiffToVecSphGeo(&spAC, at, &sp110);
-    spAC.r = sp80 - ((spAC.r <= sp80 ? spAC.r : sp80) * 0.5f);
-    spF4 = batt1->unk_08 + ((batt1->unk_0C - batt1->unk_08) * (1.1f - spE4));
+    spAC.r = distance - ((spAC.r <= distance ? spAC.r : distance) * 0.5f);
+    spF4 = batt1->swingYawInitial + ((batt1->swingYawFinal - batt1->swingYawInitial) * (1.1f - spE4));
     spF8 = OREG(13) + spF4;
 
-    spB4.r = camera->dist = Camera_LERPCeilF(sp80, camera->dist, PCT(OREG(11)), 2.0f);
+    spB4.r = camera->dist = Camera_LERPCeilF(distance, camera->dist, PCT(OREG(11)), 2.0f);
     spB4.yaw = sp94.yaw;
     sp8E = BINANG_SUB(spAC.yaw, BINANG_ROT180(sp94.yaw));
-    if (anim->unk_1A != 0) {
-        if (anim->unk_1A >= OREG(24)) {
-            sp86 = anim->unk_1A - OREG(24);
+    if (anim->animTimer != 0) {
+        if (anim->animTimer >= OREG(24)) {
+            sp86 = anim->animTimer - OREG(24);
             OLib_Vec3fDiffToVecSphGeo(&spA4, at, eye);
             spA4.yaw = BINANG_ROT180(sp8C);
 
             var2 = 1.0f / OREG(23);
-            var3 = (anim->unk_00 - spA4.r) * var2;
-            sp8E = BINANG_SUB(anim->unk_16, spA4.yaw) * var2;
-            sp8C = BINANG_SUB(anim->unk_18, spA4.pitch) * var2;
+            var3 = (anim->initialEyeToAtDist - spA4.r) * var2;
+            sp8E = BINANG_SUB(anim->initialEyeToAtYaw, spA4.yaw) * var2;
+            sp8C = BINANG_SUB(anim->initialEyeToAtPitch, spA4.pitch) * var2;
 
             spB4.r = Camera_LERPCeilF(spA4.r + (var3 * sp86), sp9C.r, PCT(OREG(28)), 1.0f);
             spB4.yaw = Camera_LERPCeilS(spA4.yaw + (sp8E * sp86), sp9C.yaw, PCT(OREG(28)), 0xA);
             spB4.pitch = Camera_LERPCeilS(spA4.pitch + (sp8C * sp86), sp9C.pitch, PCT(OREG(28)), 0xA);
         } else {
-            spE8 = 1;
+            skipEyeAtCalc = true;
         }
-        anim->unk_1A--;
+        anim->animTimer--;
     } else if (ABS(sp8E) > DEGF_TO_BINANG(spF4)) {
         spFC = BINANG_TO_DEGF(sp8E);
         temp_f2_2 = spF4 + (spF8 - spF4) * (OLib_ClampMaxDist(spAC.r, spB4.r) / spB4.r);
@@ -2821,7 +2822,7 @@ s32 Camera_Battle1(Camera *camera) {
         spB4.yaw = sp94.yaw - (s16)((sp8C - sp8E) * spFC);
     }
 
-    if (spE8 == 0) {
+    if (!skipEyeAtCalc) {
         var3 = spAC.pitch * batt1->unk_18;
         var2 = F32_LERPIMP(sp7C, sp78, spE4);
         sp8E = DEGF_TO_BINANG(var2) - 
@@ -2853,10 +2854,10 @@ s32 Camera_Battle1(Camera *camera) {
             *eye = *eyeNext;
         }
     }
-    anim->unk_04 += (((OREG(36) * camera->speedRatio) * (1.0f - spE4)) - anim->unk_04) *  PCT(OREG(37));
-    camera->roll = DEGF_TO_BINANG(anim->unk_04);
+    anim->roll += (((OREG(36) * camera->speedRatio) * (1.0f - spE4)) - anim->roll) * PCT(OREG(37));
+    camera->roll = DEGF_TO_BINANG(anim->roll);
     camera->fov = Camera_LERPCeilF((player->swordState != 0 ? 0.8f : gSaveContext.health <= 0x10 ? 0.8f : 1.0f) * 
-                                    (sp74 - ((sp74 * 0.05f) * spE4)), camera->fov, camera->fovUpdateRate, 1.0f);
+                                    (fov - ((fov * 0.05f) * spE4)), camera->fov, camera->fovUpdateRate, 1.0f);
 }
 
 s32 Camera_Battle2(Camera* camera) {

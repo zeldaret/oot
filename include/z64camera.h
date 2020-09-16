@@ -767,30 +767,30 @@ typedef struct {
 } Battle4; // size = 0x20
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
+    /* 0x0000 */ f32 initialEyeToAtDist;
+    /* 0x0004 */ f32 roll;
     /* 0x0008 */ f32 unk_08;
     /* 0x000C */ Actor* target;
     /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ s16 unk_14;
-    /* 0x0016 */ s16 unk_16;
-    /* 0x0018 */ s16 unk_18;
-    /* 0x001A */ s16 unk_1A;
-    /* 0x001C */ s16 unk_1C;
+    /* 0x0014 */ s16 unk_14; // unused
+    /* 0x0016 */ s16 initialEyeToAtYaw;
+    /* 0x0018 */ s16 initialEyeToAtPitch;
+    /* 0x001A */ s16 animTimer;
+    /* 0x001C */ s16 chargeTimer;
 } Battle1Anim; // size = 0x1E
 
 typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ f32 unk_08;
-    /* 0x000C */ f32 unk_0C;
+    /* 0x0000 */ f32 yOffset;
+    /* 0x0004 */ f32 distance;
+    /* 0x0008 */ f32 swingYawInitial;
+    /* 0x000C */ f32 swingYawFinal;
     /* 0x0010 */ f32 unk_10;
     /* 0x0014 */ f32 unk_14;
     /* 0x0018 */ f32 unk_18;
-    /* 0x001C */ f32 unk_1C;
-    /* 0x0020 */ f32 unk_20;
-    /* 0x0024 */ f32 unk_24;
-    /* 0x0028 */ f32 unk_28;
+    /* 0x001C */ f32 fov;
+    /* 0x0020 */ f32 atLERPScaleOnGround;
+    /* 0x0024 */ f32 yOffsetOffGround;
+    /* 0x0028 */ f32 atLERPScaleOffGround;
     /* 0x002C */ s16 interfaceFlags;
     /* 0x0030 */ Battle1Anim anim;
 } Battle1; // size = 0x50
