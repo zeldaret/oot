@@ -113,6 +113,7 @@ def diff_syms(qb, tb):
             matches += 4
     return (matches / n_bytes) * len_ratio
 
+
 def get_matches(query):
     query_bytes = get_symbol_bytes(map_offsets, query)
 
@@ -121,12 +122,11 @@ def get_matches(query):
         if symbol is not None and query != symbol:
             target_bytes = get_symbol_bytes(map_offsets, symbol)
             if target_bytes is not None:
-                if symbol == "EnItem00_SetupAction":
-                    dog = 5
                 score = diff_syms(query_bytes, target_bytes)
                 if score >= args.threshold:
                     ret[symbol] = score
     return OrderedDict(sorted(ret.items(), key=lambda kv: kv[1], reverse=True))
+
 
 def do_query(query):
     matches = get_matches(query)
@@ -173,5 +173,3 @@ if query_dir is not None:
         do_query(f_name[:-2])
 else:
     do_query(args.query)
-
-

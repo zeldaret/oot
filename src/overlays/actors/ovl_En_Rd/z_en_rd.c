@@ -62,12 +62,12 @@ static InitChainEntry sInitChain[] = {
 static Vec3f D_80AE4918 = { 0.0f, 0.0f, 0.0f, };
 
 // I'm guessing these are primitive and environment colors that go unused
-static Color_RGBA8 D_80AE4924 = { 0xC8, 0xC8, 0xFF, 0xFF, };
-static Color_RGBA8 D_80AE4928 = { 0x00, 0x00, 0xFF, 0x00, };
+static Color_RGBA8_n D_80AE4924 = { 200, 200, 255, 255, };
+static Color_RGBA8_n D_80AE4928 = { 0, 0, 255, 0, };
 
 static Vec3f D_80AE492C = { 0.0f, 0.0f, 0.0f };
-static Color_RGBA8 D_80AE4938 = { 0xC8, 0xC8, 0xFF, 0xFF, };
-static Color_RGBA8 D_80AE493C = { 0x00, 0x00, 0xFF, 0x00, };
+static Color_RGBA8_n D_80AE4938 = { 200, 200, 255, 255, };
+static Color_RGBA8_n D_80AE493C = { 0, 0, 255, 0, };
 
 static Vec3f D_80AE4940 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
@@ -227,7 +227,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+    if ((globalCtx->gameplayFrames & 95) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -277,8 +277,8 @@ void func_80AE2B90(EnRd* this, GlobalContext* globalCtx) {
 
 void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
     Vec3f sp44 = D_80AE4918;
-    Color_RGBA8 sp40 = D_80AE4924;
-    Color_RGBA8 sp3C = D_80AE4928;
+    Color_RGBA8_n sp40 = D_80AE4924;
+    Color_RGBA8_n sp3C = D_80AE4928;
     Player *player = PLAYER;
     s32 pad;
     s16 sp32 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
@@ -290,7 +290,7 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if (150.0f <= func_8002DB6C(&player->actor, &this->actor.initPosRot.pos)) {
+    if (func_8002DB6C(&player->actor, &this->actor.initPosRot.pos) >= 150.0f) {
         func_80AE2F50(this, globalCtx);
     }
 
@@ -303,7 +303,7 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
                     PLAYER->unk_684 = &this->actor;
                     func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
                 }
-                this->unk_306 = (u8)0x3C;
+                this->unk_306 = 0x3C;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_AIM);
             }
         } else {
@@ -319,19 +319,17 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
             this->actor.flags &= ~1;
             func_80AE33F0(this);
         }
-    } else {
-        if (this->actor.params > 0) {
-            if (this->actor.parent != NULL) {
-                func_80AE31DC(this);
-            } else {
-                this->unk_305 = 0;
-            }
+    } else if (this->actor.params > 0) {
+        if (this->actor.parent != NULL) {
+            func_80AE31DC(this);
+        } else {
+            this->unk_305 = 0;
         }
     }
 
     if ((this->skelAnime.animCurrentFrame == 10.0f) || (this->skelAnime.animCurrentFrame == 22.0f)){
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+    } else if ((globalCtx->gameplayFrames & 95) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -380,7 +378,7 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 
     if (this->skelAnime.animCurrentFrame == 10.0f || this->skelAnime.animCurrentFrame == 22.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+    } else if ((globalCtx->gameplayFrames & 95) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -424,7 +422,7 @@ void func_80AE3260(EnRd *this, GlobalContext *globalCtx) {
 
     if (this->skelAnime.animCurrentFrame == 10.0f || this->skelAnime.animCurrentFrame == 22.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+    } else if ((globalCtx->gameplayFrames & 95) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -510,8 +508,8 @@ void func_80AE37BC(EnRd* this) {
 
 void func_80AE3834(EnRd *this, GlobalContext *globalCtx) {
     Vec3f sp34 = D_80AE492C;
-    Color_RGBA8 sp30 = D_80AE4938;
-    Color_RGBA8 sp2C = D_80AE493C;
+    Color_RGBA8_n sp30 = D_80AE4938;
+    Color_RGBA8_n sp2C = D_80AE493C;
     Player* player = PLAYER;
     s16 temp_v0 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
 
@@ -603,7 +601,7 @@ void func_80AE3C20(EnRd* this) {
 }
 
 void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
-    if (this->actor.type != 6) {
+    if (this->actor.type != ACTORTYPE_PROP) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
     }
 
@@ -641,30 +639,27 @@ void func_80AE3DE4(EnRd* this) {
         this->unk_316 = 0x258;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         func_8003426C(&this->actor, -0x8000, -0x7F38, 0, 0xFF);
+    } else if (this->unk_31C == 1) {
+        func_8003426C(&this->actor, 0, 0xC8, 0, 0x50);
     } else {
-        if (this->unk_31C == 1) {
-            func_8003426C(&this->actor, 0, 0xC8, 0, 0x50);
-        } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
-            func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0x50);
-        }
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
+        func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0x50);
     }
     EnRd_SetupAction(this, func_80AE3ECC);
 }
 
 void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
-    if (this->unk_318 != 0) {
-        if (this->unk_316 != 0) {
-            this->unk_316--;
-            if (this->unk_316 >= 0xFF) {
-                func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0xFF);
-            }
-            if (this->unk_316 == 0) {
-                this->unk_318 = 0;
-                gSaveContext.unk_1422 = 0;
-            }
+    if ((this->unk_318 != 0) && (this->unk_316 != 0)) {
+        this->unk_316--;
+        if (this->unk_316 >= 0xFF) {
+            func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0xFF);
+        }
+        if (this->unk_316 == 0) {
+            this->unk_318 = 0;
+            gSaveContext.unk_1422 = 0;
         }
     }
+
     if (this->actor.dmgEffectTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
             func_80AE2630(globalCtx, &this->actor, 1);
@@ -784,12 +779,8 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_MoveForward(&this->actor);
         }
 
-        if (this->actor.shape.rot.x == 0) {
-            if (this->unk_31B != 8) {
-                if (this->actor.speedXZ != 0.0f) {
-                    func_8002E4B4(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f, 0x1D);
-                }
-            }
+        if ((this->actor.shape.rot.x == 0) && (this->unk_31B != 8) && (this->actor.speedXZ != 0.0f)) {
+            func_8002E4B4(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f, 0x1D);
         }
 
         if (this->unk_31B == 7) {
@@ -800,13 +791,11 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 50.0f;
 
-    if (this->actor.colChkInfo.health > 0) {
-        if (this->unk_31B != 8) {
-            Collider_CylinderUpdate(&this->actor, collider);
-            CollisionCheck_SetOC(globalCtx, colChkCtx, &collider->base);
-            if ((this->unk_31B != 9) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
-                CollisionCheck_SetAC(globalCtx, colChkCtx, &collider->base);
-            }
+    if ((this->actor.colChkInfo.health > 0) && (this->unk_31B != 8)) {
+        Collider_CylinderUpdate(&this->actor, collider);
+        CollisionCheck_SetOC(globalCtx, colChkCtx, &collider->base);
+        if ((this->unk_31B != 9) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
+            CollisionCheck_SetAC(globalCtx, colChkCtx, &collider->base);
         }
     }
 }
