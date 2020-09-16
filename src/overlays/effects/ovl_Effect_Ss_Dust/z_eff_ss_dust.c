@@ -80,19 +80,16 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF sp144;
     MtxF sp104;
     MtxF spC4;
     MtxF sp84;
-    s32 pad1;
+    s32 pad;
     Mtx* mtx;
     f32 scale;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_eff_ss_dust.c", 321);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_dust.c", 321);
 
     scale = this->regs[SS_DUST_SCALE] * 0.0025f;
 
@@ -101,37 +98,37 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     SkinMatrix_MtxFMtxFMult(&sp144, &globalCtx->mf_11DA0, &sp84);
     SkinMatrix_MtxFMtxFMult(&sp84, &sp104, &spC4);
 
-    gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &spC4);
 
     if (mtx != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A2A50[this->regs[SS_DUST_TEX_IDX]]));
-        gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A2A50[this->regs[SS_DUST_TEX_IDX]]));
+        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
 
         if (this->regs[SS_DUST_DRAW_FLAGS] & 1) {
-            gDPSetCombineLERP(gfxCtx->polyXlu.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, 0,
-                              COMBINED, 0, SHADE, 0, 0, 0, 0, COMBINED);
-            gDPSetRenderMode(gfxCtx->polyXlu.p++, G_RM_FOG_SHADE_A, G_RM_ZB_CLD_SURF2);
-            gSPSetGeometryMode(gfxCtx->polyXlu.p++, G_FOG | G_LIGHTING);
+            gDPSetCombineLERP(oGfxCtx->polyXlu.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0,
+                              0, COMBINED, 0, SHADE, 0, 0, 0, 0, COMBINED);
+            gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_FOG_SHADE_A, G_RM_ZB_CLD_SURF2);
+            gSPSetGeometryMode(oGfxCtx->polyXlu.p++, G_FOG | G_LIGHTING);
         } else if (this->regs[SS_DUST_DRAW_FLAGS] & 2) {
-            gDPSetRenderMode(gfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-            gSPClearGeometryMode(gfxCtx->polyXlu.p++, G_FOG | G_LIGHTING);
+            gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
+            gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_FOG | G_LIGHTING);
         } else {
-            gSPClearGeometryMode(gfxCtx->polyXlu.p++, G_LIGHTING);
+            gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_LIGHTING);
         }
 
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_DUST_PRIM_R], this->regs[SS_DUST_PRIM_G],
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_DUST_PRIM_R], this->regs[SS_DUST_PRIM_G],
                         this->regs[SS_DUST_PRIM_B], 255);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_DUST_ENV_R], this->regs[SS_DUST_ENV_G],
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_DUST_ENV_R], this->regs[SS_DUST_ENV_G],
                        this->regs[SS_DUST_ENV_B], this->regs[SS_DUST_ENV_A]);
-        gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_eff_ss_dust.c", 389);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_dust.c", 389);
 }
 
 void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

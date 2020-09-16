@@ -177,7 +177,7 @@ void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx)) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         gSaveContext.eventChkInf[4] |= 8;
         Flags_SetSwitch(globalCtx, 3);
         this->actionFunc = ItemOcarina_StartSoTCutscene;

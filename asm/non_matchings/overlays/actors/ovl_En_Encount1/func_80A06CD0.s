@@ -103,7 +103,7 @@ glabel func_80A06CD0
 /* 006FC 80A06E1C AFAF0028 */  sw      $t7, 0x0028($sp)           
 /* 00700 80A06E20 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
 /* 00704 80A06E24 E7A60010 */  swc1    $f6, 0x0010($sp)           
-/* 00708 80A06E28 0C00C916 */  jal     Actor_SpawnAttached
+/* 00708 80A06E28 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0070C 80A06E2C E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 00710 80A06E30 10400008 */  beq     $v0, $zero, .L80A06E54     
