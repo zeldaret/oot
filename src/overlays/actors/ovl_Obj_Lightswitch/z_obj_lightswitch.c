@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_lightswitch.h"
+#include <vt.h>
 
 #define FLAGS 0x00000010
 
@@ -76,6 +77,7 @@ static InitChainEntry sInitChain[] = {
 
 void ObjLightswitch_InitCollider(ObjLightswitch* this, GlobalContext* globalCtx) {
     s32 pad;
+
     Collider_InitJntSph(globalCtx, &this->col);
     Collider_SetJntSph(globalCtx, &this->col, &this->actor, &sColliderJntSphInit, this->colItems);
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->actor.scale.y),
@@ -145,11 +147,9 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* g
 
 void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjLightswitch* this = THIS;
-    s32 switchFlagSet;
-    s32 removeSelf;
+    s32 switchFlagSet = Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
+    s32 removeSelf = 0;
 
-    switchFlagSet = Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
-    removeSelf = 0;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetHeight(&this->actor, 0.0f);
     if (switchFlagSet) {
@@ -174,10 +174,10 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (!Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_OBJ_OSHIHIKI,
                                 this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
                                 this->actor.initPosRot.pos.z, 0, this->actor.initPosRot.rot.y, 0, 0xFF00)) {
-            osSyncPrintf("\x1b[41;37m");
+            osSyncPrintf(VT_COL(RED, WHITE));
             osSyncPrintf("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_obj_lightswitch.c", 452,
                          this->actor.params);
-            osSyncPrintf("\x1b[m");
+            osSyncPrintf(VT_RST);
             removeSelf = 1;
         }
     }
@@ -376,13 +376,13 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     /*
+    // the sane way to write the next line but doesn't match:
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, (u8)(this->red >> 6), (u8)(this->green >> 6), (u8)(this->blue >> 6),
                    (u8)(this->alpha >> 6));
     */
     gDPSetColor(oGfxCtx->polyOpa.p++, G_SETENVCOLOR,
-                ((((u8)(this->blue >> 6)) & 0xFF) << 8) |
-                    (((((u8)(this->red >> 6)) & 0xFF) << 24) | ((((u8)(this->green >> 6)) & 0xFF) << 16) |
-                     ((((u8)(this->alpha >> 6)) & 0xFF) << 0)));
+                (((u8)(this->blue >> 6) & 0xFF) << 8) | (((u8)(this->red >> 6) & 0xFF) << 24) |
+                    (((u8)(this->green >> 6) & 0xFF) << 16) | ((u8)(this->alpha >> 6) & 0xFF));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09, &D_80116280[2]);
 
     if ((this->actor.params & 1) == 1) {
