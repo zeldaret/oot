@@ -43,11 +43,13 @@ typedef struct {
     /* 0x0E */ s16 height;
 } HanaParams; // size 0x10
 
-HanaParams D_80B93AA4[] = { { 0x05000500, 0.01f, 0.0f, -1, 0 },
-                            { 0x0500A880, 0.1f, 58.0f, 10, 18 },
-                            { 0x0500B9D0, 0.4f, 0.0f, 12, 44 } };
+static HanaParams hanaParams[] = {
+    { 0x05000500, 0.01f, 0.0f, -1, 0 },
+    { 0x0500A880, 0.1f, 58.0f, 10, 18 },
+    { 0x0500B9D0, 0.4f, 0.0f, 12, 44 },
+};
 
-InitChainEntry sInitChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 900, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 60, ICHAIN_CONTINUE),
@@ -56,19 +58,18 @@ InitChainEntry sInitChain[] = {
 
 void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
-
     s16 type = this->actor.params & 3;
-    HanaParams* hanaParams = &D_80B93AA4[type];
+    HanaParams* params = &hanaParams[type];
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    Actor_SetScale(&this->actor, hanaParams->scale);
-    this->actor.shape.unk_08 = hanaParams->yOffset;
-    if (hanaParams->radius >= 0) {
+    Actor_SetScale(&this->actor, params->scale);
+    this->actor.shape.unk_08 = params->yOffset;
+    if (params->radius >= 0) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         Collider_CylinderUpdate(&this->actor, &this->collider);
-        this->collider.dim.radius = hanaParams->radius;
-        this->collider.dim.height = hanaParams->height;
+        this->collider.dim.radius = params->radius;
+        this->collider.dim.height = params->height;
         func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
@@ -80,7 +81,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (D_80B93AA4[this->actor.params & 3].radius >= 0) {
+    if (hanaParams[this->actor.params & 3].radius >= 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
@@ -88,11 +89,11 @@ void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (D_80B93AA4[this->actor.params & 3].radius >= 0 && this->actor.xzDistFromLink < 400.0f) {
+    if (hanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistFromLink < 400.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
 void ObjHana_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_80B93AA4[thisx->params & 3].dList);
+    Gfx_DrawDListOpa(globalCtx, hanaParams[thisx->params & 3].dList);
 }
