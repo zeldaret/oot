@@ -12,7 +12,7 @@ glabel func_808340DC
 /* 01ED4 808340E4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01ED8 808340E8 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 01EDC 808340EC AFA50054 */  sw      $a1, 0x0054($sp)
-/* 01EE0 808340F0 0C20CDC9 */  jal     func_80833724
+/* 01EE0 808340F0 0C20CDC9 */  jal     Player_ItemToActionParam
 /* 01EE4 808340F4 90840152 */  lbu     $a0, 0x0152($a0)           ## 00000152
 /* 01EE8 808340F8 3C058083 */  lui     $a1, %hi(func_80834A2C)    ## $a1 = 80830000
 /* 01EEC 808340FC 24A54A2C */  addiu   $a1, $a1, %lo(func_80834A2C) ## $a1 = 80834A2C

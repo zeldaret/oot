@@ -1729,7 +1729,7 @@ void func_80833664(GlobalContext* globalCtx, Player* this, s8 actionParam) {
     }
 }
 
-s8 func_80833724(s32 item) {
+s8 Player_ItemToActionParam(s32 item) {
     if (item >= ITEM_NONE_FE) {
         return PLAYER_AP_NONE;
     } else if (item == ITEM_LAST_USED) {
@@ -1894,7 +1894,7 @@ void func_80833C3C(Player* this) {
 }
 
 s32 func_80833C50(Player* this, s32 item) {
-    if ((item < ITEM_NONE_FE) && (func_80833724(item) == this->itemActionParam)) {
+    if ((item < ITEM_NONE_FE) && (Player_ItemToActionParam(item) == this->itemActionParam)) {
         return 1;
     } else {
         return 0;
@@ -1902,7 +1902,7 @@ s32 func_80833C50(Player* this, s32 item) {
 }
 
 s32 func_80833C98(s32 item1, s32 actionParam) {
-    if ((item1 < ITEM_NONE_FE) && (func_80833724(item1) == actionParam)) {
+    if ((item1 < ITEM_NONE_FE) && (Player_ItemToActionParam(item1) == actionParam)) {
         return 1;
     } else {
         return 0;
@@ -1915,7 +1915,7 @@ s32 func_80833CDC(GlobalContext* globalCtx, s32 index) {
     } else if (globalCtx->bombchuBowlingAmmo != 0) {
         return (globalCtx->bombchuBowlingAmmo > 0) ? ITEM_BOMBCHU : ITEM_NONE;
     } else if (index == 0) {
-        return A_BTN_ITEM;
+        return B_BTN_ITEM;
     } else if (index == 1) {
         return C_BTN_ITEM(0);
     } else if (index == 2) {
@@ -1940,7 +1940,7 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
 
     if (!(this->stateFlags1 & 0x20000800) && !func_8008F128(this)) {
         if (this->itemActionParam >= PLAYER_AP_FISHING_POLE) {
-            if (!func_80833C50(this, A_BTN_ITEM) && !func_80833C50(this, C_BTN_ITEM(0)) &&
+            if (!func_80833C50(this, B_BTN_ITEM) && !func_80833C50(this, C_BTN_ITEM(0)) &&
                 !func_80833C50(this, C_BTN_ITEM(1)) && !func_80833C50(this, C_BTN_ITEM(2))) {
                 func_80835F44(globalCtx, this, ITEM_NONE);
                 return;
@@ -1962,7 +1962,7 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
             }
 
             item = func_80833CDC(globalCtx, i);
-            if ((item < ITEM_NONE_FE) && (func_80833724(item) == this->heldItemActionParam)) {
+            if ((item < ITEM_NONE_FE) && (Player_ItemToActionParam(item) == this->heldItemActionParam)) {
                 D_80853618 = true;
             }
         } else {
@@ -1984,7 +1984,7 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
     s8 sp37;
     s32 temp;
 
-    sp37 = func_80833724(this->heldItemId);
+    sp37 = Player_ItemToActionParam(this->heldItemId);
     func_80833638(this, func_80834A2C);
 
     temp = gPlayerModelTypes[this->nextModelGroup][0];
@@ -2214,7 +2214,7 @@ s32 func_808349DC(Player* this, GlobalContext* globalCtx) {
 
 s32 func_80834A2C(Player* this, GlobalContext* globalCtx) {
     if (func_800A3BC0(globalCtx, &this->skelAnime2) ||
-        ((func_80833724(this->heldItemId) == this->heldItemActionParam) &&
+        ((Player_ItemToActionParam(this->heldItemId) == this->heldItemActionParam) &&
          (D_80853614 = (D_80853614 || ((this->modelAnimType != 3) && (globalCtx->unk_11E5C == 0)))))) {
         func_80833638(this, D_80853EDC[this->heldItemActionParam]);
         this->unk_834 = 0;
@@ -2751,7 +2751,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
     s32 temp;
     s32 nextType;
 
-    actionParam = func_80833724(item);
+    actionParam = Player_ItemToActionParam(item);
 
     if (((this->heldItemActionParam == this->itemActionParam) &&
          (!(this->stateFlags1 & 0x400000) || (Player_ActionToSword(actionParam) != 0) ||
@@ -2891,7 +2891,8 @@ s32 func_808365C8(Player* this) {
     return (!(func_808458D0 == this->func_674) ||
             ((this->stateFlags1 & 0x100) &&
              ((this->heldItemId == ITEM_LAST_USED) || (this->heldItemId == ITEM_NONE)))) &&
-           (!(func_80834A2C == this->func_82C) || (func_80833724(this->heldItemId) == this->heldItemActionParam));
+           (!(func_80834A2C == this->func_82C) ||
+            (Player_ItemToActionParam(this->heldItemId) == this->heldItemActionParam));
 }
 
 s32 func_80836670(Player* this, GlobalContext* globalCtx) {

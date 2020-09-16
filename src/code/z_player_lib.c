@@ -366,7 +366,7 @@ void Player_SetEquipmentData(GlobalContext* globalCtx, Player* this) {
         this->currentShield = CUR_EQUIP_VALUE(EQUIP_SHIELD);
         this->currentTunic = CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1;
         this->currentBoots = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
-        this->currentSword = A_BTN_ITEM;
+        this->currentSword = B_BTN_ITEM;
         Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemActionParam));
         Player_SetBootData(globalCtx, this);
     }
