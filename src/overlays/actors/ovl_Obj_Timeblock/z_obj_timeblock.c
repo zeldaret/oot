@@ -12,14 +12,17 @@
 #define BOOL(x) (x ? 1 : 0)
 
 #define BLOCK_OF_TIME_JA "時のブロック"
+#define ATTENTION_CAMERA_JA "注目カメラ"
 
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80BA00CC(GlobalContext* globalCtx, u32 arg1);
 s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx);
 s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx);
+void func_80BA04F8(ObjTimeblock* this);
 void func_80BA0514(ObjTimeblock* this);
 void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0758(ObjTimeblock* this);
@@ -200,7 +203,49 @@ void func_80BA0514(ObjTimeblock* this) {
     this->unk_164 = &func_80BA0524;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0524.s")
+extern void func_80080480(GlobalContext* globalCtx, Actor* actor);
+
+void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
+
+    if (this->actionFunc(this, globalCtx)) {
+        if (this->unk_16C <= 0) {
+            func_80BA0058(this, globalCtx);
+            this->unk_16C = 160;
+            func_80080480(globalCtx, &this->dyna.actor);
+            osSyncPrintf("◯◯◯◯ Time Block " ATTENTION_CAMERA_JA " (frame counter  %d)\n", globalCtx->state.frames);
+            this->unk_170 = 12;
+            if (this->unk_177 == 0) {
+                this->dyna.actor.params = this->dyna.actor.params ^ 0x8000;
+            } else {
+                func_80BA00CC(globalCtx, this->dyna.actor.params & 0x3F);
+            }
+        }
+    }
+
+    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+    if (this->unk_170 > 0) {
+        this->unk_170--;
+        if (this->unk_170 == 0) {
+            if (this->unk_177 == 0) {
+                this->unk_175 = BOOL((this->dyna.actor.params >> 15) & 1);
+            } else {
+                this->unk_174 = BOOL(Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F));
+            }
+        }
+    }
+    {
+        u32 newUnk_178 = func_80B9FFA0(this);
+        if (this->unk_177 == 1) {
+            if (newUnk_178 != this->unk_178) {
+                func_80BA04F8(this);
+            }
+        }
+        this->unk_178 = newUnk_178;
+    }
+    if (this->unk_16C == 50) {
+        func_80078884(0x4807);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA06AC.s")
 
