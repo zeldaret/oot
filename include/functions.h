@@ -272,7 +272,7 @@ void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* v
 // ? func_8002A32C(?);
 // ? func_8002A3C4(?);
 // ? func_8002A484(?);
-// ? func_8002A4D4(?);
+void func_8002A4D4(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, s16 unk_12, s16 flags, s16 bodypart);
 void EffectSsExtra_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx);
 void func_8002A65C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 arg3, s16 arg4);
 void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, u32 arg4, s32 arg5, u32 arg6,
@@ -1267,7 +1267,7 @@ void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetion
                    Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
 void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                    AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
+                    AnimationHeader* animationSeg, Vec3s* limbDrawTbl, Vec3s* transitionDrawTable, s32 limbCount);
 void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                       AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
