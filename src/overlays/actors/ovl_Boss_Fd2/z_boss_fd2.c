@@ -1000,17 +1000,12 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unkTimer++;
 
     this->actionFunc(this, globalCtx2);
+    
     for (i = 0; i < 5; i++) {
-        if (this->timers[i] != 0) {
-            this->timers[i]--;
-        }
+        DECR(this->timers[i]);
     }
-    if (this->damageFlashTimer != 0) {
-        this->damageFlashTimer--;
-    }
-    if (this->invincibilityTimer != 0) {
-        this->invincibilityTimer--;
-    }
+    DECR(this->damageFlashTimer);
+    DECR(this->invincibilityTimer);
 
     if (this->deathState == 0) {
         if (this->invincibilityTimer == 0) {
