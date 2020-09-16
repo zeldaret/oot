@@ -22,7 +22,7 @@ void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BC48(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
-void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem);
+void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* collider);
 
 f32 func_80A6B30C(EnHorseNormal* this);
 void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
@@ -481,7 +481,32 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+void func_800A6408(ColliderJntSphItem* collider, u8 joint, Vec3f*, Vec3f*);
+
+// Minor regalloc
+void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+    Vec3f sp4C;
+    Vec3f sp40;
+    EnHorseNormal* this = THIS;
+    s32 i;
+
+    for (i = 0; i < this->unk_274.count; i++) {
+        sp4C.x = this->unk_274.list[i].dim.modelSphere.center.x;
+        sp4C.y = this->unk_274.list[i].dim.modelSphere.center.y;
+        sp4C.z = this->unk_274.list[i].dim.modelSphere.center.z;
+        func_800A6408(collider, this->unk_274.list[i].dim.joint, &sp4C, &sp40);
+        this->unk_274.list[i].dim.worldSphere.center.x = sp40.x;
+        this->unk_274.list[i].dim.worldSphere.center.y = sp40.y;
+        this->unk_274.list[i].dim.worldSphere.center.z = sp40.z;
+        this->unk_274.list[i].dim.worldSphere.radius = this->unk_274.list[i].dim.scale * this->unk_274.list[i].dim.modelSphere.radius;
+    }
+
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_274.base);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6CAFC.s")
+#endif
 
 void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
     f32 animCurrentFrame = this->skin.skelAnime.animCurrentFrame;
