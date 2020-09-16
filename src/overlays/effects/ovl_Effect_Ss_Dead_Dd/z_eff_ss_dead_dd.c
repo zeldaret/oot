@@ -33,7 +33,7 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     s32 i;
     EffectSsDeadDdInitParams* initParams = (EffectSsDeadDdInitParams*)initParamsx;
 
-    if (initParams->drawMode == 0) {
+    if (initParams->type == 0) {
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
@@ -58,7 +58,7 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->rEnvColorG = initParams->envColor.g;
         this->rEnvColorB = initParams->envColor.b;
 
-    } else if (initParams->drawMode == 1) {
+    } else if (initParams->type == 1) {
         this->life = initParams->life;
         this->rScaleStep = initParams->scaleStep;
         this->rAlphaMode = 0;
@@ -74,7 +74,7 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->draw = EffectSsDeadDd_Draw;
         this->update = EffectSsDeadDd_Update;
 
-        for (i = initParams->num; i > 0; i--) {
+        for (i = initParams->randIter; i > 0; i--) {
             this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
             this->pos.y = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.y;
             this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.z;

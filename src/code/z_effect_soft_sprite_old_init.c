@@ -458,7 +458,7 @@ void EffectSsDFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, 
 }
 
 void EffectSsDFire_SpawnFixedScale(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha,
-                              s16 fadeDelay) {
+                                   s16 fadeDelay) {
     EffectSsDFire_Spawn(globalCtx, pos, velocity, accel, 100, 35, alpha, fadeDelay, 8);
 }
 
@@ -939,8 +939,8 @@ void func_8002A1DC(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR
     EffectSs_Spawn(globalCtx, EFFECT_SS_EN_ICE, 80, &initParams);
 }
 
-void func_8002A2A4(GlobalContext* arg0, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s32 life) {
+void func_8002A2A4(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel,
+                   Color_RGBA8* primColor, Color_RGBA8* envColor, s32 life) {
     EffectSsEnIceInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
@@ -952,7 +952,7 @@ void func_8002A2A4(GlobalContext* arg0, Vec3f* pos, f32 scale, Vec3f* velocity, 
     initParams.life = life;
     initParams.type = 1;
 
-    EffectSs_Spawn(arg0, EFFECT_SS_EN_ICE, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_EN_ICE, 128, &initParams);
 }
 
 // EffectSsFireTail Spawn Functions
@@ -1095,15 +1095,16 @@ void EffectSsDeadDb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
 
 // EffectSsDeadDd Spawn Functions
 
-void func_8002A770(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
-                   s16 primR, s16 primG, s16 primB, s16 alpha, s16 envR, s16 envG, s16 envB, s16 alphaStep, s32 life) {
+void EffectSsDeadDd_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                          s16 primR, s16 primG, s16 primB, s16 alpha, s16 envR, s16 envG, s16 envB, s16 alphaStep,
+                          s32 life) {
     EffectSsDeadDdInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.scale = scale;
-    initParams.drawMode = 0;
+    initParams.type = 0;
     initParams.scaleStep = scaleStep;
     initParams.primColor.r = primR;
     initParams.primColor.g = primG;
@@ -1119,17 +1120,17 @@ void func_8002A770(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 }
 
 // unused
-void func_8002A824(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleStep, f32 randPosScale, s32 num,
-                   s32 life) {
+void EffectSsDeadDd_SpawnRandYellow(GlobalContext* globalCtx, Vec3f* pos, s16 scale, s16 scaleStep, f32 randPosScale,
+                                    s32 randIter, s32 life) {
     EffectSsDeadDdInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
     initParams.randPosScale = randPosScale;
-    initParams.num = num;
+    initParams.randIter = randIter;
     initParams.life = life;
-    initParams.drawMode = 1;
+    initParams.type = 1;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_DEAD_DD, 120, &initParams);
 }
@@ -1182,6 +1183,7 @@ void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16
 }
 
 // EffectSsIceSmoke Spawn Functions
+
 /**
  * Spawn an Ice Smoke effect
  *

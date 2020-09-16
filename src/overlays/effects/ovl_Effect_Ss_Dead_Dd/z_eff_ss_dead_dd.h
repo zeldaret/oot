@@ -16,8 +16,8 @@ typedef struct {
     /* 0x30 */ s16 alphaStep;
     /* 0x34 */ s32 life;
     /* 0x38 */ f32 randPosScale;
-    /* 0x3C */ s32 num;
-    /* 0x40 */ u8 drawMode;
+    /* 0x3C */ s32 randIter;
+    /* 0x40 */ u8 type;
 } EffectSsDeadDdInitParams; // size = 0x44
 
 #endif
