@@ -312,10 +312,10 @@ void Flags_SetTempClear(GlobalContext* globalCtx, s32 flag);
 void Flags_UnsetTempClear(GlobalContext* globalCtx, s32 flag);
 s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag);
 void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag);
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, u32 texture, s16 arg3, s16 arg4,
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, UNK_TYPE* texture, s16 arg3, s16 arg4,
                             u8 arg5, u8 arg6);
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, u32 texture, s32 arg3, s32 arg4,
-                             s32 arg5, s32 arg6, s32 arg7);
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, UNK_TYPE* texture, s32 arg3,
+                             s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetHeight(Actor* actor, f32 offset);

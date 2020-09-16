@@ -119,7 +119,7 @@ typedef struct Actor {
     /* 0x04C */ f32     unk_4C;
     /* 0x050 */ Vec3f   scale; // Sets x,y,z scaling factor. Typically, a factor of 0.01 is used for each axis
     /* 0x05C */ Vec3f   velocity;
-    /* 0x068 */ f32     speedXZ; // Always positive, stores how fast the actor is traveling along the XZ plane
+    /* 0x068 */ f32     speedXZ; // Stores how fast the actor is traveling along the XZ plane
     /* 0x06C */ f32     gravity; // Acceleration due to gravity; value is added to Y velocity every frame
     /* 0x070 */ f32     minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
     /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon an actor is touching
