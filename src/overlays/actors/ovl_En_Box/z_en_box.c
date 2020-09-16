@@ -83,7 +83,7 @@ Vec3f D_809CA820 = { 0, 0, 0 };
 
 s32 unused; // bss
 
-void EnBox_SetActionFunc(EnBox* this, EnBoxActionFunc actionFunc) {
+void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -135,7 +135,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx_) {
     if (Flags_GetTreasure(globalCtx_, this->dyna.actor.params & 0x1F)) {
         this->alpha = 255;
         this->iceEffTimer = 100;
-        EnBox_SetActionFunc(this, EnBox_Open);
+        EnBox_SetupAction(this, EnBox_Open);
         this->movementFlags |= ENBOX_MOVE_STICK_TO_GROUND;
         animFrameStart = animFrameCount;
     } else if (((this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_BIG) || (this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL)) &&
@@ -145,20 +145,20 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx_) {
             this->movementFlags |= ENBOX_MOVE_FALL_ANGLE_SIDE;
         }
         this->unk_1A8 = -12;
-        EnBox_SetActionFunc(this, EnBox_FallOnSwitchFlag);
+        EnBox_SetupAction(this, EnBox_FallOnSwitchFlag);
         this->alpha = 0;
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.flags |= 0x10;
     } else if (((this->type == ENBOX_TYPE_ROOM_CLEAR_BIG) || (this->type == ENBOX_TYPE_ROOM_CLEAR_SMALL)) &&
                (!Flags_GetClear(globalCtx, this->dyna.actor.room))) {
-        EnBox_SetActionFunc(this, EnBox_AppearOnRoomClear);
+        EnBox_SetupAction(this, EnBox_AppearOnRoomClear);
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 50.0f;
         this->alpha = 0;
         this->dyna.actor.flags |= 0x10;
     } else if ((this->type == ENBOX_TYPE_9) || (this->type == ENBOX_TYPE_10)) {
-        EnBox_SetActionFunc(this, func_809C9700);
+        EnBox_SetupAction(this, func_809C9700);
         this->dyna.actor.flags |= 0x2000000;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
@@ -166,7 +166,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx_) {
         this->alpha = 0;
         this->dyna.actor.flags |= 0x10;
     } else if ((this->type == ENBOX_TYPE_SWITCH_FLAG_BIG) && (!Flags_GetSwitch(globalCtx, (s32)this->switchFlag))) {
-        EnBox_SetActionFunc(this, EnBox_AppearOnSwitchFlag);
+        EnBox_SetupAction(this, EnBox_AppearOnSwitchFlag);
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 50.0f;
@@ -176,7 +176,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx_) {
         if ((this->type == ENBOX_TYPE_4) || (this->type == ENBOX_TYPE_6)) {
             this->dyna.actor.flags |= 0x80;
         }
-        EnBox_SetActionFunc(this, EnBox_WaitOpen);
+        EnBox_SetupAction(this, EnBox_WaitOpen);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->movementFlags |= ENBOX_MOVE_STICK_TO_GROUND;
     }
@@ -265,7 +265,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.velocity.y < 5.5f) {
             this->dyna.actor.shape.rot.z = 0;
             this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
-            EnBox_SetActionFunc(this, EnBox_WaitOpen);
+            EnBox_SetupAction(this, EnBox_WaitOpen);
             func_800803F0(globalCtx, this->unk_1AC);
         }
         Audio_PlaySoundGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -289,7 +289,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1A8 >= 0) {
-        EnBox_SetActionFunc(this, EnBox_Fall);
+        EnBox_SetupAction(this, EnBox_Fall);
         this->unk_1AC = func_800800F8(globalCtx, 4500, 9999, &this->dyna.actor, 0);
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     } else if (this->unk_1A8 >= -11) {
@@ -326,7 +326,7 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
             if ((globalCtx->msgCtx.unk_E3EC == 8 && this->type == ENBOX_TYPE_9) ||
                 (globalCtx->msgCtx.unk_E3EC == 9 && this->type == ENBOX_TYPE_10)) {
                 this->dyna.actor.flags &= ~0x2000000;
-                EnBox_SetActionFunc(this, EnBox_AppearInit);
+                EnBox_SetupAction(this, EnBox_AppearInit);
                 func_80080480(globalCtx, &this->dyna.actor);
                 this->unk_1A8 = 0;
                 this->unk_1FB = ENBOX_STATE_0;
@@ -345,7 +345,7 @@ void EnBox_AppearOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
 
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         func_80080480(globalCtx, &this->dyna.actor);
-        EnBox_SetActionFunc(this, EnBox_AppearInit);
+        EnBox_SetupAction(this, EnBox_AppearInit);
         this->unk_1A8 = -30;
     }
 }
@@ -358,7 +358,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
 
     if (Flags_GetTempClear(globalCtx, this->dyna.actor.room) && !func_8008E988(globalCtx)) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
-        EnBox_SetActionFunc(this, EnBox_AppearInit);
+        EnBox_SetupAction(this, EnBox_AppearInit);
         func_80080480(globalCtx, &this->dyna.actor);
         if (func_80080728(globalCtx, this->dyna.actor.type)) {
             this->unk_1A8 = 0;
@@ -373,7 +373,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
  */
 void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx) {
     if (func_8005B198() == this->dyna.actor.type || this->unk_1A8 != 0) {
-        EnBox_SetActionFunc(this, EnBox_AppearAnimation);
+        EnBox_SetupAction(this, EnBox_AppearAnimation);
         this->unk_1A8 = 0;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->dyna.actor.initPosRot.pos.x,
                     this->dyna.actor.initPosRot.pos.y, this->dyna.actor.initPosRot.pos.z, 0, 0, 0, 0x0011);
@@ -395,7 +395,7 @@ void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx) {
         this->unk_1A8++;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
     } else {
-        EnBox_SetActionFunc(this, EnBox_WaitOpen);
+        EnBox_SetupAction(this, EnBox_WaitOpen);
     }
 }
 
@@ -419,7 +419,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
         anim = D_809CA800[t2 + linkAge];
         frameCount = SkelAnime_GetFrameCount(&anim->genericHeader);
         SkelAnime_ChangeAnim(&this->skelanime, anim, 1.5f, 0, frameCount, 2, 0.0f);
-        EnBox_SetActionFunc(this, EnBox_Open);
+        EnBox_SetupAction(this, EnBox_Open);
         if (this->unk_1F4 > 0) {
             switch (this->type) {
                 case ENBOX_TYPE_SMALL:
@@ -428,10 +428,10 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
                 case ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL:
                     break;
                 default:
-                    Actor_SpawnAttached(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_DEMO_TRE_LGT,
-                                        this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y,
-                                        this->dyna.actor.posRot.pos.z, this->dyna.actor.shape.rot.x,
-                                        this->dyna.actor.shape.rot.y, this->dyna.actor.shape.rot.z, 0xFFFF);
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_DEMO_TRE_LGT,
+                                       this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y,
+                                       this->dyna.actor.posRot.pos.z, this->dyna.actor.shape.rot.x,
+                                       this->dyna.actor.shape.rot.y, this->dyna.actor.shape.rot.z, 0xFFFF);
                     func_800F5C64(0x92B);
             }
         }
@@ -445,7 +445,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
             func_8002F554(&this->dyna.actor, globalCtx, 0 - ((this->dyna.actor.params >> 5) & 0x7F));
         }
         if (Flags_GetTreasure(globalCtx, this->dyna.actor.params & 0x1F)) {
-            EnBox_SetActionFunc(this, EnBox_Open);
+            EnBox_SetupAction(this, EnBox_Open);
         }
     }
 }
