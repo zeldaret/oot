@@ -203,7 +203,7 @@ glabel func_808502D0
 /* 1E3A4 808505B4 24C64A4C */  addiu   $a2, $a2, %lo(D_80854A4C)  ## $a2 = 80854A4C
 /* 1E3A8 808505B8 00C03825 */  or      $a3, $a2, $zero            ## $a3 = 80854A4C
 /* 1E3AC 808505BC 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 1E3B0 808505C0 0C00A409 */  jal     func_80029024              
+/* 1E3B0 808505C0 0C00A409 */  jal     EffectSsBlast_SpawnWhiteShockwave              
 /* 1E3B4 808505C4 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFE8
 .L808505C8:
 /* 1E3B8 808505C8 8FBF001C */  lw      $ra, 0x001C($sp)           

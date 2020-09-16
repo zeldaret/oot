@@ -470,7 +470,7 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             flamePos.x = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
             flamePos.y = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
             flamePos.z = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
-            func_8002A4D4(globalCtx, this, &flamePos, 0x64, 0, 0, -1);
+            EffectSsEnFire_SpawnVec3f(globalCtx, this, &flamePos, 0x64, 0, 0, -1);
         }
     }
 }

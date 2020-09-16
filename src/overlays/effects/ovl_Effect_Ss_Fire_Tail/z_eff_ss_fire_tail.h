@@ -13,7 +13,7 @@ typedef struct {
     /* 0x22 */ Color_RGBA8 primColor; 
     /* 0x26 */ Color_RGBA8 envColor;
     /* 0x2A */ s16 type;
-    /* 0x2C */ s16 bodypart;
+    /* 0x2C */ s16 bodyPart;
     /* 0x30 */ s32 life;
 } EffectSsFireTailInitParams; // size = 0x
 

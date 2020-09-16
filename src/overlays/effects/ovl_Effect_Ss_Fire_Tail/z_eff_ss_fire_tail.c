@@ -17,7 +17,7 @@
 #define rEnvColorG regs[8]
 #define rEnvColorB regs[9]
 #define rReg10 regs[10]
-#define rBodypart regs[11]
+#define rBodyPart regs[11]
 #define rType regs[12]
 
 u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -61,7 +61,7 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->rEnvColorR = initParams->envColor.r;
     this->rEnvColorG = initParams->envColor.g;
     this->rEnvColorB = initParams->envColor.b;
-    this->rBodypart = initParams->bodypart;
+    this->rBodyPart = initParams->bodyPart;
     this->rType = initParams->type;
 
     return 1;
@@ -84,16 +84,16 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
         this->vec = this->actor->velocity;
 
-        if (this->rBodypart < 0) {
+        if (this->rBodyPart < 0) {
             Matrix_Translate(this->pos.x + this->actor->posRot.pos.x, this->pos.y + this->actor->posRot.pos.y,
                              this->pos.z + this->actor->posRot.pos.z, MTXMODE_NEW);
         } else {
             Player* player = PLAYER;
-            s16 bodypart = this->rBodypart;
+            s16 bodyPart = this->rBodyPart;
 
-            this->pos.x = player->unk_908[bodypart].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
-            this->pos.y = player->unk_908[bodypart].y;
-            this->pos.z = player->unk_908[bodypart].z - (Math_Coss(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
+            this->pos.x = player->unk_908[bodyPart].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
+            this->pos.y = player->unk_908[bodyPart].y;
+            this->pos.z = player->unk_908[bodyPart].z - (Math_Coss(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
 
             Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
         }

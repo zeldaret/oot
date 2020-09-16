@@ -13,7 +13,7 @@
 #define rPitch regs[4]
 #define rYaw regs[5]
 #define rReg6 regs[6]
-#define rBodypart regs[7]
+#define rBodyPart regs[7]
 #define rFlags regs[8]
 #define rScroll regs[9]
 
@@ -46,7 +46,7 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->update = EffectSsEnFire_Update;
     this->rUnused = -15;
 
-    if (initParams->bodypart < 0) {
+    if (initParams->bodyPart < 0) {
         this->rYaw = Math_Vec3f_Yaw(&initParams->actor->posRot.pos, &initParams->pos) - initParams->actor->shape.rot.y;
         this->rPitch =
             Math_Vec3f_Pitch(&initParams->actor->posRot.pos, &initParams->pos) - initParams->actor->shape.rot.x;
@@ -62,7 +62,7 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     }
 
     this->rReg6 = initParams->unk_12 & 0x7FFF;
-    this->rBodypart = initParams->bodypart;
+    this->rBodyPart = initParams->bodyPart;
     this->rFlags = initParams->flags;
 
     return 1;
@@ -129,7 +129,7 @@ void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         if (this->actor->update != NULL) {
             Math_SmoothScaleMaxMinS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
 
-            if (this->rBodypart < 0) {
+            if (this->rBodyPart < 0) {
                 Matrix_Translate(this->actor->posRot.pos.x, this->actor->posRot.pos.y, this->actor->posRot.pos.z,
                                  MTXMODE_NEW);
                 Matrix_RotateY((this->rYaw + this->actor->shape.rot.y) * 0.0000958738f, MTXMODE_APPLY);
@@ -137,13 +137,13 @@ void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
                 Matrix_MultVec3f(&this->vec, &this->pos);
             } else {
                 if ((this->rFlags & 0x8000)) {
-                    this->pos.x = ((FireActorS*)this->actor)->firePos[this->rBodypart].x;
-                    this->pos.y = ((FireActorS*)this->actor)->firePos[this->rBodypart].y;
-                    this->pos.z = ((FireActorS*)this->actor)->firePos[this->rBodypart].z;
+                    this->pos.x = ((FireActorS*)this->actor)->firePos[this->rBodyPart].x;
+                    this->pos.y = ((FireActorS*)this->actor)->firePos[this->rBodyPart].y;
+                    this->pos.z = ((FireActorS*)this->actor)->firePos[this->rBodyPart].z;
                 } else {
-                    this->pos.x = ((FireActorF*)this->actor)->firePos[this->rBodypart].x;
-                    this->pos.y = ((FireActorF*)this->actor)->firePos[this->rBodypart].y;
-                    this->pos.z = ((FireActorF*)this->actor)->firePos[this->rBodypart].z;
+                    this->pos.x = ((FireActorF*)this->actor)->firePos[this->rBodyPart].x;
+                    this->pos.y = ((FireActorF*)this->actor)->firePos[this->rBodyPart].y;
+                    this->pos.z = ((FireActorF*)this->actor)->firePos[this->rBodyPart].z;
                 }
             }
         } else if (this->rReg6 != 0) {
