@@ -283,7 +283,7 @@ glabel EnRr_Draw
 /* 02198 80AEA5D8 AFB8001C */  sw      $t8, 0x001C($sp)
 /* 0219C 80AEA5DC AFB90020 */  sw      $t9, 0x0020($sp)
 /* 021A0 80AEA5E0 AFAA0024 */  sw      $t2, 0x0024($sp)
-/* 021A4 80AEA5E4 0C00A850 */  jal     func_8002A140
+/* 021A4 80AEA5E4 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f
 /* 021A8 80AEA5E8 E7B00028 */  swc1    $f16, 0x0028($sp)
 .L80AEA5EC:
 /* 021AC 80AEA5EC 8FBF005C */  lw      $ra, 0x005C($sp)

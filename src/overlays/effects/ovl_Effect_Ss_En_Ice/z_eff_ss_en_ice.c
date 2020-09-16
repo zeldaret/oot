@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_en_ice.c
  * Overlay: ovl_Effect_Ss_En_Ice
- * Description: Ice clumps (Ice Arrow)
+ * Description: Ice clumps
  */
 
 #include "z_eff_ss_en_ice.h"
@@ -22,8 +22,8 @@
 
 u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A3B60(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A3988(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsEnIce_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_En_Ice_InitVars = {
     EFFECT_SS_EN_ICE,
@@ -47,7 +47,7 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->life = 10;
         this->actor = initParams->actor;
         this->draw = EffectSsEnIce_Draw;
-        this->update = func_809A3988;
+        this->update = EffectSsEnIce_UpdateFlying;
         this->rScale = initParams->scale * 100.0f;
         this->rPrimColorR = initParams->primColor.r;
         this->rPrimColorG = initParams->primColor.g;
@@ -65,7 +65,7 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->accel = initParams->accel;
         this->life = initParams->life;
         this->draw = EffectSsEnIce_Draw;
-        this->update = func_809A3B60;
+        this->update = EffectSsEnIce_Update;
         this->rLifespan = initParams->life;
         this->rScale = initParams->scale * 100.0f;
         this->rYaw = atan2s(initParams->velocity.z, initParams->velocity.x);
@@ -134,7 +134,7 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     CLOSE_DISPS(gfxCtx, "../z_eff_en_ice.c", 294);
 }
 
-void func_809A3988(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 rand;
 
     if ((this->actor != NULL) && (this->actor->update != NULL)) {
@@ -151,7 +151,6 @@ void func_809A3988(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }
-
     } else {
         if (this->life >= 9) {
             rand = Math_Rand_CenteredFloat(65535.0f);
@@ -164,6 +163,6 @@ void func_809A3988(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     }
 }
 
-void func_809A3B60(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsEnIce_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->rPitch += this->rRotSpeed; // rRotSpeed is not initialized so this does nothing
 }

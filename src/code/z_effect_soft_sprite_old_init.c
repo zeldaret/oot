@@ -889,8 +889,8 @@ void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 sc
 
 // EffectSsEnIce Spawn Functions
 
-void func_8002A140(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 primR, s16 primG, s16 primB, s16 primA,
-                   s16 envR, s16 envG, s16 envB, f32 scale) {
+void EffectSsEnIce_SpawnFlyingVec3f(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 primR, s16 primG, s16 primB,
+                                    s16 primA, s16 envR, s16 envG, s16 envB, f32 scale) {
 
     EffectSsEnIceInitParams initParams;
 
@@ -913,8 +913,8 @@ void func_8002A140(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 primR
     EffectSs_Spawn(globalCtx, EFFECT_SS_EN_ICE, 80, &initParams);
 }
 
-void func_8002A1DC(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR, s16 primG, s16 primB, s16 primA,
-                   s16 envR, s16 envG, s16 envB, f32 scale) {
+void EffectSsEnIce_SpawnFlyingVec3s(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR, s16 primG, s16 primB,
+                                    s16 primA, s16 envR, s16 envG, s16 envB, f32 scale) {
 
     EffectSsEnIceInitParams initParams;
 
@@ -939,8 +939,8 @@ void func_8002A1DC(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR
     EffectSs_Spawn(globalCtx, EFFECT_SS_EN_ICE, 80, &initParams);
 }
 
-void func_8002A2A4(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel,
-                   Color_RGBA8* primColor, Color_RGBA8* envColor, s32 life) {
+void EffectSsEnIce_Spawn(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel,
+                         Color_RGBA8* primColor, Color_RGBA8* envColor, s32 life) {
     EffectSsEnIceInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);

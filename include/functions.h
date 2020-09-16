@@ -303,12 +303,12 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
                           s16 objId, Gfx* dList);
 void EffectSsIcePiece_Spawn(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, s32 life);
 void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 scale);
-void func_8002A140(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 primR, s16 primG, s16 primB, s16 primA,
-                   s16 envR, s16 envG, s16 envB, f32 scale);
-void func_8002A1DC(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR, s16 primG, s16 primB, s16 primA,
-                   s16 envR, s16 envG, s16 envB, f32 scale);
-void func_8002A2A4(GlobalContext* arg0, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s32 life);
+void EffectSsEnIce_SpawnFlyingVec3f(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 primR, s16 primG, s16 primB,
+                                    s16 primA, s16 envR, s16 envG, s16 envB, f32 scale);
+void EffectSsEnIce_SpawnFlyingVec3s(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 primR, s16 primG, s16 primB,
+                                    s16 primA, s16 envR, s16 envG, s16 envB, f32 scale);
+void EffectSsEnIce_Spawn(GlobalContext* arg0, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel,
+                         Color_RGBA8* primColor, Color_RGBA8* envColor, s32 life);
 void EffectSsFireTail_Spawn(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 scale, Vec3f* arg4, s16 arg5,
                             Color_RGBA8* primColor, Color_RGBA8* envColor, s16 type, s16 bodyPart, s32 life);
 void EffectSsFireTail_SpawnFlame(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, f32 arg3, s16 bodyPart,
