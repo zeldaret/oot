@@ -109,7 +109,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 180.0f, 1.44f) != 0) {
+    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 180.0f, 1.44f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
