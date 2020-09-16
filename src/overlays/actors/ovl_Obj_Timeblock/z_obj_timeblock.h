@@ -12,7 +12,10 @@ typedef struct ObjTimeblock {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[4];
     /* 0x0168 */ ObjTimeblockActionFunc actionFunc;
-    /* 0x016C */ char unk_16C[8];
+    /* 0x016C */ UNK_TYPE2 unk_16C;
+    /* 0x016E */ s16 unk_16E;
+    /* 0x0170 */ UNK_TYPE2 unk_170;
+    /* 0x0172 */ u16 unk_172;
     /* 0x0174 */ u8 unk_174;
     /* 0x0175 */ u8 unk_175;
     /* 0x0176 */ u8 unk_176;

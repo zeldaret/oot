@@ -139,7 +139,7 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 extern s32 func_80043590(DynaPolyActor* actor);
 
-u8 func_80BA032C(ObjTimeblock *this, GlobalContext *globalCtx) {
+u8 func_80BA032C(ObjTimeblock* this, GlobalContext* globalCtx) {
     Vec3f unk_measure;
     f32 unk_threshold;
 
@@ -148,7 +148,8 @@ u8 func_80BA032C(ObjTimeblock *this, GlobalContext *globalCtx) {
     }
 
     if (this->dyna.actor.xzDistFromLink <= D_80BA0B08[(this->dyna.actor.params >> 0xB) & 7]) {
-        func_8002DBD0(&this->dyna.actor, &unk_measure, &(globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)->posRot.pos);
+        func_8002DBD0(&this->dyna.actor, &unk_measure,
+                      &(globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)->posRot.pos);
         unk_threshold = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
         if (unk_threshold < fabsf(unk_measure.x) || unk_threshold < fabsf(unk_measure.z)) {
             return 1;
@@ -173,7 +174,22 @@ s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0480.s")
+s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx) {
+    if (globalCtx->msgCtx.unk_E3EE == 4) {
+        this->actionFunc = &func_80BA040C;
+    }
+    if (globalCtx->msgCtx.unk_E3EC == 0xA) {
+        if (this->unk_172 == 254) {
+            this->unk_16E = 110;
+        } else {
+            this->unk_16E--;
+            if (this->unk_16E == 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA04F8.s")
 
