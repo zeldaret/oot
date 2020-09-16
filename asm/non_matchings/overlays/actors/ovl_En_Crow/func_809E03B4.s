@@ -177,7 +177,7 @@ glabel func_809E03B4
 /* 003E0 809E0620 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000024
 /* 003E4 809E0624 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 003E8 809E0628 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 003EC 809E062C 0C00A935 */  jal     func_8002A4D4
+/* 003EC 809E062C 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f
 /* 003F0 809E0630 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 003F4 809E0634 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 003F8 809E0638 5614FFF6 */  bnel    $s0, $s4, .L809E0614

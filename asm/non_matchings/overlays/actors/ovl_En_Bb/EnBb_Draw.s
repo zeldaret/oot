@@ -153,7 +153,7 @@ glabel EnBb_Draw
 /* 03460 809BB740 460A4401 */  sub.s   $f16, $f8, $f10            
 /* 03464 809BB744 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 03468 809BB748 AFAE0018 */  sw      $t6, 0x0018($sp)           
-/* 0346C 809BB74C 0C00A935 */  jal     func_8002A4D4              
+/* 0346C 809BB74C 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 03470 809BB750 E7B00074 */  swc1    $f16, 0x0074($sp)          
 .L809BB754:
 /* 03474 809BB754 3C01C220 */  lui     $at, 0xC220                ## $at = C2200000

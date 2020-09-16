@@ -97,7 +97,7 @@ glabel EnRd_Draw
 /* 023BC 80AE47BC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 023C0 80AE47C0 2407004B */  addiu   $a3, $zero, 0x004B         ## $a3 = 0000004B
 /* 023C4 80AE47C4 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 023C8 80AE47C8 0C00A953 */  jal     func_8002A54C
+/* 023C8 80AE47C8 0C00A953 */  jal     EffectSsEnFire_SpawnVec3s
 /* 023CC 80AE47CC AFA00014 */  sw      $zero, 0x0014($sp)
 /* 023D0 80AE47D0 10000027 */  beq     $zero, $zero, .L80AE4870
 /* 023D4 80AE47D4 00000000 */  nop

@@ -123,7 +123,7 @@ void EnSt_SpawnBlastEffect(EnSt* this, GlobalContext* globalCtx) {
     blastPos.y = this->actor.groundY;
     blastPos.z = this->actor.posRot.pos.z;
 
-    func_80028F84(globalCtx, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {

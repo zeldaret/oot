@@ -271,7 +271,7 @@ glabel EnRr_Draw
 /* 0216C 80AEA5AC 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFB4
 /* 02170 80AEA5B0 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
 /* 02174 80AEA5B4 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 02178 80AEA5B8 0C00A935 */  jal     func_8002A4D4
+/* 02178 80AEA5B8 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f
 /* 0217C 80AEA5BC AFA00014 */  sw      $zero, 0x0014($sp)
 /* 02180 80AEA5C0 1000000B */  beq     $zero, $zero, .L80AEA5F0
 /* 02184 80AEA5C4 8FBF005C */  lw      $ra, 0x005C($sp)

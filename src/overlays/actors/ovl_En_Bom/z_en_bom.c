@@ -230,7 +230,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             effPos = thisx->posRot.pos;
             effPos.y += 17.0f;
             if ((globalCtx->gameplayFrames % 2) == 0) {
-                func_80029184(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
+                EffectSsGSpk_SpawnFuse(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
@@ -284,7 +284,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             effPos.y = thisx->groundY;
             if (thisx->groundY > -32000.0f) {
-                func_80029024(globalCtx, &effPos, &effVelocity, &effAccel);
+                EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
