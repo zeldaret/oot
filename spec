@@ -1116,7 +1116,6 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Hashigo"
     include "build/src/overlays/actors/ovl_Bg_Mori_Hashigo/z_bg_mori_hashigo.o"
-    include "build/data/overlays/actors/z_bg_mori_hashigo.data.o"
     include "build/data/overlays/actors/z_bg_mori_hashigo.reloc.o"
 endseg
 

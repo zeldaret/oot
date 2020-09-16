@@ -8,7 +8,7 @@ glabel D_808A2E98
     .balign 4
 
 .text
-glabel func_808A2698
+glabel BgMoriHashigo_SpawnLadder
 /* 00138 808A2698 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0013C 808A269C AFB00038 */  sw      $s0, 0x0038($sp)           
 /* 00140 808A26A0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
