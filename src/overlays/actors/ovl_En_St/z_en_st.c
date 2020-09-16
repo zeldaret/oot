@@ -95,11 +95,11 @@ void EnSt_SetupAction(EnSt* this, EnStActionFunc actionFunc) {
 /**
  * Spawns `dustCnt` dust particles in a random pattern around the skulltulla
  */
-void EnSt_SpawnDustEffects(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
+void EnSt_SpawnDust(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     Color_RGBA8 primColor = { 170, 130, 90, 255 };
     Color_RGBA8 envColor = { 100, 60, 20, 0 };
     Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
-    Vec3f initialYAccel = { 0.0f, 0.3f, 0.0f };
+    Vec3f dustAccel = { 0.0f, 0.3f, 0.0f };
     Vec3f dustPos;
     s16 yAngle;
     s32 i;
@@ -107,11 +107,11 @@ void EnSt_SpawnDustEffects(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     yAngle = (Math_Rand_ZeroOne() - 0.5f) * 65536.0f;
     dustPos.y = this->actor.groundY;
     for (i = dustCnt; i >= 0; i--, yAngle += (s16)(0x10000 / dustCnt)) {
-        initialYAccel.x = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-        initialYAccel.z = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustAccel.x = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustAccel.z = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
         dustPos.x = this->actor.posRot.pos.x + (Math_Sins(yAngle) * 22.0f);
         dustPos.z = this->actor.posRot.pos.z + (Math_Coss(yAngle) * 22.0f);
-        func_8002836C(globalCtx, &dustPos, &dustVel, &initialYAccel, &primColor, &envColor, 120, 40, 10);
+        func_8002836C(globalCtx, &dustPos, &dustVel, &dustAccel, &primColor, &envColor, 120, 40, 10);
     }
 }
 
@@ -128,12 +128,12 @@ void EnSt_SpawnBlastEffect(EnSt* this, GlobalContext* globalCtx) {
 
 void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    Vec3f deadPos;
+    Vec3f firePos;
 
-    deadPos.x = this->actor.posRot.pos.x + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
-    deadPos.y = (this->actor.posRot.pos.y + 10.0f) + ((Math_Rand_ZeroOne() - 0.5f) * 45.0f);
-    deadPos.z = this->actor.posRot.pos.z + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
-    EffectSsDeadDb_Spawn(globalCtx, &deadPos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
+    firePos.x = this->actor.posRot.pos.x + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
+    firePos.y = (this->actor.posRot.pos.y + 10.0f) + ((Math_Rand_ZeroOne() - 0.5f) * 45.0f);
+    firePos.z = this->actor.posRot.pos.z + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
+    EffectSsDeadDb_Spawn(globalCtx, &firePos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
 }
 
 s32 EnSt_CreateBlureEffect(GlobalContext* globalCtx) {
@@ -622,7 +622,7 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
     }
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-    EnSt_SpawnDustEffects(this, globalCtx, 10);
+    EnSt_SpawnDust(this, globalCtx, 10);
     // creates an elastic bouncing effect, boucing up less for each hit on the ground.
     this->actor.velocity.y = 6.0f / (4 - this->groundBounces);
     this->groundBounces--;

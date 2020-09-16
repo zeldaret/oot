@@ -285,8 +285,8 @@ void EnFloormas_SetupSmDecideAction(EnFloormas* this) {
 }
 
 void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
-    static Vec3f D_80A1A4D0 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_80A1A4DC = { 0.0f, 0.0f, 0.0f };
+    static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
     this->actor.speedXZ = 0.0f;
@@ -294,8 +294,7 @@ void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
     pos.x = this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 15.0f;
     pos.z = this->actor.posRot.pos.z;
-    EffectSsDeadDb_Spawn(globalCtx, &pos, &D_80A1A4D0, &D_80A1A4DC, 0x96, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1,
-                         9, 1);
+    EffectSsDeadDb_Spawn(globalCtx, &pos, &velocity, &accel, 150, -10, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
     this->actionFunc = EnFloormas_SmShrink;
 }
 

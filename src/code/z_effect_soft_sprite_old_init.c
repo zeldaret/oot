@@ -178,6 +178,7 @@ void func_800287AC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
     EffectSsDust_Spawn(globalCtx, 5, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, scale, scaleStep, life, 0);
 }
 
+// unused
 void func_8002881C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
                    Color_RGBA8* envColor) {
     func_8002829C(globalCtx, pos, velocity, accel, primColor, envColor, 100, 5);
@@ -290,6 +291,7 @@ void EffectSsKiraKira_SpawnFocused(GlobalContext* globalCtx, Vec3f* pos, Vec3f* 
 
 // EffectSsBomb Spawn Functions
 
+// unused
 void EffectSsBomb_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     EffectSsBombInitParams initParams;
 
@@ -987,15 +989,14 @@ void EffectSsFireTail_SpawnFlame(GlobalContext* globalCtx, Actor* actor, Vec3f* 
     envColor.b = 0;
     primColor.r = envColor.r = (s32)(255.0f * colorIntensity);
 
-    EffectSsFireTail_Spawn(globalCtx, actor, pos, arg3, &actor->velocity, 0xF, &primColor, &envColor,
+    EffectSsFireTail_Spawn(globalCtx, actor, pos, arg3, &actor->velocity, 15, &primColor, &envColor,
                            (colorIntensity == 1.0f) ? 0 : 1, bodyPart, 1);
 }
 
-void EffectSsFireTail_SpawnFlameOnPlayer(GlobalContext* globalCtx, f32 scale, s16 bodypartIdx, f32 colorIntensity) {
+void EffectSsFireTail_SpawnFlameOnPlayer(GlobalContext* globalCtx, f32 scale, s16 bodyPart, f32 colorIntensity) {
     Player* player = PLAYER;
 
-    EffectSsFireTail_SpawnFlame(globalCtx, &player->actor, &player->unk_908[bodypartIdx], scale, bodypartIdx,
-                                colorIntensity);
+    EffectSsFireTail_SpawnFlame(globalCtx, &player->actor, &player->unk_908[bodyPart], scale, bodyPart, colorIntensity);
 }
 
 // EffectSsEnFire Spawn Functions

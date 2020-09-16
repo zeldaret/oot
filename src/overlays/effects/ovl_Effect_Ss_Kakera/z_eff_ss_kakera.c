@@ -46,7 +46,7 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 
         if (objId == OBJECT_GAMEPLAY_KEEP || objId == OBJECT_GAMEPLAY_FIELD_KEEP ||
             objId == OBJECT_GAMEPLAY_DANGEON_KEEP) {
-            this->rObjId = -1;
+            this->rObjId = KAKERA_OBJECT_DEFAULT;
         } else {
             this->rObjId = initParams->objId;
             func_809A9BA8(this, globalCtx);
@@ -98,7 +98,7 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_kakera.c", 241);
 
-    if (this->rObjId != -1) {
+    if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
         if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
             gSPSegment(oGfxCtx->polyXlu.p++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
         } else {
@@ -417,7 +417,7 @@ void EffectSsKakera_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 
     func_809AA230(this, globalCtx);
 
-    if (this->rObjId != -1) {
+    if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
         func_809A9BA8(this, globalCtx);
     }
 }

@@ -22,4 +22,12 @@ typedef struct {
     /* 0x3C */ Gfx* dList;
 } EffectSsKakeraInitParams; // size = 0x40
 
+#define KAKERA_OBJECT_DEFAULT -1
+
+typedef enum {
+    /* -1 */ KAKERA_COLOR_NONE = -1,
+    /*  0 */ KAKERA_COLOR_WHITE,
+    /*  1 */ KAKERA_COLOR_BROWN
+} KakeraColorIndex;
+
 #endif

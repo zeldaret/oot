@@ -15,4 +15,6 @@ typedef struct {
     /* 0x2C */ s16 life;
 } EffectSsHahenInitParams; // size = 0x30
 
+#define HAHEN_OBJECT_DEFAULT -1
+
 #endif

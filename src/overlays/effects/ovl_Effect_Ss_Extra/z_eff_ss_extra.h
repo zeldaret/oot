@@ -12,4 +12,10 @@ typedef struct {
     /* 0x26 */ s16 scoreIdx;
 } EffectSsExtraInitParams; // size = 0x28
 
+typedef enum {
+    /* 0 */ EXTRA_SCORE_30,
+    /* 1 */ EXTRA_SCORE_60,
+    /* 2 */ EXTRA_SCORE_100
+} ExtraScoreIdx;
+
 #endif

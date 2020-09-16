@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot17_bakudankabe.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000000
 
@@ -84,7 +85,7 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
             rotationSpeed = 33;
         }
         EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
-                             4, 0, scale, 1, 3, 80, -1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
     Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.posRot.pos);
     func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);

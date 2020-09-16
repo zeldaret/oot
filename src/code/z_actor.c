@@ -1205,7 +1205,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
     f32 sp58;
     UNK_TYPE sp54;
     f32 sp50;
-    Vec3f sp44;
+    Vec3f ripplePos;
 
     sp74 = actor->posRot.pos.y - actor->pos4.y;
 
@@ -1253,12 +1253,12 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
                 if (!(actor->bgCheckFlags & 0x20)) {
                     actor->bgCheckFlags |= 0x40;
                     if (!(arg5 & 0x40)) {
-                        sp44.x = actor->posRot.pos.x;
-                        sp44.y = sp50;
-                        sp44.z = actor->posRot.pos.z;
-                        EffectSsGRipple_Spawn(globalCtx, &sp44, 100, 500, 0);
-                        EffectSsGRipple_Spawn(globalCtx, &sp44, 100, 500, 4);
-                        EffectSsGRipple_Spawn(globalCtx, &sp44, 100, 500, 8);
+                        ripplePos.x = actor->posRot.pos.x;
+                        ripplePos.y = sp50;
+                        ripplePos.z = actor->posRot.pos.z;
+                        EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 0);
+                        EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 4);
+                        EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 8);
                     }
                 }
                 actor->bgCheckFlags |= 0x20;
@@ -1844,7 +1844,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             spA4.z = Math_Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
             EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
-                                            0x10);
+                                            16);
 
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];

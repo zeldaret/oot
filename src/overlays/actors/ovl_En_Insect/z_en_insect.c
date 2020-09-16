@@ -67,8 +67,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
 };
 
-Vec3f D_80A7DF28[2] = { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
-
 void func_80A7BE20(EnInsect* this) {
     this->unk_314 = D_80A7DF10[this->actor.params & 3];
 }
@@ -397,8 +395,10 @@ void func_80A7CBC8(EnInsect* this) {
 }
 
 void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    static Vec3f unused = { 0.0f, 0.0f, 0.0f };
     s32 pad[2];
-    Vec3f sp34;
+    Vec3f velocity;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
     Math_ApproxS(&this->actor.shape.rot.x, 10922, 352);
@@ -411,11 +411,11 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if (this->unk_31A >= 21 && Math_Rand_ZeroOne() < 0.1f) {
-        sp34.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
-        sp34.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
-        sp34.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
-        func_800286CC(globalCtx, &this->actor.posRot.pos, &sp34, D_80A7DF28, Math_Rand_ZeroOne() * 5.0f + 8.0f,
+    if (this->unk_31A > 20 && Math_Rand_ZeroOne() < 0.1f) {
+        velocity.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
+        velocity.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
+        velocity.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
+        func_800286CC(globalCtx, &this->actor.posRot.pos, &velocity, &accel, Math_Rand_ZeroOne() * 5.0f + 8.0f,
                       Math_Rand_ZeroOne() * 5.0f + 8.0f);
     }
 

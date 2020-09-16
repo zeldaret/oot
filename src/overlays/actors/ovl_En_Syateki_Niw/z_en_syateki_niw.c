@@ -335,7 +335,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
         dustVelocity.y = Math_Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
         dustPos = this->actor.posRot.pos;
-        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 0x258, 0x28, 0x1E);
+        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 600, 40, 30);
     }
 }
 
