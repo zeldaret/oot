@@ -1048,14 +1048,32 @@ typedef struct {
 
 } CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
 
+typedef struct ListAlloc {
+    /* 0x00 */ struct ListAlloc* prev;
+    /* 0x04 */ struct ListAlloc* next;
+} ListAlloc; // size = 0x8
+
 typedef struct {
-    /* 0x00 */ char unk_00[0x10];
-    /* 0x10 */ u16* unk_10;
-    /* 0x14 */ u16* unk_14;
-    /* 0x18 */ u16* unk_18;
-    /* 0x1C */ char unk_1C[0x87];
-    /* 0xA3 */ s8   unk_A3;
-} PreRenderContext; // size = 0xA4
+    /* 0x00 */ s32 width;
+    /* 0x04 */ s32 height;
+    /* 0x08 */ s32 widthSave;
+    /* 0x0C */ s32 heightSave;
+    /* 0x10 */ u16* fbuf;
+    /* 0x14 */ u16* fbufSave;
+    /* 0x18 */ u8* cvgSave;
+    /* 0x1C */ u16* zbuf;
+    /* 0x20 */ u16* zbufSave;
+    /* 0x24 */ s32 ulxSave;
+    /* 0x28 */ s32 ulySave;
+    /* 0x2C */ s32 lrxSave;
+    /* 0x30 */ s32 lrySave;
+    /* 0x34 */ s32 ulx;
+    /* 0x38 */ s32 uly;
+    /* 0x3C */ s32 lrx;
+    /* 0x40 */ s32 lry;
+    /* 0x44 */ ListAlloc alloc;
+    /* 0x4C */ u32 unk_4C;
+} PreRenderContext; // size = 0x50
 
 typedef struct {
     union {
@@ -1269,6 +1287,8 @@ typedef struct GlobalContext {
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
     /* 0x12124 */ PreRenderContext preRenderCtx;
+    /* 0x12174 */ char unk_12174[0x53];
+    /* 0x121C7 */ s8 unk_121C7;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
@@ -1742,11 +1762,6 @@ typedef struct {
 #define KALEIDO_OVL_KALEIDO_SCOPE   0
 #define KALEIDO_OVL_PLAYER_ACTOR    1
 #define KALEIDO_OVL_COUNT           2
-
-typedef struct ListAlloc {
-    /* 0x00 */ struct ListAlloc* prev;
-    /* 0x04 */ struct ListAlloc* next;
-} ListAlloc; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u32 resetting;

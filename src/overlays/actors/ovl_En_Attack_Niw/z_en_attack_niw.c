@@ -174,7 +174,7 @@ s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp1E, &sp1C);
-    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E >= 0x141) || (sp1C < 0) || (sp1C >= 0xF1)) {
+    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0) || (sp1C > SCREEN_HEIGHT)) {
         return 0;
     } else {
         return 1;

@@ -39,7 +39,7 @@ glabel func_8081F1F0
 /* 0BA38 8081F258 AC680004 */  sw      $t0, 0x0004($v1)           ## 00000004
 /* 0BA3C 8081F25C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0BA40 8081F260 8FA7004C */  lw      $a3, 0x004C($sp)           
-/* 0BA44 8081F264 0C0303B6 */  jal     func_800C0ED8              
+/* 0BA44 8081F264 0C0303B6 */  jal     PreRender_SetValues              
 /* 0BA48 8081F268 24060070 */  addiu   $a2, $zero, 0x0070         ## $a2 = 00000070
 /* 0BA4C 8081F26C 3C048083 */  lui     $a0, %hi(D_808321B0)       ## $a0 = 80830000
 /* 0BA50 8081F270 248421B0 */  addiu   $a0, $a0, %lo(D_808321B0)  ## $a0 = 808321B0
