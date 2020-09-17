@@ -3705,7 +3705,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             func_80838280(this);
 
             if (this->unk_8A1 == 3) {
-                this->unk_891 = 40;
+                this->shockTimer = 40;
             }
 
             this->actor.colChkInfo.damage += this->unk_8A0;
@@ -3713,8 +3713,13 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
         } else {
             sp64 = (this->shieldQuad.base.acFlags & 0x80) != 0;
 
+            // @bug The second set of conditions here seems intended as a way for Link to "block" hits by rolling.
+            // However, `ColliderBody.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
+            // Additionally, `ColliderBody.atHit` can never be set while already colliding as AC, so it's also bugged.
+            // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
             if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & 2) &&
                          (this->cylinder.body.atHit != NULL) && (this->cylinder.body.atHit->atFlags & 0x20000000))) {
+
                 func_8083264C(this, 180, 20, 100, 0);
 
                 if (!Player_IsChildWithHylianShield(this)) {
@@ -9763,16 +9768,16 @@ void func_80848B44(GlobalContext* globalCtx, Player* this) {
     Vec3f* sp38;
     s32 sp34;
 
-    this->unk_891--;
-    this->unk_892 += this->unk_891;
+    this->shockTimer--;
+    this->unk_892 += this->shockTimer;
 
     if (this->unk_892 > 20) {
-        sp34 = this->unk_891 * 2;
+        sp34 = this->shockTimer * 2;
 
         this->unk_892 -= 20;
 
-        if (sp34 > 0x28) {
-            sp34 = 0x28;
+        if (sp34 > 40) {
+            sp34 = 40;
         }
 
         sp38 = this->bodyPartsPos + (s32)Math_Rand_ZeroFloat(17.9f);
@@ -9929,7 +9934,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         this->unk_860++;
     }
 
-    if (this->unk_891 != 0) {
+    if (this->shockTimer != 0) {
         func_80848B44(globalCtx, this);
     }
 
@@ -10110,7 +10115,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this) ? &D_04003310 : (this->unk_891 != 0) ? &D_04002F08 : &D_04002878);
+                                  func_808332B8(this) ? &D_04003310 : (this->shockTimer != 0) ? &D_04002F08 : &D_04002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&
@@ -12517,7 +12522,7 @@ void func_8084FBF4(Player* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->unk_891 = 40;
+    this->shockTimer = 40;
     func_8002F8F0(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
 }
 

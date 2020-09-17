@@ -337,7 +337,7 @@ typedef struct Player {
     /* 0x088E */ u8         unk_88E;
     /* 0x088F */ u8         unk_88F;
     /* 0x0890 */ u8         unk_890;
-    /* 0x0891 */ u8         unk_891;
+    /* 0x0891 */ u8         shockTimer;
     /* 0x0892 */ u8         unk_892;
     /* 0x0893 */ u8         unk_893;
     /* 0x0894 */ s16        fallStartHeight; // last truncated Y position before falling
