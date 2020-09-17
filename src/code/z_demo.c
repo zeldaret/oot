@@ -1292,7 +1292,7 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
                 Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STATUS_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STATUS_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
-                func_8005AC6C(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus, csCtx->cameraPosition,
+                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus, csCtx->cameraPosition,
                               PLAYER, relativeToLink);
             }
         }
@@ -1329,7 +1329,7 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
                 Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STATUS_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STATUS_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
-                func_8005AC6C(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus, csCtx->cameraPosition,
+                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus, csCtx->cameraPosition,
                               PLAYER, relativeToLink);
             }
         }

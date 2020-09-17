@@ -30,7 +30,7 @@ glabel func_8083AD4C
 /* 08BA0 8083ADB0 8FA3001C */  lw      $v1, 0x001C($sp)
 /* 08BA4 8083ADB4 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 08BA8 8083ADB8 00032C00 */  sll     $a1, $v1, 16
-/* 08BAC 8083ADBC 0C016911 */  jal     Camera_ChangeModeDefaultFlags
+/* 08BAC 8083ADBC 0C016911 */  jal     Camera_ChangeMode
 /* 08BB0 8083ADC0 00052C03 */  sra     $a1, $a1, 16
 /* 08BB4 8083ADC4 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 08BB8 8083ADC8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000

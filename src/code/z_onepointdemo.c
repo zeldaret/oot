@@ -20,7 +20,8 @@ void func_8007C7F8(CollisionContext* colCtx, Vec3f* arg1) {
     func_8003C940(colCtx, &poly, &bgId, arg1);
 }
 
-void func_8007C820(OnePointDemoCamera* onePointCamera, s16 actionParameters, s16 initTimer, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints) {
+void func_8007C820(OnePointDemoCamera* onePointCamera, s16 actionParameters, s16 initTimer,
+                   CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints) {
     onePointCamera->atPoints = atPoints;
     onePointCamera->eyePoints = eyePoints;
     onePointCamera->actionParameters = actionParameters;

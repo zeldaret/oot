@@ -14,7 +14,7 @@ glabel func_808486A8
 /* 164C8 808486D8 0C030129 */  jal     Gameplay_GetCamera
 /* 164CC 808486DC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 164D0 808486E0 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
-/* 164D4 808486E4 0C016911 */  jal     Camera_ChangeModeDefaultFlags
+/* 164D4 808486E4 0C016911 */  jal     Camera_ChangeMode
 /* 164D8 808486E8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 164DC 808486EC 100000B2 */  beq     $zero, $zero, .L808489B8
 /* 164E0 808486F0 8FAC0028 */  lw      $t4, 0x0028($sp)
@@ -215,7 +215,7 @@ glabel func_808486A8
 /* 16784 80848994 8FA30018 */  lw      $v1, 0x0018($sp)
 /* 16788 80848998 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 1678C 8084899C 00032C00 */  sll     $a1, $v1, 16
-/* 16790 808489A0 0C016911 */  jal     Camera_ChangeModeDefaultFlags
+/* 16790 808489A0 0C016911 */  jal     Camera_ChangeMode
 /* 16794 808489A4 00052C03 */  sra     $a1, $a1, 16
 /* 16798 808489A8 10000003 */  beq     $zero, $zero, .L808489B8
 /* 1679C 808489AC 8FAC0028 */  lw      $t4, 0x0028($sp)

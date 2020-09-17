@@ -544,10 +544,10 @@ glabel Gameplay_Init
 .L800BD1D4:
 /* B34374 800BD1D4 8E251C44 */  lw    $a1, 0x1c44($s1)
 /* B34378 800BD1D8 8FA40038 */  lw    $a0, 0x38($sp)
-/* B3437C 800BD1DC 0C016052 */  jal   func_80058148
+/* B3437C 800BD1DC 0C016052 */  jal   Camera_InitPlayerSettings
 /* B34380 800BD1E0 AFA50078 */   sw    $a1, 0x78($sp)
 /* B34384 800BD1E4 8FA40038 */  lw    $a0, 0x38($sp)
-/* B34388 800BD1E8 0C016911 */  jal   Camera_ChangeModeDefaultFlags
+/* B34388 800BD1E8 0C016911 */  jal   Camera_ChangeMode
 /* B3438C 800BD1EC 00002825 */   move  $a1, $zero
 /* B34390 800BD1F0 8FAD0078 */  lw    $t5, 0x78($sp)
 /* B34394 800BD1F4 240100FF */  li    $at, 255

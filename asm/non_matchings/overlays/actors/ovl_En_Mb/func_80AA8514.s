@@ -177,7 +177,7 @@ glabel func_80AA8514
 /* 02748 80AA8798 266401E0 */  addiu   $a0, $s3, 0x01E0           ## $a0 = 000001E0
 /* 0274C 80AA879C 24050002 */  addiu   $a1, $zero, 0x0002         ## $a1 = 00000002
 /* 02750 80AA87A0 24060019 */  addiu   $a2, $zero, 0x0019         ## $a2 = 00000019
-/* 02754 80AA87A4 0C016A87 */  jal     func_8005AA1C              
+/* 02754 80AA87A4 0C016A87 */  jal     Camera_AddQuake              
 /* 02758 80AA87A8 24070005 */  addiu   $a3, $zero, 0x0005         ## $a3 = 00000005
 /* 0275C 80AA87AC 8FBF0074 */  lw      $ra, 0x0074($sp)           
 .L80AA87B0:

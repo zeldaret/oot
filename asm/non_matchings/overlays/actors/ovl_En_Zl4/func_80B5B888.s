@@ -26,7 +26,7 @@ glabel func_80B5B888
 /* 00138 80B5B8E8 8C460004 */  lw      $a2, 0x0004($v0)           ## 00000004
 /* 0013C 80B5B8EC 8FA40024 */  lw      $a0, 0x0024($sp)
 /* 00140 80B5B8F0 8FA70020 */  lw      $a3, 0x0020($sp)
-/* 00144 80B5B8F4 0C016B1B */  jal     func_8005AC6C
+/* 00144 80B5B8F4 0C016B1B */  jal     Camera_SetCSParams
 /* 00148 80B5B8F8 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 0014C 80B5B8FC 8FBF001C */  lw      $ra, 0x001C($sp)
 /* 00150 80B5B900 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

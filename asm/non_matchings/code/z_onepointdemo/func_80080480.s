@@ -74,7 +74,7 @@ glabel func_80080480
 /* AF7680 800804E0 0C00084C */  jal   osSyncPrintf
 /* AF7684 800804E4 AFA6003C */   sw    $a2, 0x3c($sp)
 /* AF7688 800804E8 8FA4003C */  lw    $a0, 0x3c($sp)
-/* AF768C 800804EC 0C016911 */  jal   Camera_ChangeModeDefaultFlags
+/* AF768C 800804EC 0C016911 */  jal   Camera_ChangeMode
 /* AF7690 800804F0 00002825 */   move  $a1, $zero
 /* AF7694 800804F4 8FA6003C */  lw    $a2, 0x3c($sp)
 /* AF7698 800804F8 2408FFFF */  li    $t0, -1

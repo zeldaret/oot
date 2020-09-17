@@ -159,7 +159,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
         }
-        func_8005AA1C(&globalCtx->mainCamera, 0, sp4C * 0.6f, 3);
+        Camera_AddQuake(&globalCtx->mainCamera, 0, sp4C * 0.6f, 3);
         Audio_PlaySoundGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
                                &D_801333E0, &D_801333E8);
     }

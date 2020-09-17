@@ -676,7 +676,7 @@ glabel L808C5A4C
 /* 04C60 808C5DF0 15000005 */  bne     $t0, $zero, .L808C5E08
 /* 04C64 808C5DF4 248401E0 */  addiu   $a0, $a0, 0x01E0           ## $a0 = 000001E0
 /* 04C68 808C5DF8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 04C6C 808C5DFC 0C016A87 */  jal     func_8005AA1C
+/* 04C6C 808C5DFC 0C016A87 */  jal     Camera_AddQuake
 /* 04C70 808C5E00 24070008 */  addiu   $a3, $zero, 0x0008         ## $a3 = 00000008
 /* 04C74 808C5E04 8603019E */  lh      $v1, 0x019E($s0)           ## 0000019E
 .L808C5E08:

@@ -428,7 +428,8 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         temp_a1 = this->actor.wallPolyRot;
     } else {
-        temp_a1 = this->actor.yawTowardsLink - Camera_GetRealDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
+        temp_a1 =
+            this->actor.yawTowardsLink - Camera_GetRealDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
         if (ABS(temp_a1) >= 0x4001) {
             temp_a1 = Camera_GetRealDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
         } else {

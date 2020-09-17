@@ -385,8 +385,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     }
 
     player = PLAYER;
-    func_80058148(&globalCtx->mainCamera, player);
-    Camera_ChangeModeDefaultFlags(&globalCtx->mainCamera, CAM_MODE_NORMAL);
+    Camera_InitPlayerSettings(&globalCtx->mainCamera, player);
+    Camera_ChangeMode(&globalCtx->mainCamera, CAM_MODE_NORMAL);
 
     playerStartCamId = player->actor.params & 0xFF;
     if (playerStartCamId != 0xFF) {
@@ -1642,7 +1642,7 @@ s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Ve
 
 s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov) {
     s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], 0x20, &fov) & 1;
-    if(1){}
+    if (1) {}
     return ret;
 }
 
@@ -1668,7 +1668,7 @@ s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 setti
     s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
 
     camera = globalCtx->cameraPtrs[camIdx];
-    func_80058148(camera, player);
+    Camera_InitPlayerSettings(camera, player);
     return Camera_ChangeSetting(camera, setting);
 }
 

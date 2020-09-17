@@ -44,7 +44,7 @@ glabel func_8084FCAC
 /* 1DB24 8084FD34 0C030129 */  jal     Gameplay_GetCamera
 /* 1DB28 8084FD38 8FA4002C */  lw      $a0, 0x002C($sp)
 /* 1DB2C 8084FD3C 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
-/* 1DB30 8084FD40 0C016911 */  jal     Camera_ChangeModeDefaultFlags
+/* 1DB30 8084FD40 0C016911 */  jal     Camera_ChangeMode
 /* 1DB34 8084FD44 24050008 */  addiu   $a1, $zero, 0x0008         ## $a1 = 00000008
 /* 1DB38 8084FD48 3C078086 */  lui     $a3, %hi(D_80858AB4)       ## $a3 = 80860000
 /* 1DB3C 8084FD4C 24E78AB4 */  addiu   $a3, $a3, %lo(D_80858AB4)  ## $a3 = 80858AB4

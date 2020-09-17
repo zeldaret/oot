@@ -26,7 +26,7 @@ extern DBCSEditorSlot sDbgEditorSlots[];
 extern char sDbgEditorStates[];
 
 // DbgCamera_Vec3fVecSphGeoAdd
-Vec3f *func_800B3B50(Vec3f *dest, Vec3f *a, VecSph *b) {
+Vec3f* func_800B3B50(Vec3f* dest, Vec3f* a, VecSph* b) {
     Vec3f copy, vecB;
     OLib_VecSphGeoToVec3f(&vecB, b);
 
@@ -42,13 +42,13 @@ Vec3f *func_800B3B50(Vec3f *dest, Vec3f *a, VecSph *b) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3DF8.s")
 
-void func_800B3EBC(Vec3s *src, Vec3f *dest) {
+void func_800B3EBC(Vec3s* src, Vec3f* dest) {
     dest->x = src->x;
     dest->y = src->y;
     dest->z = src->z;
 }
 
-void func_800B3EFC(Vec3f *src, Vec3s *dest) {
+void func_800B3EFC(Vec3f* src, Vec3s* dest) {
     dest->x = src->x;
     dest->y = src->y;
     dest->z = src->z;
@@ -66,17 +66,17 @@ void func_800B3F54(Vec3s* src, Vec3f* dest) {
     dest->z = src->z;
 }
 
-void func_800B3F94(PosRot *arg0, Vec3f *arg1, Vec3s* arg2) {
+void func_800B3F94(PosRot* arg0, Vec3f* arg1, Vec3s* arg2) {
     VecSph sp28;
     Vec3f sp1C;
 
     OLib_Vec3fDiffToVecSphGeo(&sp28, &arg0->pos, arg1);
     sp28.yaw -= arg0->rot.y;
-    OLib_VecSphGeoToVec3f((Vec3f *) &sp1C, &sp28);
+    OLib_VecSphGeoToVec3f((Vec3f*)&sp1C, &sp28);
     func_800B3EFC(&sp1C, arg2);
 }
 
-void func_800B3FF4(PosRot *arg0, Vec3f* arg1, Vec3f *arg2) {
+void func_800B3FF4(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     VecSph sp28;
     Vec3f sp1C;
 
@@ -105,13 +105,13 @@ void func_800B404C(s32 arg0, Vec3s* arg1, Vec3f* arg2) {
 
 /**
  * Prints individual csSlot point information
-*/
-void func_800B4920(char* varName, s16 pointCnt, CutsceneCameraPoint *csPoints) {
+ */
+void func_800B4920(char* varName, s16 pointCnt, CutsceneCameraPoint* csPoints) {
     s32 i;
-    CutsceneCameraPoint *csPoint;
+    CutsceneCameraPoint* csPoint;
 
     osSyncPrintf("@@@static SplinedatZ  %s[] = {\n", varName);
-    for(i = 0, csPoint = csPoints; i < pointCnt; i++, csPoint++){
+    for (i = 0, csPoint = csPoints; i < pointCnt; i++, csPoint++) {
         osSyncPrintf("@@@    /* key frame %2d */ {\n", i);
         osSyncPrintf("@@@    /*     code     */ %d,\n", csPoint->continueFlag);
         osSyncPrintf("@@@    /*     z        */ %d,\n", csPoint->cameraRoll);
@@ -131,7 +131,7 @@ void func_800B4920(char* varName, s16 pointCnt, CutsceneCameraPoint *csPoints) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4B20.s")
 
-void DbgCamera_Init(DBCamera *dbCamera, Camera *camera) {
+void DbgCamera_Init(DBCamera* dbCamera, Camera* camera) {
     dbCamera->unk_10C6.x = dbCamera->unk_10C6.y = dbCamera->unk_10C6.z = 0;
     dbCamera->unk_44 = 0;
     dbCamera->unk_00 = 0;
@@ -157,7 +157,7 @@ void DbgCamera_Init(DBCamera *dbCamera, Camera *camera) {
     dbCamera->unk_6C = dbCamera->unk_70 = dbCamera->unk_74 = 0;
 }
 
-void DbgCamera_Enable(DBCamera *dbCamera, Camera *camera) {
+void DbgCamera_Enable(DBCamera* dbCamera, Camera* camera) {
     dbCamera->at = camera->at;
     dbCamera->eye = camera->eye;
     dbCamera->up = camera->up;
@@ -178,11 +178,11 @@ void DbgCamera_Enable(DBCamera *dbCamera, Camera *camera) {
 
 s32 func_800B8730(void) {
     s32 temp_v1;
-    void *phi_v0;
+    void* phi_v0;
     s32 phi_v1;
 
-    for(phi_v1 = 0; phi_v1 < 0x1A; phi_v1++){
-        if(D_801612D0[phi_v1] != 'O'){
+    for (phi_v1 = 0; phi_v1 < 0x1A; phi_v1++) {
+        if (D_801612D0[phi_v1] != 'O') {
             return phi_v1 + 'A';
         }
     }
@@ -193,7 +193,7 @@ s32 func_800B8730(void) {
 
 /**
  * Clears a DBCSEditorSlot
-*/
+ */
 void func_800B8978(s32 editorSlot, s32 free) {
 
     if (sDbgEditorSlots[editorSlot].state != '?') {
@@ -223,7 +223,7 @@ s32 func_800B8BA4(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B8DB0.s")
 
-void func_800B8F30(char *arg0) {
+void func_800B8F30(char* arg0) {
     Mempak_DeleteFile(2, *arg0);
 }
 
@@ -231,14 +231,14 @@ void func_800B8F30(char *arg0) {
 
 /**
  * Prints cs editor slot inforation
-*/
+ */
 void func_800B9060(s32 arg0) {
-    DBCSEditorSlot *csSlot;
+    DBCSEditorSlot* csSlot;
     s32 i;
 
     Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n");
-    for(i = 0, csSlot = sDbgEditorSlots; i < 0xF; i++, csSlot++){
+    for (i = 0, csSlot = sDbgEditorSlots; i < 0xF; i++, csSlot++) {
         if (csSlot->csPointsCnt != 0) {
             if (i != 0) {
                 osSyncPrintf("@@@\n@@@/* ** %d ** */\n@@@\n", i);
@@ -257,8 +257,8 @@ void func_800B9060(s32 arg0) {
 
 /**
  * Initalizes the custscene editor
-*/
-void DbgCamera_FirstInit(Camera *camera, DBCamera *dbCamera) {
+ */
+void DbgCamera_FirstInit(Camera* camera, DBCamera* dbCamera) {
     s32 temp_s0;
     u32 temp_v0;
     u32 phi_v0;
@@ -266,11 +266,11 @@ void DbgCamera_FirstInit(Camera *camera, DBCamera *dbCamera) {
     char* p;
 
     D_801612EA = '*';
-    for(p = D_801612D0; p < &D_801612D0[0x1A]; p++){
+    for (p = D_801612D0; p < &D_801612D0[0x1A]; p++) {
         *p = 'X';
     }
 
-    for(i = 0; i < 0xF; i++){
+    for (i = 0; i < 0xF; i++) {
         func_800B8978(i, 0);
     }
 

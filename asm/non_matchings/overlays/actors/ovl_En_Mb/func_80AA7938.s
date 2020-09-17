@@ -185,7 +185,7 @@ glabel func_80AA7938
 /* 01B84 80AA7BD4 24050002 */  addiu   $a1, $zero, 0x0002         ## $a1 = 00000002
 /* 01B88 80AA7BD8 24060019 */  addiu   $a2, $zero, 0x0019         ## $a2 = 00000019
 /* 01B8C 80AA7BDC 24070005 */  addiu   $a3, $zero, 0x0005         ## $a3 = 00000005
-/* 01B90 80AA7BE0 0C016A87 */  jal     func_8005AA1C
+/* 01B90 80AA7BE0 0C016A87 */  jal     Camera_AddQuake
 /* 01B94 80AA7BE4 248401E0 */  addiu   $a0, $a0, 0x01E0           ## $a0 = 000001E0
 /* 01B98 80AA7BE8 8FAB008C */  lw      $t3, 0x008C($sp)
 /* 01B9C 80AA7BEC 24090014 */  addiu   $t1, $zero, 0x0014         ## $t1 = 00000014
