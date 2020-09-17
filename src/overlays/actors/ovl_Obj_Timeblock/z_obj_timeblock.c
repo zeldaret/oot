@@ -24,6 +24,7 @@ s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0508(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0514(ObjTimeblock* this);
 void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx);
+void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0758(ObjTimeblock* this);
 void func_80BA0768(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA083C(ObjTimeblock* this);
@@ -264,7 +265,27 @@ void func_80BA0758(ObjTimeblock* this) {
     this->unk_164 = &func_80BA0768;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0768.s")
+void func_80BA0768(ObjTimeblock* this, GlobalContext* globalCtx) {
+    if (this->actionFunc(this, globalCtx)) {
+        if (this->unk_16C <= 0) {
+            this->unk_170 = 12;
+            func_80BA0058(this, globalCtx);
+            this->unk_16C = 160;
+            func_80080480(globalCtx, &this->dyna.actor);
+            osSyncPrintf("◯◯◯◯ Time Block " ATTENTION_CAMERA_JA " (frame counter  %d)\n", globalCtx->state.frames);
+            func_80BA00CC(globalCtx, this->dyna.actor.params & 0x3F);
+        }
+    }
+    func_80BA06AC(this, globalCtx);
+    if (this->unk_16C == 50) {
+        func_80078884(0x4807);
+    }
+    if (this->unk_178 == 0) {
+        if (this->unk_16C <= 0) {
+            func_80BA083C(this);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA083C.s")
 
