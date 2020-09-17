@@ -391,7 +391,7 @@ void func_80AE3260(EnRd *this, GlobalContext *globalCtx) {
         s32 pad;
         s16 targetY;
         Vec3f thisPos = this->actor.parent->posRot.pos;
-        
+
         targetY = func_8002DAC0(&this->actor, &thisPos);
 
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, targetY, 1, 0xFA, 0);
@@ -622,7 +622,7 @@ void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
         } else {
             this->unk_30C--;
         }
-    } else if (((s32)this->skelAnime.animCurrentFrame == 33) || ((s32)this->skelAnime.animCurrentFrame == 0x28)) {
+    } else if (((s32)this->skelAnime.animCurrentFrame == 33) || ((s32)this->skelAnime.animCurrentFrame == 40)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
