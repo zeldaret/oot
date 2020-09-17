@@ -25,6 +25,7 @@ void func_80BA0508(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0514(ObjTimeblock* this);
 void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0758(ObjTimeblock* this);
+void func_80BA0768(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA083C(ObjTimeblock* this);
 
 const ActorInit Obj_Timeblock_InitVars = {
@@ -259,7 +260,9 @@ void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA06AC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0758.s")
+void func_80BA0758(ObjTimeblock* this) {
+    this->unk_164 = &func_80BA0768;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0768.s")
 
