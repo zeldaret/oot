@@ -21,7 +21,7 @@ void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx);
 s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx);
-void func_80BA04F8(ObjTimeblock* this);
+void func_80BA0508(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0514(ObjTimeblock* this);
 void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0758(ObjTimeblock* this);
@@ -201,7 +201,9 @@ s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA04F8.s")
+void func_80BA04F8(ObjTimeblock* this) {
+    this->unk_164 = &func_80BA0508;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA0508.s")
 
