@@ -656,7 +656,7 @@ f32 Camera_InterpolateCurve(f32, f32);
 // ? func_800458D4(?);
 // ? func_80045B08(?);
 // ? func_80045C74(?);
-// ? func_800460A8(?);
+// ? Camera_CalcAtForLockOn(?);
 // ? func_800466F8(?);
 // ? Camera_LERPClampDist(?);
 // ? Camera_ClampDist(?);

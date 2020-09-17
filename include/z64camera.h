@@ -769,7 +769,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ f32 initialEyeToAtDist;
     /* 0x0004 */ f32 roll;
-    /* 0x0008 */ f32 unk_08;
+    /* 0x0008 */ f32 yPosOffset;
     /* 0x000C */ Actor* target;
     /* 0x0010 */ f32 unk_10;
     /* 0x0014 */ s16 unk_14; // unused
@@ -784,14 +784,14 @@ typedef struct {
     /* 0x0004 */ f32 distance;
     /* 0x0008 */ f32 swingYawInitial;
     /* 0x000C */ f32 swingYawFinal;
-    /* 0x0010 */ f32 unk_10;
-    /* 0x0014 */ f32 unk_14;
-    /* 0x0018 */ f32 unk_18;
+    /* 0x0010 */ f32 swingPitchInitial;
+    /* 0x0014 */ f32 swingPitchFinal;
+    /* 0x0018 */ f32 swingPitchAdj;
     /* 0x001C */ f32 fov;
     /* 0x0020 */ f32 atLERPScaleOnGround;
     /* 0x0024 */ f32 yOffsetOffGround;
     /* 0x0028 */ f32 atLERPScaleOffGround;
-    /* 0x002C */ s16 interfaceFlags;
+    /* 0x002C */ s16 flags;
     /* 0x0030 */ Battle1Anim anim;
 } Battle1; // size = 0x50
 

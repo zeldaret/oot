@@ -76,8 +76,19 @@ CameraModeValue D_8011A428[] = {
 };
 
 CameraModeValue D_8011A458[] = {
-    { -20, 0 }, { 180, 1 }, { 10, 13 }, { 80, 14 },  { 0, 15 },   { 10, 16 },
-    { 25, 17 }, { 50, 7 },  { 80, 8 },  { 8194, 9 }, { -40, 11 }, { 25, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 180, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 80, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 50, 7 },      /* fov */
+    { 80, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 25, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011A488[] = {
@@ -204,8 +215,19 @@ CameraModeValue D_8011A714[] = {
 };
 
 CameraModeValue D_8011A748[] = {
-    { -20, 0 }, { 250, 1 }, { 10, 13 }, { 80, 14 },  { 0, 15 },   { 10, 16 },
-    { 25, 17 }, { 50, 7 },  { 65, 8 },  { 8194, 9 }, { -40, 11 }, { 25, 12 },
+    /* CAM_FUNC_BATT1  */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 250, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 80, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 50, 7 },      /* fov */
+    { 65, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 25, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011A778[] = {
@@ -281,8 +303,19 @@ CameraModeValue D_8011A8F0[] = {
 };
 
 CameraModeValue D_8011A924[] = {
-    { -20, 0 }, { 180, 1 }, { 10, 13 }, { 80, 14 },  { 0, 15 },   { 10, 16 },
-    { 25, 17 }, { 45, 7 },  { 80, 8 },  { 8194, 9 }, { -40, 11 }, { 25, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 180, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 80, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 45, 7 },      /* fov */
+    { 80, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 25, 12 },     /* atLERPScaleOnGround (PCT) */
 };
 
 CameraModeValue D_8011A954[] = {
@@ -477,8 +510,19 @@ CameraModeValue D_8011AD5C[] = {
 };
 
 CameraModeValue D_8011AD84[] = {
-    { -30, 0 }, { 150, 1 }, { 10, 13 }, { 40, 14 },  { -10, 15 }, { 0, 16 },
-    { 25, 17 }, { 60, 7 },  { 40, 8 },  { 8194, 9 }, { -50, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -30, 0 },     /* yOffset (PCT) */
+    { 150, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 40, 14 },     /* swingYawFinal */
+    { -10, 15 },    /* swingPitchInitial */
+    { 0, 16 },      /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 60, 7 },      /* fov */
+    { 40, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -50, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011ADB4[] = {
@@ -486,8 +530,19 @@ CameraModeValue D_8011ADB4[] = {
 };
 
 CameraModeValue D_8011ADDC[] = {
-    { -20, 0 }, { 160, 1 }, { 10, 13 }, { 60, 14 },  { -5, 15 },  { 0, 16 },
-    { 25, 17 }, { 70, 7 },  { 50, 8 },  { 8194, 9 }, { -40, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 160, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 60, 14 },     /* swingYawFinal */
+    { -5, 15 },     /* swingPitchInitial */
+    { 0, 16 },      /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 70, 7 },      /* fov */
+    { 50, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011AE0C[] = {
@@ -495,8 +550,19 @@ CameraModeValue D_8011AE0C[] = {
 };
 
 CameraModeValue D_8011AE34[] = {
-    { -30, 0 }, { 125, 1 }, { 10, 13 }, { 10, 14 },  { 0, 15 },   { 0, 16 },
-    { 50, 17 }, { 60, 7 },  { 50, 8 },  { 8194, 9 }, { -50, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -30, 0 },     /* yOffset (PCT) */
+    { 125, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 10, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 0, 16 },      /* swingPitchFinal */
+    { 50, 17 },     /* swingPitchAdj (PCT) */
+    { 60, 7 },      /* fov */
+    { 50, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -50, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011AE64[] = {
@@ -504,8 +570,19 @@ CameraModeValue D_8011AE64[] = {
 };
 
 CameraModeValue D_8011AE8C[] = {
-    { -20, 0 }, { 200, 1 }, { 45, 13 }, { 40, 14 },  { 5, 15 },   { -5, 16 },
-    { 35, 17 }, { 60, 7 },  { 100, 8 }, { 8194, 9 }, { -40, 11 }, { 60, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 200, 1 },     /* distance */
+    { 45, 13 },     /* swingYawInitial */
+    { 40, 14 },     /* swingYawFinal */
+    { 5, 15 },      /* swingPitchInitial */
+    { -5, 16 },     /* swingPitchFinal */
+    { 35, 17 },     /* swingPitchAdj (PCT) */
+    { 60, 7 },      /* fov */
+    { 100, 8 },     /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 60, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011AEBC[] = {
@@ -513,8 +590,19 @@ CameraModeValue D_8011AEBC[] = {
 };
 
 CameraModeValue D_8011AEE4[] = {
-    { -20, 0 }, { 200, 1 }, { 20, 13 }, { 60, 14 },  { 0, 15 },   { 10, 16 },
-    { 15, 17 }, { 45, 7 },  { 50, 8 },  { 8194, 9 }, { -40, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 200, 1 },     /* distance */
+    { 20, 13 },     /* swingYawInitial */
+    { 60, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 15, 17 },     /* swingPitchAdj (PCT) */
+    { 45, 7 },      /* fov */
+    { 50, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011AF14[] = {
@@ -522,8 +610,19 @@ CameraModeValue D_8011AF14[] = {
 };
 
 CameraModeValue D_8011AF3C[] = {
-    { -20, 0 }, { 200, 1 }, { 20, 13 }, { 60, 14 },  { 0, 15 },   { 10, 16 },
-    { 15, 17 }, { 45, 7 },  { 50, 8 },  { 8322, 9 }, { -40, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 200, 1 },     /* distance */
+    { 20, 13 },     /* swingYawInitial */
+    { 60, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 15, 17 },     /* swingPitchAdj (PCT) */
+    { 45, 7 },      /* fov */
+    { 50, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2082, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011AF6C[] = {
@@ -535,8 +634,19 @@ CameraModeValue D_8011AF94[] = {
 };
 
 CameraModeValue D_8011AFBC[] = {
-    { -20, 0 }, { 200, 1 }, { 10, 13 }, { 80, 14 },  { -10, 15 }, { 10, 16 },
-    { 25, 17 }, { 70, 7 },  { 40, 8 },  { 8194, 9 }, { -40, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 200, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 80, 14 },     /* swingYawFinal */
+    { -10, 15 },    /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 70, 7 },      /* fov */
+    { 40, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011AFEC[] = {
@@ -544,8 +654,19 @@ CameraModeValue D_8011AFEC[] = {
 };
 
 CameraModeValue D_8011B014[] = {
-    { 0, 0 },   { 400, 1 }, { 0, 13 }, { 60, 14 },  { -10, 15 }, { 5, 16 },
-    { 25, 17 }, { 45, 7 },  { 40, 8 }, { 8194, 9 }, { -20, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { 0, 0 },       /* yOffset (PCT) */
+    { 400, 1 },     /* distance */
+    { 0, 13 },      /* swingYawInitial */
+    { 60, 14 },     /* swingYawFinal */  
+    { -10, 15 },    /* swingPitchInitial */
+    { 5, 16 },      /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 45, 7 },      /* fov */
+    { 40, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -20, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011B044[] = {
@@ -565,8 +686,19 @@ CameraModeValue D_8011B0B0[] = {
 };
 
 CameraModeValue D_8011B0D8[] = {
-    { -20, 0 }, { 180, 1 }, { 20, 13 }, { 60, 14 },  { 0, 15 },   { 10, 16 },
-    { 25, 17 }, { 45, 7 },  { 50, 8 },  { 8194, 9 }, { -40, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 180, 1 },     /* distance */
+    { 20, 13 },     /* swingYawInitial */
+    { 60, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 45, 7 },      /* fov */
+    { 50, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011B108[] = {
@@ -876,8 +1008,19 @@ CameraModeValue D_8011B4B8[] = {
 };
 
 CameraModeValue D_8011B4E0[] = {
-    { -20, 0 }, { 250, 1 }, { 5, 13 }, { 10, 14 },  { 30, 15 },  { 20, 16 },
-    { 25, 17 }, { 45, 7 },  { 60, 8 }, { 8194, 9 }, { -40, 11 }, { 25, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 250, 1 },     /* distance */
+    { 5, 13 },      /* swingYawInitial */
+    { 10, 14 },     /* swingYawFinal */
+    { 30, 15 },     /* swingPitchInitial */
+    { 20, 16 },     /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 45, 7 },      /* fov */
+    { 60, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 25, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011B510[] = {
@@ -962,8 +1105,19 @@ CameraModeValue D_8011B7AC[] = {
 };
 
 CameraModeValue D_8011B7D8[] = {
-    { -20, 0 }, { 250, 1 }, { 0, 13 }, { 80, 14 },   { 0, 15 },   { 0, 16 },
-    { 25, 17 }, { 55, 7 },  { 80, 8 }, { 12034, 9 }, { -40, 11 }, { 25, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */
+    { 250, 1 },     /* distance */
+    { 0, 13 },      /* swingYawInitial */
+    { 80, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 0, 16 },      /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 55, 7 },      /* fov */
+    { 80, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2F02, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 25, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011B808[] = {
@@ -1015,8 +1169,19 @@ CameraModeValue D_8011B8D8[] = {
 };
 
 CameraModeValue D_8011B900[] = {
-    { -30, 0 }, { 160, 1 }, { 10, 13 }, { 10, 14 },  { 0, 15 },   { 0, 16 },
-    { 70, 17 }, { 60, 7 },  { 40, 8 },  { 8194, 9 }, { -50, 11 }, { 20, 12 },
+    /* CAM_FUNC_BATT1 */
+    { -30, 0 },     /* yOffset (PCT) */
+    { 160, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 10, 14 },     /* swingYawFinal */
+    { 0, 15 },      /* swingPitchInitial */
+    { 0, 16 },      /* swingPitchFinal */
+    { 70, 17 },     /* swingPitchAdj (PCT) */
+    { 60, 7 },      /* fov */
+    { 40, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -50, 11 },    /* yOffsetOffGround (PCT) */
+    { 20, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011B930[] = {
@@ -1028,9 +1193,20 @@ CameraModeValue D_8011B958[] = {
     { 45, 7 },  { 50, 8 },  { 8202, 9 }, { -40, 11 }, { 20, 12 },
 };
 
-CameraModeValue D_8011B984[] = {
-    { -20, 0 }, { 180, 1 }, { 10, 13 }, { 80, 14 },  { -10, 15 }, { 10, 16 },
-    { 25, 17 }, { 45, 7 },  { 80, 8 },  { 8194, 9 }, { -40, 11 }, { 25, 12 },
+CameraModeValue sSetDung2ModeBattVals[] = {
+    /* CAM_FUNC_BATT1 */
+    { -20, 0 },     /* yOffset (PCT) */ 
+    { 180, 1 },     /* distance */
+    { 10, 13 },     /* swingYawInitial */
+    { 80, 14 },     /* swingYawFinal */
+    { -10, 15 },    /* swingPitchInitial */
+    { 10, 16 },     /* swingPitchFinal */
+    { 25, 17 },     /* swingPitchAdj (PCT) */
+    { 45, 7 },      /* fov */
+    { 80, 8 },      /* atLERPScaleOnGround (PCT) */
+    { 0x2002, 9 },  /* flags */
+    { -40, 11 },    /* yOffsetOffGround (PCT) */
+    { 25, 12 },     /* atLERPScaleOffGround (PCT) */
 };
 
 CameraModeValue D_8011B9B4[] = {
@@ -1891,7 +2067,7 @@ CameraMode sCamSetDungeon2Modes[] = {
     { CAM_FUNC_PARA1, 11, D_8011B958 }, // CAM_MODE_PARALLEL
     { CAM_FUNC_KEEP1, 13, D_8011A8F0 }, // CAM_MODE_KEEPON
     { CAM_FUNC_KEEP3, 12, D_8011A428 }, // CAM_MODE_TALK
-    { CAM_FUNC_BATT1, 12, D_8011B984 }, // CAM_MODE_BATTLE
+    { CAM_FUNC_BATT1, 12, sSetDung2ModeBattVals }, // CAM_MODE_BATTLE
     { CAM_FUNC_JUMP2, 9, D_8011B9F4 }, // CAM_MODE_CLIMB
     { CAM_FUNC_SUBJ3, 9, D_8011A4AC }, // CAM_MODE_SUBJECT
     { CAM_FUNC_SUBJ3, 9, D_8011A4D0 }, // CAM_MODE_BOWARROW
