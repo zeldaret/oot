@@ -3594,7 +3594,7 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
 
     func_8002F374(globalCtx, actor, &sp26, &sp24);
 
-    if ((sp26 < 0) || (sp26 > 0x140) || (sp24 < 0) || (sp24 > 0xF0)) {
+    if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
         return 0;
     }
 
@@ -5398,7 +5398,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
 
     if (0) {} // Necessary to match
 
-    if ((sp2C < 0) || (sp2C > 320) || (sp2A < 0) || (sp2A > 240)) {
+    if ((sp2C < 0) || (sp2C > SCREEN_WIDTH) || (sp2A < 0) || (sp2A > SCREEN_HEIGHT)) {
         return 0;
     }
 
