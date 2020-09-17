@@ -16,7 +16,7 @@ typedef struct {
 
 typedef enum {
     /* 0x00 */ FHGFLASH_LIGHTBALL,
-    /* 0x01 */ FHGFLASH_LIGHTNING
+    /* 0x01 */ FHGFLASH_SHOCK
 } FhgFlashType;
 
 typedef enum {
@@ -32,9 +32,9 @@ typedef enum {
 } FhgFlashLightBallParam;
 
 typedef enum {
-    /* 0x00 */ FHGFLASH_LIGHTNING_NO_ACTOR,
-    /* 0x01 */ FHGFLASH_LIGHTNING_PLAYER,
-    /* 0x02 */ FHGFLASH_LIGHTNING_PG
+    /* 0x00 */ FHGFLASH_SHOCK_NO_ACTOR,
+    /* 0x01 */ FHGFLASH_SHOCK_PLAYER,
+    /* 0x02 */ FHGFLASH_SHOCK_PG
 } FhgFlashLightningParam;
 
 

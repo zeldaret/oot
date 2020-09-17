@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_fhg_flash.c
  * Overlay: ovl_Effect_Ss_Fhg_Flash
- * Description: Phantom Ganon light related effects
+ * Description: Shock and Light Ball Effect
  */
 
 #include "z_eff_ss_fhg_flash.h"
@@ -16,8 +16,8 @@
 u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsFhgFlash_UpdateLightBall(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void EffectSsFhgFlash_DrawLightning(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void EffectSsFhgFlash_UpdateLightning(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsFhgFlash_DrawShock(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Fhg_Flash_InitVars = {
     EFFECT_SS_FHG_FLASH,
@@ -67,11 +67,11 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
         this->life = (s16)(Math_Rand_ZeroOne() * 10.0f) + 111;
         this->rScale = (s16)Math_Rand_ZeroFloat(initParams->scale) + initParams->scale;
         this->rAlpha = 255;
-        this->draw = EffectSsFhgFlash_DrawLightning;
-        this->update = EffectSsFhgFlash_UpdateLightning;
+        this->draw = EffectSsFhgFlash_DrawShock;
+        this->update = EffectSsFhgFlash_UpdateShock;
         this->rParam = initParams->param;
 
-        if (initParams->param != FHGFLASH_LIGHTNING_NO_ACTOR) {
+        if (initParams->param != FHGFLASH_SHOCK_NO_ACTOR) {
             this->pos = sp34;
             this->gfx = SEGMENTED_TO_VIRTUAL(D_809A5100);
         } else {
@@ -115,7 +115,7 @@ void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectS
     CLOSE_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 330);
 }
 
-void EffectSsFhgFlash_DrawLightning(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsFhgFlash_DrawShock(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     f32 scale;
@@ -127,7 +127,7 @@ void EffectSsFhgFlash_DrawLightning(GlobalContext* globalCtx, u32 index, EffectS
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-    if (this->rParam != FHGFLASH_LIGHTNING_NO_ACTOR) {
+    if (this->rParam != FHGFLASH_SHOCK_NO_ACTOR) {
         func_80094044(globalCtx->state.gfxCtx);
         Matrix_RotateX((this->rXZRot / 32768.0f) * 1.1416f, MTXMODE_APPLY);
         gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2);
@@ -171,7 +171,7 @@ void EffectSsFhgFlash_UpdateLightBall(GlobalContext* globalCtx, u32 index, Effec
     }
 }
 
-void EffectSsFhgFlash_UpdateLightning(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 randBodypart;
     Player* player;
     BossGanondrof* phantomGanon;
@@ -180,13 +180,13 @@ void EffectSsFhgFlash_UpdateLightning(GlobalContext* globalCtx, u32 index, Effec
     rand = (Math_Rand_ZeroOne() * 20000.0f);
     this->rXZRot = (this->rXZRot + rand) + 0x4000;
 
-    if (this->rParam == FHGFLASH_LIGHTNING_PLAYER) {
+    if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
         player = PLAYER;
         randBodypart = Math_Rand_ZeroFloat(17.9f);
         this->pos.x = player->unk_908[randBodypart].x + Math_Rand_CenteredFloat(10.0f);
         this->pos.y = player->unk_908[randBodypart].y + Math_Rand_CenteredFloat(15.0f);
         this->pos.z = player->unk_908[randBodypart].z + Math_Rand_CenteredFloat(10.0f);
-    } else if (this->rParam == FHGFLASH_LIGHTNING_PG) {
+    } else if (this->rParam == FHGFLASH_SHOCK_PG) {
         phantomGanon = (BossGanondrof*)this->actor;
         randBodypart = Math_Rand_ZeroFloat(23.9f);
         this->pos.x = phantomGanon->bodyPartsPos[randBodypart].x + Math_Rand_CenteredFloat(15.0f);

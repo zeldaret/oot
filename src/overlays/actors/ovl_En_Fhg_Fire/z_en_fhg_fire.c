@@ -285,7 +285,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     if (Math_Rand_ZeroOne() < 0.5f) {
         pos = this->actor.posRot.pos;
         pos.y -= 20.0f;
-        EffectSsFhgFlash_SpawnLightning(globalCtx, &this->actor, &pos, 200, FHGFLASH_LIGHTNING_NO_ACTOR);
+        EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &pos, 200, FHGFLASH_SHOCK_NO_ACTOR);
     }
 
     Actor_MoveForward(&this->actor);

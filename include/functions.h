@@ -294,7 +294,7 @@ void EffectSsHitMark_SpawnFixedScale(GlobalContext* globalCtx, s32 type, Vec3f* 
 void EffectSsHitMark_SpawnCustomScale(GlobalContext* globalCtx, s32 type, s16 scale, Vec3f* pos);
 void EffectSsFhgFlash_SpawnLightBall(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                      u8 param);
-void EffectSsFhgFlash_SpawnLightning(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, u8 param);
+void EffectSsFhgFlash_SpawnShock(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, u8 param);
 void EffectSsKFire_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scaleMax, u8 type);
 void EffectSsSolderSrchBall_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused,
                                   s16* linkDetected);

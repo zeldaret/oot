@@ -766,21 +766,21 @@ void EffectSsFhgFlash_SpawnLightBall(GlobalContext* globalCtx, Vec3f* pos, Vec3f
 }
 
 /**
- * Spawn a lightning shock effect
+ * Spawn a shock effect
  *
  * param determines where the ligntning should go
  * 0: dont attach to any actor. spawns at the position specified by pos
  * 1: spawn at one of Player's body parts, chosen at random
  * 2: spawn at one of Phantom Ganon's body parts, chosen at random
  */
-void EffectSsFhgFlash_SpawnLightning(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, u8 param) {
+void EffectSsFhgFlash_SpawnShock(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, u8 param) {
     EffectSsFhgFlashInitParams initParams;
 
     initParams.actor = actor;
     Math_Vec3f_Copy(&initParams.pos, pos);
     initParams.scale = scale;
     initParams.param = param;
-    initParams.type = FHGFLASH_LIGHTNING;
+    initParams.type = FHGFLASH_SHOCK;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_FHG_FLASH, 128, &initParams);
 }
