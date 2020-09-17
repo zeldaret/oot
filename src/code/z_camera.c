@@ -6,6 +6,15 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags);
 s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags);
 s32 Camera_QRegInit(void);
 
+#define RELOAD_PARAMS \
+    (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14 || R_RELOAD_CAM_PARAMS)
+
+#define PCT(x) ((x)*0.01f)
+#define NEXTSETTING ((values++)->val)
+#define NEXTPCT PCT(NEXTSETTING)
+
+#define ONEPNTDEM ((Unique9OnePointDemo*)camera->paramData)
+
 #define BGCAM_POS(v) ((v)[0])
 #define BGCAM_ROT(v) ((v)[1])
 #define BGCAM_FOV(v) ((v)[2].x)
@@ -1396,7 +1405,6 @@ void func_80046E20(Camera* camera, VecSph* eyeAdjustment, f32 minDist, f32 arg3,
 s32 Camera_NOP(Camera* camera) {
     return true;
 }
-s16 Camera_CalcDefaultPitch(Camera*, s16, s16, s16);
 
 s32 Camera_Normal1(Camera* camera) {
     Vec3f* eye = &camera->eye;
@@ -1810,7 +1818,7 @@ s32 Camera_Normal3(Camera* camera) {
     f32 temp_f6;
     s16 phi_a0;
     s16 t2;
-    Normal3* norm3 = &camera->params.norm3;
+    Normal3* norm3 = (Normal3*)camera->paramData;
     Normal3Anim* anim = &norm3->anim;
     f32 playerHeight;
 
@@ -4572,7 +4580,7 @@ s32 Camera_Unique2(Camera* camera) {
     s32 pad;
     f32 lerpRateFactor;
     Unique2* uniq2 = (Unique2*)camera->paramData;
-    Unique2_Unk10* unk10 = &uniq2->unk_10;
+    Unique2Unk10* unk10 = &uniq2->unk_10;
     s32 pad2;
     f32 playerHeight;
 
@@ -4936,7 +4944,7 @@ s32 Camera_Unique7(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
-    Unique7_Unk8* unk08 = &uniq7->unk_08;
+    Unique7Unk8* unk08 = &uniq7->unk_08;
 
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -4993,8 +5001,8 @@ s32 Camera_Unique8(Camera* camera) {
 s32 Camera_Unique9(Camera* camera) {
     Vec3f atTarget;
     Vec3f eyeTarget;
-    Unique9* uniq9 = &camera->params.uniq9.uniq9;
-    Unique9Anim* anim = &camera->params.uniq9.uniq9.anim;
+    Unique9* uniq9 = &ONEPNTDEM->uniq9;
+    Unique9Anim* anim = &uniq9->anim;
     f32 invKeyFrameTimer;
     VecSph eyeNextAtOffset;
     VecSph scratchSph;
@@ -5016,12 +5024,11 @@ s32 Camera_Unique9(Camera* camera) {
     Vec3f eyeLookAtPos;
     Vec3f* eye = &camera->eye;
     PosRot eyeFocusPosRot;
-    CameraModeValue* values;
 
     player = camera->player;
 
     if (RELOAD_PARAMS) {
-        values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
+        CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         uniq9->interfaceFlags = NEXTSETTING;
     }
 
@@ -5052,8 +5059,8 @@ s32 Camera_Unique9(Camera* camera) {
     if (anim->keyFrameTimer == 0) {
         anim->isNewKeyFrame = true;
         anim->curKeyFrameIdx++;
-        if (anim->curKeyFrameIdx < camera->params.uniq9.keyFrameCnt) {
-            anim->curKeyFrame = &camera->params.uniq9.keyFrames[anim->curKeyFrameIdx];
+        if (anim->curKeyFrameIdx < ONEPNTDEM->keyFrameCnt) {
+            anim->curKeyFrame = &ONEPNTDEM->keyFrames[anim->curKeyFrameIdx];
             anim->keyFrameTimer = anim->curKeyFrame->timerInit;
 
             if (anim->curKeyFrame->unk_01 != 0xFF) {
@@ -5845,28 +5852,28 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D6AC[1].timerInit = camera->timer - 1;
             D_8011D6AC[1].atTargetInit.z = Math_Rand_ZeroOne() * 10.0f;
             D_8011D6AC[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
-            camera->params.uniq9.keyFrames = D_8011D6AC;
-            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
+            ONEPNTDEM->keyFrames = D_8011D6AC;
+            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
             if (camera->parentCamIdx != 0) {
-                camera->params.uniq9.keyFrameCnt--;
+                ONEPNTDEM->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
         } else {
             D_8011D724[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
-            camera->params.uniq9.keyFrames = D_8011D724;
-            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D724);
+            ONEPNTDEM->keyFrames = D_8011D724;
+            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D724);
             if (camera->parentCamIdx != 0) {
-                camera->params.uniq9.keyFrameCnt--;
+                ONEPNTDEM->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D724[2].timerInit;
             }
         }
     } else if (playerTargetGeo.r < 30.0f) {
         // distance between player and target is less than 30 units.
-        camera->params.uniq9.keyFrames = D_8011D79C;
-        camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D79C);
+        ONEPNTDEM->keyFrames = D_8011D79C;
+        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
         if ((sp78.yaw < 0x15) || (sp78.yaw >= 0x12C) || (sp78.pitch < 0x29) || (sp78.pitch >= 0xC8)) {
             D_8011D79C[0].actionFlags = 0x41;
             D_8011D79C[0].atTargetInit.y = -30.0f;
@@ -5880,7 +5887,7 @@ s32 Camera_Demo5(Camera* camera) {
         D_8011D79C[1].timerInit = camera->timer - 1;
 
         if (camera->parentCamIdx != 0) {
-            camera->params.uniq9.keyFrameCnt -= 2;
+            ONEPNTDEM->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
         }
@@ -5888,10 +5895,10 @@ s32 Camera_Demo5(Camera* camera) {
         // distance from the camera's current positon and the target is less than 300 units
         // and the distance fromthe camera's current position to the player is less than 30 units
         D_8011D83C[0].timerInit = camera->timer;
-        camera->params.uniq9.keyFrames = D_8011D83C;
-        camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D83C);
+        ONEPNTDEM->keyFrames = D_8011D83C;
+        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
         if (camera->parentCamIdx != 0) {
-            camera->params.uniq9.keyFrameCnt--;
+            ONEPNTDEM->keyFrameCnt--;
         } else {
             camera->timer += D_8011D83C[1].timerInit;
         }
@@ -5901,10 +5908,10 @@ s32 Camera_Demo5(Camera* camera) {
         // is less than ~76.9 degrees
         if (sp78.yaw >= 0x15 && sp78.yaw < 0x12C && sp78.pitch >= 0x29 && sp78.pitch < 0xC8 && eyePlayerGeo.r > 30.0f) {
             D_8011D88C[0].timerInit = camera->timer;
-            camera->params.uniq9.keyFrames = D_8011D88C;
-            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D88C);
+            ONEPNTDEM->keyFrames = D_8011D88C;
+            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
             if (camera->parentCamIdx != 0) {
-                camera->params.uniq9.keyFrameCnt--;
+                ONEPNTDEM->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D88C[1].timerInit;
             }
@@ -5919,10 +5926,10 @@ s32 Camera_Demo5(Camera* camera) {
             }
             D_8011D8DC[0].timerInit = camera->timer;
             D_8011D8DC[1].timerInit = (s16)(eyeTargetDist * 0.005f) + 8;
-            camera->params.uniq9.keyFrames = D_8011D8DC;
-            camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
+            ONEPNTDEM->keyFrames = D_8011D8DC;
+            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
             if (camera->parentCamIdx != 0) {
-                camera->params.uniq9.keyFrameCnt -= 2;
+                ONEPNTDEM->keyFrameCnt -= 2;
             } else {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
             }
@@ -5956,10 +5963,10 @@ s32 Camera_Demo5(Camera* camera) {
         } else {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
-        camera->params.uniq9.keyFrames = D_8011D954;
-        camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D954);
+        ONEPNTDEM->keyFrames = D_8011D954;
+        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D954);
         if (camera->parentCamIdx != 0) {
-            camera->params.uniq9.keyFrameCnt -= 2;
+            ONEPNTDEM->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
         }
@@ -5981,14 +5988,14 @@ s32 Camera_Demo5(Camera* camera) {
             t = eyeTargetDist * 0.005f;
             D_8011D9F4[1].timerInit = t + 8;
         }
-        camera->params.uniq9.keyFrames = D_8011D9F4;
-        camera->params.uniq9.keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
+        ONEPNTDEM->keyFrames = D_8011D9F4;
+        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
         if (camera->parentCamIdx != 0) {
             if (camera->globalCtx->state.frames & 1) {
                 D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
                 D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
             }
-            camera->params.uniq9.keyFrameCnt -= 2;
+            ONEPNTDEM->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D9F4[1].timerInit + D_8011D9F4[2].timerInit;
             D_8011D9F4[0].rollTargetInit = D_8011D9F4[1].rollTargetInit = 0;
@@ -6053,7 +6060,7 @@ s32 Camera_Demo6(Camera* camera) {
 
     if (RELOAD_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        camera->params.demo6.interfaceFlags = NEXTSETTING;
+        ((Demo6*)camera->paramData)->interfaceFlags = NEXTSETTING;
     }
 
     if (R_RELOAD_CAM_PARAMS) {
@@ -6105,7 +6112,6 @@ s32 Camera_Demo6(Camera* camera) {
     }
 
     anim->animTimer++;
-    // useless copy
     func_8002EF14(&focusPosRot, camFocus);
 
     return true;
@@ -6337,11 +6343,11 @@ s32 Camera_Special4(Camera* camera) {
         sCameraInterfaceFlags = 0x3200;
         camera->fov = 40.0f;
         camera->animState++;
-        spec4->unk_00 = camera->timer;
+        spec4->initalTimer = camera->timer;
     }
 
     camera->fov = Camera_LERPCeilF(80.0f, camera->fov, 1.0f / *timer, 0.1f);
-    if ((spec4->unk_00 - *timer) < 0xF) {
+    if ((spec4->initalTimer - *timer) < 0xF) {
         (*timer)--;
         return false;
     } else {

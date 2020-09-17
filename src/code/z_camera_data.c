@@ -1,12 +1,28 @@
 #include <ultra64.h>
 #include <global.h>
 
-#define RELOAD_PARAMS \
-    (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14 || R_RELOAD_CAM_PARAMS)
+typedef struct {
+    s16 val;
+    s16 param;
+} CameraModeValue;
 
-#define PCT(x) ((x)*0.01f)
-#define NEXTSETTING ((values++)->val)
-#define NEXTPCT PCT(NEXTSETTING)
+typedef struct {
+    s16 funcIdx;
+    s16 valueCnt;
+    CameraModeValue* values;
+} CameraMode;
+
+typedef struct {
+    union {
+        u32 unk_00;
+        struct {
+            u32 unk_bit0 : 1;
+            u32 unk_bit1 : 1;
+            u32 validModes : 30;
+        };
+    };
+    CameraMode* cameraModes;
+} CameraSetting;
 
 /*==================================================================*/
 // Data
