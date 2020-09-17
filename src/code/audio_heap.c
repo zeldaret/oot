@@ -611,7 +611,7 @@ void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
     tmp[9] = (f32)(((arg0 * arg0) + arg1) * 262159.0f);
 
     for (i = 2; i < 8; i++) {
-        //! @bug they probably meant to store the value to tmp[i] and tmp[8 + i]
+        //! @bug value was probably meant to be stored to tmp[i] and tmp[8 + i]
         arg2[i] = arg1 * tmp[i - 2] + arg0 * tmp[i - 1];
         arg2[8 + i] = arg1 * tmp[6 + i] + arg0 * tmp[7 + i];
     }
