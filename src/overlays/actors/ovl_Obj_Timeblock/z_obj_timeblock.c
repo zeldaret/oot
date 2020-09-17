@@ -19,7 +19,6 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80BA00CC(GlobalContext* globalCtx, u32 arg1);
 s32 func_80BA040C(ObjTimeblock* this, GlobalContext* globalCtx);
 s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA04F8(ObjTimeblock* this);
@@ -89,7 +88,14 @@ void func_80BA0058(ObjTimeblock* this, GlobalContext* globalCtx) {
                 unk_actorParams[(this->dyna.actor.params >> 8) & 1].demoEffectParams);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA00CC.s")
+// toggleSceneSwitch
+void func_80BA00CC(GlobalContext* globalCtx, s32 flag) {
+    if (Flags_GetSwitch(globalCtx, flag)) {
+        Flags_UnsetSwitch(globalCtx, flag);
+    } else {
+        Flags_SetSwitch(globalCtx, flag);
+    }
+}
 
 extern s32 D_06000B30;
 
