@@ -216,13 +216,11 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
         }
 
         this->unk_305 = 0;
-        if (this->actor.xzDistFromLink <= 150.0f) {
-            if (func_8002DDE4(globalCtx) != 0) {
-                if ((this->actor.params != 2) && (this->unk_305 == 0)) {
-                    func_80AE37BC(this);
-                } else {
-                    func_80AE392C(this);
-                }
+        if ((this->actor.xzDistFromLink <= 150.0f) && func_8002DDE4(globalCtx)) {
+            if ((this->actor.params != 2) && (this->unk_305 == 0)) {
+                func_80AE37BC(this);
+            } else {
+                func_80AE392C(this);
             }
         }
     }
@@ -366,13 +364,11 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     if ((!(player->stateFlags1 & 0x2C6080)) && (!(player->stateFlags2 & 0x80)) && (func_8002DB6C(&player->actor, &this->actor.initPosRot.pos) < 150.0f)) {
         this->actor.unk_1F = 0;
         func_80AE2B90(this, globalCtx);
-    } else {
-        if (this->actor.params > 0) {
-            if (this->actor.parent != NULL) {
-                func_80AE31DC(this);
-            } else {
-                this->unk_305 = 0;
-            }
+    } else if (this->actor.params > 0) {
+        if (this->actor.parent != NULL) {
+            func_80AE31DC(this);
+        } else {
+            this->unk_305 = 0;
         }
     }
 
@@ -395,6 +391,7 @@ void func_80AE3260(EnRd *this, GlobalContext *globalCtx) {
         s32 pad;
         s16 targetY;
         Vec3f thisPos = this->actor.parent->posRot.pos;
+        
         targetY = func_8002DAC0(&this->actor, &thisPos);
 
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, targetY, 1, 0xFA, 0);
@@ -602,7 +599,7 @@ void func_80AE3C20(EnRd* this) {
 
 void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
     if (this->actor.type != ACTORTYPE_PROP) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_PROP);
     }
 
     Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x7D0, 0);
@@ -625,7 +622,7 @@ void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
         } else {
             this->unk_30C--;
         }
-    } else if (((s32)this->skelAnime.animCurrentFrame == 0x21) || ((s32)this->skelAnime.animCurrentFrame == 0x28)) {
+    } else if (((s32)this->skelAnime.animCurrentFrame == 33) || ((s32)this->skelAnime.animCurrentFrame == 0x28)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
