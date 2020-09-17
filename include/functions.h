@@ -245,7 +245,8 @@ void func_8002949C(GlobalContext* globalCtx, Vec3f* pos, u32, u32, u32, u32);
 // ? func_800295A0(?);
 // ? func_80029618(?);
 // ? func_80029694(?);
-// ? func_80029724(?);
+void func_80029724(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused, s16 scale,
+    s16 objId, s16 life, Gfx* dList); //EffectSsHahen_Spawn
 void func_800297A4(GlobalContext* globalCtx, Vec3f* vec, f32, s32, s32, s32, s32, s32, s32, s32);
 // ? func_800298EC(?);
 // ? func_8002993C(?);
@@ -833,7 +834,7 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
 // ? func_800626B0(?);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 void func_80062718(ColliderCylinder* collider, Vec3s* pos);
-// ? func_80062734(?);
+void func_80062734(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d);
 void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
 void func_800628A4(s32 arg0, ColliderJntSph* collider);
 void func_80062A28(GlobalContext*, Vec3f*);

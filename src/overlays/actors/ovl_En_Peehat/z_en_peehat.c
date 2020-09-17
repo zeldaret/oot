@@ -37,11 +37,11 @@ void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx);
 void func_80AD1AA8(EnPeehat* this); 
 void func_80AD1B00(EnPeehat* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_06001C80;  //0x06001C80
-extern AnimationHeader D_060009C4; //0x060009C4
-extern AnimationHeader D_06000844; //0x06000844
-extern AnimationHeader D_060005C4; //0x060005C4
-extern AnimationHeader D_06000350; //0x06000350
+extern SkeletonHeader D_06001C80;  
+extern AnimationHeader D_060009C4; 
+extern AnimationHeader D_06000844; 
+extern AnimationHeader D_060005C4; 
+extern AnimationHeader D_06000350; 
 
 /*
 const ActorInit En_Peehat_InitVars = {
@@ -100,7 +100,8 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params)
     {
     case -1:
-        func_80ACFB34(this); break;
+        func_80ACFB34(this);
+        break;
     case 0:
         thisx->uncullZoneForward = 4200.0f;
         this->unk2DC = 2800.0f;
@@ -141,9 +142,6 @@ void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 extern Vec3f D_80AD2814;
 extern Vec3f D_80AD2820;
-
-void func_80029724(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused, s16 scale,
-    s16 objId, s16 life, Gfx* dList); //EffectSsHahen_Spawn
 
 void func_80ACF788(GlobalContext* globalCtx, EnPeehat* this, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, f32 arg6) {
     Vec3f sp5C;
@@ -746,68 +744,61 @@ void func_80AD177C(EnPeehat* this) {
     func_80ACF4A0(this, func_80AD17E8);
 }
 
-#ifdef NON_MATCHING
 void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx) {
-    Vec3f sp34;
+    Vec3f pos;
 
     if (this->unk2B4 != 0) {
         this->unk2D4--;
         if (this->unk2D4 <= 0 || this->actor.colChkInfo.health == 0) {
 
             SkelAnime_ChangeAnimTransitionStop(&this->unk14C, &D_06000844, -4.0f);
-            //this->actor.shape.rot.x = (u16)
             this->unk2F0 = 4000;
             this->unk2D4 = 14;
-            this->actor.speedXZ = 0.0;
+            this->actor.speedXZ = 0;
             this->actor.velocity.y = 6;
             this->unk2B4 = 0;
             this->actor.shape.rot.z = this->actor.shape.rot.x = 0;
-            return;
         } else if (this->actor.dmgEffectTimer & 4) {
-            Math_SmoothScaleMaxMinF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0.0f);
-            return;
+            Math_SmoothScaleMaxMinF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0);
         }
         else {
-            Math_SmoothScaleMaxMinF(&this->unk2EC, 0.0f, 1.0f, 0.005f, 0.0f);
-            return;
+            Math_SmoothScaleMaxMinF(&this->unk2EC, 0, 1.0f, 0.005f, 0);
         }
     }
-    SkelAnime_FrameUpdateMatrix(&this->unk14C);
-    this->unk2F2 += this->unk2F0;
-    Math_SmoothScaleMaxMinS(&this->unk2F0, 4000, 1, 250, 0);
-    if (this->actor.colChkInfo.health == 0) {
-        this->actor.scale.x -= 0.0015f;
-        Actor_SetScale(&this->actor, this->actor.scale.x); //?
-    }
-    if (Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f
-        && this->actor.posRot.pos.y - this->actor.groundY < 59.0f) {
-        sp34 = this->actor.posRot.pos;
-        sp34.y = this->actor.groundY;
-        func_80033480(globalCtx, &sp34, 80.0f, 1, 0x96, 0x64, 1);
-        func_80ACF788(globalCtx, this, &sp34, 75.0f, 2, 1.05f, 2.0f);
-    }
-    if (this->actor.speedXZ < 0.0f) {
-        this->actor.speedXZ += 0.25f;
-    }
-    this->unk2D4--; 
-    if (this->unk2D4 <= 0) {
+    else {
+        SkelAnime_FrameUpdateMatrix(&this->unk14C);
+        this->unk2F2 += this->unk2F0;
+        Math_SmoothScaleMaxMinS(&this->unk2F0, 4000, 1, 250, 0);
         if (this->actor.colChkInfo.health == 0) {
-            func_80AD1AA8(this);
+            this->actor.scale.x -= 0.0015f;
+            Actor_SetScale(&this->actor, this->actor.scale.x);
+        }
+        if (Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f
+            && this->actor.posRot.pos.y - this->actor.groundY < 59.0f) {
+            pos = this->actor.posRot.pos;
+            pos.y = this->actor.groundY;
+            func_80033480(globalCtx, &pos, 80.0f, 1, 0x96, 0x64, 1);
+            func_80ACF788(globalCtx, this, &pos, 75.0f, 2, 1.05f, 2.0f);
+        }
+        if (this->actor.speedXZ < 0) {
+            this->actor.speedXZ += 0.25f;
+        }
+        this->unk2D4--;
+        if (this->unk2D4 <= 0) {
+            if (this->actor.colChkInfo.health == 0) {
+                func_80AD1AA8(this);
 
-        }
-        else if (this->actor.params < 0) {
-            func_80AD0F38(this);
-            this->unk2F6 = 60;
-        }
-        else {
-            func_80ACFEB0(this);
+            }
+            else if (this->actor.params < 0) {
+                func_80AD0F38(this);
+                this->unk2F6 = 60;
+            }
+            else {
+                func_80ACFEB0(this);
+            }
         }
     }
 }
-#else
-void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Peehat/func_80AD17E8.s")
-#endif
 
 void func_80AD1AA8(EnPeehat* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->unk14C, &D_060005C4);
@@ -969,8 +960,82 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->unk2EC, 0.0f, 1.0f, 0.001f, 0.0f);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Peehat/func_80AD2224.s")
+//override limb draw
+s32 func_80AD2224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnPeehat* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Peehat/func_80AD2438.s")
+    if (limbIndex == 4) {
+        rot->x = -this->unk2F2;
+    }
+    if (limbIndex == 3 ||
+        (limbIndex == 23 && (this->unk2B0 == 0 || 3 == this->unk2B0 || 4 == this->unk2B0))) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1946);
+        Matrix_Push();
+        Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
+        Matrix_RotateX(this->unk2E4 * 0.115f, MTXMODE_APPLY);
+        Matrix_RotateY(this->unk2E4 * 0.13f, MTXMODE_APPLY);
+        Matrix_RotateZ(this->unk2E4 * 0.1f, MTXMODE_APPLY);
+        Matrix_Scale(1.0f - this->unk2EC, this->unk2EC + 1.0f, 1.0f - this->unk2EC, MTXMODE_APPLY);
+        Matrix_RotateZ(-(this->unk2E4 * 0.1f), MTXMODE_APPLY);
+        Matrix_RotateY(-(this->unk2E4 * 0.13f), MTXMODE_APPLY);
+        Matrix_RotateX(-(this->unk2E4 * 0.115f), MTXMODE_APPLY);
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1959), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, *dList);
+        Matrix_Pull();
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1963);
+        return true;
+    }
+    return false;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Peehat/EnPeehat_Draw.s")
+extern Vec3f D_80AD2844;
+extern Vec3f D_80AD2850;
+
+//post limb draw
+void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnPeehat* this = THIS;
+    f32 damageYRot;
+
+    if (limbIndex == 4) {
+        Matrix_MultVec3f(&D_80AD2844, &this->unk2BC[0]);
+        Matrix_MultVec3f(&D_80AD2850, &this->unk2BC[1]);
+        return;
+    }
+    if (limbIndex == 3 && thisx->params <= 0) {
+        damageYRot = 0.0f;
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1981);
+        Matrix_Push();
+        Matrix_Translate(-1000.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+        func_800628A4(0, &this->colJntSph);
+        Matrix_Translate(500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+        if (this->actor.dmgEffectTimer != 0) {
+            if (this->actor.dmgEffectParams & 0x4000) {
+                damageYRot = Math_Sins(this->actor.dmgEffectTimer * 0x4E20) * 0.35f;
+            }
+        }
+        Matrix_RotateY(3.2f + damageYRot, MTXMODE_APPLY);
+        Matrix_Scale(0.3f, 0.2f, 0.2f, MTXMODE_APPLY);
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1990), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, *dList);
+        Matrix_Pull();
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1994);
+    }
+}
+
+extern Vec3f D_80AD285C;
+extern Vec3f D_80AD2868;
+extern Vec3f D_80AD2874;
+extern Vec3f D_80AD2880;
+void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnPeehat* this = THIS;
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    SkelAnime_Draw(globalCtx, this->unk14C.skeleton, this->unk14C.limbDrawTbl, &func_80AD2224, &func_80AD2438, thisx);
+    if (0.0f != thisx->speedXZ || 0.0f != thisx->velocity.y) {
+        Matrix_MultVec3f(&D_80AD285C, &this->colQuad.dim.quad[1]); 
+        Matrix_MultVec3f(&D_80AD2868, &this->colQuad.dim.quad[0]); 
+        Matrix_MultVec3f(&D_80AD2874, &this->colQuad.dim.quad[3]); 
+        Matrix_MultVec3f(&D_80AD2880, &this->colQuad.dim.quad[2]);
+        func_80062734(&this->colQuad, &this->colQuad.dim.quad[0], &this->colQuad.dim.quad[1], &this->colQuad.dim.quad[2], &this->colQuad.dim.quad[3]);
+    }
+}
