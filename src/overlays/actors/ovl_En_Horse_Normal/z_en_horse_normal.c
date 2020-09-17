@@ -20,16 +20,15 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx);
 // TODO: Remove later if unnecessary
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BC48(EnHorseNormal* this);
+void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
-void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* collider);
 
-f32 func_80A6B30C(EnHorseNormal* this);
-void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6BCEC(EnHorseNormal* this);
+void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Normal_InitVars = {
@@ -183,7 +182,14 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->unk_274);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6B91C.s")
+void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
+    this->actor.flags |= 0x10;
+    this->unk_14C = 4;
+    this->unk_150 = 6;
+    this->waypoint = 0;
+    this->actor.speedXZ = 7.0f;
+    SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+}
 
 void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xF];
@@ -229,7 +235,15 @@ void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BC48.s")
+void func_80A6BC48(EnHorseNormal* this) {
+    this->unk_14C = 1;
+    this->unk_150 = 0;
+    this->unk_21C = 0;
+    this->unk_21E = 0;
+    this->actor.speedXZ = 0.0f;
+    this->unk_218 = 0.0f;
+    SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+}
 
 void func_80A6BCEC(EnHorseNormal* this) {
     if (this->unk_150 == 5) {
@@ -239,11 +253,20 @@ void func_80A6BCEC(EnHorseNormal* this) {
     }
 }
 
+void func_80A6BD7C(EnHorseNormal* this) {
+    f32 frame = this->skin.skelAnime.animCurrentFrame;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BD7C.s")
+    if (this->unk_150 == 0 && frame > 28.0f && !(this->unk_1E4 & 1)) {
+        this->unk_1E4 |= 1;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_SANDDUST, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (this->unk_150 == 3 && frame > 25.0f && !(this->unk_1E4 & 2)) {
+        this->unk_1E4 |= 2;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_LAND2, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+}
 
 #if FALSE
-void func_80A6BE6C(EnHorseNormal *this, GlobalContext *globalCtx) {
+void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
     s32 sp4C;
     f32 sp40;
     s16 temp_v0_2;
@@ -375,7 +398,7 @@ block_38:
                     }
                 }
                 sp40 = func_80A6B30C(this);
-                SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, (f32) SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
+                SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
                 return;
             }
             temp_v0_3 = D_80A6D510[phi_v1_2];
@@ -431,7 +454,15 @@ block_38:
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BE6C.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6C4CC.s")
+void func_80A6C4CC(EnHorseNormal* this) {
+    this->unk_14C = 2;
+    this->unk_150 = 0;
+    this->unk_21C = 0;
+    this->unk_21E = 0;
+    this->actor.speedXZ = 0.0f;
+    this->unk_218 = 0.0f;
+    SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+}
 
 void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
@@ -452,11 +483,57 @@ void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6C6B0.s")
+void func_80A6C6B0(EnHorseNormal* this) {
+    this->unk_14C = 3;
+    this->unk_150 = 0;
+    this->unk_21C = 0;
+    this->unk_21E = 0;
+    this->actor.flags |= 0x30;
+    this->actor.speedXZ = 0.0f;
+    this->unk_218 = 0.0f;
+    SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6C760.s")
+void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx) {
+    func_80A6BD7C(this);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6C8E0.s")
+    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+        f32 rand = Math_Rand_ZeroOne();
+
+        if (rand < 0.4f) {
+            this->unk_150 = 0;
+        } else if (rand < 0.8f) {
+            this->unk_150 = 1;
+            this->unk_1E4 |= 0x20;
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        } else {
+            this->unk_150 = 3;
+            this->unk_1E4 |= 0x20;
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
+
+        SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+
+        this->unk_1E4 &= ~1;
+        this->unk_1E4 &= ~2;
+        this->unk_1E4 &= ~8;
+        this->unk_1E4 &= ~0x10;
+    }
+}
+
+void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
+    s32 pad;
+    CollisionPoly* sp38;
+    s32 pad2;
+    Vec3f sp28;
+    s32 sp24;
+
+    sp28.x = (Math_Sins(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+    sp28.y = this->actor.posRot.pos.y + 60.0f;
+    sp28.z = (Math_Coss(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+    this->unk_220 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
+    this->actor.shape.rot.x = Math_atan2f(this->actor.posRot.pos.y - this->unk_220, 30.0f) * 10430.378f;
+}
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
