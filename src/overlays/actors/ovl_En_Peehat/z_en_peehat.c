@@ -43,7 +43,6 @@ extern AnimationHeader D_06000844;
 extern AnimationHeader D_060005C4; 
 extern AnimationHeader D_06000350; 
 
-/*
 const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
     ACTORTYPE_ENEMY,
@@ -55,16 +54,38 @@ const ActorInit En_Peehat_InitVars = {
     (ActorFunc)EnPeehat_Update,
     (ActorFunc)EnPeehat_Draw,
 };
-*/
-extern ColliderCylinderInit D_80AD2740;
-extern ColliderJntSphInit D_80AD2790;
-extern ColliderQuadInit D_80AD27A0;
-extern DamageTable D_80AD27F0;
 
-extern InitChainEntry D_80AD2810[];
-//static InitChainEntry sInitChain[] = {
-//    ICHAIN_F32(unk_4C, 700, ICHAIN_STOP),
-//};
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_WOODEN_SHIELD, 0x00, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    { 50, 160, -70, { 0, 0, 0 } },
+};
+
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { 0, { { 0, 0, 0 }, 20 }, 100 },
+    },
+};
+
+static ColliderJntSphInit sJntSphInit = {
+    { COLTYPE_UNK6, 0x00, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
+    1, sJntSphItemsInit,
+};
+
+static ColliderQuadInit sQuadInit =
+{
+    { COLTYPE_METAL_SHIELD, 0x11, 0x0D, 0x00, 0x00, COLSHAPE_QUAD },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+DamageTable D_80AD27F0 = {
+    0xF0, 0x02, 0x01, 0x02, 0xE0, 0x02, 0x02, 0xD2, 0x01, 0x02, 0x04, 0xC4, 0x02, 0x02, 0x02, 0x02, 0x02, 0xC3, 0x60, 0x60, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00, };
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(unk_4C, 700, ICHAIN_STOP),
+};
 
 void func_80ACF4A0(EnPeehat* this, EnPeehatActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -73,7 +94,7 @@ void func_80ACF4A0(EnPeehat* this, EnPeehatActionFunc actionFunc) {
 void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPeehat* this = THIS;
 
-    Actor_ProcessInitChain(thisx, D_80AD2810);
+    Actor_ProcessInitChain(thisx, sInitChain);
     Actor_SetScale(thisx, 0.036000002f);
     SkelAnime_Init(globalCtx, &this->unk14C, &D_06001C80, &D_060009C4, this->limbDrawTable, this->transitionDrawTable, 24);
     ActorShape_Init(&thisx->shape, 100.0f, (void*)&ActorShadow_DrawFunc_Circle, 27.0f);
@@ -85,11 +106,11 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.damageTable = &D_80AD27F0;
     thisx->groundY = thisx->posRot.pos.y;
     Collider_InitCylinder(globalCtx, &this->colCylinder);
-    Collider_SetCylinder(globalCtx, &this->colCylinder, thisx, &D_80AD2740);
+    Collider_SetCylinder(globalCtx, &this->colCylinder, thisx, &sCylinderInit);
     Collider_InitQuad(globalCtx, &this->colQuad);
-    Collider_SetQuad(globalCtx, &this->colQuad, thisx, &D_80AD27A0);
+    Collider_SetQuad(globalCtx, &this->colQuad, thisx, &sQuadInit);
     Collider_InitJntSph(globalCtx, &this->colJntSph);
-    Collider_SetJntSph(globalCtx, &this->colJntSph, thisx, &D_80AD2790, this->colJntSphItemList);
+    Collider_SetJntSph(globalCtx, &this->colJntSph, thisx, &sJntSphInit, this->colJntSphItemList);
 
     thisx->naviEnemyId = 0x48;
     this->unk2DC = 740.0f;
@@ -140,10 +161,10 @@ void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-extern Vec3f D_80AD2814;
-extern Vec3f D_80AD2820;
-
 void func_80ACF788(GlobalContext* globalCtx, EnPeehat* this, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, f32 arg6) {
+    static Vec3f D_80AD2814 = { 0, 8, 0 };
+    static Vec3f D_80AD2820 = { 0, -1.5f, 0 };
+
     Vec3f sp5C;
     Vec3f sp50;
     Vec3f sp44;
@@ -435,9 +456,8 @@ void func_80AD0720(EnPeehat* this) {
     func_80ACF4A0(this, func_80AD076C);
 }
 
-extern Vec3f D_80AD282C;
-
 void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
+    static Vec3f D_80AD282C = { 0, 0, 0 };
     s32 i;
     Player* player;
     Vec3f sp7C;
@@ -677,9 +697,8 @@ void func_80AD1440(EnPeehat* this) {
     func_80ACF4A0(this, func_80AD14A0);
 }
 
-extern Vec3f D_80AD2838;
-
 void func_80AD14A0(EnPeehat* this, GlobalContext* globalCtx) {
+    static Vec3f D_80AD2838 = { 0, 0, 0 };
     Vec3f sp84;
     s32 i;
     Vec3f sp74;
@@ -988,11 +1007,11 @@ s32 func_80AD2224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-extern Vec3f D_80AD2844;
-extern Vec3f D_80AD2850;
-
 //post limb draw
 void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    static Vec3f D_80AD2844 = { 0, 0, 5500 };
+    static Vec3f D_80AD2850 = { 0, 0, -5500 };
+
     EnPeehat* this = THIS;
     f32 damageYRot;
 
@@ -1022,11 +1041,11 @@ void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-extern Vec3f D_80AD285C;
-extern Vec3f D_80AD2868;
-extern Vec3f D_80AD2874;
-extern Vec3f D_80AD2880;
 void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Vec3f D_80AD285C = { 0, 0, -4500 };
+    static Vec3f D_80AD2868 = { -4500, 0, 0 };
+    static Vec3f D_80AD2874 = { 4500, 0, 0 };
+    static Vec3f D_80AD2880 = { 0, 0, 4500 };
     EnPeehat* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
