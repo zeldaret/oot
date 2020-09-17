@@ -174,12 +174,12 @@ Vec3f* Camera_Vec3fVecSphGeoAdd(Vec3f* dest, Vec3f* a, VecSph* b) {
     return dest;
 }
 
-Vec3f* Camera_Vec3fScaleXYZFactor(Vec3f* dest, Vec3f* src, Vec3f* scale, f32 scaleFactor) {
+Vec3f* Camera_Vec3fTranslateByUnitVector(Vec3f* dest, Vec3f* src, Vec3f* unitVector, f32 uvScale) {
     Vec3f copy;
 
-    copy.x = src->x + (scale->x * scaleFactor);
-    copy.y = src->y + (scale->y * scaleFactor);
-    copy.z = src->z + (scale->z * scaleFactor);
+    copy.x = src->x + (unitVector->x * uvScale);
+    copy.y = src->y + (unitVector->y * uvScale);
+    copy.z = src->z + (unitVector->z * uvScale);
 
     *dest = copy;
     return dest;
@@ -1368,7 +1368,7 @@ void func_80046E20(Camera* camera, VecSph* eyeAdjustment, f32 minDist, f32 arg3,
 
             anim->swingUpdateRate = *arg4 * arg3;
 
-            Camera_Vec3fScaleXYZFactor(eye, &atEyeColChk.pos, &atEyeColChk.norm, 1.0f);
+            Camera_Vec3fTranslateByUnitVector(eye, &atEyeColChk.pos, &atEyeColChk.norm, 1.0f);
             anim->atEyePoly = NULL;
             if (temp_f0 < OREG(21)) {
                 sp40.yaw = eyeAdjustment->yaw;
@@ -3233,7 +3233,7 @@ s32 Camera_KeepOn1(Camera* camera) {
             *eye = *eyeNext;
         }
         OLib_Vec3fDistNormalize(&sp120, eye, at);
-        Camera_Vec3fScaleXYZFactor(eye, eye, &sp120, OREG(1));
+        Camera_Vec3fTranslateByUnitVector(eye, eye, &sp120, OREG(1));
     }
     camera->fov = Camera_LERPCeilF(keep1->unk_20, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
