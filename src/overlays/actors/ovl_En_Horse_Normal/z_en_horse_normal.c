@@ -268,11 +268,7 @@ void func_80A6BD7C(EnHorseNormal* this) {
 #if FALSE
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
     s32 sp4C;
-    f32 sp40;
-    s16 temp_v0_2;
-    s32 temp_v0;
     s32 temp_v0_3;
-    s32 temp_v1;
     u16 temp_t9;
     s32 phi_t0;
     s32 phi_t0_2;
@@ -280,22 +276,20 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
     s32 phi_v1_2;
     s32 phi_t0_3;
 
-    temp_v1 = this->unk_150;
-    temp_v0 = D_80A6D510[temp_v1];
-    if (temp_v0 != 0) {
-        if (temp_v0 != 1) {
-            phi_t0_2 = temp_v1;
-            phi_v1 = temp_v1;
-            if (temp_v0 != 2) {
-                phi_t0_2 = temp_v1;
-                phi_v1 = temp_v1;
-                if (temp_v0 != 3) {
-                    phi_t0_2 = temp_v1;
-                    phi_v1 = temp_v1;
+    if (D_80A6D510[this->unk_150] != 0) {
+        if (D_80A6D510[this->unk_150] != 1) {
+            phi_t0_2 = this->unk_150;
+            phi_v1 = this->unk_150;
+            if (D_80A6D510[this->unk_150] != 2) {
+                phi_t0_2 = this->unk_150;
+                phi_v1 = this->unk_150;
+                if (D_80A6D510[this->unk_150] != 3) {
+                    phi_t0_2 = this->unk_150;
+                    phi_v1 = this->unk_150;
                 }
             }
         } else {
-            if (Math_Rand_ZeroOne(this) < 0.1f) {
+            if (Math_Rand_ZeroOne() < 0.1f) {
                 this->unk_218 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
             }
             this->actor.speedXZ += this->unk_218;
@@ -320,41 +314,21 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
                     }
                 }
             }
-            sp4C = phi_t0;
-            if (!(Math_Rand_ZeroOne() < 0.1f)) {
-                if (this->unk_21E == 0) {
-                    if (!(this->actor.bgCheckFlags & 8)) {
-                        if (!(this->unk_228.base.maskA & 2)) {
-                            if (this->unk_274.base.maskA & 2) {
-block_22:
-                                sp4C = phi_t0;
-                                this->unk_21E = (s16) (s32) ((f32) this->unk_21E + ((Math_Rand_ZeroOne() * 30.0f) - 15.0f));
-                                temp_v0_2 = this->unk_21E;
-                                if (temp_v0_2 >= 0x33) {
-                                    this->unk_21E = 0x32;
-block_26:
-                                } else {
-                                    if (temp_v0_2 < -0x32) {
-                                        this->unk_21E = -0x32;
-                                        goto block_26;
-                                    }
-                                }
-                            }
-                        } else {
-                            goto block_22;
-                        }
-                    } else {
-                        goto block_22;
+            if (Math_Rand_ZeroOne() < 0.1f || (this->unk_21E == 0 && this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2) && this->unk_274.base.maskA & 2) {
+                this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
+                if (this->unk_21E > 0x32) {
+                    this->unk_21E = 0x32;
+                } else {
+                    if (this->unk_21E < -0x32) {
+                        this->unk_21E = -0x32;
                     }
                 }
-            } else {
-                goto block_22;
             }
             this->unk_21C += this->unk_21E;
             if (this->unk_21C < -0x12C) {
                 this->unk_21C = -0x12C;
             } else {
-                if (this->unk_21C >= 0x12D) {
+                if (this->unk_21C > 0x12C) {
                     this->unk_21C = 0x12C;
                 } else {
                     sp4C = phi_t0;
@@ -371,83 +345,73 @@ block_26:
             phi_v1 = this->unk_150;
         }
     } else {
-        sp4C = temp_v1;
         func_80A6BD7C(this);
         this->actor.speedXZ = 0.0f;
         this->unk_218 = 0.0f;
-        phi_t0_2 = temp_v1;
+        phi_t0_2 = this->unk_150;
         phi_v1 = this->unk_150;
     }
     phi_v1_2 = phi_v1;
-    if (phi_t0_2 == phi_v1) {
-        sp4C = phi_t0_2;
-        if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-            phi_v1_2 = this->unk_150;
-block_38:
-            if (phi_t0_2 != phi_v1_2) {
-                this->unk_150 = phi_t0_2;
-                this->unk_1E4 &= ~1;
-                this->unk_1E4 &= ~2;
-                if (phi_t0_2 == 1) {
-                    Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                } else {
-                    if (phi_t0_2 == 3) {
-                        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    } else {
-                        func_80A6BCEC(this);
-                    }
-                }
-                sp40 = func_80A6B30C(this);
-                SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
-                return;
-            }
-            temp_v0_3 = D_80A6D510[phi_v1_2];
-            if (temp_v0_3 != 0) {
-                phi_t0_3 = phi_t0_2;
-                if (temp_v0_3 != 1) {
-                    phi_t0_3 = phi_t0_2;
-                    if (temp_v0_3 != 2) {
-                        phi_t0_3 = phi_t0_2;
-                        if (temp_v0_3 != 3) {
-                            phi_t0_3 = phi_t0_2;
-                        }
-                    }
-                }
-            } else {
-                if (Math_Rand_ZeroOne() < 0.25f) {
-                    this->unk_218 = 1.0f;
-                    phi_t0_3 = 4;
-                } else {
-                    this->actor.speedXZ = 0.0f;
-                    this->unk_218 = 0.0f;
-                    phi_t0_3 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2.0f)];
-                }
-            }
+    if (phi_t0_2 == phi_v1 || SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+        phi_v1_2 = this->unk_150;
+        if (phi_t0_2 != phi_v1_2) {
+            this->unk_150 = phi_t0_2;
             this->unk_1E4 &= ~1;
             this->unk_1E4 &= ~2;
-            if (phi_t0_3 == 1) {
-                sp4C = phi_t0_3;
+            if (phi_t0_2 == 1) {
                 Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                if (phi_t0_3 == 3) {
-                    sp4C = phi_t0_3;
+                if (phi_t0_2 == 3) {
                     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 } else {
-                    sp4C = phi_t0_3;
                     func_80A6BCEC(this);
                 }
             }
-            if (sp4C != this->unk_150) {
-                this->unk_150 = sp4C;
-                sp40 = func_80A6B30C(this);
-                SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
-                return;
-            }
-            sp40 = func_80A6B30C(this);
-            SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], sp40, 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+            SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
+            return;
         }
-    } else {
-        goto block_38;
+        temp_v0_3 = D_80A6D510[phi_v1_2];
+        if (temp_v0_3 != 0) {
+            phi_t0_3 = phi_t0_2;
+            if (temp_v0_3 != 1) {
+                phi_t0_3 = phi_t0_2;
+                if (temp_v0_3 != 2) {
+                    phi_t0_3 = phi_t0_2;
+                    if (temp_v0_3 != 3) {
+                        phi_t0_3 = phi_t0_2;
+                    }
+                }
+            }
+        } else {
+            if (Math_Rand_ZeroOne() < 0.25f) {
+                this->unk_218 = 1.0f;
+                phi_t0_3 = 4;
+            } else {
+                this->actor.speedXZ = 0.0f;
+                this->unk_218 = 0.0f;
+                phi_t0_3 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2.0f)];
+            }
+        }
+        this->unk_1E4 &= ~1;
+        this->unk_1E4 &= ~2;
+        if (phi_t0_3 == 1) {
+            sp4C = phi_t0_3;
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        } else {
+            if (phi_t0_3 == 3) {
+                sp4C = phi_t0_3;
+                Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            } else {
+                sp4C = phi_t0_3;
+                func_80A6BCEC(this);
+            }
+        }
+        if (sp4C != this->unk_150) {
+            this->unk_150 = sp4C;
+            SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
+            return;
+        }
+        SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
     }
 }
 #else
