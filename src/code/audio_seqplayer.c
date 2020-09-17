@@ -617,11 +617,11 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
     AudioBankSound* sound;
     Instrument* instrument;
     Drum* drum;
-    AudioBankSound* unkInstrument;
+    s32 pad;
     SequenceChannel* seqChannel;
     SequencePlayer* seqPlayer;
     u8 cmd;
-    u16 unkInstrumentId;
+    u16 sfxId;
     s32 cmd2;
     s32 vel;
     f32 time;
@@ -663,8 +663,8 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
 
         case 1:
             layer->semitone = cmd;
-            unkInstrumentId = (layer->transposition << 6) + cmd;
-            sound = (AudioBankSound*)Audio_GetUnkInstrument(seqChannel->bankId, unkInstrumentId);
+            sfxId = (layer->transposition << 6) + cmd;
+            sound = Audio_GetSfx(seqChannel->bankId, sfxId);
             if (sound == NULL) {
                 layer->stopSomething = true;
                 layer->delay2 = layer->delay + 1;

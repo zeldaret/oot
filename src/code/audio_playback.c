@@ -362,8 +362,8 @@ Drum* Audio_GetDrum(s32 bankId, s32 drumId) {
     return drum;
 }
 
-UnkInstrument* Audio_GetUnkInstrument(s32 bankId, s32 unkInstrumentId) {
-    UnkInstrument* unkInstrument;
+AudioBankSound* Audio_GetSfx(s32 bankId, s32 sfxId) {
+    AudioBankSound* sfx;
 
     if (bankId == 0xFF) {
         return NULL;
@@ -374,29 +374,29 @@ UnkInstrument* Audio_GetUnkInstrument(s32 bankId, s32 unkInstrumentId) {
         return NULL;
     }
 
-    if (unkInstrumentId >= gAudioContext.gCtlEntries[bankId].numUnkInstruments) {
-        gAudioContext.gAudioErrorFlags = ((bankId << 8) + unkInstrumentId) + 0x4000000;
+    if (sfxId >= gAudioContext.gCtlEntries[bankId].numSfx) {
+        gAudioContext.gAudioErrorFlags = ((bankId << 8) + sfxId) + 0x4000000;
         return NULL;
     }
 
-    if ((u32)gAudioContext.gCtlEntries[bankId].unkInstruments < 0x80000000U) {
+    if ((u32)gAudioContext.gCtlEntries[bankId].soundEffects < 0x80000000U) {
         return NULL;
     }
 
-    unkInstrument = &gAudioContext.gCtlEntries[bankId].unkInstruments[unkInstrumentId];
+    sfx = &gAudioContext.gCtlEntries[bankId].soundEffects[sfxId];
 
-    if (unkInstrument == NULL) {
-        gAudioContext.gAudioErrorFlags = ((bankId << 8) + unkInstrumentId) + 0x5000000;
+    if (sfx == NULL) {
+        gAudioContext.gAudioErrorFlags = ((bankId << 8) + sfxId) + 0x5000000;
     }
 
-    if (unkInstrument->sample == NULL) {
+    if (sfx->sample == NULL) {
         return NULL;
     }
 
-    return unkInstrument;
+    return sfx;
 }
 
-s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
+s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, void* arg3) {
     if (bankId == 0xFF) {
         return -1;
     }
@@ -410,21 +410,21 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
             if (instId >= gAudioContext.gCtlEntries[bankId].numDrums) {
                 return -3;
             }
-            gAudioContext.gCtlEntries[bankId].drums[instId] = (void*)arg3;
+            gAudioContext.gCtlEntries[bankId].drums[instId] = arg3;
             break;
 
         case 1:
-            if (instId >= gAudioContext.gCtlEntries[bankId].numUnkInstruments) {
+            if (instId >= gAudioContext.gCtlEntries[bankId].numSfx) {
                 return -3;
             }
-            gAudioContext.gCtlEntries[bankId].unkInstruments[instId] = *arg3;
+            gAudioContext.gCtlEntries[bankId].soundEffects[instId] = *(AudioBankSound*)arg3;
             break;
 
         default:
             if (instId >= gAudioContext.gCtlEntries[bankId].numInstruments) {
                 return -3;
             }
-            gAudioContext.gCtlEntries[bankId].instruments[instId] = (void*)arg3;
+            gAudioContext.gCtlEntries[bankId].instruments[instId] = arg3;
             break;
     }
 

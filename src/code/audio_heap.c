@@ -1135,10 +1135,10 @@ UnkHeapEntry* func_800E06CC(u32 size) {
 void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
     Drum* drum;
     Instrument* inst;
-    UnkInstrument* unkInst;
+    AudioBankSound* sfx;
     s32 instId;
     s32 drumId;
-    s32 unkInstId;
+    s32 sfxId;
 
     for (instId = 0; instId < gAudioContext.gCtlEntries[bankId].numInstruments; instId++) {
         inst = Audio_GetInstrumentInner(bankId, instId);
@@ -1160,10 +1160,10 @@ void func_800E0964(UnkHeapEntry* entry, s32 bankId) {
         }
     }
 
-    for (unkInstId = 0; unkInstId < gAudioContext.gCtlEntries[bankId].numUnkInstruments; unkInstId++) {
-        unkInst = Audio_GetUnkInstrument(bankId, unkInstId);
-        if (unkInst != NULL) {
-            func_800E0BB4(entry, unkInst->sample);
+    for (sfxId = 0; sfxId < gAudioContext.gCtlEntries[bankId].numSfx; sfxId++) {
+        sfx = Audio_GetSfx(bankId, sfxId);
+        if (sfx != NULL) {
+            func_800E0BB4(entry, sfx->sample);
         }
     }
 }
@@ -1282,14 +1282,14 @@ void func_800E0EB4(s32 arg0, s32 id) {
     s32 numBanks;
     s32 instId;
     s32 drumId;
-    s32 unkInstId;
+    s32 sfxId;
     Struct_800E0E0C sp78;
     s32 unk2;
     s32 unk3;
     s32 bankId;
     Drum* drum;
     Instrument* inst;
-    UnkInstrument* unkInst;
+    AudioBankSound* sfx;
     u8** fakematch;
     s32 pad[4];
 
@@ -1352,10 +1352,10 @@ void func_800E0EB4(s32 arg0, s32 id) {
                 }
             }
 
-            for (unkInstId = 0; unkInstId < gAudioContext.gCtlEntries[bankId].numUnkInstruments; unkInstId++) {
-                unkInst = Audio_GetUnkInstrument(bankId, unkInstId);
-                if (unkInst != NULL) {
-                    func_800E0E0C(&sp78, unkInst->sample);
+            for (sfxId = 0; sfxId < gAudioContext.gCtlEntries[bankId].numSfx; sfxId++) {
+                sfx = Audio_GetSfx(bankId, sfxId);
+                if (sfx != NULL) {
+                    func_800E0E0C(&sp78, sfx->sample);
                 }
             }
         }

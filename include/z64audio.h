@@ -170,19 +170,14 @@ typedef struct {
 } Drum; // size >= 0x14
 
 typedef struct {
-    AudioBankSample* sample;
-    u32 unk_4;
-} UnkInstrument; // TODO: probably the same as AudioBankSound
-
-typedef struct {
     /* 0x00 */ u8 numInstruments;
     /* 0x01 */ u8 numDrums;
     /* 0x02 */ u8 unk_02;
     /* 0x03 */ u8 unk_03;
-    /* 0x04 */ u16 numUnkInstruments;
+    /* 0x04 */ u16 numSfx;
     /* 0x08 */ Instrument** instruments;
     /* 0x0C */ Drum** drums;
-    /* 0x10 */ UnkInstrument* unkInstruments;
+    /* 0x10 */ AudioBankSound* soundEffects;
 } CtlEntry; // size = 0x14
 
 typedef struct {
@@ -732,7 +727,7 @@ typedef struct {
     /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
     /* 0x5B84 */ s32 gNoteSubEuOffset;
     /* 0x5B88 */ AudioListItem gLayerFreeList;
-} AudioContext; // might be bigger
+} AudioContext; // size >= 0x5c50
 
 typedef struct {
     /* 0x00 */ u8 reverb; // i.e. volume
