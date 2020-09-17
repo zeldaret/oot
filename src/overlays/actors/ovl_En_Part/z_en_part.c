@@ -52,19 +52,19 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
         case 0:
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -0.3f - Math_Rand_ZeroOne() * 0.5f;
-            this->rotationSpeed = 0.3f;
-            this->delay = 25;
+            this->rotZSpeed = 0.3f;
+            this->effectDelay = 25;
             this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
             break;
         case 13:
-            this->delay = 400;
+            this->effectDelay = 400;
         case 12:
             this->actor.speedXZ = Math_Rand_CenteredFloat(6.0f);
             this->actor.initPosRot.pos = this->actor.posRot.pos;
-            this->delay += 60;
+            this->effectDelay += 60;
             this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
             this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
-            this->rotationSpeed = 0.15f;
+            this->rotZSpeed = 0.15f;
             break;
         case 14:
             func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1); // ~0x7FFE
@@ -72,20 +72,20 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
         case 4:
         case 9:
         case 10:
-            this->delay += (s16)(Math_Rand_ZeroOne() * 17.0f) + 5;
+            this->effectDelay += (s16)(Math_Rand_ZeroOne() * 17.0f) + 5;
         case 2:
             this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
             this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
-            this->rotationSpeed = 0.15f;
+            this->rotZSpeed = 0.15f;
             break;
         case 11:
             func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1);
         case 3:
             this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
-            this->delay = (s16)(Math_Rand_ZeroOne() * 17.0f) + 10;
+            this->effectDelay = (s16)(Math_Rand_ZeroOne() * 17.0f) + 10;
             this->actor.velocity.y = Math_Rand_ZeroOne() * 3.0f + 8.0f;
             this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.3f;
-            this->rotationSpeed = 0.15f;
+            this->rotZSpeed = 0.15f;
             break;
         case 5:
         case 6:
@@ -98,9 +98,9 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 0.0f;
             this->actor.speedXZ = 6.0f * sign;
             this->actor.gravity = -1.2f;
-            this->rotationSpeed = 0.15f * sign;
+            this->rotZSpeed = 0.15f * sign;
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-            this->delay = 18;
+            this->effectDelay = 18;
             break;
     }
 }
@@ -129,7 +129,7 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
         if ((this->actor.params == 13) && (this->actor.parent != NULL) && (this->actor.parent->update == NULL)) {
             this->actor.parent = NULL;
         }
-    } else if (this->delay <= 0) {
+    } else if (this->effectDelay <= 0) {
         switch (this->actor.params) {
             case 1:
             case 9:
@@ -170,8 +170,8 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->delay--;
-    this->rotation += this->rotationSpeed;
+    this->effectDelay--;
+    this->rotZ += this->rotZSpeed;
 }
 
 void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx) {
@@ -187,8 +187,8 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
     Vec3f accel;
     u8 invincibilityTimer;
 
-    this->delay--;
-    if (this->delay == 0) {
+    this->effectDelay--;
+    if (this->effectDelay == 0) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -209,7 +209,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
         func_8002F71C(globalCtx, this->actor.parent, (650.0f - this->actor.parent->xzDistFromLink) * 0.04f + 4.0f,
                       this->actor.parent->posRot.rot.y, 8.0f);
         player->invincibilityTimer = invincibilityTimer;
-        this->delay = 1;
+        this->effectDelay = 1;
     }
 
     func_80033480(globalCtx, &this->actor.posRot.pos, 0.0f, 1, 300, 150, 1);
@@ -223,7 +223,7 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
     static Vec3f D_80ACF1EC = { 0.0f, 0.0f, 0.0f };
 
     Vec3f zero = D_80ACF1EC;
-    f32 dist;
+    f32 diffsSum;
 
     if ((this->actor.parent == NULL) || (this->actor.parent->update == NULL)) {
         func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero, (s16)(this->actor.scale.y * 100.0f) * 40, 7,
@@ -232,21 +232,21 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->delay == 0) {
-        dist = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f, 5.0f, 0.0f);
-        dist += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 1.0f, 5.0f, 0.0f);
-        dist += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f, 5.0f, 0.0f);
-        dist += Math_SmoothScaleMaxMinF(&this->rotation, 0.0f, 1.0f, 0.25f, 0.0f);
-        if (dist == 0.0f) {
+    if (this->effectDelay == 0) {
+        diffsSum = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f, 5.0f, 0.0f);
+        diffsSum += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 1.0f, 5.0f, 0.0f);
+        diffsSum += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f, 5.0f, 0.0f);
+        diffsSum += Math_SmoothScaleMaxMinF(&this->rotZ, 0.0f, 1.0f, 0.25f, 0.0f);
+        if (diffsSum == 0.0f) {
             this->actor.parent->initPosRot.rot.x--;
-            this->delay--;
+            this->effectDelay--;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
         }
-    } else if (this->delay > 0) {
-        this->delay--;
+    } else if (this->effectDelay > 0) {
+        this->effectDelay--;
     }
 
-    if (this->actor.parent->colChkInfo.health) {
+    if (this->actor.parent->colChkInfo.health != 0) {
         Actor_Kill(&this->actor);
     }
 }
@@ -294,7 +294,7 @@ void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_part.c", 647);
 
     if (thisx->params > 0) {
-        Matrix_RotateZ(this->rotation, MTXMODE_APPLY);
+        Matrix_RotateZ(this->rotZ, MTXMODE_APPLY);
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
