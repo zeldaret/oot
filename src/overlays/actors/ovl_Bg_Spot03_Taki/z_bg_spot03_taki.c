@@ -64,7 +64,47 @@ void BgSpot03Taki_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADEF0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADEF0.s")
+void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
+    if (this->unk_16A == 0) {
+        if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
+            this->unk_16A = 2;
+            this->unk_168 = 0x28;
+            func_800800F8(globalCtx, 0x1004, -0x63, NULL, 0);
+        }
+    } else if (this->unk_16A == 1) {
+        this->unk_168--;
+        if (this->unk_168 < 0) {
+            this->unk_16A = 2;
+        }
+    } else if (this->unk_16A == 2) {
+        if (this->unk_170 > 0) {
+            this->unk_170 -= 5;
+            if (this->unk_170 <= 0.0f) {
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                this->unk_168 = 0x190;
+                this->unk_16A = 3;
+                this->unk_170 = 0;
+            }
+        }
+    } else if (this->unk_16A == 3) {
+        this->unk_168--;
+        if (this->unk_168 < 0) {
+            this->unk_16A = 4;
+        }
+    } else if (this->unk_16A == 4) {
+        if (this->unk_170 < 255.0f) {
+            this->unk_170 += 5.0f;
+            if (this->unk_170 >= 255.0f) {
+                func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                this->unk_16A = 0;
+                this->unk_170 = 255.0f;
+                Flags_UnsetSwitch(globalCtx, this->switchFlag);
+            }
+        }
+    }
+    func_808ADAE0(this, this->unk_174);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Update.s")
 
