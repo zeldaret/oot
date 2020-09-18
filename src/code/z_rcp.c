@@ -1275,7 +1275,9 @@ void func_80094CBC(GraphicsContext* gfxCtx) {
 
 void func_80094D28(Gfx** gfxp) {
     Gfx* gfx = *gfxp;
+
     gSPDisplayList(gfx++, &sSetupDL[6 * 0x38]);
+
     *gfxp = gfx;
 }
 
@@ -1293,6 +1295,7 @@ Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
     gDPTileSync(displayList);
     gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
     gSPEndDisplayList(displayList + 2);
+
     return displayList;
 }
 

@@ -2,7 +2,7 @@
 "g[DS]P.*" = "void"
 "gDma.*" = "void"
 "G_IM_SIZ_.*" = "int"
-"G_[AC]CMUX.*" = "int"
+"G_[AC]C.*" = "int"
 LOG = "void"
 SET_FULLSCREEN_VIEWPORT = "void"
 OPEN_DISPS = "void"
