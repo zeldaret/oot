@@ -106,6 +106,11 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
     func_808ADAE0(this, this->unk_174);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Update.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Update.s")
+void BgSpot03Taki_Update(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot03Taki *this = THIS;
+
+    this->actionFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Draw.s")
