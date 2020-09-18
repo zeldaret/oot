@@ -57,7 +57,12 @@ void BgSpot03Taki_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFunc = func_808ADEF0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Destroy.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Destroy.s")
+void BgSpot03Taki_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot03Taki *this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADEF0.s")
 
