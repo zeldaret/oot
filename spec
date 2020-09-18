@@ -1235,7 +1235,6 @@ endseg
 beginseg
     name "ovl_Bg_Spot03_Taki"
     include "build/src/overlays/actors/ovl_Bg_Spot03_Taki/z_bg_spot03_taki.o"
-    include "build/data/overlays/actors/z_bg_spot03_taki.data.o"
     include "build/data/overlays/actors/z_bg_spot03_taki.reloc.o"
 endseg
 
