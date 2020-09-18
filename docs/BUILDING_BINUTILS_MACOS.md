@@ -7,7 +7,7 @@ Create destination dir for binutils
 sudo mkdir -p /opt/cross
 ```
 
-*Create and enter local working dir
+Create and enter local working dir
 ```bash
 mkdir ~/binutils-tmp
 cd ~/binutils-tmp
