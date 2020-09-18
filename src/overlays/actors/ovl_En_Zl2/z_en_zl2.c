@@ -752,7 +752,7 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B501C4(EnZl2* this, s32 alpha) {
     if (this->actor.child != NULL) {
-        ((DoorWarp1*)this->actor.child)->alpha = alpha;
+        ((DoorWarp1*)this->actor.child)->unk_1A8 = alpha;
     }
 }
 
