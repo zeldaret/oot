@@ -21,22 +21,12 @@ const ActorInit En_Mb_InitVars = {
     (ActorFunc)EnMb_Draw,
 };
 
-/*s32 D_80AA9C00[] = {
-    0x00000939, 0x20010000, 0x01000000, 0x00000000, 0x00000000, 0xFFCFFFFF,
-    0x00000000, 0x00010100, 0x00140046, 0x00000000, 0x00000000,
-};*/
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-/*s32 D_80AA9C2C[] = {
-    0x02000000, 0x00000000, 0x00000000, 0xFFCFFFFF, 0x00000000, 0x000D0000, 0xC1200000, 0x41600000,
-    0x40000000, 0xC1200000, 0xC0C00000, 0x40000000, 0x41100000, 0x41600000, 0x40000000, 0x02000000,
-    0x00000000, 0x00000000, 0xFFCFFFFF, 0x00000000, 0x000D0000, 0xC1200000, 0xC0C00000, 0x40000000,
-    0x41100000, 0xC0C00000, 0x40000000, 0x41100000, 0x41600000, 0x40000000,
-};*/
 static ColliderTrisItemInit sTrisItemsInit[2] = {
     {
         { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
@@ -48,46 +38,28 @@ static ColliderTrisItemInit sTrisItemsInit[2] = {
     },
 };
 
-// s32 D_80AA9CA4[] = { 0x09000D00, 0x00020000, 0x00000002, D_80AA9C2C };
 static ColliderTrisInit sTrisInit = {
     { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
     2,
     sTrisItemsInit,
 };
 
-/*s32 D_80AA9CB4[] = {
-    0x0A110000, 0x00030000, 0x00000000, 0xFFCFFFFF, 0x00080000, 0x00000000, 0x00000000,
-    0x01000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-};*/
 static ColliderQuadInit sQuadInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-// s32 D_80AA9D04[] = { 0x50F2F1F2, 0x10F2F2F2, 0xF1F2F4F2, 0x64F2F4F2, 0xF2506350, 0x0000F1F4, 0xF2F2F8F4, 0x5000F400
-// };
-
 static DamageTable sDamageTable[] = {
     0x50, 0xF2, 0xF1, 0xF2, 0x10, 0xF2, 0xF2, 0xF2, 0xF1, 0xF2, 0xF4, 0xF2, 0x64, 0xF2, 0xF4, 0xF2,
     0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
 };
-
-/*s32 D_80AA9D24[] = {
-    0x50F200F2, 0x00F2F210, 0xF1F2F4F2, 0x64F2F4F2, 0xF2506350, 0x0000F1F4, 0xF2F2F8F4, 0x5000F400,
-};*/
 
 static DamageTable sDamageTable2[] = {
     0x50, 0xF2, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x10, 0xF1, 0xF2, 0xF4, 0xF2, 0x64, 0xF2, 0xF4, 0xF2,
     0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
 };
 
-/*s32 D_80AA9D44[] = {
-    0x8917004A,
-    0xB86CFC18,
-    0x304C14B4,
-};*/
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 74, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_CONTINUE),
@@ -116,7 +88,8 @@ s32 D_80AA9D70[] = {
     0x0DAC0000,
 };
 
-s32 D_80AA9D78[] = {
+Vec3f D_80AA9D78 = {
+    // ZeroVec
     0x00000000,
     0x00000000,
     0x00000000,
@@ -530,7 +503,48 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA840C.s")
 
+#ifdef NON_MATCHING
+void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
+    Vec3f effPosition;
+    Vec3f temp;
+    Vec3f effZeroVector;
+    s16 pad;
+    s32 effectsPerFrame;
+
+    effPosition = this->actor.posRot.pos;
+    effPosition.x = effPosition.x + (Math_Sins(this->actor.shape.rot.y) * -70.0f);
+    effPosition.z = effPosition.z + (Math_Coss(this->actor.shape.rot.y) * -70.0f);
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    temp = effPosition;
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        if (this->unk_32A > 0) {
+            effZeroVector = D_80AA9D78;
+            this->unk_32A--;
+            for (effectsPerFrame = 4; effectsPerFrame >= 0; effectsPerFrame--) {
+                effPosition.x = Math_Rand_CenteredFloat(240.0f) + temp.x;
+                effPosition.y = Math_Rand_CenteredFloat(15.0f) + (temp.y + 20.0f);
+                effPosition.z = Math_Rand_CenteredFloat(240.0f) + temp.z;
+                func_8002A6B8(globalCtx, &effPosition, &effZeroVector, &effZeroVector, 0xE6, 7, 0xFF, 0xFF, 0xFF, 0xFF,
+                              0, 0xFF, 0, 1, 9, 1);
+            }
+            return;
+        } else {
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &effPosition, 0xC0);
+            Actor_Kill(&this->actor);
+            return;
+        }
+    }
+    if (((s32)this->skelAnime.animCurrentFrame == 15) || ((s32)this->skelAnime.animCurrentFrame == 22)) {
+        func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+        func_80033260(globalCtx, this, &effPosition, 50.0f, 0xA, 3.0f, 0x190, 0x3C, 0);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8514.s")
+#endif
+
 
 #ifdef NON_EQUIVILENT
 void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
