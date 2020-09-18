@@ -2328,8 +2328,7 @@ endseg
 beginseg
     name "ovl_En_Fd"
     include "build/src/overlays/actors/ovl_En_Fd/z_en_fd.o"
-    include "build/data/overlays/actors/z_en_fd.data.o"
-    include "build/data/overlays/actors/z_en_fd.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fd/ovl_En_Fd_reloc.o"
 endseg
 
 beginseg
