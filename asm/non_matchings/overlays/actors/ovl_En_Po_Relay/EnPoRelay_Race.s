@@ -3,11 +3,14 @@ glabel D_80AD8DEC
     .float 0.03
 
 glabel D_80AD8DF0
- .word 0x44D98000
+    .float 1740.0
+
 glabel D_80AD8DF4
- .word 0x44C58000
+    .float 1580.0
+
 glabel D_80AD8DF8
- .word 0x4502A000
+    .float 2090.0
+
 glabel D_80AD8DFC
     .float 1.4
 
@@ -24,7 +27,7 @@ glabel D_80AD8E0C
     .float 0.02
 
 .text
-glabel func_80AD7C64
+glabel EnPoRelay_Race
 /* 00524 80AD7C64 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00528 80AD7C68 AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 0052C 80AD7C6C AFB00030 */  sw      $s0, 0x0030($sp)           
@@ -314,7 +317,7 @@ glabel func_80AD7C64
 /* 0092C 80AD806C 01CF7023 */  subu    $t6, $t6, $t7              
 /* 00930 80AD8070 000E7040 */  sll     $t6, $t6,  1               
 /* 00934 80AD8074 01D82821 */  addu    $a1, $t6, $t8              
-/* 00938 80AD8078 0C2B5E51 */  jal     func_80AD7944              
+/* 00938 80AD8078 0C2B5E51 */  jal     EnPoRelay_Vec3sToVec3f              
 /* 0093C 80AD807C 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFF0
 /* 00940 80AD8080 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00944 80AD8084 0C00B6EC */  jal     func_8002DBB0              
@@ -336,13 +339,13 @@ glabel func_80AD7C64
 /* 00984 80AD80C4 00095080 */  sll     $t2, $t1,  2               
 /* 00988 80AD80C8 01495023 */  subu    $t2, $t2, $t1              
 /* 0098C 80AD80CC 000A5040 */  sll     $t2, $t2,  1               
-/* 00990 80AD80D0 0C2B5E51 */  jal     func_80AD7944              
+/* 00990 80AD80D0 0C2B5E51 */  jal     EnPoRelay_Vec3sToVec3f              
 /* 00994 80AD80D4 014B2821 */  addu    $a1, $t2, $t3              
 /* 00998 80AD80D8 86020198 */  lh      $v0, 0x0198($s0)           ## 00000198
 /* 0099C 80AD80DC 2401001C */  addiu   $at, $zero, 0x001C         ## $at = 0000001C
 /* 009A0 80AD80E0 54410006 */  bnel    $v0, $at, .L80AD80FC       
 /* 009A4 80AD80E4 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
-/* 009A8 80AD80E8 0C2B5E93 */  jal     func_80AD7A4C              
+/* 009A8 80AD80E8 0C2B5E93 */  jal     EnPoRelay_SetupEndRace              
 /* 009AC 80AD80EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 009B0 80AD80F0 10000015 */  beq     $zero, $zero, .L80AD8148   
 /* 009B4 80AD80F4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

@@ -20,18 +20,13 @@ typedef struct EnPoSisters {
     /* 0x0199 */ u8 unk_199;
     /* 0x019A */ s16 unk_19A;
     /* 0x019A */ s16 unk_19C;
-    /* 0x019E */ Vec3s unk_19E[12];
-    /* 0x01E6 */ Vec3s unk_1E6[12];
+    /* 0x019E */ Vec3s limbDrawTable[12];
+    /* 0x01E6 */ Vec3s transitionDrawTable[12];
     /* 0x022E */ Color_RGBA8_n unk_22E;
-    /* 0x022F */ //u8 unk_22F;
-    /* 0x0230 */ //u8 unk_230;
-    /* 0x0231 */ //u8 unk_231;
-    /* 0x0232 */ char unk_232[0x002];
     /* 0x0234 */ Vec3f unk_234[8];
     /* 0x0294 */ f32 unk_294;
     /* 0x0298 */ z_Light* light;
     /* 0x029C */ LightInfoPositional lightInfo;
-    /* 0x02AA */ char unk_2AA[0x002];
     /* 0x02AC */ ColliderCylinder collider;
     /* 0x02F8 */ MtxF unk_2F8;
 } EnPoSisters; // size = 0x0338

@@ -145,7 +145,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, D_80ADD788);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060065C8, &D_060014CC, this->unk_19E, this->unk_1E6, 12);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060065C8, &D_060014CC, this->limbDrawTable, this->transitionDrawTable, 12);
     this->unk_22E.r = 255;
     this->unk_22E.g = 255;
     this->unk_22E.b = 210;
@@ -1133,8 +1133,6 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext *globalCtx) {
 void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoSisters* this = THIS;
     s32 pad;
-    Vec3f vec;
-    UNK_TYPE sp34;
 
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
@@ -1153,6 +1151,8 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_199 & 0x10) {
             func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);
         } else {
+            Vec3f vec;
+            UNK_TYPE sp34;
             vec.x = this->actor.posRot.pos.x;
             vec.y = this->actor.posRot.pos.y + 10.0f;
             vec.z = this->actor.posRot.pos.z;

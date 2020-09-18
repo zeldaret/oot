@@ -8,24 +8,27 @@ struct EnPoh;
 
 typedef void (*EnPohActionFunc)(struct EnPoh*, struct GlobalContext*);
 
+typedef enum {
+    EN_POH_NORMAL,
+    EN_POH_RUPEE,
+    EN_POH_SHARP,
+    EN_POH_FLAT
+} EnPohType;
+
 typedef struct {
-    /* 0x0000 */ u8 unk_0; // r
-    /* 0x0001 */ u8 unk_1; // g
-    /* 0x0002 */ u8 unk_2; // b
-    /* 0x0003 */ u8 unk_3;
-    /* 0x0004 */ u8 unk_4;
-    /* 0x0005 */ u8 unk_5;
-    /* 0x0006 */ u8 unk_6;
-    /* 0x0006 */ u8 unk_7;
-    /* 0x0008 */ s8 unk_8;
+    /* 0x0000 */ Color_RGB8 primColor;
+    /* 0x0003 */ Color_RGB8 lightColor;
+    /* 0x0006 */ u8 unk_6; // limb index
+    /* 0x0006 */ u8 unk_7; // limb index
+    /* 0x0008 */ s8 unk_8; // rate of some kind
     /* 0x000C */ AnimationHeader* unk_C;
     /* 0x0010 */ AnimationHeader* unk_10;
-    /* 0x0014 */ u32 unk_14;
+    /* 0x0014 */ UNK_PTR unk_14;
     /* 0x0018 */ AnimationHeader* unk_18;
     /* 0x001C */ Gfx* unk_1C;
     /* 0x0020 */ Gfx* unk_20;
-    /* 0x0024 */ Gfx* unk_24;
-} UnkEnPohStruct; // size = 0x28
+    /* 0x0024 */ Gfx* soulDisplayList;
+} EnPohInfo; // size = 0x28
 
 typedef struct EnPoh {
     /* 0x0000 */ Actor actor;
@@ -34,21 +37,15 @@ typedef struct EnPoh {
     /* 0x0194 */ u8 unk_194;
     /* 0x0195 */ u8 unk_195;
     /* 0x0196 */ s8 objectIdx;
-    /* 0x0197 */ u8 unk_197;
+    /* 0x0197 */ u8 isComposer;
     /* 0x0198 */ s16 unk_198;
-    /* 0x019A */ s16 unk_19A;
+    /* 0x019A */ s16 visibilityTimer;
     /* 0x019C */ s16 unk_19C;
-    /* 0x019E */ Vec3s limbDrawTbl[21];
-    /* 0x021C */ Vec3s unk_21C[21];
-    /* 0x029A */ u8 unk_29A;
-    /* 0x029B */ u8 unk_29B;
-    /* 0x029C */ u8 unk_29C;
-    /* 0x029D */ u8 unk_29D;
-    /* 0x029E */ u8 unk_29E;
-    /* 0x029F */ u8 unk_29F;
-    /* 0x02A0 */ u8 unk_2A0;
-    /* 0x02A1 */ u8 unk_2A1;
-    /* 0x02A4 */ UnkEnPohStruct* unk_2A4;
+    /* 0x019E */ Vec3s limbDrawTable[21];
+    /* 0x021C */ Vec3s transitionDrawTable[21];
+    /* 0x029A */ Color_RGBA8_n lightColor;
+    /* 0x029E */ Color_RGBA8_n envColor;
+    /* 0x02A4 */ EnPohInfo* info;
     /* 0x02A8 */ z_Light* light;
     /* 0x02AC */ LightInfoPositional lightInfo;
     /* 0x02BC */ ColliderCylinder colliderCyl;
