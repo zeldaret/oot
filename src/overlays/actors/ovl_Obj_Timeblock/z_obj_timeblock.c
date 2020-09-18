@@ -304,7 +304,29 @@ void func_80BA083C(ObjTimeblock* this) {
     this->unk_164 = &func_80BA084C;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA084C.s")
+void func_80BA084C(ObjTimeblock* this, GlobalContext* globalCtx) {
+    s32 unk_flag = this->dyna.actor.params & 0x3F;
+    s8 unk_value1 = BOOL(Flags_GetSwitch(globalCtx, unk_flag));
+
+    // TODO: add != -> ^ to the permuter
+    if (this->unk_176 ^ unk_value1) {
+        if (unk_value1 ^ BOOL((this->dyna.actor.params >> 15) & 1)) {
+            if (this->unk_16C <= 0) {
+                func_80BA0058(this, globalCtx);
+                this->unk_16C = 160;
+            }
+            this->unk_170 = 12;
+        }
+    }
+
+    func_80BA06AC(this, globalCtx);
+
+    if (this->unk_178 != 0) {
+        if (this->unk_16C <= 0) {
+            func_80BA0758(this);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/ObjTimeblock_Update.s")
 
