@@ -24,7 +24,6 @@ s32 func_80BA0480(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0508(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0514(ObjTimeblock* this);
 void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx);
-void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA0758(ObjTimeblock* this);
 void func_80BA0768(ObjTimeblock* this, GlobalContext* globalCtx);
 void func_80BA083C(ObjTimeblock* this);
@@ -259,7 +258,20 @@ void func_80BA0524(ObjTimeblock* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/func_80BA06AC.s")
+void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx) {
+    s32 unk_flag = this->dyna.actor.params & 0x3F;
+    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+
+    if (this->unk_170 > 0) {
+        this->unk_170--;
+        if (this->unk_170 == 0) {
+            this->unk_174 = BOOL(Flags_GetSwitch(globalCtx, unk_flag));
+        }
+    }
+
+    this->unk_178 = func_80B9FFA0(this);
+    this->unk_176 = BOOL(Flags_GetSwitch(globalCtx, unk_flag));
+}
 
 void func_80BA0758(ObjTimeblock* this) {
     this->unk_164 = &func_80BA0768;
