@@ -16,8 +16,8 @@ void BgMoriBigst_SpawnStalfos(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_StalfosWait(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupFall(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_Quake(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_SetupSpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupLanding(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_Landing(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_StalfosPairWait(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_FinalNoop(BgMoriBigst* this, GlobalContext* globalCtx);
@@ -61,8 +61,8 @@ void BgMoriBigst_InitDynapoly(BgMoriBigst* this, GlobalContext* globalCtx, ColHe
 void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
     static InitChainEntry sInitChain[] = {
         ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),    ICHAIN_F32_DIV1000(gravity, 65036, ICHAIN_CONTINUE),
-        ICHAIN_F32_DIV1000(minVelocityY, 53536, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+        ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),    ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
+        ICHAIN_F32_DIV1000(minVelocityY, -12000, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
     };
     GlobalContext* globalCtx2 = globalCtx;
     BgMoriBigst* this = THIS;
@@ -158,18 +158,18 @@ void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     if (this->dyna.actor.posRot.pos.y <= this->dyna.actor.initPosRot.pos.y) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
-        BgMoriBigst_Quake(this, globalCtx);
+        BgMoriBigst_SetupLanding(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         func_800800F8(globalCtx, 0x3FC, 8, &this->dyna.actor, 0);
         func_8002DF38(globalCtx, NULL, 0x3C);
     }
 }
 
-void BgMoriBigst_Quake(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_SetupLanding(BgMoriBigst* this, GlobalContext* globalCtx) {
     Camera** cameras = globalCtx->cameraPtrs;
     s32 quake;
 
-    BgMoriBigst_SetActionFunction(this, BgMoriBigst_SetupSpawnStalfosPair);
+    BgMoriBigst_SetActionFunction(this, BgMoriBigst_Landing);
     this->waitTimer = 18;
     quake = Quake_Add(cameras[globalCtx->activeCamera], 3);
     Quake_SetSpeed(quake, 0x61A8);
@@ -177,7 +177,7 @@ void BgMoriBigst_Quake(BgMoriBigst* this, GlobalContext* globalCtx) {
     Quake_SetCountdown(quake, 16);
 }
 
-void BgMoriBigst_SetupSpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_Landing(BgMoriBigst* this, GlobalContext* globalCtx) {
     if (this->waitTimer <= 0) {
         BgMoriBigst_SpawnStalfosPair(this, globalCtx);
     }
