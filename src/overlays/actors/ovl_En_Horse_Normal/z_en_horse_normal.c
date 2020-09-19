@@ -23,7 +23,12 @@ void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
-/*
+void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx);
+void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
+
 const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORTYPE_BG,
@@ -35,20 +40,59 @@ const ActorInit En_Horse_Normal_InitVars = {
     (ActorFunc)EnHorseNormal_Update,
     (ActorFunc)EnHorseNormal_Draw,
 };
-*/
 
-extern AnimationHeader* D_80A6D370[];
-extern ColliderCylinderInit D_80A6D394;
-extern ColliderCylinderInit D_80A6D3C0;
-extern ColliderJntSphInit D_80A6D410;
-extern CollisionCheckInfoInit D_80A6D420;
-extern s32 D_80A6D4C0[];
-extern f32 D_80A6D4C8[];
-extern InitChainEntry D_80A6D4EC[];
-extern s32 D_80A6D4F4[];
-extern s32 D_80A6D510[];
-extern EnHorseNormalUnkFunc D_80A6D534[];
-extern Vec3f D_80A6D548;
+static AnimationHeader* D_80A6D370[] = {
+    0x06004580, 0x06004C20, 0x060035D4, 0x06002458, 0x060054BC, 0x06001A1C, 0x06000608, 0x06000C20, 0x060013A8
+};
+
+// sCylinderInit
+static ColliderCylinderInit D_80A6D394 = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 40, 100, 0, { 0, 0, 0 } },
+};
+
+// sCylinderInit
+static ColliderCylinderInit D_80A6D3C0 = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 60, 100, 0, { 0, 0, 0 } },
+};
+
+// sJntSphItemsInit
+static ColliderJntSphItemInit D_80A6D3EC[] = {
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        { 11, { { 0, 0, 0 }, 20 }, 100 },
+    },
+};
+
+// sJntSphInit
+static ColliderJntSphInit D_80A6D410 = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
+    1,
+    D_80A6D3EC,
+};
+
+// sColChkInfoInit
+static CollisionCheckInfoInit D_80A6D420 = { 0x0A, 0x0023, 0x0064, 0xFE };
+
+static UNK_TYPE D_80A6D428[] = { 0x04220001, 0x01800700, 0x06750027, 0xFE830600, 0x06460001, 0xFBE80600, 0x041D0001, 0xF9AC0600, 0xFC0C0001, 0xF99F0700, 0xF9890001, 0xFC6A0600, 0xF9CE0001, 0xFF7A0600, 0xFC3F0001, 0x01930700, };
+
+static UNK_TYPE D_80A6D468[] = { 0x00000008, D_80A6D428 };
+
+static UNK_TYPE D_80A6D470[] = { 0x00580000, 0x081E0A00, 0x09B20178, 0x12170700, 0x08B4FFE4, 0x19CD0C00, 0x028EFF9C, 0x22A00700, 0xFED7FE0C, 0x29AB0C00, 0xEB49FE5C, 0x29900A00, 0xE5E2FE0C, 0x1E500A00, 0xEB740064, 0x15230700, 0xF20BFEF3, 0x0F350A00, };
+
+static UNK_TYPE D_80A6D4B8[] = { 0x00000009, D_80A6D470 };
+
+static s32 D_80A6D4C0[] = { 0x00000000, 0x00000010 };
+
+static f32 D_80A6D4C8[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.5f, 1.5f, 1.5f, 1.0f };
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+};
 
 extern AnimationHeader D_06004580;
 extern SkeletonHeader D_06009FAC;
@@ -85,7 +129,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, D_80A6D4EC);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.gravity = -3.5f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
@@ -259,6 +303,9 @@ void func_80A6BD7C(EnHorseNormal* this) {
 }
 
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
+    static s32 D_80A6D4F4[] = { 0x00000000, 0x00000001, 0x00000004, 0x00000005, 0x00000006, 0x00000002, 0x00000003 };
+    static s32 D_80A6D510[] = { 0x00000000, 0x00000000, 0x00000002, 0x00000002, 0x00000001, 0x00000001, 0x00000001, 0x00000003, 0x00000003 };
+
     s32 phi_t0 = this->unk_150;
     s32 pad;
 
@@ -446,6 +493,8 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
+    static EnHorseNormalUnkFunc D_80A6D534[] = { func_80A6BC00, func_80A6BE6C, func_80A6C570, func_80A6C760, func_80A6B9D0 };
+
     EnHorseNormal* this = THIS;
     s32 pad;
 
@@ -525,7 +574,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_14C == 3) {
         MtxF skinMtx;
         Mtx* mtx1;
-        Vec3f sp64 = D_80A6D548;
+        Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
         s16 sp62;
         f32 distFromGround = this->actor.posRot.pos.y - this->actor.groundY;
         f32 temp_f0_4;
