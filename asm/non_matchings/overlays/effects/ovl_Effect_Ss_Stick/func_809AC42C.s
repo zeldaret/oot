@@ -116,10 +116,10 @@ glabel func_809AC42C
 /* 002BC 809AC58C 01EE7821 */  addu    $t7, $t7, $t6
 /* 002C0 809AC590 8DEF17B4 */  lw      $t7, 0x17B4($t7)           ## 000117B4
 /* 002C4 809AC594 3C19DB06 */  lui     $t9, 0xDB06                ## $t9 = DB060000
-/* 002C8 809AC598 3C088012 */  lui     $t0, %hi(D_80125F98)
+/* 002C8 809AC598 3C088012 */  lui     $t0, %hi(gCullBackDList)
 /* 002CC 809AC59C AC4F0004 */  sw      $t7, 0x0004($v0)           ## 00000004
 /* 002D0 809AC5A0 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
-/* 002D4 809AC5A4 25085F98 */  addiu   $t0, %lo(D_80125F98)
+/* 002D4 809AC5A4 25085F98 */  addiu   $t0, %lo(gCullBackDList)
 /* 002D8 809AC5A8 37390030 */  ori     $t9, $t9, 0x0030           ## $t9 = DB060030
 /* 002DC 809AC5AC 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008
 /* 002E0 809AC5B0 AE1802C0 */  sw      $t8, 0x02C0($s0)           ## 000002C0

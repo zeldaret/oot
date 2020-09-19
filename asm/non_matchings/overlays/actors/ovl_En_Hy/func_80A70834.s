@@ -41,7 +41,7 @@ glabel func_80A70834
 /* 0131C 80A708CC 10000023 */  beq     $zero, $zero, .L80A7095C   
 /* 01320 80A708D0 A4C8010E */  sh      $t0, 0x010E($a2)           ## 0000010E
 .L80A708D4:
-/* 01324 80A708D4 0C023C20 */  jal     func_8008F080              
+/* 01324 80A708D4 0C023C20 */  jal     Player_GetMask              
 /* 01328 80A708D8 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0132C 80A708DC 1440001F */  bne     $v0, $zero, .L80A7095C     
 /* 01330 80A708E0 8FA60020 */  lw      $a2, 0x0020($sp)           
@@ -74,7 +74,7 @@ glabel func_80A70834
 /* 0138C 80A7093C 10000007 */  beq     $zero, $zero, .L80A7095C   
 /* 01390 80A70940 A4CC010E */  sh      $t4, 0x010E($a2)           ## 0000010E
 .L80A70944:
-/* 01394 80A70944 0C023C20 */  jal     func_8008F080              
+/* 01394 80A70944 0C023C20 */  jal     Player_GetMask              
 /* 01398 80A70948 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0139C 80A7094C 14400003 */  bne     $v0, $zero, .L80A7095C     
 /* 013A0 80A70950 8FA60020 */  lw      $a2, 0x0020($sp)           

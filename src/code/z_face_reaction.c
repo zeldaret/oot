@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-u16 sReactionTextIds[][9] = {
+u16 sReactionTextIds[][PLAYER_MASK_MAX] = {
     { 0x0000, 0x7124, 0x7127, 0x7126, 0x7125, 0x7127, 0x7124, 0x7125, 0x7127 },
     { 0x0000, 0x7128, 0x7129, 0x7128, 0x7128, 0x7128, 0x7128, 0x712A, 0x712B },
     { 0x0000, 0x7128, 0x712B, 0x7128, 0x7128, 0x7129, 0x7128, 0x712B, 0x7128 },
@@ -65,6 +65,6 @@ u16 sReactionTextIds[][9] = {
 };
 
 u16 Text_GetFaceReaction(GlobalContext* globalCtx, u32 reactionSet) {
-    u8 currentMask = func_8008F080(globalCtx);
+    u8 currentMask = Player_GetMask(globalCtx);
     return sReactionTextIds[reactionSet][currentMask];
 }
