@@ -72,16 +72,16 @@ glabel EnDoor_Init
 /* 000F4 809FC2C4 820B0193 */  lb      $t3, 0x0193($s0)           ## 00000193
 /* 000F8 809FC2C8 820C001E */  lb      $t4, 0x001E($s0)           ## 0000001E
 /* 000FC 809FC2CC 910A0002 */  lbu     $t2, 0x0002($t0)           ## 00000002
-/* 00100 809FC2D0 3C0D80A0 */  lui     $t5, %hi(func_809FC41C)    ## $t5 = 80A00000
+/* 00100 809FC2D0 3C0D80A0 */  lui     $t5, %hi(EnDoor_SetupType)    ## $t5 = 80A00000
 /* 00104 809FC2D4 156C0006 */  bne     $t3, $t4, .L809FC2F0       
 /* 00108 809FC2D8 A20A0194 */  sb      $t2, 0x0194($s0)           ## 00000194
 /* 0010C 809FC2DC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00110 809FC2E0 0C27F107 */  jal     func_809FC41C              
+/* 00110 809FC2E0 0C27F107 */  jal     EnDoor_SetupType              
 /* 00114 809FC2E4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00118 809FC2E8 10000004 */  beq     $zero, $zero, .L809FC2FC   
 /* 0011C 809FC2EC 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 .L809FC2F0:
-/* 00120 809FC2F0 25ADC41C */  addiu   $t5, $t5, %lo(func_809FC41C) ## $t5 = FFFFC41C
+/* 00120 809FC2F0 25ADC41C */  addiu   $t5, $t5, %lo(EnDoor_SetupType) ## $t5 = FFFFC41C
 /* 00124 809FC2F4 AE0D01D4 */  sw      $t5, 0x01D4($s0)           ## 000001D4
 /* 00128 809FC2F8 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 .L809FC2FC:

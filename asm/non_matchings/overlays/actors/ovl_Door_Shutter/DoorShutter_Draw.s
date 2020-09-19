@@ -386,7 +386,7 @@ glabel DoorShutter_Draw
 .L80998000:
 /* 01D60 80998000 00403025 */  or      $a2, $v0, $zero            ## $a2 = 00000002
 .L80998004:
-/* 01D64 80998004 0C00CFD5 */  jal     func_80033F54              
+/* 01D64 80998004 0C00CFD5 */  jal     Actor_DrawDoorLock              
 /* 01D68 80998008 8225016E */  lb      $a1, 0x016E($s1)           ## 0000016E
 .L8099800C:
 /* 01D6C 8099800C 8FAE0084 */  lw      $t6, 0x0084($sp)           
