@@ -41,9 +41,9 @@ typedef struct {
     /* 0x08 */ f32 yOffset;
     /* 0x0C */ s16 radius;
     /* 0x0E */ s16 height;
-} HanaParams; // size 0x10
+} HanaParams; // size = 0x10
 
-static HanaParams hanaParams[] = {
+static HanaParams sHanaParams[] = {
     { 0x05000500, 0.01f, 0.0f, -1, 0 },
     { 0x0500A880, 0.1f, 58.0f, 10, 18 },
     { 0x0500B9D0, 0.4f, 0.0f, 12, 44 },
@@ -59,7 +59,7 @@ static InitChainEntry sInitChain[] = {
 void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
     s16 type = this->actor.params & 3;
-    HanaParams* params = &hanaParams[type];
+    HanaParams* params = &sHanaParams[type];
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, params->scale);
@@ -73,7 +73,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
-    if (type == 2 && (gSaveContext.eventChkInf[4] & 1) != 0) {
+    if (type == 2 && (gSaveContext.eventChkInf[4] & 1)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -81,7 +81,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (hanaParams[this->actor.params & 3].radius >= 0) {
+    if (sHanaParams[this->actor.params & 3].radius >= 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
@@ -89,11 +89,11 @@ void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (hanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistFromLink < 400.0f) {
+    if (sHanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistFromLink < 400.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
 void ObjHana_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, hanaParams[thisx->params & 3].dList);
+    Gfx_DrawDListOpa(globalCtx, sHanaParams[thisx->params & 3].dList);
 }
