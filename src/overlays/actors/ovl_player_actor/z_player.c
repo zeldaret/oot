@@ -2719,18 +2719,18 @@ void func_80835DE4(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s
     }
 }
 
-void func_80835E44(GlobalContext* globalCtx, s16 arg1) {
+void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
     if (!func_800C0CB8(globalCtx)) {
-        if (arg1 == 0x2F) {
+        if (camSetting == CAM_SET_SCENE1) {
             Interface_ChangeAlpha(2);
         }
     } else {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), arg1);
+        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), camSetting);
     }
 }
 
 void func_80835EA4(GlobalContext* globalCtx, s32 arg1) {
-    func_80835E44(globalCtx, 0x38);
+    func_80835E44(globalCtx, CAM_SET_ITEM2);
     Camera_SetCameraData(Gameplay_GetCamera(globalCtx, 0), 4, 0, 0, arg1, 0, 0);
 }
 
@@ -3951,7 +3951,7 @@ void func_80838F5C(GlobalContext* globalCtx, Player* this) {
 
     this->stateFlags1 |= 0xA0000000;
 
-    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), 0x21);
+    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_FREE0);
 }
 
 s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
@@ -4645,23 +4645,23 @@ void func_8083AA10(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083AD4C(GlobalContext* globalCtx, Player* this) {
-    s32 sp1C;
+    s32 cameraMode;
 
     if (this->unk_6AD == 2) {
         if (func_8002DD6C(this)) {
             if (LINK_IS_ADULT) {
-                sp1C = 7;
+                cameraMode = CAM_MODE_BOWARROW;
             } else {
-                sp1C = 11;
+                cameraMode = CAM_MODE_PACHINCO;
             }
         } else {
-            sp1C = 10;
+            cameraMode = CAM_MODE_BOOMERANG;
         }
     } else {
-        sp1C = 6;
+        cameraMode = CAM_MODE_SUBJECT;
     }
 
-    return Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), sp1C);
+    return Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), cameraMode);
 }
 
 s32 func_8083ADD4(GlobalContext* globalCtx, Player* this) {
@@ -5983,7 +5983,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                     func_808322D0(globalCtx, this, this->ageProperties->unk_98);
                     func_80832F54(globalCtx, this, 0x28F);
                     chest->unk_1F4 = 1;
-                    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), 0x28);
+                    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_ITEM0);
                 } else {
                     func_80832264(globalCtx, this, &D_04002DF8);
                     chest->unk_1F4 = -1;
@@ -9651,72 +9651,72 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
     u8 sp27;
     s32 pad;
     Actor* unk_664;
-    s32 sp18;
+    s32 camMode;
 
     if (this->actor.type == ACTORTYPE_PLAYER) {
         sp27 = 0;
 
         if (this->csMode != 0) {
-            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), 0);
+            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & 0x100000)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & 0x80)) {
-                sp18 = 9;
+                camMode = CAM_MODE_FOOKSHOT;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
-                sp18 = 0x12;
+                camMode = CAM_MODE_STILL;
             } else if (this->stateFlags2 & 0x100) {
-                sp18 = 0x13;
+                camMode = CAM_MODE_PUSHPULL;
             } else if ((unk_664 = this->unk_664) != NULL) {
                 if ((this->actor.flags & 0x100) == 0x100) {
-                    sp18 = 3;
+                    camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & 0x10000) {
                     if (this->stateFlags1 & 0x2000000) {
-                        sp18 = 0x14;
+                        camMode = CAM_MODE_BOOKEEPON;
                     } else {
-                        sp18 = 2;
+                        camMode = CAM_MODE_KEEPON;
                     }
                 } else {
-                    sp18 = 4;
+                    camMode = CAM_MODE_BATTLE;
                 }
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, unk_664);
             } else if (this->stateFlags1 & 0x1000) {
-                sp18 = 0x11;
+                camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & 0x2000000) {
-                sp18 = 0x14;
+                camMode = CAM_MODE_BOOKEEPON;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->boomerangActor);
             } else if (this->stateFlags1 & 0x6000) {
                 if (func_80833B2C(this)) {
-                    sp18 = 0xF;
+                    camMode = CAM_MODE_HANGZ;
                 } else {
-                    sp18 = 0xE;
+                    camMode = CAM_MODE_HANG;
                 }
             } else if (this->stateFlags1 & 0x40020000) {
                 if (func_8002DD78(this) || func_808334B4(this)) {
-                    sp18 = 8;
+                    camMode = CAM_MODE_BOWARROWZ;
                 } else if (this->stateFlags1 & 0x200000) {
-                    sp18 = 0xC;
+                    camMode = CAM_MODE_CLIMBZ;
                 } else {
-                    sp18 = 1;
+                    camMode = CAM_MODE_PARALLEL;
                 }
             } else if (this->stateFlags1 & 0x240000) {
                 if ((func_80845668 == this->func_674) || (this->stateFlags1 & 0x200000)) {
-                    sp18 = 5;
+                    camMode = CAM_MODE_CLIMB;
                 } else {
-                    sp18 = 0xD;
+                    camMode = CAM_MODE_JUMP;
                 }
             } else if (this->stateFlags1 & 0x80000) {
-                sp18 = 0x10;
+                camMode = CAM_MODE_FREEFALL;
             } else if ((this->swordState != 0) && (this->swordAnimation >= 0) && (this->swordAnimation < 0x18)) {
-                sp18 = 0x12;
+                camMode = CAM_MODE_STILL;
             } else {
-                sp18 = 0;
+                camMode = CAM_MODE_NORMAL;
                 if ((this->linearVelocity == 0.0f) &&
                     (!(this->stateFlags1 & 0x800000) || (this->rideActor->speedXZ == 0.0f))) {
                     sp27 = 2;
                 }
             }
 
-            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), sp18);
+            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), camMode);
         } else {
             sp27 = 2;
         }
@@ -11530,7 +11530,7 @@ void func_8084D3E4(Player* this, GlobalContext* globalCtx) {
             gSaveContext.horseData.angle = rideActor->actor.shape.rot.y;
         }
     } else {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), 1);
+        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_NORMAL0);
 
         if (this->unk_43C < 0) {
             D_808549C4[0].field = 0x2828;
@@ -12535,7 +12535,7 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
         D_808535D0 ^= 1;
 
         if (D_808535D0) {
-            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), 8);
+            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_BOWARROWZ);
         }
     }
 
