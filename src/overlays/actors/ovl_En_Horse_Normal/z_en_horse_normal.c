@@ -328,8 +328,9 @@ void func_80A6BD7C(EnHorseNormal* this) {
 
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
     static s32 D_80A6D4F4[] = { 0x00000000, 0x00000001, 0x00000004, 0x00000005, 0x00000006, 0x00000002, 0x00000003 };
-    static s32 D_80A6D510[] = { 0x00000000, 0x00000000, 0x00000002, 0x00000002, 0x00000001,
-                                0x00000001, 0x00000001, 0x00000003, 0x00000003 };
+    static s32 D_80A6D510[] = {
+        0x00000000, 0x00000000, 0x00000002, 0x00000002, 0x00000001, 0x00000001, 0x00000001, 0x00000003, 0x00000003,
+    };
 
     s32 phi_t0 = this->unk_150;
     s32 pad;
@@ -526,8 +527,9 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static EnHorseNormalUnkFunc D_80A6D534[] = { func_80A6BC00, func_80A6BE6C, func_80A6C570, func_80A6C760,
-                                                 func_80A6B9D0 };
+    static EnHorseNormalUnkFunc D_80A6D534[] = {
+        func_80A6BC00, func_80A6BE6C, func_80A6C570, func_80A6C760, func_80A6B9D0,
+    };
 
     EnHorseNormal* this = THIS;
     s32 pad;
