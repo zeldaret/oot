@@ -16,7 +16,7 @@ typedef struct EnBoom {
     /* 0x01D4 */ u8                 returnTimer; // returns to Link when 0
     /* 0x01D5 */ u8                 activeTimer; // increments once every update
     /* 0x01D8 */ u32                effectIndex; // set by Effect_Add
-    /* 0x01DC */ Struct_80090480_arg2 unk_1DC;
+    /* 0x01DC */ WeaponInfo         boomerangInfo;
     /* 0x01F8 */ EnBoomActionFunc   actionFunc;
 } EnBoom; // size = 0x01FC
 

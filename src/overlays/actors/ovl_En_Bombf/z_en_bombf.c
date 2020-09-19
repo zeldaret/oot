@@ -158,7 +158,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            if (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
+            if (Player_IsBurningStickInRange(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
                 bombFlower =
                     (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
                                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
@@ -347,7 +347,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->timer = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
-            if ((this->timer > 100) && func_8008EF5C(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
+            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
