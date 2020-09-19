@@ -299,28 +299,20 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
             }
             if (Math_Rand_ZeroOne() < 0.1f || this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2) || this->unk_274.base.maskA & 2) {
                 this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
-                if (this->unk_21E > 0x32) {
-                    this->unk_21E = 0x32;
-                } else {
-                    if (this->unk_21E < -0x32) {
-                        this->unk_21E = -0x32;
-                    }
+                if (this->unk_21E > 50) {
+                    this->unk_21E = 50;
+                } else if (this->unk_21E < -50) {
+                    this->unk_21E = -50;
                 }
             }
             this->unk_21C += this->unk_21E;
-            if (this->unk_21C < -0x12C) {
-                this->unk_21C = -0x12C;
-            } else {
-                if (this->unk_21C > 0x12C) {
-                    this->unk_21C = 0x12C;
-                } else {
-                    if (Math_Rand_ZeroOne() < 0.25f) {
-                        if (fabsf(this->unk_21C) < 100.0f) {
-                            this->unk_21C = 0;
-                            this->unk_21E = 0;
-                        }
-                    }
-                }
+            if (this->unk_21C < -300) {
+                this->unk_21C = -300;
+            } else if (this->unk_21C > 300) {
+                this->unk_21C = 300;
+            } else if (Math_Rand_ZeroOne() < 0.25f && fabsf(this->unk_21C) < 100.0f) {
+                this->unk_21C = 0;
+                this->unk_21E = 0;
             }
             this->actor.posRot.rot.y += this->unk_21C;
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -330,7 +322,7 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (phi_t0 == this->unk_150 || SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+    if (phi_t0 != this->unk_150 || SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
         if (phi_t0 != this->unk_150) {
             this->unk_150 = phi_t0;
             this->unk_1E4 &= ~1;
@@ -351,9 +343,9 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
                     this->unk_218 = 1.0f;
                     phi_t0 = 4;
                 } else {
+                    phi_t0 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2)];
                     this->actor.speedXZ = 0.0f;
                     this->unk_218 = 0.0f;
-                    phi_t0 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2.0f)];
                 }
                 break;
             case 1:
@@ -372,6 +364,7 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
             func_80A6BCEC(this);
         }
         if (phi_t0 != this->unk_150) {
+            this->unk_150 = phi_t0;
             SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
         } else {
             SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
