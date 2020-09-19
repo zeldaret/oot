@@ -167,20 +167,14 @@ s32 func_80077C6C(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
     return 0;
 }
 
-typedef struct {
-    /* 0x00 */ char unk_00[0x14];
-    /* 0x14 */ s8 unk_14;
-    /* 0x14 */ s8 unk_15;
-} struct_80077D10;
+void func_80077D10(f32* arg0, s16* arg1, Input* input) {
+    f32 relX = input->rel.in.x;
+    f32 relY = input->rel.in.y;
 
-void func_80077D10(f32* arg0, s16* arg1, struct_80077D10* arg2) {
-    f32 var1 = arg2->unk_14;
-    f32 var2 = arg2->unk_15;
-
-    *arg0 = sqrtf(SQ(var1) + SQ(var2));
+    *arg0 = sqrtf(SQ(relX) + SQ(relY));
     *arg0 = (60.0f < *arg0) ? 60.0f : *arg0;
 
-    *arg1 = atan2s(var2, -var1);
+    *arg1 = atan2s(relY, -relX);
 }
 
 s16 Math_Rand_S16Offset(s16 base, s16 range) {

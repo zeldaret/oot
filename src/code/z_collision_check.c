@@ -2,8 +2,6 @@
 #include <global.h>
 #include <vt.h>
 
-void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
-
 // draw red poly
 void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
     func_8005B2AC(gfx, vA, vB, vC, 255, 0, 0);
@@ -1231,9 +1229,6 @@ s32 func_8005DF74(ColliderBody* left, ColliderBody* right) {
 void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 }
 
-#ifdef NON_MATCHING
-// Blue EffectSpark
-// .bss problems
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015D8A0;
     s32 sp24;
@@ -1282,14 +1277,7 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
-#else
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
-#endif
 
-#ifdef NON_MATCHING
-// Green EffectSpark
-// .bss problems
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015DD68;
     s32 sp24;
@@ -1338,10 +1326,6 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
-#else
-void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
-#endif
 
 void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     func_800299AC(globalCtx, v);
@@ -1751,8 +1735,8 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
     }
 }
 
-extern TriNorm D_8015E230;
-extern TriNorm D_8015E268;
+static TriNorm D_8015E230;
+static TriNorm D_8015E268;
 
 void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
@@ -1796,8 +1780,8 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
     }
 }
 
-extern TriNorm D_8015E2A0;
-extern TriNorm D_8015E2D8;
+static TriNorm D_8015E2A0;
+static TriNorm D_8015E2D8;
 
 void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
@@ -1916,7 +1900,7 @@ void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern Vec3f D_8015E310;
+static Vec3f D_8015E310;
 
 void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderTris* left = (ColliderTris*)l;
@@ -1950,9 +1934,9 @@ void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern TriNorm D_8015E320;
-extern TriNorm D_8015E358;
-extern Vec3f D_8015E390;
+static TriNorm D_8015E320;
+static TriNorm D_8015E358;
+static Vec3f D_8015E390;
 
 void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
@@ -1996,9 +1980,11 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern TriNorm D_8015E3A0;
-extern TriNorm D_8015E3D8;
-extern Vec3f D_8015E410;
+static s8 sBssDummy1;
+
+static TriNorm D_8015E3A0;
+static TriNorm D_8015E3D8;
+static Vec3f D_8015E410;
 
 void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderQuad* left = (ColliderQuad*)l;
@@ -2046,7 +2032,12 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern Vec3f D_8015E420;
+static s8 sBssDummy2;
+static s8 sBssDummy3;
+static s8 sBssDummy4;
+static s8 sBssDummy5;
+
+static Vec3f D_8015E420;
 
 void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2086,9 +2077,14 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-extern Vec3f D_8015E430;
-extern TriNorm D_8015E440;
-extern TriNorm D_8015E478;
+static s8 sBssDummy6;
+static s8 sBssDummy7;
+static s8 sBssDummy8;
+static s8 sBssDummy9;
+
+static Vec3f D_8015E430;
+static TriNorm D_8015E440;
+static TriNorm D_8015E478;
 
 void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2132,9 +2128,9 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-extern Vec3f D_8015E4B0;
-extern TriNorm D_8015E4C0;
-extern TriNorm D_8015E4F8;
+static Vec3f D_8015E4B0;
+static TriNorm D_8015E4C0;
+static TriNorm D_8015E4F8;
 
 void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2180,9 +2176,9 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-extern TriNorm D_8015E530[2];
-extern Vec3f D_8015E598;
-extern TriNorm D_8015E5A8[2];
+static TriNorm D_8015E530[2];
+static Vec3f D_8015E598;
+static TriNorm D_8015E5A8[2];
 
 void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2772,7 +2768,7 @@ void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     }
 }
 
-extern Linef D_8015E610;
+static Linef D_8015E610;
 
 s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                              Collider* collider, Vec3f* arg3, Vec3f* arg4) {
@@ -2793,8 +2789,8 @@ s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, Collision
     return 0;
 }
 
-extern Vec3f D_8015E628;
-extern Vec3f D_8015E638;
+static Vec3f D_8015E628;
+static Vec3f D_8015E638;
 
 s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                           Collider* collider, Vec3f* arg3, Vec3f* arg4) {
@@ -2910,35 +2906,35 @@ void func_8006285C(GlobalContext* globalCtx, ColliderTris* collider, s32 index, 
     Collider_SetTrisItemDim(globalCtx, &item->dim, init);
 }
 
-#ifdef NON_MATCHING
-// Codegen OK, .bss section problems
+// Due to an unknown reason, bss ordering changed between the 2 static Vec3f variables in the function below.
+// In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
+// For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
+// by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
+static s8 sBssDummy10;
+static s8 sBssDummy11;
+static s8 sBssDummy12;
+static s8 sBssDummy13;
+
 void func_800628A4(s32 arg0, ColliderJntSph* collider) {
-    s32 phi_s3;
-
-    static Vec3f D_8015CF00;
     static Vec3f D_8015E648;
+    static Vec3f D_8015CF00; // bss ordering changes here
+    s32 i;
 
-    for (phi_s3 = 0; phi_s3 < collider->count; phi_s3++) {
-        if (arg0 == collider->list[phi_s3].dim.joint) {
-            D_8015E648.x = collider->list[phi_s3].dim.modelSphere.center.x;
-            D_8015E648.y = collider->list[phi_s3].dim.modelSphere.center.y;
-            D_8015E648.z = collider->list[phi_s3].dim.modelSphere.center.z;
+    for (i = 0; i < collider->count; i++) {
+        if (arg0 == collider->list[i].dim.joint) {
+            D_8015E648.x = collider->list[i].dim.modelSphere.center.x;
+            D_8015E648.y = collider->list[i].dim.modelSphere.center.y;
+            D_8015E648.z = collider->list[i].dim.modelSphere.center.z;
             Matrix_MultVec3f(&D_8015E648, &D_8015CF00);
-            collider->list[phi_s3].dim.worldSphere.center.x = (s32)D_8015CF00.x;
-            collider->list[phi_s3].dim.worldSphere.center.y = (s32)D_8015CF00.y;
-            collider->list[phi_s3].dim.worldSphere.center.z = (s32)D_8015CF00.z;
-            collider->list[phi_s3].dim.worldSphere.radius =
-                (s32)((f32)collider->list[phi_s3].dim.modelSphere.radius * collider->list[phi_s3].dim.scale);
+            collider->list[i].dim.worldSphere.center.x = (s32)D_8015CF00.x;
+            collider->list[i].dim.worldSphere.center.y = (s32)D_8015CF00.y;
+            collider->list[i].dim.worldSphere.center.z = (s32)D_8015CF00.z;
+            collider->list[i].dim.worldSphere.radius =
+                (s32)((f32)collider->list[i].dim.modelSphere.radius * collider->list[i].dim.scale);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800628A4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Purple EffectSpark
-// .bss section problems
 void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015CF10;
     s32 sp24;
@@ -2987,13 +2983,7 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062A28.s")
-#endif
 
-#ifdef NON_MATCHING
-// White EffectSpark (Bubbles?)
-// .bss section problems
 void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015D3D8;
     s32 sp24;
@@ -3042,9 +3032,6 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D3D8);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
-#endif
 
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     static EffectShieldParticleInit init = {

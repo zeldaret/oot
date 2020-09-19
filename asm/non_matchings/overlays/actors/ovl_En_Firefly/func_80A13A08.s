@@ -183,7 +183,7 @@ glabel func_80A13A08
 /* 00BEC 80A13C5C 00000000 */  nop
 /* 00BF0 80A13C60 45020009 */  bc1fl   .L80A13C88                 
 /* 00BF4 80A13C64 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00BF8 80A13C68 0C023C20 */  jal     func_8008F080              
+/* 00BF8 80A13C68 0C023C20 */  jal     Player_GetMask              
 /* 00BFC 80A13C6C 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00C00 80A13C70 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 00C04 80A13C74 50410004 */  beql    $v0, $at, .L80A13C88       
