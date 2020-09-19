@@ -67,7 +67,7 @@ glabel L809E1C3C
 /* 003A8 809E1C58 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 003AC 809E1C5C 15210011 */  bne     $t1, $at, .L809E1CA4       
 /* 003B0 809E1C60 00000000 */  nop
-/* 003B4 809E1C64 0C023C23 */  jal     func_8008F08C              
+/* 003B4 809E1C64 0C023C23 */  jal     Player_UnsetMask              
 /* 003B8 809E1C68 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 003BC 809E1C6C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 003C0 809E1C70 0C021344 */  jal     Item_Give              

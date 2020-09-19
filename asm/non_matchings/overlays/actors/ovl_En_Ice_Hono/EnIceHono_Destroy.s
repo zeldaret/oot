@@ -12,7 +12,7 @@ glabel EnIceHono_Destroy
 .L80A733B8:
 /* 003C8 80A733B8 8CE601A8 */  lw      $a2, 0x01A8($a3)           ## 000001A8
 /* 003CC 80A733BC AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 003D0 80A733C0 0C01E9F1 */  jal     Lights_Remove
+/* 003D0 80A733C0 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 003D4 80A733C4 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
 /* 003D8 80A733C8 8FA70018 */  lw      $a3, 0x0018($sp)           

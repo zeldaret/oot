@@ -38,8 +38,8 @@ const u32 sFaultDrawerFont[] = {
 // data
 FaultDrawer sFaultDrawerDefault = {
     (u16*)0x803DA800,                   // fb
-    320,                                // w
-    240,                                // h
+    SCREEN_WIDTH,                       // w
+    SCREEN_HEIGHT,                      // h
     16,                                 // yStart
     223,                                // yEnd
     22,                                 // xStart
