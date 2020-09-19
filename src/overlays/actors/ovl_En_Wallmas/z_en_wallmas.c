@@ -265,11 +265,9 @@ void EnWallmas_SetupStun(EnWallmas* this) {
 }
 
 void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
-    Vec3f* playerPos;
-    Player* player;
+    Player* player = PLAYER;
+    Vec3f* playerPos = &player->actor.posRot.pos;
 
-    player = PLAYER;
-    playerPos = &player->actor.posRot.pos;
     this->actor.posRot.pos = *playerPos;
     this->actor.groundY = player->actor.groundY;
     this->actor.floorPoly = player->actor.floorPoly;
@@ -278,8 +276,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (((s32)(player->stateFlags1 << 0xB) < 0) || ((s32)(player->stateFlags1 << 4) < 0) ||
-        ((player->actor.bgCheckFlags & 1) == 0) ||
+    if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
         ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, playerPos)))) {
         func_800F8D04(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
@@ -296,9 +293,10 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->invincibilityTimer >= 0) &&
+
+    if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & 0x10) && (player->invincibilityTimer >= 0) &&
         (this->actor.xzDistFromLink < 30.0f) && (this->actor.yDistFromLink < -5.0f) &&
-        (-(f32)(player->unk_4DA + 0xA) < this->actor.yDistFromLink)) {
+        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistFromLink)) {
         EnWallmas_SetupTakePlayer(this, globalCtx);
     }
 }
@@ -396,9 +394,8 @@ void EnWallmas_Die(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player;
+    Player* player = PLAYER;
 
-    player = PLAYER;
     if (func_800A56C8(&this->skelAnime, 1.0f) != 0) {
         if (LINK_IS_CHILD) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
