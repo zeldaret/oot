@@ -569,4 +569,3 @@ glabel func_800C2FE4
 /* B3A904 800C3764 8FDE0070 */  lw    $fp, 0x70($fp)
 /* B3A908 800C3768 03E00008 */  jr    $ra
 /* B3A90C 800C376C 27BD00B0 */   addiu $sp, $sp, 0xb0
-

@@ -82,7 +82,7 @@ glabel func_808A6CCC
 /* 00BEC 808A6DFC 24010010 */  addiu   $at, $zero, 0x0010         ## $at = 00000010
 /* 00BF0 808A6E00 5441001A */  bnel    $v0, $at, .L808A6E6C       
 /* 00BF4 808A6E04 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00BF8 808A6E08 0C023A62 */  jal     func_8008E988              
+/* 00BF8 808A6E08 0C023A62 */  jal     Player_InCsMode              
 /* 00BFC 808A6E0C 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00C00 808A6E10 3C03808B */  lui     $v1, %hi(D_808A80A0)       ## $v1 = 808B0000
 /* 00C04 808A6E14 14400014 */  bne     $v0, $zero, .L808A6E68     
