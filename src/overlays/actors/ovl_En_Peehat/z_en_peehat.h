@@ -4,24 +4,33 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define GROUND_HOVER_HEIGHT 75.0f
+
+#define MAX_LARVA 3
+#define TYPE_GROUNDED -1
+#define TYPE_FLYING 0
+#define TYPE_LARVA 1
+
 struct EnPeehat;
+
+//params -1 = Ground Peahat
+//params 0 = Spawner Peahat
+//params 1 = Peahat larva
 
 typedef void (*EnPeehatActionFunc)(struct EnPeehat*, GlobalContext*);
 
 typedef struct EnPeehat {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime unk14C;
-    /* 0x0190 */ Vec3s limbDrawTable[2]; //unkLength
-    /* 0x019C */ char unk19C[0x84];
-    /* 0x0220 */ Vec3s transitionDrawTable[2]; //unkLength
-    /* 0x022C */ char unk22C[0x84];
+    /* 0x014C */ SkelAnime skelAnime;
+    /* 0x0190 */ Vec3s limbDrawTable[24]; //unkLength
+    /* 0x0220 */ Vec3s transitionDrawTable[24]; //unkLength
     /* 0x02B0 */ s32 unk2B0;
     /* 0x02B4 */ s32 unk2B4;
     /* 0x02B8 */ EnPeehatActionFunc actionFunc;
     /* 0x02BC */ Vec3f unk2BC[2];
     /* 0x02D4 */ s32 unk2D4;
-    /* 0x02D8 */ f32 unk2D8; //maxXZDist from link to spawn larva
-    /* 0x02DC */ f32 unk2DC;
+    /* 0x02D8 */ f32 xzDistMax; //max xz dist to follow Link (TYPE_GROUNDED) or spawn larva (TYPE_FLYING)
+    /* 0x02DC */ f32 xzDistToRise; //xz dist needed to rise from the ground
     /* 0x02E0 */ f32 unk2E0; //rot?
     /* 0x02E4 */ f32 unk2E4;
     /* 0x02E8 */ f32 unk2E8;
