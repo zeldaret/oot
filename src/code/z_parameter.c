@@ -1240,8 +1240,8 @@ void Interface_InitHorsebackArchery(GlobalContext* globalCtx) {
 }
 
 void func_800849EC(GlobalContext* globalCtx) {
-    gSaveContext.equipment |= gBitFlags[2] << gEquipShifts[0];
-    gSaveContext.equipment ^= 8 << gEquipShifts[0];
+    gSaveContext.equipment |= gBitFlags[2] << gEquipShifts[EQUIP_SWORD];
+    gSaveContext.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
 
     if (gBitFlags[3] & gSaveContext.equipment) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
@@ -1380,7 +1380,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.equipment |= gBitFlags[item - ITEM_SWORD_KOKIRI] << gEquipShifts[EQUIP_SWORD];
 
         if (item == ITEM_SWORD_BGS) {
-            gSaveContext.bgsHitsLeft = 8;
+            gSaveContext.swordHealth = 8;
 
             if (ALL_EQUIP_VALUE(EQUIP_SWORD) == 0xF) {
                 gSaveContext.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
@@ -1997,24 +1997,24 @@ s32 Inventory_HasSpecificBottle(u8 bottleItem) {
     }
 }
 
-void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 cButton) {
-    osSyncPrintf("item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, cButton,
-                 gSaveContext.equips.cButtonSlots[cButton - 1],
-                 gSaveContext.items[gSaveContext.equips.cButtonSlots[cButton - 1]]);
+void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 button) {
+    osSyncPrintf("item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, button,
+                 gSaveContext.equips.cButtonSlots[button - 1],
+                 gSaveContext.items[gSaveContext.equips.cButtonSlots[button - 1]]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
-    if ((gSaveContext.items[gSaveContext.equips.cButtonSlots[cButton - 1]] == ITEM_MILK_BOTTLE) &&
+    if ((gSaveContext.items[gSaveContext.equips.cButtonSlots[button - 1]] == ITEM_MILK_BOTTLE) &&
         (item == ITEM_BOTTLE)) {
         item = ITEM_MILK_HALF;
     }
 
-    gSaveContext.items[gSaveContext.equips.cButtonSlots[cButton - 1]] = item;
-    gSaveContext.equips.buttonItems[cButton] = item;
+    gSaveContext.items[gSaveContext.equips.cButtonSlots[button - 1]] = item;
+    gSaveContext.equips.buttonItems[button] = item;
 
-    Interface_LoadItemIcon1(globalCtx, cButton);
+    Interface_LoadItemIcon1(globalCtx, button);
 
     globalCtx->pauseCtx.unk_23E = item;
-    gSaveContext.buttonStatus[cButton] = BTN_ENABLED;
+    gSaveContext.buttonStatus[button] = BTN_ENABLED;
 }
 
 s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
@@ -3605,7 +3605,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                 gSaveContext.timer1State = 10;
                                 if (D_80125A5C != 0) {
                                     gSaveContext.health = 0;
-                                    globalCtx->unk_11D58(globalCtx, -(gSaveContext.health + 2));
+                                    globalCtx->damagePlayer(globalCtx, -(gSaveContext.health + 2));
                                 }
                                 D_80125A5C = 0;
                             } else if (gSaveContext.timer1Value > 60) {
@@ -4156,7 +4156,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
         (globalCtx->sceneLoadFlag == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->transitionMode == 0) &&
-        ((globalCtx->csCtx.state == 0) || !func_8008E988(globalCtx))) {
+        ((globalCtx->csCtx.state == 0) || !Player_InCsMode(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;

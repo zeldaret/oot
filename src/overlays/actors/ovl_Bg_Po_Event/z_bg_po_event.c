@@ -332,7 +332,7 @@ void BgPoEvent_BlockStop(BgPoEvent* this, GlobalContext* globalCtx) {
             puzzleState = 0x10;
             blocksAtRest = 0;
         }
-        if ((puzzleState == 0x40) || ((puzzleState == 0x10) && (func_8008E988(globalCtx) == 0))) {
+        if ((puzzleState == 0x40) || ((puzzleState == 0x10) && !Player_InCsMode(globalCtx))) {
             this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z;
             this->actionFunc = BgPoEvent_BlockReset;
             if (puzzleState == 0x10) {
