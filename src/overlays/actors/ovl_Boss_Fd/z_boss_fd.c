@@ -1589,11 +1589,11 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                 if ((this->timers[3] == 0) && (sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z)) < 20.0f)) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, particle->kbAngle, 0.0f, 0x30);
-                    if (player->unk_A60 == 0) {
+                    if (player->isBurning == 0) {
                         for (i2 = 0; i2 < 18; i2++) {
-                            player->unk_A61[i2] = Math_Rand_S16Offset(0, 200);
+                            player->flameTimers[i2] = Math_Rand_S16Offset(0, 200);
                         }
-                        player->unk_A60 = 1;
+                        player->isBurning = 1;
                     }
                 }
                 if (particle->timer2 == 0) {
