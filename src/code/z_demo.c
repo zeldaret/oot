@@ -258,7 +258,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 15:
             if (sp3F != 0) {
-                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->getItemModel, 0xA0, 0x78,
+                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->giObjectSegment, 0xA0, 0x78,
                                         0x90, 0x18, 0x14);
             }
             break;
@@ -882,9 +882,9 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 71:
                 gSaveContext.equips.equipment |= 0x0100;
-                func_8008ECAC(globalCtx, player);
+                Player_SetEquipmentData(globalCtx, player);
                 gSaveContext.equips.equipment |= 0x1000;
-                func_8008ECAC(globalCtx, player);
+                Player_SetEquipmentData(globalCtx, player);
                 globalCtx->linkAgeOnLoad = 1;
                 globalCtx->nextEntranceIndex = 0x0053;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -1925,7 +1925,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     u8 i;
 
-    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !func_8008E988(globalCtx)) {
+    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !Player_InCsMode(globalCtx)) {
         gSaveContext.cutsceneIndex = 0xFFFD;
     }
 

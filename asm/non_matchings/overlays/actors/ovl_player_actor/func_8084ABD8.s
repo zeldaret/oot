@@ -3,7 +3,7 @@ glabel D_808554F4
     .float 1500.0
 
 glabel D_808554F8
- .word 0xC4BB8000
+    .float -1500.0
 
 .text
 glabel func_8084ABD8
@@ -24,8 +24,8 @@ glabel func_8084ABD8
 /* 18A00 8084AC10 54400036 */  bnel    $v0, $zero, .L8084ACEC     
 /* 18A04 8084AC14 8E2D067C */  lw      $t5, 0x067C($s1)           ## 0000067C
 /* 18A08 8084AC18 16000033 */  bne     $s0, $zero, .L8084ACE8     
-/* 18A0C 8084AC1C 3C0E8086 */  lui     $t6, %hi(D_80858AB4)       ## $t6 = 80860000
-/* 18A10 8084AC20 8DCE8AB4 */  lw      $t6, %lo(D_80858AB4)($t6)  
+/* 18A0C 8084AC1C 3C0E8086 */  lui     $t6, %hi(sControlInput)       ## $t6 = 80860000
+/* 18A10 8084AC20 8DCE8AB4 */  lw      $t6, %lo(sControlInput)($t6)  
 /* 18A14 8084AC24 3C014370 */  lui     $at, 0x4370                ## $at = 43700000
 /* 18A18 8084AC28 44814000 */  mtc1    $at, $f8                   ## $f8 = 240.00
 /* 18A1C 8084AC2C 81CF0015 */  lb      $t7, 0x0015($t6)           ## 80860015
@@ -46,8 +46,8 @@ glabel func_8084ABD8
 /* 18A58 8084AC68 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
               
 /* 18A5C 8084AC6C 00052C03 */  sra     $a1, $a1, 16               
-/* 18A60 8084AC70 3C088086 */  lui     $t0, %hi(D_80858AB4)       ## $t0 = 80860000
-/* 18A64 8084AC74 8D088AB4 */  lw      $t0, %lo(D_80858AB4)($t0)  
+/* 18A60 8084AC70 3C088086 */  lui     $t0, %hi(sControlInput)       ## $t0 = 80860000
+/* 18A64 8084AC74 8D088AB4 */  lw      $t0, %lo(sControlInput)($t0)  
 /* 18A68 8084AC78 3C01C180 */  lui     $at, 0xC180                ## $at = C1800000
 /* 18A6C 8084AC7C 44813000 */  mtc1    $at, $f6                   ## $f6 = -16.00
 /* 18A70 8084AC80 81090014 */  lb      $t1, 0x0014($t0)           ## 80860014
@@ -83,14 +83,14 @@ glabel func_8084ABD8
 /* 18AD8 8084ACE8 8E2D067C */  lw      $t5, 0x067C($s1)           ## 0000067C
 .L8084ACEC:
 /* 18ADC 8084ACEC 241036B0 */  addiu   $s0, $zero, 0x36B0         ## $s0 = 000036B0
-/* 18AE0 8084ACF0 3C0F8086 */  lui     $t7, %hi(D_80858AB4)       ## $t7 = 80860000
+/* 18AE0 8084ACF0 3C0F8086 */  lui     $t7, %hi(sControlInput)       ## $t7 = 80860000
 /* 18AE4 8084ACF4 000D7200 */  sll     $t6, $t5,  8               
 /* 18AE8 8084ACF8 05C10003 */  bgez    $t6, .L8084AD08            
 /* 18AEC 8084ACFC 2405FFFF */  addiu   $a1, $zero, 0xFFFF         ## $a1 = FFFFFFFF
 /* 18AF0 8084AD00 10000001 */  beq     $zero, $zero, .L8084AD08   
 /* 18AF4 8084AD04 24100DAC */  addiu   $s0, $zero, 0x0DAC         ## $s0 = 00000DAC
 .L8084AD08:
-/* 18AF8 8084AD08 8DEF8AB4 */  lw      $t7, %lo(D_80858AB4)($t7)  
+/* 18AF8 8084AD08 8DEF8AB4 */  lw      $t7, %lo(sControlInput)($t7)  
 /* 18AFC 8084AD0C 81E20015 */  lb      $v0, 0x0015($t7)           ## 80860015
 /* 18B00 8084AD10 04400003 */  bltz    $v0, .L8084AD20            
 /* 18B04 8084AD14 00022080 */  sll     $a0, $v0,  2               
@@ -115,7 +115,7 @@ glabel func_8084ABD8
 /* 18B48 8084AD58 862B0044 */  lh      $t3, 0x0044($s1)           ## 00000044
 /* 18B4C 8084AD5C 00101823 */  subu    $v1, $zero, $s0            
 /* 18B50 8084AD60 46049182 */  mul.s   $f6, $f18, $f4             
-/* 18B54 8084AD64 3C0F8086 */  lui     $t7, %hi(D_80858AB4)       ## $t7 = 80860000
+/* 18B54 8084AD64 3C0F8086 */  lui     $t7, %hi(sControlInput)       ## $t7 = 80860000
 /* 18B58 8084AD68 4600320D */  trunc.w.s $f8, $f6                   
 /* 18B5C 8084AD6C 44194000 */  mfc1    $t9, $f8                   
 /* 18B60 8084AD70 00000000 */  nop
@@ -138,7 +138,7 @@ glabel func_8084ABD8
 .L8084ADB0:
 /* 18BA0 8084ADB0 A6250044 */  sh      $a1, 0x0044($s1)           ## 00000044
 .L8084ADB4:
-/* 18BA4 8084ADB4 8DEF8AB4 */  lw      $t7, %lo(D_80858AB4)($t7)  
+/* 18BA4 8084ADB4 8DEF8AB4 */  lw      $t7, %lo(sControlInput)($t7)  
 /* 18BA8 8084ADB8 862D0046 */  lh      $t5, 0x0046($s1)           ## 00000046
 /* 18BAC 8084ADBC 862E00B6 */  lh      $t6, 0x00B6($s1)           ## 000000B6
 /* 18BB0 8084ADC0 81E20014 */  lb      $v0, 0x0014($t7)           ## 80860014

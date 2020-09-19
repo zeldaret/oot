@@ -1,6 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 #include <vt.h>
+#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags);
 s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags);
@@ -1183,7 +1184,7 @@ s32 Camera_CalcAtForHorse(Camera* camera, VecSph* eyeAtDir, f32 yOffset, f32* yP
     player = camera->player;
     func_8002EF44(&horsePosRot, player->rideActor);
 
-    if (player->rideActor->unk_1F0 & 4 ? 1 : 0) {
+    if (((EnHorse*)player->rideActor)->unk_1F0 & 4 ? 1 : 0) {
         horsePosRot.pos.y -= 49.f;
         *yPosOffset = Camera_LERPCeilF(horsePosRot.pos.y, *yPosOffset, 0.1f, 0.2f);
         camera->atLERPStepScale = Camera_LERPCeilF(0.4f, camera->atLERPStepScale, 0.2f, 0.02f);
@@ -4480,7 +4481,7 @@ s32 Camera_Unique1(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
-    Vec3f playerUnk908;
+    Vec3f playerBodyPart0;
     s16 phiTarget;
     VecSph sp8C;
     VecSph unk908PlayerPosOffset;
@@ -4522,8 +4523,8 @@ s32 Camera_Unique1(Camera* camera) {
         camera->posOffset.y = camera->posOffset.y - camera->playerPosDelta.y;
         anim->yawTarget = eyeNextAtOffset.yaw;
         anim->unk_00 = 0.0f;
-        playerUnk908 = camera->player->unk_908;
-        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerUnk908);
+        playerBodyPart0 = camera->player->bodyPartsPos[0];
+        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerBodyPart0);
         anim->timer = R_DEFA_CAM_ANIM_TIME;
         anim->yawTargetAdj = ABS(BINANG_SUB(unk908PlayerPosOffset.yaw, eyeAtOffset.yaw)) < 0x3A98
                                  ? 0
@@ -4544,7 +4545,6 @@ s32 Camera_Unique1(Camera* camera) {
 
     camera->dist = Camera_LERPClampDist(camera, sp8C.r, uniq1->distMin, uniq1->distMax);
 
-    // temp is necessary to match.
     phiTarget = uniq1->pitchTarget;
     sp8C.pitch = Camera_LERPCeilS(phiTarget, eyeNextAtOffset.pitch, 1.0f / camera->pitchUpdateRateInv, 0xA);
 
@@ -7589,7 +7589,7 @@ void Camera_Finish(Camera* camera) {
             player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
-            if (player->action != 0) {
+            if (player->csMode != 0) {
                 func_8002DF54(camera->globalCtx, &player->actor, 7);
                 osSyncPrintf("camera: player demo end!!\n");
             }

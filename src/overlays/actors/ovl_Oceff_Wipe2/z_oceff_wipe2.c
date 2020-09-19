@@ -43,8 +43,8 @@ void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     func_800876C8(globalCtx);
-    if (gSaveContext.nayrusLoveTimer) {
-        player->unk_692 |= 0x40;
+    if (gSaveContext.nayrusLoveTimer != 0) {
+        player->stateFlags3 |= 0x40;
     }
 }
 
