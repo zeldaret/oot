@@ -62,37 +62,32 @@ static AnimationHeader* D_80A6D370[] = {
     &D_06004580, &D_06004C20, &D_060035D4, &D_06002458, &D_060054BC, &D_06001A1C, &D_06000608, &D_06000C20, &D_060013A8,
 };
 
-// sCylinderInit
-static ColliderCylinderInit D_80A6D394 = {
+static ColliderCylinderInit sCylinderInit1 = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 40, 100, 0, { 0, 0, 0 } },
 };
 
-// sCylinderInit
-static ColliderCylinderInit D_80A6D3C0 = {
+static ColliderCylinderInit sCylinderInit2 = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 60, 100, 0, { 0, 0, 0 } },
 };
 
-// sJntSphItemsInit
-static ColliderJntSphItemInit D_80A6D3EC[] = {
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
         { 11, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
-// sJntSphInit
-static ColliderJntSphInit D_80A6D410 = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
     1,
-    D_80A6D3EC,
+    sJntSphItemsInit,
 };
 
-// sColChkInfoInit
-static CollisionCheckInfoInit D_80A6D420 = { 10, 35, 100, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, 0xFE };
 
 // Unused
 static UNK_TYPE D_80A6D428[] = {
@@ -112,16 +107,9 @@ static UNK_TYPE D_80A6D470[] = {
 // Unused
 static EnHorseNormalUnkStruct D_80A6D4B8 = { 0x00000009, D_80A6D470 };
 
-static s32 D_80A6D4C0[] = { 0, 16 };
-
-static f32 D_80A6D4C8[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.5f, 1.5f, 1.5f, 1.0f };
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
-};
-
 void func_80A6B250(EnHorseNormal* this) {
+    static s32 D_80A6D4C0[] = { 0, 16 };
+
     if (D_80A6D4C0[this->unk_200] < this->skin.skelAnime.animCurrentFrame &&
         ((this->unk_200 != 0) || !(D_80A6D4C0[1] < this->skin.skelAnime.animCurrentFrame))) {
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -134,6 +122,8 @@ void func_80A6B250(EnHorseNormal* this) {
 }
 
 f32 func_80A6B30C(EnHorseNormal* this) {
+    static f32 D_80A6D4C8[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.5f, 1.5f, 1.5f, 1.0f };
+
     f32 result;
 
     if (this->unk_150 == 4) {
@@ -149,6 +139,11 @@ f32 func_80A6B30C(EnHorseNormal* this) {
     return result;
 }
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+};
+
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
     s32 pad;
@@ -162,13 +157,13 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 70.0f;
     this->unk_14C = 0;
     this->unk_150 = 0;
-    Collider_InitCylinder(globalCtx, &this->unk_228);
-    Collider_SetCylinder(globalCtx, &this->unk_228, &this->actor, &D_80A6D394);
-    Collider_InitJntSph(globalCtx, &this->unk_274);
-    Collider_SetJntSph(globalCtx, &this->unk_274, &this->actor, &D_80A6D410, &this->unk_294);
-    Collider_InitCylinder(globalCtx, &this->unk_2D4);
-    Collider_SetCylinder(globalCtx, &this->unk_2D4, &this->actor, &D_80A6D3C0);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &D_80A6D420);
+    Collider_InitCylinder(globalCtx, &this->bodyCollider);
+    Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit1);
+    Collider_InitJntSph(globalCtx, &this->headCollider);
+    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderItems);
+    Collider_InitCylinder(globalCtx, &this->cloneCollider);
+    Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (globalCtx->sceneNum == SCENE_SPOT20) {
         if (this->actor.posRot.rot.z == 0 || gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);
@@ -238,9 +233,9 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
 
     func_800A6888(globalCtx, &this->skin);
-    Collider_DestroyCylinder(globalCtx, &this->unk_228);
-    Collider_DestroyCylinder(globalCtx, &this->unk_2D4);
-    Collider_DestroyJntSph(globalCtx, &this->unk_274);
+    Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
+    Collider_DestroyCylinder(globalCtx, &this->cloneCollider);
+    Collider_DestroyJntSph(globalCtx, &this->headCollider);
 }
 
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
@@ -367,8 +362,8 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
                 phi_t0 = 6;
             }
             if (Math_Rand_ZeroOne() < 0.1f ||
-                (this->unk_21E == 0 &&
-                 (this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2 || this->unk_274.base.maskA & 2))) {
+                (this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->bodyCollider.base.maskA & 2 ||
+                                        this->headCollider.base.maskA & 2))) {
                 this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;
@@ -547,8 +542,8 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 70.0f;
     this->unk_204 = this->actor.projectedPos;
     this->unk_204.y += 120.0f;
-    Collider_CylinderUpdate(&this->actor, &this->unk_228);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_228.base);
+    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if (this->actor.speedXZ == 0.0f) {
         this->actor.colChkInfo.mass = 0xFF;
     } else {
@@ -562,19 +557,19 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* c
     EnHorseNormal* this = THIS;
     s32 i;
 
-    for (i = 0; i < this->unk_274.count; i++) {
-        sp4C.x = this->unk_274.list[i].dim.modelSphere.center.x;
-        sp4C.y = this->unk_274.list[i].dim.modelSphere.center.y;
-        sp4C.z = this->unk_274.list[i].dim.modelSphere.center.z;
-        func_800A6408(collider, this->unk_274.list[i].dim.joint, &sp4C, &sp40);
-        this->unk_274.list[i].dim.worldSphere.center.x = sp40.x;
-        this->unk_274.list[i].dim.worldSphere.center.y = sp40.y;
-        this->unk_274.list[i].dim.worldSphere.center.z = sp40.z;
-        this->unk_274.list[i].dim.worldSphere.radius =
-            this->unk_274.list[i].dim.modelSphere.radius * this->unk_274.list[i].dim.scale;
+    for (i = 0; i < this->headCollider.count; i++) {
+        sp4C.x = this->headCollider.list[i].dim.modelSphere.center.x;
+        sp4C.y = this->headCollider.list[i].dim.modelSphere.center.y;
+        sp4C.z = this->headCollider.list[i].dim.modelSphere.center.z;
+        func_800A6408(collider, this->headCollider.list[i].dim.joint, &sp4C, &sp40);
+        this->headCollider.list[i].dim.worldSphere.center.x = sp40.x;
+        this->headCollider.list[i].dim.worldSphere.center.y = sp40.y;
+        this->headCollider.list[i].dim.worldSphere.center.z = sp40.z;
+        this->headCollider.list[i].dim.worldSphere.radius =
+            this->headCollider.list[i].dim.modelSphere.radius * this->headCollider.list[i].dim.scale;
     }
 
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_274.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
 }
 
 void func_80A6CC88(GlobalContext* globalCtx, EnHorseNormal* this, Vec3f* arg2) {
@@ -659,10 +654,10 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPMatrix(oGfxCtx->polyOpa.p++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_800A63CC(&this->actor, globalCtx, &this->skin, 0, 0, 1, 0, 3);
-            this->unk_2D4.dim.pos.x = sp64.x;
-            this->unk_2D4.dim.pos.y = sp64.y;
-            this->unk_2D4.dim.pos.z = sp64.z;
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_2D4.base);
+            this->cloneCollider.dim.pos.x = sp64.x;
+            this->cloneCollider.dim.pos.y = sp64.y;
+            this->cloneCollider.dim.pos.z = sp64.z;
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cloneCollider.base);
             func_80094044(globalCtx->state.gfxCtx);
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
             Matrix_Translate(sp64.x, sp64.y, sp64.z, 0);
