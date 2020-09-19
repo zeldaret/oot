@@ -29,9 +29,7 @@ const ActorInit Bg_Spot03_Taki_InitVars = {
     (ActorFunc)BgSpot03Taki_Draw,
 };
 
-// FIXME
-// sInitChain
-/*static*/ InitChainEntry D_808AE3B0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -49,7 +47,7 @@ void BgSpot03Taki_Init(Actor *thisx, GlobalContext *globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
     DynaPolyInfo_Alloc(&D_06000C98, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
-    Actor_ProcessInitChain(&this->dyna.actor, D_808AE3B0);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->unk_174 = 0;
     this->unk_170 = 255.0f;
     func_808ADAE0(this, 0);
