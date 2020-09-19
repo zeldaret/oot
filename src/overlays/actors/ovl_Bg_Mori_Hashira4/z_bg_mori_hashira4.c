@@ -42,8 +42,8 @@ static Gfx* displayLists[] = { 0x06001300, 0x06008840 };
 
 static s16 unkTimer; //seems to be unused
 
-void BgMoriHashira4_SetActionFunc(BgMoriHashira4* this, BgMoriHashira4ActionFunc func) {
-    this->actionFunc = func;
+void BgMoriHashira4_SetupAction(BgMoriHashira4* this, BgMoriHashira4ActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx, ColHeader* collision, s32 moveFlag) {
@@ -100,7 +100,7 @@ void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriHashira4_SetupObjectCheck(BgMoriHashira4* this) {
-    BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_ObjectCheck);
+    BgMoriHashira4_SetupAction(this, BgMoriHashira4_ObjectCheck);
 }
 
 void BgMoriHashira4_ObjectCheck(BgMoriHashira4* this, GlobalContext* globalCtx) {
@@ -109,14 +109,14 @@ void BgMoriHashira4_ObjectCheck(BgMoriHashira4* this, GlobalContext* globalCtx) 
         if (this->dyna.actor.params == 0) {
             BgMoriHashira4_SetupPillars(this);
         } else {
-            BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_GateWait);
+            BgMoriHashira4_SetupAction(this, BgMoriHashira4_GateWait);
         }
         this->dyna.actor.draw = BgMoriHashira4_Draw;
     }
 }
 
 void BgMoriHashira4_SetupPillars(BgMoriHashira4* this) {
-    BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_PillarsRotate);
+    BgMoriHashira4_SetupAction(this, BgMoriHashira4_PillarsRotate);
 }
 
 void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx) {
@@ -129,7 +129,7 @@ void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx) {
         this->gateTimer++;
         if (this->gateTimer > 30) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
-            BgMoriHashira4_SetActionFunc(this, BgMoriHashira4_GateOpen);
+            BgMoriHashira4_SetupAction(this, BgMoriHashira4_GateOpen);
             func_800800F8(globalCtx, 0x177A, 0x14, &this->dyna.actor, 0);
             unkTimer++;
         }
