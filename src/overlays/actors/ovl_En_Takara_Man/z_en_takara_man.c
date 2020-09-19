@@ -15,13 +15,11 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx);
-s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 Actor* thisx);
 
-void EnTakaraMan_InitAnimation(EnTakaraMan* this, GlobalContext* globalCtx);
+void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx);
 void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx);
 void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx);
-void EnTakaraMan_SetChoiceTextID(EnTakaraMan* this, GlobalContext* globalCtx);
+void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx);
 void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx);
 void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx);
 
@@ -68,18 +66,18 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->posRot.pos.y = -12.0f;
     thisx->posRot.pos.z = 102.0f;
     Actor_SetScale(&this->actor, 0.013f);
-    this->eyePos = 90.0f;
-    this->curRoomNum = thisx->room;
-    thisx->room = 0xFF;
+    this->height = 90.0f;
+    this->originalRoomNum = thisx->room;
+    thisx->room = -1;
     thisx->posRot.rot.y = thisx->shape.rot.y = -0x4E20;
     thisx->unk_1F = 1;
-    this->actionFunc = EnTakaraMan_InitAnimation;
+    this->actionFunc = func_80B176E0;
 }
 
-void EnTakaraMan_InitAnimation(EnTakaraMan* this, GlobalContext* globalCtx) {
+void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06000498.genericHeader);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f); // cast required
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     if (!this->unk_214) {
         this->actor.textId = 0x6D; // "Open the chest and..Surprise! ... 10 Rupees to play .. Yes/No"
         this->dialogState = 4;
@@ -88,18 +86,18 @@ void EnTakaraMan_InitAnimation(EnTakaraMan* this, GlobalContext* globalCtx) {
 }
 
 void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
+    s16 absYawDiff;
     s16 yawDiff;
-    s16 yawDiffTemp;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_8002F194(&this->actor, globalCtx) && this->dialogState != 6) {
         if (!this->unk_214) {
-            this->actionFunc = EnTakaraMan_SetChoiceTextID;
+            this->actionFunc = func_80B17934;
         } else {
             this->actionFunc = func_80B17B14;
         }
     } else {
-        yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         if (globalCtx->roomCtx.curRoom.num == 6 && !this->unk_21A) {
             this->actor.textId = 0x6E; // "Great! You are a real gambler!"
             this->unk_21A = 1;
@@ -116,9 +114,9 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
             }
         }
 
-        yawDiff = ABS(yawDiffTemp);
-        if (yawDiff < 0x4300) {
-            if (globalCtx->roomCtx.curRoom.num != this->curRoomNum) {
+        absYawDiff = ABS(yawDiff);
+        if (absYawDiff < 0x4300) {
+            if (globalCtx->roomCtx.curRoom.num != this->originalRoomNum) {
                 this->actor.flags &= ~1;
                 this->unk_218 = 0;
             } else {
@@ -132,7 +130,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTakaraMan_SetChoiceTextID(EnTakaraMan* this, GlobalContext* globalCtx) {
+void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx) {
     if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // Yes
@@ -172,23 +170,25 @@ void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx) {
 
 void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
-        this->actionFunc = EnTakaraMan_InitAnimation;
+        this->actionFunc = func_80B176E0;
     }
 }
 
 void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx) {
     if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
-        this->actionFunc = EnTakaraMan_InitAnimation;
+        this->actionFunc = func_80B176E0;
     }
 }
 
 void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnTakaraMan* this = THIS;
 
-    DECR(this->eyeTimer);
+    if (this->eyeTimer != 0) {
+        this->eyeTimer--;
+    }
 
-    Actor_SetHeight(&this->actor, this->eyePos);
+    Actor_SetHeight(&this->actor, this->height);
     func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.posRot2.pos);
     if (this->eyeTimer == 0) {
         this->eyeTextureIdx++;

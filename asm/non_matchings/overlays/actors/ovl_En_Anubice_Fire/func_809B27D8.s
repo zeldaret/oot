@@ -107,7 +107,7 @@ glabel func_809B27D8
 /* 003B0 809B2950 31F80004 */  andi    $t8, $t7, 0x0004           ## $t8 = 00000000
 /* 003B4 809B2954 53000035 */  beql    $t8, $zero, .L809B2A2C     
 /* 003B8 809B2958 C62A0150 */  lwc1    $f10, 0x0150($s1)          ## 00000150
-/* 003BC 809B295C 0C023C26 */  jal     func_8008F098              
+/* 003BC 809B295C 0C023C26 */  jal     Player_HasMirrorShieldEquipped              
 /* 003C0 809B2960 8FA400C4 */  lw      $a0, 0x00C4($sp)           
 /* 003C4 809B2964 1040001D */  beq     $v0, $zero, .L809B29DC     
 /* 003C8 809B2968 26250024 */  addiu   $a1, $s1, 0x0024           ## $a1 = 00000024

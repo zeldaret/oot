@@ -16,7 +16,7 @@ glabel EnArrow_Update
 /* 00DC0 809B46E0 57000006 */  bnel    $t8, $zero, .L809B46FC     
 /* 00DC4 809B46E4 8E19025C */  lw      $t9, 0x025C($s0)           ## 0000025C
 .L809B46E8:
-/* 00DC8 809B46E8 0C023A37 */  jal     func_8008E8DC              
+/* 00DC8 809B46E8 0C023A37 */  jal     Player_InBlockingCsMode              
 /* 00DCC 809B46EC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 00DD0 809B46F0 54400007 */  bnel    $v0, $zero, .L809B4710     
 /* 00DD4 809B46F4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
