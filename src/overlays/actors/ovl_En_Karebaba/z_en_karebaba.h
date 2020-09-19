@@ -8,10 +8,7 @@
  */
 
 #include <ultra64.h>
-#include <ultra64/gbi.h>
 #include <global.h>
-#include <z64.h>
-#include <macros.h>
 
 extern const ActorInit En_Karebaba_InitVars;
 
@@ -23,8 +20,8 @@ typedef struct EnKarebaba {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnKarebabaActionFunc actionFunc;
-    /* 0x0194 */ Vec3s joints[8];
-    /* 0x01C4 */ Vec3s anim[8];
+    /* 0x0194 */ Vec3s limbDrawTable[8];
+    /* 0x01C4 */ Vec3s transitionDrawTable[8];
     /* 0x01F4 */ CollisionPoly* boundFloor;
     /* 0x01F8 */ ColliderCylinder hitbox1;
     /* 0x0244 */ ColliderCylinder hitbox2;
