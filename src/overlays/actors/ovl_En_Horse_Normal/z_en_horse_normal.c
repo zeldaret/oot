@@ -272,10 +272,10 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
 
     switch (D_80A6D510[this->unk_150]) {
         case 0:
+            phi_t0 = this->unk_150;
             func_80A6BD7C(this);
             this->actor.speedXZ = 0.0f;
             this->unk_218 = 0.0f;
-            phi_t0 = this->unk_150;
             break;
         case 1:
             if (Math_Rand_ZeroOne() < 0.1f) {
