@@ -1,6 +1,6 @@
 .rdata
 glabel D_80139060
-    .asciz "\x1B[43;30mcamera: foward check: too many layer!\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: foward check: too many layer!\n\x1b[m"
     .balign 4
 
 .late_rodata

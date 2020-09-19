@@ -148,7 +148,7 @@ glabel func_80B6404C
 /* 01860 80B64220 AFB80028 */  sw      $t8, 0x0028($sp)
 /* 01864 80B64224 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 01868 80B64228 01C17821 */  addu    $t7, $t6, $at
-/* 0186C 80B6422C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0186C 80B6422C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 01870 80B64230 AFAF0020 */  sw      $t7, 0x0020($sp)
 /* 01874 80B64234 A200014F */  sb      $zero, 0x014F($s0)         ## 0000014F

@@ -18,7 +18,7 @@ typedef struct EnDoor {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ u8 unk_190;
-    /* 0x0191 */ s8 unk_191;
+    /* 0x0191 */ u8 unk_191;
     /* 0x0192 */ u8 unk_192;
     /* 0x0193 */ s8 unk_193;
     /* 0x0194 */ u8 unk_194;

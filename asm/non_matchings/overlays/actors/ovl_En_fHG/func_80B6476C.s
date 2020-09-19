@@ -202,7 +202,7 @@ glabel func_80B6476C
 /* 02050 80B64A10 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 02054 80B64A14 01215021 */  addu    $t2, $t1, $at
 /* 02058 80B64A18 AFAA0020 */  sw      $t2, 0x0020($sp)
-/* 0205C 80B64A1C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0205C 80B64A1C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 02060 80B64A20 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
 .L80B64A24:

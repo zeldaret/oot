@@ -16,7 +16,7 @@ glabel D_8013F164
     .balign 4
 
 glabel D_8013F190
-    .asciz "\x1B[33m"
+    .asciz "\x1b[33m"
     .balign 4
 
 glabel D_8013F198
@@ -36,7 +36,7 @@ glabel D_8013F1E8
     .balign 4
 
 glabel D_8013F208
-    .asciz "\x1B[m"
+    .asciz "\x1b[m"
     .balign 4
 
 .text

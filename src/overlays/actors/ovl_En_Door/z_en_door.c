@@ -234,12 +234,12 @@ void func_809FC5D0(EnDoor* this, GlobalContext *globalCtx) {
                         PLAYER->naviMessageId = -0x203; // PLAYER over player required
                         return;
                     } else {
-                        player->unk_42E = 0xA;
+                        player->doorTimer = 0xA;
                     }
                 }
-                player->unk_42C = (sp38 == 4) ? -1 : 1;
-                player->unk_42D = (sp2C.z >= 0.0f) ? 1.0f : -1.0f;
-                player->unk_430 = this;
+                player->doorType = (sp38 == 4) ? -1 : 1;
+                player->doorDirection = (sp2C.z >= 0.0f) ? 1.0f : -1.0f;
+                player->doorActor = &this->actor;
             }
         } else if (sp38 == 4 && 240.0f < this->actor.xzDistFromLink) {
             this->actionFunc = func_809FC928;
@@ -341,12 +341,12 @@ s32 func_809FCC3C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         temp_a2 = &D_809FCEE4[(s8)this->unk_194];
         transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.posRot.rot.y;
-        if ((globalCtx->roomCtx.prevRoom.num >= 0) || (transitionEntry->backRoom == transitionEntry->frontRoom)) {
+        if ((globalCtx->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[1].room == transitionEntry->sides[0].room)) {
             phi_v0_2 = ((this->actor.shape.rot.y + this->skelAnime.limbDrawTbl[3].z) + rot->z) - Math_Vec3f_Yaw(&globalCtx->view.eye, &this->actor.posRot.pos);
             *dList = (ABS(phi_v0_2) < 0x4000) ? temp_a2[0] : temp_a2[1];
         } else {
             phi_v0 = this->unk_192;
-            if (transitionEntry->frontRoom != this->actor.room) {
+            if (transitionEntry->sides[0].room != this->actor.room) {
                 phi_v0 ^= 1;
             }
             *dList = temp_a2[phi_v0];

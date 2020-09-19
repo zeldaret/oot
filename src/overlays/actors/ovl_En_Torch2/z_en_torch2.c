@@ -8,7 +8,7 @@
 
 #define FLAGS 0x00000035
 
-#define THIS ((EnTorch2*)thisx)
+#define THIS ((Player*)thisx)
 
 void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +21,7 @@ const ActorInit En_Torch2_InitVars = {
     ACTORTYPE_BOSS,
     FLAGS,
     OBJECT_TORCH2,
-    sizeof(EnTorch2),
+    sizeof(Player),
     (ActorFunc)EnTorch2_Init,
     (ActorFunc)EnTorch2_Destroy,
     (ActorFunc)EnTorch2_Update,

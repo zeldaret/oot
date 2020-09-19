@@ -1,6 +1,6 @@
 .rdata
 glabel D_80B10438
-    .asciz "[32m☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n[m"
+    .asciz "\x1b[32m☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n\x1b[m"
     .balign 4
 
 .late_rodata
@@ -253,7 +253,7 @@ glabel L80B0FD40
 /* 00738 80B0FDE8 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 0073C 80B0FDEC AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00740 80B0FDF0 24070117 */  addiu   $a3, $zero, 0x0117         ## $a3 = 00000117
-/* 00744 80B0FDF4 0C00C916 */  jal     Actor_SpawnAttached
+/* 00744 80B0FDF4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00748 80B0FDF8 E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 0074C 80B0FDFC 14400008 */  bne     $v0, $zero, .L80B0FE20     

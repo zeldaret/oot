@@ -11,7 +11,7 @@
 
 glabel Effect_Ss_G_Magma_InitVars
 .word 0x0000000B
-.word func_809A6150
+.word EffectSsGMagma_Init
 glabel D_809A6328
  .word 0x00000000, 0x00000000, 0x00000000
 glabel D_809A6334

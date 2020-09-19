@@ -6,7 +6,7 @@ glabel func_80045714
 /* ABC8C4 80045724 AFA40028 */  sw    $a0, 0x28($sp)
 /* ABC8C8 80045728 AFA60030 */  sw    $a2, 0x30($sp)
 /* ABC8CC 8004572C AFA70034 */  sw    $a3, 0x34($sp)
-/* ABC8D0 80045730 0C01F0FD */  jal   OLib_Vec3fToVecSphRot90
+/* ABC8D0 80045730 0C01F0FD */  jal   OLib_Vec3fToVecSphGeo
 /* ABC8D4 80045734 27A4001C */   addiu $a0, $sp, 0x1c
 /* ABC8D8 80045738 0C01DE0D */  jal   Math_Coss
 /* ABC8DC 8004573C 87A40020 */   lh    $a0, 0x20($sp)
