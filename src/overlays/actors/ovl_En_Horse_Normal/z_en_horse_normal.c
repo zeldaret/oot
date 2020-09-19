@@ -41,8 +41,20 @@ const ActorInit En_Horse_Normal_InitVars = {
     (ActorFunc)EnHorseNormal_Draw,
 };
 
+extern AnimationHeader D_06000608;
+extern AnimationHeader D_06000C20;
+extern AnimationHeader D_060013A8;
+extern AnimationHeader D_06001A1C;
+extern AnimationHeader D_06002458;
+extern AnimationHeader D_060035D4;
+extern AnimationHeader D_06004580;
+extern AnimationHeader D_06004C20;
+extern AnimationHeader D_060054BC;
+
+extern SkeletonHeader D_06009FAC;
+
 static AnimationHeader* D_80A6D370[] = {
-    0x06004580, 0x06004C20, 0x060035D4, 0x06002458, 0x060054BC, 0x06001A1C, 0x06000608, 0x06000C20, 0x060013A8
+    &D_06004580, &D_06004C20, &D_060035D4, &D_06002458, &D_060054BC, &D_06001A1C, &D_06000608, &D_06000C20, &D_060013A8
 };
 
 // sCylinderInit
@@ -75,17 +87,21 @@ static ColliderJntSphInit D_80A6D410 = {
 };
 
 // sColChkInfoInit
-static CollisionCheckInfoInit D_80A6D420 = { 0x0A, 0x0023, 0x0064, 0xFE };
+static CollisionCheckInfoInit D_80A6D420 = { 10, 35, 100, 0xFE };
 
+// Unused
 static UNK_TYPE D_80A6D428[] = { 0x04220001, 0x01800700, 0x06750027, 0xFE830600, 0x06460001, 0xFBE80600, 0x041D0001, 0xF9AC0600, 0xFC0C0001, 0xF99F0700, 0xF9890001, 0xFC6A0600, 0xF9CE0001, 0xFF7A0600, 0xFC3F0001, 0x01930700, };
 
+// Unused
 static UNK_TYPE D_80A6D468[] = { 0x00000008, D_80A6D428 };
 
+// Unused
 static UNK_TYPE D_80A6D470[] = { 0x00580000, 0x081E0A00, 0x09B20178, 0x12170700, 0x08B4FFE4, 0x19CD0C00, 0x028EFF9C, 0x22A00700, 0xFED7FE0C, 0x29AB0C00, 0xEB49FE5C, 0x29900A00, 0xE5E2FE0C, 0x1E500A00, 0xEB740064, 0x15230700, 0xF20BFEF3, 0x0F350A00, };
 
+// Unused
 static UNK_TYPE D_80A6D4B8[] = { 0x00000009, D_80A6D470 };
 
-static s32 D_80A6D4C0[] = { 0x00000000, 0x00000010 };
+static s32 D_80A6D4C0[] = { 0, 16 };
 
 static f32 D_80A6D4C8[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.5f, 1.5f, 1.5f, 1.0f };
 
@@ -93,9 +109,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
-
-extern AnimationHeader D_06004580;
-extern SkeletonHeader D_06009FAC;
 
 void func_80A6B250(EnHorseNormal* this) {
     if (D_80A6D4C0[this->unk_200] < this->skin.skelAnime.animCurrentFrame &&
