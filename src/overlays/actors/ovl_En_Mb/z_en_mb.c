@@ -179,6 +179,9 @@ extern AnimationHeader D_06002F10;
 extern AnimationHeader D_06009280;
 extern AnimationHeader D_06001950;
 extern AnimationHeader D_0600BE58;
+extern AnimationHeader D_0600D5D4;
+extern AnimationHeader D_0600E18C;
+extern AnimationHeader D_0600B4BC;
 
 void func_80AA68FC(EnMb* this, GlobalContext* globalCtx);
 void func_80AA6898(EnMb* this);
@@ -191,6 +194,9 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx);
 void func_80AA7310(EnMb* this, GlobalContext* globalCtx);
 void func_80AA702C(EnMb* this, GlobalContext* globalCtx);
 void func_80AA8514(EnMb* this, GlobalContext* globalCtx);
+void func_80AA840C(EnMb* this, GlobalContext* globalCtx);
+void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx);
+void func_80AA7938(EnMb* this, GlobalContext* globalCtx);
 
 void func_80AA6050(EnMb* this, EnMbActionFunc actionFunc) { // Setup Action Func
     this->actionFunc = actionFunc;
@@ -288,7 +294,14 @@ void func_80AA6830(EnMb* this) {
     func_80AA6050(this, func_80AA7134);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6898.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6898.s")
+void func_80AA6898(EnMb* this) {
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600EBE4);
+    this->actor.speedXZ = 0.0f;
+    this->unk_32A = Math_Rand_S16Offset(0x1E, 0x32);
+    this->unk_320 = 6;
+    func_80AA6050(this, func_80AA8DD8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA68FC.s")
 
@@ -322,11 +335,34 @@ void func_80AA6AC8(EnMb* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6B80.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6BF0.s")
+void func_80AA6BF0(EnMb* this) {
+    f32 frames;
+    s16 yawDiff;
+    s32 yawDiffABS;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6CC0.s")
+    frames = SkelAnime_GetFrameCount(&D_0600B4BC);
+    this->unk_320 = 0xA;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600B4BC, 3.0f, 0.0f, frames, 3, 0.0f);
+    this->unk_32E = 1;
+    yawDiff = (this->actor.posRot.rot.y - this->actor.yawTowardsLink);
+    if (yawDiff >= 0) {
+        yawDiffABS = yawDiff;
+    } else {
+        yawDiffABS = 0 - yawDiff;
+    }
+    if (yawDiffABS < 0x259) {
+        this->chaseHitboxEnable = 2;
+    } else {
+        if (yawDiff >= 0) {
+            this->chaseHitboxEnable = 1;
+        } else {
+            this->chaseHitboxEnable = 3;
+        }
+    }
+    func_80AA6050(this, func_80AA7938);
+}
+
 void func_80AA6CC0(EnMb* this) {
-    // this = this;
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06009280);
     this->unk_320 = 11;
     this->unk_32A = 0;
@@ -341,7 +377,16 @@ void func_80AA6CC0(EnMb* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6E1C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6E7C.s")
+void func_80AA6E7C(EnMb* this) {
+    f32 frames;
+
+    frames = SkelAnime_GetFrameCount(&D_0600D5D4);
+    this->unk_320 = 2;
+    this->unk_32A = 0;
+    this->unk_32E = 6;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600D5D4, 1.0f, 4.0f, frames, 3, 0.0f);
+    func_80AA6050(this, &func_80AA840C);
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6F04.s")
 void func_80AA6F04(EnMb* this) {
@@ -493,7 +538,7 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA77D0.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s") 
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7CAC.s")
 
@@ -501,19 +546,39 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8378.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA840C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA840C.s")
+void func_80AA840C(EnMb* this, GlobalContext* globalCtx) {
+    s32 pad;
 
-#ifdef NON_MATCHING
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        if (this->unk_32E != 0) {
+            this->unk_32E = (s16)(this->unk_32E - 1);
+            if (this->unk_32E == 0) {
+                if (this->unk_32A == 0) {
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f,
+                                         (f32)SkelAnime_GetFrameCount(&D_0600E18C), 3, 0.0f);
+                    this->unk_32A = (u16)1;
+                    this->unk_32E = (u16)6;
+                } else {
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f,
+                                         (f32)SkelAnime_GetFrameCount(&D_0600E18C), 3, 0.0f);
+                }
+            }
+        } else {
+            func_80AA6898(this);
+        }
+    }
+}
+
 void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
     Vec3f effPosition;
     Vec3f temp;
     Vec3f effZeroVector;
-    s16 pad;
     s32 effectsPerFrame;
 
     effPosition = this->actor.posRot.pos;
-    effPosition.x = effPosition.x + (Math_Sins(this->actor.shape.rot.y) * -70.0f);
-    effPosition.z = effPosition.z + (Math_Coss(this->actor.shape.rot.y) * -70.0f);
+    effPosition.x += Math_Sins(this->actor.shape.rot.y) * -70.0f;
+    effPosition.z += Math_Coss(this->actor.shape.rot.y) * -70.0f;
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     temp = effPosition;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
@@ -541,10 +606,6 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
         func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8514.s")
-#endif
-
 
 #ifdef NON_EQUIVILENT
 void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
@@ -553,7 +614,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     s16 temp_v1;
     s32 sp48;
     f32 playbackSpeed;
-    f32 sp34;
+    f32 & this->skelAnime;
 
     temp_v1 = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
     if (temp_v1 < 0) {
@@ -566,15 +627,15 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     playbackSpeed = this->skelAnime.animPlaybackSpeed;
     if (0.0f <= playbackSpeed) {
-        sp34 = playbackSpeed;
+        &this->skelAnime = playbackSpeed;
     } else {
-        sp34 = -playbackSpeed;
+        &this->skelAnime = -playbackSpeed;
     }
-    sp48 = (this->skelAnime.animCurrentFrame - sp34);
+    sp48 = (this->skelAnime.animCurrentFrame - &this->skelAnime);
     if (0.0f <= playbackSpeed) {
-        sp34 = playbackSpeed;
+        &this->skelAnime = playbackSpeed;
     } else {
-        sp34 = -playbackSpeed;
+        &this->skelAnime = -playbackSpeed;
     }
     if ((this->unk_32E == 0) && (Math_Vec3f_DistXZ(&this->actor.initPosRot, &player->actor.posRot) < this->unk_364)) {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 750, 0);
@@ -612,9 +673,9 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     /*if (this->skelAnime.animCurrentFrame != this->skelAnime.animCurrentFrame) {
-        if ((sp48 >= 2) || ((sp34 + this->skelAnime.animCurrentFrame) <= 0)) {
+        if ((sp48 >= 2) || ((&this->skelAnime + this->skelAnime.animCurrentFrame) <= 0)) {
             if (sp48 < 21) {
-                if (( sp34 + currentFrame) >= 20) {
+                if (( &this->skelAnime + currentFrame) >= 20) {
 block_31:
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
                 }
@@ -624,8 +685,8 @@ block_31:
         }
     }*/
     if (this->skelAnime.animCurrentFrame != this->skelAnime.animCurrentFrame) {
-        if (!((sp48 >= 2) || ((sp34 + this->skelAnime.animCurrentFrame) <= 0)) ||
-            ((sp48 < 21) && ((sp34 + currentFrame)))) {
+        if (!((sp48 >= 2) || ((&this->skelAnime + this->skelAnime.animCurrentFrame) <= 0)) ||
+            ((sp48 < 21) && ((&this->skelAnime + currentFrame)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
@@ -637,7 +698,24 @@ block_31:
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8AEC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8DD8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8DD8.s")
+void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    s32 pad;
+    s16 yawDiff;
+    s32 yawDiffAbs;
+
+    yawDiff = (this->actor.posRot.rot.y - this->actor.yawTowardsLink);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->unk_364) {
+        if (!(player->stateFlags1 & 0x4000000)) {
+            yawDiffAbs = (yawDiff >= 0) ? yawDiff : -yawDiff;
+            if (yawDiffAbs < 0x3E80) {
+                func_80AA6BF0(this);
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8E88.s")
 
