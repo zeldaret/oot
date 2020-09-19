@@ -59,15 +59,15 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
 
-static Vec3f D_80AE4918 = { 0.0f, 0.0f, 0.0f, };
+static Vec3f D_80AE4918 = { 0.0f, 0.0f, 0.0f };
 
 // I'm guessing these are primitive and environment colors that go unused
-static Color_RGBA8_n D_80AE4924 = { 200, 200, 255, 255, };
-static Color_RGBA8_n D_80AE4928 = { 0, 0, 255, 0, };
+static Color_RGBA8_n D_80AE4924 = { 200, 200, 255, 255 };
+static Color_RGBA8_n D_80AE4928 = { 0, 0, 255, 0 };
 
 static Vec3f D_80AE492C = { 0.0f, 0.0f, 0.0f };
-static Color_RGBA8_n D_80AE4938 = { 200, 200, 255, 255, };
-static Color_RGBA8_n D_80AE493C = { 0, 0, 255, 0, };
+static Color_RGBA8_n D_80AE4938 = { 200, 200, 255, 255 };
+static Color_RGBA8_n D_80AE493C = { 0, 0, 255, 0 };
 
 static Vec3f D_80AE4940 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
@@ -231,7 +231,8 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2970(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060087D0, 0, 0, SkelAnime_GetFrameCount(&D_060087D0.genericHeader), 0, -6.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060087D0, 0, 0, SkelAnime_GetFrameCount(&D_060087D0.genericHeader), 0,
+                         -6.0f);
     this->unk_31B = 0xB;
     this->unk_30C = 6;
     this->actor.shape.rot.x = -0x4000;
@@ -267,20 +268,21 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2B90(EnRd* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader), 1, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader),
+                         1, -4.0f);
     this->actor.speedXZ = 0.4f;
     this->unk_31B = 4;
     EnRd_SetupAction(this, func_80AE2C1C);
 }
 
-void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
+void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     Vec3f sp44 = D_80AE4918;
     Color_RGBA8_n sp40 = D_80AE4924;
     Color_RGBA8_n sp3C = D_80AE4928;
-    Player *player = PLAYER;
+    Player* player = PLAYER;
     s32 pad;
     s16 sp32 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
-    
+
     this->skelAnime.animPlaybackSpeed = this->actor.speedXZ;
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA, 0);
     Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x64, 0);
@@ -311,9 +313,10 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
 
     DECR(this->unk_307);
 
-    if ((this->unk_307 == 0) && (func_8002DB48(&this->actor, &player->actor) <= 45.0f) && (func_8002E084(&this->actor, 0x38E3))) {
+    if ((this->unk_307 == 0) && (func_8002DB48(&this->actor, &player->actor) <= 45.0f) &&
+        (func_8002E084(&this->actor, 0x38E3))) {
         player->actor.freezeTimer = 0;
-        if (globalCtx->unk_11D4C(globalCtx, &player->actor) != 0) {
+        if (globalCtx->grabPlayer(globalCtx, &player->actor) != 0) {
             this->actor.flags &= ~1;
             func_80AE33F0(this);
         }
@@ -325,7 +328,7 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
         }
     }
 
-    if ((this->skelAnime.animCurrentFrame == 10.0f) || (this->skelAnime.animCurrentFrame == 22.0f)){
+    if ((this->skelAnime.animCurrentFrame == 10.0f) || (this->skelAnime.animCurrentFrame == 22.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
     } else if ((globalCtx->gameplayFrames & 95) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
@@ -333,13 +336,14 @@ void func_80AE2C1C(EnRd *this, GlobalContext *globalCtx) {
 }
 
 void func_80AE2F50(EnRd* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader), 1, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader), 1,
+                         -4.0f);
     this->unk_31B = 2;
     EnRd_SetupAction(this, func_80AE2FD0);
 }
 
 void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
-    Player *player = PLAYER;
+    Player* player = PLAYER;
     s32 pad;
     s16 targetY = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
 
@@ -360,8 +364,9 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x64, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    
-    if ((!(player->stateFlags1 & 0x2C6080)) && (!(player->stateFlags2 & 0x80)) && (func_8002DB6C(&player->actor, &this->actor.initPosRot.pos) < 150.0f)) {
+
+    if ((!(player->stateFlags1 & 0x2C6080)) && (!(player->stateFlags2 & 0x80)) &&
+        (func_8002DB6C(&player->actor, &this->actor.initPosRot.pos) < 150.0f)) {
         this->actor.unk_1F = 0;
         func_80AE2B90(this, globalCtx);
     } else if (this->actor.params > 0) {
@@ -380,13 +385,14 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE31DC(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader), 1, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader), 1,
+                         -4.0f);
     this->unk_31B = 3;
     this->unk_305 = 1;
     EnRd_SetupAction(this, func_80AE3260);
 }
 
-void func_80AE3260(EnRd *this, GlobalContext *globalCtx) {
+void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
     if (this->actor.parent != NULL) {
         s32 pad;
         s16 targetY;
@@ -395,7 +401,7 @@ void func_80AE3260(EnRd *this, GlobalContext *globalCtx) {
         targetY = func_8002DAC0(&this->actor, &thisPos);
 
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, targetY, 1, 0xFA, 0);
-        
+
         if (func_8002DB6C(&this->actor, &thisPos) >= 45.0f) {
             this->actor.speedXZ = 0.4f;
         } else {
@@ -433,77 +439,84 @@ void func_80AE33F0(EnRd* this) {
     EnRd_SetupAction(this, func_80AE3454);
 }
 
-void func_80AE3454(EnRd *this, GlobalContext *globalCtx) {
+void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player *player = PLAYER;
+    Player* player = PLAYER;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->unk_304++;
     }
-    switch(this->unk_304){
-    case 1:
-        SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06004268);
-        this->unk_304++;
-        globalCtx->unk_11D58(globalCtx, -8);
-        func_800AA000(this->actor.xzDistFromLink, 0xFF, 1, 0xC);
-        this->unk_319 = 0x14;
-    case 0:
-        Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x5DC, 0);
-        Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x5DC, 0);
-    case 2:
-        if (!(player->stateFlags2 & 0x80)) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_060046F8.genericHeader), 3, 0.0f);
-            this->unk_304++;
-            this->unk_31B = 4;
-            return;
-        }
 
-        if (LINK_IS_CHILD) {
-            Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1500.0f, 1.0f, 150.0f, 0.0f);
-        }
-        
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, (Math_Sins(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f, 10.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f, 10.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, (Math_Coss(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f, 10.0f, 0.0f);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
-        
-        if (this->skelAnime.animCurrentFrame == 0.0f) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_ATTACK);
-        }
-        this->unk_319--;
-        
-        if (this->unk_319 == 0) {
-            globalCtx->unk_11D58(globalCtx, -8);
-            func_800AA000(this->actor.xzDistFromLink, 0xF0, 1, 0xC);
+    switch (this->unk_304) {
+        case 1:
+            SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06004268);
+            this->unk_304++;
+            globalCtx->damagePlayer(globalCtx, -8);
+            func_800AA000(this->actor.xzDistFromLink, 0xFF, 1, 0xC);
             this->unk_319 = 0x14;
-            func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S + player->ageProperties[0x49]);
-        }
-        break;
-    case 3:
-        if (LINK_IS_CHILD) {
-            Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
-        }
-        break;
-    case 4:
-        if (LINK_IS_CHILD) {
-            Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
-        }
-        this->actor.unk_1F = 0;
-        this->actor.flags |= 1;
-        this->unk_306 = 0xA;
-        this->unk_307 = 0xF;
-        func_80AE2B90(this, globalCtx);
-        break;
+        case 0:
+            Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x5DC, 0);
+            Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x5DC, 0);
+        case 2:
+            if (!(player->stateFlags2 & 0x80)) {
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_060046F8, 0.5f, 0.0f,
+                                     SkelAnime_GetFrameCount(&D_060046F8.genericHeader), 3, 0.0f);
+                this->unk_304++;
+                this->unk_31B = 4;
+                return;
+            }
+
+            if (LINK_IS_CHILD) {
+                Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1500.0f, 1.0f, 150.0f, 0.0f);
+            }
+
+            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x,
+                                    (Math_Sins(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f,
+                                    10.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f, 10.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z,
+                                    (Math_Coss(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f,
+                                    10.0f, 0.0f);
+            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
+
+            if (this->skelAnime.animCurrentFrame == 0.0f) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_ATTACK);
+            }
+            this->unk_319--;
+
+            if (this->unk_319 == 0) {
+                globalCtx->damagePlayer(globalCtx, -8);
+                func_800AA000(this->actor.xzDistFromLink, 0xF0, 1, 0xC);
+                this->unk_319 = 0x14;
+                func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S + player->ageProperties->unk_92);
+            }
+            break;
+        case 3:
+            if (LINK_IS_CHILD) {
+                Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
+            }
+            break;
+        case 4:
+            if (LINK_IS_CHILD) {
+                Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
+            }
+            this->actor.unk_1F = 0;
+            this->actor.flags |= 1;
+            this->unk_306 = 0xA;
+            this->unk_307 = 0xF;
+            func_80AE2B90(this, globalCtx);
+            break;
     }
 }
 
 void func_80AE37BC(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004F94.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004F94.genericHeader),
+                         2, 0.0f);
     this->unk_31B = 7;
     EnRd_SetupAction(this, func_80AE3834);
 }
 
-void func_80AE3834(EnRd *this, GlobalContext *globalCtx) {
+void func_80AE3834(EnRd* this, GlobalContext* globalCtx) {
     Vec3f sp34 = D_80AE492C;
     Color_RGBA8_n sp30 = D_80AE4938;
     Color_RGBA8_n sp2C = D_80AE493C;
@@ -538,7 +551,8 @@ void func_80AE3978(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE39D4(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06008040, -1.0f, SkelAnime_GetFrameCount(&D_06008040.genericHeader), 0.0f, 2, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06008040, -1.0f, SkelAnime_GetFrameCount(&D_06008040.genericHeader), 0.0f,
+                         2, -4.0f);
     this->unk_31B = 6;
     EnRd_SetupAction(this, func_80AE3A54);
 }
@@ -604,7 +618,7 @@ void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x7D0, 0);
     Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x7D0, 0);
-    
+
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->unk_30C == 0) {
             if (!Flags_GetSwitch(globalCtx, this->unk_312 & 0x7F)) {
@@ -670,7 +684,7 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
 
 // Regalloc..I can get the score lower by using permuter suggestions, but they all seem silly
 #ifdef NON_MATCHING
-void func_80AE3F9C(EnRd *this, GlobalContext *globalCtx) {
+void func_80AE3F9C(EnRd* this, GlobalContext* globalCtx) {
     s16 unk_310;
     s16 shapeRotY;
     s16 yawTowardsLink;
@@ -683,7 +697,7 @@ void func_80AE3F9C(EnRd *this, GlobalContext *globalCtx) {
     shapeRotY = this->actor.shape.rot.y;
     yawTowardsLink = this->actor.yawTowardsLink;
     new_var = unk_310 + shapeRotY;
-    
+
     temp_v0 = yawTowardsLink - new_var;
     phi_a3 = CLAMP(temp_v0, -500, 500);
 
@@ -697,7 +711,7 @@ void func_80AE3F9C(EnRd *this, GlobalContext *globalCtx) {
         this->unk_310 -= ABS(phi_a3);
         this->unk_30E -= ABS(phi_v0);
     }
-    
+
     this->unk_310 = CLAMP(this->unk_310, -18783, 18783);
     this->unk_30E = CLAMP(this->unk_30E, -9583, 9583);
 }
@@ -705,11 +719,12 @@ void func_80AE3F9C(EnRd *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rd/func_80AE3F9C.s")
 #endif
 
-void func_80AE4114(EnRd *this, GlobalContext *globalCtx) {
+void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player *player = PLAYER;
+    Player* player = PLAYER;
 
-    if ((gSaveContext.unk_1422 != 0) && (this->actor.shape.rot.x == 0) && (this->unk_318 == 0) && (this->unk_31B != 9) && (this->unk_31B != 0xA) && (this->unk_31B != 1)) {
+    if ((gSaveContext.unk_1422 != 0) && (this->actor.shape.rot.x == 0) && (this->unk_318 == 0) &&
+        (this->unk_31B != 9) && (this->unk_31B != 0xA) && (this->unk_31B != 1)) {
         func_80AE3DE4(this);
         return;
     }
@@ -761,7 +776,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
 
     func_80AE4114(this, globalCtx);
-    
+
     if (gSaveContext.unk_1422 != 0 && this->unk_318 == 0) {
         gSaveContext.unk_1422 = 0;
     }
@@ -773,7 +788,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         this->actionFunc(this, globalCtx);
         if (this->unk_31B != 8 && this->actor.speedXZ != 0.0f) {
-                Actor_MoveForward(&this->actor);
+            Actor_MoveForward(&this->actor);
         }
 
         if ((this->actor.shape.rot.x == 0) && (this->unk_31B != 8) && (this->actor.speedXZ != 0.0f)) {
@@ -797,9 +812,10 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+                          Gfx** gfx) {
     EnRd* this = THIS;
-    
+
     if (limbIndex == 23) {
         rot->y += this->unk_30E;
     } else if (limbIndex == 12) {
@@ -884,9 +900,9 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_314);
         gSPSegment(oGfxCtx->polyXlu.p++, 8, &D_80116280[0]);
-        oGfxCtx->polyXlu.p =
-            SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                              this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
+        oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                               this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, &this->actor,
+                                               oGfxCtx->polyXlu.p);
 
         func_80033C30(&thisPos, &D_80AE4958, this->unk_314, globalCtx);
     }
