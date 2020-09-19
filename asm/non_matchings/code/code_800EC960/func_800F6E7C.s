@@ -1,0 +1,86 @@
+glabel func_800F6E7C
+/* B6E01C 800F6E7C 27BDFFD8 */  addiu $sp, $sp, -0x28
+/* B6E020 800F6E80 AFB00014 */  sw    $s0, 0x14($sp)
+/* B6E024 800F6E84 3090FFFF */  andi  $s0, $a0, 0xffff
+/* B6E028 800F6E88 AFBF0024 */  sw    $ra, 0x24($sp)
+/* B6E02C 800F6E8C AFB10018 */  sw    $s1, 0x18($sp)
+/* B6E030 800F6E90 AFA40028 */  sw    $a0, 0x28($sp)
+/* B6E034 800F6E94 30B1FFFF */  andi  $s1, $a1, 0xffff
+/* B6E038 800F6E98 AFB30020 */  sw    $s3, 0x20($sp)
+/* B6E03C 800F6E9C AFB2001C */  sw    $s2, 0x1c($sp)
+/* B6E040 800F6EA0 AFA5002C */  sw    $a1, 0x2c($sp)
+/* B6E044 800F6EA4 0C03E82D */  jal   func_800FA0B4
+/* B6E048 800F6EA8 00002025 */   move  $a0, $zero
+/* B6E04C 800F6EAC 2401004C */  li    $at, 76
+/* B6E050 800F6EB0 14410005 */  bne   $v0, $at, .L800F6EC8
+/* B6E054 800F6EB4 3C047000 */   lui   $a0, (0x70000001 >> 16) # lui $a0, 0x7000
+/* B6E058 800F6EB8 0C03CFCF */  jal   func_800F3F3C
+/* B6E05C 800F6EBC 2404000F */   li    $a0, 15
+/* B6E060 800F6EC0 10000036 */  b     .L800F6F9C
+/* B6E064 800F6EC4 8FBF0024 */   lw    $ra, 0x24($sp)
+.L800F6EC8:
+/* B6E068 800F6EC8 0C03E803 */  jal   Audio_SetBGM
+/* B6E06C 800F6ECC 34840001 */   ori   $a0, (0x70000001 & 0xFFFF) # ori $a0, $a0, 1
+/* B6E070 800F6ED0 00102203 */  sra   $a0, $s0, 8
+/* B6E074 800F6ED4 308400FF */  andi  $a0, $a0, 0xff
+/* B6E078 800F6ED8 3C017004 */  lui   $at, 0x7004
+/* B6E07C 800F6EDC 00812025 */  or    $a0, $a0, $at
+/* B6E080 800F6EE0 0C03E803 */  jal   Audio_SetBGM
+/* B6E084 800F6EE4 02009825 */   move  $s3, $s0
+/* B6E088 800F6EE8 02602025 */  move  $a0, $s3
+/* B6E08C 800F6EEC 308400FF */  andi  $a0, $a0, 0xff
+/* B6E090 800F6EF0 3C017005 */  lui   $at, 0x7005
+/* B6E094 800F6EF4 0C03E803 */  jal   Audio_SetBGM
+/* B6E098 800F6EF8 00812025 */   or    $a0, $a0, $at
+/* B6E09C 800F6EFC 00002025 */  move  $a0, $zero
+/* B6E0A0 800F6F00 00002825 */  move  $a1, $zero
+/* B6E0A4 800F6F04 2406007F */  li    $a2, 127
+/* B6E0A8 800F6F08 0C03E890 */  jal   func_800FA240
+/* B6E0AC 800F6F0C 24070001 */   li    $a3, 1
+/* B6E0B0 800F6F10 3C0E8013 */  lui   $t6, %hi(D_80133408) # $t6, 0x8013
+/* B6E0B4 800F6F14 91CE3408 */  lbu   $t6, %lo(D_80133408)($t6)
+/* B6E0B8 800F6F18 3C04E000 */  lui   $a0, (0xE0000100 >> 16) # lui $a0, 0xe000
+/* B6E0BC 800F6F1C 00008025 */  move  $s0, $zero
+/* B6E0C0 800F6F20 11C00003 */  beqz  $t6, .L800F6F30
+/* B6E0C4 800F6F24 34840100 */   ori   $a0, (0xE0000100 & 0xFFFF) # ori $a0, $a0, 0x100
+/* B6E0C8 800F6F28 0C03E803 */  jal   Audio_SetBGM
+/* B6E0CC 800F6F2C 24100001 */   li    $s0, 1
+.L800F6F30:
+/* B6E0D0 800F6F30 0C03E803 */  jal   Audio_SetBGM
+/* B6E0D4 800F6F34 24040001 */   li    $a0, 1
+/* B6E0D8 800F6F38 0010102B */  sltu  $v0, $zero, $s0
+/* B6E0DC 800F6F3C 10400004 */  beqz  $v0, .L800F6F50
+/* B6E0E0 800F6F40 00008025 */   move  $s0, $zero
+/* B6E0E4 800F6F44 3C04E000 */  lui   $a0, (0xE0000001 >> 16) # lui $a0, 0xe000
+/* B6E0E8 800F6F48 0C03E803 */  jal   Audio_SetBGM
+/* B6E0EC 800F6F4C 34840101 */   ori   $a0, (0xE0000101 & 0xFFFF) # ori $a0, $a0, 0x101
+.L800F6F50:
+/* B6E0F0 800F6F50 02209025 */  move  $s2, $s1
+/* B6E0F4 800F6F54 3C118001 */  lui   $s1, 0x8001
+/* B6E0F8 800F6F58 00001025 */  move  $v0, $zero
+.L800F6F5C:
+/* B6E0FC 800F6F5C 240F0001 */  li    $t7, 1
+/* B6E100 800F6F60 004F1804 */  sllv  $v1, $t7, $v0
+/* B6E104 800F6F64 0243C024 */  and   $t8, $s2, $v1
+/* B6E108 800F6F68 17000006 */  bnez  $t8, .L800F6F84
+/* B6E10C 800F6F6C 0263C824 */   and   $t9, $s3, $v1
+/* B6E110 800F6F70 13200004 */  beqz  $t9, .L800F6F84
+/* B6E114 800F6F74 00024200 */   sll   $t0, $v0, 8
+/* B6E118 800F6F78 01112025 */  or    $a0, $t0, $s1
+/* B6E11C 800F6F7C 0C03E803 */  jal   Audio_SetBGM
+/* B6E120 800F6F80 34840001 */   ori   $a0, (0xE0000001 & 0xFFFF) # ori $a0, $a0, 1
+.L800F6F84:
+/* B6E124 800F6F84 26100001 */  addiu $s0, $s0, 1
+/* B6E128 800F6F88 321000FF */  andi  $s0, $s0, 0xff
+/* B6E12C 800F6F8C 2A010010 */  slti  $at, $s0, 0x10
+/* B6E130 800F6F90 1420FFF2 */  bnez  $at, .L800F6F5C
+/* B6E134 800F6F94 02001025 */   move  $v0, $s0
+/* B6E138 800F6F98 8FBF0024 */  lw    $ra, 0x24($sp)
+.L800F6F9C:
+/* B6E13C 800F6F9C 8FB00014 */  lw    $s0, 0x14($sp)
+/* B6E140 800F6FA0 8FB10018 */  lw    $s1, 0x18($sp)
+/* B6E144 800F6FA4 8FB2001C */  lw    $s2, 0x1c($sp)
+/* B6E148 800F6FA8 8FB30020 */  lw    $s3, 0x20($sp)
+/* B6E14C 800F6FAC 03E00008 */  jr    $ra
+/* B6E150 800F6FB0 27BD0028 */   addiu $sp, $sp, 0x28
+

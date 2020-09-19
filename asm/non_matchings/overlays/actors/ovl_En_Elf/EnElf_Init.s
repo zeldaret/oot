@@ -1,3 +1,30 @@
+.rdata
+glabel D_80A060B0
+    .asciz "0"
+    .balign 4
+
+glabel D_80A060B4
+    .asciz "../z_en_elf.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A06194
+    .word L80A025C0
+    .word L80A02630
+    .word L80A02700
+    .word L80A027BC
+    .word L80A02804
+    .word L80A02694
+    .word L80A0270C
+    .word L80A026E8
+
+glabel D_80A061B4
+    .float 32767.0
+
+glabel D_80A061B8
+    .float 11.989999771118164
+
+.text
 glabel EnElf_Init
 /* 007E4 80A02414 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 007E8 80A02418 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -56,13 +83,13 @@ glabel EnElf_Init
 /* 008B0 80A024E0 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 008B4 80A024E4 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 008B8 80A024E8 AFA4003C */  sw      $a0, 0x003C($sp)           
-/* 008BC 80A024EC 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 008BC 80A024EC 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 008C0 80A024F0 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 008C4 80A024F4 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 008C8 80A024F8 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 008CC 80A024FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 008D0 80A02500 0C01E9D9 */  jal     Lights_Insert
+/* 008D0 80A02500 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 008D4 80A02504 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 008D8 80A02508 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
@@ -89,12 +116,12 @@ glabel EnElf_Init
 /* 0092C 80A0255C AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00930 80A02560 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 00934 80A02564 AFA4003C */  sw      $a0, 0x003C($sp)           
-/* 00938 80A02568 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00938 80A02568 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 0093C 80A0256C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00940 80A02570 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00944 80A02574 8FA50040 */  lw      $a1, 0x0040($sp)           
-/* 00948 80A02578 0C01E9D9 */  jal     Lights_Insert
+/* 00948 80A02578 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 0094C 80A0257C 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 00950 80A02580 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

@@ -16,7 +16,7 @@ glabel D_80B90F58
     .balign 4
 
 glabel D_80B90F5C
-    .asciz "[41;37m"
+    .asciz "\x1b[41;37m"
     .balign 4
 
 glabel D_80B90F68

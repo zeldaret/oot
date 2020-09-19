@@ -11,7 +11,7 @@ glabel func_80B9AFFC
 /* 0063C 80B9B00C 0C2E6B73 */  jal     func_80B9ADCC              
 /* 00640 80B9B010 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00644 80B9B014 C60C00E4 */  lwc1    $f12, 0x00E4($s0)          ## 000000E4
-/* 00648 80B9B018 0C032D57 */  jal     func_800CB55C              
+/* 00648 80B9B018 0C032D57 */  jal     Math3D_Dist1DSq              
 /* 0064C 80B9B01C C60E00EC */  lwc1    $f14, 0x00EC($s0)          ## 000000EC
 /* 00650 80B9B020 3C0180BA */  lui     $at, %hi(D_80B9B0E4)       ## $at = 80BA0000
 /* 00654 80B9B024 C424B0E4 */  lwc1    $f4, %lo(D_80B9B0E4)($at)  

@@ -1,3 +1,28 @@
+.rdata
+glabel D_809152CC
+    .asciz "YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+    .balign 4
+
+.late_rodata
+glabel D_80915444
+    .float -3315.0
+
+glabel D_80915448
+    .float 10430.3779
+
+glabel D_8091544C
+    .float 10000.0
+
+glabel D_80915450
+    .float 0.2
+
+glabel D_80915454
+    .float 0.1
+
+glabel D_80915458
+    .float 3.14159274101
+
+.text
 glabel func_80912594
 /* 01F54 80912594 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 01F58 80912598 AFB10060 */  sw      $s1, 0x0060($sp)
@@ -466,7 +491,7 @@ glabel func_80912594
 /* 02614 80912C54 AFAC0020 */  sw      $t4, 0x0020($sp)
 /* 02618 80912C58 AFAB001C */  sw      $t3, 0x001C($sp)
 /* 0261C 80912C5C 2407006D */  addiu   $a3, $zero, 0x006D         ## $a3 = 0000006D
-/* 02620 80912C60 0C00C916 */  jal     Actor_SpawnAttached
+/* 02620 80912C60 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 02624 80912C64 E7AA0018 */  swc1    $f10, 0x0018($sp)
 /* 02628 80912C68 AE30011C */  sw      $s0, 0x011C($s1)           ## 0000011C

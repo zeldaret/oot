@@ -1,3 +1,29 @@
+.rdata
+glabel D_80915314
+    .asciz "MOVE START %d\n"
+    .balign 4
+
+glabel D_80915324
+    .asciz "MOVE START EEEEEEEEEEEEEEEEEEEEEE%d\n"
+    .balign 4
+
+glabel D_8091534C
+    .asciz "MOVE END\n"
+    .balign 4
+
+glabel D_80915358
+    .asciz "F 1\n"
+    .balign 4
+
+glabel D_80915360
+    .asciz "F 15\n"
+    .balign 4
+
+glabel D_80915368
+    .asciz "F 2\n"
+    .balign 4
+
+.text
 glabel BossGanondrof_Update
 /* 0384C 80913E8C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 03850 80913E90 AFB1002C */  sw      $s1, 0x002C($sp)           
@@ -303,7 +329,7 @@ glabel BossGanondrof_Update
 /* 03C74 809142B4 AFB9001C */  sw      $t9, 0x001C($sp)           
 /* 03C78 809142B8 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 03C7C 809142BC AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 03C80 809142C0 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 03C80 809142C0 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 03C84 809142C4 AFB80010 */  sw      $t8, 0x0010($sp)           
 .L809142C8:

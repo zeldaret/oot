@@ -142,7 +142,7 @@ typedef struct {
         /* 0x0E88 */ s32  tempCollectFlags;
     }                         fw;
     /* 0x0E8C */ char         unk_E8C[0x0010];
-    /* 0x0E9C */ u32          gsFlags[6];
+    /* 0x0E9C */ s32          gsFlags[6];
     /* 0x0EB4 */ char         unk_EB4[0x0010];
     /* 0x0EC4 */ s32          unk_EC4;
     /* 0x0EC8 */ char         unk_EC8[0x000C];
@@ -151,7 +151,9 @@ typedef struct {
     /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
     /* 0x0F34 */ char         unk_F34[0x0004];
     /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char         unk_F3C[0x040C];
+    /* 0x0F3C */ char         unk_F3C[0x0389];
+    /* 0x12C5 */ u8           unk_12C5;
+    /* 0x12C6 */ char         unk_12C6[0x0082];
     /* 0x1348 */ HorseData    horseData;
     /* 0x1352 */ u16          checksum; // "check_sum"
     /* 0x1354 */ s32          fileNum; // "file_no"
@@ -711,7 +713,7 @@ typedef struct {
     /* 0xE3EC */ u16    unk_E3EC;
     /* 0xE3EE */ u16    unk_E3EE;
     /* 0xE3F0 */ u16    unk_E3F0;
-    /* 0xE3F2 */ char   unk_E3F2[0x02];
+    /* 0xE3F2 */ u16    unk_E3F2;
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
@@ -840,9 +842,9 @@ typedef struct {
     /* 0x0238 */ s16    unk_238;
     /* 0x023A */ s16    unk_23A;
     /* 0x023C */ s16    unk_23C;
-    /* 0x023E */ s16    unk_23E;
+    /* 0x023E */ u16    unk_23E;
     /* 0x0240 */ s16    unk_240;
-    /* 0x0242 */ s16    unk_242;
+    /* 0x0242 */ u16    unk_242;
     /* 0x0244 */ s16    unk_244;
     /* 0x0246 */ s16    unk_246;
     /* 0x0248 */ s16    unk_248;
@@ -889,8 +891,8 @@ typedef struct {
     /* 0x2B */ s8       unk_2B;
     /* 0x2C */ s8       unk_2C;
     /* 0x2D */ char     unk_2D[0x5E];
-    /* 0x8C */ s16      unk_8C[6];
-    /* 0x98 */ char     unk_98[0x08];
+    /* 0x8C */ s16      unk_8C[3][3];
+    /* 0x9E */ s16      unk_9E;
     /* 0xA0 */ s16      unk_A0;
     /* 0xA2 */ char     unk_A2[0x06];
     /* 0xA8 */ s16      unk_A8;
@@ -1052,14 +1054,32 @@ typedef struct {
 
 } CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
 
+typedef struct ListAlloc {
+    /* 0x00 */ struct ListAlloc* prev;
+    /* 0x04 */ struct ListAlloc* next;
+} ListAlloc; // size = 0x8
+
 typedef struct {
-    /* 0x00 */ char unk_00[0x10];
-    /* 0x10 */ u16* unk_10;
-    /* 0x14 */ u16* unk_14;
-    /* 0x18 */ u16* unk_18;
-    /* 0x1C */ char unk_1C[0x87];
-    /* 0xA3 */ s8   unk_A3;
-} PreRenderContext; // size = 0xA4
+    /* 0x00 */ s32 width;
+    /* 0x04 */ s32 height;
+    /* 0x08 */ s32 widthSave;
+    /* 0x0C */ s32 heightSave;
+    /* 0x10 */ u16* fbuf;
+    /* 0x14 */ u16* fbufSave;
+    /* 0x18 */ u8* cvgSave;
+    /* 0x1C */ u16* zbuf;
+    /* 0x20 */ u16* zbufSave;
+    /* 0x24 */ s32 ulxSave;
+    /* 0x28 */ s32 ulySave;
+    /* 0x2C */ s32 lrxSave;
+    /* 0x30 */ s32 lrySave;
+    /* 0x34 */ s32 ulx;
+    /* 0x38 */ s32 uly;
+    /* 0x3C */ s32 lrx;
+    /* 0x40 */ s32 lry;
+    /* 0x44 */ ListAlloc alloc;
+    /* 0x4C */ u32 unk_4C;
+} PreRenderContext; // size = 0x50
 
 typedef struct {
     union {
@@ -1212,12 +1232,13 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B4 */ char unk_B4[0x4];
     /* 0x000B8 */ View view;
-    /* 0x001E0 */ Camera cameras[4];
+    /* 0x001E0 */ Camera mainCamera;
+    /* 0x001E0 */ Camera subCameras[3];
     /* 0x00790 */ Camera* cameraPtrs[4];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;
-    /* 0x007A8 */ LightingContext lightCtx;
+    /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ SubGlobalContext7B8 sub_7B8;
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
@@ -1272,6 +1293,8 @@ typedef struct GlobalContext {
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
     /* 0x12124 */ PreRenderContext preRenderCtx;
+    /* 0x12174 */ char unk_12174[0x53];
+    /* 0x121C7 */ s8 unk_121C7;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
@@ -1291,7 +1314,8 @@ typedef struct {
 typedef enum {
     DPM_UNK = 0,
     DPM_PLAYER = 1,
-    DPM_ENEMY = 2
+    DPM_ENEMY = 2,
+    DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
 // Some animation related structure
@@ -1744,11 +1768,6 @@ typedef struct {
 #define KALEIDO_OVL_KALEIDO_SCOPE   0
 #define KALEIDO_OVL_PLAYER_ACTOR    1
 #define KALEIDO_OVL_COUNT           2
-
-typedef struct ListAlloc {
-    /* 0x00 */ struct ListAlloc* prev;
-    /* 0x04 */ struct ListAlloc* next;
-} ListAlloc; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u32 resetting;

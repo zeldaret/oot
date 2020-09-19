@@ -89,13 +89,14 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 200);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 200);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 205),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 205),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000EB0);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 210);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06000EB0);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 210);
 }

@@ -1,3 +1,25 @@
+.rdata
+glabel D_80915188
+    .asciz "RUN 1\n"
+    .balign 4
+
+glabel D_80915190
+    .asciz "RUN 2\n"
+    .balign 4
+
+glabel D_80915198
+    .asciz "RUN 3\n"
+    .balign 4
+
+glabel D_809151A0
+    .asciz "RUN 4\n"
+    .balign 4
+
+.late_rodata
+glabel D_80915418
+    .float 1.14999997
+
+.text
 glabel func_809112D4
 /* 00C94 809112D4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00C98 809112D8 AFB00034 */  sw      $s0, 0x0034($sp)
@@ -48,7 +70,7 @@ glabel func_809112D4
 /* 00D40 80911380 AFA00020 */  sw      $zero, 0x0020($sp)
 /* 00D44 80911384 AFB9001C */  sw      $t9, 0x001C($sp)
 /* 00D48 80911388 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 00D4C 8091138C 0C00C916 */  jal     Actor_SpawnAttached
+/* 00D4C 8091138C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00D50 80911390 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00D54 80911394 8FA90048 */  lw      $t1, 0x0048($sp)

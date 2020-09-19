@@ -22,7 +22,7 @@ glabel func_809EB110
 /* 00404 809EB144 24040038 */  addiu   $a0, $zero, 0x0038         ## $a0 = 00000038
 /* 00408 809EB148 8FA40034 */  lw      $a0, 0x0034($sp)           
 .L809EB14C:
-/* 0040C 809EB14C 0C00CD90 */  jal     func_80033640              
+/* 0040C 809EB14C 0C00CD90 */  jal     Actor_GetCollidedExplosive              
 /* 00410 809EB150 26050260 */  addiu   $a1, $s0, 0x0260           ## $a1 = 00000260
 /* 00414 809EB154 10400002 */  beq     $v0, $zero, .L809EB160     
 /* 00418 809EB158 24180005 */  addiu   $t8, $zero, 0x0005         ## $t8 = 00000005

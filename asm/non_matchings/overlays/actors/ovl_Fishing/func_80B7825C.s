@@ -2085,7 +2085,7 @@ glabel L80B7955C
 /* 1050C 80B79EAC 27A6004C */  addiu   $a2, $sp, 0x004C           ## $a2 = FFFFFF24
 /* 10510 80B79EB0 45000014 */  bc1f    .L80B79F04                 
 /* 10514 80B79EB4 00000000 */  nop
-/* 10518 80B79EB8 0C029B84 */  jal     func_800A6E10              
+/* 10518 80B79EB8 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 1051C 80B79EBC A7A30076 */  sh      $v1, 0x0076($sp)           
 /* 10520 80B79EC0 C7A40054 */  lwc1    $f4, 0x0054($sp)           
 /* 10524 80B79EC4 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
@@ -2160,7 +2160,7 @@ glabel L80B7955C
 /* 1061C 80B79FBC 24E7FEA4 */  addiu   $a3, $a3, %lo(D_80B7FEA4)  ## $a3 = 80B7FEA4
 /* 10620 80B79FC0 24C65138 */  addiu   $a2, $a2, %lo(D_80B85138)  ## $a2 = 80B85138
 /* 10624 80B79FC4 24A5AFD0 */  addiu   $a1, $a1, %lo(D_80B7AFD0)  ## $a1 = 80B7AFD0
-/* 10628 80B79FC8 0C029B84 */  jal     func_800A6E10              
+/* 10628 80B79FC8 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 1062C 80B79FCC 02012021 */  addu    $a0, $s0, $at              
 /* 10630 80B79FD0 3C0480B8 */  lui     $a0, %hi(D_80B85138)       ## $a0 = 80B80000
 /* 10634 80B79FD4 24845138 */  addiu   $a0, $a0, %lo(D_80B85138)  ## $a0 = 80B85138
