@@ -138,11 +138,11 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
                 (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
-                if (player->invincibilityTimer < -0x27) {
+                if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
                 } else {
                     player->invincibilityTimer = 0;
-                    globalCtx->unk_11D58(globalCtx, -4);
+                    globalCtx->damagePlayer(globalCtx, -4);
                 }
             }
             func_8002F71C(globalCtx, &this->actor, 6.0f, tmp32, 6.0f);

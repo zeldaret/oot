@@ -19,7 +19,7 @@ glabel func_80B9B254
 /* 000E8 80B9B268 10000017 */  beq     $zero, $zero, .L80B9B2C8   
 /* 000EC 80B9B26C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 .L80B9B270:
-/* 000F0 80B9B270 0C023C0D */  jal     func_8008F034              
+/* 000F0 80B9B270 0C023C0D */  jal     Player_GetStrength              
 /* 000F4 80B9B274 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 000F8 80B9B278 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 000FC 80B9B27C 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000
