@@ -12,7 +12,7 @@ void func_808B5A94(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B04(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B58(BgSpot16Bombstone* this);
-s16 func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx);
+void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5934(BgSpot16Bombstone* this);
 void func_808B5AF0(BgSpot16Bombstone* this);
 void func_808B5A78(BgSpot16Bombstone* this);
@@ -26,16 +26,16 @@ extern Gfx D_DB060018;
 s16 D_808B5DD0 = { 0 };
 s16 D_808B5DD4 = { 0 };
 
-D_808B5DD8Struct D_808B5DD8[6] = { { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
-                                   { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
-                                   { 0x0005, 0x0003, 0x0028, 0xF63C, 0x0190, 0x30B0, 0x0032, 0x0000, 0x0000, 0x0000 },
-                                   { 0x0003, 0x0001, 0x003C, 0x0258, 0xFF9C, 0xAFC8, 0x0032, 0x0000, 0x0000, 0x0000 },
-                                   { 0x0003, 0x0001, 0x0028, 0xF2B8, 0xFF9C, 0x6590, 0x001E, 0x0000, 0x0000, 0x0000 },
-                                   { 0x0006, 0x0009, 0x0028, 0x0000, 0x0BB8, 0xD8F0, 0x001E, 0x0000, 0x0000, 0x0000 } };
+D_808B5DD8Struct D_808B5DD8[] = { { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
+                                  { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
+                                  { 0x0005, 0x0003, 0x0028, 0xF63C, 0x0190, 0x30B0, 0x0032, 0x0000, 0x0000, 0x0000 },
+                                  { 0x0003, 0x0001, 0x003C, 0x0258, 0xFF9C, 0xAFC8, 0x0032, 0x0000, 0x0000, 0x0000 },
+                                  { 0x0003, 0x0001, 0x0028, 0xF2B8, 0xFF9C, 0x6590, 0x001E, 0x0000, 0x0000, 0x0000 },
+                                  { 0x0006, 0x0009, 0x0028, 0x0000, 0x0BB8, 0xD8F0, 0x001E, 0x0000, 0x0000, 0x0000 } };
 
 // sJntSphItemsInit
 // static ColliderJntSphItemInit D_808B5E50[1] = {
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphItemInit sJntSphItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0, { { 0, 50, 0 }, 288 }, 100 },
@@ -485,12 +485,15 @@ void func_808B5934(BgSpot16Bombstone* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5934.s")
 
-s16 func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
+void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     s16 tempGameInfo;
     u8 acFlags;
 
     func_808B56BC(this, globalCtx);
     func_808B57E0(this, globalCtx);
+
+    // TODO: Figure out if this can be removed.
+    if (globalCtx) {}
 
     acFlags = this->colliderCylinder.base.acFlags;
 
@@ -498,6 +501,7 @@ s16 func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         this->colliderCylinder.base.acFlags = acFlags & 0xFFFD;
 
         func_808B561C(this, globalCtx);
+
         func_800800F8(globalCtx, 0x1054, 0x32, NULL, 0);
 
         Flags_SetSwitch(globalCtx, this->unk_156);
@@ -510,15 +514,12 @@ s16 func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
     }
 
-    tempGameInfo = gGameInfo->data[0x8E0];
-    if (tempGameInfo == 1) {
+    if (gGameInfo->data[0x8e0] == 1) {
         func_808B561C(this, globalCtx);
-        gGameInfo->data[0x8E0] = -0xA;
-        return tempGameInfo;
-    } else if (tempGameInfo < 0) {
-        gGameInfo->data[0x8E0] = tempGameInfo + 1;
+        gGameInfo->data[0x8e0] = -0xA;
+    } else if (gGameInfo->data[0x8E0] < 0) {
+        gGameInfo->data[0x8E0]++;
     }
-    return tempGameInfo;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5950.s")
