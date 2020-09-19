@@ -12,10 +12,10 @@ void func_808B5A94(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B04(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B58(BgSpot16Bombstone* this);
-void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx);
+s16 func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5934(BgSpot16Bombstone* this);
 void func_808B5AF0(BgSpot16Bombstone* this);
-// s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx);
+void func_808B5A78(BgSpot16Bombstone* this);
 
 extern s16 D_06000C20;
 extern s32 D_060009E0;
@@ -485,51 +485,43 @@ void func_808B5934(BgSpot16Bombstone* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5934.s")
 
-/*
-s16 func_808B5950(void *arg0, GlobalContext *arg1) {
-    CollisionCheckContext *sp30;
-    Collider *sp2C;
-    Collider *temp_a2;
-    CollisionCheckContext *temp_a1;
-    GameInfo *temp_v1;
-    s16 temp_ret;
-    s16 temp_v0;
-    u8 temp_v0_2;
+s16 func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
+    s16 tempGameInfo;
+    u8 acFlags;
 
-    func_808B56BC();
-    func_808B57E0(arg0, arg1);
-    temp_v0_2 = arg0->unk1D5;
-    if ((temp_v0_2 & 2) != 0) {
-        arg0->unk1D5 = (u8) (temp_v0_2 & 0xFFFD);
-        func_808B561C(arg0, arg1);
-        func_800800F8(arg1, (u16)0x1054, (u16)0x32, NULL, 0);
-        Flags_SetSwitch(arg1, (s32) arg0->unk156);
-        gSaveContext.unkED8 = (u16) (gSaveContext.unkED8 | 8);
-        func_808B5A78(arg0);
+    func_808B56BC(this, globalCtx);
+    func_808B57E0(this, globalCtx);
+
+    acFlags = this->colliderCylinder.base.acFlags;
+
+    if ((acFlags & 2) != 0) {
+        this->colliderCylinder.base.acFlags = acFlags & 0xFFFD;
+
+        func_808B561C(this, globalCtx);
+        func_800800F8(globalCtx, 0x1054, 0x32, NULL, 0);
+
+        Flags_SetSwitch(globalCtx, this->unk_156);
+        gSaveContext.eventChkInf[2] |= 8;
+
+        func_808B5A78(this);
     } else {
-        temp_a1 = &arg1->colChkCtx;
-        sp30 = temp_a1;
-        CollisionCheck_SetAC(arg1, temp_a1, arg0 + 0x1C4);
-        temp_a2 = arg0 + 0x164;
-        sp2C = temp_a2;
-        CollisionCheck_SetOC(arg1, temp_a1, temp_a2);
-        CollisionCheck_SetAC(arg1, temp_a1, temp_a2);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
     }
-    temp_v1 = gGameInfo;
-    temp_v0 = temp_v1->unk11D4;
-    if (temp_v0 == 1) {
-        temp_ret = func_808B561C(arg0, arg1);
-        gGameInfo->unk11D4 = (u16)-0xA;
-        return temp_ret;
-    }
-    if ((s32) temp_v0 < 0) {
-        temp_v1->unk11D4 = (s16) (temp_v0 + 1);
-    }
-    return temp_v0;
-}
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5950.s")
+    tempGameInfo = gGameInfo->data[0x8E0];
+    if (tempGameInfo == 1) {
+        func_808B561C(this, globalCtx);
+        gGameInfo->data[0x8E0] = -0xA;
+        return tempGameInfo;
+    } else if (tempGameInfo < 0) {
+        gGameInfo->data[0x8E0] = tempGameInfo + 1;
+    }
+    return tempGameInfo;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5950.s")
 
 void func_808B5A78(BgSpot16Bombstone* this) {
     this->unk_154 = 0;
@@ -582,40 +574,37 @@ void func_808B5B58(BgSpot16Bombstone* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5B58.s")
 
-/*
-void func_808B5B6C(Actor *arg0, GlobalContext *arg1) {
-    u16 temp_v0;
+void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
+    u16 bgCheckFlags;
+    Actor* actor = &this->actor;
 
-    Actor_MoveForward(arg0);
-    arg0->shape.rot.x = (s16) (arg0->shape.rot.x + arg0->unk210);
-    arg0->shape.rot.z = (s16) (arg0->shape.rot.z + arg0->unk212);
-    if ((s32) arg0->unk154 >= 0x3D) {
-        Actor_Kill(arg0);
+    Actor_MoveForward(actor);
+    actor->shape.rot.x = actor->shape.rot.x + this->unk_210;
+    actor->shape.rot.z = actor->shape.rot.z + this->unk_212;
+
+    if (this->unk_154 >= 0x3D) {
+        Actor_Kill(actor);
         return;
     }
-    temp_v0 = arg0->bgCheckFlags;
-    if ((temp_v0 & 8) != 0) {
-block_5:
-        func_808B53A8(arg0, arg1);
-        func_808B51A8(arg0, arg1);
-        Audio_PlaySoundAtPosition(arg1, (Vec3f *) &arg0->posRot, 0x14, (u16)0x2852U);
-        Actor_Kill(arg0);
+
+    bgCheckFlags = actor->bgCheckFlags;
+    if ((bgCheckFlags & 8) != 0 || ((bgCheckFlags & 1) != 0) && actor->velocity.y < 0.0f) {
+        func_808B53A8(this, globalCtx);
+        func_808B51A8(this, globalCtx);
+        Audio_PlaySoundAtPosition(globalCtx, &actor->posRot, 0x14, NA_SE_EV_ROCK_BROKEN);
+        Actor_Kill(actor);
         return;
     }
-    if ((temp_v0 & 1) != 0) {
-        if (arg0->velocity.y < 0.0f) {
-            goto block_5;
-        }
-    }
-    func_8002E4B4(arg1, arg0, 17.5f, 35.0f, 0.0f, 5);
-}*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5B6C.s")
+    func_8002E4B4(globalCtx, actor, 17.5f, 35.0f, 0.0f, 5);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B5B6C.s")
 
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Bombstone* this = THIS;
 
-    this->unk_154 = (s16)(this->unk_154 + 1);
+    this->unk_154 = this->unk_154 + 1;
     if (this->actionFunc != 0) {
         this->actionFunc(this, globalCtx);
     }
