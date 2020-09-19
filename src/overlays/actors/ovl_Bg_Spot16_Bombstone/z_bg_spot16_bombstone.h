@@ -8,27 +8,6 @@ struct BgSpot16Bombstone;
 
 typedef void (*BgSpot16BombstoneActionFunc)(struct BgSpot16Bombstone*, GlobalContext*);
 
-typedef struct D_808B5DD8Struct {
-    s16 speed; // assigned to actor.speedXZ
-    s16 velocity; // assigned to actor.velocity
-    s16 scale; // sent to Actor_SetScale
-    s16 unk_6; // assigned to unk_210
-    s16 unk_8; // assigned to unk_212
-    s16 unk_A; // assigned to actor.posRot.rot.y
-    s16 unk_C; // added to actor.initPosRot.pos.y and assigned to actor.posRot.pos.y
-    Vec3s unk_E; // assigned to actor.shape.rot
-} D_808B5DD8Struct; // size = 0x14
-
-typedef struct D_808B5EB0Struct {
-    s16 unk_0;
-    s16 unk_2;
-    s16 unk_4;
-    s16 unk_6;
-    s16 unk_8;
-    s16 unk_A;
-    s16 unk_C;
-} D_808B5EB0Struct; // size = 0x14
-
 typedef struct BgSpot16Bombstone {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BgSpot16BombstoneActionFunc actionFunc;
