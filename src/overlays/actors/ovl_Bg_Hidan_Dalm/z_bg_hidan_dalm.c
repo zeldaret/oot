@@ -90,7 +90,7 @@ void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->collider.base.acFlags & 2) && !func_8008E988(globalCtx) &&
+    if ((this->collider.base.acFlags & 2) && !Player_InCsMode(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
         this->collider.base.acFlags &= ~2;
         if (this->collider.list[0].body.bumperFlags & 2 || this->collider.list[1].body.bumperFlags & 2) {
