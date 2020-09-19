@@ -17,18 +17,11 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-// TODO: Remove later if unnecessary
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx);
 void func_80A6BC48(EnHorseNormal* this);
 void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
-
-void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Normal_InitVars = {
@@ -296,7 +289,7 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 8.0f;
                 phi_t0 = 6;
             }
-            if (Math_Rand_ZeroOne() < 0.1f || this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2 || this->unk_274.base.maskA & 2)) {
+            if (Math_Rand_ZeroOne() < 0.1f || (this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2 || this->unk_274.base.maskA & 2))) {
                 this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;
