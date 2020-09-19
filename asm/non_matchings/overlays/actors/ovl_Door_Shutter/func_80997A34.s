@@ -3,7 +3,7 @@ glabel func_80997A34
 /* 01798 80997A38 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0179C 80997A3C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 017A0 80997A40 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 017A4 80997A44 0C023A62 */  jal     func_8008E988              
+/* 017A4 80997A44 0C023A62 */  jal     Player_InCsMode              
 /* 017A8 80997A48 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 017AC 80997A4C 10400003 */  beq     $v0, $zero, .L80997A5C     
 /* 017B0 80997A50 8FA5001C */  lw      $a1, 0x001C($sp)           

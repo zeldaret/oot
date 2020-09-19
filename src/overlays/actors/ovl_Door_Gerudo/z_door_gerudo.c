@@ -86,7 +86,7 @@ s32 func_80994750(DoorGerudo* this, GlobalContext* globalCtx) {
     f32 temp_f0;
     s16 rotYDiff;
 
-    if (!func_8008E988(globalCtx)) {
+    if (!Player_InCsMode(globalCtx)) {
         temp_f0 = func_809946BC(globalCtx, this, 0.0f, 20.0f, 15.0f);
         if (fabsf(temp_f0) < 40.0f) {
             rotYDiff = player->actor.shape.rot.y - this->dyna.actor.shape.rot.y;
@@ -102,27 +102,26 @@ s32 func_80994750(DoorGerudo* this, GlobalContext* globalCtx) {
 }
 
 void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
-    s32 temp_v0;
-    Player* player;
-
     if (this->unk_164 != 0) {
         this->actionFunc = func_8099496C;
         gSaveContext.dungeonKeys[gSaveContext.mapIndex] -= 1;
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {
-        temp_v0 = func_80994750(this, globalCtx);
-        if (temp_v0 != 0) {
-            player = PLAYER;
+        s32 direction = func_80994750(this, globalCtx);
+
+        if (direction != 0) {
+            Player* player = PLAYER;
+
             if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviMessageId = -0x203;
             } else if (!Flags_GetCollectible(globalCtx, (this->dyna.actor.params >> 8) & 0x1F)) {
                 player->naviMessageId = -0x225;
             } else {
-                player->unk_42C = 2;
-                player->unk_42D = temp_v0;
-                player->unk_430 = &this->dyna.actor;
-                player->unk_42E = 10;
+                player->doorType = 2;
+                player->doorDirection = direction;
+                player->doorActor = &this->dyna.actor;
+                player->doorTimer = 10;
             }
         }
     }

@@ -52,7 +52,7 @@ glabel func_80AFF7D8
 /* 015EC 80AFF89C 8C4E0004 */  lw      $t6, 0x0004($v0)           ## 80B01644
 /* 015F0 80AFF8A0 C5D2002C */  lwc1    $f18, 0x002C($t6)          ## 0000002C
 /* 015F4 80AFF8A4 E4D2002C */  swc1    $f18, 0x002C($a2)          ## 0000002C
-/* 015F8 80AFF8A8 0C023C20 */  jal     func_8008F080              
+/* 015F8 80AFF8A8 0C023C20 */  jal     Player_GetMask              
 /* 015FC 80AFF8AC 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 01600 80AFF8B0 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 01604 80AFF8B4 1441000C */  bne     $v0, $at, .L80AFF8E8       
@@ -108,14 +108,14 @@ glabel func_80AFF7D8
 /* 016C0 80AFF970 10000012 */  beq     $zero, $zero, .L80AFF9BC   
 /* 016C4 80AFF974 A60E02C4 */  sh      $t6, 0x02C4($s0)           ## 000002C4
 .L80AFF978:
-/* 016C8 80AFF978 0C023C20 */  jal     func_8008F080              
+/* 016C8 80AFF978 0C023C20 */  jal     Player_GetMask              
 /* 016CC 80AFF97C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 016D0 80AFF980 14400003 */  bne     $v0, $zero, .L80AFF990     
 /* 016D4 80AFF984 240F10BC */  addiu   $t7, $zero, 0x10BC         ## $t7 = 000010BC
 /* 016D8 80AFF988 1000000C */  beq     $zero, $zero, .L80AFF9BC   
 /* 016DC 80AFF98C A60F02C4 */  sh      $t7, 0x02C4($s0)           ## 000002C4
 .L80AFF990:
-/* 016E0 80AFF990 0C023C20 */  jal     func_8008F080              
+/* 016E0 80AFF990 0C023C20 */  jal     Player_GetMask              
 /* 016E4 80AFF994 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 016E8 80AFF998 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 016EC 80AFF99C 14410004 */  bne     $v0, $at, .L80AFF9B0       

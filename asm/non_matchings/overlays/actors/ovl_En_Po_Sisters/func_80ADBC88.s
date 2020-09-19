@@ -7,7 +7,7 @@ glabel func_80ADBC88
 /* 02D0C 80ADBC9C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 02D10 80ADBCA0 15C00005 */  bne     $t6, $zero, .L80ADBCB8     
 /* 02D14 80ADBCA4 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 02D18 80ADBCA8 0C023A62 */  jal     func_8008E988              
+/* 02D18 80ADBCA8 0C023A62 */  jal     Player_InCsMode              
 /* 02D1C 80ADBCAC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 02D20 80ADBCB0 5440001A */  bnel    $v0, $zero, .L80ADBD1C     
 /* 02D24 80ADBCB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

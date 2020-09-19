@@ -123,7 +123,7 @@ glabel func_80943F08
 .L80944060:
 /* 0B390 80944060 8FA400BC */  lw      $a0, 0x00BC($sp)           
 .L80944064:
-/* 0B394 80944064 0C023C26 */  jal     func_8008F098              
+/* 0B394 80944064 0C023C26 */  jal     Player_HasMirrorShieldEquipped              
 /* 0B398 80944068 A7A800AE */  sh      $t0, 0x00AE($sp)           
 /* 0B39C 8094406C 10400105 */  beq     $v0, $zero, .L80944484     
 /* 0B3A0 80944070 87A800AE */  lh      $t0, 0x00AE($sp)           
@@ -439,7 +439,7 @@ glabel func_80943F08
               
 /* 0B854 80944524 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 .L80944528:
-/* 0B858 80944528 0C023C26 */  jal     func_8008F098              
+/* 0B858 80944528 0C023C26 */  jal     Player_HasMirrorShieldEquipped              
 /* 0B85C 8094452C 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 0B860 80944530 10400094 */  beq     $v0, $zero, .L80944784     
 /* 0B864 80944534 3C018095 */  lui     $at, %hi(D_8094C858)       ## $at = 80950000

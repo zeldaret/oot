@@ -294,7 +294,7 @@ glabel func_809E0864
 /* 00A10 809E0C50 00000000 */  nop
 /* 00A14 809E0C54 45020009 */  bc1fl   .L809E0C7C                 
 /* 00A18 809E0C58 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00A1C 809E0C5C 0C023C20 */  jal     func_8008F080              
+/* 00A1C 809E0C5C 0C023C20 */  jal     Player_GetMask              
 /* 00A20 809E0C60 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00A24 809E0C64 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 00A28 809E0C68 50410004 */  beql    $v0, $at, .L809E0C7C       

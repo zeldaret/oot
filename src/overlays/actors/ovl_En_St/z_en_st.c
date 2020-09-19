@@ -264,7 +264,7 @@ void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     ColliderBody* body = &this->colCylinder[0].body;
     Player* player = PLAYER;
 
-    if (player->stickFlameTimer != 0) {
+    if (player->unk_860 != 0) {
         body->bumper.flags |= 2;
         this->colCylinder[1].body.bumper.flags &= ~2;
         this->colCylinder[2].body.bumper.flags &= ~2;
@@ -358,7 +358,7 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
     }
 
     this->gaveDamageSpinTimer = 30;
-    globalCtx->unk_11D58(globalCtx, -8);
+    globalCtx->damagePlayer(globalCtx, -8);
     Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
     func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsLink, 6.0f);
     return true;
