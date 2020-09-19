@@ -265,7 +265,6 @@ void func_80A6BD7C(EnHorseNormal* this) {
     }
 }
 
-#if NON_MATCHING
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
     s32 phi_t0 = this->unk_150;
     s32 pad;
@@ -297,7 +296,7 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 8.0f;
                 phi_t0 = 6;
             }
-            if (Math_Rand_ZeroOne() < 0.1f || this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2) || this->unk_274.base.maskA & 2) {
+            if (Math_Rand_ZeroOne() < 0.1f || this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2 || this->unk_274.base.maskA & 2)) {
                 this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;
@@ -371,9 +370,6 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6BE6C.s")
-#endif
 
 void func_80A6C4CC(EnHorseNormal* this) {
     this->unk_14C = 2;
